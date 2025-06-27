@@ -1,0 +1,158 @@
+/* ABOUT HEADER */
+#about-div {
+    margin-left: auto;
+    margin-right: auto;
+}
+#about-head {
+    filter: drop-shadow(0px 7px 2px var(--vitta-shadow-color));
+}
+
+#about-head-content {
+    background: var(--bg-2);
+    position: relative;
+    padding-bottom: 30px;
+}
+
+div.border-2 {
+    margin-top: -12px;
+    transform: rotate(180deg);
+}
+div.border-bottom-about {
+    transform: rotate(180deg) translateY(5px) !important;
+}
+
+.svg-border-2 {
+    fill: var(--bg-2);
+}
+
+
+/* HOF */
+
+#vitta-hof {
+    display: flex;
+    flex-wrap: wrap;
+
+    justify-content: center;
+    align-content: center;
+
+    max-width: 1920px;
+
+    margin-inline: auto;
+}
+
+.vitta-hof-person {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    align-items: center;
+    height: auto;
+    transition: all 0.3s ease;}
+
+.vitta-hof-person>img {
+    height: 120px;
+    width: 120px;
+    object-fit: cover;
+    border-radius: 15px;
+    border: var(--bg-2) 4px solid;
+}
+
+.vitta-hof-person:hover > img,
+.hof-active > image {
+    box-shadow: 0px 0px 15px 0px var(--vitta-shadow-color);
+    border-radius: 15px;
+}
+
+.vitta-hof-person:hover {
+    cursor: pointer;
+    color: var(--vitta-orange-light);
+}
+
+.hof-active  {
+    color: var(--vitta-orange-light);
+}
+
+
+/* NEWSLETTER FORM */
+#newsletter-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: center;
+    text-align: center;
+    background-color: var(--bg-2);
+}
+
+
+.newsletter-form {
+    padding: 20px;
+}
+
+h1.newsletter-title {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 40px;
+}
+
+.newsletter-form input.form-control {
+    border-color: var(--vitta-orange-light);
+    border-width: 2px;
+}
+
+/* hill separator */
+
+.hill-top,
+.hill-bot {
+    width: 100%;
+}
+
+.hill-bot {
+    margin-top: -10px;
+}
+
+.hill-top svg,
+.hill-bot svg {
+    bottom: 0px;
+    height: auto;
+    object-fit: cover;
+    margin-bottom: -10px;
+}
+
+.svg-hill-top,
+.svg-hill-bot {
+    fill: var(--bg-2);
+}
+
+/* CONTACT FORM */
+
+#contact-name-input {
+    margin: 0 auto;
+}
+
+#contact-mail-input {
+    margin: 0 auto;
+}
+
+#contact {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.adresses {
+    text-align: center;
+    padding: 0 50px;
+}
+
+.adresses>p {
+    margin-top: 10px;
+    padding-bottom: 20px;
+}
+
+.localisation {
+    color: var(--text-1);
+    font-weight: bold;
+    font-size: 20px;
+    margin: 0 auto 20px auto;
+}

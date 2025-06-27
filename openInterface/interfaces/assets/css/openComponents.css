@@ -1,0 +1,125 @@
+/*
+Open Components
+This is the root CSS file for the OpenInterface Components.
+This file is included in the main Open Interface CSS file.
+*/
+
+:root {
+    --simulator-button-background-color: #b4b4b4;
+    --simulator-button-background-color-hover: #cccccc;
+
+    /* Purple */
+    --vitta-purple: #e638db;
+    --vitta-purple-dark: #b62dad;
+
+    --simulator-play: #22b573;
+    --simulator-record: #dc3545;
+}
+
+/* Simulator menu */
+
+.oi-btn-simulator {
+    --bs-btn-padding-x: 0.35em;
+    --bs-btn-border-radius: 50vh;
+    line-height: 1em;
+    min-width: 2.5em;
+    min-height: 2.1em;
+
+    --bs-btn-color: var(--vitta-white);
+    --bs-btn-bg: var(--simulator-button-background-color);
+    --bs-btn-border-color: transparent;
+
+    --bs-btn-hover-color: var(--vitta-white);
+    --bs-btn-hover-bg: var(--simulator-button-background-color-hover);
+    --bs-btn-hover-border-color: transparent;
+
+    --bs-btn-active-color: var(--vitta-white);
+    --bs-btn-active-bg: var(--simulator-button-background-color-hover);
+    --bs-btn-active-border-color: transparent;
+
+    --bs-btn-focus-box-shadow: var(--vitta-focus-box-shadow)
+}
+
+.oi-btn-simulator-narrow {
+    line-height: 0.35em;
+    min-width: 0.35em;
+    min-height: 2.1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9em;
+    position: relative !important;
+}
+
+.oi-btn-simulator img {
+    height: 100%;
+    max-height: 20px;
+}
+
+.oi-simulation-activated>.oi-btn-simulator:disabled {
+    --bs-btn-disabled-color: var(--vitta-white);
+    --bs-btn-disabled-bg: var(--simulator-play);
+    --bs-btn-disabled-border-color: transparent;
+    --bs-btn-disabled-opacity: 1;
+
+    box-shadow: 0px 0px 6px var(--simulator-play);
+}
+
+.oi-option-activated>.oi-btn-simulator.activated {
+    --bs-btn-bg: var(--vitta-green-dark);
+    --bs-btn-hover-bg: var(--vitta-green-dark);
+    --bs-btn-active-bg: var(--vitta-green-dark);
+
+    box-shadow: 0px 0px 6px var(--vitta-green-dark);
+}
+
+.oi-option-activated>.oi-btn-simulator.recording {
+    /* make the button blink in red */
+    --bs-btn-bg: var(--simulator-record);
+    --bs-btn-hover-bg: var(--simulator-record);
+    --bs-btn-active-bg: var(--simulator-record);
+
+    box-shadow: 0px 0px 6px var(--simulator-record);
+
+    animation: blink 1s infinite;
+}
+
+/* Blink animation */
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.oi-btn-group-simulator button {
+    margin-left: 2.5px !important;
+    margin-right: 2.5px !important;
+}
+
+.oi-btn-group-simulator button:first-child {
+    margin-left: 0px !important;
+    margin-right: 2.5px !important;
+}
+
+.oi-btn-group-simulator button:last-child {
+    margin-right: 0px !important;
+    margin-left: 2.5px !important;
+}
+
+/* Button-specific rules */
+
+.oi-btn-group-simulator button:first-child img {
+    margin-left: 4px;
+}
+
+.oi-btn-group-simulator button:last-child img {
+    margin-right: 2px;
+}

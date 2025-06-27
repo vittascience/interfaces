@@ -1,0 +1,35 @@
+@import url('../../../interfaces/assets/css/simulator-modules.css');
+
+.arduino-led13 {
+	z-index: 1;
+	bottom: 12px;
+	left: -6px;
+	opacity: 0;
+	filter: hue-rotate(236deg)
+}
+
+#oled_value {
+	width: 278px;
+	height: 142px;
+	border: 2px lightgrey solid;
+	outline: 8px solid white;
+	margin-bottom: 10px;
+	padding: 5px;
+	margin-left: 96px;
+}
+
+.oled_value_text {
+	display: inline-block;
+	width: 230px;
+}
+
+.oled_value_text .row {
+	margin: 0 auto;
+	justify-content: center;
+}
+
+.oled-block {
+	height: 1px;
+	width: 1px;
+	padding: 1px;
+}

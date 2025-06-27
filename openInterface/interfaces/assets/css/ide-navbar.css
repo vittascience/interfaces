@@ -1,0 +1,430 @@
+/* Custom properties */
+
+.ide-btn-left-dropdown {
+    border-radius: 5px 5px 0 0 !important;
+}
+
+.ide-btn-right-dropdown {
+    border-radius: 0 0 5px 5px !important;
+}
+
+#serial-send.disabled-btn {
+    cursor: default;
+    color: var(--text-0) !important;
+    background-color: var(--bg-1) !important;
+}
+
+#download-firmware {
+    margin-right: -25px;
+}
+
+#download-firmware~.button-info {
+    right: -5px;
+    z-index: 1;
+}
+
+/**
+ * Gestion de la navbar de l'ide
+ */
+
+.ide-navbar {
+    width: 100%;
+    display: flex;
+    padding: 5px 5px;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+    background: var(--bg-3);
+    font-family: var(--main-font);
+    flex-shrink: 0;
+}
+
+.project-data {
+    margin-inline-end: 0.5em;
+    text-align: start;
+    display: flex;
+    flex-direction: column;
+    max-width: 150px;
+    width: 100px;
+}
+
+.project-name {
+    font-weight: bold;
+    font-size: 14px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: default !important;
+}
+
+#edit-project-name {
+    height: 100%;
+    width: 35%;
+    vertical-align: text-top;
+    min-height: 0;
+    display: inline-block;
+    --bs-btn-padding-x: 0.1rem;
+    --bs-btn-padding-y: 0.1rem;
+    --bs-btn-line-height: 0.9;
+    --bs-btn-border-width: 0px;
+}
+
+.project-date {
+    font-size: 12px;
+}
+
+.ide-btn-group {
+    display: flex;
+    flex-direction: row;
+}
+
+.ide-btn {
+    outline: none;
+    cursor: pointer;
+    background-color: var(--bg-1);
+    padding: 5px;
+    font-weight: bold;
+    border: transparent 2px solid;
+    color: var(--text-0);
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: center;
+    margin-right: 3px;
+    height: 45px;
+    min-width: 45px;
+}
+
+.ide-btn-left {
+    border-start-start-radius: 15px;
+    border-end-start-radius: 15px;
+}
+
+.ide-btn-right {
+    border-end-end-radius: 15px;
+    border-start-end-radius: 15px;
+}
+
+.ide-dropdown {
+    position: relative;
+}
+
+.ide-dropdown .ide-btn:hover,
+.ide-btn-group .ide-btn:hover,
+.ide-btn:hover {
+    color: var(--bg-0);
+    background-color: var(--vitta-orange-light);
+}
+
+.ide-btn:focus-within {
+    border-color: var(--vitta-blue) !important;
+}
+
+.ide-btn-toggle,
+.ide-dropdown-hide {
+    display: none;
+}
+
+.ide-btn-alone {
+    border-radius: 15px;
+}
+
+.ide-btn-alone-dropdown {
+    min-width: 0px;
+    padding: 2px;
+    margin: 0px;
+    margin-left: -3px;
+}
+
+.ide-dropdown,
+.ide-btn-group-execution {
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+}
+
+.ide-dropdown-right {
+    margin-left: auto;
+}
+
+.mode-selected {
+    color: var(--text-0);
+    background-color: var(--vitta-orange-light);
+}
+
+/**
+* Gestion du dropdown settings
+*/
+
+.ide-dropdown-always .hidden {
+    display: none;
+}
+
+.ide-dropdown-always .ide-btn-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ide-dropdown-always .ide-btn-group {
+    box-shadow: rgba(0, 0, 0, 0.5) 0 0 10px;
+    border-radius: 5px 5px 5px 5px;
+    text-align: start;
+    flex-direction: column;
+    margin-top: 1px;
+}
+
+.ide-dropdown-always .ide-btn-group .ide-btn {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.ide-dropdown-always .ide-btn-group .ide-btn:last-child {
+    border-bottom: 0px;
+}
+
+.ide-dropdown-always .ide-btn-toggle+.ide-btn-group {
+    position: absolute;
+    z-index: 990;
+}
+
+.ide-dropdown-always .ide-btn-group .ide-btn {
+    border-radius: 0;
+    margin: 0;
+    text-align: left;
+}
+
+.ide-btn-group-settings,
+.ide-btn-group-mode,
+.ide-btn-group-download {
+    right: 0;
+}
+
+.hiddened {
+    display: none;
+}
+
+.label-button {
+    margin-left: 5px;
+    display: initial;
+}
+
+@media (min-width: 940px) {
+    .ide-btn-md-hide {
+        display: none !important;
+    }
+}
+
+@media (max-width: 940px) {
+
+    .ide-btn-group {
+        flex-direction: column;
+    }
+
+    body.buddy-app .ide-btn-group-settings {
+        right: unset;
+    }
+
+    .project-data {
+        max-width: unset;
+        font-size: initial;
+        color: var(--text-0);
+        border-bottom: 1px solid var(--text-0);
+        margin-right: 0px;
+        text-align: start;
+        width: auto;
+        padding: 5px;
+        background-color: var(--bg-1);
+        border-radius: 5px 5px 0 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .ide-dropdown div.hidden {
+        display: none;
+    }
+
+    .hide-sm {
+        display: none;
+    }
+
+    .ide-dropdown .ide-btn-group {
+        box-shadow: rgba(0, 0, 0, 0.5) 0 0 10px;
+        border-radius: 5px 5px 5px 5px;
+        display: flex;
+    }
+
+    .ide-dropdown .ide-btn-group .ide-btn {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+        margin-right: 0px;
+        text-align: left;
+        width: 100%;
+    }
+
+    .ide-dropdown .ide-btn-group .ide-btn:last-child {
+        border-bottom: 0px;
+    }
+
+    .ide-dropdown .ide-btn-group .ide-btn:hover {
+        color: var(--bg-0);
+        background-color: var(--vitta-orange-light);
+    }
+
+    .ide-btn-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        text-decoration: none;
+    }
+
+    .ide-btn-toggle:hover {
+        color: var(--text-0);
+    }
+
+    .ide-btn-toggle+.ide-btn-group {
+        position: absolute;
+        z-index: 990;
+        border-radius: 15px;
+    }
+
+    .ide-btn-group-execution,
+    .ide-btn-group-revert,
+    .ide-btn-group-check {
+        flex-direction: row;
+    }
+
+    .ide-btn-group .project-name {
+        display: initial;
+    }
+
+    .ide-dropdown .ide-btn-group .ide-btn-left {
+        -webkit-border-radius: 5px 5px 0 0;
+        -moz-border-radius: 5px 5px 0 0;
+        border-radius: 5px 5px 0 0;
+    }
+
+    .ide-dropdown .ide-btn-group .ide-btn-right {
+        -webkit-border-radius: 0 0 5px 5px;
+        -moz-border-radius: 0 0 5px 5px;
+        border-radius: 0 0 5px 5px;
+    }
+
+    .ide-dropdown .ide-btn-group-mode .ide-btn {
+        text-align: left;
+    }
+
+    .ide-btn-md-hide {
+        display: initial;
+    }
+
+    /* .tooltip {
+        display: none;
+    } */
+
+    .ide-navbar .ide-dropdown:last-child {
+        margin: 0;
+    }
+
+    .no-radius-sm {
+        border-radius: 0 !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .hide {
+        display: none;
+    }
+}
+
+@media (max-width: 370px) {
+    .ide-navbar {
+        padding: 5px 0px;
+    }
+
+    .ide-navbar .ide-btn-group,
+    .ide-navbar .ide-dropdown,
+    .ide-navbar .ide-btn-group .ide-btn {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .ide-navbar .ide-btn-group-mode {
+        right: 0;
+    }
+}
+
+@media (min-width: 421px) {
+    .ide-btn-sm-hide {
+        display: none !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .hide-vsm {
+        display: none;
+    }
+}
+
+@media (max-width: 325px) {
+    .ide-btn {
+        min-width: 42px;
+    }
+}
+
+.theme-dark .ide-btn img {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(82deg) brightness(105%) contrast(105%);
+}
+
+@media (max-width: 860px) and (min-width: 800px) {
+    #UTrunButtonPython span {
+        display: none;
+    }
+}
+
+@media (max-width: 460px) {
+    #UTrunButtonPython span {
+        display: none;
+    }
+}
+
+.project-data {
+    width: auto;
+}
+
+/* Special media queries for the microbit labels */
+
+@media (min-width: 941px) and (max-width: 1007px) {
+    .hide_601_637_941_1007 {
+        display: none;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 637px) {
+    .hide_601_637_941_1007 {
+        display: none;
+    }
+}
+
+/* Special media queries for the microbit -> TI labels */
+
+@media (min-width: 941px) and (max-width: 1030px) {
+    .hide_601_668_941_1030 {
+        display: none;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 668px) {
+    .hide_601_668_941_1030 {
+        display: none;
+    }
+}
+
+/* LTI context */
+.body-lti .ai-ide-navbar {
+    justify-content: center;
+}
+
+.body-lti #modal-blockly-knowmore {
+    display: none;
+}
+
+.body-lti #help-setting {
+    display: none
+}

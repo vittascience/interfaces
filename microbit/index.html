@@ -1,0 +1,1055 @@
+
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <!-- ©️ Copyright Vittascience  -->
+    <script>const CDN_PATH = ''</script>
+    <script>const IS_CAPYTALE_CONTEXT = true;</script>
+    <!-- Matomo Analytics -->
+    <script>
+        function initializeMatomo() {
+            if (typeof IS_CAPYTALE_CONTEXT !== 'undefined') return;
+            if (typeof UserManager === 'undefined' || !UserManager) {
+            setTimeout(() => {
+                initializeMatomo();
+            }, 100);
+            return;
+            }
+            const _paq = window._paq = window._paq || [];
+            /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+            if (typeof ltiVariables13 !== 'undefined') {
+            _paq.push(['setCustomDimension', 3, `${ltiVariables13.platform}-${ltiVariables13.interface}`]);
+            const userId = UserManager.getUser() ? UserManager.getUser().id : 'no-id';
+            _paq.push(['setUserId', userId]);
+            }
+            _paq.push(['trackPageView']);
+            _paq.push(['enableLinkTracking']);
+            (function() {
+            const u="https://matomo.vittascience.com/matomo/";
+            _paq.push(['setTrackerUrl', u+'matomo.php']);
+            _paq.push(['setSiteId', '1']);
+            const d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+            })();
+        }
+        initializeMatomo();
+    </script>
+    <!-- End Matomo Code -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Security-Policy" content="">
+    <link rel="icon" href="/public/content/img/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Add the reference to the canonical page if this is a duplicate -->
+    
+
+    <link rel="stylesheet" href="/public/js/lib/jquery-ui-1.12.1/themes/smoothness/jquery-ui.css">
+
+    <!-- use in navbar for the whole website -->
+    <link rel="stylesheet" type="text/css" href="/public/js/lib/EasyAutocomplete-1.3.5/easy-autocomplete.min.css">
+    <link rel="stylesheet" type="text/css" href="/public/js/lib/EasyAutocomplete-1.3.5/easy-autocomplete.themes.min.css">
+    <link rel="stylesheet" href="/public/css/lib/fontawesome-free-6.5.1-web/css/all.min.css">
+
+    <!-- jQuery -->
+    <script src="/public/js/lib/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+
+    <!-- i18next -->
+    <script src="/public/js/lib/i18next-versions/i18next-8.1.0.min.js"></script>
+    <script src="/public/js/lib/i18next-versions/jquery-i18next-1.2.1.min.js"></script>
+    <script src="/public/js/lib/i18next-versions/i18nextXHRBackend-1.5.1.min.js"></script>
+    <script src="/public/js/lib/i18next-versions/i18nextBrowserLanguageDetector-2.2.3.min.js"></script>
+    <script src="/public/js/utils/translate.js"></script>
+
+    <!-- Bootstrap CSS, if RTL load correct version if not load basic one -->
+    
+        <link rel='stylesheet' href='/public/js/lib/bootstrap-5.2.0/bootstrap.min.css'>
+    
+
+    <!-- Bootstrap JS + Popper -->
+    <script src="/public/js/lib/popper_core-2.11.5/popper.min.js"></script>
+    <script src="/public/js/lib/bootstrap-5.2.0-beta1/bootstrap.min.js"></script>
+    
+    <!-- build:css-style -->
+    <link rel="stylesheet" type="text/css" href="/public/css/style.css">
+    <!-- endbuild -->
+    <link rel="stylesheet" type="text/css" href="/public/css/components.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/breadcrumbs.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/footer.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/high-contrast.css" id="hc-css-stylesheet" disabled>
+    <script src="/public/js/lib/mobile_detect-1.4.2/mobile-detect.min.js"></script>
+    <script>
+        const md = new MobileDetect(window.navigator.userAgent);
+        const mobileDetect = md.mobile();
+    </script>
+    <script src="/public/js/utils/utils.min.js"></script>
+    <script src="/public/js/resources/subjects.resource.js"></script>
+    <script src="/public/js/DAO/UserDAO.js"></script>
+    <script src="/public/js/models/User.js"></script>
+    <script src="/public/js/models/Teacher.js"></script>
+    <script src="/public/js/lib/EasyAutocomplete-1.3.5/jquery.easy-autocomplete.min.js"></script>
+    <script src="/public/js/lib/qr-creator-0.14.0/qr-creator-0.14.0.min.js"></script>
+    <script src="/public/js/lib/canvas_confetti-1.4.0/confetti.browser.min.js"></script>
+    <script src="/public/js/scripts/navbar/checkform.js"></script>
+    <script src="/public/js/scripts/navbar/disconnect.js"></script>
+    <script src="/public/js/scripts/navbar/lang.js"></script>
+    <script src="/public/js/scripts/navbar/login.js"></script>
+    <script src="/public/js/scripts/navbar/profile.js"></script>
+    <script src="/public/js/scripts/navbar/signup.js"></script>
+    <script src="/public/js/scripts/tooltips/tooltip.js"></script>
+    <script src="/public/js/scripts/vittaBlocker/VittaBlocker.js"></script>
+    <script src="/public/js/scripts/navbar/VittaNotif.js"></script>
+    <script src="/public/js/scripts/navbar/VittaControllerNotif.js"></script>
+    <script src="/public/js/utils/vitta_form_validator/VittaFormValidator.js" type="module"></script>
+    <script src="/public/js/scripts/localStorageManager/LocalStorageManager.js"></script>
+    <script src="/public/js/utils/globalEvents.js"></script>
+    <script src="/public/js/utils/debug/focus-debug.js" type="module"></script>
+    
+    <script>
+        function resizeIframe(obj) {
+            // obj.style.height = (obj.contentWindow.document.documentElement.scrollHeight + 100) + 'px';
+            obj.style.height = (obj.contentWindow.document.documentElement.scrollHeight) + 'px';
+    
+        }
+    </script>
+    <script src="/public/js/scripts/tooltips/tooltipsRemover.js"></script>
+<link rel="stylesheet" href="/openInterface/interfaces/assets/css/ace.css">
+<link rel="stylesheet" href="/openInterface/interfaces/assets/js/external/fontawesome-free-6.5.1-web/css/all.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/js/external/file-input/css/fileinput.css">
+<link rel="stylesheet" href="/openInterface/interfaces/assets/css/ide-navbar.css">
+<link rel="stylesheet" href="/openInterface/interfaces/assets/css/main.css">
+<link rel="stylesheet" href="/openInterface/interfaces/assets/css/modal.css">
+<link rel="stylesheet" href="/openInterface/interfaces/assets/css/buttons.css">
+<link rel="stylesheet" href="/openInterface/interfaces/assets/css/monitor.css">
+<link rel="stylesheet" href="/openInterface/interfaces/assets/css/simulator.css">
+<link rel="stylesheet" href="/openInterface/interfaces/assets/css/led_matrix_modal.css">
+<link rel="stylesheet" href="/openInterface/interfaces/assets/css/color_picker.css">
+<link rel="stylesheet" href="/openInterface/microbit/assets/css/specific.css">
+<link rel="stylesheet" href="/openInterface/interfaces/assets/css/simulator-wiring.css">
+<link rel="stylesheet" href="/openInterface/interfaces/assets/css/ace_themes.css">
+<link rel="stylesheet" href="/openInterface/interfaces/assets/css/auto-corrector-modals.css">
+<link rel="stylesheet" href="/openInterface/interfaces/assets/js/external/shepherd.js@10.0.1/sheperd.css"/>
+<link rel="stylesheet" href="/openInterface/interfaces/assets/css/toolbox.css">
+<link rel="stylesheet" href="/public/css/capytale-standalone.css">
+</head>
+
+<body>
+    <!-- theme detection -->
+    <script>
+    function updateWebsiteAcessibility(formElement) {
+        var accesibilityInputs = formElement.serializeArray();
+
+        // first value is theme
+        var theme = accesibilityInputs[0].value;
+
+        // second value is contrast
+        if (accesibilityInputs[1])
+            var contrast = accesibilityInputs[1].value;
+
+        // third value is font
+        if (accesibilityInputs[2])
+            var font = accesibilityInputs[2].value;
+
+        setTheme(theme);
+        setContrast(contrast);
+        setFont(font);
+
+        if (window.location.pathname.split('/')[1] == "adacraft") {
+            switch (theme) {
+                case "dark":
+                    adacraft.switchToDarkTheme();
+                    break;
+                case "light":
+                default:
+                    adacraft.switchToLightTheme();
+                    break;
+            }
+        }
+
+        const arInterfaces = ['arduino', 'microbit', 'python', 'esp32', 'wb55', 'TI-83', 'letsstartcoding', 'pico'];
+        if (arInterfaces.includes((window.location.pathname).split('/')[1])) {
+            const toolbox = new ToolboxManager(Main.getWorkSpace());
+            toolbox.setBlocklyTheme();
+            setTimeout(function() {
+                toolbox.setBlocklyTheme()
+            }, 50);
+        }
+
+        if ((window.location.pathname).split('/')[1] == "web") {
+            projectManager.setBlocklyTheme();
+            setTimeout(function() {
+                projectManager.setBlocklyTheme();
+            }, 50);
+        }
+    };
+
+    // function to set a given theme/color-scheme
+    function setTheme(givenThemeName) {
+    
+        let themesTypes = ['light', 'dark'];
+        localStorage.setItem('theme', givenThemeName);
+
+        themesTypes.forEach(theme => {
+            if (givenThemeName == theme) {
+                $('html').addClass("theme-" + theme);
+            } else {
+                $('html').removeClass("theme-" + theme)
+            }
+        });
+
+        if (localStorage.getItem('theme') === 'dark') {
+            $(".navbar-logo").attr("src", `${CDN_PATH}/public/content/img/vittascience-footer.png`);
+        } else {
+            $(".navbar-logo").attr("src", `${CDN_PATH}/public/content/img/vittascience-logo.png`);
+        }
+
+        $('#radio-' + givenThemeName + '-theme').prop('checked', true);
+        $('[data-a11y-theme-' + givenThemeName + ']').prop('checked', true);
+    }
+
+    //function to set a given contrast
+
+    function setContrast(givenContrastSetting) {
+        let contrastOptions = ['normal', 'high'];
+
+        localStorage.setItem('contrast', givenContrastSetting);
+
+        contrastOptions.forEach(contrast => {
+            if (givenContrastSetting == contrast) {
+                $('html').addClass("contrast-" + contrast);
+            } else {
+                $('html').removeClass("contrast-" + contrast);
+            }
+        });
+
+        // Changing the footer logo depending on theme and contrast
+        if (localStorage.getItem('contrast') === 'high' && localStorage.getItem('theme') === 'light') {
+            $(".footer-logo").attr("src", `${CDN_PATH}/public/content/img/vittascience-logo.png`);
+        } else {
+            $(".footer-logo").attr("src", `${CDN_PATH}/public/content/img/vittascience-footer.png`);
+        }
+
+
+        if (localStorage.getItem('contrast') === 'high') {
+            // enable stylesheet
+            $("#hc-css-stylesheet").attr("disabled", false);
+        } else {
+            // disable stylesheet
+            $("#hc-css-stylesheet").attr("disabled", true);
+        }
+
+
+        $('#radio-' + givenContrastSetting + '-contrast').prop('checked', true);
+        $('[data-a11y-contrast-' + givenContrastSetting + ']').prop('checked', true);
+    }
+
+
+    // function to set a given font
+    function setFont(givenFontName) {
+        let fontTypes = ['basic', 'dys', 'luciole', 'arial', 'verdana'];
+
+        localStorage.setItem('font', givenFontName);
+
+        fontTypes.forEach(font => {
+            if (givenFontName == font) {
+                $('html').addClass("font-" + font);
+            } else {
+                $('html').removeClass("font-" + font)
+            }
+        });
+
+        $('#radio-' + givenFontName + '-font').prop('checked', true);
+        $('[data-a11y-font-' + givenFontName + ']').prop('checked', true);
+    }
+
+    /* Immediately invoked function to set the theme on initial load
+    Looks for the local storage for the theme value, if not found looks for the OS settings
+    */
+    document.addEventListener("DOMContentLoaded", function() {
+
+        // check if the user has already selected a specific theme
+        if (localStorage.getItem('theme')) {
+            setTheme(localStorage.getItem('theme'));
+        } else {
+            // check if the user has a dark theme
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                setTheme('dark');
+            } else {
+                setTheme('light');
+            }
+        }
+
+    // check if the user has already selected a specific contrast
+        if (localStorage.getItem('contrast')) {
+            setContrast(localStorage.getItem('contrast'));
+        } else {
+            if (window.matchMedia && window.matchMedia('(prefers-contrast: high)').matches) {
+                setContrast('high');
+            } else {
+                setContrast('normal');
+            }
+        }
+
+        // check if the user has already selected a specific font
+        if (localStorage.getItem('font')) {
+            setFont(localStorage.getItem('font'));
+        } else {
+            setFont('basic');
+        }
+    });
+    </script>
+    <div id="vitta-notif-area" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+
+<div id="ide-absolute-container" style="height: 100%;">
+    <!-- IDE -->
+<div class="overlay"></div>
+<div id="ide">
+
+    <!-- IDE NAVBAR -->
+    <nav class="ide-navbar ">
+        <!-- Block interface management -->
+        <div class="ide-btn-group ide-btn-group-revert hide-vsm" id="code-buttons-panel">
+            <!-- Undo button 
+				Sync button
+				Redo button  -->
+        </div>
+        <div class="ide-btn-group ide-btn-group-check" id="execution-buttons-panel" style="margin: auto;">
+            <!-- Verify the syntax 
+				Upload to the card (need to be online)  -->
+        </div>
+        <div class="fullscreen-btn-panel">
+            <!-- fullscreen -->
+        </div>
+        <div class="ide-dropdown ide-dropdown-always">
+            <button class="ide-btn ide-btn-toggle ide-btn-alone" data-i18n="[title]code.topbar.tooltips.consoleSettings" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-cog"></i></button>
+            <div class="ide-btn-group ide-btn-group-settings hidden">
+                <!-- accessibility
+						board settings
+						monitor settings
+						add a block
+						fullscreen
+						help -->
+            </div>
+        </div>
+
+        <div class="ide-dropdown ide-dropdown-modes">
+            <a class="ide-btn ide-btn-toggle ide-btn-alone ide-btn-mode"><i class="far fa-object-ungroup"></i></a>
+            <div class="ide-btn-group ide-btn-group-mode hidden">
+                <!-- blocks mode
+						mixed mode
+						code mode-->
+            </div>
+        </div>
+            <!-- run simulator -->
+        <div id="simulator-btn-panel"></div>
+    </nav>
+
+    <!-- IDE CONTENT-->
+    <div id="ide-content">
+        <div id="searchBlocklyDiv" style="display: none;"></div>
+        <div class="ide-base">
+            <!-- Block & Code -->
+            <div class="ide-editor">
+                <!-- Blockly workspace-->
+                <div id="content_blocks" class="ide-block content"></div>
+                <div id="generator" class="ide-generator" style="position: relative;">
+                    <div id="popup-container">
+                        <div id="mixed-popup-leave-editor">
+                            <span data-i18n="[html]code.popups.mixed-popup-leave-editor"></span>
+                        </div>
+                        <div id="mixed-popup-warning"><i class="fa-solid fa-circle-info"></i><span data-i18n="code.popups.mixed-popup-warning-reverse-trad"></span></div>
+                    </div>
+                    <div id="content_code" name="code_python" placeholder="Code goes here..."></div>
+                </div>
+            </div>
+            <div id="monitor" class="monitor-open">
+                <div id="monitor-content" class="monitor-grid-bottom">
+                    <div id="monitor-view">
+                        <div id="monitor-view-group-btn">
+                            <button id="monitor-btn-console" class="monitor-view-btn btn activated" data-i18n="[title]code.console.buttons.consoleMode" data-toggle="tooltip" data-placement="left" title="Mode console">
+                                <i class="fas fa-terminal"></i>
+                            </button>
+                            <button id="monitor-btn-graph" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.graphMode" data-toggle="tooltip" data-placement="left" title="Mode graphique">
+                                <i class="fas fa-chart-line"></i>
+                            </button>
+                            <div id="monitor-graph-tooltip" class="interface-tooltip" style="display:none;">
+                                <div class="interface-tooltip__header">
+                                    <div>
+                                        <i class="fas fa-info-circle"></i>
+                                        <b data-i18n="code.simulator.buttons.multi-mode.tooltip.title">Info</b>
+                                    </div>
+                                    <button class="btn v-btn-basic interface-tooltip__header-close-btn" >
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <span data-i18n="[html]code.monitor.controls.tooltips.graph">
+                                    Pour visualiser les données reçues dans la console, cliquer sur le bouton <b>Graphique</b>
+                                </span>
+                            </div>
+                            <button id="monitor-btn-music" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.musicMode" data-toggle="tooltip" data-placement="left" title="Mode musical">
+                                <i class="fas fa-music"></i>
+                            </button>
+                            <button id="monitor-clear" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.clearConsole" data-toggle="tooltip" data-placement="left" title="Nettoyer l'écran">
+                                <i class="fas fa-broom"></i>
+                            </button>
+                        </div>
+
+                        <!-- Panel console -->
+                        <div id="console" class="ide-console monitor-tab" disabled="disabled">
+                        </div>
+
+                        <!-- Panel graph -->
+                        <div id="graph-tab" class="monitor-tab">
+                            <div id="traceur">
+                                <h2 class="chart-no-data" data-i18n="code.console.graph.noData">Aucune données reçues</h2>
+                            </div>
+                        </div>
+
+                        <!-- Panel music -->
+                        <div id="music-tab" class="monitor-tab">
+                            <div id="music-panel">
+
+                                <!-- Activation du son -->
+                                <div class="music-control">
+                                    <label id="label-audio-enable" class="music-control-label" for="audio-enable-button">
+                                        <b data-i18n="code.console.music.enable">Sons</b>
+                                    </label>
+                                    <button
+                                            id="audio-enable-button"
+                                            class="btn btn-outline-secondary btn-sm mt-1 music-control-button"
+                                            data-i18n="code.console.music.enablebutton"
+                                            aria-labelledby="label-audio-enable audio-enable-button"
+                                    >
+                                        Activé
+                                    </button>
+                                </div>
+
+                                <!-- Volume -->
+                                <div class="music-control">
+                                    <label id="volume-label" class="music-control-label">
+                                        <i class="fa fa-volume-up"></i>
+                                        <b data-i18n="code.console.music.volume">Volume</b>
+                                    </label>
+                                    <div
+                                            class="music-slider mt-2"
+                                            id="volume-slider"
+                                            role="slider"
+                                            tabindex="0"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100"
+                                            aria-valuenow="90"
+                                            aria-labelledby="volume-label"
+                                    ></div>
+                                </div>
+
+                                <!-- Octave -->
+                                <div class="music-control">
+                                    <label id="octave-label" class="music-control-label">
+                                        <b data-i18n="code.console.music.octave">Octave</b>
+                                    </label>
+                                    <div
+                                            class="music-slider mt-2"
+                                            id="octave-slider"
+                                            role="slider"
+                                            tabindex="0"
+                                            aria-valuemin="0"
+                                            aria-valuemax="10"
+                                            aria-valuenow="3"
+                                            aria-labelledby="octave-label"
+                                    ></div>
+                                </div>
+
+                                <!-- Forme d'onde -->
+                                <div class="music-control">
+                                    <label for="osc-select" class="music-control-label" id="waveform-label">
+                                        <b data-i18n="code.console.music.waveform">Forme d'onde</b>
+                                    </label>
+                                    <select
+                                            id="osc-select"
+                                            class="custom-select"
+                                            aria-labelledby="waveform-label"
+                                    >
+                                        <option value="triangle" data-i18n="code.console.music.waveforms.triangle">Triangulaire</option>
+                                        <option value="sine" data-i18n="code.console.music.waveforms.sine">Sinusoïdale</option>
+                                        <option value="square" data-i18n="code.console.music.waveforms.square">Carrée</option>
+                                        <option value="sawtooth" data-i18n="code.console.music.waveforms.sawtooth">Dent de scie</option>
+                                    </select>
+                                </div>
+
+                                <!-- Effets -->
+                                <div class="music-control">
+                                    <label id="effects-label" class="music-control-label">
+                                        <b data-i18n="code.console.music.effect">Effets</b>
+                                    </label>
+                                    <button
+                                            id="reverb-button"
+                                            class="btn btn-outline-secondary btn-sm mt-1 music-control-button"
+                                            data-i18n="code.console.music.effects.reverb"
+                                            aria-labelledby="effects-label reverb-button"
+                                    >
+                                        Réverbération
+                                    </button>
+                                    <button
+                                            id="delay-button"
+                                            class="btn btn-outline-secondary btn-sm music-control-button mt-1"
+                                            data-i18n="code.console.music.effects.delay"
+                                            aria-labelledby="effects-label delay-button"
+                                    >
+                                        Délai
+                                    </button>
+                                    <button
+                                            id="crush-button"
+                                            class="btn btn-outline-secondary music-control-button btn-sm mt-1"
+                                            data-i18n="code.console.music.effects.bitcrusher"
+                                            aria-labelledby="effects-label crush-button"
+                                    >
+                                        BitCrusher
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id="monitor-controls">
+
+                        <div class="w-100 d-flex">
+                            <!-- Graph controls & Baud -->
+
+                            <div class="w-75 d-flex me-1">
+                                <div class="dropup dropup-center">
+                                    <button class="btn monitor-controls-button dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-cog"></i>
+                                    </button>
+                                    <div id="monitor-controls-dropdown" class="dropdown-menu">
+                                        <div class="dropdown-item d-flex justify-content-between align-items-center">
+                                            <label for="tracer-select" class="tracer-controls" data-i18n="code.topbar.menuTitles.monitorControlsMenu"></label>
+                                            <button
+                                                type="button"
+                                                class="btn-close ms-2"
+                                                data-i18n="[aria-label]navbar.items.community.dropdown.close"
+                                                onclick="(()=>document.querySelector('.monitor-controls-button').click())()">
+                                            </button>
+                                        </div>
+
+                                        <div class="dropdown-item">
+                                            <label for="tracer-select" class="tracer-controls" data-i18n="[html]code.console.graph.buttons.datasToShow">
+                                                <i class="fa fa-chart-line"></i> Donnée à afficher:
+                                            </label>
+                                            <select class="tracer-controls form-select" id="tracer-select">
+
+                                            </select>
+                                        </div>
+
+                                        <!-- Number of values -->
+                                        <div class="dropdown-item">
+                                            <label for="tracer-values" class="tracer-controls" data-i18n="[html]code.console.graph.buttons.valuesToShow">
+                                                <i class="fa fa-filter"></i> Nombre de valeurs:
+                                            </label>
+                                            <select class="tracer-controls form-select" id="tracer-values">
+                                                <option value=10>10</option>
+                                                <option value=30>30</option>
+                                                <option value=100 selected>100</option>
+                                                <option value=500>500</option>
+                                                <option value=3000>3000</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Min | Max -->
+                                        <div class="dropdown-item">
+                                          <label for="maxY" id="label-axeY" class="tracer-controls test" data-i18n="[html]code.console.graph.axeY">
+                                            <i class="fas fa-ruler-combined"></i> Échelle des ordonnées axe Y
+                                          </label>
+                                          <div class="input-group gap-0">
+                                            <span id="label-minY" class="visually-hidden">Valeur minimale</span>
+                                            <input class="tracer-controls form-control mx-0" id="minY" type="text" placeholder="min" title="Auto par défaut" aria-labelledby="label-axeY label-minY">
+                                            
+                                            <span id="label-maxY" class="visually-hidden">Valeur maximale</span>
+                                            <input class="tracer-controls form-control mx-0" type="text" id="maxY" placeholder="max" title="Auto par défaut" aria-labelledby="label-axeY label-maxY">
+                                          </div>
+                                        </div>
+                                      
+
+                                        <!-- Baud -->
+                                        <div class="dropdown-item">
+                                            <label for="baud" class="serial-controls tracer-controls" data-i18n="[html]code.console.baud" data-toggle="tooltip" data-placement="top">
+                                                Baud:
+                                            </label>
+
+                                            <select id="baud" class="form-select serial-controls tracer-controls">
+                                                <option value=300>300</option>
+                                                <option value=600>600</option>
+                                                <option value=1200>1200</option>
+                                                <option value=2400>2400</option>
+                                                <option value=4800>4800</option>
+                                                <option value=9600>9600</option>
+                                                <option value=14400>14400</option>
+                                                <option value=19200>19200</option>
+                                                <option value=28800>28800</option>
+                                                <option value=38400>38400</option>
+                                                <option value=57600>57600</option>
+                                                <option value=115200 selected>115200</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="dropdown-item">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch" id="tracer-smooth" checked>
+                                                <label class="form-check-label" for="tracer-smooth" data-i18n="[html]code.console.graph.buttons.smoothCurve">Lisser la courbe</label>
+                                              </div>
+                                        </div>
+
+                                        <div class="dropdown-item mt-1">
+                                            <button type="button" id="init-traceur" class="btn btn-secondary tracer-export w-100" data-toggle="tooltip" data-placement="right" data-i18n="[title]code.monitor.controls.tooltips.menu.clearData">
+                                                <i class="fas fa-broom"></i>
+                                                <span class="tracer-controls" data-i18n="code.monitor.controls.text.menu.clearData"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="serial-input-group" class="input-group">
+                                    <input type="text" id="serial-input" class="serial-controls form-control ide-btn-left" autocomplete="off" data-i18n="[placeholder]code.monitor.controls.text.send" />
+
+                                    <div id="serial-input-btn" class="input-group-append">
+                                        <button id="serial-send" class="ide-btn serial-controls ide-btn-right" onclick="InterfaceConnection.sendSerialCommand()" data-placement="top" data-toggle="tooltip" data-i18n="[title]code.monitor.controls.tooltips.send">
+                                            <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="monitor-div-btn" class="d-flex ms-auto justify-content-end">
+
+                                <button type="button" class="ide-btn ide-btn-alone tracer-export me-1" onclick="openExportProjectWindow()" data-toggle="tooltip" data-placement="top" data-i18n="[title]code.monitor.controls.tooltips.export">
+                                    <i class="fas fa-file-export"></i>
+                                    <span class="hide" data-i18n="code.monitor.controls.text.export"></span>
+                                </button>
+
+                                <button type="button" onclick="InterfaceConnection.toggleVariablesPanel()" class="ide-btn ide-btn-alone me-1" id="repl-variables" data-toggle="tooltip" data-placement="top" data-i18n="[title]code.monitor.controls.tooltips.openVariables">
+                                    <i class="fas fa-table"></i>
+                                    <span class="hide" data-i18n="code.monitor.controls.text.openVariables">(x)</span>
+                                </button>
+
+                                <button type="button" onclick="InterfaceConnection.toggleReplOverture()" class="ide-btn ide-btn-alone" id="repl-control" data-status="open" data-toggle="tooltip" data-placement="top" data-i18n="[title]code.monitor.controls.tooltips.openRepl">
+                                    <i class="fas fa-terminal"></i>
+                                    <span class="hide" data-i18n="code.monitor.controls.text.openRepl">REPL</span>
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div id="monitor-debugger" class="monitor-debugger">
+                        <div class="monitor-debugger-wrapper" id="monitor-debugger-wrapper">
+                            <div id="monitor-variables-panel">
+                                <div class="d-flex justify-content-center variables_panel">
+                                    <table id="variables_table">
+                                        <thead>
+                                            <tr>
+                                                <th style="padding-right: 33px;">Nom de la variable </th>
+                                                <th style="padding-right: 80px;">Valeur</th>
+                                                <th style="padding-right: 5px;">Type</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="variables-table-body-repl"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- END IDE BASE -->
+        <div class="ide-simulator">
+            <div id="simulator">
+                <div id="headerOut">
+                    <div class="simulator-board-buttons">
+                        <button id="simulator-board-toggler" data-i18n="[aria-label]code.simulator.buttons.base.toggleBoardDisplay" class="btn simulator-button-circle" type="button" onclick="Simulator.toggleBoardDisplay()">
+                            <i class="fa-solid fa-minus simulator-buttons-icon"></i>
+                        </button>
+                        <button id="wiring-mode" data-i18n="[aria-label]code.simulator.buttons.base.switchWiringMode" class="btn simulator-button-circle" type="button" onclick="switchWiringMode()">
+                            <img class="simulator-mosaic-icon simulator-buttons-icon" src="/openInterface/interfaces/assets/media/icon-wiring.svg" alt="mosaic mode">
+                        </button>
+                    </div>
+                    <span id="title-board" style="display: none;">BBC micro:bit</span>
+                    <div id="board-container">
+                        <object id="board-viewer" class="mt-3" type="image/svg+xml"></object>
+                    </div>
+                </div>
+                <div class="simulator-buttons my-2">
+                    <div class="control-run-btn btn-group oi-btn-group-simulator oi-simulation-activated">
+                        <button id="simulator_play" class="btn oi-btn-simulator " data-i18n="[title]code.simulator.buttons.base.play" 
+                                data-toggle="tooltip" data-placement="top" title="Play" onclick="Simulator.play()">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-play.svg" alt="Play icon">
+                        </button>
+                        <button id="simulator_pause" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.pause" 
+                                data-toggle="tooltip" data-placement="top" title="Stop" onclick="Simulator.pause()">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-pause.svg" alt="Pause icon">
+                        </button>
+                        <button id="simulator_replay" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.reload" 
+                                data-toggle="tooltip" data-placement="top" title="Replay" onclick="Simulator.replay()">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-replay.svg" alt="Replay icon">
+                        </button>
+                    </div>
+                    <div class="control-mode-btn btn-group oi-btn-group-simulator oi-option-activated">
+                        <button id="simulator_slow_play" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.debug" 
+                                data-toggle="tooltip" data-placement="top" title="Simulation pas à pas" onclick="Simulator.Debugger.toggleDebugMode()">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-bug.svg" alt="Bug icon">
+                        </button>
+                        <button id="simulator_show_vars" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.variables" 
+                                data-toggle="tooltip" data-placement="top" title="Afficher les variables" onclick="Simulator.Debugger.toggleVariablesPanel()">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-variable.svg" alt="Variable icon">
+                        </button>
+                        <button id="simulator_fullscreen" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.fullscreen" 
+                                data-toggle="tooltip" data-placement="top" title="Plein écran" onclick="Simulator.toggleFullscreen()">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-fullscreen.svg" alt="Fullscreen icon">
+                        </button>
+                    </div>
+                </div>
+                <div id="message-container">
+                    <div id="error-message" class="simulator-message"></div>
+                    <div id="warning-message" class="simulator-message"></div>
+                </div>
+                <div id="debugger-container" style="display:none;">
+                    <div id="debugger-controls" class="d-flex ms-2 justify-content-center">
+                        <div id="timeout-controls" >
+                            <span id="timeout" class="debugger-text">Durée de la pause : </span>
+                            <button id="simulator_faster" class="v-btn-basic-outline debugger-btn" onclick="Simulator.Debugger.changeExecSpeed('fast')">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span id="debugger-timeout">1 s</span>
+                            <button id="simulator_slower" class="v-btn-basic-outline debugger-btn" onclick="Simulator.Debugger.changeExecSpeed('slow')">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <span id="step_forward" class="debugger-text">Etape suivante :</span>
+                            <button id="simulator_step_forward" class="v-btn-basic-outline debugger-step-btn" onclick="Simulator.Debugger.stepForward()">
+                                <i class="fas fa-fast-forward"></i>
+                                <span id="step-next">NEXT</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="variables-panel" style="display: none;">
+                    <div class="d-flex justify-content-center variables_panel">
+                        <table id="variables_table">
+                            <thead>
+                                <tr>
+                                    <th style="padding-right: 33px;">Nom de la variable </th>
+                                    <th style="padding-right: 80px;">Valeur</th>
+                                    <th style="padding-right: 5px;">Type</th>
+                                </tr>
+                            </thead>
+                            <tbody id="variables-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="simulator-modules"></div>
+            </div>
+
+            <div id="simulator-switcher" style="display: none;">
+                <button id="training-mode" type="button" class="btn active">
+                    <i class="fas fa-hand-pointer"></i>
+                    <span class="hide" data-i18n="code.simulator.buttons.auto-corrector.training">Entraînement</span>
+                </button>
+                <button id="exercise-mode" type="button" class="btn">
+                    <i class="fas fa-tasks"></i>
+                    <span class="hide" data-i18n="code.simulator.buttons.auto-corrector.exercise">Exercice</span>
+                </button>
+            </div>
+
+            <div id="simulator-wires" style="display: none;">
+<!--                cp 10-->
+<!--                data-i18n="Passer en mode mosaïque"-->
+                <button id="mosaic-mode" data-i18n="[aria-label]code.simulator.buttons.base.switchMosaicMode" class="btn simulator-button-circle" onclick="switchMosaicMode()">
+                    <img class="simulator-wiring-icon simulator-buttons-icon" src="/openInterface/interfaces/assets/media/icon-mosaic.svg" alt="wiring mode"/>
+                </button>
+                <div id="wiring-overlay">
+                    <button id="modules-close" onclick="WiringSimulator.closeModule()" tabindex="-1">&times;</button>
+                    <div id="wiring-modules" style="display:none;"></div>
+                </div>
+                <canvas id="wiring-simulator">Canvas Not Supported</canvas>
+                <div id="wiring-message-container"></div>
+                <div class="d-flex justify-content-center my-2">
+                    <div id="wiring-buttons-control" class="control-run-btn btn-group oi-btn-group-simulator oi-simulation-activated"></div>
+                    <div id="wiring-buttons-fullscreen" class="control-mode-btn oi-btn-group-simulator oi-option-activated"></div>
+                    <div class="wiring-buttons btn-group oi-btn-group-simulator oi-option-activated">
+                        <button id="wiring-background-button" class="btn oi-btn-simulator" 
+                                data-toggle="tooltip" data-placement="top" title="Background">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-img.svg" alt="Image icon">
+                        </button>
+                        <button id="simulator-export" class="btn oi-btn-simulator" 
+                                data-toggle="tooltip" data-placement="top" title="Screenshot" onclick="WiringSimulator.getScreenshot()">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-photo.svg" alt="Photo icon">
+                        </button>
+                        <button id="wiring-record-button" class="btn oi-btn-simulator" 
+                                data-toggle="tooltip" data-placement="top" title="Video record" onclick="WiringSimulator.recordVideo()">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-rec.svg" alt="Record icon">
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- END IDE SIMULATOR -->
+
+        <div class="global-overlay" id="global-overlay"></div>
+        <div class="progress-bar-container" id="progress-bar-container">
+            <div class="progress-bar-area">
+                <div class="progress-bar-description" id="progress-bar-description">Téléversement du programme python ...</div>
+                <div class="progress-bar-wrapper">
+                    <div class="progress-bar-mb" id="progress-bar-mb">0%</div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- END IDE CONTENT -->
+</div> <!-- END IDE -->
+
+<section id="popup_bt_auth">
+    <div class="bt-auth-margin">
+        <span class="vitta-modal-title-led-matrix">
+            <span>Authentifier la carte BBC micro:bit</span>
+        </span>
+        <div class="btn vitta-modal-exit-btn" type="button"  title="Fermer le modal" onclick="MicrobitBLEAuthModal.cancel()">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+    <section id="content_popup">
+        <section id="auth_led_matrix">
+            <svg id="mb_matrix" width="270" height="270" viewBox="0 0 270 270"></svg>
+        </section>
+        <section class="vitta-modal-led-footer">
+            <div>
+                <button id="bt_auth_cancel" type="button" class="btn v-btn-basic me-1" style="flex:1;" onclick="MicrobitBLEAuthModal.cancel()">Annuler</button>
+                <button id="bt_auth_confirm" type="button" class="btn v-btn ms-1" style="flex:1;">Valider</button>
+            </div>
+        </section>
+    </section>
+</section>
+
+<script src="/openInterface/interfaces/assets/js/code2blocks/python/pythonCode2Blocks.js" type="module"></script>
+
+<!-- build:js-externals -->
+<script src="/openInterface/env.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/jquery.blockUI-2.70.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/jquery-ui-1.12.1.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/rotate.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/interact-1.5.4.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/blockly_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_date_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_grid_dropdown_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_slider_compressed.js"></script>
+<script type="module" src="/openInterface/interfaces/assets/js/external/blockly/extensions/backpack/index.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/ace-ide/ace.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-python.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-languages_tools.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-searchbox.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/ace-ide/aceInit.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/file-input/js/fileinput.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/file-input/themes/fa/theme.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/svg-inject.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/charts-loader.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/echarts-5.4.0/echarts.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/ansi-up/ansi_up.min.js" type="text/javascript"></script>
+<script src="/openInterface/interfaces/assets/js/external/tone/tone.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/microbit/microbit-fs/microbit-fs.umd.min.js" type="application/javascript"></script>
+<script src="/openInterface/interfaces/assets/js/external/microbit/microbit-uh/microbit-uh.umd.min.js" type="application/javascript"></script>
+<script src="/openInterface/interfaces/assets/js/external/shepherd.js@10.0.1/sheperd.js"></script>
+<!-- endbuild -->
+<script src="/public/js/lib/Leaflet/leaflet.js"></script>
+<link rel="stylesheet" href="/public/js/lib/Leaflet/leaflet.css" />
+<!-- build:js-utils -->
+<script src="/openInterface/interfaces/assets/js/utils/url.js"></script>
+<script src="/openInterface/interfaces/assets/js/utils/colour.js"></script>
+<script src="/openInterface/interfaces/assets/js/utils/misc.js"></script>
+<script src="/openInterface/interfaces/assets/js/utils/dom.js"></script>
+<script src="/openInterface/interfaces/assets/js/utils/jsonPath.js"></script>
+<!-- endbuild -->
+<!-- build:js-microbitConstants -->
+<script src="/openInterface/microbit/assets/js/constants/main/init.js"></script>
+<script src="/openInterface/microbit/assets/js/constants/generators/imports.js"></script>
+<script src="/openInterface/microbit/assets/js/constants/generators/functions.js"></script>
+<script src="/openInterface/microbit/assets/js/constants/generators/bitmap.js"></script>
+<script src="/openInterface/microbit/assets/js/constants/simulator/classes.js"></script>
+<script src="/openInterface/microbit/assets/js/constants/toolbox/blockDB.js"></script>
+<script src="/openInterface/microbit/assets/js/constants/toolbox/vittascience.js"></script>
+<script src="/openInterface/microbit/assets/js/constants/toolbox/scratch.js"></script>
+<script src="/openInterface/microbit/assets/js/constants/toolbox/styles.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/toolbox/toolboxes.js"></script>
+<script src="/openInterface/microbit/assets/js/constants/main/buttons.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/main/interface.js"></script>
+<script src="/openInterface/microbit/assets/js/constants/main/interface.js"></script>
+<!-- endbuild -->
+<!-- build:js-constants -->
+<script src="/openInterface/interfaces/assets/js/constants/main/errors.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/main/patterns.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/main/api.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/blocks/helpurl.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/generators/constants.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/generators/functions.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/simulator/alphabet_5x5.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/tooltip/image.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/modals/buttons.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/modals/options.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/modals/generalModals.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/modals/LedMatrixModalManager.js"></script>
+<!-- endbuild -->
+<!-- build:js-events -->
+<script src="/openInterface/interfaces/assets/js/events/footer.js"></script>
+<script src="/openInterface/interfaces/assets/js/events/api.js"></script>
+<script src="/openInterface/interfaces/assets/js/events/music.js"></script>
+<script src="/openInterface/interfaces/assets/js/events/chart.js"></script>
+<script src="/openInterface/interfaces/assets/js/events/export.js"></script>
+<script src="/openInterface/interfaces/assets/js/events/addBlck.js"></script>
+<!-- endbuild -->
+<!-- build:js-daplink -->
+<script src="/openInterface/microbit/assets/js/hex/microbitFsWrapper.js"></script>
+<script src="/openInterface/microbit/assets/js/daplink/webusb.js"></script>
+<script src="/openInterface/microbit/assets/js/daplink/partial-flashings.js"></script>
+<script src="/openInterface/microbit/assets/js/daplink/dap-wrapper.js"></script>
+<script src="/openInterface/microbit/assets/js/daplink/dap.umd.js"></script>
+<script src="/openInterface/microbit/assets/js/daplink/board-id.js"></script>
+<script src="/openInterface/microbit/assets/js/daplink/board-serial-infos.js"></script>
+<!-- endbuild -->
+<!-- build:js-ble -->
+<script src="/openInterface/interfaces/assets/js/ble/WebBLE.js"></script>
+<script src="/openInterface/microbit/assets/js/ble/PartialFlashingBaseService.js"></script>
+<script src="/openInterface/microbit/assets/js/ble/SecureDfuService.js"></script>
+<script src="/openInterface/microbit/assets/js/ble/HexApplicationParser.js"></script>
+<script src="/openInterface/microbit/assets/js/ble/bleAPI.js"></script>
+<script src="/openInterface/microbit/assets/js/ble/HexUtils.js"></script>
+<script src="/openInterface/microbit/assets/js/ble/crc32.js"></script>
+<!-- endbuild -->
+<!-- build:js-simulator -->
+<script src="/openInterface/interfaces/assets/js/external/skulpt/skulpt.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/skulpt/skulpt-stdlib.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/python/simulator.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/Simulator.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/Recorder.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/SimulatorModals.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/mosaic/Animator.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/mosaic/groveModules.js"></script>
+<script src="/openInterface/microbit/assets/js/simulator/mosaic/code_friendly.js"></script>
+<script src="/openInterface/microbit/assets/js/simulator/mosaic/definitions.js"></script>
+<script src="/openInterface/microbit/assets/js/simulator/mosaic/inputs.js"></script>
+<script src="/openInterface/microbit/assets/js/simulator/mosaic/outputs.js"></script>
+<!-- endbuild -->
+<!-- build:js-robot-simulator -->
+<script src="/openInterface/interfaces/assets/js/simulator/robot/RobotSimulator.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/robot/DistanceSensorSimulator.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/robot/LineFinderSimulator.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/robot/utils/math.js"></script>
+<script src="/openInterface/microbit/assets/js/simulator/robot/robot.js"></script>
+<!-- endbuild -->
+<!-- build:js-wiring-simulator -->
+<script src="/openInterface/interfaces/assets/js/simulator/wiring/WiringSimulator.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/wiring/groveModules.js"></script>
+<script src="/openInterface/microbit/assets/js/simulator/wiring/groveShield.js"></script>
+<!-- endbuild -->
+<!-- build:js-auto-corrector -->
+<script src="/openInterface/interfaces/assets/js/external/svg-3.1.1/svg.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/auto-corrector/AutoCorrector.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/auto-corrector/FramesVisualizer.js"></script>
+<!-- endbuild -->
+<!-- build:js-blocks -->
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/constants.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/definitions/blockly_constants.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/colour.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/logic.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/loops.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/math.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/text.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/variables.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/lists.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/procedures.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/exceptions.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/other.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/dictionaries.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/common/cameras.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/definitions/specific/start.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/definitions/specific/display.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/definitions/specific/input_output.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/definitions/specific/communication.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/definitions/specific/sensors.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/definitions/specific/actuators.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/definitions/specific/robots.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/definitions/specific/tello.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/definitions/specific/cameras.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/definitions/specific/vittaia.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/init.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/colour.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/logic.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/loops.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/math.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/text.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/variables.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/lists.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/procedures.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/exceptions.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/other.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/dictionaries.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/generators/specific/start.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/generators/specific/display.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/generators/specific/input_output.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/generators/specific/communication.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/generators/specific/sensors.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/generators/specific/actuators.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/generators/specific/robots.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/generators/specific/tello.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/generators/specific/cameras.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/generators/specific/vittaia.js"></script>
+<!-- endbuild -->
+<!-- build:js-main -->
+<script src="/openInterface/interfaces/assets/js/main/InterfaceInit.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/Loader.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/UIManager.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/CodeManager.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/InterfaceMonitor.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/ToolboxManager.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/Main.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/modal.js" type="module"></script>
+<script src="/openInterface/interfaces/assets/js/main/Button.js"></script>
+<script src="/openInterface/interfaces/assets/js/themes/themes.js"></script>
+<!-- endbuild -->
+<!-- build:js-serial -->
+<script src="/openInterface/interfaces/assets/js/serial/Serial.js"></script>
+<script src="/openInterface/interfaces/assets/js/serial/micropython/MicropythonRepl.js"></script>
+<script src="/openInterface/microbit/assets/js/serial/serialAPI.js"></script>
+<!-- endbuild -->
+ <!-- accessibility -->
+<script src="/openInterface/interfaces/assets/js/utils/accessibility/accessibility.js" type="module"></script>
+<script src="/openInterface/microbit/assets/js/accessibility/accessibility.js" type="module"></script>
+<!-- loader -->
+<script src="/openInterface/interfaces/assets/js/events/load.js"></script>
+<!-- check browser compatibility -->
+<script src="/openInterface/interfaces/assets/js/main/compatibilityBrowserCheck.js"></script>
+
+<!-- reverse traduction -->
+<script src="/openInterface/interfaces/assets/js/external/tree-sitter/tree-sitter.js"></script>
+<script src="/openInterface/microbit/assets/js/blocks/code2Blocks/excluded_blocks.js"></script>
+
+<script>
+    window.checkNavigatorVersionForPurpose('interfaces');
+    $(document).ready(() => {
+        loadInterface(INTERFACE_NAME);
+    });
+</script>
+
+<!-- footer scripts -->
+</div>
+
+<script src="/interfaces/assets/js/main/ExerciseStatement.js"></script>
+<script src="/interfaces/assets/js/main/ProjectManager.js"></script>
+<script src="/interfaces/assets/js/main/ProjectManagerVisitor.js"></script>
+<script src="/interfaces/assets/js/main/ProjectManagerUser.js"></script>
+<script src="/interfaces/assets/js/main/User.js"></script>
+<script src="/interfaces/assets/js/constants/modals/privateModals.js"></script>
+<script src="/interfaces/assets/js/constants/buttons/buttons.js"></script>
+<script src="/interfaces/assets/js/events/project_panel.js"></script>
+<script src="/interfaces/assets/js/events/loadingPrivate.js"></script>
+
+
+    <script src="/public/js/utils/get.js" defer></script>
+    <script type="application/javascript" src="/interfaces/assets/js/utils/url.js"></script>
+</body>
+
+</html>

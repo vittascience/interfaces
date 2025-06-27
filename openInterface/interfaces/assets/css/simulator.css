@@ -1,0 +1,376 @@
+#simulator {
+	width: 100%;
+	min-height: 100%;
+	padding-bottom: 3em;
+	text-align: center;
+	background: var(--bg-1);
+	overflow-y: visible;
+	overflow-x: hidden;
+	font-family: var(--main-font);
+	position: relative;
+}
+
+@media (max-width: 900px) {
+	.ide-simulator {
+		position: absolute !important;
+		left: 0;
+		top: 0;
+		max-width: 100% !important;
+		z-index: 990;
+	}
+
+	#simulator {
+		top: 0;
+		left: 0;
+		min-width: 0px;
+		width: 100%;
+		height: 100%;
+	}
+}
+
+@media (max-width: 749px) {
+	#simulator-modules {
+		/* overflow: unset !important; */
+		min-width: 0px !important;
+		margin: auto;
+	}
+
+	#simulator-modules .simulator-module .simulator-module-large {
+		height: 100%;
+		width: 50%;
+		min-width: 250px !important;
+		max-width: 250px !important;
+	}
+}
+
+#board-container {
+	position: relative;
+	width: 300px;
+	height: fit-content;
+	margin: auto;
+}
+
+#board-viewer {
+	width: 300px;
+	height: 229px;
+	color-scheme: auto;
+}
+
+#headerOut {
+	min-height: auto;
+}
+
+.simulator-message {
+	margin-top: 10px;
+	font-size: 13px;
+}
+
+.simulator-button-circle {
+	background: lightgray;
+	color: var(--bg-0);
+	width: 30px;
+	height: 30px;
+	margin-left: 2.5px;
+	margin-right: 2.5px;
+}
+
+.simulator-board-buttons {
+	display: flex;
+	flex-direction: row;
+	justify-content: start;
+	width: 30%;
+	margin-left: 75%;
+	margin-top: 3%;
+}
+
+#simulator-board-toggler,
+#mosaic-mode,
+#wiring-mode,
+#simulator-board-selector,
+#ti83_zone-toggler {
+	border: none;
+	cursor: pointer;
+	position: relative;
+	border-radius: 30%;
+	background-color: var(--vitta-white);
+	box-shadow: 0 0 6px var(--vitta-shadow-color);
+	color: var(--vitta-black);
+	padding: 0.1em;
+}
+
+#ti83_zone>.simulator-board-buttons {
+	margin-left: 80%;
+}
+
+#mosaic-mode {
+	position: absolute;
+	margin: 10px;
+	right: 0;
+}
+
+.simulator-mosaic-icon,
+.simulator-wiring-icon {
+	max-width: 16px;
+	max-height: 16px;
+	margin: auto;
+	transform: rotate(90deg);
+}
+
+.simulator-buttons-icon,
+.simulator-board-selector-microship {
+	display: flex;
+	justify-content: center;
+}
+
+.simulator-info-icon {
+	position: relative;
+	top: -5px;
+	right: 10px;
+}
+
+#simulator-board-selector:active,
+#simulator-board-selector[aria-expanded="true"] {
+	background-color: var(--vitta-orange-light);
+	color: var(--vitta-white);
+	opacity: 1;
+	box-shadow: 0px 0px 6px var(--vitta-orange-light);
+}
+
+#simulator-board-selector::after {
+	content: none;
+}
+
+#title-board {
+	border: solid 1px var(--bg-3);
+	box-shadow: 0px 0px 5px var(--bg-3);
+	border-radius: 15px;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+	overflow: auto;
+	margin: 0 auto 0.5em auto;
+	font-weight: 600;
+	font-size: large;
+	width: fit-content;
+}
+
+.ide-simulator {
+	background-color: var(--bg-1);
+}
+
+.greyscale {
+	filter: grayscale(1);
+	-webkit-filter: grayscale(1);
+}
+
+
+/* Mode control buttons */
+
+.simulator-buttons {
+	min-height: auto;
+	display: flex;
+	justify-content: center;
+	position: relative;
+}
+
+.control-mode-btn {
+	margin-left: 15px;
+}
+
+.control-capture-btn {
+	margin-left: 15px;
+}
+
+.isFullscreen {
+	display: flex !important;
+	flex-direction: column;
+	justify-content: center !important;
+	align-items: center !important;
+	position: absolute !important;
+	left: 0;
+	top: 0;
+	max-width: 100% !important;
+	z-index: 990;
+}
+
+/* Debug mode panel */
+
+.debugger-text {
+	height: 32px;
+	text-align: center;
+	font-family: var(--main-font);
+	font-weight: 600;
+	font-size: 14px;
+	color: var(--text-0);
+	margin-top: 10px;
+}
+
+#timeout {
+	width: 142px;
+}
+
+.debugger-btn {
+	width: 30px;
+	height: 30px;
+	margin: 5px;
+	line-height: 0px;
+	text-align: center;
+	letter-spacing: -1px;
+	border-radius: 14px;
+}
+
+.debugger-btn:hover {
+	background: var(--vitta-orange);
+	cursor: pointer;
+}
+
+#timeout-controls {
+	display: grid;
+	grid-template-columns: repeat(6, auto);
+	align-items: center;
+}
+
+@media (max-width: 500px) {
+	#timeout-controls {
+		grid-template-columns: repeat(4, auto);
+	}
+
+	#timeout-controls #simulator_step_forward {
+		grid-column-start: 2;
+		grid-column-end: 5;
+	}
+
+}
+
+#debugger-timeout {
+	height: 30px;
+	width: 50px;
+	text-align: center;
+	border: 2px solid;
+	border-color: var(--text-2);
+	border-radius: 8px;
+}
+
+#step_forward {
+	width: 120px;
+}
+
+.debugger-step-btn {
+	border-radius: 15px;
+}
+
+.debugger-step-btn:hover {
+	background: var(--vitta-orange);
+	cursor: pointer;
+}
+
+/* Robot simulator */
+
+#robot-sim {
+	border: 3px dotted var(--bg-3);
+}
+
+/* Simulator Switcher */
+
+#simulator-switcher {
+	background: var(--bg-5);
+	padding-bottom: 5px;
+	height: 3em;
+	position: sticky;
+	bottom: 0;
+	max-width: 500px;
+	width: 100%;
+	z-index: 100;
+	order: 999;
+	min-height: auto;
+	display: flex;
+	flex-direction: row;
+}
+
+#simulator-switcher .btn {
+	--bs-btn-border-width: 0;
+	--bs-btn-bg: var(--bg-3);
+	--bs-btn-border-color: var(--bg-3);
+	--bs-btn-color: var(--text-3);
+	--bs-btn-font-weight: 700;
+
+	--bs-btn-active-bg: var(--bg-1);
+	--bs-btn-active-border-color: var(--bg-1);
+	--bs-btn-active-color: var(--vitta-green);
+	border-radius: 0 0 1em 1em;
+	width: 100%;
+}
+
+#simulator-switcher .btn:focus-within {
+	box-shadow: 0px 4px 2px 0rem var(--vitta-blue);
+}
+
+#simulator-switcher .btn:disabled {
+	cursor: not-allowed;
+}
+
+@media (max-width: 900px) {
+	#simulator-switcher {
+		max-width: 100% !important;
+	}
+}
+
+/* Wireless button & tooltip */
+
+#simulator #simulator-multi-info {
+	position: relative;
+	width: auto;
+	margin: 1em auto;
+}
+
+#simulator.visualizer #simulator-radio-info {
+	display: none !important;
+	visibility: hidden !important;
+}
+
+#simulator-multi-info .multi-btn {
+	border: 1px solid var(--text-0-opac29);
+	background: var(--bg-1);
+	border-radius: 0.75em;
+	color: var(--text-0);
+	font-weight: 700;
+	transition: all 0.3s;
+	z-index: 35;
+	position: relative;
+}
+
+#simulator-multi-info .multi-btn:hover {
+	border-color: var(--text-0);
+}
+
+#simulator-multi-info .multi-btn:focus {
+	border-color: var(--text-0);
+	box-shadow: 0px 0px 10px var(--vitta-blue);
+}
+
+#simulator-multi-info .multi-btn img {
+	margin-right: 5px;
+}
+
+.theme-dark #simulator-multi-info .multi-btn img {
+	filter: invert();
+}
+
+@media (max-width: 900px) {
+	#simulator-multi-info {
+		width: fit-content;
+	}
+
+	#simulator-multi-info .interface-tooltip {
+		width: max-content;
+		transform: translateX(-50%);
+		left: 50%;
+		max-width: 350px;
+		margin: 0;
+		top: -140px;
+	}
+}
+
+.raw_input_form {
+	border-radius: 5px;
+	border-color: var(--text-1);
+}

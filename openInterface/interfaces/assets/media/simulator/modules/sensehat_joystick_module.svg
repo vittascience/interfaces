@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="sense-hat-joystick" data-name="Calque 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        stroke-linecap: round;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        stroke: #c2c1c1;
+        stroke-linejoin: round;
+      }
+
+      .cls-1, .cls-4 {
+        fill: #e0e0e0;
+      }
+
+      .cls-2, .cls-3 {
+        fill: #c2c1c1;
+      }
+    </style>
+  </defs>
+  <g id="shadows">
+    <polygon id="left_shadow" class="cls-2" points="47.69 57.75 47.69 98.65 47.69 141.31 5.91 99.53 47.69 57.75"/>
+    <polygon id="right_shadow" class="cls-2" points="155.82 57.75 197.6 99.53 155.82 141.31 155.82 98.65 155.82 57.75"/>
+    <polygon id="up_shadow" class="cls-3" points="101.76 4.65 143.54 46.43 100.56 46.43 59.98 46.43 101.76 4.65"/>
+    <polygon id="down_shadow" class="cls-2" points="101.76 152.63 143.54 152.63 101.76 194.41 59.98 152.63 101.76 152.63"/>
+    <circle id="middle_shadow" class="cls-2" cx="101.76" cy="99.53" r="16.1"/>
+  </g>
+  <g id="joystick_arrows">
+    <polygon id="left" class="cls-1" points="45.19 57.75 45.19 98.65 45.19 141.31 3.41 99.53 45.19 57.75"/>
+    <polygon id="right" class="cls-1" points="153.31 57.75 195.09 99.53 153.31 141.31 153.31 98.65 153.31 57.75"/>
+    <polygon id="up" class="cls-4" points="99.25 4.65 141.03 46.43 98.05 46.43 57.47 46.43 99.25 4.65"/>
+    <polygon id="down" class="cls-1" points="99.25 152.63 141.03 152.63 99.25 194.41 57.47 152.63 99.25 152.63"/>
+    <circle id="middle" class="cls-1" cx="99.25" cy="99.53" r="16.1"/>
+  </g>
+</svg>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>ACE: Arduino editor</title>
+
+
+    <!-- end scripts for ACE -->
+    <link rel="stylesheet" href="./css/ace.css">
+    <script src="/public/js/lib/ace-1.4.12/ace.min.js"></script>
+    <script src="/public/js/lib/ace-1.4.12/mode-python.min.js"></script>
+    <script src="/public/js/lib/ace-1.4.12/ext-language_tools.min.js"></script>
+    <script src="/public/js/lib/ace-1.4.12/ext-searchbox.min.js"></script>
+    <script src="/public/js/lib/ace-1.4.12/mode-c_cpp.min.js"></script>
+    <!-- end scripts for ACE -->
+    <style>
+
+    </style>
+
+
+    <article>
+        <h2>Arduino code completion Demo</h2>
+        <div id=""> </div>
+        <div id="editor">//Arduino IDE
+        </div>
+
+
+
+        <script>
+            //micropython editor
+            var editor = ace.edit("editor");
+            var langMode = ace.require("ace/mode/c_cpp").Mode;
+            editor.session.setMode(new langMode());
+            editor.setOptions({
+                enableBasicAutocompletion: true,
+                fontSize: "13pt",
+                // to make popup appear automatically, without explicit _ctrl+space_
+                enableLiveAutocompletion: true,
+            });
+            // Add keywords for arduino IDE
+        </script>
+
+
+    </article>
+
+    </body>
+
+</html>

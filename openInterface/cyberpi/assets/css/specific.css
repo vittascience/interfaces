@@ -1,0 +1,54 @@
+@import url('../../../interfaces/assets/css/simulator-modules.css');
+@import url('../../../interfaces/assets/css/simulator-wifi.css');
+@import url('../../../interfaces/assets/css/simulator-robot.css');
+
+.cyberpi-builtin-led_module .module-body {
+	align-items: center;
+}
+
+.cyberpi-builtin-led_module_rub {
+	flex-wrap: inherit;
+	-ms-transform: translateX(-33%);
+	transform: translateX(-33%);
+}
+
+.cyberpi-builtin-led-block {
+	margin: 2px;
+	height: 12px;
+	width: 25px;
+	border-radius: 1px;
+	padding: 6px;
+	filter: blur(1px);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+.mBot2-motorLeft,
+.mBot2-motorRight {
+	z-index: 1;
+	top: -1px;
+	left: 2px;
+}
+
+.mBot2-motorLeft_base {
+	z-index: 2;
+	opacity: 0.9;
+}
+
+.mBot2-motorLeft_base,
+.mBot2-motorRight_base {
+	bottom: 0px;
+	left: 16px;
+}
+
+.mbuildFinder-left1_base,
+.mbuildFinder-left2_base,
+.mbuildFinder-right1_base,
+.mbuildFinder-right2_base {
+    max-height: 60px;
+    max-width: 90px;
+    right: 1.85em;
+	z-index: -1;
+	stroke: black;
+    stroke-width: 1px;
+}

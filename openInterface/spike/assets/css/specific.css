@@ -1,0 +1,77 @@
+@import url('../../../interfaces/assets/css/simulator-modules.css');
+
+#colorPicker-portA,
+#colorPicker-portB {
+	width: 25px;
+	height: 25px;
+	background-color: rgb(0, 0, 0);
+	cursor: pointer;
+	outline: none;
+}
+
+#colorPicker-portA:hover,
+#colorPicker-portB:hover {
+	opacity: 0.9;
+}
+
+#spike-colorSensor-portA_anim,
+#spike-colorSensor-portB_anim {
+	background-color: rgb(0, 0, 0);
+}
+
+#spike-motor {
+	transform-origin: 71% 50%;
+}
+
+.spike-led-matrix {
+	stroke: var(--vitta-white);
+	stroke-width: 1px;
+}
+
+.spike-led-portA,
+.spike-led-portB {
+	height: 21px;
+	width: 21px;
+	margin: 0.5px;
+	border-radius: 30%;
+	background-color: #f5f5f5;
+	border: solid var(--bg-5) 0.5px;
+}
+
+.spike-led-grid {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.spike-led-row {
+	display: flex;
+	flex-direction: row;
+}
+
+.spike-motorLeft,
+.spike-motorRight {
+	z-index: 1;
+	top: -1px;
+	left: 2px;
+}
+
+.spike-motorLeft_base {
+	z-index: 2;
+	opacity: 0.9;
+}
+
+.spike-motorLeft_base,
+.spike-motorRight_base {
+	bottom: 0px;
+	left: 16px;
+}
+
+.spike-sound-level_base {
+	width: 45px;
+}
+
+.spike-sound-level {
+	z-index: 1;
+	opacity: 0;
+}

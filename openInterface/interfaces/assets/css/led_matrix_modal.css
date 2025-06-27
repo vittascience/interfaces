@@ -1,0 +1,135 @@
+#popup_matrix_LED,
+#popup_matrix_LED_RGB {
+  padding: 1.5em;
+  display: none;
+  background: var(--bg-2);
+  z-index: 1001;
+  border-radius: 0.75rem;
+  box-shadow: 0 0 0.25rem rgb(27 27 27 / 14%);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#content_popup,
+#content_popup_rgb {
+  display: flex;
+  flex-direction: column;
+  color: var(--text-0);
+}
+
+#leds_matrix,
+#leds_matrix_rgb {
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+
+#edit_leds_matrix,
+#edit_leds_matrix_rgb {
+  border: solid var(--bg-5) 2px;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-1);
+  width: 546px;
+}
+
+#columns,
+#columns_rgb {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  font-size: small;
+}
+
+#lines,
+#lines_rgb {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  font-size: small;
+}
+
+#matrix,
+#matrix_rgb {
+  padding: 5px;
+  background-color: transparent;
+  display: block;
+  cursor: pointer;
+}
+
+#suggestions,
+#suggestions_rgb {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  margin-left: 15px;
+}
+
+.suggestions-column {
+  display: flex;
+  flex-direction: column;
+  margin-right: 5px;
+  justify-content: space-between;
+}
+
+.vitta-modal-title-led-matrix {
+  font-size: 20px;
+  color: var(--vitta-green);
+  align-items: center;
+  font-weight: bold;
+}
+
+.img-selected {
+  width: 100px;
+  height: 50px;
+}
+
+.suggestion-img {
+  width: 100px;
+  height: 50px;
+  border: solid var(--bg-5) 1px !important;
+}
+
+.vitta-modal-led-header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0.5rem;
+  flex-grow: 1;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.vitta-modal-led-footer {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  margin-top: .5rem;
+}
+
+@media only screen and (max-width: 870px) {
+
+  #suggestions,
+  #suggestions_rgb {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    margin-top: 15px;
+    margin-left: 0px;
+  }
+
+  #leds_matrix, #leds_matrix_rgb {
+    display: unset;
+  }
+  
+  .suggestions-column {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5px;
+    justify-content: space-between;
+  }
+}

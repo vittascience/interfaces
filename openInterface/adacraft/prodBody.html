@@ -1,0 +1,105 @@
+<div id="ide">
+    <nav class="ide-navbar ">
+        <div class="ide-dropdown ide-dropdown-files">
+            <button class="ide-btn ide-btn-toggle ide-btn-alone" id="ide-navbar-toggler">
+                <i class="fas fa-ellipsis-v"></i>
+            </button>
+            <div id="manage-button-panel" class="ide-btn-group ide-btn-group-save hidden">
+                <!-- Project information -->
+                <div class="project-data">
+                <span class="project-name" id="project-name" data-toggle="tooltip" data-placement="top" title="Nom du projet">no
+                    name</span>
+                <span id="project-is-saved" data-toggle="tooltip" data-placement="top" title="Sauvegarder le projet">
+                    <i class="fas fa-circle cercle"></i>
+                </span>
+                <span style='font-size:11px; font-weight:normal;' id="project-shared-status" hidden></span>
+                <span style='font-size:11px; font-weight:normal;' id="project-date-updated" hidden></span>
+                </div>
+        
+            </div>
+        </div>
+        <!-- Button management project -->
+        <div class="ide-btn-group ide-btn-group-save hide-vsm hidden" id="manage-button-panel"></div>
+        <!-- Block interface management -->
+        <div class="ide-btn-group ide-btn-group-revert hide-vsm" id="code-buttons-panel">
+            <!-- Undo button 
+                Redo button  -->
+        </div>
+        <div class="ide-btn-group ide-btn-group-check" id="execution-buttons-panel" style="margin: auto;">
+            <!-- Execute the code  -->
+        </div>
+        <div class="fullscreen-btn-panel">
+            <!-- fullscreen -->
+        </div>
+        <div class="ide-btn-group ide-btn-group-save hidden"></div>
+        <div class="ide-dropdown ide-dropdown-always">
+            <button class="ide-btn ide-btn-toggle ide-btn-alone" data-i18n="[title]code.topbar.tooltips.consoleSettings" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-cog"></i></button>
+            <div class="ide-btn-group ide-btn-group-settings hidden">
+                <!-- accessibility
+                    add a block
+                    help -->
+            </div>
+        </div>
+      
+        <div class="ide-dropdown ide-dropdown-modes">
+            <a class="ide-btn ide-btn-toggle ide-btn-alone ide-btn-mode"><i class="far fa-object-ungroup"></i></a>
+            <div class="ide-btn-group ide-btn-group-mode hidden">
+                <!-- code mode
+                    costumes mode
+                    sounds mode-->
+            </div>
+        </div>
+      
+    </nav>
+</div>
+
+<!-- build:js-externals -->
+<script src="/openInterface/env.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/jquery.blockUI-2.70.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/jquery-ui-1.12.1.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/rotate.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/interact-1.5.4.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/file-input/js/fileinput.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/file-input/themes/fa/theme.js"></script>
+<!-- endbuild -->
+<!-- build:js-utils -->
+<script src="/openInterface/interfaces/assets/js/utils/url.js"></script>
+<script src="/openInterface/interfaces/assets/js/utils/colour.js"></script>
+<script src="/openInterface/interfaces/assets/js/utils/misc.js"></script>
+<script src="/openInterface/interfaces/assets/js/utils/dom.js"></script>
+<script src="/openInterface/interfaces/assets/js/utils/jsonPath.js"></script>
+<!-- endbuild -->
+<!-- build:js-adacraftConstants -->
+<script src="/openInterface/adacraft/js/constants/main/buttons.js"></script>
+<script src="/openInterface/adacraft/js/constants/main/init.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/main/interface.js"></script>
+<script src="/openInterface/adacraft/js/constants/main/interface.js"></script>
+<!-- endbuild -->
+<!-- build:js-constants -->
+<script src="/openInterface/interfaces/assets/js/constants/main/errors.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/main/patterns.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/generators/constants.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/modals/buttons.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/modals/options.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/modals/generalModals.js"></script>
+<!-- endbuild -->
+<!-- build:js-main -->
+<script src="/openInterface/interfaces/assets/js/main/Loader.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/UIManager.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/CodeManager.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/Main.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/modal.js" type="module" async></script>
+<script src="/openInterface/interfaces/assets/js/main/Button.js"></script>
+<!-- endbuild -->
+<script src="/openInterface/interfaces/assets/js/events/footer.js"></script>
+<script src="/openInterface/interfaces/assets/js/events/addBlck.js"></script>
+
+<script src="/interfaces/assets/js/main/ExerciseStatement.js"></script>
+<script src="/interfaces/assets/js/main/ProjectManager.js"></script>
+<script src="/interfaces/assets/js/main/ProjectManagerVisitor.js"></script>
+<script src="/interfaces/assets/js/main/ProjectManagerUser.js"></script>
+<script src="/interfaces/assets/js/main/User.js"></script>
+<script src="/interfaces/assets/js/constants/modals/privateModals.js"></script>
+<script src="/interfaces/assets/js/constants/buttons/buttons.js"></script>
+<script src="/interfaces/assets/js/events/project_panel.js"></script>
+<script src="/interfaces/assets/js/utils/VittaStorage.js"></script>

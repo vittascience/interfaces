@@ -1,0 +1,518 @@
+/* HOMEPAGE */
+
+.general-title {
+    text-align: start;
+    color: var(--text-1);
+    font-weight: 800;
+    font-size: 2em;
+}
+.universcience-button{
+    color: white;
+    background-color: #C2403C;
+    width: fit-content;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.lang-title{
+    text-align: center;
+    color: var(--text-1);
+    font-weight: 600;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+}
+
+.lang-ul{
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+.lang-li{
+    list-style: none;
+    margin: 0 1em;
+    font-weight: bold;
+    font-size: 1em;
+}
+.lang-li a:not(.active-lang){
+    text-decoration: none;
+}
+
+#lang-flex{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    background: var(--bg-1);
+    border-radius: 0px 0px 4em 4em;
+    z-index: 5;
+    position: relative;
+}
+
+#lang-flex>h1 {
+    margin-top: 1.5em !important;
+    text-align: center !important;
+    font-weight: bold !important;
+}
+
+#lang-flex-div {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    padding-inline: 2rem;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+    .general-title {
+        margin-top: 0em;
+        font-size: 1.7em;
+        text-align: center;
+    }
+}
+@media (max-width: 1024px) {
+
+}
+
+/* red banner */
+
+.banner-title {
+    text-align: start;
+    font-weight: 800;
+    font-size: 2em;
+    margin-bottom: 1em;
+    line-height: 1.8em;
+}
+
+#banner-container {
+    background-image: url('/public/content/img/universcience/illustratoin-reseau-neurone.png');
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-color: #C2403C;
+    width: 100%;
+    min-height: 430px;
+    text-align: center;
+    position: relative;
+    padding: 7em 0 7em 4em;
+    margin: -4em 0;
+    color : white;
+}
+#banner-tagline-container {
+    width: 50%;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: start;
+    text-align: start;
+    margin-left: 1em;
+}
+
+#banner-flex-div {
+    display: flex;
+    justify-content: start;
+    align-content: center;
+    padding-inline: 2rem;
+    margin-bottom: 2rem;
+}
+
+#banner-tagline-container a {
+    color: #C2403C;
+    background-color: white;
+}
+
+#span-chrono {
+    position : relative;
+    margin: 0.75em;
+}
+#span-chrono img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-35%, -30%);
+    width: 350%;
+}
+
+
+@media (max-width: 768px) {
+
+}
+@media (max-width: 1024px) {
+    #banner-container {
+        background-size:contain;
+        background-position: bottom;
+        padding: 7em 0 7em 0;
+    }
+    #banner-flex-div {
+        padding-inline: 0;
+    }
+    #banner-tagline-container{
+        width: 100%;
+        align-items: center;
+        margin-left: 0;
+    }
+    #banner-tagline-container p {
+        text-align: center;
+    }
+    .banner-title {
+        text-align: center;
+    }
+}
+
+
+/* exposition */
+
+#scroll-arrow {
+    position: absolute;
+    left: 50%;
+    top: 2%;
+    transform: translate(-50%, -50%);
+    background: var(--bg-1);
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    border-radius: 40% 40% 0 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+    z-index: -1;
+    padding-bottom: 3.5em;
+}
+#scroll-arrow::before {
+    z-index: -1;
+    content: "";
+    position: absolute;
+    top: 23%;
+    right: 0;
+    left: -12px;
+    height: 15px;
+    background: radial-gradient(farthest-side at top left, transparent 98%, var(--bg-1) 100%) 0 / 15px no-repeat;
+}
+#scroll-arrow::after {
+    z-index: -1;
+    width: 100%;
+    content: "";
+    position: absolute;
+    top: 23%;
+    left: calc(100% - 3px);
+    right: 0;
+    height: 15px;
+    background: radial-gradient(farthest-side at top right, transparent 98%, var(--bg-1) 100%) 0 / 15px no-repeat;
+}
+#scroll-arrow i {
+    opacity: 50%;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+}
+
+#exposition-container {
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+    background: var(--bg-1);
+    filter: drop-shadow(0px 0px 15px var(--vitta-shadow-color));
+    border-radius: 4em 4em 4em 0;
+    position: relative;
+}
+
+#exposition-container>p {
+    width: 60%;
+    margin: 0 auto;
+}
+
+#exposition-container::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    height: 50px;
+    background:
+        radial-gradient(farthest-side at bottom right, transparent 98%, var(--bg-1) 100%) 0/50px no-repeat;
+}
+
+.exposition-flex{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    margin: auto;
+    padding: 4em 0;
+}
+.exposition-title{
+    text-align: start;
+    margin: 1em 0;
+    color: #C2403C;
+    font-weight: 800;
+    font-size: 2em;
+}
+.exposition-desc{
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    justify-content: start;
+    width: 50%;
+}
+.exposition-img {
+    border-radius: 1em;
+    width: 35%;
+}
+.exposition-img img {
+    width: 100%;
+    border-radius: 1em;
+}
+
+@media (max-width: 768px) {
+    .exposition-flex{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin: 0;
+        padding: 4em 0;
+    }
+    .exposition-title{
+        text-align: center;
+    }
+    .exposition-desc{
+        text-align: start;
+        width: 100%;
+        order:1;
+    }
+    .exposition-desc a{
+        align-self: center;
+        justify-self: center;
+    }
+    .exposition-img {
+        border-radius: 1em;
+        width: 50%;
+        order: 0;
+    }
+    #exposition-container>p {
+        width: 100%;
+        margin: 0 auto;
+    }
+    #scroll-arrow {
+        display: none;
+    }
+}
+
+@media (max-width: 1024px){
+    
+}
+
+/* experiment */
+
+#experiment-container {
+    padding: 4em 20px 2em 20px;
+    width: 100%;
+    text-align: center;
+    background: var(--bg-2);
+}
+#experiment-container>p {
+    width: 60%;
+    margin: 0 auto;
+}
+
+#experiment-container::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    height: 50px;
+    background:
+        radial-gradient(farthest-side at bottom right, transparent 98%, var(--bg-1) 100%) 0/50px no-repeat;
+}
+
+.experiment-title{
+    text-align: start;
+    margin: 1em 0;
+    color: #C2403C;
+    font-weight: 800;
+    font-size: 2em;
+}
+
+.experiment-flex{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    margin: auto;
+    padding: 4em 0;
+}
+.experiment-desc{
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    justify-content: start;
+    width: 50%;
+}
+.experiment-img {
+    border-radius: 1em;
+    width: 35%;
+}
+.experiment-img img {
+    width: 100%;
+    border-radius: 1em;
+}
+
+
+@media (max-width: 730px) {
+    .experiment-flex{
+        flex-direction: column;
+        width: 100%;
+        margin: 0;
+    }
+    .experiment-title{
+        text-align: center;
+    }
+    .experiment-desc{
+        text-align: start;
+        width: 100%;
+        order:1;
+    }
+    .experiment-desc a{
+        align-self: center;
+        justify-self: center;
+    }
+    .experiment-img {
+        border-radius: 1em;
+        width: 50%;
+        order: 0;
+    }
+    #experiment-container>p {
+        width: 100%;
+        margin: 0 auto;
+    }
+}
+
+/* about */
+
+#about-container::before {
+    content: "";
+    position: absolute;
+    top: -50px;
+    right: 0;
+    left: 0;
+    height: 50px;
+    background:
+        radial-gradient(farthest-side at top right, transparent 98%, var(--bg-1) 100%) 0/50px no-repeat;
+}
+
+#about-container::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    height: 50px;
+    background:
+        radial-gradient(farthest-side at bottom right, transparent 98%, var(--bg-1) 100%) 0/50px no-repeat;
+}
+
+#about-container {
+    background-color: var(--bg-1);
+    padding: 3rem 20px;
+    text-align: center;
+    border-radius: 0 4em 0em 0em;
+    filter: drop-shadow(0px 0px 15px var(--vitta-shadow-color));
+    margin-bottom: -5rem;
+
+}
+
+#about-container h2 {
+    text-align: center;
+    font-weight: 800;
+    color: #C2403C;
+    margin-bottom: 1em;
+}
+
+.about-img {
+    width: 300px;
+    height: 200px;
+    margin: 10px 20px;
+    display: inline-block;
+    object-fit: contain;
+}
+
+/* ia */
+#ia-container::before {
+    content: "";
+    position: absolute;
+    top: -48px;
+    right: 0;
+    left: calc(100% - 50px);
+    height: 50px;
+    background: radial-gradient(farthest-side at bottom left, transparent 98%, var(--bg-1) 100%) 0 / 50px no-repeat;
+}
+
+#ia-container {
+    background: var(--bg-2);
+    /* padding: 8em 0 2em 0; */
+    text-align: center;
+    position: relative;
+    margin-top: 8em;
+    padding: 20px;
+}
+#ia-container h1 {
+    text-align: start;
+    margin: 1em auto;
+    color: #C2403C;
+}
+
+.ia-flex{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    margin: auto;
+    padding: 4em 0;
+}
+.ia-desc{
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    justify-content: start;
+    width: 40%;
+}
+.ia-img {
+    border-radius: 1em;
+    width: 50%;
+}
+.ia-img img {
+    width: 100%;
+    border-radius: 1em;
+}
+
+@media (max-width: 730px) {
+
+    #ia-container>p {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .ia-flex{
+        flex-direction: column;
+        width: 100%;
+        margin: 0;
+    }
+    .ia-img {
+        border-radius: 1em;
+        width: 80%;
+        order: 0;
+    }
+    .ia-desc{
+        text-align: start;
+        width: 100%;
+        order:1;
+    }
+    .ia-desc a{
+        align-self: center;
+        justify-self: center;
+    }
+}

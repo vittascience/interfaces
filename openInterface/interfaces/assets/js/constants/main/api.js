@@ -1,0 +1,1 @@
+const APITIMEOUT = 2000; //in milliseconds

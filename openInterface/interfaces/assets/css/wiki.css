@@ -1,0 +1,353 @@
+body {
+    --_current-color: var(--vitta-grey);
+}
+
+#ide-absolute-container {
+    width: 100%;
+    background-color: var(--bg-2);
+}
+
+#previewBlocklyDiv {
+    display: none;
+}
+
+#wiki-title {
+    text-align: center;
+    font-weight: bolder;
+    padding-top: 70px;
+}
+
+#category-title>.svgIcon {
+    transform: translateY(10%);
+}
+
+#categories {
+    width: fit-content;
+}
+
+#category-selector {
+    display: flex;
+    align-items: center;
+}
+
+.separator {
+    border-top: 1px solid black;
+    margin: 10px 0;
+    width: 50%;
+}
+
+#wiki-container {
+    display: grid;
+    grid-template-columns: 255px 1fr;
+    position: absolute;
+    height: calc(100vh - var(--navbar-height));
+    overflow: hidden;
+    width: 100vw;
+}
+
+
+#wiki-container>#wiki-categories {
+    background-color: var(--bg-2);
+    border-inline-end: 1px solid var(--vitta-grey);
+    overflow: auto;
+}
+
+#wiki-container>#wiki-content {
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-inline: 2.5em;
+
+}
+
+#wiki-container>#wiki-content div.blocklyBlockCanvas {
+    max-width: 100%;
+}
+
+#radioContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-inline-end: rgba(128, 128, 128, 0.28) 3px solid;
+    padding-top: 0.5rem;
+    background-color: var(--bg-2);
+    overflow-y: auto;
+}
+
+#mobileSearch {
+    display: none;
+}
+
+@media (max-width: 992px) {
+
+    #wiki-content {
+        padding-top: 0.75rem;
+    }
+
+    #wiki-container>#wiki-content {
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-inline: 0.5em;
+    }
+
+    #mobileSearch {
+        display: block;
+        position: absolute;
+        top: 0.5rem;
+        left: 0.5rem;
+        z-index: 100;
+    }
+
+    #search-block {
+        padding-left: 4rem !important;
+    }
+
+    #wiki-container {
+        grid-template-columns: 1fr;
+    }
+
+    #radioContainer {
+        height: calc(100vh - var(--navbar-height));
+        border-inline-end: none;
+
+        width: 0;
+        position: fixed;
+        z-index: 50;
+        left: 0;
+
+        overflow-x: hidden;
+
+        padding: 0;
+        padding-top: 8rem;
+
+        transition: 0.3s;
+    }
+
+    #radioContainer.mobileDisplay {
+        width: 100%;
+        padding-top: 0.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    #wiki-title {
+        margin-top: 4rem;
+    }
+}
+
+#radioContainer .category {
+    --_color: var(--vitta-grey);
+    cursor: pointer;
+    width: 100%;
+    padding: 0.7rem 0.5rem;
+    margin-bottom: 0.1rem;
+    font-size: 20px;
+    font-weight: bold;
+    border-inline-start: 0.5rem solid var(--_color);
+    color: var(--_color);
+    font-family: var(--alt-font);
+}
+
+#radioContainer .category i {
+    display: inline-block;
+    margin-inline-end: 0.5rem;
+    height: 1.25rem;
+}
+
+#radioContainer .category i>svg {
+    height: 100%;
+    width: auto;
+}
+
+
+#radioContainer .category:hover {
+    background-color: var(--bg-3) !important;
+}
+
+#radioContainer .category input[type="radio"] {
+    display: none;
+}
+
+.category-selected {
+    background-color: var(--bg-4) !important;
+}
+
+#blocks {
+    height: 100%;
+}
+
+#blocks>* {
+    margin: -1px 0 0 0 !important;
+    border: 1px solid var(--vitta-grey);
+    padding: 1rem 2rem;
+
+}
+
+#blocks>*:first-child {
+    border-radius: 25px 25px 0 0;
+    margin-top: 1rem !important;
+}
+
+#blocks>*:last-child {
+    border-radius: 0 0 25px 25px;
+    margin-bottom: 1rem !important;
+}
+
+#blocks pre {
+    margin: 0;
+}
+
+#blocks .blocklyMainBackground {
+    stroke: none;
+}
+
+#blocks svg g g g {
+    stroke-width: 2px;
+}
+
+.blocklyBlockCanvas * {
+    background: transparent !important;
+}
+
+.block-container-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.block-container-row .blocklyBlockCanvas {
+    width: 100%;
+    order: 2;
+    flex-grow: 1;
+}
+
+.btn-download-block,
+.btn-copy {
+
+    --bs-btn-color: var(--vitta-orange-light);
+    --bs-btn-bg: var(--bg-3);
+    --bs-btn-border-color: var(--bg-3);
+
+    --bs-btn-hover-color: var(--vitta-orange-light);
+    --bs-btn-hover-bg: var(--bg-4);
+    --bs-btn-hover-border-color: var(--bg-4);
+
+    --bs-btn-active-color: var(--vitta-orange-light);
+    --bs-btn-active-bg: var(--bg-4);
+    --bs-btn-active-border-color: var(--bg-4);
+
+    --bs-btn-disabled-color: var(--vitta-orange-light);
+    --bs-btn-disabled-bg: var(--bg-3);
+    --bs-btn-disabled-border-color: var(--bg-3);
+}
+
+.btn-copy {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+
+    --bs-btn-border-color: var(--vitta-orange-light);
+    --bs-btn-hover-border-color: var(--vitta-orange-light);
+    --bs-btn-active-border-color: var(--vitta-orange-light);
+    --bs-btn-disabled-border-color: var(--vitta-orange-light);
+}
+
+.btn-copy i {
+    font-family: "Font Awesome 6 Free", sans-serif !important;
+}
+
+.svgIcon {
+    display: inline-flex !important;
+    align-items: center;
+    --size: 1.2em;
+    width: var(--size);
+    height: var(--size);
+    transform: translateY(25%);
+}
+
+.code-container {
+    border: 1px solid var(--vitta-grey);
+    display: block;
+    border-radius: 0.25rem;
+    position: relative;
+    direction: ltr;
+    overflow: hidden;
+}
+
+.toolbox-separator {
+    margin: 0.5rem;
+    width: 90%;
+}
+
+.global-overlay {
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 100vw;
+    max-width: 100%;
+    height: 100vh;
+    max-height: 100%;
+    background-color: #000;
+    opacity: 0.5;
+    display: none;
+    z-index: 1050;
+}
+
+.progress-bar-area {
+    background-color: var(--bg-0);
+    border-radius: 1.5em;
+    padding: 0 0.5em 0.5em 0.5em;
+    opacity: 0.7;
+}
+
+.progress-bar-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1051;
+    display: none;
+}
+
+.progress-bar-description {
+    text-align: center;
+    font-weight: 700;
+    margin: 0.2em 0em;
+}
+
+.progress-bar-wrapper {
+    width: 50vw;
+    height: 5vh;
+    background-color: var(--bg-3);
+    border: 2px solid var(--bg-5);
+    border-radius: 256px;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar-wiki {
+    height: 5vh;
+    background-color: var(--vitta-green-dark);
+    border-radius: 5vh;
+    width: 0%;
+    position: absolute;
+    top: -2px;
+    text-align: center;
+    line-height: 5vh;
+    color: var(--bg-0);
+    font-size: 1.5rem;
+    font-weight: 600;
+    overflow: hidden;
+    transition: transform 0.2s linear;
+}
+
+.vitta-blocker-overlay-content {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: unset !important;
+}
+
+.vitta-blocker-overlay-content>img {
+    width: 600px !important;
+    height: auto !important;
+}

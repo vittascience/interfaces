@@ -1,0 +1,23 @@
+.ide-dropdown-files {
+    display: none;
+}
+
+button[onclick="createExercise()"] {
+    display: none;
+}
+
+#i18n-setting {
+    display: none;
+}
+
+#addblock-setting {
+    display: none;
+}
+
+.hidden-capytale {
+    display: none;
+}
+
+#modal-blockly-knowmore {
+    display: none;
+}

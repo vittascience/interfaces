@@ -1,0 +1,33 @@
+.blocklyToolboxCategory[aria-expanded="false"],
+.blocklyToolboxCategory[aria-expanded="true"],
+.blocklyToolboxCategory[aria-expanded="undefined"] {
+  position: relative;
+}
+
+.blocklyToolboxCategory[aria-expanded="false"]>.blocklyTreeRow::after,
+.blocklyToolboxCategory[aria-expanded="true"]>.blocklyTreeRow::after,
+.blocklyToolboxCategory[aria-expanded="undefined"]>.blocklyTreeRow::after {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f078";
+  font-size: 0.8em;
+  
+  color: var(--text-1);
+  padding-right: 0.5em;
+  transform: rotate(270deg);
+  transition: transform 0.2s ease;
+  
+  position: absolute;
+  right: 0.1em;
+  top: 1em;
+
+  display: flex;
+  align-items: center;
+  
+  height: 1em;
+  width: 1em;
+}
+
+.blocklyToolboxCategory[aria-expanded="true"]>.blocklyTreeRow::after {
+  transform: rotate(360deg);
+}

@@ -1,0 +1,137 @@
+    <div id="ide">
+        <nav class="ide-navbar">
+            <div class="ide-btn-group ide-btn-group-revert hide-vsm hidden" id="code-buttons-panel"></div>
+
+            <div class="ide-btn-group ide-btn-group-check hidden" id="execution-buttons-panel" style="margin: auto;"></div>
+
+            <div class="fullscreen-btn-panel"></div>
+
+            <div class="ide-dropdown ide-dropdown-always">
+                <button class="ide-btn ide-btn-toggle ide-btn-alone" data-i18n="[title]code.topbar.tooltips.consoleSettings" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-cog"></i></button>
+                <div class="ide-btn-group ide-btn-group-settings hidden"></div>
+            </div>
+
+            <div class="ide-dropdown ide-dropdown-modes">
+                <a class="ide-btn ide-btn-toggle ide-btn-alone ide-btn-mode">
+                    <i class="far fa-object-ungroup"></i>
+                </a>
+
+                <div class="ide-btn-group ide-btn-group-mode hidden"></div>
+            </div>
+
+            <div id="preview-btn-panel">
+                <!-- run simulator -->
+                <button class="ide-btn ide-btn-alone" id="show_preview" data-toggle="tooltip" data-i18n="[title]code.topbar.tooltips.openPreview">
+                    <i class="fas fa-play"></i>
+                </button>
+            </div>
+        </nav>
+
+        <div id="ide-content" style="width: 100%; height: 100%;">
+            <div id="previewBlocklyDiv" style="display: none; visibility: 'hidden';"></div>
+            <div class="ide-base" style="flex-direction: row; width: 100%;">
+                <div id="ideLeft">
+                    <div id="ideHtml" class="ps-0 d-flex flex-even">
+                        <div id="ide-editor" class="flex-row flex-fill d-flex">
+
+                            <div id="content_blocks" class="ide-block h-100 blocklyDiv" style="width: 100%">
+                            </div>
+
+                            <div id="generator" class="ide-generator" style="position: relative; width: 40%;">
+                                <div id="content_code"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="executeRight" class="d-none">
+                    <div class="ide-section-header">
+                        <button id="resfresh-preview-btn">
+                            <i class="fas fa-redo-alt"></i>
+                        </button>
+                        <input type="text" id="fake-url-field" disabled>
+                        <button id="fullscreen-preview-btn">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                        </button>
+
+                    </div>
+                    <div id=webWindow>
+                        <iframe id="hcjPreview">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    if(window.self !== window.top) {
+        $('#main-navbar, #navbar-padding').height(0);
+        $('#main-navbar, #navbar-padding').hide();
+    }
+</script>
+<!-- ide-absolute-container div -->
+<!--  -->
+
+<script src="/openInterface/interfaces/assets/js/external/jquery.blockUI-2.70.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/jquery-ui-1.12.1.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/modals/options.js"></script>
+<script src="/openInterface/env.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/interact-1.5.4.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/rotate.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/file-input/js/fileinput.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/blockly_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/utils/jsonPath.js"></script>
+<script src="/interfaces/assets/js/utils/url.js"></script>
+<script src="/openInterface/interfaces/assets/js/styling/accessibility.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/Button.js"></script>
+<script src="/openInterface/web/assets/js/constants/main/buttons.js"></script>
+<script src="/openInterface/web/assets/js/constants/toolbox/styles.js"></script>
+<script src="/openInterface/web/assets/js/constants/toolbox/vittascience.js"></script>
+<script src="/openInterface/web/assets/js/constants/toolbox/blockDB.js"></script>
+<script src="/openInterface/web/assets/js/constants/main/init.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/ToolboxManager.js"></script>
+<script type="module" src="/openInterface/interfaces/assets/js/external/blockly/extensions/backpack/index.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/Main.js"></script>
+<script src="/interfaces/assets/js/constants/main/errors.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/modal.js" type="module"></script>
+<script src="/openInterface/interfaces/assets/js/constants/main/interface.js"></script>
+<script src="/openInterface/web/assets/js/constants/main/interface.js"></script>
+<script src="/public/js/utils/translate.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/modals/buttons.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/modals/generalModals.js"></script>
+<script src="/openInterface/web/assets/js/external/ace/ace.js"></script>
+<script src="/openInterface/web/assets/js/external/ace/ext-language_tools.js"></script>
+<script src="/openInterface/web/assets/js/external/ace/mode-html.js"></script>
+<script src="/openInterface/web/assets/js/external/blockly/blocks_compressed.js"></script>
+<script src="/openInterface/web/assets/js/external/blockly/javascript_compressed.js"></script>
+<script src="/openInterface/web/assets/js/blocks/definitions/constants.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/js-beautify.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/jszip.js"></script>
+
+<!-- Trad html/css -->
+<script src="/openInterface/web/assets/js/blocks/codeToBlocks.js"></script>
+<!-- Trad JS  -->
+<script src="/openInterface/web/assets/js/blocks/js2blocks.js" type="module"></script>
+
+
+<script src="/openInterface/web/assets/js/blocks/definitions/html.js"></script>
+<script src="/openInterface/web/assets/js/blocks/definitions/css.js"></script>
+<script src="/openInterface/web/assets/js/blocks/definitions/javascript.js"></script>
+
+<script src="/openInterface/web/assets/js/blocks/generators/html.js"></script>
+<script src="/openInterface/web/assets/js/blocks/generators/javascript.js"></script>
+<script src="/openInterface/web/assets/js/blocks/generators/helpers.js"></script>
+
+<script src="/openInterface/web/assets/js/external/blockly/acorn_interpreter.js"></script>
+<script src="/openInterface/interfaces/assets/js/themes/themes.js"></script>
+<script src="/interfaces/assets/js/utils/url.js"></script>
+<script src="/openInterface/interfaces/assets/js/events/footer.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/InterfaceInit.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/Loader.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/UIManager.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/CodeManager.js"></script>
+<script src="/openInterface/web/assets/js/events/webLoader.js" type="module"></script>
+<script src="/openInterface/web/assets/js/events/WebImportFileManager.js" type="module"></script>
+<script src="/openInterface/interfaces/assets/js/events/load.js"></script>
+<script src="/openInterface/interfaces/assets/js/utils/misc.js"></script>

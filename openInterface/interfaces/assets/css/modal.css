@@ -1,0 +1,384 @@
+.vitta-modal {
+    width: calc(100% - 3em);
+    min-width: 100px;
+    max-width: 1200px;
+
+    height: auto;
+    max-height: calc(100% - 20vh);
+
+    display: none;
+    padding: 20px;
+
+    background: var(--bg-1);
+    filter: drop-shadow(0 0 3px var(--vitta-shadow-color));
+    border-radius: 20px;
+
+    z-index: 1000;
+
+    overflow-y: auto;
+    flex-direction: column;
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    margin: 15vh auto;
+
+    font-family: var(--main-font) !important;
+    overflow: visible;
+
+}
+
+.vitta-modal.vitta-modal-warning .modal-content-div {
+    background-color: var(--bg-1);
+    border-color: var(--bg-2);
+    padding: 0.75rem 1.25rem;
+    border-radius: 10px;
+}
+
+@media (max-width: 800px) {
+    .vitta-modal button {
+        white-space: normal;
+    }
+}
+
+.vitta-modal-warning {
+    z-index: 2000 !important;
+}
+
+@media (min-width: 600px) {
+
+    .vitta-modal-warning,
+    #modal-codeOnly,
+    #modal-codeOnly-info,
+    #modal-microbit-bluetooth-pairing {
+        width: 50%;
+    }
+}
+
+.vitta-modal-tall {
+    margin-top: 10vh;
+    margin-top: 10dvh;
+    max-height: calc(100vh - 15vh);
+    max-height: calc(100dvh - 15dvh);
+    height: auto;
+}
+
+.vitta-modal-content-container {
+    height: 100%;
+    max-height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    /* in case the content overflows and the vitta-modal-content doesn't catch it*/
+    overflow-y: auto;
+}
+
+.vitta-modal-header {
+    width: 100%;
+    display: block;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.vitta-modal-title {
+    font-size: 20px;
+    color: var(--vitta-green);
+    align-items: center;
+    font-weight: bold;
+}
+
+.vitta-modal-title span {
+    margin-inline-start: 5px;
+}
+
+.vitta-modal-content {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.vitta-modal-footer {
+    display: block;
+    margin-top: 0.5rem;
+    flex-shrink: 0;
+}
+
+.vitta-btn {
+    width: auto;
+    height: auto;
+    background-color: var(--bg-3);
+    border: 1px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.vitta-modal-exit-btn {
+    height: 35px;
+    width: 35px;
+
+    position: absolute;
+    right: 0%;
+    top: 0%;
+    transform: translate(35%, -35%);
+    line-height: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+
+    --bs-btn-padding-x: 0.15em;
+    --bs-btn-padding-x: 0.15em;
+    --bs-btn-focus-box-shadow: 0px 0px 10px var(--vitta-blue);
+    --bs-btn-border-radius: 50%;
+
+    --bs-btn-color: var(--text-1);
+    --bs-btn-bg: var(--bg-1);
+    --bs-btn-border-color: transparent;
+
+    --bs-btn-hover-color: var(--text-1);
+    --bs-btn-hover-bg: var(--bg-3);
+    --bs-btn-hover-border-color: transparent;
+
+    --bs-btn-active-color: var(--text-2);
+    --bs-btn-active-bg: var(--bg-3);
+    --bs-btn-active-border-color: transparent;
+}
+
+.vitta-btn:hover {
+    background-color: var(--vitta-red) !important;
+}
+
+.modal-footer-div {
+    width: 100%;
+    display: flex;
+}
+
+.modal-content-div {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.modal-message-noUser {
+    text-align: center;
+    width: 100%;
+}
+
+/* Custom rules */
+/* Precise the modal affected like followed */
+
+div#modal-openproject .vitta-modal-content {
+    height: 100%;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+div#modal-openproject .modal-content-div {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    max-height: 100%;
+    flex-grow: 1;
+
+}
+
+div#modal-openproject .modal-content-div>*:not(#projects-tree) {
+    flex-shrink: 0;
+}
+
+div#modal-openproject .modal-content-div>#projects-tree {
+    padding: 15px 20px;
+    background-color: var(--bg-1);
+    border-radius: 10px;
+
+    overflow: auto;
+    height: auto;
+    flex-direction: column;
+    flex-shrink: 1;
+}
+
+div#modal-openproject .vitta-modal-footer .file-input,
+div#modal-openproject .vitta-modal-footer .file-preview {
+    display: flex;
+    flex-direction: column;
+}
+
+div#modal-openproject .vitta-modal-footer .modal-footer-div {
+    flex-direction: column;
+}
+
+div#modal-openproject .vitta-modal-footer .modal-footer-div .file-preview {
+    background-color: var(--bg-1);
+    border-radius: 10px !important;
+}
+
+div#modal-shareproject .tab-pane {
+    background-color: var(--bg-1);
+    border: 1px solid var(--text-0);
+    border-radius: 0 10px 10px 10px;
+    padding: 1em 2em;
+}
+
+div#modal-shareproject .nav-tabs {
+    border-bottom: 0 !important;
+}
+
+div#modal-shareproject #modal-shareproject-options-title b i {
+    transition: all 0.8s
+}
+
+div#modal-shareproject #modal-shareproject-options-title[aria-expanded='false'] b i {
+    transform: rotate(-90deg);
+}
+
+div#modal-gpsmap {
+    height: 70vh;
+}
+
+.caret-circle {
+    width: 25px;
+    height: 25px;
+    background-color: var(--bg-2);
+    border-radius: 50%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.caret-title {
+    font-size: 0.8rem;
+    vertical-align: sub;
+}
+
+p[aria-expanded='true'] .caret-title {
+    transition-duration: 0.8s;
+    transform: rotate(90deg);
+}
+
+#modal-ch340-driver {
+    max-width: 40vw;
+}
+
+.modal-ch340-driver-tutorial {
+    margin-top: -100px;
+}
+
+.modal-ch340-driver-img {
+    max-width: 100%;
+    height: auto;
+}
+
+.modal-settings-auto-scroll {
+    display: flex;
+    align-items: center;
+}
+
+#modal-thymio-select {
+    max-width: 400px;
+}
+
+.local-compilation-download-area {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin: 0em 0em 1em 0em;
+    height: 2em;
+}
+
+.compilation-progress-bar-wrapper {
+    position: relative;
+	width: 50%;
+	height: 2em;
+	background-color: var(--bg-3);
+	border: 2px solid var(--bg-5);
+	border-radius: 256px;
+    overflow: hidden;
+}
+
+.compilation-progress-bar {
+    width: 100%;
+	height: 2em;
+	background-color: var(--vitta-green-dark);
+	border-radius: 2em;
+	position: absolute;
+	top: -2px;
+	text-align: center;
+	line-height: 2em;
+	color: var(--bg-0);
+	font-size: 1rem;
+	font-weight: 600;
+    transform-origin: left;
+	transition: transform 0.2s linear;
+}
+
+.local-compilation-spinner {
+    width: 2rem;
+}
+
+.local-compilation-loading-area {
+    display: flex;
+    align-items: center;
+    min-height: 2rem;
+    margin: 0em 0em 1em 0em;
+}
+
+.local-compilation-compilation-area {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin: 0em 0em 1em 0em;
+    height: 2em;
+}
+
+.local-compilation-info {
+    width: 100%;
+    justify-content: left;
+    align-items: center;
+    display: none;
+}
+
+.compilation-progress-label {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-weight: 600;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.local-compilation-compilation-done {
+    display: none;
+}
+
+@media (max-width: 1000px) {
+    div#modal-blocklysettings {
+        width: 80%;
+    }
+}
+
+@media (max-width: 850px) {
+    div#modal-blocklysettings {
+        width: 90%;
+    }
+}
+
+@media (max-width: 769px) {
+
+    div#modal-blocklysettings #blocks-settings-style,
+    div#modal-blocklysettings #blocks-settings-font,
+    div#modal-blocklysettings #toolbox-settings {
+        padding-top: 10px;
+    }
+}

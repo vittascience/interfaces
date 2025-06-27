@@ -1,0 +1,506 @@
+@import url('../../../interfaces/assets/css/simulator-modules.css');
+@import url('../../../interfaces/assets/css/simulator-robot.css');
+
+#mb_gesture_list {
+	border-style: solid;
+	border-width: 1px;
+	border-color: var(--text-0);
+	min-height: 1em;
+}
+
+.mb_current_gesture {
+	border-color: var(--vitta-red);
+	margin: 1em;
+}
+
+@keyframes shake {
+	0% {
+		transform: scale(1, 1);
+	}
+
+	50% {
+		transform: scale(0.8, 0.8);
+	}
+
+	100% {
+		transform: scale(1, 1);
+	}
+}
+
+.mb_active_gesture_down {
+	transform: rotate(180deg);
+}
+
+.mb-gesture-left_active,
+.mb-gesture-right_active {
+	-webkit-transform: rotateY(80deg);
+	transform: rotateY(80deg);
+}
+
+.mb-gesture-facedown_active {
+	-webkit-transform: rotateY(180deg);
+	transform: rotateY(180deg);
+}
+
+.mb-gesture-freefall_active {
+	transform: scale(0.2, 0.2);
+}
+
+.mb-gesture-shake_active {
+	animation-name: shake;
+	animation-duration: 0.3s;
+	animation-iteration-count: infinite;
+}
+
+.mb-gesture-3g_active {
+	animation-name: shake;
+	animation-duration: 0.5s;
+}
+
+.mb-gesture-6g_active {
+	animation-name: shake;
+	animation-duration: 0.3s;
+}
+
+.mb-gesture-8g_active {
+	animation-name: shake;
+	animation-duration: 0.1s;
+}
+
+#mb-gesture-shake_anim,
+#mb-gesture-up_anim,
+#mb-gesture-down_anim,
+#mb-gesture-left_anim,
+#mb-gesture-right_anim,
+#mb-gesture-faceup_anim,
+#mb-gesture-facedown_anim,
+#mb-gesture-freefall_anim,
+#mb-gesture-3g_anim,
+#mb-gesture-6g_anim,
+#mb-gesture-8g_anim {
+	bottom: 6px;
+}
+
+#mb-accelerometer-pitch_anim,
+#mb-accelerometer-roll_anim {
+	bottom: -5px;
+}
+
+#mb-compassDir_anim {
+	z-index: 1;
+	width: 7%;
+	height: auto;
+	left: 27px;
+	top: -8px;
+	transform-origin: bottom center;
+}
+
+.mb-micro_base {
+	width: 45px;
+}
+
+.mb-micro {
+	z-index: 1;
+	opacity: 0;
+}
+
+/* Cutebot Pro neopixel */
+.simulator-module.neopixel_15_module .module-body,
+.simulator-module.neopixel_15-color_module .module-body {
+	align-items: center;
+}
+
+.neopixel_15_module>.body-output>.module-value,
+.neopixel_15-color_module>.body-output>.module-value {
+	width: 100%;
+}
+
+.neopixel_15_value_text,
+.neopixel_15-color_value_text {
+	display: inline-block;
+	width: 233px;
+}
+
+.neopixel_15_value_text .row,
+.neopixel_15-color_value_text .row {
+	margin: 0 auto;
+	justify-content: center;
+	align-items: center;
+}
+
+.mb-maqueen-motorLeft,
+.mb-maqueen-motorRight,
+.mb-kitrobot-motorLeft,
+.mb-kitrobot-motorRight,
+.mb-bitcar-motorLeft,
+.mb-bitcar-motorRight,
+.mb-cutebot-motorLeft,
+.mb-cutebot-motorRight,
+.mb-cutebotpro-motorLeft,
+.mb-cutebotpro-motorRight,
+.mb-maqueenplus-motorLeft,
+.mb-maqueenplus-motorRight,
+.mb-codo-motorLeft,
+.mb-codo-motorRight,
+.mb-oobybot-motorLeft,
+.mb-oobybot-motorRight,
+.mb-buggy-motorLeft,
+.mb-buggy-motorRight,
+.mb-bitbot-motorLeft,
+.mb-bitbot-motorRight {
+	z-index: 1;
+	top: -1px;
+	left: 2px;
+}
+
+.mb-maqueen-motorLeft_base,
+.mb-kitrobot-motorLeft_base,
+.mb-cutebot-motorLeft_base,
+.mb-cutebotpro-motorLeft_base,
+.mb-maqueenplus-motorLeft_base,
+.mb-codo-motorLeft_base,
+.mb-oobybot-motorLeft_base,
+.mb-buggy-motorLeft_base,
+.mb-bitbot-motorLeft_base {
+	z-index: 2;
+	opacity: 0.9;
+}
+
+.mb-maqueen-motorLeft_base,
+.mb-maqueen-motorRight_base,
+.mb-kitrobot-motorLeft_base,
+.mb-kitrobot-motorRight_base,
+.mb-cutebot-motorLeft_base,
+.mb-cutebot-motorRight_base,
+.mb-cutebotpro-motorLeft_base,
+.mb-cutebotpro-motorRight_base,
+.mb-maqueenplus-motorLeft_base,
+.mb-maqueenplus-motorRight_base,
+.mb-codo-motorLeft_base,
+.mb-codo-motorRight_base,
+.mb-oobybot-motorLeft_base,
+.mb-oobybot-motorRight_base,
+.mb-buggy-motorLeft_base,
+.mb-buggy-motorRight_base,
+.mb-bitbot-motorLeft_base,
+.mb-bitbot-motorRight_base {
+	bottom: 0px;
+	left: 16px;
+}
+
+.mb-buzzer,
+.mb-maqueen-buzzer,
+.mb-maqueenplus-buzzer,
+.mb-cutebot-buzzer {
+	z-index: 1;
+	animation: shake 2s cubic-bezier(.36, .07, .19, .97) infinite;
+	bottom: -6px;
+	left: -9px;
+	width: 80px;
+	height: auto;
+	max-height: none !important;
+	opacity: 0;
+}
+
+.mb-trafficLight_base {
+	top: -10px;
+	height: 300px;
+	width: 35px;
+}
+
+#mb-trafficLight-red {
+	top: -6px;
+}
+
+#mb-trafficLight-orange {
+	top: 3px;
+}
+
+#mb-trafficLight-green {
+	top: 10px;
+}
+
+#mb-trafficLight-red,
+#mb-trafficLight-orange,
+#mb-trafficLight-green {
+	left: 13px;
+	width: 10px;
+	height: 10px;
+	position: relative;
+}
+
+.mb-trafficLight-red_anim {
+	background-color: rgb(255, 0, 0);
+}
+
+.mb-trafficLight-orange_anim {
+	background-color: rgb(255, 166, 0);
+}
+
+.mb-trafficLight-green_anim {
+	background-color: rgb(0, 255, 0);
+}
+
+.mb-trafficLight-red_anim,
+.mb-trafficLight-orange_anim,
+.mb-trafficLight-green_anim {
+	filter: blur(1px);
+	opacity: 1;
+	transform-box: fill-box;
+	transform-origin: 50% 50% 0px;
+	transform: scale(1.2);
+	border-radius: 3px;
+}
+
+.mb-gamepad-led,
+.mb-gamepad-v4-led,
+.mb-gamepad-vibration {
+	z-index: 1;
+	bottom: 12px;
+	left: -6px;
+	opacity: 0;
+}
+
+.mb-gamepad-v4-vibration {
+	z-index: 1;
+	animation: vibrate 0.2s infinite;
+	bottom: -6px;
+	left: -10px;
+	width: 80px;
+	height: auto;
+	max-height: none !important;
+	opacity: 0;
+}
+
+.tcs3472-led {
+	z-index: 1;
+	bottom: 12px;
+	left: -6px;
+	opacity: 0;
+}
+
+.tcs3472-rgb_module .module-value {
+	display: flex;
+}
+
+.tcs3472-rgb_base {
+	width: 35px;
+	left: unset;
+}
+
+/* Grove specific */
+
+#oled_value {
+	width: 144px;
+	background-color: white;
+	border: 1px rgb(192, 193, 192) solid;
+	outline: 4px solid rgb(239, 239, 239);
+	height: 76px;
+	margin-bottom: 3px;
+	padding: 5px;
+	margin-left: 40px;
+}
+
+.oled_value_text {
+	display: inline-block;
+	width: 230px;
+}
+
+.oled_value_text .row {
+	margin: 0 auto;
+	justify-content: center;
+}
+
+.oled-block {
+	height: 1px;
+	width: 1px;
+	padding: 1px;
+}
+
+.global-overlay {
+	top: 0;
+	left: 0;
+	position: absolute;
+	width: 100vw;
+	max-width: 100%;
+	height: 100vh;
+	max-height: 100%;
+	background-color: #000;
+	opacity: 0.5;
+	display: none;
+	z-index: 1050;
+}
+
+.progress-bar-area {
+	background-color: var(--bg-0);
+	border-radius: 1.5em;
+	padding: 0 0.5em 0.5em 0.5em;
+	opacity: 0.7;
+}
+
+.progress-bar-container {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 1051;
+	display: none;
+}
+
+.progress-bar-description {
+	text-align: center;
+	font-weight: 700;
+	margin: 0.2em 0em;
+}
+
+.progress-bar-wrapper {
+	width: 50vw;
+	height: 5vh;
+	background-color: var(--bg-3);
+	border: 2px solid var(--bg-5);
+	border-radius: 256px;
+	position: relative;
+	overflow: hidden;
+}
+
+.progress-bar-mb {
+	height: 5vh;
+	background-color: var(--vitta-green-dark);
+	border-radius: 5vh;
+	width: 0%;
+	position: absolute;
+	top: -2px;
+	text-align: center;
+	line-height: 5vh;
+	color: var(--bg-0);
+	font-size: 1.5rem;
+	font-weight: 600;
+	overflow: hidden;
+	transition: transform 0.2s linear;
+}
+
+.button-download-log {
+	position: absolute;
+	top: 0px;
+	right: -90px;
+	z-index: 100;
+	border: none;
+	border-radius: 10px;
+	background-color: var(--vitta-green);
+	color: white;
+	transition: all 0.2s ease-in-out;
+
+	&:hover {
+		background-color: var(--vitta-green-dark);
+		transition: all 0.2s ease-in-out;
+
+	}
+}
+
+#mb-log_anim {
+	position: absolute;
+	top: -13px;
+	left: 0px;
+	z-index: 10;
+	transition: all 0.1s ease-in-out;
+}
+
+/* logData  */
+.log-data-bb {
+	display: flex;
+}
+
+.log-data-bb>*+* {
+	margin-left: 10px;
+}
+
+.log-data-bb button {
+	height: 50px;
+	border-radius: 20px;
+	background-color: black;
+	color: white;
+	font-size: 24px;
+
+	&:hover {
+		background-color: white;
+		color: black;
+	}
+}
+
+.log-data-table {
+	border-collapse: collapse;
+	margin-top: 1em;
+	text-align: right;
+}
+
+.log-data-table tr:first-child {
+	font-weight: 700;
+}
+
+.log-data-table tr:nth-child(even) {
+	background: #f2f2f2;
+}
+
+.log-data-table td {
+	border: 1px solid #ddd;
+	padding: 8px;
+	min-width: 8ch;
+}
+
+.tello-altitude {
+	z-index: 2;
+	bottom: 0px;
+	left: 2px;
+}
+
+.tello-altitude_base {
+	z-index: 1;
+	opacity: 0.9;
+}
+
+#tello-altitude_slider_d>.ui-state-default {
+	bottom: 3%;
+}
+
+#tello-altitude_value_d {
+	width: 3.5ch;
+	text-align: end;
+	position: relative;
+}
+
+/* HuskyLens */
+#huskylens>div.module-body.body-output>div.module-value {
+	text-align: center;
+}
+
+/* Bluetooth authentification */
+#popup_bt_auth {
+  padding: 1.5em;
+  display: none;
+  background: var(--bg-2);
+  z-index: 1001;
+  border-radius: 0.75rem;
+  box-shadow: 0 0 0.25rem rgb(27 27 27 / 14%);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#auth_led_matrix {
+  border: solid var(--bg-5) 2px;
+  background: var(--bg-3);
+  width: 270px;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+#popup_bt_auth #mb_matrix {
+  padding: 5px;
+  background-color: transparent;
+  display: block;
+}
+
+.bt-auth-margin {
+	margin-bottom: 20px;
+}

@@ -1,0 +1,158 @@
+/* ---- grid ---- */
+* {
+  box-sizing: border-box;
+}
+
+.grid {
+}
+
+/* clear fix */
+.grid:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+/* ---- .grid-item ---- */
+
+.grid-sizer,
+.grid-item {
+  width: 33.333%;
+  padding: 5px;
+}
+
+@media(max-width:600px) {
+
+  .grid-sizer,
+  .grid-item {
+    width: 100%;
+  }
+}
+
+.grid-item-content {
+  background-color: #ececec;
+  width: 90%;
+  height: 90%;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.grid-item {
+  float: left;
+}
+
+.grid-item img {
+  display: block;
+  width: 100%;
+  border-radius: 10px;
+}
+
+
+/* ---- .grid-item ---- */
+
+
+
+.hovereffect:hover img {
+  /* background: rgb(163, 163, 163); */
+  background:black;
+}
+
+.grid-item img:hover {
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+  /* For IE8 and earlier */
+}
+
+.captiontext,
+.figure {
+  display: inherit;
+  top: 0;
+  text-align: center;
+  display: block;
+}
+
+
+/* ---- ----- ---- ---- -- --- --- --- */
+.hovereffect {
+  width: 100%;
+  height: 100%;
+  float: left;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  cursor: default;
+}
+
+.hovereffect .overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  filter: alpha(opacity=0);
+  padding: 5px;
+  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+  cursor: pointer;
+}
+
+.hovereffect img {
+  display: block;
+  position: relative;
+  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
+
+
+.hovereffect a.info:hover {
+  box-shadow: 0 0 5px #fff;
+}
+
+.hovereffect:hover .overlay {
+  opacity: 1;
+  filter: alpha(opacity=30);
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color:#f3f3f3;
+}
+
+.hovereffect:hover img {
+  transform: scale(1.2);
+}
+
+.likes-overlay {
+  display: flex;
+}
+
+.side-btn {
+    height: 100%;
+    font-size: 5vw;
+    color:white;
+    text-align: center;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.overlay-content {
+  display:flex;
+  flex-direction:row;
+  position: relative;
+  align-items: center;
+  width:100%;
+  height:100%;
+}

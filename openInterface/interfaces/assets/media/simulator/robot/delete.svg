@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 30 30">
+  <g id="delete" transform="translate(-1705 -673)">
+    <g id="Ellipse_777" data-name="Ellipse 777" transform="translate(1705 673)" fill="#fff" stroke="#000" stroke-width="0.25">
+      <circle cx="15" cy="15" r="15" stroke="none"/>
+      <circle cx="15" cy="15" r="14.875" fill="none"/>
+    </g>
+    <g id="icon-close" transform="translate(1712 680)">
+      <rect id="Boundary" width="16" height="16" fill="none"/>
+      <path id="icon-close-2" data-name="icon-close" d="M227.882,118.151a2.027,2.027,0,0,1-1.433-3.46l4.538-4.539-4.061-4.062a2.027,2.027,0,0,1,2.866-2.866l4.061,4.061,4.538-4.539a2.027,2.027,0,0,1,2.867,2.866l-4.539,4.54,4.061,4.062a2.027,2.027,0,0,1-2.867,2.866l-4.061-4.062-4.539,4.539A2.021,2.021,0,0,1,227.882,118.151Z" transform="translate(-225.854 -102.151)"/>
+    </g>
+  </g>
+</svg>

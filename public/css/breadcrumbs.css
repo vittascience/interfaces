@@ -1,0 +1,62 @@
+
+.vitta-breadcrumb-list {
+    width: max-content;
+    list-style: none;
+    overflow: hidden;
+
+    padding: 0px;
+    margin: 0px;
+
+    background: transparent;
+    width: auto;
+
+    font-weight: 700;
+}
+
+.vitta-breadcrumb-list li {
+    float: left;
+}
+
+.vitta-breadcrumb-list li a,
+.vitta-breadcrumb-list li span {
+    color: var(--text-3);
+    text-decoration: none;
+    padding: 5px 10px;
+
+    position: relative;
+    display: block;
+    float: left;
+}
+.vitta-breadcrumb-list li:last-child span {
+    color: var(--vitta-green);
+}
+
+.vitta-breadcrumb-list li a:after {
+    font-family: "Font Awesome 5 Free";
+    margin-left: 1em;
+    content: "\f054";
+    font-weight: 900;
+    color: #cccccc;
+}
+
+.vitta-breadcrumb-list li:last-child span:after {
+    display: none;
+}
+
+div.vitta-breadcrumb-current {
+    border: 2px solid var(--vitta-green);
+    left: -3em;
+    background: var(--bg-1);
+    position: relative;
+    border-radius: 256px;
+
+}
+
+div.vitta-breadcrumb-current span {
+    color: var(--vitta-green);
+    font-weight: 700;
+
+    text-decoration: none;
+    padding: 5px 10px;
+    display: block;
+}

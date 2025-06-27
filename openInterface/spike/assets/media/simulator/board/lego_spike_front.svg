@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Calque_2"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 187.14 131.49">
+    <defs>
+        <style>.cls-1{mask:url(#mask);}.cls-2{filter:url(#luminosity-noclip);}.cls-3{fill:#c7c7c7;}.cls-4{fill:#fff;}.cls-5{fill:#facd60;}.cls-6{fill:#07cacc;}.cls-7{fill:#949494;}</style>
+        <filter id="luminosity-noclip" x="84.44" y="104.49" width="18" height="27" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+            <feFlood flood-color="#fff" result="bg"/>
+            <feBlend in="SourceGraphic" in2="bg"/>
+        </filter>
+        <mask id="mask" x="84.44" y="104.49" width="18" height="27" maskUnits="userSpaceOnUse">
+            <g class="cls-2">
+                <image width="18" height="27" transform="translate(84.44 104.49)" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAbCAYAAABxwd+fAAAACXBIWXMAAAsSAAALEgHS3X78AAACK0lEQVQ4jc3VXWujQBiG4dvv6ERCk3jSkp6V/v//ZEtbNDVGByfOTPagKGZNyrJ0YQcGhPfhmvFjXh3gzA8M9ycQAH+4WK/XZFnGarVCCEEYhvi+j+t+rWWtRWvN6XSibVvquubj44P9fn8JZVnG8/Mzu92OzWbDcrlksVjgeR4AWmu6rqNpGvb7PXmeA8yh1WrFbrfj6emJ+/t77u7uSJIE3/+K9H2PlJKqqnh9fQXg7e1tfmtCCDabDQ8PDzw+PrLdbhFCjJDWmqZpKMsSgM/PT4QQcyiKItI0Zb1es91uybKMOI4voDiOcV2XpmlI05QwDOeQ7/vEcUySJKRpSpIk4/MZ6kIIlFIIIYjjmCAIxvr4+j3PIwgCoigiCIILZJoJw/BqZoRc18V1XTzPu4pMsWE6jjOHptg08PtwHGfMDd/YbEeO44zz1riV+6sjcm2hHztr/wY6n8/j/G5cq4+QtfaPkGlumh2hoWCtxVr77W6GzDR3sSOtNX3fY4y5CRlj0Fqjtb4OGWPo+x6lFEoptNYzRGuNUoqu62YL+tOQlJK2bTkejywWi4t+NNTruqZtW6SU9H0/h7qu43g8UpYlQgiMMSyXy/GET/tRURTUdY1Sag5JKSmKgjzPsdZyOBxIkuQCmnbIoiiQUs6hqqrI8xxjDGVZkqYpURSNncBai1Jq7NkvLy9UVTWHiqLAcRze399v/kWMMZxOJ6SUHA4HiqIYIYf/7Qf5C+ctTYo9ear1AAAAAElFTkSuQmCC"/>
+            </g>
+        </mask>
+    </defs>
+    <g id="Calque_1-2">
+        <g id="lego_x5F_spike_x5F_front">
+            <g id="background">
+                <rect class="cls-4" x="2.83" y="2.83" width="181.47" height="125.82" rx="12" ry="12"/>
+                <path class="cls-5" d="M172.3,2.83c6.63,0,12,5.37,12,12v101.82c0,6.63-5.37,12-12,12H14.83c-6.63,0-12-5.37-12-12V14.83c0-6.63,5.37-12,12-12h157.47M172.3,0H14.83C6.65,0,0,6.65,0,14.83v101.82c0,8.18,6.65,14.83,14.83,14.83h157.47c8.18,0,14.83-6.65,14.83-14.83V14.83c0-8.18-6.65-14.83-14.83-14.83h0Z"/>
+            </g>
+            <g id="led">
+                <rect class="cls-6" x="88.07" y="108.31" width="10.69" height="19.68"/>
+                <g class="cls-1">
+                    <path class="cls-6" d="M99.76,107.3h-12.69v21.68h12.69v-21.68h0Z"/>
+                </g>
+            </g>
+            <g id="outlines">
+                <g id="outline_x5F_cercle">
+                    <g id="outline_x5F_cercleb">
+                        <circle class="cls-3" cx="15.74" cy="116.34" r="8.04"/>
+                        <path class="cls-3" d="M15.74,127.98c-6.42,0-11.64-5.22-11.64-11.64s5.22-11.64,11.64-11.64,11.64,5.22,11.64,11.64-5.22,11.64-11.64,11.64ZM15.74,105.7c-5.87,0-10.64,4.77-10.64,10.64s4.77,10.64,10.64,10.64,10.64-4.77,10.64-10.64-4.77-10.64-10.64-10.64Z"/>
+                    </g>
+                    <g id="outline_x5F_cerclea">
+                        <path class="cls-3" d="M171.56,127.98c-6.42,0-11.64-5.22-11.64-11.64s5.22-11.64,11.64-11.64,11.64,5.22,11.64,11.64-5.22,11.64-11.64,11.64ZM171.56,105.7c-5.87,0-10.64,4.77-10.64,10.64s4.77,10.64,10.64,10.64,10.64-4.77,10.64-10.64-4.77-10.64-10.64-10.64Z"/>
+                        <circle class="cls-3" cx="171.56" cy="116.34" r="8.04"/>
+                    </g>
+                </g>
+                <g id="outline_x5F_a_x5F_b">
+                    <g id="outline_x5F_b">
+                        <path class="cls-3" d="M33.66,20.08h-4.56c-2.46,0-4.46-2-4.46-4.46V2.83h2.83v12.79c0,.9.73,1.62,1.62,1.62h6.56l-2,2.83Z"/>
+                        <path class="cls-3" d="M53.38,20.08h-6.68l2-2.83h4.68c.9,0,1.62-.73,1.62-1.62V2.83h2.83v12.79c0,2.46-2,4.46-4.46,4.46Z"/>
+                        <path class="cls-3" d="M38.65,16.38l2.8,4.85c.19.33-.05.75-.43.75h-5.6c-.38,0-.63-.42-.43-.75l2.8-4.85c.19-.33.67-.33.87,0Z"/>
+                        <path class="cls-3" d="M43.31,20.72l-2.8-4.85c-.19-.33.05-.75.43-.75h5.6c.38,0,.63.42.43.75l-2.8,4.85c-.19.33-.67.33-.87,0Z"/>
+                        <path class="cls-3" d="M40.75,4.08h3.67v8.39h-3.26c-.57,0-1.06-.07-1.47-.2-.41-.14-.72-.32-.93-.55-.38-.43-.56-.92-.56-1.46,0-.66.21-1.14.64-1.46.14-.11.24-.18.3-.21.06-.03.16-.07.3-.14-.52-.11-.93-.35-1.24-.7-.31-.36-.46-.8-.46-1.33,0-.58.2-1.1.6-1.55.46-.52,1.27-.78,2.42-.78ZM42.55,9.07h-.89c-.52,0-.91.06-1.16.17-.25.11-.38.35-.38.73s.12.62.35.74c.23.12.62.18,1.18.18h.9v-1.81ZM42.55,5.66h-1.28c-.54,0-.94.07-1.21.2-.27.13-.4.39-.4.78s.14.64.43.77.74.19,1.36.19h1.1v-1.93Z"/>
+                    </g>
+                    <g id="outline_x5F_a">
+                        <path class="cls-3" d="M139.14,20.08h-4.56c-2.46,0-4.46-2-4.46-4.46V2.83h2.83v12.79c0,.9.73,1.62,1.62,1.62h6.56l-2,2.83Z"/>
+                        <path class="cls-3" d="M158.86,20.08h-6.68l2-2.83h4.68c.9,0,1.62-.73,1.62-1.62V2.83h2.83v12.79c0,2.46-2,4.46-4.46,4.46Z"/>
+                        <path class="cls-3" d="M144.12,16.38l2.8,4.85c.19.33-.05.75-.43.75h-5.6c-.38,0-.63-.42-.43-.75l2.8-4.85c.19-.33.67-.33.87,0Z"/>
+                        <path class="cls-3" d="M148.79,20.72l-2.8-4.85c-.19-.33.05-.75.43-.75h5.6c.38,0,.63.42.43.75l-2.8,4.85c-.19.33-.67.33-.87,0Z"/>
+                        <path class="cls-3" d="M143.51,3.89l.78,1.81h3.52l.78-1.81h1.99l-3.62,8.39h-1.81l-3.62-8.39h1.99ZM146.04,9.78l1.06-2.44h-2.1l1.04,2.44Z"/>
+                    </g>
+                </g>
+            </g>
+            <g id="button">
+                <rect class="cls-7" x="80.01" y="77.42" width="26.86" height="26.86" rx="4" ry="4"/>
+                <rect class="cls-3" x="80.99" y="76.42" width="26.86" height="26.86" rx="4" ry="4"/>
+            </g>
+        </g>
+    </g>
+</svg>

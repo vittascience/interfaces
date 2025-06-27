@@ -1,0 +1,415 @@
+#console-wrapper {
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+  background-color: var(--bg-1);
+}
+
+/* Canvas Matplotlib */
+#canvas-matplotlib {
+  position: absolute;
+  left: calc(50%);
+  top: calc(50%);
+  overflow: hidden;
+  display: none;
+  background-color: var(--vitta-white);
+  z-index: 11;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+}
+
+#canvas-matplotlib svg.chart {
+  width: 100%;
+  height: 100%;
+}
+
+#monitor.monitor-grid-right #canvas-matplotlib {
+  width: 90%;
+}
+
+#monitor.monitor-grid-bottom #canvas-matplotlib {
+  height: 80%;
+}
+
+#canvas-turtle {
+  position: absolute;
+  left: calc(50% - 200px);
+  top: calc(50% - 200px);
+  overflow: hidden;
+  display: none;
+}
+
+@keyframes spin-anim {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+#console {
+  position: absolute;
+  overflow: initial !important;
+  white-space: pre-line;
+  width: calc(100% - 20px);
+  height: calc(100% - 10px);
+  z-index: 11;
+}
+
+.input-prompt {
+  color: transparent;
+  text-shadow: 0 0 0 var(--text-2);
+  border: none;
+}
+
+.input-prompt:focus {
+  outline-width: 0;
+}
+
+.post-span {
+  position: relative;
+}
+
+.caret-span {
+  position: absolute;
+}
+
+.caret-span.inactive {
+  background-color: var(--text-2);
+}
+
+.caret-span.active {
+  background-color: var(--text-2);
+  animation-duration: 1s;
+  animation-name: blinkingCaret;
+  animation-iteration-count: infinite;
+}
+
+@keyframes blinkingCaret {
+  from {
+    background-color: var(--text-1);
+  }
+
+  50% {
+    background-color: transparent;
+  }
+
+  100% {
+    background-color: transparent;
+  }
+
+  to {
+    background-color: var(--text-1);
+  }
+
+}
+
+@media screen and (max-height: 700px) {
+
+  #my-projects,
+  #shared-projects {
+    height: 190px;
+  }
+}
+
+#my-projects,
+#shared-projects {
+  height: 290px;
+}
+
+
+/* REPL */
+.repl-wrapper {
+  display: block;
+}
+
+/* Unit tests */
+.big-icon {
+  font-size: 6vw;
+  padding: 1vw;
+}
+
+@keyframes spin-anim {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.unit-test-icon-spin {
+  animation: spin-anim 1.2s linear infinite;
+}
+
+.unitTest {
+  margin: 10px 0px;
+  border-width: 3px;
+  border-style: solid;
+  border-color: var(--bg-3);
+  border-radius: 5px;
+}
+
+.unitTestFail {
+  border-color: var(--vitta-red) !important;
+}
+
+.unitTestSuccess {
+  border-color: var(--vitta-green) !important;
+}
+
+.test-unit {
+  border: 2px var(--bg-4) solid;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 100%;
+  margin: auto;
+}
+
+.remove-link {
+  font-size: 12px;
+  cursor: pointer;
+  height: fit-content;
+  width: fit-content;
+  margin-inline-start: 10px;
+}
+
+/* BUTTONS */
+
+.btn-console-active {
+  background-color: var(--vitta-orange-light);
+}
+
+.active-square-down {
+  color: var(--bg-0);
+}
+
+.login-modal {
+  color: var(--vitta-blue-dark) !important;
+  cursor: pointer;
+}
+
+.form-python {
+  width: 38px;
+  height: 38px;
+}
+
+.btn-test,
+.remove-exercise {
+  width: 35px;
+  height: 35px;
+}
+
+.btn-outline-success {
+  max-height: 38px;
+  padding: 0 0.5rem;
+}
+
+#add-unitest {
+  margin: auto;
+}
+
+/* toolbox */
+
+.icon-toolbox-ia {
+  content: url("/openInterface/python/assets/media/ia_blocks_icon_toolbox.png");
+  margin: -4px 4px -8px 4px;
+}
+
+/* Python tooltips : running-code and repl */
+#execution-buttons-panel {
+  position: relative;
+  overflow: visible;
+}
+
+.running-code-tooltip,
+.repl-tooltip {
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  position: absolute;
+}
+
+.running-code-tooltip {
+  bottom: -4em;
+}
+
+.repl-tooltip {
+  top: -20.7em;
+  position: relative !important;
+}
+
+.repl-tooltip-consoleOnly {
+  top: -4.8em !important;
+}
+
+.tooltip-inner-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.4em;
+  background-color: var(--vitta-green-dark);
+  color: var(--vitta-white);
+  font-weight: 700;
+  border-radius: 8px;
+}
+
+.tooltip-inner-wrapper-repl {
+  max-width: 27em;
+  margin: auto;
+}
+
+.running-code-tooltip button,
+.repl-tooltip button {
+  align-items: center;
+  display: flex;
+  padding: 0.2em 0.5em;
+  background-color: var(--vitta-white);
+  color: var(--vitta-green-dark);
+}
+
+.running-code-tooltip button:hover,
+.repl-tooltip button:hover {
+  background-color: var(--vitta-orange);
+  color: var(--vitta-white);
+}
+
+.running-code-tooltip button i,
+.repl-tooltip button i {
+  font-size: 1.2em;
+}
+
+.running-code-tooltip-triangle,
+.repl-tooltip-triangle {
+  position: absolute;
+  width: 1.5em;
+  height: 1.2em;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--vitta-green-dark);
+}
+
+.running-code-tooltip-triangle {
+  top: -1.1em;
+  clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+}
+
+.repl-tooltip-triangle {
+  bottom: -1.1em;
+  clip-path: polygon(100% 0, 0 0, 50% 100%);
+}
+
+.repl-tooltip-triangle-consoleOnly {
+  bottom: -1.1em !important
+}
+
+/* Debug mode panel */
+
+#debugger-controls {
+  padding: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+  flex-direction: column;
+  z-index: 0;
+}
+
+.debugger-text {
+  height: 32px;
+  text-align: center;
+  font-family: var(--main-font);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-0);
+  margin-top: 10px;
+}
+
+#monitor-start-debugger.activated,
+#monitor-show-vars.activated {
+  background: var(--vitta-orange-light);
+  cursor: pointer;
+}
+
+#monitor-start-debugger:hover,
+#monitor-show-vars:hover {
+  background: var(--vitta-orange-light);
+  cursor: pointer;
+}
+
+#timeout-controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.timeout-controls-right {
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+}
+
+@media (max-width: 610px) {
+  #timeout-controls {
+    flex-direction: row !important;
+    justify-content: space-evenly;
+  }
+
+  .monitor-debugger-wrapper {
+    margin: 0;
+    overflow-x: scroll;
+  }
+
+  #monitor-debugger {
+    grid-area: 2 / 1 / 4 / 3 !important;
+    padding-left: 0px !important;
+  }
+
+  .monitor-grid-bottom {
+    grid-template-rows: 0.5fr 0fr !important;
+  }
+
+  .monitor-view-split-bottom-debug {
+    grid-area: 1 / 1 / 2 / 3 !important;
+  }
+
+  #monitor-view {
+    grid-area: 1 / 1 / 4 / 3;
+  }
+}
+
+@media (max-width: 535px) {
+  #timeout-controls {
+    flex-direction: column !important;
+    justify-content: space-evenly;
+  }
+}
+
+#debugger-timeout {
+  display: inline-block;
+  height: 30px;
+  width: 50px;
+  text-align: center;
+  border: 2px solid;
+  border-color: var(--text-2);
+  border-radius: 8px;
+}
+
+#step_forward {
+  width: 120px;
+}
+
+@media (max-width: 1100px) {
+  #timeout-controls {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+#console:focus {
+  outline-width: 3px;
+  outline-color: var(--vitta-blue);
+}

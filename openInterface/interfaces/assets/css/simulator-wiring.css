@@ -1,0 +1,599 @@
+/* Wiring simulator */
+
+#wiring-simulator {
+  border: 2px solid #ccc;
+  touch-action: none;
+}
+
+#simulator-wires {
+  text-align: center;
+  position: relative;
+  /* overflow hidden so that the canvas with pixel sizes doesn't make a scrollbar appear */
+  overflow-x: hidden;
+}
+
+#wiring-modules {
+  display: flex;
+  justify-content: center;
+}
+
+#wiring-modules>* {
+  background-color: var(--bg-1);
+  margin-top: 0;
+  z-index: 1001;
+}
+
+#wiring-overlay {
+  height: 100%;
+  width: 100%;
+  background-color: #0000004d;
+  position: absolute;
+  pointer-events: none;
+  z-index: 999;
+  vertical-align: middle;
+  opacity: 0;
+}
+
+#wiring-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+#modules-close {
+  border: none;
+  outline: none;
+  background-color: white;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  cursor: pointer;
+  border-radius: 50%;
+  margin-top: 2px;
+  margin-left: 2px;
+  font-weight: bold;
+}
+
+#modules-close:hover {
+  color: white;
+  background-color: var(--vitta-green-dark);
+  transition: 200ms ease-in-out;
+}
+
+#wiring-record-button.active {
+  background-color: var(--vitta-red) !important;
+  box-shadow: 0px 2px 6px var(--vitta-red);
+  transition: 200ms ease-in;
+}
+
+#wiring-record-button {
+  padding-right: 0.7em;
+}
+
+/* Wiring Mode */
+
+.button-action {
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  border-radius: 1000px;
+  display: flex;
+  font-size: 0.9rem;
+  font-weight: 700;
+  height: 30px;
+  justify-content: center;
+  outline: none;
+  width: 100px;
+}
+
+.wiring-buttons {
+  margin-left: 30px;
+}
+
+#button-background-cancel {
+  background-color: #b4b4b4;
+  color: #fff;
+}
+
+#button-background-change {
+  background-color: #24a069;
+  color: #fff;
+}
+
+#simulator-btn-panel {
+  position: relative;
+}
+
+.simulator-dropdown {
+  background: #e3e3e3;
+  box-shadow: 0 1px 4px rgba(150, 150, 150, 0.65);
+  list-style: none;
+  border-radius: 3px;
+  z-index: 1001;
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-90%);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  visibility: hidden;
+}
+
+.simulator-option {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.simulator-option:hover {
+  background: #ff931e;
+  transition: background 0.5s ease;
+}
+
+.simulator-option>img {
+  padding: 5px;
+  height: auto;
+  fill: black;
+}
+
+.simulator-option:hover>img {
+  filter: brightness(0) invert(1);
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+#simulator-btn-panel:hover>.simulator-dropdown {
+  visibility: visible;
+}
+
+#tooltip-wiring {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: white;
+  opacity: 0.1;
+  right: 7.5%;
+  bottom: 15%;
+}
+
+/* Wiring modals */
+
+/* Background Modal */
+.modal-background-body {
+  align-items: center;
+  display: flex;
+  height: 75%;
+  justify-content: space-between;
+}
+
+.modal-left {
+  flex: 0.5;
+  width: 200px;
+  max-width: 60%;
+  padding: 15px;
+}
+
+.modal-left-header {
+  border-bottom: 1.5px solid #565656;
+  height: 20px;
+  margin-bottom: 10px;
+}
+
+.modal-left-header > p {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.modal-background-content {
+  height: 250px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.background-option {
+  border-radius: 10px;
+  cursor: pointer;
+  height: 90px;
+  padding: 5px;
+  width: 160px;
+}
+
+.background-option:hover {
+  border: 3px solid #24a069;
+  z-index: 10;
+}
+
+.background-selected {
+  border: 3px solid #24a069;
+  z-index: 10;
+}
+
+.modal-background-buttons {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.modal-right {
+  aspect-ratio: 16 / 9;
+  flex: 0.5;
+  flex-direction: column;
+  margin-right: 10px;
+  padding: 0 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  padding-left: 25px;
+}
+
+.modal-right-header {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.drop-zone {
+  align-items: center;
+  border: 2px dashed #ff931e;
+  border-radius: 10px;
+  color: #707070;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.5rem;
+  font-weight: 500;
+  height: 100%;
+  justify-content: center;
+  padding: 10px;
+  top: 0;
+  width: 100%;
+  max-height: 75%;
+}
+
+.drop-zone--over {
+  border-style: solid;
+}
+
+.drop-zone-thumbnail {
+  background-color: #cccccc;
+  background-size: cover;
+  border-radius: 10px;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.drop-zone-thumbnail::after {
+  background: rgba(0, 0, 0, 0.5);
+  bottom: 0;
+  content: attr(data-label);
+  color: #ffffff;
+  font-size: 0.8rem;
+  left: 0;
+  padding: 5px 0;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+
+.background-uploader {
+  display: none;
+}
+
+.drop-zone-prompt-small {
+  font-size: 0.7rem;
+  font-weight: 300;
+  padding-top: 5px;
+}
+
+@media screen and (max-width: 600px) {
+  .modal-background-body {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .drop-zone {
+    font-size: 1rem;
+    height: 100px;
+  }
+
+  .modal-left-content {
+    height: 150px;
+  }
+
+  .modal-right {
+    position: relative;
+  }
+
+  .modal-right-header {
+    display: none;
+  }
+}
+
+/* Obstacle Modal */
+.modal-obstacle-body {
+  width: 100%;
+}
+.modal-obstacle-body .modal-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  column-gap: 10px;
+  row-gap: 10px;
+  height: 300px;
+  padding: 10px;
+  overflow-y: scroll;
+}
+
+.obstacle-option {
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 90px;
+  object-fit: contain;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.obstacle-option > img {
+  height: 50px;
+  border-radius: 10px;
+}
+
+.obstacle-option:hover {
+  border: 3px solid #24a069;
+  border-radius: 10px;
+  z-index: 10;
+}
+
+.obstacle-selected {
+  border: 3px solid #24a069;
+  border-radius: 10px;
+  z-index: 10;
+}
+
+@media screen and (max-width: 600px) {
+  .modal-background-body {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .drop-zone {
+    font-size: 1rem;
+    height: 100px;
+  }
+
+  .modal-left-content {
+    height: 150px;
+  }
+
+  .modal-right {
+    position: relative;
+  }
+
+  .modal-right-header {
+    display: none;
+  }
+}
+
+/* Record Modal */
+.modal-record,
+.modal-screenshot {
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0px 0px 10px #00000029;
+  color: #000000;
+  height: 40%;
+  left: 50%;
+  max-width: 80%;
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: 200ms ease-in-out;
+  width: 40%;
+  z-index: 1000;
+}
+
+.modal-record-header,
+.modal-screenshot-header {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 10px 15px;
+  position: relative;
+}
+
+.modal-record-header>h1,
+.modal-screenshot-header>h1 {
+  color: #24a069;
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding-top: 5px;
+  text-align: center;
+}
+
+.close-record-button,
+.close-screenshot-button {
+  align-items: center;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  color: #b4b4b4;
+  cursor: pointer;
+  display: flex;
+  font-size: 1.5rem;
+  font-weight: 700;
+  height: 25px;
+  justify-content: center;
+  outline: none;
+  position: absolute;
+  right: -5px;
+  top: -5px;
+  width: 25px;
+}
+
+.modal-record-body,
+.modal-screenshot-body {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px 15px;
+  position: relative;
+}
+
+.modal-record-title,
+.modal-screenshot-title {
+  font-weight: 700;
+  margin: 5px;
+  transform: translateY(-50%);
+}
+
+.modal-record-options,
+.modal-screenshot-options {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.record-option,
+.screenshot-option {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  left: 0px;
+  padding: 5px;
+  position: relative;
+}
+
+.screenshot-option>label,
+.record-option>label {
+  width: 17px;
+  height: 17px;
+  border: 2px solid #b4b4b4;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.screenshot-option>label:hover,
+.record-option>label:hover {
+  border-color: #707070;
+}
+
+.screenshot-option>label>input,
+.record-option>label>input {
+  display: none;
+}
+
+.screenshot-option .screenshot-checkmark,
+.record-option .record-checkmark {
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  border-radius: 50%;
+  background-color: #24a069;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.screenshot-option label input:checked+.screenshot-checkmark,
+.record-option label input:checked+.record-checkmark {
+  opacity: 1;
+}
+
+.screenshot-label,
+.record-label {
+  margin-left: 5px;
+  transform: translateY(-20%);
+}
+
+.modal-record-buttons,
+.modal-screenshot-buttons {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 10px 15px;
+  padding-bottom: 0;
+}
+
+#cancel-record,
+#cancel-screenshot {
+  background-color: #b4b4b4;
+  color: #ffffff;
+  margin-right: 20px;
+}
+
+#export-record,
+#export-screenshot {
+  background-color: #24a069;
+  color: #ffffff;
+}
+
+.button-video,
+.button-screenshot {
+  align-items: center;
+  border: none;
+  border-radius: 1000px;
+  cursor: pointer;
+  display: flex;
+  font-size: 0.9rem;
+  font-weight: 700;
+  height: 30px;
+  justify-content: center;
+  outline: none;
+  width: 100px;
+}
+
+.modal-record.active,
+.modal-screenshot.active {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-record-header>h1,
+.modal-screenshot-header>h1,
+.modal-background-header>h1 {
+  text-transform: uppercase;
+}
+
+@media screen and (max-width: 800px) {
+
+  .modal-record,
+  .modal-screenshot {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 380px) {
+
+  .modal-record,
+  .modal-screenshot {
+    height: 50%;
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 325px) {
+
+  .modal-record,
+  .modal-screenshot {
+    height: 60%;
+    width: 60%;
+  }
+}

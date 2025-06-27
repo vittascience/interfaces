@@ -1,0 +1,79 @@
+#gar-faq .kit-faq-box {
+
+    background: var(--bg-0);
+    border: 1px solid #cccccc;
+    color: solid(--text-1);
+    padding: 15px 1em;
+}
+#gar-faq .faq-box-header {
+    text-align: left;
+}
+
+#gar-faq .faq-box-dropdown {
+
+    background: transparent;
+    color: #cccccc;
+    border: 1px solid #cccccc;
+    min-width: 40px;
+    min-height: 40px;
+    max-width: 40px;
+    max-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    margin-right: 10px;
+
+}
+
+/* GAR FEATURES */
+#features {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+
+    padding: 0;
+}
+
+#features li {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    grid-template-rows: 8em 2em auto 1fr;
+}
+
+#features hr {
+    width: 2px;
+    height: 100%;
+    background-color: var(--text-3);
+    border-radius: 20px;
+}
+
+#features li svg,
+#features li i {
+    width: 90px;
+    height: 90px;
+    font-size: 90px;
+    transition: inherit;
+    text-align: center;
+}
+
+#features li p {
+    align-self: baseline;
+    text-align: center;
+    font-weight: 800;
+    width: 30ch;
+    margin-bottom: 2em;
+}
+
+@media (max-width: 768px) {
+
+
+    #features {
+        grid-template-columns: auto;
+        grid-template-rows: 1fr auto 1fr auto 1fr;
+    }
+
+    #features hr {
+        width: 90%;
+        height: 1px;
+    }
+
+}

@@ -1,0 +1,78 @@
+{
+  "id": "impact-survey-student",
+  "title": "Nous aimerions avoir ton avis !",
+  "description": "Merci d’utiliser Vittascience ! Fais-nous part de ton avis en 2 minutes afin d’améliorer ton expérience au sein de notre plateforme.",
+  "endMessage": {
+    "title": "Merci !",
+    "description": "Merci beaucoup pour ton aide ! Grace à toi, nous allons pouvoir améliorer Vittascience !"
+  },
+  "questions": [
+    {
+      "id": 1,
+      "name": "question_1",
+      "title": "Avant de découvrir Vittascience, que pensais-tu de la programmation informatique ?",
+      "type": "radio",
+      "options": [
+        "C'est réservé aux geeks",
+        "Ce n'est pas pour les filles",
+        "Je n'en avais jamais entendu parler",
+        "Autre"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "question_2",
+      "title": "Penses-tu que Vittascience te fait aimer la programmation informatique ?",
+      "type": "radio",
+      "options": [
+        "Oui, tout à fait !",
+        "Oui plutôt",
+        "Non plutôt",
+        "Non, pas du tout"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "question_3",
+      "title": "Penses-tu que la plateforme Vittascience t'aide à comprendre plus facilement la programmation ? ",
+      "type": "radio",
+      "options": [
+        "Oui, tout à fait !",
+        "Oui plutôt",
+        "Non plutôt",
+        "Non, pas du tout"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "question_4",
+      "title": "Est-ce que tu envisages de faire un métier du numérique suite à l'utilisation de Vittascience ?",
+      "type": "radio",
+      "options": [
+        "Oui, tout à fait !",
+        "Je ne sais pas encore, mais ça m'intéresse",
+        "Je ne pense pas",
+        "Non, jamais"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "question_5",
+      "title": "Quelle est la probabilité que tu recommandes d'utiliser Vittascience à d'autres de tes camarades ?",
+      "type": "radio",
+      "options": [
+        "1 (Pas du tout probable)",
+        "2",
+        "3",
+        "4",
+        "5 (Très probable)"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "question_6",
+      "title": "Avez-vous des idées d'amélioration pour la plateforme ? ",
+      "type": "text"
+    }
+  ]
+}

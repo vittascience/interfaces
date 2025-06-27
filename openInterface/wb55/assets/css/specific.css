@@ -1,0 +1,88 @@
+@import url('../../../interfaces/assets/css/simulator-modules.css');
+@import url('../../../interfaces/assets/css/simulator-robot.css');
+
+.stm32-led1 {
+	filter: hue-rotate(77deg);
+}
+
+.stm32-led3 {
+	filter: hue-rotate(207deg);
+}
+
+.stm32-led1,
+.stm32-led2,
+.stm32-led3 {
+	z-index: 1;
+	bottom: 12px;
+	left: -6px;
+	opacity: 0;
+}
+
+.alphabot-motorLeft,
+.alphabot-motorRight {
+	z-index: 1;
+	top: -1px;
+	left: 2px;
+}
+
+.alphabot-motorLeft_base {
+	z-index: 2;
+	opacity: 0.9;
+}
+
+.alphabot-motorLeft_base,
+.alphabot-motorRight_base {
+	bottom: 0px;
+	left: 16px;
+}
+
+#alphabot-trsensor1_base,
+#alphabot-trsensor2_base,
+#alphabot-trsensor3_base,
+#alphabot-trsensor4_base,
+#alphabot-trsensor5_base {
+	left: 29px;
+	width: 17px;
+}
+
+#alphabot-trsensor1,
+#alphabot-trsensor2,
+#alphabot-trsensor3,
+#alphabot-trsensor4,
+#alphabot-trsensor5 {
+	z-index: 1;
+	top: -24px;
+	left: 20px;
+}
+
+.alphabot-trsensor1_module .module-value,
+.alphabot-trsensor2_module .module-value,
+.alphabot-trsensor3_module .module-value,
+.alphabot-trsensor4_module .module-value,
+.alphabot-trsensor5_module .module-value {
+	width: 83px;
+}
+
+#alphabot-trsensor1_anim,
+#alphabot-trsensor2_anim,
+#alphabot-trsensor3_anim,
+#alphabot-trsensor4_anim,
+#alphabot-trsensor5_anim {
+	bottom: 16px;
+}
+
+/* Specific */
+
+.bmp280-temp {
+	clip-path: inset(76.4706% 0px 0px);
+}
+
+.highTemp,
+.groveTemp {
+	clip-path: inset(52% 0px 0px);
+}
+
+.sgp30_module .module-img-group {
+	left: 10px;
+	bottom: 6px;
+}

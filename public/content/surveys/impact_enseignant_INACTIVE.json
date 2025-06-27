@@ -1,0 +1,74 @@
+{
+  "id": "impact-survey-teacher",
+  "title": "Nous aimerions avoir votre avis !",
+  "description": "Merci d’utiliser Vittascience ! Faite-nous part de votre avis en 2 minutes afin d’améliorer votre expérience au sein de notre plateforme.",
+  "endMessage": {
+    "title": "Merci !",
+    "description": "Merci beaucoup pour votre aide ! Grace à vous, nous allons pouvoir améliorer Vittascience !"
+  },
+  "questions": [
+    {
+      "id": 1,
+      "name": "question_1",
+      "title": "Depuis combien de temps enseignez-vous votre matière ?",
+      "type": "radio",
+      "options": [
+        "Moins de 1 an",
+        "Entre 1 an et 5 ans",
+        "Plus de 5 ans"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "question_2",
+      "title": "Depuis combien de temps utilisez-vous Vittascience ?",
+      "type": "text"
+    },
+    {
+      "id": 3,
+      "name": "question_3",
+      "title": "Avez-vous l'impression que la plateforme vous aide à enseigner plus facilement la programmation à vos élèves ?",
+      "type": "radio",
+      "options": [
+        "Oui, absolument",
+        "Je n'ai pas mesuré",
+        "Non, je n'ai pas l'impression"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "question_4",
+      "title": "La plateforme Vittascience vous fait-elle gagner du temps pour préparer vos cours ?",
+      "type": "radio",
+      "options": [
+        "Oui, absolument",
+        "Je n'ai pas mesuré",
+        "Non, je n'ai pas l'impression"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "question_5",
+      "title": "Selon vous, estimez-vous que vos élèves sont plus engagés dans les activités de programmation grâce à l'utilisation de Vittascience ?",
+      "type": "radio",
+      "options": [
+        "1 (Pas du tout d'accord)",
+        "2",
+        "3",
+        "4",
+        "5 (Tout à fait d'accord)"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "question_6",
+      "title": "Est-ce que l'utilisation de Vittascience facilite la compréhension des élèves ?",
+      "type": "radio",
+      "options": [
+        "Oui",
+        "Quelques fois, oui",
+        "Non, pas spécialement "               
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+@import url('../../../interfaces/assets/css/simulator-modules.css');
+@import url('../../../interfaces/assets/css/simulator-robot.css');
+
+#board-viewer {
+	height: 400px;
+}

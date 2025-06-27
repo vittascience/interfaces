@@ -1,0 +1,127 @@
+@import url('../../../interfaces/assets/css/simulator-modules.css');
+@import url('../../../interfaces/assets/css/simulator-robot.css');
+
+#simulator {
+	padding-right: 5px;
+}
+
+#button_center {
+	cursor: pointer;
+}
+
+#thymio-rc5-com {
+	height: 249px;
+}
+
+#thymio-sound-freq_anim {
+	z-index: 1;
+	animation: shake 2s cubic-bezier(.36, .07, .19, .97) infinite;
+	bottom: -6px;
+	left: -9px;
+	width: 80px;
+	height: auto;
+	max-height: none !important;
+	opacity: 0;
+}
+
+
+#thymio-rc5-com .module-body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+}
+
+#thymio-rc5-com .module-img-group {
+	left: 70px;
+}
+
+.mb-thymio-motorLeft,
+.mb-thymio-motorRight {
+	z-index: 1;
+	top: -1px;
+	left: 2px;
+}
+
+.mb-thymio-motorLeft_base {
+	z-index: 2;
+	opacity: 0.9;
+}
+
+.mb-thymio-motorLeft_base,
+.mb-thymio-motorRight_base {
+	bottom: 0px;
+	left: 16px;
+}
+
+#mb-thymio-ir_anim {
+	z-index: 1;
+	height: 27px;
+	top: -25px;
+	left: 4px;
+	opacity: 0;
+}
+
+#thymio-led-top>.body-output,
+#thymio-led-prox-h>.body-output,
+#thymio-led-prox-v>.body-output,
+#thymio-led-circle>.body-output,
+#thymio-led-bottom-right>.body-output,
+#thymio-led-bottom-left>.body-output,
+#thymio-led-buttons>.body-output,
+#thymio-led-temperature>.body-output,
+#thymio-led-sound>.body-output,
+#thymio-led-rc>.body-output {
+	display: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.thymio-leds-container {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: auto;
+}
+
+.thymio-led-block-rgb {
+	margin: 2px;
+	height: 50px;
+	width: 50px;
+	border: solid 2px #d7d7d7;
+	border-radius: 50%;
+	padding: 6px;
+}
+
+.thymio-led-block {
+	display: flex;
+	align-items: center;
+	margin: 2px;
+	height: 12px;
+	width: 12px;
+	border-radius: 1px;
+	padding: 6px;
+	filter: blur(1px);
+}
+
+.thymio-download-tdm {
+	text-decoration: underline;
+	cursor: pointer;
+	color: blue;
+}
+
+#download-firmware-opt-mac>img,
+#download-firmware-opt-windows>img {
+	height: 35px;
+	width: 45px;
+}
+
+#disconnect-opt>img {
+	height: 25px;
+	width: 25px;
+	margin-left: 8px;
+	margin-right: 13px;
+}

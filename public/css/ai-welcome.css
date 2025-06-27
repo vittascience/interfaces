@@ -1,0 +1,129 @@
+#ai-welcome-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+
+    background-color: var(--vitta-green) ;
+    background-repeat: repeat;
+    background-position: 50%;
+    gap: 100px;
+    overflow-y: hidden;
+}
+
+#ai-welcome-container #ai-welcome-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    
+    background-color: var(--vitta-white);
+    color: var(--vitta-black);
+    border-radius: 20px;
+    padding: 2em 3em;
+    box-shadow: 0 0 10px 0 var(--vitta-shadow-color);
+
+    padding: clamp(2em, 2em + 1vw, 2em);
+    
+}
+img {
+    border-radius: 5%;
+}
+.ai-welcome-img {
+    width: 80%;
+    padding: 40px;
+}
+
+h5{
+    color: var(--vitta-green);
+    font-weight: 900;
+}
+button h5 {
+    font-weight: 700;
+    margin-bottom: 0;
+    font-size: 40px;
+}
+.card {
+    flex-direction: column;
+     --bs-card-border-color: var(--vitta-white);
+     align-items: center;
+     width: 32rem;
+     height: 40rem;
+     box-shadow: 0px 0px 30px #00000080;
+    border-radius: 21px;
+    font-family: Montserrat;
+
+}
+.card-body{
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center;
+    justify-content: center;
+        }
+.card-title{
+    color: #CE574E;
+    font-size: 35px;
+}
+.card-text {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+button {
+    display: flex;
+    flex-direction: row;
+    width: 350px;
+}
+button img {
+    width: 75px;
+    border-radius: 5px;
+}
+video{
+    width: 40rem;
+    border-radius: 20px;
+}
+
+
+
+@media (max-width: 800px) {
+    #ai-welcome-container {
+        padding-top: 20px;
+        flex-direction: column;
+        width: auto !important;
+        position: relative;
+        gap: 10px;
+    }
+    #ai-welcome-content{
+        margin: 10px;
+    }
+    .card {
+        width: 100%;
+    }
+    .card img{              
+        width: 100%;
+        max-width: 90px;
+        height: auto;
+    }
+    .card-body{
+        display: flex;
+        flex-direction: row;
+        
+    }
+    .card-body h5{
+        font-size: 20px;
+    }
+    #ai-welcome-container video{
+        width: 90%;
+        margin: auto;
+    }
+    .ai-welcome-img {
+        padding: 0px
+    }
+    button {
+        display: ruby-text !important;
+    }
+}
