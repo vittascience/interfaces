@@ -1,0 +1,147 @@
+/**
+ * @fileoverview Italian messages for ESP32 microchips. (IT)
+ */
+
+'use strict';
+
+// Network - Wifi
+Blockly.Msg['NETWORK_CONNECT_STATION_TITLE'] = 'collega stazione: nome rete %1 password %2';
+Blockly.Msg['NETWORK_CONNECT_STATION_TOOLTIP'] = 'Consente di configurare una postazione wifi sulla scheda ' + Blockly.Msg.boardName + ' collegandosi a una rete wifi. Per ricevere i dati inviati dal server in un browser: Collegare la scheda ESP32 e il dispositivo sulla stessa rete. Ad esempio, se il mio indirizzo IP di rete è 192.168.1.X, il gateway sarà 192.168.1.1. Inserisci l\'indirizzo IP del server nel browser del dispositivo. Se desideri accedere al server senza passare attraverso l\'indirizzo IP, puoi impostare un nome host. Ad esempio, esp32-server. Inserisci il nome host nel browser: http://esp32-server/';
+Blockly.Msg['NETWORK_CONNECT_STATION_IP'] = 'IP fisso';
+Blockly.Msg['NETWORK_CONNECT_STATION_MASK'] = 'Maschera di sottorete';
+Blockly.Msg['NETWORK_CONNECT_STATION_GATEWAY'] = 'Gateway';
+Blockly.Msg['NETWORK_CONNECT_STATION_HOSTNAME'] = 'Nome host';
+Blockly.Msg['NETWORK_CONFIGURE_ACCESS_POINT_TITLE'] = 'crea punto di accesso: nome rete %1 IP fisso %2';
+Blockly.Msg['NETWORK_CONFIGURE_ACCESS_POINT_TOOLTIP'] = 'Consente di configurare un punto di accesso wif sulla scheda ' + Blockly.Msg.boardName + '.';
+Blockly.Msg['NETWORK_DISCONNECT_STATION_TITLE'] = 'scollega stazione';
+Blockly.Msg['NETWORK_DISCONNECT_STATION_TOOLTIP'] = 'Consente di disconnettere la stazione se è connessa a una rete Wi-Fi.';
+Blockly.Msg['NETWORK_IS_STATION_CONNECTED_TITLE'] = 'la stazione è connessa?';
+Blockly.Msg['NETWORK_IS_STATION_CONNECTED_TOOLTIP'] = 'Restituisce True se la postazione è attivata, False in caso contrario. La postazione wifi deve essere preventivamente configurata per utilizzare questo blocco.';
+Blockly.Msg['NETWORK_SET_NETWORK_TITLE'] = '%1 wifi';
+Blockly.Msg['NETWORK_SET_NETWORK_TOOLTIP'] = 'Consente di abilitare o disabilitare il modulo wifi di scheda ' + Blockly.Msg.boardName + '.';
+Blockly.Msg['NETWORK_ACTIVATE'] = 'attiva';
+Blockly.Msg['NETWORK_DISABLE'] = 'disattiva';
+Blockly.Msg['NETWORK_SCAN_NETWORK_PROFILES_TITLE'] = 'reti wifi disponibili';
+Blockly.Msg['NETWORK_SCAN_NETWORK_PROFILES_TOOLTIP'] = 'Ti permette di cercare le reti Wi-Fi disponibili.';
+Blockly.Msg['NETWORK_GET_STATION_INFOS_TITLE'] = 'informazioni stazione';
+Blockly.Msg['NETWORK_GET_STATION_INFOS_TOOLTIP'] = 'Restituisce una tupla contenente l\'indirizzo IP, la subnet mask, il gateway e il server DNS.';
+Blockly.Msg['NETWORK_CHANGE_SERVER_PORT_TITLE'] = 'cambia la porta del server in %1';
+Blockly.Msg['NETWORK_CHANGE_SERVER_PORT_TOOLTIP'] = 'Consente di modificare la porta del server Web ' + Blockly.Msg.boardName + '. Deve essere connesso a una rete Wi-Fi.';
+// Network - Server
+Blockly.Msg['NETWORK_SERVER_SEND_DATA_TITLE'] = '[server] invia dati %1';
+Blockly.Msg['NETWORK_SERVER_SEND_DATA_TOOLTIP'] = 'Consente di inviare dati al client. ' + Blockly.Msg.boardName + ' deve essere connesso a una rete wifi.';
+Blockly.Msg['NETWORK_SERVER_GET_CLIENT_DATA_TITLE'] = '[server] dati ricevuti dal client';
+Blockly.Msg['NETWORK_SERVER_GET_CLIENT_DATA_TOOLTIP'] = 'Restituisci richiesta client. ' + Blockly.Msg.boardName + ' deve essere connesso a una rete Wi-Fi.';
+Blockly.Msg['NETWORK_SERVER_GET_CLIENT_DATA_PARAM_TITLE'] = '[server] parametro della richiesta';
+Blockly.Msg['NETWORK_SERVER_GET_CLIENT_DATA_PARAM_TOOLTIP'] = 'Restituisci il parametro della richiesta client. ' + Blockly.Msg.boardName + ' deve essere connesso a una rete Wi-Fi.';
+Blockly.Msg['NETWORK_SERVER_GET_CLIENT_IP_TITLE'] = '[server] indirizzo IP client';
+Blockly.Msg['NETWORK_SERVER_GET_CLIENT_IP_TOOLTIP'] = 'Restituisce l\'indirizzo IP del client. ' + Blockly.Msg.boardName + ' deve essere connesso a una rete wifi.';
+Blockly.Msg['NETWORK_SERVER_SEND_WEB_PAGE_TITLE'] = '[server] invia pagina html';
+Blockly.Msg['NETWORK_SERVER_SEND_WEB_PAGE_HTML'] = 'html';
+Blockly.Msg['NETWORK_SERVER_SEND_WEB_PAGE_TOOLTIP'] = 'Consente di inviare una pagina html al client. ' + Blockly.Msg.boardName + ' deve essere connesso a una rete wifi.';
+// Network - Client
+Blockly.Msg['NETWORK_CLIENT_GET_SERVER_DATA_TITLE'] = '[client] dati ricevuti dall\'IP del server %1';
+Blockly.Msg['NETWORK_CLIENT_GET_SERVER_DATA_TOOLTIP'] = 'Restituisci richiesta al server. ' + Blockly.Msg.boardName + ' deve essere connesso a una rete Wi-Fi.';
+Blockly.Msg['NETWORK_CLIENT_SEND_DATA_TITLE'] = '[client] invia i dati %1 all\'IP del server %2';
+Blockly.Msg['NETWORK_CLIENT_SEND_DATA_TOOLTIP'] = 'Consente di inviare dati al server. ' + Blockly.Msg.boardName + ' deve essere connesso a una rete Wi-Fi.';
+Blockly.Msg['NETWORK_CLIENT_SEND_DATA_PORT'] = 'porta';
+// Network - Web page
+Blockly.Msg['NETWORK_ADD_TITLE_TITLE'] = '[html] aggiungi titolo %1 livello %2 colore %3';
+Blockly.Msg['NETWORK_ADD_TITLE_TOOLTIP'] = 'Consente di aggiungere sottotitoli all\'interno della pagina web. Questo blocco deve essere utilizzato nell\'istruzione \'html\' del blocco \'[Server] invia la pagina web.\'';
+Blockly.Msg['NETWORK_ADD_TEXT_TITLE'] = '[html] visualizza il testo %1';
+Blockly.Msg['NETWORK_ADD_TEXT_TOOLTIP'] = 'Consente di visualizzare il testo sulla pagina web. Questo blocco deve essere utilizzato nell\'istruzione \'html\' del blocco \'[Server] invia la pagina web. Fare clic su + per configurare il carattere dimensione o colore del testo.';
+Blockly.Msg['NETWORK_ADD_TEXT_SIZE'] = 'dimensione carattere';
+Blockly.Msg['NETWORK_ADD_TEXT_COLOR'] = 'colore';
+Blockly.Msg['NETWORK_HTML_ADD_BUTTON_TITLE'] = '[html] aggiungi ID pulsante %1 testo %2';
+Blockly.Msg['NETWORK_HTML_ADD_BUTTON_TOOLTIP'] = 'Consente di aggiungere un pulsante alla pagina Web. L\'ID viene utilizzato per recuperare lo stato del pulsante. Questo blocco deve essere utilizzato nell\'istruzione \'html\' del \'[Server ] inviare la pagina Web. Fare clic su + per impostare il colore e la dimensione del pulsante.';
+Blockly.Msg['NETWORK_HTML_ADD_BUTTON_COLOUR'] = 'colore';
+Blockly.Msg['NETWORK_HTML_ADD_BUTTON_HEIGHT'] = 'altezza';
+Blockly.Msg['NETWORK_HTML_ADD_BUTTON_WIDTH'] = 'larghezza';
+Blockly.Msg['NETWORK_HTML_ADD_SLIDER_TITLE'] = '[html] aggiungi ID cursore %1';
+Blockly.Msg['NETWORK_HTML_ADD_SLIDER_TOOLTIP'] = 'Consente di aggiungere uno slider dal valore minimo al valore massimo. L\'ID viene utilizzato per recuperare il valore dello slider. Questo blocco deve essere utilizzato nell\'istruzione \'html\' del blocco \'[Server] invia la pagina web.';
+Blockly.Msg['NETWORK_HTML_ADD_SLIDER_MIN'] = 'min';
+Blockly.Msg['NETWORK_HTML_ADD_SLIDER_MAX'] = 'massimo';
+Blockly.Msg['NETWORK_HTML_ADD_SLIDER_HORIZONTAL'] = 'orizzontale';
+Blockly.Msg['NETWORK_HTML_ADD_SLIDER_VERTICAL'] = 'verticale';
+Blockly.Msg['NETWORK_HTML_ADD_SLIDER_HEIGHT'] = 'altezza';
+Blockly.Msg['NETWORK_HTML_ADD_SLIDER_WIDTH'] = 'larghezza';
+Blockly.Msg['NETWORK_HTML_ADD_SWITCH_TITLE'] = '[html] aggiungi switch ID %1';
+Blockly.Msg['NETWORK_HTML_ADD_SWITCH_COLOUR'] = 'colore';
+Blockly.Msg['NETWORK_HTML_ADD_SWITCH_SIZE'] = 'dimensione';
+Blockly.Msg['NETWORK_HTML_ADD_SWITCH_TOOLTIP'] = 'Consente di aggiungere un pulsante di commutazione nella pagina Web L\'ID consente di recuperare lo stato dell\'interruttore. Questo blocco deve essere utilizzato nell\'istruzione \'html\' del blocco \' [Server] send pagina web.';
+Blockly.Msg['NETWORK_HTML_ADD_GAUGE_TITLE'] = '[html] aggiungi misuratore %1 valore %2 min %3 max %4';
+Blockly.Msg['NETWORK_HTML_ADD_GAUGE_TOOLTIP'] = 'Consente di aggiungere un indicatore dal valore minimo al valore massimo di una variabile. È possibile modificare il titolo e l\'unità dell\'indicatore. Questo blocco deve essere utilizzato nel \' html\' istruzione del blocco \'[Server] invia la pagina web.';
+Blockly.Msg['NETWORK_ADD_LINK_TITLE'] = '[html] aggiungi collegamento %1 URL %2';
+Blockly.Msg['NETWORK_ADD_LINK_TOOLTIP'] = 'Consente di aggiungere un collegamento facendo clic sul testo definito nella pagina web. Questo blocco deve essere utilizzato nel blocco \'[server] invia pagina web\'. Clicca su + per impostare la dimensione o il colore del carattere.';
+Blockly.Msg['NETWORK_HTML_ADD_IMAGE_TITLE'] = '[html] visualizza immagine %1';
+Blockly.Msg['NETWORK_HTML_ADD_IMAGE_TOOLTIP'] = 'Ti permette di aggiungere un\'immagine alla pagina web con dati base64. Premere il pulsante + per configurare la finestra dell\'immagine nella pagina web. Questo blocco deve essere utilizzato nell\'istruzione \'html\' del blocco \'[Server] invia la pagina web.';
+Blockly.Msg['NETWORK_HTML_ADD_IMAGE_HEIGHT'] = 'altezza';
+Blockly.Msg['NETWORK_HTML_ADD_IMAGE_WIDTH'] = 'larghezza';
+Blockly.Msg['NETWORK_HTML_ADD_STREAM_TITLE'] = '[html] visualizza il flusso di immagini %1';
+Blockly.Msg['NETWORK_HTML_ADD_STREAM_TOOLTIP'] = 'Ti permette di inviare un flusso video alla pagina web con dati immagine base64. Perché funzioni, la variabile \'image_data\' deve contenere i dati di un\'acquisizione. Questo blocco deve essere utilizzato nell\'istruzione \'html\' del blocco \'[Server] invia la pagina web.';
+Blockly.Msg['NETWORK_HTML_ADD_STREAM_HEIGHT'] = 'altezza';
+Blockly.Msg['NETWORK_HTML_ADD_STREAM_WIDTH'] = 'larghezza';
+Blockly.Msg['NETWORK_HTML_TAG_TITLE'] = '[html] tag %1';
+Blockly.Msg['NETWORK_HTML_TAG_TOOLTIP'] = 'Consente di aggiungere un tag HTML di tipo <div></div>, <form></form> (per pulsanti) o <center></center>. Questo blocco deve essere utilizzato nell\'istruzione \'html\' del blocco \'[Server] invia la pagina web.';
+Blockly.Msg["NETWORK_HTML_FORMAT_TEXT_TITLE"] = "[html] inserisci il testo %1 in %2";
+Blockly.Msg["NETWORK_HTML_FORMAT_TEXT_TOOLTIP"] = "Permette di formattare un testo. Questo blocco deve essere utilizzato nell'istruzione \'html\' del blocco \'[Server] per inviare la pagina web.";
+Blockly.Msg["NETWORK_HTML_TAG_BOLD"] = "grassetto <b>";
+Blockly.Msg["NETWORK_HTML_TAG_ITALIC"] = "corsivo <i>";
+Blockly.Msg["NETWORK_HTML_TAG_INSERTED"] = "sottolineato <ins>";
+Blockly.Msg["NETWORK_HTML_TAG_MARKED"] = "evidenziato <mark>";
+Blockly.Msg["NETWORK_HTML_TAG_DELETED"] = "barrato <del>";
+Blockly.Msg["NETWORK_HTML_TAG_SMALL"] = "piccolo <small>";
+Blockly.Msg['NETWORK_HTML_NEWLINE_TITLE'] = '[html] nuova riga <br>';
+Blockly.Msg['NETWORK_HTML_NEWLINE_TOOLTIP'] = "Permette di eseguire un'interruzione di riga nella pagina web. Questo blocco deve essere utilizzato nell'istruzione \'html\' del blocco \'[Server] invia la pagina web\'.";
+Blockly.Msg['NETWORK_HTML_ADD_SYMBOL_TITLE'] = '[html] aggiungi simbolo HTML %1 dimensione %2 formato %3';
+Blockly.Msg['NETWORK_HTML_ADD_SYMBOL_TOOLTIP'] = "Consente di aggiungere un simbolo HTML nella pagina web specificandone la dimensione (predefinita 50px). Questo blocco deve essere utilizzato nell'istruzione 'html' del blocco '[server] invia pagina html'.";
+// Network - Get web page
+Blockly.Msg['NETWORK_SERVER_GET_BUTTON_STATE_TITLE'] = '[server] stato pulsante ID %1';
+Blockly.Msg['NETWORK_SERVER_GET_BUTTON_STATE_TOOLTIP'] = 'Ottiene lo stato di un pulsante sulla pagina Web. Aggiungi l\'ID del pulsante per selezionarlo.';
+Blockly.Msg['NETWORK_SERVER_GET_SLIDER_VALUE_TITLE'] = '[server] valore dispositivo di scorrimento ID %1';
+Blockly.Msg['NETWORK_SERVER_GET_SLIDER_VALUE_TOOLTIP'] = 'Ottieni il valore dell\'unità dalla pagina web inserendo l\'ID.';
+Blockly.Msg['NETWORK_SERVER_GET_SWITCH_VALUE_TITLE'] = '[server] cambia stato ID %1';
+Blockly.Msg['NETWORK_SERVER_GET_SWITCH_VALUE_TOOLTIP'] = 'Consente di recuperare lo stato dello switch nella pagina web inserendo l\'ID.';
+// Network - uMail
+Blockly.Msg['NETWORK_UMAIL_SMTP_TITLE'] = '[mail] configurare server SMTP %1';
+Blockly.Msg['NETWORK_UMAIL_SMTP_TOOLTIP'] = 'Configurare il server SMTP per la casella postale.';
+Blockly.Msg['NETWORK_UMAIL_SETUP_TITLE'] = '[mail] accedere all\'account: %1 password: %2';
+Blockly.Msg['NETWORK_UMAIL_SETUP_TOOLTIP'] = 'Accedere a un account email.';
+Blockly.Msg['NETWORK_UMAIL_TO_TITLE'] = '[mail] indirizzo del destinatario: %1 oggetto dell\'email: %2';
+Blockly.Msg['NETWORK_UMAIL_TO_TOOLTIP'] = 'Inviare una email all\'indirizzo specificato.';
+Blockly.Msg['NETWORK_UMAIL_WRITE_SENDER_TITLE'] = '[mail] nome del mittente: %1';
+Blockly.Msg['NETWORK_UMAIL_WRITE_SENDER_TOOLTIP'] = 'Specificare il nome dell\'ESP32. Sintassi: Nome <indirizzo@mail.com>';
+Blockly.Msg['NETWORK_UMAIL_WRITE_TITLE'] = '[mail] scrivere e inviare l\'e-mail: %1';
+Blockly.Msg['NETWORK_UMAIL_WRITE_TOOLTIP'] = 'Scrivere una stringa nell\'email. "From:" specifica l\'indirizzo email del mittente, "Subject:" specifica l\'oggetto dell\'email.';
+Blockly.Msg['NETWORK_UMAIL_QUIT_TITLE'] = '[mail] disconnettersi dalla casella di posta';
+Blockly.Msg['NETWORK_UMAIL_QUIT_TOOLTIP'] = 'Disconnettersi dalla casella di posta.';
+Blockly.Msg['NETWORK_UMAIL_SEND_IMAGE_TITLE'] = '[mail] invia immagine in base64: %1';
+Blockly.Msg['NETWORK_UMAIL_SEND_IMAGE_TOOLTIP'] = 'Permette di inviare un\'immagine in base64 tramite email.';
+// Network - HTTP
+Blockly.Msg['NETWORK_GET_HTTP_REQUEST_TITLE'] = 'Metodo di richiesta HTTP %1 url %2';
+Blockly.Msg['NETWORK_GET_HTTP_REQUEST_TOOLTIP'] = 'Consente di creare una richiesta HTTP di tipo GET/POST inserendo un indirizzo URL.';
+Blockly.Msg['NETWORK_THINGSPEAK_SEND_DATA_TITLE'] = '[ThingSpeak] invia dati con chiave API';
+Blockly.Msg['NETWORK_THINGSPEAK_SEND_DATA_TOOLTIP'] = 'Questo blocco consente di inviare le misurazioni dei sensori all\'applicazione ThingSpeakr utilizzando il WiFi integrato dell\'ESP32. Può essere utilizzato con uno o più blocchi "Campo" e "Valore" premendo il pulsante più.';
+Blockly.Msg['NETWORK_THINGSPEAK_SEND_DATA_FIELD_TITLE'] = '[ThingSpeak] Campo %1 Valore %2';
+Blockly.Msg['NETWORK_THINGSPEAK_SEND_DATA_FIELD_TOOLTIP'] = 'Questo blocco viene utilizzato come indicato nel blocco "Invia dati nel canale". Immettere l\'indice del campo e aggiungere la misurazione. Nota: puoi utilizzare qualsiasi campo solo una volta per ogni invio di dati.';
+Blockly.Msg['NETWORK_THINGSPEAK_READ_FEEDS_TITLE'] = 'Dati del grafico [ThingSpeak]: ID canale %1 Chiave API %2 campo %3';
+Blockly.Msg['NETWORK_THINGSPEAK_READ_FEEDS_TOOLTIP'] = 'Ti permette di ricevere dati dalla tua interfaccia ThingSpeak. La chiave API è disponibile nella sezione \'Chiavi API\' del canale.';
+// Rete - MQTT
+Blockly.Msg['NETWORK_MQTT_CONNECT_WITH_AUTH_TITLE'] = '[MQTT] connettiti al broker %1 nome utente %2 password %3';
+Blockly.Msg['NETWORK_MQTT_CONNECT_WITH_AUTH_TOOLTIP'] = 'Consente di connettersi a un broker MQTT fornendo l\'indirizzo IP della macchina su cui è in esecuzione. La connessione al broker è qui protetta con un nome utente e una password definiti dal broker.';
+Blockly.Msg['NETWORK_MQTT_CONNECT_WITH_AUTH_PORT'] = 'porta';
+Blockly.Msg['NETWORK_MQTT_SUBSCRIBE_TOPIC_TITLE'] = '[MQTT] iscriviti al canale %1';
+Blockly.Msg['NETWORK_MQTT_SUBSCRIBE_TOPIC_TOOLTIP'] = 'Consente al client connesso al broker di iscriversi ad un canale per ricevere dati da esso. Ciò consente di identificare i dati ricevuti.';
+Blockly.Msg['NETWORK_MQTT_PUBLISH_VALUE_TITLE'] = '[MQTT] pubblica il messaggio %1 sul canale %2';
+Blockly.Msg['NETWORK_MQTT_PUBLISH_VALUE_TOOLTIP'] = 'Ti permette di pubblicare un messaggio in un canale MQTT. Ogni volta che i dati vengono inviati, il broker MQTT o il client devono specificare il canale da utilizzare. Non è necessario iscriversi al canale di invio dati.';
+Blockly.Msg['NETWORK_MQTT_DISCONNECT_TITLE'] = '[MQTT] si disconnette dal broker';
+Blockly.Msg['NETWORK_MQTT_DISCONNECT_TOOLTIP'] = 'Consente di disconnettere il client dal broker MQTT.';
+Blockly.Msg['NETWORK_MQTT_ON_MESSAGE_RECEIVED_TITLE'] = '[MQTT] se un messaggio viene ricevuto in un canale in %1 allora';
+Blockly.Msg['NETWORK_MQTT_ON_MESSAGE_RECEIVED_TOOLTIP'] = 'Consente di eseguire istruzioni se viene ricevuto un messaggio in un canale MQTT (argomento). Utilizza la variabile \'messaggio\' per accedere al valore all\'interno di questa funzione. Per eseguire istruzioni dipendenti dal canale, utilizzare il blocco \'se il canale è .. allora ..\'.';
+Blockly.Msg['NETWORK_MQTT_IF_TOPIC_IS_TITLE'] = '[MQTT] se il canale è %1 allora';
+Blockly.Msg['NETWORK_MQTT_IF_TOPIC_IS_ELSEIF'] = 'altrimenti se il canale è';
+Blockly.Msg['NETWORK_MQTT_IF_TOPIC_IS_TOOLTIP'] = 'Consente di verificare il nome del canale (argomento) prima di eseguire le istruzioni. Questo blocco deve essere utilizzato nel blocco \"[MQTT] Se un messaggio viene ricevuto in un canale allora ...\"';
+Blockly.Msg['NETWORK_MQTT_ON_CONNECT_TITLE'] = '[MQTT] Se la carta si connette al broker allora';
+Blockly.Msg['NETWORK_MQTT_ON_CONNECT_TOOLTIP'] = 'Consente di eseguire istruzioni quando il client ESP32 si connette al broker MQTT.';
+Blockly.Msg['NETWORK_MQTT_ON_DISCONNECT_TITLE'] = '[MQTT] Se la carta si disconnette dal broker allora';
+Blockly.Msg['NETWORK_MQTT_ON_DISCONNECT_TOOLTIP'] = 'Consente di eseguire istruzioni quando il client ESP32 si connette al broker MQTT. Tieni presente che non è necessario utilizzare nuovamente il blocco \'[MQTT] connect to broker...\', il client tenta di riconnettersi automaticamente quando pubblica un nuovo valore.';

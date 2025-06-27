@@ -1,0 +1,63 @@
+@import url('../../../interfaces/assets/css/simulator-modules.css');
+@import url('../../../interfaces/assets/css/simulator-robot.css');
+
+.mb-eliobot-motorLeft,
+.mb-eliobot-motorRight {
+	z-index: 1;
+	top: -1px;
+	left: 2px;
+}
+.mb-eliobot-motorLeft_base {
+	z-index: 2;
+	opacity: 0.9;
+}
+.mb-eliobot-motorLeft_base,
+.mb-eliobot-motorRight_base {
+	bottom: 0px;
+	left: 16px;
+}
+
+#eliobot-ir_anim {
+    z-index: 1;
+    height: 27px;
+    top: -25px;
+    left: 4px;
+    opacity: 0;
+}
+
+#eliobot-buzzer_anim {
+	z-index: 1;
+	animation: shake 2s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite;
+	bottom: -6px;
+	left: -9px;
+	width: 80px;
+	height: auto;
+	max-height: none !important;
+	opacity: 0;
+}
+
+@keyframes vibrate {
+	0% {
+		transform: translate(0, 0);
+	}
+
+	20% {
+		transform: translate(-2px, -2px);
+	}
+
+	40% {
+		transform: translate(2px, 2px);
+	}
+
+	60% {
+		transform: translate(-2px, -2px);
+	}
+
+	80% {
+		transform: translate(2px, 2px);
+	}
+
+	100% {
+		transform: translate(0, 0);
+	}
+}

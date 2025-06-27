@@ -1,0 +1,222 @@
+import { AceMultiCursorManager } from "./AceMultiCursorManager.js";
+import { AceMultiSelectionManager } from "./AceMultiSelectionManager.js";
+class RtcManager{
+  constructor(){
+    this.socket = null,
+    this.eventsArray = ["move", "create", "delete", "selected", "change"],
+    this.workspace = null,
+    this.aceEditor = null,
+    this.curMgr = null,
+    this.aceRange = require('ace/range').Range,
+    this.selMgr = null
+  }
+  init(){
+    this.workspace = CodeManager.getSharedInstance()._workspace;
+    this.aceEditor = Main.getCodeEditor().container;
+    this.curMgr = new AceMultiCursorManager(this.aceEditor.getSession());
+    this.aceRange = require('ace/range').Range;
+    this.selMgr = new AceMultiSelectionManager(this.aceEditor.getSession());
+    this.initSaveWarning();
+    this.initSocketUsers()
+    this.initSocketBlockly()
+    this.initSocketAce()
+    this.initSocketSave()
+    this.initSocketRoomProject()
+    this.initEventListener()
+  }
+  initSaveWarning(){
+    document.getElementById("ide-content").style.position = "relative";
+    let divWarning = document.createElement("div");
+    divWarning.setAttribute("id", "save-warning");
+    let divWarningText = document.createElement("span");
+    divWarningText.setAttribute("id", "save-warning-text");
+    divWarning.appendChild(divWarningText);
+    document.getElementById("ide-content").appendChild(divWarning);
+  }
+  initSocketUsers(){
+    this.socket.on('users', function(data){
+      let divInterval = null;
+      let userDiv = document.getElementById('users');
+      userDiv.innerHTML = '';
+      this.curMgr.removeAll();
+      this.selMgr.removeAll();
+      for(let element in data){
+        let userRound = document.createElement('div');
+        userRound.className = 'user-round';
+        userRound.setAttribute('title', data[element].name);
+        userRound.style.backgroundColor = data[element].color;
+        let userRoundText = document.createElement('span');
+        userRoundText.className = 'user-round-text';
+        userRoundText.innerHTML = data[element].name.charAt(0);
+        userRound.appendChild(userRoundText);
+        if(data[element].socketId == this.socket.id){
+          userDiv.prepend(userRound);
+          if(data[element].readOnly == 1){
+            divInterval = setInterval(function(){
+              Main.setOptionForEditor("readOnly", true);
+              if(document.getElementById('blockly-readonly') == null){
+                let divBlocklyReadOnly = document.createElement('div');
+                divBlocklyReadOnly.id = 'blockly-readonly';
+                $('#content_blocks').prepend(divBlocklyReadOnly);
+              }else{
+                document.getElementById('blockly-readonly').className = '';
+                document.getElementById('blockly-readonly').className = 'blockly-readonly';
+              }
+              $(".blocklyToolboxDiv").hide();
+              Blockly.svgResize(this.workspace);
+            }, 10);
+          }else{
+            if(divInterval != null){
+              clearInterval(divInterval);
+              divInterval = null;
+              if(document.getElementById('blockly-readonly') != null){
+                document.getElementById('blockly-readonly').remove();
+              }
+            }
+            $(".blocklyToolboxDiv").show();
+            if(getParamValue('mode')=='code'){
+              Main.setOptionForEditor("readOnly", false);
+            }
+          }
+        }else{
+          userDiv.append(userRound);
+        }
+      }
+    });
+  }
+  initSocketBlockly(){
+    this.socket.on('blockly', function(data){
+      CodeManager.getSharedInstance()._workspace.removeChangeListener(blocklyEvents);
+      if(data.socketId != this.socket.id){
+        if(data.event.type == 'selected'){
+          this.createMarker(data)
+        }else{
+          CodeManager.getSharedInstance().loadBlocks(data.xml)
+        }
+      }
+      setTimeout(()=>{
+        CodeManager.getSharedInstance()._workspace.addChangeListener(blocklyEvents);
+      }, 0);
+    });
+  }
+  initSocketAce(){
+    socket.on('ace', function(data){
+      this.aceEditor.removeEventListener('change', this.aceEvents);
+      this.aceEditor.selection.removeEventListener("changeCursor", this.aceEvents);
+      this.aceEditor.selection.removeEventListener("changeSelection", this.aceEvents);
+      if(data.socketId != this.socket.id){
+        if(data.event == 'cursor'){
+          this.createAceMarker(data)
+        }else if(data.event == 'selection'){
+          this.createAceSelection(data)
+        } else{
+          let myCursor = this.aceEditor.getCursorPosition();
+          this.aceEditor.getSession().setValue(data.code,1);
+          this.aceEditor.selection.moveTo(myCursor.row, myCursor.column)
+        }
+      }
+      setTimeout(()=>{
+        this.aceEditor.addEventListener('change', this.aceEvents);
+        this.aceEditor.selection.on("changeCursor", this.aceEvents);
+        this.aceEditor.selection.on("changeSelection", this.aceEvents);
+      }, 0);
+    });
+  }
+  initSocketSave(){
+    this.socket.on('save', function(data){
+      if(data.status == 'progress'){
+        document.getElementById('save-warning').style.backgroundColor = 'orange';
+        document.getElementById("save-warning-text").innerHTML = data.message;
+        document.getElementById('save-warning').style.opacity = '1';
+      }else if(data.status == 'success'){
+        document.getElementById('save-warning').style.backgroundColor = 'green';
+        document.getElementById("save-warning-text").innerHTML = data.message;
+        setTimeout(()=>{
+          document.getElementById('save-warning').style.opacity = '0';
+        }, 2000);
+      }else if(data.status == 'error'){
+        document.getElementById('save-warning').style.backgroundColor = 'red';
+        document.getElementById("save-warning-text").innerHTML = data.message;
+        setTimeout(()=>{
+          document.getElementById('save-warning').style.opacity = '0';
+        }, 2000);
+      }
+    });
+  }
+  initSocketRoomProject(){
+    this.socket.on('roomProject', function(data){
+      if(data.id == this.socket.id){
+        console.log('good')
+      }
+    });
+  }
+  initEventListener(){
+    this.workspace.addChangeListener(this.blocklyEvents);
+    this.aceEditor.addEventListener('change', this.aceEvents);
+    this.aceEditor.selection.on("changeCursor", this.aceEvents);
+    this.aceEditor.selection.on("changeSelection", this.aceEvents);
+  }
+  
+  blocklyEvents(event) {
+    if (this.eventsArray.includes(event.type)) {
+      let ev = event.toJson();
+      this.socket.emit('blockly', {room:projectManager.getCurrentProject().link, event:ev, xml:CodeManager.getSharedInstance().getXml()});
+    }
+  }
+  aceEvents(event) {
+    if(getParamValue('mode') == 'code'){
+      if(event.type == 'changeCursor'){
+        let position = this.aceEditor.getCursorPosition();
+        this.socket.emit('ace', {room:projectManager.getCurrentProject().link, position:position, event:'cursor'});
+      } else if(event.type == 'changeSelection') {
+        let range = this.aceEditor.selection.getRange();
+        this.socket.emit('ace', {room:projectManager.getCurrentProject().link, range:range, event:'selection'});
+      } else{
+        let value = this.aceEditor.getValue();
+        this.socket.emit('ace', {room:projectManager.getCurrentProject().link, code:value, event:'change'});
+      }
+    }
+  }
+  createMarker(data) {
+    if (!CodeManager.getSharedInstance()._workspace.getMarkerManager()) {
+      throw Error('Cannot create a Marker without Blockly MarkerManager.');
+    };
+    let marker = CodeManager.getSharedInstance()._workspace.getMarkerManager().getMarker(data.socketId)
+    if(data.event.newElementId != null){
+      if (marker == null) {
+        marker = new Blockly.Marker();
+        marker.colour = data.client.color
+        CodeManager.getSharedInstance()._workspace.getMarkerManager().registerMarker(data.socketId, marker);
+      }
+      const block = CodeManager.getSharedInstance()._workspace.getBlockById(data.event.newElementId)
+      let node = Blockly.ASTNode.createBlockNode(block);
+      marker.setCurNode(node.prev());
+    }else{
+      if (marker != null) {
+        CodeManager.getSharedInstance()._workspace.getMarkerManager().unregisterMarker(data.socketId);
+      }
+    }
+    return marker;
+  };
+  createAceMarker(data) {
+    let cursor = this.curMgr._getCursor(data.socketId);
+    if(cursor == false){
+      this.curMgr.addCursor(data.socketId, data.client.name, data.client.color, data.position);
+    }
+    this.curMgr.setCursor(data.socketId, data.position);
+  }
+  createAceSelection(data) {
+    let selection = new this.aceRange(data.range.start.row, data.range.start.column, data.range.end.row, data.range.end.column);
+    let range = this.selMgr._getSelection(data.socketId);
+    if(range == false){
+      this.selMgr.addSelection(data.socketId, data.client.name, data.client.color, selection);
+    }
+    this.selMgr.setSelection(data.socketId, selection);
+  }
+}
+setTimeout(function() {
+  if(getParamValue('link') != null) {
+    const rtc = new RtcManager();
+    rtc.init();
+  }
+},10000);

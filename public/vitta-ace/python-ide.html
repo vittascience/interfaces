@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>ACE: Python</title>
+
+
+    <!-- end scripts for ACE -->
+    <link rel="stylesheet" href="./css/ace.css">
+    <script src="js/ace-min.js"></script>
+    <script src="js/mode-python-min.js"></script>
+    <script src="js/ext-searchbox-min.js"></script>
+    <!-- end scripts for ACE -->
+
+<body>
+
+    <h2>Basic Python code completion Demo</h2>
+    <div id='esp32'>
+        <div id="python">#!/bin/python
+            #code goes here...</div>
+    </div>
+
+
+
+    <div id="editor2">#!/bin/python
+        #code goes here...</div>
+    <script> var pyEditor = ace.edit("python");
+        // editor.setTheme("ace/theme/twilight");
+        var langMode = ace.require("ace/mode/python").Mode;
+        pyEditor.session.setMode(new langMode());
+        pyEditor.setOptions({
+            enableBasicAutocompletion: true,
+            // to make popup appear automatically, without explicit _ctrl+space_
+            enableLiveAutocompletion: true,
+        });</script>
+</body>
+
+</html>

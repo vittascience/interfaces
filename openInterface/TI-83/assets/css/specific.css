@@ -1,0 +1,726 @@
+@import url('../../../interfaces/assets/css/simulator-modules.css');
+@import url('../../../interfaces/assets/css/simulator-robot.css');
+
+#boardHeader {
+	margin-top: -25px;
+	margin-bottom: 10px;
+}
+
+#console {
+	white-space: pre-line;
+}
+
+#simulator #ti_buttons {
+	text-align: right;
+}
+
+#boardHeader>#simulator-board-toggler {
+	display: flex;
+	flex-direction: row;
+	position: relative;
+	justify-content: start;
+	margin-left: 80%;
+	margin-top: 7%;
+	margin-bottom: -3%;
+}
+
+#boardHeader>#simulator-board-toggler>.simulator-buttons-icon {
+	margin: auto;
+}
+
+.ti-board-viewer {
+	margin: 0 auto;
+	background-repeat: no-repeat;
+	transition: all 0.5s;
+	background-position: center;
+}
+
+/* TI-83 screen */
+
+.tiHeader {
+	padding-top: 15px;
+}
+
+#ti83_zone {
+	margin-bottom: 50px;
+	display: flex;
+	flex-direction: column;
+}
+
+#ti83_zone-header {
+	color: var(--text-0);
+	font-size: 0.9em;
+	margin-bottom: 5px;
+}
+
+#ti_screen-container {
+	height: 290px;
+	border: 9px solid var(--bg-3);
+	background: var(--bg-3);
+	margin: 0 auto;
+	border-radius: 10px;
+	margin-bottom: 0px;
+}
+
+#ti_screen-container::after {
+	content: '';
+	display: block;
+	background-image: url('/openInterface/TI-83/assets/media/simulator/ti/TI-logo.png');
+	background-size: auto 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 100%;
+	height: 25px;
+	top: 10px;
+	margin: 10px auto 10px auto;
+	position: relative;
+}
+
+.theme-dark #ti_screen-container::after {
+	filter: invert(1);
+}
+
+#ti_screen {
+	background-image: url('/openInterface/TI-83/assets/media/simulator/ti/TI-shell_background.png');
+}
+
+#ti_screen-menus {
+	background-image: url('/openInterface/TI-83/assets/media/simulator/ti/TI-shell_menus.png');
+}
+
+#ti_screen-turtle-grid {
+	background-image: url('/openInterface/TI-83/assets/media/simulator/ti/TI-shell_grid.png');
+}
+
+#ti_screen-turtle-grid,
+#ti_screen-menus,
+#ti_screen {
+	text-align: center;
+	margin: 0 auto;
+	width: 320px;
+	height: 240px;
+	position: relative;
+	background-repeat: no-repeat;
+	transition: all 0.5s;
+	z-index: 2;
+}
+
+#ti_screen-turtle-grid {
+	margin-top: -240px;
+}
+
+#ti_screen-value {
+	width: 320px;
+	height: 210px;
+	margin-top: 30px;
+	padding: 5px;
+	text-align: left;
+	display: block;
+	color: #000;
+	background-color: white;
+	font-family: 'TICELarge';
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 17px;
+	position: absolute;
+	letter-spacing: 0.08em;
+	z-index: 1;
+}
+
+.canvas-ti-graph {
+	width: 315px;
+	height: 208px;
+	margin-left: 2.2px;
+	bottom: 208px;
+	position: relative;
+	display: block;
+	z-index: 10;
+}
+
+.canvas-ti-turtle {
+	width: 315px;
+	height: 208px;
+	margin-left: 2.2px;
+	bottom: 0;
+	position: absolute;
+	display: block;
+	z-index: 11;
+	opacity: 0;
+}
+
+#ti_buttons {
+	top: 2px;
+	width: 310px;
+	position: relative;
+}
+
+.ti_button {
+	background-color: var(--bg-3);
+	width: 67px;
+	height: 37px;
+	position: absolute;
+	opacity: 1;
+	cursor: pointer;
+	z-index: 100;
+	border: none;
+	border-radius: 7px;
+}
+
+.ti_button:hover {
+	background-position: top -7px left -7px;
+	width: 60px;
+	height: 30px;
+	top: 2px;
+	border-radius: 6px;
+	border-style: solid;
+	border-width: 3px;
+	border-color: rgb(50, 50, 50);
+	box-shadow: 0px 0px 10px var(--text-3);
+}
+
+.btn-ti-calc,
+#ti_var-button,
+#ti_annul-button,
+#ti_entrer-button {
+	--bs-btn-bg: var(--bg-1);
+	--bs-btn-bg-hover: var(--bg-2);
+	--bs-btn-color: var(--text-0);
+	--bs-btn-hover-color: var(--text-0);
+	--bs-btn-border-radius: 7px;
+	--bs-btn-border-width: 2px;
+	--bs-btn-border-color: var(--text-0);
+	--bs-btn-padding-x: 0.25rem;
+	--bs-btn-padding-y: 0.1rem;
+	--bs-btn-font-family: Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+	--bs-btn-font-weight: 500;
+	text-align: left;
+	position: relative;
+	cursor: pointer;
+	z-index: 100;
+	min-width: 62px;
+	text-align: center;
+}
+
+.btn-ti-calc:hover {
+	box-shadow: 0 0 10px var(--text-3);
+}
+
+
+#modal-varButton {
+	max-width: 400px !important;
+	min-height: 150px;
+}
+
+#modal-varButton p {
+	text-align: center;
+}
+
+#varButton-modal-function-list {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	gap: 10px;
+}
+
+#varButton-modal-function-list button {
+	background-color: transparent;
+	border: none;
+	border-radius: 7px;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 1.42857143;
+	text-align: left;
+	vertical-align: middle;
+	white-space: nowrap;
+	transition: all 0.2s ease-in-out;
+	height: 38px;
+	min-width: 50px;
+	position: relative;
+	margin-left: 25px;
+	background-color: #cecece;
+}
+
+#varButton-modal-function-list button:hover {
+	color: white;
+	transition: all 0.2s ease-in-out;
+}
+
+#varButton-modal-function-list button:hover::before {
+	height: 20px;
+	width: 20px;
+	content: '>';
+	font-weight: 500;
+	font-size: 18px;
+	left: -15px;
+	color: black;
+	position: absolute;
+}
+
+.ace-tm .ace_indent-guide {
+	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGoAAABqCAYAAABUIcSXAAAACXBIWXMAABcRAAAXEQHKJvM/AAAF3klEQVR4nO2cbUxbVRjHnzOggCEKCjjSsjIuONAPvGh2aRtwRqcbe4EpsjBwGbjNTJgMWEymxjAxxA/GGDP3ZtgYtN2AzEH3onFGwouwzME2lsHUqVt0jkUz5YNAJvT6gSK35SXSntvexzy/pIGec+l5/vmdnp57cwuTJAkI9bPA1wUQ/w0ShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQQShQSviOruPnf/5i2vnD2w/+CNysqqbG+MqSQ+ySNJkqKPtvZ2/8LCl09bLVZ7/9V+e8+FnuHi4u1pSo/7f8uj6Duqra2d7du7/8hTyzJWJiUlATCA4ODgoLy89aeLijY/puTYSuDLPEzJf7GzZk3Wh1lZa19LE5eCn7+/U9+tn2/9otVp0xMfTbypWAGc8WUexURV7q56Y2FkxLtGowECNJqJxsmh2MSP77+7fk0XrctITU35XZEiOOLrPIosfRUVr28KfyisShTFWUOBBBD/SFxC/9UBW1dXd7ASdfBCDXm4i9r2aslanTbqoCiKLCg4yLmTufwuATz+REpaz4Wexo7OzgDetfBALXm4itpUWGRarNcfE0XRPyQkZGrWzbW6SgDPLH961Vdftn7S1tbO5jjS66gpDzdReRvyk+IF4VRamhgU9mDYRONsZcqXDccxuetzNjafaH6fVz2eorY8XERdunQ5JnZxrE0UxQciIiOmzzjZOv7vc9djJICtW7eU7dt7oJRHTZ6gxjweizp//ptwi8X6mdEgRmt12onGmWaea5v8uSzkk8vSP6iufi/P07rcRa15PBLV1dUdYrFYPzcYxCWxgjDRKJ9Z8jVdgukzcYYlgzHGVq/KrN21660VntTmDmrO47aojs5OTe3h2hMGg5iamJAwVegMOyFX2Gz9jo4ATUDA8+uyGktKSkV365svas/jtqjenouL7dK4GBYaCsAmp4/LQZNBJx+OmSjNEX6yK2Rim5Xpbn3zRe153BZVWrr92+GR0ZzGpqZ7dwYHnTsdhTLm0iZbEpyQLSGSI3xLi60hN/fF3e7WN1/UnsejzyirxfyFXYKihsbG8T/u3p12ti65LgNznYfI/ra9veNsekZ6YUZGut2T+uaLmvN4vOs7fKjGKsGCiqamJml4+K+pImf6sGUu7XIcs7Pv8pWe5JTkHJPJOOppbe6g1jzcLsruKCuv0vj7vZmfnw8aTaBzqLkCyY756ccbPyyMijKmpib/xqUoD1BbHm5XJtZlZ73d+XV3zfHjx2FsfGyqY5bzC6c2BjB4e/D20WNHV6pBEoD68vhVVlbyeB2IiYmBuPi4M3X15qSxv+8lJCxJAMaY88ybYQYyBjD059CQ2WJ97tChmn4uxXBAbXm4iQIAiNHrJSFWaKmvN5v8GIsRhLiZlwnZLmpkZHTUerRhzZ49H53jVggn1JSHqygAAL1+0ZggCC31ZnNmcFDgw4sW6QGYLJdsubDb7eO2k6c2VldXneFaBEfUkoe7KACA6Ojo0dhYwXakru6FsLDQ0KioKABwbIRkM7G1tW3Hzp3lh7kXwBk15FHs5hZRXPqr0WRabrOdvHNtYAAApna5AAC9vRffKS7Ztkep8Xnj6zyK3oVUUV52fWzcvvrTE81DN29M3fNRV2fer4vWee2qAy98mUfRu5Am2ZBf8Ox9QYG2goKXNH19V04lpyRne/uqA098kccrogAAPt67zxQZHiFoddomo9Ew4pVBFcTbebwmivAM+pIAEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEkgUEv4BWCr2vFj4AwgAAAAASUVORK5CYII=') right repeat-y !important;
+	background-size: contain !important;
+}
+
+/* REPL */
+.repl-wrapper {
+	white-space: pre-line !important;
+	display: block;
+	max-width: 315px !important;
+	word-break: break-all;
+}
+
+.caret-span {
+	position: absolute;
+}
+
+.caret-span.inactive {
+	background-color: var(--text-2);
+}
+
+.caret-span.active {
+	background-color: var(--text-2);
+	animation-duration: 1s;
+	animation-name: blinkingCaret;
+	animation-iteration-count: infinite;
+}
+
+@keyframes blinkingCaret {
+	from {
+		background-color: var(--text-1);
+	}
+
+	50% {
+		background-color: transparent;
+	}
+
+	100% {
+		background-color: transparent;
+	}
+
+	to {
+		background-color: var(--text-1);
+	}
+}
+
+/* Innovatorhub Hub */
+
+.ih_greenLed_anim {
+	background-color: rgb(100, 255, 0);
+	filter: blur(1px);
+	opacity: 1;
+	transform-box: fill-box;
+	transform-origin: 50% 50% 0px;
+	transform: scale(1.2);
+}
+
+#ih_greenLed {
+	top: 165px;
+	left: 50px;
+	width: 5px;
+	height: 8px;
+	position: relative;
+}
+
+.ih_redLed_anim {
+	background-color: rgb(255, 0, 0);
+	filter: blur(1px);
+	opacity: 1;
+	transform-box: fill-box;
+	transform-origin: 50% 50% 0px;
+	transform: scale(1.2);
+}
+
+#ih_redLed {
+	top: 158px;
+	left: 40px;
+	width: 5px;
+	height: 8px;
+	position: relative;
+}
+
+.ih_rgbLed_anim {
+	background-color: rgb(255, 255, 255);
+	filter: blur(1px);
+	opacity: 1;
+	transform-box: fill-box;
+	transform-origin: 50% 50% 0px;
+	transform: scale(1.2);
+}
+
+#ih_rgbLed {
+	top: 128px;
+	left: 32px;
+	width: 9px;
+	height: 9px;
+	position: relative;
+}
+
+.ih-LED-Red {
+	filter: hue-rotate(200deg);
+	z-index: 1;
+	bottom: 12px;
+	left: -6px;
+	opacity: 0;
+}
+
+#mb-buzzer_anim,
+.ih-buzzer {
+	z-index: 1;
+	animation: shake 2s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite;
+	bottom: -6px;
+	left: -9px;
+	width: 80px;
+	height: auto;
+	max-height: none !important;
+	opacity: 0;
+}
+
+.loudness_base {
+	width: 45px;
+}
+
+.loudness {
+	z-index: 1;
+	opacity: 0;
+}
+
+.rover-colorSensor {
+	bottom: 5px;
+	left: 25px;
+}
+
+.tello-altitude {
+	z-index: 2;
+	bottom: 0px;
+	left: 2px;
+}
+
+.tello-altitude_base {
+	z-index: 1;
+	opacity: 0.9;
+}
+
+#tello-altitude_slider_d>.ui-state-default {
+	bottom: 3%;
+}
+
+.rover-motorLeft,
+.rover-motorRight {
+	z-index: 1;
+	top: -1px;
+	left: 2px;
+}
+
+.rover-motorLeft_base {
+	z-index: 2;
+	opacity: 0.9;
+}
+
+.rover-motorLeft_base,
+.rover-motorRight_base {
+	bottom: 0px;
+	left: 16px;
+}
+
+.rover-gyroscope-speed,
+.rover-gyroscope-angle {
+	bottom: -0px;
+	left: 12px;
+	transform-origin: top right;
+	z-index: 1;
+	width: 23px;
+	height: auto;
+}
+
+.rover-gyroscope-angle {
+	transform: rotate(230deg);
+}
+
+.rover-gyroscope-speed {
+	filter: brightness(0) saturate(100%) invert(82%) sepia(68%) saturate(2030%) hue-rotate(332deg) brightness(106%) contrast(93%);
+	transform: rotate(140deg);
+}
+
+/* Micro:bit */
+
+.logo {
+	width: 50px;
+	height: 30px;
+	position: absolute;
+	cursor: pointer;
+	background-repeat: no-repeat;
+}
+
+#mb_logo {
+	left: 121px;
+	top: 23px;
+}
+
+.mb_logo_effect {
+	background-image: url('/openInterface/TI-83/assets/media/simulator/microbit/Logo/Logo microbit clic.png');
+}
+
+.mb_btn {
+	width: 39px;
+	height: 39px;
+	position: absolute;
+}
+
+#mb_btn_A {
+	left: 12px;
+}
+
+#mb_btn_B {
+	left: 248px;
+}
+
+#mb_btn_A,
+#mb_btn_B {
+	top: 97px;
+	cursor: pointer;
+}
+
+.mb_btn_effect {
+	background-image: url('/openInterface/TI-83/assets/media/simulator/microbit/dark/Bouton clic carte sombre.png');
+	transition: all 0.25s;
+}
+
+.mb_btn:hover {
+	box-shadow: 2px 2px 5px 0px var(--bg-1);
+}
+
+.mb_led {
+	width: 6px;
+	height: 18px;
+	transition: all 0.1s;
+	position: absolute;
+}
+
+.mb_led_brightness_1 {
+	background-color: #300;
+}
+
+.mb_led_brightness_2 {
+	background-color: #500;
+}
+
+.mb_led_brightness_3 {
+	background-color: #700;
+}
+
+.mb_led_brightness_4 {
+	background-color: #900;
+}
+
+.mb_led_brightness_5 {
+	background-color: #a00;
+}
+
+.mb_led_brightness_6 {
+	background-color: #b00;
+}
+
+.mb_led_brightness_7 {
+	background-color: #c00;
+}
+
+.mb_led_brightness_8 {
+	background-color: #d00;
+}
+
+.mb_led_brightness_9 {
+	background-color: rgb(255, 10, 10);
+}
+
+.mb_led_brightness_1,
+.mb_led_brightness_2,
+.mb_led_brightness_3,
+.mb_led_brightness_4,
+.mb_led_brightness_5,
+.mb_led_brightness_6,
+.mb_led_brightness_7,
+.mb_led_brightness_8,
+.mb_led_brightness_9 {
+	width: 10px;
+	height: 18px;
+	filter: blur(2px);
+	opacity: 1;
+	transform-box: fill-box;
+	transform-origin: 50% 50% 0px;
+	transform: scale(1.2);
+}
+
+.mb_led_row_0 {
+	top: 56px;
+}
+
+.mb_led_row_1 {
+	top: 82px;
+}
+
+.mb_led_row_2 {
+	top: 108px;
+}
+
+.mb_led_row_3 {
+	top: 135px;
+}
+
+.mb_led_row_4 {
+	top: 162px;
+}
+
+.mb_led_col_0 {
+	left: 92px;
+}
+
+.mb_led_col_1 {
+	left: 118px;
+}
+
+.mb_led_col_2 {
+	left: 145px;
+}
+
+.mb_led_col_3 {
+	left: 172px;
+}
+
+.mb_led_col_4 {
+	left: 197px;
+}
+
+.broche {
+	width: 30px;
+	height: 50px;
+	position: absolute;
+	cursor: pointer;
+	background-repeat: no-repeat;
+}
+
+#mb_broche_0 {
+	left: 14px;
+	top: 184px;
+}
+
+#mb_broche_1 {
+	left: 73px;
+	top: 184px;
+}
+
+#mb_broche_2 {
+	left: 135px;
+	top: 184px;
+}
+
+.mb_broche_0_effect {
+	background-image: url('/openInterface/TI-83/assets/media/simulator/microbit/pins/Broche P0 grise clic.png');
+}
+
+.mb_broche_1_effect {
+	background-image: url('/openInterface/TI-83/assets/media/simulator/microbit/pins/Broche P1 grise clic.png');
+}
+
+.mb_broche_2_effect {
+	background-image: url('/openInterface/TI-83/assets/media/simulator/microbit/pins/Broche P2 grise clic.png');
+}
+
+#mb_gesture_list {
+	border-style: solid;
+	border-width: 1px;
+	border-color: var(--text-0);
+	min-height: 1em;
+}
+
+.mb_current_gesture {
+	border-color: var(--vitta-red);
+	margin: 1em;
+}
+
+@keyframes shake {
+	0% {
+		transform: scale(1, 1);
+	}
+
+	50% {
+		transform: scale(0.8, 0.8);
+	}
+
+	100% {
+		transform: scale(1, 1);
+	}
+}
+
+.mb_active_gesture_down {
+	transform: rotate(180deg);
+}
+
+.mb-gesture-left_active,
+.mb-gesture-right_active {
+	-webkit-transform: rotateY(80deg);
+	transform: rotateY(80deg);
+}
+
+.mb-gesture-facedown_active {
+	-webkit-transform: rotateY(180deg);
+	transform: rotateY(180deg);
+}
+
+.mb-gesture-shake_active {
+	animation-name: shake;
+	animation-duration: 0.3s;
+	animation-iteration-count: infinite;
+}
+
+#mb-gesture-shake_anim,
+#mb-gesture-up_anim,
+#mb-gesture-down_anim,
+#mb-gesture-left_anim,
+#mb-gesture-right_anim,
+#mb-gesture-faceup_anim,
+#mb-gesture-facedown_anim {
+	bottom: 6px;
+}
+
+#mb-accelerometer-pitch_anim,
+#mb-accelerometer-roll_anim {
+	bottom: -5px;
+}
+
+#mb-compassDir_anim {
+	z-index: 1;
+	width: 7%;
+	height: auto;
+	left: 27px;
+	top: -8px;
+	transform-origin: bottom center;
+}
+
+.mb-micro_base {
+	width: 45px;
+}
+
+.mb-micro {
+	z-index: 1;
+	opacity: 0;
+}
+
+.mb-thermometer {
+	-webkit-clip-path: inset(100% 0px 0%);
+	clip-path: inset(90% 0px 0px);
+	left: 13px;
+	top: -13px;
+	height: 57px;
+	width: auto;
+}
+
+/* TELLO SIMULATOR TEXT ALIGN FIX */
+
+#tello-altitude_value_d {
+	width: 3.5ch;
+	text-align: end;
+	position: relative;
+}

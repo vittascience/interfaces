@@ -1,0 +1,121 @@
+@import url('../../../interfaces/assets/css/simulator-modules.css');
+@import url('../../../interfaces/assets/css/simulator-wifi.css');
+@import url('../../../interfaces/assets/css/simulator-robot.css');
+
+
+#experience-3d-container{
+	position: relative;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+
+.experience3D {
+	background: linear-gradient(180deg, #2828c0 0%, #5e5e5e 100%);
+	display: flex;
+	justify-content: center;
+	margin-top: 1.5em;
+}
+
+#experience-ar {
+	position: absolute;
+	bottom: 10px;
+	right: 15px;
+	/* background-color: rgba(0, 0, 0, 0.8); */
+	z-index: 1000;
+}
+
+#gizmo-button {
+	position: absolute;
+	top: 1.75em;
+    right: 0.25em;
+	z-index: 100;
+	color: red;
+}
+
+#gizmo-button.active-gizmo {
+	color: green;
+}
+
+.graph-btn-disabled {
+	background-color: #e6e6e6 !important;
+	border-color: var(--simulator-button-background-color-hover) !important;
+}
+
+.esp32-switcher {
+	min-width: 125px !important;
+}
+
+.switcher__input--right:checked~.esp32-switcher-toggle {
+	left: calc(100% - 125px) !important;
+}
+
+.switcher__input--middle1:checked~.esp32-switcher-toggle {
+	left: 125px !important;
+}
+
+.switcher__input--middle2:checked~.esp32-switcher-toggle {
+	left: calc((125px * 2) + 4px) !important;
+}
+
+.switcher__input--middle3:checked~.esp32-switcher-toggle {
+	left: calc((125px * 3) + 4px) !important;
+}
+
+.switcher__input--middle4:checked~.esp32-switcher-toggle {
+	left: calc((125px * 4) + 4px) !important;
+}
+
+.esp32-builtin-led {
+	z-index: 1;
+	bottom: 12px;
+	left: -6px;
+	opacity: 0;
+	filter: hue-rotate(210deg)
+}
+
+.esp32-rawTemp {
+	-webkit-clip-path: inset(100% 0px 0%);
+	clip-path: inset(90% 0px 0px);
+	left: 13px;
+	top: -13px;
+	height: 57px;
+	width: auto;
+}
+
+/* Specific */
+
+.sgp30_module .module-img-group {
+	left: 10px;
+	bottom: 6px;
+}
+
+.bmp280-temp {
+	clip-path: inset(76.4706% 0px 0px);
+}
+
+/* Robots */
+.ilo-motorFrontLeft,
+.ilo-motorFrontRight,
+.ilo-motorBackLeft,
+.ilo-motorBackRight {
+	z-index: 1;
+	top: -1px;
+}
+
+.ilo-motorFrontLeft_base,
+.ilo-motorBackLeft_base {
+	z-index: 2;
+	opacity: 0.9;
+}
+
+.ilo-motorFrontLeft_base,
+.ilo-motorFrontRight_base,
+.ilo-motorBackLeft_base,
+.ilo-motorBackRight_base {
+	bottom: 0px;
+	left: 16px;
+}

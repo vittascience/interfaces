@@ -1,0 +1,23 @@
+/* CSS for ACE Editor types and keyword - color palette Vittascience */
+
+/* Texas Instruments theme */
+.cm-ti .cm-operator {
+    color: var(--vitta-red-ti) !important;
+}
+
+.cm-ti .cm-keyword,
+.cm-ti .cm-type,
+.cm-s-idle-dark.cm-ti .cm-keyword,
+.cm-s-idle-dark.cm-ti .cm-type {
+    color: var(--vitta-blue-ti) !important;
+}
+
+.cm-ti .cm-string {
+  color: var(--vitta-green-ti) !important;
+}
+
+.cm-ti .cm-atom,
+.cm-ti .cm-builtin,
+.cm-ti .cm-def{
+ color: var(--text-0) !important;
+}

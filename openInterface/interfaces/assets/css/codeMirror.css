@@ -1,0 +1,25 @@
+.CodeMirror-linenumber {
+    cursor: ew-resize;
+}
+
+/* Texas Instruments theme */
+.ace-ti .cm-operator {
+    color: var(--vitta-red-ti) !important;
+}
+
+.ace-ti .cm-keyword,
+.ace-ti .cm-type,
+.ace-s-idle-dark.cm-ti .cm-keyword,
+.ace-s-idle-dark.cm-ti .cm-type {
+    color: var(--vitta-blue-ti) !important;
+}
+
+.cm-ti .cm-string {
+  color: var(--vitta-green-ti) !important;
+}
+
+.cm-ti .cm-atom,
+.cm-ti .cm-builtin,
+.cm-ti .cm-def{
+ color: var(--text-0) !important;
+}

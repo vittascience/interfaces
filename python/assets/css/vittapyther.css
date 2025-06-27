@@ -1,0 +1,49 @@
+#screen{
+    overflow: hidden;
+    background-color: var(--bg-1);
+}
+
+#screen > div {
+    overflow: hidden !important;
+}
+
+#size{
+    overflow: hidden;
+    height: auto;
+    text-align: center;
+}
+
+.btn-sizable-screen {
+    outline: none;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: var(--bg-1);
+    border: transparent 3px solid;
+    color: var(--text-0);
+    text-align: center;
+    margin: 0 auto;
+    height: 30px;
+    border-radius: 0.5em 0.5em 0 0;
+    transition:    all 0.2s ease-in-out;
+}
+
+.btn-sizable-screen:hover {
+    background-color: var(--vitta-red);
+    color: var(--vitta-white);
+}
+
+.btn-sizable-screen:focus {
+    border-color: var(--text-1);
+}
+
+.fullscreen-vnc {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    background-color: var(--bg-2);
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    position: absolute;
+}
+

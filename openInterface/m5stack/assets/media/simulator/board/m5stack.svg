@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Calque_2"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 731.78 731.78">
+    <defs>
+        <style>.clickable{cursor:pointer;}.cls-1{fill:#fff;}.cls-2{fill:#333;}.cls-3{fill:#ccc;}.cls-4{fill:#1a1a1a;}</style>
+    </defs>
+    <g id="Calque_1-2">
+        <g id="m5stack">
+            <g id="body">
+                <rect class="cls-4" y="0" width="731.78" height="731.78" rx="70" ry="70"/>
+                <path class="cls-2" d="M661.78,11.34c15.59,0,30.3,6.12,41.42,17.24,11.12,11.12,17.24,25.83,17.24,41.42V661.78c0,15.59-6.12,30.3-17.24,41.42-11.12,11.12-25.83,17.24-41.42,17.24H70c-15.59,0-30.3-6.12-41.42-17.24-11.12-11.12-17.24-25.83-17.24-41.42V70c0-15.59,6.12-30.3,17.24-41.42,11.12-11.12,25.83-17.24,41.42-17.24H661.78m0-11.34H70C31.5,0,0,31.5,0,70V661.78C0,700.28,31.5,731.78,70,731.78H661.78c38.5,0,70-31.5,70-70V70c0-38.5-31.5-70-70-70h0Z"/>
+            </g>
+            <rect id="screen" class="cls-2" x="81.69" y="136.8" width="566.95" height="416.44"/>
+            <g id="button_under">
+                <g id="left">
+                    <rect id="left-2" class="cls-3" x="143.97" y="621.09" width="112" height="70" rx="5" ry="5"/>
+                </g>
+                <g id="middle">
+                    <rect id="middle-2" class="cls-3" x="309.89" y="621.09" width="112" height="70" rx="5" ry="5"/>
+                </g>
+                <g id="right">
+                    <rect id="right-2" class="cls-3" x="476.26" y="621.09" width="112" height="70" rx="5" ry="5"/>
+                </g>
+            </g>
+            <g id="button_top" class="clickable">
+                <g id="A_BTN">
+                    <rect id="A" class="cls-1" x="143.97" y="604.91" width="112" height="70" rx="5" ry="5"/>
+                </g>
+                <g id="B_BTN">
+                    <rect id="B" class="cls-1" x="309.89" y="604.91" width="112" height="70" rx="5" ry="5"/>
+                </g>
+                <g id="C_BTN">
+                    <rect id="C" class="cls-1" x="476.26" y="604.91" width="112" height="70" rx="5" ry="5"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

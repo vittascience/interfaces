@@ -1,0 +1,15 @@
+@import url('../../../interfaces/assets/css/simulator-modules.css');
+@import url('../../../interfaces/assets/css/simulator-wifi.css');
+
+#board-viewer {
+	height: 280px;
+}
+
+.canvas-m5ui-screen {
+    width: 215px;
+    height: 160.25px;
+    top: 69px;
+    margin-left: 42px;
+    position: absolute;
+    display: block;
+}

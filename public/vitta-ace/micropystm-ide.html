@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>ACE: STM32 Micropython</title>
+    <!-- begin scripts for ACE -->
+    <script src="/public/js/lib/ace-1.4.12/ace.min.js"></script>
+    <script src="/public/js/lib/ace-1.4.12/mode-python.min.js"></script>
+    <script src="js/ext-languages_tools.js"></script>
+    <script src="/public/js/lib/ace-1.4.12/ext-searchbox.min.js"></script>
+    <script src="js/aceInit.js"></script>
+    <!-- end scripts for ACE -->
+
+    <link rel="stylesheet" href="./css/ace.css">
+
+
+
+<body>
+
+    <h2>STM32 Micropython code completion demo</h2>
+    <div id="stm32"> </div>
+    <div id="editor">#MicroPython for STM32 </div>
+    <script>
+        //inject Ace Editor
+        editorInit(document);
+    </script>
+
+    <div style="position:relative; right:-900px; top:100px;">
+        <nav>
+            <ul>
+                <li class="menu-deroulant">
+                    <a>Modes</a>
+                    <ul class="sous-menu">
+                        <li><a href="./micropyesp-ide.html">ACE - ESP32 (MicroPython)</a></li>
+                        <li><a href="./micropystm-ide.html">ACE - STM32 (MicroPython)</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+
+</body>
+
+</html>

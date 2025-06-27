@@ -1,0 +1,20 @@
+@import url('../../../interfaces/assets/css/simulator-modules.css');
+@import url('../../../interfaces/assets/css/simulator-robot.css');
+
+.sphero-mini-motorLeft,
+.sphero-mini-motorRight {
+	z-index: 1;
+	top: -1px;
+	left: 2px;
+}
+
+.sphero-mini-motorLeft_base {
+	z-index: 2;
+	opacity: 0.9;
+}
+
+.sphero-mini-motorLeft_base,
+.sphero-mini-motorRight_base {
+	bottom: 0px;
+	left: 16px;
+}

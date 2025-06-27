@@ -1,0 +1,110 @@
+
+/* page multi */
+
+html, body {
+    height: 100%;
+    width:100%;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.group-editors {
+	display: flex;
+	position: relative;
+	flex-direction: row;
+	height: calc(100% - var(--navbar-height));
+	margin: 0 2px;
+	max-height: 100vh;
+}
+
+.tab-editor { 
+	height: 100%;
+	width: 100%;
+	position: relative;
+}
+
+.tab-editor>iframe {
+	height: 100%;
+}
+
+#clone-interface {
+	position: absolute;
+	bottom: 2px;
+	left: 2px;
+	width: 25px;
+	height: 25px;
+	color: var(--text-1);
+	background-color: var(--bg-2);
+	border-width: 2px 2px 0 0;
+	border-style: solid;
+	border-color: var(--bg-4);
+	text-align: center;
+	border-radius: 0 5px 0 0;
+	cursor: pointer;
+}
+
+#change-interface {
+	position: absolute;
+	bottom: 2px;
+	right: 2px;
+	width: 25px;
+	height: 25px;
+	color: var(--text-1);
+	background-color: var(--bg-2);
+	border-width: 2px 0 0 2px;
+	border-style: solid;
+	border-color: var(--bg-4);
+	text-align: center;
+	border-radius: 5px 0 0 0;
+	cursor: pointer;
+}
+
+#separator-editor {
+	position: relative;
+	height: 100%;
+	touch-action: none;
+	user-select: none;
+}
+
+/* Circle separator/resizer */
+#separator-controls {
+	display: inline;
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	top: calc(50% - 30px);
+	left: -10px;
+	border-radius: 20px;
+	height :65px;
+	width: 25px;
+	background-color: var(--bg-4);
+	user-select: none;
+	touch-action: none;
+	z-index: 1;
+}
+
+#separator-controls span {
+	margin: auto;
+}
+
+#interface-resizer {
+	border-bottom: 3px solid var(--bg-2);
+	border-radius: 20px 20px 0 0;
+	cursor: ew-resize;
+}
+
+#interface-action {
+	border-radius: 0 0 20px 20px;
+	cursor: pointer;
+}
+
+#separator-editor hr {
+	background-color: var(--bg-4);
+	width: 5px;
+	margin: 0;
+	height: 100%;
+}
+
+/****/

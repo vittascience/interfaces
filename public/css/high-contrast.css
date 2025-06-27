@@ -1,0 +1,796 @@
+/* COMPONENTS */
+/* INDEX PAGE */
+
+/* Main buttons */
+i.fa-arrow-down {
+    opacity: 100% !important;
+}
+
+/* BS Buttons */
+.btn-primary,
+.btn-success,
+.v-btn,
+.vitta-button,
+.btn-green,
+.btn-orange {
+    --bs-btn-color: var(--vitta-black) !important;
+    --bs-btn-border-color: var(--text-0) !important;
+    --bs-btn-disabled-border-color: var(--text-0) !important;
+    --bs-btn-hover-border-color: var(--text-0) !important;
+    --bs-border-color: var(--text-0) !important;
+}
+
+.v-btn-grey,
+.v-btn-basic,
+.btn-secondary {
+    --bs-btn-color: var(--text-0) !important;
+    --bs-btn-bg: var(--bg-0);
+    --bs-btn-border-color: var(--text-0) !important;
+    --bs-btn-hover-border-color: var(--text-0) !important;
+    --bs-btn-hover-bg: var(--text-0) !important;
+    --bs-btn-hover-color: var(--bg-0) !important;
+}
+
+.theme-light .v-btn-grey img {
+    filter: invert(1);
+}
+
+.theme-light .v-btn-grey:hover img {
+    filter: invert(0);
+}
+
+.theme-dark .v-btn-grey:hover img {
+    filter: invert(1);
+}
+
+
+/* Separations */
+.themed-hr {
+    opacity: 1;
+}
+
+/* Borders on sections */
+#index-flex,
+#eduup-container,
+#interfaces-container,
+#partners-container,
+#platform-display #demo-text,
+.plyr {
+    filter: drop-shadow(0px 2px 0px var(--text-0)) drop-shadow(0px -2px 0px var(--text-0)) drop-shadow(2px 0px 0px var(--text-0)) drop-shadow(-2px 0px 0px var(--text-0)) !important;
+}
+
+#platform-display #demo-text,
+.plyr {
+    box-shadow: none !important;
+}
+
+/* Sidebar element */
+.sidebar-element {
+    box-shadow: 0 0 0 1px var(--text-0) !important;
+}
+
+/* Sidebar element (when on focus) */
+.sidebar-element-focus {
+    box-shadow: 0 0 0 3px var(--text-0) !important;
+}
+
+/* Sidebar icons */
+.demo-element {
+    box-shadow: none;
+    border: 1px solid var(--text-0);
+}
+
+/* Interface popup */
+div#iframe-popup {
+    box-shadow: none;
+    border: 1px solid var(--text-0);
+}
+
+.plyr__video-wrapper {
+    border: 2px solid var(--text-0);
+}
+
+/* Changing colors of footer text */
+#vitta-footer b,
+.footer-section-title,
+#vitta-footer p,
+#vitta-footer a,
+.footer-text,
+.footer-input::placeholder {
+    color: var(--text-0) !important;
+}
+
+/* Top border on footer */
+#vitta-footer {
+    border-top: 2px solid var(--text-0);
+}
+
+/* Changing colors of social media icons */
+.icon-circled {
+    background-color: var(--text-0);
+}
+
+/* Border bottom on input section */
+.footer-input {
+    border-bottom: var(--text-0) 1px solid;
+}
+
+
+
+
+/* NAVBAR */
+.navbar.vs-navbar {
+    border-bottom: 2px solid var(--text-0);
+}
+
+/* Outlines and colors when active elements */
+/*.nav-item .btn:focus-within {
+    outline: 3px solid var(--vitta-blue) !important;
+}*/
+/*.vs-navbar .nav-link:focus-within {
+    color: var(--text-0);
+}
+
+
+
+
+/* OPENINTERFACE
+Here we mainly put border to the elements to make them stand out */
+
+.oi-btn-simulator {
+    --bs-btn-color: var(--text-0) !important;
+    --bs-btn-border-color: var(--text-0) !important;
+    --bs-btn-disabled-border-color: var(--text-0) !important;
+    --bs-btn-hover-border-color: var(--text-0) !important;
+    --bs-border-color: var(--text-0) !important;
+}
+
+.monitor-view-btn {
+    --bs-btn-color: var(--text-0) !important;
+    --bs-btn-border-color: var(--text-0) !important;
+    --bs-btn-disabled-border-color: var(--text-0) !important;
+    --bs-btn-hover-border-color: var(--text-0) !important;
+    --bs-border-color: var(--text-0) !important;
+}
+
+/* Elements with larger borders (section edges) */
+
+#monitor,
+#content_blocks,
+#monitor-tools,
+#simulator,
+.dropdown-menu,
+#timeout-controls,
+#vitta-modal,
+.ace_gutter,
+.ace_content,
+#console {
+    border: 2px solid var(--text-0) !important;
+}
+
+/* Borders for the TI-83 interface */
+#ti_screen-container {
+    border: 2px solid var(--text-0) !important;
+}
+
+/* Removing some pseudo-elements for better interface */
+#monitor-tools::before,
+#monitor-tools::after,
+#monitor-toggler::after {
+    content: none !important;
+}
+
+.blocklyToolboxDiv {
+    border-inline-end-color: var(--text-0) !important;
+}
+
+.blocklyToolboxDiv .blocklyTreeSeparator {
+    border-color: var(--text-0) !important;
+}
+
+.ide-btn,
+.monitor-controls-button,
+.btn_ide {
+    border: 2px solid var(--text-0) !important;
+    color: var(--text-0) !important;
+}
+
+.select_ide {
+    border: 2px solid var(--text-0);
+    color: var(--text-0);
+}
+
+#serial-input {
+    border-color: var(--vitta-grey-dark) !important;
+    border-width: 2px;
+}
+
+/* Change color and opacity of the blockly scrollbar */
+g .blocklyScrollbarHandle {
+    --scrollbar-rgb: var(--text-0-rgb);
+    --scrollbar-opacity: 1;
+}
+
+/* Simulator buttons */
+.oi-btn-simulator {
+    box-shadow: none;
+    background-color: var(--bg-0);
+}
+
+/* Inverting the icons color for the light HC theme */
+.theme-light .oi-btn-simulator img {
+    filter: invert(1);
+}
+
+/* Adding small padding for better aspect */
+#simulator_step_forward {
+    margin-right: 0.5em;
+}
+
+/* OPTIONS */
+/* Parameters */
+.vitta-modal {
+    border: 2px solid var(--text-0);
+}
+
+.vitta-modal-title {
+    color: var(--text-0) !important;
+}
+
+/* Borders and background colors for switches */
+#modal-settings,
+.vitta-modal-exit-btn {
+    border: 2px solid var(--text-0);
+}
+
+.switcher__toggle {
+    background-color: var(--bg-0);
+    border: 4px solid var(--text-0);
+}
+
+.switcher {
+    background-color: var(--bg-0) !important;
+    border-width: 2px !important;
+}
+
+span.slider,
+.slider::before {
+    background-color: var(--bg-0);
+    filter: drop-shadow(2px 0 0 var(--text-0)) drop-shadow(-2px 0 0 var(--text-0)) drop-shadow(0 2px 0 var(--text-0)) drop-shadow(0 -2px 0 var(--text-0));
+}
+
+.ide-modal-section div {
+    padding-left: 2px;
+}
+
+input:checked+.slider {
+    background-color: var(--text-0);
+}
+
+.switcher__input:checked+.switcher__label {
+    color: var(--text-0);
+}
+
+
+/* Changing  color of custom scrollbars */
+.stylized-scrollbar,
+.chronogram-body,
+.ide-simulator,
+#simulator,
+#console,
+.modal-background-content {
+    scrollbar-color: var(--text-0) #000000 !important;
+}
+
+.blocklyToolboxDiv {
+    scrollbar-color: var(--text-0) transparent !important;
+}
+
+/* Back button */
+#modal-help-btn-back {
+    background-color: var(--bg-0);
+    color: var(--text-0);
+}
+
+#modal-help-btn-back:hover {
+    color: var(--bg-0);
+    background-color: var(--text-0);
+    border: 1px solid var(--text-0);
+}
+
+/* Options button for the bottom part of code interface */
+.monitor-controls-button:hover {
+    background-color: var(--text-0) !important;
+    color: var(--bg-0) !important;
+}
+
+/* Changing color of active and inactive buttons on bottom part of code interface */
+.monitor-view-btn:hover {
+    background-color: var(--vitta-shadow-color);
+}
+
+.monitor-view-btn.activated:hover {
+    background-color: var(--vitta-orange-dark);
+}
+
+/* Buttons opacity */
+.blocklyTrash,
+.blocklyBackpack,
+.blocklyTrash image,
+.blocklyZoom image {
+    opacity: 1 !important;
+}
+
+/* Small filter on simulator for better view on dark theme high-contrast (especially for micro-bit */
+.theme-dark #board-viewer {
+    filter: invert(0.1);
+}
+
+/* Blockly high-contrast */
+/* Blocks color, text and strokes */
+.blocklyPath {
+    fill: var(--bg-0);
+    stroke: var(--text-0);
+    stroke-width: 4px;
+}
+
+.blocklyPath[filter^="url(#blocklySelectedGlowFilter"] {
+    fill: transparent !important;
+    filter: none;
+    stroke: yellow;
+}
+
+.blocklyDisabled>.blocklyPath {
+    stroke-opacity: 0.3;
+}
+
+.zelos-renderer text.blocklyText,
+.zelos-renderer text.blocklyText.blocklyDropdownText {
+    fill: var(--text-0) !important;
+}
+
+.theme-light .blocklyEditableText>image {
+    filter: invert(1);
+}
+
+/* Toolbox */
+
+.vittascience_classic-theme div.blocklyToolboxDiv {
+    background: var(--bg-0) !important;
+}
+
+.blocklyToolboxDiv div.blocklyTreeRow:hover {
+    background-color: var(--bg-0) !important;
+    outline: 2px dotted var(--text-0) !important;
+}
+
+.blocklyTreeLabel,
+span.icon_blockly {
+    color: var(--text-0) !important;
+}
+
+/* Changing the color of some icons that are svgs */
+.icon_blockly>svg>g,
+.icon_blockly>svg>path {
+    fill: var(--text-0);
+}
+
+div.blocklyTreeSelected {
+    background-color: var(--bg-0) !important;
+    outline: var(--text-0) 2px dotted !important;
+}
+
+rect.blocklyFieldRect {
+    stroke: var(--text-0);
+}
+
+#search-block-input {
+    border-bottom: 1px solid var(--text-0) !important;
+    color: var(--text-0) !important;
+}
+
+div.blocklyDropDownDiv {
+    background-color: var(--bg-0) !important;
+    border: 1px solid var(--text-0) !important;
+}
+
+.theme-dark .fieldGridDropDownContainer.blocklyMenu .blocklyMenuItem {
+    border-color: rgba(255, 255, 255, 0.25);
+    background-color: var(--bg-0);
+}
+
+.theme-light .fieldGridDropDownContainer.blocklyMenu .blocklyMenuItem {
+    border-color: rgba(0, 0, 0, 0.25);
+    background-color: var(--bg-0);
+}
+
+.fieldGridDropDownContainer .blocklyMenuItem.blocklyMenuItemSelected {
+    border: 2px solid var(--text-0) !important;
+}
+
+.fieldGridDropDownContainer .blocklyMenuItem.blocklyMenuItemHighlight {
+    box-shadow: 0 0 0 3px var(--text-0) !important;
+}
+
+.blocklyDropDownDiv .goog-menuitem-content {
+    color: var(--text-0) !important;
+}
+
+.fieldGridDropDownContainer.blocklyMenu .blocklyMenuItem {
+    border: 1px solid var(--bg-0);
+    background-color: var(--bg-0);
+}
+
+g.blocklyEditableText>.blocklyText {
+    fill: var(--text-0) !important;
+}
+
+g.blocklyEditableText>rect.blocklyFieldRect {
+    fill: var(--bg-0) !important;
+}
+
+.blocklyOutlinePath {
+    fill: var(--text-0) !important;
+    fill-opacity: 30%;
+}
+
+/* Code text colors */
+
+div#content_code.ace_editor.ace_hidpi.ace-tm.ace-ar div.ace_scroller div.ace_content>div.ace_layer.ace_text-layer>.ace_line_group * {
+    color: var(--text-0) !important;
+}
+
+
+/* CODE */
+
+/* Page titles */
+#programming-head h1,
+#programming-head h3 {
+    color: var(--text-0);
+}
+
+/* Card borders */
+#interfaces-cards .card {
+    box-shadow: none;
+    background-color: var(--bg-0);
+    filter: drop-shadow(2px 0px 0px var(--text-0)) drop-shadow(-2px 0px 0px var(--text-0)) drop-shadow(0px 2px 0px var(--text-0)) drop-shadow(0px -2px 0px var(--text-0)) !important;
+}
+
+#interfaces-cards .interface-img {
+    filter: drop-shadow(2px 0 0 var(--text-0)) drop-shadow(-2px 0 0 var(--text-0)) drop-shadow(0 2px 0 var(--text-0)) drop-shadow(0 -2px 0 var(--text-0));
+}
+
+.card>a[href='/esp32/']>.interface-img,
+.card>a[href='/thymio/']>.interface-img,
+.card>a[href='/quickpi']>.interface-img,
+.card>a[href='/quickpi/']>.interface-img {
+    filter: none !important;
+}
+
+/* Mosaic border */
+.simulator-module,
+.simulator-module-large {
+    border: 3px dotted var(--text-0) !important;
+}
+
+/* Border section color */
+path.svg-border-green {
+    fill: var(--bg-0) !important;
+}
+
+.border-bottom-code,
+.border-bottom-about {
+    filter: drop-shadow(3px 0 0 var(--text-0)) drop-shadow(-3px 0 0 var(--text-0)) drop-shadow(0 3px 0 var(--text-0))
+}
+
+
+#interfaces-cards .card-info-link {
+    color: var(--text-0);
+    opacity: 1;
+}
+
+#programming-head {
+    background-color: var(--bg-0);
+}
+
+/* Text paragraph */
+p.card-text {
+    color: var(--text-0);
+}
+
+
+
+/* LEARN */
+/* Sidebar */
+/*Border shadows */
+#search-sidebar {
+    box-shadow: 1px 1px 1px var(--text-0) !important;
+}
+
+/* Main section */
+/* Thumbnails */
+.tutorial-item-description,
+.tutorial-item-link {
+    border: 2px solid var(--text-0);
+}
+
+.tutorial-item-link {
+    border-radius: 12px;
+}
+
+.tutorial-item-details {
+    padding: 0 6px 2px;
+}
+
+.image_tutorial,
+.tutorial-item-description {
+    box-shadow: 0 1px 0 var(--text-0) !important;
+}
+
+/* Page links */
+#pagination-container {
+    filter: none;
+}
+
+.pagination {
+    border: 2px solid var(--text-0);
+    border-radius: 0.5rem;
+}
+
+.page-link {
+    background-color: var(--bg-0);
+    border: 1px solid var(--text-0);
+    z-index: 2000;
+}
+
+.page-link:hover {
+    background-color: var(--vitta-shadow-color);
+    border: 1px solid var(--text-0);
+}
+
+.pagination .active .page-link:hover {
+    background-color: var(--vitta-green-focus-shadow) !important;
+}
+
+
+
+
+/* SHOP */
+/* Sidebar */
+#divTri {
+    box-shadow: 1px 1px 0 var(--text-0) !important;
+}
+
+/* Carousel buttons */
+.carousel-arrow {
+    background-color: var(--bg-0);
+    border: 1px solid var(--text-0);
+    color: var(--text-0);
+}
+
+.carousel-arrow:hover {
+    background-color: var(--text-0);
+    color: var(--bg-0);
+    border: 1px solid var(--bg-0);
+}
+
+/* Products borders in light theme high-contrast */
+.theme-light .product-item {
+    box-shadow: none;
+    border: 2px solid var(--text-0);
+}
+
+/* Opacity and border of prices */
+.product-item-price {
+    opacity: 1 !important;
+}
+
+.product-item-price-inner {
+    border: 2px solid var(--vitta-black)
+}
+
+
+/* Glossary */
+
+#glossary-head h1,
+#glossary-head h3 {
+    color: var(--text-0);
+}
+
+#glossary-head {
+    background-color: var(--bg-0);
+}
+
+/* SUPPORT */
+/* Sections drop shadows */
+section#head-flex,
+section#video-section {
+    filter: drop-shadow(0px 2px 0px var(--text-0)) drop-shadow(0px -2px 0px var(--text-0)) drop-shadow(2px 0px 0px var(--text-0)) drop-shadow(-2px 0px 0px var(--text-0));
+}
+
+
+
+
+/* ABOUT */
+#about-head h3 {
+    color: var(--text-0) !important;
+}
+
+#newsletter-about-button:hover {
+    border: 1px solid var(--text-0);
+}
+
+div#about-head {
+    filter: drop-shadow(0 3px 0 var(--text-0));
+}
+
+.vitta-member-desc a button {
+    border: 2px solid var(--text-0);
+}
+
+.vitta-member-desc a button:hover {
+    border: 2px solid var(--text-0);
+}
+
+/* Borders on profile pictures */
+.theme-light .vitta-member {
+    box-shadow: 0 0 0 4px var(--text-0)
+}
+
+.theme-light .vitta-hof-person {
+    box-shadow: 0 0 0 4px var(--text-0);
+}
+
+/* Form */
+#contact-submit-btn,
+#contact-submit-btn:hover {
+    border: 2px solid var(--text-0);
+}
+
+#contact-submit-btn:disabled {
+    border: 2px solid transparent;
+}
+
+.newsletter-input:focus-within {
+    box-shadow: 0 0 0 3px var(--vitta-blue);
+}
+
+.theme-light .newsletter-input,
+.theme-light #newsletter-button {
+    border-color: var(--text-0);
+    border-width: 2px;
+}
+
+
+
+
+/* COOKIES */
+#cgv-div {
+    filter: none;
+}
+
+#cgv-content svg {
+    filter: drop-shadow(2px 0 0 var(--text-0)) drop-shadow(-2px 0 0 var(--text-0)) drop-shadow(0 -2px 0 var(--text-0));
+}
+
+.cgv-texts {
+    filter: drop-shadow(2px 0 0 var(--text-0)) drop-shadow(-2px 0 0 var(--text-0)) drop-shadow(0 2px 0 var(--text-0));
+}
+
+.cgv-sign {
+    color: var(--text-0);
+}
+
+.cgv-separator {
+    border-color: var(--text-0);
+}
+
+
+
+
+/* PRIVACY */
+h2.cgv-subtitle {
+    color: var(--text-0);
+}
+
+
+
+
+/* AI */
+/* Borders */
+.ai-ide-container {
+    border-top: 3px solid var(--text-0) !important;
+}
+
+#ai-ide-container>section {
+    border: 2px solid var(--text-0);
+}
+
+.category-camera-select {
+    background-color: var(--bg-0);
+    border: 1px solid var(--text-0);
+}
+
+
+/* Misc */
+/* Small change of background color on dark high-contrast for visibility of partners logos */
+
+.theme-dark .logos-opensource-partners a {
+    background-color: rgba(21, 21, 21);
+}
+
+.theme-dark .logos-opensource-partners .logo-pic {
+    background-color: rgba(21, 21, 21);
+}
+
+.theme-dark .opensource-partners-block img {
+    background-color: rgba(21, 21, 21);
+}
+
+/* WIKI */
+
+#radioContainer #search-btn,
+#radioContainer #search-block input {
+    border: 2px solid var(--text-0);
+    background-color: var(--bg-0);
+    color: var(--text-0);
+}
+
+#radioContainer #search-btn:hover,
+#radioContainer #search-btn:focus-within {
+    background-color: var(--vitta-orange);
+}
+
+#radioContainer #search-block input:focus-within {
+    outline: 2px solid var(--vitta-blue);
+}
+
+.block-container-row>button>i,
+.code-container>.btn-copy>i {
+    color: var(--text-0);
+}
+
+.block-container-row>button,
+.code-container>.btn-copy {
+    border: 2px solid var(--text-0);
+}
+
+.block-container-row>button:focus-within {
+    outline: 2px solid var(--vitta-blue);
+}
+
+.block-container-row>button:hover,
+.code-container>.btn-copy:hover {
+    background-color: var(--vitta-orange);
+    border: 2px solid var(--text-0);
+}
+
+#radioContainer .category,
+#category-title {
+    color: var(--text-0) !important;
+}
+
+.category:hover {
+    outline: 2px dotted var(--text-0);
+}
+
+/* FAQ */
+
+.kit-faq-box {
+    background-color: var(--vitta-shadow-color) !important;
+}
+
+/* PLUGIN */
+
+.download-card {
+    border: 2px solid var(--text-0);
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.download-separator {
+    border-top-color: var(--text-0);
+}
+
+
+/* All of the other footer pages use similar elements to Cookies or Privacy pages, so nothing to edit */

@@ -1,0 +1,1 @@
+export { setupDuplicateLineCommand } from "./duplicate-line-command.js"

@@ -1,0 +1,232 @@
+[{
+    "dep_name": "Ain"
+}, {
+    "dep_name": "Aisne",
+    "is_tne": true
+}, {
+    "dep_name": "Allier"
+}, {
+    "dep_name": "Alpes-de-Haute-Provence"
+}, {
+    "dep_name": "Hautes-Alpes"
+}, {
+    "dep_name": "Alpes-Maritimes"
+}, {
+    "dep_name": "Ardèche"
+}, {
+    "dep_name": "Ardennes",
+    "is_lycee4_0": true
+}, {
+    "dep_name": "Ariège"
+}, {
+    "dep_name": "Aube",
+    "is_lycee4_0": true
+}, {
+    "dep_name": "Aude"
+}, {
+    "dep_name": "Aveyron"
+}, {
+    "dep_name": "Bouches-du-Rhône",
+    "is_tne": true
+}, {
+    "dep_name": "Calvados"
+}, {
+    "dep_name": "Cantal"
+}, {
+    "dep_name": "Charente"
+}, {
+    "dep_name": "Charente-Maritime"
+}, {
+    "dep_name": "Cher",
+    "is_tne": true
+}, {
+    "dep_name": "Corrèze"
+}, {
+    "dep_name": "Côte-d'Or"
+}, {
+    "dep_name": "Côtes-d'Armor"
+}, {
+    "dep_name": "Creuse"
+}, {
+    "dep_name": "Dordogne"
+}, {
+    "dep_name": "Doubs",
+    "is_tne": true
+}, {
+    "dep_name": "Drôme"
+}, {
+    "dep_name": "Eure"
+}, {
+    "dep_name": "Eure-et-Loir"
+}, {
+    "dep_name": "Finistère",
+    "is_tne": true
+}, {
+    "dep_name": "Corse-du-Sud",
+    "is_tne": true
+}, {
+    "dep_name": "Haute-Corse"
+}, {
+    "dep_name": "Gard"
+}, {
+    "dep_name": "Haute-Garonne"
+}, {
+    "dep_name": "Gers"
+}, {
+    "dep_name": "Gironde"
+}, {
+    "dep_name": "Hérault",
+    "is_tne": true
+}, {
+    "dep_name": "Ille-et-Vilaine"
+}, {
+    "dep_name": "Indre"
+}, {
+    "dep_name": "Indre-et-Loire"
+}, {
+    "dep_name": "Isère",
+    "is_tne": true
+}, {
+    "dep_name": "Jura"
+}, {
+    "dep_name": "Landes"
+}, {
+    "dep_name": "Loir-et-Cher"
+}, {
+    "dep_name": "Loire"
+}, {
+    "dep_name": "Haute-Loire"
+}, {
+    "dep_name": "Loire-Atlantique"
+}, {
+    "dep_name": "Loiret"
+}, {
+    "dep_name": "Lot"
+}, {
+    "dep_name": "Lot-et-Garonne"
+}, {
+    "dep_name": "Lozère"
+}, {
+    "dep_name": "Maine-et-Loire"
+}, {
+    "dep_name": "Manche"
+}, {
+    "dep_name": "Marne",
+    "is_lycee4_0": true
+}, {
+    "dep_name": "Haute-Marne",
+    "is_lycee4_0": true
+}, {
+    "dep_name": "Mayenne"
+}, {
+    "dep_name": "Meurthe-et-Moselle",
+    "is_lycee4_0": true
+}, {
+    "dep_name": "Meuse",
+    "is_lycee4_0": true
+}, {
+    "dep_name": "Morbihan"
+}, {
+    "dep_name": "Moselle"
+}, {
+    "dep_name": "Nièvre"
+}, {
+    "dep_name": "Nord"
+}, {
+    "dep_name": "Oise"
+}, {
+    "dep_name": "Orne"
+}, {
+    "dep_name": "Pas-de-Calais"
+}, {
+    "dep_name": "Puy-de-Dôme"
+}, {
+    "dep_name": "Pyrénées-Atlantiques"
+}, {
+    "dep_name": "Hautes-Pyrénées"
+}, {
+    "dep_name": "Pyrénées-Orientales"
+}, {
+    "dep_name": "Bas-Rhin",
+    "is_lycee4_0": true
+}, {
+    "dep_name": "Haut-Rhin",
+    "is_lycee4_0": true
+}, {
+    "dep_name": "Rhône"
+}, {
+    "dep_name": "Haute-Saône"
+}, {
+    "dep_name": "Saône-et-Loire"
+}, {
+    "dep_name": "Sarthe"
+}, {
+    "dep_name": "Savoie"
+}, {
+    "dep_name": "Haute-Savoie"
+}, {
+    "dep_name": "Paris",
+    "is_lycee_up": true
+}, {
+    "dep_name": "Seine-Maritime"
+}, {
+    "dep_name": "Seine-et-Marne",
+    "is_lycee_up": true
+}, {
+    "dep_name": "Yvelines",
+    "is_lycee_up": true
+}, {
+    "dep_name": "Deux-Sèvres"
+}, {
+    "dep_name": "Somme"
+}, {
+    "dep_name": "Tarn"
+}, {
+    "dep_name": "Tarn-et-Garonne"
+}, {
+    "dep_name": "Var"
+}, {
+    "dep_name": "Vaucluse"
+}, {
+    "dep_name": "Vendée"
+}, {
+    "dep_name": "Vienne",
+    "is_tne": true
+}, {
+    "dep_name": "Haute-Vienne"
+}, {
+    "dep_name": "Vosges",
+    "is_tne": true,
+    "is_lycee4_0": true
+}, {
+    "dep_name": "Yonne"
+}, {
+    "dep_name": "Territoire de Belfort"
+}, {
+    "dep_name": "Essonne",
+    "is_lycee_up": true
+}, {
+    "dep_name": "Hauts-de-Seine",
+    "is_lycee_up": true
+}, {
+    "dep_name": "Seine-Saint-Denis",
+    "is_lycee_up": true
+}, {
+    "dep_name": "Val-de-Marne",
+    "is_lycee_up": true
+}, {
+    "dep_name": "Val-d'Oise",
+    "is_lycee_up": true,
+    "is_tne": true
+}, {
+    "dep_name": "Guadeloupe",
+    "is_tne": true
+}, {
+    "dep_name": "Martinique"
+}, {
+    "dep_name": "Guyane"
+}, {
+    "dep_name": "La Réunion"
+}, {
+    "dep_name": "Mayotte"
+}]

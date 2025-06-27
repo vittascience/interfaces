@@ -1,0 +1,81 @@
+@import url('../../../interfaces/assets/css/simulator-modules.css');
+@import url('../../../interfaces/assets/css/simulator-robot.css');
+
+#board-viewer {
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	transform: rotate(270deg)
+}
+
+.bluebot-motorLeft,
+.bluebot-motorRight {
+	z-index: 1;
+	top: -1px;
+	left: 2px;
+}
+
+.bluebot-motorLeft_base {
+	z-index: 2;
+	opacity: 0.9;
+}
+
+.bluebot-motorLeft_base,
+.bluebot-motorRight_base {
+	bottom: 0px;
+	left: 16px;
+}
+
+.bluebot-buttons-tooltip {
+	position: absolute;
+    top: 1em;
+    left: 1em;
+}
+
+.tooltip-inner-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.4em;
+  background-color: var(--vitta-green-dark);
+  color: var(--vitta-white);
+  font-weight: 700;
+  border-radius: 8px;
+}
+
+.tooltip-inner-wrapper-bluebot-buttons {
+  max-width: 29em;
+  margin: auto;
+}
+
+.bluebot-buttons-tooltip button {
+  align-items: center;
+  display: flex;
+  padding: 0.2em 0.5em;
+  background-color: var(--vitta-white);
+  color: var(--vitta-green-dark);
+}
+
+.bluebot-buttons-tooltip button:hover {
+  background-color: var(--vitta-green-dark);
+  color: var(--vitta-white);
+}
+
+.bluebot-buttons-tooltip button i {
+  font-size: 1.2em;
+}
+
+.bluebot-buttons-tooltip-triangle {
+  position: absolute;
+  width: 1.5em;
+  height: 1.2em;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--vitta-green-dark);
+}
+
+.bluebot-buttons-tooltip-triangle {
+  bottom: -1.1em;
+  clip-path: polygon(100% 0, 0 0, 50% 100%);
+}

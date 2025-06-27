@@ -1,0 +1,996 @@
+{
+    "materiel": [
+        {
+            "title": "Choisis l'appareil dont tu souhaites répondre aux questions",
+            "questions": {
+                "label": "Quels sont tes compagnons de tous les jours ?",
+                "type": "select",
+                "name": "device_selection",
+                "options": [
+                    {
+                        "id": "smartphone",
+                        "label": "Smartphone",
+                        "image": "phone.svg",
+                        "fabrication": 85.3,
+                        "one_year_utilization": 0.22,
+                        "theoretical_use": 3,
+                        "lifetime": 2.5,
+                        "secondHandImpact": 75
+                    },
+                    {
+                        "id": "tablette",
+                        "label": "Tablette",
+                        "image": "tablet.svg",
+                        "fabrication": 60.1,
+                        "one_year_utilization": 0.6,
+                        "theoretical_use": 3,
+                        "lifetime": 3,
+                        "secondHandImpact": 63
+                    },
+                    {
+                        "id": "speaker",
+                        "label": "Enceinte connectée",
+                        "image": "enceinte.svg",
+                        "fabrication": 20.5,
+                        "one_year_utilization": 1.2,
+                        "theoretical_use": 3,
+                        "lifetime": 5,
+                        "secondHandImpact": 75
+                    },
+                    {
+                        "id": "computer",
+                        "label": "Ordinateur",
+                        "image": "computer.svg",
+                        "fabrication": 185.8,
+                        "one_year_utilization": 1.52,
+                        "theoretical_use": 3,
+                        "lifetime": 5,
+                        "secondHandImpact": 70
+                    },
+                    {
+                        "id": "console",
+                        "label": "Console de jeux vidéo",
+                        "image": "gamepad.svg",
+                        "fabrication": 284.8,
+                        "one_year_utilization": 1.5184,
+                        "theoretical_use": 1,
+                        "lifetime": 6,
+                        "secondHandImpact": 75
+                    },
+                    {
+                        "id": "television",
+                        "label": "Télévision",
+                        "image": "tv.svg",
+                        "fabrication": 388,
+                        "one_year_utilization": 10.6,
+                        "theoretical_use": 3,
+                        "lifetime": 8,
+                        "secondHandImpact": 70
+                    }
+                ]
+            }
+        },
+        {
+            "title": "📱 Smartphone",
+            "visible_if": {
+                "device_selection": "smartphone"
+            },
+            "rules": "<strong>Les bases du calcul:</strong> Écran moyen de 6,63 pouces, mix des technologies LCD et OLED, 8 Go de RAM, 210 Go de mémoire (mix pondéré entre 3 configurations, 24%, 24%, 52%).",
+            "practical_tips": [
+                "<strong>Pour un usage plus responsable de votre smartphone, adoptez quelques habitudes simples :</strong>",
+                "<ul><li> 🔋activez le mode économie d'énergie </li>",
+                "<li>🌞 réglez la luminosité automatique </li>",
+                "<li>❌ fermez les applications inutilisées.</li>",
+                "<li>🌱 Garder votre téléphone plus longtemps réduit significativement son impact environnemental. L'achat d'un modèle d'occasion est un excellent choix pour la planète.</l></ul>"
+            ],
+            "questions": [
+                {
+                    "label": "Depuis combien de temps possèdes-tu ton appareil ?",
+                    "name": "smartphone_years_usage",
+                    "type": "number",
+                    "unit": "années",
+                    "info": [
+                        "La fabrication, la distribution et la fin de vie d'un smartphone génèrent 85,3 kg de eq CO₂ 🌍📱. En l'utilisant plus longtemps, cet impact se répartit sur plusieurs années, réduisant ainsi l'empreinte carbone globale. ♻️💚Prolonger, c'est économiser ! ⏳🌱✨"
+                    ],
+                    "links": [
+                        "https://impactco2.fr/outils/numerique/smartphone"
+                    ]
+                },
+                {
+                    "label": "Tu prévois de garder ton smartphone encore combien de temps ?",
+                    "name": "smartphone_change",
+                    "type": "number",
+                    "unit": "années",
+                    "info": [
+                        "La durée de vie moyenne d'un smartphone est d'environ 2,5 ans. 📱 Prolonger son utilisation d'un an pourrait réduire son impact annuel de 10 kg de eq CO₂ ♻️.",
+                        "<ul><li>✅ 2,5 ans → Impact annuel : 34,36 kg de eq CO₂</li><li>✅ 3,5 ans → Impact annuel : 24,6 kg de eq CO₂</li></ul>",
+                        " 🎯 Bénéfice : environ 10 kg de eq CO₂ économisés par an 💨"
+                    ],
+                    "links": [
+                        "https://nsysgroup.com/fr/blog/average-device-lifespan-how-long-does-a-cell-phone-last/",
+                        "https://impactco2.fr/outils/numerique/smartphone"
+                    ]
+                },
+                {
+                    "label": "Préfères-tu un smartphone neuf ou d'occasion ?",
+                    "name": "smartphone_condition",
+                    "type": "select",
+                    "info": [
+                        "Malgré les impacts liés au processus de reconditionnement, l'acquisition d'un smartphone reconditionné permet de réduire l'impact environnemental annuel de 64% à 87% (en moyenne : 75 %) par rapport à un achat neuf. 😊"
+                    ],
+                    "links": [
+                        "https://librairie.ademe.fr/economie-circulaire-et-dechets/5241-evaluation-de-l-impact-environnemental-d-un-ensemble-de-produits-reconditionnes.html",
+                        "https://labo.societenumerique.gouv.fr/fr/articles/impact-environnemental-des-smartphones-quels-b%C3%A9n%C3%A9fices-du-reconditionnement-par-rapport-au-neuf/"
+                    ],
+                    "options": [
+                        "Neuf",
+                        "D'occasion"
+                    ]
+                },
+                {
+                    "label": "Combien de temps utilises-tu ton smartphone chaque jour ?",
+                    "advice": "Pour vérifier, tu peux aller dans Paramètres → Bien-être numérique ou temps d’écran.",
+                    "type": "number",
+                    "name": "smartphone_day_time",
+                    "info": [
+                        "Selon l'ADEME, une année d'utilisation d'un smartphone (3h/jour) émet 0,22 kg de eq CO₂. Les adolescents, qui passent en moyenne 4h30 par jour (soit 50 % de plus), voient cet impact augmenter. 📱⏳",
+                        "La batterie, souvent l'élément le plus fragile, commence à perdre en performance après 800 cycles de charge complets. Une utilisation modérée et intelligente permet de prolonger sa durée de vie. 🔋"
+                    ],
+                    "unit": "heure",
+                    "links": [
+                        "https://impactco2.fr/outils/numerique/smartphone",
+                        "https://www.sudouest.fr/societe/parentalite/age-pour-un-premier-smartphone-temps-passe-sur-les-ecrans-une-etude-decrypte-notre-rapport-au-numerique-21690366.php",
+                        "https://conscienceeco.fr/achats-et-activites/numerique/batteries/optimiser-la-duree-de-vie-dune-batterie-de-telephone/"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "🖥️Tablette",
+            "visible_if": {
+                "device_selection": "tablette"
+            },
+            "rules": "<strong>Les bases du calcul: </strong>Écran de 10,53 pouces, mix de technologies d'écran LCD, 4,7 Go de RAM, 144 Go de mémoire (mix pondéré entre 3 configurations de tablettes.). Moyenne des usages d'une tablette personnelle et professionnelle",
+            "practical_tips": [
+                "<strong>Pour réduire l'impact de votre tablette , adoptez ces gestes simples :</strong>",
+                "<ul><li>🚫 Désactivez les synchronisations automatiques inutiles</li>",
+                "<li>🔕 Limitez les notifications</li>",
+                "<li>💾 Privilégiez le stockage local plutôt que le cloud ☁️ quand c'est possible</li>",
+                "<li>⏳ Conservez votre tablette plus longtemps que les 3 ans prévus pour réduire son impact environnemental.</li></ul>"
+            ],
+            "link": "https://impactco2.fr/outils/numerique/tabletteclassique",
+            "questions": [
+                {
+                    "label": "Depuis combien de temps possèdes-tu ta tablette ?",
+                    "name": "tablette_years_usage",
+                    "type": "number",
+                    "info": [
+                        "La fabrication et la distribution d'une tablette génèrent 60.1 kg de eq CO₂. En l'utilisant plus longtemps, cet impact est réparti sur plusieurs années, ce qui réduit l'empreinte carbone globale. ♻️💚Prolonger, c'est économiser !"
+                    ],
+                    "links": [
+                        "https://impactco2.fr/outils/numerique/tabletteclassique"
+                    ],
+                    "unit": "années"
+                },
+                {
+                    "label": "Tu prévois de garder ta tablette encore combien de temps ?",
+                    "name": "tablette_change",
+                    "type": "number",
+                    "info": [
+                        "En moyenne, la durée de vie d'une tablette est d'environ 3 ans.",
+                        "<ul><li>✅ 3 ans → Impact annuel : 20,63 kg de eq CO₂</li><li>✅ 4 ans → Impact annuel : 15,63 kg de eq CO₂</li></ul>",
+                        "Le bénéfice d'une prolongation d'un an peut aller jusqu'à 5 kg de eq CO₂ économisés par an. 💨🌍"
+                    ],
+                    "links": [
+                        "https://impactco2.fr/outils/numerique/tabletteclassique"
+                    ],
+                    "unit": "années"
+                },
+                {
+                    "label": "Préfères-tu une tablette neuve ou d'occasion ?",
+                    "name": "tablette_condition",
+                    "type": "select",
+                    "info": [
+                        "Selon l'ADEME, l'impact environnemental annuel d'une tablette reconditionné est réduit de 46 % à 80%  (moyenne : 63 %) par rapport à un modèle neuf. ♻️"
+                    ],
+                    "links": [
+                        "https://librairie.ademe.fr/economie-circulaire-et-dechets/5241-evaluation-de-l-impact-environnemental-d-un-ensemble-de-produits-reconditionnes.html"
+                    ],
+                    "options": [
+                        "Neuf",
+                        "D'occasion"
+                    ]
+                },
+                {
+                    "label": "Combien de temps utilises-tu ta tablette chaque jour ?",
+                    "type": "number",
+                    "name": "tablette_day_time",
+                    "unit": "heure",
+                    "links": [
+                        "https://impactco2.fr/outils/numerique/tabletteclassique"
+                    ],
+                    "info": [
+                        "Une année d'utilisation d'une tablette pendant 3 heures par jour émet 0.6 kg de eq CO₂. Une heure supplémentaire augmente cet impact de 30 %.⏳🌍 "
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "📻 Enceinte connectée",
+            "visible_if": {
+                "device_selection": "speaker"
+            },
+            "practical_tips": [
+                "<strong>Optimisez l’usage de votre enceinte connectée grâce à ces conseils :</strong>",
+                "<ul><li>🔌 Débranchez-la lorsqu'elle n'est pas utilisée</li>",
+                "<li>📶 Privilégiez une connexion Wi-Fi stable</li>",
+                "<li>⏸️ Évitez de la laisser en veille prolongée</li>",
+                "<li>♻️ Le choix d’un modèle d’occasion est particulièrement pertinent pour la planète.</li></ul>"
+            ],
+            "link": "https://impactco2.fr/outils/numerique/enceintebluetooth",
+            "questions": [
+                {
+                    "label": "Depuis combien de temps la possèdes-tu  ?",
+                    "name": "speaker_years_usage",
+                    "type": "number",
+                    "info": [
+                        "La fabrication, la distribution et la fin de vie d'une enceinte génèrent 20,2 kg de eq CO₂. 🔊 En l'utilisant plus longtemps, cet impact est réparti sur plusieurs années, ce qui réduit son empreinte carbone annuelle. ♻️"
+                    ],
+                    "unit": "années",
+                    "links": [
+                        "https://impactco2.fr/outils/numerique/enceintebluetooth"
+                    ]
+                },
+                {
+                    "label": "Quand penses-tu changer l'enceinte ?",
+                    "name": "speaker_change",
+                    "type": "number",
+                    "info": [
+                        "La durée de vie moyenne d'un haut-parleur est d'environ 5 ans (selon la qualité).",
+                        "<ul><li>✅ 5 ans → Impact annuel : 5,30 kg de eq CO₂</li>",
+                        "<li>✅ 6 ans → Impact annuel : 4,62 kg de eq CO₂</li></ul>",
+                        " Le bénéfice d'une prolongation d'un an peut aller jusqu'à 0,68 kg de eq CO₂ économisés par an. 💨🌍"
+                    ],
+                    "unit": "années",
+                    "links": [
+                        "https://impactco2.fr/outils/numerique/enceintebluetooth",
+                        "https://lillelivresanciens.fr/quelle-est-la-duree-de-vie-dune-enceinte-bluetooth/"
+                    ]
+                },
+                {
+                    "label": "Préfères-tu une enceinte connectée neuve ou d'occasion ?",
+                    "name": "speaker_condition",
+                    "type": "select",
+                    "info": [
+                        "Bien que les chiffres exacts pour les enceite ne soient pas fournis, on peut raisonnablement estimer que l'utilisation d'une enceinte d'occasion offre un bénéfice CO2 significatif, probablement du même ordre de grandeur que pour les smartphones, soit une réduction de 64 à 87% (moyenne: 75%) des impacts environnementaux par année d'utilisation supplémentaire.🌍✨"
+                    ],
+                    "links": [
+                        "https://librairie.ademe.fr/economie-circulaire-et-dechets/5241-evaluation-de-l-impact-environnemental-d-un-ensemble-de-produits-reconditionnes.html"
+                    ],
+                    "options": [
+                        "Neuf",
+                        "D'occasion"
+                    ]
+                },
+                {
+                    "label": "Combien de temps écoutes-tu ton enceinte chaque jour ?",
+                    "type": "number",
+                    "name": "speaker_day_time",
+                    "unit": "heure",
+                    "info": [
+                        "Une année d'utilisation d'une enceinte pendant 3 heures par jour émet 1.2 kg de eq CO₂. Une heure supplémentaire augmente cet impact de 20 %. ⏳"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "💻 Ordinateur",
+            "visible_if": {
+                "device_selection": "computer"
+            },
+            "rules": "<strong>Les bases du calcul:</strong> Écran moyen de 14,6 pouces, 1 CPU, 11 Go de RAM, 497 Go de SSD (mix pondéré entre 3 configurations d’ordinateurs portables à usage particulier).",
+            "practical_tips": [
+                "<strong>Réduisez l’impact de votre ordinateur en adoptant ces bonnes pratiques :</strong>",
+                "<ul><li>⚙️ Désactivez les fonctions inutiles</li>",
+                "<li>🌙 Mettez-le en veille lors des pauses</li>",
+                "<li>🗑️ Supprimez régulièrement les fichiers superflus</li>",
+                "<li>🗓️ Une conservation de 3 ans est déjà positive — plus vous le gardez longtemps, plus vous réduisez son empreinte carbone.</li></ul>"
+            ],
+            "questions": [
+                {
+                    "label": "Depuis combien de temps le possèdes-tu?",
+                    "name": "computer_years_usage",
+                    "type": "number",
+                    "unit": "années",
+                    "info": [
+                        "La fabrication, la distribution et la fin de vie d'un ordinateur portable génèrent 185.8 kg de eq CO₂. 🌍. En l'utilisant plus longtemps, cet impact est réparti sur plusieurs années, ce qui réduit son empreinte carbone annuelle. ♻️"
+                    ],
+                    "links": [
+                        "https://impactco2.fr/outils/numerique/ordinateurportable"
+                    ]
+                },
+                {
+                    "label": "Tu prévois de garder ton ordinateur encore combien de temps ?",
+                    "name": "computer_change",
+                    "type": "number",
+                    "unit": "années",
+                    "info": [
+                        "En moyenne, la durée de vie d'un ordinateur est d'environ 5 ans.",
+                        "<ul><li>✅ 5 ans → Impact annuel : 38,68 kg de eq CO₂</li><li>✅ 6 ans → Impact annuel : 32,49 kg de eq CO₂</li></lu>",
+                        "Le bénéfice d'une prolongation d'un an peut aller jusqu'à 6 kg de eq CO₂ économisés par an. 💨🌍"
+                    ],
+                    "links": [
+                        "https://www.pcaixpress.fr/2024/02/05/duree-de-vie-dun-ordinateur-portable/",
+                        "https://impactco2.fr/outils/numerique/ordinateurportable"
+                    ]
+                },
+                {
+                    "label": "Préfères-tu un ordinateur neuf ou d'occasion ?",
+                    "name": "computer_condition",
+                    "type": "select",
+                    "info": [
+                        "Selon l'ADEME, l'impact environnemental annuel d'un ordinateur portable reconditionné est réduit de 43 % à 97 % (moyenne : 70 %) par rapport à un modèle neuf. ♻️"
+                    ],
+                    "links": [
+                        "https://librairie.ademe.fr/economie-circulaire-et-dechets/5241-evaluation-de-l-impact-environnemental-d-un-ensemble-de-produits-reconditionnes.html"
+                    ],
+                    "options": [
+                        "Neuf",
+                        "D'occasion"
+                    ]
+                },
+                {
+                    "label": "Combien de temps utilises-tu ton ordinateur chaque jour ?",
+                    "advice": "Tu peux vérifier sur Windows ou Mac avec l'option Temps d'écran.",
+                    "type": "number",
+                    "name": "computer_day_time",
+                    "unit": "heure",
+                    "info": [
+                        "Une année d'utilisation d'un ordinateur portable pendant 3 heures par jour émet 1,56 kg de eq CO₂. Une heure supplémentaire augmente cet impact de 33 %. ♻️",
+                        "Une consommation raisonnable permet de prolonger la vie de l'appareil :<ul><li>🔋 Une batterie peut supporter environ 3 000 cycles de charge.</li><li>🖥️ Les écrans LCD durent entre 50 000 et 60 000 heures.</li></ul>"
+                    ],
+                    "links": [
+                        "https://impactco2.fr/outils/numerique/ordinateurportable",
+                        "https://accesscomputer.ma/fr/page/guides-achat-ordinateur-estimer-duree-de-vie-pc-portable"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "🎮 Console de jeux vidéo",
+            "visible_if": {
+                "device_selection": "console"
+            },
+            "practical_tips": [
+                "<strong>Adoptez de bons réflexes pour réduire l’impact de votre console de jeux :</strong>",
+                "<ul><li>🔋 Activez le mode économie d'énergie</li>",
+                "<li>🛑 Éteignez-la complètement après utilisation plutôt que de la laisser en veille</li>",
+                "<li>🕒 Téléchargez les mises à jour pendant les heures creuses</li>",
+                "<li>📅 La conserver pendant 3 ans est un choix responsable pour limiter son empreinte carbone.</li></ul>"
+            ],
+            "questions": [
+                {
+                    "label": "Depuis combien de temps la possedes-tu  ?",
+                    "name": "console_years_usage",
+                    "type": "number",
+                    "info": [
+                        "La fabrication et la distribution d'une console de salon génèrent 284,8 kg de eq CO₂. Il est important de l'utiliser au moins 6 ans pour amortir cet impact. En l'utilisant plus longtemps, cet impact est réparti sur plusieurs années, ce qui réduit son empreinte carbone annuelle. 📅"
+                    ],
+                    "links": [
+                        "https://impactco2.fr/doc/usage-numerique/acv/console-de-salon/carbone"
+                    ],
+                    "unit": "années"
+                },
+                {
+                    "label": "Quand penses-tu changer ta console ?",
+                    "name": "console_change",
+                    "type": "number",
+                    "info": [
+                        "En moyenne, la durée de vie d'une console de jeux vidéo est d'environ 6 ans.",
+                        "<ul><li>✅ 6 ans → Impact annuel : 49 kg de eq CO₂</li>",
+                        "<li>✅ 7 ans → Impact annuel : 42,21 kg de eq CO₂</li></ul> ",
+                        "Le bénéfice d'une prolongation d'un an peut aller jusqu'à 6,79 kg de eq CO₂ économisés par an. 💨🌍"
+                    ],
+                    "links": [
+                        "https://impactco2.fr/doc/usage-numerique/acv/console-de-salon/carbone"
+                    ],
+                    "unit": "années"
+                },
+                {
+                    "label": "Préfères-tu une console neuve ou d'occasion ?",
+                    "name": "console_condition",
+                    "type": "select",
+                    "info": [
+                        "🎮Bien que les chiffres exacts pour les console ne soient pas fournis, on peut raisonnablement estimer que l'utilisation d'une télévision d'occasion offre un bénéfice CO2 significatif, probablement du même ordre de grandeur que pour les smartphones, soit une réduction de 64 à 87% (moyenne: 75%) des impacts environnementaux par année d'utilisation supplémentaire.🕹️"
+                    ],
+                    "links": [
+                        "https://librairie.ademe.fr/economie-circulaire-et-dechets/5241-evaluation-de-l-impact-environnemental-d-un-ensemble-de-produits-reconditionnes.html"
+                    ],
+                    "options": [
+                        "Neuf",
+                        "D'occasion"
+                    ]
+                },
+                {
+                    "label": "Combien de temps joues-tu avec ta console chaque jour ?",
+                    "type": "number",
+                    "name": "console_day_time",
+                    "unit": "heure",
+                    "info": [
+                        "Une année d'utilisation d'une console une heure tout les jours émet 1.52 kg de eq CO₂. Une heure supplémentaire augmente cet impact de 16 %.👾"
+                    ],
+                    "links": [
+                        "https://impactco2.fr/doc/usage-numerique/acv/console-de-salon/carbone"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "📺 Télévision",
+            "visible_if": {
+                "device_selection": "television"
+            },
+            "rules": "<strong>Les bases du calcul:</strong> Dimension et technologie moyennes (82% LCD (45 pouces), 1% OLED (53 pouces), 17% OLED (68 pouces)) (mix pondéré entre 3 configurations de téléviseurs.).",
+            "practical_tips": [
+                "<strong>Pour une utilisation plus responsable de votre télévision :</strong>",
+                "<ul><li>🌅 Ajustez la luminosité selon l'éclairage ambiant</li>",
+                "<li>💤 Évitez le mode veille prolongée</li>",
+                "<li>🏠 Choisissez un écran adapté à la taille de votre pièce</li>",
+                "<li>🗓️ Une durée de conservation de 4 ans est excellente pour réduire l'impact environnemental.</li></ul>"
+            ],
+            "questions": [
+                {
+                    "label": "Depuis combien de temps la possedes-tu  ?",
+                    "name": "television_years_usage",
+                    "type": "number",
+                    "unit": "années",
+                    "info": [
+                        "La fabrication et la distribution d'une télévision génèrent 388 kg de eq CO₂. En l'utilisant plus longtemps, cet impact est réparti sur plusieurs années, ce qui réduit l'empreinte carbone globale.📺🌱"
+                    ],
+                    "links": [
+                        "https://impactco2.fr/outils/numerique/television"
+                    ]
+                },
+                {
+                    "label": "Quand penses-tu changer de télévision ?",
+                    "name": "television_change",
+                    "type": "number",
+                    "unit": "années",
+                    "info": [
+                        "En moyenne, la durée de vie d'une télévision est d'environ 8 ans.📺",
+                        "<ul><li>✅ 8 ans → Impact annuel : 59,1 kg de eq CO₂</li>",
+                        "<li>✅ 9 ans → Impact annuel : 53,71 kg de eq CO₂</li></ul>",
+                        "Le bénéfice d'une prolongation d'un an peut aller jusqu'à 5,39 kg de eq CO₂ économisés par an. 💨."
+                    ],
+                    "links": [
+                        "https://impactco2.fr/outils/numerique/television"
+                    ]
+                },
+                {
+                    "label": "Préfères-tu une television neuve ou d'occasion ?",
+                    "name": "television_condition",
+                    "type": "select",
+                    "info": [
+                        "Bien que les chiffres exacts pour les télévisions ne soient pas fournis, on peut raisonnablement estimer que l'utilisation d'une télévision d'occasion offre un bénéfice CO2 significatif, probablement du même ordre de grandeur que pour les smartphones, soit une réduction de 64 à 87% (moyenne: 75%) des impacts environnementaux par année d'utilisation supplémentaire.♻️🌍"
+                    ],
+                    "links": [
+                        "https://librairie.ademe.fr/economie-circulaire-et-dechets/5241-evaluation-de-l-impact-environnemental-d-un-ensemble-de-produits-reconditionnes.html"
+                    ],
+                    "options": [
+                        "Neuf",
+                        "D'occasion"
+                    ]
+                },
+                {
+                    "label": "Combien de temps regardes-tu ta télévision chaque jour ?",
+                    "type": "number",
+                    "name": "television_day_time",
+                    "unit": "heure",
+                    "links": [
+                        "https://impactco2.fr/outils/numerique/television"
+                    ],
+                    "info": [
+                        "Une année d'utilisation d'une television pendant 3 heures par jour émet 10.6 kg de eq CO₂. Une heure supplémentaire augmente cet impact de 30 %.⚡🌱"
+                    ]
+                }
+            ]
+        }
+    ],
+    "utilization": [
+        {
+            "title": "📱 Utilisation de tes appareils : Comment passes-tu ton temps ?",
+            "questions": {
+                "label": "Quels services utilises-tu ?",
+                "type": "select",
+                "name": "service_selection",
+                "options": [
+                    {
+                        "id": "streaming",
+                        "label": "Streaming vidéo",
+                        "image": "video.svg",
+                        "impact_hour_wiFi": 0.0317,
+                        "impact_hour_4g": 0.078,
+                        "theoretical_use": 1
+                    },
+                    {
+                        "id": "network",
+                        "label": "Réseaux sociaux",
+                        "image": "social.svg",
+                        "impact_hour_wiFi": 0.00709,
+                        "impact_hour_4g": 0.0179,
+                        "theoretical_use": 2
+                    },
+                    {
+                        "id": "courses",
+                        "label": "Outils pédagogiques",
+                        "image": "person-chalkboard.svg",
+                        "impact_hour_wiFi": 0.0081,
+                        "impact_hour_4g": 0.0189,
+                        "theoretical_use": 1
+                    },
+                    {
+                        "id": "gaming",
+                        "label": " Jeux vidéo",
+                        "image": "gamepad.svg",
+                        "impact_hour_wiFi": 0.013,
+                        "impact_hour_4g": 0.035,
+                        "theoretical_use": 1
+                    },
+                    {
+                        "id": "music",
+                        "label": " Streaming musical",
+                        "image": "music.svg",
+                        "impact_hour_wiFi": 0.0026,
+                        "impact_hour_4g": 0.005,
+                        "theoretical_use": 1
+                    },
+                    {
+                        "id": "video",
+                        "label": " Visioconférence",
+                        "image": "headset.svg",
+                        "impact_hour_wiFi": 0.007,
+                        "impact_hour_4g": 0.0176,
+                        "impact_audio_wiFi": 0.0017,
+                        "impact_audio_4g": 0.004,
+                        "theoretical_use": 1
+                    },
+                    {
+                        "id": "ai",
+                        "label": " Intelligence artificielle",
+                        "image": "brain.svg",
+                        "impact_ai_text": 0.00244,
+                        "impact_ai_image": 0.01475
+                    },
+                    {
+                        "id": "email",
+                        "label": " Emails",
+                        "image": "mail.svg",
+                        "impact_email_text": 0.00021,
+                        "impact_email_attachment": 0.00129,
+                        "impact_email_attachment_5": 0.00561,
+                        "impact_email_spam": 3.74,
+                        "theoretical_use": 1
+                    }
+                ]
+            }
+        },
+        {
+            "title": "🎥 Streaming",
+            "visible_if": {
+                "device_selection": [
+                    "smartphone",
+                    "computer",
+                    "tablette",
+                    "television"
+                ]
+            },
+            "rules": "<strong>Les bases du calcul:</strong>Transmission, Usage des terminaux et data-centers, sans prendre en compte la construction des terminaux. Appareil utilisé : télévision, qualité de vidéo : haute définition, wifi",
+            "id": "streaming_consum",
+            "practical_tips": [
+                "<strong>Adoptez ces gestes simples pour un streaming plus écologique :</strong>",
+                "<ul><li>📉 Choisissez une définition adaptée plutôt que la plus haute qualité par défaut</li>",
+                "<li>📂 Téléchargez les contenus que vous regardez fréquemment</li>",
+                "<li>🌐 Utilisez le Wi-Fi plutôt que les données mobiles</li>",
+                "<li>🔗 Regroupez vos visionnages pour éviter les connexions multiples</li></ul>"
+            ],
+            "link": "https://impactco2.fr/outils/usagenumerique/streamingvideo",
+            "questions": [
+                {
+                    "label": "Combien de temps passes-tu à regarder des vidéos en streaming (Netflix, Disney+, etc.) chaque jour ?",
+                    "type": "number",
+                    "name": "streaming_day_time",
+                    "info": [
+                        "Selon Ademe, les émissions de CO2 d'une heure de streaming sont de 31,7 g de CO2 💨. L'impact varie en fonction de : le type d'appareil utilisé  et la qualité de la vidéo 🎥."
+                    ],
+                    "links": [
+                        "https://impactco2.fr/outils/usagenumerique/streamingvideo"
+                    ]
+                },
+                {
+                    "label": "Utilises-tu principalement le Wi-Fi ou la 4G pour le streaming ?",
+                    "type": "select",
+                    "name": "streaming_connection",
+                    "info": [
+                        "Une heure de streaming en 4G 📶 peut augmenter l'impact environnemental de 50 à 60 % en termes d'émissions de eq CO₂ 💨 par rapport à une connexion Wi-Fi 📡, et cet impact est 10 fois plus élevé par rapport à une connexion fibre optique⚡"
+                    ],
+                    "links": [
+                        "https://cnm.fr/wp-content/uploads/2024/09/240918_REC.pdf",
+                        "https://impactco2.fr/outils/usagenumerique/streamingvideo",
+                        "https://www.arcep.fr/uploads/tx_gspublication/rapport-pour-un-numerique-soutenable_dec2020.pdf",
+                        "https://altimpact.fr/bonnes-pratiques/privilegier-les-connexions-via-la-fibre-plutot-que-la-4g-5g/?utm_source=chatgpt.com"
+                    ],
+                    "options": [
+                        "Wi-fi",
+                        "4G"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "🎓 Cours en ligne",
+            "visible_if": {
+                "device_selection": [
+                    "smartphone",
+                    "computer",
+                    "tablette"
+                ]
+            },
+            "rules": "<strong>Les bases du calcul:</strong> Inclut l'impact de la transmission, l'utilisation des terminaux et des data centers, sans tenir compte de la construction des terminaux. Appareil utilisé : ordinateur, qualité de vidéo : basse définition, 1 participant.",
+            "id": "courses_consum",
+            "practical_tips": [
+                "<strong>Pour des cours en ligne plus écoresponsables :</strong>",
+                "<ul><li>📥 Téléchargez les documents pour un usage hors-ligne</li>",
+                "<li>📶 Privilégiez le Wi-Fi pour suivre vos cours</li>",
+                "<li>❌ Fermez les autres applications pendant les sessions d’apprentissage</li></ul>"
+            ],
+            "questions": [
+                {
+                    "label": "Combien de temps passes-tu sur ces cours chaque semaine ?",
+                    "type": "text",
+                    "name": "courses_day_time",
+                    "info": [
+                        "Selon l'Ademe, les émissions de eq CO₂ d'une heure de cours en ligne sont 8 g de eq CO₂ 🌍💨,si tu utilises le Wi-Fi. L'impact varie en fonction de : le type d'appareil utilisé  et la qualité de la vidéo 🎥."
+                    ],
+                    "links": [
+                        "https://artsetmetiers.fr/fr/actualites/selon-vous-quest-ce-qui-emet-le-plus-de-co2-suivre-des-cours-en-presentiel-ou-distance",
+                        "https://impactco2.fr/outils/usagenumerique/streamingvideo"
+                    ]
+                },
+                {
+                    "label": "Utilises-tu principalement le Wi-Fi ou la 4G pour tes cours ?",
+                    "type": "select",
+                    "name": "courses_connection",
+                    "info": [
+                        "Une heure de cours en ligne émet environ 19 grammes de eq CO₂ 💨 si tu utilises un réseau mobile 📶, l'impact étant plus faible avec une connexion Wi-Fi 📡 ou fibre optique 🌐."
+                    ],
+                    "links": [
+                        "https://impactco2.fr/outils/usagenumerique/streamingvideo"
+                    ],
+                    "options": [
+                        "Wi-fi",
+                        "4G"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": " 🎮 Jeux vidéo",
+            "visible_if": {
+                "device_selection": [
+                    "smartphone",
+                    "computer",
+                    "tablette",
+                    "console"
+                ]
+            },
+            "id": "gaming_consum",
+            "practical_tips": [
+                "<strong>Adoptez des pratiques plus durables pour vos jeux vidéo :</strong>",
+                "<ul><li>🤖 Gardez votre console (Xbox, PlayStation, Nintendo Switch) ou votre PC le plus longtemps possible</li>",
+                "<li>🚫 Ne craquez pas pour un écran 4K si ce n’est pas nécessaire</li>",
+                "<li>🎯 Concentrez-vous sur un seul jeu à la fois, sur une seule console, et essayez de le terminer</li>",
+                "<li>📀 Privilégiez l’achat de jeux en version physique, et surtout d’occasion </li>",
+                "<li>🕹️ Programmez le mode d'arrêt automatique : 50 % de la consommation électrique se produit en mode veille</li></ul>"
+            ],
+            "questions": [
+                {
+                    "label": "Combien de temps passes-tu à jouer aux jeux vidéo chaque semaine ?",
+                    "type": "number",
+                    "name": "gaming_day_time",
+                    "info": [
+                        "Console 🎮 : Jouer sur console peut générer environ 13 g de eq CO₂ par heure."
+                    ],
+                    "links": [
+                        "https://www.hydroquebec.com/residentiel/mieux-consommer/conseils/appareils-electroniques/consoles-jeux.html",
+                        "https://greenly.earth/blog/secteurs/quelle-est-l-empreinte-carbone-des-jeux-video?utm_source=chatgpt.com",
+                        "https://agirpourlatransition.ademe.fr/particuliers/conso/conso-responsable/lecture-musique-films-jeux-ligne-impacts",
+                        "https://librairie.ademe.fr/economie-circulaire-et-dechets/5942-evaluation-de-l-impact-environnemental-de-la-digitalisation-des-services-culturels.html",
+                        "https://www.comptoir-hardware.com/actus/jeux-video/40984-quid-de-limpact-environnemental-des-jeux-video-et-consoles-.html"
+                    ]
+                },
+                {
+                    "label": "Utilises-tu principalement le Wi-fi ou la 4G ?",
+                    "type": "select",
+                    "name": "gaming_connection",
+                    "info": [
+                        "Une étude indique que l'impact carbone de la 4G est environ 2,7 fois supérieur à celui d'une connexion Wi-Fi domestique."
+                    ],
+                    "links": [
+                        "https://les-enovateurs.com/reseau-5g-ecologique-wifi?utm_source=chatgpt.com",
+                        "https://www.hellocarbo.com/blog/calculer/empreinte-carbone-jeux-video/"
+                    ],
+                    "options": [
+                        "Wi-fi",
+                        "4G"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "🎧 Streaming musical",
+            "visible_if": {
+                "device_selection": [
+                    "smartphone",
+                    "computer",
+                    "tablette"
+                ]
+            },
+            "id": "music_consum",
+            "practical_tips": [
+                "<strong>Optimisez l’impact de votre écoute musicale en ligne :</strong>",
+                "<ul><li>🎧 Téléchargez vos playlists favorites pour une écoute hors-ligne</li>",
+                "<li>📶 Utilisez une qualité audio adaptée à votre usage</li>",
+                "<li>📡 Privilégiez le Wi-Fi pour le streaming musical</li></ul>"
+            ],
+            "questions": [
+                {
+                    "label": "Combien de temps écoutes-tu de la musique via une plateforme chaque jour ?",
+                    "type": "number",
+                    "name": "music_day_time",
+                    "info": [
+                        "La différence d'impact entre l'audio 🎧 et la vidéo 📹 s'explique principalement par un volume de données très différent :",
+                        "Audio : environ 72 Mo par heure",
+                        "Vidéo courte : environ 250 Mo par heure",
+                        "Vidéo longue : environ 3 Go par heure",
+                        "Ces chiffres illustrent comment la quantité de données transférées influe sur la consommation énergétique des serveurs et des réseaux."
+                    ],
+                    "links": [
+                        "https://cnm.fr/wp-content/uploads/2024/09/240918_REC.pdf"
+                    ]
+                },
+                {
+                    "label": "Utilises-tu principalement le Wi-fi ou la 4G pour le streaming musical ?",
+                    "type": "select",
+                    "name": "music_connection",
+                    "info": [
+                        "L'impact carbone de la 4G est 2,7 fois plus élevé qu'une connexion avec une box internet"
+                    ],
+                    "links": [
+                        "https://cnm.fr/wp-content/uploads/2024/09/240918_REC.pdf",
+                        "https://les-enovateurs.com/reseau-5g-ecologique-wifi"
+                    ],
+                    "options": [
+                        "Wi-Fi",
+                        "4G"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "💻 Visioconférence",
+            "visible_if": {
+                "device_selection": [
+                    "smartphone",
+                    "computer",
+                    "tablette"
+                ]
+            },
+            "rules": "<strong>Les bases du calcul:</strong>Inclut l'impact de la transmission, l'utilisation des terminaux et des data centers, sans tenir compte de la construction des terminaux. Appareil utilisé : smartphone, qualité de vidéo : basse définition, 1 participant.",
+            "id": "video_consum",
+            "practical_tips": [
+                "<strong>Rendez vos visioconférences plus écologiques :</strong>",
+                "<ul><li>🎧 Privilégiez le mode audio quand la vidéo n’est pas nécessaire</li>",
+                "<li>🖼️ Utilisez un fond neutre plutôt qu’un fond virtuel énergivore</li>",
+                "<li>📶 Optimisez votre connexion Wi-Fi pour éviter les reconnexions multiples</li></ul>"
+            ],
+            "questions": [
+                {
+                    "label": "Combien de temps passes-tu en Visioconférence par jour ?",
+                    "type": "number",
+                    "name": "video_day_time",
+                    "info": [
+                        "Une heure de visioconférence en Wi-Fi 📡 émet environ 7 g de eq CO₂ 💨, mais cet impact peut varier en fonction du type d'appareil utilisé.  "
+                    ],
+                    "links": [
+                        "https://impactco2.fr/outils/usagenumerique/visioconference"
+                    ]
+                },
+                {
+                    "label": "Utilises-tu principalement le Wi-Fi ou la 4G ?",
+                    "type": "select",
+                    "name": "video_connection",
+                    "info": [
+                        "L'impact carbone de la 4G 📶 est 2,7 fois plus élevé que celui d'une connexion avec une box internet 📡. Cela varie en fonction de la qualité du signal 📶 et du type d'appareil utilisé."
+                    ],
+                    "links": [
+                        "https://www.linfodurable.fr/conso/wifi-vs-4g-quelle-connexion-est-la-plus-ecologique-47521",
+                        "https://impactco2.fr/outils/usagenumerique/visioconference",
+                        "https://cnm.fr/wp-content/uploads/2024/09/240918_REC.pdf",
+                        "https://les-enovateurs.com/reseau-5g-ecologique-wifi"
+                    ],
+                    "options": [
+                        "Wi-fi",
+                        "4G"
+                    ]
+                },
+                {
+                    "label": "Lorsque tu passes un appel, actives-tu la vidéo ou préfères-tu rester uniquement en mode audio ? ",
+                    "type": "select",
+                    "name": "video_audio",
+                    "info": [
+                        "La différence d'impact entre l'audio 🎧 et la vidéo 📹 s'explique principalement par un volume de données très différent :",
+                        "Audio : environ 72 Mo par heure",
+                        "Vidéo courte : environ 250 Mo par heure",
+                        "Vidéo longue : environ 3 Go par heure",
+                        "Ces chiffres illustrent comment la quantité de données transférées influe sur la consommation énergétique des serveurs et des réseaux."
+                    ],
+                    "links": [
+                        "https://impactco2.fr/outils/usagenumerique/visioconference"
+                    ],
+                    "options": [
+                        "video",
+                        "audio"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "👥 Réseaux sociaux",
+            "visible_if": {
+                "device_selection": [
+                    "smartphone",
+                    "computer",
+                    "tablette"
+                ]
+            },
+            "rules": "<strong>Les bases du calcul:</strong>Transmission, Usage des terminaux et data-centers, sans prendre en compte la construction des terminaux. Appareil utilisé : smartphone, qualité de vidéo : basse définition",
+            "id": "network_consum",
+            "practical_tips": [
+                "<strong>Réduisez l’impact des réseaux sociaux avec ces conseils simples :</strong>",
+                "<ul><li>🔇 Désactivez la lecture automatique des vidéos</li>",
+                "<li>🔕 Limitez les notifications</li>",
+                "<li>🧹 Videz régulièrement le cache des applications</li>",
+                "<li>⏰ Réduire le temps passé sur ces plateformes est le levier le plus efficace pour diminuer leur impact environnemental.</li></ul>"
+            ],
+            "questions": [
+                {
+                    "label": "Combien de temps passes-tu sur les réseaux sociaux chaque jour?",
+                    "type": "number",
+                    "name": "network_day_time",
+                    "info": [
+                        "Une heure de réseaux sociaux en Wi-Fi émet environ 7 grammes de eq CO₂. C'est l'équivalent de ce qu'un arbre absorbe en 1 jour. 🌳 "
+                    ],
+                    "links": [
+                        "https://impactco2.fr/outils/usagenumerique/streamingvideo",
+                        "https://anticiper.org/transition/consommation-energie-streaming-video.php"
+                    ]
+                },
+                {
+                    "label": "Utilises-tu principalement le Wi-Fi ou la 4G?",
+                    "type": "select",
+                    "name": "network_connection",
+                    "options": [
+                        "Wi-fi",
+                        "4G"
+                    ],
+                    "info": [
+                        "Une heure passée sur les réseaux sociaux en 4G émet environ 18 grammes de eq CO₂. C'est l'équivalent de ce qu'un arbre absorbe en 2 jours. 🌳"
+                    ],
+                    "links": [
+                        "https://impactco2.fr/outils/usagenumerique/streamingvideo",
+                        "https://anticiper.org/transition/consommation-energie-streaming-video.php"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "📧 Emails",
+            "visible_if": {
+                "device_selection": [
+                    "smartphone",
+                    "computer",
+                    "tablette"
+                ]
+            },
+            "id": "email_consum",
+            "practical_tips": [
+                "<strong>Réduisez l’impact environnemental de vos e-mails avec ces bonnes pratiques :</strong>",
+                "<ul><li>🗑️ Supprimez régulièrement les messages inutiles</li>",
+                "<li>📂 Limitez l’envoi de pièces jointes volumineuses</li>",
+                "<li>📨 Désactivez les abonnements à des newsletters non pertinentes</li>",
+                "<li>💻 Favorisez les outils de collaboration en ligne pour réduire les échanges d’e-mails répétés</li></ul>"
+            ],
+            "storage duration": 10,
+            "rules": "<strong>Les bases du calcul:</strong>Comprend la transmission, l'utilisation des terminaux et des data centers, sans inclure la construction des terminaux. Appareil utilisé : ordinateur, durée de la rédaction : 5 minutes, destinataire : 1.",
+            "send_mail": 117.7,
+            "questions": [
+                {
+                    "label": "Combien d'e-mails texte (environ) reçois-tu et envoies-tu chaque jour?",
+                    "type": "number",
+                    "name": "email_text",
+                    "info": [
+                        "L'envoi d'un e-mail simple (sans pièce jointe) émet environ 0.21 grammes de eq CO₂ 📧"
+                    ],
+                    "links": [
+                        "https://impactco2.fr/outils/usagenumerique/email"
+                    ]
+                },
+                {
+                    "label": "Combien d’e-mails avec pièces jointes envoies-tu et reçois-tu chaque jour?",
+                    "type": "number",
+                    "name": "email_attachment",
+                    "info": [
+                        "Une lettre avec un fichier attaché émet environ 1,29 gramme de eq CO₂ ✉️📎🌱"
+                    ],
+                    "links": [
+                        "https://impactco2.fr/outils/usagenumerique/email"
+                    ]
+                },
+                {
+                    "label": "Combien de courriers indésirables et de spams s'accumulent dans ta boîte de réception chaque jour ? (en prenant en compte les courriers sociaux et promotionnels)",
+                    "type": "number",
+                    "name": "email_spam",
+                    "info": [
+                        "Un e-mail de spam émet environ 3,74 grammes de eq CO₂ 📧. C'est l'équivalent de ce qu'un arbre absorbe en 1 jour 🌳."
+                    ],
+                    "link": [
+                        "https://impactco2.fr/outils/usagenumerique/spam"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "🤖 Utilisation d’intelligence artificielle",
+            "visible_if": {
+                "device_selection": [
+                    "smartphone",
+                    "computer",
+                    "tablette"
+                ]
+            },
+            "id": "ai_consum",
+            "practical_tips": [
+                "<strong>Réduisez l’impact environnemental de l’intelligence artificielle :</strong>",
+                "<ul><li>🛠️ Privilégiez des modèles optimisés pour vos besoins</li>",
+                "<li>⏳ Utilisez les services d’IA uniquement lorsque nécessaire</li>",
+                "<li>☁️ Choisissez des fournisseurs cloud engagés pour des infrastructures écoresponsables</li>",
+                "<li>⚙️ Optimisez vos requêtes et analyses pour limiter la consommation de ressources</li></ul>"
+            ],
+            "questions": [
+                {
+                    "label": "Combien de fois par jour (environ) poses-tu des questions aux chatbots comme ChatGPT ?",
+                    "type": "number",
+                    "name": "ai_text",
+                    "info": [
+                        "Pour la génération de texte par l'IA ✍️, la consommation d'énergie est d'environ 0,047 kWh ⚡, ce qui équivaut à 2,44 g de eq CO₂ 💨 (en utilisant le facteur d'émission de 52 g eq eq CO₂e/kWh de l'Ademe 🌍)."
+                    ],
+                    "links": [
+                        "https://arxiv.org/pdf/2311.16863 ",
+                        "https://www.sciencedirect.com/science/article/pii/S2542435123003653"
+                    ]
+                },
+                {
+                    "label": "Utilises-tu l'intelligence artificielle pour générer des images ? Si oui, combien d'images génères-tu en moyenne par semaine ?",
+                    "type": "number",
+                    "name": "ai_image",
+                    "info": [
+                        " la génération d'images par l'IA 🖼️ consomme environ 2,907 kWh ⚡, ce qui entraîne une émission de 151 g de eq CO₂ 💨 selon le même facteur d'émission."
+                    ],
+                    "links": [
+                        "https://arxiv.org/pdf/2311.16863 "
+                    ]
+                }
+            ]
+        }
+    ]
+}

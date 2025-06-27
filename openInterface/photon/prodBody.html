@@ -1,0 +1,456 @@
+<!-- IDE -->
+<div class="overlay"></div>
+<div id="ide">
+
+    <!-- IDE NAVBAR -->
+    <nav class="ide-navbar ">
+        <!-- Block interface management -->
+        <div class="ide-btn-group ide-btn-group-revert hide-vsm" id="code-buttons-panel">
+            <!-- Undo button 
+				Sync button
+				Redo button  -->
+        </div>
+        <!-- Execution interface management -->
+        <div class="ide-btn-group ide-btn-group-check" id="execution-buttons-panel" style="margin: auto;"></div>
+        <div class="fullscreen-btn-panel">
+            <!-- fullscreen -->
+        </div>
+        <div class="ide-dropdown ide-dropdown-always">
+            <button class="ide-btn ide-btn-toggle ide-btn-alone" data-i18n="[title]code.topbar.tooltips.consoleSettings" data-bs-toggle="tooltip" data-bs-placement="top">
+                <i class="fas fa-cog"></i>
+            </button>
+            <div class="ide-btn-group ide-btn-group-settings hidden">
+                <!-- accessibility
+                    board settings
+                    monitor settings
+                    add a block
+                    fullscreen
+                    help -->
+            </div>
+        </div>
+
+        <div class="ide-dropdown ide-dropdown-modes">
+            <a class="ide-btn ide-btn-toggle ide-btn-alone ide-btn-mode"><i class="far fa-object-ungroup"></i></a>
+            <div class="ide-btn-group ide-btn-group-mode hidden">
+                <!-- blocks mode
+                    mixed mode
+                    code mode-->
+            </div>
+        </div>
+
+        <div id="simulator-btn-panel">
+            <!-- run simulator -->
+        </div>
+    </nav>
+
+    <!-- IDE CONTENT-->
+    <div id="ide-content">
+        <div id="searchBlocklyDiv" style="display: none; visibility: 'hidden';"></div>
+        <div class="ide-base">
+            <!-- Block & Code -->
+            <div class="ide-editor">
+                <!-- Blockly workspace-->
+                <div id="content_blocks" class="ide-block content"></div>
+                <div id="generator" class="ide-generator" style="position: relative;">
+                    <div id="popup-container">
+                        <div id="mixed-popup-warning">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span data-i18n="code.popups.mixed-popup-warning-reverse-trad"></span>
+                        </div>
+                    </div>
+                    <div id="content_code" name="code_python" placeholder="Code goes here..."></div>
+                </div>
+            </div>
+            <div id="monitor" class="monitor-open">
+                <div id="monitor-content" class="monitor-bottom">
+                    <div id="monitor-view">
+                        <div id="monitor-view-group-btn">
+                            <button id="monitor-btn-console" class="monitor-view-btn btn activated" data-i18n="[title]code.console.buttons.consoleMode" data-toggle="tooltip" data-placement="left" title="Mode console">
+                                <i class="fas fa-terminal"></i>
+                            </button>
+                            <button id="monitor-btn-graph" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.graphMode" data-toggle="tooltip" data-placement="left" title="Mode graphique">
+                                <i class="fas fa-chart-line"></i>
+                            </button>
+                            <div id="monitor-graph-tooltip" class="interface-tooltip" style="display: none;">
+                                <div class="interface-tooltip__header">
+                                    <div>
+                                        <i class="fas fa-info-circle"></i>
+                                        <b data-i18n="code.simulator.buttons.multi-mode.tooltip.title">Info</b>
+                                    </div>
+                                    <button class="btn v-btn-basic interface-tooltip__header-close-btn" >
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <span data-i18n="[html]code.monitor.controls.tooltips.graph">
+                                    Pour visualiser les données reçues dans la console, cliquer sur le bouton <b>Graphique</b>
+                                </span>
+                            </div>
+                            <button id="monitor-clear" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.clearConsole" data-toggle="tooltip" data-placement="left" title="Nettoyer l'écran">
+                                <i class="fas fa-broom"></i>
+                            </button>
+                        </div>
+
+                        <!-- Panel console -->
+                        <div id="console" class="ide-console monitor-tab" disabled="disabled">
+                        </div>
+
+                        <!-- Panel graph -->
+                        <div id="graph-tab" class="monitor-tab">
+                            <div id="traceur">
+                                <h2 class="chart-no-data" data-i18n="code.console.graph.noData">Aucune données
+                                    reçues</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="monitor-controls">
+
+                        <div class="w-100 d-flex">
+                            <!-- Graph controls & Baud -->
+
+                            <div class="w-75 d-flex me-1">
+                                <div class="dropup dropup-center">
+                                    <button class="btn monitor-controls-button dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-cog"></i>
+                                    </button>
+                                    <div id="monitor-controls-dropdown" class="dropdown-menu">
+
+                                        <!-- Data displayed -->
+                                        <div class="dropdown-item">
+                                            <label for="tracer-select" class="tracer-controls" data-i18n="[html]code.console.graph.buttons.datasToShow">
+                                                <i class="fa fa-chart-line"></i> Donnée à afficher:
+                                            </label>
+                                            <select class="tracer-controls form-control" id="tracer-select">
+
+                                            </select>
+                                        </div>
+
+                                        <!-- Number of values -->
+                                        <div class="dropdown-item">
+                                            <label for="tracer-values" class="tracer-controls" data-i18n="[html]code.console.graph.buttons.valuesToShow">
+                                                <i class="fa fa-filter"></i> Nombre de valeurs:
+                                            </label>
+                                            <select class="tracer-controls form-control" id="tracer-values">
+                                                <option value=10>10</option>
+                                                <option value=30>30</option>
+                                                <option value=100 selected>100</option>
+                                                <option value=500>500</option>
+                                                <option value=3000>3000</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Min | Max -->
+                                        <div class="dropdown-item">
+                                            <label for="maxY" class="tracer-controls" data-i18n="[html]code.console.graph.axeY">
+                                                <i class="fas fa-arrows-alt-v"></i>
+                                            </label>
+                                            <div class="d-flex">
+                                                <input class="tracer-controls form-control w-50" id="minY" type="text" placeholder="min" title="Auto par défaut">
+                                                <input type="text" id="maxY" class="tracer-controls form-control w-50" placeholder="max" title="Auto par défaut">
+                                            </div>
+                                        </div>
+
+                                        <!-- Baud -->
+                                        <div class="dropdown-item">
+                                            <label for="baud" class="serial-controls tracer-controls" data-i18n="[html]code.console.baud" data-toggle="tooltip" data-placement="top">
+                                                Baud:
+                                            </label>
+
+                                            <select id="baud" class="form-control serial-controls tracer-controls">
+                                                <option value=300>300</option>
+                                                <option value=600>600</option>
+                                                <option value=1200>1200</option>
+                                                <option value=2400>2400</option>
+                                                <option value=4800>4800</option>
+                                                <option value=9600>9600</option>
+                                                <option value=14400>14400</option>
+                                                <option value=19200>19200</option>
+                                                <option value=28800>28800</option>
+                                                <option value=38400>38400</option>
+                                                <option value=57600>57600</option>
+                                                <option value=115200 selected>115200</option>
+                                            </select>
+
+                                        </div>
+
+                                        <div class="dropdown-item mt-1">
+                                            <button type="button" id="init-traceur" class="ide-btn btn tracer-export w-100" data-toggle="tooltip" data-placement="right" data-i18n="[title]code.monitor.controls.tooltips.menu.clearData">
+                                                <i class="fas fa-broom"></i>
+                                                <span class="tracer-controls" data-i18n="code.monitor.controls.text.menu.clearData"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="monitor-div-btn" class="d-flex ms-auto justify-content-end">
+
+                                <button type="button" class="ide-btn ide-btn-alone tracer-export me-1" onclick="openExportProjectWindow()" data-toggle="tooltip" data-placement="top" data-i18n="[title]code.monitor.controls.tooltips.export">
+                                    <i class="fas fa-file-export"></i>
+                                    <span class="hide" data-i18n="code.monitor.controls.text.export"></span>
+                                </button>
+
+                                <!-- <button type="button" onclick="toggleReplOverture()" class="ide-btn ide-btn-alone" id="repl-control" data-status="open" data-toggle="tooltip" data-placement="top" data-i18n="[title]code.monitor.controls.tooltips.openRepl">
+                                    <i class="fas fa-terminal"></i>
+                                    <span class="hide" data-i18n="code.monitor.controls.text.openRepl">REPL</span>
+                                </button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- END IDE BASE -->
+        <div class="ide-simulator">
+            <div id="simulator">
+                <div id="headerOut">
+                    <div class="simulator-board-buttons">
+                        <button id="simulator-board-toggler" class="btn simulator-button-circle" type="button" onclick="Simulator.toggleBoardDisplay()">
+                            <i class="fa-solid fa-minus simulator-buttons-icon"></i>
+                        </button>
+                    </div>
+                    <span id="title-board" style="display: none;">photon</span>
+                    <div id="board-container">
+                        <object id="board-viewer" class="mt-3" type="image/svg+xml"></object>
+                    </div>
+                </div>
+                <div class="simulator-buttons my-2">
+                    <div class="control-run-btn btn-group oi-btn-group-simulator oi-simulation-activated">
+                        <button id="simulator_play" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.play" 
+                                data-toggle="tooltip" data-placement="top" title="Play" onclick="Simulator.play()">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-play.svg" alt="Play icon">
+                        </button>
+                        <button id="simulator_pause" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.pause" 
+                                data-toggle="tooltip" data-placement="top" title="Stop" onclick="Simulator.pause()">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-pause.svg" alt="Pause icon">
+                        </button>
+                        <button id="simulator_replay" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.reload" 
+                                data-toggle="tooltip" data-placement="top" title="Replay" onclick="Simulator.replay()">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-replay.svg" alt="Replay icon">
+                        </button>
+                    </div>
+                    <div class="control-mode-btn btn-group oi-btn-group-simulator oi-option-activated">
+                        <button id="simulator_slow_play" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.debug" 
+                                data-toggle="tooltip" data-placement="top" title="Simulation pas à pas" onclick="Simulator.Debugger.toggleDebugMode()">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-bug.svg" alt="Bug icon">
+                        </button>
+                        <button id="simulator_show_vars" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.variables" 
+                                data-toggle="tooltip" data-placement="top" title="Afficher les variables" onclick="Simulator.Debugger.toggleVariablesPanel()">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-variable.svg" alt="Variable icon">
+                        </button>
+                        <button id="simulator_fullscreen" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.fullscreen" 
+                                data-toggle="tooltip" data-placement="top" title="Plein écran" onclick="Simulator.toggleFullscreen()">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-fullscreen.svg" alt="Fullscreen icon">
+                        </button>
+                    </div>
+                </div>
+                <div id="message-container">
+                    <div id="error-message" class="simulator-message"></div>
+                    <div id="warning-message" class="simulator-message"></div>
+                </div>
+                <div id="debugger-container" style="display:none;">
+                    <div id="debugger-controls" class="d-flex ms-2 justify-content-center">
+                        <div id="timeout-controls" >
+                            <span id="timeout" class="debugger-text">Durée de la pause : </span>
+                            <button id="simulator_faster" class="v-btn-basic-outline debugger-btn" onclick="Simulator.Debugger.changeExecSpeed('fast')">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span id="debugger-timeout">1 s</span>
+                            <button id="simulator_slower" class="v-btn-basic-outline debugger-btn" onclick="Simulator.Debugger.changeExecSpeed('slow')">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <span id="step_forward" class="debugger-text">Etape suivante :</span>
+                            <button id="simulator_step_forward" class="v-btn-basic-outline debugger-step-btn" onclick="Simulator.Debugger.stepForward()">
+                                <i class="fas fa-fast-forward"></i>
+                                <span id="step-next">NEXT</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="variables-panel" style="display: none;">
+                    <div class="d-flex justify-content-center variables_panel">
+                        <table id="variables_table">
+                            <thead>
+                                <tr>
+                                    <th style="padding-right: 33px;">Nom de la variable </th>
+                                    <th style="padding-right: 80px;">Valeur</th>
+                                    <th style="padding-right: 5px;">Type</th>
+                                </tr>
+                            </thead>
+                            <tbody id="variables-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="simulator-modules"></div>
+            </div>
+            <div id="simulator-switcher" style="display: none;">
+                <button id="training-mode" type="button" class="btn active">
+                    <i class="fas fa-hand-pointer"></i>
+                    <span class="hide" data-i18n="code.simulator.buttons.auto-corrector.training">Entraînement</span>
+                </button>
+                <button id="exercise-mode" type="button" class="btn">
+                    <i class="fas fa-tasks"></i>
+                    <span class="hide" data-i18n="code.simulator.buttons.auto-corrector.exercise">Exercice</span>
+                </button>
+            </div>
+        </div> <!-- END IDE SIMULATOR -->
+    </div> <!-- END IDE CONTENT -->
+</div> <!-- END IDE -->
+
+<!-- build:js-externals -->
+<!-- code to blocks -->
+<script src="/openInterface/interfaces/assets/js/code2blocks/python/pythonCode2Blocks.js" type="module"></script>
+
+<script src="/openInterface/env.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/jquery.blockUI-2.70.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/jquery-ui-1.12.1.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/rotate.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/interact-1.5.4.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/blockly_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_date_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_grid_dropdown_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_slider_compressed.js"></script>
+<script type="module" src="/openInterface/interfaces/assets/js/external/blockly/extensions/backpack/index.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/ace-ide/ace.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-python.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-languages_tools.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-searchbox.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/ace-ide/aceInit.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/file-input/js/fileinput.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/file-input/themes/fa/theme.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/charts-loader.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/echarts-5.4.0/echarts.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/ansi-up/ansi_up.min.js" type="text/javascript"></script>
+<script src="/openInterface/interfaces/assets/js/external/tone/tone.js"></script>
+<!-- endbuild -->
+<!-- build:js-utils -->
+<script src="/openInterface/interfaces/assets/js/utils/url.js"></script>
+<script src="/openInterface/interfaces/assets/js/utils/colour.js"></script>
+<script src="/openInterface/interfaces/assets/js/utils/misc.js"></script>
+<script src="/openInterface/interfaces/assets/js/utils/dom.js"></script>
+<script src="/openInterface/interfaces/assets/js/utils/jsonPath.js"></script>
+<!-- endbuild -->
+<!-- build:js-photonConstants -->
+<script src="/openInterface/photon/assets/js/constants/main/init.js"></script>
+<script src="/openInterface/photon/assets/js/constants/generators/imports.js"></script>
+<script src="/openInterface/photon/assets/js/constants/generators/functions.js"></script>
+<script src="/openInterface/photon/assets/js/constants/toolbox/blockDB.js"></script>
+<script src="/openInterface/photon/assets/js/constants/toolbox/vittascience.js"></script>
+<script src="/openInterface/photon/assets/js/constants/toolbox/scratch.js"></script>
+<script src="/openInterface/photon/assets/js/constants/toolbox/styles.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/toolbox/toolboxes.js"></script>
+<script src="/openInterface/photon/assets/js/constants/main/buttons.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/main/interface.js"></script>
+<script src="/openInterface/photon/assets/js/constants/main/interface.js"></script>
+<!-- endbuild -->
+<!-- build:js-constants -->
+<script src="/openInterface/interfaces/assets/js/constants/main/errors.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/main/patterns.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/main/api.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/blocks/helpurl.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/generators/constants.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/generators/functions.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/tooltip/image.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/modals/buttons.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/modals/options.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/modals/generalModals.js"></script>
+<!-- endbuild -->
+<!-- build:js-events -->
+<script src="/openInterface/interfaces/assets/js/events/footer.js"></script>
+<script src="/openInterface/interfaces/assets/js/events/api.js"></script>
+<script src="/openInterface/interfaces/assets/js/events/music.js"></script>
+<script src="/openInterface/interfaces/assets/js/events/chart.js"></script>
+<script src="/openInterface/interfaces/assets/js/events/export.js"></script>
+<script src="/openInterface/interfaces/assets/js/events/addBlck.js"></script>
+<!-- endbuild -->
+<!-- build:js-simulator -->
+<script src="/openInterface/interfaces/assets/js/external/skulpt/skulpt.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/skulpt/skulpt-stdlib.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/python/simulator.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/Simulator.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/mosaic/Animator.js"></script>
+<script src="/openInterface/photon/assets/js/simulator/mosaic/code_friendly.js"></script>
+<script src="/openInterface/photon/assets/js/simulator/mosaic/definitions.js"></script>
+<!-- endbuild -->
+<!-- build:js-auto-corrector -->
+<script src="/openInterface/interfaces/assets/js/external/svg-3.1.1/svg.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/auto-corrector/AutoCorrector.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/auto-corrector/FramesVisualizer.js"></script>
+<!-- endbuild -->
+<!-- build:js-robot-simulator -->
+<script src="/openInterface/interfaces/assets/js/simulator/robot/RobotSimulator.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/robot/DistanceSensorSimulator.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/robot/LineFinderSimulator.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/Recorder.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/SimulatorModals.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/robot/utils/math.js"></script>
+<script src="/openInterface/photon/assets/js/simulator/robot/robot.js"></script>
+<!-- endbuild -->
+<!-- build:js-blocks -->
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/constants.js"></script>
+<script src="/openInterface/photon/assets/js/blocks/definitions/blockly_constants.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/colour.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/logic.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/loops.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/math.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/text.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/variables.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/lists.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/procedures.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/exceptions.js"></script>
+<script src="/openInterface/photon/assets/js/blocks/definitions/specific/start.js"></script>
+<script src="/openInterface/photon/assets/js/blocks/definitions/specific/display.js"></script>
+<script src="/openInterface/photon/assets/js/blocks/definitions/specific/input_output.js"></script>
+<script src="/openInterface/photon/assets/js/blocks/definitions/specific/communication.js"></script>
+<script src="/openInterface/photon/assets/js/blocks/definitions/specific/actuators.js"></script>
+<script src="/openInterface/photon/assets/js/blocks/definitions/specific/sound.js"></script>
+<script src="/openInterface/photon/assets/js/blocks/definitions/specific/sensors.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/init.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/colour.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/logic.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/loops.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/math.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/text.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/variables.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/lists.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/procedures.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/exceptions.js"></script>
+<script src="/openInterface/photon/assets/js/blocks/generators/specific/start.js"></script>
+<script src="/openInterface/photon/assets/js/blocks/generators/specific/display.js"></script>
+<script src="/openInterface/photon/assets/js/blocks/generators/specific/input_output.js"></script>
+<script src="/openInterface/photon/assets/js/blocks/generators/specific/communication.js"></script>
+<script src="/openInterface/photon/assets/js/blocks/generators/specific/actuators.js"></script>
+<script src="/openInterface/photon/assets/js/blocks/generators/specific/sound.js"></script>
+<script src="/openInterface/photon/assets/js/blocks/generators/specific/sensors.js"></script>
+<!-- endbuild -->
+<!-- build:js-main -->
+<script src="/openInterface/interfaces/assets/js/main/InterfaceInit.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/Loader.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/UIManager.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/CodeManager.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/InterfaceMonitor.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/ToolboxManager.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/Main.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/modal.js" type="module"></script>
+<script src="/openInterface/interfaces/assets/js/main/Button.js"></script>
+<script src="/openInterface/interfaces/assets/js/themes/themes.js"></script>
+<!-- endbuild -->
+<!-- build:js-ble -->
+<script src="/openInterface/interfaces/assets/js/ble/WebBLE.js"></script>
+<script src="/openInterface/photon/assets/js/ble/bleAPI.js"></script>
+<!-- endbuild -->
+<!-- loader -->
+<script src="/openInterface/interfaces/assets/js/events/load.js"></script>
+<!-- check browser compatibility -->
+<script src="/openInterface/interfaces/assets/js/main/compatibilityBrowserCheck.js"></script>
+
+<!-- tree-sitter -->
+<script src="/openInterface/interfaces/assets/js/external/tree-sitter/tree-sitter.js"></script>
+<script src="/openInterface/photon/assets/js/blocks/code2Blocks/excluded_blocks.js"></script>
+
+<script>
+    window.checkNavigatorVersionForPurpose('interfaces');
+    $(document).ready(() => {
+        loadInterface(INTERFACE_NAME);
+    });
+</script>
+
+<!-- footer scripts -->

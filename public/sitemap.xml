@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<url>
+  <loc>https://vittascience.com/</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/passwordRecovery</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.30</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/vittamap</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/blog</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/gallery</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.50</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/arduino/</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/microbit/</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/python/</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/learn/</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/weather</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.30</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/about</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.40</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/cart</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.30</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/legalnotice</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.30</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/cgv</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.30</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/cgu</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.30</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/login</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/1/ballon-solaire---version-connectee-arduino</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.65</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/3/ballon-solaire---version-de-base</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/86/ballon-solaire-connecte-microbit</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.65</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/85/four-solaire-connecte-arduino</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.65</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/87/four-solaire-connecte-microbit</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.65</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/103/four-solaire---version-de-base</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/2/kit-electronique-meteo-arduino</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.65</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/88/kit-electronique-meteo-microbit</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.65</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/4/arduino-uno-rev3</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/83/carte-micro:bit</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/84/pack-10-micro:bit</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/13/ecran-lcd-32-caracteres-grove-</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/14/ecran-lcd-rgb-32-caracteres-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/15/ecran-oled-128*64-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/16/matrice-led-rgb-8*8-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/21/matrice-led-rouge-8*8-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/22/anneau-20-leds-neopixel-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/23/bandeau-30-leds-neopixel-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/24/afficheur-4-chiffre-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/25/jauge-led-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/26/led-rgb-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/27/feu-de-signalisation-stop:bit</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/28/servo-moteur-angulaire-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/29/haut-parleur-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/30/module-buzzer-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/31/module-mp3-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/32/module-relais-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/33/pompe-a-eau-</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/34/module-ventilateur-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/35/moteur-haptique-(vibreur)-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/36/module-atomiseur-d-eau-a-ultrasons-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/7/module-radio</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/37/module-openlog-gestion-donnees-microsd</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/38/recepteur-gps-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/39/module-radio-433-mhz-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/40/module-bluetooth-serie-grove-</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/41/module-radio-lora-433-mhz-grove-</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/42/lecteur-nfc-13,56-mhz-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/43/lecteur-rfid-125khz-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/44/emetteur-infrarouge-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/45/recepteur-infrarouge-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/46/horloge-temps-reel-rtc-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/47/module-microsd</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/5/module-photo</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/6/module-particules-fines</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/48/telemetre-a-ultrasons-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/49/capteur-d-humidite-du-sol-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/50/capteur-de-luminosite-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/51/capteur-sonore-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/52/capteur-de-gaz-multicanal-grove---mics-6814</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/53/capteur-de-t-,-pression-et-altitude-grove---bmp280</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/54/capteur-de-co2-et-cov-grove---sgp30</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/55/capteur-de-lumiere-visible,-infrarouge-et-uv-grove---si1145</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/56/capteur-haute-t--grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/57/capteur-de-t--etanche-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/58/capteur-de-t--et-humidite-grove---dht11</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/59/capteur-de-t--grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/60/pluviometre-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/61/anemometre-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/62/capteur-d-eau-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/63/capteur-de-dioxygene-o2-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/64/capteur-de-gaz-grove---mq15</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/65/capteur-de-dioxyde-de-carbone-co2-grove---mh-z16</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/66/capteur-de-ph-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/67/capteur-de-distance-a-infrarouge-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/68/capteur-de-couleur-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/69/suiveur-de-ligne-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/70/module-photo-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/71/capteur-de-vibrations-piezo-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/73/detecteur-de-mouvement-infrarouge-pir-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/74/capteur-de-geste-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/75/capteur-d-inclinaison-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/76/interupteur-magnetique-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/77/capteur-de-particules-fines-laser-grove---hm3301</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/78/capteur-de-particules-fines-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/89/bouton-lumineux-led-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/90/bouton-poussoir-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/91/clavier-tactile-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/92/bouton-tactile-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/93/joystick-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/94/potentiometre-rotatif-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/95/potentiometre-rectiligne-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/96/interrupteur-grove</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/97/robot-maqueen-pour-carte-micro:bit</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/98/robot-bitbot-pour-carte-micro:bit</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/99/robot-mini-buggy-move-pour-carte-micro:bit</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/100/kit-bras-robotique-pour-carte-micro:bit-</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/101/manette-game-pad-pour-carte-micro:bit</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop/102/extension-buldozer-pour-robot-move-mini-buggy</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/cgvu.php</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/learn/index.php?type=mosaic</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/learn/index.php?type=collections</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/about?contact=1</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/public/shop.php?id=6</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/learn/tutorial.php?id=45</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/learn/tutorial.php?id=5</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/learn/tutorial.php?id=7</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/learn/tutorial.php?id=6</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/public/experimentDetails.php?id=51</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/public/experimentDetails.php?id=52</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/public/shop.php?id=</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/learn/tutorial.php?id=8</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop.php?id=4</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/code?id=144</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/shop.php?id=2</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/code?id=69</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/code?id=63</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/code?id=71</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://vittascience.com/plugin</loc>
+  <lastmod>2020-01-03T12:00:06+00:00</lastmod>
+  <priority>0.50</priority>
+</url>
+
+
+</urlset>

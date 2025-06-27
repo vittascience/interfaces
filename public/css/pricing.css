@@ -1,0 +1,519 @@
+/* PRICING PAGE */
+
+#head-section h1,
+#offer-section h2,
+#collectivities-first-section h4,
+#collectivities-second-section h4,
+#ugap-section h4 {
+    font-weight: 800;
+    font-size: 2.5rem;
+}
+
+#pricing-head h3 {
+    font-size: 1em;
+}
+
+#pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 3rem auto;
+    max-width: 1280px;
+    gap: 2rem;
+}
+
+.license-col {
+    text-align: center;
+    height: 100%;
+
+    border-radius: 1em;
+    padding: 1em;
+
+    background: var(--bg-1);
+    box-shadow: 0px 3px 6px #00000029;
+    border: 1px solid var(--text-1);
+    opacity: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (max-width: 992px) {
+    #pricing-grid {
+        gap: 1rem;
+    }
+
+    .license-col {
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 768px) {
+    #pricing-grid {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .license-col {
+        font-size: 1em;
+    }
+}
+
+.license-col .purchase-link {
+    white-space: normal;
+}
+
+.license-col h4 {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1.5em;
+}
+
+.license-col li .gar-link {
+    text-decoration: underline;
+    color: var(--text-1);
+}
+
+.license-col li .gar-link::after {
+    content: "";
+
+    background-color: white;
+    background-image: url('../content/img/gar_grey.png');
+    background-size: auto 1.2rem;
+
+    display: inline-block;
+    border-radius: 3px;
+
+    width: 2.95rem;
+    height: 1.2rem;
+
+    margin-left: 0.5em;
+    position: relative;
+    top: 0.15em;
+}
+
+.license-col li .gar-link:hover {
+    text-decoration: underline;
+    color: var(--text-2);
+}
+
+.info-block .devis-button,
+.info-block .info-button,
+.license-col .purchase-link {
+    border-radius: 3em;
+    font-weight: 700;
+    background-color: var(--text-1);
+    color: var(--bg-1);
+}
+
+.license-col .license-type {
+    font-size: 1em;
+    font-weight: 600;
+}
+
+.license-col ul {
+    flex-grow: 1;
+    text-align: left;
+    list-style: none;
+    padding: 0;
+}
+
+.license-col ul li {
+    padding-left: 2.3em;
+    margin: 0.5em auto;
+}
+
+.license-col ul li:before {
+    content: "\f00c";
+    /* FontAwesome Unicode */
+    font-family: "Font Awesome 5 Free";
+    display: inline-block;
+    position: relative;
+    right: 10px;
+    margin-left: -1.3em;
+    width: 1.3em;
+    font-weight: 900;
+
+}
+
+.license-col ul li.infinite:before {
+    content: "\f534";
+
+}
+
+#team-license-calculator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0.5em 0;
+    min-width: 80%;
+}
+
+/* style the range slider */
+#team-license-calculator .form-range::-webkit-slider-thumb {
+    background: var(--vitta-red-light) !important;
+}
+
+#team-license-calculator #price-estimation-container {
+    margin: 0.5em 0;
+    color: var(--vitta-red-light);
+    font-size: 0.9em;
+}
+
+#team-license-calculator #price-estimation-container .price {
+    font-size: 1.3em;
+    font-weight: 700;
+}
+
+
+.license-pricing {
+    font-size: 1.1em;
+}
+
+.license-pricing .price {
+    font-size: 1.3em;
+    font-weight: 700;
+}
+
+.license-pricing .regular-price,
+#price-estimation-container #regular-price.reduction {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: var(--text-3);
+    text-decoration: line-through;
+}
+
+.license-pricing sup,
+#price-estimation-container sup {
+    background-color: var(--vitta-green);
+    border-radius: 5em;
+    color: var(--vitta-white);
+    padding: 0.25em 0.5em;
+    margin: 0 0.25em;
+}
+
+.full-pricing {
+    height: 2em;
+}
+
+/* OFFERS SECTION */
+
+#offer-section {
+    background-color: var(--bg-2);
+}
+
+.info-block {
+    max-width: 700px;
+    text-align: start;
+}
+
+.info-block-img img {
+    width: auto;
+    height: 100%;
+    background: transparent;
+    border-radius: 0.5em;
+    width: 100%;
+    max-width: 500px
+}
+
+.theme-dark .info-block-img img {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+/* UGAP */
+
+
+#ugap-section {
+    background-color: var(--bg-2);
+}
+
+/* FAQ */
+
+#pricing-faq h2 {
+    color: var(--vitta-green);
+    font-weight: 800;
+    font-size: 4em;
+    text-align: center;
+}
+
+#pricing-faq .kit-faq-box {
+
+    background: var(--bg-0);
+    border: 1px solid #cccccc;
+    color: solid(--text-1);
+    padding: 15px 1em;
+}
+
+#pricing-faq .faq-box-dropdown {
+
+    background: transparent;
+    color: #cccccc;
+    border: 1px solid #cccccc;
+    min-width: 40px;
+    min-height: 40px;
+    max-width: 40px;
+    max-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    margin-right: 10px;
+
+}
+
+/* PRICING PAGE THEMING */
+/**/
+.free-license {
+    border-color: var(--vitta-green);
+}
+
+.free-license ul li:before,
+.free-license h4,
+.free-license .license-pricing {
+    color: var(--vitta-green);
+}
+
+.free-license .purchase-link {
+    background-color: var(--vitta-green);
+    color: var(--vitta-white);
+}
+
+.free-license {
+    border-color: var(--vitta-green);
+    box-shadow: 1px 1px 10px var(--vitta-green);
+}
+
+/**/
+.starter-license ul li:before,
+.starter-license h4,
+.starter-license .license-pricing {
+    color: var(--vitta-blue);
+}
+
+.starter-license .license-yearly {
+    color: var(--vitta-blue);
+}
+
+.starter-license .purchase-link {
+    background-color: var(--vitta-blue);
+    color: var(--vitta-white);
+}
+
+.starter-license {
+    border-color: var(--vitta-blue);
+    box-shadow: 1px 1px 10px var(--vitta-blue);
+}
+
+/**/
+.multi-license ul li:before,
+.multi-license h4,
+.multi-license .license-pricing {
+    color: var(--vitta-red-light);
+}
+
+.multi-license .license-yearly {
+    color: var(--vitta-red-light);
+}
+
+.multi-license .purchase-link {
+    background-color: var(--vitta-red-light);
+    color: var(--vitta-white);
+}
+
+.multi-license {
+    border-color: var(--vitta-red-light);
+    box-shadow: 1px 1px 10px var(--vitta-red-light);
+}
+
+
+/**/
+.unlimited-license ul li:before,
+.unlimited-license h4,
+.unlimited-license .license-pricing {
+    color: #ffbf31;
+}
+
+.unlimited-license .purchase-link {
+    background-color: #ffbf31;
+    color: var(--vitta-white);
+}
+
+.unlimited-license {
+    border-color: #ffbf31;
+    box-shadow: 1px 1px 15px #ffbf31;
+}
+
+.unlimited-license::before {}
+
+.slider-container {
+   accent-color: var(--vitta-red-light);
+}
+
+.license-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.license-economy {
+    border-radius: 1em;
+    width: fit-content;
+    padding: 0em 0.5em;
+    font-weight: bold;
+}
+.starter-license .license-economy {
+    border : 1px solid var(--vitta-blue);
+    color: var(--vitta-blue);
+}
+.multi-license .license-economy {
+    border : 1px solid var(--vitta-red-light);
+    color: var(--vitta-red-light);
+}
+
+.license-header-top, .license-header-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.license-header-top {
+    height: 142px;
+}
+.license-header-bottom {
+    height: 108px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    justify-content: space-between;
+}
+
+.license-yearly {
+    margin-top: 1em;
+}
+
+
+.plan {
+    flex: 1;
+    padding: 0.75rem;
+    color: #fff;
+    text-align: start;
+    position: relative;
+}
+.plan.free   { 
+    background: var(--vitta-green);
+    border-radius: 0.75rem 0 0 0.75rem;
+}
+.plan.teacher{ background: var(--vitta-blue); }
+.plan.team   { 
+    background: var(--vitta-red-light); 
+    border-radius: 0 0.75rem 0.75rem 0;
+}
+
+.plan a {
+    background: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 1.25rem;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+.plan.free a { 
+    color: var(--vitta-green);
+}
+.plan.teacher a { 
+    color: var(--vitta-blue);
+}
+.plan.team a { 
+    color: var(--vitta-red-light);
+}
+.plan .label {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+.plan .crown {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    width: 2.5rem;
+    height: 2.5rem;
+}
+.plan .crown img {
+    width: 100%;
+    height: 100%;
+}
+
+/* Tableau */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+thead th {
+    position: sticky;
+    top: 76px;
+    z-index: 10;
+    background: var(--bg-2);
+}
+thead tr th:first-of-type {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+tbody td, tbody th {
+    padding: 0.75rem;
+    vertical-align: middle;
+}
+
+/* Lignes de section */
+.section {
+    background: var(--bg-1);
+    color: var(--text-1);
+    font-weight: bold;
+    border: 1px solid black;
+}
+tbody tr:not(.section) td:first-of-type {
+    padding-top: calc(0.75rem * 1.5);
+    padding-bottom: calc(0.75rem * 1.5);
+    border-right: 1px solid black;
+}
+
+tbody tr:not(.section) td{
+    width: 25%;
+}
+
+/* Lignes alternées */
+tbody tr:not(.section) {
+    background: var(--bg-2);
+}
+
+/* Statuts */
+.status {
+    font-size: 1rem;
+    text-align: center;
+}
+.status .important {
+    font-weight: bold;
+}
+.status.ok { 
+    color: var(--vitta-green);
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+.status.ko { 
+    color: var(--vitta-red-light);
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+.status .infinity { 
+    color: var(--vitta-green);
+    font-weight: bold;
+}
+
+.rounded-top-left {
+    border-top-left-radius: 0.75em;
+}
+.rounded-top-right {
+    border-top-right-radius: 0.75em;
+}

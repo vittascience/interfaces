@@ -1,0 +1,168 @@
+@import url('../../../interfaces/assets/css/simulator-modules.css');
+@import url('../../../interfaces/assets/css/simulator-robot.css');
+
+.ide-btn-group-check {
+	visibility: hidden;
+}
+
+#buddy-startSpeaking>.module-body.body-output {
+	flex-direction: column;
+	margin-top: 10px
+}
+
+#buddy-startSpeaking>.module-body.body-output>.module-value {
+	text-align: center;
+	width: 100%;
+}
+
+.buddy-motorLeft,
+.buddy-motorRight {
+	z-index: 1;
+	top: -1px;
+	left: 2px;
+}
+
+.buddy-motorLeft_base {
+	z-index: 2;
+	opacity: 0.9;
+}
+
+.buddy-motorLeft_base,
+.buddy-motorRight_base {
+	bottom: 0px;
+	left: 16px;
+}
+
+.buddy-get-sound_base {
+	width: 45px;
+}
+
+.buddy-get-sound {
+	z-index: 1;
+	opacity: 0;
+}
+
+.buddy-battery_base {
+	left: unset;
+}
+
+.buddy-battery-isCharging_base {
+	left: 31px;
+}
+
+#buddy-battery-isCharging_anim {
+	display: none;
+	bottom: 0px;
+}
+
+#buddy-sound-localisation_anim {
+	z-index: 1;
+	bottom: 13px;
+	left: 13.5px;
+	height: 33px;
+}
+
+.buddy-sound-trigger-score_base {
+	max-height: 85px !important;
+}
+
+#buddy-colorDetect .module-body {
+	align-items: center;
+}
+
+#buddy-colorDetect #palette {
+	display: flex;
+	flex-direction: row;
+	height: min-content;
+}
+
+#buddy-colorDetect #palette>#paletteDiv {
+	width: 2em;
+	height: 2em;
+	border-radius: 50%;
+	border: 2px solid var(--text-2);
+	flex-shrink: 0;
+	margin-inline-start: 0.5em;
+}
+
+.buddy-headTouchSensors-top_base,
+.buddy-headTouchSensors-left_base,
+.buddy-headTouchSensors-right_base,
+.buddy-bodyTouchSensors-torso_base,
+.buddy-bodyTouchSensors-leftShoulder_base,
+.buddy-bodyTouchSensors-rightShoulder_base {
+	bottom: -10px !important;
+}
+
+.buddy-body-getGyrX_base,
+.buddy-body-getGyrY_base,
+.buddy-body-getGyrZ_base .buddy-head-getGyrX_base,
+.buddy-head-getGyrY_base,
+.buddy-head-getGyrZ_base {
+	max-height: 90px !important
+}
+
+#buddy-body-getAccX_anim,
+#buddy-body-getAccY_anim,
+#buddy-body-getAccZ_anim,
+#buddy-head-getAccX_anim,
+#buddy-head-getAccY_anim,
+#buddy-head-getAccZ_anim {
+	bottom: 0px;
+	left: 12px;
+	transform-origin: top right;
+	z-index: 1;
+	width: 23px;
+	height: auto;
+	transform: rotate(140deg);
+}
+
+.buddy-camera_base,
+.buddy-camera {
+	left: unset;
+	bottom: unset;
+}
+
+/* TOUCH INDICATOR */
+
+
+#buddy-headTouchSensors-left .pulse-circle::before,
+#buddy-headTouchSensors-top .pulse-circle::before,
+#buddy-headTouchSensors-right .pulse-circle::before,
+#buddy-bodyTouchSensors-torso .pulse-circle::before,
+#buddy-bodyTouchSensors-leftShoulder .pulse-circle::before,
+#buddy-bodyTouchSensors-rightShoulder .pulse-circle::before {
+	--size: 1.2em;
+	--color: var(--vitta-blue-rgb);
+}
+
+#buddy-headTouchSensors-left .pulse-circle::before {
+	left: -61px;
+	top: 19px;
+}
+
+#buddy-headTouchSensors-top .pulse-circle::before {
+	left: -82px;
+	top: 7px;
+}
+
+#buddy-headTouchSensors-right .pulse-circle::before {
+	left: -103px;
+	top: 19px;
+}
+
+#buddy-bodyTouchSensors-torso .pulse-circle::before {
+	left: -83px;
+	top: 57px;
+}
+
+#buddy-bodyTouchSensors-leftShoulder .pulse-circle::before {
+	left: -71px;
+	top: 40px;
+}
+
+#buddy-bodyTouchSensors-rightShoulder .pulse-circle::before {
+	left: -95px;
+	top: 40px;
+}
+

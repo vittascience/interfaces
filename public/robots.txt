@@ -1,0 +1,11 @@
+User-agent: *
+allow: /
+Disallow: /public/content/data/
+Disallow: /public/content/user_data/shop_pdf/
+Disallow: /public/content/documents/
+Disallow: /public/userDetails.php
+Sitemap: https://fr.vittascience.com/public/sitemap.txt
+
+User-agent:Twitterbot
+Disallow: *
+Allow: /public/content/user_data/tuto_img/

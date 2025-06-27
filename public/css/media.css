@@ -1,0 +1,100 @@
+#head-section h2 {
+    text-transform: uppercase;
+    text-wrap: balance;
+}
+
+#head-section h2 > span {
+    color: var(--vitta-green);
+}
+
+.vitta-green {
+    color: var(--vitta-green);
+}
+
+#media-kit-contents .media-elt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-radius: 2em;
+    box-shadow: 0 0 10px 0 var(--vitta-shadow-color);
+    width: 100%;
+    height: 100%;
+}
+
+#media-kit-contents .media-elt > i {
+    font-size: 3em;
+    background-color: var(--bg-2);
+    color: var(--vitta-green);
+
+    width: 2em;
+    height: 2em;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+}
+
+#media-kit-contents .media-elt > p {
+    margin-top: 1em;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: var(--vitta-green);
+    text-transform: uppercase;
+    max-width: 100%;
+    text-wrap: balance;
+    text-align: center;
+    font-family: var(--header-font);
+    flex-grow: 1;
+}
+
+section.contact{
+    --section-color: var(--bg-1-rgb);
+    background: rgb(var(--section-color));
+    border-radius: 4em 4em 0px 0px;
+    filter: drop-shadow(0px 0px 15px var(--vitta-shadow-color));
+    padding: 2em;
+}
+
+.nav-pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1em 0;
+    width: fit-content;
+    justify-self: center;
+    background-color: white;
+    padding: 5px;
+    box-shadow: 1px 1px 6px #00000029;
+    border-radius: 6px;
+}
+
+.btn-pagination {
+    display: flex;
+    justify-content: center;
+    background-color: var(--bg-1);
+    color: var(--text-1);
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid var(--vitta-green);
+}
+.btn-pagination.active {
+    background-color: var(--vitta-green);
+    color: white;
+}
+.btn-pagination:not(.no-hover):hover {
+    background-color: var(--vitta-green);
+    color: white;
+}
+.btn-pagination:first-of-type {
+    border-radius: 5px 0px 0px 5px;
+}
+.btn-pagination:last-of-type {
+    border-radius: 0px 5px 5px 0px;
+}
+.img-kit{
+    width: 100%;
+    height: 10em;
+    object-fit: scale-down;
+}

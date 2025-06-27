@@ -1,0 +1,474 @@
+/* MONITOR */
+
+#monitor {
+	width: 100%;
+	height: 400px;
+	background-color: var(--bg-4);
+	z-index: 71;
+	position: relative;
+	min-width: 310px;
+}
+
+#monitor p,
+#monitor pre {
+	margin-bottom: 0;
+}
+
+#monitor:focus-within {
+	box-shadow: inset 0 0 0 2px var(--vitta-blue);
+}
+
+.monitor-closed {
+	min-width: 0px !important; 
+}
+
+.monitor-console-only {
+	height: 100% !important;
+	min-height: 100% !important;
+}
+
+/* Monitor tools resize/toggle */
+
+#monitor-tools {
+	position: absolute;
+	top: -25px;
+	right: 0;
+	left: 0;
+	display: flex;
+	margin: 0 auto;
+	justify-content: center;
+	border: 3px solid var(--bg-4);
+	background-color: var(--bg-2);
+	border-bottom: 0;
+	width: 60px;
+	height: 25px !important;
+	border-radius: 20px 20px 0 0;
+	direction: ltr;
+}
+
+.monitor-tools-collapsed-bottom {
+	position: absolute !important;
+	bottom: 5px !important;
+	left: 0;
+	right: 0;
+}
+
+.monitor-tools-collapsed-right {
+	position: absolute !important;
+	top: 0;
+	bottom: 0;
+	right: 2px !important;
+}
+
+#monitor-tools:after,
+#monitor-tools:before {
+	content: '';
+	width: 20px;
+	height: 10px;
+	border: 3px solid var(--bg-4);
+	position: absolute;
+	bottom: -3px;
+	border-top: 0;
+	overflow: visible;
+}
+
+#monitor-tools:after {
+	border-left: 0;
+	border-radius: 0 0 45px 0;
+	left: -20px;
+}
+
+#monitor-tools:before {
+	border-right: 0;
+	border-radius: 0 0 0 45px;
+	right: -20px;
+}
+
+#monitor-toggler:hover,
+#monitor-resizer:hover {
+	background-color: var(--vitta-orange);
+}
+
+#monitor-resizer {
+	cursor: ns-resize;
+	width: 1.5em;
+	border-radius: 15px 0 0 0;
+	border-right: 2px solid var(--bg-4);
+}
+
+#monitor-toggler {
+	border-radius: 0 17px 0 0;
+	border-left: 1px solid var(--bg-4);
+	width: 1.5em;
+}
+
+#monitor-content {
+	height: 100%;
+	width: 100%;
+	padding: 10px 10px 0px 10px;
+	display: grid;
+	grid-column-gap: 0px;
+	grid-row-gap: 0px;
+}
+
+.monitor-grid-bottom {
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: 1fr 0fr;
+}
+
+.monitor-grid-right {
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr 1fr 0fr;
+}
+
+/* Monitor controller */
+
+#monitor-controls {
+	position: relative;
+	min-height: 45px;
+	/* display: flex; */
+	margin-bottom: .5rem;
+	font-family: var(--main-font);
+	grid-area: 2 / 1 / 3 / 3;
+}
+
+.monitor-controls-right {
+	grid-area: 3 / 1 / 4 / 2 !important;
+}
+
+#repl-variables.activated {
+	background-color: var(--vitta-orange-light);
+}
+
+/* Monitor view */
+
+.monitor-view-split-bottom {
+	grid-area: 1 / 1 / 2 / 3 !important;
+}
+
+.monitor-view-split-bottom-debug {
+	grid-area: 1 / 1 / 2 / 2 !important;
+}
+
+.monitor-view-split-right {
+	grid-area: 1 / 1 / 3 / 2 !important;
+}
+
+.monitor-view-split-right-debug {
+	grid-area: 1 / 1 / 2 / 2 !important;
+}
+
+#monitor-view,
+#monitor-debugger {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	padding-bottom: 10px;
+	overflow: hidden;
+}
+
+#monitor-view {
+	grid-area: 1 / 1 / 2 / 3
+}
+
+#monitor-debugger {
+	display: inline-table;
+	grid-area: 1 / 2 / 2 / 3;
+	padding-left: 10px;
+	display: none;
+}
+
+.monitor-debugger-right {
+	grid-area: 2 / 1 / 3 / 2 !important;
+	padding-left: 0px !important;
+}
+
+.monitor-debugger-wrapper {
+	border-radius: 10px;
+	background-color: var(--bg-1);
+	height: 100%;
+}
+
+/* Variables panel */
+
+.variables_panel {
+	padding: 5px;
+	box-sizing: border-box;
+	flex-direction: column;
+}
+
+@media (max-width: 610px) {
+	.variables_panel {
+		padding: 5px;
+		box-sizing: border-box;
+		flex-direction: column;
+		overflow: scroll;
+	}
+}
+
+#variables_table td,
+#variables_table th {
+	display: table-cell;
+	vertical-align: inherit;
+	border: 1px solid var(--text-3);
+	text-align: left;
+	padding: 4px;
+}
+
+#variables_table td {
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+table#variables_table {
+	font-size: 14px;
+	font-family: var(--main-font);
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+}
+
+#variables_table tr:nth-child(even) {
+	background-color: var(--bg-2);
+}
+
+/* Console */
+
+#monitor-view>#console,
+#graph-tab,
+#music-tab,
+#console-wrapper {
+	min-height: 120px;
+	flex: 1;
+	height: 100%;
+	width: 100%;
+	background-color: var(--bg-1);
+	padding: 10px;
+	padding-inline-end: 70px;
+	border-radius: 10px;
+	font-size: 14px;
+	overflow: auto;
+	overflow-wrap: break-word;
+	outline: none;
+}
+
+#console {
+	font-family: var(--monospace-font), monospace;
+}
+
+#graph-tab,
+#music-tab {
+	display: none;
+}
+
+#traceur {
+	display: flex;
+	height: 100%;
+	width: 100%;
+}
+
+#traceur>h2 {
+	margin: auto;
+}
+
+.ide-console {
+	height: 100%;
+	max-width: 100% !important;
+}
+
+#monitor-view-group-btn {
+	position: absolute;
+	bottom: 15px;
+	inset-inline-end: 10px;
+	z-index: 49;
+	display: flex;
+	flex-direction: column;
+}
+
+#monitor-view-group-btn>.monitor-view-btn:first-child {
+	border-radius: 10px 10px 0 0;
+}
+
+#monitor-view-group-btn>.monitor-view-btn:not(:first-child):not(:last-child) {
+	border-radius: 0;
+}
+
+#monitor-view-group-btn>.monitor-view-btn:last-child {
+	border-radius: 0 0 10px 10px;
+}
+
+.monitor-view-btn {
+	float: left;
+	display: block;
+
+	--bs-btn-color: var(--text-0);
+	--bs-btn-bg: var(--bg-2);
+	--bs-btn-border-color: var(--bg-2);
+
+	--bs-btn-hover-color: var(--text-0);
+	--bs-btn-hover-bg: var(--bg-3);
+	--bs-btn-hover-border-color: var(--bg-3);
+
+	--bs-btn-active-color: var(--text-0);
+	--bs-btn-active-bg: var(--bg-3);
+	--bs-btn-active-border-color: var(--bg-3);
+
+	--bs-btn-disabled-color: var(--text-0);
+	--bs-btn-disabled-bg: var(--bg-2);
+	--bs-btn-disabled-border-color: var(--bg-2);
+}
+
+.monitor-view-btn.activated {
+
+	--bs-btn-color: var(--bg-0);
+	--bs-btn-bg: var(--vitta-green-dark);
+	--bs-btn-border-color: var(--vitta-green-dark);
+
+	--bs-btn-hover-color: var(--bg-0);
+	--bs-btn-hover-bg: var(--vitta-green-focus-shadow);
+	--bs-btn-hover-border-color: var(--vitta-green-focus-shadow);
+
+	--bs-btn-active-color: var(--bg-0);
+	--bs-btn-active-bg: var(--vitta-green-focus-shadow);
+	--bs-btn-active-border-color: var(--vitta-green-focus-shadow);
+
+	--bs-btn-disabled-color: var(--bg-0);
+	--bs-btn-disabled-bg: var(--vitta-green-dark);
+	--bs-btn-disabled-border-color: var(--vitta-green-dark);
+}
+
+
+
+.monitor-btn-music {
+	float: left;
+	display: block;
+}
+
+.monitor-controls-tab {
+	width: 100%;
+	display: flex;
+}
+
+#monitor-controls-graph {
+	display: none;
+}
+
+/* All tab */
+
+#serial-form {
+	display: flex;
+	width: 100%;
+}
+
+/* Console tab */
+
+.arduino_input {
+	max-width: 50%;
+	min-width: 100px;
+	flex: 1;
+	margin-right: 5px;
+}
+
+/* Graph tab */
+
+.chart-no-data {
+	font-style: italic;
+	font-size: 15px;
+}
+
+/* Music tab */
+
+.music-slider {
+	margin-bottom: 10px;
+}
+
+/* Music panel */
+
+#music-panel {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+}
+
+.music-control {
+	border-right: rgb(220, 220, 220) 1px solid;
+	padding: 15px 15px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 100%;
+	justify-content: center;
+}
+
+/* MONITOR DROPDOWN */
+
+.monitor-controls-button {
+	height: 100%;
+	margin-inline-end: 5px;
+	--bs-btn-padding-x: 0.75em;
+	--bs-btn-border-radius: 50vh;
+
+	--bs-btn-color: var(--text-1);
+	--bs-btn-bg: transparent;
+	--bs-btn-border-color: transparent;
+
+	--bs-btn-hover-color: var(--text-1);
+	--bs-btn-hover-bg: rgba(var(--text-0-rgb), 0.1);
+	--bs-btn-hover-border-color: transparent;
+
+	--bs-btn-active-color: var(--text-1);
+	--bs-btn-active-bg: rgba(var(--text-0-rgb), 0.225);
+	--bs-btn-active-border-color: transparent;
+}
+
+#monitor-controls-dropdown {
+	background: var(--bg-4);
+	border-radius: 10px 10px 0 0 !important;
+	overflow: hidden;
+	margin: 0;
+	box-shadow: 0 0 3px var(--vitta-shadow-color);
+}
+
+#monitor-controls-dropdown .dropdown-item {
+	background: var(--bg-4);
+}
+
+#serial-input,
+#serial-send {
+	border: 1px solid var(--bg-4);
+}
+
+.console-separator {
+	border-left: 1px var(--bg-5) solid;
+	margin: -5px 10px -5px 10px;
+}
+
+/* bloc tooltip */
+
+#monitor-graph-tooltip.interface-tooltip {
+	right: 100%;
+	width: 300px;
+	bottom: unset;
+}
+
+#monitor-graph-tooltip.interface-tooltip::after {
+	top: 50%;
+	left: 100%;
+	border-color: transparent transparent transparent var(--vitta-green);
+	margin: 0;
+	transform: translateY(-50%);
+}
+
+/* repl control */
+
+#repl-control:not(.activated):hover,
+#repl-control.activated {
+	background-color: var(--vitta-orange-light);
+	color: var(--bg-0);
+}
+
+#repl-control:not(.activated) {
+	background-color: var(--bg-1);
+	color: var(--text-0);
+}

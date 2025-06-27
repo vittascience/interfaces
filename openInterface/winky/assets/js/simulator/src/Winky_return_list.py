@@ -1,0 +1,13 @@
+## @defgroup FUNCTIONS_RETURN_VALUE
+##@{
+COMMAND_SUCCESS                 = 1
+
+COMMAND_ERROR                   = 0
+COMMAND_ERROR_BLE_NOT_CONNECTED = -1
+COMMAND_ERROR_BLE               = -2
+COMMAND_ERROR_NAME_NO_FOUND     = -3
+COMMAND_ERROR_NOTIFY            = -4
+
+COMMAND_ERROR_WS_SEND           = -50
+COMMAND_ERROR_COMMAND_PARAM     = -51
+##@}

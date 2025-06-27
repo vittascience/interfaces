@@ -1,0 +1,452 @@
+
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <!-- ©️ Copyright Vittascience  -->
+    <script>const CDN_PATH = ''</script>
+    <script>const IS_CAPYTALE_CONTEXT = true;</script>
+    <!-- Matomo Analytics -->
+    <script>
+        function initializeMatomo() {
+            if (typeof IS_CAPYTALE_CONTEXT !== 'undefined') return;
+            if (typeof UserManager === 'undefined' || !UserManager) {
+            setTimeout(() => {
+                initializeMatomo();
+            }, 100);
+            return;
+            }
+            const _paq = window._paq = window._paq || [];
+            /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+            if (typeof ltiVariables13 !== 'undefined') {
+            _paq.push(['setCustomDimension', 3, `${ltiVariables13.platform}-${ltiVariables13.interface}`]);
+            const userId = UserManager.getUser() ? UserManager.getUser().id : 'no-id';
+            _paq.push(['setUserId', userId]);
+            }
+            _paq.push(['trackPageView']);
+            _paq.push(['enableLinkTracking']);
+            (function() {
+            const u="https://matomo.vittascience.com/matomo/";
+            _paq.push(['setTrackerUrl', u+'matomo.php']);
+            _paq.push(['setSiteId', '1']);
+            const d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+            })();
+        }
+        initializeMatomo();
+    </script>
+    <!-- End Matomo Code -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Security-Policy" content="">
+    <link rel="icon" href="/public/content/img/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Add the reference to the canonical page if this is a duplicate -->
+    
+
+    <link rel="stylesheet" href="/public/js/lib/jquery-ui-1.12.1/themes/smoothness/jquery-ui.css">
+
+    <!-- use in navbar for the whole website -->
+    <link rel="stylesheet" type="text/css" href="/public/js/lib/EasyAutocomplete-1.3.5/easy-autocomplete.min.css">
+    <link rel="stylesheet" type="text/css" href="/public/js/lib/EasyAutocomplete-1.3.5/easy-autocomplete.themes.min.css">
+    <link rel="stylesheet" href="/public/css/lib/fontawesome-free-6.5.1-web/css/all.min.css">
+
+    <!-- jQuery -->
+    <script src="/public/js/lib/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+
+    <!-- i18next -->
+    <script src="/public/js/lib/i18next-versions/i18next-8.1.0.min.js"></script>
+    <script src="/public/js/lib/i18next-versions/jquery-i18next-1.2.1.min.js"></script>
+    <script src="/public/js/lib/i18next-versions/i18nextXHRBackend-1.5.1.min.js"></script>
+    <script src="/public/js/lib/i18next-versions/i18nextBrowserLanguageDetector-2.2.3.min.js"></script>
+    <script src="/public/js/utils/translate.js"></script>
+
+    <!-- Bootstrap CSS, if RTL load correct version if not load basic one -->
+    
+        <link rel='stylesheet' href='/public/js/lib/bootstrap-5.2.0/bootstrap.min.css'>
+    
+
+    <!-- Bootstrap JS + Popper -->
+    <script src="/public/js/lib/popper_core-2.11.5/popper.min.js"></script>
+    <script src="/public/js/lib/bootstrap-5.2.0-beta1/bootstrap.min.js"></script>
+    
+    <!-- build:css-style -->
+    <link rel="stylesheet" type="text/css" href="/public/css/style.css">
+    <!-- endbuild -->
+    <link rel="stylesheet" type="text/css" href="/public/css/components.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/breadcrumbs.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/footer.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/high-contrast.css" id="hc-css-stylesheet" disabled>
+    <script src="/public/js/lib/mobile_detect-1.4.2/mobile-detect.min.js"></script>
+    <script>
+        const md = new MobileDetect(window.navigator.userAgent);
+        const mobileDetect = md.mobile();
+    </script>
+    <script src="/public/js/utils/utils.min.js"></script>
+    <script src="/public/js/resources/subjects.resource.js"></script>
+    <script src="/public/js/DAO/UserDAO.js"></script>
+    <script src="/public/js/models/User.js"></script>
+    <script src="/public/js/models/Teacher.js"></script>
+    <script src="/public/js/lib/EasyAutocomplete-1.3.5/jquery.easy-autocomplete.min.js"></script>
+    <script src="/public/js/lib/qr-creator-0.14.0/qr-creator-0.14.0.min.js"></script>
+    <script src="/public/js/lib/canvas_confetti-1.4.0/confetti.browser.min.js"></script>
+    <script src="/public/js/scripts/navbar/checkform.js"></script>
+    <script src="/public/js/scripts/navbar/disconnect.js"></script>
+    <script src="/public/js/scripts/navbar/lang.js"></script>
+    <script src="/public/js/scripts/navbar/login.js"></script>
+    <script src="/public/js/scripts/navbar/profile.js"></script>
+    <script src="/public/js/scripts/navbar/signup.js"></script>
+    <script src="/public/js/scripts/tooltips/tooltip.js"></script>
+    <script src="/public/js/scripts/vittaBlocker/VittaBlocker.js"></script>
+    <script src="/public/js/scripts/navbar/VittaNotif.js"></script>
+    <script src="/public/js/scripts/navbar/VittaControllerNotif.js"></script>
+    <script src="/public/js/utils/vitta_form_validator/VittaFormValidator.js" type="module"></script>
+    <script src="/public/js/scripts/localStorageManager/LocalStorageManager.js"></script>
+    <script src="/public/js/utils/globalEvents.js"></script>
+    <script src="/public/js/utils/debug/focus-debug.js" type="module"></script>
+    
+    <script>
+        function resizeIframe(obj) {
+            // obj.style.height = (obj.contentWindow.document.documentElement.scrollHeight + 100) + 'px';
+            obj.style.height = (obj.contentWindow.document.documentElement.scrollHeight) + 'px';
+    
+        }
+    </script>
+    <script src="/public/js/scripts/tooltips/tooltipsRemover.js"></script>
+<link rel="stylesheet" href="/openInterface/interfaces/assets/js/external/fontawesome-free-6.5.1-web/css/all.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/js/external/file-input/css/fileinput.css">
+<link rel="stylesheet" href="/openInterface/interfaces/assets/css/ide-navbar.css">
+<link rel="stylesheet" href="/openInterface/interfaces/assets/css/main.css">
+<link rel="stylesheet" href="/openInterface/interfaces/assets/css/modal.css">
+<link rel="stylesheet" href="/openInterface/interfaces/assets/css/buttons.css">
+<link rel="stylesheet" href="/openInterface/interfaces/assets/css/ace.css">
+<link rel="stylesheet" href="/openInterface/interfaces/assets/css/ace_themes.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/web/assets/css/mainHtml.css">
+
+<link rel="stylesheet" href="/public/css/capytale-standalone.css">
+</head>
+
+<body>
+    <!-- theme detection -->
+    <script>
+    function updateWebsiteAcessibility(formElement) {
+        var accesibilityInputs = formElement.serializeArray();
+
+        // first value is theme
+        var theme = accesibilityInputs[0].value;
+
+        // second value is contrast
+        if (accesibilityInputs[1])
+            var contrast = accesibilityInputs[1].value;
+
+        // third value is font
+        if (accesibilityInputs[2])
+            var font = accesibilityInputs[2].value;
+
+        setTheme(theme);
+        setContrast(contrast);
+        setFont(font);
+
+        if (window.location.pathname.split('/')[1] == "adacraft") {
+            switch (theme) {
+                case "dark":
+                    adacraft.switchToDarkTheme();
+                    break;
+                case "light":
+                default:
+                    adacraft.switchToLightTheme();
+                    break;
+            }
+        }
+
+        const arInterfaces = ['arduino', 'microbit', 'python', 'esp32', 'wb55', 'TI-83', 'letsstartcoding', 'pico'];
+        if (arInterfaces.includes((window.location.pathname).split('/')[1])) {
+            const toolbox = new ToolboxManager(Main.getWorkSpace());
+            toolbox.setBlocklyTheme();
+            setTimeout(function() {
+                toolbox.setBlocklyTheme()
+            }, 50);
+        }
+
+        if ((window.location.pathname).split('/')[1] == "web") {
+            projectManager.setBlocklyTheme();
+            setTimeout(function() {
+                projectManager.setBlocklyTheme();
+            }, 50);
+        }
+    };
+
+    // function to set a given theme/color-scheme
+    function setTheme(givenThemeName) {
+    
+        let themesTypes = ['light', 'dark'];
+        localStorage.setItem('theme', givenThemeName);
+
+        themesTypes.forEach(theme => {
+            if (givenThemeName == theme) {
+                $('html').addClass("theme-" + theme);
+            } else {
+                $('html').removeClass("theme-" + theme)
+            }
+        });
+
+        if (localStorage.getItem('theme') === 'dark') {
+            $(".navbar-logo").attr("src", `${CDN_PATH}/public/content/img/vittascience-footer.png`);
+        } else {
+            $(".navbar-logo").attr("src", `${CDN_PATH}/public/content/img/vittascience-logo.png`);
+        }
+
+        $('#radio-' + givenThemeName + '-theme').prop('checked', true);
+        $('[data-a11y-theme-' + givenThemeName + ']').prop('checked', true);
+    }
+
+    //function to set a given contrast
+
+    function setContrast(givenContrastSetting) {
+        let contrastOptions = ['normal', 'high'];
+
+        localStorage.setItem('contrast', givenContrastSetting);
+
+        contrastOptions.forEach(contrast => {
+            if (givenContrastSetting == contrast) {
+                $('html').addClass("contrast-" + contrast);
+            } else {
+                $('html').removeClass("contrast-" + contrast);
+            }
+        });
+
+        // Changing the footer logo depending on theme and contrast
+        if (localStorage.getItem('contrast') === 'high' && localStorage.getItem('theme') === 'light') {
+            $(".footer-logo").attr("src", `${CDN_PATH}/public/content/img/vittascience-logo.png`);
+        } else {
+            $(".footer-logo").attr("src", `${CDN_PATH}/public/content/img/vittascience-footer.png`);
+        }
+
+
+        if (localStorage.getItem('contrast') === 'high') {
+            // enable stylesheet
+            $("#hc-css-stylesheet").attr("disabled", false);
+        } else {
+            // disable stylesheet
+            $("#hc-css-stylesheet").attr("disabled", true);
+        }
+
+
+        $('#radio-' + givenContrastSetting + '-contrast').prop('checked', true);
+        $('[data-a11y-contrast-' + givenContrastSetting + ']').prop('checked', true);
+    }
+
+
+    // function to set a given font
+    function setFont(givenFontName) {
+        let fontTypes = ['basic', 'dys', 'luciole', 'arial', 'verdana'];
+
+        localStorage.setItem('font', givenFontName);
+
+        fontTypes.forEach(font => {
+            if (givenFontName == font) {
+                $('html').addClass("font-" + font);
+            } else {
+                $('html').removeClass("font-" + font)
+            }
+        });
+
+        $('#radio-' + givenFontName + '-font').prop('checked', true);
+        $('[data-a11y-font-' + givenFontName + ']').prop('checked', true);
+    }
+
+    /* Immediately invoked function to set the theme on initial load
+    Looks for the local storage for the theme value, if not found looks for the OS settings
+    */
+    document.addEventListener("DOMContentLoaded", function() {
+
+        // check if the user has already selected a specific theme
+        if (localStorage.getItem('theme')) {
+            setTheme(localStorage.getItem('theme'));
+        } else {
+            // check if the user has a dark theme
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                setTheme('dark');
+            } else {
+                setTheme('light');
+            }
+        }
+
+    // check if the user has already selected a specific contrast
+        if (localStorage.getItem('contrast')) {
+            setContrast(localStorage.getItem('contrast'));
+        } else {
+            if (window.matchMedia && window.matchMedia('(prefers-contrast: high)').matches) {
+                setContrast('high');
+            } else {
+                setContrast('normal');
+            }
+        }
+
+        // check if the user has already selected a specific font
+        if (localStorage.getItem('font')) {
+            setFont(localStorage.getItem('font'));
+        } else {
+            setFont('basic');
+        }
+    });
+    </script>
+    <div id="vitta-notif-area" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+
+<div id="ide-absolute-container" style="height: 100%;">
+        <div id="ide">
+        <nav class="ide-navbar">
+            <div class="ide-btn-group ide-btn-group-revert hide-vsm hidden" id="code-buttons-panel"></div>
+
+            <div class="ide-btn-group ide-btn-group-check hidden" id="execution-buttons-panel" style="margin: auto;"></div>
+
+            <div class="fullscreen-btn-panel"></div>
+
+            <div class="ide-dropdown ide-dropdown-always">
+                <button class="ide-btn ide-btn-toggle ide-btn-alone" data-i18n="[title]code.topbar.tooltips.consoleSettings" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-cog"></i></button>
+                <div class="ide-btn-group ide-btn-group-settings hidden"></div>
+            </div>
+
+            <div class="ide-dropdown ide-dropdown-modes">
+                <a class="ide-btn ide-btn-toggle ide-btn-alone ide-btn-mode">
+                    <i class="far fa-object-ungroup"></i>
+                </a>
+
+                <div class="ide-btn-group ide-btn-group-mode hidden"></div>
+            </div>
+
+            <div id="preview-btn-panel">
+                <!-- run simulator -->
+                <button class="ide-btn ide-btn-alone" id="show_preview" data-toggle="tooltip" data-i18n="[title]code.topbar.tooltips.openPreview">
+                    <i class="fas fa-play"></i>
+                </button>
+            </div>
+        </nav>
+
+        <div id="ide-content" style="width: 100%; height: 100%;">
+            <div id="previewBlocklyDiv" style="display: none; visibility: 'hidden';"></div>
+            <div class="ide-base" style="flex-direction: row; width: 100%;">
+                <div id="ideLeft">
+                    <div id="ideHtml" class="ps-0 d-flex flex-even">
+                        <div id="ide-editor" class="flex-row flex-fill d-flex">
+
+                            <div id="content_blocks" class="ide-block h-100 blocklyDiv" style="width: 100%">
+                            </div>
+
+                            <div id="generator" class="ide-generator" style="position: relative; width: 40%;">
+                                <div id="content_code"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="executeRight" class="d-none">
+                    <div class="ide-section-header">
+                        <button id="resfresh-preview-btn">
+                            <i class="fas fa-redo-alt"></i>
+                        </button>
+                        <input type="text" id="fake-url-field" disabled>
+                        <button id="fullscreen-preview-btn">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                        </button>
+
+                    </div>
+                    <div id=webWindow>
+                        <iframe id="hcjPreview">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    if(window.self !== window.top) {
+        $('#main-navbar, #navbar-padding').height(0);
+        $('#main-navbar, #navbar-padding').hide();
+    }
+</script>
+<!-- ide-absolute-container div -->
+<!--  -->
+
+<script src="/openInterface/interfaces/assets/js/external/jquery.blockUI-2.70.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/jquery-ui-1.12.1.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/modals/options.js"></script>
+<script src="/openInterface/env.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/interact-1.5.4.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/rotate.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/file-input/js/fileinput.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/blockly_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/utils/jsonPath.js"></script>
+<script src="/interfaces/assets/js/utils/url.js"></script>
+<script src="/openInterface/interfaces/assets/js/styling/accessibility.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/Button.js"></script>
+<script src="/openInterface/web/assets/js/constants/main/buttons.js"></script>
+<script src="/openInterface/web/assets/js/constants/toolbox/styles.js"></script>
+<script src="/openInterface/web/assets/js/constants/toolbox/vittascience.js"></script>
+<script src="/openInterface/web/assets/js/constants/toolbox/blockDB.js"></script>
+<script src="/openInterface/web/assets/js/constants/main/init.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/ToolboxManager.js"></script>
+<script type="module" src="/openInterface/interfaces/assets/js/external/blockly/extensions/backpack/index.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/Main.js"></script>
+<script src="/interfaces/assets/js/constants/main/errors.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/modal.js" type="module"></script>
+<script src="/openInterface/interfaces/assets/js/constants/main/interface.js"></script>
+<script src="/openInterface/web/assets/js/constants/main/interface.js"></script>
+<script src="/public/js/utils/translate.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/modals/buttons.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/modals/generalModals.js"></script>
+<script src="/openInterface/web/assets/js/external/ace/ace.js"></script>
+<script src="/openInterface/web/assets/js/external/ace/ext-language_tools.js"></script>
+<script src="/openInterface/web/assets/js/external/ace/mode-html.js"></script>
+<script src="/openInterface/web/assets/js/external/blockly/blocks_compressed.js"></script>
+<script src="/openInterface/web/assets/js/external/blockly/javascript_compressed.js"></script>
+<script src="/openInterface/web/assets/js/blocks/definitions/constants.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/js-beautify.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/jszip.js"></script>
+
+<!-- Trad html/css -->
+<script src="/openInterface/web/assets/js/blocks/codeToBlocks.js"></script>
+<!-- Trad JS  -->
+<script src="/openInterface/web/assets/js/blocks/js2blocks.js" type="module"></script>
+
+
+<script src="/openInterface/web/assets/js/blocks/definitions/html.js"></script>
+<script src="/openInterface/web/assets/js/blocks/definitions/css.js"></script>
+<script src="/openInterface/web/assets/js/blocks/definitions/javascript.js"></script>
+
+<script src="/openInterface/web/assets/js/blocks/generators/html.js"></script>
+<script src="/openInterface/web/assets/js/blocks/generators/javascript.js"></script>
+<script src="/openInterface/web/assets/js/blocks/generators/helpers.js"></script>
+
+<script src="/openInterface/web/assets/js/external/blockly/acorn_interpreter.js"></script>
+<script src="/openInterface/interfaces/assets/js/themes/themes.js"></script>
+<script src="/interfaces/assets/js/utils/url.js"></script>
+<script src="/openInterface/interfaces/assets/js/events/footer.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/InterfaceInit.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/Loader.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/UIManager.js"></script>
+<script src="/openInterface/interfaces/assets/js/main/CodeManager.js"></script>
+<script src="/openInterface/web/assets/js/events/webLoader.js" type="module"></script>
+<script src="/openInterface/web/assets/js/events/WebImportFileManager.js" type="module"></script>
+<script src="/openInterface/interfaces/assets/js/events/load.js"></script>
+<script src="/openInterface/interfaces/assets/js/utils/misc.js"></script>
+</div>
+
+<script src="/interfaces/assets/js/main/ExerciseStatement.js"></script>
+<script src="/interfaces/assets/js/main/ProjectManager.js"></script>
+<script src="/interfaces/assets/js/main/ProjectManagerVisitor.js"></script>
+<script src="/interfaces/assets/js/main/ProjectManagerUser.js"></script>
+<script src="/interfaces/assets/js/main/User.js"></script>
+<script src="/interfaces/assets/js/constants/modals/privateModals.js"></script>
+<script src="/interfaces/assets/js/constants/buttons/buttons.js"></script>
+<script src="/interfaces/assets/js/events/project_panel.js"></script>
+<script src="/interfaces/assets/js/events/loadingPrivate.js"></script>
+
+
+    <script src="/public/js/utils/get.js" defer></script>
+    <script type="application/javascript" src="/interfaces/assets/js/utils/url.js"></script>
+</body>
+
+</html>

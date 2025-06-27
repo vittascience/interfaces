@@ -1,0 +1,522 @@
+{
+    "default": {
+        "fr": {
+            "title": "Vittascience — L'apprentissage du numérique et de l'IA pour tous",
+            "desc": "Une plateforme intuitive pour apprendre à coder, découvrir les sciences et s’initier à l’intelligence artificielle (IA) avec Arduino, Python, micro:bit et plus."
+        },
+        "en": {
+            "title": "Vittascience — Discover Coding, Science & AI Made Simple",
+            "desc": "An intuitive platform to learn coding, explore science, and get started with Artificial Intelligence (AI) using Arduino, Python, micro:bit and more."
+        }
+    },
+    "vittamap": {
+        "fr": {
+            "title": "Vittamap — Projets de la communauté Vittascience",
+            "desc": "Explorez la carte interactive des projets partagés par les utilisateurs de Vittascience : programmation, robotique, électronique et bien plus."
+        },
+        "en": {
+            "title": "Vittamap — Projects from the Vittascience Community",
+            "desc": "Explore the interactive map of projects shared by Vittascience users: coding, robotics, electronics and more."
+        }
+    },
+    "code": {
+        "fr": {
+            "title": "Vittascience — Programmation en ligne avec Arduino, micro:bit et STM32",
+            "desc": "Environnement de programmation en ligne pour apprendre à coder facilement avec Arduino, micro:bit, STM32, Texas Instruments et d'autres plateformes. Accessible, intuitif et conçu pour l'enseignement."
+        },
+        "en": {
+            "title": "Vittascience — Online Programming with Arduino, micro:bit and STM32",
+            "desc": "An online coding environment to learn programming easily with Arduino, micro:bit, STM32, Texas Instruments and other platforms. Accessible, intuitive, and designed for education."
+        }
+    },
+    "login": {
+        "fr": {
+            "title": "Vittascience — Connexion",
+            "desc": "Connectez-vous à votre compte Vittascience pour accéder à vos informations."
+        },
+        "en": {
+            "title": "Vittascience — Login",
+            "desc": "Connect to your Vittascience account to access your informations."
+        }
+    },
+    "shop": {
+        "fr": {
+            "title": "Vittascience — Boutique en ligne : Produits et Kits Éducatifs",
+            "desc": "Explorez notre boutique en ligne pour découvrir des produits et kits éducatifs innovants, conçus pour stimuler la curiosité et l'apprentissage scientifique."
+        },
+        "en": {
+            "title": "Vittascience — Online Shop: Educational Products & Kits",
+            "desc": "Explore our online shop to discover innovative educational products and kits designed to spark curiosity and enhance scientific learning."
+        }
+    },
+    "passwordRecovery": {
+        "fr": {
+            "title": "Vittascience — Récupération de mot de passe",
+            "desc": "Récupérez le mot de passe de votre compte Vittascience."
+        },
+        "en": {
+            "title": "Vittascience — Password recovery",
+            "desc": "Recover your Vittascience account password."
+        }
+    },
+    "hire": {
+        "fr": {
+            "title": "Vittascience — Rejoignez notre équipe",
+            "desc": "Chez Vittascience, nous recherchons des talents passionnés pour rejoindre notre équipe dynamique et contribuer à l’innovation éducative."
+        },
+        "en": {
+            "title": "Vittascience — Join Our Team",
+            "desc": "At Vittascience, we’re looking for passionate talents to join our dynamic team and contribute to educational innovation."
+        }
+    },
+    "about": {
+        "fr": {
+            "title": "Vittascience — Qui sommes-nous ?",
+            "desc": "Découvrez l’histoire de Vittascience, notre mission, notre équipe et comment nous contacter."
+        },
+        "en": {
+            "title": "Vittascience — Who We Are",
+            "desc": "Learn about the story of Vittascience, our mission, our team, and how to get in touch."
+        }
+    },
+    "arduino": {
+        "fr": {
+            "title": "Vittascience — Arduino",
+            "desc": "Interface de programmation pour la carte Arduino."
+        },
+        "en": {
+            "title": "Vittascience — Arduino",
+            "desc": "Programming interface for the Arduino card."
+        }
+    },
+    "microbit": {
+        "fr": {
+            "title": "Vittascience — Micro:bit",
+            "desc": "Interface de programmation pour la carte BBC micro:bit."
+        },
+        "en": {
+            "title": "Vittascience — Micro:bit",
+            "desc": "Programming interface for the BBC micro:bit card."
+        }
+    },
+    "python": {
+        "fr": {
+            "title": "Vittascience — Python",
+            "desc": "Interface de programmation pour Python 3 pensée pour l'éducation."
+        },
+        "en": {
+            "title": "Vittascience — Python",
+            "desc": "Programming interface for Python 3 designed for education."
+        }
+    },
+    "adacraft": {
+        "fr": {
+            "title": "Vittascience — Adacraft",
+            "desc": "Prolongement de Scratch qui permet l’initiation à l’intelligence artificielle et un lien vers des microcontrôleurs."
+        },
+        "en": {
+            "title": "Vittascience — Adacraft",
+            "desc": "Extension of Scratch that allows the introduction to artificial intelligence and a link to microcontrollers."
+        }
+    },
+    "wb55": {
+        "fr": {
+            "title": "Vittascience — NUCLEO-WB55",
+            "desc": "Interface de programmation pour la carte Nucleo-64 avec le microcontrôleur STM32WB55"
+        },
+        "en": {
+            "title": "Vittascience — NUCLEO-WB55",
+            "desc": "Programming interface for the Nucleo-64 card with the STM32WB55 microcontroller"
+        }
+    },
+    "l476": {
+        "fr": {
+            "title": "Vittascience — NUCLEO-L476RG",
+            "desc": "Interface de programmation pour la carte Nucleo-64 avec le microcontrôleur STM32L476RG"
+        },
+        "en": {
+            "title": "Vittascience — NUCLEO-L476RG",
+            "desc": "Programming interface for the Nucleo-64 card with the STM32L476RG microcontroller"
+        }
+    },
+    "buddy": {
+        "fr": {
+            "title": "Vittascience — Buddy",
+            "desc": "Interface de programmation pour le robot Buddy de Blue Frog Robotics."
+        },
+        "en": {
+            "title": "Vittascience — Buddy",
+            "desc": "Programming interface for the Buddy robot from Blue Frog Robotics."
+        }
+    },
+    "ti83": {
+        "fr": {
+            "title": "Vittascience - TI-83 Premium CE",
+            "desc": "Interface de programmation pour la calculatrice et les cartes BBC micro:bit ou TI Innovator™ Hub"
+        },
+        "en": {
+            "title": "Vittascience - TI-83 Premium CE",
+            "desc": "Programming interface for the calculator and the BBC micro:bit or TI Innovator™ Hub cards"
+        }
+    },
+    "mbot": {
+        "fr": {
+            "title": "Vittascience — mBot",
+            "desc": "Interface de programmation pour le robot mBot de Makeblock."
+        },
+        "en": {
+            "title": "Vittascience — mBot",
+            "desc": "Programming interface for the mBot robot from Makeblock."
+        }
+    },
+    "esp32": {
+        "fr": {
+            "title": "Vittascience — ESP32",
+            "desc": "Interface de programmation pour les cartes ESP32 (Wemos D1R32, NodeMCU, Huzzah32, ...)"
+        },
+        "en": {
+            "title": "Vittascience — ESP32",
+            "desc": "Programming interface for ESP32 cards (Wemos D1R32, NodeMCU, Huzzah32, ...)"
+        }
+    },
+    "GalaxiaCircuitPython": {
+        "fr": {
+            "title": "Vittascience — Galaxia",
+            "desc": "Interface de programmation pour la carte Thingz-Galaxia"
+        },
+        "en": {
+            "title": "Vittascience — Galaxia",
+            "desc": "Programming interface for the Thingz-Galaxia card"
+        }
+    },
+    "galaxia": {
+        "fr": {
+            "title": "Vittascience — Galaxia",
+            "desc": "Interface de programmation pour la carte Galaxia"
+        },
+        "en": {
+            "title": "Vittascience — Galaxia",
+            "desc": "Programming interface for the Galaxia card"
+        }
+    },
+    "raspberrypi":{
+        "fr": {
+            "title": "Vittascience — Raspberry Pi",
+            "desc": "Interface de programmation pour la carte Raspberry Pi."
+        },
+        "en": {
+            "title": "Vittascience — Raspberry Pi",
+            "desc": "Programming interface for the Raspberry Pi card."
+        }
+    },
+    "niryo":{
+        "fr": {
+            "title": "Vittascience — Niryo",
+            "desc": "Interface de programmation pour le robot Niryo Ned2."
+        },
+        "en": {
+            "title": "Vittascience — Niryo",
+            "desc": "Programming interface for the Niryo Ned2 robot."
+        }
+    },
+    "nao":{
+        "fr": {
+            "title": "Vittascience — NAO",
+            "desc": "Interface de programmation pour le robot NAO v6."
+        },
+        "en": {
+            "title": "Vittascience — NAO",
+            "desc": "Programming interface for the NAO v6 robot."
+        }
+    },
+    "m5stack": {
+        "fr": {
+            "title": "Vittascience — M5Stack",
+            "desc": "Interface de programmation pour la carte M5Stack"
+        },
+        "en": {
+            "title": "Vittascience — M5Stack",
+            "desc": "Programming interface for the M5Stack card"
+        }
+    },
+    "pico": {
+        "fr": {
+            "title": "Vittascience — Pico",
+            "desc": "Interface de programmation pour la carte Raspberry Pi Pico."
+        },
+        "en": {
+            "title": "Vittascience — Pico",
+            "desc": "Programming interface for the Raspberry Pi Pico card."
+        }
+    },
+    "cyberpi": {
+        "fr": {
+            "title": "Vittascience — CyberPi",
+            "desc": "Interface de programmation pour la carte CyberPi et le robot mBot2"
+        },
+        "en": {
+            "title": "Vittascience — CyberPi",
+            "desc": "Programming interface for the CyberPi card and mBot2 robot"
+        }
+    },
+    "eliobot": {
+        "fr": {
+            "title": "Vittascience — Eliobot",
+            "desc": "Interface de programmation pour le robot Eliobot"
+        },
+        "en": {
+            "title": "Vittascience — Eliobot",
+            "desc": "Programming interface for the Eliobot robot"
+        }
+    },
+    "thymio": {
+        "fr": {
+            "title": "Vittascience — Thymio",
+            "desc": "Interface de programmation pour le robot Thymio"
+        },
+        "en": {
+            "title": "Vittascience — Thymio",
+            "desc": "Programming interface for the Thymio robot"
+        }
+    },
+    "quickpi": {
+        "fr": {
+            "title": "Vittascience — QuickPi",
+            "desc": "Interface de programmation pour la carte QuickPi"
+        },
+        "en": {
+            "title": "Vittascience — QuickPi",
+            "desc": "Programming interface for the QuickPi card"
+        }
+    },
+    "web": {
+        "fr": {
+            "title": "Vittascience — Web",
+            "desc": "Interface qui permet l’initiation à la création de page web à l'aide de HTML, CSS et JS."
+        },
+        "en": {
+            "title": "Vittascience — Web",
+            "desc": "Interface that allows the introduction to the creation of web pages using HTML, CSS and JS."
+        }
+    },
+    "ai": {
+        "fr": {
+            "title": "Vittascience — Introduction à l'Intelligence Artificielle",
+            "desc": "Explorez notre interface d'entraînement à l'intelligence artificielle, idéale pour débuter et comprendre les concepts fondamentaux de l'IA."
+        },
+        "en": {
+            "title": "Vittascience — Introduction to Artificial Intelligence",
+            "desc": "Explore our AI training interface, perfect for beginners to learn and understand the fundamental concepts of artificial intelligence."
+        }
+    },
+    "sphero": {
+        "fr": {
+            "title": "Vittascience — Sphero",
+            "desc": "Interface de programmation pour le robot Sphero Mini"
+        },
+        "en": {
+            "title": "Vittascience — Sphero",
+            "desc": "Programming interface for Sphero Mini robot"
+        }
+    },
+    "lotibot": {
+        "fr": {
+            "title": "Vittascience — Loti-bot",
+            "desc": "Interface de programmation pour le robot Loti-bot"
+        },
+        "en": {
+            "title": "Vittascience — Loti-bot",
+            "desc": "Programming interface for Loti-bot robot"
+        }
+    },
+    "bluebot": {
+        "fr": {
+            "title": "Vittascience — Blue-bot",
+            "desc": "Interface de programmation pour le robot Blue-bot"
+        },
+        "en": {
+            "title": "Vittascience — Blue-bot",
+            "desc": "Programming interface for Blue-bot robot"
+        }
+    },
+    "spike": {
+        "fr": {
+            "title": "Vittascience — LEGO® Education SPIKE™ Essential",
+            "desc": "Interface de programmation pour LEGO® Education SPIKE™ Essential"
+        },
+        "en": {
+            "title": "Vittascience — LEGO® Education SPIKE™ Essential",
+            "desc": "Programming interface for LEGO® Education SPIKE™ Essential"
+        }
+    },
+    "photon": {
+        "fr": {
+            "title": "Vittascience — Photon",
+            "desc": "Interface de programmation pour le robot Photon"
+        },
+        "en": {
+            "title": "Vittascience — Photon",
+            "desc": "Programming interface for Photon robot"
+        }
+    },
+    "learn": {
+        "fr": {
+            "title": "Vittascience — Apprendre à coder avec nos tutoriels",
+            "desc": "Explorez nos tutoriels interactifs pour apprendre la programmation, créés par Vittascience et notre communauté. Un apprentissage collaboratif et accessible à tous !"
+        },
+        "en": {
+            "title": "Vittascience — Learn to code with our tutorials",
+            "desc": "Explore our interactive tutorials to learn programming, created by Vittascience and our community. Collaborative and accessible learning for everyone!"
+        }
+    },
+    "plugin": {
+        "fr": {
+            "title": "Vittascience — Plugin",
+            "desc": "Téléchargez nos plugins pour vos logiciels."
+        },
+        "en": {
+            "title": "Vittascience — Plugin",
+            "desc": "Download our plugins for your software."
+        }
+    },
+    "classroom" : {
+        "fr": {
+            "title": "Vittascience — Classroom",
+            "desc": "Gérez vos classes et vos élèves avec notre module Classe."
+        },
+        "en": {
+            "title": "Vittascience — Classroom",
+            "desc": "Manage your classes and students with our Classroom module."
+        }
+    },
+    "support" : {
+        "fr": {
+            "title": "Vittascience — Support et assistance",
+            "desc": "Besoin d'aide ? Contactez notre équipe pour toute question technique ou demande d'assistance concernant notre site ou nos services."
+        },
+        "en": {
+            "title": "Vittascience — Support and Assistance",
+            "desc": "Need help? Contact our team for any technical question or assistance regarding our website or services."
+        }
+    },
+    "videos" : {
+        "fr": {
+            "title": "Vittascience — Vidéos",
+            "desc": "Découvrez nos vidéos."
+        },
+        "en": {
+            "title": "Vittascience — Videos",
+            "desc": "Discover our videos."
+        }
+    },
+    "faq" : {
+        "fr": {
+            "title": "Vittascience — Foire aux questions",
+            "desc": "Trouvez des réponses à vos questions fréquentes concernant notre plateforme, nos outils et nos services."
+        },
+        "en": {
+            "title": "Vittascience — Frequently Asked Questions",
+            "desc": "Find answers to common questions about our platform, tools, and services."
+        }
+    },
+    "forum" : {
+        "fr": {
+            "title": "Vittascience — Forum",
+            "desc": "Forum de Vittascience - vous pouvez discuter ici avec d'autres utilisateurs."
+        },
+        "en": {
+            "title": "Vittascience — Forum",
+            "desc": "Vittascience's forum - here you can discuss with other users."
+        }
+    },
+    "glossary" : {
+        "fr": {
+            "title": "Vittascience — Glossaire",
+            "desc": "Glossaire de Vittascience - accédez aux wikis des différentes interfaces de programmation."
+        },
+        "en": {
+            "title": "Vittascience — Glossary",
+            "desc": "Vittascience's glossary - access the different wikis of programming interfaces."
+        }
+    },
+    "wiki" : {
+        "fr": {
+            "title": "Vittascience — Wiki",
+            "desc": "Wiki de Vittascience, où vous pouvez accéder aux explications à propos des différents blocs des interfaces de programmation."
+        },
+        "en": {
+            "title": "Vittascience — Wiki",
+            "desc": "Vittascience's wiki, where you can access explanations about the different blocks of interfaces."
+        }
+    },
+    "tips" : {
+        "fr": {
+            "title": "Vittascience — Astuces",
+            "desc": "Astuces de Vittascience pour utiliser les interfaces."
+        },
+        "en": {
+            "title": "Vittascience — Tips",
+            "desc": "Vittascience's tips for using interfaces."
+        }
+    },
+    "winky": {
+        "fr": {
+            "title": "Vittascience — Winky",
+            "desc": "Interface de programmation pour le robot Winky"
+        },
+        "en": {
+            "title": "Vittascience — Winky",
+            "desc": "Programming interface for the Winky robot"
+        }
+    },
+    "pricing": {
+        "fr": {
+            "title": "Vittascience — Tarifs et abonnements",
+            "desc": "Découvrez les différentes formules et tarifs des abonnements Vittascience pour les enseignants, établissements et makers."
+        },
+        "en": {
+            "title": "Vittascience — Pricing and Plans",
+            "desc": "Explore Vittascience subscription plans and pricing for teachers, schools, and makers."
+        }
+    },
+    "EduUp": {
+        "fr": {
+            "title": "Vittascience — Lauréat du concours EduUp",
+            "desc": "Vittascience est fière d'être le lauréat du concours EduUp, une compétition visant à promouvoir l'innovation en éducation grâce aux technologies."
+        },
+        "en": {
+            "title": "Vittascience — Winner of the EduUp Competition",
+            "desc": "Vittascience is proud to be the winner of the EduUp competition, a contest aimed at promoting innovation in education through technology."
+        }
+    },
+    "partners": {
+        "fr": {
+            "title": "Vittascience — Nos Partenaires",
+            "desc": "Découvrez nos partenaires clés et les collaborations qui nous permettent d'innover et d'offrir des solutions éducatives de qualité."
+        },
+        "en": {
+            "title": "Vittascience — Our Partners",
+            "desc": "Explore our key partners and collaborations that enable us to innovate and provide high-quality educational solutions."
+        }
+    },
+    "gar": {
+        "fr": {
+            "title": "Vittascience — Gestionnaire d'Accès aux Ressources numériques",
+            "desc": "Découvrez le GAR, une plateforme innovante pour la gestion des accès aux ressources numériques dans l'éducation et la programmation."
+        },
+        "en": {
+            "title": "Vittascience — Digital Resource Access Manager",
+            "desc": "Discover GAR, an innovative platform for managing access to digital resources in education and programming."
+        }
+    },
+    "capytale": {
+        "fr": {
+            "title": "Vittascience — Partenariat avec Capytale",
+            "desc": "Découvrez notre partenariat avec Capytale pour offrir des solutions éducatives innovantes en programmation et sciences à travers des outils interactifs."
+        },
+        "en": {
+            "title": "Vittascience — Partnership with Capytale",
+            "desc": "Learn about our partnership with Capytale to provide innovative educational solutions in programming and science through interactive tools."
+        }
+    }
+}

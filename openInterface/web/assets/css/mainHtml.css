@@ -1,0 +1,203 @@
+/* .modal {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: white;
+  transform: translate(-50%, -50%);
+  z-index: 50;
+  border: 2px solid black;
+  height: fit-content;
+  padding: 2%;
+} */
+
+#bgModals {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  z-index: 49;
+  background-color: rgba(95, 95, 95, 0.301);
+}
+
+.overlay {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  background-color: black;
+  z-index: 1001;
+  opacity: 0.3;
+  display: none;
+}
+
+/* BLOCKLY/CODE */
+
+.blocklyToolboxCategory[aria-expanded="false"],
+.blocklyToolboxCategory[aria-expanded="true"],
+.blocklyToolboxCategory[aria-expanded="undefined"] {
+  position: relative;
+}
+
+.blocklyToolboxCategory[aria-expanded="false"]>.blocklyTreeRow::after,
+.blocklyToolboxCategory[aria-expanded="true"]>.blocklyTreeRow::after,
+.blocklyToolboxCategory[aria-expanded="undefined"]>.blocklyTreeRow::after {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f078";
+  font-size: 0.8em;
+  
+  color: var(--text-1);
+  padding-right: 0.5em;
+  transform: rotate(270deg);
+  transition: transform 0.2s ease;
+  
+  position: absolute;
+  right: 0.1em;
+  top: 1em;
+
+  display: flex;
+  align-items: center;
+  
+  height: 1em;
+  width: 1em;
+}
+
+.blocklyToolboxCategory[aria-expanded="true"]>.blocklyTreeRow::after {
+  transform: rotate(360deg);
+}
+
+#ideLeft {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-even {
+  flex: 1;
+}
+
+.ide-section-header {
+  color: var(--text-0);
+  font-weight: 600;
+  font-family: var(--alt-font);
+  background: var(--bg-2);
+  border: 1px solid var(--bg-4);
+  user-select: none;
+
+  margin: 0%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0.5em;
+  height: 30px;
+}
+
+.ide-section-header #fake-url-field {
+  background: var(--bg-0);
+  color: var(--text-1);
+  border-radius: 256px;
+  opacity: 1;
+  flex: 1;
+  border: 0px;
+  height: 75%;
+}
+
+.ide-section-header button {
+  background: transparent;
+  color: var(--text-1);
+  border-radius: 256px;
+  border: 0px;
+  transition: all 0.2s ease;
+}
+
+.ide-section-header>button:not(.dropdown-toggle) {
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+}
+
+.ide-section-header button:hover {
+  background: rgb(145 145 145 / 50%);
+}
+
+.ide-section-header button:focus {
+  box-shadow: 0px 0px 8px var(--vitta-blue);
+}
+
+.ide-section-header.collapsable-header {
+  cursor: pointer;
+}
+
+/* WEB PREVIEW */
+
+#executeRight {
+  border-left: 3px solid rgba(128, 128, 128, 0.28);
+  max-width: 500px;
+  transition: all 0.5s;
+  width: 100%;
+}
+
+#executeRight.fullscreen-mode {
+  z-index: 9999;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  border-left: 0px;
+  border-top: 0px;
+  border-bottom: 0px;
+  border-right: 0px;
+  padding: 0px;
+  margin: 0px;
+  overflow: auto;
+  max-width: none;
+  top: 0;
+  left: 0;
+}
+
+#executeRight .ide-section-header {
+  position: sticky;
+  top: 0;
+}
+
+#hcjPreview {
+  all: unset;
+  height: calc(100% - 30px);
+  width: 500px;
+  background: white;
+  position: absolute;
+}
+
+#executeRight.fullscreen-mode #hcjPreview{
+  width: 100%;
+}
+
+
+#consoleJs {
+  height: 100%;
+  background-color: var(--bg-1);
+  margin: 10px;
+  border-radius: 10px;
+  font-size: 14px;
+  overflow: auto;
+  overflow-wrap: break-word;
+  outline: none;
+}
+
+/* ACE-specific changes */
+
+.ace-tm .ace_meta.ace_tag {
+  color: var(--vitta-purple);
+}
+
+.ace-tm .ace_other {
+  color: #FF5600;
+}
+
+/* File input for project import */
+.file-drop-zone.dragging {
+  border: 2px dashed #999 !important;
+  background-color: #eee;
+}

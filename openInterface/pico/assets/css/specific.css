@@ -1,0 +1,118 @@
+@import url('../../../interfaces/assets/css/simulator-modules.css');
+@import url('../../../interfaces/assets/css/simulator-robot.css');
+
+.pico-builtin-led {
+	z-index: 1;
+	bottom: 12px;
+	left: -6px;
+	opacity: 0;
+	filter: hue-rotate(310deg)
+}
+
+.logo {
+	width: 50px;
+	height: 30px;
+	position: absolute;
+	cursor: pointer;
+	background-repeat: no-repeat;
+}
+
+.bt-logo {
+	font-size: 3.5em;
+	bottom: 12px;
+	position: relative;
+	margin-left: 0.5em;
+}
+
+#pico-bluetooth_anim {
+	z-index: 1;
+	height: 23px;
+	top: 10px;
+	left: -29px;
+	opacity: 0;
+}
+
+.pico-bluetooth-send_anim {
+	transform: rotate(-90deg);
+}
+
+.pico-bluetooth-receive_anim {
+	transform: rotate(90deg);
+}
+
+@keyframes shake {
+	0% {
+		transform: scale(1, 1);
+	}
+
+	50% {
+		transform: scale(0.8, 0.8);
+	}
+
+	100% {
+		transform: scale(1, 1);
+	}
+}
+
+.tcs3472-led {
+	z-index: 1;
+	bottom: 12px;
+	left: -6px;
+	opacity: 0;
+}
+
+.tcs3472-rgb_module .module-value {
+	display: flex;
+}
+
+.tcs3472-rgb_base {
+	width: 35px;
+	left: unset;
+}
+
+/* Grove specific */
+
+#oled_value {
+	width: 144px;
+	background-color: white;
+	border: 1px rgb(192, 193, 192) solid;
+	outline: 4px solid rgb(239, 239, 239);
+	height: 76px;
+	margin-bottom: 3px;
+	padding: 5px;
+	margin-left: 40px;
+}
+
+.oled_value_text {
+	display: inline-block;
+	width: 230px;
+}
+
+.oled_value_text .row {
+	margin: 0 auto;
+	justify-content: center;
+}
+
+.oled-block {
+	height: 1px;
+	width: 1px;
+	padding: 1px;
+}
+
+/* Robots */
+.kitro-motorLeft,
+.kitro-motorRight {
+	z-index: 1;
+	top: -1px;
+}
+
+.kitro-motorLeft_base {
+	z-index: 2;
+	opacity: 0.9;
+}
+
+.kitro-motorLeft_base,
+.kitro-motorRight_base {
+	bottom: 0px;
+	left: 16px;
+}

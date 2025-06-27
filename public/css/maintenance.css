@@ -1,0 +1,39 @@
+#maintenance-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    background-image: url('/public/content/img/background-grayscale.png');
+    background-repeat: repeat;
+    background-position: 50%;
+}
+
+#maintenance-container #maintenance-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    
+    background-color: var(--vitta-white);
+    color: var(--vitta-black);
+    border-radius: 50px;
+    padding: 2em 3em;
+    box-shadow: 0 0 10px 0 var(--vitta-shadow-color);
+
+    padding: clamp(2em, 2em + 1vw, 2em);
+
+    
+}
+
+#maintenance-container #maintenance-content a {
+    text-decoration: none;
+}
+
+#maintenance-container #maintenance-content .fab {
+    --size: 50px;
+}

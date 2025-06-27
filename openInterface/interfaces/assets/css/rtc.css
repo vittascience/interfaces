@@ -1,0 +1,239 @@
+/* USER ICONS */
+
+#users {
+  margin-inline-end: 0.5em;
+
+}
+
+.user-round {
+  --user-color: grey;
+  --size: 45px;
+
+  border-radius: 50%;
+  width: var(--size);
+  height: var(--size);
+
+  border: 3px solid var(--user-color);
+  background-color: var(--bg-1);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  user-select: none;
+  cursor: pointer;
+}
+
+.user-round-text {
+  font-size: 25px;
+  font-weight: bold;
+  color: var(--user-color);
+  font-family: var(--alt-font);
+  line-height: initial;
+  text-transform: uppercase;
+}
+
+.user-round-picture {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-round-icon {
+  background-color: var(--user-color);
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+/* MORE USERS DROPDOWN */
+
+#more-user-div {
+  display: none;
+  position: absolute;
+  top: 0px;
+  right: 20%;
+
+  flex-direction: column;
+  z-index: 1000;
+
+  background-color: var(--bg-3);
+  border: 2px solid var(--bg-4);
+
+  border-radius: 10px;
+  padding: 10px;
+}
+
+/* OTHER CSS PATCHES */ 
+#save-warning {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: fit-content;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  color: var(--vitta-white);
+  padding: 0.25em 0.5em;
+  border-end-start-radius: 0.5em;
+}
+
+.blockly-readonly {
+  position: absolute;
+  display: block;
+  width: 97%;
+  height: 96%;
+  opacity: 0;
+  z-index: 998;
+}
+
+/* #modal-shareproject-rtc{
+  color: var(vitta-t);
+} */
+
+.card-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-item-user-infos {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.card-item-letter {
+  border: #2f2f31 solid 1px;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.card-item-name {
+  margin-left: 10px;
+}
+
+.user-online-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.round-online {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: 0;
+  right: -5px;
+  background-color: var(--bg-1);
+  color: transparent;
+  border-radius: 50%;
+  border: 2px solid var(--text-3);
+}
+
+.round-online-green {
+  background-color: var(--vitta-green);
+  border-color: var(--vitta-green);
+}
+
+#blur-div{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1001;
+  backdrop-filter: blur(5px);
+}
+
+#users-anonymous-online-modal {
+  --border : var(--bg-4);
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  margin-inline: auto;
+  max-width: 500px;
+}
+
+#users-anonymous-online-modal .user-online-line {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  padding: 0.25em 0.5em;
+}
+
+
+#users-anonymous-online-modal .user-online-line:not(:last-child) {
+  border-bottom: 2px solid var(--border);
+}
+
+.user-you:before {
+  font-family: 'Font Awesome 5 Free';
+  content: "\f19d";
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 900;
+  position: absolute;
+  top: -11px;
+  left: -11px;
+  rotate: -40deg;
+  font-size: 1.2rem;
+}
+
+.user-you {
+position: relative;
+}
+
+#readOnlyAlert{
+  position: absolute;
+  bottom: 0;
+  width: -webkit-fill-available;
+  width: -moz-available;
+  z-index: 1005;
+  margin: 0.5em;
+  padding: 0.25em 0.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-1);
+  color: var(--text-0);
+  border: 2px solid var(--vitta-orange-light);
+  box-shadow: 0px 0px 10px var(--vitta-shadow-color);
+  border-radius: 15px;
+  transform: translate(0px, -30px);
+}
+
+#readOnlyAlert p{
+  margin: 0;
+}
+
+#readOnlyAlert div{
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+#readOnlyAlertButton{
+  margin-inline: 0.5em;
+  padding: 1px;
+  width: 2em;
+  height: 2em;
+  display: grid;
+  align-items: center;
+  position: absolute;
+  right: 0;
+}

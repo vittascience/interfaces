@@ -1,0 +1,639 @@
+@import url('../../../interfaces/assets/css/simulator-modules.css');
+@import url('../../../interfaces/assets/css/simulator-robot.css');
+
+#board-viewer {
+	height: 250px;
+	background-size: contain;
+}
+
+#experience-3d-container {
+	position: relative;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background: linear-gradient(180deg, #D7E6ED 0%, #8DBACC 100%);
+}
+
+#cameraCanvas {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 160px;
+	height: 120px;
+	object-fit: contain;
+}
+
+.experience3D {
+	margin: auto;
+	display: flex;
+}
+
+#experience-ar {
+	position: absolute;
+	bottom: 10px;
+	right: 15px;
+	/* background-color: rgba(0, 0, 0, 0.8); */
+	z-index: 1000;
+}
+
+.overlay-experience {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 500px;
+	background-color: rgba(0, 0, 0, 0.8);
+	z-index: 1000;
+	display: flex;
+	justify-content: center;
+	font-size: 2em;
+	color: white;
+	padding-top: 200px;
+	opacity: 1;
+}
+
+#overlay-calibration {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 500px;
+	background-color: rgba(0, 0, 0, 0.8);
+	z-index: 1000;
+	display: flex;
+	justify-content: center;
+	font-size: 2em;
+	color: white;
+	padding-top: 200px;
+	display: none;
+}
+
+#button-calibration {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #22b573;
+	color: white;
+	border: none;
+	border-radius: 5px;
+}
+
+.overlay-experience .title {
+	display: flex;
+	flex-direction: column;
+	color: white;
+	text-align: center;
+}
+
+.logo-threejs {
+	width: 100px;
+	height: 100px;
+}
+
+.three-js {
+	padding-top: 22px;
+}
+
+.joint-value-container {
+	position: absolute;
+	top: 400px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 500px;
+	padding: 0 15px 0 15px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-size: 14px;
+	color: white;
+}
+
+.joint-value h5 {
+	font-size: 12px;
+}
+
+.joint-value-element {
+	display: flex;
+	justify-content: space-evenly;
+	width: 100%;
+}
+
+.joint-value {
+	width: 45px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+}
+
+.sep-joint {
+	width: 1px;
+	height: 2.1em;
+	background-color: white;
+}
+
+/* Valeur cible */
+.target-marker-cursor {
+	position: absolute;
+	width: 16px;
+	height: 3px;
+	/* border: 1px solid blue; */
+	border-radius: 3px;
+	background: var(--vitta-green);
+	top: 50%;
+	transform: translateY(300%);
+	z-index: 1000;
+	visibility: hidden;
+}
+
+.target-marker-cursor.active {
+	visibility: visible;
+}
+
+#params-angle-robot{
+	margin-top: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap:5px;
+}
+
+#checkbox-switch-angle, #checkbox-switch-realtime {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
+
+#checkbox-switch-angle div, #checkbox-switch-realtime div {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 5px;
+}
+
+#checkbox-switch-angle div label, #checkbox-switch-realtime div label{
+	color: white;
+}
+
+#checkbox-switch-angle{
+	display:flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#params-separator::before{
+	content: "";
+    display: block;
+    width: 2px; /* Largeur du pipe */
+    height: 20px; /* Hauteur du pipe */
+    background-color: white; /* Couleur du pipe */
+    margin: 0 10px; /* Espace de chaque côté */
+}
+
+.camera-button {
+	position: absolute;
+	top: 10px;
+	left: 65px;
+	width: 40px;
+	height: 2.1em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.camera-button button {
+	width: 100%;
+	height: 100%;
+	background-color: #aeaeae;
+	color: white;
+	border: none;
+	border-radius: 5px;
+}
+
+.active-camera {
+	background-color: #22b573 !important;
+}
+
+.rest-button {
+	position: absolute;
+	top: 10px;
+	left: 115px;
+	width: 40px;
+	height: 2.1em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.rest-button button {
+	width: 100%;
+	height: 100%;
+	background-color: #aeaeae;
+	color: white;
+	border: none;
+	border-radius: 5px;
+}
+
+.active-rest {
+	background-color: #22b573 !important;
+}
+
+#pen-control-elements{
+	position: absolute;
+	top: 10px;
+	right: 65px;
+	width: 60px;
+	height: 2.1em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#pen-control-dropdown-menu{
+	position: absolute;
+	top: 40px;
+	right: 0px;
+	width: 100px;
+	display: none;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: white;
+	border-radius: 10px;
+}
+
+.active-pen-color-dropdown{
+	display: flex !important;
+}
+
+.hands-color-container ul{
+    padding: 10px;
+    margin: 0;
+}
+
+.hands-color-container ul div:first-child{
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+    content: " ";
+    border: solid 1px rgba(0, 0, 0, 0.1);
+}
+
+.hands-color-container ul li{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    display: flex;
+    gap: 5px;
+    justify-content: flex-start;
+    align-items: center;
+    transition: all ease-in-out 0.2s;
+    color: var(--text-1);
+}
+
+.hands-color-container ul li:hover{
+    color: var(--text-0);
+}
+
+.scene-setup{
+	position: absolute;
+	bottom: 10px;
+	left: 15px;
+	width: 40px;
+	height: 2.1em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.scene-setup button{
+	width: 100%;
+	height: 100%;
+	background-color: #aeaeae;
+	color: white;
+	border: none;
+	border-radius: 5px;
+}
+
+#button-scene-container {
+	position: absolute;
+	bottom: 40px;
+	left: 0px;
+	display: none;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	background-color: var(--bg-1);
+	border-radius: 5px;
+	padding: 5px;
+}
+
+#button-scene-container.active-scene-dropdown {
+	display: flex;
+}
+
+#button-scene-container ul{
+	padding: 10px;
+	margin: 0;
+	width: 150px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+
+}
+
+#button-scene-container ul li{
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	cursor: default;
+	display: flex;
+	gap: 5px;
+	justify-content: flex-start;
+	align-items: center;
+	transition: all ease-in-out 0.2s;
+	color: var(--text-1);
+}
+
+#button-scene-container ul li:hover{
+	cursor: pointer;
+	color: var(--text-0);
+}
+
+
+
+#robot-status-container {
+	position: absolute;
+	top: 10px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 150px;
+	height: 2.1em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	background-color: #aeaeae;
+	border-radius: 5px;
+}
+
+#movements-overlay {
+	position: absolute;
+	top: -100%;
+	left: 0;
+	width: 100%;
+	min-width: 500px;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+	z-index: 1000;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: all 0.5s ease-in-out;
+}
+
+#movements-overlay.active-overlay-button {
+	top: 0%;
+	transition: all 0.5s ease-in-out;
+}
+
+.slider-movement{
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	gap: 7px;
+
+}
+
+.slider-movement-buttons-setup {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	padding: 15px;
+	color: white;
+	gap: 20px;
+}
+
+.slider-movement-buttons-setup button {
+	min-width: 40px;
+	color: white;
+}
+
+.slider-movement-buttons-setup button:hover {
+	color: white;
+	background-color: #22b573;
+}
+
+.lock-view {
+	position: absolute;
+	top: 10px;
+	right: 15px;
+	width: 40px;
+	height: 2.1em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+
+
+.lock-view button {
+	width: 100%;
+	height: 100%;
+	background-color: #aeaeae;
+	color: white;
+	border: none;
+	border-radius: 5px;
+}
+
+.active-lock-view {
+	background-color: #22b573 !important;
+}
+
+.sound-button {
+	position: absolute;
+	top: 10px;
+	left: 15px;
+	width: 40px;
+	height: 2.1em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.sound-button button {
+	width: 100%;
+	height: 100%;
+	background-color: #aeaeae;
+	color: white;
+	border: none;
+	border-radius: 5px;
+}
+
+.active-sound-volume {
+	background-color: #22b573 !important;
+}
+
+.movements-buttons-container {
+	position: absolute;
+	top: 10px;
+	left: 15px;
+	width: 60px;
+	height: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.movements-buttons-container button {
+	width: 100%;
+	height: 100%;
+	background-color: #22b573;
+	color: white;
+	border: none;
+	border-radius: 5px;
+}
+
+.slider-movement-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	align-items: center;
+	height: 100%;
+	min-width: 500px;
+	padding: 15px;
+	gap: 20px;
+
+}
+
+.slider-movement {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.slider-movement-title,
+.slider-movement-value {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	color: white;
+}
+
+
+#my-gui-container {
+	position: absolute;
+	top: 100px;
+	right: 5px;
+}
+
+.joints-group {
+	width: 100%;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	display: none;
+}
+
+.joints-group.active-joints-group {
+	display: flex;
+}
+
+#joints-element-content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+}
+
+.slider-joint-element {
+	width: 100%;
+
+}
+
+.joint-value {
+	color: white;
+}
+
+/* Simulator Modules */
+
+.module-body-speech-recognition {
+	display: flex !important;
+	flex-direction: column !important;
+	justify-content: center !important;
+	align-items: center !important;
+	gap: 10px !important;
+}
+
+#nao-tactil-head .module-body, 
+#nao-bumper .module-body,
+#nao-tactil-right-hand .module-body,
+#nao-tactil-left-hand .module-body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+	object-fit: fill;
+}
+
+#nao-bumper .module-img-group,
+#nao-tactil-head .module-img-group,
+#nao-tactil-right-hand .module-img-group,
+#nao-tactil-left-hand .module-img-group {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 90%;
+}
+
+#nao-bumper svg,
+#nao-tactil-head svg,
+#nao-tactil-right-hand svg,
+#nao-tactil-left-hand svg {
+	height: 100%;
+	width: auto;
+	object-fit: cover;
+}
+
+
+
+@media screen and (max-width: 500px){
+	#movements-overlay {
+		min-width: 100vw;
+	}
+	.slider-movement-container {
+		min-width: 100vw;
+	}
+}
+
+@media screen and (max-width: 400px){
+	#robot-status-container {
+		width: 70px;
+		
+	}
+	#robot-status-container > div {
+		overflow: hidden; 
+        text-overflow: ellipsis;
+        white-space: nowrap;
+		text-align: left;
+		margin-left: 5px;
+	}
+}
