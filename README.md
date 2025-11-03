@@ -142,7 +142,7 @@ Each interface folder follows this structure:
 
 The files index.html use assets located in the /interfaces and /openInterface/interfaces directories for assets common to all interfaces, as well as those located in /openInterface/interface_name for assets specific to the current interface.
 
-## 🤝 Guide des interfaces / Interfaces guide
+## Guide des interfaces / Interfaces guide
 Vous trouverez les tutoriels pour les interfaces sur la [chaîne Youtube de Vittascience](https://www.youtube.com/watch?v=OMeVVxMjj2A&list=PL4kYXTRKwr4FVDSQ5nGFjTIUamQiWsH_5).
 
 You can find tutorials for the interfaces at [Vittascience Youtube channel](https://www.youtube.com/watch?v=OMeVVxMjj2A&list=PL4kYXTRKwr4FVDSQ5nGFjTIUamQiWsH_5).
