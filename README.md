@@ -92,7 +92,7 @@ Examples:
 
 | Interface | Description (FR) | Description (EN) |
 |------------|------------------|------------------|
-| `arduino` | Programmation visuelle et textuelle des cartes Arduino | Visual and text programming for Arduino boards |
+| `arduino` | Programmation visuelle et textuelle des cartes Arduino UNO, Nano et Mega 2560  | Visual and text programming for Arduino Arduino UNO, Nano and Mega 2560 boards |
 | `bluebot` | Contrôle du robot Blue-Bot | Control the Blue-Bot robot |
 | `buddy` | Interface pour le robot Buddy | Interface for the robot Buddy |
 | `cyberpi` | Programmation du robot mBot2 / CyberPi | Programming for mBot2 / CyberPi robot |
