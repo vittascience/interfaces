@@ -1,5 +1,3 @@
-# interfaces
-Vittascience programming interfaces
 # Vittascience – Interfaces de Programmation / Programming Interfaces (Standalone)
 
 Ce dépôt contient les **interfaces de programmation** de la plateforme [Vittascience](https://fr.vittascience.com) en version **standalone**, fonctionnant localement sans serveur applicatif ni connexion à la plateforme principale.  
