@@ -179,12 +179,14 @@ To suggest an improvement or fix a bug:
 ## 🧾 Licence / License
 
 ### 🇫🇷
-Ce projet est distribué sous licence **"Commons Clause" License Condition v1.0**, sauf mention contraire dans les sous-dossiers.  
-© Vittascience – [https://vittascience.com](https://vittascience.com)
+Ce projet est distribué sous licence ouverte MIT avec restriction commerciale Commons Clause, sauf mention contraire dans les sous-dossiers. Voir la [licence](https://github.com/vittascience/interfaces/?tab=License-1-ov-file)
+
+© Vittascience – [https://fr.vittascience.com](https://fr.vittascience.com)
 
 ### 🇬🇧
-This project is distributed under the **"Commons Clause" License Condition v1.0**, unless otherwise specified in subfolders.  
-© Vittascience – [https://vittascience.com](https://vittascience.com)
+This project is distributed under the MIT open license with the Commons Clause commercial restriction, unless otherwise specified in the subfolders. See the [licence](https://github.com/vittascience/interfaces/?tab=License-1-ov-file)
+
+© Vittascience – [https://en.vittascience.com](https://en.vittascience.com)
 
 ---
 
