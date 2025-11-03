@@ -92,7 +92,7 @@ Examples:
 
 | Interface | Description (FR) | Description (EN) |
 |------------|------------------|------------------|
-| `arduino` | Programmation visuelle et textuelle des cartes Arduino UNO, Nano et Mega 2560  | Visual and text programming for Arduino Arduino UNO, Nano and Mega 2560 boards |
+| `arduino` | Interface de programmation visuelle et textuelle des cartes Arduino UNO, Nano et Mega 2560  | Visual and text programming interface for Arduino Arduino UNO, Nano and Mega 2560 boards |
 | `bluebot` | Contrôle du robot Blue-Bot | Control the Blue-Bot robot |
 | `buddy` | Interface pour le robot Buddy | Interface for the robot Buddy |
 | `cyberpi` | Programmation du robot mBot2 / CyberPi | Programming for mBot2 / CyberPi robot |
@@ -102,13 +102,13 @@ Examples:
 | `l476` | Programmation de la carte STM32L476 | Programming for STM32L476 board |
 | `lotibot` | Interface du robot Lotibot | Interface for the Lotibot robot |
 | `m5stack` | Programmation des modules M5Stack | Programming for M5Stack modules |
-| `mBot` | Interface pour le robot mBot classique | Interface for the classic mBot robot |
-| `microbit` | Programmation du micro:bit (V1/V2) | Programming for BBC micro:bit (V1/V2) |
-| `nao` | Programmation du robot NAO | Programming for the NAO robot |
-| `niryo` | Contrôle du bras robotique Niryo | Control of the Niryo robotic arm |
+| `mBot` | Interface pour le robot mBot | Interface for the mBot robot |
+| `microbit` | Programmation de la carte micro:bit (V1/V2) | Programming for BBC micro:bit (V1/V2) |
+| `nao` | Programmation du robot NAO v6| Programming for the NAO v6 robot |
+| `niryo` | Contrôle du bras robotique Niryo Ned2 | Control of the Niryo Ned2 robotic arm |
 | `pico` | Programmation du Raspberry Pi Pico | Programming for Raspberry Pi Pico |
-| `photon` | Programmation de la carte Particle Photon | Programming for Particle Photon board |
-| `python` | Éditeur Python universel | Universal Python editor |
+| `photon` | Programmation du robot Photon | Programming for Photon board |
+| `python` | Éditeur Python | Python editor |
 | `raspberrypi` | Programmation des cartes Raspberry Pi | Programming for Raspberry Pi boards |
 | `sphero` | Interface pour le robot Sphero | Interface for the Sphero robot |
 | `spike` | Programmation du robot LEGO Spike | Programming for LEGO Spike robot |
