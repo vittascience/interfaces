@@ -11,7 +11,6 @@ Blockly.Python.display_galaxia_screen_set_text = function (block) {
     } else {
         return "print(str(" + text + "))" + NEWLINE;
     }
-    
 };
 
 Blockly.Python.display_galaxia_screen_set_text_value = function (block) {
@@ -22,6 +21,11 @@ Blockly.Python.display_galaxia_screen_set_text_value = function (block) {
         } else {
             return "print(str(" + text + "))\nprint(str("+value+"))"+ NEWLINE;
         }
+};
+
+Blockly.Python.display_galaxia_screen_clear = function () {
+    Blockly.Python.addFunction('display_clear', FUNCTIONS_GALAXIA.DEF_GALAXIA_SCREEN_CLEAR);
+    return "display_clear()" + NEWLINE;
 };
 
 // Galaxia - RGB LED

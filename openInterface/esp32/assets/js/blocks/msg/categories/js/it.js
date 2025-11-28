@@ -4,6 +4,7 @@
 
 // Toolbox category names.
 Blockly.Msg['CATEGORY_COMMUNICATION'] = 'Communication';
+Blockly.Msg['CATEGORY_CAMERA'] = 'Camera';
 Blockly.Msg['CATEGORY_SENSORS'] = 'Sensors';
 Blockly.Msg['CATEGORY_NETWORK'] = 'Network';
 Blockly.Msg['CATEGORY_TEXT'] = 'Text';
@@ -61,3 +62,7 @@ Blockly.Msg['SUBCATEGORY_LOOPS'] = 'Loops';
 Blockly.Msg['SUBCATEGORY_LOGIC'] = 'Logic';
 Blockly.Msg["SUBCATEGORY_ILO"] = "Ilo";
 Blockly.Msg['SUBCATEGORY_MQTT'] = 'MQTT';
+Blockly.Msg['SUBCATEGORY_INFRARED'] = 'Infrarosso';
+Blockly.Msg['SUBCATEGORY_TEXT_ANALYSIS'] = 'Analisi del testo';
+Blockly.Msg['SUBCATEGORY_ACTUATORS_OTHER'] = 'Altri attuatori';
+Blockly.Msg['SUBCATEGORY_SENSORS_OTHER'] = 'Altri sensori';

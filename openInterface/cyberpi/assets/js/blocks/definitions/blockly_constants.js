@@ -1,18 +1,4 @@
-Blockly.Msg.boardName = 'CyberPi';
-
-Blockly.Constants.HTML_BLOCKS = [
-  'network_html_addTitle',
-  'network_html_addText',
-  'network_html_addButton',
-  'network_html_addSlider',
-  'network_html_addSwitch',
-  'network_html_addGauge',
-  'network_html_addLink',
-  'network_html_addImage',
-  'network_HTML_Tags',
-  'network_HTML_formatText',
-  'network_HTML_newline'
-];
+Blockly.Msg.Esp32BoardName = 'CyberPi';
 
 Blockly.Constants.PRINT_START_N = 0;
 

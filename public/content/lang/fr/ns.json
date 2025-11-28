@@ -7,6 +7,7 @@
   "navbar": {
     "items": {
       "kits": "Matériel",
+      "premium": "Premium <sup>NEW</sup>",
       "community": {
         "title": "Communauté",
         "dropdown": {
@@ -23,6 +24,7 @@
         "resources": "Centre de ressources pédagogiques",
         "classroom": "Gérez vos classes avec Vittascience",
         "hardware": "Découvrir nos kits et produits",
+        "premium": "Abonnement Premium",
         "user": "Gérez votre compte",
         "accessibility": "Options d'accessibilité",
         "help": "Besoin d'aide ?",
@@ -39,7 +41,7 @@
           "logout": "Se déconnecter"
         }
       },
-      "ai": "IA <sup>NEW</sup>",
+      "ai": "IA",
       "programming": "Programmer",
       "ressources": "Ressources",
       "classroom": "Classe",
@@ -50,6 +52,7 @@
         "signup": "S'inscrire",
         "login": "Se connecter",
         "hello": "Bonjour",
+        "helloUser": "Bonjour {{user}} !",
         "account": "Mon compte",
         "disconnect": "Se déconnecter",
         "willSignup": "Je m'inscris !",
@@ -86,9 +89,11 @@
     "canNotLoginBefore": "{{failedLoginAttempts}} tentatives échouées, vous devez attendre {{timeToWait}} minute(s) avant d'essayer à nouveau",
     "badInput": "L'email et le mot de passe sont requis",
     "wrongTotpCode": "Le code de l'Authentificateur est incorrect",
-    "totpCodeRequired": "Le code de l'Authentificateur est requis"
+    "totpCodeRequired": "Le code de l'Authentificateur est requis",
+    "adminWithoutTotp": "Un compte admin sans TOTP (authenticateur) activé ne peut pas se connecter!"
   },
   "signup-popup": {
+    "finalizeRegistration": "Finaliser votre inscription",
     "title": "Inscription",
     "notice": "Merci de compléter les champs suivants pour créer votre compte Vittascience.",
     "firstName": "Prénom",
@@ -96,6 +101,9 @@
     "mail": "Adresse mail",
     "telephone": "Téléphone",
     "password": "Mot de passe",
+    "finalise": "Finaliser l'inscription",
+    "cancel": "Annuler",
+    "decline": "Annuler",
     "passwordConfirmed": "Confirmation",
     "firstNamePlaceholder": "Votre prénom",
     "lastNamePlaceholder": "Votre nom",
@@ -131,8 +139,10 @@
     "allowAlertMessage": "Souhaitez-vous recevoir des alertes par mail lors de la réception de nouveaux messages sur le site ?",
     "allowMessageReceive": "Souhaitez-vous pouvoir être contacté par les autres utilisateurs du site ?",
     "eighteenConfirm": "Je confirme avoir plus de 18 ans (article 1124 du code civil) et j'accepte les <a target=\"_blank\" href=\"/cgu\">conditions générales d'utilisation</a>.",
+    "cguConfirm": "J'ai lu et j'accepte les <a target=\"_blank\" href=\"/cgu\">conditions générales d'utilisation</a>.",
     "nlConfirm": "Je souhaite m'abonner à la <a href='https://vittascience.com/newsletter' target='_blank'>newsletter</a> : 1 mail par mois pour suivre l'actu de la communauté Vittascience",
     "concernedAboutPrivacy": "Vittascience place la sécurité et la confidentialité des données personnelles de ses utilisateurs au cœur de ses préoccupations. Découvrez <a target=\"_blank\" href=\"/privacy\">notre politique de protection des données personnelles</a>.",
+    "intro": "Pour finaliser votre inscription, veuillez compléter les champs suivants :",
     "errors": {
       "main": "Une erreur s'est produite. Veuillez vérifier les informations que vous avez saisies.",
       "requestError": "Une erreur s'est produite lors du traitement de votre demande. Veuillez réessayer",
@@ -153,6 +163,9 @@
       "main": "Votre inscription a été enregistrée avec succès ! Un lien de confirmation vous a été envoyé à l'adresse <b>{{mail}}</b>",
       "notice": " Vous devez obligatoirement accéder à ce lien avant de pouvoir vous connecter. Si vous ne trouvez pas le mail en question, veuillez vérifier votre courrier indésirable."
     }
+  },
+  "playlist": {
+    "aria_label": "Nom de la playlist : {{title}}. {{count}} ressources dans cette playlist. Créé par {{author}}"
   },
   "footer": {
     "phone": {
@@ -371,8 +384,8 @@
     "section2": {
       "title": "Équipe de recherche",
       "card1": "Psychologue du développement, Étudiante doctorat chez Vittascience",
-      "card2": "Tutorat d’entreprise pour doctorant en ergonomie cognitive Laboratoire Travail et Cognition, Université de Toulouse, CNRS",
-      "card3": "Ingénieur de recherche chez Vittascience"
+      "card2": "Direction de travaux de recherche doctoraux en Psychologie Cognitive et Sciences de l'Education, Laboratoire Epsylon, Université Paul Valery Montpellier",
+      "card3": "Doctorante en psychologie cognitive, Laboratoire Epsylon"
     },
     "section3": {
       "title": "Productions",
@@ -409,35 +422,35 @@
       }
     },
     "thesis": {
-      "ia":{
+      "ia": {
         "title": "Thèse sur l’enseignement de la littératie de l’IA",
         "description": "Ce projet de recherche vise à expérimenter différentes manières d’enseigner l’IA de manière à rendre les élèves capables de s’adapter aux évolutions constantes de cette discipline. L’objectif est d’identifier les meilleures méthodes pédagogiques pour permettre aux élèves de transférer leurs connaissances sur l’IA à de nouveaux contextes. La thèse explore différentes approches d’enseignement, en comparant l’apprentissage centré sur une seule discipline et l’intégration interdisciplinaire. Cette thèse a également pour objectif de prévenir l’émergence de disparités de niveaux dans cette nouvelle discipline.",
         "authorposition": "Ingénieur de recherche chez Vittascience",
-        "participate":{
+        "participate": {
           "title": "Participer à ce projet de recherche",
           "description": "Devenez membre d’un consortium sur l’élaboration de ressources pédagogique sur l’enseignement de l’IA.",
-          "opportunity":"Cette opportunité s’adresse aux enseignants, formateurs d’enseignants et chercheurs en littératie de l’IA souhaitant collaborer à l’élaboration de contenus pédagogiques intégrant l’IA dans diverses disciplines, en veillant à leur cohérence avec les programmes existants et aux intérêts des élèves.",
+          "opportunity": "Cette opportunité s’adresse aux enseignants, formateurs d’enseignants et chercheurs en littératie de l’IA souhaitant collaborer à l’élaboration de contenus pédagogiques intégrant l’IA dans diverses disciplines, en veillant à leur cohérence avec les programmes existants et aux intérêts des élèves.",
           "consortium": "Consortium d’enseignants en cours"
         },
-        "planning":{
+        "planning": {
           "title": "Planning de la thèse"
         },
-        "projects":{
-          "title":"Découvrir plus de projets de recherches",
+        "projects": {
+          "title": "Découvrir plus de projets de recherches",
           "link": "Accéder à la page recherche >"
         }
       },
-      "programming":{
+      "programming": {
         "title": "Thèse « Évaluer l’effet de partage attentionnel dans l’apprentissage de la programmation avec langage par bloc et langage textuel, chez les élèves à besoins particuliers. »",
         "description": "Ce projet de thèse vise à améliorer l’accessibilité de l’apprentissage de la programmation, en particulier pour les élèves à besoins éducatifs particuliers. Il s’appuie sur les théories de la charge cognitive et de l’apprentissage multimédia pour étudier l’effet de partage attentionnel lors de l’apprentissage en environnement hybride (blocs et texte). À travers plusieurs expérimentations auprès d’élèves de seconde et de troisième, l’objectif est d’identifier les difficultés rencontrées, d’évaluer l’efficacité de différentes modalités d’apprentissage et de proposer des solutions pédagogiques validées scientifiquement. Les résultats permettront d’adapter et d’optimiser les outils éducatifs de Vittascience, contribuant ainsi à une éducation plus inclusive et efficace.",
         "authorposition": "Psychologue du développement, Étudiante doctorat chez Vittascience",
-        "participate":{
+        "participate": {
           "title": "Participer à ce projet de recherche",
           "description": "Venez tester vos classes sur ce cours de programmation introductif sur l’affectation de variable !",
-          "experimentation":"Cette expérimentation dure entre 1h et 1h30. En participant à cette expérimentation en ligne, vos élèves pourront manipuler différentes interfaces de programmation (bloc, texte et hybride).",
+          "experimentation": "Cette expérimentation dure entre 1h et 1h30. En participant à cette expérimentation en ligne, vos élèves pourront manipuler différentes interfaces de programmation (bloc, texte et hybride).",
           "warning": "Les enseignants doivent se connecter avec un compte Vittascience pour remplir une première page d’information, qui générera ensuite un lien à donner à leurs élèves. Les élèves n’auront donc pas à se connecter.",
-          "structure":{
-            "title":"L’expérimentation se divise de cette manière :",
+          "structure": {
+            "title": "L’expérimentation se divise de cette manière :",
             "step1": "Renseignement sur les informations personnelles (conforme aux normes RGPD, les données sont ensuite traitées anonymement).",
             "step2": "Vidéo de cours sur l’affectation de variable en programmation informatique",
             "step3": "Exercice d’apprentissage",
@@ -447,11 +460,11 @@
           },
           "button": "Participer"
         },
-        "planning":{
+        "planning": {
           "title": "Planning de la thèse"
         },
-        "projects":{
-          "title":"Découvrir plus de projets de recherches",
+        "projects": {
+          "title": "Découvrir plus de projets de recherches",
           "link": "Accéder à la page recherche >"
         }
       }
@@ -560,7 +573,8 @@
         "exploded": "Contenu du kit",
         "faq": "Foire aux questions",
         "buy": "Ajouter au panier",
-        "soldout": "En rupture"
+        "soldout": "En rupture",
+        "dereferenced": "Produit retiré de la vente"
       },
       "exploded": {
         "title": "Détails",
@@ -639,17 +653,17 @@
       "country": "Pays",
       "selectValue": "Sélectionner",
       "formPlaceholder": {
-        "organism": "Vittascience",
-        "school": "Collège Marie Curie, Paris",
-        "name": "Durand",
-        "firstname": "Nicolas",
-        "mail": "nicolas.durand@gmail.com",
-        "phone": "0612345678",
-        "address": "7 rue Victor Hugo",
-        "complement": "Zone industrielle, lieu-dit, BP, étage, etc.",
-        "city": "Paris",
-        "zipcode": "75008",
-        "country": "France"
+        "organism": "Ex : Collège Marie Curie",
+        "school": "Ex : Collège Marie Curie, Paris",
+        "name": "Ex : Durand",
+        "firstname": "Ex : Nicolas",
+        "mail": "Ex : nicolas.durand@gmail.com",
+        "phone": "Ex : 0612345678",
+        "address": "Ex : 7 rue Victor Hugo",
+        "complement": "Ex : Zone industrielle, lieu-dit, BP, étage, etc.",
+        "city": "Ex : Paris",
+        "zipcode": "Ex : 75008",
+        "country": "Ex : France"
       },
       "requiredFields": "Les champs marqués d'un * sont obligatoires.",
       "addressComplement": "Complément d'adresse",
@@ -699,7 +713,8 @@
           "3": "d'avoir une gestion personnalisée de vos factures et de l'historique de vos commandes,",
           "4": "d'enregistrer plusieurs adresses de livraison et/ou facturation distinctes,",
           "5": "de gagner en rapidité lors de vos prochaines commandes,",
-          "6": "et bien d'autres avantages."
+          "6": "et bien d'autres avantages.",
+          "7": "de payer par carte bancaire ou de générer un devis pour paiement par mandat administratif,"
         }
       },
       "accountNeeded": "Vous êtes déjà client ?",
@@ -771,9 +786,9 @@
       "no_reviews": "Aucun avis pour le moment",
       "be_the_first": "Soyez le premier à donner votre avis sur ce produit !",
       "leave_review_title": "Laissez un avis sur le produit",
-      "leave_review_rating": "Comment noteriez-vous cette article ?",
+      "leave_review_rating": "Comment noteriez-vous cet article ?",
       "leave_review_rating_desc": "Notez-le sur 5",
-      "leave_review_comment": "Comment décririez-vous cette article ?",
+      "leave_review_comment": "Comment décririez-vous cet article ?",
       "cancel": "Annuler",
       "submit": "Envoyer",
       "submit_success": "Merci d'avoir partagé votre avis !",
@@ -851,7 +866,8 @@
       "desc_vladimir": "Vladimir a rejoint Vittascience en octobre 2023 pour une durée de 4 mois — il a été le tout premier Business Developer de l'équipe !",
       "desc_maxime": "Maxime a découvert Vittascience en 2024 lors de son stage de seconde.",
       "desc_flora": "Flora est l'une des trois stagiares présentes entre le 17 et 28 juin. J'ai découvert l'entreprise grâce au site Un Jeune une Solution et j'espère en apprendre plus dans les différents domaines en informatique",
-      "desc_ines": "Ines est arrivée a Vittascience en 2024 pour son stage de seconde car elle aimait beaucoup l'informatique et qu'elle savait qu'il lui serait bénéfique."
+      "desc_ines": "Ines est arrivée a Vittascience en 2024 pour son stage de seconde car elle aimait beaucoup l'informatique et qu'elle savait qu'il lui serait bénéfique.",
+      "desc_andres": "Andres a fait son stage de seconde à Vittascience en juin 2025"
     },
     "vittascience": {
       "newsletter": "Envie de suivre l'avancée de Vittascience ?",
@@ -1084,7 +1100,7 @@
     "serialAPI": {
       "allowSerial": "Autoriser #enable-experimental-web-platform-features dans les 'chrome://flags/' pour ouvrir un port série.",
       "noSerialAPI": "Serial API non détecté sur votre navigateur. Pour utiliser Serial API vous devez utiliser l'un des navigateurs compatibles : <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> et bientôt <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
-      "serialPortOpeningFail": "La connexion au port série n'a pas aboutie, impossible d'accéder à la carte. Un autre logiciel est déjà connecté à la carte.\n\n Vérifiez que la carte n'est pas déjà connectée à une autre interface. (exemple : MakeCode, Python Editor, Thonny ou une autre interface Vittascience), ou débranchez et rebranchez la carte avant de réessayer.",
+      "serialPortOpeningFail": "La connexion au port série n'a pas aboutie, impossible d'accéder à la carte. Un autre logiciel est déjà connecté à la carte.\n\n Vérifiez que la carte n'est pas déjà connectée à une autre interface. (exemple : MakeCode, Python Editor, Thonny, Arduino IDE, Arduino Cloud ou une autre interface Vittascience), ou débranchez et rebranchez la carte avant de réessayer.",
       "boardConnected": "Connexion au port série réussie !",
       "serialPortClosed": "Fermeture du port série réussie !",
       "boardDisconnected": "La carte a été déconnectée.",
@@ -1109,7 +1125,8 @@
       "firmwareNotFound": "[INFO] Le firmware Micropython doit être flashé sur la carte. Pour cela, suivre ce tutoriel: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=341\" style=\"color: var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing du firmware Esp32</a>",
       "powerSupply": "L'alimentation de votre Esp32 par port USB est insuffisante. Connectez une alimentation externe.",
       "internetAccess": "[INFO] Impossible d'accéder à Internet. Veuillez vérifier votre adresse IP et votre passerelle dans la fonction Connect Station.",
-      "compiling": "Compilation en cours. Ceci peut prendre jusqu'à quelques secondes..."
+      "compiling": "Compilation en cours. Ceci peut prendre jusqu'à quelques secondes...",
+      "noSpaceLeft": "Il n'y a plus d'espace disponible sur la carte pour téléverser le programme."
     },
     "WebBluetoothAPI": {
       "noWebBluetoothAPI": "Web Bluetooth API non détecté sur votre navigateur. Pour utiliser Web Bluetooth API vous devez utiliser l'un des navigateurs compatibles : <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> et bientôt <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
@@ -1151,7 +1168,9 @@
       "lotibot": "Bienvenue sur l'interface Vittascience pour le robot Loti-bot !",
       "bluebot": "Bienvenue sur l'interface Vittascience pour le robot Blue-bot !",
       "spike": "Bienvenue sur l'interface Vittascience pour LEGO® Education SPIKE™ Essential !<br>LEGO, le logo LEGO, la Minifigurine, DUPLO et le logo SPIKE sont des marques déposées du groupe LEGO, qui ne sponsorise pas, n'approuve pas et n'autorise pas ce site.",
-      "photon": "Bienvenue sur l'interface Vittascience pour le robot Photon !"
+      "photon": "Bienvenue sur l'interface Vittascience pour le robot Photon !",
+      "codey": "Bienvenue sur l'interface Vittascience pour Codey et Rocky !",
+      "uno-r4": "Bienvenue sur l'interface Vittascience pour Arduino UNO R4 Wifi & Minima"
     },
     "chromeApp": {
       "noPort": "Aucun port détecté",
@@ -1273,6 +1292,7 @@
         "uploadPythonThymio": "Envoyer le programme Python au Thymio",
         "uploadArduino": "Envoyer le programme Arduino dans la carte",
         "compileArduino": "Lancer la compilation",
+        "arduinoBoardSelector": "Sélectionner la carte Arduino à programmer",
         "downloadPython": "Télécharger le script Python",
         "downloadPythonGalaxia": "Télécharger le script Python 'main.py' à glisser/déposer sur la Galaxia",
         "downloadArduino": "Télécharger le script Arduino",
@@ -1393,7 +1413,8 @@
         "beginner": "Débutant",
         "advanced": "Avancé",
         "i18n": "Langue",
-        "compile": "Compiler"
+        "compile": "Compiler",
+        "arduinoBoardSelector": "Choisir la carte"
       },
       "menuTitles": {
         "downloadMenu": "Téléchargement",
@@ -1624,11 +1645,10 @@
       "generateLinkProjectError": "Une erreur est advenue durant la generation du lien du projet",
       "adacraftImportProjectError": "Votre projet est corrompu.",
       "adacraftImportProjectError2": "La page va se rafraîchir dans 5 secondes avec un projet vierge.",
-      "mixed-popup-warning": "Attention. Ce code est généré à partir des blocs. Passer en mode textuel pour le modifier manuellement.",
-      "mixed-popup-warning-reverse-trad": "Attention. Le code a été généré à partir de blocs qui ne sont pas encore disponibles dans la traduction Python ⇆ blocs",
-      "mixed-popup-warning-reverse-trad-cpp": "Attention. Le code a été généré à partir de blocs qui ne sont pas encore disponibles dans la traduction C++ ⇆ blocs",
       "mixed-popup-working": "<span>Nouveau !</span> La traduction Python ⇆ blocs est désormais disponible sur cette interface.",
       "mixed-popup-leave-editor": "Pour quitter l'éditeur de code avec le clavier, appuyez en même temps sur les touches <kbd>Verr Maj</kbd> et <kbd>Esc</kbd>.",
+      "mixed-popup-readonly": "<i class='fa-solid fa-lock'></i> En mode hybride, l'éditeur de code est en <strong>lecture seule</strong> pour cette interface. Vous ne pouvez modifier que via les blocs.",
+      "mixed-popup-readonly-sr": "En mode hybride, le code est en lecture seule pour cette interface",
       "saveWarning": {
         "title": "<span class=\"fa fa-exclamation-circle\"></span> Avertissement !",
         "warn": "<span class=\"fa fa-save\"></span> Voulez-vous sauvegarder votre travail avant de continuer ?<p class=\"mb-0 mt-0 hint\">Si vous créez un nouveau projet sans avoir sauvegardé au préalable, votre travail actuel sera perdu...</p>",
@@ -1937,7 +1957,7 @@
           "delete": "Supprimer",
           "settings": "Paramètres",
           "noCameraDevice": "Aucune caméra",
-          "triggerRecord": "Prendre une photo",
+          "triggerRecord": "Maintenir pour capturer",
           "triggerSoundRecord": "Enregistrer un son",
           "triggerSpectrogramRecord": "Enregistrer",
           "imageUpload": "Upload d'image(s)",
@@ -2710,6 +2730,7 @@
         "pausedWebcam": "<span>Camera en pause...</span><i class='fa-solid fa-pause'></i><span>Cliquez ici pour la relancer !</span>",
         "gradcamInfo": "Cliquez ici pour en savoir plus sur les zones d'influence !",
         "gradcam": "Zones d'influence",
+        "videoIsPaused": "Vidéo en pause",
         "screenshot": "Capture 'Aperçu'",
         "videoCapture": "Capture video",
         "fullScreen": "Plein écran",
@@ -2942,7 +2963,6 @@
           "aiTextInfo": "Explorez les tokens générés en cliquant sur l'un d'eux pour découvrir des alternatives. Ajustez la génération de texte en modifiant des paramètres comme le choix du modèle et le degré d'aléatoire.",
           "sameMessageInfo": "Si vous posez à nouveau la même question, il est probable que vous obteniez une réponse similaire, même avec des paramètres différents.",
           "regenerationInfo": "Pour régénérer la réponse de manière cohérente avec les paramètres, nous ignorons la dernière réponse de VittaBot."
-
         },
         "button": {
           "start": "Commencer",
@@ -2966,7 +2986,8 @@
         "report": "Signaler",
         "moderation": "Modération",
         "import": "Ajouter une source",
-        "seePrompt": "Voir le prompt complet"
+        "seePrompt": "Voir le prompt complet",
+        "generate": "Générer"
       },
       "dropdownHeader": "Cliquez sur un token pour reprendre <br /> la génération à partir de celui-ci.",
       "settings": {
@@ -2980,7 +3001,9 @@
         "hide": "Masquer",
         "random": "Prompt aléatoire",
         "parameters": "Paramètres",
-        "sources": "Sources"
+        "sources": "Sources",
+        "consumption": "Consommation",
+        "chat": "Discussion"
       },
       "infoBlocks": {
         "temperature": "Contrôle le caractère aléatoire : la diminution entraîne des achèvements moins aléatoires. Lorsque la température approche de zéro, le modèle devient déterministe et répétitif",
@@ -2991,18 +3014,17 @@
         "tooltips": {
           "consumption": "Model {{ modelName }} ({{ params }} milliards paramètres) a généré {{ tokens }} tokens, ce qui a entraîné une consommation énergétique estimée à {{ energy }} wh. Source (ecologits: https://github.com/genai-impact/ecologits)",
           "consumptionTotal": "Vous avez généré {{ tokens }} tokens, ce qui a entraîné une consommation énergétique estimée à {{ energy }} wh. Source (ecologits: https://github.com/genai-impact/ecologits)"
-
         },
         "consum": {
-          "no-request" : "L’évaluation de la consommation énergétique nécessite que vous posiez une question à l’IA.",
+          "no-request": "L’évaluation de la consommation énergétique nécessite que vous posiez une question à l’IA.",
           "missing-data": "Désolé, nous n'avons pas suffisamment de données.",
           "ecologits": "Source (Ademe https://impactco2.fr)",
           "equivalent": "Équivaut à",
           "entireConversation": "Conversation entière",
           "lastPrompt": "Dernier prompt",
-          "dataset" : {
-            "streamingvideo" : "Streaming vidéo",
-            "busthermique" :"Covoiturage thermique",
+          "dataset": {
+            "streamingvideo": "Streaming vidéo",
+            "busthermique": "Covoiturage thermique",
             "metro": "Métro",
             "stockagedonnee": "Stockage de données",
             "visioconference": "Visioconférence",
@@ -3011,9 +3033,8 @@
             "tgv": "TGV",
             "livraisondomicile": "Livraison à domicile"
           },
-          "linkToCo2Calculator": "Évaluez l'empreinte carbone de vos usages numériques avec <i class='fa-solid fa-calculator'></i> <a href='/co2-calculator'>notre calculateur</a>"
+          "linkToCo2Calculator": "Évaluez l'empreinte carbone de vos usages numériques avec <i class='fa-solid fa-calculator'></i> <a href='/co2-calculator'>notre calculateur CO<sub>2</sub></a>"
         }
-      
       },
       "input": "Entrer une instruction ou charger un exemple",
       "modals": {
@@ -3045,10 +3066,9 @@
           "understood": "J'ai compris"
         },
         "models-restriction-header": "Modèles",
-        "rag-restriction-header" : "Ajouter une source pour l'IA",
+        "rag-restriction-header": "Ajouter une source pour l'IA",
         "rag-restriction-description": "Le RAG (Génération Augmentée par Récupération) permet d'améliorer la pertinence de l'IA à l'aide de sources (documents PDF, sites web, etc.)",
-        "rag-restriction-text" : "Pour bénéficier de ce service, passez à l’abonnement Premium.",
-
+        "rag-restriction-text": "Pour bénéficier de ce service, passez à l’abonnement Premium.",
         "models-restriction-text": "Pour bénéficier de tous les modèles en illimité, passez à l’abonnement Premium.",
         "models-restriction-buttons": {
           "return": "Retour",
@@ -3100,6 +3120,13 @@
           "parameters": "24.7 Mrd",
           "contextLength": "32k Tokens"
         },
+        "mistral-small-3-24b-instruct-2506": {
+          "description": "Mistral-Small-3.2-24B-Instruct-2506 s'agit d'une version mise à jour du Small 3.1, avec une précision améliorée dans le suivi des consignes. Il prend en charge du texte et des images (capacité texte-image), ce qui le rend adapté à des cas d’usage comme la compréhension de documents, les questions/réponses visuelles et la génération de contenu multimodal.",
+          "strengths": "Ses principaux atouts incluent un suivi des instructions amélioré et une réduction des réponses répétitives. Il offre par ailleurs un modèle d’appel de fonctions plus robuste et des capacités avancées texte-image. ",
+          "laboratory": "Mistral AI",
+          "parameters": "24 Mrd",
+          "contextLength": "128k Tokens"
+        },
         "deepseek-v3": {
           "description": " DeepSeek-V3 est un modèle de langage avancé qui améliore considérablement l'efficacité et la précision dans la génération de réponses, surpassant ses prédécesseurs. Il est conçu pour des tâches variées allant du traitement du langage naturel à la programmation et aux mathématiques.",
           "strengths": "Excellente performance en compréhension du langage naturel, en raisonnement et en génération de code.",
@@ -3115,11 +3142,18 @@
           "contextLength": "128k Tokens"
         },
         "gpt-4o-mini": {
-          "strengths": "Petit modèle abordable et intelligent pour des tâches rapides et légères. Le GPT-4o mini est moins cher et plus performant que le GPT-3.5 Turbo.",
+          "strengths": "Petit modèle abordable et intelligent pour des tâches rapides et légères. ",
           "description": "gpt-4o-mini est un modèle de langage très polyvalent et efficace qui peut être utilisé dans diverses applications",
           "laboratory": "OpenAI",
           "parameters": "8 Mrd",
           "contextLength": "16 385 Tokens"
+        },
+        "gpt-oss-120b": {
+          "description": "GPT-OSS-120B est un modèle d’IA très puissant créé par OpenAI. Il est conçu pour comprendre des instructions complexes, raisonner sur des sujets variés et travailler avec de grands volumes de texte. Malgré sa taille impressionnante, il peut fonctionner sur une seule machine puissante, ce qui le rend plus accessible pour la recherche et le développement.",
+          "strengths": "Compréhension avancée des instructions, capacité à traiter de longues conversations ou documents, possibilité d’utiliser des outils comme la recherche web ou l’exécution de code, et excellente performance dans différents domaines comme le raisonnement et la programmation.",
+          "laboratory": "OpenAI",
+          "parameters": "120 Mrd",
+          "contextLength": "128k Tokens"
         },
         "gpt-4o": {
           "strengths": "GPT-4o offre la meilleure vision et les meilleures performances dans les langues autres que l'anglais.",
@@ -3142,8 +3176,8 @@
           "parameters": "8 Mrd",
           "contextLength": "128k Tokens"
         },
-        "qwen2-coder-32b-instruct": {
-          "description": "Qwen2.5-Coder est le modèle de langage et le modal multimodal (anciennement CodeQwen) développés par Alibaba Cloud. Il excelle dans des tâches telles que la génération, la complétion, le raisonnement et la réparation de code, tout en conservant des capacités générales et mathématiques.",
+        "qwen3-coder-30b-a3b-instruct": {
+          "description": "Qwen3-Coder est le modèle de langage et le modal multimodal (anciennement CodeQwen) développés par Alibaba Cloud. Il excelle dans des tâches telles que la génération, la complétion, le raisonnement et la réparation de code, tout en conservant des capacités générales et mathématiques.",
           "strengths": "Excellente performance sur plus de 10 benchmarks liés au code, y compris la génération, la complétion, le raisonnement et la réparation. Surpasse d'autres modèles de taille équivalente dans ces tâches.",
           "laboratory": "Alibaba Cloud",
           "parameters": "32 Mrd",
@@ -3366,10 +3400,9 @@
         "tooltips": {
           "consumption": "La génération d’image avec le modèle {{ modelName }} ({{ params }} milliards paramètres) a entraîné une consommation énergétique estimée à {{ energy }} Wh. Source : https://arxiv.org/pdf/2311.16863",
           "consumptionTotal": "La génération de {{ nombreImages }} image(s) a entraîné une consommation énergétique estimée à {{ energy }} Wh. Source : https://arxiv.org/pdf/2311.16863"
-
         },
         "consum": {
-          "no-request" : "L’évaluation de la consommation énergétique nécessite la génération d’une image.",
+          "no-request": "L’évaluation de la consommation énergétique nécessite la génération d’une image.",
           "missing-data": "Désolé, nous n'avons pas suffisamment de données.",
           "ecologits": "Source : Ademe ( https://impactco2.fr )",
           "allImages": "Toutes vos images",
@@ -3685,12 +3718,13 @@
         "bestCreations": "<i class='fa-solid fa-trophy m-1'></i></i>Concours",
         "gameCreations": "<i class='fa-solid fa-gamepad m-1'></i></i>Défi",
         "lifeTime": "Il y a {{ time }}",
+        "gameTitle": "L’image de la semaine",
+        "rules": "L’objectif est de reproduire cette image. Plus vous vous en rapprocherez, plus élevé sera votre score.",
         "anonymous": "Anonyme",
         "filterOptions": {
           "most-recent": "Les plus récentes",
           "most-popular": "Les plus populaires de tous les temps",
           "most-popular-today": "Les plus populaires aujourd'hui",
-
           "most-popular-week": "Les plus populaires cette semaine",
           "most-popular-month": "Les plus populaires ce mois"
         }
@@ -3703,12 +3737,13 @@
         "noItemCompetition": "Pas encore d'image générée pour le concours actuel. ",
         "weekCompetitionButton": "Les meilleures créations du {{ firstDate}} au {{secondDate}} : <strong>'{{ name }}'</strong>"
       },
-
       "button": {
         "download": "Télécharger",
         "modify": "Régénerer",
         "creatorImages": "Plus d'images de ce créateur",
-        "delete": "Supprimer"
+        "delete": "Supprimer",
+        "moderation": "La modération sur l'interface",
+        "report": "Signaler un problème/bug"
       }
     },
     "aiVisualization": {
@@ -3775,19 +3810,21 @@
         "charUnderCursor": "Caractère sous le curseur : "
       },
       "ti": {
-          "accessHistory": "Accéder à l’historique de la calculatrice",
-          "commandsHistory": "Historique des commandes de la calculatrice"
+        "accessHistory": "Accéder à l’historique de la calculatrice",
+        "commandsHistory": "Historique des commandes de la calculatrice"
       }
     }
   },
   "profile": {
     "menu": {
       "user": "Mon profil",
+      "publicProfile": "Profil public",
       "exp": "Mes expériences",
       "res": "Mes ressources",
       "pro": "Mes programmes",
       "address": "Mes adresses",
       "orders": "Mes commandes",
+      "estimates": "Mes devis",
       "wishlist": "Ma liste d'envie"
     },
     "user": {
@@ -3824,7 +3861,8 @@
           "changePassword": "Changer mon mot de passe",
           "changeMail": "Changer mon adresse mail",
           "send": "Valider le formulaire",
-          "update": "Mettre à jour"
+          "update": "Mettre à jour",
+          "chooseImage": "Choisir une image"
         },
         "return": "Retour",
         "changePassword": {
@@ -4093,6 +4131,20 @@
         "11": "Novembre",
         "12": "Décembre"
       },
+      "monthArray": [
+        "Janvier",
+        "Février",
+        "Mars",
+        "Avril",
+        "Mai",
+        "Juin",
+        "Juillet",
+        "Août",
+        "Septembre",
+        "Octobre",
+        "Novembre",
+        "Décembre"
+      ],
       "localization": "Emplacement",
       "map": {
         "input": "Recherchez une adresse...",
@@ -4209,6 +4261,7 @@
       "errPageSubtitle": "Ne vous inquiétez pas, nos développeurs vont chercher une solution.",
       "errPageSubtitle2": "Pourquoi ne pas réessayer en allant sur cette page :",
       "btnHome": "Page d'accueil",
+      "btnContact": "Contactez-nous",
       "unknowCode": "Code inconnu. Merci de contacter Vittascience.",
       "unknow": "Erreur serveur (Code -1). Veuillez réessayer plus tard."
     }
@@ -4280,7 +4333,7 @@
     "articles": {
       "1": {
         "title": "1. Objet",
-        "content": "Vittascience est un ensemble de services sur Internet (ci-après : les « <strong>Services</strong> ») permettant d’exécuter, créer, modifier et publier des programmes informatiques ainsi que des ressources, activités et parcours pédagogiques (conjointement appelés ci-après : les « <strong>Contenus </strong>»).</br>Vittascience propose également à la vente du matériel électronique et des kits didactisés via le Site, se référer aux <a href='/cgv'>Conditions Générales de Vente</a> pour plus de détail.</br></br>La société VITTASCIENCE (ci-après : « <strong> VITTASCIENCE </strong> ») fournit, par l’intermédiaire de son site internet <a href='https://vittascience.com'> www.vittascience.com </a> (ci-après : le « <strong> Site </strong> »), des Services à destination des enseignants et particuliers (ci-après : les « <strong> Utilisateurs </strong> ») dédiés à l’enseignement et l’apprentissage des sciences et du numérique.</br></br>Les présentes conditions générales ont pour objet de définir les modalités et conditions d’utilisation des Services proposés sur le Site, ainsi que de définir les droits et obligations des Utilisateurs dans ce cadre. Elles sont accessibles et imprimables à tout moment.</br></br>Le Site et les Services sont exploités par la société VITTASCIENCE, plus de détails ainsi que les coordonnées de contact sont disponibles dans les <a href='https://vittascience.com/legalnotice'> Mentions Légales </a> ."
+        "content": "Vittascience est un ensemble de services sur Internet (ci-après : les « <strong>Services</strong> ») permettant d’exécuter, créer, modifier et publier des programmes informatiques ainsi que des ressources, activités et parcours pédagogiques (conjointement appelés ci-après : les « <strong>Contenus</strong> »).</br></br>Vittascience propose également à la vente du matériel électronique et des kits didactisés via le Site, se référer aux <a href='https://fr.vittascience.com/cgv'>Conditions Générales de Vente</a> pour plus de détails.</br></br>La société VITTASCIENCE (ci-après : « <strong>VITTASCIENCE</strong> ») fournit, par l’intermédiaire de son site internet <a href='https://vittascience.com/'>www.vittascience.com</a> (ci-après : le « <strong>Site</strong> »), des Services à destination des enseignants et particuliers (ci-après : les « <strong>Utilisateurs</strong> ») dédiés à l’enseignement et l’apprentissage des sciences et du numérique.</br></br>Les présentes conditions générales ont pour objet de définir les modalités et conditions d’utilisation des Services proposés sur le Site, ainsi que de définir les droits et obligations des Utilisateurs dans ce cadre. Elles sont accessibles et imprimables à tout moment.</br></br>Le Site et les Services sont exploités par la société VITTASCIENCE, plus de détails ainsi que les coordonnées de contact sont disponibles dans les <a href='https://vittascience.com/legalnotice'>Mentions Légales</a>."
       },
       "2": {
         "title": "2. Acceptation des conditions générales",
@@ -4288,7 +4341,7 @@
       },
       "3": {
         "title": "3. Accès aux Services",
-        "content": "Il est possible de consulter une partie du Site gratuitement sans inscription. Ce mode de consultation vous permet de tester le bon fonctionnement des Services et des Contenus sur vos appareils et de découvrir le modèle pédagogique de Vittascience. <br />Ce mode de consultation ne vous autorise pas à utiliser les Services en classe ou en public. <br />De plus, plusieurs fonctionnalités d’édition sont réservées aux Utilisateurs inscrits.</br></br>La création d’un compte avec accès sécurisé (ci-après : le « <strong>Compte</strong> ») est gratuite, au moyen d’un formulaire d’inscription disponible sur le Site. Les Utilisateurs connectés suite à l’inscription sont autorisés à projeter les Services en classe ou devant un public, et disposent de plusieurs fonctionnalités d’édition comme la création de ressources, d’activité ou de parcours et la sauvegarde de projets dans le Cloud.</br></br>Les Services sont accessibles à toute personne physique disposant de la pleine capacité juridique pour s’engager au titre des présentes conditions générales. La personne physique qui ne dispose pas de la pleine capacité juridique ne peut accéder aux Services qu’avec l’accord de son représentant légal, ou dans le cas d’élèves sous la supervision d’une personne adulte au sein de leur établissement scolaire ou institution (enseignant, chef d’établissement, CPE, ou plus exceptionnellement un élève majeur).</br></br>Les Utilisateurs ont la possibilité d’inviter des élèves ou étudiants (ci-après : les « <strong>Apprenants</strong> ») pour former des groupes ou des classes virtuelles, ce qui simplifie la collaboration notamment dans un contexte d’enseignement à distance. Dans ce cas, l’Utilisateur est responsable de l’accès aux Services des Apprenants, à l’aide d’un code d’invitation ou bien en ajoutant manuellement les Apprenants.</br></br>L’accès aux Services est également possible via le <a href='https://gar.education.fr/'>Gestionnaire d’Accès aux Ressources</a> (ci-après : « <strong>GAR</strong> »), piloté par le Ministère de l’Éducation Nationale. Dans ce cas, les Services seront accessibles par l’intermédiaire de l’Espace Numérique de Travail (ci-après : <strong>« ENT »</strong>) géré et fourni à l’Utilisateur par l’établissement scolaire auquel il est rattaché. Cet accès sera effectué d’une manière conforme aux exigences du <a href='https://gar.education.fr/documentation-/'>Référentiel Technique, Fonctionnel et de Sécurité (RTFS)</a> du GAR."
+        "content": "Il est possible de consulter une partie du Site gratuitement sans inscription. Ce mode de consultation vous permet de tester le bon fonctionnement des Services et des Contenus sur vos appareils et de découvrir le modèle pédagogique de Vittascience.</br></br>Ce mode de consultation ne vous autorise pas à utiliser les Services en classe ou en public.</br></br>De plus, plusieurs fonctionnalités d’édition sont réservées aux Utilisateurs inscrits.</br></br>La création d’un compte avec accès sécurisé (ci-après : le « <strong>Compte</strong> ») est gratuite, au moyen d’un formulaire d’inscription disponible sur le Site. Les Utilisateurs connectés suite à l’inscription sont autorisés à projeter les Services en classe ou devant un public, et disposent de plusieurs fonctionnalités d’édition comme la création de ressources, d’activité ou de parcours et la sauvegarde de projets dans le Cloud.</br></br>Les Services sont accessibles à toute personne physique disposant de la pleine capacité juridique pour s’engager au titre des présentes conditions générales. La personne physique qui ne dispose pas de la pleine capacité juridique ne peut accéder aux Services qu’avec l’accord de son représentant légal, ou dans le cas d’élèves sous la supervision d’une personne adulte au sein de leur établissement scolaire ou institution (enseignant, chef d’établissement, CPE, ou plus exceptionnellement un élève majeur).</br></br>Les Utilisateurs ont la possibilité d’inviter des élèves ou étudiants (ci-après : les « <strong>Apprenants</strong> ») pour former des groupes ou des classes virtuelles, ce qui simplifie la collaboration notamment dans un contexte d’enseignement à distance. Dans ce cas, l’Utilisateur est responsable de l’accès aux Services des Apprenants, à l’aide d’un code d’invitation ou bien en ajoutant manuellement les Apprenants.</br></br>L’accès aux Services est également possible via le <a href='https://gar.education.fr/'>Gestionnaire d’Accès aux Ressources</a> (ci-après : « <strong>GAR</strong> »), piloté par le Ministère de l’Éducation Nationale. Dans ce cas, les Services seront accessibles par l’intermédiaire de l’Espace Numérique de Travail (ci-après : « <strong>ENT</strong> ») géré et fourni à l’Utilisateur par l’établissement scolaire auquel il est rattaché. Cet accès sera effectué d’une manière conforme aux exigences du <a href='https://gar.education.fr/documentation-/'>Référentiel Technique, Fonctionnel et de Sécurité (RTFS)</a> du GAR."
       },
       "4": {
         "title": "4. Usage strictement personnel",
@@ -4296,15 +4349,15 @@
       },
       "5": {
         "title": "5. Responsabilité des utilisateurs",
-        "content": "La publication de Contenus ainsi que de réactions aux Contenus (ci-après : les « <strong>Commentaires</strong> ») suppose de respecter certaines règles, fixées dans la loi. Nous en donnons ici un aperçu général.</br></br>Il est notamment interdit d’insérer dans un Contenu ou Commentaire :<ul><li>des contenus injurieux ou diffamatoires ;</li><li>des contenus racistes, antisémites, homophobes, sexistes ou handiphobes ;</li><li>des contenus appelant à la haine, à la violence, à la discrimination ou à commettre des infractions ;</li><li>des contenus pornographiques ou incluant de la nudité ;</li><li>des contenus invitant à la consommation d’alcool ou de drogues ;</li><li>des contenus imitant une marque ou une œuvre protégée par le droit d’auteur. Il est possible, par exception, d’intégrer dans les Contenus des reproductions et/ou représentations de telles œuvres, sous réserve qu’elles respectent les conditions des exceptions prévues par l’article L. 122-5 du code de la propriété intellectuelle.</li></ul>Un Contenu peut consister aussi bien dans du texte que dans du code informatique, une image ou une vidéo, cette liste n’étant pas limitative.</br></br>VITTASCIENCE se réserve le droit de supprimer unilatéralement tout Contenu ou Commentaire ne respectant pas les règles ci-dessus ou à la demande des autorités compétentes.</br></br>Les Contenus sont créés et diffusés sous la responsabilité, en premier lieu, de l’Utilisateur. L’Utilisateur qui invite des Apprenants à collaborer devient directeur des publications, et endosse ainsi la responsabilité de ses publications ainsi que celles de ses Apprenants. Il s’agit nécessairement d’une personne majeure (enseignant, chef d’établissement, CPE, formateur, animateur, etc.).</br></br>Les Apprenants peuvent toutefois être également responsables, du point de vue civil (*) et pénal (**), en cas de violation d’une règle légale ou réglementaire telle que celles évoquées ci-avant.</br></br>En cas de doute, ou pour toute question particulière, nous vous invitons à vous tourner vers la personne responsable au sein de votre établissement ou institution (enseignant, chef d’établissement, CPE, etc.).</br></br><strong>En résumé :</strong><ul><li><strong>si vous êtes un Utilisateur, </strong>vous êtes en premier lieu responsable des Contenus que vous publiez et, le cas échéant, des Contenus publiés par les apprenants que vous avez invités ;</li><li><strong>si vous êtes un Apprenant âgé de plus de 18 ans (majeur)</strong>, votre responsabilité personnelle (civile et pénale) peut également être engagée en parallèle de l’Utilisateur qui vous a invité ;</li><li><strong>si vous êtes un Apprenant âgé de moins de 18 ans (mineur)</strong>, selon les cas, votre propre responsabilité peut être engagée en tant que simple auteur lorsque vous êtes considéré au regard du droit comme émancipé ou, à défaut, celle de vos représentants légaux (c’est-à-dire en principe vos parents).</li></ul>(*) La responsabilité <em>civile</em> correspond (notamment) à l’obligation d’indemniser les personnes qui auraient subi un préjudice du fait d’un contenu intégré dans un programme, ressource ou activité (par exemple un contenu injurieux).</br></br>(**) La responsabilité <em>pénale</em> correspond aux amendes et peines de prison qui peuvent être infligées par un juge pénal, sur demande du procureur de la République."
+        "content": "Le site Vittascience permet aux utilisateurs de générer des contenus via les interfaces d’IA génératives, par exemple pour créer du texte ou des images. La publication et génération de Contenus ainsi que des réactions aux Contenus (ci-après : les « <strong>Commentaires</strong> ») suppose de respecter certaines règles, fixées dans la loi. Nous en donnons ici un aperçu général.</br></br>Il est notamment interdit d’insérer dans un Contenu ou Commentaire :<ul><li>des contenus injurieux ou diffamatoires ;</li><li>des contenus racistes, antisémites, homophobes, sexistes ou handiphobes ;</li><li>des contenus appelant à la haine, à la violence, à la discrimination ou à commettre des infractions ;</li><li>des contenus pornographiques ou incluant de la nudité ;</li><li>des contenus invitant à la consommation d’alcool ou de drogues ;</li><li>des contenus imitant une marque ou une œuvre protégée par le droit d’auteur. Il est possible, par exception, d’intégrer dans les Contenus des reproductions et/ou représentations de telles œuvres, sous réserve qu’elles respectent les conditions des exceptions prévues par l’article L. 122-5 du code de la propriété intellectuelle.</li></ul></br>Un Contenu peut consister aussi bien dans du texte que dans du code informatique, une image ou une vidéo, cette liste n’étant pas limitative.</br></br>VITTASCIENCE se réserve le droit de supprimer unilatéralement tout Contenu ou Commentaire ne respectant pas les règles ci-dessus ou à la demande des autorités compétentes.</br></br>Les Contenus sont créés et diffusés sous la responsabilité, en premier lieu, de l’Utilisateur. L’Utilisateur qui invite des Apprenants à collaborer devient directeur des publications, et endosse ainsi la responsabilité de ses publications ainsi que celles de ses Apprenants. Il s’agit nécessairement d’une personne majeure (enseignant, chef d’établissement, CPE, formateur, animateur, etc.).</br></br>Les Apprenants peuvent toutefois être également responsables, du point de vue civil (*) et pénal (**), en cas de violation d’une règle légale ou réglementaire telle que celles évoquées ci-avant.</br></br>En cas de doute, ou pour toute question particulière, nous vous invitons à vous tourner vers la personne responsable au sein de votre établissement ou institution (enseignant, chef d’établissement, CPE, etc.).</br></br><strong>En résumé :</strong><ul><li><strong>si vous êtes un Utilisateur,</strong> vous êtes en premier lieu responsable des Contenus que vous publiez et, le cas échéant, des Contenus publiés par les apprenants que vous avez invités ;</li><li><strong>si vous êtes un Apprenant âgé de plus de 18 ans (majeur)</strong>, votre responsabilité personnelle (civile et pénale) peut également être engagée en parallèle de l’Utilisateur qui vous a invité ;</li><li><strong>si vous êtes un Apprenant âgé de moins de 18 ans (mineur)</strong>, selon les cas, votre propre responsabilité peut être engagée en tant que simple auteur lorsque vous êtes considéré au regard du droit comme émancipé ou, à défaut, celle de vos représentants légaux (c’est-à-dire en principe vos parents).</li></ul></br>(*) La responsabilité <em>civile</em> correspond (notamment) à l’obligation d’indemniser les personnes qui auraient subi un préjudice du fait d’un contenu intégré dans un programme, ressource ou activité (par exemple un contenu injurieux).</br></br>(**) La responsabilité <em>pénale</em> correspond aux amendes et peines de prison qui peuvent être infligées par un juge pénal, sur demande du procureur de la République."
       },
       "6": {
         "title": "6. Protection des données personnelles",
-        "content": "VITTASCIENCE accorde une grande importance au respect de la vie privée. Nous vous invitons à consulter notre <a href='/privacy'>politique relative au traitement des données personnelles</a>.</br></br>Dans le cas où l’Utilisateur choisit de souscrire et d’utiliser les Services via le GAR, les données nécessaires à la création de son Compte Utilisateur et des Comptes de ses Apprenants sur les Services seront obtenues par VITTASCIENCE par l’intermédiaire du GAR.</br></br>D’un commun accord, VITTASCIENCE et l’Utilisateur reconnaissent leur qualité de responsables conjoints de ces traitements de données, en tant qu’ils concernent les Apprenants, au sens de <a href='https://www.cnil.fr/fr/reglement-europeen-protection-donnees/chapitre4#Article26'>l’article 26 du RGPD</a>. Ce statut reflète les responsabilités respectives de l’Utilisateur et de VITTASCIENCE vis-à-vis des Apprenants et les attentes légitimes de ces derniers, conformément aux lignes directrices des autorités compétentes.</br></br>Aux fins de bonne mise en œuvre des principes et obligations du RGPD, VITTASCIENCE assurera l’information des Apprenants concernant le traitement de leurs données au moyen d’un document intitulé « Politique de confidentialité », inséré sur l’interface des Services à laquelle accèdent les Apprenants.</br></br>VITTASCIENCE se chargera également de recevoir et traiter, en collaboration avec l’Utilisateur, les demandes d’exercice de droits des Apprenants émises sur le fondement des <a href='https://www.cnil.fr/fr/reglement-europeen-protection-donnees/chapitre3#Article15'>articles 15 à 22 du RGPD</a>."
+        "content": "VITTASCIENCE accorde une grande importance au respect de la vie privée. Nous vous invitons à consulter notre <a href='https://fr.vittascience.com/privacy'>politique relative au traitement des données personnelles</a>.</br></br>Dans le cas où l’Utilisateur choisit de souscrire et d’utiliser les Services via le GAR, les données nécessaires à la création de son Compte Utilisateur et des Comptes de ses Apprenants sur les Services seront obtenues par VITTASCIENCE par l’intermédiaire du GAR.</br></br>D’un commun accord, VITTASCIENCE et l’Utilisateur reconnaissent leur qualité de responsables conjoints de ces traitements de données, en tant qu’ils concernent les Apprenants, au sens de <a href='https://www.cnil.fr/fr/reglement-europeen-protection-donnees/chapitre4#Article26'>l’article 26 du RGPD</a>. Ce statut reflète les responsabilités respectives de l’Utilisateur et de VITTASCIENCE vis-à-vis des Apprenants et les attentes légitimes de ces derniers, conformément aux lignes directrices des autorités compétentes.</br></br>Aux fins de bonne mise en œuvre des principes et obligations du RGPD, VITTASCIENCE assurera l’information des Apprenants concernant le traitement de leurs données au moyen d’un document intitulé « Politique de confidentialité », inséré sur l’interface des Services à laquelle accèdent les Apprenants.</br></br>VITTASCIENCE se chargera également de recevoir et traiter, en collaboration avec l’Utilisateur, les demandes d’exercice de droits des Apprenants émises sur le fondement des <a href='https://www.cnil.fr/fr/reglement-europeen-protection-donnees/chapitre3#Article15'>articles 15 à 22 du RGPD</a>."
       },
       "7": {
         "title": "7. Propriété intellectuelle",
-        "content": "Le site et chacun des éléments, y compris mais sans limitation la marque Vittascience, les logos, icônes, infographies, photographies, qui le composent sont protégés au titre de la législation internationale de la propriété intellectuelle. Ces éléments constituent, sauf indications contraires, la propriété exclusive de VITTASCIENCE. Toute utilisation, reproduction ou représentation, par quelques procédés que ce soit, et sur quelques supports que ce soit, de tout ou partie du site et/ou des éléments qui le composent n'est pas autorisée sans le consentement expresse de VITTASCIENCE.</br></br>Certains Contenus disponibles sur le Site sont publiés sous licence Creative Commons, notamment certains programmes informatiques, ressources, activités et parcours. La licence employée est alors toujours mentionnée sur le contenu. Il s'agit, selon le cas, d’une licence :<ul><li><strong>Creative Commons Attribution - Pas d’Utilisation Commerciale - Partage dans les Mêmes Conditions 4.0 International (CC BY-NC-SA 4.0)</strong> : cette licence autorise le partage et l’adaptation du contenu, sous réserve d’attribution, d’usage non-commercial et de partage dans les mêmes conditions. Plus de détail sont disponibles <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/'>sur ce lien</a>;</li><li><strong>Creative Commons Attribution - Pas d’Utilisation Commerciale - Pas de Modification 4.0 International (CC BY-NC-ND 4.0)</strong> : cette licence autorise le partage du contenu, sous réserve d’attribution, d’usage non-commercial et de non-modification. Plus de détail sont disponibles <a href='https://creativecommons.org/licenses/by-nc-nd/4.0/'>sur ce lien</a>. </li></ul>Toute utilisation du contenu du Site contraire aux présentes conditions générales engagera la responsabilité civile et pénale de l'Utilisateur à l'égard de VITTASCIENCE. "
+        "content": "Le site et chacun des éléments, y compris mais sans limitation la marque Vittascience, les logos, icônes, infographies, photographies, qui le composent sont protégés au titre de la législation internationale de la propriété intellectuelle. Ces éléments constituent, sauf indications contraires, la propriété exclusive de VITTASCIENCE. Toute utilisation, reproduction ou représentation, par quelques procédés que ce soit, et sur quelques supports que ce soit, de tout ou partie du site et/ou des éléments qui le composent n'est pas autorisée sans le consentement expresse de VITTASCIENCE.</br></br>Certains Contenus disponibles sur le Site sont publiés sous licence Creative Commons, notamment certains programmes informatiques, ressources, activités et parcours. La licence employée est alors toujours mentionnée sur le contenu. Il s'agit, selon le cas, d’une licence :</br><ul><li><strong>Creative Commons Attribution - Pas d’Utilisation Commerciale - Partage dans les Mêmes Conditions 4.0 International (CC BY-NC-SA 4.0)</strong> : cette licence autorise le partage et l’adaptation du contenu, sous réserve d’attribution, d’usage non-commercial et de partage dans les mêmes conditions. Plus de détail sont disponibles <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/'>sur ce lien</a>;</li><li><strong>Creative Commons Attribution - Pas d’Utilisation Commerciale - Pas de Modification 4.0 International (CC BY-NC-ND 4.0)</strong> : cette licence autorise le partage du contenu, sous réserve d’attribution, d’usage non-commercial et de non-modification. Plus de détails sont disponibles <a href='https://creativecommons.org/licenses/by-nc-nd/4.0/'>sur ce lien</a>.</li></ul></br><strong>Contenus générés par intelligence artificielle</strong></br></br>Des outils de génération automatique de contenus (textes, images, sons, codes, etc.) basés sur des modèles d’intelligence artificielle peuvent être mis à disposition des utilisateurs sur la plateforme Vittascience.</br></br>Les contenus ainsi générés par intelligence artificielle sont placés, sauf indication contraire explicite, sous la licence <strong>Creative Commons Attribution - Pas d’Utilisation Commerciale - Partage dans les Mêmes Conditions 4.0 International (CC BY-NC-SA 4.0)</strong>.</br></br>L’utilisateur conserve la propriété intellectuelle des prompts (instructions) qu’il saisit dans les outils de génération, mais reconnaît que les résultats générés peuvent être similaires ou identiques à ceux d'autres utilisateurs, et que VITTASCIENCE se réserve le droit de les mettre en avant sur le site ou dans ses communications, dans le respect de la licence précitée.</br></br>L'utilisateur est seul responsable des contenus générés à l’aide de ces outils, notamment en cas d’atteinte aux droits de tiers, de diffusion de contenus illicites ou contraires aux présentes conditions générales. VITTASCIENCE se réserve le droit de modérer, supprimer ou ne pas diffuser tout contenu jugé inapproprié ou non conforme.</br></br>Toute utilisation du contenu du Site contraire aux présentes conditions générales engagera la responsabilité civile et pénale de l'Utilisateur à l'égard de VITTASCIENCE."
       },
       "8": {
         "title": "8. Liens hypertextes",
@@ -4324,10 +4377,64 @@
       },
       "12": {
         "title": "12. Loi applicable",
-        "content": "Les présentes conditions générales sont soumises au droit français.</br></br>En cas de litige né de l’utilisation des Services, nous vous invitons tout d’abord à vous rapprocher de VITTASCIENCE, pour que nous discutions ensemble du problème, et tâchions de le résoudre ensemble de la meilleure manière possible.</br></br>A défaut d’accord amiable, toute contestation relative à l'interprétation, la validité et/ou l'exécution des présentes relève de la compétence exclusive du tribunal judiciaire de Paris."
+        "content": "Les présentes conditions générales sont soumises au droit français.</br></br>En cas de litige né de l’utilisation des Services, nous vous invitons tout d’abord à vous rapprocher de VITTASCIENCE, pour que nous discutions ensemble du problème, et tâchions de le résoudre ensemble de la meilleure manière possible.</br></br>A défaut d’accord amiable, toute contestation relative à l'interprétation, la validité et/ou l'exécution des présentes relève de la compétence exclusive du tribunal judiciaire de Paris.</br></br>Des questions ? Contactez <a href='mailto:privacy@vittascience.com'>privacy@vittascience.com</a>"
       }
     },
-    "date": "Dernière mise à jour le 15 août 2020."
+    "date": "Dernière mise à jour le 18 novembre 2025."
+  },
+  "CGULuxembourg": {
+    "title": "CONDITIONS GÉNÉRALES D'UTILISATION",
+    "articles": {
+      "1": {
+        "title": "1. Objet",
+        "content": "Vittascience est un ensemble de services sur Internet (ci-après : les « <strong>Services</strong> ») permettant d’exécuter, créer, modifier et publier des programmes informatiques ainsi que des ressources, activités et parcours pédagogiques (conjointement appelés ci-après : les « <strong>Contenus</strong> »).</br></br>La société VITTASCIENCE (ci-après : « <strong>VITTASCIENCE</strong> ») fournit, par l’intermédiaire de son site internet <a href='https://vittascience.com/'>www.vittascience.com</a> (ci-après : le « <strong>Site</strong> »), des Services à destination des enseignants et particuliers (ci-après : les « <strong>Utilisateurs</strong> ») dédiés à l’enseignement et l’apprentissage des sciences et du numérique.</br></br>Les présentes conditions générales ont pour objet de définir les modalités et conditions d’utilisation des Services proposés sur le Site, ainsi que de définir les droits et obligations des Utilisateurs dans ce cadre. Elles sont accessibles et imprimables à tout moment.</br></br>Le Site et les Services sont exploités par la société VITTASCIENCE, plus de détails ainsi que les coordonnées de contact sont disponibles dans les <a href='https://vittascience.com/legalnotice'>Mentions Légales</a>."
+      },
+      "2": {
+        "title": "2. Acceptation des conditions générales",
+        "content": "L’acceptation des présentes conditions générales par les Utilisateurs est matérialisée par une signature électronique, pendant le processus d’inscription.</br></br>Cette acceptation ne peut être que pleine et entière. Toute adhésion sous réserve est considérée comme nulle et non avenue. Les Utilisateurs qui n’acceptent pas d’être liés par les présentes conditions générales ne doivent pas utiliser les Services.</br></br>Les Services sont accessibles aux internautes étant inscrits au Site, toutefois une partie du site est mise à disposition des internautes non identifiés afin de démonstration (se référer à la partie suivante pour plus détail). Si tel est votre cas, merci de lire attentivement ces conditions générales avant de naviguer sur le Site ou d’utiliser les Contenus, car elles constituent le cadre légal d’utilisation des Services. Dans ce contexte, le simple fait d’utiliser le Site vaut acceptation de ces conditions générales d’utilisation. Si vous n’êtes pas d’accord avec chacun des termes de ces conditions générales, n’utilisez pas le Site."
+      },
+      "3": {
+        "title": "3. Accès aux Services",
+        "content": "Il est possible de consulter une partie du Site gratuitement sans inscription. Ce mode de consultation vous permet de tester le bon fonctionnement des Services et des Contenus sur vos appareils et de découvrir le modèle pédagogique de Vittascience.</br></br>Ce mode de consultation ne vous autorise pas à utiliser les Services en classe ou en public.</br></br>De plus, plusieurs fonctionnalités d’édition sont réservées aux Utilisateurs inscrits.</br></br>La création d’un compte avec accès sécurisé (ci-après : le « <strong>Compte</strong> ») est gratuite, au moyen d’un bouton de connexion via SAML. Les Utilisateurs connectés suite à l’inscription sont autorisés à projeter les Services en classe ou devant un public, et disposent de plusieurs fonctionnalités d’édition comme la création de ressources, d’activité ou de parcours et la sauvegarde de projets dans le Cloud.</br></br>Les Services sont accessibles à toute personne physique disposant de la pleine capacité juridique pour s’engager au titre des présentes conditions générales. La personne physique qui ne dispose pas de la pleine capacité juridique ne peut accéder aux Services qu’avec l’accord de son représentant légal, ou dans le cas d’élèves sous la supervision d’une personne adulte au sein de leur établissement scolaire ou institution (enseignant, chef d’établissement, CPE).</br></br>Les Utilisateurs ont la possibilité d’inviter des élèves ou étudiants (ci-après : les « <strong>Apprenants</strong> ») pour former des groupes ou des classes virtuelles, ce qui simplifie la collaboration notamment dans un contexte d’enseignement à distance. Dans ce cas, l’Utilisateur est responsable de l’accès aux Services des Apprenants, à l’aide d’un code d’invitation ou bien en ajoutant manuellement les Apprenants."
+      },
+      "4": {
+        "title": "4. Usage strictement personnel",
+        "content": "Un seul Compte pourra être créé par personne. VITTASCIENCE se réserve la faculté de supprimer tout compte supplémentaire créé par une même personne.</br></br>L’Utilisateur s’engage par conséquent à utiliser les Services personnellement, et à ne permettre à aucun tiers de les utiliser à sa place.</br></br>L’Utilisateur est par ailleurs responsable du maintien de la confidentialité de son accès et reconnaît expressément que toute utilisation des Services depuis son Compte sera réputée avoir été effectuée par lui-même.</br></br>L’Utilisateur doit immédiatement contacter VITTASCIENCE aux coordonnées mentionnées à l’article 1 des présentes s’il remarque que son Compte a été utilisé à son insu. Il reconnaît à VITTASCIENCE le droit de prendre toutes mesures appropriées en pareil cas."
+      },
+      "5": {
+        "title": "5. Responsabilité des utilisateurs",
+        "content": "Le site Vittascience permet aux utilisateurs de générer des contenus via les interfaces d’IA génératives, par exemple pour créer du texte ou des images. La publication et génération de Contenus ainsi que des réactions aux Contenus (ci-après : les « <strong>Commentaires</strong> ») suppose de respecter certaines règles, fixées dans la loi. Nous en donnons ici un aperçu général.</br></br>Il est notamment interdit d’insérer dans un Contenu ou Commentaire :<ul><li>des contenus injurieux ou diffamatoires ;</li><li>des contenus racistes, antisémites, homophobes, sexistes ou handiphobes ;</li><li>des contenus appelant à la haine, à la violence, à la discrimination ou à commettre des infractions ;</li><li>des contenus pornographiques ou incluant de la nudité ;</li><li>des contenus invitant à la consommation d’alcool ou de drogues ;</li><li>des contenus imitant une marque ou une œuvre protégée par le droit d’auteur.</li></ul></br>Un Contenu peut consister aussi bien dans du texte que dans du code informatique, une image ou une vidéo, cette liste n’étant pas limitative.</br></br>VITTASCIENCE se réserve le droit de supprimer unilatéralement tout Contenu ou Commentaire ne respectant pas les règles ci-dessus ou à la demande des autorités compétentes.</br></br>Les Contenus sont créés et diffusés sous la responsabilité, en premier lieu, de l’Utilisateur. L’Utilisateur qui invite des Apprenants à collaborer devient directeur des publications, et endosse ainsi la responsabilité de ses publications ainsi que celles de ses Apprenants. Il s’agit nécessairement d’une personne majeure (enseignant, chef d’établissement, CPE, formateur, animateur, etc.).</br></br>Les Apprenants peuvent toutefois être également responsables, du point de vue civil (*) et pénal (**), en cas de violation d’une règle légale ou réglementaire telle que celles évoquées ci-avant.</br></br><strong>En résumé :</strong><ul><li><strong>si vous êtes un Utilisateur,</strong> vous êtes en premier lieu responsable des Contenus que vous publiez et, le cas échéant, des Contenus publiés par les apprenants que vous avez invités ;</li><li><strong>si vous êtes un Apprenant âgé de plus de 18 ans (majeur)</strong>, votre responsabilité personnelle (civile et pénale) peut également être engagée en parallèle de l’Utilisateur qui vous a invité ;</li><li><strong>si vous êtes un Apprenant âgé de moins de 18 ans (mineur)</strong>, selon les cas, votre propre responsabilité peut être engagée ou celle de vos représentants légaux.</li></ul></br>(*) La responsabilité <em>civile</em> correspond à l’obligation d’indemniser les personnes qui auraient subi un préjudice.</br></br>(**) La responsabilité <em>pénale</em> correspond aux amendes et peines de prison infligées par un juge pénal."
+      },
+      "6": {
+        "title": "6. Protection des données personnelles",
+        "content": "VITTASCIENCE accorde une grande importance au respect de la vie privée. Nous vous invitons à consulter notre <a href='https://fr.vittascience.com/privacy'>politique relative au traitement des données personnelles</a>.</br></br>Dans le cas où l’Utilisateur choisit de souscrire et d’utiliser les Services via le GAR, les données nécessaires à la création de son Compte Utilisateur et des Comptes de ses Apprenants sur les Services seront obtenues par VITTASCIENCE par l’intermédiaire du GAR.</br></br>D’un commun accord, VITTASCIENCE et l’Utilisateur reconnaissent leur qualité de responsables conjoints de ces traitements de données, en tant qu’ils concernent les Apprenants, au sens de <a href='https://www.cnil.fr/fr/reglement-europeen-protection-donnees/chapitre4#Article26'>l’article 26 du RGPD</a>.</br></br>VITTASCIENCE assurera l’information des Apprenants sur le traitement de leurs données via un document intitulé « Politique de confidentialité ».</br></br>VITTASCIENCE se chargera de recevoir et traiter, en collaboration avec l’Utilisateur, les demandes d’exercice des droits prévus par les <a href='https://www.cnil.fr/fr/reglement-europeen-protection-donnees/chapitre3#Article15'>articles 15 à 22 du RGPD</a>."
+      },
+      "7": {
+        "title": "7. Propriété intellectuelle",
+        "content": "Le Site et ses éléments, dont la marque Vittascience, logos, icônes, infographies et photographies, sont protégés par la législation internationale sur la propriété intellectuelle et sont la propriété exclusive de VITTASCIENCE.</br></br>Certains Contenus disponibles sur le Site sont publiés sous licence Creative Commons :</br><ul><li><strong>CC BY-NC-SA 4.0</strong> — partage et adaptation sous attribution, usage non commercial et partage dans les mêmes conditions (<a href='https://creativecommons.org/licenses/by-nc-sa/4.0/'>détails ici</a>) ;</li><li><strong>CC BY-NC-ND 4.0</strong> — partage sous attribution, usage non commercial, sans modification (<a href='https://creativecommons.org/licenses/by-nc-nd/4.0/'>détails ici</a>).</li></ul></br><strong>Contenus générés par intelligence artificielle</strong></br></br>Les contenus générés automatiquement par IA sont placés, sauf mention contraire, sous licence <strong>CC BY-NC-SA 4.0</strong>.</br></br>L’Utilisateur reste propriétaire de ses prompts, mais reconnaît que les résultats générés peuvent être similaires à ceux d’autres utilisateurs.</br></br>L’Utilisateur est seul responsable en cas d’atteinte aux droits de tiers ou diffusion de contenus illicites.</br></br>Toute utilisation contraire aux présentes conditions peut engager la responsabilité civile et pénale de l’Utilisateur."
+      },
+      "8": {
+        "title": "8. Liens hypertextes",
+        "content": "Le Site peut contenir des liens vers des sites tiers. VITTASCIENCE n’exerce aucun contrôle sur ces ressources externes et ne peut être tenue responsable de leur contenu."
+      },
+      "9": {
+        "title": "9. Responsabilité de Vittascience",
+        "content": "VITTASCIENCE maintient les Services en ligne et leur accessibilité, sous réserve des opérations de maintenance.</br></br>VITTASCIENCE ne peut garantir l’exactitude des informations du Site et décline toute responsabilité :</br><ul><li>en cas d’interruption du Site ou de bogues ;</li><li>pour toute inexactitude ou omission ;</li><li>pour tout dommage direct ou indirect résultant de l’utilisation du Site.</li></ul>Sa responsabilité ne peut être engagée en cas de force majeure."
+      },
+      "10": {
+        "title": "10. Disponibilité des Services",
+        "content": "Les Services fonctionnent sur la majorité des navigateurs web modernes avec un accès internet.</br></br>Compatibles avec une largeur minimale de 320px.</br></br>La compatibilité avec tous les dispositifs actuels ou futurs n’est pas garantie."
+      },
+      "11": {
+        "title": "11. Modifications des CGU",
+        "content": "Les CGU peuvent être modifiées à tout moment. Les Utilisateurs sont invités à les consulter régulièrement.</br></br>En cas de modification, les Utilisateurs connectés seront notifiés par une modale.</br></br>La date de dernière modification est indiquée en bas de cette page."
+      },
+      "12": {
+        "title": "12. Loi applicable",
+        "content": "Les présentes conditions générales sont soumises au droit français et luxembourgeois.</br></br>En cas de litige, une résolution amiable sera recherchée. À défaut, compétence exclusive du tribunal judiciaire de Paris.</br></br>Des questions ? Contactez <a href='mailto:privacy@vittascience.com'>privacy@vittascience.com</a>"
+      }
+    },
+    "date": "Dernière mise à jour le 18 novembre 2025."
   },
   "cookies": {
     "header": {
@@ -4338,11 +4445,11 @@
       "sections": {
         "1": {
           "title": "Ce site n’affiche pas de bannière de consentement aux cookies, pourquoi ?",
-          "content": "C’est vrai, vous n’avez pas eu à cliquer sur un bloc qui recouvre la moitié de la page pour dire que vous êtes d’accord avec le dépôt de cookies. Rien d'exceptionnel, pas de passe-droit.<br/><br/> Nous respectons simplement la loi, qui dit que certains outils de suivi d’audience, correctement configurés pour respecter la vie,  exemptés d’autorisation préalable.<br/><br/> Nous utilisons pour cela <a href='https://matomo.org/' target='_blank'>Matomo</a>, un outil <a href='https://matomo.org/free-software/' target='_blank'>libre</a>, paramétré pour être en conformité avec la <a href='https://www.cnil.fr/fr/solutions-pour-la-mesure-daudience' target='_blank'>recommandation « Cookies »</a> de la CNIL. Cela signifie que votre adresse IP, par exemple, est anonymisée avant d’être enregistrée. Il est donc impossible d’associer vos visites sur ce site à votre personne.<br/><br/> Ce paramétrage permet l’exemption au recueil du consentement, conformément l’article 5 de la délibération n° 2019-093 du 4 juillet 2019 portant adoption de lignes directrices relatives à l'application de l'article 82 de la loi du 6 janvier 1978 modifiée aux opérations de lecture ou écriture dans le terminal d'un utilisateur (notamment aux cookies et autres traceurs).<br/>"
+          "content": "C’est vrai, vous n’avez pas eu à cliquer sur un bloc qui recouvre la moitié de la page pour dire que vous êtes d’accord avec le dépôt de cookies. Rien d'exceptionnel, pas de passe-droit.<br/><br/> Nous respectons simplement la loi, qui dit que certains outils de suivi d’audience, correctement configurés pour respecter la vie, sont exemptés d’autorisation préalable.<br/><br/> Nous utilisons pour cela <a href='https://matomo.org/' target='_blank'>Matomo</a>, un outil <a href='https://matomo.org/free-software/' target='_blank'>libre</a>, paramétré pour être en conformité avec la <a href='https://www.cnil.fr/fr/solutions-pour-la-mesure-daudience' target='_blank'>recommandation « Cookies »</a> de la CNIL. Cela signifie que votre adresse IP, par exemple, est anonymisée avant d’être enregistrée. Il est donc impossible d’associer vos visites sur ce site à votre personne.<br/><br/> Ce paramétrage permet l’exemption au recueil du consentement, conformément l’article 5 de la délibération n° 2019-093 du 4 juillet 2019 portant adoption de lignes directrices relatives à l'application de l'article 82 de la loi du 6 janvier 1978 modifiée aux opérations de lecture ou écriture dans le terminal d'un utilisateur (notamment aux cookies et autres traceurs).<br/>"
         },
         "2": {
           "title": "Comment désactiver le suivi statistique ?",
-          "content": "Vous pouvez désactiver ce suivi statistique, ainsi Matomo cessera d’inclure vos visites dans les statistiques. Pour ce faire, nous vous invitons à suivre l’une de ces procédures :<br/><ul><li>activer la fonctionnalité « Ne pas me pister » de votre navigateur : <a href='https://support.mozilla.org/fr/kb/activer-desactiver-cookies-preferences' target='_blank'>Mozilla Firefox</a> ; <a href='https://support.microsoft.com/fr-fr/help/17442/windows-internet-explorer-delete-manage-cookies' target='_blank'>Internet Explorer</a> ; <a href='https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=fr' target='_blank'>Google Chrome</a> ; <a href='http://help.opera.com/Windows/10.20/fr/cookies.html' target='_blank'>Opera</a> ; <a href='https://support.apple.com/kb/ph21411?locale=fr_CA' target='_blank'>Safari</a> ;</li></ul><br/>Ou bien: <br/><ul><li>Décocher la case suivante</li></ul><iframe style='border: 0; height: 160px; width: 100%;border-radius: 16px;' src='https://matomo.vittascience.com/matomo/index.php?module=CoreAdminHome&action=optOut&language=fr&backgroundColor=&fontColor=565656&backgroundColor=FFFFFF&fontSize=14px&fontFamily=Montserrat'></iframe><br/>"
+          "content": "Vous pouvez désactiver ce suivi statistique, ainsi Matomo cessera d’inclure vos visites dans les statistiques. Pour ce faire, nous vous invitons à suivre l’une de ces procédures :<br/><ul><li>activer la fonctionnalité « Ne pas me pister » de votre navigateur : <a href='https://support.mozilla.org/fr/kb/activer-desactiver-cookies-preferences' target='_blank'>Mozilla Firefox</a> ; <a href='https://support.microsoft.com/fr-fr/help/17442/windows-internet-explorer-delete-manage-cookies' target='_blank'>Internet Explorer</a> ; <a href='https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=fr' target='_blank'>Google Chrome</a> ; <a href='http://help.opera.com/Windows/10.20/fr/cookies.html' target='_blank'>Opera</a> ; <a href='https://support.apple.com/kb/ph21411?locale=fr_CA' target='_blank'>Safari</a> ;</li></ul><br/>Ou bien: <br/><ul><li>Décocher la case suivante</li></ul><iframe style='border: 0; height: 160px; width: 100%;border-radius: 16px;' src='https://matomo.vittascience.com/matomo/index.php?module=CoreAdminHome&action=optOut&language=fr&backgroundColor=&fontColor=565656&backgroundColor=FFFFFF&fontSize=14px&fontFamily=Montserrat' title='Vous pouvez vous opposer au suivi de votre navigation sur ce site web'></iframe><br/>"
         }
       }
     },
@@ -4535,6 +4642,7 @@
     "mailSubject": "Candidature au poste "
   },
   "tutorial": {
+    "aria_label": "Nom du tutoriel : {{title}}. {{count}} vues. Créé par {{author}}",
     "resourceCreationTutorial": {
       "thumbnail": {
         "header": "Tutoriel",
@@ -4885,6 +4993,7 @@
             "example": "Exemples"
           },
           "exampleCategories": {
+            "cybersecurity": "Cybersécurité",
             "essentials": "Les incontournables du B.O. :",
             "hybrid_projects": "Projets hybrides (Blocs/Python)",
             "python_projects-maths": "Projets Python — Mathématiques",
@@ -4892,6 +5001,13 @@
             "python_projects-rover": "Projets Python — Rover",
             "python_projects-turtle": "Projets Python — Turtle",
             "python_projects-microbit": "Projets Python — BBC micro:bit"
+          },
+          "exampleSubcategories": {
+            "mission_1": "Fiche 1 : Robustesse d'un mot de passe",
+            "mission_2": "Fiche 2 : Fabrication d'un mot de passe robuste",
+            "mission_3": "Fiche 3 : Un hachage de guerre bien salé",
+            "mission_4": "Fiche 4 : Chiffrement de César",
+            "mission_5": "Fiche 5 : Les tables arc-en-ciel"
           },
           "dropzone": {
             "inputbtn": "Explorateur",
@@ -5176,6 +5292,17 @@
             "name": "Raspberry Pi Pico",
             "learn": "Pour en savoir plus sur les fonctions Python disponibles avec Raspberry Pi Pico, consultez ",
             "learn-link": "https://www.raspberrypi.com/products/raspberry-pi-pico/"
+          },
+          "codey": {
+            "name": "Codey",
+            "learn": "Pour en savoir plus sur les fonctions Python disponibles avec Codey, consultez ",
+            "learn-link": "https://makeblock-micropython-api.readthedocs.io/en/latest/codey&rocky/"
+          },
+          "uno-r4": {
+            "name": "Arduino",
+            "learn": "Pour en savoir plus sur les fonctions C++ disponibles avec Arduino R4, consultez ",
+            "learn-link": "https://www.arduino.cc/reference/fr/",
+            "libraries-link": "https://github.com/vittascience/arduino-libraries"
           }
         },
         "noticeCommon": {
@@ -5249,10 +5376,6 @@
           "board": {
             "title": "Choix de la carte",
             "notice": "Vous pouvez changer la carte pour mettre à jour la liste des broches dans les blocs et l'image dans le simulateur."
-          },
-          "serial-board": {
-            "title": "Choix de la carte",
-            "notice": "Vous pouvez ici sélectionner la carte que vous souhaitez connecter à l'interface."
           }
         }
       },
@@ -5488,6 +5611,7 @@
       "project": {
         "wrongLink": "Ce lien dirige vers un projet inexistant ou n'a pas été créé avec cette interface. Vous pouvez chercher un projet depuis Ouvrir un projet ou en créer un nouveau",
         "wrongFile": "Ce fichier ne semble pas adapté à cette interface. Vérifier cette information dans l'en-tête du fichier à la ligne 'Interface:'.",
+        "wrongXml": "Ce lien dirige vers un projet qui ne semble pas se charger correctement dans l'interface. Veuillez nous partager ce lien du projet en nous contactant par le support de Vittascience. Nous tenterons de le réparer.",
         "privateProject": "Projet privé",
         "rightsChange": "Droits d'accès changés",
         "rightsAttributed": "Droits d'accès attribués",
@@ -5691,6 +5815,21 @@
         }
       }
     },
+    "hardware": {
+      "arduino": {
+        "title": "Choix de la carte",
+        "content": {
+          "welcome": "Bienvenue sur l'interface Arduino !",
+          "intro": "Veuillez sélectionner la carte que vous souhaitez programmer. Cela adaptera les différents blocs ainsi que l'image dans le simulateur.",
+          "firmware": "Veuillez sélectionner la version du firmware que vous souhaitez utiliser.",
+          "tutorial_link": "Prenez en main l'interface Arduino avec le tutoriel",
+          "compatibility_link": "Découvrez les cartes, capteurs et robots compatibles avec l'interface"
+        },
+        "buttons": {
+          "validate": "Valider"
+        }
+      }
+    },
     "simulator": {
       "gpsmap": {
         "title": "GPS"
@@ -5805,36 +5944,35 @@
           "rootMeanSquare": "Valeur efficace, mesurant la puissance moyenne du signal.",
           "skewness": "Asymétrie de la distribution des valeurs, indiquant si le signal est biaisé vers des valeurs plus hautes ou plus basses.",
           "zeroCrossingRate": "Taux de passage par zéro, indiquant la fréquence à laquelle le signal change de signe.",
-          "trendSlope":"Pente de la tendance, indiquant la direction générale du signal sur la fenêtre de données.",
+          "trendSlope": "Pente de la tendance, indiquant la direction générale du signal sur la fenêtre de données.",
           "regularity": "Régularité de la série, mesurant la prévisibilité du signal."
-        
         },
         "selectDatasetLegend": "Données",
         "inputNeuronPlaceHolder": "Cliquer sur une caractéristique pour voir le détail",
         "rawSignal": "Signal brut",
         "closeFeatureExplanation": "réduire"
       },
-      "edge-device-sensor-mismatch":{
+      "edge-device-sensor-mismatch": {
         "title": "Erreur de capteur",
         "description": "Le capteur sélectionné ne correspond pas à celui utilisé pour l'entraînement du modèle. Voulez vous effacer le modèle et le réentraîner avec le capteur sélectionné ?<br>Ou bien, voulez-vous utiliser le capteur qui a été utilisé pour l'entraînement du modèle ?",
-        "buttons":{
+        "buttons": {
           "cancel": "Utiliser le capteur d'origine",
           "confirm": "Effacer le modèle"
         }
       },
-      "edge-device-board-mismatch":{
+      "edge-device-board-mismatch": {
         "title": "Erreur de carte",
         "description": "La carte sélectionnée ne correspond pas à celle utilisée pour l'entraînement du modèle. Voulez vous effacer le modèle et le réentraîner avec la carte sélectionnée ?<br>Ou bien, voulez-vous utiliser la carte qui a été utilisée pour l'entraînement du modèle ?",
-        "buttons":{
+        "buttons": {
           "cancel": "Utiliser la carte d'origine",
           "confirm": "Effacer le modèle"
         }
       },
-      "edge-device-serial-port-error":{
+      "edge-device-serial-port-error": {
         "title": "Port série non disponible",
         "description": "Le port série n'est pas disponible sur cet appareil. Veuillez utiliser un autre appareil pour connecter votre carte."
       },
-      "edge-device-firmware-mismatch":{
+      "edge-device-firmware-mismatch": {
         "title": "Le firmware de la carte n'est pas compatible",
         "description": "Le firmware de la carte micro:bit n'est pas compatible avec l'interface. Vous pouvez mettre à jour le firmware via l'interface de programmation de la carte micro:bit en téléversant un programme quelconque.",
         "buttons": {
@@ -5921,7 +6059,9 @@
         "note": "<strong>Note :</strong> Lorsque vous allez lancer le téléchargement, une série d'étapes d'optimisation du modèle pour votre microcontrôleur va commencer.</br>Ce processus complexe peut prendre plusieurs minutes (~2 minutes), merci de bien vouloir patienter.",
         "boardsTitle": "Cartes compatibles",
         "generate": "Générer",
-        "flash": "Téléverser un modèle depuis votre appareil"
+        "flash": "Téléverser un modèle depuis votre appareil",
+        "embeddedAiKit": "Kit IA embarquée",
+        "seedStudioKit": "Kit Seeed Studio"
       },
       "microcontroller-queue": {
         "title": "Attente de disponibilité du serveur...",
@@ -5951,6 +6091,7 @@
           "step2": "Appuyer sur le bouton <strong><i class='fas fa-bolt me-1'></i>Téléverser le modèle</strong> et sélectionner le périphérique <strong>WIO LITE AI</strong>",
           "step3": "Lorsque le téléversement est terminé, débrancher la carte."
         },
+        "help": "Si le périphérique <strong>WIO LITE AI</strong> n'apparait pas ou que le téléversement ne se lance pas, veuillez suivre la ressource suivante: <a href='https://vittascience.com/learn/tutorial.php?id=1420/' target='_blank'>Installation du pilote</a>.",
         "warning": "🚨Assurez-vous de suivre attentivement chaque étape de la procédure.",
         "useOnInterfaces": "Utilisation",
         "cancel": "Quitter",
@@ -6042,6 +6183,66 @@
       "title": "Paramètres Duo",
       "quitDuoBtn": "Quitter mode Duo",
       "quitDuoDescription": "L'interface de programmation de droite sera masquée."
+    },
+    "duoUpload": {
+      "btnA": "Programme A",
+      "btnB": "Programme B"
+    },
+    "turtleValidation": {
+      "title": "Validation exercice turtle",
+      "retry": "Réessayer",
+      "continue": "Continuer",
+      "passedDescription": "Bravo, vous avez réussi l'exercice ! Vous pouvez passer à la suite du parcours !",
+      "failedDescription": "Vous n'avez pas réussi l'exercice, vous pouvez réessayer !",
+      "referenceImageTitle": "Votre objectif",
+      "referenceImageAlt": "L'image du parcours de référence de l'exercice",
+      "userImageTitle": "Votre parcours",
+      "userImageAlt": "L'image du parcours du programme de l'utilisateur",
+      "noTurtleCourseDescription": "Impossible de tracer le parcours turtle !"
+    },
+    "turtleCorrection": {
+      "title": "Créer un exercice turtle",
+      "turtleCourse": "Parcours turtle",
+      "explanations": "Pour créer l’exercice, votre code va être exécuté et le parcours turtle va être enregistré. C'est cet enregistrement que l'apprenant devra reproduire. En cliquant sur le bouton ci-dessous, le code sera exécuté. Vous pourrez ensuite procéder à l'enregistrement de l'exercice correspondant.",
+      "imageAlt": "Parcours turtle de l'utilisateur",
+      "record": "Exécuter le code",
+      "cancel": "Retour",
+      "saveExercise": "Sauvegarder l'exercice",
+      "updateExercise": "Mettre à jour l'exercice",
+      "mustExecute": "Vous devez d'abord exécuter le code !",
+      "canSaveExercise": "Vous pouvez enregistrer l'exercice pour le projet en cours !",
+      "canRecordExercise": "Vous pouvez exécuter à nouveau le code !",
+      "currentlyBusy": "Veuillez patienter le temps de l'exécution du code !",
+      "uptodateNotice": "Le parcours actuel n'est pas encore enregistré !",
+      "currentlyUpToDate": "Le parcours actuel est déjà enregistré !",
+      "canSave": "Vous pouvez sauvegarder l'exercice !",
+      "setBlankProject": "Proposer un projet vierge aux apprenants"
+    },
+    "iag": {
+      "images": {
+        "title": "Bienvenue sur l’interface de génération d’images",
+        "card1": "Découvrez comment fonctionne l'intelligence artificielle et explorez ses enjeux environnementaux.",
+        "card2": "L'image générée à partir du prompt est enregistrée pour l'affichage communautaire. Elle n'est pas utilisée pour entraîner les modèles d'IA.",
+        "card3": "Accédez à différents modèles, dont Stable Diffusion et FLUX[dev]"
+      },
+      "texts": {
+        "title": "Bienvenue sur l’interface de génération de textes",
+        "card1": "Découvrez comment fonctionne l'intelligence artificielle et explorez ses enjeux environnementaux.",
+        "card2": "Vos échanges restent privés, sont anonymisés, et ne sont pas utilisés pour l'entraînement des modèles d'IA.",
+        "card3": "Accédez à différents modèles, dont Mistral AI et OpenAI, et ajoutez vos documents sources"
+      },
+      "common": {
+        "privacyReminder": "Nous vous invitons à ne divulguer aucune donnée personnelle dans les conversations avec l'IA.",
+        "learnMore": "En savoir plus",
+        "linkPrivacyPolicy": "Politique de protection des données personnelles de Vittascience",
+        "linkEducationAIFrame": "Cadre d’usage de l’IA en éducation – Ministère de l’Éducation nationale",
+        "linkCnilFaq": "FAQ CNIL – Enseignants : usage pédagogique de l’IA",
+        "linkAIAct": "AI Act – Règlement européen sur l’intelligence artificielle (résumé officiel)",
+        "linkQuebecAI": "Cadre éthique et juridique de l'IA - Gouvernement du Québec",
+        "buttonUnderstand": "J'ai compris",
+        "accessInterface": "Accéder à l'interface <i class=\"fa-solid fa-chevron-right ms-1\" aria-hidden=\"true\"></i>",
+        "followTutorial": "Suivre le tutoriel <i class=\"fa-solid fa-chevron-right ms-1\" aria-hidden=\"true\"></i>"
+      }
     }
   },
   "programming": {
@@ -6129,7 +6330,11 @@
         "lotibot": "Interface de programmation pour le robot Loti-bot",
         "bluebot": "Interface de programmation pour le robot Blue-bot",
         "spike": "Interface de programmation pour LEGO® Education SPIKE™ Essential",
-        "photon": "Interface de programmation pour le robot Photon"
+        "photon": "Interface de programmation pour le robot Photon",
+        "codey": "Interface de programmation pour la carte Codey et le robot Rocky de Makeblock",
+        "uno-r4": "Interface de programmation pour la carte Arduino UNO R4 WiFi",
+        "nano": "Interface de programmation pour la carte Arduino Nano",
+        "mega": "Interface de programmation pour la carte Arduino Méga"
       }
     },
     "features_title": "Caractéristiques communes",
@@ -6261,6 +6466,7 @@
     "droppedElementsNotFiles": "Le ou les éléments déposés n'étaient pas des fichiers !",
     "droppedElementMustBeUnique": "Vous ne pouvez déposer qu'une seule image à la fois !",
     "needAtLeastTwoCategories": "Il faut au moins deux catégories pour entraîner le modèle !",
+    "errorImage": "Une erreur est survenue lors de l'ajout de l'image",
     "categoryWithoutImage": "La catégorie {{categoryName}} ne présente aucune image ! Il faut au moins une image par catégorie pour entraîner un modèle !",
     "poseCategoryWithoutImage": "La catégorie {{category Name}} ne présente suffisamment des images ! Il faut au moins deux images par catégorie pour entraîner un modèle de pose !",
     "errorWhileActivatingCamera": "Une erreur est survenue lors de l'activation de la caméra : {{errorMessage}}",
@@ -6366,7 +6572,9 @@
     "promptTooBig": "⚠️ Selon les règles, le prompt ne doit pas dépasser {{max}} caractères.",
     "prompt-challenge": "😊 Tente de reproduire l’image avec un prompt de maximum {{max}} caractères !",
     "edgeSerialDeviceNotConnected": "Veuiller connecter la carte à votre ordinateur pour collecter les données",
-    "notConnected": "Vous devez être connecté pour effectuer cette action !"
+    "notConnected": "Vous devez être connecté pour effectuer cette action !",
+    "turtleExerciseSaved": "L'exercice a été enregistré avec succès !",
+    "turtleExerciseSaveFailed": "L'enregistrement de l'exercice a échoué !"
   },
   "switchAccessibility": {
     "title": "Accessibilité",
@@ -6381,39 +6589,66 @@
     "know_more": "En savoir plus"
   },
   "accessibilityNotice": {
-    "title": "Accessibilité",
-    "subtitle": "Nous travaillons continuellement à améliorer le niveau d'accessibilité du site Vittascience et sa conformité avec les normes en la matière.",
-    "accessibility_options": {
-      "title": "Options d'accessibilités",
-      "para1": "L'équipe Vittascience a développé un outil permettant de sélectionner un thème colorimétrique ainsi qu'une police de texte parmi un choix proposé. Cet outil se situe sur toutes les pages du site et applique des changements immédiats sur les éléments du site.",
-      "para2": "Vous pouvez essayer celui-ci en cliquant sur l'icône <i style='font-size: 2em; vertical-align: middle; outline:none;' class='fas fa-low-vision' alt='Theme'></i> en haut à droite de la page.",
-      "theme_listing": "A l'heure actuelle, les thèmes proposés sont :",
-      "light_theme": "clair",
-      "dark_theme": "sombre",
-      "font_listing": "A l'heure actuelle, les thèmes proposés sont :",
-      "montserrat_font": "Montserrat : police basique du site Vittascience, <a href='https://github.com/JulietaUla/Montserrat'>source en anglais</a>",
-      "luciole_font": "Luciole : conçue spécifiquement pour les personnes malvoyantes, <a href='https://www.luciole-vision.com/'>en savoir plus</a>",
-      "opendys_font": "OpenDyslexic : conçue spécifiquement pour les personnes dyslexiques, <a href='https://opendyslexic.org/'>source en anglais</a> et <a href='https://www.bloghoptoys.fr/la-police-dyslexie-liens-et-nouveautes-2'>explication en français</a>",
-      "arial_font": "Arial : police de texte usuelle, <a href='https://catalog.monotype.com/font/monotype/arial/regular'>source en anglais</a>",
-      "verdana_font": "Verdana : optimisée pour petits écrans, <a href='https://docs.microsoft.com/en-us/typography/font-list/verdana'>source en anglais</a>"
+    "title": "Déclaration d'accessibilité pour <span class=\"basic-information website-name\">Vittascience</span>",
+    "subtitle": "Ceci est une déclaration d'accessibilité de la part de <span class=\"basic-information organization-name\">Vittascience</span>.",
+    "measures": {
+      "title": "Mesures pour soutenir l'accessibilité",
+      "intro": "<span class=\"basic-information organization-name\">Vittascience</span> met en œuvre les mesures suivantes pour garantir l'accessibilité du site <span class=\"basic-information website-name\">Vittascience</span> :",
+      "item1": "Inclure l'accessibilité dans notre mission.",
+      "item2": "Intégrer l'accessibilité dans nos politiques internes.",
+      "item3": "Prendre en compte l'accessibilité dans nos pratiques d'achat et de sous-traitance.",
+      "item4": "Nommer un(e) référent(e) ou délégué(e) à l'accessibilité.",
+      "item5": "Fournir une formation continue à nos équipes sur l'accessibilité.",
+      "item6": "Définir des objectifs et responsabilités clairs en matière d'accessibilité.",
+      "item7": "Mettre en place des méthodes formelles d'assurance qualité pour l'accessibilité."
     },
-    "institutional_support": {
-      "title": "Soutien institutionnel",
-      "para1": "Vittascience est lauréate du <a href='https://eduscol.education.fr/cid56176/aide-et-commission-dispositif-edu-up.html'>dispositif édu-up</a> de soutien à la production de ressources numériques pour l'école (RNE), piloté par le Ministère de l'éducation Nationale et de la Jeunesse.",
-      "para2": "Nous remercions les interlocuteurs du ministère, notamment pour les explications sur les enjeux de l'accessibilité et l'adaptabilité des ressources numériques pour l'école (A2RNE) ainsi que les propositions de recommandations, <a href='https://eduscol.education.fr/cid89501/accessibilite-adaptabilite-des-ressources-numeriques-pour-ecole.html'>en savoir plus</a>."
-    },
-    "report_malfunction": {
-      "title": "Signaler un dysfonctionnement",
-      "para": "Si, malgré notre vigilance, vous rencontriez le moindre problème d'accessibilité sur notre site, n'hésitez pas à <a href='https://fr.vittascience.com/about?contact=1'>nous écrire</a>."
-    },
-    "defender_of_rights": {
-      "title": "Défenseur des droits",
-      "para": "Si vous constatez un défaut d'accessibilité vous empêchant d'accéder à un contenu ou une fonctionnalité du site, que vous nous le signalez et que vous ne parvenez pas à obtenir une réponse rapide de notre part, vous êtes en droit de faire parvenir vos doléances ou une demande de saisine au Défenseur des droits. Plusieurs moyens sont à votre disposition :",
-      "options": {
-        "form": "un <a href='http://www.defenseurdesdroits.fr/contact'>formulaire de contact</a> ;",
-        "region": "la <a href='http://www.defenseurdesdroits.fr/office/'>liste du ou des délégués de votre région</a> avec leurs informations de contact direct ;",
-        "post": "une adresse postale : Le Défenseur des droits - 7 rue Saint-Florentin - 75409 Paris Cedex 08."
+    "conformance": {
+      "title": "État de conformité",
+      "description": "Les <a href=\"https://www.w3.org/WAI/standards-guidelines/wcag/\">Règles pour l'accessibilité des contenus Web (WCAG)</a> définissent des exigences pour améliorer l'accessibilité des contenus numériques pour les personnes en situation de handicap. Trois niveaux de conformité existent : niveau A, niveau AA et niveau AAA. <span class=\"basic-information website-name\">Vittascience</span> est <span class=\"basic-information conformance-status\" data-printfilter=\"lowercase\">partiellement conforme</span> à <span class=\"basic-information conformance-standard\">RGAA 4 (France) et WCAG 2.2 niveau AA (international)</span>. <span><span class=\"basic-information conformance-status\">Partiellement conforme</span> signifie que <span class=\"basic-information conformance-meaning\">certaines parties du contenu ne sont pas totalement conformes aux normes d'accessibilité.</span></span>",
+      "additional": {
+        "title": "Autres mesures et précisions",
+        "description": "Même si notre objectif est d'être totalement conforme aux normes RGAA 4.1 et WCAG 2.2 niveau AA, nous avons mis en place des mesures complémentaires. La majorité du contenu du site (hors interfaces de programmation interactives et outils basés sur l'IA) atteint plus de 90 % de conformité selon des audits automatiques et manuels. La navigation au clavier complet et la compatibilité avec les lecteurs d'écran les plus utilisés sont également assurées pour améliorer l'expérience utilisateur."
       }
+    },
+    "feedback": {
+      "title": "Retour d'information",
+      "intro": "Nous accueillons volontiers vos retours concernant l'accessibilité de <span class=\"basic-information website-name\">Vittascience</span>. Veuillez nous signaler toute difficulté d'accès rencontrée sur le site :",
+      "phone": "Téléphone : <span class=\"phone-number p-tel\">+33 6 06 75 81 86</span>",
+      "email": "Email : <a class=\"email u-email\" href=\"mailto:contact@vittascience.com\">contact@vittascience.com</a>",
+      "address": "Adresse postale : <span class=\"visitor-address p-extended-address\">6 Boulevard Dubreuil, 91400 Orsay</span>"
+    },
+    "compatibility": {
+      "title": "Compatibilité avec navigateurs et technologies d'assistance",
+      "intro": "<span class=\"basic-information website-name\">Vittascience</span> est conçu pour être compatible avec les technologies d'assistance suivantes :",
+      "description": "Le site Vittascience est conçu et testé pour être accessible et compatible avec les environnements suivants, afin de garantir la meilleure expérience aux utilisateurs de technologies d'assistance : Windows 10 et 11 avec les navigateurs Google Chrome, Mozilla Firefox et Microsoft Edge, associés au lecteur d'écran NVDA (NonVisual Desktop Access). macOS (versions récentes) avec les navigateurs Safari et Google Chrome, associés au lecteur d'écran intégré VoiceOver. La navigation au clavier seul est entièrement prise en charge sur tous les principaux navigateurs et systèmes d'exploitation, permettant d'accéder à tous les éléments interactifs sans souris. Bien que nous nous efforcions de respecter les normes RGAA 4.1 et WCAG 2.2 niveau AA et de garantir la compatibilité dans ces environnements, certaines combinaisons de navigateurs, technologies d'assistance ou systèmes plus anciens peuvent présenter des limitations. En cas de difficulté, nous recommandons d'utiliser les environnements cités ci-dessus pour une meilleure accessibilité."
+    },
+    "technical": {
+      "title": "Spécifications techniques",
+      "intro": "L'accessibilité de <span class=\"basic-information website-name\">Vittascience</span> repose sur l'utilisation des technologies suivantes, en combinaison avec votre navigateur et éventuelles extensions ou technologies d'assistance :",
+      "note": "Ces technologies sont nécessaires pour assurer la conformité aux normes d'accessibilité appliquées."
+    },
+    "limitations": {
+      "title": "Limitations et alternatives",
+      "intro": "Malgré tous nos efforts pour garantir l'accessibilité du site <span class=\"basic-information website-name\">Vittascience</span>, certaines limitations peuvent subsister. Voici une description des points connus et des solutions prévues. N'hésitez pas à nous contacter pour tout problème non listé.",
+      "known": "Limitations connues du site <span class=\"basic-information website-name\">Vittascience</span> :",
+      "item1": "<strong>Nous avons identifié certaines limitations d'accessibilité, notamment dans les interfaces de programmation interactives et les outils basés sur l'IA. Ces parties peuvent présenter des difficultés pour les utilisateurs de lecteurs d'écran ou les personnes ayant des troubles moteurs. Nous travaillons activement à leur amélioration pour atteindre la conformité RGAA 4.1 et WCAG 2.2.</strong> : Les limitations concernent surtout l'utilisation au clavier et avec lecteurs d'écran de ces interfaces complexes. Nous mettons actuellement en œuvre des correctifs pour résoudre ces problèmes. Si vous rencontrez une difficulté, contactez-nous."
+    },
+    "evaluation": {
+      "title": "Méthode d'évaluation",
+      "intro": "<span class=\"basic-information organization-name\">Vittascience</span> a évalué l'accessibilité du site <span class=\"basic-information website-name\">Vittascience</span> via la méthode suivante :",
+      "method": "Auto-évaluation"
+    },
+    "report": {
+      "title": "Rapport d'évaluation",
+      "description": "Un rapport d'évaluation pour <span class=\"basic-information website-name\">Vittascience</span> est disponible à l'adresse suivante : <a class=\"technical-information related-evidence\" href=\"https://drive.google.com/drive/folders/1xC4xWczVDgmB2lOV0oq_ms_TP_dkj39z?usp=sharing\">https://drive.google.com/drive/folders/1xC4xWczVDgmB2lOV0oq_ms_TP_dkj39z?usp=sharing</a>."
+    },
+    "complaints": {
+      "title": "Réclamations",
+      "description": "Nous nous engageons à répondre aux retours sur l'accessibilité sous 3 jours ouvrés et à proposer une solution sous 10 jours ouvrés.<br>Vos retours sont essentiels pour nous aider à améliorer l'accessibilité et l'expérience utilisateur."
+    },
+    "date": {
+      "title": "Date",
+      "description": "Cette déclaration a été créée le <span class=\"basic-information statement-created-date\">28 juin 2025</span> à l'aide de l'<a href=\"https://www.w3.org/WAI/planning/statements/\">outil de génération de déclaration d'accessibilité du W3C</a>."
     }
   },
   "partners": {
@@ -6544,7 +6779,7 @@
     "multi-license": {
       "title": "Équipe",
       "license-number": "À partir de 2 utilisateurs",
-      "info-everything": "Toutes les fonctionnalités de l’abonnement Professeur, plus :",
+      "info-everything": "Toutes les fonctionnalités de l’abonnement Premium, plus :",
       "info-learners": "Apprenants et groupes illimités",
       "info-coaching": "1h de formation dédiée",
       "info-teacher": "Nombre d’enseignants au choix",
@@ -6566,7 +6801,7 @@
         "line17": "0€"
       },
       "starter": {
-        "title": "Enseignant",
+        "title": "Premium",
         "button": "S’abonner",
         "line1": "illimité",
         "line5": "illimité",
@@ -6578,7 +6813,7 @@
         "line17": "383€"
       },
       "team": {
-        "title": "Équipe pédagogique",
+        "title": "Équipe",
         "button": "S’abonner",
         "line1": "illimité",
         "line5": "illimité",
@@ -6873,7 +7108,6 @@
       }
     },
     "faq": {
-      "title": "Foire aux questions",
       "1": {
         "section_title": "Questions générales",
         "question_list": {
@@ -7030,7 +7264,8 @@
             "answer": "Vérifiez que le module dispose d'une alimentation suffisante."
           }
         }
-      }
+      },
+      "title": "Foire aux questions"
     }
   },
   "landing_page": {
@@ -7166,6 +7401,10 @@
     "postures": {
       "title": "Postures",
       "desc": "Entraînez une IA à reconnaître des postures"
+    },
+    "hands": {
+      "title": "Mains",
+      "desc": "Entrainez une IA à reconnaitre des postures de mains !"
     },
     "edge": {
       "title": "Données de capteurs",
@@ -7458,6 +7697,77 @@
       "answer-10": "La plateforme Capytale est conçue pour fonctionner principalement en lien avec les services de l'Éducation Nationale, notamment les ENT. Cependant, les notebooks et autres ressources créés sur Capytale peuvent être exportés et partagés sous forme de fichiers ou de liens, ce qui permet une certaine interopérabilité."
     }
   },
+  "luxembourg-page": {
+    "index": {
+      "title": "Vittascience intégrée à la plateforme KI Kompass",
+      "subtitle": "Des ressources numériques <span class='color-orange'>gratuites</span> pour les enseignants",
+      "description": "Utilisez gratuitement la solution Vittascience dans le cadre du dispositif KI Kompass, grâce au financement du Ministère de l'Éducation du Luxembourg.",
+      "subscribe": "S'inscrire"
+    },
+    "platform": {
+      "title": "Territoires <span class='color-green'>éligibles</span>",
+      "description": "Si vous avez la chance de faire partie d'un établissement au Luxembourg, connectez-vous avec vos identifiants IAM pour activer votre licence Vittascience.",
+      "button": "S'inscrire"
+    },
+    "subscribe-process": {
+      "title": "Processus d'inscription",
+      "subtitle": "Accès en 1 clic",
+      "description": "Voici le parcours pour profiter de votre licence Vittascience Premium financée par le Ministère de l'Éducation du Luxembourg.",
+      "button": "S'inscrire",
+      "process-ent": {
+        "step1": "<b>Ouverture</b> de l'onglet <b><em>Connexion</em></b>.",
+        "step2": "<b>Sélectionner</b> Se connecter avec IAM Luxembourg",
+        "step3": "<b>Entrer</b> vos identifiants de connexion",
+        "step4": "Votre licence est activée ! Vous pouvez utiliser la licence <b>Vittascience Premium</b> gratuitement !"
+      }
+    },
+    "details1": {
+      "title": "La solution pour enseigner <span class='color-blue'>l'IA, la programmation et le codage</span> pour l'enseignement fondamental et l'enseignement secondaire",
+      "description": "Créez des contenus pédagogiques en toute simplicité grâce à un grand nombre d'applications (programmation par bloc, langage Python, langage Web, programmation de cartes à microcontrôleur et de robots éducatifs, exerciseurs en mathématiques, etc.).",
+      "description2": "Attribuez les à vos apprenants individuellement ou par groupe de classe via un code, un URL ou un Qr-code. Les apprenants se connectent en toute sécurité et réalisent les activités qui leurs ont été attribuées."
+    },
+    "details2": {
+      "description": "Partagez avec la communauté vos activités dans la bibliothèque de IAM Luxembourg.",
+      "description2": "Adaptez aux besoins des enseignants plusieurs milliers d'activités libres et réutilisables dans la bibliothèque de IAM Luxembourg."
+    },
+    "partners": {
+      "title": "0€ TTC grâce au soutien de",
+      "title2": "En partenariat avec"
+    },
+    "ressources": {
+      "title": "DÉCOUVREZ <span class='color-orange'>3 RESSOURCES",
+      "card1": "Prise en main de la carte micro:bit",
+      "card2": "Mesurer la qualité de l'air avec un capteur MQ135 sur Arduino",
+      "card3": "mBot",
+      "button": "A venir ..."
+    },
+    "subscribe": {
+      "title": "Inscrivez-vous dès maintenant pour utiliser votre licence Vittascience Premium avec vos identifiants IAM Luxembourg"
+    },
+    "discover": {
+      "title": "Découvrir Vittascience",
+      "description": "Pour découvrir la solution et activer votre licence gratuitement, connectez-vous directement avec vos identifiants IAM."
+    },
+    "faq": {
+      "title": "Foire aux questions",
+      "question-1": "Qu'est-ce que Vittascience ?",
+      "answer-1": "Vittascience est une start-up fondée en 2018 qui conçoit des outils numériques pour l'enseignement de la programmation informatique et de l'intelligence artificielle en milieu scolaire. ",
+      "question-2": "Qu'est-ce que IAM Luxembourg ?",
+      "answer-2": "IAM Luxembourg est un service de gestion des identités et des accès pour les établissements scolaires et les services administratifs du Ministère de l'Éducation du Luxembourg.",
+      "question-4": "Comment se connecter à IAM Luxembourg ?",
+      "answer-4": "Vous pouvez vous connecter à IAM Luxembourg sur la <a href='/login' target='_blank'>page d'authentification</a> en sélectionnant <b>Se connecter avec IAM Luxembourg</b> et en vous connectant avec vos identifiants IAM.",
+      "question-5": "Comment créer un compte avec IAM Luxembourg ?",
+      "answer-5": "Vous pouvez créer un compte sur IAM Luxembourg en vous rendant sur la page d'inscription en choisissant <b>Créer un compte</b> et en vous inscrivant avec vos identifiants IAM.",
+      "question-6": "Quel est le tarif pour utiliser la licence Vittascience Premium via IAM Luxembourg ?",
+      "answer-6": "Vittascience est 100% gratuit et accessible à tous les enseignants et enseignantes du Luxembourg grâce au financement du Ministère de l'Éducation du Luxembourg, dans le cadre du dispositif KI Kompass.",
+      "question-7": "Quelles sont les interfaces que l'on peut retrouver sur Vittascience ?",
+      "answer-7": "Sur Vittascience, vous pouvez explorer plusieurs interfaces dédiées à l’intelligence artificielle, permettant d’entraîner des modèles d'IA et de les utiliser dans vos projets (reconnaissance d’images, sons, postures, données de capteurs et génération d’images et de texte). La plateforme propose également des interfaces pour programmer en blocs ou en Python, que ce soit pour des cartes électroniques (Micro:bit, Arduino, ESP32, Raspberry Pi Pico, Galaxia, Nucleo, M5Stack) ou des robots tels que mBot, Buddy, Eliobot et Thymio. Il est aussi possible d’y coder en langages web (HTML, CSS, JavaScript) via l'interface \"Web\" pour créer des projets interactifs en ligne.",
+      "question-8": "À quoi servent ces interfaces ?",
+      "answer-8": "Les interfaces sur Vittascience servent à apprendre la programmation de manière ludique, à créer des activités pour ensuite pouvoir les partager sur le centre de ressources. Avec ces interfaces, travaillez tous types de matières scientifiques avec vos élèves, dans l'enseignement fondamental ou secondaire.",
+      "question-9": "Comment suivre la progression de mes élèves sur Vittascience ?",
+      "answer-9": "Vous pouvez suivre la progression de vos élèves directement depuis le module de gestion de classe que vous pouvez retrouver dans l'onglet <a href='/classroom/' target='_blank'>Classe</a>. Créez vos classes, créez des activités et parcours, attribuez-les à vos élèves et suivez leurs travaux. Vous pourrez leur laisser des commentaires et les évaluer. Plus de détails sur la page <a href='/classroom/' target='_blank'>Classe</a>."
+    }
+  },
   "lyceeup-page": {
     "index": {
       "title": "Offre Vittascience",
@@ -7631,29 +7941,50 @@
     "words": {
       "or": "OU",
       "user": "Utilisateur",
-      "anonymous": "Anonyme"
+      "anonymous": "Anonyme",
+      "disconnect": "Déconnexion"
     },
+    "detectedAsLuxembourg": "Nous vous recommandons d'utiliser la connexion via le portail du Ministère de l'Éducation Nationale du Luxembourg",
     "google": "Se connecter avec Google",
     "signupGoogle": "S'inscrire avec Google",
     "microsoft": "Se connecter avec Microsoft",
     "signupMicrosoft": "S'inscrire avec Microsoft",
     "apple": "Se connecter avec Apple",
     "signupApple": "S'inscrire avec Apple",
+    "saml": "Se connecter avec IAM Luxembourg",
+    "signupSaml": "S'inscrire avec IAM Luxembourg",
     "messages": {
       "emailNotVerified": "Votre adresse e-mail n'est pas vérifiée. Veuillez vérifier votre adresse e-mail avant de vous connecter.",
       "success": "Connecté avec succès ! Vous allez être redirigé dans quelques secondes...",
       "error": "Une erreur est survenue, si le problème persiste, contactez le support technique.",
+      "errorSupportInformed": "L'équipe de support a été informée de l'erreur.",
       "accountWithEmailAlreadyExists": "Un compte avec cette adresse e-mail existe déjà. Veuillez vous connecter avec votre mot de passe.",
       "identifiedWith": "Vous êtes identifié avec votre <strong>compte {{provider}}</strong>",
       "usedData": "Nous utilisons uniquement les données suivantes fournies par votre compte : <strong>nom, prénom, adresse email et image de profil si vous les communiquez</strong>. Aucune autre information n'est conservée.",
       "disclaimer": "Vittascience utilise uniquement les données suivantes fournies par votre compte {{ provider }} : <strong>nom, prénom, adresse email et image de profil</strong>. <br> Aucune autre information n'est partagée à Vittascience par {{ provider }}.",
-      "unknownSSO": "Erreur de connexion avec le SSO, veuillez réessayer."
+      "unknownSSO": "Erreur de connexion avec le SSO, veuillez réessayer.",
+      "groupNotFound": "Le groupe auquel vous essayez d'ajouter l'utilisateur n'existe pas.",
+      "errorAddingUserToGroup": "Une erreur est survenue lors de l'ajout de l'utilisateur au groupe.",
+      "emptyData": "Un problème est survenu lors de la récupération des données. si le problème persiste, contactez le support technique.",
+      "emptySSO": "Un problème est survenu lors de la récupération des données SSO. si le problème persiste, contactez le support technique."
     },
     "modal": {
       "title": "Bienvenue sur Vittascience",
       "content": "Nous sommes ravis de vous accueillir 😊, Souhaitez-vous recevoir la newsletter mensuelle de Vittascience pour rester informé(e) des nouveautés, événements et contenus pédagogiques ?",
       "buttonYes": "Oui",
       "buttonNo": "Non"
+    },
+    "dashboard": {
+      "student": {
+        "profilePictureAlt": "Photo de profil",
+        "notifCloseAria": "Fermer",
+        "clickClassToAccess": "Cliquer sur une classe pour y accéder.",
+        "noClassesYet": "Tu n'as encore rejoint aucune classe.",
+        "enterClassCodeBelow": "Entre un code de classe ci-dessous pour y accéder.",
+        "joinNewClass": "Rejoindre une nouvelle classe",
+        "classLinkPlaceholder": "Lien de la classe (ex:123AB)",
+        "joinButton": "Rejoindre"
+      }
     }
   },
   "chars": {
@@ -7662,5 +7993,138 @@
     "+": "plus",
     "*": "astérisque",
     "^": "accent circonflexe"
+  },
+  "garPage": {
+    "head": {
+      "titleAcronym": "GAR",
+      "illustrationAlt": "Gestionnaire d'Accès aux Ressources numériques (GAR)",
+      "lead": "Connectez-vous en toute simplicité et sécurité à l'aide du Gestionnaire d'Accès aux Ressources numériques (GAR) piloté par le Ministère de l'Éducation Nationale.",
+      "learnMore": "En savoir plus"
+    },
+    "form": {
+      "title": "Demande d'accès",
+      "intro": "Vous souhaitez bénéficier de Vittascience au sein du GAR de votre établissement ? Remplissez le formulaire et envoyez la demande *.",
+      "findUaiBtn": "Où trouver mon UAI ?",
+      "uaiLabel": "UAI/RNE (8 caractères)",
+      "uaiPlaceholder": "Saisissez votre UAI/RNE",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Saisissez votre email",
+      "submit": "Demander l'accès",
+      "notice": "* Seul le chef d'établissement ou le gestionnaire de commande désigné par le chef d'établissement peut faire une demande d'accès.",
+      "contactLead": "Une question ? <br> Veuillez nous contacter par e-mail.",
+      "contactCta": "Contactez-nous"
+    },
+    "features": {
+      "title": "Les avantages",
+      "item1": "Accéder en 1 clic depuis votre ENT",
+      "item2": "Retrouvez vos élèves et vos classes directement dans Vittascience",
+      "item3": "Profitez de la garantie RGPD du Ministère de l’Éducation Nationale"
+    },
+    "uaiModal": {
+      "title": "Recherche UAI",
+      "close": "Fermer",
+      "alert": "Vous pouvez entrer un nom d'établissement, un code postal ou une ville.",
+      "searchLabel": "3 caractères minimum pour lancer une recherche",
+      "searchPlaceholder": "Saisissez un nom, un code postal ou une ville",
+      "loading": "Chargement..."
+    },
+    "faq": {
+      "q1": {
+        "title": "Qu’est-ce que le GAR ?",
+        "content": "Le <u>gestionnaire d’accès aux ressources (« GAR »)</u> a pour objectif de simplifier et sécuriser les accès authentifiés entre les usagers des <b>ENT</b> et leurs ressources numériques. Ce site permet à un établissement scolaire de souscrire un abonnement à un service de <b>Vittascience</b> accessible au travers du <b>GAR</b>."
+      },
+      "q2": {
+        "title": "Comment savoir si mon établissement possède un abonnement au GAR ?",
+        "content": "La <a href='https://gar.education.fr/etablissements-et-ecoles/connaitre-les-etablissements-deployes/connaitre-les-etablissements-et-ecoles-deployes-1224.kjsp?RH=1509113663082' target='_blank'>liste des établissements et écoles déployés</a>, académies et projets ENT est disponible sur le site gar.education.fr. Les personnels en académie peuvent s'adresser à leur délégation académique au numérique pour toute demande pour bénéficier du GAR."
+      },
+      "q3": {
+        "title": "Si mon établissement possède un abonnement au GAR, faut-il un abonnement au Mode classe en plus pour accéder au Mode Classe ?",
+        "content": "Non, aucun abonnement n'est nécessaire pour accéder au <b>Mode classe</b>. Vous pouvez accéder au <b>Mode classe</b> sans abonnement supplémentaire si votre établissement est déja abonné au <b>GAR</b>."
+      }
+    }
+  },
+  "co2": {
+    "head": {
+      "title": "L’empreinte carbone de vos usages numériques",
+      "lead": "Regarder une vidéo en streaming, publier une photo sur les réseaux ou passer un appel. Ces actions du quotidien émettent du eq CO<sub>2</sub> et ont un impact sur l’environnement. Obtenez une estimation de votre empreinte carbone en 10 minutes !"
+    },
+    "main": {
+      "title": "Calcule Ton Impact eq CO<sub>2</sub> de l'Usage Numérique",
+      "body": "🌍<strong> Le savais-tu ?</strong> En France, chaque personne émet en moyenne 10 tonnes de eq CO₂ par an.<br><br>🎯 <strong>L'objectif de la COP21 :</strong> Réduire cette empreinte carbone à 2 tonnes de eq CO₂ par an et par personne. <br><br>💻 <strong>Et le numérique dans tout ça ?</strong> Le numérique (Internet, smartphones, ordinateurs, etc.) représente 4 % de cette pollution, soit 400 kg de eq CO₂ par an.<br><br>🚀 <strong>Le défi pour le numérique :</strong> Pour respecter l’objectif de la COP21, il faudrait réduire cette pollution à 80 kg de eq CO₂ par an. <br><br>❓ <strong>Et toi dans tout ça ?</strong> Es-tu prêt·e à relever le défi ? Pour le savoir, commence par évaluer ton impact actuel et découvre comment agir pour réduire ton empreinte carbone. 🌱✨"
+    },
+    "progress": {
+      "averageText": "",
+      "step100": "100 kg",
+      "step200": "200 kg",
+      "step300": "300 kg"
+    },
+    "nav": {
+      "prev": "Précédent",
+      "next": "Suivant",
+      "stepLabel": ""
+    }
+  },
+  "eduup": {
+    "logos": {
+      "lead": "Le ministère de l’Éducation Nationale soutient la production de ressources numériques innovantes et adaptées grâce au dispositif Édu-up.<br><a href=\"https://eduscol.education.fr/1603/le-dispositif-edu\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Éduscol\" data-i18n=\"eduup.logos.link\"> Accéder au descriptif sur Éduscol </a>",
+      "link": "Accéder au descriptif sur Éduscol"
+    },
+    "laureat": {
+      "title": "Vittascience a été lauréate du dispositif Édu-Up à deux reprises :",
+      "btn2022": "Commission Édu-up du 01 Février 2022",
+      "btn2019": "Commission Édu-up du 24 Septembre 2019"
+    },
+    "ai": {
+      "header": {
+        "title": "Projet « Vittascience IA » en 2022",
+        "subtitle": "Ressources produites avec le soutien du Ministère de L’Éducation Nationale"
+      },
+      "interface": {
+        "title": "Interface d'entraînement IA",
+        "p1": "Une interface qui permet l’entraînement et l’expérimentation de modèles d’IA ainsi que la visualisation des zones d’interaction qui permettent à l’IA de prendre sa décision.",
+        "p2": "Des jeux de données et des modèles pré-entraînés sont disponibles sur l’interface afin de mettre en place facilement des projets pédagogiques. Ces données et modèles sont accompagnés de contenus pédagogiques invitant à l’expérimentation et au travail collaboratif entre élèves et enseignants.",
+        "p3": "L’interface respecte les RGPD, les droits d’auteur et les droits à l’image.",
+        "cta": "Découvrir l'interface IA"
+      },
+      "nn": {
+        "title": "Un réseau de neurones",
+        "p1": "Un outil de visualisation et de manipulation 3D du réseau de neurones permet d’appréhender sa structure de façon plus tangible et de démystifier l’IA.",
+        "p2": "L’interface est simple afin de comprendre la structure et le fonctionnement d’un réseau de neurones des modèles entraînés pour « ouvrir la boîte noire ».",
+        "cta": "Découvrir le réseau de neurones"
+      },
+      "compat": {
+        "title": "Compatibilité avec Adacraft & Python",
+        "p1": "L’innovation pédagogique se situe dans la réalisation d’une interface tout-en-un. Il est possible, tout en restant dans la plateforme Vittascience, de collecter les données d’apprentissage, de lancer un ou plusieurs apprentissages, de tester les modèles créés et de les utiliser directement dans Adacraft et Python.",
+        "p2": "Au sein du programme, il est possible d’ajouter des données labellisées, de paramétrer et de lancer l’entraînement de l’IA. Cet usage, plus avancé que l’entraînement d’IA via l’interface graphique, offre la possibilité de mieux comprendre les enjeux de la conception des Intelligences Artificielles."
+      },
+      "thanks": "Merci à Édu-up pour son soutien !"
+    },
+    "vs": {
+      "header": {
+        "title": "Projet « Plateforme Vittascience » en 2019",
+        "subtitle": "Ressources produites avec le soutien du Ministère de L’Éducation Nationale"
+      },
+      "class": {
+        "title": "Gestion de classe",
+        "p": "Créer facilement des activités, les attribuer aux apprenants et visualiser leurs résultats. Le module de gestion de classe simplifie le suivi des apprenants sur les activités de programmation. <br><br> Ce module intègre les contenus pédagogiques produits par la communauté Vittascience. <br><br> Accessible depuis le GAR via le médiacentre des ENT, tout est mis en œuvre pour garantir la sécurité des données (conforme RGPD) et rester facile d’utilisation.",
+        "cta": "Découvrir le module de gestion de classe"
+      },
+      "access": {
+        "title": "Options d’accessibilité",
+        "p": "L’interface Vittascience permet le passage d’un langage bloc (type Scratch) à Python, permettant une continuité du primaire au lycée. <br><br> Grâce à l’accompagnement du Ministère de l’Éducation Nationale, Vittascience a mis en place des options simplifiant l’usage pour les personnes en situation de handicap : sélecteur de polices et de thèmes, navigation au clavier sur l’interface, adaptation aux normes ARIA et lecteurs d’écran. <br><br> Actuellement peu développées dans les logiciels de programmation, Vittascience espère initier une prise en compte des questions d’accessibilité sur les autres plateformes de codage.",
+        "cta": "Voir la page dédiée à l’accessibilité"
+      },
+      "python": {
+        "title": "Correction automatique pour Python",
+        "p": "L’interface pour python intègre un système de correction automatique qui permet un important gain de temps pour les enseignants. <br><br> Les tests sont dynamiques et portent sur le fond du programme ce qui permet de couvrir toutes les façons différentes d’écrire le code. <br><br> Les enseignants peuvent eux-mêmes créer les tests grâce à une interface intuitive.",
+        "cta": "Retrouvez un exemple"
+      },
+      "content": {
+        "title": "Production de contenus",
+        "p": "Afin de faciliter l’usage des outils Vittascience et d’accompagner la prise en main des nouveaux programmes scolaires, le dispositif Édu-up a permis la création de 91 contenus pédagogiques.<br><br> Ces contenus clé-en-main portent sur les microcontrôleurs et la programmation en Python.<br><br> Tous ces contenus sont disponibles gratuitement et partageables depuis le site Vittascience sous licence libre Creative Commons.<br><br> Un formulaire de création permet aux enseignants d’éditer facilement leur production.",
+        "cta": "Accéder à la banque de ressources"
+      },
+      "thanks": "Merci à Édu-up pour son soutien !"
+    }
   }
 }

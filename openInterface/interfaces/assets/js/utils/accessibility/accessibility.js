@@ -3,7 +3,10 @@ import { initParametersDropdownAccessibility } from './dropdowns/interfaces-sett
 import { initControlsDropdownAccessibility } from './dropdowns/interfaces-controls-dropdown.js'
 
 import { initAceEditorAccessibility } from './ace-editor/ace-accessibility.js';
+import { fixAceTextareaLabel } from './ace-editor/textarea-label-fix.js';
 import { initBlocklyAccessibility } from './blockly/blockly-accessibility.js';
+import { fixBlocklyAriaLevels } from './blockly/aria-level-fix.js';
+import { fixBlocklyToolboxFocus } from './blockly/toolbox-focus-fix.js';
 import { initializeSearchBoxAccessibility } from './ace-editor/searchbox/searchbox-accessibility.js';
 import { initCodeModeAccessibility } from './code-mode.js';
 import { registerModalButtons } from './modal-buttons-refocus.js';
@@ -22,7 +25,10 @@ $(document).ready(function () {
     initControlsDropdownAccessibility();
 
     initBlocklyAccessibility();
+    fixBlocklyAriaLevels();
+    fixBlocklyToolboxFocus();
     initAceEditorAccessibility();
+    fixAceTextareaLabel();
     initializeSearchBoxAccessibility();
     initCodeModeAccessibility();
     observeAndInjectSVGFocusStyles();

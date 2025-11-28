@@ -274,6 +274,15 @@ Blockly.Msg["MATH_ATAN2_TITLE"] = "atan2 de X:%1 Y:%2";
 Blockly.Msg["MATH_ATAN2_TOOLTIP"] = "Devuelve el arco tangente del punto (x, y) en grados entre -180 y 180.";
 Blockly.Msg["MATH_ATAN2_RAD_TOOLTIP"] = "Devuelve el arco tangente del punto (x, y) en radianes entre -π y π.";
 Blockly.Msg["MATH_MIN_MAX_TOOLTIP"] = "Devuelve el menor o mayor número entre los valores dados.";
+Blockly.Msg["MATH_RSA_GENERATE_KEYS_TITLE"] = "generar claves RSA con %1 bits";
+Blockly.Msg["MATH_RSA_GENERATE_KEYS_TOOLTIP"] = "Genera un par de claves pública/privada RSA con el tamaño de clave especificado en bits. La generación de claves puede tardar un poco.";
+Blockly.Msg["BKY_MATH_RSA_GENERATE_KEYS_HELPURL"] = "https://es.wikipedia.org/wiki/RSA";
+Blockly.Msg["MATH_RSA_CIPHER_MESSAGE_TITLE"] = "Cifrar el mensaje %1 con la clave %2";
+Blockly.Msg["MATH_RSA_CIPHER_MESSAGE_TOOLTIP"] = "Cifra un mensaje de texto utilizando la clave. Devuelve el mensaje cifrado.";
+Blockly.Msg["MATH_RSA_CIPHER_MESSAGE_HELPURL"] = "https://es.wikipedia.org/wiki/RSA";
+Blockly.Msg["MATH_RSA_DECIPHER_MESSAGE_TITLE"] = "Descifrar el mensaje %1 con la clave %2";
+Blockly.Msg["MATH_RSA_DECIPHER_MESSAGE_TOOLTIP"] = "Descifra un mensaje de texto utilizando la clave. Devuelve el mensaje descifrado.";
+Blockly.Msg["MATH_RSA_DECIPHER_MESSAGE_HELPURL"] = "https://es.wikipedia.org/wiki/RSAA"
 
 // Bloques de texto.
 Blockly.Msg["TEXT_TEXT_HELPURL"] = "https://fr.wikipedia.org/wiki/Cha%C3%AEne_de_caract%C3%A8res";
@@ -358,7 +367,13 @@ Blockly.Msg["TEXT_COUNT_CHARACTERS_DIGITS"] = "cifre";
 Blockly.Msg["TEXT_COUNT_CHARACTERS_SPECIAL"] = "caratteri speciali";
 Blockly.Msg["TEXT_RANDOM_STRING_TITLE"] = "genera una stringa di lunghezza %1";
 Blockly.Msg["TEXT_RANDOM_STRING_TOOLTIP"] = "Genera una stringa contenente un mix di lettere maiuscole, minuscole, cifre o caratteri speciali. La lunghezza di questa stringa può essere modificata nel blocco.";
- 
+Blockly.Msg["TEXT_CAESAR_CIPHER_TITLE"] = "cifrado César de %1 con un desplazamiento de %2 en modo %3";
+Blockly.Msg["TEXT_CAESAR_CIPHER_ENCODE"] = "cifrar";
+Blockly.Msg["TEXT_CAESAR_CIPHER_DECODE"] = "descifrar";
+Blockly.Msg["TEXT_CAESAR_CIPHER_TOOLTIP"] = "Cifra o descifra un texto utilizando el cifrado César con un desplazamiento dado.";
+Blockly.Msg["TEXT_CAESAR_CIPHER_BRUTE_FORCE_TITLE"] = "fuerza bruta del cifrado César en %1 idioma %2";
+Blockly.Msg["TEXT_CAESAR_CIPHER_BRUTE_FORCE_TOOLTIP"] = "Prueba todos los desplazamientos posibles para descifrar el mensaje cifrado con el cifrado César.";
+
 // Bloques de variables.
 Blockly.Msg["VARIABLES_SET_HELPURL"] = "https://github.com/google/blockly/wiki/Variables#set";
 Blockly.Msg["VARIABLES_SET"] = "Asignar a %1 valor %2";

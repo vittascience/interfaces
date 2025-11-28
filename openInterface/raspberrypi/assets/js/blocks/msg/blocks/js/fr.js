@@ -25,7 +25,7 @@ Blockly.Msg['ACTUATORS_MUSIC_PLAY_FREQUENCY_TITLE'] = '[Buzzer/Speaker] jouer la
 Blockly.Msg['ACTUATORS_MUSIC_PLAY_FREQUENCY_TOOLTIP'] = IMG_MODULE_BUZZER_SPEAKER + Blockly.Tooltip.SEP + 'Permet de jouer une fréquence avec un module Grove buzzer (ou speaker) sur les broches pwm du GrovePi hat.';
 // Display - LCD
 Blockly.Msg['DISPLAY_LCD_SETTEXT_TITLE'] = '[LCD] afficher le texte %1 sur la ligne %2 position %3';
-Blockly.Msg['DISPLAY_LCD_SETTEXT_TOOLTIP'] = IMG_MODULE_LCD_3V3 + Blockly.Tooltip.SEP + 'Affiche du texte sur l\'une des deux lignes de l\'écran LCD1602 grove. Brancher le module sur un port I2C du GrovePi hat.';
+Blockly.Msg['DISPLAY_LCD_SETTEXT_TOOLTIP'] = IMG_MODULE_LCD_3V3 + Blockly.Tooltip.SEP + 'Affiche du texte sur l\'une des deux lignes de l\'écran LCD1602 grove. Brancher le module sur un port I2C. Les caractères accentués ne sont pas supportés. du GrovePi hat.';
 Blockly.Msg['DISPLAY_LCD_CLEAR_TITLE'] = '[LCD] nettoyer l\'écran';
 Blockly.Msg['DISPLAY_LCD_CLEAR_TOOLTIP'] = IMG_MODULE_LCD_3V3 + Blockly.Tooltip.SEP + 'Permet d\'effacer tous les caractères de l\'écran LCD. Brancher le module sur un port I2C du GrovePi hat.';
 //Display - Neopixel

@@ -41,7 +41,7 @@ function sendAddBlock() {
         formData.append('mail', $(mail).val());
         formData.append('idea', $(idea).val());
         formData.append('za78e', $(za78e).val());
-        let interface = window.location.href.replace(/.+(arduino|microbit|GalaxiaCircuitPython|python|adacraft|wb55|l476|esp32|TI-83|galaxia|raspberrypi|niryo|nao|mBot|buddy|cyberpi|eliobot|letsstartcoding|pico|winky|sphero|lotibot|bluebot|spike|photon).+/, '$1')
+        let interface = window.location.href.replace(/.+(arduino|microbit|GalaxiaCircuitPython|python|adacraft|wb55|l476|esp32|TI-83|galaxia|raspberrypi|niryo|nao|mBot|buddy|cyberpi|eliobot|letsstartcoding|pico|winky|sphero|lotibot|bluebot|spike|photon|codey).+/, '$1')
         formData.append('interface', interface);
         let request = getAjaxRequest();
         request.onreadystatechange = function () {

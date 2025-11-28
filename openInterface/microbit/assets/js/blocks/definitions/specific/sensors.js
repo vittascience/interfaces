@@ -399,7 +399,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "extensions": [
             "block_init_helpurl"
         ]
-    }, 
+    },
 
     /* Begin gas sensors blocks */
 
@@ -1018,6 +1018,36 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
+    // GROVE I2C COLOR SENSOR V3 _ GET DATA JSON
+    {
+        "type": "sensors_colorSensorV3_getData",
+        "message0": "%{BKY_SENSORS_GROVECOLORV3_GETDATA_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "DATA",
+            "options": [
+                // ["%{BKY_COLOR_LEVEL_RAW_RED}", "raw_red"],
+                // ["%{BKY_COLOR_LEVEL_RAW_GREEN}", "raw_green"],
+                // ["%{BKY_COLOR_LEVEL_RAW_BLUE}", "raw_blue"],
+                ["%{BKY_COLOR_LEVEL_RED}", "red"],
+                ["%{BKY_COLOR_LEVEL_GREEN}", "green"],
+                ["%{BKY_COLOR_LEVEL_BLUE}", "blue"],
+                ["%{BKY_COLOR_LEVEL_WHITE}", "white"],
+                ["%{BKY_COLOR_LEVEL_TEMP}", "cct"],
+                ["%{BKY_COLOR_HUE}", "hue"],
+                ["%{BKY_COLOR_SATURATION}", "sat"],
+                ["%{BKY_COLOR_VALUE}", "val"],
+                ["%{BKY_COLOR_NAME}", "name"],
+            ]
+        }],
+        "output": "Number",
+        "style": "sensors_blocks",
+        "tooltip": "%{BKY_SENSORS_GROVECOLORV3_GETDATA_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
     /* Begin distance & movement sensors blocks*/
 
     // GROVE  ULTRASONIC SENSOR _ GET DISTANCE
@@ -1048,8 +1078,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "mutator": "sensors_ultrasonic_mutator"
     },
 
-     // ST VL53L0X SENSOR _ GET DISTANCE
-     {
+    // ST VL53L0X SENSOR _ GET DISTANCE
+    {
         "type": "sensors_VL53L0X_getRangeMillimeters",
         "message0": "%{BKY_SENSORS_VL53L0X_GETRANGEMILLIMETERS_TITLE}",
         "args0": [
@@ -1161,6 +1191,23 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "output": "Boolean",
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_GETGROVEMOTION_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK GROVE MINI PIR MOTION SENSOR _ GET STATE
+    {
+        "type": "sensors_getMiniPirGroveMotion",
+        "message0": "%{BKY_SENSORS_GET_MINIPIR_GROVEMOTION_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": Blockly.Constants.Pins.MICROBIT_PINS
+        }],
+        "output": "Boolean",
+        "style": "sensors_blocks",
+        "tooltip": "%{BKY_SENSORS_GET_MINIPIR_GROVEMOTION_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]

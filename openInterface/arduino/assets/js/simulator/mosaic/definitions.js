@@ -13,8 +13,8 @@ Simulator.Mosaic.getPinDef = (pin, mod) => {
 
 Simulator.Mosaic.externalLibraries = {
 	init: function () {
-		this.includes = LIBRARIES_H;
-		this.includes["Arduino.h"] = ARDUINO_H;
+		Object.assign(this.includes, { ...ARDUINO_H });
+		Object.assign(this.includes, { ...LIBRARIES_H });
 		this.includes["Vittascience.h"] = VITTASCIENCE_H;
 	},
 	includes: {}
@@ -67,6 +67,7 @@ Simulator.Mosaic.groveRegex = {
 	"groveVoltageDivider": /PIN_VOLTAGE_DIVIDER_(A[0-9]{1,2})/g,
 	// digital read
 	"button": /PIN_SIMPLE_BUTTON_((A|D|)[0-9]{1,2})/g,
+	"reversedButton": /PIN_SIMPLE_BUTTON_REVERSED_((A|D|)[0-9]{1,2})/g,
 	"switchButton": /PIN_SWITCH_BUTTON_((A|D|)[0-9]{1,2})/g,
 	"touchButton": /PIN_TOUCH_BUTTON_((A|D|)[0-9]{1,2})/g,
 	"rainGauge": /PIN_RAIN_GAUGE_((A|D|)[0-9]{1,2})/g,
@@ -83,6 +84,7 @@ Simulator.Mosaic.groveRegex = {
 	"ultrasonic": /PIN_ULTRASONIC_((A|D|)[0-9]{1,2})/gi,
 	"hcsr04": /PIN_ULTRASONIC_TRIG_((A|D|)[0-9]{1,2})/gi,
 	"ds18x20": /PIN_DS18X20_SENSOR_((A|D|)[0-9]{1,2})/g,
+	"rotaryEncoder": /encoder_2getValue\(\)/g,
 	// digital write
 	"ledModule": /PIN_LED_MODULE_((A|D|)[0-9]{1,2})/gi,
 	"neopixel": /Neopixel_((A|)[0-9]{1,2});/g,
@@ -115,46 +117,41 @@ Simulator.Mosaic.groveRegex = {
 
 Simulator.Mosaic.addSpecificInitializations = async function () {
 	await Simulator.waitBoardViewer();
-	if (Simulator.board.name !== 'Shield Grove') {
+	if (!Simulator.viewShield) {
 		const board = document.getElementById("board-viewer").contentDocument;
 		const up = 'translate(0px, 0px)',
 			down = 'translate(0px, 7px)';
-		var resetBtnId = "",
-			resetBtnAnimId = "";
-		if (Simulator.board.name === 'Arduino UNO') {
-			// Arduino UNO Reset button
-			resetBtnId = "reset_button";
-			resetBtnAnimId = "ellipse-top";
-		} else {
-			// Arduino NANO Reset button
-			resetBtnId = "reset";
-			resetBtnAnimId = "reset_on";
-		}
-		if (board !== null) {
+		const resetBtnId = Simulator.board.resetId;
+		const resetBtnAnimId = Simulator.board.animId;
+		if (board !== null && resetBtnId && resetBtnAnimId) {
 			const resetBtn = board.querySelector("#" + resetBtnId);
-			resetBtn.addEventListener("mousedown", function () {
-				const board = document.getElementById("board-viewer").contentDocument;
-				board.querySelector("#" + resetBtnAnimId).style.transform = down;
-			});
-			resetBtn.addEventListener("mouseup", function () {
-				const board = document.getElementById("board-viewer").contentDocument;
-				board.querySelector("#" + resetBtnAnimId).style.transform = up;
-				Simulator.replay();
-			});
-			resetBtn.addEventListener("touchstart", function () {
-				const board = document.getElementById("board-viewer").contentDocument;
-				board.querySelector("#" + resetBtnAnimId).style.transform = down;
-			});
-			resetBtn.addEventListener("touchend", function () {
-				const board = document.getElementById("board-viewer").contentDocument;
-				board.querySelector("#" + resetBtnAnimId).style.transform = up;
-				Simulator.replay();
-			});
+			if (resetBtn) {
+				resetBtn.addEventListener("mousedown", function () {
+					const board = document.getElementById("board-viewer").contentDocument;
+					board.querySelector("#" + resetBtnAnimId).style.transform = down;
+				});
+				resetBtn.addEventListener("mouseup", function () {
+					const board = document.getElementById("board-viewer").contentDocument;
+					board.querySelector("#" + resetBtnAnimId).style.transform = up;
+					Simulator.replay();
+				});
+				resetBtn.addEventListener("touchstart", function () {
+					const board = document.getElementById("board-viewer").contentDocument;
+					board.querySelector("#" + resetBtnAnimId).style.transform = down;
+				});
+				resetBtn.addEventListener("touchend", function () {
+					const board = document.getElementById("board-viewer").contentDocument;
+					board.querySelector("#" + resetBtnAnimId).style.transform = up;
+					Simulator.replay();
+				});
+			}
 		}
 	}
 };
 
 Simulator.Mosaic.specific = {
+
+	SERVER_REGEXP: /Vittascience_Server.h/g,
 
 	extractPin: {
 		'read-digital': (str) => str.replace('digitalRead(', "").replace(')', ""),
@@ -179,15 +176,25 @@ Simulator.Mosaic.specific = {
 	},
 
 	setLed: function (state) {
-		const board = document.getElementById("board-viewer").contentDocument;
-		if ((Simulator.board.name == "Arduino UNO" || Simulator.board.name == "Arduino NANO") && board !== null) {
-			const led = board.querySelector("#ar-led13");
+		const boardSvg = document.getElementById("board-viewer").contentDocument;
+		if (boardSvg !== null) {
+			const board = Blockly.Constants.getSelectedBoard();
+			const ledId = SIMULATOR_BOARDS[board].ledId;
+			const led = boardSvg.querySelector(`#${ledId}`);
 			if (led !== null) {
-				if (state) {
-					led.style.fill = "red";
-					led.style.filter = "blur(6px)";
+				if (["Arduino UNO", "Arduino Nano"].includes(Simulator.board.name)) {
+					if (state) {
+						led.style.fill = "red";
+						led.style.filter = "blur(6px)";
+					} else {
+						led.style.fill = "";
+					}
 				} else {
-					led.style.fill = "";
+					if (state) {
+						led.style.display = "block"
+					} else {
+						led.style.display = "none";
+					}
 				}
 			}
 		}
@@ -289,7 +296,7 @@ Simulator.Mosaic.specific = {
 			pictureAnimation: "particles-animation.png",
 			animate: function (Animator) {
 				const MULTICHANNEL_V2_GAS_MAX_VALUE = {
-					"GM102B": 10, // NO2
+					"GM102B": 10,   // NO2
 					"GM702B": 5000, // CO
 					"GM302B": 500,  // C2H5OH
 					"GM502B": 500   // VOC
@@ -601,6 +608,6 @@ Simulator.Mosaic.specific = {
 			animate: function (Animator) {
 				Animator.bluetooth();
 			}
-		}
+		},
 	]
 };

@@ -51,3 +51,4 @@ Blockly.Msg['SUBCATEGORY_DISPLAY_LED_RING'] = 'Anneau LED';
 
 Blockly.Msg['SUBCATEGORY_ACTUATORS_CONVEYOR'] = 'Convoyeur';
 Blockly.Msg['SUBCATEGORY_SENSOR_IR_CONVEYOR'] = 'Capteur IR (convoyeur)';
+Blockly.Msg['SUBCATEGORY_UTILITIES'] = 'Utilitaires';

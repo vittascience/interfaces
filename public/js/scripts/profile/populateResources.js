@@ -8,14 +8,15 @@
 function prependHtml(html, resource, page) {
     let prepend = `<div id='profile-resources-counter'>`
     if (resource.length == 0) {
-        prepend += `<div data-i18n='profile.res.noData'>Vous n'avez ajouté aucune ressource.</div>
-    </div>`;
+        prepend += `<div data-i18n='profile.res.noData'>Vous n'avez ajouté aucune ressource.</div>`;
         if (page == "profile") {
-            prepend += `<span data-i18n='[html]profile.pro.addData'>Cliquez <a href='/learn/form.php'>ici</a> pour en ajouter une nouvelle.</span>`
+            prepend += `<span data-i18n='[html]profile.res.addData'>Cliquez <a href='/learn/form.php'>ici</a> pour en ajouter une nouvelle.</span>`
         }
     } else {
-        return prepend += html
+        prepend += html
     }
+    prepend += `</div>`
+    return prepend;
 }
 
 /**
@@ -52,7 +53,7 @@ function displayMyProjects(page) {
 
                     let listproject__html = generateListProjects(project, support, page);
                     // return;
-    
+
                     let hintHtml =
                         `<h2 id="" data-testid="profileToggleProjects_${support}" class="openproject-subtitle" data-bs-toggle="collapse" data-bs-target="#container-${support}" aria-expanded="false" aria-controls="collapse-${support}">
                             <i class="fas fa-chevron-right list-dropdown dropped" style="transform: rotate(90deg); transform-origin: 50% 50%;"></i>
@@ -60,16 +61,16 @@ function displayMyProjects(page) {
                             <span data-i18n="[html]profile.pro.list.label" data-i18n-options='{"support": "${support}"}'>Mes projets</span>
                             <span id="projects-${support}-count" class="project-count badge bg-success">${project.length}</span>
                         </h2>`;
-    
+
                     let support__html =
                         `<div id="container-${support}" class="container-fluid mt-2 collapse">
                             ${listproject__html}
                         </div>`;
-    
+
                     let html = `<div class="mb-2 pb-2 openproject-list">${hintHtml}${support__html}</div>`
-    
+
                     $('#collapse_projects').append(html).localize();
-    
+
                     $("#search-project-input").keyup(function () {
                         let keyword = $("#search-project-input").val();
                         let emptySearch = (keyword.length === 0 || !keyword.trim());
@@ -82,7 +83,7 @@ function displayMyProjects(page) {
                             $(`#container-${support}`).html(generateListProjects(result_research, support, page));
                         }
                     });
-                }    
+                }
             }
             setTimeout(function () {
                 $('#collapse_projects').localize();
@@ -121,7 +122,7 @@ function generateListProjects(projects, support, page = 'profile') {
         }
 
         if (page == "profile" || project_element.public == 1) {
-            var checked = project_element.public == 0 ?  "" : " checked";
+            var checked = project_element.public == 0 ? "" : " checked";
             if (project_element.description == '') {
                 var desc = i18next.t("profile.pro.list.item.noDesc");
             } else {
@@ -135,14 +136,14 @@ function generateListProjects(projects, support, page = 'profile') {
                         <p class="project-date mb-1" style="font-size: 0.9em; color: var(--text-3)">${date}</p>
                         <p class="project-desc">${desc}</p>`
 
-                        if (page == "profile") {
-                            item__project += `<div class="project-visibility form-check form-switch mx-1">
+            if (page == "profile") {
+                item__project += `<div class="project-visibility form-check form-switch mx-1">
                                 <input class="form-check-input shareProjectToggle" type="checkbox" role="switch" id="shareProjectToggle-${index}" data-id="${project_element.link}" ${checked}>
                                 <label class="form-check-label project-status" for="shareProjectToggle-${index}" data-i18n="[html]modals.standard.save.content.shareMode">
                                     Partager avec la communauté ?
                                 </label>
                             </div>`
-                        }
+            }
 
             item__project += `<div class="d-flex gap-2">
                     <a target="_blank" href="${window.location.origin}/${support}/?link=${project_element.link}" class='btn btn-primary btn-sm' data-i18n='profile.res.buttons.open' style="flex:1;">
@@ -219,12 +220,14 @@ $(document).ready(function () {
         },
         success: function (response) {
             var tutorials = JSON.parse(response)
+            var html = "";
             if (tutorials.length == 0) {
-                var html = prependHtml('', tutorials, page)
+                html = prependHtml('', tutorials, page)
+                $(html).localize();
             } else {
 
                 //Count the number of resources
-                var html = `<div class="mt-3"><span data-i18n=\'[html]profile.res.countData\' data-i18n-options=\'{"count": ` + tutorials.length + `}\' ></span>
+                html = `<div class="mt-3"><span data-i18n=\'[html]profile.res.countData\' data-i18n-options=\'{"count": ` + tutorials.length + `}\' ></span>
             </div>
             <span data-i18n='[html]profile.res.addData'>Cliquez <a href='/learn/form.php'>ici</a> pour en ajouter une nouvelle.</span>
             <h4 class='grey-vitta' data-i18n='profile.res.listTitle'>Liste des tutoriels</h4>
@@ -243,7 +246,7 @@ $(document).ready(function () {
                     let title = tutorials[i].title.replace(/[ '"’]/g, '-')
                     //Display title & description, allows to open or share
                     html += `<div class='resource-box-profile' data-resource-id='${tutorials[i].id}'>
-                        <div><span class='h6 mb-1'>#${i + 1 + " "  + tutorials[i].title}</span></div>
+                        <div><span class='h6 mb-1'>#${i + 1 + " " + tutorials[i].title}</span></div>
                         <div class='mb-1'>
                             <i class='fa fa-calendar'></i> ${date}
                         </div>
@@ -263,7 +266,7 @@ $(document).ready(function () {
                 html = prependHtml(html, tutorials, page)
                 $(html).localize();
             }
-            $("#collapse_resources").html(html);
+            $("#collapse_resources").append(html);
         },
         error: function () {
             console.log(AJAX_SERVER_ERROR);
@@ -295,7 +298,7 @@ $('body').on('click', '.shareProjectToggle', function () {
     let link = $(this).attr('data-id')
     let isPublic = 0
     if ($(this).is(':checked')) {
-        isPublic = 1  
+        isPublic = 1
     }
 
     $.ajax({

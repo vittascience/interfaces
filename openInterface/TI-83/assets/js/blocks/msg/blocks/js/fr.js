@@ -590,3 +590,4 @@ Blockly.Msg['TI_DRAW_PLOT_XY_TITLE'] = 'plot en %1 (x) et en %2 (y) avec la form
 Blockly.Msg['TI_DRAW_PLOT_XY_TOOLTIP'] = 'plot en fonction de x et y avec la forme spécifiée.';
 Blockly.Msg['TI_DRAW_SHOW_TITLE'] = 'afficher le dessin';
 Blockly.Msg['TI_DRAW_SHOW_TOOLTIP'] = 'Afficher le dessin sur l\'écran. Cliquer sur \'annul\' pour effacer le dessin.';
+Blockly.Msg['TURTLE_CONTROl_TURTLE_TOOLTIP'] = 'Activer pour afficher/masquer la tortue.';

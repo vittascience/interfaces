@@ -51,7 +51,7 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/usocket.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/socket.js',
     'src/lib/network.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/network.js',
     // js robots libraries
-    'src/lib/V011.js': Simulator.PATH_LIB + 'ilo/V011.js',
+    'src/lib/ilo_micro.js': Simulator.PATH_LIB + 'ilo/ilo_micro.js',
     // js common grove libraries
     'src/lib/esp32_sht31.js': Simulator.PATH_LIB_COMMON + 'esp32/grove/esp32_sht31.js',
     'src/lib/esp32_si1145.js': Simulator.PATH_LIB_COMMON + 'esp32/grove/esp32_si1145.js',
@@ -597,7 +597,7 @@ Simulator.Mosaic.specific = {
             }
         },
         {
-            regex: /ilo\.get_color_rgb_(center|right|left)\(\)/gi,
+            regex: /ilo\.get_(raw_|)color(_rgb_(center|right|left)|)\((|(rgb|color))\)/gi,
             id: "ilo-ColorSensor",
             title: "Capteur de couleurs : ",
             pin: "Ilo robot",

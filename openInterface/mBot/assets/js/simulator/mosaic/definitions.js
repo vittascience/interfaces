@@ -14,8 +14,8 @@ Simulator.Mosaic.getPinDef = (pin, mod) => {
 
 Simulator.Mosaic.externalLibraries = {
     init: function () {
-        this.includes = LIBRARIES_H;
-        this.includes["Arduino.h"] = ARDUINO_H;
+        Object.assign(this.includes, { ...ARDUINO_H });
+		Object.assign(this.includes, { ...LIBRARIES_H });
     },
     includes: {}
 };

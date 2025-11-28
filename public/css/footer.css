@@ -13,6 +13,10 @@
 }
 
 
+.form-control.newsletter-input {
+  color: var(--text-3) !important;
+}
+
 .newsletter-input {
     border-width: 2px;
     border-color: var(--vitta-white);

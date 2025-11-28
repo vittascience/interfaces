@@ -1,0 +1,156 @@
+{
+    "id": "impact-survey-teacher-revised",
+    "title": "Questionnaire d’impact enseignant",
+    "description": "Bienvenue et merci de prendre le temps de répondre à ce questionnaire. Votre avis est essentiel pour nous aider à mieux comprendre votre expérience avec Vittascience et à améliorer la plateforme en fonction de vos besoins. Les réponses sont anonymes et ne vous prendront que quelques minutes.",
+    "endMessage": {
+        "title": "Merci !",
+        "description": "Merci beaucoup pour votre aide ! Grâce à vous, nous allons pouvoir améliorer Vittascience !"
+    },
+    "questions": [
+        {
+            "id": 1,
+            "name": "question_1",
+            "title": "Estimez-vous que Vittascience est un outil efficace pour vous aider à enseigner la programmation et/ou l’IA ? (une seule réponse possible)",
+            "type": "radio",
+            "options": [
+                "Très efficace",
+                "Efficace",
+                "Neutre",
+                "Peu efficace",
+                "Pas du tout efficace",
+                "Non concerné.e (ex : je n’utilise pas la plateforme à ces fins)"
+            ]
+        },
+        {
+            "id": 2,
+            "name": "question_2",
+            "title": "Diriez-vous que Vittascience contribue à une meilleure compréhension des sujets abordés en classe par vos élèves ? (une seule réponse possible)",
+            "type": "radio",
+            "options": [
+                "Tout à fait d’accord",
+                "Plutôt d'accord",
+                "Ni d'accord ni pas d'accord",
+                "Plutôt pas d'accord",
+                "Pas du tout d'accord"
+            ]
+        },
+        {
+            "id": 3,
+            "name": "question_3",
+            "title": "Diriez-vous que Vittascience contribue à un meilleur engagement des élèves sur les sujets abordés en classe ? (une seule réponse possible)",
+            "type": "radio",
+            "options": [
+                "Tout à fait d’accord",
+                "Plutôt d'accord",
+                "Ni d'accord ni pas d'accord",
+                "Plutôt pas d'accord",
+                "Pas du tout d'accord"
+            ]
+        },
+        {
+            "id": 4,
+            "name": "question_4",
+            "title": "Avez-vous remarqué un intérêt des filles pour la programmation et/ou l’IA grâce à Vittascience ? (une seule réponse possible)",
+            "type": "radio",
+            "options": [
+                "Tout à fait d’accord",
+                "Plutôt d'accord",
+                "Ni d'accord ni pas d'accord",
+                "Plutôt pas d'accord",
+                "Pas du tout d'accord",
+                "Non concerné.e"
+            ]
+        },
+        {
+            "id": 5,
+            "name": "question_5",
+            "title": "Sur une échelle de 0 à 10, quelle est la probabilité que vous recommandiez Vittascience à un collègue enseignant ? (une seule réponse possible)",
+            "type": "radio",
+            "options": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10"
+            ]
+        },
+        {
+            "id": 6,
+            "name": "question_6",
+            "title": "Quelle matière enseignez-vous ? (possibilité de sélectionner plusieurs réponses)",
+            "type": "checkbox",
+            "options": [
+                "Enseignant du premier degré",
+                "Arts plastiques",
+                "Biologie écologie",
+                "Biotechnologies",
+                "Création et culture-design",
+                "Création et innovation technologique / sciences de l’ingénieur",
+                "Culture et pratique de la danse, de la musique ou du théâtre",
+                "Éducation aux médias et à l’information",
+                "Éducation musicale",
+                "Éducation physique et sportive",
+                "Enseignement moral et civique",
+                "Enseignement scientifique",
+                "Français",
+                "Histoire des arts",
+                "Histoire et géographie",
+                "Humanité, littérature et philosophie",
+                "Langues, littératures et cultures étrangères et régionales",
+                "Langues vivantes",
+                "Mathématiques",
+                "Numérique et sciences informatiques",
+                "Physique-chimie",
+                "Santé et social",
+                "Science de la vie et de la Terre",
+                "Science de l’ingénieur",
+                "Sciences économiques et sociales",
+                "Sciences et laboratoire",
+                "Sciences et techniques du théâtre, de la musique et de la danse (S2TMD)",
+                "Sciences et technologie",
+                "Sciences et technologies de laboratoire (STL)",
+                "Sciences et technologies de la santé et du social (ST2S)",
+                "Sciences et technologie de l’industrie et du développement durable (STI2D)",
+                "Sciences et technologies du design et des arts appliqués (STD2A)",
+                "Sciences et technologies du management et de la gestion (STMG)",
+                "Sciences numériques et technologies",
+                "Technologie",
+                "Autre préciser :",
+                "Non concerné.e"
+            ]
+        },
+        {
+            "id": 7,
+            "name": "question_7",
+            "title": "Quel est votre niveau d’enseignement ? (possibilité de sélectionner plusieurs réponses)",
+            "type": "checkbox",
+            "options": [
+                "Primaire",
+                "Collège",
+                "Lycée",
+                "Enseignement supérieur",
+                "Autre préciser :",
+                "Non concerné.e"
+            ]
+        },
+        {
+            "id": 8,
+            "name": "question_8",
+            "title": "Depuis combien de temps enseignez-vous votre matière ? (une seule réponse possible)",
+            "type": "radio",
+            "options": [
+                "Moins de 1 an",
+                "Entre 1 et 5 ans",
+                "Entre 6 et 15 ans",
+                "Entre 16 et 25 ans",
+                "Plus de 25 ans"
+            ]
+        }
+    ]
+}

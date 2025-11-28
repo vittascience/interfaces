@@ -56,10 +56,10 @@ Blockly.Python.robots_moveIloBySteps = function (block) {
     Blockly.Python.addConstant('ilo-robot', '""" Ilo robot """');
     const dir = block.getFieldValue('DIR');
     const steps = Blockly.Python.valueToCode(block, 'STEPS', Blockly.Python.ORDER_NONE) || "0";
-    const finish_state = block.getFieldValue("FINISH_STATE");
+    const finish_state = block.getFieldValue("FINISH_STATE") || 'TRUE';
     if (finish_state !== null && finish_state === 'TRUE')
-        return `ilo.step('${dir}', ${steps}, True)` + NEWLINE;
-    return `ilo.step('${dir}', ${steps})` + NEWLINE;
+        return `ilo.step('${dir}', ${steps})` + NEWLINE;
+    return `ilo.step('${dir}', ${steps}, False)` + NEWLINE;
 };
 
 Blockly.Python.robots_rotateIlo = function (block) {
@@ -67,9 +67,9 @@ Blockly.Python.robots_rotateIlo = function (block) {
     Blockly.Python.addConstant('ilo-robot', '""" Ilo robot """');
     const dir = block.getFieldValue('DIR');
     const deg = Blockly.Python.valueToCode(block, 'DEG', Blockly.Python.ORDER_NONE) || "0";
-    const finish_state = block.getFieldValue("FINISH_STATE");
+    const finish_state = block.getFieldValue("FINISH_STATE") || 'TRUE';
     if (finish_state !== null && finish_state === 'TRUE')
-        return `ilo.rotation(${(dir === 'rot_clock' ? deg : -deg)}, True)` + NEWLINE;
+        return `ilo.rotation(${(dir === 'rot_clock' ? deg : -deg)})` + NEWLINE;
     return `ilo.rotation(${(dir === 'rot_clock' ? deg : -deg)})` + NEWLINE;
 };
 
@@ -85,7 +85,7 @@ Blockly.Python.robots_moveIloMotor = function (block) {
 
 Blockly.Python.robots_setIloAcc = function (block) {
     Blockly.Python.addImport('ilo-import', IMPORT_ILO);
-    Blockly.Python.addConstant('ilo-robot', '""" Ilo robot """');    
+    Blockly.Python.addConstant('ilo-robot', '""" Ilo robot """');
     const acc = Blockly.Python.valueToCode(block, 'ACC', Blockly.Python.ORDER_NONE) || "0";
     return `ilo.set_acc_motor(${acc})` + NEWLINE;
 };
@@ -107,7 +107,7 @@ Blockly.Python.robots_getDistanceIlo = function (block) {
 Blockly.Python.robots_lineDetectorIlo = function (block) {
     Blockly.Python.addImport('ilo-import', IMPORT_ILO);
     Blockly.Python.addConstant('ilo-robot', '""" Ilo robot """');
-    Blockly.Python.addInit('ilo-robot-sensor-lights', 'ilo.set_led_captor(True)');
+    Blockly.Python.addInit('ilo-robot-sensor-lights', 'ilo.set_led_captor()');
     const side = block.getFieldValue('SIDE');
     return [`ilo.get_line_${side}()`, Blockly.Python.ORDER_ATOMIC];
 };
@@ -115,7 +115,7 @@ Blockly.Python.robots_lineDetectorIlo = function (block) {
 Blockly.Python.robots_getLuminosityIlo = function (block) {
     Blockly.Python.addImport('ilo-import', IMPORT_ILO);
     Blockly.Python.addConstant('ilo-robot', '""" Ilo robot """');
-    Blockly.Python.addInit('ilo-robot-sensor-lights', 'ilo.set_led_captor(True)');
+    Blockly.Python.addInit('ilo-robot-sensor-lights', 'ilo.set_led_captor()');
     const side = block.getFieldValue('SIDE');
     if (side === 'all')
         return [`ilo.get_color_clear()`, Blockly.Python.ORDER_ATOMIC];
@@ -125,15 +125,17 @@ Blockly.Python.robots_getLuminosityIlo = function (block) {
 Blockly.Python.robots_setLineDetectorThresholdIlo = function (block) {
     Blockly.Python.addImport('ilo-import', IMPORT_ILO);
     Blockly.Python.addConstant('ilo-robot', '""" Ilo robot """');
-    Blockly.Python.addInit('ilo-robot-sensor-lights', 'ilo.set_led_captor(True)');
+    Blockly.Python.addInit('ilo-robot-sensor-lights', 'ilo.set_led_captor()');
     const threshold = Blockly.Python.valueToCode(block, 'THRESHOLD', Blockly.Python.ORDER_NONE) || "0";
     return `ilo.set_line_threshold_value(${threshold})` + NEWLINE;
 };
 
+// TO BE REMOVED
+
 Blockly.Python.robots_colorDetectorIlo = function (block) {
     Blockly.Python.addImport('ilo-import', IMPORT_ILO);
     Blockly.Python.addConstant('ilo-robot', '""" Ilo robot """');
-    Blockly.Python.addInit('ilo-robot-sensor-lights', 'ilo.set_led_captor(True)');
+    Blockly.Python.addInit('ilo-robot-sensor-lights', 'ilo.set_led_captor()');
     const side = block.getFieldValue('SIDE');
     return [`ilo.get_color_rgb_${side}()`, Blockly.Python.ORDER_ATOMIC];
 };
@@ -141,46 +143,65 @@ Blockly.Python.robots_colorDetectorIlo = function (block) {
 Blockly.Python.robots_colorDetectorRGBIlo = function (block) {
     Blockly.Python.addImport('ilo-import', IMPORT_ILO);
     Blockly.Python.addConstant('ilo-robot', '""" Ilo robot """');
-    Blockly.Python.addInit('ilo-robot-sensor-lights', 'ilo.set_led_captor(True)');
+    Blockly.Python.addInit('ilo-robot-sensor-lights', 'ilo.set_led_captor()');
     const color = block.getFieldValue('COLOR');
     const side = block.getFieldValue('SIDE');
     return [`ilo.get_color_rgb_${side}()[${color}]`, Blockly.Python.ORDER_ATOMIC];
 };
 
+// END TO BE REMOVED
+
+Blockly.Python.robots_getColorRawIlo = function (block) {
+    Blockly.Python.addImport('ilo-import', IMPORT_ILO);
+    Blockly.Python.addConstant('ilo-robot', '""" Ilo robot """');
+    Blockly.Python.addInit('ilo-robot-sensor-lights', 'ilo.set_led_captor()');
+    const color = block.getFieldValue('COLOR');
+    return [`ilo.get_raw_color_rgb()[${color}]`, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.robots_getColorCardIlo = function (block) {
+    Blockly.Python.addImport('ilo-import', IMPORT_ILO);
+    Blockly.Python.addConstant('ilo-robot', '""" Ilo robot """');
+    Blockly.Python.addInit('ilo-robot-sensor-lights', 'ilo.set_led_captor()');
+    const color = block.getFieldValue('COLOR');
+    return [`ilo.get_color_card('${color}')`, Blockly.Python.ORDER_ATOMIC];
+};
+
 Blockly.Python.robots_moveOneSquareForwardIlo = function (block) {
     Blockly.Python.addImport('ilo-import', IMPORT_ILO);
     Blockly.Python.addConstant('ilo-robot', '""" Ilo robot """');
-    const finish_state = block.getFieldValue("FINISH_STATE");
+    const finish_state = block.getFieldValue("FINISH_STATE") || 'TRUE';
+    console.log(finish_state);
     if (finish_state !== null && finish_state === 'TRUE')
-        return `ilo.step('front', None, True)` + NEWLINE;
-    return `ilo.step('front')` + NEWLINE;
+        return `ilo.step('front')` + NEWLINE;
+    return `ilo.step('front', None, False)` + NEWLINE;
 };
 
 Blockly.Python.robots_moveOneSquareBackwardIlo = function (block) {
     Blockly.Python.addImport('ilo-import', IMPORT_ILO);
     Blockly.Python.addConstant('ilo-robot', '""" Ilo robot """');
-    const finish_state = block.getFieldValue("FINISH_STATE");
+    const finish_state = block.getFieldValue("FINISH_STATE") || 'TRUE';
     if (finish_state !== null && finish_state === 'TRUE')
-        return `ilo.step('back', None, True)` + NEWLINE;
-    return `ilo.step('back')` + NEWLINE;
+        return `ilo.step('back')` + NEWLINE;
+    return `ilo.step('back', None, False)` + NEWLINE;
 };
 
 Blockly.Python.robots_turnLeftIlo = function (block) {
     Blockly.Python.addImport('ilo-import', IMPORT_ILO);
     Blockly.Python.addConstant('ilo-robot', '""" Ilo robot """');
-    const finish_state = block.getFieldValue("FINISH_STATE");
+    const finish_state = block.getFieldValue("FINISH_STATE") || 'TRUE';
     if (finish_state !== null && finish_state === 'TRUE')
-        return `ilo.step('rot_trigo', None, True)` + NEWLINE;
-    return `ilo.step('rot_trigo')` + NEWLINE;
+        return `ilo.step('rot_trigo')` + NEWLINE;
+    return `ilo.step('rot_trigo', None, False)` + NEWLINE;
 };
 
 Blockly.Python.robots_turnRightIlo = function (block) {
     Blockly.Python.addImport('ilo-import', IMPORT_ILO);
     Blockly.Python.addConstant('ilo-robot', '""" Ilo robot """');
-    const finish_state = block.getFieldValue("FINISH_STATE");
+    const finish_state = block.getFieldValue("FINISH_STATE") || 'TRUE';
     if (finish_state !== null && finish_state === 'TRUE')
-        return `ilo.step('rot_clock', None, True)` + NEWLINE;
-    return `ilo.step('rot_clock')` + NEWLINE;
+        return `ilo.step('rot_clock')` + NEWLINE;
+    return `ilo.step('rot_clock', None, False)` + NEWLINE;
 };
 Blockly.Python.robots_stopRobotIlo = function () {
     Blockly.Python.addImport('ilo-import', IMPORT_ILO);

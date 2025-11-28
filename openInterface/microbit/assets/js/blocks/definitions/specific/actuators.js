@@ -251,6 +251,108 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_ACTUATORS_GROVEVIBRATIONMOTOR_CONTROL_TOOLTIP}",
     },
 
+    // STEPPER MOTOR 28BYJ-48 WITH ULN2003 DRIVER INIT
+    {
+        "type": "actuators_stepperMotor_uln2003driver_init",
+        "message0": "%{BKY_ACTUATORS_STEPPERMOTOR_ULN2003_INIT_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "MOTOR",
+            "options": [
+                ["A", "A"],
+                ["B", "B"]
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "IN1",
+            "options": Blockly.Constants.Pins.MICROBIT_PINS
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "IN2",
+            "options": Blockly.Constants.Pins.MICROBIT_PINS
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "IN3",
+            "options": Blockly.Constants.Pins.MICROBIT_PINS
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "IN4",
+            "options": Blockly.Constants.Pins.MICROBIT_PINS
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_ACTUATORS_STEPPERMOTOR_ULN2003_INIT_TOOLTIP}"
+    },
+    {
+        "type": "actuators_stepperMotor_uln2003driver_moveSteps",
+        "message0": "%{BKY_ACTUATORS_STEPPERMOTOR_ULN2003_MOVE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "MOTOR",
+            "options": [
+                ["A", "A"],
+                ["B", "B"]
+            ]
+        },{
+            "type": "input_value",
+            "name": "STEPS",
+            "check": "Number"
+        },
+        {
+            "type": "field_grid_dropdown",
+            "name": "UNIT",
+            "options": [
+                ["%{BKY_ACTUATORS_STEPPERMOTOR_ULN2003_MOVE_STEPS}", "STEPS"],
+                ["%{BKY_ACTUATORS_STEPPERMOTOR_ULN2003_MOVE_ROTATIONS}", "ROTATIONS"]
+            ]
+        },
+        {
+            "type": "field_grid_dropdown",
+            "name": "DIR",
+            "options": [
+                ["↻", "1"],
+                ["↺", "-1"]
+            ]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_ACTUATORS_STEPPERMOTOR_ULN2003_MOVE_TOOLTIP}",
+    },
+    {
+        "type": "actuators_stepperMotor_uln2003driver_setDelay",
+        "message0": "%{BKY_ACTUATORS_STEPPERMOTOR_ULN2003_SET_DELAY_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "MOTOR",
+            "options": [
+                ["A", "A"],
+                ["B", "B"]
+            ]
+        },{
+            "type": "input_value",
+            "name": "DELAY",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_ACTUATORS_STEPPERMOTOR_ULN2003_SET_DELAY_TOOLTIP}",
+    },
+
     /* Kitronic Traffic */
 
     // ACCESS:BIT CONTROL BARRIER

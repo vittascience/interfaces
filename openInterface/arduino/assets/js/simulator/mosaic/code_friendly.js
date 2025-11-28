@@ -3,18 +3,38 @@ Simulator.CodeFriendly = Object.create(null);
 Simulator.CodeFriendly.getSetups = function (userCode) {
 	Simulator.CodeFriendly.setups = [];
 	Simulator.CodeFriendly.objects = ['SoftwareSerial', 'DHT', 'HighTemp', 'AirQualitySensor', 'TM1637', 'Grove_LED_Bar', 'Ultrasonic', 'OneWire', 'Adafruit_NeoPixel', 'ChainableLED', 'LiquidCrystal_I2C']
-	for (var x in Simulator.CodeFriendly.objects) {
-		const obj = Simulator.CodeFriendly.objects[x];
+	for (const obj of Simulator.CodeFriendly.objects) {
 		const SSmodules_regExp = obj + / (.*)\((.*)\);/.source;
 		const SSmodules = userCode.match(new RegExp(SSmodules_regExp, 'g'));
-		userCode = userCode.replace(new RegExp(SSmodules_regExp, 'g'), obj + ' $1;');
-		for (var i in SSmodules) {
-			const component = SSmodules[i].match(new RegExp(SSmodules_regExp));
-			const initCode = component[1] + '.__init__(' + component[2];
-			if (obj == 'SoftwareSerial') {
-				Simulator.CodeFriendly.setups.push(initCode + ', false, "' + component[1] + '");')
-			} else {
-				Simulator.CodeFriendly.setups.push(initCode + ');')
+		if (SSmodules) {
+			userCode = userCode.replace(new RegExp(SSmodules_regExp, 'g'), obj + ' $1;');
+			for (var i in SSmodules) {
+				const component = SSmodules[i].match(new RegExp(SSmodules_regExp));
+				const initCode = component[1] + '.__init__(' + component[2];
+				if (obj == 'SoftwareSerial') {
+					Simulator.CodeFriendly.setups.push(initCode + ', false, "' + component[1] + '");')
+				} else {
+					Simulator.CodeFriendly.setups.push(initCode + ');');
+				}
+			}
+		}
+	}
+	return userCode;
+};
+
+Simulator.CodeFriendly.wifi_setups = function (userCode) {
+	const objects = ['IPAddress', 'WiFiServer', 'Vittascience_Server'];
+	for (obj of objects) {
+		const re = obj + /\s+([A-Za-z_0-9]\w*)\s*\(([^)]*)\)\s*;/.source;
+		const declarations = userCode.match(new RegExp(re, 'g'));
+		if (declarations) {
+			userCode = userCode.replace(new RegExp(re, 'g'), `${obj} $1 = ${obj}($2);`);
+			if (obj == 'IPAddress') {
+				for (const ip of declarations) {
+					const component = ip.match(re);
+					const toString_re = new RegExp(component[1] + /.toString\(\)/.source, 'g');
+					userCode = userCode.replace(toString_re, component[1] + '.toStringCPP()');
+				}
 			}
 		}
 	}
@@ -22,12 +42,11 @@ Simulator.CodeFriendly.getSetups = function (userCode) {
 };
 
 Simulator.CodeFriendly.getCode = function (userCode, _setups) {
-	return `#include <SoftwareSerial.h>
+	return `#include <Arduino.h>
+#include <SoftwareSerial.h>
 using namespace std;
 ${userCode}
 int main() {
-  SoftwareSerial Serial;
-  Serial.__init__(0, 0, false, "Serial");
   ${_setups}
   setup();
   do {
@@ -38,24 +57,25 @@ int main() {
 }`;
 }
 
-Simulator.CodeFriendly.getAdaptedCode = function (codeIn) {
-	let codeOut = codeIn;
+Simulator.CodeFriendly.getAdaptedCode = function (code) {
 	// functions
-	codeOut = Simulator.CodeFriendly.remove_functions(codeOut);
+	code = Simulator.CodeFriendly.remove_functions(code);
 	// pin modules
-	codeOut = Simulator.CodeFriendly.replace_pinModules(codeOut);
+	code = Simulator.CodeFriendly.replace_pinModules(code);
 	// pulse sensor
-	codeOut = Simulator.CodeFriendly.pulseSensor(codeOut);
+	code = Simulator.CodeFriendly.pulseSensor(code);
 	// type
-	codeOut = Simulator.CodeFriendly.typing(codeOut);
+	code = Simulator.CodeFriendly.typing(code);
 	// serial
-	codeOut = Simulator.CodeFriendly.serial(codeOut);
+	code = Simulator.CodeFriendly.serial(code);
 	// serial print
-	codeOut = Simulator.CodeFriendly.print(codeOut);
+	code = Simulator.CodeFriendly.print(code);
+	// wifi
+	code = Simulator.CodeFriendly.wifi_setups(code);
 	// adding setups and user code
-	codeOut = Simulator.CodeFriendly.getSetups(codeOut);
-	codeOut = Simulator.CodeFriendly.getCode(codeOut, Simulator.CodeFriendly.setups.join('\n'));
-	return codeOut;
+	code = Simulator.CodeFriendly.getSetups(code);
+	code = Simulator.CodeFriendly.getCode(code, Simulator.CodeFriendly.setups.join('\n'));
+	return code;
 };
 
 /**
@@ -172,25 +192,69 @@ Simulator.CodeFriendly.replace_pinModules = function (code) {
 	if (/SeeedGroveMP3\.h/.test(code)) {
 		code = Simulator.CodeFriendly.mp3(code);
 	}
+	// Grove Encoder
+	if (/GroveEncoder\.h/.test(code)) {
+		code = code.replace(/GroveEncoder encoder_2\(2, NULL\);/g, '');
+		code = code.replace(/encoder_2\.getValue\(\)/g, 'encoder_2getValue()');
+		code = code.replace(/#include <GroveEncoder.h>/g, '');
+	}
+	// Arduino R4 LED Matrix
+	code = code.replace(/const Font(& | &)/g, 'Font ');
 	return code;
 };
 
 Simulator.CodeFriendly.typing = function (code) {
-	code = code.replace(/uint8_t/g, 'unsigned char');
-	code = code.replace(/\(byte\)/g, '(unsigned char)');
-	code = code.replace(/byte /g, 'unsigned char ');
-	code = code.replace(/int8_t/g, 'signed char');
-	code = code.replace(/uint16_t/g, 'unsigned short');
-	code = code.replace(/uint32_t/g, 'unsigned int');
-	code = code.replace(/boolean /g, 'bool ');
-	code = code.replace(/\((boolean|bool)\)/g, 'boolean');
-	code = code.replace(/\(int\)\(/g, 'to_int(');
-	code = code.replace(/([{[,( ])int\(/g, '$1to_int(');
-	code = code.replace(/\(float\)\(/g, 'float(');
+	// 8 bits
+	code = code.replace(/\b(uint8_t|byte)\b */g, 'unsigned char ');
+	code = code.replace(/\( *(uint8_t|byte) *\)/g, '(unsigned char)');
+	code = code.replace(/\bint8_t\b */g, 'signed char ');
+	code = code.replace(/\( *int8_t *\)/g, '(signed char)');
+	if (Simulator.board.id == BOARD_ARDUINO_UNO_R4_WIFI) {
+		// 16 bits
+		code = code.replace(/\bint16_t\b */g, 'short ');
+		code = code.replace(/\( *int16_t *\)/g, '(short)');
+		code = code.replace(/\b(uint16_t|wchar_t)\b */g, 'unsigned short ');
+		code = code.replace(/\( *(uint16_t|wchar_t) *\)/g, '(unsigned short)');
+		// 32 bits
+		code = code.replace(/\bint32_t\b */g, 'int ');
+		code = code.replace(/\( *int32_t *\)/g, '(int)');
+		code = code.replace(/\buint32_t\b */g, 'unsigned int ');
+		code = code.replace(/\( *uint32_t *\)/g, '(unsigned int)');
+	} else {
+		// 16 bits
+		code = code.replace(/\bint16_t\b */g, 'int ');
+		code = code.replace(/\( *int16_t *\)/g, '(int)');
+		code = code.replace(/\b(uint16_t|wchar_t)\b */g, 'unsigned int ');
+		code = code.replace(/\( *(uint16_t|wchar_t) *\)/g, '(unsigned int)');
+		// 32 bits
+		code = code.replace(/\bint32_t\b */g, 'long ');
+		code = code.replace(/\( *int32_t *\)/g, '(long)');
+		code = code.replace(/\buint32_t\b */g, 'unsigned long ');
+		code = code.replace(/\( *uint32_t *\)/g, '(unsigned long)');
+	}
+	// 64 bits
+	code = code.replace(/\bint64_t\b */g, 'long long ');
+	code = code.replace(/\( *int64_t *\)/g, '(long long)');
+	code = code.replace(/\buint64_t\b */g, 'unsigned long long ');
+	code = code.replace(/\( *uint64_t *\)/g, '(unsigned long long)');
+	// AVR (16 bits) - R4 (32 bits)
+	code = code.replace(/\b(size_t|uintptr_t)\b */g, 'unsigned int ');
+	code = code.replace(/\( *(size_t|uintptr_t) *\)/g, '(unsigned int)');
+	code = code.replace(/\b(ssize_t|ptrdiff_t|intptr_t)\b */g, 'int ');
+	code = code.replace(/\( *(ssize_t|ptrdiff_t|intptr_t) *\)/g, '(int)');
+	// boolean
+	code = code.replace(/\bboolean\b(?! *\()/g, 'bool');
+	code = code.replace(/\( *boolean *\)/g, '(bool)');
+	// float() / int() / char() raise parsing errors with JSCPP
+	code = code.replace(/(?<![A-Za-z0-9_])int *\(/g, 'vitta_to_int(');
+	code = code.replace(/(?<![A-Za-z0-9_])float *\(/g, 'vitta_to_float(');
+	code = code.replace(/(?<![A-Za-z0-9_])char *\(/g, 'vitta_to_char(');
+	// TO DO : what is it ?
 	code = code.replace(/([0-9]{1,10})\.(\/|\*|\+|\-)/g, '$1$2');
-	code = code.replace(/\.c_str\(\)/g, '');
+	// other
 	code = code.replace(/ \+ ""/g, '');
-	code = code.replace(/::/g, '.')
+	code = code.replace(/::/g, '.');
+	code = code.replace(/Stream& /g, 'SoftwareSerial ');
 	return code;
 };
 
@@ -208,7 +272,7 @@ Simulator.CodeFriendly.mp3 = function (code) {
 	code = code.replace('#define COMSerial SSerial', '');
 	code = code.replace('WT2003S<SoftwareSerial>', 'SeeedGroveMP3');
 	code = code.replace('STROAGE workdisk = SD;', '');
-	code = code.replace(STRUCT_MP3_PLAY_HISTORY, '');
+	code = code.replace(FUNCTIONS_ARDUINO.DECLARE_STRUCT_MP3_PLAY_HISTORY, '');
 	code = code.replace('Mp3Player.init(COMSerial);', 'Mp3Player.init();');
 	code = code.replace(/SoftwareSerial SSerial\(.+\);(\n|)/g, '');
 	code = code.replace('getAllSong()', 'Mp3Player.getAllSong()');

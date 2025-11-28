@@ -92,7 +92,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_O2_GAS_READDATA_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -156,7 +157,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_MQ135_GETGAS_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -173,7 +175,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_AIR_QUALITY_GETVALUE_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -205,7 +208,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_AIR_QUALITY_ONINDEXAS_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -229,7 +233,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_DUST_READDATA_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -279,7 +284,9 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_MHZ19_GETDATA_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global",
+            "pins_management_rxtx"
         ],
         "mutator": "sensors_temperature_mutator"
     },
@@ -348,7 +355,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_GETGROVEMOISTURE_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -373,7 +381,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_GETGROVETEMPERATURE_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -402,7 +411,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_GETGROVEHIGHTEMP_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -437,7 +447,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_MAX6675_READTEMP_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -469,7 +480,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_DHT_READDATA_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ],
         "mutator": "sensors_temperature_mutator"
     },
@@ -531,7 +543,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_MPX5700AP_GETPRESSURE_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -580,7 +593,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_DS18B20_GETTEMPERATURE_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -597,7 +611,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_GETGROVEWATER_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -626,7 +641,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_GETRAINGAUGE_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -643,7 +659,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_GETANEMOMETER_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -660,7 +677,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_GETGROVELIGHT_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -698,7 +716,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_GETUVINDEX_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -715,7 +734,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_GETGROVESOUND_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -793,7 +813,9 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_CAMERA_SNAPSHOT_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global",
+            "pins_management_rxtx"
         ]
     },
 
@@ -820,7 +842,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_GETGROVEULTRASONIC_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ],
         "mutator": "sensors_ultrasonic_mutator"
     },
@@ -883,7 +906,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_GETGROVELINEFINDER_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -900,7 +924,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_GETGROVETILT_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -917,7 +942,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_GETGROVEMOTION_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -934,7 +960,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_GETPIEZOVIBRATION_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -992,7 +1019,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_VOLTAGE_DIVIDER_GETDATA_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -1009,7 +1037,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_FSR402_GETFORCE_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -1026,7 +1055,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_GETPULSE_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     },
 
@@ -1043,7 +1073,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_GETPULSE_BPM_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "pins_management_global"
         ]
     }
 

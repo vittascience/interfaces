@@ -1,27 +1,24 @@
 // Main Simulator object
 var Simulator = {
 	TYPE: "JSCPP",
+	ERROR_TYPES: {
+		PARSING: "ParsingError",
+		LOADING_LIB: "LoadingLibraryError",
+		UNKNOWN_LIB: "UnknownLibraryError"
+	},
 	COMMENT_CHARACTER: '//',
-	is_changing_slider: false,
 	loopStep: false,
 	currentDelay: 0,
-	cpp: {},
-	//to easier the variables search
-	step: {
-		v: {
-			target: []
-		}
-	},
 	outputMemory: '',
 	serialData: '',
-	initLength: { 'arduino': 2, 'letsstartcoding': 2, 'mBot': 1 },
-	Arduino: Object.create(null),
+	initLength: { 'arduino': 3, 'letsstartcoding': 3, 'mBot': 1 },
 	rt: null,
 	variables: {},
 	constants: ['RAND_MAX', 'NULL', 'HIGH', 'LOW', 'A0', 'A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'DEC', 'OCT', 'HEX', 'PI', 'HALF_PI', 'TWO_PI', 'DEG_TO_RAD', 'RAD_TO_DEG', 'M_PI', 'M_E', 'M_LOG2E', 'M_LOG10E', 'M_LN2', 'M_LN10', 'M_1_PI', 'M_2_PI', 'M_2_SQRTPI', 'M_SQRT2', 'M_SQRT1_2', 'INFINITY', 'PORT_1', 'PORT_2', 'PORT_3', 'PORT_4', 'M1', 'M2', 'LED_BUFFER_SIZE', 'BRIGHTNESS_0', 'BRIGHTNESS_1', 'BRIGHTNESS_2', 'BRIGHTNESS_3', 'BRIGHTNESS_4', 'BRIGHTNESS_5', 'BRIGHTNESS_6', 'BRIGHTNESS_7'],
 	monitor: {
 		write() { }
 	},
+	errorInfos: {},
 
 	/**
 	 * Parses variables from code and add them to variables panel.
@@ -30,10 +27,10 @@ var Simulator = {
 		this.Debugger.emptyVariablesPanel();
 		if (this.rt) {
 			const varPanel = this.rt.scope;
-			for (i in varPanel) {
+			for (const i in varPanel) {
 				if (varPanel[i]) {
 					const variables = varPanel[i].variables;
-					for (var entryName in variables) {
+					for (const entryName in variables) {
 						if (!this.constants.includes(entryName) && !(variables[entryName].t.type && variables[entryName].t.type == 'function') && !/(cin|cout|endl)/.test(entryName)) {
 							let value = variables[entryName].v;
 							if (typeof variables[entryName].v == 'object') {
@@ -41,7 +38,7 @@ var Simulator = {
 									value = Simulator.getStringArrayFromInterpretor(variables[entryName]);
 								}
 							}
-							let variable = {
+							const variable = {
 								"name": entryName,
 								"value": value,
 								"type": variables[entryName].t.name
@@ -62,7 +59,7 @@ var Simulator = {
 			step: step
 		};
 		this.rt = rt;
-		var _this = this;
+		const _this = this;
 		return new Promise(async function (resolve, reject) {
 			let lineToDraw;
 			if (Simulator.loopStep) {
@@ -131,7 +128,10 @@ var Simulator = {
 	sleep_ms: function (delay_ms) {
 		return new Promise(resolve => {
 			Simulator.clearCurrentDelay = resolve;
-			setTimeout(resolve, delay_ms);
+			setTimeout(() => {
+				Simulator.clearCurrentDelay = null;
+				resolve();
+			}, delay_ms);
 		});
 	},
 
@@ -143,16 +143,83 @@ var Simulator = {
 	 * Run arduino code in the simulator.
 	 */
 	runCode: async function () {
-		try {
-			this.startTime = Date.now();
-			this.mainExecutionStarted = true;
-			await JSCPP.run(this.code, 4321, {
-				'stdio': Simulator.monitor,
-				'includes': Simulator.Mosaic.externalLibraries.includes
-			});
-		} catch (error) {
-			this.handleError(error);
+		this.startTime = Date.now();
+		this.mainExecutionStarted = true;
+		this.rt = null;
+		const default_includes = ["Arduino.h"];
+		if ('Vittascience.h' in Simulator.Mosaic.externalLibraries.includes) {
+			default_includes.push('Vittascience.h');
 		}
+		await JSCPP.run(this.code, 4321, {
+			'stdio': Simulator.monitor,
+			'includes': Simulator.Mosaic.externalLibraries.includes,
+			'default_includes': default_includes,
+			'limits': SIMULATOR_CPP_LIMITS[this.board.mcu],
+			'type_formats': SIMULATOR_TYPE_FORMATS[this.board.mcu],
+			'board': this.board,
+			'overflow': "warn",
+			"warn_callback": function (warn_msg) {
+				InterfaceMonitor.writeConsole(warn_msg, 'interrupt', true, true);
+			},
+			"error_types": this.ERROR_TYPES
+		});
+	},
+
+	getMessageByError: function (error, previousError) {
+		const boldName = (i) => `<b>'${i}'</b>`;
+		let node = null;
+		let showError = error.message;
+		if (error.cause) {
+			if (error.cause.node) {
+				node = error.cause.node;
+			}
+			if (error.cause.type == this.ERROR_TYPES['PARSING']) {
+				const line = error.cause.error.line - this.initLength[INTERFACE_NAME];
+				const lineMessage = `<b>Line ${line}:</b> `;
+				showError = lineMessage + 'Syntaxe incorrecte ou inconnue';
+				const loc = error.cause.error.location;
+				const lines = (loc.prolog + loc.token + loc.epilog).replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+				showError += '</br><b>' + lines.replaceAll('\\n', '</br>') + '</b>';
+				return showError;
+			}
+		} else if (this.rt && this.rt.interp) {
+			node = this.rt.interp.currentNode;
+		}
+		let lineMessage = "";
+		let name = "";
+		if (node) {
+			name = node.Expression ? node.Expression.Identifier : node.name;
+			lineMessage = `<b>Line ${node.sLine - this.initLength[INTERFACE_NAME]} : ${node.sColumn}</b>: `;
+		}
+		if (error.cause) {
+			if (error.cause.name) name = error.cause.name;
+			if (error.cause.type == this.ERROR_TYPES['LOADING_LIB']) {
+				showError = lineMessage + 'Chargement impossible de ';
+				showError += boldName(name);
+			} else if (error.cause.type == this.ERROR_TYPES['UNKNOWN_LIB']) {
+				showError = lineMessage + 'Librairie inconnue: ';
+				showError += boldName(name);
+			} else {
+				showError = lineMessage + showError;
+			}
+		} else {
+			if (node) {
+				const name = node.Expression ? node.Expression.Identifier : node.name;
+				if (name) {
+					const lineMessage = `<b>Line ${node.sLine - this.initLength[INTERFACE_NAME]} : ${node.sColumn}</b>: `;
+					showError = lineMessage + 'Simulation non implémentée: ';
+					showError += boldName(name);
+					console.error(error)
+				}
+			}
+		}
+		if (!previousError) previousError = "";
+		else previousError += '</br>';
+
+		if (error.cause && error.cause.e) {
+			return previousError + this.getMessageByError(error.cause.e, showError);
+		}
+		return previousError + showError;
 	},
 
 	/**
@@ -160,38 +227,11 @@ var Simulator = {
 	 * @param {Object} err 
 	 */
 	handleError: function (err) {
-		console.error(err)
-		if (!/Simulator stopped./.test(err)) {
-			let error = String(err);
-			if (/ERROR: Parsing Failure:/.test(error)) {
-				const errorObj = JSON.parse(error.split("Parsing Failure:\n")[1]);
-				error = "Line " + (errorObj.line - Simulator.initLength[INTERFACE_NAME] - 1) + ": " + "Parsing Failure: </br><b>" + errorObj.location.prolog + "</b>";
-			} else if (/Error: [0-9]{1,2}:[0-9]{1,2}/.test(error)) {
-				const line = error.match(/Error: ([0-9]{1,2}):([0-9]{1,2})/)[1];
-				error = "Line " + (line - Simulator.initLength[INTERFACE_NAME]) + ": " + error.split(/Error: [0-9]{1,2}:[0-9]{1,2}/)[1];
-				const includeError = error.match(/cannot find library/);
-				if (includeError && includeError.length > 0) {
-					error = error.replace(
-						/ cannot find library: ([a-zA-Z0-9_]{1,50}).h/,
-						jsonPath('code.simulator.messages.module') + " <b>$1.h</b> " + jsonPath('code.simulator.messages.importError')
-					);
-				} else if (/type Me(.*) is not defined/.test(error) && INTERFACE_NAME == "mBot") {
-					error = error.replace(
-						/type (Me(.*)) is not defined/,
-						jsonPath('code.simulator.messages.module') + " <b>$1.h</b> " + jsonPath('code.simulator.messages.importError')
-					);
-				}
-			} else if (/TypeError: Cannot read properties of undefined \(reading 'type'\)/.test(error)) {
-				error = "[Argument types] Function does not matching arguments definition";
-			} else if (/TypeError: Cannot read properties of undefined \(reading 'v'\)/.test(error)) {
-				error = "[Function] Function not found";
-			}
-			UIManager.showErrorMessage('error-message', error.replace(/Line ([0-9]{1,3}):/, "<b>Line $1:</b>"));
-			this.stop();
-		}
+		UIManager.showErrorMessage('error-message', this.getMessageByError(err));
+		this.stop();
 	},
 
-	initSerialInput: function () {
+	initJSCPP: function () {
 		document.getElementById('serial-send').addEventListener('click', function () {
 			if (!Simulator.isStopped) {
 				const data = $('#serial-input').val();
@@ -216,8 +256,8 @@ var Simulator = {
 		if (str.v && typeof str.v.v == 'number') {
 			return String(str.v.v);
 		}
-		if (typeof str.v == 'string') {
-			return str.v;
+		if (this.rt.isStringClass(str)) {
+			return this.getStringFromInterpretor(str.v.members._value);
 		}
 		let myString = '';
 		if (str.v && str.v.target) {
@@ -306,6 +346,32 @@ var Simulator = {
 			}
 			return ret;
 		}
+	},
+
+	updateArduinoBoard(boardId) {
+		if (boardId) {
+			if (boardId == BOARD_SHIELD_GROVE) {
+				this.viewShield = true;
+			} else {
+				this.viewShield = false;
+			}
+		}
+		const img = (filename) => _PATH + "/" + INTERFACE_NAME + "/assets/media/simulator/board/" + filename;
+		const path = this.viewShield ? img(this.board.shieldLink) : img(this.board.link);
+		const name = this.viewShield ? this.board.shieldName : this.board.name;
+		$("#board-viewer").attr("data", path);
+		$("#title-board").html(name);
+		const options = document.querySelectorAll("#simulator-board-options .dropdown-item");
+		options.forEach((option) => {
+			option.classList.remove('fw-bold');
+			const optionValue = option.getAttribute('data-board');
+			if (
+				((optionValue === Simulator.board.name && !this.viewShield) || (optionValue == 'Shield Grove' && this.viewShield)) 
+				&& !option.classList.contains('fw-bold')) {
+				option.classList.add('fw-bold');
+			}
+		});
+		this.Mosaic.addSpecificInitializations();
 	}
 
 };

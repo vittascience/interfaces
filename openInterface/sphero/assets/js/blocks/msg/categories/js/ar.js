@@ -1,5 +1,5 @@
 /**
- * @fileoverview English translation file for CyberPi Toolbox. (EN)
+ * @fileoverview English translation file for Sphero Toolbox. (EN)
  */
 
 // Toolbox category names.
@@ -35,3 +35,4 @@ Blockly.Msg['SUBCATEGORY_EVENTS'] = 'Event';
 Blockly.Msg['SUBCATEGORY_MUSIC'] = 'Music';
 Blockly.Msg['SUBCATEGORY_LOOPS'] = 'Loops';
 Blockly.Msg['SUBCATEGORY_LOGIC'] = 'Logic';
+Blockly.Msg['SUBCATEGORY_TEXT_ANALYSIS'] = 'تحليل النص';

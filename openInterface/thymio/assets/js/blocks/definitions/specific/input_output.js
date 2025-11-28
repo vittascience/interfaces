@@ -391,7 +391,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             {
                 "type": "input_value",
                 "name": "THRESHOLD",
-                "check": 'Number',
+                "check": "Number",
             },
         ],
         "previousStatement": null,

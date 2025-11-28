@@ -1,7 +1,6 @@
 @import url('../../../interfaces/assets/css/simulator-modules.css');
 @import url('../../../interfaces/assets/css/simulator-robot.css');
 
-
 #experience-3d-container{
 	position: relative;
 	margin: auto;
@@ -10,7 +9,6 @@
 	justify-content: center;
 	align-items: center;
 }
-
 
 .experience3D {
 	background: linear-gradient(180deg, #2828c0 0%, #5e5e5e 100%);

@@ -72,6 +72,11 @@ Blockly.Msg['TURTLE_SCREEN_SETUP_TITLE'] = 'taille du canvas %1 x %2';
 Blockly.Msg['TURTLE_SCREEN_SETUP_TOOLTIP'] = 'Définir la taille du canvas.';
 Blockly.Msg['TURTLE_SCREEN_COLOR_TITLE'] = 'couleur de fond du canvas %1'; 
 Blockly.Msg['TURTLE_SCREEN_COLOR_TOOLTIP'] = 'Définir la couleur de fond du canvas.'; 
+Blockly.Msg['TURTLE_SCREEN_PICTURE_TITLE'] = 'image de fond du canvas %1'; 
+Blockly.Msg['TURTLE_SCREEN_PICTURE_TOOLTIP'] = 'Définir une image de fond du canvas.'; 
+Blockly.Msg['TURTLE_SCREEN_PICTURE_MAZE'] = 'labyrinthe';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_GRID'] = 'cadrillage';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_VITTASCIENCE'] = 'vittascience';
 Blockly.Msg['TURTLE_COLOR'] = 'set color %1';
 Blockly.Msg['TURTLE_WIDTH'] = 'définir la largeur %1';
 Blockly.Msg['TURTLE_FILLCOLOR'] = 'remplir avec la couleur %1';
@@ -226,3 +231,4 @@ Blockly.Msg['EXCEPTION_TRY_TOOLTIP'] = 'Exécute un bloc de code et permet d\'ex
 
 // Other Block
 Blockly.Msg['OTHER_AST_RAW'] = 'Code non traduit';
+Blockly.Msg['VITTAIA_WEBCAM_REFRESH'] = 'Initialiser la webcam';

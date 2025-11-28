@@ -35,7 +35,6 @@ function loadInterface(interfaceName) {
             const toolboxes_src = (['python', 'TI-83'].includes(interfaceName) ? `openInterface/${interfaceName}/assets/js/constants/toolbox/toolboxes.js` : '/openInterface/interfaces/assets/js/constants/toolbox/toolboxes.js');
             const interface_type = (['arduino', 'mBot', 'letsstartcoding'].includes(interfaceName) ? interfaceName : 'interfaces');
 
-
             let COMMON_CONSTANTS_SCRIPTS = [
                 {
                     id: 'init',
@@ -137,12 +136,20 @@ function loadInterface(interfaceName) {
 
             const COMMON_LANG_SCRIPTS = [
                 {
+                    id: "common_cat_msg",
+                    src: `/openInterface/interfaces/assets/js/msg/categories/${lng}.js`
+                },
+                {
                     id: "common_block_msg",
                     src: `/openInterface/interfaces/assets/js/msg/blocks/${lng}.js`
                 }
             ];
 
             const FALLBACK_COMMON_LANG_SCRIPTS = [
+                {
+                    id: "common_cat_msg",
+                    src: `/openInterface/interfaces/assets/js/msg/categories/en.js`
+                },
                 {
                     id: "common_block_msg",
                     src: `/openInterface/interfaces/assets/js/msg/blocks/en.js`
@@ -173,7 +180,7 @@ function loadInterface(interfaceName) {
                 blockCategories.push('exceptions');
             }
             if (['python', 'microbit'].includes(interfaceName)) {
-                blockCategories.push('dictionaries')
+                blockCategories.push('dictionaries');
             }
             const pathCommonBlockDefinitions = `/openInterface/${interface_type}/assets/js/blocks/definitions/basic/`;
             const COMMON_BLOCKS_DEFINITIONS_SCRIPTS = blockCategories.map(cat => {
@@ -191,7 +198,7 @@ function loadInterface(interfaceName) {
 
             let pythonCategories = ['colour', 'logic', 'loops', 'math', 'text', 'variables', 'lists', 'procedures', 'exceptions'];
             if (['python', 'microbit'].includes(interfaceName)) {
-                pythonCategories.push('dictionaries')
+                pythonCategories.push('dictionaries');
             }
             const pathCommonPythonGenerators = '/openInterface/interfaces/assets/js/blocks/generators/python/';
             const COMMON_PYTHON_BLOCKS_GENERATORS = pythonCategories.map(cat => {
@@ -285,8 +292,8 @@ function loadInterface(interfaceName) {
 
             // generator.js
             // Note: Add interface name if it IS required.
-            if (['arduino', 'letsstartcoding', 'esp32', 'pico', 'm5stack', 'galaxia', 'GalaxiaCircuitPython', 'wb55', 'l476', 'mBot', 'cyberpi', 
-                'raspberrypi', 'TI-83', 'eliobot'].includes(interfaceName)) {
+            if (['arduino', 'letsstartcoding', 'esp32', 'pico', 'm5stack', 'galaxia', 'GalaxiaCircuitPython', 'wb55', 'l476', 'mBot', 'cyberpi',
+                'raspberrypi', 'TI-83', 'eliobot', 'codey'].includes(interfaceName)) {
                 SPECIFIC_BLOCKS_GENERATORS_SCRIPTS.push({
                     id: 'generator.js',
                     src: `/openInterface/${interfaceName}/assets/js/blocks/generators/generator.js`
@@ -305,7 +312,7 @@ function loadInterface(interfaceName) {
                 'input_output': ['python', 'TI-83', 'niryo', 'nao'],
                 'communication': ['python', 'TI-83', 'letsstartcoding', 'niryo', 'buddy'],
                 'actuators': ['python', 'TI-83', 'niryo', 'nao'],
-                'sensors': ['python', 'TI-83', 'letsstartcoding', 'niryo',]
+                'sensors': ['python', 'TI-83', 'letsstartcoding', 'niryo']
             };
 
             for (const file in excludedInterfacesForScripts) {
@@ -315,26 +322,50 @@ function loadInterface(interfaceName) {
             }
 
             // robots.js
-            if (['microbit', 'esp32', 'pico', 'wb55', 'l476', 'cyberpi', 'GalaxiaCircuitPython'].includes(interfaceName)) {
+            if (['microbit', 'esp32', 'pico', 'wb55', 'l476', 'cyberpi', 'GalaxiaCircuitPython', 'codey'].includes(interfaceName)) {
                 addBlockScripts(['robots']);
             }
 
             // network.js 
-            if (['esp32', 'm5stack', 'galaxia', 'pico'].includes(interfaceName)) {
+            if (['esp32', 'm5stack', 'galaxia', 'pico', 'arduino'].includes(interfaceName)) {
                 SPECIFIC_BLOCKS_DEFINITIONS_SCRIPTS.push({
                     id: 'definitions-network.js',
                     src: '/openInterface/interfaces/assets/js/blocks/definitions/python/esp32/network.js'
                 });
-                if (interfaceName !== 'pico') {
+                if (!['pico', 'arduino'].includes(interfaceName)) {
                     SPECIFIC_BLOCKS_GENERATORS_SCRIPTS.push({
                         id: 'generators-network.js',
                         src: '/openInterface/interfaces/assets/js/blocks/generators/python/esp32/network.js'
-                    })
+                    });
                 } else {
                     SPECIFIC_BLOCKS_GENERATORS_SCRIPTS.push({
                         id: 'generators-network.js',
                         src: SPECIFIC_GENERATORS_PATH + 'network.js'
-                    })
+                    });
+                }
+            }
+
+            // cameras.js 
+            if (['arduino', 'esp32', 'galaxia', 'l476', 'microbit', 'wb55',].includes(interfaceName)) {
+                SPECIFIC_BLOCKS_DEFINITIONS_SCRIPTS.push({
+                    id: 'definitions-cameras.js',
+                    src: '/openInterface/interfaces/assets/js/blocks/definitions/common/cameras.js'
+                });
+                if (['l476', 'wb55'].includes(interfaceName)) {
+                    SPECIFIC_BLOCKS_GENERATORS_SCRIPTS.push({
+                        id: 'generators-cameras.js',
+                        src: '/openInterface/interfaces/assets/js/blocks/generators/python/stm32/cameras.js'
+                    });
+                } else if (['esp32'].includes(interfaceName)) {
+                    SPECIFIC_BLOCKS_GENERATORS_SCRIPTS.push({
+                        id: 'generators-cameras.js',
+                        src: '/openInterface/interfaces/assets/js/blocks/generators/python/esp32/cameras.js'
+                    });
+                } else if (['arduino', 'galaxia'].includes(interfaceName)) {
+                    SPECIFIC_BLOCKS_GENERATORS_SCRIPTS.push({
+                        id: 'generators-cameras.js',
+                        src: SPECIFIC_GENERATORS_PATH + 'cameras.js'
+                    });
                 }
             }
 
@@ -352,11 +383,14 @@ function loadInterface(interfaceName) {
                 case 'microbit':
                     addBlockScripts(['tello', 'cameras']);
                     break;
+                case 'esp32':
+                    addBlockScripts(['esp32cam']);
+                    break;
                 case 'm5stack':
                     addBlockScripts(['screen']);
                     break;
                 case 'pico':
-                    addBlockScripts(['process']);
+                    addBlockScripts(['process', 'cameras']);
                     break;
                 case 'python':
                     addBlockScripts(['graph', 'numpy', 'turtle', 'vittaia']);
@@ -364,10 +398,6 @@ function loadInterface(interfaceName) {
                 case 'TI-83':
                     addBlockScripts(['ce', 'devices', 'draw', 'io', 'microbit', 'plotlib', 'random', 'rover', 'tello', 'turtle']);
                     addConstantScript(['texas_instruments', 'texas_instruments_code'], 'toolbox');
-                    break;
-                case 'wb55':
-                case 'l476':
-                    addBlockScripts(['cameras']);
                     break;
                 case 'mBot':
                     addBlockScripts(['mCore']);

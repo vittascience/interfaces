@@ -1,4 +1,4 @@
-Blockly.Msg.boardName = 'Galaxia';
+Blockly.Msg.Esp32BoardName = 'Galaxia';
 
 //galaxia Pins
 Blockly.Constants.PRINT_START_N = 0;

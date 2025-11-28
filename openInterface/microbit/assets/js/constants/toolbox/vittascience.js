@@ -82,7 +82,7 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
     {
         "kind": "category",
         "toolboxitemid": "cameras",
-        "name": "%{BKY_CATEGORY_CAMERAS}",
+        "name": "%{BKY_CATEGORY_AI_CAMERAS}",
         "style": "cameras_category",
         "cssConfig": {
             "icon": "icon_blockly fa-solid fa-camera"
@@ -147,7 +147,7 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
         "kind": "category",
         "toolboxitemid": "lists",
         "name": "%{BKY_CATEGORY_LISTS}",
-        "style": "list_category",
+        "style": "lists_category",
         "cssConfig": {
             "icon": "icon_blockly fas fa-list"
         },
@@ -335,8 +335,9 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             "label": "%{BKY_SUBCATEGORY_ZIP_HALO}",
             "blocks": [
                 "display_controlColorZipHaloLed",
-                "display_ZipHaloLed_controlAllLedRGB",
+                "display_controlZipHaloLed",
                 "display_ZipHaloLed_controlAllLedPalette",
+                "display_ZipHaloLed_controlAllLedRGB",
                 "display_ZipHaloLed_rainbow"
             ]
         },
@@ -460,6 +461,12 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'io_readPulseIn',
                 'io_setPull'
             ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_EXEC}",
+            "blocks": [
+                'io_exec'
+            ]
         }
     ],
     "communication": [
@@ -483,7 +490,8 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'communication_onRadioDataReceived',
                 'communication_onRadioNumberReceived',
                 'communication_onRadioValueReceived',
-                'communication_radioConfig'
+                'communication_radioConfig',
+                'communication_radioReceiveFull'
             ]
         },
         {
@@ -623,6 +631,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 "sensors_getSi1145Light",
                 "sensors_getUVindex",
                 "sensors_colorSensor_getData",
+                "sensors_colorSensorV3_getData",
                 "sensors_getGroveSound"
             ]
         },
@@ -635,6 +644,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 "sensors_onGestureTypeDetected",
                 "sensors_getGroveLineFinder",
                 "sensors_getGroveMotion",
+                "sensors_getMiniPirGroveMotion",
                 "sensors_getGroveTilt",
                 "sensors_getPiezoVibration"
             ]
@@ -656,6 +666,9 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             "blocks": [
                 'actuators_setServoAngle',
                 'actuators_continuousServo_setSpeed',
+                'actuators_stepperMotor_uln2003driver_init',
+                'actuators_stepperMotor_uln2003driver_moveSteps',
+                'actuators_stepperMotor_uln2003driver_setDelay',
                 'actuators_setMotorPower',
                 'actuators_setFanPower',
                 'actuators_kitronik_controlMotor',
@@ -834,28 +847,74 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         {
             "subCategoryId": 'maqueen-plus',
             "contents": [{
-                "label": "%{BKY_SUBCATEGORY_MAQUEEN_PLUS}",
+                "label": "%{BKY_SUBCATEGORY_DETECTION}",
                 "blocks": [
-                    'robots_getMaqueenPlusV2UltrasonicRanger',
                     'robots_getMaqueenPlusUltrasonicRangerTrigEcho',
-                    'robots_readMaqueenPlusv1Patrol',
-                    'robots_readMaqueenPlusv2Patrol',
-                    'robots_controlMaqueenPlusLed',
+                    'robots_getMaqueenPlusV2UltrasonicRanger',
+                    'robots_readMaqueenPlusPatrol',
+                    'robots_maqueenPlusV3_readLightIntensity'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_MOVING}",
+                "blocks": [
                     'robots_setMaqueenPlusGo',
                     'robots_rotateMaqueenPlus',
                     'robots_controlMaqueenPlusMotor',
-                    'robots_stopMaqueenPlusMotors',
-                    'robots_setMaqueenPlusV1ServoAngle',
-                    'robots_setMaqueenPlusV2ServoAngle',
+                    'robots_stopMaqueenPlusMotors'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_CONTROL}",
+                "blocks": [
+                    'robots_controlMaqueenPlusLed',
+                    'robots_maqueenPlusV3_setRGBLed',
+                    'robots_setMaqueenPlusBuzzer',
+                    'robots_setMaqueenPlusServoAngle'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_RGB_LED} (V2 & V3)",
+                "blocks": [
                     'robots_maqueenPlusBlinkRobot',
                     'robots_setMaqueenPlusNeopixelPalette',
                     'robots_setMaqueenPlusNeopixel',
-                    'robots_setMaqueenPlusRainbow',
-                    'robots_setMaqueenPlusBuzzer',
+                    'robots_setMaqueenPlusRainbow'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_REMOTE_CONTROL}",
+                "blocks": [
                     'robots_maqueenPlus_onRemoteCommandReceived',
                     'robots_maqueenPlus_onRemoteCommandReceived_car_mp3_gray',
                     'robots_decodeMaqueenPlusIRreceiver',
                     'robots_getMaqueenPlusIRcode'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_LINE_FINDER} (V3)",
+                "blocks": [
+                    'robots_maqueenPlusV3_setPatrolSpeed',
+                    'robots_maqueenPlusV3_setIntersectionRunMode',
+                    'robots_maqueenPlusV3_setLeftOrRightIntersectionRunMode',
+                    'robots_maqueenPlusV3_setPatrollingState',
+                    'robots_maqueenPlusV3_intersectionDetected',
+                    'robots_maqueenPlusV3_intersectionDetectedIs'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_PID} (V3)",
+                "blocks": [
+                    'robots_maqueenPlusV3_runDistance',
+                    'robots_maqueenPlusV3_turnWithAngle',
+                    'robots_maqueenPlusV3_readRealTimeSpeed',
+                    'robots_maqueenPlusV3_stopPID'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_LIDAR} (V3)",
+                "blocks": [
+                    'robots_maqueenPlusV3_lidar_configMatrix',
+                    'robots_maqueenPlusV3_lidar_getData',
+                    'robots_maqueenPlusV3_lidar_getFixedPoint',
+                    'robots_maqueenPlusV3_lidar_configAvoidance',
+                    'robots_maqueenPlusV3_lidar_isSignalActivated',
+                    'robots_maqueenPlusV3_lidar_dirToFollow',
+                    'robots_maqueenPlusV3_lidar_isDirToFollow',
+                    'robots_maqueenPlusV3_lidar_getObstacleDistance'
                 ]
             }]
         },
@@ -961,13 +1020,21 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         {
             "subCategoryId": 'gamepad',
             "contents": [{
-                "label": "%{BKY_SUBCATEGORY_GAMEPAD}",
+                "label": "BitPlayer",
                 "blocks": [
                     'robots_onBitPlayerButtonEvent',
-                    'robots_getBitPlayerJoystick',
+                    'robots_getBitPlayerJoystick'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_GAMEPAD} V4",
+                "blocks": [
                     'robots_onGamepadV4ButtonEvent',
                     'robots_getGamepadV4Joystick',
-                    'robots_setGamepadV4LEDMotor',
+                    'robots_setGamepadV4LEDMotor'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_GAMEPAD}",
+                "blocks": [
                     'robots_onGamepadButtonEvent',
                     'robots_setGamepadLED',
                     'robots_setGamepadMotorVibration',
@@ -1097,7 +1164,10 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'math_constrain',
                 'math_random_int',
                 'math_random_float',
-                'math_atan2'
+                'math_atan2',
+                "math_RSA_generate_keys",
+                "math_RSA_cipher_message",
+                "math_RSA_decipher_message"
             ]
         }
     ],
@@ -1126,7 +1196,9 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             "label": "%{BKY_SUBCATEGORY_TEXT_ANALYSIS}",
             "blocks": [
                 'text_count_characters',
-                'text_random_string'
+                'text_random_string',
+                'text_caesar_cipher',
+                'text_caesar_cipher_brute_force'
             ],
         }
     ],

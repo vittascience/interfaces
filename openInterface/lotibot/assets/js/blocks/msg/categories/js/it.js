@@ -33,3 +33,4 @@ Blockly.Msg['SUBCATEGORY_TIME'] = 'Time';
 Blockly.Msg['SUBCATEGORY_MUSIC'] = 'Musica';
 Blockly.Msg['SUBCATEGORY_LOOPS'] = 'Cicli';
 Blockly.Msg['SUBCATEGORY_LOGIC'] = 'Logica';
+Blockly.Msg['SUBCATEGORY_TEXT_ANALYSIS'] = 'Analisi del testo';

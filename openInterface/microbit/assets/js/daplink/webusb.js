@@ -65,8 +65,8 @@ const EVENT_END_USB_SELECT = "end_usb_select";
 
 class WebUSBError extends Error {
     constructor(code, message) {
-      super(message);
-      this.code = code;
+        super(message);
+        this.code = code;
     }
 }
 
@@ -134,7 +134,7 @@ class MicrobitWebUSBConnection {
         }
     }
 
-    beforeUnloadListener() {
+    beforeUnloadListener = () => {
         // If serial is in progress when the page unloads with V1 DAPLink 0254 or V2 0255
         // then it'll fail to reconnect with mismatched command/response errors.
         // Try hard to disconnect as a workaround.

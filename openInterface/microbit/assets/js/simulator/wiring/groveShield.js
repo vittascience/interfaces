@@ -1,5 +1,5 @@
 let groveShield = {
-    IMG_LINK: WiringSimulator.PATH_MEDIA + "/shields/microbit-grove-shield.svg",
+    IMG_LINK: WiringSimulator.PATH_MEDIA + "/shields/microbit_grove_shield.svg",
     SIZE: {
       w: 140, // px
       h: 137 // px

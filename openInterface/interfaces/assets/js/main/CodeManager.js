@@ -19,6 +19,13 @@
  */
 class CodeManager {
 
+    static STATUS = {
+        'DOM': {
+            xmlError: 'ProjectLoadingDOM_xmlError',
+            xmlSuccess: 'ProjectLoadingDOM_xmlSuccess',
+        }
+    }
+
     /**
      * Creates an instance of CodeManager.
      * @private
@@ -29,7 +36,7 @@ class CodeManager {
      */
 
     constructor(codeMode, workspace, generator, xml) {
-        this.REGEXP_INTERFACES = /.*(arduino|microbit|python|adacraft|wb55|l476|esp32|TI-83|galaxia|raspberrypi|niryo|nao|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|eliobot|thymio|letsstartcoding|pico|winky|web|sphero|lotibot|bluebot|spike|photon).*/g;
+        this.REGEXP_INTERFACES = /.*(arduino|microbit|python|adacraft|wb55|l476|esp32|TI-83|galaxia|raspberrypi|niryo|nao|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|eliobot|thymio|letsstartcoding|pico|winky|web|sphero|lotibot|bluebot|spike|photon|codey).*/g;
         if (typeof ltiVariables13 != 'undefined') {
             this._interface = ltiVariables13.interface;
         } else if (typeof ltiVariables != 'undefined') {
@@ -67,6 +74,7 @@ class CodeManager {
             case 'bluebot':
             case 'spike':
             case 'photon':
+            case 'codey':
                 this._lStorage = this._interface + "CurrentProject";
                 this._lSaveStorage = this._interface + "SavedProjects"; //[! NOT USED: Visitor need account to save his projects]
                 break;
@@ -197,14 +205,21 @@ class CodeManager {
      * @returns {void}
      */
     loadBlocks(xml = this._xml) {
+        let status = CodeManager.STATUS.DOM.xmlSuccess;
         if (this._workspace !== null) {
             this._workspace.clear();
             if (xml !== null) {
+                if (typeof REPLACE_CODE_REQUESTS !== 'undefined') {
+                    for (const request of Object.values(REPLACE_CODE_REQUESTS)) {
+                        xml = xml.replace(request[0], request[1]);
+                    }
+                }
                 try {
                     this._xmlToWorkspace(xml);
                 } catch (e) {
                     console.error(e)
                     this._xmlToWorkspace(this.getDefaultXmlStart());
+                    status = CodeManager.STATUS.DOM.xmlError;
                 };
             } else {
                 this._xmlToWorkspace(this.getDefaultXmlStart());
@@ -215,8 +230,10 @@ class CodeManager {
         } else {
             if (this._interface !== 'adacraft') {
                 console.error('Main is not defined in initialization parts.')
+                status = CodeManager.STATUS.DOM.xmlError;
             }
         }
+        return status;
     };
     /**
      * Sets a coding mode.
@@ -306,9 +323,9 @@ class CodeManager {
             'codeManuallyModified': this.isCodeManuallyModified(),
             'mode': this._getSelectedMode(),
             'name': $('#project-name').html(),
-            'description': $('#project-name').attr('data-bs-title') 
+            'description': $('#project-name').attr('data-bs-title')
         };
-        
+
         if (this.localStorageManager.getLocalProjectContent() && this.localStorageManager.getLocalProjectContent().options) currentProjectState.options = this.localStorageManager.getLocalProjectContent().options;
 
         this.localStorageManager.setLocalProject(currentProjectState);

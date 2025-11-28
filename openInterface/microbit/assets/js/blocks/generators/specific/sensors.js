@@ -572,6 +572,29 @@ Blockly.Python.sensors_colorSensor_getData = function (block) {
     return ["tcs3472.rgb()[" + block.getFieldValue("DATA") + "]", Blockly.Python.ORDER_ATOMIC];
 };
 
+Blockly.Python.sensors_colorSensorV3_getData = function (block) {
+    Blockly.Python.addImport('veml6040', IMPORT_VEML6040);
+    Blockly.Python.addInit('veml6040', "veml6040 = PiicoDev_VEML6040()");
+    const data = block.getFieldValue("DATA");
+    // if (data.includes('raw')) {
+    //     return ["int(veml6040.readRGB()['" + data.replace('raw_', '') + "']/65535)", Blockly.Python.ORDER_ATOMIC];
+    // }
+    switch (data) {
+        case "red":
+        case "green":
+        case "blue":
+        case "white":
+        case "cct":
+            return ["veml6040.readRGB()['" + data + "']", Blockly.Python.ORDER_ATOMIC];
+        case "hue":
+        case "saturation":
+        case "value":
+            return ["veml6040.readHSV()['" + data + "']", Blockly.Python.ORDER_ATOMIC];
+        case "name":
+            return ["veml6040.classifyHue()", Blockly.Python.ORDER_ATOMIC];
+    }
+};
+
 Blockly.Python.sensors_getGroveSound = function (block) {
     const pin = block.getFieldValue("PIN");
     Blockly.Python.addInit('sound_module_' + pin, "# Sound Sensor on " + pin);
@@ -656,6 +679,12 @@ Blockly.Python.sensors_getGroveMotion = function (block) {
     const pin = block.getFieldValue("PIN");
     Blockly.Python.addInit('motion_module_' + pin, "# PIR Motion Sensor on " + pin);
     return [pin + ".read_analog() > 500", Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.sensors_getMiniPirGroveMotion = function (block) {
+    const pin = block.getFieldValue("PIN");
+    Blockly.Python.addInit('motion_module_' + pin, "# Mini PIR Motion Sensor on " + pin);
+    return [pin + ".read_digital()", Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.sensors_getPiezoVibration = function (block) {

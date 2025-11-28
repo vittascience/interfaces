@@ -271,6 +271,15 @@ Blockly.Msg["MATH_ATAN2_TITLE"] = "X:%1 Y:%2 قوس ظل ";
 Blockly.Msg["MATH_ATAN2_TOOLTIP"] = "إرجاع قوس ظل النقطة (X،Y) بالدرجات من -180 إلى 180";
 Blockly.Msg["MATH_ATAN2_RAD_TOOLTIP"] = "إرجاع قوس ظل النقطة (X،Y) بالراديان من -π إلى π";
 Blockly.Msg["MATH_MIN_MAX_TOOLTIP"] = "إرجاع أصغر أو أكبر رقم بين القيم المعطاة.";
+Blockly.Msg["MATH_RSA_GENERATE_KEYS_TITLE"] = "توليد مفاتيح RSA بطول %1 بت";
+Blockly.Msg["MATH_RSA_GENERATE_KEYS_TOOLTIP"] = "توليد زوج من المفاتيح العامة/الخاصة لنظام RSA بالحجم المحدد بالبتات. قد تستغرق عملية التوليد بعض الوقت.";
+Blockly.Msg["BKY_MATH_RSA_GENERATE_KEYS_HELPURL"] = "https://ar.wikipedia.org/wiki/%D8%AE%D9%88%D8%A7%D8%B1%D8%B2%D9%85%D9%8A%D8%A9_%D8%A2%D8%B1_%D8%A5%D8%B3_%D8%A5%D9%8A%D9%87";
+Blockly.Msg["MATH_RSA_CIPHER_MESSAGE_TITLE"] = "تشفير الرسالة %1 باستخدام المفتاح %2";
+Blockly.Msg["MATH_RSA_CIPHER_MESSAGE_TOOLTIP"] = "يقوم بتشفير رسالة نصية باستخدام المفتاح. يعيد الرسالة المشفرة.";
+Blockly.Msg["MATH_RSA_CIPHER_MESSAGE_HELPURL"] = "https://ar.wikipedia.org/wiki/%D8%AE%D9%88%D8%A7%D8%B1%D8%B2%D9%85%D9%8A%D8%A9_%D8%A2%D8%B1_%D8%A5%D8%B3_%D8%A5%D9%8A%D9%87";
+Blockly.Msg["MATH_RSA_DECIPHER_MESSAGE_TITLE"] = "فك تشفير الرسالة %1 باستخدام المفتاح %2";
+Blockly.Msg["MATH_RSA_DECIPHER_MESSAGE_TOOLTIP"] = "يقوم بفك تشفير رسالة نصية باستخدام المفتاح. يعيد الرسالة المفككة التشفير.";
+Blockly.Msg["MATH_RSA_DECIPHER_MESSAGE_HELPURL"] = "https://ar.wikipedia.org/wiki/%D8%AE%D9%88%D8%A7%D8%B1%D8%B2%D9%85%D9%8A%D8%A9_%D8%A2%D8%B1_%D8%A5%D8%B3_%D8%A5%D9%8A%D9%87"
 // Text blocks.
 Blockly.Msg["TEXT_TEXT_HELPURL"] = "https://en.wikipedia.org/wiki/String_(computer_science)";
 Blockly.Msg["TEXT_TEXT_TOOLTIP"] = "حرف أو كلمة أو سطر من النص.";
@@ -354,6 +363,12 @@ Blockly.Msg["TEXT_COUNT_CHARACTERS_DIGITS"] = "digits";
 Blockly.Msg["TEXT_COUNT_CHARACTERS_SPECIAL"] = "special characters";
 Blockly.Msg["TEXT_RANDOM_STRING_TITLE"] = "generate a string of length %1";
 Blockly.Msg["TEXT_RANDOM_STRING_TOOLTIP"] = "Generates a string containing a mix of uppercase, lowercase, digits, or special characters. The length of this string can be modified in the block.";
+Blockly.Msg["TEXT_CAESAR_CIPHER_TITLE"] = "تشفير قيصر لـ %1 مع انزياح %2 في الوضع %3";
+Blockly.Msg["TEXT_CAESAR_CIPHER_ENCODE"] = "تشفير";
+Blockly.Msg["TEXT_CAESAR_CIPHER_DECODE"] = "فك التشفير";
+Blockly.Msg["TEXT_CAESAR_CIPHER_TOOLTIP"] = "يقوم بتشفير أو فك تشفير نص باستخدام شيفرة قيصر بانزياح معين.";
+Blockly.Msg["TEXT_CAESAR_CIPHER_BRUTE_FORCE_TITLE"] = "الهجوم بالقوة الغاشمة على شيفرة قيصر لـ %1 باللغة %2";
+Blockly.Msg["TEXT_CAESAR_CIPHER_BRUTE_FORCE_TOOLTIP"] = "يجرب كل الانزياحات الممكنة لفك تشفير الرسالة المشفرة بشيفرة قيصر.";
 
 // Variables blocks.
 Blockly.Msg["VARIABLES_SET_HELPURL"] = "https://github.com/google/blockly/wiki/Variables#set";

@@ -476,3 +476,6 @@ Blockly.Msg["NOTE_A"] = "A";
 Blockly.Msg["NOTE_A_SHARP"] = "A#";
 Blockly.Msg["NOTE_B"] = "B";
 Blockly.Msg["MUSIC_SILENCE"] = "Silence";
+Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TITLE'] = '[uart %1] data available';
+Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TOOLTIP'] = 'Returns the size of the data available on the UART port (1 or 2). By default, the pins are as follows: UART 1 (tx=10, rx=9) and UART 2 (tx=17, rx=16). Otherwise, use the block \'Set serial connection to RX TX Baudrate ...\'.';
+Blockly.Msg['SENSORS_BME280_HUM'] = 'humidity (%)';

@@ -16,7 +16,7 @@ export function initBlocklyAccessibility() {
 }
 
 function removeToolboxFocusable() {
-  const focusableElements = document.querySelectorAll('.blocklyToolboxContents, .blocklyToolboxDiv, .blocklyTreeSearch, .blocklySvg');
+  const focusableElements = document.querySelectorAll('.blocklyToolboxContents, .blocklyTreeSearch, .blocklySvg');
   focusableElements.forEach(element => {
     if (element) {
       element.setAttribute("tabindex", "-1");
@@ -26,5 +26,10 @@ function removeToolboxFocusable() {
 
 function addAriaLabels(){
   const blocklyBackpack = document.querySelector('.blocklyBackpack');
-  blocklyBackpack.setAttribute('aria-label', i18next.t('code.tooltip.backpack') + " – " + i18next.t('code.tooltip.blocklyBackpack') );
+  if (blocklyBackpack) {
+    blocklyBackpack.setAttribute('aria-label', i18next.t('code.tooltip.backpack') + " – " + i18next.t('code.tooltip.blocklyBackpack') );
+    blocklyBackpack.setAttribute('role', 'button');
+    blocklyBackpack.setAttribute('tabindex', '0');
+  }
 }
+

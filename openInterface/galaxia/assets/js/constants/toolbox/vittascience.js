@@ -137,7 +137,7 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
         "kind": "category",
         "toolboxitemid": "lists",
         "name": "%{BKY_CATEGORY_LISTS}",
-        "style": "list_category",
+        "style": "lists_category",
         "cssConfig": {
             "icon": "icon_blockly fas fa-list"
         },
@@ -172,6 +172,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             "blocks": [
                 'display_galaxia_screen_set_text',
                 'display_galaxia_screen_set_text_value',
+                'display_galaxia_screen_clear'
             ]
         },
         {
@@ -346,7 +347,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         },
         // {
         //     "label": "%{BKY_SUBCATEGORY_INFRARED}",
-        //     'blocks': [
+        //     "blocks": [
         //         'communication_onInfraredDataReceived',
         //     ]
         // },

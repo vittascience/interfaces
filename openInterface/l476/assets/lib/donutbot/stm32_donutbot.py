@@ -35,15 +35,21 @@ try:
 	if motor.ping_single_motor(2)<0:print('[ERROR] Motor 2')
 	else:print('[SUCCESS] Motor 2')
 except:print('[ERROR] Motors')
-def donutbot_get_distance(sensor):
-	if sensor.lower()=='tof':range_cm=vl53l0x.getRangeMillimeters()/10;utime.sleep(.1);return range_cm
+def donutbot_get_distance(sensor,unit='cm'):
+	if sensor.lower()=='tof':
+		range=vl53l0x.getRangeMillimeters()-50
+		if range<0:range=0
+		utime.sleep(.1)
+		if unit=='mm':return range
+		elif unit=='cm':return range/10
 	elif sensor.lower()=='ultrasonic':
 		trig.off();utime.sleep_us(2);trig.on();utime.sleep_us(10);trig.off()
 		try:duration=time_pulse_us(echo,1,1000000)
 		except OSError:return-1
 		distance=duration*.0343/2*10
 		if distance==-1:print('Erreur de mesure')
-		else:return distance
+		elif unit=='mm':return distance
+		elif unit=='cm':return distance/10
 	else:print("[ERROR] sensor must be 'tof' or 'ultrasonic'")
 def donutbot_get_color():TCA9548A(0);data=colourSensorL.readRGB();red_l=data[_B];grn_l=data[_C];blu_l=data[_D];TCA9548A(1);data=colourSensorM.readRGB();red_m=data[_B];grn_m=data[_C];blu_m=data[_D];TCA9548A(2);data=colourSensorR.readRGB();red_r=data[_B];grn_r=data[_C];blu_r=data[_D];red=(red_l+red_m+red_r)/3;grn=(grn_l+grn_m+grn_r)/3;blu=(blu_l+blu_m+blu_r)/3;return red,grn,blu
 def donutbot_get_color_left():
@@ -135,3 +141,4 @@ def donutbot_moveWithSquare(x,direction,speed=7000):
 		if direction=='forward':donutbot_move_forward(speed)
 		else:donutbot_move_backward(speed)
 		utime.sleep_ms(int(.15/speed_mps*1000));donutbot_pause()
+utime.sleep(1)

@@ -130,8 +130,8 @@ const WEB_BLE = {
             console.log("🔎 Getting sensors characteristic with UUID " + this.actuatorsCharacteristicID);
             this.sensorsCharacteristic = await this.sensorsService.getCharacteristic(this.sensorsCharacteristicID);
 
-            this.startActuatorsNotification();
-            this.startSensorsNotifications();
+            await this.startActuatorsNotification();
+            await this.startSensorsNotifications();
 
             document.getElementById('disconnect-opt').style.display = 'block';
             if (document.getElementById('connected-icon') === null) {

@@ -601,3 +601,5 @@ Blockly.Msg["TI_DRAW_PLOT_XY_TITLE"]= "plot graph with x %1 and y %2 using shape
 Blockly.Msg["TI_DRAW_PLOT_XY_TOOLTIP"]= "Plot the graph using x and y with specified shape.";
 Blockly.Msg["TI_DRAW_SHOW_TITLE"] = "show drawing";
 Blockly.Msg["TI_DRAW_SHOW_TOOLTIP"] = "Show the drawing on the screen. Click 'annul' to erase the drawing.";
+Blockly.Msg['TI_PLOTLIB_LIN_REG_TOOLTIP'] = 'Plots the linear regression line with the list of x-coordinates and the list of y-coordinates on the TI-83 calculator graphing window.';
+Blockly.Msg['TURTLE_CONTROL_TURTLE_TOOLTIP'] = 'Allows you to turn the turtle on/off.';

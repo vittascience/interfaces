@@ -225,7 +225,7 @@ Simulator.Mosaic.groveRegex = {
     // digital readers
     "read-digital": /(^(?!.*ADC\()| )(machine.|)Pin\(([0-9]{1,2}),( |)(mode=|)(machine.|)Pin.IN(?!, id=.*)(,|\))/gi,
     // analog readers
-    "read-analog": /(pinADC\(([0-9]{1,2})|(machine.|)ADC\((machine.|)Pin\(([0-9]{1,2})\),)\)/g,
+    "read-analog": /(pinADC\(([0-9]{1,2})|(machine.|)ADC\((machine.|)Pin\(([0-9]{1,2})\)(,|))\)/g,
     // digital writers
     "write-digital": /(^(?!.*ADC\()| )(machine.|)Pin\(([0-9]{1,2}),( |)(mode=|)(machine.|)Pin.OUT(?!, id=.*)/gi,
     // analog writers
@@ -261,7 +261,7 @@ Simulator.Mosaic.groveRegex = {
 };
 
 Simulator.Mosaic.specific = {
-    extract: (str, func) => str.split(func + '(')[1].split(',')[0].replace(')', ''),
+    extract: (str, func) => str.split(func + '(')[1].replaceAll(')', '').split(',')[0],
     extractPin: {
         'write-digital': (str) => Simulator.Mosaic.specific.extract(str, 'Pin'),
         'read-digital': (str) => Simulator.Mosaic.specific.extract(str, 'Pin'),

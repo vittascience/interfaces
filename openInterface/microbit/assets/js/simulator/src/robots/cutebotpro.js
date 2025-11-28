@@ -98,7 +98,7 @@ function cutebotpro_mod(cutebotpro, modules) {
             self.pulseCntR = 0;
             self.squareSize = 10;
             self.squareUnit = 'cm';
-            version = $loc.readVersion.func_code().v;
+            const version = $loc.readVersion.func_code().v;
             self.version = version.split('.')[0];
             self.neopx = new neopixel.NeoPixel();
             self.neopx.tp$init([Sk.globals.pin15, new Sk.builtin.int_(2)]);
@@ -475,20 +475,34 @@ function cutebotpro_mod(cutebotpro, modules) {
             $loc.pwmCruiseControlMotor.tp$call([self, $loc.MOTOR_BOTH, new Sk.builtin.int_(0)]);
             Simulator.sleep_ms(100);
             const rpm = 100;
-            if (direction.v == $loc.TURN_LEFT.v) {
+            angle = angle.v;
+            if (direction == $loc.TURN_RIGHT) {
+                if (angle < 0) {
+                    direction = $loc.TURN_LEFT;
+                    angle = -angle;
+                }
+            } else if (direction == $loc.TURN_LEFT) {
+                if (angle < 0) {
+                    direction = $loc.TURN_RIGHT;
+                    angle = -angle
+                }
+            }
+            if (direction == $loc.TURN_LEFT) {
                 setMotorRPM('Left', 0, 'stop');
                 setMotorRPM('Right', rpm, 'forward');
-            } else if (direction.v == $loc.TURN_RIGHT.v) {
+            } else if (direction == $loc.TURN_RIGHT) {
                 setMotorRPM('Left', rpm, 'forward');
                 setMotorRPM('Right', 0, 'stop');
             } else {
                 motor = $loc.MOTOR_BOTH.v;
                 tempAngle += 4
             }
-            const movementDuration = (2 * RobotSimulator.robot.WHEELS_CENTER_RADIUS * 1e-2 * degToRad(angle.v)) / RobotSimulator.convertRPMtoSpeedMS(rpm);
+            const rotationCenterDistance = 2 * RobotSimulator.robot.WHEELS_CENTER_RADIUS;
+            const movementDuration = rotationCenterDistance * 1e-2 * degToRad(Math.abs(angle)) / RobotSimulator.convertRPMtoSpeedMS(rpm);
             const startAngle = RobotSimulator.robot.angle;
+            const endAngle = startAngle + (direction == $loc.TURN_LEFT ? -angle : angle);
             return RobotSimulator.delayOnMovement(Math.abs(movementDuration * 1000), () => {
-                RobotSimulator.robot.angle = startAngle + angle.v;
+                RobotSimulator.robot.angle = endAngle;
             }, wait.v);
         };
 
@@ -563,7 +577,7 @@ function cutebotpro_mod(cutebotpro, modules) {
             } else if (number.v < in_min.v) {
                 number.v = in_min.v;
             }
-            return new Sk.builtin.float(out_min.v + ((out_max.v - out_min.v) / (in_max.v - in_min.v)) * (number.v - in_min.v));
+            return new Sk.builtin.float_(out_min.v + ((out_max.v - out_min.v) / (in_max.v - in_min.v)) * (number.v - in_min.v));
         });
 
     };

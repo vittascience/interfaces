@@ -20,6 +20,10 @@ const THEME_VITTASCIENCE = {
     "communication_blocks": {
         "colourPrimary": "#7ac943"
     },
+    "network_blocks": {
+        "colourPrimary": "#9c354d",
+        "hat": "cap"
+    },
     "sensors_blocks": {
         "colourPrimary": "#9966ff"
     },
@@ -49,9 +53,9 @@ const THEME_VITTASCIENCE = {
         "colourPrimary": "#1a6da8"
     },
     "variable_blocks": {
-       "colourPrimary": "#d9553e"
+        "colourPrimary": "#d9553e"
     },
-    "list_blocks": {
+    "lists_blocks": {
         "colourPrimary": "#e58544"
     },
     "procedure_blocks": {
@@ -65,7 +69,7 @@ const THEME_VITTASCIENCE = {
         "colourPrimary": "#bdbdbd"
     }
 };
-  
+
 const THEME_SCRATCH = {
     "comment_block": {
         "colourPrimary": "C0C0C0"
@@ -86,6 +90,10 @@ const THEME_SCRATCH = {
     "communication_blocks": {
         "colourPrimary": "#7ac943"
     },
+    "network_blocks": {
+        "colourPrimary": "#9c354d",
+        "hat": "cap"
+    },
     "sensors_blocks": {
         "colourPrimary": "#5cb1d6",
         "hat": "cap"
@@ -105,7 +113,7 @@ const THEME_SCRATCH = {
     "variable_blocks": {
         "colourPrimary": "#d9553e"
     },
-    "list_blocks": {
+    "lists_blocks": {
         "colourPrimary": "#ff661a"
     },
     "procedure_blocks": {
@@ -135,6 +143,11 @@ const THEME_VITTASCIENCE_HIGH_CONTRAST = {
         "colourPrimary": "#42A200",
         "colourSecondary": "#91E159",
         "colourTertiary": "#CFFFAE"
+    },
+    "network_blocks": {
+        "colourPrimary": "#9d2541",
+        "colourSecondary": "#e85f7f",
+        "colourTertiary": "#fcb8c8",
     },
     "sensors_blocks": {
         "colourPrimary": "#5419CA",
@@ -177,7 +190,7 @@ const THEME_VITTASCIENCE_HIGH_CONTRAST = {
         "colourSecondary": "#EACA56",
         "colourTertiary": "#FFECA6"
     },
-    "list_blocks": {
+    "lists_blocks": {
         "colourPrimary": "#B34F0B",
         "colourSecondary": "#DE8B53",
         "colourTertiary": "#FFC8A2"

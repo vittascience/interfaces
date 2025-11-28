@@ -530,6 +530,31 @@
     color-scheme: dark;
 }
 
+/* EMAIL SIGNATURE COLORS */
+:root {
+    --signature-name-color: rgb(20,110,70);
+    --signature-role-color: rgb(51,69,91);
+    --signature-secondary-color: rgb(95,105,120);
+}
+
+.theme-dark {
+    --signature-name-color: #2CC987;
+    --signature-role-color: #6691C3;
+    --signature-secondary-color: #8190A5;
+}
+
+.signature-name {
+    color: var(--signature-name-color);
+}
+
+.signature-role {
+    color: var(--signature-role-color);
+}
+
+.signature-secondary {
+    color: var(--signature-secondary-color);
+}
+
 /* BOOTSTRAP CSS VARIABLES OVERRIDES */
 
 :root {
@@ -610,7 +635,7 @@ body {
 }
 
 .v-text-important {
-    color: var(--vitta-orange-light);
+    color: var(--vitta-blue);
 }
 
 .v-text-capital {
@@ -734,7 +759,7 @@ v-btn-basic -> Black/White
 
     --bs-btn-hover-color: var(--vitta-white);
     --bs-btn-hover-bg: var(--vitta-green-dark);
-    --bs-btn-hover-border-color: var(--vitta-blue-dark);
+    --bs-btn-hover-border-color: var(--vitta-green-dark);
 
     --bs-btn-active-color: var(--vitta-white);
     --bs-btn-active-bg: var(--vitta-green-dark);
@@ -743,6 +768,22 @@ v-btn-basic -> Black/White
     --bs-btn-disabled-color: var(--vitta-white);
     --bs-btn-disabled-bg: var(--vitta-green);
     --bs-btn-disabled-border-color: var(--vitta-green);
+}
+
+.theme-dark .btn-primary,
+.theme-dark .btn-success,
+.theme-dark .v-btn,
+.theme-dark .vitta-button,
+.theme-dark .btn-green,
+.theme-dark .btn-blue,
+.theme-dark .btn-orange,
+.theme-dark .btn-info,
+.theme-dark .v-btn-blue,
+.theme-dark .text-bg-primary {
+    color: var(--vitta-black);
+    --bs-btn-color: var(--vitta-black);
+    --bs-btn-hover-color: var(--vitta-black);
+    --bs-btn-active-color: var(--vitta-black);
 }
 
 .btn-outline-primary,
@@ -771,7 +812,7 @@ v-btn-basic -> Black/White
 .btn-warning,
 .v-btn-important,
 .btn-orange {
-    --bs-btn-color: var(--vitta-white);
+    --bs-btn-color: var(--vitta-black);
     --bs-btn-bg: var(--vitta-orange-light);
     --bs-btn-border-color: var(--vitta-orange-light);
     --bs-btn-hover-color: var(--vitta-white);
@@ -1010,7 +1051,7 @@ form-control-rounded -> Circle edges
 }
 
 .form-control {
-    color: var(--text-3) !important;
+    color: var(--text-0) !important;
     background-color: var(--bg-1) !important;
     border-color: var(--vitta-grey-dark);
     border-radius: 10px;

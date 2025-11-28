@@ -636,7 +636,8 @@ pre {
 .motor,
 .i2cMotor1,
 .i2cMotor2,
-.i2cMotorStepper {
+.i2cMotorStepper,
+.stepper-motor {
 	z-index: 1;
 	top: -14px;
 	left: 2px;

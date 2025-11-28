@@ -252,7 +252,7 @@ Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TITLE'] = '[uart %1] données dis
 Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TOOLTIP'] = 'Retourne la taille des données disponibles sur le port UART (1 ou 2). Par défaut, les broches sont telles que: UART 1 (tx=10, rx=9) et UART 2 (tx=17, rx=16). Sinon, utilisez le bloc \'Définir la connexion série sur RX TX Baudrate ...\'.';
 // Display - Screen
 Blockly.Msg['DISPLAY_LCD_SETTEXT_TITLE'] = '[LCD] afficher le texte %1 sur la ligne %2 position %3';
-Blockly.Msg['DISPLAY_LCD_SETTEXT_TOOLTIP'] = IMG_MODULE_LCD_3V3 + Blockly.Tooltip.SEP + 'Affiche du texte sur l\'une des deux lignes de l\'écran LCD1602 grove. Brancher le module sur un port I2C';
+Blockly.Msg['DISPLAY_LCD_SETTEXT_TOOLTIP'] = IMG_MODULE_LCD_3V3 + Blockly.Tooltip.SEP + 'Affiche du texte sur l\'une des deux lignes de l\'écran LCD1602 grove. Brancher le module sur un port I2C. Les caractères accentués ne sont pas supportés.';
 Blockly.Msg['DISPLAY_LCD_CLEAR_TITLE'] = '[LCD] nettoyer l\'écran';
 Blockly.Msg['DISPLAY_LCD_CLEAR_TOOLTIP'] = IMG_MODULE_LCD_3V3 + Blockly.Tooltip.SEP + 'Permet d\'effacer tous les caractères de l\'écran LCD. Brancher le module sur un port I2C.';
 Blockly.Msg['DISPLAY_OLED_ADDTEXT_TITLE'] = '[OLED] afficher le texte %1 à la position x %2 y %3';

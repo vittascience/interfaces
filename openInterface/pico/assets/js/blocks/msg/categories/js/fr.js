@@ -68,3 +68,4 @@ Blockly.Msg['SUBCATEGORY_DATA_WEB_PAGE'] = 'Données page web';
 Blockly.Msg['SUBCATEGORY_HTTP'] = 'HTTP';
 Blockly.Msg['SUBCATEGORY_UMAIL'] = 'Mail';
 Blockly.Msg['SUBCATEGORY_MQTT'] = 'MQTT';
+Blockly.Msg['SUBCATEGORY_DATA_LOGGING'] = 'Enregistrement de données';

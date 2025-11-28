@@ -1,5 +1,5 @@
 // console.log(getCookie('lng'));
-var languageWhitelist = ['fr', 'en', 'it', 'ar','es'];
+var languageWhitelist = ['fr', 'en', 'it', 'ar','es', 'de', 'ru' /* 'de', 'ru', 'pt', 'cn', 'jp', 'kr' */];
 i18next.use(window.i18nextXHRBackend)
     .init({
         debug: false,

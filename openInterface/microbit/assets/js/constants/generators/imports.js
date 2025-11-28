@@ -20,11 +20,14 @@ const IMPORT_LOG = "import log";
 const IMPORT_GAME = "from game import GAME";
 const IMPORT_SPRITE = "from sprite import SPRITE";
 const IMPORT_BAR_GRAPH = "import bar_graph";
+const IMPORT_STEPPER_MOTOR = "from stepper import StepperMotor";
 //robot libraries
 const IMPORT_BUGGY_MOVE = "from buggyMove import MOVEMotor";
 const IMPORT_CUTEBOT = "import cutebot";
-const IMPORT_MAQUEEN_PLUS_V2 = "import maqueenplusv2";
 const IMPORT_MAQUEEN_PLUS_V1 = "import maqueenplusv1";
+const IMPORT_MAQUEEN_PLUS_V2 = "import maqueenplusv2";
+const IMPORT_MAQUEEN_PLUS_V3 = "import maqueenplusv3";
+const IMPORT_DFROBOT_LIDAR_SENSOR = "import matrixLidarDistanceSensor";
 const IMPORT_CUTEBOTPRO = "from cutebotpro import CBP";
 //grove modules libraries - I2C
 const IMPORT_BMP280 = "from bmp280 import BMP280";
@@ -50,9 +53,10 @@ const IMPORT_OLEDM = "from oled_mp import OLEDM";
 const IMPORT_MORPION = "from morpion import MORPION";
 const IMPORT_HT16K33_MATRIX = "from ht16k33matrix import HT16K33Matrix";
 const IMPORT_RGB_LED_MATRIX = "from rgb_led_matrix import GroveTwoRGBLedMatrix";
-const IMPORT_HUSKYLENS = "from HuskyLens import HuskyLensLibrary";
+const IMPORT_HUSKYLENS = "from huskyLens import HuskyLensLibrary";
 const IMPORT_WATER_LEVEL_SENSOR = "import water_level as waterLevelSensor";
 const IMPORT_VL53L0X = "from vl53l0x import VL53L0X";
+const IMPORT_VEML6040 = "from veml6040 import PiicoDev_VEML6040";
 //grove modules libraries - Pins
 const IMPORT_TM1637 = "from tm1637 import TM1637";
 const IMPORT_MY9221 = "from my9221 import MY9221";

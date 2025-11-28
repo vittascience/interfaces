@@ -187,7 +187,6 @@ div#modal-openproject .modal-content-div {
     flex-wrap: nowrap;
     max-height: 100%;
     flex-grow: 1;
-
 }
 
 div#modal-openproject .modal-content-div>*:not(#projects-tree) {
@@ -362,6 +361,89 @@ p[aria-expanded='true'] .caret-title {
     display: none;
 }
 
+.turtle-validation-modal-notice-wrapper {
+    margin: 1.5em;
+}
+
+.turtle-validation-modal-notice {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.turtle-validation-modal-notice i {
+    font-size: 5em;
+}
+
+.turtle-validation-modal-notice p {
+    font-weight: 600;
+    margin-top: 1em;
+}
+
+.turtle-validation-modal-notice-passed i {
+    color: var(--vitta-green);
+}
+
+.turtle-validation-modal-notice-passed p {
+    color: var(--vitta-green);
+}
+
+.turtle-validation-modal-notice-failed i {
+    color: var(--vitta-red);
+}
+
+.turtle-validation-modal-notice-failed p {
+    color: var(--vitta-red);
+}
+
+.turtle-validation-modal-notice-no-turtle-course i {
+    color: var(--vitta-red);
+}
+
+.turtle-validation-modal-notice-no-turtle-course p {
+    color: var(--vitta-red);
+}
+
+.turtle-validation-modal-images-compare-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+}
+
+.turtle-validation-modal-images-compare-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.turtle-validation-modal-image {
+    width: 60%;
+}
+
+.turtle-record-container {
+    display: flex;
+    justify-content: center;
+    border: 1px solid #77777777;
+    border-radius: 5px;
+    background-color: var(--bg-1);
+    padding: 10px;
+    overflow: auto;
+}
+
+.turtle-exercise-creation-image {
+    margin-top: .5rem;
+    display: none;
+}
+
+.turtle-autocorrector-uptodate-notice {
+    color: var(--vitta-orange);
+    display: none;
+    text-align: center;
+}
+
 @media (max-width: 1000px) {
     div#modal-blocklysettings {
         width: 80%;
@@ -381,4 +463,15 @@ p[aria-expanded='true'] .caret-title {
     div#modal-blocklysettings #toolbox-settings {
         padding-top: 10px;
     }
+}
+
+.custom-shadow {
+    box-shadow: #00000042 0px 0px 3px 3px;
+}
+
+.simple-box-shadow-element {
+    background-color: var(--bg-1);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

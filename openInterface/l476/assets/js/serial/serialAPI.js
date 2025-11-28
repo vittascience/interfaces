@@ -20,10 +20,11 @@ async function connectBoard() {
 async function uploadPython() {
 	const upload = async function () {
 		if (Repl && Repl.hasFirmware) {
+			Repl.progressBar.displayProgressBar();
 			Repl.Queue.reset();
 			Repl.uploadUserCode();
 			Repl.runFile();
-            $('#repl-control').removeClass("activated");
+			$('#repl-control').removeClass("activated");
 			SerialAPI.isDownloading = true;
 			if (!Repl.isOpen) {
 				await Repl.open();
@@ -49,17 +50,17 @@ async function uploadPython() {
  * Download the firmware of the board.
  */
 async function downloadFirmware(fileName) {
-    await VittaInterface.fetchDir("/openInterface/" + Main.getInterface() + "/assets/firmware/" + fileName, true)
-        .then(function (blob) {
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = fileName;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-        });
+	await VittaInterface.fetchDir("/openInterface/" + Main.getInterface() + "/assets/firmware/" + fileName, true)
+		.then(function (blob) {
+			const url = window.URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.style.display = 'none';
+			a.href = url;
+			a.download = fileName;
+			document.body.appendChild(a);
+			a.click();
+			window.URL.revokeObjectURL(url);
+		});
 };
 
 async function toggleReplOverture() {
@@ -89,7 +90,7 @@ async function toggleReplOverture() {
 	}
 };
 
-function callbackError (error) {
+function callbackError(error) {
 	if (error.match(/(DOMException|ParityError|BufferOverrunError): A ((framing|parity) error|buffer overrun) has been detected\./)) {
 		SerialAPI.dataReceived = SerialAPI._loop_reader(callbackError);
 	} else if (error.match(/(DOMException|BreakError): A break condition has been detected\./)) {
@@ -104,6 +105,7 @@ function callbackError (error) {
 		$("#download-python").show();
 		$("#disconnect-opt").hide();
 		$("#connected-icon").remove();
+		Repl.progressBar.hideProgressBar();
 	}
 };
 
@@ -126,7 +128,8 @@ async function doConnect() {
 		console.log(SerialAPI.port);
 		const boardOptions = {
 			"chunkSize": SerialAPI.CHUNK_SIZE,
-			"libraries": VittaInterface.externalLibraries
+			"libraries": VittaInterface.externalLibraries,
+			"progressBar": true
 		}
 		Repl = new MicropythonRepl(SerialAPI, boardOptions);
 		Repl.readingLoop();
@@ -157,6 +160,7 @@ async function doConnect() {
 
 async function doDisconnect() {
 	if (Repl && Repl.hasFirmware) {
+		Repl.progressBar.hideProgressBar();
 		Repl.Queue.reset();
 		if (Repl.isOpen) {
 			Repl.resetBoard('machine');
@@ -184,11 +188,11 @@ async function doDisconnect() {
 	}
 };
 
-async function waitClosure () {
+async function waitClosure() {
 	await waitFor(_ => Repl.isLoopClosed === true);
 }
 
-function waitFor (conditionFunction) {
+function waitFor(conditionFunction) {
 	const poll = resolve => {
 		if (conditionFunction()) {
 			resolve();

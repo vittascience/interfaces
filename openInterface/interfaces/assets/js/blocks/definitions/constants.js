@@ -100,7 +100,7 @@ Blockly.Constants.getToolboxStyle = function () {
  * @return {String}
  */
 Blockly.Constants.getSelectedBoard = function () {
-    if (INTERFACE_NAME == "esp32" || INTERFACE_NAME == "pico" || INTERFACE_NAME == "arduino" || INTERFACE_NAME == "raspberrypi") {
+    if (["esp32", "pico", "arduino", "raspberrypi"].includes(INTERFACE_NAME)) {
         const value = getParamValue('board');
         if (value !== null && Object.keys(SIMULATOR_BOARDS).includes(value)) {
             return value;
@@ -220,7 +220,7 @@ Blockly.Constants.Utils.BlockStyling = {
         "actuators_music_note",
         "devices_builtin_speaker_note",
         "network_thingspeak_sendData_field",
-        "io_log_data"
+        "communication_log_data"
     ],
     /**
      * Light an hex color by factor.
@@ -234,48 +234,118 @@ Blockly.Constants.Utils.BlockStyling = {
             const lighterFactor = (i) => Math.min(255, Math.floor(rgb(i) + (255 - rgb(i)) * factor)).toString(16).padStart(2, '0');
             return `#${lighterFactor(0)}${lighterFactor(1)}${lighterFactor(2)}`;
         }
-    }
-};
-
-/**
-* Get parent block when child block is an input block of ToolboxManager.DB_.
-* @param {String} childType 
-* @returns {String} parentType
-*/
-Blockly.Constants.Utils.getParentBlockType = function (childType) {
-    const blocks = ToolboxManager.DB_.get();
-    let parentBlockType = null;
-    if (Array.isArray(blocks)) {
-        parentBlockType = blocks.find(block => block.blockxml.includes(childType)).type;
-    } else {
-        parentBlockType = Object.keys(blocks).find(type => blocks[type].includes(childType));
-    }
-    return parentBlockType ? parentBlockType : childType;
-};
-
-/**
-* Set color or Help url of block checking Blockly.Constants.Utils.BlockStyling.blocks
-* @param {Object} setter 
-* @param {String} parameter
-*/
-Blockly.Constants.Utils.setBlockParameter = function (setter, parameter) {
-    const toolboxMode = Blockly.Constants.getToolboxStyle();
-    if (!Blockly.Constants.Utils.BlockStyling.blocks[setter.block.type]) {
-        Blockly.Constants.Utils.BlockStyling.blocks[setter.block.type] = {
-            toolboxMode: TOOLBOX_STYLE_DEFAULT
-        };
-    }
-    if (Blockly.Constants.Utils.BlockStyling.blocks[setter.block.type].toolboxMode !== toolboxMode) {
-        Blockly.Constants.Utils.BlockStyling.blocks[setter.block.type].toolboxMode = toolboxMode;
-        setter.callback(setter.block);
-    } else {
-        const value = Blockly.Constants.Utils.BlockStyling.blocks[setter.block.type][parameter];
-        if (value) {
-            setter.set(setter.block, value);
-        } else {
-            setter.callback(setter.block);
+    },
+    /**
+     * Register block colour and block category information searching in toolbox definition.
+     */
+    registerInformationsFromToolbox: function () {
+        const toolbox = ToolboxManager.toolboxDefined(this.toolboxMode);
+        if (toolbox) {
+            for (const cat of Object.keys(toolbox.content)) {
+                const catContent = toolbox.content[cat];
+                if (Array.isArray(catContent)) {
+                    const register = (type) => {
+                        type = type.split('-')[0];
+                        const settings = () => Blockly.Constants.Utils.BlockStyling.blocks[type];
+                        if (!settings()) {
+                            Blockly.Constants.Utils.BlockStyling.blocks[type] = {}
+                        }
+                        // reg color
+                        const theme = toolbox.theme[cat + "_blocks"];
+                        if (theme) {
+                            if (settings().colours) {
+                                settings().colours[this.toolboxMode] = theme.colourPrimary;
+                            } else {
+                                settings().colours = { [this.toolboxMode]: theme.colourPrimary }
+                            }
+                        } else {
+                            console.error("Color not found for " + type);
+                        }
+                        // reg category
+                        if (settings().categories) {
+                            settings().categories[this.toolboxMode] = cat;
+                        } else {
+                            settings().categories = { [this.toolboxMode]: cat }
+                        }
+                    };
+                    for (const subcat of Object.keys(catContent)) {
+                        if (catContent[subcat].contents) {
+                            for (const item of catContent[subcat].contents) {
+                                for (const type of item.blocks) {
+                                    register(type);
+                                }
+                            }
+                        } else {
+                            if (catContent[subcat].blocks) {
+                                for (const type of catContent[subcat].blocks) {
+                                    register(type);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
+    },
+    /**
+    * Set color or Help url of block checking Blockly.Constants.Utils.BlockStyling.blocks
+    * @param {String} blockType 
+    * @param {String} parameter
+    * @param {String} value
+    */
+    getBlockParameter: function (blockType, parameter) {
+        if (!this.blocks[blockType]) {
+            this.blocks[blockType] = {};
+        }
+        const options = this.blocks[blockType][parameter];
+        if (options && options[this.toolboxMode]) {
+            return options[this.toolboxMode];
+        }
+    },
+    /**
+    * Get parent block when child block is an input block of ToolboxManager.DB_.
+    * @param {String} childType 
+    * @returns {String} parentType
+    */
+    getParentBlockType: function (childType) {
+        const blocks = ToolboxManager.DB_.get();
+        let parentBlockType = null;
+        if (Array.isArray(blocks)) {
+            parentBlockType = blocks.find(block => block.blockxml.includes(childType)).type;
+        } else {
+            parentBlockType = Object.keys(blocks).find(type => blocks[type].includes(childType));
+        }
+        return parentBlockType ? parentBlockType : childType;
+    },
+    getBlockColor: function (block) {
+        this.toolboxMode = Blockly.Constants.getToolboxStyle();
+        let colour = this.getBlockParameter(block.type, 'colours');
+        if (!colour) {
+            this.registerInformationsFromToolbox();
+            colour = this.getBlockParameter(block.type, 'colours');
+        }
+        const lightStyling = this.LIGHTER_BLOCKS.includes(block.type);
+        if (lightStyling) {
+            const parentBlockType = this.getParentBlockType(block.type);
+            colour = this.getBlockParameter(parentBlockType, 'colours');
+            colour = this.getLigthenColor(colour);
+        }
+        return colour;
+    },
+    getBlockCategory: function (block) {
+        this.toolboxMode = Blockly.Constants.getToolboxStyle();
+        let category = this.getBlockParameter(block.type, 'categories');
+        if (!category) {
+            this.registerInformationsFromToolbox();
+            category = this.getBlockParameter(block.type, 'categories');
+            if (!category) {
+                const parentBlockType = this.getParentBlockType(block.type);
+                category = this.getBlockParameter(parentBlockType, 'categories');
+            }
+        }
+        return category;
     }
+
 };
 
 /**
@@ -285,63 +355,13 @@ Blockly.Constants.Utils.setBlockParameter = function (setter, parameter) {
 Blockly.Constants.Utils.INIT_BLOCK_COLOR = function () {
     if (!ToolboxManager.DISABLE_BLOCK_COLOR_EXTENSION) {
         try {
-            /**
-             * Set block colour.
-             * @param {Blockly.BlockSvg} block 
-             */
-            const setColour = function (block) {
-                /**
-                 * Get block colour searching in toolbox definition.
-                 * @param {String} blockType
-                 * @param {String} toolboxMode
-                 * @returns {String} colour
-                 */
-                const getColour = function (blockType, toolboxMode) {
-                    const toolbox = ToolboxManager.toolboxDefined(toolboxMode);
-                    if (toolbox) {
-                        for (const cat of Object.keys(toolbox.content)) {
-                            const catContent = toolbox.content[cat];
-                            if (Array.isArray(catContent)) {
-                                const found = (blocks) => blocks && blocks.find(type => type.split('-')[0] == blockType);
-                                const color = () => {
-                                    Blockly.Constants.Utils.BlockStyling.blocks[block.type].category = cat;
-                                    return toolbox.theme[cat + "_blocks"].colourPrimary;
-                                };
-                                for (const subcat of Object.keys(catContent)) {
-                                    if (catContent[subcat].contents) {
-                                        for (const item of catContent[subcat].contents) {
-                                            if (found(item.blocks)) {
-                                                return color();
-                                            }
-                                        }
-                                    } else {
-                                        if (found(catContent[subcat].blocks)) {
-                                            return color();
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                };
-                const lightStyling = Blockly.Constants.Utils.BlockStyling.LIGHTER_BLOCKS.includes(block.type);
-                let colour = getColour(block.type, Blockly.Constants.Utils.BlockStyling.blocks[block.type].toolboxMode);
-                if (lightStyling) {
-                    const parentBlockType = Blockly.Constants.Utils.getParentBlockType(block.type);
-                    colour = getColour(parentBlockType, Blockly.Constants.Utils.BlockStyling.blocks[block.type].toolboxMode);
-                    colour = Blockly.Constants.Utils.BlockStyling.getLigthenColor(colour);
-                }
-                if (colour) {
-                    Blockly.Constants.Utils.BlockStyling.blocks[block.type].colour = colour;
-                    block.setColour(colour);
-                }
+            if (INTERFACE_NAME == "TI-83" && Blockly.Constants.getToolboxStyle() == TOOLBOX_STYLE_TI_CODE) {
+                return;
             }
-            const setter = {
-                block: this,
-                callback: setColour,
-                set: (block, colour) => block.setColour(colour)
-            };
-            Blockly.Constants.Utils.setBlockParameter(setter, 'colour');
+            const colour = Blockly.Constants.Utils.BlockStyling.getBlockColor(this);
+            if (colour && this.getColour() !== colour) {
+                this.setColour(colour);
+            }
         } catch (e) {
             console.error(e)
         }
@@ -358,51 +378,16 @@ Blockly.Extensions.register("block_init_color",
 Blockly.Constants.Utils.INIT_BLOCK_HELPURL = function () {
     if (!ToolboxManager.DISABLE_BLOCK_HELPURL_EXTENSION) {
         try {
-            const wikiUrl = (blockType, category) => `${VITTASCIENCE_SITE}/wiki?interface=${INTERFACE_NAME}&category=${category}#${blockType}Div-container`;
-            /**
-             * Set block url.
-             * @param {Blockly.BlockSvg} block 
-             */
-            const setUrl = function (block) {
-                /**
-                 * Get block colour searching in toolbox definition.
-                 * @param {String} blockType
-                 * @param {String} toolboxMode
-                 * @returns {String} colour
-                 */
-                const getCategory = function (blockType, toolboxMode) {
-                    const toolbox = ToolboxManager.toolboxDefined(toolboxMode);
-                    if (toolbox) {
-                        for (const cat of Object.keys(toolbox.content)) {
-                            const catContent = toolbox.content[cat];
-                            if (Array.isArray(catContent)) {
-                                for (const subcat of Object.keys(catContent)) {
-                                    if (catContent[subcat].blocks && catContent[subcat].blocks.find(type => type.split('-')[0] == blockType)) {
-                                        return cat;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                };
-                let category = getCategory(block.type, Blockly.Constants.Utils.BlockStyling.blocks[block.type].toolboxMode);
-                if (!category) {
-                    const parentBlockType = Blockly.Constants.Utils.getParentBlockType(block.type);
-                    category = getCategory(parentBlockType, Blockly.Constants.Utils.BlockStyling.blocks[block.type].toolboxMode);
-                }
-                if (category) {
-                    Blockly.Constants.Utils.BlockStyling.blocks[block.type].category = category;
-                    block.setHelpUrl(wikiUrl(block.type, category));
-                } else {
-                    block.setHelpUrl(`${VITTASCIENCE_SITE}/support/glossary`);
-                }
-            };
-            const setter = {
-                block: this,
-                callback: setUrl,
-                set: (block, category) => block.setHelpUrl(wikiUrl(block.type, category))
-            };
-            Blockly.Constants.Utils.setBlockParameter(setter, 'category');
+            if (INTERFACE_NAME == "TI-83" && Blockly.Constants.getToolboxStyle() == TOOLBOX_STYLE_TI_CODE) {
+                return;
+            }
+            const category = Blockly.Constants.Utils.BlockStyling.getBlockCategory(this);
+            if (category) {
+                const wikiUrl = `${CDN_PATH}/wiki?interface=${INTERFACE_NAME}&category=${category}#${this.type}Div-container`;
+                this.setHelpUrl(wikiUrl);
+            } else {
+                this.setHelpUrl(`${CDN_PATH}/support/glossary`);
+            }
         } catch (e) {
             console.error(e)
         }
@@ -919,7 +904,7 @@ Blockly.Extensions.registerMixin("communication_gps_getGGAInformations_get_type"
     Blockly.Constants.Utils.COMMUNICATION_GPS_GET_GGA_INFORMATIONS_GET_TYPE);
 
 // Disable all instances of the block present in the workspace, except the highest one
-Blockly.Constants.DISABLE_DUPLICATES_EXTENSION = function () {
+Blockly.Constants.Utils.DISABLE_DUPLICATES_EXTENSION = function () {
     if (!ToolboxManager.DISABLE_DISABLING_DUPLICATES_EXTENSION) {
         this.setOnChange(onUpdate_);
         /** Met à jour l'état d'activation des blocs supérieurs */
@@ -1021,10 +1006,10 @@ Blockly.Constants.DISABLE_DUPLICATES_EXTENSION = function () {
 };
 
 Blockly.Extensions.register("disable_duplicates",
-    Blockly.Constants.DISABLE_DUPLICATES_EXTENSION);
+    Blockly.Constants.Utils.DISABLE_DUPLICATES_EXTENSION);
 
 // Called when workspace event 
-Blockly.Constants.DISABLE_BLOCKS_ON_EVENT = function (blockType, detectedBlocksArray) {
+Blockly.Constants.Utils.DISABLE_BLOCKS_ON_EVENT = function (blockType, detectedBlocksArray) {
     const disabled = function (block, state) {
         block.disabled = state;
         // childBlock include the block itself
@@ -1056,3 +1041,33 @@ Blockly.Constants.DISABLE_BLOCKS_ON_EVENT = function (blockType, detectedBlocksA
         }
     }
 };
+
+Blockly.Constants.REPLACE_PIN_DROPDOWN_MENU = function () {
+    if (INTERFACE_NAME == 'arduino') {
+        const dropdowns = [];
+        this.inputList.forEach(input => {
+            input.fieldRow.forEach(field => {
+                if (field instanceof Blockly.FieldDropdown) {
+                    dropdowns.push(field);
+                }
+            });
+        });
+        const menu = function (type){
+            return () => Blockly.Constants.Pins[type][Blockly.Constants.getSelectedBoard()];
+        };
+        for (const i in dropdowns) {
+            const type = dropdowns[i].menuGenerator_.type;
+            if (type && Blockly.Constants.Pins[type]) {
+                for (const pin in Blockly.Constants.Pins[type]) {
+                    const pins = Blockly.Constants.Pins[type][pin];
+                    if (arrayEquals(dropdowns[i].menuGenerator_, pins)) {
+                        this.getField(dropdowns[i].name).menuGenerator_ = menu(type);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+};
+
+Blockly.Extensions.register('pins_management_global', Blockly.Constants.REPLACE_PIN_DROPDOWN_MENU);

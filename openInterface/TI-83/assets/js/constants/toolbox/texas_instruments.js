@@ -32,9 +32,9 @@ const TOOLBOX_TI_CATEGORIES = [
     },
     {
         "kind": "category",
-        "toolboxitemid": "list",
+        "toolboxitemid": "lists",
         "name": "List",
-        "style": "list_category",
+        "style": "lists_category",
         "cssConfig": {
             "icon": "icon_blockly fas fa-list"
         },
@@ -258,7 +258,7 @@ const TOOLBOX_TI_CONTENT = {
             ]
         }
     ],
-    "list": [
+    "lists": [
         {
             "blocks": [
                 'lists_create_with-0',
@@ -283,6 +283,7 @@ const TOOLBOX_TI_CONTENT = {
             "label": "%{BKY_SUBCATEGORY_CONSOLE}",
             "blocks": [
                 'ti_io_print',
+                'ti_io_disp_clr',
                 'ti_io_input_text',
                 'ti_io_input_number'
             ]

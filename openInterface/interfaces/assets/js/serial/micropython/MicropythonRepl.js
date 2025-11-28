@@ -45,6 +45,10 @@ class MicropythonRepl {
         this.buffer = "";
         this._code = "";
         this.readingStatus = {};
+        if (options.progressBar !== null || options.progressBar) {
+            this.progressBar = new ProgressBar();
+            this.progressBar.addProgressBarToDom();
+        }
         if (options.chunkSize !== null || options.chunkSize !== undefined) {
             this.chunkSize = options.chunkSize;
         } else {
@@ -709,6 +713,9 @@ class MicropythonRepl {
             } else {
                 this.Queue.reset();
             }
+            if (this.serial.isDownloading) {
+                this.progressBar.updateProgressBar(Math.round((this.Queue.maxLength - this.Queue.length()) / this.Queue.maxLength * 100));
+            }
         } else {
             this.Queue.reset();
         }
@@ -816,6 +823,7 @@ class MicropythonRepl {
             if (this.serial.isDownloading) {
                 InterfaceMonitor.writeConsole(this.FILE_DOWNLOADED, 'success', true, true);
                 this.serial.isDownloading = false;
+                this.progressBar.hideProgressBar();
             }
         }
         this.setRepl(false);
@@ -888,6 +896,7 @@ class MicropythonRepl {
                         InterfaceMonitor.writeConsole('Le programme envoie des données graphiques dans la console.', 'neutral', true);
                     }
                     this.serial.isDownloading = false;
+                    this.progressBar.hideProgressBar();
                 }
             }
             InterfaceMonitor.scrollToBottom();
@@ -999,10 +1008,12 @@ class Queue {
     constructor() {
         this.data = [];
         this.rear = 0;
+        this.maxLength = 0;
     }
     enqueue(element) {
         this.data[this.rear] = element;
         this.rear = this.rear + 1;
+        this.maxLength = this.rear;
     };
     length() {
         return this.rear;
@@ -1019,6 +1030,7 @@ class Queue {
     reset() {
         this.data = [];
         this.rear = 0;
+        this.maxLength = 0;
     };
 }
 
@@ -1168,3 +1180,48 @@ class VariablesPanel {
         }
     }
 }
+
+class ProgressBar {
+    /**
+     * Creates an instance of progressBar.
+     * @private
+     */
+
+    addProgressBarToDom() {
+        if (document.querySelector("#progress-bar-container") === null) {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = '../openInterface/interfaces/assets/css/progress_bar.css';
+            link.type = 'text/css';
+            document.head.appendChild(link);
+
+            const progressBarInnerHtml = `
+            <div class="progress-bar-container" id="progress-bar-container">
+                <div class="progress-bar-area">
+                    <div class="progress-bar-description" id="progress-bar-description">Téléversement du programme python ...</div>
+                    <div class="progress-bar-wrapper">
+                        <div class="progress-bar-value" id="progress-bar-serial">0%</div>
+                    </div>
+                </div>
+            </div>`;
+            document.querySelector("#ide-content").insertAdjacentHTML('afterend', progressBarInnerHtml);
+        }
+    }
+
+    displayProgressBar() {
+        document.querySelector('#progress-bar-serial').style.width = '0%';
+        document.querySelector('#progress-bar-container').style.display = 'flex';
+    }
+
+    hideProgressBar() {
+        document.querySelector('#progress-bar-container').style.display = 'none';
+        document.querySelector('#progress-bar-serial').style.width = '0%';
+    }
+
+    updateProgressBar(percentage) {
+        const progressBarElt = document.querySelector('#progress-bar-serial');
+        progressBarElt.textContent = `${percentage}%`;
+        getComputedStyle(progressBarElt).width;
+        progressBarElt.style.width = `${percentage}%`;
+    }
+};

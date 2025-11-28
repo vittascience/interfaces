@@ -426,6 +426,8 @@ Blockly.Msg['ACTUATORS_MUSIC_PLAY_FREQUENCY_TOOLTIP'] = IMG_MODULE_BUZZER_SPEAKE
 Blockly.Msg['ACTUATORS_MUSIC_STOP_TITLE'] = '[Buzzer/Speaker] interrompi la musica su %1';
 Blockly.Msg['ACTUATORS_MUSIC_STOP_TOOLTIP'] = IMG_MODULE_BUZZER_SPEAKER + Blockly.Tooltip.SEP + 'Consente di interrompere la musica corrente dal modulo buzzer (o altoparlante) Grove sui pin digitali.';
 // Robots - Alphabot
+Blockly.Msg['ROBOTS_GO_FORWARD'] = 'vai avanti';
+Blockly.Msg['ROBOTS_GO_BACKWARD'] = 'vai indietro';
 Blockly.Msg['ROBOTS_ALPHABOT_RIGHT'] = 'destra';
 Blockly.Msg['ROBOTS_ALPHABOT_LEFT'] = 'sinistra';
 Blockly.Msg['ROBOTS_ALPHABOT_ULTRASONICRANGER_TITLE'] = '[Alphabot - Sensore a ultrasuoni] distanza (cm)';
@@ -456,8 +458,6 @@ Blockly.Msg['ROBOTS_ALPHABOT_BY_RIGHT'] = 'a destra (LEDR)';
 Blockly.Msg['ROBOTS_ALPHABOT_BY_LEFT'] = 'a sinistra (LEDL)';
 Blockly.Msg['ROBOTS_ALPHABOT_BOTH_SIDES'] = 'da entrambi i lati (LEDL & LEDR)';
 Blockly.Msg['ROBOTS_ALPHABOT_GO_TITLE'] = '[Alphabot] controlla il robot %1 velocità %2 (%)';
-Blockly.Msg['ROBOTS_ALPHABOT_GO_FORWARD'] = 'vai avanti';
-Blockly.Msg['ROBOTS_ALPHABOT_GO_REVERSE'] = 'vai indietro';
 Blockly.Msg['ROBOTS_ALPHABOT_GO_TOOLTIP'] = IMG_MODULE_ALPHABOT + Blockly.Tooltip.SEP + 'Permette di controllare il movimento (AVANTI/INDIETRO) e la velocità (da 0 a 100%) del robot Alphabot v2.';
 Blockly.Msg['ROBOTS_ALPHABOT_TURNTO_TITLE'] = '[Alphabot] gira a %1 velocità %2 (%)';
 Blockly.Msg['ROBOTS_ALPHABOT_TURNTO_TOOLTIP'] = IMG_MODULE_ALPHABOT + Blockly.Tooltip.SEP + 'Permette di girare a destra o a sinistra a una certa velocità (da 0 a 100%) con il robot Alphabot v2.';

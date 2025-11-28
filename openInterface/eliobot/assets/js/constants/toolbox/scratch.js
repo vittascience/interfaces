@@ -83,7 +83,7 @@ const TOOLBOX_SCRATCH_CATEGORIES = [
         "kind": "category",
         "toolboxitemid": "lists",
         "name": "%{BKY_CATEGORY_LISTS}",
-        "style": "list_category",
+        "style": "lists_category",
         "cssConfig": {
             "icon": "icon_blockly fas fa-list"
         },
@@ -115,7 +115,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
     "display": [
         {
             "label": "%{BKY_SUBCATEGORY_ESP32}",
-            'blocks': [
+            "blocks": [
                 'display_controlBuiltInLED',
                 'display_controlBuiltInLEDOff'
             ]

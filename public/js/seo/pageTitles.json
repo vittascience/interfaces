@@ -86,7 +86,7 @@
         },
         "en": {
             "title": "Vittascience — Arduino",
-            "desc": "Programming interface for the Arduino card."
+            "desc": "Programming interface for the Arduino board."
         }
     },
     "microbit": {
@@ -96,7 +96,7 @@
         },
         "en": {
             "title": "Vittascience — Micro:bit",
-            "desc": "Programming interface for the BBC micro:bit card."
+            "desc": "Programming interface for the BBC micro:bit board."
         }
     },
     "python": {
@@ -126,7 +126,7 @@
         },
         "en": {
             "title": "Vittascience — NUCLEO-WB55",
-            "desc": "Programming interface for the Nucleo-64 card with the STM32WB55 microcontroller"
+            "desc": "Programming interface for the Nucleo-64 board with the STM32WB55 microcontroller"
         }
     },
     "l476": {
@@ -136,7 +136,7 @@
         },
         "en": {
             "title": "Vittascience — NUCLEO-L476RG",
-            "desc": "Programming interface for the Nucleo-64 card with the STM32L476RG microcontroller"
+            "desc": "Programming interface for the Nucleo-64 board with the STM32L476RG microcontroller"
         }
     },
     "buddy": {
@@ -156,7 +156,7 @@
         },
         "en": {
             "title": "Vittascience - TI-83 Premium CE",
-            "desc": "Programming interface for the calculator and the BBC micro:bit or TI Innovator™ Hub cards"
+            "desc": "Programming interface for the calculator and the BBC micro:bit or TI Innovator™ Hub boards"
         }
     },
     "mbot": {
@@ -176,7 +176,7 @@
         },
         "en": {
             "title": "Vittascience — ESP32",
-            "desc": "Programming interface for ESP32 cards (Wemos D1R32, NodeMCU, Huzzah32, ...)"
+            "desc": "Programming interface for ESP32 boards (Wemos D1R32, NodeMCU, Huzzah32, ...)"
         }
     },
     "GalaxiaCircuitPython": {
@@ -186,7 +186,7 @@
         },
         "en": {
             "title": "Vittascience — Galaxia",
-            "desc": "Programming interface for the Thingz-Galaxia card"
+            "desc": "Programming interface for the Thingz-Galaxia board"
         }
     },
     "galaxia": {
@@ -196,7 +196,7 @@
         },
         "en": {
             "title": "Vittascience — Galaxia",
-            "desc": "Programming interface for the Galaxia card"
+            "desc": "Programming interface for the Galaxia board"
         }
     },
     "raspberrypi":{
@@ -206,7 +206,7 @@
         },
         "en": {
             "title": "Vittascience — Raspberry Pi",
-            "desc": "Programming interface for the Raspberry Pi card."
+            "desc": "Programming interface for the Raspberry Pi board."
         }
     },
     "niryo":{
@@ -236,7 +236,7 @@
         },
         "en": {
             "title": "Vittascience — M5Stack",
-            "desc": "Programming interface for the M5Stack card"
+            "desc": "Programming interface for the M5Stack board"
         }
     },
     "pico": {
@@ -246,7 +246,7 @@
         },
         "en": {
             "title": "Vittascience — Pico",
-            "desc": "Programming interface for the Raspberry Pi Pico card."
+            "desc": "Programming interface for the Raspberry Pi Pico board."
         }
     },
     "cyberpi": {
@@ -256,7 +256,7 @@
         },
         "en": {
             "title": "Vittascience — CyberPi",
-            "desc": "Programming interface for the CyberPi card and mBot2 robot"
+            "desc": "Programming interface for the CyberPi board and mBot2 robot"
         }
     },
     "eliobot": {
@@ -286,7 +286,7 @@
         },
         "en": {
             "title": "Vittascience — QuickPi",
-            "desc": "Programming interface for the QuickPi card"
+            "desc": "Programming interface for the QuickPi board"
         }
     },
     "web": {
@@ -357,6 +357,26 @@
         "en": {
             "title": "Vittascience — Photon",
             "desc": "Programming interface for Photon robot"
+        }
+    },
+    "codey": {
+        "fr": {
+            "title": "Vittascience — Codey",
+            "desc": "Interface de programmation pour la carte Codey et le robot Rocky"
+        },
+        "en": {
+            "title": "Vittascience — Codey",
+            "desc": "Programming interface for the Codey board and mBot2 robot"
+        }
+    },
+    "uno-r4": {
+        "fr": {
+            "title": "Vittascience — Arduino R4 Wifi & Minima",
+            "desc": "Interface de programmation pour la carte Arduino UNO R4 Wifi & Minima."
+        },
+        "en": {
+            "title": "Vittascience — Arduino R4 Wifi & Minima",
+            "desc": "Programming interface for the Arduino UNO R4 Wifi & Minima boards."
         }
     },
     "learn": {
@@ -517,6 +537,26 @@
         "en": {
             "title": "Vittascience — Partnership with Capytale",
             "desc": "Learn about our partnership with Capytale to provide innovative educational solutions in programming and science through interactive tools."
+        }
+    },
+    "legalNotice": {
+        "fr": {
+            "title": "Vittascience — Mentions légales",
+            "desc": "Découvrez les mentions légales de Vittascience : identité de l’entreprise, responsable de publication, hébergement et informations légales conformes."
+        },
+        "en": {
+            "title": "Vittascience — Legal Notice",
+            "desc": "Read Vittascience’s legal notice: company details, publication director, hosting and legal information."
+        }
+    },
+    "rgpd": {
+        "fr": {
+            "title": "Vittascience — Politique de confidentialité",
+            "desc": "Consultez la politique de confidentialité de Vittascience : collecte, utilisation et protection de vos données personnelles."
+        },
+        "en": {
+            "title": "Vittascience — Privacy Policy",
+            "desc": "Read Vittascience’s privacy policy: how we collect, use, and protect your personal data."
         }
     }
 }

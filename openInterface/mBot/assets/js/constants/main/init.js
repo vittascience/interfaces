@@ -29,14 +29,53 @@ const READ_ANALOG_MAX_VALUE = 1023;
 const WRITE_ANALOG_MAX_VALUE = 255;
 //simulator
 const SIMULATOR_DEFAULT_BOARD = {
+    "id": BOARD_CORE_1,
     "link": 'mCore1.svg',
-    "name": "mCore 1"
+    "name": "mCore 1",
+    "mcu": "avr_8bits"
+};
+const SIMULATOR_CPP_LIMITS = {
+    'avr_8bits': {
+        "char": { "max": 0x7f, "min": -0x80, "bytes": 1 },
+        "signed char": { "max": 0x7f, "min": -0x80, "bytes": 1 },
+        "unsigned char": { "max": 0xff, "min": 0x00, "bytes": 1 },
+        "wchar_t": { "max": 0xffff, "min": 0x0000, "bytes": 2 },
+        "char16_t": { "max": 0xffff, "min": 0x0000, "bytes": 2 },
+        "char32_t": { "max": 0xffffffff, "min": 0x00000000, "bytes": 4 },
+        "short": { "max": 0x7fff, "min": -0x8000, "bytes": 2 },
+        "unsigned short": { "max": 0xffff, "min": 0x0000, "bytes": 2 },
+        "int": { "max": 0x7fff, "min": -0x8000, "bytes": 2 },
+        "unsigned int": { "max": 0xffff, "min": 0x0000, "bytes": 2 },
+        "long": { "max": 0x7fffffff, "min": -0x80000000, "bytes": 4 },
+        "unsigned long": { "max": 0xffffffff, "min": 0x00000000, "bytes": 4 },
+        "long long": { "max": 0x7fffffffffffffff, "min": -0x8000000000000000, "bytes": 8 },
+        "unsigned long long": { "max": 0xffffffffffffffff, "min": 0x0000000000000000, "bytes": 8 },
+        "float": { "max": 3.40282346638529e+38, "min": -3.40282346638529e+38, "bytes": 4 },
+        "double": { "max": 3.40282346638529e+38, "min": -3.40282346638529e+38, "bytes": 4 },
+        "long double": { "max": 1.7976931348623157e+308, "min": -1.7976931348623157e+308, "bytes": 8 },
+        "pointer": { "bytes": 2 },
+        "bool": { "max": 1, "min": 0, "bytes": 1 },
+        "boolean": { "max": 1, "min": 0, "bytes": 1 },
+        "size_t": { "max": 0xffff, "min": 0x0000, "bytes": 2 },
+        "ptrdiff_t": { "max": 0x7fff, "min": -0x8000, "bytes": 2 },
+        "intptr_t": { "max": 0x7fff, "min": -0x8000, "bytes": 2 },
+        "uintptr_t": { "max": 0xffff, "min": 0x0000, "bytes": 2 }
+    }
+};
+const SIMULATOR_TYPE_FORMATS = {
+    'avr_8bits': {
+        i: ["d", "i"],
+        u: ["u", "o", "x", "X"],
+        c: ["c"],
+        s: ["s"],
+        p: ["p"],
+    }
 };
 const SIMULATOR_DEFAULT_ROBOT = 'mBot';
 //serial
 const SERIAL_OPTIONS = {
     boardSelection: false,
-    board: 'nano',
+    boardId: 'nano',
     boardName: "MeMCore w/ ATmega328",
     boardsFilter: [{
         'usbProductId': 0x7523,

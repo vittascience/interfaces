@@ -11,18 +11,14 @@
     <script>
         function initializeMatomo() {
             if (typeof IS_CAPYTALE_CONTEXT !== 'undefined') return;
-            if (typeof UserManager === 'undefined' || !UserManager) {
-            setTimeout(() => {
-                initializeMatomo();
-            }, 100);
-            return;
-            }
             const _paq = window._paq = window._paq || [];
             /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
             if (typeof ltiVariables13 !== 'undefined') {
-            _paq.push(['setCustomDimension', 3, `${ltiVariables13.platform}-${ltiVariables13.interface}`]);
-            const userId = UserManager.getUser() ? UserManager.getUser().id : 'no-id';
-            _paq.push(['setUserId', userId]);
+                _paq.push(['setCustomDimension', 3, `${ltiVariables13.platform}-${ltiVariables13.interface}`]);
+                if (typeof UserManager !== 'undefined' && UserManager) {
+                    const userId = UserManager.getUser() ? UserManager.getUser().id : 'no-id';
+                    _paq.push(['setUserId', userId]);
+                }
             }
             _paq.push(['trackPageView']);
             _paq.push(['enableLinkTracking']);
@@ -34,7 +30,10 @@
             g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
             })();
         }
-        initializeMatomo();
+        setTimeout(() => {
+            initializeMatomo();
+        }, 2000); 
+        // wait for the user to be loaded
     </script>
     <!-- End Matomo Code -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -96,7 +95,6 @@
     <script src="/public/js/scripts/navbar/login.js"></script>
     <script src="/public/js/scripts/navbar/profile.js"></script>
     <script src="/public/js/scripts/navbar/signup.js"></script>
-    <script src="/public/js/scripts/tooltips/tooltip.js"></script>
     <script src="/public/js/scripts/vittaBlocker/VittaBlocker.js"></script>
     <script src="/public/js/scripts/navbar/VittaNotif.js"></script>
     <script src="/public/js/scripts/navbar/VittaControllerNotif.js"></script>
@@ -415,7 +413,7 @@
                         <div id="console-wrapper">
                             <div id="canvas-wrapper">
                                 <div id="canvas-matplotlib"></div>
-                                <div id="canvas-turtle"></div>
+                                <div id="canvas-turtle" class="mt-2"></div>
                             </div>
                             <div id="console" tabindex="0"></div>
                             <div id="console_fake" hidden></div>
@@ -626,12 +624,6 @@
     });
 </script>
 
-<script src="/openInterface/interfaces/assets/js/rtc/AceCursorMarker.js"></script>
-<script src="/openInterface/interfaces/assets/js/rtc/AceMultiCursorManager.js"></script>
-<script src="/openInterface/interfaces/assets/js/rtc/AceMultiSelectionManager.js"></script>
-<script src="/openInterface/interfaces/assets/js/rtc/AceSelectionMarker.js"></script>
-<!-- The following script import for RtcManager is not relevant for this interface @toberemoved 2024/08/26 -->
-<script src="/openInterface/interfaces/assets/js/rtc/RtcManager.js"></script>
 <script src="/python/assets/js/vittapyther/vittapyther_requests.js"></script>
 <script src="/python/assets/js/vittapyther/vittapyther_listeners.js"></script>
 <script src="/python/assets/js/main/UnitTests.js"></script>
@@ -639,6 +631,7 @@
 <script src="/python/assets/js/events/unitTests.js"></script>
 <script src="/python/assets/js/events/buttons.js"></script>
 <script type="module" src="/python/assets/js/vittapyther/vittapyther_main.js"></script>
+<script type="module" src="/public/js/scripts/turtleAutocorrector/TurtleAutocorrector.js"></script>
 <link property rel="stylesheet" href="/python/assets/css/vittapyther.css" media="screen" />
 <script src="/python/assets/js/vittapyther/socket.io.min.js"></script>
 </div>

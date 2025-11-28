@@ -57,7 +57,7 @@ Blockly.Constants.Pins = Object.create(null);
 
 //arduino digital/analog pins
 Blockly.Constants.Pins.digital = {
-  [BOARD_ARDUINO_UNO]: [
+  [BOARD_ARDUINO_NANO]: [
     ["0", "0"],
     ["1", "1"],
     ["2", "2"],
@@ -83,7 +83,7 @@ Blockly.Constants.Pins.digital = {
 
 //arduino read analog
 Blockly.Constants.Pins.analog_read = {
-  [BOARD_ARDUINO_UNO]: [
+  [BOARD_ARDUINO_NANO]: [
     ["A0", "A0"],
     ["A1", "A1"],
     ["A2", "A2"],
@@ -95,7 +95,7 @@ Blockly.Constants.Pins.analog_read = {
 
 //arduino pwm pins
 Blockly.Constants.Pins.PWM = {
-  [BOARD_ARDUINO_UNO]: [
+  [BOARD_ARDUINO_NANO]: [
     ["3", "3"],
     ["5", "5"],
     ["6", "6"],

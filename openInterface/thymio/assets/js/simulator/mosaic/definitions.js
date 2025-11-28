@@ -49,7 +49,7 @@ Simulator.Mosaic.addSpecificInitializations = async function () {
 Simulator.Mosaic.addSpecificSkulptFunctions = function () {
 	Sk.builtins.simulator_onEvent = new Sk.builtin.func(function (process) {
 		Sk.builtin.pyCheckType('process', 'callable', Sk.builtin.checkCallable(process));
-		const funcName = process.$qualname;
+		const funcName = Sk.ffi.remapToJs(process.$qualname);
 		if (funcName.match(/button_/g)) {
 			const board = document.getElementById('board-viewer').contentDocument;
 			const button = board.querySelector('#' + process.$qualname);

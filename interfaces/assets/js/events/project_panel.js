@@ -258,7 +258,7 @@ $('body').on('fileloaded', '#importproject-fileinput', async function () {
     const interface = Main.getInterface();
 
     const inoInterfaces = ["arduino", "mBot", "letsstartcoding"];
-    const pyInterfaces = ["python", "microbit", "esp32", "wb55", "l476", "TI-83", "galaxia", "raspberrypi", "niryo", "nao", "GalaxiaCircuitPython", "buddy", "cyberpi", "pico", "eliobot", "thymio", "winky", "sphero", "lotibot", "bluebot", "spike", "photon"];
+    const pyInterfaces = ["python", "microbit", "esp32", "wb55", "l476", "TI-83", "galaxia", "raspberrypi", "niryo", "nao", "GalaxiaCircuitPython", "buddy", "cyberpi", "pico", "eliobot", "thymio", "winky", "sphero", "lotibot", "bluebot", "spike", "photon", "codey"];
 
     if ((inoInterfaces.includes(interface) && extension !== "ino") || (pyInterfaces.includes(interface) && extension !== "py")) {
         const infoBox = document.getElementById("import-extension-warning-box");
@@ -280,7 +280,7 @@ $('body').on('fileloaded', '#importproject-fileinput', async function () {
 
     if ($("#importproject-fileinput").fileinput("getFileStack").length > 0) {
         const projectFile = await readFileFromInput(file);
-        const headerRegExp = inoInterfaces.includes(interface) ? /\/\*\r?\n\r?\n([\s\S]*?)\r?\n\r?\n\*\// : /"""([\s\S]*?)"""/;
+        const headerRegExp = inoInterfaces.includes(interface) ? /\/\*([\s\S]*?)\*\// : /"""([\s\S]*?)"""/;
         if (projectFile.toLowerCase().includes('vittascience')) {
             updateLocalProject(extractProjectInformations(projectFile, headerRegExp));
             /**
@@ -592,9 +592,12 @@ async function openProject(projectLink = null, skip = false) {
             pseudoModal.closeLatestModal();
         });
     } else {
-        await projectManager.projectLoader_loadFromFinder(projectLink);
+        const status = await projectManager.projectLoader_loadFromFinder(projectLink);
         projectManager.isOpeningProject = false;
         pseudoModal.closeLatestModal();
+        if (status == ProjectManager.STATUS.LOADING.INJECT.error) {
+            pseudoModal.openModal('modal-warningWrongXml')
+        }
     }
     if ($_GET('duo')) {
         projectManager._multiManager.refreshIframeContent();
@@ -1648,38 +1651,64 @@ function populateProjects(projects, parentDivId) {
         return;
     }
 
-    else if (parentDivId == "example-projects") {
-
-        const categoryKeys = projects.map(project => project.exampleCategory).filter(project => project !== null);
-
-        if (categoryKeys.length !== projects.length) {
-            populate(projects, parentDiv);
-        } else {
-            generateSubCategoriesButton(parentDiv);
-
-            const categories = categoryKeys.filter((item, index) => categoryKeys.indexOf(item) === index);
-            categories.forEach(function (cat) {
-                // get projects of current category
-                const categoryProjects = projects.filter(project => project.exampleCategory === cat);
-                // create the category title toggler
-                const categoryTitle =
-                    `<button class="category-title mb-1" data-bs-toggle="collapse" data-bs-target="#${cat}-content" aria-expanded="false" aria-controls="${cat}-content">
-                        <i class='fas fa-chevron-right'></i>${i18next.t('modals.standard.open.content.exampleCategories.' + cat)} <span class='badge bg-primary'>${categoryProjects.length}</span>
-                    </button>`;
-                // create the category content
-                let categoryContent = `<div id="${cat}-content" class="collapse">`;
-                categoryProjects.forEach(function (project) {
-                    categoryContent += _generateProjectDiv(project, parentDivId).html();
-                });
-                categoryContent += '</div>';
-                // append category to project div
-                parentDiv.append(`<div id="${cat}">` + categoryTitle + categoryContent + '</div>');
-            });
+    if (parentDivId === "example-projects") {
+        const categories = [...new Set(projects.map(p => p.exampleCategory).filter(Boolean))];
+        
+        if (categories.length === 0) {
+            populate(projects, parentDivId);
+            return;
         }
+
+        generateSubCategoriesButton(parentDiv);
+
+        categories.forEach(cat => {
+            const catProjects = projects.filter(p => p.exampleCategory === cat);
+            const catId = `${cat}`;
+            const catTitle = `
+                <button class="category-title mb-1" data-bs-toggle="collapse" data-bs-target="#${catId}-content" aria-expanded="false" aria-controls="${catId}-content">
+                    <i class='fas fa-chevron-right'></i>${i18next.t('modals.standard.open.content.exampleCategories.' + cat)} 
+                    <span class='badge bg-primary'>${catProjects.length}</span>
+                </button>`;
+            let catContent = `<div id="${catId}-content" class="collapse">`;
+
+            const withSub = catProjects.filter(p => !!p.exampleSubcategories);
+            const withoutSub = catProjects.filter(p => !p.exampleSubcategories);
+
+            // Ajout des sous-sous catégories
+            const subCatMap = {};
+            withSub.forEach(p => {
+                const sub = p.exampleSubcategories;
+                if (!subCatMap[sub]) subCatMap[sub] = [];
+                subCatMap[sub].push(p);
+            });
+
+            Object.entries(subCatMap).forEach(([subKey, subProjects]) => {
+                const subId = `${cat}-${subKey}`;
+                const subTitle = `
+                    <button class="category-title ms-3" data-bs-toggle="collapse" data-bs-target="#${subId}-content" aria-expanded="false" aria-controls="${subId}-content">
+                        <i class='fas fa-chevron-right'></i>${i18next.t('modals.standard.open.content.exampleSubcategories.' + subKey)} 
+                        <span class='badge bg-primary'>${subProjects.length}</span>
+                    </button>`;
+                let subContent = `<div id="${subId}-content" class="collapse ms-3">`;
+                subProjects.forEach(p => {
+                    subContent += _generateProjectDiv(p, parentDivId).html();
+                });
+                subContent += `</div>`;
+                catContent += `<div class="sub-subcategory mb-2">${subTitle}${subContent}</div>`;
+            });
+
+            // Ajout des projets sans sous-catégorie
+            withoutSub.forEach(p => {
+                catContent += _generateProjectDiv(p, parentDivId).html();
+            });
+
+            catContent += `</div>`;
+            parentDiv.append(`<div id="${cat}">${catTitle}${catContent}</div>`);
+        });
     } else {
         populate(projects, parentDiv);
     }
-};
+}
 
 $('#blockly-setting').click(function () {
     pseudoModal.openModal('modal-blocklysettings');
@@ -1800,7 +1829,8 @@ $('body').on('click', '#modal-new-btn-create, #readOnlyCopyBtn', async function 
             rtcManager = null;
             $("#users").html("");
         }
-        await projectManager.initializeRtc();
+        if (INTERFACE_NAME !== 'ai' && rtcInterfaces?.includes(INTERFACE_NAME)) await projectManager.initializeRtc();
+        
     }
 
     async function createProjectProcess(project) {

@@ -385,16 +385,18 @@ Blockly.Python.robots_alphabot_joystick_onCommandReceived = function (block) {
 };
 
 // DONUTBOT
-Blockly.Python.robots_donutbot_getUltrasonicRange = function () {
+Blockly.Python.robots_donutbot_getUltrasonicRange = function (block) {
     Blockly.Python.addImport('stm32_donutbot', IMPORT_STM32_DONUTBOT);
     Blockly.Python.addConstant('donutbot-robot', "\"\"\" DonutBot robot \"\"\"");
-    return ["donutbot_get_distance('ultrasonic')", Blockly.Python.ORDER_ATOMIC];
+    const unit = block.getFieldValue("UNIT");
+    return [`donutbot_get_distance('ultrasonic', '${unit}')`, Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python.robots_donutbot_readDistance = function () {
+Blockly.Python.robots_donutbot_readDistance = function (block) {
     Blockly.Python.addImport('stm32_donutbot', IMPORT_STM32_DONUTBOT);
     Blockly.Python.addConstant('donutbot-robot', "\"\"\" DonutBot robot \"\"\"");
-    return ["donutbot_get_distance('tof')", Blockly.Python.ORDER_ATOMIC];
+    const unit = block.getFieldValue("UNIT");
+    return [`donutbot_get_distance('tof',  '${unit}')`, Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.robots_donutbot_lineDetector = function (block) {
@@ -562,10 +564,8 @@ Blockly.Python.robots_donutbot_neopixel_setPaletteColor = function (block) {
     Blockly.Python.addImport('neopixel', IMPORT_NEOPIXEL);
     Blockly.Python.addConstant('donutbot-robot', "\"\"\" DonutBot robot \"\"\"");
     Blockly.Python.addInit('donutbot_neopixel', `npDonutbot = neopixel.NeoPixel(${pinName}, 8)`);
-
     const led = block.getFieldValue("LED");
     const colour = Blockly.Python.valueToCode(block, "COLOR", Blockly.Python.ORDER_NONE) || "(0,0,0)";
-
     if (led === "all") {
         Blockly.Python.addFunction('neopixel_showAllLed', FUNCTIONS_L476.DEF_NEOPIXEL_SHOW_ALL_LED);
         return `neopixel_showAllLed(npDonutbot, 8, ${colour.slice(1, -1)})` + NEWLINE;
@@ -604,15 +604,15 @@ Blockly.Python.robots_donutbot_buttons_onPressed = function (block) {
 
 Blockly.Python.robots_donutbot_BLE_SendData = function (block) {
     Blockly.Python.addConstant('donutbot-robot', "\"\"\" DonutBot robot \"\"\"");
-    Blockly.Python.addInit('ble_uart', 'uart = UART(1, baudrate=9600)');
+    Blockly.Python.addInit('ble_uart', 'uart_1 = machine.UART(1, baudrate=9600)');
     const data = Blockly.Python.valueToCode(block, "DATA", Blockly.Python.ORDER_NONE) || "";
-    return "if uart:" + NEWLINE + "  " + `uart.write(${data} + '\\n')` + NEWLINE;
+    return "if uart_1:" + NEWLINE + "  " + `uart_1.write(str(${data}) + '\\n')` + NEWLINE;
 };
 
 Blockly.Python.robots_donutbot_BLE_ReadData = function (block) {
     Blockly.Python.addConstant('donutbot-robot', "\"\"\" DonutBot robot \"\"\"");
-    Blockly.Python.addInit('ble_uart', 'uart = UART(1, baudrate=9600)');
+    Blockly.Python.addInit('ble_uart', 'uart_1 = machine.UART(1, baudrate=9600)');
     const branchCode = Blockly.Python.statementToCode(block, "DO") || Blockly.Python.PASS;
     const dataVar = Blockly.Python.nameDB_.getName(block.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME);
-    return "if uart.any():" + NEWLINE + "  " + dataVar + " = uart.read().decode().strip()" + NEWLINE + branchCode;
+    return "if uart_1.any():" + NEWLINE + "  " + dataVar + " = uart_1.read().decode().strip()" + NEWLINE + branchCode;
 };

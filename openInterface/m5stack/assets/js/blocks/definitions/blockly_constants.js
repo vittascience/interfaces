@@ -1,4 +1,4 @@
-Blockly.Msg.boardName = 'M5Stack';
+Blockly.Msg.Esp32BoardName = 'M5Stack';
 
 Blockly.Constants.HTML_BLOCKS = [
   'network_html_addTitle',

@@ -75,6 +75,17 @@ const downloadOptions = {
         label: {
             value: "code.topbar.label.disconnect"
         }
+    },
+    'board-choice': {
+        id: "board-choice-opt",
+        classes: 'ide-btn-check ide-btn-left-dropdown',
+        fontAwesome: 'fas fa-microchip',
+        title: 'code.topbar.tooltips.arduinoBoardSelector',
+        onclick: "InterfaceConnection.openBoardSelector()",
+        tooltipPlacement: "left",
+        label: {
+            value: "code.topbar.label.arduinoBoardSelector"
+        }
     }
 };
 

@@ -12,6 +12,11 @@ const TOOLBOXES_BLOCKS_CONTENT = {
         return {
             // display - LED 13
             "io_control_arduino_led": this.Set.state(),
+            // display - R4 LED matrix
+            "display_builtinMatrix_drawBitmap": this.Set.number("X") + this.Set.number("Y"),
+            "display_builtinMatrix_drawString": this.Set.text("TEXT") + this.Set.number("SPEED", 80),
+            "display_builtinMatrix_showNumber": this.Set.number("N", 255),
+            "display_builtinMatrix_setPixel": this.Set.number("X") + this.Set.number("Y") + this.Set.state(),
             // display - LCD
             "display_lcdRGBSetText": this.Set.text("TEXT"),
             "display_lcdRGBSetColor": this.Set.number("R", 255) + this.Set.number("G", 255) + this.Set.number("B", 255),
@@ -47,6 +52,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "io_waitUntil": '<value name="UNTIL"><shadow type="logic_compare"><field name="OP">EQ</field>' + this.Set.number("B", 1) + '</shadow></value>',
             // io - external inputs
             "io_getGroveButton": this.Set.field("PIN", '4'),
+            "io_getReversedButton": this.Set.field("PIN", '4'),
             "io_getGroveSwitch": this.Set.field("PIN", '4'),
             "io_getGroveTactile": this.Set.field("PIN", '4'),
             "io_getKeypadNumber": this.Set.field("RX", '5') + this.Set.field("TX", '4'),
@@ -76,9 +82,18 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "communication_SDWriteDataSPI": this.Set.field("CS", '4') + '<value name="DATA"><block type="text_join">'
                 + this.Set.text("ADD0", '{data1}') + this.Set.text("ADD1", ';') + this.Set.text("ADD2", '{data2}') + '</block></value>',
             // communication - bluetooth
-            "communication_setSerialBluetooth": this.Set.text("NAME", "VittaEmitter") + this.Set.text("MODE", "M") + this.Set.text("PIN", "0000"),
+            //"communication_setSerialBluetooth": this.Set.text("NAME", "VittaEmitter") + this.Set.text("MODE", "M") + this.Set.text("PIN", "0000") + this.Set.field("RX", '7') + this.Set.field("TX", '6'),
+            "communication_groveSerialBluetooth_setATCommand": this.Set.field("RX", '7') + this.Set.field("TX", '6') + this.Set.text("VALUE"),
+            "communication_groveSerialBluetooth_getATCommand": this.Set.field("RX", '7') + this.Set.field("TX", '6'),
             "communication_sendSerialBluetoothData": this.Set.field("RX", '7') + this.Set.field("TX", '6') + this.Set.text("TEXT"),
             "communication_onSerialBluetoothDataReceived": this.Set.field("RX", '7') + this.Set.field("TX", '6'),
+            "communication_hc05_getATCommand": this.Set.field("RX", '7') + this.Set.field("TX", '6'),
+            "communication_hc05_setATCommand": this.Set.field("RX", '7') + this.Set.field("TX", '6') + this.Set.text("VALUE"),
+            "communication_hc05_changeBaudrateTransmission": this.Set.number("BAUD", 9600),
+            "communication_hc05_sendBluetoothData": this.Set.field("RX", '7') + this.Set.field("TX", '6') + this.Set.text("TEXT"),
+            "communication_hc05_onBluetoothDataReceived": this.Set.field("RX", '7') + this.Set.field("TX", '6'),
+            "communication_hm10_getATCommand": this.Set.field("RX", '7') + this.Set.field("TX", '6'),
+            "communication_hm10_setATCommand": this.Set.field("RX", '7') + this.Set.field("TX", '6') + this.Set.text("VALUE"),
             "communication_hm10_sendBluetoothData": this.Set.field("RX", '7') + this.Set.field("TX", '6') + this.Set.text("TEXT"),
             "communication_hm10_onBluetoothDataReceived": this.Set.field("RX", '7') + this.Set.field("TX", '6'),
             // communication - radio
@@ -93,6 +108,59 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "communication_rfid_getCardID": this.Set.field("RX", '6') + this.Set.field("TX", '7'),
             "communication_onGPSDataReceived": this.Set.field("RX", '6') + this.Set.field("TX", '7'),
             "communication_clockRTC_setHour": this.Set.number("HOUR", 3) + this.Set.number("MIN", 30) + this.Set.number("SEC"),
+            // network - wifi R4
+            "network_connectStation": this.Set.text("SSID") + this.Set.text("PASSWORD") //+ this.Set.text("IP", '192.168.1.10')
+                + '<mutation ip="false" options="false"></mutation>',
+            "network_configureAccessPoint": this.Set.text("ESSID", 'VittaAP') + this.Set.text("IP", '192.168.1.10'),
+            // network - server
+            "network_server_sendData": this.Set.text("DATA"),
+            "network_changeServerPort": this.Set.number("PORT", 2000),
+            // network - client
+            "network_client_sendData": this.Set.text("DATA") + this.Set.text("IP", "192.168.1.10")
+                + '<mutation port="false"></mutation>',
+            "network_client_getServerData": this.Set.text("IP", "192.168.1.10"),
+            // network - html
+            "network_html_addTitle": this.Set.text("TITLE", '{webPage_title}') + this.Set.colour_picker('#22b573'),
+            "network_html_addText": this.Set.text("TEXT", 'Ajouter du texte...')
+                + '<mutation size="false" colour="false"></mutation>',
+            "network_html_addButton": this.Set.text("ID", '{buttonName}') + this.Set.text('TEXT', 'ON')
+                + '<mutation colour="false" shape="false"></mutation>',
+            "network_html_addSlider": this.Set.text("ID", '{sliderName}')
+                + '<mutation limits="false" orient="false" shape="false"></mutation>',
+            "network_html_addGauge": this.Set.text("TITLE", 'Température (°C)') + this.Set.variable("VALUE", 'temperature') + this.Set.number("MIN") + this.Set.number("MAX", 100),
+            "network_html_addSwitch": this.Set.text("ID", '{switchName}')
+                + '<mutation colour="false" size="false"></mutation>',
+            "network_html_addLink": this.Set.text("TEXT", 'Texte du lien...') + '<field name="URL">https://...</field>'
+                + '<mutation size="false" colour="false"></mutation>',
+            "network_html_addImage": this.Set.text("DATA", "{base64Image}")
+                + '<mutation shape="false"></mutation>',
+            "network_html_addStream": this.Set.variable("DATA", 'image_data') +
+                + '<mutation shape="false"></mutation>',
+            "network_HTML_formatText": this.Set.text("TEXT", 'Texte formaté ...'),
+            "network_HTML_add": this.Set.text("HTML"),
+            "network_HTML_addSymbol": this.Set.text("SYMBOL", "2600") + this.Set.text("SIZE", "50px"),
+            // network - page data
+            "network_server_getButtonState": this.Set.text("ID", '{buttonName}'),
+            "network_server_getSliderValue": this.Set.text("ID", '{sliderName}'),
+            "network_server_getSwitchValue": this.Set.text("ID", '{switchName}'),
+            // network - HTTP
+            "network_connectStation_simple": this.Set.text("SSID") + this.Set.text("PASSWORD") + '<mutation ip="false" options="false"></mutation>',
+            "network_getHTTPRequest": this.Set.text("URL", 'https://...'),
+            "network_thingspeak_sendData": "<value name='ADD0'><block type='network_thingspeak_sendData_field'><field name='FIELD'>1</field></block></value>",
+            "network_thingspeak_sendData_field": this.Set.number("VALUE", 3.14),
+            "request_thingspeak_readFeeds": this.Set.text("CHANNEL_ID") + this.Set.text("API_KEY") + this.Set.number("FIELD", 1),
+            // network - umail
+            'network_umail_setup': this.Set.text("MAIL", 'esp32@vittascience.com') + this.Set.text("PASSWORD", ''),
+            'network_umail_to': this.Set.text("MAIL", 'xxx@mail.com') + this.Set.text("SUBJECT", 'Vittamail ESP32'),
+            'network_umail_write_sender': this.Set.text("NAME", 'ESP32'),
+            'network_umail_write': this.Set.text("MSG", "{hello}"),
+            'network_umail_send_image': this.Set.text("IMG", "{base64Image}"),
+            // network - mqtt
+            'network_mqtt_connectWithAuth': this.Set.text("BROKER", "ip_du_broker") + this.Set.text("USERNAME") + this.Set.text("PASSWORD") + '<mutation port="false"></mutation>',
+            'network_mqtt_subscribeTopic': this.Set.text("TOPIC", "nom_du_canal"),
+            'network_mqtt_publishValue': this.Set.text("TOPIC", "nom_du_canal"),
+            'network_mqtt_ifTopicIs': this.Set.text("TOPIC0", "nom_du_canal"),
+            'variables_get-message_MQTT': this.Set.field("VAR", 'message_MQTT'),
             // sensors - gas
             "sensors_SCD30_forcedCalibration": this.Set.number("DEFAULT", 420),
             "sensors_getDustConcentration": this.Set.field("PIN", '8'),
@@ -113,8 +181,9 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "sensors_getGroveMotion": this.Set.field("PIN", '8'),
             "sensors_getPiezoVibration": this.Set.field("PIN", '8'),
             // actuators - servomotors
-            "actuators_setServoAngle": this.Set.field("PIN", '5') + this.Set.number("ANGLE", 90),
-            "actuators_continuousServo_setSpeed": this.Set.number("SPEED", 100),
+            "actuators_setServoAngle": this.Set.field("PIN", '3') + this.Set.number("ANGLE", 90),
+            "actuators_continuousServo_setSpeed": this.Set.field("PIN", '3') + this.Set.number("SPEED", 100),
+            "actuators_servo_detach": this.Set.field("PIN", '3'),
             // actuators - I2C motor driver
             "actuators_DCMotor_setSpeed": this.Set.number("SPEED", 100),
             "actuators_stepperMotor_run": this.Set.number("STEP", 1024),
@@ -143,7 +212,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             // VittaIA
             "vittaia_detect_class": this.Set.text("MODEL_CLASS", 'Class') + this.Set.field("IS_DETECTED", '=='),
             "vittaia_load_cloud_model": this.Set.text("MODEL_ID", 'https://fr.vittascience.com/ia/model/67da8c5faec8e/'),
-            
+
             /** Arduino default blocks */
             // logic
             "controls_if": "<value name='IF0'><block type='logic_compare'>" + this.Set.number("B", 1) + "</block></value>",

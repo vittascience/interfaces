@@ -1290,6 +1290,17 @@ export default class Python2Blocks {
 	 * @returns {object} - The block xml node with child nodes (if any)
 	 * */
 	determineStringLiteralBlockType(node) {
+		if (node.is_exec) {
+			return {
+				type: 'text',
+				fields: { TEXT: node.text },
+				values: {},
+				mutations: null,
+				statementsNode: null,
+				statement: null,
+			};
+		}
+
 		const beautifyString = (str) => {
 			return str.replaceAll('"', '').replaceAll("'", '');
 		};

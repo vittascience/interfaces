@@ -28,3 +28,4 @@ Blockly.Msg['SUBCATEGORY_TIME'] = 'Time';
 Blockly.Msg['SUBCATEGORY_MATPLOTLIB'] = 'Matplotlib';
 Blockly.Msg['SUBCATEGORY_ARRAYS_MATRIX'] = 'Arrays and matrix';
 Blockly.Msg['SUBCATEGORY_OPERATIONS'] = 'Operations';
+Blockly.Msg['SUBCATEGORY_TEXT_ANALYSIS'] = 'Analisi del testo';

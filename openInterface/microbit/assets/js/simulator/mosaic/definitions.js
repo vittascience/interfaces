@@ -11,7 +11,7 @@ Simulator.Mosaic.getPinDef = (pin, mod) => {
 
 Simulator.Mosaic.getCurrentRobot = function () {
     const current_robot = Simulator.code.match(/""" ([a-zA-Z0-9]+(?:\s[a-zA-Z0-9]+)*) (robot|drone) """/gi);
-    
+
     if (current_robot?.length > 1) {
         return 'error';
     }
@@ -51,6 +51,7 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/dht11.py': Simulator.PATH_LIB + 'grove/simu_dht11.py',
     'src/lib/dht11_v2.py': Simulator.PATH_LIB + 'grove/simu_dht11.py',
     'src/lib/edgeModel.py': Simulator.PATH_LIB + 'ai/edgeModel.py',
+    'src/lib/edgeModelmicro.py': Simulator.PATH_LIB + 'ai/edgeModelmicro.py',
     'src/lib/edgeModelP0-P1.py': Simulator.PATH_LIB + 'ai/edgeModelP0-P1.py',
     'src/lib/edgeModelP0.py': Simulator.PATH_LIB + 'ai/edgeModelP0.py',
     'src/lib/edgeModelP1.py': Simulator.PATH_LIB + 'ai/edgeModelP1.py',
@@ -66,6 +67,7 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/rgb_led_matrix.js': Simulator.PATH_LIB + 'grove/rgb_led_matrix.js',
     'src/lib/bme280.js': Simulator.PATH_LIB + 'envirobit/bme280.js',
     'src/lib/tcs3472.js': Simulator.PATH_LIB + 'envirobit/tcs3472.js',
+    'src/lib/veml6040.js': Simulator.PATH_LIB + 'grove/veml6040.js',
     // robots libraries
     // py
     'src/lib/cutebotpro.js': Simulator.PATH_LIB + 'robots/cutebotpro.js',
@@ -74,7 +76,9 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/cutebot.js': Simulator.PATH_LIB + 'robots/cutebot.js',
     'src/lib/maqueenplusv1.js': Simulator.PATH_LIB + 'robots/maqueenplusv1.js',
     'src/lib/maqueenplusv2.js': Simulator.PATH_LIB + 'robots/maqueenplusv2.js',
+    'src/lib/maqueenplusv3.js': Simulator.PATH_LIB + 'robots/maqueenplusv3.js',
     'src/lib/HuskyLens.js': Simulator.PATH_LIB + 'grove/HuskyLens.js',
+    'src/lib/stepper.js': Simulator.PATH_LIB + 'micropython/stepper.js'
 };
 
 Simulator.Mosaic.addSpecificInitializations = async function () {
@@ -157,7 +161,7 @@ Simulator.Mosaic.addSpecificInitializations = async function () {
     const up = 'translate(0px, 0px)';
     const down = 'translate(0px, 7px)';
 
-    buttons.forEach((buttonId,index) => {
+    buttons.forEach((buttonId, index) => {
         const button = board.querySelector("#" + buttonId);
         if (!button) return;
         const letter = buttonId[0]; // 'a' or 'b'
@@ -172,7 +176,7 @@ Simulator.Mosaic.addSpecificInitializations = async function () {
                 playButtonAnimation(buttonId, up);
                 Simulator.setSliderValue('mb-button-' + letter, 0);
             },
-            index+2
+            index + 2
         );
     });
 
@@ -213,7 +217,7 @@ Simulator.Mosaic.addSpecificInitializations = async function () {
                 playPinAnimation(pin.id, false);
                 Simulator.setSliderValue('mb-pin-' + pinIndex, 0);
             },
-            index+4
+            index + 4
         );
     });
 
@@ -330,7 +334,7 @@ Simulator.Mosaic.addSpecificSkulptFunctions = function () {
         const current_robot = Simulator.Mosaic.getCurrentRobot();
         let module = Simulator.getModuleByKey(`mb-buzzer`);
         let id = module.id;
-        if (['Cutebot', 'Maqueen', 'MaqueenPlusV1', 'MaqueenPlusV2'].includes(current_robot)) {
+        if (['Cutebot', 'Maqueen', 'MaqueenPlusV1', 'MaqueenPlusV2', 'MaqueenPlusV3'].includes(current_robot)) {
             module = Simulator.getModuleByKey(`mb-${current_robot.toLowerCase()}-buzzer`);
         } else if (!Simulator.code.match(module.regex)) {
             module = Simulator.getModuleByKey('buzzer');
@@ -418,6 +422,7 @@ Simulator.Mosaic.groveRegex = {
     "gps": /# GPS on UART/gi,
     // Pins on module - outputs
     "openlog": /# Lecteur SD on pin([0-9]{1,2})/gi,
+    "stepper-motor": /StepperMotor\(pin[0-9]{1,2}, pin[0-9]{1,2}, pin[0-9]{1,2}, pin[0-9]{1,2}\)/gi
 };
 
 Simulator.Mosaic.specific = {
@@ -835,6 +840,9 @@ Simulator.Mosaic.specific = {
         $('.mod_tcs3472-rgb_r,' +
             '.mod_tcs3472-rgb_g,' +
             '.mod_tcs3472-rgb_b,' +
+            '.mod_veml6040_r,' +
+            '.mod_veml6040_g,' +
+            '.mod_veml6040_b,' +
             '#mb-cutebotpro-finderLeft_slider_v,' +
             '#mb-cutebotpro-finderCenterLeft_slider_v,' +
             '#mb-cutebotpro-finderRight_slider_v,' +
@@ -844,13 +852,46 @@ Simulator.Mosaic.specific = {
                 value: 0
             });
 
-            $('.mod_mb-cutebotpro-ultrasonic_t,' +
-                '.mod_mb-cutebotpro-ultrasonic_d').slider({
-                    min: 88,
-                    max: 14575,
-                    value: 1166,
-                    step: 0.1
-                });
+        $('.mod_veml6040_r,' +
+            '.mod_veml6040_g,' +
+            '.mod_veml6040_b').slider({
+                min: 0,
+                max: 15000,
+                value: 0
+            });
+
+        $('.mod_veml6040_white').slider({
+            min: 0,
+            max: 100000,
+            value: 0
+        });
+
+        $('.mod_veml6040_temp').slider({
+            min: 0,
+            max: 10000,
+            value: 1
+        });
+
+        $('.mod_veml6040_value,' +
+            '.mod_veml6040_saturation').slider({
+                min: 0,
+                max: 100,
+                value: 1
+            });
+
+        $('.mod_veml6040_hue').slider({
+            min: 0,
+            max: 360,
+            value: 0
+        });
+
+        $('.mod_mb-cutebotpro-ultrasonic_t,' +
+            '.mod_mb-cutebotpro-ultrasonic_d').slider({
+                min: 88,
+                max: 14575,
+                value: 1166,
+                step: 0.1
+            });
     },
 
     calculs: {
@@ -1976,30 +2017,30 @@ Simulator.Mosaic.specific = {
         },
         // Robots - MaqueenPlus
         {
-            regex: /maqueenplusv(1|2)/gi,
+            regex: /maqueenplusv(1|2|3)/gi,
             id: "mb-maqueenplus-motorLeft",
             title: "Moteur Gauche",
-            pin: 'MaqueenPlus',
+            pin: 'MaqueenPlus (0x10)',
             type: 'output',
             value: "",
             picture: "Roue.png",
             pictureAnimation: "Roue-animation.png"
         },
         {
-            regex: /maqueenplusv(1|2)/gi,
+            regex: /maqueenplusv(1|2|3)/gi,
             id: "mb-maqueenplus-motorRight",
             title: "Moteur Droit",
-            pin: 'MaqueenPlus',
+            pin: 'MaqueenPlus (0x10)',
             type: 'output',
             value: "",
             picture: "Roue.png",
             pictureAnimation: "Roue-animation.png"
         },
         {
-            regex: /maqueenplusv(1|2)\.sensor_on_line\(("L1"|0)\)/gi,
+            regex: /maqueenplusv(1|2|3)\.(sensor_on_line|read_line_sensor|read_all_line_sensors)\(/gi,
             id: "mb-maqueenplus-finderLeftRear",
             title: "cap. Ligne noire (Arrière gauche)",
-            pin: 'MaqueenPlus',
+            pin: 'MaqueenPlus (0x10)',
             type: 'input',
             class: 'finder',
             listeners: [{
@@ -2015,10 +2056,10 @@ Simulator.Mosaic.specific = {
             }
         },
         {
-            regex: /maqueenplusv(1|2)\.sensor_on_line\(("L2"|1\))/gi,
+            regex: /maqueenplusv(1|2|3)\.(sensor_on_line|read_line_sensor|read_all_line_sensors)\(/gi,
             id: "mb-maqueenplus-finderLeft",
             title: "cap. Ligne noire (Gauche)",
-            pin: 'MaqueenPlus',
+            pin: 'MaqueenPlus (0x10)',
             type: 'input',
             class: 'finder',
             listeners: [{
@@ -2034,10 +2075,10 @@ Simulator.Mosaic.specific = {
             }
         },
         {
-            regex: /maqueenplusv2\.sensor_on_line\(2\)/gi,
+            regex: /maqueenplusv(2|3)\.(sensor_on_line|read_line_sensor|read_all_line_sensors)\(/gi,
             id: "mb-maqueenplus-finderMiddle",
             title: "cap. Ligne noire (Milieu)",
-            pin: 'MaqueenPlus',
+            pin: 'MaqueenPlus (0x10)',
             type: 'input',
             class: 'finder',
             listeners: [{
@@ -2053,10 +2094,10 @@ Simulator.Mosaic.specific = {
             }
         },
         {
-            regex: /maqueenplusv1\.sensor_on_line\("L3"\)/gi,
+            regex: /maqueenplusv1\.sensor_on_line\(/gi,
             id: "mb-maqueenplus-finderMiddleLeft",
             title: "cap. Ligne noire (Milieu Gauche)",
-            pin: 'MaqueenPlus',
+            pin: 'MaqueenPlus (0x10)',
             type: 'input',
             class: 'finder',
             listeners: [{
@@ -2072,10 +2113,10 @@ Simulator.Mosaic.specific = {
             }
         },
         {
-            regex: /maqueenplusv1\.sensor_on_line\("R3"\)/gi,
+            regex: /maqueenplusv1\.sensor_on_line\(/gi,
             id: "mb-maqueenplus-finderMiddleRight",
             title: "cap. Ligne noire (Milieu Droit)",
-            pin: 'MaqueenPlus',
+            pin: 'MaqueenPlus (0x10)',
             type: 'input',
             class: 'finder',
             listeners: [{
@@ -2091,10 +2132,10 @@ Simulator.Mosaic.specific = {
             }
         },
         {
-            regex: /maqueenplusv(1|2)\.sensor_on_line\(("R2"|3)\)/gi,
+            regex: /maqueenplusv(1|2|3)\.(sensor_on_line|read_line_sensor|read_all_line_sensors)\(/gi,
             id: "mb-maqueenplus-finderRight",
             title: "cap. Ligne noire (Droit)",
-            pin: 'MaqueenPlus',
+            pin: 'MaqueenPlus (0x10)',
             type: 'input',
             class: 'finder',
             listeners: [{
@@ -2110,10 +2151,10 @@ Simulator.Mosaic.specific = {
             }
         },
         {
-            regex: /maqueenplusv(1|2)\.sensor_on_line\(("R1"|4)\)/gi,
+            regex: /maqueenplusv(1|2|3)\.(sensor_on_line|read_line_sensor|read_all_line_sensors)\(/gi,
             id: "mb-maqueenplus-finderRightRear",
             title: "cap. Ligne noire (Arrière droit)",
-            pin: 'MaqueenPlus',
+            pin: 'MaqueenPlus (0x10)',
             type: 'input',
             class: 'finder',
             listeners: [{
@@ -2219,10 +2260,10 @@ Simulator.Mosaic.specific = {
             }
         },
         {
-            regex: /maqueenplusv(1|2)\.headlights\((1|-1)/gi,
+            regex: /maqueenplusv(1|2)\.headlights\(/gi,
             id: "mb-maqueenplus-rightLed",
             title: "LED Rouge (droite)",
-            pin: 'MaqueenPlus',
+            pin: 'MaqueenPlus (0X10)',
             type: 'output',
             value: [75, 75, 75],
             class: 'RGB-circle',
@@ -2232,10 +2273,36 @@ Simulator.Mosaic.specific = {
             }
         },
         {
-            regex: /maqueenplusv(1|2)\.headlights\((0|-1)/gi,
+            regex: /maqueenplusv(1|2)\.headlights\(/gi,
             id: "mb-maqueenplus-leftLed",
             title: "LED Rouge (gauche)",
-            pin: 'MaqueenPlus',
+            pin: 'MaqueenPlus (0X10)',
+            type: 'output',
+            value: [75, 75, 75],
+            class: 'RGB-circle',
+            pictureAnimation: "Transparent.png",
+            animate: function (Animator) {
+                $(Animator.animId).css('background', "rgb(" + Animator.value[0] + "," + Animator.value[1] + "," + Animator.value[2] + ")");
+            }
+        },
+        {
+            regex: /maqueenplusv3.setRGBLed\(/gi,
+            id: "mb-maqueenplus-v3-rgbled-left",
+            title: "LED RGB gauche",
+            pin: 'Maqueen Plus V3 (0X10)',
+            type: 'output',
+            value: [75, 75, 75],
+            class: 'RGB-circle',
+            pictureAnimation: "Transparent.png",
+            animate: function (Animator) {
+                $(Animator.animId).css('background', "rgb(" + Animator.value[0] + "," + Animator.value[1] + "," + Animator.value[2] + ")");
+            }
+        },
+        {
+            regex: /maqueenplusv3.setRGBLed\(/gi,
+            id: "mb-maqueenplus-v3-rgbled-right",
+            title: "LED RGB droite",
+            pin: 'Maqueen Plus V3 (0X10)',
             type: 'output',
             value: [75, 75, 75],
             class: 'RGB-circle',
@@ -2956,7 +3023,7 @@ Simulator.Mosaic.specific = {
                 color: "#1a6da8",
                 title: "bleu"
             }],
-            picture: "TCS3472-LED.svg",
+            picture: "RGB-LED.svg",
             animate: function (Animator) {
                 const values = {
                     "r": parseInt($("#tcs3472-rgb_slider_r").slider('option', 'value')),
@@ -2970,6 +3037,90 @@ Simulator.Mosaic.specific = {
             }
         },
 
+        // VEML6040 - readRGB
+        {
+            regex: /veml6040\.(read(RGB|HSV)|classifyHue)\(\)/,
+            id: "veml6040",
+            title: "Niveau de : ",
+            pin: '',
+            type: 'input',
+            color: "#22b573",
+            listeners: [{
+                suffix: "_r",
+                default: 0,
+                unit: '',
+                color: "#ff4d6a",
+                title: "rouge"
+            }, {
+                suffix: "_g",
+                default: 0,
+                unit: '',
+                color: "#22b573",
+                title: "vert"
+            }, {
+                suffix: "_b",
+                default: 0,
+                unit: '',
+                color: "#1a6da8",
+                title: "bleu"
+            },
+            {
+                suffix: "_white",
+                default: 0,
+                unit: 'Lux',
+                color: "#ffffff",
+                title: "Luminosité"
+            },
+            {
+                suffix: "_temp",
+                default: 0,
+                unit: 'K',
+                color: "#ff4d6a",
+                title: "Température"
+            }, {
+                suffix: "_hue",
+                default: 0,
+                unit: '°',
+                color: "#ffd84dff",
+                title: "Teinte"
+            }, {
+                suffix: "_saturation",
+                default: 0,
+                unit: '%',
+                color: "#10633eff",
+                title: "Saturation"
+            },
+            {
+                suffix: "_value",
+                default: 0,
+                unit: '%',
+                color: "#22b573",
+                title: "Valeur"
+            }],
+            picture: "RGB-LED.svg",
+            animate: function (Animator) {
+                const values = {
+                    "r": parseInt($("#veml6040_slider_r").slider('option', 'value')),
+                    "g": parseInt($("#veml6040_slider_g").slider('option', 'value')),
+                    "b": parseInt($("#veml6040_slider_b").slider('option', 'value')),
+                    "white": parseInt($("#veml6040_slider_white").slider('option', 'value')),
+                    "temp": parseInt($("#veml6040_slider_temp").slider('option', 'value')),
+                    "hue": parseInt($("#veml6040_slider_hue").slider('option', 'value')),
+                    "saturation": parseInt($("#veml6040_slider_saturation").slider('option', 'value')),
+                    "value": parseInt($("#veml6040_slider_value").slider('option', 'value'))
+                };
+                $("#veml6040_value_r").html(values['r']);
+                $("#veml6040_value_g").html(values['g']);
+                $("#veml6040_value_b").html(values['b']);
+                $("#veml6040_value_white").html(values['white']);
+                $("#veml6040_value_temp").html(values['temp']);
+                $("#veml6040_value_hue").html(values['hue']);
+                $("#veml6040_value_value").html(values['value']);
+                $("#veml6040_value_saturation").html(values['saturation']);
+                $("#veml6040 .veml6040-circle-in").attr("fill", "rgb(" + values['r'] + "," + values['g'] + "," + values['b'] + ")");
+            }
+        },
+
         {
             regex: /HuskyLensLibrary/g,
             id: "huskylens",
@@ -2979,6 +3130,5 @@ Simulator.Mosaic.specific = {
             value: 'ON',
             picture: "husky.png",
         }
-
     ]
 };

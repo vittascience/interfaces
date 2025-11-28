@@ -1,0 +1,11 @@
+Blockly.Msg['CATEGORY_VARIABLES'] = 'Переменные';
+Blockly.Msg['CATEGORY_PROCEDURES'] = 'Функции';
+Blockly.Msg['CATEGORY_IO'] = 'Ввод/Вывод';
+Blockly.Msg['CATEGORY_ACTUATORS'] = 'Исполнители';
+Blockly.Msg['CATEGORY_LOOPS'] = 'Циклы';
+Blockly.Msg['CATEGORY_LOGIC'] = 'Логика';
+Blockly.Msg['CATEGORY_MATH'] = 'Математика';
+Blockly.Msg['CATEGORY_APPEARANCE'] = 'Внешний вид';
+Blockly.Msg['CATEGORY_SOUND'] = 'Звук';
+Blockly.Msg['CATEGORY_CONTROL'] = 'Управление';
+Blockly.Msg['CATEGORY_OPERATORS'] = 'Операторы';

@@ -10,8 +10,6 @@ function initCleanLog() {
         currentFocusedEl = el;
 
         // console.log('[Accessibility Debug] Focused element:', el);
-        el.style.outline = 'none';
-        el.style.boxShadow = 'none';
 
         if (isExcludedElement(el)) {
             ring.style.display = 'none';

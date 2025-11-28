@@ -311,3 +311,34 @@ Blockly.Python.math_atan2_rad = function (block) {
   const argument1 = Blockly.Python.valueToCode(block, "Y", Blockly.Python.ORDER_NONE) || "0";
   return ["math.atan2(" + argument1 + ", " + argument0 + ")", Blockly.Python.ORDER_MULTIPLICATIVE];
 };
+
+Blockly.Python.math_RSA_generate_keys = function (block) {
+  Blockly.Python.addImport('random', IMPORT_RANDOM);
+  Blockly.Python.addImport('math', IMPORT_MATH);
+  Blockly.Python.addFunction('gcd', FUNCTIONS.DEF_MATH_GCD);
+  Blockly.Python.addFunction('gcde', FUNCTIONS.DEF_MATH_GCDE);
+  Blockly.Python.addFunction('is_prime', FUNCTIONS.DEF_MATH_IS_PRIME);
+  Blockly.Python.addFunction('generate_prime', FUNCTIONS.DEF_MATH_GENERATE_PRIME);
+  Blockly.Python.addFunction('RSA_generate_keys', FUNCTIONS.DEF_MATH_RSA_GENERATE_KEYS);
+  const prime_length = Blockly.Python.valueToCode(block, "PRIME_LENGTH", Blockly.Python.ORDER_NONE) || "16";
+  const code = "math_RSA_generate_keys(" + prime_length + ")";
+  return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+Blockly.Python.math_RSA_cipher_message = function (block) {
+  Blockly.Python.addImport('math', IMPORT_MATH);
+  Blockly.Python.addFunction('RSA_cipher_message', FUNCTIONS.DEF_MATH_RSA_CIPHER_MESSAGE);
+  const message = Blockly.Python.valueToCode(block, "MESSAGE", Blockly.Python.ORDER_NONE);
+  const key = Blockly.Python.valueToCode(block, "KEY", Blockly.Python.ORDER_NONE);
+  const code = "math_RSA_cipher_message(" + message + ", " + key + ")";
+  return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+}
+
+Blockly.Python.math_RSA_decipher_message = function (block) {
+  Blockly.Python.addImport('math', IMPORT_MATH);
+  Blockly.Python.addFunction('RSA_decipher_message', FUNCTIONS.DEF_MATH_RSA_DECIPHER_MESSAGE);
+  const message = Blockly.Python.valueToCode(block, "MESSAGE", Blockly.Python.ORDER_NONE);
+  const key = Blockly.Python.valueToCode(block, "KEY", Blockly.Python.ORDER_NONE);
+  const code = "math_RSA_decipher_message(" + message + ", " + key + ")";
+  return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+}

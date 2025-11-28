@@ -87,29 +87,42 @@ function checkNavLogin(fromLoginPage = false) {
                         const timeToWait = Math.ceil(diffInMinutes)
                         return setUpInfoDivNav("danger", "login_popup.canNotLoginBefore", { failedLoginAttempts: response.failedLoginAttempts, timeToWait: timeToWait }, "navbarLoginFailedWrongCredentials", fromLoginPage);
                     }
-                    if (response.error === "badInput") {
-                        return setUpInfoDivNav("danger", "login_popup.badInput", false, "navbarLoginFailedBadInput", fromLoginPage);
-                    } else if (response.error === "wrong_credentials") {
-                        return setUpInfoDivNav("danger", "login_popup.error", false, "navbarLoginFailedWrongCredentials", fromLoginPage);
-                    } else if (response.error === "user_not_found") {
-                        return setUpInfoDivNav("danger", "login_popup.userNotFound", false, "navbarLoginFailedNoUserFound", fromLoginPage);
-                    } else if (response.error === "user_not_active") {
-                        let opt = null;
-                        let linkWorkd = i18next.t("kits.catalogue.link");
-                        if (fromLoginPage) {
-                            opt = {"link": `<span class='font-weight-bold text-decoration-underline pe-auto' style='cursor: pointer;' onclick='sendActivationMailNav(true)'>${linkWorkd}</span>`};
-                        } else {
-                            opt = {"link": `<span class='font-weight-bold text-decoration-underline pe-auto' style='cursor: pointer;' onclick='sendActivationMailNav()'>${linkWorkd}</span>`};
-                        }
-                        setUpInfoDivNav("danger", "login_popup.inactiveAccount", opt, "loginFailedUserNotActive", fromLoginPage);
-                        //$('#btn-activate-account-nav').show();
-                        return
-                    } else if (response.error === "totp_code_required") {
-                        clearDivErrorNav(fromLoginPage);
-                        showTotpState(fromLoginPage);
-                        return;
-                    } else if (response.error === "wrong_totp_code") {
-                        return setUpInfoDivNav("danger", "login_popup.wrongTotpCode", false, "navbarLoginFailedWrongTotpCode", fromLoginPage);
+                    switch (response.error) {
+                        case 'badInput':
+                            return setUpInfoDivNav("danger", "login_popup.badInput", false, "navbarLoginFailedBadInput", fromLoginPage);
+                            break;
+
+                        case 'wrong_credentials':
+                            return setUpInfoDivNav("danger", "login_popup.error", false, "navbarLoginFailedWrongCredentials", fromLoginPage);
+
+                        case 'user_not_found':
+                            return setUpInfoDivNav("danger", "login_popup.userNotFound", false, "navbarLoginFailedNoUserFound", fromLoginPage);
+
+                        case 'user_not_active':
+                            let opt = null;
+                            let linkWorkd = i18next.t("kits.catalogue.link");
+                            if (fromLoginPage) {
+                                opt = {"link": `<span class='font-weight-bold text-decoration-underline pe-auto' style='cursor: pointer;' onclick='sendActivationMailNav(true)'>${linkWorkd}</span>`};
+                            } else {
+                                opt = {"link": `<span class='font-weight-bold text-decoration-underline pe-auto' style='cursor: pointer;' onclick='sendActivationMailNav()'>${linkWorkd}</span>`};
+                            }
+                            setUpInfoDivNav("danger", "login_popup.inactiveAccount", opt, "loginFailedUserNotActive", fromLoginPage);
+                            //$('#btn-activate-account-nav').show();
+                            return
+
+                        case 'totp_code_required':
+                            clearDivErrorNav(fromLoginPage);
+                            showTotpState(fromLoginPage);
+                            return;
+                        
+                        case 'wrong_totp_code':
+                            return setUpInfoDivNav("danger", "login_popup.wrongTotpCode", false, "navbarLoginFailedWrongTotpCode", fromLoginPage);
+
+                        case 'admin_without_totp':
+                            return setUpInfoDivNav('danger', 'login_popup.adminWithoutTotp', false, 'navbarLoginFailedAdminWithoutTotp', fromLoginPage);
+                    
+                        default:
+                            break;
                     }
                 }
             } else {
@@ -239,4 +252,13 @@ document.addEventListener('DOMContentLoaded', function () {
             checkNavLogin();
         });
     }
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("button[data-href]").forEach(btn => {
+        btn.addEventListener("click", () => {
+            window.location.href = btn.dataset.href;
+        });
+    });
 });

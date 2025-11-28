@@ -3,7 +3,7 @@ var WifiSimulator = {
     static_IP: '0.0.0.0',
     mac: null,
     DHCP_hostname: '',
-    COMPATIBLE_INTERFACES: ["esp32", "m5stack", "galaxia", "pico"],
+    COMPATIBLE_INTERFACES: ["esp32", "m5stack", "galaxia", "pico", "arduino"],
     _interface: null,
 
     /**
@@ -48,6 +48,11 @@ var WifiSimulator = {
         $("#web-page-module").height($("#web-page-module").width() * 9 / 16);
     },
 
+    close: function () {
+        $('#web-page-module').hide();
+        this.reset();
+    },
+
     /**
      * Stop WifiSimulator.
      */
@@ -62,7 +67,7 @@ var WifiSimulator = {
      */
     reset: function () {
         $("#server-url-field").val("");
-        this.web_client.executePage("");
+        this.web_client.closePage();
     },
 
     /**
@@ -111,10 +116,13 @@ var WifiSimulator = {
             if (editors) {
                 const serverEditor = editors[serverId];
                 if (serverEditor) {
-                    const server = serverEditor.network.server;
-                    if (server) {
-                        this._interface = _interface;
-                        return server;
+                    const serverNetwork = serverEditor.network;
+                    if (serverNetwork) {
+                        const server = serverNetwork.server;
+                        if (server) {
+                            WifiSimulator._interface = _interface;
+                            return server;
+                        }
                     }
                 }
             }
@@ -174,10 +182,6 @@ var WifiSimulator = {
 
         PACKET: (host, data = "") => `GET /${data ? data : ""} HTTP/1.1\r\nHost: ${host}\r\nConnection: keep-alive\r\nUser-Agent: Mozilla/5.0 (system; XXXXXXX) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*\r\nReferer: http://${host}/\r\nAccept-Encoding: gzip, deflate\r\nAccept-Language: fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7\r\n\r\n`,
 
-        emptyIframe: function () {
-            this.executePage("");
-        },
-
         /**
          * Initialize web page module in simulator.
          */
@@ -210,7 +214,7 @@ var WifiSimulator = {
                 addr.pages = url.replace(/http(s|):\/\//g, '').split('/');
                 try {
                     const connect = function (bind, host) {
-                        const rightLink = "http://" + host + (addr.pages.length > 0 ? '/': '') + addr.pages.join('/');
+                        const rightLink = "http://" + host + (addr.pages.length > 0 ? '/' : '') + addr.pages.join('/');
                         if (rightLink === url || rightLink === "http://" + url) {
                             $("#server-url-field").val(rightLink);
                             _this.connect(bind);
@@ -296,15 +300,17 @@ var WifiSimulator = {
                         clearInterval(WifiSimulator.web_client.responseInterval);
                         localStorage.setItem('multiEditor', JSON.stringify(multiEditor));
                     } else if (sent.length > 2) {
-                        const html = server.currentClient.sentAll.shift();
-                        for (var i = 0; i < 3; i++) {
-                            sent.shift();
+                        if (server.currentClient.sentAll) {
+                            const html = server.currentClient.sentAll.shift();
+                            for (var i = 0; i < 3; i++) {
+                                sent.shift();
+                            }
+                            clearInterval(WifiSimulator.web_client.responseInterval);
+                            multiEditor[WifiSimulator._interface][_this.currentServerId].network.server.currentClient.sentAll = server.currentClient.sentAll;
+                            multiEditor[WifiSimulator._interface][_this.currentServerId].network.server.currentClient.sent = sent;
+                            localStorage.setItem('multiEditor', JSON.stringify(multiEditor));
+                            _this.executePage(html);
                         }
-                        _this.executePage(html);
-                        multiEditor[WifiSimulator._interface][_this.currentServerId].network.server.currentClient.sentAll = server.currentClient.sentAll;
-                        multiEditor[WifiSimulator._interface][_this.currentServerId].network.server.currentClient.sent = sent;
-                        clearInterval(WifiSimulator.web_client.responseInterval);
-                        localStorage.setItem('multiEditor', JSON.stringify(multiEditor));
                     }
                 }
             }
@@ -316,11 +322,30 @@ var WifiSimulator = {
          */
         executePage: function (html) {
             // console.log("[WEB_CLIENT] executePage()")
-            const iframe = $('#hcjPreview');
-            const idoc = iframe[0].contentDocument;
-            idoc.open();
-            idoc.write(html);
-            idoc.close();
+            const iframe = document.getElementById('hcjPreview');
+            const fresh = iframe.cloneNode(false);
+            iframe.parentNode.replaceChild(fresh, iframe);
+            if ('srcdoc' in fresh) {
+                fresh.srcdoc = html;
+            } else {
+                const idoc = fresh.contentDocument || fresh.contentWindow.document;
+                idoc.open();
+                idoc.write(html);
+                idoc.close();
+            }
+        },
+
+        closePage: function () {
+            const iframe = document.getElementById('hcjPreview');
+            if (!iframe) return;
+            try { iframe.contentWindow?.stop?.(); } catch (e) { }
+            if ('srcdoc' in iframe) {
+                iframe.srcdoc = '';
+            } else {
+                iframe.src = 'about:blank';
+            }
+            const fresh = iframe.cloneNode(false);
+            iframe.parentNode.replaceChild(fresh, iframe);
         },
 
         /**
@@ -427,7 +452,7 @@ var WifiSimulator = {
             const multiEditor = WifiSimulator._getMultiEditor();
             const server = WifiSimulator._getServerEditor(multiEditor, this.currentServerId);
             if (server) {
-                //console.log("Fermeture du socket serveur courant ...")
+                // console.log("Fermeture du socket serveur courant ...")
             }
         },
 
@@ -544,15 +569,19 @@ var WifiSimulator = {
             }
         },
 
-        _getCurrentClientId: function () {
-            // console.log("[SERVER] _getCurrentClientId()")
+        getCurrentClient: function (option) {
+            // console.log("[SERVER] getCurrentClient()")
             const multiEditor = WifiSimulator._getMultiEditor();
-            const server = WifiSimulator._getServerEditor(multiEditor, this.currentServerId)
+            const server = WifiSimulator._getServerEditor(multiEditor, this.currentServerId);
             if (server && server.currentClient && server.currentClient.is_connected) {
-                if (server.currentClient.addr[0]) {
-                    return server.currentClient.addr[0].split(".")[3];
-                } else if (server.currentClient.hostname) {
-                    return server.currentClient.hostname.split('.')[1];
+                if (option == 'id') {
+                    if (server.currentClient.addr[0]) {
+                        return server.currentClient.addr[0].split(".")[3];
+                    } else if (server.currentClient.hostname) {
+                        return server.currentClient.hostname.split('.')[1];
+                    }
+                } else {
+                    return server.currentClient;
                 }
             }
         },
@@ -568,14 +597,16 @@ var WifiSimulator = {
             const server = WifiSimulator._getServerEditor(multiEditor, this.currentServerId)
             if (server && server.currentClient && server.currentClient.is_connected) {
                 if (type == "sentAll") {
+                    const scripts = WifiSimulator.parseScripts(data);
                     const start = data.split("<script>")[0];
-                    const end = data.split("</script>")[1];
-                    let js = data.split("<script>")[1].split("</script>")[0];
+                    const endSplit = data.split("</script>");
+                    const end = endSplit[endSplit.length - 1];
+                    let js = scripts[0]; // [0] cause we add iFrameSimulator in header
                     js = js.replace("const http_sendSliderValue", "var http_sendSliderValue_NOT_USED");
                     js = js.replace("const http_onButtonClick", "var http_onButtonClick_NOT_USED");
                     js = js.replace("const http_onSwitchToggle", "var http_onSwitchToggle_NOT_USED");
                     js += JS_SCRIPT_IFRAME;
-                    js += "\niFrameSimulator.currentWebPageId = \"" + this._getCurrentClientId() + "\";";
+                    js += "\niFrameSimulator.currentWebPageId = \"" + this.getCurrentClient('id') + "\";";
                     if (server.currentClient.hostname) {
                         js += "\niFrameSimulator.ADDR = {ip: \'\', port: 80, hostname: \'" + WifiSimulator.DHCP_hostname + "\'};"
                     } else {
@@ -585,10 +616,14 @@ var WifiSimulator = {
                         case 'pico':
                             js = js.replace(FUNCTIONS_PICO.JAVASCRIPT_REQUEST_VARIABLES_FROM_SERVER, JS_SIMU_REQUEST_VARIABLES);
                             break;
+                        case 'arduino':
+                            js = js.replace(FUNCTIONS_ARDUINO.JAVASCRIPT_REQUEST_VARIABLES_FROM_SERVER, JS_SIMU_REQUEST_VARIABLES);
+                            break;
                         default:
                             js = js.replace(FUNCTIONS_ESP32_MICROCHIP.JAVASCRIPT_REQUEST_VARIABLES_FROM_SERVER, JS_SIMU_REQUEST_VARIABLES);
                     }
-                    data = start + "<script>" + js + "</script>" + end;
+                    const addScript = (js) => '<script>' + js + '</script>';
+                    data = start + addScript(js) + (scripts.length > 1 ? addScript(scripts.slice(1).join('</script><script>')) : "") + end;
                 }
                 if (server.currentClient[type]) {
                     multiEditor[WifiSimulator._interface][this.currentServerId].network.server.currentClient[type].push(data);
@@ -612,7 +647,7 @@ var WifiSimulator = {
         active: function (state) {
             if (this.is_active != state) {
                 const multiEditor = WifiSimulator._getMultiEditor();
-                const server = WifiSimulator._getServerEditor(multiEditor, this.currentServerId)
+                const server = WifiSimulator._getServerEditor(multiEditor, this.currentServerId);
                 if (server) {
                     this.is_active = state;
                     multiEditor[WifiSimulator._interface][this.currentServerId].network.server.is_active = state;
@@ -636,6 +671,27 @@ var WifiSimulator = {
             clearTimeout(this.receiveTimeout);
             this.receiveTimeout = null;
         }
+    },
+
+    parseScripts(html) {
+        const blocks = [];
+        if (typeof DOMParser !== "undefined") {
+            try {
+                const doc = new DOMParser().parseFromString(html, "text/html");
+                doc.querySelectorAll("script:not([src])").forEach(s => {
+                    blocks.push(s.textContent || "");
+                });
+                return blocks;
+            } catch (e) {
+                console.error(e)
+            }
+        }
+        const re = /<script(?![^>]*\bsrc\b)[^>]*>([\s\S]*?)<\/script>/gi;
+        let m;
+        while ((m = re.exec(html)) !== null) {
+            blocks.push(m[1]);
+        }
+        return blocks;
     }
 
 }
@@ -643,8 +699,7 @@ var WifiSimulator = {
  */
 const JS_SCRIPT_IFRAME = `
 var iFrameSimulator = {
-    COMPATIBLE_INTERFACES: ["esp32", "m5stack", "galaxia", "pico"],
-    serverActive: true,
+    COMPATIBLE_INTERFACES: ["esp32", "m5stack", "galaxia", "pico", "arduino"],
     responseInterval: null,
     requestTimeout: null,
     currentWebPageId: null,
@@ -662,26 +717,6 @@ var iFrameSimulator = {
             throw Error("[ESP32] multiEditor is not defined")
         }
     },
-    /**
-    checkHasToClose: function () {
-        const multiEditor = iFrameSimulator._getMultiEditor();
-        let multiEditorInterface = null;
-        for (var _interface of this.COMPATIBLE_INTERFACES) {
-            multiEditorInterface = multiEditor[_interface][iFrameSimulator.currentWebPageId];
-            if (multiEditorInterface) {
-                break;
-            }
-        }
-        if (multiEditorInterface && multiEditorInterface.network) {
-            const client = multiEditorInterface.network.client;
-            if (client && client.hasToStop) {
-                multiEditor[_interface][iFrameSimulator.currentWebPageId].network.client.hasToStop = false;
-                localStorage.setItem('multiEditor', JSON.stringify(multiEditor));
-                return true;
-            }
-        }
-    },
-    */
 
     _getServerEditor: function (multiEditor, serverId) {
         const _this = iFrameSimulator;
@@ -711,16 +746,20 @@ var iFrameSimulator = {
         const server = _this._getServerEditor(multiEditor, _this.currentServerId);
         if (server && server.is_active) {
             if (server.currentClient) {
-                if (((server.currentClient.addr[0] == _this.ip) || (server.currentClient.hostname == _this.hostname)) && server.currentClient.sent) {
+                if (((server.currentClient.addr[0] == _this.ip) || (_this.hostname ? (server.currentClient.hostname == _this.hostname) : false ) ) && server.currentClient.sent) {
                     const sent = server.currentClient.sent;
                     if (sent.length > 3 && sent[1].match(/application\\\/json/)) {
                         multiEditor[_this._interface][_this.currentServerId].network.server.currentClient.sent = [];
                         localStorage.setItem('multiEditor', JSON.stringify(multiEditor));
                         const json = sent[3].substr(2,sent[3].length-3);
-                        const serverResponse = JSON.parse(sent[3])
+                        const serverResponse = JSON.parse(sent[3]);
                         if (serverResponse.spans) {
                             for (var i in serverResponse.spans) {
-                                document.getElementById(i).innerText = serverResponse.spans[i];
+                                const span = document.getElementById(i);
+                                if (span) {
+                                    span.innerText = serverResponse.spans[i];
+                                }
+                                
                             }
                         }
                         if (serverResponse.gauges) {
@@ -751,11 +790,10 @@ var iFrameSimulator = {
             NO_JSON: 1,
             OK: 200
         };
-        this.inactiveCount = 0;
         clearInterval(iFrameSimulator.responseInterval);
-        const multiEditor = this._getMultiEditor();
         let server = null;
         for (var _interface of this.COMPATIBLE_INTERFACES) {
+            const multiEditor = this._getMultiEditor();
             server = this._getCurrentServerOpened(multiEditor[_interface], addr);
             if (server && server.is_active) {
                 break;
@@ -771,6 +809,7 @@ var iFrameSimulator = {
                 const ips = addr.ip.split('.');
                 const client_ip = ips[0] + '.' + ips[1] + '.' + ips[2] + '.' + this.currentWebPageId;
                 client.addr[0] = client_ip;
+                this.ip = client_ip;
                 client.data = [this.PACKET(client_ip, data)];
                 if (addr.hostname) {
                     client.hostname = addr.hostname + '.' + this.currentWebPageId;
@@ -782,51 +821,40 @@ var iFrameSimulator = {
                 client.data = [this.PACKET(client.hostname, data)];
             }
             try {
-                this.currentServerId = server.editorId;
+                iFrameSimulator.currentServerId = server.editorId;
                 if (data.match(/requestVariables/)) {
-                    iFrameSimulator.inactiveCount = 0;
                     iFrameSimulator.responseInterval = setInterval(() => {
                         const status =  iFrameSimulator.waitingServerResponse()
                         switch (status) {
                             case STATUS.OK:
                                 // console.log("STATUS.OK")
-                                iFrameSimulator.inactiveCount = 0;
                                 iFrameSimulator.inRequest = false;
                                 clearInterval(iFrameSimulator.responseInterval);
                                 iFrameSimulator.responseInterval = null;
                                 break;
                             case STATUS.INACTIVE:
                                 // console.log("STATUS.INACTIVE")
-                                iFrameSimulator.inactiveCount += 1;
-                                if (iFrameSimulator.inactiveCount > 20 || !iFrameSimulator.inRequest) {
-                                    clearInterval(iFrameSimulator.responseInterval);
-                                    iFrameSimulator.responseInterval = null;
-                                }
                                 break;
                             case STATUS.NO_CLIENT:
                                 // console.log("STATUS.NO_CLIENT")
                                 iFrameSimulator.inRequest = false;
-                                iFrameSimulator.inactiveCount = 0;
-                                if (iFrameSimulator.inactiveCount > 20 || !iFrameSimulator.inRequest) {
-                                    clearInterval(iFrameSimulator.responseInterval);
-                                    iFrameSimulator.responseInterval = null;
-                                }
                                 break;
                             case STATUS.NO_JSON:
                                 // console.log("STATUS.NO_JSON")
-                                iFrameSimulator.inactiveCount = 0;
                                 break
                         }
                     }, 100);
+                    iFrameSimulator.inRequest = true;
                 }
-                multiEditor[_interface][this.currentServerId].network.server.clients.push(client);
+                const multiEditor = this._getMultiEditor();
+                multiEditor[_interface][iFrameSimulator.currentServerId].network.server.clients.push(client);
                 localStorage.setItem('multiEditor', JSON.stringify(multiEditor));
             } catch (e) {
                 console.error(e)
             }
         } else {
+            // console.log("STATUS.DISONNECTED")
             iFrameSimulator.inRequest = false;
-            iFrameSimulator.serverActive = false;
             clearTimeout(iFrameSimulator.requestTimeout);
         }
     },
@@ -866,11 +894,10 @@ var requestVariablesFromServer = function(ip) {
     if (typeof iFrameSimulator !== 'undefined') {
         if (!iFrameSimulator.inRequest) {
             iFrameSimulator.connect(iFrameSimulator.ADDR, "requestVariables&ip=" + ip);
-            iFrameSimulator.inRequest = true;
         }
         clearTimeout(iFrameSimulator.requestTimeout);
         iFrameSimulator.requestTimeout = setTimeout(function () {
-            if (iFrameSimulator.serverActive && iFrameSimulator.inRequest !== undefined) {
+            if (iFrameSimulator.inRequest !== undefined) {
                 requestVariablesFromServer(ip);
             }
         }, 1000);

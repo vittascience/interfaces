@@ -138,7 +138,7 @@ var AutoCorrector = {
             <div class="btn-group oi-btn-group-simulator oi-option-activated">
                 <button id="simulator_fullscreen" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.fullscreen" 
                         data-toggle="tooltip" data-placement="top" title="Plein écran" onclick="Simulator.toggleFullscreen()">
-                    <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-fullscreen.svg" alt="Fullscreen icon"></button>
+                    <i class="fa-solid fa-expand"></i></button>
             </div>
         </div>`;
         document.querySelector(".simulator-buttons").insertAdjacentHTML('afterend', autoCorrectorButtonsHtml);

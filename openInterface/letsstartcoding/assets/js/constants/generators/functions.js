@@ -230,7 +230,7 @@ DEF_CLEAR_BUFFER_ARRAY:
 }`,
 
 DEF_SETUP_SERIAL_CONNECTION:
-`void serial_setupConnection(int baudrate) {
+`void serial_setupConnection(long baudrate) {
   Serial.begin(baudrate);
   while (!Serial) {
     Serial.println("En attente de l'ouverture du port série...");
@@ -275,31 +275,6 @@ DEF_SD_SPI_WRITE_DATA:
     Serial.println("Erreur lors de l'ouverture du fichier " + String(fileName));
     delay(1000);
   }
-}`,
-
-/**
- * Setup Grove bluetooth connection by serial transmission.
- * @return {void}
- */
-DEF_SETUP_BT_CONNECTION:
-`void bluetooth_setupConnection(String name, String mode, String pin) {
-  blueToothSerial.begin(9600);
-  blueToothSerial.print("AT");
-  delay(400);
-  blueToothSerial.print("AT+DEFAULT");           // Restore all setup value to factory setup
-  delay(2000);
-  blueToothSerial.print("AT+NAME" + name);  // set the bluetooth name, the length of bluetooth name must less than 12 characters.
-  delay(400);
-  blueToothSerial.print("AT+PIN" + pin);           // set the pair code to connect
-  delay(400);
-  blueToothSerial.print("AT+ROLE" + mode);             // set the bluetooth working mode
-  delay(400);
-  blueToothSerial.print("AT+AUTH1");            
-  delay(400);
-  blueToothSerial.print("AT+CLEAR");             // Clear connected device mac address
-  delay(400);
-  blueToothSerial.flush();
-  delay(1000);
 }`,
 
 /**

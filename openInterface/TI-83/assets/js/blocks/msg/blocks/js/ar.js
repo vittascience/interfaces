@@ -586,3 +586,6 @@ Blockly.Msg['TI_DRAW_PLOT_XY_TITLE'] = 'plot graph with x %1 and y %2 using shap
 Blockly.Msg['TI_DRAW_PLOT_XY_TOOLTIP'] = 'Plot the graph using x and y with specified shape.';
 Blockly.Msg['TI_DRAW_SHOW_TITLE'] = 'show drawing';
 Blockly.Msg['TI_DRAW_SHOW_TOOLTIP'] = 'Show the drawing on the screen. Click \'annul\' to erase the drawing.';
+Blockly.Msg['MICROBIT_NEOPIXEL_COLOR_TITLE'] = '[Neopixel - Color] تعيين LED إلى R %1 G %2 B %3 على الدبوس %4';
+Blockly.Msg['MICROBIT_NEOPIXEL_COLOR_TOOLTIP'] = 'IMG_MODULE_NEOPIXEL + Blockly.Tooltip.SEP + "يسمح بتعيين لون LED RGB neopixel باستخدام فئة Color';
+Blockly.Msg['TURTLE_CONTROL_TURTLE_TOOLTIP'] = 'يسمح بتفعيل/تعطيل السلحفاة.';

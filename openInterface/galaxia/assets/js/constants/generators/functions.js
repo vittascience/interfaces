@@ -22,6 +22,11 @@ DEF_GET_ANALOG_MEAN:
     sum += pin.read()
   return sum >> 5`,
 
+/******** DISPLAY CATEGORY */
+DEF_GALAXIA_SCREEN_CLEAR:
+`def display_clear():
+  print('\\n'*7)`,
+
 /******** COMMUNICATION CATEGORY */
 // galaxia radio _ send number
 DEF_COM_RADIO_SEND:

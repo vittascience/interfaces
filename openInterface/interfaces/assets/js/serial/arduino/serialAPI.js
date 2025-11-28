@@ -10,6 +10,7 @@ const InterfaceConnection = {
 	boardOptionsLoaded: false,
 	closingPort: null,
 	hex: null,
+	r4Uploader: null,
 	localCompilation: {
 		initialLoads: false,
 		isCompiling: false,
@@ -18,45 +19,74 @@ const InterfaceConnection = {
 		currentEvent: false,
 		loaded: false
 	},
+	filePath: "/openInterface/interfaces/assets/js/serial/arduino/",
+	progressBar: {
+
+		_displayProgressBar: function () {
+			document.querySelector('#progress-bar-arduino').style.width = '0%';
+			document.querySelector('#global-overlay').style.display = 'flex';
+			document.querySelector('#progress-bar-container').style.display = 'flex';
+		},
+
+		_hideProgressBar: function () {
+			document.querySelector('#progress-bar-container').style.display = 'none';
+			document.querySelector('#global-overlay').style.display = 'none';
+			document.querySelector('#progress-bar-arduino').style.width = '0%';
+		},
+
+		_updateProgressBar: function (percentage) {
+			const progressBarElt = document.querySelector('#progress-bar-arduino');
+			progressBarElt.textContent = `${percentage}%`;
+			getComputedStyle(progressBarElt).width;
+			progressBarElt.style.width = `${percentage}%`;
+		}
+	},
 	/**
 	 * Initialize InterfaceConnection for Arduino by creating a new serial object and 
 	 * adding all arduino boards in board setting option.
 	 */
-	init: function (options) {
-		this.options = options || {
+	init: function (options, board = null) {
+		this.options = Object.assign({}, options) || {
 			"boardSelection": true,
 			"board": null,
 			"boardName": null,
-			"boardsFilter": null
+			"boardsFilter": null,
+			"baud": null,
+			"variant_ids": null
 		};
+		if (!this.options.boardId) this.options.boardId = board;
 		if (navigator.serial) {
 			$("#upload-arduino").show();
 			$("#download-arduino").hide();
 			$("#upload-arduino-opt").hide();
 			$("#download-arduino-opt").show();
-			const getBaudrate = () => parseInt($('#baud').find(":selected").text());
-			this.serial = new Serial(getBaudrate, this.options.boardsFilter);
 			if (this.options.boardSelection) {
-				const addBoardOptions = () => {
-					const board_select = document.querySelector('#board-select')
+				const loadFirmwareOptions = () => {
+					const board_select = document.querySelector('#firmware-options');
 					if (board_select === null) {
-						setTimeout(addBoardOptions, 100);
+						setTimeout(loadFirmwareOptions, 100);
 					} else {
 						if (!this.boardOptionsLoaded) {
-							board_select.innerHTML = '';
-							ARDUINO_BOARDS.forEach((board, i) => {
-								if (board.vittaTest && board.protocol !== 'avr109' && board.file) {
-									const option = document.createElement("option");
-									option.text = board.name;
-									option.value = i;
-									board_select.appendChild(option);
-								}
-							});
+							$(`input[name="boardChoice"][value="${this.options.boardId}"]`).prop('checked', true);
+							this.addFirmwareOptions(this.options.boardId);
+							this.options.firmware = $('#firmware-options option:selected').text();
 							this.boardOptionsLoaded = true;
 						}
 					}
 				};
-				addBoardOptions();
+				loadFirmwareOptions();
+				const baudrate = SERIAL_OPTIONS.bauds[this.options.boardId];
+				if (baudrate) {
+					const baudOption = document.querySelector('#baud option[value="' + baudrate + '"]');
+					baudOption.selected = true;
+				}
+			}
+			const getBaudrate = () => parseInt($('#baud').find(":selected").text());
+			this.serial = new Serial(getBaudrate, this.options.boardsFilter);
+			if (typeof BOARD_ARDUINO_UNO_R4_WIFI !== 'undefined' && this.options.boardId == BOARD_ARDUINO_UNO_R4_WIFI) {
+				this.r4Uploader = new SambaUploader({
+					debug: true
+				});
 			}
 		} else {
 			$("#upload-arduino").hide();
@@ -86,6 +116,40 @@ const InterfaceConnection = {
 		if ($('#monitor-btn-console').length > 0 && !$('#monitor-btn-console').hasClass('activated')) {
 			InterfaceMonitor.managePanel('console');
 		}
+	},
+	addFirmwareOptions: function (boardId) {
+		const board_select = document.querySelector('#firmware-options');
+		board_select.innerHTML = '';
+		ARDUINO_BOARDS.forEach((board, index) => {
+			if (board.vittaTest && board.file && this.options.variant_ids[boardId].includes(board.id)) {
+				const option = document.createElement("option");
+				option.text = board.name;
+				option.value = index;
+				if (option.text == this.options.firmware) {
+					option.selected = true;
+				}
+				board_select.appendChild(option);
+			}
+		});
+	},
+	openBoardSelector: function (opening = false) {
+		if (opening) {
+			$('#board-choice-welcome-text').show();
+		} else {
+			$('#board-choice-welcome-text').hide();
+		}
+		const boardId = opening ? 'uno' : Blockly.Constants.getSelectedBoard();
+		$(`input[name="boardChoice"][value="${boardId}"]`).prop('checked', true);
+		pseudoModal.openModal('arduino-board-selector');
+		pseudoModal.clickOnExit('arduino-board-selector', () => {
+			this.addFirmwareOptions(boardId);
+		});
+	},
+	validateSelectedBoard: function () {
+		const boardId = $('input[name="boardChoice"]:checked').val();
+		this.options.firmware = $('#firmware-options option:selected').text();
+		updateBoard(true, boardId);
+		pseudoModal.closeModal('arduino-board-selector');
 	},
 	/**
 	 * Connect board to interface.
@@ -148,7 +212,7 @@ const InterfaceConnection = {
 			InterfaceMonitor.writeConsole('code.serialAPI.serialPortClosed', 'success');
 		}
 	},
-	
+
 	/**
 	 * [Button] Upload Arduino program using the VPS server compiling Arduino code.
 	 */
@@ -157,12 +221,12 @@ const InterfaceConnection = {
 			this._prepareForUpload(); // Préparation de l'interface et déconnexion si nécessaire
 			await this._disconnectIfConnected();
 			this._displayCompilingNotice();
-			const compilingData = await this._getSettingsForCompiling(this._getSelectedBoard());
+			const compilingData = await this._getSettingsForCompiling(this._getSelectedFirmware());
 			const compilationStartTime = Date.now();
 			const hex = await this._compileCode(compilingData);
 			if (hex) {
 				const compilationEndTime = Date.now();
-				const compilationDuration = compilationEndTime - compilationStartTime
+				const compilationDuration = compilationEndTime - compilationStartTime;
 				if (compilationDuration > 4000 && $_GET('compiler') !== 'local') {
 					await this._askForUserGesture();
 				}
@@ -299,22 +363,61 @@ const InterfaceConnection = {
 		try {
 			return await this._compile(compilingData, skipUpload);
 		} catch (error) {
-			console.error('Compilation error:', error);
-			throw error; // Propager l'erreur pour que `uploadArduino` puisse la traiter
+			console.warn('Compilation error:')
+			console.error(error);
 		}
+	},
+
+	openHexFile(filename) {
+		const _this = this;
+		return new Promise(async resolve => {
+			await VittaInterface.fetchDir(_this.filePath + filename).then((hex) => {
+				_this.localHexFile = hex;
+				resolve(true);
+			});
+		});
 	},
 
 	// Fonction pour flasher le code sur l'Arduino
 	_flashArduinoCode: async function (hex) {
-		try {
+		$("#execution-buttons-panel").append('<i id="connected-icon" class="fab fa-usb"></i>');
+		if (typeof BOARD_ARDUINO_UNO_R4_WIFI !== 'undefined' && this.options.boardId == BOARD_ARDUINO_UNO_R4_WIFI) {
+			try {
+				// await this.openHexFile('DisplayNumeric.ino.hex');
+				// hex = this.localHexFile;
+				//console.log(hex)
+				// await this._flashMinima(this.localHexFile);
+				this.progressBar._displayProgressBar();
+				await this.r4Uploader.flashHex(hex, {
+					verify: true,
+					progress: this.progressBar._updateProgressBar
+				});
+				this.progressBar._hideProgressBar();
+				InterfaceMonitor.writeConsole('code.serialAPI.fileDownloadedArduino', 'success', true, true);
+				if (InterfaceConnection.code.includes('serial_setupConnection')) {
+					try {
+						await this.connectBoard();
+					} catch (e) { }
+				}
+			} catch (e) {
+				this.progressBar._hideProgressBar();
+				console.error('Flashing error:', e);
+				this.flashCallbackError(e)
+				// const err = String(e);
+				// if (err.match(/NetworkError: Failed to open serial port/) || err.match(/Failed to execute 'open' on 'SerialPort':/)) {
+				// 	InterfaceMonitor.writeConsole('code.serialAPI.serialPortOpeningFail', 'warning', false, true);
+				// 	const errorNotif = new VittaNotif(12);
+				// 	errorNotif.displayNotification(null, "Impossible d'accéder à la carte Arduino. Un autre logiciel est déjà connecté à la carte.\n\n Fermez les autres onglets susceptibles d'utiliser le port série (Arduino IDE, Arduino Cloud), ou débranchez et rebranchez la carte Arduino avant de réessayer.", 'bg-danger');
+				// }
+			}
+		} else {
 			if (this.avrgirl && this.avrgirl.connection.serialPort.isOpen) {
 				await this._flashWithOpenPort(hex);
 			} else {
 				await this._flashWithNewAvrgirl(hex);
 			}
-		} catch (error) {
-			console.error('Flashing error:', error);
 		}
+		$("#connected-icon").remove();
 	},
 
 	// Fonction pour flasher le code lorsque le port série est déjà ouvert
@@ -330,8 +433,7 @@ const InterfaceConnection = {
 
 	// Fonction pour créer une nouvelle instance d'AvrgirlArduino et flasher le code
 	_flashWithNewAvrgirl: async function (hex) {
-		const board = this._getSelectedBoard();
-
+		const board = this._getSelectedFirmware();
 		this.avrgirl = new AvrgirlArduino({
 			board: board.id,
 			port: board.id === 'pro-mini' ? '/dev/cu.usbserial-A50285BI' : null,
@@ -342,10 +444,58 @@ const InterfaceConnection = {
 		});
 
 		this.closingPort = (board.id === 'pro-mini');
-		await this.avrgirl.flash(hex, this.avrgirlFlashCallback.bind(this), isHexString = true, openingPort = true, closingPort = this.closingPort);
+		await this.avrgirl.flash(hex, this.flashCallbackError.bind(this), isHexString = true, openingPort = true, closingPort = this.closingPort);
 	},
 
-	avrgirlFlashCallback: async function (error, info) {
+	_flashMinima: async function (hex) {
+		const up = new MinimaUploader({
+			onLog: (m) => InterfaceMonitor.writeConsole(String(m)),
+			onProgress: (p) => InterfaceMonitor.writeConsole(`Progress: ${p}%`),
+		});
+		this.minimaUp = up;
+
+		try {
+			// 1) Essayer d’attraper directement l’interface DFU
+			try {
+				await up.requestDfuDevice();
+			} catch (e) {
+				if (e?.name === 'NotFoundError') {
+					// Probablement en mode sketch → tentative auto via Web Serial (sinon demander double reset)
+					try {
+						await up.enterBootloader(); // best effort (1200 bps touch)
+					} catch {
+						InterfaceMonitor.writeConsole('➡️ Double-appuie sur RESET (la LED clignote rapidement), puis re-clique OK.');
+					}
+					await up.requestDfuDevice(); // fenêtre => “Santiago DFU …”
+				} else {
+					throw e;
+				}
+			}
+
+			// 2) Ouvrir / claim l’interface DFU
+			await up.openAndClaim();
+
+			// 3) Vérifier DFU (si GETSTATUS échoue, on est encore en runtime → non-DFU)
+			try {
+				await up.getStatus();
+			} catch {
+				// Runtime => tenter DETACH (si exposé), sinon message utilisateur
+				InterfaceMonitor.writeConsole("Le périphérique n'est pas en DFU. Passe en DFU (double reset), puis réessaie.");
+				throw new Error('Not in DFU mode');
+			}
+
+			// 4) Transférer le firmware
+			await up.flashHex(hex);
+
+			// 5) Tentative de reboot si nécessaire (certains restent en dfuIDLE)
+			await up.tryDetachAndReboot(1000);
+
+		} finally {
+			await up.close().catch(() => { });
+		}
+	},
+
+	flashCallbackError: async function (error, info) {
 		if (error) {
 			const err = String(error);
 			if (err.match(/(DOMException|NotFoundError).*No port selected by the user/)) {
@@ -371,6 +521,8 @@ const InterfaceConnection = {
 			} else if (err.match(/(DOMException|ParityError|BufferOverrunError)\: A ((framing|parity) error|buffer overrun|break condition) has been detected\./)) {
 				InterfaceMonitor.writeConsole('code.serialAPI.flashFailed', 'warning');
 				this.doDisconnect();
+			} else {
+				console.error(error);
 			}
 		} else {
 			if (this.avrgirl) {
@@ -388,6 +540,7 @@ const InterfaceConnection = {
 			this.info.lastConnection = info;
 		}
 	},
+
 	/**
 	 * [Button] Toggle serial monitor.
 	 */
@@ -423,7 +576,7 @@ const InterfaceConnection = {
 	 * @return {boolean}
 	 */
 	selectOptionByLabel(label) {
-		const select = document.getElementById('board-select');
+		const select = document.getElementById('firmware-options');
 		for (let i = 0; i < select.options.length; i++) {
 			if (select.options[i].text === label) {
 				select.value = select.options[i].value;
@@ -436,12 +589,11 @@ const InterfaceConnection = {
 	 * Get the corresponding board object from serial/boards.js 
 	 * @returns {Object} board
 	 */
-	_getSelectedBoard() {
-		const selectedBoard = this.options.boardSelection ? $('#board-select').find(":selected").text() : this.options.boardName;
+	_getSelectedFirmware() {
 		if (this.options.boardSelection) {
-			return ARDUINO_BOARDS.find((item, index) => item.name === selectedBoard)
+			return ARDUINO_BOARDS.find((item, index) => item.name === this.options.firmware);
 		} else {
-			return ARDUINO_BOARDS.find((item, index) => item.id === this.options.board)
+			return ARDUINO_BOARDS.find((item, index) => item.id === this.options.boardId);
 		}
 	},
 	/**
@@ -466,7 +618,7 @@ const InterfaceConnection = {
 				if (checkAiModel !== null) {
 					code = code.replace(/#include "EdgeModel"/g, '');
 					const checkRegexCloud = /Model\s*\(\s*(["'])(https?:\/\/[^\/]+\/(?:ai|ia)\/model\/([a-zA-Z0-9]+)\/?)\1\s*\)/;
-			
+
 					const cloudRegexResult = checkRegexCloud.exec(code);
 					let id = null;
 					if (cloudRegexResult) {
@@ -529,15 +681,29 @@ const InterfaceConnection = {
 			code = checkAiModel;
 		}
 
-
 		if (code.length <= 0) {
 			InterfaceMonitor.writeConsole('code.errorMsg.emptyCode', 'neutral');
 		}
+
+		const files = [{
+			"filename": "test.ino",
+			"content": code.replace(/rgb_lcd/g, "rgb_lcd_v2")
+		}];
+
+		if (typeof BOARD_ARDUINO_UNO_R4_WIFI !== 'undefined' && this.options.boardId == BOARD_ARDUINO_UNO_R4_WIFI && code.includes("WebPageScripts.h")) {
+			files.push({
+				"filename": "WebPageScripts.h",
+				"content": Blockly.Arduino.unor4wifi.writeJavascriptConstant() + NEWLINE + Blockly.Arduino.unor4wifi.writeCssConstant()
+			});
+		}
+
+		this.code = code;
+
 		if (board) {
 			// Setting up build options from the board object.
 			const build = {
 				"mcu": board.mcu,
-				"f_cpu": board.f_cpu,
+				"fqbn": board.fqbn,
 				"core": board.core,
 				"variant": board.variant
 			};
@@ -547,10 +713,7 @@ const InterfaceConnection = {
 			}
 			// Grouping content into JSON.
 			const compilingData = {
-				"files": [{
-					"filename": "test.ino",
-					"content": code.replace(/rgb_lcd/g, "rgb_lcd_v2")
-				}],
+				"files": files,
 				"libraries": [],
 				"logging": true,
 				"format": uploading ? 'hex' : 'syntax',
@@ -579,33 +742,36 @@ const InterfaceConnection = {
 				} else if (response.success) {
 					if (!uploadSkipped) {
 						const bufferArray = new Uint8Array(response.output.match(/[\da-f]{2}/gi).map(function (h) {
-							return parseInt(h, 16)
+							return parseInt(h, 16);
 						}));
-						const maximum_size = _this._getSelectedBoard().maximum_size;
+						const maximum_size = _this._getSelectedFirmware().maximum_size;
 						if (maximum_size) {
 							const hexLengthPercent = Math.round(bufferArray.length / maximum_size * 100);
 							InterfaceMonitor.writeConsole("Le programme utilise " + bufferArray.length + " octets d'espace de stockage. (" + hexLengthPercent + "%)");
 						}
-						InterfaceMonitor.writeConsole('code.successMsg.compilation', 'success');
+						InterfaceMonitor.writeConsole('code.successMsg.compilation', 'success', true, true);
 						return resolve(response.output)
 						// Else, it's just a syntax verification, and no error occurred.
 					} else {
 						pseudoModal.closeLatestModal();
-						InterfaceMonitor.writeConsole('code.successMsg.syntax', 'success');
+						InterfaceMonitor.writeConsole('code.successMsg.syntax', 'success', true, true);
 						resolve();
 					}
 				} else {
 					//If "success" is false, that means compilation didn't work as excepted.
-					InterfaceMonitor.writeConsole('code.errorMsg.syntax', 'warning');
-					InterfaceMonitor.writeConsole(response.message.replace(/\n/gi, '</br>'), 'warning');
+					InterfaceMonitor.writeConsole('code.errorMsg.syntax', 'warning', true, true);
+					if (response.stderr) {
+						InterfaceMonitor.writeConsole(response.stderr.replace(/\n/gi, '</br>'), 'neutral', true, true);
+						InterfaceMonitor.writeConsole(response.message.replace(/\n/gi, '</br>'), 'warning', true, true);
+					}
 					pseudoModal.closeLatestModal();
 					resolve();
 				}
 				_this._hideCompilingNotice();
 			};
-			
-			if (!data) return reject();
-			
+
+			if (!data) return reject("data is " + data);
+
 			if ($_GET('compiler') === 'local') {
 				this._manageLocalCompilation(data, callback, skipUpload);
 				return;
@@ -613,7 +779,6 @@ const InterfaceConnection = {
 			this._displayCompilingNotice();
 			const payload = new FormData();
 			payload.append("json", JSON.stringify(data));
-			
 			const request = new XMLHttpRequest();
 			request.onreadystatechange = function () {
 				if (this.readyState === XMLHttpRequest.DONE) {
@@ -635,7 +800,7 @@ const InterfaceConnection = {
 	 * @returns {string} The compiled code into hex file content
 	 */
 	async compile() {
-		const compilingData = await this._getSettingsForCompiling(this._getSelectedBoard());
+		const compilingData = await this._getSettingsForCompiling(this._getSelectedFirmware());
 		const hex = await this._compileCode(compilingData, true);
 		return hex;
 	},
@@ -686,8 +851,8 @@ const InterfaceConnection = {
 	 */
 	_manageLoadingProgress() {
 		if (this.localCompilation.initialLoads) return;
-		const addLoadingInfo = () => {document.querySelector('#local-compilation-loading-area').innerHTML = `<img class="local-compilation-spinner" src="/public/content/img/spinning-loader.svg">${i18next.t('modals.standard.local-compilation.loadingDescription')}`;};
-		const addLoadedInfo = () => {document.querySelector('#local-compilation-loading-area').innerHTML = `${i18next.t('modals.standard.local-compilation.emulatorLoaded')} &#x2705;`;};
+		const addLoadingInfo = () => { document.querySelector('#local-compilation-loading-area').innerHTML = `<img class="local-compilation-spinner" src="/public/content/img/spinning-loader.svg">${i18next.t('modals.standard.local-compilation.loadingDescription')}`; };
+		const addLoadedInfo = () => { document.querySelector('#local-compilation-loading-area').innerHTML = `${i18next.t('modals.standard.local-compilation.emulatorLoaded')} &#x2705;`; };
 		this.localCompilation.initialLoads = true;
 		this._setLoadingProgressBar(vittaCompilator.downloadProgress);
 		vittaCompilator.on('downloadProgress', 'downloadProgressSerialApi', (percentage) => {
@@ -725,7 +890,7 @@ const InterfaceConnection = {
 			progressBarElt = document.querySelector('#compilation-progress-bar'),
 			progressLabelElt = document.querySelector('#compilation-download-label');
 		progressLabelElt.textContent = `${percentage}%`;
-		progressBarElt.style.transform = `scaleX(${percentage/100})`;
+		progressBarElt.style.transform = `scaleX(${percentage / 100})`;
 		if (percentage !== 100 || this.localCompilation.downloaded) return;
 		this.localCompilation.downloaded = true;
 		progressBarWrapperElt.style.display = 'none';
@@ -758,7 +923,7 @@ const InterfaceConnection = {
 		const currentEventIndex = this.localCompilation.eventList.indexOf(eventName);
 		const percentage = ((currentEventIndex + 1) / eventsLength) * 100;
 		document.querySelector('#compilation-steps-name').textContent = currentEventStep;
-		document.querySelector('#compilation-steps-progress-bar').style.transform = `scaleX(${percentage/100})`;
+		document.querySelector('#compilation-steps-progress-bar').style.transform = `scaleX(${percentage / 100})`;
 	},
 
 	/**
@@ -940,7 +1105,7 @@ const InterfaceConnection = {
 	 * @link ../scratch-gui/static/extensions/vittaarduino
 	 */
 	downloadHexFile: async function () {
-		const compilingData = await this._getSettingsForCompiling(this._getSelectedBoard());
+		const compilingData = await this._getSettingsForCompiling(this._getSelectedFirmware());
 		var _this = this;
 		this._compile(compilingData)
 			.then(

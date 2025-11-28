@@ -111,6 +111,104 @@ const FUNCTIONS = {
   variance = sum((x - mean) ** 2 for x in numbers) / n
   return math.sqrt(variance)`,
 
+  // Math _ random prime number generation
+  DEF_MATH_GENERATE_PRIME:
+  `def math_generate_prime(bits=16):
+    if bits < 8 or bits > 32:
+        raise ValueError("bits must be between 8 and 32")
+    low = 1 << (bits - 1)
+    high = (1 << bits) - 1
+    while True:
+        n = random.randint(low, high)
+        if n % 2 == 0:
+            n += 1
+        if math_isPrime(n):
+            return n
+  `,
+
+  // Math _ Greatest Common Divisor
+  DEF_MATH_GCD:
+  `def math_gcd(a, b):
+  while b:
+    a, b = b, a % b
+  return abs(a)`,
+  
+  // Math _ Extended Greatest Common Divisor
+  DEF_MATH_GCDE:
+  `def math_gcde(a, b):
+    r, rp = a, b
+    u, up = 1, 0
+    v, vp = 0, 1
+    while rp != 0:
+        q = r // rp
+        r, rp = rp, r - q * rp
+        u, up = up, u - q * up
+        v, vp = vp, v - q * vp
+    return [r, u, v]`,
+
+  // Math _ Inverse Modulo
+  DEF_MATH_MODINV:
+  `def math_modinv(a, m):
+    m0, x0, x1 = m, 0, 1
+    if m == 1:
+      return 0
+    while a > 1:
+      q = a // m
+      m, a = a % m, m
+      x0, x1 = x1 - q * x0, x0
+    if x1 < 0:
+      x1 += m0
+    return x1`,
+
+  // Math _ RSA keypair generation
+  DEF_MATH_RSA_GENERATE_KEYS:
+  `def math_RSA_generate_keys(bits=16):
+    if bits < 8 or bits > 32:
+      raise ValueError("bits must be between 8 and 32")
+    p = math_generate_prime(bits)
+    q = math_generate_prime(bits)
+    while p == q:
+      q = math_generate_prime(bits)
+    n = p * q
+    phi = (p - 1) * (q - 1)
+    e = 65537
+    if math_gcd(e, phi) != 1:
+      e = random.randint(3, phi - 1)
+      while math_gcd(e, phi) != 1:
+        e = random.randint(3, phi - 1)
+    r, u, v = math_gcde(e, phi)
+    d = u % phi
+    pub = (n, e)
+    priv = (n, d)
+    return [pub, priv]
+  `,
+
+  // Math _ cipher message
+  DEF_MATH_RSA_CIPHER_MESSAGE:
+  `def math_RSA_cipher_message(message, key):
+    n, exp = key
+    cipher_numbers = []
+    for ch in message:
+        m = ord(ch)
+        if m >= n:
+            raise ValueError("Character code too large for key size.")
+        c = pow(m, exp, n)
+        cipher_numbers.append(str(c))
+    return " ".join(cipher_numbers)
+  `,
+
+  // Math _ decipher message
+  DEF_MATH_RSA_DECIPHER_MESSAGE:
+  `def math_RSA_decipher_message(cipher_text, key):
+    n, exp = key
+    cipher_numbers = cipher_text.strip().split()
+    message_chars = []
+    for c_str in cipher_numbers:
+        c = int(c_str)
+        m = pow(c, exp, n)
+        message_chars.append(chr(m))
+    return "".join(message_chars)
+  `,
   /****** TEXT CATEGORY ******/
 
   // Text _ random_letter
@@ -165,6 +263,65 @@ const FUNCTIONS = {
   result = ''.join(random.choice(all_chars) for i in range(length))
   return result`,
 
+  DEF_TEXT_CAESAR_CIPHER:
+`def caesar_cipher(text, shift, mode):
+  result = ""
+  for c in text:
+    if c.isalpha():
+      decalage = shift % 26
+      if mode == "DECODE":
+          decalage = -decalage
+      base = ord('A') if c.isupper() else ord('a')
+      result += chr((ord(c) - base + decalage) % 26 + base)
+    else:
+      result += c
+  return result`,
+
+  DEF_TEXT_CAESAR_CIPHER_BRUTE_FORCE:
+`def caesar_cipher_brute_force(text, lang="fr"):
+  if lang == "en":
+    known_words = ["the", "and", "hello", "hi", "you", "are", "is", "this", "that", "of", "to", "a", "i", "it", "we"]
+    msg_intro = "Message to decrypt: "
+    msg_attempts = "Brute-force decryption attempts:"
+    msg_key = "Key"
+    msg_score = "score"
+    msg_best = "\\nBest match(es):"
+  else:
+    known_words = ["le", "la", "les", "de", "des", "et", "bonjour", "salut", "tu", "es", "un", "une", "je", "il"]
+    msg_intro = "Message à décrypter : "
+    msg_attempts = "Tentatives de déchiffrement (force brute) :"
+    msg_key = "Clé"
+    msg_score = "score"
+    msg_best = "\\nMeilleure(s) correspondance(s) :"
+
+  best_results = []
+  best_score = 0
+
+  print(msg_intro + text)
+  print(msg_attempts)
+
+  for key in range(1, 26):
+    attempt = caesar_cipher(text, key, "DECODE")
+    score = 0
+    lower_text = attempt.lower()
+
+    for word in known_words:
+      if word in lower_text:
+        score += 1
+
+    print("{} {:2d} : {} ({}: {})".format(msg_key, key, attempt, msg_score, score))
+
+    if score > best_score:
+      best_results = [(key, attempt)]
+      best_score = score
+    elif score == best_score:
+      best_results.append((key, attempt))
+
+  print(msg_best)
+  for k, txt in best_results:
+    print(">> {} {:2d} : {}".format(msg_key, k, txt))
+
+  return [txt for _, txt in best_results]`,
   /****** LISTS CATEGORY ******/
 
   // Lists _ remove random item

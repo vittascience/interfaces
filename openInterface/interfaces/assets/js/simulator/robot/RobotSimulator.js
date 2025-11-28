@@ -250,7 +250,6 @@ const RobotSimulator = {
     $("#graph-zoom-in").removeClass('graph-btn-disabled');
     $("#graph-zoom-out").prop('disabled', false);
     $("#graph-zoom-out").removeClass('graph-btn-disabled');
-
   },
 
   addRobotSimulatorToDom() {
@@ -1543,9 +1542,9 @@ const RobotSimulator = {
           }
         }
         if (this.Obstacle.isDraggable) {
-          const selectedObstacleId = this.Obstacle.obstaclesDB[this.Obstacle.selectedObstacleId];
-          selectedObstacleId.x = e.offsetX - selectedObstacleId.w / 2;
-          selectedObstacleId.y = e.offsetY - selectedObstacleId.h / 2;
+          const selectedObstacle = this.Obstacle.obstaclesDB[this.Obstacle.selectedObstacleId];
+          selectedObstacle.x = e.offsetX - selectedObstacle.w / 2;
+          selectedObstacle.y = e.offsetY - selectedObstacle.h / 2;
         }
 
         // Resize Obstacle

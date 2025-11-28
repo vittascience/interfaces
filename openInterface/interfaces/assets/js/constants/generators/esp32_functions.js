@@ -148,6 +148,7 @@ JAVASCRIPT_REQUEST_VARIABLES_FROM_SERVER:
     if (this.readyState == 4 && this.status == 200 && this.responseText != null) {
       try {
         const serverResponse = JSON.parse(request.responseText);
+        console.log(serverResponse)
         if (serverResponse.spans) {
           for (var i in serverResponse.spans) {
             document.getElementById(i).innerText = serverResponse.spans[i];
@@ -179,7 +180,6 @@ JAVASCRIPT_REQUEST_VARIABLES_FROM_SERVER:
 
 JAVASCRIPT_SET_GAUGE_VALUE:
 `function setGaugeValue(value, min, max, gaugeId, unit="") {
-  console.log(value, min, max, gaugeId)
   if (!isNaN(parseFloat(value))) {
     if (value > max) {
       value = max;

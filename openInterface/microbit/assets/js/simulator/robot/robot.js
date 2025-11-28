@@ -235,6 +235,7 @@ const Robots = {
     WHEELS_DIAMETER: 4.3, // cm
     MIN_SPEED: 1, // rpm
     MAX_SPEED: 133, // rpm   // m.s-1 => (2π * d/2 * MAX_SPEED/60)
+    VERSION: 'V2.0',
     image: null,
     rotationCenter: {
       x: 0,
@@ -252,6 +253,118 @@ const Robots = {
       dir: 0
     },
     color: 'rgb(255,113,5)',
+
+    initObjects: function () {
+      // distance sensors
+      this.initDistanceSensorsSlots();
+      this.DistanceSensors = new DistanceSensorSimulator(this,
+        this.distanceSensorsSlots.slots,
+        this.distanceSensorsSlots.lineWidth,
+        this.distanceSensorsSlots.blinkerDiameter);
+      // line finders
+      const exportValue = function (value, id) {
+        const sliderID = "#mb-maqueenplus-finder" + id + "_slider_v";
+        if ($(sliderID).data("ui-slider")) {
+          $(sliderID).slider('value', value < 50 ? 1 : 0);
+        }
+      };
+      this.lineFinder = new LineFinderSimulator(this, [
+        { id: 'Left', initial: [25, -5] },
+        { id: 'Right', initial: [25, 5] },
+        { id: 'Middle', initial: [25, 0] },
+        { id: 'LeftRear', initial: [15, -15] },
+        { id: 'RightRear', initial: [15, 15] }
+      ], 2, exportValue);
+    },
+
+    initDistanceSensorsSlots: function () {
+      this.distanceSensorsSlots = {
+        blinkerDiameter: 30,
+        lineWidth: 3,
+        slots: [
+          { id: "hcsr04", suffix: '_t', initial: [22, 0], angle: 0, pin: null }
+        ]
+      };
+    },
+
+    resizeObjects: function (zoom) {
+      this.lineFinder.resize(zoom);
+      this.DistanceSensors.resize(zoom);
+    },
+    updateObjectsPosition: function () {
+      this.lineFinder.updatePosition();
+      this.angle += this.DistanceSensors.ERROR_DX_NUL;
+      this.DistanceSensors.updatePosition();
+    },
+    measurements: function () {
+      this.lineFinder.measure();
+      this.DistanceSensors.measure();
+      this.angle -= this.DistanceSensors.ERROR_DX_NUL;
+    },
+    drawObjects: function () {
+      this.lineFinder.draw();
+      this.DistanceSensors.draw();
+    },
+    resetObjects: function () {
+      this.lineFinder.reset();
+      this.DistanceSensors.reset(this);
+    },
+
+    getMotorSpeed: function () {
+      const setSpeed = (motor) => {
+        if ($("#mb-maqueenplus-" + motor + "_value").html()) {
+          if ($('.mb-maqueenplus-' + motor).css('animation').includes('rotation-forward')) {
+            this[motor].dir = 1;
+          } else if ($('.mb-maqueenplus-' + motor).css('animation').includes('rotation-backward')) {
+            this[motor].dir = -1;
+          } else {
+            this[motor].dir = 0;
+          }
+          const speedValue = parseInt(($("#mb-maqueenplus-" + motor + "_value").html() || "0"));
+          this[motor].speed = RobotSimulator.convertRPMtoSpeedMS(speedValue / 255 * this.MAX_SPEED); // m.s-1
+        }
+      }
+      setSpeed('motorRight');
+      setSpeed('motorLeft');
+    }
+  },
+  'MaqueenPlusV3': {
+    CODE_REGEXP: /""" MaqueenPlusV3 robot """/,
+    INITIAL_ZOOM: -2,
+    IMG_LINK: "/openInterface/microbit/assets/media/simulator/robot/robot_maqueenplus.svg",
+    WIDTH_CM: 10.2, // cm
+    RATIO: 267.81 / 192.13, // svg ratio
+    POSITIVE_Y_TO_UP: true,
+    POSITIVE_X_TO_RIGHT: true,
+    AXIS_UNIT: 'cm',
+    INITIAL_POS_PERCENT: {
+      x: 15, // %
+      y: 50, // %
+    },
+    WHEELS_X_POSITION: -2.5, // cm 
+    WHEELS_CENTER_RADIUS: 4.5, // cm
+    WHEELS_DIAMETER: 4.3, // cm
+    MIN_SPEED: 1, // rpm
+    MAX_SPEED: 170, // rpm   // m.s-1 => (2π * d/2 * MAX_SPEED/60)     // Accu 18650 of 3.8V ≈ 170 rpm | 
+    VERSION: 'V3.0',
+    image: null,
+    rotationCenter: {
+      x: 0,
+      y: 0
+    },
+    angle: 0, // °
+    previousAngle: 0, // °
+    angularSpeed: 0, // rad.s-1
+    motorLeft: {
+      speed: 0,
+      dir: 0
+    },
+    motorRight: {
+      speed: 0,
+      dir: 0
+    },
+    color: 'rgb(255,113,5)',
+    runMode: {},
 
     initObjects: function () {
       // distance sensors

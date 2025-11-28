@@ -27,5 +27,6 @@ const arrayInterfaces = [
   'lotibot',
   'bluebot',
   'spike',
-  'photon'
+  'photon',
+  'codey'
 ];

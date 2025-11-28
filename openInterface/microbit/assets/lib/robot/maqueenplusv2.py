@@ -1,4 +1,4 @@
-from microbit import i2c
+from microbit import i2c, pin0, pin1, pin2
 from micropython import const
 
 # i2c bus location on the micro:bit.
@@ -34,13 +34,12 @@ ALL_ANALOG_SENSOR_I2C_ADDRS = [
     ANALOG_R2_I2C_ADDR,
 ]
 
-sensor_index = [0, 1, 2, 3, 4]
-
 L2 = const(0)
 L1 = const(1)
 M = const(2)
 R1 = const(3)
 R2 = const(4)
+sensor_index = [L2, L1, M, R1, R2]
 
 DIGITAL_SENSOR_STATUS_I2C_ADDR = const(0x1D)
 DIGITAL_SENSOR_MASK = [16, 8, 4, 2, 1]
@@ -55,7 +54,7 @@ BOTH = const(2)
 ON = const(1)
 OFF = const(0)
 
-# NeoPixel constatnts
+# NeoPixel constants
 RED = const(0xFF0000)
 ORANGE = const(0xFFA500)
 YELLOW = const(0xFFFF00)
@@ -68,14 +67,13 @@ WHITE = const(0xFF9070)
 # OFF = const(0x000000) use the other OFF zero is zero
 
 # General purpose functions
-def init_maqueen():
+def initRobot():
     global sensor_index
     stop()
-    version = maqueen_version()
-    if version[-3:] == "2.0":
-        pass
-    elif version[-3:] == "2.1":
-        sensor_index = [4, 3, 2, 1, 0]
+    version = readVersion()
+    print("Maqueen Plus version: " + version)
+    if version[-3:] == "2.1":
+        sensor_index = [R2, R1, M, L1, L2]
 
 def eight_bits(n):
     return max(min(n, 255), 0)
@@ -83,32 +81,23 @@ def eight_bits(n):
 def one_bit(n):
     return max(min(n, 1), 0)
 
-def maqueen_version():
+def readVersion():
     "Return the Maqueen board version as a string. The last 3 characters are the version."
     i2c.write(I2C_ADDR, bytes([VERSION_COUNT_I2C_ADDR]))
     count = int.from_bytes(i2c.read(I2C_ADDR, 1), "big")
     i2c.write(I2C_ADDR, bytes([VERSION_DATA_I2C_ADDR]))
-    version = i2c.read(I2C_ADDR, count).decode("ascii")
-    return version
+    return i2c.read(I2C_ADDR, count).decode("ascii")
 
 # Motor functions
 def stop():
     "Stop the robot's motors"
     drive(0)
 
-def motorControlLeft(dir,spd):
-  buf=bytearray(3)
-  buf[0]=0x00
-  buf[1]=dir
-  buf[2]=spd
-  i2c.write(I2C_ADDR,buf)
+def motorControlLeft(dir, spd):
+  i2c.write(I2C_ADDR, bytes([LEFT_MOTOR_I2C_ADDR, dir, spd]))
 
-def motorControlRight(dir,spd):
-  buf=bytearray(3)
-  buf[0]=0x02
-  buf[1]=dir
-  buf[2]=spd
-  i2c.write(I2C_ADDR,buf)        
+def motorControlRight(dir, spd):
+  i2c.write(I2C_ADDR, bytes([RIGHT_MOTOR_I2C_ADDR, dir, spd]))
 
 def drive(speed_left, speed_right=None):
     "Drive forward at speed 0-255"
@@ -159,14 +148,20 @@ def read_line_sensor(sensor):
 def sensor_on_line(sensor):
     "Return True if the line sensor sees a line."
     i2c.write(I2C_ADDR, bytes([DIGITAL_SENSOR_STATUS_I2C_ADDR]))
-    sensor_state = int.from_bytes(i2c.read(I2C_ADDR, 1), "big")
-    return (sensor_state & DIGITAL_SENSOR_MASK[sensor]) >> DIGITAL_SENSOR_SHIFT[sensor] == 1
+    sensor_data = int.from_bytes(i2c.read(I2C_ADDR, 1), "big")
+    return (sensor_data & DIGITAL_SENSOR_MASK[sensor]) >> DIGITAL_SENSOR_SHIFT[sensor] == 1
 
 # Servo functions
 def set_servo_angle(pin, angle):
     "Set a servo to a specific angle."
     if (angle >= 0 and angle <= 180):
-        pin.write_analog(int(0.025*1023 + (angle*0.1*1023)/180))
+        value = int(0.025*1023 + (angle*0.1*1023)/180)
+        if pin is 'ALL':
+            pin0.write_analog(value)
+            pin1.write_analog(value)
+            pin2.write_analog(value)
+        else:
+          pin.write_analog(value)
     else:
         raise ValueError("Servomotor angle have to be set between 0 and 180")
 

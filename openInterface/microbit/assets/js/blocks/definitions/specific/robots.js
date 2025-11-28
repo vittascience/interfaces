@@ -80,8 +80,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "DIR",
             "options": [
-                ["%{BKY_ROBOTS_MAQUEEN_GO_FORWARD}", "0x0"],
-                ["%{BKY_ROBOTS_MAQUEEN_GO_REVERSE}", "0x1"]
+                ["%{BKY_ROBOTS_GO_FORWARD}", "0x0"],
+                ["%{BKY_ROBOTS_GO_BACKWARD}", "0x1"]
             ]
         }, {
             "type": "input_value",
@@ -546,60 +546,213 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "style": "robots_blocks",
         "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_ULTRASONICRANGER_TRIG_ECHO_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "maqueenPlus_tooltips"
         ]
     },
 
     // BLOCK MAQUEEN_PLUS V1 READ LINE FINDER
     {
-        "type": "robots_readMaqueenPlusv1Patrol",
-        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_V1_READPATROL_TITLE}",
+        "type": "robots_readMaqueenPlusPatrol",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_READPATROL_TITLE}",
         "args0": [
             {
                 "type": "field_grid_dropdown",
-                "name": "SIDE",
+                "name": "VERSION",
                 "options": [
-                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_LEFT_REAR}", "L3"],
-                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_LEFT}", "L2"],
-                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_MIDDLE_LEFT}", "L1"],
-                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_MIDDLE_RIGHT}", "R3"],
-                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_RIGHT}", "R2"],
-                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_RIGHT_REAR}", "R1"]
+                    ["v3", "3"],
+                    ["v2", "2"],
+                    ["v1", "1"]
                 ]
             }
         ],
         "output": "Boolean",
         "style": "robots_blocks",
-        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_V1_READPATROL_TOOLTIP}",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_READPATROL_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "maqueenPlus_tooltips"
+        ],
+        "mutator": "robots_maqueenPlus_patrol_mutator"
+    },
+
+    // BLOCK MAQUEEN_PLUS V3 - READ LIGHT INTENSITY
+    {
+        "type": "robots_maqueenPlusV3_readLightIntensity",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_READLIGHTINTENSITY_TITLE}",
+        "args0": [
+            {
+                "type": "field_grid_dropdown",
+                "name": "SENSOR",
+                "options": [
+                    ["%{BKY_ROBOTS_MAQUEEN_LEFT}", "LEFT"],
+                    ["%{BKY_ROBOTS_MAQUEEN_RIGHT}", "RIGHT"]
+                ]
+            }
+        ],
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_READLIGHTINTENSITY_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]
     },
 
-    // BLOCK MAQUEEN_PLUS V2 READ LINE FINDER
+    // MaqueenPlus - Moving
+
+    // BLOCK MAQUEEN_PLUS CONTROL GO
     {
-        "type": "robots_readMaqueenPlusv2Patrol",
-        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_V2_READPATROL_TITLE}",
+        "type": "robots_setMaqueenPlusGo",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_GO_TITLE}",
         "args0": [
             {
                 "type": "field_grid_dropdown",
-                "name": "SIDE",
+                "name": "VERSION",
                 "options": [
-                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_LEFT_REAR}", "0"],
-                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_LEFT}", "1"],
-                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_MIDDLE}", "2"],
-                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_RIGHT}", "3"],
-                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_RIGHT_REAR}", "4"]
+                    ["v3", "3"],
+                    ["v2", "2"],
+                    ["v1", "1"]
+                ]
+            }, {
+                "type": "field_grid_dropdown",
+                "name": "DIR",
+                "options": [
+                    ["%{BKY_ROBOTS_GO_FORWARD}", "FORWARD"],
+                    ["%{BKY_ROBOTS_GO_BACKWARD}", "REVERSE"]
+                ]
+            }, {
+                "type": "input_value",
+                "name": "SPEED",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_GO_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "maqueenPlus_tooltips"
+        ]
+    },
+
+    // BLOCK MAQUEEN_PLUS ROTATE
+    {
+        "type": "robots_rotateMaqueenPlus",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_ROTATE_TITLE}",
+        "args0": [
+            {
+                "type": "field_grid_dropdown",
+                "name": "VERSION",
+                "options": [
+                    ["v3", "3"],
+                    ["v2", "2"],
+                    ["v1", "1"]
+                ]
+            },
+            {
+                "type": "field_grid_dropdown",
+                "name": "DIR",
+                "options": [
+                    ["↻", "right"],
+                    ["↺", "left"]
+                ]
+            }, {
+                "type": "input_value",
+                "name": "SPEED",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_ROTATE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "maqueenPlus_tooltips"
+        ]
+    },
+
+    // BLOCK MAQUEEN_PLUS CONTROL MOTOR
+    {
+        "type": "robots_controlMaqueenPlusMotor",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_CONTROLMOTOR_TITLE}",
+        "args0": [
+            {
+                "type": "field_grid_dropdown",
+                "name": "VERSION",
+                "options": [
+                    ["v3", "3"],
+                    ["v2", "2"],
+                    ["v1", "1"]
+                ]
+            }, {
+                "type": "field_grid_dropdown",
+                "name": "MOTOR",
+                "options": [
+                    ["%{BKY_ROBOTS_MAQUEEN_RIGHT}", "Right"],
+                    ["%{BKY_ROBOTS_MAQUEEN_LEFT}", "Left"]
+                ]
+            }, {
+                "type": "field_grid_dropdown",
+                "name": "DIR",
+                "options": [
+                    ["↻", "0"],
+                    ["↺", "1"]
+                ]
+            }, {
+                "type": "input_value",
+                "name": "SPEED",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_CONTROLMOTOR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "maqueenPlus_tooltips"
+        ]
+    },
+
+    // BLOCK MAQUEEN_PLUS STOP MOTORS
+    {
+        "type": "robots_stopMaqueenPlusMotors",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_STOPMOTORS_TITLE}",
+        "args0": [
+            {
+                "type": "field_grid_dropdown",
+                "name": "VERSION",
+                "options": [
+                    ["v3", "3"],
+                    ["v2", "2"],
+                    ["v1", "1"]
+                ]
+            }, {
+                "type": "field_grid_dropdown",
+                "name": "MOTOR",
+                "options": [
+                    ["%{BKY_ROBOTS_MAQUEEN_RIGHT}", "Right"],
+                    ["%{BKY_ROBOTS_MAQUEEN_LEFT}", "Left"],
+                    ["%{BKY_ROBOTS_MAQUEEN_RIGHT&LEFT}", "both"]
                 ]
             }
         ],
-        "output": "Boolean",
+        "previousStatement": null,
+        "nextStatement": null,
         "style": "robots_blocks",
-        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_V2_READPATROL_TOOLTIP}",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_STOPMOTORS_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "maqueenPlus_tooltips"
         ]
     },
+
+    // MaqueenPlus - Control
 
     // BLOCK MAQUEEN_PLUS CONTROL LED
     {
@@ -633,302 +786,43 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "style": "robots_blocks",
         "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_CONTROLLED_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "maqueenPlus_tooltips"
         ]
     },
 
-    // BLOCK MAQUEEN_PLUS CONTROL GO
+    // BLOCK MAQUEEN_PLUS V3 - SET RGB LED
     {
-        "type": "robots_setMaqueenPlusGo",
-        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_GO_TITLE}",
-        "args0": [
-            {
-                "type": "field_grid_dropdown",
-                "name": "VERSION",
-                "options": [
-                    ["v2", "2"],
-                    ["v1", "1"]
-                ]
-            }, {
-                "type": "field_grid_dropdown",
-                "name": "DIR",
-                "options": [
-                    ["%{BKY_ROBOTS_MAQUEEN_GO_FORWARD}", "drive"],
-                    ["%{BKY_ROBOTS_MAQUEEN_GO_REVERSE}", "backup"]
-                ]
-            }, {
-                "type": "input_value",
-                "name": "SPEED",
-                "check": "Number"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "robots_blocks",
-        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_GO_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCK MAQUEEN_PLUS ROTATE
-    {
-        "type": "robots_rotateMaqueenPlus",
-        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_ROTATE_TITLE}",
-        "args0": [
-            {
-                "type": "field_grid_dropdown",
-                "name": "VERSION",
-                "options": [
-                    ["v2", "2"],
-                    ["v1", "1"]
-                ]
-            },
-            {
-                "type": "field_grid_dropdown",
-                "name": "DIR",
-                "options": [
-                    ["↻", "right"],
-                    ["↺", "left"]
-                ]
-            }, {
-                "type": "input_value",
-                "name": "SPEED",
-                "check": "Number"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "robots_blocks",
-        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_ROTATE_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCK MAQUEEN_PLUS CONTROL MOTOR
-    {
-        "type": "robots_controlMaqueenPlusMotor",
-        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_CONTROLMOTOR_TITLE}",
-        "args0": [
-            {
-                "type": "field_grid_dropdown",
-                "name": "VERSION",
-                "options": [
-                    ["v2", "2"],
-                    ["v1", "1"]
-                ]
-            }, {
-                "type": "field_grid_dropdown",
-                "name": "MOTOR",
-                "options": [
-                    ["%{BKY_ROBOTS_MAQUEEN_RIGHT}", "Right"],
-                    ["%{BKY_ROBOTS_MAQUEEN_LEFT}", "Left"]
-                ]
-            }, {
-                "type": "field_grid_dropdown",
-                "name": "DIR",
-                "options": [
-                    ["↻", "0"],
-                    ["↺", "1"]
-                ]
-            }, {
-                "type": "input_value",
-                "name": "SPEED",
-                "check": "Number"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "robots_blocks",
-        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_CONTROLMOTOR_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCK MAQUEEN_PLUS STOP MOTORS
-    {
-        "type": "robots_stopMaqueenPlusMotors",
-        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_STOPMOTORS_TITLE}",
-        "args0": [
-            {
-                "type": "field_grid_dropdown",
-                "name": "VERSION",
-                "options": [
-                    ["v2", "2"],
-                    ["v1", "1"]
-                ]
-            }, {
-                "type": "field_grid_dropdown",
-                "name": "MOTOR",
-                "options": [
-                    ["%{BKY_ROBOTS_MAQUEEN_RIGHT}", "Right"],
-                    ["%{BKY_ROBOTS_MAQUEEN_LEFT}", "Left"],
-                    ["%{BKY_ROBOTS_MAQUEEN_RIGHT&LEFT}", "both"]
-                ]
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "robots_blocks",
-        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_STOPMOTORS_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCK MAQUEEN_PLUS_V1 SET SERVO ANGLE
-    {
-        "type": "robots_setMaqueenPlusV1ServoAngle",
-        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_V1_SETSERVOANGLE_TITLE}",
-        "args0": [
-            {
-                "type": "field_grid_dropdown",
-                "name": "SERVO",
-                "options": [
-                    ["S1", "S1"],
-                    ["S2", "S2"],
-                    ["S3", "S3"]
-                ]
-            }, {
-                "type": "input_value",
-                "name": "ANGLE",
-                "check": "Number"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "robots_blocks",
-        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_V1_SETSERVOANGLE_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCK MAQUEEN_PLUS_V2 SET SERVO ANGLE
-    {
-        "type": "robots_setMaqueenPlusV2ServoAngle",
-        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_V2_SETSERVOANGLE_TITLE}",
-        "args0": [
-            {
-                "type": "field_grid_dropdown",
-                "name": "SERVO",
-                "options": [
-                    ["P0", "pin0"],
-                    ["P1", "pin1"],
-                    ["P2", "pin2"]
-                ]
-            }, {
-                "type": "input_value",
-                "name": "ANGLE",
-                "check": "Number"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "robots_blocks",
-        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_V2_SETSERVOANGLE_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCK MAQUEEN_PLUS BLINK ROBOT
-    {
-        "type": "robots_maqueenPlusBlinkRobot",
-        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_BLINK_ROBOT_TITLE}",
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "robots_blocks",
-        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_BLINK_ROBOT_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCK MAQUEEN_PLUS SET NEOPIXEL
-    {
-        "type": "robots_setMaqueenPlusNeopixel",
-        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_SETNEOPIXEL_TITLE}",
+        "type": "robots_maqueenPlusV3_setRGBLed",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_SETRGBLED_TITLE}",
         "args0": [
             {
                 "type": "field_grid_dropdown",
                 "name": "LED",
                 "options": [
-                    ["0", "0"],
-                    ["1", "1"],
-                    ["2", "2"],
-                    ["3", "3"],
-                    ["les 4 LEDs", "all"]
+                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_LED_RIGHT}", "RIGHT"],
+                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_LED_LEFT}", "LEFT"],
+                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_LED_LEFT&RIGHT}", "BOTH"]
                 ]
             }, {
-                "type": "input_value",
-                "name": "R",
-                "check": "Number"
-            }, {
-                "type": "input_value",
-                "name": "G",
-                "check": "Number"
-            }, {
-                "type": "input_value",
-                "name": "B",
-                "check": "Number"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "robots_blocks",
-        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_SETNEOPIXEL_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCK MAQUEEN_PLUS SET NEOPIXEL PALETTE
-    {
-        "type": "robots_setMaqueenPlusNeopixelPalette",
-        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_SETPALETTECOLOR_TITLE}",
-        "args0": [
-            {
                 "type": "field_grid_dropdown",
-                "name": "LED",
-                "options": [
-                    ["0", "0"],
-                    ["1", "1"],
-                    ["2", "2"],
-                    ["3", "3"],
-                    ["les 4 LED", "all"]
-                ]
-            }, {
-                "type": "input_value",
                 "name": "COLOR",
-                "check": "Colour"
+                "options": [
+                    ["%{BKY_COLOUR_RED}", "RED"],
+                    ["%{BKY_COLOUR_GREEN}", "GREEN"],
+                    ["%{BKY_COLOUR_YELLOW}", "YELLOW"],
+                    ["%{BKY_COLOUR_BLUE}", "BLUE"],
+                    ["%{BKY_COLOUR_PURPLE}", "PURPLE"],
+                    ["%{BKY_COLOUR_CYAN}", "CYAN"],
+                    ["%{BKY_COLOUR_WHITE}", "WHITE"],
+                    ["%{BKY_COLOUR_BLACK}", "BLACK"]
+                ]
             }
         ],
-        "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
         "style": "robots_blocks",
-        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_SETPALETTECOLOR_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCK MAQUEEN_PLUS RAINBOW
-    {
-        "type": "robots_setMaqueenPlusRainbow",
-        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_SETRAINBOW_TITLE}",
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "robots_blocks",
-        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_SETRAINBOW_TOOLTIP}",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_SETRGBLED_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]
@@ -962,9 +856,188 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "style": "robots_blocks",
         "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_SETBUZZER_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "maqueenPlus_tooltips"
         ]
     },
+
+    // BLOCK MAQUEEN_PLUS SET SERVO ANGLE
+    {
+        "type": "robots_setMaqueenPlusServoAngle",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_SETSERVOANGLE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "VERSION",
+            "options": [
+                ["v3", "3"],
+                ["v2", "2"],
+                ["v1", "1"]
+            ]
+        },
+        {
+            "type": "field_grid_dropdown",
+            "name": "SERVO",
+            "options": [
+                ["P0", "pin0"],
+                ["P1", "pin1"],
+                ["P2", "pin2"],
+                ["P0, P1 & P2", "ALL"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "ANGLE",
+            "check": "Number"
+        }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_SETSERVOANGLE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "maqueenPlus_tooltips"
+        ],
+        "mutator": "robots_maqueenPlus_servos_mutator"
+    },
+
+    // MaqueenPlus - RGB LED
+
+    // BLOCK MAQUEEN_PLUS BLINK ROBOT
+    {
+        "type": "robots_maqueenPlusBlinkRobot",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_BLINK_ROBOT_TITLE}",
+        "args0": [
+            {
+                "type": "field_grid_dropdown",
+                "name": "VERSION",
+                "options": [
+                    ["v3", "3"],
+                    ["v2", "2"]
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_BLINK_ROBOT_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "maqueenPlus_tooltips"
+        ]
+    },
+
+    // BLOCK MAQUEEN_PLUS SET NEOPIXEL
+    {
+        "type": "robots_setMaqueenPlusNeopixel",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_SETNEOPIXEL_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "VERSION",
+            "options": [
+                ["v3", "3"],
+                ["v2", "2"]
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "LED",
+            "options": [
+                ["0", "0"],
+                ["1", "1"],
+                ["2", "2"],
+                ["3", "3"],
+                ["les 4 LEDs", "all"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "R",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "G",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "B",
+            "check": "Number"
+        }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_SETNEOPIXEL_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "maqueenPlus_tooltips"
+        ]
+    },
+
+    // BLOCK MAQUEEN_PLUS SET NEOPIXEL PALETTE
+    {
+        "type": "robots_setMaqueenPlusNeopixelPalette",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_SETPALETTECOLOR_TITLE}",
+        "args0": [
+            {
+                "type": "field_grid_dropdown",
+                "name": "VERSION",
+                "options": [
+                    ["v3", "3"],
+                    ["v2", "2"]
+                ]
+            },
+            {
+                "type": "field_grid_dropdown",
+                "name": "LED",
+                "options": [
+                    ["0", "0"],
+                    ["1", "1"],
+                    ["2", "2"],
+                    ["3", "3"],
+                    ["les 4 LED", "all"]
+                ]
+            }, {
+                "type": "input_value",
+                "name": "COLOR",
+                "check": "Colour"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_SETPALETTECOLOR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "maqueenPlus_tooltips"
+        ]
+    },
+
+    // BLOCK MAQUEEN_PLUS RAINBOW
+    {
+        "type": "robots_setMaqueenPlusRainbow",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_SETRAINBOW_TITLE}",
+        "args0": [
+            {
+                "type": "field_grid_dropdown",
+                "name": "VERSION",
+                "options": [
+                    ["v3", "3"],
+                    ["v2", "2"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_SETRAINBOW_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "maqueenPlus_tooltips"
+        ]
+    },
+
+    // MaqueenPlus - Remote Control
 
     // BLOCK MAQUEEN_PLUS ON REMOTE CONTROL COMMAND RECEIVED
     {
@@ -1038,6 +1111,484 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "output": "Number",
         "style": "robots_blocks",
         "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_GETIRCODE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // Maqueen Plus V3 - Line Finder 
+
+    // BLOCK MAQUEEN_PLUS V3 - SET PATROL SPEED
+    {
+        "type": "robots_maqueenPlusV3_setPatrolSpeed",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_SETPATROLSPEED_TITLE}",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "SPEED",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_SETPATROLSPEED_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK MAQUEEN_PLUS V3 - SET INTERSECTION RUN MODE
+    {
+        "type": "robots_maqueenPlusV3_setIntersectionRunMode",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_SETINTERSECTIONRUNMODE_TITLE}",
+        "args0": [
+            {
+                "type": "field_grid_dropdown",
+                "name": "INTERSECTION",
+                "options": [
+                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_INTERSECTION_CROSSROADS}", "CROSSROADS"],
+                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_INTERSECTION_T}", "T_JUNCTION"]
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_SETINTERSECTIONRUNMODE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ],
+        "mutator": "robots_maqueenPlus_intersection_mutator"
+    },
+
+    // BLOCK MAQUEEN_PLUS V3 - SET LEFT OR STRAIGHT RUN MODE
+    {
+        "type": "robots_maqueenPlusV3_setLeftOrRightIntersectionRunMode",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_SETLEFTORRIGHTINTERSECTIONRUNMODE_TITLE}",
+        "args0": [
+            {
+                "type": "field_grid_dropdown",
+                "name": "INTERSECTION",
+                "options": [
+                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_INTERSECTION_LEFT}", "LEFT"],
+                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_INTERSECTION_RIGHT}", "RIGHT"]
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_SETLEFTORRIGHTINTERSECTIONRUNMODE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ],
+        "mutator": "robots_maqueenPlus_intersection_mutator"
+    },
+
+    // BLOCK MAQUEEN_PLUS V3 - SET PATROLLING STATE
+    {
+        "type": "robots_maqueenPlusV3_setPatrollingState",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_SETPATROLLINGSTATE_TITLE}",
+        "args0": [
+            {
+                "type": "field_grid_dropdown",
+                "name": "STATE",
+                "options": [
+                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_PATROL_ON}", "1"],
+                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_PATROL_OFF}", "0"]
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_SETPATROLLINGSTATE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK MAQUEEN_PLUS V3 - INTERSECTION DETECTED
+    {
+        "type": "robots_maqueenPlusV3_intersectionDetected",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_INTERSECTIONDETECTED_TITLE}",
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_INTERSECTIONDETECTED_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK MAQUEEN_PLUS V3 - INTERSECTION DETECTED IS
+    {
+        "type": "robots_maqueenPlusV3_intersectionDetectedIs",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_INTERSECTIONDETECTEDIS_TITLE}",
+        "args0": [
+            {
+                "type": "field_grid_dropdown",
+                "name": "INTERSECTION",
+                "options": [
+                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_INTERSECTION_CROSSROADS}", "CROSSROADS"],
+                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_INTERSECTION_T}", "T_JUNCTION"],
+                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_INTERSECTION_LEFT}", "LEFT"],
+                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_INTERSECTION_RIGHT}", "RIGHT"]
+                ]
+            }
+        ],
+        "output": "Boolean",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_INTERSECTIONDETECTEDIS_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // Maqueen Plus V3 - PID
+
+    // BLOCK MAQUEEN_PLUS V3 - RUN DISTANCE
+    {
+        "type": "robots_maqueenPlusV3_runDistance",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_RUNDISTANCE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "DIRECTION",
+            "options": [
+                ["%{BKY_ROBOTS_GO_FORWARD}", "FORWARD"],
+                ["%{BKY_ROBOTS_GO_BACKWARD}", "BACKWARD"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "DISTANCE",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "UNIT",
+            "options": [
+                ["%{BKY_ROBOTS_UNIT_CM}", "CM"],
+                ["%{BKY_ROBOTS_UNIT_INCH}", "INCH"]
+            ]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_RUNDISTANCE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_buttons_plus_minus",
+            "robots_runWaiting_init"
+        ],
+        "mutator": "robots_runWaiting_mutator",
+    },
+
+    // BLOCK MAQUEEN_PLUS V3 - TURN WITH ANGLE
+    {
+        "type": "robots_maqueenPlusV3_turnWithAngle",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_TURNWITHANGLE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "DIRECTION",
+            "options": [
+                ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_TURN_LEFT}", "LEFT"],
+                ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_TURN_RIGHT}", "RIGHT"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "ANGLE",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_TURNWITHANGLE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_buttons_plus_minus",
+            "robots_runWaiting_init"
+        ],
+        "mutator": "robots_runWaiting_mutator",
+    },
+
+    // BLOCK MAQUEEN_PLUS V3 - READ REAL TIME SPEED
+    {
+        "type": "robots_maqueenPlusV3_readRealTimeSpeed",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_READREALTIMESPEED_TITLE}",
+        "args0": [
+            {
+                "type": "field_grid_dropdown",
+                "name": "MOTOR",
+                "options": [
+                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_LEFT}", "LEFT"],
+                    ["%{BKY_ROBOTS_MAQUEEN_PLUS_RIGHT}", "RIGHT"]
+                ]
+            }, {
+                "type": "field_grid_dropdown",
+                "name": "UNIT",
+                "options": [
+                    ["%{BKY_ROBOTS_UNIT_CM_S}", "CM_S"],
+                    ["%{BKY_ROBOTS_UNIT_INCH_S}", "INCH_S"]
+                ]
+            }
+        ],
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_READREALTIMESPEED_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK MAQUEEN_PLUS V3 - STOP ROBOT PID
+    {
+        "type": "robots_maqueenPlusV3_stopPID",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_STOPPID_TITLE}",
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_PLUS_V3_STOPPID_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // Maqueen Plus V3 - Lidar Sensor
+
+    // BLOCK MAQUEEN_PLUS V3 - LIDAR - CONFIG MATRIX
+    {
+        "type": "robots_maqueenPlusV3_lidar_configMatrix",
+        "message0": "%{BKY_SENSORS_LIDAR_CONFIGMATRIX_TITLE}",
+        "args0": [
+            {
+                "type": "field_grid_dropdown",
+                "name": "ADDR",
+                "options": [
+                    ["0X30", "0X30"],
+                    ["0X31", "0X31"],
+                    ["0X32", "0X32"],
+                    ["0X33", "0X33"]
+                ]
+            }, {
+                "type": "field_grid_dropdown",
+                "name": "TYPE",
+                "options": [
+                    ["%{BKY_SENSORS_LIDAR_CONFIG_8X8_MATRIX}", "MATRIX_8X8"],
+                    ["%{BKY_SENSORS_LIDAR_CONFIG_4X4_MATRIX}", "MATRIX_4X4"],
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_SENSORS_LIDAR_CONFIGMATRIX_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK MAQUEEN_PLUS V3 - LIDAR - GET DATA
+    {
+        "type": "robots_maqueenPlusV3_lidar_getData",
+        "message0": "%{BKY_SENSORS_LIDAR_GETDATA_TITLE}",
+        "args0": [
+            {
+                "type": "field_grid_dropdown",
+                "name": "ADDR",
+                "options": [
+                    ["0X30", "0X30"],
+                    ["0X31", "0X31"],
+                    ["0X32", "0X32"],
+                    ["0X33", "0X33"]
+                ]
+            }, {
+                "type": "field_grid_dropdown",
+                "name": "DATA",
+                "options": [
+                    ["%{BKY_SENSORS_LIDAR_DATA_DISTANCES_MATRIX}", "DISTANCES_MATRIX"],
+                    ["%{BKY_SENSORS_LIDAR_DATA_RAW_LIST}", "RAW_LIST"]
+                ]
+            }
+        ],
+        "output": "Array",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_SENSORS_LIDAR_GETDATA_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK MAQUEEN_PLUS V3 - LIDAR - GET FIXED POINT
+    {
+        "type": "robots_maqueenPlusV3_lidar_getFixedPoint",
+        "message0": "%{BKY_SENSORS_LIDAR_GETFIXEDPOINT_TITLE}",
+        "args0": [
+            {
+                "type": "field_grid_dropdown",
+                "name": "ADDR",
+                "options": [
+                    ["0X30", "0X30"],
+                    ["0X31", "0X31"],
+                    ["0X32", "0X32"],
+                    ["0X33", "0X33"]
+                ]
+            }, {
+                "type": "input_value",
+                "name": "X",
+                "check": "Number"
+            }, {
+                "type": "input_value",
+                "name": "Y",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "output": "Array",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_SENSORS_LIDAR_GETFIXEDPOINT_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK MAQUEEN_PLUS V3 - LIDAR - CONFIG AVOIDANCE
+    {
+        "type": "robots_maqueenPlusV3_lidar_configAvoidance",
+        "message0": "%{BKY_SENSORS_LIDAR_CONFIGAVOIDANCE_TITLE}",
+        "args0": [
+            {
+                "type": "field_grid_dropdown",
+                "name": "ADDR",
+                "options": [
+                    ["0X30", "0X30"],
+                    ["0X31", "0X31"],
+                    ["0X32", "0X32"],
+                    ["0X33", "0X33"]
+                ]
+            }, {
+                "type": "input_value",
+                "name": "WALL",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_SENSORS_LIDAR_CONFIGAVOIDANCE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK MAQUEEN_PLUS V3 - LIDAR - IS SIGNAL ACTIVATED
+    {
+        "type": "robots_maqueenPlusV3_lidar_isSignalActivated",
+        "message0": "%{BKY_SENSORS_LIDAR_ISSIGNALACTIVATED_TITLE}",
+        "args0": [
+            {
+                "type": "field_grid_dropdown",
+                "name": "ADDR",
+                "options": [
+                    ["0X30", "0X30"],
+                    ["0X31", "0X31"],
+                    ["0X32", "0X32"],
+                    ["0X33", "0X33"]
+                ]
+            }
+        ],
+        "output": "Boolean",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_SENSORS_LIDAR_ISSIGNALACTIVATED_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK MAQUEEN_PLUS V3 - LIDAR - DIR TO FOLLOW
+    {
+        "type": "robots_maqueenPlusV3_lidar_dirToFollow",
+        "message0": "%{BKY_SENSORS_LIDAR_DIRTOFOLLOW_TITLE}",
+        "args0": [
+            {
+                "type": "field_grid_dropdown",
+                "name": "ADDR",
+                "options": [
+                    ["0X30", "0X30"],
+                    ["0X31", "0X31"],
+                    ["0X32", "0X32"],
+                    ["0X33", "0X33"]
+                ]
+            }
+        ],
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_SENSORS_LIDAR_DIRTOFOLLOW_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK MAQUEEN_PLUS V3 - LIDAR - IS DIR TO FOLLOW
+    {
+        "type": "robots_maqueenPlusV3_lidar_isDirToFollow",
+        "message0": "%{BKY_SENSORS_LIDAR_ISDIRTOFOLLOW_TITLE}",
+        "args0": [
+            {
+                "type": "field_grid_dropdown",
+                "name": "ADDR",
+                "options": [
+                    ["0X30", "0X30"],
+                    ["0X31", "0X31"],
+                    ["0X32", "0X32"],
+                    ["0X33", "0X33"]
+                ]
+            }, {
+                "type": "field_grid_dropdown",
+                "name": "DIR",
+                "options": [
+                    ["%{BKY_SENSORS_LIDAR_DIR_TO_LEFT}", "TO_LEFT"],
+                    ["%{BKY_SENSORS_LIDAR_DIR_TO_RIGHT}", "TO_RIGHT"],
+                    ["%{BKY_SENSORS_LIDAR_DIR_FORWARD}", "FORWARD"]
+                ]
+            }
+        ],
+        "output": "Boolean",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_SENSORS_LIDAR_ISDIRTOFOLLOW_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK MAQUEEN_PLUS V3 - LIDAR GET DATA
+    {
+        "type": "robots_maqueenPlusV3_lidar_getObstacleDistance",
+        "message0": "%{BKY_SENSORS_LIDAR_GETOBSTACLEDISTANCE_TITLE}",
+        "args0": [
+            {
+                "type": "field_grid_dropdown",
+                "name": "ADDR",
+                "options": [
+                    ["0X30", "0X30"],
+                    ["0X31", "0X31"],
+                    ["0X32", "0X32"],
+                    ["0X33", "0X33"]
+                ]
+            }, {
+                "type": "field_grid_dropdown",
+                "name": "DIR",
+                "options": [
+                    ["%{BKY_SENSORS_LIDAR_DIR_LEFT}", "ELEFT"],
+                    ["%{BKY_SENSORS_LIDAR_DIR_MIDDLE}", "EMIDDLE"],
+                    ["%{BKY_SENSORS_LIDAR_DIR_RIGHT}", "ERIGHT"]
+                ]
+            }
+        ],
+        "output": "Array",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_SENSORS_LIDAR_GETOBSTACLEDISTANCE_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]
@@ -1226,8 +1777,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "DIR",
             "options": [
-                ["%{BKY_ROBOTS_CUTEBOT_GO_FORWARD}", "FORWARD"],
-                ["%{BKY_ROBOTS_CUTEBOT_GO_BACKWARD}", "BACKWARD"]
+                ["%{BKY_ROBOTS_GO_FORWARD}", "FORWARD"],
+                ["%{BKY_ROBOTS_GO_BACKWARD}", "BACKWARD"]
             ]
         }, {
             "type": "input_value",
@@ -1274,7 +1825,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     {
         "type": "robots_setCutebotStop",
         "message0": "%{BKY_ROBOTS_CUTEBOT_STOP_TITLE}",
-        "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
         "style": "robots_blocks",
@@ -1594,8 +2144,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "UNIT",
             "options": [
-                ["%{BKY_ROBOTS_CUTEBOTPRO_UNIT_CM}", "CM"],
-                ["%{BKY_ROBOTS_CUTEBOTPRO_UNIT_INCH}", "INCH"]
+                ["%{BKY_ROBOTS_UNIT_CM}", "CM"],
+                ["%{BKY_ROBOTS_UNIT_INCH}", "INCH"]
             ]
         }],
         "output": "Number",
@@ -1831,8 +2381,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "DIR",
             "options": [
-                ["%{BKY_ROBOTS_CUTEBOTPRO_GO_FORWARD}", "FORWARD"],
-                ["%{BKY_ROBOTS_CUTEBOTPRO_GO_BACKWARD}", "BACKWARD"]
+                ["%{BKY_ROBOTS_GO_FORWARD}", "FORWARD"],
+                ["%{BKY_ROBOTS_GO_BACKWARD}", "BACKWARD"]
             ]
         }, {
             "type": "input_value",
@@ -1879,7 +2429,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     {
         "type": "robots_CutebotPro_stop",
         "message0": "%{BKY_ROBOTS_CUTEBOTPRO_STOP_TITLE}",
-        "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
         "style": "robots_blocks",
@@ -1938,8 +2487,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "UNIT",
             "options": [
-                ["%{BKY_ROBOTS_CUTEBOTPRO_UNIT_CM_S}", "CM_S"],
-                ["%{BKY_ROBOTS_CUTEBOTPRO_UNIT_INCH_S}", "INCH_S"]
+                ["%{BKY_ROBOTS_UNIT_CM_S}", "CM_S"],
+                ["%{BKY_ROBOTS_UNIT_INCH_S}", "INCH_S"]
             ]
         }],
         "output": "Number",
@@ -2008,8 +2557,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "DIR",
             "options": [
-                ["%{BKY_ROBOTS_CUTEBOTPRO_GO_FORWARD}", "FORWARD"],
-                ["%{BKY_ROBOTS_CUTEBOTPRO_GO_BACKWARD}", "BACKWARD"]
+                ["%{BKY_ROBOTS_GO_FORWARD}", "FORWARD"],
+                ["%{BKY_ROBOTS_GO_BACKWARD}", "BACKWARD"]
             ]
         }, {
             "type": "input_value",
@@ -2019,8 +2568,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "UNIT",
             "options": [
-                ["%{BKY_ROBOTS_CUTEBOTPRO_UNIT_CM_S}", "CM_S"],
-                ["%{BKY_ROBOTS_CUTEBOTPRO_UNIT_INCH_S}", "INCH_S"]
+                ["%{BKY_ROBOTS_UNIT_CM_S}", "CM_S"],
+                ["%{BKY_ROBOTS_UNIT_INCH_S}", "INCH_S"]
             ]
         }],
         "inputsInline": true,
@@ -2049,8 +2598,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "UNIT",
             "options": [
-                ["%{BKY_ROBOTS_CUTEBOTPRO_UNIT_CM_S}", "CM_S"],
-                ["%{BKY_ROBOTS_CUTEBOTPRO_UNIT_INCH_S}", "INCH_S"]
+                ["%{BKY_ROBOTS_UNIT_CM_S}", "CM_S"],
+                ["%{BKY_ROBOTS_UNIT_INCH_S}", "INCH_S"]
             ]
         }],
         "inputsInline": true,
@@ -2086,8 +2635,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "UNIT",
             "options": [
-                ["%{BKY_ROBOTS_CUTEBOTPRO_UNIT_CM}", "CM"],
-                ["%{BKY_ROBOTS_CUTEBOTPRO_UNIT_INCH}", "INCH"]
+                ["%{BKY_ROBOTS_UNIT_CM}", "CM"],
+                ["%{BKY_ROBOTS_UNIT_INCH}", "INCH"]
             ]
         }],
         "inputsInline": true,
@@ -2108,8 +2657,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "DIR",
             "options": [
-                ["%{BKY_ROBOTS_CUTEBOTPRO_GO_FORWARD}", "ADVANCE"],
-                ["%{BKY_ROBOTS_CUTEBOTPRO_GO_BACKWARD}", "RETREAT"]
+                ["%{BKY_ROBOTS_GO_FORWARD}", "ADVANCE"],
+                ["%{BKY_ROBOTS_GO_BACKWARD}", "RETREAT"]
             ]
         }, {
             "type": "input_value",
@@ -2119,8 +2668,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "UNIT",
             "options": [
-                ["%{BKY_ROBOTS_CUTEBOTPRO_UNIT_CM}", "CM"],
-                ["%{BKY_ROBOTS_CUTEBOTPRO_UNIT_INCH}", "INCH"]
+                ["%{BKY_ROBOTS_UNIT_CM}", "CM"],
+                ["%{BKY_ROBOTS_UNIT_INCH}", "INCH"]
             ]
         }],
         "inputsInline": true,
@@ -2131,9 +2680,9 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "extensions": [
             "block_init_helpurl",
             "block_buttons_plus_minus",
-            "robots_CutebotPro_runWaiting_init"
+            "robots_runWaiting_init"
         ],
-        "mutator": "robots_CutebotPro_runWaiting_mutator",
+        "mutator": "robots_runWaiting_mutator",
     },
 
     // BLOCK CUTEBOT PRO TURN WITH ANGLE
@@ -2160,9 +2709,9 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "extensions": [
             "block_init_helpurl",
             "block_buttons_plus_minus",
-            "robots_CutebotPro_runWaiting_init"
+            "robots_runWaiting_init"
         ],
-        "mutator": "robots_CutebotPro_runWaiting_mutator",
+        "mutator": "robots_runWaiting_mutator",
     },
 
     // BLOCK CUTEBOT PRO TURN WHEEL
@@ -2197,9 +2746,9 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "extensions": [
             "block_init_helpurl",
             "block_buttons_plus_minus",
-            "robots_CutebotPro_runWaiting_init"
+            "robots_runWaiting_init"
         ],
-        "mutator": "robots_CutebotPro_runWaiting_mutator",
+        "mutator": "robots_runWaiting_mutator",
     },
 
     // BLOCK CUTEBOT PRO PLACE WITH ANGLE
@@ -2226,9 +2775,9 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "extensions": [
             "block_init_helpurl",
             "block_buttons_plus_minus",
-            "robots_CutebotPro_runWaiting_init"
+            "robots_runWaiting_init"
         ],
-        "mutator": "robots_CutebotPro_runWaiting_mutator",
+        "mutator": "robots_runWaiting_mutator",
     },
 
     // BLOCK CUTEBOT PRO DEFINE SQUARE
@@ -2243,8 +2792,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "UNIT",
             "options": [
-                ["%{BKY_ROBOTS_CUTEBOTPRO_UNIT_CM}", "CM"],
-                ["%{BKY_ROBOTS_CUTEBOTPRO_UNIT_INCH}", "INCH"]
+                ["%{BKY_ROBOTS_UNIT_CM}", "CM"],
+                ["%{BKY_ROBOTS_UNIT_INCH}", "INCH"]
             ]
         }],
         "inputsInline": true,
@@ -2265,8 +2814,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "DIR",
             "options": [
-                ["%{BKY_ROBOTS_CUTEBOTPRO_GO_FORWARD}", "ADVANCE"],
-                ["%{BKY_ROBOTS_CUTEBOTPRO_GO_BACKWARD}", "RETREAT"]
+                ["%{BKY_ROBOTS_GO_FORWARD}", "ADVANCE"],
+                ["%{BKY_ROBOTS_GO_BACKWARD}", "RETREAT"]
             ]
         }, {
             "type": "input_value",
@@ -2281,9 +2830,9 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "extensions": [
             "block_init_helpurl",
             "block_buttons_plus_minus",
-            "robots_CutebotPro_runWaiting_init"
+            "robots_runWaiting_init"
         ],
-        "mutator": "robots_CutebotPro_runWaiting_mutator",
+        "mutator": "robots_runWaiting_mutator",
     },
 
     // BLOCK CUTEBOT PRO SET SERVO ANGLE
@@ -2517,8 +3066,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "DIR",
             "options": [
-                ["%{BKY_ROBOTS_KITROBOT_GO_FORWARD}", "1"],
-                ["%{BKY_ROBOTS_KITROBOT_GO_REVERSE}", "-1"]
+                ["%{BKY_ROBOTS_GO_FORWARD}", "1"],
+                ["%{BKY_ROBOTS_GO_BACKWARD}", "-1"]
             ]
         }, {
             "type": "input_value",
@@ -2807,8 +3356,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "DIR",
             "options": [
-                ["%{BKY_ROBOTS_CODO_GO_FORWARD}", "FORWARD"],
-                ["%{BKY_ROBOTS_CODO_GO_BACKWARD}", "BACKWARD"]
+                ["%{BKY_ROBOTS_GO_FORWARD}", "FORWARD"],
+                ["%{BKY_ROBOTS_GO_BACKWARD}", "BACKWARD"]
             ]
         }, {
             "type": "input_value",
@@ -2855,7 +3404,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     {
         "type": "robots_setCodoStop",
         "message0": "%{BKY_ROBOTS_CODO_STOP_TITLE}",
-        "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
         "style": "robots_blocks",
@@ -2931,8 +3479,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "DIR",
             "options": [
-                ["%{BKY_ROBOTS_OOBYBOT_GO_FORWARD}", "forward"],
-                ["%{BKY_ROBOTS_OOBYBOT_GO_BACKWARD}", "backward"]
+                ["%{BKY_ROBOTS_GO_FORWARD}", "forward"],
+                ["%{BKY_ROBOTS_GO_BACKWARD}", "backward"]
             ]
         }, {
             "type": "input_value",
@@ -2979,7 +3527,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     {
         "type": "robots_setOobybotStop",
         "message0": "%{BKY_ROBOTS_OOBYBOT_STOP_TITLE}",
-        "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
         "style": "robots_blocks",
@@ -3033,8 +3580,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "DIR",
             "options": [
-                ["%{BKY_ROBOTS_BUGGY_GO_FORWARD}", "FORWARD"],
-                ["%{BKY_ROBOTS_BUGGY_GO_BACKWARD}", "BACKWARD"]
+                ["%{BKY_ROBOTS_GO_FORWARD}", "FORWARD"],
+                ["%{BKY_ROBOTS_GO_BACKWARD}", "BACKWARD"]
             ]
         }, {
             "type": "input_value",
@@ -3081,7 +3628,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     {
         "type": "robots_setBuggyStop",
         "message0": "%{BKY_ROBOTS_BUGGY_STOP_TITLE}",
-        "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
         "style": "robots_blocks",
@@ -3154,8 +3700,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "DIR",
             "options": [
-                ["%{BKY_ROBOTS_BITBOT_GO_FORWARD}", "0"],
-                ["%{BKY_ROBOTS_BITBOT_GO_REVERSE}", "1"]
+                ["%{BKY_ROBOTS_GO_FORWARD}", "0"],
+                ["%{BKY_ROBOTS_GO_BACKWARD}", "1"]
             ]
         }, {
             "type": "input_value",
@@ -3365,8 +3911,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "DIR",
             "options": [
-                ["%{BKY_ROBOTS_MAQUEEN_GO_FORWARD}", "1"],
-                ["%{BKY_ROBOTS_MAQUEEN_GO_REVERSE}", "-1"]
+                ["%{BKY_ROBOTS_GO_FORWARD}", "1"],
+                ["%{BKY_ROBOTS_GO_BACKWARD}", "-1"]
             ]
         }, {
             "type": "input_value",
@@ -4216,16 +4762,268 @@ Blockly.Constants.Robots.ROBOTS_CUTEBOTPRO_RUN_WAITING_MUTATOR_MIXIN =
         ["%{BKY_ROBOTS_CUTEBOTPRO_RUN_WAITING_NO}", "NO"]
     ]);
 
+/**
+ * Performs final setup of maqueen plus patrol blocks
+ * @this {Blockly.Block}
+ */
+Blockly.Constants.Robots.ROBOTS_MAQUEEN_PLUS_PATROL_INIT_EXTENSION = function () {
+    this.SENSORS = {
+        "1": [
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_LEFT_REAR}", "L3"],
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_LEFT}", "L2"],
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_MIDDLE_LEFT}", "L1"],
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_MIDDLE_RIGHT}", "R3"],
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_RIGHT}", "R2"],
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_RIGHT_REAR}", "R1"]
+        ],
+        "2": [
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_LEFT_REAR}", "0"],
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_LEFT}", "1"],
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_MIDDLE}", "2"],
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_RIGHT}", "3"],
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_RIGHT_REAR}", "4"]
+        ]
+    };
+    this.SENSORS["3"] = this.SENSORS["2"];
+    this.getField("VERSION").setValidator(function (value) {
+        this.getSourceBlock().updateField_(value);
+    });
+    const version = this.getFieldValue("VERSION");
+    this.updateField_(version);
+};
+
+/**
+ * Mixin for mutator functions in the 'robots_maqueenPlus_patrol' extension.
+ * @mixin
+ * @augments Blockly.Block
+ * @package
+ */
+Blockly.Constants.Robots.ROBOTS_MAQUEEN_PLUS_PATROL_MUTATOR_MIXIN = {
+    /**
+     * Create XML to represent whether there is an 'sensors' dropdown field.
+     * @return {!Element} XML storage element.
+     * @this {Blockly.Block}
+     */
+    mutationToDom: function () { },
+    /**
+     * Parse XML to restore the 'sensors' dropdown field.
+     * @param {!Element} xmlElement XML storage element.
+     * @this {Blockly.Block}
+     */
+    domToMutation: function (xmlElement) {
+        const version = this.getFieldValue("VERSION");
+        this.updateField_(version);
+    },
+    /**
+     * Create or delete sensors side field_dropdown.
+     * @param {string} version version of Maqueen Plus.
+     * @private
+     * @this {Blockly.Block}
+     */
+    updateField_: function (version) {
+        if (version !== this.version) {
+            this.version = version;
+            if (this.getInput("SENSORS_FIELD")) {
+                this.removeInput("SENSORS_FIELD");
+            }
+            this.appendDummyInput("SENSORS_FIELD")
+                .appendField(new Blockly.FieldDropdown(this.SENSORS[this.version]), "SIDE");
+            this.setInputsInline(true);
+        }
+    }
+};
+
+/**
+ * Performs final setup of maqueen plus servos blocks
+ * @this {Blockly.Block}
+ */
+Blockly.Constants.Robots.ROBOTS_MAQUEEN_PLUS_SERVOS_INIT_EXTENSION = function () {
+    this.SERVOS = {
+        "1": [
+            ["S1", "S1"],
+            ["S2", "S2"],
+            ["S3", "S3"],
+            ["S1, S2 & S3", "ALL"]
+        ],
+        "2": [
+            ["P0", "pin0"],
+            ["P1", "pin1"],
+            ["P2", "pin2"],
+            ["P0, P1 & P2", "ALL"]
+        ]
+    };
+    this.SERVOS["3"] = this.SERVOS["2"];
+    this.getField("VERSION").setValidator(function (value) {
+        this.getSourceBlock().updateField_(value);
+    });
+    this.version = this.getFieldValue("VERSION");
+    this.updateField_(this.version);
+};
+
+/**
+ * Mixin for mutator functions in the 'robots_maqueenPlus_patrol' extension.
+ * @mixin
+ * @augments Blockly.Block
+ * @package
+ */
+Blockly.Constants.Robots.ROBOTS_MAQUEEN_PLUS_SERVOS_MUTATOR_MIXIN = {
+    /**
+     * Create XML to represent whether there is an 'servos' dropdown field.
+     * @return {!Element} XML storage element.
+     * @this {Blockly.Block}
+     */
+    mutationToDom: function () { },
+    /**
+     * Parse XML to restore the 'servos' dropdown field.
+     * @param {!Element} xmlElement XML storage element.
+     * @this {Blockly.Block}
+     */
+    domToMutation: function (xmlElement) {
+        const version = this.getFieldValue("VERSION");
+        this.updateField_(version);
+    },
+    /**
+     * Create or delete servos side field_dropdown.
+     * @param {string} version version of Maqueen Plus.
+     * @private
+     * @this {Blockly.Block}
+     */
+    updateField_: function (version) {
+        if (version !== this.version) {
+            this.version = version;
+        }
+        const options = this.SERVOS[version];
+        const prevOptions = this.getField("SERVO").menuGenerator_;
+        const previousValueIndex = prevOptions.findIndex(([label, value]) => value === this.getFieldValue("SERVO"));
+        const field = this.getField("SERVO");
+        field.menuGenerator_ = options;
+        field.setValue(options[previousValueIndex][1]);
+    }
+};
+
+/**
+ * Performs final setup of Maqueen Plus blocks by define tooltip.
+ * @this {Blockly.Block}
+ */
+Blockly.Constants.Robots.ROBOTS_MAQUEEN_PLUS_INIT_EXTENSION = function () {
+    let tooltip = this.getTooltip();
+    if (tooltip.includes(Blockly.Tooltip.SEP)) {
+        tooltip = tooltip.split(Blockly.Tooltip.SEP)[1];
+    }
+    this.setTooltip(() => {
+        switch (this.getFieldValue('VERSION')) {
+            case '1':
+                return IMG_ROBOT_MAQUEEN_PLUS_V1 + Blockly.Tooltip.SEP + tooltip;
+            case '2':
+                return IMG_ROBOT_MAQUEEN_PLUS_V2 + Blockly.Tooltip.SEP + tooltip;
+            case '3':
+                return IMG_ROBOT_MAQUEEN_PLUS_V3 + Blockly.Tooltip.SEP + tooltip;
+        }
+    });
+};
+
+/**
+ * Performs final setup of maqueen plus crossroads & T-junction blocks
+ * @this {Blockly.Block}
+ */
+Blockly.Constants.Robots.ROBOTS_MAQUEEN_PLUS_INTERSECTION_INIT_EXTENSION = function () {
+    this.RUN_MODE = {
+        "CROSSROADS": [
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_STRAIGHT}", "STRAIGHT"],
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_TURN_LEFT}", "LEFT"],
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_TURN_RIGHT}", "RIGHT"],
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_STOP}", "STOP"]
+        ],
+        "T_JUNCTION": [
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_TURN_LEFT}", "LEFT"],
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_TURN_RIGHT}", "RIGHT"],
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_STOP}", "STOP"]
+        ],
+        "LEFT": [
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_STRAIGHT}", "STRAIGHT"],
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_TURN_LEFT}", "LEFT"],
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_STOP}", "STOP"]
+        ],
+        "RIGHT": [
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_STRAIGHT}", "STRAIGHT"],
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_TURN_RIGHT}", "RIGHT"],
+            ["%{BKY_ROBOTS_MAQUEEN_PLUS_V3_STOP}", "STOP"]
+        ]
+    };
+    this.getField("INTERSECTION").setValidator(function (value) {
+        this.getSourceBlock().updateField_(value);
+    });
+    const intersection = this.getFieldValue("INTERSECTION");
+    this.updateField_(intersection);
+};
+
+/**
+ * Mixin for mutator functions in the 'robots_maqueenPlusV3_setIntersection' extension.
+ * @mixin
+ * @augments Blockly.Block
+ * @package
+ */
+Blockly.Constants.Robots.ROBOTS_MAQUEEN_PLUS_INTERSECTION_MUTATOR_MIXIN = {
+    /**
+     * Create XML to represent whether there is an 'run_mode' dropdown field.
+     * @return {!Element} XML storage element.
+     * @this {Blockly.Block}
+     */
+    mutationToDom: function () { },
+    /**
+     * Parse XML to restore the 'run_mode' dropdown field.
+     * @param {!Element} xmlElement XML storage element.
+     * @this {Blockly.Block}
+     */
+    domToMutation: function (xmlElement) {
+        const intersection = this.getFieldValue("INTERSECTION");
+        this.updateField_(intersection);
+    },
+    /**
+     * Create or delete run mode field_dropdown.
+     * @param {string} intersection intersection of Maqueen Plus.
+     * @private
+     * @this {Blockly.Block}
+     */
+    updateField_: function (intersection) {
+        if (intersection !== this.intersection) {
+            this.intersection = intersection;
+            if (this.getInput("RUN_MODE_FIELD")) {
+                this.removeInput("RUN_MODE_FIELD");
+            }
+            this.appendDummyInput("RUN_MODE_FIELD")
+                .appendField(new Blockly.FieldDropdown(this.RUN_MODE[this.intersection]), "RUN_MODE");
+            this.setInputsInline(true);
+        }
+    }
+};
+
 // Initialization extensions
-Blockly.Extensions.register('robots_onRemoteCommandReceived_init',
+
+Blockly.Extensions.register("robots_onRemoteCommandReceived_init",
     Blockly.Constants.Robots.ROBOTS_REMOTECONTROL_ONCOMMANDRECEIVED_INIT_EXTENSION);
 
-Blockly.Extensions.register("robots_CutebotPro_runWaiting_init",
+Blockly.Extensions.register("robots_runWaiting_init",
     Blockly.Constants.Robots.ROBOTS_CUTEBOTPRO_RUN_WAITING_INIT_EXTENSION);
+
+Blockly.Extensions.register('maqueenPlus_tooltips',
+    Blockly.Constants.Robots.ROBOTS_MAQUEEN_PLUS_INIT_EXTENSION);
 
 // Mutator
 Blockly.Extensions.registerMutator("robots_onRemoteCommandReceived_mutator",
     Blockly.Constants.Robots.ROBOTS_REMOTECONTROL_ONCOMMANDRECEIVED_MUTATOR_MIXIN);
 
-Blockly.Extensions.registerMutator('robots_CutebotPro_runWaiting_mutator',
+Blockly.Extensions.registerMutator('robots_runWaiting_mutator',
     Blockly.Constants.Robots.ROBOTS_CUTEBOTPRO_RUN_WAITING_MUTATOR_MIXIN);
+
+Blockly.Extensions.registerMutator('robots_maqueenPlus_patrol_mutator',
+    Blockly.Constants.Robots.ROBOTS_MAQUEEN_PLUS_PATROL_MUTATOR_MIXIN,
+    Blockly.Constants.Robots.ROBOTS_MAQUEEN_PLUS_PATROL_INIT_EXTENSION);
+
+Blockly.Extensions.registerMutator('robots_maqueenPlus_servos_mutator',
+    Blockly.Constants.Robots.ROBOTS_MAQUEEN_PLUS_SERVOS_MUTATOR_MIXIN,
+    Blockly.Constants.Robots.ROBOTS_MAQUEEN_PLUS_SERVOS_INIT_EXTENSION);
+
+Blockly.Extensions.registerMutator('robots_maqueenPlus_intersection_mutator',
+    Blockly.Constants.Robots.ROBOTS_MAQUEEN_PLUS_INTERSECTION_MUTATOR_MIXIN,
+    Blockly.Constants.Robots.ROBOTS_MAQUEEN_PLUS_INTERSECTION_INIT_EXTENSION);

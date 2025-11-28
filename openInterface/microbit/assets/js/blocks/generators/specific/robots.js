@@ -193,8 +193,8 @@ Blockly.Python.robots_blinkRobot = function () {
     Blockly.Python.addImport('neopixel', IMPORT_NEOPIXEL);
     Blockly.Python.addConstant('maqueen-robot', "\"\"\" Maqueen robot \"\"\"");
     Blockly.Python.addInit('maqueen_neopixel', "npMaq = neopixel.NeoPixel(pin15, 4)");
-    Blockly.Python.addFunction('maqueen_blinkRobot', FUNCTIONS_MICROBIT.DEF_MAQUEEN_BLINK_ROBOT);
-    return "maqueen_blinkRobot()" + NEWLINE;
+    Blockly.Python.addFunction('maqueenPlusV2_blink', FUNCTIONS_MICROBIT.DEF_MAQUEEN_PLUS_V2_BLINK);
+    return "maqueenPlusV2_blink()" + NEWLINE;
 };
 
 Blockly.Python.robots_setMaqueenNeopixel = function (block) {
@@ -289,16 +289,31 @@ Blockly.Python.robots_maqueen_onRemoteCommandReceived_car_mp3_gray = function (b
 };
 
 Blockly.Python.robots_decodeMaqueenIRreceiver = function () {
-    Blockly.Python.addConstant('maqueen-robot', "\"\"\" Maqueen robot \"\"\"");
+    Blockly.Python.addConstant('maqueen-robot', '""" Maqueen robot """');
     return Blockly.Python.robots_decodeIRreceiver_generator();
 };
 
 Blockly.Python.robots_getMaqueenIRcode = function () {
-    Blockly.Python.addConstant('maqueen-robot', "\"\"\" Maqueen robot \"\"\"");
+    Blockly.Python.addConstant('maqueen-robot', '""" Maqueen robot """');
     return Blockly.Python.robots_getIRcode_generator();
 };
 
-// Maqueen Plus
+// Maqueen Plus - Sensors
+
+Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT = function (block, v) {
+    const version = block.getFieldValue("VERSION") || v;
+    const LIBRARIES = {
+        "1": IMPORT_MAQUEEN_PLUS_V1,
+        "2": IMPORT_MAQUEEN_PLUS_V2,
+        "3": IMPORT_MAQUEEN_PLUS_V3
+    };
+    Blockly.Python.addImport(`maqueenplusv${version}`, LIBRARIES[version]);
+    Blockly.Python.addConstant(`maqueen-plus-V${version}`, `""" MaqueenPlusV${version} robot """`);
+    if (version !== "1") {
+        Blockly.Python.addInit(`maqueen-plus-V${version}`, `maqueenplusv${version}.initRobot()`);
+    }
+    return version;
+};
 
 Blockly.Python.robots_getMaqueenPlusV2UltrasonicRanger = function (block) {
     Blockly.Python.addImport('machine_pulse', IMPORT_MACHINE_PULSE_MS);
@@ -324,139 +339,135 @@ Blockly.Python.robots_getMaqueenPlusUltrasonicRangerTrigEcho = function (block) 
     return [`getUltrasonicData(${trig}, ${echo}, "${block.getFieldValue("DATA")}")`, Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python.robots_readMaqueenPlusv1Patrol = function (block) {
-    Blockly.Python.addImport('maqueenplusv1', IMPORT_MAQUEEN_PLUS_V1);
-    Blockly.Python.addConstant(`maqueen-plus1-robot`, `""" MaqueenPlusV1 robot """`);
-    return [`maqueenplusv1.sensor_on_line("${block.getFieldValue("SIDE")}")`, Blockly.Python.ORDER_ATOMIC];
+Blockly.Python.robots_readMaqueenPlusPatrol = function (block) {
+    let side = block.getFieldValue("SIDE");
+    const version = Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block);
+    if (version == "1") side = `"${side}"`;
+    return [`maqueenplusv${version}.sensor_on_line(${side})`, Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python.robots_readMaqueenPlusv2Patrol = function (block) {
-    Blockly.Python.addImport('maqueenplusv2', IMPORT_MAQUEEN_PLUS_V2);
-    Blockly.Python.addInit('maqueen-plus-init', 'maqueenplusv2.init_maqueen()')
-    Blockly.Python.addConstant(`maqueen-plus2-robot`, `""" MaqueenPlusV2 robot """`);
-    return [`maqueenplusv2.sensor_on_line(${block.getFieldValue("SIDE")})`, Blockly.Python.ORDER_ATOMIC];
+Blockly.Python.robots_maqueenPlusV3_readLightIntensity = function (block) {
+    Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block, "3");
+    const sensor = block.getFieldValue("SENSOR");
+    return [`maqueenplusv3.readLightIntensity('${sensor}')`, Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python.robots_controlMaqueenPlusLed = function (block) {
-    const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
-    const version = block.getFieldValue("VERSION");
-    Blockly.Python.addConstant(`maqueen-plus${version}-robot`, `""" MaqueenPlusV${version} robot """`);
-    if (version === "1") {
-        Blockly.Python.addImport('maqueenplusv1', IMPORT_MAQUEEN_PLUS_V1);
-    } else {
-        Blockly.Python.addImport('maqueenplusv2', IMPORT_MAQUEEN_PLUS_V2);
-        Blockly.Python.addInit('maqueen-plus-init', 'maqueenplusv2.init_maqueen()')
-    }
-    return `maqueenplusv${version}.headlights(${block.getFieldValue("LED")}, ${state})` + NEWLINE;
-};
+// Maqueen Plus - Moving
 
 Blockly.Python.robots_setMaqueenPlusGo = function (block) {
     const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
-    const version = block.getFieldValue("VERSION");
-    Blockly.Python.addConstant(`maqueen-plus${version}-robot`, `""" MaqueenPlusV${version} robot """`);
+    const version = Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block);
     if (version === "1") {
-        Blockly.Python.addImport('maqueenplusv1', IMPORT_MAQUEEN_PLUS_V1);
-        return `maqueenplusv1.move(${block.getFieldValue("DIR") === 'drive' ? '"F"' : '"B"'}, ${speed})` + NEWLINE;
+        const dir = block.getFieldValue("DIR") === 'FORWARD' ? '"F"' : '"B"';
+        return `maqueenplusv1.move(${dir}, ${speed})` + NEWLINE;
     } else {
-        Blockly.Python.addImport('maqueenplusv2', IMPORT_MAQUEEN_PLUS_V2);
-        Blockly.Python.addInit('maqueen-plus-init', 'maqueenplusv2.init_maqueen()')
-        return `maqueenplusv2.${block.getFieldValue("DIR")}(${speed})` + NEWLINE;
+        const dir = block.getFieldValue("DIR") === 'FORWARD' ? 'drive' : 'backup';
+        return `maqueenplusv${version}.${dir}(${speed})` + NEWLINE;
     }
 };
 
 Blockly.Python.robots_rotateMaqueenPlus = function (block) {
+    const version = Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block);
     const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
-    const version = block.getFieldValue("VERSION");
-    Blockly.Python.addConstant(`maqueen-plus${version}-robot`, `""" MaqueenPlusV${version} robot """`);
     if (version === "1") {
-        Blockly.Python.addImport('maqueenplusv1', IMPORT_MAQUEEN_PLUS_V1);
-        return `maqueenplusv1.move(${block.getFieldValue("DIR") === 'right' ? '"RR"' : '"RL"'}, ${speed})` + NEWLINE;
+        const dir = block.getFieldValue("DIR") === 'right' ? '"RR"' : '"RL"';
+        return `maqueenplusv1.move(${dir}, ${speed})` + NEWLINE;
     } else {
-        Blockly.Python.addImport('maqueenplusv2', IMPORT_MAQUEEN_PLUS_V2);
-        Blockly.Python.addInit('maqueen-plus-init', 'maqueenplusv2.init_maqueen()')
-        return `maqueenplusv2.spin_${block.getFieldValue("DIR")}(${speed})` + NEWLINE;
+        return `maqueenplusv${version}.spin_${block.getFieldValue("DIR")}(${speed})` + NEWLINE;
     }
 };
 
 Blockly.Python.robots_controlMaqueenPlusMotor = function (block) {
+    const version = Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block);
     const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
     const motor = block.getFieldValue("MOTOR");
     const dir = block.getFieldValue("DIR");
-    const version = block.getFieldValue("VERSION");
-    Blockly.Python.addConstant(`maqueen-plus${version}-robot`, `""" MaqueenPlusV${version} robot """`);
     if (version === "1") {
-        Blockly.Python.addImport('maqueenplusv1', IMPORT_MAQUEEN_PLUS_V1);
-        return `maqueenplusv1.motorControl(maqueenplusv1.${motor === 'Right' ? 'MT_R' : 'MT_L'}, ${dir === "0" ? '1' : '2'}, ${speed})` + NEWLINE;
+        return `maqueenplusv1.motorControl(maqueenplusv1.${motor === 'Right' ? 'MT_R' : 'MT_L'}, maqueenplusv1.${dir}, ${speed})` + NEWLINE;
     } else {
-        Blockly.Python.addImport('maqueenplusv2', IMPORT_MAQUEEN_PLUS_V2);
-        Blockly.Python.addInit('maqueen-plus-init', 'maqueenplusv2.init_maqueen()')
-        return `maqueenplusv2.motorControl${motor}(${dir}, ${speed})` + NEWLINE;
+        return `maqueenplusv${version}.motorControl${motor}(maqueenplusv${version}.${dir}, ${speed})` + NEWLINE;
     }
 };
 
 Blockly.Python.robots_stopMaqueenPlusMotors = function (block) {
-    const version = block.getFieldValue("VERSION");
+    const version = Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block);
     const motor = block.getFieldValue("MOTOR");
-    Blockly.Python.addConstant(`maqueen-plus${version}-robot`, `""" MaqueenPlusV${version} robot """`);
-    if (version === "1") {
-        Blockly.Python.addImport('maqueenplusv1', IMPORT_MAQUEEN_PLUS_V1);
-        if (motor === 'both') {
-            return `maqueenplusv${version}.stop()` + NEWLINE;
-        }
+    if (motor === 'both') {
+        return `maqueenplusv${version}.stop()` + NEWLINE;
+    }
+    if (version == "1") {
         return `maqueenplusv1.motorControl(maqueenplusv1.${motor === 'Right' ? "MT_R" : "MT_L"}, 1, 0)` + NEWLINE;
     } else {
-        Blockly.Python.addImport('maqueenplusv2', IMPORT_MAQUEEN_PLUS_V2);
-        Blockly.Python.addInit('maqueen-plus-init', 'maqueenplusv2.init_maqueen()');
-        if (motor === 'both') {
-            return `maqueenplusv${version}.stop()` + NEWLINE;
-        }
-        return `maqueenplusv2.motorControl${motor}(0, 0)` + NEWLINE;
+        return `maqueenplusv${version}.motorControl${motor}(0, 0)` + NEWLINE;
     }
 };
 
-Blockly.Python.robots_setMaqueenPlusV1ServoAngle = function (block) {
-    const servo = block.getFieldValue("SERVO");
-    const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
-    Blockly.Python.addConstant(`maqueen-plus1-robot`, `""" MaqueenPlusV1 robot """`);
-    Blockly.Python.addImport('maqueenplusv1', IMPORT_MAQUEEN_PLUS_V1);
-    return `maqueenplusv1.set_servo_angle(maqueenplusv1.${servo}, ${angle})` + NEWLINE;
+// Maqueen Plus - Control
+
+Blockly.Python.robots_controlMaqueenPlusLed = function (block) {
+    const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
+    const version = Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block);
+    return `maqueenplusv${version}.headlights(${block.getFieldValue("LED")}, ${state})` + NEWLINE;
 };
 
-Blockly.Python.robots_setMaqueenPlusV2ServoAngle = function (block) {
-    const servo = block.getFieldValue("SERVO");
-    const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
-    Blockly.Python.addConstant(`maqueen-plus2-robot`, `""" MaqueenPlusV2 robot """`);
-    Blockly.Python.addImport('maqueenplusv2', IMPORT_MAQUEEN_PLUS_V2);
-    Blockly.Python.addInit('maqueen-plus-init', 'maqueenplusv2.init_maqueen()');
-    return `maqueenplusv2.set_servo_angle(${servo}, ${angle})` + NEWLINE;
+Blockly.Python.robots_maqueenPlusV3_setRGBLed = function (block) {
+    const led = block.getFieldValue("LED");
+    const color = block.getFieldValue("COLOR");
+    Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block, "3");
+    return `maqueenplusv3.setRGBLed('${led}', maqueenplusv3.COLOR['${color}'])` + NEWLINE;
 };
 
-Blockly.Python.robots_maqueenPlusBlinkRobot = function () {
-    Blockly.Python.addImport('maqueenplusv2', IMPORT_MAQUEEN_PLUS_V2);
-    Blockly.Python.addInit('maqueen-plus-init', 'maqueenplusv2.init_maqueen()')
+Blockly.Python.robots_setMaqueenPlusBuzzer = function (block) {
+    const version = Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block);
     Blockly.Python.addImport('utime', IMPORT_UTIME);
+    Blockly.Python.addFunction('pitch', FUNCTIONS_MICROBIT.DEF_BUZZER_PITCH);
+    Blockly.Python.addInit('buzzer_module_pin0', "# MaqueenPlus Buzzer on pin0");
+    const freq = Blockly.Python.valueToCode(block, "FREQUENCY", Blockly.Python.ORDER_NONE) || "0";
+    const time = Blockly.Python.valueToCode(block, "TIME", Blockly.Python.ORDER_NONE) || "0";
+    return "pitch(pin0, " + freq + ", " + time + ")" + NEWLINE;
+};
+
+Blockly.Python.robots_setMaqueenPlusServoAngle = function (block) {
+    const version = Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block);
+    let servo = block.getFieldValue("SERVO");
+    const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
+    if (version == "1") servo = `maqueenplusv1.${servo}`;
+    else {
+        if (servo == 'ALL') servo = `'${servo}'`;
+    }
+    return `maqueenplusv${version}.set_servo_angle(${servo}, ${angle})` + NEWLINE;
+};
+
+// Maqueen Plus V2 & V3 - Neopixel
+
+Blockly.Python.ROBOTS_MAQUEEN_PLUS_NEOPIXEL_INIT = function (version) {
+    const PINS = {
+        "2": "pin15",
+        "3": "pin1"
+    };
     Blockly.Python.addImport('neopixel', IMPORT_NEOPIXEL);
-    Blockly.Python.addInit('maqueen_neopixel', "npMaq = neopixel.NeoPixel(pin15, 4)");
-    Blockly.Python.addConstant(`maqueen-plus2-robot`, `""" MaqueenPlusV2 robot """`);
-    Blockly.Python.addFunction('maqueen_blinkRobot', FUNCTIONS_MICROBIT.DEF_MAQUEEN_BLINK_ROBOT);
-    return "maqueen_blinkRobot()" + NEWLINE;
+    Blockly.Python.addInit(`neopixel_${PINS[version]}`, `# Neopixel on ${PINS[version]}`);
+    Blockly.Python.addInit('maqueen_neopixel', "npMaq = neopixel.NeoPixel(" + PINS[version] + ", 4)");
+};
+
+Blockly.Python.robots_maqueenPlusBlinkRobot = function (block) {
+    Blockly.Python.addImport('utime', IMPORT_UTIME);
+    const FUNCTIONS = {
+        "2": FUNCTIONS_MICROBIT.DEF_MAQUEEN_PLUS_V2_BLINK,
+        "3": FUNCTIONS_MICROBIT.DEF_MAQUEEN_PLUS_V3_BLINK
+    };
+    const version = Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block);
+    Blockly.Python.ROBOTS_MAQUEEN_PLUS_NEOPIXEL_INIT(version);
+    Blockly.Python.addFunction(`maqueenPlusV${version}_blink`, FUNCTIONS[version]);
+    return `maqueenPlusV${version}_blink()` + NEWLINE;
 };
 
 Blockly.Python.robots_setMaqueenPlusNeopixel = function (block) {
-    Blockly.Python.addImport('neopixel', IMPORT_NEOPIXEL);
-    Blockly.Python.addImport('maqueenplusv2', IMPORT_MAQUEEN_PLUS_V2);
-    Blockly.Python.addConstant(`maqueen-plus2-robot`, `""" MaqueenPlusV2 robot """`);
-    Blockly.Python.addInit('maqueen-plus-init', 'maqueenplusv2.init_maqueen()')
-    Blockly.Python.addInit('maqueen_neopixel', "npMaq = neopixel.NeoPixel(pin15, 4)");
-    let r = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_NONE) || "0";
-    let g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
-    let b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
-    if (r > 255) r = 255;
-    if (r < 0) r = 0;
-    if (g > 255) g = 255;
-    if (g < 0) g = 0;
-    if (b > 255) b = 255;
-    if (b < 0) b = 0;
+    const version = Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block);
+    Blockly.Python.ROBOTS_MAQUEEN_PLUS_NEOPIXEL_INIT(version);
+    const r = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_NONE) || "0";
+    const g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
+    const b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
     if (block.getFieldValue("LED") == "all") {
         return "for i in range(4):" + NEWLINE + "  npMaq[i] = (" + r + ", " + g + ", " + b + ")" + NEWLINE + "npMaq.show()" + NEWLINE;
     } else {
@@ -465,12 +476,8 @@ Blockly.Python.robots_setMaqueenPlusNeopixel = function (block) {
 };
 
 Blockly.Python.robots_setMaqueenPlusNeopixelPalette = function (block) {
-    Blockly.Python.addImport('neopixel', IMPORT_NEOPIXEL);
-    Blockly.Python.addImport('maqueenplusv2', IMPORT_MAQUEEN_PLUS_V2);
-    Blockly.Python.addConstant(`maqueen-plus2-robot`, `""" MaqueenPlusV2 robot """`);
-    Blockly.Python.addInit('maqueen-plus-init', 'maqueenplusv2.init_maqueen()')
-    Blockly.Python.addInit('neopixel_pin15', "# Neopixel on pin15");
-    Blockly.Python.addInit('maqueen_neopixel', "npMaq = neopixel.NeoPixel(pin15, 4)");
+    const version = Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block);
+    Blockly.Python.ROBOTS_MAQUEEN_PLUS_NEOPIXEL_INIT(version);
     const led = block.getFieldValue("LED");
     const colour = Blockly.Python.valueToCode(block, "COLOR", Blockly.Python.ORDER_NONE) || "(0,0,0)";
     if (led == "all") {
@@ -480,34 +487,15 @@ Blockly.Python.robots_setMaqueenPlusNeopixelPalette = function (block) {
     }
 };
 
-Blockly.Python.robots_setMaqueenPlusRainbow = function () {
-    Blockly.Python.addImport('neopixel', IMPORT_NEOPIXEL);
-    Blockly.Python.addImport('maqueenplusv2', IMPORT_MAQUEEN_PLUS_V2);
-    Blockly.Python.addConstant(`maqueen-plus2-robot`, `""" MaqueenPlusV2 robot """`);
-    Blockly.Python.addInit('maqueen-plus-init', 'maqueenplusv2.init_maqueen()')
-    Blockly.Python.addInit('neopixel_pin15', "# Neopixel on pin15");
-    Blockly.Python.addInit('maqueen_neopixel', "npMaq = neopixel.NeoPixel(pin15, 4)");
+Blockly.Python.robots_setMaqueenPlusRainbow = function (block) {
+    const version = Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block);
+    Blockly.Python.ROBOTS_MAQUEEN_PLUS_NEOPIXEL_INIT(version);
     Blockly.Python.addFunction('neopixel_showAllLed', FUNCTIONS_MICROBIT.DEF_NEOPIXEL_SHOW_ALL_LED);
     Blockly.Python.addFunction('neopixel_rainbow', FUNCTIONS_MICROBIT.DEF_NEOPIXEL_RAINBOW);
     return "neopixel_rainbow(npMaq, 4)" + NEWLINE;
 };
 
-Blockly.Python.robots_setMaqueenPlusBuzzer = function (block) {
-    const version = block.getFieldValue("VERSION");
-    if (version === "1") {
-        Blockly.Python.addImport('maqueenplusv1', IMPORT_MAQUEEN_PLUS_V1);
-    } else {
-        Blockly.Python.addImport('maqueenplusv2', IMPORT_MAQUEEN_PLUS_V2);
-        Blockly.Python.addInit('maqueen-plus-init', 'maqueenplusv2.init_maqueen()')
-    }
-    Blockly.Python.addImport('utime', IMPORT_UTIME);
-    Blockly.Python.addConstant(`maqueen-plus${version}-robot`, `""" MaqueenPlusV${version} robot """`);
-    Blockly.Python.addFunction('pitch', FUNCTIONS_MICROBIT.DEF_BUZZER_PITCH);
-    Blockly.Python.addInit('buzzer_module_pin0', "# MaqueenPlus Buzzer on pin0");
-    const freq = Blockly.Python.valueToCode(block, "FREQUENCY", Blockly.Python.ORDER_NONE) || "0";
-    const time = Blockly.Python.valueToCode(block, "TIME", Blockly.Python.ORDER_NONE) || "0";
-    return "pitch(pin0, " + freq + ", " + time + ")" + NEWLINE;
-};
+// Maqueen Plus - Remote control
 
 Blockly.Python.robots_maqueenPlus_onRemoteCommandReceived = function (block) {
     Blockly.Python.addConstant(`maqueen-plus2-robot`, `""" MaqueenPlusV2 robot """`);
@@ -531,6 +519,158 @@ Blockly.Python.robots_decodeMaqueenPlusIRreceiver = function () {
 
 Blockly.Python.robots_getMaqueenPlusIRcode = function () {
     return Blockly.Python.robots_getIRcode_generator();
+};
+
+// Maqueen Plus V3 - Line Finder
+
+Blockly.Python.robots_maqueenPlusV3_setPatrolSpeed = function (block) {
+    const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block, "3");
+    return `maqueenplusv3.setPatrolSpeed(${speed})` + NEWLINE;
+};
+
+Blockly.Python.robots_maqueenPlusV3_setIntersectionRunMode = function (block) {
+    const intersection = block.getFieldValue("INTERSECTION");
+    const action = block.getFieldValue("RUN_MODE");
+    Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block, "3");
+    if (intersection == 'CROSSROADS') {
+        return `maqueenplusv3.setIntersectionRunMode(maqueenplusv3.RUN['${action}'])` + NEWLINE;
+    } else if (intersection == 'T_JUNCTION') {
+        return `maqueenplusv3.setTjunctionRunMode(maqueenplusv3.RUN['${action}'])` + NEWLINE;
+    }
+};
+
+Blockly.Python.robots_maqueenPlusV3_setLeftOrRightIntersectionRunMode = function (block) {
+    const intersection = block.getFieldValue("INTERSECTION");
+    const action = block.getFieldValue("RUN_MODE");
+    Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block, "3");
+    if (intersection == 'LEFT') {
+        return `maqueenplusv3.setLeftOrStraightRunMode(maqueenplusv3.RUN['${action}'])` + NEWLINE;
+    } else if (intersection == 'RIGHT') {
+        return `maqueenplusv3.setRightOrStraightRunMode(maqueenplusv3.RUN['${action}'])` + NEWLINE;
+    }
+};
+
+Blockly.Python.robots_maqueenPlusV3_setPatrollingState = function (block) {
+    const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block, "3");
+    return `maqueenplusv3.setPatrollingState(${state})` + NEWLINE;
+};
+
+Blockly.Python.robots_maqueenPlusV3_intersectionDetected = function (block) {
+    Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block, "3");
+    return ['maqueenplusv3.intersectionDetecting()', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.robots_maqueenPlusV3_intersectionDetectedIs = function (block) {
+    const intersection = block.getFieldValue("INTERSECTION");
+    Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block, "3");
+    return [`maqueenplusv3.intersectionDetecting() is maqueenplusv3.INTERSECTION['${intersection}']`, Blockly.Python.ORDER_ATOMIC];
+};
+
+// Maqueen Plus V3 - PID
+
+Blockly.Python.robots_maqueenPlusV3_runDistance = function (block) {
+    Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block, "3");
+    const dir = "maqueenplusv3.PID_DIR['" + block.getFieldValue("DIRECTION") + "']";
+    const distance = Blockly.Python.valueToCode(block, "DISTANCE", Blockly.Python.ORDER_NONE) || "0";
+    let unit = "";
+    if (block.getFieldValue("UNIT") == 'INCH') {
+        unit = ", unit = 'inch'";
+    }
+    let wait = "";
+    if (block.getFieldValue("WAIT") == 'NO') {
+        wait = ", wait = False";
+    }
+    return "maqueenplusv3.runDistance(" + dir + ", " + distance + unit + wait + ")" + NEWLINE;
+};
+
+Blockly.Python.robots_maqueenPlusV3_turnWithAngle = function (block) {
+    Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block, "3");
+    const direction = "maqueenplusv3.PID_DIR['" + block.getFieldValue("DIRECTION") + "']";
+    const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
+    let wait = "";
+    if (block.getFieldValue("WAIT") == 'NO') {
+        wait = ", wait = False";
+    }
+    return "maqueenplusv3.turnWithAngle(" + direction + ", " + angle + wait + ")" + NEWLINE;
+};
+
+Blockly.Python.robots_maqueenPlusV3_readRealTimeSpeed = function (block) {
+    Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block, "3");
+    const motor = block.getFieldValue("MOTOR");
+    switch (block.getFieldValue("UNIT")) {
+        case 'INCH_S':
+            return [`maqueenplusv3.readRealTimeSpeed('${motor}', unit = maqueenplusv3.INCH_PER_SEC)`, Blockly.Python.ORDER_ATOMIC];
+        case 'CM_S':
+        default:
+            return [`maqueenplusv3.readRealTimeSpeed('${motor}')`, Blockly.Python.ORDER_ATOMIC];
+    }
+};
+
+Blockly.Python.robots_maqueenPlusV3_stopPID = function (block) {
+    Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT(block, "3");
+    return "maqueenplusv3.pidControlStop()" + NEWLINE;
+};
+
+// Maqueen Plus V3 - LiDAR
+
+Blockly.Python.ROBOTS_LIDAR_INIT = function (block) {
+    const addr = block.getFieldValue("ADDR");
+    Blockly.Python.addImport('matrixLidarDistanceSensor', IMPORT_DFROBOT_LIDAR_SENSOR);
+    Blockly.Python.addInit('LiDAR', `LiDAR = matrixLidarDistanceSensor.DFRobot_matrixLidarDistanceSensor(${addr})`);
+    Blockly.Python.addPowerOn('LiDAR', 'LiDAR.begin()');
+};
+
+Blockly.Python.robots_maqueenPlusV3_lidar_configMatrix = function (block) {
+    Blockly.Python.ROBOTS_LIDAR_INIT(block);
+    const type = block.getFieldValue("TYPE");
+    Blockly.Python.addFunction('lidar_configMatrixData', FUNCTIONS_MICROBIT.DEF_LIDAR_CONFIG_MATRIX);
+    return 'lidar_configMatrixData(LiDAR.' + type + ')' + NEWLINE;
+};
+
+Blockly.Python.robots_maqueenPlusV3_lidar_getData = function (block) {
+    Blockly.Python.ROBOTS_LIDAR_INIT(block);
+    const data = block.getFieldValue("DATA");
+    if (data == "DISTANCES_MATRIX") {
+        return ["LiDAR.get_all_distances()", Blockly.Python.ORDER_ATOMIC];
+    } else if (data = "RAW_LIST") {
+        return ["LiDAR.get_all_data()", Blockly.Python.ORDER_ATOMIC];
+    }
+};
+
+Blockly.Python.robots_maqueenPlusV3_lidar_getFixedPoint = function (block) {
+    Blockly.Python.ROBOTS_LIDAR_INIT(block);
+    const x = Blockly.Python.valueToCode(block, "X", Blockly.Python.ORDER_NONE) || '0';
+    const y = Blockly.Python.valueToCode(block, "Y", Blockly.Python.ORDER_NONE) || '0';
+    return [`LiDAR.get_fixed_point_data(${x}, ${y})`, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.robots_maqueenPlusV3_lidar_configAvoidance = function(block) {
+    const wall_cm = Blockly.Python.valueToCode(block, "WALL", Blockly.Python.ORDER_NONE) || '0';
+    return `LiDAR.config_avoidance(${wall_cm})` + NEWLINE;
+};
+
+Blockly.Python.robots_maqueenPlusV3_lidar_isSignalActivated = function (block) {
+    Blockly.Python.ROBOTS_LIDAR_INIT(block);
+    return [`LiDAR.get_emergency_flag()`, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.robots_maqueenPlusV3_lidar_dirToFollow = function (block) {
+    Blockly.Python.ROBOTS_LIDAR_INIT(block);
+    return [`LiDAR.get_dir_to_avoid_obstacle()`, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.robots_maqueenPlusV3_lidar_isDirToFollow = function (block) {
+    Blockly.Python.ROBOTS_LIDAR_INIT(block);
+    const dir = block.getFieldValue("DIR");
+    return [`LiDAR.get_dir_to_avoid_obstacle() is LiDAR.${dir}`, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.robots_maqueenPlusV3_lidar_getObstacleDistance = function (block) {
+    Blockly.Python.ROBOTS_LIDAR_INIT(block);
+    const dir = block.getFieldValue("DIR");
+    return [`LiDAR.get_obstacle_distance(LiDAR.${dir})`, Blockly.Python.ORDER_ATOMIC];
 };
 
 // Cutebot
@@ -788,7 +928,7 @@ Blockly.Python.robots_getCutebotIRcode = function () {
  * This is not a block generator, it's util function used in all Cutebot Pro blocks.
  * Add CutebotPro init code.
  */
-Blockly.Python.robots_CutebotPro_codeInitialization = function () {
+Blockly.Python.ROBOTS_CUTEBOTPRO_INIT = function () {
     Blockly.Python.addImport('cutebotpro', IMPORT_CUTEBOTPRO);
     Blockly.Python.addConstant('cutebotpro-robot', "\"\"\" Cutebot Pro robot \"\"\"");
     Blockly.Python.addInit('cutebotpro', "CutebotPro = CBP()");
@@ -797,7 +937,7 @@ Blockly.Python.robots_CutebotPro_codeInitialization = function () {
 // Cutebot Pro - Detection
 
 Blockly.Python.robots_CutebotPro_getUltrasonicDistance = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const unit = block.getFieldValue("DATA");
     switch (unit) {
         case 'INCH':
@@ -809,18 +949,18 @@ Blockly.Python.robots_CutebotPro_getUltrasonicDistance = function (block) {
 };
 
 Blockly.Python.robots_CutebotPro_getLineState = function () {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     return ["CutebotPro.getLineTrackerStates()", Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.robots_CutebotPro_isSpecificState = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const state = block.getFieldValue("STATE");
     return ["CutebotPro.isLineTrackerState(" + state + ")", Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.robots_CutebotPro_getLineOffset = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     switch (block.getFieldValue("UNIT")) {
         case 'INCH':
             return ["CutebotPro.getLineOffset(unit = 'inch')", Blockly.Python.ORDER_ATOMIC];
@@ -831,24 +971,24 @@ Blockly.Python.robots_CutebotPro_getLineOffset = function (block) {
 };
 
 Blockly.Python.robots_CutebotPro_isSensorAboveLine = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     return ["CutebotPro.isSensorTrackingLine(" + block.getFieldValue("SENSOR") + ")", Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.robots_getGrayscaleTrackingValue = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     return ["CutebotPro.getGrayscaleTrackingValue(" + block.getFieldValue("SENSOR") + ")", Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.robots_CutebotPro_readVersion = function () {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     return ["CutebotPro.readVersion()", Blockly.Python.ORDER_ATOMIC];
 };
 
 // Cutebot Pro - Motors
 
 Blockly.Python.robots_CutebotPro_setGo = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
     switch (block.getFieldValue("DIR")) {
         case "FORWARD":
@@ -859,7 +999,7 @@ Blockly.Python.robots_CutebotPro_setGo = function (block) {
 };
 
 Blockly.Python.robots_CutebotPro_turn = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
     switch (block.getFieldValue("DIR")) {
         case "RIGHT":
@@ -872,12 +1012,12 @@ Blockly.Python.robots_CutebotPro_turn = function (block) {
 };
 
 Blockly.Python.robots_CutebotPro_stop = function () {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     return "CutebotPro.stopImmediately()" + NEWLINE;
 };
 
 Blockly.Python.robots_CutebotPro_controlMotors = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const dir = block.getFieldValue("DIR");
     const motor = "CutebotPro.MOTOR_" + block.getFieldValue("MOTOR");
     const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
@@ -890,7 +1030,7 @@ Blockly.Python.robots_CutebotPro_controlMotors = function (block) {
 };
 
 Blockly.Python.robots_CutebotPro_getMotorSpeed = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const motor = "CutebotPro.MOTOR_" + block.getFieldValue("MOTOR");
     switch (block.getFieldValue("UNIT")) {
         case 'INCH_S':
@@ -902,7 +1042,7 @@ Blockly.Python.robots_CutebotPro_getMotorSpeed = function (block) {
 };
 
 Blockly.Python.robots_CutebotPro_getAngularDistance = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const motor = "CutebotPro.MOTOR_" + block.getFieldValue("MOTOR");
     switch (block.getFieldValue("DATA")) {
         case 'PULSES':
@@ -917,7 +1057,7 @@ Blockly.Python.robots_CutebotPro_getAngularDistance = function (block) {
 };
 
 Blockly.Python.robots_CutebotPro_initializeAngularDistance = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const motor = "CutebotPro.MOTOR_" + block.getFieldValue("MOTOR");
     return "CutebotPro.clearWheelTurn(" + motor + ")" + NEWLINE;
 };
@@ -925,14 +1065,14 @@ Blockly.Python.robots_CutebotPro_initializeAngularDistance = function (block) {
 // Cutebot Pro - RGB LED
 
 Blockly.Python.robots_CutebotPro_controlHeadlightsPalette = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const led = "CutebotPro.LED_" + block.getFieldValue("LED");
     const colour = Blockly.Python.valueToCode(block, "COLOR", Blockly.Python.ORDER_NONE) || "(0,0,0)";
     return "CutebotPro.controlHeadlights(" + led + ", " + colour + ")" + NEWLINE;
 };
 
 Blockly.Python.robots_CutebotPro_controlHeadlights = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const led = "CutebotPro.LED_" + block.getFieldValue("LED");
     const r = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_NONE) || "0";
     const g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
@@ -941,19 +1081,19 @@ Blockly.Python.robots_CutebotPro_controlHeadlights = function (block) {
 };
 
 Blockly.Python.robots_CutebotPro_switchOffHeadlights = function () {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     return "CutebotPro.turnOffHeadlights()" + NEWLINE;
 };
 
 Blockly.Python.robots_CutebotPro_setNeopixelPalette = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const led = "CutebotPro.LED_" + block.getFieldValue("LED");
     const colour = Blockly.Python.valueToCode(block, "COLOR", Blockly.Python.ORDER_NONE) || "(0,0,0)";
     return "CutebotPro.setNeopixelColor(" + led + ", " + colour + ")" + NEWLINE;
 };
 
 Blockly.Python.robots_CutebotPro_setNeopixel = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const led = "CutebotPro.LED_" + block.getFieldValue("LED");
     const r = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_NONE) || "0";
     const g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
@@ -962,7 +1102,7 @@ Blockly.Python.robots_CutebotPro_setNeopixel = function (block) {
 };
 
 Blockly.Python.robots_CutebotPro_switchOffNeopixel = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const led = "CutebotPro.LED_" + block.getFieldValue("LED");
     return "CutebotPro.setNeopixelColor(" + led + ", (0, 0, 0))" + NEWLINE;
 };
@@ -970,7 +1110,7 @@ Blockly.Python.robots_CutebotPro_switchOffNeopixel = function (block) {
 // Cutebot Pro - PID
 
 Blockly.Python.robots_CutebotPro_runWithSpeed = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
     switch (block.getFieldValue("UNIT")) {
         case 'INCH_S':
@@ -992,7 +1132,7 @@ Blockly.Python.robots_CutebotPro_runWithSpeed = function (block) {
 };
 
 Blockly.Python.robots_CutebotPro_setMotorsSpeed = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const speedL = Blockly.Python.valueToCode(block, "SPEED_L", Blockly.Python.ORDER_NONE) || "0";
     const speedR = Blockly.Python.valueToCode(block, "SPEED_R", Blockly.Python.ORDER_NONE) || "0";
     switch (block.getFieldValue("UNIT")) {
@@ -1005,7 +1145,7 @@ Blockly.Python.robots_CutebotPro_setMotorsSpeed = function (block) {
 };
 
 Blockly.Python.robots_CutebotPro_runWithRadius = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const radius = Blockly.Python.valueToCode(block, "RADIUS", Blockly.Python.ORDER_NONE) || "0";
     const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
     let unit = "";
@@ -1021,7 +1161,7 @@ Blockly.Python.robots_CutebotPro_runWithRadius = function (block) {
 };
 
 Blockly.Python.robots_CutebotPro_runDistance = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const dir = "CutebotPro.DIRECTION_" + block.getFieldValue("DIR");
     const distance = Blockly.Python.valueToCode(block, "DISTANCE", Blockly.Python.ORDER_NONE) || "0";
     let unit = "";
@@ -1036,7 +1176,7 @@ Blockly.Python.robots_CutebotPro_runDistance = function (block) {
 };
 
 Blockly.Python.robots_CutebotPro_defineSquare = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const size = Blockly.Python.valueToCode(block, "SIZE", Blockly.Python.ORDER_NONE) || "0";
     if (block.getFieldValue("UNIT") == 'INCH') {
         return "CutebotPro.setSquare(" + size + ", unit = 'inch')" + NEWLINE;
@@ -1045,7 +1185,7 @@ Blockly.Python.robots_CutebotPro_defineSquare = function (block) {
 };
 
 Blockly.Python.robots_CutebotPro_runSquare = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const n = Blockly.Python.valueToCode(block, "N", Blockly.Python.ORDER_NONE) || "0";
     const dir = "CutebotPro.DIRECTION_" + block.getFieldValue("DIR");
     let wait = "";
@@ -1056,7 +1196,7 @@ Blockly.Python.robots_CutebotPro_runSquare = function (block) {
 };
 
 Blockly.Python.robots_CutebotPro_turnWithAngle = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const direction = "CutebotPro.TURN_" + block.getFieldValue("DIRECTION");
     const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
     let wait = "";
@@ -1071,7 +1211,7 @@ Blockly.Python.robots_CutebotPro_placeWithAngle = function (block) {
 };
 
 Blockly.Python.robots_CutebotPro_turnWheel = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const wheel = "CutebotPro.MOTOR_" + block.getFieldValue("DIRECTION");
     const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
     let unit = "";
@@ -1088,7 +1228,7 @@ Blockly.Python.robots_CutebotPro_turnWheel = function (block) {
 // Cutebot Pro - Servomotors
 
 Blockly.Python.robots_CutebotPro_setServoAngle = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const index = block.getFieldValue("SERVO");
     const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
     if (index == 'ALL') {
@@ -1099,7 +1239,7 @@ Blockly.Python.robots_CutebotPro_setServoAngle = function (block) {
 };
 
 Blockly.Python.robots_CutebotPro_setServoSpeed = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     const index = block.getFieldValue("SERVO");
     let speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
     if (block.getFieldValue("DIR") == 'ANTICLOCKWISE') {
@@ -1115,7 +1255,7 @@ Blockly.Python.robots_CutebotPro_setServoSpeed = function (block) {
 // Cutebot Pro - Extended motor (M port)
 
 Blockly.Python.robots_CutebotPro_setExtendedMotorSpeed = function (block) {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     let speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
     if (block.getFieldValue("DIR") == 'ANTICLOCKWISE') {
         speed = "-" + speed
@@ -1124,7 +1264,7 @@ Blockly.Python.robots_CutebotPro_setExtendedMotorSpeed = function (block) {
 };
 
 Blockly.Python.robots_CutebotPro_stopExtendedMotor = function () {
-    Blockly.Python.robots_CutebotPro_codeInitialization();
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
     return "CutebotPro.stopExtendedMotor()" + NEWLINE;
 };
 

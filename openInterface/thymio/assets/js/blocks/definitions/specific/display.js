@@ -54,12 +54,12 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             {
                 "type": "input_value",
                 "name": "COLOR",
-                "check": 'Colour',
+                "check": "Colour",
             },
             {
                 "type": "input_value",
                 "name": "TIME",
-                "check": 'Number',
+                "check": "Number",
             }
         ],
         "extensions": [

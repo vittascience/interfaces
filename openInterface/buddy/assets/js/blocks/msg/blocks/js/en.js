@@ -323,3 +323,4 @@ Blockly.Msg['VITTAIA_LOAD_POSTURE_MODEL_TOOLTIP'] = 'Loads the model passed as a
 Blockly.Msg['VITTAIA_POSTURE_MAKE_PREDICTIONS_TITLE'] = '%1 launch pose prediction on the webcam image';
 Blockly.Msg['VITTAIA_POSTURE_MAKE_PREDICTIONS_TOOLTIP'] = 'Performs webcam posture model predictions. A prediction has 2 elements: class and probability.';
 Blockly.Msg["VITTAIA_INIT_WEBCAM_TITLE"] = "%1 initialize the webcam";
+Blockly.Msg['VI_START_SPEAKING_TOOLTIP'] = 'Makes Buddy speak with a certain intonation. It is possible to mark a pause in the text. To do this, simply add \\pause=<time_in_milliseconds>\\ by replacing <time_in_milliseconds> with the desired number of milliseconds for the pause.';

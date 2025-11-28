@@ -8,9 +8,11 @@ require_once '../../bootstrap.php';
 require_once 'utils.php';
 require_once 'users.php';
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-if ($_GET['backurl']) {
+if (isset($_GET['backurl']) && $_GET['backurl']) {
     $_SESSION['backurl'] = $_GET['backurl'];
 }
 

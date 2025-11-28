@@ -586,3 +586,6 @@ Blockly.Msg['TI_DRAW_PLOT_XY_TITLE'] = 'graficar con x %1 e y %2 usando forma %3
 Blockly.Msg['TI_DRAW_PLOT_XY_TOOLTIP'] = 'Graficar utilizando x e y con la forma especificada.';
 Blockly.Msg['TI_DRAW_SHOW_TITLE'] = 'mostrar dibujo';
 Blockly.Msg['TI_DRAW_SHOW_TOOLTIP'] = 'Mostrar el dibujo en la pantalla. Haga clic en \'annul\' para borrar el dibujo.';
+Blockly.Msg['MICROBIT_NEOPIXEL_COLOR_TITLE'] = '[Neopixel - Color] definir la LED a R %1 G %2 B %3 en el pin %4';
+Blockly.Msg['MICROBIT_NEOPIXEL_COLOR_TOOLTIP'] = 'IMG_MODULE_NEOPIXEL + Blockly.Tooltip.SEP + "Permite definir el color de un LED RGB neopixel con la clase Color';
+Blockly.Msg['TURTLE_CONTROL_TURTLE_TOOLTIP'] = 'Permite activar/desactivar la tortuga.';

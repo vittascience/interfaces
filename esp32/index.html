@@ -11,18 +11,14 @@
     <script>
         function initializeMatomo() {
             if (typeof IS_CAPYTALE_CONTEXT !== 'undefined') return;
-            if (typeof UserManager === 'undefined' || !UserManager) {
-            setTimeout(() => {
-                initializeMatomo();
-            }, 100);
-            return;
-            }
             const _paq = window._paq = window._paq || [];
             /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
             if (typeof ltiVariables13 !== 'undefined') {
-            _paq.push(['setCustomDimension', 3, `${ltiVariables13.platform}-${ltiVariables13.interface}`]);
-            const userId = UserManager.getUser() ? UserManager.getUser().id : 'no-id';
-            _paq.push(['setUserId', userId]);
+                _paq.push(['setCustomDimension', 3, `${ltiVariables13.platform}-${ltiVariables13.interface}`]);
+                if (typeof UserManager !== 'undefined' && UserManager) {
+                    const userId = UserManager.getUser() ? UserManager.getUser().id : 'no-id';
+                    _paq.push(['setUserId', userId]);
+                }
             }
             _paq.push(['trackPageView']);
             _paq.push(['enableLinkTracking']);
@@ -34,7 +30,10 @@
             g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
             })();
         }
-        initializeMatomo();
+        setTimeout(() => {
+            initializeMatomo();
+        }, 2000); 
+        // wait for the user to be loaded
     </script>
     <!-- End Matomo Code -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -96,7 +95,6 @@
     <script src="/public/js/scripts/navbar/login.js"></script>
     <script src="/public/js/scripts/navbar/profile.js"></script>
     <script src="/public/js/scripts/navbar/signup.js"></script>
-    <script src="/public/js/scripts/tooltips/tooltip.js"></script>
     <script src="/public/js/scripts/vittaBlocker/VittaBlocker.js"></script>
     <script src="/public/js/scripts/navbar/VittaNotif.js"></script>
     <script src="/public/js/scripts/navbar/VittaControllerNotif.js"></script>
@@ -355,10 +353,6 @@
                         <div id="mixed-popup-leave-editor">
                             <span data-i18n="[html]code.popups.mixed-popup-leave-editor"></span>
                         </div>
-                        <div id="mixed-popup-warning">
-                            <i class="fa-solid fa-circle-info"></i>
-                            <span data-i18n="code.popups.mixed-popup-warning-reverse-trad"></span>
-                        </div>
                     </div>
                     <div id="content_code" name="code_python" placeholder="Code goes here..."></div>
                 </div>
@@ -612,12 +606,10 @@
                                 type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-microchip simulator-board-selector-microship"></i>
                             </button>
-                            <div id="simulator-board-options" class="dropdown-menu"
-                                aria-labelledby="simulator-board-selector">
-                                <button id="main-board" class="dropdown-item fw-bold"
-                                    onclick="updateBoard(true,'wemos-d1r32')" data-board="Wemos D1R32">Wemos
-                                    D1R32</button>
-                                <button class="dropdown-item" onclick="updateBoard(true,'edu-esp32')"
+                            <div id="simulator-board-options" class="dropdown-menu" aria-labelledby="simulator-board-selector">
+                                <button id="main-board" class="dropdown-item fw-bold" onclick="updateBoard(true,'wemos-d1r32')"
+                                    data-board="Wemos D1R32" >Wemos D1R32</button>
+                                <button class="dropdown-item" onclick="updateBoard(true, 'edu-esp32')"
                                     data-board="EDU ESP32">EDU ESP32</button>
                                 <button class="dropdown-item" onclick="updateBoard(true,'shield-grove')"
                                     data-board="Shield Grove">Shield Grove</button>
@@ -625,6 +617,8 @@
                                     data-board="Shield Grove EDU ESP32">Shield Grove EDU ESP32</button>
                                 <button class="dropdown-item" onclick="updateBoard(true,'basic-esp32')"
                                     data-board="ESP32 WROOM-32D">ESP32 WROOM-32D</button>
+                                <button class="dropdown-item" onclick="updateBoard(true,'esp32-cam')"
+                                    data-board="ESP32-CAM">ESP32-CAM</button>
                             </div>
                         </div>
                     </div>
@@ -855,6 +849,7 @@
 <script src="/openInterface/esp32/assets/js/blocks/definitions/specific/display.js"></script>
 <script src="/openInterface/esp32/assets/js/blocks/definitions/specific/input_output.js"></script>
 <script src="/openInterface/esp32/assets/js/blocks/definitions/specific/communication.js"></script>
+<script src="/openInterface/esp32/assets/js/blocks/definitions/specific/esp32cam.js"></script>
 <script src="/openInterface/esp32/assets/js/blocks/definitions/specific/sensors.js"></script>
 <script src="/openInterface/esp32/assets/js/blocks/definitions/specific/actuators.js"></script>
 <script src="/openInterface/esp32/assets/js/blocks/definitions/specific/robots.js"></script>
@@ -876,6 +871,7 @@
 <script src="/openInterface/esp32/assets/js/blocks/generators/specific/input_output.js"></script>
 <script src="/openInterface/esp32/assets/js/blocks/generators/specific/communication.js"></script>
 <script src="/openInterface/esp32/assets/js/blocks/generators/specific/sensors.js"></script>
+<script src="/openInterface/esp32/assets/js/blocks/generators/specific/esp32cam.js"></script>
 <script src="/openInterface/esp32/assets/js/blocks/generators/specific/actuators.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/generators/python/esp32/network.js"></script>
 <script src="/openInterface/esp32/assets/js/blocks/generators/specific/robots.js"></script>

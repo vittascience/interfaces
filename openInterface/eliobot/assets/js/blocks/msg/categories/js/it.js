@@ -35,3 +35,4 @@ Blockly.Msg['SUBCATEGORY_LOOPS'] = 'Loops';
 Blockly.Msg['SUBCATEGORY_LOGIC'] = 'Logic';
 Blockly.Msg['SUBCATEGORY_SENSORS_LINE'] = 'Line sensors';
 Blockly.Msg['SUBCATEGORY_BUZZER'] = 'Buzzer';
+Blockly.Msg['SUBCATEGORY_TEXT_ANALYSIS'] = 'Analisi del testo';

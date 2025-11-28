@@ -234,7 +234,7 @@ Blockly.Wiki.loadBlock = function (blockType, searchMode = false) {
                 let block = Blockly.Wiki.getTopBlock(Blockly.Wiki.previewWorkspace.blockDB_);
                 const xmlToLoadStart = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="on_start"><statement name="DO">';
                 const xmlToLoadEnd = '</statement></block></xml>';
-                if (['io', 'logic', 'math', 'text', 'variables'].includes(Blockly.Wiki.category) && !BLOCKS_OUTSIDE_SCOPE.includes(blockType)) {
+                if (['display', 'io', 'communication', 'sensors', 'actuators', 'logic', 'math', 'text', 'variables'].includes(Blockly.Wiki.category) && !BLOCKS_OUTSIDE_SCOPE.includes(blockType)) {
                     if ((block.previousConnection !== null && block.nextConnection !== null)) { // Some blocks need to be added to an on_start block to display the generated code
                         xmlToLoad = Blockly.Xml.textToDom(xmlToLoadStart + blockXml + xmlToLoadEnd);
                     } else { // Some blocks need to be added to a variable and included in an on_start block to display the generated code
@@ -257,6 +257,18 @@ Blockly.Wiki.loadBlock = function (blockType, searchMode = false) {
                         case 'procedures_ifreturn-1':
                             xmlToLoad = Blockly.Xml.textToDom('<xml xmlns="http://www.w3.org/1999/xhtml"><block type="procedures_defreturn"><mutation name="nom_de_la_fonction"></mutation><field name="NAME">nom_de_la_fonction</field><statement name="STACK">' + blockXml + '</statement></block></xml>');
                             break;
+                    }
+                } else if (['network'].includes(Blockly.Wiki.category) && !BLOCKS_OUTSIDE_SCOPE.includes(blockType)) {
+                    if ((block.previousConnection !== null && block.nextConnection !== null)) {
+                        if (Blockly.Constants.HTML_BLOCKS.includes(blockType)) {
+                            xmlToLoad = Blockly.Xml.textToDom(xmlToLoadStart + '<block type="network_server_sendWebPage"><statement name="BODY">' + blockXml + '</statement></block>' + xmlToLoadEnd);
+                        } else {
+                            xmlToLoad = Blockly.Xml.textToDom(xmlToLoadStart + blockXml + xmlToLoadEnd);
+                        }
+
+                    } else {
+                        block.workspace.createVariable('variable');
+                        xmlToLoad = Blockly.Xml.textToDom(xmlToLoadStart + '<block type="variables_set"><field name="VAR">variable</field><value name="VALUE">' + blockXml + '</value></block>' + xmlToLoadEnd);
                     }
                 }
                 Blockly.Wiki.domToWorkspace(xmlToLoad, Blockly.Wiki.previewWorkspace);
@@ -359,6 +371,9 @@ Blockly.Wiki.createCategories = function () {
 
     Blockly.Wiki.toolbox.categories.forEach(function (category) {
         if (category.kind === "category") {
+            if (!ToolboxManager.hasToBeAdded(category)) {
+                return;
+            }
             const radio = document.createElement("input");
             const label = document.createElement("label");
             // Add the name, type, value and classes
@@ -404,45 +419,38 @@ Blockly.Wiki.showCategoryContent = function () {
     return new Promise(async (resolve, reject) => {
         try {
             $("#blocks").empty();
-                // Check the value of the radio button
-                const selector = document.querySelector('input[name="category"]:checked');
-                const value = selector.value;
-                // let numberOfBlocksToBeLoaded = 0;
-                // let numberOfBlocksLoaded = 0;
-                // Change the category title
-                const categoryTitleSelector = document.querySelector('#category-title');
-                let newTitle = selector.parentNode.innerHTML.replace('<span>', '<span class="ms-2">').replace(/<input.*?>/g, '');
-                if (newTitle.includes('<i>')) newTitle = newTitle.replace('<i>', '<i class="svgIcon">');
-                categoryTitleSelector.innerHTML = newTitle;
-                categoryTitleSelector.style.color = selector.parentNode.style.getPropertyValue('--_color');
-                Blockly.Wiki.setUrlParameters('category', value);
-                // Remove selected class from all labels
-                document.querySelectorAll('input[name="category"]').forEach(function (radio) {
-                    radio.parentElement.classList.remove("category-selected");
-                });
-                // Add selected class to the label for styling
-                document.querySelector('input[name="category"]:checked').parentElement.classList.add("category-selected");
-                if (value == "variables" || value == "procedures") {
-                    // numberOfBlocksToBeLoaded = Blockly.Wiki.custom_blocks[value].length;
-                    for (const blockType in Blockly.Wiki.custom_blocks[value]) {
-                        // await Blockly.Wiki._updateProgressBar(numberOfBlocksLoaded / numberOfBlocksToBeLoaded);
-                        await Blockly.Wiki.loadBlock(blockType);
-                        // numberOfBlocksLoaded += 1;
-                    }
-                } else {
-                    const subcategories = Blockly.Wiki.toolbox.content[value];
-                    // numberOfBlocksToBeLoaded = subcategories.reduce((count, category) => {
-                    //     return count + category.blocks.length;
-                    // }, 0);
-                    for (let subcategorie in subcategories) {
-                        for (let block in subcategories[subcategorie].blocks) {
+            // Check the value of the radio button
+            const selector = document.querySelector('input[name="category"]:checked');
+            const value = selector.value;
+            // Change the category title
+            const categoryTitleSelector = document.querySelector('#category-title');
+            let newTitle = selector.parentNode.innerHTML.replace('<span>', '<span class="ms-2">').replace(/<input.*?>/g, '');
+            if (newTitle.includes('<i>')) newTitle = newTitle.replace('<i>', '<i class="svgIcon">');
+            categoryTitleSelector.innerHTML = newTitle;
+            categoryTitleSelector.style.color = selector.parentNode.style.getPropertyValue('--_color');
+            Blockly.Wiki.setUrlParameters('category', value);
+            // Remove selected class from all labels
+            document.querySelectorAll('input[name="category"]').forEach(function (radio) {
+                radio.parentElement.classList.remove("category-selected");
+            });
+            // Add selected class to the label for styling
+            document.querySelector('input[name="category"]:checked').parentElement.classList.add("category-selected");
+            if (value == "variables" || value == "procedures") {
+                for (const blockType in Blockly.Wiki.custom_blocks[value]) {
+                    await Blockly.Wiki.loadBlock(blockType);
+                }
+            } else {
+                const subcategories = Blockly.Wiki.toolbox.content[value];
+                for (const subcat of subcategories) {
+                    if (ToolboxManager.hasToBeAdded(subcat)) {
+                        for (const block in subcat.blocks) {
                             await new Promise(resolve => setTimeout(resolve, 0));
-                            const blockType = subcategories[subcategorie].blocks[block];
+                            const blockType = subcat.blocks[block];
                             await Blockly.Wiki.loadBlock(blockType);
-                            // numberOfBlocksLoaded += 1;
                         }
                     }
                 }
+            }
             resolve();
 
         } catch (error) {
@@ -471,7 +479,7 @@ const copyBlockCode = (event) => {
     document.body.removeChild(textarea);
 
     // make a bootstrap tooltip appear on the button
-    let tooltip = new bootstrap.Tooltip(event.target, {
+    const tooltip = new bootstrap.Tooltip(event.target, {
         title: i18next.t('wiki.copied'),
         placement: 'top',
         trigger: 'manual'

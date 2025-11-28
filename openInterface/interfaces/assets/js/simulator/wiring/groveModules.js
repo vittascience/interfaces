@@ -81,8 +81,7 @@ WiringSimulator.i2c.hubs = {
     },
     picture: "i2c-hub-6-grove.svg"
   }
-},
-
+};
 
 WiringSimulator.groveDefinitions = [
   // Display modules
@@ -1047,5 +1046,30 @@ WiringSimulator.groveDefinitions = [
     x: 240,
     y: 175,
     picture: "water-atomizer.svg",
+  },
+  {
+    id: "openlog",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 45,
+        y: 70
+      },
+      VCC: {
+        x: 35,
+        y: 70
+      },
+      DATA2: {
+        x: 15,
+        y: 70
+      },
+      DATA1: {
+        x: 25,
+        y: 70
+      },
+    },
+    x: 240,
+    y: 185,
+    picture: "openlog.svg"
   }
 ];

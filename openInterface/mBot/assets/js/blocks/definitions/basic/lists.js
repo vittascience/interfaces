@@ -8,7 +8,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "type": "lists_create_with",
     "output": "Array",
     "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
-    "style": "list_blocks",
+    "style": "lists_blocks",
     "helpUrl": "%{BKY_LISTS_CREATE_WITH_HELPURL}",
     "tooltip": "%{BKY_LISTS_CREATE_WITH_TOOLTIP}",
     "extensions": [
@@ -34,7 +34,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       }
     ],
     "output": "Array",
-    "style": "list_blocks",
+    "style": "lists_blocks",
     "tooltip": "%{BKY_LISTS_REPEAT_TOOLTIP}",
     "helpUrl": "%{BKY_LISTS_REPEAT_HELPURL}",
     "extensions": ["lists_repeat_get_type"]
@@ -50,7 +50,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       "check": ["String", "Array"]
     }],
     "output": "Number",
-    "style": "list_blocks",
+    "style": "lists_blocks",
     "tooltip": "%{BKY_LISTS_LENGTH_TOOLTIP}",
     "helpUrl": "%{BKY_LISTS_LENGTH_HELPURL}"
   },
@@ -65,7 +65,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
   //     "check": ["String", "Array"]
   //   }],
   //   "output": "Number",
-  //   "style": "list_blocks",
+  //   "style": "lists_blocks",
   //   "tooltip": "%{BKY_LISTS_LENGTH_TOOLTIP}",
   //   "helpUrl": "%{BKY_LISTS_LENGTH_HELPURL}"
   // }
@@ -81,7 +81,7 @@ Blockly.Blocks['lists_getIndex'] = {
       [Blockly.Msg['LISTS_GET_INDEX_LAST'], 'LAST'],
       [Blockly.Msg['LISTS_GET_INDEX_RANDOM'], 'RANDOM']
     ];
-    this.setStyle('list_blocks');
+    this.setStyle('lists_blocks');
     this.appendValueInput("LIST").setCheck('Array').appendField(Blockly.Msg['LISTS_GET_INDEX_INPUT_IN_LIST']);
     this.appendDummyInput().appendField(Blockly.Msg['LISTS_GET_INDEX_GET']);
     this.appendDummyInput('AT');
@@ -190,7 +190,7 @@ Blockly.Blocks['lists_getIndex'] = {
     /**
      * WAITING GOOGLE ISSUE (dropdown colour)
      */
-    this.setStyle("list_blocks");
+    this.setStyle("lists_blocks");
     /**
      * END
      */
@@ -367,7 +367,7 @@ Blockly.Constants.Lists.LISTS_CREATE_WITH_MUTATOR_MIXIN = {
 //           [Blockly.Msg['LISTS_GET_INDEX_RANDOM'], 'RANDOM']
 //         ];
 //     this.setHelpUrl(Blockly.Msg['LISTS_SET_INDEX_HELPURL']);
-//     this.setStyle('list_blocks');
+//     this.setStyle('lists_blocks');
 //     this.appendValueInput('LIST')
 //         .setCheck('Array')
 //         .appendField(Blockly.Msg['LISTS_SET_INDEX_INPUT_IN_LIST']);

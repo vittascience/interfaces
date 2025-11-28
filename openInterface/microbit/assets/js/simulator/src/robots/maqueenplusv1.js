@@ -16,7 +16,8 @@ var $builtinmodule = function (name) {
         if (speed > 255 || speed < 0) return;
         $('#mb-maqueenplus-motor' + motorSide + '_value').html(speed);
         if (direction != 'stop') {
-            $('.mb-maqueenplus-motor' + motorSide).css('animation', 'rotation-' + direction + ' ' + (60 / (speed / 255 * RobotSimulator.robot.MAX_SPEED)) + 's infinite linear');
+            const rps = 60 / (speed / 255 * RobotSimulator.robot.MAX_SPEED);
+            $('.mb-maqueenplus-motor' + motorSide).css('animation', 'rotation-' + direction + ' ' + rps + 's infinite linear');
         } else {
             $('.mb-maqueenplus-motor' + motorSide).css('animation', 'none');
         }

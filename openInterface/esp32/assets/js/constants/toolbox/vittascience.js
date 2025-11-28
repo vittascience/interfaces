@@ -31,6 +31,17 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
     },
     {
         "kind": "category",
+        "toolboxitemid": "esp32cam",
+        "name": "%{BKY_CATEGORY_CAMERA}",
+        "style": "esp32cam_category",
+        "cssConfig": {
+            "icon": "icon_blockly fa-solid fa-camera"
+        },
+        "contents": [],
+        "onlyBoards": "esp32-cam"
+    },
+    {
+        "kind": "category",
         "toolboxitemid": "network",
         "name": "%{BKY_CATEGORY_NETWORK}",
         "style": "network_category",
@@ -137,7 +148,7 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
         "kind": "category",
         "toolboxitemid": "lists",
         "name": "%{BKY_CATEGORY_LISTS}",
-        "style": "list_category",
+        "style": "lists_category",
         "cssConfig": {
             "icon": "icon_blockly fas fa-list"
         },
@@ -169,7 +180,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
     "display": [
         {
             "label": "%{BKY_SUBCATEGORY_ESP32}",
-            'blocks': [
+            "blocks": [
                 'display_controlBuiltInLED'
             ]
         },
@@ -302,7 +313,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         },
         {
             "label": "%{BKY_SUBCATEGORY_INFRARED}",
-            'blocks': [
+            "blocks": [
                 'communication_onInfraredDataReceived',
             ]
         },
@@ -326,14 +337,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         }
     ],
-    "sensors": [
-        {
-            "label": "%{BKY_SUBCATEGORY_ESP32}",
-            "blocks": [
-                'sensors_readProcessorTemperature',
-                'sensors_readHallSensor'
-            ]
-        },
+    "esp32cam": [
         {
             "label": "%{BKY_SUBCATEGORY_ESP32_CAM}",
             "blocks": [
@@ -342,6 +346,15 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'esp32Cam_controlFlashLED',
                 'esp32Cam_SDcard_savePic',
                 'esp32Cam_SDcard_saveData'
+            ]
+        }
+    ],
+    "sensors": [
+        {
+            "label": "%{BKY_SUBCATEGORY_ESP32}",
+            "blocks": [
+                'sensors_readProcessorTemperature',
+                'sensors_readHallSensor'
             ]
         },
         {
@@ -554,8 +567,8 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'robots_getDistanceIlo',
                 'robots_lineDetectorIlo',
                 'robots_setLineDetectorThresholdIlo',
-                'robots_colorDetectorIlo',
-                'robots_colorDetectorRGBIlo',
+                'robots_getColorRawIlo',
+                'robots_getColorCardIlo',
                 'robots_getLuminosityIlo',
                 'robots_getInternalSensors'
             ]
@@ -825,22 +838,22 @@ const TOOLBOX_VITTASCIENCE_CONTENT_SIMPLE = {
             ]
         }
     ],
+    "esp32cam": [
+        {
+            "label": "%{BKY_SUBCATEGORY_ESP32_CAM}",
+            "blocks": [
+                'esp32Cam_getCaptureData',
+                'esp32Cam_controlFlashLED',
+                'esp32Cam_SDcard_savePic'
+            ],
+        },
+    ],
     "sensors": [
         {
             "label": "%{BKY_SUBCATEGORY_ESP32}",
             "blocks": [
                 'sensors_readProcessorTemperature',
                 'sensors_readHallSensor'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_ESP32_CAM}",
-            "blocks": [
-                'esp32Cam_getCaptureData',
-                'esp32Cam_setImageSize',
-                'esp32Cam_controlFlashLED',
-                'esp32Cam_SDcard_savePic',
-                'esp32Cam_SDcard_saveData'
             ]
         },
         {

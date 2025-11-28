@@ -171,8 +171,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "DIR",
             "options": [
-                ["%{BKY_ROBOTS_ALPHABOT_GO_FORWARD}", "FORWARD"],
-                ["%{BKY_ROBOTS_ALPHABOT_GO_REVERSE}", "REVERSE"]
+                ["%{BKY_ROBOTS_GO_FORWARD}", "FORWARD"],
+                ["%{BKY_ROBOTS_GO_BACKWARD}", "REVERSE"]
             ]
         }, {
             "type": "input_value",

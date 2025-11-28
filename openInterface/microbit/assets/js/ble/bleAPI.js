@@ -272,48 +272,6 @@ async function uploadPythonBLE() {
 	}
 };
 
-/*
-async function sendScriptCommandBLE(cmd, mode = TYPE_RUN_WITH_RESPONSE, waiting = false) {
-	if (WebBLEAPI.gattConnected()) {
-		const pack = new HalocodePackData();
-		pack.type(TYPE_SCRIPT);
-		pack.mode(mode);
-		pack.script(cmd);
-		if (mode == TYPE_RUN_WITH_RESPONSE || waiting) {
-			WebBLEAPI._controller.waitingScript = true;
-		}
-		const chunks = WebBLE.chunk(pack.to_buffer(), 20);
-		if (chunks !== null) {
-			for (var j = 0; j < chunks.length; j++) {
-				await WebBLEAPI.write(chunks[j]);
-			}
-		}
-		InterfaceMonitor.writeConsole("</br>> " + cmd, 'default', false, true);
-		if (mode == TYPE_RUN_WITH_RESPONSE || waiting) {
-			await waitFor(_ => WebBLEAPI._controller.waitingScript === false);
-		}
-	}
-};
-
-async function sendBLECommand() {
-	const checkResponseAndSend = async function (cmd) {
-		if ((/(cyberpi.|)config.write_config/.test(cmd) && /repl_enable/.test(cmd)) || /(cyberpi.|)restart\(\)/.test(cmd) || (/exec\(/.test(cmd) && /main1/.test(cmd))) {
-			await sendScriptCommandBLE(cmd, TYPE_RUN_WITHOUT_RESPONSE);
-		} else {
-			await sendScriptCommandBLE(cmd, TYPE_RUN_WITH_RESPONSE);
-		}
-		document.getElementById("serial-input").value = "";
-	};
-	if (WebBLEAPI.gattConnected()) {
-		await checkResponseAndSend($('#serial-input').val());
-	} else {
-		await doConnectBLE();
-		await checkResponseAndSend($('#serial-input').val());
-	}
-};
-*/
-
-
 function closeMicrobitBluetoothPairingModal() {
 	pseudoModal.closeModal('modal-microbit-bluetooth-pairing');
 	const button = document.querySelector('#upload-python-ble-opt');
@@ -425,27 +383,5 @@ const MicrobitBLEAuthModal = {
 	componentToHex: function (c) {
 		var hex = c.toString(16);
 		return hex.length == 1 ? "0" + hex : hex;
-	},
-	// dark_mode_examples_imgs: function () {
-	// 	let rgb = $(this.id).css("background-color").match(/\d+/g);
-	// 	let r = parseInt(rgb[0]),
-	// 		g = parseInt(rgb[1]),
-	// 		b = parseInt(rgb[2]);
-	// 	let color = "#" + this.componentToHex(r) + this.componentToHex(g) + this.componentToHex(b);
-
-	// 	if (color == "#f5f5f5" && $(".img-selected").attr("src").includes("dark_mode_")) {
-	// 		$(".suggestion-img").each(function () {
-	// 			let new_src = $(this).attr('src').replace('dark_mode_', '');
-	// 			$(this).attr('src', new_src);
-	// 		});
-	// 	} else if (color != "#f5f5f5" && !$(".img-selected").attr("src").includes("dark_mode_")) {
-	// 		$(".suggestion-img").each(function () {
-	// 			if (!$(this).attr('src').includes("dark_mode_")) {
-	// 				let new_src = $(this).attr('src').split('/');
-	// 				new_src[new_src.length - 1] = 'dark_mode_' + new_src[new_src.length - 1];
-	// 				$(this).attr('src', new_src.join('/'));
-	// 			}
-	// 		});
-	// 	}
-	// }
+	}
 }

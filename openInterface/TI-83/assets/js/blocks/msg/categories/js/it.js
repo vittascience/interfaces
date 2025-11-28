@@ -137,3 +137,4 @@ Blockly.Msg["SUBCATEGORY_2_MICROBIT_GROVE_OUTPUTS"] = "Uscite";
 Blockly.Msg["SUBCATEGORY_2_MICROBIT_NEOPIXEL_COLOR"] = "Colore";
 Blockly.Msg["SUBCATEGORY_2_MICROBIT_NEOPIXEL_CONFIG"] = "Configurazione";
 Blockly.Msg["SUBCATEGORY_2_MICROBIT_NEOPIXEL_CONTROL"] = "Controllo";
+Blockly.Msg['SUBCATEGORY_TEXT_ANALYSIS'] = 'Analisi del testo';

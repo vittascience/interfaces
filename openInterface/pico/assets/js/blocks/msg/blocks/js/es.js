@@ -413,7 +413,7 @@ Blockly.Msg['PROCESS_GLOBAL_VAR_TITLE'] = 'make %1 a global variable';
 Blockly.Msg['PROCESS_GLOBAL_VAR_TOOLTIP'] = 'Transforms a local variable into a global variable so that processes can communicate with each other.';
 
 
-Blockly.Msg["ROBOTS_KITRO_MOVE_TITLE"] = "[Kitronik] controlar robot %1 velocidad %2 %";
+Blockly.Msg["ROBOTS_KITRO_MOVE_TITLE"] = "[Kitronik] %1 con velocidad %2 %";
 Blockly.Msg["ROBOTS_KITRO_MOVE_TOOLTIP"] = IMG_ROBOT_KITRONIK_PICO + Blockly.Tooltip.SEP + "Permite controlar la dirección del robot Kitronik";
 Blockly.Msg["ROBOTS_KITRO_MOVE_FORWARD"] = "avanzar";
 Blockly.Msg["ROBOTS_KITRO_MOVE_BACKWARD"] = "retroceder";

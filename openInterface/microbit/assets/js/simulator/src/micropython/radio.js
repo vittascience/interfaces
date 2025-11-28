@@ -81,7 +81,9 @@ var $builtinmodule = function () {
                 const multiEditor = JSON.parse(multiEditorLS);
                 const mutiEditorInterface = multiEditor[INTERFACE_NAME];
                 var validEditors = [];
+                const myId = String(VittaInterface.id);
                 for (var id in mutiEditorInterface) {
+                    if (id === myId) continue;
                     if (mutiEditorInterface[id].dateUpdated && mutiEditorInterface[id].radio) {
                         validEditors.push({
                             "id": id,

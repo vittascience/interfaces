@@ -348,6 +348,14 @@ class CBP:
         elif angle is 180: tempAngle = 630
         elif angle < 180: tempAngle = 3.51 * angle
         else: tempAngle = 3.45 * angle
+        if direction is self.TURN_RIGHT:
+            if angle < 0:
+                direction = self.TURN_LEFT
+                angle = -angle
+        elif direction is self.TURN_LEFT:
+            if angle < 0:
+                direction = self.TURN_RIGHT
+                angle = -angle
         if direction is self.TURN_LEFT:
             motor = self.CMD[self.version][self.MOTOR_RIGHT]
             cmd = 0x04

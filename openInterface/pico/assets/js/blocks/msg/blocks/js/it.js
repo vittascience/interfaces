@@ -460,3 +460,4 @@ Blockly.Msg['WIO_GET_DATA_TITLE'] = '[Wio lite] recuperare tutti i dati sulla po
 Blockly.Msg['WIO_GET_CLASS_DATA_BY_ID_TITLE'] = '[Wio lite] probabilità della classe n. %1 sulla porta %2';
 Blockly.Msg['WIO_GET_CLASS_MAX_ID_TITLE'] = '[Wio lite] ID della classe rilevata sulla porta %1';
 Blockly.Msg['WIO_GET_STATUS_TITLE'] = '[Wio lite] ottenere %1 sulla porta %2';
+Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TITLE'] = '[uart] dati disponibili';

@@ -40,11 +40,6 @@ export default class TransformControl {
 		this.transformControl.size = 2;
 
 
-		// this.transformControl.addEventListener('change', () => {
-		// 	this.experience.renderer.update();
-		// });
-
-
 		this.transformControl.addEventListener('dragging-changed', (event) => {
 			this.experience.camera.modes.debug.orbitControls.enabled = !event.value;
 			if (event.value) {
@@ -67,12 +62,10 @@ export default class TransformControl {
 					}
 				};
 			} else if (this.obstaclesHandler.obstacles.find((obstacle) => obstacle.name === element.name)) {
-				const position = element.position;
-				const obstaclesDB = JSON.parse(SimulatorLS.get("obstaclesDB"))
-				obstaclesDB[element.name].x = Number((position.x * 50.0).toFixed(0));
-				obstaclesDB[element.name].y = Number((position.z * 50.0).toFixed(0)); 
-				SimulatorLS.set("obstaclesDB", JSON.stringify(obstaclesDB));
-				RobotSimulator.Obstacle.obstaclesDB[element.name] = obstaclesDB[element.name];
+				const selectedObstacle = RobotSimulator3D.Obstacle.obstaclesDB[element.name];
+				selectedObstacle.x = Number((element.position.x * 50.0).toFixed(0));
+				selectedObstacle.y = Number((element.position.z * 50.0).toFixed(0)); 
+				RobotSimulator3D.Obstacle.saveToLS();
 			};
 		});
 
@@ -133,23 +126,12 @@ export default class TransformControl {
 	}
 
 	removeHelper(element) {
+		if (!this.transformControl) return;
 		this.experience.requestedTransformControl = false;
 		this.transformControl.detach(element);
 		this.experience.scene.remove(this.transformControl);
 		if (this.exp.physics) {
 			this.exp.physics.computeDragging = true;
-		}
-	}
-
-	handleClick(event) {
-		if (this.clickableCube !== null) {
-			this.addHelpers(this.clickableCube);
-			if (this.clickableCube.name !== this.previousClickableCube?.name) {
-				this.removeHelper(this.previousClickableCube);
-			}
-			this.previousClickableCube = this.clickableCube;
-		} else {
-			this.removeHelper(this.previousClickableCube);
 		}
 	}
 
@@ -235,9 +217,6 @@ export default class TransformControl {
 		};
 
 		window.addEventListener('pointermove', onPointerMove);
-
-		const experience3D = document.querySelector('.experience3D');
-		experience3D.addEventListener('click', this.handleClick.bind(this));
 		window.addEventListener('resize', () => {
 			const canvasElement = document.querySelector('.experience3D canvas')
 			this.rect = canvasElement.getBoundingClientRect();

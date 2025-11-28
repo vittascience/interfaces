@@ -626,3 +626,30 @@ for (const pin of pinArray) {
 		};
 	};
 }
+
+utils.prototypeBlocks['exec'] = function (type, identifier, values, mutations, statementsNode, statement) {
+	let execContent = null;
+	if (statementsNode.length === 0) {
+		return null;
+	}
+	if (statementsNode[0].type === 'string' || statementsNode[0].type === 'identifier' || statementsNode[0].type === 'integer') {
+		if(statementsNode[0].type === 'string'){
+			execContent = utils.extractString(statementsNode[0]);
+			execContent.is_exec = true;
+		}
+		else {
+			execContent = statementsNode[0];
+		}
+
+	}
+	Blockly.Python.EXEC_FLAG = true;
+	return {
+		type: 'io_exec',
+		fields: null,
+		values: { CODE: null},
+		mutations: null,
+		statementsNode: { CODE: execContent || { type: 'string', text: '"print(\\"Hello World\\")"' } },
+		statements: null,
+
+	}
+}

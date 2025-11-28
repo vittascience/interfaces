@@ -442,6 +442,65 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "helpUrl": "%{BKY_MATH_ATAN2_HELPURL}"
   },
 
+  {
+    "type": "math_RSA_generate_keys",
+    "message0": "%{BKY_MATH_RSA_GENERATE_KEYS_TITLE}",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PRIME_LENGTH",
+        "check": "Number"
+      }
+    ],
+    "output": "Array",
+    "inputsInline": true,
+    "style": "math_blocks",
+    "tooltip": "%{BKY_MATH_RSA_GENERATE_KEYS_TOOLTIP}",
+    "helpUrl": "%{BKY_MATH_RSA_GENERATE_KEYS_HELPURL}"
+  },
+
+  {
+    "type": "math_RSA_cipher_message",
+    "message0": "%{BKY_MATH_RSA_CIPHER_MESSAGE_TITLE}",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "Array"
+      }
+    ],
+    "output": "String",
+    "style": "math_blocks",
+    "tooltip": "%{BKY_MATH_RSA_CIPHER_MESSAGE_TOOLTIP}",
+    "helpUrl": "%{BKY_MATH_RSA_CIPHER_MESSAGE_HELPURL}",
+  },
+
+  {
+    "type": "math_RSA_decipher_message",
+    "message0": "%{BKY_MATH_RSA_DECIPHER_MESSAGE_TITLE}",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "Array"
+      }
+    ],
+    "output": "String",
+    "style": "math_blocks",
+    "tooltip": "%{BKY_MATH_RSA_DECIPHER_MESSAGE_TOOLTIP}",
+    "helpUrl": "%{BKY_MATH_RSA_DECIPHER_MESSAGE_HELPURL}"
+  }
+
 ]); // END JSON EXTRACT (Do not delete this comment.)
 
 Blockly.Constants.Math = Object.create(null);
@@ -675,7 +734,7 @@ Blockly.Constants.Math.MATH_MIN_MAX_MUTATOR_MIXIN = {
     this.setOutputShape(showHorizontalList ?
       Blockly.OUTPUT_SHAPE_ROUND : Blockly.OUTPUT_SHAPE_SQUARE);
   }
-}
+};
 
 // Extensions
 Blockly.Extensions.register('math_op_tooltip',

@@ -451,6 +451,17 @@ Blockly.Msg['ROBOTS_ILO_COLOR_DETECTOR_TITLE'] = '[Ilo] detectar el color debajo
 Blockly.Msg['ROBOTS_ILO_COLOR_DETECTOR_TOOLTIP'] = IMG_ROBOT_ILO + Blockly.Tooltip.SEP + 'Permite detectar qué color está debajo del robot Ilo.';
 Blockly.Msg['ROBOTS_ILO_COLOR_DETECTOR_RGB_TITLE'] = '[Ilo] detectar la intensidad de %1 debajo del %2 sensor';
 Blockly.Msg['ROBOTS_ILO_COLOR_DETECTOR_RGB_TOOLTIP'] = IMG_ROBOT_ILO + Blockly.Tooltip.SEP + 'Permite detectar qué color está debajo del robot Ilo y devuelve la intensidad de rojo, verde o azul.';
+// Español
+Blockly.Msg['ROBOTS_ILO_GET_COLOR_RAW_TITLE'] = '[Ilo] valor bruto del sensor de color %1';
+Blockly.Msg['ROBOTS_ILO_GET_COLOR_RAW_TOOLTIP'] = IMG_ROBOT_ILO + Blockly.Tooltip.SEP + 'Devuelve el valor bruto (de 0 a 255) del sensor de color (central) del robot Ilo.';
+Blockly.Msg['ROBOTS_ILO_GET_COLOR_CARD_TITLE'] = '[Ilo] color de tarjeta detectado %1';
+Blockly.Msg['ROBOTS_ILO_GET_COLOR_CARD_TOOLTIP'] = IMG_ROBOT_ILO + Blockly.Tooltip.SEP + 'Devuelve el color detectado (blanco, naranja, morado, azul_claro, amarillo, verde, azul, rojo) por el sensor de color (central) del robot Ilo.';
+Blockly.Msg['ROBOTS_ILO_COLOR_LABEL'] = 'nombre';
+Blockly.Msg['ROBOTS_ILO_COLOR_RGB'] = 'rgb';
+Blockly.Msg['ROBOTS_ILO_COLOR_RED'] = 'rojo';
+Blockly.Msg['ROBOTS_ILO_COLOR_GREEN'] = 'verde';
+Blockly.Msg['ROBOTS_ILO_COLOR_BLUE'] = 'azul';
+Blockly.Msg['ROBOTS_ILO_COLOR_SENSOR_RIGHT'] = 'derecho';
 Blockly.Msg['ROBOTS_ILO_RED'] = 'rojo';
 Blockly.Msg['ROBOTS_ILO_GREEN'] = 'verde';
 Blockly.Msg['ROBOTS_ILO_BLUE'] = 'azul';

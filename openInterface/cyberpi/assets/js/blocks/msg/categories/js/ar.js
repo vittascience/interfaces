@@ -53,3 +53,4 @@ Blockly.Msg['SUBCATEGORY_COMPUTER'] = 'Computer';
 Blockly.Msg['SUBCATEGORY_MUSIC'] = 'Music';
 Blockly.Msg['SUBCATEGORY_LOOPS'] = 'Loops';
 Blockly.Msg['SUBCATEGORY_LOGIC'] = 'Logic';
+Blockly.Msg['SUBCATEGORY_TEXT_ANALYSIS'] = 'تحليل النص';

@@ -15,7 +15,8 @@ const $builtinmodule = function () {
         const setMotor = function (motor, speed, direction) {
             $('#sphero-mini-motor' + motor + '_value').html(speed);
             if (speed !== 0) {
-                $('.sphero-mini-motor' + motor).css('animation', 'rotation-' + direction + ' ' + (60 / (speed / 255 * RobotSimulator.robot.MAX_SPEED)) + 's infinite linear');
+                const rps = 60 / (speed / 255 * RobotSimulator.robot.MAX_SPEED);
+                $('.sphero-mini-motor' + motor).css('animation', 'rotation-' + direction + ' ' + rps + 's infinite linear');
             } else {
                 $('.sphero-mini-motor' + motor).css('animation', 'none');
             }

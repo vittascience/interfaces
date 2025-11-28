@@ -114,3 +114,7 @@ Blockly.Msg['SENSORS_RPI_CAMERA_TAKE_PICTURE_TITLE'] = '[Cámara Raspberry Pi] t
 Blockly.Msg['SENSORS_RPI_CAMERA_TAKE_PICTURE_TOOLTIP'] = IMG_MODULE_PI_CAMERA + Blockly.Tooltip.SEP + 'Permite tomar una foto con la cámara de la Raspberry Pi.';
 Blockly.Msg['SENSORS_RPI_CAMERA_TAKE_VIDEO_TITLE'] = '[Cámara Raspberry Pi] grabar un video durante %1 segundos';
 Blockly.Msg['SENSORS_RPI_CAMERA_TAKE_VIDEO_TOOLTIP'] = IMG_MODULE_PI_CAMERA + Blockly.Tooltip.SEP + 'Permite grabar un video con la cámara de la Raspberry Pi.';
+Blockly.Msg['SENSE_HAT_IMU_GET_ORIENTATION_TITLE'] = '[Sense HAT] orientación en %1 (x, y, z)';
+Blockly.Msg['SENSE_HAT_IMU_GET_ORIENTATION_TOOLTIP'] = 'IMG_MODULE_SENSE_HAT + Blockly.Tooltip.SEP + \'Permite obtener la orientación en radianes (inclinación, balanceo, guiñada) del Sense HAT.';
+Blockly.Msg['SENSE_HAT_IMU_GET_ORIENTATION_RADIANS'] = 'radianes';
+Blockly.Msg['SENSE_HAT_IMU_GET_ORIENTATION_DEGREES'] = 'grados';

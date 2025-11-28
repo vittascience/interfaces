@@ -5,515 +5,747 @@
 #collectivities-first-section h4,
 #collectivities-second-section h4,
 #ugap-section h4 {
-    font-weight: 800;
-    font-size: 2.5rem;
+  font-weight: 800;
+  font-size: 2.5rem;
 }
 
 #pricing-head h3 {
-    font-size: 1em;
+  font-size: 1em;
 }
 
 #pricing-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    margin: 3rem auto;
-    max-width: 1280px;
-    gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 3rem auto;
+  max-width: 1280px;
+  gap: 2rem;
 }
 
 .license-col {
-    text-align: center;
-    height: 100%;
+  text-align: center;
+  height: 100%;
 
-    border-radius: 1em;
-    padding: 1em;
+  border-radius: 1em;
+  padding: 1em;
 
-    background: var(--bg-1);
-    box-shadow: 0px 3px 6px #00000029;
-    border: 1px solid var(--text-1);
-    opacity: 1;
+  background: var(--bg-1);
+  box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid var(--text-1);
+  opacity: 1;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 @media (max-width: 992px) {
-    #pricing-grid {
-        gap: 1rem;
-    }
+  #pricing-grid {
+    gap: 1rem;
+  }
 
-    .license-col {
-        font-size: 0.9em;
-    }
+  .license-col {
+    font-size: 0.9em;
+  }
 }
 
 @media (max-width: 768px) {
-    #pricing-grid {
-        display: flex;
-        flex-direction: column;
-    }
+  #pricing-grid {
+    display: flex;
+    flex-direction: column;
+  }
 
-    .license-col {
-        font-size: 1em;
-    }
+  .license-col {
+    font-size: 1em;
+  }
 }
 
 .license-col .purchase-link {
-    white-space: normal;
+  white-space: normal;
 }
 
 .license-col h4 {
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 1.5em;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 1.5em;
 }
 
 .license-col li .gar-link {
-    text-decoration: underline;
-    color: var(--text-1);
+  text-decoration: underline;
+  color: var(--text-1);
 }
 
 .license-col li .gar-link::after {
-    content: "";
+  content: "";
 
-    background-color: white;
-    background-image: url('../content/img/gar_grey.png');
-    background-size: auto 1.2rem;
+  background-color: white;
+  background-image: url("../content/img/gar_grey.png");
+  background-size: auto 1.2rem;
 
-    display: inline-block;
-    border-radius: 3px;
+  display: inline-block;
+  border-radius: 3px;
 
-    width: 2.95rem;
-    height: 1.2rem;
+  width: 2.95rem;
+  height: 1.2rem;
 
-    margin-left: 0.5em;
-    position: relative;
-    top: 0.15em;
+  margin-left: 0.5em;
+  position: relative;
+  top: 0.15em;
 }
 
 .license-col li .gar-link:hover {
-    text-decoration: underline;
-    color: var(--text-2);
+  text-decoration: underline;
+  color: var(--text-2);
 }
 
 .info-block .devis-button,
 .info-block .info-button,
 .license-col .purchase-link {
-    border-radius: 3em;
-    font-weight: 700;
-    background-color: var(--text-1);
-    color: var(--bg-1);
+  border-radius: 3em;
+  font-weight: 700;
+  background-color: var(--text-1);
+  color: var(--bg-1);
 }
 
 .license-col .license-type {
-    font-size: 1em;
-    font-weight: 600;
+  font-size: 1em;
+  font-weight: 600;
 }
 
 .license-col ul {
-    flex-grow: 1;
-    text-align: left;
-    list-style: none;
-    padding: 0;
+  flex-grow: 1;
+  text-align: left;
+  list-style: none;
+  padding: 0;
 }
 
 .license-col ul li {
-    padding-left: 2.3em;
-    margin: 0.5em auto;
+  padding-left: 2.3em;
+  margin: 0.5em auto;
 }
 
 .license-col ul li:before {
-    content: "\f00c";
-    /* FontAwesome Unicode */
-    font-family: "Font Awesome 5 Free";
-    display: inline-block;
-    position: relative;
-    right: 10px;
-    margin-left: -1.3em;
-    width: 1.3em;
-    font-weight: 900;
-
+  content: "\f00c";
+  /* FontAwesome Unicode */
+  font-family: "Font Awesome 5 Free";
+  display: inline-block;
+  position: relative;
+  right: 10px;
+  margin-left: -1.3em;
+  width: 1.3em;
+  font-weight: 900;
 }
 
 .license-col ul li.infinite:before {
-    content: "\f534";
-
+  content: "\f534";
 }
 
 #team-license-calculator {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0.5em 0;
-    min-width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5em 0;
+  min-width: 80%;
 }
 
 /* style the range slider */
 #team-license-calculator .form-range::-webkit-slider-thumb {
-    background: var(--vitta-red-light) !important;
+  background: var(--vitta-red-light) !important;
 }
 
 #team-license-calculator #price-estimation-container {
-    margin: 0.5em 0;
-    color: var(--vitta-red-light);
-    font-size: 0.9em;
+  margin: 0.5em 0;
+  color: var(--vitta-red-light);
+  font-size: 0.9em;
 }
 
 #team-license-calculator #price-estimation-container .price {
-    font-size: 1.3em;
-    font-weight: 700;
+  font-size: 1.3em;
+  font-weight: 700;
 }
 
-
 .license-pricing {
-    font-size: 1.1em;
+  font-size: 1.1em;
 }
 
 .license-pricing .price {
-    font-size: 1.3em;
-    font-weight: 700;
+  font-size: 1.3em;
+  font-weight: 700;
 }
 
 .license-pricing .regular-price,
 #price-estimation-container #regular-price.reduction {
-    font-size: 1.3em;
-    font-weight: 700;
-    color: var(--text-3);
-    text-decoration: line-through;
+  font-size: 1.3em;
+  font-weight: 700;
+  color: var(--text-3);
+  text-decoration: line-through;
 }
 
 .license-pricing sup,
 #price-estimation-container sup {
-    background-color: var(--vitta-green);
-    border-radius: 5em;
-    color: var(--vitta-white);
-    padding: 0.25em 0.5em;
-    margin: 0 0.25em;
+  background-color: var(--vitta-green);
+  border-radius: 5em;
+  color: var(--vitta-white);
+  padding: 0.25em 0.5em;
+  margin: 0 0.25em;
 }
 
 .full-pricing {
-    height: 2em;
+  height: 2em;
 }
 
 /* OFFERS SECTION */
 
 #offer-section {
-    background-color: var(--bg-2);
+  background-color: var(--bg-2);
 }
 
 .info-block {
-    max-width: 700px;
-    text-align: start;
+  max-width: 700px;
+  text-align: start;
 }
 
 .info-block-img img {
-    width: auto;
-    height: 100%;
-    background: transparent;
-    border-radius: 0.5em;
-    width: 100%;
-    max-width: 500px
+  width: auto;
+  height: 100%;
+  background: transparent;
+  border-radius: 0.5em;
+  width: 100%;
+  max-width: 500px;
 }
 
 .theme-dark .info-block-img img {
-    filter: invert(1) hue-rotate(180deg);
+  filter: invert(1) hue-rotate(180deg);
 }
 
 /* UGAP */
 
-
 #ugap-section {
-    background-color: var(--bg-2);
+  background-color: var(--bg-2);
 }
 
 /* FAQ */
 
 #pricing-faq h2 {
-    color: var(--vitta-green);
-    font-weight: 800;
-    font-size: 4em;
-    text-align: center;
+  color: var(--vitta-green);
+  font-weight: 800;
+  font-size: 4em;
+  text-align: center;
 }
 
 #pricing-faq .kit-faq-box {
-
-    background: var(--bg-0);
-    border: 1px solid #cccccc;
-    color: solid(--text-1);
-    padding: 15px 1em;
+  background: var(--bg-0);
+  border: 1px solid #cccccc;
+  color: solid(--text-1);
+  padding: 15px 1em;
 }
 
 #pricing-faq .faq-box-dropdown {
-
-    background: transparent;
-    color: #cccccc;
-    border: 1px solid #cccccc;
-    min-width: 40px;
-    min-height: 40px;
-    max-width: 40px;
-    max-height: 40px;
-    text-align: center;
-    border-radius: 50%;
-    margin-right: 10px;
-
+  background: transparent;
+  color: #cccccc;
+  border: 1px solid #cccccc;
+  min-width: 40px;
+  min-height: 40px;
+  max-width: 40px;
+  max-height: 40px;
+  text-align: center;
+  border-radius: 50%;
+  margin-right: 10px;
 }
 
 /* PRICING PAGE THEMING */
 /**/
 .free-license {
-    border-color: var(--vitta-green);
+  border-color: var(--vitta-green);
 }
 
 .free-license ul li:before,
 .free-license h4,
 .free-license .license-pricing {
-    color: var(--vitta-green);
+  color: var(--vitta-green);
 }
 
 .free-license .purchase-link {
-    background-color: var(--vitta-green);
-    color: var(--vitta-white);
+  background-color: var(--vitta-green);
+  color: var(--vitta-white);
 }
 
 .free-license {
-    border-color: var(--vitta-green);
-    box-shadow: 1px 1px 10px var(--vitta-green);
+  border-color: var(--vitta-green);
+  box-shadow: 1px 1px 10px var(--vitta-green);
+}
+
+.theme-dark .purchase-link,
+.theme-dark .starter-license .purchase-link,
+.theme-dark .multi-license .purchase-link {
+  color: var(--vitta-black);
 }
 
 /**/
 .starter-license ul li:before,
 .starter-license h4,
 .starter-license .license-pricing {
-    color: var(--vitta-blue);
+  color: var(--vitta-blue);
 }
 
 .starter-license .license-yearly {
-    color: var(--vitta-blue);
+  color: var(--vitta-blue);
 }
 
 .starter-license .purchase-link {
-    background-color: var(--vitta-blue);
-    color: var(--vitta-white);
+  background-color: var(--vitta-blue);
+  color: var(--vitta-white);
 }
 
 .starter-license {
-    border-color: var(--vitta-blue);
-    box-shadow: 1px 1px 10px var(--vitta-blue);
+  border-color: var(--vitta-blue);
+  box-shadow: 1px 1px 10px var(--vitta-blue);
 }
 
 /**/
 .multi-license ul li:before,
 .multi-license h4,
 .multi-license .license-pricing {
-    color: var(--vitta-red-light);
+  color: var(--vitta-red-light);
 }
 
 .multi-license .license-yearly {
-    color: var(--vitta-red-light);
+  color: var(--vitta-red-light);
 }
 
 .multi-license .purchase-link {
-    background-color: var(--vitta-red-light);
-    color: var(--vitta-white);
+  background-color: var(--vitta-red-light);
+  color: var(--vitta-white);
 }
 
 .multi-license {
-    border-color: var(--vitta-red-light);
-    box-shadow: 1px 1px 10px var(--vitta-red-light);
+  border-color: var(--vitta-red-light);
+  box-shadow: 1px 1px 10px var(--vitta-red-light);
 }
-
 
 /**/
 .unlimited-license ul li:before,
 .unlimited-license h4,
 .unlimited-license .license-pricing {
-    color: #ffbf31;
+  color: #ffbf31;
 }
 
 .unlimited-license .purchase-link {
-    background-color: #ffbf31;
-    color: var(--vitta-white);
+  background-color: #ffbf31;
+  color: var(--vitta-white);
 }
 
 .unlimited-license {
-    border-color: #ffbf31;
-    box-shadow: 1px 1px 15px #ffbf31;
+  border-color: #ffbf31;
+  box-shadow: 1px 1px 15px #ffbf31;
 }
 
-.unlimited-license::before {}
+.unlimited-license::before {
+}
 
 .slider-container {
-   accent-color: var(--vitta-red-light);
+  accent-color: var(--vitta-red-light);
 }
 
 .license-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .license-economy {
-    border-radius: 1em;
-    width: fit-content;
-    padding: 0em 0.5em;
-    font-weight: bold;
+  border-radius: 1em;
+  width: fit-content;
+  padding: 0em 0.5em;
+  font-weight: bold;
 }
 .starter-license .license-economy {
-    border : 1px solid var(--vitta-blue);
-    color: var(--vitta-blue);
+  border: 1px solid var(--vitta-blue);
+  color: var(--vitta-blue);
 }
 .multi-license .license-economy {
-    border : 1px solid var(--vitta-red-light);
-    color: var(--vitta-red-light);
+  border: 1px solid var(--vitta-red-light);
+  color: var(--vitta-red-light);
 }
 
-.license-header-top, .license-header-bottom {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+.license-header-top,
+.license-header-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 .license-header-top {
-    height: 142px;
+  height: 142px;
 }
 .license-header-bottom {
-    height: 108px;
-    margin-top: 24px;
-    margin-bottom: 24px;
-    justify-content: space-between;
+  height: 108px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  justify-content: space-between;
 }
 
 .license-yearly {
-    margin-top: 1em;
+  margin-top: 1em;
 }
-
 
 .plan {
-    flex: 1;
-    padding: 0.75rem;
-    color: #fff;
-    text-align: start;
-    position: relative;
+  flex: 1;
+  padding: 0.75rem;
+  color: #fff;
+  text-align: start;
+  position: relative;
 }
-.plan.free   { 
-    background: var(--vitta-green);
-    border-radius: 0.75rem 0 0 0.75rem;
+.plan.free {
+  background: var(--vitta-green);
+  border-radius: 0.75rem 0 0 0.75rem;
 }
-.plan.teacher{ background: var(--vitta-blue); }
-.plan.team   { 
-    background: var(--vitta-red-light); 
-    border-radius: 0 0.75rem 0.75rem 0;
+.plan.teacher {
+  background: var(--vitta-blue);
+}
+.plan.team {
+  background: var(--vitta-red-light);
+  border-radius: 0 0.75rem 0.75rem 0;
 }
 
 .plan a {
-    background: #fff;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 1.25rem;
-    font-size: 1rem;
-    cursor: pointer;
-    text-decoration: none;
+  background: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 1.25rem;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
 }
-.plan.free a { 
-    color: var(--vitta-green);
+.plan.free a {
+  color: var(--vitta-green);
 }
-.plan.teacher a { 
-    color: var(--vitta-blue);
+.plan.teacher a {
+  color: var(--vitta-blue);
 }
-.plan.team a { 
-    color: var(--vitta-red-light);
+.plan.team a {
+  color: var(--vitta-red-light);
 }
 .plan .label {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 .plan .crown {
-    position: absolute;
-    bottom: 0.75rem;
-    right: 0.75rem;
-    width: 2.5rem;
-    height: 2.5rem;
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  width: 2.5rem;
+  height: 2.5rem;
 }
 .plan .crown img {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 /* Tableau */
 table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
 }
 thead th {
-    position: sticky;
-    top: 76px;
-    z-index: 10;
-    background: var(--bg-2);
+  position: sticky;
+  top: 76px;
+  z-index: 10;
+  background: var(--bg-2);
 }
 thead tr th:first-of-type {
-    font-weight: bold;
-    font-size: 1.5rem;
+  font-weight: bold;
+  font-size: 1.5rem;
 }
 
-tbody td, tbody th {
-    padding: 0.75rem;
-    vertical-align: middle;
+tbody td,
+tbody th {
+  padding: 0.75rem;
+  vertical-align: middle;
 }
 
 /* Lignes de section */
 .section {
-    background: var(--bg-1);
-    color: var(--text-1);
-    font-weight: bold;
-    border: 1px solid black;
+  background: var(--bg-1);
+  color: var(--text-1);
+  font-weight: bold;
+  border: 1px solid black;
 }
 tbody tr:not(.section) td:first-of-type {
-    padding-top: calc(0.75rem * 1.5);
-    padding-bottom: calc(0.75rem * 1.5);
-    border-right: 1px solid black;
+  padding-top: calc(0.75rem * 1.5);
+  padding-bottom: calc(0.75rem * 1.5);
+  border-right: 1px solid black;
 }
 
-tbody tr:not(.section) td{
-    width: 25%;
+tbody tr:not(.section) td {
+  width: 25%;
 }
 
 /* Lignes alternées */
 tbody tr:not(.section) {
-    background: var(--bg-2);
+  background: var(--bg-2);
 }
 
 /* Statuts */
 .status {
-    font-size: 1rem;
-    text-align: center;
+  font-size: 1rem;
+  text-align: center;
 }
 .status .important {
-    font-weight: bold;
+  font-weight: bold;
 }
-.status.ok { 
-    color: var(--vitta-green);
-    font-weight: bold;
-    font-size: 1.3rem;
+.status.ok {
+  color: var(--vitta-green);
+  font-weight: bold;
+  font-size: 1.3rem;
 }
-.status.ko { 
-    color: var(--vitta-red-light);
-    font-weight: bold;
-    font-size: 1.3rem;
+.status.ko {
+  color: var(--vitta-red-light);
+  font-weight: bold;
+  font-size: 1.3rem;
 }
-.status .infinity { 
-    color: var(--vitta-green);
-    font-weight: bold;
+.status .infinity {
+  color: var(--vitta-green);
+  font-weight: bold;
 }
 
 .rounded-top-left {
-    border-top-left-radius: 0.75em;
+  border-top-left-radius: 0.75em;
 }
 .rounded-top-right {
-    border-top-right-radius: 0.75em;
+  border-top-right-radius: 0.75em;
+}
+
+/* Styles par défaut pour les cartes mobiles - cachées par défaut */
+.mobile-pricing-cards {
+  display: none;
+}
+
+/* Styles responsive pour mobile */
+@media (max-width: 768px) {
+  #details-section {
+    padding: 1rem 0;
+  }
+
+  #details-section .container {
+    padding: 1rem;
+  }
+
+  /* Cacher le tableau standard sur mobile */
+  #details-section table {
+    display: none !important;
+  }
+
+  /* Affichage mobile avec cartes */
+  .mobile-pricing-cards {
+    display: block !important;
+  }
+
+  .mobile-pricing-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: var(--text-1);
+    text-align: center;
+    margin-bottom: 2rem;
+    margin-top: 0;
+    padding: 1rem;
+    background: var(--bg-2);
+    border-radius: 0.75rem;
+    border: 1px solid var(--text-1);
+  }
+
+  .mobile-card {
+    background: var(--bg-2);
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+    padding: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--bg-1);
+    overflow: hidden;
+  }
+
+  .mobile-card-header {
+    margin: 0;
+    padding: 1rem;
+    border-bottom: none;
+    border-radius: 1rem 1rem 0 0;
+  }
+
+  .mobile-card-header .plan {
+    width: 100%;
+    margin: 0;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .mobile-card-header .plan .label {
+    font-size: 1.25rem;
+    margin-bottom: 0;
+    font-weight: bold;
+  }
+
+  .mobile-card-header .plan .crown {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    width: 2rem;
+    height: 2rem;
+    margin-left: 0;
+  }
+
+  .mobile-card-content {
+    padding: 1rem;
+  }
+
+  .mobile-feature-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .mobile-feature-section:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .mobile-section-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--text-1);
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    background: var(--bg-1);
+    border-radius: 0.5rem;
+    border: 1px solid var(--text-1);
+    text-align: center;
+  }
+
+  .mobile-feature-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    background: var(--bg-2);
+    border-radius: 0.5rem;
+    border: 1px solid var(--bg-1);
+  }
+
+  .mobile-feature-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .mobile-feature-name {
+    flex: 1;
+    font-size: 0.9rem;
+    padding-right: 1rem;
+    color: var(--text-1);
+  }
+
+  .mobile-feature-value {
+    font-size: 0.9rem;
+    text-align: center;
+    min-width: 80px;
+    font-weight: 500;
+  }
+
+  .mobile-feature-value.ok {
+    color: var(--vitta-green);
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  .mobile-feature-value.ko {
+    color: var(--vitta-red-light);
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  .mobile-feature-value .infinity {
+    color: var(--vitta-green);
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+
+  .mobile-cta-button {
+    display: block;
+    width: calc(100% - 2rem);
+    padding: 1rem;
+    margin: 1rem auto;
+    border: none;
+    border-radius: 0.75rem;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+  }
+
+  .mobile-cta-button.free {
+    background: var(--vitta-green);
+    color: white;
+  }
+
+  .mobile-cta-button.teacher {
+    background: var(--vitta-blue);
+    color: white;
+  }
+
+  .mobile-cta-button.team {
+    background: var(--vitta-red-light);
+    color: white;
+  }
+
+  .mobile-cta-button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Styles pour tablettes */
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Afficher le tableau sur tablette */
+  #details-section table {
+    display: table !important;
+    font-size: 0.9rem;
+  }
+
+  /* Cacher les cartes sur tablette */
+  .mobile-pricing-cards {
+    display: none !important;
+  }
+
+  .plan {
+    padding: 0.5rem;
+  }
+
+  .plan .label {
+    font-size: 1rem;
+  }
+
+  tbody td,
+  tbody th {
+    padding: 0.5rem;
+  }
+}
+
+/* Cacher les cartes mobile sur desktop */
+@media (min-width: 1025px) {
+  /* Afficher le tableau sur desktop */
+  #details-section table {
+    display: table !important;
+  }
+
+  /* Cacher les cartes sur desktop */
+  .mobile-pricing-cards {
+    display: none !important;
+  }
 }

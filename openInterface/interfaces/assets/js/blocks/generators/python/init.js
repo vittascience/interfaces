@@ -136,6 +136,8 @@ Blockly.Python.init = function (workspace) {
     Blockly.Python.jsCodes_ = Object.create(null);
     // Create a dictionary of css code to be added after user setups to generate style.css file.
     Blockly.Python.cssStyles_ = Object.create(null);
+    // Create a dictionary of css code to be added after user setups to add in <script></script> of web page.
+    Blockly.Python.staticValues_ = Object.create(null);
 
     // Create a dictionary of html id and its span value.
     Blockly.Python.htmlSpans_ = Object.create(null);
@@ -228,7 +230,6 @@ Blockly.Python.convertObjectInLists = function (object) {
   if (list.length) {
     list.push('\n');
   }
-  delete object;
   return list;
 };
 
@@ -362,6 +363,7 @@ Blockly.Python.scrubNakedValue = function (line) {
   return line + '\n';
 };
 
+Blockly.Python.EXEC_FLAG = false;
 /**
  * Encode a string as a properly escaped Python string, complete with quotes.
  * @param {string} string Text to encode.
@@ -369,6 +371,10 @@ Blockly.Python.scrubNakedValue = function (line) {
  * @private
  */
 Blockly.Python.quote_ = function (string) {
+  if (Blockly.Python.EXEC_FLAG) {
+    Blockly.Python.EXEC_FLAG = false;
+    return '"' + string + '"';
+  }
   // Can't use goog.string.quote since % must also be escaped.
   string = string.replace(/\\/g, '\\\\').replace(/\n/g, '\\\n');
 

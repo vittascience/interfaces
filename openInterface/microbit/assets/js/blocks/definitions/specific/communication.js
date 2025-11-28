@@ -168,6 +168,28 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
+    // BLOCK RADIO GET NEXT MESSAGE
+    {
+        "type": "communication_radioReceiveFull",
+        "message0": "%{BKY_COMMUNICATION_RADIO_RECEIVE_FULL_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "DATA",
+            "options": [
+                ["%{BKY_COMMUNICATION_RADIO_NEXT_MESSAGE}", "msg"],
+                ["%{BKY_COMMUNICATION_RADIO_RSSI}", "rssi"],
+                ["%{BKY_COMMUNICATION_RADIO_TIMESTAMP}", "timestamp"],
+            ]
+        }],
+        "inputsInline": true,
+        "output": "Number",
+        "style": "communication_blocks",
+        "tooltip": "%{BKY_COMMUNICATION_RADIO_RECEIVE_FULL_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
     /*Begin serial transmission blocks*/
 
     // BLOCK SERIAL WRITE 
@@ -864,7 +886,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "style": "communication_blocks",
         "tooltip": "%{BKY_COMMUNICATION_LOG_DATA_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ],
     }
 ]); // END JSON EXTRACT (Do not delete this comment.)

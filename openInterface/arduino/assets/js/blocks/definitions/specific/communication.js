@@ -182,8 +182,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "type": "communication_writeOpenLogSd",
     "message0": "%{BKY_COMMUNICATION_OPENLOG_WRITE_TITLE}",
     "args0": [{
-      "type": "input_dummy"
-    }, {
       "type": "field_grid_dropdown",
       "name": "BAUD",
       "options": [
@@ -192,17 +190,19 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ["57600", "57600"],
         ["115200", "115200"]
       ]
-    }, {
-      "type": "field_grid_dropdown",
-      "name": "TX",
-      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
-    }, {
+    }],
+    "message1": "%{BKY_COMMUNICATION_OPENLOG_WRITE_TITLE_PINS}",
+    "args1": [{
       "type": "field_grid_dropdown",
       "name": "RX",
       "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
     }, {
-      "type": "input_dummy"
-    }, {
+      "type": "field_grid_dropdown",
+      "name": "TX",
+      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }],
+    "message2": "%{BKY_COMMUNICATION_OPENLOG_WRITE_TITLE_DATA}",
+    "args2": [{
       "type": "input_value",
       "name": "DATA",
       "check": ["String"]
@@ -211,6 +211,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "nextStatement": null,
     "style": "communication_blocks",
     "tooltip": "%{BKY_COMMUNICATION_OPENLOG_WRITE_TOOLTIP}",
+    "extensions": [
+      "pins_management_global",
+      "pins_management_rxtx",
+    ]
   },
 
   // WRITE DATA SD CARD JSON
@@ -233,7 +237,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "previousStatement": null,
     "nextStatement": null,
     "style": "communication_blocks",
-    "tooltip": "%{BKY_COMMUNICATION_SDSPI_WRITE_TOOLTIP}"
+    "tooltip": "%{BKY_COMMUNICATION_SDSPI_WRITE_TOOLTIP}",
+    "extensions": [
+      "pins_management_global",
+    ]
   },
 
   // GROVE SERIAL BLUETOOTH _ MODULE SETTINGS JSON
@@ -253,13 +260,109 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       "name": "PIN",
       "check": ["String"]
     }],
+    "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+    "args1": [{
+      "type": "field_grid_dropdown",
+      "name": "RX",
+      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }, {
+      "type": "field_grid_dropdown",
+      "name": "TX",
+      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }],
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
     "style": "communication_blocks",
     "tooltip": "%{BKY_COMMUNICATION_BLUETOOTH_SETTINGS_TOOLTIP}",
     "extensions": [
-      "block_init_helpurl"
+      "block_init_helpurl",
+      "pins_management_global",
+      "pins_management_rxtx"
+    ]
+  },
+
+  // GROVE SERIAL BLUETOOTH _ SET AT COMMAND
+  {
+    "type": "communication_groveSerialBluetooth_setATCommand",
+    "message0": "%{BKY_COMMUNICATION_GROVE_BLUETOOTH_SET_AT_COMMAND_TITLE}",
+    "args0": [{
+      "type": "field_grid_dropdown",
+      "name": "COMMAND",
+      "options": [
+        ["AT+NAME", "AT+NAME"],
+        ["AT+PIN", "AT+PIN"],
+        ["AT+ROLE", "AT+ROLE"],
+        ["AT+BAUD", "AT+BAUD"]
+      ]
+    }, {
+      "type": "input_value",
+      "name": "VALUE",
+      "check": "String"
+    }],
+    "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+    "args1": [{
+      "type": "field_grid_dropdown",
+      "name": "RX",
+      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }, {
+      "type": "field_grid_dropdown",
+      "name": "TX",
+      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "communication_blocks",
+    "tooltip": "%{BKY_COMMUNICATION_GROVE_BLUETOOTH_SET_AT_COMMAND_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "pins_management_global",
+      "pins_management_rxtx",
+      "bt_tooltip_helper"
+    ]
+  },
+
+  // GROVE SERIAL BLUETOOTH _ GET AT COMMAND
+  {
+    "type": "communication_groveSerialBluetooth_getATCommand",
+    "message0": "%{BKY_COMMUNICATION_GROVE_BLUETOOTH_GET_AT_COMMAND_TITLE}",
+    "args0": [{
+      "type": "field_grid_dropdown",
+      "name": "COMMAND",
+      "options": [
+        ["AT+HELP", "AT+HELP?"],
+        ["AT+NAME", "AT+NAME?"],
+        ["AT+PIN", "AT+PIN?"],
+        ["AT+BAUD", "AT+BAUD?"],
+        ["AT+ROLE", "AT+ROLE?"],
+        ["AT+VERSION", "AT+VERSION?"],
+        ["AT+TEMP", "AT+TEMP?"],
+        ["AT+ADDR", "AT+ADDR?"],
+        ["AT+UART", "AT+UART?"],
+        ["AT+CHK", "AT+CHK?"],
+        ["AT+STOP", "AT+STOP?"],
+        ["AT+RADD", "AT+RADD?"]
+      ]
+    }],
+    "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+    "args1": [{
+      "type": "field_grid_dropdown",
+      "name": "RX",
+      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }, {
+      "type": "field_grid_dropdown",
+      "name": "TX",
+      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }],
+    "output": "String",
+    "inputsInline": true,
+    "style": "communication_blocks",
+    "tooltip": "%{BKY_COMMUNICATION_GROVE_BLUETOOTH_GET_AT_COMMAND_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "pins_management_global",
+      "pins_management_rxtx",
+      "bt_tooltip_helper"
     ]
   },
 
@@ -268,6 +371,12 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "type": "communication_sendSerialBluetoothData",
     "message0": "%{BKY_COMMUNICATION_BLUETOOTH_SENDDATA_TITLE}",
     "args0": [{
+      "type": "input_value",
+      "name": "TEXT",
+      "check": ["String", "Number", "Decimal", "Boolean"]
+    }],
+    "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+    "args1": [{
       "type": "field_grid_dropdown",
       "name": "RX",
       "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
@@ -275,17 +384,16 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       "type": "field_grid_dropdown",
       "name": "TX",
       "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
-    }, {
-      "type": "input_value",
-      "name": "TEXT",
-      "check": ["String", "Number", "Decimal", "Boolean"]
     }],
+    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
     "style": "communication_blocks",
     "tooltip": "%{BKY_COMMUNICATION_BLUETOOTH_SENDDATA_TOOLTIP}",
     "extensions": [
-      "block_init_helpurl"
+      "block_init_helpurl",
+      "pins_management_global",
+      "pins_management_rxtx"
     ]
   },
 
@@ -294,6 +402,12 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "type": "communication_onSerialBluetoothDataReceived",
     "message0": "%{BKY_COMMUNICATION_BLUETOOTH_ONDATARECEIVED_TITLE}",
     "args0": [{
+      "type": "field_variable",
+      "name": "VAR",
+      "variable": "bluetoothData"
+    }],
+    "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+    "args1": [{
       "type": "field_grid_dropdown",
       "name": "RX",
       "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
@@ -301,23 +415,278 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       "type": "field_grid_dropdown",
       "name": "TX",
       "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
-    }, {
-      "type": "field_variable",
-      "name": "VAR",
-      "variable": "bluetoothData"
     }],
-    "message1": "%1",
-    "args1": [{
+    "message2": "%{BKY_COMMUNICATION_THEN}",
+    "message3": "%1",
+    "args3": [{
       "type": "input_statement",
       "name": "DO"
     }],
+    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
     "style": "communication_blocks",
     "tooltip": "%{BKY_COMMUNICATION_BLUETOOTH_ONDATARECEIVED_TOOLTIP}",
     "extensions": [
       "block_init_helpurl",
-      "field_variable_type_getter"
+      "field_variable_type_getter",
+      "pins_management_global",
+      "pins_management_rxtx"
+    ]
+  },
+
+  // HC05 BLUETOOTH _ GET AT COMMAND
+  {
+    "type": "communication_hc05_getATCommand",
+    "message0": "%{BKY_COMMUNICATION_HC05_BLUETOOTH_GET_AT_COMMAND_TITLE}",
+    "args0": [{
+      "type": "field_grid_dropdown",
+      "name": "COMMAND",
+      "options": [
+        ["AT+HELP", "AT+HELP"],
+        ["AT+NAME", "AT+NAME?"],
+        ["AT+PSWD", "AT+PSWD?"],
+        ["AT+ADDR", "AT+ADDR?"],
+        ["AT+ROLE", "AT+ROLE?"],
+        ["AT+CMODE", "AT+CMODE?"],
+        ["AT+VERSION", "AT+VERSION?"],
+        ["AT+UART", "AT+UART?"]
+      ]
+    }],
+    "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+    "args1": [{
+      "type": "field_grid_dropdown",
+      "name": "RX",
+      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }, {
+      "type": "field_grid_dropdown",
+      "name": "TX",
+      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }],
+    "output": "String",
+    "inputsInline": true,
+    "style": "communication_blocks",
+    "tooltip": "%{BKY_COMMUNICATION_HC05_BLUETOOTH_GET_AT_COMMAND_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "pins_management_global",
+      "pins_management_rxtx",
+      "bt_tooltip_helper"
+    ]
+  },
+
+  // HC05 BLUETOOTH _ SET AT COMMAND
+  {
+    "type": "communication_hc05_setATCommand",
+    "message0": "%{BKY_COMMUNICATION_HC05_BLUETOOTH_SET_AT_COMMAND_TITLE}",
+    "args0": [{
+      "type": "field_grid_dropdown",
+      "name": "COMMAND",
+      "options": [
+        ["AT+NAME", "AT+NAME"],
+        ["AT+PSWD", "AT+PSWD"],
+        ["AT+ROLE", "AT+ROLE"],
+        ["AT+UART", "AT+UART"],
+        ["AT+CMODE", "AT+CMODE"]
+      ]
+    }, {
+      "type": "input_value",
+      "name": "VALUE",
+      "check": "String"
+    }],
+    "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+    "args1": [{
+      "type": "field_grid_dropdown",
+      "name": "RX",
+      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }, {
+      "type": "field_grid_dropdown",
+      "name": "TX",
+      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "communication_blocks",
+    "tooltip": "%{BKY_COMMUNICATION_HC05_BLUETOOTH_SET_AT_COMMAND_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "pins_management_global",
+      "pins_management_rxtx",
+      "bt_tooltip_helper"
+    ]
+  },
+
+  // HC05 BLUETOOTH - CHANGE BAUDRATE TRANSMISSION
+  {
+    "type": "communication_hc05_changeBaudrateTransmission",
+    "message0": "%{BKY_COMMUNICATION_HC05_BLUETOOTH_CHANGEBAUDRATE_TITLE}",
+    "args0": [{
+      "type": "input_value",
+      "name": "BAUD",
+      "check": "Number"
+    }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "communication_blocks",
+    "tooltip": "%{BKY_COMMUNICATION_HC05_BLUETOOTH_CHANGEBAUDRATE_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "bt_tooltip_helper"
+    ]
+  },
+
+  // HC05 BLUETOOTH _ SEND DATA JSON
+  {
+    "type": "communication_hc05_sendBluetoothData",
+    "message0": "%{BKY_COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TITLE}",
+    "args0": [{
+      "type": "input_value",
+      "name": "TEXT",
+      "check": ["String", "Number", "Decimal", "Boolean"]
+    }],
+    "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+    "args1": [{
+      "type": "field_grid_dropdown",
+      "name": "RX",
+      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }, {
+      "type": "field_grid_dropdown",
+      "name": "TX",
+      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "communication_blocks",
+    "tooltip": "%{BKY_COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "pins_management_global",
+      "pins_management_rxtx",
+      "bt_tooltip_helper"
+    ]
+  },
+
+  // HC05 BLUETOOTH _ ON DATA RECEIVED
+  {
+    "type": "communication_hc05_onBluetoothDataReceived",
+    "message0": "%{BKY_COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TITLE}",
+    "args0": [{
+      "type": "field_variable",
+      "name": "VAR",
+      "variable": "HC05Data"
+    }],
+    "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+    "args1": [{
+      "type": "field_grid_dropdown",
+      "name": "RX",
+      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }, {
+      "type": "field_grid_dropdown",
+      "name": "TX",
+      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }],
+    "message2": "%{BKY_COMMUNICATION_THEN}",
+    "message3": "%1",
+    "args3": [{
+      "type": "input_statement",
+      "name": "DO"
+    }],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "communication_blocks",
+    "tooltip": "%{BKY_COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "field_variable_type_getter",
+      "pins_management_global",
+      "pins_management_rxtx",
+      "bt_tooltip_helper"
+    ]
+  },
+
+  // HM10 BLUETOOTH _ SET AT COMMAND
+  {
+    "type": "communication_hm10_setATCommand",
+    "message0": "%{BKY_COMMUNICATION_HM10_BLUETOOTH_SET_AT_COMMAND_TITLE}",
+    "args0": [{
+      "type": "field_grid_dropdown",
+      "name": "COMMAND",
+      "options": [
+        ["AT+NAME", "AT+NAME"],
+        ["AT+PIN", "AT+PIN"],
+        ["AT+ROLE", "AT+ROLE"],
+        ["AT+BAUD", "AT+BAUD"]
+      ]
+    }, {
+      "type": "input_value",
+      "name": "VALUE",
+      "check": "String"
+    }],
+    "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+    "args1": [{
+      "type": "field_grid_dropdown",
+      "name": "RX",
+      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }, {
+      "type": "field_grid_dropdown",
+      "name": "TX",
+      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "communication_blocks",
+    "tooltip": "%{BKY_COMMUNICATION_HM10_BLUETOOTH_SET_AT_COMMAND_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "pins_management_global",
+      "pins_management_rxtx",
+      "bt_tooltip_helper"
+    ]
+  },
+
+  // HM10 BLUETOOTH _ GET AT COMMAND
+  {
+    "type": "communication_hm10_getATCommand",
+    "message0": "%{BKY_COMMUNICATION_HM10_BLUETOOTH_GET_AT_COMMAND_TITLE}",
+    "args0": [{
+      "type": "field_grid_dropdown",
+      "name": "COMMAND",
+      "options": [
+        ["AT+HELP", "AT+HELP"],
+        ["AT+NAME", "AT+NAME"],
+        ["AT+PIN", "AT+PIN"],
+        ["AT+BAUD", "AT+BAUD"],
+        ["AT+ROLE", "AT+ROLE"],
+        ["AT+VERSION", "AT+VERSION"],
+        ["AT+ADDR", "AT+ADDR"],
+        ["AT+UUID", "AT+UUID"],
+        ["AT+CHAR", "AT+CHAR"],
+        ["AT+PARI", "AT+PARI"],
+        ["AT+STOP", "AT+STOP"],
+        ["AT+PWRM", "AT+PWRM"],
+        ["AT+POWE", "AT+POWE"]
+      ]
+    }],
+    "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+    "args1": [{
+      "type": "field_grid_dropdown",
+      "name": "RX",
+      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }, {
+      "type": "field_grid_dropdown",
+      "name": "TX",
+      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }],
+    "output": "String",
+    "inputsInline": true,
+    "style": "communication_blocks",
+    "tooltip": "%{BKY_COMMUNICATION_HM10_BLUETOOTH_GET_AT_COMMAND_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "pins_management_global",
+      "pins_management_rxtx",
+      "bt_tooltip_helper"
     ]
   },
 
@@ -326,6 +695,12 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "type": "communication_hm10_sendBluetoothData",
     "message0": "%{BKY_COMMUNICATION_HM10_BLUETOOTH_SENDDATA_TITLE}",
     "args0": [{
+      "type": "input_value",
+      "name": "TEXT",
+      "check": ["String", "Number", "Decimal", "Boolean"]
+    }],
+    "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+    "args1": [{
       "type": "field_grid_dropdown",
       "name": "RX",
       "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
@@ -333,17 +708,17 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       "type": "field_grid_dropdown",
       "name": "TX",
       "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
-    }, {
-      "type": "input_value",
-      "name": "TEXT",
-      "check": ["String", "Number", "Decimal", "Boolean"]
     }],
+    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
     "style": "communication_blocks",
     "tooltip": "%{BKY_COMMUNICATION_HM10_BLUETOOTH_SENDDATA_TOOLTIP}",
     "extensions": [
-      "block_init_helpurl"
+      "block_init_helpurl",
+      "pins_management_global",
+      "pins_management_rxtx",
+      "bt_tooltip_helper"
     ]
   },
 
@@ -352,6 +727,12 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "type": "communication_hm10_onBluetoothDataReceived",
     "message0": "%{BKY_COMMUNICATION_HM10_BLUETOOTH_ONDATARECEIVED_TITLE}",
     "args0": [{
+      "type": "field_variable",
+      "name": "VAR",
+      "variable": "HM10Data"
+    }],
+    "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+    "args1": [{
       "type": "field_grid_dropdown",
       "name": "RX",
       "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
@@ -359,23 +740,24 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       "type": "field_grid_dropdown",
       "name": "TX",
       "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
-    }, {
-      "type": "field_variable",
-      "name": "VAR",
-      "variable": "HM10Data"
     }],
-    "message1": "%1",
-    "args1": [{
+    "message2": "%{BKY_COMMUNICATION_THEN}",
+    "message3": "%1",
+    "args3": [{
       "type": "input_statement",
       "name": "DO"
     }],
+    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
     "style": "communication_blocks",
     "tooltip": "%{BKY_COMMUNICATION_HM10_BLUETOOTH_ONDATARECEIVED_TOOLTIP}",
     "extensions": [
       "block_init_helpurl",
-      "field_variable_type_getter"
+      "field_variable_type_getter",
+      "pins_management_global",
+      "pins_management_rxtx",
+      "bt_tooltip_helper"
     ]
   },
 
@@ -413,7 +795,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "nextStatement": null,
     "style": "communication_blocks",
     "tooltip": "%{BKY_COMMUNICATION_RADIONRF24_SENDDATA_TOOLTIP}",
-    "helpUrl": "https://vittascience.com/tutorial/19"
+    "helpUrl": "https://vittascience.com/tutorial/19",
+    "extensions": [
+      "pins_management_global"
+    ]
   },
 
   //nRF24L01 RADIO MODULE _ GET RADIO DATA JSON
@@ -458,28 +843,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "tooltip": "%{BKY_COMMUNICATION_RADIONRF24_DATARECEIVER_TOOLTIP}",
     "extensions": [
       "block_init_helpurl",
-      "field_variable_type_getter"
-    ]
-  },
-
-  // GROVE RFID READER _ GET STRING CARD ID
-  {
-    "type": "communication_rfid_getCardID",
-    "message0": "%{BKY_COMMUNICATION_RFID_GETSTRINGCARDID_TITLE}",
-    "args0": [{
-      "type": "field_grid_dropdown",
-      "name": "RX",
-      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
-    }, {
-      "type": "field_grid_dropdown",
-      "name": "TX",
-      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
-    }],
-    "output": "String",
-    "style": "communication_blocks",
-    "tooltip": "%{BKY_COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP}",
-    "extensions": [
-      "block_init_helpurl"
+      "field_variable_type_getter",
+      "pins_management_global"
     ]
   },
 
@@ -500,7 +865,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "nextStatement": null,
     "style": "communication_blocks",
     "tooltip": "%{BKY_COMMUNICATION_GROVE_433MHZ_TRANSMITTER_TOOLTIP}",
-    "helpUrl": "https://vittascience.com/tutorial/19"
+    "helpUrl": "https://vittascience.com/tutorial/19",
+    "extensions": [
+      "pins_management_global"
+    ]
   },
 
   // GROVE 433MHZ RF MODULE _ RECEIVER JSON
@@ -527,7 +895,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "tooltip": "%{BKY_COMMUNICATION_GROVE_433MHZ_RECEIVER_TOOLTIP}",
     "extensions": [
       "block_init_helpurl",
-      "field_variable_type_getter"
+      "field_variable_type_getter",
+      "pins_management_global"
     ]
   },
 
@@ -555,7 +924,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "tooltip": "%{BKY_COMMUNICATION_IRRECEIVER_ONDATARECEIVED_TOOLTIP}",
     "extensions": [
       "block_init_helpurl",
-      "field_variable_type_getter"
+      "field_variable_type_getter",
+      "pins_management_global"
     ]
   },
 
@@ -613,6 +983,12 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "type": "communication_onGPSDataReceived",
     "message0": "%{BKY_COMMUNICATION_GPS_ONDATARECEIVED_TITLE}",
     "args0": [{
+      "type": "field_variable",
+      "name": "VAR",
+      "variable": "gpsData"
+    }],
+    "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+    "args1": [{
       "type": "field_grid_dropdown",
       "name": "RX",
       "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
@@ -620,23 +996,48 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       "type": "field_grid_dropdown",
       "name": "TX",
       "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
-    }, {
-      "type": "field_variable",
-      "name": "VAR",
-      "variable": "gpsData"
     }],
-    "message1": "%1",
-    "args1": [{
+    "message2": "%{BKY_COMMUNICATION_THEN}",
+    "message3": "%1",
+    "args3": [{
       "type": "input_statement",
       "name": "DO"
     }],
+    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
     "style": "communication_blocks",
     "tooltip": "%{BKY_COMMUNICATION_GPS_ONDATARECEIVED_TOOLTIP}",
     "extensions": [
       "block_init_helpurl",
-      "field_variable_type_getter"
+      "field_variable_type_getter",
+      "pins_management_global",
+      "pins_management_rxtx"
+    ]
+  },
+
+  // GROVE RFID READER _ GET STRING CARD ID
+  {
+    "type": "communication_rfid_getCardID",
+    "message0": "%{BKY_COMMUNICATION_RFID_GETSTRINGCARDID_TITLE}",
+    "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+    "args1": [{
+      "type": "field_grid_dropdown",
+      "name": "RX",
+      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }, {
+      "type": "field_grid_dropdown",
+      "name": "TX",
+      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }],
+    "inputsInline": true,
+    "output": "String",
+    "style": "communication_blocks",
+    "tooltip": "%{BKY_COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "pins_management_global",
+      "pins_management_rxtx"
     ]
   },
 
@@ -746,3 +1147,23 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
   }
 
 ]); // END JSON EXTRACT (Do not delete this comment.)
+
+Blockly.Constants.Communication = Object.create(null);
+
+/**
+ * Performs final setup of HC05 & HM10 blocks by define tooltip.
+ * @this {Blockly.Block}
+ */
+Blockly.Constants.Communication.BT_INIT_EXTENSION = function () {
+  const tooltip = this.getTooltip();
+  const board = Blockly.Constants.getSelectedBoard();
+  switch (board) {
+    case BOARD_ARDUINO_UNO_R4_WIFI:
+      this.setTooltip(tooltip + NEWLINE + Blockly.Msg['COMMUNICATION_BLUETOOTH_HELPER_R4']);
+      break;
+    default:
+  }
+};
+
+Blockly.Extensions.register('bt_tooltip_helper',
+  Blockly.Constants.Communication.BT_INIT_EXTENSION);
