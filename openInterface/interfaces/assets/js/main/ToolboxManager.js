@@ -111,6 +111,7 @@ class ToolboxManager {
                 }
             },
         ];
+        this.notAllowedToRenderBlocks = [];
         return this;
     };
     static DISABLE_BLOCK_HELPURL_EXTENSION = false;
@@ -121,16 +122,12 @@ class ToolboxManager {
      * @public
      */
     setToolbox() {
+        this._setToolboxTree();
+        this._updateToolbox();
+        this.setBlocklyTheme();
         if (this._hasCategories) {
-            this._setToolboxTree();
-            this._updateToolbox();
-            this.setBlocklyTheme();
             this._setToolboxMenuStyle();
             this._setToolboxHeader();
-        } else {
-            this._setToolboxTree();
-            this._updateToolbox();
-            this.setBlocklyTheme();
         }
         Blockly.svgResize(this._workspace);
         if (Main.getInterface() == 'TI-83') {
@@ -290,7 +287,11 @@ class ToolboxManager {
                 for (var i = 0; i < categories.length; i++) {
                     const catContent = baseContents ? baseContents[categories[i].toolboxitemid] : null;
                     const subCatContent = subcategories ? subcategories[categories[i].toolboxitemid] : null;
-                    this._pushCategoryContent(categories[i], catContent, subCatContent);
+                    if (ToolboxManager.hasToBeAdded(categories[i])) {
+                        this._pushCategoryContent(categories[i], catContent, subCatContent);
+                    } else {
+                        this._disableBlocksAccordingToBoard(catContent)
+                    }
                 }
             }
         } else {
@@ -396,13 +397,27 @@ class ToolboxManager {
                         }
                         const pushElements = (item, id) => {
                             const hasLabel = item.label !== null && item.label !== undefined;
-                            let label = "";
-                            for (var k = 0; k < item.blocks.length; k++) {
-                                if (hasLabel && item.label !== label) {
-                                    label = item.label;
-                                    this._addLabel(id, item.label);
+                            const targetCategoryId = id || category.toolboxitemid;
+                            let labelAdded = false;
+                            let subCategoryAdded = false;
+                            for (const blockType of item.blocks) {
+                                const catLabel = this._getCategoryLabels(hasLabel, targetCategoryId, item.label);
+                                const matches = (this.keyword === "") || ToolboxManager.isMatchingBlock(blockType, this.keyword, catLabel);
+                                const inRestriction = !this._reducedToolboxBlocks || this._reducedToolboxBlocks.includes(blockType);
+                                if (matches && inRestriction) {
+                                    if (id && !subCategoryAdded && subCatContent) {
+                                        const subCatDef = subCatContent.find(item => item.toolboxitemid === id);
+                                        if (subCatDef) {
+                                            this._pushSubCategory(category.toolboxitemid, subCatDef);
+                                        }
+                                        subCategoryAdded = true;
+                                    }
+                                    if (hasLabel && !labelAdded) {
+                                        this._addLabel(targetCategoryId, item.label);
+                                        labelAdded = true;
+                                    }
+                                    this._addBlock(targetCategoryId, blockType);
                                 }
-                                this._addBlock(id, item.blocks[k]);
                             }
                         };
                         const subCategoryId = category.contents[i].toolboxitemid;
@@ -459,42 +474,48 @@ class ToolboxManager {
             const pushElements = (cnt, id) => {
                 let subCategoryAdded = false;
                 for (var j = 0; j < cnt.length; j++) {
-                    if (cnt[j] && cnt[j].blocks && cnt[j].blocks.length > 0) {
-                        if (id && subCatContent) {
-                            categoryId = id;
+                    if (cnt[j]) {
+                        if (!ToolboxManager.hasToBeAdded(cnt[j])) {
+                            this._disableBlocksAccordingToBoard(cnt[j])
+                            continue;
                         }
-                        let labelAdded = false;
-                        for (var blockIndex = 0; blockIndex < cnt[j].blocks.length; blockIndex++) {
-                            const hasLabel = cnt[j].label !== null && cnt[j].label !== undefined;
-                            const catLabel = this._getCategoryLabels(hasLabel, categoryId, cnt[j].label);
-                            const blockType = cnt[j].blocks[blockIndex];
-                            const isMatching = ToolboxManager.isMatchingBlock(blockType, this.keyword, catLabel);
-                            const blockInRestriction = this._reducedToolboxBlocks && this._reducedToolboxBlocks.includes(blockType);
-                            if ((this.keyword == "" || isMatching) && (!this._reducedToolboxBlocks || blockInRestriction)) {
-                                if (!categoryAdded) {
-                                    this._pushCategory(category);
-                                    categoryAdded = true;
-                                }
-                                if (!subCategoryAdded && id && subCatContent) {
-                                    const subCat = subCatContent.filter(item => item.toolboxitemid == id)[0];
-                                    this._pushSubCategory(category.toolboxitemid, subCat);
-                                    subCategoryAdded = true;
-                                }
-                                if (hasLabel && !labelAdded) {
-                                    this._addLabel(categoryId, cnt[j].label);
-                                    labelAdded = true;
-                                }
-                                this._addBlock(categoryId, blockType);
+                        if (cnt[j].blocks && cnt[j].blocks.length > 0) {
+                            if (id && subCatContent) {
+                                categoryId = id;
                             }
+                            let labelAdded = false;
+                            for (var blockIndex = 0; blockIndex < cnt[j].blocks.length; blockIndex++) {
+                                const hasLabel = cnt[j].label !== null && cnt[j].label !== undefined;
+                                const catLabel = this._getCategoryLabels(hasLabel, categoryId, cnt[j].label);
+                                const blockType = cnt[j].blocks[blockIndex];
+                                const isMatching = ToolboxManager.isMatchingBlock(blockType, this.keyword, catLabel);
+                                const blockInRestriction = this._reducedToolboxBlocks && this._reducedToolboxBlocks.includes(blockType);
+                                if ((this.keyword == "" || isMatching) && (!this._reducedToolboxBlocks || blockInRestriction)) {
+                                    if (!categoryAdded) {
+                                        this._pushCategory(category);
+                                        categoryAdded = true;
+                                    }
+                                    if (!subCategoryAdded && id && subCatContent) {
+                                        const subCat = subCatContent.filter(item => item.toolboxitemid == id)[0];
+                                        this._pushSubCategory(category.toolboxitemid, subCat);
+                                        subCategoryAdded = true;
+                                    }
+                                    if (hasLabel && !labelAdded) {
+                                        this._addLabel(categoryId, cnt[j].label);
+                                        labelAdded = true;
+                                    }
+                                    this._addBlock(categoryId, blockType);
+                                }
+                            }
+                        } else if (cnt[j].contents) {
+                            pushElements(cnt[j].contents, cnt[j].subCategoryId);
+                        } else if (cnt[j].message) {
+                            if (!categoryAdded) {
+                                this._pushCategory(category)
+                                categoryAdded = true;
+                            }
+                            this._addLabel(categoryId, cnt[j].label);
                         }
-                    } else if (cnt[j] && cnt[j].contents) {
-                        pushElements(cnt[j].contents, cnt[j].subCategoryId);
-                    } else if (cnt[j] && cnt[j].message) {
-                        if (!categoryAdded) {
-                            this._pushCategory(category)
-                            categoryAdded = true;
-                        }
-                        this._addLabel(categoryId, cnt[j].label);
                     }
                 }
             }
@@ -618,7 +639,7 @@ class ToolboxManager {
     /**
      * Control block style without color in texas-instruments-code toolbox mode. (TI-83)
      * @private
-     * @param {Boolean} enable
+     * @param {boolean} enable
      */
     _setBlockStyleForTiCode(enable) {
         const toolboxDiv = document.querySelector('.blocklyToolboxDiv');
@@ -710,8 +731,14 @@ class ToolboxManager {
         const pointerEvent = container.getElementsByClassName("blocklyTreeRowContentContainer")[0];
         pointerEvent.style.removeProperty("pointer-events");
         // Replacing span label by a search input
-        let searchCat = document.getElementById("search.label");
-        if (searchCat !== null) {
+        let searchCat = document.getElementById("search.label") || document.querySelector('#search .blocklyTreeLabel');
+        if (searchCat) {
+            const stop = (e) => e.stopPropagation();
+            search.addEventListener('mousedown', stop);
+            search.addEventListener('click', stop);
+            search.addEventListener('dblclick', stop);
+            search.addEventListener('pointerdown', stop);
+            search.addEventListener('touchstart', stop, { passive: true });
             searchCat.replaceWith(search);
         }
         if (INTERFACE_NAME == "esp32") {
@@ -721,7 +748,6 @@ class ToolboxManager {
             }
         }
         // Define search behaviour
-        var that = this;
         const delay = function (callback, ms) {
             var timer = 0;
             return function () {
@@ -733,13 +759,13 @@ class ToolboxManager {
             };
         };
         // Add search event listener on key up
-        $("#" + searchInputId).keyup(delay(function (e) {
+        $("#" + searchInputId).keyup(delay((e) => {
             if (!(e.keyCode == 65 && e.ctrlKey) && !(e.ctrlKey) && !(e.keyCode == 17)) {
-                that.keyword = $("#" + searchInputId).val();
-                that.setToolbox();
+                this.keyword = $("#" + searchInputId).val();
+                this.setToolbox();
                 $("#" + searchInputId).val("");
                 document.getElementById(searchInputId).focus();
-                $("#" + searchInputId).val(that.keyword);
+                $("#" + searchInputId).val(this.keyword);
             }
         }, 100));
     };
@@ -776,6 +802,60 @@ class ToolboxManager {
         });
     };
     /**
+     * Append level div after search div at the top of toolbox.
+     * @private
+     * @param {Object|Array} content 
+     */
+    _disableBlocksAccordingToBoard(content) {
+        const wsBlocks = Main.getAllBlocks();
+        if (content && content.blocks) {
+            for (const type of content.blocks) {
+                const blockSvg = wsBlocks.find(block => block.type == type);
+                if (blockSvg) {
+                    blockSvg.setEnabled(false);
+                    this.notAllowedToRenderBlocks.push(blockSvg.type);
+                }
+            }
+        } else if (content && content.length) {
+            for (const subCat of content) {
+                if (typeof subCat == 'object' && subCat.blocks) {
+                    for (const type of subCat.blocks) {
+                        const blockSvg = wsBlocks.find(block => block.type == type);
+                        if (blockSvg) {
+                            blockSvg.setEnabled(false);
+                            this.notAllowedToRenderBlocks.push(blockSvg.type);
+                        }
+                    }
+                }
+            }
+        }
+    };
+    static setupSearchWorkspace() {
+        const id = 'searchBlocklyDiv';
+        let container = document.getElementById(id);
+        if (!container) {
+            container = document.createElement('div');
+            container.id = id;
+            container.style.position = 'absolute';
+            container.style.left = '-10000px';
+            container.style.top = '-10000px';
+            container.style.width = '1px';
+            container.style.height = '1px';
+            container.style.overflow = 'hidden';
+            document.body.appendChild(container);
+        } else if (!document.body.contains(container)) {
+            document.body.appendChild(container);
+        }
+        if (!Blockly._searchWorkspace || Blockly._searchWorkspace.isDisposed?.()) {
+            Blockly._searchWorkspace = Blockly.inject(container, {
+                css: false,
+                scrollbars: false,
+                trashcan: false,
+            });
+        }
+        return Blockly._searchWorkspace;
+    };
+    /**
      * Return true if block is matching with keyword to be added in toolbox.
      * @static
      * @param {String} blockType
@@ -798,26 +878,25 @@ class ToolboxManager {
             if (ToolboxManager.cleanString(blockXml).search(keyword) > -1) {
                 return true;
             }
-            // if keyword is matching with tooltip or text in block
-            if (Blockly._searchWorkspace === null) {
-                Blockly._searchWorkspace = Blockly.inject('searchBlocklyDiv', { css: false, scrollbars: false, trashcan: false });
-            }
-            Blockly._searchWorkspace.clear();
+            const ws = ToolboxManager.setupSearchWorkspace();
+            ws.clear();
             const xmlToLoad = Blockly.Xml.textToDom('<xml xmlns="http://www.w3.org/1999/xhtml">' + blockXml + '</xml>');
             ToolboxManager.DISABLE_BLOCK_COLOR_EXTENSION = true;
             ToolboxManager.DISABLE_BLOCK_HELPURL_EXTENSION = true;
             ToolboxManager.DISABLE_DISABLING_DUPLICATES_EXTENSION = true;
-            Blockly.Xml.domToWorkspace(xmlToLoad, Blockly._searchWorkspace);
+            Blockly.Xml.domToWorkspace(xmlToLoad, ws);
             ToolboxManager.DISABLE_BLOCK_COLOR_EXTENSION = false;
             ToolboxManager.DISABLE_BLOCK_HELPURL_EXTENSION = false;
             ToolboxManager.DISABLE_DISABLING_DUPLICATES_EXTENSION = false;
             if (searchInCode) {
-                const codeBlock = (typeof Blockly.Python === 'undefined' ? Blockly.Arduino.workspaceToCode(Blockly._searchWorkspace) : Blockly.Python.workspaceToCode(Blockly._searchWorkspace));
+                const codeBlock = (typeof Blockly.Python === 'undefined'
+                    ? Blockly.Arduino.workspaceToCode(ws)
+                    : Blockly.Python.workspaceToCode(ws));
                 if (codeBlock.search(keyword) > -1) {
                     return true;
                 }
             }
-            const blockDB = Blockly._searchWorkspace.getAllBlocks();
+            const blockDB = ws.getAllBlocks();
             const blockSvg = blockDB[Object.keys(blockDB).find(key => blockDB[key].type === blockType)];
             if (blockSvg !== undefined && ToolboxManager.searchBlock(blockSvg, keyword)) {
                 return true;
@@ -871,7 +950,7 @@ class ToolboxManager {
      */
     _getCategoryLabels(hasLabel, categoryId, subcatLabel) {
         const catText = Blockly.Msg["CATEGORY_" + categoryId.toUpperCase()];
-        if (hasLabel) {
+        if (hasLabel && typeof subcatLabel === 'string') {
             if (subcatLabel.includes("BKY_")) {
                 let subcatText = subcatLabel.split('BKY_')[1];
                 subcatText = Blockly.Msg[subcatText.substring(0, subcatText.length - 1)];
@@ -905,7 +984,7 @@ class ToolboxManager {
      * Check if variant block is present in current toolbox.
      * @public
      * @param {Array<Blockly.BlockSvg>} blocksSvg
-     * @return {Boolean} isVariantInToolbox
+     * @return {boolean} isVariantInToolbox
      */
     isVariantInToolbox(blockSVG) {
         let isVariantInToolbox = false;
@@ -938,6 +1017,25 @@ class ToolboxManager {
     static toolboxDefined(mode) {
         if (typeof TOOLBOXES !== 'undefined') {
             return TOOLBOXES.find(obj => obj.id === mode);
+        }
+    };
+    /**
+     * Check if toolbox content has to be added switching boards.
+     * @static
+     * @param {Object} category
+     * @returns {boolean} hasToBeAdded
+     */
+    static hasToBeAdded(obj) {
+        if (obj.onlyBoards) {
+            const currentBoard = Blockly.Constants.getSelectedBoard();
+            if (Array.isArray(obj.onlyBoards) && obj.onlyBoards.includes(currentBoard)) {
+                return true;
+            }
+            if (typeof obj.onlyBoards === 'string' && obj.onlyBoards === currentBoard) {
+                return true;
+            }
+        } else {
+            return true;
         }
     };
     static DB_ = {

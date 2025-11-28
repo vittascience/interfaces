@@ -113,7 +113,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_IO_GROVEKEYPAD_GETNUMBER_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -141,7 +142,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_IO_GROVEJOYSTICK_GETAXIS_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -156,6 +158,19 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }],
         "output": "Number",
         "tooltip": "%{BKY_IO_GETGROVESLIDEPOTENTIOMETER_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // GROVE ENCODER _ GET VALUE
+    {
+        "type": "io_getGroveEncoderValue",
+        "message0": "%{BKY_IO_GET_GROVE_ENCODER_VALUE_TITLE}",
+        "output": "Number",
+        "tooltip": "%{BKY_IO_GET_GROVE_ENCODER_VALUE_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
             "block_init_color"
@@ -175,7 +190,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_IO_GETGROVEROTARYANGLE_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -192,7 +208,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_IO_GETGROVETACTILE_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -209,7 +226,26 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_IO_GETGROVEBUTTON_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // REVERSED SIMPLE BUTTON _ READ DIGITAL 
+    {
+        "type": "io_getReversedButton",
+        "message0": "%{BKY_IO_GET_REVERSED_BUTTON_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "output": "Boolean",
+        "tooltip": "%{BKY_IO_GET_REVERSED_BUTTON_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -226,7 +262,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_IO_GETGROVESWITCH_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -235,6 +272,16 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "io_groveMp3_init",
         "message0": "%{BKY_IO_GROVEMP3_INIT_TITLE}",
         "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "VERSION",
+            "options": [
+                ["v4.0", "V4"],
+                ["v3.0", "V3"],
+                ["v2.0", "V2"]
+            ]
+        }],
+        "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+        "args1": [{
             "type": "field_grid_dropdown",
             "name": "RX",
             "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
@@ -249,7 +296,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_IO_GROVEMP3_INIT_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "groveMp3_tooltips",
+            "pins_management_global",
+            "pins_management_rxtx"
         ]
     },
 
@@ -257,21 +307,39 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     {
         "type": "io_groveMp3_play_pause",
         "message0": "%{BKY_IO_GROVEMP3_PLAY_PAUSE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "VERSION",
+            "options": [
+                ["v4.0", "V4"],
+                ["v3.0", "V3"],
+                ["v2.0", "V2"]
+            ]
+        }],
         "previousStatement": null,
         "nextStatement": null,
         "inputsInline": true,
         "tooltip": "%{BKY_IO_GROVEMP3_PLAY_PAUSE_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "groveMp3_tooltips"
         ]
     },
 
-    // GROVE MP3 3.0 _ PLAY SD SONG
+    // GROVE MP3 _ PLAY SD SONG
     {
         "type": "io_groveMp3_playSDSong",
         "message0": "%{BKY_IO_GROVEMP3_PLAY_SD_SONG_TITLE}",
         "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "VERSION",
+            "options": [
+                ["v4.0", "V4"],
+                ["v3.0", "V3"],
+                ["v2.0", "V2"]
+            ]
+        }, {
             "type": "input_value",
             "name": "NAME"
         }],
@@ -281,15 +349,24 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_IO_GROVEMP3_PLAY_SD_SONG_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "groveMp3_tooltips"
         ]
     },
 
-    // GROVE MP3 3.0 _ PLAY_SD_DIRECTORY_SONG
+    // GROVE MP3 _ PLAY_SD_DIRECTORY_SONG
     {
         "type": "io_groveMp3_playSDDirectorySong",
         "message0": "%{BKY_IO_GROVEMP3_PLAY_SD_DIRECTORY_SONG_TITLE}",
         "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "VERSION",
+            "options": [
+                ["v4.0", "V4"],
+                ["v3.0", "V3"],
+                ["v2.0", "V2"]
+            ]
+        }, {
             "type": "input_value",
             "name": "DIRECTORY"
         }, {
@@ -303,7 +380,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_IO_GROVEMP3_PLAY_SD_DIRECTORY_SONG_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "groveMp3_tooltips"
         ]
     },
 
@@ -311,13 +389,30 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     {
         "type": "io_groveMp3_next",
         "message0": "%{BKY_IO_GROVEMP3_NEXT_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "VERSION",
+            "options": [
+                ["v4.0", "V4"],
+                ["v3.0", "V3"],
+                ["v2.0", "V2"]
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "DIRECTION",
+            "options": [
+                ["%{BKY_IO_GROVEMP3_NEXT}", "NEXT"],
+                ["%{BKY_IO_GROVEMP3_PREVIOUS}", "PREVIOUS"],
+            ]
+        }],
         "previousStatement": null,
         "nextStatement": null,
         "inputsInline": true,
         "tooltip": "%{BKY_IO_GROVEMP3_NEXT_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "groveMp3_tooltips"
         ]
     },
 
@@ -325,11 +420,21 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     {
         "type": "io_groveMp3_getVolume",
         "message0": "%{BKY_IO_GROVEMP3_GET_VOLUME_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "VERSION",
+            "options": [
+                ["v4.0", "V4"],
+                ["v3.0", "V3"],
+                ["v2.0", "V2"]
+            ]
+        }],
         "output": "Number",
         "tooltip": "%{BKY_IO_GROVEMP3_GET_VOLUME_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "groveMp3_tooltips"
         ]
     },
 
@@ -338,6 +443,14 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "io_groveMp3_setVolume",
         "message0": "%{BKY_IO_GROVEMP3_SET_VOLUME_TITLE}",
         "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "VERSION",
+            "options": [
+                ["v4.0", "V4"],
+                ["v3.0", "V3"],
+                ["v2.0", "V2"]
+            ]
+        }, {
             "type": "input_value",
             "name": "VOLUME",
             "check": "Number"
@@ -348,7 +461,42 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_IO_GROVEMP3_SET_VOLUME_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "groveMp3_tooltips"
+        ]
+    },
+
+    // GROVE MP3 3.0 _ CHANGE PLAYING MODE
+    {
+        "type": "io_groveMp3_changePlayingMode",
+        "message0": "%{BKY_IO_GROVEMP3_CHANGE_PLAYING_MODE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "VERSION",
+            "options": [
+                ["v4.0", "V4"],
+                ["v3.0", "V3"],
+                ["v2.0", "V2"]
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "PLAY_MODE",
+            "options": [
+                ["%{BKY_IO_GROVEMP3_MODE_CYCLE}", "CYCLE"],
+                ["%{BKY_IO_GROVEMP3_MODE_SINGLE_CYCLE}", "SINGLE_CYCLE"],
+                ["%{BKY_IO_GROVEMP3_MODE_DIR_CYCLE}", "DIR_CYCLE"],
+                ["%{BKY_IO_GROVEMP3_MODE_RANDOM}", "RANDOM"],
+                ["%{BKY_IO_GROVEMP3_MODE_SINGLE_SHOT}", "SINGLE_SHOT"]
+            ]
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "inputsInline": true,
+        "tooltip": "%{BKY_IO_GROVEMP3_CHANGE_PLAYING_MODE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "groveMp3_tooltips"
         ]
     },
 
@@ -397,7 +545,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_IO_READDIGITALPIN_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
     {
@@ -411,7 +560,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_IO_READDIGITALPIN_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
         ]
     },
 
@@ -434,7 +583,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_IO_WRITEDIGITALPIN_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
     {
@@ -471,7 +621,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_IO_READANALOGPIN_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
     {
@@ -508,7 +659,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_IO_WRITEANALOGPIN_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
     {
@@ -551,7 +703,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_IO_SETPWM_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -573,7 +726,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_IO_READPULSEIN_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -611,3 +765,26 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     },
 
 ]); // END JSON EXTRACT (Do not delete this comment.)
+
+Blockly.Constants.IO = Object.create(null);
+
+/**
+ * Performs final setup of grove MP3 blocks by define tooltip.
+ * @this {Blockly.Block}
+ */
+Blockly.Constants.IO.GROVE_MP3_INIT_EXTENSION = function () {
+    const tooltip = this.getTooltip().split(Blockly.Tooltip.SEP)[1];
+    this.setTooltip(() => {
+        switch (this.getFieldValue('VERSION')) {
+            case 'V2':
+                return IMG_MODULE_MP3_V2 + Blockly.Tooltip.SEP + tooltip;
+            case 'V3':
+                return IMG_MODULE_MP3_V3 + Blockly.Tooltip.SEP + tooltip;
+            case 'V4':
+                return IMG_MODULE_MP3_V4 + Blockly.Tooltip.SEP + tooltip;
+        }
+    });
+};
+
+Blockly.Extensions.register('groveMp3_tooltips',
+    Blockly.Constants.IO.GROVE_MP3_INIT_EXTENSION);

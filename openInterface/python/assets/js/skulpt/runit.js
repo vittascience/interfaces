@@ -351,7 +351,7 @@ const PythonRun = {
                 }
             });
             window.dispatchEvent(event);
-            
+
             const lastChild = PythonRun.monitor.lastChild;
             if (lastChild && lastChild.tagName == 'P' && text) {
                 $(lastChild).html($(lastChild).html() + text);
@@ -412,7 +412,7 @@ const PythonRun = {
 
             // Show the console if it's hidden
             if ($('#monitor').hasClass('monitor-closed')) {
-                InterfaceMonitor.toggle();
+                InterfaceMonitor.toggle(500);
             }
             // resize the different workspaces in the IDE
             $(function () {
@@ -706,21 +706,21 @@ const PythonDebugger = {
         });
     },
 
-    moveFocus: function(table, rowIndex, cellIndex, direction) {
-      let rows = table.children;
-      if (rowIndex < 0 || rowIndex >= rows.length) return;
-  
-      let cells = rows[rowIndex].children;
-  
-      if (direction === "down" || direction === "up")
-          cellIndex = 0;
-  
-      if (cellIndex < 0 || cellIndex >= cells.length) return;
-  
-      let nextCell = cells[cellIndex];
-      nextCell.setAttribute("tabindex", "0");
-      nextCell.focus();
-  },  
+    moveFocus: function (table, rowIndex, cellIndex, direction) {
+        let rows = table.children;
+        if (rowIndex < 0 || rowIndex >= rows.length) return;
+
+        let cells = rows[rowIndex].children;
+
+        if (direction === "down" || direction === "up")
+            cellIndex = 0;
+
+        if (cellIndex < 0 || cellIndex >= cells.length) return;
+
+        let nextCell = cells[cellIndex];
+        nextCell.setAttribute("tabindex", "0");
+        nextCell.focus();
+    },
 
     /**
      * Parses variables from code and add them to variables panel.
@@ -816,7 +816,7 @@ const PythonDebugger = {
                 (!_this.isDebugging && !_this.isPythonRunning) ||
                 (_this.isDebugging && !_this.nextStep) ||
                 (_this.timeoutInCodeExecution > 0 && _this.isPythonRunning)) {
-                
+
                 if (_this.isDebugging && _this.isPythonRunning && !_this.timeoutDebugStarted) {
                     _this.timeoutDebugStarted = true;
                     _this.debugDelay = setTimeout(() => {
@@ -840,7 +840,7 @@ const PythonDebugger = {
                 return Promise.resolve(susp.resume());
             }
         } catch (e) {
-            if(typeof IS_CAPYTALE_CONTEXT !== 'undefined') {
+            if (typeof IS_CAPYTALE_CONTEXT !== 'undefined') {
                 InterfaceMonitor.writeConsole(e, 'warning');
             }
             console.error(e)

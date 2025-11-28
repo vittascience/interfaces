@@ -270,3 +270,21 @@ div#modal-gpsmap .vitta-modal-content {
         height: 35vh;
     }
 }
+
+
+#learnMoreBtn .fa-chevron-right,
+#learnMoreBtnText .fa-chevron-right,
+#learnMoreBtn .svg-inline--fa.fa-chevron-right,
+#learnMoreBtnText .svg-inline--fa.fa-chevron-right {
+    display: inline-block;
+    transition: transform .2s ease;
+    transform: rotate(0deg);
+}
+
+/* ouvert = ↓ */
+#learnMoreBtn[aria-expanded="true"] .fa-chevron-right,
+#learnMoreBtnText[aria-expanded="true"] .fa-chevron-right,
+#learnMoreBtn[aria-expanded="true"] .svg-inline--fa.fa-chevron-right,
+#learnMoreBtnText[aria-expanded="true"] .svg-inline--fa.fa-chevron-right {
+    transform: rotate(90deg);
+}

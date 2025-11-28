@@ -54,6 +54,8 @@ function displayPart(index) {
             }
         }
     }
+    //scroll to the top of the page
+    window.scrollTo(0, 0);
 }
 
 $(".btnProfileOrderDetails").on("click", function () {

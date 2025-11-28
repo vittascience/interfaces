@@ -103,7 +103,7 @@ const TOOLBOX_SCRATCH_CATEGORIES = [
         "kind": "category",
         "toolboxitemid": "lists",
         "name": "%{BKY_CATEGORY_LISTS}",
-        "style": "list_category",
+        "style": "lists_category",
         "cssConfig": {
             "icon": "icon_blockly fas fa-list"
         },
@@ -134,14 +134,14 @@ const TOOLBOX_SCRATCH_CATEGORIES = [
 const TOOLBOX_SCRATCH_CONTENT = {
     "network": [
         {
-            'blocks': [
+            "blocks": [
                 'network_connectWinky'
             ]
         }
     ],
     "display": [
         {
-            'blocks': [
+            "blocks": [
                 'display_preset',
                 'display_pattern',
                 'display_presetEachEye',
@@ -163,7 +163,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
     ],
     "communication": [
         {
-            'blocks': [
+            "blocks": [
                 "communication_serialWrite",
                 "communication_graphSerialWrite",
                 "communication_graphSerialWrite_datasFormat"
@@ -172,7 +172,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
     ],
     "sounds": [
         {
-            'blocks': [
+            "blocks": [
                 'sounds_setVolume',
                 'sounds_playSound'
             ]

@@ -1070,7 +1070,7 @@ var $builtinmodule = function (name) {
             return default_;
         }
 
-        ret = Sk.builtin.float(ret);
+        ret = new Sk.builtin.float_(ret);
         priority = Sk.ffi.remapToJs(ret);
 
         return priority;
@@ -1984,7 +1984,15 @@ var $builtinmodule = function (name) {
             self.tp$name = CLASS_NDARRAY; // set class name
         });
 
-        $loc._internalGenericGetAttr = Sk.builtin.object.prototype.GenericSetAttr;
+        $loc._internalGenericGetAttr = new Sk.builtin.func(function (self, name) {
+            if (self.tp$getattr) {
+                return self.tp$getattr(name);
+            }
+            if (Sk.builtin.object.prototype.GenericGetAttr) {
+                return Sk.builtin.object.prototype.GenericGetAttr.call(this, self, name);
+            }
+            throw new Sk.builtin.AttributeError("'" + Sk.abstr.typeName(self) + "' object has no attribute '" + name + "'");
+        });
 
         $loc.__getattr__ = new Sk.builtin.func(function (self, name) {
             if (name != null && (Sk.builtin.checkString(name) || typeof name === "string")) {

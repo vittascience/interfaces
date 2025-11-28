@@ -4,9 +4,9 @@
 
 Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 
-    /* Start Galaxia RGB LED blocks */
+    /* Start Galaxia Screen blocks */
 
-    // BLOCK SET GALAXIA LED COLORS
+    // BLOCK GALAXIA SCREEN SET TEXT
     {
         "type": "display_galaxia_screen_set_text",
         "message0": "%{BKY_DISPLAY_GALAXIA_SCREEN_SET_TEXT_TITLE}",
@@ -24,6 +24,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ],
     },
 
+    // BLOCK GALAXIA SCREEN SET TEXT WITH VALUE
     {
         "type": "display_galaxia_screen_set_text_value",
         "message0": "%{BKY_DISPLAY_GALAXIA_SCREEN_SET_TEXT_VALUE_TITLE}",
@@ -46,6 +47,22 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "block_init_helpurl"
         ],
     },
+
+    // BLOCK GALAXIA SCREEN CLEAR
+    {
+        "type": "display_galaxia_screen_clear",
+        "message0": "%{BKY_DISPLAY_GALAXIA_SCREEN_CLEAR_TITLE}",
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "display_blocks",
+        "tooltip": "%{BKY_DISPLAY_GALAXIA_SCREEN_CLEAR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ],
+    },
+
+    /* Start Galaxia RGB LED blocks */
 
     {
         "type": "display_galaxia_led_set_colors",
@@ -230,7 +247,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "TEXT",
-        },{
+        }, {
             "type": "input_value",
             "name": "X",
         }, {
@@ -279,8 +296,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "IMAGE",
-        }
-        , {
+        }, {
             "type": "input_value",
             "name": "X",
         }, {
@@ -326,7 +342,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "block_init_helpurl"
         ],
     },
-    
 
     /* Start external screens blocks */
 

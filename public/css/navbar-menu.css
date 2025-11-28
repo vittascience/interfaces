@@ -148,6 +148,10 @@
 	left: -0.3em;
 }
 
+.theme-dark .vs-navbar .nav-link sup {
+	color: #EA645A;
+}
+
 #navbar-icon-section {
 	display: flex;
 }

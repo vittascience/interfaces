@@ -8,6 +8,14 @@ var UnitTests = (function () {
      */
     function init(project) {
         var p = new Promise(function (resolve, reject) {
+            if (turtleAutocorrector.isEnabled()) {
+                document.querySelector('.ide-btn-pythtest').style.display = 'block';
+                Object.assign(document.querySelector('#runButtonPython').style, {
+                    'borderTopRightRadius': '0',
+                    'borderBottomRightRadius': '0'
+                });
+                return resolve();
+            }
             if (typeof IS_CAPYTALE_CONTEXT !== 'undefined') return resolve();
             $.ajax({
                 type: "POST",

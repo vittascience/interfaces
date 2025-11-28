@@ -15,9 +15,15 @@ const IMG_ROBOT_CODO = TOOLTIP_IMG_PATH + 'robot-codo-front.jpg';
 const IMG_ROBOT_OOBYBOT = TOOLTIP_IMG_PATH + 'robot-oobybot-front.jpg';
 const IMG_ROBOT_BUGGY = TOOLTIP_IMG_PATH + 'mini-buggy-kitronik-front.jpg';
 const IMG_SHIELD_KITRONIK = TOOLTIP_IMG_PATH + 'shield-moteurs-kitronik-microbit-front.jpg';
-const IMG_ROBOT_MAQUEEN_PLUS = TOOLTIP_IMG_PATH + 'maqueenplusv1-dfrobot.jpg';
+const IMG_ROBOT_MAQUEEN_PLUS_V1 = TOOLTIP_IMG_PATH + 'maqueenplusv1-dfrobot.jpg';
 const IMG_ROBOT_MAQUEEN_PLUS_V2 = TOOLTIP_IMG_PATH + 'maqueenplus-dfrobot.jpg';
+const IMG_ROBOT_MAQUEEN_PLUS_V3 = TOOLTIP_IMG_PATH + 'maqueenplusv3-dfrobot.webp';
+const IMG_ROBOT_DFROBOT_LIDAR = TOOLTIP_IMG_PATH + 'DFrobot_lidarSensor.jpg';
 const IMG_ROBOT_BITCAR = TOOLTIP_IMG_PATH + 'nm_bitcar-front.jpg';
+const IMG_SHIELD_KITRONIK_ENV = TOOLTIP_IMG_PATH + 'kitronik-environmental.png';
+const IMG_SHIELD_KITRONIK_KLIMATE = TOOLTIP_IMG_PATH + 'kitronik-klimate.png';
+const IMG_MODULE_ACCESSBIT = TOOLTIP_IMG_PATH + 'nm_accessbit-front.jpg';
+const IMG_MODULE_KITRONIK_ZIP_HALO_HD = TOOLTIP_IMG_PATH + 'kitronik-zip-halo-hd.jpg';
 //compatible-stm32
 const IMG_MODULE_ALPHABOT = TOOLTIP_IMG_PATH + 'robot-alphabot-v2-front.jpg';
 const IMG_X_NUCLEO_IKS01A3 = TOOLTIP_IMG_PATH + 'X-NUCLEO-IKS01A3.jpg';
@@ -53,11 +59,14 @@ const IMG_MODULE_JOYSTICK = TOOLTIP_IMG_PATH + 'mini-joystick-grove-front.jpg';
 const IMG_MODULE_LED_BUTTON = TOOLTIP_IMG_PATH + 'bouton-led-jaune-bleu-rouge-block-front.jpg';
 const IMG_MODULE_SLIDE_POT = TOOLTIP_IMG_PATH + 'potentiometre-lineaire-grove-front.jpg';
 const IMG_MODULE_ROTARY_ANGLE = TOOLTIP_IMG_PATH + 'encodeur-rotatif-noir-grove-front.jpg';
+const IMG_MODULE_ROTARY_ENCODER = TOOLTIP_IMG_PATH + 'encodeur-rotatif-grove-front.png';
 const IMG_MODULE_TOUCH = TOOLTIP_IMG_PATH + 'bouton-tactile-grove-front.jpg';
 const IMG_MODULE_SWITCH = TOOLTIP_IMG_PATH + 'interrupteur-grove-block-front.jpg';
 const IMG_MODULE_BUTTON = TOOLTIP_IMG_PATH + 'bouton-poussoir-grove-block-front.jpg';
 const IMG_MODULE_MAGNETIC_SWITCH = TOOLTIP_IMG_PATH + 'nm_interrupteur-magnetique-grove-front.jpg';
-const IMG_MODULE_MP3 = TOOLTIP_IMG_PATH + 'module-mp3-grove-front.jpg';
+const IMG_MODULE_MP3_V2 = TOOLTIP_IMG_PATH + 'module-mp3-grove-front.jpg';
+const IMG_MODULE_MP3_V3 = TOOLTIP_IMG_PATH + 'module-mp3-grove-v3.jpg';
+const IMG_MODULE_MP3_V4 = TOOLTIP_IMG_PATH + 'module-mp3-grove-v4.jpg';
 //communication-save-data
 const IMG_MODULE_OPENLOG = TOOLTIP_IMG_PATH + 'module-openlog-gestion-donnees-block-front.jpg';
 const IMG_MODULE_SD_SPIMODULE = TOOLTIP_IMG_PATH + 'module-micro-sd-block-front.jpg';
@@ -121,6 +130,7 @@ const IMG_MODULE_LIGHT = TOOLTIP_IMG_PATH + 'capteur-de-luminosite-grove-front.j
 const IMG_MODULE_SI1145 = TOOLTIP_IMG_PATH + 'capteur-lumiere-visible-infrarouge-et-ultraviolet-grove-block-front.jpg';
 const IMG_MODULE_UV = TOOLTIP_IMG_PATH + 'capteur-ultraviolet-grove-front.jpg';
 const IMG_MODULE_I2C_COLOR = TOOLTIP_IMG_PATH + 'capteur-de-couleurs-grove-front.jpg';
+const IMG_MODULE_I2C_COLOR_V3 = TOOLTIP_IMG_PATH + 'capteur-de-couleurs-grove-v3-front.webp';
 const IMG_MODULE_CAMERA = TOOLTIP_IMG_PATH + 'module-photo-front.jpg';
 const IMG_MODULE_SOUND_LOUDNESS = TOOLTIP_IMG_PATH + 'capteur-sonore-grove-block-front.jpg';
 //sensors-distance&movement
@@ -130,6 +140,7 @@ const IMG_MODULE_GESTURE = TOOLTIP_IMG_PATH + 'capteur-de-gestes-grove-back.jpg'
 const IMG_MODULE_LINE_FINDER = TOOLTIP_IMG_PATH + 'suiveur-de-ligne-grove-front.jpg';
 const IMG_MODULE_TILT = TOOLTIP_IMG_PATH + 'capteur-d-inclination-grove-front.jpg';
 const IMG_MODULE_MOTION = TOOLTIP_IMG_PATH + 'detecteur-infrarouge-de-mouvement-PIR-grove-front.jpg';
+const IMG_MODULE_MOTION_MINI = TOOLTIP_IMG_PATH + 'mini-detecteur-infrarouge-de-mouvement-PIR-grove-front.png';
 const IMG_MODULE_VIBRATIONS = TOOLTIP_IMG_PATH + 'capteur-de-vibrations-piezo-grove-extra2.jpg';
 //sensors-others
 const IMG_MODULE_INA219 = TOOLTIP_IMG_PATH + 'capteur-courant-tension-puissance-ina219-front.jpg';
@@ -154,9 +165,7 @@ const IMG_MODULE_WATER_ATOMIZER = TOOLTIP_IMG_PATH + 'module-atomisateur-d-eau-a
 const IMG_MODULE_ELECTROMAGNET = TOOLTIP_IMG_PATH + 'module-electroaimant-grove-front.jpg';
 const IMG_MODULE_NFC = TOOLTIP_IMG_PATH + 'tag-ST-M24SR64-front.jpg';
 const IMG_MODULE_LORA = TOOLTIP_IMG_PATH + 'LoRa-E5-back.jpg';
-const IMG_SHIELD_KITRONIK_ENV = TOOLTIP_IMG_PATH + 'kitronik-environmental.png';
-const IMG_SHIELD_KITRONIK_KLIMATE = TOOLTIP_IMG_PATH + 'kitronik-klimate.png';
-const IMG_MODULE_ACCESSBIT = TOOLTIP_IMG_PATH + 'nm_accessbit-front.jpg';
+const IMG_MODULE_STEPPER_ULN2003 = TOOLTIP_IMG_PATH + 'stepper-motor-28BYJ-48-08-ULN2003A-driver.webp';
 // senseHat
 const IMG_MODULE_SENSE_HAT = TOOLTIP_IMG_PATH + 'sense-hat-raspberry-pi.jpg';
 //raspberry pi camera
@@ -193,9 +202,11 @@ const IMG_MODULE_MAKEBLOCK_TOUCH_SENSOR = TOOLTIP_IMG_PATH + 'module-makeBlock-c
 const IMG_ROBOT_MBOT2 = TOOLTIP_IMG_PATH + 'robot-mbot2.jpg';
 const IMG_MBUILD_ULTRASONIC_SENSOR = TOOLTIP_IMG_PATH + 'mbuild-ultrasonic-sensor.png';
 const IMG_MBUILD_SENSORS_QUAD_RGB_SENSOR = TOOLTIP_IMG_PATH + 'mbuild-quad-rgb-sensor.png';
-// drole-Tello
+//drone-Tello
 const IMG_DRONE_TELLO = TOOLTIP_IMG_PATH + 'Tello-front.jpg';
-// huskylens
+//huskylens
 const IMG_HUSKYLENS = TOOLTIP_IMG_PATH + 'huskylens.png';
-// esp32-cam
+//esp32-cam
 const IMG_ESP32_CAM = TOOLTIP_IMG_PATH + 'esp32-cam.jpg';
+//arduino-r4-wifi
+const IMG_ARDUINO_UNO_R4_WIFI = TOOLTIP_IMG_PATH + 'arduino-uno-r4-wifi.png';

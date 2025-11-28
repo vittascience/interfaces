@@ -52,7 +52,7 @@ class SERVER:
           self.start(sta=sta, ap=ap, ip=ip, port=80)
         else:
           machine.reset()
-    
+
   def waitingClient(self):
     if self.client is None:
       if gc.mem_free() < 102000:
@@ -90,9 +90,9 @@ class SERVER:
             self.addCodeIntoHtml('vitta_style.css')
             if self.with_vars:
               f = open('client.js', 'w')
-              f.write("requestVariablesFromServer('" + self.client_ip + "')")
+              f.write("requestVariablesFromServer('" + self.client_ip + "');")
               f.close()
-              self.addCodeIntoHtml('client.js')
+              self.addCodeIntoHtml('client.js', False)
             self.sendHTTPSocket('html', 'text', self.html_page)
           elif cmd is CMD_RECEIVE_SIMPLE_DATA:
             pass
@@ -107,8 +107,9 @@ class SERVER:
             self.sendHTTPSocket('json', 'application', ujson.dumps(data))
         elif not 'GET / HTTP/' in self.client_data and not 'GET /favicon.ico HTTP/' in self.client_data and not 'GET /requestVariables&' in self.client_data:
           if not cmd is CMD_SEND_WEB_PAGE and not cmd is CMD_SEND_VARIABLES and not self.locked:
+            isJson = '{' in self.client_data and '}' in self.client_data and ':' in self.client_data
             if cmd is CMD_SEND_SIMPLE_DATA:
-              if '{' in self.client_data and '}' in self.client_data and ':' in self.client_data:
+              if isJson:
                 request = ujson.loads(self.client_data)
                 if request['cmd'] == 'receive':
                   self.client_data = None
@@ -118,7 +119,7 @@ class SERVER:
                 elif request['cmd'] == 'send':
                   self.client_data = request['data']
             else:
-              if '{' in self.client_data and '}' in self.client_data and ':' in self.client_data:
+              if isJson:
                 request = ujson.loads(self.client_data)
                 if request['cmd'] == 'receive':
                   self.client_data = None
@@ -164,15 +165,16 @@ class SERVER:
     self.with_vars = with_vars
     self.manageSocket(CMD_SEND_WEB_PAGE)
 
-  def addCodeIntoHtml(self, fileName):
+  def addCodeIntoHtml(self, fileName, headerScript = True):
     try:
       f = open(fileName, 'r')
       script_code = f.read()
       if '.js' in fileName:
-        if '<script>' in self.html_page:
-          self.html_page = self.html_page.replace('</script>', script_code + '\n</script>')
+        script = '<script>\n' + script_code + '\n</script>\n'
+        if '<script>' in self.html_page and headerScript:
+          self.html_page = self.html_page.replace('<script>', script + '<script>')  
         else:
-          self.html_page = self.html_page.replace('</body>', '<script>\n' + script_code + '\n</script>\n</body>')
+          self.html_page = self.html_page.replace('</body>', script + '</body>')
       elif '.css' in fileName:
         if '<style>' in self.html_page:
           self.html_page = self.html_page.replace('</style>', script_code + '\n</style>')

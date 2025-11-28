@@ -435,6 +435,8 @@ Blockly.Msg["ACTUATORS_MUSIC_PLAY_FREQUENCY_TOOLTIP"] = IMG_MODULE_BUZZER_SPEAKE
 Blockly.Msg["ACTUATORS_MUSIC_STOP_TITLE"] = "[Buzzer/Speaker] stop music on %1";
 Blockly.Msg["ACTUATORS_MUSIC_STOP_TOOLTIP"] = IMG_MODULE_BUZZER_SPEAKER + Blockly.Tooltip.SEP + "Enable to stop music from Grove buzzer module (or speaker) on digital pins.";
 
+Blockly.Msg["ROBOTS_GO_FORWARD"] = "move forward";
+Blockly.Msg["ROBOTS_GO_BACKWARD"] = "move backward";
 // Robots - Alphabot
 Blockly.Msg["ROBOTS_ALPHABOT_RIGHT"] = "right";
 Blockly.Msg["ROBOTS_ALPHABOT_LEFT"] = "left";
@@ -465,9 +467,7 @@ Blockly.Msg["ROBOTS_ALPHABOT_ONOBSTACLEDETECTED_TOOLTIP"] = IMG_MODULE_ALPHABOT 
 Blockly.Msg["ROBOTS_ALPHABOT_BY_RIGHT"] = "by the right (LEDR)";
 Blockly.Msg["ROBOTS_ALPHABOT_BY_LEFT"] = "by the left (LEDL)";
 Blockly.Msg["ROBOTS_ALPHABOT_BOTH_SIDES"] = "by both sides (LEDR & LEDL)";
-Blockly.Msg["ROBOTS_ALPHABOT_GO_TITLE"] = "[Alphabot] control robot %1 speed %2 (%)";
-Blockly.Msg["ROBOTS_ALPHABOT_GO_FORWARD"] = "forward";
-Blockly.Msg["ROBOTS_ALPHABOT_GO_REVERSE"] = "backward";
+Blockly.Msg["ROBOTS_ALPHABOT_GO_TITLE"] = "[Alphabot] %1 at speed %2 (%)";
 Blockly.Msg["ROBOTS_ALPHABOT_GO_TOOLTIP"] = IMG_MODULE_ALPHABOT + Blockly.Tooltip.SEP + "Enable to control car running (FORWARD/BACKWARD) and speed (from 0 to 100 %) of alphabot robot.";
 Blockly.Msg["ROBOTS_ALPHABOT_TURNTO_TITLE"] = "[Alphabot] turn to %1 speed %2";
 Blockly.Msg["ROBOTS_ALPHABOT_TURNTO_TOOLTIP"] = IMG_MODULE_ALPHABOT + Blockly.Tooltip.SEP + "Enable to turn to the right or to the left with alphabot robot. Set speed (from 0 to 100 %).";
@@ -515,3 +515,4 @@ Blockly.Msg["JOYSTICK_BUTTON_DOWN"] = "down";
 Blockly.Msg["JOYSTICK_BUTTON_LEFT"] = "left";
 Blockly.Msg["JOYSTICK_BUTTON_RIGHT"] = "right";
 Blockly.Msg["JOYSTICK_BUTTON_CENTER"] = "center";
+Blockly.Msg['SENSORS_VL53L0X_GETRANGEMILLIMETERS_TOOLTIP'] = IMG_MODULE_VL53L0X + Blockly.Tooltip.SEP + 'Returns distance measurements from the Time Of Flight sensor on the I2C port.';

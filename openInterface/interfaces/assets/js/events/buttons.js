@@ -5,6 +5,13 @@ window.addEventListener('storage', (e) => {
         setAccessibility();
     }
 });
+
+function announceToScreenReader(message) {
+    if (typeof window.updateAriaLiveRegion === 'function') {
+        window.updateAriaLiveRegion(message);
+    }
+}
+
 let showNewBtn = false;
 let showOpenBtn = true;
 let showSaveBtn = true;
@@ -72,6 +79,101 @@ const runSimulatorObserver = new MutationObserver((mutations) => {
     }
 });
 runSimulatorObserver.observe(document.body, { childList: true, subtree: true });
+
+// Announce popups to screen readers when they become visible
+function _isElementVisible(element) {
+    if (!element) return false;
+    const style = window.getComputedStyle(element);
+    if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') return false;
+    const rects = element.getClientRects();
+    return rects.length > 0 && (element.offsetWidth > 0 || element.offsetHeight > 0);
+}
+
+function _announce(text, options = { ariaLive: 'assertive', role: 'alert' }) {
+    if (!text) return;
+    try {
+        if (typeof updateAriaLiveRegion === 'function') {
+            updateAriaLiveRegion(text, options);
+            return;
+        }
+    } catch (e) { }
+    let liveRegion = document.getElementById('aria-live-region');
+    if (!liveRegion) {
+        liveRegion = document.createElement('div');
+        liveRegion.id = 'aria-live-region';
+        liveRegion.setAttribute('aria-live', options.ariaLive || 'assertive');
+        liveRegion.setAttribute('role', options.role || 'status');
+        liveRegion.style.position = 'absolute';
+        liveRegion.style.left = '-9999px';
+        document.body.appendChild(liveRegion);
+    }
+    liveRegion.textContent = '';
+    setTimeout(() => { liveRegion.textContent = text; }, 100);
+}
+
+function _announceTextFromElement(element) {
+    if (!element) return;
+    const span = element.querySelector('span') || element;
+    let rawText = (span.innerText || span.textContent || '').trim();
+    if (!rawText) {
+        const dataI18n = span.getAttribute && span.getAttribute('data-i18n');
+        if (dataI18n) {
+            let key = dataI18n;
+            const bracketIdx = key.indexOf(']');
+            if (key.startsWith('[') && bracketIdx !== -1) {
+                key = key.substring(bracketIdx + 1);
+            }
+            try {
+                if (typeof i18next !== 'undefined' && i18next && typeof i18next.t === 'function') {
+                    rawText = i18next.t(key);
+                }
+            } catch (e) { }
+            if (!rawText && typeof jsonPath === 'function') {
+                try { rawText = jsonPath(key); } catch (e) { }
+            }
+        }
+    }
+    const text = (rawText || '').replace(/\s+/g, ' ').trim();
+    if (text) _announce(text);
+}
+
+function initPopupAnnouncements() {
+    const container = document.getElementById('popup-container');
+    const elements = [];
+    if (container) {
+        container.querySelectorAll(':scope > div').forEach((child) => elements.push(child));
+    } else {
+        ['mixed-popup-leave-editor', 'mixed-popup-working'].forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) elements.push(el);
+        });
+    }
+
+    elements.forEach((el) => {
+        el.setAttribute('role', 'alert');
+        el.setAttribute('aria-live', 'assertive');
+        el.setAttribute('aria-atomic', 'true');
+
+        const observer = new MutationObserver(() => {
+            const isVisible = _isElementVisible(el);
+            if (isVisible && el.dataset.srAnnounced !== '1') {
+                _announceTextFromElement(el);
+                el.dataset.srAnnounced = '1';
+            } else if (!isVisible && el.dataset.srAnnounced === '1') {
+                delete el.dataset.srAnnounced;
+            }
+        });
+        observer.observe(el, { attributes: true, attributeFilter: ['style', 'class', 'hidden', 'aria-hidden'] });
+
+        // Initial check in case it's already visible
+        setTimeout(() => {
+            if (_isElementVisible(el)) {
+                _announceTextFromElement(el);
+                el.dataset.srAnnounced = '1';
+            }
+        }, 0);
+    });
+}
 
 // Modals creation after stdModals have been populated
 (async function setBeautifulModals() {
@@ -250,7 +352,7 @@ if (INTERFACE_NAME !== "adacraft") {
             ></button>
         </div>
     `;
-    const downloadOptionInterfaces = ["arduino", "microbit", "esp32", "wb55", "l476", "galaxia", "GalaxiaCircuitPython", "mBot", "m5stack", "buddy", "cyberpi", "letsstartcoding", "pico", "eliobot", "thymio", "raspberrypi", "winky", "niryo", "nao", "sphero", "lotibot", "bluebot", "spike", "photon"];
+    const downloadOptionInterfaces = ["arduino", "microbit", "esp32", "wb55", "l476", "galaxia", "GalaxiaCircuitPython", "mBot", "m5stack", "buddy", "cyberpi", "letsstartcoding", "pico", "eliobot", "thymio", "raspberrypi", "winky", "niryo", "nao", "sphero", "lotibot", "bluebot", "spike", "photon", "codey"];
     if (downloadOptionInterfaces.includes(INTERFACE_NAME)) {
         $('.ide-btn-group-download').append(dropdownHeaderDownload);
 
@@ -285,11 +387,19 @@ if (INTERFACE_NAME !== "adacraft") {
     }
 
     setupObserver();
+    initPopupAnnouncements();
 
     // enabling Python Code translation info on Python interface
     if (INTERFACE_NAME == "python") {
         if (localStorage.getItem('pythonCodeTranslationInfo') == null) {
             $('#mixed-popup-working').css('opacity', '1');
+            // Announce Python translation info when the popup becomes visible
+            (function () {
+                const el = document.getElementById('mixed-popup-working');
+                if (el && _isElementVisible(el)) {
+                    _announceTextFromElement(el);
+                }
+            })();
             $('#mixed-popup-working').click(function () {
                 $('#mixed-popup-working').remove();
                 localStorage.setItem('pythonCodeTranslationInfo', true);
@@ -537,6 +647,10 @@ $('.ide-dropdown .ide-btn-group .ide-btn').on('click', function () {
 document.addEventListener('click', (e) => {
     if (e.target.closest('#autocorrector-modal-button')) {
         if (projectManager.getInterface() == 'python') {
+            if (CodeManager.getSharedInstance().getCode().includes('import turtle')) {
+                turtleAutocorrector.openTurtleExerciseCreationModal();
+                return;
+            }
             pseudoModal.openModal('modal-formunittests');
         } else {
             openExerciseModal();
@@ -606,42 +720,28 @@ function saveDefaultProjectToComputer(downloadingProject) {
 
     let script = CodeManager.getSharedInstance().getCode();
     if (downloadingProject) {
-        const userName = user == null ? 'anonyme' : (user.firstname + ' ' + user.surname);
         const commentsOpen = (inoInterfaces.includes(INTERFACE_NAME)) ? '/*' : '"""';
         const commentsClose = (inoInterfaces.includes(INTERFACE_NAME)) ? '*/' : '"""';
-        let header = '';
-        if (typeof window.maClasseTiIntegration !== 'undefined' && window.maClasseTiIntegration) {
-            header += `${commentsOpen}\n\n`;
-
-            if (user !== null) {
-                header += `Auteur: ${userName}\n`;
-            }
-
-            header += `
-Nom du projet: ${name}\n
-Description: ${description}\n
-Toolbox: ${(getParamValue('toolbox') || TOOLBOX_STYLE_DEFAULT)}\n
-Mode: ${Main.getCodingMode()}\n
-Blocks: ${CodeManager.getSharedInstance()._workspaceToXml()}\n
-Projet généré par MaClasseTI.fr\n
-Ce fichier contient le code textuel ainsi que le code blocs. Il peut être importé de nouveau\n
-sur l'interface https://maclasseti.fr/python\n\n
-${commentsClose}\n\n`;
-        } else {
-            header += `
-${commentsOpen}\n\n
-Auteur: ${userName}\n
-Interface: ${INTERFACE_NAME}\n
-Nom du projet: ${name}\n
-Description: ${description}\n
-Toolbox: ${(getParamValue('toolbox') || TOOLBOX_STYLE_DEFAULT)}\n
-Mode: ${Main.getCodingMode()}\n
-Blocks: ${CodeManager.getSharedInstance()._workspaceToXml()}\n
-Projet généré par Vittascience.\n
-Ce fichier contient le code textuel ainsi que le code blocs. Il peut être importé de nouveau\n
-sur l'interface http://vittascience.com/${INTERFACE_NAME}\n\n
-${commentsClose}\n\n`;
+        let header = `${commentsOpen}\n`;
+        if (user !== null) {
+            header += `Auteur: ${user.firstname + ' ' + user.surname}\n`;
         }
+        const body = `Nom du projet: ${name}
+Description: ${description}
+Toolbox: ${(getParamValue('toolbox') || TOOLBOX_STYLE_DEFAULT)}
+Mode: ${Main.getCodingMode()}\n
+Blocks: ${CodeManager.getSharedInstance()._workspaceToXml()}\n`;
+        const footer = (title, link) =>
+`Projet généré par ${title}.
+Ce fichier contient le code textuel ainsi que le code blocs. Il peut être importé de nouveau
+sur l'interface ${link}\n\n`;
+
+        if (typeof window.maClasseTiIntegration !== 'undefined' && window.maClasseTiIntegration) {
+            header += `${body}\n${footer('MaClasseTI.fr', 'https://maclasseti.fr/python')}`
+        } else {
+            header += `Interface: ${INTERFACE_NAME}\n${body}\n${footer('Vittascience', `http://vittascience.com/${INTERFACE_NAME}`)}`;
+        }
+        header += `${commentsClose}\n\n`;
         script = header + script;
     }
     if (typeof INTERFACE_NAME !== 'undefined' && INTERFACE_NAME === 'galaxia' && !downloadingProject) {
@@ -928,6 +1028,10 @@ function switchBlockMode(animation = true) {
         $("#codeModeButtons, .python_button_sm").hide();
         $("#blocks_button_panel, .blocks_button_sm").show();
 
+        if (document.getElementById('mixed-popup-readonly')) {
+            $('#mixed-popup-readonly').remove();
+        }
+
         UIManager.enableSwitchingButtons(Main.getCodingMode());
         UIManager.updateCssSwitchingButtons(Main.getCodingMode());
         Main.setOptionForEditor("readOnly", true);
@@ -990,8 +1094,12 @@ function switchMixedMode(animation = true) {
         $(".ide-block").width('100%');
         if (INTERFACE_NAME == 'python' || Main.hasCpp2Blocks() || Main.hasPython2Blocks()) {
             Main.setOptionForEditor("readOnly", false);
+            if (document.getElementById('mixed-popup-readonly')) {
+                $('#mixed-popup-readonly').remove();
+            }
         } else {
             Main.setOptionForEditor("readOnly", true);
+            showMixedReadOnlyPopup();
         }
         UIManager.enableSwitchingButtons(Main.getCodingMode());
         UIManager.updateCssSwitchingButtons(Main.getCodingMode());
@@ -1024,8 +1132,12 @@ function switchMixedMode(animation = true) {
                 $(".ide-block").show();
                 if (INTERFACE_NAME == 'python' || Main.hasCpp2Blocks() || Main.hasPython2Blocks() || !Main.getIsXmlBasedInterface()) {
                     Main.setOptionForEditor("readOnly", false);
+                    if (document.getElementById('mixed-popup-readonly')) {
+                        $('#mixed-popup-readonly').remove();
+                    }
                 } else {
                     Main.setOptionForEditor("readOnly", true);
+                    showMixedReadOnlyPopup();
                 }
                 UIManager.enableSwitchingButtons(Main.getCodingMode());
                 UIManager.updateCssSwitchingButtons(Main.getCodingMode());
@@ -1036,6 +1148,45 @@ function switchMixedMode(animation = true) {
     }
     $("#codeModeButtons, .python_button_sm").hide();
     Main.resizeAceEditor();
+}
+
+/**
+ * Show popup notification for mixed mode read-only code editor
+ */
+function showMixedReadOnlyPopup() {
+    if (localStorage.getItem('mixedModeReadOnlyInfo') !== null)
+        return;
+    if (document.getElementById('mixed-popup-readonly'))
+        return;
+
+    document.getElementById('popup-container').insertAdjacentHTML('beforeend', `
+        <div id="mixed-popup-readonly" style="display: none; background-color: var(--bg-2); transition: 0.2s; border: 2px solid var(--vitta-orange); text-align: center; padding: 1rem 1.5rem; color: var(--text-0); height: fit-content; width: 35ch; font-size: 0.8em; position: relative; border-radius: 0.5em; user-select: none; cursor: pointer; opacity: 0;">
+            <span>${i18next.t('code.popups.mixed-popup-readonly')}</span>
+        </div>
+    `);
+
+    const popup = document.getElementById('mixed-popup-readonly');
+
+    setTimeout(() => {
+        popup.style.display = 'block';
+        setTimeout(() => {
+            popup.style.opacity = '1';
+        }, 10);
+    }, 500);
+
+    setTimeout(() => {
+        if (typeof announceToScreenReader === 'function') {
+            announceToScreenReader(i18next.t('code.popups.mixed-popup-readonly-sr'));
+        }
+    }, 600);
+
+    popup.addEventListener('click', function() {
+        popup.style.opacity = '0';
+        setTimeout(() => {
+            popup.remove();
+        }, 200);
+        localStorage.setItem('mixedModeReadOnlyInfo', 'true');
+    });
 }
 
 /**
@@ -1060,12 +1211,11 @@ function syncCode() {
 };
 
 function switchCodeMode(animation = true) {
-    projectManager.multiSwitchCodeMode();
+    if (typeof projectManager !== 'undefined' && projectManager) projectManager.multiSwitchCodeMode();
     const previousToolbox = Blockly.Constants.getToolboxStyle();
 
     $('.ace_content').css("background-color", 'var(--bg-1)')
     $('#toolbox-tool').css("display", 'flex')
-    $('#mixed-popup-warning').css("visibility", 'hidden')
     $('.blocklyScrollbarVertical.blocklyMainWorkspaceScrollbar').css("display", 'none');
     $('.blocklyScrollbarHorizontal.blocklyMainWorkspaceScrollbar').css("display", 'none');
     $('#monitor').css('z-index', '800');
@@ -1093,6 +1243,12 @@ function switchCodeMode(animation = true) {
             $(".ide-block").width('0%');
             $("#generator").width('100%');
         }
+
+        // Hide mixed mode read-only popup when switching to code mode
+        if (document.getElementById('mixed-popup-readonly')) {
+            $('#mixed-popup-readonly').remove();
+        }
+
         Main.setOptionForEditor("readOnly", false);
         UIManager.enableSwitchingButtons(Main.getCodingMode());
         UIManager.updateCssSwitchingButtons(Main.getCodingMode());
@@ -1133,7 +1289,6 @@ function switchCodeOnlyMode() {
     if (Main.getCodingMode() !== "code") switchCodeMode(false);
 
     $('.ace_content').css("background-color", 'var(--bg-1)');
-    $('#mixed-popup-warning').css("visibility", 'hidden');
     $(".sync-code-span, .sync-code, #addblock-setting, #blocks_button_panel, .blocks_button_sm").hide();
     $("#codeModeButtons, .python_button_sm").show();
 
@@ -1174,13 +1329,17 @@ function switchCodeOnlyStyle(flag = true) {
 };
 
 function fullscreen() {
-    var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
+    const isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
         (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
         (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
         (document.msFullscreenElement && document.msFullscreenElement !== null);
 
-    var docElm = document.documentElement;
+    const docElm = document.documentElement;
+    const fullScreenBtnICon = document.querySelector("#fullscreen-btn i");
     if (!isInFullScreen) {
+        if(fullScreenBtnICon) {
+            fullScreenBtnICon.classList.replace('fa-expand', 'fa-compress');
+        }
         if (docElm.requestFullscreen) {
             docElm.requestFullscreen();
         } else if (docElm.mozRequestFullScreen) {
@@ -1191,6 +1350,9 @@ function fullscreen() {
             docElm.msRequestFullscreen();
         }
     } else {
+        if(fullScreenBtnICon) {
+            fullScreenBtnICon.classList.replace('fa-compress', 'fa-expand');
+        }
         if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.webkitExitFullscreen) {
@@ -1428,6 +1590,40 @@ function rotateConsole(value = 'bottom') {
                 InterfaceMonitor.heightMemory = $('#monitor').height();
             });
 
+        // Keyboard resize for bottom position (up/down arrows)
+        $('#monitor-resizer').off('keydown.resize-bottom').on('keydown.resize-bottom', function(e) {
+            if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                const step = 10;
+                const currentHeight = $('#monitor').height();
+                const minHeight = 200;
+                const maxHeight = $('#ide-content').height() - 25;
+                let newHeight = currentHeight;
+                let message = '';
+
+                if (e.key === 'ArrowUp') {
+                    newHeight = Math.min(currentHeight + step, maxHeight);
+                    message = newHeight > currentHeight ? 'Console agrandie' : 'Hauteur maximale atteinte';
+                } else if (e.key === 'ArrowDown') {
+                    newHeight = Math.max(currentHeight - step, minHeight);
+                    message = newHeight < currentHeight ? 'Console réduite' : 'Hauteur minimale atteinte';
+                }
+
+                if (newHeight !== currentHeight) {
+                    $('#monitor').height(newHeight);
+                    $('.ide-editor').height($('.ide-base').height() - newHeight);
+                    if (!Main.hasDragAndDrop()) {
+                        resizeBlocklyToolBox();
+                    }
+                    Main.resizeWorkSpace();
+                    Main.resizeAceEditor();
+                    InterfaceMonitor.heightMemory = $('#monitor').height();
+                }
+
+                announceToScreenReader(message);
+            }
+        });
+
         if (INTERFACE_NAME === 'python') {
             interact('#monitor-debugger')
                 .resizable({
@@ -1519,9 +1715,9 @@ async function updateToolbox(toolboxMode) {
             storageToolbox[INTERFACE_NAME] = TOOLBOX_STYLE_VITTA;
             storageProject.code = replaceXmlCode(TOOLBOX_STYLE_VITTA);
         }
+        updateUrlAndStorage('toolbox', storageToolbox);
         CodeManager.getSharedInstance().setXml(storageProject.code);
         CodeManager.getSharedInstance().loadBlocks();
-        updateUrlAndStorage('toolbox', storageToolbox);
         CodeManager.getSharedInstance().localStorageManager.setLocalProject(storageProject);
         // Custom behavior in LTI context
         if (typeof ltiVariables13 !== 'undefined') {
@@ -1573,7 +1769,7 @@ async function updateBoard(event = false, boardSelector = BOARD_DEFAULT) {
             [INTERFACE_NAME]: urlBoard
         };
     } else {
-        /* Set default value localStorage as vittascience mode */
+        /* Set default value localStorage as default board */
         storageBoard = {
             [INTERFACE_NAME]: BOARD_DEFAULT
         };
@@ -1587,31 +1783,66 @@ async function updateBoard(event = false, boardSelector = BOARD_DEFAULT) {
     /* Call with an event (buttons) */
     if (event) {
         if (storageBoard[INTERFACE_NAME] != boardSelector) {
+            const previousBoard = storageBoard[INTERFACE_NAME];
             if (typeof SIMULATOR_BOARDS !== 'undefined' && Object.keys(SIMULATOR_BOARDS).filter((e) => e !== BOARD_DEFAULT).includes(boardSelector)) {
                 storageBoard[INTERFACE_NAME] = boardSelector;
             } else {
                 storageBoard[INTERFACE_NAME] = BOARD_DEFAULT;
             }
             updateUrlAndStorage('board', storageBoard);
-            if (typeof ltiVariables13 !== 'undefined') {
-                const currentBoardParameter = `&board=${storageBoard[INTERFACE_NAME]}`;
-                let refreshUrl;
-                if (ltiVariables13.isDeepLink) {
-                    refreshUrl = `${location.origin}${location.pathname}?${ltiVariables13.currentQueryString}${currentBoardParameter}`;
-                } else {
-                    refreshUrl = `${location.origin}${location.pathname}?launch_id=${ltiVariables13.launchId}${currentBoardParameter}`;
+            if (INTERFACE_NAME == 'arduino') {
+                let wasOpen = false;
+                if (Main.hasSimulator()) {
+                    if (Simulator._hasWebSimulator(previousBoard)) {
+                        WifiSimulator.close();
+                    }
+                    if ($("#simulator").is(":visible")) {
+                        wasOpen = true;
+                        await toggleSimulator();
+                    }
                 }
-                await lti13Controller.saveCurrentResource();
-                window.location = refreshUrl;
-            } else if (projectManager && projectManager._capytaleManager) {
-                const reloadUrl = `${location.origin}${location.pathname}?board=${storageBoard[INTERFACE_NAME]}`;
-                projectManager._capytaleManager.reload(reloadUrl, {board: storageBoard, project: projectManager.getCurrentProjectDataForAppAgent()});
+                if (typeof InterfaceConnection !== 'undefined') {
+                    InterfaceConnection.boardOptionsLoaded = false;
+                    if (typeof SERIAL_OPTIONS !== 'undefined' && SERIAL_OPTIONS) {
+                        InterfaceConnection.init(SERIAL_OPTIONS, storageBoard[INTERFACE_NAME]);
+                    } else {
+                        InterfaceConnection.init();
+                    }
+                }
+                Main.setToolboxManager(Blockly.Constants.getToolboxStyle());
+                if (Main.hasSimulator()) {
+                    Simulator.init();
+                    if (wasOpen) {
+                        await toggleSimulator();
+                        Simulator.replay();
+                    }
+                }
+                $("input[value='" + storageBoard[INTERFACE_NAME] + "']#board_" + storageBoard[INTERFACE_NAME] + "_Set").attr("checked", "checked");
             } else {
-                window.location = window.location.href;
+                if (typeof ltiVariables13 !== 'undefined') {
+                    const currentBoardParameter = `&board=${storageBoard[INTERFACE_NAME]}`;
+                    let refreshUrl;
+                    if (ltiVariables13.isDeepLink) {
+                        refreshUrl = `${location.origin}${location.pathname}?${ltiVariables13.currentQueryString}${currentBoardParameter}`;
+                    } else {
+                        refreshUrl = `${location.origin}${location.pathname}?launch_id=${ltiVariables13.launchId}${currentBoardParameter}`;
+                    }
+                    await lti13Controller.saveCurrentResource();
+                    window.location = refreshUrl;
+                } else if (projectManager && projectManager._capytaleManager) {
+                    const reloadUrl = `${location.origin}${location.pathname}?board=${storageBoard[INTERFACE_NAME]}`;
+                    projectManager._capytaleManager.reload(reloadUrl, { board: storageBoard, project: projectManager.getCurrentProjectDataForAppAgent() });
+                } else {
+                    window.location = window.location.href;
+                }
             }
         }
     } else {
-        if (typeof SIMULATOR_BOARDS !== 'undefined' && !Object.keys(SIMULATOR_BOARDS).filter((e) => e !== BOARD_DEFAULT).includes(urlBoard)) {
+        if (typeof SIMULATOR_BOARDS !== 'undefined'
+            && (
+                (INTERFACE_NAME == "arduino" && urlBoard == BOARD_SHIELD_GROVE) ||
+                !Object.keys(SIMULATOR_BOARDS).filter((e) => e !== BOARD_DEFAULT).includes(urlBoard)
+            )) {
             storageBoard[INTERFACE_NAME] = BOARD_DEFAULT;
         }
         updateUrlAndStorage('board', storageBoard);
@@ -1657,7 +1888,7 @@ async function toggleSimulator() {
     UIManager.disableSwitchingButtons();
     if (Simulator.isOpen) {
         InterfaceMonitor.writeConsole(jsonPath('code.simulator.messages.stop'), 'neutral');
-        Simulator.closingSimulator();
+        await Simulator.closingSimulator();
         if (typeof sendSerialCommand !== 'undefined') {
             $("#serial-send").click(() => { sendSerialCommand(); });
         } else if (typeof InterfaceConnection !== 'undefined') {
@@ -1713,7 +1944,7 @@ async function toggleSimulator() {
             await WEB_BLE.unpair();
         }
         if (typeof Simulator !== 'undefined') {
-            Simulator.updateSimulator();
+            Simulator.update();
             if (typeof Simulator.getSerialInput !== 'undefined') {
                 $("#serial-send").click(() => { Simulator.getSerialInput(); });
             }
@@ -1749,9 +1980,9 @@ async function toggleSimulator() {
             const multiIframeWidth = parseInt(getComputedStyle(multiIframeElt).width),
                 ideBaseWidth = parseInt(getComputedStyle(document.querySelector('.ide-base')).width),
                 ideContentWidth = parseInt(getComputedStyle(document.querySelector('#ide-content')).width);
-            const newIdeBaseWidth = parseInt(ideBaseWidth/2);
+            const newIdeBaseWidth = parseInt(ideBaseWidth / 2);
             ideSimulatorWidth = `${ideContentWidth - newIdeBaseWidth - multiIframeWidth}px`;
-            
+
             $('.ide-base').animate({
                 width: newIdeBaseWidth
             }, {}, 'slow');

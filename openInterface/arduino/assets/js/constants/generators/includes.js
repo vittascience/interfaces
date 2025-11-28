@@ -8,6 +8,8 @@ const INCLUDE_SOFTWARE_SERIAL_2 = "#include <SoftwareSerial2.h>";
 const INCLUDE_SPI = "#include <SPI.h>";
 const INCLUDE_VIRTUAL_WIRE = "#include <VirtualWire.h>";
 const INCLUDE_WIRE = "#include <Wire.h>";
+//input/output modules
+const INCLUDE_GROVE_ENCODER = "#include <GroveEncoder.h>";
 //communication modules
 const INCLUDE_PRINTF = "#include <printf.h>";
 const INCLUDE_DS1307 = "#include <DS1307.h>";
@@ -55,3 +57,12 @@ const INCLUDE_SEEED_HM330X = "#include <Seeed_HM330X.h>";
 // MP3
 const INCLUDE_SEEED_GROVE_MP3 = "#include <SeeedGroveMP3.h>";
 const INCLUDE_AI = '#include "EdgeModel"';
+// UNO R4 WiFi
+const INCLUDE_ARDUINO_LED_MATRIX = "#include <Arduino_LED_Matrix.h>";
+const INCLUDE_ARDUINO_GRAPHICS = "#include <ArduinoGraphics.h>";
+const INCLUDE_WIFIS3 = "#include <WiFiS3.h>";
+const INCLUDE_VITTASCIENCE_SERVER = "#include <Vittascience_Server.h>";
+const INCLUDE_VITTASCIENCE_CLIENT = "#include <Vittascience_Client.h>";
+const INCLUDE_WEB_PAGE_SCRIPTS = "#include \"WebPageScripts.h\"";
+const INCLUDE_ARDUINO_JSON = "#include <ArduinoJson.h>";
+const INCLUDE_R4_HTTP_CLIENT = "#include <R4HttpClient.h>";

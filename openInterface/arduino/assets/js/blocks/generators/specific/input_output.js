@@ -82,6 +82,14 @@ Blockly.Arduino.io_getGroveRotaryAngle = function (block) {
     return ["analogRead(" + pinConstant + ")", Blockly.Arduino.ORDER_ATOMIC];
 };
 
+Blockly.Arduino.io_getGroveEncoderValue = function () {
+    const pin = "2"; // Grove Encoder is only supported on pin D2 due to interrupt requirements
+    const objName = 'encoder_' + pin;
+    Blockly.Arduino.addInclude('encoder', INCLUDE_GROVE_ENCODER);
+    Blockly.Arduino.addDeclaration(objName, "GroveEncoder " + objName + "(" + pin + ", NULL);");
+    return [objName + ".getValue()", Blockly.Arduino.ORDER_ATOMIC];
+};
+
 // READ TACTILE STATEMENT ON PIN D BLOCK
 Blockly.Arduino.io_getGroveTactile = function (block) {
     const pin = block.getFieldValue("PIN");
@@ -94,6 +102,13 @@ Blockly.Arduino.io_getGroveButton = function (block) {
     const pin = block.getFieldValue("PIN");
     const pinConstant = Blockly.Arduino.Generators.digital_read(pin, "Simple Button");
     return ["digitalRead(" + pinConstant + ")", Blockly.Arduino.ORDER_ATOMIC];
+};
+
+// READ REVERSED BUTTON STATEMENT ON PIN D BLOCK
+Blockly.Arduino.io_getReversedButton = function (block) {
+    const pin = block.getFieldValue("PIN");
+    const pinConstant = Blockly.Arduino.Generators.digital_read(pin, "Simple Button Reversed");
+    return ["!digitalRead(" + pinConstant + ")", Blockly.Arduino.ORDER_ATOMIC];
 };
 
 // READ SWITCH STATEMENT VALUE ON PIN D BLOCK
@@ -190,48 +205,109 @@ Blockly.Arduino.io_attachInterrupt = function (block) {
 
 // io - mp3
 Blockly.Arduino.io_groveMp3_init = function (block) {
-    const pinRX = block.getFieldValue("RX") || '0';
-    const pinTX = block.getFieldValue("TX") || '0';
+    const VERSIONS = {
+        'V2': 'KT403A',
+        'V3': 'WT2003S',
+        'V4': 'WT2605C'
+    };
+    const pinRX = block.getFieldValue("RX");
+    const pinTX = block.getFieldValue("TX");
+    const version = block.getFieldValue("VERSION");
     Blockly.Arduino.addInclude('SeeedGroveMP3', INCLUDE_SEEED_GROVE_MP3);
-    Blockly.Arduino.addInclude('software_serial', INCLUDE_SOFTWARE_SERIAL);
-    Blockly.Arduino.addDefine('init_mp3_com_serial', "#define COMSerial SSerial");
-    Blockly.Arduino.addDefine('mp3_pins', "#define PIN_MP3_PLAYER_RX" + TAB + pinRX + NEWLINE + "#define PIN_MP3_PLAYER_TX" + TAB + pinTX);
-    Blockly.Arduino.addDeclaration('init_mp3_software_serial', "SoftwareSerial SSerial(PIN_MP3_PLAYER_TX, PIN_MP3_PLAYER_RX); // RX, TX -> inversion des broches");
-    Blockly.Arduino.addDeclaration('init_mp3_player', "WT2003S<SoftwareSerial> Mp3Player;");
-    Blockly.Arduino.addCodeVariable('spi_flash_songs', "uint32_t spi_flash_songs = 0;");
-    Blockly.Arduino.addCodeVariable('sd_songs', "uint32_t sd_songs = 0;");
-    Blockly.Arduino.addCodeVariable('workdisk', "STROAGE workdisk = SD;");
-    Blockly.Arduino.addCodeVariable('Play_history', STRUCT_MP3_PLAY_HISTORY);
-    Blockly.Arduino.addFunction('func_read_song_name', FUNCTIONS_ARDUINO.DEF_MP3_READ_SONG_NAME);
-    Blockly.Arduino.addFunction('func_get_all_song', FUNCTIONS_ARDUINO.DEF_MP3_GET_ALL_SONG);
-    Blockly.Arduino.addSetup('setup_mp3', 'COMSerial.begin(9600);\nMp3Player.init(COMSerial);\ngetAllSong();');
+    const boardId = Blockly.Constants.getSelectedBoard() || BOARD_DEFAULT;
+    let comSerial = '';
+    const mp3 = `Mp3Player_${version}`;
+    if (boardId == BOARD_ARDUINO_UNO_R4_WIFI) {
+        comSerial = 'Serial1';
+        Blockly.Arduino.addDeclaration(mp3, `${VERSIONS[version]}<HardwareSerial> ${mp3};`);
+    } else {
+        comSerial = `Serial_MP3_${version}`;
+        const pinRX_v = `PIN_MP3_${version}_RX`;
+        const pinTX_v = `PIN_MP3_${version}_TX`;
+        Blockly.Arduino.addInclude('software_serial', INCLUDE_SOFTWARE_SERIAL);
+        Blockly.Arduino.addDefine(pinRX_v, `#define ${pinRX_v}` + TAB + pinRX + " // RX on module");
+        Blockly.Arduino.addDefine(pinTX_v, `#define ${pinTX_v}` + TAB + pinTX + " // TX on module");
+        Blockly.Arduino.addDeclaration(comSerial, `SoftwareSerial ${comSerial}(${pinTX_v}, ${pinRX_v}); // RX, TX -> inversion des broches`);
+        Blockly.Arduino.addDeclaration(mp3, `${VERSIONS[version]}<SoftwareSerial> ${mp3};`);
+    }
+    if (version == 'V3') {
+        Blockly.Arduino.addCodeVariable('spi_flash_songs', "uint32_t spi_flash_songs = 0;");
+        Blockly.Arduino.addCodeVariable('sd_songs', "uint32_t sd_songs = 0;");
+        Blockly.Arduino.addCodeVariable('workdisk', "WT2003S_STORAGE workdisk = WT2003S_SD;");
+        Blockly.Arduino.addCodeVariable('Play_history', FUNCTIONS_ARDUINO.DECLARE_STRUCT_MP3_PLAY_HISTORY);
+        Blockly.Arduino.addFunction('readSongName', FUNCTIONS_ARDUINO.DEF_MP3_READ_SONG_NAME);
+        Blockly.Arduino.addFunction('getAllSong', FUNCTIONS_ARDUINO.DEF_MP3_GET_ALL_SONG);
+        Blockly.Arduino.addSetup(comSerial + '_begin', `${comSerial}.begin(9600);`);
+        Blockly.Arduino.addSetup(`${mp3}_init`, `${mp3}.init(${comSerial});`);
+        Blockly.Arduino.addSetup('setup_songs', 'getAllSong();');
+    } else if (version == 'V4') {
+        Blockly.Arduino.addSetup(comSerial + '_begin', `${comSerial}.begin(115200);`);
+        Blockly.Arduino.addSetup(`${mp3}_init`, `${mp3}.init(${comSerial});`);
+    }
     return "";
 };
 
-Blockly.Arduino.io_groveMp3_play_pause = function () {
-    return "Mp3Player.pause_or_play();" + NEWLINE;
+Blockly.Arduino.io_groveMp3_play_pause = function (block) {
+    const version = block.getFieldValue("VERSION");
+    const mp3 = `Mp3Player_${version}`;
+    return `${mp3}.pause_or_play();` + NEWLINE;
 };
 
-Blockly.Arduino.io_groveMp3_next = function () {
-    return "Mp3Player.next();" + NEWLINE;
+Blockly.Arduino.io_groveMp3_next = function (block) {
+    const version = block.getFieldValue("VERSION");
+    const mp3 = `Mp3Player_${version}`;
+    const dir = block.getFieldValue("DIRECTION");
+    if (dir == 'PREVIOUS') {
+        return `${mp3}.previous();` + NEWLINE;
+    } else {
+        return `${mp3}.next();` + NEWLINE;
+    }
 };
 
-Blockly.Arduino.io_groveMp3_getVolume = function () {
-    return ["Mp3Player.getVolume()", Blockly.Arduino.ORDER_ATOMIC];
+Blockly.Arduino.io_groveMp3_getVolume = function (block) {
+    const version = block.getFieldValue("VERSION");
+    const mp3 = `Mp3Player_${version}`;
+    return [`${mp3}.getVolume()`, Blockly.Arduino.ORDER_ATOMIC];
 };
 
 Blockly.Arduino.io_groveMp3_setVolume = function (block) {
     const volume = Blockly.Arduino.valueToCode(block, "VOLUME", Blockly.Arduino.ORDER_ATOMIC) || '0';
-    return `Mp3Player.volume(${volume});` + NEWLINE;
+    const version = block.getFieldValue("VERSION");
+    const mp3 = `Mp3Player_${version}`;
+    return `${mp3}.volume(${volume});` + NEWLINE;
 };
 
 Blockly.Arduino.io_groveMp3_playSDSong = function (block) {
     const name = Blockly.Arduino.valueToCode(block, "NAME", Blockly.Arduino.ORDER_ATOMIC) || '';
-    return `Mp3Player.playSDSong(${name});` + NEWLINE;
+    const version = block.getFieldValue("VERSION");
+    const mp3 = `Mp3Player_${version}`;
+    return `${mp3}.playSDSong(${name});` + NEWLINE;
 };
 
 Blockly.Arduino.io_groveMp3_playSDDirectorySong = function (block) {
     const directory = Blockly.Arduino.valueToCode(block, "DIRECTORY", Blockly.Arduino.ORDER_ATOMIC) || '';
     const index = Blockly.Arduino.valueToCode(block, "INDEX", Blockly.Arduino.ORDER_ATOMIC) || '';
-    return `Mp3Player.playSDDirectorySong(${directory},${index});` + NEWLINE;
+    const version = block.getFieldValue("VERSION");
+    const mp3 = `Mp3Player_${version}`;
+    return `${mp3}.playSDDirectorySong(${directory}, ${index});` + NEWLINE;
+};
+
+Blockly.Arduino.io_groveMp3_changePlayingMode = function (block) {
+    const VERSIONS = {
+        'V2': 'KT403A',
+        'V3': 'WT2003S',
+        'V4': 'WT2605C'
+    };
+    const mode = block.getFieldValue('PLAY_MODE');
+    const version = block.getFieldValue("VERSION");
+    const mp3 = `Mp3Player_${version}`;
+    if (version == 'V2') {
+        if (mode == 'CYCLE') {
+            return `${mp3}.loop(1);` + NEWLINE;
+        } else if (mode == 'SINGLE_CYCLE') {
+            return `${mp3}.repeat(1);` + NEWLINE;
+        }
+    } else {
+        return `${mp3}.playMode(${VERSIONS[version]}_${mode});` + NEWLINE;
+    }
 };

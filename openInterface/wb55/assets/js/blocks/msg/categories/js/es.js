@@ -60,3 +60,4 @@ Blockly.Msg['SUBCATEGORY_ALPHABOT_LED_RGB'] = 'Alphabot - LED RGB';
 Blockly.Msg['SUBCATEGORY_BLUETOOTH_BLE'] = 'Bluetooth (módulo BLE integrado)';
 Blockly.Msg['SUBCATEGORY_RTC'] = 'Reloj en tiempo real (módulo integrado)';
 Blockly.Msg['SUBCATEGORY_EXPANSION_IKS01A3'] = 'Tarjeta de expansión IKS01A3';
+Blockly.Msg['SUBCATEGORY_TEXT_ANALYSIS'] = 'Análisis de texto';

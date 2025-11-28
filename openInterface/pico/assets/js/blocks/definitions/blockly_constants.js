@@ -1,4 +1,4 @@
-Blockly.Msg.boardName = 'Raspberry Pi Pico';
+Blockly.Msg.Esp32BoardName = 'Raspberry Pi Pico';
 
 Blockly.Constants.HTML_BLOCKS = [
   'network_html_addTitle',

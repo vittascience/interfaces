@@ -1,5 +1,5 @@
 let groveShield = {
-    IMG_LINK: WiringSimulator.PATH_MEDIA + "/shields/arduino-grove-shield.svg",
+    IMG_LINK: WiringSimulator.PATH_MEDIA + "/shields/arduino_uno_grove_shield.svg",
     SIZE: {
       w: 138, // px
       h: 106 // px

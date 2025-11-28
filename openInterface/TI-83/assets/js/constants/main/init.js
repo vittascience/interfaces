@@ -30,7 +30,15 @@ const TOOLBOX_STYLE_DEFAULT = (typeof Blockly.Wiki !== 'undefined' ? TOOLBOX_STY
 const BLOCKS_OUTSIDE_SCOPE = ["on_start", "forever", "scratch_on_start", "procedures_defnoreturn", "procedures_defreturn", "controls_repeat_code"];
 //example projects
 // please refer to https://www.notion.so/vittascience/21b779ec1c844b738562f2e9f36fb567?v=a39de29c96d14f85b99ae32e26dc0c0a&pvs=4 for more information
+// TODO update the links with cybersecurity missions projects
 const EXAMPLE_PROJECT_LINKS = {
+    "cybersecurity": { 
+        "mission_1": ["6891b7582a309", "6891b7b05f123", "6891b7fc34d07"],
+        "mission_2": ["6891126e586db", "6891129e94bbb","68911333d276d", "6891136b8048e", "689113a47634a"],
+        "mission_3": ["6891b85607128", "6891b9471198a", "6891b9870015d"],
+        "mission_4": ["6891b9c4f02d4", "6891ba83405dd", "6891bab49a370", "6891bae1d3d1b"],
+        "mission_5": ["6891bb42dd70e", "6891bb8da5bb8", "6891bbd071532"]
+    },
     "essentials" : ["65cfd0c693a9b", "65cfd101474bc", "65cfd172128ee", "65cfd1b9beb74", "65cfd1ea8f1ef","65e0fa217fec5", "65e0faa64075c", "65e0faeb2e58e", "65e0fb15276ec", "65e0fb3c0b0c6", "65e0fb657f140", "65f168fb24039", "65f16a5cae291", "65f16d03dafbe"],
     "hybrid_projects": ["65cfd3397c55d", "65cfd3b95b040", "65cfd3e5e710e", "65cfd41199090", "65cfd455c4d62"],
     "python_projects-maths": ["65cfd4e375229", "65cfd53713407", "65cfd59cf1182", "65cfd5bca1baa", "67596cb46467a", "65cfd5f0029c7", "65cfd60bac189", "65cfd6300227f", "65cfd725dd041", "65cfd74d788a2", "65cfd77a782c5", "65cfd7aebf541", "65cfd7cd44915"],

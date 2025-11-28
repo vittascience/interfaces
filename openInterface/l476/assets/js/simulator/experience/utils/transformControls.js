@@ -39,11 +39,6 @@ export default class TransformControl {
 		this.transformControl.size = 2;
 
 
-		// this.transformControl.addEventListener('change', () => {
-		// 	this.experience.renderer.update();
-		// });
-
-
 		this.transformControl.addEventListener('dragging-changed', (event) => {
 			this.experience.camera.modes.debug.orbitControls.enabled = !event.value;
 			if (event.value) {
@@ -132,23 +127,12 @@ export default class TransformControl {
 	}
 
 	removeHelper(element) {
+		if (!this.transformControl) return;
 		this.experience.requestedTransformControl = false;
 		this.transformControl.detach(element);
 		this.experience.scene.remove(this.transformControl);
 		if (this.exp.physics) {
 			this.exp.physics.setDragging(false);
-		}
-	}
-
-	handleClick(event) {
-		if (this.clickableCube !== null) {
-			this.addHelpers(this.clickableCube);
-			if (this.clickableCube.name !== this.previousClickableCube?.name) {
-				this.removeHelper(this.previousClickableCube);
-			}
-			this.previousClickableCube = this.clickableCube;
-		} else {
-			this.removeHelper(this.previousClickableCube);
 		}
 	}
 
@@ -234,9 +218,6 @@ export default class TransformControl {
 		};
 
 		window.addEventListener('pointermove', onPointerMove);
-
-		const experience3D = document.querySelector('.experience3D');
-		experience3D.addEventListener('click', this.handleClick.bind(this));
 		window.addEventListener('resize', () => {
 			this.rect = canvasElement.getBoundingClientRect();
 		});

@@ -1,0 +1,20 @@
+@import url('../../../interfaces/assets/css/simulator-modules.css');
+@import url('../../../interfaces/assets/css/simulator-robot.css');
+
+.rocky-motorLeft,
+.rocky-motorRight {
+	z-index: 1;
+	top: -1px;
+	left: 2px;
+}
+
+.rocky-motorLeft_base {
+	z-index: 2;
+	opacity: 0.9;
+}
+
+.rocky-motorLeft_base,
+.rocky-motorRight_base {
+	bottom: 0px;
+	left: 16px;
+}

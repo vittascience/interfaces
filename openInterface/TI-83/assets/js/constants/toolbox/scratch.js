@@ -74,8 +74,8 @@ const TOOLBOX_SCRATCH_CATEGORIES = [
     },
     {
         "kind": "category",
-        "toolboxitemid": "Tello",
-        "name": "tello",
+        "toolboxitemid": "tello",
+        "name": "Tello",
         "style": "tello_category",
         "cssConfig": {
             "icon": "icon_blockly svgIcon"
@@ -136,7 +136,7 @@ const TOOLBOX_SCRATCH_CATEGORIES = [
         "kind": "category",
         "toolboxitemid": "lists",
         "name": "%{BKY_CATEGORY_LISTS}",
-        "style": "list_category",
+        "style": "lists_category",
         "cssConfig": {
             "icon": "icon_blockly fas fa-list"
         },

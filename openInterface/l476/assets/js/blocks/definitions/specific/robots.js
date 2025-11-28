@@ -171,8 +171,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "DIR",
             "options": [
-                ["%{BKY_ROBOTS_ALPHABOT_GO_FORWARD}", "FORWARD"],
-                ["%{BKY_ROBOTS_ALPHABOT_GO_REVERSE}", "REVERSE"]
+                ["%{BKY_ROBOTS_GO_FORWARD}", "FORWARD"],
+                ["%{BKY_ROBOTS_GO_BACKWARD}", "REVERSE"]
             ]
         }, {
             "type": "input_value",
@@ -512,6 +512,14 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     {
         "type": "robots_donutbot_getUltrasonicRange",
         "message0": "%{BKY_ROBOTS_DONUTBOT_ULTRASONICRANGER_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "UNIT",
+            "options": [
+                ["(cm)", "cm"],
+                ["(mm)", "mm"]
+            ]
+        }],
         "output": "Number",
         "inputsInline": true,
         "style": "robots_blocks",
@@ -631,6 +639,14 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     {
         "type": "robots_donutbot_readDistance",
         "message0": "%{BKY_ROBOTS_DONUTBOT_DISTANCE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "UNIT",
+            "options": [
+                ["(cm)", "cm"],
+                ["(mm)", "mm"]
+            ]
+        }],
         "output": "Number",
         "style": "robots_blocks",
         "tooltip": "%{BKY_ROBOTS_DONUTBOT_DISTANCE_TOOLTIP}",
@@ -647,8 +663,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "DIR",
             "options": [
-                ["%{BKY_ROBOTS_DONUTBOT_GO_FORWARD}", "FORWARD"],
-                ["%{BKY_ROBOTS_DONUTBOT_GO_REVERSE}", "REVERSE"]
+                ["%{BKY_ROBOTS_GO_FORWARD}", "FORWARD"],
+                ["%{BKY_ROBOTS_GO_BACKWARD}", "REVERSE"]
             ]
         }, {
             "type": "input_value",

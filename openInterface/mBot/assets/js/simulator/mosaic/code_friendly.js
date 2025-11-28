@@ -3,18 +3,19 @@ Simulator.CodeFriendly = Object.create(null);
 Simulator.CodeFriendly.getSetups = function (userCode) {
 	Simulator.CodeFriendly.setups = [];
 	Simulator.CodeFriendly.objects = ['SoftwareSerial', 'MeLightSensor', 'MeCompass', 'MeUltrasonicSensor', 'MeSoundSensor', 'MeLineFollower', 'MePIRMotionSensor', 'MeTemperature', 'MeFlameSensor', 'MeGasSensor', 'MePort', 'MeColorSensor', 'MeDCMotor', 'MeLEDMatrix']
-	for (var x in Simulator.CodeFriendly.objects) {
-		const obj = Simulator.CodeFriendly.objects[x];
+	for (const obj of Simulator.CodeFriendly.objects) {
 		const SSmodules_regExp = obj + / (.*)\((.*)\);/.source;
 		const SSmodules = userCode.match(new RegExp(SSmodules_regExp, 'g'));
-		userCode = userCode.replace(new RegExp(SSmodules_regExp, 'g'), obj + ' $1;');
-		for (var i in SSmodules) {
-			const component = SSmodules[i].match(new RegExp(SSmodules_regExp));
-			const initCode = component[1] + '.__init__(' + component[2];
-			if (obj == 'SoftwareSerial') {
-				Simulator.CodeFriendly.setups.push(initCode + ', false, "' + component[1] + '");')
-			} else {
-				Simulator.CodeFriendly.setups.push(initCode + ');')
+		if (SSmodules) {
+			userCode = userCode.replace(new RegExp(SSmodules_regExp, 'g'), obj + ' $1;');
+			for (var i in SSmodules) {
+				const component = SSmodules[i].match(new RegExp(SSmodules_regExp));
+				const initCode = component[1] + '.__init__(' + component[2];
+				if (obj == 'SoftwareSerial') {
+					Simulator.CodeFriendly.setups.push(initCode + ', false, "' + component[1] + '");')
+				} else {
+					Simulator.CodeFriendly.setups.push(initCode + ');')
+				}
 			}
 		}
 	}
@@ -22,12 +23,9 @@ Simulator.CodeFriendly.getSetups = function (userCode) {
 };
 
 Simulator.CodeFriendly.getCode = function (userCode, _setups) {
-	return `#include <SoftwareSerial.h>
-using namespace std;
+	return `using namespace std;
 ${userCode}
 int main() {
-  SoftwareSerial Serial;
-  Serial.__init__(0, 0, false, "Serial");
   ${_setups}
   setup();
   do {

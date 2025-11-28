@@ -5,23 +5,46 @@ var $builtinmodule = function (name) {
     var maqueenplusv2 = {};
     maqueenplusv2.__name__ = new Sk.builtin.str("maqueenplusv2");
 
-    maqueenplusv2.SERVO_1 = 1;
-    maqueenplusv2.SERVO_2 = 2;
-    maqueenplusv2.SERVO_3 = 3;
+    maqueenplusv2.I2C_ADDR = new Sk.builtin.int_(0X10);
+
+    maqueenplusv2.VERSION_COUNT_I2C_ADDR = new Sk.builtin.int_(0x32);
+    maqueenplusv2.VERSION_DATA_I2C_ADDR = new Sk.builtin.int_(0x33);
+
+    maqueenplusv2.LEFT_MOTOR_I2C_ADDR = new Sk.builtin.int_(0x00);
+    maqueenplusv2.RIGHT_MOTOR_I2C_ADDR = new Sk.builtin.int_(0x02);
+
+    maqueenplusv2.FORWARD = new Sk.builtin.int_(0);
+    maqueenplusv2.BACKWARD = new Sk.builtin.int_(1);
+
+    maqueenplusv2.LINE_SENSOR_I2C_ADDR = new Sk.builtin.int_(0x1D)
+    maqueenplusv2.ANALOG_L2_I2C_ADDR = new Sk.builtin.int_(0x26)
+    maqueenplusv2.ANALOG_L1_I2C_ADDR = new Sk.builtin.int_(0x24)
+    maqueenplusv2.ANALOG_M_I2C_ADDR = new Sk.builtin.int_(0x22)
+    maqueenplusv2.ANALOG_R1_I2C_ADDR = new Sk.builtin.int_(0x20)
+    maqueenplusv2.ANALOG_R2_I2C_ADDR = new Sk.builtin.int_(0x1E)
 
     const setMotor = function (motorSide, speed, direction) {
         if (speed > 255 || speed < 0) return;
         $('#mb-maqueenplus-motor' + motorSide + '_value').html(speed);
         if (direction != 'stop') {
-            $('.mb-maqueenplus-motor' + motorSide).css('animation', 'rotation-' + direction + ' ' + (60 / (speed / 255 * RobotSimulator.robot.MAX_SPEED)) + 's infinite linear');
+            const rps = 60 / (speed / 255 * RobotSimulator.robot.MAX_SPEED);
+            $('.mb-maqueenplus-motor' + motorSide).css('animation', 'rotation-' + direction + ' ' + rps + 's infinite linear');
         } else {
             $('.mb-maqueenplus-motor' + motorSide).css('animation', 'none');
         }
     };
 
-    maqueenplusv2.init_maqueen = new Sk.builtin.func(() => {
-        drive(0); 
-        return new Sk.builtin.none(); 
+    RobotSimulator.robot.setMotorsInModules = function (speedL, speedR) {
+        const dir = (speed) => speed == 0 ? 'stop' : (speed > 0 ? 'forward' : 'backward');
+        setMotor('Left', Math.abs(speedL), dir(speedL));
+        setMotor('Right', Math.abs(speedR), dir(speedR));
+    };
+
+    maqueenplusv2.initRobot = new Sk.builtin.func(() => {
+        maqueenplusv2.stop.func_code();
+        const version = maqueenplusv2.readVersion.func_code().v;
+        Sk.builtins.print.tp$call(["Maqueen Plus version: " + version]);
+        return new Sk.builtin.none();
     });
 
     maqueenplusv2.stop = new Sk.builtin.func(() => {
@@ -30,64 +53,67 @@ var $builtinmodule = function (name) {
         return new Sk.builtin.none();
     });
 
-    const drive = function (speed_left, speed_right) {
+    drive = function (speed_left, speed_right) {
         const speedLeft = Sk.ffi.remapToJs(speed_left);
         let speedRight = Sk.ffi.remapToJs(speed_right);
-        if (typeof speedRight === 'undefined') {
+        if (speedRight == null) {
             speedRight = speedLeft;
         }
         setMotor('Left', speedLeft, 'forward');
         setMotor('Right', speedRight, 'forward');
+        return Sk.builtin.none();
     };
+    drive.co_varnames = ['speed_left', 'speed_right'];
+    drive.$defaults = [Sk.builtin.none()];
     maqueenplusv2.drive = new Sk.builtin.func(drive);
 
-    const backup = function (speed_left, speed_right) {
+    backup = function (speed_left, speed_right) {
         const speedLeft = Sk.ffi.remapToJs(speed_left);
         let speedRight = Sk.ffi.remapToJs(speed_right);
-        if (typeof speedRight === 'undefined') {
+        if (speedRight == null) {
             speedRight = speedLeft;
         }
         setMotor('Left', speedLeft, 'backward');
         setMotor('Right', speedRight, 'backward');
+        return Sk.builtin.none();
     };
-
+    backup.co_varnames = ['speed_left', 'speed_right'];
+    backup.$defaults = [Sk.builtin.none()];
     maqueenplusv2.backup = new Sk.builtin.func(backup);
 
-    const spinLeft = function (speed_left, speed_right) {
+    spin_left = function (speed_left, speed_right) {
         const speedLeft = Sk.ffi.remapToJs(speed_left);
         let speedRight = Sk.ffi.remapToJs(speed_right);
-        if (typeof speedRight === 'undefined') {
+        if (speedRight == null) {
             speedRight = speedLeft;
         }
         setMotor('Left', speedLeft, 'backward');
         setMotor('Right', speedRight, 'forward');
     };
-    maqueenplusv2.spin_left = new Sk.builtin.func(spinLeft);
+    spin_left.co_varnames = ['speed_left', 'speed_right'];
+    spin_left.$defaults = [Sk.builtin.none()];
+    maqueenplusv2.spin_left = new Sk.builtin.func(spin_left);
 
-    const spinRight = function (speed_left, speed_right) {
+    spin_right = function (speed_left, speed_right) {
         const speedLeft = Sk.ffi.remapToJs(speed_left);
         let speedRight = Sk.ffi.remapToJs(speed_right);
-        if (typeof speedRight === 'undefined') {
+        if (speedRight === null) {
             speedRight = speedLeft;
         }
         setMotor('Left', speedLeft, 'forward');
         setMotor('Right', speedRight, 'backward');
     };
-    maqueenplusv2.spin_right = new Sk.builtin.func(spinRight);
+    spin_right.co_varnames = ['speed_left', 'speed_right'];
+    spin_right.$defaults = [Sk.builtin.none()];
+    maqueenplusv2.spin_right = new Sk.builtin.func(spin_right);
 
-    const motorControlLeft = function (speed, direction) {
-        const speedArg = Sk.ffi.remapToJs(speed);
-        const directionArg = Sk.ffi.remapToJs(direction);
-        setMotor('Left', speedArg, (directionArg === 0 ? 'forward' : 'backward'));
-    };
-    maqueenplusv2.motorControlLeft = new Sk.builtin.func(motorControlLeft);
+    maqueenplusv2.motorControlLeft = new Sk.builtin.func(function (dir, spd) {
+        setMotor('Left', spd.v, (dir === maqueenplusv2.FORWARD ? 'forward' : 'backward'));
+    });
 
-    const motorControlRight = function (speed, direction) {
-        const speedArg = Sk.ffi.remapToJs(speed);
-        const directionArg = Sk.ffi.remapToJs(direction);
-        setMotor('Right', speedArg, (directionArg === 0 ? 'forward' : 'backward'));
-    };
-    maqueenplusv2.motorControlRight = new Sk.builtin.func(motorControlRight);
+    maqueenplusv2.motorControlRight = new Sk.builtin.func(function (dir, spd) {
+        setMotor('Right', spd.v, (dir === maqueenplusv2.FORWARD ? 'forward' : 'backward'));
+    });
 
     maqueenplusv2.set_servo_angle = new Sk.builtin.func(function (servo, angle) {
         const mod = Simulator.getModuleByKey(`mb-maqueenplus-v2-servo-p${servo.name}`);
@@ -135,6 +161,10 @@ var $builtinmodule = function (name) {
             }
         }
         return new Sk.builtin.none();
+    });
+
+    maqueenplusv2.readVersion = new Sk.builtin.func(function () {
+        return new Sk.builtin.str(RobotSimulator.robot.VERSION);
     });
 
     return maqueenplusv2;

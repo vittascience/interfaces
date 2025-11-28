@@ -1,11 +1,115 @@
-User-agent: *
-allow: /
-Disallow: /public/content/data/
-Disallow: /public/content/user_data/shop_pdf/
-Disallow: /public/content/documents/
-Disallow: /public/userDetails.php
-Sitemap: https://fr.vittascience.com/public/sitemap.txt
+# Robots.txt optimisé pour Vittascience
+# Généré automatiquement le 2025-07-09 09:00:19
+# Contact: support@vittascience.com
 
-User-agent:Twitterbot
-Disallow: *
-Allow: /public/content/user_data/tuto_img/
+# === RÈGLES D'AUTORISATION ===
+User-agent: *
+Allow: /
+
+# === INTERDICTIONS POUR ÉVITER LES PROBLÈMES SEO ===
+
+# Dossiers administratifs et techniques
+Disallow: /vittadmin/
+Disallow: /cronTasks/
+Disallow: /temporaryKeys/
+Disallow: /vendor/
+Disallow: /content/
+Disallow: /node_modules/
+Disallow: /DAO/
+Disallow: /emailTemplates/
+Disallow: /cmd/
+Disallow: /database/
+Disallow: /routing/
+Disallow: /services/
+Disallow: /.git/
+Disallow: /.github/
+Disallow: /models/
+Disallow: /plugins/
+
+# APIs et endpoints techniques
+Disallow: /api/
+Disallow: */post/
+Disallow: */get/
+Disallow: */delete/
+
+# Contenu utilisateur privé et sessions
+Disallow: /userDetails?id=*
+Disallow: */userDetails?id=*
+Disallow: /files/
+Disallow: /public/content/user_data/
+Disallow: /public/sso/
+Disallow: /cart
+Disallow: /cart/
+Disallow: /checkout
+Disallow: /checkout/
+
+# URLs avec paramètres de session/état
+Disallow: /*?*localId=*
+Disallow: /*?*sessionId=*
+Disallow: /*?*token=*
+Disallow: /*?*authkey=*
+Disallow: /*?*userid=*
+Disallow: /*?*link=*
+Disallow: /*?*welcome=*
+
+# URLs d'intégration et embed
+Disallow: /*?*embed=1*
+Disallow: /*?*frameid=*
+Disallow: /*?*iframe=*
+Disallow: /*?*popup=*
+
+# Paramètres d'URL problématiques
+Disallow: /*?*reload=*
+Disallow: /*?*debug=*
+Disallow: /*?*test=*
+Disallow: /*?*dev=*
+Disallow: /*?*cache=*
+Disallow: /*?*timestamp=*
+
+# Recherches vides et formulaires
+Disallow: /*?*s=&*
+Disallow: /*?*search=&*
+Disallow: /*?*q=&*
+
+# Dossiers de développement et tests
+Disallow: /e2e/
+Disallow: /tests/
+Disallow: /test/
+Disallow: /demo/
+Disallow: /dev/
+Disallow: /gulp/
+
+# Types de fichiers à exclure
+Disallow: /*.log$
+Disallow: /*.sql$
+Disallow: /*.bak$
+Disallow: /*.tmp$
+Disallow: /*.zip$
+Disallow: /*.tar$
+
+# === LIMITATIONS DE CRAWL ===
+
+# Délai pour les bots gourmands
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 5
+
+# Bots malveillants complètement bloqués
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+# === SITEMAPS ===
+
+# Sitemap principal unifié
+Sitemap: https://fr.vittascience.com/sitemap.xml

@@ -69,7 +69,7 @@ var WiringSimulator = {
     const setColor = function (wiringDef) {
       wiringDef.wirePosition['VCC'].color = "#ff0000";
       wiringDef.wirePosition['GND'].color = "#000";
-      wiringDef.wirePosition['DATA2'].color = "#fff";
+      wiringDef.wirePosition['DATA2'].color = "#ddddddff";
       wiringDef.wirePosition['DATA1'].color = "#ffcc25";
     };
     for (var i = 0; i < this.groveDefinitions.length; i++) {
@@ -91,9 +91,28 @@ var WiringSimulator = {
       groveShield.y *= resizeScalar;
       groveShield.x -= groveShield.SIZE.h / 2;
       groveShield.y -= groveShield.SIZE.w / 2;
-      this.groveDefinitions.forEach((mod) => {
-        mod.x *= resizeScalar;
-        mod.y *= resizeScalar;
+      groveShield.SIZE.h *= resizeScalar;
+      groveShield.SIZE.w *= resizeScalar;
+      Object.keys(groveShield.pins).forEach(pin => {
+        if (pin !== 'I2C') {
+          groveShield.pins[pin].x *= resizeScalar;
+          groveShield.pins[pin].y *= resizeScalar;
+        } else {
+          Object.keys(groveShield.pins[pin]).forEach(i2c => {
+            groveShield.pins[pin][i2c].x *= resizeScalar;
+            groveShield.pins[pin][i2c].y *= resizeScalar;
+          });
+        }
+      });
+      WiringSimulator.modules.forEach(mod => {
+        mod.wiring.size *= resizeScalar
+        mod.wiring.x *= resizeScalar;
+        mod.wiring.y *= resizeScalar;
+        console.log(mod.wiring.wirePosition)
+        Object.keys(mod.wiring.wirePosition).forEach(wire => {
+          mod.wiring.wirePosition[wire].x *= resizeScalar;
+          mod.wiring.wirePosition[wire].y *= resizeScalar;
+        });
       });
     }
   },
@@ -126,7 +145,7 @@ var WiringSimulator = {
     $("#wiring-overlay").removeClass("active");
     const mosaic = $("#wiring-modules")[0].childNodes;
     for (var i = 0; i < mosaic.length; i++) {
-        $(mosaic[i]).hide();
+      $(mosaic[i]).hide();
     }
     $("#wiring-modules").hide();
   },
@@ -137,13 +156,13 @@ var WiringSimulator = {
   run: function () {
     var that = this;
     async function resetCanvas() {
-      
+
       if (that.isRunning) {
         that.animation = requestAnimation_WiringSimulator(resetCanvas);
       } else {
         cancelAnimation_WiringSimulator(that.animation);
       }
-      
+
       if (!Simulator.isStopped && Simulator.isInWiringMode) {
         that.update();
       }
@@ -271,7 +290,7 @@ var WiringSimulator = {
           if (this.modules[i].id !== null && this.isPointingOnModule(e, wiringDef)) {
             this.closeModule();
             if (this.modules[i].multiple && typeof wiringDef.id == 'object') {
-              for (var i = 0; i<wiringDef.id.length; i++) {
+              for (var i = 0; i < wiringDef.id.length; i++) {
                 $("#" + wiringDef.id[i]).show();
               }
             } else {
@@ -337,12 +356,15 @@ var WiringSimulator = {
   drawAllImages() {
     for (var i = 0; i < this.modules.length; i++) {
       const wiringDef = this.modules[i].wiring;
+      if (typeof wiringDef.size == 'undefined') {
+        wiringDef.size = 1;
+      }
       const moduleImage = this.getModuleImage(wiringDef);
-      wiringDef.w = wiringDef.size ? wiringDef.size*moduleImage.width : moduleImage.width;
-      wiringDef.h = wiringDef.size ? wiringDef.size*moduleImage.height : moduleImage.height;
+      wiringDef.w = wiringDef.size * moduleImage.width;
+      wiringDef.h = wiringDef.size * moduleImage.height;
       if (wiringDef.w !== 0 && wiringDef.h !== 0) {
         this.ctx.drawImage(moduleImage, wiringDef.x, wiringDef.y, wiringDef.w, wiringDef.h);
-      } 
+      }
     }
   },
 

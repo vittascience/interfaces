@@ -241,9 +241,9 @@ html[dir="rtl"] #ide-content .ide-base .ide-editor .ide-generator {
 
 /* Popup shared */
 
-#generator #mixed-popup-warning,
 #generator #mixed-popup-leave-editor,
-#generator #mixed-popup-working {
+#generator #mixed-popup-working,
+#generator #mixed-popup-readonly {
   display: none;
   background-color: var(--bg-2);
   transition: 0.2s;
@@ -259,24 +259,16 @@ html[dir="rtl"] #ide-content .ide-base .ide-editor .ide-generator {
   user-select: none;
 }
 
-#mixed-popup-warning i,
 #mixed-popup-leave-editor i,
-#mixed-popup-working i {
-  color: var(--vitta-green);
+#mixed-popup-working i,
+#mixed-popup-readonly i {
   margin: 0 0.5em;
 }
 
-/* Popup Warning*/
-
-#generator:focus-within #mixed-popup-warning {
-  display: flex;
-  visibility: visible;
+#mixed-popup-leave-editor i,
+#mixed-popup-working i {
+  color: var(--vitta-green);
 }
-
-#generator:not(:focus-within) #mixed-popup-warning {
-  visibility: hidden;
-}
-
 
 /* Popup Python translation (working) */
 
@@ -290,7 +282,9 @@ html[dir="rtl"] #ide-content .ide-base .ide-editor .ide-generator {
   color: var(--vitta-green);
 }
 
-#mixed-popup-working>span::after {
+#mixed-popup-working>span::after,
+#mixed-popup-leave-editor>span::after,
+#mixed-popup-readonly>span::after {
   /* fake X button in the top right corner */
   content: "\f00d";
   font-family: "Font Awesome 5 Free";
@@ -310,19 +304,16 @@ html[dir="rtl"] #ide-content .ide-base .ide-editor .ide-generator {
   border-color: var(--vitta-blue);
 }
 
-#mixed-popup-leave-editor>span::after {
-  /* fake X button in the top right corner */
-  content: "\f00d";
-  font-family: "Font Awesome 5 Free";
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 0.4em;
-  font-size: 1em;
-  opacity: 0.5;
-  font-weight: 900;
+/* Popup Mixed Mode Read-Only */
+
+#generator #mixed-popup-readonly {
+  cursor: pointer;
+  border-color: var(--vitta-orange);
 }
 
+#mixed-popup-readonly i {
+  color: var(--vitta-orange);
+}
 
 /* Content code*/
 
@@ -1104,7 +1095,7 @@ body.buddy-app .oi-btn-simulator img {
   left: calc(0.55em + 2px);
   top: 0;
   height: 100%;
-  z-index: 1001;
+  z-index: 989;
   width: 0.35em;
   background-color: var(--text-1);
 }

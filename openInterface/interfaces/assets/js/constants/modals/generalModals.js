@@ -361,8 +361,7 @@ let stdModals = {};
                     </div>
                 </div>
                 ${typeof specific_toolboxToggler !== 'undefined' ? specific_toolboxToggler() : ''}
-                ${typeof specific_boardSelector !== 'undefined' ? specific_boardSelector() : ''}
-                ${typeof specific_serialBoardSelector !== 'undefined' ? specific_serialBoardSelector() : ''}`,
+                ${typeof specific_boardSelector !== 'undefined' ? specific_boardSelector() : ''}`,
             footer: ``
         },
         'modal-warningsync': {
@@ -429,6 +428,98 @@ let stdModals = {};
                 <button class="btn v-btn w-100 h-100" onclick="loadLatLng()">Envoyer</button>
             </div>
         </div>`
+        },
+        'arduino-board-selector': {
+            header: {
+                icon: 'fas fa-microchip',
+                title: 'modals.hardware.arduino.title',
+            },
+            optionalClass: {
+                "modal": 'arduino-board-selector-dialog',
+                "content": 'arduino-board-selector-content'
+            },
+            selector: '',
+            content: `
+                <div id="board-choice-welcome-text" class="board-choice-welcome" style="display: none;">
+                    <p>${jsonPath('modals.hardware.arduino.content.welcome')}</p>
+                </div>
+                <div class="mb-1">
+                    <p>${jsonPath('modals.hardware.arduino.content.intro')}</p>
+                </div>
+                <div class="board-choice-grid">
+                    <div class="board-option" data-board="uno">
+                        <input type="radio" name="boardChoice" value="uno" id="board-choice-uno" checked>
+                        <label for="board-choice-uno" class="board-card">
+                            <div class="board-image">
+                                <img src="/openInterface/arduino/assets/media/simulator/board/arduino_uno.svg" alt="Arduino Uno">
+                            </div>
+                            <div class="board-name-container">
+                                <span class="board-radio-indicator"></span>
+                                <span class="board-name">Arduino Uno</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="board-option" data-board="nano">
+                        <input type="radio" name="boardChoice" value="nano" id="board-choice-nano">
+                        <label for="board-choice-nano" class="board-card">
+                            <div class="board-image">
+                                <img src="/openInterface/arduino/assets/media/simulator/board/arduino_nano.svg" alt="Arduino Nano">
+                            </div>
+                            <div class="board-name-container">
+                                <span class="board-radio-indicator"></span>
+                                <span class="board-name">Arduino Nano</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="board-option" data-board="mega">
+                        <input type="radio" name="boardChoice" value="mega" id="board-choice-mega">
+                        <label for="board-choice-mega" class="board-card">
+                            <div class="board-image">
+                                <img src="/openInterface/arduino/assets/media/simulator/board/arduino-mega-2560.svg" alt="Arduino Mega">
+                            </div>
+                            <div class="board-name-container">
+                                <span class="board-radio-indicator"></span>
+                                <span class="board-name">Arduino Mega</span>
+                            </div>
+                        </label>
+                    </div>
+                    <!-- <div class="board-option" data-board="r4">
+                        <input type="radio" name="boardChoice" value="unor4wifi" id="board-choice-unor4wifi">
+                        <label for="board-choice-unor4wifi" class="board-card">
+                            <div class="board-image">
+                                <img src="/openInterface/arduino/assets/media/simulator/board/arduino-uno-r4-wifi.svg" alt="Arduino UNO R4 WiFi">
+                            </div>
+                            <div class="board-name-container">
+                                <span class="board-radio-indicator"></span>
+                                <span class="board-name">Arduino UNO R4 WiFi</span>
+                            </div>
+                        </label>
+                    </div> -->
+                </div>
+                <div class="ide-modal-section mb-3">
+                    <p class="mb-1">${jsonPath('modals.hardware.arduino.content.firmware')}</p>
+                    <button data-toggle="tooltip" data-placement="top" title="${jsonPath('code.topbar.tooltips.board')}" class="btn_ide btn_ide_left">
+                        <i class="fas fa-microchip"></i>
+                    </button>
+                    <select class="board-firmware-selector" id="firmware-options">
+                        <option>Arduino Uno</option>
+                    </select>
+                </div>
+                <div class="board-choice-footer-container">
+                    <button type="button" class="btn v-btn board-choice-validate-btn" onclick="InterfaceConnection.validateSelectedBoard()">
+                        ${jsonPath('modals.hardware.arduino.buttons.validate')}
+                    </button>
+                    <div class="board-choice-links">
+                        <a href="https://vittascience.com/learn/tutorial.php?id=911" class="board-choice-link" target="_blank" rel="noopener noreferrer">
+                            ${jsonPath('modals.hardware.arduino.content.tutorial_link')}
+                        </a>
+                        <a href="https://vittascience.com/shop/" class="board-choice-link" target="_blank" rel="noopener noreferrer">
+                            ${jsonPath('modals.hardware.arduino.content.compatibility_link')}
+                        </a>
+                    </div>
+                </div>
+            `,
+            footer: ``
         },
         'modal-simulator-background': {
             header: {
@@ -858,7 +949,145 @@ let stdModals = {};
                             ${jsonPath('modals.standard.local-compilation.buttons.upload')}
                         </button>
                     </div>`
-        }
+        },
+        'modal-turtle-auto-corrector-validation': {
+            header: {
+                icon: 'fa-solid <i class="fa-solid fa-square-check"></i>',
+                title: 'modals.turtleValidation.title'
+            },
+            content: `<div class="turtle-validation-modal-notice-wrapper">
+                    <div id="turtle-validation-modal-notice-passed" class="turtle-validation-modal-notice turtle-validation-modal-notice-passed">
+                        <i class="fa-solid fa-square-check"></i>
+                        <p data-i18n="modals.turtleValidation.passedDescription"></p>
+                    </div>
+                    <div id="turtle-validation-modal-notice-failed" class="turtle-validation-modal-notice turtle-validation-modal-notice-failed">
+                        <i class="fa-solid fa-square-xmark"></i>
+                        <p data-i18n="modals.turtleValidation.failedDescription"></p>
+                    </div>
+                    <div id="turtle-validation-modal-notice-no-turtle-course" class="turtle-validation-modal-notice turtle-validation-modal-notice-no-turtle-course">
+                        <i class="fa-solid fa-square-xmark"></i>
+                        <p data-i18n="modals.turtleValidation.noTurtleCourseDescription"></p>
+                    </div>
+                    <div class="turtle-validation-modal-images-compare-wrapper">
+                        <div class="turtle-validation-modal-images-compare-card">
+                            <span data-i18n="modals.turtleValidation.referenceImageTitle"></span>
+                            <image id="turtle-validation-modal-reference-image" class="turtle-validation-modal-image" data-i18n="[alt]modals.turtleValidation.referenceImageAlt" alt="The exercice reference image">
+                        </div>
+                        <div class="turtle-validation-modal-images-compare-card">
+                            <span data-i18n="modals.turtleValidation.userImageTitle"></span>
+                            <image id="turtle-validation-modal-user-image" class="turtle-validation-modal-image" data-i18n="[alt]modals.turtleValidation.userImageAlt" alt="The user image">
+                        </div>
+                    </div>
+                </div>`,
+            footer: `
+            <button type="button" class="btn btn-secondary me-4 ms-5" style="flex:1;" data-i18n="modals.turtleValidation.retry" onclick="pseudoModal.closeLatestModal()">
+                Retry
+            </button>
+            <button type="button" id="modal-turtle-validation-continue-btn" class="btn btn-green me-5 ms-4" style="flex:1;" data-i18n="modals.turtleValidation.continue" onclick="turtleAutocorrector.sendResults()">
+                Continue
+            </button>`
+        },
+        'modal-turtle-auto-corrector-creation': {
+            header: {
+                icon: 'fas fa-tasks',
+                title: `modals.turtleCorrection.title`,
+            },
+            content: `
+                <div>
+                    <div class="form-group col-md-12 ms-0 ps-0">  
+                        <label class="tutorial-label">
+                            <i class="fas fa-stopwatch"></i>
+                            <span data-i18n="">${jsonPath('modals.turtleCorrection.turtleCourse')}</span>
+                        </label>
+                        <div class="turtle-record-container" id="turtle-record-container">
+                            <p id="turtle-exercise-creation-explanations">
+                                ${jsonPath('modals.turtleCorrection.explanations')}
+                            </p>
+                            <img class="turtle-exercise-creation-image" id="turtle-exercise-creation-image" alt="${jsonPath('modals.turtleCorrection.imageAlt')}">
+                        </div>
+                        <div class="record-exercise text-center mt-2">
+                            <button class="btn v-btn mb-1" onclick="turtleAutocorrector.recordExercise()" id="record-turtle-exercise-btn">${jsonPath('modals.turtleCorrection.record')}</button>
+                        </div>
+                        <div id="turtle-autocorrector-uptodate-notice" class="turtle-autocorrector-uptodate-notice">
+                            ${jsonPath('modals.turtleCorrection.uptodateNotice')}
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center mb-2">
+                        <label class="switch">
+                            <input type="checkbox" id="checkbox-turtle-exercise-blank-project">
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="ms-2" data-i18n="[html]modals.turtleCorrection.setBlankProject"></span>
+                    </div>
+                </div>
+            `,
+            footer: `<button type="button" class="btn v-btn-basic" style="flex:1;" data-i18n="[html]modals.turtleCorrection.cancel" onclick="pseudoModal.closeLatestModal()">
+                    </button>
+                    <button type="button" id="save-turtle-exercise" class="btn v-btn-outline" style="flex:1; margin-left: 5px;" onclick="turtleAutocorrector.saveTurtleExercise()">
+                        ${jsonPath('modals.turtleCorrection.saveExercise')}
+                    </button>`,
+        },
+        'modal-duo-upload-python': {
+            selector: '',
+            header: {
+                icon: 'fas fa-bolt',
+                title: 'code.topbar.label.upload'
+            },
+            content: `
+                <div class="container text-center mt-3">
+                    <div class="m-auto w-75 mb-3 simple-box-shadow-element">
+                        <figure class="figure">
+                            <img class="figure-img img-fluid rounded w-75" src='${CDN_PATH}/openInterface/interfaces/assets/media/modals/microbit-upload-duo-mode_no-bg.png' alt="Upload Python Duo"/>
+                        </figure>
+                    </div>
+                    <div class="d-flex justify-content-evenly align-items-center">
+                        <button id="upload-python-duo-btn-a" class="btn btn-primary px-5 py-2" data-i18n="modals.duoUpload.btnA">Programme A</button>
+                        <button id="upload-python-duo-btn-b" class="btn btn-primary px-5 py-2" data-i18n="modals.duoUpload.btnB">Programme B</button>
+                    </div>
+                </div>`,
+            footer: ``
+        },
+        'modal-duo-upload-python-ble': {
+            selector: '',
+            header: {
+                icon: 'fa-brands fa-bluetooth',
+                title: 'code.topbar.label.uploadBluetooth'
+            },
+            content: `
+                <div class="container text-center mt-3">
+                    <div class="m-auto w-75 mb-3 simple-box-shadow-element">
+                        <figure class="figure">
+                            <img class="figure-img img-fluid rounded w-75" src='${CDN_PATH}/openInterface/interfaces/assets/media/modals/microbit-upload-duo-mode_no-bg.png' alt="Upload Python Duo"/>
+                        </figure>
+                    </div>
+                    <div class="d-flex justify-content-evenly align-items-center">
+                        <button id="upload-python-ble-duo-btn-a" class="btn btn-primary px-5 py-2" data-i18n="modals.duoUpload.btnA">Programme A</button>
+                        <button id="upload-python-ble-duo-btn-b" class="btn btn-primary px-5 py-2" data-i18n="modals.duoUpload.btnB">Programme B</button>
+                    </div>
+                </div>`,
+            footer: ``
+        },
+        'modal-duo-download-hex': {
+            selector: '',
+            header: {
+                icon: "/openInterface/interfaces/assets/media/micropython_logo.svg",
+                title: 'code.topbar.tooltips.downloadHex'
+            },
+            content: `
+                <div class="container text-center mt-3">
+                    <div class="m-auto w-75 mb-3 simple-box-shadow-element">
+                        <figure class="figure">
+                            <img class="figure-img img-fluid rounded w-75" src='${CDN_PATH}/openInterface/interfaces/assets/media/modals/microbit-upload-duo-mode_no-bg.png' alt="Upload Python Duo"/>
+                        </figure>
+                    </div>
+                    <div class="d-flex justify-content-evenly align-items-center">
+                        <button id="download-hex-duo-btn-a" class="btn btn-primary px-5 py-2" data-i18n="modals.duoUpload.btnA">Programme A</button>
+                        <button id="download-hex-duo-btn-b" class="btn btn-primary px-5 py-2" data-i18n="modals.duoUpload.btnB">Programme B</button>
+                    </div>
+                </div>`,
+            footer: ``
+        },
+        
         // Template not modify, not delete
         // '0': {
         //     selector: '',

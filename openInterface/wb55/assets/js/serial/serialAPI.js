@@ -20,6 +20,7 @@ async function connectBoard() {
 async function uploadPython() {
 	const upload = async function () {
 		if (Repl && Repl.hasFirmware) {
+			Repl.progressBar.displayProgressBar();
 			Repl.Queue.reset();
 			Repl.uploadUserCode();
 			Repl.runFile();
@@ -104,6 +105,7 @@ function callbackError(error) {
 		$("#download-python").show();
 		$("#disconnect-opt").hide();
 		$("#connected-icon").remove();
+		Repl.progressBar.hideProgressBar();
 	}
 };
 
@@ -126,7 +128,8 @@ async function doConnect() {
 		console.log(SerialAPI.port);
 		const boardOptions = {
 			"chunkSize": SerialAPI.CHUNK_SIZE,
-			"libraries": VittaInterface.externalLibraries
+			"libraries": VittaInterface.externalLibraries,
+			"progressBar": true
 		};
 		Repl = new MicropythonRepl(SerialAPI, boardOptions);
 		Repl.readingLoop();
@@ -157,6 +160,7 @@ async function doConnect() {
 
 async function doDisconnect() {
 	if (Repl && Repl.hasFirmware) {
+		Repl.progressBar.hideProgressBar();
 		Repl.Queue.reset();
 		if (Repl.isOpen) {
 			Repl.resetBoard('machine');

@@ -1,5 +1,5 @@
 /**
- * @fileoverview French messages for Nao. (ES)
+ * @fileoverview Spanish messages for Nao. (ES)
  */
 'use strict';
 

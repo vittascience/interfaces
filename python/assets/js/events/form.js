@@ -438,7 +438,7 @@ function removeIO(dataIO, input = true) {
     });
 }
 
-$('body').on('click', '#save-test', function () {
+$('body').on('click', '#save-test', async function () {
     if (projectManager._currentProject.id) {
         var errors = []
         let secret = $('#form-secret');
@@ -458,6 +458,7 @@ $('body').on('click', '#save-test', function () {
                 'project': projectManager._currentProject.id,
                 'linkSolution': $('#form-solution').val()
             }
+            await turtleAutocorrector.removeTurtleExercise();
             saveExercise(exerciseToSave, uniTests)
         } else {
             console.error(errors)

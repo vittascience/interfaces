@@ -77,6 +77,11 @@ Blockly.Msg['TURTLE_SCREEN_SETUP_TITLE'] = 'dimensione della tela %1 x %2';
 Blockly.Msg['TURTLE_SCREEN_SETUP_TOOLTIP'] = 'Imposta la dimensione della tela.';
 Blockly.Msg['TURTLE_SCREEN_COLOR_TITLE'] = 'colore di sfondo della tela %1';
 Blockly.Msg['TURTLE_SCREEN_COLOR_TOOLTIP'] = 'Imposta il colore di sfondo della tela.';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_TITLE'] = 'immagine di sfondo del canvas %1';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_TOOLTIP'] = 'Imposta un\'immagine di sfondo per il canvas.';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_MAZE'] = 'labirinto';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_GRID'] = 'griglia';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_VITTASCIENCE'] = 'vittascience';
 
 // Numpy blocks.
 Blockly.Msg['NUMPY_ARANGE_TITLE'] = 'aranged table from %1 to %2 by step %3';

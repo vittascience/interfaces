@@ -460,6 +460,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
+    // TO BE REMOVED 
+
     // BLOCK ILO COLOR DETECTOR 
     {
         "type": "robots_colorDetectorIlo",
@@ -510,6 +512,54 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "block_init_helpurl"
         ]
     },
+
+    // END TO BE REMOVED
+
+    // BLOCK ILO GET COLOR
+    {
+        "type": "robots_getColorRawIlo",
+        "message0": "%{BKY_ROBOTS_ILO_GET_COLOR_RAW_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "COLOR",
+            "options": [
+                ["%{BKY_ROBOTS_ILO_RED}", "0"],
+                ["%{BKY_ROBOTS_ILO_GREEN}", "1"],
+                ["%{BKY_ROBOTS_ILO_BLUE}", "2"]
+            ]
+        }],
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ILO_GET_COLOR_RAW_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK ILO GET COLOR
+    {
+        "type": "robots_getColorCardIlo",
+        "message0": "%{BKY_ROBOTS_ILO_GET_COLOR_CARD_TITLE}",
+         "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "COLOR",
+            "options": [
+                ["%{BKY_ROBOTS_ILO_COLOR_LABEL}", "color"],
+                ["%{BKY_ROBOTS_ILO_COLOR_RGB}", "rgb"],
+                ["%{BKY_ROBOTS_ILO_COLOR_RED}", "r"],
+                ["%{BKY_ROBOTS_ILO_COLOR_GREEN}", "g"],
+                ["%{BKY_ROBOTS_ILO_COLOR_BLUE}", "b"]
+
+            ]
+        }],
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ILO_GET_COLOR_CARD_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
 
     // BLOCK ILO GET LUMINOSITY
     {
@@ -619,8 +669,8 @@ Blockly.Constants.Robots.ROBOTS_FINISH_STATE_MUTATOR_MIXIN = {
                 .appendField(Blockly.Msg['ROBOTS_ILO_FINISH_STATE'])
                 .appendField(
                     new Blockly.FieldDropdown([
-                        ["%{BKY_ROBOTS_ILO_FINISH_STATE_NO}", "FALSE"],
-                        ["%{BKY_ROBOTS_ILO_FINISH_STATE_YES}", "TRUE"]
+                        ["%{BKY_ROBOTS_ILO_FINISH_STATE_YES}", "TRUE"],
+                        ["%{BKY_ROBOTS_ILO_FINISH_STATE_NO}", "FALSE"]
                     ]), "FINISH_STATE"
                 )
             top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI,

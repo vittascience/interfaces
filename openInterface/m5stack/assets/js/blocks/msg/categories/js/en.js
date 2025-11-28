@@ -67,3 +67,4 @@ Blockly.Msg["SUBCATEGORY_LOOPS"] = "Loops";
 Blockly.Msg['SUBCATEGORY_TEXT_ANALYSIS'] = 'Text analysis';
 Blockly.Msg["SUBCATEGORY_LOGIC"] = "Logic";
 Blockly.Msg['SUBCATEGORY_UMAIL'] = 'E-mail';
+Blockly.Msg['SUBCATEGORY_MQTT'] = 'MQTT';

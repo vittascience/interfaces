@@ -75,9 +75,9 @@ Blockly.Msg['COMMUNICATION_COMPUTER_SETFREQUENCY_TOOLTIP'] = 'This block allows 
 Blockly.Msg['COMMUNICATION_COMPUTER_STOPMUSIC_TITLE'] = 'stop music of serial port';
 Blockly.Msg['COMMUNICATION_COMPUTER_STOPMUSIC_TOOLTIP'] = 'Stop the current note of serial port.';
 // Robots - mBot basic modules
-Blockly.Msg['ROBOTS_MBOT_GO_TITLE'] = '[Motors] control robot %1 speed %2 (%)';
-Blockly.Msg['ROBOTS_MBOT_GO_FORWARD'] = 'forward';
-Blockly.Msg['ROBOTS_MBOT_GO_REVERSE'] = 'reverse';
+Blockly.Msg['ROBOTS_MBOT_GO_TITLE'] = '[Motors] %1 at speed %2 (%)';
+Blockly.Msg['ROBOTS_MBOT_GO_FORWARD'] = 'move forward';
+Blockly.Msg['ROBOTS_MBOT_GO_REVERSE'] = 'move backward';
 Blockly.Msg['ROBOTS_MBOT_GO_TOOLTIP'] = IMG_MODULE_MBOT + Blockly.Tooltip.SEP + 'Enable to control car running (FORWARD/REVERSE) and motor speed (from 0 to 100 %) of mBot robot.';
 Blockly.Msg['ROBOTS_MBOT_CONTROLMOTOR_TITLE'] = '[Motors] control motor %1 direction %2 speed %3 (%)';
 Blockly.Msg['ROBOTS_MBOT_RIGHT'] = 'right';

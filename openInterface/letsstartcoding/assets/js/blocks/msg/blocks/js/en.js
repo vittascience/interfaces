@@ -41,3 +41,4 @@ Blockly.Msg["LSC_CONTROLS_IF_MSG_IF"] = "if (%1) {";
 
 // LOOPS
 Blockly.Msg["LSC_CONTROLS_FOR_TITLE"] = "count with %1 from %2 to %3 by %4";
+Blockly.Msg['IO_WRITEANALOGPIN_TOOLTIP'] = 'Allows writing a value to an analog input (0-255).';

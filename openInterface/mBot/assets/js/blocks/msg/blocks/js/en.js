@@ -9,7 +9,6 @@ Blockly.Msg['CALL_EXPRESSION_COMMENT_TOOLTIP'] = 'This block allows you to add a
 // Display - MeMCore
 Blockly.Msg["MCORE_CONTROL_BUILTIN_LED_TITLE"] = "[MeMCore] set built-in blue LED to state %1";
 Blockly.Msg["MCORE_CONTROL_BUILTIN_LED_TOOLTIP"] = "Turn on on turn off the blue LED on the MeMCore board.";
-
 // Input/Output - MeMCore
 Blockly.Msg["IO_WAIT_TITLE"] = "wait %1 %2";
 Blockly.Msg["IO_WAIT_TOOLTIP"] = "Stop the code execution (duration in seconds or milliseconds).";
@@ -79,7 +78,7 @@ Blockly.Msg["COMMUNICATION_COMPUTER_STOPMUSIC_TITLE"] = "stop music of serial po
 Blockly.Msg["COMMUNICATION_COMPUTER_STOPMUSIC_TOOLTIP"] = "Stop the current note of serial port.";
 
 // Robots - mBot basic modules
-Blockly.Msg["ROBOTS_MBOT_GO_TITLE"] = "[Motors] control robot %1 speed %2 (%)";
+Blockly.Msg["ROBOTS_MBOT_GO_TITLE"] = "[Motors] %1 at speed %2 (%)";
 Blockly.Msg["ROBOTS_MBOT_GO_FORWARD"] = "forward";
 Blockly.Msg["ROBOTS_MBOT_GO_REVERSE"] = "reverse";
 Blockly.Msg["ROBOTS_MBOT_GO_TOOLTIP"] = IMG_MODULE_MBOT + Blockly.Tooltip.SEP + "Enable to control car running (FORWARD/REVERSE) and motor speed (from 0 to 100 %) of mBot robot.";
@@ -196,3 +195,4 @@ Blockly.Msg["ROBOTS_MAKEBLOCK_GETPRESSEDBUTTON_TITLE"] = "[4 Buttons module] pre
 Blockly.Msg["ROBOTS_MAKEBLOCK_GETPRESSEDBUTTON_TOOLTIP"] = IMG_MODULE_MAKEBLOCK_4_BUTTONS + Blockly.Tooltip.SEP + "Returns the pressed button from 4 buttons module of Makeblock. Connect module on RJ45 port from 1 to 2.";
 Blockly.Msg["ROBOTS_MAKEBLOCK_READTOUCHSENSOR_TITLE"] = "[Touch Sensor] state on port %1";
 Blockly.Msg["ROBOTS_MAKEBLOCK_READTOUCHSENSOR_TOOLTIP"] = IMG_MODULE_MAKEBLOCK_TOUCH_SENSOR + Blockly.Tooltip.SEP + "Returns state from touch sensor of Makeblock. Connect module on RJ45 port from 1 to 4.";
+Blockly.Msg['IO_WRITEANALOGPIN_TOOLTIP'] = 'Allows writing a value to an analog input (0-255).';

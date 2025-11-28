@@ -7,7 +7,7 @@
 Blockly.Python.communication_serialWrite = function (block) {
     const text = Blockly.Python.valueToCode(block, "TEXT", Blockly.Python.ORDER_NONE) || '';
     const newlines = parseInt(block.getFieldValue("NEWLINES")) || 0;
-    if (!newlines || newlines === 0){
+    if (!newlines || newlines === 0) {
         if (Blockly.Constants.Utils.isInputTextBlock(block, "TEXT")) {
             return "print(" + text + ")" + NEWLINE;
         } else {
@@ -141,6 +141,13 @@ Blockly.Python.communication_radioConfig = function (block) {
     if (group > 255) group = 255;
     if (group < 0) group = 0;
     return "radio.config(channel = " + canal + ", power = " + power + ", length = " + len + ", group=" + group + ")" + NEWLINE;
+};
+
+Blockly.Python.communication_radioReceiveFull = function (block) {
+    Blockly.Python.addImport('radio', IMPORT_RADIO);
+    Blockly.Python.addFunction('radio_receiveFull', FUNCTIONS_MICROBIT.DEF_COM_RADIO_RECEIVE_FULL);
+    const data = block.getFieldValue("DATA");
+    return [`radio_receiveFull('${data}')`, Blockly.Python.ORDER_ATOMIC];
 };
 
 // Data logging

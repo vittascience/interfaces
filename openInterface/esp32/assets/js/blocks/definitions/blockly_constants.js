@@ -1,4 +1,4 @@
-Blockly.Msg.boardName = 'ESP32';
+Blockly.Msg.Esp32BoardName = 'ESP32';
 
 Blockly.Constants.HTML_BLOCKS = [
   'network_html_addTitle',
@@ -88,8 +88,9 @@ Blockly.Constants.Pins.digital = {
     ["TX2", "p17"]
   ]
 };
-Blockly.Constants.Pins.digital[[BOARD_EDU_ESP32]] = Blockly.Constants.Pins.digital[BOARD_WEMOS_D1R32];
-Blockly.Constants.Pins.digital[[BOARD_SHIELD_GROVE_EDU_ESP32]] = Blockly.Constants.Pins.digital[BOARD_SHIELD_GROVE];
+Blockly.Constants.Pins.digital[BOARD_EDU_ESP32] = Blockly.Constants.Pins.digital[BOARD_WEMOS_D1R32];
+Blockly.Constants.Pins.digital[BOARD_SHIELD_GROVE_EDU_ESP32] = Blockly.Constants.Pins.digital[BOARD_SHIELD_GROVE];
+Blockly.Constants.Pins.digital[BOARD_ESP32_CAM] = Blockly.Constants.Pins.digital[BOARD_WEMOS_D1R32];
 
 Blockly.Constants.Pins.analog_read = {
   [BOARD_WEMOS_D1R32]: [
@@ -127,8 +128,10 @@ Blockly.Constants.Pins.analog_read = {
     ["A1", "p32"],
     ["A2", "p35"],
     ["A3", "p34"]
-  ],
+  ]
 };
+
+Blockly.Constants.Pins.analog_read[BOARD_ESP32_CAM] = Blockly.Constants.Pins.analog_read[BOARD_WEMOS_D1R32];
 
 Blockly.Constants.Pins.DAC = {
   [BOARD_WEMOS_D1R32]: [
@@ -144,8 +147,9 @@ Blockly.Constants.Pins.DAC = {
     ["D26", "p26"]
   ]
 };
-Blockly.Constants.Pins.DAC[[BOARD_EDU_ESP32]] = Blockly.Constants.Pins.DAC[BOARD_WEMOS_D1R32];
-Blockly.Constants.Pins.DAC[[BOARD_SHIELD_GROVE_EDU_ESP32]] = Blockly.Constants.Pins.DAC[BOARD_SHIELD_GROVE];
+Blockly.Constants.Pins.DAC[BOARD_EDU_ESP32] = Blockly.Constants.Pins.DAC[BOARD_WEMOS_D1R32];
+Blockly.Constants.Pins.DAC[BOARD_SHIELD_GROVE_EDU_ESP32] = Blockly.Constants.Pins.DAC[BOARD_SHIELD_GROVE];
+Blockly.Constants.Pins.DAC[BOARD_ESP32_CAM] = Blockly.Constants.Pins.DAC[BOARD_WEMOS_D1R32];
 
 Blockly.Constants.Pins.PWM = {
   [BOARD_WEMOS_D1R32]: [
@@ -213,8 +217,9 @@ Blockly.Constants.Pins.PWM = {
     ["VP", "p36"]
   ]
 };
-Blockly.Constants.Pins.PWM[[BOARD_EDU_ESP32]] = Blockly.Constants.Pins.PWM[BOARD_WEMOS_D1R32];
-Blockly.Constants.Pins.PWM[[BOARD_SHIELD_GROVE_EDU_ESP32]] = Blockly.Constants.Pins.PWM[BOARD_SHIELD_GROVE];
+Blockly.Constants.Pins.PWM[BOARD_EDU_ESP32] = Blockly.Constants.Pins.PWM[BOARD_WEMOS_D1R32];
+Blockly.Constants.Pins.PWM[BOARD_SHIELD_GROVE_EDU_ESP32] = Blockly.Constants.Pins.PWM[BOARD_SHIELD_GROVE];
+Blockly.Constants.Pins.PWM[BOARD_ESP32_CAM] = Blockly.Constants.Pins.PWM[BOARD_WEMOS_D1R32];
 
 Blockly.Constants.Pins.UART = {
   [BOARD_WEMOS_D1R32]: [
@@ -222,7 +227,8 @@ Blockly.Constants.Pins.UART = {
     ["2", "2"]
   ]
 };
-Blockly.Constants.Pins.UART[[BOARD_SHIELD_GROVE]] = Blockly.Constants.Pins.UART[BOARD_WEMOS_D1R32];
-Blockly.Constants.Pins.UART[[BOARD_ESP32_WROOM_32D]] = Blockly.Constants.Pins.UART[BOARD_WEMOS_D1R32];
-Blockly.Constants.Pins.UART[[BOARD_EDU_ESP32]] = Blockly.Constants.Pins.UART[BOARD_WEMOS_D1R32];
-Blockly.Constants.Pins.UART[[BOARD_SHIELD_GROVE_EDU_ESP32]] = Blockly.Constants.Pins.UART[BOARD_WEMOS_D1R32];
+Blockly.Constants.Pins.UART[BOARD_SHIELD_GROVE] = Blockly.Constants.Pins.UART[BOARD_WEMOS_D1R32];
+Blockly.Constants.Pins.UART[BOARD_ESP32_WROOM_32D] = Blockly.Constants.Pins.UART[BOARD_WEMOS_D1R32];
+Blockly.Constants.Pins.UART[BOARD_EDU_ESP32] = Blockly.Constants.Pins.UART[BOARD_WEMOS_D1R32];
+Blockly.Constants.Pins.UART[BOARD_SHIELD_GROVE_EDU_ESP32] = Blockly.Constants.Pins.UART[BOARD_WEMOS_D1R32];
+Blockly.Constants.Pins.UART[BOARD_ESP32_CAM] = Blockly.Constants.Pins.UART[BOARD_WEMOS_D1R32];

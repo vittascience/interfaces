@@ -3,8 +3,8 @@ const specific_modeInterfaceOption = modeInterfaceOption;
 const specific_simulatorInterfaceOption = simulatorInterfaceOption;
 const specific_consoleInterfaceOption = consoleInterfaceOption;
 const specific_toolboxInterfaceOption = toolboxInterfaceOption;
-const specific_boardInterfaceOption = 
-`<div id="modal-share-options-board" class="d-flex flex-column">
+const specific_boardInterfaceOption =
+    `<div id="modal-share-options-board" class="d-flex flex-column">
     <span class="text-center" data-i18n="modals.standard.share.content.options.board.title">Carte</span>
     <div class="switcher">
 
@@ -20,8 +20,11 @@ const specific_boardInterfaceOption =
         <input type="radio" name="shareOptionsBoard" value="shield-grove-edu-esp32" id="board_shield-grove-edu-esp32_Share" class="switcher__input switcher__input--middle3">
         <label for="board_shield-grove-edu-esp32_Share" class="switcher__label">Shield Grove EDU ESP32</label>
 
-        <input type="radio" name="shareOptionsBoard" value="basic-esp32" id="board_basic-esp32_Share" class="switcher__input switcher__input--right">
+        <input type="radio" name="shareOptionsBoard" value="basic-esp32" id="board_basic-esp32_Share" class="switcher__input switcher__input--middle4">
         <label for="board_basic-esp32_Share" class="switcher__label">ESP32 WROOM-32D</label>
+
+        <input type="radio" name="shareOptionsBoard" value="esp32-cam" id="board_esp32-cam_Share" class="switcher__input switcher__input--right">
+        <label for="board_esp32-cam_Share" class="switcher__label">ESP32-CAM</label>
 
         <span class="switcher__toggle"></span>
     </div>
@@ -47,8 +50,11 @@ const specific_boardSelector = function () {
                 <input type="radio" name="boardSelector" value="shield-grove-edu-esp32" id="board_shield-grove-edu-esp32_Set" class="switcher__input switcher__input--middle3">
                 <label for="board_shield-grove-edu-esp32_Set" class="switcher__label esp32-switcher">Shield Grove EDU</label>
 
-                <input type="radio" name="boardSelector" value="basic-esp32" id="board_basic-esp32_Set" class="switcher__input switcher__input--right">
+                <input type="radio" name="boardSelector" value="basic-esp32" id="board_basic-esp32_Set" class="switcher__input switcher__input--middle4">
                 <label for="board_basic-esp32_Set" class="switcher__label esp32-switcher">ESP32 WROOM-32D</label>
+
+                <input type="radio" name="boardSelector" value="esp32-cam" id="board_esp32-cam_Set" class="switcher__input switcher__input--right">
+                <label for="board_esp32-cam_Set" class="switcher__label">ESP32-CAM</label>
 
                 <span class="switcher__toggle esp32-switcher esp32-switcher-toggle"></span>
             </div>

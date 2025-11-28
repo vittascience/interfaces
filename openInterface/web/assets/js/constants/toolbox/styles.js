@@ -86,7 +86,7 @@ const THEME_VITTASCIENCE = {
     "text_blocks": {
         "colourPrimary": "#7ac943"
     },
-    "list_blocks": {
+    "lists_blocks": {
         "colourPrimary": "#e58544"
     },
     "colour_blocks": {

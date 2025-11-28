@@ -285,3 +285,9 @@ Blockly.Python.io_setPull = function (block) {
     const state = block.getFieldValue("STATE");
     return `${pin}.set_pull(${pin}.${state})` + NEWLINE;
 };
+
+Blockly.Python.io_exec = function(block) {
+  Blockly.Python.EXEC_FLAG = true;
+  const code = Blockly.Python.valueToCode(block, 'CODE', Blockly.Python.ORDER_NONE) || 'print("Hello World")';
+  return 'exec(' + code + ')' + NEWLINE;
+}

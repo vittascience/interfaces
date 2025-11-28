@@ -23,7 +23,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_ACTUATORS_SERVO_SETANGLE_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -53,7 +54,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_ACTUATORS_CONTINUOUS_SERVO_SETSPEED_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -72,7 +74,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_ACTUATORS_SERVO_DETACH_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -288,7 +291,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_ACTUATORS_GROVEVIBRATIONMOTOR_CONTROL_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -311,7 +315,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_ACTUATORS_GROVERELAY_CONTROL_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -334,7 +339,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_ACTUATORS_MOSFET_SETSTATE_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -357,7 +363,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_ACTUATORS_MOSFET_SETPERCENTVALUE_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -380,7 +387,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_ACTUATORS_GROVEBUZZER_CONTROLSTATE_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -415,7 +423,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_ACTUATORS_GROVEBUZZER_PLAYNOTE_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -454,7 +463,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_ACTUATORS_GROVEBUZZER_PLAYNOTEDURATION_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -477,7 +487,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_ACTUATORS_TONE_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -504,7 +515,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_ACTUATORS_TONE_DURATION_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -522,7 +534,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_ACTUATORS_NOTONE_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -549,7 +562,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_ACTUATORS_GROVEBUZZER_PLAYMUSIC_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -572,7 +586,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_ACTUATORS_GROVEWATERATOMIZATION_CONTROL_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -595,7 +610,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_ACTUATORS_GROVEELECTROMAGNET_CONTROL_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ]
     }
 

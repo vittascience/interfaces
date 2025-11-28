@@ -143,18 +143,22 @@ Blockly.Python.turtle_reset = function () {
 
 Blockly.Python.turtle_screen_setup = function (block) {
     Blockly.Python.addImport('turtle', IMPORT_TURTLE_ALL);
-    Blockly.Python.addInit('turtle_screen', 'sc = turtle.Screen()');
     const width = Blockly.Python.valueToCode(block, "WIDTH", Blockly.Python.ORDER_NONE) || "None";
     const height = Blockly.Python.valueToCode(block, "HEIGHT", Blockly.Python.ORDER_NONE) || "None";
-    return `sc.setup(${width}, ${height})` + NEWLINE;
+    return `turtle.setup(${width}, ${height})` + NEWLINE;
 };
 
 Blockly.Python.turtle_screen_color = function (block) {
     Blockly.Python.addImport('turtle', IMPORT_TURTLE_ALL);
-    Blockly.Python.addInit('turtle_screen', 'sc = turtle.Screen()');
     const turtleColor = Blockly.Python.valueToCode(block, "COLOR", Blockly.Python.ORDER_NONE) || "white";
     const rgbValues = turtleColor.match(/\d+/g).map(Number);
-    return `sc.bgcolor("#${rgbValues.map(val => val.toString(16).padStart(2, '0')).join('')}")` + NEWLINE;
+    return `turtle.bgcolor("#${rgbValues.map(val => val.toString(16).padStart(2, '0')).join('')}")` + NEWLINE;
+};
+
+Blockly.Python.turtle_screen_picture = function (block) {
+    Blockly.Python.addImport('turtle', IMPORT_TURTLE_ALL);
+    const picture = block.getFieldValue("PICTURE");
+    return `turtle.bgpic("${picture}")` + NEWLINE;
 };
 
 // not displayed block

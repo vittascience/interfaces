@@ -14,6 +14,7 @@ export default class Simulator3d {
         // Common
         this.options = _options;
         this.experience = new Experience(this.options);
+        this.isReady = false; // for simulation only
         this.loadedHierarchie = false;
         this._loadHierarchie();
         this._initAnimation();
@@ -87,7 +88,7 @@ export default class Simulator3d {
                 y: 12.07873199620866,
                 z: 7.845813161852047,
                 onComplete: () => {
-                    camera.update();
+                    this.isReady = true;
                 },
                 ease: 'power4.inOut',
             });

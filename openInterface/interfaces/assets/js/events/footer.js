@@ -12,7 +12,7 @@ function failedToLoad() {
         },
         message: 'Failed to load your interface. Retry in 3 seconds'
     });
-    // localStorage.clear(); // Would be useless after localStorage rework
+    localStorage.clear();
     setTimeout(function () {
         location.reload();
     }, 3000);

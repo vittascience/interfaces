@@ -8,24 +8,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const giftBtn = document.getElementById('gift-btn');
     const subscribeModal = document.getElementById('premium-modal');
     const btnOpenModal = document.querySelectorAll('.btn-subscribe-open-modal');
-    const btnShowPremiumOffers = document.getElementById('premium-offers-btn');
-
-    if (btnShowPremiumOffers) {
-        btnShowPremiumOffers.addEventListener('click', function () {
-            const premiumOffersDiv = document.getElementById('premium-offers-div');
-            if (premiumOffersDiv) {
-                if (premiumOffersDiv.classList.contains('d-none')) {
-                    premiumOffersDiv.classList.remove('d-none');
-                    premiumOffersDiv.classList.add('d-flex');
-                    this.innerText = "Masquer les offres";
-                } else {
-                    premiumOffersDiv.classList.add('d-none');
-                    premiumOffersDiv.classList.remove('d-flex');
-                    this.innerText = "Découvrir les offres";
-                }
-            }
-        });
-    }
+    const groupeNameDiv = document.getElementById('groupe-name-div');
 
 
     if (cancelBtn) {
@@ -60,16 +43,20 @@ document.addEventListener('DOMContentLoaded', async function () {
                 //set the value of the radio button to "prof"
                 const dataType = this.getAttribute("data-type");
                 if (dataType === "prof") {
-                    subscribeModal.querySelector('#premium-type').innerText = "Professeur";
-                    if (subscribeBtn && subscribeBtn.classList.contains('d-none')) {
-                        subscribeBtn.classList.remove('d-none');
-                        subscribeBtn.nextElementSibling.classList.remove('d-none');
+                    subscribeModal.querySelector('#premium-type').innerText = "Premium";
+                    if (!groupeNameDiv.classList.contains('d-none')) {
+                        groupeNameDiv.classList.add('d-none');
+                    }
+                    if (groupeNameDiv.classList.contains('d-flex')) {
+                        groupeNameDiv.classList.remove('d-flex');
                     }
                 } else {
-                    subscribeModal.querySelector('#premium-type').innerText = "Etablissement";
-                    if (subscribeBtn && !subscribeBtn.classList.contains('d-none')) {
-                        subscribeBtn.classList.add('d-none');
-                        subscribeBtn.nextElementSibling.classList.add('d-none');
+                    subscribeModal.querySelector('#premium-type').innerText = "Team";
+                    if (groupeNameDiv.classList.contains('d-none')) {
+                        groupeNameDiv.classList.remove('d-none');
+                    }
+                    if (!groupeNameDiv.classList.contains('d-flex')) {
+                        groupeNameDiv.classList.add('d-flex');
                     }
                 }
                 let refData = "";
@@ -103,7 +90,6 @@ document.addEventListener('DOMContentLoaded', async function () {
                     input.addEventListener('change', function () {
                         //get the value of the checked radio button
                         const subscriptionValue = subscribeModal.querySelector('input[name="email-subscription"]:checked').value;
-                        console.log(subscriptionValue);
                         if (subscriptionValue == "other") {
                             if (subscribeModal.querySelector('#other-email-subscription-div').classList.contains('d-none')) {
                                 subscribeModal.querySelector('#other-email-subscription-div').classList.remove('d-none');
@@ -116,7 +102,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                     });
                 });
                 //gar-connect
-                subscribeModal.querySelector('input[name="gar-connect"]').addEventListener('change', function () {
+                /* subscribeModal.querySelector('input[name="gar-connect"]').addEventListener('change', function () {
                     if (this.checked) {
                         if (subscribeModal.querySelector('#gar-connect-div').classList.contains('d-none')) {
                             subscribeModal.querySelector('#gar-connect-div').classList.remove('d-none');
@@ -126,10 +112,9 @@ document.addEventListener('DOMContentLoaded', async function () {
                             subscribeModal.querySelector('#gar-connect-div').classList.add('d-none');
                         }
                     }
-                });
+                }); 
                 subscribeModal.querySelectorAll('input[name="subscription"]').forEach(function (input) {
                     input.addEventListener('change', function () {
-                        console.log(input);
                         if (input.id == "month") {
                             //hide the GAR div
                             if (!subscribeModal.querySelector('#gar-connect-div').classList.contains('d-none')) {
@@ -142,7 +127,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                             subscribeModal.querySelector('input[name="gar-connect"]').disabled = false;
                         }
                     });
-                });
+                });*/
 
             });
         });
@@ -154,19 +139,20 @@ document.addEventListener('DOMContentLoaded', async function () {
             const adressId = subscribeModal.querySelector('input[name="address"]:checked').value;
             let subscribeEmail = subscribeModal.querySelector('input[name="email-subscription"]:checked').value;
             let teacherNumber = 1;
-            const garConnect = subscribeModal.querySelector('input[name="gar-connect"]').checked;
+            //const garConnect = subscribeModal.querySelector('input[name="gar-connect"]').checked;
             let garCode = null;
-            if (garConnect) {
+            /* if (garConnect) {
                 garCode = subscribeModal.querySelector('input[name="code-uai"]').value;
-            }
+            } */
             if (subscribeEmail == "other") {
                 subscribeEmail = subscribeModal.querySelector('#subscription-other-email').value;
             }
             if (subscriptionValue.includes("3760327670207S")) {
-                teacherNumber = subscribeModal.querySelector('input[name="teacher-number"]').value;
+                teacherNumber = document.querySelector('input[name="teacher-number"]').value;
             }
+            let groupeName = subscribeModal.querySelector('input[name="groupe-name"]').value;
             //redirect to php file
-            const url = "/shop/premium/checkout-stripe.php?subscription=" + subscriptionValue + "&addressId=" + adressId + "&subscribeEmail=" + subscribeEmail + "&teacherNumber=" + teacherNumber + "&garCode=" + garCode;
+            const url = "/shop/premium/checkout-stripe.php?subscription=" + subscriptionValue + "&addressId=" + adressId + "&subscribeEmail=" + subscribeEmail + "&teacherNumber=" + teacherNumber + "&garCode=" + garCode + "&groupeName=" + groupeName;
             /* if (teacherNumber > 1) {
                 url += "&teacherNumber=" + teacherNumber;
             }
@@ -197,12 +183,13 @@ document.addEventListener('DOMContentLoaded', async function () {
             if (subscriptionValue.includes("3760327670207S")) {
                 teacherNumber = subscribeModal.querySelector('input[name="teacher-number"]').value;
             }
+            let groupeName = subscribeModal.querySelector('input[name="groupe-name"]').value;
             //rfetch the estimate.php file
             const formData = new FormData();
             formData.append('subscription', subscriptionValue);
             formData.append('addressId', adressId);
             formData.append('teacherNumber', teacherNumber);
-
+            formData.append('groupeName', groupeName);
             fetch('/shop/pennylane/estimate.php', {
                 method: 'POST',
                 body: formData

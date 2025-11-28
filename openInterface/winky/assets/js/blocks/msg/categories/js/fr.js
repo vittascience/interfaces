@@ -29,3 +29,4 @@ Blockly.Msg['CATEGORY_OPERATORS'] = 'Opérateurs';
 // Toolbox subcategory labels.
 Blockly.Msg['SUBCATEGORY_LOOPS'] = 'Boucles';
 Blockly.Msg['SUBCATEGORY_LOGIC'] = 'Logique';
+Blockly.Msg['SUBCATEGORY_TIME'] = 'Temps';

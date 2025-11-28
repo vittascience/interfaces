@@ -414,7 +414,7 @@ Blockly.Msg['PROCESS_GLOBAL_VAR_TITLE'] = 'make %1 a global variable';
 Blockly.Msg['PROCESS_GLOBAL_VAR_TOOLTIP'] = 'Transforms a local variable into a global variable so that processes can communicate with each other.';
 
 // Robot
-Blockly.Msg["ROBOTS_KITRO_MOVE_TITLE"] = "[Kitronik] control robot %1 speed %2 %";
+Blockly.Msg["ROBOTS_KITRO_MOVE_TITLE"] = "[Kitronik] %1 at speed %2 %";
 Blockly.Msg["ROBOTS_KITRO_MOVE_TOOLTIP"] = IMG_ROBOT_KITRONIK_PICO + Blockly.Tooltip.SEP + "Allows controlling the direction of the Kitronik robot";
 Blockly.Msg["ROBOTS_KITRO_MOVE_FORWARD"] = "move forward";
 Blockly.Msg["ROBOTS_KITRO_MOVE_BACKWARD"] = "move backward";
@@ -462,3 +462,4 @@ Blockly.Msg['WIO_GET_DATA_TITLE'] = '[Wio lite] retrieve all data on port %1';
 Blockly.Msg['WIO_GET_CLASS_DATA_BY_ID_TITLE'] = '[Wio lite] probability of class no. %1 on port %2';
 Blockly.Msg['WIO_GET_CLASS_MAX_ID_TITLE'] = '[Wio lite] ID of the detected class on port %1';
 Blockly.Msg['WIO_GET_STATUS_TITLE'] = '[Wio lite] get %1 on port %2';
+Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TITLE'] = '[uart] data available';

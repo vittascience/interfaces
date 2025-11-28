@@ -17,48 +17,10 @@ async function connectBoard() {
 	}
 };
 
-/*
-Download firmware button -- not ready
-
-$("#downloadFirmwareButton").click(async function () {
-	setupMonitor();
-	if (SerialAPI.isConnected) {
-		if (!Esp32.hasFirmware) {
-			InterfaceMonitor.writeConsole('Setting firmware data...')
-			Esp32.setFirmwareData('esp32-idf3-20200902-v1.13.bin');
-			var delay = null;
-			function finish() {
-				clearInterval(delay);
-				Esp32.isDownloadingFirmware = true;
-				await Esp32.flash({ 
-					address: 0x1000, 
-					data: Esp32.firmwareData 
-				})
-				Esp32.isDownloadingFirmware = false;
-				Repl.readingLoop();
-			};
-			function start() {
-				delay = setInterval(function () {
-					console.log('condition')
-					console.log(condition())
-					if (condition()) {
-						finish();
-					}
-				}, 500);
-			};
-			start();
-		} else {
-			InterfaceMonitor.writeConsole('Micropython firmware is already flashed.', 'success');
-		}
-	} else {
-		InterfaceMonitor.writeConsole('code.serialAPI.boardMustBeConnectedForDownload', 'warning');
-	}
-});
-*/
-
 async function uploadPython() {
 	const upload = async function () {
 		if (Repl && Repl.hasFirmware) {
+			Repl.progressBar.displayProgressBar();
 			Repl.Queue.reset();
 			const commands = [
 				Repl._MPY_CMD.import_library('machine'),
@@ -68,7 +30,7 @@ async function uploadPython() {
 			Repl.uploadUserCode();
 			Repl.enqueueCommand(Repl._MPY_CMD.stopPwm("2"));
 			Repl.resetBoard('machine');
-            $('#repl-control').removeClass("activated");
+			$('#repl-control').removeClass("activated");
 			SerialAPI.isDownloading = true;
 			if (!Repl.isOpen) {
 				await Repl.open();
@@ -96,20 +58,20 @@ async function uploadPython() {
  * Download the firmware of the board.
  */
 async function downloadFirmware(fileName) {
-    await VittaInterface.fetchDir("/openInterface/" + Main.getInterface() + "/assets/firmware/" + fileName, true)
-        .then(function (blob) {
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = fileName;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-        });
+	await VittaInterface.fetchDir("/openInterface/" + Main.getInterface() + "/assets/firmware/" + fileName, true)
+		.then(function (blob) {
+			const url = window.URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.style.display = 'none';
+			a.href = url;
+			a.download = fileName;
+			document.body.appendChild(a);
+			a.click();
+			window.URL.revokeObjectURL(url);
+		});
 };
 
-function callbackError (error) {
+function callbackError(error) {
 	if (error.match(/(DOMException|ParityError|BufferOverrunError): A ((framing|parity) error|buffer overrun) has been detected\./)) {
 		SerialAPI.dataReceived = SerialAPI._loop_reader(callbackError);
 	} else if (error.match(/(DOMException|BreakError): A break condition has been detected\./)) {
@@ -120,6 +82,7 @@ function callbackError (error) {
 		$('#repl-control').removeClass("activated");
 		$("#disconnect-opt").hide();
 		$("#connected-icon").remove();
+		Repl.progressBar.hideProgressBar();
 	}
 };
 
@@ -184,7 +147,7 @@ async function doConnect() {
 		await SerialAPI.open(callbackError);
 		const board = await SerialAPI.getInfo();
 		console.log(board);
-		const ESP32_CAM = {usbVendorId: 0x1A86, usbProductId: 0x7523};
+		const ESP32_CAM = { usbVendorId: 0x1A86, usbProductId: 0x7523 };
 		if (board.usbVendorId == ESP32_CAM.usbVendorId && board.usbProductId == ESP32_CAM.usbProductId) {
 			console.log("ESP32-CAM connected.")
 			SerialAPI.setDTR(false);
@@ -194,7 +157,8 @@ async function doConnect() {
 		console.log(SerialAPI.port);
 		const boardOptions = {
 			"chunkSize": SerialAPI.CHUNK_SIZE,
-			"libraries": VittaInterface.externalLibraries
+			"libraries": VittaInterface.externalLibraries,
+			"progressBar": true
 		};
 		Repl = new MicropythonRepl(SerialAPI, boardOptions)
 		Repl.readingLoop();
@@ -222,6 +186,7 @@ async function doConnect() {
 
 async function doDisconnect() {
 	if (Repl && Repl.hasFirmware) {
+		Repl.progressBar.hideProgressBar();
 		Repl.Queue.reset();
 		if (Repl.isOpen) {
 			Repl.resetBoard('machine');
@@ -245,11 +210,11 @@ async function doDisconnect() {
 	}
 };
 
-async function waitClosure () {
+async function waitClosure() {
 	await waitFor(_ => Repl.isLoopClosed === true);
 }
 
-function waitFor (conditionFunction) {
+function waitFor(conditionFunction) {
 	const poll = resolve => {
 		if (conditionFunction()) {
 			resolve();

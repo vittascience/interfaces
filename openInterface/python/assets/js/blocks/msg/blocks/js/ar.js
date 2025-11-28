@@ -76,6 +76,11 @@ Blockly.Msg['TURTLE_SCREEN_SETUP_TITLE'] = 'حجم اللوحة %1 × %2';
 Blockly.Msg['TURTLE_SCREEN_SETUP_TOOLTIP'] = 'تحديد حجم اللوحة.';
 Blockly.Msg['TURTLE_SCREEN_COLOR_TITLE'] = 'لون خلفية اللوحة %1';
 Blockly.Msg['TURTLE_SCREEN_COLOR_TOOLTIP'] = 'تحديد لون خلفية اللوحة.';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_TITLE'] = 'صورة خلفية اللوحة %1';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_TOOLTIP'] = 'تعيين صورة خلفية للوحة (canvas).';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_MAZE'] = 'متاهة';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_GRID'] = 'شبكة';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_VITTASCIENCE'] = 'vittascience';
 
 // Numpy blocks.
 Blockly.Msg['NUMPY_ARANGE_TITLE'] = 'aranged table from %1 to %2 by step %3';

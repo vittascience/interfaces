@@ -6,6 +6,10 @@ const DEFAULT_XML_START = {
     "scratch": '<xml xmlns="https://developers.google.com/blockly/xml"><block type="scratch_on_start" id="G[=T#8yqB70`NFgYq}GP" deletable="false" x="0" y="0"><next><block type="scratch_forever" id="o[WN]+eeF.OUxGch67@8"></block></next></block></xml>'
 };
 const DEFAULT_CODE_START = 'from microbit import *\n\nwhile True:\n  pass';
+const REPLACE_CODE_REQUESTS = {
+    "robots_readMaqueenPlusPatrol": [/<\s*block type=\s*"robots_readMaqueenPlusv(1|2)Patrol"\s*id="([^"]{20})"\s*>/g, "<block type=\"robots_readMaqueenPlusPatrol\" id=\"$2\"><field name=\"VERSION\">$1</field>"],
+    "robots_setMaqueenPlusServoAngle": [/<\s*block type=\s*"robots_setMaqueenPlusV(1|2)ServoAngle"\s*id="([^"]{20})"\s*>/g, "<block type=\"robots_setMaqueenPlusServoAngle\" id=\"$2\"><field name=\"VERSION\">$1</field>"]
+};
 //modes
 const MODE_CODE = "code";
 const MODE_BLOCKS = "blocks";
@@ -51,14 +55,20 @@ const LIBRARIES_PATH = {
     'si1145': "/grove",
     'th02': "/grove",
     'tm1637': "/grove",
+    'veml6040': "/grove",
+    'PiicoDev_Unified': "/grove",
     'ds18x20': "/grove",
     'rgb_led_matrix': "/grove",
     'ht16k33': "/grove",
     'ht16k33matrix': "/grove",
-    'HuskyLens': "/grove",
+    'huskyLens': "/grove",
+    'water_level': "/grove",
+    'vl53l0x': "/grove",
     'buggyMove': "/microbit",
     'game': "/microbit",
     'lcd1in8': "/microbit",
+    'bar_graph': "/microbit",
+    'stepper': '/microbit',
     'ir_receiver': "/infrared",
     'nec_remote': "/infrared",
     'onewire': "/micropython",
@@ -66,14 +76,14 @@ const LIBRARIES_PATH = {
     'cutebotpro': "/robot",
     'maqueenplusv1': "/robot",
     'maqueenplusv2': "/robot",
-    'tello': "/micropython",
-    'water_level': "/grove",
-    'bar_graph': "/microbit",
-    'vl53l0x': "/grove",
+    'maqueenplusv3': "/robot",
+    'tello': "/robot",
+    'matrixLidarDistanceSensor': "/robot",
     'edgeModel': "/ai",
+    'edgeModelmicro': "/ai",
     'edgeModelP0-P1': "/ai",
     'edgeModelP0': "/ai",
-    'edgeModelP1': "/ai",
+    'edgeModelP1': "/ai"
 };
 //simulator
 const SIMULATOR_DEFAULT_BOARD = {

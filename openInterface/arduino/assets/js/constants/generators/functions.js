@@ -1,14 +1,14 @@
 // You can modify functions but don't refactoring strings writing format, it is used if C++ code has to be changed
 const FUNCTIONS_ARDUINO = {
 
-// Math blocks
+  // Math blocks
 
-/**
- * Return true if integer input is prime, else return false.
- * @param {int} n
- * @return {boolean} is prime ?
- */
-DEF_MATH_IS_PRIME:
+  /**
+   * Return true if integer input is prime, else return false.
+   * @param {int} n
+   * @return {boolean} is prime ?
+   */
+  DEF_MATH_IS_PRIME:
 `boolean mathIsPrime(int n) {
   if (n == 2 || n == 3) {
     return true;
@@ -27,14 +27,14 @@ DEF_MATH_IS_PRIME:
   return true;
 }`,
 
-// Text blocks
+  // Text blocks
 
-/**
- * Return true if text input is empty, else return false.
- * @param {String} msg
- * @return {boolean} is empty ?
- */
-DEF_TEXT_IS_STRING_EMPTY:
+  /**
+   * Return true if text input is empty, else return false.
+   * @param {String} msg
+   * @return {boolean} is empty ?
+   */
+  DEF_TEXT_IS_STRING_EMPTY:
 `boolean isStringEmpty(String msg) {
   if (msg.length() == 0) {
     return true;
@@ -43,7 +43,7 @@ DEF_TEXT_IS_STRING_EMPTY:
   }
 }`,
 
-DEF_TEXT_TO_TITLE_CASE:
+  DEF_TEXT_TO_TITLE_CASE:
 `void toTitleCase(String &str) {
   str.toLowerCase();
   bool nouveauMot = true;
@@ -57,9 +57,9 @@ DEF_TEXT_TO_TITLE_CASE:
   }
 }`,
 
-// Variables blocks
+  // Variables blocks
 
-DEFINE_VARIABLE_TYPE:
+  DEFINE_VARIABLE_TYPE:
 `// Generic catch-all implementation.
 template <typename T_ty> struct TypeInfo {static const char* name;};
 template <typename T_ty> const char* TypeInfo<T_ty>::name = "unknown";
@@ -76,13 +76,13 @@ MAKE_TYPE_INFO(float)
 // Handy macro to make querying stuff easier.
 #define TYPE_NAME(var) TypeInfo<typeof(var)>::name`,
 
-// Display blocks
+  // Display blocks
 
-/**
- * Setup Grove OLED display by I2C transmission.
- * @return {void} 
- */
-DEF_SETUP_SEEED_OLED:
+  /**
+   * Setup Grove OLED display by I2C transmission.
+   * @return {void} 
+   */
+  DEF_SETUP_SEEED_OLED:
 `void SeeedOled_setup() {
   SeeedOled.init(); 
   SeeedOled.clearDisplay();
@@ -90,31 +90,29 @@ DEF_SETUP_SEEED_OLED:
   SeeedOled.setPageMode();
 }`,
 
-/**
- * Draw icon on Grove OLED display of size 128x64.
- * @param {uint8_t [] PROGMEM} icon
- * @param {uint8_t} x
- * @param {uint8_t} y
- * @return {void} 
- */
-DEF_OLED_DRAW_ICON:
+  /**
+   * Draw icon on Grove OLED display of size 128x64.
+   * @param {uint8_t [] PROGMEM} icon
+   * @param {uint8_t} x
+   * @param {uint8_t} y
+   * @return {void} 
+   */
+  DEF_OLED_DRAW_ICON:
 `void SeeedOled_drawIcon(uint8_t icon [] PROGMEM, uint8_t x, uint8_t y) {
   SeeedOled.setTextXY(x, y);
   for (int i; i<8; i++) SeeedOled.sendData(pgm_read_byte(&icon[i]));
 }`,
 
-// PB
-
-/**
- * Show all LED of neopixel module.
- * @param {Adafruit_NeoPixel} neoPx
- * @param {uint8_t} ledCount
- * @param {uint8_t} red
- * @param {uint8_t} green
- * @param {uint8_t} blue
- * @return {void} 
- */
-DEF_NEOPIXEL_SHOW_ALL_LED:
+  /**
+   * Show all LED of neopixel module.
+   * @param {Adafruit_NeoPixel} neoPx
+   * @param {uint8_t} ledCount
+   * @param {uint8_t} red
+   * @param {uint8_t} green
+   * @param {uint8_t} blue
+   * @return {void} 
+   */
+  DEF_NEOPIXEL_SHOW_ALL_LED:
 `void neopixel_showAllLed(Adafruit_NeoPixel *neoPx, uint8_t ledCount, uint8_t r, uint8_t g, uint8_t b) {
   for (int i=0; i<ledCount; i++) { 
     neoPx->setPixelColor(i, neoPx->Color(r, g, b));
@@ -122,15 +120,13 @@ DEF_NEOPIXEL_SHOW_ALL_LED:
   neoPx->show();
 }`,
 
-// PB
-
-/**
- * Set a rainbow on Grove neopixel module.
- * @param {Adafruit_NeoPixel} neoPx
- * @param {uint8_t} ledCount
- * @return {void}
- */
-DEF_NEOPIXEL_RAINBOW:
+  /**
+   * Set a rainbow on Grove neopixel module.
+   * @param {Adafruit_NeoPixel} neoPx
+   * @param {uint8_t} ledCount
+   * @return {void}
+   */
+  DEF_NEOPIXEL_RAINBOW:
 `void neopixel_rainbow(Adafruit_NeoPixel *neoPx, uint8_t ledCount) {
   uint8_t R = 255;
   uint8_t G = 50; 
@@ -161,11 +157,11 @@ DEF_NEOPIXEL_RAINBOW:
   }
 }`,
 
-/**
- * Set clock on Grove 4 digits display.
- * @return {void} 
- */
-DEF_4DIGIT_SET_TIME:
+  /**
+   * Set clock on Grove 4 digits display.
+   * @return {void} 
+   */
+  DEF_4DIGIT_SET_TIME:
 `void setClock(int t[]) {
   int min0=(millis()-chrono0Clk)/1000/60;
   int h0=min0/60;
@@ -179,11 +175,11 @@ DEF_4DIGIT_SET_TIME:
   }
 }`,
 
-/**
- * Set temperature on Grove 4 digits display.
- * @return {void} 
- */
-DEF_4DIGIT_SET_TEMP: 
+  /**
+   * Set temperature on Grove 4 digits display.
+   * @return {void} 
+   */
+  DEF_4DIGIT_SET_TEMP:
 `void setTemperature(int8_t digits[], float t) {
   if (t<100 && t>-10) {
     if (t<-1) {
@@ -201,13 +197,13 @@ DEF_4DIGIT_SET_TEMP:
   digits[3] = 'C';
 }`,
 
-// I/O blocks
+  // I/O blocks
 
-/**
- * Get button of keypad module.
- * @return {uint8_t} key
- */
-DEF_KEYPAD_GETNUMBER:
+  /**
+   * Get button of keypad module.
+   * @return {uint8_t} key
+   */
+  DEF_KEYPAD_GETNUMBER:
 `String getKeypadNumber() {
   uint8_t data;
   while (!keypad.available()) {
@@ -230,67 +226,72 @@ DEF_KEYPAD_GETNUMBER:
   }
 }`,
 
-DEF_MP3_READ_SONG_NAME:
-`
-void readSongName(struct Play_history* ph, uint32_t num, STROAGE disk) {
-  Mp3Player.volume(0);
+  DECLARE_STRUCT_MP3_PLAY_HISTORY:
+`struct Play_history {
+  uint8_t disk;
+  uint16_t index;
+  char name[8];
+}* SPISong, *SDSong;`,
+
+  DEF_MP3_READ_SONG_NAME:
+`void readSongName(struct Play_history* ph, uint32_t num, WT2003S_STORAGE disk) {
+  Mp3Player_V3.volume(0);
   delay(100);
   switch (disk) {
-    case SPIFLASH:
-      Mp3Player.playSPIFlashSong(0x0001);
+    case WT2003S_SPIFLASH:
+      Mp3Player_V3.playSPIFlashSong(0x0001);
       break;
-    case SD:
-      Mp3Player.playSDRootSong(0x0001);
+    case WT2003S_SD:
+      Mp3Player_V3.playSDRootSong(0x0001);
       break;
-    case UDISK:
-      Mp3Player.playUDiskRootSong(0x0001);
+    case WT2003S_UDISK:
+      Mp3Player_V3.playUDiskRootSong(0x0001);
       break;
   }
   for (int i = 0; i < num ; i++) {
     delay(300);
     ph[i].disk = disk;
-    ph[i].index = Mp3Player.getTracks();
-    Mp3Player.getSongName(ph[i].name);
-    Mp3Player.next();
+    ph[i].index = Mp3Player_V3.getTracks();
+    Mp3Player_V3.getSongName(ph[i].name);
+    Mp3Player_V3.next();
   }
-  Mp3Player.pause_or_play();
-  Mp3Player.volume(14);
+  Mp3Player_V3.pause_or_play();
+  Mp3Player_V3.volume(14);
   delay(100);
 }`,
 
-DEF_MP3_GET_ALL_SONG: 
-`
-void getAllSong() {
-  uint8_t diskstatus = Mp3Player.getDiskStatus();
-  spi_flash_songs = Mp3Player.getSPIFlashMp3FileNumber();
+  DEF_MP3_GET_ALL_SONG:
+`void getAllSong() {
+  uint8_t diskstatus = Mp3Player_V3.getDiskStatus();
+  spi_flash_songs = Mp3Player_V3.getSPIFlashMp3FileNumber();
   if (spi_flash_songs > 0) {
     SPISong = (struct Play_history*)malloc((spi_flash_songs + 1) * sizeof(struct Play_history));
-    readSongName(SPISong, spi_flash_songs, SPIFLASH);
+    readSongName(SPISong, spi_flash_songs, WT2003S_SPIFLASH);
   }
   if (diskstatus && 0x02) { // have SD
-    sd_songs = Mp3Player.getSDMp3FileNumber();
+    sd_songs = Mp3Player_V3.getSDMp3FileNumber();
     if (sd_songs > 0) {
       SDSong = (struct Play_history*)malloc((sd_songs + 1) * sizeof(struct Play_history));
-      readSongName(SDSong, sd_songs, SD);
+      readSongName(SDSong, sd_songs, WT2003S_SD);
     }
   }
 }`,
 
-// Communication blocks
+  // Communication blocks
 
-/**
- * Clear buffer array.
- * @return {void}
- */
-DEF_CLEAR_BUFFER_ARRAY: 
+  /**
+   * Clear buffer array.
+   * @return {void}
+   */
+  DEF_CLEAR_BUFFER_ARRAY:
 `void clearBufferArray() {
   for (int i = 0; i < count; i++)
     buffer[i] = NULL;
   count = 0;
 }`,
 
-DEF_SETUP_SERIAL_CONNECTION:
-`void serial_setupConnection(int baudrate) {
+  DEF_SETUP_SERIAL_CONNECTION:
+`void serial_setupConnection(long baudrate) {
   Serial.begin(baudrate);
   while (!Serial) {
     Serial.println("En attente de l'ouverture du port série...");
@@ -300,12 +301,12 @@ DEF_SETUP_SERIAL_CONNECTION:
   delay(50);
 }`,
 
-/**
- * Setup SD shield module by SPI transmission.
- * @param {uint8_t} pin
- * @return {void}
- */
-DEF_SD_SPI_SETUP_CARD:
+  /**
+   * Setup SD shield module by SPI transmission.
+   * @param {uint8_t} pin
+   * @return {void}
+   */
+  DEF_SD_SPI_SETUP_CARD:
 `void sd_setupCard(uint8_t pin) {
   Serial.println("Initialisation de la carte SD...");
   while (!SD.begin(pin)) {
@@ -316,12 +317,12 @@ DEF_SD_SPI_SETUP_CARD:
   delay(50);
 }`,
 
-/**
- * Write data in SD card by SPI transmission.
- * @param {String} data
- * @return {void}
- */
-DEF_SD_SPI_WRITE_DATA:
+  /**
+   * Write data in SD card by SPI transmission.
+   * @param {String} data
+   * @return {void}
+   */
+  DEF_SD_SPI_WRITE_DATA:
 `void sd_writeData(String data) {
   dataFile = SD.open(fileName, FILE_WRITE);
   if (dataFile) {
@@ -337,29 +338,100 @@ DEF_SD_SPI_WRITE_DATA:
   }
 }`,
 
-/**
- * Setup Grove bluetooth connection by serial transmission.
- * @return {void}
- */
-DEF_SETUP_BT_CONNECTION:
-`void bluetooth_setupConnection(String name, String mode, String pin) {
-  blueToothSerial.begin(9600);
-  blueToothSerial.print("AT");
+  /**
+   * Setup Grove bluetooth connection by serial transmission.
+   * @return {void}
+   */
+  DEF_SETUP_BT_CONNECTION:
+`void bluetooth_setupConnection(Stream& bt, String name, String mode, String pin) {
+  bt.print("AT");
   delay(400);
-  blueToothSerial.print("AT+DEFAULT");           // Restore all setup value to factory setup
+  bt.print("AT+DEFAULT");           // Restore all setup value to factory setup
   delay(2000);
-  blueToothSerial.print("AT+NAME" + name);  // set the bluetooth name, the length of bluetooth name must less than 12 characters.
+  bt.print("AT+NAME" + name);  // set the bluetooth name, the length of bluetooth name must less than 12 characters.
   delay(400);
-  blueToothSerial.print("AT+PIN" + pin);           // set the pair code to connect
+  bt.print("AT+PIN" + pin);           // set the pair code to connect
   delay(400);
-  blueToothSerial.print("AT+ROLE" + mode);             // set the bluetooth working mode
+  bt.print("AT+ROLE" + mode);             // set the bluetooth working mode
   delay(400);
-  blueToothSerial.print("AT+AUTH1");            
+  bt.print("AT+AUTH1");            
   delay(400);
-  blueToothSerial.print("AT+CLEAR");             // Clear connected device mac address
+  bt.print("AT+CLEAR");             // Clear connected device mac address
   delay(400);
-  blueToothSerial.flush();
+  bt.flush();
   delay(1000);
+}`,
+
+  DEF_HC05_BLUETOOTH_SEND_COMMAND_AT:
+`String hc05_bluetooth_sendCommandAT(Stream& bt, const char command[], String value = "") {
+  const String data = command + (value.length() > 0 ? "=" + value : "") + "\\r\\n";
+  bt.print(data);
+  Serial.print("[HC05 INFOS] Command sent: " + data);
+  delay(200);
+  if (!bt.available()) {
+    Serial.println("Connect KEY Pin to 3V3 on Arduino with dupont wire and unplug/replug the board. The mode is visible when LED blinks approximately every second.");
+    Serial.println("Waiting HC05 module in AT Mode...");
+    while (!bt.available()) {
+      delay(100);
+    }
+  }
+  String response = bt.readString();
+  if (response.indexOf("OK") > 0) {
+    if (value.length() > 0) {
+      Serial.print(response);
+    } else {
+      response.replace("\\r\\nOK\\r\\n", "");
+    }
+  }
+  return response;
+}`,
+
+  DEF_HM10_BLUETOOTH_SEND_COMMAND_AT:
+`String hm10_bluetooth_sendCommandAT(Stream& bt, const char command[], String value = "") {
+  const String data = command + (value.length() > 0 ? value : "") + "\\r\\n";
+  bt.print(data);
+  Serial.print("[HM10 INFOS] Command sent: " + data);
+  delay(200);
+  if (!bt.available()) {
+    Serial.println("Check connection wires. Invert RXD and TXD if necessary. Additionally, it is not possible to interact with AT mode when the module is connected to another device.");
+    Serial.println("Waiting HM10 module in AT Mode...");
+    while (!bt.available()) {
+      delay(100);
+    }
+  }
+  String response = bt.readString();
+  if (response.indexOf("OK") > 0) {
+    if (value.length() > 0) {
+      Serial.print(response);
+    } else {
+      response.replace("\\r\\nOK\\r\\n", "");
+    }
+  }
+  return response;
+}`,
+
+  DEF_GROVE_BLUETOOTH_SEND_COMMAND_AT:
+`String grove_bluetooth_sendCommandAT(Stream& bt, const char command[], String value = "") {
+  const String data = command + (value.length() > 0 ? value : "");
+  bt.print(data);
+  Serial.print("[GROVE BT INFOS] Command sent: " + data + "\\n");
+  delay(200);
+  if (!bt.available()) {
+    Serial.println("It is not possible to interact with AT mode when the module is connected to another device. Additionally, the command may not be available with your module.");
+    Serial.println("Waiting Grove Serial Bluetooth v3 module in AT Mode...");
+    while (!bt.available()) {
+      delay(100);
+    }
+  }
+  String response = bt.readString();
+  if (response.indexOf("OK") > 0) {
+    if (value.length() > 0) {
+      Serial.print(response);
+    } else {
+      //response.replace("\\r\\nOK\\r\\n", "");
+    }
+  }
+  return response;
 }`,
 
 /**
@@ -375,12 +447,12 @@ SETUP_RADIO_433_RECEIVER:
   vw_rx_start(); // Start the PLL receiver.
 }`,
 
-/**
- * Setup the radio NRF24L01 by SPI transmission.
- * @param {uint8_t} channel
- * @return {void}
- */
-DEF_RADIO_NRF24_INIT:
+  /**
+   * Setup the radio NRF24L01 by SPI transmission.
+   * @param {uint8_t} channel
+   * @return {void}
+   */
+  DEF_RADIO_NRF24_INIT:
 `void nrf24_init(uint8_t channel) {
   printf_begin();
   radioNRF.begin();
@@ -391,12 +463,12 @@ DEF_RADIO_NRF24_INIT:
   radioNRF.printDetails();
 }`,
 
-/**
- * Send data by radio NRF24L01.
- * @param {String} dataToSend
- * @return {void}
- */
-DEF_RADIO_NRF24_SEND_DATA:
+  /**
+   * Send data by radio NRF24L01.
+   * @param {String} dataToSend
+   * @return {void}
+   */
+  DEF_RADIO_NRF24_SEND_DATA:
 `bool nrf24_sendData(String dataToSend) {
   delay(50);
   Serial.println("Envoi de: " + dataToSend);
@@ -406,12 +478,12 @@ DEF_RADIO_NRF24_SEND_DATA:
   return radioNRF.write(&inputChar, sizeof(inputChar));
 }`,
 
-/**
- * Decode the IR message from NEC remote, return the associated button.
- * @param {uint32_t} code
- * @return {String} button
- */
-DEF_REMOTE_NEC_BASIC_BLACK_GET_BUTTON:
+  /**
+   * Decode the IR message from NEC remote, return the associated button.
+   * @param {uint32_t} code
+   * @return {String} button
+   */
+  DEF_REMOTE_NEC_BASIC_BLACK_GET_BUTTON:
 `String remoteNEC_getButton(int HexCode) {
   if (HexCode == 0x30cf) return "1";
   else if (HexCode == 0x18e7) return "2";
@@ -437,21 +509,21 @@ DEF_REMOTE_NEC_BASIC_BLACK_GET_BUTTON:
   else return "NEC remote code error";
 }`,
 
-/**
- * Setup Grove GPS module by serial transmision.
- * @return {void}
- */
-DEF_SETUP_GPS:
+  /**
+   * Setup Grove GPS module by serial transmision.
+   * @return {void}
+   */
+  DEF_SETUP_GPS:
 `void gps_setup() {
   Serial.println("Setup: getting GPS Data");
   gpsSerial.begin(9600);
 }`,
 
-/**
- * Get data of Grove GPS module.
- * @return {String} data
- */
-DEF_GPS_GET_DATA:
+  /**
+   * Get data of Grove GPS module.
+   * @return {String} data
+   */
+  DEF_GPS_GET_DATA:
 `String gps_getBufferData() {
   String dta;
   while (gpsSerial.available()) {
@@ -463,11 +535,11 @@ DEF_GPS_GET_DATA:
   return dta;
 }`,
 
-/**
- * Get ID card of Grove RFID module.
- * @return {String} id
- */
-DEF_RFID_GET_STRING_CARD_ID:
+  /**
+   * Get ID card of Grove RFID module.
+   * @return {String} id
+   */
+  DEF_RFID_GET_STRING_CARD_ID:
 `String rfid_getStringCardID() {
   String frame = "";
   if (rfid.available()) {
@@ -482,13 +554,13 @@ DEF_RFID_GET_STRING_CARD_ID:
   return frame.substring(1, frame.length()-1);
 }`,
 
-/**
- * Get any parameter of Grove clock RTC module (PCD85063TP).
- * @param {PCD85063TP} rtc
- * @param {uint8_t} select
- * @return {uint16_t} day | month | year | hour | minute | second
- */
-DEF_PCD85063TP_RTC_GET_TIME:
+  /**
+   * Get any parameter of Grove clock RTC module (PCD85063TP).
+   * @param {PCD85063TP} rtc
+   * @param {uint8_t} select
+   * @return {uint16_t} day | month | year | hour | minute | second
+   */
+  DEF_PCD85063TP_RTC_GET_TIME:
 `uint16_t pcd85063tp_RTC_getTime(PCD85063TP *rtc, uint8_t select) {
   rtc->getTime();
   delay(10);
@@ -502,12 +574,12 @@ DEF_PCD85063TP_RTC_GET_TIME:
   }
 }`,
 
-/**
- * Get the string name of day with Grove clock RTC module (PCD85063TP).
- * @param {PCD85063TP} rtc
- * @return {String} day name
- */
-DEF_PCD85063TP_RTC_GET_DAY_NAME:
+  /**
+   * Get the string name of day with Grove clock RTC module (PCD85063TP).
+   * @param {PCD85063TP} rtc
+   * @return {String} day name
+   */
+  DEF_PCD85063TP_RTC_GET_DAY_NAME:
 `String pcd85063tp_RTC_getDayName(PCD85063TP *rtc) {
   rtc->getTime();
   delay(10);
@@ -522,13 +594,13 @@ DEF_PCD85063TP_RTC_GET_DAY_NAME:
   }
 }`,
 
-/**
- * Get any parameter of Grove clock RTC module (DS1307).
- * @param {DS1307} rtc
- * @param {uint8_t} select
- * @return {uint16_t} day | month | year | hour | minute | second
- */
-DEF_DS1307_RTC_GET_TIME:
+  /**
+   * Get any parameter of Grove clock RTC module (DS1307).
+   * @param {DS1307} rtc
+   * @param {uint8_t} select
+   * @return {uint16_t} day | month | year | hour | minute | second
+   */
+  DEF_DS1307_RTC_GET_TIME:
 `uint16_t ds1307_RTC_getTime(DS1307 *rtc, uint8_t select) {
   rtc->getTime();
   delay(10);
@@ -542,12 +614,12 @@ DEF_DS1307_RTC_GET_TIME:
   }
 }`,
 
-/**
- * Get the string name of day with Grove clock RTC module (DS1307).
- * @param {DS1307} rtc
- * @return {String} day name
- */
-DEF_DS1307_RTC_GET_DAY_NAME:
+  /**
+   * Get the string name of day with Grove clock RTC module (DS1307).
+   * @param {DS1307} rtc
+   * @return {String} day name
+   */
+  DEF_DS1307_RTC_GET_DAY_NAME:
 `String ds1307_RTC_getDayName(DS1307 *rtc) {
   rtc->getTime();
   delay(10);
@@ -562,19 +634,19 @@ DEF_DS1307_RTC_GET_DAY_NAME:
   }
 }`,
 
-// Sensors blocks
+  // Sensors blocks
 
-SETUP_SGP30_CHECK:
+  SETUP_SGP30_CHECK:
 `while (!sgp30.begin()) {
   Serial.println("En attente du capteur SGP30...");
   delay(1000);
 }`,
 
-/**
- * Get the CO2 value in ppm from SGP30 sensor by I2C transmission.
- * @return {uint16_t} co2
- */
-DEF_SGP30_GET_CO2:
+  /**
+   * Get the CO2 value in ppm from SGP30 sensor by I2C transmission.
+   * @return {uint16_t} co2
+   */
+  DEF_SGP30_GET_CO2:
 `uint16_t sgp30_readCO2() {
   if (!sgp30.IAQmeasure()) {
     Serial.println("Measurement failed");
@@ -583,11 +655,11 @@ DEF_SGP30_GET_CO2:
   else return sgp30.eCO2;
 }`,
 
-/**
- * Get the TVOC value in ppm from Grove SGP30 sensor by I2C transmission.
- * @return {uint16_t} tvoc
- */
-DEF_SGP30_GET_TVOC:
+  /**
+   * Get the TVOC value in ppm from Grove SGP30 sensor by I2C transmission.
+   * @return {uint16_t} tvoc
+   */
+  DEF_SGP30_GET_TVOC:
 `uint16_t sgp30_readTVOC() {
   if (!sgp30.IAQmeasure()) {
     Serial.println("Measurement failed");
@@ -596,21 +668,21 @@ DEF_SGP30_GET_TVOC:
   else return sgp30.TVOC;
 }`,
 
-/**
- * Declare Vref Grove O2 sensor.
- */
-DECLARE_O2_GAS:
+  /**
+   * Declare Vref Grove O2 sensor.
+   */
+  DECLARE_O2_GAS:
 `// It need about about 5-10 minutes to preheat the O2 gas sensor
 // modify VRef if needed
 const float VRef = 3.3;   // voltage of adc reference`,
 
-/**
- * Get data from Grove O2 sensor by analog reading.
- * @param {uint8_t} pin
- * @param {uint8_t} select
- * @return {float} Vout | o2
- */
-DEF_O2_SENSOR_GET_DATA:
+  /**
+   * Get data from Grove O2 sensor by analog reading.
+   * @param {uint8_t} pin
+   * @param {uint8_t} select
+   * @return {float} Vout | o2
+   */
+  DEF_O2_SENSOR_GET_DATA:
 `float o2Sensor_readData(uint8_t pin, uint8_t select) {
   float vout = getAnalogMean(pin, 10)*VRef/${READ_ANALOG_MAX_VALUE}.0;
   if (select == 0) {
@@ -620,10 +692,10 @@ DEF_O2_SENSOR_GET_DATA:
   }
 }`,
 
-/**
- * Get high 12 section value of I2C water sensor.
- */
-DEF_WATER_GET_HIGH_12_VALUE:
+  /**
+   * Get high 12 section value of I2C water sensor.
+   */
+  DEF_WATER_GET_HIGH_12_VALUE:
 `void getHigh12SectionValue() {
   memset(water_high_data, 0, sizeof(water_high_data));
   Wire.requestFrom(ATTINY1_HIGH_ADDR, 12);
@@ -634,10 +706,10 @@ DEF_WATER_GET_HIGH_12_VALUE:
   delay(10);
 }`,
 
-/**
- * Get low 8 section value of I2C water sensor.
- */
-DEF_WATER_GET_LOW_8_VALUE:
+  /**
+   * Get low 8 section value of I2C water sensor.
+   */
+  DEF_WATER_GET_LOW_8_VALUE:
 `void getLow8SectionValue(void) {
   memset(water_low_data, 0, sizeof(water_low_data));
   Wire.requestFrom(ATTINY2_LOW_ADDR, 8);
@@ -648,11 +720,11 @@ DEF_WATER_GET_LOW_8_VALUE:
   delay(10);
 }`,
 
-/**
- * Get water level in percent from I2C water sensor.
- * @returns {int} water_level
- */
-DEF_WATER_I2C_GET_LEVEL:
+  /**
+   * Get water level in percent from I2C water sensor.
+   * @returns {int} water_level
+   */
+  DEF_WATER_I2C_GET_LEVEL:
 `int getWaterLevel() {
   uint32_t touch_val = 0;
   uint8_t trig_section = 0;
@@ -675,23 +747,23 @@ DEF_WATER_I2C_GET_LEVEL:
   return trig_section * 5;
 }`,
 
-/**
- * Get CO2 concentration in ppm from Grove MQ135 sensor by analog reading.
- * @param {uint8_t} pin
- * @return {float} co2
- */
-DEF_MQ135_GET_CONCENTRATION:
+  /**
+   * Get CO2 concentration in ppm from Grove MQ135 sensor by analog reading.
+   * @param {uint8_t} pin
+   * @return {float} co2
+   */
+  DEF_MQ135_GET_CONCENTRATION:
 `float mq135_readCO2(uint8_t pin) {
   float R = ((${READ_ANALOG_MAX_VALUE}./(float)getAnalogMean(pin, 5))*5.-1.)*10.0;
   return 116.6020682 * pow((R/RESISTANCE_ZERO), -2.769034857);
 }`,
 
-/**
- * Get CO2 concentration in ppm, temperature or humidity from Grove SCD30 sensor by I2C transmission.
- * @param {uint8_t} dataSelect
- * @return {float} data
- */
-DEF_SCD30_READ:
+  /**
+   * Get CO2 concentration in ppm, temperature or humidity from Grove SCD30 sensor by I2C transmission.
+   * @param {uint8_t} dataSelect
+   * @return {float} data
+   */
+  DEF_SCD30_READ:
 `float scd30_read(uint8_t dataSelect) {
   t_scd = millis() - t_scd;
   if (t_scd > 1000 && scd30.isAvailable()) {
@@ -711,7 +783,7 @@ DEF_SCD30_READ:
   }
 }`,
 
-DEF_SCD30_CALIBRATE:
+  DEF_SCD30_CALIBRATE:
 `void scd30_calibrateSensor(uint16_t co2ppm) {
   Serial.println("[SCD30_INFO] Go outside, and wait for 2 minutes. You can reset the board to restart program and redo calibration.");
   Serial.println("[SCD30_INFO] Start sensor calibration...");
@@ -724,19 +796,19 @@ DEF_SCD30_CALIBRATE:
   Serial.println("[SCD30_INFO] End of calibration forced to " + String(co2ppm) + " ppm.");
 }`,
 
-/**
- * Get resistance 0 in ohm from Grove MQ135 sensor by analog reading.
- * @param {uint8_t} pin
- * @return {float} R0
- */
-DEF_MQ135_GET_RZERO_CALIBRATOR:
+  /**
+   * Get resistance 0 in ohm from Grove MQ135 sensor by analog reading.
+   * @param {uint8_t} pin
+   * @return {float} R0
+   */
+  DEF_MQ135_GET_RZERO_CALIBRATOR:
 `// Report return value in constante RESISTANCE_ZERO
 float mq135_getResistance(uint8_t pin) {
   float R = ((${READ_ANALOG_MAX_VALUE}./(float)getAnalogMean(pin, 5))*5. - 1.) * 10.0;
   return R*pow((ATM_CO2_CALIBRATOR/116.6020682),(1./2.769034857));
 }`,
 
-DEF_AIR_QUALITY_SETUP:
+  DEF_AIR_QUALITY_SETUP:
 `void airQuality_setup(AirQualitySensor *sensor, int pin) {
   String pinStr = pin >= 14 ? 'A' + String(pin - 14) : 'D' + String(pin);
   Serial.println("Initialisation du capteur de qualité de l'air sur la broche " + pinStr + "... (20s.)");
@@ -750,13 +822,13 @@ DEF_AIR_QUALITY_SETUP:
   }
 }`,
 
-/**
- * Get data from Grove dust sensor by pusle in transmission.
- * @param {uint8_t} pin
- * @param {uint8_t} select
- * @return {float} concentration | ratio
- */
-DEF_DUST_GET_PARTICULATE_DATA:
+  /**
+   * Get data from Grove dust sensor by pusle in transmission.
+   * @param {uint8_t} pin
+   * @param {uint8_t} select
+   * @return {float} concentration | ratio
+   */
+  DEF_DUST_GET_PARTICULATE_DATA:
 `float dustSensor_readParticulate(uint8_t pin, uint8_t select) {
   uint32_t duration;
   uint32_t lowpulseoccupancy = 0;
@@ -778,19 +850,19 @@ DEF_DUST_GET_PARTICULATE_DATA:
   }
 }`,
 
-SETUP_HM330X_CHECK:
+  SETUP_HM330X_CHECK:
 `if (hm330x.init()) {
   Serial.println("Initialisation du capteur HM330X...");
   return;
 }`,
 
-/**
- * Parse data measured by Grove HM330X sensor.
- * @param {uint8_t*} data
- * @param {uint8_t} select
- * @return {HM330XErrorCode} ERROR_PARAM
- */
-DEF_HM330X_PARSE_RESULT:
+  /**
+   * Parse data measured by Grove HM330X sensor.
+   * @param {uint8_t*} data
+   * @param {uint8_t} select
+   * @return {HM330XErrorCode} ERROR_PARAM
+   */
+  DEF_HM330X_PARSE_RESULT:
 `HM330XErrorCode parse_result(uint8_t *data, uint8_t select) {
   uint16_t value=0;
   if (NULL==data) {
@@ -804,12 +876,12 @@ DEF_HM330X_PARSE_RESULT:
   }
 }`,
 
-/**
- * Get data from Grove HM330X sensor.
- * @param {uint8_t} select
- * @return {uint16_t} PM1.0 | PM2.5 | PM10.0
- */
-DEF_HM330X_GET_MEASURE:
+  /**
+   * Get data from Grove HM330X sensor.
+   * @param {uint8_t} select
+   * @return {uint16_t} PM1.0 | PM2.5 | PM10.0
+   */
+  DEF_HM330X_GET_MEASURE:
 `uint16_t hm330x_measure(uint8_t select) {
   if (hm330x.read_sensor_value(buf, 29)) {
     Serial.println("La mesure avec le capteur HM330X n'a pas abouti !");
@@ -819,11 +891,11 @@ DEF_HM330X_GET_MEASURE:
   return measure;
 }`,
 
-/**
- * Check and measure data with Grove MHZ-19 sensor.
- * @return {bool} data received
- */
-DEF_MHZ19_DATARECEIVE:
+  /**
+   * Check and measure data with Grove MHZ-19 sensor.
+   * @return {bool} data received
+   */
+  DEF_MHZ19_DATARECEIVE:
 `bool mhz19_dataReceived() {
   byte data[9];
   int i = 0;
@@ -846,38 +918,38 @@ DEF_MHZ19_DATARECEIVE:
   return true;
 }`,
 
-/**
- * Get temperature from Grove MHZ19 sensor.
- * @return {int} temperature
- */
-DEF_MHZ19_GETTEMP:
+  /**
+   * Get temperature from Grove MHZ19 sensor.
+   * @return {int} temperature
+   */
+  DEF_MHZ19_GETTEMP:
 `int mhz19_readTemperature() {
   if (mhz19_dataReceived()) {
     return mhz19_temperature;
   }
 }`,
 
-/**
- * Get CO2 value in ppm from Grove MHZ19 sensor.
- * @return {int} co2
- */
-DEF_MHZ19_GETCO2:
+  /**
+   * Get CO2 value in ppm from Grove MHZ19 sensor.
+   * @return {int} co2
+   */
+  DEF_MHZ19_GETCO2:
 `int mhz19_readCO2() {
   if (mhz19_dataReceived()) {
     return mhz19_CO2PPM;
   }
 }`,
 
-SETUP_BMP280_CHECK:
+  SETUP_BMP280_CHECK:
 `while (!bmp280.begin(BMP280_I2C_ADDR)) {
   Serial.println("En attente du capteur BMP280...");
   delay(1000);
 }`,
 
-/**
- * Setup DPS310 sensor.
- */
-DEF_GROVE_DPS310_SETUP:
+  /**
+   * Setup DPS310 sensor.
+   */
+  DEF_GROVE_DPS310_SETUP:
 `bool dps310_setup() {
   Dps310PressureSensor.begin(Wire);
   int16_t temp_mr = 2; //temperature measure rate (value from 0 to 7)
@@ -896,7 +968,7 @@ DEF_GROVE_DPS310_SETUP:
   }
 }`,
 
-DEF_GROVE_DPS310_GETDATA:
+  DEF_GROVE_DPS310_GETDATA:
 `float dps310_readData(uint8_t size, uint8_t data) {
   float pressure[size];
   float temperature[size];
@@ -926,13 +998,13 @@ DEF_GROVE_DPS310_GETDATA:
   }
 }`,
 
-/**
- * Get temperature from Grove temperature sensor by analog reading.
- * @param {uint8_t} pin
- * @param {uint8_t} select (temperature unit)
- * @return {float} temperature
- */
-DEF_GROVE_GET_TEMP:
+  /**
+   * Get temperature from Grove temperature sensor by analog reading.
+   * @param {uint8_t} pin
+   * @param {uint8_t} select (temperature unit)
+   * @return {float} temperature
+   */
+  DEF_GROVE_GET_TEMP:
 `float getGroveTemperature(uint8_t pin, uint8_t unit) {
   float R = ${READ_ANALOG_MAX_VALUE}.0/getAnalogMean(pin, 5) - 1;
   float t = 1/(log(R)/4275+1/298.15) - 273.15; // celsius
@@ -947,10 +1019,10 @@ DEF_GROVE_GET_TEMP:
   return t;
 }`,
 
-/**
- * Declare errors enumeration for DS18B20 temperature sensor.
- */
-DEF_DS18B20_ERRORS:
+  /**
+   * Declare errors enumeration for DS18B20 temperature sensor.
+   */
+  DEF_DS18B20_ERRORS:
 `enum DS18B20_RCODES {
   READ_OK,
   NO_SENSOR_FOUND,
@@ -958,13 +1030,13 @@ DEF_DS18B20_ERRORS:
   INVALID_SENSOR
 };`,
 
-/**
- * Start the measure of temperature with DS18B20 sensor by one wire transmission.
- * @param {float*} temperature
- * @param {byte} reset_search
- * @return {byte} read_ok 
- */
-DEF_DS18B20_MEASURE:
+  /**
+   * Start the measure of temperature with DS18B20 sensor by one wire transmission.
+   * @param {float*} temperature
+   * @param {byte} reset_search
+   * @return {byte} read_ok 
+   */
+  DEF_DS18B20_MEASURE:
 `byte ds18b20_measure(OneWire *ds, float *temperature, byte reset_search) {
   byte data[9], addr[8];
   if (reset_search) {
@@ -993,11 +1065,11 @@ DEF_DS18B20_MEASURE:
   return READ_OK;
 }`,
 
-/**
- * Get temperature in degres of DS18B20 sensor.
- * @return {float} temperature
- */
-DEF_DS18B20_GET_TEMPERATURE:
+  /**
+   * Get temperature in degres of DS18B20 sensor.
+   * @return {float} temperature
+   */
+  DEF_DS18B20_GET_TEMPERATURE:
 `float ds18b20_readTemperature(OneWire *ds) {
   float temp;
   if (ds18b20_measure(ds, &temp, true) != READ_OK) {
@@ -1007,12 +1079,12 @@ DEF_DS18B20_GET_TEMPERATURE:
   return temp;
 }`,
 
-/**
- * Get pressure from Grove MPX5700 sensor by analog reading.
- * @param {uint8_t} pin
- * @return {float} pressure
- */
-DEF_MPX5700AP_GET_PRESSURE:
+  /**
+   * Get pressure from Grove MPX5700 sensor by analog reading.
+   * @param {uint8_t} pin
+   * @return {float} pressure
+   */
+  DEF_MPX5700AP_GET_PRESSURE:
 `float mpx5700_readPressure(uint8_t pin) {
   uint16_t rawValue = 0;
   for (int i=0; i<10; i++) {
@@ -1021,11 +1093,11 @@ DEF_MPX5700AP_GET_PRESSURE:
   return (rawValue-410) * 700.0 / 9220;
 }`,
 
-/**
- * Start measure with the Grove BME680 sensor by I2C transmission.
- * @return {void}
- */
-DEF_BME680_MEASURE:
+  /**
+   * Start measure with the Grove BME680 sensor by I2C transmission.
+   * @return {void}
+   */
+  DEF_BME680_MEASURE:
 `void bme680_measure() {
   if (bme680.read_sensor_data()) {
     Serial.println("Impossible d'obtenir les données du capteur BME680.");
@@ -1033,53 +1105,53 @@ DEF_BME680_MEASURE:
   }
 }`,
 
-/**
- * Get temperature in degres from Grove BME680 sensor.
- * @return {float} temperature
- */
-DEF_BME680_GET_TEMPERATURE:
+  /**
+   * Get temperature in degres from Grove BME680 sensor.
+   * @return {float} temperature
+   */
+  DEF_BME680_GET_TEMPERATURE:
 `float bme680_readTemperature() {
   bme680_measure();
   return bme680.sensor_result_value.temperature;
 }`,
 
-/**
- * Get pressure in Pa from Grove BME680 sensor.
- * @return {float} pressure
- */
-DEF_BME680_GET_PRESSURE:
+  /**
+   * Get pressure in Pa from Grove BME680 sensor.
+   * @return {float} pressure
+   */
+  DEF_BME680_GET_PRESSURE:
 `float bme680_readPressure() {
   bme680_measure();
   return bme680.sensor_result_value.pressure;
 }`,
 
-/**
- * Get humidity in % from Grove BME680 sensor.
- * @return {float} humidity
- */
-DEF_BME680_GET_HUMIDITY:
+  /**
+   * Get humidity in % from Grove BME680 sensor.
+   * @return {float} humidity
+   */
+  DEF_BME680_GET_HUMIDITY:
 `float bme680_readHumidity() {
   bme680_measure();
   return bme680.sensor_result_value.humidity;
 }`,
 
-/**
- * Get gas value in ppm from Grove BME680 sensor.
- * @return {float} gas
- */
-DEF_BME680_GET_GAS:
+  /**
+   * Get gas value in ppm from Grove BME680 sensor.
+   * @return {float} gas
+   */
+  DEF_BME680_GET_GAS:
 `float bme680_readGas() {
   bme680_measure();
   return bme680.sensor_result_value.gas;
 }`,
 
-/**
- * Get distance (cm) or duration (us) of HC-SR04 sensor.
- * @return {uint8_t} trigPin
- * @return {uint8_t} echoPin
- * @return {uint8_t} data
- */
-DEF_HCSR04_GET_ULTRASONIC_DATA:
+  /**
+   * Get distance (cm) or duration (us) of HC-SR04 sensor.
+   * @return {uint8_t} trigPin
+   * @return {uint8_t} echoPin
+   * @return {uint8_t} data
+   */
+  DEF_HCSR04_GET_ULTRASONIC_DATA:
 `float hcsr04_getUltrasonicData(uint8_t trigPin, uint8_t echoPin, uint8_t data) {
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
@@ -1096,11 +1168,11 @@ DEF_HCSR04_GET_ULTRASONIC_DATA:
   }
 }`,
 
-/**
- * Setup Grove SI1145 sensor by I2C transmission.
- * @return {void}
- */
-DEF_SETUP_SI1145:
+  /**
+   * Setup Grove SI1145 sensor by I2C transmission.
+   * @return {void}
+   */
+  DEF_SETUP_SI1145:
 `void si1145_setup() {
   if (!si1145.begin()) {
     Serial.println("En attente du capteur Si1145...");
@@ -1110,23 +1182,23 @@ DEF_SETUP_SI1145:
   delay(50);
 }`,
 
-/**
- * Get pressure from Grove MPX5700 sensor by analog reading.
- * @param {uint8_t} pin
- * @return {float} UV index
- */
-DEF_GET_UV_INDEX:
+  /**
+   * Get pressure from Grove MPX5700 sensor by analog reading.
+   * @param {uint8_t} pin
+   * @return {float} UV index
+   */
+  DEF_GET_UV_INDEX:
 `float getUVindex(uint8_t pin) {
   float meanVal = getAnalogMean(pin, 10);
   float Vout = meanVal/${READ_ANALOG_MAX_VALUE}.0*5;
   return Vout*307/200;
 }`,
 
-/**
- * Setup Grove color sensor by I2C transmission.
- * @return {void}
- */
-DEF_COLOR_SENSOR_SETUP:
+  /**
+   * Setup Grove color sensor by I2C transmission.
+   * @return {void}
+   */
+  DEF_COLOR_SENSOR_SETUP:
 `void colorSensor_setup() {
   if (colorSensor.begin()) {
     Serial.println("Capteur de couleur branché.");
@@ -1137,12 +1209,12 @@ DEF_COLOR_SENSOR_SETUP:
   }
 }`,
 
-/**
- * Get data from Grove color sensor.
- * @param {uint8_t} select
- * @return {uint16_t} red | green | blue | luminosity | color temperature
- */
-DEF_COLOR_SENSOR_GET_DATA:
+  /**
+   * Get data from Grove color sensor.
+   * @param {uint8_t} select
+   * @return {uint16_t} red | green | blue | luminosity | color temperature
+   */
+  DEF_COLOR_SENSOR_GET_DATA:
 `uint16_t colorSensor_getData(uint8_t select) {
   uint16_t clear, r, g, b, temp, lux;
   delay(30);
@@ -1154,7 +1226,7 @@ DEF_COLOR_SENSOR_GET_DATA:
   return datas[select];
 }`,
 
-DEF_PULSE_SENSOR_GET_BPM: 
+  DEF_PULSE_SENSOR_GET_BPM:
 `float getBPM(uint8_t pin) {
   for (int i = 0; i < samp_size; i++)
     reads[i] = 0;
@@ -1196,11 +1268,11 @@ DEF_PULSE_SENSOR_GET_BPM:
   }
 }`,
 
-/**
- * Take picture with camera module and save it in SD card of shield SD module.
- * @return {void}
- */
-DEF_TAKE_PICTURE:
+  /**
+   * Take picture with camera module and save it in SD card of shield SD module.
+   * @return {void}
+   */
+  DEF_TAKE_PICTURE:
 `void takePicture() {
   Serial.println("Prise de la photo dans 3 secondes");
   delay(3000);
@@ -1239,13 +1311,13 @@ DEF_TAKE_PICTURE:
   }
 }`,
 
-/**
- * Get analog mean.
- * @param {uint8_t} pin
- * @param {long} n
- * @return {long} mean
- */
-DEF_GET_ANALOG_MEAN:
+  /**
+   * Get analog mean.
+   * @param {uint8_t} pin
+   * @param {long} n
+   * @return {long} mean
+   */
+  DEF_GET_ANALOG_MEAN:
 `uint16_t getAnalogMean(uint8_t pin, long n) {
   int sum = 0;
   for (int i = 0; i < n; i++) {
@@ -1255,13 +1327,13 @@ DEF_GET_ANALOG_MEAN:
   return sum / n;
 }`,
 
-/**
- * Get voltage divider data.
- * @param {uint8_t} pin
- * @param {long} n
- * @return {long} mean
- */
-DEF_GET_VOLTAGE_DIVIDER_DATA:
+  /**
+   * Get voltage divider data.
+   * @param {uint8_t} pin
+   * @param {long} n
+   * @return {long} mean
+   */
+  DEF_GET_VOLTAGE_DIVIDER_DATA:
 `float getVoltageDividerData(uint8_t pin, long n, int divider, int volt) {
   long sensorValue = analogRead(pin);
   long sum = 0;
@@ -1274,11 +1346,11 @@ DEF_GET_VOLTAGE_DIVIDER_DATA:
   return voltageDividerData/volt;
 }`,
 
-/**
- * Get the gesture type of Grove gesture sensor by I2C transmission.
- * @return {String} gesture
- */
-DEF_GESTURE_GET:
+  /**
+   * Get the gesture type of Grove gesture sensor by I2C transmission.
+   * @return {String} gesture
+   */
+  DEF_GESTURE_GET:
 `String getGestureType() {  
   uint8_t data = 0;
   paj7620ReadReg(0x43, 1, &data);
@@ -1294,14 +1366,14 @@ DEF_GESTURE_GET:
   else return "gesture not detected";
 }`,
 
-// Actuators blocks
+  // Actuators blocks
 
-/**
- * Play the gamme with Grove buzzer or speaker module.
- * @param {uint8_t} pin
- * @return {void}
- */
-DEF_BUZZER_GAMME:
+  /**
+   * Play the gamme with Grove buzzer or speaker module.
+   * @param {uint8_t} pin
+   * @return {void}
+   */
+  DEF_BUZZER_GAMME:
 `void BuzzerGamme(uint8_t pin) { 
   float NOTES[8] = {261.63, 293.66, 329.54, 349.23, 392, 440, 493.88, 523.25}; 
   for (int i=0; i<8; i++) { 
@@ -1310,12 +1382,12 @@ DEF_BUZZER_GAMME:
   }
 }`,
 
-/**
- * Play Star Wars theme with Grove buzzer or speaker module.
- * @param {uint8_t} pin
- * @return {void}
- */
-DEF_BUZZER_STAR_WARS:
+  /**
+   * Play Star Wars theme with Grove buzzer or speaker module.
+   * @param {uint8_t} pin
+   * @return {void}
+   */
+  DEF_BUZZER_STAR_WARS:
 `void BuzzerStarWars(uint8_t pin) { 
   float NOTES[19] = {293.66, 293.66, 293.66, 392.0, 622.25, 554.37, 523.25, 454, 932.32, 622.25, 554.37, 523.25, 454, 932.32, 622.25, 554.37, 523.25, 554.37, 454}; 
   uint8_t DURATIONS[19] = {180, 180, 180, 800, 800, 180, 180, 180, 800, 400, 180, 180, 180, 800, 400, 180, 180, 180, 1000};
@@ -1326,12 +1398,12 @@ DEF_BUZZER_STAR_WARS:
   }
 }`,
 
-/**
- * Play R2D2 theme on a Grove buzzer or speaker module.
- * @param {uint8_t} pin
- * @return {void}
- */
-DEF_BUZZER_R2D2:
+  /**
+   * Play R2D2 theme on a Grove buzzer or speaker module.
+   * @param {uint8_t} pin
+   * @return {void}
+   */
+  DEF_BUZZER_R2D2:
 `void BuzzerR2D2(uint8_t pin) { 
   float R2D2_NOTES[16] = {3520, 3135.96, 2637.02, 2093, 2349.32, 3951.07, 2793.83, 4186.01, 3520, 3135.96, 2637.02, 2093, 2349.32, 3951.07, 2793.83, 4186.01};
   for (int i=0; i<16; i++)  { 
@@ -1340,12 +1412,12 @@ DEF_BUZZER_R2D2:
   }
 }`,
 
-/**
- * Delayed function for mini i2c motor driver.
- * @param {uint8_t} t
- * @return {void}
- */
-DEF_DELAY_UNTIL:
+  /**
+   * Delayed function for mini i2c motor driver.
+   * @param {uint8_t} t
+   * @return {void}
+   */
+  DEF_DELAY_UNTIL:
 `void delayUntil(uint32_t t) {
   uint32_t startTime = millis();
   while (startTime + t > millis()) {
@@ -1372,7 +1444,7 @@ DEF_DELAY_UNTIL:
   }
 }`,
 
-MC33926_STOP_IF_FAULT:
+  MC33926_STOP_IF_FAULT:
 `void mc33926_stopIfFault() {
   if (motorShield.getFault()) {
     Serial.println("Got fault from dual MC33926 motor shield.");
@@ -1380,25 +1452,25 @@ MC33926_STOP_IF_FAULT:
   }
 }`,
 
-// Robots blocks
+  // Robots blocks
 
-/**
- * Run motors of mBot. 
- * @param {int8_t} dir
- * @param {uint8_t} speed
- * @return {void}
- */
-DEF_MBOT_GO:
+  /**
+   * Run motors of mBot. 
+   * @param {int8_t} dir
+   * @param {uint8_t} speed
+   * @return {void}
+   */
+  DEF_MBOT_GO:
 `void moveMBot(int8_t dir, uint8_t speed) {
   motor_R.run((9) == M1 ? -(dir*speed) : (dir*speed));
   motor_L.run((10) == M1 ? -(dir*speed) : (dir*speed)); 
 }`,
 
-/**
- * Play the gamme on buzzer of mBot.
- * @return {void}
- */
-DEF_MBOT_BUZZER_GAMME:
+  /**
+   * Play the gamme on buzzer of mBot.
+   * @return {void}
+   */
+  DEF_MBOT_BUZZER_GAMME:
 `void BuzzerGamme() { 
   float NOTES[8] = {261.63, 293.66, 329.54, 349.23, 392, 440, 493.88, 523.25}; 
   for (int i=0; i<8; i++) { 
@@ -1407,11 +1479,11 @@ DEF_MBOT_BUZZER_GAMME:
   }
 }`,
 
-/**
- * Play Star Wars theme on buzzer of mBot.
- * @return {void}
- */
-DEF_MBOT_BUZZER_STARWARS:
+  /**
+   * Play Star Wars theme on buzzer of mBot.
+   * @return {void}
+   */
+  DEF_MBOT_BUZZER_STARWARS:
 `void BuzzerStarWars() { 
   float NOTES[19] = {293.66, 293.66, 293.66, 392.0, 622.25, 554.37, 523.25, 454, 932.32, 622.25, 554.37, 523.25, 454, 932.32, 622.25, 554.37, 523.25, 554.37, 454}; 
   uint16_t DURATIONS[19] = {180, 180, 180, 800, 800, 180, 180, 180, 800, 400, 180, 180, 180, 800, 400, 180, 180, 180, 1000};
@@ -1422,11 +1494,11 @@ DEF_MBOT_BUZZER_STARWARS:
   }
 }`,
 
-/**
- * Play R2D2 theme on buzzer of mBot.
- * @return {void}
- */
-DEF_MBOT_BUZZER_R2D2:
+  /**
+   * Play R2D2 theme on buzzer of mBot.
+   * @return {void}
+   */
+  DEF_MBOT_BUZZER_R2D2:
 `void BuzzerR2D2() { 
   float R2D2_NOTES[16] = {3520, 3135.96, 2637.02, 2093, 2349.32, 3951.07, 2793.83, 4186.01, 3520, 3135.96, 2637.02, 2093, 2349.32, 3951.07, 2793.83, 4186.01};
   for (int i=0; i<16; i++)  { 
@@ -1436,7 +1508,7 @@ DEF_MBOT_BUZZER_R2D2:
 }`,
 
   // Wio Lite AI
-  DEF_READ_WIO_DATA: 
+  DEF_READ_WIO_DATA:
 `int* wio_get_class_data() {
   static int integer_result[WIO_DATA_LENGTH];
   delay(1000);  // Pause de 1 seconde
@@ -1480,7 +1552,7 @@ DEF_MBOT_BUZZER_R2D2:
   return data[pos - 1];
 }`,
 
-  DEF_WIO_GET_INFO: 
+  DEF_WIO_GET_INFO:
 `int wio_get_info(String query) {
   byte info[2];
   
@@ -1503,6 +1575,370 @@ DEF_MBOT_BUZZER_R2D2:
   } else {
     return -1;  // Indicateur de requête invalide
   }
-}`
+}`,
+
+ DEF_LED_MATRIX_DRAW_AT:
+`void matrix_drawFrameAt(const uint32_t src[3], int x0, int y0, bool clearFirst = true) {
+  builtinMatrix.beginDraw();
+  if (clearFirst) builtinMatrix.clear();
+  builtinMatrix.stroke(1);
+  for (uint8_t y = 0; y < 8; y++) {
+    for (uint8_t x = 0; x < 12; x++) {
+      uint16_t idx = y * 12 + x;
+      uint8_t w = idx / 32;
+      uint8_t b = 31 - (idx % 32);
+      if ((src[w] >> b) & 1U) {
+        int xx = x0 + x, yy = y0 + y;
+        if (xx >= 0 && xx < 12 && yy >= 0 && yy < 8) {
+          builtinMatrix.point(xx, yy);
+        }
+      }
+    }
+  }
+  builtinMatrix.endDraw();
+}`,
+
+  DEF_LED_MATRIX_SCROLL_TEXT:
+`void matrix_scrollText(String text, uint8_t speed, const Font& font) {
+  builtinMatrix.beginDraw();
+  builtinMatrix.stroke(1);
+  speed = constrain(speed, 0, 100);
+  builtinMatrix.textScrollSpeed(map(speed, 0, 100, 250, 20));
+  builtinMatrix.textFont(font);
+  builtinMatrix.beginText(0, 1, 0xFFFFFF);
+  builtinMatrix.println("   " + text);
+  builtinMatrix.endText(SCROLL_LEFT);
+  builtinMatrix.endDraw();
+}`,
+
+  DEF_LED_MATRIX_DIGITS_5X7:
+`const uint8_t DIGITS_3x5[10][5] = {
+  {0x7, 0x5, 0x5, 0x5, 0x7}, // 0
+  {0x2, 0x6, 0x2, 0x2, 0x7}, // 1
+  {0x7, 0x1, 0x7, 0x4, 0x7}, // 2
+  {0x7, 0x1, 0x7, 0x1, 0x7}, // 3
+  {0x5, 0x5, 0x7, 0x1, 0x1}, // 4
+  {0x7, 0x4, 0x7, 0x1, 0x7}, // 5
+  {0x7, 0x4, 0x7, 0x5, 0x7}, // 6
+  {0x7, 0x1, 0x2, 0x2, 0x2}, // 7
+  {0x7, 0x5, 0x7, 0x5, 0x7}, // 8
+  {0x7, 0x5, 0x7, 0x1, 0x7}  // 9
+};`,
+
+  DEF_LED_MATRIX_DRAW_DIGIT:
+`void matrix_drawDigit3x5(uint8_t digit, int x, int y) {
+  for (int row = 0; row < 5; row++) {
+    uint8_t bits = DIGITS_3x5[digit][row];
+    for (int col = 0; col < 3; col++) {
+      if (bits & (1 << (2 - col))) {
+        builtinMatrix.point(x + col, y + row);
+      }
+    }
+  }
+}`,
+
+  DEF_LED_MATRIX_DISPLAY_NUMERIC:
+`void matrix_displayNumber(float value) {
+  if (value > 999 || value < -99) {
+    scrollText(String(value), 35, Font_4x6);
+  }
+  char buf[4];
+  snprintf(buf, sizeof(buf), "%u", (int)value);
+  int len = strlen(buf);
+  int totalWidth = len * 3 + (len - 1) * 1;
+  builtinMatrix.beginDraw();
+  builtinMatrix.clear();
+  builtinMatrix.stroke(1);
+  int x = (12 - totalWidth) / 2;
+  for (int i = 0; i < len; i++) {
+    matrix_drawDigit3x5(buf[i] - '0', x, 1);
+    x += 3;
+    if (i != len - 1) x += 1;
+  }
+  builtinMatrix.endDraw();
+}`,
+
+  DEF_LED_MATRIX_SET_PIXEL:
+`void matrix_setPixel(uint8_t x, uint8_t y, uint8_t state) {
+  if (x >= 12 || y >= 8) return;
+  builtinMatrix.beginDraw();
+  builtinMatrix.stroke(state ? 1 : 0);
+  builtinMatrix.point(x, y);
+  builtinMatrix.endDraw();
+}`,
+
+  DEF_WIFI_CONNECT_STATION:
+`void connectStation(const char* ssid, const char* password, IPAddress ip, IPAddress gateway, IPAddress subnet) {
+  // check for the WiFi module:
+  if (WiFi.status() == WL_NO_MODULE) {
+    Serial.println("Communication with WiFi module failed!");
+    while (true);
+  }
+  String fv = WiFi.firmwareVersion();
+  if (fv < WIFI_FIRMWARE_LATEST_VERSION) {
+    Serial.println("Please upgrade the firmware");
+  }
+  IPAddress dns(8, 8, 8, 8);
+  if (!(ip == INADDR_NONE)) {
+    WiFi.config(ip, dns);
+  }
+  if (!(gateway == INADDR_NONE)) {
+    WiFi.config(ip, dns, gateway);
+  }
+  if (!(subnet == INADDR_NONE)) {
+    WiFi.config(ip, dns, gateway, subnet);
+  }
+  // attempt to connect to WiFi network:
+  while (status != WL_CONNECTED) {
+    Serial.print("Attempting to connect to Network named: ");
+    Serial.println(ssid);
+    // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
+    status = WiFi.begin(ssid, password);
+    // wait 10 seconds for connection:
+    delay(100);
+  }
+  printWifiStatus();
+}`,
+
+  DEF_WIFI_CONFIGURE_ACCESS_POINT:
+`void configureAccessPoint(const char* ssid, const char* password, IPAddress ip) {
+  // check for the WiFi module:
+  if (WiFi.status() == WL_NO_MODULE) {
+    Serial.println("Communication with WiFi module failed!");
+    while (true);
+  }
+  String fv = WiFi.firmwareVersion();
+  if (fv < WIFI_FIRMWARE_LATEST_VERSION) {
+    Serial.println("Please upgrade the firmware");
+  }
+  if (!(ip == INADDR_NONE)) {
+    WiFi.config(ip);
+  }
+  // print the network name (SSID);
+  Serial.print("Creating access point named: ");
+  Serial.println(ssid);
+  // Create open network. Change this line if you want to create an WEP network:
+  status = WiFi.beginAP(ssid, password);
+  if (status != WL_AP_LISTENING) {
+    Serial.println("Creating access point failed");
+    // don't continue
+    while (true);
+  }
+}`,
+
+  DEF_WIFI_DISCONNECT_STATION:
+`void disconnectStation() {
+  server.stop();
+  Serial.println("Server stopped.");
+  status = WiFi.disconnect();
+  Serial.println("WiFi disconnected.");
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("Disconnected from" + WiFi.SSID());
+  } else {
+    Serial.println("Disconnection from" + WiFi.SSID() + " failed.");
+  }
+}`,
+
+  DEF_WIFI_PRINT_STATUS:
+`void printWifiStatus() {
+  // print the status of WiFi:
+  Serial.print("Wifi status: ");
+  Serial.println(WiFi.status());
+  // print the SSID of the network you're attached to:
+  Serial.print("SSID: ");
+  Serial.println(WiFi.SSID());
+  // print your board's IP address:
+  IPAddress ip = WiFi.localIP();
+  Serial.print("IP Address: ");
+  Serial.println(ip);
+  // print the received signal strength:
+  long rssi = WiFi.RSSI();
+  Serial.print("signal strength (RSSI):");
+  Serial.print(rssi);
+  Serial.println(" dBm");
+}`,
+
+  DEF_WIFI_SCAN_NETWORKS:
+`String scanWifiNetworks() {
+  Serial.println("Scan en cours (cela peut prendre quelques secondes)...");
+  int n = WiFi.scanNetworks();
+  String networks = "";
+  if (n <= 0) {
+    Serial.println("Aucun réseau trouvé.");
+  }
+
+  Serial.println(String(n) + " réseaux trouvés:");
+  for (int i = 0; i < n; ++i) {
+    int channel = WiFi.channel(i);
+    //int enc = WiFi.encryptionType(i);
+    networks.concat(String(i+1) + ") SSID: " + WiFi.SSID(i) + " | RSSI: " + String(WiFi.RSSI(i)) + " dBm | Ch: " + String(channel) + "\\n");
+  }
+
+  // Libérer résultats si supporté par le core
+  #ifdef WiFi_scanDelete
+  WiFi.scanDelete();
+  #endif
+  return networks;
+}`,
+
+  DEF_WIFI_HTTP_REQUEST_GET:
+`String hTTPRequest_GET(String url, const uint16_t port = 443) {
+  setupHTTPRequest(url, port);
+  httpClient.addHeader("Connection: close");
+  return getHTTPResponse(httpClient.GET());
+}`,
+
+  DEF_WIFI_HTTP_REQUEST_POST:
+`String hTTPRequest_POST(String url, String content, const uint16_t port = 443) {
+  StaticJsonDocument<512> post;
+  post["content"] = content;
+  String requestBody;
+  serializeJson(post, requestBody);
+  setupHTTPRequest(url, port);
+  httpClient.addHeader("Content-Type: application/json");
+  return getHTTPResponse(httpClient.POST(requestBody));
+}`,
+
+  DEF_SETUP_HTTP_REQUEST:
+`void setupHTTPRequest(String url, const uint16_t port) {
+  httpClient.begin(sslClient, url, port);
+  httpClient.setTimeout(3000);
+  httpClient.addHeader("User-Agent: Arduino UNO R4 WiFi");
+}`,
+
+  DEF_WIFI_GET_HTTP_RESPONSE:
+`String getHTTPResponse(int httpStatus) {
+  String responseBody = "";
+  if (httpStatus > 0) {
+    responseBody = httpClient.getBody();
+    Serial.println("[HTTP REQUEST] Response status: " + String(httpStatus));
+  } else {
+    Serial.println("[HTTP REQUEST] Request Failed: " + String(httpStatus));
+  }
+  httpClient.close();
+  return std::move(responseBody);
+}`,
+
+  DEF_WIFI_IP_FROM:
+`IPAddress IP_from(String ipStr) {
+  IPAddress ip;
+  ip.fromString(ipStr);
+  return ip;
+}`,
+
+// Javacript function for server //
+
+JAVSCRIPT_ON_BUTTON_CLICK:
+`const http_onButtonClick = function(id) {
+  const request = (val) => {
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "/" + id + "=" + val, true);
+    xhttp.send(null);
+  };
+  request(1);
+  setTimeout(() => {
+    request(0);
+  }, 200);
+};`,
+
+JAVSCRIPT_SEND_SLIDER_VALUE:
+`const http_sendSliderValue = function(slider, id) {
+  let xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "/" + id + "=" + slider.value, true);
+  xhttp.send(null);
+};`,
+
+JAVSCRIPT_ON_SWITCH_TOGGLE:
+`const http_onSwitchToggle = function(id) {
+  const state = document.getElementById(id).checked;
+  let xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "/" + id + "=" + (state ? 1 : 0), true);
+  xhttp.send(null);
+};`,
+
+JAVASCRIPT_REQUEST_VARIABLES_FROM_SERVER:
+`const requestVariablesFromServer = function(ip) {
+  var request = new XMLHttpRequest();
+  request.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200 && this.responseText != null) {
+      try {
+        const serverResponse = JSON.parse(request.responseText);
+        console.log(serverResponse);
+        if (serverResponse.spans) {
+          for (var i in serverResponse.spans) {
+            document.getElementById(i).innerText = serverResponse.spans[i];
+          }
+        }
+        if (serverResponse.gauges) {
+          for (var i in serverResponse.gauges) {
+            if (myGauges[i]) {
+              setGaugeValue(serverResponse.gauges[i], myGauges[i].min, myGauges[i].max, i);
+            }
+          }
+        }
+        if (serverResponse.images) {
+          for (var i in serverResponse.images) {
+            document.getElementById(i).src = 'data:image/jpeg;base64,' + serverResponse.images[i];
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+  request.open('GET', "/requestVariables&ip=" + ip, true);
+  request.send(null);
+  setTimeout(function () {
+    requestVariablesFromServer(ip);
+  }, 200);
+};`,
+
+JAVASCRIPT_SET_GAUGE_VALUE:
+`function setGaugeValue(value, min, max, gaugeId, unit="") {
+  console.log(value, min, max, gaugeId)
+  if (!isNaN(parseFloat(value))) {
+    if (value > max) {
+      value = max;
+    }
+    const newVal = gaugeScaleValue(parseFloat(value), [min, max], [0, 180]);
+    const gaugeDiv = document.getElementById(gaugeId)
+    const gaugeClass = gaugeDiv.querySelectorAll('.semi-circle--mask')[0]
+    gaugeClass.style.transform = 'rotate(' + newVal + 'deg)  translate3d(0,0,0)';
+    textValue = gaugeDiv.querySelector("#gauge_value").innerHTML = value + unit;
+  }
+};
+function gaugeScaleValue(value, from, to) {
+  const scale = (to[1] - to[0]) / (from[1] - from[0]);
+  const capped = Math.min(from[1], Math.max(from[0], value)) - from[0];
+  return ~~(capped * scale + to[0]);
+};`,
+
+// Css style for server //
+CSS_DEFAULT_SWITCHER:
+`.switch {position:relative;display:inline-block;}
+.switch input {opacity:0;width:0;height:0;}
+.sw_slider {position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:#ccc;transition:.4s;}
+.sw_slider:before {position:absolute;content:"";background-color:white;transition:.4s;}
+.sw_slider.round {border-radius:34px;}
+.sw_slider.round:before {border-radius:50%;}`,
+
+CSS_DEFAULT_SLIDER:
+`.slider {-webkit-appearance:none;background:#e3e3e3;outline:none;opacity:0.7;-webkit-transition:.2s;transition:opacity .2s;border:solid;border-color:#c3c3c3;margin-top:15px}
+.slider::-webkit-slider-thumb {-webkit-appearance:none;appearance:none;background:#22b573;cursor:pointer;}`,
+
+CSS_DEFAULT_INIT:
+`div {margin-left:auto;margin-right:auto;}
+.police {font-family: Montserrat, serif;}`,
+
+CSS_GAUGE_STYLE:
+`.mask {position:relative;overflow:hidden;display:block;width:12.5rem;height:6.25rem;margin:1.25rem;}
+.semi-circle {position:relative;display:block;width:12.5rem;height:6.25rem;background:linear-gradient(to right,#3498db 0%,#05b027 33%,#f1c40f 70%,#c0392b 100%);border-radius:50% 50% 50% 50% / 100% 100% 0% 0%;}
+.semi-circle::before {content:"";position:absolute;bottom:0;left:50%;z-index:2;display:block;width:8.75rem;height:4.375rem;margin-left:-4.375rem;background:#fff;border-radius:50% 50% 50% 50% / 100% 100% 0% 0%;}
+.semi-circle--mask {position:absolute;top:0;left:0;width:12.5rem;height:12.5rem;background:transparent;transform:rotate(120deg) translate3d(0,0,0);transform-origin:center center;backface-visibility:hidden;transition:all 0.3s ease-in-out;}
+.semi-circle--mask::before {content:"";position:absolute;top:0;left:0%;z-index:2;display:block;width:12.625rem;height:6.375rem;margin:-1px 0 0 -1px;background:#f2f2f2;border-radius:50% 50% 50% 50% / 100% 100% 0% 0%;}`,
+
+CSS_IMAGE_STYLE:
+`.frame {border: 3px solid #22b573;background: #e3e3e3;margin: auto;padding: 6px 10px;border-radius:10px;}
+img {width: 100%;height: 100%;border-radius: 6px;}`
 
 };

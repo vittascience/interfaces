@@ -72,3 +72,4 @@ Blockly.Msg['SUBCATEGORY_GALAXIA_LOG'] = 'Galaxia - Log';
 // AI
 Blockly.Msg['CATEGORY_VITTAIA'] = 'AI';
 Blockly.Msg['SUBCATEGORY_VITTAIA_MICROCONTROLLER'] = 'AI Microcontroller';
+Blockly.Msg['SUBCATEGORY_INFRARED'] = 'Infrared';

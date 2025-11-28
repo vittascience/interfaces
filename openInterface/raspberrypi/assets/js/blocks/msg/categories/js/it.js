@@ -45,3 +45,4 @@ Blockly.Msg['SUBCATEGORY_MUSIC'] = 'Music';
 Blockly.Msg['SUBCATEGORY_SENSEHAT_SENSORS'] = 'Sensors';
 Blockly.Msg['SUBCATEGORY_SENSEHAT_DISPLAY'] = 'Display';
 Blockly.Msg['SUBCATEGORY_SENSEHAT_IO'] = 'Input/Output';
+Blockly.Msg['SUBCATEGORY_TEXT_ANALYSIS'] = 'Analisi del testo';

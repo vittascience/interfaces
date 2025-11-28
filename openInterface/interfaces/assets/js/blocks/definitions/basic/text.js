@@ -121,12 +121,12 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       {
         "type": "input_value",
         "name": "VALUE",
-        "check": 'String'
+        "check": "String"
       },
       {
         "type": "input_value",
         "name": "SEP",
-        "check": 'String'
+        "check": "String"
       }
     ],
     "inputsInline": true,
@@ -392,6 +392,67 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "output": "String",
     "style": "text_blocks",
     "tooltip": "%{BKY_TEXT_RANDOM_STRING_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl"
+    ]
+  },
+
+  // Block to encode string unsing caesar cipher
+  {
+    "type": "text_caesar_cipher",
+    "message0": "%{BKY_TEXT_CAESAR_CIPHER_TITLE}",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "SHIFT",
+        "check": "Number"
+      },
+      {
+        "type": "field_grid_dropdown",
+        "name": "MODE",
+        "options": [
+          ["%{BKY_TEXT_CAESAR_CIPHER_ENCODE}", "ENCODE"],
+          ["%{BKY_TEXT_CAESAR_CIPHER_DECODE}", "DECODE"]
+        ]
+      }
+    ],
+    "output": "String",
+    "inputsInline": true,
+    "style": "text_blocks",
+    "tooltip": "%{BKY_TEXT_CAESAR_CIPHER_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl"
+    ]
+  },
+
+   // Block to decode string from caesar cipher unsing brute force
+  {
+    "type": "text_caesar_cipher_brute_force",
+    "message0": "%{BKY_TEXT_CAESAR_CIPHER_BRUTE_FORCE_TITLE}",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      },
+      {
+        "type": "field_grid_dropdown",
+        "name": "LANG",
+        "options": [
+          ["FR", "fr"],
+          ["EN", "en"]
+        ]
+      }
+    ],
+    "output": "Array",
+    "inputsInline": true,
+    "style": "text_blocks",
+    "tooltip": "%{BKY_TEXT_CAESAR_CIPHER_BRUTE_FORCE_TOOLTIP}",
     "extensions": [
       "block_init_helpurl"
     ]

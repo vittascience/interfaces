@@ -50,20 +50,18 @@ Blockly.Arduino.robots_makeBlock_matrixShowClock = function (block) {
 
 // MAKEBLOCK - LED MATRIX DRAW BITMAP
 Blockly.Arduino.robots_makeBlock_matrixDrawBitmap = function (block) {
-    //const draw = block.getFieldValue("DRAW");
     const x = Blockly.Arduino.valueToCode(block, "X", Blockly.Arduino.ORDER_ATOMIC);
     const y = Blockly.Arduino.valueToCode(block, "Y", Blockly.Arduino.ORDER_ATOMIC);
     const port = block.getFieldValue("PORT");
     const objName = "ledMatrix_" + port.replace('PORT_', '');
-    
     Blockly.Arduino.addDeclaration(objName + '-simu', "// LED Matrix on " + port);
     Blockly.Arduino.addDeclaration(objName, "MeLEDMatrix " + objName + "(" + port + ");");
     Blockly.Arduino.addSetup(objName + "-brightness", objName + ".setBrightness(8); //Maximum brightness");
     Blockly.Arduino.addSetup(objName + "-colorIndex", objName + ".setColorIndex(1);");
     Blockly.Arduino.addDeclaration('declare_matrix_buffer' , "uint8_t drawBuffer[16];" + NEWLINE + "uint8_t *drawTemp;");
-    
     let code = "drawTemp = ";
     let binary_img = block.getField("LEDS_MATRIX_BUTTON")['altText_'].split(','); 
+    
     //convert binary img to hex   
     if (binary_img.length != 0) {
         code += "new uint8_t[16] {";

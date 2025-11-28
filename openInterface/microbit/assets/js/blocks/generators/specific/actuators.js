@@ -46,6 +46,40 @@ Blockly.Python.actuators_setGroveRelayState = function (block) {
     return pin + ".write_digital(" + state + ")" + NEWLINE;
 };
 
+Blockly.Python.actuators_stepperMotor_uln2003driver_init = function (block) {
+    const motor = block.getFieldValue("MOTOR");
+    const in1 = block.getFieldValue("IN1");
+    const in2 = block.getFieldValue("IN2");
+    const in3 = block.getFieldValue("IN3");
+    const in4 = block.getFieldValue("IN4");
+    Blockly.Python.addImport('StepperMotor', IMPORT_STEPPER_MOTOR);
+    // Blockly.Python.addInit('neopixel_' + pin, "# Neopixel on " + pin);
+    Blockly.Python.addInit('StepperMotor' + motor, 'motor' + motor + ' = StepperMotor(' + in1 + ', ' + in2 + ', ' + in3 + ', ' + in4 + ')');
+    return '' + NEWLINE;
+};
+
+Blockly.Python.actuators_stepperMotor_uln2003driver_moveSteps = function (block) {
+    Blockly.Python.addImport('StepperMotor', IMPORT_STEPPER_MOTOR);
+    const motor = block.getFieldValue("MOTOR");
+    const steps = Blockly.Python.valueToCode(block, "STEPS", Blockly.Python.ORDER_NONE) || "0";
+    const dir = block.getFieldValue("DIR");
+    const unit = block.getFieldValue("UNIT");
+    switch (dir) {
+        case "1":
+            return "motor" + motor + ".moveClockwise(" + steps + ", motor" + motor + "." + unit + ")" + NEWLINE;
+        case "-1":
+            return "motor" + motor + ".moveAntiClockwise(" + steps + ", motor" + motor + "." + unit + ")" + NEWLINE;
+    }
+};
+
+Blockly.Python.actuators_stepperMotor_uln2003driver_setDelay = function (block) {
+    Blockly.Python.addImport('StepperMotor', IMPORT_STEPPER_MOTOR);
+    const motor = block.getFieldValue("MOTOR");
+    const delay = Blockly.Python.valueToCode(block, "DELAY", Blockly.Python.ORDER_NONE) || "0";
+    return "motor" + motor + ".setDelay(" + delay + ")" + NEWLINE;
+};
+
+
 // KITRONIK MOTOR DRIVER 
 
 Blockly.Python.actuators_kitronik_controlMotor = function (block) {

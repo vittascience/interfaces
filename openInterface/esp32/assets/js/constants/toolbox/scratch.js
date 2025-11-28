@@ -31,6 +31,17 @@ const TOOLBOX_SCRATCH_CATEGORIES = [
     },
     {
         "kind": "category",
+        "toolboxitemid": "esp32cam",
+        "name": "%{BKY_CATEGORY_CAMERA}",
+        "style": "esp32cam_category",
+        "cssConfig": {
+            "icon": "icon_blockly fa-solid fa-camera"
+        },
+        "contents": [],
+        "onlyBoards": "esp32-cam"
+    },
+    {
+        "kind": "category",
         "toolboxitemid": "network",
         "name": "%{BKY_CATEGORY_NETWORK}",
         "style": "network_category",
@@ -113,7 +124,7 @@ const TOOLBOX_SCRATCH_CATEGORIES = [
         "kind": "category",
         "toolboxitemid": "lists",
         "name": "%{BKY_CATEGORY_LISTS}",
-        "style": "list_category",
+        "style": "lists_category",
         "cssConfig": {
             "icon": "icon_blockly fas fa-list"
         },
@@ -145,7 +156,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
     "display": [
         {
             "label": "%{BKY_SUBCATEGORY_ESP32}",
-            'blocks': [
+            "blocks": [
                 'display_controlBuiltInLED'
             ]
         },
@@ -304,6 +315,18 @@ const TOOLBOX_SCRATCH_CONTENT = {
             ]
         }
     ],
+    "esp32cam": [
+        {
+            "label": "%{BKY_SUBCATEGORY_ESP32_CAM}",
+            "blocks": [
+                'esp32Cam_getCaptureData',
+                'esp32Cam_setImageSize',
+                'esp32Cam_controlFlashLED',
+                'esp32Cam_SDcard_savePic',
+                'esp32Cam_SDcard_saveData'
+            ]
+        }
+    ],
     "network": [
         {
             "label": "%{BKY_SUBCATEGORY_WIFI}",
@@ -404,16 +427,6 @@ const TOOLBOX_SCRATCH_CONTENT = {
             "blocks": [
                 'sensors_readProcessorTemperature',
                 'sensors_readHallSensor'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_ESP32_CAM}",
-            "blocks": [
-                'esp32Cam_getCaptureData',
-                'esp32Cam_setImageSize',
-                'esp32Cam_controlFlashLED',
-                'esp32Cam_SDcard_savePic',
-                'esp32Cam_SDcard_saveData'
             ]
         },
         {
@@ -530,8 +543,8 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'robots_getDistanceIlo',
                 'robots_lineDetectorIlo',
                 'robots_setLineDetectorThresholdIlo',
-                'robots_colorDetectorIlo',
-                'robots_colorDetectorRGBIlo',
+                'robots_getColorRawIlo',
+                'robots_getColorCardIlo',
                 'robots_getLuminosityIlo',
                 'robots_getInternalSensors'
             ]
@@ -764,6 +777,16 @@ const TOOLBOX_SCRATCH_CONTENT_SIMPLE = {
             ]
         }
     ],
+    "esp32cam": [
+        {
+            "label": "%{BKY_SUBCATEGORY_ESP32_CAM}",
+            "blocks": [
+                'esp32Cam_getCaptureData',
+                'esp32Cam_controlFlashLED',
+                'esp32Cam_SDcard_savePic'
+            ],
+        },
+    ],
     "network": [
         {
             "label": "%{BKY_SUBCATEGORY_WIFI}",
@@ -795,14 +818,6 @@ const TOOLBOX_SCRATCH_CONTENT_SIMPLE = {
             "blocks": [
                 'sensors_readProcessorTemperature',
                 'sensors_readHallSensor'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_ESP32_CAM}",
-            "blocks": [
-                'esp32Cam_getCaptureData',
-                'esp32Cam_controlFlashLED',
-                'esp32Cam_SDcard_savePic'
             ]
         },
         {

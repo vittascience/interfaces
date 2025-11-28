@@ -6,19 +6,19 @@
 
 // Network - Wifi
 Blockly.Msg['NETWORK_CONNECT_STATION_TITLE'] = 'connecter la station: nom du réseau %1 mot de passe %2';
-Blockly.Msg['NETWORK_CONNECT_STATION_TOOLTIP'] = 'Permet de configurer une station wifi sur la carte ' + Blockly.Msg.boardName + ' en se connectant à un réseau wifi. Pour recevoir les données envoyées par le serveur dans un navigateur: Connecter la carte ESP32 et l\'appareil sur le même réseau. Par exemple, si l\'addresse IP de mon réseau est 192.168.1.X, la passerelle sera 192.168.1.1. Entrer l\'addresse IP du serveur dans le navigateur de l\'appareil.Si vous souhaitez accéder au serveur sans passer par l\'addresse IP, vous pouvez définir un nom d\'hôte. Par exemple, esp32-server. Entrer le nom de l\'hôte dans le navigateur : http://esp32-server/';
+Blockly.Msg['NETWORK_CONNECT_STATION_TOOLTIP'] = 'Permet de configurer une station wifi sur la carte ' + Blockly.Msg.Esp32BoardName + ' en se connectant à un réseau wifi. Pour recevoir les données envoyées par le serveur dans un navigateur: Connecter la carte ESP32 et l\'appareil sur le même réseau. Par exemple, si l\'addresse IP de mon réseau est 192.168.1.X, la passerelle sera 192.168.1.1. Entrer l\'addresse IP du serveur dans le navigateur de l\'appareil.Si vous souhaitez accéder au serveur sans passer par l\'addresse IP, vous pouvez définir un nom d\'hôte. Par exemple, esp32-server. Entrer le nom de l\'hôte dans le navigateur : http://esp32-server/';
 Blockly.Msg['NETWORK_CONNECT_STATION_IP'] = 'IP fixe';
 Blockly.Msg['NETWORK_CONNECT_STATION_MASK'] = 'Masque du sous réseau';
 Blockly.Msg['NETWORK_CONNECT_STATION_GATEWAY'] = 'Passerelle';
 Blockly.Msg['NETWORK_CONNECT_STATION_HOSTNAME'] = 'Nom de l\'hôte';
 Blockly.Msg['NETWORK_CONFIGURE_ACCESS_POINT_TITLE'] = 'créer un point d\'accès: nom du réseau %1 IP fixe %2';
-Blockly.Msg['NETWORK_CONFIGURE_ACCESS_POINT_TOOLTIP'] = 'Permet de configurer un point d\'accès wif sur la carte ' + Blockly.Msg.boardName + '.';
+Blockly.Msg['NETWORK_CONFIGURE_ACCESS_POINT_TOOLTIP'] = 'Permet de configurer un point d\'accès wif sur la carte ' + Blockly.Msg.Esp32BoardName + '.';
 Blockly.Msg['NETWORK_DISCONNECT_STATION_TITLE'] = 'déconnecter la station';
 Blockly.Msg['NETWORK_DISCONNECT_STATION_TOOLTIP'] = 'Permet de déconnecter la station si elle est connectée à un réseau wifi.';
 Blockly.Msg['NETWORK_IS_STATION_CONNECTED_TITLE'] = 'station est connecté ?';
 Blockly.Msg['NETWORK_IS_STATION_CONNECTED_TOOLTIP'] = 'Retourne True si la station est activée, False sinon. La station wifi doit être configurée au préalable pour utilise ce bloc.';
 Blockly.Msg['NETWORK_SET_NETWORK_TITLE'] = '%1 le wifi';
-Blockly.Msg['NETWORK_SET_NETWORK_TOOLTIP'] = 'Permet d\'activer ou désactiver le module wifi de la carte ' + Blockly.Msg.boardName + '.';
+Blockly.Msg['NETWORK_SET_NETWORK_TOOLTIP'] = 'Permet d\'activer ou désactiver le module wifi de la carte ' + Blockly.Msg.Esp32BoardName + '.';
 Blockly.Msg['NETWORK_ACTIVATE'] = 'activer';
 Blockly.Msg['NETWORK_DISABLE'] = 'désactiver';
 Blockly.Msg['NETWORK_SCAN_NETWORK_PROFILES_TITLE'] = 'réseaux wifi disponibles';
@@ -26,24 +26,24 @@ Blockly.Msg['NETWORK_SCAN_NETWORK_PROFILES_TOOLTIP'] = 'Permet de scanner les r�
 Blockly.Msg['NETWORK_GET_STATION_INFOS_TITLE'] = 'informations de la station';
 Blockly.Msg['NETWORK_GET_STATION_INFOS_TOOLTIP'] = 'Retourne un tuple contenant l\'addresse IP, le masque du sous-réseau, la passerelle et le serveur DNS.';
 Blockly.Msg['NETWORK_CHANGE_SERVER_PORT_TITLE'] = 'changer le port du serveur à %1';
-Blockly.Msg['NETWORK_CHANGE_SERVER_PORT_TOOLTIP'] = 'Permet de changer le port du serveur web de la carte ' + Blockly.Msg.boardName + '. Celle-ci doit être connectée à un réseau wifi.';
+Blockly.Msg['NETWORK_CHANGE_SERVER_PORT_TOOLTIP'] = 'Permet de changer le port du serveur web de la carte ' + Blockly.Msg.Esp32BoardName + '. Celle-ci doit être connectée à un réseau wifi.';
 // Network - Server
 Blockly.Msg['NETWORK_SERVER_SEND_DATA_TITLE'] = '[serveur] envoyer données %1';
-Blockly.Msg['NETWORK_SERVER_SEND_DATA_TOOLTIP'] = 'Permet d\'envoyer des données au client. La carte ' + Blockly.Msg.boardName + ' doit être connectée à un réseau wifi.';
+Blockly.Msg['NETWORK_SERVER_SEND_DATA_TOOLTIP'] = 'Permet d\'envoyer des données au client. La carte ' + Blockly.Msg.Esp32BoardName + ' doit être connectée à un réseau wifi.';
 Blockly.Msg['NETWORK_SERVER_GET_CLIENT_DATA_TITLE'] = '[serveur] données reçues du client';
-Blockly.Msg['NETWORK_SERVER_GET_CLIENT_DATA_TOOLTIP'] = 'Renvoie la requête du client. La carte ' + Blockly.Msg.boardName + ' doit être connectée à un réseau wifi.';
+Blockly.Msg['NETWORK_SERVER_GET_CLIENT_DATA_TOOLTIP'] = 'Renvoie la requête du client. La carte ' + Blockly.Msg.Esp32BoardName + ' doit être connectée à un réseau wifi.';
 Blockly.Msg['NETWORK_SERVER_GET_CLIENT_DATA_PARAM_TITLE'] = '[serveur] paramètre de la requête';
-Blockly.Msg['NETWORK_SERVER_GET_CLIENT_DATA_PARAM_TOOLTIP'] = 'Renvoie le paramètre de la requête du client. La carte ' + Blockly.Msg.boardName + ' doit être connectée à un réseau wifi.';
+Blockly.Msg['NETWORK_SERVER_GET_CLIENT_DATA_PARAM_TOOLTIP'] = 'Renvoie le paramètre de la requête du client. La carte ' + Blockly.Msg.Esp32BoardName + ' doit être connectée à un réseau wifi.';
 Blockly.Msg['NETWORK_SERVER_GET_CLIENT_IP_TITLE'] = '[serveur] addresse IP du client';
-Blockly.Msg['NETWORK_SERVER_GET_CLIENT_IP_TOOLTIP'] = 'Renvoie l\'addresse IP du client. La carte ' + Blockly.Msg.boardName + ' doit être connectée à un réseau wifi.';
+Blockly.Msg['NETWORK_SERVER_GET_CLIENT_IP_TOOLTIP'] = 'Renvoie l\'addresse IP du client. La carte ' + Blockly.Msg.Esp32BoardName + ' doit être connectée à un réseau wifi.';
 Blockly.Msg['NETWORK_SERVER_SEND_WEB_PAGE_TITLE'] = '[serveur] envoyer la page html';
 Blockly.Msg['NETWORK_SERVER_SEND_WEB_PAGE_HTML'] = 'html';
-Blockly.Msg['NETWORK_SERVER_SEND_WEB_PAGE_TOOLTIP'] = 'Permet d\'envoyer une page html au client. La carte ' + Blockly.Msg.boardName + ' doit être connectée à un réseau wifi.';
+Blockly.Msg['NETWORK_SERVER_SEND_WEB_PAGE_TOOLTIP'] = 'Permet d\'envoyer une page html au client. La carte ' + Blockly.Msg.Esp32BoardName + ' doit être connectée à un réseau wifi.';
 // Network - Client
 Blockly.Msg['NETWORK_CLIENT_GET_SERVER_DATA_TITLE'] = '[client] données reçues du serveur IP %1';
-Blockly.Msg['NETWORK_CLIENT_GET_SERVER_DATA_TOOLTIP'] = 'Renvoie la requête du serveur. La carte ' + Blockly.Msg.boardName + ' doit être connectée à un réseau wifi.';
+Blockly.Msg['NETWORK_CLIENT_GET_SERVER_DATA_TOOLTIP'] = 'Renvoie la requête du serveur. La carte ' + Blockly.Msg.Esp32BoardName + ' doit être connectée à un réseau wifi.';
 Blockly.Msg['NETWORK_CLIENT_SEND_DATA_TITLE'] = '[client] envoyer données %1 au serveur IP %2';
-Blockly.Msg['NETWORK_CLIENT_SEND_DATA_TOOLTIP'] = 'Permet d\'envoyer des données au serveur. La carte ' + Blockly.Msg.boardName + ' doit être connectée à un réseau wifi.';
+Blockly.Msg['NETWORK_CLIENT_SEND_DATA_TOOLTIP'] = 'Permet d\'envoyer des données au serveur. La carte ' + Blockly.Msg.Esp32BoardName + ' doit être connectée à un réseau wifi.';
 Blockly.Msg['NETWORK_CLIENT_SEND_DATA_PORT'] = 'port';
 // Network - Web page
 Blockly.Msg['NETWORK_ADD_TITLE_TITLE'] = '[html] ajouter le titre %1 niveau %2 couleur %3';
@@ -107,6 +107,7 @@ Blockly.Msg['NETWORK_SERVER_GET_SWITCH_VALUE_TOOLTIP'] = 'Permet de récupérer 
 // Network - HTTP
 Blockly.Msg['NETWORK_GET_HTTP_REQUEST_TITLE'] = 'requête HTTP méthode %1 url %2';
 Blockly.Msg['NETWORK_GET_HTTP_REQUEST_TOOLTIP'] = 'Permet de créer une requête HTTP de type GET/POST en renseignant une addresse url.';
+Blockly.Msg['NETWORK_GET_HTTP_REQUEST_CONTENT'] = 'contenu:';
 Blockly.Msg['NETWORK_THINGSPEAK_SEND_DATA_TITLE'] = '[ThingSpeak] envoyer données avec la clé API';
 Blockly.Msg['NETWORK_THINGSPEAK_SEND_DATA_TOOLTIP'] = 'Ce bloc permet d\'envoyer des mesures de capteurs à l\'application ThingSpeakr grâce au WiFi intégré de l\'ESP32. Il peut être utilisé avec un ou plusieurs blocs "Field" et "Valeur" en appuyant sur le bouton plus.';
 Blockly.Msg['NETWORK_THINGSPEAK_SEND_DATA_FIELD_TITLE'] = '[ThingSpeak] Field %1 Valeur %2';

@@ -91,6 +91,8 @@ DEF_COM_RADIO_SEND_VALUE:
     type = "bool:"
   elif isinstance(value, list):
     type = "list:"
+  elif isinstance(value, str):
+    type = "str:"
   radio.send("&&&" + type + "[" + name + ";" + str(value) + "]&&&")`,
 
 // micro:bit radio _ receive data
@@ -131,10 +133,30 @@ DEF_COM_RADIO_RECEIVE_VALUE:
     elif data.find('&&&list:[') != -1:
       parseData = data[9:-4].split(';')
       return parseData[0], parseData[1].strip('][').split(', ')
+    elif data.find('&&&str:[') != -1:
+      parseData = data[8:-4].split(';', 1)
+      return parseData[0], str(parseData[1])
     else:
       return None, None
   else:
     return None, None`,
+
+// micro:bit radio _ get next message data
+DEF_COM_RADIO_RECEIVE_FULL:
+`def radio_receiveFull(data):
+  details = radio.receive_full()
+  if details:
+    details = list(details)
+    if data == 'msg':
+      return details[0]  # The message
+    elif data == 'rssi':
+      return details[1]  # The RSSI value
+    elif data == 'timestamp':
+      return details[2]  # The timestamp
+    else:
+      raise ValueError("Data option '" + data + "' is not valid")
+  else:
+    return -1`,
 
 // Grove GPS _ read NMEA
 DEF_GPS_READ_NMEA:
@@ -693,8 +715,8 @@ DEF_MAQUEEN_TURN_ANGLE:
   i2c.write(0x10, bytearray([0x00, 0, 0]))
   i2c.write(0x10, bytearray([0x02, 0, 0]))`,
 
-DEF_MAQUEEN_BLINK_ROBOT: 
-`def maqueen_blinkRobot():
+DEF_MAQUEEN_PLUS_V2_BLINK: 
+`def maqueenPlusV2_blink():
   for count in range(2):
     for i in range(4):
       npMaq[i] = (255, 0, 0)
@@ -707,6 +729,20 @@ DEF_MAQUEEN_BLINK_ROBOT:
     npMaq.show()
     pin8.write_digital(0)
     pin12.write_digital(0)
+    utime.sleep_ms(500)`,
+
+DEF_MAQUEEN_PLUS_V3_BLINK: 
+`def maqueenPlusV3_blink():
+  for count in range(2):
+    for i in range(4):
+      npMaq[i] = (255, 0, 0)
+    npMaq.show()
+    maqueenplusv3.setRGBLed(maqueenPlusV3['RED'], 'BOTH')
+    utime.sleep_ms(500)
+    for i in range(4):
+      npMaq[i] = (0, 0, 0)
+    npMaq.show()
+    maqueenplusv3.setRGBLed(maqueenPlusV3['BLACK'], 'BOTH')
     utime.sleep_ms(500)`,
 
 DEF_CUTEBOT_MOVE_WITH_SQUARE: 
@@ -1096,5 +1132,13 @@ DEF_HUSKYLENS_LINE_DIRECTION:
   elif isinstance(data, int) and len(integer_result) > data and (data - 1) >= 0:
     return integer_result[data - 1]
   else:
-    return integer_result`  
+    return integer_result`,
+
+  DEF_LIDAR_CONFIG_MATRIX:
+`def lidar_configMatrixData(type):
+  while LiDAR.get_all_data_config(type) is not 0:
+    print("[LiDAR INFOS] Matix configuration failed!")
+    if type is not 4 or type is not 8:
+      print("[LiDAR INFOS] Please, use MATRIX_4X4 or MATRIX_8X8")
+    sleep(1000)`
 };

@@ -10245,11 +10245,19 @@ Sk.builtin.open = function open (filename, mode, bufsize) {
         mode = new Sk.builtin.str("r");
     }
 
+    /**
+     * START VITTASCIENCE ADS / comment this part
+     */
+
     // if (/\+/.test(mode.v)) {
     //     throw "todo; haven't implemented read/write mode";
     // } else if ((mode.v === "w" || mode.v === "wb" || mode.v === "a" || mode.v === "ab") && !Sk.nonreadopen) {
     //     throw "todo; haven't implemented non-read opens";
     // }
+
+    /**
+     * END VITTASCIENCE ADS
+     */
 
     return new Sk.builtin.file(filename, mode, bufsize);
 };
@@ -10359,10 +10367,6 @@ Sk.builtin.jsmillis = function jsmillis() {
     console.warn("jsmillis is deprecated");
     var now = new Date();
     return now.valueOf();
-};
-
-Sk.builtin.eval_ = function eval_() {
-    throw new Sk.builtin.NotImplementedError("eval is not yet implemented");
 };
 
 Sk.builtin.map = function map(fun, seq) {
@@ -10634,9 +10638,26 @@ Sk.builtin.id = function (obj) {
     return new Sk.builtin.int_(_id++);
 };
 
-Sk.builtin.bytearray = function bytearray() {
-    throw new Sk.builtin.NotImplementedError("bytearray is not yet implemented");
+/**
+ * START VITTASCIENCE ADS / defining minimum for bytearray
+ * TO DO: define bytearray as a type like bytes
+ */
+
+Sk.builtin.bytearray = function bytearray(value) {
+    if (Sk.builtin.checkInt(value)) {
+        return new Sk.builtin.list(Array.from(new Uint8Array(value.v)));
+    }
+    if (Sk.builtin.checkBytes(value)) {
+        return new Sk.builtin.list(Array.from(value.v));
+    }
+    if (Sk.builtin.checkIterable(value)) {
+        return value;
+    }
 };
+
+/**
+ * END VITTASCIENCE ADS
+ */
 
 Sk.builtin.callable = function callable(obj) {
     // check num of args
@@ -10825,13 +10846,15 @@ Sk.builtins = {
     "exit"      : new Sk.builtin.func(Sk.builtin.quit),
     "print"     : null,
     "divmod"    : null,
+    "exec"      : new Sk.builtin.func(Sk.builtin.exec),
+    "eval"      : new Sk.builtin.func(Sk.builtin.eval),
     "format"    : null,
     "globals"   : null,
     "issubclass": null,
     "iter"      : null,
 
     // Functions below are not implemented
-    // "bytearray" : Sk.builtin.bytearray,
+    "bytearray" : Sk.builtin.bytearray,
     // "callable"  : Sk.builtin.callable,
     // "delattr"   : Sk.builtin.delattr,
     // "eval_$rw$" : Sk.builtin.eval_,
@@ -10850,7 +10873,6 @@ Sk.builtins = {
     "buffer"    : Sk.builtin.buffer,
     "coerce"    : Sk.builtin.coerce,
     "intern"    : Sk.builtin.intern,
-
 
     "property"     : Sk.builtin.property,
     "classmethod"  : Sk.builtin.classmethod,
@@ -10962,19 +10984,40 @@ Sk.abstr.setUpModuleMethods("builtins", Sk.builtins, {
 
     eval_$rw$: {
         $name: "eval",
-        $meth: Sk.builtin.eval_,
+        $meth: function (source, globals, locals) {
+            // check globals
+            const tmp_globals = globLocToJs(globals, "globals");
+            // check locals
+            const tmp_locals = globLocToJs(locals, "locals");
+            return Sk.misceval.chain(Sk.builtin.eval(source, tmp_globals, tmp_locals), (res) => {
+                reassignGlobLoc(globals, tmp_globals);
+                reassignGlobLoc(locals, tmp_locals);
+                return res;
+            });
+        },
         $flags: { MinArgs: 1, MaxArgs: 3 },
         $textsig: "($module, source, globals=None, locals=None, /)",
         $doc:
             "Evaluate the given source in the context of globals and locals.\n\nThe source may be a string representing a Python expression\nor a code object as returned by compile().\nThe globals must be a dictionary and locals can be any mapping,\ndefaulting to the current globals and locals.\nIf only globals is given, locals defaults to it.",
     },
 
-    // exec: {
-    //     $meth: Sk.builtin.exec,
-    //     $flags: {MinArgs:2, MaxArgs: 3},
-    //     $textsig: "($module, source, globals=None, locals=None, /)",
-    //     $doc: "Execute the given source in the context of globals and locals.\n\nThe source may be a string representing one or more Python statements\nor a code object as returned by compile().\nThe globals must be a dictionary and locals can be any mapping,\ndefaulting to the current globals and locals.\nIf only globals is given, locals defaults to it."
-    // },
+    exec: {
+        $meth: function (source, globals, locals) {
+            // check globals
+            const tmp_globals = globLocToJs(globals, "globals");
+            // check locals
+            const tmp_locals = globLocToJs(locals, "locals");
+            return Sk.misceval.chain(Sk.builtin.exec(source, tmp_globals, tmp_locals), (new_locals) => {
+                reassignGlobLoc(globals, tmp_globals);
+                reassignGlobLoc(locals, tmp_locals);
+                return Sk.builtin.none.none$;
+            });
+        },
+        $flags: { MinArgs: 1, MaxArgs: 3 },
+        $textsig: "($module, source, globals=None, locals=None, /)",
+        $doc:
+            "Execute the given source in the context of globals and locals.\n\nThe source may be a string representing one or more Python statements\nor a code object as returned by compile().\nThe globals must be a dictionary and locals can be any mapping,\ndefaulting to the current globals and locals.\nIf only globals is given, locals defaults to it.",
+    },
 
     format: {
         $meth: Sk.builtin.format,
@@ -11202,6 +11245,35 @@ Sk.abstr.setUpModuleMethods("builtins", Sk.builtins, {
     },
 });
 
+// function used for exec and eval
+function globLocToJs(glob_loc, name) {
+    let tmp = undefined;
+    if (glob_loc === undefined || Sk.builtin.checkNone(glob_loc)) {
+        glob_loc = undefined;
+    } else if (!(glob_loc instanceof Sk.builtin.dict)) {
+        throw new Sk.builtin.TypeError(name + " must be a dict or None, not " + Sk.abstr.typeName(glob_loc));
+    } else {
+        tmp = {};
+        // we only support dicts here since actually we need to convert this to a hashmap for skulpts version of
+        // compiled code. Any old mapping won't do, it must be iterable!
+        glob_loc.$items().forEach(([key, val]) => {
+            if (Sk.builtin.checkString(key)) {
+                tmp[key.$mangled] = val;
+            }
+        });
+    }
+    return tmp;
+}
+
+function reassignGlobLoc(dict, obj) {
+    if (dict === undefined || Sk.builtin.checkNone(dict)) {
+        return;
+    }
+    for (let key in obj) {
+        // this isn't technically correct - if they use delete in the exec this breaks
+        dict.mp$ass_subscript(new Sk.builtin.str(Sk.unfixReserved(key)), obj[key]);
+    }
+}
 
 Sk.setupObjects = function (py3) {
     if (py3) {
@@ -15722,6 +15794,80 @@ Sk.compile = function (source, filename, mode, canSuspend) {
     };
 };
 
+
+/**
+ *
+ * @param {*} code
+ * @param {Object|undefined} globals
+ * @param {Object|undefined} locals
+ *
+ * Internally call with javascript objects for globals and locals
+ */
+Sk.builtin.exec = function (code, globals, locals) {
+    let filename = globals && globals.__file__;
+    if (filename !== undefined && Sk.builtin.checkString(filename)) {
+        filename = filename.toString();
+    } else {
+        filename = "<string>";
+    }
+    if (Sk.builtin.checkString(code)) {
+        code = Sk.compile(code.$jsstr(), filename, "exec", true);
+    } else if (typeof code === "string") {
+        code = Sk.compile(code, filename, "exec", true);
+    } else if (!(code instanceof pyCode)) {
+        throw new Sk.builtin.TypeError("exec() arg 1 must be a string, bytes or code object");
+    }
+    Sk.asserts.assert(
+        globals === undefined || globals.constructor === Object,
+        "internal calls to exec should be called with a javascript object for globals"
+    );
+    Sk.asserts.assert(
+        locals === undefined || locals.constructor === Object,
+        "internal calls to exec should be called with a javascript object for locals"
+    );
+    /**@todo shouldn't have to do this - Sk.globals loses scope*/
+    const tmp = Sk.globals;
+    /**
+     * @todo this is not correct outside of __main__ i.e. exec doesn't work inside modules using the module scope
+     * This is because globals don't work outside of __main__
+    */
+    globals = globals || tmp;
+    return Sk.misceval.chain(
+        code,
+        (co) => Sk.global["eval"](co.code)(globals, locals),
+        (new_locals) => {
+            Sk.globals = tmp;
+            // we return new_locals internally for eval
+            return new_locals;
+        }
+    );
+};
+
+
+Sk.builtin.eval = function (source, globals, locals) {
+    if (Sk.builtin.checkString(source)) {
+        source = source.$jsstr();
+    } else if (Sk.builtin.checkBytes(source)) {
+        throw new Sk.builtin.NotImplementedError("bytes for eval is not yet implemented in skulpt");
+    }
+    if (typeof source === "string") {
+        source = source.trim();
+        const parse = Sk.parse("?", source);
+        const ast = Sk.astFromParse(parse.cst, "?", parse.flags);
+        if (ast.body.length > 1 || !(ast.body[0] instanceof Sk.astnodes.Expr)) {
+            throw new Sk.builtin.SyntaxError("invalid syntax");
+        }
+        source = "__final_res__ = " + source;
+    } else if (!(source instanceof pyCode)) {
+        throw new Sk.builtin.TypeError("eval() arg 1 must be a string, bytes or code object");
+    }
+    return Sk.misceval.chain(Sk.builtin.exec(source, globals, locals), (new_locals) => {
+        const res = new_locals.__final_res__ || Sk.builtin.none.none$;
+        delete new_locals.__final_res__;
+        return res;
+    });
+};
+
 Sk.exportSymbol("Sk.compile", Sk.compile);
 
 Sk.resetCompiler = function () {
@@ -19280,7 +19426,7 @@ Sk.builtin.file = function (name, mode, buffering) {
         if (Sk.inBrowser) {  // todo:  Maybe provide a replaceable function for non-import files
             this.fileno = 10;
             /**
-             * START VITTASCIENCE ADDS
+             * START VITTASCIENCE ADDS / manage read/write additional files
              */
             if (typeof VittaInterface !== 'undefined') {
                 if (mode.v == "w") {

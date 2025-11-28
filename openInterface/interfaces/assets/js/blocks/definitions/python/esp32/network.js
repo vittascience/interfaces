@@ -670,6 +670,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "extensions": [
             "block_init_helpurl"
         ],
+        "mutator": "network_getHTTPRequest_mutator"
     },
 
     // BLOCK THINGSPEAK - SEND DATA
@@ -1067,6 +1068,11 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 ]); // END JSON EXTRACT (Do not delete this comment.)
 
 Blockly.Constants.Network = Object.create(null);
+
+Blockly.Constants.Network.HTML_CONTAINER_BLOCKS = [
+    'network_server_sendWebPage',
+    'network_HTML_Tags'
+];
 
 /**
  * Performs final setup of 'network_connectStation' block.
@@ -2380,6 +2386,83 @@ Blockly.Constants.Network.NETWORK_MQTT_IF_TOPIC_IS_MUTATOR_MIXIN = {
     }
 };
 
+/**
+ * Mixin for mutator functions in the 'network_getHTTPRequest_mutator'
+ * extension.
+ * @mixin
+ * @augments Blockly.Block
+ * @package
+ */
+Blockly.Constants.Network.NETWORK_GET_HTTP_REQUEST_MUTATOR_MIXIN = {
+    /**
+     * Create XML to represent whether the 'postContentInput' should be present.
+     * @return {!Element} XML storage element.
+     * @this {Blockly.Block}
+     */
+    mutationToDom: function () {
+        const container = Blockly.utils.xml.createElement('mutation');
+        this.content_ = (this.getFieldValue('METHOD') == 'POST');
+        container.setAttribute('postContent_input', this.content_);
+        return container;
+    },
+    /**
+     * Parse XML to restore the 'postContentInput'.
+     * @param {!Element} xmlElement XML storage element.
+     * @this {Blockly.Block}
+     */
+    domToMutation: function (xmlElement) {
+        this.content_ = (xmlElement.getAttribute('postContent_input') == 'true');
+        this.updateShape_();
+    },
+    /**
+     * Modify this block to have (or not have) an input for 'post content'.
+     * @private
+     * @this {Blockly.Block}
+     */
+    updateShape_: function () {
+        // Add or remove a Value Input.
+        const inputExists = this.getInput('CONTENT_FIELD');
+        if (this.content_) {
+            if (!inputExists) {
+                this.appendDummyInput("CONTENT_FIELD")
+                    .appendField(Blockly.Msg['NETWORK_GET_HTTP_REQUEST_CONTENT']);
+                this.appendValueInput('CONTENT').setCheck('String');
+                this.addDefaultBlock({
+                    "name": "CONTENT",
+                    "value": ""
+                });
+                this.setInputsInline(true);
+            }
+        } else if (inputExists) {
+            this.removeInput("CONTENT");
+            this.removeInput('CONTENT_FIELD');
+        }
+    },
+    addDefaultBlock: function (input) {
+        return Blockly.Constants.Utils.CONNECT_DEFAULT_BLOCK(this, {
+            "input": input.name,
+            "type": "text",
+            "name": "TEXT",
+            "value": input.value
+        });
+    }
+};
+
+/**
+ * 'network_http_POST_mutator' extension to the 'network_getHTTPRequest' block that
+ * can update the block shape (add/remove post content input) based on whether
+ * method is "POST".
+ * @this {Blockly.Block}
+ * @package
+ */
+Blockly.Constants.Network.NETWORK_GET_HTTP_REQUEST_MUTATOR_EXTENSION = function () {
+    const _this = this;
+    this.getField('METHOD').setValidator(function (option) {
+        _this.content_ = (option == 'POST');
+        this.getSourceBlock().updateShape_();
+    });
+};
+
 // Initialization extensions
 Blockly.Extensions.register("network_connect_station_init_extension",
     Blockly.Constants.Network.NETWORK_CONNECT_STATION_INIT_EXTENSION);
@@ -2453,3 +2536,7 @@ Blockly.Extensions.registerMutator('network_mqtt_connectWithAuth_mutator',
 
 Blockly.Extensions.registerMutator('network_mqtt_ifTopicIs_mutator',
     Blockly.Constants.Network.NETWORK_MQTT_IF_TOPIC_IS_MUTATOR_MIXIN);
+
+Blockly.Extensions.registerMutator('network_getHTTPRequest_mutator',
+    Blockly.Constants.Network.NETWORK_GET_HTTP_REQUEST_MUTATOR_MIXIN,
+    Blockly.Constants.Network.NETWORK_GET_HTTP_REQUEST_MUTATOR_EXTENSION);

@@ -75,7 +75,7 @@ Blockly.Msg['COMMUNICATION_COMPUTER_SETFREQUENCY_TOOLTIP'] = 'Ce bloc permet de 
 Blockly.Msg['COMMUNICATION_COMPUTER_STOPMUSIC_TITLE'] = 'terminer la note sur l\'ordinateur';
 Blockly.Msg['COMMUNICATION_COMPUTER_STOPMUSIC_TOOLTIP'] = 'Arrête la note en cours.';
 // Robots - mBot basic modules
-Blockly.Msg['ROBOTS_MBOT_GO_TITLE'] = '[Moteurs] contrôler le robot %1 vitesse %2 (%)';
+Blockly.Msg['ROBOTS_MBOT_GO_TITLE'] = '[Moteurs] %1 à la vitesse %2 (%)';
 Blockly.Msg['ROBOTS_MBOT_GO_FORWARD'] = 'avancer';
 Blockly.Msg['ROBOTS_MBOT_GO_REVERSE'] = 'reculer';
 Blockly.Msg['ROBOTS_MBOT_GO_TOOLTIP'] = IMG_MODULE_MBOT + Blockly.Tooltip.SEP + 'Permet de contrôler la marche (AVANT/ARRIERE) ainsi que sa vitesse (de 0 à 100 %) du robot mBot';

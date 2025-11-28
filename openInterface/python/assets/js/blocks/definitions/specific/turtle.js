@@ -317,7 +317,29 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "previousStatement": null,
         "style": "turtle_blocks",
-        "tooltip": "%{BKY_TURTLE_SCREEN_SETUP_TOOLTIP}",
+        "tooltip": "%{BKY_TURTLE_SCREEN_COLOR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    {
+        "type": "turtle_screen_picture",
+        "message0": "%{BKY_TURTLE_SCREEN_PICTURE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "PICTURE",
+            "options": [
+                ["%{BKY_TURTLE_SCREEN_PICTURE_MAZE}", "maze.png"],
+                ["%{BKY_TURTLE_SCREEN_PICTURE_GRID}", "grid.png"],
+                ["%{BKY_TURTLE_SCREEN_PICTURE_VITTASCIENCE}", "vittascience.png"]
+            ]
+        }],
+        "inputsInline": true,
+        "nextStatement": null,
+        "previousStatement": null,
+        "style": "turtle_blocks",
+        "tooltip": "%{BKY_TURTLE_SCREEN_PICTURE_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]

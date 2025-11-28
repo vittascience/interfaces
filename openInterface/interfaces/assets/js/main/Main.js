@@ -37,7 +37,7 @@ const Main = (function () {
     Code.workspace = null;
     Code.hidden_workspace = null;
     Code.initFocus = false;
-
+    Code.forceGeneration = false;
 
     Code.isToolboxLoaded = false;
 
@@ -215,7 +215,7 @@ const Main = (function () {
     Code.editor = {};
     Code.initEditor = function () {
         const interfaceName = Code.getInterface();
-        if (interfaceName == "arduino" || interfaceName == "letsstartcoding" || interfaceName == "mBot") {
+        if (["arduino", "letsstartcoding", "mBot"].includes(interfaceName)) {
             var langMode = ace.require("ace/mode/c_cpp").Mode;
         } else if (interfaceName == "web") {
             var langMode = ace.require("ace/mode/html").Mode;
@@ -354,11 +354,12 @@ const Main = (function () {
             }
             if (typeof Simulator !== 'undefined') {
                 Simulator.lastUpdate = Date.now();
-                if (Simulator.isOpen && Simulator.isStopped) {
+                const userCode = CodeManager.getSharedInstance().getCode();
+                if (userCode !== Simulator._userCode && Simulator.isOpen && Simulator.isStopped) {
                     Simulator.replay();
                 }
             }
-            if (INTERFACE_NAME === "winky" && typeof projectManager._rpc !== 'undefined') {
+            if (INTERFACE_NAME === "winky" && projectManager !== null && typeof projectManager._rpc !== 'undefined') {
                 if (projectManager._rpc !== null && projectManager.localStorageManager.getLocalProjectContent()) {
                     projectManager._rpc.call('get_local_storage', [projectManager.localStorageManager.getLocalProjectContent()]);
                 }
@@ -409,7 +410,7 @@ const Main = (function () {
          */
         Code.editor.switchCodingMode = function (mode) {
             const modeChangeEvent = new CustomEvent("modeChangeEvent", {
-              detail: { mode }
+                detail: { mode }
             });
             document.dispatchEvent(modeChangeEvent);
 
@@ -461,14 +462,14 @@ const Main = (function () {
      * @param {*} block
      * @returns {boolean} 
      */
-    Code.isParentSetup = function (block) {
-        if (typeof BLOCKS_OUTSIDE_SCOPE !== 'undefined' && BLOCKS_OUTSIDE_SCOPE.includes(block.type) == true) {
+    Code.isParentTopBlock = function (block) {
+        if (typeof BLOCKS_OUTSIDE_SCOPE !== 'undefined' && BLOCKS_OUTSIDE_SCOPE.includes(block.type)) {
             return true;
         }
         if (block.parentBlock_ === null) {
             return false;
         }
-        return Code.isParentSetup(block.parentBlock_);
+        return Code.isParentTopBlock(block.parentBlock_);
     };
 
     Code.vittaNotif = new VittaNotif(5);
@@ -493,26 +494,11 @@ const Main = (function () {
         if (event != null && event != undefined) {
             if (event.type == Blockly.Events.BLOCK_CREATE || event.type == Blockly.Events.BLOCK_DELETE || event.type == Blockly.Events.BLOCK_MOVE) {
                 if (Code.getInterface() !== 'python' && Code.getInterface() !== 'web') {
-                    const currentBlocks = Code.workspace.getAllBlocks();
-                    for (let i = 1; i < currentBlocks.length; i++) {
-                        if (Code.isParentSetup(currentBlocks[i]) == false) {
-                            currentBlocks[i].setEnabled(false);
-                        } else {
-                            currentBlocks[i].setEnabled(true);
-                        }
-                        // warn the user if the block is not allowed for translation
-                        if (typeof EXCLUDED_BLOCKS_FOR_TRADUCTION !== "undefined" && EXCLUDED_BLOCKS_FOR_TRADUCTION.includes(currentBlocks[i].type)) {
-                            if (!currentBlocks[i].disabled) {
-                                Code.isEditorLocked = true;
-                            } else {
-                                Code.isEditorLocked = false;
-                            }
-                        }
-                    }
+                    Code.manageBlocksDisabling();
                     Code.lockedEditor();
                     if (Code.getInterface() === 'pico' || Code.getInterface() === 'winky') {
                         if (event.type === Blockly.Events.BLOCK_CREATE) {
-                            const block = Blockly.getMainWorkspace().getBlockById(event.blockId);
+                            const block = Code.workspace.getBlockById(event.blockId);
                             if (typeof block !== 'undefined') {
                                 if (block.type === 'process_on_start_core1') {
                                     if (typeof Blockly.Python.core1BlockUsed !== 'undefined' && Blockly.Python.core1BlockUsed !== event.blockId) {
@@ -552,11 +538,77 @@ const Main = (function () {
                 }, 40);
             }
             if (Code.getInterface() === 'cyberpi' && (event.type == Blockly.Events.BLOCK_MOVE || event.type == Blockly.Events.BLOCK_DELETE || event.type == Blockly.Events.BLOCK_DRAG || event.type == Blockly.Events.BLOCK_CHANGE)) {
-                Blockly.Constants.DISABLE_BLOCKS_ON_EVENT('forever', ['io_event_start', 'io_event_is_press', 'io_event_receive']);
+                Blockly.Constants.Utils.DISABLE_BLOCKS_ON_EVENT('forever', ['io_event_start', 'io_event_is_press', 'io_event_receive']);
             }
         }
     };
 
+    function getHTMLInnerStatement(block) {
+        const exclude = [];
+        const keep = [];
+        block.inputList.forEach(input => {
+            if (input.type === Blockly.NEXT_STATEMENT) {
+                let child = input.connection && input.connection.targetBlock();
+                while (child) {
+                    if (!child.outputConnection) {
+                        if (Blockly.Constants.HTML_BLOCKS.includes(child.type)) {
+                            keep.push(child.id);
+                        } else {
+                            exclude.push(child.id);
+                        }
+                    }
+                    child = child.getNextBlock();
+                }
+            }
+        });
+        return {
+            keep: keep, exclude: exclude
+        }
+    };
+
+    Code.manageBlocksDisabling = function () {
+        const currentBlocks = Code.workspace.getAllBlocks();
+        let innerBlocksToExclude = [];
+        let innerBlocksToKeep = [];
+        for (let i = 1; i < currentBlocks.length; i++) {
+            if (Code.isParentTopBlock(currentBlocks[i])) {
+                currentBlocks[i].setEnabled(true);
+                if (Code.toolbox.notAllowedToRenderBlocks.includes(currentBlocks[i].type)) {
+                    currentBlocks[i].setEnabled(false);
+                    Code.forceGeneration = true;
+                }
+                if (Blockly.Constants.Network && typeof Blockly.Constants.Network.HTML_CONTAINER_BLOCKS !== 'undefined'
+                    && Blockly.Constants.Network.HTML_CONTAINER_BLOCKS.includes(currentBlocks[i].type)
+                    && typeof Blockly.Constants.HTML_BLOCKS !== 'undefined') {
+                    const innerHTML = getHTMLInnerStatement(currentBlocks[i]);
+                    innerBlocksToExclude.push(...innerHTML.exclude);
+                    innerBlocksToKeep.push(...innerHTML.keep);
+                }
+                if (innerBlocksToExclude.includes(currentBlocks[i].id)) {
+                    currentBlocks[i].setEnabled(false);
+                }
+            } else {
+                currentBlocks[i].setEnabled(false);
+            }
+            // warn the user if the block is not allowed for translation
+            if (typeof EXCLUDED_BLOCKS_FOR_TRADUCTION !== "undefined" && EXCLUDED_BLOCKS_FOR_TRADUCTION.includes(currentBlocks[i].type)) {
+                if (!currentBlocks[i].disabled) {
+                    Code.isEditorLocked = true;
+                } else {
+                    Code.isEditorLocked = false;
+                }
+            }
+        }
+        if (typeof Blockly.Constants.HTML_BLOCKS !== 'undefined') {
+            const typeSet = new Set(Blockly.Constants.HTML_BLOCKS);
+            const htmlBlocks = Code.workspace.getAllBlocks(false).filter(block => typeSet.has(block.type));
+            for (const block of htmlBlocks) {
+                if (!innerBlocksToKeep.includes(block.id) && !block.outputConnection) {
+                    block.setEnabled(false);
+                }
+            }
+        }
+    }
     /**
      * Need to find a better way to handle this
      * @description Init the code generation if the focus is on the content_blocks
@@ -573,7 +625,7 @@ const Main = (function () {
      * Refresh the localstorage then attempt to generate the code and display it in the UI, pretty printed.
      */
     Code.generateCode = function () {
-        if (Code.initFocus || (!Main.hasPython2Blocks() && !Main.hasCpp2Blocks())) {
+        if (Code.initFocus || Code.forceGeneration || (!Main.hasPython2Blocks() && !Main.hasCpp2Blocks())) {
             try {
                 if (Main.getIsXmlBasedInterface()) {
                     CodeManager.getSharedInstance().setXml();
@@ -606,10 +658,6 @@ const Main = (function () {
             Main.setOptionForEditor('readOnly', false);
         } else {
             Code.userConsentCodeToBlocks = null;
-        }
-        const popupWarning = document.getElementById('mixed-popup-warning');
-        if (popupWarning) {
-            popupWarning.style.visibility = Code.isEditorLocked ? 'visible' : 'hidden';
         }
     };
 
@@ -799,6 +847,14 @@ const Main = (function () {
                 disable: true
             });
 
+            // WCAG 4.1.2: aria-label on a div without role is prohibited
+            try {
+                const injectionDiv = document.querySelector('#content_blocks .injectionDiv');
+                if (injectionDiv) {
+                    injectionDiv.setAttribute('role', 'region');
+                }
+            } catch (e) { }
+
             // init workspace
             document.getElementById('content_blocks').style.visibility = 'visible';
             Code.workspace.setVisible(true);
@@ -874,6 +930,13 @@ const Main = (function () {
 
             if (Main.hasDragAndDrop()) {
                 Code.hidden_workspace = Blockly.inject('hidden_workspace', { media: _PATH + '/interfaces/assets/js/external/blockly/media/' });
+
+                try {
+                    const hiddenInjectionDiv = document.querySelector('#hidden_workspace .injectionDiv');
+                    if (hiddenInjectionDiv) {
+                        hiddenInjectionDiv.setAttribute('role', 'region');
+                    }
+                } catch (e) { }
 
                 Code.workspace.addChangeListener(dragAndDrop.initDictionnaries.bind(dragAndDrop));
                 //observers
@@ -1099,7 +1162,7 @@ const Main = (function () {
          * @returns {boolean}
          */
         hasSimulator: function () {
-            return /(arduino|microbit|wb55|l476|esp32|TI-83|raspberrypi|niryo|nao|galaxia|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|pico|eliobot|thymio|winky|sphero|lotibot|bluebot|spike|photon)/.test(Code.getInterface());
+            return /(arduino|microbit|wb55|l476|esp32|TI-83|raspberrypi|niryo|nao|galaxia|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|pico|eliobot|thymio|winky|sphero|lotibot|bluebot|spike|photon|codey)/.test(Code.getInterface());
         },
         /**
         * Returns true if interface has a robot simulator.
@@ -1107,9 +1170,13 @@ const Main = (function () {
         * @returns {boolean}
         */
         hasRobotSimulator: function () {
-            return ["microbit", "wb55", "l476", "TI-83", "mBot", "buddy", "cyberpi", "pico", "eliobot", "thymio", "sphero", "lotibot", "bluebot", "photon"].includes(INTERFACE_NAME);
+            return ["microbit", "wb55", "l476", "TI-83", "mBot", "buddy", "cyberpi", "pico", "eliobot", "thymio", "sphero", "lotibot", "bluebot", "photon", "codey"].includes(INTERFACE_NAME);
         },
-
+        /**
+        * Returns true if interface has a 3D robot simulator.
+        * @public
+        * @returns {boolean}
+        */
         has3DRobotSimulator: function () {
             return ["esp32", "l476"].includes(INTERFACE_NAME);
         },
@@ -1127,7 +1194,7 @@ const Main = (function () {
          * @returns {boolean}
          */
         hasToolboxModes: function () {
-            return /(arduino|microbit|esp32|wb55|l476|TI-83|galaxia|raspberrypi|buddy|niryo|nao|GalaxiaCircuitPython|mBot|m5stack|cyberpi|eliobot|thymio|pico|winky|sphero|lotibot|bluebot|spike|photon)/.test(Code.getInterface());
+            return /(arduino|microbit|esp32|wb55|l476|TI-83|galaxia|raspberrypi|buddy|niryo|nao|GalaxiaCircuitPython|mBot|m5stack|cyberpi|eliobot|thymio|pico|winky|sphero|lotibot|bluebot|spike|photon|codey)/.test(Code.getInterface());
         },
         /**
          * Returns true if interface has the drag and drop feature.
@@ -1159,7 +1226,7 @@ const Main = (function () {
          * @returns {boolean}
          * */
         hasPython2Blocks: function () {
-            return /(microbit|esp32|galaxia|m5stack|pico|cyberpi|eliobot|wb55|l476|thymio|lotibot|sphero|bluebot|spike|photon|nao)/.test(Code.getInterface());
+            return /(microbit|esp32|galaxia|m5stack|pico|cyberpi|eliobot|wb55|l476|thymio|lotibot|sphero|bluebot|spike|photon|nao|codey)/.test(Code.getInterface());
         },
         /**
          * Returns true if interface has cpp 2 blocks.
@@ -1230,27 +1297,18 @@ const Main = (function () {
          * @param {String} toolboxMode
          */
         setToolboxManager: function (toolboxMode) {
-            if (!(this.getInterface() == "TI-83" && toolboxMode == TOOLBOX_STYLE_TI_CODE)) {
-                Main.getWorkSpace().getAllBlocks().forEach((block) => {
-                    const blockDef = Blockly.Constants.Utils.BlockStyling.blocks[block.type];
-                    if (blockDef && blockDef.colour) {
-                        Blockly.Extensions.ALL_['block_init_color'].call(block);
-                    }
-                    else if (this.getInterface() === "TI-83") {
-                        Blockly.Extensions.ALL_['block_init_color'].call(block);
-                    }
-                    if (blockDef && blockDef.category) {
-                        Blockly.Extensions.ALL_['block_init_helpurl'].call(block);
-                    }
-                    else if (this.getInterface() === "TI-83") {
-                        Blockly.Extensions.ALL_['block_init_helpurl'].call(block);
-                    }
-                });
-            }
+            // update toolbox
             Code.toolbox = new ToolboxManager(Code.workspace, { mode: toolboxMode });
             Blockly.Themes.ClassicBase.blockStyles = get_defaultBlockStyles();
             Blockly.Themes.ClassicBase.categoryStyles = get_categoryStyles(get_defaultBlockStyles());
             Code.toolbox.setToolbox();
+            // Refresh workspace
+            if (this.getInterface() == "TI-83" && toolboxMode == TOOLBOX_STYLE_TI_CODE) {
+                return;
+            }
+            const xml = CodeManager.getSharedInstance()._workspaceToXml();
+            Code.workspace.clear();
+            CodeManager.getSharedInstance()._xmlToWorkspace(xml);
         },
         /**
          * Switch restriction of workspace toolbox.

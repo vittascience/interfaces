@@ -30,6 +30,17 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
         'contents': []
     },
     {
+        "kind": "category",
+        "toolboxitemid": "network",
+        "name": "%{BKY_CATEGORY_NETWORK}",
+        "style": "network_category",
+        "cssConfig": {
+            "icon": "icon_blockly fas fa-wifi"
+        },
+        "contents": [],
+        "onlyBoards": "unor4wifi"
+    },
+    {
         'kind': 'category',
         'toolboxitemid': 'sensors',
         'name': '%{BKY_CATEGORY_SENSORS}',
@@ -57,7 +68,8 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
         'cssConfig': {
             'icon': 'icon_blockly fas fa-robot'
         },
-        'contents': []
+        'contents': [],
+        "onlyBoards": "uno"
     },
     {
         "kind": "category",
@@ -137,7 +149,7 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
         'kind': 'category',
         'toolboxitemid': 'lists',
         'name': '%{BKY_CATEGORY_LISTS}',
-        'style': 'list_category',
+        'style': 'lists_category',
         'cssConfig': {
             'icon': 'icon_blockly fas fa-list'
         },
@@ -156,16 +168,27 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
 ];
 
 const TOOLBOX_VITTASCIENCE_CONTENT = {
-    'display': [
+    "display": [
         {
             'label': 'Arduino',
-            'blocks': [
+            "blocks": [
                 'io_control_arduino_led',
             ]
         },
         {
+            "label": "%{BKY_SUBCATEGORY_BUILTIN_LED_MATRIX}",
+            "blocks": [
+                'display_builtinMatrix_drawBitmap',
+                'display_builtinMatrix_drawString',
+                'display_builtinMatrix_showNumber',
+                'display_builtinMatrix_setPixel',
+                'display_builtinMatrix_clearScreen'
+            ],
+            "onlyBoards": "unor4wifi"
+        },
+        {
             'label': '%{BKY_SUBCATEGORY_DISPLAYS_LCD}',
-            'blocks': [
+            "blocks": [
                 'display_lcdRGBSetText',
                 'display_lcdRGBClear',
                 'display_setDisplay',
@@ -175,7 +198,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_NEOPIXEL}',
-            'blocks': [
+            "blocks": [
                 'display_defineNeopixel',
                 'display_controlNeopixelLed',
                 'display_controlColorNeopixelLed',
@@ -186,7 +209,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_DISPLAYS_OLED}',
-            'blocks': [
+            "blocks": [
                 'display_addOledText',
                 'display_oledScreen_drawIcon',
                 'display_oledScreen_drawBitmapLogo',
@@ -195,7 +218,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_LED}',
-            'blocks': [
+            "blocks": [
                 'display_setGroveSocketLed',
                 'display_setLEDintensity',
                 'display_setVariableColorLED',
@@ -209,7 +232,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_CHAINABLE_LED_RGB}',
-            'blocks': [
+            "blocks": [
                 'display_defineChainableRGBLed',
                 'display_setColorChainableRGBLed',
                 'display_setPaletteColorChainableRGBLed',
@@ -218,10 +241,10 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         }
     ],
-    'io': [
+    "io": [
         {
             'label': '%{BKY_SUBCATEGORY_ARDUINO}',
-            'blocks': [
+            "blocks": [
                 'io_wait',
                 'io_waitUntil',
                 'io_initChronometer',
@@ -230,26 +253,34 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_EXTERNAL_INPUTS}',
-            'blocks': [
+            "blocks": [
                 'io_getGroveButton',
+                'io_getReversedButton',
                 'io_getGroveSwitch',
                 'io_getGroveTactile',
                 'io_getGroveRotaryAngle',
                 'io_getGroveSlidePotentiometer',
+                'io_getGroveEncoderValue',
                 'io_getKeypadNumber',
-                'io_getGroveThumbJoystick',
+                'io_getGroveThumbJoystick'
+            ]
+        },
+        {
+            'label': 'MP3',
+            'blocks': [
                 'io_groveMp3_init',
                 'io_groveMp3_play_pause',
                 'io_groveMp3_next',
                 'io_groveMp3_playSDSong',
                 'io_groveMp3_playSDDirectorySong',
                 'io_groveMp3_getVolume',
-                'io_groveMp3_setVolume'
+                'io_groveMp3_setVolume',
+                'io_groveMp3_changePlayingMode'
             ]
         },
         {
             'label': '%{BKY_SUBCATEGORY_PINS}',
-            'blocks': [
+            "blocks": [
                 'io_digital_signal',
                 'io_readDigitalPin',
                 'io_readDigitalPin_input',
@@ -265,10 +296,10 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         }
     ],
-    'communication': [
+    "communication": [
         {
             'label': '%{BKY_SUBCATEGORY_SERIAL_CONNECTION}',
-            'blocks': [
+            "blocks": [
                 'communication_serialWrite',
                 'communication_onSerialDataReceived',
                 'communication_graphSerialWrite',
@@ -279,7 +310,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_DATA_LOGGING}',
-            'blocks': [
+            "blocks": [
                 'communication_writeOpenLogSd',
                 'communication_SDWriteDataSPI'
             ]
@@ -287,11 +318,25 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         {
             'label': '%{BKY_SUBCATEGORY_WIRELESS_COMMUNICATION}',
             'blocks': [
-                'communication_setSerialBluetooth',
+                //'communication_setSerialBluetooth',
+                'communication_groveSerialBluetooth_setATCommand',
+                'communication_groveSerialBluetooth_getATCommand',
                 'communication_sendSerialBluetoothData',
                 'communication_onSerialBluetoothDataReceived',
+                'communication_hc05_setATCommand',
+                'communication_hc05_getATCommand',
+                'communication_hc05_changeBaudrateTransmission',
+                'communication_hc05_sendBluetoothData',
+                'communication_hc05_onBluetoothDataReceived',
+                'communication_hm10_setATCommand',
+                'communication_hm10_getATCommand',
                 'communication_hm10_sendBluetoothData',
-                'communication_hm10_onBluetoothDataReceived',
+                'communication_hm10_onBluetoothDataReceived'
+            ]
+        },
+        {
+            'label': '%{BKY_SUBCATEGORY_WIRELESS_COMMUNICATION}',
+            'blocks': [
                 'communication_sendRadioNRF24Data',
                 'communication_onRadioNRF24_dataReceived',
                 'communication_sendRadio433mhzData',
@@ -302,7 +347,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_TRACKING_MODULES}',
-            'blocks': [
+            "blocks": [
                 'communication_rfid_getCardID',
                 'communication_onGPSDataReceived',
                 'communication_clockRTC_setDate',
@@ -311,10 +356,104 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         }
     ],
-    'sensors': [
+    'network': [
+        {
+            "label": "%{BKY_SUBCATEGORY_WIFI}",
+            "blocks": [
+                'network_connectStation',
+                'network_configureAccessPoint',
+                'network_disconnectStation',
+                'network_isStationConnected',
+                //'network_setWifi',
+                'network_scanNetworkProfiles',
+                // 'network_getStationInfos',
+                'network_changeServerPort'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_SERVER}",
+            "blocks": [
+                'network_server_sendData',
+                'network_server_getClientData',
+                'network_server_getClientIp'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_CLIENT}",
+            "blocks": [
+                'network_client_sendData',
+                'network_client_getServerData'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_WEB_PAGE}",
+            "blocks": [
+                'network_server_sendWebPage',
+                'network_html_addTitle',
+                'network_html_addText',
+                'network_html_addButton',
+                'network_html_addSlider',
+                'network_html_addSwitch',
+                'network_html_addGauge',
+                'network_html_addLink',
+                // 'network_html_addImage',
+                // 'network_html_addStream',
+                'network_HTML_Tags',
+                'network_HTML_formatText',
+                'network_HTML_newline',
+                'network_HTML_add',
+                'network_HTML_addSymbol'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_DATA_WEB_PAGE}",
+            "blocks": [
+                'network_server_getButtonState',
+                'network_server_getSliderValue',
+                'network_server_getSwitchValue'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_HTTP}",
+            "blocks": [
+                'network_connectStation_simple',
+                'network_getHTTPRequest',
+                // 'network_thingspeak_sendData',
+                // 'network_thingspeak_sendData_field',
+                // 'request_thingspeak_readFeeds'
+            ]
+        },
+        // {
+        //     "label": "%{BKY_SUBCATEGORY_UMAIL}",
+        //     "blocks": [
+        //         'network_umail_smtp',
+        //         'network_umail_setup',
+        //         'network_umail_to',
+        //         'network_umail_write_sender',
+        //         'network_umail_write',
+        //         'network_umail_send_image',
+        //         'network_umail_quit'
+        //     ]
+        // },
+        // {
+        //     "label": "%{BKY_SUBCATEGORY_MQTT}",
+        //     "blocks": [
+        //         'network_mqtt_connectWithAuth',
+        //         'network_mqtt_subscribeTopic',
+        //         'network_mqtt_publishValue',
+        //         'network_mqtt_disconnect',
+        //         'network_mqtt_onMessageReceived',
+        //         'network_mqtt_ifTopicIs',
+        //         'variables_get-message_MQTT',
+        //         'network_mqtt_onConnect',
+        //         'network_mqtt_onDisconnect',
+        //     ]
+        // }
+    ],
+    "sensors": [
         {
             'label': '%{BKY_SUBCATEGORY_SENSORS_GAS}',
-            'blocks': [
+            "blocks": [
                 'sensors_getSgp30Gas',
                 'sensors_getMultichannelGas',
                 'sensors_getMultichannelGasV2',
@@ -331,7 +470,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_SENSORS_CLIMATE}',
-            'blocks': [
+            "blocks": [
                 'sensors_getBmp280Data',
                 'sensors_getDps310Data',
                 'sensors_getGroveMoisture',
@@ -352,7 +491,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_SENSORS_SOUNDLIGHT}',
-            'blocks': [
+            "blocks": [
                 'sensors_getGroveLight',
                 'sensors_getSi1145Light',
                 'sensors_getUVindex',
@@ -364,7 +503,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_SENSORS_DISTANCEMOVEMENT}',
-            'blocks': [
+            "blocks": [
                 'sensors_getGroveUltrasonicRanger',
                 'sensors_getGesture',
                 'sensors_onGestureTypeDetected',
@@ -376,7 +515,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_SENSORS_OTHER}',
-            'blocks': [
+            "blocks": [
                 'sensors_getIna219Data',
                 'sensors_getVoltageDividerData',
                 'sensors_getFsr402Force',
@@ -385,10 +524,10 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         }
     ],
-    'actuators': [
+    "actuators": [
         {
             'label': '%{BKY_SUBCATEGORY_SERVOMOTORS}',
-            'blocks': [
+            "blocks": [
                 'actuators_setServoAngle',
                 'actuators_continuousServo_setSpeed',
                 'actuators_servo_detach'
@@ -396,7 +535,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_I2C_MOTOR_DRIVER}',
-            'blocks': [
+            "blocks": [
                 'actuators_DCMotor_setSpeed',
                 'actuators_DCMotor_stop',
                 'actuators_stepperMotor_run',
@@ -406,28 +545,28 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_MINI_I2C_MOTOR_DRIVER}',
-            'blocks': [
+            "blocks": [
                 'actuators_MiniDriver_DCMotor_drive',
                 'actuators_MiniDriver_DCMotor_stop'
             ]
         },
         {
             'label': '%{BKY_SUBCATEGORY_ARDUINO_SHILED_MOTOR}',
-            'blocks': [
+            "blocks": [
                 'actuators_MC33926MotorShield_setSpeed',
                 'actuators_MC33926MotorShield_getCurrent'
             ]
         },
         {
             'label': '%{BKY_SUBCATEGORY_MOSFET}',
-            'blocks': [
+            "blocks": [
                 'actuators_mosfet_setState',
                 'actuators_mosfet_setPercentValue'
             ]
         },
         {
             'label': '%{BKY_SUBCATEGORY_ACTUATORS_OTHER}',
-            'blocks': [
+            "blocks": [
                 'actuators_setGroveRelayState',
                 'actuators_setVibrationMotorState',
                 'actuators_setWaterAtomizerState',
@@ -436,7 +575,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_MUSIC}',
-            'blocks': [
+            "blocks": [
                 'actuators_controlGroveBuzzerState',
                 'actuators_playNoteGroveBuzzer',
                 'actuators_playNoteDurationGroveBuzzer',
@@ -447,7 +586,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         }
     ],
-    'robots': [
+    "robots": [
         {
             'label': 'Pour programmer le robot mBot, veuillez passer sur la nouvelle interface pour mBot dans la rubrique \'Programmer\'',
             'message': true
@@ -477,9 +616,9 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         }
     ],
-    'logic': [
+    "logic": [
         {
-            'blocks': [
+            "blocks": [
                 'controls_if',
                 'controls_if-else',
                 'logic_compare-eq',
@@ -491,9 +630,9 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         }
     ],
-    'loops': [
+    "loops": [
         {
-            'blocks': [
+            "blocks": [
                 'controls_repeat',
                 'controls_whileUntil',
                 'controls_for',
@@ -501,9 +640,9 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         }
     ],
-    'math': [
+    "math": [
         {
-            'blocks': [
+            "blocks": [
                 'math_number',
                 'math_arithmetic-add',
                 'math_single',
@@ -520,9 +659,9 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         }
     ],
-    'text': [
+    "text": [
         {
-            'blocks': [
+            "blocks": [
                 'text_comment',
                 'text',
                 'text_join',
@@ -533,10 +672,10 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         }
     ],
-    'variables': 'customized',
-    'lists': [
+    "variables": 'customized',
+    "lists": [
         {
-            'blocks': [
+            "blocks": [
                 'lists_create_with',
                 'lists_repeat',
                 'lists_length',
@@ -544,7 +683,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         }
     ],
-    'procedures': 'customized'
+    "procedures": 'customized'
 };
 
 const TOOLBOX_VITTASCIENCE_CONTENT_SIMPLE = TOOLBOX_VITTASCIENCE_CONTENT;

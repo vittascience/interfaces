@@ -1,7 +1,8 @@
 const fullscreenButtons = {
     'fullscreen': {
+        id: "fullscreen-btn",
         classes: 'ide-btn-alone btn-fullscreen',
-        fontAwesome: 'fa fa-expand',
+        fontAwesome: 'fa-solid fa-expand',
         title: 'code.topbar.tooltips.fullscreen',
         onclick: 'fullscreen()'
     }

@@ -24,7 +24,6 @@ Blockly.Arduino.actuators_continuousServo_setSpeed = function (block) {
     Blockly.Arduino.addDefine(objName, "#define PIN_CONTINUOUS_SERVO_" + pin + TAB + pin);
     Blockly.Arduino.addDeclaration(objName, "Servo " + objName + ";");
     Blockly.Arduino.addSetup(objName, objName + ".attach(PIN_CONTINUOUS_SERVO_" + pin + ");");
-    console.log(typeof value)
     switch (dir) {
         case "1":
             return objName + ".write(90*(1+" + value + "/100));" + NEWLINE;

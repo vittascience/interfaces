@@ -810,5 +810,23 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "block_init_color"
         ],
         "tooltip": "%{BKY_IO_SET_PULL_TOOLTIP}"
+    },
+    {
+        "type": "io_exec",
+        "message0": "%{BKY_IO_EXEC_TITLE}",
+        "args0": [
+        {
+            "type": "input_value",
+            "name": "CODE",
+            "check": "String"
+        }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_IO_EXEC_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
     }
 ]); // END JSON EXTRACT (Do not delete this comment.)

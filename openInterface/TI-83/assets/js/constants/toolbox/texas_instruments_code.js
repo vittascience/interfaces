@@ -34,7 +34,7 @@ const TOOLBOX_TI_CODE_CATEGORIES = [
         "kind": "category",
         "toolboxitemid": "lists",
         "name": "List",
-        "style": "list_category",
+        "style": "lists_category",
         "cssConfig": {
             "icon": "icon_blockly fas fa-list"
         },

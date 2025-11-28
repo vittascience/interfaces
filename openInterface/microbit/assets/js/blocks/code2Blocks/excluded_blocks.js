@@ -157,6 +157,7 @@ const AUTHORIZED_BLOCKS_IO = [
     "io_getGroveThumbJoystick", // same as read_analog can not be translated to blockly
     "io_readPulseIn",
     "io_setPull",
+    'io_exec'
 ];
 
 const AUTHORIZED_BLOCKS_ACTUATORS = [

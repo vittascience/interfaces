@@ -19,11 +19,7 @@ const LIBRARIES_H = {
                     type: rt.arrayPointerType(rt.charTypeLiteral),
                     name: "serialType"
                 }
-            ]);
-
-            rt.defVar("DEC", rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 10));
-            rt.defVar("HEX", rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 16));
-            rt.defVar("OCT", rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 8));
+            ], ["Print"]);
 
             const __init__ = function (rt, _this, receivePin, transmitPin, inverse_logic, serialType) {
                 _this.v.members.receivePin.v = receivePin.v;
@@ -52,190 +48,56 @@ const LIBRARIES_H = {
                     $('#mhz19-temp').find(".subtitle-module").html(subtitle);
                 }
             };
-            rt.regFunc(__init__, SoftwareSerial_t, "__init__", [rt.intTypeLiteral, rt.intTypeLiteral, rt.boolTypeLiteral, rt.arrayPointerType(rt.charTypeLiteral)], rt.voidTypeLiteral);
+            rt.regFunc(__init__, SoftwareSerial_t, "__init__", [rt.unsignedcharTypeLiteral, rt.unsignedcharTypeLiteral, rt.boolTypeLiteral, rt.arrayPointerType(rt.charTypeLiteral)], rt.voidTypeLiteral);
+
+            const component_write = function (buffer, members) {
+                if (!buffer) return;
+                if (members.serialType.v.includes('HM10') || members.serialType.v.includes('blueToothSerial')) {
+                    sendBluetoothData(buffer);
+                    const date = new Date();
+                    var s = '';
+                    if (date.getSeconds() < 10) {
+                        s = "0" + date.getSeconds();
+                    } else {
+                        s = date.getSeconds();
+                    }
+                    const strClock = date.getHours() + ":" + date.getMinutes() + ":" + s;
+                    InterfaceMonitor.writeConsole(strClock + " - Donnée envoyée par bluetooth : '" + buffer + "'\n");
+                    Simulator.setAnimator(Simulator.getModuleByKey(members.moduleId), members.moduleId, 'write');
+                }
+                else if (members.serialType.v.includes('OpenLog')) {
+                    const module = Simulator.pinList.find(module => module.pin == members.receivePin.v);
+                    if (module) {
+                        Simulator.setAnimator(Simulator.getModuleByKey('openlog'), module.id);
+                    }
+                }
+            };
+
+            const write = function (rt, _this, data) {
+                let string = "";
+                if (rt.isCharType(data.t)) {
+                    string = String.fromCharCode(data.v);
+                } else if (rt.isStringType(data)) {
+                    string = rt.charArray_getJSString(data);
+                } else if (rt.isStringClass(data)) {
+                    rt.raiseException("no matching function for call to 'HardwareSerial::write(String)'");
+                } else {
+                    string = String(data.v);
+                }
+                const strLength = string.length;
+                component_write(string, _this.v.members);
+                return rt.val(rt.intTypeLiteral, strLength);
+            }
+            rt.regFunc(write, SoftwareSerial_t, "write", ['?'], rt.intTypeLiteral);
 
             const begin = function (rt, _this, speed) {
                 const baud = rt.val(rt.doubleTypeLiteral, speed.v);
             };
             rt.regFunc(begin, SoftwareSerial_t, "begin", [rt.doubleTypeLiteral], rt.voidTypeLiteral);
 
-            const _write = function (members, buffer) {
-                if (buffer) {
-                    if (members.serialType.v.includes('HM10') || members.serialType.v.includes('blueToothSerial')) {
-                        sendBluetoothData(buffer);
-                        const date = new Date();
-                        var s = '';
-                        if (date.getSeconds() < 10) {
-                            s = "0" + date.getSeconds();
-                        } else {
-                            s = date.getSeconds();
-                        }
-                        const strClock = date.getHours() + ":" + date.getMinutes() + ":" + s;
-                        InterfaceMonitor.writeConsole(strClock + " - Donnée envoyée par bluetooth : '" + buffer + "'\n");
-                        Simulator.setAnimator(Simulator.getModuleByKey(members.moduleId), members.moduleId, 'write');
-                    }
-                    else if (members.serialType.v.includes('OpenLog')) {
-                        const module = Simulator.pinList.find(module => module.pin == members.receivePin.v);
-                        if (module) {
-                            Simulator.setAnimator(Simulator.getModuleByKey('openlog'), module.id);
-                        }
-                    }
-                    else if (members.serialType.v.includes('Serial')) {
-                        if (buffer.match(/\n/)) {
-                            InterfaceMonitor.sendDataToChart(Simulator.outputMemory);
-                            Simulator.outputMemory = '';
-                        } else {
-                            Simulator.outputMemory += buffer;
-                        }
-                        const cons = document.getElementById('console');
-                        cons.innerHTML += buffer.replace(/\n/g, '</br>');
-                        cons.scrollTo(0, cons.scrollHeight);
-                    }
-                }
-            };
-
-            const write = function (rt, _this, data) {
-                let buffer = "";
-                if (rt.isCharType(data.t)) {
-                    buffer = String.fromCharCode(data.v);
-                } else if (rt.isArrayType(data)) {
-                    buffer = Simulator.getStringFromInterpretor(data);
-                } else if (rt.isPrimitiveStringType(data.t)) {
-                    if (_this.v.members.serialType.v.includes('Serial')) {
-                        rt.raiseException("no matching function for call to 'HardwareSerial::write(String)'");
-                    } else {
-                        rt.raiseException("no matching function for call to 'SoftwareSerial::write(String)'")
-                    }
-                } else {
-                    buffer = String(data.v);
-                }
-                _write(_this.v.members, buffer);
-                return rt.val(rt.intTypeLiteral, buffer.length);
-            }
-            rt.regFunc(write, SoftwareSerial_t, "write", ['?'], rt.intTypeLiteral);
-
-            const print = function (rt, _this, buffer) {
-                _write(_this.v.members, buffer);
-                return rt.val(rt.intTypeLiteral, buffer.length);
-            };
-
-            // print candidates
-
-            // print(const String &);
-            rt.regFunc(function (rt, _this, string) {
-                return print(rt, _this, string.v);
-            }, SoftwareSerial_t, "print", [rt.StringTypeLiteral], rt.intTypeLiteral);
-
-            // print(const char[]);
-            rt.regFunc(function (rt, _this, charArray) {
-                return print(rt, _this, Simulator.getStringFromInterpretor(charArray));
-            }, SoftwareSerial_t, "print", [rt.arrayPointerType(rt.charTypeLiteral)], rt.intTypeLiteral);
-
-            // print(char);
-            rt.regFunc(function (rt, _this, char) {
-                return print(rt, _this, String.fromCharCode(char.v));
-            }, SoftwareSerial_t, "print", [rt.charTypeLiteral], rt.intTypeLiteral);
-
-            // print(int);
-            rt.regFunc(function (rt, _this, n) {
-                return print(rt, _this, n.v.toString(10));
-            }, SoftwareSerial_t, "print", [rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // print(unsigned char, int = DEC);
-            rt.regFunc(function (rt, _this, n, base) {
-                return print(rt, _this, n.v.toString(base.v));
-            }, SoftwareSerial_t, "print", [rt.unsignedcharTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // print(int, int = DEC);
-            rt.regFunc(function (rt, _this, n, base) {
-                return print(rt, _this, n.v.toString(base.v));
-            }, SoftwareSerial_t, "print", [rt.intTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // print(unsigned int, int = DEC);
-            rt.regFunc(function (rt, _this, n, base) {
-                return print(rt, _this, n.v.toString(base.v));
-            }, SoftwareSerial_t, "print", [rt.unsignedintTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // print(long, int = DEC);
-            rt.regFunc(function (rt, _this, n, base) {
-                return print(rt, _this, n.v.toString(base.v));
-            }, SoftwareSerial_t, "print", [rt.longTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // print(double, int = 2);
-            rt.regFunc(function (rt, _this, n, digits) {
-                return print(rt, _this, n.v.toFixed(digits.v));
-            }, SoftwareSerial_t, "print", [rt.doubleTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // print(float, int = 2);
-            rt.regFunc(function (rt, _this, n, digits) {
-                return print(rt, _this, n.v.toFixed(digits.v));
-            }, SoftwareSerial_t, "print", [rt.floatTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // println candidates
-
-            // println(const String &);
-            rt.regFunc(function (rt, _this, string) {
-                return print(rt, _this, string.v + '\n');
-            }, SoftwareSerial_t, "println", [rt.StringTypeLiteral], rt.intTypeLiteral);
-
-            // println(const char[]);
-            rt.regFunc(function (rt, _this, charArray) {
-                return print(rt, _this, Simulator.getStringFromInterpretor(charArray) + '\n');
-            }, SoftwareSerial_t, "println", [rt.arrayPointerType(rt.charTypeLiteral)], rt.intTypeLiteral);
-
-            // println(char);
-            rt.regFunc(function (rt, _this, char) {
-                return print(rt, _this, String.fromCharCode(char.v) + '\n');
-            }, SoftwareSerial_t, "println", [rt.charTypeLiteral], rt.intTypeLiteral);
-
-            // println(unsigned char, int = DEC);
-            rt.regFunc(function (rt, _this, n, base) {
-                return print(rt, _this, n.v.toString(base.v) + '\n');
-            }, SoftwareSerial_t, "println", [rt.unsignedcharTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // println(int, int = DEC);
-            rt.regFunc(function (rt, _this, n, base) {
-                return print(rt, _this, n.v.toString(base.v) + '\n');
-            }, SoftwareSerial_t, "println", [rt.intTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // println(unsigned int, int = DEC);
-            rt.regFunc(function (rt, _this, n, base) {
-                return print(rt, _this, n.v.toString(base.v) + '\n');
-            }, SoftwareSerial_t, "println", [rt.unsignedintTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // println(long, int = DEC);
-            rt.regFunc(function (rt, _this, n, base) {
-                return print(rt, _this, n.v.toString(base.v) + '\n');
-            }, SoftwareSerial_t, "println", [rt.longTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // println(double, int = 2);
-            rt.regFunc(function (rt, _this, n, digits) {
-                return print(rt, _this, n.v.toFixed(digits.v) + '\n');
-            }, SoftwareSerial_t, "println", [rt.doubleTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // println(float, int = 2);
-            rt.regFunc(function (rt, _this, n, digits) {
-                return print(rt, _this, n.v.toFixed(digits.v) + '\n');
-            }, SoftwareSerial_t, "println", [rt.floatTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
             const _read = function (members, isForString) {
                 if (members.serialType.v.includes('HM10') || members.serialType.v.includes('blueToothSerial')) {
                     return checkBluetoothData('read', members.moduleId, isForString);
-                }
-                else if (members.serialType.v.includes('Serial')) {
-                    if (Simulator.serialData) {
-                        if (isForString) {
-                            const data = Simulator.serialData;
-                            Simulator.serialData = "";
-                            return data;
-                        } else {
-                            const char = Simulator.serialData.charAt(0);
-                            Simulator.serialData = Simulator.serialData.slice(1);
-                            return char.charCodeAt(0);
-                        }
-                    } else {
-                        return -1;
-                    }
                 }
                 else if (members.serialType.v.includes('mhz19')) {
                     return members._rx_buffer.shift();
@@ -248,18 +110,14 @@ const LIBRARIES_H = {
             rt.regFunc(read, SoftwareSerial_t, "read", [], rt.intTypeLiteral);
 
             const readString = function (rt, _this) {
-                return rt.val(rt.StringTypeLiteral, String(_read(_this.v.members, true)));
+                return rt.String_makeValueFromJSString(String(_read(_this.v.members, true)));
             };
-            rt.regFunc(readString, SoftwareSerial_t, "readString", [], rt.StringTypeLiteral);
+            rt.regFunc(readString, SoftwareSerial_t, "readString", [], rt.String_t);
 
             const available = function (rt, _this) {
                 if (_this.v.members.serialType.v.includes('HM10') || _this.v.members.serialType.v.includes('blueToothSerial')) {
                     return rt.val(rt.intTypeLiteral, checkBluetoothData('available', _this.v.members.moduleId));
-                }
-                else if (_this.v.members.serialType.v.includes('Serial')) {
-                    return rt.val(rt.intTypeLiteral, Simulator.serialData.length);
-                }
-                else if (_this.v.members.serialType.v.includes('mhz19')) {
+                } else if (_this.v.members.serialType.v.includes('mhz19')) {
                     if (_this.v.members._rx_buffer.length == 1) {
                         _this.v.members._rx_buffer = Simulator.Mosaic.grove.calculs.getMHZ19Data(Simulator.getSliderValue('mhz19-co2'), Simulator.getSliderValue('mhz19-temp'));
                         return rt.val(rt.intTypeLiteral, 0);
@@ -574,7 +432,7 @@ const LIBRARIES_H = {
                 type: rt.unsignedintTypeLiteral,
                 name: 'count'
             }, {
-                type: rt.unsignedintTypeLiteral,
+                type: rt.unsignedcharTypeLiteral,
                 name: 'pin'
             }, {
                 type: rt.intTypeLiteral,
@@ -602,7 +460,7 @@ const LIBRARIES_H = {
                 }
                 html += "</div>";
                 $('#neopixel_' + pinStr + '_value').html(html);
-            }, Adafruit_NeoPixel_t, "__init__", [rt.unsignedcharTypeLiteral, rt.unsignedcharTypeLiteral, rt.intTypeLiteral], rt.voidTypeLiteral);
+            }, Adafruit_NeoPixel_t, "__init__", [rt.unsignedintTypeLiteral, rt.unsignedcharTypeLiteral, rt.intTypeLiteral], rt.voidTypeLiteral);
 
             rt.regFunc(function (rt, _this) {
             }, Adafruit_NeoPixel_t, "begin", [], rt.voidTypeLiteral);
@@ -735,7 +593,9 @@ const LIBRARIES_H = {
             }]);
 
             const ledBarReset = function (pinClock) {
-                const ledBars = document.querySelectorAll(`#ledBar_${pinClock} > div.module-body.body-output > div.ledBar-container > div.ledBar`);
+                const pinCLK = Simulator.getPinString(pinClock, true);
+                const pinId = /^D\d+$/.exec(pinCLK) ? pinClock : pinCLK;
+                const ledBars = document.querySelectorAll(`#ledBar_${pinId} > div.module-body.body-output > div.ledBar-container > div.ledBar`);
                 // Réinitialise toutes les barres
                 ledBars.forEach((bar) => {
                     bar.style.backgroundColor = ''; // Réinitialise les barres non concernées
@@ -748,7 +608,9 @@ const LIBRARIES_H = {
              * @param {string} direction - La direction 'greenToRed' : 0 ou 1.
              */
             const colorLedBarsUntil = function (pinClock, index, direction = 0) {
-                const ledBars = document.querySelectorAll(`#ledBar_${pinClock} > div.module-body.body-output > div.ledBar-container > div.ledBar`);
+                const pinCLK = Simulator.getPinString(pinClock, true);
+                const pinId = /^D\d+$/.exec(pinCLK) ? pinClock : pinCLK;
+                const ledBars = document.querySelectorAll(`#ledBar_${pinId} > div.module-body.body-output > div.ledBar-container > div.ledBar`);
 
                 // Vérifie que l'index est valide
                 if (index < 0 || index > ledBars.length) {
@@ -793,7 +655,9 @@ const LIBRARIES_H = {
              * @param {string} direction - La direction ('redToGreen' ou 'greenToRed').
              */
             const colorSingleLedBar = function (pinClock, index, direction = 0, state) {
-                const ledBars = document.querySelectorAll(`#ledBar_${pinClock} > div.module-body.body-output > div.ledBar-container > div.ledBar`);
+                const pinCLK = Simulator.getPinString(pinClock, true);
+                const pinId = /^D\d+$/.exec(pinCLK) ? pinClock : pinCLK;
+                const ledBars = document.querySelectorAll(`#ledBar_${pinId} > div.module-body.body-output > div.ledBar-container > div.ledBar`);
 
                 // Vérifie que l'index est valide
                 if (index < 0 || index > ledBars.length) {
@@ -804,7 +668,7 @@ const LIBRARIES_H = {
                 if (direction) {
                     const totalBars = ledBars.length;
                     index = totalBars - index;
-                } else { 
+                } else {
                     index = index - 1;
                 }
                 if (index < 0) index = 0;
@@ -832,7 +696,8 @@ const LIBRARIES_H = {
                 const pinCLK = Simulator.getPinString(_this.v.members.pinClock.v, true);
                 const pinDATA = Simulator.getPinString(_this.v.members.pinData.v, true);
                 const subtitle = pinCLK + ' / ' + pinDATA;
-                $("#ledBar_" + _this.v.members.pinClock.v).find(".subtitle-module").html(subtitle);
+                const pinId = /^D\d+$/.exec(pinCLK) ? pinClock.v : pinCLK;
+                $("#ledBar_" + pinId).find(".subtitle-module").html(subtitle);
                 const htmlString = `
                 <div class="ledBar-container">
                     <div class="ledBar"></div>
@@ -846,7 +711,7 @@ const LIBRARIES_H = {
                     <div class="ledBar"></div>
                     <div class="ledBar"></div>
                 </div>`;
-                const ledBarModule = document.querySelector(`#ledBar_${_this.v.members.pinClock.v} > div.module-body.body-output`);
+                const ledBarModule = document.querySelector(`#ledBar_${pinId} > div.module-body.body-output`);
                 if (ledBarModule && ledBarModule.children.length < 2) ledBarModule.insertAdjacentHTML('afterbegin', htmlString);
             }, Grove_LED_Bar_t, "__init__", [rt.unsignedcharTypeLiteral, rt.unsignedcharTypeLiteral, rt.boolTypeLiteral], rt.voidTypeLiteral);
 
@@ -1071,7 +936,7 @@ const LIBRARIES_H = {
                     type: rt.intTypeLiteral,
                     name: 'FRESH_AIR'
                 }, {
-                    type: rt.intTypeLiteral,
+                    type: rt.unsignedcharTypeLiteral,
                     name: '_pin'
                 }, {
                     type: rt.intTypeLiteral,
@@ -1110,7 +975,7 @@ const LIBRARIES_H = {
                 _this.v.members.FRESH_AIR.v = 3;
                 _this.v.members._voltageSum.v = 0;
                 _this.v.members._volSumCount.v = 0;
-            }, AirQualitySensor_t, "__init__", [rt.intTypeLiteral], rt.voidTypeLiteral);
+            }, AirQualitySensor_t, "__init__", [rt.unsignedcharTypeLiteral], rt.voidTypeLiteral);
 
             rt.regFunc(function (rt, _this) {
                 const initVoltage = analogRead(_this.v.members);
@@ -1130,7 +995,7 @@ const LIBRARIES_H = {
                 _this.v.members._currentVoltage.v = analogRead(_this.v.members);
                 _this.v.members._voltageSum.v += _this.v.members._currentVoltage.v;
                 _this.v.members._volSumCount.v += 1;
-                rt.getFunc(AirQualitySensor_t, "updateStandardVoltage", [])(rt, _this);
+                updateStandardVoltage(rt, _this);
                 const diff_lv = _this.v.members._currentVoltage.v - _this.v.members._lastVoltage.v;
                 const _cv = _this.v.members._currentVoltage.v;
                 const _diff_sv = _this.v.members._currentVoltage.v - _this.v.members._standardVoltage.v;
@@ -1145,15 +1010,15 @@ const LIBRARIES_H = {
                 }
             }, AirQualitySensor_t, "slope", [], rt.intTypeLiteral);
 
-
-            rt.regFunc(function (rt, _this) {
+            const updateStandardVoltage = function (rt, _this) {
                 if (millis(rt, _this) - _this.v.members._lastStdVolUpdated.v > 500000) {
                     _this.v.members._standardVoltage.v = _this.v.members._voltageSum.v / _this.v.members._volSumCount.v;
                     _this.v.members._lastStdVolUpdated.v = millis(rt, _this);
                     _this.v.members._voltageSum.v = 0;
                     _this.v.members._volSumCount.v = 0;
                 }
-            }, AirQualitySensor_t, "updateStandardVoltage", [], rt.voidTypeLiteral);
+            };
+            rt.regFunc(updateStandardVoltage, AirQualitySensor_t, "updateStandardVoltage", [], rt.voidTypeLiteral);
 
             rt.regFunc(function (rt, _this) {
                 // TO DO: check if library do the same with sensor ...
@@ -1284,8 +1149,8 @@ const LIBRARIES_H = {
                 if (angle.v > 180 || angle.v < 0) {
                     UIManager.showErrorMessage('error-message', 'L\'angle du servomoteur doit être compris entre 0 et 180');
                 } else {
-                    UIManager.resetMessage('error-message');
-                    const module = Simulator.pinList.find(module => module.pin == _this.v.members.pin.v);
+                    const analog_pins =  {14: 'A0', 15: 'A1', 16: 'A2', 17: 'A3', 18: 'A4', 19: 'A5'}
+                    const module = Simulator.pinList.find(module => (module.pin == _this.v.members.pin.v || module.pin ==  analog_pins[_this.v.members.pin.v]));
                     if (module) {
                         if (/continuousServo/.test(module.id)) {
                             const mod = Simulator.getModuleByKey('continuousServo')
@@ -1314,13 +1179,13 @@ const LIBRARIES_H = {
         load: function (rt) {
 
             const Ultrasonic_t = rt.newClass("Ultrasonic", [{
-                type: rt.intTypeLiteral,
+                type: rt.unsignedcharTypeLiteral,
                 name: 'pin'
             }]);
 
             rt.regFunc(function (rt, _this, pin) {
                 _this.v.members.pin.v = pin.v;
-            }, Ultrasonic_t, "__init__", [rt.intTypeLiteral], rt.voidTypeLiteral);
+            }, Ultrasonic_t, "__init__", [rt.unsignedcharTypeLiteral], rt.voidTypeLiteral);
 
             rt.regFunc(function (rt, _this) {
                 const pinStr = Simulator.getPinString(_this.v.members.pin.v);
@@ -1495,4 +1360,818 @@ const LIBRARIES_H = {
             }, "global", "ds18b20_readTemperature", [rt.intTypeLiteral], rt.floatTypeLiteral);
         }
     },
+    "ArduinoGraphics.h": {
+        load: function (rt) {
+            const Font_t = rt.newClass("Font", []);
+            rt.defVar("Font_5x7", Font_t, rt.val(Font_t, ALPHABET_5X7));
+            rt.defVar("SCROLL_LEFT", rt.unsignedintTypeLiteral, rt.val(rt.unsignedintTypeLiteral, 1));
+
+            const ArduinoGraphics_t = rt.newClass("ArduinoGraphics", [], ["Print"]);
+
+        }
+    },
+    "Arduino_LED_Matrix.h": {
+        load: function (rt) {
+            const ArduinoLEDMatrix_t = rt.newClass("ArduinoLEDMatrix", [], ["ArduinoGraphics"]);
+            const Font_5x7 = rt.readVar('Font_5x7');
+
+            function setLED(x, y, state) {
+                const boardSvg = document.getElementById("board-viewer").contentDocument;
+                if (boardSvg !== null) {
+                    const ledId = `#led${y + 1}-${x + 1}_on`;
+                    const led = boardSvg.querySelector(ledId);
+                    if (state) {
+                        led.style.display = 'block';
+                    } else {
+                        led.style.display = 'none';
+                    }
+                }
+            };
+
+            rt.regFunc(function (rt, _this) {
+                _this.stroke = 0;
+                _this.matrix = Array.from({ length: 8 }, () => Array(12).fill(_this.stroke));
+            }, ArduinoLEDMatrix_t, "begin", [], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this) {
+            }, ArduinoLEDMatrix_t, "clear", [], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, value) {
+                _this.stroke = value.v;
+            }, ArduinoLEDMatrix_t, "stroke", [rt.doubleTypeLiteral], rt.voidTypeLiteral);
+
+            // Arduino Graphics functions
+
+            rt.regFunc(function (rt, _this) {
+            }, ArduinoLEDMatrix_t, "beginDraw", [], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this) {
+                for (var y = 0; y < 8; y++) {
+                    for (var x = 0; x < 12; x++) {
+                        setLED(x, y, _this.matrix[y][x]);
+                    }
+                }
+            }, ArduinoLEDMatrix_t, "endDraw", [], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, xx, yy) {
+                const point = {
+                    x: xx.v,
+                    y: yy.v
+                };
+                _this.matrix[point.y][point.x] = _this.stroke;
+            }, ArduinoLEDMatrix_t, "point", [rt.intTypeLiteral, rt.intTypeLiteral], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, speed) {
+                rt.raiseException("<b>textScrollSpeed()</b> from <b>ArduinoLEDMatrix</b> is not yet implemented.")
+                _this.speed = speed.v;
+            }, ArduinoLEDMatrix_t, "textScrollSpeed", [rt.intTypeLiteral], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, font) {
+                _this.font = font.v;
+            }, ArduinoLEDMatrix_t, "textFont", [Font_5x7.t], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, param1, param2, stroke) {
+                _this.beginText = {
+                    param1: param1.v,
+                    param2: param2.v,
+                    stroke: stroke.v
+                };
+            }, ArduinoLEDMatrix_t, "beginText", [rt.intTypeLiteral, rt.intTypeLiteral, rt.unsignedintTypeLiteral], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, direction) {
+                _this.direction = direction.v;
+            }, ArduinoLEDMatrix_t, "endText", [rt.unsignedintTypeLiteral], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, frame) {
+                rt.raiseException("<b>loadFrame()</b> from <b>ArduinoLEDMatrix</b> is not yet implemented.")
+            }, ArduinoLEDMatrix_t, "loadFrame", [rt.arrayPointerType(rt.unsignedintTypeLiteral)], rt.voidTypeLiteral);
+
+        }
+    },
+    "WiFi.h": {
+        load: function (rt) {
+
+            const val = (value) => rt.val(rt.unsignedcharTypeLiteral, value);
+
+            rt.include('IPAddress.h');
+            rt.include('WiFiTypes.h');
+
+            const WiFi_t = rt.newClass("WiFi", []);
+            const IPAddress_t = { name: 'IPAddress', type: 'class' };
+
+            rt.scope[0].variables["WiFi"] = {
+                t: WiFi_t,
+                v: {
+                    members: {
+                        _status: rt.readVar("WL_NO_MODULE")
+                    }
+                },
+                left: false
+            };
+
+            rt.regFunc(function (rt, _this) {
+                return _this.v.members._status;
+            }, WiFi_t, "status", [], rt.intTypeLiteral);
+
+            rt.regFunc(function (rt, _this) {
+                return rt.String_makeValueFromJSString("2.0.0");
+            }, WiFi_t, "firmwareVersion", [], rt.String_t);
+
+            rt.regFunc(function (rt, _this, ssid, password) {
+                _this.v.members._ssid = rt.String_makeValueFromJSString(Simulator.getStringFromInterpretor(ssid));
+                _this.v.members._password = rt.String_makeValueFromJSString(Simulator.getStringFromInterpretor(password));
+                _this.v.members._status = rt.readVar("WL_CONNECTED");
+                _this.v.members._ip = rt.val(IPAddress_t, {
+                    members: { a: val(192), b: val(168), c: val(1), d: val(10) }
+                });
+                return _this.v.members._status;
+            }, WiFi_t, "begin", ["?"], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this) {
+                return _this.v.members._ssid;
+            }, WiFi_t, "SSID", [], rt.String_t);
+
+            rt.regFunc(function (rt, _this) {
+                return _this.v.members._ip;
+            }, WiFi_t, "localIP", [], IPAddress_t);
+
+            rt.regFunc(function (rt, _this) {
+                return rt.val(rt.longTypeLiteral, -50);
+            }, WiFi_t, "RSSI", [], rt.longTypeLiteral);
+
+            rt.readVar('WiFi').v.members._status = rt.readVar("WL_IDLE_STATUS");
+        }
+    },
+    "WiFiTypes.h": {
+        load: function (rt) {
+
+            rt.defVar("WL_NO_MODULE", rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 0xff));
+
+            rt.defVar("WL_IDLE_STATUS", rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 0x00));
+            rt.defVar("WL_NO_SSID_AVAIL", rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 0x01));
+            rt.defVar("WL_SCAN_COMPLETED", rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 0x02));
+
+            rt.defVar("WL_CONNECTED", rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 0x03));
+            rt.defVar("WL_CONNECTION_FAILED", rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 0x04));
+            rt.defVar("WL_CONNECTION_LOST", rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 0x05));
+            rt.defVar("WL_DISCONNECTED", rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 0x06));
+
+            rt.defVar("WL_AP_LISTENING", rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 0x07));
+            rt.defVar("WL_AP_CONNECTED", rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 0x08));
+            rt.defVar("WL_AP_FAILED", rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 0x09));
+        }
+    },
+    "IPAddress.h": {
+        load: function (rt) {
+
+            const val = (value) => rt.val(rt.unsignedcharTypeLiteral, value);
+
+            const IPAddress_t = rt.newClass("IPAddress", [{
+                type: rt.unsignedcharTypeLiteral,
+                name: "a",
+                initialize(rt, _this) { return val(0) }
+            }, {
+                type: rt.unsignedcharTypeLiteral,
+                name: "b",
+                initialize(rt, _this) { return val(0) }
+            }, {
+                type: rt.unsignedcharTypeLiteral,
+                name: "c",
+                initialize(rt, _this) { return val(0) }
+            }, {
+                type: rt.unsignedcharTypeLiteral,
+                name: "d",
+                initialize(rt, _this) { return val(0) }
+            }]);
+
+            rt.defVar("INADDR_NONE", IPAddress_t, rt.val(IPAddress_t, {
+                members: { a: val(0), b: val(0), c: val(0), d: val(0) }
+            }));
+
+            rt.regFunc(function (rt, _this, a, b, c, d) {
+                return {
+                    t: IPAddress_t,
+                    v: {
+                        members: { a: val(a.v), b: val(b.v), c: val(c.v), d: val(d.v) }
+                    },
+                    left: false
+                }
+            }, "global", "IPAddress", [rt.unsignedcharTypeLiteral, rt.unsignedcharTypeLiteral, rt.unsignedcharTypeLiteral, rt.unsignedcharTypeLiteral], IPAddress_t);
+
+            const toStringCPP = function (rt, _this) {
+                const args = _this.v.members;
+                return rt.String_makeValueFromJSString(`${args.a.v}.${args.b.v}.${args.c.v}.${args.d.v}`);
+            };
+            rt.regFunc(toStringCPP, IPAddress_t, "toStringCPP", [], rt.String_t);
+
+            rt.regFunc(function (rt, _this, index) {
+                switch (index.v) {
+                    case 0: return _this.v.members.a;
+                    case 1: return _this.v.members.b;
+                    case 2: return _this.v.members.c;
+                    case 3: return _this.v.members.d;
+                    default: return rt.val(rt.unsignedcharTypeLiteral, 0);
+                }
+            }, IPAddress_t, "o([])", [rt.unsignedintTypeLiteral], rt.unsignedcharTypeLiteral);
+
+            rt.regFunc(function (rt, ip1, ip2) {
+                const isEqual = (ip1.v.members.a.v == ip2.v.members.a.v)
+                    && (ip1.v.members.b.v == ip2.v.members.b.v)
+                    && (ip1.v.members.c.v == ip2.v.members.c.v)
+                    && (ip1.v.members.d.v == ip2.v.members.d.v);
+                return rt.val(rt.boolTypeLiteral, isEqual);
+            }, IPAddress_t, "o(==)", [IPAddress_t, IPAddress_t], rt.boolTypeLiteral);
+
+        }
+    },
+    "WiFiServer.h": {
+        load: function (rt) {
+
+            // ip
+            const IPAddress_t = { name: 'IPAddress', type: 'class' };
+            // client
+            const WiFiClient_t = { name: 'WiFiClient', type: 'class' };
+            const WiFiClient = function () {
+                return rt.getFunc("global", "WiFiClient", [])(rt, {});
+            };
+            // server
+            const WiFiServer_t = rt.newClass("WiFiServer", [{
+                type: rt.unsignedintTypeLiteral,
+                name: "_port",
+                initialize(rt, _this) { return rt.val(rt.unsignedintTypeLiteral, 0) }
+            }]);
+
+            rt.regFunc(function (rt, _this, port) {
+                return {
+                    t: WiFiServer_t,
+                    v: {
+                        members: { _port: rt.val(rt.unsignedintTypeLiteral, port.v) }
+                    },
+                    left: false
+                }
+            }, "global", "WiFiServer", [rt.unsignedintTypeLiteral], WiFiServer_t);
+
+            rt.regFunc(function (rt, _this) {
+                const ip = rt.readVar('WiFi').v.members._ip;
+                const ipStr = rt.String_getJSString(rt.getFunc(IPAddress_t, "toStringCPP", [])(rt, ip));
+                WifiSimulator.static_IP = ipStr;
+                WifiSimulator.server.bind({ ip: ipStr, port: _this.v.members._port.v });
+            }, WiFiServer_t, "begin", [], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this) {
+                let clientSocket = WifiSimulator.server.getCurrentClient();
+                if (!clientSocket) {
+                    clientSocket = WifiSimulator.server.getNextClient();
+                }
+                const client = WiFiClient();
+                if (clientSocket) {
+                    WifiSimulator.server.setCurrentClientSocket(clientSocket);
+                    if (clientSocket.addr[0] || clientSocket.hostname) {
+                        client.v.members._connected.v = clientSocket.is_connected;
+                        const ip = (i) => rt.val(rt.unsignedcharTypeLiteral, parseInt(clientSocket.addr[0].split('.')[i]));
+                        client.v.members._ip.v.members = { a: ip(0), b: ip(1), c: ip(2), d: ip(3) };
+                    }
+                }
+                return client;
+            }, WiFiServer_t, "available", [], WiFiClient_t);
+        }
+    },
+    "WiFiClient.h": {
+        load: function (rt) {
+            // ip
+            const IPAddress_t = { name: 'IPAddress', type: 'class' };
+            const IPAddress = function (a, b, c, d) {
+                const ips = [rt.val(rt.unsignedcharTypeLiteral, a), rt.val(rt.unsignedcharTypeLiteral, b), rt.val(rt.unsignedcharTypeLiteral, c), rt.val(rt.unsignedcharTypeLiteral, d)];
+                return rt.getFunc("global", "IPAddress", [rt.unsignedcharTypeLiteral, rt.unsignedcharTypeLiteral, rt.unsignedcharTypeLiteral, rt.unsignedcharTypeLiteral])(rt, {}, ...ips);
+            };
+
+            const WiFiClient_t = rt.newClass("WiFiClient", [{
+                type: IPAddress_t,
+                name: "_ip",
+                initialize(rt, _this) { return IPAddress(0, 0, 0, 0) }
+            }, {
+                type: rt.boolTypeLiteral,
+                name: "_connected",
+                initialize(rt, _this) { return rt.val(rt.boolTypeLiteral, false) }
+            }, {
+                type: rt.unsignedlongTypeLiteral,
+                name: "_timeout",
+                initialize(rt, _this) { return rt.val(rt.unsignedlongTypeLiteral, 1000) }
+            }, {
+                type: rt.unsignedlongTypeLiteral,
+                name: "_data",
+                initialize(rt, _this) { return rt.String_makeValueFromJSString("") }
+            }]);
+
+            rt.regFunc(function (rt, _this) {
+                return {
+                    t: WiFiClient_t,
+                    v: {
+                        members: {
+                            _ip: IPAddress(0, 0, 0, 0),
+                            _connected: rt.val(rt.boolTypeLiteral, false),
+                            _timeout: rt.val(rt.unsignedlongTypeLiteral, 1000),
+                            _data: rt.String_makeValueFromJSString("")
+                        }
+                    },
+                    left: false
+                }
+            }, "global", "WiFiClient", [], WiFiClient_t);
+
+            rt.regFunc(function (rt, _this) {
+                return _this.v.members._connected;
+            }, WiFiClient_t, "connected", [], rt.boolTypeLiteral);
+
+
+            const available = async function (rt, _this) {
+                let data = rt.String_getJSString(_this.v.members._data);
+                let timeout = 0;
+                while (timeout < _this.v.members._timeout.v) {
+                    if (Simulator.stop_flag) {
+                        break;
+                    }
+                    const buffer = WifiSimulator.server.waitingCurrentClientData();
+                    if (buffer) {
+                        data += buffer;
+                    }
+                    timeout += 50;
+                    await Simulator.sleep_ms(50);
+                }
+                _this.v.members._data = rt.String_makeValueFromJSString(data);
+                return rt.val(rt.intTypeLiteral, data.length);
+            };
+            const Susp_available = function (rt, _this) {
+                return rt.asyncToSuspension(available, [rt, _this]);
+            };
+            rt.regAsyncFunc(Susp_available, available);
+            rt.regFunc(Susp_available, WiFiClient_t, "available", [], rt.intTypeLiteral);
+
+            rt.regFunc(function (rt, _this, ms) {
+                _this.v.members._timeout = ms;
+            }, WiFiClient_t, "setTimeout", [rt.intTypeLiteral], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this) {
+                return _this.v.members._ip;
+            }, WiFiClient_t, "remoteIP", [], IPAddress_t);
+
+            rt.regFunc(function (rt, _this) {
+                WifiSimulator.server.closeSocket();
+                _this.v.members._connected.v = false;
+            }, WiFiClient_t, "stop", [], rt.voidTypeLiteral);
+
+            const readString = async function (rt, _this) {
+                await available(rt, _this);
+                const data = rt.String_getJSString(_this.v.members._data);
+                _this.v.members._data = rt.String_makeValueFromJSString("");
+                return rt.String_makeValueFromJSString(data);
+            };
+
+            const Susp_readString = function (rt, _this) {
+                return rt.asyncToSuspension(readString, [rt, _this]);
+            };
+            rt.regAsyncFunc(Susp_readString, readString);
+            rt.regFunc(Susp_readString, WiFiClient_t, "readString", [], rt.String_t);
+
+            const _write = function (rt, buffer, n) {
+                const data = rt.String_getJSString(buffer) + (n ? n : '');
+                if (data.includes('<!DOCTYPE HTML>')) {
+                    WifiSimulator.server.sendDataToCurrentClient(data, 'sentAll');
+                } else {
+                    WifiSimulator.server.sendDataToCurrentClient(data, 'sent');
+                }
+                return rt.val(rt.intTypeLiteral, data.length);
+            };
+            const print = (rt, _this, buffer) => _write(rt, buffer);
+            rt.regFunc(print, WiFiClient_t, "print", [rt.String_t], rt.intTypeLiteral);
+            rt.regFunc(print, WiFiClient_t, "print", [rt.arrayPointerType(rt.charTypeLiteral)], rt.intTypeLiteral);
+
+            const println = (rt, _this, buffer) => _write(rt, buffer, '\n');
+            rt.regFunc(println, WiFiClient_t, "println", [rt.String_t], rt.intTypeLiteral);
+            rt.regFunc(print, WiFiClient_t, "println", [rt.arrayPointerType(rt.charTypeLiteral)], rt.intTypeLiteral);
+        }
+    },
+    "WiFiS3.h": {
+        load: function (rt) {
+            rt.include('WiFi.h');
+            rt.include('WiFiServer.h');
+            rt.include('WiFiClient.h');
+            rt.defVar("WIFI_FIRMWARE_LATEST_VERSION", rt.String_t, rt.String_makeValueFromJSString("0.5.2"));
+        }
+    },
+    "Vittascience_Server.h": {
+        load: function (rt) {
+
+            const COMMANDS = {
+                "CMD_RECEIVE_SIMPLE_DATA": rt.val(rt.unsignedcharTypeLiteral, 0),
+                "CMD_RECEIVE_SIMPLE_IP": rt.val(rt.unsignedcharTypeLiteral, 1),
+                "CMD_RECEIVE_OBJ_VALUE": rt.val(rt.unsignedcharTypeLiteral, 2),
+
+                "CMD_SEND_SIMPLE_DATA": rt.val(rt.unsignedcharTypeLiteral, 3),
+                "CMD_SEND_WEB_PAGE": rt.val(rt.unsignedcharTypeLiteral, 4),
+                "CMD_SEND_VARIABLES": rt.val(rt.unsignedcharTypeLiteral, 5),
+
+                "CMD_CLIENT_RECEIVER": rt.val(rt.unsignedcharTypeLiteral, 0),
+                "CMD_CLIENT_TRANSMITTER": rt.val(rt.unsignedcharTypeLiteral, 1),
+
+                "MAX_PARTS": rt.val(rt.unsignedcharTypeLiteral, 10)
+            };
+            for (const c in COMMANDS) {
+                rt.defVar(c, COMMANDS[c].t, COMMANDS[c]);
+            }
+
+            const IPAddress_t = { name: 'IPAddress', type: 'class' };
+            const Serial_println = function (rt, str) {
+                const Serial = rt.readVar('Serial');
+                return rt.getFunc(Serial.t, 'println', ['?'])(rt, Serial, rt.String_makeValueFromJSString(str));
+            };
+
+            // server
+            const WiFiServer_t = { name: 'WiFiServer', type: 'class' };
+            const WiFiServer = function (port) {
+                return rt.getFunc("global", "WiFiServer", [rt.unsignedintTypeLiteral])(rt, {}, rt.val(rt.unsignedintTypeLiteral, port));
+            };
+            const server_do = function (rt, _this, action, args) {
+                const types = args.map(arg => arg.t);
+                return rt.getFunc(WiFiServer_t, action, types)(rt, _this.v.members.server, ...args);
+            };
+
+            // client
+            const WiFiClient_t = { name: 'WiFiClient', type: 'class' };
+            const WiFiClient = function () {
+                return rt.getFunc("global", "WiFiClient", [])(rt, {});
+            };
+            const client_do = function (rt, _this, action, args) {
+                const types = args.map(arg => arg.t);
+                return rt.getFunc(WiFiClient_t, action, types)(rt, _this.v.members.client, ...args);
+            };
+
+            // Vittascience_Server constructor
+            const Vittascience_Server_t = rt.newClass("Vittascience_Server", [{
+                type: WiFiServer_t,
+                name: "server",
+                initialize(rt, _this) { return WiFiServer(0) }
+            }, {
+                type: WiFiClient_t,
+                name: "client",
+                initialize(rt, _this) { return WiFiClient() }
+            }, {
+                type: rt.String_t,
+                name: "client_ip",
+                initialize(rt, _this) { return rt.String_makeValueFromJSString("") }
+            }, {
+                type: rt.String_t,
+                name: "client_data",
+                initialize(rt, _this) { return rt.String_makeValueFromJSString("") }
+            }, {
+                type: rt.boolTypeLiteral,
+                name: "locked",
+                initialize(rt, _this) { return rt.val(rt.boolTypeLiteral, false) }
+            }, {
+                type: rt.boolTypeLiteral,
+                name: "with_vars",
+                initialize(rt, _this) { return rt.val(rt.boolTypeLiteral, false) }
+            }, {
+                type: rt.String_t,
+                name: "html_page",
+                initialize(rt, _this) { return rt.String_makeValueFromJSString("", true) }
+            }, {
+                type: rt.arrayPointerType(rt.charTypeLiteral),
+                name: "_js",
+                initialize(rt, _this) { return rt.nullPointerValue }
+            }, {
+                type: rt.arrayPointerType(rt.charTypeLiteral),
+                name: "_css",
+                initialize(rt, _this) { return rt.nullPointerValue }
+            }]);
+
+            rt.regFunc(function (rt, _this, port) {
+                return {
+                    t: Vittascience_Server_t,
+                    v: {
+                        members: {
+                            server: WiFiServer(port.v),
+                            client: WiFiClient(),
+                            client_ip: rt.String_makeValueFromJSString(""),
+                            client_data: rt.String_makeValueFromJSString(""),
+                            locked: rt.val(rt.boolTypeLiteral, false),
+                            with_vars: rt.val(rt.boolTypeLiteral, false),
+                            html_page: rt.String_makeValueFromJSString(""),
+                            _js: rt.nullPointerValue,
+                            _css: rt.nullPointerValue
+                        }
+                    },
+                    left: false
+                }
+            }, "global", "Vittascience_Server", [rt.unsignedintTypeLiteral], Vittascience_Server_t);
+
+            // members
+            rt.regFunc(function (rt, _this) {
+                server_do(rt, _this, 'begin', []);
+                return rt.val(rt.boolTypeLiteral, true);
+            }, Vittascience_Server_t, "start", [], rt.boolTypeLiteral);
+
+            const _sendHTTPSocket = function (rt, _this, type, data) {
+                const typeStr = Simulator.getStringFromInterpretor(mimeFromExt(rt, {}, type));
+                client_do(rt, _this, 'println', [rt.String_makeValueFromJSString("HTTP/1.1 200 OK")]);
+                client_do(rt, _this, 'print', [rt.String_makeValueFromJSString("Content-Type: ")]);
+                client_do(rt, _this, 'println', [rt.String_makeValueFromJSString(typeStr)]);
+                client_do(rt, _this, 'println', [rt.String_makeValueFromJSString("Connection: close")]);
+                client_do(rt, _this, 'println', [rt.String_makeValueFromJSString("")]);
+                client_do(rt, _this, 'print', [data]);
+            };
+            rt.regFunc(_sendHTTPSocket, Vittascience_Server_t, "_sendHTTPSocket", [rt.arrayPointerType(rt.charTypeLiteral), rt.String_t], rt.voidTypeLiteral);
+
+            const client_data_split = (_this, str) => rt.String_getJSString(_this.v.members.client_data).split(str);
+
+            const getClientData = async function (rt, _this, parameter) {
+                await manageSocket(rt, _this, COMMANDS["CMD_RECEIVE_SIMPLE_DATA"]);
+                if (parameter.v && rt.getFunc(rt.String_t, "length", [])(rt, _this.v.members.client_ip).v > 0) {
+                    const parts = client_data_split(_this, "GET /");
+                    const data = parts[1].split(" HTTP/1.1")[0];
+                    return rt.String_makeValueFromJSString(data);
+                }
+                return _this.v.members.client_data;
+            };
+            const Susp_getClientData = function (rt, _this, parameter = rt.val(rt.boolTypeLiteral, false)) {
+                return rt.asyncToSuspension(getClientData, [rt, _this, parameter]);
+            };
+            rt.regAsyncFunc(Susp_getClientData, getClientData);
+            rt.regFunc(Susp_getClientData, Vittascience_Server_t, "getClientData", [rt.boolTypeLiteral], rt.String_t, [rt.boolTypeLiteral]);
+
+            const getClientIP = async function (rt, _this) {
+                if (rt.getFunc(rt.String_t, "length", [])(rt, _this.v.members.client_ip).v == 0) {
+                    await manageSocket(rt, _this, COMMANDS["CMD_RECEIVE_SIMPLE_IP"]);
+                }
+                return _this.v.members.client_ip;
+            };
+            const Susp_getClientIP = function (rt, _this) {
+                return rt.asyncToSuspension(getClientIP, [rt, _this]);
+            };
+            rt.regAsyncFunc(Susp_getClientIP, getClientIP);
+            rt.regFunc(Susp_getClientIP, Vittascience_Server_t, "getClientIP", [], rt.String_t);
+
+            const sendDataToClient = async function (rt, _this, data) {
+                await manageSocket(rt, _this, COMMANDS["CMD_SEND_SIMPLE_DATA"], data);
+            };
+            const Susp_sendDataToClient = function (rt, _this, data) {
+                return rt.asyncToSuspension(sendDataToClient, [rt, _this, data]);
+            };
+            rt.regAsyncFunc(Susp_sendDataToClient, sendDataToClient);
+            rt.regFunc(Susp_sendDataToClient, Vittascience_Server_t, "sendDataToClient", [rt.String_t], rt.voidTypeLiteral);
+
+            const closeClient = function (rt, _this, force = rt.val(rt.boolTypeLiteral, false)) {
+                if (client_do(rt, _this, 'connected', []).v && (_this.v.members.locked.v || force.v)) {
+                    client_do(rt, _this, 'stop', []);
+                    _this.v.members.locked.v = false;
+                    Serial_println(rt, "Client: " + rt.String_getJSString(_this.v.members.client_ip) + " closed.");
+                    _this.v.members.client_ip = rt.String_makeValueFromJSString("");
+                }
+            }
+            rt.regFunc(closeClient, Vittascience_Server_t, "closeClient", [rt.boolTypeLiteral], rt.voidTypeLiteral, [rt.boolTypeLiteral]);
+
+            const manageSocket = async function (rt, _this, cmd, data = rt.String_makeValueFromJSString("")) {
+
+                while (!client_do(rt, _this, 'connected', []).v) {
+                    if (Simulator.stop_flag) {
+                        break;
+                    }
+                    _this.v.members.client = server_do(rt, _this, 'available', []);
+                    if (_this.v.members.client.v && client_do(rt, _this, 'connected', []).v) {
+                        client_do(rt, _this, 'setTimeout', [rt.val(rt.intTypeLiteral, 100)]);
+                        const ip = client_do(rt, _this, 'remoteIP', []);
+                        _this.v.members.client_ip = rt.getFunc(IPAddress_t, "toStringCPP", [])(rt, ip);
+                        Serial_println(rt, "New client connection: " + rt.String_getJSString(_this.v.members.client_ip));
+                    }
+                    await Simulator.sleep_ms(100);
+                }
+
+                if (_this.v.members.client.v && client_do(rt, _this, 'connected', []).v) {
+
+                    if (cmd == COMMANDS["CMD_RECEIVE_SIMPLE_DATA"])
+                        Serial_println(rt, "Command requested: CMD_RECEIVE_SIMPLE_DATA");
+                    else if (cmd == COMMANDS["CMD_RECEIVE_SIMPLE_IP"])
+                        Serial_println(rt, "Command requested: CMD_RECEIVE_SIMPLE_IP");
+                    else if (cmd == COMMANDS["CMD_RECEIVE_OBJ_VALUE"])
+                        Serial_println(rt, "Command requested: CMD_RECEIVE_OBJ_VALUE");
+
+                    else if (cmd == COMMANDS["CMD_SEND_SIMPLE_DATA"])
+                        Serial_println(rt, "Command requested: CMD_SEND_SIMPLE_DATA");
+                    else if (cmd == COMMANDS["CMD_SEND_WEB_PAGE"])
+                        Serial_println(rt, "Command requested: CMD_SEND_WEB_PAGE");
+                    else if (cmd == COMMANDS["CMD_SEND_VARIABLES"])
+                        Serial_println(rt, "Command requested: CMD_SEND_VARIABLES");
+
+                    if (cmd == COMMANDS["CMD_RECEIVE_SIMPLE_IP"]) {
+                        return;
+                    }
+
+                    const available = rt.getFunc(WiFiClient_t, 'available', []);
+                    if ((await rt.getAsyncFunc(available)(rt, _this.v.members.client)).v) {
+                        const readString = rt.getFunc(WiFiClient_t, 'readString', []);
+                        _this.v.members.client_data = await rt.getAsyncFunc(readString)(rt, _this.v.members.client);
+                        const len = rt.getFunc(rt.String_t, "length", [])(rt, _this.v.members.client_data).v;
+                        Serial_println(rt, "Data received length: " + len);
+                    }
+
+                    if (rt.getFunc(rt.String_t, "length", [])(rt, _this.v.members.client_data).v > 0) {
+
+                        const client_data_indexOf = (str) => rt.String_getJSString(_this.v.members.client_data).indexOf(str);
+                        if (client_data_indexOf("GET / HTTP/") >= 0 || client_data_indexOf("GET /favicon.ico HTTP/") >= 0) {
+
+                            if (!_this.v.members.locked.v && cmd == COMMANDS["CMD_SEND_WEB_PAGE"]) {
+                                _this.v.members.locked.v = true;
+                                const css = rt.String_makeValueFromJSString(Simulator.getStringFromInterpretor(_this.v.members._css));
+                                const js = rt.String_makeValueFromJSString(Simulator.getStringFromInterpretor(_this.v.members._js));
+                                addCodeIntoHtml(rt, _this, css, rt.charArray_makeFromJSString("css"));
+                                addCodeIntoHtml(rt, _this, js, rt.charArray_makeFromJSString("js"));
+
+                                if (_this.v.members.with_vars.v) {
+                                    const ipStr = rt.String_getJSString(_this.v.members.client_ip);
+                                    const jsStr = "requestVariablesFromServer('" + ipStr + "');\n";
+                                    const requestVars = rt.String_makeValueFromJSString(jsStr);
+                                    addCodeIntoHtml(rt, _this, requestVars, rt.charArray_makeFromJSString("js"));
+                                }
+                                _sendHTTPSocket(rt, _this, rt.charArray_makeFromJSString("html"), _this.v.members.html_page);
+                            }
+
+                            else if (!_this.v.members.locked.v && cmd == COMMANDS["CMD_SEND_SIMPLE_DATA"] && Simulator.getStringFromInterpretor(data).length > 0) {
+                                _this.v.members.locked.v = true;
+                                client_do(rt, _this, 'print', [data]);
+                            }
+                        }
+
+                        else if (client_data_indexOf("GET /requestVariables&") < 0 && client_data_indexOf("GET /") >= 0 && client_data_indexOf(" HTTP/") >= 0) {
+
+                            if (!_this.v.members.locked.locked && cmd == COMMANDS["CMD_RECEIVE_OBJ_VALUE"]) {
+                                let parts = client_data_split(_this, " HTTP");
+                                if (parts[0].length > 0 && parts[0].indexOf("=") >= 0) {
+                                    parts = parts[0].split("GET /");
+                                    parts = parts[1].split("=");
+                                    const id = parts[0];
+                                    if (id.length > 0) {
+                                        _this.v.members.locked.v = true;
+                                        _updateDBclientData(id, parts[1]);
+                                        _sendHTTPSocket(rt, _this, rt.charArray_makeFromJSString("text"), rt.String_makeValueFromJSString("OK\n"));
+                                    }
+                                }
+                            }
+                        }
+
+                        else if (!_this.v.members.locked.v && client_data_indexOf("GET /requestVariables&") >= 0 && cmd == COMMANDS["CMD_SEND_VARIABLES"]) {
+                            let parts = client_data_split(_this, " HTTP");
+                            const strRequest = parts[0];
+                            parts = strRequest.split("&ip=");
+                            const requestIp = parts[1];
+                            if (rt.String_getJSString(_this.v.members.client_ip) == requestIp) {
+                                _this.v.members.locked.v = true;
+                                _sendHTTPSocket(rt, _this, rt.charArray_makeFromJSString("json"), data);
+                            }
+                        }
+
+                        else if (client_data_indexOf("GET / HTTP/") < 0 && client_data_indexOf("GET /favicon.ico HTTP/") < 0 && client_data_indexOf("GET /requestVariables&") < 0) {
+                            if (!_this.v.members.locked.v && (cmd == COMMANDS["CMD_SEND_SIMPLE_DATA"] || cmd == COMMANDS["CMD_RECEIVE_SIMPLE_DATA"])) {
+
+                                const isJson = client_data_indexOf('{') >= 0 && client_data_indexOf('}') >= 0 && client_data_indexOf(':') >= 0;
+                                if (isJson && _JSON_parse(rt.String_getJSString(_this.v.members.client_data.v))) {
+                                    rt.include("ArduinoJson.h"); // TO DO (temp)
+                                    // TO DO
+                                    if (_json_data_received["cmd"] == COMMANDS["CMD_CLIENT_RECEIVER"]) {
+                                        _this.v.members.client_data = rt.String_makeValueFromJSString("");
+                                        if (cmd == COMMANDS["CMD_SEND_SIMPLE_DATA"] && Simulator.getStringFromInterpretor(data).length > 0) {
+                                            _this.v.members.locked.v = true;
+                                            client_do(rt, _this, 'print', [data]);
+                                        }
+                                    } else if (_json_data_received["cmd"] == COMMANDS["CMD_CLIENT_TRANSMITTER"]) {
+                                        //_this.v.members.client_data.v = _json_data_received["data"].as < String > ();
+                                        client_do(rt, _this, 'print', [rt.String_makeValueFromJSString("OK\n")]);
+                                    }
+                                    //_json_data_received = DynamicJsonDocument(0);
+                                };
+                            }
+                        }
+                    }
+                }
+            };
+
+            const Susp_manageSocket = function (rt, _this, cmd, data) {
+                return rt.asyncToSuspension(manageSocket, [rt, _this, cmd, data]);
+            };
+            rt.regAsyncFunc(Susp_manageSocket, manageSocket);
+            rt.regFunc(Susp_manageSocket, Vittascience_Server_t, "manageSocket", [rt.unsignedcharTypeLiteral, rt.String_t], rt.voidTypeLiteral, [rt.String_t]);
+
+            const sendHtmlPage = async function (rt, _this, wvs) {
+                _this.v.members.with_vars = wvs;
+                await manageSocket(rt, _this, COMMANDS["CMD_SEND_WEB_PAGE"]);
+            };
+            const Susp_sendHtmlPage = function (rt, _this, wvs) {
+                return rt.asyncToSuspension(sendHtmlPage, [rt, _this, wvs]);
+            };
+            rt.regAsyncFunc(Susp_sendHtmlPage, sendHtmlPage);
+            rt.regFunc(Susp_sendHtmlPage, Vittascience_Server_t, "sendHtmlPage", [rt.boolTypeLiteral], rt.intTypeLiteral);
+
+            const addCodeIntoHtml = function (rt, _this, script_code, type) {
+                const page = rt.String_getJSString(_this.v.members.html_page);
+                const html_page_indexOf = (str) => page.indexOf(str);
+                const html_replace = (match, str) => {
+                    _this.v.members.html_page = rt.String_makeValueFromJSString(page.replace(match, str));
+                }
+                script_code = rt.String_getJSString(script_code)
+                if (rt.charArray_getJSString(type) == "js") {
+                    if (html_page_indexOf("<script>") >= 0) {
+                        html_replace("</script>", script_code + "\n</script>");
+                    } else {
+                        html_replace("</body>", "<script>\n" + script_code + "\n</script>\n</body>");
+                    }
+                } else if (rt.charArray_getJSString(type) == "css") {
+                    if (html_page_indexOf("<style>") >= 0) {
+                        html_replace("</style>", script_code + "\n</style>");
+                    } else {
+                        html_replace("</head>", "<style>\n" + script_code + "\n</style>\n</head>");
+                    }
+                } else {
+                    Serial_println(rt, "Type of data '" + rt.charArray_getJSString(type) + "' is not valid. Only 'js' or 'css'.");
+                }
+            };
+            rt.regFunc(addCodeIntoHtml, Vittascience_Server_t, "addCodeIntoHtml", [rt.String_t, rt.arrayPointerType(rt.charTypeLiteral)], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, code) {
+                _this.v.members._js = code;
+            }, Vittascience_Server_t, "setJSFile", [rt.arrayPointerType(rt.charTypeLiteral)], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, code) {
+                _this.v.members._css = code;
+            }, Vittascience_Server_t, "setCSSFile", [rt.arrayPointerType(rt.charTypeLiteral)], rt.voidTypeLiteral);
+
+
+            const _updateDBclientData = function (rt, _this, id, value) {
+                rt.include("ArduinoJson.h"); // TO DO (temp)
+                // if (web_data_DB.overflowed()) {
+                //     Serial.println(F("⚠️ ArduinoJson overflow: augmente StaticJsonDocument<...>"));
+                // }
+                // JsonObject DB_client = web_data_DB[client_ip].as < JsonObject > ();
+                // if (DB_client.isNull()) {
+                //     DB_client = web_data_DB[client_ip].to < JsonObject > ();
+                // }
+                // DB_client[id] = value;
+            };
+            rt.regFunc(_updateDBclientData, Vittascience_Server_t, "_updateDBclientData", [rt.String_t, rt.String_t], rt.voidTypeLiteral);
+
+            const getValueById = async function (rt, _this, id, defaultValue) {
+                await manageSocket(rt, _this, COMMANDS["CMD_RECEIVE_OBJ_VALUE"]);
+                if (rt.getFunc(rt.String_t, "length", [])(rt, _this.v.members.client_ip).v > 0) {
+                    rt.include("ArduinoJson.h") // TO DO (temp)
+                    // serializeJsonPretty(_this.v.members.web_data_DB.v, Serial);
+                    // JsonObject DB_client = web_data_DB[client_ip].as < JsonObject > ();
+                    // if (DB_client.isNull()) {
+                    //     DB_client = web_data_DB[client_ip].to < JsonObject > ();
+                    // }
+                    // if (!DB_client.containsKey(id)) {
+                    //     _updateDBclientData(id, String(defaultValue));
+                    // }
+                    // return DB_client[id].as < String > ();
+                }
+                return rt.String_makeValueFromJSString("");
+            };
+
+            const Susp_getValueById = function (rt, _this, id, defaultValue = rt.val(rt.intTypeLiteral, 0)) {
+                return rt.asyncToSuspension(getValueById, [rt, _this, id, defaultValue]);
+            };
+            rt.regAsyncFunc(Susp_getValueById, getValueById);
+            rt.regFunc(Susp_getValueById, Vittascience_Server_t, "getValueById", [rt.String_t, rt.intTypeLiteral], rt.String_t, [rt.intTypeLiteral]);
+
+            const mimeFromExt = function (rt, _this, ext) {
+                const pchar = rt.arrayPointerType(rt.charTypeLiteral);
+                const strcmp = (type) => rt.getFunc("global", "strcmp", [pchar, pchar])(rt, {}, ext, rt.charArray_makeFromJSString(type)).v;
+                if (!rt.charArray_getJSString(ext))
+                    return rt.charArray_makeFromJSString("text/plain; charset=utf-8");
+                if (!strcmp("html"))
+                    return rt.charArray_makeFromJSString("text/html; charset=utf-8");
+                if (!strcmp("css"))
+                    return rt.charArray_makeFromJSString("text/css; charset=utf-8");
+                if (!strcmp("js"))
+                    return rt.charArray_makeFromJSString("application/javascript; charset=utf-8");
+                if (!strcmp("json"))
+                    return rt.charArray_makeFromJSString("application/json; charset=utf-8");
+                return rt.charArray_makeFromJSString("text/plain; charset=utf-8");
+            };
+            rt.regFunc(mimeFromExt, "global", "mimeFromExt", [rt.arrayPointerType(rt.charTypeLiteral)], rt.arrayPointerType(rt.charTypeLiteral));
+        }
+    },
+    "WebPageScripts.h": {
+        load: function (rt) {
+            let js = "", css = "";
+            if (Blockly && Blockly.Arduino) {
+                js = Blockly.Arduino.convertObjectInLists(Blockly.Arduino.jsCodes_).join('\n');
+                css = Blockly.Arduino.convertObjectInLists(Blockly.Arduino.cssStyles_).join('\n');
+            }
+            rt.defVar("web_page_js", rt.arrayPointerType(rt.charTypeLiteral), rt.charArray_makeFromJSString(js));
+            rt.defVar("web_page_css", rt.arrayPointerType(rt.charTypeLiteral), rt.charArray_makeFromJSString(css));
+        }
+    },
+    "ArduinoJson.H": {
+        load: function (rt) {
+            // TO DO
+        }
+    }
+
 };

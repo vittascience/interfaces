@@ -7,6 +7,8 @@ Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_TITLE'] = '[Pantalla] Mostar texto 
 Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_TOOLTIP'] = '[Pantalla] Muestra texto en la pantalla de la tarjeta Galaxia.';
 Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_VALUE_TITLE'] = '[Pantalla] Mostrar texto %1 con valor %2';
 Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_VALUE_TOOLTIP'] = '[Pantalla] Muestra texto en la pantalla de la tarjeta Galaxia con un valor numérico.';
+Blockly.Msg["DISPLAY_GALAXIA_SCREEN_CLEAR_TITLE"]= "[Pantalla] Limpiar";
+Blockly.Msg["DISPLAY_GALAXIA_SCREEN_CLEAR_TOOLTIP"]= "[Pantalla] Limpiar la pantalla de la tarjeta Galaxia con.";
 // Display - Galaxia/RGB
 Blockly.Msg['DISPLAY_GALAXIA_LED_GREEN_CONTROL_TITLE'] = '[LED RGB] establece la intensidad del verde en %1';
 Blockly.Msg['DISPLAY_GALAXIA_LED_GREEN_CONTROL_TOOLTIP'] = 'Ajusta la intensidad del verde del LED integrado en la tarjeta Galaxia de 0 a 255';
@@ -504,3 +506,5 @@ Blockly.Msg['VITTAIA_IS'] = 'es';
 Blockly.Msg['VITTAIA_ISNOT'] = 'no es';
 Blockly.Msg['VITTAIA_GET_HIGHEST_PROBABILITY_CLASS_TITLE'] = 'clase detectada';
 Blockly.Msg['VITTAIA_GET_HIGHEST_PROBABILITY_CLASS_TOOLTIP'] = 'Permite recuperar la clase con la mayor probabilidad.';
+Blockly.Msg['COMMUNICATION_INFRARED_ONDATARECEIVED_TITLE'] = '[IR] si %1 es recibido en %2 %3pin %4 con el protocolo %5 entonces';
+Blockly.Msg['COMMUNICATION_INFRARED_ONDATARECEIVED_TOOLTIP'] = 'IMG_MODULE_IR_RECEIVER + Blockly.Tooltip.SEP + \'Permite ejecutar instrucciones si se recibe un dato a través de un módulo infrarrojo en una variable en el pin digital con un protocolo NEC_8 o NEC_16.';

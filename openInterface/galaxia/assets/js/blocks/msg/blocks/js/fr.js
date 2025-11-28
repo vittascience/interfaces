@@ -3,10 +3,12 @@
  */
 'use strict';
 // Display - Galaxia/Display
-Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_TITLE'] = '[Ecran] Afficher le texte %1';
+Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_TITLE'] = '[Ecran] afficher le texte %1';
 Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_TOOLTIP'] = '[Ecran] Affiche du texte sur l\'écran de la carte Galaxia.';
-Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_VALUE_TITLE'] = '[Ecran] Afficher %1 avec la valeur %2';
+Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_VALUE_TITLE'] = '[Ecran] afficher %1 avec la valeur %2';
 Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_VALUE_TOOLTIP'] = '[Ecran] Affiche du texte sur l\'écran de la carte Galaxia avec une valeur.';
+Blockly.Msg["DISPLAY_GALAXIA_SCREEN_CLEAR_TITLE"]= "[Ecran] nettoyer l'écran";
+Blockly.Msg["DISPLAY_GALAXIA_SCREEN_CLEAR_TOOLTIP"]= "[Ecran] Nettoyer l'écran de la carte Galaxia.";
 // Display - Galaxia/RGB
 Blockly.Msg['DISPLAY_GALAXIA_LED_GREEN_CONTROL_TITLE'] = '[LED RGB] régler l\'intensité du vert à %1';
 Blockly.Msg['DISPLAY_GALAXIA_LED_GREEN_CONTROL_TOOLTIP'] = 'Permet de régler l\'intensité du vert, de 0 à 255, pour la LED intégrée à la carte Galaxia.';
@@ -44,7 +46,7 @@ Blockly.Msg['DISPLAY_GALAXIA_RAW_PRINT_IMG_TITLE'] = '[Graphique] afficher l\'im
 Blockly.Msg['DISPLAY_GALAXIA_RAW_PRINT_IMG_TOOLTIP'] = 'Afficher une image sur l\'écran graphique (vous devez d\'abord charger l\'image dans la mémoire de la carte Galaxia)';
 // Display - Screen
 Blockly.Msg['DISPLAY_LCD_SETTEXT_TITLE'] = '[LCD] afficher le texte %1 sur la ligne %2 position %3';
-Blockly.Msg['DISPLAY_LCD_SETTEXT_TOOLTIP'] = IMG_MODULE_LCD_3V3 + Blockly.Tooltip.SEP + 'Affiche du texte sur l\'une des deux lignes de l\'écran LCD1602 grove. Brancher le module sur un port I2C';
+Blockly.Msg['DISPLAY_LCD_SETTEXT_TOOLTIP'] = IMG_MODULE_LCD_3V3 + Blockly.Tooltip.SEP + 'Affiche du texte sur l\'une des deux lignes de l\'écran LCD1602 grove. Brancher le module sur un port I2C. Les caractères accentués ne sont pas supportés.';
 Blockly.Msg['DISPLAY_LCD_CLEAR_TITLE'] = '[LCD] nettoyer l\'écran';
 Blockly.Msg['DISPLAY_LCD_CLEAR_TOOLTIP'] = IMG_MODULE_LCD_3V3 + Blockly.Tooltip.SEP + 'Permet d\'effacer tous les caractères de l\'écran LCD. Brancher le module sur un port I2C.';
 Blockly.Msg['DISPLAY_OLED_ADDTEXT_TITLE'] = '[Ecran OLED] afficher le texte %1 à la position x %2 y %3';

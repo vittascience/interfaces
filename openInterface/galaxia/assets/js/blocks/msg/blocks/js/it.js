@@ -3,10 +3,12 @@
  */
 'use strict';
 // Display - Galaxia/Display
-Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_TITLE'] = '[SCREEN] Write text %1';
-Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_TOOLTIP'] = '[SCREEN] Write text on the screen of the Galaxia card.';
-Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_VALUE_TITLE'] = '[SCREEN] Write text %1 with value %2';
-Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_VALUE_TOOLTIP'] = '[SCREEN] Write text on the screen of the Galaxia card with a value.';
+Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_TITLE'] = '[Screen] write text %1';
+Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_TOOLTIP'] = '[Screen] Write text on the screen of the Galaxia card.';
+Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_VALUE_TITLE'] = '[Screen] write text %1 with value %2';
+Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_VALUE_TOOLTIP'] = '[Screen] Write text on the screen of the Galaxia card with a value.';
+Blockly.Msg["DISPLAY_GALAXIA_SCREEN_CLEAR_TITLE"]= "[Screen] clear";
+Blockly.Msg["DISPLAY_GALAXIA_SCREEN_CLEAR_TOOLTIP"]= "[Screen] Clear the screen of the Galaxia card with.";
 // Display - Galaxia/RGB
 Blockly.Msg['DISPLAY_GALAXIA_LED_GREEN_CONTROL_TITLE'] = '[RGB LED] set green intensity to %1';
 Blockly.Msg['DISPLAY_GALAXIA_LED_GREEN_CONTROL_TOOLTIP'] = 'Adjusts the intensity of the green for the LED integrated in the Galaxia card from 0 to 255.';
@@ -504,3 +506,5 @@ Blockly.Msg['VITTAIA_IS'] = 'è';
 Blockly.Msg['VITTAIA_ISNOT'] = 'non è';
 Blockly.Msg['VITTAIA_GET_HIGHEST_PROBABILITY_CLASS_TITLE'] = 'classe rilevata';
 Blockly.Msg['VITTAIA_GET_HIGHEST_PROBABILITY_CLASS_TOOLTIP'] = 'Consente di recuperare la classe con la probabilità più alta.';
+Blockly.Msg['COMMUNICATION_INFRARED_ONDATARECEIVED_TITLE'] = '[IR] se %1 è ricevuto su %2 %3pin %4 con il protocollo %5 allora';
+Blockly.Msg['COMMUNICATION_INFRARED_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_IR_RECEIVER + Blockly.Tooltip.SEP + 'Consente di eseguire istruzioni se un dato viene ricevuto da un modulo infrarosso in una variabile sul pin digitale con un protocollo NEC_8 o NEC_16.';

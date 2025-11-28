@@ -77,6 +77,11 @@ Blockly.Msg['TURTLE_SCREEN_SETUP_TITLE'] = 'tamaño del lienzo %1 x %2';
 Blockly.Msg['TURTLE_SCREEN_SETUP_TOOLTIP'] = 'Definir el tamaño del lienzo.';
 Blockly.Msg['TURTLE_SCREEN_COLOR_TITLE'] = 'color de fondo del lienzo %1';
 Blockly.Msg['TURTLE_SCREEN_COLOR_TOOLTIP'] = 'Definir el color de fondo del lienzo.';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_TITLE'] = 'imagen de fondo del lienzo %1';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_TOOLTIP'] = 'Establecer una imagen de fondo para el lienzo.';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_MAZE'] = 'laberinto';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_GRID'] = 'cuadrícula';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_VITTASCIENCE'] = 'vittascience';
 
 // Numpy blocks.
 Blockly.Msg['NUMPY_ARANGE_TITLE'] = 'tabla arreglada de %1 a %2 por el paso %3';

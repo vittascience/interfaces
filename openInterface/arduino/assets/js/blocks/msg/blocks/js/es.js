@@ -1,5 +1,5 @@
 /**
- * @fileoverview English messages for Arduino. (EN)
+ * @fileoverview Spanish messages for Arduino UNO R4. (ES)
  */
 'use strict';
 //COMMENT - Arduino
@@ -8,6 +8,19 @@ Blockly.Msg['CALL_EXPRESSION_COMMENT_TOOLTIP'] = "Permite agregar un comentario 
 // Display - Arduino
 Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TITLE'] = '[Arduino] controlar el LED integrado (D13) al estado %1';
 Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TOOLTIP'] = 'Permite controlar el estado del LED conectado al pin D13 en la placa Arduino.';
+// Display - LED matrix
+Blockly.Msg['DISPLAY_BUILTINMATRIX_DRAWBITMAPICON_TITLE'] = '[Matriz LED] mostrar dibujo %1 en la posición x %2 y %3 %4';
+Blockly.Msg['DISPLAY_BUILTINMATRIX_DRAWBITMAPICON_TOOLTIP'] = IMG_ARDUINO_UNO_R4_WIFI + Blockly.Tooltip.SEP + 'Permite mostrar el dibujo en la matriz de LEDs 12x8 del Arduino UNO R4 WIFI placa.';
+Blockly.Msg['DISPLAY_BUILTINMATRIX_WITH_CLEAR'] = 'con limpieza';
+Blockly.Msg['DISPLAY_BUILTINMATRIX_WITHOUT_CLEAR'] = 'sin limpieza';
+Blockly.Msg['DISPLAY_BUILTINMATRIX_DRAWSTRING_TITLE'] = '[Matriz LED] desplácese por el texto %1 velocidad %2';
+Blockly.Msg['DISPLAY_BUILTINMATRIX_DRAWSTRING_TOOLTIP'] = IMG_ARDUINO_UNO_R4_WIFI + Blockly.Tooltip.SEP + 'Permite dibujar una cadena en la matriz de LEDs 12x8 del Arduino UNO R4 WIFI placa.';
+Blockly.Msg['DISPLAY_BUILTINMATRIX_SHOWNUMBER_TITLE'] = '[Matriz LED] mostrar número %1';
+Blockly.Msg['DISPLAY_BUILTINMATRIX_SHOWNUMBER_TOOLTIP'] = IMG_ARDUINO_UNO_R4_WIFI + Blockly.Tooltip.SEP + 'Permite mostrar el número en la matriz de LEDs 12x8 del Arduino UNO R4 WIFI placa.';
+Blockly.Msg["DISPLAY_BUILTINMATRIX_SETPIXEL_TITLE"] = "[Matriz LED] establecer el píxel x %1 y %2 en %3";
+Blockly.Msg["DISPLAY_BUILTINMATRIX_SETPIXEL_TOOLTIP"] = IMG_ARDUINO_UNO_R4_WIFI + Blockly.Tooltip.SEP + "Permite activar/desactivar un píxel en la matriz LED integrada de 12x8 del Arduino UNO R4 WIFI placa.";
+Blockly.Msg["DISPLAY_BUILTINMATRIX_CLEARSCREEN_TITLE"] = "[Matriz LED] limpiar pantalla";
+Blockly.Msg["DISPLAY_BUILTINMATRIX_CLEARSCREEN_TOOLTIP"] = IMG_ARDUINO_UNO_R4_WIFI + Blockly.Tooltip.SEP + "Permite limpiar la pantalla de la matriz LED integrada de 12x8 del Arduino UNO R4 WIFI.";
 // Display - Screens
 Blockly.Msg['DISPLAY_LCD_SETTEXT_TITLE'] = '[LCD] dirección %1 mostrar texto %2 en línea %3 posición %4';
 Blockly.Msg['DISPLAY_LCD_SETTEXT_TOOLTIP'] = IMG_MODULE_LCD_I2C + Blockly.Tooltip.SEP + 'Muestra texto de hasta 16 caracteres en cualquier línea de la pantalla LCD1602 Grove. Conecte el módulo a un puerto I2C. 0x3e corresponde a la dirección I2C del módulo Grove. 0x3f y 0x27 usan el módulo convertidor PCF8574 I2C.';
@@ -98,28 +111,41 @@ Blockly.Msg['IO_GROVEJOYSTICK_GETAXIS_TITLE'] = '[Módulo joytsick] Valor de eje
 Blockly.Msg['IO_GROVEJOYSTICK_GETAXIS_TOOLTIP'] = IMG_MODULE_JOYSTICK + Blockly.Tooltip.SEP + 'Devuelve el valor del eje X o Y (de 0 a 1023) del joystick Grove en los pines analógicos A0 a A5.';
 Blockly.Msg['IO_GETGROVESLIDEPOTENTIOMETER_TITLE'] = '[Potenciómetro lineal] Valor en el pin %1';
 Blockly.Msg['IO_GETGROVESLIDEPOTENTIOMETER_TOOLTIP'] = IMG_MODULE_SLIDE_POT + Blockly.Tooltip.SEP + 'Devuelve la posición (de 0 a 1023) del potenciómetro lineal Grove en los pines analógicos A0 a A5.';
+Blockly.Msg['IO_GET_GROVE_ENCODER_VALUE_TITLE'] = '[Encoder rotatorio] valor en el pin D2';
+Blockly.Msg['IO_GET_GROVE_ENCODER_VALUE_TOOLTIP'] = IMG_MODULE_ROTARY_ENCODER + Blockly.Tooltip.SEP + 'Devuelve el valor del encoder rotatorio Grove conectado al puerto D2 del shield Grove. Este es el único puerto Grove que admite la interrupción necesaria para el funcionamiento del encoder. Por lo tanto, no es posible conectarlo a otro puerto.';
 Blockly.Msg['IO_GETGROVEROTARYANGLE_TITLE'] = '[Potenciómetro giratorio] valor en pin %1';
 Blockly.Msg['IO_GETGROVEROTARYANGLE_TOOLTIP'] = IMG_MODULE_ROTARY_ANGLE + Blockly.Tooltip.SEP + 'Devuelve el ángulo (de 0 a 1023) del potenciómetro giratorio Grove en los pines A0 a A5.';
 Blockly.Msg['IO_GETGROVETACTILE_TITLE'] = '[Sensor tactil] estado del pin %1 ';
 Blockly.Msg['IO_GETGROVETACTILE_TOOLTIP'] = IMG_MODULE_TOUCH + Blockly.Tooltip.SEP + 'Devuelve el valor del sensor táctil Grove (0 o 1) en los pines digitales D0 a D13.';
 Blockly.Msg['IO_GETGROVEBUTTON_TITLE'] = '[Modulo botón] estado del pin %1 ';
 Blockly.Msg['IO_GETGROVEBUTTON_TOOLTIP'] = IMG_MODULE_BUTTON + Blockly.Tooltip.SEP + 'Devuelve el valor del botón Grove (0 o 1) en los pines digitales D0 a D13.';
+Blockly.Msg['IO_GET_REVERSED_BUTTON_TITLE'] = '[Módulo de botón invertido] estado en el pin %1';
+Blockly.Msg['IO_GET_REVERSED_BUTTON_TOOLTIP'] = 'Devuelve el valor del botón (0 o 1) en los pines digitales D0 a D13. Los botones NC (Normalmente Cerrados) permiten el paso de corriente cuando están en reposo.';
 Blockly.Msg['IO_GETGROVESWITCH_TITLE'] = '[Módulo interruptor] estado del pin %1 ';
 Blockly.Msg['IO_GETGROVESWITCH_TOOLTIP'] = IMG_MODULE_SWITCH + Blockly.Tooltip.SEP + 'Devuelve el valor del interruptor Grove (0 o 1) en los pines digitales D0 a D13.';
-Blockly.Msg['IO_GROVEMP3_INIT_TITLE'] = '[Módulo MP3 v3] inicializar en el pin RX %1 TX %2';
-Blockly.Msg['IO_GROVEMP3_INIT_TOOLTIP'] = IMG_MODULE_MP3 + Blockly.Tooltip.SEP + 'Inicializa el módulo Grove MP3 v3.0 en los pines RX/TX';
-Blockly.Msg['IO_GROVEMP3_PLAY_PAUSE_TITLE'] = '[Módulo MP3 v3] poner en reproducción/pausa';
-Blockly.Msg['IO_GROVEMP3_PLAY_PAUSE_TOOLTIP'] = IMG_MODULE_MP3 + Blockly.Tooltip.SEP + 'Permite poner en reproducción/pausa';
-Blockly.Msg['IO_GROVEMP3_NEXT_TITLE'] = '[Módulo MP3 v3] ir a la siguiente pista';
-Blockly.Msg['IO_GROVEMP3_NEXT_TOOLTIP'] = IMG_MODULE_MP3 + Blockly.Tooltip.SEP + 'Va a la siguiente pista';
-Blockly.Msg['IO_GROVEMP3_PLAY_SD_SONG_TITLE'] = '[Módulo MP3 v3] reproducir pista %1';
-Blockly.Msg['IO_GROVEMP3_PLAY_SD_SONG_TOOLTIP'] = IMG_MODULE_MP3 + Blockly.Tooltip.SEP + 'Te permite reproducir una pista proporcionando el nombre del archivo.';
-Blockly.Msg['IO_GROVEMP3_PLAY_SD_DIRECTORY_SONG_TITLE'] = '[Módulo MP3 v3] reproducir la pista de la carpeta %1 índice %2';
-Blockly.Msg['IO_GROVEMP3_PLAY_SD_DIRECTORY_SONG_TOOLTIP'] = IMG_MODULE_MP3 + Blockly.Tooltip.SEP + 'Te permite reproducir una pista en una carpeta especificando su índice.';
-Blockly.Msg['IO_GROVEMP3_GET_VOLUME_TITLE'] = '[Módulo MP3 v3] volumen actual';
-Blockly.Msg['IO_GROVEMP3_GET_VOLUME_TOOLTIP'] = IMG_MODULE_MP3 + Blockly.Tooltip.SEP + 'Devuelve el nivel de volumen actual';
-Blockly.Msg['IO_GROVEMP3_SET_VOLUME_TITLE'] = '[Módulo MP3 v3] establecer volumen %1';
-Blockly.Msg['IO_GROVEMP3_SET_VOLUME_TOOLTIP'] = IMG_MODULE_MP3 + Blockly.Tooltip.SEP + 'Establece el nivel de volumen';
+Blockly.Msg['IO_GROVEMP3_INIT_TITLE'] = '[Módulo MP3 %1] inicializar';
+Blockly.Msg['IO_GROVEMP3_INIT_TOOLTIP'] = IMG_MODULE_MP3_V3 + Blockly.Tooltip.SEP + 'Inicializa el módulo Grove MP3 v3.0 en los pines RX/TX';
+Blockly.Msg['IO_GROVEMP3_PLAY_PAUSE_TITLE'] = '[Módulo MP3 %1] poner en reproducción/pausa';
+Blockly.Msg['IO_GROVEMP3_PLAY_PAUSE_TOOLTIP'] = IMG_MODULE_MP3_V3 + Blockly.Tooltip.SEP + 'Permite poner en reproducción/pausa';
+Blockly.Msg['IO_GROVEMP3_NEXT_TITLE'] = '[Módulo MP3 %1] pasar a la piste %2';
+Blockly.Msg['IO_GROVEMP3_NEXT_TOOLTIP'] = IMG_MODULE_MP3_V3 + Blockly.Tooltip.SEP + 'Va a la siguiente pista or la anterior.';
+Blockly.Msg['IO_GROVEMP3_NEXT'] = 'siguiente';
+Blockly.Msg['IO_GROVEMP3_PREVIOUS'] = 'anterior';
+Blockly.Msg['IO_GROVEMP3_PLAY_SD_SONG_TITLE'] = '[Módulo MP3 %1] reproducir pista %2';
+Blockly.Msg['IO_GROVEMP3_PLAY_SD_SONG_TOOLTIP'] = IMG_MODULE_MP3_V3 + Blockly.Tooltip.SEP + 'Te permite reproducir una pista proporcionando el nombre del archivo.';
+Blockly.Msg['IO_GROVEMP3_PLAY_SD_DIRECTORY_SONG_TITLE'] = '[Módulo MP3 %1] reproducir la pista de la carpeta %2 índice %3';
+Blockly.Msg['IO_GROVEMP3_PLAY_SD_DIRECTORY_SONG_TOOLTIP'] = IMG_MODULE_MP3_V3 + Blockly.Tooltip.SEP + 'Te permite reproducir una pista en una carpeta especificando su índice.';
+Blockly.Msg['IO_GROVEMP3_GET_VOLUME_TITLE'] = '[Módulo MP3 %1] volumen actual';
+Blockly.Msg['IO_GROVEMP3_GET_VOLUME_TOOLTIP'] = IMG_MODULE_MP3_V3 + Blockly.Tooltip.SEP + 'Devuelve el nivel de volumen actual';
+Blockly.Msg['IO_GROVEMP3_SET_VOLUME_TITLE'] = '[Módulo MP3 %1] establecer volumen %2';
+Blockly.Msg['IO_GROVEMP3_SET_VOLUME_TOOLTIP'] = IMG_MODULE_MP3_V3 + Blockly.Tooltip.SEP + 'Establece el nivel de volumen';
+Blockly.Msg['IO_GROVEMP3_CHANGE_PLAYING_MODE_TITLE'] = '[Módulo MP3 %1] cambia el modo de reproducción a %2';
+Blockly.Msg['IO_GROVEMP3_CHANGE_PLAYING_MODE_TOOLTIP'] = IMG_MODULE_MP3_V3 + Blockly.Tooltip.SEP + 'Permite cambiar el modo de reproducción del reproductor MP3.';
+Blockly.Msg['IO_GROVEMP3_MODE_CYCLE'] = "reproducir todas las pistas";
+Blockly.Msg['IO_GROVEMP3_MODE_SINGLE_CYCLE'] = "reproducir una pista";
+Blockly.Msg['IO_GROVEMP3_MODE_DIR_CYCLE'] = "reproducir una carpeta";
+Blockly.Msg['IO_GROVEMP3_MODE_RANDOM'] = "en modo aleatorio";
+Blockly.Msg['IO_GROVEMP3_MODE_SINGLE_SHOT'] = "solo una pista";
 // Input/Output - Pins
 Blockly.Msg['IO_LED_BUILTIN_TITLE'] = 'LED integrado';
 Blockly.Msg['IO_LED_BUILTIN_TOOLTIP'] = "Permite controlar el estado del LED integrado en la placa Arduino.";
@@ -144,6 +170,9 @@ Blockly.Msg['IO_ATTACH_INTERRUPT_TOOLTIP'] = 'Le permite crear un evento en los 
 Blockly.Msg['IO_RISING_EDGE'] = 'flanco ascendente';
 Blockly.Msg['IO_FALLING_EDGE'] = 'flanco descendente';
 Blockly.Msg['IO_BOTH_EDGE'] = 'cambio de estado';
+// Comunicación - Común
+Blockly.Msg['COMMUNICATION_RX_TX_PINS'] = 'en los pines RX %1 TX %2';
+Blockly.Msg['COMMUNICATION_THEN'] = 'entonces';
 // Communication - Serial connection
 Blockly.Msg['COMMUNICATION_SERIAL_BEGIN_TITLE'] = 'iniciar la comunicación serie a %1 baudios';
 Blockly.Msg['COMMUNICATION_SERIAL_BEGIN_TOOLTIP'] = 'Permite iniciar la comunicación serie a una velocidad de transmisión de datos (en baudios).';
@@ -177,21 +206,43 @@ Blockly.Msg['COMMUNICATION_COMPUTER_SETFREQUENCY_TOOLTIP'] = 'Este bloque te per
 Blockly.Msg['COMMUNICATION_COMPUTER_STOPMUSIC_TITLE'] = 'terminar la nota en computadora';
 Blockly.Msg['COMMUNICATION_COMPUTER_STOPMUSIC_TOOLTIP'] = 'Detener la reproducción de la nota actual.';
 // Communication - Data logging
-Blockly.Msg['COMMUNICATION_OPENLOG_WRITE_TITLE'] = '[Openlog] escribir en la tarjeta SD %1 baudrate %2 en pines RXI %3 TXO %4 %5 datos %6';
+Blockly.Msg["COMMUNICATION_OPENLOG_WRITE_TITLE"] = "[Openlog] escribir en la tarjeta baudrate %1";
+Blockly.Msg['COMMUNICATION_OPENLOG_WRITE_TITLE_PINS'] = 'en pines RXI %1 TXO %2';
+Blockly.Msg['COMMUNICATION_OPENLOG_WRITE_TITLE_DATA'] = 'Datos %1';
 Blockly.Msg['COMMUNICATION_OPENLOG_WRITE_TOOLTIP'] = IMG_MODULE_OPENLOG + Blockly.Tooltip.SEP + 'Permite escribir datos en la tarjeta micro SD con el módulo Openlog. Operación en transmisión UART.';
 Blockly.Msg['COMMUNICATION_SDSPI_WRITE_TITLE'] = '[Módulo SD SPI] escribir en la tarjeta SD %1 en el pin CS %2 %3 Datos %4';
 Blockly.Msg['COMMUNICATION_SDSPI_WRITE_TOOLTIP'] = IMG_MODULE_SD_SPIMODULE + Blockly.Tooltip.SEP + 'Este bloque se utiliza para escribir datos en la tarjeta SD con un módulo SPI. Con una placa Arduino UNO, la transmisión SPI utiliza los pines ICSP o ISP. Debe especificar el pin CS (por ejemplo, D4 para el Shield Grove).';
 // Communication - Wireless
-Blockly.Msg['COMMUNICATION_BLUETOOTH_SETTINGS_TITLE'] = '[Bluetooth] configurar: Nombre %1 Modo %2 Código pin %3';
-Blockly.Msg['COMMUNICATION_BLUETOOTH_SETTINGS_TOOLTIP'] = IMG_MODULE_SERIAL_BT + Blockly.Tooltip.SEP + 'Le permite configurar el módulo serie Bluetooth ingresando el nombre, el modo (\'S\' para esclavo y \'M\' para maestro) y el código pin.';
-Blockly.Msg['COMMUNICATION_BLUETOOTH_SENDDATA_TITLE'] = '[Bluetooth] enviar en los pines RX %1 TX %2 mensaje %3';
-Blockly.Msg['COMMUNICATION_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_SERIAL_BT + Blockly.Tooltip.SEP + 'Permite enviar datos a través del módulo serie Bluetooth en los pines digitales D0 a D13.';
-Blockly.Msg['COMMUNICATION_BLUETOOTH_ONDATARECEIVED_TITLE'] = '[Bluetooth] si el mensaje se recibió en los pines RX %1 TX %2 en %3 entonces';
-Blockly.Msg['COMMUNICATION_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_SERIAL_BT + Blockly.Tooltip.SEP + 'Permite ejecutar instrucciones si un módulo serie Bluetooth recibe datos en la variable \'bluetoothData\' en los pines digitales D0 a D13.';
-Blockly.Msg['COMMUNICATION_HM10_BLUETOOTH_SENDDATA_TITLE'] = '[HM10 BT] enviar en pines RX %1 TX %2 mensaje %3';
-Blockly.Msg['COMMUNICATION_HM10_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_HM10_BT + Blockly.Tooltip.SEP + 'Permite enviar datos a través del módulo serie Bluetooth HM10 en los pines digitales D0 a D13.';
-Blockly.Msg['COMMUNICATION_HM10_BLUETOOTH_ONDATARECEIVED_TITLE'] = '[HM10 BT] si el mensaje se recibió en los pines RX %1 TX %2 en %3 entonces';
-Blockly.Msg['COMMUNICATION_HM10_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HM10_BT + Blockly.Tooltip.SEP + 'Le permite ejecutar instrucciones si un módulo serie Bluetooth HM10 recibe datos en la variable \'HM10Data\' en los pines digitales D0 a D13. Por defecto, el módulo se llama MLT-BT05.';
+Blockly.Msg["COMMUNICATION_BLUETOOTH_SETTINGS_TITLE"] = "[Bluetooth] establecer nombre %1 Modo %2 Código PIN %3";
+Blockly.Msg["COMMUNICATION_BLUETOOTH_SETTINGS_TOOLTIP"] = IMG_MODULE_SERIAL_BT + Blockly.Tooltip.SEP + "Habilitar la configuración de 3 parámetros (nombre, modo 'S' para esclavo o 'M' para maestro y código PIN) del módulo Bluetooth serie.";
+Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_SET_AT_COMMAND_TITLE'] = '[Grove BT] AT - cambiar parámetro %1 a %2';
+Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_SET_AT_COMMAND_TOOLTIP'] = IMG_MODULE_SERIAL_BT + Blockly.Tooltip.SEP + 'Permite cambiar los parámetros del módulo Grove Serial Bluetooth v3 enviando un comando AT. Una vez modificado el parámetro, ya no es necesario volver a este modo, ya que se almacena en la memoria del módulo.';
+Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_GET_AT_COMMAND_TITLE'] = '[Grove BT] AT - valor del parámetro %1';
+Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_GET_AT_COMMAND_TOOLTIP'] = IMG_MODULE_SERIAL_BT + Blockly.Tooltip.SEP + 'Recupera los valores de los parámetros del módulo Grove Serial Bluetooth v3 enviando un comando AT.';
+Blockly.Msg["COMMUNICATION_BLUETOOTH_SENDDATA_TITLE"] = "[Bluetooth] enviar mensaje %1";
+Blockly.Msg["COMMUNICATION_BLUETOOTH_SENDDATA_TOOLTIP"] = IMG_MODULE_SERIAL_BT + Blockly.Tooltip.SEP + "Habilita el envío de datos mediante el módulo Bluetooth serie en los pines digitales D0 a D13.";
+Blockly.Msg["COMMUNICATION_BLUETOOTH_ONDATARECEIVED_TITLE"] = "[Bluetooth] en el mensaje %1";
+Blockly.Msg["COMMUNICATION_BLUETOOTH_ONDATARECEIVED_TOOLTIP"] = IMG_MODULE_SERIAL_BT + Blockly.Tooltip.SEP + "Permite ejecutar instrucciones sobre los datos recibidos por el módulo Bluetooth serie en la variable 'bluetoothData' en los pines digitales D0 a D13.";
+Blockly.Msg['COMMUNICATION_BLUETOOTH_HELPER_R4'] = '\n.\nConexiones: Con la placa Arduino R4, RXD se conecta a TX (D1) y TXD se conecta a RX (D0). Esto corresponde al puerto UART de la shield Grove.';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_KEY_HELPER'] = '\n.\nNota: Para usar este bloque, el módulo debe estar en modo AT. Para ello, conecte el pin KEY del módulo al terminal 3V3 de Arduino con un cable Dupont, luego desconecte y vuelva a conectar la placa Arduino. El modo AT es visible cuando el LED del módulo HC05 parpadea aproximadamente cada segundo.';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SET_AT_COMMAND_TITLE'] = '[HC05 BT] AT - cambiar el parámetro %1 a %2';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SET_AT_COMMAND_TOOLTIP'] = IMG_MODULE_HC05 + Blockly.Tooltip.SEP + 'Permite cambiar los parámetros del módulo Bluetooth HC05 enviando un comando AT. Una vez modificado el parámetro, ya no es necesario volver a este modo, ya que está almacenado en la memoria del módulo.' + Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_KEY_HELPER'];
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_GET_AT_COMMAND_TITLE'] = '[HC05 BT] AT - valor del parámetro %1';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_GET_AT_COMMAND_TOOLTIP'] = IMG_MODULE_HC05 + Blockly.Tooltip.SEP + 'Permite recuperar los valores de los parámetros del módulo Bluetooth HC05 enviando un comando AT.' + Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_KEY_HELPER'];
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_CHANGEBAUDRATE_TITLE'] = '[HC05 BT] Establecer la velocidad en baudios a %1';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_CHANGEBAUDRATE_TOOLTIP'] = IMG_MODULE_HC05 + Blockly.Tooltip.SEP + 'Permite cambiar la velocidad de transmisión de datos con el módulo Bluetooth HC05. Por defecto, la velocidad en baudios del módulo es de 9600. Recuerde comprobar primero la velocidad en baudios en la memoria del módulo HC05 leyendo \'AT+UART?\' en modo AT. Si es necesario, cambie esta configuración enviando un comando AT+UART a "9600,0,0", por ejemplo.';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_TRANSMISSION_MODE'] = '\n.\nPara volver al modo de transmisión de datos, simplemente desconecte el pin KEY del terminal 3V3. El módulo empezará a parpadear rápidamente, lo que indica que está buscando un emparejamiento.'; Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TITLE'] = '[HC05 BT] Enviar mensaje %1';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_HC05 + Blockly.Tooltip.SEP + 'Permite enviar datos a través del módulo Bluetooth HC05 en los pines digitales D0 a D13.' + Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_TRANSMISSION_MODE'];
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TITLE'] = '[HC05 BT] Si el mensaje se recibió en %1';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HC05 + Blockly.Tooltip.SEP + 'Le permite ejecutar instrucciones si los datos son recibidos por un módulo Bluetooth HC05 en los pines digitales D0 a D13.' + Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_TRANSMISSION_MODE'];
+Blockly.Msg['COMMUNICATION_HM10_BLUETOOTH_SET_AT_COMMAND_TITLE'] = '[HM10 BT] AT - cambiar el parámetro %1 a %2';
+Blockly.Msg['COMMUNICATION_HM10_BLUETOOTH_SET_AT_COMMAND_TOOLTIP'] = IMG_MODULE_HM10_BT + Blockly.Tooltip.SEP + 'Permite cambiar los parámetros del módulo Bluetooth HM10 enviando un comando AT. Una vez modificado el parámetro, ya no es necesario volver a este modo, ya que se almacena en la memoria del módulo.';
+Blockly.Msg['COMMUNICATION_HM10_BLUETOOTH_GET_AT_COMMAND_TITLE'] = '[HM10 BT] AT - valor del parámetro %1';
+Blockly.Msg['COMMUNICATION_HM10_BLUETOOTH_GET_AT_COMMAND_TOOLTIP'] = IMG_MODULE_HM10_BT + Blockly.Tooltip.SEP + 'Le permite recuperar el valor de los parámetros del módulo bluetooth HM10 enviando un comando AT.';
+Blockly.Msg["COMMUNICATION_HM10_BLUETOOTH_SENDDATA_TITLE"] = "[HM10 BT] enviar mensaje %1";
+Blockly.Msg["COMMUNICATION_HM10_BLUETOOTH_SENDDATA_TOOLTIP"] = IMG_MODULE_HM10_BT + Blockly.Tooltip.SEP + "Habilitar el envío de datos mediante el módulo Bluetooth serie HM10 en los pines digitales D0 a D13.";
+Blockly.Msg["COMMUNICATION_HM10_BLUETOOTH_ONDATARECEIVED_TITLE"] = "[HM10 BT] en el mensaje recibido en %1";
+Blockly.Msg["COMMUNICATION_HM10_BLUETOOTH_ONDATARECEIVED_TOOLTIP"] = IMG_MODULE_HM10_BT + Blockly.Tooltip.SEP + "Permite ejecutar instrucciones sobre los datos recibidos por el módulo Bluetooth serial HM10 en la variable 'HM10Data' en los pines digitales D0 a D13. De forma predeterminada, el nombre del módulo es MLT-BT05.";
 Blockly.Msg['COMMUNICATION_RADIONRF24_SENDDATA_TITLE'] = '[Radio nRF24L01] enviar a la Dirección %1 Canal %2 en los pines CE %3 CSN %4 el mensaje %5';
 Blockly.Msg['COMMUNICATION_RADIONRF24_SENDDATA_TOOLTIP'] = IMG_MODULE_NRF24L01 + Blockly.Tooltip.SEP + 'Permite que los datos inalámbricos sean enviados por el módulo nRF24L01 a otro módulo similar. El módulo opera en la banda de frecuencia de 2,4 GHz. Con una placa Arduino UNO, la transmisión SPI utiliza los pines ICSP o ISP. Atención, este módulo debe ser alimentado con una tensión de 3,3 V.';
 Blockly.Msg['COMMUNICATION_RADIONRF24_DATARECEIVER_TITLE'] = '[Radio nRF24L01] si hay datos disponibles Dirección %1 Canal %2 en pines CE %3 CSN %4 en %5 entonces';
@@ -211,7 +262,9 @@ Blockly.Msg['REMOTE_NEC_BUTTON_LEFT'] = 'izquierda';
 Blockly.Msg['REMOTE_NEC_BUTTON_RIGHT'] = 'derecha';
 Blockly.Msg['REMOTE_NEC_BUTTON_BACK'] = 'retorno';
 // Communication - External modules
-Blockly.Msg['COMMUNICATION_GPS_ONDATARECEIVED_TITLE'] = '[GPS] si se reciben datos en los pines TX %1 RX %2 en %3, entonces';
+Blockly.Msg['COMMUNICATION_RFID_GETSTRINGCARDID_TITLE'] = '[Lector RFID] ID de insignia';
+Blockly.Msg['COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP'] = IMG_MODULE_RFID + Blockly.Tooltip.SEP + 'Le permite recuperar el identificador UID en forma de una cadena de caracteres del módulo Grove RFID de 125 kHz si el uno está disponible en los pines digitales D0 a D13.Para verificar el identificador de una tarjeta y validarla o no, simplemente compárelo con el marco de cadena deseado.';
+Blockly.Msg['COMMUNICATION_GPS_ONDATARECEIVED_TITLE'] = '[GPS] si se reciben datos en %1';
 Blockly.Msg['COMMUNICATION_GPS_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_GPS + Blockly.Tooltip.SEP + 'Permite ejecutar instrucciones si el GPS recibe datos en la variable \'gpsData\' en los pines RX/TX.';
 Blockly.Msg['COMMUNICATION_RTC_MODULE_PCF85063TP'] = 'Alta precisión (0x51)';
 Blockly.Msg['COMMUNICATION_RTC_MODULE_DS1307'] = 'v1.2 (0x68)';
@@ -235,8 +288,6 @@ Blockly.Msg['CLOCK_WEEK_DAY'] = 'día de la semana';
 Blockly.Msg['CLOCK_HOUR'] = 'hora';
 Blockly.Msg['CLOCK_MINUTE'] = 'minutos';
 Blockly.Msg['CLOCK_SECOND'] = 'segundo';
-Blockly.Msg['COMMUNICATION_RFID_GETSTRINGCARDID_TITLE'] = '[Lector RFID] ID de insignia en pines RX %1 TX %2';
-Blockly.Msg['COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP'] = IMG_MODULE_RFID + Blockly.Tooltip.SEP + 'Le permite recuperar el identificador UID en forma de una cadena de caracteres del módulo Grove RFID de 125 kHz si el uno está disponible en los pines digitales D0 a D13.Para verificar el identificador de una tarjeta y validarla o no, simplemente compárelo con el marco de cadena deseado.';
 // Sensors - Gas
 Blockly.Msg['SENSORS_SGP30_READDATA_TITLE'] = '[Sensor SGP30] Gas %1';
 Blockly.Msg['SENSORS_SGP30_READDATA_TOOLTIP'] = IMG_MODULE_SGP30 + Blockly.Tooltip.SEP + 'Devuelve la cantidad de CO2 (en PPM) o TVOC (en PPB) contenida en el aire gracias al sensor SGP30.Conecte el sensor a un puerto I2C.';
@@ -469,3 +520,13 @@ Blockly.Msg['VITTAIA_IS'] = 'es';
 Blockly.Msg['VITTAIA_ISNOT'] = 'no es';
 Blockly.Msg['VITTAIA_GET_HIGHEST_PROBABILITY_CLASS_TITLE'] = 'clase detectada';
 Blockly.Msg['VITTAIA_GET_HIGHEST_PROBABILITY_CLASS_TOOLTIP'] = 'Permite recuperar la clase con la mayor probabilidad.';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SET_AT_COMMAND_TITLE'] = '[HC05 BT] AT - cambiar el parámetro %3 a %4 en los pines RX %1 TX %2';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SET_AT_COMMAND_TOOLTIP'] = IMG_MODULE_HC05 + Blockly.Tooltip.SEP + 'Permite cambiar los parámetros del módulo bluetooth HC05 enviando un comando AT. Una vez cambiado el parámetro, no es necesario volver a este modo porque se guarda en la memoria del módulo. Atención, para esto el módulo debe estar en modo AT. Para ello, conecta el pin KEY del módulo al terminal 3V3 del Arduino con un cable tipo dupont, luego desconecta y vuelve a conectar la placa Arduino. El modo AT se reconoce cuando el LED parpadea aproximadamente cada segundo en el módulo HC05.';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_GET_AT_COMMAND_TITLE'] = '[HC05 BT] AT - valor del parámetro %3 en los pines RX %1 TX %2';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_GET_AT_COMMAND_TOOLTIP'] = IMG_MODULE_HC05 + Blockly.Tooltip.SEP + 'Permite obtener el valor de los parámetros del módulo bluetooth HC05 enviando un comando AT. Atención, para esto el módulo debe estar en modo AT. Para ello, conecta el pin KEY del módulo al terminal 3V3 del Arduino con un cable tipo dupont, luego desconecta y vuelve a conectar la placa Arduino. El modo AT se reconoce cuando el LED parpadea aproximadamente cada segundo en el módulo HC05.';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_CHANGEBAUDRATE_TITLE'] = '[HC05 BT] establecer la velocidad en baudios a %1';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_CHANGEBAUDRATE_TOOLTIP'] = IMG_MODULE_HC05 + Blockly.Tooltip.SEP + 'Permite cambiar la velocidad de transmisión de datos con el módulo bluetooth HC05. Por defecto, la velocidad en baudios del módulo es 9600. Primero verifica la velocidad en baudios guardada en el módulo HC05 leyendo \'AT+UART?\' en modo AT. Si es necesario, cambia este parámetro enviando un comando AT+UART a "19200,0,0" por ejemplo.';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TITLE'] = '[HC05 BT] enviar mensaje %3 en los pines RX %1 TX %2';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_HM10_BT + Blockly.Tooltip.SEP + 'Permite enviar datos a través del módulo bluetooth HC05 en los pines digitales D0 a D13. Para volver al modo de transmisión de datos, simplemente desconecta el pin KEY del terminal 3V3. El módulo comenzará a parpadear rápidamente, lo que indica que está buscando emparejamiento.';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TITLE'] = '[HC05 BT] si se recibe un mensaje en los pines RX %1 TX %2 en %3 entonces';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HM10_BT + Blockly.Tooltip.SEP + 'Permite ejecutar instrucciones si se recibe un dato por un módulo bluetooth HC05 en los pines digitales D0 a D13. Para volver al modo de transmisión de datos, simplemente desconecta el pin KEY del terminal 3V3. El módulo comenzará a parpadear rápidamente, lo que indica que está buscando emparejamiento.';

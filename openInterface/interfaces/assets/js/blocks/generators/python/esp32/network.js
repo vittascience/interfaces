@@ -139,6 +139,14 @@ Blockly.Python.network_changeServerPort = function (block) {
 // Server - send web page
 Blockly.Python.network_server_sendWebPage = function (block) {
     const branchCode = Blockly.Python.statementToCode(block, "BODY") || "";
+    let scriptCode = "";
+    if (Object.keys(Blockly.Python.staticValues_).length > 0) {
+        scriptCode = "<script>" + NEWLINE;
+        for (var i in Blockly.Python.staticValues_) {
+            scriptCode += Blockly.Python.staticValues_[i] + NEWLINE;
+        }
+        scriptCode += "</script>" + NEWLINE;
+    }
     const htmlPageVar = 'server.html_page = """' + NEWLINE
         + '  <!DOCTYPE HTML>' + NEWLINE
         + "  <html>" + NEWLINE
@@ -147,11 +155,14 @@ Blockly.Python.network_server_sendWebPage = function (block) {
         + "  </head>" + NEWLINE
         + "  <body>" + NEWLINE
         + branchCode
+        + (scriptCode ? scriptCode : "")
         + "  </body>" + NEWLINE
         + '  </html>"""' + NEWLINE;
-    let html_vars = Blockly.Python.esp32.getVariablesIncludedInHtml(block);
     let code = htmlPageVar + NEWLINE;
-    if (html_vars.length > 0) {
+    const hasItem = function (vars) {
+        return Object.keys(Blockly.Python[vars]).length > 0
+    };
+    if (hasItem("htmlSpans_") || hasItem("htmlGauges_") || hasItem("htmlImages_")) {
         code += 'server.sendHtmlPage(True)' + NEWLINE;
         let htmlVarCode = 'html_variables = {' + NEWLINE;
         if (Object.keys(Blockly.Python.htmlSpans_).length > 0) {
@@ -240,17 +251,21 @@ Blockly.Python.network_html_addText = function (block) {
     }
     Blockly.Python.esp32.addCssStyle('default_init', FUNCTIONS_ESP32_MICROCHIP.CSS_DEFAULT_INIT);
     const formattedText = Blockly.Python.esp32.getStringFormat('str(' + text + ')');
-    const html_vars = Blockly.Python.esp32.getVariablesIncludedInHtml(block);
-    if (html_vars.length > 0) {
+    const span = function (val, id = null) {
+        return '  <span ' + (id ? id : "") + 'class="police" style="color:' + colour + ';' + fontSize + '">' + val + '</span><br>' + NEWLINE;
+    };
+    try {
+        const remapToJs = function (code) {
+            return code.replace(/str\(/gi, "parseFloat(");
+        };
+        const setter = eval(remapToJs(text));
+        return span(setter);
+    } catch (e) {
+        console.warn(e);
         const id = randHex();
-        for (var i in html_vars) {
-            if (text.includes(html_vars[i])) {
-                Blockly.Python.esp32.addHtmlSpanValue(id, text, 'span');
-                return '  <span id="' + id + '" class="police" style="color:' + colour + ';' + fontSize + '">' + formattedText + '</span><br>' + NEWLINE;
-            }
-        }
+        Blockly.Python.esp32.addHtmlSpanValue(id, text, 'span');
+        return span(formattedText, 'id="' + id + '" ');
     }
-    return '  <span class="police" style="color:' + colour + ';' + fontSize + '">' + formattedText + '</span><br>' + NEWLINE;
 };
 
 // Add button on page
@@ -268,9 +283,9 @@ Blockly.Python.network_html_addButton = function (block) {
         }
     }
     id = Blockly.Python.esp32.getStringFormat(id);
+    text = Blockly.Python.esp32.getStringFormat(text);
     height = 'height:' + Blockly.Python.esp32.getStringFormat('str(' + height + ')') + 'px;';
     width = 'width:' + Blockly.Python.esp32.getStringFormat('str(' + width + ')') + 'px;';
-    text = Blockly.Python.esp32.getStringFormat(text);
     Blockly.Python.esp32.addJavascriptCode('http_onButtonClick', FUNCTIONS_ESP32_MICROCHIP.JAVSCRIPT_ON_BUTTON_CLICK);
     Blockly.Python.esp32.addCssStyle('default_init', FUNCTIONS_ESP32_MICROCHIP.CSS_DEFAULT_INIT);
     return '  <button class="police" name=\'' + id + '\' style="background-color:' + colour + ';' + height + width + '" onclick="http_onButtonClick(\'' + id + '\')">' + text + '</button>' + NEWLINE;
@@ -367,10 +382,20 @@ Blockly.Python.network_html_addGauge = function (block) {
     const id = randHex();
     const gaugeCss = '.gauge_' + id + ' .semi-circle {background:#3498db;}' + NEWLINE
         + '.gauge_' + id + ' .semi-circle--mask {transform:rotate(20deg) translate3d(0,0,0);}' + NEWLINE;
-    Blockly.Python.esp32.addHtmlGaugeValue(id, value);
-    Blockly.Python.esp32.addJavascriptCode('var_myGauges', 'var myGauges = Object.create(null);');
     Blockly.Python.esp32.addJavascriptCode('js_setGaugeValue', FUNCTIONS_ESP32_MICROCHIP.JAVASCRIPT_SET_GAUGE_VALUE);
-    Blockly.Python.esp32.addJavascriptCode('myGauges_' + id, 'myGauges[\'' + id + '\'] = {min:' + min + ',max:' + max + '}');
+    const pythonValue = Blockly.Python.esp32.getStringFormat('str(' + value + ')');
+    try {
+        const remapToJs = function (code) {
+            return "\`" + code.replace(/"""/gi, '\`').replace(/str\(/gi, "parseFloat(") + '\`';
+        };
+        const setter = "setGaugeValue(" + eval(remapToJs(pythonValue)) + ", " + min + ", " + max + ", '" + id + "');";
+        Blockly.Python.esp32.addStaticValue('setGaugeValue_' + id, setter);
+    } catch (e) {
+        console.warn(e);
+        Blockly.Python.esp32.addHtmlGaugeValue(id, value);
+        Blockly.Python.esp32.addJavascriptCode('var_myGauges', 'var myGauges = Object.create(null);');
+        Blockly.Python.esp32.addJavascriptCode('myGauges_' + id, 'myGauges[\'' + id + '\'] = {min:' + min + ',max:' + max + '};');
+    }
     Blockly.Python.esp32.addCssStyle('default_init', FUNCTIONS_ESP32_MICROCHIP.CSS_DEFAULT_INIT);
     Blockly.Python.esp32.addCssStyle('default_gauge', FUNCTIONS_ESP32_MICROCHIP.CSS_GAUGE_STYLE);
     Blockly.Python.esp32.addCssStyle('css_gauge_' + id, gaugeCss);
@@ -527,7 +552,7 @@ Blockly.Python.network_HTML_addSymbol = function (block) {
     if (symbol.charAt(symbol.length - 1) !== ';') {
         symbol = symbol + ';';
     }
-    return TAB + '<span style="font-size:' + size + '">' + encoding +  symbol + '</span>' + NEWLINE;
+    return TAB + '<span style="font-size:' + size + '">' + encoding + symbol + '</span>' + NEWLINE;
 };
 
 // Web page data
@@ -811,19 +836,21 @@ Blockly.Python.esp32.getVariablesIncludedInHtml = function (block) {
     let html_var_names = new Array()
     for (let id in var_gets) {
         let blockGet = var_gets[id];
-        while (true) {
-            if (blockGet.parentBlock_ !== null) {
-                if (Blockly.Constants.HTML_BLOCKS.includes(blockGet.getParent().type)) {
-                    const name = Blockly.Python.nameDB_.getName(var_gets[id].getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME);
-                    if (!html_var_names.includes(name)) {
-                        html_var_names.push(name);
+        if (!blockGet.disabled) {
+            while (true) {
+                if (blockGet.parentBlock_ !== null) {
+                    if (Blockly.Constants.HTML_BLOCKS.includes(blockGet.getParent().type)) {
+                        const name = Blockly.Python.nameDB_.getName(var_gets[id].getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME);
+                        if (!html_var_names.includes(name)) {
+                            html_var_names.push(name);
+                        }
+                        break;
+                    } else {
+                        blockGet = blockGet.getParent();
                     }
-                    break;
                 } else {
-                    blockGet = blockGet.getParent();
+                    break;
                 }
-            } else {
-                break;
             }
         }
     }
@@ -869,6 +896,18 @@ Blockly.Python.esp32.addJavascriptCode = function (jsCodeTag, code) {
 Blockly.Python.esp32.addCssStyle = function (cssCodeTag, code) {
     if (Blockly.Python.cssStyles_[cssCodeTag] === undefined) {
         Blockly.Python.cssStyles_[cssCodeTag] = code;
+    }
+};
+
+/**
+ * Adds a string of "valueTag" code to be added after initializations.
+ * Once a include is added it will not get overwritten with new code.
+ * @param {!string} valueTag Identifier for this include code.
+ * @param {!string} code Code to be included at the very top of the sketch.
+ */
+Blockly.Python.esp32.addStaticValue = function (valueTag, code) {
+    if (Blockly.Python.staticValues_[valueTag] === undefined) {
+        Blockly.Python.staticValues_[valueTag] = code;
     }
 };
 

@@ -31,8 +31,9 @@ const LIB_IMPORT = {
     // robot libraries
     IMPORT_BUGGY_MOVE: "from buggyMove import MOVEMotor",
     IMPORT_CUTEBOT: "import cutebot",
-    IMPORT_MAQUEEN_PLUS_V2: "import maqueenplusv2",
     IMPORT_MAQUEEN_PLUS_V1: "import maqueenplusv1",
+    IMPORT_MAQUEEN_PLUS_V2: "import maqueenplusv2",
+    IMPORT_MAQUEEN_PLUS_V3: "import maqueenplusv3",
     // grove modules libraries - I2C
     IMPORT_BMP280: "from bmp280 import BMP280",
     IMPORT_COLOR_SENSOR: "from color_sensor import GroveI2cColorSensorV2",
@@ -55,7 +56,7 @@ const LIB_IMPORT = {
     IMPORT_MORPION: "from morpion import MORPION",
     IMPORT_HT16K33_MATRIX: "from ht16k33matrix import HT16K33Matrix",
     IMPORT_RGB_LED_MATRIX: "from rgb_led_matrix import GroveTwoRGBLedMatrix",
-    IMPORT_HUSKYLENS: "from HuskyLens import HuskyLensLibrary",
+    IMPORT_HUSKYLENS: "from huskyLens import HuskyLensLibrary",
     // grove modules libraries - Pins
     IMPORT_TM1637: "from tm1637 import TM1637",
     IMPORT_MY9221: "from my9221 import MY9221",

@@ -66,3 +66,4 @@ Blockly.Msg["SUBCATEGORY_COMPUTER"] = "Computer";
 Blockly.Msg["SUBCATEGORY_KITRO"] = "Kitronik";
 Blockly.Msg["SUBCATEGORY_CHAINABLE_LED_RGB"] = "Chainable LED RGB";
 Blockly.Msg['SUBCATEGORY_UMAIL'] = 'E-mail';
+Blockly.Msg['SUBCATEGORY_MQTT'] = 'MQTT';

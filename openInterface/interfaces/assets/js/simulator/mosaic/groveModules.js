@@ -2,6 +2,7 @@ Simulator.Mosaic.grove = {
 
     createSliders: function () {
         $('.mod_button,' +
+            '.mod_reversedButton,' +
             '.mod_rainGauge,' +
             '.mod_switchButton,' +
             '.mod_coloredButton,' +
@@ -11,6 +12,7 @@ Simulator.Mosaic.grove = {
             '.mod_groveFinder,' +
             '.mod_groveTilt,' +
             '.mod_groveMotion,' +
+            '.mod_groveMotionMini,' +
             '.mod_groveVibration').slider({
                 min: 0,
                 max: 1
@@ -518,6 +520,19 @@ Simulator.Mosaic.grove = {
             }
         },
         {
+            id: "stepper-motor",
+            title: "Moteur pas à pas",
+            pin: 'pin n° ',
+            pins: 'digital',
+            type: 'output',
+            value: 0,
+            picture: "Motor.png",
+            pictureAnimation: "Motor-animation.png",
+            animator: function(Animator) {
+                console.log(Animator.value);
+            }
+        },
+        {
             id: "fan",
             title: "Ventilateur",
             pin: 'pin n° ',
@@ -739,6 +754,28 @@ Simulator.Mosaic.grove = {
             pins: 'digital',
             type: 'input',
             codeFlag: 'Simple Button',
+            releaser: true,
+            listeners: [{
+                default: "OFF",
+                unit: '',
+                color: "#f9d142 ",
+                suffix: ""
+            }],
+            class: "button",
+            picture: "Bouton.png",
+            pictureAnimation: "Bouton-animation.png",
+            animate: function (Animator) {
+                const pull = Simulator.pinList.find((component) => component.id == Animator.id).pull;
+                Animator.button(Animator.value, pull);
+            }
+        },
+        {
+            id: "reversedButton",
+            title: "Bouton Inversé",
+            pin: 'pin n° ',
+            pins: 'digital',
+            type: 'input',
+            codeFlag: 'Simple Button Reversed',
             releaser: true,
             listeners: [{
                 default: "OFF",
@@ -1863,6 +1900,28 @@ Simulator.Mosaic.grove = {
             pins: 'digital',
             type: 'input',
             codeFlag: 'Motion Sensor',
+            listeners: [{
+                default: "OFF",
+                unit: '',
+                color: "#f9d142",
+                suffix: ""
+            }],
+            class: "button",
+            picture: "Bouton.png",
+            pictureAnimation: "Bouton-animation.png",
+            pictureInteraction: "buttonPush",
+            animate: function (Animator) {
+                Animator.button();
+
+            }
+        },
+        {
+            id: "groveMotionMini",
+            title: "Capteur de mouvement",
+            pin: 'pin n° ',
+            pins: 'digital',
+            type: 'input',
+            codeFlag: 'Mini PIR Motion Sensor',
             listeners: [{
                 default: "OFF",
                 unit: '',

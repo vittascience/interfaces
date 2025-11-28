@@ -59,7 +59,7 @@ $(function () {
 				'email': email,
 				'school': school,
 				'city': city,
-				'tne-token': tokenTne,
+				'tneToken': tokenTne,
 			},
 			dataType: "JSON",
 			success: function (response) {

@@ -54,7 +54,7 @@ const THEME_VITTASCIENCE = {
         "colourPrimary": "#f9d142",
         "colourTertiary": "#bb9d32"
     },
-    "list_blocks": {
+    "lists_blocks": {
         "colourPrimary": "#e58544"
     },
     "procedure_blocks": {
@@ -114,7 +114,7 @@ const THEME_SCRATCH = {
         "colourPrimary": "#ff8c1a",
         "colourTertiary": "#c76300"
     },
-    "list_blocks": {
+    "lists_blocks": {
         "colourPrimary": "#ff661a"
     },
     "procedure_blocks": {
@@ -185,7 +185,7 @@ const THEME_VITTASCIENCE_HIGH_CONTRAST = {
         "colourSecondary": "#EACA56",
         "colourTertiary": "#FFECA6",
     },
-    "list_blocks": {
+    "lists_blocks": {
         "colourPrimary": "#B34F0B",
         "colourSecondary": "#DE8B53",
         "colourTertiary": "#FFC8A2",

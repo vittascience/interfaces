@@ -3,6 +3,7 @@ const ARDUINO_BOARDS = [
     {
         "id": 'uno',
         "name": "Arduino Uno",
+        "fqbn": "arduino:avr:uno",
         "productId": ['0x0043', '0x0001', '0xea60'],
         "protocol": 'stk500v1',
         "maximum_size": 32256,
@@ -39,8 +40,8 @@ const ARDUINO_BOARDS = [
         "pageSize": 128,
         "numPages": 256,
         "timeout": 400,
-        "low_fuses": 0xFF,
-        "high_fuses": 0xDE,
+        "low_fuses": 0xff,
+        "high_fuses": 0xde,
         "extended_fuses": 0x05,
         "path": "optiboot",
         "file": "optiboot_atmega328.hex",
@@ -68,8 +69,43 @@ const ARDUINO_BOARDS = [
         "f_cpu": "16000000L",
         "vid": 0x03EB,
         "pid": 0x2145,
-        "core": 'arduino',
-        "variant": 'uno2018'
+        "core": "arduino",
+        "variant": "uno2018"
+    },
+    {
+        "id": "unor4wifi",
+        "name": "Arduino UNO R4 WiFi",
+        "fqbn": "arduino:renesas_uno:unor4wifi",
+        "productId": ["0x1002"],
+        "protocol": "sam-ba",
+        "maximum_size": 262144,
+        "baud": 230400,
+        "path": "renesas_uno",
+        "file": "dfu_wifi.hex",
+        "mcu": "ra4m1",
+        "f_cpu": "48000000L",
+        "vid": 0x2341,
+        "pid": 0x1002,
+        "core": "arduino",
+        "variant": "unor4wifi",
+        "vittaTest": true
+    },
+    {
+        "id": "unor4minima",
+        "name": "Arduino UNO R4 Minima",
+        "productId": ["0x0069", "0x0369"],
+        "protocol": "dfu-util",
+        "maximum_size": 262144,
+        "baud": 115200,
+        "path": "renesas_uno",
+        "file": "dfu_minima.hex",
+        "mcu": "ra4m1",
+        "f_cpu": "48000000L",
+        "vid": 0x2341,
+        "pid": 0x0069,
+        "core": "arduino",
+        "variant": "unor4minima",
+        "vittaTest": false
     },
     {
         "id": 'duemilanove328',
@@ -128,6 +164,7 @@ const ARDUINO_BOARDS = [
     {
         "id": 'nano',
         "name": "Arduino Nano w/ ATmega328",
+        "fqbn": "arduino:avr:nano",
         "productId": ['0x6001', '0x7523'],
         "protocol": 'stk500v1',
         "maximum_size": 30720,
@@ -154,8 +191,9 @@ const ARDUINO_BOARDS = [
         "vittaTest": true
     },
     {
-        "id": 'nano (old bootloader)',
+        "id": 'nano-aTmega328-old',
         "name": "Arduino Nano w/ ATmega328 (Old bootloader)",
+        "fqbn": "arduino:avr:nano:cpu=atmega328old",
         "productId": ['0x6001', '0x7523'],
         "protocol": 'stk500v1',
         "maximum_size": 30720,
@@ -182,8 +220,9 @@ const ARDUINO_BOARDS = [
         "vittaTest": true
     },
     {
-        "id": 'nano (new bootloader)',
+        "id": 'nano-atmega168',
         "name": "Arduino Nano w/ ATmega168",
+        "fqbn": "arduino:avr:nano:cpu=atmega168",
         "productId": ['0x6001', '0x7523'],
         "protocol": 'stk500v1',
         "maximum_size": 14336,
@@ -220,8 +259,9 @@ const ARDUINO_BOARDS = [
         "variant": "eightanaloginputs"
     },
     {
-        "id": 'mega',
+        "id": 'mega-2560',
         "name": "Arduino Mega 2560",
+        "fqbn": "arduino:avr:mega",
         "productId": ['0x0042', '0x6001', '0x0010', '0x7523'],
         "protocol": 'stk500v2',
         "maximum_size": 258048,
@@ -254,8 +294,9 @@ const ARDUINO_BOARDS = [
         "vittaTest": true
     },
     {
-        "id": 'adk',
+        "id": 'mega-adk',
         "name": "Arduino Mega ADK",
+        "fqbn": "arduino:avr:megaADK",
         "productId": ['0x0044', '0x6001', '0x003F'],
         "protocol": 'stk500v2',
         "maximum_size": 258048,
@@ -288,8 +329,9 @@ const ARDUINO_BOARDS = [
         "vittaTest": true
     },
     {
-        "id": 'mega',
+        "id": 'mega-1280',
         "name": "Arduino Mega (ATmega1280)",
+        "fqbn": "arduino:avr:mega:cpu=atmega1280",
         "protocol": 'stk500v1',
         "maximum_size": 126976,
         "baud": 57600,
@@ -486,7 +528,7 @@ const ARDUINO_BOARDS = [
         "f_cpu": "16000000L",
         "core": "arduino",
         "variant": "eightanaloginputs"
-    }, 
+    },
     {
         "id": 'lilypad-usb',
         "name": "LilyPad Arduino USB",
@@ -549,8 +591,9 @@ const ARDUINO_BOARDS = [
         "variant": "standard"
     },
     {
-        "id": 'pro-mini',
+        "id": "pro-mini-atmega328-16mhz",
         "name": "Arduino Pro or Pro Mini (5V, 16 MHz) w/ ATmega328",
+        "fqbn": "arduino:avr:pro:cpu=16MHzatmega328",
         "productId": ['0x6001'],
         "protocol": 'stk500v1',
         "maximum_size": 30720,
@@ -573,10 +616,12 @@ const ARDUINO_BOARDS = [
         "core": "arduino",
         "variant": "eightanaloginputs",
         "productPage": 'https://store.arduino.cc/arduino-pro-mini',
+        "vittaTest": true
     },
     {
-        "id": 'pro-mini',
+        "id": 'pro-mini-atmega328-8mhz',
         "name": "Arduino Pro or Pro Mini (3.3V, 8 MHz) w/ ATmega328",
+        "fqbn": "arduino:avr:pro:cpu=8MHzatmega328",
         "productId": ['0x6001'],
         "protocol": 'stk500v1',
         "maximum_size": 30720,
@@ -601,7 +646,9 @@ const ARDUINO_BOARDS = [
         "productPage": 'https://store.arduino.cc/arduino-pro-mini',
     },
     {
+        "id": "pro-mini-atmega168-16mhz",
         "name": "Arduino Pro or Pro Mini (5V, 16 MHz) w/ ATmega168",
+        "fqbn": "arduino:avr:pro:cpu=16MHzatmega168",
         "protocol": 'stk500v1',
         "maximum_size": 14336,
         "baud": 19200,
@@ -624,7 +671,9 @@ const ARDUINO_BOARDS = [
         "variant": "eightanaloginputs"
     },
     {
+        "id": "pro-mini-atmega168-8mhz",
         "name": "Arduino Pro or Pro Mini (3.3V, 8 MHz) w/ ATmega168",
+        "fqbn": "arduino:avr:pro:cpu=8MHzatmega168",
         "protocol": 'stk500v1',
         "maximum_size": 14336,
         "baud": 19200,
@@ -746,8 +795,8 @@ const ARDUINO_BOARDS = [
         "productPage": 'https://www.kickstarter.com/projects/1265095814/imuduino-wireless-3d-motion-html-js-apps-arduino-p?lang=en'
     },
     {
-        "name": "Arduboy FX",
         "id": 'arduboy',
+        "name": "Arduboy FX",
         "productId": ['0x0036', '0x8036', '0x800c'],
         "protocol": 'avr109',
         "maximum_size": 28672,
@@ -853,6 +902,9 @@ const ARDUINO_BOARDS = [
         "pid": 0x514d,
         "productPage": 'https://www.sparkfun.com/products/13614'
     },
+
+    /*
+    INFO: (from 2013-2015) board disappeared
     {
         "id": 'pinoccio',
         "name": "Pinoccio IoT",
@@ -873,6 +925,7 @@ const ARDUINO_BOARDS = [
         "pid": 0x6051,
         "productPage": 'https://www.mouser.de/new/crowd-supply/crowd-supply-pinoccio-microcontroller/'
     },
+    */
     {
         "id": "yun",
         "name": 'Arduino Yún Rev 2',

@@ -134,6 +134,7 @@ function successAllTests(exercise) {
                 lti13Controller.studentSubmissionUpdatedProject = false;
             });
     }
+    projectManager.pythonAutocorrectionInteroperabilitySuccess();
     if (projectManager._rpc != null) {
         return "success";
     }
@@ -280,6 +281,11 @@ window.addEventListener('storage', () => {
 })
 
 async function autocorrectionPython() {
+    projectManager.incrementPythonAutocorrectionRunCount();
+    if (turtleAutocorrector.isEnabled()) {
+        turtleAutocorrector.runAutocorrection();
+        return;
+    }
     $("#console_fake").html("");
     $("#unittests-log").html("");
     $("#unittests-log").css("color", "var(--text-0)");

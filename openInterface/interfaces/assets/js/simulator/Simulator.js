@@ -16,6 +16,7 @@ Simulator.isOpen = false;
  * @type {string} code
  */
 Simulator.code = null;
+Simulator._userCode = null;
 
 /**
  * Define 2 seconds bewtween each update of simulator.
@@ -31,7 +32,7 @@ Simulator.TIMEOUT_QUICK_UPDATE = 350;
 
 /**
  * Date since last change in the code editor.
- * @type {float} isOpen
+ * @type {float} lastUpdate
  */
 Simulator.lastUpdate = 0;
 
@@ -175,6 +176,19 @@ Simulator.openingSimulator = async function () {
         await sleep_ms(500);
         WifiSimulator.resize();
     }
+    /* TI-83 simulator focus management */
+    if (this._hasTIsimulator()) {
+        const startTime = Date.now();
+        const interval = setInterval(() => {
+            const ti83Toggler = document.getElementById('ti83_zone-toggler');
+            if (ti83Toggler) {
+                ti83Toggler.focus();
+                clearInterval(interval);
+            } else if (Date.now() - startTime > 2_000) {
+                clearInterval(interval);
+            }
+        }, 50);
+    }
 };
 
 /**
@@ -227,12 +241,7 @@ Simulator.init = function () {
         if (this._hasMultiSimulator() && document.querySelector('#simulator-multi-info') === null) {
             this.addMultiSimulatorToDom();
         }
-        if (this._hasBoardSelector()) {
-            this.board = SIMULATOR_BOARDS[Blockly.Constants.getSelectedBoard()];
-        } else {
-            this.board = SIMULATOR_DEFAULT_BOARD;
-        }
-
+        this.initBoard();
         this.updateBoard();
         this._getInterfaceModules();
 
@@ -279,7 +288,7 @@ Simulator.init = function () {
         if (this.TYPE == 'Skulpt') {
             this.initSkulpt();
         } else if (this.TYPE == 'JSCPP') {
-            this.initSerialInput();
+            this.initJSCPP();
         }
 
         this.updateSimulatorInterval = null;
@@ -287,11 +296,17 @@ Simulator.init = function () {
 
         if (!['winky', 'sphero', 'lotibot', 'bluebot', 'spike', 'photon'].includes(INTERFACE_NAME)) {
             window.addEventListener("visibilitychange", function () {
-                if (document.visibilityState === 'visible') {
-                    if (Simulator.isVittaCompanionConnected()) return;
-                    Simulator.play();
-                } else {
-                    Simulator.pause();
+                if (Simulator.isOpen) {
+                    if (document.visibilityState === 'visible') {
+                        if (Simulator.isVittaCompanionConnected()) return;
+                        if (Simulator.wasRunning) {
+                            Simulator.play();
+                            Simulator.wasRunning = false;
+                        }
+                    } else {
+                        if (!Simulator.isStopped) Simulator.wasRunning = true;
+                        Simulator.pause();
+                    }
                 }
             });
         }
@@ -329,13 +344,13 @@ Simulator.addMultiSimulatorToDom = function () {
 /**
  * Update mosaic simulator.
  */
-Simulator.updateSimulator = async function () {
+Simulator.update = async function () {
     try {
         this._requestWirelessSimulation();
         const userCode = CodeManager.getSharedInstance().getCode();
-        const code = typeof this.CodeFriendly.getAdaptedCode !== 'undefined' ? this.CodeFriendly.getAdaptedCode(userCode) : userCode;
-        if (code != this.code || this.code == null) {
-            this.code = code;
+        if (userCode != this._userCode || this._userCode == null) {
+            this.code = typeof this.CodeFriendly.getAdaptedCode !== 'undefined' ? this.CodeFriendly.getAdaptedCode(userCode) : userCode;
+            this._userCode = userCode;
             if (this._hasAutoCorrector() && $('#simulator-modules').hasClass("visualizer-mode")) {
                 $("#training-mode").click();
             }
@@ -378,13 +393,13 @@ Simulator.bluetoothDeviceConnected = function () {
     }
 };
 
-Simulator.setIntervalUpdateSimulator = function () {
+Simulator.setIntervalUpdate = function () {
     this.updateSimulatorInterval = setInterval(async () => {
         if (this.isOpen) {
             if (['lotibot', 'bluebot'].includes(INTERFACE_NAME)) {
                 if (typeof this.Mosaic.specific.arrowsCoding !== 'undefined' && this.Mosaic.specific.arrowsCoding) return;
                 if (this.isRunning && Math.floor((Date.now() - this.lastUpdate)) > this.TIMEOUT_UPDATE) {
-                    await this.updateSimulator();
+                    await this.update();
                 } else {
                     return;
                 }
@@ -392,7 +407,7 @@ Simulator.setIntervalUpdateSimulator = function () {
                 if (this.isVittaCompanionConnected() || this.bluetoothDeviceConnected() || (typeof AndroidInterface !== 'undefined' && AndroidInterface !== null)) {
                     return;
                 }
-                await this.updateSimulator();
+                await this.update();
             }
         }
     }, this.TIMEOUT_UPDATE);
@@ -419,6 +434,9 @@ Simulator.play = async function () {
     if (this.wasPaused) {
         this.wasPaused = false;
         this.isRunning = true;
+        if (this._hasWebSimulator()) {
+            WifiSimulator.server.active(true);
+        }
     } else {
         if (this.audioContext && this.audioContext.state != 'closed') {
             this.audioContext.suspend();
@@ -525,6 +543,7 @@ Simulator.replay = async function () {
  * Stop the simulator.
  */
 Simulator.stop = function () {
+    if (this.isStopped) return;
     return new Promise((resolve, reject) => {
         this.mainExecutionStarted = false;
         $("#board-viewer").addClass('greyscale');
@@ -578,7 +597,7 @@ Simulator.stop = function () {
 
 Simulator.prepareToRun = function () {
     this.initMosaicSliders();
-    this.setIntervalUpdateSimulator();
+    this.setIntervalUpdate();
     this.setIntervalUpdateVariablesPanel();
     if (typeof this.Mosaic.specific.createSliders !== 'undefined') {
         this.Mosaic.specific.createSliders();
@@ -635,27 +654,47 @@ Simulator.waitForVoicesToBeLoaded = async () => {
     Simulator.voices = voices;
 };
 
+Simulator.initBoard = function (boardId = null) {
+    if (this._hasBoardSelector()) {
+        if (!boardId) boardId = Blockly.Constants.getSelectedBoard();
+        this.board = SIMULATOR_BOARDS[boardId];
+        if (INTERFACE_NAME === "arduino") {
+            const name = this.board.name;
+            const mainBoardBtn = `<button id="main-board" class="dropdown-item" onclick="Simulator.updateArduinoBoard('${boardId}');" data-board="${name}">${name}</button>`;
+            document.getElementById("simulator-board-options").innerHTML = mainBoardBtn;
+            if (['uno', 'unor4wifi', 'nano'].includes(boardId)) {
+                const shieldGroveBtn = `<button class="dropdown-item" onclick="Simulator.updateArduinoBoard('${BOARD_SHIELD_GROVE}');" data-board="Shield Grove">Shield Grove</button>`;
+                document.getElementById("simulator-board-options").innerHTML += shieldGroveBtn;
+            }
+        }
+    } else {
+        this.board = SIMULATOR_DEFAULT_BOARD;
+    }
+};
+
 /**
  * Update board viewer on simulator.
  * @param {string} link 
  * @param {string} name 
  */
 Simulator.updateBoard = function (link, name) {
+    if (INTERFACE_NAME == 'arduino') {
+        return Simulator.updateArduinoBoard();
+    }
     if (link && name) {
         Simulator.board = {
             "link": link,
             "name": name
         };
     }
-
     if (Simulator.board.link) {
-        if (/(arduino|microbit|wb55|l476|mBot|m5stack|esp32|galaxia|GalaxiaCircuitPython|buddy|cyberpi|pico|eliobot|thymio|raspberrypi|lotibot|photon|bluebot)/.test(INTERFACE_NAME) && (this.board.link).includes('.svg')) {
-            $("#board-viewer").attr("data", _PATH + "/" + INTERFACE_NAME + "/assets/media/simulator/board/" + this.board.link);
+        const path = _PATH + "/" + INTERFACE_NAME + "/assets/media/simulator/board/" + this.board.link;
+        if (/(arduino|microbit|wb55|l476|mBot|m5stack|esp32|galaxia|GalaxiaCircuitPython|buddy|cyberpi|pico|eliobot|thymio|raspberrypi|lotibot|photon|bluebot|codey)/.test(INTERFACE_NAME) && (this.board.link).includes('.svg')) {
+            $("#board-viewer").attr("data", path);
         } else {
-            $("#board-viewer").css('background-image', "url('" + _PATH + "/" + INTERFACE_NAME + "/assets/media/simulator/board/" + this.board.link + "')");
+            $("#board-viewer").css('background-image', "url('" + path + "')");
         }
     }
-
     $("#title-board").html(Simulator.board.name);
     if (Simulator._hasBoardSelector()) {
         const options = document.querySelectorAll("#simulator-board-options .dropdown-item");
@@ -667,29 +706,8 @@ Simulator.updateBoard = function (link, name) {
                 option.classList.remove('fw-bold');
             }
         });
-
         if (typeof Simulator.Mosaic.addSpecificInitializations !== 'undefined') {
             Simulator.Mosaic.addSpecificInitializations();
-        }
-
-        if (INTERFACE_NAME === 'arduino') {
-            const updateSerialBoard = (board_value) => {
-                const board_select = document.querySelector('#board-select');
-                if (board_select === null || board_select.length === 1) {
-                    setTimeout(updateSerialBoard, 100, board_value);
-                } else {
-                    board_select.value = board_value;
-                    board_select.dispatchEvent(new Event('change'));
-                }
-            };
-            switch (Simulator.board.name) {
-                case 'Arduino NANO':
-                    updateSerialBoard("5");
-                    break;
-                case 'Arduino UNO':
-                default:
-                    updateSerialBoard("0");
-            }
         }
     }
 };
@@ -780,7 +798,7 @@ Simulator._requestWirelessSimulation = function () {
         "GalaxiaCircuitPython": /(radio.(send|receive)|import vitta_(server|client)|from vitta_(server|client) import ((SERVER|CLIENT)|\*))/,
         "TI-83": /(import mb_radio|from mb_radio import \*)/,
         "m5stack": /(import vitta_(server|client)|from vitta_(server|client) import ((SERVER|CLIENT)|\*))/,
-        "arduino": /SoftwareSerial (HM10|blueToothSerial)/
+        "arduino": /(SoftwareSerial (HM10|blueToothSerial)|#include (<|")WiFiS3.h("|>))/
     };
     const requested = regExps[Main.getInterface()];
     const url = (window.location != window.parent.location) ? document.referrer : document.location.href;
@@ -800,7 +818,11 @@ Simulator._requestWirelessSimulation = function () {
  */
 Simulator.toggleFullscreen = function () {
     const setFullscreen = (state) => {
+        const fullScreenBtnICon = document.querySelector("#simulator_fullscreen i");
         if (state) {
+            if (fullScreenBtnICon) {
+                fullScreenBtnICon.classList.replace('fa-expand', 'fa-compress');
+            }
             $("#simulator_fullscreen").addClass('activated');
             $("#simulator_autocorrector_fullscreen").addClass('activated');
             $(".ide-simulator").addClass("isFullscreen");
@@ -810,6 +832,9 @@ Simulator.toggleFullscreen = function () {
             if (INTERFACE_NAME == "buddy")
                 $("#board-viewer").css('height', "fit-content");
         } else {
+            if (fullScreenBtnICon) {
+                fullScreenBtnICon.classList.replace('fa-compress', 'fa-expand');
+            }
             $("#simulator_fullscreen").removeClass('activated');
             $("#simulator_autocorrector_fullscreen").removeClass('activated');
             $(".ide-simulator").removeClass("isFullscreen");
@@ -874,7 +899,7 @@ Simulator.redoDropdownOptions = function () {
  * @return {boolean} state
  */
 Simulator._hasRobotSimulator = function () {
-    return ["microbit", "wb55", "l476", "TI-83", "mBot", "buddy", "cyberpi", "pico", "eliobot", "thymio", "sphero", "lotibot", "bluebot", "photon"].includes(INTERFACE_NAME);
+    return ["microbit", "wb55", "l476", "TI-83", "mBot", "buddy", "cyberpi", "pico", "eliobot", "thymio", "sphero", "lotibot", "bluebot", "photon", "codey"].includes(INTERFACE_NAME);
 };
 
 /**
@@ -937,7 +962,11 @@ Simulator._hasGalaxiaSimulator = function () {
  * Check if interface has to add Web page simulator.
  * @return {boolean} state
  */
-Simulator._hasWebSimulator = function () {
+Simulator._hasWebSimulator = function (board) {
+    if (!board) board = Blockly.Constants.getSelectedBoard();
+    if (INTERFACE_NAME == "arduino") {
+        return board == BOARD_ARDUINO_UNO_R4_WIFI;
+    }
     return ["esp32", "m5stack", "galaxia", "pico"].includes(INTERFACE_NAME);
 };
 
@@ -1319,7 +1348,6 @@ Simulator.updateModules = async function () {
                 robot = Robots[robotName];
                 RobotSimulator.currentRobotName = robotName;
                 RobotSimulator.wereInitialized = false;
-                console.log("Robot changed to " + robotName);
             } else if (robotName == 'error') {
                 robot = null;
                 this.pause();
@@ -1375,15 +1403,14 @@ Simulator.updateModules = async function () {
 
     // Manage Web Server Simulator running.
     if (this._hasWebSimulator()) {
-        if (this.code.match(this.Mosaic.specific.SERVER_REGEXP)) {
+        if (this.Mosaic.specific.SERVER_REGEXP && this.code.match(this.Mosaic.specific.SERVER_REGEXP)) {
             if (!$('#web-page-module').is(":visible")) {
                 $('#web-page-module').show();
             }
             WifiSimulator.web_client.updateCssJs();
         } else {
             if (this.isOpen) {
-                $('#web-page-module').hide();
-                WifiSimulator.reset();
+                WifiSimulator.close();
             }
         }
     }
@@ -1725,7 +1752,7 @@ Simulator.generateModuleDiv_header = function (mod, id, pinName) {
             html += ' i2c-module';
         } else if (/(ESP32|STM32|Maqueen|micro:bit|Gamepad|Buggy|Codo|Oobybot|Innovator Hub|raspberrypi|Galaxia|GalaxiaCircuitPython|thymio)/.test(mod.pin)) {
             html += ' internal-module';
-        } else if (/Rover|mCore|mBot|CyberPi/.test(mod.pin)) {
+        } else if (/Rover|mCore|mBot|CyberPi|Codey/.test(mod.pin)) {
             html += ' blue-module';
         }
 

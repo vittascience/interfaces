@@ -9,6 +9,112 @@ Blockly.Arduino.io_control_arduino_led = function (block) {
     return "digitalWrite(13, " + state + ");" + NEWLINE;
 };
 
+// UNO R4 WIFI - LED MATRIX DRAW BITMAP
+Blockly.Arduino.display_builtinMatrix_drawBitmap = function (block) {
+    const x = Blockly.Arduino.valueToCode(block, "X", Blockly.Arduino.ORDER_ATOMIC);
+    const y = Blockly.Arduino.valueToCode(block, "Y", Blockly.Arduino.ORDER_ATOMIC);
+    const clear = block.getFieldValue("CLEARING");
+    const objName = "builtinMatrix";
+    Blockly.Arduino.addInclude("ArduinoGraphics", INCLUDE_ARDUINO_GRAPHICS);
+    Blockly.Arduino.addInclude("Arduino_LED_Matrix", INCLUDE_ARDUINO_LED_MATRIX);
+    Blockly.Arduino.addDeclaration(objName + '-simu', "// LED Matrix");
+    Blockly.Arduino.addDeclaration(objName, "ArduinoLEDMatrix " + objName + ";");
+    Blockly.Arduino.addDeclaration('declare_matrix_frame_32bit', "uint32_t frame_32bits[3] = {0};");
+    Blockly.Arduino.addFunction('matrix_drawFrameAt', FUNCTIONS_ARDUINO.DEF_LED_MATRIX_DRAW_AT);
+    Blockly.Arduino.addSetup(objName + "-begin", objName + ".begin();");
+    let code = "";
+    const binary_img = block.getField("LEDS_MATRIX_BUTTON")['altText_'].split(',');
+    function columns8ToUint32(binCols, msbTop = true) {
+        const cols = binCols.map(b => typeof b === "string" ? parseInt(b, 2) : (b >>> 0) & 0xFF);
+        const words = [0, 0, 0];
+        let i = 0;
+        for (let row = 0; row < 8; row++) {
+            for (let col = 0; col < 12; col++) {
+                const bit = msbTop ? (cols[col] >> (7 - row)) & 1 : (cols[col] >> row) & 1;
+                const pos = 31 - (i % 32);
+                const w = (i / 32) | 0;
+                if (bit) words[w] |= (1 << pos);
+                i++;
+            }
+        }
+        return words.map(w => w >>> 0);
+    }
+    const binary = columns8ToUint32(binary_img);
+    for (let i = 0; i < 3; i++) {
+        const hexValues = binary.map(x => "0x" + x.toString(16).padStart(8, "0"));
+        code += "frame_32bits[" + i + "] = " + hexValues[i] + ";" + NEWLINE;
+    }
+    switch (clear) {
+        case "WITHOUT":
+            return code += "matrix_drawFrameAt(frame_32bits, " + x + ", " + y + ", false);" + NEWLINE;
+        default:
+        case "WITH":
+            return code += "matrix_drawFrameAt(frame_32bits, " + x + ", " + y + ");" + NEWLINE;
+    }
+};
+
+// UNO R4 WIFI - LED MATRIX DISPLAY TEXT
+Blockly.Arduino.display_builtinMatrix_drawString = function (block) {
+    const text = Blockly.Arduino.valueToCode(block, "TEXT", Blockly.Arduino.ORDER_ATOMIC);
+    const speed = Blockly.Arduino.valueToCode(block, "SPEED", Blockly.Arduino.ORDER_ATOMIC);
+    const objName = "builtinMatrix";
+    Blockly.Arduino.addInclude("ArduinoGraphics", INCLUDE_ARDUINO_GRAPHICS);
+    Blockly.Arduino.addInclude("Arduino_LED_Matrix", INCLUDE_ARDUINO_LED_MATRIX);
+    Blockly.Arduino.addDeclaration(objName + '-simu', "// LED Matrix");
+    Blockly.Arduino.addDeclaration(objName, "ArduinoLEDMatrix " + objName + ";");
+    Blockly.Arduino.addFunction('matrix_scrollText', FUNCTIONS_ARDUINO.DEF_LED_MATRIX_SCROLL_TEXT);
+    Blockly.Arduino.addSetup(objName + "-begin", objName + ".begin();");
+    const c = block.inputList[0].connection.targetBlock();
+    if (c && (c.type != 'text')) {
+        if (c.type == 'text_join') {
+            return "matrix_scrollText(" + text + ", " + speed + ", Font_5x7);" + NEWLINE;
+        }
+        return "matrix_scrollText(String(" + text + "), " + speed + ", Font_5x7);" + NEWLINE;
+    }
+    return "matrix_scrollText(" + text + ", " + speed + ", Font_5x7);" + NEWLINE;
+};
+
+// UNO R4 WIFI - LED MATRIX DISPLAY NUMBER
+Blockly.Arduino.display_builtinMatrix_showNumber = function (block) {
+    const number = Blockly.Arduino.valueToCode(block, "N", Blockly.Arduino.ORDER_ATOMIC);
+    const objName = "builtinMatrix";
+    Blockly.Arduino.addInclude("ArduinoGraphics", INCLUDE_ARDUINO_GRAPHICS);
+    Blockly.Arduino.addInclude("Arduino_LED_Matrix", INCLUDE_ARDUINO_LED_MATRIX);
+    Blockly.Arduino.addDefine('DIGITS_3x5', FUNCTIONS_ARDUINO.DEF_LED_MATRIX_DIGITS_5X7);
+    Blockly.Arduino.addDeclaration(objName + '-simu', "// LED Matrix");
+    Blockly.Arduino.addDeclaration(objName, "ArduinoLEDMatrix " + objName + ";");
+    Blockly.Arduino.addFunction('matrix_drawDigit3x5', FUNCTIONS_ARDUINO.DEF_LED_MATRIX_DRAW_DIGIT);
+    Blockly.Arduino.addFunction('matrix_scrollText', FUNCTIONS_ARDUINO.DEF_LED_MATRIX_SCROLL_TEXT);
+    Blockly.Arduino.addFunction('matrix_displayNumber', FUNCTIONS_ARDUINO.DEF_LED_MATRIX_DISPLAY_NUMERIC);
+    Blockly.Arduino.addSetup(objName + "-begin", objName + ".begin();");
+    return "matrix_displayNumber(" + number + ");" + NEWLINE;
+};
+
+// UNO R4 WIFI - LED MATRIX SET PIXEL
+Blockly.Arduino.display_builtinMatrix_setPixel = function (block) {
+    const x = Blockly.Arduino.valueToCode(block, "N", Blockly.Arduino.ORDER_ATOMIC) || "0";
+    const y = Blockly.Arduino.valueToCode(block, "N", Blockly.Arduino.ORDER_ATOMIC) || "0";
+    const state = Blockly.Arduino.valueToCode(block, "STATE", Blockly.Arduino.ORDER_ATOMIC) || "LOW";
+    const objName = "builtinMatrix";
+    Blockly.Arduino.addInclude("ArduinoGraphics", INCLUDE_ARDUINO_GRAPHICS);
+    Blockly.Arduino.addInclude("Arduino_LED_Matrix", INCLUDE_ARDUINO_LED_MATRIX);
+    Blockly.Arduino.addDeclaration(objName + '-simu', "// LED Matrix");
+    Blockly.Arduino.addDeclaration(objName, "ArduinoLEDMatrix " + objName + ";");
+    Blockly.Arduino.addSetup(objName + "-begin", objName + ".begin();");
+    Blockly.Arduino.addFunction('matrix_setPixel', FUNCTIONS_ARDUINO.DEF_LED_MATRIX_SET_PIXEL);
+    return "matrix_setPixel(" + x + ", " + y + ", " + state + ");" + NEWLINE;
+};
+
+// UNO R4 WIFI - LED MATRIX CLEAR
+Blockly.Arduino.display_builtinMatrix_clearScreen = function () {
+    const objName = "builtinMatrix";
+    Blockly.Arduino.addInclude("Arduino_LED_Matrix", INCLUDE_ARDUINO_LED_MATRIX);
+    Blockly.Arduino.addDeclaration(objName + '-simu', "// LED Matrix");
+    Blockly.Arduino.addDeclaration(objName, "ArduinoLEDMatrix " + objName + ";");
+    Blockly.Arduino.addSetup(objName + "-begin", objName + ".begin();");
+    return "const uint32_t blankFrame[3] = {0, 0, 0};" + NEWLINE + objName + ".loadFrame(blankFrame);" + NEWLINE;
+};
+
 // LCD RGB _ SET TEXT BLOCK 
 Blockly.Arduino.display_lcdRGBSetText = function (block) {
     const txt = Blockly.Arduino.valueToCode(block, "TEXT", Blockly.Arduino.ORDER_ATOMIC) || "''";

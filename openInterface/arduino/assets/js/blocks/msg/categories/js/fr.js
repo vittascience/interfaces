@@ -4,6 +4,7 @@
 
 // Category names for toolbox.
 Blockly.Msg['CATEGORY_COMMUNICATION'] = 'Communication';
+Blockly.Msg['CATEGORY_NETWORK'] = 'Réseau';
 Blockly.Msg['CATEGORY_SENSORS'] = 'Capteurs';
 Blockly.Msg['CATEGORY_ROBOTS'] = 'Robots';
 Blockly.Msg['CATEGORY_TEXT'] = 'Texte';
@@ -27,6 +28,7 @@ Blockly.Msg['CATEGORY_OPERATORS'] = 'Opérateurs';
 Blockly.Msg['SUBCATEGORY_LOOPS'] = 'Boucles';
 Blockly.Msg['SUBCATEGORY_LOGIC'] = 'Logique';
 Blockly.Msg['SUBCATEGORY_ARDUINO'] = 'Arduino';
+Blockly.Msg['SUBCATEGORY_BUILTIN_LED_MATRIX'] = 'Matrice de LED intégrée';
 Blockly.Msg['SUBCATEGORY_DISPLAYS_LCD'] = 'Ecran LCD';
 Blockly.Msg['SUBCATEGORY_DISPLAYS_OLED'] = 'Ecran OLED';
 Blockly.Msg['SUBCATEGORY_LED'] = 'LED';
@@ -38,6 +40,13 @@ Blockly.Msg['SUBCATEGORY_SERIAL_CONNECTION'] = 'Connexion série';
 Blockly.Msg['SUBCATEGORY_DATA_LOGGING'] = 'Enregistrement de données';
 Blockly.Msg['SUBCATEGORY_WIRELESS_COMMUNICATION'] = 'Communication sans-fil';
 Blockly.Msg['SUBCATEGORY_TRACKING_MODULES'] = 'Modules de repérage';
+Blockly.Msg['SUBCATEGORY_WIFI'] = 'WiFi';
+Blockly.Msg['SUBCATEGORY_SERVER'] = 'Serveur';
+Blockly.Msg['SUBCATEGORY_CLIENT'] = 'Client';
+Blockly.Msg['SUBCATEGORY_WEB_PAGE'] = 'Créer une page web';
+Blockly.Msg['SUBCATEGORY_DATA_WEB_PAGE'] = 'Données page web';
+Blockly.Msg['SUBCATEGORY_HTTP'] = 'HTTP';
+Blockly.Msg['SUBCATEGORY_MQTT'] = 'MQTT';
 Blockly.Msg['SUBCATEGORY_SENSORS_GAS'] = 'Capteurs de gaz';
 Blockly.Msg['SUBCATEGORY_SENSORS_CLIMATE'] = 'Capteurs météorologiques';
 Blockly.Msg['SUBCATEGORY_SENSORS_SOUNDLIGHT'] = 'Capteurs de son et lumière';

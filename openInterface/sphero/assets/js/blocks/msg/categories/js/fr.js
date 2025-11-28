@@ -1,5 +1,5 @@
 /**
- * @fileoverview English translation file for CyberPi Toolbox. (EN)
+ * @fileoverview English translation file for Sphero Toolbox. (EN)
  */
 
 // Toolbox category names.

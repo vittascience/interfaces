@@ -4,6 +4,7 @@
 
 // Toolbox category names.
 Blockly.Msg['CATEGORY_COMMUNICATION'] = 'Communication';
+Blockly.Msg['CATEGORY_CAMERA'] = 'Caméra';
 Blockly.Msg['CATEGORY_SENSORS'] = 'Capteurs';
 Blockly.Msg['CATEGORY_NETWORK'] = 'Réseau';
 Blockly.Msg['CATEGORY_TEXT'] = 'Texte';

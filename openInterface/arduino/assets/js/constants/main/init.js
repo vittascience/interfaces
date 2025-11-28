@@ -21,11 +21,14 @@ const TOOLBOX_STYLE_DEFAULT = TOOLBOX_STYLE_VITTA;
 const BOARD_ARDUINO_UNO = "uno";
 const BOARD_SHIELD_GROVE = "shield-grove";
 const BOARD_ARDUINO_NANO = "nano";
+const BOARD_ARDUINO_MEGA = "mega";
+const BOARD_ARDUINO_UNO_R4_WIFI = "unor4wifi";
+const BOARD_ARDUINO_PRO_MINI = 'pro-mini';
 const BOARD_DEFAULT = BOARD_ARDUINO_UNO;
 //standalone_blocks
 const BLOCKS_OUTSIDE_SCOPE = ["on_start", "forever", "scratch_on_start", "procedures_defnoreturn", "procedures_defreturn", "io_attachInterrupt", "preproc_include", "preproc_define", "preproc_define", "comment_block_standalone"];
 //example projects
-const EXAMPLE_PROJECT_LINKS = ['639987a2d76c3' , '6399a76286bfd' , '6399a8b8ee0d4' , '6399a9b491f07' , '6399bd8184b3f' , '6399c0b51e361'];
+const EXAMPLE_PROJECT_LINKS = ['639987a2d76c3', '6399a76286bfd', '6399a8b8ee0d4', '6399a9b491f07', '6399bd8184b3f', '6399c0b51e361'];
 //adc
 const READ_ANALOG_MAX_VALUE = 1023;
 const WRITE_ANALOG_MAX_VALUE = 255;
@@ -33,28 +36,146 @@ const PWM_MAX_DUTY = 255;
 //simulator
 const SIMULATOR_BOARDS = {
     [BOARD_ARDUINO_UNO]: {
+        "id": BOARD_ARDUINO_UNO,
         "link": 'arduino_uno.svg',
-        "name": "Arduino UNO"
-    },
-    [BOARD_SHIELD_GROVE]: {
-        "link": 'shield_grove.svg',
-        "name": "Shield Grove"
+        "name": "Arduino UNO",
+        "resetId": "reset_button",
+        "animId": "ellipse-top",
+        "ledId": "ar-led13",
+        "mcu": "avr_8bits",
+        "shieldLink": 'arduino_uno_grove_shield.svg',
+        "shieldName": 'Shield Grove UNO'
     },
     [BOARD_ARDUINO_NANO]: {
+        "id": BOARD_ARDUINO_NANO,
         "link": 'arduino_nano.svg',
-        "name": "Arduino NANO"
+        "name": "Arduino Nano",
+        "resetId": "reset",
+        "animId": "reset_on",
+        "ledId": "ar-led13",
+        "mcu": "avr_8bits",
+        "shieldLink": 'arduino_nano_grove_shield.svg',
+        "shieldName": 'Shield Grove Nano'
+    },
+    [BOARD_ARDUINO_MEGA]: {
+        "id": BOARD_ARDUINO_MEGA,
+        "link": 'arduino-mega-2560.svg',
+        "name": "Arduino Méga",
+        "resetId": "reset",
+        "animId": "reset_on",
+        "ledId": "led_l_on",
+        "mcu": "avr_8bits",
+        "shieldLink": 'arduino_mega_grove_shield.svg',
+        "shieldName": 'Shield Grove Mega'
+    },
+    [BOARD_ARDUINO_UNO_R4_WIFI]: {
+        "id": BOARD_ARDUINO_UNO_R4_WIFI,
+        "link": 'arduino-uno-r4-wifi.svg',
+        "name": "Arduino UNO R4 WIFI",
+        "resetId": "button_off",
+        "animId": "button_on",
+        "ledId": "led_l_on",
+        "mcu": "32bits",
+        "shieldLink": 'arduino_uno_grove_shield.svg',
+        "shieldName": 'Shield Grove UNO'
+    },
+    [BOARD_ARDUINO_PRO_MINI]: {
+        "id": BOARD_ARDUINO_PRO_MINI,
+        //"link": 'arduino-uno-r4-wifi.svg',
+        "name": "Arduino Pro or Pro Mini",
+        // "resetId": "button_off",
+        // "animId": "button_on",
+        // "ledId": "led_l_on",
+        "mcu": "8bits"
+    }
+};
+const SIMULATOR_CPP_LIMITS = {
+    'avr_8bits': {
+        "char": { "max": 0x7f, "min": -0x80, "bytes": 1 },
+        "signed char": { "max": 0x7f, "min": -0x80, "bytes": 1 },
+        "unsigned char": { "max": 0xff, "min": 0x00, "bytes": 1 },
+        "wchar_t": { "max": 0xffff, "min": 0x0000, "bytes": 2 },
+        "char16_t": { "max": 0xffff, "min": 0x0000, "bytes": 2 },
+        "char32_t": { "max": 0xffffffff, "min": 0x00000000, "bytes": 4 },
+        "short": { "max": 0x7fff, "min": -0x8000, "bytes": 2 },
+        "unsigned short": { "max": 0xffff, "min": 0x0000, "bytes": 2 },
+        "int": { "max": 0x7fff, "min": -0x8000, "bytes": 2 },
+        "unsigned int": { "max": 0xffff, "min": 0x0000, "bytes": 2 },
+        "long": { "max": 0x7fffffff, "min": -0x80000000, "bytes": 4 },
+        "unsigned long": { "max": 0xffffffff, "min": 0x00000000, "bytes": 4 },
+        "long long": { "max": 0x7fffffffffffffff, "min": -0x8000000000000000, "bytes": 8 },
+        "unsigned long long": { "max": 0xffffffffffffffff, "min": 0x0000000000000000, "bytes": 8 },
+        "float": { "max": 3.40282346638529e+38, "min": -3.40282346638529e+38, "bytes": 4 },
+        "double": { "max": 3.40282346638529e+38, "min": -3.40282346638529e+38, "bytes": 4 },
+        "long double": { "max": 1.7976931348623157e+308, "min": -1.7976931348623157e+308, "bytes": 8 },
+        "pointer": { "bytes": 2 },
+        "bool": { "max": 1, "min": 0, "bytes": 1 },
+        "boolean": { "max": 1, "min": 0, "bytes": 1 },
+        "size_t": { "max": 0xffff, "min": 0x0000, "bytes": 2 },
+        "ptrdiff_t": { "max": 0x7fff, "min": -0x8000, "bytes": 2 },
+        "intptr_t": { "max": 0x7fff, "min": -0x8000, "bytes": 2 },
+        "uintptr_t": { "max": 0xffff, "min": 0x0000, "bytes": 2 }
+    },
+    '32bits': {
+        "char": { "max": 0x7f, "min": -0x80, "bytes": 1 },
+        "signed char": { "max": 0x7f, "min": -0x80, "bytes": 1 },
+        "unsigned char": { "max": 0xff, "min": 0x00, "bytes": 1 },
+        "wchar_t": { "max": 0xffffffff, "min": 0x00000000, "bytes": 4 },
+        "char16_t": { "max": 0xffff, "min": 0x0000, "bytes": 2 },
+        "char32_t": { "max": 0xffffffff, "min": 0x00000000, "bytes": 4 },
+        "short": { "max": 0x7fff, "min": -0x8000, "bytes": 2 },
+        "unsigned short": { "max": 0xffff, "min": 0x0000, "bytes": 2 },
+        "int": { "max": 0x7fffffff, "min": -0x80000000, "bytes": 4 },
+        "unsigned int": { "max": 0xffffffff, "min": 0x00000000, "bytes": 4 },
+        "long": { "max": 0x7fffffff, "min": -0x80000000, "bytes": 4 },
+        "unsigned long": { "max": 0xffffffff, "min": 0x00000000, "bytes": 4 },
+        "long long": { "max": 0x7fffffffffffffff, "min": -0x8000000000000000, "bytes": 8 },
+        "unsigned long long": { "max": 0xffffffffffffffff, "min": 0x0000000000000000, "bytes": 8 },
+        "float": { "max": 3.40282346638529e+38, "min": -3.40282346638529e+38, "bytes": 4 },
+        "double": { "max": 1.7976931348623157e+308, "min": -1.7976931348623157e+308, "bytes": 8 },
+        "long double": { "max": 1.7976931348623157e+308, "min": -1.7976931348623157e+308, "bytes": 8 },
+        "pointer": { "bytes": 4 },
+        "bool": { "max": 1, "min": 0, "bytes": 1 },
+        "boolean": { "max": 1, "min": 0, "bytes": 1 },
+        "size_t": { "max": 0xffffffff, "min": 0x00000000, "bytes": 4 },
+        "ptrdiff_t": { "max": 0x7fffffff, "min": -0x80000000, "bytes": 4 },
+        "intptr_t": { "max": 0x7fffffff, "min": -0x80000000, "bytes": 4 },
+        "uintptr_t": { "max": 0xffffffff, "min": 0x00000000, "bytes": 4 }
+    }
+};
+const SIMULATOR_TYPE_FORMATS = {
+    'avr_8bits': {
+        i: ["d", "i"],
+        u: ["u", "o", "x", "X"],
+        c: ["c"],
+        s: ["s"],
+        p: ["p"],
+    },
+    '32bits': {
+        i: ["d", "i"],
+        u: ["u", "o", "x", "X"],
+        c: ["c"],
+        s: ["s"],
+        p: ["p"],
     }
 };
 const SIMULATOR_DEFAULT_BOARD = SIMULATOR_BOARDS[BOARD_DEFAULT];
-//serial
-/*
-const SERIAL_BAUDRATE = 9600;
-const SERIAL_PRODUCTS = {
-    'arduino_uno': {
-        'usbProductId': 0x43,
-        'usbVendorId': 0x2341
+const SERIAL_OPTIONS = {
+    boardSelection: true,
+    bauds: {
+        [BOARD_ARDUINO_UNO]: 9600,
+        [BOARD_ARDUINO_NANO]: 115200,
+        [BOARD_ARDUINO_MEGA]: 9600,
+        [BOARD_ARDUINO_UNO_R4_WIFI]: 115200,
+        [BOARD_ARDUINO_PRO_MINI]: 19200
+    },
+    variant_ids: {
+        [BOARD_ARDUINO_UNO]: ['uno'],
+        [BOARD_ARDUINO_NANO]: ['nano', 'nano-aTmega328-old', 'nano-atmega168'],
+        [BOARD_ARDUINO_MEGA]: ['mega-1280', 'mega-2560', 'mega-adk'],
+        [BOARD_ARDUINO_UNO_R4_WIFI]: ['unor4wifi'],
+        [BOARD_ARDUINO_PRO_MINI]: ['pro-mini-atmega328-16mhz', 'pro-mini-atmega328-8mhz', 'pro-mini-atmega168-16mhz', 'pro-mini-atmega168-8mhz']
     }
 };
-*/
 //autocorrector
 const AUTOCORRECTOR_DISABLED = true;

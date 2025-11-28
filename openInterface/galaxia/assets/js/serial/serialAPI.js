@@ -17,45 +17,6 @@ async function connectBoard() {
 	}
 };
 
-/*
-Download firmware button -- not ready
-
-$("#downloadFirmwareButton").click(async function () {
-	setupMonitor();
-	if (SerialAPI.isConnected) {
-		if (!Esp32.hasFirmware) {
-			InterfaceMonitor.writeConsole('Setting firmware data...')
-			Esp32.setFirmwareData('esp32-idf3-20200902-v1.13.bin');
-			var delay = null;
-			function finish() {
-				clearInterval(delay);
-				Esp32.isDownloadingFirmware = true;
-				await Esp32.flash({ 
-					address: 0x1000, 
-					data: Esp32.firmwareData 
-				})
-				Esp32.isDownloadingFirmware = false;
-				Repl.readingLoop();
-			};
-			function start() {
-				delay = setInterval(function () {
-					console.log('condition')
-					console.log(condition())
-					if (condition()) {
-						finish();
-					}
-				}, 500);
-			};
-			start();
-		} else {
-			InterfaceMonitor.writeConsole('Micropython firmware is already flashed.', 'success');
-		}
-	} else {
-		InterfaceMonitor.writeConsole('code.serialAPI.boardMustBeConnectedForDownload', 'warning');
-	}
-});
-*/
-
 async function uploadPython() {
 	const code = CodeManager.getSharedInstance().getCode();
 	if (code.match(/from edgeModel import Model/)) {
@@ -63,6 +24,7 @@ async function uploadPython() {
 	}
 	const upload = async function () {
 		if (Repl && Repl.hasFirmware) {
+			Repl.progressBar.displayProgressBar();
 			Repl.Queue.reset();
 			// await Repl.bootBoard(true); // TO BE FIXED FOR MICROPYTHON V2.0 AND ABOVE
 			await Repl.uploadUserCode();
@@ -117,7 +79,7 @@ async function updateSpecificAiLibrariesGalaxia(code) {
 			const modelWeights = JSON.parse(metadata.userMetaData.weightData);
 			const labels = JSON.stringify(metadata.labels);
 			let sensorStrategy = "edgeModel";
-			switch (metadata.settings.strategy.name){
+			switch (metadata.settings.strategy.name) {
 				case 'accelerometer':
 					sensorStrategy = 'edgeModel';
 					break;
@@ -134,7 +96,7 @@ async function updateSpecificAiLibrariesGalaxia(code) {
 					sensorStrategy = 'edgeModel';
 					break;
 			}
-			
+
 			let edgeLib = VittaInterface.externalLibraries[sensorStrategy];
 			let inputStart = edgeLib.split('# AI_EDGE_MODEL_WEIGHTS_INPUT_START')[0];
 			let inputEnd = edgeLib.split('# AI_EDGE_MODEL_WEIGHTS_INPUT_END')[1];
@@ -151,7 +113,7 @@ async function updateSpecificAiLibrariesGalaxia(code) {
 			const modelWeights = JSON.parse(parsedMetaData.userMetaData.weightData)
 			const labels = JSON.stringify(parsedMetaData.labels);
 			let sensorStrategy = "edgeModel";
-			switch (parsedMetaData.settings.strategy.name){
+			switch (parsedMetaData.settings.strategy.name) {
 				case 'accelerometer':
 					sensorStrategy = 'edgeModel';
 					break;
@@ -206,6 +168,7 @@ function callbackError(error) {
 		$('#repl-control').removeClass("activated");
 		$("#disconnect-opt").hide();
 		$("#connected-icon").remove();
+		Repl.progressBar.hideProgressBar();
 	}
 };
 
@@ -274,6 +237,7 @@ async function doConnect() {
 		const boardOptions = {
 			"chunkSize": 1024,
 			"libraries": VittaInterface.externalLibraries,
+			"progressBar": true
 		};
 		Repl = new MicropythonRepl(SerialAPI, boardOptions)
 		Repl.readingLoop();
@@ -300,6 +264,7 @@ async function doConnect() {
 
 async function doDisconnect() {
 	if (Repl && Repl.hasFirmware) {
+		Repl.progressBar.hideProgressBar();
 		Repl.Queue.reset();
 		if (Repl.isOpen) {
 			Repl.resetBoard('machine');

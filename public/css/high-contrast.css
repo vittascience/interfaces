@@ -13,7 +13,7 @@ i.fa-arrow-down {
 .vitta-button,
 .btn-green,
 .btn-orange {
-    --bs-btn-color: var(--vitta-black) !important;
+    --bs-btn-color: var(--vitta-white) !important;
     --bs-btn-border-color: var(--text-0) !important;
     --bs-btn-disabled-border-color: var(--text-0) !important;
     --bs-btn-hover-border-color: var(--text-0) !important;
@@ -195,7 +195,7 @@ Here we mainly put border to the elements to make them stand out */
     color: var(--text-0) !important;
 }
 
-.select_ide {
+.board-firmware-selector {
     border: 2px solid var(--text-0);
     color: var(--text-0);
 }

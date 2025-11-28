@@ -90,7 +90,7 @@ DEF_CLEAR_BUFFER_ARRAY:
 }`,
 
 DEF_SETUP_SERIAL_CONNECTION:
-`void serial_setupConnection(int baudrate) {
+`void serial_setupConnection(long baudrate) {
   Serial.begin(baudrate);
   while (!Serial) {
     Serial.println("En attente de l'ouverture du port série...");

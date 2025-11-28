@@ -79,6 +79,10 @@ input[name='searchbar']::placeholder {
     color: white;
     opacity: 1; /* Firefox */
 }
+.theme-dark input[name='searchbar'],
+.theme-dark input[name='searchbar']::placeholder {
+        color: black;
+}
 input[name='searchbar']:focus {
     outline: none;
 }
@@ -89,6 +93,9 @@ input[name='searchbar']:focus::placeholder {
     background-color: transparent;
     border: none;
     color: white;
+}
+.theme-dark .dropdown-toggle {
+        color: black;
 }
 .dropdown{
     display: flex;

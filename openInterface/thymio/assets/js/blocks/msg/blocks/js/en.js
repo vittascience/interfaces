@@ -246,3 +246,5 @@ Blockly.Msg['MATH_THYMIO_COS_TITLE'] = 'cosine of %1 in %2';
 Blockly.Msg['MATH_THYMIO_COS_TOOLTIP'] = 'Stores the cosine value of the angle "A" (in radians) in "result".';
 Blockly.Msg['MATH_THYMIO_SQRT_TITLE'] = 'square root of %1 in %2';
 Blockly.Msg['MATH_THYMIO_SQRT_TOOLTIP'] = 'Stores the square root of "A" in "result".';
+Blockly.Msg['IO_ON_PROXIMITY_LINE_EVENT_TOOLTIP'] = 'Create an event and run the code when the ground sensor detects a line or not.';
+Blockly.Msg['SENSORS_GET_PROXIMITY_FRONT_RIGHT'] = 'front right';

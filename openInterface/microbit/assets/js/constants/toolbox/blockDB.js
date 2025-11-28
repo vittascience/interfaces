@@ -15,7 +15,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             'show_string-num': this.Set.text('TEXT', "1024"),
             'show_string': this.Set.text('TEXT', "{hello}"),
             'display_show_gauge': this.Set.number("VALUE", 255) + this.Set.number("MAX", 1024),
-            'display_plot_bar_graph': this.Set.number("VALUE", 0),
+            'display_plot_bar_graph': this.Set.number("VALUE"),
             "set_pixel": this.Set.number("X") + this.Set.number("Y") + this.Set.state(),
             "set_light_pixel": this.Set.number("X") + this.Set.number("Y") + this.Set.number("LIGHT", 4),
             "get_pixelState": this.Set.number("X") + this.Set.number("Y") + this.Set.state(),
@@ -82,8 +82,10 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "io_writeAnalogPin": this.Set.field('PIN', "pin2") + this.Set.number("VALUE", 1023),
             "io_setPwm": this.Set.field('PIN', "pin1") + this.Set.number("PERIOD", 1000),
             "io_readPulseIn": this.Set.field('PIN', "pin1") + this.Set.state(),
+            "io_exec": this.Set.text('CODE', "print('Hello World')"),
+
             //communication - log
-            "communication_log_setLabel": "<mutation items='1'></mutation><value name='ADD0'><block type='text'><field name='TEXT'>Label1</field></block></value>",
+            "communication_log_setLabel": "<mutation items='1'></mutation>" + this.Set.text('ADD0', "Label1"),
             "communication_log_addData": "<mutation items='1'></mutation><value name='ADD0'><block type='communication_log_data'>" + this.Set.text('LABEL', "label") + this.Set.number("DATA") + "</block></value>",
             "communication_log_data": this.Set.text('LABEL', "label") + this.Set.number("DATA"),
             // communication - radio
@@ -136,6 +138,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "sensors_getGroveLineFinder": this.Set.field('PIN', "pin1"),
             "sensors_getGroveTilt": this.Set.field('PIN', "pin1"),
             "sensors_getGroveMotion": this.Set.field('PIN', "pin1"),
+            "sensors_getMiniPirGroveMotion": this.Set.field('PIN', "pin1"),
             "sensors_getPiezoVibration": this.Set.field('PIN', "pin1"),
             // sensors - other
             "sensors_getGroveButton": this.Set.field('PIN', "pin1"),
@@ -150,6 +153,9 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "actuators_kitronik_controlMotor": this.Set.number("SPEED", 100),
             "actuators_setVibrationMotorState": this.Set.field('PIN', "pin2") + this.Set.state(),
             "actuators_setGroveRelayState": this.Set.field('PIN', "pin2") + this.Set.state(),
+            "actuators_stepperMotor_uln2003driver_init": this.Set.field('IN1', "pin0") + this.Set.field('IN2', "pin14") + this.Set.field('IN3', "pin1") + this.Set.field('IN4', "pin15"),
+            "actuators_stepperMotor_uln2003driver_moveSteps": this.Set.number('STEPS', 1) + this.Set.field('UNIT', 'ROTATIONS'),
+            "actuators_stepperMotor_uln2003driver_setDelay" : this.Set.number('DELAY', 3),
             // actuators - Kitronic Traffic
             "actuators_controlAccessBitBuzzer": this.Set.number('VALUE', 500),
             // actuators - MOSFET
@@ -189,11 +195,21 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "robots_rotateMaqueenPlus": this.Set.number("SPEED", 125),
             "robots_controlMaqueenPlusMotor": this.Set.number("SPEED", 125),
             "robots_getMaqueenPlusUltrasonicRangerTrigEcho": this.Set.field('ECHO', "pin1"),
-            "robots_setMaqueenPlusV1ServoAngle": this.Set.number("ANGLE", 90),
-            "robots_setMaqueenPlusV2ServoAngle": this.Set.number("ANGLE", 90),
+            "robots_setMaqueenPlusServoAngle": this.Set.number("ANGLE", 90),
             "robots_setMaqueenPlusNeopixel": this.Set.number("R", 255) + this.Set.number("G", 255) + this.Set.number("B"),
             "robots_setMaqueenPlusNeopixelPalette": this.Set.colour_picker(),
             "robots_setMaqueenPlusBuzzer": this.Set.number("FREQUENCY", 440) + this.Set.number("TIME", 500),
+            "robots_maqueenPlusV3_setPatrolSpeed": this.Set.number("SPEED", 1),
+            "robots_maqueenPlusV3_runDistance": this.Set.number("DISTANCE", 50) + '<mutation wait="false"></mutation>',
+            "robots_maqueenPlusV3_turnWithAngle": this.Set.number("ANGLE", 90) + '<mutation wait="false"></mutation>',
+            "robots_maqueenPlusV3_lidar_configMatrix": this.Set.field('ADDR', "0X33"),
+            "robots_maqueenPlusV3_lidar_getData": this.Set.field('ADDR', "0X33"),
+            "robots_maqueenPlusV3_lidar_getFixedPoint": this.Set.field('ADDR', "0X33") + this.Set.number("X") + this.Set.number("Y"),
+            "robots_maqueenPlusV3_lidar_configAvoidance": this.Set.field('ADDR', "0X33") + this.Set.number("WALL", 30),
+            "robots_maqueenPlusV3_lidar_isSignalActivated": this.Set.field('ADDR', "0X33"),
+            "robots_maqueenPlusV3_lidar_dirToFollow": this.Set.field('ADDR', "0X33"),
+            "robots_maqueenPlusV3_lidar_isDirToFollow": this.Set.field('ADDR', "0X33"),
+            "robots_maqueenPlusV3_lidar_getObstacleDistance": this.Set.field('ADDR', "0X33"),
             // robots - cutebot
             "robots_controlCutebotRGBLedPalette": this.Set.colour_picker(),
             "robots_controlCutebotRGBLed": this.Set.number("R", 255) + this.Set.number("G") + this.Set.number("B"),
@@ -275,12 +291,11 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "cameras_huskylens_setText": this.Set.text("TEXT", 'Vittascience') + this.Set.number("X", 160) + this.Set.number("Y", 120),
             "cameras_huskylens_checkID": this.Set.number("ID", 1),
             "cameras_huskylens_getLineDirection": this.Set.number("ID", 1),
-            "cameras_huskylens_saveModel": this.Set.number("INDEX", 0),
-            "cameras_huskylens_loadModel": this.Set.number("INDEX", 0),
+            "cameras_huskylens_saveModel": this.Set.number("INDEX"),
+            "cameras_huskylens_loadModel": this.Set.number("INDEX"),
             "cameras_huskylens_learnID": this.Set.number("ID", 1),
             // Cameras - Wio Lite
             "wio_get_class_data_by_id": this.Set.number("ID", 1),
-
 
             // EDGE AI blocks
             "vittaia_detect_class": this.Set.text("MODEL_CLASS", 'Class') + this.Set.field("IS_DETECTED", '=='),
@@ -314,6 +329,8 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "math_constrain": this.Set.number("LOW", 1) + this.Set.number("HIGH", 100),
             "math_random_int": this.Set.number("FROM", 1) + this.Set.number("TO", 100),
             "math_atan2": this.Set.number("X", 1) + this.Set.number("Y", 1),
+            "math_RSA_generate_keys": this.Set.number("PRIME_LENGTH", 16),
+
             // text
             "text_comment": this.Set.field("TEXT", '{comment}'),
             "text_newline": this.Set.number('N', 1),
@@ -330,6 +347,8 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "text_reverse": this.Set.text('TEXT', 'abc'),
             "text_count_characters": this.Set.text('TEXT', 'P@ssw0rd'),
             "text_random_string": this.Set.number('LENGTH', 6),
+            "text_caesar_cipher": this.Set.text('TEXT', '{hello}') + this.Set.number('SHIFT', 3),
+            "text_caesar_cipher_brute_force": this.Set.text('TEXT', 'Erqmrxu hw elhqyhqxh vxu Ylwwdvflhqfh'),
             // list
             "lists_create_with-0": '<mutation items="0"></mutation>',
             "lists_repeat": this.Set.number("NUM", 5),

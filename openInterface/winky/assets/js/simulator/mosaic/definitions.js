@@ -12,6 +12,9 @@ Simulator.Mosaic.getPinDef = (pin, mod) => {
 };
 
 Simulator.Mosaic.externalLibraries = {
+    // js common libraries
+    'src/lib/time.js': Simulator.PATH_LIB_COMMON + 'micropython/time.js',
+    // js Winky libraries
     'src/lib/Winky_base.js': Simulator.PATH_LIB + 'Winky_base.js',
     'src/lib/Winky_interface.py': Simulator.PATH_LIB + 'Winky_interface.py',
     'src/lib/Winky_preset_list.py': Simulator.PATH_LIB + 'Winky_preset_list.py',

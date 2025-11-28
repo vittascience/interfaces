@@ -24,185 +24,43 @@ const LIBRARIES_H = {
                 }, {
                     type: rt.boolTypeLiteral,
                     name: "inverse_logic"
-                }, {
-                    type: rt.arrayPointerType(rt.charTypeLiteral),
-                    name: "serialType"
                 }
-            ]);
-
-            rt.defVar("DEC", rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 10));
-            rt.defVar("HEX", rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 16));
-            rt.defVar("OCT", rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 8));
+            ], ["Print"]);
 
             const __init__ = function (rt, _this, receivePin, transmitPin, inverse_logic, serialType) {
                 _this.v.members.receivePin.v = receivePin.v;
                 _this.v.members.transmitPin.v = transmitPin.v;
                 _this.v.members.inverse_logic.v = inverse_logic.v;
-                _this.v.members.serialType.v = Simulator.getStringFromInterpretor(serialType);
             };
-            rt.regFunc(__init__, SoftwareSerial_t, "__init__", [rt.intTypeLiteral, rt.intTypeLiteral, rt.boolTypeLiteral, rt.arrayPointerType(rt.charTypeLiteral)], rt.voidTypeLiteral);
+            rt.regFunc(__init__, SoftwareSerial_t, "__init__", [rt.unsignedcharTypeLiteral, rt.unsignedcharTypeLiteral, rt.boolTypeLiteral, rt.arrayPointerType(rt.charTypeLiteral)], rt.voidTypeLiteral);
+
+            const component_write = function (buffer, members) {
+                if (!buffer) return;
+            };
+
+            const write = function (rt, _this, data) {
+                let string = "";
+                if (rt.isCharType(data.t)) {
+                    string = String.fromCharCode(data.v);
+                } else if (rt.isStringType(data)) {
+                    string = rt.charArray_getJSString(data);
+                } else if (rt.isStringClass(data)) {
+                    rt.raiseException("no matching function for call to 'HardwareSerial::write(String)'");
+                } else {
+                    string = String(data.v);
+                }
+                const strLength = string.length;
+                component_write(string, _this.v.members);
+                return rt.val(rt.intTypeLiteral, strLength);
+            }
+            rt.regFunc(write, SoftwareSerial_t, "write", ['?'], rt.intTypeLiteral);
 
             const begin = function (rt, _this, speed) {
                 const baud = rt.val(rt.doubleTypeLiteral, speed.v);
             };
             rt.regFunc(begin, SoftwareSerial_t, "begin", [rt.doubleTypeLiteral], rt.voidTypeLiteral);
 
-            const _write = function (members, buffer) {
-                if (buffer) {
-                    if (members.serialType.v.includes('Serial')) {
-                        if (buffer.match(/\n/)) {
-                            InterfaceMonitor.sendDataToChart(Simulator.outputMemory);
-                            Simulator.outputMemory = '';
-                        } else {
-                            Simulator.outputMemory += buffer;
-                        }
-                        const cons = document.getElementById('console');
-                        cons.innerHTML += buffer.replace(/\n/g, '</br>');
-                        cons.scrollTo(0, cons.scrollHeight);
-                    }
-                }
-            };
-
-            const write = function (rt, _this, data) {
-                let buffer = "";
-                if (rt.isCharType(data.t)) {
-                    buffer = String.fromCharCode(data.v);
-                } else if (rt.isArrayType(data)) {
-                    buffer = Simulator.getStringFromInterpretor(data);
-                } else if (rt.isPrimitiveStringType(data.t)) {
-                    if (_this.v.members.serialType.v.includes('Serial')) {
-                        rt.raiseException("no matching function for call to 'HardwareSerial::write(String)'");
-                    } else {
-                        rt.raiseException("no matching function for call to 'SoftwareSerial::write(String)'")
-                    }
-                } else {
-                    buffer = String(data.v);
-                }
-                _write(_this.v.members, buffer);
-                return rt.val(rt.intTypeLiteral, buffer.length);
-            }
-            rt.regFunc(write, SoftwareSerial_t, "write", ['?'], rt.intTypeLiteral);
-
-            const print = function (rt, _this, buffer) {
-                _write(_this.v.members, buffer);
-                return rt.val(rt.intTypeLiteral, buffer.length);
-            };
-
-            // print candidates
-
-            // print(const String &);
-            rt.regFunc(function (rt, _this, string) {
-                return print(rt, _this, string.v);
-            }, SoftwareSerial_t, "print", [rt.StringTypeLiteral], rt.intTypeLiteral);
-
-            // print(const char[]);
-            rt.regFunc(function (rt, _this, charArray) {
-                return print(rt, _this, Simulator.getStringFromInterpretor(charArray));
-            }, SoftwareSerial_t, "print", [rt.arrayPointerType(rt.charTypeLiteral)], rt.intTypeLiteral);
-
-            // print(char);
-            rt.regFunc(function (rt, _this, char) {
-                return print(rt, _this, String.fromCharCode(char.v));
-            }, SoftwareSerial_t, "print", [rt.charTypeLiteral], rt.intTypeLiteral);
-            
-            // print(int);
-            rt.regFunc(function (rt, _this, n) {
-                return print(rt, _this, n.v.toString(10));
-            }, SoftwareSerial_t, "print", [rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // print(unsigned char, int = DEC);
-            rt.regFunc(function (rt, _this, n, base) {
-                return print(rt, _this, n.v.toString(base.v));
-            }, SoftwareSerial_t, "print", [rt.unsignedcharTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // print(int, int = DEC);
-            rt.regFunc(function (rt, _this, n, base) {
-                return print(rt, _this, n.v.toString(base.v));
-            }, SoftwareSerial_t, "print", [rt.intTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // print(unsigned int, int = DEC);
-            rt.regFunc(function (rt, _this, n, base) {
-                return print(rt, _this, n.v.toString(base.v));
-            }, SoftwareSerial_t, "print", [rt.unsignedintTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // print(long, int = DEC);
-            rt.regFunc(function (rt, _this, n, base) {
-                return print(rt, _this, n.v.toString(base.v));
-            }, SoftwareSerial_t, "print", [rt.longTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // print(double, int = 2);
-            rt.regFunc(function (rt, _this, n, digits) {
-                return print(rt, _this, n.v.toFixed(digits.v));
-            }, SoftwareSerial_t, "print", [rt.doubleTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // print(float, int = 2);
-            rt.regFunc(function (rt, _this, n, digits) {
-                return print(rt, _this, n.v.toFixed(digits.v));
-            }, SoftwareSerial_t, "print", [rt.floatTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // println candidates
-
-            // println(const String &);
-            rt.regFunc(function (rt, _this, string) {
-                return print(rt, _this, string.v + '\n');
-            }, SoftwareSerial_t, "println", [rt.StringTypeLiteral], rt.intTypeLiteral);
-
-            // println(const char[]);
-            rt.regFunc(function (rt, _this, charArray) {
-                return print(rt, _this, Simulator.getStringFromInterpretor(charArray) + '\n');
-            }, SoftwareSerial_t, "println", [rt.arrayPointerType(rt.charTypeLiteral)], rt.intTypeLiteral);
-
-            // println(char);
-            rt.regFunc(function (rt, _this, char) {
-                return print(rt, _this, String.fromCharCode(char.v) + '\n');
-            }, SoftwareSerial_t, "println", [rt.charTypeLiteral], rt.intTypeLiteral);
-
-            // println(unsigned char, int = DEC);
-            rt.regFunc(function (rt, _this, n, base) {
-                return print(rt, _this, n.v.toString(base.v) + '\n');
-            }, SoftwareSerial_t, "println", [rt.unsignedcharTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // println(int, int = DEC);
-            rt.regFunc(function (rt, _this, n, base) {
-                return print(rt, _this, n.v.toString(base.v) + '\n');
-            }, SoftwareSerial_t, "println", [rt.intTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // println(unsigned int, int = DEC);
-            rt.regFunc(function (rt, _this, n, base) {
-                return print(rt, _this, n.v.toString(base.v) + '\n');
-            }, SoftwareSerial_t, "println", [rt.unsignedintTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // println(long, int = DEC);
-            rt.regFunc(function (rt, _this, n, base) {
-                return print(rt, _this, n.v.toString(base.v) + '\n');
-            }, SoftwareSerial_t, "println", [rt.longTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // println(double, int = 2);
-            rt.regFunc(function (rt, _this, n, digits = rt.val(rt.intTypeLiteral, 2)) {
-                return print(rt, _this, n.v.toFixed(digits.v) + '\n');
-            }, SoftwareSerial_t, "println", [rt.doubleTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
-            // println(float, int = 2);
-            rt.regFunc(function (rt, _this, n, digits = rt.val(rt.intTypeLiteral, 2)) {
-                return print(rt, _this, n.v.toFixed(digits.v) + '\n');
-            }, SoftwareSerial_t, "println", [rt.floatTypeLiteral, rt.intTypeLiteral], rt.intTypeLiteral);
-
             const _read = function (members, isForString) {
-                if (members.serialType.v.includes('Serial')) {
-                    if (Simulator.serialData) {
-                        if (isForString) {
-                            const data = Simulator.serialData;
-                            Simulator.serialData = "";
-                            return data;
-                        } else {
-                            const char = Simulator.serialData.charAt(0);
-                            Simulator.serialData = Simulator.serialData.slice(1);
-                            return char.charCodeAt(0);
-                        }
-                    } else {
-                        return -1;
-                    }
-                }
             };
 
             const read = function (rt, _this) {
@@ -211,14 +69,11 @@ const LIBRARIES_H = {
             rt.regFunc(read, SoftwareSerial_t, "read", [], rt.intTypeLiteral);
 
             const readString = function (rt, _this) {
-                return rt.val(rt.StringTypeLiteral, String(_read(_this.v.members, true)));
+                return rt.String_makeValueFromJSString(String(_read(_this.v.members, true)));
             };
-            rt.regFunc(readString, SoftwareSerial_t, "readString", [], rt.StringTypeLiteral);
+            rt.regFunc(readString, SoftwareSerial_t, "readString", [], rt.String_t);
 
             const available = function (rt, _this) {
-                if (_this.v.members.serialType.v.includes('Serial')) {
-                    return rt.val(rt.intTypeLiteral, Simulator.serialData.length);
-                }
                 return rt.val(rt.intTypeLiteral, 0);
             };
             rt.regFunc(available, SoftwareSerial_t, "available", [], rt.intTypeLiteral);
@@ -229,41 +84,9 @@ const LIBRARIES_H = {
             rt.regFunc(listen, SoftwareSerial_t, "listen", [], rt.boolTypeLiteral);
 
             const flush = function (rt, _this) {
-                if (_this.v.members.serialType.v.includes('Serial')) {
-                    Simulator.serialData = "";
-                }
                 return rt.val(rt.boolTypeLiteral, true);
             };
             rt.regFunc(flush, SoftwareSerial_t, "flush", [], rt.voidTypeLiteral);
-
-        }
-    },
-    "OneWire.h": {
-        load: function (rt) { }
-    },
-    "Servo.h": {
-        load: function (rt) {
-
-            const Servo_t = rt.newClass("Servo", [
-                {
-                    type: rt.unsignedcharTypeLiteral,
-                    name: "port",
-                }, {
-                    type: rt.unsignedcharTypeLiteral,
-                    name: "slot"
-                }
-            ]);
-
-            rt.regFunc(function (rt, _this, route) {
-                _this.v.members.port.v = route.v[0].v;
-                _this.v.members.slot.v = route.v[1].v;
-            }, Servo_t, "attach", [rt.arrayPointerType(rt.intTypeLiteral)], rt.voidTypeLiteral);
-
-            rt.regFunc(function (rt, _this, angle) {
-                const pin = 'PORT' + _this.v.members.port.v + '-' + _this.v.members.slot.v;
-                const module = Simulator.getModuleByKey('makeblockServo');
-                Simulator.setAnimator(module, 'makeblockServo_' + pin, angle.v);
-            }, Servo_t, "write", [rt.intTypeLiteral], rt.voidTypeLiteral);
         }
     },
     "MePort.h": {
@@ -705,7 +528,6 @@ const LIBRARIES_H = {
     "MeBuzzer.h": {
         load: function (rt) {
             const MeBuzzer_t = rt.newClass("MeBuzzer", []);
-
             rt.regFunc(async function (rt, _this, freq, duration) {
                 Simulator.setAnimator(Simulator.getModuleByKey('mCoreBuzzer'), 'mCoreBuzzer', freq.v);
                 Simulator.music.startAudio();

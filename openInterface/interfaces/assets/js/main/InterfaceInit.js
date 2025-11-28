@@ -23,6 +23,7 @@ class InterfaceInit {
      */
     constructor(interfaceName) {
         this._interface = interfaceName;
+        this._board = null;
         this.id = randHex();
         this.initialized = false;
         this.externalLibraries = {};
@@ -41,7 +42,7 @@ class InterfaceInit {
     }
 
     _needSerialAPI() {
-        return ['arduino', 'microbit', 'esp32', 'wb55', 'l476', 'galaxia', 'm5stack', 'letsstartcoding', 'mBot', 'GalaxiaCircuitPython', 'cyberpi', 'pico', 'eliobot'].includes(this._interface);
+        return ['arduino', 'microbit', 'esp32', 'wb55', 'l476', 'galaxia', 'm5stack', 'letsstartcoding', 'mBot', 'GalaxiaCircuitPython', 'cyberpi', 'pico', 'eliobot', 'codey'].includes(this._interface);
     }
 
     async init() {
@@ -63,6 +64,9 @@ class InterfaceInit {
             const textCode = CodeManager.getSharedInstance().getTextCode();
             Main.getCodeEditor().container.session.setValue(textCode);
         }
+        if (Main.hasBoardSelector()) {
+            this._initializeBoardSelector();
+        }
         if (this._needSerialAPI()) {
             await this._initializeSerialInterface();
         }
@@ -74,9 +78,6 @@ class InterfaceInit {
         }
         if (!['web'].includes(this._interface)) {
             this._initializeTogglers();
-        }
-        if (Main.hasBoardSelector()) {
-            this._initializeBoardSelector();
         }
         if (typeof resizeBlocklyToolBox !== "undefined") {
             resizeBlocklyToolBox();
@@ -159,23 +160,23 @@ class InterfaceInit {
                 });
             }
             if (typeof SERIAL_OPTIONS !== 'undefined' && SERIAL_OPTIONS) {
-                InterfaceConnection.init(SERIAL_OPTIONS);
+                InterfaceConnection.init(SERIAL_OPTIONS, Blockly.Constants.getSelectedBoard());
             } else {
                 InterfaceConnection.init();
             }
         } else {
             let baudrate = 115200;
-            const getBaudrate = () => parseInt($('#baud').find(":selected").text());
             if (typeof SERIAL_BAUDRATE !== 'undefined') {
                 baudrate = SERIAL_BAUDRATE;
-            } else {
-                baudrate = getBaudrate;
             }
+            const baudOption = document.querySelector('#baud option[value="' + baudrate + '"]');
+            baudOption.selected = true;
+            const getBaudrate = () => parseInt($('#baud').find(":selected").text());
             let filters = null;
             if (typeof SERIAL_PRODUCT_FILTER !== 'undefined' && SERIAL_PRODUCT_FILTER === true && typeof SERIAL_PRODUCTS !== 'undefined') {
                 filters = Object.values(SERIAL_PRODUCTS);
             }
-            SerialAPI = new Serial(baudrate, filters);
+            SerialAPI = new Serial(getBaudrate, filters);
             let chunkSize = 1024;
             if (typeof SERIAL_CHUNK_SIZE !== 'undefined') {
                 chunkSize = SERIAL_CHUNK_SIZE;
@@ -262,12 +263,21 @@ class InterfaceInit {
     };
 
     _initializeBoardSelector() {
+        if (this._interface === 'arduino' && !$_GET('link') && (!$_GET('board') || (typeof SERIAL_OPTIONS !== 'undefined' && !Object.keys(SERIAL_OPTIONS.variant_ids).includes($_GET('board'))))) {
+            InterfaceConnection.openBoardSelector(true);
+        }
         updateBoard();
         const board = Blockly.Constants.getSelectedBoard();
         $("input[value='" + board + "']#board_" + board + "_Set").attr("checked", "checked");
-        $('input[type=radio][name=boardSelector]').change(function () {
-            updateBoard(true, this.value);
-        });
+        if (this._interface === 'arduino') {
+            $('input[type=radio][name=boardChoice]').change(function () {
+                InterfaceConnection.addFirmwareOptions(this.value);
+            });
+        } else {
+            $('input[type=radio][name=boardSelector]').change(function () {
+                updateBoard(true, this.value);
+            });
+        }
         $('input[type=radio][name=boardSelectorHelp]').change(function () {
             let storageBoard = {
                 [INTERFACE_NAME]: this.value

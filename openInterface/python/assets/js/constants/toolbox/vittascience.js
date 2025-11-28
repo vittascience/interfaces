@@ -107,7 +107,7 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
         "kind": "category",
         "toolboxitemid": "lists",
         "name": "%{BKY_CATEGORY_LISTS}",
-        "style": "list_category",
+        "style": "lists_category",
         "cssConfig": {
             "icon": "icon_blockly fas fa-list"
         },
@@ -185,7 +185,8 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'turtle_speed',
                 'turtle_reset',
                 'turtle_screen_setup',
-                'turtle_screen_color'
+                'turtle_screen_color',
+                'turtle_screen_picture'
             ]
         }
     ],

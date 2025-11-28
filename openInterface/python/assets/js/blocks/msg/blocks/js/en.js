@@ -77,6 +77,11 @@ Blockly.Msg['TURTLE_SCREEN_SETUP_TITLE'] = 'canvas size %1 x %2';
 Blockly.Msg['TURTLE_SCREEN_SETUP_TOOLTIP'] = 'Set the canvas size.';
 Blockly.Msg['TURTLE_SCREEN_COLOR_TITLE'] = 'canvas background color %1';
 Blockly.Msg['TURTLE_SCREEN_COLOR_TOOLTIP'] = 'Set the canvas background color.';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_TITLE'] = 'canvas background image %1';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_TOOLTIP'] = 'Set a background image for the canvas.';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_MAZE'] = 'maze';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_GRID'] = 'grid';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_VITTASCIENCE'] = 'vittascience';
 
 // Numpy blocks.
 Blockly.Msg["NUMPY_ARANGE_TITLE"] = "aranged table from %1 to %2 by step %3";
@@ -236,3 +241,4 @@ Blockly.Msg['EXCEPTION_TRY_TOOLTIP'] = 'Executes a block of code and allows exec
 // Other Block
 Blockly.Msg['OTHER_AST_RAW'] = 'Untranslated code';
 
+Blockly.Msg['NUMPY_SQUARE_MATRIX_TITLE'] = 'matrix with elements';

@@ -17,7 +17,7 @@ let fileImportInput = `
 
 if (INTERFACE_NAME === 'web') {
     fileImportInput =
-    `
+        `
     <div class="file-input">
         
     </div>
@@ -35,7 +35,7 @@ const backModals = {
             title: 'modals.standard.open.title'
         },
         content:
-        `
+            `
         <!-- Bouton pour ouvrir/fermer la section -->
         <button 
             class="openproject-collapse-title btn btn-link" 
@@ -104,7 +104,10 @@ const backModals = {
                         </button>
                         <span id="example-projects-count" class="project-count" aria-hidden="true"></span>
                     </h2>
-                    <div id="example-projects" class="collapse open-project-content" role="group" aria-labelledby="example-projects-list"></div>
+                    <div id="example-projects" class="collapse open-project-content" role="group" aria-labelledby="example-projects-list">
+                        <div id="sub-example-projects" class="open-project-content" role="group" aria-labelledby="example-projects-list"></div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -290,7 +293,7 @@ const backModals = {
             </div>
 
             <div class="mt-2" style="display: flex; width: 100%;">
-                <button type="button" id="modal-save-as-btn-back" class="btn v-btn-basic me-1" style="flex:1;" data-i18n="[html]modals.standard.save-as.buttons.back" onclick="dsaveProjectbtn()">
+                <button type="button" id="modal-save-as-btn-back" class="btn v-btn-basic me-1" style="flex:1;" data-i18n="[html]modals.standard.save-as.buttons.back" onclick="saveProjectbtn()">
                     Retour
                 </button>
                 <button type="button" id="modal-save-as-btn-confirm" data-form-validator="save_as_project_form" class="btn v-btn ms-1" style="flex:1;" data-i18n="[html]modals.standard.save-as.buttons.save" onclick="copyProject()">
@@ -573,7 +576,7 @@ const backModals = {
             <p class="text-center" data-i18n="modals.standard.rtc.privateProject.text">Ce projet est privé. Vous devez être invité par son propriétaire pour y accéder.</p>
             <p data-i18n="modals.standard.rtc.privateProject.text2">Souhaitez vous demander à son propriétaire l'accès à ce projet ?</p>
             <textarea class="form-control mb-3 mx-auto" id="privateProjectMessage" rows="3" placeholder="Ecrivez un message" style='max-width:50ch;'></textarea>
-            <button type="button" class="btn btn-success" title='En développement' data-disabled="true" style="cursor: not-allowed; opacity: 0.5; filter: grayscale(1);" data-toggle='tooltip' data-i18n="modals.standard.rtc.privateProject.send">Envoyer</button>
+            <button type="button" class="btn btn-success" title='En développement' data-disabled="true" style="cursor: not-allowed; opacity: 1; filter: grayscale(1);" data-toggle='tooltip' data-i18n="modals.standard.rtc.privateProject.send">Envoyer</button>
         </div>
         <hr>
         <div class='text-center'>
@@ -950,6 +953,27 @@ const backModals = {
             </span>`,
         footer: ``
     },
+    'modal-warningWrongXml': {
+        header: {
+            icon: 'fa fa-exclamation-circle',
+            title: 'modals.warning.default.title',
+        },
+        optionalClass: {
+            "modal": 'vitta-modal-warning',
+            "content": "text-center"
+        },
+        selector: '',
+        content: `<span class="fa fa-exclamation-circle"></span>
+            <span data-i18n="modals.warning.project.wrongXml">
+                Ce lien dirige vers un projet qui ne semble pas se charger correctement dans l'interface. Veuillez nous partager ce lien du projet en nous contactant par le support de Vittascience. Nous tenterons de le réparer.
+            </span>`,
+        footer: `<button type="button" id="modal-warning-wrongXml-btn-cancel" class="btn v-btn-basic me-1" style="flex:1;" data-i18n="[html]modals.standard.save.content.buttons.cancel" onclick="pseudoModal.closeModal('modal-warningWrongXml')">
+                    Annuler
+                </button>
+                <button type="button" id="modal-warning-wrongXml-btn-openProject" class="btn v-btn ms-1" style="flex:1;" data-i18n="[html]modals.standard.new.title" onclick="pseudoModal.openModal('modal-newproject')">
+                    Créer un projet
+                </button>`,
+    },
     'modal-warningWrongProjectFile': {
         header: {
             icon: 'fa fa-exclamation-circle',
@@ -1166,7 +1190,171 @@ const backModals = {
                     <p data-i18n="modals.duoSettings.quitDuoDescription"></p>
                 </div>`,
         footer: ``
-    }
+    },
+    'modal-iag-images-advertissement': {
+        header: {
+            icon: '',
+            title: 'modals.iag.images.title'
+        },
+        content: `
+        <div class="modal-body mx-2">
+
+            <div class="row text-center mt-2 mb-4">
+                <div class="col-md-4">
+                    <div class="custom-shadow rounded p-3 h-100">
+                        <image src="../../../interfaces/assets/images/icon-data.svg" alt="Chatbot" class="m-4" style="height: 4.5rem;"/>
+                        <p class="mb-0" data-i18n="modals.iag.images.card1"></p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="custom-shadow rounded p-3 h-100">
+                        <image src="../../../interfaces/assets/images/icon-save.svg" alt="Chatbot" class="m-4" style="height: 4.5rem;"/>
+                        <p class="mb-0" data-i18n="modals.iag.images.card2"></p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="custom-shadow rounded p-3 h-100">
+                        <image src="../../../interfaces/assets/images/icon-send.svg" alt="Chatbot" class="m-4" style="height: 4.5rem;"/>
+                        <p class="mb-0" data-i18n="modals.iag.images.card3"></p>
+                    </div>
+                </div>
+            </div>
+
+            <p class="my-2 text-center" data-i18n="modals.iag.common.privacyReminder"></p>
+
+            <div class="my-3 text-center custom-shadow p-2 rounded">
+                <a class="text-decoration-underline text-primary" id="learnMoreBtn" data-bs-toggle="collapse" data-bs-target="#learnMorePanel" aria-expanded="false" aria-controls="learnMorePanel"><span data-i18n="modals.iag.common.learnMore"></span><i class="fa-solid fa-chevron-right ms-1" aria-hidden="true"></i></a>
+
+                <div id="learnMorePanel" class="collapse mt-3">
+                    <div class="card border-0 text-start mx-auto" style="max-width:920px;">
+                        <div class="d-flex flex-column gap-2">
+
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <i class="fa-solid fa-file-contract vitta-modal-title"></i>
+                                <a href="/privacy" target="_blank" rel="noopener"
+                                    data-i18n="modals.iag.common.linkPrivacyPolicy"></a>
+                            </div>
+
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <img src="../../../interfaces/assets/images/fr-flag.svg" alt="Drapeau de la France" width="20" height="14" loading="lazy">
+                                <a href="https://www.education.gouv.fr/cadre-d-usage-de-l-ia-en-education-450647" target="_blank" rel="noopener"
+                                    data-i18n="modals.iag.common.linkEducationAIFrame"></a>
+                            </div>
+
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <img src="../../../interfaces/assets/images/fr-flag.svg" alt="Drapeau de la France" width="20" height="14" loading="lazy">
+                                <a href="https://www.cnil.fr/fr/enseignant-usage-systeme-ia" target="_blank" rel="noopener"
+                                    data-i18n="modals.iag.common.linkCnilFaq"></a>
+                            </div>
+
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <img src="../../../interfaces/assets/images/eu-flag.svg" alt="Drapeau de l'Union européenne" width="20" height="14" loading="lazy">
+                                <a href="https://www.vie-publique.fr/questions-reponses/292157-ai-act-le-reglement-europeen-sur-lintelligence-artificielle-ia" target="_blank" rel="noopener"
+                                    data-i18n="modals.iag.common.linkAIAct"></a>
+                            </div>
+
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <img src="../../../interfaces/assets/images/canada-flag.svg" alt="Drapeau de l'Union européenne" width="20" height="14" loading="lazy">
+                                <a href="https://www.vie-publique.fr/questions-reponses/292157-ai-act-le-reglement-europeen-sur-lintelligence-artificielle-ia" target="_blank" rel="noopener"
+                                    data-i18n="modals.iag.common.linkQuebecAI"></a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button type="button" class="btn btn-primary mt-2" id="iagConfirmImage" data-i18n="[html]modals.iag.common.accessInterface"></button>
+                <button type="button" class="d-none btn btn-primary mt-2 mx-2" id="iagImgFollowTutorial" data-i18n="[html]modals.iag.common.followTutorial" disabled></button>
+            </div>
+
+        </div>`,
+        footer: ``
+    },
+    'modal-iag-texts-advertissement': {
+        selector: '',
+        header: {
+            icon: '',
+            title: 'modals.iag.texts.title'
+        },
+        content: `
+        <div class="modal-body mx-2">
+
+            <div class="row text-center mt-2 mb-4">
+                <div class="col-md-4 ">
+                    <div class="custom-shadow rounded p-3 h-100">
+                        <image src="../../../interfaces/assets/images/icon-data.svg" alt="Chatbot" class="m-4" style="height: 4.5rem;"/>
+                        <p class="mb-0" data-i18n="modals.iag.texts.card1"></p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="custom-shadow rounded p-3 h-100">
+                        <image src="../../../interfaces/assets/images/icon-talk.svg" alt="Chatbot" class="m-4" style="height: 4.5rem;"/>
+                        <p class="mb-0" data-i18n="modals.iag.texts.card2"></p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="custom-shadow rounded p-3 h-100">
+                        <image src="../../../interfaces/assets/images/icon-send.svg" alt="Chatbot" class="m-4" style="height: 4.5rem;"/>
+                        <p class="mb-0" data-i18n="modals.iag.texts.card3"></p>
+                    </div>
+                </div>
+            </div>
+
+            <p class="my-2 text-center" data-i18n="modals.iag.common.privacyReminder"></p>
+
+            <div class="my-3 text-center custom-shadow p-2 rounded">
+                <a class="text-decoration-underline text-primary" id="learnMoreBtnText" data-bs-toggle="collapse" data-bs-target="#learnMorePanelText" aria-expanded="false" aria-controls="learnMorePanelText"><span data-i18n="modals.iag.common.learnMore"></span><i class="fa-solid fa-chevron-right ms-1" aria-hidden="true"></i></a>
+
+                <div id="learnMorePanelText" class="collapse mt-3">
+                    <div class="card border-0 text-start mx-auto" style="max-width:920px;">
+                        <div class="d-flex flex-column gap-2">
+
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <i class="fa-solid fa-file-contract vitta-modal-title"></i>
+                                <a href="/privacy" target="_blank" rel="noopener"
+                                    data-i18n="modals.iag.common.linkPrivacyPolicy"></a>
+                            </div>
+
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <img src="../../../interfaces/assets/images/fr-flag.svg" alt="Drapeau de la France" width="20" height="14" loading="lazy">
+                                <a href="https://www.education.gouv.fr/cadre-d-usage-de-l-ia-en-education-450647" target="_blank" rel="noopener"
+                                    data-i18n="modals.iag.common.linkEducationAIFrame"></a>
+                            </div>
+
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <img src="../../../interfaces/assets/images/fr-flag.svg" alt="Drapeau de la France" width="20" height="14" loading="lazy">
+                                <a href="https://www.cnil.fr/fr/enseignant-usage-systeme-ia" target="_blank" rel="noopener"
+                                    data-i18n="modals.iag.common.linkCnilFaq"></a>
+                            </div>
+
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <img src="../../../interfaces/assets/images/eu-flag.svg" alt="Drapeau de l'Union européenne" width="20" height="14" loading="lazy">
+                                <a href="https://www.vie-publique.fr/questions-reponses/292157-ai-act-le-reglement-europeen-sur-lintelligence-artificielle-ia" target="_blank" rel="noopener"
+                                    data-i18n="modals.iag.common.linkAIAct"></a>
+                            </div>
+
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <img src="../../../interfaces/assets/images/canada-flag.svg" alt="Drapeau de l'Union européenne" width="20" height="14" loading="lazy">
+                                <a href="https://www.vie-publique.fr/questions-reponses/292157-ai-act-le-reglement-europeen-sur-lintelligence-artificielle-ia" target="_blank" rel="noopener"
+                                    data-i18n="modals.iag.common.linkQuebecAI"></a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center"> 
+                <button type="button" class="btn btn-primary mt-2" id="iagConfirmText" data-i18n="[html]modals.iag.common.accessInterface"></button>
+                <button type="button" class="btn btn-primary mx-2 mt-2" id="iagFollowTutorial" data-i18n="[html]modals.iag.common.followTutorial"></button>
+            </div>
+
+        </div>`,
+        footer: ``
+    },
+
     // Template not modify, not delete
     // '0': {
     //     selector: '',

@@ -17,6 +17,8 @@ if (!file_exists($keyPath)) {
 // Read the private key file
 $privateKey = file_get_contents($keyPath);
 
+$keyContentFromCI = $_ENV['VS_SSO_APPLE_PRIVATE_KEY_CONTENT'] ?? null;
+
 $now = time();
 $expiration = $now + (86400 * 180);
 

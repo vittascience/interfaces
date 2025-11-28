@@ -18,8 +18,8 @@ const TOOLBOX_STYLE_VITTA = "vittascience";
 const TOOLBOX_STYLE_SCRATCH = "scratch";
 const TOOLBOX_STYLE_DEFAULT = TOOLBOX_STYLE_VITTA;
 //board
-const BOARD_ARDUINO_UNO = "nano";
-const BOARD_DEFAULT = BOARD_ARDUINO_UNO;
+const BOARD_ARDUINO_NANO = "nano";
+const BOARD_DEFAULT = BOARD_ARDUINO_NANO;
 //standalone_blocks
 const BLOCKS_OUTSIDE_SCOPE = ["on_start", "forever", "scratch_on_start", "procedures_defnoreturn", "procedures_defreturn", "io_attachInterrupt"];
 //example projects
@@ -36,5 +36,5 @@ const SIMULATOR_DEFAULT_BOARD = {
 // serial options
 const SERIAL_OPTIONS = {
     boardSelection: false,
-    board: 'nano'
+    board: BOARD_ARDUINO_NANO
 };

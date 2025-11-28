@@ -89,6 +89,17 @@ Blockly.Arduino.init = function (workspace) {
   // Create a dictionnary for stacking user elements in loop
   Blockly.Arduino.userLoop_ = Object.create(null);
 
+  // Create a dictionary of javascript code to be after user setups to generate script.js file.
+  Blockly.Arduino.jsCodes_ = Object.create(null);
+  // Create a dictionary of css code to be added after user setups to generate style.css file.
+  Blockly.Arduino.cssStyles_ = Object.create(null);
+  // Create a dictionary of html id and its span value.
+  Blockly.Arduino.htmlSpans_ = Object.create(null);
+  // Create a dictionary of html id and its gauge value.
+  Blockly.Arduino.htmlGauges_ = Object.create(null);
+  // Create a dictionary of html id and its image data.
+  Blockly.Arduino.htmlImages_ = Object.create(null);
+
   if (!Blockly.Arduino.nameDB_) {
     Blockly.Arduino.nameDB_ = new Blockly.Names(Blockly.Arduino
       .RESERVED_WORDS_);
@@ -141,7 +152,6 @@ Blockly.Arduino.convertObjectInLists = function (object, setLine) {
       list.push(object[i]);
     }
   }
-  delete object;
   return list;
 };
 
@@ -200,9 +210,13 @@ Blockly.Arduino.finish = function () {
   var loopCode = "void loop() {" + userLoopStack.join("\n") + "\n}";
 
   Blockly.Arduino.nameDB_.reset();
-  delete Blockly.Arduino.functionNames_;
 
-  return headCode + setupCode + loopCode
+  delete Blockly.Arduino.functionNames_;
+  delete Blockly.Arduino.htmlSpans_;
+  delete Blockly.Arduino.htmlGauges_;
+  delete Blockly.Arduino.htmlImages_;
+
+  return headCode + setupCode + loopCode;
 };
 
 /**

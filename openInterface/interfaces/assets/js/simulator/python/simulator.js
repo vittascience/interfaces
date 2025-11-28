@@ -126,10 +126,6 @@ const Simulator = {
 			__future__: Sk.python3,
 			read: _this.builtinRead
 		});
-
-		Sk.builtins.bytearray = function (value) {
-			return new Sk.builtin.bytes(value);
-		};
 	},
 
 	/**

@@ -62,7 +62,7 @@ const TOOLBOX_SCRATCH_CATEGORIES = [
     {
         "kind": "category",
         "toolboxitemid": "cameras",
-        "name": "%{BKY_CATEGORY_CAMERAS}",
+        "name": "%{BKY_CATEGORY_AI_CAMERAS}",
         "style": "cameras_category",
         "cssConfig": {
             "icon": "icon_blockly fa-solid fa-camera"
@@ -113,7 +113,7 @@ const TOOLBOX_SCRATCH_CATEGORIES = [
         "kind": "category",
         "toolboxitemid": "lists",
         "name": "%{BKY_CATEGORY_LISTS}",
-        "style": "list_category",
+        "style": "lists_category",
         "cssConfig": {
             "icon": "icon_blockly fas fa-list"
         },
@@ -311,8 +311,9 @@ const TOOLBOX_SCRATCH_CONTENT = {
             "label": "%{BKY_SUBCATEGORY_ZIP_HALO}",
             "blocks": [
                 "display_controlColorZipHaloLed",
-                "display_ZipHaloLed_controlAllLedRGB",
+                "display_controlZipHaloLed",
                 "display_ZipHaloLed_controlAllLedPalette",
+                "display_ZipHaloLed_controlAllLedRGB",
                 "display_ZipHaloLed_rainbow"
             ]
         },
@@ -345,7 +346,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
             "label": "%{BKY_SUBCATEGORY_KITRONIC_TRAFFIC}",
             "blocks": [
                 "display_setTrafficLight",
-                "display_setStreetLight"
+                "display_setLampBitLight"
             ]
         },
         {
@@ -454,6 +455,12 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'controls_if',
                 'controls_if-else',
                 'logic_ternary'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_EXEC}",
+            "blocks": [
+                'io_exec'
             ]
         }
     ],
@@ -668,6 +675,8 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 "blocks": [
                     'actuators_setServoAngle',
                     'actuators_continuousServo_setSpeed',
+                    'actuators_stepperMotor_uln2003driver_init',
+                    'actuators_stepperMotor_uln2003driver_moveSteps',
                     'actuators_setMotorPower',
                     'actuators_setFanPower',
                     'actuators_kitronik_controlMotor',
@@ -818,28 +827,74 @@ const TOOLBOX_SCRATCH_CONTENT = {
         {
             "subCategoryId": 'maqueen-plus',
             "contents": [{
-                "label": "%{BKY_SUBCATEGORY_MAQUEEN_PLUS}",
+                "label": "%{BKY_SUBCATEGORY_DETECTION}",
                 "blocks": [
-                    'robots_getMaqueenPlusV2UltrasonicRanger',
                     'robots_getMaqueenPlusUltrasonicRangerTrigEcho',
-                    'robots_readMaqueenPlusv1Patrol',
-                    'robots_readMaqueenPlusv2Patrol',
-                    'robots_controlMaqueenPlusLed',
+                    'robots_getMaqueenPlusV2UltrasonicRanger',
+                    'robots_readMaqueenPlusPatrol',
+                    'robots_maqueenPlusV3_readLightIntensity'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_MOVING}",
+                "blocks": [
                     'robots_setMaqueenPlusGo',
                     'robots_rotateMaqueenPlus',
                     'robots_controlMaqueenPlusMotor',
-                    'robots_stopMaqueenPlusMotors',
-                    'robots_setMaqueenPlusV1ServoAngle',
-                    'robots_setMaqueenPlusV2ServoAngle',
+                    'robots_stopMaqueenPlusMotors'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_CONTROL}",
+                "blocks": [
+                    'robots_controlMaqueenPlusLed',
+                    'robots_maqueenPlusV3_setRGBLed',
+                    'robots_setMaqueenPlusBuzzer',
+                    'robots_setMaqueenPlusServoAngle'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_RGB_LED} (V2 & V3)",
+                "blocks": [
                     'robots_maqueenPlusBlinkRobot',
                     'robots_setMaqueenPlusNeopixelPalette',
                     'robots_setMaqueenPlusNeopixel',
-                    'robots_setMaqueenPlusRainbow',
-                    'robots_setMaqueenPlusBuzzer',
+                    'robots_setMaqueenPlusRainbow'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_REMOTE_CONTROL}",
+                "blocks": [
                     'robots_maqueenPlus_onRemoteCommandReceived',
                     'robots_maqueenPlus_onRemoteCommandReceived_car_mp3_gray',
                     'robots_decodeMaqueenPlusIRreceiver',
                     'robots_getMaqueenPlusIRcode'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_LINE_FINDER} (V3)",
+                "blocks": [
+                    'robots_maqueenPlusV3_setPatrolSpeed',
+                    'robots_maqueenPlusV3_setIntersectionRunMode',
+                    'robots_maqueenPlusV3_setLeftOrRightIntersectionRunMode',
+                    'robots_maqueenPlusV3_setPatrollingState',
+                    'robots_maqueenPlusV3_intersectionDetected',
+                    'robots_maqueenPlusV3_intersectionDetectedIs'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_PID} (V3)",
+                "blocks": [
+                    'robots_maqueenPlusV3_runDistance',
+                    'robots_maqueenPlusV3_turnWithAngle',
+                    'robots_maqueenPlusV3_readRealTimeSpeed',
+                    'robots_maqueenPlusV3_stopPID'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_LIDAR} (V3)",
+                "blocks": [
+                    'robots_maqueenPlusV3_lidar_configMatrix',
+                    'robots_maqueenPlusV3_lidar_getData',
+                    'robots_maqueenPlusV3_lidar_getFixedPoint',
+                    'robots_maqueenPlusV3_lidar_configAvoidance',
+                    'robots_maqueenPlusV3_lidar_isSignalActivated',
+                    'robots_maqueenPlusV3_lidar_dirToFollow',
+                    'robots_maqueenPlusV3_lidar_isDirToFollow',
+                    'robots_maqueenPlusV3_lidar_getObstacleDistance'
                 ]
             }]
         },
@@ -1045,7 +1100,10 @@ const TOOLBOX_SCRATCH_CONTENT = {
             'math_modulo',
             'math_constrain',
             'math_random_float',
-            'math_atan2'
+            'math_atan2',
+            "math_RSA_generate_keys",
+            "math_RSA_cipher_message",
+            "math_RSA_decipher_message"
         ]
     }
     ],

@@ -1,6 +1,13 @@
-function replaceXmlCode(to) {
-    let workspaceXml = Blockly.Xml.workspaceToDom(Main.getWorkSpace());
-    let xmlToLoad = Blockly.Xml.domToText(workspaceXml);
+function replaceXmlCode(to, xmlString = null) {
+    let workspaceXml = null;
+    let xmlToLoad = null;
+    if (xmlString !== null) {
+        workspaceXml = Blockly.Xml.textToDom(xmlString);
+        xmlToLoad = xmlString;
+    } else {
+        workspaceXml = Blockly.Xml.workspaceToDom(Main.getWorkSpace());
+        xmlToLoad = Blockly.Xml.domToText(workspaceXml);
+    }
     if ((typeof TOOLBOX_STYLE_SCRATCH != 'undefined' && to == TOOLBOX_STYLE_SCRATCH) || (typeof TOOLBOX_STYLE_TI != 'undefined' && to == TOOLBOX_STYLE_TI)) {
         let isNotScratch = !/type=\"scratch_on_start\"/.test(xmlToLoad);
         if (isNotScratch) {
@@ -16,111 +23,95 @@ function replaceXmlCode(to) {
 };
 
 function adaptVittascienceToScratch(workspaceXml) {
-    let xmlToLoad = '<xml xmlns="https://developers.google.com/blockly/xml">';
+    // Créer un nouveau document XML propre
+    const newXml = Blockly.Xml.textToDom('<xml xmlns="https://developers.google.com/blockly/xml"></xml>');
+    
     let user_start = null;
     let user_variables = null;
-    let user_forever = [];
-    let user_functions = [];
+    const user_forever = [];
+    const user_functions = [];
 
-    // Get the 'on_start', 'forever', variables stack and user functions nodes 
-    for (var i = 0; i < workspaceXml.childNodes.length; i++) {
-        let block = workspaceXml.childNodes[i]
-        if (/type="forever"/.test(block.outerHTML)) {
-            user_forever.push(block)
-        } else if (/type="on_start"/.test(block.outerHTML)) {
-            user_start = block;
-        } else if (/<variables>/.test(block.outerHTML)) {
-            user_variables = block;
+    // 1. Identifier les différents éléments
+    for (let i = 0; i < workspaceXml.childNodes.length; i++) {
+        const n = workspaceXml.childNodes[i];
+        if (n.nodeType !== 1) continue; // Ignorer les noeuds non-éléments
+        
+        const h = n.outerHTML || '';
+        if (n.tagName === 'variables') {
+            user_variables = n;
+        } else if (/type="on_start"/.test(h)) {
+            user_start = n;
+        } else if (/type="forever"/.test(h)) {
+            user_forever.push(n);
         } else {
-            user_functions.push(block);
+            user_functions.push(n);
         }
     }
 
-    // add user variables to workspace xml
-    if (user_variables !== null) {
-        let xmlVar = Blockly.Xml.textToDom(xmlToLoad + '</xml>');
-        xmlVar.appendChild(user_variables);
-        xmlToLoad = Blockly.Xml.domToText(xmlVar).replace('</xml>', '');
+    // 2. Ajouter les variables en premier
+    if (user_variables) {
+        newXml.appendChild(user_variables.cloneNode(true));
     }
 
-    // removing </block> at the end of code
-    var removeEndBlockStatement = function (code) {
-        return code.substring(0, code.length - 8);
-    };
-
-    let blockCount = 0;
-    // add 'on_start' block to workspace xml
-    if (user_start !== null) {
-        if (user_start.childNodes.length > 0) {
-            let startCode = user_start.outerHTML.replace(user_start.innerHTML, '')
-            xmlToLoad += removeEndBlockStatement(startCode);
-            const statement = user_start.childNodes[0];
-            let XMLCode = {
-                "childNode": statement.childNodes[0].childNodes
-            };
-            let firstBlockCode = statement.innerHTML;
-            let blockCode = "";
-            xmlToLoad += '<next>';
-            while (XMLCode.childNode !== null) {
-                XMLCode = gettingOnStartBlocks(XMLCode.childNode);
-                if (XMLCode.blockCode === null) {
-                    blockCode = removeEndBlockStatement(firstBlockCode);
-                    blockCount += 1;
-                    break;
-                }
-                blockCode = firstBlockCode.replace(XMLCode.blockCode, '');
-                if (XMLCode.childNode !== null) {
-                    firstBlockCode = XMLCode.blockCode;
-                    blockCode = blockCode.substring(0, blockCode.length - 15);
-                    xmlToLoad += blockCode;
-                } else {
-                    blockCode = removeEndBlockStatement(blockCode);
-                }
-                blockCount += 1;
+    // 3. Traiter le bloc on_start
+    if (user_start) {
+        const startClone = user_start.cloneNode(true);
+        startClone.setAttribute('type', 'scratch_on_start');
+        
+        // Si le on_start a un statement DO, le convertir en next
+        const statementDo = startClone.querySelector('statement[name="DO"]');
+        if (statementDo) {
+            const nextElement = newXml.ownerDocument.createElement('next');
+            while (statementDo.firstChild) {
+                nextElement.appendChild(statementDo.firstChild);
             }
-            xmlToLoad += blockCode;
-        } else {
-            xmlToLoad += removeEndBlockStatement(user_start.outerHTML);
+            startClone.appendChild(nextElement);
+            startClone.removeChild(statementDo);
         }
-        if (user_forever.length > 0) {
-            for (var j = 0; j < user_forever.length; j++) {
-                const loopBlocks = user_forever[j].outerHTML;
-                xmlToLoad += '<next>' + removeEndBlockStatement(loopBlocks);
+        
+        newXml.appendChild(startClone);
+    }
+
+    // 4. Chaîner les blocs forever après le on_start
+    if (user_forever.length > 0) {
+        const onStartBlock = newXml.querySelector('block[type="scratch_on_start"]');
+        if (onStartBlock) {
+            let currentBlock = onStartBlock;
+            
+            // Trouver le dernier bloc dans la chaîne
+            while (currentBlock.querySelector('next > block')) {
+                currentBlock = currentBlock.querySelector('next > block');
             }
-            xmlToLoad += '</block>';
-            for (var j = 0; j < user_forever.length; j++) {
-                xmlToLoad += '</next></block>';
-            }
-        }
-        if (blockCount > 0 && user_forever.length == 0) {
-            xmlToLoad += '</block>';
-        }
-        for (var j = 0; j < blockCount; j++) {
-            xmlToLoad += '</next></block>';
-        }
-        if (blockCount == 0 && user_forever.length == 0) {
-            xmlToLoad += '</block>';
+            
+            // Ajouter chaque forever à la suite
+            user_forever.forEach((foreverBlock) => {
+                const foreverClone = foreverBlock.cloneNode(true);
+                foreverClone.setAttribute('type', 'scratch_forever');
+                
+                // Créer l'élément next
+                const nextElement = newXml.ownerDocument.createElement('next');
+                nextElement.appendChild(foreverClone);
+                
+                currentBlock.appendChild(nextElement);
+                currentBlock = foreverClone;
+            });
         }
     }
 
-    xmlToLoad += '</xml>';
-
-    // add user_functions to workspace xml
-    if (user_functions.length > 0) {
-        const xml = Blockly.Xml.textToDom(xmlToLoad)
-        for (var j = 0; j < user_functions.length; j++) {
-            xml.appendChild(user_functions[j])
-        }
-        xmlToLoad = Blockly.Xml.domToText(xml)
-    }
-    // convert vittascience type blocks to scratch blocks
-    xmlToLoad = xmlToLoad.replace(/type=\"forever\"/g, 'type=\"scratch_forever\"');
-    xmlToLoad = xmlToLoad.replace(/type=\"on_start\"/g, 'type=\"scratch_on_start\"');
-
-    // just test if blockly xml parser is working with the 'xmlToLoad' generated
-    Blockly.Xml.textToDom(xmlToLoad);
-
-    return xmlToLoad;
+    // 5. Ajouter les fonctions (en convertissant les forever internes)
+    user_functions.forEach(n => {
+        const functionClone = n.cloneNode(true);
+        
+        // Convertir les forever internes en scratch_forever
+        const foreverBlocks = functionClone.querySelectorAll('block[type="forever"]');
+        foreverBlocks.forEach(block => {
+            block.setAttribute('type', 'scratch_forever');
+        });
+        
+        newXml.appendChild(functionClone);
+    });
+    
+    return Blockly.Xml.domToText(newXml);
 };
 
 function gettingOnStartBlocks(children) {
@@ -248,6 +239,7 @@ function adaptScratchToVittascience(workspaceXml) {
 
     return Blockly.Xml.domToText(xml);
 };
+
 
 function searchingNextBlocks(children) {
     const XMLCode = {

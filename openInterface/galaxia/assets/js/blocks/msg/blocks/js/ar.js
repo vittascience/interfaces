@@ -3,10 +3,12 @@
  */
 'use strict';
 // Display - Galaxia/Display
-Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_TITLE'] = '[SCREEN] Write text %1';
-Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_TOOLTIP'] = '[SCREEN] Write text on the screen of the Galaxia card.';
-Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_VALUE_TITLE'] = '[SCREEN] Write text %1 with value %2';
-Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_VALUE_TOOLTIP'] = '[SCREEN] Write text on the screen of the Galaxia card with a value.';
+Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_TITLE'] = '[Screen] write text %1';
+Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_TOOLTIP'] = '[Screen] Write text on the screen of the Galaxia card.';
+Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_VALUE_TITLE'] = '[Screen] write text %1 with value %2';
+Blockly.Msg['DISPLAY_GALAXIA_SCREEN_SET_TEXT_VALUE_TOOLTIP'] = '[Screen] Write text on the screen of the Galaxia card with a value.';
+Blockly.Msg["DISPLAY_GALAXIA_SCREEN_CLEAR_TITLE"]= "[Screen] clear";
+Blockly.Msg["DISPLAY_GALAXIA_SCREEN_CLEAR_TOOLTIP"]= "[Screen] Clear the screen of the Galaxia card with.";
 // Display - Galaxia/RGB
 Blockly.Msg['DISPLAY_GALAXIA_LED_GREEN_CONTROL_TITLE'] = '[RGB LED] set green intensity to %1';
 Blockly.Msg['DISPLAY_GALAXIA_LED_GREEN_CONTROL_TOOLTIP'] = 'Adjusts the intensity of the green for the LED integrated in the Galaxia card from 0 to 255.';
@@ -502,3 +504,6 @@ Blockly.Msg['VITTAIA_IS'] = 'هو';
 Blockly.Msg['VITTAIA_ISNOT'] = 'ليس';
 Blockly.Msg['VITTAIA_GET_HIGHEST_PROBABILITY_CLASS_TITLE'] = 'الفئة المكتشفة';
 Blockly.Msg['VITTAIA_GET_HIGHEST_PROBABILITY_CLASS_TOOLTIP'] = 'يتيح لك استرجاع الفئة ذات أعلى احتمال.';
+Blockly.Msg['COMMUNICATION_INFRARED_ONDATARECEIVED_TITLE'] = '[IR] إذا تم استلام %1 في %2 %3 دبوس %4 مع البروتوكول %5 إذن';
+Blockly.Msg['COMMUNICATION_INFRARED_ONDATARECEIVED_TOOLTIP'] = 'IMG_MODULE_IR_RECEIVER + Blockly.Tooltip.SEP + \'يسمح بتنفيذ التعليمات إذا تم استلام بيانات بواسطة وحدة الأشعة تحت الحمراء في متغير على الدبوس الرقمي مع بروتوكول NEC_8 أو NEC_16.';
+Blockly.Msg['VITTAIA_MAKE_PREDICTION_TIME_WINDOW'] = 'نافذة';

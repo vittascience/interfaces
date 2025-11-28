@@ -341,3 +341,41 @@ utils.prototypeBlocks['math_isPrime'] = function (type, fields, values, mutation
 	};
 
 }
+
+utils.prototypeBlocks['math_RSA_generate_keys'] = function (type, fields, values, mutations, statementsNode, statement) {
+	const keysize = statementsNode[0] || { type: 'integer', text: '8' };
+	return {
+		type: 'math_RSA_generate_keys',
+		fields: {},
+		values: { PRIME_LENGTH: null },
+		mutations: null,
+		statementsNode: { PRIME_LENGTH: keysize },
+		statement: null,
+	};
+}
+
+utils.prototypeBlocks['math_RSA_cipher_message'] = function (type, fields, values, mutations, statementsNode, statement) {
+	const message = statementsNode[0] || { type: 'string', text: '"HELLO"' };
+	const key = statementsNode[1] || { type: 'array', text: '[]' };
+	return {
+		type: 'math_RSA_cipher_message',
+		fields: null,
+		values: { MESSAGE: null, KEY: null },
+		mutations: null,
+		statementsNode: { MESSAGE: message, KEY: key },
+		statement: null,
+	};
+}
+
+utils.prototypeBlocks['math_RSA_decipher_message'] = function (type, fields, values, mutations, statementsNode, statement) {
+	const ciphered_message = statementsNode[0] || { type: 'String', text: '' };
+	const key = statementsNode[1] || { type: 'array', text: '[]' };
+	return {
+		type: 'math_RSA_decipher_message',
+		fields: null,
+		values: { MESSAGE: null, KEY: null },
+		mutations: null,
+		statementsNode: { MESSAGE: ciphered_message, KEY: key },
+		statement: null,
+	};
+}

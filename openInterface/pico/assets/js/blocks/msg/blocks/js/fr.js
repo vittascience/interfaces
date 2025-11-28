@@ -11,7 +11,7 @@ Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_W_TITLE'] = '[Pico W] contrôler la LED
 Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_W_TOOLTIP'] = 'Permet de contrôler l\'état de la led intégrée de la Raspberry Pi Pico W.';
 // Display - Screen
 Blockly.Msg['DISPLAY_LCD_SETTEXT_TITLE'] = '[LCD] afficher le texte %1 sur la ligne %2 position %3 sur le port %4';
-Blockly.Msg['DISPLAY_LCD_SETTEXT_TOOLTIP'] = IMG_MODULE_LCD_3V3 + Blockly.Tooltip.SEP + 'Affiche du texte sur l\'une des deux lignes de l\'écran LCD1602 grove. Brancher le module sur un port I2C';
+Blockly.Msg['DISPLAY_LCD_SETTEXT_TOOLTIP'] = IMG_MODULE_LCD_3V3 + Blockly.Tooltip.SEP + 'Affiche du texte sur l\'une des deux lignes de l\'écran LCD1602 grove. Brancher le module sur un port I2C. Les caractères accentués ne sont pas supportés.';
 Blockly.Msg['DISPLAY_LCD_CLEAR_TITLE'] = '[LCD] nettoyer l\'écran sur le port %1';
 Blockly.Msg['DISPLAY_LCD_CLEAR_TOOLTIP'] = IMG_MODULE_LCD_3V3 + Blockly.Tooltip.SEP + 'Permet d\'effacer tous les caractères de l\'écran LCD. Brancher le module sur un port I2C.';
 Blockly.Msg['DISPLAY_OLED_ADDTEXT_TITLE'] = '[Ecran OLED] afficher le texte %1 à la position x %2 y %3 sur le port %4';
@@ -412,7 +412,7 @@ Blockly.Msg['PROCESS_EXIT_CORE1_TOOLTIP'] = 'Permet de terminer le core1 de la R
 Blockly.Msg['PROCESS_GLOBAL_VAR_TITLE'] = 'transformer %1 en variable globale';
 Blockly.Msg['PROCESS_GLOBAL_VAR_TOOLTIP'] = 'Permet de transformer une varibale locale en variable globale pour que les processus puissent communiquer entre eux.';
 // Robots - Kitronik 
-Blockly.Msg["ROBOTS_KITRO_MOVE_TITLE"] = "[Kitronik] contrôler le robot %1 vitesse %2 %";
+Blockly.Msg["ROBOTS_KITRO_MOVE_TITLE"] = "[Kitronik] %1 à la vitesse %2 %";
 Blockly.Msg["ROBOTS_KITRO_MOVE_TOOLTIP"] = IMG_ROBOT_KITRONIK_PICO + Blockly.Tooltip.SEP + "Permet de contrôler la direction du robot Kitronik";
 Blockly.Msg["ROBOTS_KITRO_MOVE_FORWARD"] = "avancer";
 Blockly.Msg["ROBOTS_KITRO_MOVE_BACKWARD"] = "reculer";

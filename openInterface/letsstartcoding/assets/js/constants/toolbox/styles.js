@@ -30,7 +30,7 @@ const THEME_VITTASCIENCE = {
     "variable_blocks": {
        "colourPrimary": "#d9553e"
     },
-    "list_blocks": {
+    "lists_blocks": {
         "colourPrimary": "#e58544"
     },
     "procedure_blocks": {
@@ -82,7 +82,7 @@ const THEME_VITTASCIENCE_HIGH_CONTRAST = {
         "colourSecondary": "#EACA56",
         "colourTertiary": "#FFECA6"
     },
-    "list_blocks": {
+    "lists_blocks": {
         "colourPrimary": "#B34F0B",
         "colourSecondary": "#DE8B53",
         "colourTertiary": "#FFC8A2"

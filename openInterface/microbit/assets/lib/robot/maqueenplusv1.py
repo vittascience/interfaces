@@ -17,6 +17,7 @@ MT_R = 1
 S1 = 1
 S2 = 2
 S3 = 3
+ALL = 4
 
 # Définition des constantes pour la LED RVB
 RGB_L = 1
@@ -30,6 +31,9 @@ PINK = 5
 CYAN = 6
 WHITE = 7
 OFF = 8
+
+FORWARD = const(1)
+BACKWARD = const(2)
 
 # Définition des constantes pour les capteurs de suivi de ligne
 patrol = {
@@ -58,15 +62,19 @@ def go(dL, sL, dR, sR):
   motorControl(MT_R, dR, sR)
 
 def set_servo_angle(num, angle):
-  buf = bytearray(2)
-  if num == S1:
-    buf[0] = 0x14
-  elif num == S2:
-    buf[0] = 0x15
+  if num is ALL:
+    mb.i2c.write(I2C_ADDR, bytes([0x14, angle]))
+    mb.i2c.write(I2C_ADDR, bytes([0x15, angle]))
+    mb.i2c.write(I2C_ADDR, bytes([0x16, angle]))
   else:
-    buf[0] = 0x16
-  buf[1] = angle
-  mb.i2c.write(I2C_ADDR, buf)
+    servo = None
+    if num == S1:
+      servo = 0x14
+    elif num == S2:
+      servo = 0x15
+    elif num == S3:
+      servo = 0x16
+    mb.i2c.write(I2C_ADDR, bytes([servo, angle]))
 
 def RGBLight(rgbshow, color):
   buf = bytearray(3)
@@ -83,21 +91,21 @@ def stop():
 
 def move(dir, spd):
   if dir == "F":
-    go(1, spd, 1, spd)
+    go(FORWARD, spd, FORWARD, spd)
   elif dir == "L":
-    go(1, 0, 1, spd)
+    go(FORWARD, 0, FORWARD, spd)
   elif dir == "R":
-    go(1, spd, 1, 0)
+    go(FORWARD, spd, FORWARD, 0)
   elif dir == "B":
-    go(2, spd, 2, spd)
+    go(BACKWARD, spd, BACKWARD, spd)
   elif dir == "RL": #rotate
-    go(2, spd, 1, spd)
+    go(BACKWARD, spd, FORWARD, spd)
   elif dir == "RR": #rotate
-    go(1, spd, 2, spd)
+    go(FORWARD, spd, BACKWARD, spd)
   elif dir == "BL":
-    go(1, 0, 2, spd)
+    go(FORWARD, 0, BACKWARD, spd)
   elif dir == "BR":
-    go(2, spd, 1, 0)
+    go(BACKWARD, spd, FORWARD, 0)
 
 def goto(dir, spd, dst):
   en = getEncoders()
@@ -105,17 +113,17 @@ def goto(dir, spd, dst):
   if dir == "F":
     goal += en[0]
     while en[0] < goal:
-      go(1, spd, 1, spd)
+      go(FORWARD, spd, FORWARD, spd)
       en = getEncoders()
   if dir == "L":
     goal += en[1]
     while en[1] < goal:
-      go(1, 0, 1, spd)
+      go(FORWARD, 0, FORWARD, spd)
       en = getEncoders()
   elif dir == "R":
     goal += en[0]
     while en[0] < goal:
-      go(1, spd, 1, 0)
+      go(FORWARD, spd, FORWARD, 0)
       en = getEncoders()
   stop()
 
@@ -138,16 +146,11 @@ def sensor_on_line(sensor):
   return sens[sensor]
 
 def getEncoders():
-  buf = bytearray(1)
-  buf[0] = 0x04
-  mb.i2c.write(I2C_ADDR, buf)
+  mb.i2c.write(I2C_ADDR, b'\x04')
   return struct.unpack('>HH', mb.i2c.read(I2C_ADDR, 4))
 
 def clearEncoders():
-  buf = bytearray(5)
-  buf[0] = 0x04
-  buf[1] = buf[2] = buf[3] = buf[4] = 0x00
-  mb.i2c.write(I2C_ADDR, buf)
+  mb.i2c.write(I2C_ADDR, b'\x04\x00\x00\x00\x00')
 
 def headlights(select, state):
   "Turn on or off the two front headlights. LEFT, RIGHT, or BOTH."

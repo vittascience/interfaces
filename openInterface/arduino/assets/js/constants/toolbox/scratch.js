@@ -40,6 +40,17 @@ const TOOLBOX_SCRATCH_CATEGORIES = [
         'contents': []
     },
     {
+        "kind": "category",
+        "toolboxitemid": "network",
+        "name": "%{BKY_CATEGORY_NETWORK}",
+        "style": "network_category",
+        "cssConfig": {
+            "icon": "icon_blockly fas fa-wifi"
+        },
+        "contents": [],
+        "onlyBoards": "unor4wifi"
+    },
+    {
         'kind': 'category',
         'toolboxitemid': 'sensors',
         'name': '%{BKY_CATEGORY_SENSORS}',
@@ -93,7 +104,7 @@ const TOOLBOX_SCRATCH_CATEGORIES = [
         'kind': 'category',
         'toolboxitemid': 'lists',
         'name': '%{BKY_CATEGORY_LISTS}',
-        'style': 'list_category',
+        'style': 'lists_category',
         'cssConfig': {
             'icon': 'icon_blockly fas fa-list'
         },
@@ -112,16 +123,27 @@ const TOOLBOX_SCRATCH_CATEGORIES = [
 ];
 
 const TOOLBOX_SCRATCH_CONTENT = {
-    'display': [
+    "display": [
         {
             'label': 'Arduino',
-            'blocks': [
+            "blocks": [
                 'io_control_arduino_led',
             ]
         },
         {
+            "label": "%{BKY_SUBCATEGORY_BUILTIN_LED_MATRIX}",
+            "blocks": [
+                'display_builtinMatrix_drawBitmap',
+                'display_builtinMatrix_drawString',
+                'display_builtinMatrix_showNumber',
+                'display_builtinMatrix_setPixel',
+                'display_builtinMatrix_clearScreen'
+            ],
+            "onlyBoards": "unor4wifi"
+        },
+        {
             'label': '%{BKY_SUBCATEGORY_DISPLAYS_LCD}',
-            'blocks': [
+            "blocks": [
                 'display_lcdRGBSetText',
                 'display_lcdRGBClear',
                 'display_setDisplay',
@@ -131,7 +153,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_NEOPIXEL}',
-            'blocks': [
+            "blocks": [
                 'display_defineNeopixel',
                 'display_controlNeopixelLed',
                 'display_controlColorNeopixelLed',
@@ -142,7 +164,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_DISPLAYS_OLED}',
-            'blocks': [
+            "blocks": [
                 'display_addOledText',
                 'display_oledScreen_drawIcon',
                 'display_oledScreen_drawBitmapLogo',
@@ -151,7 +173,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_LED}',
-            'blocks': [
+            "blocks": [
                 'display_setGroveSocketLed',
                 'display_setLEDintensity',
                 'display_setVariableColorLED',
@@ -165,7 +187,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_CHAINABLE_LED_RGB}',
-            'blocks': [
+            "blocks": [
                 'display_defineChainableRGBLed',
                 'display_setColorChainableRGBLed',
                 'display_setPaletteColorChainableRGBLed',
@@ -176,8 +198,21 @@ const TOOLBOX_SCRATCH_CONTENT = {
     ],
     'sound': [
         {
-            'label': '%{BKY_SUBCATEGORY_MUSIC}',
+            'label': 'MP3',
             'blocks': [
+                'io_groveMp3_init',
+                'io_groveMp3_play_pause',
+                'io_groveMp3_next',
+                'io_groveMp3_playSDSong',
+                'io_groveMp3_playSDDirectorySong',
+                'io_groveMp3_getVolume',
+                'io_groveMp3_setVolume',
+                'io_groveMp3_changePlayingMode'
+            ]
+        },
+        {
+            'label': '%{BKY_SUBCATEGORY_MUSIC}',
+            "blocks": [
                 'actuators_controlGroveBuzzerState',
                 'actuators_playNoteGroveBuzzer',
                 'actuators_playNoteDurationGroveBuzzer',
@@ -189,7 +224,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_COMPUTER}',
-            'blocks': [
+            "blocks": [
                 'communication_playComputerMusic',
                 'communication_playComputerFrequency',
                 'communication_stopComputerMusic',
@@ -199,7 +234,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
     'control': [
         {
             "label": "%{BKY_SUBCATEGORY_TIME}",
-            'blocks': [
+            "blocks": [
                 'io_wait',
                 'io_waitUntil',
                 'io_initChronometer',
@@ -208,7 +243,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_LOOPS}',
-            'blocks': [
+            "blocks": [
                 'controls_repeat',
                 'controls_whileUntil',
                 'controls_for',
@@ -217,17 +252,17 @@ const TOOLBOX_SCRATCH_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_LOGIC}',
-            'blocks': [
+            "blocks": [
                 'controls_if',
                 'controls_if-else',
                 'logic_ternary'
             ]
         }
     ],
-    'communication': [
+    "communication": [
         {
             'label': '%{BKY_SUBCATEGORY_SERIAL_CONNECTION}',
-            'blocks': [
+            "blocks": [
                 'communication_serialWrite',
                 'communication_onSerialDataReceived',
                 'communication_graphSerialWrite',
@@ -235,7 +270,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_DATA_LOGGING}',
-            'blocks': [
+            "blocks": [
                 'communication_writeOpenLogSd',
                 'communication_SDWriteDataSPI',
             ]
@@ -243,11 +278,25 @@ const TOOLBOX_SCRATCH_CONTENT = {
         {
             'label': '%{BKY_SUBCATEGORY_WIRELESS_COMMUNICATION}',
             'blocks': [
-                'communication_setSerialBluetooth',
+                //'communication_setSerialBluetooth',
+                'communication_groveSerialBluetooth_setATCommand',
+                'communication_groveSerialBluetooth_getATCommand',
                 'communication_sendSerialBluetoothData',
                 'communication_onSerialBluetoothDataReceived',
+                'communication_hc05_setATCommand',
+                'communication_hc05_getATCommand',
+                'communication_hc05_changeBaudrateTransmission',
+                'communication_hc05_sendBluetoothData',
+                'communication_hc05_onBluetoothDataReceived',
+                'communication_hm10_setATCommand',
+                'communication_hm10_getATCommand',
                 'communication_hm10_sendBluetoothData',
-                'communication_hm10_onBluetoothDataReceived',
+                'communication_hm10_onBluetoothDataReceived'
+            ]
+        },
+        {
+            'label': '%{BKY_SUBCATEGORY_WIRELESS_COMMUNICATION}',
+            'blocks': [
                 'communication_sendRadioNRF24Data',
                 'communication_onRadioNRF24_dataReceived',
                 'communication_sendRadio433mhzData',
@@ -258,7 +307,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_TRACKING_MODULES}',
-            'blocks': [
+            "blocks": [
                 'communication_rfid_getCardID',
                 'communication_onGPSDataReceived',
                 'communication_clockRTC_setDate',
@@ -267,29 +316,118 @@ const TOOLBOX_SCRATCH_CONTENT = {
             ]
         }
     ],
-    'sensors': [
+    "network": [
+        {
+            "label": "%{BKY_SUBCATEGORY_WIFI}",
+            "blocks": [
+                'network_connectStation',
+                'network_configureAccessPoint',
+                'network_disconnectStation',
+                'network_isStationConnected',
+                //'network_setWifi',
+                'network_scanNetworkProfiles',
+                // 'network_getStationInfos',
+                'network_changeServerPort'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_SERVER}",
+            "blocks": [
+                'network_server_sendData',
+                'network_server_getClientData',
+                'network_server_getClientIp'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_CLIENT}",
+            "blocks": [
+                'network_client_sendData',
+                'network_client_getServerData'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_WEB_PAGE}",
+            "blocks": [
+                'network_server_sendWebPage',
+                'network_html_addTitle',
+                'network_html_addText',
+                'network_html_addButton',
+                'network_html_addSlider',
+                'network_html_addSwitch',
+                'network_html_addGauge',
+                'network_html_addLink',
+                // 'network_html_addImage',
+                // 'network_html_addStream',
+                'network_HTML_Tags',
+                'network_HTML_formatText',
+                'network_HTML_newline',
+                'network_HTML_add',
+                'network_HTML_addSymbol'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_DATA_WEB_PAGE}",
+            "blocks": [
+                'network_server_getButtonState',
+                'network_server_getSliderValue',
+                'network_server_getSwitchValue'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_HTTP}",
+            "blocks": [
+                'network_connectStation_simple',
+                'network_getHTTPRequest',
+                // 'network_thingspeak_sendData',
+                // 'network_thingspeak_sendData_field',
+                // 'request_thingspeak_readFeeds'
+            ]
+        },
+        // {
+        //     "label": "%{BKY_SUBCATEGORY_UMAIL}",
+        //     "blocks": [
+        //         'network_umail_smtp',
+        //         'network_umail_setup',
+        //         'network_umail_to',
+        //         'network_umail_write_sender',
+        //         'network_umail_write',
+        //         'network_umail_send_image',
+        //         'network_umail_quit'
+        //     ]
+        // },
+        // {
+        //     "label": "%{BKY_SUBCATEGORY_MQTT}",
+        //     "blocks": [
+        //         'network_mqtt_connectWithAuth',
+        //         'network_mqtt_subscribeTopic',
+        //         'network_mqtt_publishValue',
+        //         'network_mqtt_disconnect',
+        //         'network_mqtt_onMessageReceived',
+        //         'network_mqtt_ifTopicIs',
+        //         'variables_get-message_MQTT',
+        //         'network_mqtt_onConnect',
+        //         'network_mqtt_onDisconnect',
+        //     ]
+        // }
+    ],
+    "sensors": [
         {
             'label': '%{BKY_SUBCATEGORY_EXTERNAL_INPUTS}',
-            'blocks': [
+            "blocks": [
                 'io_getGroveButton',
+                'io_getReversedButton',
                 'io_getGroveSwitch',
                 'io_getGroveTactile',
                 'io_getGroveRotaryAngle',
                 'io_getGroveSlidePotentiometer',
                 'io_getKeypadNumber',
-                'io_getGroveThumbJoystick',
-                'io_groveMp3_init',
-                'io_groveMp3_play_pause',
-                'io_groveMp3_next',
-                'io_groveMp3_playSDSong',
-                'io_groveMp3_playSDDirectorySong',
-                'io_groveMp3_getVolume',
-                'io_groveMp3_setVolume'
+                'io_getGroveThumbJoystick'
             ]
         },
+
         {
             'label': '%{BKY_SUBCATEGORY_PINS}',
-            'blocks': [
+            "blocks": [
                 'io_digital_signal',
                 'io_readDigitalPin',
                 'io_writeDigitalPin',
@@ -302,7 +440,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_SENSORS_GAS}',
-            'blocks': [
+            "blocks": [
                 'sensors_getSgp30Gas',
                 'sensors_getMultichannelGas',
                 'sensors_getMultichannelGasV2',
@@ -319,7 +457,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_SENSORS_CLIMATE}',
-            'blocks': [
+            "blocks": [
                 'sensors_getBmp280Data',
                 'sensors_getDps310Data',
                 'sensors_getGroveMoisture',
@@ -340,7 +478,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_SENSORS_SOUNDLIGHT}',
-            'blocks': [
+            "blocks": [
                 'sensors_getGroveLight',
                 'sensors_getSi1145Light',
                 'sensors_getUVindex',
@@ -352,7 +490,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_SENSORS_DISTANCEMOVEMENT}',
-            'blocks': [
+            "blocks": [
                 'sensors_getGroveUltrasonicRanger',
                 'sensors_getGesture',
                 'sensors_onGestureTypeDetected',
@@ -364,7 +502,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_SENSORS_OTHER}',
-            'blocks': [
+            "blocks": [
                 'sensors_getIna219Data',
                 'sensors_getVoltageDividerData',
                 'sensors_getFsr402Force',
@@ -373,10 +511,10 @@ const TOOLBOX_SCRATCH_CONTENT = {
             ]
         }
     ],
-    'robots': [
+    "robots": [
         {
             'label': '%{BKY_SUBCATEGORY_MOTORS}',
-            'blocks': [
+            "blocks": [
                 'actuators_setServoAngle',
                 'actuators_continuousServo_setSpeed',
                 'actuators_servo_detach',
@@ -395,7 +533,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
         },
         {
             'label': '%{BKY_SUBCATEGORY_ACTUATORS_OTHER}',
-            'blocks': [
+            "blocks": [
                 'actuators_setWaterAtomizerState',
                 'actuators_setElectromagnetState'
             ]
@@ -405,9 +543,9 @@ const TOOLBOX_SCRATCH_CONTENT = {
             'message': true
         }
     ],
-    'math': [
+    "math": [
         {
-            'blocks': [
+            "blocks": [
                 'math_number',
                 'math_arithmetic-add',
                 'math_arithmetic-minus',
@@ -435,9 +573,9 @@ const TOOLBOX_SCRATCH_CONTENT = {
             ]
         }
     ],
-    'text': [
+    "text": [
         {
-            'blocks': [
+            "blocks": [
                 'text_comment',
                 'text',
                 'text_join',
@@ -451,7 +589,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
     'variables': 'customized',
     'lists': [
         {
-            'blocks': [
+            "blocks": [
                 'lists_create_with-0',
                 'lists_create_with',
                 'lists_repeat',

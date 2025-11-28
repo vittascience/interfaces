@@ -1,16 +1,4 @@
 <?php
-$domain = $_SERVER['HTTP_HOST'];
-if (session_status() === PHP_SESSION_NONE) {
-    session_set_cookie_params([
-        'lifetime' => 0,
-        'path' => '/',
-        'domain' => $domain,
-        'secure' => true,
-        'httponly' => true,
-        'samesite' => 'None',
-    ]);
-    session_start();
-}
 
 require_once '../../bootstrap.php';
 require_once 'utils.php';
@@ -20,6 +8,10 @@ require 'jwt.php';
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Aiken\i18next\i18next;
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 $translatorInit = initTranslator();
 $actualUrl = getActualUrl();

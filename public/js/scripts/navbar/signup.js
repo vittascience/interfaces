@@ -234,25 +234,7 @@ function displaySignup() {
 
                             // display the successDiv and make confetti pop
                             successDiv.style.display = "block";
-                            confetti({
-                                particleCount: 100,
-                                spread: 70,
-                                origin: {
-                                    y: 0.6
-                                },
-                                // put the variables --vitta-green, --vitta-blue, --vitta-orange, --vitta-red, --vitta-yellow in the confetti colors
-                                colors: [
-                                    getComputedStyle(document.documentElement).getPropertyValue('--vitta-green'),
-                                    getComputedStyle(document.documentElement).getPropertyValue('--vitta-blue'),
-                                    getComputedStyle(document.documentElement).getPropertyValue('--vitta-orange'),
-                                    getComputedStyle(document.documentElement).getPropertyValue('--vitta-red'),
-                                    getComputedStyle(document.documentElement).getPropertyValue('--vitta-yellow')
-                                ],
-
-                                // get var(--bs-modal-zindex) and add 1 to make the confetti appear above the modal
-                                zIndex: parseInt(getComputedStyle(document.querySelector('#signup-div')).getPropertyValue('--bs-modal-zindex')
-                                ) + 1
-                            });
+                            popConfettiAt('signup-div');
 
                         } else {
                             // display the errors in the errorBox 
@@ -292,6 +274,32 @@ function displaySignup() {
     let signupModal = new bootstrap.Modal(signupDiv, {});
     signupModal.show();
     return;
+}
+
+
+function popConfettiAt(idTarget = null) {
+    if (!idTarget) {
+        return;
+    }
+
+    confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: {
+            y: 0.6
+        },
+        // put the variables --vitta-green, --vitta-blue, --vitta-orange, --vitta-red, --vitta-yellow in the confetti colors
+        colors: [
+            getComputedStyle(document.documentElement).getPropertyValue('--vitta-green'),
+            getComputedStyle(document.documentElement).getPropertyValue('--vitta-blue'),
+            getComputedStyle(document.documentElement).getPropertyValue('--vitta-orange'),
+            getComputedStyle(document.documentElement).getPropertyValue('--vitta-red'),
+            getComputedStyle(document.documentElement).getPropertyValue('--vitta-yellow')
+        ],
+
+        // get var(--bs-modal-zindex) and add 1 to make the confetti appear above the modal
+        zIndex: parseInt(getComputedStyle(document.querySelector(`#${idTarget}`)).getPropertyValue('--bs-modal-zindex')) + 1
+    });
 }
 
 
@@ -377,3 +385,62 @@ function fillSubjects(grade) {
     }
 
 }
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const emailInput = document.getElementById("email-input");
+    const samlRegistrationButton = document.getElementById("saml-registration-button");
+    const disclaimer = document.getElementById("registration-from-lux");
+
+
+    if (!emailInput || !samlRegistrationButton) return;
+
+    const EDU_DOMAINS = new Set([
+        "education.lu",
+        "men.lu",
+        "mesr.public.lu",
+        "ifen.lu",
+        "anefore.lu",
+        "script.lu"
+    ]);
+
+    let lastIsEdu = null;
+
+    function getEmailDomain(email) {
+        const match = String(email).trim().toLowerCase().match(/^[^@\s]+@([^@\s]+)$/);
+        return match ? match[1] : null;
+    }
+
+    function isEduEmail(email) {
+        const domain = getEmailDomain(email);
+        return !!domain && EDU_DOMAINS.has(domain);
+    }
+
+    function updateUI(isEdu) {
+        if (isEdu) {
+            samlRegistrationButton.classList.remove("order-2");
+            samlRegistrationButton.classList.add("order-1", "border-focus-lux");
+        } else {
+            samlRegistrationButton.classList.remove("order-1", "border-focus-lux");
+            samlRegistrationButton.classList.add("order-2");
+
+            if (disclaimer) {
+                disclaimer.classList.remove("d-none");
+            }
+        }
+    }
+
+    emailInput.addEventListener("input", () => {
+        const email = emailInput.value;
+        const isEdu = isEduEmail(email);
+
+        if (isEdu !== lastIsEdu) {
+        updateUI(isEdu);
+        lastIsEdu = isEdu;
+        }
+    });
+
+    updateUI(isEduEmail(emailInput.value));
+});
+
+

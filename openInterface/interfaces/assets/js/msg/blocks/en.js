@@ -274,6 +274,15 @@ Blockly.Msg["MATH_ATAN2_TITLE"] = "atan2 of X:%1 Y:%2";
 Blockly.Msg["MATH_ATAN2_TOOLTIP"] = "Returns the arctangent of point (X, Y) in degrees from -180 to 180.";
 Blockly.Msg["MATH_ATAN2_RAD_TOOLTIP"] = "Returns the arctangent of point (X, Y) in radians from -π to π.";
 Blockly.Msg["MATH_MIN_MAX_TOOLTIP"] = "Returns the smallest or largest number among the given values.";
+Blockly.Msg["MATH_RSA_GENERATE_KEYS_TITLE"] = "generate RSA keys with %1 bits";
+Blockly.Msg["MATH_RSA_GENERATE_KEYS_TOOLTIP"] = "Generate an RSA public/private key pair with the specified key size in bits. Key generation may take some time.";
+Blockly.Msg["BKY_MATH_RSA_GENERATE_KEYS_HELPURL"] = "https://en.wikipedia.org/wiki/RSA_cryptosystem";
+Blockly.Msg["MATH_RSA_CIPHER_MESSAGE_TITLE"] = "Encrypt message %1 with key %2";
+Blockly.Msg["MATH_RSA_CIPHER_MESSAGE_TOOLTIP"] = "Encrypts a text message using the key. Returns the encrypted message.";
+Blockly.Msg["MATH_RSA_CIPHER_MESSAGE_HELPURL"] = "https://en.wikipedia.org/wiki/RSA_cryptosystem";
+Blockly.Msg["MATH_RSA_DECIPHER_MESSAGE_TITLE"] = "Decrypt message %1 with key %2";
+Blockly.Msg["MATH_RSA_DECIPHER_MESSAGE_TOOLTIP"] = "Decrypts a text message using the key. Returns the decrypted message.";
+Blockly.Msg["MATH_RSA_DECIPHER_MESSAGE_HELPURL"] = "https://en.wikipedia.org/wiki/RSA_cryptosystem"
 
 // Text blocks.
 Blockly.Msg["TEXT_TEXT_HELPURL"] = "https://en.wikipedia.org/wiki/String_(computer_science)";
@@ -358,6 +367,12 @@ Blockly.Msg["TEXT_COUNT_CHARACTERS_DIGITS"] = "digits";
 Blockly.Msg["TEXT_COUNT_CHARACTERS_SPECIAL"] = "special characters";
 Blockly.Msg["TEXT_RANDOM_STRING_TITLE"] = "generate a string of length %1";
 Blockly.Msg["TEXT_RANDOM_STRING_TOOLTIP"] = "Generates a string containing a mix of uppercase, lowercase, digits, or special characters. The length of this string can be modified in the block.";
+Blockly.Msg["TEXT_CAESAR_CIPHER_TITLE"] = "Caesar cipher of %1 with a shift of %2 in mode %3";
+Blockly.Msg["TEXT_CAESAR_CIPHER_ENCODE"] = "encode";
+Blockly.Msg["TEXT_CAESAR_CIPHER_DECODE"] = "decode";
+Blockly.Msg["TEXT_CAESAR_CIPHER_TOOLTIP"] = "Encodes or decodes a text using the Caesar cipher with a given shift.";
+Blockly.Msg["TEXT_CAESAR_CIPHER_BRUTE_FORCE_TITLE"] = "brute-force Caesar cipher on %1 language %2";
+Blockly.Msg["TEXT_CAESAR_CIPHER_BRUTE_FORCE_TOOLTIP"] = "Tries all possible shifts to decode the message encrypted with Caesar cipher.";
 
 // Variables blocks.
 Blockly.Msg["VARIABLES_SET_HELPURL"] = "https://github.com/google/blockly/wiki/Variables#set";

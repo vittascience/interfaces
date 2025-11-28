@@ -40,6 +40,22 @@
                 case 'es':
                     $languageName = 'Español';
                     break;
+                case 'de':
+                    $languageName = 'Deutsch';
+                    break;
+                case 'ru':
+                    $languageName = 'Русский';
+                    break;
+                case 'zh':
+                    $languageName = '中文';
+                    break;
+                case 'jp':
+                    $languageName = '日本語';
+                    break;
+                case 'pt':
+                    $languageName = 'Português';
+                    break;
+                    
                 default:
                     $languageName = $langFlag['name'];
                     break;

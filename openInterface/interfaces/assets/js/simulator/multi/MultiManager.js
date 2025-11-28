@@ -29,6 +29,9 @@ export class MultiManager {
         this._setIframeMiscListeners();
         this._setIframeLocalStorageListener();
         this._setIframeStartingState();
+        this._setupUploadPythonModal();
+        this._setupDownloadHexModal();
+        this._setupUploadPythonBleModal();
         return true;
     }
 
@@ -63,9 +66,9 @@ export class MultiManager {
         await new Promise((resolve) => {
             const iframeId = projectManager.localStorageManager.uniqid('multi');
             this._setIframeStartingBlocksAndCode(iframeId);
-            this._iframe.src = `${CDN_PATH}/${INTERFACE_NAME}/?renderer=${blockStyle}&localId=${iframeId}`;
+            this._iframe.src = `/${INTERFACE_NAME}/?renderer=${blockStyle}&localId=${iframeId}`;
             this._iframe.addEventListener('load', () => {
-                resolve(); 
+                resolve();
             });
             ideContentElt.appendChild(this._iframeWrapper);
             this._iframeWrapper.appendChild(multiMenu);
@@ -108,7 +111,7 @@ export class MultiManager {
                 currentScriptElt.type = 'module';
                 currentScriptElt.src = `${CDN_PATH}/openInterface/interfaces/assets/js/simulator/multi/MultiChildScripts.js`;
                 this._iframeDocumentElt.head.appendChild(currentScriptElt);
-            } catch(error) {
+            } catch (error) {
                 reject(error);
                 return false;
             }
@@ -166,6 +169,16 @@ export class MultiManager {
     }
 
     /**
+    * Switch the iframe to codeOnly mode
+    * @public
+    * @returns {undefined} Early return case
+    */
+    switchChildCodeOnlyMode() {
+        if (!this._communicationManager) return;
+        this._communicationManager.sendEvent('switchCodeOnlyMode');
+    }
+
+    /**
      * Update the iframe accessibility state
      * @public
      * @param {object} jqueryFormElement - The accessibily jquery form element
@@ -192,6 +205,9 @@ export class MultiManager {
                 break;
             case 'code':
                 this.switchChildCodeMode();
+                break;
+            case 'codeOnly':
+                this.switchChildCodeOnlyMode();
                 break;
         }
     }
@@ -257,6 +273,30 @@ export class MultiManager {
             if (!e.target.closest('#close-duo-btn')) return;
             this.closeDuo();
         });
+        document.querySelector('#upload-python-duo-btn-a').addEventListener('click', () => {
+            pseudoModal.closeLatestModal();
+            InterfaceConnection.webusb.flashProgram();
+        });
+        document.querySelector('#upload-python-duo-btn-b').addEventListener('click', () => {
+            pseudoModal.closeLatestModal();
+            this._uploadPythonCodeFromIframe();
+        });
+        document.querySelector('#download-hex-duo-btn-a').addEventListener('click', () => {
+            pseudoModal.closeLatestModal();
+            InterfaceConnection.downloadHexButton();
+        });
+        document.querySelector('#download-hex-duo-btn-b').addEventListener('click', () => {
+            pseudoModal.closeLatestModal();
+            this._downloadHexFileFromIframe();
+        });
+        document.querySelector('#upload-python-ble-duo-btn-a').addEventListener('click', () => {
+            pseudoModal.closeLatestModal();
+            pseudoModal.openModal('modal-microbit-bluetooth-pairing');
+        });
+        document.querySelector('#upload-python-ble-duo-btn-b').addEventListener('click', () => {
+            pseudoModal.closeLatestModal();
+            this._communicationManager.sendEvent('uploadPythonBle');
+        });
     }
 
     /**
@@ -265,23 +305,23 @@ export class MultiManager {
      */
     _setIframeInteractions() {
         interact('#multi-iframe-wrapper')
-        .resizable({
-            edges: { left: '.resize-handle', right: false, top: false, bottom: false },
-            listeners: {
-                start: (event) => { // Prevent the iframe from capturing the move event
-                    this._iframe.style.pointerEvents = 'none';
-                },
-                move: (event) => {
-                    this._resizeIdeContent(event.rect.width);
-                    this._iframe.style.transform = '';
-                    this._iframe.setAttribute('data-x', 0);
-                    this._iframe.setAttribute('data-y', 0);
-                },
-                end: (event) => {
-                    this._iframe.style.pointerEvents = 'auto';
+            .resizable({
+                edges: { left: '.resize-handle', right: false, top: false, bottom: false },
+                listeners: {
+                    start: (event) => { // Prevent the iframe from capturing the move event
+                        this._iframe.style.pointerEvents = 'none';
+                    },
+                    move: (event) => {
+                        this._resizeIdeContent(event.rect.width);
+                        this._iframe.style.transform = '';
+                        this._iframe.setAttribute('data-x', 0);
+                        this._iframe.setAttribute('data-y', 0);
+                    },
+                    end: (event) => {
+                        this._iframe.style.pointerEvents = 'auto';
+                    }
                 }
-            }
-        })
+            })
     }
 
     /**
@@ -372,6 +412,9 @@ export class MultiManager {
         document.querySelector('.ide-base').style.width = '100%';
         document.querySelector('.ide-simulator').style.width = '100%';
         Main.resizeWorkSpace();
+        this._removeUploadPythonModal();
+        this._removeDownloadHexModal();
+        this._removeUploadPythonBleModale();
         pseudoModal.closeLatestModal();
     }
 
@@ -420,7 +463,40 @@ export class MultiManager {
                 name: 'no name'
             };
         }
+        console.log(this._getIframeCodeMode());
         this._communicationManager.sendEvent('setBlocksAndCode', updatedProject);
+    }
+
+    _setupUploadPythonModal() {
+        document.querySelector('#upload-python').setAttribute('onclick', "pseudoModal.openModal('modal-duo-upload-python')");
+    }
+
+    _removeUploadPythonModal() {
+        document.querySelector('#upload-python').setAttribute('onclick', "InterfaceConnection.webusb.flashProgram()");
+    }
+
+    _uploadPythonCodeFromIframe() {
+        this._communicationManager.sendEvent('uploadPython');
+    }
+
+    _setupDownloadHexModal() {
+        document.querySelector('#download-firmware-opt').setAttribute('onclick', "pseudoModal.openModal('modal-duo-download-hex')");
+    }
+
+    _removeDownloadHexModal() {
+        document.querySelector('#download-firmware-opt').setAttribute('onclick', "InterfaceConnection.downloadHexButton()");
+    }
+
+    _downloadHexFileFromIframe() {
+        this._communicationManager.sendEvent('downloadHex');
+    }
+
+    _setupUploadPythonBleModal() {
+        document.querySelector('#upload-python-ble-opt').setAttribute('onclick', "pseudoModal.openModal('modal-duo-upload-python-ble')");
+    }
+
+    _removeUploadPythonBleModale() {
+        document.querySelector('#upload-python-ble-opt').setAttribute('onclick', "pseudoModal.openModal('modal-microbit-bluetooth-pairing')");
     }
 }
 

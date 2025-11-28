@@ -69,7 +69,7 @@ except:
 
 #---------- VL53L0X ----------
 
-def donutbot_get_distance(sensor):
+def donutbot_get_distance(sensor, unit = "cm"):
     """
     Calculate and return the distance measured by the specified sensor.
 
@@ -78,9 +78,13 @@ def donutbot_get_distance(sensor):
     """
 
     if sensor.lower() == "tof":
-        range_cm = vl53l0x.getRangeMillimeters()/10
+        range = vl53l0x.getRangeMillimeters()-50 # 50 mm offset
+        if range <0:range=0
         utime.sleep(0.1)
-        return(range_cm)
+        if unit == "mm":
+            return range
+        elif unit == "cm":
+            return range/10
     elif sensor.lower() == "ultrasonic":
         trig.off()
         utime.sleep_us(2)
@@ -102,7 +106,10 @@ def donutbot_get_distance(sensor):
         if distance == -1:
             print("Erreur de mesure")
         else:
-            return distance
+            if unit == "mm":
+                return distance
+            elif unit == "cm":
+                return distance / 10
     else:    
         print("[ERROR] sensor must be 'tof' or 'ultrasonic'")
         
@@ -462,3 +469,5 @@ def donutbot_moveWithSquare(x, direction, speed=7000):
       donutbot_move_backward(speed)
     utime.sleep_ms(int(15e-2/speed_mps*1000))
     donutbot_pause()
+
+utime.sleep(1)  # Wait for the robot to initialize

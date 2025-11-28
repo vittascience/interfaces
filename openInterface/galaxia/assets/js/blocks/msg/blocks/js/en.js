@@ -5,10 +5,12 @@
 'use strict';
 
 // Display - Galaxia/Display
-Blockly.Msg["DISPLAY_GALAXIA_SCREEN_SET_TEXT_TITLE"] = "[SCREEN] Write text %1";
-Blockly.Msg["DISPLAY_GALAXIA_SCREEN_SET_TEXT_TOOLTIP"] = "[SCREEN] Write text on the screen of the Galaxia card.";
-Blockly.Msg["DISPLAY_GALAXIA_SCREEN_SET_TEXT_VALUE_TITLE"]= "[SCREEN] Write text %1 with value %2";
-Blockly.Msg["DISPLAY_GALAXIA_SCREEN_SET_TEXT_VALUE_TOOLTIP"]= "[SCREEN] Write text on the screen of the Galaxia card with a value.";
+Blockly.Msg["DISPLAY_GALAXIA_SCREEN_SET_TEXT_TITLE"] = "[Screen] write text %1";
+Blockly.Msg["DISPLAY_GALAXIA_SCREEN_SET_TEXT_TOOLTIP"] = "[Screen] Write text on the screen of the Galaxia card.";
+Blockly.Msg["DISPLAY_GALAXIA_SCREEN_SET_TEXT_VALUE_TITLE"]= "[Screen] write text %1 with value %2";
+Blockly.Msg["DISPLAY_GALAXIA_SCREEN_SET_TEXT_VALUE_TOOLTIP"]= "[Screen] Write text on the screen of the Galaxia card with a value.";
+Blockly.Msg["DISPLAY_GALAXIA_SCREEN_CLEAR_TITLE"]= "[Screen] clear";
+Blockly.Msg["DISPLAY_GALAXIA_SCREEN_CLEAR_TOOLTIP"]= "[Screen] Clear the screen of the Galaxia card with.";
 // Display - Galaxia/RGB
 Blockly.Msg["DISPLAY_GALAXIA_LED_GREEN_CONTROL_TITLE"] = "[RGB LED] set green intensity to %1";
 Blockly.Msg["DISPLAY_GALAXIA_LED_GREEN_CONTROL_TOOLTIP"] = "Adjusts the intensity of the green for the LED integrated in the Galaxia card from 0 to 255.";
@@ -510,3 +512,7 @@ Blockly.Msg['VITTAIA_IS'] = 'is';
 Blockly.Msg['VITTAIA_ISNOT'] = 'is not';
 Blockly.Msg['VITTAIA_GET_HIGHEST_PROBABILITY_CLASS_TITLE'] = 'detected class';
 Blockly.Msg['VITTAIA_GET_HIGHEST_PROBABILITY_CLASS_TOOLTIP'] = 'Allows you to retrieve the class with the highest probability.';
+Blockly.Msg['COMMUNICATION_INFRARED_ONDATARECEIVED_TITLE'] = '[IR] if %1 is received on %2 %3pin %4 with protocol %5 then';
+Blockly.Msg['COMMUNICATION_INFRARED_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_IR_RECEIVER + Blockly.Tooltip.SEP + 'Allows executing instructions if data is received by an infrared module in a variable on the digital pin with NEC_8 or NEC_16 protocol.';
+Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TITLE'] = '[uart] data available';
+Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TOOLTIP'] = 'Returns a boolean value (1 if data is available to read or 0 otherwise).';

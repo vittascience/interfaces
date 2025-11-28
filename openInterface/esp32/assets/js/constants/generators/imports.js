@@ -59,6 +59,6 @@ const IMPORT_ESP32_DS18B20 = "from esp32_ds18b20 import DS18X20";
 //grove modules libraries - custom
 const IMPORT_NEC_REMOTE = "from nec_remote import NEC_8, NEC_16";
 //robots
-const IMPORT_ILO = "import V011 as ilo";
+const IMPORT_ILO = "import ilo_micro as ilo";
 // Gravity modules
 const IMPORT_ESP32_DISSOLVED_OXYGEN_PROBE = "from esp32_dissolved_oxygen_probe import DISSOLVED_OXYGEN_PROBE"

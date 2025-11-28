@@ -23,6 +23,7 @@ const BOARD_SHIELD_GROVE = "shield-grove";
 const BOARD_ESP32_WROOM_32D = "basic-esp32";
 const BOARD_EDU_ESP32 = "edu-esp32";
 const BOARD_SHIELD_GROVE_EDU_ESP32 = "shield-grove-edu-esp32";
+const BOARD_ESP32_CAM = "esp32-cam";
 const BOARD_DEFAULT = BOARD_EDU_ESP32;
 //standalone_blocks
 const BLOCKS_OUTSIDE_SCOPE = [
@@ -43,7 +44,7 @@ const WRITE_ANALOG_MAX_VALUE = 255;
 const PWM_MAX_DUTY = 1023;
 //libraries
 const LIBRARIES_PATH = {
-    'V011': "/ilo"
+    'ilo_micro': "/ilo"
 };
 //simulator
 const SIMULATOR_BOARDS = {
@@ -52,7 +53,7 @@ const SIMULATOR_BOARDS = {
         "name": "Wemos D1R32"
     },
     [BOARD_SHIELD_GROVE]: {
-        "link": 'shield_grove.svg',
+        "link": 'arduino_uno_grove_shield.svg',
         "name": "Shield Grove"
     },
     [BOARD_ESP32_WROOM_32D]: {
@@ -64,8 +65,12 @@ const SIMULATOR_BOARDS = {
         "name": "EDU ESP32"
     },
     [BOARD_SHIELD_GROVE_EDU_ESP32]: {
-        "link": 'shield_grove.svg',
+        "link": 'arduino_uno_grove_shield.svg',
         "name": "Shield Grove EDU ESP32"
+    },
+    [BOARD_ESP32_CAM]: {
+        "link": 'esp32-cam.svg',
+        "name": "ESP32-CAM"
     },
 };
 const SIMULATOR_DEFAULT_BOARD = SIMULATOR_BOARDS[BOARD_DEFAULT];

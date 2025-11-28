@@ -403,7 +403,6 @@ const InterfaceConnection = {
 		updateSpecificAiLibraries(code) {
 			return new Promise(async (resolve, reject) => {
 				const checkRegexCloud = /Model\s*\(\s*(["'])(https?:\/\/[^\/]+\/(?:ai|ia)\/model\/([a-zA-Z0-9]+)\/?)\1\s*\)/;
-		
 				const cloudRegexResult = checkRegexCloud.exec(code);
 				let id = null;
 				if (cloudRegexResult) {
@@ -419,9 +418,12 @@ const InterfaceConnection = {
 					const modelWeights = JSON.parse(metadata.userMetaData.weightData);
 					const labels = JSON.stringify(metadata.labels);
 					let sensorStrategy = "edgeModel";
-					switch (metadata.settings.strategy.name){
+					switch (metadata.settings.strategy.name) {
 						case 'accelerometer':
 							sensorStrategy = 'edgeModel';
+							break;
+						case 'micro':
+							sensorStrategy = 'edgeModelmicro';
 							break;
 						case 'p0/p1':
 							sensorStrategy = 'edgeModelP0-P1';
@@ -452,9 +454,12 @@ const InterfaceConnection = {
 					const modelWeights = JSON.parse(parsedMetaData.userMetaData.weightData)
 					const labels = JSON.stringify(parsedMetaData.labels);
 					let sensorStrategy = "edgeModel";
-					switch (parsedMetaData.settings.strategy.name){
+					switch (parsedMetaData.settings.strategy.name) {
 						case 'accelerometer':
 							sensorStrategy = 'edgeModel';
+							break;
+						case 'micro':
+							sensorStrategy = 'edgeModelmicro';
 							break;
 						case 'p0/p1':
 							sensorStrategy = 'edgeModelP0-P1';
@@ -508,6 +513,9 @@ const InterfaceConnection = {
 			} catch (e) {
 				console.error(e)
 				this.progressBar._hideProgressBar();
+				if (String(e).match(/Error: is no storage space left./)) {
+					InterfaceMonitor.writeConsole('code.serialAPI.noSpaceLeft', 'warning', false, true);
+				}
 				if (String(e).match(/DOMException: Failed to execute \'transferOut\' on \'USBDevice\'/)) {
 					await this.disconnect();
 				}

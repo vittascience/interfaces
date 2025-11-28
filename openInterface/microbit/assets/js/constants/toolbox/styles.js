@@ -26,6 +26,9 @@ const THEME_VITTASCIENCE = {
     "robots_blocks": {
         "colourPrimary": "#3349aa"
     },
+    "tello_blocks": {
+        'colourPrimary': "#5c5c5c"
+    },
     "vittaia_blocks": {
         "colourPrimary": "#0fbd8c"
     },
@@ -46,9 +49,9 @@ const THEME_VITTASCIENCE = {
         "colourPrimary": "#1a6da8"
     },
     "variable_blocks": {
-       "colourPrimary": "#d9553e"
+        "colourPrimary": "#d9553e"
     },
-    "list_blocks": {
+    "lists_blocks": {
         "colourPrimary": "#e58544"
     },
     "procedure_blocks": {
@@ -63,12 +66,9 @@ const THEME_VITTASCIENCE = {
     },
     "comment_block": {
         "colourPrimary": "#bdbdbd"
-    },
-    "tello_blocks": {
-        'colourPrimary': "#5c5c5c"
-    },
+    }
 };
-  
+
 const THEME_SCRATCH = {
     "display_blocks": {
         "colourPrimary": "#9966ff"
@@ -93,6 +93,9 @@ const THEME_SCRATCH = {
     "robots_blocks": {
         "colourPrimary": "#3349aa"
     },
+    "tello_blocks": {
+        'colourPrimary': "#5c5c5c"
+    },
     "cameras_blocks": {
         "colourPrimary": "#ffab19"
     },
@@ -105,7 +108,7 @@ const THEME_SCRATCH = {
     "variable_blocks": {
         "colourPrimary": "#d9553e"
     },
-    "list_blocks": {
+    "lists_blocks": {
         "colourPrimary": "#ff661a"
     },
     "procedure_blocks": {
@@ -120,10 +123,7 @@ const THEME_SCRATCH = {
     },
     "comment_block": {
         "colourPrimary": "#bdbdbd"
-    },
-    "tello_blocks": {
-        'colourPrimary': "#5c5c5c"
-    },
+    }
 };
 
 const THEME_VITTASCIENCE_HIGH_CONTRAST = {
@@ -158,6 +158,11 @@ const THEME_VITTASCIENCE_HIGH_CONTRAST = {
         "colourSecondary": "#B254DF",
         "colourTertiary": "#E3A7FF"
     },
+    "tello_block": {
+        "colourPrimary": "#5c5c5c",
+        "colourSecondary": "#C5C5C5",
+        "colourTertiary": "#EFEFEF"
+    },
     "logic_blocks": {
         "colourPrimary": "#C55000",
         "colourSecondary": "#EB833C",
@@ -184,7 +189,7 @@ const THEME_VITTASCIENCE_HIGH_CONTRAST = {
         "colourSecondary": "#EACA56",
         "colourTertiary": "#FFECA6"
     },
-    "list_blocks": {
+    "lists_blocks": {
         "colourPrimary": "#B34F0B",
         "colourSecondary": "#DE8B53",
         "colourTertiary": "#FFC8A2"

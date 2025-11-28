@@ -27,8 +27,11 @@ class MultiChildScripts {
         this._communicationManager.addListener('switchCodeMode', () => {
             this._triggerFunctionWhenAvailable(() => window.switchCodeMode);
         });
+        this._communicationManager.addListener('switchCodeOnlyMode', () => {
+            this._triggerFunctionWhenAvailable(() => window.switchCodeOnlyMode);
+        });
         this._communicationManager.addListener('updateWebsiteAccessibility', (formEvent) => {
-            formEvent.serializeArray = function() {
+            formEvent.serializeArray = function () {
                 return this.inputArray;
             }
             updateWebsiteAcessibility(formEvent);
@@ -36,6 +39,15 @@ class MultiChildScripts {
         this._communicationManager.addListener('setBlocksAndCode', async (project) => {
             this._setBlocksAndCode(project);
             return true;
+        });
+        this._communicationManager.addListener('uploadPython', () => {
+            InterfaceConnection.webusb.flashProgram();
+        });
+        this._communicationManager.addListener('downloadHex', () => {
+            InterfaceConnection.downloadHexButton();
+        });
+        this._communicationManager.addListener('uploadPythonBle', () => {
+            pseudoModal.openModal('modal-microbit-bluetooth-pairing');
         });
         this._awaitInterfaceProjectLoaded();
     }
