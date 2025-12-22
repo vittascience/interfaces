@@ -116,7 +116,7 @@ def step(direction,step=_A,finish_state=_F):
 		if A is _A:A=1
 		if not isinstance(A,(int,float)):print(F);return _A
 		if A>100 or A<.1:print("[ERROR] 'step' should be between 0.1 and 100 for translation");return _A
-		A=int(A*100)
+		A=int(A*196)
 	elif B==_P or B==_Q:
 		if A is _A:A=1
 		if not isinstance(A,(int,float)):print(F);return _A

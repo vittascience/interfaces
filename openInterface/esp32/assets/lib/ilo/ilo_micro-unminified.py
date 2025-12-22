@@ -337,7 +337,7 @@ def step(direction, step=None, finish_state=True):
             print ("[ERROR] 'step' should be between 0.1 and 100 for translation")
             return None
 
-        step = int(step*100)
+        step = int(step*196)
 
     elif (direction == 'rot_trigo' or direction == 'rot_clock'):
         if step is None:
