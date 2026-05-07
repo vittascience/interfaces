@@ -13,7 +13,7 @@ const cardCommunicationButtons = {
     },
     'upload': {
         id: "upload-python",
-        classes: 'ide-btn-check ide-btn-left',
+        classes: 'ide-btn-check ide-btn-left e2e-upload-btn',
         fontAwesome: 'fas fa-bolt',
         onclick: "InterfaceConnection.webusb.flashProgram()",
         title: 'code.topbar.tooltips.uploadPython',

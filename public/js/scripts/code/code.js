@@ -82,6 +82,7 @@ function doFilters() {
     allFilters.forEach(function (filter) {
         const tagDiv = document.createElement('div');
         tagDiv.classList.add('d-inline-flex', 'align-items-center', 'bg-light', 'border', 'rounded-pill', 'px-3', 'py-2', 'mb-3');
+        tagDiv.id = "filter-tag"
         const tagSpan = document.createElement('span');
         tagSpan.classList.add('me-2');
         tagSpan.innerText = filter;

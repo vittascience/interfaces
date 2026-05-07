@@ -2,6 +2,7 @@
  * @fileoverview Communication generators for Arduino.
  */
 
+// For CPP to block translation
 Blockly.Arduino.communication_serialBegin = function (block) {
     const baudrate = Blockly.Arduino.valueToCode(block, "SPEED", Blockly.Arduino.ORDER_ATOMIC) || '9600';
     return "Serial.begin(" + baudrate + ");" + NEWLINE;
@@ -11,6 +12,7 @@ Blockly.Arduino.communication_serialWrite_simple = function (block) {
     const text = Blockly.Arduino.valueToCode(block, "TEXT", Blockly.Arduino.ORDER_ATOMIC) || "\"\"";
     return "Serial.println(String(" + text + "));" + NEWLINE;
 };
+// End CPP translation
 
 Blockly.Arduino.communication_serialWrite = function (block) {
     Blockly.Arduino.Generators.setupSerialConnection();
@@ -48,10 +50,21 @@ Blockly.Arduino.communication_serialWrite = function (block) {
     }
 };
 
+Blockly.Arduino.communication_NumberSerialWrite = function (block) {
+    Blockly.Arduino.Generators.setupSerialConnection();
+    const number = Blockly.Arduino.valueToCode(block, "NUMBER", Blockly.Arduino.ORDER_NONE)
+    const type = block.getFieldValue("TYPE");
+    let hex = '';
+    if (type == 'HEX') {
+        hex += 'Serial.print("0x");' + NEWLINE;
+    }
+    return hex + `Serial.println(${number}, ${type});${NEWLINE}`;
+};
+
 Blockly.Arduino.communication_onSerialDataReceived = function (block) {
     Blockly.Arduino.Generators.setupSerialConnection();
-    var dtaVar = Blockly.Arduino.nameDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
-    let branchCode = Blockly.Arduino.statementToCode(block, 'DO');
+    const dtaVar = Blockly.Arduino.nameDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+    const branchCode = Blockly.Arduino.statementToCode(block, 'DO');
     return "if (Serial.available()) {" + NEWLINE + TAB + dtaVar + " = Serial.readString();" + NEWLINE + branchCode + "}" + NEWLINE;
 };
 
@@ -85,25 +98,25 @@ Blockly.Arduino.communication_graphSerialWrite = function (block) {
 };
 
 Blockly.Arduino.communication_graphSerialWrite_datasFormat = function (block) {
-    var name = block.getFieldValue("NAME");
-    var data = Blockly.Arduino.valueToCode(block, "DATA", Blockly.Arduino.ORDER_ATOMIC) || 'NULL';
+    let name = block.getFieldValue("NAME");
+    let data = Blockly.Arduino.valueToCode(block, "DATA", Blockly.Arduino.ORDER_ATOMIC) || 'NULL';
     if (name == "") name = '""';
     if (!isNaN(data)) {
         data = data.toString();
     }
-    let code = name + ":" + data + "|";
+    const code = name + ":" + data + "|";
     return [code.toString(), Blockly.Arduino.ORDER_ATOMIC];
 };
 
 Blockly.Arduino.communication_playComputerMusic = function (block) {
     Blockly.Arduino.Generators.setupSerialConnection();
-    let note = block.getFieldValue("NOTE");
+    const note = block.getFieldValue("NOTE");
     return "Serial.println(\"@music:" + note + "|\");" + NEWLINE;
 };
 
 Blockly.Arduino.communication_playComputerFrequency = function (block) {
     Blockly.Arduino.Generators.setupSerialConnection();
-    let frequency = Blockly.Arduino.valueToCode(block, "FREQUENCY", Blockly.Arduino.ORDER_ATOMIC);
+    const frequency = Blockly.Arduino.valueToCode(block, "FREQUENCY", Blockly.Arduino.ORDER_ATOMIC);
     return "Serial.println(\"@music:" + frequency + "|\");" + NEWLINE;
 };
 
@@ -114,9 +127,9 @@ Blockly.Arduino.communication_stopComputerMusic = function () {
 
 Blockly.Arduino.communication_writeOpenLogSd = function (block) {
     const baudrate = block.getFieldValue("BAUD");
-    const board = Blockly.Constants.getSelectedBoard();
     let objName = 'OpenLog';
-    if (board == BOARD_ARDUINO_UNO_R4_WIFI) {
+    const isR4MinimaOrWifi = [BOARD_ARDUINO_UNO_R4_WIFI, BOARD_ARDUINO_UNO_R4_MINIMA].includes(Blockly.Constants.getSelectedBoard());
+    if (isR4MinimaOrWifi) {
         Blockly.Arduino.addDefine(objName, "#define " + objName + TAB + "Serial1");
     } else {
         const pinRX = block.getFieldValue("RX") || '0';
@@ -135,30 +148,32 @@ Blockly.Arduino.communication_writeOpenLogSd = function (block) {
 
 Blockly.Arduino.communication_SDWriteDataSPI = function (block) {
     Blockly.Arduino.Generators.setupSerialConnection();
-    const data = Blockly.Arduino.valueToCode(block, "DATA", Blockly.Arduino.ORDER_ATOMIC);
-    Blockly.Arduino.addInclude('sd', INCLUDE_SD);
-    Blockly.Arduino.addInclude('spi', INCLUDE_SPI);
-    let fileName = "\"log_";
-    const d = new Date();
-    const date = [d.getMonth() + 1, "_", d.getDate()];
-    for (i in date) {
-        fileName += date[i].toString();
-    }
-    fileName += ".txt\"";
-    Blockly.Arduino.addDeclaration('fileName', "const char* fileName = " + fileName + ";");
+    Blockly.Arduino.addInclude('SPI', INCLUDE_SPI);
+    Blockly.Arduino.addInclude('SdFat', INCLUDE_SDFAT);
+    Blockly.Arduino.addDeclaration('SD', "SdFat SD;");
     Blockly.Arduino.addDeclaration('dataFile', "File dataFile;");
+    const d = new Date();
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    const hour = String(d.getHours()).padStart(2, "0");
+    const minute = String(d.getMinutes()).padStart(2, "0");
+    const second = String(d.getSeconds()).padStart(2, "0");
+    const fileName = `"log_${year}${month}${day}_${hour}${minute}${second}.txt"`;
+    Blockly.Arduino.addDeclaration('fileName', "const char* fileName = " + fileName + ";");
     Blockly.Arduino.addFunction('sd_setupCard', FUNCTIONS_ARDUINO.DEF_SD_SPI_SETUP_CARD);
     Blockly.Arduino.addFunction('sd_writeData', FUNCTIONS_ARDUINO.DEF_SD_SPI_WRITE_DATA);
     Blockly.Arduino.addSetup('sd', "sd_setupCard(" + block.getFieldValue("CS") + ");");
+    const data = Blockly.Arduino.valueToCode(block, "DATA", Blockly.Arduino.ORDER_ATOMIC);
     return "sd_writeData(" + data + ");" + NEWLINE;
 };
 
 // Grove Serial Bluetooth - //http://wiki.seeedstudio.com/Grove-Serial_Bluetooth/
 
 Blockly.Arduino.serialBluetooth_codeInitialization = function (block) {
-    const board = Blockly.Constants.getSelectedBoard();
     let objName = 'blueToothSerial';
-    if (board == BOARD_ARDUINO_UNO_R4_WIFI) {
+    const isR4MinimaOrWifi = [BOARD_ARDUINO_UNO_R4_WIFI, BOARD_ARDUINO_UNO_R4_MINIMA].includes(Blockly.Constants.getSelectedBoard());
+    if (isR4MinimaOrWifi) {
         Blockly.Arduino.addDefine(objName, "#define " + objName + TAB + "Serial1");
     } else {
         const pinRX = block.getFieldValue("RX") || '0';
@@ -169,9 +184,9 @@ Blockly.Arduino.serialBluetooth_codeInitialization = function (block) {
         const pinTXName = 'PIN_BT_TX_' + pinTX;
         Blockly.Arduino.addDefine(pinRXName, "#define " + pinRXName + TAB + pinRX);
         Blockly.Arduino.addDefine(pinTXName, "#define " + pinTXName + TAB + pinTX)
-        Blockly.Arduino.addDeclaration(objName, "SoftwareSerial " + objName + "(" + pinRXName + ", " + pinTXName + "); // RX, TX -> inversion des broches");
-        Blockly.Arduino.addSetup(pinRXName, "pinMode(" + pinRXName + ", INPUT);");
-        Blockly.Arduino.addSetup(pinTXName, "pinMode(" + pinTXName + ", OUTPUT);");
+        Blockly.Arduino.addDeclaration(objName, "SoftwareSerial " + objName + "(" + pinTXName + ", " + pinRXName + "); // RX, TX -> inversion des broches");
+        Blockly.Arduino.addSetup(pinRXName, "pinMode(" + pinRXName + ", OUTPUT);");
+        Blockly.Arduino.addSetup(pinTXName, "pinMode(" + pinTXName + ", INPUT);");
     }
     Blockly.Arduino.addSetup(objName + '_begin', objName + ".begin(9600);");
     return objName;
@@ -212,16 +227,17 @@ Blockly.Arduino.communication_onSerialBluetoothDataReceived = function (block) {
     const dtaVar = Blockly.Arduino.nameDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
     const objName = Blockly.Arduino.serialBluetooth_codeInitialization(block);
     const branchCode = Blockly.Arduino.statementToCode(block, 'DO');
-    const listen = Blockly.Constants.getSelectedBoard() == BOARD_ARDUINO_UNO_R4_WIFI ? "" : objName + ".listen();" + NEWLINE;
+    const isR4MinimaOrWifi = [BOARD_ARDUINO_UNO_R4_WIFI, BOARD_ARDUINO_UNO_R4_MINIMA].includes(Blockly.Constants.getSelectedBoard());
+    const listen = isR4MinimaOrWifi ? "" : objName + ".listen();" + NEWLINE;
     return listen + "if (" + objName + ".available() > 0) {" + NEWLINE + TAB + dtaVar + " = " + objName + ".readString();" + NEWLINE + branchCode + "}" + NEWLINE;
 };
 
 // HC05 Bluetooth - https://www.gotronic.fr/pj-1739.pdf?srsltid=AfmBOorKXfP4d2CKpMd222glNzLP_ZqtMDDHOdcORc9zsmuKSj90p7AH
 
 Blockly.Arduino.hc05_codeInitialization = function (block) {
-    const board = Blockly.Constants.getSelectedBoard();
     let objName = 'HC05';
-    if (board == BOARD_ARDUINO_UNO_R4_WIFI) {
+    const isR4MinimaOrWifi = [BOARD_ARDUINO_UNO_R4_WIFI, BOARD_ARDUINO_UNO_R4_MINIMA].includes(Blockly.Constants.getSelectedBoard());
+    if (isR4MinimaOrWifi) {
         Blockly.Arduino.addDefine(objName, "#define " + objName + TAB + "Serial1");
     } else {
         const pinRX = block.getFieldValue("RX") || '0';
@@ -274,16 +290,17 @@ Blockly.Arduino.communication_hc05_onBluetoothDataReceived = function (block) {
     Blockly.Arduino.addDefine('HC05_BAUD_TRANSSMISSION', '#define HC05_BAUD_TRANSSMISSION 9600');
     Blockly.Arduino.addSetup(objName + '_begin_Transmission', objName + ".begin(HC05_BAUD_TRANSSMISSION);");
     const branchCode = Blockly.Arduino.statementToCode(block, 'DO');
-    const listen = Blockly.Constants.getSelectedBoard() == BOARD_ARDUINO_UNO_R4_WIFI ? "" : objName + ".listen();" + NEWLINE;
+    const isR4MinimaOrWifi = [BOARD_ARDUINO_UNO_R4_WIFI, BOARD_ARDUINO_UNO_R4_MINIMA].includes(Blockly.Constants.getSelectedBoard());
+    const listen = isR4MinimaOrWifi ? "" : objName + ".listen();" + NEWLINE;
     return listen + "if (" + objName + ".available() > 0) {" + NEWLINE + TAB + dtaVar + " = " + objName + ".readString();" + NEWLINE + branchCode + "}" + NEWLINE;
 };
 
 // HM10 Bluetooth - https://www.rajguruelectronics.com/Product/757/HM-10%20BLE%204.0%20Bluetooth%20Module%20breakout.pdf
 
 Blockly.Arduino.hm10_codeInitialization = function (block) {
-    const board = Blockly.Constants.getSelectedBoard();
     let objName = 'HM10';
-    if (board == BOARD_ARDUINO_UNO_R4_WIFI) {
+    const isR4MinimaOrWifi = [BOARD_ARDUINO_UNO_R4_WIFI, BOARD_ARDUINO_UNO_R4_MINIMA].includes(Blockly.Constants.getSelectedBoard());
+    if (isR4MinimaOrWifi) {
         Blockly.Arduino.addDefine(objName, "#define " + objName + TAB + "Serial1");
     } else {
         const pinRX = block.getFieldValue("RX") || '0';
@@ -325,7 +342,8 @@ Blockly.Arduino.communication_hm10_onBluetoothDataReceived = function (block) {
     const dtaVar = Blockly.Arduino.nameDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
     const objName = Blockly.Arduino.hm10_codeInitialization(block);
     const branchCode = Blockly.Arduino.statementToCode(block, 'DO');
-    const listen = Blockly.Constants.getSelectedBoard() == BOARD_ARDUINO_UNO_R4_WIFI ? "" : objName + ".listen();" + NEWLINE;
+    const isR4MinimaOrWifi = [BOARD_ARDUINO_UNO_R4_WIFI, BOARD_ARDUINO_UNO_R4_MINIMA].includes(Blockly.Constants.getSelectedBoard());
+    const listen = isR4MinimaOrWifi ? "" : objName + ".listen();" + NEWLINE;
     return listen + "if (" + objName + ".available() > 0) {" + NEWLINE + TAB + dtaVar + " = " + objName + ".readString();" + NEWLINE + branchCode + "}" + NEWLINE;
 };
 
@@ -339,7 +357,7 @@ Blockly.Arduino.communication_sendRadioNRF24Data = function (block) {
     let channel = Blockly.Arduino.valueToCode(block, "CANAL", Blockly.Arduino.ORDER_ATOMIC) || "0";
     if (channel < 0) channel = 0;
     if (channel > 125) channel = 125;
-    Blockly.Arduino.addInclude('spi', INCLUDE_SPI);
+    Blockly.Arduino.addInclude('SPI', INCLUDE_SPI);
     Blockly.Arduino.addInclude('nrf24l01', INCLUDE_NRF24L01);
     Blockly.Arduino.addInclude('rf24', INCLUDE_RF24);
     Blockly.Arduino.addInclude('printf', INCLUDE_PRINTF);
@@ -370,7 +388,7 @@ Blockly.Arduino.communication_onRadioNRF24_dataReceived = function (block) {
     let channel = Blockly.Arduino.valueToCode(block, "CANAL", Blockly.Arduino.ORDER_ATOMIC) || "0";
     if (channel < 0) channel = 0;
     if (channel > 125) channel = 125;
-    Blockly.Arduino.addInclude('spi', INCLUDE_SPI);
+    Blockly.Arduino.addInclude('SPI', INCLUDE_SPI);
     Blockly.Arduino.addInclude('nrf24l01', INCLUDE_NRF24L01);
     Blockly.Arduino.addInclude('rf24', INCLUDE_RF24);
     Blockly.Arduino.addInclude('printf', INCLUDE_PRINTF);
@@ -431,48 +449,128 @@ Blockly.Arduino.communication_onRadio433mhzDataReceived = function (block) {
     return code;
 };
 
+// Infrared Communication
+
+Blockly.Arduino.communication_ir_sendNECCommand = function (block) {
+    const addr = Blockly.Arduino.valueToCode(block, "ADDR", Blockly.Arduino.ORDER_ATOMIC) || "0";
+    const cmd = Blockly.Arduino.valueToCode(block, "CMD", Blockly.Arduino.ORDER_ATOMIC) || "0";
+    const pin = block.getFieldValue("PIN");
+    const repeat = Blockly.Arduino.valueToCode(block, "REPEAT", Blockly.Arduino.ORDER_ATOMIC) || '1';
+    Blockly.Arduino.addInclude('IRremote', INCLUDE_IR_REMOTE);
+    Blockly.Arduino.addDefine('PIN_IR_EMITTER', "#define PIN_IR_EMITTER" + TAB + pin);
+    Blockly.Arduino.addSetup('IrSender_' + pin, "IrSender.begin(PIN_IR_EMITTER);");
+    return `IrSender.sendNEC(${addr}, ${cmd}, ${repeat});` + NEWLINE;
+};
+
+Blockly.Arduino.communication_ir_sendFrame = function (block) {
+    const frame = Blockly.Arduino.valueToCode(block, "FRAME", Blockly.Arduino.ORDER_ATOMIC) || 'NULL';
+    const freq = block.getFieldValue("FREQ");
+    const pin = block.getFieldValue("PIN");
+    Blockly.Arduino.addInclude('IRremote', INCLUDE_IR_REMOTE);
+    Blockly.Arduino.addDefine('PIN_IR_EMITTER', "#define PIN_IR_EMITTER" + TAB + pin);
+    Blockly.Arduino.addSetup('IrSender_' + pin, "IrSender.begin(PIN_IR_EMITTER);");
+    return `IrSender.sendRaw(${frame}, sizeof(${frame}) / sizeof(${frame}[0]), ${freq});` + NEWLINE;
+};
+
 Blockly.Arduino.communication_onIRDataReceived = function (block) {
     const dtaVar = Blockly.Arduino.nameDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
     const branchCode = Blockly.Arduino.statementToCode(block, 'DO');
+    const pin = block.getFieldValue("PIN");
     Blockly.Arduino.addInclude('IRremote', INCLUDE_IR_REMOTE);
-    Blockly.Arduino.addDefine('ir_receiver', "#define PIN_IR_RECEIVER" + TAB + block.getFieldValue("PIN"));
-    Blockly.Arduino.addDeclaration('ir_receiver', "IRrecv IR_receiver(PIN_IR_RECEIVER);" + NEWLINE + "decode_results IRmsg;");
-    Blockly.Arduino.addSetup("ir_receiver", "IR_receiver.enableIRIn();" + NEWLINE + "IR_receiver.blink13(true);");
-    return "if (IR_receiver.decode(&IRmsg)) {" + NEWLINE + TAB + dtaVar + " = IRmsg.value;" + NEWLINE + branchCode + "  delay(50);" + NEWLINE + "  IR_receiver.resume();" + NEWLINE + "}" + NEWLINE;
+    Blockly.Arduino.addDefine('PIN_IR_RECEIVER', "#define PIN_IR_RECEIVER" + TAB + pin);
+    Blockly.Arduino.addSetup('IrReceiver_' + pin, "IrReceiver.begin(PIN_IR_RECEIVER, ENABLE_LED_FEEDBACK);");
+    return "if (IrReceiver.decode()) {" + NEWLINE + TAB + dtaVar + " = (uint32_t)IrReceiver.decodedIRData.decodedRawData;" + NEWLINE + branchCode + "  delay(50);" + NEWLINE + "  IrReceiver.resume();" + NEWLINE + "}" + NEWLINE;
+};
+
+Blockly.Arduino.communication_ir_getProtocoleParam = function (block) {
+    const param = block.getFieldValue("PARAM");
+    if (param == "ADDR") {
+        return ['IrReceiver.decodedIRData.address', Blockly.Arduino.ORDER_ATOMIC];
+    } else {
+        return ['IrReceiver.decodedIRData.command', Blockly.Arduino.ORDER_ATOMIC];
+    }
+};
+
+Blockly.Arduino.INIT_ONREMOTECOMMAND_GENERATOR = function (block, remote = 'black') {
+    var n = 0;
+    let code = "String remoteCommand_" + remote + " = " +
+        (remote == 'black' ? 'remoteNEC_basicBlack_getButton' : 'remoteNEC_Carmp3_gray_getButton')
+        + "(IrReceiver.decodedIRData.command);" + NEWLINE;
+    let branchCode, conditionCode;
+    if (Blockly.Arduino.STATEMENT_PREFIX) {
+        // Automatic prefix insertion is switched off for this block.  Add manually.
+        code += Blockly.Arduino.injectId(Blockly.Arduino.STATEMENT_PREFIX, block);
+    }
+    do {
+        conditionCode = "remoteCommand_" + remote + " == \"" + block.getFieldValue("COMMAND" + n) + "\"";
+        branchCode = Blockly.Arduino.statementToCode(block, "DO" + n) || Blockly.Arduino.PASS;
+        if (Blockly.Arduino.STATEMENT_SUFFIX) {
+            branchCode = Blockly.Arduino.prefixLines(
+                Blockly.Arduino.injectId(Blockly.Arduino.STATEMENT_SUFFIX, block),
+                Blockly.Arduino.INDENT) + branchCode;
+        }
+        code += (n == 0 ? "if (" : "} else if (") + conditionCode + ") {" + NEWLINE;
+        if (branchCode) {
+            code += branchCode;
+        }
+        ++n;
+    } while (block.getInput("ELSEIF" + n));
+
+    if (block.getInput("ELSE") || Blockly.Arduino.STATEMENT_SUFFIX) {
+        branchCode = Blockly.Arduino.statementToCode(block, "ELSE") || Blockly.Arduino.PASS;
+        if (Blockly.Arduino.STATEMENT_SUFFIX) {
+            branchCode = Blockly.Arduino.prefixLines(
+                Blockly.Arduino.injectId(Blockly.Arduino.STATEMENT_SUFFIX, block),
+                Blockly.Arduino.INDENT) + branchCode;
+        }
+        code += "} else {" + NEWLINE;
+        if (branchCode) {
+            code += branchCode;
+        }
+    }
+    code += "}" + NEWLINE;
+    return code;
 };
 
 Blockly.Arduino.communication_onRemoteCommandReceived = function (block) {
-    const command = block.getFieldValue("COMMAND");
-    const dtaVar = Blockly.Arduino.valueToCode(block, "DATA", Blockly.Arduino.ORDER_ATOMIC) || "NULL";
-    const branchCode = Blockly.Arduino.statementToCode(block, 'DO');
+    block.workspace.createVariable('remoteCommand_black', 'String');
+    const code = Blockly.Arduino.INIT_ONREMOTECOMMAND_GENERATOR(block, 'black');
     Blockly.Arduino.addFunction('remoteNEC_getButton', FUNCTIONS_ARDUINO.DEF_REMOTE_NEC_BASIC_BLACK_GET_BUTTON);
-    return "if (remoteNEC_getButton(" + dtaVar + ") == \"" + command + "\") {" + NEWLINE + branchCode + "}" + NEWLINE;
+    return code;
+};
+
+Blockly.Arduino.communication_onRemoteCommandReceived_car_mp3_gray = function (block) {
+    block.workspace.createVariable('remoteCommand_car_mp3', 'String');
+    const code = Blockly.Arduino.INIT_ONREMOTECOMMAND_GENERATOR(block, 'car_mp3');
+    Blockly.Arduino.addFunction('remoteNEC_Carmp3_gray_getButton', FUNCTIONS_ARDUINO.DEF_REMOTE_NEC_AR_MP3_GRAY_GET_BUTTON);
+    return code;
 };
 
 //http://wiki.seeedstudio.com/Grove-125KHz_RFID_Reader/
 Blockly.Arduino.communication_rfid_getCardID = function (block) {
-    const board = Blockly.Constants.getSelectedBoard();
-    if (board == BOARD_ARDUINO_UNO_R4_WIFI) {
-        Blockly.Arduino.addDefine('rfid', "#define rfid  Serial1");
+    let objName = 'rfid';
+    const isR4MinimaOrWifi = [BOARD_ARDUINO_UNO_R4_WIFI, BOARD_ARDUINO_UNO_R4_MINIMA].includes(Blockly.Constants.getSelectedBoard());
+    if (isR4MinimaOrWifi) {
+        Blockly.Arduino.addDefine(objName, "#define rfid  Serial1");
     } else {
         const pinRX = block.getFieldValue("RX") || '0';
         const pinTX = block.getFieldValue("TX") || '0';
         Blockly.Arduino.addInclude('software_serial', INCLUDE_SOFTWARE_SERIAL);
-        Blockly.Arduino.addDeclaration('rfid', "SoftwareSerial rfid(" + pinRX + ", " + pinTX + ");");
+        Blockly.Arduino.addDeclaration(objName, `SoftwareSerial ${objName}(${pinRX}, ${pinTX});`);
     }
     Blockly.Arduino.addDeclaration('buffer', "unsigned char buffer[64];");
     Blockly.Arduino.addDeclaration('count', "int count = 0;");
     Blockly.Arduino.addFunction('clearBufferArray', FUNCTIONS_ARDUINO.DEF_CLEAR_BUFFER_ARRAY);
     Blockly.Arduino.addFunction('rfid_getStringCardID', FUNCTIONS_ARDUINO.DEF_RFID_GET_STRING_CARD_ID);
-    Blockly.Arduino.addSetup('rfid', "rfid.begin(9600);");
+    Blockly.Arduino.addSetup(objName, objName + ".begin(9600);");
     return ['rfid_getStringCardID()', Blockly.Arduino.ORDER_ATOMIC];
 };
 
 //http://wiki.seeedstudio.com/Grove-GPS/
 Blockly.Arduino.communication_onGPSDataReceived = function (block) {
     Blockly.Arduino.Generators.setupSerialConnection();
-    const board = Blockly.Constants.getSelectedBoard();
-    if (board == BOARD_ARDUINO_UNO_R4_WIFI) {
+    const isR4MinimaOrWifi = [BOARD_ARDUINO_UNO_R4_WIFI, BOARD_ARDUINO_UNO_R4_MINIMA].includes(Blockly.Constants.getSelectedBoard());
+    if (isR4MinimaOrWifi) {
         Blockly.Arduino.addDefine('gpsSerial', "#define gpsSerial  Serial1");
     } else {
         const pinRX = block.getFieldValue("RX") || '0';

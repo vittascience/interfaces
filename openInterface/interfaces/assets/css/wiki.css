@@ -171,6 +171,14 @@ body {
     background-color: var(--bg-4) !important;
 }
 
+#radioContainer .subcategory {
+    padding: 0.7rem 0.5rem;
+    margin-bottom: 0.1rem;
+    margin-left: 1rem;
+    font-size: 16px;
+    border-inline-start: 0;
+}
+
 #blocks {
     height: 100%;
 }
@@ -206,6 +214,10 @@ body {
 
 .blocklyBlockCanvas * {
     background: transparent !important;
+}
+
+.blocklyTooltipDiv {
+  display: none !important;
 }
 
 .block-container-row {
@@ -277,77 +289,4 @@ body {
 .toolbox-separator {
     margin: 0.5rem;
     width: 90%;
-}
-
-.global-overlay {
-    top: 0;
-    left: 0;
-    position: absolute;
-    width: 100vw;
-    max-width: 100%;
-    height: 100vh;
-    max-height: 100%;
-    background-color: #000;
-    opacity: 0.5;
-    display: none;
-    z-index: 1050;
-}
-
-.progress-bar-area {
-    background-color: var(--bg-0);
-    border-radius: 1.5em;
-    padding: 0 0.5em 0.5em 0.5em;
-    opacity: 0.7;
-}
-
-.progress-bar-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1051;
-    display: none;
-}
-
-.progress-bar-description {
-    text-align: center;
-    font-weight: 700;
-    margin: 0.2em 0em;
-}
-
-.progress-bar-wrapper {
-    width: 50vw;
-    height: 5vh;
-    background-color: var(--bg-3);
-    border: 2px solid var(--bg-5);
-    border-radius: 256px;
-    position: relative;
-    overflow: hidden;
-}
-
-.progress-bar-wiki {
-    height: 5vh;
-    background-color: var(--vitta-green-dark);
-    border-radius: 5vh;
-    width: 0%;
-    position: absolute;
-    top: -2px;
-    text-align: center;
-    line-height: 5vh;
-    color: var(--bg-0);
-    font-size: 1.5rem;
-    font-weight: 600;
-    overflow: hidden;
-    transition: transform 0.2s linear;
-}
-
-.vitta-blocker-overlay-content {
-    width: 100% !important;
-    height: 100% !important;
-    border-radius: unset !important;
-}
-
-.vitta-blocker-overlay-content>img {
-    width: 600px !important;
-    height: auto !important;
 }

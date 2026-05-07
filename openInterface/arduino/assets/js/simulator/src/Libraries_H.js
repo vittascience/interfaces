@@ -29,7 +29,11 @@ const LIBRARIES_H = {
                 const pinRX = Simulator.getPinString(_this.v.members.receivePin.v, true);
                 const pinTX = Simulator.getPinString(_this.v.members.transmitPin.v, true);
                 const subtitle = 'UART - ' + pinRX + ' / ' + pinTX;
-                if (_this.v.members.serialType.v.includes("HM10")) {
+                if (_this.v.members.serialType.v.includes("HC05")) {
+                    _this.v.members.moduleId = 'hc05';
+                    $('#' + _this.v.members.moduleId).find(".subtitle-module").html(subtitle);
+                }
+                else if (_this.v.members.serialType.v.includes("HM10")) {
                     _this.v.members.moduleId = 'hm10';
                     $('#' + _this.v.members.moduleId).find(".subtitle-module").html(subtitle);
                 }
@@ -52,8 +56,8 @@ const LIBRARIES_H = {
 
             const component_write = function (buffer, members) {
                 if (!buffer) return;
-                if (members.serialType.v.includes('HM10') || members.serialType.v.includes('blueToothSerial')) {
-                    sendBluetoothData(buffer);
+                if (members.serialType.v.includes('HC05') || members.serialType.v.includes('HM10') || members.serialType.v.includes('blueToothSerial')) {
+                    BluetoothSimulator.sendBluetoothData(buffer);
                     const date = new Date();
                     var s = '';
                     if (date.getSeconds() < 10) {
@@ -96,8 +100,8 @@ const LIBRARIES_H = {
             rt.regFunc(begin, SoftwareSerial_t, "begin", [rt.doubleTypeLiteral], rt.voidTypeLiteral);
 
             const _read = function (members, isForString) {
-                if (members.serialType.v.includes('HM10') || members.serialType.v.includes('blueToothSerial')) {
-                    return checkBluetoothData('read', members.moduleId, isForString);
+                if (members.serialType.v.includes('HC05') || members.serialType.v.includes('HM10') || members.serialType.v.includes('blueToothSerial')) {
+                    return BluetoothSimulator.checkBluetoothData('read', members.moduleId, isForString);
                 }
                 else if (members.serialType.v.includes('mhz19')) {
                     return members._rx_buffer.shift();
@@ -115,8 +119,8 @@ const LIBRARIES_H = {
             rt.regFunc(readString, SoftwareSerial_t, "readString", [], rt.String_t);
 
             const available = function (rt, _this) {
-                if (_this.v.members.serialType.v.includes('HM10') || _this.v.members.serialType.v.includes('blueToothSerial')) {
-                    return rt.val(rt.intTypeLiteral, checkBluetoothData('available', _this.v.members.moduleId));
+                if (_this.v.members.serialType.v.includes('HC05') || _this.v.members.serialType.v.includes('HM10') || _this.v.members.serialType.v.includes('blueToothSerial')) {
+                    return rt.val(rt.intTypeLiteral, BluetoothSimulator.checkBluetoothData('available', _this.v.members.moduleId));
                 } else if (_this.v.members.serialType.v.includes('mhz19')) {
                     if (_this.v.members._rx_buffer.length == 1) {
                         _this.v.members._rx_buffer = Simulator.Mosaic.grove.calculs.getMHZ19Data(Simulator.getSliderValue('mhz19-co2'), Simulator.getSliderValue('mhz19-temp'));
@@ -134,8 +138,8 @@ const LIBRARIES_H = {
             rt.regFunc(listen, SoftwareSerial_t, "listen", [], rt.boolTypeLiteral);
 
             const flush = function (rt, _this) {
-                if (_this.v.members.serialType.v.includes('HM10') || _this.v.members.serialType.v.includes('blueToothSerial')) {
-                    checkBluetoothData('flush', _this.v.members.moduleId);
+                if (_this.v.members.serialType.v.includes('HC05') || _this.v.members.serialType.v.includes('HM10') || _this.v.members.serialType.v.includes('blueToothSerial')) {
+                    BluetoothSimulator.checkBluetoothData('flush', _this.v.members.moduleId);
                 }
                 else if (_this.v.members.serialType.v.includes('Serial')) {
                     Simulator.serialData = "";
@@ -143,128 +147,6 @@ const LIBRARIES_H = {
                 return rt.val(rt.boolTypeLiteral, true);
             };
             rt.regFunc(flush, SoftwareSerial_t, "flush", [], rt.voidTypeLiteral);
-
-            function sendBluetoothData(buffer) {
-                const data = {
-                    'timestamp': Date.now(),
-                    'content': buffer
-                };
-                const multiEditorLS = localStorage.getItem('multiEditor');
-                if (multiEditorLS) {
-                    const multiEditor = JSON.parse(multiEditorLS);
-                    const editor = multiEditor[INTERFACE_NAME][VittaInterface.id];
-                    editor.dateUpdated = Math.floor(new Date() / 1000);
-                    if (editor.bluetooth) {
-                        editor.bluetooth['_tx_buffer'].push(data);
-                    } else {
-                        editor.bluetooth = {
-                            '_tx_buffer': [data]
-                        };
-                    }
-                    multiEditor[INTERFACE_NAME][VittaInterface.id] = editor;
-                    localStorage.setItem('multiEditor', JSON.stringify(multiEditor));
-                } else {
-                    InterfaceMonitor.writeConsole("Bluetooth Error: no service");
-                }
-            };
-
-            function checkBluetoothData(command, modId, isForString) {
-                const multiEditorLS = localStorage.getItem('multiEditor');
-                if (multiEditorLS) {
-                    const multiEditor = JSON.parse(multiEditorLS);
-                    const mutiEditorInterface = multiEditor[INTERFACE_NAME];
-                    var validEditors = [];
-                    for (var id in mutiEditorInterface) {
-                        if (mutiEditorInterface[id].dateUpdated && mutiEditorInterface[id].bluetooth) {
-                            validEditors.push({
-                                "id": id,
-                                "dateUpdated": mutiEditorInterface[id].dateUpdated,
-                                "bluetooth": mutiEditorInterface[id].bluetooth
-                            });
-                        }
-                    }
-                    const editor = validEditors.sort(function (a, b) {
-                        return b.dateUpdated - a.dateUpdated;
-                    })[0];
-                    if (editor !== undefined) {
-                        if (command == 'read') {
-                            const data = readBluetoothData(multiEditor, editor, isForString);
-                            if (data) {
-                                if (isForString) {
-                                    Simulator.setAnimator(Simulator.getModuleByKey(modId), modId, command + 'String');
-                                } else {
-                                    Simulator.setAnimator(Simulator.getModuleByKey(modId), modId, command);
-                                }
-                                return data;
-                            } else {
-                                return -1;
-                            }
-                        } else if (command == 'available') {
-                            const buffer = editor.bluetooth._tx_buffer;
-                            if (buffer && buffer.length) {
-                                const len = buffer.map((data) => data.content).join('').length;
-                                Simulator.setAnimator(Simulator.getModuleByKey(modId), modId, command + ':' + len);
-                                return len;
-                            }
-                            return 0;
-                        } else if (command == 'flush') {
-                            Simulator.setAnimator(Simulator.getModuleByKey(modId), modId, command);
-                            flushBluetoothData(multiEditor, editor);
-                        }
-                    }
-                } else {
-                    InterfaceMonitor.writeConsole("Bluetooth Error: no service");
-                }
-                if (command == 'read') {
-                    return -1;
-                } else if (command == 'available') {
-                    return 0;
-                }
-            };
-
-            function readBluetoothData(multiEditor, editor, isForString) {
-                if (editor.bluetooth._tx_buffer) {
-                    multiEditor[INTERFACE_NAME][editor.id].dateUpdated = Math.floor(new Date() / 1000);
-                    let dataArray = editor.bluetooth._tx_buffer;
-                    if (dataArray) {
-                        if (isForString) {
-                            multiEditor[INTERFACE_NAME][editor.id].bluetooth = {
-                                '_tx_buffer': new Array()
-                            };
-                            localStorage.setItem('multiEditor', JSON.stringify(multiEditor));
-                            return dataArray.map((data) => data.content).join('');
-                        } else {
-                            const firstData = dataArray[0].content;
-                            if (firstData.length > 0) {
-                                const charToRead = firstData[0];
-                                if (firstData.length > 1) {
-                                    dataArray[0] = {
-                                        timestamp: Date.now(),
-                                        content: firstData.slice(1)
-                                    };
-                                } else if (firstData.length == 1) {
-                                    dataArray = dataArray.slice(1);
-                                }
-                                multiEditor[INTERFACE_NAME][editor.id].bluetooth = {
-                                    '_tx_buffer': dataArray
-                                };
-                                localStorage.setItem('multiEditor', JSON.stringify(multiEditor));
-                                return charToRead.charCodeAt(0);
-                            }
-                        }
-                    }
-                }
-            };
-
-            function flushBluetoothData(multiEditor, editor) {
-                if (editor.bluetooth._tx_buffer) {
-                    multiEditor[INTERFACE_NAME][editor.id].dateUpdated = Math.floor(new Date() / 1000);
-                    multiEditor[INTERFACE_NAME][editor.id].bluetooth = {
-                        '_tx_buffer': new Array()
-                    };
-                    localStorage.setItem('multiEditor', JSON.stringify(multiEditor));
-                }
-            };
         }
     },
     "rgb_lcd.h": {
@@ -1047,14 +929,14 @@ const LIBRARIES_H = {
             rt.regFunc(function (rt, _this) {
                 const pinName_room = 'A' + (_this.v.members.pinRoom.v - 100);
                 const duty_room = Simulator.getSliderValue('highTemp-room_' + pinName_room);
-                _this.v.members.roomTemp = Simulator.Mosaic.grove.calculs.getRoomTemp(duty_room);
+                _this.v.members.roomTemp = Simulator.Mosaic.grove_analog.calculs.getRoomTemp(duty_room);
                 return rt.val(rt.boolTypeLiteral, true);
             }, HighTemp, "begin", [], rt.boolTypeLiteral);
 
             rt.regFunc(function (rt, _this) {
                 const pinName_thmc = 'A' + (_this.v.members.pinTemp.v - 100);
                 const duty_thmc = Simulator.getSliderValue('highTemp-thmc_' + pinName_thmc);
-                const thmc = Simulator.Mosaic.grove.calculs.getThmcTemp(duty_thmc, _this.v.members.roomTemp);
+                const thmc = Simulator.Mosaic.grove.calculs_analog.getThmcTemp(duty_thmc, _this.v.members.roomTemp);
                 return rt.val(rt.doubleTypeLiteral, thmc);
             }, HighTemp, "getThmc", [], rt.doubleTypeLiteral);
         }
@@ -1149,8 +1031,8 @@ const LIBRARIES_H = {
                 if (angle.v > 180 || angle.v < 0) {
                     UIManager.showErrorMessage('error-message', 'L\'angle du servomoteur doit être compris entre 0 et 180');
                 } else {
-                    const analog_pins =  {14: 'A0', 15: 'A1', 16: 'A2', 17: 'A3', 18: 'A4', 19: 'A5'}
-                    const module = Simulator.pinList.find(module => (module.pin == _this.v.members.pin.v || module.pin ==  analog_pins[_this.v.members.pin.v]));
+                    const analog_pins = { 14: 'A0', 15: 'A1', 16: 'A2', 17: 'A3', 18: 'A4', 19: 'A5' }
+                    const module = Simulator.pinList.find(module => (module.pin == _this.v.members.pin.v || module.pin == analog_pins[_this.v.members.pin.v]));
                     if (module) {
                         if (/continuousServo/.test(module.id)) {
                             const mod = Simulator.getModuleByKey('continuousServo')
@@ -2172,6 +2054,402 @@ const LIBRARIES_H = {
         load: function (rt) {
             // TO DO
         }
-    }
+    },
+    "U8g2lib.h": {
+        load: function (rt) {
+
+            const u8g2_font_6x10_tf = {
+                ' ': [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],
+                '!': [0x00, 0x04, 0x04, 0x04, 0x04, 0x04, 0x00, 0x04, 0x00, 0x00],
+                '"': [0x00, 0x0a, 0x0a, 0x0a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],
+                '#': [0x00, 0x0a, 0x0a, 0x1f, 0x0a, 0x1f, 0x0a, 0x0a, 0x00, 0x00],
+                '$': [0x00, 0x04, 0x0e, 0x05, 0x0e, 0x14, 0x0e, 0x04, 0x00, 0x00],
+                '%': [0x00, 0x12, 0x15, 0x0a, 0x04, 0x0a, 0x15, 0x09, 0x00, 0x00],
+                '&': [0x00, 0x02, 0x05, 0x05, 0x02, 0x15, 0x09, 0x16, 0x00, 0x00],
+                '\'': [0x00, 0x04, 0x04, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],
+                '(': [0x00, 0x08, 0x04, 0x02, 0x02, 0x02, 0x04, 0x08, 0x00, 0x00],
+                ')': [0x00, 0x02, 0x04, 0x08, 0x08, 0x08, 0x04, 0x02, 0x00, 0x00],
+                '*': [0x00, 0x00, 0x11, 0x0a, 0x1f, 0x0a, 0x11, 0x00, 0x00, 0x00],
+                '+': [0x00, 0x00, 0x04, 0x04, 0x1f, 0x04, 0x04, 0x00, 0x00, 0x00],
+                ',': [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0c, 0x04, 0x02, 0x00],
+                '-': [0x00, 0x00, 0x00, 0x00, 0x1f, 0x00, 0x00, 0x00, 0x00, 0x00],
+                '.': [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x0e, 0x04, 0x00],
+                '/': [0x00, 0x10, 0x10, 0x08, 0x04, 0x02, 0x01, 0x01, 0x00, 0x00],
+                '0': [0x00, 0x04, 0x0a, 0x11, 0x11, 0x11, 0x0a, 0x04, 0x00, 0x00],
+                '1': [0x00, 0x04, 0x06, 0x05, 0x04, 0x04, 0x04, 0x1f, 0x00, 0x00],
+                '2': [0x00, 0x0e, 0x11, 0x10, 0x0c, 0x02, 0x01, 0x1f, 0x00, 0x00],
+                '3': [0x00, 0x1f, 0x10, 0x08, 0x0c, 0x10, 0x11, 0x0e, 0x00, 0x00],
+                '4': [0x00, 0x08, 0x0c, 0x0a, 0x09, 0x1f, 0x08, 0x08, 0x00, 0x00],
+                '5': [0x00, 0x1f, 0x01, 0x0d, 0x13, 0x10, 0x11, 0x0e, 0x00, 0x00],
+                '6': [0x00, 0x0c, 0x02, 0x01, 0x0d, 0x13, 0x11, 0x0e, 0x00, 0x00],
+                '7': [0x00, 0x1f, 0x10, 0x08, 0x08, 0x04, 0x02, 0x02, 0x00, 0x00],
+                '8': [0x00, 0x0e, 0x11, 0x11, 0x0e, 0x11, 0x11, 0x0e, 0x00, 0x00],
+                '9': [0x00, 0x0e, 0x11, 0x19, 0x16, 0x10, 0x08, 0x06, 0x00, 0x00],
+                ':': [0x00, 0x00, 0x04, 0x0e, 0x04, 0x00, 0x04, 0x0e, 0x04, 0x00],
+                ';': [0x00, 0x00, 0x04, 0x0e, 0x04, 0x00, 0x0c, 0x04, 0x02, 0x00],
+                '<': [0x00, 0x10, 0x08, 0x04, 0x02, 0x04, 0x08, 0x10, 0x00, 0x00],
+                '=': [0x00, 0x00, 0x00, 0x1f, 0x00, 0x1f, 0x00, 0x00, 0x00, 0x00],
+                '>': [0x00, 0x02, 0x04, 0x08, 0x10, 0x08, 0x04, 0x02, 0x00, 0x00],
+                '?': [0x00, 0x0e, 0x11, 0x08, 0x04, 0x04, 0x00, 0x04, 0x00, 0x00],
+                '@': [0x00, 0x0e, 0x11, 0x19, 0x15, 0x0d, 0x01, 0x0e, 0x00, 0x00],
+                'A': [0x00, 0x04, 0x0a, 0x11, 0x11, 0x1f, 0x11, 0x11, 0x00, 0x00],
+                'B': [0x00, 0x0f, 0x12, 0x12, 0x0e, 0x12, 0x12, 0x0f, 0x00, 0x00],
+                'C': [0x00, 0x0e, 0x11, 0x01, 0x01, 0x01, 0x11, 0x0e, 0x00, 0x00],
+                'D': [0x00, 0x0f, 0x12, 0x12, 0x12, 0x12, 0x12, 0x0f, 0x00, 0x00],
+                'E': [0x00, 0x1f, 0x01, 0x01, 0x0f, 0x01, 0x01, 0x1f, 0x00, 0x00],
+                'F': [0x00, 0x1f, 0x01, 0x01, 0x0f, 0x01, 0x01, 0x01, 0x00, 0x00],
+                'G': [0x00, 0x0e, 0x11, 0x01, 0x01, 0x19, 0x11, 0x0e, 0x00, 0x00],
+                'H': [0x00, 0x11, 0x11, 0x11, 0x1f, 0x11, 0x11, 0x11, 0x00, 0x00],
+                'I': [0x00, 0x0e, 0x04, 0x04, 0x04, 0x04, 0x04, 0x0e, 0x00, 0x00],
+                'J': [0x00, 0x1c, 0x08, 0x08, 0x08, 0x08, 0x09, 0x06, 0x00, 0x00],
+                'K': [0x00, 0x11, 0x09, 0x05, 0x03, 0x05, 0x09, 0x11, 0x00, 0x00],
+                'L': [0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x1f, 0x00, 0x00],
+                'M': [0x00, 0x11, 0x11, 0x1b, 0x15, 0x11, 0x11, 0x11, 0x00, 0x00],
+                'N': [0x00, 0x11, 0x11, 0x13, 0x15, 0x19, 0x11, 0x11, 0x00, 0x00],
+                'O': [0x00, 0x0e, 0x11, 0x11, 0x11, 0x11, 0x11, 0x0e, 0x00, 0x00],
+                'P': [0x00, 0x0f, 0x11, 0x11, 0x0f, 0x01, 0x01, 0x01, 0x00, 0x00],
+                'Q': [0x00, 0x0e, 0x11, 0x11, 0x11, 0x11, 0x15, 0x0e, 0x10, 0x00],
+                'R': [0x00, 0x0f, 0x11, 0x11, 0x0f, 0x05, 0x09, 0x11, 0x00, 0x00],
+                'S': [0x00, 0x0e, 0x11, 0x01, 0x0e, 0x10, 0x11, 0x0e, 0x00, 0x00],
+                'T': [0x00, 0x1f, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x00, 0x00],
+                'U': [0x00, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x0e, 0x00, 0x00],
+                'V': [0x00, 0x11, 0x11, 0x11, 0x0a, 0x0a, 0x0a, 0x04, 0x00, 0x00],
+                'W': [0x00, 0x11, 0x11, 0x11, 0x15, 0x15, 0x1b, 0x11, 0x00, 0x00],
+                'X': [0x00, 0x11, 0x11, 0x0a, 0x04, 0x0a, 0x11, 0x11, 0x00, 0x00],
+                'Y': [0x00, 0x11, 0x11, 0x0a, 0x04, 0x04, 0x04, 0x04, 0x00, 0x00],
+                'Z': [0x00, 0x1f, 0x10, 0x08, 0x04, 0x02, 0x01, 0x1f, 0x00, 0x00],
+                '[': [0x00, 0x0e, 0x02, 0x02, 0x02, 0x02, 0x02, 0x0e, 0x00, 0x00],
+                '\\': [0x00, 0x01, 0x01, 0x02, 0x04, 0x08, 0x10, 0x10, 0x00, 0x00],
+                ']': [0x00, 0x0e, 0x08, 0x08, 0x08, 0x08, 0x08, 0x0e, 0x00, 0x00],
+                '^': [0x00, 0x04, 0x0a, 0x11, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],
+                '_': [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1f, 0x00],
+                '`': [0x04, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],
+                'a': [0x00, 0x00, 0x00, 0x0e, 0x10, 0x1e, 0x11, 0x1e, 0x00, 0x00],
+                'b': [0x00, 0x01, 0x01, 0x0d, 0x13, 0x11, 0x13, 0x0d, 0x00, 0x00],
+                'c': [0x00, 0x00, 0x00, 0x0e, 0x11, 0x01, 0x11, 0x0e, 0x00, 0x00],
+                'd': [0x00, 0x10, 0x10, 0x16, 0x19, 0x11, 0x19, 0x16, 0x00, 0x00],
+                'e': [0x00, 0x00, 0x00, 0x0e, 0x11, 0x1f, 0x01, 0x0e, 0x00, 0x00],
+                'f': [0x00, 0x0c, 0x12, 0x02, 0x0f, 0x02, 0x02, 0x02, 0x00, 0x00],
+                'g': [0x00, 0x00, 0x00, 0x1e, 0x11, 0x11, 0x1e, 0x10, 0x11, 0x0e],
+                'h': [0x00, 0x01, 0x01, 0x0d, 0x13, 0x11, 0x11, 0x11, 0x00, 0x00],
+                'i': [0x00, 0x04, 0x00, 0x06, 0x04, 0x04, 0x04, 0x0e, 0x00, 0x00],
+                'j': [0x00, 0x10, 0x00, 0x18, 0x10, 0x10, 0x10, 0x12, 0x12, 0x0c],
+                'k': [0x00, 0x01, 0x01, 0x11, 0x09, 0x07, 0x09, 0x11, 0x00, 0x00],
+                'l': [0x00, 0x06, 0x04, 0x04, 0x04, 0x04, 0x04, 0x0e, 0x00, 0x00],
+                'm': [0x00, 0x00, 0x00, 0x0b, 0x15, 0x15, 0x15, 0x11, 0x00, 0x00],
+                'n': [0x00, 0x00, 0x00, 0x0d, 0x13, 0x11, 0x11, 0x11, 0x00, 0x00],
+                'o': [0x00, 0x00, 0x00, 0x0e, 0x11, 0x11, 0x11, 0x0e, 0x00, 0x00],
+                'p': [0x00, 0x00, 0x00, 0x0d, 0x13, 0x11, 0x13, 0x0d, 0x01, 0x01],
+                'q': [0x00, 0x00, 0x00, 0x16, 0x19, 0x11, 0x19, 0x16, 0x10, 0x10],
+                'r': [0x00, 0x00, 0x00, 0x0d, 0x13, 0x01, 0x01, 0x01, 0x00, 0x00],
+                's': [0x00, 0x00, 0x00, 0x0e, 0x01, 0x0e, 0x10, 0x0f, 0x00, 0x00],
+                't': [0x00, 0x02, 0x02, 0x0f, 0x02, 0x02, 0x12, 0x0c, 0x00, 0x00],
+                'u': [0x00, 0x00, 0x00, 0x11, 0x11, 0x11, 0x19, 0x16, 0x00, 0x00],
+                'v': [0x00, 0x00, 0x00, 0x11, 0x11, 0x0a, 0x0a, 0x04, 0x00, 0x00],
+                'w': [0x00, 0x00, 0x00, 0x11, 0x11, 0x15, 0x15, 0x0a, 0x00, 0x00],
+                'x': [0x00, 0x00, 0x00, 0x11, 0x0a, 0x04, 0x0a, 0x11, 0x00, 0x00],
+                'y': [0x00, 0x00, 0x00, 0x11, 0x11, 0x19, 0x16, 0x10, 0x11, 0x0e],
+                'z': [0x00, 0x00, 0x00, 0x1f, 0x08, 0x04, 0x02, 0x1f, 0x00, 0x00],
+                '{': [0x00, 0x18, 0x04, 0x08, 0x06, 0x08, 0x04, 0x18, 0x00, 0x00],
+                '|': [0x00, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x00, 0x00],
+                '}': [0x00, 0x06, 0x08, 0x04, 0x18, 0x04, 0x08, 0x06, 0x00, 0x00],
+                '~': [0x00, 0x12, 0x15, 0x09, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],
+                '\u00a0': [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],
+                '\u00a1': [0x00, 0x04, 0x00, 0x04, 0x04, 0x04, 0x04, 0x04, 0x00, 0x00],
+                '\u00a2': [0x00, 0x00, 0x04, 0x1e, 0x05, 0x05, 0x05, 0x1e, 0x04, 0x00],
+                '\u00a3': [0x00, 0x0c, 0x12, 0x02, 0x07, 0x02, 0x12, 0x0d, 0x00, 0x00],
+                '\u00a4': [0x00, 0x00, 0x00, 0x11, 0x0e, 0x0a, 0x0e, 0x11, 0x00, 0x00],
+                '\u00a5': [0x00, 0x11, 0x11, 0x0a, 0x04, 0x1f, 0x04, 0x04, 0x04, 0x00],
+                '\u00a6': [0x00, 0x04, 0x04, 0x04, 0x00, 0x04, 0x04, 0x04, 0x00, 0x00],
+                '\u00a7': [0x00, 0x0e, 0x01, 0x07, 0x09, 0x12, 0x1c, 0x10, 0x0e, 0x00],
+                '\u00a8': [0x0a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],
+                '\u00a9': [0x00, 0x0e, 0x11, 0x15, 0x13, 0x15, 0x11, 0x0e, 0x00, 0x00],
+                '\u00aa': [0x00, 0x1c, 0x12, 0x1a, 0x14, 0x00, 0x1e, 0x00, 0x00, 0x00],
+                '\u00ab': [0x00, 0x00, 0x00, 0x24, 0x12, 0x09, 0x12, 0x24, 0x00, 0x00],
+                '\u00ac': [0x00, 0x00, 0x00, 0x00, 0x1e, 0x10, 0x00, 0x00, 0x00, 0x00],
+                '\u00ad': [0x00, 0x00, 0x00, 0x00, 0x1e, 0x00, 0x00, 0x00, 0x00, 0x00],
+                '\u00ae': [0x00, 0x0e, 0x11, 0x17, 0x13, 0x13, 0x11, 0x0e, 0x00, 0x00],
+                '\u00af': [0x1f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],
+                '\u00b0': [0x00, 0x04, 0x0a, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],
+                '\u00b1': [0x00, 0x00, 0x04, 0x04, 0x1f, 0x04, 0x04, 0x1f, 0x00, 0x00],
+                '\u00b2': [0x0c, 0x12, 0x08, 0x04, 0x1e, 0x00, 0x00, 0x00, 0x00, 0x00],
+                '\u00b3': [0x0e, 0x10, 0x0c, 0x10, 0x0e, 0x00, 0x00, 0x00, 0x00, 0x00],
+                '\u00b4': [0x08, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],
+                '\u00b5': [0x00, 0x00, 0x00, 0x11, 0x11, 0x11, 0x13, 0x0d, 0x01, 0x00],
+                '\u00b6': [0x00, 0x1e, 0x17, 0x17, 0x16, 0x14, 0x14, 0x14, 0x00, 0x00],
+                '\u00b7': [0x00, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00],
+                '\u00b8': [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08, 0x04],
+                '\u00b9': [0x04, 0x06, 0x04, 0x04, 0x0e, 0x00, 0x00, 0x00, 0x00, 0x00],
+                '\u00ba': [0x00, 0x0c, 0x12, 0x12, 0x0c, 0x00, 0x1e, 0x00, 0x00, 0x00],
+                '\u00bb': [0x00, 0x00, 0x00, 0x09, 0x12, 0x24, 0x12, 0x09, 0x00, 0x00],
+                '\u00bc': [0x02, 0x03, 0x02, 0x02, 0x27, 0x30, 0x28, 0x3c, 0x20, 0x00],
+                '\u00bd': [0x02, 0x03, 0x02, 0x02, 0x17, 0x28, 0x20, 0x10, 0x38, 0x00],
+                '\u00be': [0x03, 0x04, 0x02, 0x04, 0x13, 0x18, 0x14, 0x1e, 0x10, 0x00],
+                '\u00bf': [0x00, 0x04, 0x00, 0x04, 0x04, 0x02, 0x11, 0x0e, 0x00, 0x00],
+                '\u00c0': [0x02, 0x04, 0x0e, 0x11, 0x11, 0x1f, 0x11, 0x11, 0x00, 0x00],
+                '\u00c1': [0x08, 0x04, 0x0e, 0x11, 0x11, 0x1f, 0x11, 0x11, 0x00, 0x00],
+                '\u00c2': [0x04, 0x0a, 0x0e, 0x11, 0x11, 0x1f, 0x11, 0x11, 0x00, 0x00],
+                '\u00c3': [0x12, 0x0d, 0x0e, 0x11, 0x11, 0x1f, 0x11, 0x11, 0x00, 0x00],
+                '\u00c4': [0x0a, 0x00, 0x0e, 0x11, 0x11, 0x1f, 0x11, 0x11, 0x00, 0x00],
+                '\u00c5': [0x04, 0x0a, 0x0e, 0x11, 0x11, 0x1f, 0x11, 0x11, 0x00, 0x00],
+                '\u00c6': [0x00, 0x3c, 0x0a, 0x09, 0x39, 0x0f, 0x09, 0x39, 0x00, 0x00],
+                '\u00c7': [0x00, 0x0e, 0x11, 0x01, 0x01, 0x01, 0x11, 0x0e, 0x04, 0x02],
+                '\u00c8': [0x02, 0x1f, 0x01, 0x01, 0x0f, 0x01, 0x01, 0x1f, 0x00, 0x00],
+                '\u00c9': [0x08, 0x1f, 0x01, 0x01, 0x0f, 0x01, 0x01, 0x1f, 0x00, 0x00],
+                '\u00ca': [0x04, 0x1f, 0x01, 0x01, 0x0f, 0x01, 0x01, 0x1f, 0x00, 0x00],
+                '\u00cb': [0x0a, 0x1f, 0x01, 0x01, 0x0f, 0x01, 0x01, 0x1f, 0x00, 0x00],
+                '\u00cc': [0x02, 0x04, 0x0e, 0x04, 0x04, 0x04, 0x04, 0x0e, 0x00, 0x00],
+                '\u00cd': [0x08, 0x04, 0x0e, 0x04, 0x04, 0x04, 0x04, 0x0e, 0x00, 0x00],
+                '\u00ce': [0x04, 0x0a, 0x0e, 0x04, 0x04, 0x04, 0x04, 0x0e, 0x00, 0x00],
+                '\u00cf': [0x0a, 0x00, 0x0e, 0x04, 0x04, 0x04, 0x04, 0x0e, 0x00, 0x00],
+                '\u00d0': [0x00, 0x0f, 0x12, 0x12, 0x17, 0x12, 0x12, 0x0f, 0x00, 0x00],
+                '\u00d1': [0x14, 0x0a, 0x11, 0x13, 0x15, 0x19, 0x11, 0x11, 0x00, 0x00],
+                '\u00d2': [0x02, 0x04, 0x0e, 0x11, 0x11, 0x11, 0x11, 0x0e, 0x00, 0x00],
+                '\u00d3': [0x08, 0x04, 0x0e, 0x11, 0x11, 0x11, 0x11, 0x0e, 0x00, 0x00],
+                '\u00d4': [0x04, 0x0a, 0x0e, 0x11, 0x11, 0x11, 0x11, 0x0e, 0x00, 0x00],
+                '\u00d5': [0x14, 0x0a, 0x0e, 0x11, 0x11, 0x11, 0x11, 0x0e, 0x00, 0x00],
+                '\u00d6': [0x0a, 0x00, 0x0e, 0x11, 0x11, 0x11, 0x11, 0x0e, 0x00, 0x00],
+                '\u00d7': [0x00, 0x00, 0x00, 0x11, 0x0a, 0x04, 0x0a, 0x11, 0x00, 0x00],
+                '\u00d8': [0x00, 0x0e, 0x19, 0x19, 0x15, 0x13, 0x13, 0x0e, 0x00, 0x00],
+                '\u00d9': [0x02, 0x04, 0x11, 0x11, 0x11, 0x11, 0x11, 0x0e, 0x00, 0x00],
+                '\u00da': [0x08, 0x04, 0x11, 0x11, 0x11, 0x11, 0x11, 0x0e, 0x00, 0x00],
+                '\u00db': [0x04, 0x0a, 0x00, 0x11, 0x11, 0x11, 0x11, 0x0e, 0x00, 0x00],
+                '\u00dc': [0x0a, 0x00, 0x11, 0x11, 0x11, 0x11, 0x11, 0x0e, 0x00, 0x00],
+                '\u00dd': [0x08, 0x04, 0x11, 0x11, 0x0a, 0x04, 0x04, 0x04, 0x00, 0x00],
+                '\u00de': [0x00, 0x01, 0x0f, 0x11, 0x0f, 0x01, 0x01, 0x01, 0x00, 0x00],
+                '\u00df': [0x00, 0x0e, 0x11, 0x09, 0x05, 0x09, 0x11, 0x0d, 0x00, 0x00],
+                '\u00e0': [0x02, 0x04, 0x00, 0x0e, 0x10, 0x1e, 0x11, 0x1e, 0x00, 0x00],
+                '\u00e1': [0x08, 0x04, 0x00, 0x0e, 0x10, 0x1e, 0x11, 0x1e, 0x00, 0x00],
+                '\u00e2': [0x04, 0x0a, 0x00, 0x0e, 0x10, 0x1e, 0x11, 0x1e, 0x00, 0x00],
+                '\u00e3': [0x14, 0x0a, 0x00, 0x0e, 0x10, 0x1e, 0x11, 0x1e, 0x00, 0x00],
+                '\u00e4': [0x00, 0x0a, 0x00, 0x0e, 0x10, 0x1e, 0x11, 0x1e, 0x00, 0x00],
+                '\u00e5': [0x04, 0x0a, 0x04, 0x0e, 0x10, 0x1e, 0x11, 0x1e, 0x00, 0x00],
+                '\u00e6': [0x00, 0x00, 0x00, 0x1e, 0x28, 0x3e, 0x09, 0x3e, 0x00, 0x00],
+                '\u00e7': [0x00, 0x00, 0x00, 0x0e, 0x11, 0x01, 0x11, 0x0e, 0x04, 0x02],
+                '\u00e8': [0x02, 0x04, 0x00, 0x0e, 0x11, 0x1f, 0x01, 0x0e, 0x00, 0x00],
+                '\u00e9': [0x08, 0x04, 0x00, 0x0e, 0x11, 0x1f, 0x01, 0x0e, 0x00, 0x00],
+                '\u00ea': [0x04, 0x0a, 0x00, 0x0e, 0x11, 0x1f, 0x01, 0x0e, 0x00, 0x00],
+                '\u00eb': [0x00, 0x0a, 0x00, 0x0e, 0x11, 0x1f, 0x01, 0x0e, 0x00, 0x00],
+                '\u00ec': [0x02, 0x04, 0x00, 0x06, 0x04, 0x04, 0x04, 0x0e, 0x00, 0x00],
+                '\u00ed': [0x04, 0x02, 0x00, 0x06, 0x04, 0x04, 0x04, 0x0e, 0x00, 0x00],
+                '\u00ee': [0x04, 0x0a, 0x00, 0x06, 0x04, 0x04, 0x04, 0x0e, 0x00, 0x00],
+                '\u00ef': [0x00, 0x0a, 0x00, 0x06, 0x04, 0x04, 0x04, 0x0e, 0x00, 0x00],
+                '\u00f0': [0x00, 0x03, 0x0c, 0x0e, 0x11, 0x11, 0x11, 0x0e, 0x00, 0x00],
+                '\u00f1': [0x14, 0x0a, 0x00, 0x0d, 0x13, 0x11, 0x11, 0x11, 0x00, 0x00],
+                '\u00f2': [0x02, 0x04, 0x00, 0x0e, 0x11, 0x11, 0x11, 0x0e, 0x00, 0x00],
+                '\u00f3': [0x08, 0x04, 0x00, 0x0e, 0x11, 0x11, 0x11, 0x0e, 0x00, 0x00],
+                '\u00f4': [0x04, 0x0a, 0x00, 0x0e, 0x11, 0x11, 0x11, 0x0e, 0x00, 0x00],
+                '\u00f5': [0x14, 0x0a, 0x00, 0x0e, 0x11, 0x11, 0x11, 0x0e, 0x00, 0x00],
+                '\u00f6': [0x00, 0x0a, 0x00, 0x0e, 0x11, 0x11, 0x11, 0x0e, 0x00, 0x00],
+                '\u00f7': [0x00, 0x00, 0x04, 0x00, 0x1f, 0x00, 0x04, 0x00, 0x00, 0x00],
+                '\u00f8': [0x00, 0x00, 0x00, 0x1e, 0x19, 0x15, 0x13, 0x0f, 0x00, 0x00],
+                '\u00f9': [0x02, 0x04, 0x00, 0x11, 0x11, 0x11, 0x19, 0x16, 0x00, 0x00],
+                '\u00fa': [0x08, 0x04, 0x00, 0x11, 0x11, 0x11, 0x19, 0x16, 0x00, 0x00],
+                '\u00fb': [0x04, 0x0a, 0x00, 0x11, 0x11, 0x11, 0x19, 0x16, 0x00, 0x00],
+                '\u00fc': [0x00, 0x0a, 0x00, 0x11, 0x11, 0x11, 0x19, 0x16, 0x00, 0x00],
+                '\u00fd': [0x00, 0x08, 0x04, 0x11, 0x11, 0x19, 0x16, 0x10, 0x11, 0x0e],
+                '\u00fe': [0x00, 0x00, 0x01, 0x0f, 0x11, 0x11, 0x11, 0x0f, 0x01, 0x01],
+                '\u00ff': [0x00, 0x0a, 0x00, 0x11, 0x11, 0x19, 0x16, 0x10, 0x11, 0x0e],
+            };
+
+            const SCREEN_WIDTH = 128;
+            const SCREEN_HEIGHT = 64;
+
+            const default_args = [{
+                type: rt.boolTypeLiteral,
+                name: "_rotation",
+                initialize(rt, _this) { return rt.va(rt.boolTypeLiteral, true) }
+            }, {
+                type: rt.unsignedcharTypeLiteral,
+                name: "_reset",
+                initialize(rt, _this) { return rt.val(rt.unsignedcharTypeLiteral, 255) }
+            }]
+            // , {
+            //     type: rt.unsignedcharTypeLiteral,
+            //     name: "_clock",
+            //     initialize(rt, _this) { return rt.val(rt.unsignedcharTypeLiteral, 255) }
+            // }, {
+            //     type: rt.unsignedcharTypeLiteral,
+            //     name: "_data",
+            //     initialize(rt, _this) { return rt.val(rt.unsignedcharTypeLiteral, 255) }
+            // }];
+            const U8G2_SSD1306_128X64_NONAME_2_HW_I2C_t = rt.newClass("U8G2_SSD1306_128X64_NONAME_2_HW_I2C", default_args);
+            const U8G2_SSD1315_128X64_NONAME_2_HW_I2C_t = rt.newClass("U8G2_SSD1315_128X64_NONAME_2_HW_I2C", default_args);
+            const U8G2_SSD1306_128X64_NONAME_F_HW_I2C_t = rt.newClass("U8G2_SSD1306_128X64_NONAME_F_HW_I2C", default_args);
+            const U8G2_SSD1315_128X64_NONAME_F_HW_I2C_t = rt.newClass("U8G2_SSD1315_128X64_NONAME_F_HW_I2C", default_args);
+
+            const defineConstructor = function (u8g2_Type, module) {
+                return function (rt, _this, rotation, reset) {
+                    return {
+                        t: u8g2_Type,
+                        v: {
+                            members: {
+                                bus_clock: rt.val(rt.unsignedlongTypeLiteral, 100000),
+                                font: rt.String_makeValueFromJSString(""),
+                                _rotation: rotation,
+                                _reset: reset,
+                                _clock: rt.val(rt.unsignedcharTypeLiteral, 255),
+                                _data: rt.val(rt.unsignedcharTypeLiteral, 255),
+                                __display: [],
+                                __startedPage: false,
+                                __module: module
+                            }
+                        },
+                        left: false
+                    }
+                };
+            }
+            const u8g2_args = [rt.boolTypeLiteral, rt.unsignedcharTypeLiteral];
+            rt.regFunc(defineConstructor(U8G2_SSD1306_128X64_NONAME_2_HW_I2C_t, "ssd1306"), "global", "U8G2_SSD1306_128X64_NONAME_2_HW_I2C", u8g2_args, U8G2_SSD1306_128X64_NONAME_2_HW_I2C_t);
+            rt.regFunc(defineConstructor(U8G2_SSD1315_128X64_NONAME_2_HW_I2C_t, "ssd1315"), "global", "U8G2_SSD1315_128X64_NONAME_2_HW_I2C", u8g2_args, U8G2_SSD1315_128X64_NONAME_2_HW_I2C_t);
+            rt.regFunc(defineConstructor(U8G2_SSD1306_128X64_NONAME_F_HW_I2C_t, "ssd1306"), "global", "U8G2_SSD1306_128X64_NONAME_F_HW_I2C", u8g2_args, U8G2_SSD1306_128X64_NONAME_F_HW_I2C_t);
+            rt.regFunc(defineConstructor(U8G2_SSD1315_128X64_NONAME_F_HW_I2C_t, "ssd1315"), "global", "U8G2_SSD1315_128X64_NONAME_F_HW_I2C", u8g2_args, U8G2_SSD1315_128X64_NONAME_F_HW_I2C_t);
+
+            rt.defVar("u8g2_font_6x10_tf", rt.String_t, rt.String_makeValueFromJSString("u8g2_font_6x10_tf"));
+            rt.defVar("U8G2_R0", rt.boolTypeLiteral, rt.val(rt.boolTypeLiteral, true));
+            rt.defVar("U8X8_PIN_NONE", rt.unsignedcharTypeLiteral, rt.val(rt.unsignedcharTypeLiteral, 255));
+
+            const begin = function (rt, _this) {
+                _this.v.members.__display = [];
+                let html = '';
+                for (var y = 0; y < SCREEN_HEIGHT; y++) {
+                    html += '<div class=row>';
+                    for (var x = 0; x < SCREEN_WIDTH; x++) {
+                        _this.v.members.__display.push(0);
+                        html += '<div class="oled-block""></div>';
+                    }
+                    html += "</div>";
+                }
+                $('#oled_value').html(html);
+                _this.v.members.__oled_dom = Array.from(document.querySelectorAll("#oled .oled-block"));
+                return rt.val(rt.boolTypeLiteral, 1);
+            };
+            rt.regFunc(begin, U8G2_SSD1306_128X64_NONAME_2_HW_I2C_t, "begin", [], rt.boolTypeLiteral);
+            rt.regFunc(begin, U8G2_SSD1315_128X64_NONAME_2_HW_I2C_t, "begin", [], rt.boolTypeLiteral);
+            rt.regFunc(begin, U8G2_SSD1306_128X64_NONAME_F_HW_I2C_t, "begin", [], rt.boolTypeLiteral);
+            rt.regFunc(begin, U8G2_SSD1315_128X64_NONAME_F_HW_I2C_t, "begin", [], rt.boolTypeLiteral);
+
+            const setBusClock = function (rt, _this, clock_speed) {
+                _this.v.members.bus_clock = rt.val(rt.unsignedlongTypeLiteral, clock_speed.v);
+            };
+            rt.regFunc(setBusClock, U8G2_SSD1306_128X64_NONAME_2_HW_I2C_t, "setBusClock", [rt.unsignedlongTypeLiteral], rt.voidTypeLiteral);
+            rt.regFunc(setBusClock, U8G2_SSD1315_128X64_NONAME_2_HW_I2C_t, "setBusClock", [rt.unsignedlongTypeLiteral], rt.voidTypeLiteral);
+            rt.regFunc(setBusClock, U8G2_SSD1306_128X64_NONAME_F_HW_I2C_t, "setBusClock", [rt.unsignedlongTypeLiteral], rt.voidTypeLiteral);
+            rt.regFunc(setBusClock, U8G2_SSD1315_128X64_NONAME_F_HW_I2C_t, "setBusClock", [rt.unsignedlongTypeLiteral], rt.voidTypeLiteral);
+
+            const setFont = function (rt, _this, font) {
+                _this.v.members.font = font;
+            };
+            rt.regFunc(setFont, U8G2_SSD1306_128X64_NONAME_2_HW_I2C_t, "setFont", [rt.String_t], rt.voidTypeLiteral);
+            rt.regFunc(setFont, U8G2_SSD1315_128X64_NONAME_2_HW_I2C_t, "setFont", [rt.String_t], rt.voidTypeLiteral);
+            rt.regFunc(setFont, U8G2_SSD1306_128X64_NONAME_F_HW_I2C_t, "setFont", [rt.String_t], rt.voidTypeLiteral);
+            rt.regFunc(setFont, U8G2_SSD1315_128X64_NONAME_F_HW_I2C_t, "setFont", [rt.String_t], rt.voidTypeLiteral);
+
+            const firstPage = function (rt, _this) {
+                _this.v.members.__startedPage = true;
+                clearDisplay(rt, _this);
+                return rt.val(rt.boolTypeLiteral, 1);
+            };
+            rt.regFunc(firstPage, U8G2_SSD1306_128X64_NONAME_2_HW_I2C_t, "firstPage", [], rt.boolTypeLiteral);
+            rt.regFunc(firstPage, U8G2_SSD1315_128X64_NONAME_2_HW_I2C_t, "firstPage", [], rt.boolTypeLiteral);
+            rt.regFunc(firstPage, U8G2_SSD1306_128X64_NONAME_F_HW_I2C_t, "firstPage", [], rt.boolTypeLiteral);
+            rt.regFunc(firstPage, U8G2_SSD1315_128X64_NONAME_F_HW_I2C_t, "firstPage", [], rt.boolTypeLiteral);
+
+            const nextPage = function (rt, _this) {
+                if (_this.v.members.__startedPage) {
+                    _this.v.members.__startedPage = false;
+                    sendBuffer(rt, _this);
+                    return rt.val(rt.boolTypeLiteral, 1);
+                } else {
+                    return rt.val(rt.boolTypeLiteral, 0);
+                }
+            };
+            rt.regFunc(nextPage, U8G2_SSD1306_128X64_NONAME_2_HW_I2C_t, "nextPage", [], rt.boolTypeLiteral);
+            rt.regFunc(nextPage, U8G2_SSD1315_128X64_NONAME_2_HW_I2C_t, "nextPage", [], rt.boolTypeLiteral);
+            rt.regFunc(nextPage, U8G2_SSD1306_128X64_NONAME_F_HW_I2C_t, "nextPage", [], rt.boolTypeLiteral);
+            rt.regFunc(nextPage, U8G2_SSD1315_128X64_NONAME_F_HW_I2C_t, "nextPage", [], rt.boolTypeLiteral);
+
+            const setArray = function (_this, x, y, w, h, arr) {
+                for (let i = 0; i < h; i++) {
+                    const py = y + i;
+                    if (py < 0 || py >= SCREEN_HEIGHT) continue;
+                    const line = arr[i].toString(2).padStart(w, '0').slice(-w).split('').reverse().join('');
+                    for (let j = 0; j < w; j++) {
+                        const px = x + j;
+                        if (px < 0 || px >= SCREEN_WIDTH) continue;
+                        const index = py * SCREEN_WIDTH + px;
+                        _this.v.members.__display[index] = parseInt(line[j], 10);
+                    }
+                }
+            };
+            const drawStr = function (rt, _this, x, y, text) {
+                const str = rt.charArray_getJSString(text);
+                for (let i = 0; i < str.length; i++) {
+                    const x_pos = x.v + i * 6;
+                    const y_pos = y.v;
+                    const char = u8g2_font_6x10_tf[str[i]];
+                    if (!char) continue;
+                    if (x_pos >= SCREEN_WIDTH) break;
+                    setArray(_this, x_pos, y_pos - 8, 6, 10, char);
+                }
+            };
+            const drawStr_args = [rt.unsignedcharTypeLiteral, rt.unsignedcharTypeLiteral, rt.arrayPointerType(rt.charTypeLiteral)];
+            rt.regFunc(drawStr, U8G2_SSD1306_128X64_NONAME_2_HW_I2C_t, "drawStr", drawStr_args, rt.voidTypeLiteral);
+            rt.regFunc(drawStr, U8G2_SSD1315_128X64_NONAME_2_HW_I2C_t, "drawStr", drawStr_args, rt.voidTypeLiteral);
+            rt.regFunc(drawStr, U8G2_SSD1306_128X64_NONAME_F_HW_I2C_t, "drawStr", drawStr_args, rt.voidTypeLiteral);
+            rt.regFunc(drawStr, U8G2_SSD1315_128X64_NONAME_F_HW_I2C_t, "drawStr", drawStr_args, rt.voidTypeLiteral);
+
+            const sendBuffer = function (rt, _this) {
+                const display = _this.v.members.__display;
+                for (let i = 0; i < display.length; i++) {
+                    if ((_this.v.members.__oled_dom[i].style.backgroundColor === "" ? 0 : 1) !== display[i]) {
+
+                        const color = _this.v.members.__module == 'ssd1306' ? "#eaeaea" : (i > 15 * SCREEN_WIDTH ? "#19c5ec" : "#f7ee47");
+                        if (_this.v.members.__module == 'ssd1315' && i >= 15 * SCREEN_WIDTH && i < 16 * SCREEN_WIDTH) continue;
+                        _this.v.members.__oled_dom[i].style.backgroundColor = display[i] ? color : "";
+                    }
+                }
+            };
+            rt.regFunc(sendBuffer, U8G2_SSD1306_128X64_NONAME_2_HW_I2C_t, "sendBuffer", [], rt.voidTypeLiteral);
+            rt.regFunc(sendBuffer, U8G2_SSD1315_128X64_NONAME_2_HW_I2C_t, "sendBuffer", [], rt.voidTypeLiteral);
+            rt.regFunc(sendBuffer, U8G2_SSD1306_128X64_NONAME_F_HW_I2C_t, "sendBuffer", [], rt.voidTypeLiteral);
+            rt.regFunc(sendBuffer, U8G2_SSD1315_128X64_NONAME_F_HW_I2C_t, "sendBuffer", [], rt.voidTypeLiteral);
+
+            const clearDisplay = function (rt, _this) {
+                _this.v.members.__display.fill(0);
+                sendBuffer(rt, _this);
+            };
+            rt.regFunc(clearDisplay, U8G2_SSD1306_128X64_NONAME_2_HW_I2C_t, "clearDisplay", [], rt.voidTypeLiteral);
+            rt.regFunc(clearDisplay, U8G2_SSD1315_128X64_NONAME_2_HW_I2C_t, "clearDisplay", [], rt.voidTypeLiteral);
+            rt.regFunc(clearDisplay, U8G2_SSD1306_128X64_NONAME_F_HW_I2C_t, "clearDisplay", [], rt.voidTypeLiteral);
+            rt.regFunc(clearDisplay, U8G2_SSD1315_128X64_NONAME_F_HW_I2C_t, "clearDisplay", [], rt.voidTypeLiteral);
+
+            const drawBitMap = function (_this, x, y, w, h, arr) {
+                const bytesPerRow = Math.ceil(w / 8);
+                for (let i = 0; i < h; i++) {
+                    const py = y + i;
+                    if (py < 0 || py >= SCREEN_HEIGHT) continue;
+                    for (let j = 0; j < w; j++) {
+                        const px = x + j;
+                        if (px < 0 || px >= SCREEN_WIDTH) continue;
+                        const byteIndex = i * bytesPerRow + (j >> 3);
+                        const bitIndex = j & 7; // LSB-first
+                        const bit = (arr[byteIndex] >> bitIndex) & 0x01;
+                        const index = py * SCREEN_WIDTH + px;
+                        _this.v.members.__display[index] = bit;
+                    }
+                }
+            };
+            const drawXBMP = function (rt, _this, x, y, w, h, data) {
+                const dataArray = data.v.target.map(obj => obj.v);
+                drawBitMap(_this, x.v, y.v, w.v, h.v, dataArray);
+            };
+            const drawXBMP_args = [rt.unsignedcharTypeLiteral, rt.unsignedcharTypeLiteral, rt.unsignedcharTypeLiteral, rt.unsignedcharTypeLiteral, rt.arrayPointerType(rt.unsignedcharTypeLiteral)];
+            rt.regFunc(drawXBMP, U8G2_SSD1306_128X64_NONAME_2_HW_I2C_t, "drawXBMP", drawXBMP_args, rt.voidTypeLiteral);
+            rt.regFunc(drawXBMP, U8G2_SSD1315_128X64_NONAME_2_HW_I2C_t, "drawXBMP", drawXBMP_args, rt.voidTypeLiteral);
+            rt.regFunc(drawXBMP, U8G2_SSD1306_128X64_NONAME_F_HW_I2C_t, "drawXBMP", drawXBMP_args, rt.voidTypeLiteral);
+            rt.regFunc(drawXBMP, U8G2_SSD1315_128X64_NONAME_F_HW_I2C_t, "drawXBMP", drawXBMP_args, rt.voidTypeLiteral);
+        }
+    },
 
 };

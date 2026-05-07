@@ -1,5 +1,3 @@
-Simulator.Mosaic.BOARD_HEADER = `<object id="board-viewer" class="mt-3" type="image/svg+xml"></object>`;
-
 Simulator.Mosaic.pin_regex = /(A|D|)[0-9]{1,2}/;
 
 Simulator.Mosaic.getPinDef = (pin, mod) => {
@@ -23,6 +21,7 @@ Simulator.Mosaic.externalLibraries = {
 Simulator.Mosaic.groveRegex = {
 	// digital readers
 	"read-digital": /digitalRead\(((A|)[0-9]{1,2})\)/gi,
+	"digital-interrupt": /digitalPinToInterrupt\((2|3)\)/gi,
 	// digital writers
 	"write-digital": /digitalWrite\((?!13)([A]{0,1}[0-9]{1,2}),.*\)/gi,
 	// analog readers
@@ -32,7 +31,7 @@ Simulator.Mosaic.groveRegex = {
 	// I2C modules
 	"lcdGrove": /rgb_lcd.h/gi,
 	"lcd": /LiquidCrystal_I2C.h/,
-	"oled": /SeeedOLED.h/gi,
+	"oled": /(U8g2lib|SeeedOLED).h/gi,
 	"bmp280-temp": /Adafruit_BMP280_I2C.h/gi,
 	"bmp280-press": /Adafruit_BMP280_I2C.h/gi,
 	"bmp280-alt": /Adafruit_BMP280_I2C.h/gi,
@@ -82,14 +81,14 @@ Simulator.Mosaic.groveRegex = {
 	"dht22-hum": /PIN_DHT22_SENSOR_((A|D|)[0-9]{1,2})/gi,
 	"dustSensor": /PIN_DUST_SENSOR_((A|D|)[0-9]{1,2})/g,
 	"ultrasonic": /PIN_ULTRASONIC_((A|D|)[0-9]{1,2})/gi,
-	"hcsr04": /PIN_ULTRASONIC_TRIG_((A|D|)[0-9]{1,2})/gi,
+	//"hcsr04": /PIN_ULTRASONIC_TRIG_((A|D|)[0-9]{1,2})/gi,
 	"ds18x20": /PIN_DS18X20_SENSOR_((A|D|)[0-9]{1,2})/g,
 	"rotaryEncoder": /encoder_2getValue\(\)/g,
 	// digital write
 	"ledModule": /PIN_LED_MODULE_((A|D|)[0-9]{1,2})/gi,
 	"neopixel": /Neopixel_((A|)[0-9]{1,2});/g,
-	"tm1637": /PIN_4_DIGIT_DISPLAY_CLK_((A|D|)[0-9]{1,2})/gi,
-	"ledBar": /PIN_LED_BAR_DI_((A|D|)[0-9]{1,2})/gi,
+	//"tm1637": /PIN_4_DIGIT_DISPLAY_CLK_((A|D|)[0-9]{1,2})/gi,
+	//"ledBar": /PIN_LED_BAR_DI_((A|D|)[0-9]{1,2})/gi,
 	"colorVariableLed": /PIN_VARIABLE_COLOR_LED_((A|D|)[0-9]{1,2})/g,
 	"RGBLed": /CHAINABLE_LED_COUNT_((A|D|)[0-9]{1,2}) /gi,
 	"relay": /PIN_GROVE_RELAY_((A|D|)[0-9]{1,2})/gi,
@@ -98,8 +97,9 @@ Simulator.Mosaic.groveRegex = {
 	"electromagnet": /PIN_ELECTROMAGNET_((A|D|)[0-9]{1,2})/gi,
 	"vibrationMotor": /PIN_VIBRATION_MOTOR_((A|D|)[0-9]{1,2})/gi,
 	"openlog": /OpenLog_((A|D|)[0-9]{1,2})/g,
-	"hm10": /PIN_HM10_RX/g,
 	"groveBT": /PIN_BT_RX/g,
+	"hc05": /PIN_HC05_RX/g,
+	"hm10": /PIN_HM10_RX/g,
 	// pwm
 	"servo": /PIN_SERVO_((A|D|)[0-9]{1,2})/g,
 	"continuousServo": /PIN_CONTINUOUS_SERVO_((A|D|)[0-9]{1,2})/g,
@@ -179,10 +179,10 @@ Simulator.Mosaic.specific = {
 		const boardSvg = document.getElementById("board-viewer").contentDocument;
 		if (boardSvg !== null) {
 			const board = Blockly.Constants.getSelectedBoard();
-			const ledId = SIMULATOR_BOARDS[board].ledId;
+			const ledId = INTERFACE_BOARDS[board].ledId;
 			const led = boardSvg.querySelector(`#${ledId}`);
 			if (led !== null) {
-				if (["Arduino UNO", "Arduino Nano"].includes(Simulator.board.name)) {
+				if ([BOARD_ARDUINO_UNO, BOARD_ARDUINO_NANO].includes(board)) {
 					if (state) {
 						led.style.fill = "red";
 						led.style.filter = "blur(6px)";
@@ -202,7 +202,8 @@ Simulator.Mosaic.specific = {
 
 	createSliders: function () {
 
-		$('#gestureSensor_slider_r,' +
+		$('.mod_digital-interrupt,' +
+			'#gestureSensor_slider_r,' +
 			'#gestureSensor_slider_l,' +
 			'#gestureSensor_slider_u,' +
 			'#gestureSensor_slider_d,' +
@@ -265,6 +266,105 @@ Simulator.Mosaic.specific = {
 
 	definitions: [
 		{
+			id: "arduino-led13",
+			regex: /digitalWrite\(13,.*\)/gi,
+			title: "LED intégrée",
+			pin: 'pin n°',
+			type: 'output',
+			value: 0,
+			picture: "LED.png",
+			pictureAnimation: "LED-animation.png",
+			animate: function (Animator) {
+				Animator.led();
+				Simulator.Mosaic.specific.setLed(Animator.value);
+			}
+		},
+		{
+			id: "digital-interrupt",
+			title: "Interruption",
+			pin: 'pin n° ',
+			pins: 'digital',
+			type: 'input',
+			releaser: true,
+			listeners: [{
+				default: "OFF",
+				unit: '',
+				color: "#448ae5",
+				suffix: ""
+			}],
+			class: "button",
+			picture: "Bouton.png",
+			pictureAnimation: "Bouton-animation.png",
+			animate: function (Animator) {
+				const modulePin = Simulator.pinList.find((component) => component.id == Animator.id);
+				Animator.button(Animator.value, modulePin.pull);
+				const moduleBtn = Simulator.Components.Button.modules[Animator.id];
+				if (Simulator.mainExecutionStarted && moduleBtn) {
+					const interruption = Simulator.Mosaic.interruptions[modulePin.pin];
+					if (interruption) {
+						const stateChanged = Animator.value !== moduleBtn.value;
+						if (modulePin.pull == 'up' && interruption.mode !== Animator.value && stateChanged) {
+							Simulator.execInterpretedFunction(interruption.rt, interruption._this, interruption.ret.v.name, []);
+						} else if (modulePin.pull == 'down' && interruption.mode == Animator.value && stateChanged) {
+							Simulator.execInterpretedFunction(interruption.rt, interruption._this, interruption.ret.v.name, []);
+						}
+						moduleBtn.value = Animator.value;
+					}
+				}
+			}
+		},
+		{
+			id: "groveMP3",
+			title: "MP3 v3.0",
+			pin: 'RX / TX',
+			value: "",
+			pins: 'digital',
+			type: 'output',
+			picture: "mp3_player.png"
+		},
+		{
+			id: "lcd",
+			title: "Ecran LCD",
+			pin: 'I2C',
+			type: 'output',
+			value: "",
+			picture: null
+		},
+		{
+			id: "remote",
+			title: "Lecture digitale",
+			pin: 'pin n° ',
+			type: "input",
+			buttons: [{
+				default: 0,
+				unit: '',
+				color: "#f9d142",
+				suffix: "_1"
+			}, {
+				default: 0,
+				unit: '',
+				color: "#f9d142",
+				suffix: "_2"
+			}, {
+				default: 0,
+				unit: '',
+				color: "#f9d142",
+				suffix: "_3"
+			}],
+			class: "button",
+			picture: "Bouton.png",
+			pictureAnimation: "Bouton-animation.png",
+			pictureInteraction: "buttonPush"
+		},
+		{
+			id: "rtc",
+			title: "Horloge",
+			pin: 'I2C',
+			type: 'output',
+			value: "",
+			picture: null
+		},
+		{
 			id: "multichannelV2",
 			regex: /multichannel_v2_getGM(702|102|302|502)B/gi,
 			title: "Capteur de gas : ",
@@ -303,71 +403,6 @@ Simulator.Mosaic.specific = {
 				};
 				Animator.opacity(0, MULTICHANNEL_V2_GAS_MAX_VALUE[Animator.valueId.split('_')[2]]);
 			}
-		},
-		{
-			id: "arduino-led13",
-			regex: /digitalWrite\(13,.*\)/gi,
-			title: "LED intégrée",
-			pin: 'pin n°',
-			type: 'output',
-			value: 0,
-			picture: "LED.png",
-			pictureAnimation: "LED-animation.png",
-			animate: function (Animator) {
-				Animator.led();
-				Simulator.Mosaic.specific.setLed(Animator.value);
-			}
-		},
-		{
-			id: "groveMP3",
-			title: "MP3 v3.0",
-			pin: 'RX / TX',
-			value: "",
-			pins: 'digital',
-			type: 'output',
-			picture: "mp3_player.png"
-		},
-		{
-			id: "lcd",
-			title: "Ecran LCD",
-			pin: 'I2C',
-			type: 'output',
-			value: "",
-			picture: null
-		},
-		{
-			id: "remote",
-			title: "Lecture digitale",
-			pin: 'pin n° ',
-			type: "input",
-			buttons: [{
-				default: 0,
-				unit: '',
-				color: "#f9d142 ",
-				suffix: "_1"
-			}, {
-				default: 0,
-				unit: '',
-				color: "#f9d142 ",
-				suffix: "_2"
-			}, {
-				default: 0,
-				unit: '',
-				color: "#f9d142 ",
-				suffix: "_3"
-			}],
-			class: "button",
-			picture: "Bouton.png",
-			pictureAnimation: "Bouton-animation.png",
-			pictureInteraction: "buttonPush"
-		},
-		{
-			id: "rtc",
-			title: "Horloge",
-			pin: 'I2C',
-			type: 'output',
-			value: "",
-			picture: null
 		},
 		{
 			id: "mhz19-co2",
@@ -458,7 +493,7 @@ Simulator.Mosaic.specific = {
 				suffix: "_r",
 				default: 0,
 				unit: ' ',
-				color: "#f9d142 ",
+				color: "#f9d142",
 				title: "Droite"
 			},
 			{
@@ -523,7 +558,7 @@ Simulator.Mosaic.specific = {
 		{
 			id: "vibrationMotor",
 			title: "Moteur de vibrations",
-			pin: 'pin n° ',
+			pin: 'pin n°',
 			type: 'output',
 			value: 0,
 			picture: "LED.png",
@@ -538,6 +573,7 @@ Simulator.Mosaic.specific = {
 			pin: 'I2C',
 			type: 'output',
 			value: 0,
+			class: "motor",
 			picture: "Motor.png",
 			pictureAnimation: "Motor-animation.png"
 		},
@@ -547,6 +583,7 @@ Simulator.Mosaic.specific = {
 			pin: 'I2C',
 			type: 'output',
 			value: 0,
+			class: "motor",
 			picture: "Motor.png",
 			pictureAnimation: "Motor-animation.png"
 		},
@@ -556,13 +593,14 @@ Simulator.Mosaic.specific = {
 			pin: 'I2C',
 			type: 'output',
 			value: 0,
+			class: "motor",
 			picture: "Motor.png",
 			pictureAnimation: "Motor-animation.png"
 		},
 		{
 			id: "atomizer",
 			title: "Atomiseur d'eau",
-			pin: 'pin n° ',
+			pin: 'pin n°',
 			type: 'output',
 			value: 0,
 			picture: "LED.png",
@@ -574,13 +612,26 @@ Simulator.Mosaic.specific = {
 		{
 			id: "electromagnet",
 			title: "Electro-aimant",
-			pin: 'pin n° ',
+			pin: 'pin n°',
 			type: 'output',
 			value: 0,
 			picture: "LED.png",
 			pictureAnimation: "LED-animation.png",
 			animate: function (Animator) {
 				Animator.led();
+			}
+		},
+		{
+			id: "hc05",
+			title: "HC05 (Bluetooth)",
+			pin: 'RX / TX',
+			pins: 'digital',
+			type: 'output',
+			codeFlag: 'Bluetooth HC05',
+			value: null,
+			picture: "bluetooth.svg",
+			animate: function (Animator) {
+				Animator.bluetooth();
 			}
 		},
 		{

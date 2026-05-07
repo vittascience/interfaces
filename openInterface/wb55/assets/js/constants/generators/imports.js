@@ -42,6 +42,7 @@ const IMPORT_STM32_SCD30 = "from stm32_scd30 import SCD30";
 const IMPORT_STM32_SGP30 = "from stm32_sgp30 import SGP30";
 const IMPORT_STM32_SHT31 = "from stm32_sht31 import SHT31";
 const IMPORT_STM32_SI1145 = "from stm32_si1145 import SI1145";
+const IMPORT_STM32_SI1151 = "from stm32_si1151 import SI1151";
 const IMPORT_STM32_SSD1306_I2C = "from stm32_ssd1306 import SSD1306, SSD1306_I2C";
 const IMPORT_STM32_TH02 = "from stm32_th02 import TH02";
 const IMPORT_STM32_HT16K33_MATRIX = "from stm32_ht16k33matrix import HT16K33Matrix";

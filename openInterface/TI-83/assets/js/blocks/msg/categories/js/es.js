@@ -137,4 +137,4 @@ Blockly.Msg["SUBCATEGORY_2_MICROBIT_GROVE_OUTPUTS"] = "Salidas";
 Blockly.Msg["SUBCATEGORY_2_MICROBIT_NEOPIXEL_COLOR"] = "Color";
 Blockly.Msg["SUBCATEGORY_2_MICROBIT_NEOPIXEL_CONFIG"] = "Configuración";
 Blockly.Msg["SUBCATEGORY_2_MICROBIT_NEOPIXEL_CONTROL"] = "Control";
-Blockly.Msg['SUBCATEGORY_TEXT_ANALYSIS'] = 'Análisis de texto';
+Blockly.Msg['SUBCATEGORY_ENCRYPTION'] = 'Cifrado';

@@ -64,74 +64,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "ICON",
-            "options": [
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/heart.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "HEART"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/happy.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "HAPPY"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/sad.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "SAD"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/yes.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "YES"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/no.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "NO"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/man.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "STICKFIGURE"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/pitchfork.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "PITCHFORK"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/umbrella.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "UMBRELLA"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/skull.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "SKULL"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/chessboard.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "CHESSBOARD"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/butterfly.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "BUTTERFLY"]
-            ]
+            "options": Blockly.Constants.Utils.BlockOptions.getMicrobitIcons()
         }],
         "previousStatement": null,
         "nextStatement": null,
@@ -141,7 +74,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "block_init_helpurl"
         ]
     },
-    // const defaultImages = ['HAPPY', 'SAD', 'CONFUSED', 'ANGRY', 'ASLEEP', 'SURPRISED', 'SILLY', 'FABULOUS', 'MEH', 'YES', 'NO', 'CLOCK12', 'CLOCK1', 'CLOCK2', 'CLOCK3', 'CLOCK4', 'CLOCK5', 'CLOCK6', 'CLOCK7', 'CLOCK8', 'CLOCK9', 'CLOCK10', 'CLOCK11', 'ARROW_N', 'TRIANGLE', 'TRIANGLE_LEFT', 'CHESSBOARD', 'DIAMOND', 'DIAMOND_SMALL', 'SQUARE', 'SQUARE_SMALL', 'RABBIT', 'COW', 'MUSIC_CROTCHET', 'MUSIC_QUAVER', 'MUSIC_QUAVERS', 'PITCHFORK', 'XMAS', 'PACMAN', 'TARGET', 'TSHIRT', 'ROLLERSKATE', 'DUCK', 'HOUSE', 'TORTOISE', 'BUTTERFLY', 'STICKFIGURE', 'GHOST', 'SWORD', 'GIRAFFE', 'SKULL', 'UMBRELLA', 'SNAKE'];
 
     {
         "type": "show_icon_simple",
@@ -448,118 +380,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 
     /* Start external screens blocks */
 
-    // GROVE I2C LCD1602 RGB MODULE _ SET TEXT JSON
-    {
-        "type": "display_lcdSetText",
-        "message0": "%{BKY_DISPLAY_LCD_SETTEXT_TITLE}",
-        "args0": [{
-            "type": "input_value",
-            "name": "TEXT"
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "LINE",
-            "options": [
-                ["0", "0"],
-                ["1", "1"]
-            ]
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "POS",
-            "options": [
-                ["0", "0"],
-                ["1", "1"],
-                ["2", "2"],
-                ["3", "3"],
-                ["4", "4"],
-                ["5", "5"],
-                ["6", "6"],
-                ["7", "7"],
-                ["8", "8"],
-                ["9", "9"],
-                ["10", "10"],
-                ["11", "11"],
-                ["12", "12"],
-                ["13", "13"],
-                ["14", "14"],
-                ["15", "15"],
-            ]
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_LCD_SETTEXT_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // GROVE I2C LCD1602 RGB MODULE _ CLEAR SCREEN JSON
-    {
-        "type": "display_lcdClear",
-        "message0": "%{BKY_DISPLAY_LCD_CLEAR_TITLE}",
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_LCD_CLEAR_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCK OLED ADD TEXT
-    {
-        "type": "display_addOledText",
-        "message0": "%{BKY_DISPLAY_OLED_ADDTEXT_TITLE}",
-        "args0": [{
-            "type": "input_value",
-            "name": "TEXT"
-        }, {
-            "type": "input_value",
-            "name": "X",
-            "check": "Number"
-        }, {
-            "type": "input_value",
-            "name": "Y",
-            "check": "Number"
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_OLED_ADDTEXT_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCK OLED SET PIXEL
-    {
-        "type": "display_setOledPixel",
-        "message0": "%{BKY_DISPLAY_OLED_SETPIXEL_TITLE}",
-        "args0": [{
-            "type": "input_value",
-            "name": "X",
-            "check": "Number"
-        }, {
-            "type": "input_value",
-            "name": "Y",
-            "check": "Number"
-        }, {
-            "type": "input_value",
-            "name": "STATE",
-            "check": "Boolean"
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_OLED_SETPIXEL_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
+    // Warning: this block overwrites the common block
     // BLOCK OLED SHOW ICON
     {
         "type": "display_showOledIcon",
@@ -567,74 +388,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "ICON",
-            "options": [
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/heart.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "HEART"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/happy.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "HAPPY"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/sad.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "SAD"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/yes.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "YES"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/no.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "NO"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/man.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "STICKFIGURE"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/pitchfork.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "PITCHFORK"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/umbrella.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "UMBRELLA"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/skull.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "SKULL"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/chessboard.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "CHESSBOARD"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/butterfly.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "BUTTERFLY"]
-            ]
+            "options": Blockly.Constants.Utils.BlockOptions.getMicrobitIcons()
         }, {
             "type": "input_value",
             "name": "X",
@@ -658,307 +412,9 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
-    // BLOCK OLED CLEAR DISPLAY
-    {
-        "type": "display_clearOledScreen",
-        "message0": "%{BKY_DISPLAY_OLED_CLEARSCREEN_TITLE}",
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_OLED_CLEARSCREEN_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
     /* Start led module blocks */
 
-    // GROVE LED MODULE _ WRITE DIGITAL JSON
-    {
-        "type": "display_setGroveSocketLed",
-        "message0": "%{BKY_DISPLAY_SETGROVELED_TITLE}",
-        "args0": [{
-            "type": "input_value",
-            "name": "STATE",
-            "check": "Boolean"
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_SETGROVELED_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // LED MODULE _ WRITE ANALOG PWM
-    {
-        "type": "display_setLEDintensity",
-        "message0": "%{BKY_DISPLAY_SETLEDINTENSITY_TITLE}",
-        "args0": [{
-            "type": "input_value",
-            "name": "VALUE",
-            "check": "Number"
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PWM_PINS
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_SETLEDINTENSITY_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // LED MODULE _ SET VARIABLE COLOR
-    {
-        "type": "display_setVariableColorLED",
-        "message0": "%{BKY_DISPLAY_SET_VARIABLE_COLOR_LED_TITLE}",
-        "args0": [{
-            "type": "input_value",
-            "name": "VALUE",
-            "check": "Number"
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PWM_PINS
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_SET_VARIABLE_COLOR_LED_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-    
-
-    // BLOCK NEOPIXEL _ DEFINE NEOPIXEL
-    {
-        "type": "display_defineNeopixel",
-        "message0": "%{BKY_DISPLAY_NEOPIXEL_DEFINE_TITLE}",
-        "args0": [{
-            "type": "field_slider",
-            "name": "N",
-            "value": 20,
-            "min": 1,
-            "max": 1000
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_NEOPIXEL_DEFINE_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-    // {
-    //     "type": "display_defineNeopixel",
-    //     "message0": "%{BKY_DISPLAY_NEOPIXEL_DEFINE_TITLE}",
-    //     "args0": [{
-    //         "type": "input_value",
-    //         "name": "N",
-    //     }, {
-    //         "type": "field_grid_dropdown",
-    //         "name": "PIN",
-    //         "options": Blockly.Constants.Pins.MICROBIT_PINS
-    //     }],
-    //     "inputsInline": true,
-    //     "previousStatement": null,
-    //     "nextStatement": null,
-    //     "style": "display_blocks",
-    //     "tooltip": "%{BKY_DISPLAY_NEOPIXEL_DEFINE_TOOLTIP}",
-    //     "extensions": [
-    //        "block_init_helpurl"
-    //     ]
-    // },
-
-    // BLOCK CONTROL NEOPIXEL LED
-    {
-        "type": "display_controlNeopixelLed",
-        "message0": "%{BKY_DISPLAY_NEOPIXEL_LEDCONTROL_TITLE}",
-        "args0": [{
-            "type": "input_value",
-            "name": "LED",
-            "check": "Number"
-        }, {
-            "type": "input_value",
-            "name": "R",
-            "check": "Number"
-        }, {
-            "type": "input_value",
-            "name": "G",
-            "check": "Number"
-        }, {
-            "type": "input_value",
-            "name": "B",
-            "check": "Number"
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_NEOPIXEL_LEDCONTROL_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCK CONTROL NEOPIXEL LED WITH COLOR
-    {
-        "type": "display_controlColorNeopixelLed",
-        "message0": "%{BKY_DISPLAY_NEOPIXEL_SETPALETTECOLOR_TITLE}",
-        "args0": [{
-            "type": "input_value",
-            "name": "LED",
-            "check": "Number"
-        }, {
-            "type": "input_value",
-            "name": "COLOR",
-            "check": "Colour"
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_NEOPIXEL_SETPALETTECOLOR_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCK CONTROL NEOPIXEL LED WITH COLOR
-    {
-        "type": "display_neopixel_controlAllLedRGB",
-        "message0": "%{BKY_DISPLAY_NEOPIXEL_SETALLLEDRGB_TITLE}",
-        "args0": [{
-            "type": "input_value",
-            "name": "R",
-            "check": "Number"
-        }, {
-            "type": "input_value",
-            "name": "G",
-            "check": "Number"
-        }, {
-            "type": "input_value",
-            "name": "B",
-            "check": "Number"
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_NEOPIXEL_SETALLLEDRGB_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCK CONTROL NEOPIXEL LED WITH COLOR
-    {
-        "type": "display_neopixel_controlAllLedPalette",
-        "message0": "%{BKY_DISPLAY_NEOPIXEL_SETALLLEDCOLOR_TITLE}",
-        "args0": [{
-            "type": "input_value",
-            "name": "COLOR",
-            "check": "Colour"
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_NEOPIXEL_SETALLLEDCOLOR_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCK RAINBOW NEOPIXEL
-    {
-        "type": "display_rainbowNeopixel",
-        "message0": "%{BKY_DISPLAY_NEOPIXEL_RAINBOW_TITLE}",
-        "args0": [{
-            "type": "field_grid_dropdown",
-            "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_NEOPIXEL_RAINBOW_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCK SET NUMBER GROVE 4DIGIT
-    {
-        "type": "display_setNumberGrove4Digit",
-        "message0": "%{BKY_DISPLAY_4DIGIT_SETNUMBER_TITLE}",
-        "args0": [{
-            "type": "field_grid_dropdown",
-            "name": "SHOW",
-            "options": [
-                ["%{BKY_DISPLAY_4DIGIT_NUMBER}", "NUM"],
-                ["%{BKY_DISPLAY_4DIGIT_TEMPERATURE}", "TEMP"]
-            ]
-        }, {
-            "type": "input_value",
-            "name": "N",
-            "check": "Number"
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "CLK",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "DIO",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_4DIGIT_SETNUMBER_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCKS ZIP HALO LED KITRONIK
+    // BLOCKS ZIP HALO LED KITRONIK RGB
     {
         "type": "display_controlZipHaloLed",
         "message0": "%{BKY_DISPLAY_ZIP_HALO_LED_LEDCONTROL_TITLE}",
@@ -989,6 +445,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
+    // BLOCKS ZIP HALO LED KITRONIK COLOR
     {
         "type": "display_controlColorZipHaloLed",
         "message0": "%{BKY_DISPLAY_ZIP_HALO_LED_SETPALETTECOLOR_TITLE}",
@@ -1011,6 +468,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
+    // BLOCKS ZIP HALO ALL LED KITRONIK RGB
     {
         "type": "display_ZipHaloLed_controlAllLedRGB",
         "message0": "%{BKY_DISPLAY_ZIP_HALO_LED_SETALLLEDRGB_TITLE}",
@@ -1037,6 +495,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
+    // BLOCKS ZIP HALO ALL LED KITRONIK COLOR
     {
         "type": "display_ZipHaloLed_controlAllLedPalette",
         "message0": "%{BKY_DISPLAY_ZIP_HALO_LED_SETALLLEDCOLOR_TITLE}",
@@ -1055,6 +514,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
+    // BLOCKS ZIP HALO KITRONIK RAINBOW
     {
         "type": "display_ZipHaloLed_rainbow",
         "message0": "%{BKY_DISPLAY_ZIP_HALO_LED_RAINBOW_TITLE}",
@@ -1063,83 +523,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_ZIP_HALO_LED_RAINBOW_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCK GROVE 4DIGIT SET CLOCK
-    {
-        "type": "display_setClockGrove4Digit",
-        "message0": "%{BKY_DISPLAY_4DIGIT_SETCLOCK_TITLE}",
-        "args0": [{
-            "type": "field_grid_dropdown",
-            "name": "CLK",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "DIO",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_4DIGIT_SETCLOCK_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // GROVE LED BAR MODULE _  LEVEL JSON
-    {
-        "type": "display_setLevelLedBar",
-        "message0": "%{BKY_DISPLAY_MY9221_SET_LEVEL_TITLE}",
-        "args0": [{
-            "type": "input_value",
-            "name": "VALUE",
-            "check": "Number"
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "DI",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "DCKI",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_MY9221_SET_LEVEL_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // GROVE LED BAR MODULE _  REVERSE JSON
-    {
-        "type": "display_my9221_reverse",
-        "message0": "%{BKY_DISPLAY_MY9221_REVERSE_TITLE}",
-        "args0": [{
-            "type": "input_value",
-            "name": "STATE",
-            "check": "Boolean"
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "DI",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "DCKI",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_MY9221_REVERSE_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]
@@ -1186,6 +569,18 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_LAMPBIT_SETLED_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK GET LAMP:BIT LUMINOSITY
+    {
+        "type": "sensors_getLampBitLuminosity",
+        "message0": "%{BKY_SENSORS_LAMPBIT_GETLUMINOSITY_TITLE}",
+        "output": "Number",
+        "style": "display_blocks",
+        "tooltip": "%{BKY_SENSORS_LAMPBIT_GETLUMINOSITY_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]
@@ -1240,20 +635,17 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     {
         "type": "display_led_matrix_DrawBitmap",
         "message0": "%{BKY_DISPLAY_LED_MATRIX_TITLE}",
-        "args0": [
-            {
-                "type": "field_image",
-                "name": "LEDS_MATRIX",
-                "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJtYXRyaXgiIHdpZHRoPSIyNzIiIGhlaWdodD0iMjcyIiB2aWV3Qm94PSIwIDAgMjcyIDI3MiAiPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIzIiB5PSIzIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjM3IiB5PSIzIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjcxIiB5PSIzIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjEwNSIgeT0iMyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIxMzkiIHk9IjMiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZjVmNWY1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMTczIiB5PSIzIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjIwNyIgeT0iMyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIyNDEiIHk9IjMiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMyIgeT0iMzciIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMzciIHk9IjM3IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjcxIiB5PSIzNyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIxMDUiIHk9IjM3IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjEzOSIgeT0iMzciIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMTczIiB5PSIzNyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNlNjM3MzciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIyMDciIHk9IjM3IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjI0MSIgeT0iMzciIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMyIgeT0iNzEiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZjVmNWY1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMzciIHk9IjcxIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjcxIiB5PSI3MSIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIxMDUiIHk9IjcxIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjEzOSIgeT0iNzEiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMTczIiB5PSI3MSIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIyMDciIHk9IjcxIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjI0MSIgeT0iNzEiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMyIgeT0iMTA1IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjM3IiB5PSIxMDUiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iNzEiIHk9IjEwNSIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIxMDUiIHk9IjEwNSIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIxMzkiIHk9IjEwNSIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNlNjM3MzciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIxNzMiIHk9IjEwNSIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIyMDciIHk9IjEwNSIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNlNjM3MzciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIyNDEiIHk9IjEwNSIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNlNjM3MzciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIzIiB5PSIxMzkiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZjVmNWY1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMzciIHk9IjEzOSIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNlNjM3MzciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSI3MSIgeT0iMTM5IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjEwNSIgeT0iMTM5IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjEzOSIgeT0iMTM5IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjE3MyIgeT0iMTM5IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjIwNyIgeT0iMTM5IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjI0MSIgeT0iMTM5IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjMiIHk9IjE3MyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIzNyIgeT0iMTczIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjcxIiB5PSIxNzMiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZjVmNWY1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMTA1IiB5PSIxNzMiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZjVmNWY1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMTM5IiB5PSIxNzMiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMTczIiB5PSIxNzMiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZjVmNWY1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMjA3IiB5PSIxNzMiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMjQxIiB5PSIxNzMiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMyIgeT0iMjA3IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjM3IiB5PSIyMDciIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iNzEiIHk9IjIwNyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIxMDUiIHk9IjIwNyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIxMzkiIHk9IjIwNyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNlNjM3MzciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIxNzMiIHk9IjIwNyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNlNjM3MzciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIyMDciIHk9IjIwNyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNlNjM3MzciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIyNDEiIHk9IjIwNyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIzIiB5PSIyNDEiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZjVmNWY1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMzciIHk9IjI0MSIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSI3MSIgeT0iMjQxIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjEwNSIgeT0iMjQxIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjEzOSIgeT0iMjQxIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjE3MyIgeT0iMjQxIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjIwNyIgeT0iMjQxIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjI0MSIgeT0iMjQxIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PC9zdmc+",
-                "width": 40,
-                "height": 40,
-                "alt": '01111110,01000010,01111110,00000001,00000001,01111110,01000010,01111110',
-            },
-            {
-                "type": "field_input",
-                "name": "HIDDEN_MONO_LEDS_MATRIX"
-            }
-        ],
+        "args0": [{
+            "type": "field_image",
+            "name": "LEDS_MATRIX",
+            "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJtYXRyaXgiIHdpZHRoPSIyNzIiIGhlaWdodD0iMjcyIiB2aWV3Qm94PSIwIDAgMjcyIDI3MiAiPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIzIiB5PSIzIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjM3IiB5PSIzIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjcxIiB5PSIzIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjEwNSIgeT0iMyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIxMzkiIHk9IjMiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZjVmNWY1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMTczIiB5PSIzIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjIwNyIgeT0iMyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIyNDEiIHk9IjMiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMyIgeT0iMzciIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMzciIHk9IjM3IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjcxIiB5PSIzNyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIxMDUiIHk9IjM3IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjEzOSIgeT0iMzciIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMTczIiB5PSIzNyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNlNjM3MzciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIyMDciIHk9IjM3IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjI0MSIgeT0iMzciIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMyIgeT0iNzEiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZjVmNWY1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMzciIHk9IjcxIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjcxIiB5PSI3MSIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIxMDUiIHk9IjcxIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjEzOSIgeT0iNzEiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMTczIiB5PSI3MSIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIyMDciIHk9IjcxIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjI0MSIgeT0iNzEiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMyIgeT0iMTA1IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjM3IiB5PSIxMDUiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iNzEiIHk9IjEwNSIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIxMDUiIHk9IjEwNSIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIxMzkiIHk9IjEwNSIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNlNjM3MzciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIxNzMiIHk9IjEwNSIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIyMDciIHk9IjEwNSIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNlNjM3MzciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIyNDEiIHk9IjEwNSIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNlNjM3MzciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIzIiB5PSIxMzkiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZjVmNWY1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMzciIHk9IjEzOSIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNlNjM3MzciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSI3MSIgeT0iMTM5IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjEwNSIgeT0iMTM5IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjEzOSIgeT0iMTM5IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjE3MyIgeT0iMTM5IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjIwNyIgeT0iMTM5IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjI0MSIgeT0iMTM5IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjMiIHk9IjE3MyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIzNyIgeT0iMTczIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjcxIiB5PSIxNzMiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZjVmNWY1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMTA1IiB5PSIxNzMiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZjVmNWY1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMTM5IiB5PSIxNzMiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMTczIiB5PSIxNzMiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZjVmNWY1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMjA3IiB5PSIxNzMiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMjQxIiB5PSIxNzMiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMyIgeT0iMjA3IiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjM3IiB5PSIyMDciIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZTYzNzM3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iNzEiIHk9IjIwNyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIxMDUiIHk9IjIwNyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIxMzkiIHk9IjIwNyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNlNjM3MzciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIxNzMiIHk9IjIwNyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNlNjM3MzciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIyMDciIHk9IjIwNyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNlNjM3MzciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIyNDEiIHk9IjIwNyIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSIzIiB5PSIyNDEiIHJ4PSIxMiIgcnk9IjEyIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiLz48cmVjdCBmaWxsPSIjZjVmNWY1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iI0UwRTVFQiIgeD0iMzciIHk9IjI0MSIgcng9IjEyIiByeT0iMTIiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIvPjxyZWN0IGZpbGw9IiNmNWY1ZjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjRTBFNUVCIiB4PSI3MSIgeT0iMjQxIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjEwNSIgeT0iMjQxIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2U2MzczNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjEzOSIgeT0iMjQxIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjE3MyIgeT0iMjQxIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjIwNyIgeT0iMjQxIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PHJlY3QgZmlsbD0iI2Y1ZjVmNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNFMEU1RUIiIHg9IjI0MSIgeT0iMjQxIiByeD0iMTIiIHJ5PSIxMiIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIi8+PC9zdmc+",
+            "width": 40,
+            "height": 40,
+            "alt": '01111110,01000010,01111110,00000001,00000001,01111110,01000010,01111110',
+        }, {
+            "type": "field_input",
+            "name": "HIDDEN_MONO_LEDS_MATRIX"
+        }],
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
@@ -1548,18 +940,6 @@ Blockly.Constants.Display.DISPLAY_SHOW_LEDS_INIT_EXTENSION = function () {
     }
 };
 
-Blockly.Constants.Display.DISPLAY_MONO_LED_MATRIX_INIT_EXTENSION = function () {
-    this.getField('HIDDEN_MONO_LEDS_MATRIX').setVisible(false);
-    if (typeof Blockly.Wiki === 'undefined') {
-        Main.getWorkSpace().addChangeListener(async function (e) {
-            await new Promise(r => setTimeout(r, 1000)); //just to wait for the last event
-            if (e.type === Blockly.Events.FINISHED_LOADING) {
-                LedMatrixModalManager.updateImageMono();
-            }
-        });
-    }
-};
-
 /**
  * Performs final setup of 'display_led_matrix' block.
  * @this {Blockly.Block}
@@ -1603,9 +983,6 @@ Blockly.Constants.Display.DISPLAY_PLOT_BAR_GRAPH_INIT_EXTENSION = function () {
 Blockly.Constants.Display.DISPLAY_PLOT_BAR_GRAPH_MUTATOR_MIXIN =
     Blockly.Constants.Utils.addOptionMutatorMixin('to', 'PLOT_BAR_GRAPH_TO', 'input', 0);
 
-Blockly.Extensions.register("display_mono_led_matrix_init_extension",
-    Blockly.Constants.Display.DISPLAY_MONO_LED_MATRIX_INIT_EXTENSION);
-
 // Initialization extensions
 Blockly.Extensions.register("show_leds_screen_init",
     Blockly.Constants.Display.DISPLAY_SHOW_LEDS_INIT_EXTENSION);
@@ -1647,25 +1024,6 @@ Blockly.Extensions.register("show_rgb_leds_matrix", function () {
         LedMatrixModalManager.disp_modal();
         // saving the image in case of cancellation
         Blockly.Constants.RGB_LEDS_MATRIX = LedMatrixModalManager.get_matrix_dataset();
-    });
-});
-
-Blockly.Extensions.register("show_leds_matrix", function () {
-    // init matrix 8*8 mono
-    if (!LedMatrixModalManager.isSet() && typeof Blockly.Wiki === 'undefined')
-        LedMatrixModalManager.init(8, 8, false, "#e63737");
-
-    this.getField('LEDS_MATRIX').clickHandler_ = (() => {
-        Blockly.Constants.LEDS_MATRIX_BLOCK = this.inputList[0].fieldRow[1];
-        Blockly.Constants.HIDDEN_MONO_LEDS_MATRIX = this.getField("HIDDEN_MONO_LEDS_MATRIX");
-
-        if (Blockly.Constants.HIDDEN_MONO_LEDS_MATRIX.getValue() == '')
-            Blockly.Constants.HIDDEN_MONO_LEDS_MATRIX.setValue(this.getField("LEDS_MATRIX").getText());
-
-        LedMatrixModalManager.load_matrix_from_block();
-        LedMatrixModalManager.disp_modal();
-        // saving the image in case of cancellation
-        Blockly.Constants.LEDS_MATRIX = LedMatrixModalManager.get_matrix_dataset();
     });
 });
 

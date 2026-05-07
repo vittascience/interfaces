@@ -28,7 +28,7 @@ Blockly.Python.io_initChronometer = function (block) {
     Blockly.Python.addImport('utime', IMPORT_UTIME);
     Blockly.Python.addConstant('chronometer', "t0 = utime.ticks_ms()");
     block.workspace.createVariable('t0');
-    return "" + NEWLINE;
+    return "t0 = utime.ticks_ms()" + NEWLINE;
 };
 
 Blockly.Python.io_initChronometer_simple = function (block) {
@@ -39,7 +39,8 @@ Blockly.Python.io_initChronometer_simple = function (block) {
 Blockly.Python.io_getChronometer = function (block) {
     Blockly.Python.addImport('utime', IMPORT_UTIME);
     // Remove the following line to avoid duplicated constant definition with python traduction
-    // Blockly.Python.addConstant('chronometer', "t0 = utime.ticks_ms()");
+    // 02/26 - Redo the following line => We need to declare t0 to avoid using io_initChronometer
+    Blockly.Python.addConstant('chronometer', "t0 = utime.ticks_ms()");
     block.workspace.createVariable('t0');
     switch (block.getFieldValue("UNIT")) {
         case "SEC":
@@ -115,7 +116,7 @@ Blockly.Python.io_event_receive = function (block) {
 // Pins
 
 Blockly.Python.io_digital_signal = function (block) {
-    return ["HIGH" == block.getFieldValue("BOOL") ? '1' : '0', Blockly.Python.ORDER_ATOMIC]
+    return ["HIGH" == block.getFieldValue("BOOL") ? '1' : '0', Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.io_readDigitalPin = function (block) {

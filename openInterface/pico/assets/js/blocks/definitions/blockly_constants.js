@@ -11,7 +11,9 @@ Blockly.Constants.HTML_BLOCKS = [
   'network_html_addImage',
   'network_HTML_Tags',
   'network_HTML_formatText',
-  'network_HTML_Tags'
+  'network_HTML_newline',
+  'network_HTML_addSymbol',
+  'network_HTML_add'
 ];
 
 Blockly.Constants.PRINT_START_N = 0;
@@ -53,22 +55,26 @@ Blockly.Constants.Pins.digital = {
     ["GP20", "p20"],
     ["GP21", "p21"],
     ["GP22", "p22"],
-    ["GP25", "p25"]
-  ],
-  [BOARD_SHIELD_GROVE]: [
-    ["D16", "p16"],
-    ["D18", "p18"],
-    ["D20", "p20"]
-  ]
-};
-
-Blockly.Constants.Pins.analog_read = {
-  [BOARD_PI_PICO]: [
+    ["GP25", "p25"],
     ["GP26", "p26"],
     ["GP27", "p27"],
     ["GP28", "p28"]
   ],
   [BOARD_SHIELD_GROVE]: [
+    ["D16", "p16"],
+    ["D17", "p17"],
+    ["D18", "p18"],
+    ["D19", "p19"],
+    ["D20", "p20"],
+    ["D21", "p21"],
+    ["TX (UART0)", "p0"],
+    ["RX (UART0)", "p1"],
+    ["TX (UART1)", "p4"],
+    ["RX (UART1)", "p5"],
+    ["SDA (I2C0)", "p8"],
+    ["SCL (I2C0)", "p9"],
+    ["SDA (I2C1)", "p6"],
+    ["SCL (I2C1)", "p7"],
     ["A0", "p26"],
     ["A1", "p27"],
     ["A2", "p28"]
@@ -106,29 +112,68 @@ Blockly.Constants.Pins.PWM = {
   ],
   [BOARD_SHIELD_GROVE]: [
     ["D16", "p16"],
+    ["D17", "p17"],
     ["D18", "p18"],
-    ["D20", "p20"]
+    ["D19", "p19"],
+    ["D20", "p20"],
+    ["D21", "p21"],
+    ["TX (UART0)", "p0"],
+    ["RX (UART0)", "p1"],
+    ["TX (UART1)", "p4"],
+    ["RX (UART1)", "p5"],
+    ["SDA (I2C0)", "p8"],
+    ["SCL (I2C0)", "p9"],
+    ["SDA (I2C1)", "p6"],
+    ["SCL (I2C1)", "p7"],
+    ["A0", "p26"],
+    ["A1", "p27"],
+    ["A2", "p28"]
   ]
+};
+
+Blockly.Constants.Pins.analog_read = {
+  [BOARD_PI_PICO]: [
+    ["GP26", "p26"],
+    ["GP27", "p27"],
+    ["GP28", "p28"]
+  ],
+  [BOARD_SHIELD_GROVE]: [
+    ["A0", "p26"],
+    ["A1", "p27"],
+    ["A2", "p28"]
+  ]
+};
+
+Blockly.Constants.Pins.UART = {
+  [BOARD_PI_PICO]: [
+    ["1", "1"],
+    ["0", "0"]
+  ],
+  [BOARD_SHIELD_GROVE]: [
+    ["1", "1"],
+    ["0", "0"]
+  ]
+};
+
+Blockly.Constants.Pins.SPI = {
+  [BOARD_PI_PICO]: [
+    ["0", "0"],
+    ["1", "1"]
+  ],
+  [BOARD_SHIELD_GROVE]: [
+    ["0", "0"],
+    ["1", "1"]
+  ],
 };
 
 // do not add spaces in the pin objects between sda and scl
 Blockly.Constants.Pins.I2C = {
   [BOARD_PI_PICO]: [
-    ["I2C0-0", '{"scl":1,"sda":0}'],
-    ["I2C1-0", '{"scl":3,"sda":2}'],
-    ["I2C0-1", '{"scl":5,"sda":4}'],
-    ["I2C1-1", '{"scl":7,"sda":6}'],
-    ["I2C0-2", '{"scl":9,"sda":8}'],
-    ["I2C1-2", '{"scl":11,"sda":10}'],
-    ["I2C0-3", '{"scl":13,"sda":12}'],
-    ["I2C1-3", '{"scl":15,"sda":14}'],
-    ["I2C0-4", '{"scl":17,"sda":16}'],
-    ["I2C1-4", '{"scl":19,"sda":18}'],
-    ["I2C0-5", '{"scl":21,"sda":20}'],
-    ["I2C0-5", '{"scl":27,"sda":26}'],
+    ["I2C0", '0'],
+    ["I2C1", '1']
   ],
   [BOARD_SHIELD_GROVE]: [
-    ["I2C0", '{"scl":9,"sda":8}'],
-    ["I2C1", '{"scl":7,"sda":6}']
+    ["I2C0", '0'],
+    ["I2C1", '1']
   ]
 };

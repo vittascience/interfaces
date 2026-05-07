@@ -10,7 +10,7 @@ var $builtinmodule = function () {
     let XPOS = 0;
     let Y_min = 0;
     let Y_max = 128;
-    
+
     // clear interval for animate function 
     clearInterval(Simulator.intervals['animateFunc']);
 
@@ -25,24 +25,6 @@ var $builtinmodule = function () {
 
     //Galaxia LedRGB - luminosity
     var LedRGB = new Sk.misceval.buildClass(thingz, function ($gbl, $loc) {
-
-        const rgbToHex = function (rgb) {
-            // Séparer les valeurs de rouge, vert et bleu
-            let [r, g, b] = rgb;
-            r = r < 0 ? 0 : r > 255 ? 255 : r;
-            g = g < 0 ? 0 : g > 255 ? 255 : g;
-            b = b < 0 ? 0 : b > 255 ? 255 : b;
-            // Convertir en hexadécimal
-            const hex = ((r << 16) | (g << 8) | b).toString(16);
-
-            // Remplir avec des zéros à gauche si nécessaire
-            const paddedHex = hex.padStart(6, '0');
-
-            // Ajouter le préfixe '#'
-            const hexString = `#${paddedHex}`;
-
-            return hexString;
-        };
 
         const setSVGLed = function (self, opacity) {
             const board = document.getElementById("board-viewer").contentDocument;
@@ -198,10 +180,10 @@ var $builtinmodule = function () {
             self.presses = 0;
             self.last_check = 0;
             self.btn = btn.v;
-        
+
             const id = self.btn === 'a' ? 'button_A_on' : 'button_B_on';
             const board = document.getElementById("board-viewer").contentDocument;
-        
+
             if (board !== null) {
                 const button = board.querySelector("#" + id);
                 if (button != null) {
@@ -293,13 +275,13 @@ var $builtinmodule = function () {
             self.presses = 0;
             self.last_check = 0;
             self.btn = pad.v;
-        
+
             const board = document.getElementById("board-viewer").contentDocument;
-        
+
             if (board !== null) {
                 const id = 'joystick_' + self.btn;  // ex: 'joystick_up'
                 const button = board.querySelector("#" + id);
-        
+
                 if (button != null) {
                     ['mouseup', 'mousedown', 'click'].forEach(eventType => {
                         button.addEventListener(eventType, function (e) {
@@ -522,7 +504,7 @@ var $builtinmodule = function () {
 
     thingz.radio.tp$init([]);
 
-    const addPoint = (value) =>{
+    const addPoint = (value) => {
         if (XPOS > 160) {
             const ctx = Simulator.Mosaic.specific.galaxiaUi.ctx
             XPOS = 0;
@@ -532,16 +514,16 @@ var $builtinmodule = function () {
         }
         // calc y position with scale
         let YPOS_V
-        if (value < Y_min){
+        if (value < Y_min) {
             YPOS_V = 128;
-        } else if (value > Y_max){
+        } else if (value > Y_max) {
             YPOS_V = 0;
         } else {
             YPOS_V = 128 - (value - Y_min) * (128 / (Y_max - Y_min));
         }
         // YPOS_V = 128 - (value.v - Y_min) * (128 / (Y_max - Y_min));
-        
-        Simulator.Mosaic.specific.galaxiaUi.addPointToGraph(OLD_XPOS, OLD_YPOS,XPOS,YPOS_V);
+
+        Simulator.Mosaic.specific.galaxiaUi.addPointToGraph(OLD_XPOS, OLD_YPOS, XPOS, YPOS_V);
         OLD_XPOS = XPOS;
         OLD_YPOS = YPOS_V;
         XPOS++;
@@ -551,7 +533,7 @@ var $builtinmodule = function () {
         const ctx = Simulator.Mosaic.specific.galaxiaUi.ctx
         ctx.font = "10px Monospace";
         ctx.fillStyle = color || "#FFFFFF";
-        ctx.fillText(text, x, y+10);
+        ctx.fillText(text, x, y + 10);
     }
 
     const addRect = (x, y, width, height, color) => {
@@ -561,30 +543,30 @@ var $builtinmodule = function () {
     }
 
     var Display = new Sk.misceval.buildClass(thingz, function ($gbl, $loc) {
-        
+
         $loc.plot_show = new Sk.builtin.func(function (self) {
             Simulator.Mosaic.specific.galaxiaUi.initPlot();
-            Simulator.Mosaic.specific.galaxiaUi.plotMode  = true;
+            Simulator.Mosaic.specific.galaxiaUi.plotMode = true;
             Simulator.Mosaic.specific.galaxiaUi.terminalMode = false;
-            Simulator.Mosaic.specific.galaxiaUi.graphicMode  = false;
-            
-            }
+            Simulator.Mosaic.specific.galaxiaUi.graphicMode = false;
+
+        }
         );
         $loc.console_show = new Sk.builtin.func(function (self) {
             Simulator.Mosaic.specific.galaxiaUi.terminalMode = true;
-            Simulator.Mosaic.specific.galaxiaUi.graphicMode  = false;
-            Simulator.Mosaic.specific.galaxiaUi.graphicMode  = false;
-            }
+            Simulator.Mosaic.specific.galaxiaUi.graphicMode = false;
+            Simulator.Mosaic.specific.galaxiaUi.graphicMode = false;
+        }
         );
 
         $loc.raw_show = new Sk.builtin.func(function (self) {
             Simulator.Mosaic.specific.galaxiaUi.initGraphic();
             Simulator.Mosaic.specific.galaxiaUi.terminalMode = false;
-            Simulator.Mosaic.specific.galaxiaUi.graphicMode  = true;
-            Simulator.Mosaic.specific.galaxiaUi.plotMode  = false;
-            
+            Simulator.Mosaic.specific.galaxiaUi.graphicMode = true;
+            Simulator.Mosaic.specific.galaxiaUi.plotMode = false;
+
         });
-        $loc.plot_set_y_scale= new Sk.builtin.func(function (self, min, max) {
+        $loc.plot_set_y_scale = new Sk.builtin.func(function (self, min, max) {
             console.log(min, max)
             Y_min = min.v;
             Y_max = max.v;
@@ -616,19 +598,49 @@ var $builtinmodule = function () {
             const xPos = x.v;
             const yPos = y.v;
             const textValue = text.v;
-            
             addText(xPos, yPos, textValue);
         })
 
-        $loc.raw_print_bmp = new Sk.builtin.func(function (self, x, y, bmp) {
-            return new Sk.builtin.NotImplementedError("display.raw.print_bmp() is not yet implemented");
+        $loc.raw_print_bmp = new Sk.builtin.func(async function (self, x, y, bmp) {
+            const xPos = x.v;
+            const yPos = y.v;
+            const filename = bmp.v;
+            const images = Blockly.Constants.GALAXIA_DISPLAY_IMAGES.map(item => item[1]);
+            let buffer;
+            for (const f of images) {
+                if (filename == f) {
+                    buffer = await VittaInterface.fetchDir("/openInterface/galaxia/assets/media/images/" + f, "buffer");
+                    break;
+                }
+            }
+            if (buffer) {
+                console.log(xPos, yPos)
+                console.log(buffer)
+
+                function bmpInfo(buf) {
+                    const dv = new DataView(buf);
+                    const sig = String.fromCharCode(dv.getUint8(0), dv.getUint8(1));
+                    const fileSize = dv.getUint32(2, true);
+                    const pixelOffset = dv.getUint32(10, true);
+                    const dibSize = dv.getUint32(14, true);
+                    const width = dv.getInt32(18, true);
+                    const height = dv.getInt32(22, true);
+                    const bpp = dv.getUint16(28, true);
+                    const comp = dv.getUint32(30, true);
+                    console.log({ sig, fileSize, pixelOffset, dibSize, width, height, bpp, comp });
+                }
+                bmpInfo(buffer)
+
+                Simulator.Mosaic.specific.galaxiaUi.drawBmp(xPos, yPos, buffer);
+            }
+            //return new Sk.builtin.NotImplementedError("display.raw.print_bmp() is not yet implemented");
         })
 
     });
 
-    thingz.display = new Display()
+    thingz.display = new Display();
 
-    
+
     var RawText = Sk.misceval.buildClass(thingz, function ($gbl, $loc) {
         RawText__init__ = function (self, x, y, text, color) {
             const intColor = color.v;
@@ -637,7 +649,7 @@ var $builtinmodule = function () {
             self.yPos = y.v;
             self.textValue = text.v;
             self.colorValue = hexString.replace(/0x/, "#");
-            
+
         }
         RawText__init__.co_varnames = ['self', 'x', 'y', 'text', 'color'];
         RawText__init__.$defaults = [Sk.builtin.none(), Sk.builtin.none(), Sk.builtin.none(), Sk.builtin.none()];
@@ -653,8 +665,6 @@ var $builtinmodule = function () {
     }, 'RawText', []);
 
     thingz.display_rawText = RawText;
-
-
 
     var RawRect = Sk.misceval.buildClass(thingz, function ($gbl, $loc) {
         RawRect__init__ = function (self, x, y, width, height, color) {
@@ -678,8 +688,8 @@ var $builtinmodule = function () {
     }, 'RawRect', []);
 
     thingz.display_rawRect = RawRect;
-    
-    thingz.simulateOnEventButtonPressed = new Sk.builtin.func(function (button){
+
+    thingz.simulateOnEventButtonPressed = new Sk.builtin.func(function (button) {
         const btn = button[0].v;
         const cb = (btn === 'a') ? buttonACallback : buttonBCallback;
         if (!cb) console.warn("no callback found for: ", btn);
@@ -689,9 +699,9 @@ var $builtinmodule = function () {
             })
             .then(function (value) {
             }, Simulator.handleError);
-        });
-    
-    thingz.simulateOnEventTouchPressed = new Sk.builtin.func(function (button){
+    });
+
+    thingz.simulateOnEventTouchPressed = new Sk.builtin.func(function (button) {
         const btn = button[0].v;
         const cb = (btn === 'up') ? touchUpCallback : (btn === 'down') ? touchDownCallback : (btn === 'left') ? touchLeftCallback : touchRightCallback;
         if (!cb) console.warn("no callback found for:", btn);
@@ -701,25 +711,25 @@ var $builtinmodule = function () {
             })
             .then(function (value) {
             }, Simulator.handleError);
-        }
+    }
     );
 
     // logs
     // async wait board to ensure that log module is loaded before adding button called in log.add method
     const waitBoard = async () => {
         return new Promise(resolve => {
-          const image = document.querySelector('.galaxia-log_base');
-          if (image.complete) {
-            resolve("board loaded");
-          } else {
-            image.addEventListener('load', () => resolve("board loaded"));
-          }
+            const image = document.querySelector('.galaxia-log_base');
+            if (image.complete) {
+                resolve("board loaded");
+            } else {
+                image.addEventListener('load', () => resolve("board loaded"));
+            }
         });
-      };
-      
-      
+    };
 
-    const pulesAnim =  () => {
+
+
+    const pulesAnim = () => {
         $('#galaxia-log_anim').css('opacity', '1');
         setTimeout(() => {
             $('#galaxia-log_anim').css('opacity', '0');
@@ -730,11 +740,11 @@ var $builtinmodule = function () {
 
         Log__init__ = function (self) {
             self.logs = [];
-            self.LABELS= [];
+            self.LABELS = [];
             self.initialized = false;
             Simulator.Mosaic.specific.logTable.headers = [];
             Simulator.Mosaic.specific.logTable.rows = [];
-            
+
         };
 
         Log__init__.co_varnames = ['self'];
@@ -751,7 +761,7 @@ var $builtinmodule = function () {
 
         $loc.set_columns = new Sk.builtin.func(function (self, labels) {
             const collumns = Sk.ffi.remapToJs(labels);
-            self.LABELS = [...collumns ];
+            self.LABELS = [...collumns];
             Simulator.Mosaic.specific.logTable.headers = self.LABELS;
             return Sk.builtin.none();
         });
@@ -761,7 +771,7 @@ var $builtinmodule = function () {
                 waitBoard().then(() => {
                     Simulator.Mosaic.specific.logTable.openLog();
                     self.initialized = true;
-                  });
+                });
             }
             const logValue = Sk.ffi.remapToJs(log);
             const line = [];

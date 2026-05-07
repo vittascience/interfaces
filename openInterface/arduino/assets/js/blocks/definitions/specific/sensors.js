@@ -270,13 +270,15 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
                 ["%{BKY_SENSORS_MHZ19_CO2}", "CO2"],
                 ["%{BKY_SENSORS_MHZ19_TEMPERATURE}", "TEMP"]
             ]
-        }, {
+        }],
+        "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+        "args1": [{
             "type": "field_grid_dropdown",
-            "name": "TX",
+            "name": "RX",
             "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
         }, {
             "type": "field_grid_dropdown",
-            "name": "RX",
+            "name": "TX",
             "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
         }],
         "output": "Decimal",
@@ -315,6 +317,37 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "inputsInline": true,
         "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_BMP280_READDATA_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ],
+        "mutator": "sensors_temperature_mutator"
+    },
+
+    // BME280 _ GET DATA
+    {
+        "type": "sensors_bme280_getData",
+        "message0": "%{BKY_SENSORS_BME280_GETDATA_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "ADDR",
+            "options": [
+                ["0x76 (Grove)", "0x76"],
+                ["0x77", "0x77"]
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "DATA",
+            "options": [
+                ["%{BKY_SENSORS_BME280_TEMP}", "TEMP"],
+                ["%{BKY_SENSORS_BME280_HUM}", "HUM"],
+                ["%{BKY_SENSORS_BME280_PRESS}", "PRESS"],
+                ["%{BKY_SENSORS_BME280_ALT}", "ALT"]
+            ]
+        }],
+        "output": "Number",
+        "inputsInline": true,
+        "style": "sensors_blocks",
+        "tooltip": "%{BKY_SENSORS_BME280_GETDATA_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ],
@@ -682,22 +715,22 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         ]
     },
 
-    // GROVE SI1145 SENSOR _ READ LIGHT JSON
+    // BLOCK GROVE SUNLIGHT SENSOR _ READ LIGHT (I2C) SI1145
     {
         "type": "sensors_getSi1145Light",
-        "message0": "%{BKY_SENSORS_SI1145_GETLIGHT_TITLE}",
+        "message0": "%{BKY_SENSORS_SUNLIGHT_GETDATA_TITLE}",
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "LIGHT",
             "options": [
-                ["%{BKY_SENSORS_SI1145_UV}", "UV"],
-                ["%{BKY_SENSORS_SI1145_VISIBLE}", "VIS"],
-                ["%{BKY_SENSORS_SI1145_IR}", "IR"],
+                ["%{BKY_SENSORS_SUNLIGHT_UV}", "UV"],
+                ["%{BKY_SENSORS_SUNLIGHT_VISIBLE}", "VIS"],
+                ["%{BKY_SENSORS_SUNLIGHT_IR}", "IR"],
             ]
         }],
         "output": "Number",
         "style": "sensors_blocks",
-        "tooltip": "%{BKY_SENSORS_SI1145_GETLIGHT_TOOLTIP}",
+        "tooltip": "%{BKY_SENSORS_SUNLIGHT_GETDATA_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]
@@ -793,7 +826,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     {
         "type": "sensors_cameraTakePicture",
         "message0": "%{BKY_SENSORS_CAMERA_SNAPSHOT_TITLE}",
-        "args0": [{
+        "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+        "args1": [{
             "type": "field_grid_dropdown",
             "name": "RX",
             "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
@@ -801,9 +835,9 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "TX",
             "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
-        }, {
-            "type": "input_dummy"
-        }, {
+        }],
+        "message2": "%{BKY_SENSORS_CAMERA_SNAPSHOT_SHIELD_TITLE}",
+        "args2": [{
             "type": "field_grid_dropdown",
             "name": "PIN_CS",
             "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
@@ -1076,7 +1110,82 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
             "block_init_helpurl",
             "pins_management_global"
         ]
+    },
+
+    // GROVE Infrared Temperature Sensor MLX90614 _ READ OBJECT TEMPERATURE
+    {
+        "type": "sensors_mlx90614_readObjectTemperature",
+        "message0": "%{BKY_SENSORS_MLX90614_READ_OBJECT_TEMPERATURE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "UNIT",
+            "options": [
+                ["(°C)", "CELSIUS"],
+                ["(°F)", "FAHRENHEIT"],
+            ]
+        }],
+        "output": "Number",
+        "style": "sensors_blocks",
+        "tooltip": "%{BKY_SENSORS_MLX90614_READ_OBJECT_TEMPERATURE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "pins_management_global"
+        ]
+    },
+
+    // BLOCK GROVE EAR CLIP _ GET HEART RATE
+    {
+        "type": "sensors_getEarClipHeartRate",
+        "message0": "%{BKY_SENSORS_GET_EAR_CLIP_HEART_RATE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": Blockly.Constants.Pins.analog_read[Blockly.Constants.getSelectedBoard()]
+        }],
+        "output": "Number",
+        "style": "sensors_blocks",
+        "tooltip": "%{BKY_SENSORS_GET_EAR_CLIP_HEART_RATE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "pins_management_global"
+        ]
+    },
+
+    // BLOCK DFROBOT BLOOD OXYGEN SENSOR _ take measure
+    {
+        "type": "sensors_dfrobot_max30102_takeMeasure",
+        "message0": "%{BKY_SENSORS_DFROBOT_MAX30102_TAKEMEASURE_TITLE}",
+        "nextStatement": null,
+        "previousStatement": null,
+        "style": "sensors_blocks",
+        "tooltip": "%{BKY_SENSORS_DFROBOT_MAX30102_TAKEMEASURE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK DFROBOT BLOOD OXYGEN SENSOR _ GET SpO2 AND BPM
+    {
+        "type": "sensors_dfrobot_max30102_getData",
+        "message0": "%{BKY_SENSORS_DFROBOT_MAX30102_GETDATA_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "DATA",
+            "options": [
+                ["%{BKY_SENSORS_DFROBOT_MAX30102_SPO2}", "SPO2"],
+                ["%{BKY_SENSORS_DFROBOT_MAX30102_BPM}", "BPM"],
+                ["%{BKY_SENSORS_DFROBOT_MAX30102_TEMPERATURE}", "TEMP"]
+            ]
+        }],
+        "output": "Number",
+        "style": "sensors_blocks",
+        "tooltip": "%{BKY_SENSORS_DFROBOT_MAX30102_GETDATA_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
     }
+
+
 
 ]); // END JSON EXTRACT (Do not delete this comment.)
 

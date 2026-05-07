@@ -1,17 +1,10 @@
-function setupMonitor() {
-	if ($('#monitor').hasClass('monitor-closed')) {
-		InterfaceMonitor.toggle();
-	}
-	if ($('#monitor-btn-console').length > 0 && !$('#monitor-btn-console').hasClass('activated')) {
-		InterfaceMonitor.managePanel('console');
-	}
-};
+
 
 async function connectBoard() {
 	if ($("#simulator").is(":visible")) {
 		toggleSimulator();
 	}
-	setupMonitor();
+	InterfaceMonitor.setup();
 	if (navigator.serial && !SerialAPI.isConnected) {
 		await doConnect();
 	}
@@ -27,6 +20,7 @@ async function uploadPython() {
 			Repl.progressBar.displayProgressBar();
 			Repl.Queue.reset();
 			// await Repl.bootBoard(true); // TO BE FIXED FOR MICROPYTHON V2.0 AND ABOVE
+			await loadImagesToFS(code);
 			await Repl.uploadUserCode();
 			if (Repl.hadRequestedLibraries) {
 				await Repl.resetBoard('machine', true);
@@ -44,7 +38,7 @@ async function uploadPython() {
 			InterfaceMonitor.writeConsole('Micropython firmware has to be flashed before downloading Python code. <b><a href=\"https://fr.vittascience.com/learn/tutorial.php?id=341/flasher-le-firmware-micropython-dans-la-carte-esp32\" style="color:var(--vitta-blue-dark);" target=\"_blank\" rel=\"noopener noreferrer\">Flashing Esp32 firmware</a></b>', 'warning');
 		}
 	};
-	setupMonitor();
+	InterfaceMonitor.setup();
 	if (SerialAPI.isConnected) {
 		await upload();
 	} else {
@@ -57,104 +51,94 @@ async function uploadPython() {
 	}
 };
 
+async function loadImagesToFS(code) {
+	const images = Blockly.Constants.GALAXIA_DISPLAY_IMAGES.map(item => item[1]);
+	if (/thingz/.test(code) && /print_bmp\(/.test(code)) {
+		for (const f of images) {
+			if (code.includes(f)) {
+				const buffer = await VittaInterface.fetchDir("/openInterface/galaxia/assets/media/images/" + f, "buffer");
+				if (buffer) {
+					if (!Repl.isOpen) {
+						await Repl.open();
+						await waitFor(_ => Repl.isOpen === true);
+					}
+					await Repl.sendCommand("import os" + Repl.END_MPY_CMD);
+					const hasImage = await Repl.sendCommand('"' + f + '" in os.listdir()' + Repl.END_MPY_CMD, true);
+					if (hasImage.includes("False")) {
+						const b64 = uint8ToBase64(new Uint8Array(buffer));
+						const commands = [
+							Repl._MPY_CMD.import_library('ubinascii'),
+							Repl._MPY_CMD.fs.open(f, 'wb')
+						];
+						Repl.enqueueCommandList(commands);
+						const CHUNK_LEN = 2000;
+						for (let i = 0; i < b64.length; i += CHUNK_LEN) {
+							const part = b64.slice(i, i + CHUNK_LEN);
+							Repl.enqueueCommand(Repl._MPY_CMD.fs.write(`ubinascii.a2b_base64("${part}")`));
+						}
+						Repl.enqueueCommand(Repl._MPY_CMD.fs.close());
+					}
+				}
+			}
+		}
+	}
+};
+
+function uint8ToBase64(u8) {
+	let s = "";
+	const chunk = 0x8000;
+	for (let i = 0; i < u8.length; i += chunk) {
+		const part = u8.subarray(i, i + chunk);
+		s += String.fromCharCode(...part);
+	}
+	return btoa(s);
+}
+
 /**
  * Update specific AI libraries with model weights and labels.
  */
 async function updateSpecificAiLibrariesGalaxia(code) {
 	return new Promise(async (resolve, reject) => {
-		const checkRegexCloud = /Model\s*\(\s*(["'])(https?:\/\/[^\/]+\/(?:ai|ia)\/model\/([a-zA-Z0-9]+)\/?)\1\s*\)/;
-
-		const cloudRegexResult = checkRegexCloud.exec(code);
-		let id = null;
-		if (cloudRegexResult) {
-			const url = cloudRegexResult[2];
-			const idFound = cloudRegexResult[3];
-			if (idFound) {
-				id = idFound;
-			}
-		}
-		if (id !== null) {
+		const checkRegexCloud = /Model\s*\(\s*(["'])(https?:\/\/[^\/]+\/ia\/(?:model\/([a-zA-Z0-9]+)\/?|sensors(?:\.h)?\?link=([a-zA-Z0-9]+)(?:&[^"']*)?))\1\s*\)/;
+		const cloudRegexResult = code.match(checkRegexCloud);
+		let id = cloudRegexResult?.[3] ?? cloudRegexResult?.[4];
+		let metadata;
+		if (id) {
 			const metadataContent = await fetch(`${location.origin}/ia/model/${id}/metadata.json`);
-			const metadata = await metadataContent.json();
-			const modelWeights = JSON.parse(metadata.userMetaData.weightData);
-			const labels = JSON.stringify(metadata.labels);
-			let sensorStrategy = "edgeModel";
-			switch (metadata.settings.strategy.name) {
-				case 'accelerometer':
-					sensorStrategy = 'edgeModel';
-					break;
-				case 'p19/p7':
-					sensorStrategy = 'edgeModelP19-P7';
-					break;
-				case 'p19':
-					sensorStrategy = 'edgeModelP19';
-					break;
-				case 'p7':
-					sensorStrategy = 'edgeModelP7';
-					break;
-				default:
-					sensorStrategy = 'edgeModel';
-					break;
-			}
-
-			let edgeLib = VittaInterface.externalLibraries[sensorStrategy];
-			let inputStart = edgeLib.split('# AI_EDGE_MODEL_WEIGHTS_INPUT_START')[0];
-			let inputEnd = edgeLib.split('# AI_EDGE_MODEL_WEIGHTS_INPUT_END')[1];
-			edgeLib = `${inputStart}# AI_EDGE_MODEL_WEIGHTS_INPUT_START\n${modelWeights}\nlabels=${labels}\n# AI_EDGE_MODEL_WEIGHTS_INPUT_END${inputEnd}`;
-			VittaInterface.externalLibraries["edgeModel"] = edgeLib;
-			return resolve();
+			metadata = await metadataContent.json();
 		} else {
 			const metadataFromLocalStorage = localStorage.getItem('modelEdgeMetadata');
 			if (!metadataFromLocalStorage) {
 				console.error('No metadata found in local storage');
 				return reject('No metadata found in local storage');
 			}
-			const parsedMetaData = JSON.parse(metadataFromLocalStorage);
-			const modelWeights = JSON.parse(parsedMetaData.userMetaData.weightData)
-			const labels = JSON.stringify(parsedMetaData.labels);
-			let sensorStrategy = "edgeModel";
-			switch (parsedMetaData.settings.strategy.name) {
-				case 'accelerometer':
-					sensorStrategy = 'edgeModel';
-					break;
-				case 'p19/p7':
-					sensorStrategy = 'edgeModelP19-P7';
-					break;
-				case 'p19':
-					sensorStrategy = 'edgeModelP19';
-					break;
-				case 'p7':
-					sensorStrategy = 'edgeModelP7';
-					break;
-				default:
-					sensorStrategy = 'edgeModel';
-					break;
-			}
-			let edgeLib = VittaInterface.externalLibraries[sensorStrategy];
-			let inputStart = edgeLib.split('# AI_EDGE_MODEL_WEIGHTS_INPUT_START')[0];
-			let inputEnd = edgeLib.split('# AI_EDGE_MODEL_WEIGHTS_INPUT_END')[1];
-			edgeLib = `${inputStart}# AI_EDGE_MODEL_WEIGHTS_INPUT_START\n${modelWeights}\nlabels=${labels}\n# AI_EDGE_MODEL_WEIGHTS_INPUT_END${inputEnd}`;
-			VittaInterface.externalLibraries["edgeModel"] = edgeLib;
-			return resolve();
+			metadata = JSON.parse(metadataFromLocalStorage);
 		}
+		const modelWeights = JSON.parse(metadata.userMetaData.weightData);
+		const labels = JSON.stringify(metadata.labels);
+		let sensorStrategy = "edgeModel";
+		switch (metadata.settings.strategy.name) {
+			case 'p19/p7':
+				sensorStrategy = 'edgeModelP19-P7';
+				break;
+			case 'p19':
+				sensorStrategy = 'edgeModelP19';
+				break;
+			case 'p7':
+				sensorStrategy = 'edgeModelP7';
+				break;
+			case 'accelerometer':
+			default:
+				sensorStrategy = 'edgeModel';
+				break;
+		}
+		let edgeLib = VittaInterface.externalLibraries[sensorStrategy];
+		const inputStart = edgeLib.split('# AI_EDGE_MODEL_WEIGHTS_INPUT_START')[0];
+		const inputEnd = edgeLib.split('# AI_EDGE_MODEL_WEIGHTS_INPUT_END')[1];
+		edgeLib = `${inputStart}# AI_EDGE_MODEL_WEIGHTS_INPUT_START\n${modelWeights}\nlabels=${labels}\n# AI_EDGE_MODEL_WEIGHTS_INPUT_END${inputEnd}`;
+		VittaInterface.externalLibraries["edgeModel"] = edgeLib;
+		return resolve();
 	});
-}
-
-/**
- * Download the firmware of the board.
- */
-async function downloadFirmware(fileName) {
-	await VittaInterface.fetchDir("/openInterface/" + Main.getInterface() + "/assets/firmware/" + fileName, true)
-		.then(function (blob) {
-			const url = window.URL.createObjectURL(blob);
-			const a = document.createElement('a');
-			a.style.display = 'none';
-			a.href = url;
-			a.download = fileName;
-			document.body.appendChild(a);
-			a.click();
-			window.URL.revokeObjectURL(url);
-		});
 };
 
 function callbackError(error) {
@@ -196,19 +180,24 @@ async function toggleReplOverture() {
 		if (SerialAPI.isConnected) {
 			openRepl();
 		} else {
-			InterfaceMonitor.writeConsole('code.serialAPI.boardMustBeConnectedSerialWrite', 'warning');
+			InterfaceMonitor.writeConsole('code.serialAPI.boardMustBeConnectedForREPL', 'warning');
 		}
 	}
 };
 
 function sendSerialCommand() {
-	if (Repl && (Repl.isOpen || Repl.isRawOpen)) {
-		const command = $('#serial-input').val();
-		Repl.sendCommand(command + Repl.END_MPY_CMD);
-		InterfaceMonitor.history.push(command);
-		$('#serial-input').val("");
+	const data = $('#serial-input').val();
+	if (SerialAPI?.isConnected) {
+		if (Repl?.isOpen || Repl?.isRawOpen) {
+			const response = Repl.sendCommand(data + Repl.END_MPY_CMD, true);
+			InterfaceMonitor.history.push(data);
+			$('#serial-input').val("");
+		} else {
+			SerialAPI.write(new TextEncoder('utf-8').encode(data));
+			$('#serial-input').val("");
+		}
 	} else {
-		InterfaceMonitor.writeConsole('code.serialAPI.boardReplMustBeOpened', 'warning');
+		InterfaceMonitor.writeConsole('code.serialAPI.boardMustBeConnectedForSerialWrite', 'warning', false, true);
 	}
 };
 
@@ -223,7 +212,7 @@ $('#raw-repl').on('click', function () {
 			Repl.close_raw_repl();
 		}
 	} else {
-		InterfaceMonitor.writeConsole('code.serialAPI.boardReplMustBeOpened', 'warning');
+		InterfaceMonitor.writeConsole('code.serialAPI.boardMustBeConnectedForSerialWrite', 'warning');
 	}
 });
 */
@@ -290,19 +279,4 @@ async function doDisconnect() {
 
 async function waitClosure() {
 	await waitFor(_ => Repl.isLoopClosed === true);
-}
-
-
-/**
- * This function records all the pressed keys in the array `pressedKeys`
- * @param {DOM} e the DOM keypress element (document in this case)
- */
-function multipleKeyPress(e) {
-	if (!SerialAPI.pressedKeys.includes(e.key)) {
-		SerialAPI.pressedKeys.push(e.key);
-	}
-	// Ctrl+B management for Keyboard Interrupt
-	if (SerialAPI.pressedKeys.includes('Control') && SerialAPI.pressedKeys.includes('b')) {
-		Repl.open();
-	}
 };

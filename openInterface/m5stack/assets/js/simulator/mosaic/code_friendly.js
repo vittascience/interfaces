@@ -21,7 +21,6 @@ Simulator.CodeFriendly.remove_unusedCode = function (code) {
 	code = code.replace(IMPORT_ESP32_TH02, '');
 	code = code.replace(IMPORT_OS, '');
 	// removing object inits
-	//code = code.replace('multichannel_v2 = GAS_GMXXX(0x08)', '');
 	code = code.replace(/(.*)UART\((.*)/g, '#$1UART($2');
 	code = code.replace(/(.*)uart_(.*)/gi, '#$1uart_$2');
 	code = code.replace(/(.*)openlog_[0-9]{1,}(.*)/gi, '$1uart$2');

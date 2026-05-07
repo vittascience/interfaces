@@ -1,8 +1,8 @@
 /**
- * @fileoverview Input/Output generators for Buddy.
+ * @fileoverview Time generators for Buddy.
  */
 
- Blockly.Python.io_pause = function (block) {
+Blockly.Python.io_pause = function (block) {
     const duration = Blockly.Python.valueToCode(block, "TIME", Blockly.Python.ORDER_NONE) || "0";
     Blockly.Python.addImport('utime', IMPORT_UTIME);
     switch (block.getFieldValue("UNIT")) {

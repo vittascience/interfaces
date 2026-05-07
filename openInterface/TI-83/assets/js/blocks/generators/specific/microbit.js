@@ -8,7 +8,7 @@ Blockly.Python.microbit_sleep = function (block) {
     const unit = block.getFieldValue("UNIT");
     Blockly.Python.addImport('microbit_all', IMPORT_MICROBIT_ALL);
     switch (unit) {
-        case "SECOND":
+        case "SEC":
             return "sleep(" + duration + "*1e3)" + NEWLINE;
         case "MILLI":
             return "sleep(" + duration + ")" + NEWLINE;
@@ -54,7 +54,7 @@ Blockly.Python.sensors_getTemperature = function (block) {
             code += " + 273.15";
             break;
     }
-    return [code, Blockly.Python.ORDER_ATOMIC];
+    return [code, Blockly.Python.ORDER_ADDITIVE];
 };
 
 // Micro:bit - display
@@ -530,7 +530,7 @@ Blockly.Python.communication_radioConfig = function (block) {
 // Micro:bit - pins
 
 Blockly.Python.io_digital_signal = function (block) {
-    return ["HIGH" == block.getFieldValue("BOOL") ? 1 : 0, Blockly.Python.ORDER_ATOMIC]
+    return ["HIGH" == block.getFieldValue("BOOL") ? 1 : 0, Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.io_readDigitalPin = function (block) {
@@ -597,7 +597,7 @@ Blockly.Python.sensors_SHT31readData = function (block) {
                         break;
                 }
             }
-            return [code, Blockly.Python.ORDER_ATOMIC];
+            return [code, Blockly.Python.ORDER_ADDITIVE];
         case "HUM":
             return ["grove_read_sht_sensor(data='h')", Blockly.Python.ORDER_ATOMIC];
         default:
@@ -651,7 +651,7 @@ Blockly.Python.sensors_getGroveTemperature = function (block) {
             code += " + 273.15";
             break;
     }
-    return [code, Blockly.Python.ORDER_ATOMIC];
+    return [code, Blockly.Python.ORDER_ADDITIVE];
 };
 
 Blockly.Python.sensors_getGroveUltrasonicRanger = function (block) {
@@ -692,7 +692,7 @@ Blockly.Python.microbit_grove_read_bme280 = function (block) {
                         break;
                 }
             }
-            return [code, Blockly.Python.ORDER_ATOMIC];
+            return [code, Blockly.Python.ORDER_ADDITIVE];
         case "PRESS":
             return ["grove_read_bme280_sensor(data='p')", Blockly.Python.ORDER_ATOMIC];
         case "HUM":
@@ -708,7 +708,7 @@ Blockly.Python.microbit_grove_read_bme280 = function (block) {
  * @param {int} numPin
  * @param {int} ledCount
  */
-Blockly.Python.neopixel_codeInitialization = function (pin, ledCount) {
+Blockly.Python.DISPLAY_NEOPIXEL_INIT_GENERATOR = function (pin, ledCount) {
     const numPin = pin.substr(3);
     Blockly.Python.addImport('microbit_all', IMPORT_MICROBIT_ALL);
     Blockly.Python.addImport('mb_neopx', IMPORT_MB_NEOPX);
@@ -738,7 +738,7 @@ Blockly.Python.neopixel_checkDefinedBlock = function (block, pin) {
 Blockly.Python.display_defineNeopixel = function (block) {
     const ledCount = block.getFieldValue("N");
     const pin = block.getFieldValue("PIN");
-    Blockly.Python.neopixel_codeInitialization(pin, ledCount);
+    Blockly.Python.DISPLAY_NEOPIXEL_INIT_GENERATOR(pin, ledCount);
     return "";
 };
 
@@ -749,7 +749,7 @@ Blockly.Python.display_controlNeopixelLed = function (block) {
     const g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
     const b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
     if (!Blockly.Python.neopixel_checkDefinedBlock(block, pin)) {
-        Blockly.Python.neopixel_codeInitialization(pin, "30");
+        Blockly.Python.DISPLAY_NEOPIXEL_INIT_GENERATOR(pin, "30");
     }
     return "np_" + pin.substr(3) + "[" + led + "] = (" + r + ", " + g + ", " + b + ")" + NEWLINE + "np_" + pin.substr(3) + ".show()" + NEWLINE;
 };
@@ -758,7 +758,7 @@ Blockly.Python.display_controlColorNeopixelLed = function (block) {
     const pin = block.getFieldValue("PIN");
     const ledIndex = Blockly.Python.valueToCode(block, "LED", Blockly.Python.ORDER_NONE) || "0";
     const colour = Blockly.Python.valueToCode(block, "COLOR", Blockly.Python.ORDER_NONE) || "(0,0,0)";
-    Blockly.Python.neopixel_codeInitialization(pin, "30");
+    Blockly.Python.DISPLAY_NEOPIXEL_INIT_GENERATOR(pin, "30");
     return "np_" + pin.substr(3) + "[" + ledIndex + "] = " + colour + NEWLINE + "np_" + pin.substr(3) + ".show()" + NEWLINE;
 };
 
@@ -768,7 +768,7 @@ Blockly.Python.display_neopixel_controlAllLedRGB = function (block) {
     const g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
     const b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
     if (!Blockly.Python.neopixel_checkDefinedBlock(block, pin)) {
-        Blockly.Python.neopixel_codeInitialization(pin, "30");
+        Blockly.Python.DISPLAY_NEOPIXEL_INIT_GENERATOR(pin, "30");
     }
     Blockly.Python.addFunction('neopixel_showAllLed', FUNCTIONS_TI_83.DEF_NEOPIXEL_SHOW_ALL_LED);
     return "neopixel_showAllLed(np_" + pin.substr(3) + ", " + NEOPIXEL_LED_COUNT + pin.substr(3) + ", " + r + ", " + g + ", " + b + ")" + NEWLINE;
@@ -779,7 +779,7 @@ Blockly.Python.display_neopixel_controlAllLedPalette = function (block) {
     const colour = Blockly.Python.valueToCode(block, "COLOR", Blockly.Python.ORDER_NONE) || "(0,0,0)";
     const colourList = colour.match(/([0-9]{1,3})/g);
     if (!Blockly.Python.neopixel_checkDefinedBlock(block, pin)) {
-        Blockly.Python.neopixel_codeInitialization(pin, "30");
+        Blockly.Python.DISPLAY_NEOPIXEL_INIT_GENERATOR(pin, "30");
     }
     Blockly.Python.addFunction('neopixel_showAllLed', FUNCTIONS_TI_83.DEF_NEOPIXEL_SHOW_ALL_LED);
     return "neopixel_showAllLed(np_" + pin.substr(3) + ", " + NEOPIXEL_LED_COUNT + pin.substr(3) + ", " + colourList[0] + ", " + colourList[1] + ", " + colourList[2] + ")" + NEWLINE;
@@ -788,7 +788,7 @@ Blockly.Python.display_neopixel_controlAllLedPalette = function (block) {
 Blockly.Python.display_rainbowNeopixel = function (block) {
     const pin = block.getFieldValue("PIN");
     if (!Blockly.Python.neopixel_checkDefinedBlock(block, pin)) {
-        Blockly.Python.neopixel_codeInitialization(pin, "30");
+        Blockly.Python.DISPLAY_NEOPIXEL_INIT_GENERATOR(pin, "30");
     }
     Blockly.Python.addFunction('neopixel_showAllLed', FUNCTIONS_TI_83.DEF_NEOPIXEL_SHOW_ALL_LED);
     Blockly.Python.addFunction('neopixel_rainbow', FUNCTIONS_TI_83.DEF_TI_NEOPIXEL_RAINBOW);
@@ -798,7 +798,7 @@ Blockly.Python.display_rainbowNeopixel = function (block) {
 Blockly.Python.microbit_neopixel_switchOff = function (block) {
     const pin = block.getFieldValue("PIN");
     if (!Blockly.Python.neopixel_checkDefinedBlock(block, pin)) {
-        Blockly.Python.neopixel_codeInitialization(pin, "30");
+        Blockly.Python.DISPLAY_NEOPIXEL_INIT_GENERATOR(pin, "30");
     }
     return "np_" + pin.substr(3) + ".clear()" + NEWLINE;
 };

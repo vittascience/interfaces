@@ -1,4 +1,4 @@
-// STM32 umachine module
+// STM32 machine module
 
 var $builtinmodule = function () {
 
@@ -9,7 +9,7 @@ var $builtinmodule = function () {
 		last_sleep: 0
 	};
 
-	machine.__name__ = new Sk.builtin.str("umachine");
+	machine.__name__ = new Sk.builtin.str("machine");
 
 	// reset constants
 	machine.PWRON_RESET = new Sk.builtin.int_(1);
@@ -155,14 +155,14 @@ var $builtinmodule = function () {
 					self.id = component.id;
 					switch (self.pull) {
 						case $loc.PULL_NONE.v:
-							Simulator.setPullButton(self.id, 'no_pull');
+							Simulator.Components.Button.setPull(self.id, 'no_pull');
 							break;
 						case $loc.PULL_UP.v:
-							Simulator.setPullButton(self.id, 'up');
+							Simulator.Components.Button.setPull(self.id, 'up');
 							break;
 						case $loc.PULL_DOWN.v:
 						default:
-							Simulator.setPullButton(self.id, 'down');
+							Simulator.Components.Button.setPull(self.id, 'down');
 					}
 				}
 				self.value = value.v;
@@ -192,14 +192,14 @@ var $builtinmodule = function () {
 			self.pull = pull.v;
 			switch (self.pull) {
 				case $loc.PULL_NONE.v:
-					Simulator.setPullButton(self.id, 'no_pull');
+					Simulator.Components.Button.setPull(self.id, 'no_pull');
 					break;
 				case $loc.PULL_UP.v:
-					Simulator.setPullButton(self.id, 'up');
+					Simulator.Components.Button.setPull(self.id, 'up');
 					break;
 				case $loc.PULL_DOWN.v:
 				default:
-					Simulator.setPullButton(self.id, 'down');
+					Simulator.Components.Button.setPull(self.id, 'down');
 			}
 			self.value = value.v;
 			self.af = af.v;
@@ -227,6 +227,8 @@ var $builtinmodule = function () {
 				if (self.mode == $loc.IN.v) {
 					if (['SW1', 'SW2', 'SW3'].includes(self.pin)) {
 						self.value = 0 + !$('#stm32-' + self.pin.toLowerCase() + '_slider').slider('option', 'value');
+					} else if (['A_BUTTON', 'B_BUTTON', 'MENU_BUTTON'].includes(self.pin)) {
+						self.value = 0 + !$('#steami-' + self.pin.replace('_', '-') + '_slider').slider('option', 'value');
 					} else {
 						self.value = $('#' + self.id + '_slider').slider('option', 'value');
 					}
@@ -433,9 +435,14 @@ var $builtinmodule = function () {
 		$loc.read_u16 = new Sk.builtin.func(function (self) {
 			// read 16 bit value (from 0 to 65535)
 			const mod = Simulator.getModuleByKey(self.id.split('_')[0]);
-			const suffix = mod.listeners[0].suffix || "";
-			const value = parseInt($("#" + self.id + "_slider" + suffix).slider('option', 'value'));
-			return new Sk.builtin.int_(Math.round(value * 65535 / 4096));
+			if (mod && mod.id.includes('joystick')) {
+				const value = Simulator.Components.Joystick.read(self.id, self.pin);
+				return new Sk.builtin.int_(value);
+			} else {
+				const suffix = mod.listeners[0].suffix || "";
+				const value = parseInt($("#" + self.id + "_slider" + suffix).slider('option', 'value'));
+				return new Sk.builtin.int_(Math.round(value * 65535 / 4096));
+			}
 		});
 
 	});
@@ -448,7 +455,7 @@ var $builtinmodule = function () {
 			if (port.v === 1 || port.v === 3) {
 				self.port = port.v;
 			} else {
-				throw new Sk.builtin.ValueError("I2C(" + port.v + ") doesn't exist");
+				throw new Sk.builtin.ValueError("machine.I2C(" + port.v + ") doesn't exist");
 			}
 		};
 
@@ -456,6 +463,94 @@ var $builtinmodule = function () {
 		I2C__init__.$defaults = [];
 
 		$loc.__init__ = new Sk.builtin.func(I2C__init__);
+
+	});
+
+	machine.SPI = new Sk.misceval.buildClass(machine, function ($gbl, $loc) {
+
+		const DEFAULT_BAUDRATE = 500000;
+
+		$loc.MSB = new Sk.builtin.int_(0);
+		$loc.LSB = new Sk.builtin.int_(128);
+
+		SPI__init__ = function (self, id, baudrate, polarity, phase, bits) {
+			Sk.builtin.pyCheckArgsLen("__init__", arguments.length, 1, 6);
+			Sk.builtin.pyCheckType("id", "integer", Sk.builtin.checkInt(id));
+			Sk.builtin.pyCheckType("baudrate", "integer", Sk.builtin.checkInt(baudrate));
+			Sk.builtin.pyCheckType("polarity", "integer", Sk.builtin.checkInt(polarity));
+			Sk.builtin.pyCheckType("phase", "integer", Sk.builtin.checkInt(phase));
+			Sk.builtin.pyCheckType("bits", "integer", Sk.builtin.checkInt(bits));
+			if (id.v === 1 || id.v === 2) {
+				self.id = id.v;
+			} else {
+				if (id.v === -1) {
+					InterfaceMonitor.writeConsole('Warning: SPI(-1, ...) is deprecated, use SoftSPI(...) instead', 'interrupt');
+					throw new Sk.builtin.ValueError("must specify all of sck/mosi/miso");
+				}
+				throw new Sk.builtin.ValueError("machine.SPI(" + id.v + ") doesn't exist");
+			}
+			if (baudrate < 0) {
+				self.baudrate = DEFAULT_BAUDRATE;
+			} else if (baudrate < 250000) {
+				self.baudrate = 250000
+			}
+			if (polarity.v !== 0) {
+				self.polarity = 1;
+			} else {
+				self.polarity = 0;
+			}
+			if (phase.v !== 0) {
+				self.phase = 1;
+			} else {
+				self.phase = 0;
+			}
+			if (bits.v === 16) {
+				self.bits = 16;
+			} else {
+				self.bits = 8;
+			}
+		};
+
+		SPI__init__.co_varnames = ['self', 'id', 'baudrate', 'polarity', 'phase', 'bits'];
+		SPI__init__.$defaults = [new Sk.builtin.int_(-1), new Sk.builtin.int_(DEFAULT_BAUDRATE), new Sk.builtin.int_(0), new Sk.builtin.int_(0), new Sk.builtin.int_(8)];
+
+		$loc.__init__ = new Sk.builtin.func(SPI__init__);
+
+		$loc.init = new Sk.builtin.func(function (self) {
+			throw new Sk.builtin.NotImplementedError("machine.SPI.init() is not yet implemented");
+		});
+
+		$loc.deinit = new Sk.builtin.func(function (self) {
+		});
+
+		const read = function (self, nbytes, write) {
+			Sk.builtin.pyCheckArgsLen("read", arguments.length, 2, 3);
+			Sk.builtin.pyCheckType("nbytes", "integer", Sk.builtin.checkInt(nbytes));
+			Sk.builtin.pyCheckType("write", "integer", Sk.builtin.checkInt(write));
+		}
+
+		read.co_varnames = ['self', 'nbytes', 'write'];
+		read.$defaults = [new Sk.builtin.int_(0x00)];
+
+		$loc.read = new Sk.builtin.func(read);
+
+		const readinto = function (self, buf, write) {
+			Sk.builtin.pyCheckArgsLen("readinto", arguments.length, 2, 3);
+			Sk.builtin.pyCheckType("write", "integer", Sk.builtin.checkInt(write));
+		}
+
+		readinto.co_varnames = ['self', 'nbytes', 'write'];
+		readinto.$defaults = [new Sk.builtin.int_(0x00)];
+
+		$loc.readinto = new Sk.builtin.func(readinto);
+
+		$loc.write = new Sk.builtin.func(function (self, buf) {
+			Sk.builtin.pyCheckArgsLen("write", arguments.length, 2, 2);
+		});
+
+		$loc.write_readinto = new Sk.builtin.func(function (self, write_buf, read_buf) {
+			Sk.builtin.pyCheckArgsLen("write", arguments.length, 3, 3);
+		});
 
 	});
 

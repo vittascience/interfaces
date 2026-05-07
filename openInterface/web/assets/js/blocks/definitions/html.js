@@ -46,8 +46,8 @@ Blockly.defineBlocksWithJsonArray([
         "type": "field_dropdown",
         "name": "value",
         "options": [
-          ["utf-8","utf-8"],
-          ["utf-16","utf-16"]
+          ["utf-8", "utf-8"],
+          ["utf-16", "utf-16"]
         ]
       },
     ],
@@ -482,12 +482,12 @@ Blockly.defineBlocksWithJsonArray([
         "type": "field_dropdown",
         "name": "size",
         "options": [
-          ["1","1"],
-          ["2","2"],
-          ["3","3"],
-          ["4","4"],
-          ["5","5"],
-          ["6","6"]
+          ["1", "1"],
+          ["2", "2"],
+          ["3", "3"],
+          ["4", "4"],
+          ["5", "5"],
+          ["6", "6"]
         ]
       },
       {
@@ -745,21 +745,21 @@ Blockly.defineBlocksWithJsonArray([
         "type": "field_dropdown",
         "name": "type",
         "options": [
-          ["submit","submit"],
-          ["checkbox","checkbox"],
-          ["color","color"],
-          ["date","date"],
-          ["datetime-local","datetime-local"],
-          ["email","email"],
-          ["hidden","hidden"],
-          ["month","month"],
-          ["number","number"],
-          ["password","password"],
-          ["radio","radio"],
-          ["range","range"],
-          ["text","text"],
-          ["time","time"],
-          ["week","week"]
+          ["submit", "submit"],
+          ["checkbox", "checkbox"],
+          ["color", "color"],
+          ["date", "date"],
+          ["datetime-local", "datetime-local"],
+          ["email", "email"],
+          ["hidden", "hidden"],
+          ["month", "month"],
+          ["number", "number"],
+          ["password", "password"],
+          ["radio", "radio"],
+          ["range", "range"],
+          ["text", "text"],
+          ["time", "time"],
+          ["week", "week"]
         ]
       },
       {
@@ -854,9 +854,9 @@ Blockly.defineBlocksWithJsonArray([
         "type": "field_dropdown",
         "name": "source",
         "options": [
-          ["8bit.ogg","8bit.ogg"],
-          ["classical.mp3","classical.mp3"],
-          ["happy.wav","happy.wav"]
+          ["8bit.ogg", "8bit.ogg"],
+          ["classical.mp3", "classical.mp3"],
+          ["happy.wav", "happy.wav"]
         ]
       },
       {
@@ -895,8 +895,8 @@ Blockly.defineBlocksWithJsonArray([
         "type": "field_dropdown",
         "name": "source",
         "options": [
-          ["bigbuckbunny.mp4","bbb"],
-          ["llamadrama.mp4","ld"]
+          ["bigbuckbunny.mp4", "bbb"],
+          ["llamadrama.mp4", "ld"]
         ]
       },
       {

@@ -13,9 +13,9 @@ const cardCommunicationButtons = {
     },
     'upload': {
         id: "upload-python",
-        classes: 'ide-btn-check ide-btn-left',
+        classes: 'ide-btn-check ide-btn-left e2e-upload-btn',
         fontAwesome: 'fas fa-bolt',
-        onclick: "uploadPython()",
+        onclick: "InterfaceConnection.uploadPython()",
         title: 'code.topbar.tooltips.uploadPython',
         label: {
             value: "code.topbar.label.upload"
@@ -34,7 +34,7 @@ const downloadOptions = {
         id: "upload-python-opt",
         classes: 'ide-btn-check ide-btn-left-dropdown',
         fontAwesome: 'fas fa-bolt',
-        onclick: "uploadPython()",
+        onclick: "InterfaceConnection.uploadPython()",
         title: 'code.topbar.tooltips.uploadPython',
         tooltipPlacement: "left",
         show: false,
@@ -59,7 +59,7 @@ const downloadOptions = {
         icon: "/openInterface/interfaces/assets/media/micropython_logo.svg",
         title: 'code.topbar.tooltips.downloadFirmware',
         tooltipPlacement: "left",
-        onclick: "downloadFirmware('firmware_micropython1.17.bin')",
+        onclick: "VittaInterface.downloadFirmware('firmware_micropython1.17.bin')",
         label: {
             value: "code.topbar.label.downloadFirmware"
         }
@@ -70,7 +70,7 @@ const downloadOptions = {
         icon: "/openInterface/interfaces/assets/js/external/font-awesome/svgs/brands/usb.svg",
         title: 'code.topbar.tooltips.disconnect',
         tooltipPlacement: "left",
-        onclick: "doDisconnect()",
+        onclick: "InterfaceConnection.doDisconnect()",
         show: false,
         label: {
             value: "code.topbar.label.disconnect"

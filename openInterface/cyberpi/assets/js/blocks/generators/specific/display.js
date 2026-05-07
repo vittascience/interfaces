@@ -106,6 +106,11 @@ Blockly.Python.cyberpi_display_show_label_xy = function (block) {
     return "cyberpi.display.show_label(" + text + ", " + fontsize + ", " + x + "," + y + ")" + NEWLINE;
 };
 
+Blockly.Python.cyberpi_display_clear = function () {
+    Blockly.Python.addImport('cyberpi', IMPORT_CYBERPI);
+    return "cyberpi.display.clear()" + NEWLINE;
+};
+
 // Graphic
 
 Blockly.Python.cyberpi_linechart_add = function (block) {

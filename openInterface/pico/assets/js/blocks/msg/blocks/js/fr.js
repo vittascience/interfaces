@@ -10,10 +10,10 @@ Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TOOLTIP'] = 'Permet de contrôler l\'é
 Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_W_TITLE'] = '[Pico W] contrôler la LED intégrée (GPIO) à l\'état %1';
 Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_W_TOOLTIP'] = 'Permet de contrôler l\'état de la led intégrée de la Raspberry Pi Pico W.';
 // Display - Screen
-Blockly.Msg['DISPLAY_LCD_SETTEXT_TITLE'] = '[LCD] afficher le texte %1 sur la ligne %2 position %3 sur le port %4';
-Blockly.Msg['DISPLAY_LCD_SETTEXT_TOOLTIP'] = IMG_MODULE_LCD_3V3 + Blockly.Tooltip.SEP + 'Affiche du texte sur l\'une des deux lignes de l\'écran LCD1602 grove. Brancher le module sur un port I2C. Les caractères accentués ne sont pas supportés.';
-Blockly.Msg['DISPLAY_LCD_CLEAR_TITLE'] = '[LCD] nettoyer l\'écran sur le port %1';
-Blockly.Msg['DISPLAY_LCD_CLEAR_TOOLTIP'] = IMG_MODULE_LCD_3V3 + Blockly.Tooltip.SEP + 'Permet d\'effacer tous les caractères de l\'écran LCD. Brancher le module sur un port I2C.';
+Blockly.Msg['DISPLAY_LCD_SETTEXT_TITLE'] = '[LCD adresse %1] afficher le texte %2 sur la ligne %3 position %4 sur le port %5';
+Blockly.Msg['DISPLAY_LCD_SETTEXT_TOOLTIP'] = IMG_MODULE_LCD_I2C + Blockly.Tooltip.SEP + 'Affiche du texte sur l\'une des deux lignes de l\'écran LCD1602 grove. Brancher le module sur un port I2C. Les caractères accentués ne sont pas supportés.';
+Blockly.Msg['DISPLAY_LCD_CLEAR_TITLE'] = '[LCD adresse %1] nettoyer l\'écran sur le port %2';
+Blockly.Msg['DISPLAY_LCD_CLEAR_TOOLTIP'] = IMG_MODULE_LCD_I2C + Blockly.Tooltip.SEP + 'Permet d\'effacer tous les caractères de l\'écran LCD. Brancher le module sur un port I2C.';
 Blockly.Msg['DISPLAY_OLED_ADDTEXT_TITLE'] = '[Ecran OLED] afficher le texte %1 à la position x %2 y %3 sur le port %4';
 Blockly.Msg['DISPLAY_OLED_ADDTEXT_TOOLTIP'] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + 'Permet d\'écrire du texte sur un écran OLED grove avec 4x11 caractères. Brancher l\'afficheur sur un port I2C.';
 Blockly.Msg['DISPLAY_OLED_SETPIXEL_TITLE'] = '[Ecran OLED] contrôler le pixel x %1 y %2 état %3 sur le port %4';
@@ -35,8 +35,13 @@ Blockly.Msg['DISPLAY_NEOPIXEL_SETALLLEDCOLOR_TITLE'] = '[Neopixel] contrôler to
 Blockly.Msg['DISPLAY_NEOPIXEL_SETALLLEDCOLOR_TOOLTIP'] = IMG_MODULE_NEOPIXEL + Blockly.Tooltip.SEP + 'Permet de contrôler toutes les LED du module neopixel à la couleur choisie. Utiliser la palette pour changer la couleur.';
 Blockly.Msg['DISPLAY_NEOPIXEL_RAINBOW_TITLE'] = '[Neopixel] Arc-en-ciel sur la broche %1';
 Blockly.Msg['DISPLAY_NEOPIXEL_RAINBOW_TOOLTIP'] = IMG_MODULE_NEOPIXEL + Blockly.Tooltip.SEP + 'Afficher le spectre des couleurs sur les LED RGB. Il est possible de modifier la broche et le nombre de LED du module neopixel.';
+// Display - RED LED MATRIX
+Blockly.Msg['DISPLAY_LED_MATRIX_TITLE'] = '[Matrice de LED] afficher %1 %2 sur le port %3';
+Blockly.Msg['DISPLAY_LED_MATRIX_TOOLTIP'] = IMG_MODULE_LED_MATRIX_8_8 + Blockly.Tooltip.SEP + 'Permet d\'afficher un dessin sur la matrice de LED monochrome 8x8.';
+Blockly.Msg['DISPLAY_LED_MATRIX_CLEAR_TITLE'] = '[Matrice de LED] effacer la matrice sur le port %1';
+Blockly.Msg['DISPLAY_LED_MATRIX_CLEAR_TOOLTIP'] = IMG_MODULE_LED_MATRIX_8_8 + Blockly.Tooltip.SEP + 'Éteint toutes les LEDs de la matrice';
 // Display - LED modules
-Blockly.Msg['DISPLAY_SETGROVELED_TITLE'] = '[LED] contrôler la LED %1 sur la broche  %2';
+Blockly.Msg['DISPLAY_SETGROVELED_TITLE'] = '[LED] contrôler la LED à %1 sur la broche  %2';
 Blockly.Msg['DISPLAY_SETGROVELED_TOOLTIP'] = IMG_MODULE_LED + Blockly.Tooltip.SEP + 'Permet d\'activer ou désactiver la LED Grove (0 ou 1) sur les broches digitales P0 à P20.';
 Blockly.Msg['DISPLAY_SETLEDINTENSITY_TITLE'] = '[LED] régler la luminosité à %1 sur la broche %2';
 Blockly.Msg['DISPLAY_SETLEDINTENSITY_TOOLTIP'] = IMG_MODULE_LED_PWM + Blockly.Tooltip.SEP + 'Permet de régler la luminosité d\'une LED de 0 à 255 sur les broches PWM.';
@@ -85,7 +90,7 @@ Blockly.Msg['IO_MICRO_SOUNDCONDITION_TOOLTIP'] = 'Permet d\'utiliser les constan
 // Input/Output - External modules
 Blockly.Msg['IO_GROVEKEYPAD_GETNUMBER_TITLE'] = '[Clavier numérique] chiffre sur les broches RX %1 TX %2';
 Blockly.Msg['IO_GROVEKEYPAD_GETNUMBER_TOOLTIP'] = IMG_MODULE_KEYPAD + Blockly.Tooltip.SEP + 'Permet d\'obtenir la touche appuyée du clavier numérique grove sur les broches TX et RX. Quand vous connectez le module, s\'assurer que les broches sont \'croisées\' : RX de la carte avec TX du module et inversement.';
-Blockly.Msg['IO_GROVEJOYSTICK_GETAXIS_TITLE'] = '[Module joytsick] valeur de l\'axe %1 sur les broches X %2 Y %3';
+Blockly.Msg['IO_GROVEJOYSTICK_GETAXIS_TITLE'] = '[Module joystick] valeur de l\'axe %1 sur les broches X %2 Y %3';
 Blockly.Msg['IO_GROVEJOYSTICK_GETAXIS_TOOLTIP'] = IMG_MODULE_JOYSTICK + Blockly.Tooltip.SEP + 'Renvoie la valeur de l\'axe X ou Y (de 0 à 1023) du joystick Grove sur les broches P0 à P4, ou P10.';
 Blockly.Msg['IO_GROVECOLOREDBUTTON_GET_TITLE'] = '[Module bouton coloré] état sur la broche SIG2 %1 ';
 Blockly.Msg['IO_GROVECOLOREDBUTTON_GET_TOOLTIP'] = IMG_MODULE_LED_BUTTON + Blockly.Tooltip.SEP + 'Renvoie l\'état du bouton coloré grove (0 or 1) sur les broches digitales P0 à P20.';
@@ -128,17 +133,14 @@ Blockly.Msg['IO_WAIT_MILLISECOND'] = 'milliseconde.s';
 Blockly.Msg['IO_WAIT_MICROSECOND'] = 'microseconde.s';
 Blockly.Msg['IO_WAIT_UNTIL_TITLE'] = 'attendre jusqu\'à %1';
 Blockly.Msg['IO_WAIT_UNTIL_TOOLTIP'] = 'Arrête l\'excution du code jusqu\'à ce que la condition soit satisfaite.';
-Blockly.Msg['IO_INITCHRONOMETER_TITLE'] = 'démarrer le chronomètre';
+Blockly.Msg['IO_INITCHRONOMETER_TITLE'] = 'remettre le chronomètre à 0';
 Blockly.Msg['IO_INITCHRONOMETER_TOOLTIP'] = 'Initialise un chronomètre à 0 (en secondes).';
 Blockly.Msg['IO_GETCHRONOMETER_TITLE'] = 'valeur du chronomètre en %1';
 Blockly.Msg['IO_GETCHRONOMETER_TOOLTIP'] = 'Renvoie la valeur du chronomètre à partir de l\'initialisation (en secondes ou millisecondes).';
-//Communication - Internal Bluetooth
-Blockly.Msg['COMMUNICATION_START_BT_TITLE'] = '[Pico Bluetooth] initialiser le Bluetooth %1';
-Blockly.Msg['COMMUNICATION_START_BT_TOOLTIP'] = 'Permet d\'intialiser le service Bluetooth de la Pico avec un nom attribué.';
-Blockly.Msg['COMMUNICATION_SEND_BT_TITLE'] = '[Pico Bluetooth] envoyer donnée %1';
-Blockly.Msg['COMMUNICATION_SEND_BT_TOOLTIP'] = 'Permet d\'envoyer une donnée via le Bluetooth de la Pico.';
-Blockly.Msg['COMMUNICATION_BLE_READ_DATA_TITLE'] = '[Pico Bluetooth] si message reçu dans %1 alors';
-Blockly.Msg['COMMUNICATION_BLE_READ_DATA_TOOLTIP'] = 'Permet d\'exécuter des instructions si une donnée est reçue par Bluetooth (BLE).';
+
+// Communication - Common
+Blockly.Msg['COMMUNICATION_RX_TX_PINS'] = 'sur les broches RX %1 TX %2';
+Blockly.Msg['COMMUNICATION_THEN'] = 'alors';
 // Communication - Serial connection
 Blockly.Msg['COMMUNICATION_SERIAL_WRITE_TITLE'] = 'écrire dans la console %1';
 Blockly.Msg['COMMUNICATION_SERIAL_WRITE_TOOLTIP'] = 'Permet d\'écrire des données dans la console.';
@@ -149,42 +151,59 @@ Blockly.Msg['COMMUNICATION_WRITEGRAPH_TOOLTIP'] = 'Ce bloc permet d\'écrire des
 Blockly.Msg['COMMUNICATION_DATA'] = 'Donnée';
 Blockly.Msg['COMMUNICATION_PRINT_DATAS_TITLE'] = 'Nom %1 Valeur %2';
 Blockly.Msg['COMMUNICATION_PRINT_DATAS_TOOLTIP'] = 'Ce bloc est à utiliser avec le bloc "Tracer le graphique". Il doit lui-même contenir le nom de la valeur à afficher (texte), et la valeur en question (nombre).';
+Blockly.Msg['COMMUNICATION_SERIAL_ONMESSAGERECEIVED_TITLE'] = 'si un message est reçu du port série dans %1 alors';
+Blockly.Msg['COMMUNICATION_SERIAL_ONMESSAGERECEIVED_TOOLTIP'] = 'Permet d\'exécuter des instructions si des données décodées (chaîne de caractère UTF-8) sont reçues par le port série dans la variable \'messageData\'. Cette dernière retourne une chaîne de caractère (str).';
 Blockly.Msg['COMMUNICATION_COMPUTER_PLAYNOTE_TITLE'] = 'jouer la note %1 sur l\'ordinateur';
 Blockly.Msg['COMMUNICATION_COMPUTER_PLAYNOTE_TOOLTIP'] = 'Joue la note sélectionnée jusqu\'à l\'exécution du bloc "Fin de la note".';
 Blockly.Msg['COMMUNICATION_COMPUTER_SETFREQUENCY_TITLE'] = 'jouer la fréquence %1 (Hz) sur l\'ordinateur';
 Blockly.Msg['COMMUNICATION_COMPUTER_SETFREQUENCY_TOOLTIP'] = 'Ce bloc permet de jouer une fréquence donnée sur l\'ordinateur';
 Blockly.Msg['COMMUNICATION_COMPUTER_STOPMUSIC_TITLE'] = 'terminer la note sur l\'ordinateur';
 Blockly.Msg['COMMUNICATION_COMPUTER_STOPMUSIC_TOOLTIP'] = 'Arrête la note en cours.';
-Blockly.Msg['COMMUNICATION_SERIAL_ONDATARECEIVED_TITLE'] = 'si une donnée est reçue du port série dans %1 alors';
-Blockly.Msg['COMMUNICATION_SERIAL_ONDATARECEIVED_TOOLTIP'] = 'Permet d\'exécuter des instructions si une donnée est reçue par le port série dans la variable \'serialData\'.';
-// Comunication - Radio
-Blockly.Msg['COMMUNICATION_RADIO_SENDSTRING_TITLE'] = '[Radio] send string %1';
-Blockly.Msg['COMMUNICATION_RADIO_SENDSTRING_TOOLTIP'] = 'Enable to send string by Raspberry Pi Pico radio module';
-Blockly.Msg['COMMUNICATION_RADIO_SEND_TITLE'] = '[Radio] send number or list %1';
-Blockly.Msg['COMMUNICATION_RADIO_SEND_TOOLTIP'] = 'Enable to send number or list by radio module';
-Blockly.Msg['COMMUNICATION_RADIO_SENDVALUE_TITLE'] = '[Radio] send value %1 as %2';
-Blockly.Msg['COMMUNICATION_RADIO_SENDVALUE_TOOLTIP'] = 'Enable to send data with \'name\' and its value by radio module';
-Blockly.Msg['COMMUNICATION_RADIO_ONSTRINGRECEIVED_TITLE'] = '[Radio] on data received in %1 then';
-Blockly.Msg['COMMUNICATION_RADIO_ONSTRINGRECEIVED_TOOLTIP'] = 'Allows you to execute instructions on the string received by the radio in the \'stringData\' variable';
-Blockly.Msg['COMMUNICATION_RADIO_ONNUMBERRECEIVED_TITLE'] = '[Radio] on data received in %1 then';
-Blockly.Msg['COMMUNICATION_RADIO_ONNUMBERRECEIVED_TOOLTIP'] = 'Allows you to execute instructions on the number received by the radio in the \'numberData\' variable';
-Blockly.Msg['COMMUNICATION_RADIO_ONVALUERECEIVED_TITLE'] = '[Radio] on data received in %1 %2 then';
-Blockly.Msg['COMMUNICATION_RADIO_ONVALUERECEIVED_TOOLTIP'] = 'Allows you to execute instructions on the name as a string and the value as a number received by the radio in the \'name\' and \'value\' variables';
-Blockly.Msg['COMMUNICATION_RADIO_CONFIG_TITLE'] = '[Radio] set Channel %1 Power %2 Data size %3 Group %4';
-Blockly.Msg['COMMUNICATION_RADIO_CONFIG_TOOLTIP'] = 'Allows you to configure the frequency channel (from 0 to 83), the data size (bytes), the transmission power (from 0 to 7) and the group (from 0 to 255)';
+//Communication - Internal Bluetooth
+Blockly.Msg['COMMUNICATION_START_BT_TITLE'] = '[BLE intégré] initialiser le Bluetooth %1';
+Blockly.Msg['COMMUNICATION_START_BT_TOOLTIP'] = 'Permet d\'intialiser le service Bluetooth de la Pico avec un nom attribué.';
+Blockly.Msg['COMMUNICATION_SEND_BT_TITLE'] = '[BLE intégré] envoyer donnée %1';
+Blockly.Msg['COMMUNICATION_SEND_BT_TOOLTIP'] = 'Permet d\'envoyer une donnée via le Bluetooth de la Pico.';
+Blockly.Msg['COMMUNICATION_BLE_READ_DATA_TITLE'] = '[BLE intégré] si message reçu dans %1 alors';
+Blockly.Msg['COMMUNICATION_BLE_READ_DATA_TOOLTIP'] = 'Permet d\'exécuter des instructions si une donnée est reçue par Bluetooth (BLE).';
+Blockly.Msg['COMMUNICATION_FIZZIQ_BT_TITLE'] = '[BLE intégré - Fizziq App] envoyer %1 %2';
+Blockly.Msg['COMMUNICATION_FIZZIQ_BT_TOOLTIP'] = IMG_MODULE_FIZZIQ + Blockly.Tooltip.SEP + 'Envoyer des données (Température, Humidité, etc) via Bluetooth à Fizziq App. Dans l\'onglet "Mesures" de Fizziq, cliquer sur "Capteurs externes", puis Connecter l\'App à l\'appareil nommé "Pico_Vittascience".';
+Blockly.Msg['FIZZ_TEMP'] = 'Température';
+Blockly.Msg['FIZZ_HUM'] = 'Humidité';
+Blockly.Msg['FIZZ_VOLTAGE'] = 'Tension';
+Blockly.Msg['FIZZ_WEIGHT'] = 'Poids';
+Blockly.Msg['FIZZ_PRESSURE'] = 'Pression';
+Blockly.Msg['FIZZ_CONCENTRATION'] = 'Concentration';
+Blockly.Msg['FIZZ_MAGNETIC'] = 'Champ magnétique';
+Blockly.Msg['FIZZ_BRIGHTNESS'] = 'Luminosité';
+Blockly.Msg['FIZZ_ACCELERATION'] = 'Accélération';
+Blockly.Msg['FIZZ_COMPASS'] = 'Boussole';
 // Communication - Data logging
 Blockly.Msg['COMMUNICATION_OPENLOG_WRITE_TITLE'] = '[Openlog] écrire dans la carte SD %1 avec la carte %2 sur les broches RXI %3 TXO %4 %5 Données %6';
-Blockly.Msg['COMMUNICATION_OPENLOG_WRITE_TOOLTIP'] = IMG_MODULE_OPENLOG + Blockly.Tooltip.SEP + 'Permet d\'écrire des données dans la carte micro SD avec le module Openlog. Le baudrate de l\'OpenLog doit être configuré à la moitié du baudrate de la carte. Exemple: Pour la carte v1, si le baudrate est à 9600 (cf config.txt sur la carte SD), le baudrate doit être à 4800.';
-// Communication - Wireless
-Blockly.Msg['COMMUNICATION_BLUETOOTH_SENDDATA_TITLE'] = '[Bluetooth] envoyer sur les broches RX %1 TX %2 message %3';
-Blockly.Msg['COMMUNICATION_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_HC05 + Blockly.Tooltip.SEP + 'Permet d\'envoyer des données via le module Bluetooth HC05 sur les broches RX/TX.';
-Blockly.Msg['COMMUNICATION_BLUETOOTH_ONDATARECEIVED_TITLE'] = '[Bluetooth] si message reçu sur les broches RX %1 TX %2 dans %3 alors';
-Blockly.Msg['COMMUNICATION_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HC05 + Blockly.Tooltip.SEP + 'Permet d\'exécuter des instructions si une donnée est reçue par un module Bluetooth HC05 dans la variable \'bluetoothData\' sur les broches RX/TX.';
-Blockly.Msg['COMMUNICATION_HM10_BLUETOOTH_SENDDATA_TITLE'] = '[HM10 BT] envoyer sur les broches RX %1 TX %2 message %3';
-Blockly.Msg['COMMUNICATION_HM10_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_HM10_BT + Blockly.Tooltip.SEP + 'Permet d\'envoyer des données via le module Bluetooth HM10 sur les broches RX/TX.';
-Blockly.Msg['COMMUNICATION_HM10_BLUETOOTH_ONDATARECEIVED_TITLE'] = '[HM10 BT] si message reçu sur les broches RX %1 TX %2 dans %3 alors';
-Blockly.Msg['COMMUNICATION_HM10_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HM10_BT + Blockly.Tooltip.SEP + 'Permet d\'exécuter des instructions si une donnée est reçue par un module Bluetooth HM10 dans la variable \'HM10Data\' sur les broches RX/TX. Par défaut, le module s\'appelle MLT-BT05.';
+Blockly.Msg['COMMUNICATION_OPENLOG_WRITE_TOOLTIP'] = IMG_MODULE_OPENLOG + Blockly.Tooltip.SEP + 'Permet d\'écrire des données dans la carte micro SD avec le module Openlog. Le baudrate de l\'OpenLog doit être configuré à la moitié du baudrate de la carte. Exemple: Pour la carte v1, si le baudrate est à 9600 (cf config.txt sur la carte SD), le baudrate doit être à 4800.\nEn revanche, pour le modèle de Sparkfun, il est basiquement à 9600, vous pouvez renseignez le même baudrate (9600) dans le block ET dans le fichier config.txt.\nPar ailleurs, il faut aussi au préalable placer la carte SD dans le module OpenLog avant sa remise sous tension.';
+Blockly.Msg['COMMUNICATION_FS_SAVE_DATA_TITLE'] = '[Pico] enregistrer les données %1 dans le fichier %2';
+Blockly.Msg['COMMUNICATION_FS_SAVE_DATA_TOOLTIP'] = 'Permet d\'enregistrer des données dans un fichier texte dans le système de fichier de la Pico. Si vous utilisez le même nom de fichier, les données seront ajoutées à la fin du fichier. Vous pouvez également appuyer sur le bouton + pour modifier l\'extension du fichier.';
+// Communication - External Bluetooth modules
+Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_SET_AT_COMMAND_TITLE'] = '[Grove BT] AT - changer le paramètre %1 en %2';
+Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_SET_AT_COMMAND_TOOLTIP'] = IMG_MODULE_GROVE_BT + Blockly.Tooltip.SEP + 'Permet de changer les paramètres du module Grove Serial Bluetooth v3 en envoyant une commande AT. Une fois le paramètre changé, il n\'est plus nécéssaire de retourner dans ce mode car celui-ci est gardé en mémoire du module.';
+Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_GET_AT_COMMAND_TITLE'] = '[Grove BT] AT - valeur du paramètre %1';
+Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_GET_AT_COMMAND_TOOLTIP'] = IMG_MODULE_GROVE_BT + Blockly.Tooltip.SEP + 'Permet de récupérer la valeur des paramètres du module Grove Serial Bluetooth v3 en envoyant une commande AT.';
+Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_SENDDATA_TITLE'] = '[Grove BT] envoyer message %1';
+Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_GROVE_BT + Blockly.Tooltip.SEP + 'Permet d\'envoyer des données via le module Grove Serial Bluetooth v3.';
+Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_ONDATARECEIVED_TITLE'] = '[Grove BT] si message reçu dans %1';
+Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_GROVE_BT + Blockly.Tooltip.SEP + 'Permet d\'exécuter des instructions si une donnée est reçue par un module série Bluetooth dans la variable \'bluetoothData\'.';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TITLE'] = '[HC05 BT] envoyer sur les broches RX %1 TX %2 message %3';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Permet d\'envoyer des données via le module Bluetooth HC05 sur les broches RX/TX.';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TITLE'] = '[HC05 BT] si message reçu sur les broches RX %1 TX %2 dans %3 alors';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Permet d\'exécuter des instructions si une donnée est reçue par un module Bluetooth HC05 dans la variable \'bluetoothData\' sur les broches RX/TX.';
 // Communication - Tracking modules
+Blockly.Msg['COMMUNICATION_RFID_GETSTRINGCARDID_TITLE'] = '[RFID - 125kHz] ID du badge sur le bus UART %1';
+Blockly.Msg['COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP'] = IMG_MODULE_RFID_125KHZ + Blockly.Tooltip.SEP + 'Permet de récupérer l\'identifiant UID sous forme de chaîne de caractères du module Grove RFID 125 kHz si celui si est disponible sur les broches UART.\nLes données reçues du module sont sous forme d\'un tableau d\'octets. Pour les convertir, utiliser le bloc "[RFID] convertir les données ... en INT".\nPar défaut, les broches sont telles que: UART 1 (tx=4, rx=5) et UART 0 (tx=0, rx=1).';
+Blockly.Msg["COMMUNICATION_RFID_CONVERTDATA_TITLE"] = "[RFID - 125kHz] convertir les données %1 en %2";
+Blockly.Msg["COMMUNICATION_RFID_CONVERTDATA_TOOLTIP"] = IMG_MODULE_RFID_125KHZ + Blockly.Tooltip.SEP + "Permet d'obtenir les données reçues provenant d'un tableau de 'bytes' sous forme d'un hex, int ou liste d'entier.";
+Blockly.Msg['COMMUNICATION_SPI_HELPER'] = '\nPar défaut, les broches SPI 0 de la carte Pico sont sur SCK: Pin(18), MISO: Pin(16) et MOSI: Pin(19) et les broches de SPI 1 sont sur SCK: Pin(10), MISO: Pin(8) et MOSI: Pin(11).';
+Blockly.Msg['COMMUNICATION_MFRC522_GETSTRINGCARDID_TITLE'] = '[RFID RC522] SPI %1 ID du badge sur la broche NSS %2';
+Blockly.Msg['COMMUNICATION_MFRC522_GETSTRINGCARDID_TOOLTIP'] = IMG_MODULE_RFID_RC522 + Blockly.Tooltip.SEP + 'Permet de récupérer l\'identifiant UID sous forme de chaîne de caractères du module RFID en SPI RC522 de Joy-It si celui si est détecté sur les broches digitales.' + Blockly.Msg['COMMUNICATION_SPI_HELPER'];
 Blockly.Msg['COMMUNICATION_GPS_INFO_TYPE'] = 'le type de la trame';
 Blockly.Msg['COMMUNICATION_GPS_INFO_CLOCK'] = 'l\'heure (h, m, s)';
 Blockly.Msg['COMMUNICATION_GPS_INFO_LATITUDE'] = 'la latitude (°)';
@@ -192,17 +211,10 @@ Blockly.Msg['COMMUNICATION_GPS_INFO_LONGITUDE'] = 'la longitude (°)';
 Blockly.Msg['COMMUNICATION_GPS_INFO_SATELLITE'] = 'le nombre de satellites utilisés';
 Blockly.Msg['COMMUNICATION_GPS_INFO_ALTITUDE'] = 'l\'altitude (m)';
 Blockly.Msg['COMMUNICATION_GPS_INFO_ALL_FRAME'] = 'toute la trame';
-Blockly.Msg['COMMUNICATION_GPS_GET_NMEA_TITLE'] = '[GPS] trames NMEA sur les broches RX %1 TX %2';
-Blockly.Msg['COMMUNICATION_GPS_GET_NMEA_TOOLTIP'] = IMG_MODULE_GPS + Blockly.Tooltip.SEP + 'Renvoie la liste des trames NMEA lues avec le module GPS Grove SIM28 ou Air530 sur les broches RX/TX. Les fils n\'ont pas besoin d\'être inversée entre les broches du module et celles indiquées dans le bloc. L\'inversion se fait automatiquement dans le code python.\nAttention: Si vous utilisez la console pour afficher les données du GPS, connecter votre carte à l\'interface avant d\'envoyer le programme en cliquant sur le bouton [>_ REPL]. Ensuite, transférer votre programme en utilisant le bouton [Télécharger .hex].';
-Blockly.Msg['COMMUNICATION_GPS_GGA_GETINFORMATIONS_TITLE'] = '[GPS] obtenir %3 sur les broches RX %1 TX %2';
-Blockly.Msg['COMMUNICATION_GPS_GGA_GETINFORMATIONS_TOOLTIP'] = IMG_MODULE_GPS + Blockly.Tooltip.SEP + 'Renvoie la donnée sélectionnée parmi (le type de trame, l\'horloge, la latitude, la longitude, l\'altitude) annalysée de la trame NMEA (GNGGA ou GPGGA) lue avec le module GPS Grove SIM28 ou Air530 sur les broches RX/TX. Les fils n\'ont pas besoin d\'être inversée entre les broches du module et celles indiquées dans le bloc. L\'inversion se fait automatiquement dans le code python.\nAttention: Si vous utilisez la console pour afficher les données du GPS, connecter votre carte à l\'interface avant d\'envoyer le programme en cliquant sur le bouton [>_ REPL]. Ensuite, transférer votre programme en utilisant le bouton [Télécharger .hex].';
-
-// 05/22 The 2 following blocks removed from toolbox. We keep the block cause of user projects.
-Blockly.Msg['COMMUNICATION_GPS_ONDATARECEIVED_TITLE'] = '[GPS] si une donnée est reçue sur les broches TX %1 RX %2 dans %3 alors';
-Blockly.Msg['COMMUNICATION_GPS_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_GPS + Blockly.Tooltip.SEP + 'Permet d\'exécuter des instructions si une donnée est reçue par GPS dans la variable \'gpsData\' sur les broches RX/TX.';
-Blockly.Msg['COMMUNICATION_GPS_GETINFORMATIONS_TITLE'] = '[GPS] obtenir %1 avec les données %2';
-Blockly.Msg['COMMUNICATION_GPS_GETINFORMATIONS_TOOLTIP'] = IMG_MODULE_GPS + Blockly.Tooltip.SEP + 'Renvoie les données analysées du GPS parmi (\'horloge\', \'latitude, \'longitude\', \'altitude\', \'toute la trame\')';
-// end of the 2 blocks
+Blockly.Msg['COMMUNICATION_GPS_GET_NMEA_TITLE'] = '[GPS] trames NMEA sur le bus UART %1';
+Blockly.Msg['COMMUNICATION_GPS_GET_NMEA_TOOLTIP'] = IMG_MODULE_GPS + Blockly.Tooltip.SEP + 'Renvoie la liste des trames NMEA lues avec le module GPS Grove SIM28 ou Air530 sur les broches RX/TX. Les fils n\'ont pas besoin d\'être inversée entre les broches du module et celles indiquées dans le bloc. L\'inversion se fait automatiquement dans le code python.\nPar défaut, les broches sont telles que: UART 1 (tx=4, rx=5) et UART 0 (tx=0, rx=1).';
+Blockly.Msg['COMMUNICATION_GPS_GGA_GETINFORMATIONS_TITLE'] = '[GPS] obtenir %1 sur le bus UART %2';
+Blockly.Msg['COMMUNICATION_GPS_GGA_GETINFORMATIONS_TOOLTIP'] = IMG_MODULE_GPS + Blockly.Tooltip.SEP + 'Renvoie la donnée sélectionnée parmi (le type de trame, l\'horloge, la latitude, la longitude, l\'altitude) annalysée de la trame NMEA (GNGGA ou GPGGA) lue avec le module GPS Grove SIM28 ou Air530 sur les broches UART.\nPar défaut, les broches sont telles que: UART 1 (tx=4, rx=5) et UART 0 (tx=0, rx=1).';
 Blockly.Msg['COMMUNICATION_RTC_MODULE_PCF85063TP'] = 'Haute Précision (0x51)';
 Blockly.Msg['COMMUNICATION_RTC_MODULE_DS1307'] = 'v1.2 (0x68)';
 Blockly.Msg['COMMUNICATION_GROVERTC_SETDATE_TITLE'] = '[Horloge RTC %1] initialiser à %2 date %3';
@@ -227,16 +239,16 @@ Blockly.Msg['CLOCK_HOUR'] = 'heure';
 Blockly.Msg['CLOCK_MINUTE'] = 'minute';
 Blockly.Msg['CLOCK_SECOND'] = 'seconde';
 // Communication - UART
-Blockly.Msg['COMMUNICATION_SERIAL_INIT_TITLE'] = '[uart] rediriger la connexion série sur RX %2 TX %3 baudrate %1';
-Blockly.Msg['COMMUNICATION_SERIAL_INIT_TOOLTIP'] = 'Permet de rediriger la connexion série de la carte Raspberry Pi Pico. Quand vous connecter le module, être assuré que les broches sont \'croisées\' : RX de la carte avec TX du module et inversement.';
-Blockly.Msg['COMMUNICATION_SERIAL_REDIRECTTOUSB_TITLE'] = '[uart] rediriger la connexion série vers USB';
-Blockly.Msg['COMMUNICATION_SERIAL_REDIRECTTOUSB_TOOLTIP'] = 'Permet de rediriger la connexion série vers l\'USB (ordinateur). Cela peut être utilisé pour faire fonctionner plusieurs modules UART en même temps.';
-Blockly.Msg['COMMUNICATION_UART_WRITE_TITLE'] = '[uart] écrire la donnée %1';
-Blockly.Msg['COMMUNICATION_UART_WRITE_TOOLTIP'] = 'Permet d\'écrire des données dans le port UART.';
-Blockly.Msg['COMMUNICATION_UART_READ_TITLE'] = '[uart] lire les données';
-Blockly.Msg['COMMUNICATION_UART_READ_TOOLTIP'] = 'Permet de lire des données depuis le port UART.';
-Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TITLE'] = '[uart] données disponibles';
-Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TOOLTIP'] = 'Retourne une valeur booléenne (1 si des données sont disponibles à la lecture ou 0 sinon).';
+Blockly.Msg['COMMUNICATION_UART_INIT_TITLE'] = '[uart %1] définir la connexion série sur RX %2 TX %3 Baudrate %4';
+Blockly.Msg['COMMUNICATION_UART_INIT_TOOLTIP'] = 'Permet de définir la connexion série de la carte Pico sur le port UART (1 ou 0). Le port 0 est réservé au REPL.';
+Blockly.Msg['COMMUNICATION_UART_WRITE_TITLE'] = '[uart %1] écrire la donnée %2';
+Blockly.Msg['COMMUNICATION_UART_WRITE_TOOLTIP'] = 'Permet d\'écrire des données dans le port UART (1 ou 0). Par défaut, les broches sont telles que: UART 1 (tx=4, rx=5) et UART 0 (tx=0, rx=1). Sinon, utilisez le bloc \'Définir la connexion série sur RX TX Baudrate ...\'.';
+Blockly.Msg['COMMUNICATION_UART_READ_TITLE'] = '[uart %1] lire les données';
+Blockly.Msg['COMMUNICATION_UART_READ_TOOLTIP'] = 'Permet de lire des données depuis le port UART (1 ou 0). Par défaut, les broches sont telles que: UART 1 (tx=4, rx=5) et UART 0 (tx=0, rx=1). Sinon, utilisez le bloc \'Définir la connexion série sur RX TX Baudrate ...\'.';
+Blockly.Msg['COMMUNICATION_UART_READ_SIZE'] = 'taille des données';
+Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TITLE'] = '[uart %1] données disponibles';
+Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TOOLTIP'] = 'Retourne la taille des données disponibles sur le port UART (1 ou 0). Par défaut, les broches sont telles que: UART 1 (tx=4, rx=5) et UART 0 (tx=0, rx=1). Sinon, utilisez le bloc \'Définir la connexion série sur RX TX Baudrate ...\'.';
+
 // Sensors - common msg
 Blockly.Msg['SENSORS_TEMPERATURE'] = 'température';
 Blockly.Msg['SENSORS_TEMPERATURE_IN'] = 'en';
@@ -298,9 +310,9 @@ Blockly.Msg['SENSORS_TH02_READDATA_TOOLTIP'] = IMG_MODULE_TH02 + Blockly.Tooltip
 Blockly.Msg['SENSORS_SHT31_READDATA_TITLE'] = '[Capteur SHT31] %1 sur le port %2';
 Blockly.Msg['SENSORS_SHT31_READDATA_TOOLTIP'] = IMG_MODULE_SHT31 + Blockly.Tooltip.SEP + 'Renvoie la température en degré Celsius (°C), Fahrenheit (°F) ou Kelvin (K), ou l\'humidité (en %) grâce au capteur SHT31. Brancher le capteur sur un port I2C.';
 Blockly.Msg['SENSORS_MPX5700AP_GETPRESSURE_TITLE'] = '[Capteur MPX5700AP] pression (kPa) sur la broche %1';
-Blockly.Msg['SENSORS_MPX5700AP_GETPRESSURE_TOOLTIP'] = IMG_MODULE_MPX5700AP + Blockly.Tooltip.SEP + 'Permet de lire la pression du capteur Grove avec la calculatrice TI-83.';
+Blockly.Msg['SENSORS_MPX5700AP_GETPRESSURE_TOOLTIP'] = IMG_MODULE_MPX5700AP + Blockly.Tooltip.SEP + 'Permet de lire la pression (en kPa) avec le capteur Grove MPX5700AP sur les broches analogiques.';
 Blockly.Msg['SENSORS_MPX5700AP_CALIBRATE_TITLE'] = '[Capteur MPX5700AP] calibrer le capteur m %1 b %2';
-Blockly.Msg['SENSORS_MPX5700AP_CALIBRATE_TOOLTIP'] = IMG_MODULE_MPX5700AP + Blockly.Tooltip.SEP + 'Permet de calibrer le capteur de pression grove avec la calculatrice TI-83.';
+Blockly.Msg['SENSORS_MPX5700AP_CALIBRATE_TOOLTIP'] = IMG_MODULE_MPX5700AP + Blockly.Tooltip.SEP + 'Permet de calibrer le capteur de pression grove MPX5700AP sur les broches analogiques.';
 Blockly.Msg['SENSORS_GETGROVEWATER_TITLE'] = '[Capteur d\'eau] quantité d\'eau sur la broche %1';
 Blockly.Msg['SENSORS_GETGROVEWATER_TOOLTIP'] = IMG_MODULE_WATER + Blockly.Tooltip.SEP + 'Renvoie la quantité d\'eau (de 0 à 255) mesurée grâce au capteur d\'eau grove sur les broches P0/P14, P1/P15 ou P2/P16.';
 Blockly.Msg['SENSORS_GETRAINGAUGE_TITLE'] = '[Capteur de pluie] état sur la broche %1';
@@ -310,11 +322,11 @@ Blockly.Msg['SENSORS_GETANEMOMETER_TOOLTIP'] = IMG_MODULE_ANEMOMETER + Blockly.T
 // Sensors - Sound & Light
 Blockly.Msg['SENSORS_GETGROVELIGHT_TITLE'] = '[Capteur de lumière] luminosité sur la broche %1';
 Blockly.Msg['SENSORS_GETGROVELIGHT_TOOLTIP'] = IMG_MODULE_LIGHT + Blockly.Tooltip.SEP + 'Renvoie la luminosité (de 0 à 1023) du capteur de lumière Grove sur les broches P0 à P4, ou P10.';
-Blockly.Msg['SENSORS_SI1145_GETLIGHT_TITLE'] = '[Capteur SI1145] luminosité %1 sur le port %2';
-Blockly.Msg['SENSORS_SI1145_GETLIGHT_TOOLTIP'] = IMG_MODULE_SI1145 + Blockly.Tooltip.SEP + 'Renvoie l\'indice de lumière ultraviolette, la luminosité visible (en lumen) ou infrarouge (en lumen) grâce au capteur Grove Sunlight ou le capteur GY1145. Brancher le capteur sur un port I2C.';
-Blockly.Msg['SENSORS_SI1145_UV'] = 'indice UV';
-Blockly.Msg['SENSORS_SI1145_VISIBLE'] = 'visible (lumen)';
-Blockly.Msg['SENSORS_SI1145_IR'] = 'infrarouge (lumen)';
+Blockly.Msg['SENSORS_SUNLIGHT_GETDATA_TITLE'] = '[Capteur de lumière solaire] luminosité %1 sur le port %2';
+Blockly.Msg['SENSORS_SUNLIGHT_GETDATA_TOOLTIP'] = IMG_MODULE_SI1145 + Blockly.Tooltip.SEP + 'Renvoie l\'indice de lumière ultraviolette, la luminosité visible (en lumen) ou infrarouge (en lumen) grâce au capteur Grove Sunlight ou le capteur GY1145. Brancher le capteur sur un port I2C.';
+Blockly.Msg['SENSORS_SUNLIGHT_UV'] = 'indice UV';
+Blockly.Msg['SENSORS_SUNLIGHT_VISIBLE'] = 'visible (lumen)';
+Blockly.Msg['SENSORS_SUNLIGHT_IR'] = 'infrarouge (lumen)';
 Blockly.Msg['SENSORS_GETUVINDEX_TITLE'] = '[Capteur ultraviolet] indice UV sur la broche %1';
 Blockly.Msg['SENSORS_GETUVINDEX_TOOLTIP'] = IMG_MODULE_UV + Blockly.Tooltip.SEP + 'Renvoie l\'indice de la lumière ultraviolette pour des ondes entre 240 et 380 nm du capteur Grove sur les broches P0 à P4, ou P10.';
 Blockly.Msg['SENSORS_GROVECOLOR_GETDATA_TITLE'] = '[Capteur de couleurs] %1 sur le port %2';
@@ -323,7 +335,7 @@ Blockly.Msg['SENSORS_GETGROVESOUND_TITLE'] = '[Capteur de son] niveau sonore sur
 Blockly.Msg['SENSORS_GETGROVESOUND_TOOLTIP'] = IMG_MODULE_SOUND_LOUDNESS + Blockly.Tooltip.SEP + 'Renvoie le niveau sonore (0 à 1023) avec le capteur de son Grove sur les broches digitales P0 à P20.';
 // Sensors - Distance & Motion
 Blockly.Msg['SENSORS_GETGROVEULTRASONIC_TITLE'] = '[Capteur à ultrasons %1] %2';
-Blockly.Msg['SENSORS_GETGROVEULTRASONIC_TOOLTIP'] = IMG_MODULE_ULTRASONIC + Blockly.Tooltip.SEP + 'Renvoie la distance (in cm) mesurée grâce au capteur grove à ultrasons sur les broches digitales P0 à P20. Attention, si le capteur est un modèle grove, TRIG et ECHO sont sur la même broche SIG.';
+Blockly.Msg['SENSORS_GETGROVEULTRASONIC_TOOLTIP'] = IMG_MODULE_ULTRASONIC + Blockly.Tooltip.SEP + 'Renvoie la distance (en cm) mesurée grâce au capteur grove à ultrasons sur les broches digitales P0 à P20. Attention, si le capteur est un modèle grove, TRIG et ECHO sont sur la même broche SIG.';
 Blockly.Msg['SENSORS_ULTRASONIC_DISTANCE'] = 'distance (cm)';
 Blockly.Msg['SENSORS_ULTRASONIC_DURATION'] = 'durée de l\'aller-retour (µs)';
 Blockly.Msg['SENSORS_ULTRASONIC_1PIN'] = 'sur la broche ';
@@ -401,9 +413,9 @@ Blockly.Msg['NOTE_A_SHARP'] = 'La#';
 Blockly.Msg['NOTE_B'] = 'Si';
 Blockly.Msg['MUSIC_SILENCE'] = 'Silence';
 // Processus
-Blockly.Msg['ON_START_CORE0_TITLE'] = '[core0] Au démarage';
+Blockly.Msg['ON_START_CORE0_TITLE'] = 'Au démarage';
 Blockly.Msg['ON_START_CORE0_TOOLTIP'] = 'Permet de démarrer le file d\'exéution principal sur le core0 de la Raspberry Pi Pico.';
-Blockly.Msg['FOREVER_CORE0_TITLE'] = '[core0] Répéter indéfiniment';
+Blockly.Msg['FOREVER_CORE0_TITLE'] = 'Répéter indéfiniment';
 Blockly.Msg['PROCESS_FOREVER_CORE1_TITLE'] = '[core1] Répéter indéfiniment';
 Blockly.Msg['PROCESS_ON_START_CORE1_TITLE'] = '[core1] Au démarage';
 Blockly.Msg['PROCESS_ON_START_CORE1_TOOLTIP'] = 'Permet de démarrer un second file d\'exécution sur le core1 de la Raspberry Pi Pico.';

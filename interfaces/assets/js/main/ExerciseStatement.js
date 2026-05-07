@@ -1,7 +1,7 @@
 /**
  * Manage the exercise statements
  */
-class ExerciseStatement{
+class ExerciseStatement {
 	constructor() {
 		// The DOM element where the exercise statement element will be inserted
 		let ideWrapper = false;
@@ -9,7 +9,6 @@ class ExerciseStatement{
 			case 'ai':
 				ideWrapper = '#ai-ide';
 				break;
-		
 			default:
 				ideWrapper = '#ide';
 				break;
@@ -29,7 +28,7 @@ class ExerciseStatement{
 	 * @returns false if the parameter is not a string, otherwise returns true
 	 */
 	setStatementContent(content) {
-		if (typeof content != 'string'){
+		if (typeof content != 'string') {
 			return false;
 		}
 		this._statementContent = content;
@@ -74,7 +73,7 @@ class ExerciseStatement{
 	 */
 	_createStatementWrapperElt() {
 		this._statementWrapperElt = document.createElement('div');
-		
+
 		this._statementContentElt = document.createElement('div');
 		this._statementContentElt.id = 'statement-content';
 		this._statementContentElt.setAttribute('before-elt', i18next.t('code.statement'));
@@ -103,7 +102,7 @@ class ExerciseStatement{
 	 * Apply some styles to the global DOM statement element to display or hide it depending on the current statementContent value
 	 */
 	_toggleStyle() {
-		if (this._statementContent && this._statementContent != ''){
+		if (this._statementContent && this._statementContent != '') {
 			this._statementWrapperElt.classList.add('statement-exists');
 		} else {
 			this._statementWrapperElt.classList.remove('statement-exists');
@@ -130,9 +129,11 @@ class ExerciseStatement{
 			this._statementWrapperElt.classList.add('statement-collapsed');
 			this._statementButtonElt.innerHTML = '<i class="fas fa-plus"></i>';
 		}
+
 		if (typeof Blockly === 'undefined') {
 			return;
 		}
+		
 		// resize the Blockly workspace to fit the new statement wrapper height once the transition is finished
 		this._statementWrapperElt.addEventListener('transitionend', () => {
 			Blockly.svgResize(Blockly.getMainWorkspace());

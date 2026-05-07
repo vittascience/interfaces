@@ -1,6 +1,6 @@
 
 /**
- * @fileoverview Sounds blocks for Winky.
+ * @fileoverview Sound blocks for Winky.
  */
 
 Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
@@ -17,7 +17,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "sounds_blocks",
+        "style": "sound_blocks",
         "tooltip": "%{BKY_SOUNDS_SET_VOLUME_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
@@ -46,7 +46,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "sounds_blocks",
+        "style": "sound_blocks",
         "tooltip": "%{BKY_SOUNDS_PLAY_SOUND_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"

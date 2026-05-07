@@ -1,17 +1,10 @@
-function setupMonitor() {
-	if ($('#monitor').hasClass('monitor-closed')) {
-		InterfaceMonitor.toggle();
-	}
-	if ($('#monitor-btn-console').length > 0 && !$('#monitor-btn-console').hasClass('activated')) {
-		InterfaceMonitor.managePanel('console');
-	}
-};
+
 
 async function connectBoard() {
 	if ($("#simulator").is(":visible")) {
 		toggleSimulator();
 	}
-	setupMonitor();
+	InterfaceMonitor.setup();
 	if (navigator.serial && !SerialAPI.isConnected) {
 		await doConnect();
 	}
@@ -35,7 +28,7 @@ async function uploadPython() {
 			InterfaceMonitor.writeConsole('Micropython firmware has to be flashed before downloading Python code. <b><a href=\"https://fr.vittascience.com/learn/tutorial.php?id=341/flasher-le-firmware-micropython-dans-la-carte-esp32\" style="color:var(--vitta-blue-dark);" target=\"_blank\" rel=\"noopener noreferrer\">Flashing Esp32 firmware</a></b>', 'warning');
 		}
 	};
-	setupMonitor();
+	InterfaceMonitor.setup();
 	if (SerialAPI.isConnected) {
 		await upload();
 	} else {
@@ -46,23 +39,6 @@ async function uploadPython() {
 			InterfaceMonitor.writeConsole('code.serialAPI.boardMustBeConnectedForDownload', 'warning');
 		}
 	}
-};
-
-/**
- * Download the firmware of the board.
- */
-async function downloadFirmware(fileName) {
-	await VittaInterface.fetchDir("/openInterface/" + Main.getInterface() + "/assets/firmware/" + fileName, true)
-		.then(function (blob) {
-			const url = window.URL.createObjectURL(blob);
-			const a = document.createElement('a');
-			a.style.display = 'none';
-			a.href = url;
-			a.download = fileName;
-			document.body.appendChild(a);
-			a.click();
-			window.URL.revokeObjectURL(url);
-		});
 };
 
 function callbackError(error) {
@@ -104,19 +80,24 @@ async function toggleReplOverture() {
 		if (SerialAPI.isConnected) {
 			openRepl();
 		} else {
-			InterfaceMonitor.writeConsole('code.serialAPI.boardMustBeConnectedSerialWrite', 'warning');
+			InterfaceMonitor.writeConsole('code.serialAPI.boardMustBeConnectedForREPL', 'warning');
 		}
 	}
 };
 
 function sendSerialCommand() {
-	if (Repl && (Repl.isOpen || Repl.isRawOpen)) {
-		const command = $('#serial-input').val();
-		Repl.sendCommand(command + Repl.END_MPY_CMD);
-		InterfaceMonitor.history.push(command);
-		$('#serial-input').val("");
+	const data = $('#serial-input').val();
+	if (SerialAPI?.isConnected) {
+		if (Repl?.isOpen || Repl?.isRawOpen) {
+			Repl.sendCommand(data + Repl.END_MPY_CMD);
+			InterfaceMonitor.history.push(data);
+			$('#serial-input').val("");
+		} else {
+			SerialAPI.write(new TextEncoder('utf-8').encode(data));
+			$('#serial-input').val("");
+		}
 	} else {
-		InterfaceMonitor.writeConsole('code.serialAPI.boardReplMustBeOpened', 'warning');
+		InterfaceMonitor.writeConsole('code.serialAPI.boardMustBeConnectedForSerialWrite', 'warning', false, true);
 	}
 };
 
@@ -182,19 +163,4 @@ async function doDisconnect() {
 
 async function waitClosure() {
 	await waitFor(_ => Repl.isLoopClosed === true);
-}
-
-
-/**
- * This function records all the pressed keys in the array `pressedKeys`
- * @param {DOM} e the DOM keypress element (document in this case)
- */
-function multipleKeyPress(e) {
-	if (!SerialAPI.pressedKeys.includes(e.key)) {
-		SerialAPI.pressedKeys.push(e.key);
-	}
-	// Ctrl+B management for Keyboard Interrupt
-	if (SerialAPI.pressedKeys.includes('Control') && SerialAPI.pressedKeys.includes('b')) {
-		Repl.open();
-	}
 };

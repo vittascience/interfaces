@@ -277,6 +277,12 @@ Blockly.Constants.Variables.VARIABLES_FORCE_TYPE_GET_TYPE = {
         return Blockly.Types.BOOLEAN;
       case "long":
         return Blockly.Types.NUMBER;
+      case "uint8_t":
+        return Blockly.Types.UINT8_T;
+      case "uint16_t":
+        return Blockly.Types.UINT16_T;
+      case "uint32_t":
+        return Blockly.Types.UINT32_T;
       default:
         return Blockly.Types.NUMBER;
     }

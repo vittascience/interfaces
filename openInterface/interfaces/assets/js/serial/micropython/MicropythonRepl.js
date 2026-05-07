@@ -42,6 +42,9 @@ class MicropythonRepl {
         this.isLoopClosed = true;
         this.rawEmptyCount = 0;
         this.hadRequestedLibraries = false;
+        this.readingLastResponse = false;
+        this.commandResponse = null;
+        this.requestCmd = null;
         this.buffer = "";
         this._code = "";
         this.readingStatus = {};
@@ -163,8 +166,15 @@ class MicropythonRepl {
      * @return
      * @memberof MicropythonRepl
      */
-    async sendCommand(cmd) {
-        return await this.write(cmd);
+    async sendCommand(cmd, waitingResponse = false) {
+        if (waitingResponse) {
+            this.requestCmd = cmd;
+        }
+        await this.write(cmd);
+        if (this.requestCmd !== null) {
+            await waitFor(_ => this.commandResponse != null);
+            return this.commandResponse;
+        }
     };
     /**
      * Add Micropython command in Queue.
@@ -240,7 +250,7 @@ class MicropythonRepl {
     /**
      * Append execution of main.py in boot.py file of board. Add debug messages for ESP32 boards.
      * @public
-     * @param {Boolean} deubg [OPTIONAL]
+     * @param {boolean} debug [OPTIONAL]
      * @returns {void}
      * @memberof MicropythonRepl
      */
@@ -303,155 +313,6 @@ class MicropythonRepl {
             this._MPY_CMD.getFreeMemory()
         ];
         this.enqueueCommandList(memoryCmds);
-    };
-    /**
-     * Send Micropython command for resetting board.
-     */
-    resetBoard(lib, soft = false) {
-        // console.log("[REPL] resetBoard()")
-        const runCmds = [
-            this._MPY_CMD.import_library(lib),
-            lib + '.' + (soft ? 'soft_' : '') + 'reset()'
-        ];
-        this.enqueueCommandList(runCmds);
-    };
-    /**
-     * Set REPL state and update its button style.
-     * @public
-     * @param {boolean} state
-     * @returns {void}
-     */
-    setRepl(state) {
-        if (this.isOpen != state) {
-            this.isOpen = state;
-            if (!this.serial.isDownloading) {
-                if (!this.isOpen) {
-                    $('#repl-control').removeClass("activated");
-                } else {
-                    $('#repl-control').addClass("activated");
-                }
-            }
-        }
-    };
-    /**
-     * Reading loop for printing data read by serial 'dataReceived' yield on console.
-     * @public
-     * @returns {void}
-     */
-    async readingLoop() {
-        this.isLoopClosed = false;
-        let isError = false;
-        let isFirmware13 = false;
-        while (true) {
-            if (!this.serial.isConnected) {
-                break;
-            }
-            await this.serial.sleep(50);
-            const { value, done } = await this.serial.read();
-            if (done || !value) {
-                if (this.serial.hasToClose) {
-                    break;
-                }
-                continue;
-            } else {
-                this.buffer += value;
-                if (this.buffer.match(/MicroPython v1.13/)) {
-                    isFirmware13 = true;
-                }
-                if (this._isEndOf(this.buffer, '>>> ', 1)) {
-                    this.isRawOpen = false;
-                    this._printResponseOnConsole(this.buffer);
-                    this.setRepl(true);
-                    this.isCommand = true;
-                    if (isFirmware13) {
-                        InterfaceMonitor.writeConsole(jsonPath('code.serialAPI.firmwareWarning'), 'interrupt');
-                        InterfaceMonitor.writeConsole(">>> ");
-                        isFirmware13 = false;
-                    }
-                    if (!isError || this.buffer.match(/KeyboardInterrupt/)) {
-                        if (!this.Queue.isEmpty()) {
-                            this.sendCommand(this.Queue.dequeue());
-                        } else {
-                            this.Queue.reset();
-                        }
-                    } else {
-                        this.Queue.reset();
-                    }
-                    isError = false;
-                    this.buffer = "";
-                } else {
-                    this.setRepl(false);
-                }
-                if (this.buffer.match(/esp\_image\: Checksum failed\./)) {
-                    this.hasFirmware = false;
-                }
-                if ((this.buffer.match(/ets [A-Za-z]{0,3} ( |)[0-9]{1,2} [0-9]{4} [0-9]{2}\:[0-9]{2}\:[0-9]{2}/) && !this.hasFirmware)
-                    || this.buffer.match(/perform factory reprogramming of MicroPython firmware \(completely erase flash, followed by firmware programming\)./)
-                    || this.buffer.match(/OSError: \[Errno 1\] EPERM/)) {
-                    this.serial.hasFirmware = false;
-                    this.hasFirmware = false;
-                    const parsedRep = this._parseResponse(this.buffer);
-                    this._printResponseOnConsole(parsedRep.textToPrint);
-                    InterfaceMonitor.writeConsole('</br>' + jsonPath('code.serialAPI.firmwareNotFound'), 'interrupt');
-                    break;
-                }
-                if (!this.isOpen && !isError) {
-                    const parsedRep = this._parseResponse(this.buffer);
-                    if (parsedRep.textToPrint != "") {
-                        if (parsedRep.textToPrint.indexOf('Brownout detector was triggered') != -1) {
-                            InterfaceMonitor.writeConsole('</br>Brownout detector was triggered', 'default');
-                            InterfaceMonitor.writeConsole(jsonPath('code.serialAPI.powerSupply') + '</br>', 'warning');
-                        } else {
-                            if (/exec\(open\(\'main\.py\'\).read\(\),( |)globals\(\)/.test(parsedRep.textToPrint)) {
-                                InterfaceMonitor.writeConsole(this.EXECUTION_MSG + '>>>\n', 'success');
-                                this.serial.isDownloading = false;
-                            }
-                            if ((this.serial.hasToClose || this.serial.isDownloading) && (/machine.reset\(\)/.test(parsedRep.textToPrint) || /exec\(open\(\'main\.py\'\).read\(\),( |)globals\(\)/.test(parsedRep.textToPrint))) {
-                                try {
-                                    if (/machine.reset\(\)/.test(parsedRep.textToPrint)) {
-                                        this._printResponseOnConsole(parsedRep.textToPrint.split("machine.reset()")[0] + "machine.reset()");
-                                    } else {
-                                        this._printResponseOnConsole(parsedRep.textToPrint.split("exec(open('main.py').read(),globals()")[0] + "exec(open('main.py').read(), globals()");
-                                    }
-                                } catch (e) {
-                                    console.error(e)
-                                }
-                                InterfaceMonitor.writeConsole(this.EXECUTION_MSG, 'success');
-                                if (this.serial.hasToClose) {
-                                    this.isLoopClosed = true;
-                                    this.buffer = "";
-                                    break;
-                                }
-                            } else {
-                                this._printResponseOnConsole(parsedRep.textToPrint);
-                                if (!InterfaceMonitor.PARSING_MESSAGE) {
-                                    const value = parseFloat(parsedRep.textToPrint);
-                                    let graph = null;
-                                    if (!isNaN(value)) {
-                                        graph = '@Graph:Console:' + value + '|';
-                                    } else if (parsedRep.textToPrint.match(/^@Graph:/)) {
-                                        graph = parsedRep.textToPrint;
-                                    }
-                                    if (graph !== null) {
-                                        InterfaceMonitor.sendDataToChart(graph);
-                                    }
-                                    if (parsedRep.textToPrint.match(/^@music:/) && $('#audio-switch').append("On")) {
-                                        this._playNote(parsedRep.textToPrint);
-                                    }
-                                }
-                                if (/[. ]/.test(parsedRep.buffer) && parsedRep.buffer.indexOf('... ') === 0) {
-                                    this.isRawOpen = true;
-                                    this._printResponseOnConsole(parsedRep.buffer);
-                                    parsedRep.buffer = "";
-                                }
-                            }
-                        }
-                    }
-                    this.buffer = parsedRep.buffer;
-                    isError = parsedRep.isError;
-                }
-            }
-        }
     };
     /**
      * Download code in 'main.py' file.
@@ -559,10 +420,10 @@ class MicropythonRepl {
      * @returns {void}
      * @memberof MicropythonRepl
      */
-    resetBoard(lib) {
+    resetBoard(lib, soft = false) {
         const runCmds = [
             this._MPY_CMD.import_library(lib),
-            lib + '.reset()'
+            lib + '.' + (soft ? 'soft_' : '') + 'reset()'
         ];
         this.enqueueCommandList(runCmds);
     };
@@ -813,7 +674,7 @@ class MicropythonRepl {
     _manageReplCommand(line) {
         this.isCommand = true;
         this._printResponseOnConsole(line + '\r\n');
-        if ((/machine.reset\(\)/.test(line) || /exec\(open\(\'main\.py\'\).read\(\),( |)globals\(\)/.test(line))) {
+        if (line.length < 63 && (/machine.reset\(\)/.test(line) || /exec\(open\(\'main\.py\'\).read\(\),( |)globals\(\)/.test(line))) {
             if (this.serial.hasToClose) {
                 InterfaceMonitor.writeConsole(this.EXECUTION_MSG, 'success', true, true);
                 this.isLoopClosed = true;
@@ -887,6 +748,12 @@ class MicropythonRepl {
             }
             $(child).html($(child).html() + html);
             this.rawEmptyCount = 0;
+            if (this.requestCmd) {
+                if ('<b>' + this.requestCmd + '</b>' == html) {
+                    this.readingLastResponse = true;
+                    this.requestCmd = null;
+                }
+            }
             this.isCommand = false;
             if (/exec\(open\(\'main\.py\'\).read\(\),( |)globals\(\)/.test(stream.data)) {
                 InterfaceMonitor.writeConsole(this.EXECUTION_MSG, 'success', true, true);
@@ -901,6 +768,10 @@ class MicropythonRepl {
             }
             InterfaceMonitor.scrollToBottom();
             return;
+        }
+        if (this.readingLastResponse && response !== ">>> ") {
+            this.commandResponse = response.replace(/>>> /, "");
+            this.readingLastResponse = false;
         }
         if ((this.isPasteMode || this.isRawOpen) && !this.readingStatus.isError) {
             $(monitor.lastChild).html($(monitor.lastChild).html() + ansi_up.ansi_to_html(stream.data));
@@ -979,7 +850,7 @@ class MicropythonRepl {
             } else {
                 stream.color = this.readingStatus.color;
             }
-        } else if (!this.serial.isDownloading && /Warning: (I2C|LCD)/.test(response)) {
+        } else if (!this.serial.isDownloading && /Warning: (I2C|LCD|SPI)/.test(response)) {
             stream.color = 'interrupt';
         }
         return stream;

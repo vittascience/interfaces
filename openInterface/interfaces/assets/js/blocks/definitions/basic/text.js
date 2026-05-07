@@ -130,7 +130,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       }
     ],
     "inputsInline": true,
-    "output": 'Array',
+    "output": "Array",
     "style": "text_blocks",
     "tooltip": "%{BKY_TEXT_SPLIT_TOOLTIP}"
   },
@@ -146,7 +146,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "check": ['String', 'Array']
       }
     ],
-    "output": 'Number',
+    "output": "Number",
     "style": "text_blocks",
     "tooltip": "%{BKY_TEXT_LENGTH_TOOLTIP}",
     "helpUrl": "%{BKY_TEXT_LENGTH_HELPURL}"
@@ -163,10 +163,31 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "check": ['String', 'Array']
       }
     ],
-    "output": 'Boolean',
+    "output": "Boolean",
     "style": "text_blocks",
     "tooltip": "%{BKY_TEXT_ISEMPTY_TOOLTIP}",
     "helpUrl": "%{BKY_TEXT_ISEMPTY_HELPURL}"
+  },
+
+  // Block for checking if substring is in text
+  {
+    "type": "text_includesSubstr",
+    "message0": "%{BKY_TEXT_INCLUDES_SUBSTR_TITLE}",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "FIND"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "style": "text_blocks",
+    "tooltip": "%{BKY_TEXT_INCLUDES_SUBSTR_TOOLTIP}",
   },
 
   // Block for getting index of input text in another text
@@ -430,7 +451,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     ]
   },
 
-   // Block to decode string from caesar cipher unsing brute force
+  // Block to decode string from caesar cipher unsing brute force
   {
     "type": "text_caesar_cipher_brute_force",
     "message0": "%{BKY_TEXT_CAESAR_CIPHER_BRUTE_FORCE_TITLE}",

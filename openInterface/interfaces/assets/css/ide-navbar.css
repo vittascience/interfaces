@@ -110,8 +110,13 @@
 .ide-dropdown .ide-btn:hover,
 .ide-btn-group .ide-btn:hover,
 .ide-btn:hover {
-    color: var(--bg-0);
     background-color: var(--vitta-orange-light);
+}
+
+.theme-dark .ide-dropdown .ide-btn:hover,
+.theme-dark .ide-btn-group .ide-btn:hover,
+.theme-dark .ide-btn:hover {
+    color: var(--bg-0);
 }
 
 .ide-btn:focus-within {
@@ -194,6 +199,11 @@
 .ide-btn-group-mode,
 .ide-btn-group-download {
     right: 0;
+}
+
+.ide-btn-group-download,
+.ide-btn-group-settings {
+    background-color: var(--bg-1);
 }
 
 .hiddened {

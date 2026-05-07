@@ -2,6 +2,7 @@
 const config = {
     debug: true,
     enableXR: true,
+    enablePhysics: true,
     params : {
         "debug": false, // debug mode will throw console.log for debugging if declared
         "width": 500, // canvas width
@@ -62,9 +63,9 @@ const config = {
 	},
     // elements hierarchy => used to get elements from the scene and handle animations
     modelHierarchy: {
-        elementsRegex: ['joint_[0-9]', 'MORS_(LEFT|RIGHT)', 'LED_RING_', 'modelCustom', '(X|Y|Z)_axis_helper'], // either a string or an array of strings (regex formated or not)
+        elementsRegex: ['dropZone[0-9]', 'joint_[0-9]', 'MORS_(LEFT|RIGHT)', 'LED_RING_', 'modelCustom', '(X|Y|Z)_axis_helper', 'base_link', 'base'], // either a string or an array of strings (regex formated or not)
         groupes:{
-			led_group: ['LED_RING_1', 'LED_RING_2', 'LED_RING_3', 'LED_RING_4', 'LED_RING_5', 'LED_RING_6', 'LED_RING_7', 'LED_RING_8', 'LED_RING_9', 'LED_RING_10', 'LED_RING_11', 'LED_RING_12', 'LED_RING_13', 'LED_RING_14', 'LED_RING_15', 'LED_RING_16', 'LED_RING_17', 'LED_RING_18', 'LED_RING_19', 'LED_RING_20', 'LED_RING_21', 'LED_RING_22', 'LED_RING_23', 'LED_RING_24', 'LED_RING_25', 'LED_RING_26', 'LED_RING_27', 'LED_RING_28', 'LED_RING_29', 'LED_RING_30'],
+			led_group: ['dropZone0', 'dropZone2', 'dropZone1', 'LED_RING_1', 'LED_RING_2', 'LED_RING_3', 'LED_RING_4', 'LED_RING_5', 'LED_RING_6', 'LED_RING_7', 'LED_RING_8', 'LED_RING_9', 'LED_RING_10', 'LED_RING_11', 'LED_RING_12', 'LED_RING_13', 'LED_RING_14', 'LED_RING_15', 'LED_RING_16', 'LED_RING_17', 'LED_RING_18', 'LED_RING_19', 'LED_RING_20', 'LED_RING_21', 'LED_RING_22', 'LED_RING_23', 'LED_RING_24', 'LED_RING_25', 'LED_RING_26', 'LED_RING_27', 'LED_RING_28', 'LED_RING_29', 'LED_RING_30'],
 		},
     },
 }

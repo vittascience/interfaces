@@ -15,7 +15,7 @@ const specific_boardInterfaceOption =
         <label for="board_nano_Share" class="switcher__label">Arduino Nano</label>
 
         <input type="radio" name="shareOptionsBoard" value="mega" id="board_mega_Share" class="switcher__input switcher__input--middle2">
-        <label for="board_mega_Share" class="switcher__label">Arduino Méga</label>
+        <label for="board_mega_Share" class="switcher__label">Arduino Mega</label>
         <!--
         <input type="radio" name="shareOptionsBoard" value="unor4wifi" id="board_unor4wifi_Share" class="switcher__input switcher__input--right">
         <label for="board_unor4wifi_Share" class="switcher__label">Arduino R4 WiFi</label>
@@ -25,3 +25,12 @@ const specific_boardInterfaceOption =
 </div>`;
 // settings modal
 const specific_toolboxToggler = toolboxToggler;
+const specific_boardSelector = function () {
+    return `<div class="ide-modal-section mt-3">
+        <h5>${jsonPath('modals.standard.settings.content.board.title')}</h5>
+        <p class="mb-1">${jsonPath('modals.standard.settings.content.board.notice')}</p>
+        <button type="button" class="btn v-btn board-choice-select-btn" onclick="VittaInterface.openBoardSelector();">
+            ${jsonPath('modals.board-selector.buttons.setting')}
+        </button>
+    </div>`;
+};

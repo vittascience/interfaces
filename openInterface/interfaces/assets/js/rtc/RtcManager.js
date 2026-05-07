@@ -108,7 +108,6 @@ class RtcManager {
   }
   initSocketUsers() {
     this.socket.on('users', (data) => {
-      //let divInterval = null;
       let userDiv = document.getElementById('users');
       let userDivOnline = document.getElementById('users-anonymous-online');
       let modalUsersOnlineDiv = document.getElementById('users-anonymous-online-modal');
@@ -167,7 +166,6 @@ class RtcManager {
           userRound.style.zIndex = 100;
           userDivOnlineLine.querySelector('.user-round + span').innerHTML += ' ' + i18next.t('tutorial.commentary.you');
           userRound.setAttribute('title', i18next.t(JSON.parse(data[element].clientInfos).name) + ' ' + i18next.t('tutorial.commentary.you'));
-          //userRound.classList.add('user-you');
           userDiv.prepend(userRound);
           modalUsersOnlineDiv.prepend(userDivOnlineLine.cloneNode(true));
           if (data[element].readOnly == 1) {
@@ -228,8 +226,6 @@ class RtcManager {
   }
   initSocketBlockly() {
     this.socket.on('blockly', (data) => {
-      //CodeManager.getSharedInstance()._workspace.removeChangeListener(this.blocklyEvents);
-      //Blockly.Events.disable()
       Blockly.Events.disabled_ = 1;
       if (data.socketId != this.socket.id) {
         if (data.event.type == 'selected') {
@@ -295,7 +291,6 @@ class RtcManager {
         document.getElementById('save-warning').style.backgroundColor = 'var(--vitta-orange-light)';
         document.getElementById("save-warning-text").innerHTML = '<i class="fas fa-save"></i> ' + data.message;
         $("#save-warning").fadeIn();
-        //document.getElementById('save-warning').style.opacity = '1';
       } else if (data.status == 'success') {
         projectManager._currentProject.code = projectManager.localStorageManager.getLocalProjectContent().code;
         projectManager._currentProject.codeText = projectManager.localStorageManager.getLocalProjectContent().codeText;
@@ -343,7 +338,6 @@ class RtcManager {
   }
   initSocketRoomProjectUpdated() {
     this.socket.on('roomProjectUpdated', (data) => {
-      //Blockly.Events.disable()
       Blockly.Events.disabled_ = 1;
       this.aceEditor.removeEventListener('change', this.aceEvents);
       this.aceEditor.selection.removeEventListener("changeCursor", this.aceEvents);
@@ -354,7 +348,6 @@ class RtcManager {
       CodeManager.getSharedInstance().loadBlocks(codeXml)
       CodeManager.getSharedInstance().setTextCode(codeAce);
       setTimeout(() => {
-        //Blockly.Events.enable()
         Blockly.Events.disabled_ = 0;
         this.aceEditor.addEventListener('change', this.aceEvents);
         this.aceEditor.selection.on("changeCursor", this.aceEvents);
@@ -391,7 +384,6 @@ class RtcManager {
     });
   }
   initSocketuserRightsChange() {
-    //io.to(data.room).emit('userRightsChange', {user:data.idUser, rights:data.rights});
     this.socket.on('userRightsChange', (data) => {
       if (UserManager.getUser().id && UserManager.getUser().id == data.user) {
         userRightsChange(data.rights);
@@ -435,50 +427,15 @@ class RtcManager {
     }
   }
 
-  aceTriggerTrad(){
-    if (Main.hasPython2Blocks()){
+  aceTriggerTrad() {
+    if (Main.hasPython2Blocks()) {
       if (Python2Blocks !== "undefined" && Python2Blocks.initialized === true) {
         Python2Blocks.prepareInjection();
-    }
+      }
     }
   }
 
   createMarker(data) {
-    /*    if (!CodeManager.getSharedInstance()._workspace.getMarkerManager()) {
-         throw Error('Cannot create a Marker without Blockly MarkerManager.');
-       };
-       let marker = CodeManager.getSharedInstance()._workspace.getMarkerManager().getMarker(data.socketId)
-       if(data.event.newElementId != null){
-         if (marker == null) {
-           marker = new Blockly.Marker();
-           marker.colour = data.client.color
-           CodeManager.getSharedInstance()._workspace.getMarkerManager().registerMarker(data.socketId, marker);
-         }
-         const block = CodeManager.getSharedInstance()._workspace.getBlockById(data.event.newElementId)
-         let node = Blockly.ASTNode.createBlockNode(block);
-         marker.setCurNode(node.prev());
-       }else{
-         if (marker != null) {
-           CodeManager.getSharedInstance()._workspace.getMarkerManager().unregisterMarker(data.socketId);
-         }
-       }
-       return marker; */
-    //second way
-    let oldSelectedBlock = CodeManager.getSharedInstance()._workspace.getBlockById(data.event.oldElementId)
-    /* if(oldSelectedBlock != null){
-      if(oldSelectedBlock.pathObject.svgPathSelected_ == null){
-        oldSelectedBlock.pathObject.svgPath.style.stroke = '';
-        oldSelectedBlock.pathObject.svgPath.style.strokeWidth = '';
-        oldSelectedBlock.setDeletable(true);
-        oldSelectedBlock.setMovable(true);
-        oldSelectedBlock.setEditable(true);
-        if(oldSelectedBlock.childBlocks_.length > 0){
-          oldSelectedBlock.childBlocks_[0].setDeletable(true);
-          oldSelectedBlock.childBlocks_[0].setMovable(true);
-          oldSelectedBlock.childBlocks_[0].setEditable(true);
-        }
-        document.querySelectorAll("[id='"+data.client.socketId+"']")[0].remove();
-      }else{ */
     let allLabels = document.querySelectorAll("[id='" + data.client.socketId + "']");
     let allBlocks = CodeManager.getSharedInstance()._workspace.getAllBlocks();
     for (let i = 0; i < allBlocks.length; i++) {
@@ -497,9 +454,6 @@ class RtcManager {
       for (let i = 0; i < allLabels.length; i++) {
         allLabels[i].remove();
       }
-      /* }
-    } */
-
     }
     if (data.event.newElementId != null) {
       let block = CodeManager.getSharedInstance()._workspace.getBlockById(data.event.newElementId)
@@ -557,15 +511,3 @@ class RtcManager {
     this.selMgr.setSelection(data.socketId, selection);
   }
 }
-
-/* let rtcInterval = setInterval(() => {
-  if(projectManager != null){
-    if (projectManager._currentProject.hasOwnProperty('link')) {
-      if (getParamValue('link') != null) {
-        clearInterval(rtcInterval);
-        const rtcInstance = new RtcManager();
-        rtcInstance.init();
-      }
-    } 
-  }
-}, 100); */

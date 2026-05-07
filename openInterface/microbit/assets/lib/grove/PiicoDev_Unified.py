@@ -82,28 +82,29 @@ class I2CUnifiedMachine(I2CBase):
 
 class I2CUnifiedMicroBit(I2CBase):
     def __init__(self, freq=None):
+        self.i2c = i2c
         if freq is not None:
             print('Initialising I2C freq to {}'.format(freq))
-            microbit.i2c.init(freq=freq)
+            self.i2c.init(freq=freq)
             
     def writeto_mem(self, addr, memaddr, buf, *, addrsize=8):
         ad = memaddr.to_bytes(addrsize // 8, 'big')  # pad address for eg. 16 bit
-        i2c.write(addr, ad + buf)
+        self.i2c.write(addr, ad + buf)
         
     def readfrom_mem(self, addr, memaddr, nbytes, *, addrsize=8):
         ad = memaddr.to_bytes(addrsize // 8, 'big')  # pad address for eg. 16 bit
-        i2c.write(addr, ad, repeat=True)
-        return i2c.read(addr, nbytes)    
+        self.i2c.write(addr, ad, repeat=True)
+        return self.i2c.read(addr, nbytes)
     
     def write8(self, addr, reg, data):
         if reg is None:
-            i2c.write(addr, data)
+            self.i2c.write(addr, data)
         else:
-            i2c.write(addr, reg + data)
+            self.i2c.write(addr, reg + data)
 
     def read16(self, addr, reg):
-        i2c.write(addr, reg, repeat=True)
-        return i2c.read(addr, 2)
+        self.i2c.write(addr, reg, repeat=True)
+        return self.i2c.read(addr, 2)
             
     def scan(self):
         print([hex(i) for i in self.i2c.scan()])
@@ -180,12 +181,10 @@ class I2CUnifiedLinux(I2CBase):
     def scan(self):
         print([hex(i) for i in self.i2c.scan()])
 
-
 def create_unified_i2c(bus=None, freq=None, sda=None, scl=None, suppress_warnings=True):
     if _SYSNAME == 'microbit':
-        i2c = I2CUnifiedMicroBit(freq=freq)
+        return I2CUnifiedMicroBit(freq=freq)
     elif _SYSNAME == 'Linux':
-        i2c = I2CUnifiedLinux(bus=bus, suppress_warnings=suppress_warnings)
+        return I2CUnifiedLinux(bus=bus, suppress_warnings=suppress_warnings)
     else:
-        i2c = I2CUnifiedMachine(bus=bus, freq=freq, sda=sda, scl=scl)
-    return i2c
+        return I2CUnifiedMachine(bus=bus, freq=freq, sda=sda, scl=scl)

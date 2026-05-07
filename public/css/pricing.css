@@ -166,12 +166,24 @@
 
 .license-pricing {
   font-size: 1.1em;
+  display: flex;
+  flex-direction: column;
+}
+
+.license-pricing .monthlyPrice{
+  font-size: 0.8em;
+  color: var(--text-2);
 }
 
 .license-pricing .price {
   font-size: 1.3em;
   font-weight: 700;
 }
+.license-pricing .price.crossed{
+  text-decoration: line-through;
+  font-size: 1em;
+  color: var(--text-1);
+} 
 
 .license-pricing .regular-price,
 #price-estimation-container #regular-price.reduction {
@@ -270,6 +282,23 @@
   color: var(--vitta-white);
 }
 
+.free-license .purchase-link:hover,
+.free-license .purchase-link:focus,
+.free-license .purchase-link:active {
+  background-color: var(--vitta-green);
+  color: var(--vitta-white);
+}
+
+.theme-dark .free-license .purchase-link {
+  color: var(--vitta-black);
+}
+
+.theme-dark .free-license .purchase-link:hover,
+.theme-dark .free-license .purchase-link:focus,
+.theme-dark .free-license .purchase-link:active {
+  color: var(--vitta-black);
+}
+
 .free-license {
   border-color: var(--vitta-green);
   box-shadow: 1px 1px 10px var(--vitta-green);
@@ -297,6 +326,23 @@
   color: var(--vitta-white);
 }
 
+.starter-license .purchase-link:hover,
+.starter-license .purchase-link:focus,
+.starter-license .purchase-link:active {
+  background-color: var(--vitta-blue);
+  color: var(--vitta-white);
+}
+
+.theme-dark .starter-license .purchase-link {
+  color: var(--vitta-black);
+}
+
+.theme-dark .starter-license .purchase-link:hover,
+.theme-dark .starter-license .purchase-link:focus,
+.theme-dark .starter-license .purchase-link:active {
+  color: var(--vitta-black);
+}
+
 .starter-license {
   border-color: var(--vitta-blue);
   box-shadow: 1px 1px 10px var(--vitta-blue);
@@ -318,6 +364,27 @@
   color: var(--vitta-white);
 }
 
+.multi-license .purchase-link:hover,
+.multi-license .purchase-link:focus,
+.multi-license .purchase-link:active {
+  background-color: var(--vitta-red-light);
+  color: var(--vitta-white);
+}
+
+.theme-dark .multi-license .purchase-link {
+  color: var(--vitta-black);
+}
+
+.theme-dark .multi-license .purchase-link:hover,
+.theme-dark .multi-license .purchase-link:focus,
+.theme-dark .multi-license .purchase-link:active {
+  color: var(--vitta-black);
+}
+
+.theme-dark .purchase-link {
+  color: var(--vitta-black);
+}
+
 .multi-license {
   border-color: var(--vitta-red-light);
   box-shadow: 1px 1px 10px var(--vitta-red-light);
@@ -333,6 +400,19 @@
 .unlimited-license .purchase-link {
   background-color: #ffbf31;
   color: var(--vitta-white);
+}
+
+.unlimited-license .purchase-link:hover,
+.unlimited-license .purchase-link:focus,
+.unlimited-license .purchase-link:active {
+  background-color: #ffbf31;
+  color: var(--vitta-white);
+}
+
+.theme-dark .unlimited-license .purchase-link:hover,
+.theme-dark .unlimited-license .purchase-link:focus,
+.theme-dark .unlimited-license .purchase-link:active {
+  color: var(--vitta-black);
 }
 
 .unlimited-license {

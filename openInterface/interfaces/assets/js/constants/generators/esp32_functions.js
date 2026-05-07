@@ -23,10 +23,18 @@ DEF_WIFI_CONNECT_STATION:
     station.active(True)
   if len(dhcp_hostname) != 0:
     station.config(dhcp_hostname=dhcp_hostname)
-  station.connect(ssid, password)
-  while not station.isconnected():
-    pass
-  print("Station connected !")`,
+  try:
+    station.connect(ssid, password)
+    while not station.isconnected():
+      pass
+    print("Station connected !")
+  except OSError as e:
+    print(e + ": new attempt of connection.")
+    station.active(False)
+    utime.sleep_ms(500)
+    station.active(True)
+    utime.sleep_ms(500)
+    connect_station(ssid=ssid, password=password, ip=ip, mask=mask, gateway=gateway, dhcp_hostname=dhcp_hostname)`,
 
 // Wifi _ configure access point
 DEF_WIFI_CONFIGURE_ACCESS_POINT:

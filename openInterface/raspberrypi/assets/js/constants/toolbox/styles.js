@@ -22,11 +22,11 @@ const THEME_VITTASCIENCE = {
     "sensors_blocks": {
         "colourPrimary": "#9966ff"
     },
-    "senseHat_blocks": {
-        "colourPrimary": "#cd2355"
-    },
     "actuators_blocks": {
         "colourPrimary": "#ff4d6a"
+    },
+    "robots_blocks": {
+        "colourPrimary": "#3349aa"
     },
     "logic_blocks": {
         "colourPrimary": "#fc7417"
@@ -79,14 +79,61 @@ const THEME_SCRATCH = {
     "sensors_blocks": {
         "colourPrimary": "#5cb1d6"
     },
-    "senseHat_blocks": {
-        "colourPrimary": "#cd2355"
-    },
     "actuators_blocks": {
         "colourPrimary": "#ff4d6a"
     },
+    "robots_blocks": {
+        "colourPrimary": "#3349aa"
+    },
     "network_blocks": {
         "colourPrimary": "#9c354d"
+    },
+    "math_blocks": {
+        "colourPrimary": "#59c059"
+    },
+    "text_blocks": {
+        "colourPrimary": "#1a6da8"
+    },
+    "variable_blocks": {
+        "colourPrimary": "#d9553e"
+    },
+    "lists_blocks": {
+        "colourPrimary": "#ff661a"
+    },
+    "procedure_blocks": {
+        "colourPrimary": "#ff4d6a",
+        "hat": "cap"
+    },
+    "exception_blocks": {
+        "colourPrimary": "#8F2D56",
+    },
+    "colour_blocks": {
+        "colourPrimary": "#bdbdbd"
+    },
+    "comment_block": {
+        "colourPrimary": "#bdbdbd"
+    }
+};
+
+const THEME_HARDWARE = {
+    "rpi_blocks": {
+        "colourPrimary": "#c51a4a" 
+    },
+    "grove_blocks": {
+        "colourPrimary": "#43b02a" 
+    },
+    "senseHat_blocks": {
+        "colourPrimary": "#cf63cf"
+    },
+    "g1tank_blocks": {
+        "colourPrimary": "#2f80ed"
+    },
+    "network_blocks": {
+        "colourPrimary": "#9c354d"
+    },
+    "control_blocks": {
+        "colourPrimary": "#ffab19",
+        "hat": "cap"
     },
     "math_blocks": {
         "colourPrimary": "#59c059"

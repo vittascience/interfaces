@@ -55,11 +55,11 @@ const Robots = {
         }
       };
       this.lineFinder = new LineFinderSimulator(this, [
-        { id: 'left1', initial: [44, -7] },
-        { id: 'left2', initial: [44, -3.5] },
-        { id: 'right1', initial: [44, 3.5] },
-        { id: 'right2', initial: [44, 7] }
-      ], 3, exportValue);
+        { id: 'right2', initial: [44, -10] },
+        { id: 'right1', initial: [44, -2] },
+        { id: 'left1', initial: [44, 2] },
+        { id: 'left2', initial: [44, 10] }
+      ], 1.5, exportValue);
     },
 
     initDistanceSensorsSlots: function () {

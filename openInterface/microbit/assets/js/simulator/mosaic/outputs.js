@@ -208,6 +208,21 @@ Simulator.Behaviours.output.maqueen = function () {
 			}
 		}
 	});
+	mod['readPatrolV5'] = new Sk.builtin.func(function (sensor) {
+		let value = 0;
+		if (sensor.v == 0x20) {
+			value = Simulator.getSliderValue("mb-maqueen-finderLeft", "_v");
+		} else if (sensor.v == 0x22) {
+			value = Simulator.getSliderValue("mb-maqueen-finderMiddle", "_v");
+		} else if (sensor.v == 0x24) {
+			value = Simulator.getSliderValue("mb-maqueen-finderRight", "_v");
+		}
+		return new Sk.builtin.int_(1 - value);
+	});
+	mod['getBatteryLevelV5'] = new Sk.builtin.func(function (type) {
+		InterfaceMonitor.writeConsole('[Maqueen Lite Infos] maqueenV5_getBatteryLevel() n\'est pas encore implémenté dans le simulateur. 100% par défaut.', "interrupt");
+		return new Sk.builtin.int_(100);
+	})
 	return mod;
 };
 

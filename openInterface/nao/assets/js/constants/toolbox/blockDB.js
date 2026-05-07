@@ -29,7 +29,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "communication_asr_setVocabulary": "<value name='VOCABULARY'><block type='lists_create_with'>"+ '<mutation items="2"></mutation><value name="ADD0">'+ '<shadow type="text">'+ this.Set.field("TEXT", 'oui') +'</shadow></value><value name="ADD1">><shadow type="text">'+ this.Set.field("TEXT", 'non') +'</shadow></value></block></value>',
             // time
             "time_pause": this.Set.number("TIME", 1),
-            "time_waitUntil": "<value name='UNTIL'><shadow type='logic_compare'>" + this.Set.field("OP", 'EQ') + this.Set.number("B", 1) + "</shadow></value>",
+            "time_waitUntil": "<value name='UNTIL'><block type='logic_compare'>" + this.Set.field("OP", 'EQ') + this.Set.number("B", 1) + "</block></value>",
             
             // Movements
             "movements_moveTo": this.Set.number("DISTANCE", 50),
@@ -79,16 +79,19 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "text_append": this.Set.text('TEXT'),
             "text_split": this.Set.text('VALUE') + this.Set.text('SEP', ';'),
             "text_length": this.Set.text('VALUE', 'abc'),
-            "text_indexOf": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('VALUE', 'abc'),
+            "text_includesSubstr": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('FIND', 'abc'),
+            "text_indexOf": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('FIND', 'abc'),
             "text_charAt": this.Set.variable("VALUE", '{textVariable}'),
             "text_getSubstring": this.Set.variable("STRING", '{textVariable}'),
+            "text_count_characters": this.Set.text('TEXT', 'P@ssw0rd'),
             "text_changeCase": this.Set.text('TEXT', 'abc'),
             "text_trim": this.Set.text('TEXT', 'abc'),
             "text_count": this.Set.text('SUB', 'bon') + this.Set.text('TEXT', 'bonbon'),
             "text_replace": this.Set.text('FROM', 'a') + this.Set.text('TO', 'b') + this.Set.text('TEXT', 'abc'),
             "text_reverse": this.Set.text('TEXT', 'abc'),
-            "text_count_characters": this.Set.text('TEXT', 'P@ssw0rd'),
             "text_random_string": this.Set.number('LENGTH', 6),
+            "text_caesar_cipher": this.Set.text('TEXT', '{hello}') + this.Set.number('SHIFT', 3),
+            "text_caesar_cipher_brute_force": this.Set.text('TEXT', 'Erqmrxu hw elhqyhqxh vxu Ylwwdvflhqfh'),
             // list
             "lists_create_with-0": '<mutation items="0"></mutation>',
             "lists_repeat": this.Set.number("NUM", 5),

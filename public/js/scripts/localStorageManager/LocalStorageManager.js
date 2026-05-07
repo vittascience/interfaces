@@ -66,27 +66,153 @@ class LocalStorageManager {
             console.error(`The provided argument must be an object, ${projectType} provided!`);
             return false;
         }
+
         let currentProjectId = $_GET('link') || $_GET('localId');
         if (id) currentProjectId = id;
         if (currentProjectId === null) {
             console.warn('No link or localId! Skipping localStorage synchronization...');
             return false;
         }
+
         const currentLocalProjects = this.getLocalProjects();
         let currentLocalProject;
-        for (let i = 0; i<currentLocalProjects.length; i++) {
+        for (let i = 0; i < currentLocalProjects.length; i++) {
             if (currentLocalProjects[i].id === currentProjectId) {
                 currentLocalProject = currentLocalProjects.splice(i, 1)[0];
                 break;
             }
         }
+
         if (!currentLocalProject) currentLocalProject = {};
         currentLocalProject.id = currentProjectId;
         currentLocalProject.project = project;
         currentLocalProject.lastUpdated = Date.now();
         currentLocalProjects.push(currentLocalProject);
+
         if (currentLocalProjects.length > this._MAX_HISTORY) currentLocalProjects.shift();
-        localStorage.setItem(`${INTERFACE_NAME}Projects`, JSON.stringify(currentLocalProjects));
+
+        return this._evictUntilFits(currentLocalProjects, currentProjectId);
+    }
+
+    /**
+     * Remove the oldest projects from the current interface until the serialized data
+     * fits in the localStorage quota, then persist.
+     * If the current interface alone is not enough, evicts projects from other interfaces
+     * by ascending lastUpdated order.
+     * The current project (currentProjectId) is never evicted.
+     * @private
+     * @param {Array} projects - Projects array of the current interface (oldest first)
+     * @param {string} currentProjectId - Project ID to protect from eviction
+     * @returns {boolean} false if the current project alone exceeds the quota
+     */
+    _evictUntilFits(projects, currentProjectId) {
+        const storageKey = `${INTERFACE_NAME}Projects`;
+
+        // Phase 1 : evict from the current interface
+        while (projects.length > 0) {
+            try {
+                localStorage.setItem(storageKey, JSON.stringify(projects));
+                return true;
+            } catch (e) {
+                if (!this._isQuotaExceeded(e)) {
+                    console.error('localStorage: unexpected error', e);
+                    return false;
+                }
+            }
+
+            const evictIndex = projects.findIndex(p => p.id !== currentProjectId);
+            if (evictIndex === -1) break; // Only the current project remains, move to phase 2
+
+            console.warn(`localStorage: quota exceeded, deleting project "${projects[evictIndex].id}" from "${INTERFACE_NAME}".`);
+            projects.splice(evictIndex, 1);
+        }
+
+        // Phase 2 : evict from other interfaces, oldest project first across all of them
+        return this._evictFromOtherInterfaces(storageKey, projects, currentProjectId);
+    }
+
+    /**
+     * Evict projects from other interfaces in the localStorage, picking the oldest
+     * project across all other interfaces at each step, until the current interface
+     * data fits or no more candidates remain.
+     * @private
+     * @param {string} storageKey - The localStorage key of the current interface
+     * @param {Array} projects - Projects array of the current interface (may be reduced to current project only)
+     * @param {string} currentProjectId - Project ID to protect from eviction
+     * @returns {boolean} false if even after full eviction the current project does not fit
+     */
+    _evictFromOtherInterfaces(storageKey, projects, currentProjectId) {
+        // Build a map of { key, projects[] } for every other interface found in localStorage
+        const otherInterfaces = this._getOtherInterfacesProjects(storageKey);
+
+        while (true) {
+            try {
+                localStorage.setItem(storageKey, JSON.stringify(projects));
+                return true;
+            } catch (e) {
+                if (!this._isQuotaExceeded(e)) {
+                    console.error('localStorage: unexpected error', e);
+                    return false;
+                }
+            }
+
+            // Find the oldest project across all other interfaces
+            let oldestEntry = null; // { interfaceKey, projectIndex, lastUpdated }
+            for (const [interfaceKey, interfaceProjects] of Object.entries(otherInterfaces)) {
+                if (interfaceProjects.length === 0) continue;
+                const candidate = interfaceProjects[0]; // Already sorted oldest-first
+                if (!oldestEntry || candidate.lastUpdated < oldestEntry.lastUpdated) {
+                    oldestEntry = { interfaceKey, projectIndex: 0, lastUpdated: candidate.lastUpdated };
+                }
+            }
+
+            if (!oldestEntry) {
+                // Nothing left to evict anywhere
+                console.error('localStorage: current project exceeds the total localStorage quota, skipping save.');
+                return false;
+            }
+
+            const { interfaceKey } = oldestEntry;
+            const evicted = otherInterfaces[interfaceKey].shift();
+            console.warn(`localStorage: quota exceeded, deleting project "${evicted.id}" from "${interfaceKey}".`);
+            localStorage.setItem(interfaceKey, JSON.stringify(otherInterfaces[interfaceKey]));
+        }
+    }
+
+    /**
+     * Retrieve and parse all localStorage keys that belong to other interfaces
+     * (keys ending with "Projects" excluding the current interface key),
+     * with their projects sorted by ascending lastUpdated.
+     * @private
+     * @param {string} currentStorageKey - The localStorage key of the current interface to exclude
+     * @returns {Object} A map of { [interfaceKey]: sortedProjects[] }
+     */
+    _getOtherInterfacesProjects(currentStorageKey) {
+        const result = {};
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key === currentStorageKey || !key.endsWith('Projects')) continue;
+            try {
+                const parsed = JSON.parse(localStorage.getItem(key));
+                if (Array.isArray(parsed)) {
+                    result[key] = parsed.sort((a, b) => (a.lastUpdated ?? 0) - (b.lastUpdated ?? 0));
+                }
+            } catch(e) {
+                // Ignore malformed keys
+                console.warn(`localStorage: skipping malformed entry "${key}".`, e);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Check whether a caught error is a localStorage quota exceeded error
+     * @private
+     * @param {Error} e - The caught error
+     * @returns {boolean}
+     */
+    _isQuotaExceeded(e) {
+        return e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED';
     }
 
     /**

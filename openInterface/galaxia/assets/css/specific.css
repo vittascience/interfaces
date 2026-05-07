@@ -6,8 +6,7 @@
 	height: 400px;
 }
 
-
-#main-py{
+#main-py {
 	position: absolute;
 	top: 75px;
 	left: 84px;
@@ -19,7 +18,8 @@
 	padding-bottom: 3px;
 	border-bottom: solid white 1px;
 }
-#main-py span{
+
+#main-py span {
 	position: absolute;
 	top: 4px;
 	left: 145px;
@@ -29,7 +29,6 @@
 	background-color: forestgreen;
 	border-radius: 50%;
 }
-
 
 .canvas-galaxia-screen {
 	width: 160px;
@@ -43,9 +42,11 @@
 #galaxia_btn_A {
 	bottom: 119px;
 }
+
 #galaxia_btn_B {
 	bottom: 49px;
 }
+
 #galaxia_btn_A,
 #galaxia_btn_B {
 	left: 196px;
@@ -58,15 +59,15 @@
 	position: absolute;
 }
 
-
-#galaxia_led_top{
+#galaxia_led_top {
 	width: 34px;
 	height: 38px;
 	position: absolute;
 	left: 134px;
 	top: -5px;
 }
-#GalaxiaLed{
+
+#GalaxiaLed {
 	fill: none;
 }
 
@@ -74,6 +75,7 @@
 	background-image: url('/openInterface/galaxia/assets/media/simulator/board/Galaxia_button_clic.png');
 	transition: all 0.25s;
 }
+
 .galaxia_btn:hover {
 	box-shadow: 2px 2px 5px 0px var(--bg-1);
 }
@@ -85,6 +87,7 @@
 	background-position: center;
 	transition: all 0.25s;
 }
+
 .galaxia_pad:hover {
 	box-shadow: 2px 2px 5px 0px var(--bg-1);
 }
@@ -92,9 +95,11 @@
 #galaxia_pad_up {
 	bottom: 132px;
 }
+
 #galaxia_pad_down {
 	bottom: 42px;
 }
+
 #galaxia_pad_up,
 #galaxia_pad_down {
 	left: 66px;
@@ -105,9 +110,11 @@
 #galaxia_pad_left {
 	left: 42px;
 }
+
 #galaxia_pad_right {
 	left: 132px;
 }
+
 #galaxia_pad_left,
 #galaxia_pad_right {
 	bottom: 66px;
@@ -132,7 +139,7 @@
 	top: 96px;
 	left: 83px;
 	z-index: 1;
-	
+
 }
 
 #galaxia-compassDir_anim {
@@ -148,12 +155,15 @@
 .galaxia_pad_up_effect {
 	background-image: url('/openInterface/galaxia/assets/media/simulator/board/Galaxia_pad_up.png');
 }
+
 .galaxia_pad_down_effect {
 	background-image: url('/openInterface/galaxia/assets/media/simulator/board/Galaxia_pad_down.png');
 }
+
 .galaxia_pad_left_effect {
 	background-image: url('/openInterface/galaxia/assets/media/simulator/board/Galaxia_pad_left.png');
 }
+
 .galaxia_pad_right_effect {
 	background-image: url('/openInterface/galaxia/assets/media/simulator/board/Galaxia_pad_right.png');
 }
@@ -164,6 +174,7 @@
 	border-color: var(--text-0);
 	min-height: 1em;
 }
+
 .galaxia_current_gesture {
 	border-color: var(--vitta-red);
 	margin: 1em;
@@ -173,9 +184,11 @@
 	0% {
 		transform: scale(1, 1);
 	}
+
 	50% {
 		transform: scale(0.8, 0.8);
 	}
+
 	100% {
 		transform: scale(1, 1);
 	}
@@ -184,31 +197,38 @@
 .galaxia_active_gesture_down {
 	transform: rotate(180deg);
 }
+
 .galaxia-gesture-left_active,
 .galaxia-gesture-right_active {
 	-webkit-transform: rotateY(80deg);
 	transform: rotateY(80deg);
 }
+
 .galaxia-gesture-facedown_active {
 	-webkit-transform: rotateY(180deg);
 	transform: rotateY(180deg);
 }
+
 .galaxia-gesture-freefall_active {
 	transform: scale(0.2, 0.2);
 }
+
 .galaxia-gesture-shake_active {
 	animation-name: shake;
 	animation-duration: 0.3s;
 	animation-iteration-count: infinite;
 }
+
 .galaxia-gesture-3g_active {
 	animation-name: shake;
 	animation-duration: 0.5s;
 }
+
 .galaxia-gesture-6g_active {
 	animation-name: shake;
 	animation-duration: 0.3s;
 }
+
 .galaxia-gesture-8g_active {
 	animation-name: shake;
 	animation-duration: 0.1s;
@@ -225,7 +245,7 @@
 #galaxia-gesture-3g_anim,
 #galaxia-gesture-6g_anim,
 #galaxia-gesture-8g_anim {
- 	bottom: 6px;
+	bottom: 6px;
 }
 
 #galaxia-accelerometer-pitch_anim,
@@ -267,4 +287,3 @@
 	z-index: 10;
 	transition: all 0.1s ease-in-out;
 }
-

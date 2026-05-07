@@ -146,10 +146,15 @@ Blockly.Msg['IO_GETVOLTAGE_TOOLTIP'] = 'Permette di convertire un valore analogi
 Blockly.Msg['IO_GETVOLTAGE_12BIT'] = '12 bit';
 Blockly.Msg['IO_GETVOLTAGE_16BIT'] = '16 bit';
 // Communication - UART Blocks
-Blockly.Msg['COMMUNICATION_UART_INIT_TITLE'] = '[uart] inizializza il collegamento seriale sul bus %1 Baud rate %2';
-Blockly.Msg['COMMUNICATION_UART_INIT_TOOLTIP'] = 'Inizializza il collegamento seriale sulla porta UART.';
-Blockly.Msg['COMMUNICATION_UART_WRITE_TITLE'] = '[uart] scrivi il dato %1 sul bus %2';
-Blockly.Msg['COMMUNICATION_UART_WRITE_TOOLTIP'] = 'Permette di scrivere alcuni dati nella porta UART.';
+Blockly.Msg['COMMUNICATION_UART_INIT_TITLE'] = '[uart] inizializza la connessione seriale sul bus %1 Baudrate %2';
+Blockly.Msg['COMMUNICATION_UART_INIT_TOOLTIP'] = 'Inizializza la connessione seriale sulla porta UART (1 o 2). Per impostazione predefinita, i pin sono i seguenti: UART 1 (tx=D10, rx=D11) e UART 2 (tx=D1, rx=D0).';
+Blockly.Msg['COMMUNICATION_UART_WRITE_TITLE'] = '[uart] scrivi i dati %1 sul bus %2';
+Blockly.Msg['COMMUNICATION_UART_WRITE_TOOLTIP'] = 'Consente la scrittura dei dati sulla porta UART (1 o 2). Per impostazione predefinita, i pin sono i seguenti: UART 1 (tx=D10, rx=D11) e UART 2 (tx=D1, rx=D0).';
+Blockly.Msg['COMMUNICATION_UART_READ_TITLE'] = '[uart] legge i dati dal bus %1';
+Blockly.Msg['COMMUNICATION_UART_READ_TOOLTIP'] = 'Consente la lettura dei dati dalla porta UART (1 o 2). Per impostazione predefinita, i pin sono i seguenti: UART 1 (tx=D10, rx=D11) e UART 2 (tx=D1, rx=D0).';
+Blockly.Msg['COMMUNICATION_UART_READ_SIZE'] = 'dimensione dei dati';
+Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TITLE'] = '[uart] dati disponibili sul bus %1';
+Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TOOLTIP'] = 'Restituisce la dimensione dei dati disponibili sulla porta UART (1 o 2). Per impostazione predefinita, i pin sono: UART 1 (tx=D10, rx=D11) e UART 2 (tx=D1, rx=D0).';
 // Communication - Serial connection
 Blockly.Msg['COMMUNICATION_SERIAL_WRITE_TITLE'] = 'scrivi nella console %1';
 Blockly.Msg['COMMUNICATION_SERIAL_WRITE_TOOLTIP'] = 'Permette di scrivere alcuni dati nella porta seriale.';
@@ -196,10 +201,10 @@ Blockly.Msg['DAY_SUNDAY'] = 'domenica';
 Blockly.Msg['COMMUNICATION_OPENLOG_WRITE_TITLE'] = '[Openlog] scrivi nella scheda SD %1 sui pin RX %2 TX %3 %4 Dati %5';
 Blockly.Msg['COMMUNICATION_OPENLOG_WRITE_TOOLTIP'] = IMG_MODULE_OPENLOG + Blockly.Tooltip.SEP + 'Permette di scrivere dati nella scheda micro SD con il modulo Openlog. Funzionamento in trasmissione UART.';
 // Communication - Wireless
-Blockly.Msg['COMMUNICATION_BLUETOOTH_SENDDATA_TITLE'] = '[Bluetooth] invia sui pin RX %1 TX %2 messaggio %3';
-Blockly.Msg['COMMUNICATION_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_HC05 + Blockly.Tooltip.SEP + 'Permette di inviare dati tramite il modulo Bluetooth HC05 sui pin RX/TX.';
-Blockly.Msg['COMMUNICATION_BLUETOOTH_ONDATARECEIVED_TITLE'] = '[Bluetooth] se messaggio ricevuto sui pin RX %1 TX %2 in %3 allora';
-Blockly.Msg['COMMUNICATION_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HC05 + Blockly.Tooltip.SEP + 'Permette di eseguire alcune istruzioni se viene ricevuto un dato tramite modulo Bluetooth HC05 nella variabile "bluetoothData" sui pin RX/TX.';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TITLE'] = '[HC05 BT] invia sui pin RX %1 TX %2 messaggio %3';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Permette di inviare dati tramite il modulo Bluetooth HC05 sui pin RX/TX.';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TITLE'] = '[HC05 BT] se messaggio ricevuto sui pin RX %1 TX %2 in %3 allora';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Permette di eseguire alcune istruzioni se viene ricevuto un dato tramite modulo Bluetooth HC05 nella variabile "bluetoothData" sui pin RX/TX.';
 // Communication - GPS
 Blockly.Msg['COMMUNICATION_GPS_INFO_TYPE'] = 'tipo di cornice';
 Blockly.Msg['COMMUNICATION_GPS_INFO_CLOCK'] = 'ora (h, m, s)';
@@ -314,11 +319,11 @@ Blockly.Msg['SENSORS_GETANEMOMETER_TOOLTIP'] = IMG_MODULE_ANEMOMETER + Blockly.T
 // Sensors - Sound & Light
 Blockly.Msg['SENSORS_GETGROVELIGHT_TITLE'] = '[Sensore di luce] luminosità sul pin %1';
 Blockly.Msg['SENSORS_GETGROVELIGHT_TOOLTIP'] = IMG_MODULE_LIGHT + Blockly.Tooltip.SEP + 'Restituisce la luminosità (da 0 a 1023) del sensore di luce Grove sui pin analogici IO34, IO35, IO36 e IO39.';
-Blockly.Msg['SENSORS_SI1145_GETLIGHT_TITLE'] = '[Sensore SI1145] luminosità %1';
-Blockly.Msg['SENSORS_SI1145_GETLIGHT_TOOLTIP'] = IMG_MODULE_SI1145 + Blockly.Tooltip.SEP + 'Restituisce l\'indice ultravioletto, la luminosità visibile (in lumen) o infrarossa (in lumen) per mezzo del sensore Grove Sunlight o del sensore GY1145. Collegare il sensore a una porta I2C.';
-Blockly.Msg['SENSORS_SI1145_UV'] = 'indice UV';
-Blockly.Msg['SENSORS_SI1145_VISIBLE'] = 'visibile (lumen)';
-Blockly.Msg['SENSORS_SI1145_IR'] = 'infrarossa (lumen)';
+Blockly.Msg['SENSORS_SUNLIGHT_GETDATA_TITLE'] = '[Sensore SI1145] luminosità %1';
+Blockly.Msg['SENSORS_SUNLIGHT_GETDATA_TOOLTIP'] = IMG_MODULE_SI1145 + Blockly.Tooltip.SEP + 'Restituisce l\'indice ultravioletto, la luminosità visibile (in lumen) o infrarossa (in lumen) per mezzo del sensore Grove Sunlight o del sensore GY1145. Collegare il sensore a una porta I2C.';
+Blockly.Msg['SENSORS_SUNLIGHT_UV'] = 'indice UV';
+Blockly.Msg['SENSORS_SUNLIGHT_VISIBLE'] = 'visibile (lumen)';
+Blockly.Msg['SENSORS_SUNLIGHT_IR'] = 'infrarossa (lumen)';
 Blockly.Msg['SENSORS_GETUVINDEX_TITLE'] = '[Sensore ultravioletti] indice UV sul pin %1';
 Blockly.Msg['SENSORS_GETUVINDEX_TOOLTIP'] = IMG_MODULE_UV + Blockly.Tooltip.SEP + 'Restituisce l\'indice ultravioletto per lunghezze d\'onda comprese tra 240 e 380 nm tramite il sensore Grove sui pin analogici da p34 a p36, o p39 (da A2 a A4 su shield Grove).';
 Blockly.Msg['SENSORS_GETGROVESOUND_TITLE'] = '[Sensore di suono] livello sonoro sul pin %1';

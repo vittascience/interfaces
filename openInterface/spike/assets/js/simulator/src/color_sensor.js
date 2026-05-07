@@ -33,12 +33,12 @@ const $builtinmodule = function () {
                 }
             }
             color_select += '</select>';
-            document.querySelector(`#spike-colorSensor-port${port} .module-value`).innerHTML = color_select;
+            document.querySelector(`#spike-ColorSensor-port${port} .module-value`).innerHTML = color_select;
             document.getElementById(`colorPicker-port${port}`).addEventListener('change', function () {
                 const selectedColor = this.value;
                 this.style.backgroundColor = selectedColor;
                 const port = this.id.split('port')[1];
-                document.getElementById(`spike-colorSensor-port${port}_anim`).style.backgroundColor = selectedColor;
+                document.getElementById(`spike-ColorSensor-port${port}_anim`).style.backgroundColor = selectedColor;
             });
         } catch (error) {
             console.warn(`No color sensor on port ${port}`);
@@ -55,7 +55,7 @@ const $builtinmodule = function () {
         if (LegoSpikeWebBLEAPI.isConnected) {
             return new Sk.builtin.str(color_sensor.colors[LegoSpikeWebBLEAPI.getColor(_port)]);
         } else {
-            const selectedColor = document.getElementById(`spike-colorSensor-port${port}_anim`).style.backgroundColor;
+            const selectedColor = document.getElementById(`spike-ColorSensor-port${port}_anim`).style.backgroundColor;
             return new Sk.builtin.str(selectedColor === '' ? 'Black' : selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1).toLowerCase());
         }
     };

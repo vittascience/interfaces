@@ -559,19 +559,19 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     // BLOCK GROVE SI1145 SENSOR _ READ LIGHT (I2C)
     {
         "type": "sensors_getSi1145Light",
-        "message0": "%{BKY_SENSORS_SI1145_GETLIGHT_TITLE}",
+        "message0": "%{BKY_SENSORS_SUNLIGHT_GETDATA_TITLE}",
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "LIGHT",
             "options": [
-                ["%{BKY_SENSORS_SI1145_UV}", "UV"],
-                ["%{BKY_SENSORS_SI1145_VISIBLE}", "VIS"],
-                ["%{BKY_SENSORS_SI1145_IR}", "IR"],
+                ["%{BKY_SENSORS_SUNLIGHT_UV}", "UV"],
+                ["%{BKY_SENSORS_SUNLIGHT_VISIBLE}", "VIS"],
+                ["%{BKY_SENSORS_SUNLIGHT_IR}", "IR"],
             ]
         }],
         "output": "Number",
         "style": "sensors_blocks",
-        "tooltip": "%{BKY_SENSORS_SI1145_GETLIGHT_TOOLTIP}",
+        "tooltip": "%{BKY_SENSORS_SUNLIGHT_GETDATA_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]
@@ -781,3 +781,22 @@ Blockly.Constants.Sensors.SENSORS_ULTRASONIC_MUTATOR_MIXIN = {
 Blockly.Extensions.registerMutator('sensors_ultrasonic_mutator',
     Blockly.Constants.Sensors.SENSORS_ULTRASONIC_MUTATOR_MIXIN,
     Blockly.Constants.Sensors.SENSORS_ULTRASONIC_INIT_EXTENSION);
+
+/**
+* Performs final setup of I2C Sunlight Sensor block by define tooltip.
+* @this {Blockly.Block}
+*/
+Blockly.Constants.Sensors.SUNLIGHT_SENSOR_INIT_EXTENSION = function () {
+    const tooltip = this.getTooltip().split(Blockly.Tooltip.SEP)[1];
+    this.setTooltip(() => {
+        switch (this.getFieldValue('VERSION')) {
+            case 'SI1145':
+                return IMG_MODULE_SI1145 + Blockly.Tooltip.SEP + tooltip;
+            case 'SI1151':
+                return IMG_MODULE_SI1151 + Blockly.Tooltip.SEP + tooltip;
+        }
+    });
+};
+
+Blockly.Extensions.register('sunlightSensor_tooltips',
+    Blockly.Constants.Sensors.SUNLIGHT_SENSOR_INIT_EXTENSION);

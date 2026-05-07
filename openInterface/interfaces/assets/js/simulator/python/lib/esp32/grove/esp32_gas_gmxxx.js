@@ -8,11 +8,11 @@ var $builtinmodule = function () {
 
 	gas_gmxxx.GAS_GMXXX = new Sk.misceval.buildClass(gas_gmxxx, function ($gbl, $loc) {
 
-		GAS_GMXXX__init__ = function (self, i2c) {
+		GAS_GMXXX__init__ = function (self, i2c, addr) {
 			self.i2c = i2c;
 		};
 
-		GAS_GMXXX__init__.co_varnames = ['self', 'i2c'];
+		GAS_GMXXX__init__.co_varnames = ['self', 'i2c', 'addr'];
 		GAS_GMXXX__init__.$defaults = [gas_gmxxx.GAS_GMXXX_DEFAULT_I2C_ADDR];
 
 		$loc.__init__ = new Sk.builtin.func(GAS_GMXXX__init__);

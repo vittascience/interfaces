@@ -36,10 +36,12 @@ var $builtinmodule = function () {
     }, "SSD1306", []);
 
     const fill = function (self, state) {
+        self.image = new Array();
+        const state_ = Sk.ffi.remapToJs(state);
         for (let i = 0; i <= XPIXELS; i++) {
             self.image.push(sub_pixels = []);
             for (let j = 0; j <= YPIXELS; j++) {
-                self.image[i].push({ "color": state ? BLUE : BLACK });
+                self.image[i].push({ "color": state_ ? BLUE : BLACK });
             }
         }
     };
@@ -110,9 +112,9 @@ var $builtinmodule = function () {
         Sk.builtin.pyCheckType("x2", "integer", Sk.builtin.checkInt(x2));
         Sk.builtin.pyCheckType("y2", "integer", Sk.builtin.checkInt(y2));
         Sk.builtin.pyCheckType("state", "boolean", Sk.builtin.checkBool(state) || Sk.builtin.checkInt(state));
-        x1 = Sk.ffi.remapToJs(x1); 
-        x2 = Sk.ffi.remapToJs(x2); 
-        y1 = Sk.ffi.remapToJs(y1); 
+        x1 = Sk.ffi.remapToJs(x1);
+        x2 = Sk.ffi.remapToJs(x2);
+        y1 = Sk.ffi.remapToJs(y1);
         y2 = Sk.ffi.remapToJs(y2);
         const dx = x2 - x1;
         const dy = y2 - y1;
@@ -228,10 +230,8 @@ var $builtinmodule = function () {
         $loc.line = new Sk.builtin.func(line);
 
         $loc.blit = new Sk.builtin.func(function (self, fbuf, x, y) {
-            fill(self, 0);
             setCursor(self, x, y);
             setChar(self, Sk.ffi.remapToJs(x), Sk.ffi.remapToJs(y), Sk.ffi.remapToJs(fbuf));
-            show(self);
         });
 
     }, "SSD1306_I2C", [esp32_ssd1306.SSD1306]);

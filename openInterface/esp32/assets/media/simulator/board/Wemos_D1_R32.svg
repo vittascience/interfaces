@@ -3,7 +3,7 @@
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 858.43 640.61">
     <defs>
-        <style>.clickable{cursor:pointer;}.cls-1{fill:none;}.cls-2{clip-path:url(#clippath);}.cls-3,.cls-4{fill:#f5df88;filter: blur(3px);}.cls-5{fill:#e6e4d6;}.cls-6{fill:#fff;}.cls-7{fill:#fefefe;}.cls-8{fill:#efecdc;}.cls-9{fill:#7d7d7d;}.cls-10{fill:#d8d8d8;}.cls-11{fill:#171616;}.cls-12{fill:#45464a;}.cls-13{fill:#1b1b1b;}.cls-14{fill:#727272;}.cls-15{fill:#545454;}.cls-16{fill:#6d6d6d;}.cls-17{fill:#272626;}.cls-18{clip-path:url(#clippath-1);}.cls-19{clip-path:url(#clippath-4);}.cls-20{clip-path:url(#clippath-3);}.cls-21{clip-path:url(#clippath-2);}.cls-22{clip-path:url(#clippath-7);}.cls-23{clip-path:url(#clippath-8);}.cls-24{clip-path:url(#clippath-6);}.cls-25{clip-path:url(#clippath-5);}</style>
+        <style>.clickable{cursor:pointer;}.cls-1{fill:none;}.cls-2{clip-path:url(#clippath);}.cls-3,.cls-4{fill:#f5df88;filter: blur(3px);}.cls-5{fill:#e6e4d6;}.cls-6{fill:#fff;}.cls-7{fill:#fefefe;}.cls-8{fill:#efecdc;}.cls-9{fill:#7d7d7d;}.cls-10{fill:#d8d8d8;}.cls-11{fill:#171616;}.cls-12{fill:#45464a;}.cls-13{fill:#1b1b1b;}.cls-14{fill:#727272;}.cls-15{fill:#545454;}.cls-16{fill:#6d6d6d;}.cls-17{fill:#272626;}.cls-18{clip-path:url(#clippath-1);}.cls-19{clip-path:url(#clippath-4);}.cls-20{clip-path:url(#clippath-3);}.cls-21{clip-path:url(#clippath-2);}.cls-22{clip-path:url(#clippath-7);}.cls-23{clip-path:url(#clippath-8);}.cls-24{clip-path:url(#clippath-6);}.cls-25{clip-path:url(#clippath-5);}.cls-26{fill:#ff0000;filter: blur(3px)}</style>
         <clipPath id="clippath">
             <rect class="cls-1" x="241.85" y="24.56" width="296.18" height="26.61"/>
         </clipPath>
@@ -73,8 +73,8 @@
                         <rect class="cls-4" x="414.65" y="125.57" width="41.76" height="35.06"/>
                     </g>
                     <g id="LED_P2">
-                        <rect class="cls-6" x="395.06" y="176.6" width="79.53" height="35.06" rx="2" ry="2"/>
-                        <rect class="cls-11" x="414.65" y="176.6" width="41.76" height="35.06"/>
+                        <rect id="led_off" class="cls-6" x="395.06" y="176.6" width="79.53" height="35.06" rx="2" ry="2"/>
+                        <rect id="led_on" style="display: none" class="cls-26" x="414.65" y="176.6" width="41.76" height="35.06"/>
                     </g>
                     <g>
                         <rect class="cls-6" x="395.06" y="226.81" width="79.53" height="35.06" rx="2" ry="2"/>

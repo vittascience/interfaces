@@ -1,5 +1,5 @@
 /**
- * @fileoverview Display blocks for Esp32.
+ * @fileoverview Display blocks for Thymio.
  */
 
 Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT 

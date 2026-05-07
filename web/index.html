@@ -110,15 +110,16 @@
     
         }
     </script>
-    <script src="/public/js/scripts/tooltips/tooltipsRemover.js"></script>
-<link rel="stylesheet" href="/openInterface/interfaces/assets/js/external/fontawesome-free-6.5.1-web/css/all.css">
+    <script src="/public/js/scripts/tooltips/tooltipsRemover.js" defer></script>
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/js/external/fontawesome-free-6.5.1-web/css/all.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/js/external/file-input/css/fileinput.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/ide-navbar.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/main.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/modal.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/buttons.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/ace.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/ace_themes.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/ide-navbar.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/main.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/toolbox.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/modal.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/buttons.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/ace.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/ace_themes.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/web/assets/css/mainHtml.css">
 
 <link rel="stylesheet" href="/public/css/capytale-standalone.css">
@@ -316,7 +317,7 @@
 
             <div id="preview-btn-panel">
                 <!-- run simulator -->
-                <button class="ide-btn ide-btn-alone" id="show_preview" data-toggle="tooltip" data-i18n="[title]code.topbar.tooltips.openPreview">
+                <button class="ide-btn ide-btn-alone" id="show_preview" aria-label="Open preview" data-toggle="tooltip" data-i18n="[title]code.topbar.tooltips.openPreview;[aria-label]code.topbar.tooltips.openPreview">
                     <i class="fas fa-play"></i>
                 </button>
             </div>
@@ -404,6 +405,7 @@
 <script src="/openInterface/interfaces/assets/js/external/js-beautify.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/jszip.js"></script>
 
+
 <!-- Trad html/css -->
 <script src="/openInterface/web/assets/js/blocks/codeToBlocks.js"></script>
 <!-- Trad JS  -->
@@ -428,6 +430,7 @@
 <script src="/openInterface/interfaces/assets/js/main/CodeManager.js"></script>
 <script src="/openInterface/web/assets/js/events/webLoader.js" type="module"></script>
 <script src="/openInterface/web/assets/js/events/WebImportFileManager.js" type="module"></script>
+<!-- loader -->
 <script src="/openInterface/interfaces/assets/js/events/load.js"></script>
 <script src="/openInterface/interfaces/assets/js/utils/misc.js"></script>
 </div>

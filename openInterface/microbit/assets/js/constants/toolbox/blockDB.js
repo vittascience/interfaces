@@ -18,7 +18,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             'display_plot_bar_graph': this.Set.number("VALUE"),
             "set_pixel": this.Set.number("X") + this.Set.number("Y") + this.Set.state(),
             "set_light_pixel": this.Set.number("X") + this.Set.number("Y") + this.Set.number("LIGHT", 4),
-            "get_pixelState": this.Set.number("X") + this.Set.number("Y") + this.Set.state(),
+            "get_pixelState": this.Set.number("X") + this.Set.number("Y"),
             "toggle_pixelState": this.Set.number("X") + this.Set.number("Y"),
             "set_brightness": this.Set.number("VALUE", 4),
             "show_clock": this.Set.number("CLOCK", 1),
@@ -40,7 +40,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "display_setTrafficLight": this.Set.state(),
             "display_setLampBitLight": this.Set.state(),
             // display - neopixel
-            "display_defineNeopixel": this.Set.number("N", 20) + this.Set.field("PIN", "pin0"),
+            "display_defineNeopixel": this.Set.field("PIN", "pin0"),
             "display_controlNeopixelLed": this.Set.number("LED") + this.Set.number("R", 255) + this.Set.number("G", 255) + this.Set.number("B"),
             "display_controlColorNeopixelLed": this.Set.number("LED") + this.Set.colour_picker(),
             "display_neopixel_controlAllLedRGB": this.Set.number("R", 255) + this.Set.number("G") + this.Set.number("B"),
@@ -60,7 +60,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "display_games_changeScore": this.Set.number("N", 1),
             // io - micro:bit
             "io_pause": this.Set.number("TIME", 1),
-            "io_waitUntil": "<value name='UNTIL'><shadow type='logic_compare'>" + this.Set.field("OP", 'EQ') + this.Set.number("B", 1) + "</shadow></value>",
+            "io_waitUntil": "<value name='UNTIL'><block type='logic_compare'>" + this.Set.field("OP", 'EQ') + this.Set.number("B", 1) + "</block></value>",
             "io_runEvery": this.Set.number("H") + this.Set.number("MIN") + this.Set.number("S", 1) + this.Set.number("MS"),
             // io - microphone
             "io_micro_setSoundThreshold": this.Set.number("THRESH", 255),
@@ -105,8 +105,8 @@ const TOOLBOXES_BLOCKS_CONTENT = {
                 + "</block></value>",
             "communication_uart_writeData": this.Set.text('DATA'),
             // communication - bluetooth
-            "communication_sendBluetoothData": this.Set.field("RX", "pin14") + this.Set.text("DATA"),
-            "communication_onBluetoothDataReceived": this.Set.field("RX", "pin14"),
+            "communication_hc05_sendBluetoothData": this.Set.field("RX", "pin14") + this.Set.text("DATA"),
+            "communication_hc05_onBluetoothDataReceived": this.Set.field("RX", "pin14"),
             "communication_HM10_sendBluetoothData": this.Set.field("RX", "pin14") + this.Set.text("DATA"),
             "communication_HM10_onBluetoothDataReceived": this.Set.field("RX", "pin14"),
             // communication - tracking modules
@@ -126,7 +126,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "sensors_getGroveTemperature": this.Set.field('PIN', "pin1"),
             "sensors_getGroveHighTemperature": this.Set.field("A1", "pin1"),
             "sensors_dhtReadData": this.Set.field('PIN', "pin1"),
-            "sensors_mpx5700ap_calibrate": this.Set.number("M", 1) + this.Set.number("B", 1),
+            // "sensors_mpx5700ap_calibrate": this.Set.number("M", 1) + this.Set.number("B", 1),
             "sensors_getGroveWaterAmount": this.Set.field('PIN', "pin1"),
             "sensors_getRainGauge": this.Set.field('PIN', "pin1"),
             "sensors_getAnemometer": this.Set.field('PIN', "pin1"),
@@ -148,16 +148,16 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             // actuators - motors
             "actuators_setServoAngle": this.Set.field('PIN', "pin2") + this.Set.number("ANGLE", 90),
             "actuators_continuousServo_setSpeed": this.Set.field('PIN', "pin2") + this.Set.number("SPEED", 100),
-            "actuators_setMotorPower": this.Set.field('PIN', "pin2") + this.Set.number("POWER", 1023),
             "actuators_setFanPower": this.Set.field('PIN', "pin2") + this.Set.number("POWER", 1023),
-            "actuators_kitronik_controlMotor": this.Set.number("SPEED", 100),
             "actuators_setVibrationMotorState": this.Set.field('PIN', "pin2") + this.Set.state(),
             "actuators_setGroveRelayState": this.Set.field('PIN', "pin2") + this.Set.state(),
             "actuators_stepperMotor_uln2003driver_init": this.Set.field('IN1', "pin0") + this.Set.field('IN2', "pin14") + this.Set.field('IN3', "pin1") + this.Set.field('IN4', "pin15"),
             "actuators_stepperMotor_uln2003driver_moveSteps": this.Set.number('STEPS', 1) + this.Set.field('UNIT', 'ROTATIONS'),
             "actuators_stepperMotor_uln2003driver_setDelay" : this.Set.number('DELAY', 3),
-            // actuators - Kitronic Traffic
+            // actuators - Kitronik
             "actuators_controlAccessBitBuzzer": this.Set.number('VALUE', 500),
+            "actuators_kitronik_controlMotor": this.Set.number("SPEED", 100),
+            "actuators_kitronikShield_setServoAngle": this.Set.number('SERVO', 1) + this.Set.number('ANGLE', 90),
             // actuators - MOSFET
             "actuators_mosfet_setState": this.Set.state(),
             "actuators_mosfet_setPercentValue": this.Set.number("VALUE", 100),
@@ -186,6 +186,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "robots_rotateMaqueen": this.Set.number("SPEED", 125),
             "robots_controlMaqueenMotor": this.Set.number("SPEED", 125),
             "robots_setMaqueenServoAngle": this.Set.number("ANGLE", 90),
+            "robots_maqueenV5_patrolling": this.Set.state(),
             "robots_setMaqueenNeopixel": this.Set.number("R", 255) + this.Set.number("G", 255) + this.Set.number("B"),
             "robots_setMaqueenNeopixelPalette": this.Set.colour_picker(),
             "robots_setMaqueenBuzzer": this.Set.number("FREQUENCY", 440) + this.Set.number("TIME", 500),
@@ -278,7 +279,24 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "robots_setGamepadLED": this.Set.state(),
             "robots_setGamepadMotorVibration": this.Set.state(),
             "robots_setGamepadBuzzerFreq": this.Set.number("FREQUENCY", 440) + this.Set.number("TIME", 500),
-            // Tello - Drone
+            // robots - uHandbit
+            "robots_uhandbit_controlServo": this.Set.number("ANGLE", 90) + this.Set.number("DURATION", 1000),
+            "robots_uhandbit_setNeopixel": this.Set.number("LED") + this.Set.number("R", 255) + this.Set.number("G", 255) + this.Set.number("B"),
+            "robots_uhandbit_setNeopixelPalette": this.Set.number("LED") + this.Set.colour_picker(),
+            // robots - wukong
+            "robots_wukong_setLightIntensity": this.Set.number("LIGHT", 50),
+            "robots_wukong_controlMotors": this.Set.number("SPEED", 50),
+            "robots_wukong_setServoAngle": this.Set.number("ANGLE", 90),
+            "robots_wukong_setServoSpeed": this.Set.number("SPEED", 50),
+            // robots - building:bit
+            "robots_buildingBit_setNeopixel": this.Set.number("R", 255) + this.Set.number("G", 255) + this.Set.number("B"),
+            "robots_buildingBit_setNeopixelPalette": this.Set.colour_picker(),
+            "robots_buildingBit_setServoAngle": this.Set.number("ANGLE", 90),
+            "robots_buildingBit_controlMotors": this.Set.number("SPEED", 255),
+            "robots_buildingBit_controlStepperMotors": this.Set.number("POSITION", 360),
+            "robots_buildingBit_getUltrasonicDistance": this.Set.field("TRIG", "pin1") + this.Set.field("ECHO", "pin2"),
+            "robots_buildingBitonJoystickDir": this.Set.field("PIN_X", "pin1") + this.Set.field("PIN_Y", "pin2"),
+            // Drone - Tello
             "tello_move": this.Set.field("DIRECTION", "forward") + this.Set.number("DISTANCE", 20),
             "tello_move_up_down": this.Set.field("DIRECTION", "up") + this.Set.number("ALTITUDE", 100),
             "drone_init": this.Set.text('SSID', 'TELLO-XXXXXX') + this.Set.field("TX", 'pin14') + this.Set.field("RX", 'pin0'),
@@ -290,16 +308,16 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "cameras_huskylens_customName": this.Set.text("NAME", 'Nom') + this.Set.number("ID", 1),
             "cameras_huskylens_setText": this.Set.text("TEXT", 'Vittascience') + this.Set.number("X", 160) + this.Set.number("Y", 120),
             "cameras_huskylens_checkID": this.Set.number("ID", 1),
+            "cameras_huskylens_getDataByID": this.Set.number("ID", 1),
             "cameras_huskylens_getLineDirection": this.Set.number("ID", 1),
             "cameras_huskylens_saveModel": this.Set.number("INDEX"),
             "cameras_huskylens_loadModel": this.Set.number("INDEX"),
             "cameras_huskylens_learnID": this.Set.number("ID", 1),
             // Cameras - Wio Lite
             "wio_get_class_data_by_id": this.Set.number("ID", 1),
-
             // EDGE AI blocks
             "vittaia_detect_class": this.Set.text("MODEL_CLASS", 'Class') + this.Set.field("IS_DETECTED", '=='),
-            "vittaia_load_cloud_model": this.Set.text("MODEL_ID", 'https://fr.vittascience.com/ia/model/67da8c5faec8e/'),
+            "vittaia_load_cloud_model": this.Set.text("MODEL_URL", 'https://vittascience.com/ia/sensors?link=699c230b87aa9'),
             /** Python default blocks */
 
             // logic
@@ -337,15 +355,16 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "text_append": this.Set.text('TEXT'),
             "text_split": this.Set.text('VALUE') + this.Set.text('SEP', ';'),
             "text_length": this.Set.text('VALUE', 'abc'),
-            "text_indexOf": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('VALUE', 'abc'),
+            "text_includesSubstr": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('FIND', 'abc'),
+            "text_indexOf": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('FIND', 'abc'),
             "text_charAt": this.Set.variable("VALUE", '{textVariable}'),
             "text_getSubstring": this.Set.variable("STRING", '{textVariable}'),
+            "text_count_characters": this.Set.text('TEXT', 'P@ssw0rd'),
             "text_changeCase": this.Set.text('TEXT', 'abc'),
             "text_trim": this.Set.text('TEXT', 'abc'),
             "text_count": this.Set.text('SUB', 'bon') + this.Set.text('TEXT', 'bonbon'),
             "text_replace": this.Set.text('FROM', 'a') + this.Set.text('TO', 'b') + this.Set.text('TEXT', 'abc'),
             "text_reverse": this.Set.text('TEXT', 'abc'),
-            "text_count_characters": this.Set.text('TEXT', 'P@ssw0rd'),
             "text_random_string": this.Set.number('LENGTH', 6),
             "text_caesar_cipher": this.Set.text('TEXT', '{hello}') + this.Set.number('SHIFT', 3),
             "text_caesar_cipher_brute_force": this.Set.text('TEXT', 'Erqmrxu hw elhqyhqxh vxu Ylwwdvflhqfh'),

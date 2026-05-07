@@ -23,7 +23,7 @@ var $builtinmodule = function () {
 		$loc.__init__ = new Sk.builtin.func(OneWire__init__);
 
 		$loc.reset = new Sk.builtin.func(function (self) {
-            return new Sk.builtin.bool_(true);
+            return new Sk.builtin.bool(true);
 		});
 
         $loc.readbit = new Sk.builtin.func(function (self) {

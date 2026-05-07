@@ -46,10 +46,10 @@
                 <div id="monitor-content" class="monitor-grid-bottom">
                     <div id="monitor-view">
                         <div id="monitor-view-group-btn">
-                            <button id="monitor-btn-console" class="monitor-view-btn btn activated" data-i18n="[title]code.console.buttons.consoleMode" data-toggle="tooltip" data-placement="left" title="Mode console">
+                            <button id="monitor-btn-console" class="monitor-view-btn btn activated" data-i18n="[title]code.console.buttons.consoleMode;[aria-label]code.console.buttons.consoleMode" data-toggle="tooltip" data-placement="left" title="Mode console">
                                 <i class="fas fa-terminal"></i>
                             </button>
-                            <button id="monitor-btn-graph" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.graphMode" data-toggle="tooltip" data-placement="left" title="Mode graphique">
+                            <button id="monitor-btn-graph" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.graphMode;[aria-label]code.console.buttons.graphMode" data-toggle="tooltip" data-placement="left" title="Mode graphique">
                                 <i class="fas fa-chart-line"></i>
                             </button>
                             <div id="monitor-graph-tooltip" class="interface-tooltip" style="display:none;">
@@ -66,7 +66,7 @@
                                     Pour visualiser les données reçues dans la console, cliquer sur le bouton <b>Graphique</b>
                                 </span>
                             </div>
-                            <button id="monitor-clear" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.clearConsole" data-toggle="tooltip" data-placement="left" title="Nettoyer l'écran">
+                            <button id="monitor-clear" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.clearConsole;[aria-label]code.console.buttons.clearConsole" data-toggle="tooltip" data-placement="left" title="Nettoyer l'écran">
                                 <i class="fas fa-broom"></i>
                             </button>
                         </div>
@@ -90,7 +90,7 @@
 
                             <div class="w-75 d-flex me-1">
                                 <div class="dropup dropup-center">
-                                    <button class="btn monitor-controls-button dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button class="btn monitor-controls-button dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-i18n="[aria-label]code.console.buttons.monitorTool.controlsMenu">
                                         <i class="fas fa-cog"></i>
                                     </button>
                                     <div id="monitor-controls-dropdown" class="dropdown-menu">
@@ -164,7 +164,7 @@
 
                                     <input type="text" id="serial-input" class="serial-controls form-control ide-btn-left" autocomplete="off" data-i18n="[placeholder]code.monitor.controls.text.send"/>
                                     <div id="serial-input-btn" class="input-group-append">
-                                        <button id="serial-send" class="ide-btn serial-controls ide-btn-right" onclick="InterfaceConnection.sendSerialCommand()" data-placement="top" data-toggle="tooltip" data-i18n="[title]code.monitor.controls.tooltips.send">
+                                        <button id="serial-send" class="ide-btn serial-controls ide-btn-right" data-placement="top" data-toggle="tooltip" data-i18n="[title]code.monitor.controls.tooltips.send;[aria-label]code.monitor.controls.tooltips.send">
                                             <i class="fa fa-paper-plane" aria-hidden="true"></i>
                                         </button>
                                     </div>
@@ -216,6 +216,9 @@
 <script src="/openInterface/interfaces/assets/js/external/echarts-5.4.0/echarts.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/tone/tone.js"></script>
 <!-- endbuild -->
+<!-- build:js-autocomplete-->
+<script src="/openInterface/interfaces/assets/js/autocomplete/arduino/tree.js"></script>
+<!-- endbuild -->
 <!-- build:js-utils -->
 <script src="/openInterface/interfaces/assets/js/utils/url.js"></script>
 <script src="/openInterface/interfaces/assets/js/utils/colour.js"></script>
@@ -239,7 +242,6 @@
 <script src="/openInterface/interfaces/assets/js/constants/main/errors.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/main/patterns.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/main/api.js"></script>
-<script src="/openInterface/interfaces/assets/js/constants/blocks/helpurl.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/generators/constants.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/tooltip/image.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/modals/buttons.js"></script>
@@ -258,7 +260,7 @@
 <script src="/openInterface/interfaces/assets/js/serial/Serial.js"></script>
 <script src="/openInterface/interfaces/assets/js/serial/arduino/letsstartcoding_boards.js"></script>
 <script src="/openInterface/interfaces/assets/js/serial/arduino/AvrgirlArduino.js"></script>
-<script src="/openInterface/interfaces/assets/js/serial/arduino/serialAPI.js"></script>
+<script src="/openInterface/interfaces/assets/js/serial/arduino/InterfaceConnection.js"></script>
 <!-- endbuild -->
 <!-- build:js-blocks -->
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/constants.js"></script>
@@ -297,9 +299,8 @@
 <!-- loader -->
 <script src="/openInterface/interfaces/assets/js/events/load.js"></script>
 <script>
-    $(document).ready(function () {
-        loadInterface(INTERFACE_NAME);
-        InterfaceConnection.init();
+    $(document).ready(async () => {
+        await loadInterface(INTERFACE_NAME);
     });
 </script>
 <!-- footer scripts -->

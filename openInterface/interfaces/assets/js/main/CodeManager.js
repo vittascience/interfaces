@@ -36,11 +36,13 @@ class CodeManager {
      */
 
     constructor(codeMode, workspace, generator, xml) {
-        this.REGEXP_INTERFACES = /.*(arduino|microbit|python|adacraft|wb55|l476|esp32|TI-83|galaxia|raspberrypi|niryo|nao|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|eliobot|thymio|letsstartcoding|pico|winky|web|sphero|lotibot|bluebot|spike|photon|codey).*/g;
+        this.REGEXP_INTERFACES = /.*(arduino|microbit|python|adacraft|wb55|l476|esp32|TI-83|galaxia|raspberrypi|niryo|nao|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|eliobot|thymio|letsstartcoding|pico|winky|web|sphero|lotibot|bluebot|spike|photon|codey|steami|alphai).*/g;
         if (typeof ltiVariables13 != 'undefined') {
             this._interface = ltiVariables13.interface;
         } else if (typeof ltiVariables != 'undefined') {
             this._interface = ltiVariables.interface;
+        } else if (window.location.pathname.startsWith('/student-experiment')) {
+            this._interface = 'python';
         } else {
             this._interface = window.location.pathname.replace(this.REGEXP_INTERFACES, "$1");
         }
@@ -75,6 +77,8 @@ class CodeManager {
             case 'spike':
             case 'photon':
             case 'codey':
+            case 'steami':
+            case 'alphai':
                 this._lStorage = this._interface + "CurrentProject";
                 this._lSaveStorage = this._interface + "SavedProjects"; //[! NOT USED: Visitor need account to save his projects]
                 break;
@@ -212,6 +216,18 @@ class CodeManager {
                 if (typeof REPLACE_CODE_REQUESTS !== 'undefined') {
                     for (const request of Object.values(REPLACE_CODE_REQUESTS)) {
                         xml = xml.replace(request[0], request[1]);
+                    }
+                }
+                if (typeof ProjectsCleaner !== 'undefined') {
+                    for (const request of Object.values(ProjectsCleaner.DB)) {
+                        if (request.targets.includes(this._interface)) {
+                            xml = request.handler(xml);
+                        }
+                    }
+                }
+                if (typeof REMOVE_INPUT_VALUE_CONNECTION !== 'undefined') {
+                    for (const input in REMOVE_INPUT_VALUE_CONNECTION) {
+                        xml = this._disconnectInputFromBlock(xml, input, REMOVE_INPUT_VALUE_CONNECTION[input])
                     }
                 }
                 try {
@@ -508,13 +524,12 @@ class CodeManager {
     convertOldWebProjectCodeLStorage() {
         if (this._interface !== 'web') return;
         if (!this.localStorageManager.getLocalProjectContent()) return;
-        const localstorage = this.localStorageManager.getLocalProjectContent();
-        if (!localstorage || !localstorage.code) return;
-        const localStorageCode = this.checkAndParseJSON(localstorage.code);
-        if (!localStorageCode && typeof localstorage.code !== 'object') return;
-        const adaptedCode = this._adaptOldWebCode(localStorageCode);
-        localstorage.code = adaptedCode;
-        this.localStorageManager.setLocalProject(localstorage);
+        const project = this.localStorageManager.getLocalProjectContent();
+        if (!project || !project.code) return;
+        const parsedCode = this.checkAndParseJSON(project.code);
+        if (!parsedCode && typeof project.code !== 'object') return;
+        project.code = this._adaptOldWebCode(parsedCode);
+        this.localStorageManager.setLocalProject(project);
     }
 
     /**
@@ -552,5 +567,26 @@ class CodeManager {
             return `<html>${this.getGeneratedCode()}</html>`;
         }
         return this.getGeneratedCode();
+    }
+    /**
+     * Disconnect input from block in xml.
+     * @public
+     * @param {string} xml
+     * @param {string} blockType
+     * @param {string} inputName
+     * @returns {string} xml
+     */
+    _disconnectInputFromBlock(xml, blockType, inputName) {
+        const xmlDoc = new DOMParser().parseFromString(xml, "text/xml");
+        const blocks = xmlDoc.querySelectorAll('block[type="' + blockType + '"]');
+        blocks.forEach((block) => {
+            const dataValue = Array.from(block.children).find(
+                (child) => child.tagName === "value" && child.getAttribute("name") === inputName
+            );
+            if (dataValue) {
+                block.removeChild(dataValue);
+            }
+        });
+        return new XMLSerializer().serializeToString(xmlDoc);
     }
 }

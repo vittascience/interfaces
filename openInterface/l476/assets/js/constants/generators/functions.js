@@ -423,13 +423,13 @@ DEF_GROVE_GET_UV_INDEX:
 // Grove Ultrasonic sensor _ get data
 DEF_GROVE_ULTRASONIC:
 `def grove_getUltrasonicData(pin, data='distance', timeout_us=30000):
-  pin.init(Pin.OUT)
+  pin.init(machine.Pin.OUT)
   pin.off()
   utime.sleep_us(2)               
   pin.on()
   utime.sleep_us(10)
   pin.off()
-  pin.init(Pin.IN)
+  pin.init(machine.Pin.IN)
   duration = machine.time_pulse_us(pin, 1, timeout_us)/1e6 # t_echo in seconds
   if duration > 0:
     if data == 'distance':

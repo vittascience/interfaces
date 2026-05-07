@@ -24,7 +24,7 @@ var $builtinmodule = function () {
     socket.IP_ADD_MEMBERSHIP = new Sk.builtin.int_(3);
 
     getaddrinfo = function (host, port, af, type, proto, flags) {
-        throw new Sk.builtin.NotImplementedError('socket.getaddrinfo is not yet implemented');
+        throw new Sk.builtin.NotImplementedError('<b>socket.getaddrinfo()</b> is not yet implemented');
     };
 
     getaddrinfo.co_varnames = ['host', 'port', 'af', 'type', 'proto', 'flags'];

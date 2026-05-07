@@ -277,16 +277,19 @@ function displaySignup() {
 }
 
 
-function popConfettiAt(idTarget = null) {
+function popConfettiAt(idTarget = null, options = null) {
     if (!idTarget) {
         return;
     }
+
+    const safeOptions = options || {};
+    const target = document.querySelector(`#${idTarget}`);
 
     confetti({
         particleCount: 100,
         spread: 70,
         origin: {
-            y: 0.6
+            y: typeof safeOptions.y !== 'undefined' ? safeOptions.y : 0.6
         },
         // put the variables --vitta-green, --vitta-blue, --vitta-orange, --vitta-red, --vitta-yellow in the confetti colors
         colors: [
@@ -298,7 +301,9 @@ function popConfettiAt(idTarget = null) {
         ],
 
         // get var(--bs-modal-zindex) and add 1 to make the confetti appear above the modal
-        zIndex: parseInt(getComputedStyle(document.querySelector(`#${idTarget}`)).getPropertyValue('--bs-modal-zindex')) + 1
+        zIndex: typeof safeOptions.zIndex !== 'undefined'
+            ? safeOptions.zIndex
+            : (target ? parseInt(getComputedStyle(target).getPropertyValue('--bs-modal-zindex')) + 1 : 1056)
     });
 }
 
@@ -420,12 +425,16 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isEdu) {
             samlRegistrationButton.classList.remove("order-2");
             samlRegistrationButton.classList.add("order-1", "border-focus-lux");
+
+            if (disclaimer) {
+                disclaimer.classList.remove("d-none");
+            }
         } else {
             samlRegistrationButton.classList.remove("order-1", "border-focus-lux");
             samlRegistrationButton.classList.add("order-2");
 
             if (disclaimer) {
-                disclaimer.classList.remove("d-none");
+                disclaimer.classList.add("d-none");
             }
         }
     }

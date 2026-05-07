@@ -1,9 +1,9 @@
 const cardCommunicationButtons = {
     'upload': {
         id: "upload-python",
-        classes: 'ide-btn-check ide-btn-left',
+        classes: 'ide-btn-check ide-btn-left e2e-upload-btn',
         fontAwesome: 'fas fa-bolt',
-        onclick: "uploadPython()",
+        onclick: "InterfaceConnection.uploadPython()",
         title: 'code.topbar.tooltips.uploadPython',
         label: {
             hidden: true,
@@ -25,7 +25,7 @@ const downloadOptions = {
         icon: "/openInterface/interfaces/assets/media/micropython_logo.svg",
         title: 'code.topbar.tooltips.downloadFirmware',
         tooltipPlacement: "left",
-        onclick: "downloadFirmware('ESP32_GENERIC-20241129-v1.24.1.bin')",
+        onclick: "VittaInterface.downloadFirmware('ESP32_GENERIC-20241129-v1.24.1.bin')",
         label: {
             value: "code.topbar.label.downloadFirmware"
         }
@@ -36,7 +36,7 @@ const downloadOptions = {
         icon: "/openInterface/interfaces/assets/media/micropython_logo.svg",
         title: 'code.topbar.tooltips.downloadCamFirmware',
         tooltipPlacement: "left",
-        onclick: "downloadFirmware('esp32_cam_mpy_v1_20-206-g33b403dfb-kaki5.bin')",
+        onclick: "VittaInterface.downloadFirmware('mpy_cam-v1.25.0-AI_THINKER.bin')",
         label: {
             value: "code.topbar.label.downloadCamFirmware"
         }
@@ -47,10 +47,21 @@ const downloadOptions = {
         icon: "/openInterface/interfaces/assets/js/external/font-awesome/svgs/brands/usb.svg",
         title: 'code.topbar.tooltips.disconnect',
         tooltipPlacement: "left",
-        onclick: "doDisconnect()",
+        onclick: "InterfaceConnection.doDisconnect()",
         show: false,
         label: {
             value: "code.topbar.label.disconnect"
+        }
+    },
+    'board-choice': {
+        id: "board-choice-opt",
+        classes: 'ide-btn-check ide-btn-left-dropdown',
+        fontAwesome: 'fas fa-microchip',
+        title: 'code.topbar.tooltips.esp32BoardSelector',
+        onclick: "VittaInterface.openBoardSelector()",
+        tooltipPlacement: "left",
+        label: {
+            value: "code.topbar.label.boardSelect"
         }
     }
 };

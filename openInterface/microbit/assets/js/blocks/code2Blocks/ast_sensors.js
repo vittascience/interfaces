@@ -1113,7 +1113,7 @@ utils.prototypeBlocks['SI1145'] = function (node, identifier) {
 
 utils.prototypeBlocks['si1145.readUV'] = function (type, fields, values, mutations, statementsNode, statement) {
 	return {
-		type: 'sensors_getSi1145Light',
+		type: 'sensors_getSunlightData',
 		fields: { LIGHT: 'UV' },
 		values: null,
 		mutations: null,
@@ -1124,7 +1124,7 @@ utils.prototypeBlocks['si1145.readUV'] = function (type, fields, values, mutatio
 
 utils.prototypeBlocks['si1145.readVisible'] = function (type, fields, values, mutations, statementsNode, statement) {
 	return {
-		type: 'sensors_getSi1145Light',
+		type: 'sensors_getSunlightData',
 		fields: { LIGHT: 'VIS' },
 		values: null,
 		mutations: null,
@@ -1135,7 +1135,7 @@ utils.prototypeBlocks['si1145.readVisible'] = function (type, fields, values, mu
 
 utils.prototypeBlocks['si1145.readIR'] = function (type, fields, values, mutations, statementsNode, statement) {
 	return {
-		type: 'sensors_getSi1145Light',
+		type: 'sensors_getSunlightData',
 		fields: { LIGHT: 'IR' },
 		values: null,
 		mutations: null,
@@ -1507,7 +1507,7 @@ utils.prototypeBlocks['read_heart_rate'] = function (type, fields, values, mutat
 	};
 }
 
-utils.prototypeBlocks['waterLevelSensor.check_water_level'] = function (type, fields, values, mutations, statementsNode, statement) {
+utils.prototypeBlocks['waterLevelSensor.measurePercentLevel'] = function (type, fields, values, mutations, statementsNode, statement) {
 	return {
 		type: 'sensors_getWaterLevel',
 		fields: {},

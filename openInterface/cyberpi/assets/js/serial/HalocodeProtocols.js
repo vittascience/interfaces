@@ -315,9 +315,9 @@ class HalocodeController {
      * Creates an instance of HalocodeController.
      * @private
      */
-    constructor(webBLE) {
+    constructor(api) {
         this.READING_HEADER_BYTES = [0xef, 0xbf, 0xbd];
-        this._webBLE = webBLE
+        this._api = api
         this._buffer = []
         this._textData = ""
         this._isInError = false
@@ -331,6 +331,7 @@ class HalocodeController {
         this.receiving_command = false
         this.tempPack = []
         this.hasToClose = false
+        this.receiving_remains = []
     };
     /**
      * Call external logger from InterfaceMonitor and write it.
@@ -348,11 +349,11 @@ class HalocodeController {
     async readingLoop() {
         this.isLoopClosed = false;
         while (true) {
-            if (!this._webBLE.isConnected) {
+            if (!this._api.isConnected) {
                 break;
             }
             await waitFor(_ => this._readerReady);
-            const { value, done } = await this._webBLE.read();
+            const { value, done } = await this._api.read();
             if (done || !value) {
                 if (this.hasToClose) {
                     this.isLoopClosed = true;
@@ -393,7 +394,7 @@ class HalocodeController {
                 this.restarted = true;
                 break;
             case TYPE_UPLOAD:
-                const log = "Transfert" + (this._webBLE.filename ? (" de " + this._webBLE.filename) : "") + " en cours ... " + this._webBLE.percent + ' %';
+                const log = "Transfert" + (this._api.filename ? (" de " + this._api.filename) : "") + " en cours ... " + this._api.percent + ' %';
                 const lines = document.getElementById('console').innerHTML.split('</p>');
                 const regexp = /Transfert( de (.*).py|) en cours ... [0-9]{1,2} %/;
                 if (regexp.test(lines[lines.length - 2])) {
@@ -409,6 +410,18 @@ class HalocodeController {
                     this.log("Packet: (" + len + ") -> " + type);
                 }
         }
+    }
+    parsePacket(buf) {
+        if (buf.length < 12) return { complete: false, reason: "too short" };
+        if (buf[0] !== 0xef || buf[1] !== 0xbf || buf[2] !== 0xbd)
+            return { complete: false, reason: "bad header" };
+        const mode = buf[6];
+        const len = buf[10] | (buf[11] << 8);
+        const total = 12 + len;
+        if (buf.length < total) return { complete: false, reason: "need more bytes", need: total };
+        const string = this._decodeData(buf.slice(12, total));
+        if (buf.length > total) return { complete: true, extra: buf.length - total, mode, len, _data: string };
+        return { complete: true, mode, len, _data: string };
     }
     /**
      * Parse data received from CyberPi as Halocode protocols.
@@ -426,9 +439,21 @@ class HalocodeController {
         for (var i = 0; i < this._buffer.length; i++) {
             if (this.READING_HEADER_BYTES.includes(this._buffer[i])) {
                 if (this._buffer[i] == this.READING_HEADER_BYTES[0]) {
+                    if (this._textData) {
+                        this.receiving_remains.push(this._textData)
+                        this._textData = "";
+                    }
                     if (this.receiving_command && this.tempPack.length == 3) {
                         //this.log("Packet: (" + this.tempPack.length + ") -> 0");
                         this.tempPack = new Array();
+                    } else if (this.receiving_command && this.tempPack.length > 3) {
+                        const pack = this.parsePacket(this.tempPack);
+                        if (pack.complete) {
+                            const response = pack._data.slice(pack._data.indexOf('{'), pack._data.indexOf("}") + 1);
+                            this.logPack(TYPE_SCRIPT, this.tempPack.length);
+                            this.log(this._ansi_up.ansi_to_html(response));
+                            this.tempPack = [];
+                        }
                     }
                     this.receiving_command = false;
                 } else if (this._buffer[i] == this.READING_HEADER_BYTES[2]) {
@@ -440,12 +465,11 @@ class HalocodeController {
                 this.receiving_command = true;
                 this.tempPack = [];
                 this.tempPack.push(this._buffer[i]);
-            } else if ([0x05, 0x0c, 0xf5, 0xf6, 0xfa, 0x01, 0x02, 0x03, 0x07].includes(this._buffer[i])) {
+            } else if ([0x01, 0x02, 0x03, 0x05, 0x07, 0x09, 0x11, 0x13, 0x28, 0x0a, 0x0c, 0x0e, 0x0f, 0xf5, 0xf6, 0xfa, 0x1c].includes(this._buffer[i])) {
                 if (this.receiving_command) {
                     this.tempPack.push(this._buffer[i]);
                     this.printing = false;
                 } else {
-                    this.receiving_command = false;
                     this._textData += this._decodeData([this._buffer[i]]);
                 }
             } else if (this._buffer[i] == FOOTER_BYTE) {
@@ -455,9 +479,8 @@ class HalocodeController {
                     this.logPack(pack._type, pack._datalen);
                     if (pack._data.length) {
                         const string = this._decodeData(pack._data);
-                        const jsonResponse = string.slice(string.indexOf('{'), string.indexOf("}") + 1);
-                        this.response = JSON.parse(jsonResponse.replace(/None/g, 'null').replace(/True/g, 'true').replace(/False/g, 'false').replace(/\</g, '\"<').replace(/\>/g, '>\"').replace(/'/g, "\""));
-                        this.log(this._ansi_up.ansi_to_html(string));
+                        const response = string.slice(string.indexOf('{'), string.indexOf("}") + 1);
+                        this.log(this._ansi_up.ansi_to_html(response));
                     }
                 }
                 this.tempPack = [];
@@ -481,28 +504,13 @@ class HalocodeController {
                         this.logPack(this.tempPack[5], this.tempPack.length);
                         checkCommand();
                     } else {
-                        if (this._webBLE.type == 'serial') {
-                            const newPack = [HEADER_BYTE].concat(this.tempPack.slice(3));
-                            newPack.push(FOOTER_BYTE);
-                            const pack = new HalocodePackData(newPack);
-                            const _checksum = HalocodeUpload._calculateChecksum(this.tempPack.slice(5, -1));
-                            let data = pack._data;
-                            if ((_checksum == pack._checksum && _checksum > 0) || this.tempPack.slice(-1)[0] == 125) {
-                                if (this.tempPack.slice(-1)[0] == 125 && _checksum !== pack._checksum) {
-                                    data = this.tempPack.slice(7);
-                                }
-                                if (data.length) {
-                                    const string = this._decodeData(data);
-                                    const jsonResponse = string.slice(string.indexOf('{'), string.indexOf("}") + 1);
-                                    try {
-                                        this.response = JSON.parse(jsonResponse.replace(/None/g, 'null').replace(/True/g, 'true').replace(/False/g, 'false').replace(/\</g, '\"<').replace(/\>/g, '>\"').replace(/'/g, "\""));
-                                        this.logPack(TYPE_SCRIPT, this.tempPack.length);
-                                        checkCommand();
-                                        this.log(this._ansi_up.ansi_to_html(string));
-                                    } catch (e) {
-                                        console.error(e)
-                                    }
-                                }
+                        if (this._api.type == 'serial') {
+                            const pack = this.parsePacket(this.tempPack);
+                            if (pack.complete) {
+                                const response = pack._data.slice(pack._data.indexOf('{'), pack._data.indexOf("}") + 1);
+                                this.logPack(TYPE_SCRIPT, this.tempPack.length);
+                                this.log(this._ansi_up.ansi_to_html(response));
+                                this.tempPack = [];
                             }
                         }
                     }
@@ -521,11 +529,9 @@ class HalocodeController {
     /**
      * Print received data on console.
      * @private
-     * @param {Array<byte>} data
      * @returns {void}
      */
     _printResponseOnConsole() {
-        //this._textData += this._decodeData(data);
         const lines = this._textData.split('\n');
         for (var i = 0; i < lines.length - 1; i++) {
             const line = this._ansi_up.ansi_to_html(lines[i]);

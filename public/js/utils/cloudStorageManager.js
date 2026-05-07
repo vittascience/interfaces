@@ -375,6 +375,142 @@ function putRecordsForAI(data) {
     // });
 }
 
+function putAudioForTTS(audioBlob = createFakeAudioOpusFile(), projectId = 12345) {
+    let dataToSend = {
+        data: {
+            projectId: projectId,
+            key: null,
+        }
+    }
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            type: "POST",
+            url: `/routing/Routing.php?controller=cloud&action=put-audio-tts`,
+            data: dataToSend,
+            success: function (response) {
+                let responseParsed = JSON.parse(response);
+                if (!responseParsed.uploadUrl || responseParsed.success!= true) {
+                    reject();
+                    return;
+                }
+
+                putBlobToPresignedUrl(responseParsed.uploadUrl, audioBlob).then((status) => {
+                    if (status === 200) {
+                        resolve(responseParsed);
+                    } else {
+                        reject();
+                    }
+                }).catch(() => {
+                    reject();
+                });
+            },
+            error: function () {
+                reject();
+            }
+        });
+    });
+}
+
+async function putBlobToPresignedUrl(url, audioBlob) {
+    const result = await fetch(url, {
+        method: "PUT",
+        body: audioBlob,
+        headers: {
+            "Accept": "*/*",
+            'Content-Type': audioBlob.type,
+        }
+    });
+    return result.status;
+}
+
+async function getOpusAudioFromPresignedUrl(url) {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return blob;
+}
+
+function getAudioUrlForTTS(key = "0bd648094e6daf78c4a5d6c120b19ab0", folderId = 12345) {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            type: "POST",
+            url: `/routing/Routing.php?controller=cloud&action=get-audio-tts`,
+            data: { data: {key: key, folderId: folderId } },
+            success: function (response) {
+                let responseParsed = JSON.parse(response);
+                if (responseParsed.success != true || !responseParsed.downloadUrl) {
+                    reject();
+                    return;
+                }
+                resolve(responseParsed.downloadUrl);
+            },
+            error: function () {
+                reject();
+            }
+        })
+    });
+}
+
+function createFakeAudioOpusFile() {
+    const fakeOpusData = new Uint8Array([
+        0x4F, 0x67, 0x67, 0x53,
+        0x00, 0x02, 0x00, 0x00
+    ]);
+
+    const opusBlob = new Blob([fakeOpusData], { type: "audio/opus" });
+
+    const opusFile = new File([opusBlob], "test.opus", {
+        type: "audio/opus",
+        lastModified: Date.now()
+    });
+    return opusFile;
+}
+
+function updateAudioForTTS(key = "0bd648094e6daf78c4a5d6c120b19ab0", audioBlob = createFakeAudioOpusFile(), folderId = 12345) {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            type: "POST",
+            url: `/routing/Routing.php?controller=cloud&action=update-audio-tts`,
+            data: { data: {key: key, folderId: folderId } },
+            success: function (response) {
+                let responseParsed = JSON.parse(response);
+                if (!responseParsed.uploadUrl || responseParsed.success!= true) {
+                    reject();
+                    return;
+                }
+
+                putBlobToPresignedUrl(responseParsed.uploadUrl, audioBlob).then((status) => {
+                    if (status === 200) {
+                        resolve(responseParsed);
+                    } else {
+                        reject();
+                    }
+                }).catch(() => {
+                    reject();
+                });
+            },
+            error: function () {
+                reject();
+            }
+        });
+    });
+}
+
+function deleteAudioForTTS(key = "0bd648094e6daf78c4a5d6c120b19ab0", folderId = 12345) {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            type: "POST",
+            url: `/routing/Routing.php?controller=cloud&action=delete-audio-tts`,
+            data: { data: {key: key, folderId: folderId } },
+            success: function (response) {
+                resolve(response);
+            },
+            error: function () {
+                reject();
+            }
+        });
+    });
+}
+
 function deleteAssets(keys) {
     return new Promise(function (resolve, reject) {
         $.ajax({
@@ -441,7 +577,7 @@ function getAllPublicAssets(page, filter) {
     return new Promise((resolve, reject) => {
         $.ajax({
             type: "POST",
-            url: "/routing/Routing.php?controller=cloud&action=get_public_generative_assets_per_page", 
+            url: "/routing/Routing.php?controller=cloud&action=get_public_generative_assets_per_page",
             data: {
                 page: page,
                 filter: filter
@@ -457,10 +593,10 @@ function getAllPublicAssets(page, filter) {
     })
 }
 function getBestAssets(start, end, from) {
-     return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         $.ajax({
             type: "POST",
-            url: "/routing/Routing.php?controller=cloud&action=get_best_assets_of_this_week", 
+            url: "/routing/Routing.php?controller=cloud&action=get_best_assets_of_this_week",
             data: {
                 start: start,
                 end: end,
@@ -482,7 +618,7 @@ function getAllCompetitions() {
     return new Promise((resolve, reject) => {
         $.ajax({
             type: "POST",
-            url: "/routing/Routing.php?controller=cloud&action=get_all_competition", 
+            url: "/routing/Routing.php?controller=cloud&action=get_all_competition",
             success: function (response) {
                 resolve(response);
             },
@@ -497,7 +633,7 @@ function getAllGames() {
     return new Promise((resolve, reject) => {
         $.ajax({
             type: "POST",
-            url: "/routing/Routing.php?controller=cloud&action=get_all_games", 
+            url: "/routing/Routing.php?controller=cloud&action=get_all_games",
             success: function (response) {
                 resolve(response);
             },
@@ -512,7 +648,7 @@ function getCurrentGame() {
     return new Promise((resolve, reject) => {
         $.ajax({
             type: "POST",
-            url: "/routing/Routing.php?controller=cloud&action=get_current_game", 
+            url: "/routing/Routing.php?controller=cloud&action=get_current_game",
             success: function (response) {
                 resolve(response);
             },
@@ -523,16 +659,16 @@ function getCurrentGame() {
         });
     })
 }
-function getAssetsOfCurrentGame(start, end, from){
+function getAssetsOfCurrentGame(start, end, from) {
     return new Promise((resolve, reject) => {
         $.ajax({
             type: "POST",
-            url: "/routing/Routing.php?controller=cloud&action=get_assets_of_game", 
+            url: "/routing/Routing.php?controller=cloud&action=get_assets_of_game",
             data: {
                 start: start,
-                end: end, 
+                end: end,
                 from: from
-    
+
             },
             success: function (response) {
                 resolve(response);
@@ -549,7 +685,7 @@ function getPublicAssetsByIds(id) {
     return new Promise((resolve, reject) => {
         $.ajax({
             type: "POST",
-            url: "/routing/Routing.php?controller=cloud&action=get_public_generative_assets_by_ids", 
+            url: "/routing/Routing.php?controller=cloud&action=get_public_generative_assets_by_ids",
             data: {
                 ids: id
             },
@@ -565,30 +701,30 @@ function getPublicAssetsByIds(id) {
 }
 
 function getMyFavoriteAssets(page, filter) {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                type: "POST",
-                url: "/routing/Routing.php?controller=cloud&action=get_list_of_my_favorite_generative_assets_per_page", 
-                data: {
-                    page: page,
-                    filter: filter
-                },
-                success: function (response) {
-                    resolve(response);
-                },
-                error: function (error) {
-                    new VittaControllerNotif().manageError(error, this);
-                    reject(null);
-                }
-            });
-        })
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: "POST",
+            url: "/routing/Routing.php?controller=cloud&action=get_list_of_my_favorite_generative_assets_per_page",
+            data: {
+                page: page,
+                filter: filter
+            },
+            success: function (response) {
+                resolve(response);
+            },
+            error: function (error) {
+                new VittaControllerNotif().manageError(error, this);
+                reject(null);
+            }
+        });
+    })
 }
 
 function synchroniseUserLikes(ids) {
     return new Promise((resolve, reject) => {
         $.ajax({
             type: "POST",
-            url: "/routing/Routing.php?controller=cloud&action=synchronise_like_with_local_db", 
+            url: "/routing/Routing.php?controller=cloud&action=synchronise_like_with_local_db",
             data: {
                 ids: ids
             },
@@ -791,21 +927,21 @@ function dislikeGenerativeAsset(id) {
 }
 function deleteGenerativeAssetByCreator(id) {
     return new Promise((resolve, reject) => {
-    $.ajax({
-        type: "POST",
-        url: "/routing/Routing.php?controller=cloud&action=set_private_generative_asset",
-        data: {
-            id: id
-        },
-        success: function (response) {
-            resolve(response);
-        },
-        error: function (error) {
-            new VittaControllerNotif().manageError(error, this);
-            reject(null);
-        }
-    });
-})
+        $.ajax({
+            type: "POST",
+            url: "/routing/Routing.php?controller=cloud&action=set_private_generative_asset",
+            data: {
+                id: id
+            },
+            success: function (response) {
+                resolve(response);
+            },
+            error: function (error) {
+                new VittaControllerNotif().manageError(error, this);
+                reject(null);
+            }
+        });
+    })
 }
 
 // get file from input field and parse it to base64

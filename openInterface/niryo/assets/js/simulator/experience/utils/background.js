@@ -21,7 +21,7 @@ export default class Background {
 
         const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
         groundMesh.rotation.x = -Math.PI / 2;
-        groundMesh.position.y = -0.010;
+        groundMesh.position.y = -0.005;
         groundMesh.receiveShadow = true;
         this.experience.scene.add(groundMesh);
 

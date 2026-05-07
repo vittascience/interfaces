@@ -1,5 +1,5 @@
 /**
- * @fileoverview Actuators blocks for Esp32.
+ * @fileoverview Actuators blocks for Thymio.
  */
 
 Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT

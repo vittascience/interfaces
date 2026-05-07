@@ -13,6 +13,7 @@ class SERVER:
     self.client = None
     self.client_ip = None
     self.client_data = None
+    self.client_reset = True
     self.with_vars = False
     self.locked = False
     self.html_page = ""
@@ -42,14 +43,16 @@ class SERVER:
         print(access)
       except OSError as e:
         print("Failed to start server. Error:", str(e))
-        import os
-        if 'Galaxia' in os.uname()[4]:
+        try:
+          import thingz
           machine.soft_reset()
-        elif 'Pico' in os.uname():
+        except: return
+        import os
+        if 'Pico' in os.uname():
           self.closeClient(True)
           gc.collect()
           utime.sleep(2)
-          self.start(sta=sta, ap=ap, ip=ip, port=80)
+          self.start(sta=sta, ap=ap, ip=ip, port=port)
         else:
           machine.reset()
 
@@ -67,6 +70,11 @@ class SERVER:
       #print("Client request: ", self.client_data)
       self.client.settimeout(None)
       return self.client_ip, self.client_data
+    elif not self.client_reset:
+      self.client.settimeout(None)
+      print("Receipt of the request...")
+      self.client_data = self.client.recv(1024).decode()     #requête du client
+      #print("Client request: ", self.client_data)
     else:
       return self.client_ip, self.client_data
 
@@ -136,7 +144,9 @@ class SERVER:
       print('Try to connect the server using fixed IP.\n')
       self.closeClient(True)
 
-  def getClientData(self, parameter = False):
+  def getClientData(self, close = True, parameter = False):
+    if close: self.client_reset = True
+    elif close is False: self.client_reset = False
     self.manageSocket(CMD_RECEIVE_SIMPLE_DATA)
     try:
       if parameter and self.client_data is not None:
@@ -153,13 +163,13 @@ class SERVER:
   def sendDataToClient(self, data):
     self.manageSocket(CMD_SEND_SIMPLE_DATA, data)
       
-  def closeClient(self, force = False):
-    if self.client is not None and (self.locked or force):
+  def closeClient(self, force = True):
+    if self.client is not None and force:
       self.client.close()
       self.client = None
       self.locked = False
+      print("Client: " + self.client_ip + " closed.")
       self.client_ip = None
-      print("Closing client connection.")
 
   def sendHtmlPage(self, with_vars):
     self.with_vars = with_vars

@@ -61,9 +61,9 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
     },
     {
         "kind": "category",
-        "toolboxitemid": "io",
-        "name": "%{BKY_CATEGORY_IO}",
-        "style": "io_category",
+        "toolboxitemid": "time",
+        "name": "%{BKY_CATEGORY_TIME}",
+        "style": "time_category",
         "cssConfig": {
             "icon": "icon_blockly far fa-clock"
         },
@@ -223,7 +223,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_MOVEMENTS}",
+            "label": "%{BKY_SUBCATEGORY_MOTION_SENSOR}",
             "blocks": [
                 'sensors_getBodyAcc',
                 'sensors_getBodyGyr',
@@ -348,7 +348,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         }
     ],
-    "io": [
+    "time": [
         {
             "blocks": [
                 'io_pause',
@@ -415,15 +415,25 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'text_split',
                 'text_length',
                 'text_isEmpty',
+                'text_includesSubstr',
                 'text_indexOf',
                 'text_charAt',
                 'text_getSubstring',
+                'text_count_characters',
                 'text_changeCase',
                 'text_trim',
                 'text_count',
                 'text_replace',
-                'text_reverse'
+                'text_reverse',
+                'text_random_string'
             ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_ENCRYPTION}",
+            "blocks": [
+                'text_caesar_cipher',
+                'text_caesar_cipher_brute_force'
+            ],
         }
     ],
     "variables": "customized",

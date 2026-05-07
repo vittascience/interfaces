@@ -1,7 +1,7 @@
 let LedMatrixModalManager = {
     img_selected: "",
     matrix_base64: "",
-    example_imgs_path: "/openInterface/" + INTERFACE_NAME + "/assets/media/blocks_" + INTERFACE_NAME + "_draw/",
+    example_imgs_path: "/openInterface/interfaces/assets/media/matrix_8x8_icons/",
     isRGB: false,
     led_color: "",
     width: 0,
@@ -56,51 +56,61 @@ let LedMatrixModalManager = {
         else
             return $("#matrix").children().length != 0;
     },
-    img_to_binary: function (img) { // convert matrix led to binary img
-        let binary_img_line_by_line = [],
-            line = "",
-            img_split = img.split(',');
-        line += ((img_split[0] == "#f5f5f5") ? "0" : "1");
-        // convert img tab to binary
-        for (var i = 1; i < img_split.length + 1; i++) {
-            if (i % LedMatrixModalManager.width == 0) {
+    img_to_binary: function (img) {
+        console.log("img_to_binary()")
+        const bg = "#f5f5f5";
+        const w = LedMatrixModalManager.width;
+        const img_split = img.split(',');
+        // lignes
+        let binary_img_line_by_line = [];
+        let line = "";
+        for (let i = 0; i < img_split.length; i++) {
+            line += (img_split[i] === bg) ? "0" : "1";
+            if ((i + 1) % w === 0) {
                 binary_img_line_by_line.push(line);
                 line = "";
             }
-            line += ((img_split[i] == "#f5f5f5") ? "0" : "1");
         }
-        // convert img tab from line by line to col by col 
-        let binary_img_col_by_col = [],
-            column = "";
-        for (var i = 0; i < binary_img_line_by_line[0].length; i++) {
-            for (var j = 0; j < binary_img_line_by_line.length; j++) {
+        // colonnes
+        let binary_img_col_by_col = [];
+        for (let i = 0; i < binary_img_line_by_line[0].length; i++) {
+            let column = "";
+            for (let j = 0; j < binary_img_line_by_line.length; j++) {
                 column += binary_img_line_by_line[j][i];
             }
+            column = column.split('').reverse().join('');
+            column = column.slice(1) + column[0];
             binary_img_col_by_col.push(column);
-            column = "";
         }
         return binary_img_col_by_col.join(',');
     },
     load_matrix_from_block: function (isRGB = false) { // gets the image of the block and inserts it in the modal
-        //set if the leds are RGV or not
         LedMatrixModalManager.isRGB = isRGB;
-        let binary_matrix_col_by_col = "",
-            colors = [],
-            leds = "";
+        const bg = '#f5f5f5';
+        const rotr1 = (s) => s[s.length - 1] + s.slice(0, -1);          // rotate right 1
+        const reverseStr = (s) => s.split('').reverse().join('');       // reverse bits
+        let binary_matrix_col_by_col = "";
+        let colors = [];
+        let leds = "";
         if (LedMatrixModalManager.isRGB) {
             binary_matrix_col_by_col = Blockly.Constants.RGB_LEDS_MATRIX_BLOCK.getText().split(',');
             leds = $('#edit_leds_matrix_rgb svg rect');
-            for (var i = 0; i < binary_matrix_col_by_col.length; i++)
+            for (let i = 0; i < binary_matrix_col_by_col.length; i++) {
                 colors.push(binary_matrix_col_by_col[i]);
+            }
         } else {
             binary_matrix_col_by_col = Blockly.Constants.LEDS_MATRIX_BLOCK.getText().split(',');
             leds = $('#edit_leds_matrix svg rect');
-            for (var i = 0; i < binary_matrix_col_by_col[0].length; i++)
-                for (var j = 0; j < binary_matrix_col_by_col.length; j++)
-                    colors.push((binary_matrix_col_by_col[j][i] == '0') ? '#f5f5f5' : LedMatrixModalManager.led_color);
+            const cols_ui = binary_matrix_col_by_col.map(col_ctrl => reverseStr(rotr1(col_ctrl)));
+            for (let i = 0; i < cols_ui[0].length; i++) {        // lignes
+                for (let j = 0; j < cols_ui.length; j++) {       // colonnes
+                    colors.push((cols_ui[j][i] === '0') ? bg : LedMatrixModalManager.led_color);
+                }
+            }
         }
-        for (let i = 0; i < leds.length; i++)
+        for (let i = 0; i < leds.length; i++) {
             leds[i].attributes['fill']['value'] = colors[i];
+        }
     },
     get_matrix_base64: function (matrix) { // converts the image to base 64 to be stored in the block
         let s = new XMLSerializer().serializeToString(matrix);
@@ -114,7 +124,6 @@ let LedMatrixModalManager = {
         for (let i = 0; i < leds.length; i++)
             new_dataset.push(leds[i].attributes['fill']['value']);
         new_dataset = new_dataset.join(',');
-
         if (LedMatrixModalManager.isRGB) {
             LedMatrixModalManager.matrix_base64 = LedMatrixModalManager.get_matrix_base64(document.querySelector("#matrix_rgb"));
             Blockly.Constants.RGB_LEDS_MATRIX_BLOCK.setValue(LedMatrixModalManager.matrix_base64);
@@ -222,7 +231,7 @@ let LedMatrixModalManager = {
     },
     change_leds_matrix_from_img: function () {
         if (LedMatrixModalManager.isRGB)
-            $("#color-show").css("background-color", DRAW_BITMAP_RGB[$(this).attr('name')].color);
+            $("#color-show").css("background-color", LedMatrixModalManager.DRAW_BITMAP_RGB[$(this).attr('name')].color);
 
         LedMatrixModalManager.set_matrix(this);
 
@@ -414,18 +423,18 @@ let LedMatrixModalManager = {
         if (LedMatrixModalManager.isRGB) {
             let images = $('#suggestions_rgb .suggestion-img'),
                 cpt = 0;
-            for (var key in DRAW_BITMAP_RGB) {
+            for (var key in LedMatrixModalManager.DRAW_BITMAP_RGB) {
                 images[cpt].name = key;
-                images[cpt].src = LedMatrixModalManager.example_imgs_path + DRAW_BITMAP_RGB[key].name;
-                images[cpt].dataset.actionValue = DRAW_BITMAP_RGB[key].data;
+                images[cpt].src = LedMatrixModalManager.example_imgs_path + LedMatrixModalManager.DRAW_BITMAP_RGB[key].name;
+                images[cpt].dataset.actionValue = LedMatrixModalManager.DRAW_BITMAP_RGB[key].data;
                 cpt += 1;
             }
         } else {
             let images = $('#suggestions .suggestion-img'),
                 cpt = 0;
-            for (var key in DRAW_BITMAP) {
-                images[cpt].src = LedMatrixModalManager.example_imgs_path + DRAW_BITMAP[key].name;
-                images[cpt].dataset.actionValue = DRAW_BITMAP[key].data;
+            for (var key in LedMatrixModalManager.DRAW_BITMAP) {
+                images[cpt].src = LedMatrixModalManager.example_imgs_path + LedMatrixModalManager.DRAW_BITMAP[key].name;
+                images[cpt].dataset.actionValue = LedMatrixModalManager.DRAW_BITMAP[key].data;
                 cpt += 1;
             }
         }
@@ -457,30 +466,127 @@ let LedMatrixModalManager = {
         }
     },
     updateImageMono: function () {
+        const rotr1 = (s) => s[s.length - 1] + s.slice(0, -1);
+        const reverseStr = (s) => s.split('').reverse().join('');
         const allBlocks = Blockly.getMainWorkspace().getBlocksByType('display_led_matrix_DrawBitmap');
-        for (let i = 0; i < allBlocks.length; i++) {
-            const block = allBlocks[i];
-            if (block != undefined) {
-                const HIDDEN_MONO_LEDS_MATRIX = block.getField('HIDDEN_MONO_LEDS_MATRIX').getText();
-                if (HIDDEN_MONO_LEDS_MATRIX !== '') {
-                    block.getField('LEDS_MATRIX').setAlt(HIDDEN_MONO_LEDS_MATRIX);
-                    let binary_matrix_col_by_col = "",
-                        colors = [],
-                        leds = "";
-
-                    binary_matrix_col_by_col = block.getField('HIDDEN_MONO_LEDS_MATRIX').getText().split(',');
-                    leds = $('#edit_leds_matrix svg rect');
-                    for (let i = 0; i < binary_matrix_col_by_col[0].length; i++)
-                        for (let j = 0; j < binary_matrix_col_by_col.length; j++)
-                            colors.push((binary_matrix_col_by_col[j][i] == '0') ? '#f5f5f5' : LedMatrixModalManager.led_color);
-
-                    for (let i = 0; i < leds.length; i++)
-                        leds[i].attributes['fill']['value'] = colors[i];
-
-                    const matrix_base64 = LedMatrixModalManager.get_matrix_base64(document.querySelector("#matrix"));
-                    block.getField('LEDS_MATRIX').setValue(matrix_base64);
+        for (let k = 0; k < allBlocks.length; k++) {
+            const block = allBlocks[k];
+            if (!block) continue;
+            const hiddenField = block.getField('HIDDEN_MONO_LEDS_MATRIX');
+            if (!hiddenField) continue;
+            const HIDDEN_MONO_LEDS_MATRIX = hiddenField.getText();
+            if (HIDDEN_MONO_LEDS_MATRIX === '') continue;
+            block.getField('LEDS_MATRIX').setAlt(HIDDEN_MONO_LEDS_MATRIX);
+            let colors = [];
+            let binary_matrix_col_by_col = HIDDEN_MONO_LEDS_MATRIX.split(',');
+            const leds = $('#edit_leds_matrix svg rect');
+            for (let i = 0; i < binary_matrix_col_by_col[0].length; i++) {
+                for (let j = 0; j < binary_matrix_col_by_col.length; j++) {
+                    const col_ctrl = binary_matrix_col_by_col[j];
+                    const col_ui = reverseStr(rotr1(col_ctrl));
+                    colors.push((col_ui[i] === '0') ? '#f5f5f5' : LedMatrixModalManager.led_color);
                 }
             }
+            for (let i = 0; i < leds.length; i++) {
+                leds[i].attributes['fill']['value'] = colors[i];
+            }
+            const matrix_base64 = LedMatrixModalManager.get_matrix_base64(document.querySelector("#matrix"));
+            block.getField('LEDS_MATRIX').setValue(matrix_base64);
+        }
+    },
+    DRAW_BITMAP_RGB: {
+        'example_1': {
+            'name': 'mblocks_examples-1.png',
+            'color': '#ffffff',
+            'data': '#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#ffffff,#ffffff,#ffffff,#000000,#000000,#ffffff,#ffffff,#ffffff,#ffffff,#000000,#ffffff,#000000,#000000,#ffffff,#000000,#ffffff,#ffffff,#000000,#ffffff,#000000,#000000,#ffffff,#000000,#ffffff,#ffffff,#000000,#ffffff,#000000,#000000,#ffffff,#000000,#ffffff,#ffffff,#000000,#ffffff,#000000,#000000,#ffffff,#000000,#ffffff,#ffffff,#ffffff,#ffffff,#000000,#000000,#ffffff,#ffffff,#ffffff,#000000,#000000,#000000,#ffffff,#ffffff,#000000,#000000,#000000'
+        },
+        'example_2': {
+            'name': 'mblocks_examples-2.png',
+            'color': '#00b7ff',
+            'data': '#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#00b7ff,#000000,#000000,#000000,#000000,#000000,#000000,#00b7ff,#00b7ff,#00b7ff,#000000,#00b7ff,#000000,#000000,#000000,#00b7ff,#00b7ff,#00b7ff,#00b7ff,#000000,#00b7ff,#000000,#000000,#00b7ff,#00b7ff,#00b7ff,#00b7ff,#000000,#00b7ff,#000000,#000000,#00b7ff,#00b7ff,#00b7ff,#000000,#000000,#000000,#000000,#000000,#000000,#00b7ff,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000'
+        },
+        'example_3': {
+            'name': 'mblocks_examples-3.png',
+            'color': '#ff0033',
+            'data': '#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#ff0033,#ff0033,#000000,#000000,#ff0033,#ff0033,#000000,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#000000,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#ff0033,#000000,#000000,#000000,#ff0033,#ff0033,#ff0033,#ff0033,#000000,#000000,#000000,#000000,#000000,#ff0033,#ff0033,#000000,#000000,#000000'
+        },
+        'example_4': {
+            'name': 'mblocks_examples-4.png',
+            'color': '#ff8a00',
+            'data': '#000000,#ff8a00,#000000,#000000,#000000,#000000,#ff8a00,#000000,#000000,#000000,#ff8a00,#000000,#000000,#ff8a00,#000000,#000000,#000000,#ff8a00,#ff8a00,#ff8a00,#ff8a00,#ff8a00,#ff8a00,#000000,#ff8a00,#ff8a00,#000000,#ff8a00,#ff8a00,#000000,#ff8a00,#ff8a00,#ff8a00,#ff8a00,#ff8a00,#ff8a00,#ff8a00,#ff8a00,#ff8a00,#ff8a00,#ff8a00,#000000,#ff8a00,#ff8a00,#ff8a00,#ff8a00,#000000,#ff8a00,#ff8a00,#000000,#ff8a00,#000000,#000000,#ff8a00,#000000,#ff8a00,#000000,#000000,#ff8a00,#000000,#000000,#ff8a00,#000000,#000000'
+        },
+        'example_5': {
+            'name': 'mblocks_examples-5.png',
+            'color': '#ae00ff',
+            'data': '#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#ae00ff,#000000,#000000,#000000,#000000,#000000,#000000,#ae00ff,#ae00ff,#ae00ff,#000000,#000000,#000000,#000000,#ae00ff,#ae00ff,#ae00ff,#ae00ff,#ae00ff,#000000,#000000,#ae00ff,#ae00ff,#ae00ff,#000000,#ae00ff,#ae00ff,#000000,#000000,#ae00ff,#ae00ff,#000000,#000000,#000000,#000000,#ae00ff,#ae00ff,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000'
+        },
+        'example_6': {
+            'name': 'mblocks_examples-6.png',
+            'color': '#00b7ff',
+            'data': '#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#00b7ff,#000000,#000000,#000000,#000000,#00b7ff,#000000,#00b7ff,#00b7ff,#00b7ff,#000000,#000000,#00b7ff,#00b7ff,#00b7ff,#00b7ff,#00b7ff,#00b7ff,#000000,#000000,#00b7ff,#00b7ff,#00b7ff,#00b7ff,#00b7ff,#00b7ff,#000000,#000000,#00b7ff,#00b7ff,#00b7ff,#00b7ff,#00b7ff,#00b7ff,#000000,#000000,#00b7ff,#00b7ff,#00b7ff,#000000,#00b7ff,#000000,#000000,#000000,#000000,#00b7ff,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000'
+        },
+        'example_7': {
+            'name': 'mblocks_examples-7.png',
+            'color': '#ff009f',
+            'data': '#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#ff009f,#000000,#000000,#000000,#000000,#ff009f,#000000,#ff009f,#ff009f,#ff009f,#000000,#000000,#ff009f,#ff009f,#ff009f,#ff009f,#000000,#ff009f,#000000,#000000,#ff009f,#000000,#ff009f,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000'
+        },
+        'example_8': {
+            'name': 'mblocks_examples-8.png',
+            'color': '#00ff48',
+            'data': '#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#00ff48,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#00ff48,#00ff48,#000000,#000000,#000000,#000000,#000000,#000000,#00ff48,#000000,#00ff48,#000000,#000000,#000000,#000000,#000000,#00ff48,#000000,#000000,#000000,#000000,#000000,#00ff48,#00ff48,#00ff48,#000000,#000000,#000000,#000000,#00ff48,#00ff48,#00ff48,#00ff48,#000000,#000000,#000000,#000000,#000000,#00ff48,#00ff48,#000000,#000000,#000000,#000000'
+        },
+        'example_9': {
+            'name': 'mblocks_examples-9.png',
+            'color': '#ffff00',
+            'data': '#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#ffff00,#ffff00,#ffff00,#ffff00,#ffff00,#ffff00,#ffff00,#ffff00,#ffff00,#ffff00,#ffff00,#ffff00,#ffff00,#ffff00,#ffff00,#ffff00,#000000,#ffff00,#ffff00,#000000,#000000,#ffff00,#ffff00,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000'
+        },
+        'plan_de_travail': {
+            'name': 'mblocks_examples_Plan de travail 1.png',
+            'color': '#000000',
+            'data': '#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000'
+        }
+    },
+    DRAW_BITMAP: {
+        'example_1': {
+            'name': 'mblocks_examples-21.png',
+            'data': '#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#e63737,#e63737,#f5f5f5,#f5f5f5,#e63737,#e63737,#e63737,#e63737,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#e63737,#e63737,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#e63737,#e63737,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#e63737,#e63737,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#e63737,#e63737,#e63737,#e63737,#f5f5f5,#f5f5f5,#e63737,#e63737,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#e63737,#f5f5f5,#f5f5f5,#f5f5f5'
+        },
+        'example_2': {
+            'name': 'mblocks_examples-22.png',
+            'data':
+                '#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#e63737,#e63737,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#f5f5f5,#f5f5f5,#e63737,#e63737,#e63737,#e63737,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#e63737,#e63737,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5'
+        },
+        'example_3': {
+            'name': 'mblocks_examples-23.png',
+            'data': '#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#e63737,#f5f5f5,#f5f5f5,#e63737,#e63737,#f5f5f5,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#f5f5f5,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#e63737,#e63737,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#e63737,#f5f5f5,#f5f5f5,#f5f5f5'
+        },
+        'example_4': {
+            'name': 'mblocks_examples-24.png',
+            'data': '#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#f5f5f5,#e63737,#e63737,#f5f5f5,#e63737,#e63737,#f5f5f5,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#f5f5f5'
+        },
+        'example_5': {
+            'name': 'mblocks_examples-25.png',
+            'data': '#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#e63737,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#e63737,#e63737,#e63737,#e63737,#f5f5f5,#f5f5f5,#e63737,#e63737,#e63737,#f5f5f5,#e63737,#e63737,#f5f5f5,#f5f5f5,#e63737,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5'
+        },
+        'example_6': {
+            'name': 'mblocks_examples-26.png',
+            'data': '#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#e63737,#e63737,#e63737,#f5f5f5,#f5f5f5,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#f5f5f5,#f5f5f5,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#f5f5f5,#f5f5f5,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#f5f5f5,#f5f5f5,#e63737,#e63737,#e63737,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5'
+        },
+        'example_7': {
+            'name': 'mblocks_examples-27.png',
+            'data': '#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#e63737,#e63737,#e63737,#f5f5f5,#f5f5f5,#e63737,#e63737,#e63737,#e63737,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5'
+        },
+        'example_8': {
+            'name': 'mblocks_examples-28.png',
+            'data': '#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#e63737,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#e63737,#e63737,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5'
+        },
+        'example_9': {
+            'name': 'mblocks_examples-29.png',
+            'data': '#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#e63737,#f5f5f5,#e63737,#e63737,#f5f5f5,#f5f5f5,#e63737,#e63737,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5'
+        },
+        'plan_de_travail': {
+            'name': 'mblocks_examples_Plan de travail 2.png',
+            'data': '#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5,#f5f5f5'
         }
     }
 };

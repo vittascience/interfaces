@@ -1,5 +1,5 @@
 /**
- * @fileoverview English messages for ESP32. (EN)
+ * @fileoverview English messages for Thingz-Galaxia. (EN)
  */
 
 'use strict';
@@ -12,20 +12,14 @@ Blockly.Msg["DISPLAY_GALAXIA_SCREEN_SET_TEXT_VALUE_TOOLTIP"]= "[Screen] Write te
 Blockly.Msg["DISPLAY_GALAXIA_SCREEN_CLEAR_TITLE"]= "[Screen] clear";
 Blockly.Msg["DISPLAY_GALAXIA_SCREEN_CLEAR_TOOLTIP"]= "[Screen] Clear the screen of the Galaxia card with.";
 // Display - Galaxia/RGB
-Blockly.Msg["DISPLAY_GALAXIA_LED_GREEN_CONTROL_TITLE"] = "[RGB LED] set green intensity to %1";
-Blockly.Msg["DISPLAY_GALAXIA_LED_GREEN_CONTROL_TOOLTIP"] = "Adjusts the intensity of the green for the LED integrated in the Galaxia card from 0 to 255.";
-Blockly.Msg["DISPLAY_GALAXIA_LED_RED_CONTROL_TITLE"] = "[RGB LED] set red intensity to %1";
-Blockly.Msg["DISPLAY_GALAXIA_LED_RED_CONTROL_TOOLTIP"] = "Adjusts the intensity of the red for the LED integrated in the Galaxia card from 0 to 255.";
-Blockly.Msg["DISPLAY_GALAXIA_LED_BLUE_CONTROL_TITLE"] = "[RGB LED] set blue intensity to %1";
-Blockly.Msg["DISPLAY_GALAXIA_LED_BLUE_CONTROL_TOOLTIP"] = "Adjusts the intensity of the blue for the LED integrated in the Galaxia card from 0 to 255.";
-Blockly.Msg["DISPLAY_GALAXIA_LED_GET_BLUE_TITLE"] = "[RGB LED] blue intensity";
-Blockly.Msg["DISPLAY_GALAXIA_LED_GET_BLUE_TOOLTIP"] = "Returns a value between 0 and 255 corresponding to the intensity of blue currently transferred to the LED.";
-Blockly.Msg["DISPLAY_GALAXIA_LED_GET_GREEN_TITLE"] = "[RGB LED] green intensity";
-Blockly.Msg["DISPLAY_GALAXIA_LED_GET_GREEN_TOOLTIP"] = "Returns a value between 0 and 255 corresponding to the intensity of green currently transferred to the LED.";
-Blockly.Msg["DISPLAY_GALAXIA_LED_GET_RED_TITLE"] = "[RGB LED] red intensity";
-Blockly.Msg["DISPLAY_GALAXIA_LED_GET_RED_TOOLTIP"] = "Returns a value between 0 and 255 corresponding to the intensity of red currently transferred to the LED.";
 Blockly.Msg["DISPLAY_GALAXIA_SET_LED_COLORS_TITLE"] = "[RGB LED] set LED to R %1 G %2 B %3";
 Blockly.Msg["DISPLAY_GALAXIA_SET_LED_COLORS_TOOLTIP"] = "Allows you to adjust the intensity of the LED integrated in the Galaxia card, from 0 to 255.";
+Blockly.Msg["DISPLAY_GALAXIA_SET_LED_COLORS_PALETTE_TITLE"] = "[RGB LED] set LED to %1";
+Blockly.Msg["DISPLAY_GALAXIA_SET_LED_COLORS_PALETTE_TOOLTIP"] = "Allows you to adjust the color of the LED integrated in the Galaxia card.";
+Blockly.Msg["DISPLAY_GALAXIA_LED_CONTROL_TITLE"] = "[RGB LED] set %1 intensity to %2";
+Blockly.Msg["DISPLAY_GALAXIA_LED_CONTROL_TOOLTIP"] = "Adjusts the intensity of the red, green or blue for the LED integrated in the Galaxia card from 0 to 255.";
+Blockly.Msg["DISPLAY_GALAXIA_LED_GET_VALUE_TITLE"] = "[RGB LED] %1 intensity";
+Blockly.Msg["DISPLAY_GALAXIA_LED_GET_VALUE_TOOLTIP"] = "Returns a value between 0 and 255 corresponding to the intensity of red, blue or green currently transferred to the LED.";
 // Display - Galaxia/Graphique
 Blockly.Msg['DISPLAY_GALAXIA_SET_MODE_TITLE'] = 'set the screen to %1 mode';
 Blockly.Msg['DISPLAY_GALAXIA_SET_MODE_TOOLTIP'] = 'Change the screen mode.';
@@ -45,13 +39,16 @@ Blockly.Msg['DISPLAY_GALAXIA_RAW_TEXT_TITLE'] = '[Graphics] display text %1 at x
 Blockly.Msg['DISPLAY_GALAXIA_RAW_RECT_TITLE'] = '[Graphics] display rectangle at x %1 y %2 width %3 height %4 with color %5';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_RECT_TOOLTIP'] = 'Display a rectangle on the graphics screen.';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_PRINT_IMG_TITLE'] = '[Graphics] display image %1 at x %2 y %3';
-Blockly.Msg['DISPLAY_GALAXIA_RAW_PRINT_IMG_TOOLTIP'] = 'Display an image on the graphics screen (you must first load the image into the memory of the Galaxia board)';
-
+Blockly.Msg['DISPLAY_GALAXIA_RAW_PRINT_IMG_TOOLTIP'] = 'Display an image on the graphics screen (you must first load the image into the memory of the Galaxia board). Please note, ensure the image is in 160*120 format, otherwise it will be cropped on the screen. To load an image into memory, drag and drop it onto the GALAXIA device on your computer.';
+Blockly.Msg["DISPLAY_GALAXIA_IMAGE_VITTABOT_HEY"] = "Vittabot 'Hey'";
+Blockly.Msg["DISPLAY_GALAXIA_IMAGE_VITTABOT_HAPPY"] = "Vittabot happy";
+Blockly.Msg["DISPLAY_GALAXIA_IMAGE_VITTABOT_ANGRY"] = "Vittabot angry";
+Blockly.Msg["DISPLAY_GALAXIA_IMAGE_VITTASCIENCE_LOGO"] = "Vittascience logo";
 // Display - Screen
-Blockly.Msg["DISPLAY_LCD_SETTEXT_TITLE"] = "[LCD] show text %1 on line %2 position %3";
-Blockly.Msg["DISPLAY_LCD_SETTEXT_TOOLTIP"] = IMG_MODULE_LCD_3V3 + Blockly.Tooltip.SEP + "Show text on the grove lcd 1602 display. Connect lcd on I2C port.";
-Blockly.Msg["DISPLAY_LCD_CLEAR_TITLE"] = "[LCD] clear display";
-Blockly.Msg["DISPLAY_LCD_CLEAR_TOOLTIP"] = IMG_MODULE_LCD_3V3 + Blockly.Tooltip.SEP + "Enable to clear the entire lcd text. Connect lcd on I2C port.";
+Blockly.Msg["DISPLAY_LCD_SETTEXT_TITLE"] = "[LCD address %1] show text %2 on line %3 position %4";
+Blockly.Msg["DISPLAY_LCD_SETTEXT_TOOLTIP"] = IMG_MODULE_LCD_I2C + Blockly.Tooltip.SEP + "Show text on the grove lcd 1602 display. Connect lcd on I2C port.";
+Blockly.Msg["DISPLAY_LCD_CLEAR_TITLE"] = "[LCD address %1] clear display";
+Blockly.Msg["DISPLAY_LCD_CLEAR_TOOLTIP"] = IMG_MODULE_LCD_I2C + Blockly.Tooltip.SEP + "Enable to clear the entire lcd text. Connect lcd on I2C port.";
 Blockly.Msg["DISPLAY_OLED_ADDTEXT_TITLE"] = "[OLED] show text %1 at position x %2 y %3";
 Blockly.Msg["DISPLAY_OLED_ADDTEXT_TOOLTIP"] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + "Enable write text on OLED display (128x64 px). Connect the OLED display on I2C port.";
 Blockly.Msg["DISPLAY_OLED_SETPIXEL_TITLE"] = "[OLED] control pixel x %1 y %2 to state %3";
@@ -65,7 +62,7 @@ Blockly.Msg["DISPLAY_OLED_SETBACKGROUND_TOOLTIP"] = IMG_MODULE_OLED + Blockly.To
 Blockly.Msg["DISPLAY_OLED_CLEARSCREEN_TITLE"] = "[OLED] clear screen";
 Blockly.Msg["DISPLAY_OLED_CLEARSCREEN_TOOLTIP"] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + "Enable to clear the entire Grove OLED screen. Connect the OLED display on I2C port.";
 Blockly.Msg["DISPLAY_OLED_DRAWICON_TITLE"] = "[OLED] draw icon %1 at position x %2 y %3";
-Blockly.Msg["DISPLAY_OLED_DRAWICON_TOOLTIP"] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + "Enable to display an icon from the ESP32 Image library, at position (x,y) on the grove OLED screen. Connect the OLED display on I2C port.";
+Blockly.Msg["DISPLAY_OLED_DRAWICON_TOOLTIP"] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + "Enable to display an icon from the Galaxia Image library, at position (x,y) on the grove OLED screen. Connect the OLED display on I2C port.";
 // Display - Neopixel
 Blockly.Msg["DISPLAY_NEOPIXEL_DEFINE_TITLE"] = "[Neopixel] define %1 LED on pin %2";
 Blockly.Msg["DISPLAY_NEOPIXEL_DEFINE_TOOLTIP"] = IMG_MODULE_NEOPIXEL + Blockly.Tooltip.SEP + "Enable to define LED number of neopixel. This block have to be used in setup.";
@@ -89,7 +86,7 @@ Blockly.Msg["DISPLAY_SET_VARIABLE_COLOR_LED_TOOLTIP"] = IMG_MODULE_LED_VARIABLE_
 Blockly.Msg["DISPLAY_4DIGIT_SETNUMBER_TITLE"] = "[4-Digit module] show %1 %2 on pins CLK %3 DIO %4";
 Blockly.Msg["DISPLAY_4DIGIT_SETNUMBER_TOOLTIP"] = IMG_MODULE_4DIGITDISPLAY + Blockly.Tooltip.SEP + "Enable to show numbers or temperature on grove 4-digit display (TM1637) on digital pins.";
 Blockly.Msg["DISPLAY_4DIGIT_SETCLOCK_TITLE"] = "[4-Digit module] show clock on pins CLK %1 DIO %2";
-Blockly.Msg["DISPLAY_4DIGIT_SETCLOCK_TOOLTIP"] = IMG_MODULE_4DIGITDISPLAY + Blockly.Tooltip.SEP + "Enable to show clock on grove 4-digit display (TM1637) on digital pins. Warning, getting real clock is possible only if ESP32 stay in power on mode.";
+Blockly.Msg["DISPLAY_4DIGIT_SETCLOCK_TOOLTIP"] = IMG_MODULE_4DIGITDISPLAY + Blockly.Tooltip.SEP + "Enable to show clock on grove 4-digit display (TM1637) on digital pins. Warning, getting real clock is possible only if Galaxia stay in power on mode.";
 Blockly.Msg["DISPLAY_4DIGIT_NUMBER"] = "number";
 Blockly.Msg["DISPLAY_4DIGIT_TEMPERATURE"] = "temperature";
 Blockly.Msg["DISPLAY_MY9221_SET_LEVEL_TITLE"] = "[LED Bar module] set level of %1 on pins DI %2 DCKI %3";
@@ -139,8 +136,8 @@ Blockly.Msg["IO_TOUCHSENSITIVEBUTTON_GET_TOUCHES_TOOLTIP"] = "Returns the number
 Blockly.Msg["IO_WAIT_TITLE"] = "wait %1 %2";
 Blockly.Msg["IO_WAIT_TOOLTIP"] = "Stop the code execution (duration in seconds or milliseconds).";
 Blockly.Msg["IO_WAIT_SECOND"] = "second(s)";
-Blockly.Msg["IO_WAIT_MILLISECOND"] = "millisecond(s)";
-Blockly.Msg["IO_WAIT_MICROSECOND"] = "microsecond(s)";
+Blockly.Msg['IO_WAIT_MILLISECOND'] = "millisecond(s)";
+Blockly.Msg['IO_WAIT_MICROSECOND'] = "microsecond(s)";
 Blockly.Msg["IO_WAIT_UNTIL_TITLE"] = "wait until %1";
 Blockly.Msg["IO_WAIT_UNTIL_TOOLTIP"] = "Stop the code execution until the satisfied condition.";
 Blockly.Msg["IO_INITCHRONOMETER_TITLE"] = "initialize the chronometer";
@@ -149,7 +146,7 @@ Blockly.Msg["IO_GETCHRONOMETER_TITLE"] = "get chronometer in %1";
 Blockly.Msg["IO_GETCHRONOMETER_TOOLTIP"] = "Returns the chronometer value from the initialization in seconds or milliseconds.";
 // Input/Output - External modules
 Blockly.Msg["IO_GROVEKEYPAD_GETNUMBER_TITLE"] = "[Numeric Touch Keypad] get number on pins RX %1 TX %2";
-Blockly.Msg["IO_GROVEKEYPAD_GETNUMBER_TOOLTIP"] = IMG_MODULE_KEYPAD + Blockly.Tooltip.SEP + "Enable to get touched number from keypad grove module on pins RX & TX. When you connect device, make sure you “cross” the wires. ESP32 TX pin needs to be connected with device's RX pin, and the RX pin with the device's TX pin.";
+Blockly.Msg["IO_GROVEKEYPAD_GETNUMBER_TOOLTIP"] = IMG_MODULE_KEYPAD + Blockly.Tooltip.SEP + "Enable to get touched number from keypad grove module on pins RX & TX. When you connect device, make sure you “cross” the wires. Galaxia TX pin needs to be connected with device's RX pin, and the RX pin with the device's TX pin.";
 Blockly.Msg["IO_GROVEJOYSTICK_GETAXIS_TITLE"] = "[Joystick Module] joystick axis %1 value on pins A0 %2 A1 %3";
 Blockly.Msg["IO_GROVEJOYSTICK_GETAXIS_TOOLTIP"] = IMG_MODULE_JOYSTICK + Blockly.Tooltip.SEP + "Returns grove joystick axis value (from 0 to 4095) on analog pins p34 through p36, or p39 (as A2 to A4 on shield Grove)..";
 Blockly.Msg["IO_ROTARYENCODER_TITLE"] = "[Rotary Encoder] value on pins CLK %1 DT %2";
@@ -181,8 +178,6 @@ Blockly.Msg["IO_READANALOGPIN_TITLE"] = "read analog pin %1";
 Blockly.Msg["IO_READANALOGPIN_TOOLTIP"] = "Enable to read the analog value of pins (0-8191) as between 0 and 3.6V.";
 Blockly.Msg["IO_WRITEPWMPIN_TITLE"] = "write value %1 on PWM pin %2";
 Blockly.Msg["IO_WRITEPWMPIN_TOOLTIP"] = "Enable to apply PWM signal with fixed 10kHz-frequency. You can change value from 0 to 8191. 512 will be 50% of duty cycle, as around 1.66V.";
-Blockly.Msg["IO_WRITEANALOGPIN_TITLE"] = "write value %1 on analog pin %2 (DAC)";
-Blockly.Msg["IO_WRITEANALOGPIN_TOOLTIP"] = "Enable to apply an analog voltage to the DAC pins p25 and p26 (from 0 to 255). The Esp32 uses a digital-analog converter (DAC) to apply a voltage between 0 and 3.3V.";
 Blockly.Msg["IO_SETPWM_TITLE"] = "apply a square signal of %1 (Hz) frequency on pin %2";
 Blockly.Msg["IO_SETPWM_TOOLTIP"] = "Enable to apply a PWM square signal with 50% of duty cycle. You can change frequency of the signal.";
 Blockly.Msg["IO_STOPPWM_TITLE"] = "stop PWM signal of pin %1";
@@ -190,16 +185,27 @@ Blockly.Msg["IO_STOPPWM_TOOLTIP"] = "Enable to stop applied PWM signal of a pin.
 Blockly.Msg["IO_GETVOLTAGE_TITLE"] = "convert %1 in voltage with resolution %2";
 Blockly.Msg["IO_GETVOLTAGE_TOOLTIP"] = "Enable to convert analog value in voltage by resolution (10-bit: 1024, 12-bit: 4096, 9-bit: 512, 11-bit: 2048) and maximum of 3.6V.";
 
-// Communication LOG
-Blockly.Msg['COMMUNICATION_LOG_DELETE_TITLE'] = 'clear logs';
-Blockly.Msg['COMMUNICATION_LOG_DELETE_TOOLTIP'] = 'Allows clearing the logs from the Galaxia board.';
-Blockly.Msg['COMMUNICATION_LOG_SET_LABEL_TITLE'] = 'add a new label';
-Blockly.Msg['COMMUNICATION_LOG_SET_LABEL_TOOLTIP'] = 'Allows adding a label to the logs of the Galaxia board.';
-Blockly.Msg['COMMUNICATION_LOG_ADDDATA_TITLE'] = 'add data to a label';
-Blockly.Msg['COMMUNICATION_LOG_ADDDATA_TOOLTIP'] = 'Allows adding a label to the data column of the log. The label can be text or a number. The data can be text or a number.';
-Blockly.Msg['COMMUNICATION_LOG_DATA_TITLE'] = 'label %1 data %2';
-Blockly.Msg['COMMUNICATION_LOG_DATA_TOOLTIP'] = 'Allows adding a label to the data column of the log. The label can be text or a number. The data can be text or a number.';
-
+// Communication - Common
+Blockly.Msg['COMMUNICATION_RX_TX_PINS'] = 'on pins RX %1 TX %2';
+Blockly.Msg['COMMUNICATION_THEN'] = 'then';
+// Communication - Serial connection
+Blockly.Msg["COMMUNICATION_SERIAL_WRITE_TITLE"] = "write on serial port %1";
+Blockly.Msg["COMMUNICATION_SERIAL_WRITE_TOOLTIP"] = "Write a string on serial port.";
+Blockly.Msg["COMMUNICATION_SERIAL_WRITE_WITH"] = "with";
+Blockly.Msg["COMMUNICATION_SERIAL_WRITE_NEWLINES"] = "newline(s)";
+Blockly.Msg["COMMUNICATION_WRITEGRAPH_TITLE"] = "write graph";
+Blockly.Msg["COMMUNICATION_WRITEGRAPH_TOOLTIP"] = "This block makes it possible to write (digital) data that will be visible in the plotter. It can be used with one or more blocks in \"Name\" and \"Data\" format. Click on icon 'Graphic mode' to display graphics.";
+Blockly.Msg["COMMUNICATION_DATA"] = "Data";
+Blockly.Msg["COMMUNICATION_PRINT_DATAS_TITLE"] = "Name %1 Data %2";
+Blockly.Msg["COMMUNICATION_PRINT_DATAS_TOOLTIP"] = "This block is to be used in the \"Write in graphic\" block. It must contain the name of the (text) value to display and the value in question.";
+Blockly.Msg["COMMUNICATION_SERIAL_ONMESSAGERECEIVED_TITLE"] = "on serial message received in %1 then";
+Blockly.Msg["COMMUNICATION_SERIAL_ONMESSAGERECEIVED_TOOLTIP"] = "Allows you to execute instructions if decoded data (as string UTF-8) is received by serial port in the 'messageData' variable. It returns a string.";
+Blockly.Msg["COMMUNICATION_COMPUTER_PLAYNOTE_TITLE"] = "play music %1 in the serial port";
+Blockly.Msg["COMMUNICATION_COMPUTER_PLAYNOTE_TOOLTIP"] = "Play selected note until execution of \"Stop music\" block.";
+Blockly.Msg["COMMUNICATION_COMPUTER_SETFREQUENCY_TITLE"] = "play frequency %1 (Hz) on the computer";
+Blockly.Msg["COMMUNICATION_COMPUTER_SETFREQUENCY_TOOLTIP"] = "This block allows to play a given frequency on the computer";
+Blockly.Msg["COMMUNICATION_COMPUTER_STOPMUSIC_TITLE"] = "stop music of serial port";
+Blockly.Msg["COMMUNICATION_COMPUTER_STOPMUSIC_TOOLTIP"] = "Stop the current note of serial port.";
 // Communication - Galaxia
 Blockly.Msg["COMMUNICATION_RADIO_SENDSTRING_TITLE"] = "[Radio] send string %1";
 Blockly.Msg["COMMUNICATION_RADIO_SENDSTRING_TOOLTIP"] = "Enable to send string by Galaxia radio module.";
@@ -215,57 +221,48 @@ Blockly.Msg["COMMUNICATION_RADIO_ONVALUERECEIVED_TITLE"] = "[Radio] on data rece
 Blockly.Msg["COMMUNICATION_RADIO_ONVALUERECEIVED_TOOLTIP"] = "Allows you to execute instructions on name as string and value as number received by radio in the 'name' and 'value' variables.";
 Blockly.Msg["COMMUNICATION_RADIO_CONFIG_TITLE"] = "[Radio] set Channel %1 Power %2 Data size %3 Group %4";
 Blockly.Msg["COMMUNICATION_RADIO_CONFIG_TOOLTIP"] = "Allows you to configure the frequence channel (from 0 to 83), data size (bytes), transmission power (from 0 to 7), and group (from 0 to 255).";
-//Communication - Internal Bluetooth
-Blockly.Msg["COMMUNICATION_START_BT_TITLE"] = "[ESP32 Bluetooth UART] initialize bluetooth %1";
-Blockly.Msg["COMMUNICATION_START_BT_TOOLTIP"] = "Initialize Bluetooth service on the ESP32 with given name.";
-Blockly.Msg["COMMUNICATION_SEND_BT_TITLE"] = "[ESP32 Bluetooth UART] send data %1";
-Blockly.Msg["COMMUNICATION_SEND_BT_TOOLTIP"] = "Send data via the ESP32's Bluetooth service.";
-Blockly.Msg["COMMUNICATION_BLE_READ_DATA_TITLE"] = "[Bluetooth] on data reception in %1 then ";
-Blockly.Msg["COMMUNICATION_BLE_READ_DATA_TOOLTIP"] = "Executes instructions on data reception via Bluetooth (BLE).";
-Blockly.Msg["COMMUNICATION_FIZZIQ_BT_TITLE"] = "[Fizziq App] send %1 %2";
-Blockly.Msg["COMMUNICATION_FIZZIQ_BT_TOOLTIP"] = IMG_MODULE_FIZZIQ + Blockly.Tooltip.SEP + "Send data via the ESP32's Bluetooth service to Fizziq App.";
-Blockly.Msg["FIZZ_TEMP"] = "Temperature";
-Blockly.Msg["FIZZ_HUM"] = "Moisture";
-Blockly.Msg["FIZZ_VOLTAGE"] = "Voltage";
-Blockly.Msg["FIZZ_WEIGHT"] = "Weight";
-Blockly.Msg["FIZZ_PRESSURE"] = "Pressure";
-Blockly.Msg["FIZZ_CONCENTRATION"] = "Concentration";
-Blockly.Msg["FIZZ_MAGNETIC"] = "Magnetic field";
-Blockly.Msg["FIZZ_BRIGHTNESS"] = "Brightness";
-Blockly.Msg["FIZZ_ACCELERATION"] = "Acceleration";
-Blockly.Msg["FIZZ_COMPASS"] = "Compass";
-// Infrared Communication
+// Communication - log
+Blockly.Msg['COMMUNICATION_LOG_DELETE_TITLE'] = '[Log] clear logs';
+Blockly.Msg['COMMUNICATION_LOG_DELETE_TOOLTIP'] = 'Allows clearing the logs from the Galaxia board.';
+Blockly.Msg['COMMUNICATION_LOG_SET_LABEL_TITLE'] = '[Log] add a new label';
+Blockly.Msg['COMMUNICATION_LOG_SET_LABEL_TOOLTIP'] = 'Allows adding a label to the logs of the Galaxia board.';
+Blockly.Msg['COMMUNICATION_LOG_ADDDATA_TITLE'] = '[Log] add data to a label';
+Blockly.Msg['COMMUNICATION_LOG_ADDDATA_TOOLTIP'] = 'Allows adding a label to the data column of the log. The label can be text or a number. The data can be text or a number.';
+Blockly.Msg['COMMUNICATION_LOG_DATA_TITLE'] = 'label %1 data %2';
+Blockly.Msg['COMMUNICATION_LOG_DATA_TOOLTIP'] = 'Allows adding a label to the data column of the log. The label can be text or a number. The data can be text or a number.';
+// Communication - Data logging
+Blockly.Msg["COMMUNICATION_OPENLOG_WRITE_TITLE"] = "[Openlog] write in the SD card %1 baudrate %2 on pins RXI %3 TXO %4 %5 Datas %6";
+Blockly.Msg["COMMUNICATION_OPENLOG_WRITE_TOOLTIP"] = IMG_MODULE_OPENLOG + Blockly.Tooltip.SEP + "Block enables writing data in the SD card of Openlog module.";
+Blockly.Msg['COMMUNICATION_FS_SAVE_DATA_TITLE'] = '[Galaxia] save data %1 in file %2';
+Blockly.Msg['COMMUNICATION_FS_SAVE_DATA_TOOLTIP'] = 'Allows you to save data to a text file in the Galaxia file system. If you use the same file name, the data will be appended to the end of the file. You can also press the + button to change the file extension.';
+// Communication - External Bluetooth modules
+Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_SET_AT_COMMAND_TITLE'] = '[Grove BT] AT - change parameter %1 to %2';
+Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_SET_AT_COMMAND_TOOLTIP'] = IMG_MODULE_GROVE_BT + Blockly.Tooltip.SEP + 'Allows you to change the Grove Serial Bluetooth v3 module\'s parameters by sending an AT command. Once the parameter is changed, it is no longer necessary to return to this mode because it is stored in the module\'s memory.';
+Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_GET_AT_COMMAND_TITLE'] = '[Grove BT] AT - parameter value %1';
+Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_GET_AT_COMMAND_TOOLTIP'] = IMG_MODULE_GROVE_BT + Blockly.Tooltip.SEP + 'Retrieves the Grove Serial Bluetooth v3 module parameter values ​​by sending an AT command.';
+Blockly.Msg["COMMUNICATION_GROVE_BLUETOOTH_SENDDATA_TITLE"] = "[Grove BT] send message %1";
+Blockly.Msg["COMMUNICATION_GROVE_BLUETOOTH_SENDDATA_TOOLTIP"] = IMG_MODULE_GROVE_BT + Blockly.Tooltip.SEP + "Enable to send any data by serial bluetooth module on digital pins D0 up through D13.";
+Blockly.Msg["COMMUNICATION_GROVE_BLUETOOTH_ONDATARECEIVED_TITLE"] = "[Grove BT] on message %1";
+Blockly.Msg["COMMUNICATION_GROVE_BLUETOOTH_ONDATARECEIVED_TOOLTIP"] = IMG_MODULE_GROVE_BT + Blockly.Tooltip.SEP + "Allows you to execute instructions on data received by serial bluetooth module in the 'bluetoothData' variable on digital pins D0 up through D13.";
+Blockly.Msg["COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TITLE"] = "[HC05 BT] send on pins RX %1 TX %2 message %3";
+Blockly.Msg["COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TOOLTIP"] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + "Enable to send any data by bluetooth HC05 module on pins RX/TX.";
+Blockly.Msg["COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TITLE"] = "[HC05 BT] on message received RX %1 TX %2 in %3 then";
+Blockly.Msg["COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP"] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + "Allows you to execute instructions on data received by Bluetooth HC05 module in the 'bluetoothData' variable on pins TX/RX.";
+// Communication - Infrared
 Blockly.Msg['COMMUNICATION_IR_EMIT_TITLE'] = '[IR] %1 an IR signal on pin %2';
 Blockly.Msg['COMMUNICATION_IR_EMIT_TOOLTIP'] = 'Enable to send an IR signal on the pin indicated.';
 Blockly.Msg['COMMUNICATION_IR_EMIT_ACTIVATE'] = 'activate';
 Blockly.Msg['COMMUNICATION_IR_EMIT_DEACTIVATE'] = 'deactivate';
-// Communication - Serial connection
-Blockly.Msg["COMMUNICATION_SERIAL_WRITE_TITLE"] = "write on serial port %1";
-Blockly.Msg["COMMUNICATION_SERIAL_WRITE_TOOLTIP"] = "Write a string on serial port.";
-Blockly.Msg["COMMUNICATION_SERIAL_WRITE_WITH"] = "with";
-Blockly.Msg["COMMUNICATION_SERIAL_WRITE_NEWLINES"] = "newline(s)";
-Blockly.Msg["COMMUNICATION_SERIAL_ONDATARECEIVED_TITLE then"] = "on serial data received in %1 then";
-Blockly.Msg["COMMUNICATION_SERIAL_ONDATARECEIVED_TOOLTIP"] = "Allows you to execute instructions if data is received by serial port in the 'serialData' variable.";
-Blockly.Msg["COMMUNICATION_COMPUTER_PLAYNOTE_TITLE"] = "play music %1 in the serial port";
-Blockly.Msg["COMMUNICATION_COMPUTER_PLAYNOTE_TOOLTIP"] = "Play selected note until execution of \"Stop music\" block.";
-Blockly.Msg["COMMUNICATION_COMPUTER_SETFREQUENCY_TITLE"] = "play frequency %1 (Hz) on the computer";
-Blockly.Msg["COMMUNICATION_COMPUTER_SETFREQUENCY_TOOLTIP"] = "This block allows to play a given frequency on the computer";
-Blockly.Msg["COMMUNICATION_COMPUTER_STOPMUSIC_TITLE"] = "stop music of serial port";
-Blockly.Msg["COMMUNICATION_COMPUTER_STOPMUSIC_TOOLTIP"] = "Stop the current note of serial port.";
-Blockly.Msg["COMMUNICATION_WRITEGRAPH_TITLE"] = "write graph";
-Blockly.Msg["COMMUNICATION_WRITEGRAPH_TOOLTIP"] = "This block makes it possible to write (digital) data that will be visible in the plotter. It can be used with one or more blocks in \"Name\" and \"Data\" format. Click on icon 'Graphic mode' to display graphics.";
-Blockly.Msg["COMMUNICATION_DATA"] = "Data";
-Blockly.Msg["COMMUNICATION_PRINT_DATAS_TITLE"] = "Name %1 Data %2";
-Blockly.Msg["COMMUNICATION_PRINT_DATAS_TOOLTIP"] = "This block is to be used in the \"Write in graphic\" block. It must contain the name of the (text) value to display and the value in question.";
-// Communication - Data logging
-Blockly.Msg["COMMUNICATION_OPENLOG_WRITE_TITLE"] = "[Openlog] write in the SD card %1 baudrate %2 on pins RXI %3 TXO %4 %5 Datas %6";
-Blockly.Msg["COMMUNICATION_OPENLOG_WRITE_TOOLTIP"] = IMG_MODULE_OPENLOG + Blockly.Tooltip.SEP + "Block enables writing data in the SD card of Openlog module.";
-// Communication - Wireless
-Blockly.Msg["COMMUNICATION_BLUETOOTH_SENDDATA_TITLE"] = "[Bluetooth] send on pins RX %1 TX %2 message %3";
-Blockly.Msg["COMMUNICATION_BLUETOOTH_SENDDATA_TOOLTIP"] = IMG_MODULE_HC05 + Blockly.Tooltip.SEP + "Enable to send any data by bluetooth HC05 module on pins RX/TX.";
-Blockly.Msg["COMMUNICATION_BLUETOOTH_ONDATARECEIVED_TITLE"] = "[Bluetooth] on message received RX %1 TX %2 in %3 then";
-Blockly.Msg["COMMUNICATION_BLUETOOTH_ONDATARECEIVED_TOOLTIP"] = IMG_MODULE_HC05 + Blockly.Tooltip.SEP + "Allows you to execute instructions on data received by Bluetooth HC05 module in the 'bluetoothData' variable on pins TX/RX.";
+Blockly.Msg['COMMUNICATION_INFRARED_ONDATARECEIVED_TITLE'] = '[IR] if %1 is received on %2 %3pin %4 with protocol %5 then';
+Blockly.Msg['COMMUNICATION_INFRARED_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_IR_RECEIVER + Blockly.Tooltip.SEP + 'Allows executing instructions if data is received by an infrared module in a variable on the digital pin with NEC_8 or NEC_16 protocol.';
 // Communication - Tracking modules
+Blockly.Msg["COMMUNICATION_RFID_GETSTRINGCARDID_TITLE"] = "[RFID - 125kHz] UID card on pins RX %1 TX %2";
+Blockly.Msg["COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP"] = IMG_MODULE_RFID_125KHZ + Blockly.Tooltip.SEP + "Read the card UID of the Grove RFID module if it's available on digital pins.\n\nNote that the data received from the module is in the form of a byte array. To convert it, use the \"[RFID] convert data ... to INT\" block.\n\nAttention, this RFID module only works under a voltage of 5V; use for example a Bit:Maker shield to control this module.";
+Blockly.Msg["COMMUNICATION_RFID_CONVERTDATA_TITLE"] = "[RFID - 125kHz] convert data %1 to %2";
+Blockly.Msg["COMMUNICATION_RFID_CONVERTDATA_TOOLTIP"] = IMG_MODULE_RFID_125KHZ + Blockly.Tooltip.SEP + "Allows you to convert data (bytes-typed) to int, hex or list of int.";
+Blockly.Msg['COMMUNICATION_SPI_HELPER'] = '\nBy default, the Thingz-Galaxia SPI 2 pins are on SCK: Pin(34) [P14], MISO: Pin(35) [P15], and MOSI: Pin(36) [P16].';
+Blockly.Msg['COMMUNICATION_MFRC522_GETSTRINGCARDID_TITLE'] = '[RFID RC522] SPI %1 Badge ID on NSS pin %2';
+Blockly.Msg['COMMUNICATION_MFRC522_GETSTRINGCARDID_TOOLTIP'] = IMG_MODULE_RFID_RC522 + Blockly.Tooltip.SEP + 'Allows retrieval of the UID identifier as a character string of the Joy-It RC522 SPI RFID module if it is detected on the digital pins.' + Blockly.Msg['COMMUNICATION_SPI_HELPER'];
 Blockly.Msg["COMMUNICATION_GPS_INFO_TYPE"] = "frame type";
 Blockly.Msg["COMMUNICATION_GPS_INFO_CLOCK"] = "clock (h, m, s)";
 Blockly.Msg["COMMUNICATION_GPS_INFO_LATITUDE"] = "latitude (°)";
@@ -274,7 +271,7 @@ Blockly.Msg["COMMUNICATION_GPS_INFO_SATELLITE"] = "number of satellites used";
 Blockly.Msg["COMMUNICATION_GPS_INFO_ALTITUDE"] = "altitude (m)";
 Blockly.Msg["COMMUNICATION_GPS_INFO_ALL_FRAME"] = "all frame";
 Blockly.Msg["COMMUNICATION_GPS_GET_NMEA_TITLE"] = "[GPS] NMEA frames on pins RX %1 TX %2";
-Blockly.Msg["COMMUNICATION_GPS_GET_NMEA_TOOLTIP"] = IMG_MODULE_GPS + Blockly.Tooltip.SEP + "Returns the list of NMEA frames read with the Grove SIM28 or Air530 GPS module on the RX/TX pins. The wires do not need to be reversed between the module pins and those indicated in the block. The inversion is done automatically in the python code.\nWarning: If you use the console to display GPS data, connect your card to the interface before sending the program by clicking on the button [>_ REPL]. Then transfer your program using the button [Download .hex].";
+Blockly.Msg["COMMUNICATION_GPS_GET_NMEA_TOOLTIP"] = IMG_MODULE_GPS + Blockly.Tooltip.SEP + "Returns the list of NMEA frames read with the Grove SIM28 or Air530 GPS module on the RX/TX pins. The wires do not need to be reversed between the module pins and those indicated in the block. The inversion is done automatically in the python code.";
 Blockly.Msg["COMMUNICATION_GPS_GGA_GETINFORMATIONS_TITLE"] = "[GPS] get %3 on RX %1 TX %2 pins";
 Blockly.Msg["COMMUNICATION_GPS_GGA_GETINFORMATIONS_TOOLTIP"] = IMG_MODULE_GPS + Blockly.Tooltip.SEP + "Returns the data selected among (frame type, clock, latitude, longitude, altitude) analyzed from the NMEA frame (GNGGA or GPGGA) read with the Grove SIM28 or Air530 GPS module on the RX/TX pins. The wires do not do not need to be reversed between the pins of the module and those indicated in the block. The reversal is done automatically in the python code.\nWarning: If you use the console to display the GPS data, connect your card to the interface before sending the program by clicking on the [>_ REPL] button. Then, transfer your program using the button [Download .hex].";
 Blockly.Msg["COMMUNICATION_RTC_MODULE_PCF85063TP"] = "High Precision (0x51)";
@@ -301,15 +298,16 @@ Blockly.Msg["CLOCK_HOUR"] = "hour";
 Blockly.Msg["CLOCK_MINUTE"] = "minute";
 Blockly.Msg["CLOCK_SECOND"] = "second";
 // Communication - UART
-Blockly.Msg["COMMUNICATION_UART_INIT_TITLE"] = "[uart] init serial connection to RX %1 TX %2 Baudrate %3";
-Blockly.Msg["COMMUNICATION_UART_INIT_TOOLTIP"] = "Allows you to set the serial connection of the ESP32 board to the UART port (1 or 2). Port 0 is reserved for REPL.";
-Blockly.Msg["COMMUNICATION_UART_WRITE_TITLE"] = "[uart] write data %1";
-Blockly.Msg["COMMUNICATION_UART_WRITE_TOOLTIP"] = "Allows writing data to UART port (1 or 2). By default the pins are as: UART 1 (tx=10, rx=9) and UART 2 ( tx=17, rx=16) Otherwise, use the block 'Set serial connection to RX TX Baudrate...'.";
-Blockly.Msg["COMMUNICATION_UART_READ_TITLE"] = "[uart] read data";
-Blockly.Msg["COMMUNICATION_UART_READ_TOOLTIP"] = "Read data from UART port (1 or 2). By default the pins are as: UART 1 (tx=10, rx=9) and UART 2 (tx =17, rx=16).Otherwise, use the block 'Set serial connection to RX TX Baudrate...'.";
+Blockly.Msg["COMMUNICATION_UART_INIT_TITLE"] = "[uart %1] init serial connection to RX %2 TX %3 Baudrate %4";
+Blockly.Msg["COMMUNICATION_UART_INIT_TOOLTIP"] = "Allows you to set the serial connection of the Galaxia board to the UART port (1 or 0). Port 0 is reserved for REPL.";
+Blockly.Msg["COMMUNICATION_UART_WRITE_TITLE"] = "[uart %1] write data %2";
+Blockly.Msg["COMMUNICATION_UART_WRITE_TOOLTIP"] = "Allows writing data to UART port (1 or 0). By default the pins are as: UART 1 (tx=10, rx=9) and UART 0 (tx=1, rx=3) Otherwise, use the block 'Set serial connection to RX TX Baudrate...'.";
+Blockly.Msg["COMMUNICATION_UART_READ_TITLE"] = "[uart %1] read data";
+Blockly.Msg["COMMUNICATION_UART_READ_TOOLTIP"] = "Read data from UART port (1 or 0). By default the pins are as: UART 1 (tx=10, rx=9) and UART 0 (tx=1, rx=3).Otherwise, use the block 'Set serial connection to RX TX Baudrate...'.";
 Blockly.Msg["COMMUNICATION_UART_READ_SIZE"] = "data size";
-Blockly.Msg["COMMUNICATION_UART_DATA_AVAILABLE_TITLE"] = "[uart] data available"
-Blockly.Msg["COMMUNICATION_UART_DATA_AVAILABLE_TOOLTIP"] = "Returns the size of data available on the UART port (1 or 2). By default, the pins are as: UART 1 (tx=10, rx=9) and UART 2 ( tx=17, rx=16). Otherwise, use the 'Set serial connection to RX TX Baudrate...' block."
+Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TITLE'] = '[uart %1] data available';
+Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TOOLTIP'] = 'Returns the size of the data available on the UART port (1 or 0). By default, the pins are as follows: UART 1 (tx=10, rx=9) and UART 0 (tx=1, rx=3). Otherwise, use the block \'Set serial connection to RX TX Baudrate ...\'.';
+
 // Sensors - Galaxia
 Blockly.Msg["SENSORS_GETACCELERATION_TITLE"] = "acceleration (mg) %1";
 Blockly.Msg["SENSORS_GETACCELERATION_TOOLTIP"] = "Returns the acceleration (in mg) with internal Galaxia accelerometer.";
@@ -337,11 +335,6 @@ Blockly.Msg["SENSORS_GETROTATION_ROLL"] = "roll";
 Blockly.Msg["SENSORS_GETROTATION_TOOLTIP"] = "Returns the rotation (from -180° to 180°) with the internal Galaxia accelerometer.";
 Blockly.Msg["SENSORS_GETMAGNETICFORCE_TITLE"] = "magnetic field strength %1 (nT)";
 Blockly.Msg["SENSORS_GETMAGNETICFORCE_TOOLTIP"] = "Returns the magnetic field strength (in nT) in the choosen direction from internal Galaxia compass.";
-// Sensors - ESP32
-Blockly.Msg["SENSORS_READ_HALL_SENSOR_TITLE"] = "read hall sensor";
-Blockly.Msg["SENSORS_READ_HALL_SENSOR_TOOLTIP"] = "Returns the hall sensor value from board.";
-Blockly.Msg["SENSORS_READ_PROCESSOR_TEMP_TITLE"] = "read processor temperature in %1";
-Blockly.Msg["SENSORS_READ_PROCESSOR_TEMP_TOOLTIP"] = "Returns the temperature of processor board.";
 // Sensors - Gas
 Blockly.Msg["SENSORS_SGP30_READDATA_TITLE"] = "[SGP30 Sensor] gas %1";
 Blockly.Msg["SENSORS_SGP30_READDATA_TOOLTIP"] = IMG_MODULE_SGP30 + Blockly.Tooltip.SEP + "Returns the amount of CO2 (in ppm) or TVOC (in ppb) in the air from sgp30 sensor. Connect sensor on I2C port.";
@@ -393,6 +386,8 @@ Blockly.Msg["SENSORS_BMP280_PRESS"] = "pressure (Pa)";
 Blockly.Msg["SENSORS_BMP280_ALT"] = "altitude (m)";
 Blockly.Msg["SENSORS_GETGROVEHIGHTEMP_TITLE"] = "[H.T° sensor] temperature in %1 on pins A0 %2 A1 %3";
 Blockly.Msg["SENSORS_GETGROVEHIGHTEMP_TOOLTIP"] = IMG_MODULE_HIGH_TEMPERATURE + Blockly.Tooltip.SEP + "Returns thermocouple temperature dorm 50 to 600 °C with grove high temperature sensor. Connect sensor on analog pins.";
+Blockly.Msg['SENSORS_BAROMETER_READDATA_TITLE'] = '[Barometer HP206C] %1';
+Blockly.Msg['SENSORS_BAROMETER_READDATA_TOOLTIP'] = IMG_MODULE_HP206C + Blockly.Tooltip.SEP + 'Returns temperature in Celsius (°C), Fahrenheit (°F), or Kelvin (K), pressure (in hPa), or altitude (in m) using the HP206C barometer. Connect the sensor to an I2C port.';
 Blockly.Msg["SENSORS_GETGROVEMOISTURE_TITLE"] = "[Moisture Sensor] moisture on pin %1";
 Blockly.Msg["SENSORS_GETGROVEMOISTURE_TOOLTIP"] = IMG_MODULE_MOISTURE + Blockly.Tooltip.SEP + "Returns moisture measurement (from 0 to 4095) from the grove moisture sensor on pins IO34, 35 , 36 and 39.";
 Blockly.Msg["SENSORS_GETGROVETEMPERATURE_TITLE"] = "[Temperature Sensor] temperature in %1 on pin %2";
@@ -407,6 +402,8 @@ Blockly.Msg["SENSORS_TH02_READDATA_TITLE"] = "[TH02 Sensor] %1";
 Blockly.Msg["SENSORS_TH02_READDATA_TOOLTIP"] = IMG_MODULE_TH02 + Blockly.Tooltip.SEP + "Returns temperature in Celsius degree (°C), Fahrenheit (°F) or Kelvin (K), or air humidity (in %) from TH02 sensor. Connect sensor on I2C port.";
 Blockly.Msg["SENSORS_SHT31_READDATA_TITLE"] = "[SHT31 Sensor] %1";
 Blockly.Msg["SENSORS_SHT31_READDATA_TOOLTIP"] = IMG_MODULE_SHT31 + Blockly.Tooltip.SEP + "Returns temperature in Celsius degree (°C), Fahrenheit (°F) or Kelvin (K), or air humidity (in %) from SHT31 sensor. Connect sensor on I2C port.";
+Blockly.Msg['SENSORS_SHT35_READDATA_TITLE'] = '[SHT35 Sensor] %1';
+Blockly.Msg['SENSORS_SHT35_READDATA_TOOLTIP'] = IMG_MODULE_SHT35 + Blockly.Tooltip.SEP + 'Returns temperature in Celsius (°C), Fahrenheit (°F), or Kelvin (K), or humidity (in %) using the SHT35 sensor. Connect the sensor to an I2C port.';
 Blockly.Msg["SENSORS_GETGROVEWATER_TITLE"] = "[Water Sensor] water amount on pin %1";
 Blockly.Msg["SENSORS_GETGROVEWATER_TOOLTIP"] = IMG_MODULE_WATER + Blockly.Tooltip.SEP + "Returns water amount (from 0 to 255) from the grove water sensor on analog pins p34 through p36, or p39 (as A2 to A4 on shield Grove)..";
 Blockly.Msg["SENSORS_GETRAINGAUGE_TITLE"] = "[Rain Gauge sensor] state value on pin %1";
@@ -416,11 +413,11 @@ Blockly.Msg["SENSORS_GETANEMOMETER_TOOLTIP"] = IMG_MODULE_ANEMOMETER + Blockly.T
 // Sensors - Sound & Light
 Blockly.Msg["SENSORS_GETGROVELIGHT_TITLE"] = "[Light Sensor] light level on pin %1";
 Blockly.Msg["SENSORS_GETGROVELIGHT_TOOLTIP"] = IMG_MODULE_LIGHT + Blockly.Tooltip.SEP + "Returns grove light sensor value (from 0 to 4095) on analog pins p34 through p36, or p39 (as A2 to A4 on shield Grove).";
-Blockly.Msg["SENSORS_SI1145_GETLIGHT_TITLE"] = "[SI1145 Sensor] get light %1";
-Blockly.Msg["SENSORS_SI1145_GETLIGHT_TOOLTIP"] = IMG_MODULE_SI1145 + Blockly.Tooltip.SEP + "Returns Ultraviolet light index, IR light (in lumen) or Visible light (in lumen) from si1145 sensor. It works with Grove Sunlight Sensor or GY1145 sensor. Connect sensor on I2C port.";
-Blockly.Msg["SENSORS_SI1145_UV"] = "UV index";
-Blockly.Msg["SENSORS_SI1145_VISIBLE"] = "visible (lumen)";
-Blockly.Msg["SENSORS_SI1145_IR"] = "infrared (lumen)";
+Blockly.Msg["SENSORS_SUNLIGHT_GETDATA_TITLE"] = "[Sunlight Sensor %1] get %2";
+Blockly.Msg["SENSORS_SUNLIGHT_GETDATA_TOOLTIP"] = IMG_MODULE_SI1145 + Blockly.Tooltip.SEP + "Returns Ultraviolet light index, IR light (in lumen) or Visible light (in lumen) from si1145 sensor. It works with Grove Sunlight Sensor or GY1145 sensor. Connect sensor on I2C port.";
+Blockly.Msg["SENSORS_SUNLIGHT_UV"] = "UV index";
+Blockly.Msg["SENSORS_SUNLIGHT_VISIBLE"] = "visible (lumen)";
+Blockly.Msg["SENSORS_SUNLIGHT_IR"] = "infrared (lumen)";
 Blockly.Msg["SENSORS_GETUVINDEX_TITLE"] = "[Ultraviolet Sensor] UV index on pin %1";
 Blockly.Msg["SENSORS_GETUVINDEX_TOOLTIP"] = IMG_MODULE_UV + Blockly.Tooltip.SEP + "Returns UV index, for waves between 240 nm and 380 nm, with UV grove sensor on analog pins p34 through p36, or p39 (as A2 to A4 on shield Grove)..";
 Blockly.Msg["SENSORS_GROVECOLOR_GETDATA_TITLE"] = "[Color Sensor] %1";
@@ -458,19 +455,27 @@ Blockly.Msg["SENSORS_GETGROVEBUTTON_TITLE"] = "[Button Module] button %1 on pin 
 Blockly.Msg["SENSORS_GETGROVEBUTTON_TOOLTIP"] = IMG_MODULE_BUTTON + Blockly.Tooltip.SEP + "Returns numeric value of grove button (0/1 or 0V/3.3V) on digital pins.";
 Blockly.Msg["SENSORS_GETGROVEBUTTON_VOLTAGE"] = "voltage";
 Blockly.Msg["SENSORS_GETGROVEBUTTON_STATE"] = "state";
-
+Blockly.Msg['SENSORS_GET_WATER_LEVEL_TITLE'] = '[Water Sensor] level (%)';
+Blockly.Msg['SENSORS_GET_WATER_LEVEL_TOOLTIP'] = IMG_MODULE_WATER_I2C + Blockly.Tooltip.SEP + 'Measures water level as a percentage (from 0 to 100%) on the I2C port.';
 // Actuators
 Blockly.Msg["ACTUATORS_SERVO_SETANGLE_TITLE"] = "[Servomotor] set angle to %1 on pin %2";
-Blockly.Msg["ACTUATORS_SERVO_SETANGLE_TOOLTIP"] = IMG_MODULE_SERVO + Blockly.Tooltip.SEP + "Enable to control servo angle (from 0 to 180) on digital pins. Warning, ESP32 has to be powered by external batterie in order to provide enough energy to servomotor.";
+Blockly.Msg["ACTUATORS_SERVO_SETANGLE_TOOLTIP"] = IMG_MODULE_SERVO + Blockly.Tooltip.SEP + "Enable to control servo angle (from 0 to 180) on digital pins. Warning, Galaxia has to be powered by external batterie in order to provide enough energy to servomotor.";
 Blockly.Msg["ACTUATORS_CONTINUOUS_SERVO_SETSPEED_TITLE"] = "[Continuous Servomotor] set speed to %1 (%) direction %2 on pin %3";
 Blockly.Msg["ACTUATORS_CONTINUOUS_SERVO_SETSPEED_TOOLTIP"] = IMG_MODULE_CONTINUOUS_SERVO + Blockly.Tooltip.SEP + "Enable to control continuous servo speed (from 0 to 100 %) on PWM pins.";
 Blockly.Msg["ACTUATORS_MOTOR_SETPOWER_TITLE"] = "[Motor] set power to %1 on pin %2";
-Blockly.Msg["ACTUATORS_MOTOR_SETPOWER_TOOLTIP"] = IMG_MODULE_MOTOR + Blockly.Tooltip.SEP + "Enable to control DC motor power (from 0 to 8191) on digital pins. Warning, ESP32 has to be powered by external batterie in order to provide enough energy to DC motor.";
+Blockly.Msg["ACTUATORS_MOTOR_SETPOWER_TOOLTIP"] = IMG_MODULE_MOTOR + Blockly.Tooltip.SEP + "Enable to control DC motor power (from 0 to 8191) on digital pins. Warning, Galaxia has to be powered by external batterie in order to provide enough energy to DC motor.";
 Blockly.Msg["ACTUATORS_GROVERELAY_CONTROL_TITLE"] = "[Relay module] control relay to state %1 on pin %2";
 Blockly.Msg["ACTUATORS_GROVERELAY_CONTROL_TOOLTIP"] = IMG_MODULE_RELAY + Blockly.Tooltip.SEP + "Enable to control state grove relay module (0 or 1) on digital pins.";
 Blockly.Msg["ACTUATORS_GROVEVIBRATIONMOTOR_CONTROL_TITLE"] = "[Vibration motor] control motor to state %1 on pin %2";
 Blockly.Msg["ACTUATORS_GROVEVIBRATIONMOTOR_CONTROL_TOOLTIP"] = IMG_MODULE_VIBRATION_MOTOR + Blockly.Tooltip.SEP + "Enable to control state of grove vibration motor (0 or 1) on digital pins.";
-
+// actuators - Kitronik
+Blockly.Msg['ACTUATORS_KITRONIK_CONTROLMOTOR_TITLE'] = '[Kitronik Motors] control motor %1 direction %2 speed %3';
+Blockly.Msg['ACTUATORS_KITRONIK_CONTROLMOTOR_TOOLTIP'] = IMG_SHIELD_KITRONIK + Blockly.Tooltip.SEP + 'Allows you to control MOTOR1, MOTOR2, or both by changing the direction (↻: FORWARD, ↺: BACKWARD) or speed (from 0 to 100%) of the Kitronik motor shield for BBC micro:bit. The shield\'s power supply should be between 3V and 10V.';
+Blockly.Msg['ACTUATORS_KITRONIK_STOPMOTOR_TITLE'] = '[Kitronik Motors] stop motor %1';
+Blockly.Msg['ACTUATORS_KITRONIK_STOPMOTOR_TOOLTIP'] = IMG_SHIELD_KITRONIK + Blockly.Tooltip.SEP + 'Allows you to stop MOTOR1, MOTOR2, or both on the Kitronik motor shield for BBC micro:bit. The shield\'s power supply should be between 3V and 10V.';
+Blockly.Msg['ACTUATORS_KITRONIK_MOTOR_BOTH'] = 'both';
+Blockly.Msg['ACTUATORS_KITRONIK_SERVO_SETANGLE_TITLE'] = '[Kitronik 16-Servos] controls servo %1 at an angle of %2°';
+Blockly.Msg['ACTUATORS_KITRONIK_SERVO_SETANGLE_TOOLTIP'] = IMG_MODULE_KITRONIK_SHIELD_16_SERVOS + Blockly.Tooltip.SEP + 'Allows you to control the angle of a servo motor (from 0 to 180°) connected to the Kitronik 16 Servo Shield. Note: the setup must be powered by a battery to provide sufficient current to the servo motor.';
 // Actuators - Music
 Blockly.Msg["ACTUATORS_MUSIC_PLAYMUSIC_TITLE"] = "[Buzzer/Speaker] play music %1 on %2";
 Blockly.Msg["ACTUATORS_MUSIC_PLAYMUSIC_TOOLTIP"] = IMG_MODULE_BUZZER_SPEAKER + Blockly.Tooltip.SEP + "Enable to play the choosen music on Grove buzzer module (or speaker) on digital pins.";
@@ -496,23 +501,18 @@ Blockly.Msg["NOTE_A"] = "A";
 Blockly.Msg["NOTE_A_SHARP"] = "A#";
 Blockly.Msg["NOTE_B"] = "B";
 Blockly.Msg["MUSIC_SILENCE"] = "Silence";
-
-// IA SENSORS
-Blockly.Msg['VITTAIA_LOAD_LOCAL_MODEL_TITLE'] = 'load local model';
+// IA - Sensor Data
+Blockly.Msg['VITTAIA_LOAD_LOCAL_MODEL_TITLE'] = '%1 load local model';
 Blockly.Msg['VITTAIA_LOAD_LOCAL_MODEL_TOOLTIP'] = 'Allows loading an AI model stored locally from the web browser.';
-Blockly.Msg['VITTAIA_LOAD_CLOUD_MODEL_TITLE'] = 'load the model from URL %1';
-Blockly.Msg['VITTAIA_LOAD_CLOUD_MODEL_TOOLTIP'] = 'Allows loading an AI model stored from the cloud.';
-Blockly.Msg['VITTAIA_MAKE_PREDICTION_TITLE'] = 'Prediction from sensor data';
+Blockly.Msg['VITTAIA_LOAD_CLOUD_MODEL_TITLE'] = '%1 load model from URL %2';
+Blockly.Msg['VITTAIA_LOAD_CLOUD_MODEL_TOOLTIP'] = 'Allows loading an AI model stored in the cloud.';
+Blockly.Msg['VITTAIA_MAKE_PREDICTION_TITLE'] = '%1 run prediction';
 Blockly.Msg['VITTAIA_MAKE_PREDICTION_TIME_WINDOW'] = 'window';
-Blockly.Msg['VITTAIA_MAKE_PREDICTION_TOOLTIP'] = 'Allows making a prediction from a sensor. Adjust the time window to get a prediction if needed.';
+Blockly.Msg['VITTAIA_MAKE_PREDICTION_TOOLTIP'] = 'Allows running a prediction from a sensor. Adjust the time window to get a prediction if needed.';
 Blockly.Msg['VITTAIA_SENSOR_ACC'] = 'accelerometer';
-Blockly.Msg['VITTAIA_DETECT_CLASS_TITLE'] = 'if class %1 %2 detected then';
+Blockly.Msg['VITTAIA_DETECT_CLASS_TITLE'] = '%1 if class %2 %3 detected then';
 Blockly.Msg['VITTAIA_DETECT_CLASS_TOOLTIP'] = 'Allows detecting the class of an object.';
 Blockly.Msg['VITTAIA_IS'] = 'is';
 Blockly.Msg['VITTAIA_ISNOT'] = 'is not';
-Blockly.Msg['VITTAIA_GET_HIGHEST_PROBABILITY_CLASS_TITLE'] = 'detected class';
-Blockly.Msg['VITTAIA_GET_HIGHEST_PROBABILITY_CLASS_TOOLTIP'] = 'Allows you to retrieve the class with the highest probability.';
-Blockly.Msg['COMMUNICATION_INFRARED_ONDATARECEIVED_TITLE'] = '[IR] if %1 is received on %2 %3pin %4 with protocol %5 then';
-Blockly.Msg['COMMUNICATION_INFRARED_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_IR_RECEIVER + Blockly.Tooltip.SEP + 'Allows executing instructions if data is received by an infrared module in a variable on the digital pin with NEC_8 or NEC_16 protocol.';
-Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TITLE'] = '[uart] data available';
-Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TOOLTIP'] = 'Returns a boolean value (1 if data is available to read or 0 otherwise).';
+Blockly.Msg['VITTAIA_GET_HIGHEST_PROBABILITY_CLASS_TITLE'] = '%1 detected class';
+Blockly.Msg['VITTAIA_GET_HIGHEST_PROBABILITY_CLASS_TOOLTIP'] = 'Allows retrieving the class with the highest probability.';

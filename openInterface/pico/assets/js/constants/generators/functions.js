@@ -10,30 +10,132 @@ DEF_GET_ANALOG_MEAN:
 
 /******** COMMUNICATION CATEGORY */
 
+DEF_SERIAL_READMESSAGE:
+`def serial_readMessage(n = 32):
+  buf = sys.stdin.read(1)
+  for i in range(n-1):
+    if not poll.poll(0):
+      break
+    buf += sys.stdin.read(1)
+  return buf`,
+
+DEF_SD_CARD_WRITE_FILE:
+`def SDCard_writeFile(data, filename = "", mode = 'w', extension = 'txt', date = False, sd = False):
+  if not isinstance(data, bytearray) or not isinstance(data, bytes) or not isinstance(data, str):
+    data = str(data)
+  if extension in ['jpeg', 'jpg', 'png']:
+    mode = 'wb'
+  if mode is 'wb' and not isinstance(data, bytes):
+    print("[Storage_INFO] Data not available to store.")
+  else:
+    if date:
+      try:
+        rtc.datetime()
+      except:
+        rtc = RTC()
+      filename += '_' + str(utime.time())
+    else:
+      fs = os.listdir()
+      if (filename + '.' + extension) in fs:
+        mode = 'a'
+      else:
+        mode = 'w'
+    filename += '.' + extension
+    with open(('/sd/' if sd else '') + filename, mode) as file:
+      file.write(data if mode is 'wb' else str(data))
+      file.close()
+    print("[Storage_INFO] File '" + filename + "' in " + ("SD card." if sd else "Pico filestorage."))`,
+
+  DEF_GROVE_BLUETOOTH_SEND_COMMAND_AT:
+`def grove_bluetooth_sendCommandAT(uart, command, value = None):
+  data = command + (value if value is not None else "")
+  uart.write(data)
+  print("[GROVE BT INFOS] Command sent: " + data + "\\n")
+  utime.sleep_ms(200)
+  if not uart.any():
+    print("It is not possible to interact with AT mode when the module is connected to another device. Additionally, the command may not be available with your module.")
+    print("Waiting Grove Serial Bluetooth v3 module in AT Mode...")
+    while not uart.any():
+      utime.sleep_ms(100)
+  if uart.any():
+    response = uart.read().decode('utf-8')
+    if response.find("OK") > 0:
+      if value is not None:
+        print(response)
+      else:
+        #response.replace("\\r\\nOK\\r\\n", "")
+        pass
+    return response`,
+
+DEF_RFID_READ_TAG_UID:
+`def rfid_readTagUID(uart):
+  if uart.any():
+    utime.sleep_ms(50)
+    rfid_data = bytes([])
+    while uart.any() > 0:
+      rfid_data += uart.read()
+    # data: 0x02 + 10 ASCII + checksun (2 bytes) + 0x03 => 14 bytes
+    if len(rfid_data) != 14 or rfid_data[0] != 0x02 or rfid_data[-1] != 0x03:
+      return
+    body = rfid_data[1:-1]
+    card_hex = body[:10]
+    cks_hex  = body[10:12]
+    cks_rx = int(cks_hex, 16)
+    cks = 0
+    for b in bytes.fromhex(card_hex):
+      cks ^= b
+    return card_hex`,
+
+  DEF_RC522_READ_TAG_UID:
+`def rc522_readTagUid(rdr):
+  (stat, tag_type) = rdr.request(rdr.REQIDL)
+  if stat == rdr.OK:
+    (stat, uid) = rdr.anticoll()
+    if stat == rdr.OK:
+    	return "".join(f"{i:02X}" for i in uid)`,
+
 // Grove GPS _ read NMEA
 DEF_GPS_READ_NMEA:
-`def gps_readNMEA(uart, wait = False):
+`def gps_readNMEA(uart, wait=False):
   global gpsInfos
+
+  def extract_frames():
+    global gpsInfos
+    valid_frames = []
+    if not uart.any(): return valid_frames
+
+    data = uart.read()
+    if not data: return valid_frames
+
+    try: chunk = data.decode()
+    except UnicodeError:
+      try: chunk = data.decode('utf-8', 'ignore')
+      except:
+        return valid_frames
+
+    gpsInfos['buffer'] += chunk
+    lines = gpsInfos['buffer'].split("\\r\\n")
+    gpsInfos['buffer'] = lines.pop()
+
+    frames = [x for x in lines if x.startswith("$")]
+
+    for f in frames:
+      n = f.count(',')
+      kind = f[3:6]
+      if kind == "GGA" and n == 14: valid_frames.append(f)
+      elif kind == "GSA" and n == 17: valid_frames.append(f)
+      elif kind == "RMC" and n in [11, 12]: valid_frames.append(f)
+      elif kind == "VTG" and n in [8, 9]: valid_frames.append(f)
+      elif kind == "GSV": valid_frames.append(f)
+    return valid_frames
+
   def read():
     global gpsInfos
-    global gpsBuffer
-    if uart.any():
-      gpsBuffer += str(uart.read())[2:-1]
-      a = gpsBuffer.split("\\\\\\r\\\\\\n")
-      Frames = []
-      for f in a:
-        if (f.count(',') is 12 or f.count(',') is 14) and (f.find("$GNGGA") == 0 or f.find("$GPGGA") == 0):
-          Frames.append(f)
-        if f.count(',') is 19 and f.find("$GPGSV") == 0:
-          Frames.append(f)
-        if f.count(',') is 17 and (f.find("$GPGSA") == 0 or f.find("$BDGSA") == 0):
-          Frames.append(f)
-        if f.count(',') is 9 and f.find("$GNVTG") == 0:
-          Frames.append(f)
-      gpsBuffer = a[-1]
-      if len(Frames) > 0:
-        print("[GPS_INFO] Lecture de la trame NMEA valide.\\n")
-        gpsInfos['nmea'] = Frames
+    frames = extract_frames()
+    if frames:
+      print("[GPS_INFO] Lecture de la trame NMEA valide.\\n")
+      gpsInfos['nmea'] = frames
+
   if wait:
     gpsInfos['nmea'] = None
     while gpsInfos['nmea'] is None:
@@ -41,6 +143,7 @@ DEF_GPS_READ_NMEA:
       utime.sleep_ms(100)
   else:
     read()
+
   return gpsInfos['nmea']`,
 
 // Gove GPS _ read info

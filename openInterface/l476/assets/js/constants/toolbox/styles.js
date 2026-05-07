@@ -25,7 +25,7 @@ const THEME_VITTASCIENCE = {
     "robots_blocks": {
         "colourPrimary": "#3349aa"
     },
-    "cameras_blocks": {
+    "ia_blocks": {
         "colourPrimary": "#ffab19"
     },
     "logic_blocks": {
@@ -73,8 +73,8 @@ const THEME_SCRATCH = {
         "colourPrimary": "#ffab19",
         "hat": "cap"
     },
-    "cameras_blocks": {
-        "colourPrimary": "#ffab19"
+    "ia_blocks": {
+        "colourPrimary": "#0fbd8c"
     },
     "communication_blocks": {
         "colourPrimary": "#7ac943"

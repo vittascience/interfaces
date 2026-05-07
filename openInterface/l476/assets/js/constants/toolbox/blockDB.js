@@ -34,7 +34,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "display_setLevelLedBar": this.Set.field("DCKI", "'D3'") + this.Set.number("VALUE", 3.14),
             "display_my9221_reverse": this.Set.field("DCKI", "'D3'") + this.Set.state(),
             // display - neopixel
-            "display_defineNeopixel": this.Set.number("N", 20) + this.Set.field("PIN", "pin0"),
+            "display_defineNeopixel": this.Set.field("PIN", "pin0"),
             "display_controlNeopixelLed": this.Set.number("LED") + this.Set.number("R", 255) + this.Set.number("G", 255) + this.Set.number("B", 255),
             "display_controlColorNeopixelLed": this.Set.number("LED") + this.Set.colour_picker(),
             "display_neopixel_controlAllLedRGB": this.Set.number("R", 255) + this.Set.number("G") + this.Set.number("B"),
@@ -48,7 +48,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "display_resetAllChainableRGBLed": this.Set.field("DIN", "'D3'"),
             // io - l476
             "io_pause": this.Set.number("TIME", 1),
-            "io_waitUntil": "<value name='UNTIL'><shadow type='logic_compare'>" + this.Set.field("OP", 'EQ') + this.Set.number("B", 1) + "</shadow></value>",
+            "io_waitUntil": "<value name='UNTIL'><block type='logic_compare'>" + this.Set.field("OP", 'EQ') + this.Set.number("B", 1) + "</block></value>",
             // io - external modules
             "io_getGroveColoredButton": this.Set.field("PIN", "'D3'"),
             "io_setGroveColoredButton": this.Set.state(),
@@ -65,7 +65,6 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "communication_graphSerialWrite": "<mutation items='1'></mutation>"
                 + "<value name='ADD0'><block type='communication_graphSerialWrite_datasFormat'><field name='NAME'>{data1}</field></block></value>",
             "communication_playComputerFrequency": this.Set.number("FREQUENCY", 440),
-            "communication_FizziqBT": this.Set.number('VALUE', 25),
             // communication - tracking modules
             "communication_l476_RTC_setTime": this.Set.number("HOUR", 8) + this.Set.number("MIN", 40) + this.Set.number("SEC", 10),
             // communication - NFC
@@ -153,16 +152,19 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "text_append": this.Set.text('TEXT'),
             "text_split": this.Set.text('VALUE') + this.Set.text('SEP', ';'),
             "text_length": this.Set.text('VALUE', 'abc'),
-            "text_indexOf": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('VALUE', 'abc'),
+            "text_includesSubstr": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('FIND', 'abc'),
+            "text_indexOf": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('FIND', 'abc'),
             "text_charAt": this.Set.variable("VALUE", '{textVariable}'),
             "text_getSubstring": this.Set.variable("STRING", '{textVariable}'),
+            "text_count_characters": this.Set.text('TEXT', 'P@ssw0rd'),
             "text_changeCase": this.Set.text('TEXT', 'abc'),
             "text_trim": this.Set.text('TEXT', 'abc'),
             "text_count": this.Set.text('SUB', 'bon') + this.Set.text('TEXT', 'bonbon'),
             "text_replace": this.Set.text('FROM', 'a') + this.Set.text('TO', 'b') + this.Set.text('TEXT', 'abc'),
             "text_reverse": this.Set.text('TEXT', 'abc'),
-            "text_count_characters": this.Set.text('TEXT', 'P@ssw0rd'),
             "text_random_string": this.Set.number('LENGTH', 6),
+            "text_caesar_cipher": this.Set.text('TEXT', '{hello}') + this.Set.number('SHIFT', 3),
+            "text_caesar_cipher_brute_force": this.Set.text('TEXT', 'Erqmrxu hw elhqyhqxh vxu Ylwwdvflhqfh'),
             // list
             "lists_create_with-0": '<mutation items="0"></mutation>',
             "lists_repeat": this.Set.number("NUM", 5),

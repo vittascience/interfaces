@@ -344,7 +344,7 @@ Blockly.Arduino.addUserSetup = function (id, code) {
 /**
  * Adds a string of code into the user loop stack.
  * @param {string} id Identifier for the type of set up code.
- * @param {string} code Code to be included in the setup() function.
+ * @param {string} code Code to be included in the loop() function.
  * @return {boolean} true
  */
 Blockly.Arduino.addUserLoop = function (id, code) {
@@ -455,6 +455,12 @@ Blockly.Arduino.getArduinoType_ = function (type) {
       return "void";
     case Blockly.Types.UNDEF:
       return "undefined";
+    case Blockly.Types.UINT8_T:
+      return "uint8_t"
+    case Blockly.Types.UINT16_T:
+      return "uint16_t"
+    case Blockly.Types.UINT32_T:
+      return "uint32_t"
     default:
       return "invalidBlocklyType"
   }

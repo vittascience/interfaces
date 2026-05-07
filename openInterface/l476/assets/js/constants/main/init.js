@@ -28,53 +28,13 @@ const EXAMPLE_PROJECT_LINKS = [];
 //adc
 const READ_ANALOG_MAX_VALUE = 4095;
 const PWM_MAX_DUTY = 255;
-const WRITE_ANALOG_MAX_VALUE = PWM_MAX_DUTY;
 //libraries
 const LIBRARIES_PATH = {
     'stm32_donutbot': "/donutbot",
     'stm32_sts3032': "/donutbot",
     'stm32_veml6040': "/donutbot",
     'stm32_alphabot_v2': "/alphabot",
-    'stm32_TRsensors': "/alphabot",
-    'stm32_bmp280': "/grove",
-    'stm32_chainableLED': "/grove",
-    'stm32_colorSensor': "/grove",
-    'stm32_dht': "/grove",
-    'stm32_gas': "/grove",
-    'stm32_hm330x': "/grove",
-    'stm32_lcd_i2c': "/grove",
-    'stm32_pcf85063tp': "/grove",
-    'stm32_scd30': "/grove",
-    'stm32_sgp30': "/grove",
-    'stm32_sht31': "/grove",
-    'stm32_si1145': "/grove",
-    'stm32_ssd1306': "/grove",
-    'stm32_th02': "/grove",
-    'stm32_tm1637': "/grove",
-    'stm32_vl53l0x': "/grove",
-    'stm32_LoRa': "/grove",
-    'stm32_driverAT': "/grove",
-    'stm32_ds18x20': "/grove",
-    'stm32_rgb_led_matrix': "/grove",
-    'stm32_ir_receiver': "/infrared",
-    'stm32_nec': "/infrared",
-    'HTS221': "/ISK01A3",
-    'LIS2DW12': "/ISK01A3",
-    'LIS2MDL': "/ISK01A3",
-    'LPS22': "/ISK01A3",
-    'LSM6DSO': "/ISK01A3",
-    'STTS751': "/ISK01A3",
-    'neopixel': "",
-    'stm32_m24sr64': "",
-    'stm32_pcf8574': "",
-    'stm32_ht16k33': "/HT16K33",
-    'stm32_ht16k33matrix': "/HT16K33",
-    'stm32_ht16k33matrixcolour': "/HT16K33",
-    'stm32_ht16k33matrixfeatherwing': "/HT16K33",
-    'stm32_ht16k33segment': "/HT16K33",
-    'stm32_ht16k33segment14': "/HT16K33",
-    'stm32_ht16k33segmentbig': "/HT16K33",
-    'onewire': ""
+    'stm32_TRsensors': "/alphabot"
 };
 //simulator
 const SIMULATOR_DEFAULT_BOARD = {
@@ -83,11 +43,13 @@ const SIMULATOR_DEFAULT_BOARD = {
 };
 const SIMULATOR_DEFAULT_ROBOT = 'Alphabot';
 //serial
-const SERIAL_PRODUCTS = {
-    'stm32_nucleo_l476': {
-        'usbProductId': 0x374B,
-        'usbVendorId': 0x483
-    }
+const SERIAL_OPTIONS = {
+    baud: 115200,
+    chunkSizes: {
+        'default': 255
+    },
+    boardsFilter: [
+        { usbVendorId: 0x483, usbProductId: 0x374B }, // stm32_nucleo_l476
+        { usbVendorId: 0x483, usbProductId: 0x3752 }, // stm32_nucleo_l476_without_mass_storage
+    ]
 };
-const SERIAL_PRODUCT_FILTER = true;
-const SERIAL_CHUNK_SIZE = 255;

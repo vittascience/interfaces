@@ -20,6 +20,46 @@ class ProgressBar extends Observable {
     }
     init() {
     }
+    progressBarLastAverage(average, date) {
+        const growBar = document.querySelector('.grow-bar');
+        const textGrowBar = document.querySelector('.text-grow-bar');
+        const progressBar = document.getElementById('progressBarAverage');
+        const progressContainerImg = document.querySelector('.progress-container img');
+        const progressBarAverageText = document.getElementById('progressBarAverageText');
+        const whiteSheen = document.querySelector('.white-sheen');
+        const progressBarLastDate = document.getElementById('progressBarLastDate');
+        whiteSheen.classList.add('d-none');
+
+        const MAX_CO2_VALUE = 400;
+        this.smileUpdate(average);
+
+        const co2Value = average ? average : 0;
+
+        let value = Math.min(co2Value, MAX_CO2_VALUE);
+
+        // Affiche ou masque l'image en fonction de la valeur
+        progressContainerImg.style.display = co2Value >= MAX_CO2_VALUE ? "block" : "none";
+        progressBar.style.display = co2Value >= MAX_CO2_VALUE ? 'none' : 'block';
+        growBar.style.display = co2Value >= MAX_CO2_VALUE ? 'none' : 'block';
+
+        // Met à jour la position et la largeur de la barre de progression
+        progressBar.style.left = `${co2Value / 4}%`;
+        progressBar.style.width = `${100 - co2Value / 4}%`;
+
+        const growBarWidth = co2Value;
+        growBar.classList.add('shadow-grow-bar');
+        growBar.style.width = `${growBarWidth / 4}%`;
+
+
+
+        if (value >= MAX_CO2_VALUE) {
+            textGrowBar.innerText = '';
+        }
+
+        // Met à jour le texte final de la barre de progression
+        progressBarAverageText.innerHTML = `${co2Value} ${this._view.getStringElts().co2}`;
+        progressBarLastDate.innerHTML = `${i18next.t("co2.main.lastEvaluation")} ${date}`;
+    }
     updateProgressAverage() {
         const growBar = document.querySelector('.grow-bar');
         const textGrowBar = document.querySelector('.text-grow-bar');
@@ -27,14 +67,19 @@ class ProgressBar extends Observable {
         const progressContainerImg = document.querySelector('.progress-container img');
         const progressBarAverageText = document.getElementById('progressBarAverageText');
         const whiteSheen = document.querySelector('.white-sheen');
+        const progressBarLastDate = document.getElementById('progressBarLastDate');
+
+        whiteSheen.classList.remove('d-none');
+        progressBarLastDate.innerHTML = '';
 
         const MAX_CO2_VALUE = 400;
         const MIN_CO2_VALUE = 300;
         this.smileUpdate();
 
         const co2Value = 0;
-        const lastAverage = this._model.lastAverage;
+        const lastAverage = this._model.lastAverage || 0;
         const sumAverage = this._model.getSumAverage();
+        if (lastAverage == sumAverage) return; // Pas de mise à jour nécessaire
 
         // Vérifie si les éléments DOM existent
         if (!growBar || !textGrowBar || !progressBar || !progressContainerImg || !progressBarAverageText || !whiteSheen) {
@@ -43,7 +88,7 @@ class ProgressBar extends Observable {
         }
 
         // Mise à jour du texte de la barre de progression
-        progressBarAverageText.innerHTML = `${co2Value} ${this._view.getStringElts().co2}`;
+        // progressBarAverageText.innerHTML = `${co2Value} ${this._view.getStringElts().co2}`;
 
         if (lastAverage === MAX_CO2_VALUE && sumAverage < MIN_CO2_VALUE) {
             this._model.setLastAverage(0);
@@ -218,7 +263,7 @@ class ProgressBar extends Observable {
         }
         const result = value - this._view.getTotalReduction()
         // Mise à jour du texte de la moyenne de simulation
-        averageSimulation.innerHTML = `Total avec reduction: ${result.toFixed(1)} ${this._view.getStringElts().co2}`;
+        averageSimulation.innerHTML = `${i18next.t('co2.dynamic.totalWithReduction')}: ${result.toFixed(1)} ${this._view.getStringElts().co2}`;
         if (type === 'more') averageSimulation.dataset.lastReduction = this.simulationSold.toFixed(2);
         else averageSimulation.dataset.lastReduction = 0;
 
@@ -235,10 +280,10 @@ class ProgressBar extends Observable {
 
 
 
-    smileUpdate() {
+    smileUpdate(average = false) {
 
         const smile = document.querySelector('.smileProgression');
-        const sum = this._model.getSumAverage();
+        const sum = average ? average : this._model.getSumAverage();
 
         // Vérification si l'élément existe avant de modifier son contenu
         if (!smile) {

@@ -91,7 +91,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
           ["%{BKY_VARIABLES_FORCE_TYPE_INTEGER}", "NUMBER"],
           ["%{BKY_VARIABLES_FORCE_TYPE_FLOAT}", "DECIMAL"],
           ["%{BKY_VARIABLES_FORCE_TYPE_SHORT}", "SHORT_NUMBER"],
-          ["%{BKY_VARIABLES_FORCE_TYPE_LONG}", "LARGE_NUMBER"]
+          ["%{BKY_VARIABLES_FORCE_TYPE_LONG}", "LARGE_NUMBER"],
+          ["uint8_t", "UINT8_T"],
+          ["uint16_t", "UINT16_T"],
+          ["uint32_t", "UINT32_T"]
         ]
       }
     ],

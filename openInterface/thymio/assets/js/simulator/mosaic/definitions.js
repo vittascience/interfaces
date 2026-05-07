@@ -1,5 +1,3 @@
-Simulator.Mosaic.BOARD_HEADER = `<object id="board-viewer" class="mt-3" type="image/svg+xml"></object>`;
-
 Simulator.Mosaic.pin_regex = /([0-9]{1,2})/;
 
 Simulator.Mosaic.getPinDef = (pin, mod) => {
@@ -58,7 +56,7 @@ Simulator.Mosaic.addSpecificSkulptFunctions = function () {
 					.asyncToPromise(function () {
 						return Sk.misceval.callsimOrSuspendArray(process, [], process.func_globals);
 					})
-					.then(function () {}, Simulator.handleError);
+					.then(function () { }, Simulator.handleError);
 			});
 		}
 
@@ -122,7 +120,7 @@ Simulator.Mosaic.specific = {
 		com: {},
 		mic: {},
 		sound: {},
-		eventInterval:{},
+		eventInterval: {},
 		prox0Value: null,
 		prox1Value: null,
 		prox2Value: null,
@@ -132,7 +130,7 @@ Simulator.Mosaic.specific = {
 		prox6Value: null,
 		proxGround0Value: null,
 		proxGround1Value: null,
-		remoteButton:null,
+		remoteButton: null,
 		micThreshold: null,
 		micIntensity: 20,
 
@@ -146,8 +144,8 @@ Simulator.Mosaic.specific = {
 					.asyncToPromise(function () {
 						return Sk.misceval.callsimOrSuspendArray(funcMicThreshold, []);
 					})
-					.then(function () {}, Simulator.handleError);
-			} 
+					.then(function () { }, Simulator.handleError);
+			}
 		},
 
 		captureMovement: function () {
@@ -157,7 +155,7 @@ Simulator.Mosaic.specific = {
 					.asyncToPromise(function () {
 						return Sk.misceval.callsimOrSuspendArray(funcProx, []);
 					})
-					.then(function () {}, Simulator.handleError);
+					.then(function () { }, Simulator.handleError);
 			}
 		},
 		timerFunction: function (name, interval) {
@@ -172,7 +170,7 @@ Simulator.Mosaic.specific = {
 						.asyncToPromise(function () {
 							return Sk.misceval.callsimOrSuspendArray(funcTimer, []);
 						})
-						.then(function () {}, Simulator.handleError);
+						.then(function () { }, Simulator.handleError);
 				}, interval);
 			}
 		},
@@ -189,7 +187,7 @@ Simulator.Mosaic.specific = {
 					.asyncToPromise(function () {
 						return Sk.misceval.callsimOrSuspendArray(funcCollision, []);
 					})
-					.then(function () {}, Simulator.handleError);
+					.then(function () { }, Simulator.handleError);
 			}
 		},
 
@@ -200,13 +198,13 @@ Simulator.Mosaic.specific = {
 					.asyncToPromise(function () {
 						return Sk.misceval.callsimOrSuspendArray(funcCom, []);
 					})
-					.then(function () {}, Simulator.handleError);
+					.then(function () { }, Simulator.handleError);
 			}
 		},
 		eventIntervalFunction: function (event) {
-			const frequencies = {"prox": 10, "buttons": 50, "temperature": 1, "acc": 16, "motor": 100};
+			const frequencies = { "prox": 10, "buttons": 50, "temperature": 1, "acc": 16, "motor": 100 };
 			const funcEvent = Simulator.Mosaic.specific.onEvent.eventInterval[event];
-			const timer = 1000/frequencies[event];
+			const timer = 1000 / frequencies[event];
 			if (funcEvent) {
 				Simulator.intervals[event] = setInterval(function () {
 					if (Simulator.stop_flag || Sk.execLimit == 0) {
@@ -216,9 +214,9 @@ Simulator.Mosaic.specific = {
 						.asyncToPromise(function () {
 							return Sk.misceval.callsimOrSuspendArray(funcEvent, []);
 						})
-						.then(function () {}, Simulator.handleError);
+						.then(function () { }, Simulator.handleError);
 				}
-				, timer);
+					, timer);
 			}
 
 		},
@@ -226,8 +224,8 @@ Simulator.Mosaic.specific = {
 		initializeRC5Event: function () {
 			const thymio_remote = document.querySelector('#thymio_remote');
 			// maybe add check for thymio_remote svg loaded
-			const buttonTab= ['more', 'less', 'go', 'stop', 'up', 'down', 'left', 'right', '_0', '_1', '_2', '_3', '_4', '_5', '_6', '_7', '_8', '_9'];
-			
+			const buttonTab = ['more', 'less', 'go', 'stop', 'up', 'down', 'left', 'right', '_0', '_1', '_2', '_3', '_4', '_5', '_6', '_7', '_8', '_9'];
+
 			thymio_remote.querySelectorAll('#more, #less, #go, #stop, #up, #down, #left, #right, #_0, #_1, #_2, #_3, #_4, #_5, #_6, #_7, #_8, #_9').forEach((button) => {
 				button.style.cursor = 'pointer';
 			});
@@ -238,10 +236,10 @@ Simulator.Mosaic.specific = {
 				if (buttonSelector.includes('_')) {
 					buttonSelector = buttonSelector.replace('_', '');
 				}
-				
+
 				button.addEventListener('mousedown', function () {
 
-					const buttonBellow = button.querySelector('#button_below_'+buttonSelector)
+					const buttonBellow = button.querySelector('#button_below_' + buttonSelector)
 					buttonBellow.firstElementChild.classList.add('cls-4')
 					Simulator.Mosaic.specific.onEvent.remoteButton = buttonTab[i];
 					if (funcRC5) {
@@ -249,36 +247,80 @@ Simulator.Mosaic.specific = {
 							.asyncToPromise(function () {
 								return Sk.misceval.callsimOrSuspendArray(funcRC5, [], funcRC5.func_globals);
 							})
-							.then(function () {}, Simulator.handleError);
+							.then(function () { }, Simulator.handleError);
 					}
 				});
 				button.addEventListener('mouseup', function () {
-					const buttonBellow = button.querySelector('#button_below_'+buttonSelector)
+					const buttonBellow = button.querySelector('#button_below_' + buttonSelector)
 					buttonBellow.firstElementChild.classList.remove('cls-4')
 				});
-				
+
 			}
 		},
 	},
 
 	createSliders: function () {
+
 		// Specific sliders
-		$('#thymio-prox-com_slider,' + '#thymio-button-left_slider,' + '#thymio-button-right_slider,' + '#thymio-button-forward_slider,' + '#thymio-button-backward_slider,' + '#thymio-button-center_slider,' + '#thymio-finderLeft_slider_v,' + '#thymio-finderRight_slider_v').slider({
-			min: 0,
-			max: 1,
+		$('#thymio-prox-com_slider,' +
+			'#thymio-button-left_slider,' +
+			'#thymio-button-right_slider,' +
+			'#thymio-button-forward_slider,' +
+			'#thymio-button-backward_slider,' +
+			'#thymio-button-center_slider,' +
+			'#thymio-finderLeft_slider_v,' +
+			'#thymio-finderRight_slider_v').slider({
+				min: 0,
+				max: 1,
+			});
+
+		// Mapping slider id -> button SVG id
+		const buttonSliderMap = {
+			'thymio-button-center_slider': 'button_center',
+			'thymio-button-left_slider': 'button_left',
+			'thymio-button-right_slider': 'button_right',
+			'thymio-button-forward_slider': 'button_forward',
+			'thymio-button-backward_slider': 'button_backward',
+		};
+		// Attache les événements slide sur chaque slider de bouton
+		Object.entries(buttonSliderMap).forEach(([sliderId, svgButtonId]) => {
+			let previousValue = 0;
+			let isFiring = false;
+
+			$('#' + sliderId).on('slidechange', function (event, ui) {
+				if (isFiring) return; // stoppe la récursion
+				isFiring = true;
+
+				const board = document.getElementById('board-viewer').contentDocument;
+				const svgButton = board ? board.querySelector('#' + svgButtonId) : null;
+
+				if (svgButton) {
+					if (ui.value === 1 && previousValue === 0) {
+						svgButton.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+					} else if (ui.value === 0 && previousValue === 1) {
+						svgButton.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+						svgButton.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+					}
+					previousValue = ui.value;
+				}
+
+				isFiring = false;
+			});
 		});
+
 		$('#thymio-temp_slider').slider({
 			min: 0,
 			max: 100,
 			value: 30,
 		});
+
 		$('#thymio-sound-threshold_slider').slider({
 			min: 0,
 			max: 255,
 			value: 40,
 		});
 
-		$('#thymio-accelerometre_slider_x,'+ '#thymio-accelerometre_slider_y,' + '#thymio-accelerometre_slider_z').slider({
+		$('#thymio-accelerometre_slider_x,' + '#thymio-accelerometre_slider_y,' + '#thymio-accelerometre_slider_z').slider({
 			min: -32,
 			max: 32,
 			value: 0,
@@ -289,6 +331,7 @@ Simulator.Mosaic.specific = {
 			max: 800,
 			value: 0,
 		});
+
 		$('#thymio-timer-0_slider,' + '#thymio-timer-1_slider').slider({
 			min: 0,
 			max: 2000,
@@ -329,8 +372,8 @@ Simulator.Mosaic.specific = {
 			picture: "Accélerateur.png",
 			pictureAnimation: "Accelérateur-animation.png",
 			animate: function (Animator) {
-                Animator.rotate(-32, 32);
-            }
+				Animator.rotate(-32, 32);
+			}
 
 
 		},
@@ -341,32 +384,32 @@ Simulator.Mosaic.specific = {
 			pin: 'thymio',
 			type: 'input',
 			listeners: [{
-                default: "0 (NONE)",
-                unit: '',
-                color: "#1a6da8",
-                suffix: ""
-            }],
-            picture: "Capteur de son-micro.png",
-            pictureAnimation: "Capteur de son-animation.png",
-            animate: function (Animator) {
+				default: "0 (NONE)",
+				unit: '',
+				color: "#1a6da8",
+				suffix: ""
+			}],
+			picture: "Capteur de son-micro.png",
+			pictureAnimation: "Capteur de son-animation.png",
+			animate: function (Animator) {
 				const micThreshold = Simulator.Mosaic.specific.onEvent.micThreshold;
 				if (micThreshold !== null && Animator.value !== micThreshold) {
 					// micThreshold = Animator.value;
-					if (Animator.value >= micThreshold){
+					if (Animator.value >= micThreshold) {
 						Simulator.Mosaic.specific.onEvent.micThresholdEvent();
 					}
 				}
-                if (Animator.value >= 128) {
-                    $(Animator.valueId).text(Animator.value + ' (LOUD)');
-                    $(Animator.animId).css("filter", 'hue-rotate(310deg)')
-                } else if (Animator.value <= 128) {
-                    $(Animator.valueId).text(Animator.value + ' (QUIET)');
-                    $(Animator.animId).css("filter", 'hue-rotate(15deg)')
-                } else if (Animatior.value == 0) {
-                    $(Animator.valueId).text(Animator.value + ' (NONE)');
-                }
-                $(Animator.animId).css('opacity', Animator.value / 255);
-            }
+				if (Animator.value >= 128) {
+					$(Animator.valueId).text(Animator.value + ' (LOUD)');
+					$(Animator.animId).css("filter", 'hue-rotate(310deg)')
+				} else if (Animator.value <= 128) {
+					$(Animator.valueId).text(Animator.value + ' (QUIET)');
+					$(Animator.animId).css("filter", 'hue-rotate(15deg)')
+				} else if (Animatior.value == 0) {
+					$(Animator.valueId).text(Animator.value + ' (NONE)');
+				}
+				$(Animator.animId).css('opacity', Animator.value / 255);
+			}
 		},
 		{
 			regex: /sound_system\(/g,
@@ -384,12 +427,12 @@ Simulator.Mosaic.specific = {
 				},
 			],
 			value: 0,
-            picture: "Buzzer.png",
-            pictureAnimation: "Buzzer-animation.png",
-            animate: function (Animator) {
-                const value = Animator.value ? Math.round(Animator.value) + " Hz" : "OFF";
-                Animator.opacity(0, 1, text = value)
-            }
+			picture: "Buzzer.png",
+			pictureAnimation: "Buzzer-animation.png",
+			animate: function (Animator) {
+				const value = Animator.value ? Math.round(Animator.value) + " Hz" : "OFF";
+				Animator.opacity(0, 1, text = value)
+			}
 
 		},
 		{
@@ -399,12 +442,12 @@ Simulator.Mosaic.specific = {
 			pin: 'thymio',
 			type: 'output',
 			value: 0,
-            picture: "Buzzer.png",
-            pictureAnimation: "Buzzer-animation.png",
-            animate: function (Animator) {
-                const value = Animator.value ? Math.round(Animator.value) + " Hz" : "OFF";
-                Animator.opacity(0, 1, text = value)
-            }
+			picture: "Buzzer.png",
+			pictureAnimation: "Buzzer-animation.png",
+			animate: function (Animator) {
+				const value = Animator.value ? Math.round(Animator.value) + " Hz" : "OFF";
+				Animator.opacity(0, 1, text = value)
+			}
 		},
 		{
 			regex: /rc5\(\)/g,
@@ -413,7 +456,7 @@ Simulator.Mosaic.specific = {
 			pin: 'thymio',
 			type: 'input',
 			picture: 'remote_thymio.svg',
-			
+
 		},
 		{
 			regex: /prox_com\(\)/g,
@@ -461,8 +504,8 @@ Simulator.Mosaic.specific = {
 			pictureAnimation: 'Bouton-animation.png',
 			pictureInteraction: 'buttonPush',
 			animate: function (Animator) {
-				if (Animator.value === 1){
-				    Simulator.Mosaic.specific.buttons["center"] = 1;
+				if (Animator.value === 1) {
+					Simulator.Mosaic.specific.buttons["center"] = 1;
 				}
 				Animator.button();
 			},
@@ -487,8 +530,8 @@ Simulator.Mosaic.specific = {
 			pictureAnimation: 'Bouton-animation.png',
 			pictureInteraction: 'buttonPush',
 			animate: function (Animator) {
-				if (Animator.value === 1){
-				    Simulator.Mosaic.specific.buttons["right"] = 1;
+				if (Animator.value === 1) {
+					Simulator.Mosaic.specific.buttons["right"] = 1;
 				}
 				Animator.button();
 			},
@@ -513,8 +556,8 @@ Simulator.Mosaic.specific = {
 			pictureAnimation: 'Bouton-animation.png',
 			pictureInteraction: 'buttonPush',
 			animate: function (Animator) {
-				if (Animator.value === 1){
-				    Simulator.Mosaic.specific.buttons["left"] = 1;
+				if (Animator.value === 1) {
+					Simulator.Mosaic.specific.buttons["left"] = 1;
 				}
 				Animator.button();
 			},
@@ -539,8 +582,8 @@ Simulator.Mosaic.specific = {
 			pictureAnimation: 'Bouton-animation.png',
 			pictureInteraction: 'buttonPush',
 			animate: function (Animator) {
-				if (Animator.value === 1){
-				    Simulator.Mosaic.specific.buttons["forward"] = 1;
+				if (Animator.value === 1) {
+					Simulator.Mosaic.specific.buttons["forward"] = 1;
 				}
 				Animator.button();
 			},
@@ -565,8 +608,8 @@ Simulator.Mosaic.specific = {
 			pictureAnimation: 'Bouton-animation.png',
 			pictureInteraction: 'buttonPush',
 			animate: function (Animator) {
-				if (Animator.value === 1){
-				    Simulator.Mosaic.specific.buttons["backward"] = 1;
+				if (Animator.value === 1) {
+					Simulator.Mosaic.specific.buttons["backward"] = 1;
 				}
 				Animator.button();
 			},
@@ -617,7 +660,7 @@ Simulator.Mosaic.specific = {
 				Animator.gauge();
 				Simulator.Mosaic.specific.onEvent.timer0Value = Animator.value;
 				Simulator.Mosaic.specific.onEvent.timerFunction("timer1", Animator.value);
-				
+
 			},
 		},
 		{

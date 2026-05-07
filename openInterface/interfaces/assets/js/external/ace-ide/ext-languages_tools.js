@@ -1061,10 +1061,13 @@ define("ace/autocomplete/popup", ["require", "exports", "module", "ace/virtual_r
     var lang = require("../lib/lang");
     var dom = require("../lib/dom");
 
+    var AUTOCOMPLETE_MAX_LINES = 8;
+    var AUTOCOMPLETE_LINE_HEIGHT = 16;
+
     var $singleLineEditor = function (el) {
         var renderer = new Renderer(el);
 
-        renderer.$maxLines = 4;
+        renderer.$maxLines = AUTOCOMPLETE_MAX_LINES;
 
         var editor = new Editor(renderer);
 
@@ -1079,13 +1082,90 @@ define("ace/autocomplete/popup", ["require", "exports", "module", "ace/virtual_r
         return editor;
     };
 
+    var DEFAULT_WIKI_URL = '/wiki';
+
     var AcePopup = function (parentNode) {
         var el = dom.createElement("div");
         var popup = new $singleLineEditor(el);
 
+        // Create wrapper and doc panel AFTER singleLineEditor to avoid CSS injection issues
+        var wrapper = dom.createElement("div");
+        wrapper.className = "ace_autocomplete_wrapper";
+
+        var leftPanel = dom.createElement("div");
+        leftPanel.className = "ace_autocomplete_left";
+        leftPanel.setAttribute("aria-hidden", "true");
+
+        var separator = dom.createElement("div");
+        separator.className = "ace_autocomplete_separator";
+        separator.setAttribute("aria-hidden", "true");
+
+        var rightPanel = dom.createElement("div");
+        rightPanel.className = "ace_autocomplete_right";
+        rightPanel.setAttribute("tabindex", "-1");
+        rightPanel.setAttribute("aria-label", i18next.t("code.autocomplete.suggestionDescription"));
+        rightPanel.innerHTML = '<div class="ace_autocomplete_doc_title"></div>\
+            <div class="ace_autocomplete_doc_separator"></div>\
+            <div class="ace_autocomplete_doc_description"></div>\
+            <a href="' + DEFAULT_WIKI_URL + '" target="_blank" class="ace_autocomplete_doc_wiki">Documentation 📖</a>';
+
+        var liveRegion = dom.createElement("div");
+        liveRegion.className = "ace_autocomplete_live_region";
+        liveRegion.setAttribute("aria-live", "assertive");
+        liveRegion.setAttribute("aria-atomic", "true");
+        liveRegion.setAttribute("role", "status");
+
+        leftPanel.appendChild(el);
+        wrapper.appendChild(leftPanel);
+        wrapper.appendChild(separator);
+        wrapper.appendChild(rightPanel);
+
         if (parentNode)
-            parentNode.appendChild(el);
-        el.style.display = "none";
+            parentNode.appendChild(wrapper);
+
+        document.body.appendChild(liveRegion);
+
+        // Prevent wiki link click from closing autocomplete
+        var wikiLink = rightPanel.querySelector('.ace_autocomplete_doc_wiki');
+        wikiLink.addEventListener('mousedown', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            window.open(wikiLink.href, '_blank');
+        });
+
+        var focusLeftPanel = function () {
+            if (popup.editor) {
+                popup.editor.focus();
+                if (popup.liveRegion) {
+                        popup.liveRegion.textContent = i18next.t("code.autocomplete.suggestionsPanel");
+                }
+            }
+        };
+
+        // description/doc panel
+        rightPanel.addEventListener('keydown', function (e) {
+            if (e.key === 'F6') {
+                e.preventDefault();
+                e.stopPropagation();
+                focusLeftPanel();
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                e.stopPropagation();
+                focusLeftPanel();
+            } else if (e.key === 'Tab' && e.shiftKey) {
+                // Prevent focus on the scrollbar, stay in the panel
+                var focusables = rightPanel.querySelectorAll('a[href]:not([style*="display: none"]), button:not([disabled])');
+                if (focusables.length === 0 || document.activeElement === focusables[0] || document.activeElement === rightPanel) {
+                    e.preventDefault();
+                }
+            }
+        });
+
+        popup.wrapper = wrapper;
+        popup.rightPanel = rightPanel;
+        popup.liveRegion = liveRegion;
+
+        wrapper.style.display = "none";
         popup.renderer.content.style.cursor = "default";
         popup.renderer.setStyle("ace_autocomplete");
 
@@ -1100,7 +1180,7 @@ define("ace/autocomplete/popup", ["require", "exports", "module", "ace/virtual_r
         popup.renderer.$cursorLayer.restartTimer = noop;
         popup.renderer.$cursorLayer.element.style.opacity = 0;
 
-        popup.renderer.$maxLines = 4;
+        popup.renderer.$maxLines = AUTOCOMPLETE_MAX_LINES;
         popup.renderer.$keepTextAreaAtCursor = false;
 
         popup.setHighlightActiveLine(false);
@@ -1248,6 +1328,7 @@ define("ace/autocomplete/popup", ["require", "exports", "module", "ace/virtual_r
             popup.setValue(lang.stringRepeat("\n", list.length), -1);
             popup.data = list || [];
             popup.setRow(0);
+            popup.updateDocPanel(list && list[0]);
         };
         popup.getData = function (row) {
             return popup.data[row];
@@ -1256,6 +1337,90 @@ define("ace/autocomplete/popup", ["require", "exports", "module", "ace/virtual_r
         popup.getRow = function () {
             return selectionMarker.start.row;
         };
+        popup.updateDocPanel = function (item) {
+            const titleEl = rightPanel.querySelector('.ace_autocomplete_doc_title');
+            const descEl = rightPanel.querySelector('.ace_autocomplete_doc_description');
+            const wikiEl = rightPanel.querySelector('.ace_autocomplete_doc_wiki');
+            const sepEl = rightPanel.querySelector('.ace_autocomplete_doc_separator');
+
+            if (item) {
+                titleEl.textContent = item.title || item.snippet || '';
+                if (titleEl.textContent) {
+                    sepEl.style.display = 'block';
+                    titleEl.style.display = 'block';
+                } else {
+                    sepEl.style.display = 'none';
+                    titleEl.style.display = 'none';
+                }
+                let desc = item.description;
+                if (desc && typeof ACMsg !== 'undefined') {
+                    desc = ACMsg[desc];
+                }
+                descEl.innerHTML = item.docText || desc || 'Pas de description';
+                // console.log(item)
+                if (item.docUrl) {
+                    wikiEl.style.display = 'block';
+                    wikiEl.href = item.docUrl;
+                } else {
+                    wikiEl.style.display = 'none';
+                }
+            } else {
+                titleEl.textContent = '';
+                descEl.innerHTML = '';
+                wikiEl.href = DEFAULT_WIKI_URL;
+            }
+
+            setTimeout(() => {
+                popup.adjustWrapperHeight();
+            }, 10);
+        };
+
+        // Adjusts the height of the wrapper based on the number of suggestions and the description
+        popup.adjustWrapperHeight = function () {
+            var maxHeight = AUTOCOMPLETE_MAX_LINES * AUTOCOMPLETE_LINE_HEIGHT;
+            var dataLength = popup.data ? popup.data.length : 0;
+            var suggestionsHeight = Math.min(dataLength, AUTOCOMPLETE_MAX_LINES) * AUTOCOMPLETE_LINE_HEIGHT;
+
+            // Calculate the height required for the description content
+            // rightPanel has padding: 8px (top + bottom = 16px)
+            var titleEl = rightPanel.querySelector('.ace_autocomplete_doc_title');
+            var descEl = rightPanel.querySelector('.ace_autocomplete_doc_description');
+            var wikiEl = rightPanel.querySelector('.ace_autocomplete_doc_wiki');
+            var sepEl = rightPanel.querySelector('.ace_autocomplete_doc_separator');
+
+            var descriptionHeight = 16; // padding du rightPanel (8px * 2)
+            if (titleEl && titleEl.style.display !== 'none') {
+                descriptionHeight += titleEl.offsetHeight;
+            }
+            if (sepEl && sepEl.style.display !== 'none') {
+                descriptionHeight += sepEl.offsetHeight + 8; // height: 1px + margin: 4px * 2
+            }
+            if (descEl) {
+                descriptionHeight += descEl.scrollHeight + 8; // padding: 4px * 2
+            }
+            if (wikiEl && wikiEl.style.display !== 'none') {
+                descriptionHeight += wikiEl.offsetHeight;
+            }
+
+            // console.log('[Autocomplete] adjustWrapperHeight - dataLength:', dataLength, 'suggestionsHeight:', suggestionsHeight, 'descriptionHeight:', descriptionHeight, 'maxHeight:', maxHeight);
+
+            // Final height:
+            // - If AUTOCOMPLETE_MAX_LINES+ suggestions: fixed height = maxHeight
+            // - Otherwise: max between suggestions and description (capped at maxHeight)
+            var finalHeight;
+            if (dataLength >= AUTOCOMPLETE_MAX_LINES) {
+                finalHeight = maxHeight;
+            } else {
+                // Fewer than AUTOCOMPLETE_MAX_LINES suggestions: the description can expand the popup to maxHeight
+                finalHeight = Math.max(suggestionsHeight, Math.min(descriptionHeight, maxHeight));
+            }
+
+            // console.log('[Autocomplete] finalHeight:', finalHeight);
+            var leftPanelEditor = leftPanel.querySelector('.ace_editor');
+            if (leftPanelEditor) {
+                leftPanelEditor.style.height = finalHeight + 'px';
+            }
+        };
         popup.setRow = function (line) {
             line = Math.max(this.autoSelect ? 0 : -1, Math.min(this.data.length, line));
             if (selectionMarker.start.row != line) {
@@ -1263,8 +1428,19 @@ define("ace/autocomplete/popup", ["require", "exports", "module", "ace/virtual_r
                 selectionMarker.start.row = selectionMarker.end.row = line || 0;
                 popup.session._emit("changeBackMarker");
                 popup.moveCursorTo(line || 0, 0);
-                if (popup.isOpen)
+                if (popup.isOpen) {
                     popup._signal("select");
+                    popup.updateDocPanel(popup.data[line]);
+
+                    // screen reader announcement
+                    var item = popup.data[line];
+                    if (item && popup.liveRegion) {
+                        var caption = item.caption || item.value || item.name || '';
+                        var meta = item.meta || '';
+                        var announcement = caption + (meta ? ', ' + meta : '') + ', ' + (line + 1) + ' ' + i18next.t("code.autocomplete.of") + ' ' + popup.data.length;
+                        popup.liveRegion.textContent = announcement;
+                    }
+                }
             }
         };
 
@@ -1275,12 +1451,12 @@ define("ace/autocomplete/popup", ["require", "exports", "module", "ace/virtual_r
         });
 
         popup.hide = function () {
-            this.container.style.display = "none";
+            this.wrapper.style.display = "none";
             this._signal("hide");
             popup.isOpen = false;
         };
         popup.show = function (pos, lineHeight, topdownOnly) {
-            var el = this.container;
+            var el = this.wrapper;
             var screenHeight = window.innerHeight;
             var screenWidth = window.innerWidth;
             var renderer = this.renderer;
@@ -1311,6 +1487,17 @@ define("ace/autocomplete/popup", ["require", "exports", "module", "ace/virtual_r
             this._signal("show");
             lastMouseEvent = null;
             popup.isOpen = true;
+
+            // Announcement for screen reader upon opening
+            if (popup.data && popup.liveRegion) {
+                popup.liveRegion.textContent = "";
+                setTimeout(function() {
+                    var count = popup.data.length;
+                    var message = i18next.t("code.autocomplete.opened", { count: count });
+                    // console.log('[Autocomplete] popup.show - Setting liveRegion message:', message);
+                    popup.liveRegion.textContent = message;
+                }, 300);
+            }
         };
 
         popup.goTo = function (where) {
@@ -1374,28 +1561,106 @@ define("ace/autocomplete/popup", ["require", "exports", "module", "ace/virtual_r
 }\
 .ace_editor.ace_autocomplete .ace_completion-highlight{\
     color: #2d69c7;\
+    text-decoration: underline;\
 }\
 .ace_dark.ace_editor.ace_autocomplete .ace_completion-highlight{\
     color: #93ca12;\
+    text-decoration: underline;\
 }\
 .ace_editor.ace_autocomplete {\
-    width: 300px;\
+    width: 100%;\
     z-index: 200000;\
-    border: 1px lightgray solid;\
-    position: fixed;\
-    box-shadow: 2px 3px 5px rgba(0,0,0,.2);\
+    border: none;\
+    position: relative;\
+    box-shadow: none;\
     line-height: 1.4;\
     background: #fefefe;\
     color: #111;\
 }\
 .ace_dark.ace_editor.ace_autocomplete {\
-    border: 1px #484747 solid;\
-    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.51);\
+    border: none;\
+    box-shadow: none;\
     line-height: 1.4;\
     background: #25282c;\
     color: #c1c1c1;\
+}\
+.ace_autocomplete_wrapper {\
+    width: 500px;\
+    position: fixed;\
+    z-index: 200000;\
+    border: 1px lightgray solid;\
+    border-radius: 6px;\
+    overflow: hidden;\
+}\
+.ace_dark .ace_autocomplete_wrapper {\
+    border: 1px #484747 solid;\
+    background: #25282c;\
+}\
+.ace_autocomplete_left {\
+    width: 50%;\
+}\
+.ace_autocomplete_left .ace_editor.ace_autocomplete {\
+    width: 100%;\
+}\
+.ace_autocomplete_separator {\
+    width: 1px;\
+    background: lightgray;\
+}\
+.ace_dark .ace_autocomplete_separator {\
+    background: #484747;\
+}\
+.ace_autocomplete_right {\
+    width: 50%;\
+    padding: 8px;\
+    overflow-y: auto;\
+    overflow-x: hidden;\
+    font-size: 0.8rem;\
+    color: var(--text-1);\
+    position: absolute;\
+    right: 0;\
+    top: 0;\
+    bottom: 0;\
+}\
+.ace_dark .ace_autocomplete_right {\
+    color: #c1c1c1;\
+}\
+.ace_autocomplete_doc_separator {\
+    height: 1px;\
+    background: lightgray;\
+    margin: 4px 0;\
+}\
+.ace_dark .ace_autocomplete_doc_separator {\
+    background: #484747;\
+}\
+.ace_autocomplete_doc_description {\
+    padding: 4px 0;\
+}\
+.ace_autocomplete_doc_wiki {\
+    display: block;\
+    text-align: right;\
+    color: var(--vitta-green);\
+    text-decoration: underline;\
+    font-size: 0.8rem;\
+    margin-top: auto;\
+    padding: 4px 0;\
+    cursor: pointer;\
+}\
+.ace_autocomplete_doc_description b {\
+    color: var(--vitta-green);\
+    font-weight: bold;\
+}\
+.ace_autocomplete_live_region {\
+    position: absolute;\
+    width: 1px;\
+    height: 1px;\
+    margin: -1px;\
+    padding: 0;\
+    overflow: hidden;\
+    clip: rect(0, 0, 0, 0);\
+    white-space: nowrap;\
+    border: 0;\
+    font-family: monospace;\
 }", "autocompletion.css");
-
     exports.AcePopup = AcePopup;
     exports.$singleLineEditor = $singleLineEditor;
 });
@@ -1500,6 +1765,7 @@ define("ace/autocomplete", ["require", "exports", "module", "ace/keyboard/hash_h
                 e.stop();
             }.bind(this));
             this.popup.focus = this.editor.focus.bind(this.editor);
+            this.popup.editor = this.editor;
             this.popup.on("show", this.tooltipTimer.bind(null, null));
             this.popup.on("select", this.tooltipTimer.bind(null, null));
             this.popup.on("changeHoverMarker", this.tooltipTimer.bind(null, null));
@@ -1578,8 +1844,10 @@ define("ace/autocomplete", ["require", "exports", "module", "ace/keyboard/hash_h
             var text = this.editor.textInput.getElement();
             var fromTooltip = e.relatedTarget && this.tooltipNode && this.tooltipNode.contains(e.relatedTarget);
             var container = this.popup && this.popup.container;
+            var wrapper = this.popup && this.popup.wrapper;
+            var inWrapper = e.relatedTarget && wrapper && wrapper.contains(e.relatedTarget);
             if (el != text && el.parentNode != container && !fromTooltip &&
-                el != this.tooltipNode && e.relatedTarget != text
+                el != this.tooltipNode && e.relatedTarget != text && !inWrapper
             ) {
                 this.detach();
             }
@@ -1647,7 +1915,17 @@ define("ace/autocomplete", ["require", "exports", "module", "ace/keyboard/hash_h
             },
 
             "PageUp": function (editor) { editor.completer.popup.gotoPageUp(); },
-            "PageDown": function (editor) { editor.completer.popup.gotoPageDown(); }
+            "PageDown": function (editor) { editor.completer.popup.gotoPageDown(); },
+
+            "F6": function (editor) {
+                var popup = editor.completer.popup;
+                if (popup && popup.rightPanel) {
+                    popup.rightPanel.focus();
+                    if (popup.liveRegion) {
+                        popup.liveRegion.textContent = i18next.t("code.autocomplete.descriptionPanel");
+                    }
+                }
+            }
         };
 
         this.gatherCompletions = function (editor, callback) {

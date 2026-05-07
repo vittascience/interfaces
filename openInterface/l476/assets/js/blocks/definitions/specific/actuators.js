@@ -296,7 +296,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
                 ["8", "8"],
             ]
         }],
-        "output": null,
+        "output": "String",
         "extensions": [
             "block_init_helpurl",
             "block_init_color"
@@ -415,15 +415,15 @@ Blockly.Constants.Actuators.ACTUATORS_PLAY_NOTES_MUTATOR_MIXIN = {
         // Add shadow block
         if (this.itemCount_ > 1) {
             // Find shadow type
-            var firstInput = this.getInput('ADD' + 0);
+            const firstInput = this.getInput('ADD' + 0);
             if (firstInput && firstInput.connection.targetConnection) {
                 // Create a new shadow DOM with the same type as the first input
                 // but with an empty default value
-                var newInput = this.getInput('ADD' + (this.itemCount_ - 1));
-                var shadowInputDom = firstInput.connection.getShadowDom();
+                const newInput = this.getInput('ADD' + (this.itemCount_ - 1));
+                const shadowInputDom = firstInput.connection.getShadowDom();
                 if (shadowInputDom) {
-                    var shadowDom = Blockly.utils.xml.createElement('shadow');
-                    var shadowInputType = shadowInputDom.getAttribute('type');
+                    const shadowDom = Blockly.utils.xml.createElement('shadow');
+                    const shadowInputType = shadowInputDom.getAttribute('type');
                     shadowDom.setAttribute('type', shadowInputType);
                     if (shadowDom) {
                         shadowDom.setAttribute('id', Blockly.utils.genUid());
@@ -466,7 +466,7 @@ Blockly.Constants.Actuators.ACTUATORS_PLAY_NOTES_MUTATOR_MIXIN = {
             i++;
         }
         // Update inputs
-        var top = this.appendDummyInput('TOP');
+        const top = this.appendDummyInput('TOP');
         top.appendField(Blockly.Msg['ACTUATORS_MUSIC_PLAY_NOTES_TITLE']);
         top.appendField(new Blockly.FieldDropdown(Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]), "PIN");
         top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", add, false));

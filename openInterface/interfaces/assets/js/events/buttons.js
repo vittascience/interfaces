@@ -352,7 +352,7 @@ if (INTERFACE_NAME !== "adacraft") {
             ></button>
         </div>
     `;
-    const downloadOptionInterfaces = ["arduino", "microbit", "esp32", "wb55", "l476", "galaxia", "GalaxiaCircuitPython", "mBot", "m5stack", "buddy", "cyberpi", "letsstartcoding", "pico", "eliobot", "thymio", "raspberrypi", "winky", "niryo", "nao", "sphero", "lotibot", "bluebot", "spike", "photon", "codey"];
+    const downloadOptionInterfaces = ["arduino", "microbit", "esp32", "wb55", "l476", "galaxia", "GalaxiaCircuitPython", "mBot", "m5stack", "buddy", "cyberpi", "letsstartcoding", "pico", "eliobot", "thymio", "raspberrypi", "winky", "niryo", "nao", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai"];
     if (downloadOptionInterfaces.includes(INTERFACE_NAME)) {
         $('.ide-btn-group-download').append(dropdownHeaderDownload);
 
@@ -732,7 +732,7 @@ Toolbox: ${(getParamValue('toolbox') || TOOLBOX_STYLE_DEFAULT)}
 Mode: ${Main.getCodingMode()}\n
 Blocks: ${CodeManager.getSharedInstance()._workspaceToXml()}\n`;
         const footer = (title, link) =>
-`Projet généré par ${title}.
+            `Projet généré par ${title}.
 Ce fichier contient le code textuel ainsi que le code blocs. Il peut être importé de nouveau
 sur l'interface ${link}\n\n`;
 
@@ -1180,7 +1180,7 @@ function showMixedReadOnlyPopup() {
         }
     }, 600);
 
-    popup.addEventListener('click', function() {
+    popup.addEventListener('click', function () {
         popup.style.opacity = '0';
         setTimeout(() => {
             popup.remove();
@@ -1337,7 +1337,7 @@ function fullscreen() {
     const docElm = document.documentElement;
     const fullScreenBtnICon = document.querySelector("#fullscreen-btn i");
     if (!isInFullScreen) {
-        if(fullScreenBtnICon) {
+        if (fullScreenBtnICon) {
             fullScreenBtnICon.classList.replace('fa-expand', 'fa-compress');
         }
         if (docElm.requestFullscreen) {
@@ -1350,7 +1350,7 @@ function fullscreen() {
             docElm.msRequestFullscreen();
         }
     } else {
-        if(fullScreenBtnICon) {
+        if (fullScreenBtnICon) {
             fullScreenBtnICon.classList.replace('fa-compress', 'fa-expand');
         }
         if (document.exitFullscreen) {
@@ -1591,7 +1591,7 @@ function rotateConsole(value = 'bottom') {
             });
 
         // Keyboard resize for bottom position (up/down arrows)
-        $('#monitor-resizer').off('keydown.resize-bottom').on('keydown.resize-bottom', function(e) {
+        $('#monitor-resizer').off('keydown.resize-bottom').on('keydown.resize-bottom', function (e) {
             if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
                 e.preventDefault();
                 const step = 10;
@@ -1699,16 +1699,20 @@ function getOptionStorage(option, default_value, contexts) {
  * Update toolbox and interface account localStorage
  * @param {String} toolboxMode
  */
-async function updateToolbox(toolboxMode) {
+async function updateToolbox(toolboxMode, fromUser = false) {
     if (Main.hasToolboxModes()) {
         let types = [TOOLBOX_STYLE_SCRATCH, TOOLBOX_STYLE_VITTA];
         if (INTERFACE_NAME === "TI-83") {
             types.push(TOOLBOX_STYLE_TI);
+        } else if (INTERFACE_NAME == "raspberrypi") {
+            types.push(TOOLBOX_STYLE_HARDWARE);
         }
         const storageToolbox = getOptionStorage('toolbox', TOOLBOX_STYLE_DEFAULT, types);
         const storageProject = CodeManager.getSharedInstance().localStorageManager.getLocalProjectContent();
         if ((typeof TOOLBOX_STYLE_SCRATCH != 'undefined' && toolboxMode == TOOLBOX_STYLE_SCRATCH)
-            || (typeof TOOLBOX_STYLE_TI != 'undefined' && toolboxMode == TOOLBOX_STYLE_TI && INTERFACE_NAME === "TI-83")) {
+            || (typeof TOOLBOX_STYLE_TI != 'undefined' && toolboxMode == TOOLBOX_STYLE_TI && INTERFACE_NAME === "TI-83")
+            || (typeof TOOLBOX_STYLE_HARDWARE != 'undefined' && toolboxMode == TOOLBOX_STYLE_HARDWARE && INTERFACE_NAME === "raspberrypi")
+        ) {
             storageToolbox[INTERFACE_NAME] = toolboxMode;
             storageProject.code = replaceXmlCode(TOOLBOX_STYLE_SCRATCH);
         } else {
@@ -1740,7 +1744,9 @@ async function updateToolbox(toolboxMode) {
         if (typeof projectManager !== 'undefined' && projectManager) {
             projectManager._refreshProjectStatus();
         }
-        updateToolboxSwitcherValue();
+        if (!fromUser) {
+            updateToolboxSwitcherValue();
+        }
     }
 };
 
@@ -1752,6 +1758,8 @@ function updateToolboxSwitcherValue() {
         $('#toolboxModeScratch').prop('checked', true);
     } else if (INTERFACE_NAME === 'TI-83' && [TOOLBOX_STYLE_TI, TOOLBOX_STYLE_TI_CODE].includes(toolboxMode)) {
         $('#toolboxModeTexasInstruments').prop('checked', true);
+    } else if (INTERFACE_NAME === 'raspberrypi' && toolboxMode == TOOLBOX_STYLE_HARDWARE) {
+        $('#toolboxModeHardware').prop('checked', true);
     }
 };
 
@@ -1760,7 +1768,7 @@ function updateToolboxSwitcherValue() {
  * @param boardSelector
  * Update board and interface account localStorage
  */
-async function updateBoard(event = false, boardSelector = BOARD_DEFAULT) {
+async function updateBoard(event = false, boardSelector = BOARD_DEFAULT, shieldView = null) {
     let storageBoard;
     /* We get the parameters from the url */
     const urlBoard = $_GET('board');
@@ -1784,21 +1792,29 @@ async function updateBoard(event = false, boardSelector = BOARD_DEFAULT) {
     if (event) {
         if (storageBoard[INTERFACE_NAME] != boardSelector) {
             const previousBoard = storageBoard[INTERFACE_NAME];
-            if (typeof SIMULATOR_BOARDS !== 'undefined' && Object.keys(SIMULATOR_BOARDS).filter((e) => e !== BOARD_DEFAULT).includes(boardSelector)) {
+            if (typeof INTERFACE_BOARDS !== 'undefined' && Object.keys(INTERFACE_BOARDS).filter((e) => e !== BOARD_DEFAULT).includes(boardSelector)) {
                 storageBoard[INTERFACE_NAME] = boardSelector;
             } else {
                 storageBoard[INTERFACE_NAME] = BOARD_DEFAULT;
             }
             updateUrlAndStorage('board', storageBoard);
-            if (INTERFACE_NAME == 'arduino') {
-                let wasOpen = false;
+            if (['arduino', 'esp32'].includes(INTERFACE_NAME)) {
+                if (shieldView !== null) {
+                    VittaInterface.shieldView = shieldView;
+                    SimulatorLS.set('shieldView', shieldView);
+                }
                 if (Main.hasSimulator()) {
                     if (Simulator._hasWebSimulator(previousBoard)) {
                         WifiSimulator.close();
                     }
+                    if (Simulator.hasRobotSimulator(previousBoard)) {
+                        RobotSimulator.close();
+                    }
+                    if (Simulator.has3DRobotSimulator(previousBoard)) {
+                        document.getElementById('experience-3d-container').style.display = 'none';
+                    }
                     if ($("#simulator").is(":visible")) {
-                        wasOpen = true;
-                        await toggleSimulator();
+                        await Simulator.stop();
                     }
                 }
                 if (typeof InterfaceConnection !== 'undefined') {
@@ -1811,11 +1827,11 @@ async function updateBoard(event = false, boardSelector = BOARD_DEFAULT) {
                 }
                 Main.setToolboxManager(Blockly.Constants.getToolboxStyle());
                 if (Main.hasSimulator()) {
-                    Simulator.init();
-                    if (wasOpen) {
-                        await toggleSimulator();
-                        Simulator.replay();
+                    await Simulator.init();
+                    if ($("#simulator").is(":visible")) {
+                        await Simulator.updateModules();
                     }
+                    await Simulator.replay();
                 }
                 $("input[value='" + storageBoard[INTERFACE_NAME] + "']#board_" + storageBoard[INTERFACE_NAME] + "_Set").attr("checked", "checked");
             } else {
@@ -1836,14 +1852,30 @@ async function updateBoard(event = false, boardSelector = BOARD_DEFAULT) {
                     window.location = window.location.href;
                 }
             }
+        } else if (['arduino', 'esp32'].includes(INTERFACE_NAME) && shieldView !== null && shieldView !== VittaInterface.shieldView) {
+            VittaInterface.shieldView = shieldView;
+            SimulatorLS.set('shieldView', shieldView);
+            if (Main.hasSimulator()) {
+                Simulator.updateBoard_v2(boardSelector, shieldView);
+                if (INTERFACE_NAME == "esp32") {
+                    Main.setToolboxManager(Blockly.Constants.getToolboxStyle());
+                    if ($("#simulator").is(":visible")) {
+                        await Simulator.updateModules();
+                    }
+                    await Simulator.replay();
+                }
+            }
         }
     } else {
-        if (typeof SIMULATOR_BOARDS !== 'undefined'
-            && (
-                (INTERFACE_NAME == "arduino" && urlBoard == BOARD_SHIELD_GROVE) ||
-                !Object.keys(SIMULATOR_BOARDS).filter((e) => e !== BOARD_DEFAULT).includes(urlBoard)
-            )) {
-            storageBoard[INTERFACE_NAME] = BOARD_DEFAULT;
+        if (typeof INTERFACE_BOARDS !== 'undefined' && ['arduino', 'esp32'].includes(INTERFACE_NAME)) {
+            const boardIdByShield = Object.entries(INTERFACE_BOARDS).find(([key, value]) => value.shieldId === urlBoard);
+            if (boardIdByShield) {
+                storageBoard[INTERFACE_NAME] = boardIdByShield[0];
+                VittaInterface.shieldView = true;
+                SimulatorLS.set('shieldView', true);
+            } else if (!Object.keys(INTERFACE_BOARDS).filter((e) => e !== BOARD_DEFAULT).includes(urlBoard)) {
+                storageBoard[INTERFACE_NAME] = BOARD_DEFAULT;
+            }
         }
         updateUrlAndStorage('board', storageBoard);
     }
@@ -1887,12 +1919,12 @@ async function toggleSimulator() {
     if (typeof projectManager !== 'undefined' && projectManager) projectManager.multiToggleSimulator();
     UIManager.disableSwitchingButtons();
     if (Simulator.isOpen) {
-        InterfaceMonitor.writeConsole(jsonPath('code.simulator.messages.stop'), 'neutral');
+        InterfaceMonitor.writeConsole('code.simulator.messages.stop', 'neutral');
         await Simulator.closingSimulator();
         if (typeof sendSerialCommand !== 'undefined') {
-            $("#serial-send").click(() => { sendSerialCommand(); });
+            $("#serial-send").off('click').click(sendSerialCommand);
         } else if (typeof InterfaceConnection !== 'undefined') {
-            $("#serial-send").click(() => { InterfaceConnection.sendSerialCommand(); });
+            $("#serial-send").off('click').click(InterfaceConnection.sendSerialCommand.bind(InterfaceConnection));
         }
         $('.ide-base').css('max-width', '100%');
         let ideBaseWidth = '100%';
@@ -1937,16 +1969,16 @@ async function toggleSimulator() {
         history.pushState({}, '', removeParam("simulator", window.location.href))
         history.pushState({}, '', removeParam("simulateur", window.location.href))
         Simulator.isOpen = false;
-
         document.dispatchEvent(new CustomEvent("simulator-close"));
     } else {
         if (typeof WEB_BLE !== 'undefined' && WEB_BLE.currentDevice !== null) {
             await WEB_BLE.unpair();
         }
         if (typeof Simulator !== 'undefined') {
-            Simulator.update();
+            await Simulator.update(true);
+
             if (typeof Simulator.getSerialInput !== 'undefined') {
-                $("#serial-send").click(() => { Simulator.getSerialInput(); });
+                $("#serial-send").off('click').click(Simulator.getSerialInput.bind(Simulator));
             }
         }
         if (typeof SerialAPI !== 'undefined' && SerialAPI !== null && SerialAPI.isConnected) {
@@ -1972,7 +2004,7 @@ async function toggleSimulator() {
             }
         }
 
-        InterfaceMonitor.writeConsole(jsonPath('code.simulator.messages.start'), 'neutral');
+        InterfaceMonitor.writeConsole('code.simulator.messages.start', 'neutral');
         $("#run_simulator").addClass("mode-selected");
         let ideSimulatorWidth = '100%';
         const multiIframeElt = document.querySelector('#multi-iframe-wrapper');
@@ -2063,6 +2095,7 @@ function switchMosaicMode() {
  * @param storage json storage
  */
 function updateUrlAndStorage(parameter, storage) {
+    if (location.pathname.startsWith('/student-experiment')) return;
     const state = {};
     const title = '';
     history.pushState(state, title, replaceParam(parameter, storage[INTERFACE_NAME]));

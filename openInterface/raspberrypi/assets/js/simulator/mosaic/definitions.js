@@ -1,5 +1,3 @@
-Simulator.Mosaic.BOARD_HEADER = `<object id="board-viewer" class="mt-3" type="image/svg+xml"></object>`;
-
 Simulator.Mosaic.pin_regex = /([0-9]{1,2})/;
 
 Simulator.Mosaic.getPinDef = (pin, mod) => {
@@ -12,23 +10,17 @@ Simulator.Mosaic.getPinDef = (pin, mod) => {
 };
 
 Simulator.Mosaic.externalLibraries = {
-	// js libraries
-	// 'src/lib/machine.js': Simulator.PATH_LIB + 'micropython/machine.js',
 	// js common libraries
-	// 'src/lib/time.js': Simulator.PATH_LIB_COMMON + 'micropython/time.js',
-	// 'src/lib/utime.js': Simulator.PATH_LIB_COMMON + 'micropython/time.js',
 	'src/lib/ujson.js': Simulator.PATH_LIB_COMMON + 'micropython/json.js',
 	'src/lib/json.js': Simulator.PATH_LIB_COMMON + 'micropython/json.js',
 	'src/lib/gc.js': Simulator.PATH_LIB_COMMON + 'micropython/gc.js',
 	// js common esp32 libraries
-	// 'src/lib/esp32.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/esp32.js',
 	'src/lib/esp.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/esp.js',
 	'src/lib/urequests.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/requests.js',
 	'src/lib/requests.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/requests.js',
 	'src/lib/socket.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/socket.js',
 	'src/lib/usocket.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/socket.js',
 	'src/lib/network.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/network.js',
-
 	// raspberry pi libraries
 	// lcd1602
 	'src/lib/sense_hat.js': Simulator.PATH_LIB + 'python/sense_hat.js',
@@ -51,22 +43,22 @@ Simulator.Mosaic.addSpecificInitializations = async function () {
 		// initialize joystick buttons
 		const board = document.getElementById('board-viewer').contentDocument;
 		const boardJoystickArray = ['_up', '_down', '_left', '_right'];
-		for (let i=0; i<boardJoystickArray.length; i++) {
-			const element = board.getElementById("joystick"+boardJoystickArray[i]);
+		for (let i = 0; i < boardJoystickArray.length; i++) {
+			const element = board.getElementById("joystick" + boardJoystickArray[i]);
 			const path = element.querySelector('path')
-			const mouseDownListener = senseHat.joystickDownListener(path, 'cls-12' );
-            const mouseUpListener = senseHat.joystickUpListener(path, 'cls-12');
+			const mouseDownListener = senseHat.joystickDownListener(path, 'cls-12');
+			const mouseUpListener = senseHat.joystickUpListener(path, 'cls-12');
 
 			path.addEventListener('mousedown', mouseDownListener);
 			path.addEventListener('mouseup', mouseUpListener);
-					
+
 		}
-	} else if (Simulator.board.name === "GrouvePi"){
+	} else if (Simulator.board.name === "GrouvePi") {
 		const GrouvePiHat = Simulator.Mosaic.specific.GrouvePiHat
 		GrouvePiHat.GrouvePi = true;
 	}
 
-	
+
 };
 
 Simulator.Mosaic.addSpecificSkulptFunctions = function () {
@@ -195,8 +187,8 @@ Simulator.Mosaic.groveRegex = {
 	"sgp30": /(.|)SGP30\(/gi,
 	"multichannel": /(.|)GAS\(/gi,
 	"scd30-co2": /scd30_read\(0\)/gi,
-    "scd30-temp": /scd30_read\(1\)/gi,
-    "scd30-hum": /scd30_read\(2\)/gi,
+	"scd30-temp": /scd30_read\(1\)/gi,
+	"scd30-hum": /scd30_read\(2\)/gi,
 	"hm330x": /(.|)HM330X\(/g,
 	'bmp280-temp': /(.|)BMP280\(/gi,
 	'bmp280-press': /(.|)BMP280\(/gi,
@@ -220,7 +212,7 @@ Simulator.Mosaic.specific = {
 	senseHatEvent: {
 		senseHat: null,
 
-        joystickInitiated: false,
+		joystickInitiated: false,
 
 		joystickEvent: {},
 		joystickEventTriggered: false,
@@ -228,22 +220,22 @@ Simulator.Mosaic.specific = {
 		joystickDownListener: function (arrow, cls) {
 			return function () {
 				arrow.classList.add(cls);
-                Simulator.Mosaic.specific.senseHatEvent.joystickEvent = {
-                    direction: arrow.id,
-                    action: 'pressed'
-                };
+				Simulator.Mosaic.specific.senseHatEvent.joystickEvent = {
+					direction: arrow.id,
+					action: 'pressed'
+				};
 				// console.log(Simulator.Mosaic.specific.senseHatEvent.joystickEvent);
-                Simulator.Mosaic.specific.senseHatEvent.joystickEventTriggered = true;
-            };
+				Simulator.Mosaic.specific.senseHatEvent.joystickEventTriggered = true;
+			};
 		},
-		
+
 		joystickUpListener: function (arrow, cls) {
 			return function () {
 				arrow.classList.remove(cls);
 				Simulator.Mosaic.specific.senseHatEvent.joystickEvent = {
-                    direction: arrow.id,
-                    action: 'released'
-                };
+					direction: arrow.id,
+					action: 'released'
+				};
 				// console.log(Simulator.Mosaic.specific.senseHatEvent.joystickEvent);
 				Simulator.Mosaic.specific.senseHatEvent.joystickEventTriggered = true;
 			};
@@ -256,22 +248,22 @@ Simulator.Mosaic.specific = {
 				const arrows = joystick_arrows.querySelectorAll('polygon');
 				arrows.forEach((arrow) => {
 					const mouseDownListener = this.joystickDownListener(arrow, 'cls-2');
-            		const mouseUpListener = this.joystickUpListener(arrow, 'cls-2');
-					
+					const mouseUpListener = this.joystickUpListener(arrow, 'cls-2');
+
 					arrow.removeEventListener('mousedown', mouseDownListener);
-            		arrow.removeEventListener('mouseup', mouseUpListener);
+					arrow.removeEventListener('mouseup', mouseUpListener);
 				});
 				const board = document.getElementById('board-viewer').contentDocument;
 				const boardJoystickArray = ['_up', '_down', '_left', '_right'];
-				for (let i=0; i<boardJoystickArray.length; i++) {
-					const element = board.getElementById("joystick"+boardJoystickArray[i]);
+				for (let i = 0; i < boardJoystickArray.length; i++) {
+					const element = board.getElementById("joystick" + boardJoystickArray[i]);
 					const path = element.querySelector('path')
 					const mouseDownListener = senseHat.joystickDownListener(path);
 					const mouseUpListener = senseHat.joystickUpListener(path);
 
 					path.removeEventListener('mousedown', mouseDownListener);
 					path.removeEventListener('mouseup', mouseUpListener);
-					
+
 				}
 
 			}
@@ -284,10 +276,10 @@ Simulator.Mosaic.specific = {
 				const arrows = joystick_arrows.querySelectorAll('polygon');
 				arrows.forEach((arrow) => {
 					const mouseDownListener = this.joystickDownListener(arrow, 'cls-2');
-            		const mouseUpListener = this.joystickUpListener(arrow, 'cls-2');
-					
+					const mouseUpListener = this.joystickUpListener(arrow, 'cls-2');
+
 					arrow.addEventListener('mousedown', mouseDownListener);
-            		arrow.addEventListener('mouseup', mouseUpListener);
+					arrow.addEventListener('mouseup', mouseUpListener);
 				});
 			}
 		},
@@ -402,12 +394,12 @@ Simulator.Mosaic.specific = {
 			value: 38700,
 		});
 		$('.mod_ultrasonic_t,' +
-            '.mod_ultrasonic_d').slider({
-                min: 88,
-                max: 14575,
-                value: 1166,
-                step: 0.1
-            });
+			'.mod_ultrasonic_d').slider({
+				min: 88,
+				max: 14575,
+				value: 1166,
+				step: 0.1
+			});
 	},
 
 	calculs: {
@@ -426,38 +418,38 @@ Simulator.Mosaic.specific = {
 
 	definitions: [
 		{
-            id: "ultrasonic",
-            title: "Télémètre: ",
-            pin: 'pin n° ',
-            pins: 'digital',
-            type: 'input',
-            noCombine: true,
-            codeFlag: 'Ultrasonic',
-            listeners: [{
-                default: 20,
-                unit: 'cm',
-                color: "#f9d142 ",
-                suffix: "_d",
-                title: "Distance"
-            }, {
-                suffix: "_t",
-                default: 1166,
-                unit: 'μs',
-                color: "#f9d142",
-                title: "Durée"
-            }],
-            class: 'ultrasonic',
-            picture: "Ultrason.png",
-            pictureAnimation: "Ultrason-animation.png",
-            animate: function (Animator) {
-                const callbackAnim = (value) => Animator.opacity(14575, 0, text = value);
-                const t = Animator.value;
-                Animator.updateListeners({
-                    "_d": roundFloat(Simulator.Mosaic.grove.calculs.getDistance(t), 1),
-                    "_t": t
-                }, callbackAnim);
-            }
-        },
+			id: "ultrasonic",
+			title: "Télémètre: ",
+			pin: 'pin n°',
+			pins: 'digital',
+			type: 'input',
+			noCombine: true,
+			codeFlag: 'Ultrasonic',
+			listeners: [{
+				default: 20,
+				unit: 'cm',
+				color: "#f9d142 ",
+				suffix: "_d",
+				title: "Distance"
+			}, {
+				suffix: "_t",
+				default: 1166,
+				unit: 'μs',
+				color: "#f9d142",
+				title: "Durée"
+			}],
+			class: 'ultrasonic',
+			picture: "Ultrason.png",
+			pictureAnimation: "Ultrason-animation.png",
+			animate: function (Animator) {
+				const callbackAnim = (value) => Animator.opacity(14575, 0, text = value);
+				const t = Animator.value;
+				Animator.updateListeners({
+					"_d": roundFloat(Simulator.Mosaic.grove.calculs.getDistance(t), 1),
+					"_t": t
+				}, callbackAnim);
+			}
+		},
 		{
 			regex: /sense.stick_wait_for_event/g,
 			id: 'sense-hat-joystick',
@@ -588,7 +580,7 @@ Simulator.Mosaic.specific = {
 			regex: /DHT\(/g,
 			id: 'dht11-temp',
 			title: 'DHT11 - Température',
-			pin: 'pin n° ',
+			pin: 'pin n°',
 			pins: 'PWM',
 			type: 'input',
 			// codeFlag: 'DHT11',
@@ -613,7 +605,7 @@ Simulator.Mosaic.specific = {
 			regex: /DHT\(/g,
 			id: 'dht11-hum',
 			title: 'DHT11 - Humidité',
-			pin: 'pin n° ',
+			pin: 'pin n°',
 			pins: 'PWM',
 			type: 'input',
 			// codeFlag: 'DHT11',
@@ -639,7 +631,7 @@ Simulator.Mosaic.specific = {
 			id: 'neopixel',
 			title: 'Neopixel',
 			// codeFlag: "Neopixel",
-			pin: 'pin n° ',
+			pin: 'pin n°',
 			pins: 'PWM',
 			type: 'output',
 			value: '',

@@ -40,6 +40,7 @@ class Serial {
         this._rts = true;
         this.buffer = "";
         this.type = 'serial';
+        this.infos = null;
         return this;
     };
 
@@ -75,9 +76,18 @@ class Serial {
      * @returns {boolean} same
      */
     checkInfos() {
-        return this.boardsFilter !== null && this.infos && Object.keys(this.infos).length > 1 &&
-            this.infos?.usbProductId == this.boardsFilter.usbProductId &&
-            this.infos?.usbVendorId == this.boardsFilter.usbVendorId;
+        if (this.options.boardsFilter && this.infos && Object.keys(this.infos).length > 1) {
+            if (Array.isArray(this.options.boardsFilter)) {
+                for (const filter of this.options.boardsFilter) {
+                    if (this.infos?.usbProductId == filter.usbProductId && this.infos?.usbVendorId == filter.usbVendorId) {
+                        return true;
+                    }
+                }
+            } else {
+                return this.infos?.usbProductId == this.boardsFilter.usbProductId &&
+                    this.infos?.usbVendorId == this.boardsFilter.usbVendorId;
+            }
+        }
     };
 
     /**
@@ -87,8 +97,18 @@ class Serial {
      */
     async open(callback) {
         await this.init();
-        if (this.ports.length === 1 && this.checkInfos()) {
-            this.port = this.ports[0];
+        let filteredPorts = [];
+        if (this.boardsFilter) this.forcedFilters = this.boardsFilter;
+        if (this.forcedFilters) {
+            for (const p of this.ports) {
+                const infos = await p.getInfo();
+                if (this.forcedFilters.some(f => f.usbVendorId === infos.usbVendorId && f.usbProductId === infos.usbProductId)) {
+                    filteredPorts.push(p);
+                }
+            }
+        }
+        if (filteredPorts.length === 1) {
+            this.port = filteredPorts[0];
         } else {
             if (this.boardsFilter !== null) {
                 this.port = await navigator.serial.requestPort({
@@ -98,10 +118,13 @@ class Serial {
                 this.port = await navigator.serial.requestPort();
             }
         }
-        await this.port.open({
-            baudRate: this._getBaudrate(),
-            buffersize: 1024
-        });
+        if (this.port) {
+            await this.port.open({
+                baudRate: this._getBaudrate(),
+                buffersize: 1024
+            });
+            await this.getInfo();
+        }
         this.isConnected = true;
         if (callback) {
             this.dataReceived = this._loop_reader(callback);

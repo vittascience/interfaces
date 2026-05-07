@@ -3,15 +3,6 @@ const CYBERPI_UART_SERVICE_UUID = '0000ffe1-0000-1000-8000-00805f9b34fb';
 const CYBERPI_UART_CHARACTERISTIC_RX = '0000ffe2-0000-1000-8000-00805f9b34fb';
 const CYBERPI_UART_CHARACTERISTIC_TX = '0000ffe3-0000-1000-8000-00805f9b34fb';
 
-function setupMonitor() {
-	if ($('#monitor').hasClass('monitor-closed')) {
-		InterfaceMonitor.toggle();
-	}
-	if ($('#monitor-btn-console').length > 0 && !$('#monitor-btn-console').hasClass('activated')) {
-		InterfaceMonitor.managePanel('console');
-	}
-};
-
 function onGATTconnected() {
 	InterfaceMonitor.writeConsole(jsonPath('code.WebBluetoothAPI.gattConnected'), 'success', false, true);
 	$("#execution-buttons-panel").append('<i id="connected-icon-ble" class="fa-brands fa-bluetooth"></i>');
@@ -29,7 +20,7 @@ function onGATTdisconnected() {
 const WebBLEAPI = new WebBLE([CYBERPI_UART_SERVICE_UUID], onGATTconnected, onGATTdisconnected);
 
 document.getElementById('serial-send').addEventListener('click', function () {
-	if (!Simulator.isOpen && !SerialAPI.isConnected && WebBLEAPI.gattConnected()) {
+	if (!Simulator.isOpen && !InterfaceConnection.serial.isConnected && WebBLEAPI.gattConnected()) {
 		sendBLECommand();
 	}
 });
@@ -38,7 +29,7 @@ async function connectBoardBLE() {
 	if ($("#simulator").is(":visible")) {
 		toggleSimulator();
 	}
-	setupMonitor();
+	InterfaceMonitor.setup();
 	await doConnectBLE();
 };
 

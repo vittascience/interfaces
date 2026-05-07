@@ -161,12 +161,20 @@ h3 span {
 
     background: var(--bg-1);
     margin-bottom: 2rem;
-    border-radius: 0px 4em 0px 0px;
+    border-radius: 0px 4em 4em 0px;
     filter: drop-shadow(0px 0px 15px var(--vitta-shadow-color));
     z-index: 5;
     position: relative;
     padding-inline: 2em;
 
+}
+#resources-section-reverse {
+    background: var(--bg-2);
+    margin: 0;
+    border-radius: 0px;
+    filter: none;
+    position: initial;
+    padding-inline: 2em;
 }
 
 #resources-section::before {
@@ -178,8 +186,6 @@ h3 span {
     height: 50px;
     background: radial-gradient(farthest-side at top right, transparent 98%, var(--bg-1) 100%) 0/50px no-repeat;
 }
-
-
 #resources-section::after {
     content: "";
     position: absolute;
@@ -190,7 +196,7 @@ h3 span {
     background: radial-gradient(farthest-side at bottom right, transparent 98%, var(--bg-1) 100%) 0/50px no-repeat;
 }
 
-#resources-section #temp-corner {
+/* #resources-section #temp-corner {
     content: "";
     position: absolute;
     top: 100%;
@@ -198,7 +204,7 @@ h3 span {
     left: calc(100% - 50px);
     height: 50px;
     background: radial-gradient(farthest-side at bottom left, transparent 98%, var(--bg-1) 100%) 0/50px no-repeat;
-}
+} */
 
 #resources-section-container {
     display: flex;
@@ -284,4 +290,9 @@ h3 span {
     background-color: var(--bg-1);
     border-radius: 4em 4em 0px 0px;
     filter: drop-shadow(0px 0px 15px var(--vitta-shadow-color));
+}
+.white-full-width.reverse {
+    background-color: var(--bg-2);
+    border-radius: 0px;
+    filter: none;
 }

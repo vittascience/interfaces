@@ -951,7 +951,13 @@ function microbit_mod(microbit, import_modules) {
 
 	const read_analog = function (self) {
 		self.mode = 'unused';
-		return new Sk.builtin.int_(Simulator.getPinSliderValue(self.name));
+		const modulePin = Simulator.pinList.find(obj => parseInt(obj.pin) === self.name);
+		if (modulePin && modulePin.id.includes('joystick')) {
+			const value = Simulator.Components.Joystick.read(modulePin.id, self.name);
+			return new Sk.builtin.int_(value);
+		} else {
+			return new Sk.builtin.int_(Simulator.getPinSliderValue(self.name));
+		}		
 	};
 
 	const write_digital = function (self, state) {
@@ -978,14 +984,14 @@ function microbit_mod(microbit, import_modules) {
 		if (component !== undefined) {
 			switch (self.pull) {
 				case 2:
-					Simulator.setPullButton(component.id, 'no_pull');
+					Simulator.Components.Button.setPull(component.id, 'no_pull');
 					break;
 				case 0:
-					Simulator.setPullButton(component.id, 'up');
+					Simulator.Components.Button.setPull(component.id, 'up');
 					break;
 				case 1:
 				default:
-					Simulator.setPullButton(component.id, 'down');
+					Simulator.Components.Button.setPull(component.id, 'down');
 			}
 		}
 	};
@@ -1153,7 +1159,7 @@ function microbit_mod(microbit, import_modules) {
 					break;
 				default:
 				case $loc.CAPACITIVE.v:
-					// TO DO
+				// TO DO
 			}
 		});
 
@@ -1187,7 +1193,7 @@ function microbit_mod(microbit, import_modules) {
 					break;
 				default:
 				case $loc.CAPACITIVE.v:
-					// TO DO
+				// TO DO
 			}
 		});
 
@@ -1217,7 +1223,7 @@ function microbit_mod(microbit, import_modules) {
 
 	microbit.gamepad_out = new Sk.builtin.module();
 	microbit.gamepad_out.$d = new Simulator.Behaviours.output.gamepad_out();
-	
+
 	microbit.gamepad_v4_in = new Sk.builtin.module();
 	microbit.gamepad_v4_in.$d = new Simulator.Behaviours.input.gamepad_v4_in();
 

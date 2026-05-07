@@ -26,8 +26,6 @@ var $builtinmodule = function (name) {
             self.clk = clk.pin;
             self.dio = dio.pin;
             $("#write-digital_" + self.dio).hide();
-            const pins = Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()];
-            $("#tm1637_" + self.clk).find(".subtitle-module").html(pins.find(p => p[1] == 'p' + self.clk)[0] + ' / ' + pins.find(p => p[1] == 'p' + self.dio)[0]);
         };
 
         TM1637__init__.co_varnames = ['self', 'clk', 'dio', 'bright'];

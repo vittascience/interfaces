@@ -37,7 +37,6 @@ Blockly.Python.network_connectStation = function (block) {
         code += "client.init(sta=station, ap=accessPoint)" + NEWLINE;
     }
     return code;
-    // return 'null'
 };
 
 // access point
@@ -100,9 +99,23 @@ Blockly.Python.network_server_sendData = function (block) {
     }
 };
 
-// Server - get client data
-Blockly.Python.network_server_getClientData = function () {
-    return ["server.getClientData()", Blockly.Python.ORDER_ATOMIC];
+Blockly.Python.network_server_getClientData = function (block) {
+    const close = Blockly.Python.valueToCode(block, "CLOSING", Blockly.Python.ORDER_NONE) || "";
+    if (close) {
+        return ["server.getClientData(close = " + close + ")", Blockly.Python.ORDER_ATOMIC];
+    } else {
+        return ["server.getClientData()", Blockly.Python.ORDER_ATOMIC];
+    }
+};
+
+// Server - get client data parameter
+Blockly.Python.network_server_getClientDataParam = function () {
+    const close = Blockly.Python.valueToCode(block, "CLOSING", Blockly.Python.ORDER_NONE) || "";
+    if (close) {
+        return ["server.getClientData(close = " + close + ", parameter = True)", Blockly.Python.ORDER_ATOMIC];
+    } else {
+        return ["server.getClientData(parameter = True)", Blockly.Python.ORDER_ATOMIC];
+    }
 };
 
 // Server - get client IP
@@ -388,6 +401,106 @@ Blockly.Python.network_HTML_Tags = function (block) {
     let balise = block.getFieldValue("TAG");
     var branchCode = Blockly.Python.statementToCode(block, "IN") || "";
     return '  <' + balise + '>' + NEWLINE + branchCode + '</' + balise + '>' + NEWLINE;
+};
+
+// Add link on text in web page
+Blockly.Python.network_html_addLink = function (block) {
+    const text = Blockly.Python.valueToCode(block, 'TEXT', Blockly.Python.ORDER_NONE) || "";
+    const url = block.getFieldValue('URL');
+    let fontSize = Blockly.Python.valueToCode(block, 'SIZE', Blockly.Python.ORDER_NONE) || "";
+    let colour = "#666666";
+    let colorBlock = block.getInput("COLOR");
+    if (colorBlock) {
+        colorBlock = colorBlock.connection.targetBlock();
+        if (colorBlock) {
+            colour = colorBlock.getFieldValue('COLOUR');
+        }
+    }
+    if (fontSize) {
+        fontSize = 'font-size:' + Blockly.Python.esp32.getStringFormat('str(' + fontSize + ')') + 'px;';
+    }
+    Blockly.Python.esp32.addCssStyle('default_init', FUNCTIONS_ESP32_MICROCHIP.CSS_DEFAULT_INIT);
+    const formattedText = Blockly.Python.esp32.getStringFormat('str(' + text + ')');
+    return '  <a href="' + url + '" style="color:' + colour + ';' + fontSize + '" target="_blank" rel="noopener noreferrer">' + formattedText + '</a>' + NEWLINE;
+};
+
+// Add a image in web page
+Blockly.Python.network_html_addImage = function (block) {
+    let data = Blockly.Python.valueToCode(block, 'DATA', Blockly.Python.ORDER_NONE) || "";
+    let w = Blockly.Python.valueToCode(block, 'WIDTH', Blockly.Python.ORDER_NONE) || "59";
+    let h = Blockly.Python.valueToCode(block, 'HEIGHT', Blockly.Python.ORDER_NONE) || "66";
+    const inputBlock = block.getInput('DATA').connection.targetBlock();
+    if (Blockly.Constants.Utils.isInputTextBlock(block, "DATA")) {
+        data = Blockly.Python.esp32.getStringFormat(data);
+        data = '    <img src="data:image/png;base64, ' + data + '">';
+    } else {
+        const inputCheck = inputBlock.outputConnection.check_;
+        if (inputCheck) {
+            if (inputCheck[0] == "Array") {
+                data = Blockly.Python.esp32.getStringFormat('str(' + data + ')[2:-3]');
+            } else {
+                data = Blockly.Python.esp32.getStringFormat('str(' + data + ')');
+            }
+            data = '    <img src="data:image/png;base64, ' + data + '">';
+        } else if (inputBlock.type == 'variables_get') {
+            const id = randHex();
+            Blockly.Python.esp32.addHtmlImageData(id, data);
+            data = '    <img id="' + id + '">';
+        }
+    }
+    if (block.getInput("WIDTH")) {
+        if (Blockly.Constants.Utils.isInputTextBlock(block, "WIDTH")) {
+            w = Blockly.Python.esp32.getStringFormat(w);
+        } else {
+            w = Blockly.Python.esp32.getStringFormat('str(' + w + ')');
+        }
+    }
+    if (block.getInput("HEIGHT")) {
+        if (Blockly.Constants.Utils.isInputTextBlock(block, "HEIGHT")) {
+            h = Blockly.Python.esp32.getStringFormat(h);
+        } else {
+            h = Blockly.Python.esp32.getStringFormat('str(' + h + ')');
+        }
+    }
+    Blockly.Python.esp32.addCssStyle('default_init', FUNCTIONS_ESP32_MICROCHIP.CSS_DEFAULT_INIT);
+    Blockly.Python.esp32.addCssStyle('default_image', FUNCTIONS_ESP32_MICROCHIP.CSS_IMAGE_STYLE);
+    const html = '  <div class="frame" style="width:' + w + 'px ; height:' + h + 'px;">' + NEWLINE
+        + data + NEWLINE
+        + '  </div>' + NEWLINE;
+    return html;
+};
+
+// Add tags B|I|INS|MARK|DEL|SMALL
+Blockly.Python.network_HTML_formatText = function (block) {
+    const text = Blockly.Python.valueToCode(block, 'TEXT', Blockly.Python.ORDER_NONE) || "";
+    const tag = block.getFieldValue("TAG");
+    const formattedText = Blockly.Python.esp32.getStringFormat('str(' + text + ')')
+    const taggedText = '"""<' + tag + '>' + formattedText + '</' + tag + '>"""';
+    return [taggedText, Blockly.Python.ORDER_ATOMIC];
+};
+
+// Add tag newline
+Blockly.Python.network_HTML_newline = function () {
+    return '  <br>' + NEWLINE;
+};
+
+// Add html code
+Blockly.Python.network_HTML_add = function (block) {
+    const html = Blockly.Python.valueToCode(block, 'HTML', Blockly.Python.ORDER_NONE) || "";
+    return '  ' + html.substr(1, html.length - 2) + NEWLINE;
+};
+
+// Add span with HTML symbol
+Blockly.Python.network_HTML_addSymbol = function (block) {
+    let symbol = Blockly.Python.valueToCode(block, 'SYMBOL', Blockly.Python.ORDER_NONE) || "";
+    symbol = symbol.substr(1, symbol.length - 2);
+    let size = Blockly.Python.valueToCode(block, 'SIZE', Blockly.Python.ORDER_NONE) || "0";
+    size = size.substr(1, size.length - 2);
+    const encoding = block.getFieldValue("ENCODING");
+    if (symbol.charAt(symbol.length - 1) !== ';') {
+        symbol = symbol + ';';
+    }
+    return TAB + '<span style="font-size:' + size + '">' + encoding + symbol + '</span>' + NEWLINE;
 };
 
 // Web page data

@@ -290,13 +290,13 @@ def stop():
     """
     send_order('<>')
 
-def pause():
+def pause(duration=1):
     """
-    Stop ilo and block its motors
+    Stop ilo and block its motors for a selected duration in seconds
     """
-    send_order(direct_control(128,128,128))
+    send_order("<avp" + str(duration*1000) + "xyr>")
 
-def step(direction, step=None, finish_state=True):
+def step(direction, step=None, finish_state=True, display_led: bool=True):
     """
     Move ilo in the selected direction for 2 seconds
 
@@ -315,6 +315,7 @@ def step(direction, step=None, finish_state=True):
     Examples:
         ilo_micro.step("front", 10)
         ilo_micro.step("rot_trigo", 1, True)
+        ilo_micro.step("back", 5, False, False)
     """
     if not isinstance(direction, str):
         print ("[ERROR] 'direction' should be a string")
@@ -361,24 +362,52 @@ def step(direction, step=None, finish_state=True):
         print ("[ERROR] 'finish_state' should be a boolean")
         return None
 
+    if not isinstance(display_led, bool):
+        print ("[ERROR] 'display_led' should be a boolean")
+        return None
+
     if direction == 'front':
-        command = '<a60vpx1' + str(step) + 'yr>'
-        send_order(command)
+        if display_led:
+            send_order('<a60vpx1' + str(step) + 'yrt>')
+        else:
+            send_order('<a60vpx1' + str(step) + 'yrf>')
+        # command = '<a60vpx1' + str(step) + 'yr>'
+        # send_order(command)
     elif direction == 'back':
-        command = '<a60vpx0' + str(step) + 'yr>'
-        send_order(command)
+        if display_led:
+            send_order('<a60vpx0' + str(step) + 'yrt>')
+        else:
+            send_order('<a60vpx0' + str(step) + 'yrf>')
+        # command = '<a60vpx0' + str(step) + 'yr>'
+        # send_order(command)
     elif direction == 'left':
-        command = '<a60vpxy0' + str(step) + 'r>'
-        send_order(command)
+        if display_led:
+            send_order('<a60vpxy0' + str(step) + 'rt>')
+        else:
+            send_order('<a60vpxy0' + str(step) + 'rf>')
+        # command = '<a60vpxy0' + str(step) + 'r>'
+        # send_order(command)
     elif direction == 'right':
-        command = '<a60vpxy1' + str(step) + 'r>'
-        send_order(command)
+        if display_led:
+            send_order('<a60vpxy1' + str(step) + 'rt>')
+        else:
+            send_order('<a60vpxy1' + str(step) + 'rf>')
+        # command = '<a60vpxy1' + str(step) + 'r>'
+        # send_order(command)
     elif direction == 'rot_trigo':
-        command = '<a60vpxyr0' + str(step) + '>'
-        send_order(command)
+        if display_led:
+            send_order('<a60vpxyr0' + str(step) + 't>')
+        else:
+            send_order('<a60vpxyr0' + str(step) + 'f>')
+        # command = '<a60vpxyr0' + str(step) + '>'
+        # send_order(command)
     elif direction == 'rot_clock':
-        command = '<a60vpxyr1' + str(step) + '>'
-        send_order(command)
+        if display_led:
+            send_order('<a60vpxyr1' + str(step) + 't>')
+        else:
+            send_order('<a60vpxyr1' + str(step) + 'f>')
+        # command = '<a60vpxyr1' + str(step) + '>'
+        # send_order(command)
     else:
         print("[ERROR] 'Direction' should be 'front', 'back', 'left', 'rot_trigo', 'rot_clock'")
 
@@ -402,7 +431,7 @@ def step(direction, step=None, finish_state=True):
     else:
         print("[ERROR] End moving data to well received")
   
-def flat_movement(angle, distance):
+def flat_movement(angle: int, distance: int):
     """
     Move ilo in a with a direction in angle
 
@@ -603,7 +632,7 @@ def get_tempo_pos():
     send_order("<691>")
     return classification(get_data())
 
-def rotation(angle, finish_state=True):
+def rotation(angle, finish_state: bool=True, display_led: bool=True):
     """
     Rotate ilo in a direction
 
@@ -616,6 +645,8 @@ def rotation(angle, finish_state=True):
     Examples:
         ilo_micro.rotation(90)
         ilo_micro.rotation(-50.3)
+        ilo_micro.rotation(45, True)
+        ilo_micro.rotation(45, True, False)
     """
 
     if not isinstance(angle, (int, float)):
@@ -630,9 +661,18 @@ def rotation(angle, finish_state=True):
     if not isinstance(finish_state, bool):
         print ("[ERROR] 'finish_state' should be a boolean")
         return None
+    
+    if not isinstance(display_led, bool):
+        print ("[ERROR] 'display_led' should be a boolean")
+        return None
+    
+    if display_led:
+        send_order("<avpxyr" + str(indice) + str(abs(angle)) + "t>")
+    else:
+        send_order("<avpxyr" + str(indice) + str(abs(angle)) + "f>")
 
-    command = ("<avpxyr" + str(indice) + str(abs(angle)) + ">")
-    send_order(command)
+    # command = ("<avpxyr" + str(indice) + str(abs(angle)) + ">")
+    # send_order(command)
 
     if finish_state == True:
 
@@ -752,7 +792,7 @@ def get_color_card(return_type: str="rgb"):
     green_val  = abs(r - 148) + abs(g - 255) + abs(b - 214)
     blue_val   = abs(r - 115) + abs(g - 140) + abs(b - 240)
     red_val    = abs(r - 255) + abs(g - 167) + abs(b -  163)
-    black_val   = abs (r - 56) + abs(g - 73) + abs(b - 73)
+    black_val  = abs (r - 56) + abs(g - 73) + abs(b - 73)
 
     color = "white"
     mini_val = white_val
@@ -1208,7 +1248,7 @@ def set_led_shape(value):
 # if (value == "check_auto")    {check_auto}
 # if (value == "breath")        {breath}
 
-def set_led_anim(value):
+def set_led_anim(value:str, nb_loop:int=1):
     """
     Starting an animation with LEDs
 
@@ -1225,8 +1265,12 @@ def set_led_anim(value):
     if not isinstance(value, str):
         print ("[ERROR] 'value' parameter must be a string")
         return None
+    
+    if not isinstance(nb_loop, int):
+        print ("[ERROR] 'nb_loop' parameter must be a integer")
+        return None
 
-    msg = "<53"+str(value)+">"
+    msg = "<53"+str(value)+ "/" + str(nb_loop)+ ">"
     send_order(msg)
 
 def set_led_single(type,id,red,green,blue):
@@ -1457,12 +1501,12 @@ def drive_single_motor_speed(id: int, acc:int, value: int):
     if value> 100 or value<-100:
         print ("[ERROR] 'value' parameter must be include between -100 and 100")
         return None
-    
-    if id == 2 or id == 3:
+
+    if id == 1 or id == 4:
         value = -value
 
     value = value * 70
-    msg = "<610i"+str(id)+"a"+str(acc)+"v"+str(-value)+">"
+    msg = "<610i"+str(id)+"a"+str(acc)+"v"+str(value)+">"
     send_order(msg)
 
 def drive_single_motor_speed_front_left(acc:int, value: int):  # de -100 à 100

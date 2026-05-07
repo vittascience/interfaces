@@ -214,35 +214,10 @@ const Main = (function () {
 
     Code.editor = {};
     Code.initEditor = function () {
-        const interfaceName = Code.getInterface();
-        if (["arduino", "letsstartcoding", "mBot"].includes(interfaceName)) {
-            var langMode = ace.require("ace/mode/c_cpp").Mode;
-        } else if (interfaceName == "web") {
-            var langMode = ace.require("ace/mode/html").Mode;
-        } else {
-            var langMode = ace.require("ace/mode/python").Mode;
-        }
-        var langTools = ace.require("ace/ext/language_tools");
 
-        // Ace editor handler
         Code.editor.container = ace.edit(document.getElementById("content_code"));
-        Code.editor.container.session.setMode(new langMode());
-        Code.editor.container.setOptions({
-            // to make popup appear automatically, without explicit _ctrl+space_
-            enableLiveAutocompletion: true,
-            fontSize: '12pt',
-            cursorStyle: 'wide',
-            wrapBehavioursEnabled: true,
-            tabSize: 2,
-            useSoftTabs: true,
-            hScrollBarAlwaysVisible: false,
-            vScrollBarAlwaysVisible: false,
-            wrap: -1,
-            indentedSoftWrap: true,
-            showPrintMargin: false,
-            highlightActiveLine: false,
-            highlightGutterLine: true
-        });
+
+        InterfaceAutocomplete.init(Code.editor.container, Code.getInterface());
 
         /**
          * Keybord escape from Ace editor : Esc + tab
@@ -276,7 +251,7 @@ const Main = (function () {
         const parentContentCode = document.getElementById('content_code').parentElement;
         const div = document.createElement('div');
         div.innerHTML = `
-            <button class="btn-zoom-editor" onclick="Main.toggleZoomInEditor()" tabindex=0 data-toggle="tooltip" data-placement="top" title="Zoom-in" data-i18n="[title]code.editor.buttons.zoomIn">
+            <button class="btn-zoom-editor" onclick="Main.toggleZoomInEditor()" tabindex=0 data-toggle="tooltip" data-placement="top" title="Zoom-in" data-i18n="[title]code.editor.buttons.zoomIn;[aria-label]code.editor.buttons.zoomIn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 41 41">
                     <g id="zoom" transform="translate(-1172 -644)">
                     <g id="Ellipse_834" data-name="Ellipse 834" transform="translate(1172 644)" fill="none" stroke="currentColor" stroke-width="3">
@@ -288,7 +263,7 @@ const Main = (function () {
                     </g>
                 </svg>
             </button>
-            <button class="btn-zoom-editor" onclick="Main.toggleZoomOutEditor()" tabindex=0 data-toggle="tooltip" data-placement="top" title="Zoom-out" data-i18n="[title]code.editor.buttons.zoomOut">
+            <button class="btn-zoom-editor" onclick="Main.toggleZoomOutEditor()" tabindex=0 data-toggle="tooltip" data-placement="top" title="Zoom-out" data-i18n="[title]code.editor.buttons.zoomOut;[aria-label]code.editor.buttons.zoomOut">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 41 41">
                     <g id="dezoom" transform="translate(-1172 -689)">
                         <g id="Ellipse_835" data-name="Ellipse 835" transform="translate(1172 689)" fill="none" stroke="currentColor" stroke-width="3">
@@ -299,7 +274,7 @@ const Main = (function () {
                     </g>
                 </svg>
             </button>
-            <button class="btn-zoom-editor" onclick="Main.copyEditorCode()" tabindex=0 data-bs-toggle="tooltip" data-bs-placement="top" title="Copy" data-i18n="[title]code.editor.buttons.copy">
+            <button class="btn-zoom-editor" onclick="Main.copyEditorCode()" tabindex=0 data-bs-toggle="tooltip" data-bs-placement="top" title="Copy" data-i18n="[title]code.editor.buttons.copy;[aria-label]code.editor.buttons.copy">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 41 41">
                     <path id="icon-copy" d="M210.425,102.151h-23a6.007,6.007,0,0,0-6,6,6.007,6.007,0,0,0-6,6v23a6.007,6.007,0,0,0,6,6h23a6.006,6.006,0,0,0,6-6,6.006,6.006,0,0,0,6-6v-23A6.006,6.006,0,0,0,210.425,102.151Zm3,29a3,3,0,0,1-3,3v-20a6.006,6.006,0,0,0-6-6h-20a3,3,0,0,1,3-3h23a3,3,0,0,1,3,3Z" transform="translate(-175.425 -102.151)" fill="currentColor"/>
                 </svg>
@@ -323,33 +298,21 @@ const Main = (function () {
             }
             if (CodeManager.getSharedInstance().isCodeSelected() == true || CodeManager.getSharedInstance().isCodeOnlySelected() || !Main.getIsXmlBasedInterface()) {
                 CodeManager.getSharedInstance().codeWasManuallyModified = true;
-                CodeManager.getSharedInstance().updateTextCode(Code.editor.container.getSession().getValue());
+                const code = Code.editor.container.getSession().getValue();
+                CodeManager.getSharedInstance().updateTextCode(code);
                 if (typeof projectManager !== 'undefined' && projectManager) {
                     projectManager._refreshProjectStatus();
                 }
             }
             if (INTERFACE_NAME === 'python' || Main.hasCpp2Blocks() || Main.hasPython2Blocks()) {
-                CodeManager.getSharedInstance().updateTextCode(Code.editor.container.getSession().getValue());
-                if (Main.getCodingMode() !== 'block' && Code.editor.container.isFocused()) {
+                const code = Code.editor.container.getSession().getValue();
+                CodeManager.getSharedInstance().updateTextCode(code);
+                if (Main.getCodingMode() === 'mixed' && Code.editor.container.isFocused()) {
                     CodeManager.getSharedInstance().codeWasManuallyModified = true;
-                    if (INTERFACE_NAME === 'python') {
-                        updatePyBlockCode();
-                    } else if (Main.hasCpp2Blocks()) {
-                        if (Cpp2Blocks !== "undefined" && Cpp2Blocks.initialized === true) {
-                            Cpp2Blocks.injectBlocks();
-                        };
-                    } else if (Main.hasPython2Blocks()) {
-                        if (Python2Blocks !== "undefined" && Python2Blocks.initialized === true) {
-                            Python2Blocks.prepareInjection();
-                        }
-                    }
-                    if (typeof projectManager !== 'undefined' && projectManager) {
-                        projectManager._refreshProjectStatus();
-                    }
+                    Code.editor.convertCodeToBlocks();
                 }
-
             }
-            if (Main.getCodingMode !== 'code' && Main.hasDragAndDrop()) {
+            if (Main.getCodingMode() !== 'code' && Main.hasDragAndDrop()) {
                 dragAndDrop.updateDictionnaries();
             }
             if (typeof Simulator !== 'undefined') {
@@ -365,20 +328,6 @@ const Main = (function () {
                 }
             }
         });
-
-        if (["wb55", "l476", "arduino", "letsstartcoding", "mBot", "cyberpi"].includes(Code.getInterface())) {
-            try {
-                const tipDict = generateDictionary(assignTips(Code.getInterface()));
-                const customCompleter = {
-                    getCompletions: (editor, session, pos, prefix, callback) => {
-                        callback(null, tipDict);
-                    },
-                }
-                langTools.addCompleter(customCompleter);
-            } catch (error) {
-                console.error(error);
-            }
-        }
 
         //not needed in actual version may be needed in future versions when certain features are introduced
         Code.editor.collapseExternalLibrariesCode = function (pattern, countToLastLine, lastLineCharCount) {
@@ -417,8 +366,14 @@ const Main = (function () {
             const instance = CodeManager.getSharedInstance();
             instance.setCodeMode(mode);
             replaceParam("mode", mode);
-            if (Code.getInterface() === 'python' || Main.hasCpp2Blocks() || Main.hasPython2Blocks()) return;
             if (mode != "code" && mode != "codeOnly") {
+                if (Code.getInterface() === 'python' || Main.hasCpp2Blocks() || Main.hasPython2Blocks()) {
+                    if (CodeManager.getSharedInstance().codeWasManuallyModified) {
+                        Code.editor.updateCode();
+                        Code.editor.convertCodeToBlocks();
+                    }
+                    return;
+                }
                 const currentInterfaceLS = CodeManager.getSharedInstance().localStorageManager.getLocalProjectContent();
                 if (typeof projectManager !== 'undefined' && projectManager && projectManager.getCurrentProject().code != instance.getDefaultXmlStart() && currentInterfaceLS != null) {
                     instance.setXml(currentInterfaceLS.code);
@@ -433,6 +388,22 @@ const Main = (function () {
                 }
             }
             Code.editor.updateCode();
+        };
+        Code.editor.convertCodeToBlocks = function () {
+            if (INTERFACE_NAME === 'python') {
+                updatePyBlockCode();
+            } else if (Main.hasCpp2Blocks()) {
+                if (Cpp2Blocks !== "undefined" && Cpp2Blocks.initialized === true) {
+                    Cpp2Blocks.injectBlocks();
+                }
+            } else if (Main.hasPython2Blocks()) {
+                if (Python2Blocks !== "undefined" && Python2Blocks.initialized === true) {
+                    Python2Blocks.prepareInjection();
+                }
+            }
+            if (typeof projectManager !== 'undefined' && projectManager) {
+                projectManager._refreshProjectStatus();
+            }
         };
         /**
          * https://stackoverflow.com/questions/24963246/ace-editor-simply-re-enable-command-after-disabled-it
@@ -480,6 +451,7 @@ const Main = (function () {
         Blockly.Events.enable(); // Réactiver les événements Blockly
         Code.vittaNotif.displayNotification(null, `${jsonPath('code.blockly.warning.blocks')} ${block.type}`, "bg-warning");
     };
+    var draggedByGroup = null;
     /**
      *  Populate the pane with content generated from the blocks
      *  @param {object} event Event firing the render.
@@ -492,6 +464,15 @@ const Main = (function () {
             return;
         }
         if (event != null && event != undefined) {
+
+            if (event.type === Blockly.Events.BLOCK_DRAG) {
+                const draggedBlock = Code.workspace.getBlockById(event.blockId);
+                if (draggedBlock && typeof BLOCKS_OUTSIDE_SCOPE !== 'undefined' && !BLOCKS_OUTSIDE_SCOPE.includes(draggedBlock.type)) {
+                    draggedByGroup = new Set((event.blocks || []).map(b => b.id));
+                }
+                return;
+            }
+
             if (event.type == Blockly.Events.BLOCK_CREATE || event.type == Blockly.Events.BLOCK_DELETE || event.type == Blockly.Events.BLOCK_MOVE) {
                 if (Code.getInterface() !== 'python' && Code.getInterface() !== 'web') {
                     Code.manageBlocksDisabling();
@@ -566,16 +547,50 @@ const Main = (function () {
         }
     };
 
+    Code.invalidBlocksMsgSeen = false;
+
+    function displayInvalidBlocksWarning() {
+        if (!Code.invalidBlocksMsgSeen) {
+            pseudoModal.openModal('modal-warning-invalidBlocks');
+            const firstBoards = Code.toolbox.notAllowedBoardsReason[0];
+            if (firstBoards) {
+                if (typeof INTERFACE_BOARDS !== 'undefined') {
+                    let names = "";
+                    if (typeof firstBoards == 'string') {
+                        const boardName = INTERFACE_BOARDS[firstBoards].name;
+                        if (boardName) names = boardName;
+                    } else if (Array.isArray(firstBoards)) {
+                        const boardNames = Object.values(INTERFACE_BOARDS).filter(board => firstBoards.includes(board.id)).map(board => board.name);
+                        names = boardNames.join(', ');
+                    }
+                    if (names) {
+                        document.getElementById("invalidBlocks-board-names").innerHTML = jsonPath('modals.warning.project.blocksAvailableOn') + '<b>' + names + '</b>';
+                    }
+                }
+            }
+            Code.invalidBlocksMsgSeen = true;
+        }
+    };
+
     Code.manageBlocksDisabling = function () {
         const currentBlocks = Code.workspace.getAllBlocks();
         let innerBlocksToExclude = [];
         let innerBlocksToKeep = [];
+        if (draggedByGroup) {
+            for (const id of draggedByGroup) {
+                const b = Code.workspace.getBlockById(id);
+                if (b) {
+                    b.setEnabled(true);
+                }
+            }
+            draggedByGroup = null;
+        }
         for (let i = 1; i < currentBlocks.length; i++) {
             if (Code.isParentTopBlock(currentBlocks[i])) {
-                currentBlocks[i].setEnabled(true);
                 if (Code.toolbox.notAllowedToRenderBlocks.includes(currentBlocks[i].type)) {
                     currentBlocks[i].setEnabled(false);
                     Code.forceGeneration = true;
+                    displayInvalidBlocksWarning();
                 }
                 if (Blockly.Constants.Network && typeof Blockly.Constants.Network.HTML_CONTAINER_BLOCKS !== 'undefined'
                     && Blockly.Constants.Network.HTML_CONTAINER_BLOCKS.includes(currentBlocks[i].type)
@@ -818,6 +833,8 @@ const Main = (function () {
                     "contents": []
                 };
             }
+            Blockly.blockRendering.ConstantProvider.prototype.FIELD_COLOUR_FULL_BLOCK = false;
+
             Code.workspace = Blockly.inject('content_blocks', {
                 grid: {
                     spacing: 25,
@@ -846,6 +863,8 @@ const Main = (function () {
                 comments: true,
                 disable: true
             });
+
+            Code.workspace.getRenderer().getConstants().FIELD_COLOUR_FULL_BLOCK = false;
 
             // WCAG 4.1.2: aria-label on a div without role is prohibited
             try {
@@ -1162,23 +1181,7 @@ const Main = (function () {
          * @returns {boolean}
          */
         hasSimulator: function () {
-            return /(arduino|microbit|wb55|l476|esp32|TI-83|raspberrypi|niryo|nao|galaxia|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|pico|eliobot|thymio|winky|sphero|lotibot|bluebot|spike|photon|codey)/.test(Code.getInterface());
-        },
-        /**
-        * Returns true if interface has a robot simulator.
-        * @public
-        * @returns {boolean}
-        */
-        hasRobotSimulator: function () {
-            return ["microbit", "wb55", "l476", "TI-83", "mBot", "buddy", "cyberpi", "pico", "eliobot", "thymio", "sphero", "lotibot", "bluebot", "photon", "codey"].includes(INTERFACE_NAME);
-        },
-        /**
-        * Returns true if interface has a 3D robot simulator.
-        * @public
-        * @returns {boolean}
-        */
-        has3DRobotSimulator: function () {
-            return ["esp32", "l476"].includes(INTERFACE_NAME);
+            return /(arduino|microbit|wb55|l476|esp32|TI-83|raspberrypi|niryo|nao|galaxia|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|pico|eliobot|thymio|winky|sphero|lotibot|bluebot|spike|photon|codey|steami|alphai)/.test(Code.getInterface());
         },
         /**
          * Returns true if interface has an auto-corrector.
@@ -1194,7 +1197,7 @@ const Main = (function () {
          * @returns {boolean}
          */
         hasToolboxModes: function () {
-            return /(arduino|microbit|esp32|wb55|l476|TI-83|galaxia|raspberrypi|buddy|niryo|nao|GalaxiaCircuitPython|mBot|m5stack|cyberpi|eliobot|thymio|pico|winky|sphero|lotibot|bluebot|spike|photon|codey)/.test(Code.getInterface());
+            return /(arduino|microbit|esp32|wb55|l476|TI-83|galaxia|raspberrypi|buddy|niryo|nao|GalaxiaCircuitPython|mBot|m5stack|cyberpi|eliobot|thymio|pico|winky|sphero|lotibot|bluebot|spike|photon|codey|steami|alphai)/.test(Code.getInterface());
         },
         /**
          * Returns true if interface has the drag and drop feature.
@@ -1226,7 +1229,7 @@ const Main = (function () {
          * @returns {boolean}
          * */
         hasPython2Blocks: function () {
-            return /(microbit|esp32|galaxia|m5stack|pico|cyberpi|eliobot|wb55|l476|thymio|lotibot|sphero|bluebot|spike|photon|nao|codey)/.test(Code.getInterface());
+            return /(microbit|esp32|galaxia|m5stack|pico|cyberpi|eliobot|wb55|l476|thymio|lotibot|sphero|bluebot|spike|photon|nao|codey|steami)/.test(Code.getInterface());
         },
         /**
          * Returns true if interface has cpp 2 blocks.
@@ -1299,8 +1302,12 @@ const Main = (function () {
         setToolboxManager: function (toolboxMode) {
             // update toolbox
             Code.toolbox = new ToolboxManager(Code.workspace, { mode: toolboxMode });
-            Blockly.Themes.ClassicBase.blockStyles = get_defaultBlockStyles();
-            Blockly.Themes.ClassicBase.categoryStyles = get_categoryStyles(get_defaultBlockStyles());
+            const blockStyles = get_defaultBlockStyles();
+            const categoryStyles = get_categoryStyles(blockStyles);
+            for (const t in Blockly.Themes) {
+                Blockly.Themes[t].blockStyles = blockStyles;
+                Blockly.Themes[t].categoryStyles = categoryStyles;
+            }
             Code.toolbox.setToolbox();
             // Refresh workspace
             if (this.getInterface() == "TI-83" && toolboxMode == TOOLBOX_STYLE_TI_CODE) {
@@ -1374,6 +1381,9 @@ const Main = (function () {
             // success copy notification
             const successNotif = new VittaNotif()
             successNotif.displayNotification('#copy-editor-action-notif', 'Code copié avec succès', 'bg-success');
+        },
+        resetInvalidBlocksWarning() {
+            Code.invalidBlocksMsgSeen = false;
         },
         /**
          * check if the code editor is locked

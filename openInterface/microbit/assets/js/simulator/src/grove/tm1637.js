@@ -25,7 +25,6 @@ var $builtinmodule = function (name) {
             self.points = false;
             self.clk = clk.name;
             self.dio = dio.name;
-            $("#tm1637_" + self.clk).find(".subtitle-module").html('P' + self.clk + ' / P' + self.dio);
         };
 
         TM1637__init__.co_varnames = ['self', 'clk', 'dio', 'bright'];

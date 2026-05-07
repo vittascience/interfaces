@@ -31,12 +31,10 @@ const SIMULATOR_DEFAULT_BOARD = {
 };
 const SIMULATOR_DEFAULT_ROBOT = 'Rocky';
 //serial
-
 const SERIAL_PRODUCTS = {
     'codey': {
         'usbProductId': 0x7523,
         'usbVendorId': 0x1a86
     }
 };
-
 const SERIAL_PRODUCT_FILTER = true;

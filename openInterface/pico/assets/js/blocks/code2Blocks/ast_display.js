@@ -111,7 +111,7 @@ utils.prototypeBlocks['LCD1602'] = function (node, identifier) {
 		classDeclaration.mutations.items++;
 	}
 
-	Blockly.Python.addInit('lcd1602', `${identifier} = LCD1602(i2c=I2C(scl=Pin(22), sda=Pin(21)))`);
+	Blockly.Python.addInit('lcd1602', `${identifier} = LCD1602(i2c=I2C(scl=Pin(9), sda=Pin(8)))`);
 
 
 	return classDeclaration;

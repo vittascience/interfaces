@@ -7,8 +7,8 @@ const asebaTranspiler = {
 		this.tdm = null;
 		this.connectionMaxAttempts = 10;
 		this.connectionDelay = 500;
+		this.pyodideTranspiler = null;
 		this.wsUrl = 'ws://localhost:8597',
-			this.url = 'https://vaseba.vittascience.com/get-aseba-code';
 		this.fetchOptions = {
 			method: 'POST',
 			mode: 'cors',
@@ -171,27 +171,11 @@ const asebaTranspiler = {
 	failure: () => {
 		InterfaceMonitor.writeConsole('[Thymio] Failed to send', 'warning');
 	},
-	getJWT: function (code) {
-		return new Promise(async (resolve, reject) => {
-			const data = new URLSearchParams();
-			data.append('link', code);
-			let dynamicUrl = '';
-			if (typeof IS_CAPYTALE_CONTEXT !== 'undefined') {
-				dynamicUrl = 'https://fr.vittascience.com';
-			}
-			const token = await (
-				await fetch(`${dynamicUrl}/routing/Routing.php?controller=project&action=get_signed_link`, {
-					method: 'POST',
-					body: data,
-					headers: {
-						'Content-Type': 'application/x-www-form-urlencoded',
-					}
-				})
-			).json();
-			resolve(token);
-		});
-	},
 	transpileToAseba: async function (resetCode = null) {
+		if (this.pyodideTranspiler === null) {
+			this.pyodideTranspiler = new window.PyodideATranspiler();
+		}
+
 		if (this.tdm === null || !this.checkConnection()) {
 			await this.connect();
 		}
@@ -203,11 +187,8 @@ const asebaTranspiler = {
 			code = CodeManager.getSharedInstance().getCode() || '';
 
 		}
-		const token = await this.getJWT(code);
-		const dataForm = new URLSearchParams();
-		dataForm.append('code', token);
-		this.fetchOptions.body = dataForm;
-		const asebaCode = await (await fetch(this.url, this.fetchOptions)).json();
+
+		const asebaCode = await this.pyodideTranspiler.transpile(code);
 		if (!asebaCode.success) {
 			// console.error(asebaCode.code); // For debug
 			InterfaceMonitor.writeConsole('[Thymio] Transpilation failed', 'warning');
@@ -237,7 +218,7 @@ const asebaTranspiler = {
 			}
 		}
 		this.tdmPath.filesName[os].forEach(async (fileName) => {
-			await VittaInterface.fetchDir(this.tdmPath.directoryPath + fileName, true)
+			await VittaInterface.fetchDir(this.tdmPath.directoryPath + fileName, "blob")
 				.then(function (blob) {
 					const url = window.URL.createObjectURL(blob);
 					const a = document.createElement('a');

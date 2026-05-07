@@ -110,7 +110,7 @@
 .thymio-download-tdm {
 	text-decoration: underline;
 	cursor: pointer;
-	color: blue;
+	color: var(--vitta-blue-dark, #0a58ca);
 }
 
 #download-firmware-opt-mac>img,

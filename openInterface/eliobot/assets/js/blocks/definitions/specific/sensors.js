@@ -38,27 +38,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
 
     },
-    // Block for backpack humidity (using dht11 sensor).
-    {
-        "type": "sensors_dht11_temperature",
-        "message0": "%{BKY_SENSORS_DHT11_TEMPERATURE_TITLE}",
-        "output": "Number",
-        "style": "sensors_blocks",
-        "tooltip": "%{BKY_SENSORS_DHT11_TEMPERATURE_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-    {
-        "type": "sensors_dht11_humidity",
-        "message0": "%{BKY_SENSORS_DHT11_HUMIDITY_TITLE}",
-        "output": "Number",
-        "style": "sensors_blocks",
-        "tooltip": "%{BKY_SENSORS_DHT11_HUMIDITY_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
     // this block make the robot follow a line
     {
         "type": "sensors_line_follow",
@@ -99,11 +78,11 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
                 "type": "field_dropdown",
                 "name": "SENSORCHOICE",
                 "options": [
-                    ["%{BKY_SENSORS_LINE_LEFT}", "left"],
-                    ["%{BKY_SENSORS_LINE_MIDDLE_LEFT}", "middleleft"],
-                    ["%{BKY_SENSORS_LINE_MIDDLE}", "middle"],
-                    ["%{BKY_SENSORS_LINE_MIDDLE_RIGHT}", "middleright"],
-                    ["%{BKY_SENSORS_LINE_RIGHT}", "right"]
+                    ["%{BKY_SENSORS_LINE_LEFT}", "0"],
+                    ["%{BKY_SENSORS_LINE_MIDDLE_LEFT}", "1"],
+                    ["%{BKY_SENSORS_LINE_MIDDLE}", "2"],
+                    ["%{BKY_SENSORS_LINE_MIDDLE_RIGHT}", "3"],
+                    ["%{BKY_SENSORS_LINE_RIGHT}", "4"]
                 ]
             }
         ],
@@ -123,11 +102,11 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
                 "type": "field_dropdown",
                 "name": "SENSORCHOICE",
                 "options": [
-                    ["%{BKY_SENSORS_LINE_LEFT}", "left"],
-                    ["%{BKY_SENSORS_LINE_MIDDLE_LEFT}", "middleleft"],
-                    ["%{BKY_SENSORS_LINE_MIDDLE}", "middle"],
-                    ["%{BKY_SENSORS_LINE_MIDDLE_RIGHT}", "middleright"],
-                    ["%{BKY_SENSORS_LINE_RIGHT}", "right"]
+                    ["%{BKY_SENSORS_LINE_LEFT}", "0"],
+                    ["%{BKY_SENSORS_LINE_MIDDLE_LEFT}", "1"],
+                    ["%{BKY_SENSORS_LINE_MIDDLE}", "2"],
+                    ["%{BKY_SENSORS_LINE_MIDDLE_RIGHT}", "3"],
+                    ["%{BKY_SENSORS_LINE_RIGHT}", "4"]
                 ]
             }
         ],
@@ -137,5 +116,14 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "extensions": [
             "block_init_helpurl"
         ]
+    },
+    {
+        "type": "sensors_auto_line_calibration",
+        "message0": "%{BKY_SENSORS_AUTO_LINE_CALIBRATION}",
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "sensors_blocks",
+        "tooltip": "%{BKY_SENSORS_AUTO_LINE_CALIBRATION_TOOLTIP}",
+        "helpUrl": "https://docs.eliobot.com/docs/eliobot/sensors-line"
     }
 ]);

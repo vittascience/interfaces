@@ -1,5 +1,5 @@
 /**
- * @fileoverview Spanish translation file for interfaces Toolbox. (SP)
+ * @fileoverview Spanish translation file for interfaces Toolbox. (ES)
  */
 
 Blockly.MESSAGES = {
@@ -40,9 +40,318 @@ Blockly.MESSAGES = {
     hello_cyberpi: 'Bienvenido a CyberPi !',
     label: 'etiqueta',
     // For Python
-    modelPath: 'https://it.vittascience.com/ia/model/644237cc1072c/',
-    modelSoundPath: 'https://it.vittascience.com/ia/model/64413850632bb/',
-    modelPosturePath: 'https://it.vittascience.com/ia/model/66043c5502768/'
+    modelPath: 'https://vittascience.com/ia/model/644237cc1072c/',
+    modelSoundPath: 'https://vittascience.com/ia/model/64413850632bb/',
+    modelPosturePath: 'https://vittascience.com/ia/model/66043c5502768/'
 };
 
-Blockly.Msg['CATEGORY_AI_CAMERAS'] = 'Cámaras IA';
+// Toolbox basic category names.
+Blockly.Msg['CATEGORY_LOGIC'] = 'Lógica';
+Blockly.Msg['CATEGORY_LOOPS'] = 'Bucles';
+Blockly.Msg['CATEGORY_MATH'] = 'Matemáticas';
+Blockly.Msg['CATEGORY_TEXT'] = 'Texto';
+Blockly.Msg['CATEGORY_VARIABLES'] = 'Variables';
+Blockly.Msg['CATEGORY_LISTS'] = 'Listas';
+Blockly.Msg['CATEGORY_PROCEDURES'] = 'Funciones';
+Blockly.Msg['CATEGORY_EXCEPTION'] = 'Excepciones';
+Blockly.Msg['CATEGORY_COLOUR'] = 'Color';
+Blockly.Msg['CATEGORY_DICTIONARIES'] = 'Diccionarios';
+// Toolbox hardware category names.
+Blockly.Msg['CATEGORY_DISPLAY'] = 'Visualización';
+Blockly.Msg['CATEGORY_IO'] = 'Entradas/Salidas';
+Blockly.Msg['CATEGORY_COMMUNICATION'] = 'Comunicación';
+Blockly.Msg['CATEGORY_NETWORK'] = 'Red';
+Blockly.Msg['CATEGORY_SENSORS'] = 'Sensores';
+Blockly.Msg['CATEGORY_ACTUATORS'] = 'Actuadores';
+Blockly.Msg['CATEGORY_ROBOTS'] = 'Robots';
+Blockly.Msg['CATEGORY_VITTAIA'] = 'IA';
+Blockly.Msg['CATEGORY_TIME'] = 'Tiempo';
+// Toolbox scratch mode
+Blockly.Msg['CATEGORY_APPEARANCE'] = 'Apariencia';
+Blockly.Msg['CATEGORY_SOUND'] = 'Sonido';
+Blockly.Msg['CATEGORY_CONTROL'] = 'Control';
+Blockly.Msg['CATEGORY_OPERATORS'] = 'Operadores';
+Blockly.Msg['CATEGORY_EVENTS'] = 'Eventos';
+// Specific categories
+Blockly.Msg['CATEGORY_MOVEMENT'] = 'Movimiento';
+Blockly.Msg['CATEGORY_UTILITY'] = 'Utilidad';
+Blockly.Msg['CATEGORY_GAME'] = 'Juego';
+Blockly.Msg['CATEGORY_TOOL'] = 'Herramientas';
+Blockly.Msg['CATEGORY_PROCESS'] = 'Proceso';
+Blockly.Msg['CATEGORY_VISION'] = 'Visión';
+Blockly.Msg['CATEGORY_VOICE_INTERACTIONS'] = 'Voz';
+Blockly.Msg['CATEGORY_CAMERA'] = 'Cámara';
+Blockly.Msg['CATEGORY_TURTLE'] = 'Tortuga';
+Blockly.Msg['CATEGORY_GRAPHICS'] = 'Gráficos';
+Blockly.Msg['CATEGORY_NUMPY'] = 'Numpy';
+Blockly.Msg['CATEGORY_ACTIONS'] = 'Acciones';
+Blockly.Msg['CATEGORY_SCREEN'] = 'Pantalla';
+Blockly.Msg['CATEGORY_DRONE'] = 'Dron';
+Blockly.Msg['CATEGORY_MUSIC'] = 'Música';
+
+// Toolbox hardware subcategories
+// DISPLAY
+Blockly.Msg['SUBCATEGORY_DISPLAY'] = 'Visualización';
+Blockly.Msg['SUBCATEGORY_DISPLAYS_LCD'] = 'Pantalla LCD';
+Blockly.Msg['SUBCATEGORY_DISPLAYS_OLED'] = 'Pantalla OLED';
+Blockly.Msg['SUBCATEGORY_LED'] = 'LED';
+Blockly.Msg['SUBCATEGORY_NEOPIXEL'] = 'Neopixel';
+Blockly.Msg['SUBCATEGORY_DISPLAYS_LED_MATRIX'] = 'Matriz de LED';
+Blockly.Msg['SUBCATEGORY_DISPLAYS_RGB_LED_MATRIX'] = 'Matriz de LED RGB';
+Blockly.Msg['SUBCATEGORY_CHAINABLE_LED_RGB'] = 'LED RGB encadenable';
+// IO
+Blockly.Msg['SUBCATEGORY_IO'] = 'Entradas/Salidas';
+Blockly.Msg['SUBCATEGORY_TIME'] = 'Tiempo';
+Blockly.Msg['SUBCATEGORY_EXTERNAL_INPUTS'] = 'Entradas externas';
+Blockly.Msg['SUBCATEGORY_PINS'] = 'Pines';
+Blockly.Msg['SUBCATEGORY_EVENTS'] = 'Eventos';
+// COMMUNICATION
+Blockly.Msg['SUBCATEGORY_SERIAL_CONNECTION'] = 'Conexión serie';
+Blockly.Msg['SUBCATEGORY_GPS'] = 'GPS';
+Blockly.Msg['SUBCATEGORY_NFC'] = 'NFC';
+Blockly.Msg['SUBCATEGORY_LORA'] = 'LoRa';
+Blockly.Msg['SUBCATEGORY_DATA_LOGGING'] = 'Registro de datos';
+Blockly.Msg['SUBCATEGORY_INTEGRATED_BT'] = 'Bluetooth integrado';
+Blockly.Msg['SUBCATEGORY_EXTERNAL_BLUETOOTH'] = 'Módulos Bluetooth externos';
+Blockly.Msg['SUBCATEGORY_TRACKING_MODULES'] = 'Módulos de seguimiento';
+Blockly.Msg['SUBCATEGORY_UART'] = 'UART';
+Blockly.Msg['SUBCATEGORY_WIRELESS_COMMUNICATION'] = 'Comunicación inalámbrica';
+Blockly.Msg['SUBCATEGORY_IR_COMMUNICATION'] = 'Comunicación por infrarrojos';
+Blockly.Msg['SUBCATEGORY_INTEGRATED_RADIO'] = 'Radio integrada';
+// NETWORK
+Blockly.Msg['SUBCATEGORY_WIFI'] = 'WiFi';
+Blockly.Msg['SUBCATEGORY_SERVER'] = 'Servidor';
+Blockly.Msg['SUBCATEGORY_CLIENT'] = 'Cliente';
+Blockly.Msg['SUBCATEGORY_WEB_PAGE'] = 'Crear página web';
+Blockly.Msg['SUBCATEGORY_DATA_WEB_PAGE'] = 'Datos de la página web';
+Blockly.Msg['SUBCATEGORY_HTTP'] = 'HTTP';
+Blockly.Msg['SUBCATEGORY_UMAIL'] = 'Correo';
+Blockly.Msg['SUBCATEGORY_MQTT'] = 'MQTT';
+// SENSORS
+Blockly.Msg['SUBCATEGORY_SENSORS'] = 'Sensores';
+Blockly.Msg['SUBCATEGORY_SENSORS_GAS'] = 'Sensores de gas';
+Blockly.Msg['SUBCATEGORY_SENSORS_CLIMATE'] = 'Sensores meteorológicos';
+Blockly.Msg['SUBCATEGORY_SENSORS_SOUNDLIGHT'] = 'Sensores de sonido y luz';
+Blockly.Msg['SUBCATEGORY_SENSORS_DISTANCEMOVEMENT'] = 'Sensores de distancia y movimiento';
+Blockly.Msg['SUBCATEGORY_SENSORS_OTHER'] = 'Otros sensores';
+// ACTUATORS
+Blockly.Msg['SUBCATEGORY_MOTORS'] = 'Motores';
+Blockly.Msg['SUBCATEGORY_MUSIC'] = 'Música';
+Blockly.Msg['SUBCATEGORY_MOSFET'] = 'MOSFET';
+Blockly.Msg['SUBCATEGORY_ACTUATORS_OTHER'] = 'Otros actuadores';
+// ROBOTS
+Blockly.Msg['SUBCATEGORY_SERVOMOTORS'] = 'Servomotores';
+Blockly.Msg['SUBCATEGORY_DETECTION'] = 'Detección';
+Blockly.Msg['SUBCATEGORY_CAMERA'] = 'Cámara';
+// IA
+Blockly.Msg['SUBCATEGORY_CAMERAS'] = 'Cámaras';
+Blockly.Msg['SUBCATEGORY_SENSOR_DATA'] = 'Datos del sensor';
+Blockly.Msg['SUBCATEGORY_VITTAIA_SENSOR_DATA'] = 'IA Datos del sensor';
+Blockly.Msg['SUBCATEGORY_VITTAIA_IMAGE'] = 'IA Imagen';
+Blockly.Msg['SUBCATEGORY_VITTAIA_POSTURE'] = 'IA Postura';
+Blockly.Msg['SUBCATEGORY_VITTAIA_SOUND'] = 'IA Sonido';
+Blockly.Msg['SUBCATEGORY_VITTAIA_TEXT'] = 'IA Texto';
+// OTHERS
+Blockly.Msg['SUBCATEGORY_LOGIC'] = Blockly.Msg['CATEGORY_LOGIC'];
+Blockly.Msg['SUBCATEGORY_LOOPS'] = Blockly.Msg['CATEGORY_LOOPS'];
+Blockly.Msg['SUBCATEGORY_ENCRYPTION'] = 'Cifrado';
+Blockly.Msg['SUBCATEGORY_CONSOLE'] = 'Consola';
+Blockly.Msg['SUBCATEGORY_BUTTON'] = 'Botón';
+Blockly.Msg['SUBCATEGORY_INFRARED'] = 'Infrarrojo';
+Blockly.Msg['SUBCATEGORY_MICROPHONE'] = 'Micrófono';
+Blockly.Msg['SUBCATEGORY_COMPUTER'] = 'Ordenador';
+
+// Arduino
+Blockly.Msg['SUBCATEGORY_BUILTIN_LED_MATRIX'] = 'Matriz de LED integrada';
+Blockly.Msg['SUBCATEGORY_I2C_MOTOR_DRIVER'] = 'Controlador de motor I2C';
+Blockly.Msg['SUBCATEGORY_MINI_I2C_MOTOR_DRIVER'] = 'Mini controlador de motor I2C';
+Blockly.Msg['SUBCATEGORY_ARDUINO_SHILED_MOTOR'] = 'Shield de motor Arduino';
+
+// BBC micro:bit
+Blockly.Msg['SUBCATEGORY_MICROBIT'] = 'micro:bit';
+Blockly.Msg['SUBCATEGORY_KITRONIK'] = "Kitronik"
+Blockly.Msg['SUBCATEGORY_GAMES'] = 'Juegos';
+Blockly.Msg['SUBCATEGORY_EXEC'] = 'Ejecutar código Python';
+Blockly.Msg['SUBCATEGORY_MICROBIT_LOG'] = 'Registro micro:bit';
+Blockly.Msg['SUBCATEGORY_ENVIRO_BIT'] = 'Enviro:bit';
+Blockly.Msg['SUBCATEGORY_WEATHER_BIT'] = 'Weather:bit';
+Blockly.Msg['SUBCATEGORY_KITRONIK_ENVIRONMENTAL'] = 'Shield medioambiental Kitronik';
+Blockly.Msg['SUBCATEGORY_SPEECH'] = 'Speech';
+Blockly.Msg['SUBCATEGORY_MAQUEEN'] = 'Maqueen Lite';
+Blockly.Msg['SUBCATEGORY_MAQUEEN_PLUS'] = 'Maqueen Plus';
+Blockly.Msg['SUBCATEGORY_LIDAR'] = 'LiDAR';
+Blockly.Msg['SUBCATEGORY_LINE_FINDER'] = 'Seguidor de línea';
+Blockly.Msg['SUBCATEGORY_CONTROL'] = 'Control';
+Blockly.Msg['SUBCATEGORY_CUTEBOT'] = 'Cutebot';
+Blockly.Msg['SUBCATEGORY_CUTEBOT_PRO'] = 'Cutebot Pro';
+Blockly.Msg['SUBCATEGORY_MOVING'] = 'Movimiento';
+Blockly.Msg['SUBCATEGORY_RGB_LED'] = 'LED RGB';
+Blockly.Msg['SUBCATEGORY_PID'] = 'PID';
+Blockly.Msg['SUBCATEGORY_REMOTE_CONTROL'] = 'Mando a distancia por infrarrojos';
+Blockly.Msg['SUBCATEGORY_MOTOR_PORT'] = 'Puerto de motor (M)';
+Blockly.Msg['SUBCATEGORY_KITROBOT'] = 'Kitro:bot v2';
+Blockly.Msg['SUBCATEGORY_CODO'] = 'Codo';
+Blockly.Msg['SUBCATEGORY_OOBYBOT'] = 'Oobybot';
+Blockly.Msg['SUBCATEGORY_BUGGY'] = 'Buggy';
+Blockly.Msg['SUBCATEGORY_BITBOT'] = 'Bit:Bot';
+Blockly.Msg['SUBCATEGORY_BITCAR'] = 'BitCar';
+Blockly.Msg['SUBCATEGORY_GAMEPAD'] = 'Gamepad';
+Blockly.Msg['SUBCATEGORY_TELLO'] = 'Tello - Comando básico';
+Blockly.Msg['SUBCATEGORY_TELLO_SEND_COMMAND'] = 'Tello - Enviar comando';
+Blockly.Msg['SUBCATEGORY_TELLO_READ'] = 'Tello - Recibir datos';
+Blockly.Msg['SUBCATEGORY_HUSKYLENS'] = 'HuskyLens';
+Blockly.Msg['SUBCATEGORY_ZIP_HALO'] = 'Kitronik ZIP Halo HD';
+
+// Python
+Blockly.Msg['SUBCATEGORY_MATPLOTLIB'] = 'Matplotlib';
+Blockly.Msg['SUBCATEGORY_ARRAYS_MATRIX'] = 'Arrays y matrices';
+Blockly.Msg['SUBCATEGORY_OPERATIONS'] = 'Operaciones';
+
+// WB55 - L476
+Blockly.Msg['SUBCATEGORY_ALPHABOT_SENSORS'] = 'Alphabot - Sensores';
+Blockly.Msg['SUBCATEGORY_ALPHABOT_MOTORS'] = 'Alphabot - Motores';
+Blockly.Msg['SUBCATEGORY_ALPHABOT_OLED'] = 'Alphabot - Pantalla OLED';
+Blockly.Msg['SUBCATEGORY_ALPHABOT_COMMANDS'] = 'Alphabot - Controles';
+Blockly.Msg['SUBCATEGORY_ALPHABOT_LED_RGB'] = 'Alphabot - LED RGB';
+Blockly.Msg['SUBCATEGORY_RTC'] = 'Reloj en tiempo real (Módulo integrado)';
+Blockly.Msg['SUBCATEGORY_EXPANSION_IKS01A3'] = 'Placa de expansión IKS01A3';
+// L476
+Blockly.Msg['SUBCATEGORY_L476'] = 'L476';
+Blockly.Msg['SUBCATEGORY_DONUTBOT_SENSORS'] = 'Donutbot - Sensores';
+Blockly.Msg['SUBCATEGORY_DONUTBOT_MOTORS'] = 'Donutbot - Motores';
+Blockly.Msg['SUBCATEGORY_DONUTBOT_LED_RGB'] = 'Donutbot - LED RGB';
+Blockly.Msg['SUBCATEGORY_DONUTBOT_IO'] = 'Donutbot - Entradas/Salidas';
+Blockly.Msg['SUBCATEGORY_DONUTBOT_COMMUNICATION'] = 'Donutbot - Comunicación';
+// WB55
+Blockly.Msg['SUBCATEGORY_WB55'] = 'WB55';
+Blockly.Msg['SUBCATEGORY_STEAMI'] = 'STeaMi';
+Blockly.Msg['SUBCATEGORY_BLUETOOTH_BLE'] = 'Bluetooth (Módulo BLE integrado)';
+
+// Nao
+Blockly.Msg['SUBCATEGORY_ANIMATED_SPEECH'] = 'Discurso animado';
+Blockly.Msg['SUBCATEGORY_ASR'] = 'Reconocimiento de voz';
+Blockly.Msg['SUBCATEGORY_CAPITAL_CITY'] = 'Capitales y países';
+Blockly.Msg['SUBCATEGORY_STORY_TELLING'] = 'Narración interactiva';
+Blockly.Msg['SUBCATEGORY_MENTAL_CALCULATION'] = 'Cálculo mental';
+// Nyrio
+Blockly.Msg['SUBCATEGORY_MOVEMENT_JOINTS'] = 'Articulaciones';
+Blockly.Msg['SUBCATEGORY_MOVEMENT_POSE'] = 'Posicionamiento';
+Blockly.Msg['SUBCATEGORY_TOOL'] = 'Herramientas';
+Blockly.Msg['SUBCATEGORY_DISPLAY_LED_RING'] = 'Anillo LED';
+Blockly.Msg['SUBCATEGORY_ACTUATORS_CONVEYOR'] = 'Cinta transportadora';
+Blockly.Msg['SUBCATEGORY_SENSOR_IR_CONVEYOR'] = 'Sensor IR (cinta transportadora)';
+Blockly.Msg['SUBCATEGORY_UTILITIES'] = 'Utilidades';
+
+// Pico
+Blockly.Msg['SUBCATEGORY_PICO_LED'] = 'Raspberry Pi Pico';
+Blockly.Msg["SUBCATEGORY_KITRO"] = "Kitronik";
+
+// Buddy
+Blockly.Msg['SUBCATEGORY_OBJECT_DETECTION'] = 'Detección de objetos';
+Blockly.Msg['SUBCATEGORY_MOTION_DETECTION'] = 'Detección de movimiento';
+Blockly.Msg['SUBCATEGORY_PERSON_TRACKING'] = 'Seguimiento de personas';
+Blockly.Msg['SUBCATEGORY_VISION'] = 'Visión';
+Blockly.Msg['SUBCATEGORY_FACE'] = 'Rostro';
+Blockly.Msg['SUBCATEGORY_DISTANCE'] = 'Distancia';
+Blockly.Msg['SUBCATEGORY_TOUCH'] = 'Sensor táctil';
+Blockly.Msg['SUBCATEGORY_BATTERY'] = 'Batería';
+Blockly.Msg['SUBCATEGORY_MOTION_SENSOR'] = 'Sensor de movimiento';
+Blockly.Msg['SUBCATEGORY_COLOR'] = 'Color';
+Blockly.Msg['SUBCATEGORY_HEAD_MOVEMENTS'] = 'Movimientos de la cabeza';
+Blockly.Msg['SUBCATEGORY_WHEELS'] = 'Ruedas';
+Blockly.Msg['SUBCATEGORY_TALK'] = 'Hablar';
+Blockly.Msg['SUBCATEGORY_VOLUME'] = 'Volumen de sonido';
+Blockly.Msg['SUBCATEGORY_SPEECH_RATE'] = 'Velocidad del habla';
+Blockly.Msg['SUBCATEGORY_PITCH'] = 'Tono de voz';
+
+// ESP32
+Blockly.Msg['SUBCATEGORY_ESP32'] = 'ESP32';
+Blockly.Msg['SUBCATEGORY_ESP32_CAM'] = 'Cámara ESP32';
+Blockly.Msg["SUBCATEGORY_ILO"] = "Ilo";
+Blockly.Msg['SUBCATEGORY_ALVIK'] = 'Alvik';
+Blockly.Msg['SUBCATEGORY_ALVIK_MOTORS'] = 'Alvik - Motores';
+Blockly.Msg['SUBCATEGORY_ALVIK_LEDS'] = 'Alvik - LEDs';
+Blockly.Msg['SUBCATEGORY_ALVIK_SENSORS'] = 'Alvik - Sensores';
+
+// Thymio
+Blockly.Msg['SUBCATEGORY_THYMIO'] = 'Thymio';
+Blockly.Msg['SUBCATEGORY_SOUND'] = 'Sonido';
+Blockly.Msg['SUBCATEGORY_SOUNDS'] = 'Sonidos';
+
+// Cyberpi
+Blockly.Msg['SUBCATEGORY_CYBERPI'] = 'CyberPi';
+Blockly.Msg['SUBCATEGORY_CHART'] = 'Gráfico';
+Blockly.Msg['SUBCATEGORY_BUTTONS'] = 'Botones';
+Blockly.Msg['SUBCATEGORY_AUDIO'] = 'Audio';
+Blockly.Msg['SUBCATEGORY_ENCODER_MOTORS'] = 'Motores con codificador';
+Blockly.Msg['SUBCATEGORY_MOTORS_M1_M2'] = 'Motores M1 y M2';
+Blockly.Msg['SUBCATEGORY_ULTRASONIC_SENSORS'] = 'Sensores ultrasónicos';
+Blockly.Msg['SUBCATEGORY_QUAD_RGB_SENSORS'] = 'Sensores RGB cuádruples';
+
+// Eliobot
+Blockly.Msg['SUBCATEGORY_ELIOBOT'] = 'Eliobot';
+Blockly.Msg['SUBCATEGORY_LINE_SENSORS'] = 'Sensores de línea';
+Blockly.Msg['SUBCATEGORY_BUZZER'] = 'Zumbador';
+
+// Galaxia
+Blockly.Msg['SUBCATEGORY_GALAXIA'] = 'Galaxia';
+Blockly.Msg['SUBCATEGORY_GALAXIA_DISPLAY'] = 'Galaxia - Pantalla';
+Blockly.Msg['SUBCATEGORY_GALAXIA_RGB_LED'] = 'Galaxia - LED RGB';
+Blockly.Msg['SUBCATEGORY_GALAXIA_GRAPHICS'] = 'Galaxia - Gráficos';
+Blockly.Msg['SUBCATEGORY_GALAXIA_A_B'] = 'Galaxia - Botones A y B';
+Blockly.Msg['SUBCATEGORY_GALAXIA_TOUCH_BUTTONS'] = 'Galaxia - Botones táctiles';
+Blockly.Msg['SUBCATEGORY_INFRARED_COMMUNICATION'] = 'Comunicación por infrarrojos';
+Blockly.Msg['SUBCATEGORY_GALAXIA_LOG'] = 'Galaxia - Registro';
+
+// M5Stack
+Blockly.Msg['SUBCATEGORY_M5STACK'] = 'M5Stack';
+Blockly.Msg['SUBCATEGORY_SETTINGS'] = 'Ajustes';
+Blockly.Msg['SUBCATEGORY_DRAW_TITLE'] = 'Draw - Título';
+Blockly.Msg['SUBCATEGORY_DRAW_LABEL'] = 'Draw - Texto';
+Blockly.Msg['SUBCATEGORY_DRAW_RECT'] = 'Draw - Rectángulo';
+Blockly.Msg['SUBCATEGORY_DRAW_CIRCLE'] = 'Draw - Círculo';
+Blockly.Msg['SUBCATEGORY_DRAW_TRIANGLE'] = 'Draw - Triángulo';
+Blockly.Msg['SUBCATEGORY_DRAW_LINE'] = 'Draw - Línea';
+Blockly.Msg['SUBCATEGORY_GRAPHICS'] = 'Gráficos';
+
+// Raspberry Pi
+Blockly.Msg['SUBCATEGORY_SENSEHAT_JOYSTICK'] = 'Sense HAT - Joystick';
+Blockly.Msg['SUBCATEGORY_SENSEHAT_SENSORS'] = 'Sense HAT - Sensores';
+Blockly.Msg['SUBCATEGORY_SENSEHAT_MATRIX'] = 'Sense HAT - Matriz de LED';
+Blockly.Msg['MESSAGE_ROBOTS_USB_CAMERA'] = 'Para programar la cámara USB, los bloques están disponibles en la categoría \'Sensores\'.';
+
+// Galaxia CP
+Blockly.Msg['SUBCATEGORY_GALAXIA_TIME'] = 'Galaxia - Tiempo';
+Blockly.Msg['SUBCATEGORY_GALAXIA_PINS'] = 'Galaxia - Pines P0, P1 y P2';
+Blockly.Msg['SUBCATEGORY_MORPION'] = 'Tres en raya';
+Blockly.Msg['SUBCATEGORY_WEB_SERVER'] = 'Servidor web';
+
+// Codey & Rocky
+Blockly.Msg['SUBCATEGORY_OTHER'] = 'Otros';
+Blockly.Msg['SUBCATEGORY_MOTION'] = 'Movimiento';
+Blockly.Msg['CATEGORY_MCORE'] = 'mCore';
+Blockly.Msg['SUBCATEGORY_TEXT'] = 'Texto';
+Blockly.Msg['SUBCATEGORY_MCORE_LED'] = 'mCore - LED azul';
+Blockly.Msg['SUBCATEGORY_MCORE_RGB_LED'] = 'mCore - LED RGB';
+Blockly.Msg['SUBCATEGORY_MCORE_SENSORS'] = 'mCore - Sensores';
+Blockly.Msg['SUBCATEGORY_MCORE_BUZZER'] = 'mCore - Zumbador';
+Blockly.Msg['SUBCATEGORY_MCORE_INFRARED'] = 'mCore - Infrarrojos';
+Blockly.Msg['CATEGORY_ROBOT'] = 'Robot';
+Blockly.Msg['CATEGORY_BACKPACK'] = 'Mochila';
+Blockly.Msg['SUBCATEGORY_COMMUNICATION'] = 'Comunicación';
+Blockly.Msg['SUBCATEGORY_SENSORS_HEALTH'] = 'Sensores de salud';
+Blockly.Msg['SUBCATEGORY_ACTUATORS'] = 'Actuadores';
+Blockly.Msg['SUBCATEGORY_FREE_MOVEMENTS'] = 'Movimientos libres';
+Blockly.Msg['SUBCATEGORY_MOVE_BY_SQUARES'] = 'Movimiento por casillas';
+Blockly.Msg['SUBCATEGORY_SUPERBIT_BASIC'] = 'Superbit - Básico';
+Blockly.Msg['SUBCATEGORY_SUPERBIT_SENSORS'] = 'Yahboom - Sensores';
+Blockly.Msg['SUBCATEGORY_BUILTIN_LED'] = 'LED integrada';
+Blockly.Msg['SUBCATEGORY_EYES'] = 'Ojos';
+Blockly.Msg['SUBCATEGORY_IR_REMOTE'] = 'Control remoto IR';
+Blockly.Msg['SUBCATEGORY_LED_MATRIX'] = 'Matriz de LED';
+Blockly.Msg['SUBCATEGORY_4DIGITS_DISPLAY'] = 'Pantalla de 7 segmentos';
+Blockly.Msg['SUBCATEGORY_MBOT_MOTORS'] = 'Motores';
+Blockly.Msg['SUBCATEGORY_SERVOMOTOR'] = 'Servomotor';
+Blockly.Msg['SUBCATEGORY_MINI_FAN'] = 'Mini ventilador';
+Blockly.Msg['SUBCATEGORY_KITRONIK'] = "Kitronik";
+Blockly.Msg['SUBCATEGORY_POTENTIOMETER'] = 'Potenciómetro';

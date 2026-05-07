@@ -226,14 +226,14 @@ class ProjectManager {
     async projectsFinder_updateProject(name = this._currentProject.name, desc = this._currentProject.description, isPublic = this._currentProject.public) {
         if (this._currentProject.link) {
             let myProject;
-            if (this._interface == 'ai') {
+            if (this._interface === 'ai') {
                 myProject = await this.getProjectByLink(this._currentProject.link, true);
             } else {
                 myProject = await this.getProjectByLink(this._currentProject.link, false);
             }
             const index = myProject.index;
             if (this._myProjects[index] != null) {
-                if (this._interface == 'adacraft') {
+                if (this._interface === 'adacraft') {
                     this._currentProject.code = adacraft.getCurrentProjectJson();
                 }
                 this._myProjects[index] = this._currentProject;
@@ -285,7 +285,7 @@ class ProjectManager {
                 'options': options
             }
         }
-        if (this._interface == "python") {
+        if (this._interface === 'python') {
             if (window.localStorage.pythonCurrentProject === undefined || JSON.parse(window.localStorage.pythonCurrentProject).id != this._currentProject.id) {
                 if (this._currentProject.id) {
                     UnitTests.init(this._currentProject);
@@ -409,6 +409,7 @@ class ProjectManager {
             let status = ProjectManager.STATUS.LOADING.FROM_DB.success;
             if (this._projectLoader_isValidProject(project)) {
                 if (this._projectLoader_checkRTCAccess(project)) {
+                    if (this._interface != 'ai') Main.resetInvalidBlocksWarning();
                     status = await this.projectLoader_injectInInterface(project);
                     if (status == ProjectManager.STATUS.LOADING.INJECT.error) {
                         pseudoModal.openModal('modal-warningWrongXml');
@@ -422,7 +423,7 @@ class ProjectManager {
                 newUrl.searchParams.delete('link');
                 window.history.pushState({}, '', newUrl);
                 this.localStorageManager.addLocalId();
-                if (this._interface == "ai") {
+                if (this._interface === 'ai') {
                     aiMain._notif.displayNotification('#global-notifications-area', i18next.t('notifications.loadedProjectNotFound'), 'bg-danger');
                     this._createNewAiProject();
                 } else {
@@ -475,7 +476,7 @@ class ProjectManager {
                 }
         }
         if (typeof Main !== 'undefined' && !Main.getIsXmlBasedInterface()) {
-            if (this._interface == 'web') {
+            if (this._interface === 'web') {
                 this._loadCodeToBlockWeb();
             } else {
                 // HERE ADD the code to blocks event(s) for python based interfaces
@@ -566,7 +567,8 @@ class ProjectManager {
         switch (this._interface) {
             case 'ai':
                 this._refreshAiProjectDOM();
-                const trainingDataBlocker = aiMain._model.getAiInterfaceType() == 'text' ? new VittaBlocker(i18next.t('notifications.loadingTrainingData'), '#content-container') : new VittaBlocker(i18next.t('notifications.loadingTrainingData'), '#data')
+                const param = ['text', 'tts'].includes(aiMain._model.getAiInterfaceType()) ? '#content-container' : '#data';
+                const trainingDataBlocker = new VittaBlocker(i18next.t('notifications.loadingTrainingData'), param);
                 await this._injectProjectInAiInterface(trainingDataBlocker);
                 break;
             case 'adacraft':
@@ -575,6 +577,7 @@ class ProjectManager {
                 this._exercises_populateStatement();
                 break;
             default:
+                Main.resetInvalidBlocksWarning();
                 await this._projectLoader_updateSwitchingOptions(true);
                 const status = await this._projectLoader_updateAndRefreshDOM();
                 await this._refreshProjectStatus();
@@ -654,117 +657,134 @@ class ProjectManager {
                 }
             } else {
                 // Option : console (when url loading)
-                if (this._interface !== "web") {
+                if (this._interface !== 'web') {
                     rotateConsole(InterfaceMonitor.getPosition());
                 }
             }
             if (typeof Main !== 'undefined') {
-                if (Main.hasRobotSimulator()) {
-                    // Option : simulator robot background
-                    const robotBackground = this._currentProject.options.robotBackground;
-                    if (robotBackground) {
-                        if (RobotSimulator.isRunning) {
-                            SimulatorLS.setData(RobotSimulator.currentRobotName, 'backgrounds', robotBackground, SimulatorLS.backgroundFormat);
-                            RobotSimulator.img.background.src = robotBackground;
-                            SimulatorModals.backgroundChoice = robotBackground;
-                            SimulatorModals.useBackground();
-                        } else {
-                            SimulatorLS.projectOptions.backgrounds = SimulatorLS.backgroundFormat(robotBackground);
+                if (Main.hasSimulator()) {
+
+                    if (Simulator.hasRobotSimulator()) {
+                        // Option : simulator robot background
+                        const robotBackground = this._currentProject.options.robotBackground;
+                        if (robotBackground) {
+                            if (RobotSimulator.isRunning) {
+                                SimulatorLS.setData(RobotSimulator.currentRobotName, 'backgrounds', robotBackground, SimulatorLS.backgroundFormat);
+                                RobotSimulator.img.background.src = robotBackground;
+                                SimulatorModals.backgroundChoice = robotBackground;
+                                SimulatorModals.useBackground();
+                            } else {
+                                SimulatorLS.projectOptions.backgrounds = SimulatorLS.backgroundFormat(robotBackground);
+                            }
+                        }
+                        // Option : simulator robot position
+                        const robotInitialPosition = this._currentProject.options.robotInitialPosition;
+                        if (robotInitialPosition) {
+                            const initialPosition = JSON.parse(robotInitialPosition);
+                            if (RobotSimulator.isRunning) {
+                                RobotSimulator.setInitialRobotPosition(initialPosition);
+                            } else {
+                                SimulatorLS.projectOptions.initialPositions = JSON.stringify(initialPosition);
+                            }
+                        }
+                        // Option : simulator robot angle
+                        const robotInitialAngle = this._currentProject.options.robotInitialAngle;
+                        if (robotInitialAngle) {
+                            const initialAngle = parseInt(robotInitialAngle);
+                            if (RobotSimulator.isRunning) {
+                                RobotSimulator.setInitialRobotAngle(initialAngle);
+                            } else {
+                                SimulatorLS.projectOptions.initialAngles = initialAngle;
+                            }
+                        }
+                        // Option : simulator robot zoom
+                        const robotInitialZoom = this._currentProject.options.robotInitialZoom;
+                        if (robotInitialZoom) {
+                            const projectZoom = parseInt(robotInitialZoom);
+                            if (RobotSimulator.isRunning) {
+                                SimulatorLS.setData(RobotSimulator.currentRobotName, 'initialZooms', projectZoom);
+                                const zoomToDo = projectZoom - RobotSimulator.robot.zoom;
+                                RobotSimulator.zoomFor(zoomToDo);
+                                RobotSimulator.robot.zoom = projectZoom;
+                            } else {
+                                SimulatorLS.projectOptions.initialZooms = projectZoom;
+                            }
+                        }
+                        // Option : simulator robot obstacles
+                        const obstaclesDB = this._currentProject.options.obstaclesDB;
+                        if (obstaclesDB) {
+                            if (RobotSimulator.isRunning) {
+                                SimulatorLS.set('obstaclesDB', obstaclesDB);
+                                RobotSimulator.Obstacle.setFromLS();
+                            } else {
+                                SimulatorLS.projectOptions.obstaclesDB = obstaclesDB;
+                            }
                         }
                     }
-                    // Option : simulator robot position
-                    const robotInitialPosition = this._currentProject.options.robotInitialPosition;
-                    if (robotInitialPosition) {
-                        const initialPosition = JSON.parse(robotInitialPosition);
-                        if (RobotSimulator.isRunning) {
-                            RobotSimulator.setInitialRobotPosition(initialPosition);
-                        } else {
-                            SimulatorLS.projectOptions.initialPositions = JSON.stringify(initialPosition);
+
+                    if (Simulator.has3DRobotSimulator() && typeof Simulator3D !== 'undefined') {
+                        // Option: 3D simulator robot background
+                        const robotBackground = this._currentProject.options.robotBackground;
+                        if (robotBackground) {
+                            Simulator3D.updateBackground(robotBackground);
                         }
-                    }
-                    // Option : simulator robot angle
-                    const robotInitialAngle = this._currentProject.options.robotInitialAngle;
-                    if (robotInitialAngle) {
-                        const initialAngle = parseInt(robotInitialAngle);
-                        if (RobotSimulator.isRunning) {
-                            RobotSimulator.setInitialRobotAngle(initialAngle);
-                        } else {
-                            SimulatorLS.projectOptions.initialAngles = initialAngle;
+                        // Option: 3D simulator robot initial position
+                        const robotInitialPosition = this._currentProject.options.robotInitialPosition;
+                        if (robotInitialPosition) {
+                            SimulatorLS.setData(RobotSimulator3D.currentRobotName, 'initialPositions', robotInitialPosition);
+                            const initialPosition = JSON.parse(robotInitialPosition);
+                            RobotSimulator3D.initPos = initialPosition;
                         }
-                    }
-                    // Option : simulator robot zoom
-                    const robotInitialZoom = this._currentProject.options.robotInitialZoom;
-                    if (robotInitialZoom) {
-                        const projectZoom = parseInt(robotInitialZoom);
-                        if (RobotSimulator.isRunning) {
-                            SimulatorLS.setData(RobotSimulator.currentRobotName, 'initialZooms', projectZoom);
-                            const zoomToDo = projectZoom - RobotSimulator.robot.zoom;
-                            RobotSimulator.zoomFor(zoomToDo);
-                            RobotSimulator.robot.zoom = projectZoom;
-                        } else {
-                            SimulatorLS.projectOptions.initialZooms = projectZoom;
+                        // Option: 3D simulator robot initial angle
+                        const robotInitialAngle = this._currentProject.options.robotInitialAngle;
+                        if (robotInitialAngle) {
+                            const initialAngle = parseInt(robotInitialAngle);
+                            SimulatorLS.setData(RobotSimulator3D.currentRobotName, 'initialAngles', initialAngle);
                         }
-                    }
-                    // Option : simulator robot obstacles
-                    const obstaclesDB = this._currentProject.options.obstaclesDB;
-                    if (obstaclesDB) {
-                        if (RobotSimulator.isRunning) {
+                        // Option: 3D simulator robot zoom
+                        const robotInitialZoom = this._currentProject.options.robotInitialZoom;
+                        if (robotInitialZoom) {
+                            const projectZoom = parseInt(robotInitialZoom);
+                            RobotSimulator3D.setZoom(projectZoom);
+                        }
+                        // Option : 3D simulator robot obstacles
+                        const obstaclesDB = this._currentProject.options.obstaclesDB;
+                        if (obstaclesDB) {
                             SimulatorLS.set('obstaclesDB', obstaclesDB);
-                            RobotSimulator.Obstacle.setFromLS();
-                        } else {
-                            SimulatorLS.projectOptions.obstaclesDB = obstaclesDB;
+                        }
+                        //lock obstacle if project is an example project
+                        if (typeof Simulator3D.resetPosition === 'function') {
+                            if (this._currentProject.link && (this._allExampleProjects.some(proj => proj.link === this._currentProject.link) || EXAMPLE_PROJECT_LINKS.includes(this._currentProject.link))) {
+                                Simulator3D.resetPosition(true);
+                            } else {
+                                Simulator3D.resetPosition();
+                            }
+                        }
+                    }
+
+                    // Option : board
+                    if (Main.hasBoardSelector()) {
+                        const boardId = this._currentProject.options.board;
+                        if (Main.hasSimulator()) {
+                            let shieldView = null;
+                            if (typeof this._currentProject.options.simulatorViewShield !== 'undefined') {
+                                shieldView = this._currentProject.options.simulatorViewShield;
+                            } else if (boardId == 'shield-grove') {
+                                shieldView = true;
+                            }
+                            SimulatorLS.set('shieldView', shieldView);
+                            let board = BOARD_DEFAULT;
+                            if (boardId && boardId !== 'shield-grove') {
+                                board = boardId;
+                            }
+                            SimulatorLS.set('board', board);
+                            if (['arduino', 'esp32'].includes(this._interface)) {
+                                await updateBoard(true, board, shieldView);
+                            }
                         }
                     }
                 }
 
-                if (Main.has3DRobotSimulator() && typeof Simulator3D !== 'undefined') {
-                    // Option: 3D simulator robot background
-                    const robotBackground = this._currentProject.options.robotBackground;
-                    if (robotBackground) {
-                        Simulator3D.updateBackground(robotBackground);
-                    }
-                    // Option: 3D simulator robot initial position
-                    const robotInitialPosition = this._currentProject.options.robotInitialPosition;
-                    if (robotInitialPosition) {
-                        SimulatorLS.setData(RobotSimulator3D.currentRobotName, 'initialPositions', robotInitialPosition);
-                        const initialPosition = JSON.parse(robotInitialPosition);
-                        RobotSimulator3D.initPos = initialPosition;
-                    }
-                    // Option: 3D simulator robot initial angle
-                    const robotInitialAngle = this._currentProject.options.robotInitialAngle;
-                    if (robotInitialAngle) {
-                        const initialAngle = parseInt(robotInitialAngle);
-                        SimulatorLS.setData(RobotSimulator3D.currentRobotName, 'initialAngles', initialAngle);
-                    }
-                    // Option: 3D simulator robot zoom
-                    const robotInitialZoom = this._currentProject.options.robotInitialZoom;
-                    if (robotInitialZoom) {
-                        const projectZoom = parseInt(robotInitialZoom);
-                        RobotSimulator3D.setZoom(projectZoom);
-                    }
-                    // Option : 3D simulator robot obstacles
-                    const obstaclesDB = this._currentProject.options.obstaclesDB;
-                    if (obstaclesDB) {
-                        SimulatorLS.set('obstaclesDB', obstaclesDB);
-                    }
-
-                    if (typeof Simulator3D.resetPosition === 'function') {
-                        Simulator3D.resetPosition();
-                    }
-                }
-
-                // Option : board
-                if (Main.hasBoardSelector()) {
-                    const board = this._currentProject.options.board;
-                    if (board) {
-                        SimulatorLS.projectOptions.board = board;
-                    } else {
-                        SimulatorLS.projectOptions.board = BOARD_DEFAULT;
-                    }
-                    if (INTERFACE_NAME == 'arduino') {
-                        updateBoard(true, SimulatorLS.projectOptions.board);
-                    }
-                }
                 // Option : block types of toolbox
                 if (this._currentProject.options.reducedToolbox) {
                     const reducedToolbox = JSON.parse(this._currentProject.options.reducedToolbox);
@@ -791,7 +811,8 @@ class ProjectManager {
             } else {
                 if (Main.hasToolboxModes()) {
                     const modes = [TOOLBOX_STYLE_SCRATCH, TOOLBOX_STYLE_VITTA];
-                    if (this._interface === "TI-83") modes.push(TOOLBOX_STYLE_TI);
+                    if (this._interface === 'TI-83') modes.push(TOOLBOX_STYLE_TI);
+                    if (this._interface === 'raspberrypi') modes.push(TOOLBOX_STYLE_HARDWARE);
                     for (const mode of modes) {
                         if (this.getToolboxMode() == mode && this._currentProject.options && this._currentProject.options.toolbox !== mode) {
                             this._currentProject.options.toolbox = mode;
@@ -800,11 +821,14 @@ class ProjectManager {
                     }
                 }
                 CodeManager.getSharedInstance().setXml(this._currentProject.code);
-                CodeManager.getSharedInstance().setTextCode(this._currentProject.codeText);
                 status = CodeManager.getSharedInstance().loadBlocks();
+                CodeManager.getSharedInstance().setTextCode(this._currentProject.codeText);
+                if (typeof Code !== 'undefined' && Code.editor) {
+                    Code.editor.updateCode();
+                }
             }
             this._projectLoader_setInterfaceMode();
-            if (this._interface == 'python') {
+            if (this._interface === 'python') {
                 UnitTests.init(this._currentProject);
             }
             this._exercises_populateStatement();
@@ -830,7 +854,7 @@ class ProjectManager {
      * @param {string} animation - Animate the code mode switching.
      */
     _projectLoader_setInterfaceMode(animation = true) {
-        if (["adacraft", "ai"].includes(this._interface)) return;
+        if (['adacraft', 'ai'].includes(this._interface)) return;
         if ([MODE_CONSOLE_ONLY, MODE_SIMU_ONLY].includes(Main.forcedCodeMode)) return;
         const mode = this.getCodeMode();
         CodeManager.getSharedInstance().setCodeMode(mode);
@@ -898,15 +922,17 @@ class ProjectManager {
      * @return {boolean} status of creation 
      */
     async newProject(project) {
-        if (this._interface === 'ai') return this._createNewAiProject(project.name, project.description);
-        const newProject = await this._createNewProject({
-            'name': project.name,
-            'description': project.description,
-            'code': typeof project.code !== 'undefined' ? project.code : null,
-            'codeText': typeof project.codeText !== 'undefined' ? project.codeText : null,
-            'isPublic': typeof project.isPublic !== 'undefined' ? project.isPublic : false
-        });
-        return newProject;
+        if (this._interface === 'ai') {
+            return this._createNewAiProject(project.name, project.description);
+        } else {
+            return await this._createNewProject({
+                'name': project.name,
+                'description': project.description,
+                'code': typeof project.code !== 'undefined' ? project.code : null,
+                'codeText': typeof project.codeText !== 'undefined' ? project.codeText : null,
+                'isPublic': typeof project.isPublic !== 'undefined' ? project.isPublic : false
+            });
+        }
     };
 
     /**
@@ -932,7 +958,7 @@ class ProjectManager {
             'sharedUsers': null,
             'sharedStatus': 0,
             'options': {
-                'console': this._interface !== "web" && this._interface !== "adacraft" ? InterfaceMonitor.getPosition() : '',
+                'console': this._interface !== 'web' && this._interface !== "adacraft" ? InterfaceMonitor.getPosition() : '',
             }
         };
         if (Main.hasToolboxModes()) {
@@ -958,7 +984,7 @@ class ProjectManager {
                 this._currentProject.isPublic = project.isPublic;
             }
         }
-        if (this._interface == 'adacraft') {
+        if (this._interface === 'adacraft') {
             this.localStorageManager.setLocalProject(this._currentProject);
             window.localStorage["adacraftCurrentCode"] = this._currentProject.code;
             adacraft.appStateStore.getState().scratchGui.vm.loadProject(this._currentProject.code);
@@ -971,9 +997,6 @@ class ProjectManager {
             } else {
                 CodeManager.getSharedInstance().setXml(this._currentProject.code);
                 CodeManager.getSharedInstance().loadBlocks();
-            }
-            if (this._interface == 'ai') {
-                this.localStorageManager.setLocalProject(this._currentProject);
             }
         }
         $('#project-name').html(decodeURI(this._currentProject.name));
@@ -1009,53 +1032,65 @@ class ProjectManager {
             } else {
                 options.console = '';
             }
-            // Option : data from robot simulator
-            if (Main.hasRobotSimulator() && Simulator._classicRobotSimulatorPrepareForRun) {
-                const backgroundSrc = SimulatorLS.getData(RobotSimulator.currentRobotName, 'backgrounds');
-                if (backgroundSrc) {
-                    options.robotBackground = backgroundSrc;
+            if (Main.hasSimulator()) {
+                // Option : multiChildProject
+                const currentProjectLS = this.localStorageManager.getLocalProjectContent();
+                if (currentProjectLS.options && currentProjectLS.options.multiChildProject) {
+                    options.multiChildProject = currentProjectLS.options.multiChildProject;
+                }
+                // Option : simulatorViewShield
+                if (typeof INTERFACE_BOARDS !== 'undefined' && VittaInterface.shieldView !== null) {
+                    options.simulatorViewShield = VittaInterface.shieldView;
                 }
 
-                const robotInitialAngle = SimulatorLS.getData(RobotSimulator.currentRobotName, 'initialAngles');
-                options.robotInitialAngle = robotInitialAngle ? robotInitialAngle : "0";
+                // Option : data from robot simulator
+                if (Simulator.hasRobotSimulator() && Simulator._classicRobotSimulatorPrepareForRun) {
+                    const backgroundSrc = SimulatorLS.getData(RobotSimulator.currentRobotName, 'backgrounds');
+                    if (backgroundSrc) {
+                        options.robotBackground = backgroundSrc;
+                    }
 
-                const robotInitialPosition = SimulatorLS.getData(RobotSimulator.currentRobotName, 'initialPositions');
-                if (typeof robotInitialPosition !== 'undefined') {
-                    options.robotInitialPosition = robotInitialPosition;
-                } else {
-                    options.robotInitialPosition = JSON.stringify({ x: 73, y: 137 });
-                }
+                    const robotInitialAngle = SimulatorLS.getData(RobotSimulator.currentRobotName, 'initialAngles');
+                    options.robotInitialAngle = robotInitialAngle ? robotInitialAngle : "0";
 
-                const robotInitialZoom = SimulatorLS.getData(RobotSimulator.currentRobotName, 'initialZooms');
-                options.robotInitialZoom = robotInitialZoom ? robotInitialZoom : "0";
+                    const robotInitialPosition = SimulatorLS.getData(RobotSimulator.currentRobotName, 'initialPositions');
+                    if (typeof robotInitialPosition !== 'undefined') {
+                        options.robotInitialPosition = robotInitialPosition;
+                    } else {
+                        options.robotInitialPosition = JSON.stringify({ x: 73, y: 137 });
+                    }
 
-                const obstaclesDB = SimulatorLS.get('obstaclesDB');
-                if (obstaclesDB) {
-                    options.obstaclesDB = obstaclesDB;
-                }
-            } else if (Main.has3DRobotSimulator() && Simulator._3DRobotSimulatorPrepareForRun) {
+                    const robotInitialZoom = SimulatorLS.getData(RobotSimulator.currentRobotName, 'initialZooms');
+                    options.robotInitialZoom = robotInitialZoom ? robotInitialZoom : "0";
 
-                const backgroundSrc = SimulatorLS.getData(RobotSimulator3D.currentRobotName, 'backgrounds');
-                if (backgroundSrc) {
-                    options.robotBackground = backgroundSrc;
-                }
+                    const obstaclesDB = SimulatorLS.get('obstaclesDB');
+                    if (obstaclesDB) {
+                        options.obstaclesDB = obstaclesDB;
+                    }
+                } else if (Simulator.has3DRobotSimulator() && Simulator._3DRobotSimulatorPrepareForRun) {
 
-                const robotInitialAngle = SimulatorLS.getData(RobotSimulator3D.currentRobotName, 'initialAngles');
-                options.robotInitialAngle = robotInitialAngle ? robotInitialAngle : "0";
+                    const backgroundSrc = SimulatorLS.getData(RobotSimulator3D.currentRobotName, 'backgrounds');
+                    if (backgroundSrc) {
+                        options.robotBackground = backgroundSrc;
+                    }
 
-                const robotInitialPosition = SimulatorLS.getData(RobotSimulator3D.currentRobotName, 'initialPositions');
-                if (typeof robotInitialPosition !== 'undefined') {
-                    options.robotInitialPosition = robotInitialPosition;
-                } else {
-                    options.robotInitialPosition = JSON.stringify({ x: 0, y: 0 });
-                }
+                    const robotInitialAngle = SimulatorLS.getData(RobotSimulator3D.currentRobotName, 'initialAngles');
+                    options.robotInitialAngle = robotInitialAngle ? robotInitialAngle : "0";
 
-                const robotInitialZoom = SimulatorLS.getData(RobotSimulator3D.currentRobotName, 'initialZooms');
-                options.robotInitialZoom = robotInitialZoom ? robotInitialZoom : "0";
+                    const robotInitialPosition = SimulatorLS.getData(RobotSimulator3D.currentRobotName, 'initialPositions');
+                    if (typeof robotInitialPosition !== 'undefined') {
+                        options.robotInitialPosition = robotInitialPosition;
+                    } else {
+                        options.robotInitialPosition = JSON.stringify({ x: 0, y: 0 });
+                    }
 
-                const obstaclesDB = SimulatorLS.get('obstaclesDB');
-                if (obstaclesDB) {
-                    options.obstaclesDB = obstaclesDB;
+                    const robotInitialZoom = SimulatorLS.getData(RobotSimulator3D.currentRobotName, 'initialZooms');
+                    options.robotInitialZoom = robotInitialZoom ? robotInitialZoom : "0";
+
+                    const obstaclesDB = SimulatorLS.get('obstaclesDB');
+                    if (obstaclesDB) {
+                        options.obstaclesDB = obstaclesDB;
+                    }
                 }
             }
             // Option : block types of toolbox
@@ -1068,11 +1103,6 @@ class ProjectManager {
                     reducedToolbox['variables'] = variables.map(variable => variable.name);
                 }
                 options.reducedToolbox = JSON.stringify(reducedToolbox);
-            }
-            // Option : multiChildProject
-            if (Main.hasSimulator()) {
-                const currentProjectLS = this.localStorageManager.getLocalProjectContent();
-                if (currentProjectLS.options && currentProjectLS.options.multiChildProject) options.multiChildProject = currentProjectLS.options.multiChildProject;
             }
         }
         return options;
@@ -1153,7 +1183,7 @@ class ProjectManager {
                 return true;
             }
             // Be cautious when changing/adding properties to be checked below (It can breaks the checks under Capytale context)
-            if (this._interface == "adacraft") {
+            if (this._interface === 'adacraft') {
                 return this._equals({
                     'codeText': "",
                     'code': adacraft.getCurrentProjectJson(),
@@ -1239,6 +1269,7 @@ class ProjectManager {
      * @private
      */
     _setProjectStatusAsSaved() {
+        if (INTERFACE_NAME === 'adacraft' && $_GET('player') === 'true') return; // No status update in adacraft player mode
         $("#project-is-saved").css('color', 'var(--vitta-green)').html('<i class="fas fa-check"></i>');
         let titledate = null;
         const undefinedDate = typeof this._currentProject.dateUpdated === 'undefined';
@@ -1334,7 +1365,7 @@ class ProjectManager {
     editCurrentProject(projectName, projectDescription = 'No-description') {
         this._currentProject.name = projectName;
         this._currentProject.description = projectDescription;
-        if (this._interface === "ai") return;
+        if (this._interface === 'ai') return;
         let currentProjectLS = this.localStorageManager.getLocalProjectContent();
         currentProjectLS.name = projectName;
         currentProjectLS.description = projectDescription;
@@ -1361,7 +1392,7 @@ class ProjectManager {
      * @return {boolean} Whether the project is up to date or not
      */
     needSaving() {
-        if (this._interface == 'ai') return true;
+        if (this._interface === 'ai') return true;
         return !this._isUpToDate();
     };
 
@@ -1419,6 +1450,7 @@ class ProjectManager {
      * @param {boolean} fromFinder - [OPTIONAL] If we are loading project from finder, false by default
      */
     updateUrl(fromFinder = false) {
+        if (location.pathname.startsWith('/student-experiment')) return; // Adacraft manage its own url
         const getURLparam = (param) => $_GET(param) ? $_GET(param) : '';
         const link = (this._currentProject.link && this._currentProject.link != null) ? this._currentProject.link : ($_GET("link") ? $_GET("link") : '');
         let mode = "";
@@ -1433,6 +1465,7 @@ class ProjectManager {
         let soundModel = "";
         let textModel = "";
         let player = false;
+        let aiMode = "";
         if (this._interface !== 'ai') {
             if (this._interface === 'adacraft' || this._interface === 'python') {
                 model = getURLparam("model");
@@ -1452,12 +1485,15 @@ class ProjectManager {
                 }
                 if (Main.hasSimulator()) {
                     simu = getURLparam("simu");
-                    if (Main.hasRobotSimulator()) {
+                    if (Simulator.hasRobotSimulator() || Simulator.has3DRobotSimulator()) {
                         robot = getURLparam("robot");
                     }
                 }
                 multi = getURLparam("multi");
             }
+        }
+        else {
+            aiMode = getURLparam("aiMode");
         }
         const compiler = $_GET("compiler") ? $_GET("compiler") : '';
         const nocloud = $_GET("nocloud") ? $_GET("nocloud") : '';
@@ -1473,9 +1509,15 @@ class ProjectManager {
         const preview = $_GET("preview") ? $_GET("preview") : '';
         const localId = $_GET("localId") ? $_GET("localId") : '';
         const duo = $_GET("duo") ? $_GET("duo") : '';
+        /*ai interfaces parameters*/
+        const quickPrompts = $_GET("quickPrompts") ? $_GET("quickPrompts") : '';
+        const noUse = $_GET("nouse") ? $_GET("nouse") : '';
+        const noWelcome = $_GET("nowelcome") ? $_GET("nowelcome") : '';
+        const noRag = $_GET("norag") ? $_GET("norag") : '';
         const linkStruct = {
             base: `${window.location.origin}${window.location.pathname}`,
             args: {
+                board: board,
                 link: link,
                 model: model,
                 poseModel: poseModel,
@@ -1485,7 +1527,6 @@ class ProjectManager {
                 console: consolePos,
                 toolbox: toolbox,
                 simu: simu,
-                board: board,
                 robot: robot,
                 action: action,
                 from: from,
@@ -1502,7 +1543,13 @@ class ProjectManager {
                 previewOnly: previewOnly,
                 preview: preview,
                 duo: duo,
-                player: player
+                player: player,
+                quickPrompts: quickPrompts,
+                nouse: noUse,
+                nowelcome: noWelcome,
+                norag: noRag,
+                aiMode: aiMode
+
             }
         };
         history.pushState({}, "", stringifyLinkShare(linkStruct));
@@ -1702,14 +1749,18 @@ class ProjectManager {
         projectName = (projectName.length == 0) ? i18next.t('code.newProject') : projectName;
         projectDescription = (projectDescription.length == 0) ? '' : projectDescription;
 
+        let iaMode = aiMain._model.getAiInterfaceType();
+
         this._currentProject = {
             'name': encodeURI(projectName),
             'dateUpdated': new Date(),
             'description': encodeURI(projectDescription),
-            'code': null,
+            'code': iaMode === "tts" ? "{}" : null,
             'codeText': null,
             'codeManuallyModified': false,
             'public': isPublic,
+            'interface': 'ai',
+            'mode': iaMode,
             'link': null,
             'user': UserManager.getUser(),
             'sharedUsers': null,
@@ -1719,6 +1770,7 @@ class ProjectManager {
         this.updateUrl();
         this._currentExercise = "";
         this._refreshAiProjectDOM();
+        this.localStorageManager.setLocalProject(this._currentProject);
         return true;
     };
 
@@ -1761,7 +1813,7 @@ class ProjectManager {
      * @param {string} projectInterface - The interface of the project
      * @returns {Promise} Project from response, null if not found
      */
-    ajax_getProjectByLinkFromDB(projectLink, projectInterface) {
+    async ajax_getProjectByLinkFromDB(projectLink, projectInterface) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 type: "POST",
@@ -1959,12 +2011,12 @@ class ProjectManager {
             console.error('Bad JSON received from backend!');
             return;
         }
-        if (aiMain._model.getAiInterfaceType() !== "text") {
+        if (aiMain._model.getAiInterfaceType() !== "text" && aiMain._model.getAiInterfaceType() !== "tts") {
             await aiMain._model.waitIndexedDbFullyLoaded();
             await aiMain._tensorFlow.loadSavedProjectModel();
             await aiMain._model.loadSavedProjectTrainingData();
         }
-        if (aiMain._model.getAiInterfaceType() == "text") {
+        if (aiMain._model.getAiInterfaceType() == "text" || aiMain._model.getAiInterfaceType() === "tts") {
             aiMain._model.loadSavedProjectModel()
         }
 
@@ -1990,7 +2042,7 @@ class ProjectManager {
         if (!currentProjectCode.categories && ['sound', 'images', 'pose', 'edge', 'hand'].includes(projectManager.getCurrentProject().mode)) {
             return false;
         }
-        if (typeof currentProjectCode.categories[0] !== 'undefined' && currentProjectCode.categories[0].images && projectManager.getCurrentProject().mode !== 'text' && projectManager.getCurrentProject().mode !== 'pose' && currentInterfaceType !== 'pose' && projectManager.getCurrentProject().mode !== 'hand' && currentInterfaceType !== 'hand') {
+        if (typeof currentProjectCode.categories !== 'undefined' && typeof currentProjectCode.categories[0] !== 'undefined' && currentProjectCode.categories[0].images && projectManager.getCurrentProject().mode !== 'text' && projectManager.getCurrentProject().mode !== 'pose' && currentInterfaceType !== 'pose' && projectManager.getCurrentProject().mode !== 'hand' && currentInterfaceType !== 'hand') {
             isImageProject = true;
         }
         if (projectManager.getCurrentProject().mode == 'image') isImageProject = true;
@@ -2000,6 +2052,7 @@ class ProjectManager {
         if (!isImageProject && currentInterfaceType === 'text') return true;
         if (!isImageProject && currentInterfaceType === 'pose') return true;
         if (!isImageProject && currentInterfaceType === 'hand') return true;
+        if (!isImageProject && currentInterfaceType === 'tts') return true;
 
 
         return false;
@@ -2067,11 +2120,7 @@ class ProjectManager {
         }
         switch (INTERFACE_NAME) {
             case 'adacraft':
-                this._interface = INTERFACE_NAME;
-                break;
             case 'ai':
-                this._interface = INTERFACE_NAME;
-                break;
             case 'web':
                 this._interface = INTERFACE_NAME;
                 break;
@@ -2213,11 +2262,12 @@ class ProjectManager {
         switch (this._interface) {
             case 'ai':
                 this._createNewAiProject();
-                 if (aiMain._model.getAiInterfaceType() !== "text" && aiMain._model.getAiInterfaceType() !== "image-generate") {
-                     aiMain._model._tensorFlow.loadModelFromLocalDb();
-                 } else {
-                     aiMain._model._loadProjetFromLocalStorage();
-                 }
+                const interfaceType = aiMain._model.getAiInterfaceType();
+                if (['text', 'image-generate', 'tts'].includes(interfaceType)) {
+                    aiMain._model._loadProjetFromLocalStorage();
+                } else {
+                    aiMain._model._tensorFlow.loadModelFromLocalDb();
+                }
                 break;
             case 'adacraft':
                 if (getParamValue("action") == "new") {
@@ -2242,7 +2292,7 @@ class ProjectManager {
                     this.requiresSetupBlocks = true;
                 }
                 if (!Main.getIsXmlBasedInterface()) {
-                    if (this._interface == 'web') {
+                    if (this._interface === 'web') {
                         this._loadCodeToBlockWeb();
                     } else {
                         // HERE ADD the code to blocks event(s) for python based interfaces
@@ -2261,10 +2311,10 @@ class ProjectManager {
     async _loadProjectFromLocalStorage() {
         this._currentProject = this.localStorageManager.getLocalProjectContent();
         updateToolbox(this.getToolboxMode());
-        if (this._interface == 'python') {
+        if (this._interface === 'python') {
             UnitTests.init(this._currentProject);
         }
-        if (this._interface == 'adacraft') {
+        if (this._interface === 'adacraft') {
             this._currentProject.code = window.localStorage["adacraftCurrentCode"];
             const state = adacraft.appStateStore.getState();
             state.scratchGui.vm.loadProject(this._currentProject.code);
@@ -2286,7 +2336,7 @@ class ProjectManager {
                     trainingDataBlocker = new VittaBlocker(i18next.t('notifications.loadingTrainingData'), '#data');
                 }
                 const status = await this._projectLoader_loadFromDB(ltiVariables13.updateLink);
-                if (this._interface == 'ai') {
+                if (this._interface === 'ai') {
                     this._injectProjectInAiInterface(trainingDataBlocker);
                 }
                 pseudoModal.endBlocker('modal-auto-corrector-creation');
@@ -2305,7 +2355,7 @@ class ProjectManager {
                 trainingDataBlocker = new VittaBlocker(i18next.t('notifications.loadingTrainingData'), '#data');
             }
             const status = await this._projectLoader_loadFromDB(link);
-            if (this._interface == 'ai') {
+            if (this._interface === 'ai') {
                 this._injectProjectInAiInterface(trainingDataBlocker);
             }
             pseudoModal.endBlocker('modal-auto-corrector-creation');
@@ -2318,7 +2368,7 @@ class ProjectManager {
             }
         }
         if (typeof Main !== 'undefined' && !Main.getIsXmlBasedInterface()) {
-            if (this._interface == 'web') {
+            if (this._interface === 'web') {
                 this._loadCodeToBlockWeb();
             } else {
                 // HERE ADD the code to blocks event(s) for python based interfaces
@@ -2444,9 +2494,13 @@ class ProjectManager {
                 }
             }
             fullLink = `${location.origin}/ia/model/${model}/`;
-            xml_ia_start += `<block type="on_start" id="G[=T#8yqB7A0NFgYq}GP" deletable="false" x="0" y="0"><statement name="DO"><block type="text_comment" id="P-,]_aaOoWOhM#VQ]TZV"><field name="TEXT">Categories: ${labels}</field><next><block type="vittaia_load_cloud_model" id="hikMn16RDpL9hln}J@{*"><value name="MODEL_ID"><shadow type="text" id="h!osJX)K3_bz5FtI*#Ct"><field name="TEXT">${fullLink}</field></shadow></value><next><block type="vittaia_make_prediction" id="3X6;iV,73Pq+zjhm03|%"><next><block type="communication_serialWrite" id="ct~8CDW#NGQ.plGza@9!"><mutation newlines="false"></mutation><value name="TEXT"><shadow type="text" id="e/ljd(yX61r[_:ALtoZ3"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class" id="viapM;qvsI.}G|*G-#Pq"></block></value></block></next></block></next></block></next></block></statement></block>`;
+            xml_ia_start += `<block type="on_start" id="G[=T#8yqB7A0NFgYq}GP" deletable="false" x="0" y="0"><statement name="DO"><block type="text_comment" id="P-,]_aaOoWOhM#VQ]TZV"><field name="TEXT">Categories: ${labels}</field><next><block type="vittaia_load_cloud_model" id="hikMn16RDpL9hln}J@{*"><value name="MODEL_URL"><shadow type="text" id="h!osJX)K3_bz5FtI*#Ct"><field name="TEXT">${fullLink}</field></shadow></value><next><block type="vittaia_make_prediction" id="3X6;iV,73Pq+zjhm03|%"><next><block type="communication_serialWrite" id="ct~8CDW#NGQ.plGza@9!"><mutation newlines="false"></mutation><value name="TEXT"><shadow type="text" id="e/ljd(yX61r[_:ALtoZ3"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class" id="viapM;qvsI.}G|*G-#Pq"></block></value></block></next></block></next></block></next></block></statement></block>`;
         }
         xml_ia_start += `</xml>`;
+        const types = typeof TOOLBOXES !== 'undefined' ? TOOLBOXES.map(t => t.id) : [];
+        const storageToolbox = getOptionStorage('toolbox', TOOLBOX_STYLE_DEFAULT, types);
+        const toolboxMode = storageToolbox ? storageToolbox[INTERFACE_NAME] : null;
+        xml_ia_start = toolboxMode ? replaceXmlCode(toolboxMode, xml_ia_start): xml_ia_start;
         await this._createNewProject({
             code: xml_ia_start,
             name: "Modèle IA (" + model + ")"
@@ -2488,7 +2542,7 @@ class ProjectManager {
                 }
             }
             fullLink = `${location.origin}/ia/model/${model}/`;
-            xml_ia_start += `<block type="on_start" id="G[=T#8yqB7A0NFgYq}GP" deletable="false" x="0" y="0"><statement name="DO"><block type="text_comment" id="P-,]_aaOoWOhM#VQ]TZV"><field name="TEXT">Categories: ${labels}</field><next><block type="vittaia_load_cloud_model" id="hikMn16RDpL9hln}J@{*"><value name="MODEL_ID"><shadow type="text" id="h!osJX)K3_bz5FtI*#Ct"><field name="TEXT">${fullLink}</field></shadow></value><next><block type="vittaia_make_prediction" id="3X6;iV,73Pq+zjhm03|%"><next><block type="communication_serialWrite" id="ct~8CDW#NGQ.plGza@9!"><mutation newlines="false"></mutation><value name="TEXT"><shadow type="text" id="e/ljd(yX61r[_:ALtoZ3"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class" id="viapM;qvsI.}G|*G-#Pq"></block></value></block></next></block></next></block></next></block></statement></block>`;
+            xml_ia_start += `<block type="on_start" id="G[=T#8yqB7A0NFgYq}GP" deletable="false" x="0" y="0"><statement name="DO"><block type="text_comment" id="P-,]_aaOoWOhM#VQ]TZV"><field name="TEXT">Categories: ${labels}</field><next><block type="vittaia_load_cloud_model" id="hikMn16RDpL9hln}J@{*"><value name="MODEL_URL"><shadow type="text" id="h!osJX)K3_bz5FtI*#Ct"><field name="TEXT">${fullLink}</field></shadow></value><next><block type="vittaia_make_prediction" id="3X6;iV,73Pq+zjhm03|%"><next><block type="communication_serialWrite" id="ct~8CDW#NGQ.plGza@9!"><mutation newlines="false"></mutation><value name="TEXT"><shadow type="text" id="e/ljd(yX61r[_:ALtoZ3"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class" id="viapM;qvsI.}G|*G-#Pq"></block></value></block></next></block></next></block></next></block></statement></block>`;
         }
         xml_ia_start += `</xml>`;
         await this._createNewProject({
@@ -2532,7 +2586,7 @@ class ProjectManager {
                 }
             }
             fullLink = `${location.origin}/ia/model/${model}/`;
-            xml_ia_start += `<block type="on_start" id="G[=T#8yqB7A0NFgYq}GP" deletable="false" x="0" y="0"><statement name="DO"><block type="text_comment" id="P-,]_aaOoWOhM#VQ]TZV"><field name="TEXT">Categories: ${labels}</field><next><block type="vittaia_load_cloud_model" id="hikMn16RDpL9hln}J@{*"><value name="MODEL_ID"><shadow type="text" id="h!osJX)K3_bz5FtI*#Ct"><field name="TEXT">${fullLink}</field></shadow></value><next><block type="vittaia_make_prediction" id="3X6;iV,73Pq+zjhm03|%"><next><block type="communication_serialWrite" id="ct~8CDW#NGQ.plGza@9!"><mutation newlines="false"></mutation><value name="TEXT"><shadow type="text" id="e/ljd(yX61r[_:ALtoZ3"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class" id="viapM;qvsI.}G|*G-#Pq"></block></value></block></next></block></next></block></next></block></statement></block><block type="forever" id="r~ko;~xOERc,$21]fNVM" x="137" y="263"></block>`;
+            xml_ia_start += `<block type="on_start" id="G[=T#8yqB7A0NFgYq}GP" deletable="false" x="0" y="0"><statement name="DO"><block type="text_comment" id="P-,]_aaOoWOhM#VQ]TZV"><field name="TEXT">Categories: ${labels}</field><next><block type="vittaia_load_cloud_model" id="hikMn16RDpL9hln}J@{*"><value name="MODEL_URL"><shadow type="text" id="h!osJX)K3_bz5FtI*#Ct"><field name="TEXT">${fullLink}</field></shadow></value><next><block type="vittaia_make_prediction" id="3X6;iV,73Pq+zjhm03|%"><next><block type="communication_serialWrite" id="ct~8CDW#NGQ.plGza@9!"><mutation newlines="false"></mutation><value name="TEXT"><shadow type="text" id="e/ljd(yX61r[_:ALtoZ3"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class" id="viapM;qvsI.}G|*G-#Pq"></block></value></block></next></block></next></block></next></block></statement></block><block type="forever" id="r~ko;~xOERc,$21]fNVM" x="137" y="263"></block>`;
         }
         xml_ia_start += `</xml>`;
         await this._createNewProject({
@@ -2671,12 +2725,14 @@ class ProjectManager {
     async _initializeStandardLinkedProject() {
         const link = String(getParamValue("link"));
         let trainingDataBlocker;
-        if (this._interface == 'ai') {
-            if (aiMain._model.getAiInterfaceType() !== "text") trainingDataBlocker = new VittaBlocker(i18next.t('notifications.loadingTrainingData'), '#data');
+        if (this._interface === 'ai') {
+            if (aiMain._model.getAiInterfaceType() !== "text" && aiMain._model.getAiInterfaceType() !== "tts") {
+                trainingDataBlocker = new VittaBlocker(i18next.t('notifications.loadingTrainingData'), '#data');
+            }
         }
         const status = await this._projectLoader_loadFromDB(link);
         pseudoModal.endBlocker('modal-auto-corrector-creation');
-        if (this._interface == 'ai') {
+        if (this._interface === 'ai') {
             await this._initializeLinkedAiProject(trainingDataBlocker);
         }
         this._setupSharedUsers();
@@ -2701,16 +2757,16 @@ class ProjectManager {
                     return resolve();
                 }
                 if (isAiProjectChecked === 'bad_json') {
-                    if (aiMain._model.getAiInterfaceType() !== "text") trainingDataBlocker.end();
+                    if (aiMain._model.getAiInterfaceType() !== "text" && aiMain._model.getAiInterfaceType() !== "tts") trainingDataBlocker.end();
                     return resolve();
                 }
-                if (aiMain._model.getAiInterfaceType() !== "text") {
+                if (aiMain._model.getAiInterfaceType() !== "text" && aiMain._model.getAiInterfaceType() !== "tts") {
                     await aiMain._model.waitIndexedDbFullyLoaded();
                     await aiMain._tensorFlow.loadSavedProjectModel();
                     await aiMain._model.loadSavedProjectTrainingData();
                     trainingDataBlocker.end();
                 }
-                if (aiMain._model.getAiInterfaceType() == "text") aiMain._model.loadSavedProjectModel()
+                if (aiMain._model.getAiInterfaceType() == "text" || aiMain._model.getAiInterfaceType() == "tts") aiMain._model.loadSavedProjectModel()
                 this.updateUrl();
                 resolve();
             } catch (error) {
@@ -2725,7 +2781,9 @@ class ProjectManager {
      * @returns {boolean} false if we aren't in sharedUsers context
      */
     _setupSharedUsers() {
-        if (this._currentProject.sharedUsers === null) return false;
+        if (this._currentProject.sharedUsers === null
+            || Object.keys(this._currentProject).length === 0 // [Rtc] Case when a user loads a project that does not own
+        ) return false;
         let tabSharedUsers = JSON.parse(this._currentProject.sharedUsers);
         document.querySelector('#share-tab-invited-users').innerHTML = '';
         document.querySelector('#panelsStayOpen-collapseTwo .accordion-body').innerHTML = '';
@@ -2848,7 +2906,6 @@ class ProjectManager {
             this.executeCodeToBlock(true);
         } else {
             // HERE ADD the python based code to block procedure
-
         }
     }
 
@@ -3132,7 +3189,6 @@ class ProjectManager {
      */
     renderContent(event, workspace) {
         if (event === null || event === undefined) return;
-        // const ALL_BLOCKS = workspace.getAllBlocks().map(block => block.type); /* ALL_BLOCKS ISN'T USED */
         if (event.type == Blockly.Events.BLOCK_CREATE || event.type == Blockly.Events.BLOCK_DELETE || event.type == Blockly.Events.BLOCK_MOVE) {
             const currentBlocks = workspace.getAllBlocks();
             currentBlocks.forEach(block => {
@@ -3677,9 +3733,9 @@ class ProjectManager {
 
     pythonAutocorrectionInteroperabilitySuccess() {
         const payload = {
-            timeSpent: Math.round((Date.now() - this._startTime) / 1000), 
-            result: 'success', 
-            attempts: this.pythonAutocorrectionRunCount, 
+            timeSpent: Math.round((Date.now() - this._startTime) / 1000),
+            result: 'success',
+            attempts: this.pythonAutocorrectionRunCount,
             code: CodeManager.getSharedInstance().getCode()
         };
 

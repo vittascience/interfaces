@@ -1,28 +1,30 @@
 @import url('../../../interfaces/assets/css/simulator-modules.css');
 @import url('../../../interfaces/assets/css/simulator-robot.css');
 
-.mb-eliobot-motorLeft,
-.mb-eliobot-motorRight {
+.eliobot-motorLeft,
+.eliobot-motorRight {
 	z-index: 1;
 	top: -1px;
 	left: 2px;
 }
-.mb-eliobot-motorLeft_base {
+
+.eliobot-motorLeft_base {
 	z-index: 2;
 	opacity: 0.9;
 }
-.mb-eliobot-motorLeft_base,
-.mb-eliobot-motorRight_base {
+
+.eliobot-motorLeft_base,
+.eliobot-motorRight_base {
 	bottom: 0px;
 	left: 16px;
 }
 
 #eliobot-ir_anim {
-    z-index: 1;
-    height: 27px;
-    top: -25px;
-    left: 4px;
-    opacity: 0;
+	z-index: 1;
+	height: 27px;
+	top: -25px;
+	left: 4px;
+	opacity: 0;
 }
 
 #eliobot-buzzer_anim {
@@ -60,4 +62,28 @@
 	100% {
 		transform: translate(0, 0);
 	}
+}
+
+.elio-potentiometer-IO2,
+.elio-potentiometer-IO15 {
+	z-index: 1;
+	bottom: 13px;
+	left: 13.5px;
+	height: 33px;
+}
+
+.module-img-anim.elio-servo-IO2,
+.module-img-anim.elio-servo-IO15,
+.module-img-anim.elio-servo-IO16 {
+	z-index: 1;
+	width: 20%;
+	height: auto;
+	top: -8px;
+	left: 54px;
+	transform-origin: 8px 34.5px;
+}
+
+.module-value .elio-servo-IO15 {
+	position: relative;
+	top: -25px;
 }

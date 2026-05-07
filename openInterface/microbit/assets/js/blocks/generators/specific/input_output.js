@@ -9,7 +9,7 @@ Blockly.Python.io_pause = function (block) {
     const unit = block.getFieldValue("UNIT");
     Blockly.Python.addImport("utime", IMPORT_UTIME);
     switch (unit) {
-        case "SECOND":
+        case "SEC":
             return "utime.sleep(" + duration + ")" + NEWLINE;
         case "MILLI":
             return "utime.sleep_ms(" + duration + ")" + NEWLINE;
@@ -31,20 +31,16 @@ Blockly.Python.io_initChronometer = function (block) {
     return "t0 = running_time()" + NEWLINE;
 };
 
-Blockly.Python.io_resetChronometer = function (block) {
-    Blockly.Python.addConstant('chronometer', "t0 = 0");
-    block.workspace.createVariable('t0');
-    return "t0 = 0" + NEWLINE;
-};
-
 Blockly.Python.io_getChronometer = function (block) {
     Blockly.Python.addConstant('chronometer', "t0 = 0");
     block.workspace.createVariable('t0');
     switch (block.getFieldValue("UNIT")) {
         case "SEC":
             return ["(running_time()-t0)/1000.0", Blockly.Python.ORDER_ATOMIC];
-        case "MS":
+        case "MILLI":
             return ["(running_time()-t0)", Blockly.Python.ORDER_ATOMIC];
+        case "MICRO":
+            return ["(running_time()-t0)*1e3", Blockly.Python.ORDER_ATOMIC];
     }
 };
 
@@ -173,14 +169,15 @@ Blockly.Python.io_getKeypadNumber = function (block) {
 };
 
 Blockly.Python.io_getGroveThumbJoystick = function (block) {
+    const pinX = block.getFieldValue("PIN_X");
+    const pinY = block.getFieldValue("PIN_Y");
+    Blockly.Python.addInit('joystick_' + pinX + '_codeFlag', "# Joystick X/Y on " + pinX + '/' + pinY);
     const axis = block.getFieldValue("AXIS");
     switch (axis) {
         case "X":
-            return [block.getFieldValue("PIN_X") + ".read_analog()", Blockly.Python.ORDER_ATOMIC];
+            return [pinX + ".read_analog()", Blockly.Python.ORDER_ATOMIC];
         case "Y":
-            return [block.getFieldValue("PIN_Y") + ".read_analog()", Blockly.Python.ORDER_ATOMIC];
-        default:
-            throw Error("Unhandled axis option for Joystick module:'" + axis + "'");
+            return [pinY + ".read_analog()", Blockly.Python.ORDER_ATOMIC];
     }
 };
 
@@ -236,7 +233,7 @@ Blockly.Python.io_getMagneticSwitch = function (block) {
 // Pins
 
 Blockly.Python.io_digital_signal = function (block) {
-    return ["HIGH" == block.getFieldValue("BOOL") ? 1 : 0, Blockly.Python.ORDER_ATOMIC]
+    return ["HIGH" == block.getFieldValue("BOOL") ? 1 : 0, Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.io_readDigitalPin = function (block) {

@@ -25,14 +25,18 @@ class MinimaUploader {
       // on garde au besoin des filtres VID/PID
       ...MinimaUploader.PIDS.map(p => ({ vendorId: MinimaUploader.VID, productId: p })),
     ],
-    onLog = (msg) => console.log(`[MinimaUploader] ${msg}`),
-    onProgress = (_pct) => {},
+    onLog = (msg) => console.log(`[Minima] ${msg}`),
+    onProgress = (_pct) => { },
+    onOpen = () => { },
+    onClose = () => { },
   } = {}) {
     this.transferSize = transferSize;
     this.startAddress = startAddress;
     this.filters = filters;
     this.onLog = onLog;
     this.onProgress = onProgress;
+    this.onOpen = onOpen;
+    this.onClose = onClose;
 
     this.device = null;
     this.interfaceNumber = null;
@@ -72,7 +76,7 @@ class MinimaUploader {
   // ---------- Public
 
   async requestDfuDevice() {
-    this.onLog(`Ouverture WebUSB (filtre DFU)…`);
+    //this.onLog(`Ouverture WebUSB (filtre DFU)…`);
     this.device = await navigator.usb.requestDevice({ filters: this.filters });
     return this.device;
   }
@@ -80,6 +84,7 @@ class MinimaUploader {
   async openAndClaim() {
     if (!this.device) throw new Error('Aucun device sélectionné');
     await this.device.open();
+    this.onOpen();
     if (this.device.configuration == null) await this.device.selectConfiguration(1);
 
     // interface DFU (class 0xFE, subclass 0x01)
@@ -123,8 +128,9 @@ class MinimaUploader {
 
   async close() {
     if (this.device) {
-      try { await this.device.close(); } catch {}
+      try { await this.device.close(); } catch { }
     }
+    this.onClose();
     this.device = null;
     this.interfaceNumber = null;
   }
@@ -169,7 +175,25 @@ class MinimaUploader {
     // boucle d’écriture
     while (written < total) {
       const chunk = firmwareBytes.subarray(written, Math.min(written + transferSize, total));
-      await this.#controlOut(1 /* DFU_DNLOAD */, blockNum, this.interfaceNumber, chunk);
+
+      try {
+        await this.#controlOut(1 /* DFU_DNLOAD */, blockNum, this.interfaceNumber, chunk);
+      } catch (e) {
+        // On essaie de lire le status DFU après l’erreur
+        let st = null;
+        try {
+          st = await this.getStatus();
+          this.onLog(
+            `DFU error on block ${blockNum}: ${e.message} ` +
+            `(bStatus=${st.bStatus}, bState=${st.bState}, poll=${st.poll})`
+          );
+        } catch {
+          console.error(e)
+          this.onLog(`DFU error on block ${blockNum}: ${e.message}, impossible de lire GETSTATUS`);
+        }
+        throw e;
+      }
+
       await this.#pollDnload();
       written += chunk.length;
       blockNum++;
@@ -302,16 +326,34 @@ class MinimaUploader {
       this.onLog('Web Serial indisponible : fais un double appui sur RESET pour passer en DFU.');
       throw new Error('Web Serial non disponible');
     }
-    this.onLog('Tentative de passage en bootloader via Web Serial (1200 bps)…');
 
     const filters = MinimaUploader.PIDS.map(p => ({ usbVendorId: MinimaUploader.VID, usbProductId: p }));
-    const port = await navigator.serial.requestPort({ filters }).catch(e => {
-      throw (e?.name === 'NotFoundError') ? new Error('Aucun port série sélectionné') : e;
-    });
-
-    await port.open({ baudRate: 1200 });
-    // la plupart des bootloaders togglent sur open(1200) + close immédiat
-    await port.close();
-    this.onLog('Demande envoyée. Sélectionne maintenant "Santiago DFU …" dans la boîte WebUSB.');
+    const ports = await navigator.serial.getPorts();
+    let filteredPorts = [];
+    for (const p of ports) {
+      const infos = await p.getInfo();
+      if (filters.some(f => f.usbVendorId === infos.usbVendorId && f.usbProductId === infos.usbProductId)) {
+        filteredPorts.push(p);
+      }
+    }
+    if (filteredPorts.length === 0) {
+      this.onLog('La carte est déjà en mode bootloader DFU ou n\'est pas branchée.');
+    } else {
+      this.onLog('Tentative de passage en bootloader DFU via Web Serial (1200 bps)…');
+      if (filteredPorts.length == 1) {
+        try {
+          await filteredPorts[0].open({ baudRate: 1200 });
+          await filteredPorts[0].close();
+        } catch (e) { }
+      } else {
+        const port = await navigator.serial.requestPort({ filters });
+        try {
+          await port.open({ baudRate: 1200 });
+          await port.close();
+        } catch (e) { }
+      }
+      this.onLog('<b>Sélectionne maintenant "Santiago DFU …" dans la fenêtre WebUSB. </b>');
+    }
+    return true;
   }
 }

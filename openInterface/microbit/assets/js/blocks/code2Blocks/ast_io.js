@@ -632,7 +632,8 @@ utils.prototypeBlocks['exec'] = function (type, identifier, values, mutations, s
 	if (statementsNode.length === 0) {
 		return null;
 	}
-	if (statementsNode[0].type === 'string' || statementsNode[0].type === 'identifier' || statementsNode[0].type === 'integer') {
+	console.log(statementsNode[0]);
+	if (statementsNode[0].type === 'string' || statementsNode[0].type === 'identifier' || statementsNode[0].type === 'integer' || statementsNode[0].type === 'call' || statementsNode[0].type === 'binary_operator') {
 		if(statementsNode[0].type === 'string'){
 			execContent = utils.extractString(statementsNode[0]);
 			execContent.is_exec = true;

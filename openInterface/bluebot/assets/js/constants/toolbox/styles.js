@@ -7,7 +7,7 @@
  */
 
 const THEME_VITTASCIENCE = {
-    "io_blocks": {
+    "time_blocks": {
         "colourPrimary": "#448ae5",
         "hat": "cap"
     },
@@ -95,7 +95,7 @@ const THEME_VITTASCIENCE_HIGH_CONTRAST = {
         "colourSecondary": "#E9A354",
         "colourTertiary": "#FFD19D",
     },
-    "io_blocks": {
+    "time_blocks": {
         "colourPrimary": "#004DB2",
         "colourSecondary": "#5392E5",
         "colourTertiary": "#B2D3FF",

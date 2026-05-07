@@ -166,7 +166,7 @@ Blockly.Python.communication_FizziqBT = function (block) {
     Blockly.Python.addInit('UUID-UART', "UUID_UART = '6E400001-B5A3-F393-E0A9-E50E24DCCA9E'");
     Blockly.Python.addInit('UUID-TX', "UUID_TX = '6E400002-B5A3-F393-E0A9-E50E24DCCA9E'");
     Blockly.Python.addInit('UUID-RX', "UUID_RX = '6E400003-B5A3-F393-E0A9-E50E24DCCA9E'"); //TX AND RX ARE INVERTED 
-    Blockly.Python.addInit('fizziq_init', "uart = BlueUart('WB55_Fizziq', UUID_UART, UUID_TX, UUID_RX)");
+    Blockly.Python.addInit('fizziq_init', "uart = BlueUart('WB55_Vittascience', UUID_UART, UUID_TX, UUID_RX)");
     const value = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || "''";
     let dataToSend;
     let measure;
@@ -321,23 +321,35 @@ Blockly.Python.communication_M24SR64_nfc_eraseTag = function () {
 
 Blockly.Python.communication_uartInit = function (block) {
     const numPort = block.getFieldValue("UART");
+    const uartName = 'uart_' + numPort;
     const baudrate = Blockly.Python.valueToCode(block, "BAUD", Blockly.Python.ORDER_NONE) || "9600";
     switch (numPort) {
         case "1":
-            Blockly.Python.addInit('uart_1', '#UART bus 1 connected on RX D14 and TX D2');
+            Blockly.Python.addInit(uartName, '#UART bus 1 connected on RX D14 and TX D2');
             break;
         case "2":
-            Blockly.Python.addInit('uart_2', '#UART bus 2 connected on RX D0 and TX D1');
+            Blockly.Python.addInit(uartName, '#UART bus 2 connected on RX D0 and TX D1');
             break;
     }
-    Blockly.Python.addInit('uart_' + numPort + '_init', 'uart_' + numPort + " = machine.UART(" + numPort + ", baudrate = " + baudrate + ")");
+    Blockly.Python.addInit(uartName + '_init', uartName + " = machine.UART(" + numPort + ", baudrate = " + baudrate + ")");
     return "";
 };
 
 Blockly.Python.communication_uartWrite = function (block) {
-    const numPort = block.getFieldValue("UART");
+    const uartName = "uart_" + block.getFieldValue("UART");
     const data = Blockly.Python.valueToCode(block, "TEXT", Blockly.Python.ORDER_NONE) || "''";
-    return "uart_" + numPort + ".write(" + data + ")" + NEWLINE;
+    return uartName + ".write(" + data + ")" + NEWLINE;
+};
+
+Blockly.Python.communication_uart_isDataAvailable = function (block) {
+    const uartName = "uart_" + block.getFieldValue("UART");
+    return [uartName + ".any()", Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.communication_uart_readData = function (block) {
+    const uartName = "uart_" + block.getFieldValue("UART");
+    const dataSize = Blockly.Python.valueToCode(block, "SIZE", Blockly.Python.ORDER_NONE) || "";
+    return [uartName + ".read(" + dataSize + ")", Blockly.Python.ORDER_ATOMIC];
 };
 
 //LoRa

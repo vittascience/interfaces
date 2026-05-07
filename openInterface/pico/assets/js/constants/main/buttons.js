@@ -2,7 +2,7 @@ const cardCommunicationButtons = {
     'upload': {
         id: "upload-python",
         show: true,
-        classes: 'ide-btn-check ide-btn-left',
+        classes: 'ide-btn-check ide-btn-left e2e-upload-btn',
         fontAwesome: 'fas fa-bolt',
         onclick: "uploadPython()",
         title: 'code.topbar.tooltips.uploadPython',
@@ -26,7 +26,7 @@ const downloadOptions = {
         icon: "/openInterface/interfaces/assets/media/micropython_logo.svg",
         title: 'code.topbar.tooltips.downloadFirmware',
         tooltipPlacement: "left",
-        onclick: "downloadFirmware('rp2-pico-20220618-v1.19.1.uf2')",
+        onclick: "VittaInterface.downloadFirmware('rp2-pico-20220618-v1.19.1.uf2')",
         label: {
             value: "code.topbar.label.downloadUf2Pico",
         }
@@ -37,7 +37,7 @@ const downloadOptions = {
         icon: "/openInterface/interfaces/assets/media/micropython_logo.svg",
         title: 'code.topbar.tooltips.downloadFirmware',
         tooltipPlacement: "left",
-        onclick: "downloadFirmware('micropython-firmware-pico-w-130623.uf2')",
+        onclick: "VittaInterface.downloadFirmware('micropython-firmware-pico-w-130623.uf2')",
         label: {
             value: "code.topbar.label.downloadUf2PicoW",
         }

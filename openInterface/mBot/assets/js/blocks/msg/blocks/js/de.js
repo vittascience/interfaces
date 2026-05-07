@@ -174,3 +174,5 @@ Blockly.Msg['ROBOTS_MAKEBLOCK_GETPRESSEDBUTTON_TITLE'] = '[4-Tasten-Modul] Taste
 Blockly.Msg['ROBOTS_MAKEBLOCK_GETPRESSEDBUTTON_TOOLTIP'] = IMG_MODULE_MAKEBLOCK_4_BUTTONS + Blockly.Tooltip.SEP + 'Gibt die gedrückte Taste (KEY_1, KEY_2, KEY_3 oder KEY_4) des Makeblock 4-Tasten-Moduls zurück. Sensor an RJ45-Anschluss 1 bis 2 des mBot anschließen.';
 Blockly.Msg['ROBOTS_MAKEBLOCK_READTOUCHSENSOR_TITLE'] = '[Berührungssensor] Zustand am Anschluss %1';
 Blockly.Msg['ROBOTS_MAKEBLOCK_READTOUCHSENSOR_TOOLTIP'] = IMG_MODULE_MAKEBLOCK_TOUCH_SENSOR + Blockly.Tooltip.SEP + 'Gibt den Zustand des Makeblock-Berührungssensors zurück. Sensor an RJ45-Anschluss 1 bis 4 des mBot anschließen.';
+Blockly.Msg['COMMUNICATION_SERIAL_WRITE_NUMBER_TITLE'] = 'Zahl in der Konsole %1 im Format %2 ausgeben';
+Blockly.Msg['COMMUNICATION_SERIAL_WRITE_NUMBER_TOOLTIP'] = 'Ermöglicht, eine Zahl in der Konsole im gewählten Format anzuzeigen (HEX: hexadezimal, DEC: dezimal).';

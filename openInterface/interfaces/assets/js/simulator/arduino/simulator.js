@@ -19,6 +19,7 @@ var Simulator = {
 		write() { }
 	},
 	errorInfos: {},
+	currentDelays: {},
 
 	/**
 	 * Parses variables from code and add them to variables panel.
@@ -95,13 +96,6 @@ var Simulator = {
 						_this.Debugger.lastLine = lineToDraw;
 					}
 				}
-				if (_this.currentDelay > 0) {
-					await _this.sleep_ms(_this.currentDelay);
-					_this.currentDelay = 0;
-					if (Simulator.stop_flag) {
-						reject("Simulator stopped.");
-					}
-				}
 			} else {
 				if (_this.isDebugging && !_this.stop_flag) {
 					_this.Debugger.eraseBreakpoint();
@@ -127,9 +121,10 @@ var Simulator = {
 
 	sleep_ms: function (delay_ms) {
 		return new Promise(resolve => {
-			Simulator.clearCurrentDelay = resolve;
+			const id = randHex();
+			Simulator.currentDelays[id] = resolve;
 			setTimeout(() => {
-				Simulator.clearCurrentDelay = null;
+				delete Simulator.currentDelays[id];
 				resolve();
 			}, delay_ms);
 		});
@@ -146,13 +141,14 @@ var Simulator = {
 		this.startTime = Date.now();
 		this.mainExecutionStarted = true;
 		this.rt = null;
+		this.Mosaic.interruptions = {};
 		const default_includes = ["Arduino.h"];
-		if ('Vittascience.h' in Simulator.Mosaic.externalLibraries.includes) {
+		if ('Vittascience.h' in this.Mosaic.externalLibraries.includes) {
 			default_includes.push('Vittascience.h');
 		}
 		await JSCPP.run(this.code, 4321, {
-			'stdio': Simulator.monitor,
-			'includes': Simulator.Mosaic.externalLibraries.includes,
+			'stdio': this.monitor,
+			'includes': this.Mosaic.externalLibraries.includes,
 			'default_includes': default_includes,
 			'limits': SIMULATOR_CPP_LIMITS[this.board.mcu],
 			'type_formats': SIMULATOR_TYPE_FORMATS[this.board.mcu],
@@ -199,6 +195,7 @@ var Simulator = {
 			} else if (error.cause.type == this.ERROR_TYPES['UNKNOWN_LIB']) {
 				showError = lineMessage + 'Librairie inconnue: ';
 				showError += boldName(name);
+				showError += '</br>' + jsonPath('code.simulator.messages.importError');
 			} else {
 				showError = lineMessage + showError;
 			}
@@ -231,18 +228,20 @@ var Simulator = {
 		this.stop();
 	},
 
-	initJSCPP: function () {
-		document.getElementById('serial-send').addEventListener('click', function () {
-			if (!Simulator.isStopped) {
-				const data = $('#serial-input').val();
-				if (data != '') {
-					Simulator.serialData += data;
-					$('#serial-input').val('');
-					InterfaceMonitor.writeConsole('Donnée envoyée: ' + data + '\n');
-					InterfaceMonitor.history.push(data);
-				}
+	getSerialInput: function () {
+		if (this.isStopped || !this.isRunning) {
+			InterfaceMonitor.writeConsole('code.simulator.messages.replaySimulator', "neutral", false, true)
+		} else if (!this.isStopped && this.isRunning) {
+			const data = $('#serial-input').val();
+			if (data) {
+				this.serialData += data;
+				$('#serial-input').val('');
+				InterfaceMonitor.writeConsole(jsonPath('code.simulator.messages.sentData') + " " + data + '\n');
+				InterfaceMonitor.history.push(data);
 			}
-		});
+		} else if (!this.isOpen) {
+			console.error("Function on #serial-send button is not for InterfaceConnection.")
+		}
 	},
 
 	/**
@@ -348,30 +347,26 @@ var Simulator = {
 		}
 	},
 
-	updateArduinoBoard(boardId) {
-		if (boardId) {
-			if (boardId == BOARD_SHIELD_GROVE) {
-				this.viewShield = true;
-			} else {
-				this.viewShield = false;
+	async execInterpretedFunction(rt, _this, funcName, args, scope = "global") {
+		async function runOnEvent(rt, event) {
+			const startTime = Date.now();
+			while (true) {
+				const step = event.next();
+				if (step.value && step.value.type === rt.SUSPEND_TOKEN) {
+					await step.value.promise;
+					continue;
+				}
+				if (step.done) {
+					break;
+				}
+				if (rt.config.maxTimeout && ((Date.now() - startTime) > rt.config.maxTimeout)) {
+					throw new Error("Time limit exceeded.");
+				}
 			}
-		}
-		const img = (filename) => _PATH + "/" + INTERFACE_NAME + "/assets/media/simulator/board/" + filename;
-		const path = this.viewShield ? img(this.board.shieldLink) : img(this.board.link);
-		const name = this.viewShield ? this.board.shieldName : this.board.name;
-		$("#board-viewer").attr("data", path);
-		$("#title-board").html(name);
-		const options = document.querySelectorAll("#simulator-board-options .dropdown-item");
-		options.forEach((option) => {
-			option.classList.remove('fw-bold');
-			const optionValue = option.getAttribute('data-board');
-			if (
-				((optionValue === Simulator.board.name && !this.viewShield) || (optionValue == 'Shield Grove' && this.viewShield)) 
-				&& !option.classList.contains('fw-bold')) {
-				option.classList.add('fw-bold');
-			}
-		});
-		this.Mosaic.addSpecificInitializations();
+		};
+
+		const onEventFunc = rt.getFunc(scope, funcName, args)(rt, _this);
+		await runOnEvent(rt, onEventFunc);
 	}
 
 };

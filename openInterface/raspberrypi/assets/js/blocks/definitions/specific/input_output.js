@@ -4,84 +4,61 @@
 
 Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 
-    /*Begin Raspberry pi blocks*/
+    /*Begin Time blocks*/
 
-    // BLOCK PAUSE
+    // BLOCK DATETIME YMD_HMS
     {
-        "type": "io_pause",
-        "message0": "%{BKY_IO_WAIT_TITLE}",
+        "type": "io_datetime_ymd_hms",
+        "message0": "%{BKY_IO_DATETIME_YMD_HMS_TITLE}",
+        "output": "String",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_IO_DATETIME_YMD_HMS_TOOLTIP}",
+    },
+
+    /** Begin Sense HAT joystick blocks */
+
+    {
+        "type": "sensehat_wait_for_event",
+        "message0": "%{BKY_SENSE_HAT_WAIT_FOR_EVENT_TITLE}",
+        'previousStatement': null,
+        'nextStatement': null,
+        "tooltip": "%{BKY_SENSE_HAT_WAIT_FOR_EVENT_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+    },
+    {
+        "type": "sensehat_get_event_action_direction",
+        "message0": "%{BKY_SENSE_HAT_GET_EVENT_ACTION_DIRECTION_TITLE}",
         "args0": [{
-            "type": "input_value",
-            "name": "TIME",
-            "check": "Number"
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "UNIT",
-            "options": [
-                ["%{BKY_IO_WAIT_SECOND}", "SEC"],
-                ["%{BKY_IO_WAIT_MILLISECOND}", "MILLI"],
-                ["%{BKY_IO_WAIT_MICROSECOND}", "MICRO"],
+            'type': 'field_grid_dropdown',
+            'name': 'EVENT_TYPE',
+            'options': [
+                ['%{BKY_SENSE_HAT_GET_EVENT_DIRECTION}', 'direction'],
+                ['%{BKY_SENSE_HAT_GET_EVENT_ACTION}', 'action'],
             ]
         }],
-        "previousStatement": null,
-        "nextStatement": null,
+        "output": "String",
+        "tooltip": "%{BKY_SENSE_HAT_GET_EVENT_ACTION_DIRECTION_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
             "block_init_color"
         ],
-        "tooltip": "%{BKY_IO_WAIT_TOOLTIP}",
     },
-
-    // BLOCK WAIT UNTIL JSON
     {
-        "type": "io_waitUntil",
-        "message0": "%{BKY_IO_WAIT_UNTIL_TITLE}",
-        "args0": [{
-            "type": "input_value",
-            "name": "UNTIL",
-            "check": "Boolean"
-        }],
-        "previousStatement": null,
-        "nextStatement": null,
+        'type': 'sensehat_get_event_joystick',
+        'message0': '%{BKY_SENSE_HAT_GET_EVENT_JOYSTICK_TITLE}',
+        'previousStatement': null,
+        'nextStatement': null,
+        'tooltip': '%{BKY_SENSE_HAT_GET_EVENT_JOYSTICK_TOOLTIP}',
         "extensions": [
             "block_init_helpurl",
             "block_init_color"
         ],
-        "tooltip": "%{BKY_IO_WAIT_UNTIL_TOOLTIP}",
-    },
-
-    // BLOCK INIT CHRONOMETER
-    {
-        "type": "io_initChronometer",
-        "message0": "%{BKY_IO_INITCHRONOMETER_TITLE}",
-        "previousStatement": null,
-        "nextStatement": null,
-        "extensions": [
-            "block_init_helpurl",
-            "block_init_color"
-        ],
-        "tooltip": "%{BKY_IO_INITCHRONOMETER_TOOLTIP}",
-    },
-
-    // BLOCK GET CHRONOMETER
-    {
-        "type": "io_getChronometer",
-        "message0": "%{BKY_IO_GETCHRONOMETER_TITLE}",
-        "args0": [{
-            "type": "field_grid_dropdown",
-            "name": "UNIT",
-            "options": [
-                ["(s)", "SEC"],
-                ["(ms)", "MILLI"],
-                ["(µ)", "MICRO"]
-            ]
-        }],
-        "output": "Number",
-        "extensions": [
-            "block_init_helpurl",
-            "block_init_color"
-        ],
-        "tooltip": "%{BKY_IO_GETCHRONOMETER_TOOLTIP}",
-    },
+    }
 
 ]); // END JSON EXTRACT (Do not delete this comment.)

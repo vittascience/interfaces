@@ -280,9 +280,9 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'io_writeDigitalPin',
                 'io_readAnalogPin',
                 'io_writePwm',
-                'io_writeAnalogPin',
                 'io_setPwm',
                 'io_stopPwm',
+                'io_writeAnalogPin',
                 'io_getVoltage'
             ]
         }
@@ -315,10 +315,10 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_WIRELESS_COMMUNICATION}",
+            "label": "%{BKY_SUBCATEGORY_EXTERNAL_BLUETOOTH}",
             "blocks": [
-                'communication_sendBluetoothData',
-                'communication_onBluetoothDataReceived'
+                'communication_hc05_sendBluetoothData',
+                'communication_hc05_onBluetoothDataReceived'
             ]
         },
         {
@@ -361,7 +361,8 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             "blocks": [
                 'network_server_sendData',
                 'network_server_getClientData',
-                'network_server_getClientIp'
+                'network_server_getClientIp',
+                'network_server_closeClientConnection'
             ]
         },
         {
@@ -628,21 +629,24 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'text_split',
                 'text_length',
                 'text_isEmpty',
+                'text_includesSubstr',
                 'text_indexOf',
                 'text_charAt',
                 'text_getSubstring',
+                'text_count_characters',
                 'text_changeCase',
                 'text_trim',
                 'text_count',
                 'text_replace',
-                'text_reverse'
+                'text_reverse',
+                'text_random_string'
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_TEXT_ANALYSIS}",
+            "label": "%{BKY_SUBCATEGORY_ENCRYPTION}",
             "blocks": [
-                'text_count_characters',
-                'text_random_string'
+                'text_caesar_cipher',
+                'text_caesar_cipher_brute_force'
             ],
         }
     ],

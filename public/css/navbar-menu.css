@@ -243,11 +243,6 @@ html[dir=rtl] .vs-navbar .navbar-login-dropdown {
 	margin-inline: 0.5em;
 }
 
-#switch-lang-list,
-#access-dropdown {
-	text-align: start;
-}
-
 /* ANNOUNCEMENT BANNER */
 
 #release-announcement-banner {

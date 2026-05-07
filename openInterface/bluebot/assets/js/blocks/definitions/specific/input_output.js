@@ -1,5 +1,5 @@
 /**
- * @fileoverview Input/Output blocks for Blue-bot.
+ * @fileoverview Time blocks for Blue-bot.
  */
 
 Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
@@ -71,7 +71,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "options": [
                 ["(s)", "SEC"],
                 ["(ms)", "MILLI"],
-                ["(µ)", "MICRO"]
+                ["(µs)", "MICRO"]
             ]
         }],
         "output": "Number",

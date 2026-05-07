@@ -115,18 +115,33 @@ Blockly.Python.network_server_sendData = function (block) {
 };
 
 // Server - get client data
-Blockly.Python.network_server_getClientData = function () {
-    return ["server.getClientData()", Blockly.Python.ORDER_ATOMIC];
-};
-
-// Server - get client data parameter
-Blockly.Python.network_server_getClientDataParam = function () {
-    return ["server.getClientData(parameter = True)", Blockly.Python.ORDER_ATOMIC];
+Blockly.Python.network_server_getClientData = function (block) {
+    const close = Blockly.Python.valueToCode(block, "CLOSING", Blockly.Python.ORDER_NONE) || "";
+    if (close) {
+        return ["server.getClientData(close = " + close + ")", Blockly.Python.ORDER_ATOMIC];
+    } else {
+        return ["server.getClientData()", Blockly.Python.ORDER_ATOMIC];
+    }
 };
 
 // Server - get client IP
 Blockly.Python.network_server_getClientIp = function () {
     return ["server.getClientIp()", Blockly.Python.ORDER_ATOMIC];
+};
+
+// Server - get client data parameter
+Blockly.Python.network_server_getClientDataParam = function () {
+    const close = Blockly.Python.valueToCode(block, "CLOSING", Blockly.Python.ORDER_NONE) || "";
+    if (close) {
+        return ["server.getClientData(close = " + close + ", parameter = True)", Blockly.Python.ORDER_ATOMIC];
+    } else {
+        return ["server.getClientData(parameter = True)", Blockly.Python.ORDER_ATOMIC];
+    }
+};
+
+// Server - close client connection
+Blockly.Python.network_server_closeClientConnection = function () {
+    return "server.closeClient(True)" + NEWLINE;
 };
 
 // Server - change port
@@ -438,18 +453,20 @@ Blockly.Python.network_html_addImage = function (block) {
         data = Blockly.Python.esp32.getStringFormat(data);
         data = '    <img src="data:image/png;base64, ' + data + '">';
     } else {
-        const inputCheck = inputBlock.outputConnection.check_;
-        if (inputCheck) {
-            if (inputCheck[0] == "Array") {
-                data = Blockly.Python.esp32.getStringFormat('str(' + data + ')[2:-3]');
-            } else {
-                data = Blockly.Python.esp32.getStringFormat('str(' + data + ')');
+        if (inputBlock) {
+            const inputCheck = inputBlock.outputConnection.check_;
+            if (inputCheck) {
+                if (inputCheck[0] == "Array") {
+                    data = Blockly.Python.esp32.getStringFormat('str(' + data + ')[2:-3]');
+                } else {
+                    data = Blockly.Python.esp32.getStringFormat('str(' + data + ')');
+                }
+                data = '    <img src="data:image/png;base64, ' + data + '">';
+            } else if (inputBlock.type == 'variables_get') {
+                const id = randHex();
+                Blockly.Python.esp32.addHtmlImageData(id, data);
+                data = '    <img id="' + id + '">';
             }
-            data = '    <img src="data:image/png;base64, ' + data + '">';
-        } else if (inputBlock.type == 'variables_get') {
-            const id = randHex();
-            Blockly.Python.esp32.addHtmlImageData(id, data);
-            data = '    <img id="' + id + '">';
         }
     }
     if (block.getInput("WIDTH")) {
@@ -458,7 +475,7 @@ Blockly.Python.network_html_addImage = function (block) {
         } else {
             w = Blockly.Python.esp32.getStringFormat('str(' + w + ')');
         }
-    } else if (inputBlock.type == 'esp32Cam_getCaptureData') {
+    } else if (inputBlock && inputBlock.type == 'esp32Cam_getCaptureData') {
         w = "DISPLAY_RESOLUTIONS[CAM_FRAMESIZE][1][0]";
         w = Blockly.Python.esp32.getStringFormat('str(' + w + ')');
     }
@@ -468,7 +485,7 @@ Blockly.Python.network_html_addImage = function (block) {
         } else {
             h = Blockly.Python.esp32.getStringFormat('str(' + h + ')');
         }
-    } else if (inputBlock.type == 'esp32Cam_getCaptureData') {
+    } else if (inputBlock && inputBlock.type == 'esp32Cam_getCaptureData') {
         h = "DISPLAY_RESOLUTIONS[CAM_FRAMESIZE][1][1]";
         h = Blockly.Python.esp32.getStringFormat('str(' + h + ')');
     }

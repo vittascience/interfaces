@@ -15,13 +15,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
                     ["%{BKY_ROBOT_MOVE_FORWARD}", "forward"],
                     ["%{BKY_ROBOT_MOVE_BACKWARD}", "backward"]
                 ]
-            },
-            {
-                "type": "input_value",
-                "name": "SPEED",
-                "check": "Number"
             }
-
         ],
         "inputsInline": true,
         "previousStatement": null,
@@ -43,11 +37,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
                     ["%{BKY_ROBOT_ROTATE_RIGHT}", "right"],
                     ["%{BKY_ROBOT_ROTATE_LEFT}", "left"]
                 ]
-            },
-            {
-                "type": "input_value",
-                "name": "SPEED",
-                "check": "Number"
             }
         ],
         "inputsInline": true,
@@ -55,47 +44,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "style": "actuators_blocks",
         "tooltip": "%{BKY_ROBOT_ROTATE_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-    // Bloc permettant une rotation du robot
-    {
-        "type": "robot_rotate_forever",
-        "message0": "%{BKY_ROBOT_ROTATE_FOREVER_TITLE}",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "DIRECTION",
-                "options": [
-                    ["%{BKY_ROBOT_ROTATE_RIGHT}", "right"],
-                    ["%{BKY_ROBOT_ROTATE_LEFT}", "left"]
-                ]
-            },
-            {
-                "type": "input_value",
-                "name": "TIME",
-                "check": "Number"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "UNIT",
-                "options": [
-                    ["%{BKY_IO_WAIT_SECOND}", "s"],
-                    ["%{BKY_IO_WAIT_MILLISECOND}", "ms"]
-                ]
-            },
-            {
-                "type": "input_value",
-                "name": "SPEED",
-                "check": "Number"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "actuators_blocks",
-        "tooltip": "%{BKY_ROBOT_ROTATE_FOREVER_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]
@@ -149,11 +97,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
                 "type": "input_value",
                 "name": "ANGLE",
                 "check": "Number",
-            },
-            {
-                "type": "input_value",
-                "name": "SPEED",
-                "check": "Number"
             }
         ],
         "previousStatement": null,
@@ -167,7 +110,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     },
     // spin one wheel of the robot
     {
-        "type": "robot_spinOneWheel",
+        "type": "robot_spin_one_wheel",
         "message0": "%{BKY_ROBOT_SPIN_ONE_WHEEL_TITLE}",
         "args0": [
             {
@@ -182,14 +125,9 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
                 "type": "field_dropdown",
                 "name": "DIRECTION",
                 "options": [
-                    ["%{BKY_ROBOT_MOVE_FORWARD}", "forward"],
-                    ["%{BKY_ROBOT_MOVE_BACKWARD}", "backward"]
+                    ["↻", "forward"],
+                    ["↺", "backward"]
                 ]
-            },
-            {
-                "type": "input_value",
-                "name": "SPEED",
-                "check": "Number"
             }
         ],
         "previousStatement": null,
@@ -202,18 +140,21 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     },
     // move the robot x step
     {
-        "type": "robot_moveOneStep",
+        "type": "robot_move_one_step",
         "message0": "%{BKY_ROBOT_MOVE_ONE_STEP_TITLE}",
         "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "DIRECTION",
+                "options": [
+                    ["%{BKY_ROBOT_MOVE_FORWARD}", "forward"],
+                    ["%{BKY_ROBOT_MOVE_BACKWARD}", "backward"]
+                ]
+            },
             {
                 "type": "input_value",
                 "name": "STEP",
                 "check": "Number",
-            },
-            {
-                "type": "input_value",
-                "name": "SPEED",
-                "check": "Number"
             }
         ],
         "previousStatement": null,
@@ -224,6 +165,69 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "extensions": [
             "block_init_helpurl"
         ]
+    },
+    {
+        "type": "robot_turn90",
+        "message0": "%{BKY_ROBOT_TURN_90_TITLE}",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "DIRECTION",
+                "options": [
+                    ["%{BKY_ROBOT_TURN_RIGHT}", "right"],
+                    ["%{BKY_ROBOT_TURN_LEFT}", "left"]
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "inputsInline": true,
+        "style": "actuators_blocks",
+        "tooltip": "%{BKY_ROBOT_TURN_90_TOOLTIP}",
+        "helpUrl": "https://docs.eliobot.com/docs/elioblocs/blocs/movements#tourner-a-droite-ou-a-gauche"
+    },
+    {
+        "type": "robot_set_square_size",
+        "message0": "%{BKY_ROBOT_SET_SQUARE_SIZE_TITLE}",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "SIZE",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "actuators_blocks",
+        "tooltip": "%{BKY_ROBOT_SET_SQUARE_SIZE_TOOLTIP}",
+        "helpUrl": "https://docs.eliobot.com/docs/elioblocs/blocs/movements"
+    },
+    {
+        "type": "robot_waiting",
+        "message0": "%{BKY_ROBOT_WAITING_TITLE}",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "TIME",
+                "check": "Number"
+            },
+            {
+                "type":
+                    "field_dropdown",
+                "name": "UNIT",
+                "options": [
+                    ["%{BKY_ROBOT_UNIT_SECONDS}", "s"],
+                    ["%{BKY_ROBOT_UNIT_MILLISECONDS}", "ms"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "actuators_blocks",
+        "tooltip": "%{BKY_ROBOT_WAITING_TOOLTIP}",
+        "helpUrl": "https://docs.eliobot.com/docs/elioblocs/blocs/movements#arr%C3%AAter-les-moteurs"
     },
     // Block that let you choose a frequency
     {
@@ -293,14 +297,14 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
                 "type": "field_dropdown",
                 "name": "NOTE",
                 "options": [
-                    ["Do", "do"],
-                    ["Re", "re"],
-                    ["Mi", "mi"],
-                    ["Fa", "fa"],
-                    ["Sol", "sol"],
-                    ["La", "la"],
-                    ["Si", "si"],
-                    ["Do", "do2"]
+                    ["Do", "261.63"],
+                    ["Re", "293.66"],
+                    ["Mi", "329.63"],
+                    ["Fa", "349.23"],
+                    ["Sol", "392.00"],
+                    ["La", "440.00"],
+                    ["Si", "493.88"],
+                    ["Do", "523.25"]
                 ]
             },
             {
@@ -324,6 +328,36 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "extensions": [
             "block_init_helpurl"
         ]
+    },
+    {
+        "type": "actuators_play_sound",
+        "message0": "%{BKY_ACTUATORS_PLAY_SOUND_TITLE}",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "SOUND",
+                "options": [
+                    ["%{BKY_ACTUATORS_SOUND_JUMP}", "sound_jump"],
+                    ["%{BKY_ACTUATORS_SOUND_LASER}", "sound_laser"],
+                    ["%{BKY_ACTUATORS_SOUND_QUESTION}", "sound_question"],
+                    ["%{BKY_ACTUATORS_SOUND_ERROR}", "sound_error"],
+                    ["%{BKY_ACTUATORS_SOUND_EXPLOSION}", "sound_explosion"],
+                    ["%{BKY_ACTUATORS_SOUND_LAND}", "sound_land"],
+                    ["%{BKY_ACTUATORS_SOUND_HAPPY}", "sound_happy"],
+                    ["%{BKY_ACTUATORS_SOUND_WIN}", "sound_win"],
+                    ["%{BKY_ACTUATORS_SOUND_ALERT}", "sound_alert"],
+                    ["%{BKY_ACTUATORS_SOUND_HELLO}", "sound_hello"],
+                    ["%{BKY_ACTUATORS_SOUND_STARTUP}", "sound_startup"],
+                    ["%{BKY_ACTUATORS_SOUND_BUMP}", "sound_bump"],
+                    ["%{BKY_ACTUATORS_SOUND_BLINK}", "sound_blink"]
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "actuators_blocks",
+        "tooltip": "%{BKY_ACTUATORS_PLAY_SOUND_TOOLTIP}",
+        "helpUrl": "https://docs.eliobot.com/docs/elioblocs/blocs/sounds"
     },
     // Block that let you adjust the volume
     {

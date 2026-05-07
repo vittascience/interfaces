@@ -10,8 +10,12 @@ import { LineMaterial } from '/openInterface/interfaces/assets/js/simulator3d/li
 import { LineGeometry } from '/openInterface/interfaces/assets/js/simulator3d/libs/LineGeometry.js';
 import { OBB } from '/openInterface/interfaces/assets/js/simulator3d/libs/OBB.js';
 
-import TransformControl from './utils/transformControls.js';
-import ObstacleUtils from './utils/obstaclesUtils.js';
+// import TransformControl from './utils/transformControls.js';
+import TransformControl from '/openInterface/interfaces/assets/js/simulator3d/Utils/transformControls.js';
+
+// import ObstacleUtils from './utils/obstaclesUtils.js';
+import ObstacleUtils from '/openInterface/interfaces/assets/js/simulator3d/Utils/obstaclesUtils.js';
+
 import Physics from './utils/physics.js';
 import RobotSimulator3D from '/openInterface/interfaces/assets/js/simulator/robot/RobotSimulator3D.js';
 
@@ -64,16 +68,7 @@ export default class Simulator3d {
 	 * @return {void} // init the simulator
 	 */
 	async _init() {
-		const getImageDataBackground = JSON.parse(localStorage.simulatorData);
-		let background = null;
-		try {
-			const interfaceImageDataBackground = getImageDataBackground[INTERFACE_NAME];
-			if (typeof interfaceImageDataBackground !== 'undefined' && typeof interfaceImageDataBackground.backgrounds !== 'undefined' && typeof interfaceImageDataBackground.backgrounds.Donutbot !== 'undefined') {
-				background = interfaceImageDataBackground.backgrounds.Donutbot;
-			}
-		} catch (error) {
-			console.error('error loading background', error);
-		}
+		const background = SimulatorLS.getData('Donutbot', 'backgrounds');
 		if (background !== null && typeof background !== 'undefined') {
 			await this.updateBackground(background);
 		} else {
@@ -173,7 +168,7 @@ export default class Simulator3d {
 	 * @returns {void} // init transform controls
 	 **/
 	initTranformControls() {
-		this.transformControl = new TransformControl(this, this.experience, this.obstaclesHandler, this.updateGridSystem.bind(this));
+		this.transformControl = new TransformControl(this, this.experience, this.obstaclesHandler, this.updateGridSystem.bind(this), 'Donutbot');
 	}
 
 	initPhysics() {

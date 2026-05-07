@@ -39,7 +39,8 @@ const NEWLINE = '\n';
 //tabulation
 const TAB = '  ';
 
-
+//standalone_blocks
+const BLOCKS_OUTSIDE_SCOPE = ["html"];
 // javascript block type to exclude from the standalone_blocks if a JS new block is added, add it here as well 
 const JS_BLOCKS = [
   "addeventlistener",
@@ -195,9 +196,8 @@ const JS_BLOCKS = [
   "variables_set_dynamic"
 ];
 
-
 //code
-const DEFAULT_XML_START =  '<xml xmlns="https://developers.google.com/blockly/xml"><block type="html" id="9AuhF6w1CxM)Ii%YO%Yp" x="37" y="12"><statement name="content"><block type="head" id=")q1E.C)M)`JM7eq20"><statement name="content"><block type="style" id="kF7XPUcd5umpy$Z/d"><statement name="content"><block type="cssitem" id="speOs4v2i8(Nw0qeP"><field name="selector">h1</field><statement name="content"><block type="fontsize" id="MOgPchMoF.o1]7m(`E"><field name="value">30px</field><next><block type="fontweight" id="DvPM([G*cDqtkZki4J"><field name="weight">bold</field><next><block type="colornew" id="jefUdvNQnRE{J0oFI"><value name="value"><block type="hex_picker" id="!TdVzi[eujj4!7g8hsH3"><field name="color">228b22</field></block></value></block></next></block></next></block></statement><next><block type="cssitem" id="25[DqU7iUTX41)EbAIl"><field name="selector">p</field><statement name="content"><block type="fontfamily" id="ttH(AXt1yzWp/w"><field name="value">sans-serif</field></block></statement></block></next></block></statement></block></statement><next><block type="body" id="aF2f/bpcDHA)yqv3RK"><statement name="content"><block type="header" id="I{}N3QNEeJWlhl75s,"><field name="size">1</field><statement name="content"><block type="emptytext" id="([Pxfk9OW0]spNnhVxh"><field name="content">Accueil de mon site</field></block></statement><next><block type="paragraph" id="8[lTZa]5TW$5jr/EU{q"><statement name="content"><block type="emptytext" id=",h)0XX..OgX}90XIY8"><field name="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elementum erat quis neque lacinia, vitae auctor nunc scelerisque. Suspendisse malesuada ligula sem. In iaculis, nisl in auctor aliquam, ante massa efficitur arcu, eget dictum eros ligula ut tellus. In vel venenatis augue, sed scelerisque eros. Vestibulum fermentum sem tortor, a varius felis faucibus vitae. Donec augue augue, dapibus quis est ut, laoreet mollis tellus. Vivamus aliquam diam et sapien ornare dictum. Aliquam purus quam, porttitor suscipit urna at, pretium rutrum nisi. Cras commodo enim semper auctor maximus. Curabitur rhoncus tortor vel ex pretium eleifend. Nunc condimentum ullamcorper mauris.</field></block></statement></block></next></block></statement></block></next></block></statement></block></xml>';
+const DEFAULT_XML_START = '<xml xmlns="https://developers.google.com/blockly/xml"><block type="html" id="9AuhF6w1CxM)Ii%YO%Yp" x="37" y="12"><statement name="content"><block type="head" id=")q1E.C)M)`JM7eq20"><statement name="content"><block type="style" id="kF7XPUcd5umpy$Z/d"><statement name="content"><block type="cssitem" id="speOs4v2i8(Nw0qeP"><field name="selector">h1</field><statement name="content"><block type="fontsize" id="MOgPchMoF.o1]7m(`E"><field name="value">30px</field><next><block type="fontweight" id="DvPM([G*cDqtkZki4J"><field name="weight">bold</field><next><block type="colornew" id="jefUdvNQnRE{J0oFI"><value name="value"><block type="hex_picker" id="!TdVzi[eujj4!7g8hsH3"><field name="color">228b22</field></block></value></block></next></block></next></block></statement><next><block type="cssitem" id="25[DqU7iUTX41)EbAIl"><field name="selector">p</field><statement name="content"><block type="fontfamily" id="ttH(AXt1yzWp/w"><field name="value">sans-serif</field></block></statement></block></next></block></statement></block></statement><next><block type="body" id="aF2f/bpcDHA)yqv3RK"><statement name="content"><block type="header" id="I{}N3QNEeJWlhl75s,"><field name="size">1</field><statement name="content"><block type="emptytext" id="([Pxfk9OW0]spNnhVxh"><field name="content">Accueil de mon site</field></block></statement><next><block type="paragraph" id="8[lTZa]5TW$5jr/EU{q"><statement name="content"><block type="emptytext" id=",h)0XX..OgX}90XIY8"><field name="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elementum erat quis neque lacinia, vitae auctor nunc scelerisque. Suspendisse malesuada ligula sem. In iaculis, nisl in auctor aliquam, ante massa efficitur arcu, eget dictum eros ligula ut tellus. In vel venenatis augue, sed scelerisque eros. Vestibulum fermentum sem tortor, a varius felis faucibus vitae. Donec augue augue, dapibus quis est ut, laoreet mollis tellus. Vivamus aliquam diam et sapien ornare dictum. Aliquam purus quam, porttitor suscipit urna at, pretium rutrum nisi. Cras commodo enim semper auctor maximus. Curabitur rhoncus tortor vel ex pretium eleifend. Nunc condimentum ullamcorper mauris.</field></block></statement></block></next></block></statement></block></next></block></statement></block></xml>';
 const DEFAULT_CODE_START = '<body>\n  <h1>\n    Accueil de mon site\n  </h1>\n  <p>\n    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elementum erat quis neque lacinia, vitae auctor nunc scelerisque. Suspendisse malesuada ligula sem. In iaculis, nisl in auctor aliquam, ante massa efficitur arcu, eget dictum eros ligula ut tellus. In vel venenatis augue, sed scelerisque eros. Vestibulum fermentum sem tortor, a varius felis faucibus vitae. Donec augue augue, dapibus quis est ut, laoreet mollis tellus. Vivamus aliquam diam et sapien ornare dictum. Aliquam purus quam, porttitor suscipit urna at, pretium rutrum nisi. Cras commodo enim semper auctor maximus. Curabitur rhoncus tortor vel ex pretium eleifend. Nunc condimentum ullamcorper mauris.\n  </p>\n</body>\n';
 //toolbox
 const TOOLBOX_STYLE_VITTA = "vittascience";
@@ -208,11 +208,11 @@ const EXAMPLE_PROJECT_LINKS = [];
 
 const TOOLBOXES = [
   {
-      "id": TOOLBOX_STYLE_VITTA,
-      "categories": TOOLBOX_VITTASCIENCE_CATEGORIES,
-      "subcategories": TOOLBOX_VITTASCIENCE_SUBCATEGORIES,
-      "content": TOOLBOX_VITTASCIENCE_CONTENT,
-      "content-simple": TOOLBOX_VITTASCIENCE_CONTENT_SIMPLE,
-      "theme": THEME_VITTASCIENCE
+    "id": TOOLBOX_STYLE_VITTA,
+    "categories": TOOLBOX_VITTASCIENCE_CATEGORIES,
+    "subcategories": TOOLBOX_VITTASCIENCE_SUBCATEGORIES,
+    "content": TOOLBOX_VITTASCIENCE_CONTENT,
+    "content-simple": TOOLBOX_VITTASCIENCE_CONTENT_SIMPLE,
+    "theme": THEME_VITTASCIENCE
   }
 ];

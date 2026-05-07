@@ -1452,10 +1452,13 @@ Blockly.fieldRegistry.register("field_angle",Blockly.FieldAngle);Blockly.FieldCh
 Blockly.FieldCheckbox.prototype.configure_=function(a){Blockly.FieldCheckbox.superClass_.configure_.call(this,a);a.checkCharacter&&(this.checkChar_=a.checkCharacter)};Blockly.FieldCheckbox.prototype.initView=function(){Blockly.FieldCheckbox.superClass_.initView.call(this);Blockly.utils.dom.addClass(this.textElement_,"blocklyCheckbox");this.textElement_.style.display=this.value_?"block":"none"};
 Blockly.FieldCheckbox.prototype.render_=function(){this.textContent_&&(this.textContent_.nodeValue=this.getDisplayText_());this.updateSize_(this.getConstants().FIELD_CHECKBOX_X_OFFSET)};Blockly.FieldCheckbox.prototype.getDisplayText_=function(){return this.checkChar_||Blockly.FieldCheckbox.CHECK_CHAR};Blockly.FieldCheckbox.prototype.setCheckCharacter=function(a){this.checkChar_=a;this.forceRerender()};Blockly.FieldCheckbox.prototype.showEditor_=function(){this.setValue(!this.value_)};
 Blockly.FieldCheckbox.prototype.doClassValidation_=function(a){return!0===a||"TRUE"===a?"TRUE":!1===a||"FALSE"===a?"FALSE":null};Blockly.FieldCheckbox.prototype.doValueUpdate_=function(a){this.value_=this.convertValueToBool_(a);this.textElement_&&(this.textElement_.style.display=this.value_?"block":"none")};Blockly.FieldCheckbox.prototype.getValue=function(){return this.value_?"TRUE":"FALSE"};Blockly.FieldCheckbox.prototype.getValueBoolean=function(){return this.value_};
-Blockly.FieldCheckbox.prototype.getText=function(){return String(this.convertValueToBool_(this.value_))};Blockly.FieldCheckbox.prototype.convertValueToBool_=function(a){return"string"==typeof a?"TRUE"==a:!!a};Blockly.fieldRegistry.register("field_checkbox",Blockly.FieldCheckbox);Blockly.FieldCheckboxColor = function(a, b, c, d) {
-    this.color_ = void 0 !== b ? b.color : null;
-    this.height_ = void 0 !== b ? b.height : null;
-    this.width_ = void 0 !== b ? b.width : null;
+Blockly.FieldCheckbox.prototype.getText=function(){return String(this.convertValueToBool_(this.value_))};Blockly.FieldCheckbox.prototype.convertValueToBool_=function(a){return"string"==typeof a?"TRUE"==a:!!a};Blockly.fieldRegistry.register("field_checkbox",Blockly.FieldCheckbox);
+Blockly.FieldCheckboxColor = function(a, b, c, d) {
+    this.color_ = (void 0 !== b && void 0 !== b.color) ? b.color : null;
+    this.height_ = (void 0 !== b && void 0 !== b.height) ? b.height : null;
+    this.width_ = (void 0 !== b && void 0 !== b.width) ? b.width : null;
+    this.reverseColors_ = (void 0 !== b && void 0 !== b.reverseColors) ? b.reverseColors : false;
+    this.margin_ = (void 0 !== b && void 0 !== b.margin) ? b.margin : 0;
     Blockly.FieldCheckboxColor.superClass_.constructor.call(this, a, c, d)
 };
 Blockly.utils.object.inherits(Blockly.FieldCheckboxColor, Blockly.Field);
@@ -1469,7 +1472,7 @@ Blockly.FieldCheckboxColor.prototype.SERIALIZABLE = !0;
 Blockly.FieldCheckboxColor.prototype.CURSOR = "default";
 Blockly.FieldCheckboxColor.prototype.initView = function() {
     Blockly.FieldCheckboxColor.superClass_.initView.call(this);
-    if (INTERFACE_NAME === "spike") {
+    if (this.reverseColors_) {
       this.borderRect_.style.fill = this.value_ ? this.color_ :  "black";
     } else {
       this.borderRect_.style.fill = this.value_ ? this.color_ ? this.color_ : Blockly.FieldCheckboxColor.prototype.DEFAULT_COLOR : "white";
@@ -1482,6 +1485,12 @@ Blockly.FieldCheckboxColor.prototype.render_ = function() {
     this.borderRect_.setAttribute("height", this.size_.height);
     this.borderRect_.setAttribute("rx", 8);
     this.borderRect_.setAttribute("ry", 4)
+    this.size_.width -= this.margin_;
+     if (this.fieldGroup_) {
+        this.fieldGroup_.setAttribute("transform", `translate(0, -${this.margin_})`);
+    }
+    // Réduire la hauteur déclarée pour que Blockly resserre les lignes
+    this.size_.height -= (this.margin_ * 2);
 };
 Blockly.FieldCheckboxColor.prototype.showEditor_ = function() {
     this.setValue(!this.value_)
@@ -1492,7 +1501,7 @@ Blockly.FieldCheckboxColor.prototype.doClassValidation_ = function(a) {
 Blockly.FieldCheckboxColor.prototype.doValueUpdate_ = function(a) {
     this.value_ = this.convertValueToBool_(a);
     this.textElement_ && (this.textElement_.style.display = this.value_ ? "block" : "none");
-    if (INTERFACE_NAME === "spike") {
+    if (this.reverseColors_) {
       this.borderRect_ && (this.borderRect_.style.fill = this.value_ ? this.color_ : "black");
     } else {
       this.borderRect_ && (this.borderRect_.style.fill = this.value_ ? this.color_ ? this.color_ : Blockly.FieldCheckboxColor.prototype.DEFAULT_COLOR : "white");
@@ -1504,27 +1513,122 @@ Blockly.FieldCheckboxColor.prototype.getValue = function() {
 Blockly.FieldCheckboxColor.prototype.convertValueToBool_ = function(a) {
     return "string" == typeof a ? "TRUE" == a : !!a
 };
-Blockly.fieldRegistry.register("field_checkbox_color", Blockly.FieldCheckboxColor);Blockly.FieldColour=function(a,b,c){Blockly.FieldColour.superClass_.constructor.call(this,a,b,c);this.onKeyDownWrapper_=this.onMouseLeaveWrapper_=this.onMouseEnterWrapper_=this.onMouseMoveWrapper_=this.onClickWrapper_=this.highlightedIndex_=this.picker_=null};Blockly.utils.object.inherits(Blockly.FieldColour,Blockly.Field);Blockly.FieldColour.fromJson=function(a){return new Blockly.FieldColour(a.colour,void 0,a)};Blockly.FieldColour.prototype.SERIALIZABLE=!0;Blockly.FieldColour.prototype.CURSOR="default";
-Blockly.FieldColour.prototype.isDirty_=!1;Blockly.FieldColour.prototype.colours_=null;Blockly.FieldColour.prototype.titles_=null;Blockly.FieldColour.prototype.columns_=0;Blockly.FieldColour.prototype.configure_=function(a){Blockly.FieldColour.superClass_.configure_.call(this,a);a.colourOptions&&(this.colours_=a.colourOptions,this.titles_=a.colourTitles);a.columns&&(this.columns_=a.columns)};
-Blockly.FieldColour.prototype.initView=function(){this.size_=new Blockly.utils.Size(this.getConstants().FIELD_COLOUR_DEFAULT_WIDTH,this.getConstants().FIELD_COLOUR_DEFAULT_HEIGHT);this.getConstants().FIELD_COLOUR_FULL_BLOCK?this.clickTarget_=this.sourceBlock_.getSvgRoot():(this.createBorderRect_(),this.borderRect_.style.fillOpacity="1")};
-Blockly.FieldColour.prototype.applyColour=function(){this.getConstants().FIELD_COLOUR_FULL_BLOCK?(this.sourceBlock_.pathObject.svgPath.setAttribute("fill",this.getValue()),this.sourceBlock_.pathObject.svgPath.setAttribute("stroke","#fff")):this.borderRect_&&(this.borderRect_.style.fill=this.getValue())};Blockly.FieldColour.prototype.doClassValidation_=function(a){return"string"!=typeof a?null:Blockly.utils.colour.parse(a)};
-Blockly.FieldColour.prototype.doValueUpdate_=function(a){this.value_=a;this.borderRect_?this.borderRect_.style.fill=a:this.sourceBlock_&&this.sourceBlock_.rendered&&(this.sourceBlock_.pathObject.svgPath.setAttribute("fill",a),this.sourceBlock_.pathObject.svgPath.setAttribute("stroke","#fff"))};Blockly.FieldColour.prototype.getText=function(){var a=this.value_;/^#(.)\1(.)\2(.)\3$/.test(a)&&(a="#"+a[1]+a[3]+a[5]);return a};Blockly.FieldColour.COLOURS="#ffffff #cccccc #c0c0c0 #999999 #666666 #333333 #000000 #ffcccc #ff6666 #ff0000 #cc0000 #990000 #660000 #330000 #ffcc99 #ff9966 #ff9900 #ff6600 #cc6600 #993300 #663300 #ffff99 #ffff66 #ffcc66 #ffcc33 #cc9933 #996633 #663333 #ffffcc #ffff33 #ffff00 #ffcc00 #999900 #666600 #333300 #99ff99 #66ff99 #33ff33 #33cc00 #009900 #006600 #003300 #99ffff #33ffff #66cccc #00cccc #339999 #336666 #003333 #ccffff #66ffff #33ccff #3366ff #3333ff #000099 #000066 #ccccff #9999ff #6666cc #6633ff #6600cc #333399 #330099 #ffccff #ff99ff #cc66cc #cc33cc #993399 #663366 #330033".split(" ");
-Blockly.FieldColour.prototype.DEFAULT_VALUE=Blockly.FieldColour.COLOURS[0];Blockly.FieldColour.TITLES=[];Blockly.FieldColour.COLUMNS=7;Blockly.FieldColour.prototype.setColours=function(a,b){this.colours_=a;b&&(this.titles_=b);return this};Blockly.FieldColour.prototype.setColumns=function(a){this.columns_=a;return this};
-Blockly.FieldColour.prototype.showEditor_=function(){this.dropdownCreate_();Blockly.DropDownDiv.getContentDiv().appendChild(this.picker_);Blockly.DropDownDiv.showPositionedByField(this,this.dropdownDispose_.bind(this));this.picker_.focus({preventScroll:!0})};Blockly.FieldColour.prototype.onClick_=function(a){a=(a=a.target)&&a.label;null!==a&&(this.setValue(a),Blockly.DropDownDiv.hideIfOwner(this))};
-Blockly.FieldColour.prototype.onKeyDown_=function(a){var b=!1;if(a.keyCode===Blockly.utils.KeyCodes.UP)this.moveHighlightBy_(0,-1),b=!0;else if(a.keyCode===Blockly.utils.KeyCodes.DOWN)this.moveHighlightBy_(0,1),b=!0;else if(a.keyCode===Blockly.utils.KeyCodes.LEFT)this.moveHighlightBy_(-1,0),b=!0;else if(a.keyCode===Blockly.utils.KeyCodes.RIGHT)this.moveHighlightBy_(1,0),b=!0;else if(a.keyCode===Blockly.utils.KeyCodes.ENTER){if(b=this.getHighlighted_())b=b&&b.label,null!==b&&this.setValue(b);Blockly.DropDownDiv.hideWithoutAnimation();
-b=!0}b&&a.stopPropagation()};
-Blockly.FieldColour.prototype.moveHighlightBy_=function(a,b){var c=this.colours_||Blockly.FieldColour.COLOURS,d=this.columns_||Blockly.FieldColour.COLUMNS,e=this.highlightedIndex_%d,f=Math.floor(this.highlightedIndex_/d);e+=a;f+=b;0>a?0>e&&0<f?(e=d-1,f--):0>e&&(e=0):0<a?e>d-1&&f<Math.floor(c.length/d)-1?(e=0,f++):e>d-1&&e--:0>b?0>f&&(f=0):0<b&&f>Math.floor(c.length/d)-1&&(f=Math.floor(c.length/d)-1);this.setHighlightedCell_(this.picker_.childNodes[f].childNodes[e],f*d+e)};
-Blockly.FieldColour.prototype.onMouseMove_=function(a){var b=(a=a.target)&&Number(a.getAttribute("data-index"));null!==b&&b!==this.highlightedIndex_&&this.setHighlightedCell_(a,b)};Blockly.FieldColour.prototype.onMouseEnter_=function(){this.picker_.focus({preventScroll:!0})};Blockly.FieldColour.prototype.onMouseLeave_=function(){this.picker_.blur();var a=this.getHighlighted_();a&&Blockly.utils.dom.removeClass(a,"blocklyColourHighlighted")};
-Blockly.FieldColour.prototype.getHighlighted_=function(){var a=this.columns_||Blockly.FieldColour.COLUMNS,b=this.picker_.childNodes[Math.floor(this.highlightedIndex_/a)];return b?b.childNodes[this.highlightedIndex_%a]:null};
-Blockly.FieldColour.prototype.setHighlightedCell_=function(a,b){var c=this.getHighlighted_();c&&Blockly.utils.dom.removeClass(c,"blocklyColourHighlighted");Blockly.utils.dom.addClass(a,"blocklyColourHighlighted");this.highlightedIndex_=b;Blockly.utils.aria.setState(this.picker_,Blockly.utils.aria.State.ACTIVEDESCENDANT,a.getAttribute("id"))};
-Blockly.FieldColour.prototype.dropdownCreate_=function(){var a=this.columns_||Blockly.FieldColour.COLUMNS,b=this.colours_||Blockly.FieldColour.COLOURS,c=this.titles_||Blockly.FieldColour.TITLES,d=this.getValue(),e=document.createElement("table");e.className="blocklyColourTable";e.tabIndex=0;e.dir="ltr";Blockly.utils.aria.setRole(e,Blockly.utils.aria.Role.GRID);Blockly.utils.aria.setState(e,Blockly.utils.aria.State.EXPANDED,!0);Blockly.utils.aria.setState(e,Blockly.utils.aria.State.ROWCOUNT,Math.floor(b.length/
-a));Blockly.utils.aria.setState(e,Blockly.utils.aria.State.COLCOUNT,a);for(var f,g=0;g<b.length;g++){0==g%a&&(f=document.createElement("tr"),Blockly.utils.aria.setRole(f,Blockly.utils.aria.Role.ROW),e.appendChild(f));var h=document.createElement("td");f.appendChild(h);h.label=b[g];h.title=c[g]||b[g];h.id=Blockly.utils.IdGenerator.getNextUniqueId();h.setAttribute("data-index",g);Blockly.utils.aria.setRole(h,Blockly.utils.aria.Role.GRIDCELL);Blockly.utils.aria.setState(h,Blockly.utils.aria.State.LABEL,
-b[g]);Blockly.utils.aria.setState(h,Blockly.utils.aria.State.SELECTED,b[g]==d);h.style.backgroundColor=b[g];b[g]==d&&(h.className="blocklyColourSelected",this.highlightedIndex_=g)}this.onClickWrapper_=Blockly.browserEvents.conditionalBind(e,"click",this,this.onClick_,!0);this.onMouseMoveWrapper_=Blockly.browserEvents.conditionalBind(e,"mousemove",this,this.onMouseMove_,!0);this.onMouseEnterWrapper_=Blockly.browserEvents.conditionalBind(e,"mouseenter",this,this.onMouseEnter_,!0);this.onMouseLeaveWrapper_=
-Blockly.browserEvents.conditionalBind(e,"mouseleave",this,this.onMouseLeave_,!0);this.onKeyDownWrapper_=Blockly.browserEvents.conditionalBind(e,"keydown",this,this.onKeyDown_);this.picker_=e};
-Blockly.FieldColour.prototype.dropdownDispose_=function(){this.onClickWrapper_&&(Blockly.browserEvents.unbind(this.onClickWrapper_),this.onClickWrapper_=null);this.onMouseMoveWrapper_&&(Blockly.browserEvents.unbind(this.onMouseMoveWrapper_),this.onMouseMoveWrapper_=null);this.onMouseEnterWrapper_&&(Blockly.browserEvents.unbind(this.onMouseEnterWrapper_),this.onMouseEnterWrapper_=null);this.onMouseLeaveWrapper_&&(Blockly.browserEvents.unbind(this.onMouseLeaveWrapper_),this.onMouseLeaveWrapper_=null);
-this.onKeyDownWrapper_&&(Blockly.browserEvents.unbind(this.onKeyDownWrapper_),this.onKeyDownWrapper_=null);this.highlightedIndex_=this.picker_=null};
-Blockly.Css.register([".blocklyColourTable {","border-collapse: collapse;","display: block;","outline: none;","padding: 1px;","}",".blocklyColourTable>tr>td {","border: .5px solid #888;","box-sizing: border-box;","cursor: pointer;","display: inline-block;","height: 20px;","padding: 0;","width: 20px;","}",".blocklyColourTable>tr>td.blocklyColourHighlighted {","border-color: #eee;","box-shadow: 2px 2px 7px 2px rgba(0,0,0,.3);","position: relative;","}",".blocklyColourSelected, .blocklyColourSelected:hover {",
-"border-color: #eee !important;","outline: 1px solid #333;","position: relative;","}"]);Blockly.fieldRegistry.register("field_colour",Blockly.FieldColour);Blockly.FieldDropdown=function(a,b,c){"function"!=typeof a&&Blockly.FieldDropdown.validateOptions_(a);this.menuGenerator_=a;this.suffixField=this.prefixField=this.generatedOptions_=null;this.trimOptions_();this.selectedOption_=this.getOptions(!1)[0];Blockly.FieldDropdown.superClass_.constructor.call(this,this.selectedOption_[1],b,c);this.svgArrow_=this.arrow_=this.imageElement_=this.menu_=this.selectedMenuItem_=null};Blockly.utils.object.inherits(Blockly.FieldDropdown,Blockly.Field);
+Blockly.fieldRegistry.register("field_checkbox_color", Blockly.FieldCheckboxColor);
+Blockly.FieldColour = function (a, b, c) { Blockly.FieldColour.superClass_.constructor.call(this, a, b, c); this.onKeyDownWrapper_ = this.onMouseLeaveWrapper_ = this.onMouseEnterWrapper_ = this.onMouseMoveWrapper_ = this.onClickWrapper_ = this.highlightedIndex_ = this.picker_ = null }; Blockly.utils.object.inherits(Blockly.FieldColour, Blockly.Field); Blockly.FieldColour.fromJson = function (a) { return new Blockly.FieldColour(a.colour, void 0, a) }; 
+Blockly.FieldColour.prototype.SERIALIZABLE = !0; 
+Blockly.FieldColour.prototype.CURSOR = "default";
+Blockly.FieldColour.prototype.isDirty_ = !1; 
+Blockly.FieldColour.prototype.colours_ = null; 
+Blockly.FieldColour.prototype.titles_ = null; 
+Blockly.FieldColour.prototype.columns_ = 0; 
+Blockly.FieldColour.prototype.configure_ = function (a) { 
+  Blockly.FieldColour.superClass_.configure_.call(this, a); 
+  a.colourOptions && (this.colours_ = a.colourOptions, this.titles_ = a.colourTitles); 
+  a.columns && (this.columns_ = a.columns);
+};
+Blockly.FieldColour.prototype.initView = function() {
+  this.size_ = new Blockly.utils.Size(this.getConstants().FIELD_COLOUR_DEFAULT_WIDTH, this.getConstants().FIELD_COLOUR_DEFAULT_HEIGHT);
+  this.getConstants().FIELD_COLOUR_FULL_BLOCK ? this.clickTarget_ = this.sourceBlock_.getSvgRoot() : (this.createBorderRect_(), this.borderRect_.style.fillOpacity = "1")
+};
+Blockly.FieldColour.prototype.applyColour = function () { 
+  this.getConstants().FIELD_COLOUR_FULL_BLOCK ? (this.sourceBlock_.pathObject.svgPath.setAttribute("fill", this.getValue()), this.sourceBlock_.pathObject.svgPath.setAttribute("stroke", "#fff")) : this.borderRect_ && (this.borderRect_.style.fill = this.getValue()) 
+}; 
+Blockly.FieldColour.prototype.doClassValidation_ = function (a) { return "string" != typeof a ? null : Blockly.utils.colour.parse(a) };
+Blockly.FieldColour.prototype.doValueUpdate_ = function (a) { 
+  this.value_ = a; this.borderRect_ ? this.borderRect_.style.fill = a : this.sourceBlock_ && this.sourceBlock_.rendered && (this.sourceBlock_.pathObject.svgPath.setAttribute("fill", a), this.sourceBlock_.pathObject.svgPath.setAttribute("stroke", "#fff")) 
+};  
+Blockly.FieldColour.prototype.getText = function () { var a = this.value_; /^#(.)\1(.)\2(.)\3$/.test(a) && (a = "#" + a[1] + a[3] + a[5]); return a }; 
+Blockly.FieldColour.COLOURS = "#ffffff #cccccc #c0c0c0 #999999 #666666 #333333 #000000 #ffcccc #ff6666 #ff0000 #cc0000 #990000 #660000 #330000 #ffcc99 #ff9966 #ff9900 #ff6600 #cc6600 #993300 #663300 #ffff99 #ffff66 #ffcc66 #ffcc33 #cc9933 #996633 #663333 #ffffcc #ffff33 #ffff00 #ffcc00 #999900 #666600 #333300 #99ff99 #66ff99 #33ff33 #33cc00 #009900 #006600 #003300 #99ffff #33ffff #66cccc #00cccc #339999 #336666 #003333 #ccffff #66ffff #33ccff #3366ff #3333ff #000099 #000066 #ccccff #9999ff #6666cc #6633ff #6600cc #333399 #330099 #ffccff #ff99ff #cc66cc #cc33cc #993399 #663366 #330033".split(" ");
+Blockly.FieldColour.prototype.DEFAULT_VALUE = Blockly.FieldColour.COLOURS[0]; 
+Blockly.FieldColour.TITLES = []; 
+Blockly.FieldColour.COLUMNS = 7; 
+Blockly.FieldColour.prototype.setColours = function (a, b) { this.colours_ = a; b && (this.titles_ = b); return this }; 
+Blockly.FieldColour.prototype.setColumns = function (a) { this.columns_ = a; return this };
+Blockly.FieldColour.prototype.showEditor_ = function () { this.dropdownCreate_(); Blockly.DropDownDiv.getContentDiv().appendChild(this.picker_); Blockly.DropDownDiv.showPositionedByField(this, this.dropdownDispose_.bind(this)); this.picker_.focus({ preventScroll: !0 }) }; 
+Blockly.FieldColour.prototype.onClick_ = function (a) { a = (a = a.target) && a.label; null !== a && (this.setValue(a), Blockly.DropDownDiv.hideIfOwner(this)) };
+Blockly.FieldColour.prototype.onKeyDown_ = function (a) {
+    var b = !1; if (a.keyCode === Blockly.utils.KeyCodes.UP) this.moveHighlightBy_(0, -1), b = !0; else if (a.keyCode === Blockly.utils.KeyCodes.DOWN) this.moveHighlightBy_(0, 1), b = !0; else if (a.keyCode === Blockly.utils.KeyCodes.LEFT) this.moveHighlightBy_(-1, 0), b = !0; else if (a.keyCode === Blockly.utils.KeyCodes.RIGHT) this.moveHighlightBy_(1, 0), b = !0; else if (a.keyCode === Blockly.utils.KeyCodes.ENTER) {
+        if (b = this.getHighlighted_()) b = b && b.label, null !== b && this.setValue(b); Blockly.DropDownDiv.hideWithoutAnimation();
+        b = !0
+    } b && a.stopPropagation()
+};
+Blockly.FieldColour.prototype.moveHighlightBy_ = function (a, b) { var c = this.colours_ || Blockly.FieldColour.COLOURS, d = this.columns_ || Blockly.FieldColour.COLUMNS, e = this.highlightedIndex_ % d, f = Math.floor(this.highlightedIndex_ / d); e += a; f += b; 0 > a ? 0 > e && 0 < f ? (e = d - 1, f--) : 0 > e && (e = 0) : 0 < a ? e > d - 1 && f < Math.floor(c.length / d) - 1 ? (e = 0, f++) : e > d - 1 && e-- : 0 > b ? 0 > f && (f = 0) : 0 < b && f > Math.floor(c.length / d) - 1 && (f = Math.floor(c.length / d) - 1); this.setHighlightedCell_(this.picker_.childNodes[f].childNodes[e], f * d + e) };
+Blockly.FieldColour.prototype.onMouseMove_ = function (a) { var b = (a = a.target) && Number(a.getAttribute("data-index")); null !== b && b !== this.highlightedIndex_ && this.setHighlightedCell_(a, b) };
+Blockly.FieldColour.prototype.onMouseEnter_ = function () { this.picker_.focus({ preventScroll: !0 }) }; 
+Blockly.FieldColour.prototype.onMouseLeave_ = function () { this.picker_.blur(); var a = this.getHighlighted_(); a && Blockly.utils.dom.removeClass(a, "blocklyColourHighlighted") };
+Blockly.FieldColour.prototype.getHighlighted_ = function () { var a = this.columns_ || Blockly.FieldColour.COLUMNS, b = this.picker_.childNodes[Math.floor(this.highlightedIndex_ / a)]; return b ? b.childNodes[this.highlightedIndex_ % a] : null };
+Blockly.FieldColour.prototype.setHighlightedCell_ = function (a, b) { var c = this.getHighlighted_(); c && Blockly.utils.dom.removeClass(c, "blocklyColourHighlighted"); Blockly.utils.dom.addClass(a, "blocklyColourHighlighted"); this.highlightedIndex_ = b; Blockly.utils.aria.setState(this.picker_, Blockly.utils.aria.State.ACTIVEDESCENDANT, a.getAttribute("id")) };
+Blockly.FieldColour.prototype.dropdownCreate_ = function () {
+    var a = this.columns_ || Blockly.FieldColour.COLUMNS, b = this.colours_ || Blockly.FieldColour.COLOURS, c = this.titles_ || Blockly.FieldColour.TITLES, d = this.getValue(), e = document.createElement("table"); e.className = "blocklyColourTable"; e.tabIndex = 0; e.dir = "ltr"; Blockly.utils.aria.setRole(e, Blockly.utils.aria.Role.GRID); Blockly.utils.aria.setState(e, Blockly.utils.aria.State.EXPANDED, !0); Blockly.utils.aria.setState(e, Blockly.utils.aria.State.ROWCOUNT, Math.floor(b.length /
+        a)); Blockly.utils.aria.setState(e, Blockly.utils.aria.State.COLCOUNT, a); for (var f, g = 0; g < b.length; g++) {
+            0 == g % a && (f = document.createElement("tr"), Blockly.utils.aria.setRole(f, Blockly.utils.aria.Role.ROW), e.appendChild(f)); var h = document.createElement("td"); f.appendChild(h); h.label = b[g]; h.title = c[g] || b[g]; h.id = Blockly.utils.IdGenerator.getNextUniqueId(); h.setAttribute("data-index", g); Blockly.utils.aria.setRole(h, Blockly.utils.aria.Role.GRIDCELL); Blockly.utils.aria.setState(h, Blockly.utils.aria.State.LABEL,
+                b[g]); Blockly.utils.aria.setState(h, Blockly.utils.aria.State.SELECTED, b[g] == d); h.style.backgroundColor = b[g]; b[g] == d && (h.className = "blocklyColourSelected", this.highlightedIndex_ = g)
+        } this.onClickWrapper_ = Blockly.browserEvents.conditionalBind(e, "click", this, this.onClick_, !0); this.onMouseMoveWrapper_ = Blockly.browserEvents.conditionalBind(e, "mousemove", this, this.onMouseMove_, !0); this.onMouseEnterWrapper_ = Blockly.browserEvents.conditionalBind(e, "mouseenter", this, this.onMouseEnter_, !0); this.onMouseLeaveWrapper_ =
+            Blockly.browserEvents.conditionalBind(e, "mouseleave", this, this.onMouseLeave_, !0); this.onKeyDownWrapper_ = Blockly.browserEvents.conditionalBind(e, "keydown", this, this.onKeyDown_); this.picker_ = e
+};
+Blockly.FieldColour.prototype.dropdownDispose_ = function () {
+    this.onClickWrapper_ && (Blockly.browserEvents.unbind(this.onClickWrapper_), this.onClickWrapper_ = null); this.onMouseMoveWrapper_ && (Blockly.browserEvents.unbind(this.onMouseMoveWrapper_), this.onMouseMoveWrapper_ = null); this.onMouseEnterWrapper_ && (Blockly.browserEvents.unbind(this.onMouseEnterWrapper_), this.onMouseEnterWrapper_ = null); this.onMouseLeaveWrapper_ && (Blockly.browserEvents.unbind(this.onMouseLeaveWrapper_), this.onMouseLeaveWrapper_ = null);
+    this.onKeyDownWrapper_ && (Blockly.browserEvents.unbind(this.onKeyDownWrapper_), this.onKeyDownWrapper_ = null); this.highlightedIndex_ = this.picker_ = null
+};
+Blockly.Css.register([".blocklyColourTable {", "border-collapse: collapse;", "display: block;", "outline: none;", "padding: 1px;", "}", ".blocklyColourTable>tr>td {", "border: .5px solid #888;", "box-sizing: border-box;", "cursor: pointer;", "display: inline-block;", "height: 20px;", "padding: 0;", "width: 20px;", "}", ".blocklyColourTable>tr>td.blocklyColourHighlighted {", "border-color: #eee;", "box-shadow: 2px 2px 7px 2px rgba(0,0,0,.3);", "position: relative;", "}", ".blocklyColourSelected, .blocklyColourSelected:hover {",
+    "border-color: #eee !important;", "outline: 1px solid #333;", "position: relative;", "}"]); Blockly.fieldRegistry.register("field_colour", Blockly.FieldColour);
+Blockly.FieldColourCustom = function(a, b, c) {
+    this.height_ = void 0 !== b ? b.height : null;
+    this.width_ = void 0 !== b ? b.width : null;
+    this.stopPropagation_ = void 0 !== b ? b.stopPropagation : false;
+    Blockly.FieldColourCustom.superClass_.constructor.call(this, a, c)
+};
+Blockly.utils.object.inherits(Blockly.FieldColourCustom, Blockly.FieldColour);
+
+Blockly.FieldColourCustom.prototype.DEFAULT_SIZE = 24;
+
+Blockly.FieldColourCustom.fromJson = function(a) {
+    return new Blockly.FieldColourCustom(a.colour, void 0, a)
+};
+
+Blockly.FieldColourCustom.prototype.SERIALIZABLE = !0;
+Blockly.FieldColourCustom.prototype.CURSOR = "default";
+
+Blockly.FieldColourCustom.prototype.initView = function() {
+    this.size_ = new Blockly.utils.Size(
+        this.width_ || Blockly.FieldColourCustom.prototype.DEFAULT_SIZE,
+        this.height_ || Blockly.FieldColourCustom.prototype.DEFAULT_SIZE
+    );
+    this.createBorderRect_();
+    this.borderRect_.style.fillOpacity = "1";
+};
+
+Blockly.FieldColourCustom.prototype.render_ = function() {
+    this.size_.height = this.height_ || Blockly.FieldColourCustom.prototype.DEFAULT_SIZE;
+    this.size_.width = this.width_ || Blockly.FieldColourCustom.prototype.DEFAULT_SIZE;
+    this.borderRect_.setAttribute("width", this.size_.width);
+    this.borderRect_.setAttribute("height", this.size_.height);
+    this.borderRect_.setAttribute("rx", 4);
+    this.borderRect_.setAttribute("ry", 4);
+};
+
+Blockly.FieldColourCustom.prototype.applyColour = function() {
+    if (this.borderRect_) {
+        this.borderRect_.style.fill = this.getValue();
+    }
+};
+
+Blockly.FieldColourCustom.prototype.doValueUpdate_ = function(a) {
+    this.value_ = a;
+    if (this.borderRect_) {
+        this.borderRect_.style.fill = a;
+    }
+};
+
+Blockly.FieldColourCustom.prototype.showEditor_ = function() {
+    if (this.stopPropagation_) {
+        return;
+    }
+    Blockly.FieldColourCustom.superClass_.showEditor_.call(this);
+};
+
+Blockly.fieldRegistry.register("field_colour_custom", Blockly.FieldColourCustom);
+Blockly.FieldDropdown=function(a,b,c){"function"!=typeof a&&Blockly.FieldDropdown.validateOptions_(a);this.menuGenerator_=a;this.suffixField=this.prefixField=this.generatedOptions_=null;this.trimOptions_();this.selectedOption_=this.getOptions(!1)[0];Blockly.FieldDropdown.superClass_.constructor.call(this,this.selectedOption_[1],b,c);this.svgArrow_=this.arrow_=this.imageElement_=this.menu_=this.selectedMenuItem_=null};Blockly.utils.object.inherits(Blockly.FieldDropdown,Blockly.Field);
 Blockly.FieldDropdown.fromJson=function(a){return new Blockly.FieldDropdown(a.options,void 0,a)};Blockly.FieldDropdown.prototype.fromXml=function(a){this.isOptionListDynamic()&&this.getOptions(!1);this.setValue(a.textContent)};Blockly.FieldDropdown.prototype.SERIALIZABLE=!0;Blockly.FieldDropdown.CHECKMARK_OVERHANG=25;Blockly.FieldDropdown.MAX_MENU_HEIGHT_VH=.45;Blockly.FieldDropdown.IMAGE_Y_OFFSET=5;Blockly.FieldDropdown.IMAGE_Y_PADDING=2*Blockly.FieldDropdown.IMAGE_Y_OFFSET;
 Blockly.FieldDropdown.ARROW_CHAR=Blockly.utils.userAgent.ANDROID?"\u25bc":"\u25be";Blockly.FieldDropdown.prototype.CURSOR="default";
 Blockly.FieldDropdown.prototype.initView=function(){this.shouldAddBorderRect_()?this.createBorderRect_():this.clickTarget_=this.sourceBlock_.getSvgRoot();this.createTextElement_();this.imageElement_=Blockly.utils.dom.createSvgElement(Blockly.utils.Svg.IMAGE,{},this.fieldGroup_);this.getConstants().FIELD_DROPDOWN_SVG_ARROW?this.createSVGArrow_():this.createTextArrow_();this.borderRect_&&Blockly.utils.dom.addClass(this.borderRect_,"blocklyDropdownRect")};

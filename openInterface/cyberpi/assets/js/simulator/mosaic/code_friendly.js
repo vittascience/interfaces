@@ -1,15 +1,5 @@
 Simulator.CodeFriendly.getAdaptedCode = function (code) {
-	code = Simulator.CodeFriendly.remove_unusedCode(code);
 	code = Simulator.CodeFriendly.requests(code);
-	return code;
-};
-
-Simulator.CodeFriendly.remove_unusedCode = function (code) {
-	// // removing object inits
-	code = code.replace(/(.*)UART\((.*)/g, '#$1UART($2');
-	code = code.replace(/(.*)uart_(.*)/gi, '#$1uart_$2');
-	code = code.replace(/(.*)openlog_[0-9]{1,}(.*)/gi, '$1uart$2');
-	code = code.replace(/.*P9813.*/gi, '');
 	return code;
 };
 

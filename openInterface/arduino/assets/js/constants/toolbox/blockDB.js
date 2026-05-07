@@ -29,7 +29,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "display_neopixel_controlAllLedPalette": this.Set.field("PIN", '2') + this.Set.colour_picker(),
             "display_rainbowNeopixel": this.Set.field("PIN", '2'),
             // display - OLED
-            "display_addOledText": this.Set.number("X") + this.Set.number("Y") + this.Set.text("TEXT"),
+            "display_addOledText": this.Set.number("X") + this.Set.number("Y", 10) + this.Set.text("TEXT"),
             "display_oledScreen_drawIcon": this.Set.number("X") + this.Set.number("Y"),
             // display - LED
             "display_setGroveSocketLed": this.Set.field("PIN", '2') + this.Set.state(),
@@ -49,12 +49,13 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "display_setPaletteAllChainableRGBLed": this.Set.field("CIN", '2') + this.Set.field("DIN", '3') + this.Set.colour_picker(),
             // io - time
             "io_wait": this.Set.number("TIME", 1),
-            "io_waitUntil": '<value name="UNTIL"><shadow type="logic_compare"><field name="OP">EQ</field>' + this.Set.number("B", 1) + '</shadow></value>',
+            "io_waitUntil": '<value name="UNTIL"><block type="logic_compare"><field name="OP">EQ</field>' + this.Set.number("B", 1) + '</block></value>',
             // io - external inputs
             "io_getGroveButton": this.Set.field("PIN", '4'),
             "io_getReversedButton": this.Set.field("PIN", '4'),
             "io_getGroveSwitch": this.Set.field("PIN", '4'),
             "io_getGroveTactile": this.Set.field("PIN", '4'),
+            "io_getGroveThumbJoystick": this.Set.field("PIN_Y", 'A1'),
             "io_getKeypadNumber": this.Set.field("RX", '5') + this.Set.field("TX", '4'),
             // io - pins
             "io_readDigitalPin": this.Set.field("PIN", '4'),
@@ -69,10 +70,12 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             // io - mp3
             "io_groveMp3_init": this.Set.field("RX", '5') + this.Set.field("TX", '4'),
             "io_groveMp3_setVolume": this.Set.number("VOLUME", 10),
-            "io_groveMp3_playSDSong": this.Set.text("NAME", "vittascience.mp3"),
+            "io_groveMp3_playSDSong": this.Set.text("NAME", "music.mp3"),
             "io_groveMp3_playSDDirectorySong": this.Set.text("DIRECTORY", "./") + this.Set.number("INDEX", 0),
+            "io_groveMp3_KT403A_playSongSpecify": this.Set.number("DIRECTORY", 0) + this.Set.number("INDEX", 0),
             // communication - serial connection
             "communication_serialWrite": '<mutation newlines="false"></mutation>' + this.Set.text("TEXT", '{hello}'),
+            "communication_NumberSerialWrite": this.Set.number("NUMBER", 255),
             "communication_graphSerialWrite": '<mutation items="1"></mutation>'
                 + '<value name="ADD0"><block type="communication_graphSerialWrite_datasFormat">' + this.Set.field("NAME", '{data1}') + '</block></value>',
             "communication_playComputerFrequency": this.Set.number("FREQUENCY", 440),
@@ -102,6 +105,8 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "communication_sendRadio433mhzData": this.Set.field("PIN", '6') + this.Set.text("DATA", '{radioMessage}'),
             "communication_onRadio433mhzDataReceived": this.Set.field("PIN", '6'),
             // communication - infrared
+            "communication_ir_sendNECCommand": this.Set.number("ADDR", 0x00) + this.Set.number("CMD", 0x10) + this.Set.field("PIN", '7') + '<mutation repeat="false"></mutation>',
+            "communication_ir_sendFrame": this.Set.variable("FRAME", '{listVariable}') + this.Set.field("PIN", '7'),
             "communication_onIRDataReceived": this.Set.field("PIN", '6'),
             "communication_onRemoteCommandReceived": this.Set.variable("DATA", 'IRdata'),
             // communication - tracking modules
@@ -196,6 +201,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "actuators_mosfet_setPercentValue": this.Set.number("VALUE", 100),
             // actuators - other
             "actuators_setGroveRelayState": this.Set.field("PIN", '2') + this.Set.state(),
+            "actuators_SPDTRelay_controlState": this.Set.state(),
             "actuators_setVibrationMotorState": this.Set.field("PIN", '2') + this.Set.state(),
             "actuators_setWaterAtomizerState": this.Set.field("PIN", '2') + this.Set.state(),
             "actuators_setElectromagnetState": this.Set.field("PIN", '2') + this.Set.state(),
@@ -207,11 +213,20 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "actuators_toneDuration": this.Set.field("PIN", '2') + this.Set.number("FREQUENCY", 440) + this.Set.number("DURATION", 1),
             "actuators_noTone": this.Set.field("PIN", '2'),
             "actuators_playMusicGroveBuzzer": this.Set.field("PIN", '2'),
+            // Cameras - HuskyLens
+            "cameras_huskylens_customName": this.Set.text("NAME", 'Nom') + this.Set.number("ID", 1),
+            "cameras_huskylens_setText": this.Set.text("TEXT", 'Vittascience') + this.Set.number("X", 160) + this.Set.number("Y", 120),
+            "cameras_huskylens_checkID": this.Set.number("ID", 1),
+            "cameras_huskylens_getDataByID": this.Set.number("ID", 1),
+            "cameras_huskylens_getLineDirection": this.Set.number("ID", 1),
+            "cameras_huskylens_saveModel": this.Set.number("INDEX"),
+            "cameras_huskylens_loadModel": this.Set.number("INDEX"),
+            "cameras_huskylens_learnID": this.Set.number("ID", 1),
             // camera - Wio Lite
             "wio_get_class_data_by_id": this.Set.number("ID", 1),
             // VittaIA
             "vittaia_detect_class": this.Set.text("MODEL_CLASS", 'Class') + this.Set.field("IS_DETECTED", '=='),
-            "vittaia_load_cloud_model": this.Set.text("MODEL_ID", 'https://fr.vittascience.com/ia/model/67da8c5faec8e/'),
+            "vittaia_load_cloud_model": this.Set.text("MODEL_URL", 'https://fr.vittascience.com/ia/model/67da8c5faec8e/'),
 
             /** Arduino default blocks */
             // logic

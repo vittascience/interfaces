@@ -1,14 +1,17 @@
-Simulator.Mosaic.BOARD_HEADER = `<object id="board-viewer" type="image/svg+xml"></object><div id="main-py">main.py<span></span></div><span id="galaxia_screen-value" class="galaxia_screen-value_text"></span><canvas class="canvas-galaxia-screen" width='160' height='128'></canvas>`;
-
+Simulator.Mosaic.BOARD_HEADER =
+    `<object id="board-viewer" type="image/svg+xml"></object>
+<div id="main-py">main.py<span></span></div>
+<span id="galaxia_screen-value" class="galaxia_screen-value_text"></span>
+<canvas class="canvas-galaxia-screen" width='160' height='128'></canvas>`;
 
 Simulator.Mosaic.pin_regex = /([0-9]{1,2})/;
 
 Simulator.Mosaic.getPinDef = (pin, mod) => {
-    const pins = Blockly.Constants.Pins.GALAXIA_PINS;
+    const pins = Blockly.Constants.Pins[mod.pins][Blockly.Constants.getSelectedBoard()];
     const pinName = pins.find(p => p[1] == 'p' + pin);
     return {
         name: pinName ? pinName[0] : null,
-        id: pin.replace("pin", '')
+        id: pin
     };
 };
 
@@ -16,13 +19,16 @@ Simulator.Mosaic.externalLibraries = {
     // python libraries
     'src/lib/vitta_server.py': '/openInterface/interfaces/assets/lib/esp32-mpy/wifi/vitta_server.py',
     'src/lib/vitta_client.py': '/openInterface/interfaces/assets/lib/esp32-mpy/wifi/vitta_client.py',
+    // python common libraries
+    'src/lib/framebuf.py': Simulator.PATH_LIB_COMMON + 'micropython/framebuf.py',
     // js board specific libraries
     'src/lib/machine.js': Simulator.PATH_LIB + 'micropython/machine.js',
-    // 'src/lib/galaxiaUi.js': Simulator.PATH_LIB + 'galaxia/galaxiaUi.js',
     'src/lib/thingz.js': Simulator.PATH_LIB + 'galaxia/thingz.js',
     'src/lib/esp32_rotary.js': Simulator.PATH_LIB + 'grove/esp32_rotary.js',
     'src/lib/esp32_linky.js': Simulator.PATH_LIB + 'micropython/esp32_linky.js',
     // js common mpy libraries
+    'src/lib/os.js': Simulator.PATH_LIB_COMMON + 'micropython/os.js',
+    'src/lib/uos.js': Simulator.PATH_LIB_COMMON + 'micropython/os.js',
     'src/lib/time.js': Simulator.PATH_LIB_COMMON + 'micropython/time.js',
     'src/lib/utime.js': Simulator.PATH_LIB_COMMON + 'micropython/time.js',
     'src/lib/ujson.js': Simulator.PATH_LIB_COMMON + 'micropython/json.js',
@@ -142,11 +148,9 @@ Simulator.Mosaic.addSpecificSkulptFunctions = function () {
             Sk.builtin.pyCheckArgsLen("hcsr04_getUltrasonicData", arguments.length, 2, 4);
             Sk.builtin.pyCheckType("data", "string", Sk.builtin.checkString(data));
             Sk.builtin.pyCheckType("timeout_us", "integer", Sk.builtin.checkInt(timeout_us));
-            const pins = Blockly.Constants.Pins.GALAXIA_PINS;
+            const pins = Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()];
             const id = '#hcsr04_' + trig.pin;
-            if (trig.pin !== echo.pin) {
-                $(id).find(".subtitle-module").html(pins.find(p => p[1] == 'p' + trig.pin)[0] + ' / ' + pins.find(p => p[1] == 'p' + echo.pin)[0]);
-            } else {
+            if (trig.pin == echo.pin) {
                 throw new Sk.builtin.AttributeError('[HCSR04] trig and echo cannot be on same pin (' + pins.find(p => p[1] == 'p' + trig.pin)[0] + ')');
             }
             const duration = $(id + '_slider_d').slider('option', 'value');
@@ -251,13 +255,12 @@ Simulator.Mosaic.groveRegex = {
     "th02-temp": /(.|)TH02\(/gi,
     "sht31-hum": /(.|)SHT31\(/gi,
     "sht31-temp": /(.|)SHT31\(/gi,
-
-    // Pins on module - inputs
-    "gps": /(machine.|)Pin\(([0-9]{1,2}),( |)(mode=|)(machine.|)Pin.IN, id="gps"/gi,
-    // Pins on module - outputs
-    "openlog": /Lecteur SD TX on p([0-9]{1,2})/gi,
     "RGBLed": /CHAINABLE_LED_COUNT_((A|D|)[0-9]{1,2})( |)=/gi,
-    // "Buzzer": /(machine.|)Pin\(([0-9]{1,2}),( |)(mode=|)(machine.|)Pin.OUT, id="buzzer"/gi
+    "openlog": /Lecteur SD on UART( |)(0|1)/gi,
+    "hc05": /Bluetooth HC05 on UART( |)(0|1)/gi,
+    "hm10": /Bluetooth HM10 on UART( |)(0|1)/gi,
+    "groveBT": /Grove Serial Bluetooth on UART( |)(0|1)/gi,
+    "gps": /GPS on UART( |)(0|1)/gi
 };
 
 Simulator.Mosaic.specific = {
@@ -283,8 +286,8 @@ Simulator.Mosaic.specific = {
             ymin: -6.56,
             ymax: 6.56,
         },
-        init: function () {},
-        reset: function () {},
+        init: function () { },
+        reset: function () { },
         ctx: null,
         showError: function (error, exception, type) {
             UIManager.showErrorMessage("error-message", type + ": " + error);
@@ -340,7 +343,7 @@ Simulator.Mosaic.specific = {
             return statck_new;
         },
 
-        initPlot: function(){
+        initPlot: function () {
             const canvas = document.querySelector('.canvas-galaxia-screen');
             this.ctx = canvas.getContext('2d');
             this.ctx.fillStyle = '#000000';
@@ -371,6 +374,89 @@ Simulator.Mosaic.specific = {
                 this.ctx.stroke();
             }
         },
+
+        drawBmp: function (x, y, buf) {
+            const dv = new DataView(buf);
+
+            const u8 = (i) => dv.getUint8(i);
+            const u16 = (i) => dv.getUint16(i, true);
+            const u32 = (i) => dv.getUint32(i, true);
+            const i32 = (i) => dv.getInt32(i, true);
+
+            if (u8(0) !== 0x42 || u8(1) !== 0x4d) throw new Error("Not a BMP (missing BM)");
+
+            const pxOff = u32(10);
+            const dibSz = u32(14); // not used, but kept for info
+            const w = i32(18);
+            const hRaw = i32(22);
+            const planes = u16(26);
+            const bpp = u16(28);
+            const comp = u32(30);
+
+            if (planes !== 1) throw new Error("BMP planes != 1 unsupported");
+            if (bpp !== 24 && bpp !== 32) throw new Error(`BMP bpp=${bpp} unsupported`);
+            if (comp !== 0 && comp !== 3) throw new Error(`BMP compression=${comp} unsupported`);
+
+            const h = Math.abs(hRaw);
+            const bottomUp = hRaw > 0;
+            const bppBytes = bpp >> 3;
+            const rowStride = (((bpp * w + 31) >> 5) << 2); // padded to 4 bytes
+
+            // ---- tiny bit helpers ----
+            const ctz = (m) => { m >>>= 0; if (!m) return 32; let n = 0; while ((m & 1) === 0) { m >>>= 1; n++; } return n; };
+            const pop = (m) => { m >>>= 0; let c = 0; while (m) { m &= (m - 1); c++; } return c; };
+            const to8 = (v, bits) => bits <= 0 ? 0 : bits >= 8 ? (v & 0xff) : Math.round(v * 255 / ((1 << bits) - 1));
+
+            // ---- masks for BI_BITFIELDS (32bpp) ----
+            let rM = 0x00ff0000, gM = 0x0000ff00, bM = 0x000000ff, aM = 0xff000000;
+            if (comp === 3) {
+                const m0 = 14 + 40; // after BITMAPINFOHEADER
+                rM = u32(m0 + 0); gM = u32(m0 + 4); bM = u32(m0 + 8); aM = u32(m0 + 12) || 0xff000000;
+            }
+            const rS = ctz(rM), rB = pop(rM);
+            const gS = ctz(gM), gB = pop(gM);
+            const bS = ctz(bM), bB = pop(bM);
+            const aS = ctz(aM), aB = pop(aM);
+
+            const img = this.ctx.createImageData(w, h);
+            const out = img.data;
+
+            for (let row = 0; row < h; row++) {
+                const srcRow = bottomUp ? (h - 1 - row) : row;
+                const srcBase = pxOff + srcRow * rowStride;
+                let di = row * w * 4;
+
+                for (let col = 0; col < w; col++) {
+                    const si = srcBase + col * bppBytes;
+
+                    if (bpp === 24) {
+                        // B G R
+                        out[di++] = u8(si + 2);
+                        out[di++] = u8(si + 1);
+                        out[di++] = u8(si + 0);
+                        out[di++] = 0xff;
+                    } else {
+                        // 32bpp
+                        if (comp === 3) {
+                            const px = u32(si);
+                            out[di++] = to8((px & rM) >>> rS, rB);
+                            out[di++] = to8((px & gM) >>> gS, gB);
+                            out[di++] = to8((px & bM) >>> bS, bB);
+                            out[di++] = to8((px & aM) >>> aS, aB);
+                        } else {
+                            // BI_RGB fallback: BGRA
+                            out[di++] = u8(si + 2);
+                            out[di++] = u8(si + 1);
+                            out[di++] = u8(si + 0);
+                            out[di++] = u8(si + 3);
+                        }
+                    }
+                }
+            }
+
+            this.ctx.putImageData(img, x, y);
+        },
+
         clearScreen: function () {
             this.graphicMode = false;
         },
@@ -480,8 +566,6 @@ Simulator.Mosaic.specific = {
             max: READ_ANALOG_MAX_VALUE,
             value: 0
         });
-        // dht slider
-
         // Grove sliders
         $('#colorSensor_slider_r,' +
             '#colorSensor_slider_g,' +
@@ -490,7 +574,6 @@ Simulator.Mosaic.specific = {
                 max: 255,
                 value: 0
             });
-
         //galaxia sliders
         $('#galaxia-temp_slider').slider({
             min: 0,
@@ -502,12 +585,10 @@ Simulator.Mosaic.specific = {
             max: 2000,
             value: 500
         });
-
-
         $('#galaxia-light_slider,' +
             '#galaxia_slider').slider({
                 min: 0,
-                max: WRITE_ANALOG_MAX_VALUE,
+                max: PWM_MAX_DUTY,
                 value: 55
             });
         $('#galaxia-compassMag_slider_x').slider({
@@ -569,7 +650,6 @@ Simulator.Mosaic.specific = {
                 max: 1,
                 value: 0
             });
-
     },
 
     calculs: {
@@ -620,7 +700,7 @@ Simulator.Mosaic.specific = {
             picture: "Luminosité.png",
             pictureAnimation: "Luminosité-animation.png",
             animate: function (Animator) {
-                Animator.opacity(0, WRITE_ANALOG_MAX_VALUE);
+                Animator.opacity(0, PWM_MAX_DUTY);
             }
         },
         {
@@ -1279,25 +1359,54 @@ Simulator.Mosaic.specific = {
             animate: function (Animator) {
                 if (Animator.value >= 128) {
                     $(Animator.valueId).text(Animator.value + ' (LOUD)');
-                    $(Animator.animId).css("filter", 'hue-rotate(310deg)')
+                    $(Animator.animId).css("filter", 'hue-rotate(310deg)');
                 } else if (Animator.value <= 128) {
                     $(Animator.valueId).text(Animator.value + ' (QUIET)');
-                    $(Animator.animId).css("filter", 'hue-rotate(15deg)')
+                    $(Animator.animId).css("filter", 'hue-rotate(15deg)');
                 } else if (Animatior.value == 0) {
                     $(Animator.valueId).text(Animator.value + ' (NONE)');
                 }
-                $(Animator.animId).css('opacity', Animator.value / WRITE_ANALOG_MAX_VALUE);
+                $(Animator.animId).css('opacity', Animator.value / 255);
             }
         },
         {
-            regex: /Pin\(([0-9]{1,2}),( |)(mode=|)Pin.IN, id="bluetooth"/gi,
-            id: "bluetooth",
-            title: "Bluetooth",
-            pin: 'UART',
-            codeFlag: 'Bluetooth',
+            id: "hc05",
+            title: "HC05 (BT)",
+            pin: 'pin n°',
+            pins: 'digital',
+            codeFlag: 'Bluetooth HC05',
             type: 'output',
-            value: "",
-            picture: ""
+            value: null,
+            picture: "bluetooth.svg",
+            animate: function (Animator) {
+                Animator.bluetooth();
+            }
+        },
+        {
+            id: "hm10",
+            title: "HM10 (BT)",
+            pin: 'pin n°',
+            pins: 'digital',
+            codeFlag: 'Bluetooth HM10',
+            type: 'output',
+            value: null,
+            picture: "bluetooth.svg",
+            animate: function (Animator) {
+                Animator.bluetooth();
+            }
+        },
+        {
+            id: "groveBT",
+            title: "Grove Serial Bluetooth",
+            pin: 'pin n°',
+            pins: 'digital',
+            codeFlag: 'Grove Serial Bluetooth',
+            type: 'output',
+            value: null,
+            picture: "bluetooth.svg",
+            animate: function (Animator) {
+                Animator.bluetooth();
+            }
         },
         {
             regex: /log\.(delete|add|set_columns)\(/g,

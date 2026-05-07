@@ -74,7 +74,7 @@ Blockly.Python.text_join_simple = function (block) {
       for (var i = 0; i < block.itemCount_; i++) {
         const input = Blockly.Python.valueToCode(block, "ADD" + i, Blockly.Python.ORDER_NONE) || "''";
         finalString.push(`str(${input})`);
-        
+
       }
       return [`${finalString.join(' + ')}`, Blockly.Python.ORDER_FUNCTION_CALL];
   }
@@ -105,6 +105,16 @@ Blockly.Python.text_length = function (block) {
 Blockly.Python.text_isEmpty = function (block) {
   const text = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || "''";
   return ["not len(" + text + ")", Blockly.Python.ORDER_LOGICAL_NOT];
+};
+
+Blockly.Python.text_includesSubstr = function (block) {
+  const text = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || "''",
+    substring = Blockly.Python.valueToCode(block, "FIND", Blockly.Python.ORDER_NONE) || "''";
+  if (Blockly.Constants.Utils.isInputTextBlock(block, "FIND")) {
+    return [text + ".find(" + substring + ") >= 0", Blockly.Python.ORDER_RELATIONAL];
+  } else {
+    return [text + ".find(str(" + substring + ")) >= 0", Blockly.Python.ORDER_RELATIONAL];
+  }
 };
 
 Blockly.Python.text_indexOf = function (block) {

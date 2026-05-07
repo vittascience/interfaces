@@ -7,14 +7,15 @@ const Simulator = {
 	timeoutInCodeExecution: 0,
 	timeoutInCodeExecutionStarted: false,
 	mainExecutionStarted: false,
+	skInitialized: false,
 	startTime: 0,
 	serialData: '',
 	dropdownOptions: {},
 	intervals: {},
 	Behaviours: {},
 	CodeFriendly: {},
-	PATH_LIB: _PATH + '/' + INTERFACE_NAME + '/assets/js/simulator/src/',
-	PATH_LIB_PY: _PATH + '/' + INTERFACE_NAME + '/assets/lib/',
+	PATH_LIB: _PATH + `/${INTERFACE_NAME}/assets/js/simulator/src/`,
+	PATH_LIB_PY: _PATH + `/${INTERFACE_NAME}/assets/lib/`,
 	PATH_LIB_COMMON: _PATH + '/interfaces/assets/js/simulator/python/lib/',
 	monitor: {
 		output: function (text, html = false) {
@@ -90,7 +91,7 @@ const Simulator = {
 		return Sk.builtinFiles.files[file];
 	},
 
-	initSkulpt: function () {
+	initSkulpt: async function () {
 		const _this = this;
 		Sk.inputfun = function (prompt) {
 			return new Promise(function (resolve, reject) {
@@ -126,6 +127,24 @@ const Simulator = {
 			__future__: Sk.python3,
 			read: _this.builtinRead
 		});
+
+		Sk.setClassAttribute = function (self, name, value) {
+			return Sk.abstr.objectSetItem(self.$d, new Sk.builtin.str(name), value, false);
+		};
+
+		Sk.getClassAttribute = function (self, name) {
+			return self.$d.entries[name][1];
+		};
+
+		Sk.callClassFunction = function (self, funcName, args) {
+			const func = Object.getPrototypeOf(self)[funcName];
+			return Sk.misceval.callsim(func, self, ...args);
+		};
+
+		const bytearray_module = await VittaInterface.fetchDir(this.PATH_LIB_COMMON + 'micropython/bytearray.py');
+		Sk.builtinFiles.files['src/lib/__builtins_bytearray.py'] = bytearray_module;
+
+		this.skInitialized = true;
 	},
 
 	/**
@@ -176,13 +195,21 @@ const Simulator = {
 		Sk.python3 = INTERFACE_NAME === 'TI-83' ? Sk.python3 : true;
 		Sk.execLimit = Infinity;
 
-		Sk.misceval.callsimAsync({
-			"Sk.debug": _this.doStep
-		}, function () {
+		const mainCall = Sk.misceval.callsimAsync({ "Sk.debug": _this.doStep }, function () {
 			_this.mainExecutionStarted = true;
 			_this.startTime = Date.now();
 			return Sk.importMainWithBody("<stdin>", false, _this.code, true);
+		});
+
+		Sk.misceval.asyncToPromise(function () {
+			return Sk.importModule("__builtins_bytearray", false, true);
 		})
+			.then(function (result) {
+				Sk.builtins.bytearray = result.$d.bytearray;
+				return mainCall;
+			}, function (error) {
+				return mainCall;
+			})
 			.then(function (mod) {
 				$("#simulator_play").prop('disabled', true);
 				$("#simulator_pause").prop('disabled', false);
@@ -199,6 +226,9 @@ const Simulator = {
 	 * @param {Object} err 
 	 */
 	handleError: function (err) {
+		if (err.nativeError) {
+			console.error(err.nativeError.stack)
+		}
 		const stopProgram = err.toString().match(/TimeLimitError/);
 		const stopDebug = err.toString().match(/waiting next step/);
 		const importError = err.toString().match(/ImportError/);
@@ -252,7 +282,7 @@ const Simulator = {
 		try {
 			if (Simulator.stop_flag || Sk.execLimit == 0) {
 				resetStep();
-				return await Promise.resolve("Simulator stopped.")
+				return await Promise.resolve("Simulator stopped.");
 			} else if (
 				(!Simulator.isDebugging && !Simulator.isRunning) ||
 				(Simulator.isDebugging && !Simulator.Debugger.nextStep) ||
@@ -285,7 +315,9 @@ const Simulator = {
 						}, 50);
 					});
 				}
-				await new Promise((r) => setTimeout(r, 5)); // Allow a short pause to avoid overloading the cpu (to adjust if needed) 
+				if (Simulator.has3DRobotSimulator()) {
+					await new Promise((r) => setTimeout(r, 5)); // Allow a short pause to avoid overloading the cpu (to adjust if needed) 
+				}
 				return Promise.resolve(susp.resume());
 			}
 		} catch (e) {
@@ -302,7 +334,7 @@ const Simulator = {
 			if ($("#serial-input").val() != "") {
 				Simulator.serialData = $("#serial-input").val();
 				$("#serial-input").val("");
-				Simulator.monitor.output(jsonPath(code.simulator.messages.radioData) + " " + Simulator.serialData + "\n");
+				Simulator.monitor.output(jsonPath('code.simulator.messages.sentData') + " " + Simulator.serialData + "\n");
 			} else {
 				Simulator.serialData = "";
 			}
@@ -344,6 +376,9 @@ const Simulator = {
 			this.Mosaic.specific.createSliders();
 			if (this.Mosaic.groveRegex) {
 				this.Mosaic.grove.createSliders();
+			}
+			if (this.Mosaic.groveRegex) {
+				this.Mosaic.grove_analog.createSliders();
 			}
 		}
 	},

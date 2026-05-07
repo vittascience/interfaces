@@ -157,7 +157,8 @@ const TOOLBOX_SCRATCH_CONTENT = {
             "label": "%{BKY_SUBCATEGORY_TEXT}",
             "blocks": [
                 'cyberpi_display_show_label',
-                'cyberpi_display_show_label_xy'
+                'cyberpi_display_show_label_xy',
+                'cyberpi_display_clear'
             ]
         },
         {
@@ -298,8 +299,6 @@ const TOOLBOX_SCRATCH_CONTENT = {
         {
             "label": "%{BKY_SUBCATEGORY_QUAD_RGB_SENSORS}",
             "blocks": [
-                'sensors_mbuild_quad_RGB_detection_L1_R1_is',
-                'sensors_mbuild_quad_RGB_get_detection_L1_R1',
                 'sensors_mbuild_quad_RGB_detection_is',
                 'sensors_mbuild_quad_RGB_get_detection',
                 'sensors_mbuild_quad_RGB_is_color_detected',
@@ -307,11 +306,8 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'sensors_mbuild_quad_RGB_get_offset_track',
                 'sensors_mbuild_quad_RGB_define_color',
                 'sensors_mbuild_quad_RGB_set_color_list',
-                // 'sensors_mbuild_quad_RGB_set_color_RGB',
-                // 'sensors_mbuild_quad_RGB_set_color_palette',
                 'sensors_mbuild_quad_RGB_close_led',
-                'sensors_mbuild_quad_RGB_calibrate',
-                'sensors_mbuild_quad_RGB_color_mode'
+                'sensors_mbuild_quad_RGB_get_light'
             ]
         },
         {
@@ -405,21 +401,24 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'text_split',
                 'text_length',
                 'text_isEmpty',
+                'text_includesSubstr',
                 'text_indexOf',
                 'text_charAt',
                 'text_getSubstring',
+                'text_count_characters',
                 'text_changeCase',
                 'text_trim',
                 'text_count',
                 'text_replace',
-                'text_reverse'
+                'text_reverse',
+                'text_random_string'
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_TEXT_ANALYSIS}",
+            "label": "%{BKY_SUBCATEGORY_ENCRYPTION}",
             "blocks": [
-                'text_count_characters',
-                'text_random_string'
+                'text_caesar_cipher',
+                'text_caesar_cipher_brute_force'
             ],
         }
     ],

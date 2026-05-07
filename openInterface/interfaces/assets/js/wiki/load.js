@@ -77,10 +77,6 @@ function loadInterface(interfaceName) {
                     src: '/openInterface/interfaces/assets/js/constants/generators/constants.js'
                 },
                 {
-                    id: 'blocksHelpUrl',
-                    src: '/openInterface/interfaces/assets/js/constants/blocks/helpurl.js'
-                },
-                {
                     id: 'blockDB',
                     src: `/openInterface/${interfaceName}/assets/js/constants/toolbox/blockDB.js`
                 },
@@ -95,14 +91,26 @@ function loadInterface(interfaceName) {
                     COMMON_CONSTANTS_SCRIPTS = COMMON_CONSTANTS_SCRIPTS.filter(script => script.id !== 'scratch');
                 } else {
                     COMMON_CONSTANTS_SCRIPTS.push({
-                        id: 'functions',
+                        id: interfaceName + '-functions',
                         src: `/openInterface/${interfaceName}/assets/js/constants/generators/functions.js`
                     });
+                    if (interfaceName == 'steami') {
+                        COMMON_CONSTANTS_SCRIPTS.push({
+                            id: 'wb55-functions',
+                            src: `/openInterface/wb55/assets/js/constants/generators/functions.js`
+                        });
+                    }
                 }
                 COMMON_CONSTANTS_SCRIPTS.push({
-                    id: 'imports',
+                    id: interfaceName + '-imports',
                     src: `/openInterface/${interfaceName}/assets/js/constants/generators/imports.js`
                 });
+                if (interfaceName == 'steami') {
+                    COMMON_CONSTANTS_SCRIPTS.push({
+                        id: 'wb55-imports',
+                        src: `/openInterface/wb55/assets/js/constants/generators/imports.js`
+                    });
+                }
             } else {
                 COMMON_CONSTANTS_SCRIPTS.push({
                     id: 'includes',
@@ -112,63 +120,59 @@ function loadInterface(interfaceName) {
 
             const lng = (getCookie('lng').length > 0 ? getCookie('lng') : 'en');
 
-            const LANG_SCRIPTS = [
-                {
-                    id: "cat_msg",
-                    src: `/openInterface/${interfaceName}/assets/js/blocks/msg/categories/js/${lng}.js`
-                },
-                {
-                    id: "block_msg",
-                    src: `/openInterface/${interfaceName}/assets/js/blocks/msg/blocks/js/${lng}.js`
+            const COMMON_MSG_PATH = `/openInterface/interfaces/assets/js/msg`;
+            const GET_COMMON_LANG_SCRIPTS = (_language) => {
+                let scripts;
+                if (interfaceName == 'web') {
+                    scripts = [{
+                        id: "common_cat_msg",
+                        src: `${COMMON_MSG_PATH}/categories/${_language}.js`
+                    }];
+                } else {
+                    scripts = [{
+                        id: "common_block_msg",
+                        src: `${COMMON_MSG_PATH}/blocks/basic/${_language}.js`
+                    }, {
+                        id: "common_cat_msg",
+                        src: `${COMMON_MSG_PATH}/categories/${_language}.js`
+                    }];
+                    if (['arduino', 'esp32', 'galaxia', 'pico', 'm5stack'].includes(interfaceName)) {
+                        scripts.push({
+                            id: "common_esp32_block_msg",
+                            src: `${COMMON_MSG_PATH}/blocks/esp32/${_language}.js`
+                        })
+                    }
                 }
-            ];
+                return scripts;
+            };
 
-            const FALLBACK_LANG_SCRIPTS = [
-                {
-                    id: "cat_msg",
-                    src: `/openInterface/${interfaceName}/assets/js/blocks/msg/categories/js/en.js`
-                },
-                {
-                    id: "block_msg",
-                    src: `/openInterface/${interfaceName}/assets/js/blocks/msg/blocks/js/en.js`
-                }
-            ];
+            const COMMON_LANG_SCRIPTS = GET_COMMON_LANG_SCRIPTS(lng);
+            const FALLBACK_COMMON_LANG_SCRIPTS = GET_COMMON_LANG_SCRIPTS('en');
 
-            const COMMON_LANG_SCRIPTS = [
-                {
-                    id: "common_cat_msg",
-                    src: `/openInterface/interfaces/assets/js/msg/categories/${lng}.js`
-                },
-                {
-                    id: "common_block_msg",
-                    src: `/openInterface/interfaces/assets/js/msg/blocks/${lng}.js`
+            const SPECIFIC_MSG_PATH = `/openInterface/${interfaceName}/assets/js/blocks/msg`;
+            const GET_LANG_SCRIPTS = (_language) => {
+                let scripts = [];
+                if (['web', 'TI-83'].includes(interfaceName)) {
+                    scripts.push({
+                        id: "_cat_msg",
+                        src: `${SPECIFIC_MSG_PATH}/categories/js/${_language}.js`
+                    });
                 }
-            ];
+                if (interfaceName == 'steami') {
+                    scripts.push({
+                        id: "wb55_block_msg",
+                        src: `/openInterface/wb55/assets/js/blocks/msg/blocks/js/${_language}.js`
+                    });
+                }
+                scripts.push({
+                    id: interfaceName + "_block_msg",
+                    src: `${SPECIFIC_MSG_PATH}/blocks/js/${_language}.js`
+                });
+                return scripts;
+            };
 
-            const FALLBACK_COMMON_LANG_SCRIPTS = [
-                {
-                    id: "common_cat_msg",
-                    src: `/openInterface/interfaces/assets/js/msg/categories/en.js`
-                },
-                {
-                    id: "common_block_msg",
-                    src: `/openInterface/interfaces/assets/js/msg/blocks/en.js`
-                }
-            ];
-
-            const COMMON_ESP32_LANG_SCRIPTS = [
-                {
-                    id: "common_esp32_block_msg",
-                    src: `/openInterface/interfaces/assets/js/msg/blocks/esp32/${lng}.js`
-                }
-            ];
-
-            const FALLBACK_COMMON_ESP32_LANG_SCRIPTS = [
-                {
-                    id: "common_esp32_block_msg",
-                    src: `/openInterface/interfaces/assets/js/msg/blocks/esp32/en.js`
-                }
-            ];
+            const LANG_SCRIPTS = GET_LANG_SCRIPTS(lng);
+            const FALLBACK_LANG_SCRIPTS = GET_LANG_SCRIPTS('en');
 
             // Common block definitions
 
@@ -182,16 +186,17 @@ function loadInterface(interfaceName) {
             if (['python', 'microbit'].includes(interfaceName)) {
                 blockCategories.push('dictionaries');
             }
-            const pathCommonBlockDefinitions = `/openInterface/${interface_type}/assets/js/blocks/definitions/basic/`;
+            const COMMON_INTERFACES_BLOCKS_PATH = '/openInterface/interfaces/assets/js/blocks/';
+            const COMMON_BLOCKS_DEFINITIONS_PATH = `/openInterface/${interface_type}/assets/js/blocks/definitions/`;
             const COMMON_BLOCKS_DEFINITIONS_SCRIPTS = blockCategories.map(cat => {
                 return {
                     id: 'blocks-' + cat,
-                    src: pathCommonBlockDefinitions + cat + '.js'
+                    src: COMMON_BLOCKS_DEFINITIONS_PATH + 'basic/' + cat + '.js'
                 }
             });
             COMMON_BLOCKS_DEFINITIONS_SCRIPTS.unshift({
                 id: 'blocks-constants',
-                src: '/openInterface/interfaces/assets/js/blocks/definitions/constants.js'
+                src: COMMON_INTERFACES_BLOCKS_PATH + 'definitions/constants.js'
             });
 
             // Python generators
@@ -200,16 +205,16 @@ function loadInterface(interfaceName) {
             if (['python', 'microbit'].includes(interfaceName)) {
                 pythonCategories.push('dictionaries');
             }
-            const pathCommonPythonGenerators = '/openInterface/interfaces/assets/js/blocks/generators/python/';
+            const COMMON_PYTHON_GENERATORS_PATH = COMMON_INTERFACES_BLOCKS_PATH + 'generators/python/';
             const COMMON_PYTHON_BLOCKS_GENERATORS = pythonCategories.map(cat => {
                 return {
                     id: 'python-' + cat,
-                    src: pathCommonPythonGenerators + 'basic/' + cat + '.js'
+                    src: COMMON_PYTHON_GENERATORS_PATH + 'basic/' + cat + '.js'
                 }
             });
             COMMON_PYTHON_BLOCKS_GENERATORS.unshift({
                 id: 'python-init',
-                src: pathCommonPythonGenerators + 'init.js'
+                src: COMMON_PYTHON_GENERATORS_PATH + 'init.js'
             });
 
             // Arduino generators
@@ -231,7 +236,7 @@ function loadInterface(interfaceName) {
             });
             COMMON_ARDUINO_BLOCKS_GENERATORS.unshift({
                 id: 'arduino-init',
-                src: '/openInterface/interfaces/assets/js/blocks/generators/arduino/init.js'
+                src: COMMON_INTERFACES_BLOCKS_PATH + 'generators/arduino/init.js'
             });
 
             const COMMON_SCRIPTS = [
@@ -251,21 +256,30 @@ function loadInterface(interfaceName) {
                 }
             ];
 
-            const SPECIFIC_BLOCKS_PATH = `/openInterface/${interfaceName}/assets/js/blocks/definitions/specific/`;
+            const SPECIFIC_BLOCKS_PATH = (_interface = interfaceName) => `/openInterface/${_interface}/assets/js/blocks/definitions/specific/`;
             const SPECIFIC_BLOCKS_DEFINITIONS_SCRIPTS = [];
 
-            const SPECIFIC_GENERATORS_PATH = `/openInterface/${interfaceName}/assets/js/blocks/generators/specific/`;
+            const SPECIFIC_GENERATORS_PATH = (_interface = interfaceName) => `/openInterface/${_interface}/assets/js/blocks/generators/specific/`;
             const SPECIFIC_BLOCKS_GENERATORS_SCRIPTS = [];
 
-            const addBlockScripts = function (files) {
+            const addBlockAndGeneratorScripts = function (files, commonDefinitions = false, needSpecificDefinitions = true, _interface = interfaceName) {
                 for (const file of files) {
-                    SPECIFIC_BLOCKS_DEFINITIONS_SCRIPTS.push({
-                        id: 'definitions-' + file + '.js',
-                        src: SPECIFIC_BLOCKS_PATH + file + '.js'
-                    });
+                    // Warning: It is important to load common block definitions before interface specific. Cause of double definitions.
+                    if (commonDefinitions) {
+                        SPECIFIC_BLOCKS_DEFINITIONS_SCRIPTS.push({
+                            id: 'common-definitions/' + file,
+                            src: COMMON_INTERFACES_BLOCKS_PATH + 'definitions/common/' + file
+                        });
+                    }
+                    if (needSpecificDefinitions) {
+                        SPECIFIC_BLOCKS_DEFINITIONS_SCRIPTS.push({
+                            id: _interface + '-definitions/' + file,
+                            src: SPECIFIC_BLOCKS_PATH(_interface) + file
+                        });
+                    }
                     SPECIFIC_BLOCKS_GENERATORS_SCRIPTS.push({
-                        id: 'generators-' + file + '.js',
-                        src: SPECIFIC_GENERATORS_PATH + file + '.js'
+                        id: _interface + '-generators/' + file,
+                        src: SPECIFIC_GENERATORS_PATH(_interface) + file
                     });
                 }
             };
@@ -276,14 +290,25 @@ function loadInterface(interfaceName) {
             const addConstantScript = function (files, path) {
                 for (const file of files) {
                     SPECIFIC_CONSTANTS_SCRIPTS.push({
-                        id: 'constants-' + file + '.js',
-                        src: SPECIFIC_CONSTANTS_PATH + path + '/' + file + '.js'
+                        id: path + '/' + file,
+                        src: SPECIFIC_CONSTANTS_PATH + path + '/' + file
+                    });
+                }
+            };
+
+            const COMMON_BLOCKS_PATH = `/openInterface/interfaces/assets/js/blocks/definitions/common/`;
+
+            const addBlockScripts = function (files) {
+                for (const file of files) {
+                    SPECIFIC_BLOCKS_DEFINITIONS_SCRIPTS.push({
+                        id: 'common-definitions/' + file,
+                        src: COMMON_BLOCKS_PATH + file
                     });
                 }
             };
 
             // blockly_constants.js
-            if (!['niryo'].includes(interfaceName)) {
+            if (!['niryo', 'web'].includes(interfaceName)) {
                 SPECIFIC_BLOCKS_DEFINITIONS_SCRIPTS.push({
                     id: 'blockly_constants.js',
                     src: `/openInterface/${interfaceName}/assets/js/blocks/definitions/blockly_constants.js`
@@ -293,142 +318,187 @@ function loadInterface(interfaceName) {
             // generator.js
             // Note: Add interface name if it IS required.
             if (['arduino', 'letsstartcoding', 'esp32', 'pico', 'm5stack', 'galaxia', 'GalaxiaCircuitPython', 'wb55', 'l476', 'mBot', 'cyberpi',
-                'raspberrypi', 'TI-83', 'eliobot', 'codey'].includes(interfaceName)) {
+                'raspberrypi', 'TI-83', 'eliobot', 'codey', 'steami'].includes(interfaceName)) {
                 SPECIFIC_BLOCKS_GENERATORS_SCRIPTS.push({
                     id: 'generator.js',
-                    src: `/openInterface/${interfaceName}/assets/js/blocks/generators/generator.js`
+                    src: `/openInterface/${interfaceName == 'steami' ? 'wb55' : interfaceName}/assets/js/blocks/generators/generator.js`
                 });
             }
 
             // start.js
             if (!['python'].includes(interfaceName)) {
-                addBlockScripts(['start']);
+                if (['arduino', 'mBot', 'letsstartcoding'].includes(interfaceName)) {
+                    addBlockAndGeneratorScripts(['start.js']);
+                } else {
+                    if (interfaceName == 'steami') {
+                        addBlockAndGeneratorScripts(['start.js'], true, false, 'wb55');
+                    } else {
+                        addBlockAndGeneratorScripts(['start.js'], true, false);
+                    }
+                }
             }
 
+            // common block scripts
+
             // display.js | input_output.js | communication.js | actuators.js | sensors.js
-            // Note: Add interface name on each file if it IS NOT required.
-            const excludedInterfacesForScripts = {
-                'display': ['TI-83', 'letsstartcoding'],
-                'input_output': ['python', 'TI-83', 'niryo', 'nao'],
-                'communication': ['python', 'TI-83', 'letsstartcoding', 'niryo', 'buddy'],
-                'actuators': ['python', 'TI-83', 'niryo', 'nao'],
-                'sensors': ['python', 'TI-83', 'letsstartcoding', 'niryo']
+            // Note: Add interface name on each file if it IS required.
+            const interfacesForScripts = {
+                'display.js': ['esp32', 'microbit', 'galaxia', 'raspberrypi'],
+                'input_output.js': ['esp32', 'microbit', 'galaxia', 'raspberrypi'],
+                'communication.js': ['esp32', 'microbit', 'galaxia'],
+                'actuators.js': ['esp32', 'microbit', 'galaxia', 'raspberrypi'],
+                'sensors.js': ['esp32', 'microbit', 'galaxia', 'raspberrypi']
             };
 
-            for (const file in excludedInterfacesForScripts) {
-                if (!excludedInterfacesForScripts[file].includes(interfaceName)) {
+            for (const file in interfacesForScripts) {
+                if (interfacesForScripts[file].includes(interfaceName)) {
                     addBlockScripts([file]);
                 }
             }
 
+            // specific block scripts
+
+            // display.js | input_output.js | communication.js | actuators.js | sensors.js
+            // Note: Add interface name on each file if it IS NOT required.
+            const excludedInterfacesForScripts = {
+                'display.js': ['TI-83', 'letsstartcoding', 'bluebot'],
+                'input_output.js': ['python', 'TI-83', 'niryo', 'nao'],
+                'communication.js': ['python', 'TI-83', 'letsstartcoding', 'niryo', 'buddy', 'steami', 'bluebot'],
+                'actuators.js': ['python', 'TI-83', 'niryo', 'nao', 'steami'],
+                'sensors.js': ['python', 'TI-83', 'letsstartcoding', 'niryo', 'bluebot']
+            };
+
+            // interfaces with only the common block definitions
+            const noSpecificBlocksDefinitions = {
+                'actuators.js': ['esp32']
+            };
+
+            for (const file in excludedInterfacesForScripts) {
+                if (!excludedInterfacesForScripts[file].includes(interfaceName)) {
+                    const commonInterfaces = interfacesForScripts[file];
+                    const noSpecificDefinitions = noSpecificBlocksDefinitions[file]
+                    addBlockAndGeneratorScripts([file],
+                        commonInterfaces ? commonInterfaces.includes(interfaceName) : false,
+                        noSpecificDefinitions ? !noSpecificDefinitions.includes(interfaceName) : true
+                    );
+                }
+                console.log(file)
+                if (interfaceName == 'steami') {
+                    addBlockAndGeneratorScripts([file], false, true, 'wb55');
+                }
+            }
+
             // robots.js
-            if (['microbit', 'esp32', 'pico', 'wb55', 'l476', 'cyberpi', 'GalaxiaCircuitPython', 'codey'].includes(interfaceName)) {
-                addBlockScripts(['robots']);
+            if (['microbit', 'esp32', 'pico', 'wb55', 'l476', 'cyberpi', 'GalaxiaCircuitPython', 'codey', 'raspberrypi'].includes(interfaceName)) {
+                addBlockAndGeneratorScripts(['robots.js']);
             }
 
             // network.js 
             if (['esp32', 'm5stack', 'galaxia', 'pico', 'arduino'].includes(interfaceName)) {
                 SPECIFIC_BLOCKS_DEFINITIONS_SCRIPTS.push({
-                    id: 'definitions-network.js',
-                    src: '/openInterface/interfaces/assets/js/blocks/definitions/python/esp32/network.js'
+                    id: 'definitions/network.js',
+                    src: COMMON_INTERFACES_BLOCKS_PATH + 'definitions/python/esp32/network.js'
                 });
                 if (!['pico', 'arduino'].includes(interfaceName)) {
                     SPECIFIC_BLOCKS_GENERATORS_SCRIPTS.push({
-                        id: 'generators-network.js',
-                        src: '/openInterface/interfaces/assets/js/blocks/generators/python/esp32/network.js'
+                        id: 'generators/network.js',
+                        src: COMMON_INTERFACES_BLOCKS_PATH + 'generators/python/esp32/network.js'
                     });
                 } else {
                     SPECIFIC_BLOCKS_GENERATORS_SCRIPTS.push({
-                        id: 'generators-network.js',
-                        src: SPECIFIC_GENERATORS_PATH + 'network.js'
+                        id: 'generators/network.js',
+                        src: SPECIFIC_GENERATORS_PATH() + 'network.js'
                     });
+                    console.log(SPECIFIC_BLOCKS_GENERATORS_SCRIPTS)
                 }
             }
 
             // cameras.js 
-            if (['arduino', 'esp32', 'galaxia', 'l476', 'microbit', 'wb55',].includes(interfaceName)) {
+            if (['arduino', 'esp32', 'galaxia', 'l476', 'microbit', 'wb55',].includes(interfaceName == 'steami' ? 'wb55' : interfaceName)) {
                 SPECIFIC_BLOCKS_DEFINITIONS_SCRIPTS.push({
-                    id: 'definitions-cameras.js',
-                    src: '/openInterface/interfaces/assets/js/blocks/definitions/common/cameras.js'
+                    id: 'common-definitions/cameras.js',
+                    src: COMMON_INTERFACES_BLOCKS_PATH + 'definitions/common/cameras.js'
                 });
-                if (['l476', 'wb55'].includes(interfaceName)) {
+                if (['l476', 'wb55'].includes(interfaceName == 'steami' ? 'wb55' : interfaceName)) {
                     SPECIFIC_BLOCKS_GENERATORS_SCRIPTS.push({
-                        id: 'generators-cameras.js',
-                        src: '/openInterface/interfaces/assets/js/blocks/generators/python/stm32/cameras.js'
+                        id: 'generators/cameras.js',
+                        src: COMMON_INTERFACES_BLOCKS_PATH + 'generators/python/stm32/cameras.js'
                     });
                 } else if (['esp32'].includes(interfaceName)) {
                     SPECIFIC_BLOCKS_GENERATORS_SCRIPTS.push({
-                        id: 'generators-cameras.js',
-                        src: '/openInterface/interfaces/assets/js/blocks/generators/python/esp32/cameras.js'
+                        id: 'generators/cameras.js',
+                        src: COMMON_INTERFACES_BLOCKS_PATH + 'generators/python/esp32/cameras.js'
                     });
-                } else if (['arduino', 'galaxia'].includes(interfaceName)) {
+                } else if (['arduino', 'microbit', 'galaxia'].includes(interfaceName)) {
                     SPECIFIC_BLOCKS_GENERATORS_SCRIPTS.push({
-                        id: 'generators-cameras.js',
-                        src: SPECIFIC_GENERATORS_PATH + 'cameras.js'
+                        id: 'generators/cameras.js',
+                        src: SPECIFIC_GENERATORS_PATH() + 'cameras.js'
                     });
                 }
             }
 
+            // vittaia.js 
+            if (['arduino', 'galaxia', 'microbit'].includes(interfaceName)) {
+                addBlockAndGeneratorScripts(['vittaia.js'], true, false);
+            }
+
             // bitmap.js (constant)
-            if (['arduino', 'microbit', 'mBot', 'letsstartcoding'].includes(interfaceName)) {
-                addConstantScript(['bitmap'], 'generators');
+            if (['arduino'].includes(interfaceName)) {
+                addConstantScript(['bitmap.js'], 'generators');
             }
 
             // specific
             // Note: Add specific files here if it IS required.
             switch (interfaceName) {
-                case 'arduino':
-                    addConstantScript(['struct'], 'generators');
-                    break;
                 case 'microbit':
-                    addBlockScripts(['tello', 'cameras']);
+                    addBlockAndGeneratorScripts(['tello.js']);
                     break;
                 case 'esp32':
-                    addBlockScripts(['esp32cam']);
+                    addBlockAndGeneratorScripts(['esp32cam.js']);
                     break;
                 case 'm5stack':
-                    addBlockScripts(['screen']);
+                    addBlockAndGeneratorScripts(['screen.js']);
                     break;
                 case 'pico':
-                    addBlockScripts(['process', 'cameras']);
+                    addBlockAndGeneratorScripts(['process.js', 'cameras.js']);
                     break;
                 case 'python':
-                    addBlockScripts(['graph', 'numpy', 'turtle', 'vittaia']);
+                    addBlockAndGeneratorScripts(['graph.js', 'numpy.js', 'turtle.js', 'vittaia.js']);
                     break;
                 case 'TI-83':
-                    addBlockScripts(['ce', 'devices', 'draw', 'io', 'microbit', 'plotlib', 'random', 'rover', 'tello', 'turtle']);
-                    addConstantScript(['texas_instruments', 'texas_instruments_code'], 'toolbox');
+                    addBlockAndGeneratorScripts(['ce.js', 'devices.js', 'draw.js', 'io.js', 'microbit.js', 'plotlib.js', 'random.js', 'rover.js', 'tello.js', 'turtle.js']);
+                    addConstantScript(['texas_instruments.js', 'texas_instruments_code.js'], 'toolbox');
                     break;
                 case 'mBot':
-                    addBlockScripts(['mCore']);
+                    addBlockAndGeneratorScripts(['mCore.js']);
                     break;
                 case 'cyberpi':
-                    addBlockScripts(['network']);
+                    addBlockAndGeneratorScripts(['network.js']);
                     break;
                 case 'thymio':
-                    addBlockScripts(['math']);
+                    addBlockAndGeneratorScripts(['math.js']);
                     break;
                 case 'winky':
-                    addBlockScripts(['network', 'sounds']);
+                    addBlockAndGeneratorScripts(['network.js', 'sounds.js']);
                     break;
                 case 'GalaxiaCircuitPython':
-                    addBlockScripts(['network']);
+                    addBlockAndGeneratorScripts(['network.js']);
                     break;
                 case 'niryo':
-                    addBlockScripts(['movements', 'tools', 'utility', 'network']);
+                    addBlockAndGeneratorScripts(['movements.js', 'tools.js', 'utility.js', 'network.js']);
                     break;
                 case 'nao':
-                    addBlockScripts(['movements', 'time', 'games', 'network', "communication", 'sensors']);
+                    addBlockAndGeneratorScripts(['movements.js', 'time.js', 'games.js', 'network.js', 'communication.js', 'sensors.js']);
                     break;
                 case 'raspberrypi':
-                    addBlockScripts(['network', 'senseHat']);
-                    addConstantScript(['pixel-images'], 'generators');
+                    addBlockAndGeneratorScripts(['network.js']);
+                    addConstantScript(['pixel-images.js'], 'generators');
                     break;
                 case 'buddy':
-                    addBlockScripts(['vocal_interactions', 'vittaia']);
+                    addBlockAndGeneratorScripts(['vocal_interactions.js', 'vittaia.js']);
                     break;
                 case 'photon':
-                    addBlockScripts(['sound']);
+                    addBlockAndGeneratorScripts(['sound.js']);
                     break;
             }
 
@@ -494,12 +564,6 @@ function loadInterface(interfaceName) {
                 await WikiLoader.loadScripts(COMMON_LANG_SCRIPTS);
             } catch (e) {
                 await WikiLoader.loadScripts(FALLBACK_COMMON_LANG_SCRIPTS);
-            }
-
-            try {
-                await WikiLoader.loadScripts(COMMON_ESP32_LANG_SCRIPTS);
-            } catch (e) {
-                await WikiLoader.loadScripts(FALLBACK_COMMON_ESP32_LANG_SCRIPTS);
             }
 
             resolve();

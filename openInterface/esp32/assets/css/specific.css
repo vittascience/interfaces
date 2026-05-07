@@ -2,8 +2,7 @@
 @import url('../../../interfaces/assets/css/simulator-wifi.css');
 @import url('../../../interfaces/assets/css/simulator-robot.css');
 
-
-#experience-3d-container{
+#experience-3d-container {
 	position: relative;
 	margin: auto;
 	display: flex;
@@ -11,7 +10,6 @@
 	justify-content: center;
 	align-items: center;
 }
-
 
 .experience3D {
 	background: linear-gradient(180deg, #2828c0 0%, #5e5e5e 100%);
@@ -31,7 +29,8 @@
 #gizmo-button {
 	position: absolute;
 	top: 1.75em;
-    right: 0.25em;
+	right: 0.25em;
+	right: 0.25em;
 	z-index: 100;
 	color: red;
 }
@@ -49,23 +48,23 @@
 	min-width: 125px !important;
 }
 
-.switcher__input--right:checked~.esp32-switcher-toggle {
+.switcher__input--right:checked ~ .esp32-switcher-toggle {
 	left: calc(100% - 125px) !important;
 }
 
-.switcher__input--middle1:checked~.esp32-switcher-toggle {
+.switcher__input--middle1:checked ~ .esp32-switcher-toggle {
 	left: 125px !important;
 }
 
-.switcher__input--middle2:checked~.esp32-switcher-toggle {
+.switcher__input--middle2:checked ~ .esp32-switcher-toggle {
 	left: calc((125px * 2) + 4px) !important;
 }
 
-.switcher__input--middle3:checked~.esp32-switcher-toggle {
+.switcher__input--middle3:checked ~ .esp32-switcher-toggle {
 	left: calc((125px * 3) + 4px) !important;
 }
 
-.switcher__input--middle4:checked~.esp32-switcher-toggle {
+.switcher__input--middle4:checked ~ .esp32-switcher-toggle {
 	left: calc((125px * 4) + 4px) !important;
 }
 
@@ -74,7 +73,6 @@
 	bottom: 12px;
 	left: -6px;
 	opacity: 0;
-	filter: hue-rotate(210deg)
 }
 
 .esp32-rawTemp {
@@ -97,7 +95,7 @@
 	clip-path: inset(76.4706% 0px 0px);
 }
 
-/* Robots */
+/* Ilo */
 .ilo-motorFrontLeft,
 .ilo-motorFrontRight,
 .ilo-motorBackLeft,
@@ -118,4 +116,88 @@
 .ilo-motorBackRight_base {
 	bottom: 0px;
 	left: 16px;
+}
+
+.obstacle-toolbar {
+	position: fixed;
+	display: none;
+	align-items: center;
+	gap: 4px;
+	padding: 6px 8px;
+	background: var(--vitta-green);
+	border-radius: 6px;
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+	z-index: 10000;
+	pointer-events: auto;
+	transform: translateX(-50%);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.obstacle-toolbar.visible {
+	display: flex;
+}
+.obstacle-toolbar-btn {
+	width: 28px;
+	height: 28px;
+	border: none;
+	border-radius: 4px;
+	background: transparent;
+	cursor: pointer;
+	display: flex;
+	color: #fff;
+	align-items: center;
+	justify-content: center;
+	transition: background 0.15s;
+}
+.obstacle-toolbar-btn svg {
+	width: 16px;
+	height: 16px;
+	fill: #fff;
+}
+.obstacle-toolbar-btn:hover {
+	background: rgba(255, 255, 255, 0.15);
+}
+.obstacle-toolbar-btn[data-action='delete']:hover {
+	background: rgba(220, 53, 69, 0.8);
+}
+.obstacle-toolbar-btn[data-action='close']:hover {
+	background: rgba(108, 117, 125, 0.8);
+}
+.obstacle-toolbar-separator {
+	width: 1px;
+	height: 20px;
+	background: rgba(255, 255, 255, 0.2);
+	margin: 0 4px;
+}
+.obstacle-toolbar-hint {
+	font-size: 11px;
+	color: rgba(255, 255, 255, 0.6);
+	margin-left: 4px;
+	white-space: nowrap;
+}
+
+
+/* Nano ESP32 */
+.nano-esp32-builtin-led,
+.alvik-builtin-led,
+.alvik-illuminator-led {
+	z-index: 1;
+	bottom: 12px;
+	left: -6px;
+	opacity: 0;
+}
+
+.alvik-illuminator-led {
+	filter: sepia(0.8) brightness(1.5) hue-rotate(311deg) saturate(2.5);
+}
+
+.alvik-motorLeft,
+.alvik-motorRight {
+	z-index: 1;
+	top: -1px;
+	left: 2px;
+}
+
+.alvik-motorLeft_base {
+	z-index: 2;
+	opacity: 0.9;
 }

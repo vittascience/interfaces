@@ -7,17 +7,21 @@ i.fa-arrow-down {
 }
 
 /* BS Buttons */
-.btn-primary,
-.btn-success,
-.v-btn,
-.vitta-button,
-.btn-green,
-.btn-orange {
+.theme-light .btn-primary,
+.theme-light .btn-success,
+.theme-light .v-btn,
+.theme-light .vitta-button,
+.theme-light .btn-green,
+.theme-light .btn-orange {
     --bs-btn-color: var(--vitta-white) !important;
     --bs-btn-border-color: var(--text-0) !important;
     --bs-btn-disabled-border-color: var(--text-0) !important;
     --bs-btn-hover-border-color: var(--text-0) !important;
     --bs-border-color: var(--text-0) !important;
+}
+
+.theme-light .btn-orange {
+    --bs-btn-color: var(--vitta-black) !important;
 }
 
 .v-btn-grey,
@@ -106,8 +110,9 @@ div#iframe-popup {
 }
 
 /* Changing colors of social media icons */
-.icon-circled {
-    background-color: var(--text-0);
+#vitta-footer .icon-circled {
+    background-color: var(--text-0) !important;
+    color: var(--bg-0) !important;
 }
 
 /* Border bottom on input section */
@@ -193,6 +198,12 @@ Here we mainly put border to the elements to make them stand out */
 .btn_ide {
     border: 2px solid var(--text-0) !important;
     color: var(--text-0) !important;
+}
+
+.theme-dark .ide-btn:hover,
+.theme-dark .monitor-controls-button:hover,
+.theme-dark .btn_ide:hover {
+    color: var(--vitta-black) !important;
 }
 
 .board-firmware-selector {

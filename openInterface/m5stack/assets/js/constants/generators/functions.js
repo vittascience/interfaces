@@ -8,13 +8,6 @@ DEF_PIN_ADC:
   pin.width(bit)
   return pin`,
 
-DEF_PIN_WRITE:
-`def pinWrite(pinNumber, db=ADC.ATTN_11DB, bit=ADC.WIDTH_10BIT):
-  pin = ADC(Pin(pinNumber))
-  pin.atten(db)
-  pin.width(bit)
-  return pin`,
-
 DEF_GET_ANALOG_MEAN:
 `def getAnalogMean(pin, n = 32):
   sum = 0

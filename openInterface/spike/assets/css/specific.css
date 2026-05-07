@@ -14,8 +14,8 @@
 	opacity: 0.9;
 }
 
-#spike-colorSensor-portA_anim,
-#spike-colorSensor-portB_anim {
+#spike-ColorSensor-portA_anim,
+#spike-ColorSensor-portB_anim {
 	background-color: rgb(0, 0, 0);
 }
 

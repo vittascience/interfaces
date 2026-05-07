@@ -1,8 +1,5 @@
-Simulator.Mosaic.BOARD_HEADER = `<object id="board-viewer" class="mt-3" type="image/svg+xml"></object>`;
-
 Simulator.Mosaic.externalLibraries = {
     'src/lib/sdk.js': Simulator.PATH_LIB + '/sdk.js',
-    'src/lib/machine.js': Simulator.PATH_LIB + '/machine.js',
     // js common libraries
     'src/lib/time.js': Simulator.PATH_LIB_COMMON + 'micropython/time.js',
     'src/lib/utime.js': Simulator.PATH_LIB_COMMON + 'micropython/time.js',

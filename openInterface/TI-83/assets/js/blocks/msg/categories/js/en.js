@@ -23,7 +23,6 @@ Blockly.Msg["CATEGORY_OPERATORS"] = "Operators";
 // Category names in 'TI-Style' mode.
 Blockly.Msg['CATEGORY_ADVANCED'] = 'Advanced';
 // Toolbox subcategory labels.
-Blockly.Msg['SUBCATEGORY_TEXT_ANALYSIS'] = 'Text analysis';
 Blockly.Msg["SUBCATEGORY_TIME"] = "Time";
 Blockly.Msg["SUBCATEGORY_INNOVATOR_HUB"] = "Innovator Hub";
 Blockly.Msg["SUBCATEGORY_CONSOLE"] = "Console";
@@ -32,7 +31,7 @@ Blockly.Msg["SUBCATEGORY_CONFIGURATION"] = "Setting";
 Blockly.Msg["SUBCATEGORY_DRAW"] = "Draw";
 Blockly.Msg["SUBCATEGORY_PROPERTIES"] = "Properties";
 Blockly.Msg["SUBCATEGORY_LOOPS"] = "Loops";
-Blockly.Msg['SUBCATEGORY_TEXT_ANALYSIS'] = 'Text analysis';
+Blockly.Msg['SUBCATEGORY_ENCRYPTION'] = 'Encryption';
 Blockly.Msg["SUBCATEGORY_LOGIC"] = "Logic";
 Blockly.Msg["SUBCATEGORY_BUILTIN_DEVICES"] = "Built-in devices of Hub";
 Blockly.Msg["SUBCATEGORY_GROVE_INPUTS"] = "Grove - input devices";

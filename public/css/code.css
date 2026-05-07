@@ -2,6 +2,19 @@
     display: none;
 }
 
+.theme-dark #filter-tag {
+  color: var(--vitta-black);
+}
+
+.theme-dark #anchor-title {
+  color: var(--vitta-black) !important;
+}
+
+.theme-dark input::placeholder {
+  color: var(--vita-white);
+  border-color: var(--vitta-black);
+}
+
 .text-vitta-green {
     color: var(--vitta-green);
 }
@@ -28,6 +41,10 @@
     background-color: var(--vitta-green);
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
+}
+
+.theme-dark .section-interfaces{
+    background-color: var(--vitta-green-dark);
 }
 
 .section-interfaces .interfaces-container{

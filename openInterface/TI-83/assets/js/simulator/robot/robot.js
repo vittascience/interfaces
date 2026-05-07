@@ -1,4 +1,4 @@
-var Robots = {
+const Robots = {
   'Rover': {
     CODE_REGEXP: /(from ti_rover import \*|import ti_rover( as (rv|rover)|))/,
     TYPE: 'robot',
@@ -198,10 +198,10 @@ var Robots = {
             this.surface,
             this.surface
           ).data;
-          if ($("#rover-colorSensor").length > 0) {
-            $("#rover-colorSensor_slider_r").slider('value', this.rgb[0]);
-            $("#rover-colorSensor_slider_g").slider('value', this.rgb[1]);
-            $("#rover-colorSensor_slider_b").slider('value', this.rgb[2]);
+          if ($("#rover-ColorSensor").length > 0) {
+            $("#rover-ColorSensor_slider_r").slider('value', this.rgb[0]);
+            $("#rover-ColorSensor_slider_g").slider('value', this.rgb[1]);
+            $("#rover-ColorSensor_slider_b").slider('value', this.rgb[2]);
           }
         } catch (e) {
           console.error(e);

@@ -450,5 +450,3 @@ export default class RobotSimulator3D {
 		experienceContainer.insertAdjacentHTML('beforeend', robotSimulatorHTML);
 	}
 }
-
-// window.RobotSimulator3D = new RobotSimulator3D();

@@ -35,7 +35,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "robots_makeBlock_set4DigitNumber": this.Set.number("N", 1024),
             // io - Time
             "io_wait": this.Set.number("TIME", 1),
-            "io_waitUntil": '<value name="UNTIL"><shadow type="logic_compare"><field name="OP">EQ</field>' + this.Set.number("B", 1) + '</shadow></value>',
+            "io_waitUntil": '<value name="UNTIL"><block type="logic_compare"><field name="OP">EQ</field>' + this.Set.number("B", 1) + '</block></value>',
             // io - pins
             "io_readDigitalPin": this.Set.field("PIN", '4'),
             "io_writeDigitalPin": this.Set.field("PIN", '5') + this.Set.state(),
@@ -53,6 +53,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "robots_makeBlock_setServoAngle": this.Set.number("ANGLE", 90),
             // communication - serial connection
             "communication_serialWrite": '<mutation newlines="false"></mutation>' + this.Set.text("TEXT", '{hello}'),
+            "communication_NumberSerialWrite": this.Set.number("NUMBER", 255),
             "communication_graphSerialWrite": '<mutation items="1"></mutation>'
                 + '<value name="ADD0"><block type="communication_graphSerialWrite_datasFormat"><field name="NAME">{data1}</field></block></value>',
             "communication_playComputerFrequency": this.Set.number("FREQUENCY", 440),

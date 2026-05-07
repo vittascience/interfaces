@@ -79,10 +79,11 @@ const $builtinmodule = function () {
 
 	mbot2.backward = new Sk.builtin.func(backward);
 
-	const straight = function (distance) {
-		Sk.builtin.pyCheckArgsLen("straight", arguments.length, 0, 1);
+	const straight = function (distance, speed) {
+		Sk.builtin.pyCheckArgsLen("straight", arguments.length, 0, 2);
 		Sk.builtin.pyCheckType("distance", "integer or float", Sk.builtin.checkNumber(distance));
-		const rpm = mbot2.__DEFAULT_SPEED.v;
+		Sk.builtin.pyCheckType("speed", "integer or float", Sk.builtin.checkNumber(speed));
+		const rpm = speed.v;
 		const movementDuration = (distance.v * 1e-2) / RobotSimulator.convertRPMtoSpeedMS(rpm);
 		if (distance.v > 0) {
 			setMotors(rpm, -rpm);
@@ -94,15 +95,16 @@ const $builtinmodule = function () {
 			RobotSimulator.robot.rotationCenter = RobotSimulator.getPositionByDistance(startPosition, distance.v);
 		});
 	};
-	straight.co_varnames = ['distance'];
-	straight.$defaults = [new Sk.builtin.int_(10)];
+	straight.co_varnames = ['distance', 'speed'];
+	straight.$defaults = [new Sk.builtin.int_(10), new Sk.builtin.int_(50)];
 
 	mbot2.straight = new Sk.builtin.func(straight);
 
-	const turn = function (angle) {
-		Sk.builtin.pyCheckArgsLen("turn", arguments.length, 0, 1);
+	const turn = function (angle, speed) {
+		Sk.builtin.pyCheckArgsLen("turn", arguments.length, 0, 2);
 		Sk.builtin.pyCheckType("angle", "integer or float", Sk.builtin.checkNumber(angle));
-		const rpm = mbot2.__DEFAULT_SPEED.v;
+		Sk.builtin.pyCheckType("speed", "integer or float", Sk.builtin.checkNumber(speed));
+		const rpm = speed.v;
 		const movementDuration = (RobotSimulator.robot.WHEELS_CENTER_RADIUS * 1e-2 * degToRad(angle.v)) / RobotSimulator.convertRPMtoSpeedMS(rpm);
 		const startAngle = RobotSimulator.robot.angle;
 		if (angle.v < 0) {
@@ -114,8 +116,8 @@ const $builtinmodule = function () {
 			RobotSimulator.robot.angle = startAngle + angle.v;
 		});
 	};
-	turn.co_varnames = ['angle'];
-	turn.$defaults = [new Sk.builtin.int_(90)];
+	turn.co_varnames = ['angle', 'speed'];
+	turn.$defaults = [new Sk.builtin.int_(90), new Sk.builtin.int_(50)];
 
 	mbot2.turn = new Sk.builtin.func(turn);
 

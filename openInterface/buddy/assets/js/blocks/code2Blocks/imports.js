@@ -9,7 +9,6 @@ const LIB_IMPORT = {
     IMPORT_UTIME: "import utime",
     IMPORT_MATH: "import math",
     IMPORT_RANDOM: "import random",
-    IMPORT_MACHINE: "import machine",
 
     // Buddy libraries
     IMPORT_BUDDY_SDK: "from sdk import BuddySDK",

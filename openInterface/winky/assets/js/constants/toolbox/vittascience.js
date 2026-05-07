@@ -21,9 +21,9 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
     },
     {
         "kind": "category",
-        "toolboxitemid": "sounds",
-        "name": "%{BKY_CATEGORY_SOUNDS}",
-        "style": "sounds_category",
+        "toolboxitemid": "sound",
+        "name": "%{BKY_CATEGORY_SOUND}",
+        "style": "sound_category",
         "cssConfig": {
             "icon": "icon_blockly fa-solid fa-music"
         },
@@ -41,9 +41,9 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
     },
     {
         "kind": "category",
-        "toolboxitemid": "io",
-        "name": "%{BKY_CATEGORY_IO}",
-        "style": "io_category",
+        "toolboxitemid": "time",
+        "name": "%{BKY_CATEGORY_TIME}",
+        "style": "time_category",
         "cssConfig": {
             "icon": "icon_blockly fas fa-clock"
         },
@@ -175,7 +175,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         }
     ],
-    "sounds": [
+    "sound": [
         {
             "blocks": [
                 'sounds_setVolume',
@@ -192,7 +192,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         }
     ],
-    "io": [
+    "time": [
         {
             "blocks": [
                 'io_pause',
@@ -279,21 +279,24 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'text_split',
                 'text_length',
                 'text_isEmpty',
+                'text_includesSubstr',
                 'text_indexOf',
                 'text_charAt',
                 'text_getSubstring',
+                'text_count_characters',
                 'text_changeCase',
                 'text_trim',
                 'text_count',
                 'text_replace',
-                'text_reverse'
+                'text_reverse',
+                'text_random_string'
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_TEXT_ANALYSIS}",
+            "label": "%{BKY_SUBCATEGORY_ENCRYPTION}",
             "blocks": [
-                'text_count_characters',
-                'text_random_string'
+                'text_caesar_cipher',
+                'text_caesar_cipher_brute_force'
             ],
         }
     ],

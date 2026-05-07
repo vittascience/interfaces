@@ -67,112 +67,103 @@ const LIB_IMPORT = {
     IMPORT_TELLO: "from tello import Tello"
 };
 
-const EXCLUDED_COMMENTS = ["Water Atomizer on","Electromagnet on","Servo on pin","MOSFET on pin","Vibration Motor on ","Fan on pin", "Force Sensor on pin","EMG Detector on pin","Ear Clip on pin","Tilt Sensor on pin","PIR Motion Sensor on","Vibration Sensor on pin","Line Finder on","Ultrasonic TRIG on pin","Ultrasonic on pin","Sound Sensor on pin","UV Sensor on pin","Light Sensor on pin","Anemometer on pin","Rain Gauge on pin","Water Sensor on pin","MPX5700 on pin","DHT11 Sensor on pin","High Temperature room on pin","High Temperature thmc on pin","Temperature Sensor on", "Capacitive Moisture Sensor on","Moisture Sensor on","Air Quality Sensor","Dioxygen Sensor on pin", '# Motor on pin2', 'Continuous Servo on pin1','Servo on pin2', 'Serial Receive used', 'Neopixel on pin', 'Buzzer on pin', 'LED Module on pin', '4 Digit Display', "If micro:bit is powered off", "Warning, the clock is recovered", "LED Bar DI on", "LED Bar DCKI", "Traffic Light", "# Simple Button on", "# Switch Button on", "# Magnetic Switch on", "# Touch Button on", "# Potentiometer on", "# Colored Button / read on", "# Colored Button / write on"] 
+const EXCLUDED_COMMENTS = ["Water Atomizer on", "Electromagnet on", "Servo on pin", "MOSFET on pin", "Vibration Motor on ", "Fan on pin", "Force Sensor on pin", "EMG Detector on pin", "Ear Clip on pin", "Tilt Sensor on pin", "PIR Motion Sensor on", "Vibration Sensor on pin", "Line Finder on", "Ultrasonic TRIG on pin", "Ultrasonic on pin", "Sound Sensor on pin", "UV Sensor on pin", "Light Sensor on pin", "Anemometer on pin", "Rain Gauge on pin", "Water Sensor on pin", "MPX5700 on pin", "DHT11 Sensor on pin", "High Temperature room on pin", "High Temperature thmc on pin", "Temperature Sensor on", "Capacitive Moisture Sensor on", "Moisture Sensor on", "Air Quality Sensor", "Dioxygen Sensor on pin", '# Motor on pin2', 'Continuous Servo on pin1', 'Servo on pin2', 'Serial Receive used', 'Neopixel on pin', 'Buzzer on pin', 'LED Module on pin', '4 Digit Display', "If micro:bit is powered off", "Warning, the clock is recovered", "LED Bar DI/DCKI on", "Traffic Light", "# Simple Button on", "# Switch Button on", "# Magnetic Switch on", "# Touch Button on", "# Potentiometer on", "# Colored Button / read on", "# Colored Button / write on"]
 const EXCLUDED_DOCSTRINGS = ["Cutebot Pro robot"]
-
-
-const SPECIFIC_INIT = {
-
-}
-
-const SPECIFIC_END = {
-    // HT16K33Matrix : LedMatrixModalManager.updateImageMono()
-}
 
 const CLASS_METHODS = {
     "neopixel": {
-        "subscript": { astCallBack: "set_neopixel", argsNode: 'tuple'}
+        "subscript": { astCallBack: "set_neopixel", argsNode: 'tuple' }
     },
-    "Image":{
-        "call": { astCallBack: "define_image", argsNode: 'string'}
+    "Image": {
+        "call": { astCallBack: "define_image", argsNode: 'string' }
     },
     "LCD1602": {
-        "call": { astCallBack: "LCD1602", argsNode: ''}
+        "call": { astCallBack: "LCD1602", argsNode: '' }
     },
     "OLED": {
-        "call": { astCallBack: "OLED", argsNode: ''}
+        "call": { astCallBack: "OLED", argsNode: '' }
     },
     "OLEDM": {
-        "call": { astCallBack: "OLEDM", argsNode: ''}
+        "call": { astCallBack: "OLEDM", argsNode: '' }
     },
     "MORPION": {
-        "call": { astCallBack: "MORPION", argsNode: ''}
+        "call": { astCallBack: "MORPION", argsNode: '' }
     },
     "TM1637": {
-        "call": { astCallBack: "TM1637", argsNode: ''}
+        "call": { astCallBack: "TM1637", argsNode: '' }
     },
     "MY9221": {
-        "call": { astCallBack: "MY9221", argsNode: ''}
-    }, 
+        "call": { astCallBack: "MY9221", argsNode: '' }
+    },
     "HT16K33Matrix": {
-        "call": { astCallBack: "HT16K33Matrix", argsNode: ''}
+        "call": { astCallBack: "HT16K33Matrix", argsNode: '' }
     },
     "GroveTwoRGBLedMatrix": {
-        "call": { astCallBack: "GroveTwoRGBLedMatrix", argsNode: ''}
+        "call": { astCallBack: "GroveTwoRGBLedMatrix", argsNode: '' }
     },
     "GAME": {
-        "call": { astCallBack: "GAME", argsNode: ''}
+        "call": { astCallBack: "GAME", argsNode: '' }
     },
     "TCS3472": {
-        "call": { astCallBack: "TCS3472", argsNode: ''}
+        "call": { astCallBack: "TCS3472", argsNode: '' }
     },
     "BME280": {
-        "call": { astCallBack: "BME280", argsNode: ''}
+        "call": { astCallBack: "BME280", argsNode: '' }
     },
     "SGP30": {
-        "call": { astCallBack: "SGP30", argsNode: ''}
+        "call": { astCallBack: "SGP30", argsNode: '' }
     },
     "SHT31": {
-        "call": { astCallBack: "SHT31", argsNode: ''}
+        "call": { astCallBack: "SHT31", argsNode: '' }
     },
     "SCD30": {
-        "call": { astCallBack: "SCD30", argsNode: ''}
+        "call": { astCallBack: "SCD30", argsNode: '' }
     },
     "GAS": {
-        "call": { astCallBack: "GAS", argsNode: ''}
+        "call": { astCallBack: "GAS", argsNode: '' }
     },
     "GAS_GMXXX": {
-        "call": { astCallBack: "GAS_GMXXX", argsNode: ''}
+        "call": { astCallBack: "GAS_GMXXX", argsNode: '' }
     },
     "HM330X": {
-        "call": { astCallBack: "HM330X", argsNode: ''}
+        "call": { astCallBack: "HM330X", argsNode: '' }
     },
     "BMP280": {
-        "call": { astCallBack: "BMP280", argsNode: ''}
+        "call": { astCallBack: "BMP280", argsNode: '' }
     },
     "DHT11": {
-        "call": { astCallBack: "DHT11", argsNode: ''}
+        "call": { astCallBack: "DHT11", argsNode: '' }
     },
     "TH02": {
-        "call": { astCallBack: "TH02", argsNode: ''}
+        "call": { astCallBack: "TH02", argsNode: '' }
     },
     "SHT31": {
-        "call": { astCallBack: "SHT31", argsNode: ''}
+        "call": { astCallBack: "SHT31", argsNode: '' }
     },
     "SHT35": {
-        "call": { astCallBack: "SHT35", argsNode: ''}
+        "call": { astCallBack: "SHT35", argsNode: '' }
     },
     "SI1145": {
-        "call": { astCallBack: "SI1145", argsNode: ''}
+        "call": { astCallBack: "SI1145", argsNode: '' }
     },
     "VL53L0X": {
-        "call": { astCallBack: "VL53L0X", argsNode: ''}
+        "call": { astCallBack: "VL53L0X", argsNode: '' }
     },
     "HP206C": {
-        "call": { astCallBack: "HP206C", argsNode: ''}
+        "call": { astCallBack: "HP206C", argsNode: '' }
     },
     "GESTURE": {
-        "call": { astCallBack: "GESTURE", argsNode: ''}
+        "call": { astCallBack: "GESTURE", argsNode: '' }
     },
     "CBP": {
-        "call": { astCallBack: "CBP", argsNode: ''}
+        "call": { astCallBack: "CBP", argsNode: '' }
     },
 
 };
 
 const PYTHON_MICROCONTROLER_BUILTIN = ['write_digital', 'write_analog', 'read_digital', 'read_analog', 'pinMode', 'set_analog_period', "set_analog_period_microseconds"];
 
-const PYTHON_EXCLUDED_VARIABLES_DISPLAY= ["NP_LED_COUNT_", "STAMP_BUTTERFLY", "STAMP_HAPPY", "STAMP_SAD", "STAMP_HEART", "STAMP_YES", "STAMP_NO", "STAMP_STICKFIGURE", "STAMP_PITCHFORK", "STAMP_UMBRELLA", "STAMP_SKULL", "STAMP_CHESSBOARD", "MIN_START", "HOUR_START"]
+const PYTHON_EXCLUDED_VARIABLES_DISPLAY = ["NP_LED_COUNT_", "STAMP_BUTTERFLY", "STAMP_HAPPY", "STAMP_SAD", "STAMP_HEART", "STAMP_YES", "STAMP_NO", "STAMP_STICKFIGURE", "STAMP_PITCHFORK", "STAMP_UMBRELLA", "STAMP_SKULL", "STAMP_CHESSBOARD", "MIN_START", "HOUR_START"]
 
 const PYTHON_EXCLUDED_VARIABLES_COMMUNICATION = ["stringData", "numberData"]
 
@@ -181,9 +172,9 @@ const PYTHON_EXCLUDED_VARIABLES_SENSORS = ["ENVIROBIT_SOUND_OFFSET"]
 const PYTHON_EXCLUDED_VARIABLES = [...PYTHON_EXCLUDED_VARIABLES_DISPLAY, ...PYTHON_EXCLUDED_VARIABLES_COMMUNICATION, ...PYTHON_EXCLUDED_VARIABLES_SENSORS];
 
 const RESERVED_WORDS = [
-    "radio_receiveValue()", "t_scd", "scd30_data","Var_VtoT_K", "tempRoom_0", "tempRoom_1", "tempRoom_2", "tempRoom_3", "tempRoom_4", "tempRoom_10"
+    "radio_receiveValue()", "t_scd", "scd30_data", "Var_VtoT_K", "tempRoom_0", "tempRoom_1", "tempRoom_2", "tempRoom_3", "tempRoom_4", "tempRoom_10"
 ];
 
-export default {LIB_IMPORT, EXCLUDED_COMMENTS, EXCLUDED_DOCSTRINGS,  CLASS_METHODS, PYTHON_MICROCONTROLER_BUILTIN, PYTHON_EXCLUDED_VARIABLES, RESERVED_WORDS};
+export default { LIB_IMPORT, EXCLUDED_COMMENTS, EXCLUDED_DOCSTRINGS, CLASS_METHODS, PYTHON_MICROCONTROLER_BUILTIN, PYTHON_EXCLUDED_VARIABLES, RESERVED_WORDS };
 
 

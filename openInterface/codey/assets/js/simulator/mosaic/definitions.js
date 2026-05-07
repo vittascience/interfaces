@@ -1,5 +1,3 @@
-Simulator.Mosaic.BOARD_HEADER = `<object id="board-viewer" class="mt-3" type="image/svg+xml"></object>`;
-
 Simulator.Mosaic.pin_regex = /([0-9]{1,2})/;
 
 Simulator.Mosaic.getPinDef = (pin, mod) => {
@@ -13,9 +11,11 @@ Simulator.Mosaic.getPinDef = (pin, mod) => {
 };
 
 Simulator.Mosaic.externalLibraries = {
-    'src/lib/codey.js': Simulator.PATH_LIB + 'micropython/codey.js',
-    'src/lib/rocky.js': Simulator.PATH_LIB + 'micropython/rocky.js',
+    // python common libraries
+    'src/lib/framebuf.py': Simulator.PATH_LIB_COMMON + 'micropython/framebuf.py',
     // js common libraries
+    'src/lib/os.js': Simulator.PATH_LIB_COMMON + 'micropython/os.js',
+    'src/lib/uos.js': Simulator.PATH_LIB_COMMON + 'micropython/os.js',
     'src/lib/time.js': Simulator.PATH_LIB_COMMON + 'micropython/time.js',
     'src/lib/utime.js': Simulator.PATH_LIB_COMMON + 'micropython/time.js',
     'src/lib/ujson.js': Simulator.PATH_LIB_COMMON + 'micropython/json.js',
@@ -26,7 +26,10 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/requests.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/requests.js',
     'src/lib/socket.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/socket.js',
     'src/lib/usocket.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/socket.js',
-    'src/lib/network.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/network.js'
+    'src/lib/network.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/network.js',
+    // js specific libraries
+    'src/lib/codey.js': Simulator.PATH_LIB + 'micropython/codey.js',
+    'src/lib/rocky.js': Simulator.PATH_LIB + 'micropython/rocky.js',
 };
 
 Simulator.Mosaic.addSpecificInitializations = async function () {

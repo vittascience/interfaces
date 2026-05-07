@@ -6,7 +6,7 @@ Blockly.Arduino.io_wait = function (block) {
     const wait = Blockly.Arduino.valueToCode(block, "TIME", Blockly.Arduino.ORDER_ATOMIC);
     const unit = block.getFieldValue("UNIT");
     switch (unit) {
-        case "SECOND":
+        case "SEC":
             return "delay(1000*" + wait + ");" + NEWLINE;
         case "MILLI":
             return "delay(" + wait + ");" + NEWLINE;
@@ -41,28 +41,35 @@ Blockly.Arduino.io_getChronometer_simple = function (block) {
 // GROVE KEYPAD _ READ VALUE BLOCK ON PIN A BLOCK
 //http://wiki.seeedstudio.com/Grove-12-Channel-Capacitive-Touch-Keypad-ATtiny1616-/
 Blockly.Arduino.io_getKeypadNumber = function (block) {
-    const pinRX = block.getFieldValue("RX");
-    const pinTX = block.getFieldValue("TX");
-    Blockly.Arduino.addInclude('software_serial', INCLUDE_SOFTWARE_SERIAL);
-    Blockly.Arduino.addDeclaration('init_keypad', "SoftwareSerial keypad(" + pinTX + ", " + pinRX + ");");
+    let objName = 'keypad';
+    const isR4MinimaOrWifi = [BOARD_ARDUINO_UNO_R4_WIFI, BOARD_ARDUINO_UNO_R4_MINIMA].includes(Blockly.Constants.getSelectedBoard());
+    if (isR4MinimaOrWifi) {
+        Blockly.Arduino.addDefine(objName, "#define " + objName + TAB + "Serial1");
+    } else {
+        const pinTX = block.getFieldValue("TX");
+        const pinRX = block.getFieldValue("RX");
+        Blockly.Arduino.addInclude('software_serial', INCLUDE_SOFTWARE_SERIAL);
+        Blockly.Arduino.addDeclaration('init_keypad', `SoftwareSerial ${objName}(${pinTX}, ${pinRX});`);
+    }
     Blockly.Arduino.addFunction('func_get_keypad', FUNCTIONS_ARDUINO.DEF_KEYPAD_GETNUMBER);
-    Blockly.Arduino.addSetup('setup_keypad', "keypad.begin(9600);");
+    Blockly.Arduino.addSetup('setup_keypad', objName + ".begin(9600);");
     return ["getKeypadNumber()", Blockly.Arduino.ORDER_ATOMIC]
 };
 
 // GROVE THUMB JOYSTICK _ READ VALUE BLOCK ON PIN A BLOCK
 // http://wiki.seeedstudio.com/Grove-Thumb_Joystick/ 
 Blockly.Arduino.io_getGroveThumbJoystick = function (block) {
+    const pinX = block.getFieldValue("PIN_X");
+    const pinY = block.getFieldValue("PIN_Y");
     const axis = block.getFieldValue("AXIS");
+    Blockly.Arduino.addDeclaration('joystick_' + pinX + '_codeFlag', "// Joystick X/Y on " + pinX + '/' + pinY);
     switch (axis) {
         case "X":
-            const pinConstantX = Blockly.Arduino.Generators.analog_read(block.getFieldValue("PIN_X"), 'Joystick X_Axis');
+            const pinConstantX = Blockly.Arduino.Generators.analog_read(pinX, 'Joystick X_Axis');
             return ["analogRead(" + pinConstantX + ")", Blockly.Arduino.ORDER_ATOMIC];
         case "Y":
-            const pinConstantY = Blockly.Arduino.Generators.analog_read(block.getFieldValue("PIN_Y"), 'Joystick Y_Axis');
+            const pinConstantY = Blockly.Arduino.Generators.analog_read(pinY, 'Joystick Y_Axis');
             return ["analogRead(" + pinConstantY + ")", Blockly.Arduino.ORDER_ATOMIC];
-        default:
-            throw Error("Unhandled axis option for Joystick module:'" + axis + "'");
     }
 };
 
@@ -203,6 +210,17 @@ Blockly.Arduino.io_attachInterrupt = function (block) {
     return "";
 };
 
+Blockly.Arduino.io_detachInterrupt = function (block) {
+    const pin = block.getFieldValue("PIN");
+    return "detachInterrupt(digitalPinToInterrupt(" + pin + "));" + NEWLINE;
+};
+
+Blockly.Arduino.io_setPinMode = function (block) {
+    const pin = block.getFieldValue("PIN");
+    const mode = block.getFieldValue("MODE");
+    return "pinMode(" + pin + ", " + mode + ");" + NEWLINE;
+};
+
 // io - mp3
 Blockly.Arduino.io_groveMp3_init = function (block) {
     const VERSIONS = {
@@ -217,7 +235,8 @@ Blockly.Arduino.io_groveMp3_init = function (block) {
     const boardId = Blockly.Constants.getSelectedBoard() || BOARD_DEFAULT;
     let comSerial = '';
     const mp3 = `Mp3Player_${version}`;
-    if (boardId == BOARD_ARDUINO_UNO_R4_WIFI) {
+    const isR4MinimaOrWifi = [BOARD_ARDUINO_UNO_R4_WIFI, BOARD_ARDUINO_UNO_R4_MINIMA].includes(Blockly.Constants.getSelectedBoard());
+    if (isR4MinimaOrWifi) {
         comSerial = 'Serial1';
         Blockly.Arduino.addDeclaration(mp3, `${VERSIONS[version]}<HardwareSerial> ${mp3};`);
     } else {
@@ -230,16 +249,19 @@ Blockly.Arduino.io_groveMp3_init = function (block) {
         Blockly.Arduino.addDeclaration(comSerial, `SoftwareSerial ${comSerial}(${pinTX_v}, ${pinRX_v}); // RX, TX -> inversion des broches`);
         Blockly.Arduino.addDeclaration(mp3, `${VERSIONS[version]}<SoftwareSerial> ${mp3};`);
     }
-    if (version == 'V3') {
+    if (version == 'V2') {
+        Blockly.Arduino.addSetup(comSerial + '_begin', `${comSerial}.begin(9600);`);
+        Blockly.Arduino.addSetup(`${mp3}_init`, `${mp3}.init(${comSerial});`);
+    } else if (version == 'V3') {
         Blockly.Arduino.addCodeVariable('spi_flash_songs', "uint32_t spi_flash_songs = 0;");
         Blockly.Arduino.addCodeVariable('sd_songs', "uint32_t sd_songs = 0;");
         Blockly.Arduino.addCodeVariable('workdisk', "WT2003S_STORAGE workdisk = WT2003S_SD;");
         Blockly.Arduino.addCodeVariable('Play_history', FUNCTIONS_ARDUINO.DECLARE_STRUCT_MP3_PLAY_HISTORY);
-        Blockly.Arduino.addFunction('readSongName', FUNCTIONS_ARDUINO.DEF_MP3_READ_SONG_NAME);
-        Blockly.Arduino.addFunction('getAllSong', FUNCTIONS_ARDUINO.DEF_MP3_GET_ALL_SONG);
+        Blockly.Arduino.addFunction('MP3_V3_readSongName', FUNCTIONS_ARDUINO.DEF_MP3_V3_READ_SONG_NAME);
+        Blockly.Arduino.addFunction('MP3_V3_getAllSong', FUNCTIONS_ARDUINO.DEF_MP3_V3_GET_ALL_SONG);
         Blockly.Arduino.addSetup(comSerial + '_begin', `${comSerial}.begin(9600);`);
         Blockly.Arduino.addSetup(`${mp3}_init`, `${mp3}.init(${comSerial});`);
-        Blockly.Arduino.addSetup('setup_songs', 'getAllSong();');
+        Blockly.Arduino.addSetup('setup_songs', 'gMP3_V3_getAllSongetAllSong();');
     } else if (version == 'V4') {
         Blockly.Arduino.addSetup(comSerial + '_begin', `${comSerial}.begin(115200);`);
         Blockly.Arduino.addSetup(`${mp3}_init`, `${mp3}.init(${comSerial});`);
@@ -278,10 +300,16 @@ Blockly.Arduino.io_groveMp3_setVolume = function (block) {
 };
 
 Blockly.Arduino.io_groveMp3_playSDSong = function (block) {
-    const name = Blockly.Arduino.valueToCode(block, "NAME", Blockly.Arduino.ORDER_ATOMIC) || '';
+    const filename = Blockly.Arduino.valueToCode(block, "NAME", Blockly.Arduino.ORDER_ATOMIC) || '';
     const version = block.getFieldValue("VERSION");
     const mp3 = `Mp3Player_${version}`;
-    return `${mp3}.playSDSong(${name});` + NEWLINE;
+    if (version == "V4") {
+        Blockly.Arduino.Generators.setupSerialConnection();
+        Blockly.Arduino.addFunction('MP3_V4_playMusic', FUNCTIONS_ARDUINO.DEF_MP3_V4_PLAY_MUSIC);
+        return `MP3_V4_playMusic(${filename});` + NEWLINE;
+    } else {
+        return `${mp3}.playSDSong(${filename});` + NEWLINE;
+    }
 };
 
 Blockly.Arduino.io_groveMp3_playSDDirectorySong = function (block) {
@@ -290,6 +318,12 @@ Blockly.Arduino.io_groveMp3_playSDDirectorySong = function (block) {
     const version = block.getFieldValue("VERSION");
     const mp3 = `Mp3Player_${version}`;
     return `${mp3}.playSDDirectorySong(${directory}, ${index});` + NEWLINE;
+};
+
+Blockly.Arduino.io_groveMp3_KT403A_playSongSpecify = function (block) {
+    const directory = Blockly.Arduino.valueToCode(block, "DIRECTORY", Blockly.Arduino.ORDER_ATOMIC) || '';
+    const index = Blockly.Arduino.valueToCode(block, "INDEX", Blockly.Arduino.ORDER_ATOMIC) || '';
+    return `Mp3Player_V2.playSongSpecify(${directory}, ${index});` + NEWLINE;
 };
 
 Blockly.Arduino.io_groveMp3_changePlayingMode = function (block) {

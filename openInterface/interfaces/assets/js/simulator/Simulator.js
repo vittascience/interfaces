@@ -3,8 +3,6 @@ const unique = (value, index, self) => {
     return self.indexOf(value) === index
 };
 
-Simulator.Mosaic = {};
-
 /**
  * State of simulator window.
  * @type {boolean} isOpen
@@ -105,7 +103,7 @@ Simulator.clearCurrentDelay = null;
 
 /**
  * Register of current setTimeout's running.
- * @type {function} clearCurrentDelay
+ * @type {function} currentTimeouts
  */
 Simulator.currentTimeouts = {};
 
@@ -205,7 +203,7 @@ Simulator.closingSimulator = async function () {
     if (this._hasGalaxiaSimulator()) {
         this.Mosaic.specific.galaxiaUi.clearScreen(true);
     }
-    if (this._hasRobotSimulator()) {
+    if (this.hasRobotSimulator()) {
         RobotSimulator.isRunning = false;
         $("#graph-zoom-in").prop('disabled', false);
         $("#graph-zoom-out").prop('disabled', false);
@@ -213,7 +211,7 @@ Simulator.closingSimulator = async function () {
     if (this._hasWebSimulator()) {
         WifiSimulator.reset();
     }
-    if (Simulator._hasWiringSimulator()) {
+    if (this._hasWiringSimulator()) {
         WiringSimulator.isRunning = false;
         $('#simulator-wiring').hide();
     }
@@ -236,13 +234,17 @@ Simulator.isVittaCompanionConnected = () => {
 /**
  * Initialize the simulator.
  */
-Simulator.init = function () {
+Simulator.init = async function () {
     try {
         if (this._hasMultiSimulator() && document.querySelector('#simulator-multi-info') === null) {
             this.addMultiSimulatorToDom();
         }
         this.initBoard();
-        this.updateBoard();
+        if (['arduino', 'esp32'].includes(INTERFACE_NAME)) {
+            this.updateBoard_v2();
+        } else {
+            this.updateBoard();
+        }
         this._getInterfaceModules();
 
         if (this.Mosaic.externalLibraries && typeof this.Mosaic.externalLibraries.init !== 'undefined') {
@@ -252,7 +254,7 @@ Simulator.init = function () {
             this.Mosaic.addSpecificInitializations();
         }
         if (typeof this.Mosaic.addSpecificSkulptFunctions !== 'undefined') {
-            Simulator.Mosaic.addSpecificSkulptFunctions();
+            this.Mosaic.addSpecificSkulptFunctions();
         }
 
         this.Animator = new Animator();
@@ -265,8 +267,11 @@ Simulator.init = function () {
             this.Mosaic.specific.galaxiaUi.init();
         }
         /* Robot simulator */
-        if (this._hasRobotSimulator()) {
-            RobotSimulator.init();
+        if (this.hasRobotSimulator()) {
+            if (typeof SIMULATOR_DEFAULT_ROBOT !== 'undefined' && SIMULATOR_DEFAULT_ROBOT) {
+                RobotSimulator.currentRobotName = SIMULATOR_DEFAULT_ROBOT;
+            }
+            await RobotSimulator.init();
         }
         /* Web simulator */
         if (this._hasWebSimulator()) {
@@ -283,29 +288,28 @@ Simulator.init = function () {
         }
         /* Speech synthesis */
         if (this._hasSpeechSynthesis()) {
-            this.waitForVoicesToBeLoaded();
+            await this.waitForVoices();
         }
-        if (this.TYPE == 'Skulpt') {
-            this.initSkulpt();
-        } else if (this.TYPE == 'JSCPP') {
-            this.initJSCPP();
+        /* Python interfaces */
+        if (this.TYPE == 'Skulpt' && !this.skInitialized) {
+            await this.initSkulpt();
         }
 
         this.updateSimulatorInterval = null;
         this.updateVariablesPanelInterval = null;
 
         if (!['winky', 'sphero', 'lotibot', 'bluebot', 'spike', 'photon'].includes(INTERFACE_NAME)) {
-            window.addEventListener("visibilitychange", function () {
-                if (Simulator.isOpen) {
+            window.addEventListener("visibilitychange", () => {
+                if (this.isOpen) {
                     if (document.visibilityState === 'visible') {
-                        if (Simulator.isVittaCompanionConnected()) return;
-                        if (Simulator.wasRunning) {
-                            Simulator.play();
-                            Simulator.wasRunning = false;
+                        if (this.isVittaCompanionConnected()) return;
+                        if (this.wasRunning) {
+                            this.play();
+                            this.wasRunning = false;
                         }
                     } else {
-                        if (!Simulator.isStopped) Simulator.wasRunning = true;
-                        Simulator.pause();
+                        if (!this.isStopped) this.wasRunning = true;
+                        this.pause();
                     }
                 }
             });
@@ -344,11 +348,11 @@ Simulator.addMultiSimulatorToDom = function () {
 /**
  * Update mosaic simulator.
  */
-Simulator.update = async function () {
+Simulator.update = async function (forcedUpdate = false) {
     try {
         this._requestWirelessSimulation();
         const userCode = CodeManager.getSharedInstance().getCode();
-        if (userCode != this._userCode || this._userCode == null) {
+        if (forcedUpdate ||userCode != this._userCode || this._userCode == null) {
             this.code = typeof this.CodeFriendly.getAdaptedCode !== 'undefined' ? this.CodeFriendly.getAdaptedCode(userCode) : userCode;
             this._userCode = userCode;
             if (this._hasAutoCorrector() && $('#simulator-modules').hasClass("visualizer-mode")) {
@@ -360,14 +364,14 @@ Simulator.update = async function () {
                 console.error(e);
             }
             if (!$('#simulator-modules').hasClass("visualizer-mode")) {
-                if (this._hasRobotSimulator()) {
+                if (this.hasRobotSimulator()) {
                     if (RobotSimulator.robot && RobotSimulator.robot.resetObjects) {
                         RobotSimulator.robot.resetObjects();
                     }
                 }
                 await this.replay();
             }
-            if (projectManager !== null && projectManager._currentExercise !== "no-exercise" && Simulator._hasAutoCorrector()) {
+            if (projectManager !== null && projectManager._currentExercise !== "no-exercise" && this._hasAutoCorrector()) {
                 this.updateExercisePanel();
             }
         }
@@ -425,10 +429,10 @@ Simulator.setIntervalUpdateVariablesPanel = function () {
  * Play the simulator.
  */
 Simulator.play = async function () {
-    if (Simulator.isVittaCompanionConnected()) return
+    if (this.isVittaCompanionConnected()) return;
     $("#simulator_play").prop('disabled', true);
     $("#simulator_pause").prop('disabled', false);
-    if (Simulator._has3DRobotSimulator() && typeof Simulator3D !== 'undefined' && typeof Simulator3D.pause === 'function') {
+    if (this.has3DRobotSimulator() && typeof Simulator3D !== 'undefined' && typeof Simulator3D.pause === 'function') {
         Simulator3D.play();
     }
     if (this.wasPaused) {
@@ -437,6 +441,7 @@ Simulator.play = async function () {
         if (this._hasWebSimulator()) {
             WifiSimulator.server.active(true);
         }
+        this.resumeModulesAnimations();
     } else {
         if (this.audioContext && this.audioContext.state != 'closed') {
             this.audioContext.suspend();
@@ -445,22 +450,22 @@ Simulator.play = async function () {
         this.code = typeof this.CodeFriendly.getAdaptedCode !== 'undefined' ? this.CodeFriendly.getAdaptedCode(userCode) : userCode;
         this.isRunning = true;
         this.prepareToRun();
-
+        await this.update();
         if (typeof AndroidInterface !== 'undefined' && AndroidInterface !== null) {
             AndroidInterface.buddySayYes(20, 20);
             AndroidInterface.buddySayNo(40, 5);
             AndroidInterface.webviewDisplay(false);
         }
-
         if (this.pinError === null) {
             const board_toggler = document.getElementById('simulator-board-toggler');
             if (!(typeof AndroidInterface !== 'undefined' && AndroidInterface !== null) && (board_toggler !== null && !board_toggler.classList.contains('closed'))) {
-                await Simulator.waitBoardViewer();
+                await this.waitBoardViewer();
             }
             this.runCode();
         } else {
             UIManager.showErrorMessage('error-message', this.pinError);
-            await Simulator.stop();
+            this.isRunning = false;
+            this.isStopped = true;
         }
     }
 };
@@ -475,7 +480,7 @@ Simulator.pause = function () {
         AndroidInterface.buddySayNo(40, 5);
     }
 
-    if (Simulator._has3DRobotSimulator() && typeof Simulator3D !== 'undefined' && typeof Simulator3D.pause === 'function') {
+    if (this.has3DRobotSimulator() && typeof Simulator3D !== 'undefined' && typeof Simulator3D.pause === 'function') {
         Simulator3D.pause();
     }
 
@@ -486,13 +491,14 @@ Simulator.pause = function () {
     if (this._hasWebSimulator()) {
         WifiSimulator.server.active(false);
     }
+    this.pauseModulesAnimations();
 };
 
 /**
  * Replay the simulator.
  */
 Simulator.replay = async function () {
-    Simulator.cancelPromisesSimulator = true;
+    this.cancelPromisesSimulator = true;
     if (!this.isStopped) {
         $("#simulator_replay").prop('disabled', true);
         $("#simulator_play").prop('disabled', false);
@@ -501,11 +507,12 @@ Simulator.replay = async function () {
     }
     this.Debugger.emptyVariablesPanel();
     this.Debugger.eraseBreakpoint();
-    if (this._hasRobotSimulator() && RobotSimulator.isRunning) {
+    this.Components.Button.reset();
+    if (this.hasRobotSimulator() && RobotSimulator.isRunning) {
         RobotSimulator.restartRobot();
         RobotSimulator.Pen.positions = new Array();
     }
-    if ((this._has3DRobotSimulator() || this._has3DInterface()) && typeof Simulator3D !== 'undefined' && typeof Simulator3D.startPosition !== 'undefined') {
+    if ((this.has3DRobotSimulator() || this._has3DInterface()) && typeof Simulator3D !== 'undefined' && typeof Simulator3D.startPosition !== 'undefined') {
         await Simulator3D.reset();
         await waitFor(() => Simulator3D.isBusy === false);
     }
@@ -527,13 +534,8 @@ Simulator.replay = async function () {
     }
     this.wasPaused = false;
     this.serialData = '';
-
-    if (Simulator.isVittaCompanionConnected()) return
-
+    if (this.isVittaCompanionConnected()) return;
     this.play();
-    if (typeof this.Mosaic.addSpecificInitializations !== 'undefined') {
-        this.Mosaic.addSpecificInitializations();
-    }
     $("#simulator_replay").prop('disabled', false);
     $("#simulator_play").prop('disabled', true);
     $("#simulator_pause").prop('disabled', false);
@@ -554,10 +556,14 @@ Simulator.stop = function () {
         }
         for (const id in this.currentTimeouts) {
             clearTimeout(this.currentTimeouts[id]);
-            delete Simulator.currentTimeouts[id];
+            delete this.currentTimeouts[id];
         }
         if (this.clearCurrentDelay !== null) {
             this.clearCurrentDelay();
+        }
+        if (this.currentDelays) {
+            Object.values(this.currentDelays).forEach(resolve => resolve());
+            this.currentDelays = {};
         }
         if (this.updateSimulatorInterval !== null) {
             clearInterval(this.updateSimulatorInterval);
@@ -585,7 +591,7 @@ Simulator.stop = function () {
                     this.Debugger.lastLine = 0;
                     $("#simulator_play").prop('disabled', false);
                     $("#simulator_pause").prop('disabled', true);
-                    resolve();
+                    return resolve();
                 } else {
                     stop();
                 }
@@ -605,11 +611,23 @@ Simulator.prepareToRun = function () {
     if (typeof this.Mosaic.groveRegex !== 'undefined' && typeof this.Mosaic.grove !== 'undefined') {
         this.Mosaic.grove.createSliders();
     }
+    if (typeof this.Mosaic.groveRegex !== 'undefined' && typeof this.Mosaic.grove_analog !== 'undefined') {
+        this.Mosaic.grove_analog.createSliders();
+    }
     this.isStopped = false;
+    console.log("prepareToRun()")
     $("#board-viewer").removeClass('greyscale');
     if (Main.getInterface() !== "TI-83") {
-        $('#board-container').html(this.Mosaic.BOARD_HEADER);
-        this.updateBoard();
+        if (typeof this.Mosaic.BOARD_HEADER !== 'undefined') {
+            $('#board-container').html(this.Mosaic.BOARD_HEADER);
+        } else {
+            $('#board-container').html(`<object id="board-viewer" class="mt-3" type="image/svg+xml"></object>`);
+        }
+        if (['arduino', 'esp32'].includes(INTERFACE_NAME)) {
+            this.updateBoard_v2();
+        } else {
+            this.updateBoard();
+        }
     } else {
         this.Mosaic.specific.ti.clearTurtleScreen();
         this.Mosaic.manageCompatibleTIboards(true);
@@ -619,7 +637,7 @@ Simulator.prepareToRun = function () {
         this.Mosaic.specific.m5ui.reset();
     }
     UIManager.resetMessage("error-message");
-    if (!Simulator.isInWiringMode) {
+    if (!this.isInWiringMode) {
         UIManager.resetMessage("warning-message");
     }
 };
@@ -635,36 +653,55 @@ Simulator.waitBoardViewer = async function () {
     }
 };
 
+/**
+ * Waits for speechSynthesis voices to be loaded.
+ */
 Simulator.waitForVoices = async function () {
     return new Promise((resolve) => {
         const voices = speechSynthesis.getVoices();
         if (voices.length !== 0) {
+            this.voices = voices;
             resolve(voices);
         } else {
             speechSynthesis.onvoiceschanged = () => {
                 const newVoices = speechSynthesis.getVoices();
+                this.voices = newVoices;
                 resolve(newVoices);
             };
         }
     });
 };
 
-Simulator.waitForVoicesToBeLoaded = async () => {
-    const voices = await Simulator.waitForVoices();
-    Simulator.voices = voices;
+Simulator.getAnimatedElements = function () {
+    return [...document.querySelectorAll("#simulator-modules *")]
+        .filter(el => getComputedStyle(el).animationName !== "none");
 };
 
-Simulator.initBoard = function (boardId = null) {
-    if (this._hasBoardSelector()) {
-        if (!boardId) boardId = Blockly.Constants.getSelectedBoard();
-        this.board = SIMULATOR_BOARDS[boardId];
-        if (INTERFACE_NAME === "arduino") {
-            const name = this.board.name;
-            const mainBoardBtn = `<button id="main-board" class="dropdown-item" onclick="Simulator.updateArduinoBoard('${boardId}');" data-board="${name}">${name}</button>`;
-            document.getElementById("simulator-board-options").innerHTML = mainBoardBtn;
-            if (['uno', 'unor4wifi', 'nano'].includes(boardId)) {
-                const shieldGroveBtn = `<button class="dropdown-item" onclick="Simulator.updateArduinoBoard('${BOARD_SHIELD_GROVE}');" data-board="Shield Grove">Shield Grove</button>`;
-                document.getElementById("simulator-board-options").innerHTML += shieldGroveBtn;
+Simulator.pauseModulesAnimations = function () {
+    this.getAnimatedElements().forEach(el => {
+        el.style.animationPlayState = "paused";
+    });
+};
+
+Simulator.resumeModulesAnimations = function () {
+    this.getAnimatedElements().forEach(el => {
+        el.style.animationPlayState = "running";
+    });
+};
+
+Simulator.initBoard = function () {
+    if (Main.hasBoardSelector()) {
+        const boardId = Blockly.Constants.getSelectedBoard();
+        this.board = INTERFACE_BOARDS[boardId];
+        if (['arduino', 'esp32'].includes(INTERFACE_NAME)) {
+            document.getElementById("simulator-board-options").innerHTML = "";
+            const addButton = (buttonId, boardName, isShield = false) => {
+                const btn = `<button id="${buttonId}" class="dropdown-item" onclick="updateBoard(true, '${boardId}', ${isShield});" data-board="${boardName}">${boardName}</button>`;
+                document.getElementById("simulator-board-options").innerHTML += btn;
+            };
+            addButton("main-board", this.board.name);
+            if (Object.values(INTERFACE_BOARDS).filter(item => item.shieldId !== undefined).map(item => item.id).includes(boardId)) {
+                addButton("shield-grove", INTERFACE_BOARDS[boardId].shieldName, true);
             }
         }
     } else {
@@ -678,37 +715,65 @@ Simulator.initBoard = function (boardId = null) {
  * @param {string} name 
  */
 Simulator.updateBoard = function (link, name) {
-    if (INTERFACE_NAME == 'arduino') {
-        return Simulator.updateArduinoBoard();
-    }
     if (link && name) {
-        Simulator.board = {
+        this.board = {
             "link": link,
             "name": name
         };
     }
-    if (Simulator.board.link) {
+    if (this.board.link) {
         const path = _PATH + "/" + INTERFACE_NAME + "/assets/media/simulator/board/" + this.board.link;
-        if (/(arduino|microbit|wb55|l476|mBot|m5stack|esp32|galaxia|GalaxiaCircuitPython|buddy|cyberpi|pico|eliobot|thymio|raspberrypi|lotibot|photon|bluebot|codey)/.test(INTERFACE_NAME) && (this.board.link).includes('.svg')) {
+        if (/(microbit|wb55|l476|mBot|m5stack|galaxia|GalaxiaCircuitPython|buddy|cyberpi|pico|eliobot|thymio|raspberrypi|lotibot|photon|bluebot|codey|steami|alphai)/.test(INTERFACE_NAME) && (this.board.link).includes('.svg')) {
             $("#board-viewer").attr("data", path);
         } else {
             $("#board-viewer").css('background-image', "url('" + path + "')");
         }
     }
-    $("#title-board").html(Simulator.board.name);
-    if (Simulator._hasBoardSelector()) {
+    $("#title-board").html(this.board.name);
+    if (Main.hasBoardSelector()) {
         const options = document.querySelectorAll("#simulator-board-options .dropdown-item");
         options.forEach((option) => {
             const optionValue = option.getAttribute('data-board');
-            if (optionValue === Simulator.board.name && !option.classList.contains('fw-bold')) {
+            if (optionValue === this.board.name && !option.classList.contains('fw-bold')) {
                 option.classList.add('fw-bold');
-            } else if (optionValue !== Simulator.board.name && option.classList.contains('fw-bold')) {
+            } else if (optionValue !== this.board.name && option.classList.contains('fw-bold')) {
                 option.classList.remove('fw-bold');
             }
         });
-        if (typeof Simulator.Mosaic.addSpecificInitializations !== 'undefined') {
-            Simulator.Mosaic.addSpecificInitializations();
+        if (typeof this.Mosaic.addSpecificInitializations !== 'undefined') {
+            this.Mosaic.addSpecificInitializations();
         }
+    }
+};
+
+Simulator.updateBoard_v2 = function (boardId, shield = false) {
+    if (boardId) {
+        if (shield) {
+            VittaInterface.shieldView = true;
+        } else {
+            VittaInterface.shieldView = false;
+        }
+    }
+    if (!boardId) boardId = Blockly.Constants.getSelectedBoard();
+    if (!this.board) this.initBoard();
+    if (!this.board) return;
+    const img = (filename) => _PATH + "/" + INTERFACE_NAME + "/assets/media/simulator/board/" + filename;
+    const path = VittaInterface.shieldView ? img(this.board.shieldLink) : img(this.board.link);
+    const name = VittaInterface.shieldView ? this.board.shieldName : this.board.name;
+    $("#board-viewer").attr("data", path);
+    $("#title-board").html(name);
+    const options = document.querySelectorAll("#simulator-board-options .dropdown-item");
+    options.forEach((option) => {
+        option.classList.remove('fw-bold');
+        const optionValue = option.getAttribute('data-board');
+        if (
+            ((optionValue === this.board.name && !VittaInterface.shieldView) || (optionValue == this.board.shieldName && VittaInterface.shieldView))
+            && !option.classList.contains('fw-bold')) {
+            option.classList.add('fw-bold');
+        }
+    });
+    if (typeof this.Mosaic.addSpecificInitializations !== 'undefined') {
+        this.Mosaic.addSpecificInitializations();
     }
 };
 
@@ -731,7 +796,7 @@ Simulator.toggleBoardDisplay = function () {
  * @returns {Array<Node>} childNodes
  */
 Simulator.getMosaicModules = function () {
-    if (Simulator.isInWiringMode) {
+    if (this.isInWiringMode) {
         return $('#wiring-modules')[0].childNodes;
     } else {
         return $('#simulator-modules')[0].childNodes;
@@ -744,7 +809,7 @@ Simulator.getMosaicModules = function () {
  * @return {string} value
  */
 Simulator.getPinSliderValue = function (pin) {
-    const component = Simulator.pinList.find((component) => component.pin == pin);
+    const component = this.pinList.find((component) => component.pin == pin);
     if (component) {
         const sliderId = component.id + '_slider' + component.suffix;
         return $('#' + sliderId).slider('option', 'value');
@@ -759,9 +824,15 @@ Simulator.getPinSliderValue = function (pin) {
  */
 Simulator.getSliderValue = function (id, suffix) {
     if ($("#" + id).length > 0) {
-        const sliderId = "#" + id + "_slider" + (suffix ? suffix : "");
-        return $(sliderId).slider('option', 'value');
+        const sliderId = `#${id}_slider${typeof suffix === 'undefined' ? '' : suffix}`;
+        const el = document.querySelector(sliderId);
+        if (el) {
+            return $(sliderId).slider('option', 'value');
+        } else {
+            console.error("Unable to find slider: " + sliderId);
+        }
     }
+    return 0;
 };
 
 /**
@@ -826,7 +897,7 @@ Simulator.toggleFullscreen = function () {
             $("#simulator_fullscreen").addClass('activated');
             $("#simulator_autocorrector_fullscreen").addClass('activated');
             $(".ide-simulator").addClass("isFullscreen");
-            if (!this._has3DRobotSimulator()) {
+            if (!this._has3DInterface()) {
                 $("#simulator").css('width', "60%");
             }
             if (INTERFACE_NAME == "buddy")
@@ -849,7 +920,7 @@ Simulator.toggleFullscreen = function () {
     } else {
         setFullscreen(false);
     }
-    if (this._hasRobotSimulator() && RobotSimulator.isRunning) {
+    if (this.hasRobotSimulator() && RobotSimulator.isRunning) {
         RobotSimulator.resize();
     }
     if (this._hasWiringSimulator() && WiringSimulator.isRunning) {
@@ -858,7 +929,10 @@ Simulator.toggleFullscreen = function () {
     if (this._hasWebSimulator()) {
         WifiSimulator.resize();
     }
-    if ((this._has3DRobotSimulator() || this._has3DInterface()) && typeof Simulator3D !== 'undefined') {
+    if (this._has3DInterface() && typeof Simulator3D !== 'undefined') {
+        if (typeof Simulator3D.robotFullscreenMode === 'function') {
+            Simulator3D.robotFullscreenMode(this.isFullscreen);
+        }
         Simulator3D.experience.toggleFullscreen(this.isFullscreen);
     }
 };
@@ -868,8 +942,8 @@ Simulator.toggleFullscreen = function () {
  * It allows the simulator to save options of slider, and get it back when simulator open again.
  */
 Simulator.saveDropdownOptions = function () {
-    const simulatedModules = Simulator.getMosaicModules();
-    for (var i = 0; i < simulatedModules.length; i++) {
+    const simulatedModules = this.getMosaicModules();
+    for (let i = 0; i < simulatedModules.length; i++) {
         const select = "#" + simulatedModules[i].id + "_select";
         if ($(select).length) {
             this.dropdownOptions["#" + simulatedModules[i].id] = $(select + " option:selected").text();
@@ -878,17 +952,17 @@ Simulator.saveDropdownOptions = function () {
 };
 
 Simulator.redoDropdownOptions = function () {
-    const simulatedModules = Simulator.getMosaicModules();
+    const simulatedModules = this.getMosaicModules();
     for (let i = 0; i < simulatedModules.length; i++) {
         let id = "#" + simulatedModules[i].id;
         let select = id + "_select";
-        if ($(select).length && Simulator.dropdownOptions[id]) {
-            let value = Simulator.dropdownOptions[id];
+        if ($(select).length && this.dropdownOptions[id]) {
+            let value = this.dropdownOptions[id];
             $(select + ' option').filter(function () {
                 return ($(this).text() == value);
             }).prop('selected', true);
             if ($(select).hasClass('module-color-selector')) {
-                //Simulator.Sliders.updatePaletteColor(simulatedModules[i].id, value);
+                //this.Sliders.updatePaletteColor(simulatedModules[i].id, value);
             }
         }
     }
@@ -898,8 +972,12 @@ Simulator.redoDropdownOptions = function () {
  * Check if interface has to add Robot simulator.
  * @return {boolean} state
  */
-Simulator._hasRobotSimulator = function () {
-    return ["microbit", "wb55", "l476", "TI-83", "mBot", "buddy", "cyberpi", "pico", "eliobot", "thymio", "sphero", "lotibot", "bluebot", "photon", "codey"].includes(INTERFACE_NAME);
+Simulator.hasRobotSimulator = function (board) {
+    if (INTERFACE_NAME == "esp32") {
+        if (!board) board = Blockly.Constants.getSelectedBoard();
+        return board == BOARD_NANO_ESP32;
+    }
+    return ["microbit", "wb55", "l476", "TI-83", "mBot", "buddy", "cyberpi", "pico", "eliobot", "thymio", "sphero", "lotibot", "bluebot", "photon", "codey", "alphai"].includes(INTERFACE_NAME);
 };
 
 /**
@@ -914,8 +992,12 @@ Simulator._has3DInterface = function () {
  * check if interface has to add 3D Robot simulator.
  * @returns {boolean} state
  */
-Simulator._has3DRobotSimulator = function () { // _has3DRobotSimulator
-    return ["l476", "esp32"].includes(INTERFACE_NAME);
+Simulator.has3DRobotSimulator = function (board) {
+    if (INTERFACE_NAME == "esp32") {
+        if (!board) board = Blockly.Constants.getSelectedBoard();
+        return board == BOARD_ILO;
+    }
+    return ["l476"].includes(INTERFACE_NAME);
 }
 
 /**
@@ -963,19 +1045,11 @@ Simulator._hasGalaxiaSimulator = function () {
  * @return {boolean} state
  */
 Simulator._hasWebSimulator = function (board) {
-    if (!board) board = Blockly.Constants.getSelectedBoard();
     if (INTERFACE_NAME == "arduino") {
+        if (!board) board = Blockly.Constants.getSelectedBoard();
         return board == BOARD_ARDUINO_UNO_R4_WIFI;
     }
     return ["esp32", "m5stack", "galaxia", "pico"].includes(INTERFACE_NAME);
-};
-
-/**
- * Check if interface need board management.
- * @returns {boolean} state
- */
-Simulator._hasBoardSelector = function () {
-    return ["esp32", "pico", "arduino", "raspberrypi"].includes(INTERFACE_NAME);
 };
 
 /**
@@ -995,22 +1069,22 @@ Simulator.initMosaicSliders = function () {
         max: 20,
         orientation: "vertical",
         step: 1,
-        change: Simulator.onSliderChanged
-    }).on("slide", Simulator.onSliderChanged);
+        change: this.onSliderChanged.bind(this)
+    }).on("slide", this.onSliderChanged.bind(this));
 
-    $("body").on('change', '.module-gauge-selector', function () {
+    $("body").on('change', '.module-gauge-selector', () => {
         const id_module = $(this).attr('id').substr(0, $(this).attr('id').length - 7);
         const suffix = $(this).val();
         const id_gauge = "#" + id_module + '_gauge' + suffix;
         $(this).parent().parent().parent().find('.slide-display').addClass('not-shown');
         $(id_gauge).removeClass('not-shown');
-        Simulator.pinList.find(module => module.id == id_module).suffix = suffix;
+        this.pinList.find(module => module.id == id_module).suffix = suffix;
     });
 
-    $("body").on('change', '.module-color-selector', function () {
+    $("body").on('change', '.module-color-selector', () => {
         const id_module = $(this).attr('id').substr(0, $(this).attr('id').length - 7);
-        const mod = Simulator.getModuleByKey(id_module.split('_')[0]);
-        for (var i = 0; i < mod.palette.length; i++) {
+        const mod = this.getModuleByKey(id_module.split('_')[0]);
+        for (let i = 0; i < mod.palette.length; i++) {
             if (mod.palette[i].title == $(this).val()) {
                 $("#" + id_module).css("filter", 'hue-rotate(' + mod.palette[i].angle + 'deg)');
                 break;
@@ -1018,12 +1092,12 @@ Simulator.initMosaicSliders = function () {
         }
     });
 
-    if (typeof READ_ANALOG_MAX_VALUE === "undefined") return;
-
     $('.mod_read-digital').slider({
         min: 0,
         max: 1
     });
+
+    if (typeof READ_ANALOG_MAX_VALUE === "undefined") return;
 
     $('.mod_read-analog').slider({
         min: 1,
@@ -1038,15 +1112,15 @@ Simulator.initMosaicSliders = function () {
  * @param {*} ui 
  */
 Simulator.onSliderChanged = function (event, ui) {
-    if (Simulator.Animator.isUpdating == true) {
-        Simulator.Animator.isUpdating = false;
+    if (this.Animator.isUpdating == true) {
+        this.Animator.isUpdating = false;
     } else {
         const tabModule = event.target.id.split('_');
         const coreId = tabModule[0];
         const pinModule = tabModule[1];
         const pinAnim = pinModule && pinModule !== "slider" ? "_" + pinModule : "";
-        const mod = Simulator.getModuleByKey(coreId);
-        Simulator.setAnimator(mod, coreId + pinAnim, ui.value, event.target.id, Simulator);
+        const mod = this.getModuleByKey(coreId);
+        this.setAnimator(mod, coreId + pinAnim, ui.value, event.target.id, this);
     }
 };
 
@@ -1210,6 +1284,10 @@ Simulator.Debugger = {
 
     stepForward: function () {
         Simulator.clearCurrentDelay();
+        if (Simulator.currentDelays) {
+            Object.values(Simulator.currentDelays).forEach(resolve => resolve());
+            Simulator.currentDelays = {};
+        }
         this.nextStep = true;
     }
 };
@@ -1225,13 +1303,16 @@ Simulator._getInterfaceModules = function () {
         if (this.Mosaic.groveRegex && this.Mosaic.grove) {
             this.modules = this.modules.concat(this.Mosaic.grove.definitions);
         }
+        if (this.Mosaic.groveRegex && this.Mosaic.grove_analog) {
+            this.modules = this.modules.concat(this.Mosaic.grove_analog.definitions);
+        }
         if (typeof READ_ANALOG_MAX_VALUE === "undefined") return;
         const getExtract = (id) => (this.Mosaic.specific.extractPin && this.Mosaic.specific.extractPin[id]) ? this.Mosaic.specific.extractPin[id] : null;
         const pinsModules = [{
             extractPin: getExtract("read-digital"),
             id: "read-digital",
             title: "Lecture digitale",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             pins: 'digital',
             type: 'input',
             listeners: [{
@@ -1252,7 +1333,7 @@ Simulator._getInterfaceModules = function () {
             extractPin: getExtract("write-digital"),
             id: "write-digital",
             title: "Ecriture digitale",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             pins: 'digital',
             type: 'output',
             value: 0,
@@ -1266,7 +1347,7 @@ Simulator._getInterfaceModules = function () {
             extractPin: getExtract("read-analog"),
             id: "read-analog",
             title: "Lecture analogique",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
             listeners: [{
@@ -1286,21 +1367,21 @@ Simulator._getInterfaceModules = function () {
             extractPin: getExtract("write-analog"),
             id: "write-analog",
             title: "Ecriture analogique",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             pins: 'PWM',
             type: 'output',
             value: 0,
             picture: "LED.png",
             pictureAnimation: "LED-animation.png",
             animate: function (Animator) {
-                Animator.opacity(0, WRITE_ANALOG_MAX_VALUE);
+                Animator.opacity(0, typeof WRITE_ANALOG_MAX_VALUE !== 'undefined' ? WRITE_ANALOG_MAX_VALUE : PWM_MAX_DUTY);
             }
         },
         {
             extractPin: getExtract("pwm"),
             id: "pwm",
             title: "Signal PWM",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             pins: 'PWM',
             type: 'output',
             value: 0,
@@ -1340,14 +1421,13 @@ Simulator.updateModules = async function () {
     }
 
     // Manage Robot Simulator running.
-    if (this._hasRobotSimulator() && RobotSimulator.wereInitialized) {
+    if (this.hasRobotSimulator()) {
         let robot = Robots[RobotSimulator.currentRobotName];
         if (typeof this.Mosaic.getCurrentRobot === "function") {
             const robotName = this.Mosaic.getCurrentRobot();
             if (robotName != RobotSimulator.currentRobotName && robotName !== null && robotName !== 'error') {
                 robot = Robots[robotName];
                 RobotSimulator.currentRobotName = robotName;
-                RobotSimulator.wereInitialized = false;
             } else if (robotName == 'error') {
                 robot = null;
                 this.pause();
@@ -1361,9 +1441,9 @@ Simulator.updateModules = async function () {
 
         if (robot && this.code.match(robot.CODE_REGEXP)) {
             RobotSimulator.robot = robot;
-            RobotSimulator.init();
-            Simulator._classicRobotSimulatorPrepareForRun = true;
-            Simulator._3DRobotSimulatorPrepareForRun = false;
+            await RobotSimulator.init();
+            this._classicRobotSimulatorPrepareForRun = true;
+            this._3DRobotSimulatorPrepareForRun = false;
             $("#robot-sim-container").show();
             await sleep_ms(50);
             if (!RobotSimulator.isRunning) {
@@ -1372,23 +1452,22 @@ Simulator.updateModules = async function () {
             }
         } else {
             if (RobotSimulator.isRunning) {
-                RobotSimulator.isRunning = false;
-                $("#robot-sim-container").hide();
+                RobotSimulator.close();
             }
         }
     }
 
-    if (this._has3DRobotSimulator() && typeof Simulator3D !== 'undefined') {
+    if (this.has3DRobotSimulator() && typeof Simulator3D !== 'undefined') {
         if (typeof this.Mosaic !== 'undefined' && typeof this.Mosaic.getCurrentRobot3D === "function") {
-            const robotName = this.Mosaic.getCurrentRobot3D()
+            const robotName = this.Mosaic.getCurrentRobot3D();
             if (robotName === "error") {
                 this.pause();
                 pseudoModal.openModal('modal-warning-microbit-systems');
             } else {
                 const robot = Robots3D[robotName];
                 if (robot && this.code.match(robot.CODE_REGEXP)) {
-                    Simulator._3DRobotSimulatorPrepareForRun = true;
-                    Simulator._classicRobotSimulatorPrepareForRun = false;
+                    this._3DRobotSimulatorPrepareForRun = true;
+                    this._classicRobotSimulatorPrepareForRun = false;
                     $("#robot-sim-container").hide();
                     if (RobotSimulator.isRunning) {
                         RobotSimulator.isRunning = false
@@ -1431,17 +1510,20 @@ Simulator.update_pinList = function () {
     const modules = this.getSimulatedModules();
     for (let i = modules.length - 1; i > -1; i--) {
         const moduleDiv = modules[i];
-        if (moduleDiv !== undefined && moduleDiv.id !== undefined) {
-            const id = moduleDiv.id.split('_')[0];
-            const mod = this.modules.find(element => element.id == id);
-            if (mod !== undefined) {
-                const regex = this._checkRegex(mod);
-                if (regex !== undefined && (typeof regex === 'object' || !this.code.match(regex))) {
-                    $("#" + moduleDiv.id).remove();
-                    const pinArray = this.pinList.map((x) => x.pin);
-                    const pin = moduleDiv.id.split('_')[1];
-                    if (pin && pinArray.indexOf(pin) != -1) {
-                        this.pinList.splice(pinArray.indexOf(pin), 1);
+        if (moduleDiv && moduleDiv.id !== undefined) {
+            const coreId = moduleDiv.id.split('_')[0];
+            const mod = this.modules.find(element => element.id == coreId);
+            if (mod) {
+                if (/pin n°/.test(mod.pin)) {
+                    const modulePin = this.pinList.find(obj => obj.id === moduleDiv.id);
+                    if (modulePin && modulePin.regex && !this.code.match(modulePin.regex)) {
+                        $("#" + moduleDiv.id).remove();
+                        this.pinList = this.pinList.filter(obj => obj.id != moduleDiv.id);
+                    }
+                } else {
+                    const regex = this._checkRegex(mod);
+                    if (regex && !this.code.match(regex)) {
+                        $("#" + moduleDiv.id).remove();
                     }
                 }
             }
@@ -1459,32 +1541,44 @@ Simulator.addModule = function (mod, regex) {
         .filter(line => (regex.test && regex.test(line)) || line.match(regex))
         .filter(unique);
 
-    const addModuleByPin = (pin, moduleCodeLine, slot) => {
-        const pinDef = this.Mosaic.getPinDef(pin, mod);
+    const addModuleByPin = (pin, moduleCodeLine, slot, secondPin) => {
+        // Define pin by it number
+        let pinDef = this.Mosaic.getPinDef(pin, mod);
+        if (/UART/.test(pin)) {
+            pinDef = { name: pin, id: pin };
+        }
+        // Set specific line regex of module
+        let specificRegex = regex.toString().replace(/[0-9]{1,2}/, pin);
+        if (secondPin) {
+            specificRegex = new RegExp(specificRegex.replace(/[0-9]{1,2}/, secondPin));
+        }
         if (mod.multipleModules) {
             const nLine = moduleCodeLine.split(' ');
             for (let j = 0; j < parseInt(nLine[nLine.length - 1]); j++) {
                 this.addModuleToDOM(mod, mod.id + '_' + pin + '-' + j, pinDef.name + ' - LED ' + j);
             }
         } else {
-            this.addPinModule(mod, pin, slot);
+            this.addPinModule(mod, pin, slot, secondPin, specificRegex);
             const moduleId = mod.id + '_' + pinDef.id;
             if (mod.type == 'output' && typeof mod.value !== 'undefined') {
                 this.setAnimator(mod, moduleId, mod.value);
             }
-            Simulator.setPullButton(moduleId, mod.pull ? mod.pull : 'down');
+            if (mod.class === 'button') {
+                this.Components.Button.setPull(moduleId, mod.pull ? mod.pull : 'down');
+            }
         }
     };
 
     for (let i = 0; i < moduleCode.length; i++) {
         if (moduleCode[i] !== undefined) {
             // case module is defined by pin
-            let pinNumber = null;
+            let pin = null;
             let slot = null;
+            let secondPin = null;
             if (/pin n°/.test(mod.pin)) {
                 if (mod.extractPin) {
                     const match = moduleCode[i].match(this.Mosaic.groveRegex[mod.id]);
-                    pinNumber = match.map((str) => mod.extractPin(str));
+                    pin = match.map((str) => mod.extractPin(str));
                 } else {
                     if (mod.codeFlag) {
                         let codeFlag = mod.codeFlag;
@@ -1494,34 +1588,47 @@ Simulator.addModule = function (mod, regex) {
                         if (new RegExp(codeFlag).test(moduleCode[i])) {
                             if (mod.slots) {
                                 const parser = moduleCode[i].replace(codeFlag + ' on ', "").replace(new RegExp(this.COMMENT_CHARACTER + ' '), '');
-                                pinNumber = parser.replace(/SLOT_[0-9]/, "");
+                                pin = parser.replace(/SLOT_[0-9]/, "");
                                 slot = parseInt(parser.replace(/PORT_[0-9]/, "").replace('SLOT_', ''));
                             } else {
-                                pinNumber = moduleCode[i].replace(codeFlag, "").match(this.Mosaic.pin_regex);
-                                if (!pinNumber) {
-                                    pinNumber = moduleCode[i].slice(moduleCode[i].indexOf('"') + 1, moduleCode[i].lastIndexOf('"'));
+                                let pin_line = moduleCode[i].replace(codeFlag, "").replace('//', '').replace('#', '');
+                                if (/\//g.test(pin_line) && mod.twoPins) {
+                                    secondPin = pin_line.split('/')[1];
+                                    pin_line = pin_line.split('/')[0];
+                                    secondPin = secondPin.match(this.Mosaic.pin_regex);
+                                }
+                                if (/UART/.test(pin_line)) {
+                                    pin = pin_line.match(/UART( |)[0-9]{1}/)[0].trim();
+                                } else {
+                                    pin = pin_line.match(this.Mosaic.pin_regex);
+                                    if (!pin) {
+                                        pin = moduleCode[i].slice(moduleCode[i].indexOf('"') + 1, moduleCode[i].lastIndexOf('"'));
+                                    }
                                 }
                             }
                         } else if (/PIN_/.test(moduleCode[i]) && regex.source.includes('PIN_')) {
                             const constantName = "PIN_" + codeFlag.toUpperCase().replace(/ /g, '_') + '_';
-                            pinNumber = moduleCode[i].match(regex)[0].replace(constantName, "");
+                            pin = moduleCode[i].match(regex)[0].replace(constantName, "");
                         } else {
-                            pinNumber = moduleCode[i].match(this.Mosaic.pin_regex);
-                            if (!pinNumber) pinNumber = moduleCode[i].match(/[0-9]{1,2}/);
+                            pin = moduleCode[i].match(this.Mosaic.pin_regex);
+                            if (!pin) pin = moduleCode[i].match(/[0-9]{1,2}/);
                         }
                     } else {
-                        pinNumber = moduleCode[i].match(this.Mosaic.pin_regex);
+                        pin = moduleCode[i].match(this.Mosaic.pin_regex);
                     }
-                    if (pinNumber && typeof pinNumber === 'object') {
-                        pinNumber = pinNumber[0];
+                    if (pin && typeof pin === 'object') {
+                        pin = pin[0];
+                    }
+                    if (secondPin && typeof secondPin === 'object') {
+                        secondPin = secondPin[0];
                     }
                 }
-                if (pinNumber) {
-                    if (typeof pinNumber === "string") {
-                        addModuleByPin(pinNumber, moduleCode[i], slot);
+                if (pin) {
+                    if (typeof pin === "string") {
+                        addModuleByPin(pin, moduleCode[i], slot, secondPin);
                     } else {
-                        for (let j = 0; j < pinNumber.length; j++) {
-                            addModuleByPin(pinNumber[j], moduleCode[i], slot);
+                        for (let j = 0; j < pin.length; j++) {
+                            addModuleByPin(pin[j], moduleCode[i], slot, secondPin);
                         }
                     }
                 }
@@ -1530,7 +1637,7 @@ Simulator.addModule = function (mod, regex) {
                 if (mod.type === 'output' && typeof mod.value !== 'undefined') {
                     this.setAnimator(mod, mod.id, mod.value);
                 }
-                Simulator.setPullButton(mod.id, mod.pull ? mod.pull : 'down');
+                this.Components.Button.setPull(mod.id, mod.pull ? mod.pull : 'down');
             }
             this.mosaicChanged = true;
         }
@@ -1540,44 +1647,80 @@ Simulator.addModule = function (mod, regex) {
 /**
  * Add HTML div of a pin module in mosaic simulation.
  * @param {Object} mod module
- * @param {string} pinNumber module regexp
+ * @param {string} pin pin string
  * @param {string} slot
+ * @param {string} secondPin second pin string
  */
-Simulator.addPinModule = function (mod, pinNumber, slot) {
-    const pin = this.Mosaic.getPinDef(pinNumber, mod);
-    if (mod.builtin) {
-        const pinName = mod.builtin + ' (p' + pin.id + ')';
+Simulator.addPinModule = function (mod, pin, slot, secondPin, specificRegex) {
+    let pinDef = this.Mosaic.getPinDef(pin, mod);
+    if (/UART/.test(pin)) {
+        pinDef = { name: pin.replace(/\s/g, ''), id: pin.replace(/\s/g, '') };
+    }
+    const addPinToList = (i, p) => {
         this.pinList.push({
-            'id': mod.id,
-            'pin': pin.id,
-            'suffix': ""
+            'id': i,
+            'pin': p.id + (mod.slots ? '-' + slot : ''),
+            'suffix': mod.listeners ? mod.listeners[0].suffix : "",
+            'regex': specificRegex
         });
+    };
+    if (mod.builtin) {
+        addPinToList(mod.id, pinDef);
+        const pinName = mod.builtin + ' (p' + pinDef.id + ')';
         this.addModuleToDOM(mod, mod.id, pinName);
-    } else if (pin.name) {
-        const id = mod.id + "_" + pin.id + (mod.slots ? '-' + slot : '');
+    } else if (pinDef.name) {
+        const id = mod.id + "_" + pinDef.id + (mod.slots ? '-' + slot : '');
         // case pin is not already used
-        const usedPinIndex = this.pinList.map(x => x.pin).indexOf(pin.id);
+        const usedPinIndex = this.pinList.map(x => x.pin).indexOf(pinDef.id);
         if (usedPinIndex == -1) {
-            this.pinList.push({
-                'id': id,
-                'pin': pin.id + (mod.slots ? '-' + slot : ''),
-                'suffix': mod.listeners ? mod.listeners[0].suffix : ""
-            });
-            this.addModuleToDOM(mod, id, pin.name + (mod.slots ? ' slot ' + slot : ''));
-        } else {
-            const attachedModId = this.pinList[usedPinIndex].id;
-            const attachedMod = this.getModuleByKey(attachedModId.split('_')[0]);
-            if (attachedModId !== id) {
-                if (attachedMod.multiple && attachedMod.multiple.includes(mod.id)) {
-                    this.addModuleToDOM(mod, id, pin.name);
-                } else {
-                    const digitalWriteAndPwm = mod.type === 'output' && ((attachedMod.pins === 'PWM' && mod.pins === 'digital') || (attachedMod.pins === 'digital' && mod.pins === 'PWM'));
-                    const possibleCombine = (attachedMod.type === mod.type) && (attachedMod.pins === mod.pins || digitalWriteAndPwm);
-                    const possibleCombination = !(typeof attachedMod.noCombine === 'undefined' || attachedMod.noCombine != true) || !(typeof mod.noCombine === 'undefined' || mod.noCombine != true);
-                    if ((!possibleCombine || (typeof mod.extractPin === 'undefined' && typeof attachedMod.extractPin === 'undefined')) && !possibleCombination) {
-                        this.pinError = "[Pin Error] The module <b>" + (mod.multiple ? mod.id.split('-')[0] : mod.id) + "</b> cannot be connected on pin <b>" + this.pinList[usedPinIndex].pin + "</b>. The module <b>" + (attachedMod.multiple ? attachedMod.id.split('-')[0] : attachedMod.id) + "</b> is already connected.";
+            if (secondPin) {
+                const secondPinDef = this.Mosaic.getPinDef(secondPin, mod);
+                const usedSecondPinIndex = this.pinList.map(x => x.pin).indexOf(secondPinDef.id);
+                if (usedSecondPinIndex == -1) {
+                    addPinToList(id, pinDef);
+                    let pinName = pinDef.name;
+                    if (secondPin) {
+                        let secondPinDef = this.Mosaic.getPinDef(secondPin, mod);
+                        if (secondPinDef.name) {
+                            addPinToList(id, secondPinDef);
+                            pinName += ' / ' + secondPinDef.name;
+                        }
                     }
+                    pinName += (mod.slots ? ' slot ' + slot : '');
+                    this.addModuleToDOM(mod, id, pinName);
+                } else {
+                    this.checkPossibleCombination(mod, id, secondPinDef, usedSecondPinIndex);
                 }
+            } else {
+                addPinToList(id, pinDef);
+                const pinName = pinDef.name + (mod.slots ? ' slot ' + slot : '');
+                this.addModuleToDOM(mod, id, pinName);
+            }
+        } else {
+            this.checkPossibleCombination(mod, id, pinDef, usedPinIndex);
+        }
+    }
+};
+
+/**
+ * Check combination of differents modules by pin. Define error when combine is not possible.
+ * @param {Object} mod module
+ * @param {string} id module id
+ * @param {Object} pinDef 
+ * @param {int} pinIndex pin index
+ */
+Simulator.checkPossibleCombination = function (mod, id, pinDef, pinIndex) {
+    const attachedModId = this.pinList[pinIndex].id;
+    const attachedMod = this.getModuleByKey(attachedModId.split('_')[0]);
+    if (attachedModId !== id) {
+        if (attachedMod.multiple && attachedMod.multiple.includes(mod.id)) {
+            this.addModuleToDOM(mod, id, pinDef.name);
+        } else {
+            const digitalWriteAndPwm = mod.type === 'output' && ((attachedMod.pins === 'PWM' && mod.pins === 'digital') || (attachedMod.pins === 'digital' && mod.pins === 'PWM'));
+            const possibleCombine = (attachedMod.type === mod.type) && (attachedMod.pins === mod.pins || digitalWriteAndPwm);
+            const possibleCombination = !(typeof attachedMod.noCombine === 'undefined' || attachedMod.noCombine != true) || !(typeof mod.noCombine === 'undefined' || mod.noCombine != true);
+            if ((!possibleCombine || (typeof mod.extractPin === 'undefined' && typeof attachedMod.extractPin === 'undefined')) && !possibleCombination) {
+                this.pinError = "[Pin Error] The module <b>" + (mod.multiple ? mod.id.split('-')[0] : mod.id) + "</b> cannot be connected on pin <b>" + this.pinList[pinIndex].pin + "</b>. The module <b>" + (attachedMod.multiple ? attachedMod.id.split('-')[0] : attachedMod.id) + "</b> is already connected.";
             }
         }
     }
@@ -1593,7 +1736,7 @@ Simulator.addModuleToDOM = function (mod, id, pinName) {
     if (!$("#" + id).length) {
         const html = this.generateModuleDiv(mod, id, pinName);
         let divId = 'simulator-modules';
-        if (Simulator.isInWiringMode) {
+        if (this.isInWiringMode) {
             divId = 'wiring-modules';
         }
         if (mod.large) {
@@ -1607,8 +1750,14 @@ Simulator.addModuleToDOM = function (mod, id, pinName) {
             $('#' + divId).append(html);
         }
         if (mod.picture != undefined && mod.picture.includes(".svg")) {
-            SVGInject(document.querySelectorAll("img." + mod.id + "_base"), {
+            const img = document.querySelectorAll("img." + mod.id + "_base");
+            SVGInject(img, {
                 makeIdsUnique: false
+            });
+            img[0].addEventListener("load", () => {
+                if (mod.class === 'joystick') {
+                    this.Components.Joystick.injectAnimation(id);
+                }
             });
         }
         if (typeof mod.getBodyInjection !== 'undefined') {
@@ -1654,8 +1803,10 @@ Simulator.generateModuleDiv = function (mod, id, pinName, exerciseModule = false
 
         // INPUTS / HYBRIDE (en entrée)
         if (mod.type === 'input' || mod.hybride) {
-            for (const listener in mod.listeners) {
-                html += this.generateModuleDiv_gauge(mod, id, listener);
+            if (mod.listeners) {
+                for (const listener in mod.listeners) {
+                    html += this.generateModuleDiv_gauge(mod, id, listener);
+                }
             }
         }
 
@@ -1666,13 +1817,11 @@ Simulator.generateModuleDiv = function (mod, id, pinName, exerciseModule = false
                             <canvas class="${id}_canvas"></canvas>
                          </div>`;
             } else {
-                if (!mod.hybride || (mod.hybride && mod.type === 'output')) {
+                if (!mod.hybride || (mod.hybride && mod.type === 'output') || (mod.hybride && mod.type === 'input' && !mod.listeners)) {
                     html += `<span id="${id}_value" class="${mod.id}_value_text`;
-
                     if (mod.class) {
                         html += ` ${mod.class}`;
                     }
-
                     html += `" aria-live="polite" aria-atomic="true"`;
 
                     if (mod.animate) {
@@ -1736,7 +1885,7 @@ Simulator.generateModuleDiv_header = function (mod, id, pinName) {
             <button
                 id="${id}_modal-button"
                 class="btn btn-outline-secondary btn-icon module-modal-button"
-                onclick="Simulator.getModuleByKey('${mod.id}').modalButton.click()"
+                onclick="Simulator.getModuleByKey('${mod.id}').modalButton.click('${id}')"
                 aria-label="Ouvrir les options de ${mod.title || 'module'}"
             >
                 <i class="${mod.modalButton.icon} module-modal-button-icon" aria-hidden="true"></i>
@@ -1752,7 +1901,7 @@ Simulator.generateModuleDiv_header = function (mod, id, pinName) {
             html += ' i2c-module';
         } else if (/(ESP32|STM32|Maqueen|micro:bit|Gamepad|Buggy|Codo|Oobybot|Innovator Hub|raspberrypi|Galaxia|GalaxiaCircuitPython|thymio)/.test(mod.pin)) {
             html += ' internal-module';
-        } else if (/Rover|mCore|mBot|CyberPi|Codey/.test(mod.pin)) {
+        } else if (/Rover|mCore|mBot|CyberPi|Codey|STeaMi/.test(mod.pin)) {
             html += ' blue-module';
         }
 
@@ -1824,9 +1973,6 @@ Simulator.generateModuleDiv_image = function (mod, id, exerciseModule) {
     return html;
 };
 
-
-
-
 /**
  * Generate HTML code for gauges of listeners.
  * @param {Object} mod module
@@ -1854,10 +2000,7 @@ Simulator.generateModuleDiv_gauge = function (mod, id, listener) {
     }
 
     html += `
-        <div
-            class="sim_slider mod_${mod.id}${gauge.suffix}"
-            id="${sliderId}"
-        >
+        <div class="sim_slider mod_${mod.id}${gauge.suffix}" id="${sliderId}">
             <div
                 class="ui-slider-handle"
                 role="slider"
@@ -1869,9 +2012,7 @@ Simulator.generateModuleDiv_gauge = function (mod, id, listener) {
                 aria-labelledby="${titleId} ${connectionId} ${valueId}"
                 style="cursor: pointer; background: ${color} !important;"
             ></div>
-        </div>
-    `;
-
+        </div>`;
     html += '</div>';
     return html;
 };
@@ -1910,16 +2051,25 @@ Simulator._checkRegex = function (mod) {
                 if (this.Mosaic.getCurrentBoard()) {
                     regex = regex[this.Mosaic.getCurrentBoard()];
                 } else {
-                    return undefined;
+                    return;
                 }
             }
         } else if (mod.codeFlag !== undefined) {
             const modFlag = typeof mod.codeFlag == 'object' && mod.codeFlag.length > 0 ? mod.codeFlag[0] : mod.codeFlag;
-            if (["esp32", "pico", "galaxia"].includes(Main.getInterface())) {
-                regex = new RegExp(this.COMMENT_CHARACTER + ' ' + modFlag + ' on p' + this.Mosaic.pin_regex.source);
-            } else {
-                regex = new RegExp(this.COMMENT_CHARACTER + ' ' + modFlag + ' on ' + this.Mosaic.pin_regex.source);
+            const addPinStr = () => {
+                let str = "";
+                if (["esp32", "pico", "galaxia"].includes(Main.getInterface())) {
+                    str += 'p';
+                }
+                return str + this.Mosaic.pin_regex.source;
             }
+            let regExStr = this.COMMENT_CHARACTER + ' ' + modFlag + ' on ';
+            regExStr += addPinStr();
+            if (mod.twoPins) {
+                regExStr += '/';
+                regExStr += addPinStr();
+            }
+            regex = new RegExp(regExStr);
         } else {
             // console.error("Simulator Error: no regex for module '" + mod.id + "'"); /* Debug! */
         }
@@ -1931,76 +2081,339 @@ Simulator.getSimulatedModules = function () {
     return $(".simulator-module:not(.exercise-module):not(.empty-module)");
 };
 
-Simulator.setPullButton = function (id, pull) {
-    if (id) {
-        if (pull === 'no_pull') pull = 'down';
-        const component = this.pinList.find(module => module.id == id);
-        let coreId = id;
-        if (component) {
-            component.pull = pull;
-            coreId = component.id.split('_')[0];
-        }
-        const module = this.getModuleByKey(coreId);
-        if (module) {
-            const moduleDiv = $('#' + id + ' .module-img-group')[0];
-            $('.mod_button').slider({
-                value: pull === 'up' ? 1 : 0
+Simulator.Components = {
+    'Button': {
+        modules: {},
+        reset: function () {
+            Object.values(this.modules).forEach(button => {
+                if (button.div) {
+                    button.div.removeEventListener('mouseup', button.up);
+                    button.div.removeEventListener('mousedown', button.down);
+                }
             });
-            const update = function (e) {
-                $("#" + id).find($('.has-interaction')).removeClass('pulse-circle');
-                switch (e.type) {
-                    case 'mousedown':
-                        if (pull == 'up') {
+            this.modules = {};
+        },
+
+        setPull: function (id, pull) {
+            if (id) {
+                if (pull === 'no_pull') pull = 'down';
+                const component = Simulator.pinList.find(module => module.id == id);
+                let coreId = id;
+                if (component) {
+                    component.pull = pull;
+                    coreId = component.id.split('_')[0];
+                }
+                const module = Simulator.getModuleByKey(coreId);
+                if (module) {
+                    this.modules[id] = {};
+                    this.modules[id].div = $('#' + id + ' .module-img-group')[0];
+                    $('.mod_button').slider({
+                        value: pull === 'up' ? 1 : 0
+                    });
+                    this.modules[id].up = function (e) {
+                        if (pull === 'up') {
+                            if (Simulator.getSliderValue(id) == 0) {
+                                Simulator.setSliderValue(id, 1);
+                            }
+                        } else if (pull === 'down') {
                             if (Simulator.getSliderValue(id) == 1) {
                                 Simulator.setSliderValue(id, 0);
                             }
-                        } else if (pull = 'down') {
+                        }
+                    };
+
+                    this.modules[id].down = function (e) {
+                        $("#" + id).find($('.has-interaction')).removeClass('pulse-circle');
+                        if (pull === 'up') {
+                            if (Simulator.getSliderValue(id) == 1) {
+                                Simulator.setSliderValue(id, 0);
+                            }
+                        } else if (pull === 'down') {
                             if (Simulator.getSliderValue(id) == 0) {
                                 Simulator.setSliderValue(id, 1);
                             }
                         }
-                        break;
-                    case 'mouseup':
-                        if (pull == 'up') {
-                            if (Simulator.getSliderValue(id) == 0) {
-                                Simulator.setSliderValue(id, 1);
-                            }
-                        } else if (pull = 'down') {
-                            if (Simulator.getSliderValue(id) == 1) {
-                                Simulator.setSliderValue(id, 0);
-                            }
-                        }
-                        break;
+                    };
+
+                    if (module.releaser) {
+                        this.modules[id].div.removeEventListener('mouseup', this.modules[id].up);
+                        this.modules[id].div.removeEventListener('mousedown', this.modules[id].down);
+                        this.modules[id].div.addEventListener('mouseup', this.modules[id].up);
+                        this.modules[id].div.addEventListener('mousedown', this.modules[id].down);
+                    }
+                }
+            }
+        },
+    },
+    'Joystick': {
+        modules: {},
+        injectAnimation: function (id) {
+            const svg = document.querySelector("#" + id + " #Calque_2");
+            const cercleHit = svg.querySelector("#cercle-hit")
+            this.modules[id] = {
+                svg: svg,
+                cercle: svg.querySelector("#cercle"),
+                joyAnim: svg.querySelector("#joystick-3"),
+                cercleHit: cercleHit
+            };
+            const cercle = this.modules[id].cercle;
+
+            if (!svg || !cercle || !this.modules[id].joyAnim) {
+                console.warn("Joystick SVG elements not found", id);
+                return;
+            }
+
+            const svgEl = svg.ownerSVGElement || svg.closest("svg");
+            if (!svgEl) {
+                console.warn("Root <svg> not found for joystick", { id: id });
+                return;
+            }
+
+            const cx0 = parseFloat(cercle.getAttribute("cx"));
+            const cy0 = parseFloat(cercle.getAttribute("cy"));
+            const R = parseFloat(cercle.getAttribute("r"));
+            const rJoy = parseFloat(this.modules[id].joyAnim.getAttribute("r"));
+
+            const maxDist = Math.max(0, R - rJoy);
+
+            function clientToSvgPoint(evt) {
+                const pt = svgEl.createSVGPoint();
+                pt.x = evt.clientX;
+                pt.y = evt.clientY;
+                return pt.matrixTransform(svgEl.getScreenCTM().inverse());
+            }
+
+            setJoyPos = (id, x, y) => {
+                this.modules[id].joyAnim.setAttribute("cx", x);
+                this.modules[id].joyAnim.setAttribute("cy", y);
+            }
+
+            resetJoy = (id) => {
+                setJoyPos(id, cx0, cy0);
+                this.modules[id].joyAnim.style.fill = "";
+                this.resetArrows(id);
+                if (id.includes('mb-yahboom-joystick')) {
+                    $("#" + id + "_value").html("");
+                } else {
+                    $("#" + id + "_value").html("<b>x: 0</br>y: 0</b>");
                 }
             };
-            if (module.releaser) {
-                moduleDiv.addEventListener('mouseup', update);
-                moduleDiv.addEventListener('mousedown', update);
+
+            updateFromPoint = (id, x, y) => {
+                const dx = x - cx0;
+                const dy = y - cy0;
+
+                const theta = Math.atan2(dy, dx);
+                const dist = Math.hypot(dx, dy);
+                const clamped = Math.min(dist, maxDist);
+
+                const nx = cx0 + Math.cos(theta) * clamped;
+                const ny = cy0 + Math.sin(theta) * clamped;
+                setJoyPos(id, nx, ny);
+
+                const strength = maxDist === 0 ? 0 : (clamped / maxDist); // 0..1
+                const xNorm = Math.cos(theta) * strength; // -1..1
+                const yNorm = Math.sin(theta) * strength; // -1..1 (⚠️ en SVG, +y va vers le bas)
+                const out = { x: xNorm, y: yNorm, r: strength, theta };
+                this.onChange(id, out);
+            };
+
+            cercleHit.addEventListener("pointerdown", (evt) => {
+                evt.preventDefault();
+                cercleHit.setPointerCapture(evt.pointerId);
+                const p = clientToSvgPoint(evt);
+                updateFromPoint(id, p.x, p.y);
+            });
+
+            cercleHit.addEventListener("pointermove", (evt) => {
+                if (!cercleHit.hasPointerCapture(evt.pointerId)) return;
+                evt.preventDefault();
+                const p = clientToSvgPoint(evt);
+                updateFromPoint(id, p.x, p.y);
+            });
+
+            cercleHit.addEventListener("pointerup", (evt) => {
+                if (cercleHit.hasPointerCapture(evt.pointerId)) {
+                    cercleHit.releasePointerCapture(evt.pointerId);
+                }
+                resetJoy(id);
+            });
+
+            cercleHit.addEventListener("pointercancel", () => resetJoy(id));
+            resetJoy(id);
+        },
+
+        resetArrows: function (id) {
+            this.modules[id].svg.querySelector("#arrow_right").style.fill = "";
+            this.modules[id].svg.querySelector("#arrow_left").style.fill = "";
+            this.modules[id].svg.querySelector("#arrow_up").style.fill = "";
+            this.modules[id].svg.querySelector("#arrow_down").style.fill = "";
+        },
+
+        onChange: function (id, out) {
+            const setColor = (el) => el.style.fill = "var(--vitta-green-dark)";
+            this.resetArrows(id);
+            let dir = "";
+            if (out.theta <= Math.PI / 4 && out.theta >= -Math.PI / 4) {
+                setColor(this.modules[id].svg.querySelector("#arrow_right"));
+                dir = "right";
+            } else if (out.theta <= -Math.PI / 4 && out.theta > -3 * Math.PI / 4) {
+                setColor(this.modules[id].svg.querySelector("#arrow_up"));
+                dir = "up";
+            } else if ((out.theta <= -3 * Math.PI / 4 && out.theta >= -Math.PI) || (out.theta <= Math.PI && out.theta >= 3 * Math.PI / 4)) {
+                setColor(this.modules[id].svg.querySelector("#arrow_left"));
+                dir = "left";
+            } else if (out.theta <= 3 * Math.PI / 4 && out.theta > Math.PI / 4) {
+                setColor(this.modules[id].svg.querySelector("#arrow_down"));
+                dir = "down";
+            }
+            setColor(this.modules[id].joyAnim);
+            if (id.includes('mb-yahboom-joystick')) {
+                $("#" + id + "_value").html("<b>" + dir + "</b>");
+            } else {
+                function map_value(value, low1, high1, low2, high2) {
+                    return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+                };
+                const x_value = Math.round(map_value(out.x, -1, 1, 0.25 * READ_ANALOG_MAX_VALUE, 0.75 * READ_ANALOG_MAX_VALUE));
+                const y_value = Math.round(map_value(out.y, 1, -1, 0.25 * READ_ANALOG_MAX_VALUE, 0.75 * READ_ANALOG_MAX_VALUE));
+                $("#" + id + "_value").html("<b>x: " + x_value + "</br>y: " + y_value + "</br>dir: " + dir + "<b>");
+            }
+        },
+
+        read: function (id, axisPin) {
+            let value = $("#" + id + "_value").text();
+            if (value.includes('dir:')) {
+                value = value.split('dir:')[0];
+            }
+            value = value.split('y:');
+            if (id.split('_')[1] == axisPin) { // Warning: comparing '2' and 2
+                return parseInt(value[0].replace('x:', '').trim());
+            } else {
+                return parseInt(value[1].trim());
             }
         }
+    },
+    'GPS': {
+        currentModuleId: null,
+        map: null,
+        openMap: function (id) {
+            this.currentModuleId = id;
+
+            const lat = $("#" + id + '_slider_lat').slider('option', 'value');
+            const lng = $("#" + id + '_slider_lon').slider('option', 'value');
+
+            // add the current position on the modal values
+            $("#modal-lat").html(lat);
+            $("#modal-lng").html(lng);
+
+            if (!this.map) {
+
+                // initialize Leaflet with a map centered on let/lng
+                this.map = L.map('map').setView([lat, lng], 4);
+
+                // add the OpenStreetMap tiles
+                L.tileLayer(`/utils/Backend/maptilerProxy.php?url=https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png`, { //style URL
+                    tileSize: 512,
+                    zoomOffset: -1,
+                    minZoom: 1,
+                    attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
+                    crossOrigin: true
+                }).addTo(this.map);
+
+                // show the scale bar on the lower left corner
+                L.control.scale({
+                    imperial: true,
+                    metric: true
+                }).addTo(this.map);
+
+                // show a marker on the map with a popup
+                const marker = L.marker([lat, lng]).addTo(this.map);
+                marker.bindPopup('Cliquez sur la carte pour mettre en place la latitude et la longitude !').openPopup();
+
+                // add custom icon and shadow
+                const myIcon = L.icon({
+                    iconUrl: '/openInterface/interfaces/assets/media/leaflet/marker.png',
+                    shadowUrl: '/openInterface/interfaces/assets/media/leaflet/marker_shadow.png',
+                    iconSize: [24.5, 33.5],
+                    iconAnchor: [12, 30],
+                    popupAnchor: [1, -34],
+                });
+                marker.setIcon(myIcon);
+
+                // on click, show the coordinates of that location
+                this.map.on('click', (e) => {
+                    marker.setLatLng(e.latlng);
+                    // remove popup 
+                    marker.unbindPopup();
+
+                    // add popup with new coordinates and a substring of the coordinates
+                    $("#modal-lat").html((e.latlng.lat).toString().substring(0, 6));
+                    $("#modal-lng").html((e.latlng.lng).toString().substring(0, 6));
+
+                    $("#" + this.currentModuleId + '_slider_lat').slider("value", e.latlng.lat);
+                    $("#" + this.currentModuleId + '_slider_lon').slider("value", e.latlng.lng);
+                });
+
+            } else {
+                this.map.panTo([lat, lng]);
+            }
+        },
+        /**
+         * Load lagitude & longitude in gps module div. Close map modal.
+         */
+        loadLatLng: function () {
+            const id = this.currentModuleId;
+            $("#" + id + '_slider_lat').slider('value', Number($("#modal-lat").html()).toFixed(4));
+            $("#" + id + '_slider_lon').slider('value', Number($("#modal-lng").html()).toFixed(4));
+            $("#" + id + '_slider_alt').slider('value', Number($("#modal-alt").html()).toFixed(4));
+            pseudoModal.closeModal('modal-gpsmap');
+        },
+        generateNMEAGGA: function (id) {
+
+            const lat = $("#" + id + '_slider_lat').slider('option', 'value');
+            const lon = $("#" + id + '_slider_lon').slider('option', 'value');
+            const alt = $("#" + id + '_slider_alt').slider('option', 'value');
+
+            const toNmeaCoord = (value, isLat) => {
+                const abs = Math.abs(value);
+                const deg = Math.floor(abs);
+                const min = (abs - deg) * 60;
+                const dir = isLat ? (value >= 0 ? 'N' : 'S') : (value >= 0 ? 'E' : 'W');
+                return `${String(deg).padStart(isLat ? 2 : 3, '0')}${min.toFixed(4).padStart(7, '0')},${dir}`;
+            };
+
+            const checksum = (s) => {
+                let cs = 0;
+                for (let i = 0; i < s.length; i++) cs ^= s.charCodeAt(i);
+                return cs.toString(16).toUpperCase().padStart(2, '0');
+            };
+
+            const now = new Date();
+            const time = [
+                now.getUTCHours(),
+                now.getUTCMinutes(),
+                now.getUTCSeconds()
+            ].map(v => String(v).padStart(2, '0')).join('');
+
+            const body = `GPGGA,${time},${toNmeaCoord(lat, true)},${toNmeaCoord(lon, false)},1,08,0.9,${Number(alt).toFixed(1)},M,0.0,M,,`;
+
+            return `$${body}*${checksum(body)}\r\n`;
+        }
     }
-};
+}
 
-/** UTILS **/
-
-/**
- * Promise for waiting (in milliseconds).
- * @param {int} ms
- * @return {Promise}
- */
-function sleep_ms(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-};
-
-/**
- * Round value with specified decimals.
- * @param {number} value
- * @param {int} digits
- * @return {number}
- */
-function roundFloat(value, digits = 2) {
-    const f = Math.pow(10, digits);
-    return Math.round(value * f) / f;
+Simulator.Mosaic = {
+    uart_updateTitle: function (port, rx, tx) {
+        const modPin = Simulator.pinList.find(mod => new RegExp(`UART\\s?${port}`).test(mod.pin));
+        const mod = Simulator.getModuleByKey(modPin.id.split('_')[0]);
+        const pinRXName = this.getPinDef(rx, mod);
+        const pinTXName = this.getPinDef(tx, mod);
+        $("#" + modPin.id).find(".subtitle-module").html('UART ' + port + ' (' + pinTXName.name + ' / ' + pinRXName.name + ')');
+        return {
+            pin: modPin,
+            mod: mod
+        };
+    }
 };
 
 /** INTERACTION FUNCTIONS IN MODULES */
@@ -2012,91 +2425,6 @@ function roundFloat(value, digits = 2) {
 function buttonPush(id) {
     $("#" + id).find($('.has-interaction')).removeClass('pulse-circle');
     $("#" + id + '_slider').slider("value", $("#" + id + '_slider').slider('option', 'value') > 0 ? 0 : 1);
-};
-
-/**
- * Initialize map for GPS module.
- */
-function initializeMap() {
-    var latitude = $("#gps_slider_lat").slider('option', 'value'),
-        longitude = $("#gps_slider_lon").slider('option', 'value');
-
-    if (typeof latitude != 'number' && typeof longitude != 'number') {
-        latitude = $("#m5-gps_slider_lat").slider('option', 'value');
-        longitude = $("#m5-gps_slider_lon").slider('option', 'value');
-    }
-    const defaultLatlng = {
-        lat: latitude,
-        lng: longitude
-    };
-
-    // add the current position on the modal values
-    $("#modal-lat").html(defaultLatlng.lat);
-    $("#modal-lng").html(defaultLatlng.lng);
-
-    // initialize Leaflet with a map centered on Europe
-    let map = L.map('map').setView(
-        [49.033, 22.148],
-        4
-    );
-
-    // add the OpenStreetMap tiles
-    L.tileLayer(`/utils/Backend/maptilerProxy.php?url=https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png`, { //style URL
-        tileSize: 512,
-        zoomOffset: -1,
-        minZoom: 1,
-        attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
-        crossOrigin: true
-    }).addTo(map);
-
-    // show the scale bar on the lower left corner
-    L.control.scale({
-        imperial: true,
-        metric: true
-    }).addTo(map);
-
-    // show a marker on the map with a popup
-    let marker = L.marker([defaultLatlng.lat, defaultLatlng.lng]).addTo(map);
-    marker.bindPopup('Cliquez sur la carte pour mettre en place la latitude et la longitude !').openPopup();
-
-    // add custom icon and shadow
-    let myIcon = L.icon({
-        iconUrl: '/openInterface/interfaces/assets/media/leaflet/marker.png',
-        shadowUrl: '/openInterface/interfaces/assets/media/leaflet/marker_shadow.png',
-        iconSize: [24.5, 33.5],
-        iconAnchor: [12, 30],
-        popupAnchor: [1, -34],
-    });
-    marker.setIcon(myIcon);
-
-
-    // on click, show the coordinates of that location
-    map.on('click', function (e) {
-        marker.setLatLng(e.latlng);
-        // remove popup 
-        marker.unbindPopup();
-
-        // add popup with new coordinates and a substring of the coordinates
-        $("#modal-lat").html((e.latlng.lat).toString().substring(0, 6));
-        $("#modal-lng").html((e.latlng.lng).toString().substring(0, 6));
-
-        $("#gps_slider_lat").slider("value", e.latlng.lat);
-        $("#gps_slider_lon").slider("value", e.latlng.lng);
-        $("#m5-gps_slider_lat").slider("value", e.latlng.lat);
-        $("#m5-gps_slider_lon").slider("value", e.latlng.lng);
-
-    });
-};
-
-/**
- * Load lagitude & longitude in gps module div. Close map modal.
- */
-function loadLatLng() {
-    $("#gps_slider_lat").slider('value', Number($("#modal-lat").html()).toFixed(4));
-    $("#gps_slider_lon").slider('value', Number($("#modal-lng").html()).toFixed(4));
-    $("#m5-gps_slider_lat").slider('value', Number($("#modal-lat").html()).toFixed(4));
-    $("#m5-gps_slider_lon").slider('value', Number($("#modal-lng").html()).toFixed(4));
-    pseudoModal.closeModal('modal-gpsmap');
 };
 
 // dev
@@ -2128,6 +2456,9 @@ Simulator.DevSide = {
         if (Simulator.Mosaic.groveRegex && Simulator.Mosaic.grove) {
             Simulator.Mosaic.grove.createSliders();
         }
+        if (Simulator.Mosaic.groveRegex && Simulator.Mosaic.grove_analog) {
+            Simulator.Mosaic.grove_analog.createSliders();
+        }
     }
 };
 
@@ -2154,6 +2485,7 @@ const SimulatorLS = {
             }
             if (this.storage[INTERFACE_NAME]) {
                 for (var key of Object.keys(this.data)) {
+                    if (key === 'backgrounds') continue;
                     if (this.storage[INTERFACE_NAME][key]) {
                         this.data[key] = this.storage[INTERFACE_NAME][key];
                     }
@@ -2196,13 +2528,23 @@ const SimulatorLS = {
     },
     /**
      * Set data by a key and its value and by robot name.
-     * @param {String} robotName 
-     * @param {String} key 
-     * @param {*} value 
+     * @param {String} robotName
+     * @param {String} key
+     * @param {*} value
      * @param {function} formatCallback
      */
     setData: function (robotName, key, value, formatCallback = null) {
         value = formatCallback ? formatCallback(value) : value;
+        if (key === 'backgrounds') {
+            if (this.data.backgrounds[robotName] !== `${value}`) {
+                this.data.backgrounds[robotName] = `${value}`;
+                this._saveBackgroundToProject(`${value}`);
+                if (typeof projectManager !== 'undefined' && projectManager) {
+                    projectManager._refreshProjectStatus();
+                }
+            }
+            return;
+        }
         if (this.data[key][robotName] !== `${value}`) {
             this.data[key][robotName] = `${value}`;
             this.set(key, this.data[key]);
@@ -2210,8 +2552,8 @@ const SimulatorLS = {
     },
     /**
      * Get data by key and robot name.
-     * @param {String} robotName 
-     * @param {String} key 
+     * @param {String} robotName
+     * @param {String} key
      * @returns value
      */
     getData: function (robotName, key) {
@@ -2219,8 +2561,38 @@ const SimulatorLS = {
             this.setData(robotName, key, this.projectOptions[key]);
             delete this.projectOptions[key];
         }
+        if (key === 'backgrounds') {
+            if (this.data.backgrounds[robotName]) {
+                return this.data.backgrounds[robotName];
+            }
+            return this._getBackgroundFromProject();
+        }
         const data = this.get(key);
         return data ? data[robotName] : null;
+    },
+    /**
+     * Save the background value into the current project options in localStorage.
+     * @param {String} value - The background source (path or data URL)
+     */
+    _saveBackgroundToProject: function (value) {
+        if (typeof projectManager === 'undefined' || !projectManager) return;
+        const lsm = projectManager.localStorageManager;
+        const projectContent = lsm.getLocalProjectContent();
+        if (!projectContent) return;
+        if (!projectContent.options) projectContent.options = {};
+        projectContent.options.robotBackground = value;
+        lsm.setLocalProject(projectContent);
+    },
+    /**
+     * Read the background value from the current project options in localStorage.
+     * @returns {String|null} The background source or null
+     */
+    _getBackgroundFromProject: function () {
+        if (typeof projectManager === 'undefined' || !projectManager) return null;
+        const lsm = projectManager.localStorageManager;
+        const projectContent = lsm.getLocalProjectContent();
+        if (!projectContent || !projectContent.options) return null;
+        return projectContent.options.robotBackground || null;
     },
     /**
     * Format robot background filename.

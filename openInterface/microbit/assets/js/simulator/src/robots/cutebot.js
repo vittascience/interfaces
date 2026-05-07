@@ -1,17 +1,17 @@
 // micro:bit - cutebot module
 
-var $builtinmodule = function (name) {
+const $builtinmodule = function (name) {
 
-    var cutebot = {};
+    const cutebot = {};
     cutebot.__name__ = new Sk.builtin.str("cutebot");
 
     // SONAR UNITS
-    cutebot.SONAR_CM = "cm";
-    cutebot.SONAR_IN = "inch";
+    cutebot.SONAR_CM = new Sk.builtin.str("cm");
+    cutebot.SONAR_IN = new Sk.builtin.str("inch");
 
     // MOTOR POSITION
-    cutebot.MOTOR_RIGHT = "Right";
-    cutebot.MOTOR_LEFT = "Left";
+    cutebot.MOTOR_RIGHT = new Sk.builtin.str("Right");
+    cutebot.MOTOR_LEFT = new Sk.builtin.str("Left");
 
     const setMotor = function (motorSide, speed, direction) {
         $('#mb-cutebot-motor' + motorSide + '_value').html(speed + '%');
@@ -36,7 +36,7 @@ var $builtinmodule = function (name) {
 
     cutebot._set_motor_speed = new Sk.builtin.func(function (motorSide, speed) {
         let direction = (speed.v > 0 ? "forward" : "backward");
-        setMotor(motorSide, Math.abs(speed.v), direction);
+        setMotor(motorSide.v, Math.abs(speed.v), direction);
         return new Sk.builtin.none();
     });
 

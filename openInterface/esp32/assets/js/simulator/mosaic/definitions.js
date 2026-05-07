@@ -1,9 +1,11 @@
-Simulator.Mosaic.BOARD_HEADER = `<object id="board-viewer" class="mt-3" type="image/svg+xml"></object>`;
-
 Simulator.Mosaic.pin_regex = /([0-9]{1,2})/;
 
 Simulator.Mosaic.getPinDef = (pin, mod) => {
-    const pins = Blockly.Constants.Pins[mod.pins][Blockly.Constants.getSelectedBoard()];
+    let boardId = Blockly.Constants.getSelectedBoard();
+    if (VittaInterface.shieldView) {
+        boardId = INTERFACE_BOARDS[boardId].shieldId;
+    }
+    const pins = Blockly.Constants.Pins[mod.pins][boardId];
     const pinName = pins.find(p => p[1] == 'p' + pin);
     return {
         name: pinName ? pinName[0] : null,
@@ -20,20 +22,34 @@ Simulator.Mosaic.getCurrentRobot3D = function () {
         return 'Ilo';
     } else {
         const boardToggled = document.getElementById('simulator-board-toggler')
-        if (boardToggled.classList.contains('closed')){
+        if (boardToggled.classList.contains('closed')) {
             Simulator.toggleBoardDisplay();
-        } 
+        }
         return null;
     }
 };
 
+Simulator.Mosaic.getCurrentRobot = function () {
+    const current_robot = Simulator.code.match(/""" ([a-zA-Z0-9]+(?:\s[a-zA-Z0-9]+)*) robot """/gi);
+    if (current_robot?.length > 1) {
+        return 'error';
+    }
+    const robotNames = Object.keys(Robots);
+    const robotRegex = robotNames.map((name) => Robots[name].CODE_REGEXP);
+    for (var i = 0; i < robotRegex.length; i++) {
+        if (Simulator.code.match(robotRegex[i])) {
+            return robotNames[i];
+        }
+    }
+    return null;
+};
+
 Simulator.Mosaic.externalLibraries = {
-    // python libraries
-    'src/lib/vitta_server.py': '/openInterface/interfaces/assets/lib/esp32-mpy/wifi/vitta_server.py',
-    'src/lib/vitta_client.py': '/openInterface/interfaces/assets/lib/esp32-mpy/wifi/vitta_client.py',
-    // js board specific libraries
-    'src/lib/machine.js': Simulator.PATH_LIB + 'micropython/machine.js',
+    // python common libraries
+    'src/lib/framebuf.py': Simulator.PATH_LIB_COMMON + 'micropython/framebuf.py',
     // js common mpy libraries
+    'src/lib/os.js': Simulator.PATH_LIB_COMMON + 'micropython/os.js',
+    'src/lib/uos.js': Simulator.PATH_LIB_COMMON + 'micropython/os.js',
     'src/lib/time.js': Simulator.PATH_LIB_COMMON + 'micropython/time.js',
     'src/lib/utime.js': Simulator.PATH_LIB_COMMON + 'micropython/time.js',
     'src/lib/ujson.js': Simulator.PATH_LIB_COMMON + 'micropython/json.js',
@@ -42,6 +58,9 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/neopixel.js': Simulator.PATH_LIB_COMMON + 'micropython/neopixel.js',
     'src/lib/dht.js': Simulator.PATH_LIB_COMMON + 'micropython/dht.js',
     'src/lib/onewire.js': Simulator.PATH_LIB_COMMON + 'micropython/onewire.js',
+    // js HT16K33 libraries
+    'src/lib/ht16k33.js': Simulator.PATH_LIB_COMMON + 'esp32/HT16K33/ht16k33.js',
+    'src/lib/ht16k33matrix.js': Simulator.PATH_LIB_COMMON + 'esp32/HT16K33/ht16k33matrix.js',
     // js common esp32 libraries
     'src/lib/esp32.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/esp32.js',
     'src/lib/esp.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/esp.js',
@@ -50,8 +69,13 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/socket.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/socket.js',
     'src/lib/usocket.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/socket.js',
     'src/lib/network.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/network.js',
-    // js robots libraries
+    // python libraries
+    'src/lib/vitta_server.py': '/openInterface/interfaces/assets/lib/esp32-mpy/wifi/vitta_server.py',
+    'src/lib/vitta_client.py': '/openInterface/interfaces/assets/lib/esp32-mpy/wifi/vitta_client.py',
+    // js specific board libraries
+    'src/lib/machine.js': Simulator.PATH_LIB + 'micropython/machine.js',
     'src/lib/ilo_micro.js': Simulator.PATH_LIB + 'ilo/ilo_micro.js',
+    'src/lib/arduino_alvik.js': Simulator.PATH_LIB + 'alvik/arduino_alvik.js',
     // js common grove libraries
     'src/lib/esp32_sht31.js': Simulator.PATH_LIB_COMMON + 'esp32/grove/esp32_sht31.js',
     'src/lib/esp32_si1145.js': Simulator.PATH_LIB_COMMON + 'esp32/grove/esp32_si1145.js',
@@ -74,15 +98,28 @@ Simulator.Mosaic.addSpecificInitializations = async function () {
     await Simulator.waitBoardViewer();
     const board = document.getElementById("board-viewer").contentDocument;
     if (board !== null) {
-        // ESP32 Reset button
-        const resetBtn = board.querySelector("#reset_button"),
+        let resetId = "";
+        switch (Simulator.board.id) {
+            case BOARD_VITTA_ESP32:
+                resetId = "#reset_button #button_off-2";
+                break;
+            case BOARD_WEMOS_D1R32:
+                resetId = "#reset_button #button_off";
+                break;
+            case BOARD_ESP_WROOM_32_38PINS:
+                resetId = "#bouton_left #button_off";
+                break;
+            case BOARD_NANO_ESP32:
+                resetId = "#bouton_left #button_off";
+                break;
+        }
+        const resetBtn = board.querySelector(resetId),
             up = 'translate(0px, 0px)',
             down = 'translate(0px, 5px)';
         if (resetBtn !== null) {
             const playAnimation = function (animation) {
-                const button = board.querySelector("#button_off");
-                if (button !== null) {
-                    button.style.transform = animation;
+                if (resetBtn !== null) {
+                    resetBtn.style.transform = animation;
                 }
             };
             resetBtn.addEventListener("mousedown", function () {
@@ -131,9 +168,7 @@ Simulator.Mosaic.addSpecificSkulptFunctions = function () {
             Sk.builtin.pyCheckType("timeout_us", "integer", Sk.builtin.checkInt(timeout_us));
             const pins = Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()];
             const id = '#hcsr04_' + trig.pin;
-            if (trig.pin !== echo.pin) {
-                $(id).find(".subtitle-module").html(pins.find(p => p[1] == 'p' + trig.pin)[0] + ' / ' + pins.find(p => p[1] == 'p' + echo.pin)[0]);
-            } else {
+            if (trig.pin == echo.pin) {
                 throw new Sk.builtin.AttributeError('[HCSR04] trig and echo cannot be on same pin (' + pins.find(p => p[1] == 'p' + trig.pin)[0] + ')');
             }
             const duration = $(id + '_slider_d').slider('option', 'value');
@@ -221,6 +256,7 @@ Simulator.Mosaic.groveRegex = {
     "pwm": /(machine.|)PWM\((machine.|)Pin\([0-9]{1,2}/gi,
     // I2C modules
     "lcdGrove": /(.|)LCD1602\(/gi,
+    "LEDMatrix": /(.|)HT16K33Matrix\(/gi,
     "oled": /SSD1306_I2C\(./gi,
     "sgp30": /(.|)SGP30\(/gi,
     "multichannel": /(.|)GAS\(/gi,
@@ -238,11 +274,12 @@ Simulator.Mosaic.groveRegex = {
     "sht31-hum": /(.|)SHT31\(/gi,
     "th02-temp": /(.|)TH02\(/gi,
     "th02-hum": /(.|)TH02\(/gi,
-    // Pins on module - inputs
-    "gps": /(machine.|)Pin\(([0-9]{1,2}),( |)(mode=|)(machine.|)Pin.IN, id="gps"/gi,
-    // Pins on module - outputs
-    "openlog": /Lecteur SD TX on p([0-9]{1,2})/gi,
     "RGBLed": /CHAINABLE_LED_COUNT_((A|D|)[0-9]{1,2})( |)=/gi,
+    "openlog": /Lecteur SD on UART( |)(1|2)/gi,
+    "hc05": /Bluetooth HC05 on UART( |)(1|2)/gi,
+    "hm10": /Bluetooth HM10 on UART( |)(1|2)/gi,
+    "groveBT": /Grove Serial Bluetooth on UART( |)(1|2)/gi,
+    "gps": /GPS on UART( |)(1|2)/gi,
 };
 
 Simulator.Mosaic.specific = {
@@ -265,13 +302,29 @@ Simulator.Mosaic.specific = {
     setLed: function (state) {
         const board = document.getElementById("board-viewer").contentDocument;
         if (board !== null) {
-            const led = (Simulator.board.name.includes('Wemos') ? board.querySelector("#LED_P2 .cls-11") : board.querySelector("#led_l_on .cls-36"));
+            let led;
+            switch (Simulator.board.id) {
+                default:
+                case BOARD_VITTA_ESP32:
+                    if (VittaInterface.shieldView) {
+                        led = board.querySelector("#led #led_on");
+                    } else {
+                        led = board.querySelector("#led_l_1 #led_l_on");
+                    }
+                    break;
+                case BOARD_WEMOS_D1R32:
+                    if (VittaInterface.shieldView) {
+                        led = board.querySelector("#led #led_on");
+                    } else {
+                        led = board.querySelector("#LED_P2 #led_on");
+                    }
+                    break;
+            }
             if (led !== null) {
                 if (state) {
-                    led.style.fill = "red";
-                    led.style.filter = "blur(6px)";
+                    led.style.display = "block";
                 } else {
-                    led.style.fill = "";
+                    led.style.display = "none";
                 }
             }
         }
@@ -302,7 +355,7 @@ Simulator.Mosaic.specific = {
                 value: 0
             });
 
-
+        // Ilo sliders
         $('#ilo-distanceLeft_slider,' +
             '#ilo-distanceRight_slider,' +
             '#ilo-distanceFront_slider,' +
@@ -327,6 +380,45 @@ Simulator.Mosaic.specific = {
                 max: 255,
                 value: 0
             });
+
+        // Alvik sliders
+        $('#alvik-ColorSensor_slider_r,' +
+            '#alvik-ColorSensor_slider_g,' +
+            '#alvik-ColorSensor_slider_b').slider({
+                min: 0,
+                max: 255,
+                value: 0
+            });
+
+        $('#alvik-distanceLeft_slider,' +
+            '#alvik-distanceCenterLeft_slider,' +
+            '#alvik-distanceCenter_slider,' +
+            '#alvik-distanceCenterRight_slider,' +
+            '#alvik-distanceRight_slider').slider({
+                min: 50,
+                max: 8200,
+                value: 500
+            });
+
+        $('#alvik-finderRight_slider_v,' +
+            '#alvik-finderLeft_slider_v,' +
+            '#alvik-finderMiddle_slider_v').slider({
+                min: 0,
+                max: 1,
+                value: 0
+            });
+
+        $('#alvik-touchLeft_slider,' +
+            '#alvik-touchRight_slider,' +
+            '#alvik-touchCenter_slider,' +
+            '#alvik-touchUp_slider,' +
+            '#alvik-touchDown_slider,' +
+            '#alvik-touchOk_slider,' +
+            '#alvik-touchCancel_slider').slider({
+                min: 0,
+                max: 1,
+                value: 0
+            });
     },
 
     calculs: {
@@ -340,6 +432,19 @@ Simulator.Mosaic.specific = {
             } else if (duty < (90 - GAP)) {
                 return - ((duty + GAP) / 90 - 1) * 100;
             }
+        },
+        convertToRPM(speed, unit) {
+            const conversions = {
+                'deg/s': speed * (60 / 360),        // °/s → RPM
+                'rad/s': speed * (60 / (2 * Math.PI)), // rad/s → RPM
+                'tours/s': speed * 60,            // tours/s → RPM
+                'rpm': speed                      // déjà en RPM
+            };
+            if (conversions.hasOwnProperty(unit)) {
+                return Math.round(conversions[unit] * 10) / 10;
+            } else {
+                throw new Error('Unité non supportée. Utilisez : °/s, rad/s, tours/s ou rpm');
+            }
         }
     },
 
@@ -349,7 +454,7 @@ Simulator.Mosaic.specific = {
             regex: /Builtin LED on p2/,
             id: "esp32-builtin-led",
             title: "LED intégrée",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             pins: 'digital',
             builtin: 'ESP32',
             type: 'output',
@@ -357,6 +462,11 @@ Simulator.Mosaic.specific = {
             picture: "LED.png",
             pictureAnimation: "LED-animation.png",
             animate: function (Animator) {
+                if (Simulator.board.id == BOARD_WEMOS_D1R32) {
+                    $("#esp32-builtin-led").css('filter', "hue-rotate(210deg)");
+                } else {
+                    $("#esp32-builtin-led").css('filter', "");
+                }
                 Animator.led();
                 Simulator.Mosaic.specific.setLed(Animator.value);
             }
@@ -414,14 +524,43 @@ Simulator.Mosaic.specific = {
             }
         },
         {
-            regex: /Pin\(([0-9]{1,2}),( |)(mode=|)Pin.IN, id="bluetooth"/gi,
-            id: "bluetooth",
-            title: "Bluetooth",
-            pin: 'UART',
-            codeFlag: 'Bluetooth',
+            id: "hc05",
+            title: "HC05 (BT)",
+            pin: 'pin n°',
+            pins: 'digital',
+            codeFlag: 'Bluetooth HC05',
             type: 'output',
-            value: "",
-            picture: ""
+            value: null,
+            picture: "bluetooth.svg",
+            animate: function (Animator) {
+				Animator.bluetooth();
+			}
+        },
+        {
+            id: "hm10",
+            title: "HM10 (BT)",
+            pin: 'pin n°',
+            pins: 'digital',
+            codeFlag: 'Bluetooth HM10',
+            type: 'output',
+            value: null,
+            picture: "bluetooth.svg",
+            animate: function (Animator) {
+				Animator.bluetooth();
+			}
+        },
+        {
+            id: "groveBT",
+            title: "Grove Serial Bluetooth",
+            pin: 'pin n°',
+            pins: 'digital',
+            codeFlag: 'Grove Serial Bluetooth',
+            type: 'output',
+            value: null,
+            picture: "bluetooth.svg",
+            animate: function (Animator) {
+				Animator.bluetooth();
+			}
         },
         {
             regex: /ilo\.(step|move|drive_single_motor_speed_front_left)\(/gi,
@@ -578,7 +717,7 @@ Simulator.Mosaic.specific = {
             }
         },
         {
-            regex: /ilo\.get_line_middle\(\)/gi,
+            regex: /ilo\.get_line_center\(\)/gi,
             id: "ilo-finderMiddle",
             title: "Capteur de ligne noire central",
             pin: 'Ilo robot',
@@ -601,6 +740,418 @@ Simulator.Mosaic.specific = {
             id: "ilo-ColorSensor",
             title: "Capteur de couleurs : ",
             pin: "Ilo robot",
+            type: 'input',
+            codeFlag: 'Color Sensor',
+            listeners: [{
+                suffix: "_r",
+                default: 255,
+                unit: '',
+                color: "#dc3545",
+                title: "R"
+            }, {
+                suffix: "_g",
+                default: 0,
+                unit: '',
+                color: "#22b573",
+                title: "G"
+            }, {
+                suffix: "_b",
+                default: 0,
+                unit: '',
+                color: "#3fa9f5",
+                title: "B"
+            }
+            ],
+            class: 'RGB-circle',
+            pictureAnimation: "Transparent.png",
+            animate: function (Animator) {
+                const r = $(Animator.sliderId.replace(/_(g|b)/, '_r')).slider('option', 'value');
+                const g = $(Animator.sliderId.replace(/_(b|r)/, '_g')).slider('option', 'value');
+                const b = $(Animator.sliderId.replace(/_(r|g)/, '_b')).slider('option', 'value');
+                $(Animator.animId).css('background-color', `rgb(${r}, ${g}, ${b})`);
+                $(Animator.valueId).html(Animator.value);
+            }
+        },
+        // Nano-ESP32
+        {
+            regex: /Builtin LED on p48/,
+            id: "nano-esp32-builtin-led",
+            title: "LED intégrée",
+            pin: 'pin n°',
+            pins: 'digital',
+            builtin: 'NANO ESP32',
+            type: 'output',
+            value: 0,
+            picture: "LED.png",
+            pictureAnimation: "LED-animation.png",
+            animate: function (Animator) {
+                Animator.led();
+                Simulator.Mosaic.specific.setLed(Animator.value);
+            }
+        },
+        // Alvik
+        {
+            regex: /alvik\.set_builtin_led/,
+            id: "alvik-builtin-led",
+            title: "LED intégrée",
+            pin: 'Alvik',
+            type: 'output',
+            value: 0,
+            picture: "LED.png",
+            pictureAnimation: "LED-animation.png",
+            animate: function (Animator) {
+                Animator.led();
+            }
+        },
+        {
+            regex: /alvik\.set_illuminator/,
+            id: "alvik-illuminator-led",
+            title: "LED capteur de couleur",
+            pin: 'Alvik',
+            type: 'output',
+            value: 0,
+            picture: "LED.png",
+            pictureAnimation: "LED-animation.png",
+            animate: function (Animator) {
+                Animator.led();
+            }
+        },
+        {
+            regex: /alvik\.(move|set_wheels_speed|rotate|set_wheels_position|drive|stop|break|get_wheels_speed|get_wheels_position|get_drive_speed)\(/gi,
+            id: "alvik-motorLeft",
+            title: "Moteur Gauche",
+            pin: 'Alvik',
+            type: 'output',
+            value: "",
+            picture: "Roue.png",
+            pictureAnimation: "Roue-animation.png"
+        },
+        {
+            regex: /alvik\.(move|set_wheels_speed|rotate|set_wheels_position|drive|stop|break|get_wheels_speed|get_wheels_position|get_drive_speed)\(/gi,
+            id: "alvik-motorRight",
+            title: "Moteur Droit",
+            pin: 'Alvik',
+            type: 'output',
+            value: "",
+            picture: "Roue.png",
+            pictureAnimation: "Roue-animation.png"
+        },
+        {
+            id: "alvik-distanceLeft",
+            regex: /alvik\.get_distance\(.*\)\[0\]/gi,
+            title: "ToF - Gauche (45°)",
+            pin: 'I2C',
+            type: 'input',
+            listeners: [{
+                default: 500,
+                unit: 'mm',
+                color: "#f9d142 ",
+                suffix: "",
+                title: ""
+            }],
+            class: 'ultrasonic',
+            picture: "Ultrason.png",
+            pictureAnimation: "Ultrason-animation.png",
+            animate: function (Animator) {
+                Animator.opacity(30, 1000);
+            }
+        },
+        {
+            id: "alvik-distanceCenterLeft",
+            regex: /alvik\.get_distance\(.*\)\[1\]/gi,
+            title: "ToF - Centre Gauche (22°)",
+            pin: 'I2C',
+            type: 'input',
+            listeners: [{
+                default: 500,
+                unit: 'mm',
+                color: "#f9d142 ",
+                suffix: "",
+                title: ""
+            }],
+            class: 'ultrasonic',
+            picture: "Ultrason.png",
+            pictureAnimation: "Ultrason-animation.png",
+            animate: function (Animator) {
+                Animator.opacity(30, 1000);
+            }
+        },
+        {
+            id: "alvik-distanceCenter",
+            regex: /alvik\.get_distance\(.*\)\[2\]/gi,
+            title: "ToF - Centre (0°)",
+            pin: 'I2C',
+            type: 'input',
+            listeners: [{
+                default: 500,
+                unit: 'mm',
+                color: "#f9d142 ",
+                suffix: "",
+                title: ""
+            }],
+            class: 'ultrasonic',
+            picture: "Ultrason.png",
+            pictureAnimation: "Ultrason-animation.png",
+            animate: function (Animator) {
+                Animator.opacity(30, 1000);
+            }
+        },
+        {
+            id: "alvik-distanceCenterRight",
+            regex: /alvik\.get_distance\(.*\)\[3\]/gi,
+            title: "ToF - Centre Droit (22°)",
+            pin: 'I2C',
+            type: 'input',
+            listeners: [{
+                default: 500,
+                unit: 'mm',
+                color: "#f9d142 ",
+                suffix: "",
+                title: ""
+            }],
+            class: 'ultrasonic',
+            picture: "Ultrason.png",
+            pictureAnimation: "Ultrason-animation.png",
+            animate: function (Animator) {
+                Animator.opacity(30, 1000);
+            }
+        },
+        {
+            id: "alvik-distanceRight",
+            regex: /alvik\.get_distance\(.*\)\[4\]/gi,
+            title: "ToF - Droit (45°)",
+            pin: 'I2C',
+            type: 'input',
+            listeners: [{
+                default: 500,
+                unit: 'mm',
+                color: "#f9d142 ",
+                suffix: "",
+                title: ""
+            }],
+            class: 'ultrasonic',
+            picture: "Ultrason.png",
+            pictureAnimation: "Ultrason-animation.png",
+            animate: function (Animator) {
+                Animator.opacity(30, 1000);
+            }
+        },
+        {
+            regex: /alvik\.get_line_sensors\(\)\[0\]/gi,
+            id: "alvik-finderLeft",
+            title: "Capteur de ligne noire - gauche",
+            pin: 'Alvik',
+            type: 'input',
+            class: 'finder',
+            listeners: [{
+                default: 'OFF',
+                unit: '',
+                color: "#f9d142",
+                suffix: "_v"
+            }],
+            picture: "Capteur-ligne-line.png",
+            pictureAnimation: "Capteur-ligne-anim.png",
+            animate: function (Animator) {
+                Animator.translation('digital');
+            }
+        },
+        {
+            regex: /alvik\.get_line_sensors\(\)\[1\]/gi,
+            id: "alvik-finderCenter",
+            title: "Capteur de ligne noire - central",
+            pin: 'Alvik',
+            type: 'input',
+            class: 'finder',
+            listeners: [{
+                default: 'OFF',
+                unit: '',
+                color: "#f9d142",
+                suffix: "_v"
+            }],
+            picture: "Capteur-ligne-line.png",
+            pictureAnimation: "Capteur-ligne-anim.png",
+            animate: function (Animator) {
+                Animator.translation('digital');
+            }
+        },
+        {
+            regex: /alvik\.get_line_sensors\(\)\[2\]/gi,
+            id: "alvik-finderRight",
+            title: "Capteur de ligne noire - droit",
+            pin: 'Alvik',
+            type: 'input',
+            class: 'finder',
+            listeners: [{
+                default: 'OFF',
+                unit: '',
+                color: "#f9d142",
+                suffix: "_v"
+            }],
+            picture: "Capteur-ligne-line.png",
+            pictureAnimation: "Capteur-ligne-anim.png",
+            animate: function (Animator) {
+                Animator.translation('digital');
+            }
+        },
+        {
+            regex: /alvik\.set_servo_positions/gi,
+            id: "alvik-servoA",
+            title: "Servomoteur A",
+            pin: 'Alvik',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: null,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                let angle = Animator.value;
+                $(Animator.valueId).html(Math.round(angle) + " °");
+                $(Animator.animId).css("transform", "rotate(" + angle + "deg)");
+            }
+        },
+        {
+            regex: /alvik\.set_servo_positions/gi,
+            id: "alvik-servoB",
+            title: "Servomoteur B",
+            pin: 'Alvik',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: null,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                let angle = Animator.value;
+                $(Animator.valueId).html(Math.round(angle) + " °");
+                $(Animator.animId).css("transform", "rotate(" + angle + "deg)");
+            }
+        },
+        {
+            regex: /alvik\.get_touch_(up|any)/gi,
+            id: "alvik-touchUp",
+            title: "Bouton Tactile Haut",
+            pin: 'Alvik',
+            type: 'input',
+            listeners: [{
+                default: "OFF",
+                unit: '',
+                color: "#f9d142 ",
+                suffix: ""
+            }],
+            class: "button",
+            picture: "Bouton.png",
+            pictureAnimation: "Bouton-animation.png",
+            pictureInteraction: "buttonPush",
+            animate: function (Animator) {
+                Animator.button();
+            }
+        },
+        {
+            regex: /alvik\.get_touch_(down|any)/gi,
+            id: "alvik-touchDown",
+            title: "Bouton Tactile Bas",
+            pin: 'Alvik',
+            type: 'input',
+            listeners: [{
+                default: "OFF",
+                unit: '',
+                color: "#f9d142 ",
+                suffix: ""
+            }],
+            class: "button",
+            picture: "Bouton.png",
+            pictureAnimation: "Bouton-animation.png",
+            pictureInteraction: "buttonPush",
+            animate: function (Animator) {
+                Animator.button();
+            }
+        },
+        {
+            regex: /alvik\.get_touch_(left|any)/gi,
+            id: "alvik-touchLeft",
+            title: "Bouton Tactile Gauche",
+            pin: 'Alvik',
+            type: 'input',
+            listeners: [{
+                default: "OFF",
+                unit: '',
+                color: "#f9d142 ",
+                suffix: ""
+            }],
+            class: "button",
+            picture: "Bouton.png",
+            pictureAnimation: "Bouton-animation.png",
+            pictureInteraction: "buttonPush",
+            animate: function (Animator) {
+                Animator.button();
+            }
+        },
+        {
+            regex: /alvik\.get_touch_(right|any)/gi,
+            id: "alvik-touchRight",
+            title: "Bouton Tactile Droit",
+            pin: 'Alvik',
+            type: 'input',
+            listeners: [{
+                default: "OFF",
+                unit: '',
+                color: "#f9d142 ",
+                suffix: ""
+            }],
+            class: "button",
+            picture: "Bouton.png",
+            pictureAnimation: "Bouton-animation.png",
+            pictureInteraction: "buttonPush",
+            animate: function (Animator) {
+                Animator.button();
+            }
+        },
+        {
+            regex: /alvik\.get_touch_(ok|any)/gi,
+            id: "alvik-touchOk",
+            title: "Bouton Tactile Ok",
+            pin: 'Alvik',
+            type: 'input',
+            listeners: [{
+                default: "OFF",
+                unit: '',
+                color: "#f9d142 ",
+                suffix: ""
+            }],
+            class: "button",
+            picture: "Bouton.png",
+            pictureAnimation: "Bouton-animation.png",
+            pictureInteraction: "buttonPush",
+            animate: function (Animator) {
+                Animator.button();
+            }
+        },
+        {
+            regex: /alvik\.get_touch_(cancel|any)/gi,
+            id: "alvik-touchCancel",
+            title: "Bouton Tactile Annuler",
+            pin: 'Alvik',
+            type: 'input',
+            listeners: [{
+                default: "OFF",
+                unit: '',
+                color: "#f9d142 ",
+                suffix: ""
+            }],
+            class: "button",
+            picture: "Bouton.png",
+            pictureAnimation: "Bouton-animation.png",
+            pictureInteraction: "buttonPush",
+            animate: function (Animator) {
+                Animator.button();
+            }
+        },
+        {
+            regex: /alvik\.get_color/gi,
+            id: "alvik-ColorSensor",
+            title: "Capteur de couleurs : ",
+            pin: "Alvik",
             type: 'input',
             codeFlag: 'Color Sensor',
             listeners: [{

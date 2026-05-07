@@ -2,6 +2,78 @@
  * @fileoverview Communication generators for Esp32.
  */
 
+// Serial connection
+
+Blockly.Python.communication_serialWrite = function (block) {
+    const text = Blockly.Python.valueToCode(block, "TEXT", Blockly.Python.ORDER_NONE) || "\"\"";
+    let newlines = block.getFieldValue("NEWLINES");
+    if (newlines !== null) newlines = parseInt(newlines);
+    if (newlines === 0 || newlines === null || newlines === undefined) {
+        if (Blockly.Constants.Utils.isInputTextBlock(block, "TEXT")) {
+            return "print(" + text + ")" + NEWLINE;
+        } else {
+            return "print(str(" + text + "))" + NEWLINE;
+        }
+    } else {
+        if (Blockly.Constants.Utils.isInputTextBlock(block, "TEXT")) {
+            return "print(" + text + " + \"" + "\\n".repeat(newlines) + "\")" + NEWLINE;
+        } else {
+            return "print(str(" + text + ") + \"" + "\\n".repeat(newlines) + "\")" + NEWLINE;
+        }
+    }
+};
+
+Blockly.Python.communication_graphSerialWrite = function (block) {
+    var c = [];
+    let code = "print('@Graph:";
+    for (var d = 1; d < block.itemCount_ + 1; d++) {
+        c = Blockly.Python.valueToCode(block, "ADD" + (d - 1), Blockly.Python.ORDER_NONE);
+        if (c[c.length - 1] === '|') {
+            c = c.substr(0, c.length - 1);
+            let data = c.split(':');
+            code += data[0] + ":' + str(" + data[1] + ") + '|";
+        }
+    }
+    code += "')" + NEWLINE + "utime.sleep_ms(50)" + NEWLINE;
+    Blockly.Python.addImport('utime', IMPORT_UTIME);
+    return code;
+};
+
+Blockly.Python.communication_graphSerialWrite_datasFormat = function (block) {
+    var name = block.getFieldValue("NAME");
+    var data = Blockly.Python.valueToCode(block, "DATA", Blockly.Python.ORDER_ATOMIC);
+    if (name == "") name = '""';
+    if (!isNaN(data)) {
+        data = data.toString();
+    }
+    let syntax = name + ":" + data + "|";
+    return [syntax.toString(), Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.communication_onSerialMessageReceived = function (block) {
+    const branchCode = Blockly.Python.statementToCode(block, "DO") || Blockly.Python.PASS;
+    const dataVar = Blockly.Python.nameDB_.getName(block.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME);
+    Blockly.Python.addImport('sys', IMPORT_SYS);
+    Blockly.Python.addImport('uselect', IMPORT_USELECT);
+    Blockly.Python.addFunction('serial_readMessage', FUNCTIONS_ESP32.DEF_SERIAL_READMESSAGE);
+    Blockly.Python.addInit('poll', "poll = uselect.poll()" + NEWLINE + "poll.register(sys.stdin, uselect.POLLIN)");
+    return "if poll.poll(0):" + NEWLINE + "  " + dataVar + " = serial_readMessage()" + NEWLINE + branchCode;
+};
+
+Blockly.Python.communication_playComputerMusic = function (block) {
+    let note = block.getFieldValue("NOTE");
+    return "print('@music:" + note + "|')" + NEWLINE;
+};
+
+Blockly.Python.communication_playComputerFrequency = function (block) {
+    let frequency = Blockly.Python.valueToCode(block, "FREQUENCY", Blockly.Python.ORDER_ATOMIC);
+    return "print('@music:' + str(" + frequency + ") + '|')" + NEWLINE;
+};
+
+Blockly.Python.communication_stopComputerMusic = function () {
+    return "print('@music:stop|')" + NEWLINE;
+};
+
 // Internal Bluetooth
 
 Blockly.Python.communication_StartBT = function (block) {
@@ -41,7 +113,7 @@ Blockly.Python.communication_FizziqBT = function (block) {
     Blockly.Python.addInit('UUID-UART', "UUID_UART = '6E400001-B5A3-F393-E0A9-E50E24DCCA9E'");
     Blockly.Python.addInit('UUID-TX', "UUID_TX = '6E400002-B5A3-F393-E0A9-E50E24DCCA9E'");
     Blockly.Python.addInit('UUID-RX', "UUID_RX = '6E400003-B5A3-F393-E0A9-E50E24DCCA9E'"); //TX AND RX ARE INVERTED 
-    Blockly.Python.addInit('fizziq_init', "uart = BlueUart('ESP32_Fizziq', UUID_UART, UUID_TX, UUID_RX)");
+    Blockly.Python.addInit('fizziq_init', "uart = BlueUart('ESP32_Vittascience', UUID_UART, UUID_TX, UUID_RX)");
     const value = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || "''";
     let dataToSend;
     let measure;
@@ -95,68 +167,6 @@ Blockly.Python.communication_FizziqBT = function (block) {
         + "  print('ESP32 not connected to any device')" + NEWLINE;
 };
 
-// Serial connection
-
-Blockly.Python.communication_serialWrite = function (block) {
-    const text = Blockly.Python.valueToCode(block, "TEXT", Blockly.Python.ORDER_NONE) || "\"\"";
-    let newlines = block.getFieldValue("NEWLINES");
-    if (newlines !== null) newlines = parseInt(newlines);
-    if (newlines === 0 || newlines === null || newlines === undefined) {
-        if (Blockly.Constants.Utils.isInputTextBlock(block, "TEXT")) {
-            return "print(" + text + ")" + NEWLINE;
-        } else {
-            return "print(str(" + text + "))" + NEWLINE;
-        }
-    } else {
-        if (Blockly.Constants.Utils.isInputTextBlock(block, "TEXT")) {
-            return "print(" + text + " + \"" + "\\n".repeat(newlines) + "\")" + NEWLINE;
-        } else {
-            return "print(str(" + text + ") + \"" + "\\n".repeat(newlines) + "\")" + NEWLINE;
-        }
-    }
-};
-
-Blockly.Python.communication_graphSerialWrite = function (block) {
-    var c = [];
-    let code = "print('@Graph:";
-    for (var d = 1; d < block.itemCount_ + 1; d++) {
-        c = Blockly.Python.valueToCode(block, "ADD" + (d - 1), Blockly.Python.ORDER_NONE);
-        if (c[c.length - 1] === '|') {
-            c = c.substr(0, c.length - 1);
-            let data = c.split(':');
-            code += data[0] + ":' + str(" + data[1] + ") + '|";
-        }
-    }
-    code += "')" + NEWLINE + "utime.sleep_ms(50)" + NEWLINE;
-    Blockly.Python.addImport('utime', IMPORT_UTIME);
-    return code;
-};
-
-Blockly.Python.communication_graphSerialWrite_datasFormat = function (block) {
-    var name = block.getFieldValue("NAME");
-    var data = Blockly.Python.valueToCode(block, "DATA", Blockly.Python.ORDER_ATOMIC);
-    if (name == "") name = '""';
-    if (!isNaN(data)) {
-        data = data.toString();
-    }
-    let syntax = name + ":" + data + "|";
-    return [syntax.toString(), Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python.communication_playComputerMusic = function (block) {
-    let note = block.getFieldValue("NOTE");
-    return "print('@music:" + note + "|')" + NEWLINE;
-};
-
-Blockly.Python.communication_playComputerFrequency = function (block) {
-    let frequency = Blockly.Python.valueToCode(block, "FREQUENCY", Blockly.Python.ORDER_ATOMIC);
-    return "print('@music:' + str(" + frequency + ") + '|')" + NEWLINE;
-};
-
-Blockly.Python.communication_stopComputerMusic = function () {
-    return "print('@music:stop|')" + NEWLINE;
-};
-
 // Data logging
 
 Blockly.Python.communication_writeOpenLogSd = function (block) {
@@ -165,15 +175,13 @@ Blockly.Python.communication_writeOpenLogSd = function (block) {
     const baudrate = block.getFieldValue("BAUD");
     const pinTX_Number = pinTX.replace('p', '');
     const pinRX_Number = pinRX.replace('p', '');
-    const uartName = "openlog_" + pinTX_Number;
     const data = Blockly.Python.valueToCode(block, "DATA", Blockly.Python.ORDER_NONE) || "''";
-    Blockly.Python.addInit('openlog_' + pinTX_Number, '# Lecteur SD TX on ' + pinTX);
-    Blockly.Python.addInit('openlog_' + pinRX_Number, '# Lecteur SD RX on ' + pinRX);
-    Blockly.Python.addInit('openlog_uart_' + pinTX.replace('p', ''), uartName + " = UART(1, baudrate=" + baudrate + ", tx=" + pinTX_Number + ", rx=" + pinRX_Number + ")");
+    Blockly.Python.addInit('Lecteur SD', '# Lecteur SD on UART1');
+    Blockly.Python.addInit('uart_1', "uart_1 = UART(1, baudrate=" + baudrate + ", tx=" + pinTX_Number + ", rx=" + pinRX_Number + ")");
     if (Blockly.Constants.Utils.isInputTextBlock(block, "DATA")) {
-        return uartName + ".write(" + data + " + '\\n')" + NEWLINE;
+        return "uart_1.write(" + data + " + '\\n')" + NEWLINE;
     } else {
-        return uartName + ".write(str(" + data + ") + '\\n')" + NEWLINE;
+        return "uart_1.write(str(" + data + ") + '\\n')" + NEWLINE;
     }
 };
 
@@ -184,33 +192,34 @@ Blockly.Python.communication_esp32_FS_saveData = function (block) {
     if (block.getInput("EXTENSION") && extension) {
         extension = ", extension = " + extension;
     }
+    Blockly.Python.addImport('os', IMPORT_OS);
     Blockly.Python.addFunction('SDCard_writeFile', FUNCTIONS_ESP32.DEF_SD_CARD_WRITE_FILE);
     return "SDCard_writeFile(" + data + ", filename = " + filename + extension + ")" + NEWLINE;
 };
 
-// Bluetooth
+// External Bluetooth
 
-Blockly.Python.communication_sendBluetoothData = function (block) {
+Blockly.Python.communication_hc05_sendBluetoothData = function (block) {
     const data = Blockly.Python.valueToCode(block, "DATA", Blockly.Python.ORDER_NONE) || "''";
+    const pinTX = block.getFieldValue("TX");
+    const pinRX = block.getFieldValue("RX");
+    Blockly.Python.addInit('Bluetooth HC05', '# Bluetooth HC05 on UART1');
+    Blockly.Python.addInit('uart_1', "uart_1 = UART(1, baudrate=9600,  tx=" + pinRX.replace('p', '') + ", rx=" + pinTX.replace('p', '') + ")");
     if (Blockly.Constants.Utils.isInputTextBlock(block, "DATA")) {
-        Blockly.Python.addInit('uart_1', "uart_1 = UART(1, baudrate=9600,  tx=" + block.getFieldValue("RX").replace('p', '') + ", rx=" + block.getFieldValue("TX").replace('p', '') + ")");
         return "uart_1.write(" + data + ")" + NEWLINE;
     } else {
-        Blockly.Python.addInit('uart_1', "uart_1 = UART(1, baudrate=9600,  tx=" + block.getFieldValue("RX").replace('p', '') + ", rx=" + block.getFieldValue("TX").replace('p', '') + ")");
         return "uart_1.write(str(" + data + "))" + NEWLINE;
     }
 };
 
-Blockly.Python.communication_onBluetoothDataReceived = function (block) {
+Blockly.Python.communication_hc05_onBluetoothDataReceived = function (block) {
     const branchCode = Blockly.Python.statementToCode(block, "DO") || Blockly.Python.PASS;
     const dataVar = Blockly.Python.nameDB_.getName(block.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME);
     const pinTX = block.getFieldValue("TX");
     const pinRX = block.getFieldValue("RX");
-    const pinTX_Number = pinTX.replace('p', '');
-    const pinRX_Number = pinRX.replace('p', '');
-    const uartName = "openlog_" + pinTX_Number;
-    Blockly.Python.addInit('uart_1', "uart_1 = UART(1, baudrate=9600,  tx=" + pinRX_Number + ", rx=" + pinTX_Number + ")");
-    return "if " + uartName + ".any():" + NEWLINE + "  " + dataVar + " = " + uartName + ".read()" + NEWLINE + branchCode;
+    Blockly.Python.addInit('Bluetooth HC05', '# Bluetooth HC05 on UART1');
+    Blockly.Python.addInit('uart_1', "uart_1 = UART(1, baudrate=9600,  tx=" + pinRX.replace('p', '') + ", rx=" + pinTX.replace('p', '') + ")");
+    return "if uart_1.any():" + NEWLINE + "  " + dataVar + " = uart_1.read()" + NEWLINE + branchCode;
 };
 
 // IR Receiver
@@ -233,50 +242,74 @@ Blockly.Python.communication_onInfraredDataReceived = function (block) {
 
 // Tracking modules
 
-Blockly.Python.communication_gps_getNMEA = function (block) {
-    Blockly.Python.addInit('gpsInfos', "gpsInfos = {}");
-    Blockly.Python.addInit('gpsInfos[\'nmea\']', "gpsInfos['nmea'] = None");
+Blockly.Python.communication_rfid_getCardID = function (block) {
+    const pinTX = block.getFieldValue("TX");
+    const pinRX = block.getFieldValue("RX");
+    Blockly.Python.addImport('utime', IMPORT_UTIME);
+    Blockly.Python.addInit('RFID-125kHZ', "# RFID-125kHZ on UART 2");
+    Blockly.Python.addInit('uart_2', 'uart_2 = UART(2, baudrate=9600, tx=' + pinRX.replace('p', '') + ', rx=' + pinTX.replace('p', '') + ')');
+    Blockly.Python.addFunction('rfid_readTagUID', FUNCTIONS_ESP32.DEF_RFID_READ_TAG_UID);
+    return ["rfid_readTagUID(uart_2)", Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.communication_rfid_convertData = function (block) {
+    const data = Blockly.Python.valueToCode(block, "DATA", Blockly.Python.ORDER_NONE) || "None";
+    const dataType = block.getFieldValue("TYPE");
+    switch (dataType) {
+        case "INT":
+            return ["int(" + data + ", 16)", Blockly.Python.ORDER_ATOMIC];
+        case "HEX":
+            return [data + ".decode().lower()", Blockly.Python.ORDER_ATOMIC];
+        default:
+        case "LIST":
+            return ["list(" + data + ")", Blockly.Python.ORDER_ATOMIC];
+    }
+};
+
+Blockly.Python.COMMUNICATION_INIT_GPS = function (block) {
+    Blockly.Python.addImport('utime', IMPORT_UTIME);
+    Blockly.Python.addInit('GPS-uart_2', "# GPS on UART 2");
     block.workspace.createVariable('gpsInfos');
-    Blockly.Python.addInit('gpsBuffer', "gpsBuffer = \"\"");
-    block.workspace.createVariable('gpsBuffer');
-    Blockly.Python.addInit('gpsInfos', "GPS on pin ");
-    Blockly.Python.addInit('uart_2', 'uart_2 = UART(2, baudrate=9600, tx=' + block.getFieldValue("RX").replace('p', '') + ', rx=' + block.getFieldValue("TX").replace('p', '') + ')');
+    Blockly.Python.addInit('gpsInfos', "gpsInfos = {\n  'nmea': None,\n  'buffer': ''\n}");
     Blockly.Python.addFunction('gps_readNMEA', FUNCTIONS_ESP32.DEF_GPS_READ_NMEA);
-    return ["gps_readNMEA(uart_2, True)", Blockly.Python.ORDER_ATOMIC];
+    const pinTX = block.getFieldValue("TX").replace('p', '');
+    const pinRX = block.getFieldValue("RX").replace('p', '');
+    Blockly.Python.addInit('uart_2', 'uart_2 = UART(2, baudrate=9600, tx=' + pinRX + ', rx=' + pinTX + ')');
+    return 'uart_2';
+};
+
+Blockly.Python.communication_gps_getNMEA = function (block) {
+    const uartName = Blockly.Python.COMMUNICATION_INIT_GPS(block);
+    return [`gps_readNMEA(${uartName}, True)`, Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.communication_gps_getGGAInformations = function (block) {
+    const uartName = Blockly.Python.COMMUNICATION_INIT_GPS(block);
     const info = block.getFieldValue("INFO");
-    Blockly.Python.addInit('gps_module', "# GPS on UART 2");
-    Blockly.Python.addInit('gpsInfos', "gpsInfos = {}");
-    Blockly.Python.addInit('gpsInfos[\'nmea\']', "gpsInfos['nmea'] = None");
-    block.workspace.createVariable('gpsInfos');
-    Blockly.Python.addInit('gpsBuffer', "gpsBuffer = \"\"");
-    block.workspace.createVariable('gpsBuffer');
-    Blockly.Python.addFunction('gps_readNMEA', FUNCTIONS_ESP32.DEF_GPS_READ_NMEA);
     Blockly.Python.addFunction('gps_GGA_getInformation', FUNCTIONS_ESP32.DEF_GPS_GET_GGA_INFORMATIONS);
-    Blockly.Python.addInit('uart_2', 'uart_2 = UART(2, baudrate=9600, tx=' + block.getFieldValue("RX").replace('p', '') + ', rx=' + block.getFieldValue("TX").replace('p', '') + ')');
-    return ["gps_GGA_getInformation(uart_2, '" + info + "')", Blockly.Python.ORDER_ATOMIC];
+    return [`gps_GGA_getInformation(${uartName}, '${info}')`, Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.communication_clockRTC_setDate = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     const date = block.getFieldValue("DATE").split("-");
     const module = block.getFieldValue("MODULE");
     switch (module) {
         case "PCF85063TP":
             Blockly.Python.addImport('esp32_pcf85063tp', IMPORT_ESP32_PCF85063TP);
-            Blockly.Python.addInit('clock_rtc_hp', "clock_hp = RTC_HP(i2c=I2C(scl=Pin(22), sda=Pin(21)), addr=0x51)");
+            Blockly.Python.addInit('clock_rtc_hp', "clock_hp = RTC_HP(i2c=" + i2c + ", addr=0x51)");
             Blockly.Python.addPowerOn('clock_rtc_hp', "clock_hp.reset()");
             return "clock_hp.fillByYMD(" + parseInt(date[0]) + ", " + parseInt(date[1]) + ", " + parseInt(date[2]) + ")" + NEWLINE + "clock_hp.fillDayOfWeek('" + block.getFieldValue("DAY") + "')" + NEWLINE;
         case "DS1307":
             Blockly.Python.addImport('esp32_ds1307', IMPORT_ESP32_DS1307);
-            Blockly.Python.addInit('clock_rtc_v1', "clock_v1 = DS1307(i2c=I2C(scl=Pin(22), sda=Pin(21)), addr=0x68)");
+            Blockly.Python.addInit('clock_rtc_v1', "clock_v1 = DS1307(i2c=" + i2c + ", addr=0x68)");
             Blockly.Python.addPowerOn('clock_rtc_v1', "clock_v1.reset()");
             return "clock_v1.fillByYMD(" + parseInt(date[0]) + ", " + parseInt(date[1]) + ", " + parseInt(date[2]) + ")" + NEWLINE + "clock_v1.fillDayOfWeek('" + block.getFieldValue("DAY") + "')" + NEWLINE;
     }
 };
 
 Blockly.Python.communication_clockRTC_setHour = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     const hour = Blockly.Python.valueToCode(block, "HOUR", Blockly.Python.ORDER_ATOMIC);
     const minute = Blockly.Python.valueToCode(block, "MIN", Blockly.Python.ORDER_ATOMIC);
     const second = Blockly.Python.valueToCode(block, "SEC", Blockly.Python.ORDER_ATOMIC);
@@ -284,24 +317,25 @@ Blockly.Python.communication_clockRTC_setHour = function (block) {
     switch (module) {
         case "PCF85063TP":
             Blockly.Python.addImport('esp32_pcf85063tp', IMPORT_ESP32_PCF85063TP);
-            Blockly.Python.addInit('clock_rtc_hp', "clock_hp = RTC_HP(i2c=I2C(scl=Pin(22), sda=Pin(21)), addr=0x51)");
+            Blockly.Python.addInit('clock_rtc_hp', "clock_hp = RTC_HP(i2c=" + i2c + ", addr=0x51)");
             Blockly.Python.addPowerOn('clock_rtc_hp', "clock_hp.reset()");
             return "clock_hp.fillByHMS(" + hour + ", " + minute + ", " + second + ")" + NEWLINE;
         case "DS1307":
             Blockly.Python.addImport('esp32_ds1307', IMPORT_ESP32_DS1307);
-            Blockly.Python.addInit('clock_rtc_v1', "clock_v1 = DS1307(i2c=I2C(scl=Pin(22), sda=Pin(21)), addr=0x68)");
+            Blockly.Python.addInit('clock_rtc_v1', "clock_v1 = DS1307(i2c=" + i2c + ", addr=0x68)");
             Blockly.Python.addPowerOn('clock_rtc_v1', "clock_v1.reset()");
             return "clock_v1.fillByHMS(" + hour + ", " + minute + ", " + second + ")" + NEWLINE;
     }
 };
 
 Blockly.Python.communication_clockRTC_readTime = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     const module = block.getFieldValue("MODULE");
     const data = block.getFieldValue("DATA");
     switch (module) {
         case "PCF85063TP":
             Blockly.Python.addImport('esp32_pcf85063tp', IMPORT_ESP32_PCF85063TP);
-            Blockly.Python.addInit('clock_rtc_hp', "clock_hp = RTC_HP(i2c=I2C(scl=Pin(22), sda=Pin(21)), addr=0x51)");
+            Blockly.Python.addInit('clock_rtc_hp', "clock_hp = RTC_HP(i2c=" + i2c + ", addr=0x51)");
             Blockly.Python.addPowerOn('clock_rtc_hp', "clock_hp.reset()");
             if (data == "ALL") {
                 return ["clock_hp.readTime()", Blockly.Python.ORDER_ATOMIC];
@@ -310,7 +344,7 @@ Blockly.Python.communication_clockRTC_readTime = function (block) {
             }
         case "DS1307":
             Blockly.Python.addImport('esp32_ds1307', IMPORT_ESP32_DS1307);
-            Blockly.Python.addInit('clock_rtc_v1', "clock_v1 = DS1307(i2c=I2C(scl=Pin(22), sda=Pin(21)), addr=0x68)");
+            Blockly.Python.addInit('clock_rtc_v1', "clock_v1 = DS1307(i2c=" + i2c + ", addr=0x68)");
             Blockly.Python.addPowerOn('clock_rtc_v1', "clock_v1.reset()");
             if (data == "ALL") {
                 return ["clock_v1.readTime()", Blockly.Python.ORDER_ATOMIC];
@@ -318,6 +352,18 @@ Blockly.Python.communication_clockRTC_readTime = function (block) {
                 return ["clock_v1.readTime()[" + data + "]", Blockly.Python.ORDER_ATOMIC];
             }
     }
+};
+
+Blockly.Python.communication_mfrc522_getCardID = function (block) {
+    const spi = block.getFieldValue("SPI");
+    const pinCS = block.getFieldValue("NSS").replace('p', '');
+    Blockly.Python.addImport('esp32_mfrc522', IMPORT_ESP32_MFRC522);
+    Blockly.Python.addInit('RFID-MFRC522', "# RFID-MFRC522 on SPI " + spi);
+    const spiName = Blockly.Python.Generators.spi(spi);
+    const moduleName = 'rfid_rc522_' + spi;
+    Blockly.Python.addInit(moduleName, moduleName + " = MFRC522(" + spiName + ", cs = Pin(" + pinCS + "))");
+    Blockly.Python.addFunction('rc522_readTagUid', FUNCTIONS_ESP32.DEF_RC522_READ_TAG_UID);
+    return ["rc522_readTagUid(" + moduleName + ")", Blockly.Python.ORDER_ATOMIC];
 };
 
 // UART

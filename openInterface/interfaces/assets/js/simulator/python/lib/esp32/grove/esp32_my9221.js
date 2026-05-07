@@ -14,8 +14,6 @@ const $builtinmodule = function (name) {
             self.reverse = false;
             self.di = di.pin;
             self.dcki = dcki.pin;
-            const pins = Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()];
-            $("#ledBar_" + self.di).find(".subtitle-module").html(pins.find(p => p[1] == 'p' + self.di)[0] + ' / ' + pins.find(p => p[1] == 'p' + self.dcki)[0]);
             const htmlString = `
                 <div class="ledBar-container">
                     <div class="ledBar"></div>

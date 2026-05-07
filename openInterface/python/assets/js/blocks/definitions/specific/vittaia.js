@@ -9,7 +9,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_load_model",
         "message0": "%{BKY_VITTAIA_LOAD_MODEL_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image'),
+            Blockly.Constants.Utils.ADD_ICON('image'),
             {
                 "type": "input_value",
                 "name": "MODEL_URL",
@@ -29,7 +29,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_load_local_model",
         "message0": "%{BKY_VITTAIA_LOAD_LOCAL_MODEL_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image')
+            Blockly.Constants.Utils.ADD_ICON('image')
         ],
         "inputsInline": true,
         "previousStatement": null,
@@ -44,7 +44,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_load_model_default",
         "message0": "%{BKY_VITTAIA_LOAD_MODEL_DEFAULT_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image'),
+            Blockly.Constants.Utils.ADD_ICON('image'),
             {
                 "type": "field_grid_dropdown",
                 "name": "MODEL",
@@ -65,7 +65,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_make_predictions_webcam",
         "message0": "%{BKY_VITTAIA_MAKE_PREDICTIONS_WEBCAM_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image')
+            Blockly.Constants.Utils.ADD_ICON('image')
         ],
         "previousStatement": null,
         "nextStatement": null,
@@ -79,7 +79,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_make_predictions_file",
         "message0": "%{BKY_VITTAIA_MAKE_PREDICTIONS_FILE_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image')
+            Blockly.Constants.Utils.ADD_ICON('image')
         ],
         "inputsInline": true,
         "previousStatement": null,
@@ -97,7 +97,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_make_predictions_file_standalone",
         "message0": "%{BKY_VITTAIA_MAKE_PREDICTIONS_FILE_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image')
+            Blockly.Constants.Utils.ADD_ICON('image')
         ],
         "inputsInline": true,
         "output": "IA",
@@ -114,7 +114,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_get_highest_probability_class",
         "message0": "%{BKY_VITTAIA_GET_HIGHEST_PROBABILITY_CLASS_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image')
+            Blockly.Constants.Utils.ADD_ICON('image')
         ],
         "output": "String",
         "style": "vittaia_blocks",
@@ -127,7 +127,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_get_confidence_rate",
         "message0": "%{BKY_VITTAIA_GET_CONFIDENCE_RATE_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image')
+            Blockly.Constants.Utils.ADD_ICON('image')
         ],
         "output": "Number",
         "style": "vittaia_blocks",
@@ -140,7 +140,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_get_predictions",
         "message0": "%{BKY_VITTAIA_GET_PREDICTIONS_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image')
+            Blockly.Constants.Utils.ADD_ICON('image')
         ],
         "output": "Array",
         "style": "vittaia_blocks",
@@ -153,7 +153,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_detect_class",
         "message0": "%{BKY_VITTAIA_DETECT_CLASS_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image'), {
+            Blockly.Constants.Utils.ADD_ICON('image'), {
                 "type": "input_value",
                 "name": "MODEL_CLASS"
             },
@@ -183,7 +183,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_image_uploaded",
         "message0": "%{BKY_VITTAIA_IMAGE_UPLOADED_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image'),
+            Blockly.Constants.Utils.ADD_ICON('image'),
         ],
         "inputsInline": true,
         "output": "Array",
@@ -201,7 +201,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_webcam_capture",
         "message0": "%{BKY_VITTAIA_WEBCAM_CAPTURE_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image'),
+            Blockly.Constants.Utils.ADD_ICON('image'),
         ],
         "inputsInline": true,
         "output": "Array",
@@ -215,7 +215,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_list_webcams",
         "message0": "%{BKY_VITTAIA_WEBCAM_LIST_AVAILABLES_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image')
+            Blockly.Constants.Utils.ADD_ICON('image')
         ],
         "output": "Array",
         "style": "vittaia_blocks",
@@ -228,7 +228,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_init_webcam",
         "message0": "%{BKY_VITTAIA_WEBCAM_INIT_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image'),
+            Blockly.Constants.Utils.ADD_ICON('image'),
             {
                 "type": "input_value",
                 "name": "CAMERA",
@@ -249,7 +249,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_init_webcam_posture",
         "message0": "%{BKY_VITTAIA_INIT_WEBCAM}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('posture'),
+            Blockly.Constants.Utils.ADD_ICON('posture'),
         ],
         "output": "IA",
         "style": "vittaia_blocks",
@@ -259,7 +259,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_select_webcam_posture",
         "message0": "%{BKY_VITTAIA_SELECT_CAMERA}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('posture'),
+            Blockly.Constants.Utils.ADD_ICON('posture'),
             {
                 "type": "input_value",
                 "name": "ID",
@@ -275,7 +275,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_refresh_webcam_posture",
         "message0": "%{BKY_VITTAIA_DISPLAY_CAMERA}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('posture'),
+            Blockly.Constants.Utils.ADD_ICON('posture'),
         ],
         "style": "vittaia_blocks",
         "previousStatement": null,
@@ -293,7 +293,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_predict_webcam_posture",
         "message0": "%{BKY_VITTAIA_PREDICT}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('posture'),
+            Blockly.Constants.Utils.ADD_ICON('posture'),
             {
                 "type": "input_value",
                 "name": "MODEL_PRE",
@@ -308,7 +308,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_list_webcams_posture",
         "message0": "%{BKY_VITTAIA_WEBCAM_LIST_AVAILABLES_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('posture'),
+            Blockly.Constants.Utils.ADD_ICON('posture'),
         ],
         "output": "Array",
         "style": "vittaia_blocks",
@@ -322,7 +322,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_init_model_posture",
         "message0": "%{BKY_VITTAIA_INIT_MODEL_POSTURE_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('posture'),
+            Blockly.Constants.Utils.ADD_ICON('posture'),
         ],
         "output": "IA",
         "style": "vittaia_blocks",
@@ -333,7 +333,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_load_posture_model",
         "message0": "%{BKY_VITTAIA_LOAD_POSTURE_MODEL_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('posture'),
+            Blockly.Constants.Utils.ADD_ICON('posture'),
             {
                 "type": "input_value",
                 "name": "MODEL_URL"
@@ -352,7 +352,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_init_posture_webcam",
         "message0": "%{BKY_VITTAIA_INIT_POSTURE_WEBCAM_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('posture')
+            Blockly.Constants.Utils.ADD_ICON('posture')
         ],
         "inputsInline": true,
         "previousStatement": null,
@@ -367,7 +367,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_make_posture_predictions",
         "message0": "%{BKY_VITTAIA_POSTURE_MAKE_PREDICTIONS_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('posture')
+            Blockly.Constants.Utils.ADD_ICON('posture')
         ],
         "inputsInline": true,
         "output": "Array",
@@ -381,7 +381,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_list_posture_webcams",
         "message0": "%{BKY_VITTAIA_WEBCAM_LIST_AVAILABLES_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('posture')
+            Blockly.Constants.Utils.ADD_ICON('posture')
         ],
         "output": "Array",
         "style": "vittaia_blocks",
@@ -397,7 +397,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_load_sound_model",
         "message0": "%{BKY_VITTAIA_LOAD_SOUND_MODEL_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('sound'),
+            Blockly.Constants.Utils.ADD_ICON('sound'),
             {
                 "type": "input_value",
                 "name": "MODEL_URL"
@@ -416,7 +416,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_init_microphone",
         "message0": "%{BKY_VITTAIA_INIT_MICROPHONE_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('sound')
+            Blockly.Constants.Utils.ADD_ICON('sound')
         ],
         "inputsInline": true,
         "previousStatement": null,
@@ -431,7 +431,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_init_micro_play",
         "message0": "%{BKY_VITTAIA_INIT_MICROPHONE_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('sound')
+            Blockly.Constants.Utils.ADD_ICON('sound')
         ],
         "inputsInline": true,
         "previousStatement": null,
@@ -446,7 +446,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_make_sound_predictions_standalone",
         "message0": "%{BKY_VITTAIA_MAKE_SOUND_PREDICTIONS_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('sound')
+            Blockly.Constants.Utils.ADD_ICON('sound')
         ],
         "inputsInline": true,
         "output": "Array",
@@ -460,7 +460,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_make_sound_predictions",
         "message0": "%{BKY_VITTAIA_MAKE_SOUND_PREDICTIONS_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('sound')
+            Blockly.Constants.Utils.ADD_ICON('sound')
         ],
         "inputsInline": true,
         "output": "Array",
@@ -474,7 +474,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_list_microphones",
         "message0": "%{BKY_VITTAIA_LIST_MICROPHONES_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('sound')
+            Blockly.Constants.Utils.ADD_ICON('sound')
         ],
         "output": "String",
         "style": "vittaia_blocks",
@@ -487,7 +487,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_list_microphones_standalone",
         "message0": "%{BKY_VITTAIA_LIST_MICROPHONES_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('sound')
+            Blockly.Constants.Utils.ADD_ICON('sound')
         ],
         "output": "String",
         "style": "vittaia_blocks",
@@ -503,13 +503,12 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_init_discussion",
         "message0": "%{BKY_VITTAIA_INIT_DISCUSSION_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('text')
+            Blockly.Constants.Utils.ADD_ICON('text')
         ],
         "output": "IA",
         "style": "vittaia_blocks",
         "inputsInline": true,
         "tooltip": "%{BKY_VITTAIA_INIT_DISCUSSION_TOOLTIP}",
-        "helpUrl": VITTASCIENCE_SITE,
         "extensions": [
             "block_init_helpurl"
         ]
@@ -518,13 +517,12 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_init_text_ai",
         "message0": "%{BKY_VITTAIA_INIT_TEXT_AI_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('text')
+            Blockly.Constants.Utils.ADD_ICON('text')
         ],
         "output": "IA",
         "style": "vittaia_blocks",
         "inputsInline": true,
         "tooltip": "%{BKY_VITTAIA_INIT_TEXT_AI_TOOLTIP}",
-        "helpUrl": VITTASCIENCE_SITE,
         "extensions": [
             "block_init_helpurl"
         ]
@@ -533,7 +531,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_load_discussion",
         "message0": "%{BKY_VITTAIA_LOAD_DISCUSSION_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('text'),
+            Blockly.Constants.Utils.ADD_ICON('text'),
             {
                 "type": "input_value",
                 "name": "MODEL_URL"
@@ -543,13 +541,15 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "style": "vittaia_blocks",
         "tooltip": "%{BKY_VITTAIA_LOAD_DISCUSSION_TOOLTIP}",
-        "helpUrl": VITTASCIENCE_SITE
+        "extensions": [
+            "block_init_helpurl"
+        ]
     },
     {
         "type": "vittaia_set_randomness",
         "message0": "%{BKY_VITTAIA_SET_RANDOMNESS_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('text'),
+            Blockly.Constants.Utils.ADD_ICON('text'),
             {
                 "type": "input_value",
                 "name": "TEMPERATURE"
@@ -560,13 +560,15 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "style": "vittaia_blocks",
         "tooltip": "%{BKY_VITTAIA_SET_RANDOMNESS_TOOLTIP}",
-        "helpUrl": VITTASCIENCE_SITE
+        "extensions": [
+            "block_init_helpurl"
+        ]
     },
     {
         "type": "vittaia_set_randomness_standalone",
         "message0": "%{BKY_VITTAIA_SET_RANDOMNESS_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('text'),
+            Blockly.Constants.Utils.ADD_ICON('text'),
             {
                 "type": "input_value",
                 "name": "TEMPERATURE"
@@ -577,14 +579,16 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "style": "vittaia_blocks",
         "tooltip": "%{BKY_VITTAIA_SET_RANDOMNESS_TOOLTIP}",
-        "helpUrl": VITTASCIENCE_SITE
+        "extensions": [
+            "block_init_helpurl"
+        ]
     },
 
     {
         "type": "vittaia_set_model_ia",
         "message0": "%{BKY_VITTAIA_SET_MODEL_IA_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('text'),
+            Blockly.Constants.Utils.ADD_ICON('text'),
             {
                 "type": "field_grid_dropdown",
                 "name": "MODEL",
@@ -602,13 +606,15 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "style": "vittaia_blocks",
         "tooltip": "%{BKY_VITTAIA_SET_MODEL_IA_TOOLTIP}",
-        "helpUrl": VITTASCIENCE_SITE
+        "extensions": [
+            "block_init_helpurl"
+        ]
     },
     {
         "type": "vittaia_set_model_ia_standalone",
         "message0": "%{BKY_VITTAIA_SET_MODEL_IA_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('text'),
+            Blockly.Constants.Utils.ADD_ICON('text'),
             {
                 "type": "field_grid_dropdown",
                 "name": "MODEL",
@@ -626,13 +632,15 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "style": "vittaia_blocks",
         "tooltip": "%{BKY_VITTAIA_SET_MODEL_IA_TOOLTIP}",
-        "helpUrl": VITTASCIENCE_SITE
+        "extensions": [
+            "block_init_helpurl"
+        ]
     },
     {
         "type": "vittaia_model_text_predict",
         "message0": "%{BKY_VITTAIA_MODEL_TEXT_PREDICT_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('text'),
+            Blockly.Constants.Utils.ADD_ICON('text'),
             {
                 "type": "input_value",
                 "name": "MESSAGE"
@@ -642,13 +650,15 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "output": "Array",
         "style": "vittaia_blocks",
         "tooltip": "%{BKY_VITTAIA_MODEL_TEXT_PREDICT_TOOLTIP}",
-        "helpUrl": VITTASCIENCE_SITE
+        "extensions": [
+            "block_init_helpurl"
+        ]
     },
     {
         "type": "vittaia_model_text_predict_standalone",
         "message0": "%{BKY_VITTAIA_MODEL_TEXT_PREDICT_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('text'),
+            Blockly.Constants.Utils.ADD_ICON('text'),
             {
                 "type": "input_value",
                 "name": "MESSAGE"
@@ -658,9 +668,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "output": "Array",
         "style": "vittaia_blocks",
         "tooltip": "%{BKY_VITTAIA_MODEL_TEXT_PREDICT_TOOLTIP}",
-        "helpUrl": VITTASCIENCE_SITE
+        "extensions": [
+            "block_init_helpurl"
+        ]
     },
-
 
     // Not displayed blocks
     // init model
@@ -668,7 +679,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_init_model",
         "message0": "%{BKY_VITTAIA_INIT_MODEL}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image')
+            Blockly.Constants.Utils.ADD_ICON('image')
         ],
         "output": "IA",
         "style": "vittaia_blocks",
@@ -679,7 +690,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_init_webcam_1",
         "message0": "%{BKY_VITTAIA_INIT_WEBCAM}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image')
+            Blockly.Constants.Utils.ADD_ICON('image')
         ],
         "output": "IA",
         "style": "vittaia_blocks",
@@ -689,7 +700,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_init_webcam_2",
         "message0": "%{BKY_VITTAIA_SELECT_CAMERA}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image'),
+            Blockly.Constants.Utils.ADD_ICON('image'),
             {
                 "type": "input_value",
                 "name": "ID",
@@ -705,7 +716,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_init_webcam_3",
         "message0": "%{BKY_VITTAIA_DISPLAY_CAMERA}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image')
+            Blockly.Constants.Utils.ADD_ICON('image')
         ],
         "style": "vittaia_blocks",
         "previousStatement": null,
@@ -723,7 +734,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_predict",
         "message0": "%{BKY_VITTAIA_PREDICT}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image'),
+            Blockly.Constants.Utils.ADD_ICON('image'),
             {
                 "type": "input_value",
                 "name": "MODEL_PRE",
@@ -739,7 +750,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_get_best_probability_class",
         "message0": "%{BKY_VITTAIA_GET_BEST_PROBALITY_CLASS}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image')
+            Blockly.Constants.Utils.ADD_ICON('image')
         ],
         "output": "String",
         "style": "vittaia_blocks",
@@ -751,7 +762,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_init_model_sound",
         "message0": "%{BKY_VITTAIA_INIT_SOUND}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('sound')
+            Blockly.Constants.Utils.ADD_ICON('sound')
         ],
         "output": "IA",
         "style": "vittaia_blocks",
@@ -762,7 +773,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_init_micro_var",
         "message0": "%{BKY_VITTAIA_INIT_MICRO_VAR}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('sound')
+            Blockly.Constants.Utils.ADD_ICON('sound')
         ],
         "output": "IA",
         "style": "vittaia_blocks",
@@ -774,7 +785,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_init_micro",
         "message0": "%{BKY_VITTAIA_INIT_MICRO}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('sound')
+            Blockly.Constants.Utils.ADD_ICON('sound')
         ],
         "output": "IA",
         "style": "vittaia_blocks",

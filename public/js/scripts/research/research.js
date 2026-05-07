@@ -1,30 +1,57 @@
 document.addEventListener("DOMContentLoaded", function () {
+    let lng = 'fr';
+    if (getCookie('lng').length > 0) {
+        lng = getCookie('lng');
+    }
+    let suffix = '';
+    if (lng !== 'fr') {
+        suffix = `_en`;
+    }
+    const FEATURED_VIDEO_ID = 'x6Hor2yPwko';
+    const FEATURED_VIDEO_TITLE = "Les doctoriales 2025";
+    const FEATURED_VIDEO_DATE = '10 Janvier 2025';
+
+    document.getElementById('works-list').addEventListener('click', function (e) {
+        const thumb = e.target.closest('.video-thumbnail');
+        if (!thumb) return;
+        const videoId = thumb.dataset.videoId;
+        const modalIframe = document.getElementById('videoModalIframe');
+        modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        const modal = new bootstrap.Modal(document.getElementById('videoModal'));
+        modal.show();
+    });
+
+    document.getElementById('videoModal').addEventListener('hidden.bs.modal', function () {
+        document.getElementById('videoModalIframe').src = '';
+    });
+
     function loadWorks(page) {
         fetch(`/services/get/getResearch.php?page=${page}&type=works`)
             .then(response => response.json())
             .then(data => {
                 const worksList = document.getElementById('works-list');
-                worksList.innerHTML = ''; // Réinitialiser la liste des articles
-                worksList.innerHTML += "<hr>";
+                worksList.innerHTML = `
+                    <div class="work-card work-card-featured">
+                        <p class="text-center my-2">${checkIfDateIsValid(FEATURED_VIDEO_DATE)}</p>
+                        <p class="text-center vitta-green fw-bold mb-3">${FEATURED_VIDEO_TITLE}</p>
+                        <div class="video-thumbnail" data-video-id="${FEATURED_VIDEO_ID}" role="button" aria-label="Lire la vidéo">
+                            <img src="https://img.youtube.com/vi/${FEATURED_VIDEO_ID}/hqdefault.jpg" alt="Miniature vidéo" class="img-fluid rounded">
+                            <div class="video-play-btn"><i class="fa fa-play"></i></div>
+                        </div>
+                        <a href="https://www.youtube.com/watch?v=${FEATURED_VIDEO_ID}" target="_blank" class="btn btn-primary align-self-center h-auto mt-auto" data-i18n="research.section3.btn">${i18next.t('research.section3.btn')}</a>
+                    </div>
+                `;
                 data.works.forEach((work) => {
                     const workHTML = `
-                        <div class="work-post d-flex flex-row justify-content-between align-items-center">
-                            <div class="d-flex flex-column flex-md-row">
-                                <p class="m-0 fw-bold text-primary" style="min-width: fit-content;">
-                                    ${checkIfDateIsValid(work.date)}
-                                </p>
-                                <div class="d-flex gap-2 flex-column flex-grow-1 mx-md-4 text-start">
-                                    <p class="mb-0 fw-bold">${work.title}</p>
-                                    <p class="mb-0">${work.content}</p>
-                                </div>
-                            </div>
-                            <div class="d-md-flex flex-row mx-4 gap-2">
-                                <p class="d-none d-md-flex mb-0 fw-bold rounded border border-info text-info px-2">${work.category}</p>
-                                <a href="${work.link}" target="_blank" class="btn btn-sm btn-primary align-self-center h-auto" data-i18n="research.section3.btn">Accéder</a>
-                            </div>
-                            
+                        <div class="work-card">
+                            <p class="text-center my-2">${checkIfDateIsValid(work.date)}</p>
+                            <p class="text-center vitta-green fw-bold">${work['title' + suffix]}</p>
+                            <p class="text-center">${work['content' + suffix]}</p>
+                            <hr class="border-secondary w-100 mt-auto">
+                            <span class="badge rounded-pill text-bg-info work-badge" title="${work['category' + suffix]}">${work['category' + suffix]}</span>
+                            <hr class="border-secondary w-100">
+                            <a href="${work.link}" target="_blank" class="btn btn-primary align-self-center h-auto" data-i18n="research.section3.btn">${i18next.t('research.section3.btn')}</a>
                         </div>
-                        <hr>
                     `;
                     worksList.innerHTML += workHTML;
                 });
@@ -45,11 +72,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     const eventHTML = `
                         <div class="event-card">
                             ${new Date(event.date) > currentDate ? '<span class="badge rounded-pill text-bg-info event-badge">A venir</span>' : ''}
-                            <img src="/public/content/user_data/research/images/${event.image}" class="img-fluid rounded-circle" alt="image ${event.title}" style="width: 125px; height: 125px;">
-                            <p class="text-center my-2">${checkIfDateIsValid(event.date)} - ${event.type}</p>
-                            <p class="text-center vitta-green fw-bold">${event.title}</p>
-                            <p>${event.content}</p>
-                            <a href="${event.link}" class="btn btn-primary align-self-center h-auto" data-i18n="research.section5.btn">Accéder à l’événement</a>
+                            <img src="/public/content/user_data/research/images/${event.image}" class="img-fluid rounded-circle" alt="image ${event['title' + suffix]}" style="width: 125px; height: 125px;">
+                            <p class="text-center my-2">${checkIfDateIsValid(event.date)} - ${event['type' + suffix]}</p>
+                            <p class="text-center vitta-green fw-bold">${event['title' + suffix]}</p>
+                            <p>${event['content' + suffix]}</p>
+                            <a href="${event.link}" class="btn btn-primary align-self-center h-auto mt-auto" data-i18n="research.section5.btn">${i18next.t('research.section5.btn')}</a>
                         </div>
                     `;
                     eventsList.innerHTML += eventHTML;

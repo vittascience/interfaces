@@ -114,7 +114,7 @@ Blockly.Python.io_initChronometer = function (block) {
     Blockly.Python.addImport('utime', IMPORT_UTIME);
     Blockly.Python.addConstant('chronometer', "t0 = utime.ticks_ms()");
     block.workspace.createVariable('t0');
-    return "" + NEWLINE;
+    return "t0 = utime.ticks_ms()" + NEWLINE;
 };
 
 Blockly.Python.io_initChronometer_simple = function (block) {
@@ -125,7 +125,8 @@ Blockly.Python.io_initChronometer_simple = function (block) {
 Blockly.Python.io_getChronometer = function (block) {
     Blockly.Python.addImport('utime', IMPORT_UTIME);
     // Remove the following line to avoid duplicated constant definition with python traduction
-    // Blockly.Python.addConstant('chronometer', "t0 = utime.ticks_ms()");
+    // 02/26 - Redo the following line => We need to declare t0 to avoid using io_initChronometer
+    Blockly.Python.addConstant('chronometer', "t0 = utime.ticks_ms()");
     block.workspace.createVariable('t0');
     switch (block.getFieldValue("UNIT")) {
         case "SEC":
@@ -140,7 +141,7 @@ Blockly.Python.io_getChronometer = function (block) {
 // Pins
 
 Blockly.Python.io_digital_signal = function (block) {
-    return ["HIGH" == block.getFieldValue("BOOL") ? '1' : '0', Blockly.Python.ORDER_ATOMIC]
+    return ["HIGH" == block.getFieldValue("BOOL") ? '1' : '0', Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.io_readDigitalPin = function (block) {
@@ -151,18 +152,8 @@ Blockly.Python.io_readDigitalPin = function (block) {
 Blockly.Python.io_writeDigitalPin = function (block) {
     const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
     const pinName = Blockly.Python.Generators.digital_write(block.getFieldValue("PIN"));
-    const inputBlock = block.getInput("STATE").connection.targetBlock();
-    if (inputBlock && (inputBlock.type == "io_digital_signal")) {
-        return 'try:' + NEWLINE 
-            + '  ' + (state == '1' ? pinName + ".on()" : pinName + ".off()") + NEWLINE 
-            + 'except:' + NEWLINE 
-            + '  ' + (state == '1' ? pinName + ".duty(1023)" : pinName + ".duty(0)") + NEWLINE;
-    } else {
-        return 'try:' + NEWLINE 
-        + '  ' + pinName + '.value(' + state + ')' + NEWLINE 
-        + 'except:' + NEWLINE 
-        + '  ' + pinName + '.duty(int(' + state + ')*1023)' + NEWLINE;
-    }
+    Blockly.Python.addFunction('writeDigital', FUNCTIONS_GALAXIA.DEF_WRITE_DIGITAL);
+    return "writeDigital(" + pinName + ", " + state + ")" + NEWLINE;
 };
 
 Blockly.Python.io_readAnalogPin = function (block) {
@@ -174,36 +165,22 @@ Blockly.Python.io_writePwm = function (block) {
     const pin = block.getFieldValue("PIN");
     const value = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || "0";
     const pinName = Blockly.Python.Generators.pwm(pin);
-    return 'try:' + NEWLINE 
-        + '  ' + pinName + '.duty(int(' + value + '))' + NEWLINE 
-        + 'except:' + NEWLINE 
-        + '  ' + pinName + " = PWM(Pin(" + pin.replace('p', '') + "), freq=5000, duty=int(" + value + "))" + NEWLINE;
+    Blockly.Python.addFunction('writePWM', FUNCTIONS_GALAXIA.DEF_WRITE_WPM);
+    return "writePWM(" + pinName + ", " + value + ")" + NEWLINE;
 };
-
-// Blockly.Python.io_writeAnalogPin = function (block) {
-//     const pin = block.getFieldValue("PIN") || Blockly.Constants.Pins.DAC[Blockly.Constants.getSelectedBoard()][0][1];
-//     const value = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || "0";
-//     Blockly.Python.addInit(pin + '_DAC', pin + " = DAC(Pin(" + pin.replace('p', '') + "))");
-//     return pin + ".write(int(" + value + "))" + NEWLINE;
-// };
 
 Blockly.Python.io_setPwm = function (block) {
     const pin = block.getFieldValue("PIN");
     const freq = Blockly.Python.valueToCode(block, "FREQUENCY", Blockly.Python.ORDER_NONE) || "0";
     const pinName = Blockly.Python.Generators.pwm(pin);
-    return "try:" + NEWLINE 
-        + "  " + pinName + ".freq(" + freq + ")" + NEWLINE 
-        + "  " + pinName + ".duty(512)" + NEWLINE 
-        + "  " + pinName + ".init()" + NEWLINE 
-        + "except:" + NEWLINE 
-        + "  " + pinName + " = PWM(Pin(" + pin.replace('p', '') + "), freq=" + freq + ", duty=512)" + NEWLINE;
+    Blockly.Python.addFunction('writePWM', FUNCTIONS_GALAXIA.DEF_WRITE_WPM);
+    return "writePWM(" + pinName + ", 512, " + freq + ")" + NEWLINE;
 };
 
 Blockly.Python.io_stopPwm = function (block) {
-    const pin = block.getFieldValue("PIN") || Blockly.Constants.Pins.GALAXIA_PINS
+    const pin = block.getFieldValue("PIN") || Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
     const pinName = Blockly.Python.Generators.pwm(pin);
-    return "if " + pinName + " is not None: " + NEWLINE 
-        + "  " + pinName + ".deinit()" + NEWLINE;
+    return "try:" + NEWLINE + "  __PWM[str(" + pinName + ")].deinit()" + NEWLINE + "except: pass" + NEWLINE;
 };
 
 Blockly.Python.io_getVoltage = function (block) {
@@ -226,15 +203,14 @@ Blockly.Python.io_getGroveButton = function (block) {
 
 Blockly.Python.io_getGroveThumbJoystick = function (block) {
     const axis = block.getFieldValue("AXIS");
+    const pinXName = Blockly.Python.Generators.analog_read(block.getFieldValue("PIN_X"));
+    const pinYName = Blockly.Python.Generators.analog_read(block.getFieldValue("PIN_Y"));
+    Blockly.Python.addInit('joystick_' + pinXName + '_codeFlag', "# Joystick X/Y on " + pinXName + '/' + pinYName);
     switch(axis) {
         case "X":
-            const pinXName = Blockly.Python.Generators.analog_read(block.getFieldValue("PIN_X"), 'Joystick X-Axis');
             return [pinXName + ".read()", Blockly.Python.ORDER_ATOMIC];
         case "Y":
-            const pinYName = Blockly.Python.Generators.analog_read(block.getFieldValue("PIN_Y"), 'Joystick Y-Axis');
             return [pinYName + ".read()", Blockly.Python.ORDER_ATOMIC];
-        default:
-            throw Error("Unhandled axis option for Joystick module:'" + axis + "'");
     }
 };
 
@@ -261,8 +237,6 @@ Blockly.Python.io_getGroveColoredButton = function (block) {
 Blockly.Python.io_setGroveColoredButton = function (block) {
     const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
     const pinName = Blockly.Python.Generators.digital_write(block.getFieldValue("PIN"), 'Colored Button W');
-    return 'try:' + NEWLINE 
-        + '  ' + (state == '1' ? pinName + ".on()" : pinName + ".off()") + NEWLINE 
-        + 'except:' + NEWLINE 
-        + '  ' + (state == '1' ? pinName + ".duty(1023)" : pinName + ".duty(0)") + NEWLINE;
+    Blockly.Python.addFunction('writeDigital', FUNCTIONS_GALAXIA.DEF_WRITE_DIGITAL);
+    return "writeDigital(" + pinName + ", " + state + ")" + NEWLINE;
 };

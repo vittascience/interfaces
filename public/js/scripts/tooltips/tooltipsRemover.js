@@ -1,9 +1,9 @@
-const deletionObserver = new MutationObserver(function(mutations_list) {
-	mutations_list.forEach(function(mutation) {
-		mutation.removedNodes.forEach(function(removed_node) {
-			browseRemovedNodes(removed_node);
-		});
-	});
+const deletionObserver = new MutationObserver(function (mutations_list) {
+    mutations_list.forEach(function (mutation) {
+        mutation.removedNodes.forEach(function (removed_node) {
+            browseRemovedNodes(removed_node);
+        });
+    });
 });
 
 /**
@@ -35,3 +35,4 @@ function browseRemovedNodes(removed_node) {
 }
 
 runDeletionObserver();
+

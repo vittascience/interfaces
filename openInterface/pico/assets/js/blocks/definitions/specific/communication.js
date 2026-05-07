@@ -4,59 +4,6 @@
 
 Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 
-    /*Begin Pico internal Bluetooth blocks*/
-
-    // BLOCK Bluetooth - CONFIGURE NAME 
-    {
-        "type": "communication_StartBT",
-        "message0": "%{BKY_COMMUNICATION_START_BT_TITLE}",
-        "args0": [{
-            "type": "input_value",
-            "name": "NAME"
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "communication_blocks",
-        "tooltip": "%{BKY_COMMUNICATION_START_BT_TOOLTIP}",
-    },
-    // BLOCK Bluetooth - SEND DATA 
-    {
-        "type": "communication_SendBT",
-        "message0": "%{BKY_COMMUNICATION_SEND_BT_TITLE}",
-        "args0": [{
-            "type": "input_value",
-            "name": "DATA"
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "communication_blocks",
-        "tooltip": "%{BKY_COMMUNICATION_SEND_BT_TOOLTIP}",
-    },
-    // //BLOCK Bluetooth - Read DATA
-    {
-        "type": "communication_BLE_ReadData",
-        "message0": "%{BKY_COMMUNICATION_BLE_READ_DATA_TITLE}",
-        "args0": [{
-            "type": "field_variable",
-            "name": "VAR",
-            "variable": "bluetoothData"
-        }],
-        "message1": "%1",
-        "args1": [{
-            "type": "input_statement",
-            "name": "DO"
-        }],
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "communication_blocks",
-        "tooltip": "%{BKY_COMMUNICATION_BLE_READ_DATA_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
     /*Begin serial transmission blocks*/
 
     // BLOCK SERIAL WRITE 
@@ -80,14 +27,14 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "mutator": "communication_serialWrite_mutator"
     },
 
-    // BLOCK ON SERIAL DATA AVAILABLE _ READ DATA 
+    // BLOCK ON SERIAL MESSAGE AVAILABLE _ READ MESSAGE 
     {
-        "type": "communication_onSerialDataReceived",
-        "message0": "%{BKY_COMMUNICATION_SERIAL_ONDATARECEIVED_TITLE}",
+        "type": "communication_onSerialMessageReceived",
+        "message0": "%{BKY_COMMUNICATION_SERIAL_ONMESSAGERECEIVED_TITLE}",
         "args0": [{
             "type": "field_variable",
             "name": "VAR",
-            "variable": "serialData"
+            "variable": "messageData"
         }],
         "message1": "%1",
         "args1": [{
@@ -97,7 +44,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "previousStatement": null,
         "nextStatement": null,
         "style": "communication_blocks",
-        "tooltip": "%{BKY_COMMUNICATION_SERIAL_ONDATARECEIVED_TOOLTIP}",
+        "tooltip": "%{BKY_COMMUNICATION_SERIAL_ONMESSAGERECEIVED_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]
@@ -201,88 +148,89 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_COMMUNICATION_COMPUTER_STOPMUSIC_TOOLTIP}",
     },
 
-    //BLOCK SERIAL REDIRECT USB
-    {
-        "type": "communication_serialRedirectUSB",
-        "message0": "%{BKY_COMMUNICATION_SERIAL_REDIRECTTOUSB_TITLE}",
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "communication_blocks",
-        "tooltip": "%{BKY_COMMUNICATION_SERIAL_REDIRECTTOUSB_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
+    /*Begin Built-in BLE blocks*/
 
-    //BLOCK SERIAL INIT
+    // BLOCK INTEGRATED BLE - CONFIGURE NAME 
     {
-        "type": "communication_serialInit",
-        "message0": "%{BKY_COMMUNICATION_SERIAL_INIT_TITLE}",
+        "type": "communication_StartBT",
+        "message0": "%{BKY_COMMUNICATION_START_BT_TITLE}",
         "args0": [{
-            "type": "field_grid_dropdown",
-            "name": "BAUD",
-            "options": [
-                ["9600", "9600"],
-                ["14400", "14400"],
-                ["19200", "19200"],
-                ["28800", "28800"],
-                ["38400", "38400"],
-                ["57600", "57600"],
-                ["115200", "115200"]
-            ]
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "RX",
-            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "TX",
-            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+            "type": "input_value",
+            "name": "NAME"
         }],
+        "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
         "style": "communication_blocks",
-        "tooltip": "%{BKY_COMMUNICATION_SERIAL_INIT_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
+        "tooltip": "%{BKY_COMMUNICATION_START_BT_TOOLTIP}",
     },
 
-    //BLOCK UART WRITE
+    // BLOCK INTEGRATED BLE - SEND DATA 
     {
-        "type": "communication_uart_writeData",
-        "message0": "%{BKY_COMMUNICATION_UART_WRITE_TITLE}",
+        "type": "communication_SendBT",
+        "message0": "%{BKY_COMMUNICATION_SEND_BT_TITLE}",
         "args0": [{
             "type": "input_value",
             "name": "DATA"
         }],
+        "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
         "style": "communication_blocks",
-        "tooltip": "%{BKY_COMMUNICATION_UART_WRITE_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
+        "tooltip": "%{BKY_COMMUNICATION_SEND_BT_TOOLTIP}",
     },
-    // BLOCK DATA AVAILABLE UART
+
+    // BLOCK INTEGRATED BLE - READ DATA
     {
-        "type": "communication_uart_isDataAvailable",
-        "message0": "%{BKY_COMMUNICATION_UART_DATA_AVAILABLE_TITLE}",
+        "type": "communication_BLE_ReadData",
+        "message0": "%{BKY_COMMUNICATION_BLE_READ_DATA_TITLE}",
+        "args0": [{
+            "type": "field_variable",
+            "name": "VAR",
+            "variable": "bluetoothData"
+        }],
+        "message1": "%1",
+        "args1": [{
+            "type": "input_statement",
+            "name": "DO"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
         "style": "communication_blocks",
-        "output": "Boolean",
-        "tooltip": "%{BKY_COMMUNICATION_UART_DATA_AVAILABLE_TOOLTIP}",
+        "tooltip": "%{BKY_COMMUNICATION_BLE_READ_DATA_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]
     },
 
-    //BLOCK UART READ
+    // BLOCK INTEGRATED BLE - Send to Fizziq App
     {
-        "type": "communication_uart_readData",
-        "message0": "%{BKY_COMMUNICATION_UART_READ_TITLE}",
+        "type": "communication_FizziqBT",
+        "message0": "%{BKY_COMMUNICATION_FIZZIQ_BT_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "DATA",
+            "options": [
+                ["%{BKY_FIZZ_TEMP}", "TEMP"],
+                ["%{BKY_FIZZ_HUM}", "HUM"],
+                ["%{BKY_FIZZ_VOLTAGE}", "VOLTAGE"],
+                ["%{BKY_FIZZ_WEIGHT}", "WEIGHT"],
+                ["%{BKY_FIZZ_PRESSURE}", "PRESSURE"],
+                ["%{BKY_FIZZ_CONCENTRATION}", "CONCENTRATION"],
+                ["%{BKY_FIZZ_MAGNETIC}", "MAGFIELD"],
+                ["%{BKY_FIZZ_BRIGHTNESS}", "BRIGHTNESS"],
+                ["%{BKY_FIZZ_ACCELERATION}", "ACCELERATION"],
+                ["%{BKY_FIZZ_COMPASS}", "COMPASS"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "VALUE"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
         "style": "communication_blocks",
-        "output": "String",
-        "tooltip": "%{BKY_COMMUNICATION_UART_READ_TOOLTIP}",
+        "tooltip": "%{BKY_COMMUNICATION_FIZZIQ_BT_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]
@@ -300,10 +248,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "BAUD",
             "options": [
-                ["4800", "4800"],
                 ["9600", "9600"],
                 ["57600", "57600"],
-                ["115200", "115200"]
+                ["115200", "115200"],
+                ["4800", "4800"]
             ]
         }, {
             "type": "field_grid_dropdown",
@@ -329,12 +277,182 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
-    /*Begin wireless communication blocks*/
+    // BLOXK ESP32 FS - SAVE DATA 
+    {
+        "type": "communication_esp32_FS_saveData",
+        "message0": "%{BKY_COMMUNICATION_FS_SAVE_DATA_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "DATA"
+        }, {
+            "type": "input_value",
+            "name": "FILENAME",
+            "check": "String"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "communication_blocks",
+        "tooltip": "%{BKY_COMMUNICATION_FS_SAVE_DATA_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_buttons_plus_minus",
+            "communication_FS_saveData_init_extension"
+        ],
+        "mutator": "communication_FS_saveData_mutator"
+    },
+
+    /* Begin external bluetooth blocks */
+
+    // GROVE SERIAL BLUETOOTH _ SET AT COMMAND
+    {
+        "type": "communication_groveSerialBluetooth_setATCommand",
+        "message0": "%{BKY_COMMUNICATION_GROVE_BLUETOOTH_SET_AT_COMMAND_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "COMMAND",
+            "options": [
+                ["AT+NAME", "AT+NAME"],
+                ["AT+PIN", "AT+PIN"],
+                ["AT+ROLE", "AT+ROLE"],
+                ["AT+BAUD", "AT+BAUD"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "VALUE",
+            "check": "String"
+        }],
+        "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+        "args1": [{
+            "type": "field_grid_dropdown",
+            "name": "RX",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "TX",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "communication_blocks",
+        "tooltip": "%{BKY_COMMUNICATION_GROVE_BLUETOOTH_SET_AT_COMMAND_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "pins_management_global"
+        ]
+    },
+
+    // GROVE SERIAL BLUETOOTH _ GET AT COMMAND
+    {
+        "type": "communication_groveSerialBluetooth_getATCommand",
+        "message0": "%{BKY_COMMUNICATION_GROVE_BLUETOOTH_GET_AT_COMMAND_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "COMMAND",
+            "options": [
+                ["AT+HELP", "AT+HELP?"],
+                ["AT+NAME", "AT+NAME?"],
+                ["AT+PIN", "AT+PIN?"],
+                ["AT+BAUD", "AT+BAUD?"],
+                ["AT+ROLE", "AT+ROLE?"],
+                ["AT+VERSION", "AT+VERSION?"],
+                ["AT+TEMP", "AT+TEMP?"],
+                ["AT+ADDR", "AT+ADDR?"],
+                ["AT+UART", "AT+UART?"],
+                ["AT+CHK", "AT+CHK?"],
+                ["AT+STOP", "AT+STOP?"],
+                ["AT+RADD", "AT+RADD?"]
+            ]
+        }],
+        "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+        "args1": [{
+            "type": "field_grid_dropdown",
+            "name": "RX",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "TX",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "output": "String",
+        "inputsInline": true,
+        "style": "communication_blocks",
+        "tooltip": "%{BKY_COMMUNICATION_GROVE_BLUETOOTH_GET_AT_COMMAND_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "pins_management_global"
+        ]
+    },
+
+    // GROVE SERIAL BLUETOOTH _ SEND DATA JSON
+    {
+        "type": "communication_sendSerialBluetoothData",
+        "message0": "%{BKY_COMMUNICATION_GROVE_BLUETOOTH_SENDDATA_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "TEXT",
+            "check": ["String", "Number", "Decimal", "Boolean"]
+        }],
+        "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+        "args1": [{
+            "type": "field_grid_dropdown",
+            "name": "RX",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "TX",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "communication_blocks",
+        "tooltip": "%{BKY_COMMUNICATION_GROVE_BLUETOOTH_SENDDATA_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "pins_management_global"
+        ]
+    },
+
+    //BLOCK ON BLUETOOTH DATA RECEIVED
+    {
+        "type": "communication_onSerialBluetoothDataReceived",
+        "message0": "%{BKY_COMMUNICATION_GROVE_BLUETOOTH_ONDATARECEIVED_TITLE}",
+        "args0": [{
+            "type": "field_variable",
+            "name": "VAR",
+            "variable": "bluetoothData"
+        }],
+        "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+        "args1": [{
+            "type": "field_grid_dropdown",
+            "name": "RX",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "TX",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "message2": "%{BKY_COMMUNICATION_THEN}",
+        "message3": "%1",
+        "args3": [{
+            "type": "input_statement",
+            "name": "DO"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "communication_blocks",
+        "tooltip": "%{BKY_COMMUNICATION_GROVE_BLUETOOTH_ONDATARECEIVED_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "pins_management_global"
+        ]
+    },
 
     // BLOCK HC05 SERIAL BLUETOOTH _ SEND DATA
     {
-        "type": "communication_sendBluetoothData",
-        "message0": "%{BKY_COMMUNICATION_BLUETOOTH_SENDDATA_TITLE}",
+        "type": "communication_hc05_sendBluetoothData",
+        "message0": "%{BKY_COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TITLE}",
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "RX",
@@ -351,7 +469,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "previousStatement": null,
         "nextStatement": null,
         "style": "communication_blocks",
-        "tooltip": "%{BKY_COMMUNICATION_BLUETOOTH_SENDDATA_TOOLTIP}",
+        "tooltip": "%{BKY_COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]
@@ -359,8 +477,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 
     // BLOCK HC05 SERIAL BLUETOOTH _ ON DATA RECEIVED
     {
-        "type": "communication_onBluetoothDataReceived",
-        "message0": "%{BKY_COMMUNICATION_BLUETOOTH_ONDATARECEIVED_TITLE}",
+        "type": "communication_hc05_onBluetoothDataReceived",
+        "message0": "%{BKY_COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TITLE}",
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "RX",
@@ -372,7 +490,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "field_variable",
             "name": "VAR",
-            "variable": "bluetoothData"
+            "variable": "HC05Data"
         }],
         "message1": "%1",
         "args1": [{
@@ -382,33 +500,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "previousStatement": null,
         "nextStatement": null,
         "style": "communication_blocks",
-        "tooltip": "%{BKY_COMMUNICATION_BLUETOOTH_ONDATARECEIVED_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCK HC05 SERIAL BLUETOOTH _ SEND DATA
-    {
-        "type": "communication_HM10_sendBluetoothData",
-        "message0": "%{BKY_COMMUNICATION_HM10_BLUETOOTH_SENDDATA_TITLE}",
-        "args0": [{
-            "type": "field_grid_dropdown",
-            "name": "RX",
-            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "TX",
-            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
-        }, {
-            "type": "input_value",
-            "name": "DATA",
-            "check": ["String", "Number", "Boolean"]
-        }],
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "communication_blocks",
-        "tooltip": "%{BKY_COMMUNICATION_HM10_BLUETOOTH_SENDDATA_TOOLTIP}",
+        "tooltip": "%{BKY_COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]
@@ -447,18 +539,83 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 
     /*Begin tracking modules blocks*/
 
+    // GROVE RFID READER _ GET STRING CARD ID
+    {
+        "type": "communication_rfid_getCardID",
+        "message0": "%{BKY_COMMUNICATION_RFID_GETSTRINGCARDID_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "UART",
+            "options": Blockly.Constants.Pins.UART[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "output": "Array",
+        "style": "communication_blocks",
+        "tooltip": "%{BKY_COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "pins_management_global"
+        ]
+    },
+
+    // GROVE RFID READER _ CONVERT DATA TO hex/int
+    {
+        "type": "communication_rfid_convertData",
+        "message0": "%{BKY_COMMUNICATION_RFID_CONVERTDATA_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "DATA",
+            "check": "Array"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "TYPE",
+            "options": [
+                ["INT", "INT"],
+                ["HEX", "HEX"],
+                ["LIST", "LIST"]
+            ]
+        }],
+        "inputsInline": true,
+        "output": null,
+        "style": "communication_blocks",
+        "tooltip": "%{BKY_COMMUNICATION_RFID_CONVERTDATA_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ],
+        "mutator":  "communication_rfid_convertData_output_mutator"
+    },
+
+    // RC522 SPI READER _ GET STRING CARD ID
+    {
+        "type": "communication_mfrc522_getCardID",
+        "message0": "%{BKY_COMMUNICATION_MFRC522_GETSTRINGCARDID_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "SPI",
+            "options": Blockly.Constants.Pins.SPI[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "NSS",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "output": "String",
+        "style": "communication_blocks",
+        "tooltip": "%{BKY_COMMUNICATION_MFRC522_GETSTRINGCARDID_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "pins_management_global"
+        ]
+    },
+
     // BLOCK GROVE GPS _ GET NMEA FRAME
     {
         "type": "communication_gps_getNMEA",
         "message0": "%{BKY_COMMUNICATION_GPS_GET_NMEA_TITLE}",
         "args0": [{
             "type": "field_grid_dropdown",
-            "name": "RX",
-            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "TX",
-            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+            "name": "UART",
+            "options": Blockly.Constants.Pins.UART[Blockly.Constants.getSelectedBoard()]
         }],
         "output": "Array",
         "style": "communication_blocks",
@@ -474,14 +631,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "message0": "%{BKY_COMMUNICATION_GPS_GGA_GETINFORMATIONS_TITLE}",
         "args0": [{
             "type": "field_grid_dropdown",
-            "name": "RX",
-            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "TX",
-            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
-        }, {
-            "type": "field_grid_dropdown",
             "name": "INFO",
             "options": [
                 ["%{BKY_COMMUNICATION_GPS_INFO_TYPE}", "type"],
@@ -491,74 +640,18 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
                 ["%{BKY_COMMUNICATION_GPS_INFO_SATELLITE}", "satellite"],
                 ["%{BKY_COMMUNICATION_GPS_INFO_ALTITUDE}", "altitude"]
             ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "UART",
+            "options": Blockly.Constants.Pins.UART[Blockly.Constants.getSelectedBoard()]
         }],
         "output": null,
         "style": "communication_blocks",
         "tooltip": "%{BKY_COMMUNICATION_GPS_GGA_GETINFORMATIONS_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl",
-            "communication_gps_getGGAInformations_get_type"
-        ]
-    },
-
-    // 05/22 The 2 following blocks removed from toolbox. We keep the block cause of user projects.
-
-    // BLOCK GROVE GPS _ ON GPS DATA AVAILABLE
-    {
-        "type": "communication_onGPSDataReceived",
-        "message0": "%{BKY_COMMUNICATION_GPS_ONDATARECEIVED_TITLE}",
-        "args0": [{
-            "type": "field_grid_dropdown",
-            "name": "TX",
-            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "RX",
-            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
-        }, {
-            "type": "field_variable",
-            "name": "VAR",
-            "variable": "gpsData"
-        }],
-        "message1": "%1",
-        "args1": [{
-            "type": "input_statement",
-            "name": "DO"
-        }],
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "communication_blocks",
-        "tooltip": "%{BKY_COMMUNICATION_GPS_ONDATARECEIVED_TOOLTIP}",
-        "extensions": [
             "block_init_helpurl"
-        ]
-    },
-
-    //BLOCK GET GPS INFORMATIONS
-    {
-        "type": "communication_analyzeGPSInfo",
-        "message0": "%{BKY_COMMUNICATION_GPS_GETINFORMATIONS_TITLE}",
-        "args0": [{
-            "type": "field_grid_dropdown",
-            "name": "INFO",
-            "options": [
-                ["%{BKY_COMMUNICATION_GPS_INFO_CLOCK}", "1"],
-                ["%{BKY_COMMUNICATION_GPS_INFO_LATITUDE}", "2"],
-                ["%{BKY_COMMUNICATION_GPS_INFO_LONGITUDE}", "4"],
-                ["%{BKY_COMMUNICATION_GPS_INFO_SATELLITE}", "7"],
-                ["%{BKY_COMMUNICATION_GPS_INFO_ALTITUDE}", "9"],
-                ["%{BKY_COMMUNICATION_GPS_INFO_ALL_FRAME}", "0"]
-            ]
-        }, {
-            "type": "input_value",
-            "name": "DATA"
-        }],
-        "output": null,
-        "style": "communication_blocks",
-        "tooltip": "%{BKY_COMMUNICATION_GPS_GETINFORMATIONS_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
+        ],
+        "mutator": "communication_gps_getGGAInformations_output_mutator"
     },
 
     // GROVE RTC _ SET DATE
@@ -665,6 +758,241 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "extensions": [
             "block_init_helpurl"
         ]
+    },
+
+    /*Begin basic uart blocks*/
+
+    //BLOCK SERIAL INIT
+    {
+        "type": "communication_serialInit",
+        "message0": "%{BKY_COMMUNICATION_UART_INIT_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "UART",
+            "options": Blockly.Constants.Pins.UART[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "RX",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "TX",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "BAUD",
+            "options": [
+                ["9600", "9600"],
+                ["14400", "14400"],
+                ["19200", "19200"],
+                ["28800", "28800"],
+                ["38400", "38400"],
+                ["57600", "57600"],
+                ["115200", "115200"]
+            ]
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "communication_blocks",
+        "tooltip": "%{BKY_COMMUNICATION_UART_INIT_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "pins_management_global"
+        ]
+    },
+
+    //BLOCK UART WRITE
+    {
+        "type": "communication_uart_writeData",
+        "message0": "%{BKY_COMMUNICATION_UART_WRITE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "UART",
+            "options": Blockly.Constants.Pins.UART[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "input_value",
+            "name": "DATA"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "communication_blocks",
+        "tooltip": "%{BKY_COMMUNICATION_UART_WRITE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "pins_management_global"
+        ]
+    },
+
+    // BLOCK DATA AVAILABLE UART
+    {
+        "type": "communication_uart_isDataAvailable",
+        "message0": "%{BKY_COMMUNICATION_UART_DATA_AVAILABLE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "UART",
+            "options": Blockly.Constants.Pins.UART[Blockly.Constants.getSelectedBoard()]
+        }],
+        "style": "communication_blocks",
+        "output": "Boolean",
+        "tooltip": "%{BKY_COMMUNICATION_UART_DATA_AVAILABLE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "pins_management_global"
+        ]
+    },
+
+    // BLOCK UART READ
+    {
+        "type": "communication_uart_readData",
+        "message0": "%{BKY_COMMUNICATION_UART_READ_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "UART",
+            "options": Blockly.Constants.Pins.UART[Blockly.Constants.getSelectedBoard()]
+        }],
+        "output": "String",
+        "inputsInline": true,
+        "style": "communication_blocks",
+        "tooltip": "%{BKY_COMMUNICATION_UART_READ_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_buttons_plus_minus",
+            "communication_uart_read_init_extension",
+            "pins_management_global"
+        ],
+        "mutator": "communication_uart_read_mutator"
     }
 
 ]); // END JSON EXTRACT (Do not delete this comment.)
+
+Blockly.Constants.Communication = Object.create(null);
+
+/**
+ * Performs final setup of a 'uart_read' block.
+ * @this {Blockly.Block}
+ */
+Blockly.Constants.Communication.COMMUNICATION_UART_READ_INIT_EXTENSION = function () {
+    this.size_ = false;
+    this.updateField_();
+};
+
+/**
+ * Mixin for mutator functions in the 'communication_uart_read_init' extension.
+ * @mixin
+ * @augments Blockly.Block
+ * @package
+ */
+Blockly.Constants.Communication.COMMUNICATION_UART_READ_MUTATOR_MIXIN = {
+    /**
+     * Create XML to represent input.
+     * @return {!Element} XML storage element.
+     * @this {Blockly.Block}
+     */
+    mutationToDom: function () {
+        var container = Blockly.utils.xml.createElement('mutation');
+        container.setAttribute('size', this.size_);
+        return container;
+    },
+    /**
+     * Parse XML to restore the input.
+     * @param {!Element} xmlElement XML storage element.
+     * @this {Blockly.Block}
+     */
+    domToMutation: function (xmlElement) {
+        this.size_ = (xmlElement.getAttribute('size') != 'false');
+        this.updateField_();
+    },
+    addOptions_: function () {
+        if (!this.getInput("SIZE_FIELD") && !this.getInput("SIZE")) {
+            this.size_ = true;
+            this.updateField_();
+            this.addDefaultBlock({
+                "name": "SIZE",
+                "type": "math_number",
+                "field_name": "NUM",
+                "value": "64"
+            });
+        }
+    },
+    removeOptions_: function () {
+        if (this.getInput("SIZE_FIELD") && this.getInput("SIZE")) {
+            this.size_ = false;
+            this.updateField_();
+        }
+    },
+    /**
+     * Modify this block to have the correct input.
+     * @private
+     * @this {Blockly.Block}
+     */
+    updateField_: function () {
+        var that = this;
+        var remove = function () {
+            that.removeOptions_();
+        };
+        var add = function () {
+            that.addOptions_();
+        };
+        if (this.getInput('TOP')) {
+            this.removeInput('TOP');
+        }
+        var top = this.appendDummyInput('TOP');
+        if (this.size_) {
+            if (!this.getInput("SIZE_FIELD")) {
+                this.appendDummyInput("SIZE_FIELD")
+                    .appendField(Blockly.Msg['COMMUNICATION_UART_READ_SIZE']);
+                this.appendValueInput("SIZE");
+
+            }
+            top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI,
+                this.buttonSize, this.buttonSize, "*", remove, false));
+        } else {
+            if (this.getInput('SIZE_FIELD') && this.getInput("SIZE")) {
+                this.removeInput("SIZE");
+                this.removeInput("SIZE_FIELD");
+            }
+            top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI,
+                this.buttonSize, this.buttonSize, "*", add, false));
+        }
+    },
+    addDefaultBlock: function (input) {
+        return Blockly.Constants.Utils.CONNECT_DEFAULT_BLOCK(this, {
+            "input": input.name,
+            "type": input.type,
+            "name": input.field_name,
+            "value": input.value
+        });
+    }
+};
+
+/**
+ * Performs final setup of 'communication_esp32_FS_saveData' block.
+ * @this {Blockly.Block}
+ */
+Blockly.Constants.Communication.COMMUNICATION_FS_SAVE_DATA_INIT_EXTENSION = function () {
+    this.extension_ = true;
+    this.update_(this.updateField_);
+};
+
+/**
+ * Mixin for mutator functions in the 'communication_esp32_FS_saveData' extension.
+ * @mixin
+ * @augments Blockly.Block
+ * @package
+ */
+Blockly.Constants.Communication.COMMUNICATION_FS_SAVE_DATA_MUTATOR_MIXIN =
+    Blockly.Constants.Utils.addOptionMutatorMixin('extension', 'extension', 'text', "txt");
+
+// Initialization extensions
+Blockly.Extensions.register("communication_uart_read_init_extension",
+    Blockly.Constants.Communication.COMMUNICATION_UART_READ_INIT_EXTENSION);
+
+Blockly.Extensions.register("communication_FS_saveData_init_extension",
+    Blockly.Constants.Communication.COMMUNICATION_FS_SAVE_DATA_INIT_EXTENSION);
+
+// Mutator
+Blockly.Extensions.registerMutator('communication_uart_read_mutator',
+    Blockly.Constants.Communication.COMMUNICATION_UART_READ_MUTATOR_MIXIN);
+
+Blockly.Extensions.registerMutator('communication_FS_saveData_mutator',
+    Blockly.Constants.Communication.COMMUNICATION_FS_SAVE_DATA_MUTATOR_MIXIN);

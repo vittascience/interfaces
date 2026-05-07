@@ -227,7 +227,7 @@ var $builtinmodule = function (name) {
     network.LAN = new Sk.misceval.buildClass(network, function ($gbl, $loc) {
 
         LAN__init__ = function (self) {
-            throw new Sk.builtin.NotImplementedError("<network.LAN> is not yet implemented");
+            throw new Sk.builtin.NotImplementedError("<b>network.LAN</b> is not yet implemented");
             return Sk.builtin.none();
         };
 
@@ -242,7 +242,7 @@ var $builtinmodule = function (name) {
     network.ppp = new Sk.misceval.buildClass(network, function ($gbl, $loc) {
 
         ppp__init__ = function (self) {
-            throw new Sk.builtin.NotImplementedError("<network.ppp> is not yet implemented");
+            throw new Sk.builtin.NotImplementedError("<b>network.ppp</b> is not yet implemented");
             return Sk.builtin.none();
         };
 

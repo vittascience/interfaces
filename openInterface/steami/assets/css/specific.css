@@ -1,0 +1,46 @@
+@import url('../../../interfaces/assets/css/simulator-modules.css');
+@import url('../../../interfaces/assets/css/simulator-robot.css');
+
+#board-viewer {
+	height: 294px;
+}
+
+.canvas-steami-screen {
+	width: 128px;
+	height: 128px;
+	position: absolute;
+	top: 44px;
+	left: 86.5px;
+	z-index: 100;
+}
+
+.stm32-led1 {
+	filter: hue-rotate(77deg);
+}
+
+.stm32-led3 {
+	filter: hue-rotate(207deg);
+}
+
+.stm32-led1,
+.stm32-led2,
+.stm32-led3 {
+	z-index: 1;
+	bottom: 12px;
+	left: -6px;
+	opacity: 0;
+}
+
+.bmp280-temp {
+	clip-path: inset(76.4706% 0px 0px);
+}
+
+.highTemp,
+.groveTemp {
+	clip-path: inset(52% 0px 0px);
+}
+
+.sgp30_module .module-img-group {
+	left: 10px;
+	bottom: 6px;
+}

@@ -157,9 +157,9 @@ var $builtinmodule = function (name) {
 	});
 
 	ti_rover.color_measurement = new Sk.builtin.func(function () {
-		const r = parseInt($('#rover-colorSensor_slider_r').slider('option', 'value'));
-		const g = parseInt($('#rover-colorSensor_slider_g').slider('option', 'value'));
-		const b = parseInt($('#rover-colorSensor_slider_b').slider('option', 'value'));
+		const r = parseInt($('#rover-ColorSensor_slider_r').slider('option', 'value'));
+		const g = parseInt($('#rover-ColorSensor_slider_g').slider('option', 'value'));
+		const b = parseInt($('#rover-ColorSensor_slider_b').slider('option', 'value'));
 		let color_gap = {}
 		for (var i in COLORS) {
 			color_gap[i] = Math.abs(r - COLORS[i][0]) + Math.abs(g - COLORS[i][1]) + Math.abs(b - COLORS[i][2]);
@@ -169,24 +169,24 @@ var $builtinmodule = function (name) {
 	});
 
 	ti_rover.red_measurement = new Sk.builtin.func(function () {
-		const r = parseInt($('#rover-colorSensor_slider_r').slider('option', 'value'));
+		const r = parseInt($('#rover-ColorSensor_slider_r').slider('option', 'value'));
 		return new Sk.builtin.int_(r);
 	});
 
 	ti_rover.green_measurement = new Sk.builtin.func(function () {
-		const g = parseInt($('#rover-colorSensor_slider_g').slider('option', 'value'));
+		const g = parseInt($('#rover-ColorSensor_slider_g').slider('option', 'value'));
 		return new Sk.builtin.int_(g);
 	});
 
 	ti_rover.blue_measurement = new Sk.builtin.func(function () {
-		const b = parseInt($('#rover-colorSensor_slider_b').slider('option', 'value'));
+		const b = parseInt($('#rover-ColorSensor_slider_b').slider('option', 'value'));
 		return new Sk.builtin.int_(b);
 	});
 
 	ti_rover.gray_measurement = new Sk.builtin.func(function () {
-		const r = parseInt($('#rover-colorSensor_slider_r').slider('option', 'value'));
-		const g = parseInt($('#rover-colorSensor_slider_g').slider('option', 'value'));
-		const b = parseInt($('#rover-colorSensor_slider_b').slider('option', 'value'));
+		const r = parseInt($('#rover-ColorSensor_slider_r').slider('option', 'value'));
+		const g = parseInt($('#rover-ColorSensor_slider_g').slider('option', 'value'));
+		const b = parseInt($('#rover-ColorSensor_slider_b').slider('option', 'value'));
 		return new Sk.builtin.int_(Math.round(RGBtoGrayscale(r, g, b)));
 	});
 

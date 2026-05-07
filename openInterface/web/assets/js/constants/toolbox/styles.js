@@ -74,9 +74,6 @@ const THEME_VITTASCIENCE = {
     "logic_blocks": {
         "colourPrimary": "#0059b2"
     },
-    "logic_blocks": {
-        "colourPrimary": "#0059b2"
-    },
     "loops_blocks": {
         "colourPrimary": "#00b200"
     },
@@ -86,7 +83,7 @@ const THEME_VITTASCIENCE = {
     "text_blocks": {
         "colourPrimary": "#7ac943"
     },
-    "lists_blocks": {
+    "list_blocks": {
         "colourPrimary": "#e58544"
     },
     "colour_blocks": {

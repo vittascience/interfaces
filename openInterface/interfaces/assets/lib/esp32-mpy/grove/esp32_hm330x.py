@@ -14,7 +14,7 @@ class HM330X:
     if addr not in i2cModules:
       error = "Unable to find module 'HM330X' at address " + str(hex(addr)) + ". Please check connections with the board.\n"
       error += "[Info] I2C address.es detected: " + str([hex(a) for a in i2cModules])
-      raise ValueError(error)
+      raise OSError(error)
     self._addr = addr
     self._write([HM330_INIT])
 

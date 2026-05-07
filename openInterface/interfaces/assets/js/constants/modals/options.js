@@ -23,7 +23,7 @@ const monitorToolsModal =
         </div>
     </div>`;
 
-var optionsModal =
+const optionsModal =
 `<div id="modal-shareproject-options-title" style="cursor: pointer;" role="button" data-bs-toggle="collapse" data-bs-target="#modal-shareproject-options" aria-expanded="false" class="collapsed">
     <b data-i18n="[html]modals.standard.share.content.options.title">Options <i class="fas fa-caret-down"></i></b>
 </div>
@@ -44,28 +44,37 @@ var optionsModal =
             </div>    
         </div>
 
-        <div class="d-flex flex-column mw-100">
+        ${typeof INTERFACE_NAME != 'undefined' ?
+        `<div class="d-flex flex-column mw-100">
             <span class="text-center" data-i18n="modals.standard.share.content.options.mode.title">Mode</span>
             <!-- Switcher mode -->
             <div class="switcher" style="overflow: auto;">
-                <input type="radio" name="shareOptionsMode" value="blocks" id="shareOptionsModeBlocks" class="switcher__input switcher__input--left">
-                <label for="shareOptionsModeBlocks" class="switcher__label" data-i18n="modals.standard.share.content.options.mode.block">Block</label>
+                ${INTERFACE_NAME !== "adacraft" ? 
+                `<input type="radio" name="shareOptionsMode" value="blocks" id="shareOptionsModeBlocks" class="switcher__input switcher__input--left">
+                <label for="shareOptionsModeBlocks" class="switcher__label" data-i18n="modals.standard.share.content.options.mode.block">
+                    Block
+                </label>
                 
                 <input type="radio" name="shareOptionsMode" value="mixed" id="shareOptionsModeMixed" class="switcher__input switcher__input--middle1" checked>
-                <label for="shareOptionsModeMixed" class="switcher__label" data-i18n="modals.standard.share.content.options.mode.hybrid">Mixte</label>
+                <label for="shareOptionsModeMixed" class="switcher__label" data-i18n="modals.standard.share.content.options.mode.hybrid">
+                    Mixte
+                </label>
                 
                 <input type="radio" name="shareOptionsMode" value="code" id="shareOptionsModeCode" class="switcher__input switcher__input--middle2">
-                <label for="shareOptionsModeCode" class="switcher__label" data-i18n="modals.standard.share.content.options.mode.code">Code</label>
+                <label for="shareOptionsModeCode" class="switcher__label" data-i18n="modals.standard.share.content.options.mode.code">
+                    Code
+                </label>
 
                 <input type="radio" name="shareOptionsMode" value="codeOnly" id="shareOptionsModeCodeOnly" class="switcher__input switcher__input--middle3">
-                <label for="shareOptionsModeCodeOnly" class="switcher__label" data-i18n="modals.standard.share.content.options.mode.codeonly">Code only</label>
-
+                <label for="shareOptionsModeCodeOnly" class="switcher__label" data-i18n="modals.standard.share.content.options.mode.codeonly">
+                    Code only
+                </label>` : ''}
+                
                 ${typeof specific_modeInterfaceOption != 'undefined' ? specific_modeInterfaceOption : ''}
                                             
                 <span class="switcher__toggle"></span>
             </div>
-        </div>
-
+        </div>` : ''}
     </div>
 
     <div class="flex-wrap mt-1 justify-content-between" style="display: flex;">

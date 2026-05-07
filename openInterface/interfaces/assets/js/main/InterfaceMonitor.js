@@ -4,10 +4,10 @@ const InterfaceMonitor = {
     AUTO_SCROLL: true,
     TEXT_COLOR: {
         "default": "var(--text-0)",
-        "warning": "red",
-        "neutral": "grey",
-        "success": "green",
-        "interrupt": "orange"
+        "warning": "var(--vitta-red)",
+        "neutral": "var(--text-1)",
+        "success": "var(--vitta-green)",
+        "interrupt": "var(--vitta-orange)"
     },
     history: [],
     historyCursor: null,
@@ -48,26 +48,37 @@ const InterfaceMonitor = {
         }, 1000);
 
         this.addMonitorToolsToDom();
+        this.console = $('#console');
+    },
+
+    setup() {
+        if ($('#monitor').hasClass('monitor-closed')) {
+            this.toggle();
+        }
+        if ($('#monitor-btn-console').length > 0 && !$('#monitor-btn-console').hasClass('activated')) {
+            this.managePanel('console');
+        }
     },
 
     addMonitorToolsToDom() {
         const monitorTools = document.createElement('div');
         monitorTools.id = "monitor-tools";
         monitorTools.innerHTML =
-        `
-        <button 
+            `
+        <button
             id="monitor-resizer"
             class="btn"
-            data-i18n="[title]code.console.buttons.monitorTool.monitorResizer"
+            data-i18n="[title]code.console.buttons.monitorTool.monitorResizer;[aria-label]code.console.buttons.monitorTool.monitorResizer"
             data-toggle="tooltip"
             data-placement="top"
-            title="Redimensionner la console"
+            title="Resize console"
+            aria-label="Resize console"
         >
             <i class="fas fa-arrows-alt-v" style="position: relative;bottom: 0.35em;right: 0.25em;"></i>
         </button>
         <button id="monitor-toggler" class="btn" onclick="InterfaceMonitor.toggle();"
-            data-i18n="[title]code.console.buttons.monitorTool.monitorToggler" data-toggle="tooltip"
-            data-placement="top" title="Ouvrir/fermer la console"
+            data-i18n="[title]code.console.buttons.monitorTool.monitorToggler;[aria-label]code.console.buttons.monitorTool.monitorToggler" data-toggle="tooltip"
+            data-placement="top" title="Toggle console" aria-label="Toggle console"
         >
             <i class="fas fa-chevron-down"  style="position: relative;right: 0.5em;bottom: 0.3em;"></i>
         </button>
@@ -110,8 +121,11 @@ const InterfaceMonitor = {
      * used in order to write in console. won't write if one of the initFlags are on true;
      * @param {string} message  the message to show
      * @param {string} color the color of the message
+     * @param {boolean} isPre whether to use a <pre> tag instead of <p>
+     * @param {boolean} isBold whether to bold the message
+     * @param {boolean} rawMsg if true, preserves multiple consecutive spaces using &nbsp;
      */
-    writeConsole(message, color, isPre = false, isBold = false) {
+    writeConsole(message, color, isPre = false, isBold = false, rawMsg = false) {
         const monitor = document.querySelector("#console");
         const tag = isPre === true ? 'pre' : 'p';
         if (typeof color == 'undefined' || typeof this.TEXT_COLOR[color] == 'undefined') {
@@ -120,11 +134,16 @@ const InterfaceMonitor = {
         let html = "<" + tag + " style='color:" + this.TEXT_COLOR[color] + ";";
         html += (isBold ? "font-weight: bold;" : '') + "'>";
         const capytaleWelcome = typeof IS_CAPYTALE_CONTEXT !== 'undefined' && /code.welcome/.test(message);
-        if (/code.(serialAPI|WebBluetoothAPI|errorMsg|welcome|successMsg)./.test(message) && !capytaleWelcome) {
-            html += i18next.t(message);
+
+        let content;
+        if (/code.(serialAPI|WebBluetoothAPI|errorMsg|welcome|successMsg|simulator)./.test(message) && !capytaleWelcome) {
+            content = i18next.t(message);
         } else {
-            html += message;
+            content = message;
         }
+
+        html += rawMsg ? content.replace(/ {2,}/g, m => '&nbsp;'.repeat(m.length)) : content;
+
         html += "</" + tag + ">";
         if ((monitor.innerHTML.match(/\r?\n/g) || '').length + 1 > this.MAX_CONSOLE_LINES) {
             let lines = monitor.innerHTML.split(/\r?\n/g);
@@ -132,11 +151,10 @@ const InterfaceMonitor = {
             monitor.innerHTML = lines.join('\r\n');
         }
         monitor.insertAdjacentHTML('beforeend', html);
-        if ($('#console').localize && html.match(/data-i18n/)) {
-            $('#console').localize();
+        if (this.console.localize && html.match(/data-i18n/)) {
+            this.console.localize();
         }
         this.scrollToBottom();
-        if (document.readyState === 'complete') { }
         return true;
     },
     /**
@@ -299,7 +317,7 @@ const InterfaceMonitor = {
     },
 
     clear: function () {
-        $('#console').html("");
+        this.console.html("");
         VittaInterface.displayWelcome();
         if (Repl && $('#repl-control').hasClass("activated")) {
             this.writeConsole('>>> ');
@@ -457,4 +475,20 @@ const InterfaceMonitor = {
         }
     }
 
+};
+
+// TO DO : Control on REPL
+
+/**
+ * This function records all the pressed keys in the array `pressedKeys`
+ * @param {DOM} e the DOM keypress element (document in this case)
+ */
+function multipleKeyPress(e) {
+    if (!this.serial.pressedKeys.includes(e.key)) {
+        this.serial.pressedKeys.push(e.key);
+    }
+    // Ctrl+B management for Keyboard Interrupt
+    if (this.serial.pressedKeys.includes('Control') && this.serial.pressedKeys.includes('b')) {
+        this.repl.open();
+    }
 };

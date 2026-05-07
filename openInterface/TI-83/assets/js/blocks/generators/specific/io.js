@@ -68,7 +68,7 @@ Blockly.Python.ti_system_sleep = function (block) {
     const unit = block.getFieldValue("UNIT");
     Blockly.Python.addImport('ti_system', IMPORT_TI_SYSTEM_ALL);
     switch (unit) {
-        case "SECOND":
+        case "SEC":
             return "sleep(" + duration + ")" + NEWLINE;
         case "MILLI":
             return "sleep(" + duration + "/1e3)" + NEWLINE;
@@ -96,7 +96,7 @@ Blockly.Python.io_wait = function (block) {
     const unit = block.getFieldValue("UNIT");
     Blockly.Python.addImport("time", IMPORT_TIME);
     switch (unit) {
-        case "SECOND":
+        case "SEC":
             return "time.sleep(" + duration + ")" + NEWLINE;
         case "MILLI":
             return "time.sleep(" + duration + "/1e3)" + NEWLINE;

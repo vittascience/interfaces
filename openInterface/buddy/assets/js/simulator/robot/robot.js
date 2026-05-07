@@ -1,4 +1,4 @@
-var Robots = {
+const Robots = {
   'Buddy': {
     CODE_REGEXP: /(BuddySDK)/,
     TYPE: 'robot',

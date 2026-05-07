@@ -37,14 +37,13 @@ const BLOCKS_OUTSIDE_SCOPE = [
 const EXAMPLE_PROJECT_LINKS = [];
 //adc
 const READ_ANALOG_MAX_VALUE = 65535;
-const WRITE_ANALOG_MAX_VALUE = 255;
 const PWM_MAX_DUTY = 65535;
 //libraries
 const LIBRARIES_PATH = {
     'PicoAutonomousRobotics' : "/kitronik"
 };
 //simulator
-const SIMULATOR_BOARDS = {
+const INTERFACE_BOARDS = {
     [BOARD_PI_PICO]: {
         "link": 'raspberry_pi_pico.svg',
         "name": 'Raspberry Pi Pico'
@@ -54,7 +53,7 @@ const SIMULATOR_BOARDS = {
         "name": "Shield Grove"
     }
 };
-const SIMULATOR_DEFAULT_BOARD = SIMULATOR_BOARDS[BOARD_DEFAULT];
+const SIMULATOR_DEFAULT_BOARD = INTERFACE_BOARDS[BOARD_DEFAULT];
 const SIMULATOR_DEFAULT_ROBOT = 'Kitronik';
 //serial
 const SERIAL_PRODUCTS = {

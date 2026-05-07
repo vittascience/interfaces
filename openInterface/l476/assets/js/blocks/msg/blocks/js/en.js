@@ -93,8 +93,8 @@ Blockly.Msg["DISPLAY_CHAINABLE_RESETALLRGBLED_TOOLTIP"] = IMG_MODULE_LED_RGB + B
 Blockly.Msg["IO_WAIT_TITLE"] = "wait %1 %2";
 Blockly.Msg["IO_WAIT_TOOLTIP"] = "Stop the code execution (duration in seconds or milliseconds).";
 Blockly.Msg["IO_WAIT_SECOND"] = "second(s)";
-Blockly.Msg["IO_WAIT_MILLISECOND"] = "millisecond(ms)";
-Blockly.Msg["IO_WAIT_MICROSECOND"] = "microsecond(µs)";
+Blockly.Msg['IO_WAIT_MILLISECOND'] = "millisecond(ms)";
+Blockly.Msg['IO_WAIT_MICROSECOND'] = "microsecond(µs)";
 Blockly.Msg["IO_WAIT_UNTIL_TITLE"] = "wait until %1";
 Blockly.Msg["IO_WAIT_UNTIL_TOOLTIP"] = "Stop the code execution until the satisfied condition.";
 Blockly.Msg["IO_INITCHRONOMETER_TITLE"] = "initialize the chronometer";
@@ -148,10 +148,15 @@ Blockly.Msg["IO_GETVOLTAGE_TOOLTIP"] = "Enable to convert analog value in voltag
 Blockly.Msg["IO_GETVOLTAGE_12BIT"] = "12-bit";
 Blockly.Msg["IO_GETVOLTAGE_16BIT"] = "16-bit";
 // Communication - UART Blocks
-Blockly.Msg["COMMUNICATION_UART_INIT_TITLE"] = "[uart] initialize serial connectin on bus %1 Baudrate %2";
-Blockly.Msg["COMMUNICATION_UART_INIT_TOOLTIP"] = "Initialize serial connection on the UART port";
-Blockly.Msg["COMMUNICATION_UART_WRITE_TITLE"] = "[uart] write data %1 on bus %2";
-Blockly.Msg["COMMUNICATION_UART_WRITE_TOOLTIP"] = "Send data on the UART port.";
+Blockly.Msg['COMMUNICATION_UART_INIT_TITLE'] = '[uart] Initialize serial connection on bus %1 Baudrate %2';
+Blockly.Msg['COMMUNICATION_UART_INIT_TOOLTIP'] = 'Initialize serial connection on UART port (1 or 2). By default, the pins are as follows: UART 1 (tx=D10, rx=D11) and UART 2 (tx=D1, rx=D0).';
+Blockly.Msg['COMMUNICATION_UART_WRITE_TITLE'] = '[uart] Write data %1 to bus %2';
+Blockly.Msg['COMMUNICATION_UART_WRITE_TOOLTIP'] = 'Allows writing data to UART port (1 or 2). By default, the pins are as follows: UART 1 (tx=D10, rx=D11) and UART 2 (tx=D1, rx=D0).';
+Blockly.Msg['COMMUNICATION_UART_READ_TITLE'] = '[uart] read data from bus %1';
+Blockly.Msg['COMMUNICATION_UART_READ_TOOLTIP'] = 'Allows reading data from UART port (1 or 2). By default, the pins are as follows: UART 1 (tx=D10, rx=D11) and UART 2 (tx=D1, rx=D0).';
+Blockly.Msg['COMMUNICATION_UART_READ_SIZE'] = 'data size';
+Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TITLE'] = '[uart] data available on bus %1';
+Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TOOLTIP'] = 'Returns the size of the data available on the UART port (1 or 2). By default, the pins are such that: UART 1 (tx=D10, rx=D11) and UART 2 (tx=D1, rx=D0).';
 // Communication - Serial connection
 Blockly.Msg["COMMUNICATION_SERIAL_WRITE_TITLE"] = "write on serial port %1";
 Blockly.Msg["COMMUNICATION_SERIAL_WRITE_TOOLTIP"] = "Write a string on serial port.";
@@ -198,10 +203,10 @@ Blockly.Msg["DAY_SUNDAY"] = "sunday";
 Blockly.Msg["COMMUNICATION_OPENLOG_WRITE_TITLE"] = "[Openlog] write in the SD card %1 on pins RX %2 TX %3 %4 Datas %5";
 Blockly.Msg["COMMUNICATION_OPENLOG_WRITE_TOOLTIP"] = IMG_MODULE_OPENLOG + Blockly.Tooltip.SEP + "Block enables writing data in the SD card of Openlog module.";
 // Communication - Wireless
-Blockly.Msg["COMMUNICATION_BLUETOOTH_SENDDATA_TITLE"] = "[Bluetooth] send on pins RX %1 TX %2 message %3";
-Blockly.Msg["COMMUNICATION_BLUETOOTH_SENDDATA_TOOLTIP"] = IMG_MODULE_HC05 + Blockly.Tooltip.SEP + "Enable to send any data by bluetooth HC05 module on pins RX/TX.";
-Blockly.Msg["COMMUNICATION_BLUETOOTH_ONDATARECEIVED_TITLE"] = "[Bluetooth] on message received RX %1 TX %2 in %3 then";
-Blockly.Msg["COMMUNICATION_BLUETOOTH_ONDATARECEIVED_TOOLTIP"] = IMG_MODULE_HC05 + Blockly.Tooltip.SEP + "Allows you to execute instructions on data received by Bluetooth HC05 module in the 'bluetoothData' variable on pins TX/RX.";
+Blockly.Msg["COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TITLE"] = "[HC05 BT] send on pins RX %1 TX %2 message %3";
+Blockly.Msg["COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TOOLTIP"] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + "Enable to send any data by bluetooth HC05 module on pins RX/TX.";
+Blockly.Msg["COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TITLE"] = "[HC05 BT] on message received RX %1 TX %2 in %3 then";
+Blockly.Msg["COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP"] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + "Allows you to execute instructions on data received by Bluetooth HC05 module in the 'bluetoothData' variable on pins TX/RX.";
 // Communication - GPS
 Blockly.Msg["COMMUNICATION_GPS_INFO_TYPE"] = "frame type";
 Blockly.Msg["COMMUNICATION_GPS_INFO_CLOCK"] = "clock (h, m, s)";
@@ -316,11 +321,11 @@ Blockly.Msg["SENSORS_GETANEMOMETER_TOOLTIP"] = IMG_MODULE_ANEMOMETER + Blockly.T
 // Sensors - Sound & Light
 Blockly.Msg["SENSORS_GETGROVELIGHT_TITLE"] = "[Light Sensor] light level on pin %1";
 Blockly.Msg["SENSORS_GETGROVELIGHT_TOOLTIP"] = IMG_MODULE_LIGHT + Blockly.Tooltip.SEP + "Returns grove light sensor value (from 0 to 4095) on analog pins p34 through p36, or p39 (as A2 to A4 on shield Grove).";
-Blockly.Msg["SENSORS_SI1145_GETLIGHT_TITLE"] = "[SI1145 Sensor] get light %1";
-Blockly.Msg["SENSORS_SI1145_GETLIGHT_TOOLTIP"] = IMG_MODULE_SI1145 + Blockly.Tooltip.SEP + "Returns Ultraviolet light index, IR light (in lumen) or Visible light (in lumen) from si1145 sensor. It works with Grove Sunlight Sensor or GY1145 sensor. Connect sensor on I2C port.";
-Blockly.Msg["SENSORS_SI1145_UV"] = "UV index";
-Blockly.Msg["SENSORS_SI1145_VISIBLE"] = "visible (lumen)";
-Blockly.Msg["SENSORS_SI1145_IR"] = "infrared (lumen)";
+Blockly.Msg["SENSORS_SUNLIGHT_GETDATA_TITLE"] = "[Sunlight Sensor] get %1";
+Blockly.Msg["SENSORS_SUNLIGHT_GETDATA_TOOLTIP"] = IMG_MODULE_SI1145 + Blockly.Tooltip.SEP + "Returns Ultraviolet light index, IR light (in lumen) or Visible light (in lumen) from si1145 sensor. It works with Grove Sunlight Sensor or GY1145 sensor. Connect sensor on I2C port.";
+Blockly.Msg["SENSORS_SUNLIGHT_UV"] = "UV index";
+Blockly.Msg["SENSORS_SUNLIGHT_VISIBLE"] = "visible (lumen)";
+Blockly.Msg["SENSORS_SUNLIGHT_IR"] = "infrared (lumen)";
 Blockly.Msg["SENSORS_GETUVINDEX_TITLE"] = "[Ultraviolet Sensor] UV index on pin %1";
 Blockly.Msg["SENSORS_GETUVINDEX_TOOLTIP"] = IMG_MODULE_UV + Blockly.Tooltip.SEP + "Returns UV index, for waves between 240 nm and 380 nm, with UV grove sensor on analog pins p34 through p36, or p39 (as A2 to A4 on shield Grove)..";
 Blockly.Msg["SENSORS_GETGROVESOUND_TITLE"] = "[Sound Sensor] sound level (dB) on pin %1 ";

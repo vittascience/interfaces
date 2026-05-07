@@ -84,7 +84,7 @@ Blockly.Arduino.sensors_SCD30_readData = function (block) {
                         break;
                 }
             }
-            return [code, Blockly.Arduino.ORDER_ATOMIC];
+            return [code, Blockly.Arduino.ORDER_ADDITIVE];
         case "HUM":
             return ["scd30_read(2)", Blockly.Arduino.ORDER_ATOMIC];
     }
@@ -173,13 +173,20 @@ Blockly.Arduino.sensors_getParticulateMatter = function (block) {
 
 // MHZ19 SENSOR _ GET CO2 AND TEMPERATURE BLOCK
 Blockly.Arduino.sensors_getMhz19Data = function (block) {
-    const pinTX = block.getFieldValue("TX");
-    const pinRX = block.getFieldValue("RX");
-    Blockly.Arduino.addInclude('software_serial', INCLUDE_SOFTWARE_SERIAL);
-    Blockly.Arduino.addDeclaration('mhz19', "SoftwareSerial mhz19(" + pinTX + ", " + pinRX + ");" + NEWLINE + "const uint8_t cmd_get_mhz19[] = {0xff, 0x01, 0x86, 0x00, 0x00,0x00, 0x00, 0x00, 0x79};")
-    Blockly.Arduino.addCodeVariable('mhz19', "int mhz19_temperature;" + NEWLINE + "int mhz19_CO2PPM;");
+    let objName = 'mhz19';
+    const isR4MinimaOrWifi = [BOARD_ARDUINO_UNO_R4_WIFI, BOARD_ARDUINO_UNO_R4_MINIMA].includes(Blockly.Constants.getSelectedBoard());
+    if (isR4MinimaOrWifi) {
+        Blockly.Arduino.addDefine(objName, "#define " + objName + TAB + "Serial1");
+    } else {
+        const pinTX = block.getFieldValue("TX");
+        const pinRX = block.getFieldValue("RX");
+        Blockly.Arduino.addInclude('software_serial', INCLUDE_SOFTWARE_SERIAL);
+        Blockly.Arduino.addDeclaration(objName, `SoftwareSerial ${objName}(${pinTX}, ${pinRX});`);
+    }
+    Blockly.Arduino.addDeclaration('cmd_get_mhz19', "const uint8_t cmd_get_mhz19[] = {0xff, 0x01, 0x86, 0x00, 0x00,0x00, 0x00, 0x00, 0x79};")
+    Blockly.Arduino.addCodeVariable(objName, "int mhz19_temperature;" + NEWLINE + "int mhz19_CO2PPM;");
     Blockly.Arduino.addFunction('mhz19_dataReceived', FUNCTIONS_ARDUINO.DEF_MHZ19_DATARECEIVE);
-    Blockly.Arduino.addSetup('mhz19', "mhz19.begin(9600);" + NEWLINE + "delay(2000);");
+    Blockly.Arduino.addSetup(objName, objName + ".begin(9600);" + NEWLINE + "delay(2000);");
     switch (block.getFieldValue("DATA")) {
         case "CO2":
             Blockly.Arduino.addFunction('mhz19_readCO2', FUNCTIONS_ARDUINO.DEF_MHZ19_GETCO2);
@@ -197,11 +204,11 @@ Blockly.Arduino.sensors_getMhz19Data = function (block) {
                         break;
                 }
             }
-            return [code, Blockly.Arduino.ORDER_ATOMIC];
+            return [code, Blockly.Arduino.ORDER_ADDITIVE];
     }
 };
 
-// BMP280 SENSOR _ READ TEMPERATURE/RESSURE/ALTITUDE BLOCK
+// BMP280 SENSOR _ READ TEMPERATURE/HUMIDITY/PRESSURE/ALTITUDE BLOCK
 Blockly.Arduino.sensors_getBmp280Data = function (block) {
     const addr = block.getFieldValue("ADDR");
     Blockly.Arduino.Generators.setupSerialConnection();
@@ -224,7 +231,7 @@ Blockly.Arduino.sensors_getBmp280Data = function (block) {
                         break;
                 }
             }
-            return [code, Blockly.Arduino.ORDER_ATOMIC];
+            return [code, Blockly.Arduino.ORDER_ADDITIVE];
         case "PRESS":
             return ['bmp280.readPressure()', Blockly.Arduino.ORDER_ATOMIC];
         case "ALT":
@@ -233,10 +240,42 @@ Blockly.Arduino.sensors_getBmp280Data = function (block) {
     }
 };
 
+// BME280 SENSOR _ READ TEMPERATURE/HUMIDITY/PRESSURE/ALTITUDE BLOCK
+Blockly.Arduino.sensors_bme280_getData = function (block) {
+    const addr = block.getFieldValue("ADDR");
+    Blockly.Arduino.Generators.setupSerialConnection();
+    Blockly.Arduino.addInclude('wire', INCLUDE_WIRE);
+    Blockly.Arduino.addInclude('bme280', INCLUDE_SEEED_BME280);
+    Blockly.Arduino.addDefine('bme280', "#define BME280_I2C_ADDR" + TAB + addr);
+    Blockly.Arduino.addDeclaration('bme280', "BME280 bme280;");
+    Blockly.Arduino.addSetup('bmpe80', FUNCTIONS_ARDUINO.SETUP_BME280_CHECK);
+    switch (block.getFieldValue("DATA")) {
+        case "TEMP":
+            var code = "bme280.getTemperature()";
+            if (block.getInput("TEMP_UNIT")) {
+                switch (block.getFieldValue("UNIT")) {
+                    case "FAHRENHEIT":
+                        code += "*9/5 + 32";
+                        break;
+                    case "KELVIN":
+                        code += " + 273.15";
+                        break;
+                }
+            }
+            return [code, Blockly.Arduino.ORDER_ADDITIVE];
+        case "HUM":
+            return ['bme280.getHumidity()', Blockly.Arduino.ORDER_ATOMIC];
+        case "PRESS":
+            return ['bme280.getPressure()', Blockly.Arduino.ORDER_ATOMIC];
+        case "ALT":
+            return ['bme280.calcAltitude(bme280.getPressure())', Blockly.Arduino.ORDER_ATOMIC];
+    }
+};
+
 // DPS310 SENSOR _ READ TEMPERATURE/RESSURE BLOCK
 Blockly.Arduino.sensors_getDps310Data = function (block) {
     Blockly.Arduino.Generators.setupSerialConnection();
-    Blockly.Arduino.addInclude('spi', INCLUDE_SPI);
+    Blockly.Arduino.addInclude('SPI', INCLUDE_SPI);
     Blockly.Arduino.addInclude('dps310', INCLUDE_DPS310);
     Blockly.Arduino.addDeclaration('dps310', "Dps310 Dps310PressureSensor = Dps310();");
     Blockly.Arduino.addFunction('dps310_setup', FUNCTIONS_ARDUINO.DEF_GROVE_DPS310_SETUP);
@@ -255,7 +294,7 @@ Blockly.Arduino.sensors_getDps310Data = function (block) {
                         break;
                 }
             }
-            return [code, Blockly.Arduino.ORDER_ATOMIC];
+            return [code, Blockly.Arduino.ORDER_ADDITIVE];
         case "PRESS":
             return ['dps310_readData(32, 1)', Blockly.Arduino.ORDER_ATOMIC];
         default:
@@ -309,7 +348,7 @@ Blockly.Arduino.sensors_getGroveHighTemperature = function (block) {
             code += " + 273.15";
             break;
     }
-    return [code, Blockly.Arduino.ORDER_ATOMIC]
+    return [code, Blockly.Arduino.ORDER_ADDITIVE]
 };
 
 // DHT 11/22 SENSOR _ READ HUMIDITY BLOCK
@@ -342,7 +381,7 @@ Blockly.Arduino.sensors_dhtReadData = function (block) {
                         break;
                 }
             }
-            return [code, Blockly.Arduino.ORDER_ATOMIC];
+            return [code, Blockly.Arduino.ORDER_ADDITIVE];
         case "HUM":
             switch (sensor) {
                 case "11":
@@ -374,7 +413,7 @@ Blockly.Arduino.sensors_TH02readData = function (block) {
                         break;
                 }
             }
-            return [code, Blockly.Arduino.ORDER_ATOMIC];
+            return [code, Blockly.Arduino.ORDER_ADDITIVE];
         case "HUM":
             return ["TH02.ReadHumidity()", Blockly.Arduino.ORDER_ATOMIC];
         default:
@@ -402,7 +441,7 @@ Blockly.Arduino.sensors_SHT31readData = function (block) {
                         break;
                 }
             }
-            return [code, Blockly.Arduino.ORDER_ATOMIC];
+            return [code, Blockly.Arduino.ORDER_ADDITIVE];
         case "HUM":
             return ["sht31.getHumidity()", Blockly.Arduino.ORDER_ATOMIC];
         default:
@@ -464,7 +503,7 @@ Blockly.Arduino.sensors_getBme680Data = function (block) {
                         break;
                 }
             }
-            return [code, Blockly.Arduino.ORDER_ATOMIC];
+            return [code, Blockly.Arduino.ORDER_ADDITIVE];
         case "PRESS":
             Blockly.Arduino.addFunction('bme680_readPressure', FUNCTIONS_ARDUINO.DEF_BME680_GET_PRESSURE);
             return ["bme680_readPressure()", Blockly.Arduino.ORDER_ATOMIC];
@@ -495,7 +534,7 @@ Blockly.Arduino.sensors_ds18b20_getTemperature = function (block) {
             code += " + 273.15";
             break;
     }
-    return [code, Blockly.Arduino.ORDER_ATOMIC];
+    return [code, Blockly.Arduino.ORDER_ADDITIVE];
 };
 
 // GROVE WATER SENSOR _ READ STATE
@@ -611,14 +650,19 @@ Blockly.Arduino.sensors_colorSensor_onColorDetected = function (block) {
 // SNAPSHOT AND SAVE IN MICROSD BLOCK
 Blockly.Arduino.sensors_cameraTakePicture = function (block) {
     Blockly.Arduino.Generators.setupSerialConnection();
+    const isR4MinimaOrWifi = [BOARD_ARDUINO_UNO_R4_WIFI, BOARD_ARDUINO_UNO_R4_MINIMA].includes(Blockly.Constants.getSelectedBoard());
+    if (isR4MinimaOrWifi) {
+        Blockly.Arduino.addDefine('cameraconnection', "#define cameraconnection  Serial1");
+    } else {
+        const pin_rx = block.getFieldValue("RX");
+        const pin_tx = block.getFieldValue("TX");
+        Blockly.Arduino.addInclude('software_serial_2', INCLUDE_SOFTWARE_SERIAL_2);
+        Blockly.Arduino.addDeclaration('cameraconnection', "SoftwareSerial cameraconnection = SoftwareSerial(" + pin_tx + ", " + pin_rx + "); // RX,TX => CAM_TX,CAM_RX");
+    }
     const pin_cs = block.getFieldValue("PIN_CS");
-    const pin_rx = block.getFieldValue("RX");
-    const pin_tx = block.getFieldValue("TX");
-    Blockly.Arduino.addInclude('software_serial_2', INCLUDE_SOFTWARE_SERIAL_2);
     Blockly.Arduino.addInclude('adafruit_vc0706', INCLUDE_ADAFRUIT_VC0706);
-    Blockly.Arduino.addInclude('sd', INCLUDE_SD);
-    Blockly.Arduino.addInclude('spi', INCLUDE_SPI);
-    Blockly.Arduino.addDeclaration('cameraconnection', "SoftwareSerial cameraconnection = SoftwareSerial(" + pin_tx + ", " + pin_rx + "); // RX,TX => CAM_TX,CAM_RX");
+    Blockly.Arduino.addInclude('SD', INCLUDE_SD);
+    Blockly.Arduino.addInclude('SPI', INCLUDE_SPI);
     Blockly.Arduino.addDeclaration('vc0706', "Adafruit_VC0706 cam = Adafruit_VC0706(&cameraconnection);");
     Blockly.Arduino.addSetup('sd', "sd_setupCard(" + pin_cs + ");");
     Blockly.Arduino.addSetup('camera_check', "while(!cam.begin()) {" + NEWLINE + TAB + "Serial.println(\"La camera n'est pas presente.\");" + NEWLINE + "}");
@@ -646,9 +690,9 @@ Blockly.Arduino.sensors_getGroveUltrasonicRanger = function (block) {
         case "HC-SR04":
             const pinTRIG = block.getFieldValue("TRIG");
             const pinECHO = block.getFieldValue("ECHO");
-            const pinName_TRIG = Blockly.Arduino.Generators.digital_write(pinTRIG, 'Ultrasonic TRIG');
-            const pinName_ECHO = Blockly.Arduino.Generators.digital_read(pinECHO, 'Ultrasonic ECHO');
-            Blockly.Arduino.addSetup('hcsr04', "pinMode(" + pinTRIG + ", OUTPUT);" + NEWLINE + "pinMode(" + pinECHO + ", INPUT);");
+            const pinName_TRIG = Blockly.Arduino.Generators.digital_write(pinTRIG, 'HCSR04 TRIG');
+            const pinName_ECHO = Blockly.Arduino.Generators.digital_read(pinECHO, 'HCSR04 ECHO');
+            Blockly.Arduino.addDeclaration('hcsr04_' + pinTRIG + '_codeFlag', '// Ultrasonic TRIG/ECHO on ' + pinTRIG + '/' + pinECHO);
             Blockly.Arduino.addFunction('hcsr04_getUltrasonicData', FUNCTIONS_ARDUINO.DEF_HCSR04_GET_ULTRASONIC_DATA)
             switch (block.getFieldValue("DATA")) {
                 case "DIST":
@@ -763,4 +807,59 @@ Blockly.Arduino.sensors_getPulseBpm = function (block) {
     Blockly.Arduino.addCodeVariable('pulse_sensor_int_variables', "int rise_count, n;");
     Blockly.Arduino.addFunction('pulse_sensor_get_bpm', FUNCTIONS_ARDUINO.DEF_PULSE_SENSOR_GET_BPM);
     return ["getBPM(" + pin + ")", Blockly.Arduino.ORDER_ATOMIC];
+};
+
+// GROVE Infrared Temperature Sensor MLX90614 _ READ OBJECT TEMPERATURE
+Blockly.Arduino.sensors_mlx90614_readObjectTemperature = function (block) {
+    Blockly.Arduino.addInclude('wire', INCLUDE_WIRE);
+    Blockly.Arduino.addInclude('mlx90614', INCLUDE_ADAFRUIT_MLX90614);
+    Blockly.Arduino.addDeclaration('mlx90614', "Adafruit_MLX90614 mlx90614 = Adafruit_MLX90614();");
+    Blockly.Arduino.addSetup('mlx90614', FUNCTIONS_ARDUINO.SETUP_MLX90614_CHECK);
+    let code = "mlx90614.readObjectTempC()";
+    if (block.getInput("TEMP_UNIT")) {
+        switch (block.getFieldValue("UNIT")) {
+            case "FAHRENHEIT":
+                code += "*9/5 + 32";
+                break;
+        }
+    }
+    return [code, Blockly.Arduino.ORDER_ATOMIC];
+};
+
+Blockly.Arduino.sensors_getEarClipHeartRate = function (block) {
+    const pinConstant = Blockly.Arduino.Generators.analog_read(block.getFieldValue("PIN"), "Ear clip Heart Rate Sensor");
+    Blockly.Arduino.addDeclaration('ear_clip_lastBeatTime', 'unsigned long lastBeatTime = 0;');
+    Blockly.Arduino.addDeclaration('ear_clip_lastBPMTime', 'unsigned long lastBPMTime = 0;');
+    Blockly.Arduino.addDeclaration('ear_clip_threshold', 'int threshold = 550;');
+    Blockly.Arduino.addDeclaration('ear_clip_bpm', 'int bpm = 0;');
+    Blockly.Arduino.addDeclaration('ear_clip_pulseDetected', 'bool pulseDetected = false;');
+    Blockly.Arduino.addFunction('ear_clip_getBPM', FUNCTIONS_ARDUINO.DEF_EAR_CLIP_GET_BPM);
+    return ["getBPM(" + pinConstant + ")", Blockly.Arduino.ORDER_ATOMIC];
+};
+
+Blockly.Arduino.sensors_dfrobot_max30102_takeMeasure = function () {
+    Blockly.Arduino.addInclude('wire', INCLUDE_WIRE);
+    Blockly.Arduino.addInclude('dfrobot_max30102', INCLUDE_DFROBOT_MAX30102);
+    Blockly.Arduino.addDeclaration('dfrobot_max30102', "DFRobot_BloodOxygen_S_I2C MAX30102(&Wire, 0x57);");
+    Blockly.Arduino.addSetup('setup_wire', "Wire.begin();");
+    Blockly.Arduino.addSetup('setup_dfrobot_max30102', "MAX30102.begin();");
+    return "MAX30102.getHeartbeatSPO2();" + NEWLINE;
+};
+
+Blockly.Arduino.sensors_dfrobot_max30102_getData = function (block) {
+    Blockly.Arduino.addInclude('wire', INCLUDE_WIRE);
+    Blockly.Arduino.addInclude('dfrobot_max30102', INCLUDE_DFROBOT_MAX30102);
+    Blockly.Arduino.addDeclaration('dfrobot_max30102', "DFRobot_BloodOxygen_S_I2C MAX30102(&Wire, 0x57);");
+    Blockly.Arduino.addSetup('setup_wire', "Wire.begin();");
+    Blockly.Arduino.addSetup('setup_dfrobot_max30102', "MAX30102.begin();");
+    switch (block.getFieldValue("DATA")) {
+        case "BPM":
+            return ["MAX30102._sHeartbeatSPO2.Heartbeat", Blockly.Arduino.ORDER_ATOMIC];
+        case "SPO2":
+            return ["MAX30102._sHeartbeatSPO2.SPO2", Blockly.Arduino.ORDER_ATOMIC];
+        case "TEMP":
+            return ["MAX30102._sHeartbeatSPO2.Temperature", Blockly.Arduino.ORDER_ATOMIC];
+        default:
+            throw Error("sensors_dfrobot_max30102_getData: option '" + block.getFieldValue("DATA") + "' is not an option");
+    }
 };

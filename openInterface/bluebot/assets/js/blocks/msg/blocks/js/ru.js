@@ -16,5 +16,5 @@ Blockly.Msg['ACTUATORS_MOVE_BACKWARD_TITLE'] = 'идти назад';
 Blockly.Msg['ACTUATORS_MOVE_BACKWARD_TOOLTIP'] = 'Позволяет роботу Blue-bot двигаться назад.';
 Blockly.Msg['ACTUATORS_TURN_LEFT_TITLE'] = 'повернуть налево на %1';
 Blockly.Msg['ACTUATORS_TURN_LEFT_TOOLTIP'] = 'Позволяет роботу Blue-bot повернуть налево на 45°, 90° или 135°.';
-Blockly.Msg['ACTUATORS_TURN_RIGHT_TITLE'] = 'Blockly.Msg[\'ACTUATORS_MOVE_FORWARD_TITLE\'] = \'двигаться вперёд\';';
+Blockly.Msg['ACTUATORS_TURN_RIGHT_TITLE'] = 'двигаться вперёд';
 Blockly.Msg['ACTUATORS_TURN_RIGHT_TOOLTIP'] = 'Позволяет роботу Blue-bot повернуть направо на 45°, 90° или 135°.';

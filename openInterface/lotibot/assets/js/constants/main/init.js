@@ -30,5 +30,5 @@ const SIMULATOR_DEFAULT_BOARD = {
     "name": "Loti-bot"
 };
 const SIMULATOR_DEFAULT_ROBOT = 'lotibot';
-
+//serial
 const SERIAL_PRODUCT_FILTER = false;

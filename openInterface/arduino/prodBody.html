@@ -64,10 +64,10 @@
                 <div id="monitor-content" class="monitor-grid-bottom">
                     <div id="monitor-view">
                         <div id="monitor-view-group-btn">
-                            <button id="monitor-btn-console" class="monitor-view-btn btn activated" data-i18n="[title]code.console.buttons.consoleMode" data-toggle="tooltip" data-placement="left" title="Mode console">
+                            <button id="monitor-btn-console" class="monitor-view-btn btn activated" data-i18n="[title]code.console.buttons.consoleMode;[aria-label]code.console.buttons.consoleMode" data-toggle="tooltip" data-placement="left" title="Mode console">
                                 <i class="fas fa-terminal"></i>
                             </button>
-                            <button id="monitor-btn-graph" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.graphMode" data-toggle="tooltip" data-placement="left" title="Mode graphique">
+                            <button id="monitor-btn-graph" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.graphMode;[aria-label]code.console.buttons.graphMode" data-toggle="tooltip" data-placement="left" title="Mode graphique">
                                 <i class="fas fa-chart-line"></i>
                             </button>
                             <div id="monitor-graph-tooltip" class="interface-tooltip" style="display:none;">
@@ -84,10 +84,10 @@
                                     Pour visualiser les données reçues dans la console, cliquer sur le bouton <b>Graphique</b>
                                 </span>
                             </div>
-                            <button id="monitor-btn-music" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.musicMode" data-toggle="tooltip" data-placement="left" title="Mode musical">
+                            <button id="monitor-btn-music" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.musicMode;[aria-label]code.console.buttons.musicMode" data-toggle="tooltip" data-placement="left" title="Mode musical">
                                 <i class="fas fa-music"></i>
                             </button>
-                            <button id="monitor-clear" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.clearConsole" data-toggle="tooltip" data-placement="left" title="Nettoyer l'écran">
+                            <button id="monitor-clear" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.clearConsole;[aria-label]code.console.buttons.clearConsole" data-toggle="tooltip" data-placement="left" title="Nettoyer l'écran">
                                 <i class="fas fa-broom"></i>
                             </button>
                         </div>
@@ -158,7 +158,7 @@
 
                             <div class="w-75 d-flex me-1">
                                 <div class="dropup dropup-center">
-                                    <button class="btn monitor-controls-button dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button class="btn monitor-controls-button dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-i18n="[aria-label]code.console.buttons.monitorTool.controlsMenu">
                                         <i class="fas fa-cog"></i>
                                     </button>
                                     <div id="monitor-controls-dropdown" class="dropdown-menu">
@@ -232,7 +232,7 @@
 
                                     <input type="text" id="serial-input" class="serial-controls form-control ide-btn-left" autocomplete="off" data-i18n="[placeholder]code.monitor.controls.text.send"/>
                                     <div id="serial-input-btn" class="input-group-append">
-                                        <button id="serial-send" class="ide-btn serial-controls ide-btn-right" onclick="InterfaceConnection.sendSerialCommand()" data-placement="top" data-toggle="tooltip" data-i18n="[title]code.monitor.controls.tooltips.send">
+                                        <button id="serial-send" class="ide-btn serial-controls ide-btn-right" data-placement="top" data-toggle="tooltip" data-i18n="[title]code.monitor.controls.tooltips.send;[aria-label]code.monitor.controls.tooltips.send" >
                                             <i class="fa fa-paper-plane" aria-hidden="true"></i>
                                         </button>
                                     </div>
@@ -261,12 +261,12 @@
             <div id="simulator">
                 <div id="headerOut">
                     <div class="simulator-board-buttons">
-                        <button id="simulator-board-toggler" class="btn simulator-button-circle" type="button" onclick="Simulator.toggleBoardDisplay()">
+                        <button id="simulator-board-toggler" class="btn simulator-button-circle" type="button" onclick="Simulator.toggleBoardDisplay()" aria-label="Toggle board display" data-i18n="[aria-label]code.simulator.buttons.base.toggleBoardDisplay">
                             <i class="fa-solid fa-minus simulator-buttons-icon"></i>
                         </button>
                         <div class="dropdown">
                             <button id="simulator-board-selector" class="btn dropdown-toggle simulator-button-circle" type="button"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Select board" data-i18n="[aria-label]code.simulator.buttons.base.selectBoard">
                                 <i class="fa-solid fa-microchip simulator-board-selector-microship"></i>
                             </button>
                             <div id="simulator-board-options" class="dropdown-menu" aria-labelledby="simulator-board-selector"></div>
@@ -277,7 +277,7 @@
                     </div>
                     <span id="title-board" style="display: none;">Arduino UNO</span>
                     <div id="board-container">
-                        <object id="board-viewer" class="mt-3"></object>
+                        <object id="board-viewer" class="mt-3" role="img" aria-label="Board simulator view"></object>
                     </div>
                 </div>
                 <div id="simulator-buttons">
@@ -305,7 +305,7 @@
                                     data-toggle="tooltip" data-placement="top" title="Afficher les variables" onclick="Simulator.Debugger.toggleVariablesPanel()">
                                 <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-variable.svg" alt="Variable icon">
                             </button>
-                            <button id="simulator_fullscreen" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.fullscreen" 
+                            <button id="simulator_fullscreen" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.fullscreen;[aria-label]code.simulator.buttons.base.fullscreen" aria-label="Fullscreen" 
                                     data-toggle="tooltip" data-placement="top" title="Plein écran" onclick="Simulator.toggleFullscreen()">
                                 <i class="fa-solid fa-expand" style="font-size: larger;"></i>
                             </button>
@@ -501,6 +501,9 @@
 <script src="/openInterface/interfaces/assets/js/external/echarts-5.4.0/echarts.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/tone/tone.js"></script>
 <!-- endbuild -->
+<!-- build:js-autocomplete-->
+<script src="/openInterface/interfaces/assets/js/autocomplete/arduino/tree.js"></script>
+<!-- endbuild -->
 <!-- build:js-utils -->
 <script src="/openInterface/interfaces/assets/js/utils/url.js"></script>
 <script src="/openInterface/interfaces/assets/js/utils/colour.js"></script>
@@ -522,12 +525,12 @@
 <script src="/openInterface/arduino/assets/js/constants/main/buttons.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/main/interface.js"></script>
 <script src="/openInterface/arduino/assets/js/constants/main/interface.js"></script>
+<script src="/openInterface/arduino/assets/js/constants/modals/specificModals.js"></script>
 <!-- endbuild -->
 <!-- build:js-constants -->
 <script src="/openInterface/interfaces/assets/js/constants/main/errors.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/main/patterns.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/main/api.js"></script>
-<script src="/openInterface/interfaces/assets/js/constants/blocks/helpurl.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/generators/constants.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/simulator/alphabet_8x8.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/simulator/alphabet_5x7.js"></script>
@@ -549,8 +552,9 @@
 <script src="/openInterface/interfaces/assets/js/serial/Serial.js"></script>
 <script src="/openInterface/interfaces/assets/js/serial/arduino/boards.js"></script>
 <script src="/openInterface/interfaces/assets/js/serial/arduino/AvrgirlArduino.js"></script>
-<script src="/openInterface/interfaces/assets/js/serial/arduino/serialAPI.js"></script>
+<script src="/openInterface/interfaces/assets/js/serial/arduino/InterfaceConnection.js"></script>
 <script src="/openInterface/interfaces/assets/js/serial/arduino/SambaUploader.js"></script>
+<script src="/openInterface/interfaces/assets/js/serial/arduino/MinimaUploader.js"></script>
 <!-- endbuild -->
 <!-- build:js-simulator -->
 <script src="/openInterface/interfaces/assets/js/external/JSCPP/JSCPP.js"></script>
@@ -560,7 +564,9 @@
 <script src="/openInterface/interfaces/assets/js/simulator/SimulatorModals.js"></script>
 <script src="/openInterface/interfaces/assets/js/simulator/mosaic/Animator.js"></script>
 <script src="/openInterface/interfaces/assets/js/simulator/mosaic/groveModules.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/mosaic/groveModules_analog.js"></script>
 <script src="/openInterface/interfaces/assets/js/simulator/wifi/WifiSimulator.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/bluetooth/BluetoothSimulator.js"></script>
 <script src="/openInterface/arduino/assets/js/simulator/src/Vittascience_H.js"></script>
 <script src="/openInterface/arduino/assets/js/simulator/src/Libraries_H.js"></script>
 <script src="/openInterface/arduino/assets/js/simulator/mosaic/definitions.js"></script>
@@ -575,6 +581,7 @@
 <!-- build:js-blocks -->
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/constants.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/common/cameras.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/common/vittaia.js"></script>
 <script src="/openInterface/arduino/assets/js/blocks/definitions/blockly_constants.js"></script>
 <script src="/openInterface/arduino/assets/js/blocks/definitions/basic/colour.js"></script>
 <script src="/openInterface/arduino/assets/js/blocks/definitions/basic/logic.js"></script>
@@ -591,7 +598,6 @@
 <script src="/openInterface/arduino/assets/js/blocks/definitions/specific/sensors.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/python/esp32/network.js"></script>
 <script src="/openInterface/arduino/assets/js/blocks/definitions/specific/actuators.js"></script>
-<script src="/openInterface/arduino/assets/js/blocks/definitions/specific/vittaia.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/generators/arduino/init.js"></script>
 <script src="/openInterface/arduino/assets/js/blocks/generators/generator.js"></script>
 <script src="/openInterface/arduino/assets/js/blocks/generators/basic/colour.js"></script>
@@ -627,15 +633,13 @@
 <script src="/openInterface/interfaces/assets/js/main/compatibilityBrowserCheck.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/tree-sitter/tree-sitter.js"></script>
 <script src="/openInterface/arduino/assets/js/blocks/code2Blocks/excluded_blocks.js"></script>
-<!-- accessibility -->
-<script src="/openInterface/interfaces/assets/js/utils/accessibility/accessibility.js" type="module"></script>
 <!-- endbuild -->
 <!-- loader -->
 <script src="/openInterface/interfaces/assets/js/events/load.js"></script>
 <script>
     window.checkNavigatorVersionForPurpose('interfaces');
-    $(document).ready(() => {
-        loadInterface(INTERFACE_NAME);
+    $(document).ready(async () => {
+        await loadInterface(INTERFACE_NAME);
     });
 </script>
 

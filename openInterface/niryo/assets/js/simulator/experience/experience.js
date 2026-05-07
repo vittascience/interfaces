@@ -12,6 +12,8 @@ import { LineGeometry } from '/openInterface/interfaces/assets/js/simulator3d/li
 import ledRainbow from './utils/led_rainbow.js';
 import RaycastModel from './utils/raycastEvents.js';
 import Background from './utils/background.js';
+import Physics from './utils/physics.js';
+import SimulationParameters from './utils/simulationParameters.js';
 
 export default class Simulator3d {
 	static instance;
@@ -41,6 +43,7 @@ export default class Simulator3d {
 		this.storedPositions = [];
 		this.startPositions = [0.00023593298341850755, 0.49940895727663126, -1.2506181983468665, 9.265358979293481e-5, -9.265358979293481e-5, 9.265358979293481e-5];
 		this.requestLineTrajectory = false;
+		this.colorLineTrajectory = new THREE.Color(0xff0000);
 		this.pointsArrayLine = [];
 		this.socketCon = null;
 		this.waitingAddBlock = false;
@@ -67,6 +70,32 @@ export default class Simulator3d {
 		const overlayMovement = document.getElementById('movements-overlay');
 		const degreButton = document.getElementById('degre-radio-button');
 		const radianButton = document.getElementById('radian-radio-button');
+
+		const parametersButton = document.getElementById('button-simulation-parameters');
+		const closeParametersButton = document.getElementById('close-parameters-button');
+		const simulationParametersContainer = document.getElementById('simulation-parameters-container');
+
+		parametersButton.addEventListener('click', () => {
+			simulationParametersContainer.style.display = simulationParametersContainer.style.display === 'none' ? 'block' : 'none';
+		});
+
+		closeParametersButton.addEventListener('click', () => {
+			simulationParametersContainer.style.display = 'none';
+		});
+
+		// specific to niryo remote
+		const niryoRemoteObjectInscene = document.getElementById('parameter-simulation-remote-control');
+		if (window.remoteNiryoRobot) {
+			niryoRemoteObjectInscene.style.display = 'block';
+			const synchronizeButton = document.getElementById('synchronize-objects-in-scene');
+			synchronizeButton.addEventListener('click', () => {
+				if (typeof getObjectsPositions === 'function') {
+					getObjectsPositions(this);
+				}
+			});
+		} else {
+			niryoRemoteObjectInscene.style.display = 'none';
+		}
 
 		for (let i = 0; i < 6; i++) {
 			const sliderValue = document.getElementById(`slider-j${i + 1}`);
@@ -163,6 +192,7 @@ export default class Simulator3d {
 
 		this.raycastModel = new RaycastModel(this.experience, this);
 		this.background = new Background(this.experience, this);
+		this.physics.init();
 	}
 
 	openOverlayMovement(groupSelected = null) {
@@ -330,6 +360,7 @@ export default class Simulator3d {
 						this.experience.perspecticeCamera = child;
 					}
 				});
+				this.changeScenario('default');
 				this.experience.sceneReady = true;
 				if (this.usePostprocess) {
 					this.experience.renderer.usePostprocess = true;
@@ -337,6 +368,8 @@ export default class Simulator3d {
 				this.loadedHierarchie = true;
 				this._init();
 				this.led_ring();
+				this.simulationParameters = new SimulationParameters(this.experience, this);
+				this.physics = new Physics(this.experience);
 				// new Gui(this.experience);
 			} else {
 				if (this.options.params.debug) console.log('model not loaded');
@@ -1076,7 +1109,7 @@ export default class Simulator3d {
 			positions.push(point.x, point.y, point.z);
 		}
 
-		const color = type === 'trajectoryLine' ? 0x00ff00 : 0xff0000;
+		const color = type === 'trajectoryLine' ? 0x00ff00 : this.colorLineTrajectory;
 		const lineMaterial = new LineMaterial({ color, linewidth: 0.005 });
 		const lineGeometry = new LineGeometry();
 		lineGeometry.setPositions(positions);
@@ -1097,8 +1130,11 @@ export default class Simulator3d {
 	 * @param {string} type
 	 * @returns {void} update the line trajectory. Complete supression of points array and create a new path each time the function is called
 	 */
-	updateLineTrajectory(type) {
+	updateLineTrajectory(type, color) {
 		const line = this.experience.scene.getObjectByName(type);
+		if (color) {
+			line.material.color = new THREE.Color(color);
+		}
 		if (!line) return; // Exit if line does not exist
 
 		const globalPosition = new THREE.Vector3();
@@ -1174,7 +1210,7 @@ export default class Simulator3d {
 					joint.rotation[this.matrixCoord[i]] = sign[i] * message.position[i];
 				}
 				if (this.requestLineTrajectory) {
-					this.updateLineTrajectory('trajectoryLine');
+					this.updateLineTrajectory('trajectoryLine', this.colorLineTrajectory);
 				}
 			}
 		});
@@ -1188,13 +1224,34 @@ export default class Simulator3d {
 	closeGripper(duration) {
 		const morsLeft = this.experience.hierarchie.MORS_LEFT;
 		const morsRight = this.experience.hierarchie.MORS_RIGHT;
-		gsap.to(morsLeft.position, {
+
+		const leftTween = gsap.to(morsLeft.position, {
 			duration: duration,
 			x: 0.01,
+			onUpdate: () => {
+				if (this.physics && this.physics.isGripperBlocked()) {
+					leftTween.kill();
+					rightTween.kill();
+					this.physics.gripObject();
+				}
+			},
+			onComplete: () => {
+				if (this.physics && this.physics.isGripperBlocked()) {
+					this.physics.gripObject();
+				}
+			},
 		});
-		gsap.to(morsRight.position, {
+
+		const rightTween = gsap.to(morsRight.position, {
 			duration: duration,
 			x: -0.005,
+			onUpdate: () => {
+				if (this.physics && this.physics.isGripperBlocked()) {
+					leftTween.kill();
+					rightTween.kill();
+					this.physics.gripObject();
+				}
+			},
 		});
 	}
 
@@ -1206,6 +1263,11 @@ export default class Simulator3d {
 	openGripper(duration) {
 		const morsLeft = this.experience.hierarchie.MORS_LEFT;
 		const morsRight = this.experience.hierarchie.MORS_RIGHT;
+
+		if (this.physics && this.physics.grippedObject) {
+			this.physics.releaseObject();
+		}
+
 		gsap.to(morsLeft.position, {
 			duration: duration,
 			x: 0.028,
@@ -1259,6 +1321,75 @@ export default class Simulator3d {
 				this.addNiryoBlock();
 			}
 		});
+	}
+
+	// niryo remote object
+	addSyncedObject(objects) {
+		this.removeDropZone();
+		this.physics.addPhysicalSyncedObjects(objects);
+	}
+
+	addDropZone(colors, positions) {
+		this.removeDropZone();
+		//
+		for (let i = 0; i < 3; i++) {
+			const cylinderGeometry = new THREE.CylinderGeometry(0.03, 0.03, 0.04, 32);
+			const cylinderMaterial = new THREE.MeshStandardMaterial({ color: colors[i] });
+			const cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
+			// add glow effect using emissive material
+			cylinderMaterial.emissive = new THREE.Color(colors[i]);
+			cylinderMaterial.emissiveIntensity = 6;
+			cylinderMaterial.transparent = true;
+			cylinderMaterial.opacity = 0.8;
+
+			cylinder.rotation.x = Math.PI;
+			cylinder.position.set(positions[i][0], positions[i][1], positions[i][2]);
+			cylinder.name = `dropZone${i}`;
+			this.experience.scene.add(cylinder);
+		}
+	}
+
+	removeDropZone() {
+		for (let i = 0; i < 3; i++) {
+			const dropZone = this.experience.scene.getObjectByName(`dropZone${i}`);
+			if (dropZone) {
+				// Dispose geometry and material
+				if (dropZone.geometry) dropZone.geometry.dispose();
+				if (dropZone.material) dropZone.material.dispose();
+
+				this.experience.scene.remove(dropZone);
+			}
+		}
+	}
+
+	changeScenario(scenario = 'default') {
+		if (this.physics) this.physics.reset();
+		const colors = [0xff0000, 0x00ff00, 0x0000ff];
+		let positions;
+		if (scenario === 'default') {
+			positions = [
+				[-0.2, 0.01, -0.2],
+				[-0.35, 0.01, 0],
+				[-0.2, 0.01, 0.2],
+			];
+		} else if (scenario === 'tower') {
+			positions = [
+				[-0.35, 0.01, 0],
+				[-0.35, 0.055, 0],
+				[-0.35, 0.09, 0],
+			];
+		} else if (scenario === 'pyramid') {
+			positions = [
+				[-0.25, 0.01, -0.030],
+				[-0.25, 0.055, 0],
+				[-0.25, 0.01, 0.030],
+			];
+		} else {
+			console.error('Scenario not recognized');
+			return;
+		}
+
+		this.addDropZone(colors, positions);
 	}
 }
 

@@ -107,7 +107,7 @@ class NiryoNed {
 						this.connected = true;
 						const robotStatusDiv = document.getElementById('robot-status');
 						const robotStatusContainer = document.getElementById('robot-status-container');
-						robotStatusDiv.innerHTML = 'Robot Connecté';
+						robotStatusDiv.innerHTML = 'Connecté';
 						robotStatusContainer.style.backgroundColor = '#22b573';
 						simu.initConnectionMiddleware(this.socket);
 						// Simulator.pause();

@@ -12,7 +12,7 @@ Blockly.Arduino.vittaia_load_local_model = function () {
 
 Blockly.Arduino.vittaia_load_cloud_model = function (block) {
     Blockly.Arduino.addInclude('vittaia', INCLUDE_AI);
-    const modelId = Blockly.Arduino.valueToCode(block, 'MODEL_ID', Blockly.Arduino.ORDER_ATOMIC);
+    const modelId = Blockly.Arduino.valueToCode(block, 'MODEL_URL', Blockly.Arduino.ORDER_ATOMIC);
     Blockly.Arduino.addSetup('model', `model = new Model(${modelId});`);
     return '';
 };

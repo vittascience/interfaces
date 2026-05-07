@@ -35,7 +35,7 @@ Blockly.Python.communication_FizziqBT = function (block) {
     Blockly.Python.addInit('UUID-UART', "UUID_UART = '6E400001-B5A3-F393-E0A9-E50E24DCCA9E'");
     Blockly.Python.addInit('UUID-TX', "UUID_TX = '6E400002-B5A3-F393-E0A9-E50E24DCCA9E'");
     Blockly.Python.addInit('UUID-RX', "UUID_RX = '6E400003-B5A3-F393-E0A9-E50E24DCCA9E'"); //TX AND RX ARE INVERTED 
-    Blockly.Python.addInit('fizziq_init', "uart = BlueUart('ESP32_Fizziq', UUID_UART, UUID_TX, UUID_RX)");
+    Blockly.Python.addInit('fizziq_init', "uart = BlueUart('ESP32_Vittascience', UUID_UART, UUID_TX, UUID_RX)");
     const value = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || "''";
     let dataToSend;
     let measure;
@@ -192,34 +192,32 @@ Blockly.Python.communication_writeOpenLogSd = function (block) {
 
 // Bluetooth
 
-Blockly.Python.communication_sendBluetoothData = function (block) {
+Blockly.Python.communication_hc05_sendBluetoothData = function (block) {
     const data = Blockly.Python.valueToCode(block, "DATA", Blockly.Python.ORDER_NONE) || "''";
+    const pinTX = block.getFieldValue("TX");
+    const pinRX = block.getFieldValue("RX");
+    Blockly.Python.addInit('uart_1', "uart_1 = UART(1, baudrate=9600,  tx=" + pinRX.replace('p', '') + ", rx=" + pinTX.replace('p', '') + ")");
     if (Blockly.Constants.Utils.isInputTextBlock(block, "DATA")) {
-        Blockly.Python.addInit('uart_1', "uart_1 = UART(1, baudrate=9600,  tx=" + block.getFieldValue("RX").replace('p', '') + ", rx=" + block.getFieldValue("TX").replace('p', '') + ")");
         return "uart_1.write(" + data + ")" + NEWLINE;
     } else {
-        Blockly.Python.addInit('uart_1', "uart_1 = UART(1, baudrate=9600,  tx=" + block.getFieldValue("RX").replace('p', '') + ", rx=" + block.getFieldValue("TX").replace('p', '') + ")");
         return "uart_1.write(str(" + data + "))" + NEWLINE;
     }
 };
 
-Blockly.Python.communication_onBluetoothDataReceived = function (block) {
+Blockly.Python.communication_hc05_onBluetoothDataReceived = function (block) {
     const branchCode = Blockly.Python.statementToCode(block, "DO") || Blockly.Python.PASS;
     const dataVar = Blockly.Python.nameDB_.getName(block.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME);
     const pinTX = block.getFieldValue("TX");
     const pinRX = block.getFieldValue("RX");
-    const pinTX_Number = pinTX.replace('p', '');
-    const pinRX_Number = pinRX.replace('p', '');
-    const uartName = "openlog_" + pinTX_Number;
-    Blockly.Python.addInit('uart_1', "uart_1 = UART(1, baudrate=9600,  tx=" + pinRX_Number + ", rx=" + pinTX_Number + ")");
-    return "if " + uartName + ".any():" + NEWLINE + "  " + dataVar + " = " + uartName + ".read()" + NEWLINE + branchCode;
+    Blockly.Python.addInit('uart_1', "uart_1 = UART(1, baudrate=9600,  tx=" + pinRX.replace('p', '') + ", rx=" + pinTX.replace('p', '') + ")");
+    return "if uart_1.any():" + NEWLINE + "  " + dataVar + " = uart_1.read()" + NEWLINE + branchCode;
 };
 
 // Tracking modules
 
 Blockly.Python.communication_gps_m5_getInformations = function (block) {
     Blockly.Python.addImport('machine', IMPORT_MACHINE);
-    Blockly.Python.addInit('uart', "uart = UART(2,9600)");
+    Blockly.Python.addInit('uart', "uart = UART(2, 9600)");
     Blockly.Python.addPowerOn('gps_frame', "gps_frame = get_gps_frame()");
     Blockly.Python.addUserLoopVar('gps_frame', "gps_frame = get_gps_frame()");
     Blockly.Python.addFunction('get_gps_frame', FUNCTIONS_M5STACK.DEF_GET_GPS_FRAME);

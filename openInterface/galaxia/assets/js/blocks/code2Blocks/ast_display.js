@@ -82,42 +82,41 @@ utils.prototypeBlocks['write'] = function (type, classDeclaration) {
 utils.prototypeBlocks['led.set_colors'] = function (type, fields, values, mutations, statementsNode, statement) {
 	const integerNull = { type: "integer", text: "0", children: [] };
 	return {
-		type: 'display_galaxia_led_set_colors',
+		type: 'display_galaxia_led_set_colors_rgb',
 		fields: {},
 		values: {RED: null, GREEN: null, BLUE: null},
 		mutations: null,
-		statementsNode: {RED: statementsNode[0]|| integerNull, GREEN: statementsNode[1] || integerNull, BLUE: statementsNode[2] || integerNull},
+		statementsNode: {RED: statementsNode[0] || integerNull, GREEN: statementsNode[1] || integerNull, BLUE: statementsNode[2] || integerNull},
 	};
 };
 
 utils.prototypeBlocks['led.set_red'] = function (type, fields, values, mutations, statementsNode, statement) {
-
 	return {
-		type: 'display_galaxia_led_set_red',
-		fields: {},
-		values: {RED: null},
+		type: 'display_galaxia_led_set_color',
+		fields: {COLOR: 'RED'},
+		values: {VALUE: null},
 		mutations: null,
-		statementsNode: {RED: statementsNode[0]},
+		statementsNode: {VALUE: statementsNode[0] || integerNull},
 	};
 };
 
 utils.prototypeBlocks['led.set_green'] = function (type, fields, values, mutations, statementsNode, statement) {
 	return {
-		type: 'display_galaxia_led_set_green',
-		fields: {},
-		values: {GREEN: null},
+		type: 'display_galaxia_led_set_color',
+		fields: {COLOR: 'GREEN'},
+		values: {VALUE: null},
 		mutations: null,
-		statementsNode: {GREEN: statementsNode[0]},
+		statementsNode: {VALUE: statementsNode[0] || integerNull},
 	};
 }
 
 utils.prototypeBlocks['led.set_blue'] = function (type, fields, values, mutations, statementsNode, statement) {
 	return {
-		type: 'display_galaxia_led_set_blue',
-		fields: {},
-		values: {BLUE: null},
+		type: 'display_galaxia_led_set_color',
+		fields: {COLOR: 'BLUE'},
+		values: {VALUE: null},
 		mutations: null,
-		statementsNode: {BLUE: statementsNode[0]},
+		statementsNode: {VALUE: statementsNode[0] || integerNull},
 	};
 }
 

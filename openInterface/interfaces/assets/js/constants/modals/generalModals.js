@@ -2,7 +2,7 @@ let stdModals = {};
 
 (async () => {
     await awaitJsonPath();
-    return stdModals = {
+    stdModals = {
         'modal-exportproject': {
             selector: '',
             header: {
@@ -425,101 +425,9 @@ let stdModals = {};
                 Longitude : <span id="modal-lng"></span>
             </div>
             <div class="col-md-6 text-md-end">
-                <button class="btn v-btn w-100 h-100" onclick="loadLatLng()">Envoyer</button>
+                <button class="btn v-btn w-100 h-100" onclick="Simulator.Components.GPS.loadLatLng()">Envoyer</button>
             </div>
         </div>`
-        },
-        'arduino-board-selector': {
-            header: {
-                icon: 'fas fa-microchip',
-                title: 'modals.hardware.arduino.title',
-            },
-            optionalClass: {
-                "modal": 'arduino-board-selector-dialog',
-                "content": 'arduino-board-selector-content'
-            },
-            selector: '',
-            content: `
-                <div id="board-choice-welcome-text" class="board-choice-welcome" style="display: none;">
-                    <p>${jsonPath('modals.hardware.arduino.content.welcome')}</p>
-                </div>
-                <div class="mb-1">
-                    <p>${jsonPath('modals.hardware.arduino.content.intro')}</p>
-                </div>
-                <div class="board-choice-grid">
-                    <div class="board-option" data-board="uno">
-                        <input type="radio" name="boardChoice" value="uno" id="board-choice-uno" checked>
-                        <label for="board-choice-uno" class="board-card">
-                            <div class="board-image">
-                                <img src="/openInterface/arduino/assets/media/simulator/board/arduino_uno.svg" alt="Arduino Uno">
-                            </div>
-                            <div class="board-name-container">
-                                <span class="board-radio-indicator"></span>
-                                <span class="board-name">Arduino Uno</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="board-option" data-board="nano">
-                        <input type="radio" name="boardChoice" value="nano" id="board-choice-nano">
-                        <label for="board-choice-nano" class="board-card">
-                            <div class="board-image">
-                                <img src="/openInterface/arduino/assets/media/simulator/board/arduino_nano.svg" alt="Arduino Nano">
-                            </div>
-                            <div class="board-name-container">
-                                <span class="board-radio-indicator"></span>
-                                <span class="board-name">Arduino Nano</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="board-option" data-board="mega">
-                        <input type="radio" name="boardChoice" value="mega" id="board-choice-mega">
-                        <label for="board-choice-mega" class="board-card">
-                            <div class="board-image">
-                                <img src="/openInterface/arduino/assets/media/simulator/board/arduino-mega-2560.svg" alt="Arduino Mega">
-                            </div>
-                            <div class="board-name-container">
-                                <span class="board-radio-indicator"></span>
-                                <span class="board-name">Arduino Mega</span>
-                            </div>
-                        </label>
-                    </div>
-                    <!-- <div class="board-option" data-board="r4">
-                        <input type="radio" name="boardChoice" value="unor4wifi" id="board-choice-unor4wifi">
-                        <label for="board-choice-unor4wifi" class="board-card">
-                            <div class="board-image">
-                                <img src="/openInterface/arduino/assets/media/simulator/board/arduino-uno-r4-wifi.svg" alt="Arduino UNO R4 WiFi">
-                            </div>
-                            <div class="board-name-container">
-                                <span class="board-radio-indicator"></span>
-                                <span class="board-name">Arduino UNO R4 WiFi</span>
-                            </div>
-                        </label>
-                    </div> -->
-                </div>
-                <div class="ide-modal-section mb-3">
-                    <p class="mb-1">${jsonPath('modals.hardware.arduino.content.firmware')}</p>
-                    <button data-toggle="tooltip" data-placement="top" title="${jsonPath('code.topbar.tooltips.board')}" class="btn_ide btn_ide_left">
-                        <i class="fas fa-microchip"></i>
-                    </button>
-                    <select class="board-firmware-selector" id="firmware-options">
-                        <option>Arduino Uno</option>
-                    </select>
-                </div>
-                <div class="board-choice-footer-container">
-                    <button type="button" class="btn v-btn board-choice-validate-btn" onclick="InterfaceConnection.validateSelectedBoard()">
-                        ${jsonPath('modals.hardware.arduino.buttons.validate')}
-                    </button>
-                    <div class="board-choice-links">
-                        <a href="https://vittascience.com/learn/tutorial.php?id=911" class="board-choice-link" target="_blank" rel="noopener noreferrer">
-                            ${jsonPath('modals.hardware.arduino.content.tutorial_link')}
-                        </a>
-                        <a href="https://vittascience.com/shop/" class="board-choice-link" target="_blank" rel="noopener noreferrer">
-                            ${jsonPath('modals.hardware.arduino.content.compatibility_link')}
-                        </a>
-                    </div>
-                </div>
-            `,
-            footer: ``
         },
         'modal-simulator-background': {
             header: {
@@ -768,7 +676,7 @@ let stdModals = {};
             content: `
                 <div class="modal-insecureConnection-body text-center" >
                     <div style='margin-bottom: 25px; margin-top:25px' class="modal-insecureConnection-body-text">${jsonPath('modals.insecureConnection.body')}</div>
-                    <button type="button" id="modal-insecureConnection-btn-continue" class="btn vitta-button" style="flex:1; margin-left:5px;" data-i18n="[html]modals.insecureConnection.continue" onclick="proceedToRaspberryConnection()">${jsonPath('modals.insecureConnection.continue')}</button>
+                    <button type="button" id="modal-insecureConnection-btn-continue" class="btn vitta-button" style="flex:1; margin-left:5px;" data-i18n="[html]modals.insecureConnection.continue" onclick="RaspberryCommunication.openPyServerTab()">${jsonPath('modals.insecureConnection.continue')}</button>
                     <button type="button" id="modal-insecureConnection-btn" class="btn vitta-button" style="flex:1; margin-left:5px;" data-i18n="[html]modals.insecureConnection.cancel" onclick="pseudoModal.closeModal('modal-insecureConnectionRaspberry')">${jsonPath('modals.insecureConnection.cancel')}</button>
                 </div>
             `,
@@ -898,8 +806,8 @@ let stdModals = {};
                     <p>⚠️ <strong>${jsonPath('code.WebBluetoothAPI.usePhone')}</strong></p>
                     <p>${jsonPath('code.popups.microbitBLE.content')}</p>
                     <div class="d-flex flex-row">
-                        <img class="w-50 h-50" src="${CDN_PATH}/openInterface/interfaces/assets/media/modals/microbit_buttons.png">
-                        <img class="w-50 h-50" src="${CDN_PATH}/openInterface/interfaces/assets/media/modals/microbit_reset.png">
+                        <img class="w-50 h-50" src="${CDN_PATH}/openInterface/interfaces/assets/media/modals/microbit_buttons.png" alt="">
+                        <img class="w-50 h-50" src="${CDN_PATH}/openInterface/interfaces/assets/media/modals/microbit_reset.png" alt="">
                     </div>
                 </div>`,
             footer: `
@@ -1087,7 +995,23 @@ let stdModals = {};
                 </div>`,
             footer: ``
         },
-        
+        'modal-warning-invalidBlocks': {
+            header: {
+                icon: 'fa fa-exclamation-circle',
+                title: 'modals.warning.default.title',
+            },
+            optionalClass: {
+                "modal": 'vitta-modal-warning',
+                "content": "text-center"
+            },
+            selector: '',
+            content: `<span class="fa fa-exclamation-circle"></span>
+                <span style="margin-left: 10px; vertical-align: top;">${jsonPath('modals.warning.project.notAvailableBlocks')}</span>
+                <span style="margin-left: 10px; vertical-align: top;" id="invalidBlocks-board-names"></span>
+                <span style="margin-left: 10px; vertical-align: top;">${jsonPath('modals.warning.project.changeBoardMsg')}</span>`,
+            footer: ``
+        },
+
         // Template not modify, not delete
         // '0': {
         //     selector: '',
@@ -1099,4 +1023,7 @@ let stdModals = {};
         //     footer: ``
         // }
     };
+    if (typeof specificModals !== 'undefined') {
+        Object.assign(stdModals, specificModals);
+    }
 })();

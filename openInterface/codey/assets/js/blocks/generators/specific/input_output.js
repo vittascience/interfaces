@@ -3,7 +3,7 @@
  */
 
 Blockly.Python.io_digital_signal = function (block) {
-    return ["HIGH" == block.getFieldValue("BOOL") ? '1' : '0', Blockly.Python.ORDER_ATOMIC]
+    return ["HIGH" == block.getFieldValue("BOOL") ? '1' : '0', Blockly.Python.ORDER_ATOMIC];
 };
 
 // Time
@@ -32,7 +32,7 @@ Blockly.Python.io_initChronometer = function (block) {
     Blockly.Python.addImport('utime', IMPORT_UTIME);
     Blockly.Python.addConstant('chronometer', "t0 = utime.ticks_ms()");
     block.workspace.createVariable('t0');
-    return "" + NEWLINE;
+    return "t0 = utime.ticks_ms()" + NEWLINE;
 };
 
 Blockly.Python.io_initChronometer_simple = function (block) {
@@ -42,6 +42,7 @@ Blockly.Python.io_initChronometer_simple = function (block) {
 
 Blockly.Python.io_getChronometer = function (block) {
     Blockly.Python.addImport('utime', IMPORT_UTIME);
+    Blockly.Python.addConstant('chronometer', "t0 = utime.ticks_ms()");
     block.workspace.createVariable('t0');
     switch (block.getFieldValue("UNIT")) {
         case "SEC":

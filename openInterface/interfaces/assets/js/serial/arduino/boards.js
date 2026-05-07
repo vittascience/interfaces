@@ -4,7 +4,7 @@ const ARDUINO_BOARDS = [
         "id": 'uno',
         "name": "Arduino Uno",
         "fqbn": "arduino:avr:uno",
-        "productId": ['0x0043', '0x0001', '0xea60'],
+        "productId": ['0x0043', '0x0001', '0xea60', '0x7523'],
         "protocol": 'stk500v1',
         "maximum_size": 32256,
         "baud": 115200,
@@ -81,7 +81,6 @@ const ARDUINO_BOARDS = [
         "maximum_size": 262144,
         "baud": 230400,
         "path": "renesas_uno",
-        "file": "dfu_wifi.hex",
         "mcu": "ra4m1",
         "f_cpu": "48000000L",
         "vid": 0x2341,
@@ -93,6 +92,7 @@ const ARDUINO_BOARDS = [
     {
         "id": "unor4minima",
         "name": "Arduino UNO R4 Minima",
+        "fqbn": "arduino:renesas_uno:minima",
         "productId": ["0x0069", "0x0369"],
         "protocol": "dfu-util",
         "maximum_size": 262144,
@@ -105,7 +105,7 @@ const ARDUINO_BOARDS = [
         "pid": 0x0069,
         "core": "arduino",
         "variant": "unor4minima",
-        "vittaTest": false
+        "vittaTest": true
     },
     {
         "id": 'duemilanove328',

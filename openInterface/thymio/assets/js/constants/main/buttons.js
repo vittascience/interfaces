@@ -16,10 +16,10 @@ const cardCommunicationButtons = {
         classes: 'ide-btn-reset ide-btn-middle',
         fontAwesome: 'fa-solid fa-stop',
         onclick: "asebaTranspiler.resetThymio()",
-        title: 'code.topbar.tooltips.resetThymio',
+        title: 'code.topbar.tooltips.stopRobot',
         label: {
             hidden: true,
-            value: "code.topbar.label.resetThymio"
+            value: "code.topbar.label.stopRobot"
         }
     },
     'download': {

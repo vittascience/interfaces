@@ -12,28 +12,13 @@ const AUTHORIZED_BLOCKS_DISPLAY = [
     "display_controlNeopixelLed",
     "display_controlColorNeopixelLed",
     "color_picker",
-    "display_controlBuiltInLED",
-    "display_galaxia_led_set_colors",
-    "display_galaxia_led_set_red",
-    "display_galaxia_led_set_green",
-    "display_galaxia_led_set_blue",
-    "display_galaxia_set_mode",
-    "display_galaxia_plot_add_point",
-    "display_galaxia_plot_set_y_scale",
+    "display_controlBuiltInLED"
 ];
 
 const AUTHORIZED_BLOCKS_SENSORS = [
-    // "sensors_getLight",
-    // "sensors_getTemperature",
-    // "sensors_getAcceleration",
-    // "sensors_getCompass",
-    // "sensors_getMagneticForce",
-    // "sensors_calibrateCompass",
     "sensors_getMultichannelGas",
     "sensors_getSgp30Gas",
     "sensors_SHT31readData", // a little bit tricky due to the subscript method on this call
-
-
 ];
 
 const AUTHORIZED_BLOCKS_IO = [

@@ -1,5 +1,3 @@
-Simulator.Mosaic.BOARD_HEADER = `<object id="board-viewer" class="mt-3" type="image/svg+xml"></object>`;
-
 Simulator.Mosaic.pin_regex = /(D|A|d|a)[0-9]{1,2}/;
 
 Simulator.Mosaic.getPinDef = (pin, mod) => {
@@ -10,49 +8,55 @@ Simulator.Mosaic.getPinDef = (pin, mod) => {
 };
 
 Simulator.Mosaic.externalLibraries = {
+    // python common libraries
+    'src/lib/framebuf.py': Simulator.PATH_LIB_COMMON + 'micropython/framebuf.py',
     // js common libraries
+    'src/lib/os.js': Simulator.PATH_LIB_COMMON + 'micropython/os.js',
+    'src/lib/uos.js': Simulator.PATH_LIB_COMMON + 'micropython/os.js',
     'src/lib/time.js': Simulator.PATH_LIB_COMMON + 'micropython/time.js',
     'src/lib/utime.js': Simulator.PATH_LIB_COMMON + 'micropython/time.js',
     'src/lib/neopixel.js': Simulator.PATH_LIB_COMMON + 'micropython/neopixel.js',
     'src/lib/gc.js': Simulator.PATH_LIB_COMMON + 'micropython/gc.js',
     'src/lib/onewire.js': Simulator.PATH_LIB_COMMON + 'micropython/onewire.js',
+    'src/lib/dht.js': Simulator.PATH_LIB_COMMON + 'stm32/micropython/dht.js',
     // js specific board libraries
     'src/lib/machine.js': Simulator.PATH_LIB + 'micropython/machine.js',
     'src/lib/pyb.js': Simulator.PATH_LIB + 'micropython/pyb.js',
-    'src/lib/dht.js': Simulator.PATH_LIB + 'micropython/dht.js',
-    'src/lib/stm32_alphabot_v2.js': Simulator.PATH_LIB + 'alphabot/stm32_alphabot_v2.js',
+    'src/lib/stm32_alphabot_v2.js': Simulator.PATH_LIB_COMMON + '/stm32/alphabot/stm32_alphabot_v2.js',
     'src/lib/bluetooth.js': Simulator.PATH_LIB + 'micropython/bluetooth.js',
     'src/lib/ubluetooth.js': Simulator.PATH_LIB + 'micropython/bluetooth.js',
     'src/lib/stm32_ble_uart.js': Simulator.PATH_LIB + 'bluetooth/stm32_ble_uart.js',
     // js grove libraries
-    'src/lib/stm32_lcd_i2c.js': Simulator.PATH_LIB + 'grove/stm32_lcd_i2c.js',
-    'src/lib/stm32_tm1637.js': Simulator.PATH_LIB + 'grove/stm32_tm1637.js',
-    'src/lib/stm32_vl53l0x.js': Simulator.PATH_LIB + 'grove/stm32_vl53l0x.js',
-    'src/lib/stm32_dht.js': Simulator.PATH_LIB + 'grove/stm32_dht.js',
-    'src/lib/stm32_sgp30.js': Simulator.PATH_LIB + 'grove/stm32_sgp30.js',
-    'src/lib/stm32_scd30.js': Simulator.PATH_LIB + 'grove/stm32_scd30.js',
-    'src/lib/stm32_hm330x.js': Simulator.PATH_LIB + 'grove/stm32_hm330x.js',
-    'src/lib/stm32_bmp280.js': Simulator.PATH_LIB + 'grove/stm32_bmp280.js',
-    'src/lib/stm32_gas.js': Simulator.PATH_LIB + 'grove/stm32_gas.js',
-    'src/lib/stm32_si1145.js': Simulator.PATH_LIB + 'grove/stm32_si1145.js',
-    'src/lib/stm32_chainableLED.js': Simulator.PATH_LIB + 'grove/stm32_chainableLED.js',
-    'src/lib/stm32_ssd1306.js': Simulator.PATH_LIB + 'grove/stm32_ssd1306.js',
-    'src/lib/stm32_rgb_led_matrix.js': Simulator.PATH_LIB + 'grove/stm32_rgb_led_matrix.js',
-    'src/lib/stm32_my9221.js': Simulator.PATH_LIB + 'grove/stm32_my9221.js',
-    'src/lib/stm32_driverAT.js': Simulator.PATH_LIB + 'grove/stm32_driverAT.js',
-    'src/lib/stm32_LoRa.js': Simulator.PATH_LIB + 'grove/stm32_LoRa.js',
-    'src/lib/stm32_ds18x20.js': Simulator.PATH_LIB + 'grove/stm32_ds18x20.js',
+    'src/lib/stm32_lcd_i2c.js': Simulator.PATH_LIB_COMMON + 'stm32/grove/stm32_lcd_i2c.js',
+    'src/lib/stm32_tm1637.js': Simulator.PATH_LIB_COMMON + 'stm32/grove/stm32_tm1637.js',
+    'src/lib/stm32_vl53l0x.js': Simulator.PATH_LIB_COMMON + 'stm32/grove/stm32_vl53l0x.js',
+    'src/lib/stm32_dht.js': Simulator.PATH_LIB_COMMON + 'stm32/grove/stm32_dht.js',
+    'src/lib/stm32_sgp30.js': Simulator.PATH_LIB_COMMON + 'stm32/grove/stm32_sgp30.js',
+    'src/lib/stm32_scd30.js': Simulator.PATH_LIB_COMMON + 'stm32/grove/stm32_scd30.js',
+    'src/lib/stm32_hm330x.js': Simulator.PATH_LIB_COMMON + 'stm32/grove/stm32_hm330x.js',
+    'src/lib/stm32_bmp280.js': Simulator.PATH_LIB_COMMON + 'stm32/grove/stm32_bmp280.js',
+    'src/lib/stm32_gas.js': Simulator.PATH_LIB_COMMON + 'stm32/grove/stm32_gas.js',
+    'src/lib/stm32_si1145.js': Simulator.PATH_LIB_COMMON + 'stm32/grove/stm32_si1145.js',
+    'src/lib/stm32_chainableLED.js': Simulator.PATH_LIB_COMMON + 'stm32/grove/stm32_chainableLED.js',
+    'src/lib/stm32_ssd1306.js': Simulator.PATH_LIB_COMMON + 'stm32/grove/stm32_ssd1306.js',
+    'src/lib/stm32_rgb_led_matrix.js': Simulator.PATH_LIB_COMMON + 'stm32/grove/stm32_rgb_led_matrix.js',
+    'src/lib/stm32_my9221.js': Simulator.PATH_LIB_COMMON + 'stm32/grove/stm32_my9221.js',
+    'src/lib/stm32_driverAT.js': Simulator.PATH_LIB_COMMON + 'stm32/grove/stm32_driverAT.js',
+    'src/lib/stm32_LoRa.js': Simulator.PATH_LIB_COMMON + 'stm32/grove/stm32_LoRa.js',
+    'src/lib/stm32_ds18x20.js': Simulator.PATH_LIB_COMMON + 'stm32/grove/stm32_ds18x20.js',
     // js HT16K33 libraries
-    'src/lib/stm32_ht16k33.js': Simulator.PATH_LIB + 'HT16K33/stm32_ht16k33.js',
-    'src/lib/stm32_ht16k33matrix.js': Simulator.PATH_LIB + 'HT16K33/stm32_ht16k33matrix.js',
+    'src/lib/stm32_ht16k33.js': Simulator.PATH_LIB_COMMON + 'stm32/HT16K33/stm32_ht16k33.js',
+    'src/lib/stm32_ht16k33matrix.js': Simulator.PATH_LIB_COMMON + 'stm32/HT16K33/stm32_ht16k33matrix.js',
     // js infrared libraries
-    'src/lib/stm32_ir_receiver.js': Simulator.PATH_LIB + 'infrared/stm32_ir_receiver.js',
-    'src/lib/stm32_nec.js': Simulator.PATH_LIB + 'infrared/stm32_nec.js',
+    'src/lib/stm32_ir_receiver.js': Simulator.PATH_LIB_COMMON + 'stm32/infrared/stm32_ir_receiver.js',
+    'src/lib/stm32_nec.js': Simulator.PATH_LIB_COMMON + 'stm32/infrared/stm32_nec.js',
 };
 
 Simulator.Mosaic.addSpecificInitializations = async function () {
     await Simulator.waitBoardViewer();
+    console.log("Hey")
     const board = document.getElementById("board-viewer").contentDocument;
+    console.log(board)
     if (board !== null) {
         const up = 'translate(0px, -3px)',
             down = 'translate(0px, 0px)';
@@ -67,11 +71,11 @@ Simulator.Mosaic.addSpecificInitializations = async function () {
         // STM32 switches SW1, SW2 , SW3 & SW4
         for (let i = 1; i < 5; i++) {
             let button = board.querySelector("#SW" + i + "_BTN");
+            console.log(button)
             if (button != null) {
                 button.addEventListener("mousedown", function () {
                     playButtonAnimation(this.id, down);
                     $('#stm32-' + this.id.split('_')[0].toLowerCase() + '_slider').slider('value', 1);
-
                 });
                 button.addEventListener("mouseup", function () {
                     playButtonAnimation(this.id, up);
@@ -126,9 +130,7 @@ Simulator.Mosaic.addSpecificSkulptFunctions = function () {
             Sk.builtin.pyCheckType("timeout_us", "integer", Sk.builtin.checkInt(timeout_us));
             const pins = Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()];
             const id = '#hcsr04_' + trig.pin;
-            if (trig.pin !== echo.pin) {
-                $(id).find(".subtitle-module").html(pins.find(p => p[1] == 'p' + trig.pin)[0] + ' / ' + pins.find(p => p[1] == 'p' + echo.pin)[0]);
-            } else {
+            if (trig.pin == echo.pin) {
                 throw new Sk.builtin.AttributeError('[HCSR04] trig and echo cannot be on same pin (' + pins.find(p => p[1] == 'p' + trig.pin)[0] + ')');
             }
             const duration = $(id + '_slider_d').slider('option', 'value');

@@ -79,20 +79,13 @@ function BLE_writeMessage(message, type, path = 'WebBluetoothAPI') {
 	InterfaceMonitor.writeConsole(jsonPath('code.' + path + '.' + message), type, false, true);
 };
 
-function setupMonitor() {
-	if ($('#monitor').hasClass('monitor-closed')) {
-		InterfaceMonitor.toggle();
-	}
-	if ($('#monitor-btn-console').length > 0 && !$('#monitor-btn-console').hasClass('activated')) {
-		InterfaceMonitor.managePanel('console');
-	}
-};
+
 
 async function connectBoardBLE() {
 	if ($("#simulator").is(":visible")) {
 		toggleSimulator();
 	}
-	setupMonitor();
+	InterfaceMonitor.setup();
 	await doConnectBLE();
 };
 

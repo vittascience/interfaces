@@ -10,7 +10,7 @@ Blockly.Python.time_pause = function (block) {
     const unit = block.getFieldValue("UNIT");
     Blockly.Python.addImport("time", IMPORT_TIME);
     switch (unit) {
-        case "SECOND":
+        case "SEC":
             return "time.sleep(" + duration + ")" + NEWLINE;
         case "MILLI":
             return "time.sleep(" + (duration / 1000) + ")" + NEWLINE;

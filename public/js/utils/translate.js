@@ -1,5 +1,4 @@
-// console.log(getCookie('lng'));
-var languageWhitelist = ['fr', 'en', 'it', 'ar','es', 'de', 'ru' /* 'de', 'ru', 'pt', 'cn', 'jp', 'kr' */];
+var languageWhitelist = ['fr', 'en', 'it', 'ar', 'es', 'de', 'ru', 'cat'];
 i18next.use(window.i18nextXHRBackend)
     .init({
         debug: false,
@@ -11,9 +10,7 @@ i18next.use(window.i18nextXHRBackend)
             crossDomain: true
         }
     }, (err, t) => {
-        var i18nEvent = new CustomEvent('i18nextReady');
-        document.dispatchEvent(i18nEvent);
-
+        document.dispatchEvent(new CustomEvent('i18nextReady'));
 
         jqueryI18next.init(i18next, $, {
             optionsAttr: 'i18n-options',
@@ -21,25 +18,12 @@ i18next.use(window.i18nextXHRBackend)
             useDataAttrOptions: true,
             parseDefaultValueFromContent: true
         });
-        $(document).localize();
-        // localize the page again when everything is loaded
-        $(window).on('load', function () {
-            $(document).localize();
-        });
-        runTooltips();
-    });
 
-function runTooltips() {
-    // We check if bootstrap is loaded, otherwise we delay the tooltip generation
-    if (!$().modal) {
-        setTimeout(runTooltips, 100);
-        return;
-    }
-    if($("[data-toggle='tooltip']").tooltip) {
-        $("[data-toggle='tooltip']").tooltip();
-        $("[data-bs-toggle='tooltip']").tooltip();
-    }
-}
+        window.addEventListener('load', () => {
+            $(document).localize();
+            runTooltips();
+        });
+    });
 
 function getCookie(cname) {
     if (cname === 'lng' && typeof IS_CAPYTALE_CONTEXT !== 'undefined') return 'fr';
@@ -74,3 +58,28 @@ function getCookie(cname) {
     }
     return "";
 }
+
+function runTooltips() {
+    if (!$().modal) {
+        setTimeout(runTooltips, 100);
+        return;
+    }
+
+    if (i18next === undefined) {
+        setTimeout(runTooltips, 100);
+        return;
+    }
+
+    if (i18next.isInitialized) {
+        loadTooltips();
+    }
+}
+
+function loadTooltips() {
+    if($("[data-toggle='tooltip']").tooltip) {
+        $("[data-toggle='tooltip']").tooltip();
+        $("[data-bs-toggle='tooltip']").tooltip();
+    }
+}
+
+

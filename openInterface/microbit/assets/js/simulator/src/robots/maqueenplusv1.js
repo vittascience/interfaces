@@ -12,6 +12,9 @@ var $builtinmodule = function (name) {
     maqueenplusv1.MT_R = 'Right';
     maqueenplusv1.MT_L = 'Left';
 
+    maqueenplusv1.FORWARD = 1;
+    maqueenplusv1.BACKWARD = 2;
+    
     const setMotor = function (motorSide, speed, direction) {
         if (speed > 255 || speed < 0) return;
         $('#mb-maqueenplus-motor' + motorSide + '_value').html(speed);

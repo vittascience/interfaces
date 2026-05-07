@@ -188,7 +188,7 @@ const getCameraListPromise = () => {
  * @param {*} self self - The python self parameter
  * @param {*} deviceIndex - A python integer that corresponds to a video device index
  * @returns setWebcam promise result
- */ 
+ */
 const setWebcam = function (deviceIndex, Webcam) {
     Sk.builtin.pyCheckArgs("select_camera", arguments, 2, 2);
     if (!Sk.builtin.checkInt(deviceIndex)) {
@@ -771,7 +771,7 @@ var $builtinmodule = function () {
     return vittaia;
 };
 
-const refactoringOldConversation=(data)=> {
+const refactoringOldConversation = (data) => {
     const newConversation = []
     data.forEach(el => {
         const obj = {
@@ -798,12 +798,12 @@ const loadDiscussion = function (self, url) {
         throw new Sk.builtin.ValueError('Url "' + _url + '" must be string');
     }
     if (_url === "local") {
-        if(localStorage.getItem('vitta-ai-text')!==null && localStorage.getItem('vitta-ai-text') !==0){
+        if (localStorage.getItem('vitta-ai-text') !== null && localStorage.getItem('vitta-ai-text') !== 0) {
             h_conversation = JSON.parse(localStorage.getItem('vitta-ai-text'));
             context = refactoringOldConversation(h_conversation.text)
             window.pythonAi.connection.instruction = h_conversation.instruction
             window.pythonAi.connection.context = context
-            }
+        }
     } else {
         return new Sk.misceval.promiseToSuspension(
             loadProjectCode(self, _url)
@@ -1039,8 +1039,8 @@ const sendMessageWithJWT = (self, message) => {
         const currentTemperature = window.pythonAi.connection.temperature;
         const currentModel = window.pythonAi.connection.model;
         let text = []
-        if(window.pythonAi.connection.instruction) text.push(instruction)
-        if(window.pythonAi.connection.context) text.push(...context)
+        if (window.pythonAi.connection.instruction) text.push(instruction)
+        if (window.pythonAi.connection.context) text.push(...context)
         text.push(prompt)
 
         const JSONMessage = {
@@ -1071,7 +1071,7 @@ const loadResponsePromise = (self) => {
         let text = ""
         currentConnection.onmessage = function (event) {
             data = JSON.parse(event.data)
-            if (data.data == "stream_closed" || data.text == "stream_stopped" || data.data == 'maximum_token_reached' || data.data== undefined) {
+            if (data.data == "stream_closed" || data.text == "stream_stopped" || data.data == 'maximum_token_reached' || data.data == undefined) {
                 window.pythonAi.connection.context = ""
                 return resolve(new Sk.ffi.remapToPy(text))
             }

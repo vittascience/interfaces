@@ -190,3 +190,5 @@ Blockly.Msg['ROBOTS_MAKEBLOCK_GETPRESSEDBUTTON_TITLE'] = '[módulo 4 botones] bo
 Blockly.Msg['ROBOTS_MAKEBLOCK_GETPRESSEDBUTTON_TOOLTIP'] = IMG_MODULE_MAKEBLOCK_4_BUTTONS + Blockly.Tooltip.SEP + 'Devuelve el botón pulsado del módulo de 4 botones de Makeblock. Conecta el módulo en el puerto RJ45 de 1 a 2';
 Blockly.Msg['ROBOTS_MAKEBLOCK_READTOUCHSENSOR_TITLE'] = '[Sensor táctil] estado en el puerto %1';
 Blockly.Msg['ROBOTS_MAKEBLOCK_READTOUCHSENSOR_TOOLTIP'] = IMG_MODULE_MAKEBLOCK_TOUCH_SENSOR + Blockly.Tooltip.SEP + 'Devuelve el estado del sensor táctil de Makeblock. Conecta el módulo en el puerto RJ45 de 1 a 4';
+Blockly.Msg['COMMUNICATION_SERIAL_WRITE_NUMBER_TITLE'] = 'mostrar el número en la consola %1 en formato %2';
+Blockly.Msg['COMMUNICATION_SERIAL_WRITE_NUMBER_TOOLTIP'] = 'Permite mostrar un número en la consola según el formato elegido (HEX: hexadecimal, DEC: decimal). Atención: no es posible mostrar números con decimales en formato HEX.';

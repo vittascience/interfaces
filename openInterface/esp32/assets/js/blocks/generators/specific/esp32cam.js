@@ -9,9 +9,10 @@ Blockly.Python.esp32Cam_getCaptureData = function (block) {
     Blockly.Python.addImport('camera', IMPORT_CAMERA);
     Blockly.Python.addImport('binascii', IMPORT_BINASCII);
     Blockly.Python.addConstant('display_resolutions', FUNCTIONS_ESP32.CONSTANT_ESP32_CAM_DISPLAY_RESOLUTIONS);
-    Blockly.Python.addInit('cameraStatus', 'cameraStatus = False');
+    Blockly.Python.addConstant('cam_framesize', "CAM_FRAMESIZE = DISPLAY_RESOLUTIONS.index([i for i in DISPLAY_RESOLUTIONS if 'VGA' in i][0])");
     Blockly.Python.addFunction('ESP32CAM_initialize', FUNCTIONS_ESP32.DEF_ESP32_CAM_INITIALIZE);
     Blockly.Python.addFunction('ESP32CAM_capture', FUNCTIONS_ESP32.DEF_ESP32_CAM_CAPTURE);
+    Blockly.Python.addInit('camera', 'cam = None');
     switch (block.getFieldValue("BASE")) {
         case "BASE16":
             return ["ESP32CAM_capture(False)", Blockly.Python.ORDER_ATOMIC];
@@ -25,7 +26,7 @@ Blockly.Python.esp32Cam_setImageSize = function (block) {
     Blockly.Python.addImport('camera', IMPORT_CAMERA);
     Blockly.Python.addConstant('display_resolutions', FUNCTIONS_ESP32.CONSTANT_ESP32_CAM_DISPLAY_RESOLUTIONS);
     const framesize = block.getFieldValue("FRAMESIZE");
-    Blockly.Python.addConstant('cam_framesize', "CAM_FRAMESIZE = DISPLAY_RESOLUTIONS.index([i for i in DISPLAY_RESOLUTIONS if '" + framesize + "' in i][0]) + 1");
+    Blockly.Python.addConstant('cam_framesize', "CAM_FRAMESIZE = DISPLAY_RESOLUTIONS.index([i for i in DISPLAY_RESOLUTIONS if '" + framesize + "' in i][0])");
     return "";
 };
 

@@ -168,7 +168,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
                 ["8", "8"],
             ]
         }],
-        "output": null,
+        "output": "String",
         "extensions": [
             "block_init_helpurl",
             "block_init_color"

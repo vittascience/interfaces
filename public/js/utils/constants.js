@@ -28,5 +28,7 @@ const arrayInterfaces = [
   'bluebot',
   'spike',
   'photon',
-  'codey'
+  'codey',
+  'steami',
+  'alphai'
 ];

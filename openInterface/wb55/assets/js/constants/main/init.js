@@ -18,7 +18,7 @@ const TOOLBOX_STYLE_VITTA = "vittascience";
 const TOOLBOX_STYLE_SCRATCH = "scratch";
 const TOOLBOX_STYLE_DEFAULT = TOOLBOX_STYLE_VITTA;
 //board
-const BOARD_NUCLEO_WB55 = "wb55";
+const BOARD_NUCLEO_WB55 = "nucleo";
 const BOARD_SHIELD_GROVE = "shield-grove";
 const BOARD_DEFAULT = BOARD_NUCLEO_WB55;
 //standalone_blocks
@@ -28,71 +28,34 @@ const EXAMPLE_PROJECT_LINKS = ['6179123b047c9', '617913b27de64', '61791c04546a9'
 //adc
 const READ_ANALOG_MAX_VALUE = 4095;
 const PWM_MAX_DUTY = 255;
-const WRITE_ANALOG_MAX_VALUE = PWM_MAX_DUTY;
 //libraries
 const LIBRARIES_PATH = {
     'stm32_alphabot_v2': "/alphabot",
     'stm32_TRsensors': "/alphabot",
-    'stm32_ble_sensor': "/bluetooth",
-    'stm32_ble_uart': "/bluetooth",
-    'stm32_ble': "/bluetooth",
-    'stm32_bleAdvertising': "/bluetooth",
-    'stm32_bmp280': "/grove",
-    'stm32_chainableLED': "/grove",
-    'stm32_colorSensor': "/grove",
-    'stm32_dht': "/grove",
-    'stm32_gas': "/grove",
-    'stm32_hm330x': "/grove",
-    'stm32_lcd_i2c': "/grove",
-    'stm32_pcf85063tp': "/grove",
-    'stm32_scd30': "/grove",
-    'stm32_sgp30': "/grove",
-    'stm32_sht31': "/grove",
-    'stm32_si1145': "/grove",
-    'stm32_ssd1306': "/grove",
-    'stm32_th02': "/grove",
-    'stm32_tm1637': "/grove",
-    'stm32_vl53l0x': "/grove",
-    'stm32_rgb_led_matrix': "/grove",
-    'stm32_LoRa': "/grove",
-    'stm32_driverAT': "/grove",
-    'stm32_ds18x20': "/grove",
-    'stm32_ir_receiver': "/infrared",
-    'stm32_nec': "/infrared",
-    'HTS221': "/ISK01A3",
-    'LIS2DW12': "/ISK01A3",
-    'LIS2MDL': "/ISK01A3",
-    'LPS22': "/ISK01A3",
-    'LSM6DSO': "/ISK01A3",
-    'STTS751': "/ISK01A3",
-    'neopixel': "",
-    'stm32_m24sr64': "",
-    'stm32_pcf8574': "",
-    'stm32_ht16k33': "/HT16K33",
-    'stm32_ht16k33matrix': "/HT16K33",
-    'stm32_ht16k33matrixcolour': "/HT16K33",
-    'stm32_ht16k33matrixfeatherwing': "/HT16K33",
-    'stm32_ht16k33segment': "/HT16K33",
-    'stm32_ht16k33segment14': "/HT16K33",
-    'stm32_ht16k33segmentbig': "/HT16K33",
-    'onewire': ""
 };
-//simulator
-const SIMULATOR_DEFAULT_BOARD = {
-    "link": 'Nucleo_STM32_WB55.svg',
-    "name": 'STM32 NUCLEO-WB55'
-};
-const SIMULATOR_DEFAULT_ROBOT = 'Alphabot';
-//serial
-const SERIAL_PRODUCTS = {
-    'stm32_nucleo_wb55': {
-        'usbProductId': 0x9800,
-        'usbVendorId': 0xf055
-    },
-    'stm32_nucleo_wl55jc': {
-        'usbProduvtId': 0x374E,
-        'usbVendorId': 0x483
+//boards
+const INTERFACE_BOARDS = {
+    [BOARD_NUCLEO_WB55]: {
+        "id": BOARD_NUCLEO_WB55,
+        "link": 'Nucleo_STM32_WB55.svg',
+        "name": "STM32 NUCLEO-WB55",
+        "shieldId": BOARD_SHIELD_GROVE,
+        "shieldLink": 'arduino_uno_grove_shield.svg',
+        "shieldName": 'Shield Grove WB55'
     }
 };
-const SERIAL_PRODUCT_FILTER = true;
-const SERIAL_CHUNK_SIZE = 255;
+//simulator
+const SIMULATOR_DEFAULT_BOARD = INTERFACE_BOARDS[BOARD_DEFAULT];
+const SIMULATOR_DEFAULT_ROBOT = 'Alphabot';
+//serial
+const SERIAL_OPTIONS = {
+    baud: 115200,
+    chunkSizes: {
+        'default': 255
+    },
+    boardsFilter: [
+        { usbVendorId: 0xf055, usbProductId: 0x9800 }, // STM32 NUCLEO-WB55RG
+        { usbVendorId: 0x483, usbProductId: 0x374E }, // STM32 NUCLEO-WB55JC
+        { usbVendorId: 0xd28, usbProductId: 0x204 }, // STM32 NUCLEO-WB55RG
+    ]
+};

@@ -61,6 +61,16 @@ const TOOLBOX_SCRATCH_CATEGORIES = [
     },
     {
         "kind": "category",
+        "toolboxitemid": "ia",
+        "name": "%{BKY_CATEGORY_VITTAIA}",
+        "style": "ia_category",
+        "cssConfig": {
+            "icon": "icon_blockly fas fa-brain"
+        },
+        "contents": []
+    },
+    {
+        "kind": "category",
         "toolboxitemid": "math",
         "name": "%{BKY_CATEGORY_OPERATORS}",
         "style": "math_category",
@@ -120,6 +130,21 @@ const TOOLBOX_SCRATCH_CATEGORIES = [
         "contents": []
     }
 ];
+
+const TOOLBOX_SCRATCH_SUBCATEGORIES = {
+    "ia": [
+        {
+            "kind": "category",
+            "toolboxitemid": "cameras",
+            "name": "%{BKY_SUBCATEGORY_CAMERAS}",
+            "style": "ia_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-camera"
+            },
+            "contents": []
+        }
+    ]
+};
 
 const TOOLBOX_SCRATCH_CONTENT = {
     "display": [
@@ -282,7 +307,9 @@ const TOOLBOX_SCRATCH_CONTENT = {
             "label": "%{BKY_SUBCATEGORY_UART}",
             "blocks": [
                 'communication_uartInit',
-                'communication_uartWrite'
+                'communication_uartWrite',
+                'communication_uart_isDataAvailable',
+                'communication_uart_readData'
             ]
         },
         {
@@ -451,6 +478,23 @@ const TOOLBOX_SCRATCH_CONTENT = {
             ]
         }
     ],
+    "ia": [
+        {
+            "subCategoryId": 'cameras',
+            "contents": [
+                {
+                    "label": "Wio Lite AI",
+                    "blocks": [
+                        'wio_make_prediction',
+                        'wio_get_class_data',
+                        'wio_get_class_data_by_id',
+                        'wio_get_class_max_id',
+                        'wio_get_status'
+                    ]
+                },
+            ]
+        }
+    ],
     "math": [
         {
             "blocks": [
@@ -493,21 +537,24 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'text_split',
                 'text_length',
                 'text_isEmpty',
+                'text_includesSubstr',
                 'text_indexOf',
                 'text_charAt',
                 'text_getSubstring',
+                'text_count_characters',
                 'text_changeCase',
                 'text_trim',
                 'text_count',
                 'text_replace',
-                'text_reverse'
+                'text_reverse',
+                'text_random_string'
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_TEXT_ANALYSIS}",
+            "label": "%{BKY_SUBCATEGORY_ENCRYPTION}",
             "blocks": [
-                'text_count_characters',
-                'text_random_string'
+                'text_caesar_cipher',
+                'text_caesar_cipher_brute_force'
             ],
         }
     ],

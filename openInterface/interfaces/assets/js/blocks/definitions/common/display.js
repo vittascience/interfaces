@@ -1,0 +1,785 @@
+/**
+ * @fileoverview Common display blocks
+ */
+
+Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
+
+    /* Start LCD blocks */
+
+    // GROVE I2C LCD1602 RGB MODULE _ SET TEXT JSON
+    {
+        "type": "display_lcdSetText",
+        "message0": "%{BKY_DISPLAY_LCD_SETTEXT_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "ADDR",
+            "options": [
+                ["0x3e (Grove)", "0x3e"],
+                ["0x3f", "0x3f"],
+                ["0x27", "0x27"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "TEXT"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "LINE",
+            "options": [
+                ["0", "0"],
+                ["1", "1"]
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "POS",
+            "options": [
+                ["0", "0"],
+                ["1", "1"],
+                ["2", "2"],
+                ["3", "3"],
+                ["4", "4"],
+                ["5", "5"],
+                ["6", "6"],
+                ["7", "7"],
+                ["8", "8"],
+                ["9", "9"],
+                ["10", "10"],
+                ["11", "11"],
+                ["12", "12"],
+                ["13", "13"],
+                ["14", "14"],
+                ["15", "15"],
+            ]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_LCD_SETTEXT_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
+    // GROVE I2C LCD1602 RGB MODULE _ CLEAR SCREEN JSON
+    {
+        "type": "display_lcdClear",
+        "message0": "%{BKY_DISPLAY_LCD_CLEAR_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "ADDR",
+            "options": [
+                ["0x3e (Grove)", "0x3e"],
+                ["0x3f", "0x3f"],
+                ["0x27", "0x27"]
+            ]
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_LCD_CLEAR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
+    /** Start neopixel blocks */
+
+    // BLOCK NEOPIXEL _ DEFINE NEOPIXEL
+    {
+        "type": "display_defineNeopixel",
+        "message0": "%{BKY_DISPLAY_NEOPIXEL_DEFINE_TITLE}",
+        "args0": [{
+            "type": "field_slider",
+            "name": "N",
+            "value": 20,
+            "min": 1,
+            "max": 1000
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": INTERFACE_NAME == 'raspberrypi' ? Blockly.Constants.Pins.HARDWARE_PWM[Blockly.Constants.getSelectedBoard()] :
+                Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_NEOPIXEL_DEFINE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // BLOCK CONTROL NEOPIXEL LED WITH RGB
+    {
+        "type": "display_controlNeopixelLed",
+        "message0": "%{BKY_DISPLAY_NEOPIXEL_LEDCONTROL_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "LED",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "R",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "G",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "B",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": INTERFACE_NAME == 'raspberrypi' ? Blockly.Constants.Pins.HARDWARE_PWM[Blockly.Constants.getSelectedBoard()] :
+                Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_NEOPIXEL_LEDCONTROL_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // BLOCK CONTROL NEOPIXEL LED WITH COLOR
+    {
+        "type": "display_controlColorNeopixelLed",
+        "message0": "%{BKY_DISPLAY_NEOPIXEL_SETPALETTECOLOR_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "LED",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "COLOR",
+            "check": "Colour"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": INTERFACE_NAME == 'raspberrypi' ? Blockly.Constants.Pins.HARDWARE_PWM[Blockly.Constants.getSelectedBoard()] :
+                Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_NEOPIXEL_SETPALETTECOLOR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // BLOCK CONTROL ALL NEOPIXEL LED WITH RGB
+    {
+        "type": "display_neopixel_controlAllLedRGB",
+        "message0": "%{BKY_DISPLAY_NEOPIXEL_SETALLLEDRGB_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "R",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "G",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "B",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": INTERFACE_NAME == 'raspberrypi' ? Blockly.Constants.Pins.HARDWARE_PWM[Blockly.Constants.getSelectedBoard()] :
+                Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_NEOPIXEL_SETALLLEDRGB_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // BLOCK CONTROL NEOPIXEL LED WITH COLOR
+    {
+        "type": "display_neopixel_controlAllLedPalette",
+        "message0": "%{BKY_DISPLAY_NEOPIXEL_SETALLLEDCOLOR_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "COLOR",
+            "check": "Colour"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": INTERFACE_NAME == 'raspberrypi' ? Blockly.Constants.Pins.HARDWARE_PWM[Blockly.Constants.getSelectedBoard()] :
+                Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_NEOPIXEL_SETALLLEDCOLOR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // BLOCK RAINBOW NEOPIXEL
+    {
+        "type": "display_rainbowNeopixel",
+        "message0": "%{BKY_DISPLAY_NEOPIXEL_RAINBOW_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": INTERFACE_NAME == 'raspberrypi' ? Blockly.Constants.Pins.HARDWARE_PWM[Blockly.Constants.getSelectedBoard()] :
+                Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_NEOPIXEL_RAINBOW_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    /* Start OLED blocks */
+
+    // BLOCK OLED ADD TEXT
+    {
+        "type": "display_addOledText",
+        "message0": "%{BKY_DISPLAY_OLED_ADDTEXT_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "TEXT"
+        }, {
+            "type": "input_value",
+            "name": "X",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "Y",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_OLED_ADDTEXT_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
+    // BLOCK OLED SET PIXEL
+    {
+        "type": "display_setOledPixel",
+        "message0": "%{BKY_DISPLAY_OLED_SETPIXEL_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "X",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "Y",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "STATE",
+            "check": "Boolean"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_OLED_SETPIXEL_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
+    // BLOCK OLED DRAW LINE
+    {
+        "type": "display_drawOledLine",
+        "message0": "%{BKY_DISPLAY_OLED_DRAWLINE_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "XA",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "YA",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "XB",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "YB",
+            "check": "Number"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_OLED_DRAWLINE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
+    // BLOCK OLED SHOW ICON
+    {
+        "type": "display_showOledIcon",
+        "message0": "%{BKY_DISPLAY_OLED_DRAWICON_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "ICON",
+            "options": Blockly.Constants.Utils.BlockOptions.getOledIcons()
+        }, {
+            "type": "input_value",
+            "name": "X",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "Y",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_OLED_DRAWICON_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
+    // BLOCK OLED SET BACKGROUND
+    {
+        "type": "display_setOledBackground",
+        "message0": "%{BKY_DISPLAY_OLED_SETBACKGROUND_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "BACKGROUND",
+            "options": [
+                ["%{BKY_DISPLAY_OLED_WHITE}", "1"],
+                ["%{BKY_DISPLAY_OLED_BLACK}", "0"]
+            ]
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_OLED_SETBACKGROUND_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
+    // BLOCK OLED CLEAR DISPLAY
+    {
+        "type": "display_clearOledScreen",
+        "message0": "%{BKY_DISPLAY_OLED_CLEARSCREEN_TITLE}",
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_OLED_CLEARSCREEN_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
+    /* Start led module blocks */
+
+    // GROVE LED MODULE _ WRITE DIGITAL JSON
+    {
+        "type": "display_setGroveSocketLed",
+        "message0": "%{BKY_DISPLAY_SETGROVELED_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "STATE",
+            "check": "Boolean"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_SETGROVELED_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // LED MODULE _ WRITE ANALOG PWM
+    {
+        "type": "display_setLEDintensity",
+        "message0": "%{BKY_DISPLAY_SETLEDINTENSITY_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "VALUE",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": Blockly.Constants.Pins.PWM[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_SETLEDINTENSITY_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // LED MODULE _ SET VARIABLE COLOR
+    {
+        "type": "display_setVariableColorLED",
+        "message0": "%{BKY_DISPLAY_SET_VARIABLE_COLOR_LED_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "VALUE",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": Blockly.Constants.Pins.PWM[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_SET_VARIABLE_COLOR_LED_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // BLOCK SET NUMBER GROVE 4DIGIT
+    {
+        "type": "display_setNumberGrove4Digit",
+        "message0": "%{BKY_DISPLAY_4DIGIT_SETNUMBER_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "SHOW",
+            "options": [
+                ["%{BKY_DISPLAY_4DIGIT_NUMBER}", "NUM"],
+                ["%{BKY_DISPLAY_4DIGIT_TEMPERATURE}", "TEMP"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "N",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "CLK",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "DIO",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_4DIGIT_SETNUMBER_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // BLOCK GROVE 4DIGIT SET CLOCK
+    {
+        "type": "display_setClockGrove4Digit",
+        "message0": "%{BKY_DISPLAY_4DIGIT_SETCLOCK_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "CLK",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "DIO",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_4DIGIT_SETCLOCK_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // GROVE LED BAR MODULE _  DISPLAY JSON
+    {
+        "type": "display_setLevelLedBar",
+        "message0": "%{BKY_DISPLAY_MY9221_SET_LEVEL_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "VALUE",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "DI",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "DCKI",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_MY9221_SET_LEVEL_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // GROVE LED BAR MODULE _  REVERSE JSON
+    {
+        "type": "display_my9221_reverse",
+        "message0": "%{BKY_DISPLAY_MY9221_REVERSE_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "STATE",
+            "check": "Boolean"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "DI",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "DCKI",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_MY9221_REVERSE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // GROVE CHAINABLE LED RGB MODULE _ DEFINE MODULE
+    {
+        "type": "display_defineChainableRGBLed",
+        "message0": "%{BKY_DISPLAY_CHAINABLERGBLED_DEFINE_TITLE}",
+        "args0": [{
+            "type": "field_slider",
+            "name": "N",
+            "value": 1,
+            "min": 1,
+            "max": 100
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "CIN",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "DIN",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "tooltip": "%{BKY_DISPLAY_CHAINABLERGBLED_DEFINE_TOOLTIP}",
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // GROVE CHAINABLE LED RGB MODULE _ SET COLOR
+    {
+        "type": "display_setColorChainableRGBLed",
+        "message0": "%{BKY_DISPLAY_CHAINABLE_RGBLED_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "LED",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "R",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "G",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "B",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "CIN",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "DIN",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "tooltip": "%{BKY_DISPLAY_CHAINABLE_RGBLED_TOOLTIP}",
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // GROVE CHAINABLE LED RGB MODULE _ SET PALETTE COLOR
+    {
+        "type": "display_setPaletteColorChainableRGBLed",
+        "message0": "%{BKY_DISPLAY_CHAINABLE_PALETTERGBLED_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "LED",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "COLOR",
+            "check": "Colour"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "CIN",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "DIN",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "tooltip": "%{BKY_DISPLAY_CHAINABLE_PALETTERGBLED_TOOLTIP}",
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // GROVE ALL CHAINABLE LED RGB MODULE _ SET COLOR
+    {
+        "type": "display_setColorAllChainableRGBLed",
+        "message0": "%{BKY_DISPLAY_CHAINABLE_ALLRGBLED_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "R",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "G",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "B",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "CIN",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "DIN",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_CHAINABLE_ALLRGBLED_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // GROVE ALL CHAINABLE LED RGB MODULE _ SET PALETTE COLOR
+    {
+        "type": "display_setPaletteAllChainableRGBLed",
+        "message0": "%{BKY_DISPLAY_CHAINABLE_PALETTEALLRGBLED_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "COLOR",
+            "check": "Colour"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "CIN",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "DIN",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_CHAINABLE_PALETTEALLRGBLED_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // GROVE ALL CHAINABLE LED RGB MODULE _ RESET
+    {
+        "type": "display_resetAllChainableRGBLed",
+        "message0": "%{BKY_DISPLAY_CHAINABLE_RESETALLRGBLED_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "CIN",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "DIN",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_DISPLAY_CHAINABLE_RESETALLRGBLED_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    }
+
+]); // END JSON EXTRACT (Do not delete this comment.)

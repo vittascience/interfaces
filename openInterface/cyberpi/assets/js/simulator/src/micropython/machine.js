@@ -1,145 +1,5 @@
 // Esp32 - machine module
 
-const uart = function () {
-
-	const mod = {};
-
-	mod.data = {
-		baudrate: 9600,
-		bits: 8,
-		parity: null,
-		stop: 1,
-		tx: null,
-		rx: null,
-		gps: {
-			longitude: 0,
-			latitude: 0,
-			altitude: 0,
-		},
-		isChanged: false
-	};
-
-	mod.write = new Sk.builtin.func(function () {
-		for (let i = 0; i < Simulator.pinList.length; i++) {
-			if ("openlog_" + Simulator.pinList[i].pin == Simulator.pinList[i].id && $("#" + Simulator.pinList[i].id + '_value').html() != "ON") {
-				$("#" + Simulator.pinList[i].id + '_value').html("ON");
-				$("#" + Simulator.pinList[i].id + '_anim').css("opacity", 1);
-				setTimeout(function () {
-					$("#" + Simulator.pinList[i].id + '_value').html("OFF");
-					$("#" + Simulator.pinList[i].id + '_anim').css("opacity", 0);
-				}, 500);
-			}
-			if ("gps_" + Simulator.pinList[i].pin == Simulator.pinList[i].id) {
-				$("#" + Simulator.pinList[i].id + '_value').html("ON");
-			}
-			if ("bluetooth_" + Simulator.pinList[i].pin == Simulator.pinList[i].id) {
-				$("#" + Simulator.pinList[i].pin + '_value').html("ON");
-			}
-		}
-	});
-
-	mod.read = new Sk.builtin.func(function () {
-		let gps = false;
-		let modules = Simulator.getMosaicModules();
-		for (m in modules) {
-			if (modules[m].id == "gps") {
-				gps = true;
-			}
-		}
-		if (gps) {
-			let latitude = '';
-			var nmea = '';
-			mod.data.gps.latitude = parseFloat($("#gps_slider_lat").slider('value'));
-			if (mod.data.gps.latitude > 0) {
-				let degree = mod.data.gps.latitude;
-				let format = Math.floor(degree) * 100 + (degree - Math.floor(degree)) * 60;
-				if (degree < 10) latitude += '0';
-				latitude += format.toFixed(4) + ",N";
-			} else if (mod.data.gps.latitude < 0) {
-				let degree = Math.abs(mod.data.gps.latitude);
-				let format = Math.floor(degree) * 100 + (degree - Math.floor(degree)) * 60;
-				if (degree < 10) latitude += '0';
-				latitude += format.toFixed(4) + ",S";
-			} else {
-				latitude += "0000.0000,N";
-			}
-			let longitude = '';
-			mod.data.gps.longitude = parseFloat($("#gps_slider_lon").slider('value'));
-			if (mod.data.gps.longitude > 0) {
-				let degree = mod.data.gps.longitude;
-				let format = Math.floor(degree) * 100 + (degree - Math.floor(degree)) * 60;
-				if (degree < 100) {
-					longitude += '0';
-					if (degree < 10) longitude += '0';
-				}
-				longitude += format.toFixed(4) + ",E";
-			} else if (mod.data.gps.longitude < 0) {
-				let degree = Math.abs(mod.data.gps.longitude);
-				let format = Math.floor(degree) * 100 + (degree - Math.floor(degree)) * 60;
-				if (degree < 100) {
-					longitude += '0';
-					if (degree < 10) longitude += '0';
-				}
-				longitude += format.toFixed(4) + ",W";
-			} else {
-				longitude += "00000.0000,E";
-			}
-			mod.data.gps.altitude = parseInt($("#gps_value_alt").html());
-			let now = new Date();
-
-			let time = now.getHours() * 10000 + now.getMinutes() * 100 + now.getSeconds();
-			var letters = ['GP', 'GA', 'BD', 'GB', 'GL', 'GN'];
-			var date = new Date().toISOString().slice(2, 10).replace("-", "").replace("-", "");
-
-			if (Math.random() > 0.5) {
-				var nmea = "$" + letters[Math.floor(Math.random() * letters.length)] + "GGA," + time + ".000," + latitude + "," + longitude + ",1,04,3.2," + mod.data.gps.altitude + ".0,M,,,,0000*0E"
-			} else {
-				var nmea = "$" + letters[Math.floor(Math.random() * letters.length)] + "RMC," + time + ".000,A," + latitude + "," + longitude + ",0,0," + date + ",0,W*68"
-			}
-			return new Sk.builtin.str(nmea);
-		} else {
-			return null;
-		}
-	});
-
-	var init = function (baudrate, bits, parity, stop, tx, rx) {
-		if (baudrate === undefined) {
-			baudrate = new Sk.builtin.int_(9600);
-		}
-		if (bits === undefined) {
-			bits = new Sk.builtin.int_(8);
-		}
-		if (parity === undefined) {
-			parity = Sk.builtin.none;
-		}
-		if (stop === undefined) {
-			stop = new Sk.builtin.int_(1);
-		}
-		if (tx === undefined) {
-			tx = Sk.builtin.none;
-		}
-		if (rx === undefined) {
-			rx = Sk.builtin.none;
-		}
-		mod.data.baudrate = baudrate;
-		mod.data.bits = bits;
-		mod.data.parity = parity;
-		mod.data.stop = stop;
-		mod.data.tx = tx;
-		mod.data.rx = rx;
-	}
-
-	init.co_varnames = ['baudrate', 'bits', 'parity', 'stop', 'tx', 'rx'];
-	init.$defaults = [new Sk.builtin.int_(9600), new Sk.builtin.int_(8), Sk.builtin.none(), new Sk.builtin.int_(1), Sk.builtin.none(), Sk.builtin.none];
-	init.co_numargs = 6;
-	mod.init = new Sk.builtin.func(init);
-
-	mod.any = new Sk.builtin.func(function () {
-		return new Sk.builtin.bool(true);
-	});
-	return mod;
-};
-
 const $builtinmodule = function (name) {
 
 	const machine = {};
@@ -201,19 +61,19 @@ const $builtinmodule = function (name) {
 	machine.lightsleep = machine.sleep;
 
 	machine.idle = new Sk.builtin.func(function () {
-		throw new Sk.builtin.NotImplementedError("machine.idle() is not yet implemented");
+		throw new Sk.builtin.NotImplementedError("<b>machine.idle()</b> is not yet implemented");
 	});
 
 	machine.disable_irq = new Sk.builtin.func(function () {
-		throw new Sk.builtin.NotImplementedError("machine.disable_irq() is not yet implemented");
+		throw new Sk.builtin.NotImplementedError("<b>machine.disable_irq()</b> is not yet implemented");
 	});
 
 	machine.enable_irq = new Sk.builtin.func(function (state) {
-		throw new Sk.builtin.NotImplementedError("machine.enable_irq() is not yet implemented");
+		throw new Sk.builtin.NotImplementedError("<b>machine.enable_irq()</b> is not yet implemented");
 	});
 
 	machine.time_pulse_us = new Sk.builtin.func(function (Pin, pulse_level, timeout_us = 1000000) {
-		throw new Sk.builtin.NotImplementedError("machine.time_pulse_us() is not yet implemented");
+		throw new Sk.builtin.NotImplementedError("<b>machine.time_pulse_us()</b> is not yet implemented");
 	});
 
 	machine.Pin = new Sk.misceval.buildClass(machine, function ($gbl, $loc) {
@@ -249,11 +109,11 @@ const $builtinmodule = function (name) {
 			}
 			switch (self.pull) {
 				case $loc.PULL_UP.v:
-					Simulator.setPullButton(self.id, 'up');
+					Simulator.Components.Button.setPull(self.id, 'up');
 					break;
 				case $loc.PULL_DOWN.v:
 				default:
-					Simulator.setPullButton(self.id, 'down');
+					Simulator.Components.Button.setPull(self.id, 'down');
 			}
 			self.value = value.v;
 			if (self.mode == $loc.OUT.v && self.id !== undefined) {
@@ -279,11 +139,11 @@ const $builtinmodule = function (name) {
 			self.pull = pull.v;
 			switch (self.pull) {
 				case $loc.PULL_UP.v:
-					Simulator.setPullButton(self.id, 'up');
+					Simulator.Components.Button.setPull(self.id, 'up');
 					break;
 				case $loc.PULL_DOWN.v:
 				default:
-					Simulator.setPullButton(self.id, 'down');
+					Simulator.Components.Button.setPull(self.id, 'down');
 			}
 			self.value = value.v;
 			if (self.mode == $loc.OUT.v && self.id !== undefined) {
@@ -381,9 +241,14 @@ const $builtinmodule = function (name) {
 
 		$loc.read = new Sk.builtin.func(function (self) {
 			const mod = Simulator.getModuleByKey(self.id.split('_')[0]);
-			const suffix = mod.listeners ? mod.listeners[0].suffix : "";
-			const value = $("#" + self.id + "_slider" + suffix).slider('option', 'value');
-			return new Sk.builtin.int_(value);
+			if (mod && mod.id.includes('joystick')) {
+				const value = Simulator.Components.Joystick.read(self.id, self.pin);
+				return new Sk.builtin.int_(value);
+			} else {
+				const suffix = mod.listeners ? mod.listeners[0].suffix : "";
+				const value = $("#" + self.id + "_slider" + suffix).slider('option', 'value');
+				return new Sk.builtin.int_(value);
+			}
 		});
 
 	});
@@ -507,10 +372,6 @@ const $builtinmodule = function (name) {
 		$loc.__init__ = new Sk.builtin.func(I2C__init__);
 
 	});
-
-	//uart Modules
-	machine.uart = new Sk.builtin.module();
-	machine.uart.$d = new uart();
 
 	return machine;
 };

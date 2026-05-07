@@ -112,8 +112,6 @@ const AUTHORIZED_BLOCKS_ROBOT = [
     'robots_mbot2_ultrasonic_getBrightness',
     'robots_mbot2_ultrasonic_stopLED',
     'robots_mbot2_ultrasonic_playLED',
-    'sensors_mbuild_quad_RGB_detection_L1_R1_is',
-    'sensors_mbuild_quad_RGB_get_detection_L1_R1',
     'sensors_mbuild_quad_RGB_detection_is',
     'sensors_mbuild_quad_RGB_get_detection',
     'sensors_mbuild_quad_RGB_is_color_detected',
@@ -122,8 +120,7 @@ const AUTHORIZED_BLOCKS_ROBOT = [
     'sensors_mbuild_quad_RGB_define_color',
     'sensors_mbuild_quad_RGB_set_color_list',
     'sensors_mbuild_quad_RGB_close_led',
-    'sensors_mbuild_quad_RGB_calibrate',
-    'sensors_mbuild_quad_RGB_color_mode'
+    'sensors_mbuild_quad_RGB_get_light'
 ];
 
 AUTHORIZED_BLOCKS_NETWORK = [

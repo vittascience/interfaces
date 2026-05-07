@@ -1,7 +1,7 @@
 const cardCommunicationButtons = {
     'upload': {
         id: "upload-arduino",
-        classes: 'ide-btn-left',
+        classes: 'ide-btn-left e2e-upload-btn',
         fontAwesome: 'fas fa-bolt',
         title: 'code.topbar.tooltips.uploadArduino',
         onclick:'InterfaceConnection.uploadArduino()',
@@ -81,10 +81,10 @@ const downloadOptions = {
         classes: 'ide-btn-check ide-btn-left-dropdown',
         fontAwesome: 'fas fa-microchip',
         title: 'code.topbar.tooltips.arduinoBoardSelector',
-        onclick: "InterfaceConnection.openBoardSelector()",
+        onclick: "VittaInterface.openBoardSelector()",
         tooltipPlacement: "left",
         label: {
-            value: "code.topbar.label.arduinoBoardSelector"
+            value: "code.topbar.label.boardSelect"
         }
     }
 };

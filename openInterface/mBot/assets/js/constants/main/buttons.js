@@ -1,7 +1,7 @@
 const cardCommunicationButtons = {
     'upload': {
         id: "upload-arduino",
-        classes: 'ide-btn-left',
+        classes: 'ide-btn-left e2e-upload-btn',
         fontAwesome: 'fas fa-bolt',
         title: 'code.topbar.tooltips.uploadArduino',
         onclick:'InterfaceConnection.uploadArduino()',

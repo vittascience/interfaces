@@ -2,6 +2,9 @@ Simulator.CodeFriendly.getAdaptedCode = function (code) {
 	code = Simulator.CodeFriendly.replace_pinModules(code);
 	code = Simulator.CodeFriendly.remove_unusedCode(code);
 	code = Simulator.CodeFriendly.requests(code);
+	code = code.replace(/.decode\(\)/gi, '');
+	code = code.replace(/.decode\(['"]utf-8['"]\)/gi, '');
+	code = code.replace(/.decode\(['"]utf-8['"],[ ]['"]ignore['"]\)/gi, '');
 	return code;
 };
 
@@ -17,10 +20,6 @@ Simulator.CodeFriendly.replace_pinModules = function (code) {
 Simulator.CodeFriendly.remove_unusedCode = function (code) {
 	// removing library imports
 	code = code.replace(IMPORT_ESP32_PCF85063TP, '');
-	// removing object inits
-	code = code.replace(/(.*)UART\((.*)/g, '#$1UART($2');
-	code = code.replace(/(.*)uart_(.*)/gi, '#$1uart_$2');
-	code = code.replace(/(.*)openlog_[0-9]{1,}(.*)/gi, '$1uart$2');
 	return code;
 };
 

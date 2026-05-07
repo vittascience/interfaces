@@ -103,11 +103,28 @@ function displayMyProjects(page) {
 function generateListProjects(projects, support, page = 'profile') {
     let list__project = ``
     let item__project = ``;
+
+    const objectModeForIA = {
+        'image': 'images',
+        'hand': 'hands',
+        'sound': 'sound',
+        'text': 'text',
+        'pose': 'posture',
+        'edge': 'sensors'
+    }
+
     $.each(projects, function (index, project_element) {
+
+        let iaMode = null;
+        let supportUrl = support;
+        if (support == 'ai') {
+            iaMode = objectModeForIA[project_element.mode];
+            supportUrl = 'ia';
+        }
+
 
         if (project_element.dateUpdated != null) {
             var date = new Date(project_element.dateUpdated.date);
-            // format like 13 october 2021, 15:00
             date = new Intl.DateTimeFormat(getCookie('lng'),
                 {
                     day: 'numeric',
@@ -146,7 +163,7 @@ function generateListProjects(projects, support, page = 'profile') {
             }
 
             item__project += `<div class="d-flex gap-2">
-                    <a target="_blank" href="${window.location.origin}/${support}/?link=${project_element.link}" class='btn btn-primary btn-sm' data-i18n='profile.res.buttons.open' style="flex:1;">
+                    <a target="_blank" href="${window.location.origin}/${supportUrl}/${iaMode ? iaMode : ''}?link=${project_element.link}" class='btn btn-primary btn-sm' data-i18n='profile.res.buttons.open' style="flex:1;">
                         Voir
                     </a>
                     <button type='button' class='btn btn-orange btn-sm' data-i18n='profile.res.buttons.share' data-id="${project_element.link}" onclick=shareProjectChoice('#link','${project_element.link}','${support}') style="flex:1;">
@@ -483,13 +500,9 @@ function shareProjectChoice(frame, project, support) {
         updateValueLinkShare('nocloud', this.value, linkStruct);
     });
 
-
-
     $(`#shareOptionsModeMixed`).click();
 
     $(`#shareOptionsConsoleBottom`).click();
-
-
 
     $(`#shareOptionsEmbedNo`).click();
 

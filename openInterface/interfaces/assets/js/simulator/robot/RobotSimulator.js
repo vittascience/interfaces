@@ -75,6 +75,7 @@ const RobotSimulator = {
     },
     obstaclesDef: Object.create(null),
     obstaclesDB: Object.create(null),
+    obstaclesSyncWithCamera: Object.create(null),
     selectedObstacleId: null,
     handles: {
       TL: { selected: false, pos: [0, 0], isPointing: false }, // [-1, -1]
@@ -201,6 +202,19 @@ const RobotSimulator = {
   },
 
   /**
+   * Stop and close the robot simulator.
+   */
+  close: function () {
+    this.isRunning = false;
+    if (this.robot && typeof this.robot.camera !== 'undefined' && this.robot.camera !== null) {
+      this.robot.camera.setAutoRender(false);
+    }
+    $("#graph-zoom-in").prop('disabled', false);
+    $("#graph-zoom-out").prop('disabled', false);
+    $("#robot-sim-container").hide();
+  },
+
+  /**
    * Initialize the robot simulator.
    */
   init: async function () {
@@ -222,6 +236,22 @@ const RobotSimulator = {
     this.Obstacle.initialize();
     this.Obstacle.setFromLS();
     this.robot = Robots[this.currentRobotName];
+    // Setup camera view if needed
+    if (typeof this.robot.camera !== 'undefined' && this.robot.camera == null) {
+      if (document.querySelector('#cam-sim') === null) {
+        this.addCameraSimulatorToDom();
+      }
+      const camCanvas = document.getElementById('cam-sim');
+      camCanvas.style.width = this.Track.WIDTH_PX + "px";
+      camCanvas.style.height = this.Track.WIDTH_PX * this.Track.RATIO + "px";
+      this.robot.camera = new RobotCamera(camCanvas, {
+        arenaWidth: this.Track.WIDTH_PX,
+        arenaHeight: this.Track.WIDTH_PX * this.Track.RATIO,
+        autoRender: true,
+        targetFps: this.FPS,
+        wallColor: this.robot.wallColor || '#888888'
+      });
+    }
     // Loading the simulator background
     const savedBackground = SimulatorLS.getData(this.currentRobotName, 'backgrounds');
     if (savedBackground) {
@@ -240,7 +270,6 @@ const RobotSimulator = {
     $(window).on('resize', () => {
       this.resize();
     });
-    this.wereInitialized = true;
     if (this.robot.resetObjects) {
       this.robot.resetObjects();
     }
@@ -257,7 +286,7 @@ const RobotSimulator = {
     <div id="robot-sim-container" style="display: none;">
         <div id="robot-simulator">
             <canvas id="robot-sim" style="touch-action: none">
-                Canvas Not Supported
+              Canvas Not Supported
             </canvas>
         </div>
         <div class="simulator-buttons my-2">
@@ -295,8 +324,8 @@ const RobotSimulator = {
                         data-toggle="tooltip" data-placement="top" title="Pen control" onclick="RobotSimulator.togglePenWriting()">
                     <img src="/openInterface/interfaces/assets/media/simulator/robot/buttons/icon-write.svg" alt="Pen icon">
                 </button>
-                <button id="control-dropdown" class="btn oi-btn-simulator control_dropdown_button oi-btn-simulator-narrow" data-i18n="[title]code.simulator.buttons.robot.controls" 
-                        data-toggle="tooltip" data-placement="top" title="Controls" onclick="RobotSimulator.toggleControlsDropdown()">
+                <button id="control-dropdown" class="btn oi-btn-simulator control_dropdown_button oi-btn-simulator-narrow" data-i18n="[title]code.simulator.buttons.robot.controls;[aria-label]code.simulator.buttons.robot.controls"
+                        data-toggle="tooltip" data-placement="top" title="Controls" aria-label="Controls" onclick="RobotSimulator.toggleControlsDropdown()">
                     <i class="fa-solid fa-caret-up"></i>
                 </button>
             </div>
@@ -380,6 +409,14 @@ const RobotSimulator = {
     document.querySelector("#simulator #variables-panel").insertAdjacentHTML('afterend', robotSimulatorHTML);
   },
 
+  addCameraSimulatorToDom() {
+    const camSimulatorHTML = `
+    <canvas id="cam-sim" style="touch-action: none">
+      Canvas Not Supported
+    </canvas>`;
+    document.querySelector("#robot-sim").insertAdjacentHTML('afterend', camSimulatorHTML);
+  },
+
   initRobotSystem: function () {
     return new Promise((resolve, reject) => {
       const robot_width_px = this.robot.WIDTH_CM * this.width.px / this.width.cm;
@@ -413,6 +450,9 @@ const RobotSimulator = {
       if (this.robot.initObjects) {
         this.robot.initObjects();
       }
+      if (typeof this.robot.camera !== 'undefined') {
+        this.robot.camera.setRobotPosition(this.robot.rotationCenter.x, this.robot.rotationCenter.y, this.robot.angle * (Math.PI / 180));
+      }
       resolve();
     });
   },
@@ -433,7 +473,7 @@ const RobotSimulator = {
       this.robot.resizeObjects(resizeScalar);
     }
     // Fix obstacles position and dimensions after full screen
-    for (var i in RobotSimulator.Obstacle.obstaclesDB) {
+    for (let i in RobotSimulator.Obstacle.obstaclesDB) {
       RobotSimulator.Obstacle.obstaclesDB[i].x *= resizeScalar;
       RobotSimulator.Obstacle.obstaclesDB[i].y *= resizeScalar;
       RobotSimulator.Obstacle.obstaclesDB[i].w *= resizeScalar;
@@ -446,7 +486,7 @@ const RobotSimulator = {
     // Update pen drawing
     this.Pen.surface *= resizeScalar;
     this.Pen.lineStroke *= resizeScalar;
-    for (var i = 0; i < this.Pen.positions.length; i++) {
+    for (let i = 0; i < this.Pen.positions.length; i++) {
       if (this.Pen.positions[i] !== null) {
         this.Pen.positions[i].x *= resizeScalar;
         this.Pen.positions[i].y *= resizeScalar;
@@ -645,7 +685,7 @@ const RobotSimulator = {
         document.addEventListener("mousedown", (e) => {
           if (e.target.closest(".angle-slider-knob")) {
             isRotating = true;
-            // if (Simulator._has3DRobotSimulator() && window.Simulator3D.physics) {
+            // if (Simulator.has3DRobotSimulator() && window.Simulator3D.physics) {
             //   window.Simulator3D.physics.setRotating(true);
             // }
           }
@@ -657,7 +697,7 @@ const RobotSimulator = {
             const angleRad = Math.atan2(e.clientY - knobY, e.clientX - knobX);
             const angleDeg = (angleRad * 180) / Math.PI;
             const rotationAngle = (angleDeg + 360) % 360;
-            if (Simulator._classicRobotSimulatorPrepareForRun){
+            if (Simulator._classicRobotSimulatorPrepareForRun) {
               RobotSimulator.setInitialRobotAngle(rotationAngle);
             }
           }
@@ -839,6 +879,17 @@ const RobotSimulator = {
         }
         if (this.robot.measurements) {
           this.robot.measurements();
+        }
+        // Snapshot du canvas pour la caméra 3D avant de dessiner le robot,
+        // pour que le robot ne soit pas visible dans le retour caméra.
+        if (typeof this.robot.camera !== 'undefined' && this.robot.camera !== null) {
+          if (!this._cameraTrackCanvas) {
+            this._cameraTrackCanvas = document.createElement('canvas');
+            this.robot.camera.setTrackSource(this._cameraTrackCanvas);
+          }
+          this._cameraTrackCanvas.width = this.canvas.width;
+          this._cameraTrackCanvas.height = this.canvas.height;
+          this._cameraTrackCanvas.getContext('2d', { willReadFrequently: true }).drawImage(this.canvas, 0, 0);
         }
         this.ctx.save();
         // Draw Robot
@@ -1023,6 +1074,10 @@ const RobotSimulator = {
       this.robot.angularSpeed = radToDeg(rotationalSpeed / (this.robot.WHEELS_CENTER_RADIUS * 1e-2));
       this.robot.angle += this.robot.angularSpeed * frameDelay;
       this.robot.angle %= 360;
+    }
+
+    if (typeof this.robot.camera !== 'undefined') {
+      this.robot.camera.setRobotPosition(this.robot.rotationCenter.x, this.robot.rotationCenter.y, this.robot.angle * (Math.PI / 180));
     }
   },
 
@@ -1415,16 +1470,97 @@ const RobotSimulator = {
     }
   },
 
-  drawObstacles: function () {
-    for (var id in this.Obstacle.obstaclesDB) {
-      const obstacle = this.Obstacle.obstaclesDB[id];
-      if (obstacle) {
-        const obstacleImage = new Image();
-        obstacleImage.src = obstacle.image;
-        obstacleImage.crossOrigin = 'Anonymous';
-        RobotSimulator.ctx.drawImage(obstacleImage, obstacle.x, obstacle.y, obstacle.w, obstacle.h);
+  addSpecificObstacles: function () {
+    // Supprimer les anciens specific obstacles si le background a changé
+    const currentBackground = this.img.background.src;
+    if (this._lastBackground !== currentBackground) {
+      this._lastBackground = currentBackground;
+      Object.keys(this.Obstacle.obstaclesDB).forEach((id) => {
+        if (this.Obstacle.obstaclesDB[id]._specificObstacle === true) {
+          if (this.Obstacle.selectedObstacleId === id) {
+            this.Obstacle.selectedObstacleId = null;
+          }
+          // Sync caméra
+          if (typeof this.robot.camera !== 'undefined' && this.robot.camera !== null) {
+            if (typeof this.Obstacle.obstaclesSyncWithCamera[id] !== 'undefined') {
+              this.robot.camera.removeObstacle(this.Obstacle.obstaclesSyncWithCamera[id]);
+              delete this.Obstacle.obstaclesSyncWithCamera[id];
+            }
+          }
+          delete this.Obstacle.obstaclesDB[id];
+        }
+      });
+    }
+
+    for (const background in this.robot.specificObstacles) {
+      if (!this.img.background.src.includes(background)) continue;
+
+      const obstacles = this.robot.specificObstacles[background];
+      if (!Array.isArray(obstacles)) continue;
+
+      for (const obstacleDef of obstacles) {
+        const obsShape = obstacleDef.shape || 'rectangle';
+        const obsImage = obstacleDef.image || null;
+        const obsW = obstacleDef.w;
+        const obsH = obstacleDef.h;
+        const canvasW = this.Track.WIDTH_PX;
+        const canvasH = this.Track.WIDTH_PX * this.Track.RATIO;
+        const obsX = typeof obstacleDef.x === 'number' ? obstacleDef.x : (canvasW - obsW) / 2;
+        const obsY = typeof obstacleDef.y === 'number' ? obstacleDef.y : (canvasH - obsH) / 2;
+        const obsColor = obstacleDef.color || '#000000';
+
+        const stableId = `specific_${obsShape}_${obsX}_${obsY}_${obsW}_${obsH}`;
+
+        if (!this.Obstacle.obstaclesDB[stableId]) {
+          this.Obstacle.obstaclesDB[stableId] = {
+            shape: obsShape,
+            image: obsImage,
+            x: obsX,
+            y: obsY,
+            w: obsW,
+            h: obsH,
+            _specificObstacle: true,
+            color: obsColor
+          };
+        }
       }
-    };
+    }
+  },
+
+  drawObstacles: function () {
+    if (!this._obstacleImageCache) {
+      this._obstacleImageCache = {};
+    }
+
+    if (typeof this.robot.specificObstacles !== 'undefined') {
+      this.addSpecificObstacles();
+    }
+
+    for (const id in this.Obstacle.obstaclesDB) {
+      const obstacle = this.Obstacle.obstaclesDB[id];
+      if (!obstacle) continue;
+
+      // Mise en cache de l'image si pas encore chargée
+      if (!this._obstacleImageCache[obstacle.image]) {
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.src = obstacle.image;
+        this._obstacleImageCache[obstacle.image] = img;
+      }
+
+      const obstacleImage = this._obstacleImageCache[obstacle.image];
+      this.ctx.drawImage(obstacleImage, obstacle.x, obstacle.y, obstacle.w, obstacle.h);
+
+      if (typeof this.robot.camera !== 'undefined') {
+        if (typeof this.Obstacle.obstaclesSyncWithCamera[id] === 'undefined') {
+          const cameraObstacleId = this.robot.camera.addObstacle({ x: obstacle.x, y: obstacle.y, width: obstacle.w, height: obstacle.h, color: obstacle.color || this.robot.camera._obstColor });
+          this.Obstacle.obstaclesSyncWithCamera[id] = cameraObstacleId;
+        } else {
+          this.robot.camera.moveObstacle(this.Obstacle.obstaclesSyncWithCamera[id], obstacle.x, obstacle.y);
+          this.robot.camera.resizeObstacle(this.Obstacle.obstaclesSyncWithCamera[id], obstacle.w, obstacle.h);
+        }
+      }
+    }
   },
 
   drawRobotPosition: function () {
@@ -1441,20 +1577,42 @@ const RobotSimulator = {
   initCanvasPointers: function () {
 
     this.canvas.onpointerup = (e) => {
+      const wasDragging = this.Obstacle.isDraggable;
       this.Obstacle.isDraggable = false;
       this.robotIsDragging = false;
       this.Axis.isDraggable = false;
+
       for (var i in this.Obstacle.handles) {
         if (this.Obstacle.handles[i].selected) {
           this.Obstacle.saveToLS();
         }
         this.Obstacle.handles[i].selected = false;
       }
+
+      if (wasDragging) {
+        this.Obstacle.saveToLS();
+      }
+
       // Delete Obstacle
-      if (this.Obstacle.selectedObstacleId && !this.robotIsDragging &&
-        this.Obstacle.isPointingOnTrash(e)) {
-        delete this.Obstacle.obstaclesDB[this.Obstacle.selectedObstacleId];
+      if (
+        this.Obstacle.selectedObstacleId &&
+        this.Obstacle.obstaclesDB[this.Obstacle.selectedObstacleId] &&
+        !this.robotIsDragging &&
+        this.Obstacle.isPointingOnTrash(e)
+      ) {
+        const idToDelete = this.Obstacle.selectedObstacleId;
         this.Obstacle.selectedObstacleId = null;
+
+        // Sync caméra
+        if (typeof this.robot.camera !== 'undefined' && this.robot.camera !== null) {
+          if (typeof this.Obstacle.obstaclesSyncWithCamera[idToDelete] !== 'undefined') {
+            this.robot.camera.removeObstacle(this.Obstacle.obstaclesSyncWithCamera[idToDelete]);
+            delete this.Obstacle.obstaclesSyncWithCamera[idToDelete];
+          }
+        }
+
+        delete this.Obstacle.obstaclesDB[idToDelete];
+        this.Obstacle.saveToLS();
       }
     };
 
@@ -1679,7 +1837,7 @@ const RobotSimulator = {
 
 };
 
-var CanvasUtils = {
+const CanvasUtils = {
   XPIXELS: null,
   YPIXELS: null,
   ctx: null,
@@ -1886,4 +2044,4 @@ var CanvasUtils = {
     }
     return a;
   },
-}
+};
