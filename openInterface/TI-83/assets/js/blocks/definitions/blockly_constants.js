@@ -80,28 +80,25 @@ Blockly.Constants.Pins.HUB_PWM_PINS_5V = [
 ];
 
 //micro:bit digital/analog/touch pins
-Blockly.Constants.Pins.MICROBIT_PINS = [
-  ["P0","pin0"],
-  ["P1","pin1"],
-  ["P2","pin2"],
-  ["P8","pin8"],
-  ["P13","pin13"],
-  ["P14","pin14"],
-  ["P15","pin15"],
-  ["P16","pin16"],
-  ["micro:bit v2", "pin_speaker"]
-];
+Blockly.Constants.Pins.digital = {
+  'microbit': [
+    ["P0", "pin0"],
+    ["P1", "pin1"],
+    ["P2", "pin2"],
+    ["P8", "pin8"],
+    ["P13", "pin13"],
+    ["P14", "pin14"],
+    ["P15", "pin15"],
+    ["P16", "pin16"],
+    ["pin_speaker (V2)", "pin_speaker"]
+  ]
+};
 
 //micro:bit read analog
-Blockly.Constants.Pins.MICROBIT_ANALOG_READ_PINS = [
-  ["P0","pin0"],
-  ["P1","pin1"],
-  ["P2","pin2"]
-];
-
-//micro:bit touch
-Blockly.Constants.Pins.MICROBIT_TOUCH_PINS = [
-  ["P0","pin0"],
-  ["P1","pin1"],
-  ["P2","pin2"]
-];
+Blockly.Constants.Pins.analog_read = {
+  'microbit': [
+    ["P0", "pin0"],
+    ["P1", "pin1"],
+    ["P2", "pin2"]
+  ]
+};

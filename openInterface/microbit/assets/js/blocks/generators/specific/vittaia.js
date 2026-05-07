@@ -12,7 +12,7 @@ Blockly.Python.vittaia_load_local_model = function () {
 
 Blockly.Python.vittaia_load_cloud_model = function (block) {
     Blockly.Python.addImport('vittaia', IMPORT_AI);
-    const modelId = Blockly.Python.valueToCode(block, 'MODEL_ID', Blockly.Python.ORDER_ATOMIC);
+    const modelId = Blockly.Python.valueToCode(block, 'MODEL_URL', Blockly.Python.ORDER_ATOMIC);
     Blockly.Python.addInit('model', `model = Model(${modelId})`);
     return '';
 };

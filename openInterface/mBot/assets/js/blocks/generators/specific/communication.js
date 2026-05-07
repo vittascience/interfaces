@@ -48,10 +48,21 @@ Blockly.Arduino.communication_serialWrite = function (block) {
     }
 };
 
+Blockly.Arduino.communication_NumberSerialWrite = function (block) {
+    Blockly.Arduino.Generators.setupSerialConnection();
+    const number = Blockly.Arduino.valueToCode(block, "NUMBER", Blockly.Arduino.ORDER_NONE)
+    const type = block.getFieldValue("TYPE");
+    let hex = '';
+    if (type == 'HEX') {
+        hex += 'Serial.print("0x");' + NEWLINE;
+    }
+    return hex + `Serial.println(${number}, ${type});${NEWLINE}`;
+};
+
 Blockly.Arduino.communication_onSerialDataReceived = function (block) {
     Blockly.Arduino.Generators.setupSerialConnection();
-    var dtaVar = Blockly.Arduino.nameDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
-    let branchCode = Blockly.Arduino.statementToCode(block, 'DO');
+    const dtaVar = Blockly.Arduino.nameDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+    const branchCode = Blockly.Arduino.statementToCode(block, 'DO');
     return "if (Serial.available()) {" + NEWLINE + TAB + dtaVar + " = Serial.readString();" + NEWLINE + branchCode + "}" + NEWLINE;
 };
 
@@ -88,19 +99,19 @@ Blockly.Arduino.communication_graphSerialWrite_datasFormat = function (block) {
     if (!isNaN(data)) {
         data = data.toString();
     }
-    let code = name + ":" + data + "|";
+    const code = name + ":" + data + "|";
     return [code.toString(), Blockly.Arduino.ORDER_ATOMIC];
 };
 
 Blockly.Arduino.communication_playComputerMusic = function (block) {
     Blockly.Arduino.Generators.setupSerialConnection();
-    let note = block.getFieldValue("NOTE");
+    const note = block.getFieldValue("NOTE");
     return "Serial.println(\"@music:" + note + "|\");" + NEWLINE;
 };
 
 Blockly.Arduino.communication_playComputerFrequency = function (block) {
     Blockly.Arduino.Generators.setupSerialConnection();
-    let frequency = Blockly.Arduino.valueToCode(block, "FREQUENCY", Blockly.Arduino.ORDER_ATOMIC);
+    const frequency = Blockly.Arduino.valueToCode(block, "FREQUENCY", Blockly.Arduino.ORDER_ATOMIC);
     return "Serial.println(\"@music:" + frequency + "|\");" + NEWLINE;
 };
 

@@ -319,7 +319,6 @@ export const JSCPP_INTERPRETER = {
                         const sig = this.makeParametersSignature(inputs);
                         if (sig in t[name].functions) {
                             ret = t[name].functions[sig];
-
                         }
                         // // VITTA WARNING: set String and char* compatible
                         // else if (sig.replace(/{!\(char\)}/g, '(String)') in t[name].functions) {
@@ -335,24 +334,25 @@ export const JSCPP_INTERPRETER = {
                                 const hasKeyType = (defs[defs.length - 1] === "?") && (defs.length - 1 <= inputs.length)
                                 const providedTypes = hasKeyType ? inputs.slice(0, defs.length - 1) : inputs;
                                 const expectedTypes = hasKeyType ? defs.slice(0, -1) : defs;
+                                const optionalLength = reg[signature].optionalArgs.length;
                                 let ok = true;
-                                if (providedTypes.length > expectedTypes.length) {
-                                    ok = false
+                                if ((providedTypes.length - optionalLength) > expectedTypes.length) {
+                                    ok = false;
                                     console.warn("Too many arguments in function " + name)
                                     return;
                                 }
                                 for (let i = 0; i < expectedTypes.length; i++) {
-                                    const isOptional = i >= (expectedTypes.length - reg[signature].optionalArgs.length);
+                                    const isOptional = i >= (expectedTypes.length - optionalLength);
                                     if (!providedTypes[i]) {
                                         if (!isOptional) {
-                                            ok = false
+                                            ok = false;
                                             console.warn(`Argument obligatoire manquant à l'indice ${i} (attendu: ${this.makeTypeString(expectedTypes[i])})`);
                                             break;
                                         }
                                         continue;
                                     }
                                     if (!this.castable(providedTypes[i], expectedTypes[i])) {
-                                        ok = false
+                                        ok = false;
                                         console.warn(`Argument invalide à l'indice ${i} : reçu ${this.makeTypeString(providedTypes[i])}, attendu ${this.makeTypeString(expectedTypes[i])}`);
                                         break;
                                     }
@@ -863,6 +863,11 @@ export const JSCPP_INTERPRETER = {
                             return this.String_makeValueFromArray(value);
                         }
                     }
+                    if (type.name == value.t.name) {
+                        return value;
+                    }
+                    console.log(type)
+                    console.log(value)
                     this.raiseException("[cast] not implemented for class types");
                     // END of VITTA WARNING
                 } else if (this.isClassType(value.t)) {
@@ -2393,6 +2398,10 @@ export const JSCPP_INTERPRETER = {
                         else if (rt.isStringType(l) && rt.isStringClass(r)) {
                             const string = rt.charArray_getJSString(l) + rt.String_getJSString(r);
                             return rt.String_makeValueFromArray(rt.charArray_makeFromJSString(string));
+                        }
+                        else if (rt.isStringType(l) && rt.isStringType(r)) {
+                            const string = rt.charArray_getJSString(l) + rt.charArray_getJSString(r);
+                            return rt.charArray_makeFromJSString(string);
                         }
                         // END of VITTA WARNING
                         else {

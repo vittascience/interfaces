@@ -18,13 +18,16 @@ const TOOLBOX_STYLE_VITTA = "vittascience";
 const TOOLBOX_STYLE_SCRATCH = "scratch";
 const TOOLBOX_STYLE_DEFAULT = TOOLBOX_STYLE_VITTA;
 //standalone_blocks
-const BLOCKS_OUTSIDE_SCOPE = ["on_start", "forever", "scratch_on_start", "procedures_defnoreturn", "procedures_defreturn"];
+const BLOCKS_OUTSIDE_SCOPE = ["on_start", "forever", "scratch_on_start", "procedures_defnoreturn", "procedures_defreturn", "network_html_create_page"];
 //example projects
 const EXAMPLE_PROJECT_LINKS = [];
+//board
+const BOARD_ELIOBOT = "eliobot";
+const BOARD_DEFAULT = BOARD_ELIOBOT;
 //adc
 const READ_ANALOG_MAX_VALUE = 65535;
 const WRITE_ANALOG_MAX_VALUE = 255;
-const PWM_MAX_DUTY = 1023;
+const PWM_MAX_DUTY = 65535;
 //libraries
 const LIBRARIES_PATH = {
     'elio': ''

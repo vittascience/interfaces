@@ -110,18 +110,19 @@
     
         }
     </script>
-    <script src="/public/js/scripts/tooltips/tooltipsRemover.js"></script>
-<link rel="stylesheet" href="/openInterface/interfaces/assets/js/external/fontawesome-free-6.5.1-web/css/all.css">
+    <script src="/public/js/scripts/tooltips/tooltipsRemover.js" defer></script>
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/js/external/fontawesome-free-6.5.1-web/css/all.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/js/external/file-input/css/fileinput.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/ide-navbar.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/main.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/modal.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/buttons.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/ace.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/ace_themes.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/monitor.css">
-<link rel="stylesheet" href="/openInterface/python/assets/css/python.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/rtc.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/ide-navbar.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/main.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/toolbox.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/modal.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/buttons.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/ace.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/ace_themes.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/monitor.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/python/assets/css/python.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/rtc.css">
 <link rel="stylesheet" href="/public/css/capytale-standalone.css">
 </head>
 
@@ -494,7 +495,6 @@
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-python.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-languages_tools.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-searchbox.min.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/ace-ide/aceInit.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/file-input/js/fileinput.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/file-input/themes/fa/theme.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/skulpt/skulpt.js"></script>
@@ -521,7 +521,6 @@
 <!-- build:js-constants -->
 <script src="/openInterface/interfaces/assets/js/constants/main/errors.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/main/patterns.js"></script>
-<script src="/openInterface/interfaces/assets/js/constants/blocks/helpurl.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/generators/constants.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/generators/functions.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/modals/buttons.js"></script>
@@ -613,14 +612,12 @@
 <script src="/openInterface/interfaces/assets/js/external/d3-v3/d3.js" charset="utf-8"></script>
 <script src="/openInterface/interfaces/assets/js/events/footer.js"></script>
 <script src="/openInterface/interfaces/assets/js/events/addBlck.js"></script>
-<!-- accessibility -->
-<script src="/openInterface/interfaces/assets/js/utils/accessibility/accessibility.js" type="module"></script>
 <!-- loader -->
 <script src="/openInterface/interfaces/assets/js/events/load.js"></script>
 <!-- <script src="/openInterface/interfaces/assets/js/utils/accessibility/ace-editor/main.js" type="module"></script> -->
 <script>
-    $(document).ready(() => {
-        loadInterface(INTERFACE_NAME);
+    $(document).ready(async () => {
+        await loadInterface(INTERFACE_NAME);
     });
 </script>
 

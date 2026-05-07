@@ -8,13 +8,6 @@ DEF_PIN_ADC:
   pin.width(bit)
   return pin`,
 
-DEF_PIN_WRITE:
-`def pinWrite(pinNumber, db=ADC.ATTN_11DB, bit=ADC.WIDTH_10BIT):
-  pin = ADC(Pin(pinNumber))
-  pin.atten(db)
-  pin.width(bit)
-  return pin`,
-
 DEF_GET_ANALOG_MEAN:
 `def getAnalogMean(pin, n = 32):
   sum = 0
@@ -24,30 +17,84 @@ DEF_GET_ANALOG_MEAN:
 
 /******** COMMUNICATION CATEGORY */
 
+DEF_SERIAL_READMESSAGE:
+`def serial_readMessage(n = 32):
+  buf = sys.stdin.read(1)
+  for i in range(n-1):
+    if not poll.poll(0):
+      break
+    buf += sys.stdin.read(1)
+  return buf`,
+
+DEF_RFID_READ_TAG_UID:
+`def rfid_readTagUID(uart):
+  if uart.any():
+    utime.sleep_ms(50)
+    rfid_data = bytes([])
+    while uart.any() > 0:
+      rfid_data += uart.read()
+    # data: 0x02 + 10 ASCII + checksun (2 bytes) + 0x03 => 14 bytes
+    if len(rfid_data) != 14 or rfid_data[0] != 0x02 or rfid_data[-1] != 0x03:
+      return
+    body = rfid_data[1:-1]
+    card_hex = body[:10]
+    cks_hex  = body[10:12]
+    cks_rx = int(cks_hex, 16)
+    cks = 0
+    for b in bytes.fromhex(card_hex):
+      cks ^= b
+    return card_hex`,
+
+  DEF_RC522_READ_TAG_UID:
+`def rc522_readTagUid(rdr):
+  (stat, tag_type) = rdr.request(rdr.REQIDL)
+  if stat == rdr.OK:
+    (stat, uid) = rdr.anticoll()
+    if stat == rdr.OK:
+    	return "".join(f"{i:02X}" for i in uid)`,
+
 // Grove GPS _ read NMEA
 DEF_GPS_READ_NMEA:
 `def gps_readNMEA(uart, wait = False):
   global gpsInfos
+
+  def extract_frames():
+    global gpsInfos
+    valid_frames = []
+    if not uart.any(): return valid_frames
+
+    data = uart.read()
+    if not data: return valid_frames
+
+    try: chunk = data.decode()
+    except UnicodeError:
+      try: chunk = data.decode('utf-8', 'ignore')
+      except:
+        return valid_frames
+
+    gpsInfos['buffer'] += chunk
+    lines = gpsInfos['buffer'].split("\\r\\n")
+    gpsInfos['buffer'] = lines.pop()
+
+    frames = [x for x in lines if x.startswith("$")]
+
+    for f in frames:
+      n = f.count(',')
+      kind = f[3:6]
+      if kind == "GGA" and n == 14: valid_frames.append(f)
+      elif kind == "GSA" and n == 17: valid_frames.append(f)
+      elif kind == "RMC" and n in [11, 12]: valid_frames.append(f)
+      elif kind == "VTG" and n in [8, 9]: valid_frames.append(f)
+      elif kind == "GSV": valid_frames.append(f)
+    return valid_frames
+
   def read():
     global gpsInfos
-    global gpsBuffer
-    if uart.any():
-      gpsBuffer += str(uart.read())[2:-1]
-      a = gpsBuffer.split("\\\\\\r\\\\\\n")
-      Frames = []
-      for f in a:
-        if (f.count(',') is 12 or f.count(',') is 14) and (f.find("$GNGGA") == 0 or f.find("$GPGGA") == 0):
-          Frames.append(f)
-        if f.count(',') is 19 and f.find("$GPGSV") == 0:
-          Frames.append(f)
-        if f.count(',') is 17 and (f.find("$GPGSA") == 0 or f.find("$BDGSA") == 0):
-          Frames.append(f)
-        if f.count(',') is 9 and f.find("$GNVTG") == 0:
-          Frames.append(f)
-      gpsBuffer = a[-1]
-      if len(Frames) > 0:
-        print("[GPS_INFO] Lecture de la trame NMEA valide.\\n")
-        gpsInfos['nmea'] = Frames
+    frames = extract_frames()
+    if frames:
+      print("[GPS_INFO] Lecture de la trame NMEA valide.\\n")
+      gpsInfos['nmea'] = frames
+
   if wait:
     gpsInfos['nmea'] = None
     while gpsInfos['nmea'] is None:
@@ -55,6 +102,7 @@ DEF_GPS_READ_NMEA:
       utime.sleep_ms(100)
   else:
     read()
+
   return gpsInfos['nmea']`,
 
 // Gove GPS _ read info
@@ -110,10 +158,13 @@ DEF_GPS_GET_GGA_INFORMATIONS:
 
 DEF_SD_CARD_WRITE_FILE:
 `def SDCard_writeFile(data, filename = "", mode = 'w', extension = 'txt', date = False, sd = False):
+  if not isinstance(data, (bytearray, bytes, str)):
+    data = str(data)
   if extension in ['jpeg', 'jpg', 'png']:
     mode = 'wb'
-  if mode is 'wb' and not isinstance(data, bytes):
+  if mode == 'wb' and not isinstance(data, (bytes, bytearray)):
     print("[Storage_INFO] Data not available to store.")
+    return
   else:
     if date:
       try:
@@ -129,8 +180,7 @@ DEF_SD_CARD_WRITE_FILE:
         mode = 'w'
     filename += '.' + extension
     with open(('/sd/' if sd else '') + filename, mode) as file:
-      file.write(data if mode is 'wb' else str(data))
-      file.close()
+      file.write(data if mode == 'wb' else str(data))
     print("[Storage_INFO] File '" + filename + "' in " + ("SD card." if sd else "ESP32 filestorage."))`,
 
 /****** ACTUATORS CATEGORY ******/
@@ -310,41 +360,53 @@ DEF_GET_CURRENT_TIME:
 // ESP32-CAM _ DISPLAY_RESOLUTIONS
 CONSTANT_ESP32_CAM_DISPLAY_RESOLUTIONS:
 `DISPLAY_RESOLUTIONS = [
-  ('96X96', [96, 96]), ('QQVGA', [160, 120]), ('QCIF', [176, 144]), ('HQVGA', [240, 176]), ('240X240', [240, 240]), ('QVGA', [320, 240]), 
-  ('CIF', [400, 296]), ('HVGA', [480, 320]), ('VGA', [640, 480]), ('SVGA', [800, 600]), ('XGA', [1024, 768]), ('HD', [1280, 720]), 
-  ('SXGA', [1280, 1024]), ('UXGA', [1600, 1200]), ('FHD', [1920, 1080]), ('P_HD', [720, 1280]), ('P_3MP', [864, 1536]), ('QXGA', [2048, 1536])
+  ('96X96', [96, 96]), ('QQVGA', [160, 120]), ('128x128', [128, 128]), ('QCIF', [176, 144]), ('HQVGA', [240, 176]),
+  ('240X240', [240, 240]), ('QVGA', [320, 240]), ('320x320', [320, 320]), ('CIF', [400, 296]), ('HVGA', [480, 320]),
+  ('VGA', [640, 480]), ('SVGA', [800, 600]), ('XGA', [1024, 768]), ('HD', [1280, 720]), ('SXGA', [1280, 1024]),
+  ('UXGA', [1600, 1200]), ('FHD', [1920, 1080]), ('P_HD', [720, 1280]), ('P_3MP', [864, 1536]), ('QXGA', [2048, 1536]),
+  ('QHD', [2560, 1440]), ('WQXGA', [2560, 1600]), ('P_FHD', [1080, 1920]), ('SQXGA', [2560, 2048])
 ]`,
 
 // ESP32-CAM _ initialize
 DEF_ESP32_CAM_INITIALIZE:
 `def ESP32CAM_initialize(size):
-  global cameraStatus
-  if not cameraStatus:
-    try:
-      print("Initialize ESP32 Camera ...")
-      if 'JPEG' in dir(camera):
-        status = camera.init(0, format=camera.JPEG)
-      else:
-        status = camera.init()
-      if not status:
-        reset()
-    except OSError:
-      print('Unable to initialize ESP32 Camera.')
-      reset()
-    camera.framesize(size)
-    cameraStatus = True
+  global cam
+  if cam is not None: 
+    return
+  print("Initialize ESP32 Camera ...")
+  utime.sleep_ms(500)
+  try:
+    cam = Camera()
+    utime.sleep_ms(1000)
+    if 'JPEG' in dir(PixelFormat):
+      cam.reconfigure(pixel_format=PixelFormat.JPEG)
+      utime.sleep_ms(200)
+    cam.reconfigure(frame_size=size)
     utime.sleep_ms(200)
-  print("Camera ready.")`,
+    print("Camera ready.")
+  except OSError as e:
+    print('Unable to initialize ESP32 Camera:', e)
+    try:
+      print("Trying fallback QVGA...")
+      cam = Camera()
+      utime.sleep_ms(300)
+      cam.reconfigure(frame_size=6)  # QVGA 320x240
+      utime.sleep_ms(200)
+      print("Camera ready (fallback QVGA).")
+    except OSError as e2:
+      print('Camera failed completely:', e2)
+      reset()`,
 
 DEF_ESP32_CAM_CAPTURE:
 `def ESP32CAM_capture(base64 = True):
   try:
     ESP32CAM_initialize(CAM_FRAMESIZE)
   except:
-    ESP32CAM_initialize(DISPLAY_RESOLUTIONS.index([i for i in DISPLAY_RESOLUTIONS if 'VGA' in i][0]) + 1)
+    ESP32CAM_initialize(DISPLAY_RESOLUTIONS.index([i for i in DISPLAY_RESOLUTIONS if 'VGA' in i][0]))
   for i in range(3):
     try:
-      data = camera.capture()
+      data = bytes(cam.capture())
+      cam.free_buffer()
       if data:
         if base64:
           return binascii.b2a_base64(data)

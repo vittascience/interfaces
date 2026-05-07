@@ -1,4 +1,4 @@
-Simulator.Mosaic.BOARD_HEADER = `<object id="board-viewer" class="mt-3" style="background-repeat: no-repeat; background-size: contain; background-position: center;" type="image/svg+xml"></object>`;
+Simulator.Mosaic.BOARD_HEADER = `<object id="board-viewer" class="mt-3" style="background-repeat: no-repeat; background-size: contain; background-position: center;" type="image/svg+xml" role="img" aria-label="Board simulator view"></object>`;
 
 Simulator.Mosaic.externalLibraries = {
     // js common libraries

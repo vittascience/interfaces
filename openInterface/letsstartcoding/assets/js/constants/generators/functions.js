@@ -517,7 +517,7 @@ DEF_SGP30_GET_TVOC:
 DECLARE_O2_GAS:
 `// It need about about 5-10 minutes to preheat the O2 gas sensor
 // modify VRef if needed
-const float VRef = 3.3;   // voltage of adc reference`,
+const float VRef = 5;   // voltage of adc reference`,
 
 /**
  * Get data from Grove O2 sensor by analog reading.

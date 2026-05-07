@@ -1,18 +1,11 @@
 
-function setupMonitor() {
-	if ($('#monitor').hasClass('monitor-closed')) {
-		InterfaceMonitor.toggle();
-	}
-	if ($('#monitor-btn-console').length > 0 && !$('#monitor-btn-console').hasClass('activated')) {
-		InterfaceMonitor.managePanel('console');
-	}
-};
+
 
 async function connectBoard() {
 	if ($("#simulator").is(":visible")) {
 		toggleSimulator();
 	}
-	setupMonitor();
+	InterfaceMonitor.setup();
 	if (navigator.serial && !SerialAPI.isConnected) {
 		await doConnect();
 	}
@@ -155,7 +148,7 @@ async function uploadPython() {
 			console.error("Erreur pendant l'upload :", error);
 		}
 	};
-	setupMonitor();
+	InterfaceMonitor.setup();
 	if (SerialAPI.isConnected) {
 		await upload();
 	} else {
@@ -178,15 +171,5 @@ function callbackError(error) {
 		SerialAPI.reset();
 		$("#disconnect-opt").hide();
 		$("#connected-icon").remove();
-	}
-};
-
-/**
- * This function records all the pressed keys in the array `pressedKeys`
- * @param {DOM} e the DOM keypress element (document in this case)
- */
-function multipleKeyPress(e) {
-	if (!SerialAPI.pressedKeys.includes(e.key)) {
-		SerialAPI.pressedKeys.push(e.key);
 	}
 };

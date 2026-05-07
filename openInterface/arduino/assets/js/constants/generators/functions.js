@@ -103,6 +103,40 @@ MAKE_TYPE_INFO(float)
   for (int i; i<8; i++) SeeedOled.sendData(pgm_read_byte(&icon[i]));
 }`,
 
+  // Arduino UNO & Nano  (1 page buffer or 2 page buffer)
+
+  DEF_WRITE_STR_SSD1306_UG8_2HW:
+`void ssd1306_writeStr(U8G2_SSD1306_128X64_NONAME_2_HW_I2C *oled, uint8_t x, uint8_t y, const String& text) {
+  oled->firstPage();
+  do {
+    oled->drawStr(x, y, text.c_str());
+  } while (oled->nextPage());
+}`,
+
+  DEF_DRAW_XBM_SSD1306_UG8_2HW:
+`void ssd1306_drawXBM(U8G2_SSD1306_128X64_NONAME_2_HW_I2C *oled, uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t logo [] U8X8_PROGMEM) {
+  oled->firstPage();
+  do {
+    oled->drawXBMP(x, y, w, h, logo);
+  } while (oled->nextPage());
+}`,
+
+  DEF_WRITE_STR_SSD1315_UG8_2HW:
+`void ssd1315_writeStr(U8G2_SSD1315_128X64_NONAME_2_HW_I2C *oled, uint8_t x, uint8_t y, const String& text) {
+  oled->firstPage();
+  do {
+    oled->drawStr(x, y, text.c_str());
+  } while (oled->nextPage());
+}`,
+
+  DEF_DRAW_XBM_SSD1315_UG8_2HW:
+`void ssd1315_drawXBM(U8G2_SSD1315_128X64_NONAME_2_HW_I2C *oled, uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t logo [] U8X8_PROGMEM) {
+  oled->firstPage();
+  do {
+    oled->drawXBMP(x, y, w, h, logo);
+  } while (oled->nextPage());
+}`,
+
   /**
    * Show all LED of neopixel module.
    * @param {Adafruit_NeoPixel} neoPx
@@ -233,8 +267,23 @@ MAKE_TYPE_INFO(float)
   char name[8];
 }* SPISong, *SDSong;`,
 
-  DEF_MP3_READ_SONG_NAME:
-`void readSongName(struct Play_history* ph, uint32_t num, WT2003S_STORAGE disk) {
+  DEF_MP3_V4_PLAY_MUSIC:
+`void MP3_V4_playMusic(String filename) {
+  if (!Mp3Player_V4.playSDSong(filename.c_str())) {
+    if (Mp3Player_V4.response.indexOf("ERR") >= 0) {
+      int keyError = Mp3Player_V4.response.substring(Mp3Player_V4.response.indexOf(':') + 1).toInt();
+      Serial.println(keyError);
+      if (keyError == 6) {
+        Serial.println("[MP3 V4] Unable to play '" + String(filename) + "'. The SD card cannot be found.");
+      } else if (keyError == 10) {
+        Serial.println("[MP3 V4] Unable to play '" + String(filename) + "'. The music filename The file name must be less than 8 characters.");
+      }
+    }
+  }
+}`,
+
+  DEF_MP3_V3_READ_SONG_NAME:
+`void MP3_V3_readSongName(struct Play_history *ph, uint32_t num, WT2003S_STORAGE disk) {
   Mp3Player_V3.volume(0);
   delay(100);
   switch (disk) {
@@ -260,19 +309,19 @@ MAKE_TYPE_INFO(float)
   delay(100);
 }`,
 
-  DEF_MP3_GET_ALL_SONG:
-`void getAllSong() {
+  DEF_MP3_V3_GET_ALL_SONG:
+`void MP3_V3_getAllSong() {
   uint8_t diskstatus = Mp3Player_V3.getDiskStatus();
   spi_flash_songs = Mp3Player_V3.getSPIFlashMp3FileNumber();
   if (spi_flash_songs > 0) {
     SPISong = (struct Play_history*)malloc((spi_flash_songs + 1) * sizeof(struct Play_history));
-    readSongName(SPISong, spi_flash_songs, WT2003S_SPIFLASH);
+    MP3_V3_readSongName(SPISong, spi_flash_songs, WT2003S_SPIFLASH);
   }
   if (diskstatus && 0x02) { // have SD
     sd_songs = Mp3Player_V3.getSDMp3FileNumber();
     if (sd_songs > 0) {
       SDSong = (struct Play_history*)malloc((sd_songs + 1) * sizeof(struct Play_history));
-      readSongName(SDSong, sd_songs, WT2003S_SD);
+      MP3_V3_readSongName(SDSong, sd_songs, WT2003S_SD);
     }
   }
 }`,
@@ -480,32 +529,63 @@ SETUP_RADIO_433_RECEIVER:
 
   /**
    * Decode the IR message from NEC remote, return the associated button.
-   * @param {uint32_t} code
+   * @param {uint16_t} NEC_command
    * @return {String} button
    */
   DEF_REMOTE_NEC_BASIC_BLACK_GET_BUTTON:
-`String remoteNEC_getButton(int HexCode) {
-  if (HexCode == 0x30cf) return "1";
-  else if (HexCode == 0x18e7) return "2";
-  else if (HexCode == 0x7a85) return "3";
-  else if (HexCode == 0x10ef) return "4";
-  else if (HexCode == 0x38c7) return "5";
-  else if (HexCode == 0x5aa5) return "6";
-  else if (HexCode == 0x42bd) return "7";
-  else if (HexCode == 0x4ab5) return "8";
-  else if (HexCode == 0x52ad) return "9";
-  else if (HexCode == 0x6897) return "0";
-  else if (HexCode == 0x2fd) return "up";
-  else if (HexCode == 0xffff9867) return "down";
-  else if (HexCode == 0xffffe01f) return "left";
-  else if (HexCode == 0xffff906f) return "right";
-  else if (HexCode == 0xffffa857) return "ENTER/SAVE";
-  else if (HexCode == 0xffffb04f) return "Back";
-  else if (HexCode == 0xffffa25d) return "VOL-";
-  else if (HexCode == 0xffffe21d) return "VOL+";
-  else if (HexCode == 0x629d) return "PLAY/PAUSE";
-  else if (HexCode == 0x22dd) return "SETUP";
-  else if (HexCode == 0xffffc23d) return "STOP/MODE";
+`String remoteNEC_basicBlack_getButton(uint16_t NEC_command) {
+  if (NEC_command == 0x45) return "VOL-";
+  else if (NEC_command == 0x46) return "PLAY/PAUSE";
+  else if (NEC_command == 0x47) return "VOL+";
+  else if (NEC_command == 0x44) return "SETUP";
+  else if (NEC_command == 0x40) return "up";
+  else if (NEC_command == 0x43) return "STOP/MODE";
+  else if (NEC_command == 0x7) return "left";
+  else if (NEC_command == 0x15) return "ENTER/SAVE";
+  else if (NEC_command == 0x9) return "right";
+  else if (NEC_command == 0x16) return "0 (10+)";
+  else if (NEC_command == 0x19) return "down";
+  else if (NEC_command == 0xD) return "Back";
+  else if (NEC_command == 0xC) return "1";
+  else if (NEC_command == 0x18) return "2";
+  else if (NEC_command == 0x5E) return "3";
+  else if (NEC_command == 0x8) return "4";
+  else if (NEC_command == 0x1C) return "5";
+  else if (NEC_command == 0x5A) return "6";
+  else if (NEC_command == 0x42) return "7";
+  else if (NEC_command == 0x52) return "8";
+  else if (NEC_command == 0x4A) return "9";
+  else return "NEC remote code error";
+}`,
+
+  /**
+   * Decode the IR message from NEC remote, return the associated button.
+   * @param {uint16_t} NEC_command
+   * @return {String} button
+   */
+  DEF_REMOTE_NEC_AR_MP3_GRAY_GET_BUTTON:
+`String remoteNEC_Carmp3_gray_getButton(uint16_t NEC_command) {
+  if (NEC_command == 0x45) return "CH-";
+  else if (NEC_command == 0x46) return "CH";
+  else if (NEC_command == 0x47) return "CH+";
+  else if (NEC_command == 0x44) return "PREV";
+  else if (NEC_command == 0x40) return "NEXT";
+  else if (NEC_command == 0x43) return "PLAY/PAUSE";
+  else if (NEC_command == 0x7) return "VOL-";
+  else if (NEC_command == 0x15) return "VOL+";
+  else if (NEC_command == 0x9) return "EQ";
+  else if (NEC_command == 0x16) return "0";
+  else if (NEC_command == 0x19) return "100+";
+  else if (NEC_command == 0xD) return "200+";
+  else if (NEC_command == 0xC) return "1";
+  else if (NEC_command == 0x18) return "2";
+  else if (NEC_command == 0x5E) return "3";
+  else if (NEC_command == 0x8) return "4";
+  else if (NEC_command == 0x1C) return "5";
+  else if (NEC_command == 0x5A) return "6";
+  else if (NEC_command == 0x42) return "7";
+  else if (NEC_command == 0x52) return "8";
+  else if (NEC_command == 0x4A) return "9";
   else return "NEC remote code error";
 }`,
 
@@ -543,6 +623,8 @@ SETUP_RADIO_433_RECEIVER:
 `String rfid_getStringCardID() {
   String frame = "";
   if (rfid.available()) {
+      delay(50);
+      buffer[count++] = rfid.read();
       while (rfid.available()) {
         buffer[count++] = rfid.read();
         if (count == 64) break;
@@ -674,7 +756,7 @@ SETUP_RADIO_433_RECEIVER:
   DECLARE_O2_GAS:
 `// It need about about 5-10 minutes to preheat the O2 gas sensor
 // modify VRef if needed
-const float VRef = 3.3;   // voltage of adc reference`,
+const float VRef = 5;   // voltage of adc reference`,
 
   /**
    * Get data from Grove O2 sensor by analog reading.
@@ -943,6 +1025,12 @@ float mq135_getResistance(uint8_t pin) {
   SETUP_BMP280_CHECK:
 `while (!bmp280.begin(BMP280_I2C_ADDR)) {
   Serial.println("En attente du capteur BMP280...");
+  delay(1000);
+}`,
+
+  SETUP_BME280_CHECK:
+`while (!bme280.init(BME280_I2C_ADDR)) {
+  Serial.println("En attente du capteur BME280...");
   delay(1000);
 }`,
 
@@ -1366,6 +1454,33 @@ float mq135_getResistance(uint8_t pin) {
   else return "gesture not detected";
 }`,
 
+  SETUP_MLX90614_CHECK: 
+`if (!mlx90614.begin()) {
+  Serial.println("Error connecting to MLX sensor. Check wiring.");
+  while (1);
+};`,
+
+  DEF_EAR_CLIP_GET_BPM:
+`int getBPM(uint8_t pin) {
+  int signal = analogRead(pin);
+  
+  // Détection battement
+  if (signal > threshold && !pulseDetected) {
+    pulseDetected = true;
+    unsigned long now = millis();
+    if (lastBeatTime > 0) {
+      bpm = 60000 / (now - lastBeatTime);
+    }
+    lastBeatTime = now;
+  }
+  
+  if (signal < threshold) {
+    pulseDetected = false;
+  }
+  
+  return bpm;
+}`,
+
   // Actuators blocks
 
   /**
@@ -1449,6 +1564,16 @@ float mq135_getResistance(uint8_t pin) {
   if (motorShield.getFault()) {
     Serial.println("Got fault from dual MC33926 motor shield.");
     while(1);
+  }
+}`,
+
+  MULTI_RELAY_CONTROL:
+`void multiRelay_control(uint8_t channel, bool state) {
+  state = applianceSettings[channel - 1] == APP_NO ? state : !state;
+  if (state) {
+    multiRelay.turn_on_channel(channel);
+  } else {
+    multiRelay.turn_off_channel(channel);
   }
 }`,
 
@@ -1824,6 +1949,153 @@ float mq135_getResistance(uint8_t pin) {
   IPAddress ip;
   ip.fromString(ipStr);
   return ip;
+}`,
+
+  DEF_HUSKYLENS_BEGIN:
+`void huskyLens_begin() {
+  Wire.begin();
+  while (!huskylens.begin(Wire)) {
+      Serial.println(F("Begin failed!"));
+      Serial.println(F("1.Please recheck the \\"Protocol Type\\" in HUSKYLENS (General Settings>>Protocol Type>>I2C)"));
+      Serial.println(F("2.Please recheck the connection."));
+      delay(100);
+  }
+}`,
+
+  DEF_HUSKYLENS_READ_AND_STORE: 
+`void readAndStore(String type) {
+  if (type == "blocks") {
+    int blocksCount = 0;
+    
+    if (!huskylens.requestBlocks()) {
+      return;
+    }
+    
+    for (int i = 0; i < huskylens.countBlocks(); i++) {
+      HUSKYLENSResult result = huskylens.getBlock(i);
+      
+      if (result.command == COMMAND_RETURN_BLOCK) {
+        blocks[blocksCount].xCenter = result.xCenter;
+        blocks[blocksCount].yCenter = result.yCenter;
+        blocks[blocksCount].xOrigin = result.xOrigin;
+        blocks[blocksCount].yOrigin = result.yOrigin;
+        blocks[blocksCount].width = result.width;
+        blocks[blocksCount].height = result.height;
+        blocks[blocksCount].id = result.ID;
+        blocksCount++;
+      }
+    }
+  } else if (type == "arrows") {
+    int arrowsCount = 0;
+    
+    if (!huskylens.requestArrows()) {
+      return;
+    }
+    
+    for (int i = 0; i < huskylens.countArrows(); i++) {
+      HUSKYLENSResult result = huskylens.getArrow(i);
+      
+      if (result.command == COMMAND_RETURN_ARROW) {
+        arrows[arrowsCount].xOrigin = result.xOrigin;
+        arrows[arrowsCount].yOrigin = result.yOrigin;
+        arrows[arrowsCount].xTarget = result.xTarget;
+        arrows[arrowsCount].yTarget = result.yTarget;
+        arrows[arrowsCount].id = result.ID;
+        arrowsCount++;
+        }
+    }
+  } 
+}`,
+  DEF_HUSKYLENS_GET_DATA: 
+`int* getData(String type, String dataType) {
+  int count = 0;
+  memset(resultArray, 0, sizeof(resultArray));
+  if (type == "blocks") {
+      for (int i = 0; i < MAX_BLOCKS_AND_ARROWS; i++) {
+          if (dataType == "ids") {
+              bool exists = false;
+              for (int j = 0; j < count; j++) {
+                  if (resultArray[j] == blocks[i].id) {
+                      exists = true;
+                      break;
+                  }
+              }
+              if (!exists && blocks[i].id != 0) {
+                  resultArray[count++] = blocks[i].id;
+              }
+          } else if (dataType == "xOrigin") {
+              resultArray[count++] = blocks[i].xOrigin;
+          } else if (dataType == "yOrigin") {
+              resultArray[count++] = blocks[i].yOrigin;
+          } else if (dataType == "xCenter") {
+              resultArray[count++] = blocks[i].xCenter;
+          } else if (dataType == "yCenter") {
+              resultArray[count++] = blocks[i].yCenter;
+          } else if (dataType == "width") {
+              resultArray[count++] = blocks[i].width;
+          } else if (dataType == "height") {
+              resultArray[count++] = blocks[i].height;
+          }
+      }
+  } else if (type == "arrows") {
+      for (int i = 0; i < MAX_BLOCKS_AND_ARROWS; i++) {
+          if (dataType == "ids") {
+              bool exists = false;
+              for (int j = 0; j < count; j++) {
+                  if (resultArray[j] == arrows[i].id) {
+                      exists = true;
+                      break;
+                  }
+              }
+              if (!exists && arrows[i].id != 0) {
+                  resultArray[count++] = arrows[i].id;
+              }
+          } else if (dataType == "xOrigin") {
+              resultArray[count++] = arrows[i].xOrigin;
+          } else if (dataType == "yOrigin") {
+              resultArray[count++] = arrows[i].yOrigin;
+          } else if (dataType == "xTarget") {
+              resultArray[count++] = arrows[i].xTarget;
+          } else if (dataType == "yTarget") {
+              resultArray[count++] = arrows[i].yTarget;
+          }
+      }
+  }
+  return resultArray;
+}`,
+
+  DEF_HUSKYLENS_IS_DETECTED: `
+bool isIdDetected(String type, int targetId) {
+  if (type == "blocks") {
+    for (int i = 0; i < MAX_BLOCKS_AND_ARROWS; i++) {
+      if (blocks[i].id == targetId) {
+        return true;
+      }
+    }
+  } else if (type == "arrows") {
+    for (int i = 0; i < MAX_BLOCKS_AND_ARROWS; i++) {
+      if (arrows[i].id == targetId) {
+        return true;
+      }
+    }
+  }
+  return false;
+}`,
+
+  DEF_HUSKYLENS_LINE_DIRECTION: `
+String line_direction(int id) {
+  for (int i = 0; i < MAX_BLOCKS_AND_ARROWS; i++) {
+    if (arrows[i].id == id) {
+      if (arrows[i].xTarget > 150 && arrows[i].xTarget < 170) {
+        return "STRAIGHT";
+      } else if (arrows[i].xTarget < 150) {
+        return "LEFT";
+      } else {
+        return "RIGHT";
+      }
+    }
+  }
+  return "FALSE";
 }`,
 
 // Javacript function for server //

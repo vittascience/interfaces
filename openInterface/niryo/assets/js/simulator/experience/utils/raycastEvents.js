@@ -24,7 +24,6 @@ export default class RaycastModel {
 				}
 				this.meshesByGroup[group].name.push(child.name);
 				this.meshesByGroup[group].meshes.push(child);
-				console.log('child', child.name);
 			}
 		});
 	}

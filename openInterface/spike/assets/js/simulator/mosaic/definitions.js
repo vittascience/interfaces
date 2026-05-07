@@ -3,17 +3,12 @@ Simulator.Mosaic.BOARD_HEADER = `<object id="board-viewer" class="mt-3" style="b
 Simulator.Mosaic.externalLibraries = {
     // js common libraries
     'src/lib/utime.js': Simulator.PATH_LIB_COMMON + 'micropython/time.js',
-    // js hub library
+    // js specific library
     'src/lib/hub.js': Simulator.PATH_LIB + 'hub.js',
-    // js motor library
     'src/lib/motor.js': Simulator.PATH_LIB + 'motor.js',
-    // js color library
     'src/lib/color.js': Simulator.PATH_LIB + 'color.js',
-    // js color_matrix library
     'src/lib/color_matrix.js': Simulator.PATH_LIB + 'color_matrix.js',
-    // js color_sensor library
     'src/lib/color_sensor.js': Simulator.PATH_LIB + 'color_sensor.js',
-    // js speech_synthesis library
     'src/lib/speech_synthesis.js': Simulator.PATH_LIB + 'speech_synthesis.js'
 };
 
@@ -117,7 +112,7 @@ Simulator.Mosaic.specific = {
         },
         {
             regex: /color_sensor\.color\(port\.A\)/gi,
-            id: "spike-colorSensor-portA",
+            id: "spike-ColorSensor-portA",
             title: "Capteur de couleurs",
             pin: "Port A",
             type: 'input',            

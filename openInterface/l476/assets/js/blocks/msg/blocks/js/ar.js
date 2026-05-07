@@ -146,10 +146,15 @@ Blockly.Msg['IO_GETVOLTAGE_TOOLTIP'] = 'مكّن من تحويل القيمة ا
 Blockly.Msg['IO_GETVOLTAGE_12BIT'] = '12 بت';
 Blockly.Msg['IO_GETVOLTAGE_16BIT'] = '16 بت';
 // Communication - UART Blocks
-Blockly.Msg['COMMUNICATION_UART_INIT_TITLE'] = '[uart] تهيئة الاتصال التسلسلي على الناقل %1 Baudrate %2';
-Blockly.Msg['COMMUNICATION_UART_INIT_TOOLTIP'] = 'قم بتهيئة الاتصال التسلسلي على منفذ UART';
-Blockly.Msg['COMMUNICATION_UART_WRITE_TITLE'] = '[uart] كتابة البيانات %1 على الناقل %2';
-Blockly.Msg['COMMUNICATION_UART_WRITE_TOOLTIP'] = 'إرسال البيانات على منفذ UART';
+Blockly.Msg['COMMUNICATION_UART_INIT_TITLE'] = '[uart] تهيئة الاتصال التسلسلي على ناقل %1 بمعدل نقل بيانات %2';
+Blockly.Msg['COMMUNICATION_UART_INIT_TOOLTIP'] = 'تهيئة الاتصال التسلسلي على منفذ UART (1 أو 2). افتراضيًا، تكون المنافذ كما يلي: UART 1 (tx=D10, rx=D11) وUART 2 (tx=D1, rx=D0).';
+Blockly.Msg['COMMUNICATION_UART_WRITE_TITLE'] = '[uart] كتابة البيانات %1 إلى ناقل %2';
+Blockly.Msg['COMMUNICATION_UART_WRITE_TOOLTIP'] = 'السماح بكتابة البيانات إلى منفذ UART (1 أو 2). افتراضيًا، تكون منافذ الإدخال/الإخراج كما يلي: UART 1 (tx=D10, rx=D11) وUART 2 (tx=D1, rx=D0).';
+Blockly.Msg['COMMUNICATION_UART_READ_TITLE'] = '[uart] قراءة البيانات من ناقل %1';
+Blockly.Msg['COMMUNICATION_UART_READ_TOOLTIP'] = 'يسمح بقراءة البيانات من منفذ UART (1 أو 2). افتراضيًا، تكون منافذ الإدخال/الإخراج كما يلي: UART 1 (tx=D10, rx=D11) وUART 2 (tx=D1, rx=D0).';
+Blockly.Msg['COMMUNICATION_UART_READ_SIZE'] = 'حجم البيانات';
+Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TITLE'] = '[uart] البيانات متوفرة على الناقل %1';
+Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TOOLTIP'] = 'يُرجع حجم البيانات المتوفرة على منفذ UART (1 أو 2). افتراضيًا، تكون المنافذ كالتالي: UART 1 (tx=D10, rx=D11) وUART 2 (tx=D1, rx=D0).';
 // Communication - Serial connection
 Blockly.Msg['COMMUNICATION_SERIAL_WRITE_TITLE'] = 'الكتابة على المنفذ التسلسلي %1';
 Blockly.Msg['COMMUNICATION_SERIAL_WRITE_TOOLTIP'] = 'اكتب سلسلة على المنفذ التسلسلي';
@@ -196,10 +201,10 @@ Blockly.Msg['DAY_SUNDAY'] = 'يوم الأحد';
 Blockly.Msg['COMMUNICATION_OPENLOG_WRITE_TITLE'] = '[Openlog] اكتب في بطاقة SD %1 على الدبابيس RX %2 TX %3 %4 بيانات %5';
 Blockly.Msg['COMMUNICATION_OPENLOG_WRITE_TOOLTIP'] = IMG_MODULE_OPENLOG + Blockly.Tooltip.SEP + 'يتيح Block كتابة البيانات في بطاقة SD لوحدة Openlog';
 // Communication - Wireless
-Blockly.Msg['COMMUNICATION_BLUETOOTH_SENDDATA_TITLE'] = '[Bluetooth] أرسل على الدبابيس RX %1 TX %2 رسالة %3';
-Blockly.Msg['COMMUNICATION_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_HC05 + Blockly.Tooltip.SEP + 'قم بتمكين إرسال أي بيانات عن طريق وحدة bluetooth HC05 على دبابيس RX / TX';
-Blockly.Msg['COMMUNICATION_BLUETOOTH_ONDATARECEIVED_TITLE'] = '[Bluetooth] عند تلقي رسالة في RX %1 TX %2  في %3 بعد ذلك';
-Blockly.Msg['COMMUNICATION_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HC05 + Blockly.Tooltip.SEP + 'يسمح لك بتنفيذ التعليمات على البيانات التي تتلقاها وحدة Bluetooth HC05 في متغير \'bluetoothData\' على دبابيس TX / RX';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TITLE'] = '[HC05 BT] أرسل على الدبابيس RX %1 TX %2 رسالة %3';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'قم بتمكين إرسال أي بيانات عن طريق وحدة bluetooth HC05 على دبابيس RX / TX';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TITLE'] = '[HC05 BT] عند تلقي رسالة في RX %1 TX %2  في %3 بعد ذلك';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'يسمح لك بتنفيذ التعليمات على البيانات التي تتلقاها وحدة Bluetooth HC05 في متغير \'bluetoothData\' على دبابيس TX / RX';
 // Communication - GPS
 Blockly.Msg['COMMUNICATION_GPS_INFO_TYPE'] = 'نوع البرواز';
 Blockly.Msg['COMMUNICATION_GPS_INFO_CLOCK'] = 'ساعة (h ، m ، s)';
@@ -314,11 +319,11 @@ Blockly.Msg['SENSORS_GETANEMOMETER_TOOLTIP'] = IMG_MODULE_ANEMOMETER + Blockly.T
 // Sensors - Sound & Light
 Blockly.Msg['SENSORS_GETGROVELIGHT_TITLE'] = '[مستشعر الضوء] مستوى الضوء على  الدبوس %1';
 Blockly.Msg['SENSORS_GETGROVELIGHT_TOOLTIP'] = IMG_MODULE_LIGHT + Blockly.Tooltip.SEP + 'تُرجع قيمة مستشعر ضوء Grove (من 0 إلى 4095) على الدبابيس التناظرية من p34 إلى p36 أو p39 (مثل A2 إلى A4 على الدرع Grove)';
-Blockly.Msg['SENSORS_SI1145_GETLIGHT_TITLE'] = '[SI1145 مستشعر] الحصول على ضوء %1';
-Blockly.Msg['SENSORS_SI1145_GETLIGHT_TOOLTIP'] = IMG_MODULE_SI1145 + Blockly.Tooltip.SEP + 'إرجاع مؤشر الضوء فوق البنفسجي ، ضوء الأشعة تحت الحمراء (في لومن) أو الضوء المرئي (في لومن) من مستشعر si1145. يعمل مع Grove Sunlight Sensor أو مستشعر GY1145. قم بتوصيل المستشعر بمنفذ I2C';
-Blockly.Msg['SENSORS_SI1145_UV'] = 'مؤشر الأشعة فوق البنفسجية';
-Blockly.Msg['SENSORS_SI1145_VISIBLE'] = 'مرئي (لومن)';
-Blockly.Msg['SENSORS_SI1145_IR'] = 'الأشعة تحت الحمراء (لومن)';
+Blockly.Msg['SENSORS_SUNLIGHT_GETDATA_TITLE'] = '[SI1145 مستشعر] الحصول على ضوء %1';
+Blockly.Msg['SENSORS_SUNLIGHT_GETDATA_TOOLTIP'] = IMG_MODULE_SI1145 + Blockly.Tooltip.SEP + 'إرجاع مؤشر الضوء فوق البنفسجي ، ضوء الأشعة تحت الحمراء (في لومن) أو الضوء المرئي (في لومن) من مستشعر si1145. يعمل مع Grove Sunlight Sensor أو مستشعر GY1145. قم بتوصيل المستشعر بمنفذ I2C';
+Blockly.Msg['SENSORS_SUNLIGHT_UV'] = 'مؤشر الأشعة فوق البنفسجية';
+Blockly.Msg['SENSORS_SUNLIGHT_VISIBLE'] = 'مرئي (لومن)';
+Blockly.Msg['SENSORS_SUNLIGHT_IR'] = 'الأشعة تحت الحمراء (لومن)';
 Blockly.Msg['SENSORS_GETUVINDEX_TITLE'] = '[مستشعرالأشعة فوق البنفسجية] مؤشر الأشعة فوق البنفسجية على الدبوس %1';
 Blockly.Msg['SENSORS_GETUVINDEX_TOOLTIP'] = IMG_MODULE_UV + Blockly.Tooltip.SEP + 'إرجاع  مؤشر الأشعة فوق البنفسجية, للموجات بين 240 نانومتر و 380 نانومتر ، مع مستشعر الأشعة فوق البنفسجية على الدبابيس التناظرية من p34 إلى p36 ، أو p39 (مثل A2 إلى A4 على درع Grove)';
 Blockly.Msg['SENSORS_GETGROVESOUND_TITLE'] = '[مستشعر الصوت] مستوى صوت (dB) على الدبوس %1 ';

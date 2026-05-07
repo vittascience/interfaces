@@ -53,11 +53,11 @@ Blockly.defineBlocksWithJsonArray([
         "type": "field_dropdown",
         "name": "EVENT",
         "options": [
-          ["click","click"],
-          ["mouseover","mouseover"],
-          ["keypress","keypress"],
-          ["change","change"],
-          ["submit","submit"]
+          ["click", "click"],
+          ["mouseover", "mouseover"],
+          ["keypress", "keypress"],
+          ["change", "change"],
+          ["submit", "submit"]
         ]
       },
       {
@@ -79,32 +79,32 @@ Blockly.defineBlocksWithJsonArray([
     "helpUrl": "https://developer.mozilla.org/fr/docs/Web/API/EventTarget/addEventListener"
   },
   //removeEventListener block
-/*   {
-    "type": "removeeventlistener",
-    "message0": 'supprimer l\'evenement %1 de l\'element %2',
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "EVENT",
-        "options": [
-          ["click","click"],
-          ["mouseover","mouseover"],
-          ["keypress","keypress"],
-          ["change","change"],
-          ["submit","submit"]
-        ]
-      },
-      {
-        "type": "input_value",
-        "name": "ID"
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#fc7417",
-    "tooltip": "Remove event listener",
-    "helpUrl": "https://developer.mozilla.org/fr/docs/Web/API/EventTarget/removeEventListener"
-  }, */
+  /*   {
+      "type": "removeeventlistener",
+      "message0": 'supprimer l\'evenement %1 de l\'element %2',
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "EVENT",
+          "options": [
+            ["click","click"],
+            ["mouseover","mouseover"],
+            ["keypress","keypress"],
+            ["change","change"],
+            ["submit","submit"]
+          ]
+        },
+        {
+          "type": "input_value",
+          "name": "ID"
+        }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": "#fc7417",
+      "tooltip": "Remove event listener",
+      "helpUrl": "https://developer.mozilla.org/fr/docs/Web/API/EventTarget/removeEventListener"
+    }, */
   //edit attribut block
   {
     "type": "editattribut",
@@ -216,7 +216,7 @@ Blockly.defineBlocksWithJsonArray([
     "tooltip": "",
     "helpUrl": "http://www.example.com/"
   },
-  
+
   {
     "type": "bi_logic_compare",
     "message0": "%1 %2 %3",
@@ -273,7 +273,7 @@ Blockly.defineBlocksWithJsonArray([
         "name": "B"
       }
     ],
-    
+
     "inputsInline": true,
     "output": "Boolean",
     "colour": 210,
@@ -363,7 +363,7 @@ Blockly.defineBlocksWithJsonArray([
     "tooltip": "",
     "helpUrl": "http://www.example.com/"
   },
-  
+
   {
     "type": "bi_yield",
     "message0": "yield %1 delegate %2",
@@ -460,7 +460,7 @@ Blockly.defineBlocksWithJsonArray([
     "tooltip": "",
     "helpUrl": "http://www.example.com/"
   },
-  
+
   {
     "type": "bi_for",
     "message0": "for init %1 test %2 update %3 loop %4",
@@ -526,7 +526,7 @@ Blockly.defineBlocksWithJsonArray([
       {
         "type": "input_dummy"
       },
-      
+
     ],
     "message1": " default %1",
     "args1": [
@@ -628,7 +628,7 @@ Blockly.defineBlocksWithJsonArray([
     "tooltip": "",
     "helpUrl": "http://www.example.com/"
   },
-  
+
   {
     "type": "bi_field_return",
     "message0": "%1 %2",
@@ -795,7 +795,7 @@ Blockly.defineBlocksWithJsonArray([
     "extensions": ["block_buttons_plus_minus", "bi_call_editable_return_extension"],
     "mutator": "bi_call_editable_return_mutator",
   },
-  
+
   {
     "type": "bi_function",
     "message0": "%1 %2 ( %3 )",
@@ -1136,7 +1136,7 @@ Blockly.defineBlocksWithJsonArray([
   //   "tooltip": "",
   //   "helpUrl": "http://www.example.com/"
   // },
-  
+
   {
     "type": "bi_string_return",
     "message0": "\"%1\" %2",
@@ -1157,7 +1157,7 @@ Blockly.defineBlocksWithJsonArray([
     "tooltip": "",
     "helpUrl": "http://www.example.com/"
   },
-  
+
   {
     "type": "bi_index",
     "message0": "[%1] %2",
@@ -1214,7 +1214,7 @@ Blockly.defineBlocksWithJsonArray([
     "tooltip": "",
     "helpUrl": "http://www.example.com/"
   },
-  
+
   {
     "type": "bi_spread",
     "message0": "... %1",
@@ -1354,7 +1354,7 @@ Blockly.defineBlocksWithJsonArray([
         "check": null
       }
     ],
-    
+
     "inputsInline": true,
     "output": "Number",
     "colour": 230,
@@ -1365,14 +1365,14 @@ Blockly.defineBlocksWithJsonArray([
 
 Blockly.Constants.add_items = Object.create(null);
 
-Blockly.Constants.add_items.BI_CALL_RETURN_EXTENSION = function() {
+Blockly.Constants.add_items.BI_CALL_RETURN_EXTENSION = function () {
   this.itemCount_ = 0;
 
   this.updateShape_();
 }
 
 Blockly.Extensions.register('bi_call_editable_return_extension',
-    Blockly.Constants.add_items.BI_CALL_RETURN_EXTENSION);
+  Blockly.Constants.add_items.BI_CALL_RETURN_EXTENSION);
 
 
 /**
@@ -1388,7 +1388,7 @@ Blockly.Constants.add_items.BI_CALL_MUTATOR_MIXIN = {
    * @return {!Element} XML storage element.
    * @this Blockly.Block
    */
-  mutationToDom: function() {
+  mutationToDom: function () {
     if (!this.itemCount_) {
       return null;
     }
@@ -1411,115 +1411,115 @@ Blockly.Constants.add_items.BI_CALL_MUTATOR_MIXIN = {
    * @this {Blockly.Block}
    */
   saveConnections: function (containerBlock) {
-      var itemBlock = containerBlock.getInputTargetBlock('STACK');
-      var i = 0;
-      while (itemBlock) {
-          var input = this.getInput('items' + i);
-          itemBlock.valueConnection_ = input && input.connection.targetConnection;
-          i++;
-          itemBlock = itemBlock.nextConnection && itemBlock.nextConnection.targetBlock();
-      }
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    var i = 0;
+    while (itemBlock) {
+      var input = this.getInput('items' + i);
+      itemBlock.valueConnection_ = input && input.connection.targetConnection;
+      i++;
+      itemBlock = itemBlock.nextConnection && itemBlock.nextConnection.targetBlock();
+    }
   },
   storeValueConnections_: function () {
-      this.valueConnections_ = [];
-      for (var i = 0; i < this.itemCount_; i++) {
-          this.valueConnections_.push(this.getInput('items' + i).connection.targetConnection);
-      }
+    this.valueConnections_ = [];
+    for (var i = 0; i < this.itemCount_; i++) {
+      this.valueConnections_.push(this.getInput('items' + i).connection.targetConnection);
+    }
   },
   restoreValueConnections_: function () {
-      for (var i = 0; i < this.itemCount_; i++) {
-          Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'items' + i);
-      }
+    for (var i = 0; i < this.itemCount_; i++) {
+      Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'items' + i);
+    }
   },
   addItem_: function () {
-      this.storeValueConnections_();
-      var update = function () {
-          this.itemCount_++;
-      };
-      this.update_(update);
-      // Add text block
-      if (this.itemCount_ > 1) {
-          const dataBlockName = "text";
-          if (Blockly.Blocks[dataBlockName]) {
-              const newBlock = Blockly.utils.xml.createElement('block');
-              newBlock.setAttribute('type', dataBlockName);
-              if (newBlock) {
-                  const id = Blockly.utils.genUid();
-                  newBlock.setAttribute('id', id);
-                  Blockly.Xml.domToBlock(newBlock, this.workspace);
-                  const block = this.workspace.getBlockById(id);
-                  // block.setFieldValue("Label" + this.itemCount_, "TEXT");
-                  this.valueConnections_.push(block.outputConnection);
-              }
-          }
+    this.storeValueConnections_();
+    var update = function () {
+      this.itemCount_++;
+    };
+    this.update_(update);
+    // Add text block
+    if (this.itemCount_ > 1) {
+      const dataBlockName = "text";
+      if (Blockly.Blocks[dataBlockName]) {
+        const newBlock = Blockly.utils.xml.createElement('block');
+        newBlock.setAttribute('type', dataBlockName);
+        if (newBlock) {
+          const id = Blockly.utils.genUid();
+          newBlock.setAttribute('id', id);
+          Blockly.Xml.domToBlock(newBlock, this.workspace);
+          const block = this.workspace.getBlockById(id);
+          // block.setFieldValue("Label" + this.itemCount_, "TEXT");
+          this.valueConnections_.push(block.outputConnection);
+        }
       }
-      this.restoreValueConnections_();
+    }
+    this.restoreValueConnections_();
   },
   removeItem_: function () {
-      this.storeValueConnections_();
-      var update = function () {
-          this.itemCount_--;
-      };
-      this.update_(update);
-      this.restoreValueConnections_();
+    this.storeValueConnections_();
+    var update = function () {
+      this.itemCount_--;
+    };
+    this.update_(update);
+    this.restoreValueConnections_();
   },
   update_: function (update) {
-      return Blockly.Constants.Utils.UPDATE_BLOCK_MUTATOR_MIXIN(this, update);
+    return Blockly.Constants.Utils.UPDATE_BLOCK_MUTATOR_MIXIN(this, update);
   },
   /**
    * Modify this block to have the correct number of inputs.
    * @private
    * @this {Blockly.Block}
    */
-  
-  updateShape_: function () {
-      var that = this;
-      var remove = function () {
-          that.removeItem_();
-      };
-      var add = function () {
-          that.addItem_();
-      };
-      // Remove all inputs
-      var inputNames = ['LEFT_PAREN', 'TOP', 'RIGHT_PAREN', 'CHAIN'];
-      for (var i = 0; i < this.itemCount_; i++) {
-          inputNames.push('items' + i);
-      }
 
-      for (var i = 0; i < inputNames.length; i++) {
-        if (this.getInput(inputNames[i])) {
-            this.removeInput(inputNames[i]);
-        }
+  updateShape_: function () {
+    var that = this;
+    var remove = function () {
+      that.removeItem_();
+    };
+    var add = function () {
+      that.addItem_();
+    };
+    // Remove all inputs
+    var inputNames = ['LEFT_PAREN', 'TOP', 'RIGHT_PAREN', 'CHAIN'];
+    for (var i = 0; i < this.itemCount_; i++) {
+      inputNames.push('items' + i);
+    }
+
+    for (var i = 0; i < inputNames.length; i++) {
+      if (this.getInput(inputNames[i])) {
+        this.removeInput(inputNames[i]);
       }
-      // Update inputs
-      this.appendDummyInput('LEFT_PAREN')
+    }
+    // Update inputs
+    this.appendDummyInput('LEFT_PAREN')
       .appendField('(');
 
-      var top = this.appendDummyInput('TOP');
-      if (this.itemCount_ > 0) {
-          top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", add, false));
-          if (this.itemCount_ > 1) {
-              top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", remove, false));
-          }
-          for (var i = 0; i < this.itemCount_; i++) {
-              this.appendValueInput('items' + i);
-          }
-          
+    var top = this.appendDummyInput('TOP');
+    if (this.itemCount_ > 0) {
+      top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", add, false));
+      if (this.itemCount_ > 1) {
+        top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", remove, false));
+      }
+      for (var i = 0; i < this.itemCount_; i++) {
+        this.appendValueInput('items' + i);
       }
 
-      this.appendDummyInput('RIGHT_PAREN')
-          .appendField(')');
-      
-      // this.appendValueInput('chain')
-      //   // .appendField(')')
-        // .setCheck(null);
-          
-      /* Switch to vertical list when the list is too long */
-      var showHorizontalList = this.itemCount_ <= 2;
-      this.setInputsInline(showHorizontalList);
-      this.setOutputShape(showHorizontalList ? Blockly.OUTPUT_SHAPE_ROUND : Blockly.OUTPUT_SHAPE_SQUARE);
+    }
+
+    this.appendDummyInput('RIGHT_PAREN')
+      .appendField(')');
+
+    // this.appendValueInput('chain')
+    //   // .appendField(')')
+    // .setCheck(null);
+
+    /* Switch to vertical list when the list is too long */
+    var showHorizontalList = this.itemCount_ <= 2;
+    this.setInputsInline(showHorizontalList);
+    this.setOutputShape(showHorizontalList ? Blockly.OUTPUT_SHAPE_ROUND : Blockly.OUTPUT_SHAPE_SQUARE);
   }
 };
 
 Blockly.Extensions.registerMutator('bi_call_editable_return_mutator',
-    Blockly.Constants.add_items.BI_CALL_MUTATOR_MIXIN);
+  Blockly.Constants.add_items.BI_CALL_MUTATOR_MIXIN);

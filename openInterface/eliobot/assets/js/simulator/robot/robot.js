@@ -1,10 +1,10 @@
 const Robots = {
   'Eliobot': {
-    CODE_REGEXP: /from board import \*/,
-    INITIAL_ZOOM: 1,
+    CODE_REGEXP: /from elio/,
+    INITIAL_ZOOM: 0,
     IMG_LINK: "/openInterface/eliobot/assets/media/simulator/board/eliobot.svg",
     WIDTH_CM: 9.7, // cm
-    RATIO: 1, // svg ratio
+    RATIO: 297.44 / 278.5, // svg ratio
     POSITIVE_Y_TO_UP: true,
     POSITIVE_X_TO_RIGHT: true,
     AXIS_UNIT: 'cm',
@@ -16,7 +16,7 @@ const Robots = {
     WHEELS_CENTER_RADIUS: 4, // cm
     WHEELS_DIAMETER: 3.2,
     MIN_SPEED: 1, // rpm
-    MAX_SPEED: 203, // rpm   // m.s-1 => (2π * d/2 * MAX_SPEED/60)
+    MAX_SPEED: 133, // rpm   // m.s-1 => (2π * d/2 * MAX_SPEED/60)
     image: null,
     rotationCenter: {
       x: 0,
@@ -44,12 +44,12 @@ const Robots = {
         this.distanceSensorsSlots.blinkerDiameter);
       // line finders
       const exportValue = function (value, id) {
-        const sliderId = "#elio-finder" + id + "_slider_v";
+        const sliderId = "#elio-finder" + id + "_slider";
         if ($(sliderId).data("ui-slider")) {
-          $(sliderId).slider('value', value < 50 ? 1 : 0);
+          $(sliderId).slider('value', Math.round((value / 255) * READ_ANALOG_MAX_VALUE));
         }
       };
-      this.lineFinder = new LineFinderSimulator(this, [
+      this.TRsensors = new LineFinderSimulator(this, [
         { id: "Left", initial: [15, -6] },
         { id: "MiddleLeft", initial: [15, -3] },
         { id: "Middle", initial: [15, 0] },
@@ -70,38 +70,38 @@ const Robots = {
       };
     },
     resizeObjects: function (zoom) {
-      this.lineFinder.resize(zoom);
+      this.TRsensors.resize(zoom);
       this.DistanceSensors.resize(zoom);
     },
     updateObjectsPosition: function () {
-      this.lineFinder.updatePosition(this);
+      this.TRsensors.updatePosition(this);
       this.angle += this.DistanceSensors.ERROR_DX_NUL;
       this.DistanceSensors.updatePosition();
     },
     measurements: function () {
-      this.lineFinder.measure();
+      this.TRsensors.measure();
       this.DistanceSensors.measure();
       this.angle -= this.DistanceSensors.ERROR_DX_NUL;
     },
     drawObjects: function () {
-      this.lineFinder.draw();
+      this.TRsensors.draw();
       this.DistanceSensors.draw();
     },
     resetObjects: function () {
-      this.lineFinder.reset();
+      this.TRsensors.reset();
       this.DistanceSensors.reset(this);
     },
     getMotorSpeed: function () {
       const setSpeed = (motor) => {
-        if ($("#mb-eliobot-" + motor + "_value").html()) {
-          if ($('.mb-eliobot-' + motor).css('animation').includes('rotation-forward')) {
+        if ($("#eliobot-" + motor + "_value").html()) {
+          if ($('.eliobot-' + motor).css('animation').includes('rotation-forward')) {
             this[motor].dir = 1;
-          } else if ($('.mb-eliobot-' + motor).css('animation').includes('rotation-backward')) {
+          } else if ($('.eliobot-' + motor).css('animation').includes('rotation-backward')) {
             this[motor].dir = -1;
           } else {
             this[motor].dir = 0;
           }
-          const speedValue = parseInt(($("#mb-eliobot-" + motor + "_value").html() || "0"));
+          const speedValue = parseInt(($("#eliobot-" + motor + "_value").html() || "0"));
           this[motor].speed = RobotSimulator.convertRPMtoSpeedMS(speedValue / 255 * this.MAX_SPEED); // m.s-1
         }
       }

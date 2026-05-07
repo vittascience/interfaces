@@ -155,116 +155,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "ICON",
-            "options": [
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/heart.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "HEART"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/happy.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "HAPPY"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/sad.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "SAD"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/yes.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "YES"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/no.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "NO"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/man.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "MAN"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/fork.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "FORK"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/umbrella.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "UMBRELLA"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/skull.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "SKULL"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/grid.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "GRID"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/butterfly.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "BUTTERFLY"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/sword.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "SWORD"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/wine.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "WINE"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/lock.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "LOCK"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/net.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "NET"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/battery1.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "BATTERY1"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/battery2.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "BATTERY2"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/battery3.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "BATTERY3"]
-            ]
+            "options": Blockly.Constants.Utils.BlockOptions.getOledIcons()
         }, {
             "type": "input_value",
             "name": "X",
@@ -395,8 +286,11 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "display_defineNeopixel",
         "message0": "%{BKY_DISPLAY_NEOPIXEL_DEFINE_TITLE}",
         "args0": [{
-            "type": "input_value",
+            "type": "field_slider",
             "name": "N",
+            "value": 20,
+            "min": 1,
+            "max": 1000
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",

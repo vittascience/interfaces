@@ -1,5 +1,5 @@
 Simulator.Mosaic.BOARD_HEADER = `
-<object id="board-viewer" class="mt-3"></object>
+<object id="board-viewer" class="mt-3" role="img" aria-label="Board simulator view"></object>
 <canvas class="canvas-m5ui-screen"></canvas>`;
 
 Simulator.Mosaic.pin_regex = /([0-9]{1,2})/;
@@ -14,15 +14,11 @@ Simulator.Mosaic.getPinDef = (pin, mod) => {
 };
 
 Simulator.Mosaic.externalLibraries = {
-    // python libraries
-    'src/lib/vitta_server.py': '/openInterface/interfaces/assets/lib/esp32-mpy/wifi/vitta_server.py',
-    'src/lib/vitta_client.py': '/openInterface/interfaces/assets/lib/esp32-mpy/wifi/vitta_client.py',
-    // js board specific libraries
-    'src/lib/m5stack.js': Simulator.PATH_LIB + 'm5stack/m5stack.js',
-    'src/lib/m5ui.js': Simulator.PATH_LIB + 'm5stack/m5ui.js',
-    'src/lib/uiflow.js': Simulator.PATH_LIB + 'm5stack/uiflow.js',
-    'src/lib/machine.js': Simulator.PATH_LIB + 'micropython/machine.js',
+    // python common libraries
+    'src/lib/framebuf.py': Simulator.PATH_LIB_COMMON + 'micropython/framebuf.py',
     // js common mpy libraries
+    'src/lib/os.js': Simulator.PATH_LIB_COMMON + 'micropython/os.js',
+    'src/lib/uos.js': Simulator.PATH_LIB_COMMON + 'micropython/os.js',
     'src/lib/time.js': Simulator.PATH_LIB_COMMON + 'micropython/time.js',
     'src/lib/utime.js': Simulator.PATH_LIB_COMMON + 'micropython/time.js',
     'src/lib/ujson.js': Simulator.PATH_LIB_COMMON + 'micropython/json.js',
@@ -39,6 +35,14 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/socket.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/socket.js',
     'src/lib/usocket.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/socket.js',
     'src/lib/network.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/network.js',
+    // python libraries
+    'src/lib/vitta_server.py': '/openInterface/interfaces/assets/lib/esp32-mpy/wifi/vitta_server.py',
+    'src/lib/vitta_client.py': '/openInterface/interfaces/assets/lib/esp32-mpy/wifi/vitta_client.py',
+    // js board specific libraries
+    'src/lib/machine.js': Simulator.PATH_LIB + 'micropython/machine.js',
+    'src/lib/m5stack.js': Simulator.PATH_LIB + 'm5stack/m5stack.js',
+    'src/lib/m5ui.js': Simulator.PATH_LIB + 'm5stack/m5ui.js',
+    'src/lib/uiflow.js': Simulator.PATH_LIB + 'm5stack/uiflow.js',
     // js common grove libraries
     'src/lib/esp32_sht31.js': Simulator.PATH_LIB_COMMON + 'esp32/grove/esp32_sht31.js',
     'src/lib/esp32_si1145.js': Simulator.PATH_LIB_COMMON + 'esp32/grove/esp32_si1145.js',
@@ -127,9 +131,7 @@ Simulator.Mosaic.addSpecificSkulptFunctions = function () {
             Sk.builtin.pyCheckType("timeout_us", "integer", Sk.builtin.checkInt(timeout_us));
             const pins = Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()];
             const id = '#hcsr04_' + trig.pin;
-            if (trig.pin !== echo.pin) {
-                $(id).find(".subtitle-module").html(pins.find(p => p[1] == 'p' + trig.pin)[0] + ' / ' + pins.find(p => p[1] == 'p' + echo.pin)[0]);
-            } else {
+            if (trig.pin == echo.pin) {
                 throw new Sk.builtin.AttributeError('[HCSR04] trig and echo cannot be on same pin (' + pins.find(p => p[1] == 'p' + trig.pin)[0] + ')');
             }
             const duration = $(id + '_slider_d').slider('option', 'value');
@@ -612,7 +614,7 @@ Simulator.Mosaic.specific = {
             regex: /Pin\(([0-9]{1,2}),( |)(mode=|)Pin.OUT, id="buzzer"/gi,
             id: "buzzer",
             title: "Buzzer",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             pins: 'digital',
             type: 'output',
             codeFlag: 'Buzzer',
@@ -647,9 +649,9 @@ Simulator.Mosaic.specific = {
             pictureAnimation: "GPS-animation.png",
             modalButton: {
                 icon: "fas fa-map",
-                click: function () {
+                click: function (id) {
                     pseudoModal.openModal('modal-gpsmap');
-                    initializeMap();
+                    Simulator.Components.GPS.openMap(id);
                 }
             },
             animate: function (Animator) {
@@ -686,9 +688,9 @@ Simulator.Mosaic.specific = {
             pictureAnimation: "GPS-animation.png",
             modalButton: {
                 icon: "fas fa-map",
-                click: function () {
+                click: function (id) {
                     pseudoModal.openModal('modal-gpsmap');
-                    initializeMap();
+                    Simulator.Components.GPS.openMap(id);
                 }
             },
             animate: function (Animator) {

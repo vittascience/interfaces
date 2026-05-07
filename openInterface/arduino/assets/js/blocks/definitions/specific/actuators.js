@@ -320,7 +320,90 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         ]
     },
 
-    //Grove MOSFET - ANALOG WRITE STATE
+    // GROVE CHANNEL RELAY I2C _ CONTROL STATE
+    {
+        "type": "actuators_SPDTRelay_controlState",
+        "message0": "%{BKY_ACTUATORS_SPDT_RELAY_CONTROL_STATE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "N",
+            "options": [
+                ["4", "4"],
+                ["8", "8"]
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "RELAY",
+            "options": [
+                ["1", "1"],
+                ["2", "2"],
+                ["3", "3"],
+                ["4", "4"],
+                ["5", "5"],
+                ["6", "6"],
+                ["7", "7"],
+                ["8", "8"],
+                ["ALL", "ALL"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "STATE",
+            "check": "Boolean"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_ACTUATORS_SPDT_RELAY_CONTROL_STATE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
+    // GROVE CHANNEL RELAY I2C _ DEFINE NORMALLY CONNECTION
+    {
+        "type": "actuators_SPDTRelay_defineNCNO",
+        "message0": "%{BKY_ACTUATORS_SPDT_RELAY_DEFINE_NC_NO_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "N",
+            "options": [
+                ["4", "4"],
+                ["8", "8"]
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "RELAY",
+            "options": [
+                ["1", "1"],
+                ["2", "2"],
+                ["3", "3"],
+                ["4", "4"],
+                ["5", "5"],
+                ["6", "6"],
+                ["7", "7"],
+                ["8", "8"],
+                ["ALL", "ALL"]
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "NORMALLY",
+            "options": [
+                ["%{BKY_ACTUATORS_RELAY_CHANNEL_NO}", "APP_NO"],
+                ["%{BKY_ACTUATORS_RELAY_CHANNEL_NC}", "APP_NC"],
+            ]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_ACTUATORS_SPDT_RELAY_DEFINE_NC_NO_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
+    // GROVE MOSFET - ANALOG WRITE STATE
     {
         "type": "actuators_mosfet_setState",
         "message0": "%{BKY_ACTUATORS_MOSFET_SETSTATE_TITLE}",

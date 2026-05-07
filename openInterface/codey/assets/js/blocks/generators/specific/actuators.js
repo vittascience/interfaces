@@ -1,5 +1,5 @@
 /**
- * @fileoverview Actuators generators for Codey.
+ * @fileoverview Speaker generators for Codey.
  */
 
 Blockly.Python.actuators_audio_play_melody = function (block) {

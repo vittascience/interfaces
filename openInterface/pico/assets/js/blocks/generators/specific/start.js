@@ -16,7 +16,7 @@ Blockly.Python.forever = function (block) {
     statements = Blockly.Python.addLoopTrap(statements, block.id) || Blockly.Python.PASS;
     const progMode = Blockly.Python.esp32.getProgrammingMode();
     if (progMode.mode == Blockly.Python.esp32.MODE_SERVER && progMode.loop) {
-        return 'while True:' + NEWLINE + statements + '  server.closeClient(True)';
+        return 'while True:' + NEWLINE + statements + '  server.closeClient(server.client_reset)';
     } else if (progMode.mode == Blockly.Python.esp32.MODE_CLIENT && progMode.loop) {
         return 'while True:' + NEWLINE + statements + '  client.clearBufferData()';
     } else {
@@ -39,7 +39,7 @@ Blockly.Python.scratch_forever = function (block) {
     }
     const progMode = Blockly.Python.esp32.getProgrammingMode();
     if (progMode.mode == Blockly.Python.esp32.MODE_SERVER && progMode.loop) {
-        return n + 'while True:' + NEWLINE + statements + '  server.closeClient(True)';
+        return n + 'while True:' + NEWLINE + statements + '  server.closeClient(server.client_reset)';
     } else if (progMode.mode == Blockly.Python.esp32.MODE_CLIENT && progMode.loop) {
         return n + 'while True:' + NEWLINE + statements + '  client.clearBufferData()';
     } else {

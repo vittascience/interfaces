@@ -5,7 +5,15 @@ const DEFAULT_XML_START = {
     "vittascience": '<xml xmlns="https://developers.google.com/blockly/xml"><block type="on_start" id="G[=T#8yqB70`NFgYq}GP" deletable="false" x="0" y="0"></block><block type="forever" id="o[WN]+eeF.OUxGch67@8" x="200" y="0"></block></xml>',
     "scratch": '<xml xmlns="https://developers.google.com/blockly/xml"><block type="scratch_on_start" id="G[=T#8yqB70`NFgYq}GP" deletable="false" x="0" y="0"><next><block type="scratch_forever" id="o[WN]+eeF.OUxGch67@8"></block></next></block></xml>'
 };
-const DEFAULT_CODE_START = 'from machine import *\nfrom galaxiaUi import *\nfrom thingz import *\nwhile True:\n  pass';
+const DEFAULT_CODE_START = 'from machine import *\nfrom thingz import *\nwhile True:\n  pass';
+const REPLACE_CODE_REQUESTS = {
+    "sensors_getSi1145Light": [/<\s*block type=\s*"sensors_getSi1145Light"\s*id="([^"]{20})"\s*>/g, "<block type=\"sensors_getSunlightData\" id=\"$1\"><field name=\"VERSION\">SI1145</field>"],
+    "vittaia_load_cloud_model": [/<\s*block type=\s*"vittaia_load_cloud_model"\s*id="([^"]{20})"><value name=\s*"MODEL_ID"\s*>/g, "<block type=\"vittaia_load_cloud_model\" id=\"$1\"><value name=\"MODEL_URL\">"],
+    "display_galaxia_led_set_colors": [/<\s*block type=\s*"display_galaxia_led_set_colors"\s*id="([^"]{20})"\s*>/g, "<block type=\"display_galaxia_led_set_colors_rgb\" id=\"$1\">"],
+    "display_galaxia_led_set_red": [/<\s*block type=\s*"display_galaxia_led_set_red"\s*id="([^"]{20})"\s*><value name=\s*"RED"\s*>/g, "<block type=\"display_galaxia_led_set_color\" id=\"$1\"><field name=\"COLOR\">RED</field><value name=\"VALUE\">"],
+    "display_galaxia_led_set_green": [/<\s*block type=\s*"display_galaxia_led_set_green"\s*id="([^"]{20})"\s*><value name=\s*"GREEN"\s*>/g, "<block type=\"display_galaxia_led_set_color\" id=\"$1\"><field name=\"COLOR\">GREEN</field><value name=\"VALUE\">"],
+    "display_galaxia_led_set_blue": [/<\s*block type=\s*"display_galaxia_led_set_blue"\s*id="([^"]{20})"\s*><value name=\s*"BLUE"\s*>/g, "<block type=\"display_galaxia_led_set_color\" id=\"$1\"><field name=\"COLOR\">BLUE</field><value name=\"VALUE\">"],
+};
 //modes
 const MODE_CODE = "code";
 const MODE_BLOCKS = "blocks";
@@ -17,6 +25,10 @@ const MODE_SIMU_ONLY = "simuOnly";
 const TOOLBOX_STYLE_VITTA = "vittascience";
 const TOOLBOX_STYLE_SCRATCH = "scratch";
 const TOOLBOX_STYLE_DEFAULT = TOOLBOX_STYLE_VITTA;
+//board
+const BOARD_GALAXIA = "galaxia";
+const BOARD_SHIELD_GROVE = "shield-grove"
+const BOARD_DEFAULT = BOARD_GALAXIA;
 //Galaxia screen simulator
 const GALAXIA_SHELL_START = "MPY: soft reboot"
 //standalone_blocks
@@ -36,10 +48,11 @@ const BLOCKS_OUTSIDE_SCOPE = [
 const EXAMPLE_PROJECT_LINKS = [];
 //adc
 const READ_ANALOG_MAX_VALUE = 8191; // Bit capture width for ADC2. ESP32-S2 only supports ADC_WIDTH_BIT_13.
-const WRITE_ANALOG_MAX_VALUE = 255;
+const WRITE_ANALOG_MAX_VALUE = 1023;
 const PWM_MAX_DUTY = 1023; // Max PWM duty for ESP32-S2 is equal to ADC width (?) => 8191
 //libraries
 const LIBRARIES_PATH = {
+    "kitronik_servo_driver": "/galaxia",
     "esp32_rotary": "/grove",
     "esp32_linky": "/grove",
     "umqttsimple": "/wifi",

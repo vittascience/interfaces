@@ -61,11 +61,11 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
     },
     {
         "kind": "category",
-        "toolboxitemid": "cameras",
-        "name": "%{BKY_CATEGORY_AI_CAMERAS}",
-        "style": "cameras_category",
+        "toolboxitemid": "ia",
+        "name": "%{BKY_CATEGORY_VITTAIA}",
+        "style": "ia_category",
         "cssConfig": {
-            "icon": "icon_blockly fa-solid fa-camera"
+            "icon": "icon_blockly fas fa-brain"
         },
         "contents": []
     },
@@ -155,6 +155,21 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
     }
 ];
 
+const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
+    "ia": [
+        {
+            "kind": "category",
+            "toolboxitemid": "cameras",
+            "name": "%{BKY_SUBCATEGORY_CAMERAS}",
+            "style": "ia_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-camera"
+            },
+            "contents": []
+        }
+    ]
+};
+
 const TOOLBOX_VITTASCIENCE_CONTENT = {
     "display": [
         {
@@ -234,12 +249,17 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
     ],
     "io": [
         {
-            "label": "%{BKY_SUBCATEGORY_WB55}",
+            "label": "%{BKY_SUBCATEGORY_TIME}",
             "blocks": [
                 'io_pause',
                 'io_waitUntil',
                 'io_initChronometer',
-                'io_getChronometer',
+                'io_getChronometer'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_WB55}",
+            "blocks": [
                 'io_smt32_onSwitchButtonState',
                 'io_smt32_getSwitchState'
             ]
@@ -254,8 +274,8 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'io_getGroveSlidePotentiometer',
                 'io_getGroveColoredButton',
                 'io_setGroveColoredButton',
-                "io_getGroveThumbJoystick",
-                "io_getKeypadNumber"
+                'io_getGroveThumbJoystick',
+                'io_getKeypadNumber'
             ]
         },
         {
@@ -326,7 +346,9 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             "label": "%{BKY_SUBCATEGORY_UART}",
             "blocks": [
                 'communication_uartInit',
-                'communication_uartWrite'
+                'communication_uartWrite',
+                'communication_uart_isDataAvailable',
+                'communication_uart_readData'
             ]
         }
     ],
@@ -472,15 +494,20 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         }
     ],
-    "cameras": [
+    "ia": [
         {
-            "label": "Wio Lite AI",
-            "blocks": [
-                'wio_make_prediction',
-                'wio_get_class_data',
-                'wio_get_class_data_by_id',
-                'wio_get_class_max_id',
-                'wio_get_status'
+            "subCategoryId": 'cameras',
+            "contents": [
+                {
+                    "label": "Wio Lite AI",
+                    "blocks": [
+                        'wio_make_prediction',
+                        'wio_get_class_data',
+                        'wio_get_class_data_by_id',
+                        'wio_get_class_max_id',
+                        'wio_get_status'
+                    ]
+                },
             ]
         }
     ],
@@ -541,21 +568,24 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'text_split',
                 'text_length',
                 'text_isEmpty',
+                'text_includesSubstr',
                 'text_indexOf',
                 'text_charAt',
                 'text_getSubstring',
+                'text_count_characters',
                 'text_changeCase',
                 'text_trim',
                 'text_count',
                 'text_replace',
-                'text_reverse'
+                'text_reverse',
+                'text_random_string'
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_TEXT_ANALYSIS}",
+            "label": "%{BKY_SUBCATEGORY_ENCRYPTION}",
             "blocks": [
-                'text_count_characters',
-                'text_random_string'
+                'text_caesar_cipher',
+                'text_caesar_cipher_brute_force'
             ],
         }
     ],

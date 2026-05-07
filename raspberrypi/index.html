@@ -110,19 +110,20 @@
     
         }
     </script>
-    <script src="/public/js/scripts/tooltips/tooltipsRemover.js"></script>
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/ace.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/js/external/fontawesome-free-6.5.1-web/css/all.css">
+    <script src="/public/js/scripts/tooltips/tooltipsRemover.js" defer></script>
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/ace.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/js/external/fontawesome-free-6.5.1-web/css/all.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/js/external/file-input/css/fileinput.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/ide-navbar.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/main.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/modal.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/buttons.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/monitor.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/simulator.css">
-<link rel="stylesheet" href="/openInterface/raspberrypi/assets/css/specific.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/ace_themes.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/auto-corrector-modals.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/ide-navbar.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/main.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/toolbox.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/modal.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/buttons.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/monitor.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/simulator.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/raspberrypi/assets/css/specific.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/ace_themes.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/auto-corrector-modals.css">
 <link rel="stylesheet" href="/public/css/capytale-standalone.css">
 </head>
 
@@ -359,10 +360,10 @@
                 <div id="monitor-content" class="monitor-grid-bottom">
                     <div id="monitor-view">
                         <div id="monitor-view-group-btn">
-                            <button id="monitor-btn-console" class="monitor-view-btn btn activated" data-i18n="[title]code.console.buttons.consoleMode" data-toggle="tooltip" data-placement="left" title="Mode console">
+                            <button id="monitor-btn-console" class="monitor-view-btn btn activated" data-i18n="[title]code.console.buttons.consoleMode;[aria-label]code.console.buttons.consoleMode" data-toggle="tooltip" data-placement="left" title="Mode console">
                                 <i class="fas fa-terminal"></i>
                             </button>
-                            <button id="monitor-btn-graph" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.graphMode" data-toggle="tooltip" data-placement="left" title="Mode graphique">
+                            <button id="monitor-btn-graph" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.graphMode;[aria-label]code.console.buttons.graphMode" data-toggle="tooltip" data-placement="left" title="Mode graphique">
                                 <i class="fas fa-chart-line"></i>
                             </button>
                             <div id="monitor-graph-tooltip" class="interface-tooltip" style="display: none;">
@@ -379,7 +380,7 @@
                                     Pour visualiser les données reçues dans la console, cliquer sur le bouton <b>Graphique</b>
                                 </span>
                             </div>
-                            <button id="monitor-clear" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.clearConsole" data-toggle="tooltip" data-placement="left" title="Nettoyer l'écran">
+                            <button id="monitor-clear" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.clearConsole;[aria-label]code.console.buttons.clearConsole" data-toggle="tooltip" data-placement="left" title="Nettoyer l'écran">
                                 <i class="fas fa-broom"></i>
                             </button>
                         </div>
@@ -403,7 +404,7 @@
 
                             <div class="w-75 d-flex me-1">
                                 <div class="dropup dropup-center">
-                                    <button class="btn monitor-controls-button dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button class="btn monitor-controls-button dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-i18n="[aria-label]code.console.buttons.monitorTool.controlsMenu">
                                         <i class="fas fa-cog"></i>
                                     </button>
                                     <div id="monitor-controls-dropdown" class="dropdown-menu">
@@ -465,12 +466,12 @@
             <div id="simulator">
                 <div id="headerOut">
                     <div class="simulator-board-buttons">
-                        <button id="simulator-board-toggler" class="btn simulator-button-circle" type="button" onclick="Simulator.toggleBoardDisplay()">
+                        <button id="simulator-board-toggler" class="btn simulator-button-circle" type="button" onclick="Simulator.toggleBoardDisplay()" aria-label="Toggle board display" data-i18n="[aria-label]code.simulator.buttons.base.toggleBoardDisplay">
                             <i class="fa-solid fa-minus simulator-buttons-icon"></i>
                         </button>
                         <div class="dropdown">
                             <button id="simulator-board-selector" class="v-btn dropdown-toggle simulator-button-circle" type="button"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Select board" data-i18n="[aria-label]code.simulator.buttons.base.selectBoard">
                                 <i class="fas fa-microchip simulator-board-selector-microship"></i>
                             </button>
                             <div id="simulator-board-options" class="dropdown-menu" aria-labelledby="simulator-board-selector">
@@ -515,7 +516,7 @@
                                 data-toggle="tooltip" data-placement="top" title="Afficher les variables" onclick="Simulator.Debugger.toggleVariablesPanel()">
                             <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-variable.svg" alt="Variable icon">
                         </button>
-                        <button id="simulator_fullscreen" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.fullscreen" 
+                        <button id="simulator_fullscreen" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.fullscreen;[aria-label]code.simulator.buttons.base.fullscreen" aria-label="Fullscreen" 
                                 data-toggle="tooltip" data-placement="top" title="Plein écran" onclick="Simulator.toggleFullscreen()">
                             <i class="fa-solid fa-expand" style="font-size: larger;"></i>
                         </button>
@@ -589,7 +590,6 @@
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-python.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-languages_tools.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-searchbox.min.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/ace-ide/aceInit.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/file-input/js/fileinput.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/file-input/themes/fa/theme.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/svg-inject.min.js"></script>
@@ -613,8 +613,9 @@
 <script src="/openInterface/raspberrypi/assets/js/constants/toolbox/blockDB.js"></script>
 <script src="/openInterface/raspberrypi/assets/js/constants/toolbox/vittascience.js"></script>
 <script src="/openInterface/raspberrypi/assets/js/constants/toolbox/scratch.js"></script>
+<script src="/openInterface/raspberrypi/assets/js/constants/toolbox/hardware.js"></script>
 <script src="/openInterface/raspberrypi/assets/js/constants/toolbox/styles.js"></script>
-<script src="/openInterface/interfaces/assets/js/constants/toolbox/toolboxes.js"></script>
+<script src="/openInterface/raspberrypi/assets/js/constants/toolbox/toolboxes.js"></script>
 <script src="/openInterface/raspberrypi/assets/js/constants/alphabet/alphabet.js"></script>
 <script src="/openInterface/raspberrypi/assets/js/constants/main/buttons.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/main/interface.js"></script>
@@ -624,7 +625,6 @@
 <script src="/openInterface/interfaces/assets/js/constants/main/errors.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/main/patterns.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/main/api.js"></script>
-<script src="/openInterface/interfaces/assets/js/constants/blocks/helpurl.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/generators/constants.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/generators/functions.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/simulator/alphabet_8x8.js"></script>
@@ -669,16 +669,17 @@
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/lists.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/procedures.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/exceptions.js"></script>
-
-<script src="/openInterface/raspberrypi/assets/js/blocks/definitions/specific/start.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/common/display.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/common/input_output.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/common/sensors.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/common/actuators.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/common/start.js"></script>
 <script src="/openInterface/raspberrypi/assets/js/blocks/definitions/specific/display.js"></script>
 <script src="/openInterface/raspberrypi/assets/js/blocks/definitions/specific/input_output.js"></script>
 <script src="/openInterface/raspberrypi/assets/js/blocks/definitions/specific/communication.js"></script>
 <script src="/openInterface/raspberrypi/assets/js/blocks/definitions/specific/sensors.js"></script>
-<script src="/openInterface/raspberrypi/assets/js/blocks/definitions/specific/senseHat.js"></script>
-<script src="/openInterface/raspberrypi/assets/js/blocks/definitions/specific/actuators.js"></script>
+<script src="/openInterface/raspberrypi/assets/js/blocks/definitions/specific/robots.js"></script>
 <script src="/openInterface/raspberrypi/assets/js/blocks/definitions/specific/network.js"></script>
-
 <script src="/openInterface/interfaces/assets/js/blocks/generators/python/init.js"></script>
 <script src="/openInterface/raspberrypi/assets/js/blocks/generators/generator.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/colour.js"></script>
@@ -695,8 +696,8 @@
 <script src="/openInterface/raspberrypi/assets/js/blocks/generators/specific/input_output.js"></script>
 <script src="/openInterface/raspberrypi/assets/js/blocks/generators/specific/communication.js"></script>
 <script src="/openInterface/raspberrypi/assets/js/blocks/generators/specific/sensors.js"></script>
-<script src="/openInterface/raspberrypi/assets/js/blocks/generators/specific/senseHat.js"></script>
 <script src="/openInterface/raspberrypi/assets/js/blocks/generators/specific/actuators.js"></script>
+<script src="/openInterface/raspberrypi/assets/js/blocks/generators/specific/robots.js"></script>
 <script src="/openInterface/raspberrypi/assets/js/blocks/generators/specific/network.js"></script>
 <!-- endbuild -->
 <!-- build:js-main -->
@@ -712,7 +713,7 @@
 <script src="/openInterface/interfaces/assets/js/themes/themes.js"></script>
 <!-- endbuild -->
 <!-- build:raspberrypi Communication -->
-<script src="/openInterface/raspberrypi/assets/js/raspberryCom/raspberry.js"></script>
+<script src="/openInterface/raspberrypi/assets/js/raspberryCom/RaspberryCommunication.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/iosocket.min.js"></script>
 <!-- endbuild -->
 <!-- loader -->
@@ -722,8 +723,8 @@
 
 <script>
     window.checkNavigatorVersionForPurpose('interfaces');
-    $(document).ready(() => {
-        loadInterface(INTERFACE_NAME);
+    $(document).ready(async () => {
+        await loadInterface(INTERFACE_NAME);
     });
 </script>
 

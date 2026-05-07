@@ -5,11 +5,13 @@ const VITTASCIENCE_H = {
         rt.data = Object.create(null);
 
         rt.regFunc(function (rt, _this, motor, speed) {
-            $('#i2cMotor' + motor.v + '_value').html(speed.v);
+            $('#i2cMotor' + motor.v + '_value').html(`${speed.v}%`);
             if (speed.v > 0) {
-                $('#i2cMotor' + motor.v + '_anim').css('animation', 'rotation-backward ' + ((speed.v * 0.04) + 5) + 's infinite linear');
+                $('#i2cMotor' + motor.v + '_anim').css('animation', 'rotation-backward ' + (5 - (speed.v * 0.04)) + 's infinite linear');
+            } else if (speed.v < 0) {
+                $('#i2cMotor' + motor.v + '_anim').css('animation', 'rotation-forward ' + (5 - (speed.v * -0.04)) + 's infinite linear');
             } else {
-                $('#i2cMotor' + motor.v + '_anim').css('animation', 'rotation-forward ' + ((speed.v * -0.04) + 5) + 's infinite linear');
+                $('#i2cMotor' + motor.v + '_anim').css('animation', 'none');
             }
         }, "global", "Motor_speed", [rt.unsignedintTypeLiteral, rt.doubleTypeLiteral], rt.voidTypeLiteral);
 
@@ -17,6 +19,11 @@ const VITTASCIENCE_H = {
             $('#i2cMotorStepper_value').html(step.v);
             $('#i2cMotorStepper_anim').css("transform", "rotate(" + step.v / 1024 * 180 + "deg)");
         }, "global", "Motor_StepperRun", [rt.doubleTypeLiteral], rt.voidTypeLiteral);
+
+        rt.regFunc(function (rt, _this, motor) {
+            $('#i2cMotor' + motor.v + '_value').html(`0%`);
+            $('#i2cMotor' + motor.v + '_anim').css('animation', 'none');
+        }, "global", "Motor_stop", [rt.unsignedintTypeLiteral], rt.voidTypeLiteral);
 
         rt.regFunc(function (rt, _this) {
             return rt.val(rt.boolTypeLiteral, true);
@@ -298,10 +305,6 @@ const VITTASCIENCE_H = {
             };
             return rt.String_makeValueFromJSString(String(dataType[data.v]));
         }, "global", "clock_ds1307_RTC_getTime", [rt.unsignedintTypeLiteral], rt.String_t);
-
-        rt.regFunc(function (rt, _this) {
-            return rt.val(rt.doubleTypeLiteral, Date.now());
-        }, "global", "arduino_millis", [], rt.doubleTypeLiteral);
 
         rt.regFunc(function (rt, _this) {
             // $('#i2cMotor' + motor.v + '_value').html(speed.v);

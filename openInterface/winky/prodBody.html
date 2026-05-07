@@ -62,7 +62,7 @@
                 <div id="monitor-content" class="monitor-grid-bottom">
                     <div id="monitor-view">
                         <div id="monitor-view-group-btn">
-                            <button id="monitor-btn-console" class="monitor-view-btn btn activated" data-i18n="[title]code.console.buttons.consoleMode" data-toggle="tooltip" data-placement="left" title="Mode console">
+                            <button id="monitor-btn-console" class="monitor-view-btn btn activated" data-i18n="[title]code.console.buttons.consoleMode;[aria-label]code.console.buttons.consoleMode" data-toggle="tooltip" data-placement="left" title="Mode console">
                                 <i class="fas fa-terminal"></i>
                             </button>
                             <div id="monitor-graph-tooltip" class="interface-tooltip" style="display: none;">
@@ -79,10 +79,10 @@
                                     Pour visualiser les données reçues dans la console, cliquer sur le bouton <b>Graphique</b>
                                 </span>
                             </div>
-                            <button id="monitor-btn-graph" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.graphMode" data-toggle="tooltip" data-placement="left" title="Mode graphique">
+                            <button id="monitor-btn-graph" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.graphMode;[aria-label]code.console.buttons.graphMode" data-toggle="tooltip" data-placement="left" title="Mode graphique">
                                 <i class="fas fa-chart-line"></i>
                             </button>
-                            <button id="monitor-clear" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.clearConsole" data-toggle="tooltip" data-placement="left" title="Nettoyer l'écran">
+                            <button id="monitor-clear" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.clearConsole;[aria-label]code.console.buttons.clearConsole" data-toggle="tooltip" data-placement="left" title="Nettoyer l'écran">
                                 <i class="fas fa-broom"></i>
                             </button>
                         </div>
@@ -104,7 +104,7 @@
                             <!-- Graph controls -->
                             <div class="w-75 d-flex me-1">
                                 <div class="dropup dropup-center">
-                                    <button class="btn monitor-controls-button dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button class="btn monitor-controls-button dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-i18n="[aria-label]code.console.buttons.monitorTool.controlsMenu">
                                         <i class="fas fa-cog"></i>
                                     </button>
                                     <div id="monitor-controls-dropdown" class="dropdown-menu">
@@ -190,7 +190,7 @@
                                 data-toggle="tooltip" data-placement="top" title="Afficher les variables" onclick="Simulator.Debugger.toggleVariablesPanel()">
                             <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-variable.svg" alt="Variable icon">
                         </button>
-                        <button id="simulator_fullscreen" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.fullscreen" 
+                        <button id="simulator_fullscreen" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.fullscreen;[aria-label]code.simulator.buttons.base.fullscreen" aria-label="Fullscreen" 
                                 data-toggle="tooltip" data-placement="top" title="Plein écran" onclick="Simulator.toggleFullscreen()">
                             <i class="fa-solid fa-expand" style="font-size: larger;"></i>
                         </button>
@@ -264,7 +264,6 @@
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-python.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-languages_tools.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-searchbox.min.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/ace-ide/aceInit.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/file-input/js/fileinput.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/file-input/themes/fa/theme.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/svg-inject.min.js"></script>
@@ -299,7 +298,6 @@
 <script src="/openInterface/interfaces/assets/js/constants/main/errors.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/main/patterns.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/main/api.js"></script>
-<script src="/openInterface/interfaces/assets/js/constants/blocks/helpurl.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/generators/constants.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/generators/functions.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/tooltip/image.js"></script>
@@ -340,7 +338,7 @@
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/lists.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/procedures.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/exceptions.js"></script>
-<script src="/openInterface/winky/assets/js/blocks/definitions/specific/start.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/common/start.js"></script>
 <script src="/openInterface/winky/assets/js/blocks/definitions/specific/network.js"></script>
 <script src="/openInterface/winky/assets/js/blocks/definitions/specific/sounds.js"></script>
 <script src="/openInterface/winky/assets/js/blocks/definitions/specific/communication.js"></script>
@@ -393,9 +391,9 @@
 
 <script>
     window.checkNavigatorVersionForPurpose('interfaces');
-    $(document).ready(function () {
-        WEB_BLE.checkWebBLE();
-        loadInterface(INTERFACE_NAME);
+    $(document).ready(async function () {
+        await WEB_BLE.checkWebBLE();
+        await loadInterface(INTERFACE_NAME);
     });
 </script>
 <!-- footer scripts -->

@@ -1,10 +1,20 @@
-const url = 'https://vrobots.vittascience.com';
-const urlWs = 'wss://vrobots.vittascience.com';
+
+let url;
+let urlWs;
+if (window.location.hostname === 'localhost') {
+	url = 'http://localhost:4004';
+	urlWs = 'ws://localhost:4004';
+} else {
+	url = 'https://vrobots.vittascience.com';
+	urlWs = 'wss://vrobots.vittascience.com';
+}
+
+// const url = 'https://vrobots.vittascience.com';
+// const urlWs = 'wss://vrobots.vittascience.com';
 
 // to keep for local testing
 // const url = 'http://localhost:4004';
 // const urlWs = 'ws://localhost:4004';
-
 
 class NiryoNedRemote {
 	static instance = null; // Singleton instance
@@ -168,10 +178,10 @@ const getUserToken = async () => {
 	} catch (error) {
 		console.error('Error verifying user:', error);
 	}
-	
+
 	const data = await response.json();
-	
-	if (!data.success){
+
+	if (!data.success) {
 		console.error('Error verifying user:', data);
 		return;
 	}
@@ -179,15 +189,14 @@ const getUserToken = async () => {
 	return data.token;
 };
 
-
 /**
  * Send the code to the remote robot
  * @description - Check if the user is connected to vittascience first, then send the code to the remote robot
  * @returns {Promise} - Promise object
  * */
 const sendRemoteCommand = async () => {
-	const host = window.location.host
-	const subdomain = host.split('.')[0]
+	const host = window.location.host;
+	const subdomain = host.split('.')[0];
 	const token = await getUserToken();
 	const code = CodeManager.getSharedInstance().getCode() + "\n\nprint('END_OFF_PROGRAMME') \n";
 	const body = {
@@ -215,8 +224,8 @@ const sendRemoteCommand = async () => {
  * @returns {Promise} - Promise object
  * */
 const stopProgram = async () => {
-	const host = window.location.host
-	const subdomain = host.split('.')[0]
+	const host = window.location.host;
+	const subdomain = host.split('.')[0];
 	const token = await getUserToken();
 	const body = {
 		robotId: window.remoteRobotId,
@@ -231,9 +240,40 @@ const stopProgram = async () => {
 			},
 			body: JSON.stringify(body),
 		});
-
 	} catch (error) {
 		console.error('Error sending command:', error);
+	}
+};
+
+const getObjectsPositions = async () => {
+	
+
+	const host = window.location.host;
+	const subdomain = host.split('.')[0];
+	const token = await getUserToken();
+	const body = {
+		robotId: window.remoteRobotId,
+		token: token,
+		subdomain: subdomain,
+	};
+	try {
+		const response = await fetch(`${url}/get-object-positions`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(body),
+		});
+
+		const data = await response.json();
+		console.log('Objects positions:', data.positions);
+
+		// add to scene
+		if (data.positions.length > 0) {
+			window.Simulator3D.addSyncedObject(data.positions);
+		}
+	} catch (error) {
+		console.error('Error fetching objects positions:', error);
 	}
 };
 
@@ -261,23 +301,42 @@ const connectRemoteNiryo = async () => {
 		sendCodeButton.innerHTML = 'Envoyer au robot';
 		sendCodeButton.onclick = sendRemoteCommand;
 		sendCodeButton.classList.add('btn', 'btn-primary', 'ide-btn-right');
-		sendCodeButton.style.marginTop = '10px';
-		sendCodeButton.style.marginBottom = '10px';
 		statusContainer.appendChild(sendCodeButton);
 
 		const stopProgramButton = document.createElement('button');
 		stopProgramButton.id = 'stop-program-button';
 		stopProgramButton.innerHTML = 'Stop';
 		stopProgramButton.onclick = stopProgram;
-		stopProgramButton.classList.add('btn', 'btn-danger', 'ide-btn-left');
-		stopProgramButton.style.marginTop = '10px';
-		stopProgramButton.style.marginBottom = '10px';
+		stopProgramButton.classList.add('btn', 'btn-danger');
 		statusContainer.appendChild(stopProgramButton);
+
+		const cameraDropdown = document.createElement('select');
+		cameraDropdown.id = 'camera-dropdown';
+		cameraDropdown.classList.add('btn', 'btn-primary', 'ide-btn-left');
+
+		const cam1Option = document.createElement('option');
+		cam1Option.value = '1';
+		cam1Option.textContent = 'Cam 1';
+		cam1Option.selected = true;
+		cameraDropdown.appendChild(cam1Option);
+
+		const cam2Option = document.createElement('option');
+		cam2Option.value = '2';
+		cam2Option.textContent = 'Cam 2';
+		cameraDropdown.appendChild(cam2Option);
+
+		statusContainer.appendChild(cameraDropdown);
 
 		const lostConnectionOverlay = document.createElement('div');
 		lostConnectionOverlay.id = 'lost-connection-overlay';
-		lostConnectionOverlay.innerHTML = //html
-		`<img src="/public/content/img/programming/ned2.webp" alt="logo Niryo Ned 2" class="">`
+		lostConnectionOverlay.innerHTML =
+			//html
+			`<img src="/public/content/img/programming/ned2.webp" alt="logo Niryo Ned 2" class="">`;
+
+		const cameraContainer = document.createElement('div');
+		cameraContainer.style.position = 'relative';
+		cameraContainer.style.width = '100%';
+		cameraContainer.style.height = '100%';
 
 		const video = document.createElement('video');
 		video.id = 'video-remote';
@@ -285,13 +344,14 @@ const connectRemoteNiryo = async () => {
 		video.controls = false;
 		video.style.width = '100%';
 		video.style.height = '100%';
+
 		const config = {
 			maxBufferLength: 10,
 			liveSyncDuration: 0,
 			backBufferLength: 8,
 			frontBufferFlushThreshold: 0,
 		};
-		
+
 		// check robot number to get the right stream robot 1, 2 or 3 => 1 and 2 are for Futuroscope and 3 is for Tour Montparnasse POC
 		let robotNumber = 1;
 		switch (window.remoteRobotId) {
@@ -305,16 +365,21 @@ const connectRemoteNiryo = async () => {
 				robotNumber = 3;
 				break;
 		}
-		const videoSrc = `${url}/robot_${robotNumber}/stream_robot_${robotNumber}_.m3u8`;
+		let currentCamera = 1;
+		const getVideoSrc = (camNumber) => `${url}/robot_${robotNumber}/stream_robot_${robotNumber}_cam${camNumber}_.m3u8`;
+		let videoSrc = getVideoSrc(currentCamera);
 		let reconnectAttempts = 0;
 		const maxReconnectAttempts = 5;
 		const reconnectDelay = 3000;
 		let hls = null;
 
-
 		const startHls = () => {
 			lostConnectionOverlay.style.display = 'none';
-			const hls = new Hls(config);
+			if (hls) {
+				hls.destroy();
+			}
+			hls = new Hls(config);
+			videoSrc = getVideoSrc(currentCamera);
 			hls.loadSource(videoSrc);
 			hls.attachMedia(video);
 			hls.on(Hls.Events.MANIFEST_PARSED, function () {
@@ -356,24 +421,39 @@ const connectRemoteNiryo = async () => {
 			});
 		};
 
+		const switchCamera = (camera) => {
+			currentCamera = camera;
+
+			if (Hls.isSupported()) {
+				startHls();
+			} else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+				video.src = getVideoSrc(currentCamera);
+				video.load();
+				video.play();
+			}
+		};
+
+		// Dropdown listener
+		cameraDropdown.onchange = () => {
+			const selectedCamera = parseInt(cameraDropdown.value);
+			switchCamera(selectedCamera);
+		};
+
+		// Initialisation du stream
 		if (Hls.isSupported()) {
 			startHls();
-		}
-		// HLS n'est pas supporté sur Safari pour iOS, Safari pour Mac et Microsoft Edge où il peut être joué nativement
-		else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+		} else if (video.canPlayType('application/vnd.apple.mpegurl')) {
 			video.src = videoSrc;
 			video.addEventListener('canplay', function () {
 				video.play();
 			});
 			video.addEventListener('error', function () {
-				// Try to reload the source after an error
 				setTimeout(() => {
 					video.load();
 					video.play();
 				}, 5000);
 			});
 		}
-
 
 		// Page visibility change handling (if page is not focused the stream will be paused to save bandwidth, but lost because of the buffer length)
 		document.addEventListener('visibilitychange', () => {
@@ -391,8 +471,10 @@ const connectRemoteNiryo = async () => {
 		if (!niryoRemote.getConnectionStatus()) {
 			niryoRemote.socketIOConnect();
 		}
-		simulatorRemote.appendChild(video);
-		simulatorRemote.appendChild(lostConnectionOverlay);
+
+		cameraContainer.appendChild(video);
+		cameraContainer.appendChild(lostConnectionOverlay);
+		simulatorRemote.appendChild(cameraContainer);
 	}
 };
 
@@ -421,7 +503,12 @@ const disconnectRemoteNiryo = async () => {
 
 		const stopProgramButton = document.getElementById('stop-program-button');
 		stopProgramButton.remove();
-		
+
+		const cameraDropdown = document.getElementById('camera-dropdown');
+		if (cameraDropdown) {
+			cameraDropdown.remove();
+		}
+
 		cameraRemote.src = '';
 		cameraRemote.remove();
 	}

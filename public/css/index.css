@@ -1041,7 +1041,11 @@ font-size: 2em;
     height: inherit !important;
     transform: scale(0.9);
     transition: transform 0.5s;
-
+}
+  
+#testimony-slideshow:focus-within .slick-slide.slick-current {
+    outline: 2px solid var(--vitta-blue);
+    outline-offset: 4px;
 }
 
 #testimony-slideshow .slick-slide:not(.slick-center) {

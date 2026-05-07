@@ -1,5 +1,3 @@
-Simulator.Mosaic.BOARD_HEADER = `<object id="board-viewer" class="mt-3" type="image/svg+xml"></object>`;
-
 Simulator.Mosaic.pin_regex = /([0-9]{1,2})/;
 
 Simulator.Mosaic.getPinDef = (pin, mod) => {
@@ -22,13 +20,11 @@ Simulator.Mosaic.getCurrentRobot = function () {
 };
 
 Simulator.Mosaic.externalLibraries = {
-    // js specific board libraries
-    'src/lib/machine.js': Simulator.PATH_LIB + 'micropython/machine.js',
-    'src/lib/bluetooth.js': Simulator.PATH_LIB + 'micropython/bluetooth.js',
-    'src/lib/esp32_ble_uart.js': Simulator.PATH_LIB + 'micropython/esp32_ble_uart.js',
-    'src/lib/V05.js': Simulator.PATH_LIB + 'ilo/V05.js',
-    'src/lib/PicoAutonomousRobotics.js': Simulator.PATH_LIB + 'kitronik/PicoAutonomousRobotics.js',
+    // python common libraries
+    'src/lib/framebuf.py': Simulator.PATH_LIB_COMMON + 'micropython/framebuf.py',
     // js common mpy libraries
+    'src/lib/os.js': Simulator.PATH_LIB_COMMON + 'micropython/os.js',
+    'src/lib/uos.js': Simulator.PATH_LIB_COMMON + 'micropython/os.js',
     'src/lib/time.js': Simulator.PATH_LIB_COMMON + 'micropython/time.js',
     'src/lib/utime.js': Simulator.PATH_LIB_COMMON + 'micropython/time.js',
     'src/lib/ujson.js': Simulator.PATH_LIB_COMMON + 'micropython/json.js',
@@ -37,6 +33,15 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/neopixel.js': Simulator.PATH_LIB_COMMON + 'micropython/neopixel.js',
     'src/lib/dht.js': Simulator.PATH_LIB_COMMON + 'micropython/dht.js',
     'src/lib/onewire.js': Simulator.PATH_LIB_COMMON + 'micropython/onewire.js',
+    // js HT16K33 libraries
+    'src/lib/ht16k33.js': Simulator.PATH_LIB_COMMON + 'esp32/HT16K33/ht16k33.js',
+    'src/lib/ht16k33matrix.js': Simulator.PATH_LIB_COMMON + 'esp32/HT16K33/ht16k33matrix.js',
+    // js specific board libraries
+    'src/lib/machine.js': Simulator.PATH_LIB + 'micropython/machine.js',
+    'src/lib/bluetooth.js': Simulator.PATH_LIB + 'micropython/bluetooth.js',
+    'src/lib/esp32_ble_uart.js': Simulator.PATH_LIB + 'micropython/esp32_ble_uart.js',
+    'src/lib/V05.js': Simulator.PATH_LIB + 'ilo/V05.js',
+    'src/lib/PicoAutonomousRobotics.js': Simulator.PATH_LIB + 'kitronik/PicoAutonomousRobotics.js',
     // js common esp32 libraries
     'src/lib/urequests.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/requests.js',
     'src/lib/requests.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/requests.js',
@@ -89,9 +94,7 @@ Simulator.Mosaic.addSpecificSkulptFunctions = function () {
             Sk.builtin.pyCheckType("timeout_us", "integer", Sk.builtin.checkInt(timeout_us));
             const pins = Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()];
             const id = '#hcsr04_' + trig.pin;
-            if (trig.pin !== echo.pin) {
-                $(id).find(".subtitle-module").html(pins.find(p => p[1] == 'p' + trig.pin)[0] + ' / ' + pins.find(p => p[1] == 'p' + echo.pin)[0]);
-            } else {
+            if (trig.pin == echo.pin) {
                 throw new Sk.builtin.AttributeError('[HCSR04] trig and echo cannot be on same pin (' + pins.find(p => p[1] == 'p' + trig.pin)[0] + ')');
             }
             const duration = $(id + '_slider_d').slider('option', 'value');
@@ -179,6 +182,7 @@ Simulator.Mosaic.groveRegex = {
     "pwm": /(machine.|)PWM\((machine.|)Pin\([0-9]{1,2}/gi,
     // I2C modules
     "lcdGrove": /(.|)LCD1602\(/gi,
+    "LEDMatrix": /(.|)HT16K33Matrix\(/gi,
     "oled": /SSD1306_I2C\(./gi,
     "sgp30": /(.|)SGP30\(/gi,
     "multichannel": /(.|)GAS\(/gi,
@@ -195,11 +199,12 @@ Simulator.Mosaic.groveRegex = {
     "sht31-hum": /(.|)SHT31\(/gi,
     "th02-temp": /(.|)TH02\(/gi,
     "th02-hum": /(.|)TH02\(/gi,
-    // Pins on module - inputs
-    "gps": /(machine.|)Pin\(([0-9]{1,2}),( |)(mode=|)(machine.|)Pin.IN, id="gps"/gi,
-    // Pins on module - outputs
-    "openlog": /Lecteur SD TX on p([0-9]{1,2})/gi,
     "RGBLed": /CHAINABLE_LED_COUNT_((A|D|)[0-9]{1,2})( |)=/gi,
+    "openlog": /Lecteur SD on UART( |)(0|1)/gi,
+    "hc05": /Bluetooth HC05 on UART( |)(0|1)/gi,
+    "hm10": /Bluetooth HM10 on UART( |)(0|1)/gi,
+    "groveBT": /Grove Serial Bluetooth on UART( |)(0|1)/gi,
+    "gps": /GPS on UART( |)(0|1)/gi
 };
 
 Simulator.Mosaic.addSpecificInitializations = async function () {
@@ -318,7 +323,7 @@ Simulator.Mosaic.specific = {
             regex: /Builtin LED on p(25|0)/,
             id: "pico-builtin-led",
             title: "LED intégrée",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             pins: 'digital',
             type: 'output',
             value: 0,
@@ -532,6 +537,44 @@ Simulator.Mosaic.specific = {
                 document.querySelector(Animator.valueId).innerHTML = Animator.value;
             }
         },
-
+        {
+            id: "hc05",
+            title: "HC05 (BT)",
+            pin: 'pin n°',
+            pins: 'digital',
+            codeFlag: 'Bluetooth HC05',
+            type: 'output',
+            value: null,
+            picture: "bluetooth.svg",
+            animate: function (Animator) {
+				Animator.bluetooth();
+			}
+        },
+        {
+            id: "hm10",
+            title: "HM10 (BT)",
+            pin: 'pin n°',
+            pins: 'digital',
+            codeFlag: 'Bluetooth HM10',
+            type: 'output',
+            value: null,
+            picture: "bluetooth.svg",
+            animate: function (Animator) {
+				Animator.bluetooth();
+			}
+        },
+        {
+            id: "groveBT",
+            title: "Grove Serial Bluetooth",
+            pin: 'pin n°',
+            pins: 'digital',
+            codeFlag: 'Grove Serial Bluetooth',
+            type: 'output',
+            value: null,
+            picture: "bluetooth.svg",
+            animate: function (Animator) {
+				Animator.bluetooth();
+			}
+        }
     ]
 }

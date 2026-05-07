@@ -36,4 +36,3 @@ Blockly.Python.Generators.pwm = function (pin, codeFlag = 'PWM', freq = 50) {
   Blockly.Python.addInit(pin + '_OUT', pinName + " = PWM(Pin(" + pin.replace('p', '') + "), freq=" + freq + ", duty=0)");
   return pinName;
 };
-

@@ -13,9 +13,15 @@ $('#index-scroll-arrow').on('click', function (e) {
     $('#index-scroll-arrow').css({
         'animation': 'pulse 0.7s'
     });
+    let elementOffset;
+    if ($('#platform-container').length > 0) {
+        elementOffset = $($('#platform-container > h2')).offset().top;
+    } else if ($('#section-2').length > 0) {
+        elementOffset = $($('#section-2 h2')).offset().top;
+    }
     $('html, body').animate({
-        scrollTop: $($('#platform-container > h2')).offset().top - parseInt($("#main-navbar").css(
-                "height")
+        scrollTop: elementOffset - parseInt($("#main-navbar").css(
+            "height")
             .replace("px", "")) - 20
     })
     setTimeout(function () {

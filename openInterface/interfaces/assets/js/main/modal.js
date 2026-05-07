@@ -294,7 +294,10 @@ window.Modal.prototype = {
             }
 
             ModalsOpenedModals.push(modal);
-            $('[data-toggle="tooltip"]').tooltip('hide');
+            document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
+                const tooltip = bootstrap.Tooltip.getInstance(el);
+                if (tooltip) tooltip.hide();
+            });
 
             focusTraps[modal] = focusTrap.createFocusTrap(modalElement, {
                 escapeDeactivates: true,

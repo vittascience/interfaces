@@ -107,6 +107,9 @@
 }, {
     "dep_name": "Lozère"
 }, {
+    "dep_name": "Luxembourg",
+    "is_ki_kompass": true
+}, {
     "dep_name": "Maine-et-Loire"
 }, {
     "dep_name": "Manche"

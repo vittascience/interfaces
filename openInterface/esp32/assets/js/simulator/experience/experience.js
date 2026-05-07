@@ -14,8 +14,8 @@ import { LineMaterial } from '/openInterface/interfaces/assets/js/simulator3d/li
 import { LineGeometry } from '/openInterface/interfaces/assets/js/simulator3d/libs/LineGeometry.js';
 import { OBB } from '/openInterface/interfaces/assets/js/simulator3d/libs/OBB.js';
 
-import TransformControl from './utils/transformControls.js';
-import ObstacleUtils from './utils/obstaclesUtils.js';
+import TransformControl from '/openInterface/interfaces/assets/js/simulator3d/Utils/transformControls.js';
+import ObstacleUtils from '/openInterface/interfaces/assets/js/simulator3d/Utils/obstaclesUtils.js';
 import MazeBuilder from './utils/mazeBuilder.js';
 import ledsArrayCenter from './utils/ledsArray.js';
 import Physics from './utils/physics.js';
@@ -41,6 +41,11 @@ export default class Simulator3d {
 		this.penColor = '#ff9603';
 		this.backgroundChoice = '/openInterface/esp32/assets/js/simulator/experience/textures/piste_kit_4.png';
 		this.rgbTextureValue = [{}, {}, {}];
+		this.lineThresholdValue = 40;
+		this.blockingFlag = false;
+		this.movementQueue = [];
+		this.isProcessingQueue = false;
+		this.tempo = null;
 		this.speed = 100;
 		this.angle = 0;
 		this.speedRotation = 10; // ms/deg
@@ -155,7 +160,6 @@ export default class Simulator3d {
 	 * @return {void} // init the simulator
 	 */
 	async _init() {
-
 		this.experience.renderer.instance.xr.addEventListener('sessionstart', () => {
 			this.options.params.debug && console.log('start XR session');
 			this.experience.xrActive = true;
@@ -213,26 +217,12 @@ export default class Simulator3d {
 			this.resetPosition();
 		});
 
-		const getStorage = localStorage.getItem('simulatorData');
-		let getImageDataBackground = {};
-		if (typeof getStorage !== 'undefined' && getStorage !== null) {
-			getImageDataBackground = JSON.parse(localStorage.simulatorData);
-		}
-		let background = null;
-		try {
-			const interfaceImageDataBackground = getImageDataBackground[INTERFACE_NAME];
-			if (typeof interfaceImageDataBackground !== 'undefined' && typeof interfaceImageDataBackground.backgrounds !== 'undefined' && typeof interfaceImageDataBackground.backgrounds.Ilo !== 'undefined') {
-				background = interfaceImageDataBackground.backgrounds.Ilo;
-			}
-		} catch (error) {
-			console.error('error loading background', error);
-		}
+		const background = SimulatorLS.getData('Ilo', 'backgrounds');
 		if (background !== null && typeof background !== 'undefined') {
 			await this.updateBackground(background);
 		} else {
 			await this.updateBackground('/openInterface/esp32/assets/js/simulator/experience/textures/piste_kit_4.png');
 		}
-
 
 		// initTransparent material
 		const transparentMaterial = new THREE.MeshPhysicalMaterial({
@@ -306,6 +296,20 @@ export default class Simulator3d {
 		}
 	}
 
+	robotFullscreenMode(isFullscreen) {
+		if (isFullscreen) {
+			const boardDisplay = document.getElementById('board-container');
+			if (boardDisplay.style.display !== 'none') {
+				console.log('enter fullscreen 3D robot');
+				Simulator.toggleBoardDisplay();
+			}
+			const windowHeight = window.innerHeight * 0.6;
+			this.experience.config.height = windowHeight;
+		} else {
+			this.experience.config.height = this.options.params.height;
+		}
+	}
+
 	/**
 	 * @description: initMazeBuilder function
 	 * @returns {void} // init the maze builder
@@ -320,7 +324,7 @@ export default class Simulator3d {
 	 * @returns {void} // init transform controls
 	 **/
 	initTranformControls() {
-		this.transformControl = new TransformControl(this, this.experience, this.obstaclesHandler, this.updateGridSystem.bind(this));
+		this.transformControl = new TransformControl(this, this.experience, this.obstaclesHandler, this.updateGridSystem.bind(this), 'Ilo');
 	}
 
 	initPhysics() {
@@ -353,10 +357,6 @@ export default class Simulator3d {
 		this.startingCollectRGB = false;
 		delete this.experience.movementObjectFunctions.collectRGB;
 	}
-
-	// initRobotSimulator() {
-	// 	this.robotSimulator = new RobotSimulator3D(this, 'Ilo');
-	// }
 
 	/**
 	 * Load the 3D model and create the hierarchie of the robot, store it in this.experience.hierarchie
@@ -430,14 +430,19 @@ export default class Simulator3d {
 		}, 100);
 	}
 
-
 	/**
 	 * @description: reset the robot position to the initial position when skulpt start the simulation
 	 * @returns {void} // reset the robot position
 	 **/
-	resetPosition() {
-		//init robot
+	resetPosition(lockedObstacles = false) {
 		if (!this.isReady) return;
+
+		this.tempo = null;
+		this.lineThresholdValue = 40;
+
+		this.clearMovementQueue();
+		this.blockingFlag = false;
+
 		this.LEDMatrixCenter = {};
 		this.LEDMatrixCircle = {};
 
@@ -446,7 +451,9 @@ export default class Simulator3d {
 
 		this.removeTransformControls();
 		this.removeObstacles();
-		this.addObstacles();
+		this.addObstacles(lockedObstacles);
+
+		this.stopMotors();
 
 		this.setLedShape('ring_1');
 	}
@@ -467,7 +474,6 @@ export default class Simulator3d {
 			this.physics.play();
 		}
 	}
-
 
 	rotateModelY(angle) {
 		const robot = this.experience.hierarchie['chassis'];
@@ -813,7 +819,7 @@ export default class Simulator3d {
 	 * @param {object} obs // the obstacle object to add
 	 * @returns {void} // add an obstacle to the scene
 	 **/
-	async addObstacles() {
+	async addObstacles(lockedObstacles = false) {
 		if (!this.isReady) return;
 		// const obs = RobotSimulator.Obstacle.obstaclesDB
 		const obstacleDB = SimulatorLS.get('obstaclesDB');
@@ -831,6 +837,9 @@ export default class Simulator3d {
 			const image = '/openInterface/interfaces/assets/media/simulator/robot/obstacles/' + element + '.png';
 			const id = key;
 			await this.obstaclesHandler.addObstacle(element, image, shape, width, height, positionX, positionY, id);
+			if (lockedObstacles){
+				this.obstaclesHandler.lockedObstacles.add(id);
+			}
 			RobotSimulator.Obstacle.obstaclesDB[id] = obs[key];
 		}
 	}
@@ -876,7 +885,7 @@ export default class Simulator3d {
 	 * @returns {void} // update the mecanum wheel component
 	 * */
 	updateMecanumComponent(wheel, speed, direction) {
-		this.mecanumWheelCompute[wheel].speed = (speed / 100) * this.speed * direction;
+		this.mecanumWheelCompute[wheel].speed = (speed / 100) * this.speed;
 		this.mecanumWheelCompute[wheel].direction = direction;
 	}
 
@@ -888,45 +897,47 @@ export default class Simulator3d {
 		let vx = 0;
 		let vy = 0;
 		let vw = 0;
-	
+
 		const R = 0.05; // Rayon de la roue (en mètres)
 		const l1 = 0.2; // Longueur du robot (en mètres)
 		const l2 = 0.15; // Largeur du robot (en mètres)
-	
+
 		const maxWheelSpeed = 1.0; // Vitesse maximale des roues (ex. 1 m/s)
-	
+
 		// Conversion des vitesses des roues en m/s
 		const FR = (this.mecanumWheelCompute['FR_wheel'].speed / 100) * maxWheelSpeed * this.mecanumWheelCompute['FR_wheel'].direction;
 		const FL = (this.mecanumWheelCompute['FL_wheel'].speed / 100) * maxWheelSpeed * this.mecanumWheelCompute['FL_wheel'].direction;
 		const BR = (this.mecanumWheelCompute['BR_wheel'].speed / 100) * maxWheelSpeed * this.mecanumWheelCompute['BR_wheel'].direction;
 		const BL = (this.mecanumWheelCompute['BL_wheel'].speed / 100) * maxWheelSpeed * this.mecanumWheelCompute['BL_wheel'].direction;
-	
+
 		// Calcul des composantes de la vitesse
 		vx = (R * (FR + FL + BR + BL)) / 4;
 		vy = (R * -(FR - FL - BR + BL)) / 4;
 		vw = (R * (FR - FL + BR - BL)) / (4 * (l1 + l2));
-	
+
 		return { vx, vy, vw };
 	}
-	
 
 	/**
 	 * @description: moveKinematic function to move the robot kinematically (mecanum wheels)
 	 * @returns {void} // move the robot kinematically
 	 * */
-	moveKinematic() {
+	async moveKinematic() {
+		// while (this.blockingFlag) {
+		// 	await new Promise((resolve) => setTimeout(resolve, 100));
+		// }
 		clearInterval(this.intervalMoveCommande);
 		if (this.experience.requestedTransformControl) return;
-	
+
 		const { vx, vy, vw } = this.computeMecanumMovement();
 		const ilo = this.experience.hierarchie['chassis'];
-	
+
 		let moveDirection = new THREE.Vector3(vx, 0, vy);
-		this.wheelUpdateMecanum(); 
-	
+		this.wheelUpdateMecanum();
+
 		const timeStep = 1;
 		const incrementRotation = vw * timeStep;
-	
+
 		let counter = 0;
 		this.intervalMoveCommande = setInterval(() => {
 			if (counter >= 60 * 60 * 5) {
@@ -942,20 +953,105 @@ export default class Simulator3d {
 					quaternionRotation.setFromAxisAngle(new THREE.Vector3(0, 1, 0), incrementRotation);
 					ilo.quaternion.multiply(quaternionRotation);
 				}
-	
+
 				// Appliquer la rotation actuelle à la direction du mouvement pour qu’il reste dans le référentiel local
 				let adjustedMoveDirection = moveDirection.clone();
 				adjustedMoveDirection.applyQuaternion(ilo.quaternion);
 				adjustedMoveDirection.multiplyScalar(timeStep);
-	
+
 				// Appliquer le déplacement
 				ilo.position.add(adjustedMoveDirection);
-	
+
 				counter++;
 			}
 		}, 1000 / 60); // 60 FPS
 	}
+
+	setTempo(tempo) {
+		this.tempo = tempo;
+	}
 	
+
+	/**
+	 * @description: Add a movement to the queue
+	 * @param {string} type - 'move' or 'rotate'
+	 * @param {array} args - movement arguments
+	 * @returns {object} { started: Promise, completed: Promise }
+	 */
+	queueMovement(type, args) {
+		let resolveStarted, resolveCompleted;
+		const started = new Promise((resolve) => { resolveStarted = resolve; });
+		const completed = new Promise((resolve) => { resolveCompleted = resolve; });
+
+		this.movementQueue.push({
+			type,
+			args,
+			resolveStarted,
+			resolveCompleted
+		});
+		this.processMovementQueue();
+
+		return { started, completed };
+	}
+
+	/**
+	 * @description: handle next movement in the queue
+	 */
+	async processMovementQueue() {
+		if (this.isProcessingQueue || this.movementQueue.length === 0) {
+			return;
+		}
+
+		this.isProcessingQueue = true;
+		const movement = this.movementQueue.shift();
+		
+		if (this.tempo) {
+			await new Promise((resolve) => setTimeout(resolve, this.tempo));
+		}
+
+
+		movement.resolveStarted();
+
+		try {
+			if (movement.type === 'move') {
+				await this._executeMove(...movement.args);
+			} else if (movement.type === 'rotate') {
+				await this._executeRotate(...movement.args);
+			}
+		} finally {
+			this.isProcessingQueue = false;
+			movement.resolveCompleted();
+
+			if (this.movementQueue.length > 0) {
+				this.processMovementQueue();
+			}
+		}
+	}
+
+	/**
+	 * @description: resolve all pending movements in the queue and clear it
+	 */
+	clearMovementQueue() {
+		for (const movement of this.movementQueue) {
+			if (movement.resolveStarted) movement.resolveStarted();
+			if (movement.resolveCompleted) movement.resolveCompleted();
+		}
+		this.movementQueue = [];
+		this.isProcessingQueue = false;
+		clearInterval(this.intervalMoveCommande);
+		clearInterval(this.intervalRotateCommande);
+	}
+
+	getYaw() {
+		const ilo = this.experience.hierarchie['chassis'];
+		const euler = new THREE.Euler().setFromQuaternion(ilo.quaternion, 'YXZ');
+		let yaw = THREE.MathUtils.radToDeg(euler.y);
+		if (yaw < 0) {
+			yaw += 360;
+		}
+		
+		return yaw;
+	}
 
 	/**
 	 * @description: command the robot to move forward or backward left or right (can be interrupted by the user for transform control purpose)
@@ -963,17 +1059,25 @@ export default class Simulator3d {
 	 * @param {string} direction // the direction of movement (forward, backward, left, right)
 	 * @returns {Promise} // a promise that resolves when the robot finishes the movement for skulpt
 	 **/
-	moveCommand(direction, moveDistance, steps = null) {
-		clearInterval(this.intervalMoveCommande);
+	_executeMove(direction, moveDistance, steps = null, displayLed = true) {
+		this.stopMotors();
 		if (this.experience.requestedTransformControl || !Simulator.isRunning) return;
-		return new Promise((resolve, reject) => {
-			switch (direction) {
-				case 'forward':
-					this.setLedShape('front');
-					break;
-				case 'backward':
-					this.setLedShape('back');
-					break;
+		return new Promise((resolve) => {
+			if (displayLed){
+				switch (direction) {
+					case 'forward':
+						this.setLedShape('front');
+						break;
+					case 'backward':
+						this.setLedShape('back');
+						break;
+					case 'left':
+						this.setLedShape('left');
+						break;
+					case 'right':
+						this.setLedShape('right');
+						break;
+				}
 			}
 			this.isRunning = true;
 			const component = this.dirComponent[direction];
@@ -995,6 +1099,7 @@ export default class Simulator3d {
 					this.setLedShape('ring_1');
 					clearInterval(this.intervalMoveCommande);
 					this.stopWheels();
+					this.blockingFlag = false;
 					resolve();
 				} else if (this.experience.requestedTransformControl || !Simulator.isRunning) {
 				} else {
@@ -1019,22 +1124,23 @@ export default class Simulator3d {
 	 * @param {string} direction // the direction of rotation (cw or ccw)
 	 * @returns {Promise} // a promise that resolves when the robot finishes the rotation for skulpt
 	 **/
-	rotateCommand(angle, direction, steps = null) {
-		clearInterval(this.intervalMoveCommande);
-		if (this.experience.requestedTransformControl) return;
-		return new Promise((resolve, reject) => {
-			switch (direction) {
-				case 'cw':
-					this.setLedShape('rot_clock');
-					break;
-				case 'ccw':
-					this.setLedShape('rot_trigo');
-					break;
+	_executeRotate(angle, direction, steps = null, displayLed = true) {
+		this.stopMotors();
+		if (this.experience.requestedTransformControl || !Simulator.isRunning) return;
+		return new Promise((resolve) => {
+			if (displayLed) {
+				switch (direction) {
+					case 'cw':
+						this.setLedShape('rot_clock');
+						break;
+					case 'ccw':
+						this.setLedShape('rot_trigo');
+						break;
+				}
 			}
 			this.isRunning = true;
 			const ilo = this.experience.hierarchie['chassis'];
 			const dir = direction === 'cw' ? -1 : 1;
-			const rotation = ilo.rotation;
 			if (steps !== null) angle = angle * steps;
 			const radAngle = (angle * Math.PI) / 180;
 			const duration = (Math.abs(angle) * this.speedRotation) / 1000;
@@ -1050,13 +1156,16 @@ export default class Simulator3d {
 					clearInterval(this.intervalRotateCommande);
 					this.setLedShape('ring_1');
 					this.stopWheels();
+					this.blockingFlag = false;
 					resolve();
 				} else if (this.experience.requestedTransformControl || !Simulator.isRunning) {
 				} else {
 					if (this.activateLineTrajectory) {
 						this.updateLineTrajectory('trajectoryLine');
 					}
-					rotation.y += increment * dir;
+					const quaternionRotation = new THREE.Quaternion();
+					quaternionRotation.setFromAxisAngle(new THREE.Vector3(0, 1, 0), increment * dir);
+					ilo.quaternion.multiply(quaternionRotation);
 					counter++;
 				}
 			}, 1000 / 60); // Move at 60 FPS
@@ -1094,26 +1203,26 @@ export default class Simulator3d {
 	 * */
 	wheelUpdateMecanum() {
 		this.stopWheels();
-	
+
 		const R = 0.05; // wheel radius (in meters)
 		const maxWheelSpeed = 1.0; // max wheel speed (ex. 1 m/s)
-	
+
 		const wheelMove = (() => {
 			const wheels = ['FR_wheel', 'FL_wheel', 'BR_wheel', 'BL_wheel'];
-	
+
 			wheels.forEach((wheel) => {
 				const wheelObj = this.experience.hierarchie[wheel];
 				const speed = this.mecanumWheelCompute[wheel].speed;
 				const direction = this.mecanumWheelCompute[wheel].direction;
-	
+
 				// linear speed to angular speed
 				const wheelAngularSpeed = ((speed / 100) * maxWheelSpeed) / R;
-	
+
 				// add rotation to the wheel
 				wheelObj.rotation.z += direction * -wheelAngularSpeed * 0.016; // Facteur temps (1/60 FPS)
 			});
 		}).bind(this);
-	
+
 		this.experience.movementObjectFunctions.wheelMove = wheelMove;
 	}
 
@@ -1131,6 +1240,7 @@ export default class Simulator3d {
 	 **/
 	getImageTextureData() {
 		const sensors = ['L_Sensor', 'C_Sensor', 'R_Sensor'];
+		const sliderIds = ['ilo-finderLeft', 'ilo-finderMiddle', 'ilo-finderRight'];
 		this.rgbTextureValue = [{}, {}, {}];
 
 		for (let i = 0; i < sensors.length; i++) {
@@ -1142,25 +1252,21 @@ export default class Simulator3d {
 			let u = (xV + this.trackWidth / 2) / this.trackWidth;
 			let v = 1 - (zV + this.trackHeight / 2) / this.trackHeight;
 
-			// Calculate the center pixel position
 			const xCenter = Math.floor(u * this.image.width);
 			const yCenter = Math.floor(v * this.image.height);
 
-			// Initialize sums of RGB values
 			let sumR = 0,
 				sumG = 0,
 				sumB = 0;
 			let count = 0;
 
-			// Loop over a 4 by 4 block centered around the (xCenter, yCenter)
 			for (let dx = -2; dx <= 1; dx++) {
 				for (let dy = -2; dy <= 1; dy++) {
 					const x = xCenter + dx;
 					const y = yCenter + dy;
 
-					// Make sure we don't go outside the image boundaries
 					if (x >= 0 && x < this.image.width && y >= 0 && y < this.image.height) {
-						const position = (y * this.image.width + x) * 4; // 4 for RGBA
+						const position = (y * this.image.width + x) * 4;
 						const r = this.imageData.data[position];
 						const g = this.imageData.data[position + 1];
 						const b = this.imageData.data[position + 2];
@@ -1173,12 +1279,17 @@ export default class Simulator3d {
 				}
 			}
 
-			// Calculate averages
 			const avgR = sumR / count;
 			const avgG = sumG / count;
 			const avgB = sumB / count;
 
 			this.rgbTextureValue[i] = { r: avgR, g: avgG, b: avgB };
+
+			const sliderEl = document.getElementById(sliderIds[i] + '_slider_v');
+			if (!sliderEl) continue;
+			const meanColor = (avgR + avgG + avgB) / 3;
+			const isOnLine = meanColor < this.lineThresholdValue ? 1 : 0;
+			$(sliderEl).slider('value', isOnLine);
 		}
 	}
 
@@ -1346,7 +1457,6 @@ export default class Simulator3d {
 		const groundPos = ground.position;
 
 		const groupLines = new THREE.Group();
-
 
 		const groundMinX = groundPos.x - width / 2;
 		const groundMaxX = groundPos.x + width / 2;
@@ -1572,6 +1682,33 @@ export default class Simulator3d {
 			}
 		}
 	}
+	setSingleLed(type, index, r, g, b) {
+        let ledName = null;
+        if (type === 'circle') {
+			if (index < 0 || index >= Object.keys(this.LEDMatrixCircle).length) {
+				UIManager.showErrorMessage('error-message', `set_led_single: Index ${index} out of bounds for circle LEDs`);
+
+				return;
+			}
+            const ledCircle = Object.keys(this.LEDMatrixCircle);
+            ledName = ledCircle[index];
+        } else if (type === 'center') {
+			if (index < 0 || index >= Object.keys(this.LEDMatrixCenter).length) {
+				UIManager.showErrorMessage('error-message', `set_led_single: Index ${index} out of bounds for center LEDs`);
+				return;
+			}
+            const ledCenter = Object.keys(this.LEDMatrixCenter);
+            ledName = ledCenter[index];
+        }
+        const led = this.experience.hierarchie[ledName];
+        led.material.color = new THREE.Color().setRGB(r, g, b);
+        led.visible = true;
+        if (type === 'circle') {
+            this.LEDMatrixCircle[ledName] = { color: { r, g, b }, intensity: 1, id: index };
+        } else if (type === 'center') {
+            this.LEDMatrixCenter[ledName] = { color: { r, g, b }, intensity: 1, id: index };
+        }
+    }
 
 	updateGridSystem(newX, newZ) {
 		this.startingPosGrid.set(newX, 0, newZ);

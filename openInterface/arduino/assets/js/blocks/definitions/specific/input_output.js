@@ -18,7 +18,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "UNIT",
             "options": [
-                ["%{BKY_IO_WAIT_SECOND}", "SECOND"],
+                ["%{BKY_IO_WAIT_SECOND}", "SEC"],
                 ["%{BKY_IO_WAIT_MILLISECOND}", "MILLI"],
                 ["%{BKY_IO_WAIT_MICROSECOND}", "MICRO"]
             ]
@@ -99,7 +99,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     {
         "type": "io_getKeypadNumber",
         "message0": "%{BKY_IO_GROVEKEYPAD_GETNUMBER_TITLE}",
-        "args0": [{
+        "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+        "args1": [{
             "type": "field_grid_dropdown",
             "name": "RX",
             "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
@@ -114,7 +115,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "extensions": [
             "block_init_helpurl",
             "block_init_color",
-            "pins_management_global"
+            "pins_management_global",
+            "pins_management_rxtx"
         ]
     },
 
@@ -336,12 +338,12 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "name": "VERSION",
             "options": [
                 ["v4.0", "V4"],
-                ["v3.0", "V3"],
-                ["v2.0", "V2"]
+                ["v3.0", "V3"]
             ]
         }, {
             "type": "input_value",
-            "name": "NAME"
+            "name": "NAME",
+            "check": "String"
         }],
         "previousStatement": null,
         "nextStatement": null,
@@ -363,8 +365,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "name": "VERSION",
             "options": [
                 ["v4.0", "V4"],
-                ["v3.0", "V3"],
-                ["v2.0", "V2"]
+                ["v3.0", "V3"]
             ]
         }, {
             "type": "input_value",
@@ -382,6 +383,29 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "block_init_helpurl",
             "block_init_color",
             "groveMp3_tooltips"
+        ]
+    },
+
+    // GROVE MP3 _ KT403A_PLAY_SONG_SPECIFY
+    {
+        "type": "io_groveMp3_KT403A_playSongSpecify",
+        "message0": "%{BKY_IO_GROVEMP3_KT403A_PLAY_SONG_SPECIFY_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "DIRECTORY",
+            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+        }, {
+            "type": "input_value",
+            "name": "INDEX",
+            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "inputsInline": true,
+        "tooltip": "%{BKY_IO_GROVEMP3_KT403A_PLAY_SONG_SPECIFY_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
 
@@ -761,6 +785,55 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "extensions": [
             "block_init_helpurl",
             "block_init_color"
+        ]
+    },
+
+    // STOP EVENT ON 2/3 - detachInterrupt()  
+        {
+        "type": "io_detachInterrupt",
+        "message0": "%{BKY_IO_DETACH_INTERRUPT_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": [
+                ["D2", "2"],
+                ["D3", "3"]
+            ]
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_IO_DETACH_INTERRUPT_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
+    // BLOCK SET PIN MODE
+    {
+        "type": "io_setPinMode",
+        "message0": "%{BKY_IO_SETPINMODE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "MODE",
+            "options": [
+                ["INPUT", "INPUT"],
+                ["OUTPUT", "OUTPUT"],
+                ["INPUT_PULLUP", "INPUT_PULLUP"]
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "inputsInline": true,
+        "tooltip": "%{BKY_IO_SETPINMODE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 

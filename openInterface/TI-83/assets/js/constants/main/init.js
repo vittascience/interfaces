@@ -51,7 +51,6 @@ const EXAMPLE_PROJECT_LINKS = {
 const TI_SHELL_START = ">>> # Shell Reinitialized <br>>>> # L'exécution de PYTHON02 <br>>>> from PYTHON02 import *";
 //adc
 const READ_ANALOG_MAX_VALUE = 1023;
-const WRITE_ANALOG_MAX_VALUE = 1023;
 const PWM_MAX_DUTY = 1023;
 //simulator
 const SIMULATOR_DEFAULT_BOARD = {

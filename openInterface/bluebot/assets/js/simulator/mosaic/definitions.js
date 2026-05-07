@@ -1,4 +1,4 @@
-Simulator.Mosaic.BOARD_HEADER = `<object id="board-viewer" class="mt-3 mb-3" type="image/svg+xml"></object>`;
+Simulator.Mosaic.BOARD_HEADER = `<object id="board-viewer" class="mt-3 mb-3" type="image/svg+xml" role="img" aria-label="Board simulator view"></object>`;
 
 Simulator.Mosaic.externalLibraries = {
     // js common libraries
@@ -151,7 +151,7 @@ Simulator.Mosaic.addSpecificInitializations = async function () {
                     <div class="bluebot-buttons-tooltip-triangle"></div>
                     <i class="fa-solid fa-circle-info"></i>
                     <span>${jsonPath('code.simulator.tooltips.bluebot-buttons')}</span>
-                    <button id="close-bluebot-buttons-tooltip" class="btn v-btn-grey">
+                    <button id="close-bluebot-buttons-tooltip" class="btn v-btn-grey" aria-label="Close tooltip">
                         <i class="fa-sharp fa-solid fa-xmark"></i></button>
                 </div>`;
                 boardContainer.appendChild(tooltipElt);

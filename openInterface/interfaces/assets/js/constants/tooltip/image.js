@@ -3,7 +3,7 @@ const TOOLTIP_IMG_PATH = '/public/content/products/';
 const IMG_MODULE_ENVIRO_BIT = TOOLTIP_IMG_PATH + 'shield_microbit_enviro_bit.jpg';
 const IMG_MODULE_TRAFFIC_LIGHT = TOOLTIP_IMG_PATH + 'feu-de-signalisation-stopbit-back.jpg';
 const IMG_MODULE_LAMPBIT = TOOLTIP_IMG_PATH + 'nm_lampbit_front.jpg';
-const IMG_ROBOT_MAQUEEN = TOOLTIP_IMG_PATH + 'maqueen-dfrobot-extra2.jpg';
+const IMG_ROBOT_MAQUEEN = TOOLTIP_IMG_PATH + 'robot-maqueen-v5.webp';
 const IMG_ROBOT_KITROBOT = TOOLTIP_IMG_PATH + 'kitrobot.png';
 const IMG_ROBOT_CUTEBOT = TOOLTIP_IMG_PATH + 'cutebot-back.jpg';
 const IMG_ROBOT_CUTEBOT_PRO = TOOLTIP_IMG_PATH + 'smart-cutebot-pro-front.jpg';
@@ -24,6 +24,9 @@ const IMG_SHIELD_KITRONIK_ENV = TOOLTIP_IMG_PATH + 'kitronik-environmental.png';
 const IMG_SHIELD_KITRONIK_KLIMATE = TOOLTIP_IMG_PATH + 'kitronik-klimate.png';
 const IMG_MODULE_ACCESSBIT = TOOLTIP_IMG_PATH + 'nm_accessbit-front.jpg';
 const IMG_MODULE_KITRONIK_ZIP_HALO_HD = TOOLTIP_IMG_PATH + 'kitronik-zip-halo-hd.jpg';
+const IMG_MODULE_KITRONIK_SHIELD_16_SERVOS = TOOLTIP_IMG_PATH + 'shield-kitronik-board-16-servos.jpg';
+const IMG_MODULE_UHANDBIT = TOOLTIP_IMG_PATH + 'nm_uHandbit-back.jpg';
+const IMG_MICROBIT_WUKONG = TOOLTIP_IMG_PATH + 'wukong-microbit-extension.png';
 //compatible-stm32
 const IMG_MODULE_ALPHABOT = TOOLTIP_IMG_PATH + 'robot-alphabot-v2-front.jpg';
 const IMG_X_NUCLEO_IKS01A3 = TOOLTIP_IMG_PATH + 'X-NUCLEO-IKS01A3.jpg';
@@ -38,6 +41,10 @@ const IMG_MODULE_ROVER = TOOLTIP_IMG_PATH + 'robot-TI-innovator-rover.jpg';
 const IMG_ROBOT_ILO = TOOLTIP_IMG_PATH + 'robot-ilo.svg';
 //compatible-pico
 const IMG_ROBOT_KITRONIK_PICO = TOOLTIP_IMG_PATH + 'kitronik-pico.png';
+//compatible-RPi
+const IMG_MODULE_PI_CAMERA = TOOLTIP_IMG_PATH + 'camera-raspberry-pi.jpg';
+const IMG_MODULE_SENSE_HAT = TOOLTIP_IMG_PATH + 'sense-hat-raspberry-pi.jpg';
+const IMG_ROBOT_YAHBOOM_G1TANK = TOOLTIP_IMG_PATH + 'robot-yahboom-g1tank.webp';
 //display-screen
 const IMG_MODULE_LCD_3V3 = TOOLTIP_IMG_PATH + 'ecran-lcd-grove-32-caracteres-front.jpg';
 const IMG_MODULE_LCD_RGB = TOOLTIP_IMG_PATH + 'ecran-lcd-rgb-grove-32-caracteres-front.jpg';
@@ -73,19 +80,21 @@ const IMG_MODULE_SD_SPIMODULE = TOOLTIP_IMG_PATH + 'module-micro-sd-block-front.
 //communication-bt-app
 const IMG_MODULE_FIZZIQ = TOOLTIP_IMG_PATH + 'fizziq-logo.png';
 //communication-wireless
-const IMG_MODULE_SERIAL_BT = TOOLTIP_IMG_PATH + 'module-bluetooth-serie-grove-front.jpg';
-const IMG_MODULE_HC05 = TOOLTIP_IMG_PATH + 'module-bluetooth-HC05-front.jpg';
+const IMG_MODULE_GROVE_BT = TOOLTIP_IMG_PATH + 'module-bluetooth-serie-grove-front.jpg';
+const IMG_MODULE_HC05_BT = TOOLTIP_IMG_PATH + 'module-bluetooth-HC05-front.jpg';
 const IMG_MODULE_HM10_BT = TOOLTIP_IMG_PATH + 'module-bluetooth-HM10-front.jpg';
 const IMG_MODULE_NRF24L01 = TOOLTIP_IMG_PATH + 'module-radio-extra4.jpg';
 const IMG_MODULE_RF433_TRANSMITTER = TOOLTIP_IMG_PATH + 'module-radio-433-mhz-grove-transmitter-front.jpg';
 const IMG_MODULE_RF433_RECEIVER = TOOLTIP_IMG_PATH + 'module-radio-433-mhz-grove-receiver-front.jpg';
 const IMG_MODULE_IR_RECEIVER = TOOLTIP_IMG_PATH + 'recepteur-infrarouge-grove-front.jpg';
+const IMG_MODULE_IR_EMITTER = TOOLTIP_IMG_PATH + 'emetteur-infrarouge-grove-front.jpg';
 const IMG_MODULE_WIFI = TOOLTIP_IMG_PATH + 'Wifi-front.jpg';
 //communication-remotes
 const IMG_MODULE_BASIC_BLACK_REMOTE_IR_RECEIVER = TOOLTIP_IMG_PATH + 'telecommande-NEC-infrarouge-front.jpg';
 const IMG_MODULE_CAR_MP3_GRAY_REMOTE_IR_RECEIVER = TOOLTIP_IMG_PATH + 'telecommande-NEC-car-mp3-gray-infrarouge-front.jpg';
 //communication-tracking
-const IMG_MODULE_RFID = TOOLTIP_IMG_PATH + 'lecteur-rfid-125-khz-grove-extra1.jpg';
+const IMG_MODULE_RFID_125KHZ = TOOLTIP_IMG_PATH + 'lecteur-rfid-125-khz-grove-extra1.jpg';
+const IMG_MODULE_RFID_RC522 = TOOLTIP_IMG_PATH + 'rc522-rfid-reader-joy-it.png';
 const IMG_MODULE_GPS = TOOLTIP_IMG_PATH + 'module-gps-grove-extra4.jpg';
 const IMG_MODULE_RTC = TOOLTIP_IMG_PATH + 'horloge-temps-reel-rtc-grove-front.jpg';
 //sensors-gas
@@ -101,7 +110,7 @@ const IMG_MODULE_HM330X = TOOLTIP_IMG_PATH + 'capteur-de-particules-fines-laser-
 const IMG_MODULE_MHZ19 = TOOLTIP_IMG_PATH + 'capteur-de-dioxyde-de-carbone-Grove-MH-Z16-front.jpg';
 //sensors-climate
 const IMG_MODULE_BMP280 = TOOLTIP_IMG_PATH + 'capteur-de-temperature-pression-et-altitude-grove-BMP280-block-front.jpg';
-const IMG_MODULE_BME280 = TOOLTIP_IMG_PATH + 'bme280.jpg';
+const IMG_MODULE_BME280 = TOOLTIP_IMG_PATH + 'capteur-de-temperature-bme280.jpg';
 const IMG_MODULE_DPS310 = TOOLTIP_IMG_PATH + 'capteur-de-temperature-et-pression-grove-DPS310-front.jpg';
 const IMG_MODULE_MOISTURE = TOOLTIP_IMG_PATH + 'capteur-d-humidite-du-sol-grove-front.jpg';
 const IMG_MODULE_CAPACITIVE_MOISTURE = TOOLTIP_IMG_PATH + 'capteur-d-humidite-du-sol-capacitif-grove-front.jpg';
@@ -124,10 +133,11 @@ const IMG_MODULE_ANEMOMETER = TOOLTIP_IMG_PATH + 'capteur-anenometre-front.jpg';
 const IMG_MODULE_WEATHER_BIT = TOOLTIP_IMG_PATH + 'sparkfun_weatherbit.jpg';
 const IMG_MODULE_WEATHER_BIT_KIT_MICROBIT = TOOLTIP_IMG_PATH + 'sparkfun_microclimate_kit_for_microbit.jpg';
 const IMG_MODULE_WEATHER_BIT_MOSITURE = TOOLTIP_IMG_PATH + 'capteur-d-humidite-du-sol-dfrobot-front.jpg';
-const IMG_MODULE_BAROMETER = TOOLTIP_IMG_PATH + 'capteur-de-temperature-et-humidite-sht31-front.jpg';
+const IMG_MODULE_HP206C = TOOLTIP_IMG_PATH + 'capteur-de-pression-haute-precision-hp206f.jpg';
 //sensors-sound&light
 const IMG_MODULE_LIGHT = TOOLTIP_IMG_PATH + 'capteur-de-luminosite-grove-front.jpg';
-const IMG_MODULE_SI1145 = TOOLTIP_IMG_PATH + 'capteur-lumiere-visible-infrarouge-et-ultraviolet-grove-block-front.jpg';
+const IMG_MODULE_SI1145 = TOOLTIP_IMG_PATH + 'capteur-lumiere-solaire-v1-si1145.jpg';
+const IMG_MODULE_SI1151 = TOOLTIP_IMG_PATH + 'capteur-lumiere-solaire-v2-si1151.webp';
 const IMG_MODULE_UV = TOOLTIP_IMG_PATH + 'capteur-ultraviolet-grove-front.jpg';
 const IMG_MODULE_I2C_COLOR = TOOLTIP_IMG_PATH + 'capteur-de-couleurs-grove-front.jpg';
 const IMG_MODULE_I2C_COLOR_V3 = TOOLTIP_IMG_PATH + 'capteur-de-couleurs-grove-v3-front.webp';
@@ -142,12 +152,15 @@ const IMG_MODULE_TILT = TOOLTIP_IMG_PATH + 'capteur-d-inclination-grove-front.jp
 const IMG_MODULE_MOTION = TOOLTIP_IMG_PATH + 'detecteur-infrarouge-de-mouvement-PIR-grove-front.jpg';
 const IMG_MODULE_MOTION_MINI = TOOLTIP_IMG_PATH + 'mini-detecteur-infrarouge-de-mouvement-PIR-grove-front.png';
 const IMG_MODULE_VIBRATIONS = TOOLTIP_IMG_PATH + 'capteur-de-vibrations-piezo-grove-extra2.jpg';
-//sensors-others
-const IMG_MODULE_INA219 = TOOLTIP_IMG_PATH + 'capteur-courant-tension-puissance-ina219-front.jpg';
-const IMG_MODULE_FORCE = TOOLTIP_IMG_PATH + 'capteur_de_force_grove_back.jpg';
+//sensors-health
 const IMG_MODULE_PULSE = TOOLTIP_IMG_PATH + 'capteur-de-pouls-extra3.jpg';
 const IMG_MODULE_EAR_CLIP = TOOLTIP_IMG_PATH + 'nm_pulsation-front.jpg';
 const IMG_MODULE_EMG_DETECTOR = TOOLTIP_IMG_PATH + 'nm_pulsation-front.jpg';
+const IMG_MODULE_MLX90614 = TOOLTIP_IMG_PATH + 'capteur-infrarouge-mlx90614.webp';
+const IMG_MODULE_DFROBOT_MAX30102 = TOOLTIP_IMG_PATH + 'DFRobot_MAX30102_Sensor.png';
+//sensors-others
+const IMG_MODULE_INA219 = TOOLTIP_IMG_PATH + 'capteur-courant-tension-puissance-ina219-front.jpg';
+const IMG_MODULE_FORCE = TOOLTIP_IMG_PATH + 'capteur_de_force_grove_back.jpg';
 const IMG_MODULE_VOLTAGE_DIVDER = TOOLTIP_IMG_PATH + 'grove_voltage_divider.jpg';
 //actuators
 const IMG_MODULE_SERVO = TOOLTIP_IMG_PATH + 'servomoteur-grove-front.jpg';
@@ -166,10 +179,7 @@ const IMG_MODULE_ELECTROMAGNET = TOOLTIP_IMG_PATH + 'module-electroaimant-grove-
 const IMG_MODULE_NFC = TOOLTIP_IMG_PATH + 'tag-ST-M24SR64-front.jpg';
 const IMG_MODULE_LORA = TOOLTIP_IMG_PATH + 'LoRa-E5-back.jpg';
 const IMG_MODULE_STEPPER_ULN2003 = TOOLTIP_IMG_PATH + 'stepper-motor-28BYJ-48-08-ULN2003A-driver.webp';
-// senseHat
-const IMG_MODULE_SENSE_HAT = TOOLTIP_IMG_PATH + 'sense-hat-raspberry-pi.jpg';
-//raspberry pi camera
-const IMG_MODULE_PI_CAMERA = TOOLTIP_IMG_PATH + 'camera-raspberry-pi.jpg';
+const IMG_MODULE_MULTI_CHANNEL_RELAY = TOOLTIP_IMG_PATH + 'module-grove-4-multi-channel-relay-SPDT.jpg';
 //robots-mBot
 const IMG_MODULE_MBOT = TOOLTIP_IMG_PATH + 'robot_mbot_arduino_front.jpg';
 const IMG_MODULE_MAKEBLOCK_REMOTE_CONTROL = TOOLTIP_IMG_PATH + 'module-makeBlock-telecommande-front.jpg';
@@ -210,3 +220,13 @@ const IMG_HUSKYLENS = TOOLTIP_IMG_PATH + 'huskylens.png';
 const IMG_ESP32_CAM = TOOLTIP_IMG_PATH + 'esp32-cam.jpg';
 //arduino-r4-wifi
 const IMG_ARDUINO_UNO_R4_WIFI = TOOLTIP_IMG_PATH + 'arduino-uno-r4-wifi.png';
+//yahboom
+const IMG_ROBOT_BUILDINGBIT = TOOLTIP_IMG_PATH + 'building_bit_superbit_kit.jpg';
+const IMG_YAHBOOM_ULTRASONIC = TOOLTIP_IMG_PATH + 'yahboom-capteur-a-ultrasons.png';
+const IMG_YAHBOOM_POTENTIOMETER = TOOLTIP_IMG_PATH + 'yahboom-potentiometer.png';
+const IMG_YAHBOOM_LIGHT_SENSOR = TOOLTIP_IMG_PATH + 'yahboom-light-sensor.png';
+const IMG_YAHBOOM_IR_DETECTOR = TOOLTIP_IMG_PATH + 'yahboom-ir-detector.png';
+const IMG_YAHBOOM_PIR_MOTION_SENSOR = TOOLTIP_IMG_PATH + 'yahboom-pir-motion-sensor.png';
+const IMG_YAHBOOM_DHT11 = TOOLTIP_IMG_PATH + 'yahboom-dht11-sensor.png';
+const IMG_YAHBOOM_COLOR_SENSOR = TOOLTIP_IMG_PATH + 'yahboom-color-sensor.png';
+const IMG_YAHBOOM_JOYSTICK = TOOLTIP_IMG_PATH + 'yahboom-joystick-module.png';

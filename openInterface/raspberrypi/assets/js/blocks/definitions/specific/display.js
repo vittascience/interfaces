@@ -1,217 +1,271 @@
 /**
- * @fileoverview Display blocks for Esp32.
+ * @fileoverview Display blocks for Raspberry Pi.
  */
 
 Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 
-    // Raspberry pi
-    // GROVE I2C LCD1602 RGB MODULE _ SET TEXT JSON
+    /** Begin Sense HAT display blocks */
+
+    // Display
     {
-        "type": "display_lcdSetText",
-        "message0": "%{BKY_DISPLAY_LCD_SETTEXT_TITLE}",
+        "type": "sensehat_display_set_pixel",
+        "message0": "%{BKY_SENSE_HAT_DISPLAY_SET_PIXEL_TITLE}",
         "args0": [{
             "type": "input_value",
-            "name": "TEXT"
+            "name": "X",
+            "check": "Number"
         }, {
-            "type": "field_grid_dropdown",
-            "name": "LINE",
-            "options": [
-                ["0", "0"],
-                ["1", "1"]
-            ]
+            "type": "input_value",
+            "name": "Y",
+            "check": "Number"
         }, {
-            "type": "field_grid_dropdown",
-            "name": "POS",
-            "options": [
-                ["0", "0"],
-                ["1", "1"],
-                ["2", "2"],
-                ["3", "3"],
-                ["4", "4"],
-                ["5", "5"],
-                ["6", "6"],
-                ["7", "7"],
-                ["8", "8"],
-                ["9", "9"],
-                ["10", "10"],
-                ["11", "11"],
-                ["12", "12"],
-                ["13", "13"],
-                ["14", "14"],
-                ["15", "15"],
-            ]
+            "type": "input_value",
+            "name": "RED",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "GREEN",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "BLUE",
+            "check": "Number"
         }],
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_LCD_SETTEXT_TOOLTIP}",
+        "tooltip": "%{BKY_SENSE_HAT_DISPLAY_SET_PIXEL_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
-
-    // GROVE I2C LCD1602 RGB MODULE _ CLEAR SCREEN JSON
     {
-        "type": "display_lcdClear",
-        "message0": "%{BKY_DISPLAY_LCD_CLEAR_TITLE}",
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_LCD_CLEAR_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCK NEOPIXEL _ DEFINE NEOPIXEL
-    {
-        "type": "display_defineNeopixel",
-        "message0": "%{BKY_DISPLAY_NEOPIXEL_DEFINE_TITLE}",
-        "args0": [{
-            "type": "field_slider",
-            "name": "N",
-            "value": 1,
-            "min": 1,
-            "max": 1000
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "PIN",
-            "options": [
-                ['PWM', '12'],
-                ['D18', '18'],
-            ]
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_NEOPIXEL_DEFINE_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCK CONTROL NEOPIXEL LED
-    {
-        "type": "display_controlNeopixelLed",
-        "message0": "%{BKY_DISPLAY_NEOPIXEL_LEDCONTROL_TITLE}",
+        "type": "sensehat_display_set_pixel_palette",
+        "message0": "%{BKY_SENSE_HAT_DISPLAY_SET_PIXEL_PALETTE_TITLE}",
         "args0": [{
             "type": "input_value",
-            "name": "LED",
+            "name": "X",
             "check": "Number"
         }, {
             "type": "input_value",
-            "name": "R",
-            "check": "Number"
-        }, {
-            "type": "input_value",
-            "name": "G",
-            "check": "Number"
-        }, {
-            "type": "input_value",
-            "name": "B",
-            "check": "Number"
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "PIN",
-            "options": [
-                ['PWM', '12'],
-                ['D18', '18'],
-            ]
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_NEOPIXEL_LEDCONTROL_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // BLOCK CONTROL NEOPIXEL LED WITH COLOR
-    {
-        "type": "display_controlColorNeopixelLed",
-        "message0": "%{BKY_DISPLAY_NEOPIXEL_SETPALETTECOLOR_TITLE}",
-        "args0": [{
-            "type": "input_value",
-            "name": "LED",
+            "name": "Y",
             "check": "Number"
         }, {
             "type": "input_value",
             "name": "COLOR",
             "check": "Colour"
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "PIN",
-            "options": [
-                ['PWM', '12'],
-                ['D18', '18'],
-            ]
         }],
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_NEOPIXEL_SETPALETTECOLOR_TOOLTIP}",
+        "tooltip": "%{BKY_SENSE_HAT_DISPLAY_SET_PIXEL_PALETTE_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
-
-    // BLOCK CONTROL ALL NEOPIXEL LED WITH COLOR
     {
-        "type": "display_neopixel_controlAllLedRGB",
-        "message0": "%{BKY_DISPLAY_NEOPIXEL_SETALLLEDRGB_TITLE}",
+        "type": "sensehat_display_set_pixels_image",
+        "message0": "%{BKY_SENSE_HAT_DISPLAY_SET_PIXELS_IMAGE_TITLE}",
         "args0": [{
-            "type": "input_value",
-            "name": "R",
-            "check": "Number"
-        }, {
-            "type": "input_value",
-            "name": "G",
-            "check": "Number"
-        }, {
-            "type": "input_value",
-            "name": "B",
-            "check": "Number"
-        }, {
             "type": "field_grid_dropdown",
-            "name": "PIN",
-            "options": Blockly.Constants.Pins.PWM
+            "name": "IMAGE",
+            "options": [
+                [{
+                    'src': '/openInterface/raspberrypi/assets/media/blocks_icons/image_question_mark.png',
+                    'width': 42,
+                    'height': 42,
+                    'alt': 'Red'
+                }, "question_mark"],
+                [{
+                    'src': '/openInterface/raspberrypi/assets/media/blocks_icons/image_heart.png',
+                    'width': 42,
+                    'height': 42,
+                    'alt': 'Red'
+                }, "heart"],
+                [{
+                    'src': '/openInterface/raspberrypi/assets/media/blocks_icons/image_smile.png',
+                    'width': 42,
+                    'height': 42,
+                    'alt': 'Red'
+                }, 'smile'],
+                [{
+                    'src': '/openInterface/raspberrypi/assets/media/blocks_icons/image_house.png',
+                    'width': 42,
+                    'height': 42,
+                    'alt': 'Red'
+                }, 'house'],
+                [{
+                    'src': '/openInterface/raspberrypi/assets/media/blocks_icons/image_sad.png',
+                    'width': 42,
+                    'height': 42,
+                    'alt': 'Red'
+                }, 'sad'],
+            ]
+        }, {
+            "type": "input_value",
+            "name": "FOREGROUND_COLOR",
+            "check": "Colour"
+        }, {
+            "type": "input_value",
+            "name": "BACKGROUND_COLOR",
+            "check": "Colour"
         }],
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_NEOPIXEL_SETALLLEDRGB_TOOLTIP}",
+        "tooltip": "%{BKY_SENSE_HAT_DISPLAY_SET_PIXELS_IMAGE_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
-
-    // BLOCK CONTROL NEOPIXEL LED WITH COLOR
     {
-        "type": "display_neopixel_controlAllLedPalette",
-        "message0": "%{BKY_DISPLAY_NEOPIXEL_SETALLLEDCOLOR_TITLE}",
+        "type": "sensehat_show_leds_image",
+        "message0": "%{BKY_SENSE_HAT_DISAPLY_SHOW_LEDS_TITLE}",
         "args0": [{
             "type": "input_value",
             "name": "COLOR",
             "check": "Colour"
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "PIN",
-            "options": Blockly.Constants.Pins.PWM
         }],
-        "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
-        "tooltip": "%{BKY_DISPLAY_NEOPIXEL_SETALLLEDCOLOR_TOOLTIP}",
+        "tooltip": "%{BKY_SENSE_HAT_DISAPLY_SHOW_LEDS_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color",
+            "sensehat_show_leds_image_init"
         ]
-    }
+    },
+    {
+        "type": "sensehat_display_get_pixel",
+        "message0": "%{BKY_SENSE_HAT_DISPLAY_GET_PIXEL_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "X",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "Y",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "output": "Array",
+        "tooltip": "%{BKY_SENSE_HAT_DISPLAY_GET_PIXEL_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+    {
+        "type": "sensehat_display_get_pixels",
+        "message0": "%{BKY_SENSE_HAT_DISPLAY_GET_PIXELS_TITLE}",
+        "output": "Array",
+        "tooltip": "%{BKY_SENSE_HAT_DISPLAY_GET_PIXELS_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+    {
+        "type": "sensehat_display_clear",
+        "message0": "%{BKY_SENSE_HAT_DISPLAY_CLEAR_TITLE}",
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_SENSE_HAT_DISPLAY_CLEAR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+    {
+        "type": "sensehat_display_clear_with_color",
+        "message0": "%{BKY_SENSE_HAT_DISPLAY_CLEAR_WITH_COLOR_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "COLOR",
+            "check": "Colour"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_SENSE_HAT_DISPLAY_CLEAR_WITH_COLOR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+    {
+        'type': 'sensehat_display_show_message',
+        'message0': '%{BKY_SENSE_HAT_DISPLAY_SHOW_MESSAGE_TITLE}',
+        'args0': [{
+            'type': 'input_value',
+            'name': 'MESSAGE',
+            'check': 'String'
+        }, {
+            'type': 'input_value',
+            'name': 'SPEED',
+            'check': 'Number'
+        }, {
+            'type': 'input_value',
+            'name': 'COLOR',
+            'check': 'Colour'
+        }, {
+            'type': 'input_value',
+            'name': 'BACKGROUND_COLOR',
+            'check': 'Colour'
+        }],
+        'previousStatement': null,
+        'nextStatement': null,
+        'style': 'display_blocks',
+        'tooltip': '%{BKY_SENSE_HAT_DISPLAY_SHOW_MESSAGE_TOOLTIP}',
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+    {
+        "type": "sensehat_display_show_letter",
+        "message0": "%{BKY_SENSE_HAT_DISPLAY_SHOW_LETTER_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "LETTER",
+        }, {
+            "type": "input_value",
+            "name": "COLOR",
+            "check": "Colour"
+        }, {
+            "type": "input_value",
+            "name": "BACKGROUND_COLOR",
+            "check": "Colour"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_SENSE_HAT_DISPLAY_SHOW_LETTER_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
 
 ]); // END JSON EXTRACT (Do not delete this comment.)
+
+Blockly.Constants.Display ??= Object.create(null);
+
+/**
+ * Performs setup of 'sensehat_show_leds_image' block for screen checkboxes display.
+ * @this {Blockly.Block}
+ */
+Blockly.Constants.Display.DISPLAY_SENSEHAT_SHOW_LEDS_INIT_EXTENSION = function () {
+    for (var row = 0; row < 8; row++) {
+        let rowBoxes = this.appendDummyInput("ROW" + row);
+        for (var column = 0; column < 8; column++) {
+            const box = new Blockly.FieldCheckboxColor(0, { 'height': 28, 'width': 24 });
+            rowBoxes.appendField(box, "LED" + row + "" + column);
+        }
+    }
+};
+
+// Initialization extensions
+Blockly.Extensions.register("sensehat_show_leds_image_init",
+    Blockly.Constants.Display.DISPLAY_SENSEHAT_SHOW_LEDS_INIT_EXTENSION);

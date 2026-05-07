@@ -1,5 +1,5 @@
 /**
- * @fileoverview Input/Output blocks for Buddy.
+ * @fileoverview Time blocks for Buddy.
  */
 
 Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
@@ -73,7 +73,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "options": [
                 ["(s)", "SEC"],
                 ["(ms)", "MILLI"],
-                ["(µ)", "MICRO"]
+                ["(µs)", "MICRO"]
             ]
         }],
         "output": "Number",

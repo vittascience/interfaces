@@ -425,46 +425,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
-    // TI Grove - Read pressure
-    {
-        "type": "sensors_mpx5700ap_getPressure",
-        "message0": "%{BKY_SENSORS_MPX5700AP_GETPRESSURE_TITLE}",
-        "args0": [{
-            "type": "field_grid_dropdown",
-            "name": "PIN",
-            "options": Blockly.Constants.Pins.analog_read[Blockly.Constants.getSelectedBoard()]
-        }],
-        "output": "Number",
-        "style": "sensors_blocks",
-        "tooltip": "%{BKY_SENSORS_MPX5700AP_GETPRESSURE_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
-    // TI Grove - Calibrate pressure sensor
-    {
-        "type": "sensors_mpx5700ap_calibrate",
-        "message0": "%{BKY_SENSORS_MPX5700AP_CALIBRATE_TITLE}",
-        "args0": [{
-            "type": "input_value",
-            "name": "M",
-            "check": "Number"
-        }, {
-            "type": "input_value",
-            "name": "B",
-            "check": "Number"
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "sensors_blocks",
-        "tooltip": "%{BKY_SENSORS_MPX5700AP_CALIBRATE_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
-
     // BLOCK GROVE WATER SENSOR
     {
         "type": "sensors_getGroveWaterAmount",
@@ -538,14 +498,14 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     // BLOCK GROVE SI1145 SENSOR _ READ LIGHT (I2C)
     {
         "type": "sensors_getSi1145Light",
-        "message0": "%{BKY_SENSORS_SI1145_GETLIGHT_TITLE}",
+        "message0": "%{BKY_SENSORS_SUNLIGHT_GETDATA_TITLE}",
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "LIGHT",
             "options": [
-                ["%{BKY_SENSORS_SI1145_UV}", "UV"],
-                ["%{BKY_SENSORS_SI1145_VISIBLE}", "VIS"],
-                ["%{BKY_SENSORS_SI1145_IR}", "IR"],
+                ["%{BKY_SENSORS_SUNLIGHT_UV}", "UV"],
+                ["%{BKY_SENSORS_SUNLIGHT_VISIBLE}", "VIS"],
+                ["%{BKY_SENSORS_SUNLIGHT_IR}", "IR"],
             ]
         }, {
             "type": "field_grid_dropdown",
@@ -554,7 +514,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }],
         "output": "Number",
         "style": "sensors_blocks",
-        "tooltip": "%{BKY_SENSORS_SI1145_GETLIGHT_TOOLTIP}",
+        "tooltip": "%{BKY_SENSORS_SUNLIGHT_GETDATA_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]
@@ -760,31 +720,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "extensions": [
             "block_init_helpurl"
         ]
-    },
-
-    // BLOCK GROVE SIMPLE BUTTON _ READ DIGITAL 
-    {
-        "type": "sensors_getGroveButton",
-        "message0": "%{BKY_SENSORS_GETGROVEBUTTON_TITLE}",
-        "args0": [{
-            "type": "field_grid_dropdown",
-            "name": "TYPE",
-            "options": [
-                ["%{BKY_SENSORS_GETGROVEBUTTON_VOLTAGE}", "VOLT"],
-                ["%{BKY_SENSORS_GETGROVEBUTTON_STATE}", "STATE"],
-            ]
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "PIN",
-            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
-        }],
-        "output": "Number",
-        "style": "sensors_blocks",
-        "tooltip": "%{BKY_SENSORS_GETGROVEBUTTON_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ]
-    },
+    }
 
 ]); // END JSON EXTRACT (Do not delete this comment.)
 
@@ -871,3 +807,22 @@ Blockly.Constants.Sensors.SENSORS_ULTRASONIC_MUTATOR_MIXIN = {
 Blockly.Extensions.registerMutator('sensors_ultrasonic_mutator',
     Blockly.Constants.Sensors.SENSORS_ULTRASONIC_MUTATOR_MIXIN,
     Blockly.Constants.Sensors.SENSORS_ULTRASONIC_INIT_EXTENSION);
+
+/**
+* Performs final setup of I2C Sunlight Sensor block by define tooltip.
+* @this {Blockly.Block}
+*/
+Blockly.Constants.Sensors.SUNLIGHT_SENSOR_INIT_EXTENSION = function () {
+    const tooltip = this.getTooltip().split(Blockly.Tooltip.SEP)[1];
+    this.setTooltip(() => {
+        switch (this.getFieldValue('VERSION')) {
+            case 'SI1145':
+                return IMG_MODULE_SI1145 + Blockly.Tooltip.SEP + tooltip;
+            case 'SI1151':
+                return IMG_MODULE_SI1151 + Blockly.Tooltip.SEP + tooltip;
+        }
+    });
+};
+
+Blockly.Extensions.register('sunlightSensor_tooltips',
+    Blockly.Constants.Sensors.SUNLIGHT_SENSOR_INIT_EXTENSION);

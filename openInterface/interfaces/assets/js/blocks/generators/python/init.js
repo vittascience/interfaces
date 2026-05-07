@@ -179,7 +179,7 @@ Blockly.Python.finish = function (userLoop) {
   // Add user setups after head of python code (from block 'on_start').
   const userOnStart = Blockly.Python.convertObjectInLists(Blockly.Python.userOnStart_);
   const userEvents = Blockly.Python.convertObjectInLists(Blockly.Python.userEvents_);
-  const setup = userOnStart.join("\n") + userEvents.join("\n\n");
+  let setup = userOnStart.join("\n") + userEvents.join("\n\n");
 
   if (Blockly.Python.forEver_ !== '') {
     let splitForEver = Blockly.Python.forEver_.split('\n'),
@@ -216,8 +216,12 @@ Blockly.Python.finish = function (userLoop) {
     delete Blockly.Python.htmlImages_;
   }
   Blockly.Python.nameDB_.reset();
-
-  return (head + setup).replace(/\n\n+/g, '\n\n').replace(/\n*$/, '\n\n') + userLoop;
+  const replace_n = (code) => code.replace(/\n\n+/g, '\n\n').replace(/\n*$/, '\n\n');
+  if (INTERFACE_NAME == "raspberrypi") {
+    return replace_n(head + setup + '\ntime.sleep(1)\n') + userLoop;
+  } else {
+    return replace_n(head + setup) + userLoop;
+  }
 };
 
 /**
@@ -515,7 +519,7 @@ Blockly.Python.getUsedGlobalVarInBlock = function (block, blockCode) {
       }
     }
     if (usedVariables.length > 0) {
-      globalVar = Blockly.Python.INDENT + "global " + usedVariables.toString().replaceAll(",", ", ") + NEWLINE;
+      globalVar = Blockly.Python.INDENT + "global " + usedVariables.toString().replaceAll(",", ", ") + '\n';
     }
   }
   return globalVar;

@@ -112,6 +112,7 @@ class ToolboxManager {
             },
         ];
         this.notAllowedToRenderBlocks = [];
+        this.notAllowedBoardsReason = [];
         return this;
     };
     static DISABLE_BLOCK_HELPURL_EXTENSION = false;
@@ -290,7 +291,7 @@ class ToolboxManager {
                     if (ToolboxManager.hasToBeAdded(categories[i])) {
                         this._pushCategoryContent(categories[i], catContent, subCatContent);
                     } else {
-                        this._disableBlocksAccordingToBoard(catContent)
+                        this._disableBlocksAccordingToBoard(catContent, categories[i].onlyBoards);
                     }
                 }
             }
@@ -473,16 +474,22 @@ class ToolboxManager {
             let categoryAdded = false;
             const pushElements = (cnt, id) => {
                 let subCategoryAdded = false;
+                let subCat;
+                if (id && subCatContent) {
+                    categoryId = id;
+                    subCat = subCatContent.filter(item => item.toolboxitemid == id)[0];
+                    if (!ToolboxManager.hasToBeAdded(subCat)) {
+                        this._disableBlocksAccordingToBoard(cnt, subCat.onlyBoards);
+                        return;
+                    }
+                }
                 for (var j = 0; j < cnt.length; j++) {
                     if (cnt[j]) {
                         if (!ToolboxManager.hasToBeAdded(cnt[j])) {
-                            this._disableBlocksAccordingToBoard(cnt[j])
+                            this._disableBlocksAccordingToBoard(cnt[j], cnt[j].onlyBoards);
                             continue;
                         }
                         if (cnt[j].blocks && cnt[j].blocks.length > 0) {
-                            if (id && subCatContent) {
-                                categoryId = id;
-                            }
                             let labelAdded = false;
                             for (var blockIndex = 0; blockIndex < cnt[j].blocks.length; blockIndex++) {
                                 const hasLabel = cnt[j].label !== null && cnt[j].label !== undefined;
@@ -495,8 +502,7 @@ class ToolboxManager {
                                         this._pushCategory(category);
                                         categoryAdded = true;
                                     }
-                                    if (!subCategoryAdded && id && subCatContent) {
-                                        const subCat = subCatContent.filter(item => item.toolboxitemid == id)[0];
+                                    if (!subCategoryAdded && subCat) {
                                         this._pushSubCategory(category.toolboxitemid, subCat);
                                         subCategoryAdded = true;
                                     }
@@ -544,6 +550,13 @@ class ToolboxManager {
      * @param {String} blockType
      */
     _addBlock(categoryId, blockType) {
+        if (INTERFACE_NAME !== 'web') {
+            const boardId = Blockly.Constants.getSelectedBoard();
+            if (typeof EXCLUDED_BLOCKS_BY_BOARD !== 'undefined' && EXCLUDED_BLOCKS_BY_BOARD[boardId] && EXCLUDED_BLOCKS_BY_BOARD[boardId].includes(blockType)) {
+                this._disableBlocksAccordingToBoard(blockType);
+                return;
+            }
+        }
         let xml = ToolboxManager.getXmlByBlockType(blockType);
         if (xml) {
             if (Blockly.MESSAGES !== undefined) {
@@ -576,6 +589,24 @@ class ToolboxManager {
             "text": label,
             "web-class": "myLabelStyle"
         });
+        /*
+        if (categoryId == "ia" && label == Blockly.Msg['SUBCATEGORY_VITTAIA_SENSOR_DATA']) {
+            const url = CDN_PATH + "/ia/sensors";
+            const callbackKey = 'OPEN_LINK_' + encodeURIComponent(url).replace(/[^a-z0-9_]/gi, '_');
+            if (!this._toolboxLinkCallbacks) this._toolboxLinkCallbacks = new Set();
+            if (!this._toolboxLinkCallbacks.has(callbackKey)) {
+                this._workspace.registerButtonCallback(callbackKey, () => {
+                    window.open(url, '_blank', 'noopener,noreferrer');
+                });
+                this._toolboxLinkCallbacks.add(callbackKey);
+            }
+            this._getCategoryContent(categoryId).push({
+                "kind": "button",
+                "text": "Entraîner un modèle",
+                "callbackKey": callbackKey,
+                "web-class": "vitta-button"
+            });
+        }*/
     };
     /**
      * Update specific variables in toolbox.
@@ -597,6 +628,7 @@ class ToolboxManager {
         const themeLabel = localStorage.getItem('theme') || "light";
         const font = localStorage.getItem('font') || "basic";
         this._theme = Blockly.Themes[THEMES[themeLabel][font]] || Blockly.Themes.ClassicBase;
+        this._theme.setStartHats(true);
         this._workspace.setTheme(this._theme);
     };
     /**
@@ -610,7 +642,7 @@ class ToolboxManager {
         const setStyle = (categories, subcat = false) => {
             for (var cat in categories) {
                 if (categories[cat].kind == "category") {
-                    const catStyle = categories[cat].style;
+                    let catStyle = categories[cat].style;
                     if (catStyle) {
                         let colour = "#000";
                         if (this._theme.categoryStyles[catStyle]) {
@@ -624,6 +656,9 @@ class ToolboxManager {
                             }
                             blocklyRow.style.color = colour;
                             blocklyInput.style.color = colour;
+                        }
+                        if (subcat) {
+                            catStyle = categories[cat].toolboxitemid + '_subcategory';
                         }
                         ToolboxManager._injectSVGIcons(catStyle, colour);
                     }
@@ -699,6 +734,9 @@ class ToolboxManager {
         switch (catStyle) {
             case "procedure_category":
                 inject("#procedures");
+                break;
+            case "backpack_display_subcategory":
+                inject("#backpack_display");
                 break;
             default:
                 inject("#" + catStyle.split('_')[0]);
@@ -806,25 +844,31 @@ class ToolboxManager {
      * @private
      * @param {Object|Array} content 
      */
-    _disableBlocksAccordingToBoard(content) {
+    _disableBlocksAccordingToBoard(content, boards) {
         const wsBlocks = Main.getAllBlocks();
-        if (content && content.blocks) {
-            for (const type of content.blocks) {
-                const blockSvg = wsBlocks.find(block => block.type == type);
-                if (blockSvg) {
-                    blockSvg.setEnabled(false);
-                    this.notAllowedToRenderBlocks.push(blockSvg.type);
+        const disableBlock = (type) => {
+            const blockSvg = wsBlocks.find(block => block.type == type);
+            if (blockSvg) {
+                blockSvg.setEnabled(false);
+                this.notAllowedToRenderBlocks.push(blockSvg.type);
+                if (!this.notAllowedBoardsReason.includes(boards)) {
+                    this.notAllowedBoardsReason.push(boards);
                 }
+            }
+        };
+        if (content && typeof content === 'string') {
+            disableBlock(content);
+        } else if (content && content.blocks) {
+            for (const type of content.blocks) {
+                disableBlock(type);
             }
         } else if (content && content.length) {
             for (const subCat of content) {
-                if (typeof subCat == 'object' && subCat.blocks) {
-                    for (const type of subCat.blocks) {
-                        const blockSvg = wsBlocks.find(block => block.type == type);
-                        if (blockSvg) {
-                            blockSvg.setEnabled(false);
-                            this.notAllowedToRenderBlocks.push(blockSvg.type);
-                        }
+                if (typeof subCat == 'object') {
+                    if (subCat.contents) {
+                        this._disableBlocksAccordingToBoard(subCat.contents, boards);
+                    } else {
+                        this._disableBlocksAccordingToBoard(subCat, boards);
                     }
                 }
             }
@@ -1026,6 +1070,7 @@ class ToolboxManager {
      * @returns {boolean} hasToBeAdded
      */
     static hasToBeAdded(obj) {
+        if (INTERFACE_NAME === 'web') return true;
         if (obj.onlyBoards) {
             const currentBoard = Blockly.Constants.getSelectedBoard();
             if (Array.isArray(obj.onlyBoards) && obj.onlyBoards.includes(currentBoard)) {

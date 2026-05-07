@@ -3,6 +3,7 @@ const cardCommunicationButtons = {
         id: "upload-python-ble-opt",
         classes: 'ide-btn-check ide-btn-left',
         fontAwesome: 'fa-brands fa-bluetooth',
+        title: 'code.topbar.tooltips.sendByBluetoothToRobot',
         tooltipPlacement: "left",
         onclick: "uploadPythonBLE()",
         show: true,

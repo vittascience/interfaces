@@ -109,7 +109,7 @@ class Model extends Observable {
         })[0].rules
     }
     getRulesByService(id) {
-        return this.questionnaireDataUtilization.filter((el) => el.id == `${id}_consum`)[0].rules
+        return this.questionnaireDataUtilization.filter((el) => el.id == `${id}`)[0].rules
     }
     getFabByDevice(id) {
         if (typeof (id) === 'object') id = id.id
@@ -122,7 +122,7 @@ class Model extends Observable {
         })[0].practical_tips
     }
     getTipService(id) {
-        return this.questionnaireDataUtilization.filter((el) => el.id == `${id}_consum`)[0].practical_tips
+        return this.questionnaireDataUtilization.filter((el) => el.id == `${id}`)[0].practical_tips
 
     }
     getTheoreticalUseById(id) {
@@ -238,7 +238,7 @@ class Model extends Observable {
             const dailyTime = el.inputUser.day_time 
             const impact = this.getSecondHandImpact(el.id)
             let result = (this.getFabByDevice(el.id) / this.computedYears(el.inputUser) + (this.getYearConsumByDevice(el.id) * dailyTime / theoreticalTime))
-            if (el.inputUser.condition == "D'occasion") {
+            if (el.inputUser.condition != "new") {
                 result = result * ((100 - impact) / 100)
             }
             return result
@@ -258,7 +258,7 @@ class Model extends Observable {
         const theoreticalTime = this.getTheoreticalUseById(id)
         const dailyTime = elementById.inputUser.day_time
         let result = this.getFabByDevice(id) / this.computedYears(elementById.inputUser) + this.getYearConsumByDevice(id) * dailyTime / theoreticalTime
-        if (elementById.inputUser.condition == "D'occasion") {
+        if (elementById.inputUser.condition != "new") {
 
             const reduction = this.getSecondHandImpact(id)
             result = result * ((100 - reduction) / 100)
@@ -447,7 +447,7 @@ class Model extends Observable {
            ...el,
            inputUser: {
                ...el.inputUser,
-                condition: "D'occasion",
+                condition: "refurbished",
                 yearsUsage: this.getLifetimeByDevice(el.id),
                change: 0
 
@@ -466,14 +466,14 @@ class Model extends Observable {
             ...el,
             inputUser: {
                 ...el.inputUser,
-                condition: "D'occasion", // Affectation directe sans modifier l'original
+                condition: "refurbished", // Affectation directe sans modifier l'original
             }
         }));
             const simulationCondit = this.getDevicesSelected().map(el => ({
               ...el,
             inputUser: {
                 ...el.inputUser,
-                 condition: "D'occasion",
+                condition: "refurbished",
                 yearsUsage: this.getLifetimeByDevice(el.id),
                 change: 0
 
@@ -514,6 +514,17 @@ class Model extends Observable {
 
         const total = connectionWifiChecked ? this.computedSumAverageDevices() + reductionWifi + this.computedSumAverageServices(simulation) : this.computedSumAverageDevices() + this.computedSumAverageServices(simulation)
         return total
+    }
+    getImpactFromLocalStorage() {
+        const data = localStorage.getItem('co2-impact-numeric')
+        return data ? JSON.parse(data) : null;
+    }
+    saveImpactToLocalStorage() {
+        const data = {
+            date : new Date().toLocaleDateString(),
+            yearImpact: this.getSumAverage()
+        }
+        localStorage.setItem('co2-impact-numeric', JSON.stringify(data))
     }
 
 }

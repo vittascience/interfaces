@@ -276,6 +276,13 @@ table#variables_table {
 	max-width: 100% !important;
 }
 
+.ide-console a,
+.ide-console a:hover,
+.ide-console a:focus,
+.ide-console a:active {
+	text-decoration: underline;
+}
+
 #monitor-view-group-btn {
 	position: absolute;
 	bottom: 15px;
@@ -465,10 +472,8 @@ table#variables_table {
 #repl-control:not(.activated):hover,
 #repl-control.activated {
 	background-color: var(--vitta-orange-light);
-	color: var(--bg-0);
 }
 
 #repl-control:not(.activated) {
 	background-color: var(--bg-1);
-	color: var(--text-0);
 }

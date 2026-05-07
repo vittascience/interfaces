@@ -57,6 +57,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ["%{BKY_ROBOTS_MBOT2_MOVE_BY_CM}", "CM"],
         ["%{BKY_ROBOTS_MBOT2_MOVE_BY_INCHS}", "INCHS"]
       ]
+    }, {
+      "type": "input_value",
+      "name": "SPEED",
+      "check": "Number"
     }],
     "previousStatement": null,
     "nextStatement": null,
@@ -81,6 +85,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     }, {
       "type": "input_value",
       "name": "ANGLE",
+      "check": "Number"
+    }, {
+      "type": "input_value",
+      "name": "SPEED",
       "check": "Number"
     }],
     "previousStatement": null,
@@ -434,99 +442,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 
   /* Begin quad RGB sensor blocks */
 
-  // BLOCK QUAD RGB - DETECTION L1 R1 IS ?
-  {
-    "type": "sensors_mbuild_quad_RGB_detection_L1_R1_is",
-    "message0": "%{BKY_MBUILD_SENSORS_QUAD_RGB_L1_R1_DETECTION_IS_TITLE}",
-    "args0": [{
-      "type": "field_grid_dropdown",
-      "name": "SENSOR",
-      "options": [
-        ["1", "1"],
-        ["2", "2"],
-        ["3", "3"],
-        ["4", "4"],
-        ["5", "5"],
-        ["6", "6"],
-        ["7", "7"],
-        ["8", "8"]
-      ]
-    }, {
-      "type": "field_grid_dropdown",
-      "name": "MODE",
-      "options": [
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_LINE}", "line"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_GROUND}", "ground"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_WHITE}", "white"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_RED}", "red"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_YELLOW}", "yellow"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_GREEN}", "green"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_CYAN}", "cyan"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_BLUE}", "blue"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_PURPLE}", "purple"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_BLACK}", "black"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_CUSTOM}", "custom"]
-      ]
-    }, {
-      "type": "field_grid_dropdown",
-      "name": "RESULT",
-      "options": [
-        ["0 (00)", "0"],
-        ["1 (01)", "1"],
-        ["2 (10)", "2"],
-        ["3 (11)", "3"]
-      ]
-    }],
-    "output": "Boolean",
-    "tooltip": "%{BKY_MBUILD_SENSORS_QUAD_RGB_L1_R1_DETECTION_IS_TOOLTIP}",
-    "extensions": [
-      "block_init_helpurl",
-      "block_init_color"
-    ]
-  },
-
-  // BLOCK QUAD RGB - GET DETECTION L1 R1 VALUE
-  {
-    "type": "sensors_mbuild_quad_RGB_get_detection_L1_R1",
-    "message0": "%{BKY_MBUILD_SENSORS_QUAD_RGB_GET_L1_R1_DETECTION_TITLE}",
-    "args0": [{
-      "type": "field_grid_dropdown",
-      "name": "SENSOR",
-      "options": [
-        ["1", "1"],
-        ["2", "2"],
-        ["3", "3"],
-        ["4", "4"],
-        ["5", "5"],
-        ["6", "6"],
-        ["7", "7"],
-        ["8", "8"]
-      ]
-    }, {
-      "type": "field_grid_dropdown",
-      "name": "MODE",
-      "options": [
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_LINE}", "line"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_GROUND}", "ground"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_WHITE}", "white"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_RED}", "red"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_YELLOW}", "yellow"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_GREEN}", "green"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_CYAN}", "cyan"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_BLUE}", "blue"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_PURPLE}", "purple"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_BLACK}", "black"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_CUSTOM}", "custom"]
-      ]
-    }],
-    "output": "Number",
-    "tooltip": "%{BKY_MBUILD_SENSORS_QUAD_RGB_GET_L1_R1_DETECTION_TOOLTIP}",
-    "extensions": [
-      "block_init_helpurl",
-      "block_init_color"
-    ]
-  },
-
   // BLOCK QUAD RGB - DETECTION IS ?
   {
     "type": "sensors_mbuild_quad_RGB_detection_is",
@@ -543,22 +458,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ["6", "6"],
         ["7", "7"],
         ["8", "8"]
-      ]
-    }, {
-      "type": "field_grid_dropdown",
-      "name": "MODE",
-      "options": [
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_LINE}", "line"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_GROUND}", "ground"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_WHITE}", "white"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_RED}", "red"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_YELLOW}", "yellow"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_GREEN}", "green"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_CYAN}", "cyan"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_BLUE}", "blue"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_PURPLE}", "purple"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_BLACK}", "black"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_CUSTOM}", "custom"]
       ]
     }, {
       "type": "field_grid_dropdown",
@@ -606,22 +505,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ["6", "6"],
         ["7", "7"],
         ["8", "8"]
-      ]
-    }, {
-      "type": "field_grid_dropdown",
-      "name": "MODE",
-      "options": [
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_LINE}", "line"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_GROUND}", "ground"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_WHITE}", "white"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_RED}", "red"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_YELLOW}", "yellow"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_GREEN}", "green"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_CYAN}", "cyan"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_BLUE}", "blue"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_PURPLE}", "purple"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_BLACK}", "black"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_CUSTOM}", "custom"]
       ]
     }],
     "output": "Number",
@@ -709,7 +592,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ["%{BKY_MBUILD_SENSORS_QUAD_RGB_DATA_B}", "blue"],
         ["%{BKY_MBUILD_SENSORS_QUAD_RGB_DATA_GRAY_LEVEL}", "gray"],
         ["%{BKY_MBUILD_SENSORS_QUAD_RGB_DATA_LIGHT}", "light"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_DATA_COLOR}", "color_sta"]
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_DATA_COLOR}", "color_sta"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_DATA_COLOR_HEX}", "color"]
       ]
     }, {
       "type": "field_grid_dropdown",
@@ -830,84 +714,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     ]
   },
 
-  // BLOCK QUAD RGB _ SET RGB LED
-  {
-    "type": "sensors_mbuild_quad_RGB_set_color_RGB",
-    "message0": "%{BKY_MBUILD_SENSORS_QUAD_RGB_SET_COLOR_RGB_TITLE}",
-    "args0": [{
-      "type": "field_grid_dropdown",
-      "name": "SENSOR",
-      "options": [
-        ["1", "1"],
-        ["2", "2"],
-        ["3", "3"],
-        ["4", "4"],
-        ["5", "5"],
-        ["6", "6"],
-        ["7", "7"],
-        ["8", "8"]
-      ]
-    }, {
-      "type": "input_value",
-      "name": "R",
-      "check": "Number"
-    }, {
-      "type": "input_value",
-      "name": "G",
-      "check": "Number"
-    }, {
-      "type": "input_value",
-      "name": "B",
-      "check": "Number"
-    }],
-    "extensions": [
-      "block_init_color"
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "tooltip": "%{BKY_MBUILD_SENSORS_QUAD_RGB_SET_COLOR_RGB_TOOLTIP}",
-    "extensions": [
-      "block_init_helpurl",
-      "block_buttons_plus_minus",
-      "sensors_quad_RGB_set_color_init"
-    ],
-    "mutator": "sensors_quad_RGB_set_color_mutator",
-  },
-
-  // BLOCK QUAD RGB _ SET PALETTE RGB LED
-  {
-    "type": "sensors_mbuild_quad_RGB_set_color_palette",
-    "message0": "%{BKY_MBUILD_SENSORS_QUAD_RGB_SET_COLOR_PALETTE_TITLE}",
-    "args0": [{
-      "type": "field_grid_dropdown",
-      "name": "SENSOR",
-      "options": [
-        ["1", "1"],
-        ["2", "2"],
-        ["3", "3"],
-        ["4", "4"],
-        ["5", "5"],
-        ["6", "6"],
-        ["7", "7"],
-        ["8", "8"]
-      ]
-    }, {
-      "type": "input_value",
-      "name": "COLOR",
-      "check": "Colour"
-    }],
-    "previousStatement": null,
-    "nextStatement": null,
-    "tooltip": "%{BKY_MBUILD_SENSORS_QUAD_RGB_SET_COLOR_PALETTE_TOOLTIP}",
-    "extensions": [
-      "block_init_helpurl",
-      "block_init_color",
-      "block_buttons_plus_minus",
-      "sensors_quad_RGB_set_color_init"
-    ],
-    "mutator": "sensors_quad_RGB_set_color_mutator",
-  },
-
   // BLOCK QUAD RGB _ SET LED OFF
   {
     "type": "sensors_mbuild_quad_RGB_close_led",
@@ -935,10 +741,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     ]
   },
 
-  // BLOCK QUAD RGB _ CALIBRATE
+    // BLOCK QUAD RGB _ SET LED OFF
   {
-    "type": "sensors_mbuild_quad_RGB_calibrate",
-    "message0": "%{BKY_MBUILD_SENSORS_QUAD_RGB_CALIBRATE_TITLE}",
+    "type": "sensors_mbuild_quad_RGB_get_light",
+    "message0": "%{BKY_MBUILD_SENSORS_QUAD_RGB_GET_LIGHT_TITLE}",
     "args0": [{
       "type": "field_grid_dropdown",
       "name": "SENSOR",
@@ -952,36 +758,23 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ["7", "7"],
         ["8", "8"]
       ]
-    }],
-    "previousStatement": null,
-    "nextStatement": null,
-    "tooltip": "%{BKY_MBUILD_SENSORS_QUAD_RGB_CALIBRATE_TOOLTIP}",
-    "extensions": [
-      "block_init_helpurl",
-      "block_init_color"
-    ]
-  },
-
-  // BLOCK QUAD RGB _ SET MODE DETECTION
-  {
-    "type": "sensors_mbuild_quad_RGB_color_mode",
-    "message0": "%{BKY_MBUILD_SENSORS_QUAD_RGB_COLOR_MODE_TITLE}",
-    "args0": [{
+    }, {
       "type": "field_grid_dropdown",
-      "name": "MODE",
+      "name": "PROBE",
       "options": [
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_DETECTION_MODE_STANDARD}", "standard"],
-        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_DETECTION_MODE_ENHANCE}", "enhance"]
+        ["L1", "L1"],
+        ["R1", "R1"],
+        ["L2", "L2"],
+        ["R2", "R2"]
       ]
     }],
-    "previousStatement": null,
-    "nextStatement": null,
-    "tooltip": "%{BKY_MBUILD_SENSORS_QUAD_RGB_COLOR_MODE_TOOLTIP}",
+    "output": "Number",
+    "tooltip": "%{BKY_MBUILD_SENSORS_QUAD_RGB_GET_LIGHT_TOOLTIP}",
     "extensions": [
       "block_init_helpurl",
       "block_init_color"
     ]
-  },
+  }
 
 ]); // END JSON EXTRACT (Do not delete this comment.)
 
@@ -997,15 +790,6 @@ Blockly.Constants.Robots.ROBOTS_MBOT2_MOVE_INIT_EXTENSION = function () {
 };
 
 /**
- * Performs final setup of 'sensors_mbuild_quad_RGB_set_color_RGB' and 'sensors_mbuild_quad_RGB_set_color_palette' block.
- * @this {Blockly.Block}
- */
-Blockly.Constants.Robots.SENSORS_QUAD_RGB_SET_COLOR_INIT_EXTENSION = function () {
-  this.tolerance_ = false;
-  this.update_(this.updateField_);
-};
-
-/**
 * Mixin for mutator functions in the 'robots_mbot2_move' extension.
 * @mixin
 * @augments Blockly.Block
@@ -1014,26 +798,10 @@ Blockly.Constants.Robots.SENSORS_QUAD_RGB_SET_COLOR_INIT_EXTENSION = function ()
 Blockly.Constants.Robots.ROBOTS_MBOT2_MOVE_MUTATOR_MIXIN =
   Blockly.Constants.Utils.addOptionMutatorMixin('duration', 'ROBOTS_MBOT2_MOVE_DURATION', 'input', 1);
 
-/**
- * Mixin for mutator functions in the 'sensors_mbuild_quad_RGB_set_color_RGB' and 'sensors_mbuild_quad_RGB_set_color_palette' extensions.
- * @mixin
- * @augments Blockly.Block
- * @package
- */
-Blockly.Constants.Robots.SENSORS_QUAD_RGB_SET_COLOR_MUTATOR_MIXIN =
-  Blockly.Constants.Utils.addOptionMutatorMixin('tolerance', 'MBUILD_SENSORS_QUAD_RGB_SET_COLOR_TOLERANCE', 'input', 50, "(%)");
-
-
 // Initialization extensions
 Blockly.Extensions.register('robots_mbot2_move_init',
   Blockly.Constants.Robots.ROBOTS_MBOT2_MOVE_INIT_EXTENSION);
 
-Blockly.Extensions.register('sensors_quad_RGB_set_color_init',
-  Blockly.Constants.Robots.SENSORS_QUAD_RGB_SET_COLOR_INIT_EXTENSION);
-
-// Mutator*
+// Mutator
 Blockly.Extensions.registerMutator("robots_mbot2_move_mutator",
   Blockly.Constants.Robots.ROBOTS_MBOT2_MOVE_MUTATOR_MIXIN);
-
-Blockly.Extensions.registerMutator("sensors_quad_RGB_set_color_mutator",
-  Blockly.Constants.Robots.SENSORS_QUAD_RGB_SET_COLOR_MUTATOR_MIXIN);

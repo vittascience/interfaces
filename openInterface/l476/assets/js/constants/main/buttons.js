@@ -13,9 +13,9 @@ const cardCommunicationButtons = {
     },
     'upload': {
         id: "upload-python",
-        classes: 'ide-btn-check ide-btn-left',
+        classes: 'ide-btn-check ide-btn-left e2e-upload-btn',
         fontAwesome: 'fas fa-bolt',
-        onclick: "uploadPython()",
+        onclick: "InterfaceConnection.uploadPython()",
         title: 'code.topbar.tooltips.uploadPython',
         label: {
             hidden: true,
@@ -35,7 +35,7 @@ const downloadOptions = {
         id: "upload-python-opt",
         classes: 'ide-btn-check ide-btn-left-dropdown',
         fontAwesome: 'fas fa-bolt',
-        onclick: "uploadPython()",
+        onclick: "InterfaceConnection.uploadPython()",
         title: 'code.topbar.tooltips.uploadPython',
         tooltipPlacement: "left",
         show: false,
@@ -61,7 +61,7 @@ const downloadOptions = {
         title: 'code.topbar.tooltips.downloadFirmware',
         tooltipPlacement: "left",
         show: false,
-        onclick: "downloadFirmware('firmware_micropython1.19.bin')",
+        onclick: "VittaInterface.downloadFirmware('firmware_micropython1.19.bin')",
         label: {
             value: "code.topbar.label.downloadFirmware"
         }
@@ -73,7 +73,7 @@ const downloadOptions = {
         title: 'code.topbar.tooltips.downloadFirmware',
         tooltipPlacement: "left",
         show: false,
-        onclick: "downloadFirmware('FlashL476Firmware.zip')",
+        onclick: "VittaInterface.downloadFirmware('FlashL476Firmware.zip')",
         label: {
             value: "code.topbar.label.downloadZip"
         }
@@ -84,7 +84,7 @@ const downloadOptions = {
         icon: "/openInterface/interfaces/assets/js/external/font-awesome/svgs/brands/usb.svg",
         title: 'code.topbar.tooltips.disconnect',
         tooltipPlacement: "left",
-        onclick: "doDisconnect()",
+        onclick: "InterfaceConnection.doDisconnect()",
         show: false,
         label: {
             value: "code.topbar.label.disconnect"

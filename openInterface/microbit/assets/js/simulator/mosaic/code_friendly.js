@@ -108,6 +108,10 @@ Simulator.CodeFriendly.maqueen = function (code) {
 		regExp = /pin1(3|4).read_digital\(\)/g;
 		code = code.replace(regExp, 'maqueen.readLine(pin1$1)');
 	}
+	code = code.replace(/def maqueenV5_readPatrol( |)\(/, 'def maqueenreadPatrol_UNUSED(');
+	code = code.replace(/maqueenV5_readPatrol( |)\(/, 'maqueen.readPatrolV5(');
+	code = code.replace(/def maqueenV5_getBatteryLevel( |)\(/, 'def maqueenV5_getBatteryLevel_UNUSED(');
+	code = code.replace(/maqueenV5_getBatteryLevel( |)\(/, 'maqueen.getBatteryLevelV5(');
 	return code;
 };
 

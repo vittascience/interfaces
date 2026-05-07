@@ -95,7 +95,6 @@ const $builtinmodule = function () {
 						}
 					}
 				}
-				simulatorIsRunning = false;
 				resolve(Sk.builtin.none());
 			})
 		);
@@ -110,7 +109,6 @@ const $builtinmodule = function () {
 				if (simulator3D.physics){
 					await simulator3D.physics.rotateRobotAngle(_angle, _speed);
 				}
-				simulatorIsRunning = false;
 				resolve(Sk.builtin.none());
 			})
 		);

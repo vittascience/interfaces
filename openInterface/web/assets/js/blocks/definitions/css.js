@@ -5,14 +5,14 @@ Blockly.defineBlocksWithJsonArray([
     "type": "style",
     "message0": '<style> %1 %2 </style>',
     "args0": [
-        {
-            "type": "input_dummy"
-        },
-        {
-            "type": "input_statement",
-            "name": "content",
-            "check": "style"
-        }
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "content",
+        "check": "style"
+      }
     ],
     "previousStatement": "header",
     "nextStatement": "header",
@@ -78,10 +78,10 @@ Blockly.defineBlocksWithJsonArray([
         "type": "field_dropdown",
         "name": "content",
         "options": [
-          [":after",":after"],
-          [":before",":before"],
-          ["focus","focus"],
-          ["hover","hover"]
+          [":after", ":after"],
+          [":before", ":before"],
+          ["focus", "focus"],
+          ["hover", "hover"]
         ]
       },
       {
@@ -177,12 +177,12 @@ Blockly.defineBlocksWithJsonArray([
         "type": "field_dropdown",
         "name": "weight",
         "options": [
-          ["normal","normal"],
-          ["bold","bold"],
-          ["bolder","bolder"],
-          ["lighter","lighter"],
-          ["initial","initial"],
-          ["inherit","inherit"]
+          ["normal", "normal"],
+          ["bold", "bold"],
+          ["bolder", "bolder"],
+          ["lighter", "lighter"],
+          ["initial", "initial"],
+          ["inherit", "inherit"]
         ]
       }
     ],
@@ -197,18 +197,18 @@ Blockly.defineBlocksWithJsonArray([
   {
     "type": "color",
     "message0": 'color: %1 ;',
-            "args0": [
-                {
-                    "type": "field_colour",
-                    "name": "value",
-                    "colour": "#339999"
-                }
-            ],
-            "previousStatement": "stylecontent",
-            "nextStatement": "stylecontent",
-            "colour": 290,
-            "tooltip": "CSS Color",
-            "helpUrl": "https://www.w3schools.com/cssref/pr_text_color.asp"
+    "args0": [
+      {
+        "type": "field_colour",
+        "name": "value",
+        "colour": "#339999"
+      }
+    ],
+    "previousStatement": "stylecontent",
+    "nextStatement": "stylecontent",
+    "colour": 290,
+    "tooltip": "CSS Color",
+    "helpUrl": "https://www.w3schools.com/cssref/pr_text_color.asp"
 
   },
 
@@ -237,8 +237,8 @@ Blockly.defineBlocksWithJsonArray([
         "type": "field_dropdown",
         "name": "color",
         "options": [
-          ["initial","initial"],
-          ["inherit","inherit"]
+          ["initial", "initial"],
+          ["inherit", "inherit"]
         ]
       }
     ],
@@ -353,16 +353,16 @@ Blockly.defineBlocksWithJsonArray([
         "type": "field_dropdown",
         "name": "content",
         "options": [
-          ["inline","inline"],
-          ["inline-block","inline-block"],
-          ["block","block"],
-          ["flex","flex"],
-          ["none","none"],
-          ["inline-table","inline-table"],
-          ["table","table"],
-          ["inline-flex","inline-flex"],
-          ["initial","initial"],
-          ["inherit","inherit"]
+          ["inline", "inline"],
+          ["inline-block", "inline-block"],
+          ["block", "block"],
+          ["flex", "flex"],
+          ["none", "none"],
+          ["inline-table", "inline-table"],
+          ["table", "table"],
+          ["inline-flex", "inline-flex"],
+          ["initial", "initial"],
+          ["inherit", "inherit"]
         ]
       }
     ],
@@ -381,10 +381,10 @@ Blockly.defineBlocksWithJsonArray([
         "type": "field_dropdown",
         "name": "direction",
         "options": [
-          ["top","top"],
-          ["right","right"],
-          ["bottom","bottom"],
-          ["left","left"]
+          ["top", "top"],
+          ["right", "right"],
+          ["bottom", "bottom"],
+          ["left", "left"]
         ]
       },
       {
@@ -408,10 +408,10 @@ Blockly.defineBlocksWithJsonArray([
         "type": "field_dropdown",
         "name": "direction",
         "options": [
-          ["top","top"],
-          ["right","right"],
-          ["bottom","bottom"],
-          ["left","left"]
+          ["top", "top"],
+          ["right", "right"],
+          ["bottom", "bottom"],
+          ["left", "left"]
         ]
       },
       {
@@ -435,12 +435,12 @@ Blockly.defineBlocksWithJsonArray([
         "type": "field_dropdown",
         "name": "content",
         "options": [
-          ["visible","visible"],
-          ["hidden","hidden"],
-          ["scroll","scroll"],
-          ["auto","auto"],
-          ["initial","initial"],
-          ["inherit","inherit"]
+          ["visible", "visible"],
+          ["hidden", "hidden"],
+          ["scroll", "scroll"],
+          ["auto", "auto"],
+          ["initial", "initial"],
+          ["inherit", "inherit"]
         ]
       }
     ],
@@ -482,16 +482,16 @@ Blockly.defineBlocksWithJsonArray([
         "type": "field_dropdown",
         "name": "align",
         "options": [
-          ["top","top"],
-          ["sub","sub"],
-          ["super","super"],
-          ["baseline","baseline"],
-          ["text-top","text-top"],
-          ["middle","middle"],
-          ["bottom","bottom"],
-          ["text-bottom","text-bottom"],
-          ["initial","initial"],
-          ["inherit","inherit"]
+          ["top", "top"],
+          ["sub", "sub"],
+          ["super", "super"],
+          ["baseline", "baseline"],
+          ["text-top", "text-top"],
+          ["middle", "middle"],
+          ["bottom", "bottom"],
+          ["text-bottom", "text-bottom"],
+          ["initial", "initial"],
+          ["inherit", "inherit"]
         ]
       }
     ],
@@ -655,17 +655,17 @@ Blockly.defineBlocksWithJsonArray([
         "type": "field_dropdown",
         "name": "content",
         "options": [
-          ["left top","left top"],
-          ["left center","left"],
-          ["left bottom","left bottom"],
-          ["center top","center top"],
-          ["center center","center"],
-          ["center bottom","center bottom"],
-          ["right top","right top"],
-          ["right center","right"],
-          ["right bottom","right bottom"],
-          ["inherit","inherit"],
-          ["initial","initial"]
+          ["left top", "left top"],
+          ["left center", "left"],
+          ["left bottom", "left bottom"],
+          ["center top", "center top"],
+          ["center center", "center"],
+          ["center bottom", "center bottom"],
+          ["right top", "right top"],
+          ["right center", "right"],
+          ["right bottom", "right bottom"],
+          ["inherit", "inherit"],
+          ["initial", "initial"]
         ]
       }
     ],
@@ -684,14 +684,14 @@ Blockly.defineBlocksWithJsonArray([
         "type": "field_dropdown",
         "name": "content",
         "options": [
-          ["repeat","repeat"],
-          ["repeat-x","repeat-x"],
-          ["repeat-y","repeat-y"],
-          ["no-repeat","no-repeat"],
-          ["space","space"],
-          ["round","round"],
-          ["initial","initial"],
-          ["inherit","inherit"]
+          ["repeat", "repeat"],
+          ["repeat-x", "repeat-x"],
+          ["repeat-y", "repeat-y"],
+          ["no-repeat", "no-repeat"],
+          ["space", "space"],
+          ["round", "round"],
+          ["initial", "initial"],
+          ["inherit", "inherit"]
         ]
       }
     ],
@@ -733,15 +733,15 @@ Blockly.defineBlocksWithJsonArray([
         "type": "field_dropdown",
         "name": "type",
         "options": [
-          ["none","none"],
-          ["solid","solid"],
-          ["dotted","dotted"],
-          ["dashed","dashed"],
-          ["double","double"],
-          ["groove","groove"],
-          ["ridge","ridge"],
-          ["inset","inset"],
-          ["outset","outset"]
+          ["none", "none"],
+          ["solid", "solid"],
+          ["dotted", "dotted"],
+          ["dashed", "dashed"],
+          ["double", "double"],
+          ["groove", "groove"],
+          ["ridge", "ridge"],
+          ["inset", "inset"],
+          ["outset", "outset"]
         ]
       },
       {
@@ -765,10 +765,10 @@ Blockly.defineBlocksWithJsonArray([
         "type": "field_dropdown",
         "name": "edge",
         "options": [
-          ["top","top"],
-          ["bottom","bottom"],
-          ["left","left"],
-          ["right","right"]
+          ["top", "top"],
+          ["bottom", "bottom"],
+          ["left", "left"],
+          ["right", "right"]
         ]
       },
       {
@@ -780,15 +780,15 @@ Blockly.defineBlocksWithJsonArray([
         "type": "field_dropdown",
         "name": "type",
         "options": [
-          ["none","none"],
-          ["solid","solid"],
-          ["dotted","dotted"],
-          ["dashed","dashed"],
-          ["double","double"],
-          ["groove","groove"],
-          ["ridge","ridge"],
-          ["inset","inset"],
-          ["outset","outset"]
+          ["none", "none"],
+          ["solid", "solid"],
+          ["dotted", "dotted"],
+          ["dashed", "dashed"],
+          ["double", "double"],
+          ["groove", "groove"],
+          ["ridge", "ridge"],
+          ["inset", "inset"],
+          ["outset", "outset"]
         ]
       },
       {
@@ -847,46 +847,46 @@ Blockly.defineBlocksWithJsonArray([
         "type": "field_dropdown",
         "name": "content",
         "options": [
-          ["alias","alias"],
-          ["all-scroll","all-scroll"],
-          ["auto","auto"],
-          ["wait","wait"],
-          ["zoom-in","zoom-in"],
-          ["zoom-out","zoom-out"],
-          ["cell","cell"],
-          ["s-resize","s-resize"],
-          ["se-resize","se-resize"],
-          ["sw-resize","sw-resize"],
-          ["text","text"],
-          ["context-menu","context-menu"],
-          ["col-resize","col-resize"],
-          ["option","option"],
-          ["copy","copy"],
-          ["crosshair","crosshair"],
-          ["initial","initial"],
-          ["inherit","inherit"],
-          ["default","default"],
-          ["e-resize","e-resize"],
-          ["ew-resize","ew-resize"],
-          ["grab","grab"],
-          ["grabbing","grabbing"],
-          ["help","help"],
-          ["ns-resize","ns-resize"],
-          ["nw-resize","nw-resize"],
-          ["nwse-resize","nwse-resize"],
-          ["no-drop","no-drop"],
-          ["none","none"],
-          ["not-allowed","not-allowed"],
-          ["pointer","pointer"],
-          ["progress","progress"],
-          ["row-resize","row-resize"],
-          ["s-resize","s-resize"],
-          ["move","move"],
-          ["n-resize","n-resize"],
-          ["nw-resize","nw-resize"],
-          ["nesw-resize","nesw-resize"],
-          ["vertical-text","vertical-text"],
-          ["w-resize","nesw-resize"]
+          ["alias", "alias"],
+          ["all-scroll", "all-scroll"],
+          ["auto", "auto"],
+          ["wait", "wait"],
+          ["zoom-in", "zoom-in"],
+          ["zoom-out", "zoom-out"],
+          ["cell", "cell"],
+          ["s-resize", "s-resize"],
+          ["se-resize", "se-resize"],
+          ["sw-resize", "sw-resize"],
+          ["text", "text"],
+          ["context-menu", "context-menu"],
+          ["col-resize", "col-resize"],
+          ["option", "option"],
+          ["copy", "copy"],
+          ["crosshair", "crosshair"],
+          ["initial", "initial"],
+          ["inherit", "inherit"],
+          ["default", "default"],
+          ["e-resize", "e-resize"],
+          ["ew-resize", "ew-resize"],
+          ["grab", "grab"],
+          ["grabbing", "grabbing"],
+          ["help", "help"],
+          ["ns-resize", "ns-resize"],
+          ["nw-resize", "nw-resize"],
+          ["nwse-resize", "nwse-resize"],
+          ["no-drop", "no-drop"],
+          ["none", "none"],
+          ["not-allowed", "not-allowed"],
+          ["pointer", "pointer"],
+          ["progress", "progress"],
+          ["row-resize", "row-resize"],
+          ["s-resize", "s-resize"],
+          ["move", "move"],
+          ["n-resize", "n-resize"],
+          ["nw-resize", "nw-resize"],
+          ["nesw-resize", "nesw-resize"],
+          ["vertical-text", "vertical-text"],
+          ["w-resize", "nesw-resize"]
         ]
       }
     ],
@@ -979,15 +979,15 @@ Blockly.defineBlocksWithJsonArray([
         "type": "field_dropdown",
         "name": "function",
         "options": [
-          ["ease","ease"],
-          ["linear","linear"],
-          ["ease-in","ease-in"],
-          ["ease-out","ease-out"],
-          ["ease-in-out","ease-in-out"],
-          ["step-start","step-start"],
-          ["step-end","step-end"],
-          ["initial","initial"],
-          ["inherit","inherit"]
+          ["ease", "ease"],
+          ["linear", "linear"],
+          ["ease-in", "ease-in"],
+          ["ease-out", "ease-out"],
+          ["ease-in-out", "ease-in-out"],
+          ["step-start", "step-start"],
+          ["step-end", "step-end"],
+          ["initial", "initial"],
+          ["inherit", "inherit"]
         ]
       }
     ],

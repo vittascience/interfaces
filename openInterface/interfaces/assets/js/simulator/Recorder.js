@@ -32,7 +32,7 @@ class Recorder {
         this.mediaRecorder = null;
         this.recordedBlobs = [];
         this.sourceBuffer = null;
-        if (!Simulator._has3DRobotSimulator()) this.mediaSource.addEventListener("sourceopen", this.handleSourceOpen, false);
+        if (!Simulator.has3DRobotSimulator()) this.mediaSource.addEventListener("sourceopen", this.handleSourceOpen, false);
         this.stream = this.canvas.captureStream();
         Recorder.instance = this;
         return this;

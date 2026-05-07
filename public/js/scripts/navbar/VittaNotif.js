@@ -110,9 +110,11 @@ class VittaNotif {
 	_executeNotification() {
 		const currentNotificationElt = document.createElement('div');
 		currentNotificationElt.classList.add('vitta-notif', this.getType());
+		currentNotificationElt.setAttribute('role', 'alert');
+		currentNotificationElt.setAttribute('aria-live', 'polite');
 		currentNotificationElt.innerHTML = `
 		${this.getMessage()}
-		<button type="button" class="btn vitta-notif-close" onclick="VittaNotif.instance.closeNotification(event)"><i class="fa fa-times"></i></button>
+		<button type="button" class="btn vitta-notif-close" onclick="VittaNotif.instance.closeNotification(event)" aria-label="Close notification"><i class="fa fa-times" aria-hidden="true"></i></button>
 		`;
 		this.getDestinationDiv().insertBefore(currentNotificationElt, this.getDestinationDiv().firstChild);
 		getComputedStyle(currentNotificationElt).opacity;

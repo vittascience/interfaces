@@ -111,7 +111,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     {
         "type": "network_getStationInfos",
         "message0": "%{BKY_NETWORK_GET_STATION_INFOS_TITLE}",
-        "output": null,
+        "output": "Array",
         "style": "network_blocks",
         "tooltip": "%{BKY_NETWORK_GET_STATION_INFOS_TOOLTIP}",
         "extensions": [
@@ -140,24 +140,32 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     {
         "type": "network_server_getClientData",
         "message0": "%{BKY_NETWORK_SERVER_GET_CLIENT_DATA_TITLE}",
+        "inputsInline": true,
         "output": "String",
         "style": "network_blocks",
         "tooltip": "%{BKY_NETWORK_SERVER_GET_CLIENT_DATA_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_buttons_plus_minus",
+            "network_server_getClientData_extension"
         ],
+        "mutator": "network_server_getClientData_mutator"
     },
 
     // BLOCK SERVER - GET CLIENT DATA PARAMETER
     {
         "type": "network_server_getClientDataParam",
         "message0": "%{BKY_NETWORK_SERVER_GET_CLIENT_DATA_PARAM_TITLE}",
+        "inputsInline": true,
         "output": "String",
         "style": "network_blocks",
         "tooltip": "%{BKY_NETWORK_SERVER_GET_CLIENT_DATA_PARAM_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_buttons_plus_minus",
+            "network_server_getClientData_extension"
         ],
+        "mutator": "network_server_getClientData_mutator"
     },
 
     // BLOCK SERVER - GET CLIENT IP
@@ -167,6 +175,19 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "output": "String",
         "style": "network_blocks",
         "tooltip": "%{BKY_NETWORK_SERVER_GET_CLIENT_IP_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ],
+    },
+
+    // BLOCK SERVER - CLOSE CLIENT CONNECTION
+    {
+        "type": "network_server_closeClientConnection",
+        "message0": "%{BKY_NETWORK_SERVER_CLOSE_CLIENT_CONNECTION_TITLE}",
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "network_blocks",
+        "tooltip": "%{BKY_NETWORK_SERVER_CLOSE_CLIENT_CONNECTION_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ],
@@ -664,7 +685,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "name": "URL",
             "check": "String"
         }],
-        "output": null,
+        "output": "String",
         "style": "network_blocks",
         "tooltip": "%{BKY_NETWORK_GET_HTTP_REQUEST_TOOLTIP}",
         "extensions": [
@@ -1238,6 +1259,25 @@ Blockly.Constants.Network.NETWORK_CONNECT_STATION_MUTATOR_MIXIN = {
         });
     }
 };
+
+/**
+ * Performs final setup of 'network_server_getClientData' block.
+ * @this {Blockly.Block}
+ */
+Blockly.Constants.Network.NETWORK_SERVER_GET_CLIENT_DATA_INIT_EXTENSION = function () {
+    this.closing_ = false;
+    this.update_(this.updateField_);
+};
+
+/**
+ * Mixin for mutator functions in the 'network_server_getClientData' extension.
+ * @mixin
+ * @augments Blockly.Block
+ * @package
+ */
+Blockly.Constants.Network.NETWORK_SERVER_GET_CLIENT_DATA_MUTATOR_MIXIN =
+    Blockly.Constants.Utils.addOptionMutatorMixin('closing', 'NETWORK_SERVER_GET_CLIENT_DATA_CLOSING', 'input', true);
+
 
 /**
  * Performs final setup of 'network_client_sendData' block.
@@ -2467,6 +2507,9 @@ Blockly.Constants.Network.NETWORK_GET_HTTP_REQUEST_MUTATOR_EXTENSION = function 
 Blockly.Extensions.register("network_connect_station_init_extension",
     Blockly.Constants.Network.NETWORK_CONNECT_STATION_INIT_EXTENSION);
 
+Blockly.Extensions.register("network_server_getClientData_extension",
+    Blockly.Constants.Network.NETWORK_SERVER_GET_CLIENT_DATA_INIT_EXTENSION);
+
 Blockly.Extensions.register("network_client_sendData_extension",
     Blockly.Constants.Network.NETWORK_CLIENT_SEND_DATA_INIT_EXTENSION);
 
@@ -2506,6 +2549,9 @@ Blockly.Extensions.registerMutator('network_connect_station_mutator',
 
 Blockly.Extensions.registerMutator('network_client_sendData_mutator',
     Blockly.Constants.Network.NETWORK_CLIENT_SEND_DATA_MUTATOR_MIXIN);
+
+Blockly.Extensions.registerMutator('network_server_getClientData_mutator',
+    Blockly.Constants.Network.NETWORK_SERVER_GET_CLIENT_DATA_MUTATOR_MIXIN);
 
 Blockly.Extensions.registerMutator('network_add_text_mutator',
     Blockly.Constants.Network.NETWORK_HTML_ADD_TEXT_MUTATOR_MIXIN);

@@ -22,7 +22,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_ACTUATORS_SERVO_SETANGLE_TOOLTIP}",
     },
@@ -52,7 +53,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_ACTUATORS_CONTINUOUS_SERVO_SETSPEED_TOOLTIP}",
     },
@@ -78,7 +80,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "extensions": [
             "block_init_helpurl",
             "block_buttons_plus_minus",
-            "actuators_mosfet_init_extension"
+            "actuators_mosfet_init_extension",
+            "pins_management_global"
         ],
         "mutator": "actuators_mosfet_mutator"
     },
@@ -104,7 +107,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "extensions": [
             "block_init_helpurl",
             "block_buttons_plus_minus",
-            "actuators_mosfet_init_extension"
+            "actuators_mosfet_init_extension",
+            "pins_management_global"
         ],
         "mutator": "actuators_mosfet_mutator"
     },
@@ -130,7 +134,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "extensions": [
             "block_init_helpurl",
             "block_buttons_plus_minus",
-            "actuators_mosfet_init_extension"
+            "actuators_mosfet_init_extension",
+            "pins_management_global"
         ],
         "mutator": "actuators_mosfet_mutator"
     },
@@ -153,7 +158,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_ACTUATORS_MOTOR_SETPOWER_TOOLTIP}",
     },
@@ -176,7 +182,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_ACTUATORS_GROVERELAY_CONTROL_TOOLTIP}",
     },
@@ -199,7 +206,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_ACTUATORS_GROVEVIBRATIONMOTOR_CONTROL_TOOLTIP}",
     },
@@ -228,7 +236,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_ACTUATORS_MUSIC_PLAYMUSIC_TOOLTIP}",
     },
@@ -296,7 +305,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
                 ["8", "8"],
             ]
         }],
-        "output": null,
+        "output": "String",
         "extensions": [
             "block_init_helpurl",
             "block_init_color"
@@ -326,7 +335,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_ACTUATORS_MUSIC_PLAY_FREQUENCY_TOOLTIP}",
     },
@@ -344,7 +354,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_ACTUATORS_MUSIC_STOP_TOOLTIP}",
     },

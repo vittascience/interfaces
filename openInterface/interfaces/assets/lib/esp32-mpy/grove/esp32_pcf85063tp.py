@@ -29,7 +29,7 @@ class RTC_HP:
     if addr not in i2cModules:
       error = "Unable to find module 'RTC_HP' at address " + str(hex(addr)) + ". Please check connections with the board.\n"
       error += "[Info] I2C address.es detected: " + str([hex(a) for a in i2cModules])
-      raise ValueError(error)
+      raise OSError(error)
     self._addr = addr
 
   def decToBcd(self, val):

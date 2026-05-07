@@ -134,7 +134,7 @@ const LIBRARIES_H = {
             rt.defVar("M2", rt.unsignedcharTypeLiteral, rt.val(rt.unsignedcharTypeLiteral, 10));
 
             const speedError = function (speed) {
-                if (speed > WRITE_ANALOG_MAX_VALUE || speed < -WRITE_ANALOG_MAX_VALUE) {
+                if (speed > PWM_MAX_DUTY || speed < -PWM_MAX_DUTY) {
                     UIManager.showErrorMessage("error-message", 'La vitesse des moteurs doit être comprise entre 0 et 255');
                     return true;
                 } else {
@@ -159,13 +159,13 @@ const LIBRARIES_H = {
                     if (_this.v.members.pin.v == 9) {
                         $('#mBot-motorLeft_value').html(Math.round(result.v));
                         const direction = result.v * -1 > 0 ? 1 : -1;
-                        const speed = Math.abs(result.v / WRITE_ANALOG_MAX_VALUE * 100);
+                        const speed = Math.abs(result.v / PWM_MAX_DUTY * 100);
                         setMotor('Left', speed, direction);
                     }
                     else if (_this.v.members.pin.v == 10) {
                         $('#mBot-motorRight_value').html(Math.round(result.v))
                         const direction = result.v > 0 ? 1 : -1;
-                        const speed = Math.abs(result.v / WRITE_ANALOG_MAX_VALUE * 100);
+                        const speed = Math.abs(result.v / PWM_MAX_DUTY * 100);
                         setMotor('Right', speed, direction);
                     }
                 }

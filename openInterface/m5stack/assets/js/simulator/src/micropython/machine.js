@@ -1,170 +1,5 @@
 // Esp32 - machine module
 
-var uart = function () {
-
-	var mod = {};
-
-	mod.data = {
-		baudrate: 9600,
-		bits: 8,
-		parity: null,
-		stop: 1,
-		tx: null,
-		rx: null,
-		m5gps: {
-			longitude: 0,
-			latitude: 0
-		},
-		gps: {
-			longitude: 0,
-			latitude: 0,
-			altitude: 0
-		},
-		isChanged: false
-	};
-
-	mod.write = new Sk.builtin.func(function () {
-		for (let i = 0; i < Simulator.pinList.length; i++) {
-			if ("openlog_" + Simulator.pinList[i].pin == Simulator.pinList[i].id && $("#" + Simulator.pinList[i].id + '_value').html() != "ON") {
-				$("#" + Simulator.pinList[i].id + '_value').html("ON");
-				$("#" + Simulator.pinList[i].id + '_anim').css("opacity", 1);
-				setTimeout(function () {
-					$("#" + Simulator.pinList[i].id + '_value').html("OFF");
-					$("#" + Simulator.pinList[i].id + '_anim').css("opacity", 0);
-				}, 500);
-			}
-			if ("gps_" + Simulator.pinList[i].pin == Simulator.pinList[i].id) {
-				$("#" + Simulator.pinList[i].id + '_value').html("ON");
-			}
-			if ("bluetooth_" + Simulator.pinList[i].pin == Simulator.pinList[i].id) {
-				$("#" + Simulator.pinList[i].pin + '_value').html("ON");
-			}
-		}
-	});
-
-	mod.read = new Sk.builtin.func(function () {
-		const modules = Simulator.getMosaicModules();
-		let m5_gps = false,
-			gps = false,
-			gps_id = null;
-		
-		for (m in modules) {
-			if (modules[m].id === "m5-gps") {
-				m5_gps = true;
-				gps_id = 'm5-gps_slider';
-				break;
-			}else if (modules[m].id === "gps") {
-				gps = true;
-				gps_id = 'gps_slider';
-				break;
-			}
-		}
-
-		const setLatitude = function(gps_latitude) {
-			let latitude = '';
-			if (gps_latitude > 0) {
-				let degree = gps_latitude,
-					format = Math.floor(degree) * 100 + (degree - Math.floor(degree)) * 60;
-				if (degree < 10) latitude += '0';
-				return latitude += format.toFixed(4) + ",N";
-			} else if (gps_latitude < 0) {
-				let degree = Math.abs(gps_latitude),
-					format = Math.floor(degree) * 100 + (degree - Math.floor(degree)) * 60;
-				if (degree < 10) latitude += '0';
-				return latitude += format.toFixed(4) + ",S";
-			} else {
-				return latitude += "0000.0000,N";
-			}
-		}
-
-		const setLongitude = function(gps_longitude) {
-			let longitude = '';
-			if (gps_longitude > 0) {
-				let degree = gps_longitude,
-					format = Math.floor(degree) * 100 + (degree - Math.floor(degree)) * 60;
-				if (degree < 100) {
-					longitude += '0';
-					if (degree < 10) longitude += '0';
-				}
-				return longitude += format.toFixed(4) + ",E";
-			} else if (gps_longitude < 0) {
-				let degree = Math.abs(gps_longitude),
-					format = Math.floor(degree) * 100 + (degree - Math.floor(degree)) * 60;
-				if (degree < 100) {
-					longitude += '0';
-					if (degree < 10) longitude += '0';
-				}
-				return longitude += format.toFixed(4) + ",W";
-			} else {
-				return longitude += "00000.0000,E";
-			}
-		}
-
-		const now = new Date();
-		const time = now.getHours() * 10000 + now.getMinutes() * 100 + now.getSeconds();
-		if (m5_gps) {
-			mod.data.m5gps.latitude = parseFloat($('#' + gps_id + '_lat').slider('value'));
-			mod.data.m5gps.longitude = parseFloat($('#' + gps_id + '_lon').slider('value'));
-			const latitude = setLatitude(mod.data.m5gps.latitude),
-				longitude = setLongitude(mod.data.m5gps.longitude);
-			var nmea = "$GNRMC," + time + ",A," + latitude + "," + longitude + ",0,0,191194,0,E*68";
-			return new Sk.builtin.str(nmea);
-		} else if (gps) {
-			mod.data.gps.latitude = parseFloat($('#' + gps_id + '_lat').slider('value'));
-			mod.data.gps.longitude = parseFloat($('#' + gps_id + '_lon').slider('value'));
-			const latitude = setLatitude(mod.data.gps.latitude),
-				longitude = setLongitude(mod.data.gps.longitude),
-				letters = ['GP', 'GA', 'BD', 'GB', 'GL', 'GN'];,
-				date = new Date().toISOString().slice(2, 10).replace("-", "").replace("-", "");
-			if (Math.random() > 0.5) {
-				var nmea = "$" + letters[Math.floor(Math.random() * letters.length)] + "GGA," + time + ".000," + latitude + "," + longitude + ",1,04,3.2," + mod.data.gps.altitude + ".0,M,,,,0000*0E"
-			} else {
-				var nmea = "$" + letters[Math.floor(Math.random() * letters.length)] + "RMC," + time + ".000,A," + latitude + "," + longitude + ",0,0," + date + ",0,W*68"
-			}
-			return new Sk.builtin.str(nmea);
-		} else {
-			return null;
-		}
-	});
-	
-	var init = function (baudrate, bits, parity, stop, tx, rx) {
-		if (baudrate === undefined) {
-			baudrate = new Sk.builtin.int_(9600);
-		}
-		if (bits === undefined) {
-			bits = new Sk.builtin.int_(8);
-		}
-		if (parity === undefined) {
-			parity = Sk.builtin.none;
-		}
-		if (stop === undefined) {
-			stop = new Sk.builtin.int_(1);
-		}
-		if (tx === undefined) {
-			tx = Sk.builtin.none;
-		}
-		if (rx === undefined) {
-			rx = Sk.builtin.none;
-		}
-		mod.data.baudrate = baudrate;
-		mod.data.bits = bits;
-		mod.data.parity = parity;
-		mod.data.stop = stop;
-		mod.data.tx = tx;
-		mod.data.rx = rx;
-	}
-
-	init.co_varnames = ['baudrate', 'bits', 'parity', 'stop', 'tx', 'rx'];
-	init.$defaults = [new Sk.builtin.int_(9600), new Sk.builtin.int_(8), Sk.builtin.none(), new Sk.builtin.int_(1), Sk.builtin.none(), Sk.builtin.none];
-	init.co_numargs = 6;
-	mod.init = new Sk.builtin.func(init);
-
-	mod.any = new Sk.builtin.func(function () {
-		return new Sk.builtin.bool(true);
-	});
-	return mod;
-};
-
 var $builtinmodule = function (name) {
 
 	var machine = {};
@@ -271,11 +106,11 @@ var $builtinmodule = function (name) {
 				self.id = component.id;
 				switch (self.pull) {
 					case $loc.PULL_UP.v:
-						Simulator.setPullButton(self.id, 'up');
+						Simulator.Components.Button.setPull(self.id, 'up');
 						break;
 					case $loc.PULL_DOWN.v:
 					default:
-						Simulator.setPullButton(self.id, 'down');
+						Simulator.Components.Button.setPull(self.id, 'down');
 				}
 			}
 			self.value = value.v;
@@ -302,11 +137,11 @@ var $builtinmodule = function (name) {
 			self.pull = pull.v;
 			switch (self.pull) {
 				case $loc.PULL_UP.v:
-					Simulator.setPullButton(self.id, 'up');
+					Simulator.Components.Button.setPull(self.id, 'up');
 					break;
 				case $loc.PULL_DOWN.v:
 				default:
-					Simulator.setPullButton(self.id, 'down');
+					Simulator.Components.Button.setPull(self.id, 'down');
 			}
 			self.value = value.v;
 			if (self.mode == $loc.OUT.v && self.id !== undefined) {
@@ -404,9 +239,14 @@ var $builtinmodule = function (name) {
 
 		$loc.read = new Sk.builtin.func(function (self) {
 			const mod = Simulator.getModuleByKey(self.id.split('_')[0]);
-			const suffix = mod.listeners ? mod.listeners[0].suffix : "";
-			const value = $("#" + self.id + "_slider" + suffix).slider('option', 'value');
-			return new Sk.builtin.int_(value);
+			if (mod && mod.id.includes('joystick')) {
+				const value = Simulator.Components.Joystick.read(self.id, self.pin);
+				return new Sk.builtin.int_(value);
+			} else {
+				const suffix = mod.listeners ? mod.listeners[0].suffix : "";
+				const value = $("#" + self.id + "_slider" + suffix).slider('option', 'value');
+				return new Sk.builtin.int_(value);
+			}
 		});
 
 	});
@@ -532,9 +372,148 @@ var $builtinmodule = function (name) {
 
 	});
 
-	//uart Modules
-	machine.uart = new Sk.builtin.module();
-	machine.uart.$d = new uart();
+	machine.UART = new Sk.misceval.buildClass(machine, function ($gbl, $loc) {
+
+		// pin
+		$loc.INV_TX = new Sk.builtin.int_(32);
+		$loc.INV_RX = new Sk.builtin.int_(4);
+		$loc.INV_RTS = new Sk.builtin.int_(64);
+		$loc.INV_CTS = new Sk.builtin.int_(8);
+		$loc.RTS = new Sk.builtin.int_(1);
+		$loc.CTS = new Sk.builtin.int_(2);
+		// irq
+		$loc.IRQ_RX = new Sk.builtin.int_(1);
+		$loc.IRQ_RXIDLE = new Sk.builtin.int_(4096);
+		$loc.IRQ_BREAK = new Sk.builtin.int_(2);
+
+		UART__init__ = function (self, port, baudrate, bits, parity, stop, tx, rx, rts, cts, txbuf, rxbuf, timeout, timeout_char, irq) {
+
+			Sk.builtin.pyCheckArgsLen("__init__", arguments.length, 2, 15);
+			Sk.builtin.pyCheckType("port", "integer", Sk.builtin.checkInt(port));
+			Sk.builtin.pyCheckType("baudrate", "integer", Sk.builtin.checkInt(baudrate));
+			Sk.builtin.pyCheckType("bits", "integer", Sk.builtin.checkInt(bits));
+			Sk.builtin.pyCheckType("stop", "integer", Sk.builtin.checkInt(stop));
+			Sk.builtin.pyCheckType("rts", "integer", Sk.builtin.checkInt(rts));
+			Sk.builtin.pyCheckType("cts", "integer", Sk.builtin.checkInt(cts));
+			Sk.builtin.pyCheckType("txbuf", "integer", Sk.builtin.checkInt(txbuf));
+			Sk.builtin.pyCheckType("rxbuf", "integer", Sk.builtin.checkInt(rxbuf));
+			Sk.builtin.pyCheckType("timeout", "integer", Sk.builtin.checkInt(timeout));
+			Sk.builtin.pyCheckType("timeout_char", "integer", Sk.builtin.checkInt(timeout_char));
+			Sk.builtin.pyCheckType("irq", "integer", Sk.builtin.checkInt(irq));
+			if (![1, 2].includes(port.v)) {
+				throw new Sk.builtin.ValueError("UART(" + port.v + ") does not exist");
+			}
+			if (Sk.builtin.checkNone(tx)) {
+				if (port.v == 1) tx = Sk.misceval.callsim(machine.Pin, new Sk.builtin.int_(10));
+				else if (port.v == 2) tx = Sk.misceval.callsim(machine.Pin, new Sk.builtin.int_(17));
+			}
+			if (Sk.builtin.checkNone(rx)) {
+				if (port.v == 1) rx = Sk.misceval.callsim(machine.Pin, new Sk.builtin.int_(9));
+				else if (port.v == 2) rx = Sk.misceval.callsim(machine.Pin, new Sk.builtin.int_(16));
+			}
+			if (Sk.builtin.checkInt(tx)) {
+				tx = Sk.misceval.callsim(machine.Pin, tx);
+			}
+			if (Sk.builtin.checkInt(rx)) {
+				rx = Sk.misceval.callsim(machine.Pin, rx);
+			}
+			self.module = Simulator.Mosaic.uart_updateTitle(port.v, rx.pin, tx.pin);
+		};
+
+		UART__init__.co_varnames = ['self', 'port', 'baudrate', 'bits', 'parity', 'stop', 'tx', 'rx', 'rts', 'cts', 'txbuf', 'rxbuf', 'timeout', 'timeout_char', 'irq'];
+		UART__init__.$defaults = [new Sk.builtin.int_(115200), new Sk.builtin.int_(8), Sk.builtin.none(), new Sk.builtin.int_(1), Sk.builtin.none(), Sk.builtin.none(), new Sk.builtin.int_(-1), new Sk.builtin.int_(-1), new Sk.builtin.int_(256), new Sk.builtin.int_(256), new Sk.builtin.int_(0), new Sk.builtin.int_(0), new Sk.builtin.int_(0)];
+
+		$loc.__init__ = new Sk.builtin.func(UART__init__);
+
+		const component_write = function (self, buffer) {
+			if (!buffer) return;
+			if (['hc05', 'hm10', 'groveBT'].includes(self.module.mod.id)) {
+				BluetoothSimulator.sendBluetoothData(buffer);
+				const date = new Date();
+				var s = '';
+				if (date.getSeconds() < 10) {
+					s = "0" + date.getSeconds();
+				} else {
+					s = date.getSeconds();
+				}
+				const strClock = date.getHours() + ":" + date.getMinutes() + ":" + s;
+				InterfaceMonitor.writeConsole(strClock + " - Donnée envoyée par bluetooth : '" + buffer + "'\n");
+				Simulator.setAnimator(self.module.mod, self.module.pin.id, 'write:' + buffer.length);
+			}
+			else if (self.module.mod.id == 'openlog') {
+				Simulator.setAnimator(self.module.mod, self.module.pin.id);
+			}
+		};
+
+		$loc.init = new Sk.builtin.func(function (self) {
+			self.init = true;
+			return new Sk.builtin.bool(true);
+		});
+
+		$loc.deinit = new Sk.builtin.func(function (self) {
+			self.init = false;
+			return new Sk.builtin.bool(true);
+		});
+
+		$loc.flush = new Sk.builtin.func(function (self) {
+			if (['hc05', 'hm10', 'groveBT'].includes(self.module.mod.id)) {
+				BluetoothSimulator.checkBluetoothData('flush', self.module.pin.id);
+			}
+			return new Sk.builtin.bool(true);
+		});
+
+		const _read = function (self, isForString) {
+			if (['hc05', 'hm10', 'groveBT'].includes(self.module.mod.id)) {
+				return BluetoothSimulator.checkBluetoothData('read', self.module.pin.id, isForString);
+			}
+			else if (self.module.mod.id == 'mhz19') {
+				return self._rx_buffer.shift();
+			}
+			else if (self.module.mod.id == 'gps') {
+				return self._rx_buffer;
+			}
+			return "";
+		};
+
+		$loc.read = new Sk.builtin.func(function (self) {
+			return new Sk.builtin.str(_read(self, true));
+		});
+
+		$loc.readline = new Sk.builtin.func(function (self) {
+			return new Sk.builtin.str(_read(self, true));
+		});
+
+		$loc.readinto = new Sk.builtin.func(function (self) {
+		});
+
+		$loc.write = new Sk.builtin.func(function (self, buffer) {
+			component_write(self, buffer.v);
+		});
+
+		$loc.any = new Sk.builtin.func(function (self) {
+			if (['hc05', 'hm10', 'groveBT'].includes(self.module.mod.id)) {
+				const n = BluetoothSimulator.checkBluetoothData('available', self.module.pin.id);
+				return new Sk.builtin.int_(n);
+			} else if (self.module.mod.id == 'mhz19') {
+				if (self._rx_buffer.length == 1) {
+					self._rx_buffer = Simulator.Mosaic.grove.calculs.getMHZ19Data(Simulator.getSliderValue('mhz19-co2'), Simulator.getSliderValue('mhz19-temp'));
+					return new Sk.builtin.int_(0);
+				}
+				return new Sk.builtin.int_(self._rx_buffer.length - 1);
+			} else if (self.module.mod.id == 'gps') {
+				self._rx_buffer = Simulator.Components.GPS.generateNMEAGGA(self.module.pin.id);
+				return new Sk.builtin.int_(self._rx_buffer.length);
+			}
+			return new Sk.builtin.int_(0);
+		});
+
+		$loc.txdone = new Sk.builtin.func(function (self) {
+		});
+
+		$loc.irq = new Sk.builtin.func(function (self) {
+		});
+
+	});
 
 	return machine;
 };

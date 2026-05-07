@@ -18,9 +18,9 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "UNIT",
             "options": [
+                ["%{BKY_MICROBIT_SLEEP_SECOND}", "SEC"]
                 ["%{BKY_MICROBIT_SLEEP_MILLISECOND}", "MILLI"],
-                ["%{BKY_MICROBIT_SLEEP_MICROSECOND}", "MICRO"],
-                ["%{BKY_MICROBIT_SLEEP_SECOND}", "SECOND"]
+                ["%{BKY_MICROBIT_SLEEP_MICROSECOND}", "MICRO"]
             ]
         }],
         "previousStatement": null,
@@ -178,74 +178,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "ICON",
-            "options": [
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/heart.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "HEART"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/happy.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "HAPPY"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/sad.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "SAD"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/yes.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "YES"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/no.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "NO"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/man.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "STICKFIGURE"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/pitchfork.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "PITCHFORK"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/umbrella.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "UMBRELLA"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/skull.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "SKULL"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/chessboard.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "CHESSBOARD"],
-                [{
-                    'src': _PATH + '/microbit/assets/media/blocks_icons/butterfly.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "BUTTERFLY"]
-            ]
+            "options": Blockly.Constants.Utils.BlockOptions.getMicrobitIcons()
         }],
         "previousStatement": null,
         "nextStatement": null,
@@ -518,7 +451,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
                 ["8", "8"],
             ]
         }],
-        "output": null,
+        "output": "String",
         "extensions": [
             "block_init_helpurl",
             "block_init_color"
@@ -1267,7 +1200,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
+            "options": Blockly.Constants.Pins.digital['microbit']
         }],
         "inputsInline": true,
         "previousStatement": null,
@@ -1302,7 +1235,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
+            "options": Blockly.Constants.Pins.digital['microbit']
         }],
         "inputsInline": true,
         "previousStatement": null,
@@ -1329,7 +1262,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
+            "options": Blockly.Constants.Pins.digital['microbit']
         }],
         "inputsInline": true,
         "previousStatement": null,
@@ -1360,7 +1293,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
+            "options": Blockly.Constants.Pins.digital['microbit']
         }],
         "inputsInline": true,
         "previousStatement": null,
@@ -1383,7 +1316,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
+            "options": Blockly.Constants.Pins.digital['microbit']
         }],
         "inputsInline": true,
         "previousStatement": null,
@@ -1402,7 +1335,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
+            "options": Blockly.Constants.Pins.digital['microbit']
         }],
         "inputsInline": true,
         "previousStatement": null,
@@ -1421,7 +1354,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
+            "options": Blockly.Constants.Pins.digital['microbit']
         }],
         "previousStatement": null,
         "nextStatement": null,
@@ -1455,7 +1388,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             {
                 "type": "field_grid_dropdown",
                 "name": "PIN",
-                "options": Blockly.Constants.Pins.MICROBIT_PINS
+                "options": Blockly.Constants.Pins.digital['microbit']
             }
         ],
         "previousStatement": null,
@@ -1496,7 +1429,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
+            "options": Blockly.Constants.Pins.digital['microbit']
         }],
         "style": "mb_blocks",
         "output": "Boolean",
@@ -1513,7 +1446,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
+            "options": Blockly.Constants.Pins.digital['microbit']
         }, {
             "type": "input_value",
             "name": "STATE",
@@ -1536,7 +1469,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_ANALOG_READ_PINS
+            "options": Blockly.Constants.Pins.analog_read['microbit']
         }],
         "output": "Number",
         "style": "mb_blocks",
@@ -1553,7 +1486,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
+            "options": Blockly.Constants.Pins.digital['microbit']
         }, {
             "type": "input_value",
             "name": "VALUE",
@@ -1587,7 +1520,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
+            "options": Blockly.Constants.Pins.digital['microbit']
         }],
         "inputsInline": true,
         "previousStatement": null,
@@ -1638,7 +1571,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_ANALOG_READ_PINS
+            "options": Blockly.Constants.Pins.analog_read['microbit']
         }],
         "output": "Number",
         "style": "mb_blocks",
@@ -1655,7 +1588,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_ANALOG_READ_PINS
+            "options": Blockly.Constants.Pins.analog_read['microbit']
         }],
         "output": "Number",
         "style": "mb_blocks",
@@ -1672,7 +1605,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_ANALOG_READ_PINS
+            "options": Blockly.Constants.Pins.analog_read['microbit']
         }],
         "output": "Number",
         "style": "mb_blocks",
@@ -1689,7 +1622,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_ANALOG_READ_PINS
+            "options": Blockly.Constants.Pins.analog_read['microbit']
         }],
         "output": "Number",
         "style": "mb_blocks",
@@ -1786,7 +1719,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
+            "options": Blockly.Constants.Pins.digital['microbit']
         }],
         "inputsInline": true,
         "previousStatement": null,
@@ -1809,7 +1742,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
+            "options": Blockly.Constants.Pins.digital['microbit']
         }],
         "inputsInline": true,
         "previousStatement": null,
@@ -1832,7 +1765,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
+            "options": Blockly.Constants.Pins.digital['microbit']
         }],
         "inputsInline": true,
         "previousStatement": null,
@@ -1855,7 +1788,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
+            "options": Blockly.Constants.Pins.digital['microbit']
         }],
         "inputsInline": true,
         "previousStatement": null,
@@ -2075,16 +2008,16 @@ Blockly.Constants.Microbit.SENSORS_ULTRASONIC_MUTATOR_MIXIN = {
             // Create either a value 'PIN' dropdown field.
             this.appendDummyInput("GROVE_PIN")
                 .appendField(Blockly.Msg["SENSORS_ULTRASONIC_1PIN"])
-                .appendField(new Blockly.FieldDropdown(Blockly.Constants.Pins.MICROBIT_PINS), "PIN");
+                .appendField(new Blockly.FieldDropdown(Blockly.Constants.Pins.digital['microbit']), "PIN");
         } else {
             this.setInputsInline(false);
             // Create either value 'TRIG' & 'ECHO' dropdown fields.
             this.appendDummyInput("HC_PINS")
                 .appendField(Blockly.Msg["SENSORS_ULTRASONIC_2PINS"])
                 .appendField("TRIG")
-                .appendField(new Blockly.FieldDropdown(Blockly.Constants.Pins.MICROBIT_PINS), "TRIG")
+                .appendField(new Blockly.FieldDropdown(Blockly.Constants.Pins.digital['microbit']), "TRIG")
                 .appendField("ECHO")
-                .appendField(new Blockly.FieldDropdown(Blockly.Constants.Pins.MICROBIT_PINS), "ECHO");
+                .appendField(new Blockly.FieldDropdown(Blockly.Constants.Pins.digital['microbit']), "ECHO");
         }
         this.isGrove_ = isGrove;
     }

@@ -10638,11 +10638,7 @@ Sk.builtin.id = function (obj) {
     return new Sk.builtin.int_(_id++);
 };
 
-/**
- * START VITTASCIENCE ADS / defining minimum for bytearray
- * TO DO: define bytearray as a type like bytes
- */
-
+/*
 Sk.builtin.bytearray = function bytearray(value) {
     if (Sk.builtin.checkInt(value)) {
         return new Sk.builtin.list(Array.from(new Uint8Array(value.v)));
@@ -10654,10 +10650,7 @@ Sk.builtin.bytearray = function bytearray(value) {
         return value;
     }
 };
-
-/**
- * END VITTASCIENCE ADS
- */
+*/
 
 Sk.builtin.callable = function callable(obj) {
     // check num of args
@@ -10816,6 +10809,7 @@ Sk.builtins = {
     "SyntaxError"        : Sk.builtin.SyntaxError,
     "SystemError"        : Sk.builtin.SystemError,
     "OSError"            : Sk.builtin.OSError,
+    "UnicodeError"       : Sk.builtin.UnicodeError,
 
     "float_$rw$": Sk.builtin.float_,
     "int_$rw$"  : Sk.builtin.int_,
@@ -19150,6 +19144,19 @@ Sk.builtin.OSError = Sk.abstr.buildNativeClass("OSError", {
     base: Sk.builtin.Exception,
 });
 Sk.exportSymbol("Sk.builtin.OSError", Sk.builtin.OSError);
+
+/**
+ * @constructor
+ * @extends Sk.builtin.Exception
+ * @param {...} args Typically called with a single string argument
+ */
+Sk.builtin.UnicodeError = Sk.abstr.buildNativeClass("UnicodeError", {
+    constructor: function UnicodeError(...args) {
+        Sk.builtin.Exception.apply(this, args);
+    },
+    base: Sk.builtin.Exception,
+});
+Sk.exportSymbol("Sk.builtin.UnicodeError", Sk.builtin.UnicodeError);
 
 /**
  * END VITTASCIENCE ADDS

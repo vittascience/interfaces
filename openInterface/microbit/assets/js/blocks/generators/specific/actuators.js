@@ -2,6 +2,8 @@
  * @fileoverview Actuators generators for Micro:bit.
  */
 
+// MOTORS
+
 Blockly.Python.actuators_setServoAngle = function (block) {
     const pin = block.getFieldValue("PIN");
     const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
@@ -17,13 +19,6 @@ Blockly.Python.actuators_continuousServo_setSpeed = function (block) {
     Blockly.Python.addFunction('setServoSpeed', FUNCTIONS_MICROBIT.DEF_SERVO_SET_SPEED);
     Blockly.Python.addInit('continuous_servo_module_' + block.getFieldValue("PIN"), "# Continuous Servo on " + block.getFieldValue("PIN"));
     return "setServoSpeed(" + pin + ", " + dir + ", " + speed + ")" + NEWLINE;
-};
-
-Blockly.Python.actuators_setMotorPower = function (block) {
-    const pin = block.getFieldValue("PIN");
-    const power = Blockly.Python.valueToCode(block, "POWER", Blockly.Python.ORDER_NONE) || "0";
-    Blockly.Python.addInit('motor_module_' + pin, "# Motor on " + pin);
-    return pin + ".write_analog(" + power + ")" + NEWLINE;
 };
 
 Blockly.Python.actuators_setFanPower = function (block) {
@@ -53,7 +48,6 @@ Blockly.Python.actuators_stepperMotor_uln2003driver_init = function (block) {
     const in3 = block.getFieldValue("IN3");
     const in4 = block.getFieldValue("IN4");
     Blockly.Python.addImport('StepperMotor', IMPORT_STEPPER_MOTOR);
-    // Blockly.Python.addInit('neopixel_' + pin, "# Neopixel on " + pin);
     Blockly.Python.addInit('StepperMotor' + motor, 'motor' + motor + ' = StepperMotor(' + in1 + ', ' + in2 + ', ' + in3 + ', ' + in4 + ')');
     return '' + NEWLINE;
 };
@@ -79,8 +73,24 @@ Blockly.Python.actuators_stepperMotor_uln2003driver_setDelay = function (block) 
     return "motor" + motor + ".setDelay(" + delay + ")" + NEWLINE;
 };
 
+// KITRONIK
 
-// KITRONIK MOTOR DRIVER 
+Blockly.Python.actuators_controlAccessBitBarrier = function (block) {
+    const action = block.getFieldValue("ACTION");
+    const angle = action == "RAISE" ? 0 : 65
+    Blockly.Python.addInit('servo_module_pin0', "# Servo on pin0");
+    Blockly.Python.addFunction('setServoAngle', FUNCTIONS_MICROBIT.DEF_SERVO_SET_ANGLE);
+    return `setServoAngle(pin0, ${angle})` + NEWLINE;
+};
+
+Blockly.Python.actuators_controlAccessBitBuzzer = function (block) {
+    const value = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.addImport('utime', IMPORT_UTIME);
+    Blockly.Python.addImport('music', IMPORT_MUSIC);
+    Blockly.Python.addInit('buzzer_module_pin1', "# Buzzer on pin1");
+    Blockly.Python.addFunction('pitch', FUNCTIONS_MICROBIT.DEF_BUZZER_PITCH);
+    return `music.pitch(440, duration=${value}, pin=pin1)` + NEWLINE;
+};
 
 Blockly.Python.actuators_kitronik_controlMotor = function (block) {
     const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
@@ -105,6 +115,21 @@ Blockly.Python.actuators_kitronik_stopMotor = function (block) {
     }
 };
 
+Blockly.Python.actuators_kitronikShield_setServoAngle = function (block) {
+    Blockly.Python.addImport('kitronik_servo_driver', IMPORT_KITRONIK_SERVO_DRIVER);
+    Blockly.Python.addInit("kitronik-servoBoard", "servoBoard = KitronikServoBoard()");
+    const servo = Blockly.Python.valueToCode(block, "SERVO", Blockly.Python.ORDER_NONE) || "1";
+    const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
+    return `servoBoard.servo_write(${servo}, ${angle})` + NEWLINE;
+};
+
+Blockly.Python.actuators_kitronik_playFrequency = function (block) {
+    Blockly.Python.addImport('music', IMPORT_MUSIC);
+    const freq = Blockly.Python.valueToCode(block, "FREQUENCY", Blockly.Python.ORDER_NONE) || "0";
+    const duration = Blockly.Python.valueToCode(block, "DURATION", Blockly.Python.ORDER_NONE) || "0";
+    return "music.pitch(" + freq + ", duration=" + duration + ", pin=pin12)" + NEWLINE;
+};
+
 // MOSFET
 
 Blockly.Python.actuators_mosfet_setState = function (block) {
@@ -121,25 +146,17 @@ Blockly.Python.actuators_mosfet_setPercentValue = function (block) {
     return pin + ".write_analog(1023*" + value + "/100)" + NEWLINE;
 };
 
-// KITRONIC TRAFFIC
+// AUDIO
 
-Blockly.Python.actuators_controlAccessBitBarrier = function (block) {
-    const action = block.getFieldValue("ACTION");
-    const angle = action == "RAISE" ? 0 : 65
-    Blockly.Python.addInit('servo_module_pin0', "# Servo on pin0");
-    Blockly.Python.addFunction('setServoAngle', FUNCTIONS_MICROBIT.DEF_SERVO_SET_ANGLE);
-    return `setServoAngle(pin0, ${angle})` + NEWLINE;
+Blockly.Python.microbit_audio_play = function (block) {
+    const song = block.getFieldValue("SONG");
+    return "audio.play(Sound." + song + ")" + NEWLINE;
+};
 
-}
+Blockly.Python.microbit_audio_stop = function () {
+    return "audio.stop()" + NEWLINE;
+};
 
-Blockly.Python.actuators_controlAccessBitBuzzer = function (block) {
-    const value = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || "0";
-    Blockly.Python.addImport('utime', IMPORT_UTIME);
-    Blockly.Python.addImport('music', IMPORT_MUSIC);
-    Blockly.Python.addInit('buzzer_module_pin1', "# Buzzer on pin1");
-    Blockly.Python.addFunction('pitch', FUNCTIONS_MICROBIT.DEF_BUZZER_PITCH);
-    return `music.pitch(440, duration=${value}, pin=pin1)` + NEWLINE;
-}
 // MUSIC
 
 Blockly.Python.actuators_playMusicGroveBuzzer = function (block) {
@@ -231,13 +248,6 @@ Blockly.Python.actuators_music_playFrequency = function (block) {
     }
 };
 
-Blockly.Python.actuators_kitronik_playFrequency = function (block) {
-    Blockly.Python.addImport('music', IMPORT_MUSIC);
-    const freq = Blockly.Python.valueToCode(block, "FREQUENCY", Blockly.Python.ORDER_NONE) || "0";
-    const duration = Blockly.Python.valueToCode(block, "DURATION", Blockly.Python.ORDER_NONE) || "0";
-    return "music.pitch(" + freq + ", duration=" + duration + ", pin=pin12)" + NEWLINE;
-};
-
 Blockly.Python.actuators_music_stop = function (block) {
     Blockly.Python.addImport('music', IMPORT_MUSIC);
     const pin = block.getFieldValue("PIN");
@@ -265,6 +275,8 @@ Blockly.Python.actuators_music_getTempo = function () {
     return ["music.get_tempo()", Blockly.Python.ORDER_ATOMIC];
 };
 
+// SPEECH
+
 Blockly.Python.actuators_speech_saySomething = function (block) {
     const text = Blockly.Python.valueToCode(block, "TEXT", Blockly.Python.ORDER_NONE) || "''";
     const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
@@ -276,6 +288,8 @@ Blockly.Python.actuators_speech_saySomething = function (block) {
         return "speech.say(str(" + text + "), speed=" + speed + ", pitch=" + pitch + ")" + NEWLINE;
     }
 };
+
+// OTHERS
 
 Blockly.Python.actuators_setElectromagnetState = function (block) {
     const pin = block.getFieldValue("PIN");

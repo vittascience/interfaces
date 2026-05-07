@@ -1,208 +1,459 @@
 // You can modify functions but don't refactoring strings writing format, it is used if python code has to be changed
 // Spaces and indents are very important in python code/***** INPUT/OUTPUT CATEGORY ****/
 const FUNCTIONS_RASPBERRY = {
-DEF_PIN_ADC:
-`def pinADC(pinNumber, db=ADC.ATTN_11DB, bit=ADC.WIDTH_13BIT):
-  pin = ADC(Pin(pinNumber))
-  pin.atten(db)
-  pin.width(bit)
-  return pin`,
+DEF_SETUP_GPIO:
+`def setupGPIO():
+  #GPIO.cleanup()
+  GPIO.setmode(GPIO.BCM)
+  #pins = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 21, 22, 23, 24, 25, 26, 27]
+  #for pin in pins:
+  #  GPIO.setup(pin, GPIO.IN)`,
 
-DEF_PIN_WRITE:
-`def pinWrite(pinNumber, db=ADC.ATTN_11DB, bit=ADC.WIDTH_10BIT):
-  pin = ADC(Pin(pinNumber))
-  pin.atten(db)
-  pin.width(bit)
-  return pin`,
+DEF_TIME_PULSE_US:
+`def time_pulse_us(pin, level, timeout_us=1000000):
+  timeout_s = timeout_us / 1_000_000
 
-DEF_GET_ANALOG_MEAN:
-`def getAnalogMean(pin, n = 32):
-  sum = 0
-  for i in range(32):
-    sum += pin.read()
-  return sum >> 5`,
+  start = time.perf_counter()
+  while GPIO.input(pin) != level:
+    if time.perf_counter() - start > timeout_s:
+      return -2
 
-/******** COMMUNICATION CATEGORY */
-// galaxia radio _ send number
-DEF_COM_RADIO_SEND:
-`def radio_send(data):
-  type = None
-  if isinstance(data, int):
-    type = "int:"
-  elif isinstance(data, float):
-    type = "float:"
-  elif isinstance(data, bool):
-    data = int(data)
-    type = "bool:"
-  if type is not None:
-    radio.send("&&&" + type + str(data) + "&&&")
-  else:
-    raise ValueError("Unable to send number: '" + str(data) + "'")`,
+  pulse_start = time.perf_counter()
+  while GPIO.input(pin) == level:
+    if time.perf_counter() - pulse_start > timeout_s:
+      return -1
 
-// galaxia radio _ send value
-DEF_COM_RADIO_SEND_VALUE:
-`def radio_sendValue(name, value):
-  type = ""
-  if isinstance(value, int):
-    type = "int:"
-  elif isinstance(value, float):
-    type = "float:"
-  elif isinstance(value, bool):
+  pulse_end = time.perf_counter()
+  return int((pulse_end - pulse_start) * 1_000_000)`,
+
+/****** DISPLAY CATEGORY ******/
+
+// NEOPX module _ show all led   
+DEF_NEOPIXEL_SHOW_ALL_LED:
+`def neopixel_showAllLed(neoPx, ledCount, R, G, B):
+  for i in range(ledCount):
+    neoPx.setPixelColor(i, Color(R, G, B)) 
+  neoPx.show()`,
+
+// Neopixel _ RAINBOW
+DEF_NEOPIXEL_RAINBOW:
+`def neopixel_rainbow(neoPx, ledCount): 
+  R = 255 
+  G = 50 
+  B = 50 
+  for G in range(50, 256, 5):
+    neopixel_showAllLed(neoPx, ledCount, R, G, B)
+    time.sleep(0.005)
+  for R in range(255, 49, -5): 
+    neopixel_showAllLed(neoPx, ledCount, R, G, B)
+    time.sleep(0.005)
+  for B in range(50, 256, 5): 
+    neopixel_showAllLed(neoPx, ledCount, R, G, B)
+    time.sleep(0.005)
+  for G in range(255, 49, -5): 
+    neopixel_showAllLed(neoPx, ledCount, R, G, B)
+    time.sleep(0.005)
+  for R in range(50, 256, 5): 
+    neopixel_showAllLed(neoPx, ledCount, R, G, B)
+    time.sleep(0.005)
+  for B in range(255, 49, -5): 
+    neopixel_showAllLed(neoPx, ledCount, R, G, B)
+    time.sleep(0.005)`,
+
+DEF_4DIGITDISPLAY_NUMBER:
+`def DigitDisplay_number(value):
+  if isinstance(value, bool):
     value = int(value)
-    type = "bool:"
-  elif isinstance(value, list):
-    type = "list:"
-  radio.send("&&&" + type + "[" + name + ";" + str(value) + "]&&&")`,
+  if isinstance(value, int):
+    s = str(value)
+    return s.rjust(4) if len(s) <= 4 else "EEEE"
+  if isinstance(value, float):
+    for fmt in (".2f", ".1f", ".0f"):
+      s = format(value, fmt).rstrip("0").rstrip(".")
+      if len(s) <= 4:
+        return s.rjust(4)
+    return "EEEE"
+  s = str(value).strip()
+  return s.rjust(4) if len(s) <= 4 else "EEEE"`,
 
-// galaxia radio _ receive data
-DEF_COM_RADIO_RECEIVE_DATA:
-`def radio_receiveData():
-  data = radio.receive()
-  if data:
-    if data.find('&&&int:') != -1:
-      return int(data[7:-3])
-    elif data.find('&&&float:') != -1:
-      return float(data[9:-3])
-    elif data.find('&&&bool:') != -1:
-      value = data[8:-3]
-      if len(value) == 1: return bool(int(value))
-      if value is 'False': return bool(0)
-      else: return bool(1)
-    elif data.find('&&&list:') != -1:
-      return data[8:-3].strip('][').split(', ')
-    else:
-      return data
-  else:
-    return None`,
-
-// galaxia radio _ receive value
-DEF_COM_RADIO_RECEIVE_VALUE:
-`def radio_receiveValue():
-  data = radio.receive()
-  if data:
-    if data.find('&&&int:[') != -1:
-      parseData = data[8:-4].split(';')
-      return parseData[0], int(parseData[1])
-    elif data.find('&&&float:[') != -1:
-      parseData = data[10:-4].split(';')
-      return parseData[0], float(parseData[1])
-    elif data.find('&&&bool:[') != -1:
-      parseData = data[9:-4].split(';')
-      return parseData[0], bool(parseData[1])
-    elif data.find('&&&list:[') != -1:
-      parseData = data[9:-4].split(';')
-      return parseData[0], parseData[1].strip('][').split(', ')
-    else:
-      return None, None
-  else:
-    return None, None`,
-    
-// Grove GPS _ read NMEA
-DEF_GPS_READ_NMEA:
-`def gps_readNMEA(uart, wait = False):
-  global gpsInfos
-  def read():
-    global gpsInfos
-    global gpsBuffer
-    if uart.any():
-      gpsBuffer += str(uart.read())[2:-1]
-      a = gpsBuffer.split("\\\\\\r\\\\\\n")
-      Frames = []
-      for f in a:
-        if (f.count(',') is 12 or f.count(',') is 14) and (f.find("$GNGGA") == 0 or f.find("$GPGGA") == 0):
-          Frames.append(f)
-        if f.count(',') is 19 and f.find("$GPGSV") == 0:
-          Frames.append(f)
-        if f.count(',') is 17 and (f.find("$GPGSA") == 0 or f.find("$BDGSA") == 0):
-          Frames.append(f)
-        if f.count(',') is 9 and f.find("$GNVTG") == 0:
-          Frames.append(f)
-      gpsBuffer = a[-1]
-      if len(Frames) > 0:
-        print("[GPS_INFO] Lecture de la trame NMEA valide.\\n")
-        gpsInfos['nmea'] = Frames
-  if wait:
-    gpsInfos['nmea'] = None
-    while gpsInfos['nmea'] is None:
-      read()
-      utime.sleep_ms(100)
-  else:
-    read()
-  return gpsInfos['nmea']`,
-
-// Gove GPS _ read info
-DEF_GPS_GET_GGA_INFORMATIONS:
-`def gps_GGA_getInformation(uart, info = None):
-  global gpsInfos
-  frame = ['type', 'clock', 'latitude', 'latDir', 'longitude', 'lonDir', 'positionType', 'satellite', 'precision', 'altitude', 'altUnit']
-  gpsNMEA = gps_readNMEA(uart)
-  if gpsNMEA is None:
-    gpsNMEA = gpsInfos['nmea']
-  if gpsNMEA is not None:
-    for f in gpsInfos['nmea']:
-      if f.find("$GNGGA") == 0 or f.find("$GPGGA") == 0:
-        gpsNMEA = f
-        break
-      else:
-        gpsNMEA = None
-    if gpsNMEA is not None:
-      nmeaArray = gpsNMEA.split(',')
-      for i in frame:
-        data = nmeaArray[frame.index(i)]
-        if i is 'clock':
-          try:
-            date = float(data)
-            h = int(date / 10000)
-            m = int((date - h*10000) / 100)
-            s = int(date - h*10000 - m*100)
-            gpsInfos[i] = (h, m, s)
-          except: pass
-        elif i is 'latitude' or i is 'longitude':
-          try:
-            pos = float(data)
-            base = int(pos/100)
-            side = 1
-            if (i is 'latitude' and nmeaArray[frame.index(i) + 1] is 'S') or (i is 'longitude' and nmeaArray[frame.index(i) + 1] is 'W'):
-              side = -1
-            gpsInfos[i] = side*float("%03.5f"%(base + (pos - base*100)/60))
-          except: pass
-        elif i is 'positionType' or i is 'satellite':
-          try: gpsInfos[i] = int(data)
-          except: pass
-        elif i is 'precision' or i is 'altitude':
-          try: gpsInfos[i] = float(data)
-          except: pass
-        else:
-          gpsInfos[i] = data
-  if info is None:
-    return gpsInfos
+DEF_4DIGITDISPLAY_TEMP:
+`def DigitDisplay_temperature(t):
   try:
-    return gpsInfos[info]
-  except:
-    return None`,
+    t = int(round(float(t)))
+  except (ValueError, TypeError):
+    return "EE°C"
+  if -9 <= t <= 99:
+    return f"{t}°C".rjust(4)
+  return "EE°C"`,
+
+/****** IO CATEGORY ******/
+
+SENSE_HAT_GET_EVENT_JOYSTICK:
+`def senseHat_getEventsJoystick():
+  for event in sense.stick.get_events():
+    print("The joystick was {} {}".format(event.action, event.direction))`,
+
+/****** SENSORS CATEGORY ******/
+
+DEF_CAMERA_RPI_PREVIEW_CONFIGURE:
+`def camera_RPI_preview_configure(size, mode = 1):
+  os.environ["LIBCAMERA_LOG_LEVELS"] = "3"
+  #rpiCam.set_logging(Picamera2.ERROR)
+  rpiCam_config = rpiCam.create_preview_configuration(
+    {"size": size}, 
+    raw=rpiCam.sensor_modes[mode]
+  )
+  rpiCam.configure(rpiCam_config)`,
+
+DEF_CAMERA_RPI_VIDEO_CONFIGURE:
+`def camera_RPI_video_configure(size):
+  rpiCam_config = rpiCam.create_video_configuration(
+    main={"size": size, "format": "RGB888"}
+  )
+  rpiCam.configure(rpiCam_config)`,
+
+DEF_CAMERA_RPI_TAKE_PICTURE:
+`def camera_RPI_takePicture():
+  rpiCam.start()
+  time.sleep(2)
+  frame = rpiCam.capture_array()
+  rpiCam.stop()
+  time.sleep(2)
+  return frame`,
+
+DEF_CAMERA_RPI_TAKE_VIDEO:
+`def camera_RPI_takeVideo(duration = 5, filename = None):
+  output_dir = pathlib.Path(__file__).parent / "static/videos"
+  output_dir.mkdir(parents=True, exist_ok=True)
+  if filename is None:
+    filename = f"video_{datetime.now().strftime('%Y%m%d_%H%M%S')}.mp4"
+  elif "." not in filename:
+    filename += ".mp4"
+  output_path = output_dir / filename
+
+  encoder = picamera2.encoders.H264Encoder()
+  output = picamera2.outputs.PyavOutput(str(output_path))
+  rpiCam.start_recording(encoder, output)
+  time.sleep(duration)
+  rpiCam.stop_recording()
+
+  return output_path`,
+
+DEF_CAMERA_USB_TAKE_PICTURE:
+`def camera_USB_takePicture(slot = 0):
+  cap = cv2.VideoCapture(slot)
+  width, height = cv2_frame_size
+  if width is not None:
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+  if height is not None:
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+  if not cap.isOpened():
+    raise RuntimeError("Impossible d'ouvrir la caméra USB")
+  for _ in range(5):
+    cap.read()
+    time.sleep(0.05)
+  ret, frame = cap.read()
+  cap.release()
+  if not ret:
+    raise RuntimeError("Impossible de capturer l'image")
+  return frame`,
+
+DEF_CAMERA_USB_TAKE_VIDEO:
+`def camera_USB_takeVideo(slot=0, duration=5, filename=None, fps=20):
+  output_dir = pathlib.Path(__file__).parent / "static/videos"
+  output_dir.mkdir(parents=True, exist_ok=True)
+  if filename is None:
+    filename = f"video_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+  avi_path = output_dir / f"{filename}.avi"
+  mp4_path = output_dir / f"{filename}.mp4"
+
+  cap = cv2.VideoCapture(slot)
+  cap.set(cv2.CAP_PROP_FRAME_WIDTH, cv2_frame_size[0])
+  cap.set(cv2.CAP_PROP_FRAME_HEIGHT, cv2_frame_size[1])
+  if not cap.isOpened():
+    raise RuntimeError("Impossible d'ouvrir la caméra")
+
+  width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+  height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+  writer = cv2.VideoWriter(str(avi_path), cv2.VideoWriter_fourcc(*"MJPG"), fps, (width, height))
+  if not writer.isOpened():
+    cap.release()
+    raise RuntimeError("Impossible de créer le fichier vidéo")
+
+  for _ in range(10):
+    cap.read()
+    time.sleep(0.05)
+
+  frame_count = 0
+  start = time.time()
+  while time.time() - start < duration:
+    ret, frame = cap.read()
+    if not ret or frame is None:
+      continue
+    writer.write(frame)
+    frame_count += 1
+
+  writer.release()
+  cap.release()
+  if frame_count == 0:
+    raise RuntimeError("Aucune frame enregistrée")
+
+  subprocess.run(["ffmpeg", "-y", "-i", str(avi_path), "-c:v", "libx264", "-pix_fmt", "yuv420p", str(mp4_path)], check=True)
+  avi_path.unlink(missing_ok=True)
+
+  print("Frames écrites :", frame_count)
+  print("Fichier :", mp4_path)
+
+  return str(mp4_path)`,
+
+DEF_CV2_CAMERA_SAVE_PICTURE:
+`def cv2_camera_savePicture(frame, filename = None):
+  output_dir = pathlib.Path(__file__).parent / "static/images"
+  output_dir.mkdir(parents=True, exist_ok=True)
+  if filename == None:
+    filename = f"photo_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jpg"
+  elif '.' not in filename:
+    filename += '.jpg'
+  output_path = output_dir / filename
+  cv2.imwrite(str(output_path), frame)
+  return output_path`,
+
+DEF_SHOW_PICTURE_IN_VITTASCIENCE:
+`def show_picture_in_Vittascience(data):
+  import numpy as np
+  output_path = None
+  if isinstance(data, str):
+    output_dir = pathlib.Path(__file__).parent / "static/images"
+    if '.' not in data:
+      data += '.jpg'
+    output_path = output_dir / data
+  elif isinstance(data, np.ndarray):
+    output_path = cv2_camera_savePicture(data)
+  if output_path:
+    print(f"IMAGE_CAPTURED_SUCCESSFULLY: {output_path}\\n")
+  else:
+    print("Impossible d'afficher l'image: " + str(data))`,
+
+DEF_SHOW_VIDEO_IN_VITTASCIENCE:
+`def show_video_in_Vittascience(filename):
+  import numpy as np
+  output_dir = pathlib.Path(__file__).parent / "static/videos"
+  if '.' not in filename:
+    filename += '.mp4'
+  output_path = output_dir / filename
+  if output_path:
+    print(f"VIDEO_CAPTURED_SUCCESSFULLY: {output_path}\\n")
+  else:
+    print("Impossible d'afficher la vidéo: " + str(filename))`,
+
+DEF_FOLDER_GETFILESFROM:
+`def folder_getFilesFrom(path):
+  return [f.name for f in path.iterdir() if f.is_file()]`,
+  
+SENSE_HAT_TEMPERATURE :
+`def senseHat_getTemperature(unit='celsius'):
+  temp = sense.get_temperature()
+  if unit == 'fahrenheit':
+    return temp * 9/5 + 32
+  elif unit == 'kelvin':
+    return temp + 273.15
+  else:
+    return temp`,
+
+SENSE_HAT_TEMPERATURE_FROM :
+`def senseHat_getTemperatureFrom(sensor, unit='celsius'):
+  if sensor == 'humidity':
+    temp = sense.get_temperature_from_humidity()
+  elif sensor == 'pressure':
+    temp = sense.get_temperature_from_pressure()
+  if unit == 'fahrenheit':
+    return temp * 9/5 + 32
+  elif unit == 'kelvin':
+    return temp + 273.15
+  else:
+    return temp`,
+
+SENSE_HAT_PRESSURE :
+`def senseHat_getPressure(unit='mbar'):
+  pressure = sense.get_pressure()
+  if unit == 'bar':
+    return pressure / 1000
+  elif unit == 'hPa':
+    return pressure
+  elif unit == 'mmHg':
+    return pressure * 0.750062
+  elif unit == 'psi':
+    return pressure * 0.014503773773022
+  else:
+    return pressure`,
+
+DEF_SGP30_MEASURE:
+`def sgp30_measure(data_type):
+  global _sgp30_last_time, _sgp30_last_values
+
+  if data_type not in ("tvoc", "co2eq"):
+    raise ValueError("data_type must be 'tvoc' or 'co2eq'")
+  now = time.monotonic()
+
+  if now - _sgp30_last_time >= 1.0 or _sgp30_last_values["co2eq"] is None:
+    crc_status = sgp30.measure_air_quality()
+    if crc_status:
+      _sgp30_last_values["co2eq"] = sgp30.CO2eq
+      _sgp30_last_values["tvoc"] = sgp30.TVOC
+    _sgp30_last_time = now
+
+  return _sgp30_last_values[data_type]`,
+
+DEF_SCD30_MEASURE:
+`def scd30_measure(data_type):
+  global _scd30_last_time, _scd30_last_values
+
+  if data_type not in ("co2", "temp", "hum"):
+    raise ValueError("data_type must be 'co2', 'temp' or 'hum'")
+  now = time.monotonic()
+
+  if now - _scd30_last_time >= 2.0 or _scd30_last_values["co2"] is None:
+    if scd.data_available:
+      _scd30_last_values["co2"] = scd.CO2
+      _scd30_last_values["temp"] = scd.temperature
+      _scd30_last_values["hum"] = scd.relative_humidity
+      _scd30_last_time = now
+
+  return _scd30_last_values[data_type]`,
+
+DEF_HM330X_MEASURE:
+`def hm330x_measure(data_type):
+  """
+  Lit une mesure du capteur HM330X/HM3301.
+  Retourne la valeur en µg/m³.
+  """
+  if data_type not in ("pm1", "pm2_5", "pm10", "pm1_atm", "pm2_5_atm", "pm10_atm"):
+    raise ValueError("data_type must be one of: 'pm1', 'pm2_5', 'pm10', 'pm1_atm', 'pm2_5_atm', 'pm10_atm'")
+
+  data = _hm330x.read_data()
+
+  if not _hm330x.check_crc(data):
+    raise RuntimeError("HM330X CRC error")
+
+  values = {
+    "pm1":      (data[4]  << 8) | data[5],
+    "pm2_5":    (data[6]  << 8) | data[7],
+    "pm10":     (data[8]  << 8) | data[9],
+    "pm1_atm":  (data[10] << 8) | data[11],
+    "pm2_5_atm":(data[12] << 8) | data[13],
+    "pm10_atm": (data[14] << 8) | data[15]
+  }
+  return values[data_type]`,
+
+DEF_BMP280_GET_ALTITUDE:
+`def bmp280_get_altitude(sea_level_pressure_hpa = 1013.25):
+  pressure_hpa = bmp280.get_pressure() / 100.0
+  return 44330.0 * (1.0 - (pressure_hpa / sea_level_pressure_hpa) ** 0.1903)`,
+
+DEF_DHT11_MEASURE:
+`def dht11_measure(sensor, data_type, min_delay=2.0):
+  global _dht11_last_time, _dht11_last_values
+
+  if data_type not in ("temperature", "humidity"):
+    raise ValueError("data_type must be 'temperature' or 'humidity'")
+
+  now = time.monotonic()
+
+  if now - _dht11_last_time >= min_delay or _dht11_last_values["temperature"] is None:
+    hum, temp = sensor.read()
+
+    if hum is None or temp is None:
+      if _dht11_last_values[data_type] is None:
+        raise RuntimeError("DHT11 read failed")
+    else:
+      _dht11_last_values["temperature"] = temp
+      _dht11_last_values["humidity"] = hum
+      _dht11_last_time = now
+
+  return _dht11_last_values[data_type]`,
+
+DEF_DHT22_MEASURE:
+`def dht22_measure(sensor, data_type, min_delay=2.0):
+  global _dht22_last_time, _dht22_last_values
+
+  if data_type not in ("temperature", "humidity"):
+    raise ValueError("data_type must be 'temperature' or 'humidity'")
+
+  now = time.monotonic()
+
+  if now - _dht22_last_time >= min_delay or _dht22_last_values["temperature"] is None:
+    hum, temp = sensor.read()
+
+    if hum is None or temp is None:
+      if _dht22_last_values[data_type] is None:
+        raise RuntimeError("DHT22 read failed")
+    else:
+      _dht22_last_values["temperature"] = temp
+      _dht22_last_values["humidity"] = hum
+      _dht22_last_time = now
+
+  return _dht22_last_values[data_type]`,
+
+DEF_COLORSENSORV2_MEASURE:
+`def colorSensorV2_measure(color):
+  global _colorSensorV2_last_time, _colorSensorV2_last_raw
+
+  if color not in ("red", "green", "blue", "clear"):
+    raise ValueError("color must be 'red', 'green', 'blue' or 'clear'")
+
+  if time.monotonic() - _colorSensorV2_last_time >= 0.1 or _colorSensorV2_last_raw is None:
+    _colorSensorV2_last_raw = colorSensorV2.raw
+    _colorSensorV2_last_time = time.monotonic()
+
+  index = {
+    "red": 0,
+    "green": 1,
+    "blue": 2,
+    "clear": 3
+  }
+  return _last_raw[index[color]]`,
+
+// Grove Ultrasonic sensor _ get data
+DEF_HCSR04_ULTRASONIC:
+`def hcsr04_getUltrasonicData(trig, echo, data='distance', timeout_us=30000):
+  GPIO.output(trig, GPIO.LOW)
+  time.sleep(0.000002)
+  GPIO.output(trig, GPIO.HIGH)
+  time.sleep(0.000010)
+  GPIO.output(trig, GPIO.LOW)
+  duration = time_pulse_us(echo, 1, timeout_us)/1e6 # t_echo in seconds
+  if duration > 0:
+    if data == 'distance':
+      #sound speed, round-trip/2, get in cm
+      return 343 * duration/2 * 100
+    elif data == 'duration':
+      return duration
+    else:
+      raise ValueError("Data option '" + data + "' != valid")
+  else:
+    return -1`,
 
 /****** ACTUATORS CATEGORY ******/
 
 // Servomoteur _ set angle
 DEF_SERVO_SET_ANGLE:
-`def setServoAngle(pin, angle):
+`def setServoAngle(pwm_pin, angle):
   if (angle >= 0 and angle <= 180):
-    pin.duty(int(0.025*${PWM_MAX_DUTY} + (angle*0.1*${PWM_MAX_DUTY})/180))
+    pwm_pin.ChangeDutyCycle(int(0.025*${PWM_MAX_DUTY} + (angle*0.1*${PWM_MAX_DUTY})/180))
   else:
     raise ValueError("Servomotor angle have to be set between 0 and 180")`,
 
 // Continuous servomoteur _ set speed
 DEF_SERVO_SET_SPEED:
-`def setServoSpeed(pin, direction, speed):
-  if (speed >= 0 and speed <= 100):
-    GAP = 14
-    if direction == 1:
-      speedAngle = 90*(1+speed/100) - GAP
-      pin.duty(int(speedAngle))
-    elif direction == -1:
-      speedAngle = 90*(1-speed/100) - GAP
-      if speedAngle < 0: speedAngle = 1
-      pin.duty(int(speedAngle))
+`def setServoSpeed(pwm, direction, speed):
+  if speed >= 0 and speed < 5:
+    pwm.ChangeDutyCycle(0)
+  elif (speed >= 5 and speed <= 100):
+    GAP = -10
+    if direction == 1 or direction == -1:
+      angle = 90*(1 + direction*speed/100) - GAP
+      pw_percent = 0.025*${PWM_MAX_DUTY} + (angle + 90) * 0.1*${PWM_MAX_DUTY} / 180
+      pwm.ChangeDutyCycle(pw_percent)
     else:
       raise ValueError("continuous servomotor has no direction: '" + str(direction) + "'")
   else:
@@ -210,23 +461,17 @@ DEF_SERVO_SET_SPEED:
 
 // Buzzer module _ play music
 DEF_BUZZER_PITCH:
-`def pitch (pin, noteFrequency, noteDuration, silence_ms = 10):
-  if noteFrequency is not 0:
-    microsecondsPerWave = 1e6 / noteFrequency
-    millisecondsPerCycle = 1000 / (microsecondsPerWave * 2)
-    loopTime = noteDuration * millisecondsPerCycle
-    for x in range(loopTime):
-      pin.on()
-      utime.sleep_us(int(microsecondsPerWave))
-      pin.off()
-      utime.sleep_us(int(microsecondsPerWave))
-  else:
-    utime.sleep_ms(noteDuration)
-  utime.sleep_ms(silence_ms)`,
+`def pitch(pwm, noteFrequency, noteDuration, silence_ms = 10):
+  pwm.ChangeFrequency(noteFrequency)
+  pwm.ChangeDutyCycle(50)
+  if noteDuration:
+    time.sleep(noteDuration / 1000)
+    pwm.ChangeDutyCycle(0)
+  time.sleep(silence_ms / 1000)`,
 
 // Buzzer module _ play notes
 DEF_BUZZER_PLAY_NOTES:
-`def buzzer_playNotes (pin, notes, bpm = 120, ticks = 4):
+`def buzzer_playNotes(pwm, notes, bpm = 120, ticks = 4):
   NOTE_FREQUENCIES = {
     'c': 16.352,
     'c#': 17.324, 'db': 17.324,
@@ -244,7 +489,7 @@ DEF_BUZZER_PLAY_NOTES:
   }
   for i in range(len(notes)):
     timeout = 60000 / bpm / ticks
-    pin.off()
+    pwm.ChangeDutyCycle(0)
     n = notes[i].lower()
     data = n.split(':')
     note = 'r'
@@ -266,296 +511,108 @@ DEF_BUZZER_PLAY_NOTES:
     n['f'] = NOTE_FREQUENCIES[n['note']]
     for o in range(n['octave']):
       n['f'] = n['f'] * 2
-    pitch(pin, n['f'], timeout*n['ticks'])`,
+    pitch(pwm, n['f'], timeout*n['ticks'])`,
 
 // Buzzer module _ play pirates of carribean
 DEF_BUZZER_CARRIBEAN_PIRATES:
-`def BuzzerCarribeanPirates(pin):
+`def BuzzerCarribeanPirates(pwm):
   NOTES_1 = [330, 392, 440, 440, 0, 440, 494, 523, 523, 0, 523, 587, 494, 494, 0, 440, 392, 440, 0]
   DURATIONS_1 = [125, 125, 250, 125, 125, 125, 125, 250, 125, 125, 125, 125, 250, 125, 125, 125, 125, 375, 125]
   NOTES_2 = [330, 392, 440, 440, 0, 440, 523, 587, 587, 0, 587, 659, 698, 698, 0, 659, 587, 659, 440, 0, 440, 494, 523, 523, 0, 587, 659, 440, 0, 440, 523, 494, 494, 0, 523, 440, 494, 0]
   DURATIONS_2 = [125, 125, 250, 125, 125, 125, 125, 250, 125, 125, 125, 125, 250, 125, 125, 125, 125, 125, 250, 125, 125, 125, 250, 125, 125, 250, 125, 250, 125, 125, 125, 250, 125, 125, 125, 125, 375, 375]
   for j in range(2):
     for i in range(len(NOTES_1)):
-      pitch(pin, NOTES_1[i], DURATIONS_1[i])
+      pitch(pwm, NOTES_1[i], DURATIONS_1[i])
   for k in range(len(NOTES_2)):
-    pitch(pin, NOTES_2[k], DURATIONS_2[k])`,
+    pitch(pwm, NOTES_2[k], DURATIONS_2[k])`,
 
 // Buzzer module _ play gamme
 DEF_BUZZER_GAMME:
-`def BuzzerGamme(pin): 
+`def BuzzerGamme(pwm): 
   NOTES = [261.63, 293.66, 329.54, 349.23, 392, 440, 493.88, 523.25] 
   for i in range(len(NOTES)): 
-    pitch(pin, NOTES[i], 250, 50)`,
+    pitch(pwm, NOTES[i], 250, 50)`,
 
 // Buzzer module _ play Star Wars
 DEF_BUZZER_STAR_WARS:
-`def BuzzerStarWars(pin): 
+`def BuzzerStarWars(pwm): 
   NOTES = [293.66, 293.66, 293.66, 392.0, 622.25, 554.37, 523.25, 454, 932.32, 622.25, 554.37, 523.25, 454, 932.32, 622.25, 554.37, 523.25, 554.37, 454] 
   DURATIONS = [180, 180, 180, 800, 800, 180, 180, 180, 800, 400, 180, 180, 180, 800, 400, 180, 180, 180, 1000] 
   SILENCE_DELAYS = [40, 40, 40, 100, 100, 40, 40, 40, 100, 50, 40, 40, 40, 100, 50, 40, 40, 40, 100] 
   for i in range(len(NOTES)): 
-    pitch(pin, NOTES[i], DURATIONS[i], SILENCE_DELAYS[i])`,
+    pitch(pwm, NOTES[i], DURATIONS[i], SILENCE_DELAYS[i])`,
 
 // Buzzer module _ play R2D2
 DEF_BUZZER_R2D2:
-`def BuzzerR2D2(pin): 
+`def BuzzerR2D2(pwm): 
   R2D2_NOTES = [3520, 3135.96, 2637.02, 2093, 2349.32, 3951.07, 2793.83, 4186.01, 3520, 3135.96, 2637.02, 2093, 2349.32, 3951.07, 2793.83, 4186.01] 
   for i in range(len(R2D2_NOTES)): 
-    pitch(pin, R2D2_NOTES[i], 80, 20)`,
+    pitch(pwm, R2D2_NOTES[i], 80, 20)`,
 
-// NEOPX module _ show all led   
-DEF_NEOPIXEL_SHOW_ALL_LED:
-`def neopixel_showAllLed(neoPx, ledCount, R, G, B):
-  for i in range(ledCount):
-    color = neoPx.set_color(R, G, B)
-    neoPx.setPixelColor(i, color) 
-    neoPx.show()`,
+/****** ROBOTS CATEGORY ******/
 
-// Neopixel _ RAINBOW
-DEF_NEOPIXEL_RAINBOW:
-`def neopixel_rainbow(neoPx, ledCount): 
-  R = 255 
-  G = 50 
-  B = 50 
-  for G in range(50, 256, 5):
-    neopixel_showAllLed(neoPx, ledCount, R, G, B)
-    utime.sleep_ms(5)
-  for R in range(255, 49, -5): 
-    neopixel_showAllLed(neoPx, ledCount, R, G, B)
-    utime.sleep_ms(5)
-  for B in range(50, 256, 5): 
-    neopixel_showAllLed(neoPx, ledCount, R, G, B)
-    utime.sleep_ms(5)
-  for G in range(255, 49, -5): 
-    neopixel_showAllLed(neoPx, ledCount, R, G, B)
-    utime.sleep_ms(5)
-  for R in range(50, 256, 5): 
-    neopixel_showAllLed(neoPx, ledCount, R, G, B)
-    utime.sleep_ms(5)
-  for B in range(255, 49, -5): 
-    neopixel_showAllLed(neoPx, ledCount, R, G, B)
-    utime.sleep_ms(5)`,
+DEF_G1TANK_SET_LED_RED:
+`def g1tank_led_setRed(value):
+  pwm_gpio22.ChangeDutyCycle(value)`,
 
-DEF_GET_CURRENT_TIME:
-`def getCurrentTime():
-  mn=0
-  h=0
-  min0 = (utime.ticks_diff(utime.ticks_ms(), t0))/1000/60
-  h0 = min0/60
-  last_mins = MIN_START + int(min0) - (int(h0)*60)
-  if last_mins > 59:
-    mn = last_mins-60
-    h = HOUR_START + int(h0) + 1
-  else:
-    mn = last_mins
-    h = HOUR_START + int(h0)
-  return h,mn`,
+DEF_G1TANK_SET_LED_GREEN:
+`def g1tank_led_setGreen(value):
+  pwm_gpio27.ChangeDutyCycle(value)`,
 
-/****** SENSORS CATEGORY ******/
+DEF_G1TANK_SET_LED_BLUE:
+`def g1tank_led_setBlue(value):
+  pwm_gpio24.ChangeDutyCycle(value)`,
 
-// Grove O2 sensor _ read O2 concentration
-DEF_O2SENSOR_READ:
-`def readO2(pin, volt=False, Vref=3.3):
-  somme = getAnalogMean(pin)
-  return somme*(Vref/${READ_ANALOG_MAX_VALUE}.0) if volt else somme*(Vref/${READ_ANALOG_MAX_VALUE}.0)*0.21/2.0*100`,
+DEF_G1TANK_SET_LED_RGB:
+`def g1tank_setLEDRGB(R, G, B):
+  g1tank_led_setRed(int(R/255*100))
+  g1tank_led_setGreen(int(G/255*100))
+  g1tank_led_setBlue(int(B/255*100))`,
 
-// Grove Temperature _ read
-DEF_GROVE_GET_TEMP:
-`def getGroveTemperature(pin, unit='celsius'):
-  R = (float)(${READ_ANALOG_MAX_VALUE}- pin.read())*10000/pin.read()
-  A = 1.009249522e-03
-  B = 2.378405444e-04
-  C = 2.019202697e-07
+DEF_G1TANK_WAIT_KEY_PRESSING:
+`def g1tank_wait_KEY_press():
+  while GPIO.input(gpio8):
+    pass
+  while not GPIO.input(gpio8):
+    time.sleep(0.01)
+  if not GPIO.input(gpio8):
+    time.sleep(0.01)
+    while not GPIO.input(gpio8):
+      pass`,
 
-  t = (1 / (A + B * math.log(R) + C * math.pow(math.log(R), 3))) - 273.15
-  if unit == 'fahrenheit':
-    t = t * 9/5 + 32
-  elif unit == 'kelvin':
-    t += 273.15
-  return t`,
+  DEF_G1TANK_MOVE:
+`def g1tank_move(speed, duration_ms = 0, wait = True):
+  g1tank_control_motorLeft(speed)
+  g1tank_control_motorRight(speed)
+  time.sleep(duration_ms/1000)`,
 
-// Grove High temperature sensor _ thermocouple table
-DEF_GROVE_HIGHTEMP_THMC_TABLE: 
-`Var_VtoT_K = [[0, 2.5173462e1, -1.1662878, -1.0833638, -8.9773540/1e1, -3.7342377/1e1, -8.6632643/1e2, -1.0450598/1e2, -5.1920577/1e4],
-              [0, 2.508355e1, 7.860106/1e2, -2.503131/1e1, 8.315270/1e2, -1.228034/1e2, 9.804036/1e4, -4.413030/1e5, 1.057734/1e6, -1.052755/1e8],
-              [-1.318058e2, 4.830222e1, -1.646031, 5.464731/1e2, -9.650715/1e4, 8.802193/1e6, -3.110810/1e8]]`,
+  DEF_G1TANK_STOP:
+`def g1tank_stop():
+  g1tank_control_motorLeft(0)
+  g1tank_control_motorRight(0)`,
 
-// Grove High temperature sensor _ thermocouple table use
-DEF_GROVE_HIGHTEMP_KVTOT:
-`def K_VtoT(mV):
-  i = 0
-  value = 0
-  if mV >= -6.478 and mV < 0 :
-    value = Var_VtoT_K[0][8]
-    for i in range(8, 0, -1):
-      value = mV * value + Var_VtoT_K[0][i-1]
-  elif mV >= 0 and mV < 20.644 :
-    value = Var_VtoT_K[1][9]
-    for i in range(9, 0, -1):
-      value = mV * value + Var_VtoT_K[1][i-1]
-  elif mV >= 20.644 and mV <= 54.900 :
-    value = Var_VtoT_K[2][6]
-    for i in range(6, 0, -1):
-      value = mV * value + Var_VtoT_K[2][i-1]
-  return value`,
-              
-// Grove High temperature sensor _ get room temperature
-DEF_GROVE_HIGHTEMP_GET_ROOM_TEMP:
-`def getRoomTemp(pinA1):
-  a = getAnalogMean(pinA1)*50/33
-  res = (${READ_ANALOG_MAX_VALUE}-a) * 10000/a
-  return 1/(math.log(res/10000)/3975.0+1/298.15) - 273.15`,
+  DEF_G1TANK_CONTROL_MOTOR_LEFT:
+`def g1tank_control_motorLeft(speed):
+  GPIO.output(gpio20, GPIO.HIGH if speed > 0 else GPIO.LOW) #IN1
+  GPIO.output(gpio21, GPIO.LOW if speed >= 0 else GPIO.HIGH) #IN2
+  pwm_gpio16.ChangeDutyCycle(max(0, min(abs(speed), 100))) #ENA`,
 
-// Grove High temperature sensor _ get thermocouple temperature
-DEF_GROVE_HIGHTEMP_GET_THMC_TEMP:
-`def getThmcTemp(pinA0, tempRoom):
-  vout = getAnalogMean(pinA0)/${READ_ANALOG_MAX_VALUE} * 5 * 1000
-  vol  = (vout-350) / 54.16
-  return K_VtoT(vol) + tempRoom`,
+  DEF_G1TANK_CONTROL_MOTOR_RIGHT:
+`def g1tank_control_motorRight(speed):
+  GPIO.output(gpio19, GPIO.HIGH if speed > 0 else GPIO.LOW) #IN3
+  GPIO.output(gpio26, GPIO.LOW if speed >= 0 else GPIO.HIGH) #IN4
+  pwm_gpio13.ChangeDutyCycle(max(0, min(abs(speed), 100))) #ENB`,
 
-// Grove UV sensor _ get UV sensor
-DEF_GROVE_GET_UV_INDEX:
-`def getUVindex(pin, n=15):
-  somme = 0
-  for i in range(n):
-    somme += pin.read()
-    utime.sleep_ms(2)                                    
-  return (somme/n/4.3*1000 - 83) / 21`,
+  DEF_G1TANK_TURN_LEFT:
+`def g1tank_turn_left(speed, spin, duration_ms = 0, wait = True):
+  g1tank_control_motorLeft(-speed if spin else 0)
+  g1tank_control_motorRight(speed)
+  time.sleep(duration_ms/1000)`,
 
-// Grove Ultrasonic sensor _ get data
-DEF_GROVE_ULTRASONIC:
-`def grove_getUltrasonicData(pinNumber, data='distance', timeout_us=30000):
-  trig = Pin(pinNumber, Pin.OUT)
-  trig.off()
-  utime.sleep_us(2)               
-  trig.on()
-  utime.sleep_us(10)
-  trig.off()
-  echo = Pin(pinNumber, Pin.IN)
-  duration = time_pulse_us(echo, 1, timeout_us)/1e6 # t_echo in seconds
-  if duration > 0:
-    if data == 'distance':
-      #sound speed, round-trip/2, get in cm
-      return 343 * duration/2 * 100
-    elif data == 'duration':
-      return duration
-    else:
-      raise ValueError("Data option '" + data + "' is not valid")
-  else:
-    return -1`,
+  DEF_G1TANK_TURN_RIGHT:
+`def g1tank_turn_right(speed, spin, duration_ms = 0, wait = True):
+  g1tank_control_motorLeft(speed)
+  g1tank_control_motorRight(-speed if spin else 0)
+  time.sleep(duration_ms/1000)`,
 
-// Grove Ultrasonic sensor _ get data
-DEF_HCSR04_ULTRASONIC:
-`def hcsr04_getUltrasonicData(trig, echo, data='distance', timeout_us=30000):
-  trig.off()
-  utime.sleep_us(2)               
-  trig.on()
-  utime.sleep_us(10)
-  trig.off()
-  echo.value()
-  duration = time_pulse_us(echo, 1, timeout_us)/1e6 # t_echo in seconds
-  if duration > 0:
-    if data == 'distance':
-      #sound speed, round-trip/2, get in cm
-      return 343 * duration/2 * 100
-    elif data == 'duration':
-      return duration
-    else:
-      raise ValueError("Data option '" + data + "' is not valid")
-  else:
-    return -1`,
-
-// DHT - Get data
-DEF_DHT_GET_MEASURE: 
-`def dht_getMeasure(sensor, data, unit='celsius'):
-  time.sleep(1/100)
-  if data == 't':
-    t = sensor.read_temperature()
-    if unit == 'fahrenheit':
-      t = t*9/5 + 32
-    elif unit == 'kelvin':
-      t += 273.15
-    return t
-  elif data == 'h':
-    return sensor.read_humidity()
-  else:
-    raise ValueError("dht_getMeasure() has not option \'" + data + "\'")`,
-
-DEF_SCD30_READ:
-`def scd30_read(dataSelect):
-  global t_scd
-  global scd30_data
-  t_scd = utime.ticks_ms() - t_scd
-  if t_scd > 1000:
-    data = scd30.read_measurement()
-    if not math.isnan(data[0]):
-      scd30_data = data
-  return scd30_data[dataSelect]`,
-
-DEF_SCD30_CALIBRATE:
-`def scd30_calibrateSensor(co2ppm):
-  print("[SCD30_INFO] Go outside, and wait for 2 minutes. You can reset the board to restart program and redo calibration.")
-  print("[SCD30_INFO] Start sensor calibration...")
-  for i in range(60):
-    scd30.read_measurement()
-    utime.sleep_ms(2000)
-  scd30.set_forced_recalibration(co2ppm)
-  print("[SCD30_INFO] End of calibration forced to " + str(co2ppm) + " ppm.")`,
-
-DEF_DS18B20_MEASURE:
-`def ds18b20_measure(ds, roms, index = 0):
-  t = []
-  ds.convert_temp()
-  utime.sleep_ms(200)
-  for rom in roms: 
-    t.append(round(ds.read_temp(rom), 2))
-  if index == 'all':
-    return t
-  else:
-    return t[index]`
-
-}
-
-const FUNCTIONS_SENSEHAT = {
-
-SENSE_HAT_TEMPERATURE : `def senseHat_getTemperature(unit='celsius'):
-  temp = sense.get_temperature()
-  if unit == 'fahrenheit':
-    return temp * 9/5 + 32
-  elif unit == 'kelvin':
-    return temp + 273.15
-  else:
-    return temp`,
-
-SENSE_HAT_TEMPERATURE_FROM : `def senseHat_getTemperatureFrom(sensor, unit='celsius'):
-  if sensor == 'humidity':
-    temp = sense.get_temperature_from_humidity()
-  elif sensor == 'pressure':
-    temp = sense.get_temperature_from_pressure()
-
-  if unit == 'fahrenheit':
-    return temp * 9/5 + 32
-  elif unit == 'kelvin':
-    return temp + 273.15
-  else:
-    return temp`,
-
-SENSE_HAT_PRESSURE : `def senseHat_getPressure(unit='mbar'):
-  pressure = sense.get_pressure()
-  if unit == 'bar':
-    return pressure / 1000
-  elif unit == 'hPa':
-    return pressure
-  elif unit == 'mmHg':
-    return pressure * 0.750062
-  elif unit == 'psi':
-    return pressure * 0.014503773773022
-  else:
-    return pressure`,  
-  
-  
-SENSE_HAT_GET_EVENT_JOYSTICK: `def senseHat_getEventsJoystick():
-  for event in sense.stick.get_events():
-    print("The joystick was {} {}".format(event.action, event.direction))`,
- }
+};

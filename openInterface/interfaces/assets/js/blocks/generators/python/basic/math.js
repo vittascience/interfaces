@@ -327,6 +327,7 @@ Blockly.Python.math_RSA_generate_keys = function (block) {
 
 Blockly.Python.math_RSA_cipher_message = function (block) {
   Blockly.Python.addImport('math', IMPORT_MATH);
+  Blockly.Python.addFunction('mod_pow', FUNCTIONS.DEF_MATH_MOD_POW);
   Blockly.Python.addFunction('RSA_cipher_message', FUNCTIONS.DEF_MATH_RSA_CIPHER_MESSAGE);
   const message = Blockly.Python.valueToCode(block, "MESSAGE", Blockly.Python.ORDER_NONE);
   const key = Blockly.Python.valueToCode(block, "KEY", Blockly.Python.ORDER_NONE);
@@ -336,6 +337,7 @@ Blockly.Python.math_RSA_cipher_message = function (block) {
 
 Blockly.Python.math_RSA_decipher_message = function (block) {
   Blockly.Python.addImport('math', IMPORT_MATH);
+  Blockly.Python.addFunction('math_mod_pow', FUNCTIONS.DEF_MATH_MOD_POW);
   Blockly.Python.addFunction('RSA_decipher_message', FUNCTIONS.DEF_MATH_RSA_DECIPHER_MESSAGE);
   const message = Blockly.Python.valueToCode(block, "MESSAGE", Blockly.Python.ORDER_NONE);
   const key = Blockly.Python.valueToCode(block, "KEY", Blockly.Python.ORDER_NONE);

@@ -18,7 +18,7 @@ const specific_boardInterfaceOption =
         <label for="board_shield-grove_Share" class="switcher__label">Shield Grove</label>
 
         <input type="radio" name="shareOptionsBoard" value="shield-grove-edu-esp32" id="board_shield-grove-edu-esp32_Share" class="switcher__input switcher__input--middle3">
-        <label for="board_shield-grove-edu-esp32_Share" class="switcher__label">Shield Grove EDU ESP32</label>
+        <label for="board_shield-grove-edu-esp32_Share" class="switcher__label">Shield Grove Vitta ESP32</label>
 
         <input type="radio" name="shareOptionsBoard" value="basic-esp32" id="board_basic-esp32_Share" class="switcher__input switcher__input--middle4">
         <label for="board_basic-esp32_Share" class="switcher__label">ESP32 WROOM-32D</label>
@@ -35,29 +35,8 @@ const specific_boardSelector = function () {
     return `<div class="ide-modal-section mt-3">
         <h5>${jsonPath('modals.standard.settings.content.board.title')}</h5>
         <p class="mb-1">${jsonPath('modals.standard.settings.content.board.notice')}</p>
-        <div class="d-flex">
-            <div class="switcher">
-
-                <input type="radio" name="boardSelector" value="wemos-d1r32" id="board_wemos-d1r32_Set" class="switcher__input switcher__input--yin">
-                <label for="board_wemos-d1r32_Set" class="switcher__label esp32-switcher">Wemos D1R32</label>
-
-                <input type="radio" name="boardSelector" value="edu-esp32" id="board_edu-esp32_Set" class="switcher__input switcher__input--middle1" checked>
-                <label for="board_edu-esp32_Set" class="switcher__label esp32-switcher">EDU ESP32</label>
-
-                <input type="radio" name="boardSelector" value="shield-grove" id="board_shield-grove_Set" class="switcher__input switcher__input--middle2">
-                <label for="board_shield-grove_Set" class="switcher__label esp32-switcher">Shield Grove</label>
-
-                <input type="radio" name="boardSelector" value="shield-grove-edu-esp32" id="board_shield-grove-edu-esp32_Set" class="switcher__input switcher__input--middle3">
-                <label for="board_shield-grove-edu-esp32_Set" class="switcher__label esp32-switcher">Shield Grove EDU</label>
-
-                <input type="radio" name="boardSelector" value="basic-esp32" id="board_basic-esp32_Set" class="switcher__input switcher__input--middle4">
-                <label for="board_basic-esp32_Set" class="switcher__label esp32-switcher">ESP32 WROOM-32D</label>
-
-                <input type="radio" name="boardSelector" value="esp32-cam" id="board_esp32-cam_Set" class="switcher__input switcher__input--right">
-                <label for="board_esp32-cam_Set" class="switcher__label">ESP32-CAM</label>
-
-                <span class="switcher__toggle esp32-switcher esp32-switcher-toggle"></span>
-            </div>
-        </div>
+        <button type="button" class="btn v-btn board-choice-select-btn" onclick="VittaInterface.openBoardSelector();">
+            ${jsonPath('modals.board-selector.buttons.setting')}
+        </button>
     </div>`;
 };

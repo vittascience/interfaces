@@ -298,6 +298,13 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "display_addOledText",
         "message0": "%{BKY_DISPLAY_OLED_ADDTEXT_TITLE}",
         "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "TYPE",
+            "options": [
+                ["SSD1306", "SSD1306"],
+                ["SSD1315", "SSD1315"]
+            ]
+        }, {
             "type": "input_value",
             "name": "TEXT",
             "check": ["String", "Number", "Decimal", "Boolean"]
@@ -326,117 +333,15 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "message0": "%{BKY_DISPLAY_OLED_DRAWICON_TITLE}",
         "args0": [{
             "type": "field_grid_dropdown",
-            "name": "ICON",
+            "name": "TYPE",
             "options": [
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/heart.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "HEART"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/happy.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "HAPPY"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/sad.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "SAD"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/yes.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "YES"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/no.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "NO"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/man.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "MAN"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/fork.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "FORK"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/umbrella.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "UMBRELLA"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/skull.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "SKULL"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/grid.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "GRID"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/butterfly.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "BUTTERFLY"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/sword.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "SWORD"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/wine.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "WINE"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/lock.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "LOCK"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/net.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "NET"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/battery1.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "BATTERY1"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/battery2.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "BATTERY2"],
-                [{
-                    'src': _PATH + '/arduino/assets/media/blocks_icons/battery3.png',
-                    'width': 32,
-                    'height': 32,
-                    'alt': 'Red'
-                }, "BATTERY3"]
+                ["SSD1306", "SSD1306"],
+                ["SSD1315", "SSD1315"]
             ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "ICON",
+            "options": Blockly.Constants.Utils.BlockOptions.getOledIcons()
         }, {
             "type": "input_value",
             "name": "X",
@@ -462,6 +367,13 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "message0": "%{BKY_DISPLAY_OLED_DRAWBITMAPLOGO_TITLE}",
         "args0": [{
             "type": "field_grid_dropdown",
+            "name": "TYPE",
+            "options": [
+                ["SSD1306", "SSD1306"],
+                ["SSD1315", "SSD1315"]
+            ]
+        }, {
+            "type": "field_grid_dropdown",
             "name": "LOGO",
             "options": [
                 ["%{BKY_LOGO_VITTASCIENCE}", "vittascienceLogo"],
@@ -484,6 +396,14 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     {
         "type": "display_clearOledScreen",
         "message0": "%{BKY_DISPLAY_OLED_CLEARSCREEN_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "TYPE",
+            "options": [
+                ["SSD1306", "SSD1306"],
+                ["SSD1315", "SSD1315"]
+            ]
+        }],
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,

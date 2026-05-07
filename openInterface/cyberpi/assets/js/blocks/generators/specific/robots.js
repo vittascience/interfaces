@@ -18,13 +18,14 @@ Blockly.Python.robots_mbot2_move_by = function (block) {
     let distance = Blockly.Python.valueToCode(block, "DISTANCE", Blockly.Python.ORDER_NONE) || "0";
     const distanceBlockType = block.getInput("DISTANCE").connection.targetBlock().type;
     const unit = block.getFieldValue("UNIT");
+    const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "50";
     if (distanceBlockType == 'math_arithmetic' && (direction == "-" || unit == "INCHS")) distance = "(" + distance + ")";
     switch (unit) {
         case "INCHS":
-            return "mbot2.straight(" + direction + distance + " * 2.54)" + NEWLINE;
+            return "mbot2.straight(" + direction + distance + " * 2.54, " + speed + ")" + NEWLINE;
         case "CM":
         default:
-            return "mbot2.straight(" + direction + distance + ")" + NEWLINE;
+            return "mbot2.straight(" + direction + distance + ", " + speed + ")" + NEWLINE;
     }
 };
 
@@ -34,7 +35,8 @@ Blockly.Python.robots_mbot2_turn = function (block) {
     let angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
     const angleBlockType = block.getInput("ANGLE").connection.targetBlock().type;
     if (angleBlockType == 'math_arithmetic' && direction == "-") angle = "(" + angle + ")";
-    return "mbot2.turn(" + direction + angle + ")" + NEWLINE;
+    const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "50";
+    return "mbot2.turn(" + direction + angle + ", " + speed + ")" + NEWLINE;
 };
 
 Blockly.Python.robots_mbot2_control_motor = function (block) {
@@ -146,38 +148,19 @@ Blockly.Python.robots_mbot2_ultrasonic_playLED = function (block) {
 
 // Quad RGB sensors
 
-Blockly.Python.sensors_mbuild_quad_RGB_detection_L1_R1_is = function (block) {
-    Blockly.Python.addImport('mbuild', IMPORT_MBUILD);
-    const sensor = block.getFieldValue("SENSOR");
-    Blockly.Python.addPowerOn('quad_rgb_sensor' + sensor + '-simu', "# Line Finder on PORT_" + sensor);
-    const mode = block.getFieldValue("MODE");
-    const result = block.getFieldValue("RESULT");
-    return ["mbuild.quad_rgb_sensor.get_" + mode + "_sta(\'middle\', " + sensor + ") == " + result, Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python.sensors_mbuild_quad_RGB_get_detection_L1_R1 = function (block) {
-    Blockly.Python.addImport('mbuild', IMPORT_MBUILD);
-    const sensor = block.getFieldValue("SENSOR");
-    Blockly.Python.addPowerOn('quad_rgb_sensor' + sensor + '-simu', "# Line Finder on PORT_" + sensor);
-    const mode = block.getFieldValue("MODE");
-    return ["mbuild.quad_rgb_sensor.get_" + mode + "_sta(\'middle\', " + sensor + ")", Blockly.Python.ORDER_ATOMIC];
-};
-
 Blockly.Python.sensors_mbuild_quad_RGB_detection_is = function (block) {
     Blockly.Python.addImport('mbuild', IMPORT_MBUILD);
     const sensor = block.getFieldValue("SENSOR");
     Blockly.Python.addPowerOn('quad_rgb_sensor' + sensor + '-simu', "# Line Finder on PORT_" + sensor);
-    const mode = block.getFieldValue("MODE");
     const result = block.getFieldValue("RESULT");
-    return ["mbuild.quad_rgb_sensor.get_" + mode + "_sta(\'all\', " + sensor + ") == " + result, Blockly.Python.ORDER_ATOMIC];
+    return ["mbuild.quad_rgb_sensor.get_line_sta(index=" + sensor + ") == " + result, Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.sensors_mbuild_quad_RGB_get_detection = function (block) {
     Blockly.Python.addImport('mbuild', IMPORT_MBUILD);
     const sensor = block.getFieldValue("SENSOR");
     Blockly.Python.addPowerOn('quad_rgb_sensor' + sensor + '-simu', "# Line Finder on PORT_" + sensor);
-    const mode = block.getFieldValue("MODE");
-    return ["mbuild.quad_rgb_sensor.get_" + mode + "_sta(\'all\', " + sensor + ")", Blockly.Python.ORDER_ATOMIC];
+    return ["mbuild.quad_rgb_sensor.get_line_sta(index=" + sensor + ")", Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.sensors_mbuild_quad_RGB_is_color_detected = function (block) {
@@ -199,14 +182,14 @@ Blockly.Python.sensors_mbuild_quad_RGB_get_probe_data = function (block) {
     Blockly.Python.addPowerOn('quad_rgb_sensor' + sensor + '-simu', "# Line Finder on PORT_" + sensor);
     const probe = block.getFieldValue("PROBE");
     const data = block.getFieldValue("DATA");
-    return ["mbuild.quad_rgb_sensor.get_" + data + "(\'" + probe + "\', " + sensor + ")", Blockly.Python.ORDER_ATOMIC];
+    return ["mbuild.quad_rgb_sensor.get_" + data + "(\'" + probe + "\', index=" + sensor + ")", Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.sensors_mbuild_quad_RGB_get_offset_track = function (block) {
     Blockly.Python.addImport('mbuild', IMPORT_MBUILD);
     const sensor = block.getFieldValue("SENSOR");
     Blockly.Python.addPowerOn('quad_rgb_sensor' + sensor + '-simu', "# Line Finder on PORT_" + sensor);
-    return ["mbuild.quad_rgb_sensor.get_offset_track(" + sensor + ")", Blockly.Python.ORDER_ATOMIC];
+    return ["mbuild.quad_rgb_sensor.get_offset_track(index=" + sensor + ")", Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.sensors_mbuild_quad_RGB_define_color = function (block) {
@@ -214,7 +197,7 @@ Blockly.Python.sensors_mbuild_quad_RGB_define_color = function (block) {
     const sensor = block.getFieldValue("SENSOR");
     Blockly.Python.addPowerOn('quad_rgb_sensor' + sensor + '-simu', "# Line Finder on PORT_" + sensor);
     const color = block.getFieldValue("COLOR");
-    return "mbuild.quad_rgb_sensor.set_led_color(\'" + color + "\', " + sensor + ")" + NEWLINE;
+    return "mbuild.quad_rgb_sensor.set_led_color(\'" + color + "\', index=" + sensor + ")" + NEWLINE;
 };
 
 Blockly.Python.sensors_mbuild_quad_RGB_set_color_list = function (block) {
@@ -222,52 +205,20 @@ Blockly.Python.sensors_mbuild_quad_RGB_set_color_list = function (block) {
     const sensor = block.getFieldValue("SENSOR");
     Blockly.Python.addPowerOn('quad_rgb_sensor' + sensor + '-simu', "# Line Finder on PORT_" + sensor);
     const color = block.getFieldValue("COLOR");
-    return "mbuild.quad_rgb_sensor.set_led(\'" + color + "\', " + sensor + ")" + NEWLINE;
-};
-
-Blockly.Python.sensors_mbuild_quad_RGB_set_color_RGB = function (block) {
-    Blockly.Python.addImport('mbuild', IMPORT_MBUILD);
-    const sensor = block.getFieldValue("SENSOR");
-    Blockly.Python.addPowerOn('quad_rgb_sensor' + sensor + '-simu', "# Line Finder on PORT_" + sensor);
-    const red = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_ATOMIC) || "0";
-    const green = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_ATOMIC) || "0";
-    const blue = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_ATOMIC) || "0";
-    if (block.getInput("TOLERANCE")) {
-        const tolerance = Blockly.Python.valueToCode(block, "TOLERANCE", Blockly.Python.ORDER_ATOMIC) || "0";
-        return "mbuild.quad_rgb_sensor.set_custom_color(" + red + ", " + green + ", " + blue + ", " + tolerance + ", " + sensor + ")" + NEWLINE;
-    } else {
-        return "mbuild.quad_rgb_sensor.set_custom_color(" + red + ", " + green + ", " + blue + ", 50, " + sensor + ")" + NEWLINE;
-    }
-};
-
-Blockly.Python.sensors_mbuild_quad_RGB_set_color_palette = function (block) {
-    Blockly.Python.addImport('mbuild', IMPORT_MBUILD);
-    const sensor = block.getFieldValue("SENSOR");
-    Blockly.Python.addPowerOn('quad_rgb_sensor' + sensor + '-simu', "# Line Finder on PORT_" + sensor);
-    const colour = Blockly.Python.valueToCode(block, "COLOR", Blockly.Python.ORDER_NONE) || "(0,0,0)";
-    const colourList = colour.match(/([0-9]{1,3})/g);
-    if (block.getInput("TOLERANCE")) {
-        const tolerance = Blockly.Python.valueToCode(block, "TOLERANCE", Blockly.Python.ORDER_ATOMIC) || "0";
-        return "mbuild.quad_rgb_sensor.set_custom_color(" + colourList[0] + ", " + colourList[1] + ", " + colourList[2] + ", " + tolerance + ", " + sensor + ")" + NEWLINE;
-    } else {
-        return "mbuild.quad_rgb_sensor.set_custom_color(" + colourList[0] + ", " + colourList[1] + ", " + colourList[2] + ", 50, " + sensor + ")" + NEWLINE;
-    }
+    return "mbuild.quad_rgb_sensor.set_led(\'" + color + "\', index=" + sensor + ")" + NEWLINE;
 };
 
 Blockly.Python.sensors_mbuild_quad_RGB_close_led = function (block) {
     Blockly.Python.addImport('mbuild', IMPORT_MBUILD);
     const sensor = block.getFieldValue("SENSOR");
-    return "mbuild.quad_rgb_sensor.close_led(" + sensor + ")" + NEWLINE;
+    Blockly.Python.addPowerOn('quad_rgb_sensor' + sensor + '-simu', "# Line Finder on PORT_" + sensor);
+    return "mbuild.quad_rgb_sensor.off_led(index=" + sensor + ")" + NEWLINE;
 };
 
-Blockly.Python.sensors_mbuild_quad_RGB_calibrate = function (block) {
+Blockly.Python.sensors_mbuild_quad_RGB_get_light = function (block) {
     Blockly.Python.addImport('mbuild', IMPORT_MBUILD);
     const sensor = block.getFieldValue("SENSOR");
-    return "mbuild.quad_rgb_sensor.adjust(" + sensor + ")" + NEWLINE;
-};
-
-Blockly.Python.sensors_mbuild_quad_RGB_color_mode = function (block) {
-    Blockly.Python.addImport('mbuild', IMPORT_MBUILD);
-    const mode = block.getFieldValue("MODE");
-    return "mbuild.quad_rgb_sensor.color_mode(\'" + mode + "\')" + NEWLINE;
+    Blockly.Python.addPowerOn('quad_rgb_sensor' + sensor + '-simu', "# Line Finder on PORT_" + sensor);
+    const probe = block.getFieldValue("PROBE");
+    return ["mbuild.quad_rgb_sensor.get_light(\'" + probe + "\',index=" + sensor + ")", Blockly.Python.ORDER_ATOMIC];
 };

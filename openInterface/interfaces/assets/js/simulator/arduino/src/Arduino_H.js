@@ -86,7 +86,6 @@ const ARDUINO_H = {
 
             rt.regFunc(function (rt, _this, size) {
                 _this.v.members._capacity.v = size.v;
-                return rt.val(rt.voidTypeLiteral, null);
             }, String_t, "reserve", [rt.unsignedintTypeLiteral], rt.voidTypeLiteral);
 
             rt.regFunc(function (rt, _this) {
@@ -350,7 +349,6 @@ const ARDUINO_H = {
                             string = rt.String_getJSString(input);
                         } else if (rt.isClassType(input)) {
                             string = rt.getFunc(input.t, "toStringCPP", [])(rt, input);
-                            console.log(string)
                             string = rt.String_getJSString(string);
                         } else {
                             string = String(input.v);
@@ -581,15 +579,23 @@ const ARDUINO_H = {
                 }
             }), "global", "vitta_to_char", ['?'], rt.charTypeLiteral);
 
-            //delay
-            rt.regFunc((async function (rt, _this, x) {
-                Simulator.currentDelay = x.v;
-            }), "global", "delay", [rt.doubleTypeLiteral], rt.voidTypeLiteral);
+            const delay = async function (rt, _this, x) {
+                await Simulator.sleep_ms(x.v);
+            };
+            const Susp_delay = function (rt, _this, x) {
+                return rt.asyncToSuspension(delay, [rt, _this, x]);
+            };
+            rt.regAsyncFunc(Susp_delay, delay);
+            rt.regFunc(Susp_delay, "global", "delay", [rt.doubleTypeLiteral], rt.voidTypeLiteral);
 
-            //delayMicroseconds
-            rt.regFunc((function (rt, _this, x) {
-                Simulator.currentDelay = x.v / 1000;
-            }), "global", "delayMicroseconds", [rt.doubleTypeLiteral], rt.voidTypeLiteral);
+            const delayMicroseconds = async function (rt, _this, x) {
+                await Simulator.sleep_ms(x.v / 1000);
+            };
+            const Susp_delayMicroseconds = function (rt, _this, x) {
+                return rt.asyncToSuspension(delayMicroseconds, [rt, _this, x]);
+            };
+            rt.regAsyncFunc(Susp_delayMicroseconds, delayMicroseconds);
+            rt.regFunc(Susp_delayMicroseconds, "global", "delayMicroseconds", [rt.doubleTypeLiteral], rt.voidTypeLiteral);
 
             //millis
             rt.regFunc(function (rt, _this) {
@@ -637,6 +643,9 @@ const ARDUINO_H = {
             rt.defVar('INPUT', rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 0));
             rt.defVar('INPUT_PULLUP', rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 2));
 
+            rt.defVar('FALLING', rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 0));
+            rt.defVar('RISING', rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 1));
+
             rt.regFunc((function (rt, _this, pin, mode) {
                 const pinStr = Simulator.getPinString(pin.v);
                 const pinComponent = Simulator.pinList.find((component) => component.pin == pinStr);
@@ -644,14 +653,14 @@ const ARDUINO_H = {
                 const id = pinComponent.id;
                 switch (mode.v) {
                     case 1:
-                        Simulator.setPullButton(id, 'output');
+                        Simulator.Components.Button.setPull(id, 'output');
                         break;
                     case 2:
-                        Simulator.setPullButton(id, 'up');
+                        Simulator.Components.Button.setPull(id, 'up');
                         break;
                     case 0:
                     default:
-                        Simulator.setPullButton(id, 'down');
+                        Simulator.Components.Button.setPull(id, 'down');
                 }
             }), "global", "pinMode", [rt.unsignedcharTypeLiteral, rt.intTypeLiteral], rt.voidTypeLiteral);
 
@@ -696,7 +705,14 @@ const ARDUINO_H = {
                 if (INTERFACE_NAME == 'mBot' && pin.v == 21) {
                     return rt.val(rt.unsignedintTypeLiteral, Simulator.getSliderValue('mCoreButton'));
                 } else {
-                    return rt.val(rt.unsignedintTypeLiteral, Simulator.getPinSliderValue('A' + (pin.v - 14)));
+                    const A_pin = 'A' + (pin.v - 14);
+                    const modulePin = Simulator.pinList.find(obj => obj.pin == A_pin);
+                    if (modulePin && modulePin.id.includes('joystick')) {
+                        const value = Simulator.Components.Joystick.read(modulePin.id, A_pin);
+                        return rt.val(rt.unsignedintTypeLiteral, value);
+                    } else {
+                        return rt.val(rt.unsignedintTypeLiteral, Simulator.getPinSliderValue(A_pin));
+                    }
                 }
             }), "global", "analogRead", [rt.unsignedcharTypeLiteral], rt.unsignedintTypeLiteral);
 
@@ -720,6 +736,22 @@ const ARDUINO_H = {
                 const pinStr = Simulator.getPinString(pin.v);
                 return rt.val(rt.doubleTypeLiteral, Simulator.getPinSliderValue(pinStr));
             }), "global", "pulseIn", [rt.unsignedcharTypeLiteral, rt.boolTypeLiteral], rt.doubleTypeLiteral);
+
+            //attachInterrupt
+            rt.regFunc((async function (rt, _this, pinToInterrupt, onEvent, mode) {
+                Simulator.Mosaic.interruptions[pinToInterrupt.v] = {
+                    rt: rt,
+                    _this: _this,
+                    ret: onEvent,
+                    mode: mode.v
+                };
+                return rt.val(rt.boolTypeLiteral, true);
+            }), "global", "attachInterrupt", [rt.unsignedcharTypeLiteral, rt.functionType(rt.voidTypeLiteral, []), rt.intTypeLiteral], rt.boolTypeLiteral);
+
+            //digitalPinToInterrupt
+            rt.regFunc((function (rt, _this, pin) {
+                return rt.val(rt.unsignedcharTypeLiteral, pin.v);
+            }), "global", "digitalPinToInterrupt", [rt.unsignedcharTypeLiteral], rt.unsignedcharTypeLiteral);
 
             // isPrime
             rt.regFunc((function (rt, _this, x) {
@@ -765,16 +797,16 @@ const ARDUINO_H = {
                 Simulator.setVariable(rt, args[0], rt.val(rt.normalPointerType(rt.unsignedcharTypeLiteral)));
             }), "global", "free", [rt.normalPointerType(rt.unsignedcharTypeLiteral)], rt.voidTypeLiteral);
 
-        //tone
-        rt.regFunc(async function (rt, _this, pin, freq, duration) {
-            const pinStr = Simulator.getPinString(pin.v);
-            $('#buzzer_' + pinStr + '_value').html(freq.v);
-            $('#buzzer_' + pinStr + '_anim').css('opacity', 1);
-            await Simulator.music.startAudio();
-            await Simulator.music.pitch(freq.v, duration.v);
-            $('#buzzer_' + pinStr + '_value').html('OFF');
-            $('#buzzer_' + pinStr + '_anim').css('opacity', 0);
-        }, "global", "tone", [rt.unsignedintTypeLiteral, rt.doubleTypeLiteral, '?'], rt.voidTypeLiteral);
+            //tone
+            rt.regFunc(async function (rt, _this, pin, freq, duration) {
+                const pinStr = Simulator.getPinString(pin.v);
+                $('#buzzer_' + pinStr + '_value').html(freq.v);
+                $('#buzzer_' + pinStr + '_anim').css('opacity', 1);
+                await Simulator.music.startAudio();
+                await Simulator.music.pitch(freq.v, duration.v);
+                $('#buzzer_' + pinStr + '_value').html('OFF');
+                $('#buzzer_' + pinStr + '_anim').css('opacity', 0);
+            }, "global", "tone", [rt.unsignedintTypeLiteral, rt.doubleTypeLiteral, '?'], rt.voidTypeLiteral);
 
             //noTone
             rt.regFunc(function (rt, _this, pin) {

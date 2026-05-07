@@ -250,6 +250,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
             "label": "%{BKY_SUBCATEGORY_SERIAL_CONNECTION}",
             "blocks": [
                 'communication_serialWrite',
+                'communication_NumberSerialWrite',
                 'communication_onSerialDataReceived',
                 'communication_graphSerialWrite',
             ]

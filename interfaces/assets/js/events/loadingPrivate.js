@@ -14,9 +14,10 @@ const privateSource = `
                 <button id="edit-project-name"
                     class="btn"
                     style="color: var(--text-1);cursor: pointer;"
-                    data-i18n="[title]modals.standard.edit.title;[aria-label]modals.standard.edit.title" 
+                    data-i18n="[title]modals.standard.edit.title;[aria-label]modals.standard.edit.title"
                     data-bs-toggle="tooltip" data-bs-placement="top"
                     data-bs-title="Modifier les informations du projet"
+                    title="Edit" aria-label="Edit"
                 >
                     <i class="far fa-edit"></i>
                 </button>
@@ -37,7 +38,7 @@ const privateSource = `
  * Load interface in private execution.
  * @param {string} interfaceName
  */
-function loadingPrivate(interfaceName) {
+async function loadingPrivate(interfaceName) {
     console.log("Private execution of interface: " + interfaceName);
     $(".ide-navbar").prepend(privateSource);
     $("#ide-navbar-toggler").on('click', function () {
@@ -51,53 +52,49 @@ function loadingPrivate(interfaceName) {
     });
     initPrivateModal();
     //init Project manager
-    UserManager.init().then(
-        // resolve ()
-        async () => {
-            if (UserManager.getUser() === null) {
-                projectManager = new ProjectManagerVisitor(interfaceName);
-                projectManager.isVisitor = true;
-            } else {
-                projectManager = new ProjectManagerUser(interfaceName, UserManager.getUser());
-            }
-            projectManager._refreshProjectStatus(true);
-            if (typeof rtcInterfaces != 'undefined' && rtcInterfaces.includes(INTERFACE_NAME) && getParamValue('link') != null) {
-                if (document.referrer.match(/\/(learn|classroom)/) == null && typeof ltiVariables13 === 'undefined') {
-                    await projectManager.initializeRtc();
-                }
-            }
-            if (INTERFACE_NAME == "TI-83" && getParamValue('action') != null) {
-                projectManager.tiInterfaceEvents(getParamValue('action'));
-            }
+    await UserManager.init()
 
-            if (Main.inIframe() == true && getParamValue('from') == 'technoHatier') {
-                setTimeout(() => {
-                    $("#monitor").removeClass('monitor-open');
-                    $('#monitor-view, #monitor-controls').hide();
-                    $('#monitor').animate({
-                        height: '0'
-                    }, {
-                        step: function () {
-                            $('.ide-editor').height('100%'); /* needed from the slideDown from top to bottom */
-                            Main.resizeAceEditor();
-                        },
-                        complete: function () {
-                            $('.ide-editor').height('100%');
-                            $('#monitor-view').css('margin-top', '0px');
-                            Main.resizeAceEditor();
-                            if (!Main.hasDragAndDrop() && Main.getCodingMode != 'code')
-                                Main.resizeWorkSpace();
-                        }
-                    }, 'fast');
-                    $('#monitor-tools #monitor-toggler i').removeClass("fa-chevron-down");
-                    $('#monitor-tools #monitor-toggler i').addClass("fa-chevron-up");
-                }, 500);
-            }
-        },
-        // reject()
-        () => { }
-    );
+    if (UserManager.getUser() === null) {
+        projectManager = new ProjectManagerVisitor(interfaceName);
+        projectManager.isVisitor = true;
+    } else {
+        projectManager = new ProjectManagerUser(interfaceName, UserManager.getUser());
+    }
+    projectManager._refreshProjectStatus(true);
+    if (typeof rtcInterfaces != 'undefined' && rtcInterfaces.includes(INTERFACE_NAME)) {
+        if (document.referrer.match(/\/(learn|classroom)/) == null && typeof ltiVariables13 === 'undefined') {
+            await projectManager.initializeRtc();
+        }
+    }
+    if (INTERFACE_NAME == "TI-83" && getParamValue('action') != null) {
+        projectManager.tiInterfaceEvents(getParamValue('action'));
+    }
+
+    if (Main.inIframe() == true && getParamValue('from') == 'technoHatier') {
+        setTimeout(() => {
+            $("#monitor").removeClass('monitor-open');
+            $('#monitor-view, #monitor-controls').hide();
+            $('#monitor').animate({
+                height: '0'
+            }, {
+                step: function () {
+                    $('.ide-editor').height('100%'); /* needed from the slideDown from top to bottom */
+                    Main.resizeAceEditor();
+                },
+                complete: function () {
+                    $('.ide-editor').height('100%');
+                    $('#monitor-view').css('margin-top', '0px');
+                    Main.resizeAceEditor();
+                    if (!Main.hasDragAndDrop() && Main.getCodingMode != 'code')
+                        Main.resizeWorkSpace();
+                }
+            }, 'fast');
+            $('#monitor-tools #monitor-toggler i').removeClass("fa-chevron-down");
+            $('#monitor-tools #monitor-toggler i').addClass("fa-chevron-up");
+        }, 500);
+    }
     // Init tooltips after loading private
     $("#manage-button-panel button").tooltip();
     fileUploaderInit();
+    return true;
 };

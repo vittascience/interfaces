@@ -111,7 +111,7 @@
 
 .ace_scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: var(--bg-3) transparent;
+  scrollbar-color: var(--bg-3);
 }
 
 .ace_scrollbar::-webkit-scrollbar {

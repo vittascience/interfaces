@@ -12,7 +12,7 @@ const TOOLBOX_SCRATCH_CATEGORIES = [
     {
         "kind": "category",
         "toolboxitemid": "actuators",
-        "name": "%{BKY_CATEGORY_ACTUATORS}",
+        "name": "%{BKY_CATEGORY_ACTIONS}",
         "style": "actuators_category",
         "cssConfig": {
             "icon": "icon_blockly fas fa-fan"
@@ -155,21 +155,24 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'text_split',
                 'text_length',
                 'text_isEmpty',
+                'text_includesSubstr',
                 'text_indexOf',
                 'text_charAt',
                 'text_getSubstring',
+                'text_count_characters',
                 'text_changeCase',
                 'text_trim',
                 'text_count',
                 'text_replace',
-                'text_reverse'
+                'text_reverse',
+                'text_random_string'
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_TEXT_ANALYSIS}",
+            "label": "%{BKY_SUBCATEGORY_ENCRYPTION}",
             "blocks": [
-                'text_count_characters',
-                'text_random_string'
+                'text_caesar_cipher',
+                'text_caesar_cipher_brute_force'
             ],
         }
     ],

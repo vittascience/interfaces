@@ -23,7 +23,7 @@ const THEME_VITTASCIENCE = {
     "sensors_blocks": {
         "colourPrimary": "#9966ff"
     },
-    "actuators_blocks": {
+    "music_blocks": {
         "colourPrimary": "#ff4d6a"
     },
     "robots_blocks": {
@@ -87,7 +87,7 @@ const THEME_SCRATCH = {
     "sensors_blocks": {
         "colourPrimary": "#5cb1d6"
     },
-    "actuators_blocks": {
+    "music_blocks": {
         "colourPrimary": "#ff4d6a"
     },
     "network_blocks": {
@@ -144,7 +144,7 @@ const THEME_VITTASCIENCE_HIGH_CONTRAST = {
     "sensors_blocks": {
         "colourPrimary": "#5cb1d6"
     },
-    "actuators_blocks": {
+    "music_blocks": {
         "colourPrimary": "#ff4d6a"
     },
     "robots_blocks": {

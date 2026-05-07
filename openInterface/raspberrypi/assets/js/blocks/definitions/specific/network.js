@@ -15,8 +15,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             }
         ],
         "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
         "style": "network_blocks",
         "tooltip": "%{BKY_NETWORK_GET_PI_NAME_TOOLTIP}",
         "extensions": [

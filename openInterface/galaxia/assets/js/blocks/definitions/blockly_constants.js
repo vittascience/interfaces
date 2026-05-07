@@ -16,41 +16,74 @@ Blockly.Constants.LOOP_TYPES = [
 Blockly.Constants.Pins = Object.create(null);
 
 //galaxia digital/analog/touch pins => corresponding GPIO pins
-Blockly.Constants.Pins.GALAXIA_PINS = [
-  ["P0", "p3"],
-  ["P1", "p2"],
-  ["P2", "p1"],
-  ["P6", "p6"],
-  ["P7", "p7"],
-  ["P8", "p8"],
-  ["P13", "p34"],
-  ["P14", "p35"],
-  ["P15", "p36"],
-  ["P16", "p15"],
-  ["P19", "p13"],
-  ["P20", "p14"]
-];
+Blockly.Constants.Pins.digital = {
+  [BOARD_GALAXIA]: [
+    ["P1", "p2"],
+    ["P6", "p6"],
+    ["P7", "p7"],
+    ["P8", "p21"],
+    ["P12", "p38"],
+    ["P13", "p34"],
+    ["P14", "p35"],
+    ["P15", "p36"],
+    ["P16", "p15"],
+    ["P19", "p13"],
+    ["P20", "p14"],
+    ["P0 (RX0)", "p3"],
+    ["P2 (TX0)", "p1"]
+  ]
+};
+
+Blockly.Constants.Pins.PWM = {
+  [BOARD_GALAXIA]: [
+    ["P1", "p2"],
+    ["P6", "p6"],
+    ["P7", "p7"],
+    ["P8", "p21"],
+    ["P12", "p38"],
+    ["P13", "p34"],
+    ["P14", "p35"],
+    ["P15", "p36"],
+    ["P16", "p15"],
+    ["P19", "p13"],
+    ["P20", "p14"],
+    ["P0 (RX0)", "p3"],
+    ["P2 (TX0)", "p1"]
+  ]
+};
 
 //galaxia analog => corresponding GPIO pins
-Blockly.Constants.Pins.GALAXIA_ANALOG_READ_PINS = [
-  ["P0", "p3"],
-  ["P1", "p2"],
-  ["P2", "p1"],
-  ["P6", "p6"],
-  ["P7", "p7"],
-  ["P16", "p15"],
-  ["P19", "p13"],
-  ["P20", "p14"]
-];
+Blockly.Constants.Pins.analog_read = {
+  [BOARD_GALAXIA]: [
+    ["P1", "p2"],
+    ["P6", "p6"],
+    ["P7", "p7"],
+    ["P16", "p15"],
+    ["P19", "p13"],
+    ["P20", "p14"],
+    ["P0 (RX0)", "p3"],
+    ["P2 (TX0)", "p1"]
+  ]
+};
+
+Blockly.Constants.Pins.UART = {
+  [BOARD_GALAXIA]: [
+    ["1", "1"],
+    ["0", "0"]
+  ]
+};
 
 //galaxia touch => corresponding GPIO pins
-Blockly.Constants.Pins.GALAXIA_TOUCH_PINS = [
-  ["P0", "p3"],
-  ["P1", "p2"],
-  ["P2", "p1"]
-];
+Blockly.Constants.Pins.touch = {
+  [BOARD_GALAXIA]: [
+    ["P0", "p3"],
+    ["P1", "p2"],
+    ["P2", "p1"],
+    ["P6", "p6"],
+    ["P7", "p7"]
+  ]
+};
 
-// To remove progressively
 Blockly.Constants.HTML_BLOCKS = [
   'network_html_addTitle',
   'network_html_addText',
@@ -63,5 +96,13 @@ Blockly.Constants.HTML_BLOCKS = [
   'network_HTML_Tags',
   'network_HTML_formatText',
   'network_HTML_newline',
-  'network_HTML_addSymbol'
+  'network_HTML_addSymbol',
+  'network_HTML_add'
 ];
+
+Blockly.Constants.GALAXIA_DISPLAY_IMAGES = [
+  ["%{BKY_DISPLAY_GALAXIA_IMAGE_VITTABOT_HEY}", "vittabot-hey.bmp"],
+  ["%{BKY_DISPLAY_GALAXIA_IMAGE_VITTABOT_ANGRY}", "vittabot-angry.bmp"],
+  ["%{BKY_DISPLAY_GALAXIA_IMAGE_VITTABOT_HAPPY}", "vittabot-happy.bmp"],
+  ["%{BKY_DISPLAY_GALAXIA_IMAGE_VITTASCIENCE_LOGO}", "vittascience-logo.bmp"]
+]

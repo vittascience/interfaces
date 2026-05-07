@@ -8,13 +8,6 @@ DEF_PIN_ADC:
   pin.width(bit)
   return pin`,
 
-DEF_PIN_WRITE:
-`def pinWrite(pinNumber, db=ADC.ATTN_11DB, bit=ADC.WIDTH_10BIT):
-  pin = ADC(Pin(pinNumber))
-  pin.atten(db)
-  pin.width(bit)
-  return pin`,
-
 DEF_GET_ANALOG_MEAN:
 `def getAnalogMean(pin, n = 32):
   sum = 0
@@ -22,12 +15,67 @@ DEF_GET_ANALOG_MEAN:
     sum += pin.read()
   return sum >> 5`,
 
+DEF_WRITE_DIGITAL:
+`def writeDigital(pin, state):
+  try:
+    __PWM[str(pin)].deinit()
+    pin = Pin(int(str(pin)[4:-1]), Pin.OUT)
+  except: pass
+  pin.on() if state else pin.off()`,
+
+DEF_WRITE_WPM:
+`def writePWM(pin, duty, frequency = None):
+  global __PWM
+  try:
+    __PWM[str(pin)].duty(int(duty))
+    if frequency is not None:
+      __PWM[str(pin)].freq(int(frequency))
+  except:
+    __PWM[str(pin)] = PWM(pin, freq=int(frequency if frequency is not None else 1000), duty=int(duty))`,
+
 /******** DISPLAY CATEGORY */
 DEF_GALAXIA_SCREEN_CLEAR:
 `def display_clear():
   print('\\n'*7)`,
 
 /******** COMMUNICATION CATEGORY */
+
+DEF_SERIAL_READMESSAGE:
+`def serial_readMessage(n = 32):
+  buf = sys.stdin.read(1)
+  for i in range(n-1):
+    if not poll.poll(0):
+      break
+    buf += sys.stdin.read(1)
+  return buf`,
+
+DEF_SD_CARD_WRITE_FILE:
+`def SDCard_writeFile(data, filename = "", mode = 'w', extension = 'txt', date = False, sd = False):
+  if not isinstance(data, bytearray) or not isinstance(data, bytes) or not isinstance(data, str):
+    data = str(data)
+  if extension in ['jpeg', 'jpg', 'png']:
+    mode = 'wb'
+  if mode is 'wb' and not isinstance(data, bytes):
+    print("[Storage_INFO] Data not available to store.")
+  else:
+    if date:
+      try:
+        rtc.datetime()
+      except:
+        rtc = RTC()
+      filename += '_' + str(utime.time())
+    else:
+      fs = os.listdir()
+      if (filename + '.' + extension) in fs:
+        mode = 'a'
+      else:
+        mode = 'w'
+    filename += '.' + extension
+    with open(('/sd/' if sd else '') + filename, mode) as file:
+      file.write(data if mode is 'wb' else str(data))
+      file.close()
+    print("[Storage_INFO] File '" + filename + "' in " + ("SD card." if sd else "ESP32 filestorage."))`,
+
 // galaxia radio _ send number
 DEF_COM_RADIO_SEND:
 `def radio_send(data):
@@ -101,31 +149,97 @@ DEF_COM_RADIO_RECEIVE_VALUE:
       return None, None
   else:
     return None, None`,
+
+  DEF_GROVE_BLUETOOTH_SEND_COMMAND_AT:
+`def grove_bluetooth_sendCommandAT(uart, command, value = None):
+  data = command + (value if value is not None else "")
+  uart.write(data)
+  print("[GROVE BT INFOS] Command sent: " + data + "\\n")
+  utime.sleep_ms(200)
+  if not uart.any():
+    print("It is not possible to interact with AT mode when the module is connected to another device. Additionally, the command may not be available with your module.")
+    print("Waiting Grove Serial Bluetooth v3 module in AT Mode...")
+    while not uart.any():
+      utime.sleep_ms(100)
+  if uart.any():
+    response = uart.read().decode('utf-8')
+    if response.find("OK") > 0:
+      if value is not None:
+        print(response)
+      else:
+        #response.replace("\\r\\nOK\\r\\n", "")
+        pass
+    return response`,
+
+DEF_RFID_READ_TAG_UID:
+`def rfid_readTagUID(uart):
+  if uart.any():
+    utime.sleep_ms(50)
+    rfid_data = bytes([])
+    while uart.any() > 0:
+      rfid_data += uart.read()
+    # data: 0x02 + 10 ASCII + checksun (2 bytes) + 0x03 => 14 bytes
+    if len(rfid_data) != 14 or rfid_data[0] != 0x02 or rfid_data[-1] != 0x03:
+      return
+    body = rfid_data[1:-1]
+    card_hex = body[:10]
+    cks_hex  = body[10:12]
+    cks_rx = int(cks_hex, 16)
+    cks = 0
+    for b in bytes.fromhex(card_hex):
+      cks ^= b
+    return card_hex`,
+
+  DEF_RC522_READ_TAG_UID:
+`def rc522_readTagUid(rdr):
+  (stat, tag_type) = rdr.request(rdr.REQIDL)
+  if stat == rdr.OK:
+    (stat, uid) = rdr.anticoll()
+    if stat == rdr.OK:
+    	return "".join(f"{i:02X}" for i in uid)`,
     
 // Grove GPS _ read NMEA
 DEF_GPS_READ_NMEA:
-`def gps_readNMEA(uart, wait = False):
+`def gps_readNMEA(uart, wait=False):
   global gpsInfos
+
+  def extract_frames():
+    global gpsInfos
+    valid_frames = []
+    if not uart.any(): return valid_frames
+
+    data = uart.read()
+    if not data: return valid_frames
+
+    try: chunk = data.decode()
+    except UnicodeError:
+      try: chunk = data.decode('utf-8', 'ignore')
+      except:
+        return valid_frames
+
+    gpsInfos['buffer'] += chunk
+    lines = gpsInfos['buffer'].split("\\r\\n")
+    gpsInfos['buffer'] = lines.pop()
+
+    frames = [x for x in lines if x.startswith("$")]
+
+    for f in frames:
+      n = f.count(',')
+      kind = f[3:6]
+      if kind == "GGA" and n == 14: valid_frames.append(f)
+      elif kind == "GSA" and n == 17: valid_frames.append(f)
+      elif kind == "RMC" and n in [11, 12]: valid_frames.append(f)
+      elif kind == "VTG" and n in [8, 9]: valid_frames.append(f)
+      elif kind == "GSV": valid_frames.append(f)
+    return valid_frames
+
   def read():
     global gpsInfos
-    global gpsBuffer
-    if uart.any():
-      gpsBuffer += str(uart.read())[2:-1]
-      a = gpsBuffer.split("\\\\\\r\\\\\\n")
-      Frames = []
-      for f in a:
-        if (f.count(',') is 12 or f.count(',') is 14) and (f.find("$GNGGA") == 0 or f.find("$GPGGA") == 0):
-          Frames.append(f)
-        if f.count(',') is 19 and f.find("$GPGSV") == 0:
-          Frames.append(f)
-        if f.count(',') is 17 and (f.find("$GPGSA") == 0 or f.find("$BDGSA") == 0):
-          Frames.append(f)
-        if f.count(',') is 9 and f.find("$GNVTG") == 0:
-          Frames.append(f)
-      gpsBuffer = a[-1]
-      if len(Frames) > 0:
-        print("[GPS_INFO] Lecture de la trame NMEA valide.\\n")
-        gpsInfos['nmea'] = Frames
+    frames = extract_frames()
+    if frames:
+      print("[GPS_INFO] Lecture de la trame NMEA valide.\\n")
+      gpsInfos['nmea'] = frames
+
   if wait:
     gpsInfos['nmea'] = None
     while gpsInfos['nmea'] is None:
@@ -133,6 +247,7 @@ DEF_GPS_READ_NMEA:
       utime.sleep_ms(100)
   else:
     read()
+
   return gpsInfos['nmea']`,
 
 // Gove GPS _ read info
@@ -192,7 +307,7 @@ DEF_GPS_GET_GGA_INFORMATIONS:
 DEF_SERVO_SET_ANGLE:
 `def setServoAngle(pin, angle):
   if (angle >= 0 and angle <= 180):
-    pin.duty(int(0.025*${PWM_MAX_DUTY} + (angle*0.1*${PWM_MAX_DUTY})/180))
+    writePWM(pin, 0.025*${PWM_MAX_DUTY} + (angle*0.1*${PWM_MAX_DUTY})/180)
   else:
     raise ValueError("Servomotor angle have to be set between 0 and 180")`,
 
@@ -203,15 +318,42 @@ DEF_SERVO_SET_SPEED:
     GAP = 14
     if direction == 1:
       speedAngle = 90*(1+speed/100) - GAP
-      pin.duty(int(speedAngle))
+      writePWM(pin, speedAngle)
     elif direction == -1:
       speedAngle = 90*(1-speed/100) - GAP
       if speedAngle < 0: speedAngle = 1
-      pin.duty(int(speedAngle))
+      writePWM(pin, speedAngle)
     else:
       raise ValueError("continuous servomotor has no direction: '" + str(direction) + "'")
   else:
     raise ValueError("continuous servomotor speed is out of range: '" + str(speed) + "'")`,
+
+DEF_KITRONIK_CONTROL_MOTOR:
+`def kitronik_controlMotor(motor, direction, speed = 100):
+  value = speed/100.0*${PWM_MAX_DUTY}
+  if motor == 1:
+    if direction == 1:
+      writePWM(p8, value)
+      writeDigital(p12, 0)
+    elif direction == -1:
+      writePWM(p12, value)
+      writeDigital(p8, 0)
+  elif motor == 2:
+    if direction == 1:
+      writePWM(p0, value)
+      writeDigital(p16, 0)
+    elif direction == -1:
+      writePWM(p16, value)
+      writeDigital(p0, 0)`,
+
+DEF_KITRONIK_STOP_MOTORS:
+`def kitronik_stopMotor(motor):
+  if motor == 1:
+    writeDigital(p8, 0)
+    writeDigital(p12, 0)
+  elif motor == 2:
+    writeDigital(p0, 0)
+    writeDigital(p16, 0)`,
 
 // Buzzer module _ play music
 DEF_BUZZER_PITCH:
@@ -221,9 +363,9 @@ DEF_BUZZER_PITCH:
     millisecondsPerCycle = 1000 / (microsecondsPerWave * 2)
     loopTime = noteDuration * millisecondsPerCycle
     for x in range(loopTime):
-      pin.on()
+      writeDigital(pin, 1)
       utime.sleep_us(int(microsecondsPerWave))
-      pin.off()
+      writeDigital(pin, 0)
       utime.sleep_us(int(microsecondsPerWave))
   else:
     utime.sleep_ms(noteDuration)
@@ -249,7 +391,7 @@ DEF_BUZZER_PLAY_NOTES:
   }
   for i in range(len(notes)):
     timeout = 60000 / bpm / ticks
-    pin.off()
+    writeDigital(pin, 0)
     n = notes[i].lower()
     data = n.split(':')
     note = 'r'

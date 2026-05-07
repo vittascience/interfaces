@@ -109,6 +109,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
                 ["circle_rot", "circle_rot"],
                 ["check_auto", "check_auto"]
             ]
+        }, {
+            "type": "input_value",
+            "name": "CYCLES",
+            "check": "Number"
         }],
         "previousStatement": null,
         "nextStatement": null,
@@ -144,6 +148,27 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "style": "robots_blocks",
         "tooltip": "%{BKY_ROBOTS_ILO_SET_LED_SINGLE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK ILO DISPLAY LED ANIMATION
+    {
+        "type": "robots_displayLedAnimationStateIlo",
+        "message0": "%{BKY_ROBOTS_ILO_DISPLAY_LED_ANIMATION_STATE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "STATE",
+            "options": [
+                ["%{BKY_ROBOTS_ILO_DISPLAY_LED_ANIMATION_STATE_ENABLE}", "True"],
+                ["%{BKY_ROBOTS_ILO_DISPLAY_LED_ANIMATION_STATE_DISABLE}", "False"]
+            ]
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ILO_DISPLAY_LED_ANIMATION_STATE_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]
@@ -321,7 +346,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     {
         "type": "robots_moveOneSquareForwardIlo",
         "message0": "%{BKY_ROBOTS_ILO_MOVE_ONE_SQUARE_FORWARD_TITLE}",
-        "inputsInline": true,        "inputsInline": true,
+        "inputsInline": true, "inputsInline": true,
 
         "previousStatement": null,
         "nextStatement": null,
@@ -540,7 +565,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     {
         "type": "robots_getColorCardIlo",
         "message0": "%{BKY_ROBOTS_ILO_GET_COLOR_CARD_TITLE}",
-         "args0": [{
+        "args0": [{
             "type": "field_grid_dropdown",
             "name": "COLOR",
             "options": [
@@ -599,6 +624,521 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "output": "Number",
         "style": "robots_blocks",
         "tooltip": "%{BKY_ROBOTS_ILO_GET_INTERNAL_SENSORS_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    /* Begin Alvik blocks */
+
+    // MOTORS
+    {
+        "type": "robots_alvik_rotate",
+        "message0": "%{BKY_ROBOTS_ALVIK_ROTATE_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "ANGLE",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "UNIT",
+            "options": Blockly.Constants.Units['angle']
+        }], "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_ROTATE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    {
+        "type": "robots_alvik_move",
+        "message0": "%{BKY_ROBOTS_ALVIK_MOVE_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "DISTANCE",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "UNIT",
+            "options": Blockly.Constants.Units['distance']
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_MOVE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    {
+        "type": "robots_alvik_set_wheels_speed",
+        "message0": "%{BKY_ROBOTS_ALVIK_SET_WHEELS_SPEED_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "LEFT_SPEED",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "RIGHT_SPEED",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "UNIT",
+            "options": Blockly.Constants.Units['rotational_speed']
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_SET_WHEELS_SPEED_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    {
+        "type": "robots_alvik_set_wheels_position",
+        "message0": "%{BKY_ROBOTS_ALVIK_SET_WHEELS_POSITION_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "LEFT_ANGLE",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "RIGHT_ANGLE",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "UNIT",
+            "options": Blockly.Constants.Units['angle']
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_SET_WHEELS_POSITION_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    {
+        "type": "robots_alvik_drive",
+        "message0": "%{BKY_ROBOTS_ALVIK_DRIVE_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "LINEAR_VELOCITY",
+            "check": "Number"
+        },
+        {
+            "type": "field_grid_dropdown",
+            "name": "LINEAR_UNIT",
+            "options": Blockly.Constants.Units['linear_speed']
+        },
+        {
+            "type": "input_value",
+            "name": "ANGULAR_VELOCITY",
+            "check": "Number"
+        },
+        {
+            "type": "field_grid_dropdown",
+            "name": "ANGULAR_UNIT",
+            "options": Blockly.Constants.Units['rotational_speed']
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_DRIVE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    {
+        "type": "robots_alvik_stop",
+        "message0": "%{BKY_ROBOTS_ALVIK_STOP_TITLE}",
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_STOP_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    {
+        "type": "robots_alvik_brake",
+        "message0": "%{BKY_ROBOTS_ALVIK_BRAKE_TITLE}",
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_BRAKE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    {
+        "type": "robots_alvik_get_wheels_speed",
+        "message0": "%{BKY_ROBOTS_ALVIK_GET_WHEELS_SPEED_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "UNIT",
+            "options": Blockly.Constants.Units['rotational_speed']
+        }],
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_GET_WHEELS_SPEED_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    {
+        "type": "robots_alvik_get_wheels_position",
+        "message0": "%{BKY_ROBOTS_ALVIK_GET_WHEELS_POSITION_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "UNIT",
+            "options": Blockly.Constants.Units['angle']
+        }],
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_GET_WHEELS_POSITION_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    {
+        "type": "robots_alvik_get_drive_speed",
+        "message0": "%{BKY_ROBOTS_ALVIK_GET_DRIVE_SPEED_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "LINEAR_UNIT",
+            "options": Blockly.Constants.Units['linear_speed']
+        },
+        {
+            "type": "field_grid_dropdown",
+            "name": "ANGULAR_UNIT",
+            "options": Blockly.Constants.Units['rotational_speed']
+        }],
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_GET_DRIVE_SPEED_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // SERVOS
+
+    {
+        "type": "robots_alvik_set_servo_positions",
+        "message0": "%{BKY_ROBOTS_ALVIK_SET_SERVO_POSITIONS_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "SERVOA_ANGLE",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "SERVOB_ANGLE",
+            "check": "Number"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_SET_SERVO_POSITIONS_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // LEDS
+    {
+        "type": "robots_alvik_set_builtin_led",
+        "message0": "%{BKY_ROBOTS_ALVIK_SET_BUILTIN_LED_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "STATE",
+            "check": "Boolean"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_SET_BUILTIN_LED_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    {
+        "type": "robots_alvik_set_illuminator",
+        "message0": "%{BKY_ROBOTS_ALVIK_SET_ILLUMINATOR_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "STATE",
+            "check": "Boolean"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_SET_ILLUMINATOR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // SENSORS
+    {
+        "type": "robots_alvik_get_distance",
+        "message0": "%{BKY_ROBOTS_ALVIK_GET_DISTANCE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "UNIT",
+            "options": Blockly.Constants.Units['distance']
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "SENSOR",
+            "options": [
+                ["%{BKY_ROBOTS_LEFT_TOF}", "0"],
+                ["%{BKY_ROBOTS_CENTER_LEFT_TOF}", "1"],
+                ["%{BKY_ROBOTS_CENTER_TOF}", "2"],
+                ["%{BKY_ROBOTS_CENTER_RIGHT_TOF}", "3"],
+                ["%{BKY_ROBOTS_RIGHT_TOF}", "4"]
+            ]
+        }],
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_GET_DISTANCE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+    {
+        "type": "robots_alvik_get_line_sensors",
+        "message0": "%{BKY_ROBOTS_ALVIK_GET_LINE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "SENSOR",
+            "options": [
+                ["%{BKY_ROBOTS_LEFT}", "0"],
+                ["%{BKY_ROBOTS_CENTER}", "1"],
+                ["%{BKY_ROBOTS_RIGHT}", "2"]
+            ]
+        }],
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_GET_LINE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+    {
+        "type": "robots_alvik_get_orientation",
+        "message0": "%{BKY_ROBOTS_ALVIK_GET_ORIENTATION_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "ORIENTATION",
+            "options": [
+                ["%{BKY_ROBOTS_ROLL}", "0"],
+                ["%{BKY_ROBOTS_PITCH}", "1"],
+                ["%{BKY_ROBOTS_YAW}", "2"]
+            ]
+        }],
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_GET_ORIENTATION_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+    {
+        "type": "robots_alvik_get_acceleration",
+        "message0": "%{BKY_ROBOTS_ALVIK_GET_ACCELERATION_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "AXIS",
+            "options": [
+                ["%{BKY_ROBOTS_AXIS_X}", "0"],
+                ["%{BKY_ROBOTS_AXIS_Y}", "1"],
+                ["%{BKY_ROBOTS_AXIS_Z}", "2"]
+            ]
+        }],
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_GET_ACCELERATION_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+    {
+        "type": "robots_alvik_get_gyros",
+        "message0": "%{BKY_ROBOTS_ALVIK_GET_GYROS_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "AXIS",
+            "options": [
+                ["%{BKY_ROBOTS_AXIS_X}", "0"],
+                ["%{BKY_ROBOTS_AXIS_Y}", "1"],
+                ["%{BKY_ROBOTS_AXIS_Z}", "2"]
+            ]
+        }],
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_GET_GYROS_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+    {
+        "type": "robots_alvik_get_battery_charge",
+        "message0": "%{BKY_ROBOTS_ALVIK_GET_BATTERY_CHARGE_TITLE}",
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_GET_BATTERY_CHARGE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+    {
+        "type": "robots_alvik_get_touch_button",
+        "message0": "%{BKY_ROBOTS_ALVIK_GET_TOUCH_BUTTON_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "BUTTON",
+            "options": [
+                ["%{BKY_ROBOTS_UP}", "UP"],
+                ["%{BKY_ROBOTS_DOWN}", "DOWN"],
+                ["%{BKY_ROBOTS_LEFT}", "LEFT"],
+                ["%{BKY_ROBOTS_RIGHT}", "RIGHT"],
+                ["%{BKY_ROBOTS_OK}", "OK"],
+                ["%{BKY_ROBOTS_CANCEL}", "CANCEL"],
+                ["%{BKY_ROBOTS_CENTER}", "CENTER"],
+                ["%{BKY_ROBOTS_ANY}", "ANY"]
+            ]
+        }],
+        "output": "Boolean",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_GET_TOUCH_BUTTON_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+    {
+        "type": "robots_alvik_get_color",
+        "message0": "%{BKY_ROBOTS_ALVIK_GET_COLOR_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "COLOR_FORMAT",
+            "options": [
+                ["%{BKY_ROBOTS_COLOR_RGB}", "rgb"],
+                ["%{BKY_ROBOTS_COLOR_HSV}", "hsv"]
+            ]
+        }],
+        "output": "Array",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_GET_COLOR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    {
+        "type": "robots_alvik_get_color_raw",
+        "message0": "%{BKY_ROBOTS_ALVIK_GET_COLOR_RAW_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "COLOR",
+            "options": [
+                ["%{BKY_ROBOTS_COLOR_RED}", "0"],
+                ["%{BKY_ROBOTS_COLOR_GREEN}", "1"],
+                ["%{BKY_ROBOTS_COLOR_BLUE}", "2"]
+            ]
+        }],
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_GET_COLOR_RAW_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    {
+        "type": "robots_alvik_get_color_label",
+        "message0": "%{BKY_ROBOTS_ALVIK_GET_COLOR_LABEL_TITLE}",
+        "output": "String",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_GET_COLOR_LABEL_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    {
+        "type": "robots_alvik_color_calibration",
+        "message0": "%{BKY_ROBOTS_ALVIK_COLOR_CALIBRATION_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "BACKGROUND",
+            "options": [
+                ["%{BKY_ROBOTS_COLOR_BLACK}", "black"],
+                ["%{BKY_ROBOTS_COLOR_WHITE}", "white"]
+            ]
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_COLOR_CALIBRATION_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    {
+        "type": "robots_alvik_rgb2hsv",
+        "message0": "%{BKY_ROBOTS_ALVIK_RGB2HSV_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "R",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "G",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "B",
+            "check": "Number"
+        }],
+        "output": "Array",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_RGB2HSV_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    {
+        "type": "robots_alvik_hsv2label",
+        "message0": "%{BKY_ROBOTS_ALVIK_HSV2LABEL_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "H",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "S",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "V",
+            "check": "Number"
+        }],
+        "output": "String",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_HSV2LABEL_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]
@@ -683,7 +1223,7 @@ Blockly.Constants.Robots.ROBOTS_FINISH_STATE_MUTATOR_MIXIN = {
                 this.buttonSize, this.buttonSize, "*", add, false));
         }
     },
-    
+
     update_: function (update) {
         return Blockly.Constants.Utils.UPDATE_BLOCK_MUTATOR_MIXIN(this, update);
     }

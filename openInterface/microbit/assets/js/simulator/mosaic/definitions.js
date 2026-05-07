@@ -1,5 +1,3 @@
-Simulator.Mosaic.BOARD_HEADER = `<object id="board-viewer" class="mt-3" type="image/svg+xml"></object>`;
-
 Simulator.Mosaic.pin_regex = /pin[0-9]{1,2}/;
 
 Simulator.Mosaic.getPinDef = (pin, mod) => {
@@ -22,18 +20,16 @@ Simulator.Mosaic.getCurrentRobot = function () {
             return robotNames[i];
         }
     }
-
     return null;
 };
 
 Simulator.Mosaic.externalLibraries = {
     // python libraries
     'src/lib/game.py': Simulator.PATH_LIB_PY + 'microbit/game.py',
-    // specific board libraries
-    // py
+    // specific python libraries
     'src/lib/microbit_run_every.py': Simulator.PATH_LIB + 'micropython/run_every.py',
     'src/lib/bar_graph.py': Simulator.PATH_LIB_PY + 'microbit/bar_graph.py',
-    // js
+    // specific js libraries
     'src/lib/microbit.js': Simulator.PATH_LIB + 'micropython/microbit.js',
     'src/lib/machine.js': Simulator.PATH_LIB + 'micropython/machine.js',
     'src/lib/log.js': Simulator.PATH_LIB + 'micropython/log.js',
@@ -42,6 +38,8 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/neopixel.js': Simulator.PATH_LIB + 'micropython/neopixel.js',
     'src/lib/radio.js': Simulator.PATH_LIB + 'micropython/radio.js',
     'src/lib/music.js': Simulator.PATH_LIB + 'micropython/music.js',
+    'src/lib/stepper.js': Simulator.PATH_LIB + 'micropython/stepper.js',
+    'src/lib/tello.js': Simulator.PATH_LIB + 'micropython/tello.js',
     // grove libraries
     // py
     'src/lib/scd30.py': Simulator.PATH_LIB + 'grove/simu_scd30.py',
@@ -55,7 +53,7 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/edgeModelP0-P1.py': Simulator.PATH_LIB + 'ai/edgeModelP0-P1.py',
     'src/lib/edgeModelP0.py': Simulator.PATH_LIB + 'ai/edgeModelP0.py',
     'src/lib/edgeModelP1.py': Simulator.PATH_LIB + 'ai/edgeModelP1.py',
-    // js
+    // js grove lib
     'src/lib/lcd_i2c.js': Simulator.PATH_LIB + 'grove/lcd_i2c.js',
     'src/lib/hm330x.js': Simulator.PATH_LIB + 'grove/hm330x.js',
     'src/lib/si1145.js': Simulator.PATH_LIB + 'grove/si1145.js',
@@ -68,17 +66,17 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/bme280.js': Simulator.PATH_LIB + 'envirobit/bme280.js',
     'src/lib/tcs3472.js': Simulator.PATH_LIB + 'envirobit/tcs3472.js',
     'src/lib/veml6040.js': Simulator.PATH_LIB + 'grove/veml6040.js',
-    // robots libraries
-    // py
+    'src/lib/HuskyLens.js': Simulator.PATH_LIB + 'grove/HuskyLens.js',
+    // js robots libraries
     'src/lib/cutebotpro.js': Simulator.PATH_LIB + 'robots/cutebotpro.js',
-    // js
-    'src/lib/tello.js': Simulator.PATH_LIB + 'micropython/tello.js',
     'src/lib/cutebot.js': Simulator.PATH_LIB + 'robots/cutebot.js',
     'src/lib/maqueenplusv1.js': Simulator.PATH_LIB + 'robots/maqueenplusv1.js',
     'src/lib/maqueenplusv2.js': Simulator.PATH_LIB + 'robots/maqueenplusv2.js',
     'src/lib/maqueenplusv3.js': Simulator.PATH_LIB + 'robots/maqueenplusv3.js',
-    'src/lib/HuskyLens.js': Simulator.PATH_LIB + 'grove/HuskyLens.js',
-    'src/lib/stepper.js': Simulator.PATH_LIB + 'micropython/stepper.js'
+    'src/lib/uhandbit.js': Simulator.PATH_LIB + 'robots/uhandbit.js',
+    'src/lib/wukong.js': Simulator.PATH_LIB + 'robots/wukong.js',
+    'src/lib/superbit.js': Simulator.PATH_LIB + 'robots/superbit.js',
+    'src/lib/WOM_Sensor_Kit.js': Simulator.PATH_LIB + 'robots/WOM_Sensor_Kit.js',
 };
 
 Simulator.Mosaic.addSpecificInitializations = async function () {
@@ -247,7 +245,7 @@ Simulator.Mosaic.addSpecificSkulptFunctions = function () {
             Sk.builtin.pyCheckArgsLen("getUltrasonicData", arguments.length, 2, 4);
             Sk.builtin.pyCheckType("data", "string", Sk.builtin.checkString(data));
             Sk.builtin.pyCheckType("timeout_us", "integer", Sk.builtin.checkInt(timeout_us));
-            const pins = Blockly.Constants.Pins.MICROBIT_PINS;
+            const pins = Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()];
             const component = Simulator.pinList.find((component) => component.pin == trig.name);
             if (component !== undefined) {
                 if (trig.name !== echo.name) {
@@ -554,7 +552,6 @@ Simulator.Mosaic.specific = {
         moveCommand: function () {
             // console.log("[TELLO] moveCommand()");
             this.isBusy = true;
-            console.log('robot moving')
             const dir = this.storedMovements[0][0];
             var _this = this;
             RobotSimulator.robot.DIRECTION = dir;
@@ -840,9 +837,9 @@ Simulator.Mosaic.specific = {
         $('.mod_tcs3472-rgb_r,' +
             '.mod_tcs3472-rgb_g,' +
             '.mod_tcs3472-rgb_b,' +
-            '.mod_veml6040_r,' +
-            '.mod_veml6040_g,' +
-            '.mod_veml6040_b,' +
+            '.mod_uhandbit-color_r,' +
+            '.mod_uhandbit-color_g,' +
+            '.mod_uhandbit-color_b,' +
             '#mb-cutebotpro-finderLeft_slider_v,' +
             '#mb-cutebotpro-finderCenterLeft_slider_v,' +
             '#mb-cutebotpro-finderRight_slider_v,' +
@@ -1550,7 +1547,7 @@ Simulator.Mosaic.specific = {
                 } else if (Animator.value <= 128) {
                     $(Animator.valueId).text(Animator.value + ' (QUIET)');
                     $(Animator.animId).css("filter", 'hue-rotate(15deg)')
-                } else if (Animatior.value == 0) {
+                } else if (Animator.value == 0) {
                     $(Animator.valueId).text(Animator.value + ' (NONE)');
                 }
                 $(Animator.animId).css('opacity', Animator.value / 255);
@@ -1636,6 +1633,60 @@ Simulator.Mosaic.specific = {
             id: "mb-maqueen-finderRight",
             title: "cap. Ligne noire (Droit)",
             pin: 'Maqueen (P14)',
+            type: 'input',
+            listeners: [{
+                default: "OFF",
+                unit: '',
+                color: "#000",
+                suffix: "_v"
+            }],
+            picture: "Capteur-ligne-line.png",
+            pictureAnimation: "Capteur-ligne-anim.png",
+            animate: function (Animator) {
+                Animator.translation('digital');
+            }
+        },
+        {
+            regex: /maqueen\.readPatrolV5\(0x20\)/gi,
+            id: "mb-maqueen-finderLeft",
+            title: "cap. Ligne noire (Gauche)",
+            pin: 'Maqueen (I2C: 0x20)',
+            type: 'input',
+            listeners: [{
+                default: "OFF",
+                unit: '',
+                color: "#000",
+                suffix: "_v"
+            }],
+            picture: "Capteur-ligne-line.png",
+            pictureAnimation: "Capteur-ligne-anim.png",
+            animate: function (Animator) {
+                Animator.translation('digital');
+            }
+        },
+        {
+            regex: /maqueen\.readPatrolV5\(0x22\)/gi,
+            id: "mb-maqueen-finderMiddle",
+            title: "cap. Ligne noire (Milieu)",
+            pin: 'Maqueen (I2C: 0x22)',
+            type: 'input',
+            listeners: [{
+                default: "OFF",
+                unit: '',
+                color: "#000",
+                suffix: "_v"
+            }],
+            picture: "Capteur-ligne-line.png",
+            pictureAnimation: "Capteur-ligne-anim.png",
+            animate: function (Animator) {
+                Animator.translation('digital');
+            }
+        },
+        {
+            regex: /maqueen\.readPatrolV5\(0x24\)/gi,
+            id: "mb-maqueen-finderRight",
+            title: "cap. Ligne noire (Droit)",
+            pin: 'Maqueen (I2C: 0x24)',
             type: 'input',
             listeners: [{
                 default: "OFF",
@@ -2315,7 +2366,7 @@ Simulator.Mosaic.specific = {
             codeFlag: "MaqueenPlus Buzzer",
             id: "mb-maqueenplus-buzzer",
             title: "Buzzer",
-            pin: 'MaqueenPlus',
+            pin: 'Maqueen Plus',
             type: 'output',
             value: 0,
             picture: "Buzzer.png",
@@ -3033,7 +3084,7 @@ Simulator.Mosaic.specific = {
                 $("#tcs3472-rgb_value_r").html(values['r']);
                 $("#tcs3472-rgb_value_g").html(values['g']);
                 $("#tcs3472-rgb_value_b").html(values['b']);
-                $("#tcs3472-rgb .tcs3472-circle-in").attr("fill", "rgb(" + values['r'] + "," + values['g'] + "," + values['b'] + ")");
+                $("#tcs3472-rgb .circle-in").attr("fill", "rgb(" + values['r'] + "," + values['g'] + "," + values['b'] + ")");
             }
         },
 
@@ -3117,7 +3168,7 @@ Simulator.Mosaic.specific = {
                 $("#veml6040_value_hue").html(values['hue']);
                 $("#veml6040_value_value").html(values['value']);
                 $("#veml6040_value_saturation").html(values['saturation']);
-                $("#veml6040 .veml6040-circle-in").attr("fill", "rgb(" + values['r'] + "," + values['g'] + "," + values['b'] + ")");
+                $("#veml6040 .circle-in").attr("fill", "rgb(" + values['r'] + "," + values['g'] + "," + values['b'] + ")");
             }
         },
 
@@ -3129,6 +3180,549 @@ Simulator.Mosaic.specific = {
             type: 'output',
             value: 'ON',
             picture: "husky.png",
-        }
+        },
+
+        //uHandbit servo port 1
+        {
+            regex: /uhandbit_servo\.set_servo\(1/gi,
+            id: "uhandbit-servo1",
+            title: "uHandbit - Servo",
+            pin: "Port 1",
+            pins: 'PWM',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: 0,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + ' °');
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        },
+
+        // uHandbit servo port 2
+        {
+            regex: /uhandbit_servo\.set_servo\(2/gi,
+            id: "uhandbit-servo2",
+            title: "uHandbit - Servo",
+            pin: "Port 2",
+            pins: 'PWM',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: 0,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + ' °');
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        },
+
+        // uHandbit servo port 3
+        {
+            regex: /uhandbit_servo\.set_servo\(3/gi,
+            id: "uhandbit-servo3",
+            title: "uHandbit - Servo",
+            pin: "Port 3",
+            pins: 'PWM',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: 0,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + ' °');
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        },
+
+        // uHandbit servo port 4
+        {
+            regex: /uhandbit_servo\.set_servo\(4/gi,
+            id: "uhandbit-servo4",
+            title: "uHandbit - Servo",
+            pin: "Port 4",
+            pins: 'PWM',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: 0,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + ' °');
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        },
+
+        // uHandbit servo port 5
+        {
+            regex: /uhandbit_servo\.set_servo\(5/gi,
+            id: "uhandbit-servo5",
+            title: "uHandbit - Servo",
+            pin: "Port 5",
+            pins: 'PWM',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: 0,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + ' °');
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        },
+
+        // uHandbit servo port 6
+        {
+            regex: /uhandbit_servo\.set_servo\(6/gi,
+            id: "uhandbit-servo6",
+            title: "uHandbit - Servo",
+            pin: "Port 6",
+            pins: 'PWM',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: 0,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + ' °');
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        },
+
+        // uHandbit color sensor
+        {
+            regex: /uhandbit_color\.(read_rgb|get_color)\(\)/,
+            id: "uhandbit-color",
+            title: "Niveau de : ",
+            pin: 'uHandbit - apds9960',
+            type: 'input',
+            color: "#22b573",
+            listeners: [{
+                suffix: "_r",
+                default: 0,
+                unit: '',
+                color: "#ff4d6a",
+                title: "rouge"
+            }, {
+                suffix: "_g",
+                default: 0,
+                unit: '',
+                color: "#22b573",
+                title: "vert"
+            }, {
+                suffix: "_b",
+                default: 0,
+                unit: '',
+                color: "#1a6da8",
+                title: "bleu"
+            }],
+            picture: "RGB-LED.svg",
+            animate: function (Animator) {
+                const values = {
+                    "r": parseInt($("#uhandbit-color_slider_r").slider('option', 'value')),
+                    "g": parseInt($("#uhandbit-color_slider_g").slider('option', 'value')),
+                    "b": parseInt($("#uhandbit-color_slider_b").slider('option', 'value')),
+                };
+                $("#uhandbit-color_value_r").html(values['r']);
+                $("#uhandbit-color_value_g").html(values['g']);
+                $("#uhandbit-color_value_b").html(values['b']);
+                $("#uhandbit-color .circle-in").attr("fill", "rgb(" + values['r'] + "," + values['g'] + "," + values['b'] + ")");
+            }
+        },
+
+        {
+            regex: /wk\.set_motors\(/gi,
+            id: "mb-wukong-motor1",
+            title: "WuKong - Moteur 1",
+            pin: '(I2C: 0x10)',
+            type: 'output',
+            value: "",
+            class: "motor",
+            picture: "Motor.png",
+            pictureAnimation: "Motor-animation.png",
+        },
+        {
+            regex: /wk\.set_motors\(/gi,
+            id: "mb-wukong-motor2",
+            title: "WuKong - Moteur 2",
+            pin: '(I2C: 0x10)',
+            type: 'output',
+            value: "",
+            class: "motor",
+            picture: "Motor.png",
+            pictureAnimation: "Motor-animation.png",
+        },
+
+        // WuKong servo S1
+        {
+            regex: /wk\.set_servo(_speed|)\(1/gi,
+            id: "mb-wukong-servo1",
+            title: "WuKong - Servo 1",
+            pin: '(I2C: 0x10)',
+            pins: 'I2C',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: 0,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + ' °');
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        },
+
+        // WuKong servo S2
+        {
+            regex: /wk\.set_servo(_speed|)\(2/gi,
+            id: "mb-wukong-servo2",
+            title: "WuKong - Servo 2",
+            pin: '(I2C: 0x10)',
+            pins: 'I2C',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: 0,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + ' °');
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        },
+
+        // WuKong servo S3
+        {
+            regex: /wk\.set_servo(_speed|)\(3/gi,
+            id: "mb-wukong-servo3",
+            title: "WuKong - Servo 3",
+            pin: '(I2C: 0x10)',
+            pins: 'I2C',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: 0,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + ' °');
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        },
+
+        // WuKong servo S4
+        {
+            regex: /wk\.set_servo(_speed|)\(4/gi,
+            id: "mb-wukong-servo4",
+            title: "WuKong - Servo 4",
+            pin: '(I2C: 0x10)',
+            pins: 'I2C',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: 0,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + ' °');
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        },
+
+        // WuKong servo S5
+        {
+            regex: /wk\.set_servo(_speed|)\(5/gi,
+            id: "mb-wukong-servo5",
+            title: "WuKong - Servo 5",
+            pin: '(I2C: 0x10)',
+            pins: 'I2C',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: 0,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + ' °');
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        },
+
+        // WuKong servo S6
+        {
+            regex: /wk\.set_servo(_speed|)\(6/gi,
+            id: "mb-wukong-servo6",
+            title: "WuKong - Servo 6",
+            pin: '(I2C: 0x10)',
+            pins: 'I2C',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: 0,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + ' °');
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        },
+
+        // WuKong servo S7
+        {
+            regex: /wk\.set_servo(_speed|)\(7/gi,
+            id: "mb-wukong-servo7",
+            title: "WuKong - Servo 7",
+            pin: '(I2C: 0x10)',
+            pins: 'I2C',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: 0,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + ' °');
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        },
+
+        // Super:bit servo S1
+        {
+            regex: /(superbit\.|)servo(180|270|360)\((superbit\.|)S1/gi,
+            id: "mb-superbit-servo1",
+            title: "Super:bit - Servo 1",
+            pin: '(I2C: 0x40)',
+            pins: 'I2C',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: 0,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + ' °');
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        },
+
+        // Super:bit servo S2
+        {
+            regex: /(superbit\.|)servo(180|270|360)\((superbit\.|)S2/gi,
+            id: "mb-superbit-servo2",
+            title: "Super:bit - Servo 2",
+            pin: '(I2C: 0x40)',
+            pins: 'I2C',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: 0,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + ' °');
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        },
+
+        // Super:bit servo S3
+        {
+            regex: /(superbit\.|)servo(180|270|360)\((superbit\.|)S3/gi,
+            id: "mb-superbit-servo3",
+            title: "Super:bit - Servo 3",
+            pin: '(I2C: 0x40)',
+            pins: 'I2C',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: 0,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + ' °');
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        },
+
+        // Super:bit servo S4
+        {
+            regex: /(superbit\.|)servo(180|270|360)\((superbit\.|)S4/gi,
+            id: "mb-superbit-servo4",
+            title: "Super:bit - Servo 4",
+            pin: '(I2C: 0x40)',
+            pins: 'I2C',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: 0,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + ' °');
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        },
+
+        // Super:bit servo S5
+        {
+            regex: /(superbit\.|)servo(180|270|360)\((superbit\.|)S5/gi,
+            id: "mb-superbit-servo5",
+            title: "Super:bit - Servo 5",
+            pin: '(I2C: 0x40)',
+            pins: 'I2C',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: 0,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + ' °');
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        },
+
+        // Super:bit servo S6
+        {
+            regex: /(superbit\.|)servo(180|270|360)\((superbit\.|)S6/gi,
+            id: "mb-superbit-servo6",
+            title: "Super:bit - Servo 6",
+            pin: '(I2C: 0x40)',
+            pins: 'I2C',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: 0,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + ' °');
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        },
+
+        // Super:bit servo S7
+        {
+            regex: /(superbit\.|)servo(180|270|360)\((superbit\.|)S7/gi,
+            id: "mb-superbit-servo7",
+            title: "Super:bit - Servo 7",
+            pin: '(I2C: 0x40)',
+            pins: 'I2C',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: 0,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + ' °');
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        },
+
+        // Super:bit servo S8
+        {
+            regex: /(superbit\.|)servo(180|270|360)\((superbit\.|)S8/gi,
+            id: "mb-superbit-servo8",
+            title: "Super:bit - Servo 8",
+            pin: '(I2C: 0x40)',
+            pins: 'I2C',
+            type: 'output',
+            class: 'servo',
+            codeFlag: 'Servo',
+            value: 0,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + ' °');
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        },
+        // Supber:bit - Motors
+        {
+            regex: /(superbit\.|)motor_control\((superbit\.|)M1/gi,
+            id: "mb-superbit-motor1",
+            title: "Super:bit - Moteur 1",
+            pin: '(I2C: 0x40)',
+            type: 'output',
+            value: "",
+            class: "motor",
+            picture: "Motor.png",
+            pictureAnimation: "Motor-animation.png",
+        },
+        {
+            regex: /(superbit\.|)motor_control\((superbit\.|)M2/gi,
+            id: "mb-superbit-motor2",
+            title: "Super:bit - Moteur 2",
+            pin: '(I2C: 0x40)',
+            type: 'output',
+            value: "",
+            class: "motor",
+            picture: "Motor.png",
+            pictureAnimation: "Motor-animation.png",
+        },
+        {
+            regex: /(superbit\.|)motor_control\((superbit\.|)M3/gi,
+            id: "mb-superbit-motor3",
+            title: "Super:bit - Moteur 3",
+            pin: '(I2C: 0x40)',
+            type: 'output',
+            value: "",
+            class: "motor",
+            picture: "Motor.png",
+            pictureAnimation: "Motor-animation.png",
+        },
+        {
+            regex: /(superbit\.|)motor_control\((superbit\.|)M4/gi,
+            id: "mb-superbit-motor4",
+            title: "Super:bit - Moteur 4",
+            pin: '(I2C: 0x40)',
+            type: 'output',
+            value: "",
+            class: "motor",
+            picture: "Motor.png",
+            pictureAnimation: "Motor-animation.png",
+        },
+        // Super:bit - Stepper motors
+        {
+            regex: /(superbit\.|)stepper_control\((superbit\.|)B1/gi,
+            id: "mb-superbit-stepper-motor1",
+            title: "Super:bit - Moteur pas à pas 1",
+            pin: '(I2C: 0x40)',
+            type: 'output',
+            value: "",
+            class: "motor",
+            picture: "Motor.png",
+            pictureAnimation: "Motor-animation.png",
+        },
+        {
+            regex: /(superbit\.|)stepper_control\((superbit\.|)B2/gi,
+            id: "mb-superbit-stepper-motor2",
+            title: "Super:bit - Moteur pas à pas 2",
+            pin: '(I2C: 0x40)',
+            type: 'output',
+            value: "",
+            class: "motor",
+            picture: "Motor.png",
+            pictureAnimation: "Motor-animation.png",
+        },
+        {
+            regex: /(WOM_Sensor_Kit\.|)WOM_rocker\(/gi,
+            id: "mb-yahboom-joystick",
+            title: "Yahboom - Joystick",
+            pin: 'pin n°',
+            type: 'input',
+            value: "",
+            hybride: true,
+            class: "joystick",
+            picture: "joystick.svg",
+            pictureInteraction: "buttonPush"
+        },
     ]
 };

@@ -61,6 +61,7 @@
                         "id": "television",
                         "label": "Télévision",
                         "image": "tv.svg",
+                        "image_darkmode": "tv-darkmode.svg",
                         "fabrication": 388,
                         "one_year_utilization": 10.6,
                         "theoretical_use": 3,
@@ -77,14 +78,15 @@
             },
             "rules": "<strong>Les bases du calcul:</strong> Écran moyen de 6,63 pouces, mix des technologies LCD et OLED, 8 Go de RAM, 210 Go de mémoire (mix pondéré entre 3 configurations, 24%, 24%, 52%).",
             "practical_tips": [
-                "<strong>Pour un usage plus responsable de votre smartphone, adoptez quelques habitudes simples :</strong>",
-                "<ul><li> 🔋activez le mode économie d'énergie </li>",
-                "<li>🌞 réglez la luminosité automatique </li>",
-                "<li>❌ fermez les applications inutilisées.</li>",
-                "<li>🌱 Garder votre téléphone plus longtemps réduit significativement son impact environnemental. L'achat d'un modèle d'occasion est un excellent choix pour la planète.</l></ul>"
+                "Pour un usage plus responsable de votre smartphone, adoptez quelques habitudes simples :<br/>",
+                "🔋 Activez le mode économie d'énergie<br/>",
+                "🌞 Réglez la luminosité automatique<br/>",
+                "❌ Fermez les applications inutilisées.<br/>",
+                "🌱 Garder votre téléphone plus longtemps réduit significativement son impact environnemental. L'achat d'un modèle d'occasion est un excellent choix pour la planète."
             ],
             "questions": [
                 {
+                    "ref": "label_how_many_years",
                     "label": "Depuis combien de temps possèdes-tu ton appareil ?",
                     "name": "smartphone_years_usage",
                     "type": "number",
@@ -96,7 +98,7 @@
                         "https://impactco2.fr/outils/numerique/smartphone"
                     ]
                 },
-                {
+                {   "ref": "label_change",
                     "label": "Tu prévois de garder ton smartphone encore combien de temps ?",
                     "name": "smartphone_change",
                     "type": "number",
@@ -112,6 +114,7 @@
                     ]
                 },
                 {
+                    "ref": "label_state",
                     "label": "Préfères-tu un smartphone neuf ou d'occasion ?",
                     "name": "smartphone_condition",
                     "type": "select",
@@ -122,12 +125,13 @@
                         "https://librairie.ademe.fr/economie-circulaire-et-dechets/5241-evaluation-de-l-impact-environnemental-d-un-ensemble-de-produits-reconditionnes.html",
                         "https://labo.societenumerique.gouv.fr/fr/articles/impact-environnemental-des-smartphones-quels-b%C3%A9n%C3%A9fices-du-reconditionnement-par-rapport-au-neuf/"
                     ],
-                    "options": [
-                        "Neuf",
-                        "D'occasion"
+                  "options": [
+                        "new",
+                        "refurbished"
                     ]
                 },
                 {
+                    "ref": "label_day_time",
                     "label": "Combien de temps utilises-tu ton smartphone chaque jour ?",
                     "advice": "Pour vérifier, tu peux aller dans Paramètres → Bien-être numérique ou temps d’écran.",
                     "type": "number",
@@ -152,15 +156,16 @@
             },
             "rules": "<strong>Les bases du calcul: </strong>Écran de 10,53 pouces, mix de technologies d'écran LCD, 4,7 Go de RAM, 144 Go de mémoire (mix pondéré entre 3 configurations de tablettes.). Moyenne des usages d'une tablette personnelle et professionnelle",
             "practical_tips": [
-                "<strong>Pour réduire l'impact de votre tablette , adoptez ces gestes simples :</strong>",
-                "<ul><li>🚫 Désactivez les synchronisations automatiques inutiles</li>",
-                "<li>🔕 Limitez les notifications</li>",
-                "<li>💾 Privilégiez le stockage local plutôt que le cloud ☁️ quand c'est possible</li>",
-                "<li>⏳ Conservez votre tablette plus longtemps que les 3 ans prévus pour réduire son impact environnemental.</li></ul>"
+                "Pour réduire l'impact de votre tablette, adoptez ces gestes simples :<br/>",
+                "🚫 Désactivez les synchronisations automatiques inutiles<br/>",
+                "🔕 Limitez les notifications<br/>",
+                "💾 Privilégiez le stockage local plutôt que le cloud quand c'est possible<br/>",
+                "⏳ Conservez votre tablette plus longtemps que les 3 ans prévus pour réduire son impact environnemental."
             ],
             "link": "https://impactco2.fr/outils/numerique/tabletteclassique",
             "questions": [
-                {
+                {   
+                    "ref": "label_how_many_years",
                     "label": "Depuis combien de temps possèdes-tu ta tablette ?",
                     "name": "tablette_years_usage",
                     "type": "number",
@@ -173,6 +178,7 @@
                     "unit": "années"
                 },
                 {
+                    "ref": "label_change",
                     "label": "Tu prévois de garder ta tablette encore combien de temps ?",
                     "name": "tablette_change",
                     "type": "number",
@@ -187,6 +193,7 @@
                     "unit": "années"
                 },
                 {
+                    "ref": "label_state",
                     "label": "Préfères-tu une tablette neuve ou d'occasion ?",
                     "name": "tablette_condition",
                     "type": "select",
@@ -196,12 +203,13 @@
                     "links": [
                         "https://librairie.ademe.fr/economie-circulaire-et-dechets/5241-evaluation-de-l-impact-environnemental-d-un-ensemble-de-produits-reconditionnes.html"
                     ],
-                    "options": [
-                        "Neuf",
-                        "D'occasion"
+                   "options": [
+                        "new",
+                        "refurbished"
                     ]
                 },
                 {
+                    "ref": "label_day_time",
                     "label": "Combien de temps utilises-tu ta tablette chaque jour ?",
                     "type": "number",
                     "name": "tablette_day_time",
@@ -221,15 +229,16 @@
                 "device_selection": "speaker"
             },
             "practical_tips": [
-                "<strong>Optimisez l’usage de votre enceinte connectée grâce à ces conseils :</strong>",
-                "<ul><li>🔌 Débranchez-la lorsqu'elle n'est pas utilisée</li>",
-                "<li>📶 Privilégiez une connexion Wi-Fi stable</li>",
-                "<li>⏸️ Évitez de la laisser en veille prolongée</li>",
-                "<li>♻️ Le choix d’un modèle d’occasion est particulièrement pertinent pour la planète.</li></ul>"
+                "Optimisez l’usage de votre enceinte connectée grâce à ces conseils :<br/>",
+                "🔌 Débranchez-la lorsqu'elle n'est pas utilisée<br/>",
+                "📶 Privilégiez une connexion Wi-Fi stable<br/>",
+                "⏸️ Évitez de la laisser en veille prolongée<br/>",
+                "♻️ Le choix d’un modèle d’occasion est particulièrement pertinent pour la planète."
             ],
             "link": "https://impactco2.fr/outils/numerique/enceintebluetooth",
             "questions": [
                 {
+                    "ref": "label_how_many_years",
                     "label": "Depuis combien de temps la possèdes-tu  ?",
                     "name": "speaker_years_usage",
                     "type": "number",
@@ -242,6 +251,7 @@
                     ]
                 },
                 {
+                    "ref": "label_change",
                     "label": "Quand penses-tu changer l'enceinte ?",
                     "name": "speaker_change",
                     "type": "number",
@@ -258,6 +268,7 @@
                     ]
                 },
                 {
+                    "ref": "label_state",
                     "label": "Préfères-tu une enceinte connectée neuve ou d'occasion ?",
                     "name": "speaker_condition",
                     "type": "select",
@@ -267,12 +278,13 @@
                     "links": [
                         "https://librairie.ademe.fr/economie-circulaire-et-dechets/5241-evaluation-de-l-impact-environnemental-d-un-ensemble-de-produits-reconditionnes.html"
                     ],
-                    "options": [
-                        "Neuf",
-                        "D'occasion"
+             "options": [
+                        "new",
+                        "refurbished"
                     ]
                 },
                 {
+                    "ref": "label_day_time",
                     "label": "Combien de temps écoutes-tu ton enceinte chaque jour ?",
                     "type": "number",
                     "name": "speaker_day_time",
@@ -290,14 +302,15 @@
             },
             "rules": "<strong>Les bases du calcul:</strong> Écran moyen de 14,6 pouces, 1 CPU, 11 Go de RAM, 497 Go de SSD (mix pondéré entre 3 configurations d’ordinateurs portables à usage particulier).",
             "practical_tips": [
-                "<strong>Réduisez l’impact de votre ordinateur en adoptant ces bonnes pratiques :</strong>",
-                "<ul><li>⚙️ Désactivez les fonctions inutiles</li>",
-                "<li>🌙 Mettez-le en veille lors des pauses</li>",
-                "<li>🗑️ Supprimez régulièrement les fichiers superflus</li>",
-                "<li>🗓️ Une conservation de 3 ans est déjà positive — plus vous le gardez longtemps, plus vous réduisez son empreinte carbone.</li></ul>"
+                "Réduisez l’impact de votre ordinateur en adoptant ces bonnes pratiques :<br/>",
+                "⚙️ Désactivez les fonctions inutiles<br/>",
+                "🌙 Mettez-le en veille lors des pauses<br/>",
+                "🗑️ Supprimez régulièrement les fichiers superflus<br/>",
+                "🗓️ Une conservation de 3 ans est déjà positive — plus vous le gardez longtemps, plus vous réduisez son empreinte carbone."
             ],
             "questions": [
                 {
+                    "ref": "label_how_many_years",
                     "label": "Depuis combien de temps le possèdes-tu?",
                     "name": "computer_years_usage",
                     "type": "number",
@@ -310,6 +323,7 @@
                     ]
                 },
                 {
+                    "ref": "label_change",
                     "label": "Tu prévois de garder ton ordinateur encore combien de temps ?",
                     "name": "computer_change",
                     "type": "number",
@@ -325,6 +339,7 @@
                     ]
                 },
                 {
+                    "ref": "label_state",
                     "label": "Préfères-tu un ordinateur neuf ou d'occasion ?",
                     "name": "computer_condition",
                     "type": "select",
@@ -334,12 +349,13 @@
                     "links": [
                         "https://librairie.ademe.fr/economie-circulaire-et-dechets/5241-evaluation-de-l-impact-environnemental-d-un-ensemble-de-produits-reconditionnes.html"
                     ],
-                    "options": [
-                        "Neuf",
-                        "D'occasion"
+              "options": [
+                        "new",
+                        "refurbished"
                     ]
                 },
                 {
+                    "ref": "label_day_time",
                     "label": "Combien de temps utilises-tu ton ordinateur chaque jour ?",
                     "advice": "Tu peux vérifier sur Windows ou Mac avec l'option Temps d'écran.",
                     "type": "number",
@@ -362,14 +378,15 @@
                 "device_selection": "console"
             },
             "practical_tips": [
-                "<strong>Adoptez de bons réflexes pour réduire l’impact de votre console de jeux :</strong>",
-                "<ul><li>🔋 Activez le mode économie d'énergie</li>",
-                "<li>🛑 Éteignez-la complètement après utilisation plutôt que de la laisser en veille</li>",
-                "<li>🕒 Téléchargez les mises à jour pendant les heures creuses</li>",
-                "<li>📅 La conserver pendant 3 ans est un choix responsable pour limiter son empreinte carbone.</li></ul>"
+                "Adoptez de bons réflexes pour réduire l’impact de votre console de jeux :<br/>",
+                "🔋 Activez le mode économie d'énergie<br/>",
+                "🛑 Éteignez-la complètement après utilisation plutôt que de la laisser en veille<br/>",
+                "🕒 Téléchargez les mises à jour pendant les heures creuses<br/>",
+                "📅 La conserver pendant 3 ans est un choix responsable pour limiter son empreinte carbone."
             ],
             "questions": [
                 {
+                    "ref": "label_how_many_years",
                     "label": "Depuis combien de temps la possedes-tu  ?",
                     "name": "console_years_usage",
                     "type": "number",
@@ -382,6 +399,7 @@
                     "unit": "années"
                 },
                 {
+                    "ref": "label_change",
                     "label": "Quand penses-tu changer ta console ?",
                     "name": "console_change",
                     "type": "number",
@@ -397,6 +415,7 @@
                     "unit": "années"
                 },
                 {
+                    "ref": "label_state",
                     "label": "Préfères-tu une console neuve ou d'occasion ?",
                     "name": "console_condition",
                     "type": "select",
@@ -406,12 +425,13 @@
                     "links": [
                         "https://librairie.ademe.fr/economie-circulaire-et-dechets/5241-evaluation-de-l-impact-environnemental-d-un-ensemble-de-produits-reconditionnes.html"
                     ],
-                    "options": [
-                        "Neuf",
-                        "D'occasion"
+                "options": [
+                        "new",
+                        "refurbished"
                     ]
                 },
                 {
+                    "ref": "label_day_time",
                     "label": "Combien de temps joues-tu avec ta console chaque jour ?",
                     "type": "number",
                     "name": "console_day_time",
@@ -432,14 +452,15 @@
             },
             "rules": "<strong>Les bases du calcul:</strong> Dimension et technologie moyennes (82% LCD (45 pouces), 1% OLED (53 pouces), 17% OLED (68 pouces)) (mix pondéré entre 3 configurations de téléviseurs.).",
             "practical_tips": [
-                "<strong>Pour une utilisation plus responsable de votre télévision :</strong>",
-                "<ul><li>🌅 Ajustez la luminosité selon l'éclairage ambiant</li>",
-                "<li>💤 Évitez le mode veille prolongée</li>",
-                "<li>🏠 Choisissez un écran adapté à la taille de votre pièce</li>",
-                "<li>🗓️ Une durée de conservation de 4 ans est excellente pour réduire l'impact environnemental.</li></ul>"
+                "Pour une utilisation plus responsable de votre télévision :<br/>",
+                "🌅 Ajustez la luminosité selon l'éclairage ambiant<br/>",
+                "💤 Évitez le mode veille prolongée<br/>",
+                "🏠 Choisissez un écran adapté à la taille de votre pièce<br/>",
+                "🗓️ Une durée de conservation de 4 ans est excellente pour réduire l'impact environnemental."
             ],
             "questions": [
                 {
+                    "ref": "label_how_many_years",
                     "label": "Depuis combien de temps la possedes-tu  ?",
                     "name": "television_years_usage",
                     "type": "number",
@@ -452,6 +473,7 @@
                     ]
                 },
                 {
+                    "ref": "label_change",
                     "label": "Quand penses-tu changer de télévision ?",
                     "name": "television_change",
                     "type": "number",
@@ -467,6 +489,7 @@
                     ]
                 },
                 {
+                    "ref": "label_state",
                     "label": "Préfères-tu une television neuve ou d'occasion ?",
                     "name": "television_condition",
                     "type": "select",
@@ -477,11 +500,12 @@
                         "https://librairie.ademe.fr/economie-circulaire-et-dechets/5241-evaluation-de-l-impact-environnemental-d-un-ensemble-de-produits-reconditionnes.html"
                     ],
                     "options": [
-                        "Neuf",
-                        "D'occasion"
+                        "new",
+                        "refurbished"
                     ]
                 },
                 {
+                    "ref": "label_day_time",
                     "label": "Combien de temps regardes-tu ta télévision chaque jour ?",
                     "type": "number",
                     "name": "television_day_time",
@@ -566,8 +590,8 @@
                         "label": " Emails",
                         "image": "mail.svg",
                         "impact_email_text": 0.00021,
-                        "impact_email_attachment": 0.00129,
-                        "impact_email_attachment_5": 0.00561,
+                        "impact_email_attachment": 0.00129, 
+                        "impact_email_attachment_5": 0.00562,
                         "impact_email_spam": 3.74,
                         "theoretical_use": 1
                     }
@@ -585,17 +609,18 @@
                 ]
             },
             "rules": "<strong>Les bases du calcul:</strong>Transmission, Usage des terminaux et data-centers, sans prendre en compte la construction des terminaux. Appareil utilisé : télévision, qualité de vidéo : haute définition, wifi",
-            "id": "streaming_consum",
+            "id": "streaming",
             "practical_tips": [
-                "<strong>Adoptez ces gestes simples pour un streaming plus écologique :</strong>",
-                "<ul><li>📉 Choisissez une définition adaptée plutôt que la plus haute qualité par défaut</li>",
-                "<li>📂 Téléchargez les contenus que vous regardez fréquemment</li>",
-                "<li>🌐 Utilisez le Wi-Fi plutôt que les données mobiles</li>",
-                "<li>🔗 Regroupez vos visionnages pour éviter les connexions multiples</li></ul>"
+                "Adoptez ces gestes simples pour un streaming plus écologique :<br/>",
+                "📉 Choisissez une définition adaptée plutôt que la plus haute qualité par défaut<br/>",
+                "📂 Téléchargez les contenus que vous regardez fréquemment<br/>",
+                "🌐 Utilisez le Wi-Fi plutôt que les données mobiles<br/>",
+                "🔗 Regroupez vos visionnages pour éviter les connexions multiples"
             ],
             "link": "https://impactco2.fr/outils/usagenumerique/streamingvideo",
             "questions": [
                 {
+                    "ref": "label_day_time",
                     "label": "Combien de temps passes-tu à regarder des vidéos en streaming (Netflix, Disney+, etc.) chaque jour ?",
                     "type": "number",
                     "name": "streaming_day_time",
@@ -607,6 +632,7 @@
                     ]
                 },
                 {
+                    "ref": "label_connection",
                     "label": "Utilises-tu principalement le Wi-Fi ou la 4G pour le streaming ?",
                     "type": "select",
                     "name": "streaming_connection",
@@ -636,15 +662,16 @@
                 ]
             },
             "rules": "<strong>Les bases du calcul:</strong> Inclut l'impact de la transmission, l'utilisation des terminaux et des data centers, sans tenir compte de la construction des terminaux. Appareil utilisé : ordinateur, qualité de vidéo : basse définition, 1 participant.",
-            "id": "courses_consum",
+            "id": "courses",
             "practical_tips": [
-                "<strong>Pour des cours en ligne plus écoresponsables :</strong>",
-                "<ul><li>📥 Téléchargez les documents pour un usage hors-ligne</li>",
-                "<li>📶 Privilégiez le Wi-Fi pour suivre vos cours</li>",
-                "<li>❌ Fermez les autres applications pendant les sessions d’apprentissage</li></ul>"
+                "Pour des cours en ligne plus écoresponsables : <br/>",
+                "📥 Téléchargez les documents pour un usage hors-ligne <br/>",
+                "📶 Privilégiez le Wi-Fi pour suivre vos cours <br/>",
+                "❌ Fermez les autres applications pendant les sessions d’apprentissage <br/>"
             ],
             "questions": [
                 {
+                    "ref": "label_day_time",
                     "label": "Combien de temps passes-tu sur ces cours chaque semaine ?",
                     "type": "text",
                     "name": "courses_day_time",
@@ -657,6 +684,7 @@
                     ]
                 },
                 {
+                    "ref": "label_connection",
                     "label": "Utilises-tu principalement le Wi-Fi ou la 4G pour tes cours ?",
                     "type": "select",
                     "name": "courses_connection",
@@ -683,17 +711,18 @@
                     "console"
                 ]
             },
-            "id": "gaming_consum",
+            "id": "gaming",
             "practical_tips": [
-                "<strong>Adoptez des pratiques plus durables pour vos jeux vidéo :</strong>",
-                "<ul><li>🤖 Gardez votre console (Xbox, PlayStation, Nintendo Switch) ou votre PC le plus longtemps possible</li>",
-                "<li>🚫 Ne craquez pas pour un écran 4K si ce n’est pas nécessaire</li>",
-                "<li>🎯 Concentrez-vous sur un seul jeu à la fois, sur une seule console, et essayez de le terminer</li>",
-                "<li>📀 Privilégiez l’achat de jeux en version physique, et surtout d’occasion </li>",
-                "<li>🕹️ Programmez le mode d'arrêt automatique : 50 % de la consommation électrique se produit en mode veille</li></ul>"
+                "Adoptez des pratiques plus durables pour vos jeux vidéo : <br/>",
+                "🤖 Gardez votre console (Xbox, PlayStation, Nintendo Switch) ou votre PC le plus longtemps possible <br/>",
+                "🚫 Ne craquez pas pour un écran 4K si ce n’est pas nécessaire <br/>",
+                "🎯 Concentrez-vous sur un seul jeu à la fois, sur une seule console, et essayez de le terminer <br/>",
+                "📀 Privilégiez l’achat de jeux en version physique, et surtout d’occasion <br/>",
+                "🕹️ Programmez le mode d'arrêt automatique : 50 % de la consommation électrique se produit en mode veille <br/>"
             ],
             "questions": [
                 {
+                    "ref": "label_day_time",
                     "label": "Combien de temps passes-tu à jouer aux jeux vidéo chaque semaine ?",
                     "type": "number",
                     "name": "gaming_day_time",
@@ -709,6 +738,7 @@
                     ]
                 },
                 {
+                    "ref": "label_connection",
                     "label": "Utilises-tu principalement le Wi-fi ou la 4G ?",
                     "type": "select",
                     "name": "gaming_connection",
@@ -735,15 +765,16 @@
                     "tablette"
                 ]
             },
-            "id": "music_consum",
+            "id": "music",
             "practical_tips": [
-                "<strong>Optimisez l’impact de votre écoute musicale en ligne :</strong>",
-                "<ul><li>🎧 Téléchargez vos playlists favorites pour une écoute hors-ligne</li>",
-                "<li>📶 Utilisez une qualité audio adaptée à votre usage</li>",
-                "<li>📡 Privilégiez le Wi-Fi pour le streaming musical</li></ul>"
+                "Optimisez l’impact de votre écoute musicale en ligne : <br/>",
+                "🎧 Téléchargez vos playlists favorites pour une écoute hors-ligne <br/>",
+                "📶 Utilisez une qualité audio adaptée à votre usage <br/>",
+                "📡 Privilégiez le Wi-Fi pour le streaming musical <br/>"
             ],
             "questions": [
                 {
+                    "ref": "label_day_time",
                     "label": "Combien de temps écoutes-tu de la musique via une plateforme chaque jour ?",
                     "type": "number",
                     "name": "music_day_time",
@@ -758,7 +789,8 @@
                         "https://cnm.fr/wp-content/uploads/2024/09/240918_REC.pdf"
                     ]
                 },
-                {
+                { 
+                    "ref": "label_connection",
                     "label": "Utilises-tu principalement le Wi-fi ou la 4G pour le streaming musical ?",
                     "type": "select",
                     "name": "music_connection",
@@ -786,15 +818,16 @@
                 ]
             },
             "rules": "<strong>Les bases du calcul:</strong>Inclut l'impact de la transmission, l'utilisation des terminaux et des data centers, sans tenir compte de la construction des terminaux. Appareil utilisé : smartphone, qualité de vidéo : basse définition, 1 participant.",
-            "id": "video_consum",
+            "id": "video",
             "practical_tips": [
-                "<strong>Rendez vos visioconférences plus écologiques :</strong>",
-                "<ul><li>🎧 Privilégiez le mode audio quand la vidéo n’est pas nécessaire</li>",
-                "<li>🖼️ Utilisez un fond neutre plutôt qu’un fond virtuel énergivore</li>",
-                "<li>📶 Optimisez votre connexion Wi-Fi pour éviter les reconnexions multiples</li></ul>"
+                "Rendez vos visioconférences plus écologiques : <br/>",
+                "🎧 Privilégiez le mode audio quand la vidéo n’est pas nécessaire <br/>",
+                "🖼️ Utilisez un fond neutre plutôt qu’un fond virtuel énergivore <br/>",
+                "📶 Optimisez votre connexion Wi-Fi pour éviter les reconnexions multiples <br/>"
             ],
             "questions": [
                 {
+                     "ref": "label_day_time",
                     "label": "Combien de temps passes-tu en Visioconférence par jour ?",
                     "type": "number",
                     "name": "video_day_time",
@@ -806,6 +839,7 @@
                     ]
                 },
                 {
+                     "ref": "label_connection",
                     "label": "Utilises-tu principalement le Wi-Fi ou la 4G ?",
                     "type": "select",
                     "name": "video_connection",
@@ -824,6 +858,7 @@
                     ]
                 },
                 {
+                     "ref": "label_preference",
                     "label": "Lorsque tu passes un appel, actives-tu la vidéo ou préfères-tu rester uniquement en mode audio ? ",
                     "type": "select",
                     "name": "video_audio",
@@ -854,16 +889,17 @@
                 ]
             },
             "rules": "<strong>Les bases du calcul:</strong>Transmission, Usage des terminaux et data-centers, sans prendre en compte la construction des terminaux. Appareil utilisé : smartphone, qualité de vidéo : basse définition",
-            "id": "network_consum",
+            "id": "network",
             "practical_tips": [
-                "<strong>Réduisez l’impact des réseaux sociaux avec ces conseils simples :</strong>",
-                "<ul><li>🔇 Désactivez la lecture automatique des vidéos</li>",
-                "<li>🔕 Limitez les notifications</li>",
-                "<li>🧹 Videz régulièrement le cache des applications</li>",
-                "<li>⏰ Réduire le temps passé sur ces plateformes est le levier le plus efficace pour diminuer leur impact environnemental.</li></ul>"
+                "Réduisez l’impact des réseaux sociaux avec ces conseils simples :<br/>",
+                "🔇 Désactivez la lecture automatique des vidéos <br/>",
+                "🔕 Limitez les notifications <br/>",
+                "🧹 Videz régulièrement le cache des applications <br/>",
+                "⏰ Réduire le temps passé sur ces plateformes est le levier le plus efficace pour diminuer leur impact environnemental."
             ],
             "questions": [
                 {
+                     "ref": "label_day_time",
                     "label": "Combien de temps passes-tu sur les réseaux sociaux chaque jour?",
                     "type": "number",
                     "name": "network_day_time",
@@ -876,6 +912,7 @@
                     ]
                 },
                 {
+                     "ref": "label_connection",
                     "label": "Utilises-tu principalement le Wi-Fi ou la 4G?",
                     "type": "select",
                     "name": "network_connection",
@@ -902,19 +939,20 @@
                     "tablette"
                 ]
             },
-            "id": "email_consum",
+            "id": "email",
             "practical_tips": [
-                "<strong>Réduisez l’impact environnemental de vos e-mails avec ces bonnes pratiques :</strong>",
-                "<ul><li>🗑️ Supprimez régulièrement les messages inutiles</li>",
-                "<li>📂 Limitez l’envoi de pièces jointes volumineuses</li>",
-                "<li>📨 Désactivez les abonnements à des newsletters non pertinentes</li>",
-                "<li>💻 Favorisez les outils de collaboration en ligne pour réduire les échanges d’e-mails répétés</li></ul>"
+                "Réduisez l’impact environnemental de vos e-mails avec ces bonnes pratiques :<br/>",
+                "🗑️ Supprimez régulièrement les messages inutiles <br/>",
+                "📂 Limitez l’envoi de pièces jointes volumineuses <br/>",
+                "📨 Désactivez les abonnements à des newsletters non pertinentes <br/>",
+                "💻 Favorisez les outils de collaboration en ligne pour réduire les échanges d’e-mails répétés"
             ],
             "storage duration": 10,
             "rules": "<strong>Les bases du calcul:</strong>Comprend la transmission, l'utilisation des terminaux et des data centers, sans inclure la construction des terminaux. Appareil utilisé : ordinateur, durée de la rédaction : 5 minutes, destinataire : 1.",
             "send_mail": 117.7,
             "questions": [
                 {
+                     "ref": "label_day_time",
                     "label": "Combien d'e-mails texte (environ) reçois-tu et envoies-tu chaque jour?",
                     "type": "number",
                     "name": "email_text",
@@ -926,6 +964,7 @@
                     ]
                 },
                 {
+                     "ref": "label_attachment",
                     "label": "Combien d’e-mails avec pièces jointes envoies-tu et reçois-tu chaque jour?",
                     "type": "number",
                     "name": "email_attachment",
@@ -937,6 +976,7 @@
                     ]
                 },
                 {
+                     "ref": "label_spam",
                     "label": "Combien de courriers indésirables et de spams s'accumulent dans ta boîte de réception chaque jour ? (en prenant en compte les courriers sociaux et promotionnels)",
                     "type": "number",
                     "name": "email_spam",
@@ -958,16 +998,18 @@
                     "tablette"
                 ]
             },
-            "id": "ai_consum",
+            "id": "ai",
             "practical_tips": [
-                "<strong>Réduisez l’impact environnemental de l’intelligence artificielle :</strong>",
-                "<ul><li>🛠️ Privilégiez des modèles optimisés pour vos besoins</li>",
-                "<li>⏳ Utilisez les services d’IA uniquement lorsque nécessaire</li>",
-                "<li>☁️ Choisissez des fournisseurs cloud engagés pour des infrastructures écoresponsables</li>",
-                "<li>⚙️ Optimisez vos requêtes et analyses pour limiter la consommation de ressources</li></ul>"
+                "Réduisez l’impact environnemental de l’intelligence artificielle :<br/>",
+                "🛠️ Privilégiez des modèles optimisés pour vos besoins <br/>",
+                "⏳ Utilisez les services d’IA uniquement lorsque nécessaire <br/>",
+                "☁️ Choisissez des fournisseurs cloud engagés pour des infrastructures écoresponsables <br/>",
+                "⚙️ Optimisez vos requêtes et analyses pour limiter la consommation de ressources"
             ],
             "questions": [
+                
                 {
+                    "ref": "label_day_time_text",
                     "label": "Combien de fois par jour (environ) poses-tu des questions aux chatbots comme ChatGPT ?",
                     "type": "number",
                     "name": "ai_text",
@@ -975,11 +1017,12 @@
                         "Pour la génération de texte par l'IA ✍️, la consommation d'énergie est d'environ 0,047 kWh ⚡, ce qui équivaut à 2,44 g de eq CO₂ 💨 (en utilisant le facteur d'émission de 52 g eq eq CO₂e/kWh de l'Ademe 🌍)."
                     ],
                     "links": [
-                        "https://arxiv.org/pdf/2311.16863 ",
+                        "https://arxiv.org/pdf/2311.16863",
                         "https://www.sciencedirect.com/science/article/pii/S2542435123003653"
                     ]
                 },
                 {
+                    "ref": "label_day_time_image",
                     "label": "Utilises-tu l'intelligence artificielle pour générer des images ? Si oui, combien d'images génères-tu en moyenne par semaine ?",
                     "type": "number",
                     "name": "ai_image",

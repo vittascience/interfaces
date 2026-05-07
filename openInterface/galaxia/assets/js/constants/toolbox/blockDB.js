@@ -12,10 +12,9 @@ const TOOLBOXES_BLOCKS_CONTENT = {
         return {
 
             // display - Galaxia/RGB
-            "display_galaxia_led_set_colors": this.Set.number("RED", 255) + this.Set.number("GREEN", 255) + this.Set.number("BLUE"),
-            "display_galaxia_led_set_red": this.Set.number("RED", 255),
-            "display_galaxia_led_set_green": this.Set.number("GREEN", 255),
-            "display_galaxia_led_set_blue": this.Set.number("BLUE", 255),
+            "display_galaxia_led_set_colors_rgb": this.Set.number("RED", 255) + this.Set.number("GREEN", 255) + this.Set.number("BLUE"),
+            "display_galaxia_led_set_colors_palette": this.Set.colour_picker(),
+            "display_galaxia_led_set_color": this.Set.number("VALUE", 255),
             // display Galaxia/graphics
             "display_galaxia_plot_add_point": this.Set.number("POINT", 50),
             "display_galaxia_plot_set_y_scale": this.Set.number("MIN") + this.Set.number("MAX", 100),
@@ -23,7 +22,9 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "display_galaxia_raw_print": this.Set.text("TEXT", "Hello") + this.Set.number("X", 0) + this.Set.number("Y", 0),
             "display_galaxia_raw_text": this.Set.text("TEXT", "Hello") + this.Set.number("X", 0) + this.Set.number("Y", 0) + this.Set.colour_picker('#22b573'),
             "display_galaxia_raw_rect": this.Set.number("X", 20) + this.Set.number("Y", 40) + this.Set.number("W", 60) + this.Set.number("H", 30) + this.Set.colour_picker('#22b573'),
-            "display_galaxia_raw_print_img": this.Set.text("IMAGE", "img.bmp") + this.Set.number("X", 20) + this.Set.number("Y", 20),
+            "display_galaxia_raw_print_img": this.Set.text("IMAGE", "vittabot-hey.bmp") + this.Set.number("X", 0) + this.Set.number("Y", 0),
+            "display_galaxia_raw_print_custom_img": this.Set.number("X", 0) + this.Set.number("Y", 0),
+
             /** esp32 default blocks */
 
             //display Galaxia Screen
@@ -45,7 +46,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "display_setLevelLedBar": this.Set.field("DCKI", "p3") + this.Set.number("VALUE", 3.14),
             "display_my9221_reverse": this.Set.field("DCKI", "p3") + this.Set.state(),
             // display - neopixel
-            "display_defineNeopixel": this.Set.number("N", 20) + this.Set.field("PIN", "pin0"),
+            "display_defineNeopixel": this.Set.field("PIN", "p3"),
             "display_controlNeopixelLed": this.Set.number("LED") + this.Set.number("R", 255) + this.Set.number("G", 255) + this.Set.number("B", 255),
             "display_controlColorNeopixelLed": this.Set.number("LED") + this.Set.colour_picker(),
             "display_neopixel_controlAllLedRGB": this.Set.number("R", 255) + this.Set.number("G") + this.Set.number("B"),
@@ -67,8 +68,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "io_getGroveThumbJoystick": this.Set.field("PIN_Y", "p7"),
             // io - pins
             "io_writeDigitalPin": this.Set.state(),
-            "io_writeAnalogPin": this.Set.number("VALUE", 255),
-            "io_writePwm": this.Set.number("VALUE", READ_ANALOG_MAX_VALUE),
+            "io_writePwm": this.Set.number("VALUE", PWM_MAX_DUTY),
             "io_setPwm": this.Set.number("FREQUENCY", 10),
             "io_getVoltage": this.Set.number("VALUE", 255),
             "io_rotaryEncoder": this.Set.field("CLK", 'p7') + this.Set.field("DT", "p6"),
@@ -81,29 +81,33 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "communication_radioSendNumber": this.Set.number("N", 1),
             "communication_radioSendValue": this.Set.text('NAME', "pi") + this.Set.number("VALUE", 3.14),
             "communication_radioConfig": this.Set.number("CANAL", 7) + this.Set.number("POWER", 6) + this.Set.number("LEN", 32) + this.Set.number("GROUP"),
-            //communication - internal
-            "communication_StartBT": this.Set.text('NAME', "ESP32_Vittascience"),
-            "communication_SendBT": this.Set.text('DATA'),
-            "communication_FizziqBT": this.Set.number('VALUE', 25),
             // communication - console
             "communication_serialWrite": '<mutation newlines="false"></mutation>' + this.Set.text('TEXT', "{hello}"),
             "communication_graphSerialWrite": "<value name='ADD0'><block type='communication_graphSerialWrite_datasFormat'><field name='NAME'>{data1}</field></block></value>"
                 + "<mutation items='1'></mutation>",
             "communication_playComputerFrequency": this.Set.number("FREQUENCY", 440),
             // communication - logging
-            "communication_onInfraredDataReceived": this.Set.text("DATA", "0x00"),
-            "communication_writeOpenLogSd": this.Set.field("RX", "p1") + "<value name='DATA'><block type='text_join'>"
+            //"communication_onInfraredDataReceived": this.Set.text("DATA", "0x00"),
+            "communication_writeOpenLogSd": this.Set.field("RX", "p14") + this.Set.field("TX", "p13") + "<value name='DATA'><block type='text_join'>"
                 + this.Set.text("ADD0", '{data1}') + this.Set.text("ADD1", ';') + this.Set.text("ADD2", '{data2}')
                 + "<mutation items='3'></mutation></block></value>",
+            "communication_esp32_FS_saveData": this.Set.text("DATA", "") + this.Set.text("FILENAME", 'nom_du_fichier')
+                + "<mutation extension='true'></mutation>",
             // communication - bluetooth
-            "communication_sendBluetoothData": this.Set.field("RX", "p25") + this.Set.text("DATA"),
-            "communication_onBluetoothDataReceived": this.Set.field("RX", "p1"),
+            "communication_groveSerialBluetooth_setATCommand": this.Set.field("RX", "p14") + this.Set.field("TX", "p13") + this.Set.text("VALUE"),
+            "communication_groveSerialBluetooth_getATCommand": this.Set.field("RX", "p14") + this.Set.field("TX", "p13"),
+            "communication_sendSerialBluetoothData": this.Set.field("RX", "p14") + this.Set.field("TX", "p13") + this.Set.text("TEXT"),
+            "communication_onSerialBluetoothDataReceived": this.Set.field("RX", "p14") + this.Set.field("TX", "p13"),
+            "communication_hc05_sendBluetoothData": this.Set.field("RX", "p14") + this.Set.field("TX", "p13") + this.Set.text("DATA"),
+            "communication_hc05_onBluetoothDataReceived": this.Set.field("RX", "p14") + this.Set.field("TX", "p13"),
             // communication - tracking modules
-            "communication_gps_getNMEA": this.Set.field("RX", "p1"),
-            "communication_gps_getGGAInformations": this.Set.field("RX", "p1"),
+            "communication_rfid_getCardID": this.Set.field("RX", "p36") + this.Set.field("TX", "p15"),
+            "communication_mfrc522_getCardID": this.Set.field("NSS", "p21"),
+            "communication_gps_getNMEA": this.Set.field("RX", "p14") + this.Set.field("TX", "p13"),
+            "communication_gps_getGGAInformations": this.Set.field("RX", "p14") + this.Set.field("TX", "p13"),
             "communication_clockRTC_setHour": this.Set.number("HOUR", 8) + this.Set.number("MIN", 40) + this.Set.number("SEC", 10),
             // communication - uart
-            "communication_serialInit": this.Set.field("RX", "p1"),
+            "communication_serialInit": this.Set.field("RX", "p14") + this.Set.field("TX", "p13"),
             "communication_uart_writeData": this.Set.text("DATA"),
             "communication_uart_readData": "<mutation size='false'></mutation>",
             // sensors
@@ -115,6 +119,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "actuators_setMotorPower": this.Set.number("POWER", PWM_MAX_DUTY),
             "actuators_setVibrationMotorState": this.Set.state(),
             "actuators_setGroveRelayState": this.Set.state(),
+            "actuators_kitronik_controlMotor": this.Set.number("SPEED", 100),
             // actuators - buzzer/speaker
             "actuators_music_playNotes":
                 `<mutation items='3'></mutation>
@@ -128,6 +133,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "network_configureAccessPoint": this.Set.text("ESSID", 'VittaAP') + this.Set.text("IP", '192.168.1.10'),
             // network - server
             "network_server_sendData": this.Set.text("DATA"),
+            "network_server_getClientData": '<mutation closing="false"></mutation>',
             "network_changeServerPort": this.Set.number("PORT", 2000),
             // network - client
             "network_client_sendData": this.Set.text("DATA") + this.Set.text("IP", "192.168.1.10")
@@ -176,10 +182,10 @@ const TOOLBOXES_BLOCKS_CONTENT = {
 
             // camera - Wio Lite
             "wio_get_class_data_by_id": this.Set.number("ID", 1),
-            
+
             // EDGE AI blocks
             "vittaia_detect_class": this.Set.text("MODEL_CLASS", 'Class') + this.Set.field("IS_DETECTED", '=='),
-            "vittaia_load_cloud_model": this.Set.text("MODEL_ID", 'https://fr.vittascience.com/ia/model/67da8c5faec8e/'),
+            "vittaia_load_cloud_model": this.Set.text("MODEL_URL", 'https://fr.vittascience.com/ia/model/67da8c5faec8e/'),
             /** Python default blocks */
 
             // logic
@@ -215,16 +221,19 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "text_append": this.Set.text('TEXT'),
             "text_split": this.Set.text('VALUE') + this.Set.text('SEP', ';'),
             "text_length": this.Set.text('VALUE', 'abc'),
-            "text_indexOf": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('VALUE', 'abc'),
+            "text_includesSubstr": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('FIND', 'abc'),
+            "text_indexOf": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('FIND', 'abc'),
             "text_charAt": this.Set.variable("VALUE", '{textVariable}'),
             "text_getSubstring": this.Set.variable("STRING", '{textVariable}'),
+            "text_count_characters": this.Set.text('TEXT', 'P@ssw0rd'),
             "text_changeCase": this.Set.text('TEXT', 'abc'),
             "text_trim": this.Set.text('TEXT', 'abc'),
             "text_count": this.Set.text('SUB', 'bon') + this.Set.text('TEXT', 'bonbon'),
             "text_replace": this.Set.text('FROM', 'a') + this.Set.text('TO', 'b') + this.Set.text('TEXT', 'abc'),
             "text_reverse": this.Set.text('TEXT', 'abc'),
-            "text_count_characters": this.Set.text('TEXT', 'P@ssw0rd'),
             "text_random_string": this.Set.number('LENGTH', 6),
+            "text_caesar_cipher": this.Set.text('TEXT', '{hello}') + this.Set.number('SHIFT', 3),
+            "text_caesar_cipher_brute_force": this.Set.text('TEXT', 'Erqmrxu hw elhqyhqxh vxu Ylwwdvflhqfh'),
             // list
             "lists_create_with-0": '<mutation items="0"></mutation>',
             "lists_repeat": this.Set.number("NUM", 5),

@@ -1,11 +1,4 @@
-function setupMonitor() {
-	if ($('#monitor').hasClass('monitor-closed')) {
-		InterfaceMonitor.toggle();
-	}
-	if ($('#monitor-btn-console').length > 0 && !$('#monitor-btn-console').hasClass('activated')) {
-		InterfaceMonitor.managePanel('console');
-	}
-};
+
 
 async function uploadPythonBLE() {
 	if (PhotonWebBLEAPI.device === null) {
@@ -17,7 +10,7 @@ async function uploadPythonBLE() {
 		PhotonWebBLEAPI.ACK = [];
 		Simulator.replay();
 	}
-	setupMonitor();
+	InterfaceMonitor.setup();
 };
 
 async function doConnectBLE() {

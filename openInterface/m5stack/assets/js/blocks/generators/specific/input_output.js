@@ -28,7 +28,7 @@ Blockly.Python.io_initChronometer = function (block) {
     Blockly.Python.addImport('utime', IMPORT_UTIME);
     Blockly.Python.addConstant('chronometer', "t0 = utime.ticks_ms()");
     block.workspace.createVariable('t0');
-    return "" + NEWLINE;
+    return "t0 = utime.ticks_ms()" + NEWLINE;
 };
 
 Blockly.Python.io_initChronometer_simple = function (block) {
@@ -39,7 +39,8 @@ Blockly.Python.io_initChronometer_simple = function (block) {
 Blockly.Python.io_getChronometer = function (block) {
     Blockly.Python.addImport('utime', IMPORT_UTIME);
     // Remove the following line to avoid duplicated constant definition with python traduction
-    // Blockly.Python.addConstant('chronometer', "t0 = utime.ticks_ms()");
+    // 02/26 - Redo the following line => We need to declare t0 to avoid using io_initChronometer
+    Blockly.Python.addConstant('chronometer', "t0 = utime.ticks_ms()");
     block.workspace.createVariable('t0');
     switch (block.getFieldValue("UNIT")) {
         case "SEC":
@@ -119,7 +120,7 @@ Blockly.Python.io_m5stack_getBatteryLevel = function () {
 // Pins
 
 Blockly.Python.io_digital_signal = function (block) {
-    return ["HIGH" == block.getFieldValue("BOOL") ? '1' : '0', Blockly.Python.ORDER_ATOMIC]
+    return ["HIGH" == block.getFieldValue("BOOL") ? '1' : '0', Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.io_readDigitalPin = function (block) {
@@ -205,15 +206,14 @@ Blockly.Python.io_getGroveButton = function (block) {
 
 Blockly.Python.io_getGroveThumbJoystick = function (block) {
     const axis = block.getFieldValue("AXIS");
-    switch (axis) {
+    const pinXName = Blockly.Python.Generators.analog_read(block.getFieldValue("PIN_X"));
+    const pinYName = Blockly.Python.Generators.analog_read(block.getFieldValue("PIN_Y"));
+    Blockly.Python.addInit('joystick_' + pinXName + '_codeFlag', "# Joystick X/Y on " + pinXName + '/' + pinYName);
+    switch(axis) {
         case "X":
-            const pinXName = Blockly.Python.Generators.analog_read(block.getFieldValue("PIN_X"), 'Joystick X-Axis');
             return [pinXName + ".read()", Blockly.Python.ORDER_ATOMIC];
         case "Y":
-            const pinYName = Blockly.Python.Generators.analog_read(block.getFieldValue("PIN_Y"), 'Joystick Y-Axis');
             return [pinYName + ".read()", Blockly.Python.ORDER_ATOMIC];
-        default:
-            throw Error("Unhandled axis option for Joystick module:'" + axis + "'");
     }
 };
 

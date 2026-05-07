@@ -1,8 +1,8 @@
 import utime
 import machine
 class GAS_GMXXX:
-  def __init__(self, addr):
-    self.i2c = machine.I2C(scl=machine.Pin(22), sda=machine.Pin(21))
+  def __init__(self, i2c, addr = 0x08):
+    self.i2c = i2c
     self.addr = addr
     self.preheated()
   def preheated(self):

@@ -1,13 +1,13 @@
 const cardCommunicationButtons = {
     'upload': {
         id: "upload-python",
-        classes: 'ide-btn-check ide-btn-left',
-        fontAwesome: 'fas fa-bolt',
-        onclick: "sendRaspberryCommand()",
+        classes: 'ide-btn-check ide-btn-left e2e-upload-btn',
+        fontAwesome: 'fa fa-wifi',
+        onclick: "RaspberryCommunication.uploadPython()",
         title: 'code.topbar.tooltips.uploadPython',
         label: {
             hidden: true,
-            value: "code.topbar.label.upload"
+            value: "code.topbar.label.uploadRPi"
         }
     },
     'download': {
@@ -19,41 +19,29 @@ const cardCommunicationButtons = {
 };
 
 const downloadOptions = {
-    // 'firmware': {
-    //     id: "download-firmware-opt",
-    //     classes: 'ide-btn-check ide-btn-left-dropdown',
-    //     icon: "/openInterface/interfaces/assets/media/micropython_logo.svg",
-    //     title: 'code.topbar.tooltips.downloadFirmware',
-    //     tooltipPlacement: "left",
-    //     onclick: "downloadFirmware('galaxia-micropython-beta.bin')",
-    //     label: {
-    //         value: "code.topbar.label.downloadFirmware"
-    //     }
-    // },
+    'pi_vitta_api': {
+        id: "download-vitta-api-opt",
+        classes: 'ide-btn-check ide-btn-left-dropdown',
+        icon: "/openInterface/interfaces/assets/media/raspberry-pi.svg",
+        title: 'code.topbar.tooltips.downloadPiAPI',
+        tooltipPlacement: "left",
+        onclick: "RaspberryCommunication.downloadRaspberryPiAPI()",
+        label: {
+            value: "code.topbar.label.downloadPiAPI"
+        }
+    },
     'disconnect': {
         id: "disconnect-opt",
         classes: 'ide-btn-check ide-btn-left-dropdown',
         icon: "/openInterface/interfaces/assets/js/external/font-awesome/svgs/brands/usb.svg",
         title: 'code.topbar.tooltips.disconnect',
         tooltipPlacement: "left",
-        onclick: "disconnectRaspberry()",
+        onclick: "RaspberryCommunication.socketIOdisconnect()",
         show: false,
         label: {
             value: "code.topbar.label.disconnect"
         }
-    },
-    // 'python': {
-    //     id: "download-python-opt",
-    //     classes: 'ide-btn-check ide-btn-left-dropdown',
-    //     fontAwesome: 'fab fa-python',
-    //     title: 'code.topbar.tooltips.downloadPythonGalaxia',
-    //     tooltipPlacement: "left",
-    //     onclick: 'downloadScript(true)',
-    //     show: true,
-    //     label: {
-    //         value: "code.topbar.label.downloadPython"
-    //     }
-    // },
+    }
 };
 
 const settingsOptions = {

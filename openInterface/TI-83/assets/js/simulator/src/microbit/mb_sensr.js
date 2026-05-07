@@ -73,7 +73,7 @@ var $builtinmodule = function(name)
 	}, "Accelerometer", []);
 
 	mb_sensr.accelerometer = new Accelerometer();
-	mb_sensr.accelerometer.tp$init();
+	mb_sensr.accelerometer.tp$init([]);
 
     return mb_sensr;
 };

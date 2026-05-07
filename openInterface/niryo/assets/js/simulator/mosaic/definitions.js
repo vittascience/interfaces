@@ -1,5 +1,3 @@
-Simulator.Mosaic.BOARD_HEADER = `<object id="board-viewer" class="mt-3" type="image/svg+xml"></object>`;
-
 Simulator.Mosaic.pin_regex = /([0-9]{1,2})/;
 
 Simulator.Mosaic.getPinDef = (pin, mod) => {
@@ -25,7 +23,6 @@ Simulator.Mosaic.groveRegex = {};
 Simulator.Mosaic.specific = {
 	
 	createSliders: function () { 
-		console.log("Creating sliders for Niryo robot");
 		$('#irSensor_slider').slider({
 			min: 0,
 			max: 1,

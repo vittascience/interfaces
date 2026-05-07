@@ -1,5 +1,5 @@
 # Robots.txt optimisé pour Vittascience
-# Généré automatiquement le 2025-07-09 09:00:19
+# Généré automatiquement le 2026-01-14
 # Contact: support@vittascience.com
 
 # === RÈGLES D'AUTORISATION ===
@@ -13,7 +13,6 @@ Disallow: /vittadmin/
 Disallow: /cronTasks/
 Disallow: /temporaryKeys/
 Disallow: /vendor/
-Disallow: /content/
 Disallow: /node_modules/
 Disallow: /DAO/
 Disallow: /emailTemplates/
@@ -25,6 +24,13 @@ Disallow: /.git/
 Disallow: /.github/
 Disallow: /models/
 Disallow: /plugins/
+Disallow: /vitta_logger/
+Disallow: /utils/
+Disallow: /bin/
+Disallow: /tables/
+Disallow: /simplesaml/
+Disallow: /lti/
+Disallow: /lti13/
 
 # APIs et endpoints techniques
 Disallow: /api/
@@ -32,16 +38,35 @@ Disallow: */post/
 Disallow: */get/
 Disallow: */delete/
 
-# Contenu utilisateur privé et sessions
-Disallow: /userDetails?id=*
-Disallow: */userDetails?id=*
+# Profils utilisateurs et pages privées
+Disallow: /userDetails
+Disallow: /userDetails?*
+Disallow: /public/userDetails
+Disallow: /profile
+Disallow: /profile?*
+
+# Contenu utilisateur privé et données personnelles
 Disallow: /files/
 Disallow: /public/content/user_data/
+Disallow: /content/user_data/
 Disallow: /public/sso/
+Disallow: /sso/
+
+# Panier et transactions
 Disallow: /cart
 Disallow: /cart/
 Disallow: /checkout
 Disallow: /checkout/
+Disallow: /shop/cart
+Disallow: /shop/checkout
+
+# Classroom privé (sessions, groupes, etc.)
+Disallow: /classroom/save_classrooms
+Disallow: /classroom/group_invitation
+Disallow: /classroom/confirm_account
+Disallow: /classroom/confirm_email_update
+Disallow: /classroom/password_manager
+Disallow: /classroom/disconnect
 
 # URLs avec paramètres de session/état
 Disallow: /*?*localId=*
@@ -111,5 +136,10 @@ Disallow: /
 
 # === SITEMAPS ===
 
-# Sitemap principal unifié
-Sitemap: https://fr.vittascience.com/sitemap.xml
+# Sitemaps multilingues (toutes les versions de langue)
+Sitemap: https://fr.vittascience.com/public/sitemap.xml
+Sitemap: https://en.vittascience.com/public/sitemap.xml
+Sitemap: https://es.vittascience.com/public/sitemap.xml
+Sitemap: https://it.vittascience.com/public/sitemap.xml
+Sitemap: https://ar.vittascience.com/public/sitemap.xml
+Sitemap: https://www.vittascience.com/public/sitemap.xml

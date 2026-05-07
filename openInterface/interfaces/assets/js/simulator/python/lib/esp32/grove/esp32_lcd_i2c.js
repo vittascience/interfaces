@@ -46,7 +46,7 @@ var $builtinmodule = function () {
         });
 
         $loc.write_char = new Sk.builtin.func(function (self, char) {
-            throw new Sk.builtin.NotImplementedError("write_char() from esp32_lcd_i2c is not yet implemented");
+            throw new Sk.builtin.NotImplementedError("<b>[lcd1602].write_char()</b> is not yet implemented");
         });
 
         $loc.setCursor = new Sk.builtin.func(function (self, x, y) {
@@ -86,11 +86,11 @@ var $builtinmodule = function () {
         });
 
         $loc._write = new Sk.builtin.func(function () {
-            throw new Sk.builtin.NotImplementedError("_write() from esp32_lcd_i2c is not yet implemented");
+            throw new Sk.builtin.NotImplementedError("<b>[lcd1602]._write()</b> is not yet implemented");
         });
 
         $loc._command = new Sk.builtin.func(function () {
-            throw new Sk.builtin.NotImplementedError("_command() from esp32_lcd_i2c is not yet implemented");
+            throw new Sk.builtin.NotImplementedError("<b>[lcd1602]._command()</b> is not yet implemented");
         });
 
     });

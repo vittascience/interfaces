@@ -464,7 +464,7 @@ Blockly.Constants.Math.MATH_NUMBER_GET_TYPE = {
 Blockly.Constants.Math.MATH_ARITHMETIC_GET_TYPE = {
   /**
    * @return {Blockly.Type} type
-   * @this {Blockly.Block} math_number
+   * @this {Blockly.Block} math_arithmetic
    */
   getBlockType: function () {
     let operation = this.getFieldValue("OP");

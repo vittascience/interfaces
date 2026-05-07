@@ -173,15 +173,16 @@ var $builtinmodule = function () {
                     const multiEditorLS = localStorage.getItem('multiEditor');
                     if (multiEditorLS) {
                         const multiEditor = JSON.parse(multiEditorLS);
-                        const currentEditor = multiEditor[INTERFACE_NAME][VittaInterface.id]
-                        multiEditor[INTERFACE_NAME][VittaInterface.id].dateUpdated = Math.floor(new Date() / 1000);
-                        if (currentEditor.ble_uart) {
-                            multiEditor[INTERFACE_NAME][VittaInterface.id].ble_uart['_tx_buffer'].push(data);
+                        const editor = multiEditor[INTERFACE_NAME][VittaInterface.id]
+                        editor.dateUpdated = Math.floor(new Date() / 1000);
+                        if (editor.ble_uart) {
+                            editor.ble_uart['_tx_buffer'].push(data);
                         } else {
-                            multiEditor[INTERFACE_NAME][VittaInterface.id].ble_uart = {
+                            editor.ble_uart = {
                                 '_tx_buffer': [data]
                             };
                         }
+                        multiEditor[INTERFACE_NAME][VittaInterface.id] = editor;
                         localStorage.setItem('multiEditor', JSON.stringify(multiEditor));    
                     } else {
                         InterfaceMonitor.writeConsole("BLE Error: no service");

@@ -67,14 +67,6 @@ const LIB_IMPORT = {
     IMPORT_STM32_LORA: "from stm32_LoRa import *"
 };
 
-const SPECIFIC_INIT = {
-
-}
-
-const SPECIFIC_END = {
-    // HT16K33Matrix : LedMatrixModalManager.updateImageMono()
-}
-
 const EXCLUDED_COMMENTS = ["Ultrasonic on D", "Neopixel on D"]
 
 const CLASS_METHODS = {

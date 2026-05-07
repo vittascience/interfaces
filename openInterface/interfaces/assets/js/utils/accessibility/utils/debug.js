@@ -2,7 +2,7 @@ export function handleSetupAccessibilityDebug() {
     initCleanLog();
 }
 
-const ringExcludedSelectors = ['.ace_text-input'];
+const ringExcludedSelectors = ['.ace_text-input', '.vitta-modal-exit-btn'];
 
 function initCleanLog() {
     document.addEventListener('focusin', (e) => {

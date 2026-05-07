@@ -1,5 +1,3 @@
-Simulator.Mosaic.BOARD_HEADER = `<object id="board-viewer" class="mt-3" type="image/svg+xml"></object>`;
-
 Simulator.Mosaic.pin_regex = /PORT_([1-8])/gi;
 
 Simulator.Mosaic.getPinDef = (pin, mod) => {
@@ -13,13 +11,11 @@ Simulator.Mosaic.getPinDef = (pin, mod) => {
 };
 
 Simulator.Mosaic.externalLibraries = {
-    'src/lib/cyberpi.js': Simulator.PATH_LIB + 'micropython/cyberpi.js',
-    'src/lib/mbot2.js': Simulator.PATH_LIB + 'micropython/mbot2.js',
-    'src/lib/mbuild.js': Simulator.PATH_LIB + 'micropython/mbuild.js',
-
-    // js libraries
-    'src/lib/machine.js': Simulator.PATH_LIB + 'micropython/machine.js',
+    // python common libraries
+    'src/lib/framebuf.py': Simulator.PATH_LIB_COMMON + 'micropython/framebuf.py',
     // js common libraries
+    'src/lib/os.js': Simulator.PATH_LIB_COMMON + 'micropython/os.js',
+    'src/lib/uos.js': Simulator.PATH_LIB_COMMON + 'micropython/os.js',
     'src/lib/time.js': Simulator.PATH_LIB_COMMON + 'micropython/time.js',
     'src/lib/utime.js': Simulator.PATH_LIB_COMMON + 'micropython/time.js',
     'src/lib/ujson.js': Simulator.PATH_LIB_COMMON + 'micropython/json.js',
@@ -32,7 +28,12 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/requests.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/requests.js',
     'src/lib/socket.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/socket.js',
     'src/lib/usocket.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/socket.js',
-    'src/lib/network.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/network.js'
+    'src/lib/network.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/network.js',
+    // js specific board libraries
+    'src/lib/machine.js': Simulator.PATH_LIB + 'micropython/machine.js',
+    'src/lib/cyberpi.js': Simulator.PATH_LIB + 'micropython/cyberpi.js',
+    'src/lib/mbot2.js': Simulator.PATH_LIB + 'micropython/mbot2.js',
+    'src/lib/mbuild.js': Simulator.PATH_LIB + 'micropython/mbuild.js',
 };
 
 Simulator.Mosaic.addSpecificSkulptFunctions = function () {
@@ -288,7 +289,7 @@ Simulator.Mosaic.specific = {
             regex: /Servo on S([0-4]{1,1})/,
             id: "servo",
             title: "Servo",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             pins: 'mbot2',
             type: 'output',
             class: 'servo',
@@ -304,7 +305,7 @@ Simulator.Mosaic.specific = {
         {
             id: "mbuild-ultrasonic",
             title: "Télémètre: ",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             pins: 'digital',
             type: 'input',
             codeFlag: 'Ultrasonic',

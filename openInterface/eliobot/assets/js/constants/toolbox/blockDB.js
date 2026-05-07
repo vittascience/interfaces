@@ -10,11 +10,13 @@ const TOOLBOXES_BLOCKS_CONTENT = {
      */
     get: function () {
         return {
-            /** esp32 default blocks */
+            /** Eliobot default blocks */
 
             // display 
             "display_controlBuiltInLED": this.Set.colour_picker('#ff0000'),
-            // io - esp32
+            "display_eyes_color": this.Set.colour_picker('#ff0000'),
+            "display_eyes_emotion": this.Set.colour_picker('#ff0000'),
+            // io - time
             "io_pause": this.Set.number("TIME", 1),
             "io_waitUntil": "<value name='UNTIL'><block type='logic_compare'>" + this.Set.field("OP", "EQ") + this.Set.number("B", 1) + "</block></value>",            // io - external modules
             "io_getGroveColoredButton": this.Set.field("PIN", "p25"),
@@ -33,17 +35,36 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             // sensors
             'sensors_line_set_sensitivity': this.Set.number("SENSITIVITY", 15000),
             // actuators - motors
-            "robot_move": this.Set.number("SPEED", 100),
-            "robot_rotate": this.Set.number("SPEED", 100),
-            "robot_rotate_forever": this.Set.number("TIME", 1) + this.Set.number("SPEED", 100),
             "robot_setSpeed": this.Set.number("SPEED", 50),
-            "robot_rotate_degrees": this.Set.number("ANGLE", 90) + this.Set.number("SPEED", 100),
-            "robot_spinOneWheel": this.Set.number("SPEED", 100),
-            "robot_moveOneStep": this.Set.number("STEP", 1) + this.Set.number("SPEED", 100),
+            "robot_rotate_degrees": this.Set.number("ANGLE", 90),
+            "robot_move_one_step": this.Set.number("STEP", 1),
+            "robot_set_square_size": this.Set.number("SIZE", 20),
+            "robot_waiting": this.Set.number("TIME", 1),
             // actuators - buzzer
             "actuators_playnote": this.Set.number("TIME", 1),
             "actuators_setvolume": this.Set.number("VOLUME", 50),
             "actuators_frequency": this.Set.number("FREQUENCY", 440) + this.Set.number("TIME", 1),
+            // backpack - display
+            "backpack_display_oled_text": this.Set.text('TEXT', "{hello}"),
+            "backpack_display_matrix_logo_picker": this.Set.colour_picker('#ff0000'),
+            "backpack_display_matrix_scroll_text": this.Set.text('TEXT', "{hello}") + this.Set.colour_picker('#ff0000'),
+            // backpack - sensors
+            "backpack_sensor_bme280_set_sea_level_pressure": this.Set.number("PRESSURE", 1013.25),
+            // backpack - actuators
+            "backpack_actuators_servo_motor_angle": this.Set.number("ANGLE", 90),
+            "backpack_actuators_servo_motor_speed": this.Set.number("SPEED", 100),
+            "backpack_actuators_grove_buzzer": this.Set.number("FREQUENCY", 440) + this.Set.number("VOLUME", 50),
+            // network - wifi
+            "network_wifi_connect": this.Set.text('SSID', "SSID") + this.Set.text('PASSWORD', "P@ssw0rd"),
+            "network_wifi_open_access_point": this.Set.text('SSID', "SSID") + this.Set.text('PASSWORD', "P@ssw0rd"),
+            "network_wifi_define_host_name": this.Set.text('NAME', "Eliobot"),
+            "network_wifi_define_antenna_power": this.Set.number("POWER", 8.5),
+            // network - html
+            "network_html_create_page": this.Set.text('TEXT', "Titre de la page"),
+            "network_html_create_button": this.Set.text('TEXT', "nom_du_bouton") + this.Set.colour_picker('#ff0000'),
+            "network_html_create_title_tag": this.Set.text('TITLE', "titre"),
+            "network_html_create_paragraph": this.Set.text('TEXT', "texte"),
+            "network_html_display_value":  this.Set.number("VALUE", 0) + this.Set.text('NAME', "nom"),
 
             /** Python default blocks */
 
@@ -80,16 +101,19 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "text_append": this.Set.text('TEXT'),
             "text_split": this.Set.text('VALUE') + this.Set.text('SEP', ';'),
             "text_length": this.Set.text('VALUE', 'abc'),
-            "text_indexOf": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('VALUE', 'abc'),
+            "text_includesSubstr": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('FIND', 'abc'),
+            "text_indexOf": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('FIND', 'abc'),
             "text_charAt": this.Set.variable("VALUE", '{textVariable}'),
             "text_getSubstring": this.Set.variable("STRING", '{textVariable}'),
+            "text_count_characters": this.Set.text('TEXT', 'P@ssw0rd'),
             "text_changeCase": this.Set.text('TEXT', 'abc'),
             "text_trim": this.Set.text('TEXT', 'abc'),
             "text_count": this.Set.text('SUB', 'bon') + this.Set.text('TEXT', 'bonbon'),
             "text_replace": this.Set.text('FROM', 'a') + this.Set.text('TO', 'b') + this.Set.text('TEXT', 'abc'),
             "text_reverse": this.Set.text('TEXT', 'abc'),
-            "text_count_characters": this.Set.text('TEXT', 'P@ssw0rd'),
             "text_random_string": this.Set.number('LENGTH', 6),
+            "text_caesar_cipher": this.Set.text('TEXT', '{hello}') + this.Set.number('SHIFT', 3),
+            "text_caesar_cipher_brute_force": this.Set.text('TEXT', 'Erqmrxu hw elhqyhqxh vxu Ylwwdvflhqfh'),
             // list
             "lists_create_with-0": '<mutation items="0"></mutation>',
             "lists_repeat": this.Set.number("NUM", 5),

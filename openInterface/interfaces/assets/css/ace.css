@@ -533,7 +533,7 @@ If you wish to edit the Vittascience theme used on the website, please edit the 
 }
 
 .ace_editor.ace_autocomplete{
-    width: 500px;
+    width: 50%;
 }
 .ace_search.right {
     top: 10px;

@@ -97,7 +97,7 @@ class BMP280:
     if addr not in i2cModules:
       error = "Unable to find module 'BMP280' at address " + str(hex(addr)) + ". Please check connections with the board.\n"
       error += "[Info] I2C address.es detected: " + str([hex(a) for a in i2cModules])
-      raise ValueError(error)
+      raise OSError(error)
     self._i2c_addr = addr
 
     # read calibration data

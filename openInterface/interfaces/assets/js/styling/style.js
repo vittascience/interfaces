@@ -11,6 +11,21 @@ $(document).ready(function () {
         $(this).tooltip('hide');
     });
 
+    // Fix accessibility: add aria-label to Bootstrap tooltips (ARIA-TOOLTIP-NAME)
+    // When a tooltip is shown, add aria-label based on its content
+    document.addEventListener('shown.bs.tooltip', function (event) {
+        const tooltipId = event.target.getAttribute('aria-describedby');
+        if (tooltipId) {
+            const tooltipElement = document.getElementById(tooltipId);
+            if (tooltipElement && tooltipElement.getAttribute('role') === 'tooltip') {
+                const tooltipContent = tooltipElement.querySelector('.tooltip-inner');
+                if (tooltipContent) {
+                    tooltipElement.setAttribute('aria-label', tooltipContent.textContent.trim());
+                }
+            }
+        }
+    });
+
     $('#workspace, #content_area, #content_blocks').height('100%');
 
     // buttonsModeDirection();

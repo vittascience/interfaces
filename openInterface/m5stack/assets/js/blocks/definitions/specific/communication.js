@@ -243,10 +243,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "BAUD",
             "options": [
-                ["4800", "4800"],
                 ["9600", "9600"],
                 ["57600", "57600"],
-                ["115200", "115200"]
+                ["115200", "115200"],
+                ["4800", "4800"]
             ]
         }, {
             "type": "field_grid_dropdown",
@@ -276,8 +276,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 
     // BLOCK HC05 SERIAL BLUETOOTH _ SEND DATA
     {
-        "type": "communication_sendBluetoothData",
-        "message0": "%{BKY_COMMUNICATION_BLUETOOTH_SENDDATA_TITLE}",
+        "type": "communication_hc05_sendBluetoothData",
+        "message0": "%{BKY_COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TITLE}",
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "RX",
@@ -294,7 +294,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "previousStatement": null,
         "nextStatement": null,
         "style": "communication_blocks",
-        "tooltip": "%{BKY_COMMUNICATION_BLUETOOTH_SENDDATA_TOOLTIP}",
+        "tooltip": "%{BKY_COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]
@@ -302,8 +302,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 
     // BLOCK HC05 SERIAL BLUETOOTH _ ON DATA RECEIVED
     {
-        "type": "communication_onBluetoothDataReceived",
-        "message0": "%{BKY_COMMUNICATION_BLUETOOTH_ONDATARECEIVED_TITLE}",
+        "type": "communication_hc05_onBluetoothDataReceived",
+        "message0": "%{BKY_COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TITLE}",
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "RX",
@@ -325,7 +325,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "previousStatement": null,
         "nextStatement": null,
         "style": "communication_blocks",
-        "tooltip": "%{BKY_COMMUNICATION_BLUETOOTH_ONDATARECEIVED_TOOLTIP}",
+        "tooltip": "%{BKY_COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]
@@ -353,9 +353,9 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "style": "communication_blocks",
         "tooltip": "%{BKY_COMMUNICATION_GPS_M5_GETINFORMATIONS_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl",
-            "communication_gps_m5_getInformations_get_type"
-        ]
+            "block_init_helpurl"
+        ],
+        "mutator": "communication_gps_m5_getInformations_output_mutator"
     },
 
     // BLOCK GROVE GPS _ GET NMEA FRAME
@@ -407,9 +407,9 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "style": "communication_blocks",
         "tooltip": "%{BKY_COMMUNICATION_GPS_GGA_GETINFORMATIONS_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl",
-            "communication_gps_getGGAInformations_get_type"
-        ]
+            "block_init_helpurl"
+        ],
+        "mutator": "communication_gps_getGGAInformations_output_mutator"
     },
 
     // GROVE RTC _ SET DATE
@@ -626,6 +626,7 @@ Blockly.Constants.Communication = Object.create(null);
  * @this {Blockly.Block}
  */
 Blockly.Constants.Communication.COMMUNICATION_UART_READ_INIT_EXTENSION = function () {
+    this.size_ = false;
     this.updateField_();
 };
 
@@ -718,40 +719,32 @@ Blockly.Constants.Communication.COMMUNICATION_UART_READ_MUTATOR_MIXIN = {
     }
 };
 
-Blockly.Constants.Utils.COMMUNICATION_GPS_M5_GET_GGA_INFORMATIONS_GET_TYPE = {
-    /**
-     * @return {Blockly.Type} type
-     * @this {Blockly.Block} communication_gps_m5_getInformations
-     */
-    getBlockType: function () {
-        const info = this.getFieldValue("INFO");
-        switch (info) {
-            case "gps_time":
-                return Blockly.Types.TEXT;
-            case "latitude":
-                return Blockly.Types.DECIMAL;
-            case "longitude":
-                return Blockly.Types.DECIMAL;
-            case "satellite_num":
-                return Blockly.Types.NUMBER;
-            case "speed":
-                return Blockly.Types.DECIMAL;
-            case "course":
-                return Blockly.Types.TEXT;
-            default:
-                return Blockly.Types.TEXT;
-        }
-    }
-};
-
 // Initialization extensions
 Blockly.Extensions.register("communication_uart_read_init_extension",
     Blockly.Constants.Communication.COMMUNICATION_UART_READ_INIT_EXTENSION);
 
-// Mixin functions
-Blockly.Extensions.registerMixin("communication_gps_m5_getInformations_get_type",
-    Blockly.Constants.Utils.COMMUNICATION_GPS_M5_GET_GGA_INFORMATIONS_GET_TYPE);
-
 // Mutator
 Blockly.Extensions.registerMutator('communication_uart_read_mutator',
     Blockly.Constants.Communication.COMMUNICATION_UART_READ_MUTATOR_MIXIN);
+
+Blockly.Constants.Utils.DEFINE_OUTPUT_TYPE_BY_DROPDOWN(
+    'communication_gps_m5_getInformations',
+    'INFO',
+    function (option) {
+        switch (option) {
+            default:
+            case "gps_time":
+            case "course":
+                this.setOutput(true, "String");
+                return Blockly.Types.TEXT;
+            case "latitude":
+            case "longitude":
+            case "speed":
+                this.setOutput(true, "Decimal");
+                return Blockly.Types.DECIMAL;
+            case "satellite_num":
+                this.setOutput(true, "Number");
+                return Blockly.Types.NUMBER;
+        }
+    }
+);

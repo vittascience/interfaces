@@ -12,7 +12,8 @@ Blockly.Constants.HTML_BLOCKS = [
   'network_HTML_Tags',
   'network_HTML_formatText',
   'network_HTML_newline',
-  'network_HTML_addSymbol'
+  'network_HTML_addSymbol',
+  'network_HTML_add'
 ];
 
 Blockly.Constants.LOOP_TYPES = [

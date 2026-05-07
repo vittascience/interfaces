@@ -57,10 +57,10 @@ Blockly.Python.devices_builtin_speaker_playNotes = function (block) {
 };
 
 Blockly.Python.devices_builtin_speaker_note = function (block) {
-    var note = block.getFieldValue("NOTE");
-    var octave = block.getFieldValue("OCTAVE");
+    const note = block.getFieldValue("NOTE");
+    let octave = block.getFieldValue("OCTAVE");
     if (octave == "4") octave = "";
-    var duration = ":" + block.getFieldValue("DURATION");
+    let duration = ":" + block.getFieldValue("DURATION");
     if (duration == ":1") duration = "";
     return ["'" + note + octave + duration + "'", Blockly.Python.ORDER_ATOMIC]
 };
@@ -76,17 +76,17 @@ Blockly.Python.devices_builtin_speaker_playFrequency = function (block) {
 Blockly.Python.devices_builtin_setLEDRGB = function (block) {
     Blockly.Python.addImport('ti_hub_all', IMPORT_TI_HUB_ALL);
     Blockly.Python.addImport('color', IMPORT_COLOR);
-    var r = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_NONE) || "0";
-    var g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
-    var b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
+    const r = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_NONE) || "0";
+    const g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
+    const b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
     return "color.rgb(" + r + ", " + g + ", " + b + ")" + NEWLINE;
 };
 
 Blockly.Python.devices_builtin_setLEDRGBPalette = function (block) {
     Blockly.Python.addImport('ti_hub_all', IMPORT_TI_HUB_ALL);
     Blockly.Python.addImport('color', IMPORT_COLOR);
-    let colour = Blockly.Python.valueToCode(block, "COLOR", Blockly.Python.ORDER_NONE) || "(0,0,0)";
-    let colourList = colour.match(/([0-9]{1,3})/g);
+    const colour = Blockly.Python.valueToCode(block, "COLOR", Blockly.Python.ORDER_NONE) || "(0,0,0)";
+    const colourList = colour.match(/([0-9]{1,3})/g);
     return "color.rgb(" + colourList[0] + ", " + colourList[1] + ", " + colourList[2] + ")" + NEWLINE;
 };
 
@@ -133,7 +133,7 @@ Blockly.Python.devices_grove_getTemperature = function (block) {
             code += " + 273.15";
             break;
     }
-    return [code, Blockly.Python.ORDER_ATOMIC];
+    return [code, Blockly.Python.ORDER_ADDITIVE];
 };
 
 Blockly.Python.devices_grove_dhtReadData = function (block) {
@@ -153,7 +153,7 @@ Blockly.Python.devices_grove_dhtReadData = function (block) {
                         break;
                 }
             }
-            return [code, Blockly.Python.ORDER_ATOMIC];
+            return [code, Blockly.Python.ORDER_ADDITIVE];
         case "HUM":
             return [pinName + ".humidity_measurement()", Blockly.Python.ORDER_ATOMIC];
     }

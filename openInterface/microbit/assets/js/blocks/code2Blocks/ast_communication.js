@@ -373,7 +373,7 @@ utils.prototypeBlocks['uart.write'] = function (type, fields, values, mutations,
 	const uartClass = utils.python2Blocks._classes['uart'];
 
 	return {
-		type: 'communication_sendBluetoothData',
+		type: 'communication_hc05_sendBluetoothData',
 		fields: {
 			TX: uartClass.tx || 'pin0',
 			RX: uartClass.rx || 'pin14',
@@ -419,7 +419,7 @@ utils.prototypeBlocks['uart.any()_string'] = function (type, fields, values, mut
 	} else {
 		const checkClass = utils.python2Blocks._classes['uart'];
 		return {
-			type: "communication_onBluetoothDataReceived",
+			type: "communication_hc05_onBluetoothDataReceived",
 			fields: {
 				TX: checkClass.tx || 'pin0',
 				RX: checkClass.rx || 'pin14',

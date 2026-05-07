@@ -206,4 +206,4 @@ Blockly.Msg['TURTLE_SCREEN_PICTURE_TITLE'] = 'фон изображения хо
 Blockly.Msg['TURTLE_SCREEN_PICTURE_TOOLTIP'] = 'Установить фоновое изображение холста.';
 Blockly.Msg['TURTLE_SCREEN_PICTURE_MAZE'] = 'лабиринт';
 Blockly.Msg['TURTLE_SCREEN_PICTURE_GRID'] = 'сетка';
-Blockly.Msg['TURTLE_SCREEN_PICTURE_VITTASCIENCE'] = 'Blockly.Msg[\'TURTLE_SCREEN_PICTURE_VITTASCIENCE\'] = \'виттасайнс\';';
+Blockly.Msg['TURTLE_SCREEN_PICTURE_VITTASCIENCE'] = 'виттасайнс';

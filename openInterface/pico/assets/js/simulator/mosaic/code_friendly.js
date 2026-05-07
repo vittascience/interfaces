@@ -1,7 +1,9 @@
 Simulator.CodeFriendly.getAdaptedCode = function (code) {
 	code = Simulator.CodeFriendly.replace_pinModules(code);
-	code = Simulator.CodeFriendly.remove_unusedCode(code);
 	code = Simulator.CodeFriendly.requests(code);
+	code = code.replace(/.decode\(\)/gi, '');
+	code = code.replace(/.decode\(['"]utf-8['"]\)/gi, '');
+	code = code.replace(/.decode\(['"]utf-8['"],[ ]['"]ignore['"]\)/gi, '');
 	return code;
 };
 
@@ -13,17 +15,6 @@ Simulator.CodeFriendly.replace_pinModules = function (code) {
 	code = code.replace(/def hcsr04_getUltrasonicData( |)\(/, 'def hcsr04_getUltrasonicData_UNUSED(');
 	//pitch
 	code = code.replace(/def pitch( |)\(/g, 'def pitch_UNUSED(');
-	return code;
-};
-
-Simulator.CodeFriendly.remove_unusedCode = function (code) {
-	// removing object inits
-	code = code.replace('multichannel_v2 = GAS_GMXXX(0x08, i2c=I2C(scl=Pin(22), sda=Pin(21)))', '');
-	// code = code.replace(/(.*)UART\((.*)/g, '#$1UART($2');
-	// code = code.replace(/(.*)uart_(.*)/gi, '#$1uart_$2');
-	code = code.replace(/(.*)uart\.read\(\)\.(.*)/gi, '$1uart.read()');
-
-	code = code.replace(/(.*)openlog_[0-9]{1,}(.*)/gi, '$1uart$2');
 	return code;
 };
 

@@ -46,6 +46,47 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
+    // BLOCK MAQUEEN V5 _ READ LINE FINDER
+    {
+        "type": "robots_maqueenV5_readPatrol",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_V5_READPATROL_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "SENSOR",
+            "options": [
+                ["%{BKY_ROBOTS_MAQUEEN_LEFT}", "0x20"],
+                ["%{BKY_ROBOTS_MAQUEEN_MIDDLE}", "0x22"],
+                ["%{BKY_ROBOTS_MAQUEEN_RIGHT}", "0x24"]
+            ]
+        }],
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_V5_READPATROL_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK MAQUEEN V5 _ BATTERY LEVEL
+    {
+        "type": "robots_maqueenV5_batteryLevel",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_V5_BATTERY_LEVEL_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "TYPE",
+            "options": [
+                ["lithium", "0"],
+                ["alkaline", "1"]
+            ]
+        }],
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_V5_BATTERY_LEVEL_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
     // BLOCK MAQUEEN CONTROL LED
     {
         "type": "robots_controlMaqueenLed",
@@ -67,6 +108,24 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "style": "robots_blocks",
         "tooltip": "%{BKY_ROBOTS_MAQUEEN_CONTROLLED_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK MAQUEEN V5 _ PATROLLING
+    {
+        "type": "robots_maqueenV5_patrolling",
+        "message0": "%{BKY_ROBOTS_MAQUEEN_V5_PATROLLING_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "STATE",
+            "check": "Boolean"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_MAQUEEN_V5_PATROLLING_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]
@@ -412,7 +471,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     // BLOCK MAQUEEN ON REMOTE CONTROL COMMAND RECEIVED
     {
         "type": "robots_maqueen_onRemoteCommandReceived",
-        "message0": "[Maqueen] %{BKY_ROBOTS_REMOTECONTROL_ONCOMMANDRECEIVED_TITLE}",
+        "message0": "[Maqueen Lite] %{BKY_ROBOTS_REMOTECONTROL_ONCOMMANDRECEIVED_TITLE}",
         "args0": [{
             "type": "input_dummy",
             "name": "IF0"
@@ -438,7 +497,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     // BLOCK MAQUEEN ON REMOTE CONTROL COMMAND RECEIVED - C AR MP3 GRAY REMOTE
     {
         "type": "robots_maqueen_onRemoteCommandReceived_car_mp3_gray",
-        "message0": "[Maqueen] %{BKY_ROBOTS_REMOTECONTROL_ONCOMMANDRECEIVED_TITLE}",
+        "message0": "[Maqueen Lite] %{BKY_ROBOTS_REMOTECONTROL_ONCOMMANDRECEIVED_TITLE}",
         "args0": [{
             "type": "input_dummy",
             "name": "IF0"
@@ -486,7 +545,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
-    /* Begin MaqueenPlus blocks */
+    /* Begin Maqueen Plus blocks */
 
     // BLOCK MAQUEEN_PLUS ULTRASONIC RANGER
     {
@@ -519,8 +578,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
                 "type": "field_grid_dropdown",
                 "name": "VERSION",
                 "options": [
-                    ["v2", "2"],
-                    ["v1", "1"]
+                    ["v1", "1"],
+                    ["v2", "2"]
                 ]
             },
             {
@@ -598,7 +657,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
-    // MaqueenPlus - Moving
+    // Maqueen Plus - Moving
 
     // BLOCK MAQUEEN_PLUS CONTROL GO
     {
@@ -699,8 +758,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
                 "type": "field_grid_dropdown",
                 "name": "DIR",
                 "options": [
-                    ["↻", "0"],
-                    ["↺", "1"]
+                    ["↻", "FORWARD"],
+                    ["↺", "BACKWARD"]
                 ]
             }, {
                 "type": "input_value",
@@ -752,7 +811,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
-    // MaqueenPlus - Control
+    // Maqueen Plus - Control
 
     // BLOCK MAQUEEN_PLUS CONTROL LED
     {
@@ -900,7 +959,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "mutator": "robots_maqueenPlus_servos_mutator"
     },
 
-    // MaqueenPlus - RGB LED
+    // Maqueen Plus - RGB LED
 
     // BLOCK MAQUEEN_PLUS BLINK ROBOT
     {
@@ -1037,12 +1096,12 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
-    // MaqueenPlus - Remote Control
+    // Maqueen Plus - Remote Control
 
     // BLOCK MAQUEEN_PLUS ON REMOTE CONTROL COMMAND RECEIVED
     {
         "type": "robots_maqueenPlus_onRemoteCommandReceived",
-        "message0": "[MaqueenPlus] %{BKY_ROBOTS_REMOTECONTROL_ONCOMMANDRECEIVED_TITLE}",
+        "message0": "[Maqueen Plus] %{BKY_ROBOTS_REMOTECONTROL_ONCOMMANDRECEIVED_TITLE}",
         "args0": [{
             "type": "input_dummy",
             "name": "IF0"
@@ -1068,7 +1127,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     // BLOCK MAQUEEN_PLUS ON REMOTE CONTROL COMMAND RECEIVED - C AR MP3 GRAY REMOTE
     {
         "type": "robots_maqueenPlus_onRemoteCommandReceived_car_mp3_gray",
-        "message0": "[MaqueenPlus] %{BKY_ROBOTS_REMOTECONTROL_ONCOMMANDRECEIVED_TITLE}",
+        "message0": "[Maqueen Plus] %{BKY_ROBOTS_REMOTECONTROL_ONCOMMANDRECEIVED_TITLE}",
         "args0": [{
             "type": "input_dummy",
             "name": "IF0"
@@ -3459,7 +3518,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.MICROBIT_PINS
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
         }],
         "inputsInline": true,
         "previousStatement": null,
@@ -4444,7 +4503,700 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "extensions": [
             "block_init_helpurl"
         ]
-    }
+    },
+
+    // uHandbit control servo
+    {
+        "type": "robots_uhandbit_controlServo",
+        "message0": "%{BKY_ROBOTS_UHANDBIT_CONTROL_SERVO_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "PORT",
+            "options": [
+                ["1", "1"],
+                ["2", "2"],
+                ["3", "3"],
+                ["4", "4"],
+                ["5", "5"],
+                ["6", "6"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "ANGLE",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "DURATION",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "extensions": [
+            "block_init_helpurl"
+        ],
+        "tooltip": "%{BKY_ROBOTS_UHANDBIT_CONTROL_SERVO_TOOLTIP}",
+    },
+
+    //uHandbit color sensor _ read_rgb
+    {
+        "type": "robots_uhandbit_colorSensor_read_rgb",
+        "message0": "%{BKY_ROBOTS_UHANDBIT_COLOR_SENSOR_READ_RGB_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "DATA",
+            "options": [
+                ["%{BKY_COLOR_LEVEL_RED}", "0"],
+                ["%{BKY_COLOR_LEVEL_GREEN}", "1"],
+                ["%{BKY_COLOR_LEVEL_BLUE}", "2"]
+            ]
+        }],
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_UHANDBIT_COLOR_SENSOR_READ_RGB_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    //uHandbit color sensor _ get_color
+    {
+        "type": "robots_uhandbit_colorSensor_get_color",
+        "message0": "%{BKY_ROBOTS_UHANDBIT_COLOR_SENSOR_GET_COLOR_TITLE}",
+        "output": "String",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_UHANDBIT_COLOR_SENSOR_GET_COLOR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // uHandbit Ultrasonic sensor _ get_distance
+    {
+        "type": "robots_uhandbit_ultrasonic_get_distance",
+        "message0": "%{BKY_ROBOTS_UHANDBIT_ULTRASONIC_GET_DISTANCE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "DATA",
+            "options": [
+                ["%{BKY_SENSORS_ULTRASONIC_DISTANCE}", "DIST"],
+                ["%{BKY_SENSORS_ULTRASONIC_DURATION}", "TIME"]
+            ],
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "PORT",
+            "options": [
+                ["1", "1"],
+                ["2", "2"]
+            ],
+        }],
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_UHANDBIT_ULTRASONIC_GET_DISTANCE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK uHandbit SET NEOPIXEL PALETTE
+    {
+        "type": "robots_uhandbit_setNeopixelPalette",
+        "message0": "%{BKY_ROBOTS_UHANDBIT_SET_NEOPIXEL_PALETTE_COLOR_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "LED",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "COLOR",
+            "check": "Colour"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_UHANDBIT_SET_NEOPIXEL_PALETTE_COLOR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK uHandbit SET NEOPIXEL
+    {
+        "type": "robots_uhandbit_setNeopixel",
+        "message0": "%{BKY_ROBOTS_UHANDBIT_SET_NEOPIXEL_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "LED",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "R",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "G",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "B",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_UHANDBIT_SET_NEOPIXEL_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK uHandbit RAINBOW
+    {
+        "type": "robots_uhandbit_setNeopixelRainbow",
+        "message0": "%{BKY_ROBOTS_UHANDBIT_SET_NEOPIXEL_RAINBOW_TITLE}",
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_UHANDBIT_SET_NEOPIXEL_RAINBOW_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    /* Begin Wukong blocks */
+
+    // BLOCK WUKONG SET LIGHT MODE
+    {
+        "type": "robots_wukong_setLightMode",
+        "message0": "%{BKY_ROBOTS_WUKONG_SETLIGHTMODE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "MODE",
+            "options": [
+                ["%{BKY_ROBOTS_WUKONG_LIGHT_BREATH}", "BREATH"],
+                ["%{BKY_ROBOTS_WUKONG_LIGHT_OFF}", "OFF"]
+            ]
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_WUKONG_SETLIGHTMODE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK WUKONG SET LIGHT INTENSITY
+    {
+        "type": "robots_wukong_setLightIntensity",
+        "message0": "%{BKY_ROBOTS_WUKONG_SETLIGHTINTENSITY_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "LIGHT",
+            "check": "Number"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_WUKONG_SETLIGHTINTENSITY_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK WUKONG CONTROL MOTOR
+    {
+        "type": "robots_wukong_controlMotors",
+        "message0": "%{BKY_ROBOTS_WUKONG_CONTROLMOTOR_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "MOTOR",
+            "options": [
+                ["M1", "1"],
+                ["M2", "2"],
+                ["M1 & M2", "BOTH"],
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "DIR",
+            "options": [
+                ["↻", "CLOCKWISE"],
+                ["↺", "ANTICLOCKWISE"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "SPEED",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_WUKONG_CONTROLMOTOR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK WUKONG STOP MOTORS
+    {
+        "type": "robots_wukong_stopMotors",
+        "message0": "%{BKY_ROBOTS_WUKONG_STOPMOTORS_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "MOTOR",
+            "options": [
+                ["M1", "1"],
+                ["M2", "2"],
+                ["M1 & M2", "BOTH"]
+            ]
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_WUKONG_STOPMOTORS_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK WUKONG SET SERVO ANGLE
+    {
+        "type": "robots_wukong_setServoAngle",
+        "message0": "%{BKY_ROBOTS_WUKONG_SETSERVOANGLE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "TYPE",
+            "options": [
+                ["180°", "180"],
+                ["270°", "270"],
+                ["360°", "360"]
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "SERVO",
+            "options": [
+                ["S1", "1"],
+                ["S2", "2"],
+                ["S3", "3"],
+                ["S4", "4"],
+                ["S5", "5"],
+                ["S6", "6"],
+                ["S7", "7"],
+                ["%{BKY_ROBOTS_WUKONG_SERVO_ALL}", "ALL"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "ANGLE",
+            "check": "Number"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_WUKONG_SETSERVOANGLE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK WUKONG SET SERVO SPEED
+    {
+        "type": "robots_wukong_setServoSpeed",
+        "message0": "%{BKY_ROBOTS_WUKONG_SETSERVOSPEED_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "SERVO",
+            "options": [
+                ["S1", "1"],
+                ["S2", "2"],
+                ["S3", "3"],
+                ["S4", "4"],
+                ["S5", "5"],
+                ["S6", "6"],
+                ["S7", "7"],
+                ["%{BKY_ROBOTS_WUKONG_SERVO_ALL}", "ALL"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "SPEED",
+            "check": "Number"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_WUKONG_SETSERVOSPEED_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    /* Begin Building:bit Super blocks */
+
+    // BLOCK BUILDING BIT -  SET NEOPIXEL
+    {
+        "type": "robots_buildingBit_setNeopixel",
+        "message0": "%{BKY_ROBOTS_BUILDINGBIT_SETNEOPIXEL_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "LED",
+            "options": [
+                ["0", "0"],
+                ["1", "1"],
+                ["2", "2"],
+                ["3", "3"],
+                ["les 4 LED", "all"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "R",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "G",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "B",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_BUILDINGBIT_SETNEOPIXEL_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK BUILDING BIT - SET NEOPIXEL PALETTE
+    {
+        "type": "robots_buildingBit_setNeopixelPalette",
+        "message0": "%{BKY_ROBOTS_BUILDINGBIT_SETPALETTECOLOR_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "LED",
+            "options": [
+                ["0", "0"],
+                ["1", "1"],
+                ["2", "2"],
+                ["3", "3"],
+                ["les 4 LED", "all"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "COLOR",
+            "check": "Colour"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_BUILDINGBIT_SETPALETTECOLOR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK BUILDING BIT - SET SERVO ANGLE
+    {
+        "type": "robots_buildingBit_setServoAngle",
+        "message0": "%{BKY_ROBOTS_BUILDINGBIT_SETSERVOANGLE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "TYPE",
+            "options": [
+                ["180°", "180"],
+                ["270°", "270"],
+                ["360°", "360"]
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "SERVO",
+            "options": [
+                ["S1", "S1"],
+                ["S2", "S2"],
+                ["S3", "S3"],
+                ["S4", "S4"],
+                ["S5", "S5"],
+                ["S6", "S6"],
+                ["S7", "S7"],
+                ["S8", "S8"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "ANGLE",
+            "check": "Number"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_BUILDINGBIT_SETSERVOANGLE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK BUILDING BIT - CONTROL MOTOR
+    {
+        "type": "robots_buildingBit_controlMotors",
+        "message0": "%{BKY_ROBOTS_BUILDINGBIT_CONTROLMOTOR_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "MOTOR",
+            "options": [
+                ["M1", "M1"],
+                ["M2", "M2"],
+                ["M3", "M3"],
+                ["M4", "M4"]
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "DIR",
+            "options": [
+                ["↻", "CLOCKWISE"],
+                ["↺", "ANTICLOCKWISE"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "SPEED",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_BUILDINGBIT_CONTROLMOTOR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK BUILDING BIT - STOP MOTORS
+    {
+        "type": "robots_buildingBit_stopMotors",
+        "message0": "%{BKY_ROBOTS_BUILDINGBIT_STOPMOTORS_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "MOTOR",
+            "options": [
+                ["M1", "M1"],
+                ["M2", "M2"],
+                ["M3", "M3"],
+                ["M4", "M4"]
+            ]
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_BUILDINGBIT_STOPMOTORS_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BLOCK BUILDING BIT - CONTROL STEPPER MOTOR
+    {
+        "type": "robots_buildingBit_controlStepperMotors",
+        "message0": "%{BKY_ROBOTS_BUILDINGBIT_CONTROLSTEPPERMOTOR_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "MOTOR",
+            "options": [
+                ["B1", "B1"],
+                ["B2", "B2"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "POSITION",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_BUILDINGBIT_CONTROLSTEPPERMOTOR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BUILDING:BIT - GET ULTRASONIC DISTANCE
+    {
+        "type": "robots_buildingBit_getUltrasonicDistance",
+        "message0": "%{BKY_ROBOTS_BUILDINGBIT_GETULTRASONICDISTANCE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "TRIG",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "ECHO",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_BUILDINGBIT_GETULTRASONICDISTANCE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BUILDING:BIT - GET POTENTIOMETER VALUE
+    {
+        "type": "robots_buildingBit_getPotentiometerValue",
+        "message0": "%{BKY_ROBOTS_BUILDINGBIT_GETPOTENTIOMETERVALUE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": Blockly.Constants.Pins.analog_read[Blockly.Constants.getSelectedBoard()]
+        }],
+        "output": "Number",
+        "style": "robots_blocks",
+        "extensions": [
+            "block_init_helpurl"
+        ],
+        "tooltip": "%{BKY_ROBOTS_BUILDINGBIT_GETPOTENTIOMETERVALUE_TOOLTIP}",
+    },
+
+    // BUILDING:BIT - GET LIGHT LEVEL
+    {
+        "type": "robots_buildingBit_getLightLevel",
+        "message0": "%{BKY_ROBOTS_BUILDINGBIT_GETLIGHTLEVEL_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": Blockly.Constants.Pins.analog_read[Blockly.Constants.getSelectedBoard()]
+        }],
+        "output": "Number",
+        "style": "robots_blocks",
+        "extensions": [
+            "block_init_helpurl"
+        ],
+        "tooltip": "%{BKY_ROBOTS_BUILDINGBIT_GETLIGHTLEVEL_TOOLTIP}",
+    },
+
+    // BUILDING:BIT - IR IS OBSTACLE DETECTED
+    {
+        "type": "robots_buildingBit_isObstacleDetected",
+        "message0": "%{BKY_ROBOTS_BUILDINGBIT_ISOBSTACLEDETECTED_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "output": "Boolean",
+        "style": "robots_blocks",
+        "extensions": [
+            "block_init_helpurl"
+        ],
+        "tooltip": "%{BKY_ROBOTS_BUILDINGBIT_ISOBSTACLEDETECTED_TOOLTIP}",
+    },
+
+    // BUILDING:BIT - GET PIRE STATE
+    {
+        "type": "robots_buildingBit_getPIRstate",
+        "message0": "%{BKY_ROBOTS_BUILDINGBIT_GETPIRSTATE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "output": "Boolean",
+        "style": "robots_blocks",
+        "extensions": [
+            "block_init_helpurl"
+        ],
+        "tooltip": "%{BKY_ROBOTS_BUILDINGBIT_GETPIRSTATE_TOOLTIP}",
+    },
+
+    // BUILDING:BIT - DHT11 READ DATA
+    {
+        "type": "robots_buildingBit_dht11_redData",
+        "message0": "%{BKY_ROBOTS_BUILDINGBIT_DHT11_READDATA_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "DATA",
+            "options": [
+                ["%{BKY_SENSORS_TEMPERATURE}", "TEMP"],
+                ["%{BKY_SENSORS_HUMIDITY}", "HUM"]
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "output": "Number",
+        "inputsInline": true,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_BUILDINGBIT_DHT11_READDATA_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ],
+        "mutator": "sensors_temperature_mutator"
+    },
+
+    // BUILDING:BIT _ GET COLOR
+    {
+        "type": "robots_buildingBit_getColor",
+        "message0": "%{BKY_ROBOTS_BUILDINGBIT_GETCOLOR_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "COLOR",
+            "options": [
+                ["%{BKY_COLOUR_RED}", "R"],
+                ["%{BKY_COLOUR_GREEN}", "G"],
+                ["%{BKY_COLOUR_BLUE}", "B"]
+            ]
+        }],
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_BUILDINGBIT_GETCOLOR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BUILDING:BIT _ ON JOYSTICK DIRECTION
+    {
+        "type": "robots_buildingBitonJoystickDir",
+        "message0": "%{BKY_ROBOTS_BUILDINGBIT_ONJOYSTICKDIR_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "DIR",
+            "options": [
+                ["%{BKY_ROBOTS_BUILDINGBIT_DIR_UP}", "UP"],
+                ["%{BKY_ROBOTS_BUILDINGBIT_DIR_DOWN}", "DOWN"],
+                ["%{BKY_ROBOTS_BUILDINGBIT_DIR_RIGHT}", "RIGHT"],
+                ["%{BKY_ROBOTS_BUILDINGBIT_DIR_LEFT}", "LEFT"]
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "PIN_X",
+            "options": Blockly.Constants.Pins.analog_read[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "PIN_Y",
+            "options": Blockly.Constants.Pins.analog_read[Blockly.Constants.getSelectedBoard()]
+        }],
+        "message1": "%1",
+        "args1": [{
+            "type": "input_statement",
+            "name": "DO"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "extensions": [
+            "block_init_helpurl"
+        ],
+        "tooltip": "%{BKY_ROBOTS_BUILDINGBIT_ONJOYSTICKDIR_TOOLTIP}",
+    },
+
 ]); // END JSON EXTRACT (Do not delete this comment.)
 
 Blockly.Constants.Robots = Object.create(null);

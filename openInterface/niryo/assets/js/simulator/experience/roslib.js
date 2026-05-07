@@ -18,17 +18,19 @@ export default class RosConnection {
 		this.ros = new ROSLIB.Ros({
 			// url: 'ws://51.83.12.237:9090',
 			url: 'wss://vniryo.vittascience.com',
+			// url: 'ws://localhost:9090',
 		});
-		this.ros.on('connection', function () {
-			console.log('Connected to ROS websocket server.');
+		this.ros.on('connection', () => {
 			this.roslibConnected = true;
+			// create a floor collision object
+			this.addCollisionObject('floor', [0, 0, 0.06], [2, 2, 0]);
 		});
 
-		this.ros.on('error', function (error) {
-			console.log('Error connecting to ROS websocket server: ', error);
+		this.ros.on('error', (error) => {
+			console.error('Error connecting to ROS websocket server: ', error);
 		});
 
-		this.ros.on('close', function () {
+		this.ros.on('close', () => {
 			console.log('Connection to ROS websocket server closed.');
 			this.roslibConnected = false;
 		});
@@ -38,6 +40,45 @@ export default class RosConnection {
 			name: '/plan_kinematic_path',
 			serviceType: 'moveit_msgs/GetMotionPlan',
 		});
+	}
+
+	addCollisionObject(name, position, dimensions) {
+		const collisionObjectTopic = new ROSLIB.Topic({
+			ros: this.ros,
+			name: '/collision_object',
+			messageType: 'moveit_msgs/CollisionObject',
+		});
+
+		const collisionObject = new ROSLIB.Message({
+			header: {
+				frame_id: 'base_link',
+			},
+			id: name,
+			operation: 0, // 0 = ADD
+			primitives: [
+				{
+					type: 1, // 1 = BOX
+					dimensions: dimensions, // [x, y, z] taille de la boite
+				},
+			],
+			primitive_poses: [
+				{
+					position: {
+						x: position[0],
+						y: position[1],
+						z: position[2],
+					},
+					orientation: {
+						x: 0,
+						y: 0,
+						z: 0,
+						w: 1,
+					},
+				},
+			],
+		});
+
+		collisionObjectTopic.publish(collisionObject);
 	}
 
 	/**

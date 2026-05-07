@@ -24,9 +24,14 @@ class InterfaceInit {
     constructor(interfaceName) {
         this._interface = interfaceName;
         this._board = null;
+        this.shieldView = null;
         this.id = randHex();
         this.initialized = false;
         this.externalLibraries = {};
+        this.shepherdTourContent = {
+            message: null,
+            id: null
+        };
     }
 
     _needPythonLibraries() {
@@ -37,12 +42,16 @@ class InterfaceInit {
         return ["esp32", "m5stack", "galaxia", "pico"].includes(this._interface);
     }
 
+    _needCommonStm32Libraries() {
+        return ["wb55", "l476", "steami"].includes(this._interface);
+    }
+
     _needMultiEditorLS() {
         return ["arduino", "microbit", "esp32", "galaxia", "m5stack", "TI-83", "GalaxiaCircuitPython", "cyberpi", "pico"].includes(this._interface);
     }
 
     _needSerialAPI() {
-        return ['arduino', 'microbit', 'esp32', 'wb55', 'l476', 'galaxia', 'm5stack', 'letsstartcoding', 'mBot', 'GalaxiaCircuitPython', 'cyberpi', 'pico', 'eliobot', 'codey'].includes(this._interface);
+        return ['arduino', 'microbit', 'esp32', 'wb55', 'l476', 'galaxia', 'm5stack', 'letsstartcoding', 'mBot', 'GalaxiaCircuitPython', 'cyberpi', 'pico', 'eliobot', 'codey', 'steami'].includes(this._interface);
     }
 
     async init() {
@@ -50,9 +59,16 @@ class InterfaceInit {
             InterfaceMonitor.init();
             this.displayWelcome();
         }
-        if (this._needCommonEsp32Libraries()) {
-            Object.assign(this.externalLibraries, await this.loadEsp32Libraries());
+        if ($_GET('robot') !== null || $_GET('module') !== null) {
+            this._setShepherdTourContent();
         }
+        if (this._needCommonEsp32Libraries()) {
+            Object.assign(this.externalLibraries, await this.loadCommonLibraries('esp32'));
+        }
+        if (this._needCommonStm32Libraries()) {
+            Object.assign(this.externalLibraries, await this.loadCommonLibraries('stm32'));
+        }
+
         if (this._needPythonLibraries()) {
             Object.assign(this.externalLibraries, await this.loadLibraries());
         }
@@ -65,13 +81,16 @@ class InterfaceInit {
             Main.getCodeEditor().container.session.setValue(textCode);
         }
         if (Main.hasBoardSelector()) {
-            this._initializeBoardSelector();
+            await this._initializeBoardSelector();
         }
         if (this._needSerialAPI()) {
             await this._initializeSerialInterface();
         }
+        if (['raspberrypi'].includes(this._interface)) {
+            RaspberryCommunication.init();
+        }
         if (Main.hasSimulator()) {
-            this._initializeSimulator();
+            await Simulator.init();
         }
         if (["python", "TI-83"].includes(this._interface)) {
             PythonRun.init();
@@ -82,7 +101,9 @@ class InterfaceInit {
         if (typeof resizeBlocklyToolBox !== "undefined") {
             resizeBlocklyToolBox();
         }
-        this._initializeTour();
+        if (this.shepherdTourContent.id !== null && this.shepherdTourContent.message !== null) {
+            this._setupShepherdTour();
+        }
         this.initialized = true;
     }
 
@@ -94,7 +115,11 @@ class InterfaceInit {
         if (typeof window.maClasseTiIntegration !== 'undefined' && window.maClasseTiIntegration) {
             this._displayWelcomeMessage(`code.welcome.${this._interface}-Maclasseti`);
             return true;
-        } 
+        }
+        let msgLink = `code.welcome.${this._interface}`;
+        if (this._interface == "esp32" && Blockly.Constants.getSelectedBoard() == BOARD_NANO_ESP32) {
+            msgLink = 'code.welcome.nano-esp32';
+        }
         if (typeof IS_CAPYTALE_CONTEXT !== 'undefined') {
             await new Promise(resolve => {
                 (function checkCapytaleManager() {
@@ -105,10 +130,10 @@ class InterfaceInit {
                     resolve();
                 })()
             });
-            this._displayWelcomeMessage(capytaleManager.getWelcomeMessage());
+            this._displayWelcomeMessage(capytaleManager.getWelcomeMessage(msgLink));
             return true;
         }
-        this._displayWelcomeMessage(`code.welcome.${this._interface}`);
+        this._displayWelcomeMessage(msgLink);
         return true;
     }
 
@@ -149,6 +174,9 @@ class InterfaceInit {
 
     async _initializeSerialInterface() {
         if (typeof InterfaceConnection !== 'undefined') {
+            if (typeof InterfaceConnection.sendSerialCommand !== 'undefined') {
+                $("#serial-send").off('click').click(InterfaceConnection.sendSerialCommand.bind(InterfaceConnection));
+            }
             if (INTERFACE_NAME === 'microbit') {
                 await new Promise(function awaitMicrobitFsWrapper(resolve, reject) {
                     if (typeof microbitFsWrapper !== 'undefined') {
@@ -165,16 +193,20 @@ class InterfaceInit {
                 InterfaceConnection.init();
             }
         } else {
-            let baudrate = 115200;
-            if (typeof SERIAL_BAUDRATE !== 'undefined') {
-                baudrate = SERIAL_BAUDRATE;
+            if (typeof sendSerialCommand !== 'undefined') {
+                $("#serial-send").off('click').click(sendSerialCommand);
             }
+            let baudrate = 115200;
             const baudOption = document.querySelector('#baud option[value="' + baudrate + '"]');
             baudOption.selected = true;
             const getBaudrate = () => parseInt($('#baud').find(":selected").text());
             let filters = null;
             if (typeof SERIAL_PRODUCT_FILTER !== 'undefined' && SERIAL_PRODUCT_FILTER === true && typeof SERIAL_PRODUCTS !== 'undefined') {
-                filters = Object.values(SERIAL_PRODUCTS);
+                if (Array.isArray(SERIAL_PRODUCTS)) {
+                    filters = SERIAL_PRODUCTS;
+                } else {
+                    filters = Object.values(SERIAL_PRODUCTS);
+                }
             }
             SerialAPI = new Serial(getBaudrate, filters);
             let chunkSize = 1024;
@@ -185,13 +217,6 @@ class InterfaceInit {
         }
     }
 
-    _initializeSimulator() {
-        if (Main.hasRobotSimulator() && typeof SIMULATOR_DEFAULT_ROBOT !== 'undefined' && SIMULATOR_DEFAULT_ROBOT) {
-            RobotSimulator.currentRobotName = SIMULATOR_DEFAULT_ROBOT;
-        }
-        Simulator.init();
-    }
-
     /**
      * Load python libraries of interface.
      */
@@ -200,12 +225,14 @@ class InterfaceInit {
         for (const lib in LIBRARIES_PATH) {
             const fileName = `${CDN_PATH}/openInterface/${this._interface}/assets/lib${LIBRARIES_PATH[lib]}/${lib}.py`;
             const content = await this.fetchDir(fileName);
-            libraries[lib] = content;
+            if (content) {
+                libraries[lib] = content;
+            }
         }
         return libraries;
     }
 
-    async loadEsp32Libraries() {
+    async loadCommonLibraries(board) {
         const libraries = {};
         const loadFile = async (item, path, extension = "py") => {
             if (typeof item === 'object' && !Array.isArray(item)) {
@@ -225,11 +252,22 @@ class InterfaceInit {
                     fileName += '.py';
                 }
                 const content = await this.fetchDir(fileName);
-                libraries[item] = content;
+                if (content) {
+                    libraries[item] = content;
+                }
             }
         }
-        for (const item of LIBRARIES_PATH_ESP32) {
-            await loadFile(item, `${CDN_PATH}/openInterface/interfaces/assets/lib/esp32-mpy/`);
+        let LIBRARIES_PATH = [];
+        switch (board) {
+            case "esp32":
+                LIBRARIES_PATH = LIBRARIES_PATH_ESP32;
+                break;
+            case "stm32":
+                LIBRARIES_PATH = LIBRARIES_PATH_STM32;
+                break;
+        }
+        for (const item of LIBRARIES_PATH) {
+            await loadFile(item, `${CDN_PATH}/openInterface/interfaces/assets/lib/${board}-mpy/`);
         }
         return libraries;
     }
@@ -240,21 +278,53 @@ class InterfaceInit {
      * @param {boolean} blob
      * @returns {string} response
      */
-    async fetchDir(fileName, blob = false) {
+    async fetchDir(fileName, type = "text") {
         const response = await fetch(fileName);
         if (!response.ok) {
             console.error(response.statusText + "\nlib: " + fileName);
+            return;
         }
-        if (blob) {
+        if (type == "blob") {
             return await response.blob();
+        } else if (type == "buffer") {
+            return await response.arrayBuffer();
         }
         return await response.text();
+    };
+
+    async downloadFile(filePath, type = "text", replace = null) {
+        await this.fetchDir(filePath, type)
+            .then(function (file) {
+                if (replace) {
+                    file = file.replace(replace[0], replace[1]);
+                }
+                let url;
+                if (type == 'blob') {
+                    url = window.URL.createObjectURL(file);
+                } else {
+                    url = 'data:text/plain;charset=utf-8,' + encodeURIComponent(file);
+                }
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = filePath.split('/').pop();
+                document.body.appendChild(a);
+                a.click();
+                if (type == 'blob') {
+                    window.URL.revokeObjectURL(url);
+                }
+            });
+    }
+
+    async downloadFirmware(fileName) {
+        const path = "/openInterface/" + this._interface + "/assets/firmware/" + fileName;
+        await this.downloadFile(path, "blob");
     };
 
     _initializeTogglers() {
         $('input[type=radio][name=toolboxMode]').change(function () {
             pseudoModal.closeModal('modal-settings');
-            updateToolbox(this.value);
+            updateToolbox(this.value, true);
         });
         $('input[type=radio][name=consolePosToggler]').change(function () {
             rotateConsole(this.value);
@@ -262,20 +332,71 @@ class InterfaceInit {
         rotateConsole(InterfaceMonitor.getPosition());
     };
 
-    _initializeBoardSelector() {
-        if (this._interface === 'arduino' && !$_GET('link') && (!$_GET('board') || (typeof SERIAL_OPTIONS !== 'undefined' && !Object.keys(SERIAL_OPTIONS.variant_ids).includes($_GET('board'))))) {
-            InterfaceConnection.openBoardSelector(true);
-        }
-        updateBoard();
-        const board = Blockly.Constants.getSelectedBoard();
-        $("input[value='" + board + "']#board_" + board + "_Set").attr("checked", "checked");
-        if (this._interface === 'arduino') {
-            $('input[type=radio][name=boardChoice]').change(function () {
-                InterfaceConnection.addFirmwareOptions(this.value);
-            });
+    openBoardSelector(opening = false) {
+        if (opening) {
+            $('#board-selector-welcome-text').show();
         } else {
-            $('input[type=radio][name=boardSelector]').change(function () {
-                updateBoard(true, this.value);
+            $('#board-selector-welcome-text').hide();
+        }
+        const boardId = opening ? BOARD_DEFAULT : Blockly.Constants.getSelectedBoard();
+        $(`input[name="boardChoice"][value="${boardId}"]`).prop('checked', true);
+        if ($("#board-selector-shield-grove-section").hasClass('present')) {
+            $("#shieldGroveCheckBox").prop("checked", VittaInterface.shieldView ? true : false);
+        }
+        pseudoModal.openModal(this._interface + '-board-selector');
+        if (this._interface == 'arduino') {
+            pseudoModal.clickOnExit('arduino-board-selector', () => {
+                InterfaceConnection.addFirmwareOptions(boardId);
+            });
+        }
+    };
+
+    async validateSelectedBoard() {
+        Main.resetInvalidBlocksWarning();
+        const boardId = $('input[name="boardChoice"]:checked').val();
+        if ($("#board-selector-shield-grove-section").hasClass('present')) {
+            await updateBoard(true, boardId, $("#shieldGroveCheckBox").is(":checked"));
+        } else {
+            await updateBoard(true, boardId, false);
+        }
+        pseudoModal.closeModal(this._interface + '-board-selector');
+    };
+
+    async _initializeBoardSelector() {
+        const savedShieldView = SimulatorLS.get('shieldView');
+        if (typeof savedShieldView !== 'undefined') {
+            this.shieldView = savedShieldView;
+        } else {
+            this.shieldView = false;
+        }
+        if (typeof IS_CAPYTALE_CONTEXT === 'undefined' && ['arduino', 'esp32'].includes(this._interface) && !$_GET('link') && (!$_GET('board')
+            || (typeof INTERFACE_BOARDS !== 'undefined' && (!Object.keys(INTERFACE_BOARDS).includes($_GET('board')) && !Object.values(INTERFACE_BOARDS).filter(board => board.shieldId !== undefined).map(board => board.shieldId).includes($_GET('board')))))) {
+            this.openBoardSelector(true);
+        }
+        await updateBoard();
+        const boardId = Blockly.Constants.getSelectedBoard();
+        $("input[value='" + boardId + "']#board_" + boardId + "_Set").attr("checked", "checked");
+        if (['arduino', 'esp32'].includes(this._interface)) {
+            const manageCheckbox = (id) => {
+                if (typeof INTERFACE_BOARDS[id].shieldId == 'undefined') {
+                    $("#board-selector-shield-grove-section").hide();
+                    $("#board-selector-shield-grove-section").removeClass('present');
+                } else {
+                    $("#board-selector-shield-grove-section").show();
+                    $("#board-selector-shield-grove-section").addClass('present');
+                }
+            };
+            manageCheckbox(boardId);
+            $('input[type=radio][name=boardChoice]').change(function () {
+                manageCheckbox(this.value);
+                if (VittaInterface._interface === 'arduino') {
+                    InterfaceConnection.addFirmwareOptions(this.value);
+                }
+            });
+        }
+        if (['pico', 'raspberrypi'].includes(this._interface)) {
+            $('input[type=radio][name=boardSelector]').change(async function () {
+                await updateBoard(true, this.value);
             });
         }
         $('input[type=radio][name=boardSelectorHelp]').change(function () {
@@ -286,19 +407,21 @@ class InterfaceInit {
         });
     };
 
-    _initializeTour() {
-        if (typeof $_GET('robot') !== 'undefined' && $_GET('robot') !== null) {
-            const currentRobot = $_GET('robot');
-            const message = jsonPath('code.robotGuide.tuto').replace('[ROBOT_NAME]', currentRobot);
-            this._setupShepherdTour('robot', message, 'robots');
-        } else if (typeof $_GET('module') !== 'undefined' && $_GET('module') !== null) {
-            const currentModule = $_GET('module');
-            const message = jsonPath('code.moduleGuide.tuto').replace('[MODULE_NAME]', currentModule);
-            this._setupShepherdTour('module', message, 'sensors');
+    _setShepherdTourContent() {
+        if ($_GET('robot') !== null) {
+            this.shepherdTourContent = {
+                message: jsonPath('code.robotGuide.tuto').replace('[ROBOT_NAME]', $_GET('robot')),
+                id: 'robots'
+            };
+        } else if ($_GET('module') !== null) {
+            this.shepherdTourContent = {
+                message: jsonPath('code.moduleGuide.tuto').replace('[MODULE_NAME]', $_GET('module')),
+                id: 'modules'
+            };
         }
-    };
+    }
 
-    _setupShepherdTour(urlParam, message, id) {
+    _setupShepherdTour() {
         const tour = new Shepherd.Tour({
             useModalOverlay: true,
             defaultStepOptions: {
@@ -307,9 +430,9 @@ class InterfaceInit {
         });
 
         tour.addStep({
-            text: `<img style="width: 65px;" src="../openInterface/interfaces/assets/media/icon-vittabot.jpg"/> ${message}`,
+            text: `<img style="width: 65px;" src="../openInterface/interfaces/assets/media/icon-vittabot.jpg"/> ${this.shepherdTourContent.message}`,
             attachTo: {
-                element: '#' + id,
+                element: '#' + this.shepherdTourContent.id,
                 on: 'right'
             },
             buttons: [
@@ -325,7 +448,8 @@ class InterfaceInit {
         });
 
         tour.on('complete', () => {
-            history.pushState({}, '', removeParam(urlParam, window.location.href))
+            history.pushState({}, '', removeParam("robot", window.location.href));
+            history.pushState({}, '', removeParam("module", window.location.href));
         });
 
         tour.start();

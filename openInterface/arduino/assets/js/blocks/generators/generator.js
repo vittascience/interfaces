@@ -47,7 +47,7 @@ Blockly.Arduino.Generators.analog_read = function (pin, codeFlag, addingAnalogMe
         return constantName;
     } else {
         Blockly.Arduino.addSetup(pinName, "pinMode(" + pin + ", OUTPUT);");
-        return pin;   
+        return pin;
     }
 };
 
@@ -61,7 +61,7 @@ Blockly.Arduino.Generators.pwm = function (pin, codeFlag) {
         return constantName;
     } else {
         Blockly.Arduino.addSetup(pinName, "pinMode(" + pin + ", OUTPUT);");
-        return pin;   
+        return pin;
     }
 };
 

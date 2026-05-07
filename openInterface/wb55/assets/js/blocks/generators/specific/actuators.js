@@ -23,8 +23,6 @@ Blockly.Python.actuators_continuousServo_setSpeed = function (block) {
 
 Blockly.Python.actuators_setMotorPower = function (block) {
     const value = Blockly.Python.valueToCode(block, "POWER", Blockly.Python.ORDER_NONE) || "0";
-    if (value < 0) value = 0;
-    if (value > 100) value = 100;
     const pinName = Blockly.Python.Generators.pwm(block.getFieldValue("PIN"), 'Motor');
     Blockly.Python.addImport('pyb', IMPORT_PYB);
     return "pwm_" + pinName + ".pulse_width_percent(" + value + ")" + NEWLINE;
@@ -33,13 +31,13 @@ Blockly.Python.actuators_setMotorPower = function (block) {
 Blockly.Python.actuators_setVibrationMotorState = function (block) {
     const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
     const pinName = Blockly.Python.Generators.digital_write(block.getFieldValue("PIN"), 'Vibration Motor');
-    return 'try:' + NEWLINE + '  ' + (state == '1' ? pinName + ".high()" : pinName + ".low()") + NEWLINE + 'except:' + NEWLINE + '  ' + (state == '1' ? pinName + ".value(1)" : pinName + ".value(0)") + NEWLINE;
+    return 'try:' + NEWLINE + '  ' + pinName + ".high() if " + state + " else " + pinName + ".low()" + NEWLINE + 'except:' + NEWLINE + '  ' + pinName + ".value(" + state + ")" + NEWLINE;
 };
 
 Blockly.Python.actuators_setGroveRelayState = function (block) {
     const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
     const pinName = Blockly.Python.Generators.digital_write(block.getFieldValue("PIN"), 'Grove Relay');
-    return 'try:' + NEWLINE + '  ' + (state == '1' ? pinName + ".high()" : pinName + ".low()") + NEWLINE + 'except:' + NEWLINE + '  ' + (state == '1' ? pinName + ".value(1)" : pinName + ".value(0)") + NEWLINE;
+    return 'try:' + NEWLINE + '  ' + pinName + ".high() if " + state + " else " + pinName + ".low()" + NEWLINE + 'except:' + NEWLINE + '  ' + pinName + ".value(" + state + ")" + NEWLINE;
 };
 
 // MOSFET
@@ -49,7 +47,7 @@ Blockly.Python.actuators_mosfet_setState = function (block) {
     const pull = block.getFieldValue("PULL") || "OUT_PP";
     const pinName = Blockly.Python.Generators.pwm(block.getFieldValue("PIN"), 'Mosfet', 100, pull);
     Blockly.Python.addImport('pyb', IMPORT_PYB);
-    return "pwm_" + pinName + ".pulse_width_percent(" + ((state == "1" || state == "True") ? "100" : "0")  + ")" + NEWLINE;
+    return "pwm_" + pinName + ".pulse_width_percent(" + state  + "*100)" + NEWLINE;
 };
 
 Blockly.Python.actuators_mosfet_setPercentValue = function (block) {
@@ -126,5 +124,5 @@ Blockly.Python.actuators_music_playFrequency = function (block) {
 
 Blockly.Python.actuators_music_stop = function (block) {
     const pinName = Blockly.Python.Generators.digital_write(block.getFieldValue("PIN"), 'Buzzer');
-    return pinName + ".off()";
+    return pinName + ".off()" + NEWLINE;
 };

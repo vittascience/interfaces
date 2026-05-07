@@ -45,6 +45,7 @@ class SambaUploader {
         this.touchDelayMs = opts.touchDelayMs ?? 800; // bascule bridge→boot
         this.interFrameDelayMs = opts.interFrameDelayMs ?? 0;
         this.debug = (opts.debug !== false);
+        this._cb = opts.callbackOptions || {};
 
         this.STUB = Uint8Array.from([
             0x09, 0x48, 0x0A, 0x49, 0x0A, 0x4A, 0x02, 0xE0, 0x08, 0xC9, 0x08, 0xC0, 0x01, 0x3A, 0x00, 0x2A,
@@ -71,7 +72,7 @@ class SambaUploader {
     // -----------------------------------------------------------------------------
     // 1) flashHex : parse le .hex, aligne le buffer pour que off=0 ↔ 0x4000
     // -----------------------------------------------------------------------------
-    async flashHex(hex, { progress } = {}) {
+    async flashHex(hex, { verify } = {}) {
         if (typeof hex !== 'string' || !hex.trim()) {
             throw new Error('uploadHex: chaîne vide');
         }
@@ -124,7 +125,7 @@ class SambaUploader {
         }
 
         // On flashe toujours à partir de 0x4000 côté carte
-        await this._flash(imageU8, { physMin: 0x4000, progress });
+        await this._flash(imageU8, { physMin: 0x4000 });
     }
 
 
@@ -132,7 +133,7 @@ class SambaUploader {
     // 2) _flash : base=0x4000, pagination 4K, dst = off (offset relatif) — comme l’IDE
     //    + PAD de la DERNIÈRE PAGE → on envoie toujours 0x1000 octets (remplis de 0xFF)
     // -----------------------------------------------------------------------------
-    async _flash(imageU8, { physMin = 0x4000, progress } = {}) {
+    async _flash(imageU8, { physMin = 0x4000 } = {}) {
         // 0) Sélection du port (bridge)
         await this._selectPort();
 
@@ -200,7 +201,9 @@ class SambaUploader {
             // progrès
             const sentUpTo = Math.min(off + this.pageSize, total);
             const pct = Math.floor((sentUpTo * 100) / total);
-            if (typeof progress === 'function') progress(pct);
+            if (typeof this._cb.onProgress === 'function') {
+                this._cb.onProgress(pct);
+            }
             if (pct % 10 === 0 || pct === 100) this._log(`progrès: ${pct}%`);
         }
 
@@ -235,7 +238,12 @@ class SambaUploader {
     async _openAt(baud, { dtr, rts } = {}) {
         await this._port.open({ baudRate: baud });
         if (typeof dtr === 'boolean' || typeof rts === 'boolean') {
-            try { await this._port.setSignals({ dataTerminalReady: !!dtr, requestToSend: !!rts }); } catch { }
+            try {
+                await this._port.setSignals({ dataTerminalReady: !!dtr, requestToSend: !!rts });
+            } catch { }
+        }
+        if (typeof this._cb.onOpen === 'function') {
+            this._cb.onOpen();
         }
         // prepare reader/writer
         this._reader = this._port.readable?.getReader?.();
@@ -257,6 +265,9 @@ class SambaUploader {
         try { this._writer?.releaseLock?.(); } catch { }
         try { await this._port?.close?.(); } catch { }
         this._reader = null; this._writer = null;
+        if (typeof this._cb.onClose === 'function') {
+            this._cb.onClose();
+        }
     }
 
     /* === I/O helpers === */

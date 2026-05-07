@@ -148,7 +148,7 @@ utils.prototypeBlocks['#Motoron'] = function (pin, value, parent) {
 		pinValue = 'pin0'; // Default pin if not specified
 	}
 	return {
-		type: 'actuators_setMotorPower',
+		type: 'actuators_setFanPower',
 		fields: { PIN: pin },
 		values: { POWER: null },
 		mutations: null,

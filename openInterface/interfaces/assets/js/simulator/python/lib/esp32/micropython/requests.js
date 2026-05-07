@@ -152,7 +152,7 @@ var $builtinmodule = function (name) {
     requests.request = new Sk.builtin.func(request);
 
     var get = function (url, data, json, headers) {
-        return requests.request.tp$init([new Sk.builtin.str('GET'), url, data, json, headers])
+        return requests.request.tp$init([new Sk.builtin.str('GET'), url, data, json, headers]);
     };
     get.co_varnames = ['url', 'data', 'json', 'headers'];
     get.$defaults = [Sk.builtin.none(), Sk.builtin.none(), Sk.builtin.none()];
@@ -160,7 +160,7 @@ var $builtinmodule = function (name) {
     requests.get = new Sk.builtin.func(get);
 
     var post = function (url, data, json, headers) {
-        return requests.request.tp$init([new Sk.builtin.str('POST'), url, data, json, headers])
+        return requests.request.tp$init([new Sk.builtin.str('POST'), url, data, json, headers]);
     };
     post.co_varnames = ['url', 'data', 'json', 'headers'];
     post.$defaults = [Sk.builtin.none(), Sk.builtin.none(), Sk.builtin.none()];

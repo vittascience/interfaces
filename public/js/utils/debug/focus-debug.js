@@ -13,8 +13,11 @@ function displayFocusedElement() {
                             ? activeElement.className.trim()
                             : '';
 
-    const displayInfo = elementId + elementClasses;
-    //console.log(`[Focus] (ID: ${elementId}) (CLASSNAME: ${elementClasses})`);
+    if (!elementId && !elementClasses) {
+        // console.log(`[Focus] Element:`, activeElement);
+    } else {
+        // console.log(`[Focus] (ID: ${elementId}) (CLASSNAME: ${elementClasses})`);
+    }
 }
 
 export function forceFocusOnClassName(classname) {

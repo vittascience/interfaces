@@ -17,10 +17,7 @@ Simulator.CodeFriendly.replace_pinModules = function (code) {
 };
 
 Simulator.CodeFriendly.remove_unusedCode = function (code) {
-	// removing library imports
-	code = code.replace(IMPORT_ESP32_PCF85063TP, '');
 	// removing object inits
-	code = code.replace('multichannel_v2 = GAS_GMXXX(0x08, i2c=I2C(scl=Pin(22), sda=Pin(21)))', '');
 	code = code.replace(/(.*)UART\((.*)/g, '#$1UART($2');
 	code = code.replace(/(.*)uart_(.*)/gi, '#$1uart_$2');
 	code = code.replace(/(.*)openlog_[0-9]{1,}(.*)/gi, '$1uart$2');

@@ -81,7 +81,6 @@ var $builtinmodule = function (name) {
 			}
 			return Sk.misceval.promiseToSuspension(new Promise(function (resolve){
 				(function waitForNotBusy() {
-					
 					const busy = Simulator.Mosaic.specific.tello.isBusy;
 					// check if the Tello is busy
 					if (!busy) {

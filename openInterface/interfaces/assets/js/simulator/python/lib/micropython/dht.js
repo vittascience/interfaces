@@ -23,7 +23,7 @@ var $builtinmodule = function (name) {
 	}, 'DHTBase', []);
 
 	dht.dht_readinto = new Sk.builtin.func(function () {
-		throw new Sk.builtin.NotImplementedError("dht.dht_readinto() is not yet implemented");
+		throw new Sk.builtin.NotImplementedError("<b>dht.dht_readinto()</b> is not yet implemented");
 	});
 
 	dht.DHT11 = new Sk.misceval.buildClass(dht, function ($gbl, $loc) {

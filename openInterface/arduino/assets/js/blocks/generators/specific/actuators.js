@@ -157,6 +157,40 @@ Blockly.Arduino.actuators_setGroveRelayState = function (block) {
     return "digitalWrite(PIN_GROVE_RELAY_" + pin + ", " + state + ");" + NEWLINE;
 };
 
+Blockly.Arduino.actuators_SPDTRelay_controlState = function (block) {
+    const n = block.getFieldValue("N");
+    const relay = block.getFieldValue("RELAY");
+    const state = Blockly.Arduino.valueToCode(block, "STATE", Blockly.Arduino.ORDER_ATOMIC) || 'LOW';
+    Blockly.Arduino.addInclude('multi_channel_relay', INCLUDE_MULTI_CHANNEL_RELAY);
+    Blockly.Arduino.addDefine("NORMALLY_CLOSED", "#define APP_NC 1 // normally close (appliance is ON by default when arduino is OFF)");
+    Blockly.Arduino.addDefine("NORMALLY_OPEN", "#define APP_NO 0 // normally open (appliance is OFF by default when arduino is OFF)");
+    Blockly.Arduino.addDeclaration('applianceSettings', `bool applianceSettings[${parseInt(n)}] = {${Array(parseInt(n)).fill("APP_NO").join(", ")}};`);
+    Blockly.Arduino.addDeclaration('multiRelay', "Multi_Channel_Relay multiRelay;");
+    Blockly.Arduino.addSetup('multiRelay', "multiRelay.begin(0x11);");
+    Blockly.Arduino.addFunction('multiRelay_control', FUNCTIONS_ARDUINO.MULTI_RELAY_CONTROL);
+    if (relay === "ALL") {
+        return "for (uint8_t r = 0; r < " + parseInt(n) + "; r++) {" + NEWLINE + "  multiRelay_control(r + 1, " + state + ");" + NEWLINE + "}" + NEWLINE;
+    }
+    return "multiRelay_control(" + relay + ", " + state + ");" + NEWLINE;
+};
+
+Blockly.Arduino.actuators_SPDTRelay_defineNCNO = function (block) {
+    const n = block.getFieldValue("N");
+    const relay = block.getFieldValue("RELAY");
+    const normally = block.getFieldValue("NORMALLY");
+    Blockly.Arduino.addInclude('multi_channel_relay', INCLUDE_MULTI_CHANNEL_RELAY);
+    Blockly.Arduino.addDefine("NORMALLY_CLOSED", "#define APP_NC 1 // normally close (appliance is ON by default when arduino is OFF)");
+    Blockly.Arduino.addDefine("NORMALLY_OPEN", "#define APP_NO 0 // normally open (appliance is OFF by default when arduino is OFF)");
+    Blockly.Arduino.addDeclaration('applianceSettings', `bool applianceSettings[${parseInt(n)}] = {${Array(parseInt(n)).fill("APP_NO").join(", ")}};`);
+    Blockly.Arduino.addDeclaration('multiRelay', "Multi_Channel_Relay multiRelay;");
+    Blockly.Arduino.addSetup('multiRelay', "multiRelay.begin(0x11);");
+    Blockly.Arduino.addFunction('multiRelay_control', FUNCTIONS_ARDUINO.MULTI_RELAY_CONTROL);
+    if (relay === "ALL") {
+        return "for (uint8_t r = 0; r < " + parseInt(n) + "; r++) {" + NEWLINE + "  applianceSettings[r] = " + normally + ";" + NEWLINE + "}" + NEWLINE;
+    }
+    return "applianceSettings[" + (relay - 1) + "]  = " + normally + ";" + NEWLINE;
+};
+
 // GROVE BUZZER _ CONTROL STATE BLOCK
 Blockly.Arduino.actuators_controlGroveBuzzerState = function (block) {
     const pin = block.getFieldValue("PIN");

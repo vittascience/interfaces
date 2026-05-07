@@ -41,11 +41,11 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
     },
     {
         "kind": "category",
-        "toolboxitemid": "actuators",
-        "name": "%{BKY_CATEGORY_ACTUATORS}",
-        "style": "actuators_category",
+        "toolboxitemid": "music",
+        "name": "%{BKY_CATEGORY_MUSIC}",
+        "style": "music_category",
         "cssConfig": {
-            "icon": "icon_blockly fas fa-fan"
+            "icon": "icon_blockly fas fa-music"
         },
         "contents": []
     },
@@ -228,7 +228,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         },
     ],
-    "actuators": [
+    "music": [
         {
             "blocks": [
                 'actuators_audio_play_melody',
@@ -246,7 +246,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
     ],
     "robots": [
         {
-            "label": "%{BKY_SUBCATEGORY_ROCKY_MOTORS}",
+            "label": "%{BKY_SUBCATEGORY_MOTORS}",
             "blocks": [
                 "robots_stop",
                 "robots_move",
@@ -255,7 +255,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_ROCKY_SENSORS}",
+            "label": "%{BKY_SUBCATEGORY_SENSORS}",
             "blocks": [
                 "robots_sensors_get_rgb",
                 "robots_sensors_is_color",
@@ -319,21 +319,24 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'text_split',
                 'text_length',
                 'text_isEmpty',
+                'text_includesSubstr',
                 'text_indexOf',
                 'text_charAt',
                 'text_getSubstring',
+                'text_count_characters',
                 'text_changeCase',
                 'text_trim',
                 'text_count',
                 'text_replace',
-                'text_reverse'
+                'text_reverse',
+                'text_random_string'
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_TEXT_ANALYSIS}",
+            "label": "%{BKY_SUBCATEGORY_ENCRYPTION}",
             "blocks": [
-                'text_count_characters',
-                'text_random_string'
+                'text_caesar_cipher',
+                'text_caesar_cipher_brute_force'
             ],
         }
     ],

@@ -19,10 +19,13 @@ class Controller extends Observable {
 		this._navigation.init();
 		this.simulationFor = {};
 
-
+		// Vérifier les capacités du navigateur au démarrage
+		this.browserCapabilities = this.checkBrowserCapabilities();
 	}
+
+
 	init() {
-		
+
 		this._model.on('dataLoaded', 'questionsReady', () => {
 			this.trigger('startQuestionnaire')
 		})
@@ -41,19 +44,51 @@ class Controller extends Observable {
 			this.shareMyImpact()
 			this.printController()
 		})
-		this._view.on('infoIconDeviceAdded', 'setInfoIconDeviceController', () => {
-			this.setInfoIconDeviceController()
-		})
-		this._view.on('infoIconServiceAdded', 'setInfoIconServiceController', (service) => {
-			this.setInfoIconServiceController(service)
-		})
 		this._view.on('infoIconAdded', 'iconController', (id) => {
-			this.infoIconController(id)
+			this.setupModalInfoIcon(id)
 		})
 
+		// Gestion du clic sur la flèche de défilement en JavaScript classique
+		const indexScrollArrow = document.getElementById('index-scroll-arrow');
+		if (indexScrollArrow) {
+			indexScrollArrow.addEventListener('click', () => {
+				this.trigger('arrowClicked', 'scrollArrow');
+			});
+		}
 	}
 	/**
-/**
+ * Vérifie les capacités du navigateur pour les fonctionnalités de partage
+ * @returns {object} Objet contenant les capacités supportées
+ */
+	checkBrowserCapabilities() {
+		const capabilities = {
+			webShare: !!navigator.share,
+			canShare: !!navigator.canShare,
+			fileSharing: false,
+			hasClipboard: !!navigator.clipboard,
+			hasClipboardWrite: !!(navigator.clipboard && navigator.clipboard.writeText)
+		};
+
+		// Test de support du partage de fichiers
+		if (capabilities.webShare && capabilities.canShare) {
+			try {
+				// Test avec un fichier fictif
+				const testFile = new File(['test'], 'test.txt', { type: 'text/plain' });
+				capabilities.fileSharing = navigator.canShare({ files: [testFile] });
+			} catch (error) {
+				console.warn('Cannot test file sharing capability:', error);
+				capabilities.fileSharing = false;
+			}
+		}
+
+		return capabilities;
+	}
+
+	getBrowserCapabilities() {
+		return this.browserCapabilities;
+	}
+
+	/**
  * Controller for home page checkbox state changes
  * @param {HTMLInputElement} checkbox - The checkbox element
  * @param {'device'|'service'} type - The type of element (device or service)
@@ -63,6 +98,15 @@ class Controller extends Observable {
 			console.error('Invalid parameters for checkBoxController');
 			return;
 		}
+		// checkbox.addEventListener('keydown', (e) => {
+		// 	if (e.key === 'Enter' || e.key === ' ') {
+		// 		e.preventDefault();
+		// 		// Toggle checkbox state
+		// 		e.target.checked = !e.target.checked;
+		// 		// Dispatch change event to trigger the logic
+		// 		checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+		// 	}
+		// });
 
 		checkbox.addEventListener('change', (e) => {
 			try {
@@ -111,7 +155,7 @@ class Controller extends Observable {
 		return {
 			id,
 			inputUser: {
-				condition: "Neuf",
+				condition: "new",
 				yearsUsage,
 				change: remainingLife,
 				day_time: Number(this._model.getTheoreticalUseById(id)) || 0, // Fallback to 0 if undefined
@@ -217,7 +261,6 @@ class Controller extends Observable {
 			'condition': 'condition',
 			'audio': 'quality'
 		};
-
 		input.addEventListener('change', (e) => {
 			try {
 				const checkedInput = input.querySelector('input[type="radio"]:checked');
@@ -237,6 +280,72 @@ class Controller extends Observable {
 				console.error('Error in selectController:', error);
 			}
 		});
+		input.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter' || e.key === ' ') {
+				e.preventDefault(); // Empêche le comportement par défaut
+
+				try {
+					let targetInput = null;
+
+					// Si la cible est un label, trouve l'input radio associé
+					if (e.target.tagName === 'LABEL') {
+						const labelFor = e.target.getAttribute('for') || e.target.getAttribute('htmlFor');
+						if (labelFor) {
+							targetInput = document.getElementById(labelFor);
+						}
+					}
+					// Si la cible est déjà un input radio
+					else if (e.target.type === 'radio') {
+						targetInput = e.target;
+					}
+
+					if (!targetInput) return;
+
+					// Coche le radio button
+					targetInput.checked = true;
+
+					const inputType = Object.keys(inputPropertyMap).find(key => input.id.includes(key));
+					if (inputType) {
+						userSelection.inputUser[inputPropertyMap[inputType]] = targetInput.value;
+					}
+
+					// Trigger the appropriate event
+					const eventName = type === 'device'
+						? 'deviceConsumChanged'
+						: 'serviceConsumChanged';
+					this.trigger(eventName, userSelection, id);
+				} catch (error) {
+					console.error('Error in selectController keydown:', error);
+				}
+			}
+			if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+				e.preventDefault();
+				const radios = input.querySelectorAll('input[type="radio"]');
+				let currentIndex = Array.from(radios).findIndex(r => r.checked);
+				if (e.key === 'ArrowLeft') {
+					currentIndex = (currentIndex > 0) ? currentIndex - 1 : radios.length - 1;
+				} else if (e.key === 'ArrowRight') {
+					currentIndex = (currentIndex < radios.length - 1) ? currentIndex + 1 : 0;
+				}
+
+				// Coche le nouveau radio button
+				radios[currentIndex].checked = true;
+				// Met le focus sur le nouveau radio button
+				radios[currentIndex].focus();
+
+				// Déclenche l'événement de changement
+				const inputType = Object.keys(inputPropertyMap).find(key => input.id.includes(key));
+				if (inputType) {
+					userSelection.inputUser[inputPropertyMap[inputType]] = radios[currentIndex].value;
+				}
+
+				// Trigger the appropriate event
+				const eventName = type === 'device'
+					? 'deviceConsumChanged'
+					: 'serviceConsumChanged';
+				this.trigger(eventName, userSelection, id);
+			}
+		});
 	}
 
 	/**
@@ -245,7 +354,6 @@ class Controller extends Observable {
 	 * @param {'device'|'service'} type - The type of element being controlled
 	 */
 	inputController(input, type) {
-		// Input validation
 		if (!input?.id || !['device', 'service'].includes(type)) {
 			throw new Error('Invalid input parameters');
 		}
@@ -261,8 +369,8 @@ class Controller extends Observable {
 		const step = Number(input.step);
 		let value = Number(inputElement.value);
 
-		// Cache DOM elements for buttons
-		const buttonId = input.id.split('_').slice(1, 4).join('_');
+		// CORRECTION : Sélection correcte des boutons
+		const buttonId = input.id.replace('input_', '');
 		const minusButton = document.querySelector(`#minus-${buttonId}`);
 		const plusButton = document.querySelector(`#plus-${buttonId}`);
 
@@ -276,6 +384,7 @@ class Controller extends Observable {
 			value = newValue;
 			inputElement.value = value;
 			this.userSelectsUpdate(userSelection, input, value, type);
+			this._view.inputUpdateUnits(input, value);
 			return true;
 		};
 
@@ -284,20 +393,50 @@ class Controller extends Observable {
 			validateAndUpdate(Number(e.target.value));
 		});
 
-		// Minus button handler
-		minusButton?.addEventListener('click', () => {
-			validateAndUpdate(value - step);
+		// Input input handler (pour les changements en temps réel)
+		inputElement.addEventListener('input', (e) => {
+			const newValue = Number(e.target.value);
+			if (!isNaN(newValue)) {
+				validateAndUpdate(newValue);
+			}
 		});
 
-		// Plus button handler
-		plusButton?.addEventListener('click', () => {
-			validateAndUpdate(value + step);
-		});
+		// Minus button handlers
+		if (minusButton) {
+			minusButton.addEventListener('click', () => {
+				validateAndUpdate(value - step);
+				setTimeout(() => minusButton.focus(), 100);
+			});
 
-		// Initial validation
+			minusButton.addEventListener('keydown', (e) => {
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault();
+					validateAndUpdate(value - step);
+					setTimeout(() => minusButton.focus(), 100);
+				}
+			});
+		}
+
+		// Plus button handlers
+		if (plusButton) {
+			plusButton.addEventListener('click', () => {
+				validateAndUpdate(value + step);
+				setTimeout(() => plusButton.focus(), 100);
+			});
+
+			plusButton.addEventListener('keydown', (e) => {
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault();
+					validateAndUpdate(value + step);
+					setTimeout(() => plusButton.focus(), 100);
+				}
+			});
+		}
+
+		// Initial validation and button state
 		validateAndUpdate(value);
-	}
 
+	}
 
 
 	/**
@@ -366,78 +505,162 @@ class Controller extends Observable {
 			}
 		});
 	}
+
+
+
 	/**
-	 * Sets up the tooltip controller for device information icons
-	 * Ensures proper event handling and cleanup
+	 * Sets up modal behavior with focus trap for info icons
+	 * @param {string} id - The container element ID
 	 */
-	setInfoIconDeviceController() {
-		const infoIcon = document.querySelector('#shareElement');
-		// Validate element exists
-		if (!infoIcon) {
-			console.warn('Info icon element not found');
+	setupModalInfoIcon(id) {
+		const container = document.querySelector(`#${id}`);
+		if (!container) {
+			console.warn(`Container with id ${id} not found`);
 			return;
 		}
 
-		// Clean up previous event listener to avoid duplicates
-		infoIcon.removeEventListener('click', this.tooltipManager);
-
-		// Add new event listener with proper binding
-		infoIcon.addEventListener('click', this.tooltipManager);
-
-		// Add ARIA attributes for accessibility
-		infoIcon.setAttribute('aria-label', 'Show device information');
-		infoIcon.setAttribute('role', 'button');
-		infoIcon.setAttribute('tabindex', '0');
-	}
+		const iconButton = container.querySelector('button.info-btn');
+		let closeButton = null
 
 
-	/**
-	 * Manages tooltip display for CO2 information
-	 * @param {Event} e - The click event
-	 */
-	tooltipManager = (e) => {
-		if (!e.target.classList.contains('fa-circle-question') || e.target.classList.contains('co2-tooltip')) {
-			return;
+		// Fonction pour piéger le focus dans l'info-block
+		const trapFocus = (infoBlock) => {
+			const focusableElements = infoBlock.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+			const firstFocusable = focusableElements[0];
+			const lastFocusable = focusableElements[focusableElements.length - 1];
+
+			const handleFocusTrap = (e) => {
+				if (e.key === 'Tab') {
+					if (e.shiftKey) {
+						// Shift + Tab - aller vers l'élément précédent
+						if (document.activeElement === firstFocusable) {
+							e.preventDefault();
+							lastFocusable.focus();
+						}
+					} else {
+						// Tab - aller vers l'élément suivant
+						if (document.activeElement === lastFocusable) {
+							e.preventDefault();
+							firstFocusable.focus();
+						}
+					}
+				}
+			};
+
+			// Ajouter l'écouteur de piège de focus
+			infoBlock.addEventListener('keydown', handleFocusTrap);
+
+			// Retourner une fonction de nettoyage
+			return () => {
+				infoBlock.removeEventListener('keydown', handleFocusTrap);
+			};
+		};
+
+		let cleanupFocusTrap = null;
+
+		if (iconButton != null) {
+
+			// Gestion du clic
+			iconButton.addEventListener('click', (e) => {
+				e.preventDefault();
+				const spanElement = container.querySelector('.info-block');
+				if (spanElement) {
+					const isVisible = !spanElement.classList.contains('d-none');
+					if (isVisible) {
+						// Si déjà ouvert, ferme l'info-block
+						if (cleanupFocusTrap) {
+							cleanupFocusTrap();
+							cleanupFocusTrap = null;
+							//}
+							// if (closeButton) {
+							// 	closeButton.click();
+						} else {
+							spanElement.classList.add('d-none');
+							spanElement.classList.remove('d-block');
+							iconButton.classList.remove('d-none');
+						}
+					} else {
+						// Si fermé, ouvre l'info-block
+						spanElement.classList.remove('d-none');
+						spanElement.classList.add('d-block');
+						iconButton.classList.add('d-none');
+						closeButton = container.querySelector('.info-block button');
+						this.infoBlockCloseButtonController(closeButton, container, iconButton)
+						// Active le piège de focus
+						cleanupFocusTrap = trapFocus(spanElement);
+
+						// Met le focus sur le bouton de fermeture
+						if (closeButton) closeButton.focus();
+					}
+				}
+			});
+
+			// Gestion du clavier
+			iconButton.addEventListener('keydown', (e) => {
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault();
+					iconButton.click();
+				}
+			});
+			iconButton.addEventListener('mouseover', (e) => {
+				iconButton.setAttribute('title', "Cliquer pour voir les détails de l'impact");
+			});
+			iconButton.addEventListener('mouseout', (e) => {
+				iconButton.removeAttribute('title');
+			});
+			iconButton.addEventListener('focus', (e) => {
+				iconButton.setAttribute('title', "Cliquer pour voir les détails de l'impact");
+			});
+			iconButton.addEventListener('blur', (e) => {
+				iconButton.removeAttribute('title');
+			});
+
 		}
-		// Vérifie si l'élément cliqué est dans un parent `.clickable`
-		const parentClickable = e.target.closest('.clickable');
-		e.stopPropagation();
-		if (!parentClickable) return;
-		const type = parentClickable.id.split('-')[0]
-		const name = parentClickable.id.split('-')[2]; // Assurez-vous que cet ID suit toujours ce format
-		// Récupère ou affiche un nouveau tooltip
-		const tooltip = document.querySelector(`#co2-tooltip-${name}`);
-		if (tooltip) {
-			tooltip.classList.toggle('d-none')
+
+
+	}
+	infoBlockCloseButtonController(closeButton, container, iconButton) {
+
+		if (closeButton != null) {
+			// Gestion du clic
+			closeButton.addEventListener('click', (e) => {
+				e.preventDefault();
+				const spanElement = container.querySelector('.info-block');
+				if (spanElement) {
+					// // Nettoie le piège de focus
+					// if (cleanupFocusTrap) {
+					// 	cleanupFocusTrap();
+					// 	cleanupFocusTrap = null;
+					// }
+
+					spanElement.classList.add('d-none');
+					spanElement.classList.remove('d-block');
+					if (iconButton) {
+						iconButton.classList.remove('d-none');
+						// Remet le focus sur le bouton d'information
+						iconButton.focus();
+					}
+				}
+			});
+
+			// Gestion du clavier
+			closeButton.addEventListener('keydown', (e) => {
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault();
+					closeButton.click();
+				}
+				else if (e.key === 'Escape') {
+					e.preventDefault();
+					closeButton.click();
+				}
+			});
 
 		}
-		const tip = type === 'device' ? this._model.getTipDevice(name) : this._model.getTipService(name)
-		tooltip.innerHTML = `${name}: ${this._view.loopOverParagraphs(tip)}`;
 	}
 
 	/**
- * Controls info icon behavior and tooltip display
- * @param {string} id - The container element ID
- */
-	infoIconController(id) {
-		const container = document.querySelector(`#${id}`)
-		const icon = container.querySelector(`#${id} i`)
-		const button = container.querySelector("button")
-		if (icon != null) icon.addEventListener('click', (e) => {
-			const spanElement = document.querySelector(`#${id} span`);
-			spanElement.classList.remove('d-none');
-			spanElement.classList.add('d-block');
-		})
-		if (button != null) button.addEventListener('click', (e) => {
-			const spanElement = document.querySelector(`#${id} span`);
-			spanElement.classList.add('d-none');
-			spanElement.classList.remove('d-block');
-		})
-	}
-
-	/**
-	 * Handles sharing and downloading the impact report
-	 */
+* Handles sharing and downloading the impact report
+*/
 	async shareMyImpact() {
 		const container = document.getElementById('shareElement');
 		if (!container) {
@@ -469,27 +692,42 @@ class Controller extends Observable {
 		// Share functionality
 		const shareButton = document.querySelector('#shareMyImpact');
 		if (shareButton) {
-			shareButton.addEventListener('click', async () => {
+			const shareHandler = async () => {
 				try {
-					if (navigator.share) {
+					// Utiliser les capacités vérifiées au démarrage
+					if (this.browserCapabilities.webShare && this.browserCapabilities.fileSharing) {
 						await navigator.share({
 							title: `Mon Impact CO₂ Numérique - ${new Date().toLocaleDateString()}`,
 							text: 'Découvrez mon impact environnemental numérique',
 							files: [file],
 							url: location.origin + '/public/co2-calculator'
 						});
-						console.log('Share successful');
-					} else {
-						// Fallback for browsers without Web Share API
+					} else if (this.browserCapabilities.webShare) {
+						// Fallback: partage sans fichier si les fichiers ne sont pas supportés
+						await navigator.share({
+							title: `Mon Impact CO₂ Numérique - ${new Date().toLocaleDateString()}`,
+							text: 'Découvrez mon impact environnemental numérique - ' + (location.origin + '/public/co2-calculator'),
+							url: location.origin + '/public/co2-calculator'
+						});
+						// Télécharger le fichier séparément
 						shareTools._download(file.name, file);
-						console.log('Download initiated as fallback');
+					} else {
+						// Fallback pour les navigateurs sans Web Share API
+						shareTools._download(file.name, file);
 					}
 				} catch (error) {
 					if (error.name !== 'AbortError') {
-						console.error('Sharing failed:', error);
 						// Fallback to download if sharing fails
 						shareTools._download(file.name, file);
 					}
+				}
+			};
+
+			shareButton.addEventListener('click', shareHandler);
+			shareButton.addEventListener('keydown', (e) => {
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault();
+					shareHandler();
 				}
 			});
 		}
@@ -497,8 +735,16 @@ class Controller extends Observable {
 		// Download functionality
 		const downloadButton = document.querySelector('#captureMyImpact');
 		if (downloadButton) {
-			downloadButton.addEventListener('click', () => {
+			const downloadHandler = () => {
 				shareTools._download(file.name, file);
+			};
+
+			downloadButton.addEventListener('click', downloadHandler);
+			downloadButton.addEventListener('keydown', (e) => {
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault();
+					downloadHandler();
+				}
 			});
 		}
 	}
@@ -507,41 +753,112 @@ class Controller extends Observable {
 	 * Handles print functionality for the impact report
 	 */
 	printController() {
-		const printButton = document.querySelector('#printMyImpact');
-		if (!printButton) return;
-
-		printButton.addEventListener('click', async () => {
-			const questionnaireContainer = document.querySelector('#question-section');
-			const fieldset = questionnaireContainer?.querySelector('fieldset');
-			const prevButton = document.querySelector('#prev');
-
-			// Hide elements temporarily for printing
-			fieldset?.classList.add('d-none');
-			prevButton?.classList.add('d-none');
-
-			try {
-				if (!questionnaireContainer) {
-					throw new Error('Target element not found');
-				}
-
-				const image = await shareTools.captureImage(questionnaireContainer);
-				await shareTools.printTarget(image);
-
-
-			} catch (error) {
-				console.error('Error in print process:', error);
-				// Consider showing user feedback here
-			} finally {
-				// Restore elements visibility
-				setTimeout(() => {
-					fieldset?.classList.remove('d-none');
-					prevButton?.classList.remove('d-none');
-				}, 1000);
+		// Attendre que le DOM soit prêt et le bouton créé
+		setTimeout(() => {
+			const printButton = document.querySelector('#printMyImpact');
+			if (!printButton) {
+				console.warn('Print button not found');
+				return;
 			}
-		});
-	}
+
+			const printHandler = async () => {
+				const questionnaireContainer = document.querySelector('#questionnaire-container');
+				const fieldset = questionnaireContainer?.querySelector('fieldset');
+				const prevButton = document.querySelector('#prev');
+				const nextButton = document.querySelector('#next');
+		
+
+				// Small delay to ensure visibility changes take effect
+				await new Promise(r => setTimeout(r, 300));	
+
+
+				try {
+					if (!questionnaireContainer) {
+						throw new Error('Target element not found');
+					}
 	
+						fieldset?.classList.add('d-none');
+						prevButton?.classList.add('d-none');
+						nextButton?.classList.add('d-none');
+						questionnaireContainer.querySelectorAll('button').forEach(btn => btn.classList.add('d-none'));
 
 
+		
+					// Utiliser directement printTarget avec l'élément HTML
+					await shareTools.printTarget(questionnaireContainer, 'Mon Impact CO₂ Numérique');
+
+				} catch (error) {
+					console.error('Error in print process:', error);
+					// Consider showing user feedback here
+				} finally {
+					// Restore elements visibility
+					setTimeout(() => {
+						fieldset?.classList.remove('d-none');
+						prevButton?.classList.remove('d-none');
+						nextButton?.classList.remove('d-none');
+						questionnaireContainer.querySelectorAll('button').forEach(btn => btn.classList.remove('d-none'));
+					}, 1000);
+				}
+			};
+
+			// // Supprimer les anciens écouteurs s'ils existent
+			printButton.removeEventListener('click', printHandler);
+			printButton.removeEventListener('keydown', printHandler);
+
+			printButton.addEventListener('keydown', (e) => {
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault();
+					printButton.click(); // Déclenche l'événement click
+				}
+			});
+			printButton.addEventListener('click', (e) => {
+				e.preventDefault();
+				printHandler();
+			});
+
+			// Assurer que le bouton est focalisable
+			if (!printButton.hasAttribute('tabindex')) {
+				printButton.setAttribute('tabindex', '0');
+			}
+		}, 100);
+	}
+	async downloadPDF() {
+		const container = document.getElementById('shareElement');
+		document.querySelector('#navigation').classList.add('d-none');
+
+		if (!container) {
+			console.error('Share container not found');
+			return;
+		}
+
+		// Generate the image file
+		let file;
+		try {
+			container.scrollIntoView({ block: 'start', inline: 'nearest' });
+			await new Promise(r => setTimeout(r, 500)); // attendre que tout s'affiche
+
+			const canvas = await html2canvas(container, {
+				useCORS: true,
+				backgroundColor: '#ffffff', // utile si fond transparent
+			});
+			const imgData = canvas.toDataURL('image/png');
+
+			const pdf = new jspdf.jsPDF({
+				orientation: 'portrait',
+				unit: 'px',
+				format: [canvas.width, canvas.height]
+			});
+
+			pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+			pdf.save('Green conseils de Verdinum.pdf');
+
+			document.querySelector('#navigation').classList.remove('d-none');
+
+		} catch (error) {
+			console.error('Error generating impact image:', error);
+			document.querySelector('#navigation').classList.remove('d-none');
+			return;
+		}
+	}
 }
 export default Controller

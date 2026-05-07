@@ -40,9 +40,317 @@ Blockly.MESSAGES = {
     hello_cyberpi: 'مرحبا بكم في CyberPi !',
     label: 'ملصق',
     // For Python
-    modelPath: "https://en.vittascience.com/ia/model/644237cc1072c/",
-    modelSoundPath: "https://en.vittascience.com/ia/model/64413850632bb/",
-    modelPosturePath: 'https://en.vittascience.com/ia/model/66043c5502768/'
+    modelPath: "https://vittascience.com/ia/model/644237cc1072c/",
+    modelSoundPath: "https://vittascience.com/ia/model/64413850632bb/",
+    modelPosturePath: 'https://vittascience.com/ia/model/66043c5502768/'
 };
 
-Blockly.Msg['CATEGORY_AI_CAMERAS'] = 'كاميرات الذكاء الاصطناعي';
+// Toolbox baic category names.
+Blockly.Msg['CATEGORY_LOGIC'] = 'المنطق';
+Blockly.Msg['CATEGORY_LOOPS'] = 'الحلقات';
+Blockly.Msg['CATEGORY_MATH'] = 'الرياضيات';
+Blockly.Msg['CATEGORY_TEXT'] = 'النص';
+Blockly.Msg['CATEGORY_VARIABLES'] = 'المتغيرات';
+Blockly.Msg['CATEGORY_LISTS'] = 'القوائم';
+Blockly.Msg['CATEGORY_PROCEDURES'] = 'الدوال';
+Blockly.Msg['CATEGORY_EXCEPTION'] = 'الاستثناءات';
+Blockly.Msg['CATEGORY_COLOUR'] = 'اللون';
+Blockly.Msg['CATEGORY_DICTIONARIES'] = 'القواميس';
+// Toolbox hardware category names.
+Blockly.Msg['CATEGORY_DISPLAY'] = 'العرض';
+Blockly.Msg['CATEGORY_IO'] = 'الإدخال/الإخراج';
+Blockly.Msg['CATEGORY_COMMUNICATION'] = 'الاتصال';
+Blockly.Msg['CATEGORY_NETWORK'] = 'الشبكة';
+Blockly.Msg['CATEGORY_SENSORS'] = 'المستشعرات';
+Blockly.Msg['CATEGORY_ACTUATORS'] = 'المشغلات';
+Blockly.Msg['CATEGORY_ROBOTS'] = 'الروبوتات';
+Blockly.Msg['CATEGORY_VITTAIA'] = 'ذكاء اصطناعي';
+Blockly.Msg['CATEGORY_TIME'] = 'الوقت';
+// Toolbox scratch mode
+Blockly.Msg['CATEGORY_APPEARANCE'] = 'المظهر';
+Blockly.Msg['CATEGORY_SOUND'] = 'الصوت';
+Blockly.Msg['CATEGORY_CONTROL'] = 'التحكم';
+Blockly.Msg['CATEGORY_OPERATORS'] = 'العمليات';
+Blockly.Msg['CATEGORY_EVENTS'] = 'الأحداث';
+// Specific categories
+Blockly.Msg['CATEGORY_MOVEMENT'] = 'الحركة';
+Blockly.Msg['CATEGORY_UTILITY'] = 'الأدوات';
+Blockly.Msg['CATEGORY_GAME'] = 'اللعبة';
+Blockly.Msg['CATEGORY_TOOL'] = 'الأدوات';
+Blockly.Msg['CATEGORY_PROCESS'] = 'العملية';
+Blockly.Msg['CATEGORY_VISION'] = 'الرؤية';
+Blockly.Msg['CATEGORY_VOICE_INTERACTIONS'] = 'الصوت';
+Blockly.Msg['CATEGORY_CAMERA'] = 'الكاميرا';
+Blockly.Msg['CATEGORY_TURTLE'] = 'السلحفاة';
+Blockly.Msg['CATEGORY_GRAPHICS'] = 'الرسوم';
+Blockly.Msg['CATEGORY_NUMPY'] = 'Numpy';
+Blockly.Msg['CATEGORY_ACTIONS'] = 'الإجراءات';
+Blockly.Msg['CATEGORY_SCREEN'] = 'الشاشة';
+Blockly.Msg['CATEGORY_DRONE'] = 'الطائرة بدون طيار';
+Blockly.Msg['CATEGORY_MUSIC'] = 'الموسيقى';
+
+// Toolbox hardware subcategories
+// DISPLAY
+Blockly.Msg['SUBCATEGORY_DISPLAY'] = 'العرض';
+Blockly.Msg['SUBCATEGORY_DISPLAYS_LCD'] = 'شاشة LCD';
+Blockly.Msg['SUBCATEGORY_DISPLAYS_OLED'] = 'شاشة OLED';
+Blockly.Msg['SUBCATEGORY_LED'] = 'LED';
+Blockly.Msg['SUBCATEGORY_NEOPIXEL'] = 'Neopixel';
+Blockly.Msg['SUBCATEGORY_DISPLAYS_LED_MATRIX'] = 'مصفوفة LED';
+Blockly.Msg['SUBCATEGORY_DISPLAYS_RGB_LED_MATRIX'] = 'مصفوفة LED RGB';
+Blockly.Msg['SUBCATEGORY_CHAINABLE_LED_RGB'] = 'LED RGB متسلسلة';
+// IO
+Blockly.Msg['SUBCATEGORY_IO'] = 'الإدخال/الإخراج';
+Blockly.Msg['SUBCATEGORY_TIME'] = 'الوقت';
+Blockly.Msg['SUBCATEGORY_EXTERNAL_INPUTS'] = 'مدخلات خارجية';
+Blockly.Msg['SUBCATEGORY_PINS'] = 'الدبابيس';
+Blockly.Msg['SUBCATEGORY_EVENTS'] = 'الأحداث';
+// COMMUNICATION
+Blockly.Msg['SUBCATEGORY_SERIAL_CONNECTION'] = 'اتصال تسلسلي';
+Blockly.Msg['SUBCATEGORY_GPS'] = 'GPS';
+Blockly.Msg['SUBCATEGORY_NFC'] = 'NFC';
+Blockly.Msg['SUBCATEGORY_LORA'] = 'LoRa';
+Blockly.Msg['SUBCATEGORY_DATA_LOGGING'] = 'تسجيل البيانات';
+Blockly.Msg['SUBCATEGORY_INTEGRATED_BT'] = 'بلوتوث مدمج';
+Blockly.Msg['SUBCATEGORY_EXTERNAL_BLUETOOTH'] = 'وحدات بلوتوث خارجية';
+Blockly.Msg['SUBCATEGORY_TRACKING_MODULES'] = 'وحدات التتبع';
+Blockly.Msg['SUBCATEGORY_UART'] = 'UART';
+Blockly.Msg['SUBCATEGORY_WIRELESS_COMMUNICATION'] = 'اتصال لاسلكي';
+Blockly.Msg['SUBCATEGORY_IR_COMMUNICATION'] = 'الاتصالات بالأشعة تحت الحمراء';
+Blockly.Msg['SUBCATEGORY_INTEGRATED_RADIO'] = 'راديو مدمج';
+// NETWORK
+Blockly.Msg['SUBCATEGORY_WIFI'] = 'واي فاي';
+Blockly.Msg['SUBCATEGORY_SERVER'] = 'خادم';
+Blockly.Msg['SUBCATEGORY_CLIENT'] = 'عميل';
+Blockly.Msg['SUBCATEGORY_WEB_PAGE'] = 'إنشاء صفحة ويب';
+Blockly.Msg['SUBCATEGORY_DATA_WEB_PAGE'] = 'بيانات صفحة الويب';
+Blockly.Msg['SUBCATEGORY_HTTP'] = 'HTTP';
+Blockly.Msg['SUBCATEGORY_UMAIL'] = 'بريد';
+Blockly.Msg['SUBCATEGORY_MQTT'] = 'MQTT';
+// SENSORS
+Blockly.Msg['SUBCATEGORY_SENSORS'] = 'المستشعرات';
+Blockly.Msg['SUBCATEGORY_SENSORS_GAS'] = 'مستشعرات الغاز';
+Blockly.Msg['SUBCATEGORY_SENSORS_CLIMATE'] = 'مستشعرات الطقس';
+Blockly.Msg['SUBCATEGORY_SENSORS_SOUNDLIGHT'] = 'مستشعرات الصوت والضوء';
+Blockly.Msg['SUBCATEGORY_SENSORS_DISTANCEMOVEMENT'] = 'مستشعرات المسافة والحركة';
+Blockly.Msg['SUBCATEGORY_SENSORS_OTHER'] = 'مستشعرات أخرى';
+// ACTUATORS
+Blockly.Msg['SUBCATEGORY_MOTORS'] = 'المحركات';
+Blockly.Msg['SUBCATEGORY_MUSIC'] = 'الموسيقى';
+Blockly.Msg['SUBCATEGORY_MOSFET'] = 'MOSFET';
+Blockly.Msg['SUBCATEGORY_ACTUATORS_OTHER'] = 'مشغلات أخرى';
+// ROBOTS
+Blockly.Msg['SUBCATEGORY_SERVOMOTORS'] = 'سيرفو موتور';
+Blockly.Msg['SUBCATEGORY_DETECTION'] = 'كشف';
+Blockly.Msg['SUBCATEGORY_CAMERA'] = 'كاميرا';
+// IA
+Blockly.Msg['SUBCATEGORY_CAMERAS'] = 'الكاميرات';
+Blockly.Msg['SUBCATEGORY_SENSOR_DATA'] = 'بيانات المستشعر';  
+Blockly.Msg['SUBCATEGORY_VITTAIA_SENSOR_DATA'] = 'بيانات المستشعر ذكاء';
+Blockly.Msg['SUBCATEGORY_VITTAIA_IMAGE'] = 'ذكاء اصطناعي - صورة';
+Blockly.Msg['SUBCATEGORY_VITTAIA_POSTURE'] = 'ذكاء اصطناعي - وضعية';
+Blockly.Msg['SUBCATEGORY_VITTAIA_SOUND'] = 'ذكاء اصطناعي - صوت';
+Blockly.Msg['SUBCATEGORY_VITTAIA_TEXT'] = 'ذكاء اصطناعي - نص';
+// Others
+Blockly.Msg['SUBCATEGORY_LOGIC'] = Blockly.Msg['CATEGORY_LOGIC'];
+Blockly.Msg['SUBCATEGORY_LOOPS'] = Blockly.Msg['CATEGORY_LOOPS'];
+Blockly.Msg['SUBCATEGORY_ENCRYPTION'] = 'التشفير';
+Blockly.Msg['SUBCATEGORY_CONSOLE'] = 'وحدة التحكم';
+Blockly.Msg['SUBCATEGORY_BUTTON'] = 'زر';
+Blockly.Msg['SUBCATEGORY_INFRARED'] = 'أشعة تحت حمراء';
+Blockly.Msg['SUBCATEGORY_MICROPHONE'] = 'ميكروفون';
+Blockly.Msg['SUBCATEGORY_COMPUTER'] = 'حاسوب';
+
+// Arduino
+Blockly.Msg['SUBCATEGORY_BUILTIN_LED_MATRIX'] = 'مصفوفة LED مدمجة';
+Blockly.Msg['SUBCATEGORY_I2C_MOTOR_DRIVER'] = 'مشغل محرك I2C';
+Blockly.Msg['SUBCATEGORY_MINI_I2C_MOTOR_DRIVER'] = 'مشغل محرك I2C صغير';
+Blockly.Msg['SUBCATEGORY_ARDUINO_SHILED_MOTOR'] = 'درع محرك Arduino';
+
+// BBC micro:bit
+Blockly.Msg['SUBCATEGORY_MICROBIT'] = 'Micro:bit';
+Blockly.Msg['SUBCATEGORY_KITRONIK'] = 'Kitronik';
+Blockly.Msg['SUBCATEGORY_GAMES'] = 'ألعاب';
+Blockly.Msg['SUBCATEGORY_EXEC'] = 'تشغيل كود بايثون';
+Blockly.Msg['SUBCATEGORY_MICROBIT_LOG'] = 'سجل Micro:bit';
+Blockly.Msg['SUBCATEGORY_ENVIRO_BIT'] = 'Enviro:bit';
+Blockly.Msg['SUBCATEGORY_WEATHER_BIT'] = 'Weather:bit';
+Blockly.Msg['SUBCATEGORY_KITRONIK_ENVIRONMENTAL'] = 'لوحة Kitronik البيئية';
+Blockly.Msg['SUBCATEGORY_SPEECH'] = 'نطق';
+Blockly.Msg['SUBCATEGORY_MAQUEEN'] = 'Maqueen Lite';
+Blockly.Msg['SUBCATEGORY_MAQUEEN_PLUS'] = 'Maqueen Plus';
+Blockly.Msg['SUBCATEGORY_LIDAR'] = 'LiDAR';
+Blockly.Msg['SUBCATEGORY_LINE_FINDER'] = 'متتبع الخط';
+Blockly.Msg['SUBCATEGORY_CONTROL'] = 'تحكم';
+Blockly.Msg['SUBCATEGORY_CUTEBOT'] = 'Cutebot';
+Blockly.Msg['SUBCATEGORY_CUTEBOT_PRO'] = 'Cutebot Pro';
+Blockly.Msg['SUBCATEGORY_MOVING'] = 'حركة';
+Blockly.Msg['SUBCATEGORY_RGB_LED'] = 'LED RGB';
+Blockly.Msg['SUBCATEGORY_PID'] = 'PID';
+Blockly.Msg['SUBCATEGORY_REMOTE_CONTROL'] = 'تحكم عن بعد بالأشعة تحت الحمراء';
+Blockly.Msg['SUBCATEGORY_MOTOR_PORT'] = 'منفذ المحرك (M)';
+Blockly.Msg['SUBCATEGORY_KITROBOT'] = 'Kitro:bot v2';
+Blockly.Msg['SUBCATEGORY_CODO'] = 'Codo';
+Blockly.Msg['SUBCATEGORY_OOBYBOT'] = 'Oobybot';
+Blockly.Msg['SUBCATEGORY_BUGGY'] = 'Buggy';
+Blockly.Msg['SUBCATEGORY_BITBOT'] = 'Bit:Bot';
+Blockly.Msg['SUBCATEGORY_BITCAR'] = 'BitCar';
+Blockly.Msg['SUBCATEGORY_GAMEPAD'] = 'Gamepad';
+Blockly.Msg['SUBCATEGORY_TELLO'] = 'Tello - أمر أساسي';
+Blockly.Msg['SUBCATEGORY_TELLO_SEND_COMMAND'] = 'Tello - إرسال أمر';
+Blockly.Msg['SUBCATEGORY_TELLO_READ'] = 'Tello - استلام بيانات';
+Blockly.Msg['SUBCATEGORY_HUSKYLENS'] = 'HuskyLens';
+Blockly.Msg['SUBCATEGORY_ZIP_HALO'] = 'Kitronik ZIP Halo HD';
+
+// Python
+Blockly.Msg['SUBCATEGORY_MATPLOTLIB'] = 'Matplotlib';
+Blockly.Msg['SUBCATEGORY_ARRAYS_MATRIX'] = 'المصفوفات والصفائف';
+Blockly.Msg['SUBCATEGORY_OPERATIONS'] = 'عمليات';
+
+// WB55 - L476
+Blockly.Msg['SUBCATEGORY_ALPHABOT_SENSORS'] = 'Alphabot - مستشعرات';
+Blockly.Msg['SUBCATEGORY_ALPHABOT_MOTORS'] = 'Alphabot - محركات';
+Blockly.Msg['SUBCATEGORY_ALPHABOT_OLED'] = 'Alphabot - شاشة OLED';
+Blockly.Msg['SUBCATEGORY_ALPHABOT_COMMANDS'] = 'Alphabot - أوامر';
+Blockly.Msg['SUBCATEGORY_ALPHABOT_LED_RGB'] = 'Alphabot - LED RGB';
+Blockly.Msg['SUBCATEGORY_RTC'] = 'ساعة حقيقية (وحدة مدمجة)';
+Blockly.Msg['SUBCATEGORY_EXPANSION_IKS01A3'] = 'لوحة توسعة IKS01A3';
+// L476
+Blockly.Msg['SUBCATEGORY_L476'] = 'L476';
+Blockly.Msg['SUBCATEGORY_DONUTBOT_SENSORS'] = 'Donutbot - مستشعرات';
+Blockly.Msg['SUBCATEGORY_DONUTBOT_MOTORS'] = 'Donutbot - محركات';
+Blockly.Msg['SUBCATEGORY_DONUTBOT_LED_RGB'] = 'Donutbot - LED RGB';
+Blockly.Msg['SUBCATEGORY_DONUTBOT_IO'] = 'Donutbot - إدخال/إخراج';
+Blockly.Msg['SUBCATEGORY_DONUTBOT_COMMUNICATION'] = 'Donutbot - اتصال';
+// WB55
+Blockly.Msg['SUBCATEGORY_WB55'] = 'WB55';
+Blockly.Msg['SUBCATEGORY_STEAMI'] = 'STeaMi';
+Blockly.Msg['SUBCATEGORY_BLUETOOTH_BLE'] = 'Bluetooth (وحدة BLE مدمجة)';
+
+// Nao
+Blockly.Msg['SUBCATEGORY_ANIMATED_SPEECH'] = 'كلام متحرك';
+Blockly.Msg['SUBCATEGORY_ASR'] = 'التعرّف على الكلام';
+Blockly.Msg['SUBCATEGORY_CAPITAL_CITY'] = 'العواصم والبلدان';
+Blockly.Msg['SUBCATEGORY_STORY_TELLING'] = 'سرد تفاعلي';
+Blockly.Msg['SUBCATEGORY_MENTAL_CALCULATION'] = 'حساب ذهني';
+// Nyrio
+Blockly.Msg['SUBCATEGORY_MOVEMENT_JOINTS'] = 'المفاصل';
+Blockly.Msg['SUBCATEGORY_MOVEMENT_POSE'] = 'الوضعية';
+Blockly.Msg['SUBCATEGORY_TOOL'] = 'أدوات';
+Blockly.Msg['SUBCATEGORY_DISPLAY_LED_RING'] = 'حلقة LED';
+Blockly.Msg['SUBCATEGORY_ACTUATORS_CONVEYOR'] = 'ناقل حركة';
+Blockly.Msg['SUBCATEGORY_SENSOR_IR_CONVEYOR'] = 'مستشعر IR (ناقل)';
+Blockly.Msg['SUBCATEGORY_UTILITIES'] = 'أدوات مساعدة';
+
+// Pico
+Blockly.Msg['SUBCATEGORY_PICO_LED'] = 'Raspberry Pi Pico';
+Blockly.Msg["SUBCATEGORY_KITRO"] = "Kitronik";
+
+// Buddy
+Blockly.Msg['SUBCATEGORY_OBJECT_DETECTION'] = 'كشف الأجسام';
+Blockly.Msg['SUBCATEGORY_MOTION_DETECTION'] = 'كشف الحركة';
+Blockly.Msg['SUBCATEGORY_PERSON_TRACKING'] = 'تتبع الأشخاص';
+Blockly.Msg['SUBCATEGORY_VISION'] = 'الرؤية';
+Blockly.Msg['SUBCATEGORY_FACE'] = 'وجه';
+Blockly.Msg['SUBCATEGORY_DISTANCE'] = 'مسافة';
+Blockly.Msg['SUBCATEGORY_TOUCH'] = 'مستشعر لمس';
+Blockly.Msg['SUBCATEGORY_BATTERY'] = 'بطارية';
+Blockly.Msg['SUBCATEGORY_MOTION_SENSOR'] = 'مستشعر حركة';
+Blockly.Msg['SUBCATEGORY_COLOR'] = 'لون';
+Blockly.Msg['SUBCATEGORY_HEAD_MOVEMENTS'] = 'حركات الرأس';
+Blockly.Msg['SUBCATEGORY_WHEELS'] = 'عجلات';
+Blockly.Msg['SUBCATEGORY_TALK'] = 'تكلّم';
+Blockly.Msg['SUBCATEGORY_VOLUME'] = 'مستوى الصوت';
+Blockly.Msg['SUBCATEGORY_SPEECH_RATE'] = 'سرعة الكلام';
+Blockly.Msg['SUBCATEGORY_PITCH'] = 'حدة الصوت';
+
+// ESP32
+Blockly.Msg['SUBCATEGORY_ESP32'] = 'ESP32';
+Blockly.Msg['SUBCATEGORY_ESP32_CAM'] = 'كاميرا ESP32';
+Blockly.Msg["SUBCATEGORY_ILO"] = "Ilo";
+Blockly.Msg['SUBCATEGORY_ALVIK'] = 'Alvik';
+Blockly.Msg['SUBCATEGORY_ALVIK_MOTORS'] = 'Alvik - محركات';
+Blockly.Msg['SUBCATEGORY_ALVIK_LEDS'] = 'Alvik - LEDs';
+Blockly.Msg['SUBCATEGORY_ALVIK_SENSORS'] = 'Alvik - مستشعرات';
+
+// Thymio
+Blockly.Msg['SUBCATEGORY_THYMIO'] = 'Thymio';
+Blockly.Msg['SUBCATEGORY_SOUND'] = 'الصوت';
+Blockly.Msg['SUBCATEGORY_SOUNDS'] = 'أصوات';
+
+// Cyberpi
+Blockly.Msg['SUBCATEGORY_CYBERPI'] = 'CyberPi';
+Blockly.Msg['SUBCATEGORY_CHART'] = 'مخطط';
+Blockly.Msg['SUBCATEGORY_BUTTONS'] = 'أزرار';
+Blockly.Msg['SUBCATEGORY_AUDIO'] = 'صوت';
+Blockly.Msg['SUBCATEGORY_ENCODER_MOTORS'] = 'محركات مشفرة';
+Blockly.Msg['SUBCATEGORY_MOTORS_M1_M2'] = 'محركات M1 وM2';
+Blockly.Msg['SUBCATEGORY_ULTRASONIC_SENSORS'] = 'مستشعرات فوق صوتية';
+Blockly.Msg['SUBCATEGORY_QUAD_RGB_SENSORS'] = 'مستشعرات RGB رباعية';
+
+// Eliobot
+Blockly.Msg['SUBCATEGORY_ELIOBOT'] = 'Eliobot';
+Blockly.Msg['SUBCATEGORY_LINE_SENSORS'] = 'مستشعرات خط';
+Blockly.Msg['SUBCATEGORY_BUZZER'] = 'جرس';
+
+// Galaxia
+Blockly.Msg['SUBCATEGORY_GALAXIA'] = 'Galaxia';
+Blockly.Msg['SUBCATEGORY_GALAXIA_DISPLAY'] = 'Galaxia - شاشة';
+Blockly.Msg['SUBCATEGORY_GALAXIA_RGB_LED'] = 'Galaxia - LED RGB';
+Blockly.Msg['SUBCATEGORY_GALAXIA_GRAPHICS'] = 'Galaxia - رسومات';
+Blockly.Msg['SUBCATEGORY_GALAXIA_A_B'] = 'Galaxia - أزرار A وB';
+Blockly.Msg['SUBCATEGORY_GALAXIA_TOUCH_BUTTONS'] = 'Galaxia - أزرار لمسية';
+Blockly.Msg['SUBCATEGORY_INFRARED_COMMUNICATION'] = 'اتصال بالأشعة تحت الحمراء';
+Blockly.Msg['SUBCATEGORY_GALAXIA_LOG'] = 'Galaxia - سجل';
+
+// M5Stack
+Blockly.Msg['SUBCATEGORY_M5STACK'] = 'M5Stack';
+Blockly.Msg['SUBCATEGORY_SETTINGS'] = 'إعدادات';
+Blockly.Msg['SUBCATEGORY_DRAW_TITLE'] = 'Draw - عنوان';
+Blockly.Msg['SUBCATEGORY_DRAW_LABEL'] = 'Draw - نص';
+Blockly.Msg['SUBCATEGORY_DRAW_RECT'] = 'Draw - مستطيل';
+Blockly.Msg['SUBCATEGORY_DRAW_CIRCLE'] = 'Draw - دائرة';
+Blockly.Msg['SUBCATEGORY_DRAW_TRIANGLE'] = 'Draw - مثلث';
+Blockly.Msg['SUBCATEGORY_DRAW_LINE'] = 'Draw - خط';
+Blockly.Msg['SUBCATEGORY_GRAPHICS'] = 'رسوم';
+
+// Raspberry Pi
+Blockly.Msg['SUBCATEGORY_SENSEHAT_JOYSTICK'] = 'Sense HAT - Joystick';
+Blockly.Msg['SUBCATEGORY_SENSEHAT_SENSORS'] = 'Sense HAT - Sensors';
+Blockly.Msg['SUBCATEGORY_SENSEHAT_MATRIX'] = 'Sense HAT - LED matrix';
+Blockly.Msg['MESSAGE_ROBOTS_USB_CAMERA'] = 'لبرمجة كاميرا USB، تتوفر الوحدات في فئة "المستشعرات"';
+
+// Galaxia CP
+Blockly.Msg['SUBCATEGORY_GALAXIA_TIME'] = 'Galaxia - وقت';
+Blockly.Msg['SUBCATEGORY_GALAXIA_PINS'] = 'Galaxia - دبابيس P0 وP1 وP2';
+Blockly.Msg['SUBCATEGORY_MORPION'] = 'لعبة إكس-أو';
+Blockly.Msg['SUBCATEGORY_WEB_SERVER'] = 'خادم ويب';
+
+// Codey & Rocky
+Blockly.Msg['SUBCATEGORY_OTHER'] = 'أخرى';
+Blockly.Msg['SUBCATEGORY_MOTION'] = 'حركة';
+Blockly.Msg['CATEGORY_MCORE'] = 'mCore';
+Blockly.Msg['SUBCATEGORY_TEXT'] = 'نص';
+Blockly.Msg['SUBCATEGORY_MCORE_LED'] = 'mCore - LED زرقاء';
+Blockly.Msg['SUBCATEGORY_MCORE_RGB_LED'] = 'mCore - LED RGB';
+Blockly.Msg['SUBCATEGORY_MCORE_SENSORS'] = 'mCore - أجهزة استشعار';
+Blockly.Msg['SUBCATEGORY_MCORE_BUZZER'] = 'mCore - منبّه';
+Blockly.Msg['SUBCATEGORY_MCORE_INFRARED'] = 'mCore - الأشعة تحت الحمراء';
+Blockly.Msg['CATEGORY_ROBOT'] = 'الروبوت';
+Blockly.Msg['CATEGORY_BACKPACK'] = 'حقيبة ظهر';
+Blockly.Msg['SUBCATEGORY_COMMUNICATION'] = 'الاتصال';
+Blockly.Msg['SUBCATEGORY_SENSORS_HEALTH'] = 'مستشعرات الصحة';
+Blockly.Msg['SUBCATEGORY_ACTUATORS'] = 'المشغلات';
+Blockly.Msg['SUBCATEGORY_FREE_MOVEMENTS'] = 'حركات حرة';
+Blockly.Msg['SUBCATEGORY_MOVE_BY_SQUARES'] = 'الحركة حسب الخانات';
+Blockly.Msg['SUBCATEGORY_SUPERBIT_BASIC'] = 'Superbit - الأساسي';
+Blockly.Msg['SUBCATEGORY_SUPERBIT_SENSORS'] = 'Yahboom - أجهزة الاستشعار';
+Blockly.Msg['SUBCATEGORY_BUILTIN_LED'] = 'LED مدمجة';
+Blockly.Msg['SUBCATEGORY_EYES'] = 'العيون';
+Blockly.Msg['SUBCATEGORY_IR_REMOTE'] = 'جهاز تحكم بالأشعة تحت الحمراء';
+Blockly.Msg['SUBCATEGORY_LED_MATRIX'] = 'مصفوفة LED';
+Blockly.Msg['SUBCATEGORY_4DIGITS_DISPLAY'] = 'شاشة عرض 7 مقاطع';
+Blockly.Msg['SUBCATEGORY_MBOT_MOTORS'] = 'محركات';
+Blockly.Msg['SUBCATEGORY_SERVOMOTOR'] = 'سيرفو';
+Blockly.Msg['SUBCATEGORY_MINI_FAN'] = 'مروحة صغيرة';
+Blockly.Msg['SUBCATEGORY_POTENTIOMETER'] = 'مقاومة قابلة للتعديل';

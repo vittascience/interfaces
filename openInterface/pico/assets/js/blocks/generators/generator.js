@@ -176,3 +176,31 @@ Blockly.Python.Generators.pwm = function (pin, codeFlag, freq = 50, duty = 0) {
   Blockly.Python.addInit(pin + '_OUT', pin + " = PWM(Pin(" + pin.replace('p', '') + "), freq=" + freq + ", duty_u16=" + duty + ")");
   return pin;
 };
+
+Blockly.Python.Generators.spi = function (id) {
+  const spiName = 'spi_' + id;
+  const spi = {
+    "0": "SPI(0, baudrate=100000, polarity=0, phase=0, sck=Pin(18, Pin.OUT), miso=Pin(16), mosi=Pin(19, Pin.OUT))",
+    "1": "SPI(1, baudrate=100000, polarity=0, phase=0, sck=Pin(10, Pin.OUT), miso=Pin(8), mosi=Pin(11, Pin.OUT))"
+  };
+  Blockly.Python.addInit(spiName, spiName + " = " + spi[id]);
+  return spiName;
+};
+
+Blockly.Python.Generators.uart = function (id, baudrate = 9600) {
+  const uartName = 'uart_' + id;
+  const uart = {
+    "0": "UART(0, baudrate=" + baudrate + ", bits=8, parity=None, stop=1, tx=Pin(0), rx=Pin(1))",
+    "1": "UART(1, baudrate=" + baudrate + ", bits=8, parity=None, stop=1, tx=Pin(4), rx=Pin(5))"
+  };
+  Blockly.Python.addInit(uartName, uartName + " = " + uart[id]);
+  return uartName;
+};
+
+Blockly.Python.Generators.I2C = function (id, freq = 100000) {
+  const i2c = {
+    "0": "SoftI2C(scl=Pin(9), sda=Pin(8), freq=" + freq + ")",
+    "1": "I2C(1, scl=Pin(7), sda=Pin(6), freq=" + freq + ")"
+  };
+  return i2c[id];
+};

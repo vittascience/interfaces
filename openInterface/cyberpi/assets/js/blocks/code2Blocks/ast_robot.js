@@ -706,57 +706,7 @@ utils.prototypeBlocks['mbuild.quad_rgb_sensor.set_led'] = function (type, identi
     };
 };
 
-utils.prototypeBlocks['mbuild.quad_rgb_sensor.set_custom_color'] = function (type, identifier, values, mutations, statementsNode, statement) {
-    let sensor = '1';
-    let r = { type: 'integer', text: '255' };
-    let g = { type: 'integer', text: '0' };
-    let b = { type: 'integer', text: '0' };
-    let tolerance = { type: 'integer', text: '50' };
-    let hasTolerance = false;
-    const validSensors = ["1", "2", "3", "4", "5", "6", "7", "8"];
-
-    if (statementsNode && statementsNode.length >= 4) {
-        r = statementsNode[0] || r;
-        g = statementsNode[1] || g;
-        b = statementsNode[2] || b;
-        
-        if (statementsNode.length >= 5) {
-            tolerance = statementsNode[3] || tolerance;
-            hasTolerance = true;
-            
-            if (statementsNode[4].type === 'integer') {
-                sensor = validSensors.includes(statementsNode[4].text) ? statementsNode[4].text : "1";
-            }
-        } else if (statementsNode[3].type === 'integer') {
-            const fourthArg = statementsNode[3];
-            if (validSensors.includes(fourthArg.text)) {
-                sensor = fourthArg.text;
-                tolerance = { type: 'integer', text: '50' };
-            } else {
-                tolerance = fourthArg;
-                hasTolerance = true;
-            }
-        }
-    }
-
-    const blockDef = {
-        type: 'sensors_mbuild_quad_RGB_set_color_RGB',
-        fields: { SENSOR: sensor },
-        values: { R: null, G: null, B: null },
-        mutations: { tolerance: hasTolerance },
-        statementsNode: { R: r, G: g, B: b },
-        statement: null,
-    };
-
-    if (hasTolerance) {
-        blockDef.values.TOLERANCE = null;
-        blockDef.statementsNode.TOLERANCE = tolerance;
-    }
-
-    return blockDef;
-};
-
-utils.prototypeBlocks['mbuild.quad_rgb_sensor.close_led'] = function (type, identifier, values, mutations, statementsNode, statement) {
+utils.prototypeBlocks['mbuild.quad_rgb_sensor.off_led'] = function (type, identifier, values, mutations, statementsNode, statement) {
     let sensor = '1';
     const validSensors = ["1", "2", "3", "4", "5", "6", "7", "8"];
 
@@ -773,43 +723,3 @@ utils.prototypeBlocks['mbuild.quad_rgb_sensor.close_led'] = function (type, iden
         statement: null,
     };
 };
-
-utils.prototypeBlocks['mbuild.quad_rgb_sensor.adjust'] = function (type, identifier, values, mutations, statementsNode, statement) {
-    let sensor = '1';
-    const validSensors = ["1", "2", "3", "4", "5", "6", "7", "8"];
-
-    if (statementsNode && statementsNode.length > 0 && statementsNode[0].type === 'integer') {
-        sensor = validSensors.includes(statementsNode[0].text) ? statementsNode[0].text : "1";
-    }
-
-    return {
-        type: 'sensors_mbuild_quad_RGB_calibrate',
-        fields: { SENSOR: sensor },
-        values: {},
-        mutations: null,
-        statementsNode: {},
-        statement: null,
-    };
-};
-
-utils.prototypeBlocks['mbuild.quad_rgb_sensor.color_mode'] = function (type, identifier, values, mutations, statementsNode, statement) {
-    let mode = 'standard';
-    const validModes = ['standard', 'enhance'];
-
-    if (statementsNode && statementsNode.length > 0 && statementsNode[0].type === 'string') {
-        const modeValue = utils.extractString(statementsNode[0]).text;
-        if (validModes.includes(modeValue)) {
-            mode = modeValue;
-        }
-    }
-
-    return {
-        type: 'sensors_mbuild_quad_RGB_color_mode',
-        fields: { MODE: mode },
-        values: {},
-        mutations: null,
-        statementsNode: {},
-        statement: null,
-    };
-};
-

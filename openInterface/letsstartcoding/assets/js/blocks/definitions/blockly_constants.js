@@ -8,21 +8,16 @@ Blockly.Constants.LOOP_TYPES = [
   'controls_whileUntil'
 ];
 
+Blockly.Types.UINT8_T = new Blockly.Type({ typeId: "Uint8_t", typeMsgName: "ARD_TYPE_UINT8_T", compatibleTypes: [] });
+Blockly.Types.UINT16_T = new Blockly.Type({ typeId: "Uint16_t", typeMsgName: "ARD_TYPE_UINT16_T", compatibleTypes: [] });
+Blockly.Types.UINT32_T = new Blockly.Type({ typeId: "Uint32_t", typeMsgName: "ARD_TYPE_UINT32_T", compatibleTypes: [] });
+
 Blockly.Constants.Utils.FIELD_VARIABLE_TYPE_GETTER = {
-  BLOCKS_STRING_VAR: [
-    'text_append',
-    'communication_onSerialDataReceived',
-    'communication_onSerialBluetoothDataReceived',
-    'communication_hm10_onBluetoothDataReceived',
-    'communication_onRadioNRF24_dataReceived',
-    'communication_onRadio433mhzDataReceived',
-    'communication_onGPSDataReceived'
-  ],
-  BLOCKS_INT_VAR: [
-    'controls_for',
-    'communication_onIRDataReceived',
-    'communication_onRemoteCommandReceived'
-  ],
+
+  BLOCKS_VARIABLE_TYPES: {
+    'text_append': Blockly.Types.TEXT,
+    'controls_for': Blockly.Types.NUMBER
+  },
   /**
    * @return {String} variable name
    * @this {Blockly.Block}
@@ -35,16 +30,12 @@ Blockly.Constants.Utils.FIELD_VARIABLE_TYPE_GETTER = {
    * @this {Blockly.Block}
    */
   getVarType: function () {
-    var index = Blockly.Constants.Utils.FIELD_VARIABLE_TYPE_GETTER.BLOCKS_STRING_VAR.indexOf(this.type);
-    if (index != -1) {
-      return Blockly.Types.TEXT;
+    const varType = Blockly.Constants.Utils.FIELD_VARIABLE_TYPE_GETTER.BLOCKS_VARIABLE_TYPES[this.type];
+    if (varType) {
+      return varType;
     } else {
-      index = Blockly.Constants.Utils.FIELD_VARIABLE_TYPE_GETTER.BLOCKS_INT_VAR.indexOf(this.type);
-      if (index != -1) {
-        return Blockly.Types.NUMBER;
-      } else {
-        return Blockly.Types.NULL;
-      }
+      console.error(`The '${this.getVarName()}' variable's type is not defined. As default, the block '${this.type}' returns the variable as a 'void'. Add variable type of block in BLOCKS_VARIABLE_TYPES.`);
+      return Blockly.Types.NULL;
     }
   }
 };

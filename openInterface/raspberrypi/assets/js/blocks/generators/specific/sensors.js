@@ -2,483 +2,465 @@
  * @fileoverview Sensors generators for Esp32.
  */
 
-// //Galaxia Sensors
-// Blockly.Python.sensors_getAcceleration = function (block) {
-// 	let axis = block.getFieldValue('AXIS');
-// 	if (axis !== 'strength') {
-// 		return ['accelerometer.get_' + axis + '()', Blockly.Python.ORDER_ATOMIC];
-// 	} else {
-// 		Blockly.Python.addImport('math', IMPORT_MATH);
-// 		return ['math.sqrt(accelerometer.get_x()**2 + accelerometer.get_y()**2 + accelerometer.get_z()**2)', Blockly.Python.ORDER_ATOMIC];
-// 	}
+// Cameras
+
+Blockly.Python.sensors_rpi_camera_takePicture = function (block) {
+    Blockly.Python.addImport('picamera2', IMPORT_PICAMERA2);
+    Blockly.Python.addImport('time', IMPORT_TIME);
+    Blockly.Python.addImport('os', IMPORT_OS);
+    Blockly.Python.addFunction('camera_RPI_preview_configure', FUNCTIONS_RASPBERRY.DEF_CAMERA_RPI_PREVIEW_CONFIGURE);
+    Blockly.Python.addFunction('camera_RPI_takePicture', FUNCTIONS_RASPBERRY.DEF_CAMERA_RPI_TAKE_PICTURE);
+    Blockly.Python.addInit('rpiCam', 'rpiCam = picamera2.Picamera2()');
+    Blockly.Python.addPowerOn('rpiCam_configure', 'camera_RPI_preview_configure((640, 480))');
+    return ['camera_RPI_takePicture()', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.sensors_rpi_camera_takeVideo = function (block) {
+    const duration = Blockly.Python.valueToCode(block, "DURATION", Blockly.Python.ORDER_NONE) || "0";
+    const filename = Blockly.Python.valueToCode(block, "FILENAME", Blockly.Python.ORDER_NONE) || "'video.mp4'";
+    Blockly.Python.addImport('picamera2', IMPORT_PICAMERA2);
+    Blockly.Python.addImport('time', IMPORT_TIME);
+    Blockly.Python.addImport('datetime', IMPORT_DATETIME);
+    Blockly.Python.addImport('os', IMPORT_OS);
+    Blockly.Python.addFunction('camera_RPI_video_configure', FUNCTIONS_RASPBERRY.DEF_CAMERA_RPI_VIDEO_CONFIGURE);
+    Blockly.Python.addFunction('camera_RPI_takeVideo', FUNCTIONS_RASPBERRY.DEF_CAMERA_RPI_TAKE_VIDEO);
+    Blockly.Python.addInit('rpiCam', 'rpiCam = picamera2.Picamera2()');
+    Blockly.Python.addPowerOn('rpiCam_configure', 'camera_RPI_video_configure((640, 480))');
+    return 'camera_RPI_takeVideo(' + duration + ', ' + filename + ')' + NEWLINE;
+};
+
+Blockly.Python.sensors_rpi_camera_changeSize = function (block) {
+    const framesize = block.getFieldValue("FRAMESIZE");
+    Blockly.Python.addImport('picamera2', IMPORT_PICAMERA2);
+    Blockly.Python.addImport('time', IMPORT_TIME);
+    Blockly.Python.addImport('os', IMPORT_OS);
+    Blockly.Python.addFunction('camera_RPI_preview_configure', FUNCTIONS_RASPBERRY.DEF_CAMERA_RPI_PREVIEW_CONFIGURE);
+    Blockly.Python.addInit('rpiCam', 'rpiCam = picamera2.Picamera2()');
+    Blockly.Python.addPowerOn('rpiCam_configure', 'camera_RPI_preview_configure((640, 480))');
+    return `camera_RPI_preview_configure(${framesize})${NEWLINE}`;
+};
+
+Blockly.Python.sensors_usb_camera_takePicture = function (block) {
+    Blockly.Python.addImport('cv2', IMPORT_CV2);
+    Blockly.Python.addImport('time', IMPORT_TIME);
+    Blockly.Python.addFunction('camera_USB_takePicture', FUNCTIONS_RASPBERRY.DEF_CAMERA_USB_TAKE_PICTURE);
+    Blockly.Python.addInit('cv2_frame_size', 'cv2_frame_size = (640, 480)');
+    return ['camera_USB_takePicture()', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.sensors_usb_camera_takeVideo = function (block) {
+    const duration = Blockly.Python.valueToCode(block, "DURATION", Blockly.Python.ORDER_NONE) || "0";
+    const filename = Blockly.Python.valueToCode(block, "FILENAME", Blockly.Python.ORDER_NONE) || "'video.mp4'";
+    Blockly.Python.addImport('cv2', IMPORT_CV2);
+    Blockly.Python.addImport('time', IMPORT_TIME);
+    Blockly.Python.addImport('datetime', IMPORT_DATETIME);
+    Blockly.Python.addImport('subprocess', IMPORT_SUBPROCESS);
+    Blockly.Python.addFunction('camera_USB_takeVideo', FUNCTIONS_RASPBERRY.DEF_CAMERA_USB_TAKE_VIDEO);
+    Blockly.Python.addInit('cv2_frame_size', 'cv2_frame_size = (640, 480)');
+    return 'camera_USB_takeVideo(0, ' + duration + ', ' + filename + ')' + NEWLINE;
+};
+
+Blockly.Python.sensors_usb_camera_changeSize = function (block) {
+    const framesize = block.getFieldValue("FRAMESIZE");
+    Blockly.Python.addImport('cv2', IMPORT_CV2);
+    Blockly.Python.addInit('cv2_frame_size', 'cv2_frame_size = (640, 480)');
+    return `cv2_frame_size = ${framesize}${NEWLINE}`;
+};
+
+Blockly.Python.sensors_cv2_camera_savePicture = function (block) {
+    Blockly.Python.addImport('cv2', IMPORT_CV2);
+    Blockly.Python.addImport('pathlib', IMPORT_PATHLIB);
+    Blockly.Python.addFunction('cv2_camera_savePicture', FUNCTIONS_RASPBERRY.DEF_CV2_CAMERA_SAVE_PICTURE);
+    const img = Blockly.Python.valueToCode(block, "IMG", Blockly.Python.ORDER_NONE) || 'None';
+    const filename = Blockly.Python.valueToCode(block, "FILENAME", Blockly.Python.ORDER_NONE) || "'image.jpg'";
+    return `cv2_camera_savePicture(${img}, ${filename})${NEWLINE}`;
+};
+
+Blockly.Python.sensors_camera_showPictureInVittascience = function (block) {
+    Blockly.Python.addImport('cv2', IMPORT_CV2);
+    Blockly.Python.addImport('pathlib', IMPORT_PATHLIB);
+    Blockly.Python.addImport('datetime', IMPORT_DATETIME);
+    Blockly.Python.addFunction('cv2_camera_savePicture', FUNCTIONS_RASPBERRY.DEF_CV2_CAMERA_SAVE_PICTURE);
+    Blockly.Python.addFunction('show_picture_in_Vittascience', FUNCTIONS_RASPBERRY.DEF_SHOW_PICTURE_IN_VITTASCIENCE);
+    const data_or_filename = Blockly.Python.valueToCode(block, "IMG", Blockly.Python.ORDER_NONE) || 'None';
+    return 'show_picture_in_Vittascience(' + data_or_filename + ')' + NEWLINE;
+};
+
+Blockly.Python.sensors_camera_showVideoInVittascience = function (block) {
+    Blockly.Python.addImport('pathlib', IMPORT_PATHLIB);
+    Blockly.Python.addFunction('show_video_in_Vittascience', FUNCTIONS_RASPBERRY.DEF_SHOW_VIDEO_IN_VITTASCIENCE);
+    const filename = Blockly.Python.valueToCode(block, "FILENAME", Blockly.Python.ORDER_NONE) || 'None';
+    return 'show_video_in_Vittascience(' + filename + ')' + NEWLINE;
+};
+
+Blockly.Python.sensors_camera_getPictureFiles = function (block) {
+    Blockly.Python.addImport('pathlib', IMPORT_PATHLIB);
+    Blockly.Python.addFunction('folder_getFilesFrom', FUNCTIONS_RASPBERRY.DEF_FOLDER_GETFILESFROM);
+    return ['folder_getFilesFrom(pathlib.Path(__file__).parent / "static/images")', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.sensors_camera_getVideoFiles = function (block) {
+    Blockly.Python.addImport('pathlib', IMPORT_PATHLIB);
+    Blockly.Python.addFunction('folder_getFilesFrom', FUNCTIONS_RASPBERRY.DEF_FOLDER_GETFILESFROM);
+    return ['folder_getFilesFrom(pathlib.Path(__file__).parent / "static/videos")', Blockly.Python.ORDER_ATOMIC];
+};
+
+// Sense HAT - sensors
+
+Blockly.Python.sensehat_getSenseHatHumidity = function (block) {
+    Blockly.Python.addImport('sense_hat_all', IMPORT_SENSE_HAT_ALL);
+    Blockly.Python.addInit('sense_hat_all', 'sense = SenseHat()');
+    return ['sense.get_humidity()', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.sensehat_getTemperatureFrom = function (block) {
+    const unit = block.getFieldValue('UNIT');
+    const sensor = block.getFieldValue('SENSOR');
+    Blockly.Python.addImport('sense_hat_all', IMPORT_SENSE_HAT_ALL);
+    Blockly.Python.addInit('sense_hat_all', 'sense = SenseHat()');
+    Blockly.Python.addFunction('senseHat_getTemperatureFrom', FUNCTIONS_RASPBERRY.SENSE_HAT_TEMPERATURE_FROM);
+    return [`senseHat_getTemperatureFrom('${sensor}', '${unit}')`, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.sensehat_getSenseHatTemperature = function (block) {
+    const unit = block.getFieldValue('UNIT');
+    Blockly.Python.addImport('sense_hat_all', IMPORT_SENSE_HAT_ALL);
+    Blockly.Python.addInit('sense_hat_all', 'sense = SenseHat()');
+    Blockly.Python.addFunction('senseHat_getTemperature', FUNCTIONS_RASPBERRY.SENSE_HAT_TEMPERATURE);
+    return [`senseHat_getTemperature('${unit}')`, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.sensehat_getSenseHatPressure = function (block) {
+    const unit = block.getFieldValue('UNIT');
+    Blockly.Python.addImport('sense_hat_all', IMPORT_SENSE_HAT_ALL);
+    Blockly.Python.addInit('sense_hat_all', 'sense = SenseHat()');
+    Blockly.Python.addFunction('senseHat_getPressure', FUNCTIONS_RASPBERRY.SENSE_HAT_PRESSURE);
+    return [`senseHat_getPressure('${unit}')`, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.sensehat_set_imu_config = function (block) {
+    const gyro = block.getFieldValue('IMU_CONFIG_GYRO');
+    const accel = block.getFieldValue('IMU_CONFIG_ACCEL');
+    const compass = block.getFieldValue('IMU_CONFIG_COMPASS');
+    Blockly.Python.addImport('sense_hat_all', IMPORT_SENSE_HAT_ALL);
+    Blockly.Python.addInit('sense_hat_all', 'sense = SenseHat()');
+    return `sense.set_imu_config(${gyro}, ${accel}, ${compass})\n`;
+};
+
+Blockly.Python.sensehat_imu_get_orientation = function (block) {
+    Blockly.Python.addImport('sense_hat_all', IMPORT_SENSE_HAT_ALL);
+    const orientation = block.getFieldValue('ORIENTATION');
+    Blockly.Python.addInit('sense_hat_all', 'sense = SenseHat()');
+    return [`sense.get_orientation_${orientation}()`, Blockly.Python.ORDER_ATOMIC];
+};
+
+// Blockly.Python.sensehat_imu_get_orientation_degrees = function (block) {
+//     Blockly.Python.addImport('sense_hat_all', IMPORT_SENSE_HAT_ALL);
+//     Blockly.Python.addInit('sense_hat_all', 'sense = SenseHat()\n');
+//     return [`sense.get_orientation_degrees()`, Blockly.Python.ORDER_ATOMIC];
 // };
 
-// Blockly.Python.io_onMovement = function (block) {
-// 	var branchCode = Blockly.Python.statementToCode(block, 'DO') || Blockly.Python.PASS;
-// 	return "if accelerometer.current_gesture() == '" + block.getFieldValue('MOV') + "' :" + NEWLINE + branchCode;
-// };
+Blockly.Python.sensehat_imu_get_compass = function (block) {
+    Blockly.Python.addImport('sense_hat_all', IMPORT_SENSE_HAT_ALL);
+    Blockly.Python.addInit('sense_hat_all', 'sense = SenseHat()');
+    return [`sense.get_compass()`, Blockly.Python.ORDER_ATOMIC];
+};
 
-// Blockly.Python.sensors_getLight = function () {
-// 	return ['led.read_light_level()', Blockly.Python.ORDER_ATOMIC];
-// };
+// Gas
 
-// Blockly.Python.sensors_calibrateCompass = function () {
-// 	return 'compass.calibrate()' + NEWLINE;
-// };
+Blockly.Python.sensors_getSgp30Gas = function (block) {
+    Blockly.Python.addImport('grove.sgp30', IMPORT_GROVE_MODULES_SGP30);
+    Blockly.Python.addImport('time', IMPORT_TIME);
+    Blockly.Python.addFunction('sgp30_measure', FUNCTIONS_RASPBERRY.DEF_SGP30_MEASURE);
+    Blockly.Python.addInit('sgp30', "sgp30 = SGP30()");
+    Blockly.Python.addInit('sgp30_vars', "_sgp30_last_time = 0.0\n_sgp30_last_values = {\n  \"co2eq\": None,\n  \"tvoc\": None\n}");
+    Blockly.Python.addPowerOn('sgp30', "sgp30.init_air_quality()");
+    switch (block.getFieldValue("GAS")) {
+        case "CO2":
+            return ["sgp30_measure('co2eq')", Blockly.Python.ORDER_ATOMIC];
+        case "TVOC":
+            return ["sgp30_measure('tvoc')", Blockly.Python.ORDER_ATOMIC];
+    }
+};
 
-// Blockly.Python.sensors_getCompass = function () {
-// 	return ['compass.heading()', Blockly.Python.ORDER_ATOMIC];
-// };
-
-// Blockly.Python.sensors_getTemperature = function (block) {
-// 	var code = 'internal_temperature()';
-// 	switch (block.getFieldValue('UNIT')) {
-// 		case 'FAHRENHEIT':
-// 			code += '*9/5 + 32';
-// 			break;
-// 		case 'KELVIN':
-// 			code += ' + 273.15';
-// 			break;
-// 	}
-// 	return [code, Blockly.Python.ORDER_ATOMIC];
-// };
-
-// Blockly.Python.sensors_getRotation = function (block) {
-// 	Blockly.Python.addImport('math', IMPORT_MATH);
-// 	if (block.getFieldValue('AXIS') === 'pitch') {
-// 		return ['math.atan2(accelerometer.get_y(), -accelerometer.get_z()) * 180.0/math.pi', Blockly.Python.ORDER_ATOMIC];
-// 	} else {
-// 		return ['math.atan2(accelerometer.get_x(), math.sqrt(accelerometer.get_y()**2 + accelerometer.get_z()**2)) * 180.0/math.pi', Blockly.Python.ORDER_ATOMIC];
-// 	}
-// };
-
-// Blockly.Python.sensors_getMagneticForce = function (block) {
-// 	var option = block.getFieldValue('AXIS');
-// 	if (option == 'NORM') {
-// 		Blockly.Python.addImport('math', IMPORT_MATH);
-// 		return ['math.sqrt((compass.get_x() ** 2 + compass.get_y() ** 2) + compass.get_z() ** 2)', Blockly.Python.ORDER_ATOMIC];
-// 	} else {
-// 		return ['compass.get_' + option + '()', Blockly.Python.ORDER_ATOMIC];
-// 	}
-// };
-
-// // Esp32 board sensors
-
-// Blockly.Python.sensors_readHallSensor = function () {
-// 	Blockly.Python.addImport('esp32', IMPORT_ESP32);
-// 	return ['esp32.hall_sensor()', Blockly.Python.ORDER_ATOMIC];
-// };
-
-// Blockly.Python.sensors_readProcessorTemperature = function (block) {
-// 	Blockly.Python.addImport('esp32', IMPORT_ESP32);
-// 	let code = '';
-// 	switch (block.getFieldValue('UNIT')) {
-// 		case 'CELSIUS':
-// 			code += '(esp32.raw_temperature()-32)*5/9';
-// 			break;
-// 		case 'KELVIN':
-// 			code += '(esp32.raw_temperature()-32)*5/9 + 273.15';
-// 			break;
-// 		case 'FAHRENHEIT':
-// 			code += 'esp32.raw_temperature()';
-// 			break;
-// 		default:
-// 			code += 'esp32.raw_temperature()';
-// 			break;
-// 	}
-// 	return [code, Blockly.Python.ORDER_ATOMIC];
-// };
-
-// // Climate sensors
-
-// Blockly.Python.sensors_linky = function (block) {
-// 	Blockly.Python.addImport('esp32_linky', IMPORT_ESP32_LINKY);
-// 	const pin = block.getFieldValue('PIN');
-// 	Blockly.Python.addInit('linky_' + pin.replace('p', ''), '# Linky on ' + pin);
-// 	Blockly.Python.addInit('linky', `linky = Linky(${pin.replace('p', '')}, unit=True)`);
-// 	const mode = block.getFieldValue('ADDR');
-// 	return [`linky.get_data("${mode}")`, Blockly.Python.ORDER_ATOMIC];
-// };
-
-// Blockly.Python.sensors_getBmp280Data = function (block) {
-// 	const addr = block.getFieldValue('ADDR');
-// 	Blockly.Python.addImport('bmp280', IMPORT_ESP32_BMP280);
-// 	Blockly.Python.addInit('bmp280', 'bmp280 = BMP280(i2c=I2C(scl=Pin(13), sda=Pin(14)), addr=' + addr + ')');
-// 	Blockly.Python.addPowerOn('bmp280', 'bmp280.set_default_measure()');
-// 	switch (block.getFieldValue('DATA')) {
-// 		case 'TEMP':
-// 			var code = 'bmp280.temperature()';
-// 			if (block.getInput('TEMP_UNIT')) {
-// 				switch (block.getFieldValue('UNIT')) {
-// 					case 'FAHRENHEIT':
-// 						code += '*9/5 + 32';
-// 						break;
-// 					case 'KELVIN':
-// 						code += ' + 273.15';
-// 						break;
-// 				}
-// 			}
-// 			return [code, Blockly.Python.ORDER_ATOMIC];
-// 		case 'PRESS':
-// 			return ['bmp280.pressure()', Blockly.Python.ORDER_ATOMIC];
-// 		case 'ALT':
-// 			return ['bmp280.altitude()', Blockly.Python.ORDER_ATOMIC];
-// 	}
-// };
-
-// // Gas sensors
-
-// Blockly.Python.sensors_getSgp30Gas = function (block) {
-// 	Blockly.Python.addImport('esp32_sgp30', IMPORT_ESP32_SGP30);
-// 	Blockly.Python.addInit('sgp30', 'sgp30 = SGP30(i2c=I2C(scl=Pin(13), sda=Pin(14)))');
-// 	switch (block.getFieldValue('GAS')) {
-// 		case 'CO2':
-// 			return ['sgp30.co2_equivalent()', Blockly.Python.ORDER_ATOMIC];
-// 		case 'TVOC':
-// 			return ['sgp30.total_organic_compound()', Blockly.Python.ORDER_ATOMIC];
-// 	}
-// };
-
-// Blockly.Python.sensors_getO2gas = function (block) {
-// 	const pinName = Blockly.Python.Generators.analog_read(block.getFieldValue('PIN'), 'Dioxygen Sensor');
-// 	Blockly.Python.addFunction('getAnalogMean', FUNCTIONS_GALAXIA.DEF_GET_ANALOG_MEAN);
-// 	Blockly.Python.addFunction('readO2', FUNCTIONS_GALAXIA.DEF_O2SENSOR_READ);
-// 	return ['readO2(' + pinName + ')', Blockly.Python.ORDER_ATOMIC];
-// };
-
-// // SCD30 SENSOR _ READ CO2/TEMP/HUM BLOCK
-// Blockly.Python.sensors_SCD30_readData = function (block) {
-// 	Blockly.Python.addImport('esp32_scd30', IMPORT_ESP32_SCD30);
-// 	Blockly.Python.addImport('utime', IMPORT_UTIME);
-// 	Blockly.Python.addImport('math', IMPORT_MATH);
-// 	Blockly.Python.addInit('scd30_data', 'scd30_data = [0, 0, 0]');
-// 	Blockly.Python.addInit('t_scd', 't_scd = utime.ticks_ms()');
-// 	Blockly.Python.addFunction('scd30_read', FUNCTIONS_GALAXIA.DEF_SCD30_READ);
-// 	Blockly.Python.addInit('scd30', 'scd30 = SCD30(i2c=I2C(scl=Pin(13), sda=Pin(14)))');
-// 	switch (block.getFieldValue('DATA')) {
-// 		case 'CO2':
-// 			return ['scd30_read(0)', Blockly.Python.ORDER_ATOMIC];
-// 		case 'TEMP':
-// 			var code = 'scd30_read(1)';
-// 			if (block.getInput('TEMP_UNIT')) {
-// 				switch (block.getFieldValue('UNIT')) {
-// 					case 'FAHRENHEIT':
-// 						code += '*9/5 + 32';
-// 						break;
-// 					case 'KELVIN':
-// 						code += ' + 273.15';
-// 						break;
-// 				}
-// 			}
-// 			return [code, Blockly.Python.ORDER_ATOMIC];
-// 		case 'HUM':
-// 			return ['scd30_read(2)', Blockly.Python.ORDER_ATOMIC];
-// 	}
-// };
-
-// //SCD30 SENSOR FORCE RECALIBRATION
-// Blockly.Python.sensors_SCD30_forcedCalibration = function (block) {
-// 	const co2ppm = Blockly.Python.valueToCode(block, 'DEFAULT', Blockly.Python.ORDER_NONE) || '0';
-// 	Blockly.Python.addImport('esp32_scd30', IMPORT_ESP32_SCD30);
-// 	Blockly.Python.addImport('utime', IMPORT_UTIME);
-// 	Blockly.Python.addInit('scd30', 'scd30 = SCD30(i2c=I2C(scl=Pin(13), sda=Pin(14)))');
-// 	Blockly.Python.addFunction('scd30_calibrateSensor', FUNCTIONS_GALAXIA.DEF_SCD30_CALIBRATE);
-// 	return 'scd30.set_forced_recalibration(' + co2ppm + ')';
-// };
-// Blockly.Python.sensors_getMultichannelGas = function (block) {
-// 	Blockly.Python.addImport('esp32_gas', IMPORT_ESP32_GAS);
-// 	Blockly.Python.addInit('multichannel_gas', 'multichannel = GAS(i2c=I2C(scl=Pin(13), sda=Pin(14)))');
-// 	return ['multichannel.calc_gas(multichannel.' + block.getFieldValue('GAS') + ')', Blockly.Python.ORDER_ATOMIC];
-// };
-
-// Blockly.Python.sensors_getAirQualityValue = function (block) {
-// 	const pinName = Blockly.Python.Generators.analog_read(block.getFieldValue('PIN'), 'Air Quality Sensor');
-// 	return [pinName + '.read()', Blockly.Python.ORDER_ATOMIC];
-// };
+Blockly.Python.sensors_SCD30_readData = function (block) {
+    Blockly.Python.addImport('board', IMPORT_BOARD);
+    Blockly.Python.addImport('time', IMPORT_TIME);
+    Blockly.Python.addImport('adafruit_scd30', IMPORT_ADAFRUIT_SCD30);
+    Blockly.Python.addFunction('scd30_measure', FUNCTIONS_RASPBERRY.DEF_SCD30_MEASURE);
+    Blockly.Python.addInit('scd30', "scd30 = SCD30(board.I2C())");
+    Blockly.Python.addInit('scd30_vars', "_scd30_last_time = 0.0\n_scd30_last_values = {\n  \"co2\": None,\n  \"temp\": None,\n  \"hum\": None\n}");
+    switch (block.getFieldValue("DATA")) {
+        case "CO2":
+            return ["scd30_measure('co2')", Blockly.Python.ORDER_ATOMIC];
+        case "TEMP":
+            let code = "scd30_measure('temp')";
+            if (block.getInput("TEMP_UNIT")) {
+                switch (block.getFieldValue("UNIT")) {
+                    case "FAHRENHEIT":
+                        code += "*9/5 + 32";
+                        break;
+                    case "KELVIN":
+                        code += " + 273.15";
+                        break;
+                }
+            }
+            return [code, Blockly.Python.ORDER_ADDITIVE];
+        case "HUM":
+            return ["scd30_measure('hum')", Blockly.Python.ORDER_ATOMIC];
+    }
+};
 
 // Blockly.Python.sensors_getParticulateMatter = function (block) {
-// 	Blockly.Python.addImport('hm330x', IMPORT_ESP32_HM330X);
-// 	Blockly.Python.addInit('hm330x', 'hm330x = HM330X(i2c=I2C(scl=Pin(13), sda=Pin(14)))');
-// 	return ['hm330x.getData(' + block.getFieldValue('TYPE') + ')', Blockly.Python.ORDER_ATOMIC];
+//     Blockly.Python.addImport('grove_PM2_5_HM3301', IMPORT_GROVE_HM3301);
+//     Blockly.Python.addFunction('hm330x_measure', FUNCTIONS_RASPBERRY.DEF_HM330X_MEASURE);
+//     Blockly.Python.addInit('Seeed_HM3301', "hm330x = Seeed_HM3301()");
+//     const types = {
+//         '3': 'pm1_atm',
+//         '4': 'pm2_5_atm',
+//         '5': 'pm10_atm'
+//     }
+//     return ["hm330x_measure(" + types[block.getFieldValue("TYPE")] + ")", Blockly.Python.ORDER_ATOMIC];
 // };
 
-// Blockly.Python.sensors_DHT11ReadData = function (block) {
-// 	const pin = block.getFieldValue('PIN');
-// 	const pinNumber = pin.replace('pin', '');
-// 	const pinName = Blockly.Python.Generators.digital_read(pin, 'DHT11 Sensor');
-// 	Blockly.Python.addImport('dht', IMPORT_DHT);
-// 	Blockly.Python.addImport('utime', IMPORT_UTIME);
-// 	Blockly.Python.addInit('dht11_' + pinNumber, 'dht11_' + pinNumber + ' = dht.DHT11(' + pinName + ')');
-// 	Blockly.Python.addFunction('dht_getMeasure', FUNCTIONS_GALAXIA.DEF_DHT_GET_MEASURE);
-// 	switch (block.getFieldValue('DATA')) {
-// 		case 'TEMP':
-// 			const unit = block.getFieldValue('UNIT') || 'celsius';
-// 			return ['dht_getMeasure(dht11_' + pinNumber + ", 't', unit='" + unit.toLowerCase() + "')", Blockly.Python.ORDER_ATOMIC];
-// 		case 'HUM':
-// 			return ['dht_getMeasure(dht11_' + pinNumber + ", 'h')", Blockly.Python.ORDER_ATOMIC];
-// 	}
-// };
+// Climate sensors
 
-// Blockly.Python.sensors_DHT22ReadData = function (block) {
-// 	const pin = block.getFieldValue('PIN');
-// 	const pinNumber = pin.replace('p', '');
-// 	const pinName = Blockly.Python.Generators.digital_read(pin, 'DHT22 Sensor');
-// 	Blockly.Python.addImport('dht', IMPORT_DHT);
-// 	Blockly.Python.addImport('utime', IMPORT_UTIME);
-// 	Blockly.Python.addInit('dht22_' + pinNumber, 'dht22_' + pinNumber + ' = dht.DHT22(' + pinName + ')');
-// 	Blockly.Python.addFunction('dht_getMeasure', FUNCTIONS_GALAXIA.DEF_DHT_GET_MEASURE);
-// 	switch (block.getFieldValue('DATA')) {
-// 		case 'TEMP':
-// 			const unit = block.getFieldValue('UNIT') || 'celsius';
-// 			return ['dht_getMeasure(dht22_' + pinNumber + ", 't', unit='" + unit.toLowerCase() + "')", Blockly.Python.ORDER_ATOMIC];
-// 		case 'HUM':
-// 			return ['dht_getMeasure(dht22_' + pinNumber + ", 'h')", Blockly.Python.ORDER_ATOMIC];
-// 	}
-// };
-
-// Blockly.Python.sensors_TH02readData = function (block) {
-// 	Blockly.Python.addImport('esp32_th02', IMPORT_ESP32_TH02);
-// 	Blockly.Python.addInit('th02', 'th02 = TH02(i2c=I2C(scl=Pin(13), sda=Pin(14)))');
-// 	let data = block.getFieldValue('DATA');
-// 	switch (data) {
-// 		case 'TEMP':
-// 			var code = 'th02.get_temperature()';
-// 			if (block.getInput('TEMP_UNIT')) {
-// 				switch (block.getFieldValue('UNIT')) {
-// 					case 'FAHRENHEIT':
-// 						code += '*9/5 + 32';
-// 						break;
-// 					case 'KELVIN':
-// 						code += ' + 273.15';
-// 						break;
-// 				}
-// 			}
-// 			return [code, Blockly.Python.ORDER_ATOMIC];
-// 		case 'HUM':
-// 			return ['th02.get_humidity()', Blockly.Python.ORDER_ATOMIC];
-// 		default:
-// 			throw Error("Unhandled data option for th02 sensor :'" + data + "'");
-// 	}
-// };
-
-
-
-
-
-// Blockly.Python.sensors_getGroveHighTemperature = function (block) {
-// 	const pinA0Name = Blockly.Python.Generators.analog_read(block.getFieldValue('A0'), 'High Temperature thmc');
-// 	const pinA1Name = Blockly.Python.Generators.analog_read(block.getFieldValue('A1'), 'High Temperature room');
-// 	Blockly.Python.addImport('math', IMPORT_MATH);
-// 	Blockly.Python.addConstant('thmc_table', FUNCTIONS_GALAXIA.DEF_GROVE_HIGHTEMP_THMC_TABLE);
-// 	Blockly.Python.addFunction('getAnalogMean', FUNCTIONS_GALAXIA.DEF_GET_ANALOG_MEAN);
-// 	Blockly.Python.addFunction('K_VtoT', FUNCTIONS_GALAXIA.DEF_GROVE_HIGHTEMP_KVTOT);
-// 	Blockly.Python.addFunction('getRoomTemp', FUNCTIONS_GALAXIA.DEF_GROVE_HIGHTEMP_GET_ROOM_TEMP);
-// 	Blockly.Python.addFunction('getThmcTemp', FUNCTIONS_GALAXIA.DEF_GROVE_HIGHTEMP_GET_THMC_TEMP);
-// 	Blockly.Python.addPowerOn('highTemp_tempRoom_' + pinA0Name, 'tempRoom_' + pinA0Name + ' = getRoomTemp(' + pinA1Name + ')');
-// 	let code = 'getThmcTemp(' + pinA0Name + ', tempRoom_' + pinA0Name + ')';
-// 	switch (block.getFieldValue('UNIT')) {
-// 		case 'FAHRENHEIT':
-// 			code += '*9/5 + 32';
-// 			break;
-// 		case 'KELVIN':
-// 			code += ' + 273.15';
-// 			break;
-// 	}
-// 	return [code, Blockly.Python.ORDER_ATOMIC];
-// };
-
-// Blockly.Python.sensors_SHT31readData = function (block) {
-// 	const data = block.getFieldValue('DATA');
-// 	Blockly.Python.addImport('esp32_sht31', IMPORT_ESP32_SHT31);
-// 	Blockly.Python.addInit('sht31', 'sht31 = SHT31(i2c=I2C(scl=Pin(13), sda=Pin(14)))');
-// 	switch (data) {
-// 		case 'TEMP':
-// 			var code;
-// 			code = 'sht31.get_temp_humi()[0]';
-// 			if (block.getInput('TEMP_UNIT')) {
-// 				switch (block.getFieldValue('UNIT')) {
-// 					case 'FAHRENHEIT':
-// 						code += '*9/5 + 32';
-// 						break;
-// 					case 'KELVIN':
-// 						code += ' + 273.15';
-// 						break;
-// 				}
-// 			}
-// 			return [code, Blockly.Python.ORDER_ATOMIC];
-// 		case 'HUM':
-// 			return ['sht31.get_temp_humi()[1]', Blockly.Python.ORDER_ATOMIC];
-// 		default:
-// 			throw Error("Unhandled data option for sht31 sensor :'" + data + "'");
-// 	}
-// };
-
-// Blockly.Python.sensors_DS18B20_getTemperature = function (block) {
-// 	const pin = block.getFieldValue('PIN');
-// 	const objName = 'ds18b20_' + pin.replace('p', '');
-// 	Blockly.Python.addImport('esp32_ds18b20', IMPORT_ESP32_DS18B20);
-// 	Blockly.Python.addImport('onewire', IMPORT_ONEWIRE);
-// 	Blockly.Python.addImport('utime', IMPORT_UTIME);
-// 	Blockly.Python.addFunction('ds18b20_measure', FUNCTIONS_GALAXIA.DEF_DS18B20_MEASURE);
-// 	Blockly.Python.addInit(objName, objName + ' = DS18X20(onewire.OneWire(Pin(' + pin.replace('p', '') + ')))');
-// 	const objRoms = objName + '_roms';
-// 	Blockly.Python.addPowerOn(objRoms, objRoms + ' = ' + objName + '.scan()');
-// 	Blockly.Python.addPowerOn(objName + '_print', "print('[DS18B20_INFO - " + pin + "]: roms = ' + str(" + objRoms + '))');
-// 	let code = 'ds18b20_measure(' + objName + ', ' + objRoms + '[0])';
-// 	if (block.getInput('TEMP_UNIT')) {
-// 		switch (block.getFieldValue('UNIT')) {
-// 			case 'FAHRENHEIT':
-// 				code += '*9/5 + 32';
-// 				break;
-// 			case 'KELVIN':
-// 				code += ' + 273.15';
-// 				break;
-// 		}
-// 	}
-// 	return [code, Blockly.Python.ORDER_ATOMIC];
-// };
-
-// Blockly.Python.sensors_getGroveWaterAmount = function (block) {
-// 	const pinName = Blockly.Python.Generators.analog_read(block.getFieldValue('PIN'), 'Water Sensor');
-// 	return [pinName + '.read()', Blockly.Python.ORDER_ATOMIC];
-// };
-
-// Blockly.Python.sensors_getRainGauge = function (block) {
-// 	const pinName = Blockly.Python.Generators.digital_read(block.getFieldValue('PIN'), 'Rain Gauge');
-// 	return [pinName + '.value()', Blockly.Python.ORDER_ATOMIC];
-// };
-
-// Blockly.Python.sensors_getAnemometer = function (block) {
-// 	const pinName = Blockly.Python.Generators.digital_read(block.getFieldValue('PIN'), 'Anemometer');
-// 	return [pinName + '.value()', Blockly.Python.ORDER_ATOMIC];
-// };
-
-
-
-// Blockly.Python.sensors_getSi1145Light = function (block) {
-// 	Blockly.Python.addImport('esp32_si1145', IMPORT_ESP32_SI1145);
-// 	Blockly.Python.addInit('si1145', 'si1145 = SI1145(i2c=I2C(scl=Pin(13), sda=Pin(14)))');
-// 	switch (block.getFieldValue('LIGHT')) {
-// 		case 'UV':
-// 			return ['si1145.read_uv()', Blockly.Python.ORDER_ATOMIC];
-// 		case 'VIS':
-// 			return ['si1145.read_visible()', Blockly.Python.ORDER_ATOMIC];
-// 		case 'IR':
-// 			return ['si1145.read_ir()', Blockly.Python.ORDER_ATOMIC];
-// 	}
-// };
-
-// Blockly.Python.sensors_getUVindex = function (block) {
-// 	const pinName = Blockly.Python.Generators.analog_read(block.getFieldValue('PIN'), 'UV Sensor');
-// 	Blockly.Python.addImport('utime', IMPORT_UTIME);
-// 	Blockly.Python.addFunction('getUVindex', FUNCTIONS_GALAXIA.DEF_GROVE_GET_UV_INDEX);
-// 	return ['getUVindex(' + pinName + ')', Blockly.Python.ORDER_ATOMIC];
-// };
-
-// Blockly.Python.sensors_colorSensor_getData = function (block) {
-// 	Blockly.Python.addImport('color_sensor', IMPORT_ESP32_COLOR_SENSOR);
-// 	Blockly.Python.addInit('color_sensor', 'colorSensor = TCS34725(i2c=I2C(scl=Pin(13), sda=Pin(14)))');
-// 	return ['colorSensor.html_rgb()[' + block.getFieldValue('DATA') + ']', Blockly.Python.ORDER_ATOMIC];
-// };
-
-// Blockly.Python.sensors_getGroveSound = function (block) {
-// 	const pinName = Blockly.Python.Generators.analog_read(block.getFieldValue('PIN'), 'Sound Sensor');
-// 	return [pinName + '.read()', Blockly.Python.ORDER_ATOMIC];
-// };
-
-// // Distance & Movement sensors
-
-
-
-// Blockly.Python.sensors_getGroveLineFinder = function (block) {
-// 	const pinName = Blockly.Python.Generators.digital_read(block.getFieldValue('PIN'), 'Line Finder');
-// 	return [pinName + '.value()', Blockly.Python.ORDER_ATOMIC];
-// };
-
-// Blockly.Python.sensors_getGroveMotion = function (block) {
-// 	const pinName = Blockly.Python.Generators.digital_read(block.getFieldValue('PIN'), 'Motion Sensor');
-// 	return [pinName + '.value()', Blockly.Python.ORDER_ATOMIC];
-// };
-
-// Blockly.Python.sensors_getPiezoVibration = function (block) {
-// 	const pinName = Blockly.Python.Generators.digital_read(block.getFieldValue('PIN'), 'Vibration Sensor');
-// 	return [pinName + '.value()', Blockly.Python.ORDER_ATOMIC];
-// };
-
-// Blockly.Python.sensors_getGroveTilt = function (block) {
-// 	const pinName = Blockly.Python.Generators.digital_read(block.getFieldValue('PIN'), 'Tilt Sensor');
-// 	return [pinName + '.value()', Blockly.Python.ORDER_ATOMIC];
-// };
-
-// Raspberry
-Blockly.Python.sensors_getGroveUltrasonicRanger = function (block) {
-	const pin = block.getFieldValue('PIN');
-    Blockly.Python.addImport('ultrasonic_ranger', IMPORT_ULTRASONIC_RANGER);
-	// Blockly.Python.addFunction('grove_getUltrasonicData', FUNCTIONS_GALAXIA.DEF_GROVE_ULTRASONIC);
-
-	Blockly.Python.addInit('ultrasonic_grove_' + pin, '# Ultrasonic on ' + pin);
-    Blockly.Python.addInit('sonar', `sonar = GroveUltrasonicRanger(${pin})`); 
-	return ['sonar.get_distance()', Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python.sensors_getGroveTemperature = function (block) {
-	Blockly.Python.addImport('math', IMPORT_MATH);
-	Blockly.Python.addImport('ADC', IMPORT_ADC);
-	const pinName = Blockly.Python.Generators.analog_read(block.getFieldValue('PIN'), 'Temperature Sensor');
-	const unit = block.getFieldValue('UNIT') || 'celsius';
-	// Blockly.Python.addInit('grove_temp_' + pinName, '# Temperature Sensor on slot'+ pinName);
-	// Blockly.Python.addInit('ADC', `adc = ADC(${pinName})`);
-	Blockly.Python.addFunction('grove_getTemperature', FUNCTIONS_RASPBERRY.DEF_GROVE_GET_TEMP);
-	return [`getGroveTemperature(adc_${pinName}, unit="` + unit.toLowerCase() + '")', Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python.sensors_getGroveMoisture = function (block) {
-	Blockly.Python.addImport('ADC', IMPORT_ADC);
-	const pinName = Blockly.Python.Generators.analog_read(block.getFieldValue('PIN'), 'Moisture Sensor');
-	// Blockly.Python.addInit('grove_moist_' + pinName, '# Moisture Sensor on slot'+ pinName);
-	// Blockly.Python.addInit('ADC', `adc = ADC(${pinName})`);
-	return [`adc_${pinName}.read_analog()`, Blockly.Python.ORDER_ATOMIC];
+Blockly.Python.sensors_getBmp280Data = function (block) {
+    const addr = block.getFieldValue("ADDR");
+    Blockly.Python.addImport('board', IMPORT_BOARD);
+    Blockly.Python.addImport('adafruit_bmp280', IMPORT_ADAFRUIT_BMP280);
+    Blockly.Python.addInit('bmp280', "bmp280 = Adafruit_BMP280_I2C(board.I2C(), address=" + addr + ")");
+    switch (block.getFieldValue("DATA")) {
+        case "TEMP":
+            let code = "bmp280.temperature";
+            if (block.getInput("TEMP_UNIT")) {
+                switch (block.getFieldValue("UNIT")) {
+                    case "FAHRENHEIT":
+                        code += "*9/5 + 32";
+                        break;
+                    case "KELVIN":
+                        code += " + 273.15";
+                        break;
+                }
+            }
+            return [code, Blockly.Python.ORDER_ADDITIVE];
+        case "PRESS":
+            return ["bmp280.pressure", Blockly.Python.ORDER_ATOMIC];
+        case "ALT":
+            //Blockly.Python.addFunction('bmp280_get_altitude', FUNCTIONS_RASPBERRY.DEF_BMP280_GET_ALTITUDE)
+            return ["bmp280.altitude", Blockly.Python.ORDER_ATOMIC];
+    }
 };
 
 Blockly.Python.sensors_DHT11ReadData = function (block) {
-	const pin = block.getFieldValue('PIN');
-	// const pinNumber = pin.replace('pin', '');
-	Blockly.Python.addImport('dht', IMPORT_DHT);
-	Blockly.Python.addImport('time', IMPORT_TIME);
-	// Blockly.Python.addPowerOn('dht11_' + pin, "# DHT11 Sensor on " + pin);
-	Blockly.Python.addInit('dht_' + pin, 'dht_' + pin + ' = DHT("11", ' + pin + ')');
-	Blockly.Python.addFunction('dht_getMeasure', FUNCTIONS_RASPBERRY.DEF_DHT_GET_MEASURE);
-	switch (block.getFieldValue('DATA')) {
-		case 'TEMP':
-			const unit = block.getFieldValue('UNIT') || 'celsius';
-			return ['dht_getMeasure(dht_' + pin + ", 't', unit='" + unit.toLowerCase() + "')", Blockly.Python.ORDER_ATOMIC];
-		case 'HUM':
-			return ['dht_getMeasure(dht_' + pin + ", 'h')", Blockly.Python.ORDER_ATOMIC];
-	}
+    const pin = block.getFieldValue("PIN");
+    const pinName = Blockly.Python.Generators.digital_read(pin, 'DHT11 Sensor');
+    Blockly.Python.addImport('seeed_dht', IMPORT_SEEED_DHT);
+    Blockly.Python.addImport('time', IMPORT_TIME);
+    Blockly.Python.addInit('dht11_' + pinName, "dht11_" + pinName + " = DHT(\"11\", " + pinName + ")");
+    Blockly.Python.addInit('dht11_' + pinName + '_vars', "_dht11_last_time = 0.0\n_dht11_last_values = {\n  \"temperature\": None,\n  \"humidity\": None,\n}");
+    Blockly.Python.addFunction('dht11_measure', FUNCTIONS_RASPBERRY.DEF_DHT11_MEASURE);
+    switch (block.getFieldValue('DATA')) {
+        case 'TEMP':
+            let code = "dht11_measure(dht11_" + pinName + ", 'temperature')";
+            if (block.getInput("UNIT")) {
+                switch (block.getFieldValue("UNIT")) {
+                    case "FAHRENHEIT":
+                        code += "*9/5 + 32";
+                        break;
+                    case "KELVIN":
+                        code += " + 273.15";
+                        break;
+                }
+            }
+            return [code, Blockly.Python.ORDER_ADDITIVE];
+        case 'HUM':
+            return ["dht11_measure(dht11_" + pinName + ", 'humidity')", Blockly.Python.ORDER_ATOMIC];
+    }
 };
 
-// // Sound & Light sensors
-
-Blockly.Python.sensors_getGroveLight = function (block) {
-	Blockly.Python.addImport('ADC', IMPORT_ADC);
-	const pinName = Blockly.Python.Generators.analog_read(block.getFieldValue('PIN'), 'Light Sensor');
-	// Blockly.Python.addInit('grove_light_' + pinName, '# Light Sensor on slot'+ pinName);
-	// Blockly.Python.addInit(`ADC_${pinName}`, `adc_${pinName} = ADC(${pinName})`);
-	return [`adc_${pinName}.read()`, Blockly.Python.ORDER_ATOMIC];
+Blockly.Python.sensors_DHT22ReadData = function (block) {
+    const pin = block.getFieldValue("PIN");
+    const pinName = Blockly.Python.Generators.digital_read(pin, 'DHT22 Sensor');
+    Blockly.Python.addImport('seeed_dht', IMPORT_SEEED_DHT);
+    Blockly.Python.addImport('time', IMPORT_TIME);
+    Blockly.Python.addInit('dht22_' + pinName, "dht22_" + pinName + " = DHT(\"22\", " + pinName + ")");
+    Blockly.Python.addInit('dht22_' + pinName + '_vars', "_dht22_last_time = 0.0\n_dht22_last_values = {\n  \"temperature\": None,\n  \"humidity\": None,\n}");
+    Blockly.Python.addFunction('dht22_measure', FUNCTIONS_RASPBERRY.DEF_DHT22_MEASURE);
+    switch (block.getFieldValue('DATA')) {
+        case 'TEMP':
+            let code = "dht22_measure(dht22_" + pinName + ", 'temperature')";
+            if (block.getInput("UNIT")) {
+                switch (block.getFieldValue("UNIT")) {
+                    case "FAHRENHEIT":
+                        code += "*9/5 + 32";
+                        break;
+                    case "KELVIN":
+                        code += " + 273.15";
+                        break;
+                }
+            }
+            return [code, Blockly.Python.ORDER_ADDITIVE];
+        case 'HUM':
+            return ["dht22_measure(dht22_" + pinName + ", 'humidity')", Blockly.Python.ORDER_ATOMIC];
+    }
 };
 
-// rpi camera
-Blockly.Python.sensors_rpi_camera_take_picture = function (block) {
-	Blockly.Python.addImport('picamera', IMPORT_RPI_CAMERA);
-	Blockly.Python.addImport('time', IMPORT_TIME);
-	Blockly.Python.addInit('camera', 'picam = Camera()');
-	return `picam.get_frame()`;
+Blockly.Python.sensors_SHT31readData = function (block) {
+    const data = block.getFieldValue("DATA");
+    Blockly.Python.addImport('board', IMPORT_BOARD);
+    Blockly.Python.addImport('adafruit_sht31d', IMPORT_ADAFRUIT_CP_SHT31D);
+    Blockly.Python.addInit('sht31', 'sht31 = SHT31D(board.I2C())');
+    switch (data) {
+        case "TEMP":
+            let code = "sht31.temperature";
+            if (block.getInput("TEMP_UNIT")) {
+                switch (block.getFieldValue("UNIT")) {
+                    case "FAHRENHEIT":
+                        code += "*9/5 + 32";
+                        break;
+                    case "KELVIN":
+                        code += " + 273.15";
+                        break;
+                }
+            }
+            return [code, Blockly.Python.ORDER_ADDITIVE];
+        case "HUM":
+            return ["sht31.relative_humidity", Blockly.Python.ORDER_ATOMIC];
+        default:
+            throw Error("Unhandled data option for sht31 sensor :'" + data + "'")
+    }
 };
 
-Blockly.Python.sensors_rpi_camera_take_video = function (block) {
-	Blockly.Python.addImport('picamera', IMPORT_RPI_CAMERA);
-	Blockly.Python.addImport('time', IMPORT_TIME);
-	Blockly.Python.addInit('camera', 'picam = Camera()');
-	const duration = Blockly.Python.valueToCode(block, 'DURATION', Blockly.Python.ORDER_ATOMIC) || '0';
-	return `picam.get_record(${duration}) ${NEWLINE}`;
+Blockly.Python.sensors_DS18B20_getTemperature = function (block) {
+    const pin = block.getFieldValue("PIN");
+    const pinName = Blockly.Python.Generators.digital_read(pin, 'DS18X20 Sensor');
+    const objName = 'ds18x20_' + pinName;
+    Blockly.Python.addImport('w1thermsensor', IMPORT_W1THERMSENSOR);
+    Blockly.Python.addInit(objName, objName + " = W1ThermSensor()");
+    let code = objName + ".get_temperature()";
+    switch (block.getFieldValue("UNIT")) {
+        case "FAHRENHEIT":
+            code += "*9/5 + 32";
+            break;
+        case "KELVIN":
+            code += " + 273.15";
+            break;
+    }
+    return [code, Blockly.Python.ORDER_ADDITIVE];
+};
+
+Blockly.Python.sensors_getRainGauge = function (block) {
+    const pinName = Blockly.Python.Generators.digital_read(block.getFieldValue("PIN"), 'Rain Sensor');
+    return ["GPIO.input(" + pinName + ")", Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.sensors_getAnemometer = function (block) {
+    const pinName = Blockly.Python.Generators.digital_read(block.getFieldValue("PIN"), 'Anemometer');
+    return ["GPIO.input(" + pinName + ")", Blockly.Python.ORDER_ATOMIC];
+};
+
+// Sound & Light sensors
+
+Blockly.Python.sensors_getSunlightData = function (block) {
+    const version = block.getFieldValue("VERSION");
+    let obj = 'si114x';
+    switch (version) {
+        case 'SI1151':
+            obj = 'si115x';
+            Blockly.Python.addImport('seeed_' + obj, IMPORT_SEEED_SI115X);
+            break;
+        default:
+        case 'SI1145':
+            Blockly.Python.addImport('seeed_' + obj, IMPORT_SEEED_SI114X);
+    }
+    Blockly.Python.addInit(obj, obj + " = grove_" + obj + "()");
+    switch (block.getFieldValue("LIGHT")) {
+        case "UV":
+            return [obj + ".read_uv() / 100.0", Blockly.Python.ORDER_ATOMIC];
+        case "VIS":
+            return [obj + ".read_visible()", Blockly.Python.ORDER_ATOMIC];
+        case "IR":
+            return [obj + ".read_ir()", Blockly.Python.ORDER_ATOMIC];
+    }
+};
+
+Blockly.Python.sensors_colorSensorV2_getData = function (block) {
+    Blockly.Python.addImport('grove_i2c_color_sensor_v2', IMPORT_GROVE_COLORSENSORV2);
+    Blockly.Python.addInit('colorSensorV2', "colorSensorV2 = GroveI2cColorSensorV2()");
+    Blockly.Python.addImport('time', IMPORT_TIME);
+    Blockly.Python.addFunction('colorSensorV2_measure', FUNCTIONS_RASPBERRY.DEF_COLORSENSORV2_MEASURE);
+    return ["colorSensorV2_measure(" + block.getFieldValue("DATA") + ")", Blockly.Python.ORDER_ATOMIC];
+};
+
+// Distance & Movement sensors
+
+Blockly.Python.sensors_getGroveUltrasonicRanger = function (block) {
+    let data = "";
+    switch (block.getFieldValue("DATA")) {
+        case "DIST":
+            data = "distance";
+            break;
+        case "TIME":
+            data = "duration";
+            break;
+    }
+    switch (block.getFieldValue("SENSOR")) {
+        case "GROVE":
+            const pin = block.getFieldValue("PIN");
+            const objName = "ultrasonic_" + pin;
+            Blockly.Python.addImport('GroveUltrasonicRanger', IMPORT_GROVE_ULTRASONIC_RANGER);
+            Blockly.Python.addInit('ultrasonic_grove_' + pin, '# Ultrasonic on ' + pin);
+            Blockly.Python.addInit('sonar', `${objName} = GroveUltrasonicRanger(${pin})`);
+            if (data == 'duration') {
+                return ["343 * " + objName + ".get_distance()/2.0 * 100", Blockly.Python.ORDER_ATOMIC];
+            } else {
+                return [objName + '.get_distance()', Blockly.Python.ORDER_ATOMIC];
+            }
+        case "HC-SR04":
+            Blockly.Python.addImport('time', IMPORT_TIME);
+            const pinTRIG = block.getFieldValue("TRIG");
+            const pinECHO = block.getFieldValue("ECHO");
+            const pinName_TRIG = Blockly.Python.Generators.digital_write(pinTRIG);
+            const pinName_ECHO = Blockly.Python.Generators.digital_read(pinECHO);
+            Blockly.Python.addInit('hcsr04_' + pinTRIG + '_codeFlag', '# Ultrasonic TRIG/ECHO on ' + pinTRIG + '/' + pinECHO);
+            Blockly.Python.addInit('time_pulse_us', FUNCTIONS_RASPBERRY.DEF_TIME_PULSE_US);
+            Blockly.Python.addFunction('hcsr04_getUltrasonicData', FUNCTIONS_RASPBERRY.DEF_HCSR04_ULTRASONIC);
+            return ["hcsr04_getUltrasonicData(" + pinName_TRIG + ", " + pinName_ECHO + ", data='" + data + "')", Blockly.Python.ORDER_ATOMIC];
+    }
+};
+
+Blockly.Python.sensors_getGesture = function () {
+    Blockly.Python.addImport('grove_gesture_sensor', IMPORT_GROVE_PAJ7620);
+    Blockly.Python.addConstant('paj7620', "GESTURE_TYPES = {\n  'nothing': 0, 'forward': 1, 'backward': 2, 'right': 3, 'left': 4, 'up': 5, 'down': 6, 'clockwise': 7, 'anticlockwise': 8\n}");
+    Blockly.Python.addInit('paj7620', "paj7620 = gesture()");
+    return ["paj7620.return_gesture()", Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.sensors_onGestureTypeDetected = function (block) {
+    Blockly.Python.addImport('grove_gesture_sensor', IMPORT_GROVE_PAJ7620);
+    Blockly.Python.addConstant('paj7620', "GESTURE_TYPES = {\n  'nothing': 0, 'forward': 1, 'backward': 2, 'right': 3, 'left': 4, 'up': 5, 'down': 6, 'clockwise': 7, 'anticlockwise': 8\n}");
+    Blockly.Python.addInit('paj7620', "paj7620 = gesture()");
+    const branchCode = Blockly.Python.statementToCode(block, "DO") || Blockly.Python.PASS;
+    return "if paj7620.return_gesture() == GESTURE_TYPES['" + block.getFieldValue("GESTURE") + "']:" + NEWLINE + branchCode;
+};
+
+Blockly.Python.sensors_getGroveLineFinder = function (block) {
+    const pinName = Blockly.Python.Generators.digital_read(block.getFieldValue("PIN"), 'Line Finder');
+    return ["GPIO.input(" + pinName + ")", Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.sensors_getGroveMotion = function (block) {
+    const pinName = Blockly.Python.Generators.digital_read(block.getFieldValue("PIN"), 'Motion Sensor');
+    return ["GPIO.input(" + pinName + ")", Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.sensors_getGroveTilt = function (block) {
+    const pinName = Blockly.Python.Generators.digital_read(block.getFieldValue("PIN"), 'Tilt Sensor');
+    return ["GPIO.input(" + pinName + ")", Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.sensors_getPiezoVibration = function (block) {
+    const pinName = Blockly.Python.Generators.digital_read(block.getFieldValue("PIN"), 'Vibration Sensor');
+    return ["GPIO.input(" + pinName + ")", Blockly.Python.ORDER_ATOMIC];
 };

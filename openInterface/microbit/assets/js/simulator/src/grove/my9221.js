@@ -14,7 +14,6 @@ const $builtinmodule = function (name) {
 			self.reverse = false;
 			self.di = di.name;
 			self.dcki = dcki.name;
-			$("#ledBar_" + self.di).find(".subtitle-module").html('P' + self.di + ' / P' + self.dcki);
 			const htmlString = `
                 <div class="ledBar-container">
                     <div class="ledBar"></div>

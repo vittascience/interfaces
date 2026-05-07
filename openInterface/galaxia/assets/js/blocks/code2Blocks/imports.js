@@ -6,7 +6,6 @@ import '/openInterface/galaxia/assets/js/blocks/code2Blocks/ast_sensors.js'; // 
 const LIB_IMPORT = {
     // micropython libraries
     IMPORT_UTIME: "import utime",
-    IMPORT_TIME: "import time",
     IMPORT_MATH: "import math",
     IMPORT_RANDOM: "import random",
     IMPORT_UJSON: "import ujson",
@@ -23,28 +22,20 @@ const LIB_IMPORT = {
     IMPORT_UREQUESTS: "import urequests",
     IMPORT_SOCKET: "import socket",
 
-    // bluetooth custom libraries
-    IMPORT_BLUETOOTH: "import bluetooth",
-    IMPORT_ESP32_BLE: "from esp32_ble import BlueUart",
-    IMPORT_ESP32_BLE_UART: "from esp32_ble_uart import UART_BLE",
-
     // wifi custom libraries
-    IMPORT_SUPERVISOR: "import supervisor",
-    IMPORT_SIMPLE_WIFI: "import simple_wifi",
-    IMPORT_SIMPLE_MQTT: "import simple_mqtt",
     IMPORT_VITTA_SERVER: "from vitta_server import SERVER",
     IMPORT_VITTA_CLIENT: "from vitta_client import CLIENT",
+    IMPORT_ESP32_UMAIL: "import esp32_umail",
+    IMPORT_VITTA_MQTT: "from vitta_mqtt import SimpleMQTTClient",
 
     // galaxia libraries
     IMPORT_THINGZ_ALL: "from thingz import *",
-    IMPORT_GALAXIAUI_ALL: "from galaxiaUi import *",
 
     // grove modules libraries - I2C
     IMPORT_ESP32_BMP280: "from esp32_bmp280 import BMP280",
     IMPORT_ESP32_COLOR_SENSOR: "from esp32_colorSensor import GroveI2cColorSensorV2",
     IMPORT_ESP32_DS1307: "from esp32_ds1307 import DS1307",
     IMPORT_ESP32_GAS: "from esp32_gas import GAS",
-    IMPORT_ESP32_GAS_GMXXX: "from esp32_gas_gmxxx import GAS_GMXXX",
     IMPORT_ESP32_HM330X: "from esp32_hm330x import HM330X",
     IMPORT_ESP32_LCD1602: "from esp32_lcd_i2c import LCD1602",
     IMPORT_ESP32_PCF85063TP: "from esp32_pcf85063tp import RTC_HP",

@@ -1,5 +1,3 @@
-Simulator.Mosaic.BOARD_HEADER = `<object id="board-viewer" class="mt-3" type="image/svg+xml"></object>`;
-
 Simulator.Mosaic.pin_regex = /PORT_([0-9]{1,2})/gi;
 
 Simulator.Mosaic.getPinDef = (pin, mod) => {
@@ -309,7 +307,7 @@ Simulator.Mosaic.specific = {
             id: "makeblockMatrix",
             title: "Matrice de LED",
             codeFlag: "LED Matrix",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             pins: 'digital',
             type: 'output',
             value: "",
@@ -319,7 +317,7 @@ Simulator.Mosaic.specific = {
             id: "neopixel",
             title: "Neopixel",
             codeFlag: "Neopixel",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             pins: 'digital',
             slots: true,
             type: 'output',
@@ -331,7 +329,7 @@ Simulator.Mosaic.specific = {
             title: "LED RGB",
             codeFlag: "RGB LED",
             size: 4,
-            pin: 'pin n° ',
+            pin: 'pin n°',
             pins: 'digital',
             type: 'output',
             value: "",
@@ -342,7 +340,7 @@ Simulator.Mosaic.specific = {
             title: "Afficheurs 4 digits",
             codeFlag: "Me7SegmentDisplay",
             size: 4,
-            pin: 'pin n° ',
+            pin: 'pin n°',
             pins: 'digital',
             type: 'output',
             value: "0000",
@@ -351,7 +349,7 @@ Simulator.Mosaic.specific = {
         {
             id: "ultrasonic",
             title: "Télémètre: ",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             pins: 'digital',
             type: 'input',
             codeFlag: 'Ultrasonic',
@@ -423,7 +421,7 @@ Simulator.Mosaic.specific = {
         {
             id: "makeblockPIR",
             title: "Capteur de mouvement",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             pins: 'digital',
             type: 'input',
             codeFlag: 'Motion Sensor',
@@ -444,7 +442,7 @@ Simulator.Mosaic.specific = {
         {
             id: "makeblockCompass-heading",
             title: "Boussole - Axe: ",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             type: 'input',
             codeFlag: 'Compass',
             listeners: [{
@@ -476,7 +474,7 @@ Simulator.Mosaic.specific = {
         {
             id: "makeblockCompass-angle",
             title: "Boussole - angle",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             type: 'input',
             codeFlag: 'Compass',
             listeners: [{
@@ -515,7 +513,7 @@ Simulator.Mosaic.specific = {
         {
             id: "makeblockColorSensor",
             title: "Capteur de couleurs : ",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             type: 'input',
             codeFlag: 'Color Sensor',
             listeners: [{
@@ -551,7 +549,7 @@ Simulator.Mosaic.specific = {
         {
             id: "makeblockSoundSensor",
             title: "Capteur de son",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
             codeFlag: 'Sound Sensor',
@@ -570,7 +568,7 @@ Simulator.Mosaic.specific = {
         {
             id: "makeblockMQ2",
             title: "MQ2 - Gas",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             type: 'input',
             codeFlag: 'MQ2 Sensor',
             listeners: [{
@@ -589,7 +587,7 @@ Simulator.Mosaic.specific = {
         {
             id: "makeblockDS18B20",
             title: "DS18B20 - Température",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             pins: 'digital',
             type: 'input',
             codeFlag: 'Waterproof Sensor',
@@ -610,8 +608,8 @@ Simulator.Mosaic.specific = {
         // actuators
         {
             id: "makeblockServo",
-            title: "Servo",
-            pin: 'pin n° ',
+            title: "Servomoteur",
+            pin: 'pin n°',
             pins: 'PWM',
             type: 'output',
             class: 'servo',

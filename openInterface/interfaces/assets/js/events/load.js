@@ -5,6 +5,18 @@ var SerialAPI = null;
 var Repl = null;
 
 /**
+ * Standard programming interfaces that use the common accessibility module
+ * Excludes: ia, adacraft (non-standard structure)
+ */
+const STANDARD_A11Y_INTERFACES = [
+    'arduino', 'bluebot', 'buddy', 'codey', 'cyberpi', 'eliobot', 'esp32',
+    'galaxia', 'GalaxiaCircuitPython', 'l476', 'letsstartcoding', 'lotibot',
+    'm5stack', 'mBot', 'microbit', 'nao', 'niryo', 'photon', 'pico', 'python',
+    'raspberrypi', 'sphero', 'spike', 'thymio', 'TI-83', 'wb55', 'web', 'winky',
+    'steami', 'alphai'
+];
+
+/**
  * Load interface.
  * @param {string} interfaceName 
  */
@@ -15,59 +27,106 @@ async function loadInterface(interfaceName) {
         lng = getCookie('lng');
     }
 
-    let COMMON_LANG_SCRIPTS = [{
-        id: "common_block_msg",
-        src: `${CDN_PATH}/openInterface/interfaces/assets/js/msg/blocks/${lng}.js`
-    }, {
-        id: "common_cat_msg",
-        src: `${CDN_PATH}/openInterface/interfaces/assets/js/msg/categories/${lng}.js`
-    }];
+    const COMMON_BKY_MSG_PATH = `${CDN_PATH}/openInterface/interfaces/assets/js/msg`;
+    const GET_COMMON_BKY_LANG_SCRIPTS = (language) => {
+        let scripts;
+        if (interfaceName == 'web') {
+            scripts = [{
+                id: "common_cat_msg",
+                src: `${COMMON_BKY_MSG_PATH}/categories/${language}.js`
+            }];
+        } else {
+            scripts = [{
+                id: "common_block_msg",
+                src: `${COMMON_BKY_MSG_PATH}/blocks/basic/${language}.js`
+            }, {
+                id: "common_cat_msg",
+                src: `${COMMON_BKY_MSG_PATH}/categories/${language}.js`
+            }];
+            if (['arduino', 'esp32', 'galaxia', 'pico', 'm5stack'].includes(interfaceName)) {
+                scripts.push({
+                    id: "common_esp32_block_msg",
+                    src: `${COMMON_BKY_MSG_PATH}/blocks/esp32/${language}.js`
+                })
+            }
+        }
+        return scripts;
+    };
 
-    let FALLBACK_COMMON_LANG_SCRIPTS = [{
-        id: "common_block_msg",
-        src: `${CDN_PATH}/openInterface/interfaces/assets/js/msg/blocks/en.js`
-    }, {
-        id: "common_cat_msg",
-        src: `${CDN_PATH}/openInterface/interfaces/assets/js/msg/categories/en.js`
-    }];
+    const COMMON_BKY_LANG_SCRIPTS = GET_COMMON_BKY_LANG_SCRIPTS(lng);
+    const FALLBACK_COMMON_BKY_LANG_SCRIPTS = GET_COMMON_BKY_LANG_SCRIPTS('en');
 
-    if (INTERFACE_NAME == 'web') {
-        COMMON_LANG_SCRIPTS = [{
-            id: "common_cat_msg",
-            src: `${CDN_PATH}/openInterface/interfaces/assets/js/msg/categories/${lng}.js`
-        }];
-    
-        FALLBACK_COMMON_LANG_SCRIPTS = [{
-            id: "common_cat_msg",
-            src: `${CDN_PATH}/openInterface/interfaces/assets/js/msg/categories/en.js`
-        }];
+    const COMMON_ACE_MSG_PATH = `${CDN_PATH}/openInterface/interfaces/assets/js/autocomplete`;
+    const GET_COMMON_ACE_LANG_SCRIPTS = (language) => {
+        let scripts = [];
+        if (['cyberpi', 'esp32', 'esp8266', 'galaxia', 'l476', 'm5stack', 'microbit', 'pico', 'wb55'].includes(interfaceName)) {
+            scripts.push({
+                id: "common_ace_msg",
+                src: `${COMMON_ACE_MSG_PATH}/mpy/${language}.js`
+            });
+            if (['cyberpi', 'esp32', 'esp8266', 'galaxia', 'm5stack', 'pico'].includes(interfaceName)) {
+                scripts.push({
+                    id: "common_esp32_ace_msg",
+                    src: `${COMMON_ACE_MSG_PATH}/esp32/${language}.js`
+                });
+            }
+            if (['l476', 'wb55'].includes(interfaceName)) {
+                scripts.push({
+                    id: "common_stm32_ace_msg",
+                    src: `${COMMON_ACE_MSG_PATH}/stm32/${language}.js`
+                });
+            }
+        } else if (['arduino', 'mBot', 'letsstartcoding'].includes(interfaceName)) {
+            scripts.push({
+                id: "common_ace_msg",
+                src: `${COMMON_ACE_MSG_PATH}/arduino/${language}.js`
+            });
+        }
+        return scripts;
     }
 
-    const COMMON_ESP32_LANG_SCRIPTS = [{
-        id: "common_esp32_block_msg",
-        src: `${CDN_PATH}/openInterface/interfaces/assets/js/msg/blocks/esp32/${lng}.js`
-    }];
+    const COMMON_ACE_LANG_SCRIPTS = GET_COMMON_ACE_LANG_SCRIPTS(lng);
+    const FALLBACK_COMMON_ACE_LANG_SCRIPTS = GET_COMMON_ACE_LANG_SCRIPTS('en');
 
-    const FALLBACK_COMMON_ESP32_LANG_SCRIPTS = [{
-        id: "common_esp32_block_msg",
-        src: `${CDN_PATH}/openInterface/interfaces/assets/js/msg/blocks/esp32/en.js`
-    }];
+    const SPECIFIC_MSG_PATH = `/openInterface/${interfaceName}/assets/js/blocks/msg`;
+    const GET_BKY_LANG_SCRIPTS = (language) => {
+        let scripts = [];
+        if (['web', 'TI-83'].includes(interfaceName)) {
+            scripts.push({
+                id: "cat_msg",
+                src: `${SPECIFIC_MSG_PATH}/categories/js/${language}.js`
+            });
+        }
+        if (interfaceName == 'steami') {
+            scripts.push({
+                id: "block_msg",
+                src: `/openInterface/wb55/assets/js/blocks/msg/blocks/js/${language}.js`
+            });
+        }
+        scripts.push({
+            id: "block_msg",
+            src: `${SPECIFIC_MSG_PATH}/blocks/js/${language}.js`
+        });
+        return scripts;
+    };
 
-    const LANG_SCRIPTS = [{
-        id: "cat_msg",
-        src: `${CDN_PATH}/openInterface/${interfaceName}/assets/js/blocks/msg/categories/js/${lng}.js`
-    }, {
-        id: "block_msg",
-        src: `${CDN_PATH}/openInterface/${interfaceName}/assets/js/blocks/msg/blocks/js/${lng}.js`
-    }];
+    const LANG_SCRIPTS = GET_BKY_LANG_SCRIPTS(lng);
+    const FALLBACK_LANG_SCRIPTS = GET_BKY_LANG_SCRIPTS('en');
 
-    const FALLBACK_LANG_SCRIPTS = [{
-        id: "cat_msg",
-        src: `${CDN_PATH}/openInterface/${interfaceName}/assets/js/blocks/msg/categories/js/en.js`
-    }, {
-        id: "block_msg",
-        src: `${CDN_PATH}/openInterface/${interfaceName}/assets/js/blocks/msg/blocks/js/en.js`
-    }];
+    const SPECIFIC_ACE_MSG_PATH = `${CDN_PATH}/openInterface/${interfaceName}/assets/js/autocomplete`;
+    const GET_ACE_LANG_SCRIPTS = (language) => {
+        let scripts = [];
+        if (['microbit', 'galaxia', 'steami'].includes(interfaceName)) {
+            scripts.push({
+                id: "specific_ace_msg",
+                src: `${SPECIFIC_ACE_MSG_PATH}/${language}.js`
+            });
+        }
+        return scripts;
+    };
+
+    const ACE_LANG_SCRIPTS = GET_ACE_LANG_SCRIPTS(lng);
+    const FALLBACK_ACE_LANG_SCRIPTS = GET_ACE_LANG_SCRIPTS('en');
 
     // Fill this array with all the scripts that are common in all the interfaces. Feal free to add module and/or defer property to true to add those properties to the script tag (it is not mandatory to add those two properties)
     const COMMON_SCRIPTS = [
@@ -88,36 +147,64 @@ async function loadInterface(interfaceName) {
     }];
 
     const EVENTS_SCRIPTS = [
-      {
-        id: "public_styling",
-        src: `${CDN_PATH}/openInterface/interfaces/assets/js/styling/style.js`
-      },
-      {
-          id: "public_buttons",
-          src: `${CDN_PATH}/openInterface/interfaces/assets/js/events/buttons.js`,
-      }
-  ];
+        {
+            id: "public_styling",
+            src: `${CDN_PATH}/openInterface/interfaces/assets/js/styling/style.js`
+        },
+        {
+            id: "public_buttons",
+            src: `${CDN_PATH}/openInterface/interfaces/assets/js/events/buttons.js`,
+        }
+    ];
+
+    const ACE_AUTOCOMPLETE_SCRIPTS = [{
+        id: "interface_autocomplete",
+        src: `${CDN_PATH}/openInterface/interfaces/assets/js/autocomplete/InterfaceAutocomplete.js`
+    }];
 
     try {
-        await Loader.loadScripts(COMMON_LANG_SCRIPTS);
+        await Loader.loadScripts(COMMON_BKY_LANG_SCRIPTS);
     } catch (e) {
-        await Loader.loadScripts(FALLBACK_COMMON_LANG_SCRIPTS);
+        await Loader.loadScripts(FALLBACK_COMMON_BKY_LANG_SCRIPTS);
+    }
+
+    try {
+        await Loader.loadScripts(ACE_AUTOCOMPLETE_SCRIPTS);
+    } catch (e) {
+        console.error("ACE Autocomplete scripts failed to load: " + e);
+        failedToLoad();
+        return;
+    }
+
+    try {
+        await Loader.loadScripts(COMMON_ACE_LANG_SCRIPTS);
+    } catch (e) {
+        await Loader.loadScripts(FALLBACK_COMMON_ACE_LANG_SCRIPTS);
     }
 
     if (INTERFACE_NAME == 'web') {
-        await Loader.loadScripts([{id: 'web_message_script', src: `${CDN_PATH}/openInterface/web/assets/js/external/blockly/msg/js/${lng}.js`}]);
-    }
-
-    try {
-        await Loader.loadScripts(COMMON_ESP32_LANG_SCRIPTS);
-    } catch (e) {
-        await Loader.loadScripts(FALLBACK_COMMON_ESP32_LANG_SCRIPTS);
+        try {
+            await Loader.loadScripts([{
+                id: 'web_message_script',
+                src: `${CDN_PATH}/openInterface/web/assets/js/external/blockly/msg/js/${lng}.js`
+            }]);
+        } catch (e) {
+            console.error("Web message script failed to load: " + e);
+            failedToLoad();
+            return;
+        }
     }
 
     try {
         await Loader.loadScripts(LANG_SCRIPTS);
     } catch (e) {
         await Loader.loadScripts(FALLBACK_LANG_SCRIPTS);
+    }
+
+    try {
+        await Loader.loadScripts(ACE_LANG_SCRIPTS);
+    } catch (e) {
+        await Loader.loadScripts(FALLBACK_ACE_LANG_SCRIPTS);
     }
 
     try {
@@ -139,13 +226,14 @@ async function loadInterface(interfaceName) {
     try {
         await Main.init(interfaceName);
     } catch (e) {
+        console.error(e);
         console.error(`Main interface ${interfaceName} failed to load: ` + e);
         failedToLoad();
         return;
     }
 
     try {
-      await Loader.loadScripts(EVENTS_SCRIPTS);
+        await Loader.loadScripts(EVENTS_SCRIPTS);
     } catch (e) {
         // In LTI, on Firefox, the scripts loaded by loadScripts raise onerror, so we escape the page reload
         if (typeof ltiVariables13 === 'undefined') {
@@ -162,10 +250,21 @@ async function loadInterface(interfaceName) {
     } catch (e) {
         console.error(`CommonScripts loading error: ${e}`);
     }
+
+    // Load standard accessibility module for programming interfaces
+    if (STANDARD_A11Y_INTERFACES.includes(interfaceName)) {
+        try {
+            await import(`${CDN_PATH}/openInterface/interfaces/assets/js/utils/accessibility/std-a11y.js`);
+        } catch (e) {
+            console.error(`Accessibility module loading error: ${e}`);
+        }
+    }
+
     //updateTooltips();
-    loadingPrivate(interfaceName);
+    await loadingPrivate(interfaceName);
     VittaInterface = new InterfaceInit(interfaceName);
-    VittaInterface.init();
+    await VittaInterface.init();
+    window.VittaInterface = VittaInterface;
     //checkBlockMsg();
 };
 

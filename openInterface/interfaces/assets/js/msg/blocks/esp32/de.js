@@ -1,0 +1,154 @@
+/**
+ * @fileoverview Deutsche Meldungen für ESP32-Mikrocontroller. (DE)
+ */
+
+'use strict';
+
+// Netzwerk – WLAN
+Blockly.Msg["NETWORK_CONNECT_STATION_TITLE"] = "Station konfigurieren: Netzwerkname (SSID) %1 Passwort %2";
+Blockly.Msg["NETWORK_CONNECT_STATION_TOOLTIP"] = "Ermöglicht die Verbindung der " + Blockly.Msg.Esp32BoardName + " mit einem WLAN-Netzwerk. Um Daten vom Server im Browser zu empfangen, müssen das ESP32-Board und das Gerät mit demselben Netzwerk verbunden sein. Beispiel: Wenn die IP-Adresse Ihres Netzwerks 192.168.1.X ist, lautet das Gateway 192.168.1.1. Geben Sie die IP-Adresse des Servers im Browser ein. Alternativ können Sie einen Hostnamen festlegen, z. B. esp32-server, und diesen im Browser aufrufen: http://esp32-server/";
+Blockly.Msg["NETWORK_CONNECT_STATION_IP"] = "statische IP-Adresse";
+Blockly.Msg["NETWORK_CONNECT_STATION_MASK"] = "Subnetzmaske";
+Blockly.Msg["NETWORK_CONNECT_STATION_GATEWAY"] = "Gateway";
+Blockly.Msg["NETWORK_CONNECT_STATION_HOSTNAME"] = "DHCP-Hostname";
+Blockly.Msg["NETWORK_CONFIGURE_ACCESS_POINT_TITLE"] = "Access Point konfigurieren: Netzwerkname (SSID) %1 statische IP %2";
+Blockly.Msg["NETWORK_CONFIGURE_ACCESS_POINT_TOOLTIP"] = "Ermöglicht das Erstellen eines WLAN-Zugangspunkts auf der " + Blockly.Msg.Esp32BoardName + ".";
+Blockly.Msg["NETWORK_DISCONNECT_STATION_TITLE"] = "Station vom WLAN trennen";
+Blockly.Msg["NETWORK_DISCONNECT_STATION_TOOLTIP"] = "Trennt die WLAN-Station vom Netzwerk, wenn sie verbunden ist.";
+Blockly.Msg["NETWORK_IS_STATION_CONNECTED_TITLE"] = "ist die Station verbunden?";
+Blockly.Msg["NETWORK_IS_STATION_CONNECTED_TOOLTIP"] = "Gibt True zurück, wenn die WLAN-Station aktiv ist, sonst False. Die Station muss zuvor konfiguriert worden sein.";
+Blockly.Msg["NETWORK_SET_NETWORK_TITLE"] = "%1 WLAN";
+Blockly.Msg["NETWORK_SET_NETWORK_TOOLTIP"] = "Aktiviert oder deaktiviert das WLAN-Modul der " + Blockly.Msg.Esp32BoardName + ".";
+Blockly.Msg["NETWORK_ACTIVATE"] = "aktivieren";
+Blockly.Msg["NETWORK_DISABLE"] = "deaktivieren";
+Blockly.Msg["NETWORK_SCAN_NETWORK_PROFILES_TITLE"] = "verfügbare WLAN-Netzwerke suchen";
+Blockly.Msg["NETWORK_SCAN_NETWORK_PROFILES_TOOLTIP"] = "Gibt eine Liste aller verfügbaren WLAN-Netzwerke zurück.";
+Blockly.Msg["NETWORK_GET_STATION_INFOS_TITLE"] = "Stationsinformationen";
+Blockly.Msg["NETWORK_GET_STATION_INFOS_TOOLTIP"] = "Gibt ein 4er-Tupel mit IP-Adresse, Subnetzmaske, Gateway und DNS-Server zurück.";
+Blockly.Msg["NETWORK_CHANGE_SERVER_PORT_TITLE"] = "Server-Port auf %1 ändern";
+Blockly.Msg["NETWORK_CHANGE_SERVER_PORT_TOOLTIP"] = "Ändert den Server-Port der " + Blockly.Msg.Esp32BoardName + ". Die Karte muss mit einem WLAN-Netzwerk verbunden sein.";
+// Netzwerk – Server
+Blockly.Msg["NETWORK_SERVER_SEND_DATA_TITLE"] = "[Server] Daten %1 senden";
+Blockly.Msg["NETWORK_SERVER_SEND_DATA_TOOLTIP"] = "Sendet Daten vom Server an einen Client. Die " + Blockly.Msg.Esp32BoardName + " muss mit einem WLAN-Netzwerk verbunden sein.";
+Blockly.Msg["NETWORK_SERVER_GET_CLIENT_DATA_TITLE"] = "[Server] Client-Daten lesen";
+Blockly.Msg['NETWORK_SERVER_GET_CLIENT_DATA_TOOLTIP'] = 'Gibt die vom Client empfangenen Daten zurück. Standardmäßig wird die Verbindung zum Client bei jeder Server-Schleifeniteration automatisch geschlossen. Um die Verbindung offen zu halten, klicken Sie auf die Schaltfläche <b>⊕</b> und ändern Sie den Wert auf <b>False</b>. Die Karte ' + Blockly.Msg.Esp32BoardName + ' muss mit einem WLAN-Netzwerk verbunden sein.';
+Blockly.Msg['NETWORK_SERVER_GET_CLIENT_DATA_CLOSING'] = 'Verbindung schließen?';
+Blockly.Msg["NETWORK_SERVER_GET_CLIENT_DATA_PARAM_TITLE"] = "[Server] Anfrageparameter lesen";
+Blockly.Msg["NETWORK_SERVER_GET_CLIENT_DATA_PARAM_TOOLTIP"] = "Gibt den Parameter einer Client-Anfrage zurück. Die " + Blockly.Msg.Esp32BoardName + " muss mit einem WLAN-Netzwerk verbunden sein.";
+Blockly.Msg["NETWORK_SERVER_GET_CLIENT_IP_TITLE"] = "[Server] Client-IP-Adresse";
+Blockly.Msg["NETWORK_SERVER_GET_CLIENT_IP_TOOLTIP"] = "Gibt die IP-Adresse des Clients zurück. Die " + Blockly.Msg.Esp32BoardName + " muss mit einem WLAN-Netzwerk verbunden sein.";
+Blockly.Msg['NETWORK_SERVER_CLOSE_CLIENT_CONNECTION_TITLE'] = '[Server] Schließt die Verbindung zum Client';
+Blockly.Msg['NETWORK_SERVER_CLOSE_CLIENT_CONNECTION_TOOLTIP'] = 'Schließt die Verbindung zum Client.' + Blockly.Msg.Esp32BoardName + ' muss mit einem WLAN-Netzwerk verbunden sein.';
+Blockly.Msg["NETWORK_SERVER_SEND_WEB_PAGE_TITLE"] = "[Server] Webseite senden";
+Blockly.Msg["NETWORK_SERVER_SEND_WEB_PAGE_HTML"] = "HTML";
+Blockly.Msg["NETWORK_SERVER_SEND_WEB_PAGE_TOOLTIP"] = "Sendet eine Webseite an den Client. Die " + Blockly.Msg.Esp32BoardName + " muss mit einem WLAN-Netzwerk verbunden sein.";
+// Netzwerk – Client
+Blockly.Msg["NETWORK_CLIENT_GET_SERVER_DATA_TITLE"] = "[Client] Daten vom Server (IP %1) lesen";
+Blockly.Msg["NETWORK_CLIENT_GET_SERVER_DATA_TOOLTIP"] = "Gibt die Antwort des Servers zurück. Die " + Blockly.Msg.Esp32BoardName + " muss mit einem WLAN-Netzwerk verbunden sein.";
+Blockly.Msg["NETWORK_CLIENT_SEND_DATA_TITLE"] = "[Client] Daten %1 an Server-IP %2 senden";
+Blockly.Msg["NETWORK_CLIENT_SEND_DATA_TOOLTIP"] = "Sendet Daten vom Client an den Server. Die " + Blockly.Msg.Esp32BoardName + " muss mit einem WLAN-Netzwerk verbunden sein.";
+Blockly.Msg["NETWORK_CLIENT_SEND_DATA_PORT"] = "Port";
+// Netzwerk – Webseite (HTML)
+Blockly.Msg["NETWORK_ADD_TITLE_TITLE"] = "[HTML] Untertitel %1 hinzufügen, Ebene %2 Farbe %3";
+Blockly.Msg["NETWORK_ADD_TITLE_TOOLTIP"] = "Fügt einen Untertitel zur Webseite hinzu. Dieser Block muss im Block '[Server] Webseite senden' verwendet werden.";
+Blockly.Msg["NETWORK_ADD_TEXT_TITLE"] = "[HTML] Text %1 hinzufügen";
+Blockly.Msg["NETWORK_ADD_TEXT_TOOLTIP"] = "Fügt Text zur Webseite hinzu. Dieser Block muss im Block '[Server] Webseite senden' verwendet werden. Mit dem + können Schriftgröße und Farbe eingestellt werden.";
+Blockly.Msg["NETWORK_ADD_TEXT_SIZE"] = "Schriftgröße";
+Blockly.Msg["NETWORK_ADD_TEXT_COLOR"] = "Farbe";
+Blockly.Msg["NETWORK_HTML_ADD_BUTTON_TITLE"] = "[HTML] Button mit ID %1 Text %2 hinzufügen";
+Blockly.Msg["NETWORK_HTML_ADD_BUTTON_TOOLTIP"] = "Fügt einen Button zur Webseite hinzu. Mit der ID kann der Zustand des Buttons abgefragt werden. Dieser Block muss im Block '[Server] Webseite senden' verwendet werden.";
+Blockly.Msg["NETWORK_HTML_ADD_BUTTON_COLOUR"] = "Farbe";
+Blockly.Msg["NETWORK_HTML_ADD_BUTTON_HEIGHT"] = "Höhe";
+Blockly.Msg["NETWORK_HTML_ADD_BUTTON_WIDTH"] = "Breite";
+Blockly.Msg["NETWORK_HTML_ADD_SLIDER_TITLE"] = "[HTML] Schieberegler mit ID %1 hinzufügen";
+Blockly.Msg["NETWORK_HTML_ADD_SLIDER_TOOLTIP"] = "Fügt einen Schieberegler zur Webseite hinzu. Die ID ermöglicht das Auslesen des Wertes.";
+Blockly.Msg["NETWORK_HTML_ADD_SLIDER_MIN"] = "Minimum";
+Blockly.Msg["NETWORK_HTML_ADD_SLIDER_MAX"] = "Maximum";
+Blockly.Msg["NETWORK_HTML_ADD_SLIDER_HORIZONTAL"] = "horizontal";
+Blockly.Msg["NETWORK_HTML_ADD_SLIDER_VERTICAL"] = "vertikal";
+Blockly.Msg["NETWORK_HTML_ADD_SLIDER_HEIGHT"] = "Höhe";
+Blockly.Msg["NETWORK_HTML_ADD_SLIDER_WIDTH"] = "Breite";
+Blockly.Msg["NETWORK_HTML_ADD_SWITCH_TITLE"] = "[HTML] Schalter mit ID %1 hinzufügen";
+Blockly.Msg["NETWORK_HTML_ADD_SWITCH_COLOUR"] = "Farbe";
+Blockly.Msg["NETWORK_HTML_ADD_SWITCH_SIZE"] = "Größe";
+Blockly.Msg["NETWORK_HTML_ADD_SWITCH_TOOLTIP"] = "Fügt einen Ein-/Aus-Schalter zur Webseite hinzu. Die ID ermöglicht das Auslesen des Zustands.";
+Blockly.Msg["NETWORK_HTML_ADD_GAUGE_TITLE"] = "[HTML] Anzeige %1 Wert %2 Min %3 Max %4";
+Blockly.Msg["NETWORK_HTML_ADD_GAUGE_TOOLTIP"] = "Fügt eine Anzeige (Gauge) zur Webseite hinzu. Titel und Einheit können festgelegt werden.";
+Blockly.Msg["NETWORK_ADD_LINK_TITLE"] = "[HTML] Link %1 URL %2 hinzufügen";
+Blockly.Msg["NETWORK_ADD_LINK_TOOLTIP"] = "Fügt einen anklickbaren Link zur Webseite hinzu.";
+Blockly.Msg["NETWORK_HTML_ADD_IMAGE_TITLE"] = "[HTML] Bild %1 anzeigen";
+Blockly.Msg["NETWORK_HTML_ADD_IMAGE_TOOLTIP"] = "Fügt ein Bild zur Webseite hinzu (Base64-Daten).";
+Blockly.Msg["NETWORK_HTML_ADD_IMAGE_HEIGHT"] = "Höhe";
+Blockly.Msg["NETWORK_HTML_ADD_IMAGE_WIDTH"] = "Breite";
+Blockly.Msg["NETWORK_HTML_ADD_STREAM_TITLE"] = "[HTML] Bildstream %1 anzeigen";
+Blockly.Msg["NETWORK_HTML_ADD_STREAM_TOOLTIP"] = "Zeigt einen Bild- oder Videostream auf der Webseite an.";
+Blockly.Msg["NETWORK_HTML_ADD_STREAM_HEIGHT"] = "Höhe";
+Blockly.Msg["NETWORK_HTML_ADD_STREAM_WIDTH"] = "Breite";
+Blockly.Msg["NETWORK_HTML_TAG_TITLE"] = "[HTML] HTML-Tag %1";
+Blockly.Msg["NETWORK_HTML_TAG_TOOLTIP"] = "Fügt ein HTML-Tag wie <div>, <form> oder <center> hinzu.";
+Blockly.Msg["NETWORK_HTML_FORMAT_TEXT_TITLE"] = "[HTML] Text %1 formatieren als %2";
+Blockly.Msg["NETWORK_HTML_FORMAT_TEXT_TOOLTIP"] = "Formatiert Text mit HTML-Formatierungen.";
+Blockly.Msg["NETWORK_HTML_TAG_BOLD"] = "fett <b>";
+Blockly.Msg["NETWORK_HTML_TAG_ITALIC"] = "kursiv <i>";
+Blockly.Msg["NETWORK_HTML_TAG_INSERTED"] = "eingefügt <ins>";
+Blockly.Msg["NETWORK_HTML_TAG_MARKED"] = "markiert <mark>";
+Blockly.Msg["NETWORK_HTML_TAG_DELETED"] = "durchgestrichen <del>";
+Blockly.Msg["NETWORK_HTML_TAG_SMALL"] = "klein <small>";
+Blockly.Msg["NETWORK_HTML_NEWLINE_TITLE"] = "[HTML] Zeilenumbruch <br>";
+Blockly.Msg["NETWORK_HTML_NEWLINE_TOOLTIP"] = "Fügt einen Zeilenumbruch in der Webseite ein.";
+Blockly.Msg["NETWORK_HTML_ADD_TITLE"] = "[HTML] HTML-Code %1 hinzufügen";
+Blockly.Msg["NETWORK_HTML_ADD_TOOLTIP"] = "Fügt eigenen HTML-Code zur Webseite hinzu.";
+Blockly.Msg["NETWORK_HTML_ADD_SYMBOL_TITLE"] = "[HTML] HTML-Symbol %1 Größe %2 Format %3";
+Blockly.Msg["NETWORK_HTML_ADD_SYMBOL_TOOLTIP"] = "Fügt ein HTML-Symbol zur Webseite hinzu.";
+// Netzwerk – Abfrage von Webseiten-Elementen
+Blockly.Msg["NETWORK_SERVER_GET_BUTTON_STATE_TITLE"] = "[Server] Zustand des Buttons ID %1";
+Blockly.Msg["NETWORK_SERVER_GET_BUTTON_STATE_TOOLTIP"] = "Liest den Zustand eines Buttons auf der Webseite aus.";
+Blockly.Msg["NETWORK_SERVER_GET_SLIDER_VALUE_TITLE"] = "[Server] Wert des Schiebereglers ID %1";
+Blockly.Msg["NETWORK_SERVER_GET_SLIDER_VALUE_TOOLTIP"] = "Liest den Wert eines Schiebereglers aus.";
+Blockly.Msg["NETWORK_SERVER_GET_SWITCH_VALUE_TITLE"] = "[Server] Zustand des Schalters ID %1";
+Blockly.Msg["NETWORK_SERVER_GET_SWITCH_VALUE_TOOLTIP"] = "Liest den Zustand eines Schalters aus.";
+// Netzwerk – HTTP
+Blockly.Msg["NETWORK_GET_HTTP_REQUEST_TITLE"] = "HTTP-Anfrage Methode %1 URL %2";
+Blockly.Msg["NETWORK_GET_HTTP_REQUEST_TOOLTIP"] = "Erstellt eine HTTP-GET- oder POST-Anfrage mit einer URL.";
+Blockly.Msg["NETWORK_GET_HTTP_REQUEST_CONTENT"] = "Inhalt:";
+// Netzwerk – ThingSpeak
+Blockly.Msg["NETWORK_THINGSPEAK_SEND_DATA_TITLE"] = "[ThingSpeak] Daten mit API-Schlüssel senden";
+Blockly.Msg["NETWORK_THINGSPEAK_SEND_DATA_TOOLTIP"] = "Sendet Sensordaten an ThingSpeak über das WLAN des ESP32.";
+Blockly.Msg["NETWORK_THINGSPEAK_SEND_DATA_FIELD_TITLE"] = "[ThingSpeak] Feld %1 Wert %2";
+Blockly.Msg["NETWORK_THINGSPEAK_SEND_DATA_FIELD_TOOLTIP"] = "Definiert ein Feld und den zugehörigen Wert für ThingSpeak.";
+Blockly.Msg["NETWORK_THINGSPEAK_READ_FEEDS_TITLE"] = "[ThingSpeak] Diagrammdaten lesen: Kanal-ID %1 API-Schlüssel %2 Feld %3";
+Blockly.Msg["NETWORK_THINGSPEAK_READ_FEEDS_TOOLTIP"] = "Liest Daten aus einem ThingSpeak-Kanal aus.";
+// Netzwerk – E-Mail (uMail)
+Blockly.Msg["NETWORK_UMAIL_SMTP_TITLE"] = "[Mail] SMTP-Server konfigurieren %1";
+Blockly.Msg["NETWORK_UMAIL_SMTP_TOOLTIP"] = "Konfiguriert den SMTP-Server für den E-Mail-Versand.";
+Blockly.Msg["NETWORK_UMAIL_SETUP_TITLE"] = "[Mail] Anmelden: Konto %1 Passwort %2";
+Blockly.Msg["NETWORK_UMAIL_SETUP_TOOLTIP"] = "Meldet sich bei einem E-Mail-Konto an.";
+Blockly.Msg["NETWORK_UMAIL_TO_TITLE"] = "[Mail] Empfänger %1 Betreff %2";
+Blockly.Msg["NETWORK_UMAIL_TO_TOOLTIP"] = "Sendet eine E-Mail an die angegebene Adresse.";
+Blockly.Msg["NETWORK_UMAIL_WRITE_SENDER_TITLE"] = "[Mail] Absendername %1";
+Blockly.Msg["NETWORK_UMAIL_WRITE_SENDER_TOOLTIP"] = "Legt den Namen des Absenders fest.";
+Blockly.Msg["NETWORK_UMAIL_WRITE_TITLE"] = "[Mail] E-Mail schreiben und senden %1";
+Blockly.Msg["NETWORK_UMAIL_WRITE_TOOLTIP"] = "Schreibt den Inhalt der E-Mail und sendet sie.";
+Blockly.Msg["NETWORK_UMAIL_QUIT_TITLE"] = "[Mail] Abmelden";
+Blockly.Msg["NETWORK_UMAIL_QUIT_TOOLTIP"] = "Meldet sich vom E-Mail-Konto ab.";
+Blockly.Msg["NETWORK_UMAIL_SEND_IMAGE_TITLE"] = "[Mail] Bild in Base64 senden %1";
+Blockly.Msg["NETWORK_UMAIL_SEND_IMAGE_TOOLTIP"] = "Sendet ein Bild im Base64-Format per E-Mail.";
+// Netzwerk – MQTT
+Blockly.Msg["NETWORK_MQTT_CONNECT_WITH_AUTH_TITLE"] = "[MQTT] Mit Broker %1 Benutzername %2 Passwort %3 verbinden";
+Blockly.Msg["NETWORK_MQTT_CONNECT_WITH_AUTH_TOOLTIP"] = "Verbindet den ESP32 mit einem MQTT-Broker mit Benutzername und Passwort.";
+Blockly.Msg["NETWORK_MQTT_CONNECT_WITH_AUTH_PORT"] = "Port";
+Blockly.Msg["NETWORK_MQTT_SUBSCRIBE_TOPIC_TITLE"] = "[MQTT] Kanal %1 abonnieren";
+Blockly.Msg["NETWORK_MQTT_SUBSCRIBE_TOPIC_TOOLTIP"] = "Abonniert einen MQTT-Kanal, um Daten zu empfangen.";
+Blockly.Msg["NETWORK_MQTT_PUBLISH_VALUE_TITLE"] = "[MQTT] Nachricht %1 an Kanal %2 senden";
+Blockly.Msg["NETWORK_MQTT_PUBLISH_VALUE_TOOLTIP"] = "Sendet eine Nachricht an einen MQTT-Kanal.";
+Blockly.Msg["NETWORK_MQTT_DISCONNECT_TITLE"] = "[MQTT] Verbindung zum Broker trennen";
+Blockly.Msg["NETWORK_MQTT_DISCONNECT_TOOLTIP"] = "Trennt die Verbindung zum MQTT-Broker.";
+Blockly.Msg["NETWORK_MQTT_ON_MESSAGE_RECEIVED_TITLE"] = "[MQTT] Wenn eine Nachricht im Kanal %1 empfangen wird";
+Blockly.Msg["NETWORK_MQTT_ON_MESSAGE_RECEIVED_TOOLTIP"] = "Führt Anweisungen aus, wenn eine MQTT-Nachricht empfangen wird.";
+Blockly.Msg["NETWORK_MQTT_IF_TOPIC_IS_TITLE"] = "[MQTT] Wenn Kanal %1 ist";
+Blockly.Msg["NETWORK_MQTT_IF_TOPIC_IS_ELSEIF"] = "sonst wenn Kanal ist";
+Blockly.Msg["NETWORK_MQTT_IF_TOPIC_IS_TOOLTIP"] = "Überprüft den Kanalnamen vor der Ausführung.";
+Blockly.Msg["NETWORK_MQTT_ON_CONNECT_TITLE"] = "[MQTT] Wenn die Karte sich mit dem Broker verbindet";
+Blockly.Msg["NETWORK_MQTT_ON_CONNECT_TOOLTIP"] = "Führt Anweisungen aus, wenn die Verbindung hergestellt wird.";
+Blockly.Msg["NETWORK_MQTT_ON_DISCONNECT_TITLE"] = "[MQTT] Wenn die Karte die Verbindung trennt";
+Blockly.Msg["NETWORK_MQTT_ON_DISCONNECT_TOOLTIP"] = "Führt Anweisungen aus, wenn die Verbindung getrennt wird.";

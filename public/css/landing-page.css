@@ -159,3 +159,7 @@ h3 span {
 #social-links a span {
     font-size: 1.3rem;
 }
+
+#ia-kit-section p {
+  color: var(--text-0) !important;
+}

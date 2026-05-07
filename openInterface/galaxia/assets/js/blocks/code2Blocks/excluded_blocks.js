@@ -13,10 +13,8 @@ const AUTHORIZED_BLOCKS_DISPLAY = [
     "display_controlColorNeopixelLed",
     "color_picker",
     "display_controlBuiltInLED",
-    "display_galaxia_led_set_colors",
-    "display_galaxia_led_set_red",
-    "display_galaxia_led_set_green",
-    "display_galaxia_led_set_blue",
+    "display_galaxia_led_set_colors_rgb",
+    "display_galaxia_led_set_color",
     "display_galaxia_set_mode",
     "display_galaxia_plot_add_point",
     "display_galaxia_plot_set_y_scale",
@@ -29,8 +27,6 @@ const AUTHORIZED_BLOCKS_SENSORS = [
     "sensors_getCompass",
     "sensors_getMagneticForce",
     "sensors_calibrateCompass",
-
-
 ];
 
 const AUTHORIZED_BLOCKS_IO = [

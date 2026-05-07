@@ -48,6 +48,19 @@ Blockly.Python.communication_graphSerialWrite_datasFormat = function (block) {
     return [syntax.toString(), Blockly.Python.ORDER_ATOMIC];
 };
 
+Blockly.Python.communication_onSerialMessageReceived = function (block) {
+    const branchCode = Blockly.Python.statementToCode(block, "DO") || Blockly.Python.PASS;
+    const dataVar = Blockly.Python.nameDB_.getName(block.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME);
+    return "if uart.any():" + NEWLINE + "  " + dataVar + " = uart.read().decode('utf-8')" + NEWLINE + "  while uart.any():" + NEWLINE + "    " + dataVar + " += uart.read().decode('utf-8')" + NEWLINE + branchCode;
+};
+
+Blockly.Python.communication_onSerialDataReceived = function (block) {
+    Blockly.Python.addInit('serial_receive', "# Serial Receive used");
+    const branchCode = Blockly.Python.statementToCode(block, "DO") || Blockly.Python.PASS;
+    const dataVar = Blockly.Python.nameDB_.getName(block.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME);
+    return "if uart.any():" + NEWLINE + "  " + dataVar + " = uart.read()" + NEWLINE + branchCode;
+};
+
 Blockly.Python.communication_playComputerMusic = function (block) {
     const note = block.getFieldValue("NOTE");
     return "print('@music:" + note + "|')" + NEWLINE;
@@ -60,13 +73,6 @@ Blockly.Python.communication_playComputerFrequency = function (block) {
 
 Blockly.Python.communication_stopComputerMusic = function () {
     return "print('@music:stop|')" + NEWLINE;
-};
-
-Blockly.Python.communication_onSerialDataReceived = function (block) {
-    Blockly.Python.addInit('serial_receive', "# Serial Receive used ");
-    const branchCode = Blockly.Python.statementToCode(block, "DO") || Blockly.Python.PASS;
-    const dataVar = Blockly.Python.nameDB_.getName(block.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME);
-    return "if uart.any():" + NEWLINE + "  " + dataVar + " = uart.read()" + NEWLINE + branchCode;
 };
 
 // Micro:bit radio
@@ -150,6 +156,46 @@ Blockly.Python.communication_radioReceiveFull = function (block) {
     return [`radio_receiveFull('${data}')`, Blockly.Python.ORDER_ATOMIC];
 };
 
+// micro:bit Log
+
+Blockly.Python.communication_log_deleteLogs = function () {
+    Blockly.Python.addImport('log', IMPORT_LOG);
+    return "log.delete(full=True)" + NEWLINE;
+};
+
+Blockly.Python.communication_log_serial = function () {
+    Blockly.Python.addImport('log', IMPORT_LOG);
+    return "log.set_mirroring(True)" + NEWLINE;
+};
+
+Blockly.Python.communication_log_setLabel = function (block) {
+    Blockly.Python.addImport('log', IMPORT_LOG);
+    const timestamp = block.getFieldValue("TIMESTAMP");
+    const labelArray = [];
+    for (let i = 1; i < block.itemCount_ + 1; i++) {
+        const label = Blockly.Python.valueToCode(block, "ADD" + (i - 1), Blockly.Python.ORDER_NONE);
+        labelArray.push(label);
+    }
+    return `log.set_labels(${labelArray.join(",")}, timestamp=log.${timestamp})` + NEWLINE;
+};
+
+Blockly.Python.communication_log_addData = function (block) {
+    Blockly.Python.addImport('log', IMPORT_LOG);
+    const labelDataArray = [];
+    for (let i = 1; i < block.itemCount_ + 1; i++) {
+        const label = Blockly.Python.valueToCode(block, "ADD" + (i - 1), Blockly.Python.ORDER_NONE);
+        labelDataArray.push(label);
+    }
+    return `log.add(${labelDataArray})` + NEWLINE;
+};
+
+Blockly.Python.communication_log_data = function (block) {
+    Blockly.Python.addImport('log', IMPORT_LOG);
+    const label = Blockly.Python.valueToCode(block, "LABEL", Blockly.Python.ORDER_NONE) || "''";
+    const value = Blockly.Python.valueToCode(block, "DATA", Blockly.Python.ORDER_NONE) || "";
+    return [`${label.replaceAll("'", "")} = ${value}`, Blockly.Python.ORDER_ATOMIC];
+};
+
 // Data logging
 
 Blockly.Python.communication_writeOpenLogSd = function (block) {
@@ -163,10 +209,10 @@ Blockly.Python.communication_writeOpenLogSd = function (block) {
 
 // Bluetooth
 
-Blockly.Python.communication_sendBluetoothData = function (block) {
-    let pinTX = block.getFieldValue("TX");
-    let pinRX = block.getFieldValue("RX");
-    var data = Blockly.Python.valueToCode(block, "DATA", Blockly.Python.ORDER_NONE) || "''";
+Blockly.Python.communication_hc05_sendBluetoothData = function (block) {
+    const pinTX = block.getFieldValue("TX");
+    const pinRX = block.getFieldValue("RX");
+    const data = Blockly.Python.valueToCode(block, "DATA", Blockly.Python.ORDER_NONE) || "''";
     if (Blockly.Constants.Utils.isInputTextBlock(block, "DATA")) {
         return "uart.init(baudrate=9600, bits=8, parity=None, stop=1, tx=" + pinTX + ", rx=" + pinRX + ")" + NEWLINE + "uart.write(" + data + ")" + NEWLINE;
     } else {
@@ -174,18 +220,18 @@ Blockly.Python.communication_sendBluetoothData = function (block) {
     }
 };
 
-Blockly.Python.communication_onBluetoothDataReceived = function (block) {
-    let pinTX = block.getFieldValue("TX");
-    let pinRX = block.getFieldValue("RX");
-    var branchCode = Blockly.Python.statementToCode(block, "DO") || Blockly.Python.PASS;
-    var dataVar = Blockly.Python.nameDB_.getName(block.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME);
+Blockly.Python.communication_hc05_onBluetoothDataReceived = function (block) {
+    const pinTX = block.getFieldValue("TX");
+    const pinRX = block.getFieldValue("RX");
+    const branchCode = Blockly.Python.statementToCode(block, "DO") || Blockly.Python.PASS;
+    const dataVar = Blockly.Python.nameDB_.getName(block.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME);
     return "uart.init(baudrate=9600, bits=8, parity=None, stop=1, tx=" + pinTX + ", rx=" + pinRX + ")" + NEWLINE + "if uart.any():" + NEWLINE + "  " + dataVar + " = uart.read()" + NEWLINE + branchCode;
 };
 
 Blockly.Python.communication_HM10_sendBluetoothData = function (block) {
-    let pinTX = block.getFieldValue("TX");
-    let pinRX = block.getFieldValue("RX");
-    var data = Blockly.Python.valueToCode(block, "DATA", Blockly.Python.ORDER_NONE) || "''";
+    const pinTX = block.getFieldValue("TX");
+    const pinRX = block.getFieldValue("RX");
+    const data = Blockly.Python.valueToCode(block, "DATA", Blockly.Python.ORDER_NONE) || "''";
     if (Blockly.Constants.Utils.isInputTextBlock(block, "DATA")) {
         return "uart.init(baudrate=9600, bits=8, parity=None, stop=1, tx=" + pinTX + ", rx=" + pinRX + ")" + NEWLINE + "uart.write(" + data + ")" + NEWLINE;
     } else {
@@ -194,10 +240,10 @@ Blockly.Python.communication_HM10_sendBluetoothData = function (block) {
 };
 
 Blockly.Python.communication_HM10_onBluetoothDataReceived = function (block) {
-    let pinTX = block.getFieldValue("TX");
-    let pinRX = block.getFieldValue("RX");
-    var branchCode = Blockly.Python.statementToCode(block, "DO") || Blockly.Python.PASS;
-    var dataVar = Blockly.Python.nameDB_.getName(block.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME);
+    const pinTX = block.getFieldValue("TX");
+    const pinRX = block.getFieldValue("RX");
+    const branchCode = Blockly.Python.statementToCode(block, "DO") || Blockly.Python.PASS;
+    const dataVar = Blockly.Python.nameDB_.getName(block.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME);
     return "uart.init(baudrate=9600, bits=8, parity=None, stop=1, tx=" + pinTX + ", rx=" + pinRX + ")" + NEWLINE + "if uart.any():" + NEWLINE + "  " + dataVar + " = str(uart.read())[2:-1]" + NEWLINE + branchCode;
 };
 
@@ -341,44 +387,4 @@ Blockly.Python.communication_uart_readData = function () {
 
 Blockly.Python.communication_uart_isDataAvailable = function () {
     return ["uart.any()", Blockly.Python.ORDER_ATOMIC];
-};
-
-//communication_log_delete
-Blockly.Python.communication_log_deleteLogs = function () {
-    Blockly.Python.addImport('log', IMPORT_LOG);
-    return "log.delete(full=True)" + NEWLINE;
-};
-
-Blockly.Python.communication_log_serial = function () {
-    Blockly.Python.addImport('log', IMPORT_LOG);
-    return "log.set_mirroring(True)" + NEWLINE;
-};
-
-Blockly.Python.communication_log_setLabel = function (block) {
-    Blockly.Python.addImport('log', IMPORT_LOG);
-    const timestamp = block.getFieldValue("TIMESTAMP");
-    const labelArray = [];
-    for (let i = 1; i < block.itemCount_ + 1; i++) {
-        const label = Blockly.Python.valueToCode(block, "ADD" + (i - 1), Blockly.Python.ORDER_NONE);
-        labelArray.push(label);
-    }
-    return `log.set_labels(${labelArray.join(",")}, timestamp=log.${timestamp})` + NEWLINE;
-};
-
-// communication_log_addData
-Blockly.Python.communication_log_addData = function (block) {
-    Blockly.Python.addImport('log', IMPORT_LOG);
-    const labelDataArray = [];
-    for (let i = 1; i < block.itemCount_ + 1; i++) {
-        const label = Blockly.Python.valueToCode(block, "ADD" + (i - 1), Blockly.Python.ORDER_NONE);
-        labelDataArray.push(label);
-    }
-    return `log.add(${labelDataArray})` + NEWLINE;
-};
-
-Blockly.Python.communication_log_data = function (block) {
-    Blockly.Python.addImport('log', IMPORT_LOG);
-    const label = Blockly.Python.valueToCode(block, "LABEL", Blockly.Python.ORDER_NONE) || "''";
-    const value = Blockly.Python.valueToCode(block, "DATA", Blockly.Python.ORDER_NONE) || "";
-    return [`${label.replaceAll("'", "")} = ${value}`, Blockly.Python.ORDER_ATOMIC];
 };

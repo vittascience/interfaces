@@ -3,40 +3,19 @@
  */
 
 // Toolbox category names.
-Blockly.Msg['CATEGORY_IO'] = 'Entrées/Sorties';
 Blockly.Msg['CATEGORY_HUB'] = 'Hub';
 Blockly.Msg['CATEGORY_DRAW'] = 'Dessin';
-Blockly.Msg['CATEGORY_GRAPHICS'] = 'Graphiques';
-Blockly.Msg['CATEGORY_TEXT'] = 'Texte';
-Blockly.Msg['CATEGORY_VARIABLES'] = 'Variables';
-Blockly.Msg['CATEGORY_LISTS'] = 'Listes';
-Blockly.Msg['CATEGORY_PROCEDURES'] = 'Fonctions';
-Blockly.Msg['CATEGORY_EXCEPTION'] = 'Exceptions';
-Blockly.Msg['CATEGORY_COLOUR'] = 'Couleur';
-// Category names in 'vittascience' mode.
-Blockly.Msg['CATEGORY_LOGIC'] = 'Logique';
-Blockly.Msg['CATEGORY_LOOPS'] = 'Boucles';
-Blockly.Msg['CATEGORY_MATH'] = 'Math';
-// Category names in 'scratch' mode.
-Blockly.Msg['CATEGORY_CONTROL'] = 'Contrôle';
-Blockly.Msg['CATEGORY_OPERATORS'] = 'Opérateurs';
 // Category names in 'TI-Style' mode.
 Blockly.Msg['CATEGORY_ADVANCED'] = 'Avancé';
 // Toolbox subcategory labels.
-Blockly.Msg['SUBCATEGORY_TEXT_ANALYSIS'] = 'Analyse de texte';
-Blockly.Msg["SUBCATEGORY_TIME"] = "Temps";
 Blockly.Msg["SUBCATEGORY_INNOVATOR_HUB"] = "Innovator Hub";
-Blockly.Msg["SUBCATEGORY_CONSOLE"] = "Console";
 Blockly.Msg["SUBCATEGORY_SYSTEM"] = "Système";
 Blockly.Msg["SUBCATEGORY_CONFIGURATION"] = "Configuration";
 Blockly.Msg["SUBCATEGORY_DRAW"] = "Dessin";
 Blockly.Msg["SUBCATEGORY_PROPERTIES"] = "Propriétés";
-Blockly.Msg["SUBCATEGORY_LOOPS"] = "Boucles";
-Blockly.Msg["SUBCATEGORY_LOGIC"] = "Logique";
 Blockly.Msg["SUBCATEGORY_BUILTIN_DEVICES"] = "Dispositifs intégrés du Hub";
 Blockly.Msg["SUBCATEGORY_GROVE_INPUTS"] = "Grove - Dispositifs d'entrée";
 Blockly.Msg["SUBCATEGORY_GROVE_OUTPUTS"] = "Grove - Dispositifs de sortie";
-Blockly.Msg["SUBCATEGORY_PINS"] = "Broches";
 Blockly.Msg["SUBCATEGORY_ROVER_DRIVE"] = "Rover - conduire";
 Blockly.Msg["SUBCATEGORY_ROVER_INPUTS"] = "Rover - entrées";
 Blockly.Msg["SUBCATEGORY_ROVER_OUTPUTS"] = "Rover - sorties";
@@ -143,3 +122,22 @@ Blockly.Msg["SUBCATEGORY_2_MICROBIT_GROVE_OUTPUTS"] = "Sorties";
 Blockly.Msg["SUBCATEGORY_2_MICROBIT_NEOPIXEL_COLOR"] = "Couleur";
 Blockly.Msg["SUBCATEGORY_2_MICROBIT_NEOPIXEL_CONFIG"] = "Configuration";
 Blockly.Msg["SUBCATEGORY_2_MICROBIT_NEOPIXEL_CONTROL"] = "Contrôle";
+Blockly.Msg['SUBCATEGORY_ENCRYPTION'] = 'Chiffrement';
+Blockly.Msg["CATEGORY_IO"] = "Entrées/Sorties";
+Blockly.Msg["CATEGORY_GRAPHICS"] = "Graphiques";
+Blockly.Msg["CATEGORY_TEXT"] = "Texte";
+Blockly.Msg["CATEGORY_VARIABLES"] = "Variables";
+Blockly.Msg["CATEGORY_LISTS"] = "Listes";
+Blockly.Msg["CATEGORY_PROCEDURES"] = "Fonctions";
+Blockly.Msg["CATEGORY_EXCEPTION"] = "Exceptions";
+Blockly.Msg["CATEGORY_COLOUR"] = "Couleur";
+Blockly.Msg["CATEGORY_LOGIC"] = "Logique";
+Blockly.Msg["CATEGORY_LOOPS"] = "Boucles";
+Blockly.Msg["CATEGORY_MATH"] = "Mathématiques";
+Blockly.Msg["CATEGORY_CONTROL"] = "Contrôle";
+Blockly.Msg["CATEGORY_OPERATORS"] = "Opérateurs";
+Blockly.Msg["SUBCATEGORY_TIME"] = "Temps";
+Blockly.Msg["SUBCATEGORY_CONSOLE"] = "Console";
+Blockly.Msg["SUBCATEGORY_LOOPS"] = "Boucles";
+Blockly.Msg["SUBCATEGORY_LOGIC"] = "Logique";
+Blockly.Msg["SUBCATEGORY_PINS"] = "Broches";

@@ -50,7 +50,7 @@ class Animator {
 	led() {
 		if (this.value > 1) {
 			$(this.valueId).html(this.value);
-			$(this.animId).css("opacity", this.value / WRITE_ANALOG_MAX_VALUE);
+			$(this.animId).css("opacity", this.value / (typeof WRITE_ANALOG_MAX_VALUE !== 'undefined' ? WRITE_ANALOG_MAX_VALUE : PWM_MAX_DUTY));
 		} else {
 			$(this.valueId).html(this.value ? "ON" : "OFF");
 			$(this.animId).css("opacity", this.value ? this.value : "0");

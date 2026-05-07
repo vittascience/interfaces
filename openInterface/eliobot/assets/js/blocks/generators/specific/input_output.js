@@ -1,8 +1,6 @@
 /**
- * @fileoverview Input/Output generators for Esp32.
+ * @fileoverview Input/Output generators for Eliobot.
  */
-
-// ESP32
 
 Blockly.Python.io_pause = function (block) {
     Blockly.Python.addImport('time', IMPORT_TIME);
@@ -38,8 +36,6 @@ Blockly.Python.io_initChronometer_simple = function (block) {
 
 Blockly.Python.io_getChronometer = function (block) {
     Blockly.Python.addImport('time', IMPORT_TIME);
-    // Remove the following line to avoid duplicated constant definition with python traduction
-    // Blockly.Python.addConstant('chronometer', "t0 = time.ticks_ms()");
     block.workspace.createVariable('t0');
     switch (block.getFieldValue("UNIT")) {
         case "SEC":
@@ -49,12 +45,4 @@ Blockly.Python.io_getChronometer = function (block) {
         case "MICRO":
             return ["time.ticks_diff(time.ticks_ms(), t0)/1e-3", Blockly.Python.ORDER_ATOMIC];
     }
-};
-
-Blockly.Python.io_button = function (block) {
-    Blockly.Python.addImport('board', IMPORT_BOARD);
-    Blockly.Python.addImport('digitalio', IMPORT_DIGITALIO);
-    Blockly.Python.addInit('button', '# Button declaration \nbuttonPin = DigitalInOut(IO0)' + NEWLINE + 'buttonPin.direction = Direction.INPUT');
-    const state = block.getFieldValue('STATE') || '';
-    return ['buttonPin.value == ' + state, Blockly.Python.ORDER_ATOMIC];
 };

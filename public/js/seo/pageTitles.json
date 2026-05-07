@@ -82,11 +82,11 @@
     "arduino": {
         "fr": {
             "title": "Vittascience — Arduino",
-            "desc": "Interface de programmation pour la carte Arduino."
+            "desc": "Interface de programmation pour les cartes Arduino (UNO, Nano, Mega, R4 WiFi, ...)"
         },
         "en": {
             "title": "Vittascience — Arduino",
-            "desc": "Programming interface for the Arduino board."
+            "desc": "Programming interface for the Arduino boards (UNO, Nano, Mega, R4 WiFi, ...)"
         }
     },
     "microbit": {
@@ -172,11 +172,11 @@
     "esp32": {
         "fr": {
             "title": "Vittascience — ESP32",
-            "desc": "Interface de programmation pour les cartes ESP32 (Wemos D1R32, NodeMCU, Huzzah32, ...)"
+            "desc": "Interface de programmation pour les cartes ESP32 (Wemos D1R32, NodeMCU, ESP32-CAM, Ilo Robot, ...)"
         },
         "en": {
             "title": "Vittascience — ESP32",
-            "desc": "Programming interface for ESP32 boards (Wemos D1R32, NodeMCU, Huzzah32, ...)"
+            "desc": "Programming interface for ESP32 boards (Wemos D1R32, NodeMCU, ESP32-CAM, Ilo Robot, ...)"
         }
     },
     "GalaxiaCircuitPython": {
@@ -199,7 +199,7 @@
             "desc": "Programming interface for the Galaxia board"
         }
     },
-    "raspberrypi":{
+    "raspberrypi": {
         "fr": {
             "title": "Vittascience — Raspberry Pi",
             "desc": "Interface de programmation pour la carte Raspberry Pi."
@@ -209,7 +209,7 @@
             "desc": "Programming interface for the Raspberry Pi board."
         }
     },
-    "niryo":{
+    "niryo": {
         "fr": {
             "title": "Vittascience — Niryo",
             "desc": "Interface de programmation pour le robot Niryo Ned2."
@@ -219,7 +219,7 @@
             "desc": "Programming interface for the Niryo Ned2 robot."
         }
     },
-    "nao":{
+    "nao": {
         "fr": {
             "title": "Vittascience — NAO",
             "desc": "Interface de programmation pour le robot NAO v6."
@@ -369,14 +369,24 @@
             "desc": "Programming interface for the Codey board and mBot2 robot"
         }
     },
-    "uno-r4": {
+    "steami": {
         "fr": {
-            "title": "Vittascience — Arduino R4 Wifi & Minima",
-            "desc": "Interface de programmation pour la carte Arduino UNO R4 Wifi & Minima."
+            "title": "Vittascience — STeaMi",
+            "desc": "Interface de programmation pour la carte STeaMi avec le microcontrôleur STM32WB55"
         },
         "en": {
-            "title": "Vittascience — Arduino R4 Wifi & Minima",
-            "desc": "Programming interface for the Arduino UNO R4 Wifi & Minima boards."
+            "title": "Vittascience — STeaMi",
+            "desc": "Programming interface for the STeaMi board with the STM32WB55 microcontroller"
+        }
+    },
+    "alphai": {
+        "fr": {
+            "title": "Vittascience — AlphAI",
+            "desc": "Interface de programmation pour le robot AlphAI"
+        },
+        "en": {
+            "title": "Vittascience — AlphAI",
+            "desc": "Programming interface for the AlphAI robot"
         }
     },
     "learn": {
@@ -399,7 +409,7 @@
             "desc": "Download our plugins for your software."
         }
     },
-    "classroom" : {
+    "classroom": {
         "fr": {
             "title": "Vittascience — Classroom",
             "desc": "Gérez vos classes et vos élèves avec notre module Classe."
@@ -409,7 +419,7 @@
             "desc": "Manage your classes and students with our Classroom module."
         }
     },
-    "support" : {
+    "support": {
         "fr": {
             "title": "Vittascience — Support et assistance",
             "desc": "Besoin d'aide ? Contactez notre équipe pour toute question technique ou demande d'assistance concernant notre site ou nos services."
@@ -419,7 +429,7 @@
             "desc": "Need help? Contact our team for any technical question or assistance regarding our website or services."
         }
     },
-    "videos" : {
+    "videos": {
         "fr": {
             "title": "Vittascience — Vidéos",
             "desc": "Découvrez nos vidéos."
@@ -429,7 +439,7 @@
             "desc": "Discover our videos."
         }
     },
-    "faq" : {
+    "faq": {
         "fr": {
             "title": "Vittascience — Foire aux questions",
             "desc": "Trouvez des réponses à vos questions fréquentes concernant notre plateforme, nos outils et nos services."
@@ -439,7 +449,7 @@
             "desc": "Find answers to common questions about our platform, tools, and services."
         }
     },
-    "forum" : {
+    "forum": {
         "fr": {
             "title": "Vittascience — Forum",
             "desc": "Forum de Vittascience - vous pouvez discuter ici avec d'autres utilisateurs."
@@ -449,7 +459,7 @@
             "desc": "Vittascience's forum - here you can discuss with other users."
         }
     },
-    "glossary" : {
+    "glossary": {
         "fr": {
             "title": "Vittascience — Glossaire",
             "desc": "Glossaire de Vittascience - accédez aux wikis des différentes interfaces de programmation."
@@ -459,7 +469,7 @@
             "desc": "Vittascience's glossary - access the different wikis of programming interfaces."
         }
     },
-    "wiki" : {
+    "wiki": {
         "fr": {
             "title": "Vittascience — Wiki",
             "desc": "Wiki de Vittascience, où vous pouvez accéder aux explications à propos des différents blocs des interfaces de programmation."
@@ -469,7 +479,7 @@
             "desc": "Vittascience's wiki, where you can access explanations about the different blocks of interfaces."
         }
     },
-    "tips" : {
+    "tips": {
         "fr": {
             "title": "Vittascience — Astuces",
             "desc": "Astuces de Vittascience pour utiliser les interfaces."

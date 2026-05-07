@@ -190,3 +190,5 @@ Blockly.Msg['ROBOTS_MAKEBLOCK_GETPRESSEDBUTTON_TITLE'] = '[4 Buttons module] pre
 Blockly.Msg['ROBOTS_MAKEBLOCK_GETPRESSEDBUTTON_TOOLTIP'] = IMG_MODULE_MAKEBLOCK_4_BUTTONS + Blockly.Tooltip.SEP + 'Returns the pressed button from 4 buttons module of Makeblock. Connect module on RJ45 port from 1 to 2.';
 Blockly.Msg['ROBOTS_MAKEBLOCK_READTOUCHSENSOR_TITLE'] = '[Touch Sensor] state on port %1';
 Blockly.Msg['ROBOTS_MAKEBLOCK_READTOUCHSENSOR_TOOLTIP'] = IMG_MODULE_MAKEBLOCK_TOUCH_SENSOR + Blockly.Tooltip.SEP + 'Returns state from touch sensor of Makeblock. Connect module on RJ45 port from 1 to 4.';
+Blockly.Msg['COMMUNICATION_SERIAL_WRITE_NUMBER_TITLE'] = 'طباعة العدد في وحدة التحكم %1 بالصيغة %2';
+Blockly.Msg['COMMUNICATION_SERIAL_WRITE_NUMBER_TOOLTIP'] = 'يتيح عرض عدد في وحدة التحكم حسب التنسيق المختار (HEX: سداسي عشري، DEC: عشري). انتبه: لا يمكنك عرض الأعداد ذات الفاصلة العشرية بصيغة HEX.';

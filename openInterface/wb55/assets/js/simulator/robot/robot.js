@@ -1,4 +1,4 @@
-var Robots = {
+const Robots = {
   'Alphabot': {
     CODE_REGEXP: /(stm32_alphabot_v2|AlphaBot_v2)/,
     INITIAL_ZOOM: 0,

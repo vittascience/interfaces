@@ -6,7 +6,7 @@ Blockly.Arduino.io_wait = function (block) {
     const wait = Blockly.Arduino.valueToCode(block, "TIME", Blockly.Arduino.ORDER_ATOMIC);
     const unit = block.getFieldValue("UNIT");
     switch (unit) {
-        case "SECOND":
+        case "SEC":
             return "delay(1000*" + wait + ");" + NEWLINE;
         case "MILLI":
             return "delay(" + wait + ");" + NEWLINE;

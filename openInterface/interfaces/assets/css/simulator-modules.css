@@ -367,14 +367,13 @@ pre {
 
 /* Communication */
 
-#gps_modal-button,
 #m5gps_modal-button {
 	width: 30px;
 	height: 30px;
 	right: -45px;
 }
 
-#gps_anim,
+.gps,
 #m5-gps_anim {
 	z-index: 1;
 	height: 44px;
@@ -383,7 +382,6 @@ pre {
 	bottom: 19px;
 }
 
-#gps .module-value,
 #m5-gps .module-value {
 	width: 115px;
 }
@@ -515,6 +513,12 @@ pre {
 	bottom: 5px;
 }
 
+.module-img-anim.motor {
+	z-index: 1;
+	top: -14px;
+	left: 2px;
+}
+
 #mb-accelerometer_anim,
 #thymio-accelerometre_anim,
 #galaxia-accelerometer_anim,
@@ -631,16 +635,6 @@ pre {
 	transform-origin: 50% 58%;
 	top: -30px;
 	left: -12px;
-}
-
-.motor,
-.i2cMotor1,
-.i2cMotor2,
-.i2cMotorStepper,
-.stepper-motor {
-	z-index: 1;
-	top: -14px;
-	left: 2px;
 }
 
 #sound_anim,
@@ -786,8 +780,16 @@ pre {
 	display: inline-block;
 }
 
+#oled_value {
+	background: var(--vitta-grey)
+}
+
 .oled_module>.body-output>.module-value {
 	width: 100%;
+}
+
+.oled-block {
+	background: #000;
 }
 
 .simulator-module.neopixel_module .module-body,
@@ -880,6 +882,20 @@ pre {
 #rtc .module-value {
 	width: 12em;
 	margin-bottom: 1em;
+}
+
+.ledBar_module .module-body {
+	bottom: 20px;
+	left: 10px;
+}
+
+.joystick_module .pulse-circle::before {
+	left: 28.5px;
+	bottom: 23px;
+}
+
+.joystick_module .module-value {
+	bottom: 30px;
 }
 
 .relay {

@@ -1,4 +1,4 @@
-var Robots = {
+const Robots = {
   'mBot': {
     CODE_REGEXP: /MeMCore.h/,
     INITIAL_ZOOM: -1,

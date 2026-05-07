@@ -40,7 +40,7 @@ Blockly.Python.sensors_getTemperature = function (block) {
             code += " + 273.15";
             break;
     }
-    return [code, Blockly.Python.ORDER_ATOMIC];
+    return [code, Blockly.Python.ORDER_ADDITIVE];
 };
 
 Blockly.Python.sensors_getRotation = function (block) {
@@ -99,7 +99,7 @@ Blockly.Python.sensors_envirobit_bme280_getData = function (block) {
                         break;
                 }
             }
-            return [code, Blockly.Python.ORDER_ATOMIC];
+            return [code, Blockly.Python.ORDER_ADDITIVE];
         case "HUM":
             return ["bme280.humidity()", Blockly.Python.ORDER_ATOMIC];
         case "PRESS":
@@ -192,7 +192,7 @@ Blockly.Python.sensors_kitronik_bme280_getData = function (block) {
                         break;
                 }
             }
-            return [code, Blockly.Python.ORDER_ATOMIC];
+            return [code, Blockly.Python.ORDER_ADDITIVE];
         case "HUM":
             return ["bme280.humidity()", Blockly.Python.ORDER_ATOMIC];
         case "PRESS":
@@ -225,10 +225,11 @@ Blockly.Python.sensors_getSgp30Gas = function (block) {
 };
 
 Blockly.Python.sensors_getMultichannelGas = function (block) {
+    const GAS = { "CO": "0", "NO2": "1", "NH3": "2", "C3H8": "3", "C4H10": "4", "CH4": "5", "H2": "6", "C2H5OH": "7" };
     Blockly.Python.addImport('multichannel', IMPORT_MULTICHANNELGAS);
     Blockly.Python.addInit('multichannel', "multichannel = GAS()");
     Blockly.Python.addPowerOn('multichannels', "multichannel.power_on()");
-    return ["multichannel.get_gas(" + block.getFieldValue("GAS") + ")", Blockly.Python.ORDER_ATOMIC];
+    return ["multichannel.get_gas(" + GAS[block.getFieldValue("GAS")] + ")", Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.sensors_getMultichannelGasV2 = function (block) {
@@ -268,7 +269,7 @@ Blockly.Python.sensors_SCD30_readData = function (block) {
                         break;
                 }
             }
-            return [code, Blockly.Python.ORDER_ATOMIC];
+            return [code, Blockly.Python.ORDER_ADDITIVE];
         case "HUM":
             return ["scd30_read(2)", Blockly.Python.ORDER_ATOMIC];
     }
@@ -313,7 +314,7 @@ Blockly.Python.sensors_getBmp280Data = function (block) {
                         break;
                 }
             }
-            return [code, Blockly.Python.ORDER_ATOMIC];
+            return [code, Blockly.Python.ORDER_ADDITIVE];
         case "PRESS":
             return ["bmp280.Pressure()", Blockly.Python.ORDER_ATOMIC];
         case "ALT":
@@ -376,7 +377,7 @@ Blockly.Python.sensors_getGroveHighTemperature = function (block) {
             code += " + 273.15";
             break;
     }
-    return [code, Blockly.Python.ORDER_ATOMIC];
+    return [code, Blockly.Python.ORDER_ADDITIVE];
 };
 
 Blockly.Python.sensors_dhtReadData = function (block) {
@@ -402,7 +403,7 @@ Blockly.Python.sensors_dhtReadData = function (block) {
                         break;
                 }
             }
-            return [code, Blockly.Python.ORDER_ATOMIC];
+            return [code, Blockly.Python.ORDER_ADDITIVE];
         case "HUM":
             return ["dht11_" + pinNumber + ".getData(d=2)", Blockly.Python.ORDER_ATOMIC];
     }
@@ -425,7 +426,7 @@ Blockly.Python.sensors_TH02readData = function (block) {
                         break;
                 }
             }
-            return [code, Blockly.Python.ORDER_ATOMIC];
+            return [code, Blockly.Python.ORDER_ADDITIVE];
         case "HUM":
             return ["th02.ReadHumidity", Blockly.Python.ORDER_ATOMIC];
         default:
@@ -451,7 +452,7 @@ Blockly.Python.sensors_SHT31readData = function (block) {
                         break;
                 }
             }
-            return [code, Blockly.Python.ORDER_ATOMIC];
+            return [code, Blockly.Python.ORDER_ADDITIVE];
         case "HUM":
             return ["sht31.get_temp_humi(data='h')", Blockly.Python.ORDER_ATOMIC];
         default:
@@ -514,6 +515,7 @@ Blockly.Python.sensors_mpx5700ap_getPressure = function (block) {
     return ["mpx5700_readPressure(" + pin + ")", Blockly.Python.ORDER_ATOMIC];
 };
 
+// TO DO: test sensor ...
 Blockly.Python.sensors_mpx5700ap_calibrate = function (block) {
     const m = Blockly.Python.valueToCode(block, "M", Blockly.Python.ORDER_NONE) || "0";
     const b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
@@ -546,16 +548,26 @@ Blockly.Python.sensors_getGroveLight = function (block) {
     return [pin + ".read_analog()", Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python.sensors_getSi1145Light = function (block) {
-    Blockly.Python.addImport('si1145', IMPORT_SI1145);
-    Blockly.Python.addInit('si1145', "si1145 = SI1145()");
+Blockly.Python.sensors_getSunlightData = function (block) {
+    const version = block.getFieldValue("VERSION");
+    let obj = 'si1145';
+    switch (version) {
+        case 'SI1151':
+            obj = 'si1151';
+            Blockly.Python.addImport(obj, IMPORT_SI1151);
+            break;
+        default:
+        case 'SI1145':
+            Blockly.Python.addImport(obj, IMPORT_SI1145);
+    }
+    Blockly.Python.addInit(obj, obj + " = " + version + "()");
     switch (block.getFieldValue("LIGHT")) {
         case "UV":
-            return ["si1145.readUV()", Blockly.Python.ORDER_ATOMIC];
+            return [obj + ".readUV()", Blockly.Python.ORDER_ATOMIC];
         case "VIS":
-            return ["si1145.readVisible()", Blockly.Python.ORDER_ATOMIC];
+            return [obj + ".readVisible()", Blockly.Python.ORDER_ATOMIC];
         case "IR":
-            return ["si1145.readIR()", Blockly.Python.ORDER_ATOMIC];
+            return [obj + ".readIR()", Blockly.Python.ORDER_ATOMIC];
     }
 };
 
@@ -615,8 +627,7 @@ Blockly.Python.sensors_getGroveUltrasonicRanger = function (block) {
         case "HC-SR04":
             pinTRIG = block.getFieldValue("TRIG");
             pinECHO = block.getFieldValue("ECHO");
-            Blockly.Python.addInit(pinTRIG, "# Ultrasonic TRIG on " + pinTRIG);
-            Blockly.Python.addInit(pinECHO, "# Ultrasonic ECHO on " + pinECHO);
+            Blockly.Python.addInit('hcsr04_' + pinTRIG + '_codeFlag', '# Ultrasonic TRIG/ECHO on ' + pinTRIG + '/' + pinECHO);
             break;
     }
     Blockly.Python.addImport('machine_pulse', IMPORT_MACHINE_PULSE_MS);
@@ -744,7 +755,7 @@ Blockly.Python.sensors_SHT31readData = function (block) {
                         break;
                 }
             }
-            return [code, Blockly.Python.ORDER_ATOMIC];
+            return [code, Blockly.Python.ORDER_ADDITIVE];
         case "HUM":
             return ["sht31.get_temp_humi(data='h')", Blockly.Python.ORDER_ATOMIC];
         default:
@@ -753,6 +764,6 @@ Blockly.Python.sensors_SHT31readData = function (block) {
 };
 
 Blockly.Python.sensors_getWaterLevel = function () {
-    Blockly.Python.addImport('water-level-sensor', IMPORT_WATER_LEVEL_SENSOR);
-    return ["waterLevelSensor.check_water_level()", Blockly.Python.ORDER_ATOMIC];
+    Blockly.Python.addImport('water-level', IMPORT_WATER_LEVEL);
+    return ["water_level.measurePercentLevel()", Blockly.Python.ORDER_ATOMIC];
 };

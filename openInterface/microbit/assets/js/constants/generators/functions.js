@@ -431,11 +431,11 @@ DEF_GROVE_GET_UV_INDEX:
 
 
 DEF_MPX5700AP_GET_PRESSURE:
-`def mpx5700_readPressure(pin):
+`def mpx5700_readPressure(pin, n = 10):
   rawValue = 0;
-  for i in range(10):
+  for i in range(n):
     rawValue += pin.read_analog()
-  return (rawValue-410) * 700.0 / 9220`,
+  return (rawValue - 410) * 700 / float(n*1023)`,
 
 DEF_COLOR_SENSOR_SETUP:
 `def colorSensor_setup():
@@ -715,6 +715,21 @@ DEF_MAQUEEN_TURN_ANGLE:
   i2c.write(0x10, bytearray([0x00, 0, 0]))
   i2c.write(0x10, bytearray([0x02, 0, 0]))`,
 
+DEF_MAQUEEN_V5_READ_PATROL:
+`def maqueenV5_readPatrol(sensor):
+  i2c.write(0x10, bytearray([sensor]))
+  data = i2c.read(0x10, 2)
+  return data[0] << 8 | data[1]`,
+
+DEF_MAQUEEN_V5_GET_BATTERY_LEVEL:
+`def maqueenV5_getBatteryLevel(batteryType):
+  # type = Alkaline: 1 or Lithium: 0
+  i2c.write(0x10, bytearray([0x2d, batteryType]))
+  sleep(50)
+  i2c.write(0x10, bytearray([0x2e]))
+  level = i2c.read(0x10, 1)
+  return max(0, min(100, level))`,
+
 DEF_MAQUEEN_PLUS_V2_BLINK: 
 `def maqueenPlusV2_blink():
   for count in range(2):
@@ -944,55 +959,67 @@ DEF_BITCAR_ROTATE:
 
 // Remote
 
+DEF_REMOTE_NEC_BASIC_BLACK_BUTTONS:
+`basic_black_NEC_buttons = {
+  "VOL-": [0x45, 0x22],
+  "PLAY/PAUSE": [0x46, 0xa3],
+  "VOL+": [0x47, 0x23],
+  "SETUP": [0x44, 0xa2],
+  "up": [0x40, 0x20, 0xa0],  # éventuellement 0xa0 plus tard si confirmé
+  "STOP/MODE": [0x43, 0x21],
+  "left": [0x07, 0x03],
+  "ENTER/SAVE": [0x15, 0x0a],
+  "right": [0x09, 0x04],
+  "0 (10+)": [0x16, 0x8b],
+  "down": [0x19],
+  "back": [0x0d, 0x06],
+  "1": [0x0c, 0x86],
+  "2": [0x18, 0x8c],
+  "3": [0x5e, 0xaf],
+  "4": [0x08, 0x84],
+  "5": [0x1c, 0x8e],
+  "6": [0x5a, 0xad],
+  "7": [0x42, 0xa1],
+  "8": [0x52, 0x29, 0xa9],  # éventuellement 0xa9 plus tard si confirmé
+  "9": [0x4a, 0xa5],
+}`,
+
+DEF_REMOTE_NEC_AR_MP3_GRAY_BUTTONS:
+`car_mp3_gray_NEC_buttons = {
+  "CH-": [0x45, 0x22],
+  "CH": [0x46, 0xa3],
+  "CH+": [0x47, 0x23],
+  "PREV": [0x44, 0xa2],
+  "NEXT": [0x40, 0x20, 0xa0],  # éventuellement 0xa0 plus tard si confirmé
+  "PLAY/PAUSE": [0x43, 0x21],
+  "VOL-": [0x07, 0x03],
+  "VOL+": [0x15, 0x0a],
+  "EQ": [0x09, 0x04],
+  "0": [0x16, 0x8b],
+  "100+": [0x19],
+  "200+": [0x0d, 0x06],
+  "1": [0x0c, 0x86],
+  "2": [0x18, 0x8c],
+  "3": [0x5e, 0xaf],
+  "4": [0x08, 0x84],
+  "5": [0x1c, 0x8e],
+  "6": [0x5a, 0xad],
+  "7": [0x42, 0xa1],
+  "8": [0x52, 0x29, 0xa9],  # éventuellement 0xa9 plus tard si confirmé
+  "9": [0x4a, 0xa5],
+}`,
+
 DEF_REMOTE_NEC_BASIC_BLACK_GET_BUTTON:
 `def remoteNEC_basicBlack_getButton(hexCode):
-  if hexCode == 0x0c: return "1"
-  elif hexCode == 0x18: return "2"
-  elif hexCode == 0x5e: return "3"
-  elif hexCode == 0x08: return "4"
-  elif hexCode == 0x1c: return "5"
-  elif hexCode == 0x5a: return "6"
-  elif hexCode == 0x42: return "7"
-  elif hexCode == 0x52: return "8"
-  elif hexCode == 0x4a: return "9"
-  elif hexCode == 0x16: return "0"
-  elif hexCode == 0x40: return "up"
-  elif hexCode == 0x19: return "down"
-  elif hexCode == 0x07: return "left"
-  elif hexCode == 0x09: return "right"
-  elif hexCode == 0x15: return "ENTER/SAVE"
-  elif hexCode == 0x0d: return "Back"
-  elif hexCode == 0x45: return "VOL-"
-  elif hexCode == 0x47: return "VOL+"
-  elif hexCode == 0x46: return "PLAY/PAUSE"
-  elif hexCode == 0x44: return "SETUP"
-  elif hexCode == 0x43: return "STOP/MODE"
-  else: return None`,
+  for button, cmds in basic_black_NEC_buttons.items():
+    if hexCode in cmds:
+      return button`,
 
 DEF_REMOTE_NEC_AR_MP3_GRAY_GET_BUTTON:
 `def remoteNEC_Carmp3_gray_getButton(hexCode):
-  if hexCode == 0x0c: return "1"
-  elif hexCode == 0x18: return "2"
-  elif hexCode == 0x5e: return "3"
-  elif hexCode == 0x08: return "4"
-  elif hexCode == 0x1c: return "5"
-  elif hexCode == 0x5a: return "6"
-  elif hexCode == 0x42: return "7"
-  elif hexCode == 0x52: return "8"
-  elif hexCode == 0x4a: return "9"
-  elif hexCode == 0x16: return "0"
-  elif hexCode == 0x40: return "NEXT"
-  elif hexCode == 0x19: return "100+"
-  elif hexCode == 0x07: return "VOL-"
-  elif hexCode == 0x09: return "EQ"
-  elif hexCode == 0x15: return "VOL+"
-  elif hexCode == 0x0d: return "200+"
-  elif hexCode == 0x45: return "CH-"
-  elif hexCode == 0x47: return "CH+"
-  elif hexCode == 0x46: return "CH"
-  elif hexCode == 0x44: return "PREV"
-  elif hexCode == 0x43: return "PLAY/PAUSE"
-  else: return None`,
+  for button, cmds in car_mp3_gray_NEC_buttons.items():
+    if hexCode in cmds:
+      return button`,
 
 DEF_REMOTE_NEC_CALLBACK:
 `def remoteNEC_callback(data, addr, cmd):
@@ -1014,11 +1041,10 @@ DEF_REMOTE_NEC_CALLBACK:
   print(printData + '\\n')`,
 
 DEF_IR_RECEIVER_CALLBACK:
-`def IRreceiver_callback(data, addr, cmd):
+`def IRreceiver_callback(cmd, addr, ext):
   global ir_current_remote_button
-  print('Data: {} Addr: {} Cmd: {}'.format(hex(data), hex(addr), hex(cmd) if (cmd > 0) else cmd))
   ir_current_remote_button = hex(cmd)
-  print('IR code: ' + str(ir_current_remote_button) + "\\n\\n")`,
+  #print('IR code: ' + str(ir_current_remote_button) + "\\n\\n")`,
 
 DEF_TELLO_CONNECTION:
 `def tello_connection(tx, rx):

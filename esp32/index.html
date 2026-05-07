@@ -110,20 +110,24 @@
     
         }
     </script>
-    <script src="/public/js/scripts/tooltips/tooltipsRemover.js"></script>
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/ace.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/js/external/fontawesome-free-6.5.1-web/css/all.css">
+    <script src="/public/js/scripts/tooltips/tooltipsRemover.js" defer></script>
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/ace.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/js/external/fontawesome-free-6.5.1-web/css/all.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/js/external/file-input/css/fileinput.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/ide-navbar.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/main.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/modal.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/buttons.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/monitor.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/simulator.css">
-<link rel="stylesheet" href="/openInterface/esp32/assets/css/specific.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/ace_themes.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/auto-corrector-modals.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/js/external/shepherd.js@10.0.1/sheperd.css"/>
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/ide-navbar.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/main.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/toolbox.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/modal.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/buttons.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/monitor.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/simulator.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/led_matrix_modal.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/esp32/assets/css/specific.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/ace_themes.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/auto-corrector-modals.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/js/external/shepherd.js@10.0.1/sheperd.css"/>
+<link rel="stylesheet" type="text/css" href="/public/js/lib/Leaflet/leaflet.css">
+
 <link rel="stylesheet" href="/public/css/capytale-standalone.css">
 </head>
 
@@ -362,12 +366,12 @@
                     <div id="monitor-view">
                         <div id="monitor-view-group-btn">
                             <button id="monitor-btn-console" class="monitor-view-btn btn activated"
-                                data-i18n="[title]code.console.buttons.consoleMode" data-toggle="tooltip"
+                                data-i18n="[title]code.console.buttons.consoleMode;[aria-label]code.console.buttons.consoleMode" data-toggle="tooltip"
                                 data-placement="left" title="Mode console">
                                 <i class="fas fa-terminal"></i>
                             </button>
                             <button id="monitor-btn-graph" class="monitor-view-btn btn"
-                                data-i18n="[title]code.console.buttons.graphMode" data-toggle="tooltip"
+                                data-i18n="[title]code.console.buttons.graphMode;[aria-label]code.console.buttons.graphMode" data-toggle="tooltip"
                                 data-placement="left" title="Mode graphique">
                                 <i class="fas fa-chart-line"></i>
                             </button>
@@ -387,11 +391,11 @@
                                 </span>
                             </div>
                             <button id="monitor-btn-music" class="monitor-view-btn btn"
-                                data-i18n="[title]code.console.buttons.musicMode" data-toggle="tooltip"
+                                data-i18n="[title]code.console.buttons.musicMode;[aria-label]code.console.buttons.musicMode" data-toggle="tooltip"
                                 data-placement="left" title="Mode musical">
                                 <i class="fas fa-music"></i>
                             </button>
-                            <button id="monitor-clear" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.clearConsole" data-toggle="tooltip" data-placement="left" title="Nettoyer l'écran">
+                            <button id="monitor-clear" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.clearConsole;[aria-label]code.console.buttons.clearConsole" data-toggle="tooltip" data-placement="left" title="Nettoyer l'écran">
                                 <i class="fas fa-broom"></i>
                             </button>
                         </div>
@@ -475,7 +479,7 @@
                             <div class="w-75 d-flex me-1">
                                 <div class="dropup dropup-center">
                                     <button class="btn monitor-controls-button dropdown-toggle"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-i18n="[aria-label]code.console.buttons.monitorTool.controlsMenu">
                                         <i class="fas fa-cog"></i>
                                     </button>
                                     <div id="monitor-controls-dropdown" class="dropdown-menu">
@@ -563,9 +567,7 @@
                                         data-i18n="[placeholder]code.monitor.controls.text.send" />
 
                                     <div id="serial-input-btn" class="input-group-append">
-                                        <button id="serial-send" class="ide-btn serial-controls ide-btn-right"
-                                            onclick="sendSerialCommand()" data-placement="top" data-toggle="tooltip"
-                                            data-i18n="[title]code.monitor.controls.tooltips.send">
+                                        <button id="serial-send" class="ide-btn serial-controls ide-btn-right" data-placement="top" data-toggle="tooltip" data-i18n="[title]code.monitor.controls.tooltips.send;[aria-label]code.monitor.controls.tooltips.send" aria-label="Envoyer">
                                             <i class="fa fa-paper-plane" aria-hidden="true"></i>
                                         </button>
                                     </div>
@@ -581,7 +583,7 @@
                                     <span class="hide" data-i18n="code.monitor.controls.text.export"></span>
                                 </button>
 
-                                <button type="button" onclick="toggleReplOverture()" class="ide-btn ide-btn-alone"
+                                <button type="button" onclick="InterfaceConnection.toggleReplOverture()" class="ide-btn ide-btn-alone"
                                     id="repl-control" data-status="open" data-toggle="tooltip" data-placement="top"
                                     data-i18n="[title]code.monitor.controls.tooltips.openRepl">
                                     <i class="fas fa-terminal"></i>
@@ -598,33 +600,20 @@
                 <div id="headerOut">
                     <div class="simulator-board-buttons">
                         <button id="simulator-board-toggler" class="btn simulator-button-circle" type="button"
-                            onclick="Simulator.toggleBoardDisplay()">
+                            onclick="Simulator.toggleBoardDisplay()" aria-label="Toggle board display" data-i18n="[aria-label]code.simulator.buttons.base.toggleBoardDisplay">
                             <i class="fa-solid fa-minus simulator-buttons-icon"></i>
                         </button>
                         <div class="dropdown">
                             <button id="simulator-board-selector" class="v-btn dropdown-toggle simulator-button-circle"
-                                type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Select board" data-i18n="[aria-label]code.simulator.buttons.base.selectBoard">
                                 <i class="fas fa-microchip simulator-board-selector-microship"></i>
                             </button>
-                            <div id="simulator-board-options" class="dropdown-menu" aria-labelledby="simulator-board-selector">
-                                <button id="main-board" class="dropdown-item fw-bold" onclick="updateBoard(true,'wemos-d1r32')"
-                                    data-board="Wemos D1R32" >Wemos D1R32</button>
-                                <button class="dropdown-item" onclick="updateBoard(true, 'edu-esp32')"
-                                    data-board="EDU ESP32">EDU ESP32</button>
-                                <button class="dropdown-item" onclick="updateBoard(true,'shield-grove')"
-                                    data-board="Shield Grove">Shield Grove</button>
-                                <button class="dropdown-item" onclick="updateBoard(true,'shield-grove-edu-esp32')"
-                                    data-board="Shield Grove EDU ESP32">Shield Grove EDU ESP32</button>
-                                <button class="dropdown-item" onclick="updateBoard(true,'basic-esp32')"
-                                    data-board="ESP32 WROOM-32D">ESP32 WROOM-32D</button>
-                                <button class="dropdown-item" onclick="updateBoard(true,'esp32-cam')"
-                                    data-board="ESP32-CAM">ESP32-CAM</button>
-                            </div>
+                            <div id="simulator-board-options" class="dropdown-menu" aria-labelledby="simulator-board-selector"></div>
                         </div>
                     </div>
                     <span id="title-board" style="display: none;">Wemos D1R32</span>
                     <div id="board-container">
-                        <object id="board-viewer" class="mt-3"></object>
+                        <object id="board-viewer" class="mt-3" role="img" aria-label="Board simulator view"></object>
                     </div>
                 </div>
                 
@@ -665,14 +654,14 @@
                                 alt="Variable icon">
                         </button>
                         <button id="simulator_fullscreen" class="btn oi-btn-simulator"
-                            data-i18n="[title]code.simulator.buttons.base.fullscreen" data-toggle="tooltip"
+                            data-i18n="[title]code.simulator.buttons.base.fullscreen;[aria-label]code.simulator.buttons.base.fullscreen" aria-label="Fullscreen" data-toggle="tooltip"
                             data-placement="top" title="Plein écran" onclick="Simulator.toggleFullscreen()">
                             <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-fullscreen.svg"
                                 alt="Fullscreen icon">
                         </button>
                     </div>
                 </div>
-                <div id="experience-3d-container">
+                <div id="experience-3d-container" style="display: none">
                     <button id="gizmo-button" class="btn">
                         <i class="fa-solid fa-cube"></i>
                     </button>
@@ -756,15 +745,19 @@
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-python.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-languages_tools.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-searchbox.min.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/ace-ide/aceInit.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/file-input/js/fileinput.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/file-input/themes/fa/theme.js"></script>
+<script src="/public/js/lib/Leaflet/leaflet.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/svg-inject.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/charts-loader.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/echarts-5.4.0/echarts.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ansi-up/ansi_up.min.js" type="text/javascript"></script>
 <script src="/openInterface/interfaces/assets/js/external/tone/tone.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/shepherd.js@10.0.1/sheperd.js"></script>
+<!-- endbuild -->
+<!-- build:js-autocomplete-->
+<script src="/openInterface/interfaces/assets/js/autocomplete/esp32/tree.js"></script>
+<script src="/openInterface/interfaces/assets/js/autocomplete/mpy/tree.js"></script>
 <!-- endbuild -->
 <!-- build:js-utils -->
 <script src="/openInterface/interfaces/assets/js/utils/url.js"></script>
@@ -785,12 +778,13 @@
 <script src="/openInterface/esp32/assets/js/constants/main/buttons.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/main/interface.js"></script>
 <script src="/openInterface/esp32/assets/js/constants/main/interface.js"></script>
+<script src="/openInterface/esp32/assets/js/constants/modals/specificModals.js"></script>
 <!-- endbuild -->
 <!-- build:js-constants -->
 <script src="/openInterface/interfaces/assets/js/constants/main/errors.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/main/patterns.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/main/api.js"></script>
-<script src="/openInterface/interfaces/assets/js/constants/blocks/helpurl.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/blocks/ProjectsCleaner.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/generators/constants.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/generators/functions.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/generators/esp32_functions.js"></script>
@@ -799,6 +793,7 @@
 <script src="/openInterface/interfaces/assets/js/constants/modals/buttons.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/modals/options.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/modals/generalModals.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/modals/LedMatrixModalManager.js"></script>
 <!-- endbuild -->
 <!-- build:js-events -->
 <script src="/openInterface/interfaces/assets/js/events/footer.js"></script>
@@ -815,7 +810,9 @@
 <script src="/openInterface/interfaces/assets/js/simulator/Simulator.js"></script>
 <script src="/openInterface/interfaces/assets/js/simulator/mosaic/Animator.js"></script>
 <script src="/openInterface/interfaces/assets/js/simulator/mosaic/groveModules.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/mosaic/groveModules_analog.js"></script>
 <script src="/openInterface/interfaces/assets/js/simulator/wifi/WifiSimulator.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/bluetooth/BluetoothSimulator.js"></script>
 <script src="/openInterface/esp32/assets/js/simulator/mosaic/code_friendly.js"></script>
 <script src="/openInterface/esp32/assets/js/simulator/mosaic/definitions.js"></script>
 <script src="/openInterface/esp32/assets/js/simulator/mosaic/inputs.js"></script>
@@ -829,6 +826,8 @@
 <script src="/openInterface/interfaces/assets/js/simulator/Recorder.js"></script>
 <script src="/openInterface/interfaces/assets/js/simulator/SimulatorModals.js"></script>
 <script src="/openInterface/interfaces/assets/js/simulator/robot/RobotSimulator.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/robot/DistanceSensorSimulator.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/robot/LineFinderSimulator.js"></script>
 <script src="/openInterface/interfaces/assets/js/simulator/robot/utils/math.js"></script>
 <script src="/openInterface/esp32/assets/js/simulator/robot/robot.js"></script>
 <!-- endbuild -->
@@ -844,14 +843,18 @@
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/lists.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/procedures.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/exceptions.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/common/display.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/common/input_output.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/common/communication.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/common/sensors.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/common/actuators.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/common/cameras.js"></script>
-<script src="/openInterface/esp32/assets/js/blocks/definitions/specific/start.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/common/start.js"></script>
 <script src="/openInterface/esp32/assets/js/blocks/definitions/specific/display.js"></script>
 <script src="/openInterface/esp32/assets/js/blocks/definitions/specific/input_output.js"></script>
 <script src="/openInterface/esp32/assets/js/blocks/definitions/specific/communication.js"></script>
 <script src="/openInterface/esp32/assets/js/blocks/definitions/specific/esp32cam.js"></script>
 <script src="/openInterface/esp32/assets/js/blocks/definitions/specific/sensors.js"></script>
-<script src="/openInterface/esp32/assets/js/blocks/definitions/specific/actuators.js"></script>
 <script src="/openInterface/esp32/assets/js/blocks/definitions/specific/robots.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/python/esp32/network.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/generators/python/init.js"></script>
@@ -891,7 +894,7 @@
 <!-- build:js-serial -->
 <script src="/openInterface/interfaces/assets/js/serial/Serial.js"></script>
 <script src="/openInterface/interfaces/assets/js/serial/micropython/MicropythonRepl.js"></script>
-<script src="/openInterface/esp32/assets/js/serial/serialAPI.js"></script>
+<script src="/openInterface/esp32/assets/js/serial/InterfaceConnection.js"></script>
 <!-- endbuild -->
 <!-- loader -->
 <script src="/openInterface/esp32/assets/js/simulator/experience/experience.js" type="module"></script>
@@ -906,8 +909,8 @@
 
 <script>
     window.checkNavigatorVersionForPurpose('interfaces'); 
-    $(document).ready(() => {
-        loadInterface(INTERFACE_NAME);
+    $(document).ready(async () => {
+        await loadInterface(INTERFACE_NAME);
     });
 </script>
 <!-- footer scripts -->

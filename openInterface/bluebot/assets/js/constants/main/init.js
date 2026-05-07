@@ -30,5 +30,4 @@ const SIMULATOR_DEFAULT_BOARD = {
     "name": "Blue-bot"
 };
 const SIMULATOR_DEFAULT_ROBOT = 'bluebot';
-
 const SERIAL_PRODUCT_FILTER = false;

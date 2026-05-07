@@ -26,6 +26,11 @@ function arrayEquals(a, b) {
     return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((val, index) => val === b[index]);
 };
 
+/**
+ * Promise for waiting during condition.
+ * @param {Boolean} conditionFunction
+ * @return {Promise}
+ */
 function waitFor(conditionFunction) {
     const poll = resolve => {
         if (conditionFunction()) {
@@ -37,6 +42,31 @@ function waitFor(conditionFunction) {
     return new Promise(poll);
 };
 
+/**
+ * Promise for waiting (in seconds).
+ * @param {int} s
+ * @return {Promise}
+ */
 function sleep(s) {
-	return new Promise(resolve => setTimeout(resolve, s * 1000));
+    return new Promise(resolve => setTimeout(resolve, s * 1000));
+};
+
+/**
+ * Promise for waiting (in milliseconds).
+ * @param {int} ms
+ * @return {Promise}
+ */
+function sleep_ms(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+};
+
+/**
+ * Round value with specified decimals.
+ * @param {number} value
+ * @param {int} digits
+ * @return {number}
+ */
+function roundFloat(value, digits = 2) {
+    const f = Math.pow(10, digits);
+    return Math.round(value * f) / f;
 };

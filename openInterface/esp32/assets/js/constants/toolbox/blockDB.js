@@ -4,11 +4,95 @@
  */
 
 const TOOLBOXES_BLOCKS_CONTENT = {
+    DEFAULT_PINS: {
+        'PIN2': {
+            'default': 'p26',
+            [BOARD_NANO_ESP32]: 'p5',
+            [BOARD_ESP_WROOM_32_38PINS]: 'p2',
+            [BOARD_ESP32_CAM]: 'p13',
+            [BOARD_ILO]: 'p32'
+        },
+        'PIN3': {
+            'default': 'p25',
+            [BOARD_NANO_ESP32]: 'p6',
+            [BOARD_ESP_WROOM_32_38PINS]: 'p4',
+            [BOARD_ESP32_CAM]: 'p16',
+            [BOARD_ILO]: 'p33'
+        },
+        'PIN4': {
+            'default': 'p17',
+            [BOARD_NANO_ESP32]: 'p7',
+            [BOARD_ESP32_CAM]: 'p13',
+            [BOARD_ILO]: 'p32'
+        },
+        'PIN5': {
+            'default': 'p16',
+            [BOARD_NANO_ESP32]: 'p8',
+            [BOARD_ESP32_CAM]: 'p16',
+            [BOARD_ILO]: 'p33'
+        },
+        'PIN6': {
+            'default': 'p27',
+            [BOARD_NANO_ESP32]: 'p9',
+            [BOARD_ESP32_CAM]: 'p13',
+            [BOARD_ILO]: 'p32'
+        },
+        'PIN7': {
+            'default': 'p14',
+            [BOARD_NANO_ESP32]: 'p10',
+            [BOARD_ESP32_CAM]: 'p16',
+            [BOARD_ILO]: 'p33'
+        },
+        'PIN8': {
+            'default': 'p12',
+            [BOARD_NANO_ESP32]: 'p17',
+            [BOARD_ESP32_CAM]: 'p13',
+            [BOARD_ILO]: 'p32'
+        },
+        'PIN9': {
+            'default': 'p13',
+            [BOARD_NANO_ESP32]: 'p18',
+            [BOARD_ESP32_CAM]: 'p16',
+            [BOARD_ILO]: 'p33'
+        },
+        'PIN10': {
+            'default': 'p5',
+            [BOARD_NANO_ESP32]: 'p21'
+        },
+        'PINA0': {
+            'default': 'p33',
+            [BOARD_WEMOS_D1R32]: 'p2',
+            [BOARD_NANO_ESP32]: 'p1',
+            [BOARD_ESP32_CAM]: 'p13'
+        },
+        'PINA1': {
+            'default': 'p32',
+            [BOARD_WEMOS_D1R32]: 'p4',
+            [BOARD_NANO_ESP32]: 'p2'
+        },
+        'PINA2': {
+            'default': 'p35',
+            [BOARD_NANO_ESP32]: 'p3'
+        },
+        'PINA3': {
+            'default': 'p34',
+            [BOARD_NANO_ESP32]: 'p4'
+        }
+    },
     /**
      * Get the xml block database.
      * @returns {Object}
      */
     get: function () {
+        const getPin = (name) => {
+            const pins = this.DEFAULT_PINS[name];
+            if (pins) {
+                const pin = pins[Blockly.Constants.getSelectedBoard()];
+                return pin ? pin : pins['default'];
+            } else {
+                console.error('Forbids pin to initialize: ' + name);
+            }
+        };
         return {
             /** esp32 default blocks */
 
@@ -22,87 +106,127 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "display_drawOledLine": this.Set.number("XA") + this.Set.number("YA", 32) + this.Set.number("XB", 128) + this.Set.number("YB", 32),
             "display_showOledIcon": this.Set.number("X") + this.Set.number("Y"),
             // display - LED
-            "display_setGroveSocketLed": this.Set.state(),
-            "display_setLEDintensity": this.Set.number("VALUE", 100),
-            "display_setVariableColorLED": this.Set.number("VALUE", 100),
-            "display_setNumberGrove4Digit": this.Set.field("DIO", "p25") + this.Set.number("N", 1024),
-            "display_setClockGrove4Digit": this.Set.field("DIO", "p25"),
-            "display_setLevelLedBar": this.Set.field("DCKI", "p25") + this.Set.number("VALUE", 3.14),
-            "display_my9221_reverse": this.Set.field("DCKI", "p25") + this.Set.state(),
+            "display_setGroveSocketLed": this.Set.field("PIN", getPin("PIN2")) + this.Set.state(),
+            "display_setLEDintensity": this.Set.field("PIN", getPin("PIN5")) + this.Set.number("VALUE", 100),
+            "display_setVariableColorLED": this.Set.field("PIN", getPin("PIN5")) + this.Set.number("VALUE", 100),
+            "display_setNumberGrove4Digit": this.Set.field("CLK", getPin("PIN2")) + this.Set.field("DIO", getPin("PIN3")) + this.Set.number("N", 1024),
+            "display_setClockGrove4Digit": this.Set.field("CLK", getPin("PIN2")) + this.Set.field("DIO", getPin("PIN3")),
+            "display_setLevelLedBar": this.Set.field("DCKI", getPin("PIN2")) + this.Set.field("DI", getPin("PIN3")) + this.Set.number("VALUE", 3.14),
+            "display_my9221_reverse": this.Set.field("DCKI", getPin("PIN2")) + this.Set.field("DI", getPin("PIN3")) + this.Set.state(),
             // display - neopixel
-            "display_defineNeopixel": this.Set.number("N", 20) + this.Set.field("PIN", "pin0"),
-            "display_controlNeopixelLed": this.Set.number("LED") + this.Set.number("R", 255) + this.Set.number("G", 255) + this.Set.number("B", 255),
-            "display_controlColorNeopixelLed": this.Set.number("LED") + this.Set.colour_picker(),
-            "display_neopixel_controlAllLedRGB": this.Set.number("R", 255) + this.Set.number("G") + this.Set.number("B"),
-            "display_neopixel_controlAllLedPalette": this.Set.colour_picker(),
+            "display_defineNeopixel": this.Set.field("PIN", getPin("PIN3")),
+            "display_controlNeopixelLed": this.Set.field("PIN", getPin("PIN3")) + this.Set.number("LED") + this.Set.number("R", 255) + this.Set.number("G", 255) + this.Set.number("B", 255),
+            "display_controlColorNeopixelLed": this.Set.field("PIN", getPin("PIN3")) + this.Set.number("LED") + this.Set.colour_picker(),
+            "display_neopixel_controlAllLedRGB": this.Set.field("PIN", getPin("PIN3")) + this.Set.number("R", 255) + this.Set.number("G") + this.Set.number("B"),
+            "display_neopixel_controlAllLedPalette": this.Set.field("PIN", getPin("PIN3")) + this.Set.colour_picker(),
+            "display_rainbowNeopixel": this.Set.field("PIN", getPin("PIN3")),
             // display - chainable LED RGB
-            "display_defineChainableRGBLed": this.Set.field("DIN", "p25"),
-            "display_setColorChainableRGBLed": this.Set.field("DIN", "p25") + this.Set.number("LED") + this.Set.number("R", 255) + this.Set.number("G") + this.Set.number("B"),
-            "display_setPaletteColorChainableRGBLed": this.Set.field("DIN", "p25") + this.Set.number("LED") + this.Set.colour_picker(),
-            "display_setColorAllChainableRGBLed": this.Set.field("DIN", "p25") + this.Set.number("R", 255) + this.Set.number("G") + this.Set.number("B"),
-            "display_setPaletteAllChainableRGBLed": this.Set.field("DIN", "p25") + this.Set.colour_picker(),
-            "display_resetAllChainableRGBLed": this.Set.field("DIN", "p25"),
-            // io - esp32
+            "display_defineChainableRGBLed": this.Set.field("CIN", getPin("PIN2")) + this.Set.field("DIN", getPin("PIN3")),
+            "display_setColorChainableRGBLed": this.Set.field("CIN", getPin("PIN2")) + this.Set.field("DIN", getPin("PIN3")) + this.Set.number("LED") + this.Set.number("R", 255) + this.Set.number("G") + this.Set.number("B"),
+            "display_setPaletteColorChainableRGBLed": this.Set.field("CIN", getPin("PIN2")) + this.Set.field("DIN", getPin("PIN3")) + this.Set.number("LED") + this.Set.colour_picker(),
+            "display_setColorAllChainableRGBLed": this.Set.field("CIN", getPin("PIN2")) + this.Set.field("DIN", getPin("PIN3")) + this.Set.number("R", 255) + this.Set.number("G") + this.Set.number("B"),
+            "display_setPaletteAllChainableRGBLed": this.Set.field("CIN", getPin("PIN2")) + this.Set.field("DIN", getPin("PIN3")) + this.Set.colour_picker(),
+            "display_resetAllChainableRGBLed": this.Set.field("CIN", getPin("PIN2")) + this.Set.field("DIN", getPin("PIN3")),
+            // io - time
             "io_pause": this.Set.number("TIME", 1),
             "io_waitUntil": "<value name='UNTIL'><block type='logic_compare'>" + this.Set.field("OP", "EQ") + this.Set.number("B", 1) + "</block></value>",            // io - external modules
-            "io_getGroveColoredButton": this.Set.field("PIN", "p25"),
-            "io_setGroveColoredButton": this.Set.state(),
-            "io_getGroveThumbJoystick": this.Set.field("PIN_Y", "p34"),
+            // io - external inputs
+            "io_getGroveSwitch": this.Set.field("PIN", getPin("PIN8")),
+            "io_getGroveButton": this.Set.field("PIN", getPin("PIN8")),
+            "io_getMagneticSwitch": this.Set.field("PIN", getPin("PIN8")),
+            "io_getGroveThumbJoystick": this.Set.field("PIN_X", getPin("PINA0")) + this.Set.field("PIN_Y", getPin("PINA1")),
+            "io_getGroveTactile": this.Set.field("PIN", getPin("PIN8")),
+            "io_getGroveRotaryAngle": this.Set.field("PIN", getPin("PINA0")),
+            "io_getGroveSlidePotentiometer": this.Set.field("PIN", getPin("PINA0")),
+            "io_getGroveColoredButton": this.Set.field("PIN", getPin("PIN8")),
+            "io_setGroveColoredButton": this.Set.field("PIN", getPin("PIN2")) + this.Set.state(),
             // io - pins
-            "io_writeDigitalPin": this.Set.state(),
-            "io_writeAnalogPin": this.Set.number("VALUE", 255),
-            "io_writePwm": this.Set.number("VALUE", PWM_MAX_DUTY),
-            "io_setPwm": this.Set.number("FREQUENCY", 10),
+            "io_readDigitalPin": this.Set.field("PIN", getPin("PIN8")),
+            "io_writeDigitalPin": this.Set.field("PIN", getPin("PIN2")) + this.Set.state(),
+            "io_writeAnalogPin": this.Set.field("PIN", getPin("PIN3")) + this.Set.number("VALUE", 255),
+            "io_writePwm": this.Set.field("PIN", getPin("PIN5")) + this.Set.number("VALUE", PWM_MAX_DUTY),
+            "io_setPwm": this.Set.field("PIN", getPin("PIN5")) + this.Set.number("FREQUENCY", 10),
             "io_getVoltage": this.Set.number("VALUE", 255),
-            // communication - internal
-            "communication_StartBT": this.Set.text('NAME', "ESP32_Vittascience"),
-            "communication_SendBT": this.Set.text('DATA'),
-            "communication_FizziqBT": this.Set.number('VALUE', 25),
             // communication - console
             "communication_serialWrite": '<mutation newlines="false"></mutation>' + this.Set.text('TEXT', "{hello}"),
             "communication_graphSerialWrite": "<value name='ADD0'><block type='communication_graphSerialWrite_datasFormat'><field name='NAME'>{data1}</field></block></value>"
                 + "<mutation items='1'></mutation>",
             "communication_playComputerFrequency": this.Set.number("FREQUENCY", 440),
-            // communication - logging
-            "communication_onInfraredDataReceived": this.Set.text("DATA", "0x00"),
-            "communication_writeOpenLogSd": this.Set.field("RX", "p25") + "<value name='DATA'><block type='text_join'>"
+            // communication - internal
+            "communication_StartBT": this.Set.text('NAME', "ESP32_Vittascience"),
+            "communication_SendBT": this.Set.text('DATA'),
+            "communication_FizziqBT": this.Set.number('VALUE', 25),
+            // communication - data logging
+            "communication_onInfraredDataReceived": this.Set.field("PIN", getPin("PIN8")) + this.Set.text("DATA", "0x00"),
+            "communication_writeOpenLogSd": this.Set.field("RX", getPin("PIN6")) + this.Set.field("TX", getPin("PIN7")) + "<value name='DATA'><block type='text_join'>"
                 + this.Set.text("ADD0", '{data1}') + this.Set.text("ADD1", ';') + this.Set.text("ADD2", '{data2}')
                 + "<mutation items='3'></mutation></block></value>",
             "communication_esp32_FS_saveData": this.Set.text("DATA", "") + this.Set.text("FILENAME", 'nom_du_fichier')
-                + "<mutation extension='false'></mutation>",
+                + "<mutation extension='true'></mutation>",
             // communication - bluetooth
-            "communication_sendBluetoothData": this.Set.field("RX", "p25") + this.Set.text("DATA"),
-            "communication_onBluetoothDataReceived": this.Set.field("RX", "p25"),
+            "communication_hc05_sendBluetoothData": this.Set.field("RX", getPin("PIN6")) + this.Set.field("TX", getPin("PIN7")) + this.Set.text("DATA"),
+            "communication_hc05_onBluetoothDataReceived": this.Set.field("RX", getPin("PIN6")) + this.Set.field("TX", getPin("PIN7")),
             // communication - tracking modules
-            "communication_gps_getNMEA": this.Set.field("RX", "p25"),
-            "communication_gps_getGGAInformations": this.Set.field("RX", "p25"),
+            "communication_rfid_getCardID": this.Set.field("RX", getPin("PIN7")) + this.Set.field("TX", getPin("PIN6")),
+            "communication_mfrc522_getCardID": this.Set.field("NSS", getPin("PIN10")),
+            "communication_gps_getNMEA": this.Set.field("RX", getPin("PIN7")) + this.Set.field("TX", getPin("PIN6")),
+            "communication_gps_getGGAInformations": this.Set.field("RX", getPin("PIN7")) + this.Set.field("TX", getPin("PIN6")),
             "communication_clockRTC_setHour": this.Set.number("HOUR", 8) + this.Set.number("MIN", 40) + this.Set.number("SEC", 10),
             // communication - uart
-            "communication_serialInit": this.Set.field("RX", "p25"),
+            "communication_serialInit": this.Set.field("RX", getPin("PIN6")) + this.Set.field("TX", getPin("PIN7")),
             "communication_uart_writeData": this.Set.text("DATA"),
             "communication_uart_readData": "<mutation size='false'></mutation>",
-            // sensors
+            // camera
             "esp32Cam_controlFlashLED": this.Set.state(),
             "esp32Cam_SDcard_savePic": this.Set.variable("DATA", 'image_data'),
             "esp32Cam_SDcard_saveData": this.Set.text("DATA") + this.Set.text("FILENAME", 'nom_du_fichier'),
-            "sensors_getGroveHighTemperature": this.Set.field("A1", "p34"),
+            // sensors - gas
+            "sensors_getO2gas": this.Set.field("PIN", getPin("PINA0")),
             "sensors_SCD30_forcedCalibration": this.Set.number("DEFAULT", 420),
+            "sensors_getAirQualityValue": this.Set.field("PIN", getPin("PINA0")),
+            "sensors_DHT11ReadData": this.Set.field("PIN", getPin("PIN8")),
+            "sensors_DHT22ReadData": this.Set.field("PIN", getPin("PIN8")),
+            // sensors - weather
+            "sensors_getGroveMoisture": this.Set.field("PIN", getPin("PINA0")),
+            "sensors_getGroveTemperature": this.Set.field("PIN", getPin("PINA0")),
+            "sensors_getGroveHighTemperature": this.Set.field("A0", getPin("PINA0")) + this.Set.field("A1", getPin("PINA1")),
+            "sensors_DS18B20_getTemperature": this.Set.field("PIN", getPin("PIN8")),
+            "sensors_getGroveWaterAmount": this.Set.field("PIN", getPin("PINA0")),
+            "sensors_getRainGauge": this.Set.field("PIN", getPin("PIN8")),
+            "sensors_getAnemometer": this.Set.field("PIN", getPin("PIN8")),
+            // sensors - sound & light
+            "sensors_getGroveLight": this.Set.field("PIN", getPin("PINA0")),
+            "sensors_getUVindex": this.Set.field("PIN", getPin("PINA0")),
+            "sensors_getGroveSound": this.Set.field("PIN", getPin("PINA0")),
+            // sensors - distance & movement
+            "sensors_getGroveUltrasonicRanger": this.Set.field("PIN", getPin("PIN8")),
+            "sensors_getGroveLineFinder": this.Set.field("PIN", getPin("PIN8")),
+            "sensors_getGroveTilt": this.Set.field("PIN", getPin("PIN8")),
+            "sensors_getGroveMotion": this.Set.field("PIN", getPin("PIN8")),
+            "sensors_getPiezoVibration": this.Set.field("PIN", getPin("PIN8")),
+            // sensors - other
+            "sensors_getFsr402Force": this.Set.field("PIN", getPin("PINA0")),
+            "sensors_getVoltageDividerData": this.Set.field("PIN", getPin("PINA0")),
+            "sensors_getEmgDetector": this.Set.field("PIN", getPin("PINA0")),
+            "sensors_getDissolvedOxygenProbe": this.Set.field("PIN", getPin("PINA0")),
             // actuators - motors
-            "actuators_setServoAngle": this.Set.number("ANGLE", 90),
-            "actuators_continuousServo_setSpeed": this.Set.number("SPEED", 100),
-            "actuators_setMotorPower": this.Set.number("POWER", PWM_MAX_DUTY),
-            "actuators_setVibrationMotorState": this.Set.state(),
-            "actuators_setGroveRelayState": this.Set.state(),
+            "actuators_setServoAngle": this.Set.field("PIN", getPin("PIN5")) + this.Set.number("ANGLE", 90),
+            "actuators_continuousServo_setSpeed": this.Set.field("PIN", getPin("PIN5")) + this.Set.number("SPEED", 100),
+            "actuators_setMotorPower": this.Set.field("PIN", getPin("PIN5")) + this.Set.number("POWER", PWM_MAX_DUTY),
+            "actuators_setGroveRelayState": this.Set.field("PIN", getPin("PIN2")) + this.Set.state(),
+            "actuators_setVibrationMotorState": this.Set.field("PIN", getPin("PIN2")) + this.Set.state(),
             // actuators - buzzer/speaker
-            "actuators_music_playNotes":
+            "actuators_music_playNotes": this.Set.field("PIN", getPin("PIN2")) +
                 `<mutation items='3'></mutation>
                 <value name='ADD0'><block type='actuators_music_note'><field name='NOTE'>d</field><field name='OCTAVE'>4</field></block></value>
                 <value name='ADD1'><block type='actuators_music_note'><field name='NOTE'>f#</field><field name='OCTAVE'>4</field></block></value>
                 <value name='ADD2'><block type='actuators_music_note'><field name='NOTE'>g</field><field name='OCTAVE'>4</field></block></value>`,
-            "actuators_music_playFrequency": this.Set.number("FREQUENCY", 440) + this.Set.number("DURATION", 500),
+            "actuators_playMusicGroveBuzzer": this.Set.field("PIN", getPin("PIN2")),
+            "actuators_music_playFrequency": this.Set.field("PIN", getPin("PIN2")) + this.Set.number("FREQUENCY", 440) + this.Set.number("DURATION", 500),
+            "actuators_music_stop": this.Set.field("PIN", getPin("PIN2")),
             // actuators - others
-            "actuators_setElectromagnetState": this.Set.state(),
-            "actuators_setWaterAtomizerState": this.Set.state(),
+            "actuators_setElectromagnetState": this.Set.field("PIN", getPin("PIN2")) + this.Set.state(),
+            "actuators_setWaterAtomizerState": this.Set.field("PIN", getPin("PIN2")) + this.Set.state(),
             // network - wifi
             "network_connectStation": this.Set.text("SSID") + this.Set.text("PASSWORD") + this.Set.text("IP", '192.168.1.10')
                 + '<mutation ip="true" options="false"></mutation>',
@@ -110,6 +234,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             // network - server
             "network_server_sendData": this.Set.text("DATA"),
             "network_changeServerPort": this.Set.number("PORT", 2000),
+            "network_server_getClientData": '<mutation closing="false"></mutation>',
             // network - client
             "network_client_sendData": this.Set.text("DATA") + this.Set.text("IP", "192.168.1.10")
                 + '<mutation port="false"></mutation>',
@@ -169,7 +294,18 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "robots_setLineDetectorThresholdIlo": this.Set.number('THRESHOLD', 40),
             "robots_setIloAcc": this.Set.number('ACC', 100),
             "robots_setIloTempo": this.Set.number('TEMPO', 50),
-
+            "robots_setLedAnim": this.Set.number('CYCLES', 1),
+            //robots - Alvik
+            "robots_alvik_rotate": this.Set.number("ANGLE", 90),
+            "robots_alvik_move": this.Set.number("DISTANCE", 20),
+            "robots_alvik_set_wheels_speed": this.Set.number("LEFT_SPEED", 35) + this.Set.number("RIGHT_SPEED", 35),
+            "robots_alvik_set_wheels_position": this.Set.number("LEFT_ANGLE", 0) + this.Set.number("RIGHT_ANGLE", 0),
+            "robots_alvik_drive": this.Set.number("LINEAR_VELOCITY", 20) + this.Set.number("ANGULAR_VELOCITY", 0) + this.Set.field("ANGULAR_UNIT", "deg/s"),
+            "robots_alvik_set_servo_positions": this.Set.number("SERVOA_ANGLE", 90) + this.Set.number("SERVOB_ANGLE", 90),
+            "robots_alvik_set_builtin_led": this.Set.state(),
+            "robots_alvik_set_illuminator": this.Set.state(),
+            "robots_alvik_rgb2hsv": this.Set.number("R", 255) + this.Set.number("G", 0) + this.Set.number("B", 0),
+            "robots_alvik_hsv2label": this.Set.number("H", 0) + this.Set.number("S", 100) + this.Set.number("V", 100),
             // camera - Wio Lite
             "wio_get_class_data_by_id": this.Set.number("ID", 1),
 
@@ -208,16 +344,19 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "text_append": this.Set.text('TEXT'),
             "text_split": this.Set.text('VALUE') + this.Set.text('SEP', ';'),
             "text_length": this.Set.text('VALUE', 'abc'),
-            "text_indexOf": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('VALUE', 'abc'),
+            "text_includesSubstr": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('FIND', 'abc'),
+            "text_indexOf": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('FIND', 'abc'),
             "text_charAt": this.Set.variable("VALUE", '{textVariable}'),
             "text_getSubstring": this.Set.variable("STRING", '{textVariable}'),
+            "text_count_characters": this.Set.text('TEXT', 'P@ssw0rd'),
             "text_changeCase": this.Set.text('TEXT', 'abc'),
             "text_trim": this.Set.text('TEXT', 'abc'),
             "text_count": this.Set.text('SUB', 'bon') + this.Set.text('TEXT', 'bonbon'),
             "text_replace": this.Set.text('FROM', 'a') + this.Set.text('TO', 'b') + this.Set.text('TEXT', 'abc'),
             "text_reverse": this.Set.text('TEXT', 'abc'),
-            "text_count_characters": this.Set.text('TEXT', 'P@ssw0rd'),
             "text_random_string": this.Set.number('LENGTH', 6),
+            "text_caesar_cipher": this.Set.text('TEXT', '{hello}') + this.Set.number('SHIFT', 3),
+            "text_caesar_cipher_brute_force": this.Set.text('TEXT', 'Erqmrxu hw elhqyhqxh vxu Ylwwdvflhqfh'),
             // list
             "lists_create_with-0": '<mutation items="0"></mutation>',
             "lists_repeat": this.Set.number("NUM", 5),

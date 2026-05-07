@@ -105,14 +105,14 @@ var $builtinmodule = function () {
 				self.pull = pull.v;
 				switch (self.pull) {
 					case $loc.PULL_NONE.v:
-						Simulator.setPullButton(self.id, 'no_pull');
+						Simulator.Components.Button.setPull(self.id, 'no_pull');
 						break;
 					case $loc.PULL_UP.v:
-						Simulator.setPullButton(self.id, 'up');
+						Simulator.Components.Button.setPull(self.id, 'up');
 						break;
 					case $loc.PULL_DOWN.v:
 					default:
-						Simulator.setPullButton(self.id, 'down');
+						Simulator.Components.Button.setPull(self.id, 'down');
 				}
 				self.value = value.v;
 				self.af = af.v;
@@ -141,14 +141,14 @@ var $builtinmodule = function () {
 			self.pull = pull.v;
 			switch (self.pull) {
 				case $loc.PULL_NONE.v:
-					Simulator.setPullButton(self.id, 'no_pull');
+					Simulator.Components.Button.setPull(self.id, 'no_pull');
 					break;
 				case $loc.PULL_UP.v:
-					Simulator.setPullButton(self.id, 'up');
+					Simulator.Components.Button.setPull(self.id, 'up');
 					break;
 				case $loc.PULL_DOWN.v:
 				default:
-					Simulator.setPullButton(self.id, 'down');
+					Simulator.Components.Button.setPull(self.id, 'down');
 			}
 			self.value = value.v;
 			self.af = af.v;
@@ -528,9 +528,14 @@ var $builtinmodule = function () {
 
 		$loc.read = new Sk.builtin.func(function (self) {
 			const mod = Simulator.getModuleByKey(self.id.split('_')[0]);
-			const suffix = mod.listeners[0].suffix || "";
-			const value = parseInt($("#" + self.id + "_slider" + suffix).slider('option', 'value'));
-			return new Sk.builtin.int_(value);
+			if (mod && mod.id.includes('joystick')) {
+				const value = Simulator.Components.Joystick.read(self.id, self.pin);
+				return new Sk.builtin.int_(value);
+			} else {
+				const suffix = mod.listeners[0].suffix || "";
+				const value = parseInt($("#" + self.id + "_slider" + suffix).slider('option', 'value'));
+				return new Sk.builtin.int_(value);
+			}
 		});
 
 		$loc.read_timed = new Sk.builtin.func(function (self, var1, var2) {

@@ -9,7 +9,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_load_model",
         "message0": "%{BKY_VITTAIA_LOAD_MODEL_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image'),
+            Blockly.Constants.Utils.ADD_ICON('image'),
             {
                 "type": "input_value",
                 "name": "MODEL_URL",
@@ -29,7 +29,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_load_local_model",
         "message0": "%{BKY_VITTAIA_LOAD_LOCAL_MODEL_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image')
+            Blockly.Constants.Utils.ADD_ICON('image')
         ],
         "inputsInline": true,
         "previousStatement": null,
@@ -44,7 +44,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_load_model_default",
         "message0": "%{BKY_VITTAIA_LOAD_MODEL_DEFAULT_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image'),
+            Blockly.Constants.Utils.ADD_ICON('image'),
             {
                 "type": "field_grid_dropdown",
                 "name": "MODEL",
@@ -65,7 +65,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_make_predictions_webcam",
         "message0": "%{BKY_VITTAIA_MAKE_PREDICTIONS_WEBCAM_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image')
+            Blockly.Constants.Utils.ADD_ICON('image')
         ],
         "previousStatement": null,
         "nextStatement": null,
@@ -79,7 +79,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_get_highest_probability_class",
         "message0": "%{BKY_VITTAIA_GET_HIGHEST_PROBABILITY_CLASS_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image')
+            Blockly.Constants.Utils.ADD_ICON('image')
         ],
         "output": "String",
         "style": "vittaia_blocks",
@@ -92,7 +92,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_get_confidence_rate",
         "message0": "%{BKY_VITTAIA_GET_CONFIDENCE_RATE_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image')
+            Blockly.Constants.Utils.ADD_ICON('image')
         ],
         "output": "Number",
         "style": "vittaia_blocks",
@@ -105,7 +105,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_get_predictions",
         "message0": "%{BKY_VITTAIA_GET_PREDICTIONS_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image')
+            Blockly.Constants.Utils.ADD_ICON('image')
         ],
         "output": "Array",
         "style": "vittaia_blocks",
@@ -118,7 +118,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_detect_class",
         "message0": "%{BKY_VITTAIA_DETECT_CLASS_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image'), {
+            Blockly.Constants.Utils.ADD_ICON('image'), {
                 "type": "input_value",
                 "name": "MODEL_CLASS"
             },
@@ -149,7 +149,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_webcam_capture",
         "message0": "%{BKY_VITTAIA_WEBCAM_CAPTURE_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image'),
+            Blockly.Constants.Utils.ADD_ICON('image'),
         ],
         "inputsInline": true,
         "output": "Array",
@@ -163,7 +163,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_list_webcams",
         "message0": "%{BKY_VITTAIA_WEBCAM_LIST_AVAILABLES_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image')
+            Blockly.Constants.Utils.ADD_ICON('image')
         ],
         "output": "Array",
         "style": "vittaia_blocks",
@@ -176,7 +176,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "vittaia_init_webcam",
         "message0": "%{BKY_VITTAIA_WEBCAM_INIT_TITLE}",
         "args0": [
-            Blockly.Constants.Utils.ICON_IA('image'),
+            Blockly.Constants.Utils.ADD_ICON('image'),
             {
                 "type": "input_value",
                 "name": "CAMERA",

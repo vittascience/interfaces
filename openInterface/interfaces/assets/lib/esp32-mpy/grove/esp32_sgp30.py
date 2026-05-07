@@ -23,7 +23,7 @@ class SGP30:
     if addr not in i2cModules:
       error = "Unable to find module 'SGP30' at address " + str(hex(addr)) + ". Please check connections with the board.\n"
       error += "[Info] I2C address.es detected: " + str([hex(a) for a in i2cModules])
-      raise ValueError(error)
+      raise OSError(error)
     self._addr = addr
     self.serial = self._i2c_read_words_from_cmd(command=[0x36, 0x82], reply_size=3)
     featureset = self._i2c_read_words_from_cmd([0x20, 0x2f], 1, 10)

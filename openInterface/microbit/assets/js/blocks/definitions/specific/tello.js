@@ -16,13 +16,13 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             {
                 "type": "field_grid_dropdown",
                 "name": "TX",
-                "options": Blockly.Constants.Pins.MICROBIT_PINS,
+                "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()],
             },
 
             {
                 "type": "field_grid_dropdown",
                 "name": "RX",
-                "options": Blockly.Constants.Pins.MICROBIT_PINS,
+                "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()],
             },
         ],
         "inputsInline": false,

@@ -39,14 +39,12 @@
 			throw new Error('Invalid target element');
 		}
 
+		createImageFromDomTarget(target, options);
+	}
+
+	async function createImageFromDomTarget(target, options = {}) {
 		try {
-			// Capture the element with html2canvas
-			const canvas = await html2canvas(target, {
-				logging: false,
-				useCORS: true,
-				scale: window.devicePixelRatio || 1,
-				...options
-			});
+		const canvas = await html2canvas(target);
 
 			// Convert to blob with error handling
 			const blob = await new Promise((resolve, reject) => {
@@ -62,9 +60,9 @@
 
 			// Clean up object URL when image loads
 			image.onload = () => URL.revokeObjectURL(image.src);
-
 			return image;
-		} catch (error) {
+		
+			} catch (error) {
 			console.error('Image capture failed:', error);
 			throw error; // Re-throw for caller to handle
 		}
@@ -77,32 +75,12 @@
 	 * @param {object} [styles={}] - Additional CSS styles to include
 	 */
 	export async function printTarget(target, title = 'Print', styles = {}) {
+		console.log('printTarget called', target);
 		if (!target || !(target instanceof HTMLElement)) {
 			throw new Error('Invalid target element');
 		}
-
-		// Default styles with optional overrides
-		const defaultStyles = {
-			body: `
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            color: #333;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-        `,
-			container: `
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            page-break-inside: avoid;
-        `,
-			img: `
-            max-width: 100%;
-            height: auto;
-        `,
-			...styles
-		};
-
+		const image = await createImageFromDomTarget(target);
+				
 		const htmlToPrint = `
         <!DOCTYPE html>
         <html>
@@ -110,18 +88,12 @@
             <title>${escapeHtml(title)}</title>
             <meta charset="UTF-8">
             <style>
-                body { ${defaultStyles.body} }
-                #print-container { ${defaultStyles.container} }
-                img { ${defaultStyles.img} }
-                @media print {
-                    body { margin: 0; padding: 0; }
-                    #print-container { border-radius: 0; }
-                }
+
             </style>
         </head>
         <body>
             <div id="print-container">
-                ${target.outerHTML}
+                ${image.outerHTML}
             </div>
             <script>
                 // Trigger print after content loads

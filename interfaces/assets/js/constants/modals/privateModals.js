@@ -166,7 +166,7 @@ const backModals = {
             <div class="modal-openproject-separator" style="position: relative;text-align:center;display: grid;align-items: center;">
                 <hr style="background-color: var(--bg-5);"/>
                 <span style="position: absolute; background-color: transparent; left: 0; right: 0; padding-right: 7px; padding-left: 7px; color: var(--text-2);">
-                    <span style="background-color: var(--bg-3); padding: 0 5px;" data-i18n="modals.standard.save.content.form.or">OU</span>
+                    <span style="background-color: var(--bg-2); padding: 0 5px;" data-i18n="modals.standard.save.content.form.or">OU</span>
                 </span>
             </div>
             `,
@@ -238,7 +238,7 @@ const backModals = {
             <div style="position: relative; text-align:center;">
                 <hr style="background-color: var(--bg-5);"/>
                 <span style="position: absolute; top: -10px; background-color: transparent; left: 0; right: 0;padding-right: 7px; padding-left: 7px; color: var(--text-2);">
-                    <span style="background-color: var(--bg-3); padding: 0 5px;" data-i18n="[html]modals.standard.save.content.form.or">OU</span>
+                    <span style="background-color: var(--bg-2); padding: 0 5px;" data-i18n="[html]modals.standard.save.content.form.or">OU</span>
                 </span>
             </div>`,
         footer: `<div class="text-center mx-auto mb-2">
@@ -378,7 +378,7 @@ const backModals = {
             error: ''
         }
     },
-    'modal-shareproject': (typeof rtcInterfaces != 'undefined' && !rtcInterfaces.includes(INTERFACE_NAME)) ? {
+    'modal-shareproject': ((typeof rtcInterfaces != 'undefined' && !rtcInterfaces.includes(INTERFACE_NAME)) || INTERFACE_NAME === "ai") ? {
         selector: '',
         header: {
             icon: '',
@@ -1223,11 +1223,11 @@ const backModals = {
             <p class="my-2 text-center" data-i18n="modals.iag.common.privacyReminder"></p>
 
             <div class="my-3 text-center custom-shadow p-2 rounded">
-                <a class="text-decoration-underline text-primary" id="learnMoreBtn" data-bs-toggle="collapse" data-bs-target="#learnMorePanel" aria-expanded="false" aria-controls="learnMorePanel"><span data-i18n="modals.iag.common.learnMore"></span><i class="fa-solid fa-chevron-right ms-1" aria-hidden="true"></i></a>
+                <a class="text-decoration-underline text-primary" id="learnMoreBtn" role="button" tabindex="0" data-bs-toggle="collapse" data-bs-target="#learnMorePanel" aria-expanded="false" aria-controls="learnMorePanel" onkeydown="if(event.key==='Enter'){this.click()}"><span data-i18n="modals.iag.common.learnMore"></span><i class="fa-solid fa-chevron-right ms-1" aria-hidden="true"></i></a>
 
                 <div id="learnMorePanel" class="collapse mt-3">
                     <div class="card border-0 text-start mx-auto" style="max-width:920px;">
-                        <div class="d-flex flex-column gap-2">
+                        <div class="d-flex flex-column gap-2 bg-color-auto">
 
                             <div class="d-flex justify-content-center align-items-center gap-2">
                                 <i class="fa-solid fa-file-contract vitta-modal-title"></i>
@@ -1305,11 +1305,11 @@ const backModals = {
             <p class="my-2 text-center" data-i18n="modals.iag.common.privacyReminder"></p>
 
             <div class="my-3 text-center custom-shadow p-2 rounded">
-                <a class="text-decoration-underline text-primary" id="learnMoreBtnText" data-bs-toggle="collapse" data-bs-target="#learnMorePanelText" aria-expanded="false" aria-controls="learnMorePanelText"><span data-i18n="modals.iag.common.learnMore"></span><i class="fa-solid fa-chevron-right ms-1" aria-hidden="true"></i></a>
+                <a class="text-decoration-underline text-primary" id="learnMoreBtnText" role="button" tabindex="0" data-bs-toggle="collapse" data-bs-target="#learnMorePanelText" aria-expanded="false" aria-controls="learnMorePanelText" onkeydown="if(event.key==='Enter'){this.click()}"><span data-i18n="modals.iag.common.learnMore"></span><i class="fa-solid fa-chevron-right ms-1" aria-hidden="true"></i></a>
 
                 <div id="learnMorePanelText" class="collapse mt-3">
                     <div class="card border-0 text-start mx-auto" style="max-width:920px;">
-                        <div class="d-flex flex-column gap-2">
+                        <div class="d-flex flex-column gap-2 bg-color-auto">
 
                             <div class="d-flex justify-content-center align-items-center gap-2">
                                 <i class="fa-solid fa-file-contract vitta-modal-title"></i>

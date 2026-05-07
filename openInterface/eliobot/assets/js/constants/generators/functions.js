@@ -1,33 +1,24 @@
 // You can modify functions but don't refactoring strings writing format, it is used if python code has to be changed
 // Spaces and indents are very important in python code
 const FUNCTIONS_ELIOBOT = {
-DEF_MOVE_ROBOT:
-`def move_robot(direction):
-  if (direction == 'forward'):
-    motorAIN1.value = False
-    motorAIN2.value = True
-    motorBIN1.value = False
-    motorBIN2.value = True
-  elif (direction == 'backward'):
-    motorAIN1.value = True
-    motorAIN2.value = False
-    motorBIN1.value = True
-    motorBIN2.value = False
-  elif (direction == 'right'):
-    motorAIN1.value = True
-    motorAIN2.value = False
-    motorBIN1.value = False
-    motorBIN2.value = True
-  elif (direction == 'left'):
-    motorAIN1.value = False
-    motorAIN2.value = True
-    motorBIN1.value = True
-    motorBIN2.value = False`,
+DEF_MEASURE_DISTANCE:
+`def measure_distance():
+    trigger.value = True
+    time.sleep(0.00001)
+    trigger.value = False
 
-DEF_STOP_ROBOT: 
-`def stop_robot():
-  motorAIN1.value = True
-  motorAIN2.value = True
-  motorBIN1.value = True
-  motorBIN2.value = True`,
+    echo.clear()
+    echo.resume()
+
+    start = time.monotonic()
+    while len(echo) == 0:
+        if time.monotonic() - start > 0.2:
+            echo.pause()
+            return None
+
+    echo.pause()
+    duration = echo[0] / 1000000  # Convertir à des secondes
+    distance = (duration * 34300) / 2
+    return distance
+`
 };

@@ -16,10 +16,11 @@ const LIB_IMPORT = {
     INCLUDE_PRINTF: "#include <printf.h>",
     INCLUDE_DS1307: "#include <DS1307.h>",
     INCLUDE_PCF85063TP: "#include <PCF85063TP.h>",
-    INCLUDE_IR_REMOTE: "#include <IRremote.h>",
+    INCLUDE_IR_REMOTE: "#include <IRremote.hpp>",
     INCLUDE_NRF24L01: "#include <nRF24L01.h>",
     INCLUDE_RF24: "#include <RF24.h>",
     INCLUDE_SD: "#include <SD.h>",
+    INCLUDE_SDFAT: "#include <SdFat.h>",
     INCLUDE_SEEED_RFID: "#include <SeeedRFID.h>",
     INCLUDE_ADAFRUIT_NEOPIXEL: "#include <Adafruit_NeoPixel.h>",
     INCLUDE_CHAINABLE_LED: "#include <ChainableLED.h>",
@@ -53,7 +54,8 @@ const LIB_IMPORT = {
     INCLUDE_ULTRASONIC: "#include <Ultrasonic.h>",
     INCLUDE_SEEED_BME680: "#include <seeed_bme680.h>",
     INCLUDE_SEEED_HM330X: "#include <Seeed_HM330X.h>",
-    INCLUDE_SEEED_GROVE_MP3: "#include <SeeedGroveMP3.h>"
+    INCLUDE_SEEED_GROVE_MP3: "#include <SeeedGroveMP3.h>",
+    INCLUDE_ADAFRUIT_MLX90614: "#include <Adafruit_MLX90614.h>"
 };
 
 const EXCLUDED_COMMENTS = [];

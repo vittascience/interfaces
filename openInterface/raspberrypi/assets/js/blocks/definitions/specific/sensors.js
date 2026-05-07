@@ -1,71 +1,393 @@
 /**
- * @fileoverview Sensors blocks for Raspberry pi.
+ * @fileoverview Sensors blocks for Raspberry Pi.
  */
 
 Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 
-    // Raspberry Pi blocs
+    /** Begin cameras blocks */
 
     {
-        "type": "sensors_getGroveUltrasonicRanger",
-        "message0": "%{BKY_SENSORS_GETGROVEULTRASONIC_TITLE}",
-        "args0": [
-        {
-            "type": "field_grid_dropdown",
-            "name": "PIN",
-            "options": Blockly.Constants.Pins.digital
-        },
-        ],
-        "output": "Number",
-        "style": "sensors_blocks",
-        "tooltip": "%{BKY_SENSORS_GETGROVEULTRASONIC_TOOLTIP}",
+        "type": "sensors_rpi_camera_takePicture",
+        "message0": "%{BKY_SENSORS_RPI_CAMERA_TAKE_PICTURE_TITLE}",
+        "output": "Array",
+        "tooltip": "%{BKY_SENSORS_RPI_CAMERA_TAKE_PICTURE_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ],
-        // "mutator": "sensors_ultrasonic_mutator"
     },
 
-    // BLOCK GROVE TEMPERATURE SENSOR
     {
-        "type": "sensors_getGroveTemperature",
-        "message0": "%{BKY_SENSORS_GETGROVETEMPERATURE_TITLE}",
+        "type": "sensors_rpi_camera_takeVideo",
+        "message0": "%{BKY_SENSORS_RPI_CAMERA_TAKE_VIDEO_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "DURATION",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "FILENAME",
+            "check": "String"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_SENSORS_RPI_CAMERA_TAKE_VIDEO_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+    },
+
+    {
+        "type": "sensors_rpi_camera_changeSize",
+        "message0": "%{BKY_SENSORS_RPI_CAMERA_CHANGE_SIZE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "FRAMESIZE",
+            "options": [
+                ["1280 x 720 (HD)", "(1280, 720)"],
+                ["640 x 480 (VGA)", "(640, 480)"],
+                ["96 x 96", "(96, 96)"],
+                ["160 x 120 (QQVGA)", "(160, 120)"],
+                ["176 x 144 (QCIF)", "(176, 144)"],
+                ["240 x 176 (HQVGA)", "(240, 176)"],
+                ["240 x 240", "(240, 240)"],
+                ["320 x 240 (QVGA)", "(320, 240)"],
+                ["400 x 296 (CIF)", "(400, 296)"],
+                ["480 x 320 (HVGA)", "(480, 320)"],
+                ["800 x 600 (SVGA)", "(800, 600)"],
+                ["1024 x 768 (XGA)", "(1024, 768)"],
+                ["1280 x 1024 (SXGA)", "(1280, 1024)"],
+                ["1600 x 1200 (UXGA)", "(1600, 1200)"],
+                ["1920 x 1080 (FHD)", "(1920, 1080)"],
+                ["720 x 1280 (P_HD)", "(720, 1280)"],
+                ["864 x 1536 (P_3MP)", "(864, 1536)"],
+                ["2048 x 1536 (QXGA)", "(2048, 1536)"]
+            ]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_SENSORS_RPI_CAMERA_CHANGE_SIZE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+    },
+
+    {
+        "type": "sensors_usb_camera_takePicture",
+        "message0": "%{BKY_SENSORS_USB_CAMERA_TAKE_PICTURE_TITLE}",
+        "output": "Array",
+        "tooltip": "%{BKY_SENSORS_USB_CAMERA_TAKE_PICTURE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+    },
+
+    {
+        "type": "sensors_usb_camera_takeVideo",
+        "message0": "%{BKY_SENSORS_USB_CAMERA_TAKE_VIDEO_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "DURATION",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "FILENAME",
+            "check": "String"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_SENSORS_USB_CAMERA_TAKE_VIDEO_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+    },
+
+    {
+        "type": "sensors_usb_camera_changeSize",
+        "message0": "%{BKY_SENSORS_USB_CAMERA_CHANGE_SIZE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "FRAMESIZE",
+            "options": [
+                ["1280 x 720 (HD)", "(1280, 720)"],
+                ["640 x 480 (VGA)", "(640, 480)"],
+                ["96 x 96", "(96, 96)"],
+                ["160 x 120 (QQVGA)", "(160, 120)"],
+                ["176 x 144 (QCIF)", "(176, 144)"],
+                ["240 x 176 (HQVGA)", "(240, 176)"],
+                ["240 x 240", "(240, 240)"],
+                ["320 x 240 (QVGA)", "(320, 240)"],
+                ["400 x 296 (CIF)", "(400, 296)"],
+                ["480 x 320 (HVGA)", "(480, 320)"],
+                ["800 x 600 (SVGA)", "(800, 600)"],
+                ["1024 x 768 (XGA)", "(1024, 768)"],
+                ["1280 x 1024 (SXGA)", "(1280, 1024)"],
+                ["1600 x 1200 (UXGA)", "(1600, 1200)"],
+                ["1920 x 1080 (FHD)", "(1920, 1080)"],
+                ["720 x 1280 (P_HD)", "(720, 1280)"],
+                ["864 x 1536 (P_3MP)", "(864, 1536)"],
+                ["2048 x 1536 (QXGA)", "(2048, 1536)"]
+            ]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_SENSORS_USB_CAMERA_CHANGE_SIZE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+    },
+
+    {
+        "type": "sensors_cv2_camera_savePicture",
+        "message0": "%{BKY_SENSORS_CV2_CAMERA_SAVE_PICTURE_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "IMG",
+            "check": "Array"
+        }, {
+            "type": "input_value",
+            "name": "FILENAME",
+            "check": "String"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_SENSORS_CV2_CAMERA_SAVE_PICTURE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+    },
+
+    {
+        "type": "sensors_camera_showPictureInVittascience",
+        "message0": "%{BKY_SENSORS_CAMERA_SHOW_PICTURE_IN_VITTASCIENCE_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "IMG",
+            "check": ["Array", "String"]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_SENSORS_CAMERA_SHOW_PICTURE_IN_VITTASCIENCE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+    },
+
+    {
+        "type": "sensors_camera_showVideoInVittascience",
+        "message0": "%{BKY_SENSORS_CAMERA_SHOW_VIDEO_IN_VITTASCIENCE_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "FILENAME",
+            "check": "String"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_SENSORS_CAMERA_SHOW_VIDEO_IN_VITTASCIENCE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+    },
+
+    {
+        "type": "sensors_camera_getPictureFiles",
+        "message0": "%{BKY_SENSORS_CAMERA_GET_PICTURE_FILES_TITLE}",
+        "output": "Array",
+        "tooltip": "%{BKY_SENSORS_CAMERA_GET_PICTURE_FILES_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+    },
+
+    {
+        "type": "sensors_camera_getVideoFiles",
+        "message0": "%{BKY_SENSORS_CAMERA_GET_VIDEO_FILES_TITLE}",
+        "output": "Array",
+        "tooltip": "%{BKY_SENSORS_CAMERA_GET_VIDEO_FILES_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+    },
+
+    /** Begin Sense HAT sensors */
+
+    // temperature
+    {
+        "type": "sensehat_getSenseHatTemperature",
+        "message0": "%{BKY_SENSE_HAT_GET_TEMPERATURE_TITLE}",
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "UNIT",
             "options": [
-                ["(°C)", "CELSIUS"],
-                ["(°F)", "FAHRENHEIT"],
-                ["(K)", "KELVIN"]
+                ["(°C)", "celsius"],
+                ["(°F)", "fahrenheit"],
+                ["(K)", "kelvin"]
+            ]
+        }],
+        "output": "Number",
+        "tooltip": "%{BKY_SENSE_HAT_GET_TEMPERATURE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+    },
+    // humidity
+    {
+        "type": "sensehat_getSenseHatHumidity",
+        "message0": "%{BKY_SENSE_HAT_GET_HUMIDITY_TITLE}",
+        "output": "Number",
+        "tooltip": "%{BKY_SENSE_HAT_GET_HUMIDITY_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+    },
+
+    // TEMPERATURE FROM HUMIDITY or PRESSURE SENSOR
+    {
+        "type": "sensehat_getTemperatureFrom",
+        "message0": "%{BKY_SENSE_HAT_GET_TEMPERATURE_FROM_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "UNIT",
+            "options": [
+                ["(°C)", "celsius"],
+                ["(°F)", "fahrenheit"],
+                ["(K)", "kelvin"]
             ]
         }, {
             "type": "field_grid_dropdown",
-            "name": "PIN",
-            "options": Blockly.Constants.Pins.analog_read
+            "name": "SENSOR",
+            "options": [
+                ["%{BKY_SENSORS_HUMIDITY}", "humidity"],
+                ["%{BKY_SENSE_HAT_GET_TEMPERATURE_PRESSURE}", "pressure"]
+            ]
         }],
         "output": "Number",
-        "style": "sensors_blocks",
-        "tooltip": "%{BKY_SENSORS_GETGROVETEMPERATURE_TOOLTIP}",
+        "tooltip": "%{BKY_SENSE_HAT_GET_TEMPERATURE_FROM_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+    },
+
+    // PRESSURE
+    {
+        "type": "sensehat_getSenseHatPressure",
+        "message0": "%{BKY_SENSE_HAT_GET_PRESSURE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "UNIT",
+            "options": [
+                ["(mbar)", "mbar"],
+                ["(bar)", "bar"],
+                ["(hPa)", "hectopascal"],
+                ["(mmHg)", "mmhg"],
+                ["(psi)", "psi"]
+            ]
+        }],
+        "output": "Number",
+        "tooltip": "%{BKY_SENSE_HAT_GET_PRESSURE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
 
-    // BLOCK GROVE MOISTURE SENSOR
+    // IMU (inertial measurement unit)
     {
-        "type": "sensors_getGroveMoisture",
-        "message0": "%{BKY_SENSORS_GETGROVEMOISTURE_TITLE}",
+        "type": "sensehat_set_imu_config",
+        "message0": "%{BKY_SENSE_HAT_SET_IMU_CONFIG_TITLE}",
         "args0": [{
-            "type": "field_grid_dropdown",
-            "name": "PIN",
-            "options": Blockly.Constants.Pins.analog_read
+            'type': 'field_grid_dropdown',
+            'name': 'IMU_CONFIG_GYRO',
+            'options': [
+                ['%{BKY_SENSE_HAT_SET_IMU_CONFIG_ON}', 'True'],
+                ['%{BKY_SENSE_HAT_SET_IMU_CONFIG_OFF}', 'False'],
+            ]
+        }, {
+            "type": "input_dummy"
+        }, {
+            'type': 'field_grid_dropdown',
+            'name': 'IMU_CONFIG_ACCEL',
+            'options': [
+                ['%{BKY_SENSE_HAT_SET_IMU_CONFIG_ON}', 'True'],
+                ['%{BKY_SENSE_HAT_SET_IMU_CONFIG_OFF}', 'False'],
+            ]
+        }, {
+            "type": "input_dummy"
+        }, {
+            'type': 'field_grid_dropdown',
+            'name': 'IMU_CONFIG_COMPASS',
+            'options': [
+                ['%{BKY_SENSE_HAT_SET_IMU_CONFIG_ON}', 'True'],
+                ['%{BKY_SENSE_HAT_SET_IMU_CONFIG_OFF}', 'False'],
+            ]
         }],
-        "output": "Number",
-        "style": "sensors_blocks",
-        "tooltip": "%{BKY_SENSORS_GETGROVEMOISTURE_TOOLTIP}",
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_SENSE_HAT_SET_IMU_CONFIG_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
-        ]
+            "block_init_helpurl",
+            "block_init_color"
+        ],
     },
+    // get_orientation_radians
+    {
+        "type": "sensehat_imu_get_orientation",
+        "message0": "%{BKY_SENSE_HAT_IMU_GET_ORIENTATION_TITLE}",
+        "args0": [{
+            'type': 'field_grid_dropdown',
+            'name': 'ORIENTATION',
+            'options': [
+                ['%{BKY_SENSE_HAT_IMU_GET_ORIENTATION_RADIANS}', 'radians'],
+                ['%{BKY_SENSE_HAT_IMU_GET_ORIENTATION_DEGREES}', 'degrees'],
+            ]
+        }],
+        "output": "Array",
+        "tooltip": "%{BKY_SENSE_HAT_IMU_GET_ORIENTATION_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+    },
+    // get_orientation_degrees
+    // {
+    //     "type": "sensehat_imu_get_orientation_degrees",
+    //     "message0": "%{BKY_SENSE_HAT_IMU_GET_ORIENTATION_TITLE}",
+    //     "output": "Array",
+    //     "tooltip": "%{BKY_SENSE_HAT_IMU_GET_ORIENTATION_DEGREES_TOOLTIP}",
+    // },
+    // compass
+    {
+        "type": "sensehat_imu_get_compass",
+        "message0": "%{BKY_SENSE_HAT_IMU_GET_COMPASS_TITLE}",
+        "output": "Number",
+        "tooltip": "%{BKY_SENSE_HAT_IMU_GET_COMPASS_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+    },
+
+    /** Begin Climate sensors blocks */
 
     // BLOCK GROVE DHT 11 SENSOR _ READ DATA
     {
@@ -81,149 +403,143 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.PWM
-            
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
         }],
         "output": "Number",
         "inputsInline": true,
-        "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_DHT11_READDATA_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
         ],
         "mutator": "sensors_temperature_mutator"
     },
 
-     // BLOCK GROVE LIGHT SENSOR JSON
+    // BLOCK GROVE DHT 22 SENSOR _ READ DATA
     {
-        "type": "sensors_getGroveLight",
-        "message0": "%{BKY_SENSORS_GETGROVELIGHT_TITLE}",
+        "type": "sensors_DHT22ReadData",
+        "message0": "%{BKY_SENSORS_DHT22_READDATA_TITLE}",
         "args0": [{
             "type": "field_grid_dropdown",
+            "name": "DATA",
+            "options": [
+                ["%{BKY_SENSORS_TEMPERATURE}", "TEMP"],
+                ["%{BKY_SENSORS_HUMIDITY}", "HUM"]
+            ]
+        }, {
+            "type": "field_grid_dropdown",
             "name": "PIN",
-            "options": Blockly.Constants.Pins.analog_read
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
         }],
         "output": "Number",
-        "style": "sensors_blocks",
-        "tooltip": "%{BKY_SENSORS_GETGROVELIGHT_TOOLTIP}",
+        "inputsInline": true,
+        "tooltip": "%{BKY_SENSORS_DHT22_READDATA_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ],
+        "mutator": "sensors_temperature_mutator"
+    },
+
+    // BLOCK DS18B20 - GET TEMPERATURE SENSOR
+    {
+        "type": "sensors_DS18B20_getTemperature",
+        "message0": "%{BKY_SENSORS_DS18B20_GETTEMPERATURE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "UNIT",
+            "options": [
+                ["(°C)", "CELSIUS"],
+                ["(°F)", "FAHRENHEIT"],
+                ["(K)", "KELVIN"]
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": [
+                ["GPIO4 (GPCLK0)", "4"], // board: 7
+            ]
+        }],
+        "output": "Number",
+        "tooltip": "%{BKY_SENSORS_DS18B20_GETTEMPERATURE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
         ]
     },
+
+    /** Begin Sound & Light sensors blocks */
+
+    // GROVE I2C COLOR SENSOR _ GET DATA JSON
     {
-        "type": "sensors_rpi_camera_take_picture",
-        "message0": "%{BKY_SENSORS_RPI_CAMERA_TAKE_PICTURE_TITLE}",
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "sensors_blocks",
-        "tooltip": "%{BKY_SENSORS_RPI_CAMERA_TAKE_PICTURE_TOOLTIP}",
-        "extensions": [
-            "block_init_helpurl"
-        ],
-    },
-    {
-        "type": "sensors_rpi_camera_take_video",
-        "message0": "%{BKY_SENSORS_RPI_CAMERA_TAKE_VIDEO_TITLE}",
+        "type": "sensors_colorSensorV2_getData",
+        "message0": "%{BKY_SENSORS_GROVECOLORV2_GETDATA_TITLE}",
         "args0": [{
-            "type": "input_value",
-            "name": "DURATION",
-            "check": "Number",
+            "type": "field_grid_dropdown",
+            "name": "DATA",
+            "options": [
+                ["%{BKY_COLOR_LEVEL_RED}", "red"],
+                ["%{BKY_COLOR_LEVEL_GREEN}", "green"],
+                ["%{BKY_COLOR_LEVEL_BLUE}", "blue"]
+            ]
         }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "style": "sensors_blocks",
-        "tooltip": "%{BKY_SENSORS_RPI_CAMERA_TAKE_VIDEO_TOOLTIP}",
+        "output": "Number",
+        "tooltip": "%{BKY_SENSORS_GROVECOLORV2_GETDATA_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
-        ],
+            "block_init_helpurl",
+            "block_init_color"
+        ]
     },
 
+    /** Begin Distance & Movements sensors blocks */
+
+    // BLOCK GROVE GESTURE SENSOR (I2C) _ GET GESTURE
+    {
+        "type": "sensors_getGesture",
+        "message0": "%{BKY_SENSORS_GETGESTURE_TITLE}",
+        "output": "Number",
+        "tooltip": "%{BKY_SENSORS_GETGESTURE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
+    // BLOCK GROVE GESTURE SENSOR (I2C) _ ON GESTURE ... DO
+    {
+        "type": "sensors_onGestureTypeDetected",
+        "message0": "%{BKY_SENSORS_ONGESTUREDETECTED_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "GESTURE",
+            "options": [
+                ["%{BKY_SENSORS_GESTURE_RIGHT}", "right"],
+                ["%{BKY_SENSORS_GESTURE_LEFT}", "left"],
+                ["%{BKY_SENSORS_GESTURE_UP}", "up"],
+                ["%{BKY_SENSORS_GESTURE_DOWN}", "down"],
+                ["%{BKY_SENSORS_GESTURE_FORWARD}", "forward"],
+                ["%{BKY_SENSORS_GESTURE_BACKWARD}", "backward"],
+                ["%{BKY_SENSORS_GESTURE_CLOCKWISE}", "clockwise"],
+                ["%{BKY_SENSORS_GESTURE_ANTICLOCKWISE}", "anticlockwise"],
+                ["%{BKY_SENSORS_GESTURE_WAVE}", "wave"],
+                ["%{BKY_SENSORS_GESTURE_NOTHING}", "nothing"]
+            ]
+        }],
+        "message1": "%1",
+        "args1": [{
+            "type": "input_statement",
+            "name": "DO"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_SENSORS_ONGESTUREDETECTED_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
 
 ]); // END JSON EXTRACT (Do not delete this comment.)
-
-
-Blockly.Constants.Sensors = Object.create(null);
-
-/**
- * Performs final setup of ultrasonic block.
- * @this {Blockly.Block}
- */
-Blockly.Constants.Sensors.SENSORS_ULTRASONIC_INIT_EXTENSION = function () {
-    var dropdown = this.getField("SENSOR");
-    dropdown.setValidator(function (value) {
-        var newSensor = (value == "GROVE");
-        if (newSensor != this.isGrove_) {
-            var block = this.getSourceBlock();
-            block.updateField_(newSensor);
-        }
-    });
-    var isGroveInital = (this.getFieldValue("SENSOR") == "GROVE");
-    this.updateField_(isGroveInital);
-};
-
-/**
- * Mixin for mutator functions in the 'sensors_ultrasonic_mutator' extension.
- * @mixin
- * @augments Blockly.Block
- * @package
- */
-Blockly.Constants.Sensors.SENSORS_ULTRASONIC_MUTATOR_MIXIN = {
-    /**
-     * Create XML to represent whether there is an 'pin' dropdown field.
-     * @return {!Element} XML storage element.
-     * @this {Blockly.Block}
-     */
-    mutationToDom: function () {
-        var container = Blockly.utils.xml.createElement('mutation');
-        container.setAttribute('pin', !!this.isGrove_);
-        return container;
-    },
-    /**
-     * Parse XML to restore the 'temp' dropdown field.
-     * @param {!Element} xmlElement XML storage element.
-     * @this {Blockly.Block}
-     */
-    domToMutation: function (xmlElement) {
-        var isGrove = (xmlElement.getAttribute('pin') != 'false');
-        this.updateField_(isGrove);
-    },
-    /**
-     * Create or delete temperature unit field_dropdown.
-     * @param {boolean} isGrove True if the dropdown should exist.
-     * @private
-     * @this {Blockly.Block}
-     */
-    updateField_: function (isGrove) {
-        // Destroy 'TRIG' and 'ECHO' field.
-        if (this.getInput("HC_PINS")) {
-            this.removeInput("HC_PINS");
-        }
-        // Destroy 'PIN' field.
-        if (this.getInput("GROVE_PIN")) {
-            this.removeInput("GROVE_PIN");
-        }
-        if (isGrove) {
-            this.setInputsInline(true);
-            // Create either a value 'PIN' dropdown field.
-            this.appendDummyInput("GROVE_PIN")
-                .appendField(Blockly.Msg["SENSORS_ULTRASONIC_1PIN"])
-                .appendField(new Blockly.FieldDropdown(Blockly.Constants.Pins.GALAXIA_PINS), "PIN");
-        } else {
-            this.setInputsInline(false);
-            // Create either value 'TRIG' & 'ECHO' dropdown fields.
-            this.appendDummyInput("HC_PINS")
-                .appendField(Blockly.Msg["SENSORS_ULTRASONIC_2PINS"])
-                .appendField("TRIG")
-                .appendField(new Blockly.FieldDropdown(Blockly.Constants.Pins.GALAXIA_PINS), "TRIG")
-                .appendField("ECHO")
-                .appendField(new Blockly.FieldDropdown(Blockly.Constants.Pins.GALAXIA_PINS), "ECHO");
-        }
-        this.isGrove_ = isGrove;
-    }
-};
-
-Blockly.Extensions.registerMutator('sensors_ultrasonic_mutator',
-    Blockly.Constants.Sensors.SENSORS_ULTRASONIC_MUTATOR_MIXIN,
-    Blockly.Constants.Sensors.SENSORS_ULTRASONIC_INIT_EXTENSION);

@@ -110,19 +110,20 @@
     
         }
     </script>
-    <script src="/public/js/scripts/tooltips/tooltipsRemover.js"></script>
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/ace.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/js/external/fontawesome-free-6.5.1-web/css/all.css">
+    <script src="/public/js/scripts/tooltips/tooltipsRemover.js" defer></script>
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/ace.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/js/external/fontawesome-free-6.5.1-web/css/all.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/js/external/file-input/css/fileinput.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/ide-navbar.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/main.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/modal.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/buttons.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/monitor.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/simulator.css">
-<link rel="stylesheet" href="/openInterface/nao/assets/css/specific.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/ace_themes.css">
-<link rel="stylesheet" href="/openInterface/interfaces/assets/css/auto-corrector-modals.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/ide-navbar.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/main.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/modal.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/buttons.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/monitor.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/simulator.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/nao/assets/css/specific.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/ace_themes.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/auto-corrector-modals.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/toolbox.css">
 <link rel="stylesheet" href="/public/css/capytale-standalone.css">
 </head>
 
@@ -345,29 +346,29 @@
             <div id="movements-overlay" class="">
                 <div class="slider-movement-container">
                     <div class="slider-movement-buttons-setup">
-                        <button id="close-movements-button" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-xmark"></i></button>
+                        <button id="close-movements-button" class="btn btn-outline-secondary btn-sm" aria-label="Close movements panel" data-i18n="[aria-label]code.simulator.buttons.simulator3D.closeMovements"><i class="fa-solid fa-xmark"></i></button>
                         <button id="add-block-button" class="btn btn-outline-secondary btn-sm">Ajouter un bloc</button>
                     </div>
                     <div id="joints-element-content"></div>
                     <div id="params-angle-robot">
                         <div id="checkbox-switch-angle">
                             <div>
-                                <label for="input-rad-checkbox">Rad</label>
+                                <label for="radian-radio-button">Rad</label>
                                 <input id="radian-radio-button" type="radio" name="angle-checkbox" checked>
                             </div>
                             <div>
-                                <label for="input-deg-checkbox">Deg</label>
+                                <label for="degre-radio-button">Deg</label>
                                 <input id="degre-radio-button" type="radio" name="angle-checkbox">
                             </div>
                         </div>
                         <div id="params-separator"></div>
                         <div id="checkbox-switch-realtime">
                             <div>
-                                <label for="input-realtime-checkbox">Temps réel</label>
+                                <label for="realtime-radio-button">Temps réel</label>
                                 <input id="realtime-radio-button" type="radio" name="realtime-checkbox" disabled>
                             </div>
                             <div>
-                                <label for="input-non-realtime-checkbox">Simuler</label>
+                                <label for="non-realtime-radio-button">Simuler</label>
                                 <input id="non-realtime-radio-button" type="radio" name="realtime-checkbox" checked>
                             </div>
                         </div>
@@ -419,10 +420,10 @@
                 <div id="monitor-content" class="monitor-grid-bottom">
                     <div id="monitor-view">
                         <div id="monitor-view-group-btn">
-                            <button id="monitor-btn-console" class="monitor-view-btn btn activated" data-i18n="[title]code.console.buttons.consoleMode" data-toggle="tooltip" data-placement="left" title="Mode console">
+                            <button id="monitor-btn-console" class="monitor-view-btn btn activated" data-i18n="[title]code.console.buttons.consoleMode;[aria-label]code.console.buttons.consoleMode" data-toggle="tooltip" data-placement="left" title="Mode console">
                                 <i class="fas fa-terminal"></i>
                             </button>
-                            <button id="monitor-btn-graph" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.graphMode" data-toggle="tooltip" data-placement="left" title="Mode graphique">
+                            <button id="monitor-btn-graph" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.graphMode;[aria-label]code.console.buttons.graphMode" data-toggle="tooltip" data-placement="left" title="Mode graphique">
                                 <i class="fas fa-chart-line"></i>
                             </button>
                             <div id="monitor-graph-tooltip" class="interface-tooltip" style="display: none;">
@@ -439,7 +440,7 @@
                                     Pour visualiser les données reçues dans la console, cliquer sur le bouton <b>Graphique</b>
                                 </span>
                             </div>
-                            <button id="monitor-clear" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.clearConsole" data-toggle="tooltip" data-placement="left" title="Nettoyer l'écran">
+                            <button id="monitor-clear" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.clearConsole;[aria-label]code.console.buttons.clearConsole" data-toggle="tooltip" data-placement="left" title="Nettoyer l'écran">
                                 <i class="fas fa-broom"></i>
                             </button>
                         </div>
@@ -463,7 +464,7 @@
 
                             <div class="w-75 d-flex me-1">
                                 <div class="dropup dropup-center">
-                                    <button class="btn monitor-controls-button dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button class="btn monitor-controls-button dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-i18n="[aria-label]code.console.buttons.monitorTool.controlsMenu">
                                         <i class="fas fa-cog"></i>
                                     </button>
                                     <div id="monitor-controls-dropdown" class="dropdown-menu">
@@ -551,8 +552,8 @@
                     </div>
                     <div id='experience-ar'></div>
                     <div id="pen-control-elements" class="ms-3 btn-group oi-btn-group-simulator oi-option-activated">
-                        <button id="pen-control-dropdown" class="btn oi-btn-simulator oi-btn-simulator oi-btn-simulator-narrow pen_control_button-dropdown" data-i18n="[title]code.simulator.buttons.simulator3D.penColor" 
-                                data-toggle="tooltip" data-placement="bottom" title="Pen color" onclick="">
+                        <button id="pen-control-dropdown" class="btn oi-btn-simulator oi-btn-simulator oi-btn-simulator-narrow pen_control_button-dropdown" data-i18n="[title]code.simulator.buttons.simulator3D.penColor;[aria-label]code.simulator.buttons.simulator3D.penColor"
+                                data-toggle="tooltip" data-placement="bottom" title="Pen color" aria-label="Pen color" onclick="">
                             <i class="fa-solid fa-caret-right"></i>
                         </button>
                         <button id="button-pen-drawing" class="btn oi-btn-simulator pen_control_button" data-i18n="[title]code.simulator.buttons.simulator3D.pen" 
@@ -710,7 +711,7 @@
                                 data-toggle="tooltip" data-placement="top" title="Afficher les variables" onclick="Simulator.Debugger.toggleVariablesPanel()">
                             <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-variable.svg" alt="Variable icon">
                         </button>
-                        <button id="simulator_fullscreen" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.fullscreen" 
+                        <button id="simulator_fullscreen" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.fullscreen;[aria-label]code.simulator.buttons.base.fullscreen" aria-label="Fullscreen" 
                                 data-toggle="tooltip" data-placement="top" title="Plein écran" onclick="Simulator.toggleFullscreen()">
                             <i class="fa-solid fa-expand" style="font-size: larger;"></i>
                         </button>
@@ -802,7 +803,6 @@
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-python.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-languages_tools.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-searchbox.min.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/ace-ide/aceInit.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/file-input/js/fileinput.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/file-input/themes/fa/theme.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/svg-inject.min.js"></script>
@@ -836,7 +836,6 @@
 <script src="/openInterface/interfaces/assets/js/constants/main/errors.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/main/patterns.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/main/api.js"></script>
-<script src="/openInterface/interfaces/assets/js/constants/blocks/helpurl.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/generators/constants.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/generators/functions.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/tooltip/image.js"></script>
@@ -878,16 +877,15 @@
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/dictionaries.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/procedures.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/exceptions.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/common/start.js"></script>
 <script src="/openInterface/nao/assets/js/blocks/definitions/specific/communication.js"></script>
 <script src="/openInterface/nao/assets/js/blocks/definitions/specific/movements.js"></script>
 <script src="/openInterface/nao/assets/js/blocks/definitions/specific/games.js"></script>
 <script src="/openInterface/nao/assets/js/blocks/definitions/specific/sensors.js"></script>
-<script src="/openInterface/nao/assets/js/blocks/definitions/specific/start.js"></script>
 <script src="/openInterface/nao/assets/js/blocks/definitions/specific/display.js"></script>
 <script src="/openInterface/nao/assets/js/blocks/definitions/specific/network.js"></script>
 <script src="/openInterface/nao/assets/js/blocks/definitions/specific/time.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/generators/python/init.js"></script>
-<script src="/openInterface/nao/assets/js/blocks/generators/generator.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/colour.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/logic.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/loops.js"></script>
@@ -953,8 +951,8 @@
         }
         // add button script to load the interface buttons (remote or simple interface)
         const buttonScript = document.createElement('script');
-        buttonScript.addEventListener('load', function () {
-            loadInterface(INTERFACE_NAME);
+        buttonScript.addEventListener('load', async function () {
+            await loadInterface(INTERFACE_NAME);
         });
         buttonScript.src = '/openInterface/nao/assets/js/constants/main/buttons.js';
         document.body.appendChild(buttonScript);

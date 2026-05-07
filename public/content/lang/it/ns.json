@@ -142,7 +142,7 @@
     "cguConfirm": "Ho letto e accetto le <a target=\"_blank\" href=\"/cgu\">condizioni generali d'uso</a>.",
     "nlConfirm": "Desidero iscrivermi alla <a href='https://vittascience.com/newsletter' target='_blank'>newsletter</a>: 1 email al mese per seguire le novità della comunità Vittascience",
     "concernedAboutPrivacy": "Vittascience pone la massima attenzione alla sicurezza e alla riservatezza dei dati personali dei suoi utenti. Scopri la <a target=\"_blank\" href=\"/privacy\">nostra politica di protezione dei dati personali</a>",
-    "intro": "Per completare la registrazione, compila i seguenti campi:",
+    "intro": "Per completare la tua iscrizione, compila i campi seguenti:",
     "errors": {
       "main": "Si è verificato un errore. Controlla le informazioni che hai inserito.",
       "requestError": "Si è verificato un errore durante l'elaborazione della tua richiesta. Riprova",
@@ -170,7 +170,7 @@
   "footer": {
     "phone": {
       "aria_labels": {
-        "call_number": "Chiamare questo numero +33606758186"
+        "call_number": "Chiamare questo numero (+33)6 36 42 42 25"
       }
     },
     "social_networks": {
@@ -383,9 +383,15 @@
     },
     "section2": {
       "title": "Team di ricerca",
-      "card1": "Psicologa dello sviluppo, dottoranda presso Vittascience",
+      "card1": {
+        "desc": "Psicologa dello sviluppo, dottoranda presso Vittascience",
+        "btn": "Vedi il poster"
+      },
       "card2": "Direzione di lavori di ricerca dottorali in Psicologia Cognitiva e Scienze dell'Educazione, Laboratorio Epsylon, Università Paul Valery Montpellier",
-      "card3": "Dottoranda in psicologia cognitiva, Laboratorio Epsylon"
+      "card3": {
+        "desc": "Dottoranda in psicologia cognitiva, Laboratorio Epsylon",
+        "btn": "Vedi il poster"
+      }
     },
     "section3": {
       "title": "Produzioni",
@@ -445,20 +451,50 @@
         "description": "Questo progetto di tesi mira a migliorare l'accessibilità all'apprendimento della programmazione, in particolare per gli studenti con bisogni educativi speciali. Si basa sulle teorie del carico cognitivo e dell'apprendimento multimediale per studiare l'effetto della condivisione dell'attenzione in un ambiente di apprendimento ibrido (blocchi e testo). Attraverso diverse sperimentazioni con studenti del secondo e terzo anno di scuola secondaria, l'obiettivo è identificare le difficoltà incontrate, valutare l'efficacia di diverse modalità di apprendimento e proporre soluzioni pedagogiche validate scientificamente. I risultati consentiranno di adattare e ottimizzare gli strumenti educativi di Vittascience, contribuendo così a un'educazione più inclusiva ed efficace.",
         "authorposition": "Psicologa dello sviluppo, dottoranda presso Vittascience",
         "participate": {
-          "title": "Partecipa a questo progetto di ricerca",
-          "description": "Partecipa con le tue classi a questo corso introduttivo di programmazione sull'assegnazione delle variabili!",
-          "experimentation": "Questo esperimento dura tra 1 e 1,5 ore. Partecipando a questo esperimento online, i tuoi studenti potranno utilizzare diverse interfacce di programmazione (blocco, testo e ibrido).",
-          "warning": "Gli insegnanti devono accedere con un account Vittascience per compilare una prima pagina di informazioni, che genererà quindi un link da fornire ai loro studenti. Gli studenti quindi non dovranno accedere.",
-          "structure": {
-            "title": "L'esperimento è suddiviso nei seguenti passaggi:",
-            "step1": "Raccolta delle informazioni personali (conforme alle norme GDPR; i dati vengono poi trattati in forma anonima).",
-            "step2": "Video di lezione sull'assegnazione delle variabili nella programmazione informatica",
-            "step3": "Esercizio di apprendimento",
-            "step4": "Esercizio di valutazione dei progressi",
-            "step5": "Domande sulle preferenze delle interfacce",
-            "step6": "Domande sulle sensazioni degli studenti e sull'ansia nei confronti della programmazione informatica."
+          "first": {
+            "title": "Partecipare a questo progetto di ricerca",
+            "description": "Invitate le vostre classi a provare questo corso introduttivo di programmazione sull’assegnazione di una variabile!",
+            "experimentation": "Questa sperimentazione dura tra 1 e 1,5 ore. Partecipando online, i vostri studenti potranno usare diverse interfacce di programmazione (a blocchi, testuale e ibrida).",
+            "warning": "Gli insegnanti devono accedere con un account Vittascience per compilare una prima pagina di’informazioni, che genererà poi un link da dare agli studenti. Gli studenti n’avranno quindi bisogno di effettuare l'accesso.",
+            "structure": {
+              "title": "L’sperimentazione si suddivide così:",
+              "step1": "Raccolta di informazioni personali (conforme al GDPR; i dati saranno poi trattati in forma anonima).",
+              "step2": "Video di lezione sull’assegnazione di variabili nella programmazione informatica",
+              "step3": "Esercizio d’apprendimento",
+              "step4": "Esercizio « di’valutazione dei progressi »",
+              "step5": "Domande sulle preferenze relative alle interfacce",
+              "step6": "Domande sulle sensazioni degli studenti e sull’ansia nei confronti della programmazione informatica."
+            },
+            "button": "Partecipa"
           },
-          "button": "Partecipa"
+          "second": {
+            "title": "Invito a partecipare : sperimentazione di psicologia cognitiva sulla programmazione informatica",
+            "description": "Siete insegnanti di tecnologia o matematica ?<br>Volete contribuire alla ricerca in ambito educativo e far progredire la scienza ?<br>Partecipate ora a una sperimentazione online condotta da Vittascience e l’Université Paul-Valéry Montpellier sull’apprendimento della programmazione informatica.",
+            "objective": {
+              "title": "<i class=\"fa-solid fa-magnifying-glass\"></i> Obiettivo dell’studio",
+              "intro": "L’sperimentazione mira a comprendere meglio come gli studenti imparano a programmare in base al tipo di’interfaccia utilizzata :",
+              "step1": "Interfaccia a blocchi (tipo Scratch)",
+              "step2": "Interfaccia testuale (tipo Python)",
+              "step3": "Interfaccia ibrida Vittascience, che permette di passare facilmente da l’uno a l’altro."
+            },
+            "experimentation": {
+              "title": "<i class=\"fa-regular fa-clock\"></i> Svolgimento",
+              "description": "L’attività dura circa 45 minuti. Gli studenti lavorano sulla nozione d’assegnazione delle variabili in un programma, attraverso una serie d’esercizi interattivi. I gruppi sono assegnati casualmente e tutti i dati raccolti vengono totalmente anonimizzati (nessun dato personale n’viene registrato).",
+              "join": {
+                "title": "<i class=\"fa-solid fa-chalkboard-user\"></i> Per partecipare",
+                "step1": "Vai al seguente link : <a href=\"/student-experiment/teacher\">Iscrizione insegnante</a>",
+                "step2": "Accedete con il vostro account Vittascience",
+                "step3": "Indicate alcune informazioni sulla vostra istituzione",
+                "step4": "Copiate il link generato e condividetelo con i vostri studenti — possono partecipare in classe o da casa"
+              },
+              "conclusion": {
+                "title": "<i class=\"fa-solid fa-thumbs-up\"></i> Grazie per il vostro contributo !",
+                "description": "La vostra partecipazione aiuterà a far progredire la ricerca in psicologia cognitiva applicata all’insegnamento della programmazione.<br>Per qualsiasi domanda, contattate l’sperimentatrice : <a href=\"mailto:lea@vittascience.com\">lea@vittascience.com</a>"
+              },
+              "results": "I risultati saranno pubblicati a breve sul sito e sui canali social di Vittascience, restate sintonizzati !"
+            },
+            "button": "Partecipa"
+          }
         },
         "planning": {
           "title": "Pianificazione della tesi"
@@ -682,6 +718,7 @@
       "resumeEstimate": " La tua richiesta di preventivo è stata convalidata.",
       "resumeInvoice": " Il tuo ordine è stato convalidato",
       "orderNumber": " È numerato #",
+      "estimatePaid": "Il monitoraggio di questo sarà disponibile a breve nel tuo profilo.",
       "emailSummary": " Un riassunto vi è stato inviato per e-mail.",
       "orderHistory": " Storia dell'ordine",
       "orderTracking": " Tutti i pacchetti sono spediti da noi, riceverai un link di tracciamento per la spedizione.",
@@ -694,7 +731,7 @@
       "leaveMsg": " Lasciaci un messaggio",
       "continue": " Continua",
       "back": " Indietro",
-      "validateDelivery": " Convalidare la consegna",
+      "validateDelivery": "Convalidare l'indirizzo di consegna",
       "estimate": " Cita",
       "invoice": " Fattura",
       "estimateExplanation1": " <b>1. Conferma il tuo ordine.</b><br>Allora riceverai una mail di conferma dell'ordine con il tuo preventivo e le coordinate bancarie della nostra azienda.",
@@ -729,7 +766,9 @@
       "pending": " In attesa",
       "processing": " In preparazione",
       "quickbooksCreationFailed1": " Il tuo ordine è stato processato, ma il nostro software di creazione automatica delle fatture sta riscontrando un problema tecnico. Invieremo la vostra fattura il più presto possibile all'indirizzo e-mail che avete fornito al momento dell'ordine.",
-      "quickbooksCreationFailed2": " Ci scusiamo per qualsiasi inconveniente causato."
+      "quickbooksCreationFailed2": " Ci scusiamo per qualsiasi inconveniente causato.",
+      "increaseQuantity": "Aumenta la quantità",
+      "decreaseQuantity": "Riduci la quantità"
     },
     "shopBdc": {
       "cgv": " Cliccando sul pulsante di invio qui sotto, accetto i <a href='/cgv' target='_blank'>Termini e condizioni</a> e aderisco ad essi senza riserve.",
@@ -1064,6 +1103,13 @@
       "blocklyBackpack": "Lo zaino consente di salvare un blocco o un insieme di blocchi per poterli riutilizzare in altre parti del codice!",
       "noNeedToSave": "Nessuna modifica da salvare!"
     },
+    "autocomplete": {
+      "suggestionDescription": "Descrizione del suggerimento",
+      "suggestionsPanel": "Pannello suggerimenti. Usate le frecce per navigare.",
+      "descriptionPanel": "Pannello descrizione. Usate Tab per navigare, F6 per tornare ai suggerimenti.",
+      "opened": "Completamento automatico attivato. {{count}} suggerimento(i). Frecce per navigare, Invio per selezionare, F6 per la descrizione.",
+      "of": "di"
+    },
     "rtc": {
       "profession": {
         "chemist": "Anonymous Chemist",
@@ -1106,15 +1152,18 @@
       "boardDisconnected": "La scheda è stata scollegata.",
       "raspberrypiDisconnected": "Il Raspberry Pi è stato disconnesso.",
       "boardMustBeConnectedForDownload": "Per scaricare il programma è necessario che la scheda sia collegata alla porta seriale.",
-      "boardMustBeConnectedSerialWrite": "Per aprire il REPL Micropython è necessario che la scheda sia collegata alla porta seriale.",
+      "boardMustBeConnectedForREPL": "Per aprire il REPL Micropython è necessario che la scheda sia collegata alla porta seriale.",
       "boardMustBeConnectedVariables": "Per vedere la tabella delle variabili è necessario che la scheda sia collegata alla porta seriale.",
       "boardMustBeConnectedForArduino": "La scheda deve essere collegata alla porta seriale per inviare un comando.",
-      "boardReplMustBeOpened": "È necessario aprire il REPL prima di poter scrivere sulla porta seriale!",
+      "boardMustBeConnectedForSerialWrite": "Per inviare dati tramite la porta seriale, la scheda deve essere collegata.",
       "boardRestart": "Riavvio della scheda...",
       "uploadingProgram": "Caricamento del programma Python...",
       "fileDownloaded": "Programma python inviato con successo alla scheda!",
       "fileDownloadedArduino": "Programma Arduino caricato con successo sulla bacheca!",
-      "badResponse": "Scollega e ricollega la tua scheda BBC micro:bit al computer.",
+      "clickSerialMonitor": "Clicca sul pulsante <b>Monitor seriale</b> per vedere i dati ricevuti nella console.",
+      "serialMonitorSent": "Invio di %1 byte sulla porta seriale: \"%2%3\"",
+      "minimaNotInDFU": "La scheda è ancora in modalità normale (runtime), non in bootloader DFU.\\n➡️ <b>Premi due volte RESET (LED che lampeggia con un fadeout), poi rilancia il caricamento.</b>",
+      "badResponse": "Scollega e ricollega la tua scheda al computer.",
       "codeExecution": "Codice in esecuzione 'main.py'",
       "noPortSelected": "Nessuna porta selezionata.",
       "badBoard": "La scheda collegata non è di tipo ",
@@ -1152,7 +1201,7 @@
       "TI-83-Maclasseti": " Benvenuti nell'interfaccia di MyClassTI.fr per la calcolatrice TI-83 Premium CE Python Edition! Il TI-Innovator™ Hub e le schede BBC micro:bit possono essere programmati su questa interfaccia. Aprite il simulatore per iniziare!",
       "GalaxiaCircuitPython": "Benvenuto/a nell'interfaccia Vittascience per Things - Galaxia!",
       "galaxia": "Benvenuti nell'interfaccia Vittascience per Galaxia!</br> Per programmare la scheda Galaxia su questa interfaccia, dovete prima flashare il firmware MicroPython nella scheda seguendo questo tutorial: <b><a href=\"https://it.vittascience.com/learn/tutorial.php?id=860\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
-      "raspberrypi": "Benvenuto nell'interfaccia Vittascience per Raspberry Pi! Puoi consultare il tutorial disponibile qui: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=856/interface-raspberry-pi\" target=\"_blank\" rel=\"noopener noreferrer\">Prendere in mano l'interfaccia Vittascience per Raspberry Pi</a>",
+      "raspberrypi": "Benvenuto nell'interfaccia Vittascience per Raspberry Pi! Puoi consultare il tutorial disponibile qui: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=1739\" target=\"_blank\" rel=\"noopener noreferrer\">Prendere in mano l'interfaccia Vittascience per Raspberry Pi</a>",
       "niryo": "Benvenuto nell'interfaccia Vittascience per Niryo ned2!",
       "nao": "Benvenuto nell'interfaccia Vittascience per il robot NAO v6! Non esitare a consultare il tutorial disponibile qui: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=1260\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Prendere in mano l'interfaccia Vittascience per il robot NAO</a>",
       "mBot": "Benvenuto/a nell'interfaccia Vittascience per mBot!",
@@ -1170,7 +1219,9 @@
       "spike": "Benvenuto/a nell'interfaccia Vittascience per il LEGO® Education SPIKE™ Essential !<br>LEGO, the LEGO logo, the Minifigure, DUPLO and the SPIKE logo are trademarks of the LEGO Group, which does not sponsor, endorse, or authorize this site.",
       "photon": "Benvenuto/a nell'interfaccia Vittascience per il robot Photon !",
       "codey": "Benvenuto/a nell'interfaccia Vittascience per Codey e il robot Rocky di Makeblock!",
-      "uno-r4": "Benvenuto/a nell'interfaccia Vittascience per Arduino Uno R4 Wifi & Minima!"
+      "nano-esp32": "Benvenuto/a nell'interfaccia Vittascience per la scheda Arduino Nano ESP32!",
+      "steami": "Benvenuti nell'interfaccia Vittascience per STeaMi !",
+      "alphai": "Benvenuti nell'interfaccia Vittascience per il robot AlphAI !"
     },
     "chromeApp": {
       "noPort": "Nessuna porta rilevata",
@@ -1205,7 +1256,7 @@
       "serialPortClosed": "Porta seriale chiusa.",
       "boardMustBeConnectedSerialPort": "Per poter aprire/chiudere la porta seriale è necessario prima collegare la scheda!",
       "serialMessageSend": "Messaggio inviato alla scheda.",
-      "boardMustBeConnectedSerialWrite": "Per poter scrivere sulla porta seriale è necessario prima collegare la scheda!",
+      "boardMustBeConnectedForREPL": "Per poter scrivere sulla porta seriale è necessario prima collegare la scheda!",
       "noWebUsb": "WebUSB non rilevato nel tuo browser. Per utilizzare WebUSB devi servirti di uno dei browser compatibili: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> e, a breve, <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
       "webUsbOk": "Il tuo browser supporta WebUSB. Puoi collegarti a una scheda microbit inserita in una delle tue porte USB cliccando sul pulsante \"Collega scheda\" al centro del menu."
     },
@@ -1293,12 +1344,14 @@
         "uploadArduino": "Invia il programma Arduino alla scheda",
         "compileArduino": "Avvia la compilazione",
         "arduinoBoardSelector": "Seleziona la scheda Arduino da programmare",
+        "esp32BoardSelector": "Selezionare la scheda ESP32 da programmare",
         "downloadPython": "Scarica lo script Python",
         "downloadPythonGalaxia": "Scarica lo script Python 'main.py' da trascinare sulla Galaxia",
         "downloadArduino": "Scarica lo script Arduino",
         "downloadThymio": "Scarica il programma TDMLauncher",
         "downloadNiryo": "Scarica il programma Vitta-companion",
-        "resetThymio": "Stop",
+        "stopRobot": "Stop",
+        "sendByBluetoothToRobot": "Invia il programma al robot via Bluetooth",
         "downloadFirmware": "Scarica il firmware MicroPython",
         "downloadCamFirmware": "Scarica il firmware MicroPython per ESP32-CAM",
         "downloadHex": "Esporta il programma micro:bit in formato [.hex]",
@@ -1374,7 +1427,7 @@
         "stopNiryo": "Stop",
         "uploadNiryoRemote": "Controllare a distanza",
         "uploadThymio": "Scaricare to Thymio",
-        "resetThymio": "Ferma",
+        "stopRobot": "Ferma",
         "view": " Vedi",
         "uploadPython": " Scaricare",
         "uploadBluetooth": " Scaricare via Bluetooth",
@@ -1414,7 +1467,7 @@
         "advanced": "Avanzato",
         "i18n": "Tradurre il testo",
         "compile": "Compilare",
-        "arduinoBoardSelector": "Scegliere la scheda"
+        "boardSelect": "Scegliere la scheda"
       },
       "menuTitles": {
         "downloadMenu": "Scaricare",
@@ -1503,7 +1556,8 @@
         },
         "monitorTool": {
           "monitorResizer": "Ridimensiona la console",
-          "monitorToggler": "Apri/chiudi la console"
+          "monitorToggler": "Apri/chiudi la console",
+          "controlsMenu": "Menu dei controlli"
         }
       },
       "graph": {
@@ -1608,7 +1662,9 @@
           "penColor": "Colore del pennino",
           "pen": "Pennino",
           "camera": "Camera",
-          "restPose": "Posa di riposo"
+          "restPose": "Posa di riposo",
+          "movements": "Movimenti",
+          "params": "Parametri"
         }
       },
       "messages": {
@@ -1616,9 +1672,10 @@
         "stop": "Arresta la simulazione",
         "module": "Il modulo",
         "importError": "non è stato ancora implementato nel simulatore.</br>Puoi comunque trasferire questo codice sul tuo hardware per vedere come funziona effettivamente.",
-        "radioData": "Dati inviati:",
+        "sentData": "Dati inviati:",
         "crash": "Modalità di prevenzione dei crash abilitata: si verifica quando il codice include un ciclo infinito senza una chiamata alla funzione sleep(). Correggi il codice prima di riprovare.",
-        "variables-panel-msg": "Questo programma non contiene variabili"
+        "variables-panel-msg": "Questo programma non contiene variabili",
+        "replaySimulator": "Riavvia il simulatore per inviare dati"
       },
       "tooltips": {
         "bluebot-buttons": "Puoi usare i pulsanti del robot Blue-bot per programmarlo!"
@@ -2331,7 +2388,8 @@
                 "keyWords": {
                   "emotion": "emozione",
                   "emotions": "emozioni",
-                  "netral": "neutra"
+                  "netral": "neutrale",
+                  "neutral": "neutro"
                 }
               },
               "insect_bee": {
@@ -2369,6 +2427,15 @@
                   "fruits": "frutti",
                   "apple": "mela",
                   "apples": "mele"
+                }
+              },
+              "fruit_orange": {
+                "name": "Frutto arancione",
+                "keyWords": {
+                  "fruit": "frutto",
+                  "fruits": "frutti",
+                  "orange": "arancia",
+                  "oranges": "arance"
                 }
               },
               "fruit_peer": {
@@ -2705,6 +2772,7 @@
       },
       "preview": {
         "title": "Anteprima",
+        "selectCamera": "Seleziona una fotocamera",
         "webcam": {
           "upload": "File",
           "enable": "Webcam",
@@ -2820,9 +2888,101 @@
         "step": "passo"
       }
     },
+    "aiTTSInterface": {
+      "settings": {
+        "random": "Casuale",
+        "aiDialog": "L'IA",
+        "footballMatch": "Partita di calcio",
+        "springStory": "La primavera",
+        "absurde": "Un po' di assurdità",
+        "absurde2": "Molta assurdità",
+        "tellStory": "Raccontare una storia",
+        "tellPoems": "Recitare una poesia",
+        "model": "Modello",
+        "voice": "Voce",
+        "language": "Lingua",
+        "phonemize": "Fonemi",
+        "quotas": "Quota",
+        "dailyQuota": "Quota giornaliera",
+        "mode": "Modalità",
+        "ambience": "Ambiente",
+        "ambienceValues": {
+          "no-ambience": "Nessuno",
+          "cafe": "Caffè",
+          "classroom": "Aula",
+          "football": "Partita di calcio",
+          "library": "Biblioteca",
+          "forest": "Foresta",
+          "server-room": "Sala server",
+          "radio-interference": "Interferenze radio",
+          "flute": "Flauto e meditazione"
+        }
+      },
+      "buttons": {
+        "clear": "Pulisci",
+        "import": "Importa testo",
+        "send": "Genera",
+        "download": {
+          "tooltip": "Scarica l’audio",
+          "label": "Scarica l’audio"
+        }
+      },
+      "loading": "Sintesi in corso...",
+      "tutorial": {
+        "step": "passo",
+        "buttons": {
+          "back": "Indietro",
+          "next": "Avanti",
+          "end": "Termina",
+          "close": "Chiudi",
+          "start": "Inizia"
+        },
+        "step-welcome": {
+          "title": "Benvenuto nell’interfaccia Text-to-Speech",
+          "description": "Questo tutorial ti guiderà attraverso le principali funzionalità dell’interfaccia di sintesi vocale. Imparerai a creare un dialogo tra più personaggi."
+        },
+        "step-1": {
+          "title": "Area di testo",
+          "description": "Qui scrivi il testo da convertire in audio. In modalità dialogo, usa @NomeDelPersonaggio per assegnare le battute a ciascun personaggio."
+        },
+        "step-2": {
+          "title": "Selezione della voce",
+          "description": "Seleziona una voce tra le opzioni disponibili. In modalità testo semplice, questa voce verrà utilizzata per l’intero contenuto."
+        },
+        "step-3": {
+          "title": "Modalità di sintesi",
+          "description": "Passa alla modalità Dialogo per creare una conversazione tra più personaggi con voci diverse."
+        },
+        "step-4": {
+          "title": "Configurazione dei personaggi",
+          "description": "Definisci qui i tuoi personaggi. Ogni personaggio ha un nome e una voce associata. Olivier ed Elise sono già stati configurati per te."
+        },
+        "step-5": {
+          "title": "Esempi rapidi",
+          "description": "Gli esempi rapidi ti permettono di caricare istantaneamente testi o dialoghi preconfigurati."
+        },
+        "step-6": {
+          "title": "Avvio della sintesi",
+          "description": "Clicca sull’esempio « Olivier & Elise » per generare un dialogo dimostrativo."
+        },
+        "step-7": {
+          "title": "Lettore audio",
+          "description": "L’audio generato appare qui. Puoi visualizzare la forma d’onda e le diverse sezioni del dialogo."
+        },
+        "step-8": {
+          "title": "Controlli di riproduzione",
+          "description": "Usa il pulsante Riproduci per ascoltare la sintesi vocale. Puoi anche regolare la velocità e scaricare l’audio."
+        }
+      },
+      "infoBlocks": {
+        "consum": {
+          "allSynthesis": "Tutte le sintesi",
+          "lastSynthesis": "Ultima sintesi vocale"
+        }
+      }
+    },
     "aiTextInterface": {
       "quickPrompts": {
-        "length": 91,
         "text": [
           "🌌 Perché la Via Lattea si chiama così?",
           "🐬 Come comunicano i delfini tra loro?",
@@ -2916,7 +3076,8 @@
           "🍌 Come riutilizzare la buccia di una banana?",
           "🍳 Perché è importante fare colazione al mattino?",
           "👨 Esistono ancora uomini preistorici?"
-        ]
+        ],
+        "length": 91
       },
       "aiTextGuide": {
         "step-welcome": {
@@ -2977,6 +3138,73 @@
           "goHome": "Riavvia"
         }
       },
+      "aiTextStepByStep": {
+        "step-welcome": {
+          "title": "Benvenuti nella modalità passo-passo",
+          "description": "Scoprite come un modello linguistico genera testo seguendo ogni fase del processo."
+        },
+        "step-1": {
+          "title": "Scrittura del prompt",
+          "description": "Inserite una domanda o una frase da rivolgere all’IA, oppure usate un prompt predefinito. Cliccate sul pulsante « Avanti » per inviare il prompt al server dell'IA."
+        },
+        "step-2": {
+          "title": "Calcolo delle probabilità",
+          "description": "L'IA analizza lo storico della conversazione e il prompt per prevedere il token successivo. L'IA calcola una probabilità per ogni token possibile del suo vocabolario, e genera una lista dei più probabili. <br /> In altre parole, l’IA anticipa le parole a venire allo stesso modo in cui il vostro telefono completa un messaggio.>"
+        },
+        "step-3": {
+          "title": "Regolazione dell'aléatoire",
+          "description": "L’aleatorietà è un parametro che influisce sulla scelta delle parole durante la generazione del testo. Un basso livello d’aleatorietà privilegia le parole più probabili, producendo risposte più prevedibili, mentre un livello d’aleatorietà più alto distribuisce maggiormente le scelte possibili e aumenta la varietà delle risposte."
+        },
+        "step-4": {
+          "title": "Selezione del token",
+          "description": "Un token viene selezionato casualmente tenendo conto delle probabilità (estrazione ponderata)."
+        },
+        "step-5": {
+          "title": "Aggiunta del token alla risposta",
+          "description": "Il token selezionato viene aggiunto alla risposta dell'IA. Cliccate su « Avanti » per osservare la generazione del token successivo."
+        },
+        "step-6": {
+          "title": "Risposta completa 🎉",
+          "description": "L'IA ha terminato di generare la risposta. Ora potete l’esplorare cliccando sui token o porre una nuova domanda."
+        },
+        "tooltypes": {
+          "aiTextInfo": "Esplorate i token generati cliccandone uno per scoprire alternative. Regolate la generazione del testo modificando parametri come la scelta del modello e il grado di aleatorietà.",
+          "sameMessageInfo": "Se ripetete la stessa domanda, è probabile che otteniate una risposta simile, anche con parametri diversi.",
+          "regenerationInfo": "Per rigenerare la risposta in modo coerente con i parametri, ignoriamo l'ultima risposta di VittaBot."
+        },
+        "button": {
+          "start": "Inizia",
+          "back": "Indietro",
+          "next": "Avanti",
+          "exit": "Chiudi",
+          "end": "Fine del tutorial",
+          "stay": "Resto qui",
+          "leave": "Esci",
+          "restart": "Ricomincia",
+          "tutorial": "Tutorial",
+          "goHome": "Riavvia"
+        },
+        "tourName": "Tutorial passo-passo",
+        "stepLabel": "passo",
+        "ofLabel": "di",
+        "probsRegion": "Elenco delle probabilità dei token",
+        "attentionRegion": "Visualizzazione dell'attenzione",
+        "probsListLabel": "Token possibili con le rispettive probabilità",
+        "selectedToken": "Token selezionato",
+        "probability": "probabilità",
+        "showMore": "Mostra più token",
+        "showLess": "Mostra meno token",
+        "more": "Mostra altro",
+        "less": "Mostra meno",
+        "newLine": "nuova riga",
+        "space": "spazio",
+        "moreTokensShown": "Token aggiuntivi mostrati",
+        "moreTokensHidden": "Token aggiuntivi nascosti",
+        "nextStep": "Passo successivo",
+        "previousStep": "Passo precedente",
+        "tutorialClosed": "Tutorial chiuso",
+        "stepByStepModeLimitation": "Il modello selezionato non è compatibile con la modalità passo-passo. Scegli un altro modello per accedere a questo tutorial."
+      },
       "aiResponseWarning": "Le risposte generate dall'IA possono contenere errori. Verifica sempre le informazioni importanti.",
       "buttons": {
         "clear": "Pulisci",
@@ -2997,6 +3225,7 @@
         "temperature": "Casualità",
         "use": "Uso",
         "text": "Testo",
+        "steps": "Passo dopo passo <img style=\"filter: brightness(0.7);\" src ='/ia/assets/ai-text-images/icon-bug.png'>",
         "show": "Mostra",
         "hide": "Nascondi",
         "random": "Prompt casuale",
@@ -3127,17 +3356,31 @@
           "parameters": "24 Mrd",
           "contextLength": "128k Token"
         },
+        "mistral-large-2411": {
+          "description": "Mistral Large 2 è il modello di punta di Mistral AI, con capacità di ragionamento avanzate, un'eccellente comprensione multilingue e una generazione di codice di alta qualità. Ideale per compiti complessi che richiedono un ragionamento approfondito.",
+          "strengths": "Ragionamento avanzato, comprensione multilingue, generazione di codice di alta qualità, ampia finestra di contesto.",
+          "laboratory": "Mistral AI",
+          "parameters": "123 Mrd",
+          "contextLength": "128k Token"
+        },
+        "mistral-medium-2505": {
+          "description": "Mistral Medium 3 è un modello versatile di medie dimensioni di Mistral AI, con un ottimo rapporto qualità-prezzo. Eccelle in un'ampia gamma di compiti professionali rimanendo più accessibile dei modelli molto grandi.",
+          "strengths": "Buon equilibrio prestazioni/costo, versatilità, ragionamento solido, adatto alle attività professionali.",
+          "laboratory": "Mistral AI",
+          "parameters": "N/A",
+          "contextLength": "128k Token"
+        },
         "deepseek-v3": {
           "description": "DeepSeek-V3 è un modello linguistico avanzato che migliora notevolmente l'efficienza e la precisione nella generazione di risposte, superando i predecessori. È progettato per compiti vari, dal trattamento del linguaggio naturale alla programmazione e matematica.",
           "strengths": "Eccellente performance nella comprensione del linguaggio naturale, ragionamento e generazione di codice.",
-          "laboratory": "High-Flyer",
+          "laboratory": "DeepSeek",
           "parameters": "671 Mrd",
           "contextLength": "128k Token"
         },
-        "deepseek-r1": {
+        "deepseek-r1-0528": {
           "description": "DeepSeek-R1 è un modello open-source di ragionamento in intelligenza artificiale. Si distingue per capacità avanzate di risoluzione di problemi e ragionamento logico, grazie a un processo interno che gli permette di « pensare » prima di fornire una risposta.",
           "strengths": "Eccellenti capacità di ragionamento e risoluzione di problemi matematici. Auto-correzione senza supervisione umana.",
-          "laboratory": "High-Flyer",
+          "laboratory": "DeepSeek",
           "parameters": "671 Mrd",
           "contextLength": "128k Token"
         },
@@ -3365,7 +3608,10 @@
           }
         }
       },
-      "adacraftBlock": "Cosa posso fare per te?"
+      "adacraftBlock": "Cosa posso fare per te?",
+      "stepsBySteps": {
+        "changeTemperature": "Modificare l’aléatoire. In base a l’aléatoire il modello calcola e prevede token diversi."
+      }
     },
     "imageGenerate": {
       "editor": {
@@ -3467,7 +3713,6 @@
         }
       },
       "imageQuickPrompts": {
-        "length": 20,
         "text": [
           {
             "id": "default_1",
@@ -3590,7 +3835,8 @@
             "description": "un deserto con dune di sabbia e un cielo stellato",
             "style": "stile minimalista"
           }
-        ]
+        ],
+        "length": 20
       },
       "imageStyles": [
         {
@@ -3711,6 +3957,61 @@
         "title": "Come l'IA genera le immagini?",
         "duration": "23min"
       },
+      "aiGenImageGuide": {
+        "step-welcome": {
+          "title": "Benvenuto nell'interfaccia di generazione immagini",
+          "description": "Scopri un'interfaccia che ti permette di creare immagini con l'intelligenza artificiale. Segui questo tutorial per imparare a usare le diverse funzionalità e impostazioni disponibili."
+        },
+        "step-1": {
+          "title": "Scelta del modello",
+          "description": "Inizia selezionando il <b>modello IA</b> che vuoi usare per generare l'immagine. Ogni modello ha caratteristiche diverse e produce risultati differenti. Alcuni richiedono accesso Premium."
+        },
+        "step-2": {
+          "title": "Rapporto d'aspetto",
+          "description": "Scegli il <b>formato della tua immagine</b> usando il selettore del rapporto d'aspetto. Puoi scegliere quadrato (1:1), verticale (9:16) o orizzontale (16:9) a seconda dell'uso previsto."
+        },
+        "step-3": {
+          "title": "Stile artistico",
+          "description": "Applica uno <b>stile artistico</b> alla tua immagine per conferirle un aspetto specifico. Scegli tra stili disponibili come realistico, cartoon, pittura a olio e altri per personalizzare il risultato."
+        },
+        "step-4": {
+          "title": "Prompt rapidi - Il più semplice",
+          "description": "Il modo più semplice per generare un'immagine è usare i nostri <b>prompt rapidi</b>. Clicca su un esempio per riempire automaticamente il campo di testo con una descrizione pronta. Ideale per iniziare a esplorare la generazione di immagini!"
+        },
+        "step-5": {
+          "title": "Area di inserimento testo",
+          "description": "Puoi anche <b>scrivere la tua descrizione</b> in quest'area. Descrivi con precisione l'immagine che vuoi generare: soggetto, stile, colori, atmosfera... Più dettagli fornisci, migliore sarà il risultato. Puoi anche aggiungere un <b>prompt negativo</b> per escludere elementi."
+        },
+        "step-6": {
+          "title": "Generazione immagine",
+          "description": "Premi il pulsante 'Genera' per avviare la creazione della tua immagine da parte dell'IA. Attendi qualche istante mentre il modello elabora la richiesta e genera l'immagine secondo la tua descrizione. Una volta completata, l'immagine apparirà nella galleria qui sotto."
+        },
+        "step-7": {
+          "title": "Fasi di generazione",
+          "description": "Osserva qui le <b>diverse fasi di generazione</b> della tua immagine. Puoi vedere l'immagine prendere forma gradualmente, dal rumore iniziale all'immagine finale. È affascinante vedere l'IA creare un'immagine passo dopo passo!"
+        },
+        "step-8": {
+          "title": "Consumo di CO2",
+          "description": "Questa sezione mostra <b>l'impatto ambientale</b> della generazione dell'immagine. Misuriamo il consumo energetico e le emissioni di CO2 associate a ogni creazione, per sensibilizzare sull'impronta di carbonio dell'uso dell'IA."
+        },
+        "tooltypes": {
+          "aiTextInfo": "Esplora i token generati cliccando su uno di essi per vedere alternative. Modifica la generazione di testo regolando parametri come il modello e il livello di casualità.",
+          "sameMessageInfo": "Se ripeti la stessa domanda, è probabile che otterrai una risposta simile, anche con parametri diversi.",
+          "regenerationInfo": "Per rigenerare la risposta in modo coerente con i parametri, ignoriamo l'ultima risposta di VittaBot."
+        },
+        "button": {
+          "start": "Inizia",
+          "back": "Indietro",
+          "next": "Successivo",
+          "exit": "Chiudi",
+          "end": "Fine del tutorial",
+          "stay": "Resto qui",
+          "leave": "Esci",
+          "restart": "Ricomincia",
+          "tutorial": "Tutorial",
+          "goHome": "Riavvia"
+        }
+      },
       "generatedImagesContainer": {
         "lastCreations": " <i class='fas fa-clock-rotate-left m-1'></i>Le mie creazioni",
         "publicCreations": "<i class='fa-solid fa-users m-1'></i>Creazioni della community",
@@ -3730,8 +4031,8 @@
         }
       },
       "messages": {
-        "favoriteTab": "I tuoi preferiti sono salvati localmente in questo browser. Per conservarli a lungo, ti consigliamo di <strong onclick='displayLogin()' style='cursor: pointer; text-decoration: underline;'>accedere</strong> o di <strong onclick='displaySignup()' style='cursor: pointer; text-decoration: underline;'>creare un account</strong> (c’è gratuito).",
-        "myCreationTab": "Le tue creazioni sono salvate localmente in questo browser. Per conservarle a lungo, ti consigliamo di <strong onclick='displayLogin()' style='cursor: pointer; text-decoration: underline;'>accedere</strong> o di <strong onclick='displaySignup()' style='cursor: pointer; text-decoration: underline;'>creare un account</strong> (c’è gratuito).",
+        "favoriteTab": "I tuoi preferiti sono salvati localmente in questo browser. Per conservarli a lungo, ti consigliamo di <strong tabindex='0' role='button' onclick='displayLogin()' onkeydown='if(event.key===\"Enter\"||event.key===\" \"){event.preventDefault();displayLogin()}' style='cursor: pointer; text-decoration: underline;'>accedere</strong> o di <strong tabindex='0' role='button' onclick='displaySignup()' onkeydown='if(event.key===\"Enter\"||event.key===\" \"){event.preventDefault();displaySignup()}' style='cursor: pointer; text-decoration: underline;'>creare un account</strong> (c'è gratuito).",
+        "myCreationTab": "Le tue creazioni sono salvate localmente in questo browser. Per conservarle a lungo, ti consigliamo di <strong tabindex='0' role='button' onclick='displayLogin()' onkeydown='if(event.key===\"Enter\"||event.key===\" \"){event.preventDefault();displayLogin()}' style='cursor: pointer; text-decoration: underline;'>accedere</strong> o di <strong tabindex='0' role='button' onclick='displaySignup()' onkeydown='if(event.key===\"Enter\"||event.key===\" \"){event.preventDefault();displaySignup()}' style='cursor: pointer; text-decoration: underline;'>creare un account</strong> (c'è gratuito).",
         "bestCreationTab": "Prova a realizzare la migliore creazione per il concorso sul tema <strong>'{{ name }}'</strong>. Per essere nominato, ti invitiamo ad accedere o creare un account (c’è gratuito). Vota le immagini che preferisci con il pulsante ❤️. Le 3 opere con più ❤️ sono mostrate qui sotto.",
         "noCompetition": "Sembra che non ci siano concorsi attivi in questo periodo. Puoi comunque vedere le immagini vincitrici dei concorsi passati.",
         "noItemCompetition": "Nessuna immagine generata per il concorso attuale.",
@@ -4024,11 +4325,12 @@
       "searchBar": "Cerca...",
       "searchFilter": "<span id='filter-icon' class=\"fa fa-filter\"></span> Filtri di ricerca<span id='dropdown-filter-button' class=\"fa fa-chevron-down\"></span>",
       "experienceType": "Tipo di esperimento",
-      "recentData": "Dati recenti <i class='fa fa-chevron-down'></i>",
+      "recentData": "Dati recenti",
       "grade": "Livello",
       "resetFilter": "Azzera i filtri",
       "searchResult": "Risultati della ricerca",
-      "noResult": "Nessun risultato."
+      "noResult": "Nessun risultato.",
+      "compareExperiences": "Confronto tra esperienze"
     },
     "map": {
       "buttonAddAExp": "Aggiungi un esperimento",
@@ -4383,58 +4685,58 @@
     "date": "Ultimo aggiornamento il 18 novembre 2025."
   },
   "CGULuxembourg": {
-    "title": "CONDIZIONI D'USO",
+    "title": "CONDIZIONI GENERALI DI UTILIZZO",
     "articles": {
       "1": {
-        "title": "1. Scopo",
-        "content": "Vittascience è un insieme di servizi online (di seguito i \"<strong>Servizi</strong>\") che permettono agli utenti di eseguire, creare, modificare e pubblicare programmi informatici, oltre a risorse educative, attività e percorsi di apprendimento (di seguito collettivamente denominati \"<strong>Contenuti</strong>\").</br></br>La società VITTASCIENCE (di seguito: \"<strong>VITTASCIENCE</strong>\") fornisce, attraverso il suo sito web <a href='https://vittascience.com/'>www.vittascience.com</a> (di seguito il \"<strong>Sito</strong>\"), Servizi destinati a insegnanti e privati (di seguito gli \"<strong>Utenti</strong>\") dedicati all'insegnamento e all'apprendimento delle scienze e delle tecnologie digitali.</br></br>Lo scopo di questi termini e condizioni è definire le modalità di utilizzo dei Servizi offerti sul Sito, nonché i diritti e gli obblighi degli Utenti in questo contesto. Sono accessibili e stampabili in qualsiasi momento.</br></br>Il Sito e i Servizi sono gestiti da VITTASCIENCE. Ulteriori dettagli e informazioni di contatto sono disponibili nel <a href='https://vittascience.com/legalnotice'>Avviso Legale</a>."
+        "title": "1. Oggetto",
+        "content": "Vittascience è un insieme di servizi su Internet (di seguito: i «<strong>Servizi</strong>») che consentono di eseguire, creare, modificare e pubblicare programmi informatici nonché risorse, attività e percorsi didattici (congiuntamente denominati di seguito: i «<strong>Contenuti</strong>»).</br></br>La società VITTASCIENCE (di seguito: «<strong>VITTASCIENCE</strong>») fornisce, tramite il proprio sito web <a href='https://vittascience.com/'>www.vittascience.com</a> (di seguito: il «<strong>Sito</strong>»), Servizi destinati a insegnanti e privati (di seguito: gli «<strong>Utenti</strong>») dedicati all’insegnamento e all’apprendimento delle scienze e delle tecnologie digitali.</br></br>Le presenti condizioni generali hanno lo scopo di definire le modalità e le condizioni di utilizzo dei Servizi offerti sul Sito, nonché i diritti e gli obblighi degli Utenti in tale ambito. Esse sono accessibili e stampabili in qualsiasi momento.</br></br>Per gli Utenti insegnanti e membri del personale amministrativo che utilizzano la Piattaforma e i Servizi Vittascience nel contesto del contratto quadro concluso tra Vittascience e il Service de Coordination de la Recherche et de l'Innovation Pédagogiques et Technologiques (SCRIPT) del Ministero dell’Istruzione, dell’Infanzia e della Gioventù del Lussemburgo, le disposizioni delle presenti Condizioni Generali di Utilizzo sono subordinate alle disposizioni del contratto quadro applicabile tra Vittascience e SCRIPT."
       },
       "2": {
-        "title": "2. Accettazione delle Condizioni d'Uso",
-        "content": "L'accettazione da parte degli Utenti di questi termini e condizioni è formalizzata mediante firma elettronica durante la procedura di registrazione.</br></br>Questa accettazione è piena e incondizionata. Qualsiasi accettazione con riserva sarà considerata nulla. Gli Utenti che non accettano di essere vincolati da questi termini non devono utilizzare i Servizi.</br></br>I Servizi sono accessibili agli utenti internet registrati sul Sito. Tuttavia, una parte del Sito è disponibile ai visitatori non registrati a scopo dimostrativo (vedi la sezione successiva per ulteriori dettagli). Se questo riguarda te, ti invitiamo a leggere attentamente questi termini prima di navigare nel Sito o utilizzare i Contenuti, poiché definiscono il quadro legale per l'uso dei Servizi. In questo contesto, il semplice utilizzo del Sito costituisce accettazione di queste Condizioni d'Uso. Se non sei d'accordo con ciascuna delle disposizioni di questi termini, non devi utilizzare il Sito."
+        "title": "2. Accettazione delle condizioni generali",
+        "content": "L’accettazione delle presenti condizioni generali da parte degli Utenti è formalizzata mediante accettazione elettronica durante il processo di accesso tramite Single Sign-On (SSO).</br></br>Tale accettazione può essere solo piena e incondizionata. Qualsiasi adesione con riserva è considerata nulla e priva di effetti. Gli Utenti che non accettano di essere vincolati dalle presenti condizioni generali non devono utilizzare i Servizi."
       },
       "3": {
         "title": "3. Accesso ai Servizi",
-        "content": "Una parte del Sito può essere consultata gratuitamente senza registrazione. Questa modalità di navigazione ti permette di testare il corretto funzionamento dei Servizi e dei Contenuti sui tuoi dispositivi e di scoprire il modello pedagogico di Vittascience.</br></br>Questa modalità di navigazione non ti autorizza a utilizzare i Servizi in aula o in pubblico.</br></br>Inoltre, diverse funzionalità di modifica sono riservate agli Utenti registrati.</br></br>Creare un account sicuro (di seguito \"<strong>Account</strong>\") è gratuito, utilizzando un pulsante di accesso basato su SAML. Gli Utenti che accedono tramite questo metodo sono autorizzati a mostrare i Servizi in classe o davanti a un pubblico e beneficiano di diverse funzionalità di modifica come la creazione di risorse, attività o percorsi di apprendimento e il salvataggio di progetti nel Cloud.</br></br>I Servizi sono accessibili a qualsiasi persona fisica con piena capacità legale di essere vincolata da questi termini. Le persone senza piena capacità legale possono accedere ai Servizi solo con il consenso del loro rappresentante legale, o nel caso di alunni sotto la supervisione di un adulto nella loro scuola o istituto (insegnante, dirigente scolastico, consigliere educativo).</br></br>Gli Utenti possono invitare alunni o studenti (di seguito \"<strong>Apprendenti</strong>\") a creare gruppi o classi virtuali, facilitando la collaborazione, soprattutto nel contesto dell'apprendimento a distanza. In tali casi, l'Utente è responsabile dell'accesso degli Apprendenti ai Servizi, tramite un codice di invito o aggiungendo manualmente gli Apprendenti."
+        "content": "I Servizi sono accessibili a qualsiasi persona fisica che disponga della piena capacità giuridica di impegnarsi ai sensi delle presenti condizioni generali. Gli alunni (anche denominati «Discenti») possono accedere ai Servizi solo sotto la supervisione di un adulto all’interno del proprio istituto scolastico o istituzione (insegnante).</br></br>Gli Utenti insegnanti possono invitare alunni o studenti (di seguito: i «<strong>Discenti</strong>») a formare gruppi o classi virtuali, facilitando la collaborazione in particolare nel contesto dell’insegnamento a distanza. In tal caso, l’Utente è responsabile dell’accesso ai Servizi da parte dei Discenti, tramite codice di invito o mediante aggiunta manuale."
       },
       "4": {
-        "title": "4. Uso Strettamente Personale",
-        "content": "È consentita la creazione di un solo Account per persona. VITTASCIENCE si riserva il diritto di eliminare eventuali account aggiuntivi creati dalla stessa persona.</br></br>L'Utente si impegna quindi a utilizzare personalmente i Servizi e a non permettere a terzi di usarli al suo posto.</br></br>L'Utente è anche responsabile della riservatezza delle proprie credenziali di accesso e riconosce espressamente che qualsiasi uso dei Servizi dal proprio Account sarà considerato effettuato da lui.</br></br>L'Utente deve contattare immediatamente VITTASCIENCE utilizzando le informazioni di contatto indicate nell'Articolo 1 se nota che il proprio Account è stato utilizzato senza il suo consenso. L'Utente riconosce che VITTASCIENCE ha il diritto di adottare tutte le misure appropriate in tali casi."
+        "title": "4. Uso strettamente personale",
+        "content": "Può essere creato un solo Account per persona. VITTASCIENCE si riserva la facoltà di eliminare qualsiasi account supplementare creato dalla stessa persona.</br></br>L’Utente si impegna pertanto a utilizzare i Servizi personalmente e a non consentire a terzi di utilizzarli in sua vece.</br></br>L’Utente è responsabile della riservatezza della propria password e riconosce espressamente che qualsiasi utilizzo dei Servizi dal proprio Account sarà considerato effettuato da lui stesso.</br></br>L’Utente deve contattare immediatamente VITTASCIENCE ai recapiti indicati all’articolo 1 qualora rilevi un utilizzo del proprio Account a sua insaputa. Egli riconosce a VITTASCIENCE il diritto di adottare tutte le misure appropriate in tale caso."
       },
       "5": {
-        "title": "5. Responsabilità dell'Utente",
-        "content": "Il sito Vittascience consente agli Utenti di generare contenuti tramite interfacce di intelligenza artificiale generativa, ad esempio per creare testi o immagini. La pubblicazione e la generazione di Contenuti, così come le reazioni ai Contenuti (di seguito \"<strong>Commenti</strong>\"), devono rispettare alcune regole prescritte dalla legge. Forniamo qui una panoramica generale.</br></br>In particolare, è vietato includere in qualsiasi Contenuto o Commento:</br><ul><li>contenuti offensivi o diffamatori;</li><li>contenuti razzisti, antisemiti, omofobi, sessisti o discriminatori verso persone con disabilità;</li><li>contenuti che incitano all'odio, alla violenza, alla discriminazione o a reati penali;</li><li>contenuti pornografici o contenuti con nudità;</li><li>contenuti che incoraggiano il consumo di alcol o droghe;</li><li>contenuti che imitano un marchio o un'opera protetta da copyright. Per eccezione, è possibile includere riproduzioni e/o rappresentazioni di tali opere nei Contenuti, a condizione che siano rispettate le condizioni previste dalle eccezioni dell'Articolo L.122-5 del Codice francese della Proprietà Intellettuale.</li></ul></br>I Contenuti possono consistere in testo, codice informatico, immagini o video; questa lista non è esaustiva.</br></br>VITTASCIENCE si riserva il diritto di eliminare unilateralmente qualsiasi Contenuto o Commento che non rispetti le regole sopra indicate o su richiesta delle autorità competenti.</br></br>I Contenuti sono creati e distribuiti sotto la responsabilità principale dell'Utente. Qualsiasi Utente che invita Apprendenti a collaborare diventa direttore della pubblicazione e assume la responsabilità delle proprie pubblicazioni e di quelle degli Apprendenti. Questo Utente deve necessariamente essere maggiorenne (insegnante, dirigente scolastico, consigliere educativo, formatore, facilitatore, ecc.).</br></br>Anche gli Apprendenti possono essere ritenuti responsabili, sia civilmente (*) che penalmente (**), in caso di violazione di una norma legale o regolamentare come quelle sopra menzionate.</br></br><strong>In sintesi:</strong></br><ul><li><strong>Se sei un Utente,</strong> sei principalmente responsabile dei Contenuti che pubblichi e, se del caso, dei Contenuti pubblicati dagli Apprendenti che hai invitato;</li><li><strong>Se sei un Apprendente maggiorenne (adulto),</strong> la tua responsabilità personale (civile e penale) può essere coinvolta, insieme a quella dell'Utente che ti ha invitato;</li><li><strong>Se sei un Apprendente minorenne,</strong> a seconda dei casi, la tua responsabilità può essere coinvolta come autore se sei considerato legalmente emancipato, altrimenti quella dei tuoi rappresentanti legali (generalmente i genitori).</li></ul></br>(*) <em>Responsabilità civile</em> si riferisce (tra l'altro) all'obbligo di risarcire le persone che hanno subito danni a causa di contenuti inclusi in un programma, risorsa o attività (ad esempio, contenuti offensivi).</br></br>(**) <em>Responsabilità penale</em> si riferisce a multe e pene detentive che possono essere imposte da un tribunale penale su richiesta del pubblico ministero."
+        "title": "5. Responsabilità degli Utenti",
+        "content": "La pubblicazione di Contenuti nonché di reazioni ai Contenuti (di seguito: i «<strong>Commenti</strong>») presuppone il rispetto di determinate regole stabilite dalla legge.</br></br>È in particolare vietato inserire in un Contenuto o Commento:<ul><li>contenuti offensivi o diffamatori;</li><li>contenuti razzisti, antisemiti, omofobi, sessisti o discriminatori nei confronti delle persone con disabilità;</li><li>contenuti che incitino all’odio, alla violenza, alla discriminazione o alla commissione di reati;</li><li>contenuti pornografici o contenenti nudità;</li><li>contenuti che invitino al consumo di alcol o droghe;</li><li>contenuti che imitino un marchio o un’opera protetta da diritto d’autore, salvo nei limiti delle eccezioni previste dall’articolo L.122-5 del Codice della proprietà intellettuale francese.</li></ul></br>I Contenuti possono consistere in testo, codice informatico, immagini o video; l’elenco non è esaustivo.</br></br>VITTASCIENCE si riserva il diritto di eliminare unilateralmente qualsiasi Contenuto o Commento non conforme alle regole sopra indicate o su richiesta delle autorità competenti.</br></br>I Contenuti sono creati e diffusi sotto la responsabilità primaria dell’Utente. L’Utente che invita Discenti diventa responsabile delle pubblicazioni e si assume la responsabilità delle proprie pubblicazioni e di quelle dei Discenti. Deve trattarsi necessariamente di una persona maggiorenne (insegnante).</br></br>I Discenti possono essere altresì responsabili, sotto il profilo civile (*) e penale (**), in caso di violazione di norme legali o regolamentari.</br></br>(*) La responsabilità civile comporta l’obbligo di risarcire eventuali danni.</br></br>(**) La responsabilità penale comporta sanzioni pecuniarie o detentive inflitte da un giudice penale."
       },
       "6": {
-        "title": "6. Protezione dei Dati Personali",
-        "content": "VITTASCIENCE attribuisce grande importanza al rispetto della privacy. Ti invitiamo a consultare la nostra <a href='https://fr.vittascience.com/privacy'>Informativa sulla Privacy</a>.</br></br>Se l'Utente sceglie di sottoscrivere e utilizzare i Servizi tramite il GAR, i dati necessari per creare il proprio Account Utente e gli Account degli Apprendenti sui Servizi saranno ottenuti da VITTASCIENCE tramite il GAR.</br></br>Per accordo reciproco, VITTASCIENCE e l'Utente riconoscono il loro status di responsabili congiunti di queste attività di trattamento dati, nella misura in cui riguardano gli Apprendenti, ai sensi dell'<a href='https://www.cnil.fr/fr/reglement-europeen-protection-donnees/chapitre4#Article26'>Articolo 26 del GDPR</a>. Questo status riflette le rispettive responsabilità dell'Utente e di VITTASCIENCE verso gli Apprendenti e le legittime aspettative di questi ultimi, in linea con le indicazioni delle autorità competenti.</br></br>Per garantire la corretta applicazione dei principi e degli obblighi del GDPR, VITTASCIENCE fornirà agli Apprendenti informazioni sul trattamento dei loro dati tramite un documento intitolato \"Informativa sulla Privacy\", accessibile all'interno dell'interfaccia del Servizio utilizzata dagli Apprendenti.</br></br>VITTASCIENCE gestirà inoltre, in collaborazione con l'Utente, eventuali richieste degli Apprendenti per esercitare i loro diritti ai sensi degli <a href='https://www.cnil.fr/fr/reglement-europeen-protection-donnees/chapitre3#Article15'>Articoli 15-22 del GDPR</a>."
+        "title": "6. Protezione dei dati personali",
+        "content": "VITTASCIENCE attribuisce grande importanza al rispetto della vita privata. Vi invitiamo a consultare la nostra <a href='https://fr.vittascience.com/privacy'>Informativa sulla privacy</a>.</br></br>Qualora l’Utente scelga di utilizzare i Servizi tramite il sistema SSO implementato nell’ambito del contratto con SCRIPT, i dati necessari alla creazione degli Account saranno ottenuti tramite SSO.</br></br>VITTASCIENCE e l’Utente riconoscono di essere contitolari del trattamento ai sensi dell’articolo 26 del GDPR per quanto riguarda i dati dei Discenti.</br></br>VITTASCIENCE riceverà e tratterà, in collaborazione con l’Utente, le richieste di esercizio dei diritti previsti dagli articoli 15-22 del GDPR."
       },
       "7": {
-        "title": "7. Proprietà Intellettuale",
-        "content": "Il Sito e ciascuno dei suoi componenti, inclusi ma non limitati al marchio Vittascience, loghi, icone, infografiche e fotografie, sono protetti dalle leggi internazionali sulla proprietà intellettuale. Salvo diversa indicazione, questi elementi sono di esclusiva proprietà di VITTASCIENCE. Qualsiasi uso, riproduzione o rappresentazione, con qualsiasi mezzo e su qualsiasi supporto, di tutto o parte del Sito e/o dei suoi componenti non è consentito senza il consenso espresso di VITTASCIENCE.</br></br>Alcuni Contenuti disponibili sul Sito sono pubblicati sotto licenze Creative Commons, in particolare alcuni programmi, risorse, attività e percorsi di apprendimento. La licenza applicabile è sempre indicata con il Contenuto pertinente. A seconda dei casi, può includere:</br><ul><li><strong>Creative Commons Attribuzione - Non Commerciale - Condividi allo stesso modo 4.0 Internazionale (CC BY-NC-SA 4.0)</strong>: questa licenza consente di condividere e adattare il contenuto, a condizione di attribuire l'autore, che l'uso sia non commerciale e che le opere derivate siano condivise alle stesse condizioni. Maggiori dettagli sono disponibili <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/'>qui</a>;</li><li><strong>Creative Commons Attribuzione - Non Commerciale - Non opere derivate 4.0 Internazionale (CC BY-NC-ND 4.0)</strong>: questa licenza consente di condividere il contenuto, a condizione di attribuire l'autore, che l'uso sia non commerciale e che il contenuto non venga modificato. Maggiori dettagli sono disponibili <a href='https://creativecommons.org/licenses/by-nc-nd/4.0/'>qui</a>.</li></ul></br><strong>Contenuti generati dall'IA</strong></br></br>Strumenti per la generazione automatica di contenuti (testi, immagini, suoni, codice, ecc.) basati su modelli di intelligenza artificiale possono essere messi a disposizione degli Utenti sulla piattaforma Vittascience.</br></br>Salvo diversa indicazione espressa, i contenuti generati dall'intelligenza artificiale sono forniti sotto la licenza <strong>Creative Commons Attribuzione - Non Commerciale - Condividi allo stesso modo 4.0 Internazionale (CC BY-NC-SA 4.0)</strong>.</br></br>L'Utente mantiene i diritti di proprietà intellettuale sui prompt (istruzioni) inseriti negli strumenti di generazione, ma riconosce che i risultati generati possono essere simili o identici a quelli di altri Utenti, e che VITTASCIENCE si riserva il diritto di presentare tali contenuti sul Sito o nelle sue comunicazioni, in conformità con la licenza sopra citata.</br></br>L'Utente è l'unico responsabile dei contenuti generati utilizzando questi strumenti, in particolare in caso di violazione dei diritti di terzi o distribuzione di contenuti illeciti o contrari a questi termini. VITTASCIENCE si riserva il diritto di moderare, eliminare o rifiutare la pubblicazione di qualsiasi contenuto ritenuto inappropriato o non conforme.</br></br>Qualsiasi uso dei contenuti del Sito contrario a questi termini comporterà la responsabilità civile e penale dell'Utente nei confronti di VITTASCIENCE."
+        "title": "7. Proprietà intellettuale",
+        "content": "Il Sito e tutti i suoi elementi sono protetti dalla normativa internazionale in materia di proprietà intellettuale e costituiscono proprietà esclusiva di VITTASCIENCE salvo diversa indicazione.</br></br>Alcuni Contenuti sono pubblicati con licenza Creative Commons (CC BY-NC-SA 4.0 o CC BY-NC-ND 4.0), indicata sul contenuto stesso.</br></br>Qualsiasi utilizzo contrario alle presenti condizioni comporterà responsabilità civile e penale dell’Utente."
       },
       "8": {
-        "title": "8. Collegamenti Ipertestuali",
-        "content": "Il Sito fornisce collegamenti ipertestuali a siti web gestiti e/o amministrati da terzi.</br></br>Poiché non viene esercitato alcun controllo su queste risorse esterne, l'Utente riconosce che VITTASCIENCE non si assume alcuna responsabilità riguardo alla loro disponibilità e non può essere ritenuta responsabile per i loro contenuti."
+        "title": "8. Collegamenti ipertestuali",
+        "content": "Il Sito può contenere collegamenti a siti di terzi. VITTASCIENCE non esercita alcun controllo su tali risorse e non può essere ritenuta responsabile del loro contenuto."
       },
       "9": {
         "title": "9. Responsabilità di Vittascience",
-        "content": "VITTASCIENCE è responsabile del mantenimento online dei Servizi e dell'accessibilità del server che ospita il Sito, salvo interruzioni occasionali per manutenzione.</br></br>VITTASCIENCE si impegna a fare ogni ragionevole sforzo per garantire l'accuratezza e la tempestività delle informazioni pubblicate sul Sito e si riserva il diritto di correggerne il contenuto in qualsiasi momento e senza preavviso. Tuttavia, VITTASCIENCE non può garantire l'esattezza delle informazioni rese disponibili sul Sito.</br></br>Di conseguenza, VITTASCIENCE declina ogni responsabilità:</br><ul><li>per qualsiasi interruzione del Sito, malfunzionamenti o qualsiasi altro evento che renda il Sito inadatto all'uso previsto;</li><li>per inesattezze o omissioni riguardanti le informazioni disponibili sul Sito;</li><li>e, più in generale, per qualsiasi danno diretto o indiretto, indipendentemente dalla causa o natura, derivante dalla navigazione o dall'uso del Sito.</li></ul>La responsabilità di VITTASCIENCE non può essere coinvolta in caso di forza maggiore o eventi al di fuori del suo controllo."
+        "content": "VITTASCIENCE è responsabile del mantenimento online dei Servizi, salvo interruzioni per manutenzione.</br></br>Non garantisce tuttavia l’accuratezza assoluta delle informazioni presenti sul Sito.</br></br>Non potrà essere ritenuta responsabile per interruzioni, errori o danni diretti o indiretti derivanti dall’uso del Sito.</br></br>La responsabilità è esclusa in caso di forza maggiore.</br></br>Le presenti disposizioni non pregiudicano la responsabilità di Vittascience nei confronti di SCRIPT."
       },
       "10": {
-        "title": "10. Disponibilità del Servizio",
-        "content": "Il formato web dei Servizi consente il loro funzionamento sulla maggior parte dei browser web moderni. L'Utente deve disporre di un dispositivo (computer, tablet o smartphone) con un browser web aggiornato e una connessione internet.</br>I Servizi sono progettati per funzionare su schermi con una larghezza minima di 320 pixel.</br></br>VITTASCIENCE non può garantire la compatibilità del Sito con tutti i dispositivi attuali o futuri, e invita gli Utenti a verificare che i Servizi soddisfino le loro esigenze."
+        "title": "10. Disponibilità dei Servizi",
+        "content": "I Servizi funzionano sulla maggior parte dei browser moderni. È necessario disporre di un dispositivo con accesso a Internet.</br></br>La larghezza minima dello schermo supportata è di 320 pixel.</br></br>VITTASCIENCE non garantisce la compatibilità con tutti i dispositivi esistenti o futuri."
       },
       "11": {
-        "title": "11. Modifiche alle Condizioni d'Uso",
-        "content": "Queste Condizioni d'Uso possono essere modificate per riflettere gli sviluppi dei Servizi. Tali modifiche possono avvenire in qualsiasi momento e senza preavviso. Si invita pertanto gli Utenti a consultare regolarmente questi termini.</br></br>In caso di modifiche a queste Condizioni d'Uso, gli Utenti con un Account saranno informati tramite una finestra modale al momento del login.</br></br>La data dell'ultima modifica di queste Condizioni d'Uso è indicata in fondo a questa pagina."
+        "title": "11. Modifiche delle condizioni",
+        "content": "Le presenti condizioni possono essere modificate previo consenso scritto di SCRIPT.</br></br>La nuova versione dovrà essere accettata dagli Utenti titolari di Account.</br></br>La data di aggiornamento è indicata in fondo alla pagina."
       },
       "12": {
-        "title": "12. Legge Applicabile",
-        "content": "Questi termini e condizioni sono regolati dalla legge francese e lussemburghese.</br></br>In caso di controversia derivante dall'uso dei Servizi, ti invitiamo prima a contattare VITTASCIENCE per discutere la questione e tentare di risolverla nel miglior modo possibile.</br></br>In mancanza di un accordo amichevole, qualsiasi controversia relativa all'interpretazione, validità e/o esecuzione di questi termini sarà di competenza esclusiva del Tribunale Giudiziario di Parigi.</br></br>Per qualsiasi domanda, contattaci a <a href='mailto:privacy@vittascience.com'>privacy@vittascience.com</a>"
+        "title": "12. Legge applicabile",
+        "content": "Le presenti condizioni sono disciplinate dal diritto lussemburghese.</br></br>In caso di controversia, vi invitiamo a contattare VITTASCIENCE per cercare una soluzione amichevole."
       }
     },
-    "date": "Ultimo aggiornamento il 18 novembre 2025."
+    "date": "Ultimo aggiornamento: 27 settembre 2025."
   },
   "cookies": {
     "header": {
@@ -4654,11 +4956,28 @@
       }
     },
     "playlist": {
+      "create": {
+        "mainTitle": "Crea una selezione",
+        "title": "Titolo",
+        "description": "Descrizione",
+        "searchPlaceholder": "Cerca risorse da aggiungere alla tua selezione",
+        "selectionTitle": "La tua selezione"
+      },
       "words": {
+        "added": "Aggiunta",
+        "removed": "Rimossa",
+        "updated": "Modificata il",
+        "create": "Creata",
+        "delete": "Elimina",
+        "show": "Visualizza",
         "add": "Aggiunta",
-        "remove": "Rimossa",
-        "update": "Modificata",
-        "create": "Creata"
+        "cancel": "Annulla",
+        "save": "Salva"
+      },
+      "userPlaylists": {
+        "resourceBank": "Archivio risorse",
+        "selectResource": "La mia risorsa di prova",
+        "resourceContent": "Contenuto della risorsa"
       },
       "confirmMessage": {
         "successfullyAdded": "<i class='fa-solid fa-check'></i> La tua risorsa è stata aggiunta con successo.",
@@ -4725,7 +5044,8 @@
         "edit": "Modifica",
         "share": "Condividi",
         "duplicate": "Duplicato",
-        "delete": "Elimina"
+        "delete": "Elimina",
+        "options": "Opzioni"
       },
       "errors": {
         "errorWhileFetchingData": "Errore durante il recupero dei dati.",
@@ -4741,7 +5061,12 @@
         "playlistSuccessfullCreation": "Selezione creata con successo",
         "playlistSuccessfullUpdate": "Selezione aggiornata con successo",
         "playlistSuccessfullDeletion": "Selezione eliminata con successo"
-      }
+      },
+      "nodata": {
+        "1": "Nessuna risorsa o playlist trovata.",
+        "2": "Prova a modificare i filtri o a cercare con parole chiave diverse."
+      },
+      "notconnected": "Per accedere a questa area del sito devi essere connesso."
     },
     "add": {
       "duplicateTutorial": "Risorsa duplicata ",
@@ -5000,7 +5325,8 @@
             "python_projects-hub": "Progetti Python — Hub",
             "python_projects-rover": "Progetti Python — Rover",
             "python_projects-turtle": "Progetti Python — Turtle",
-            "python_projects-microbit": "Progetti Python — BBC micro:bit"
+            "python_projects-microbit": "Progetti Python — BBC micro:bit",
+            "campus-numeria": "Campus Numeria"
           },
           "exampleSubcategories": {
             "mission_1": "Scheda 1: Forza della password",
@@ -5301,8 +5627,13 @@
           "uno-r4": {
             "name": "Arduino UNO R4 WIFI",
             "learn": "Per saperne di più sulle funzioni C++ disponibili con Arduino R4, consulta ",
-            "learn-link": "https://www.arduino.cc/reference/fr/",
+            "learn-link": "https://docs.arduino.cc/hardware/uno-r4-wifi/",
             "libraries-link": "https://github.com/vittascience/arduino-libraries"
+          },
+          "steami": {
+            "name": "STeaMi",
+            "learn": "Per saperne di più sulle funzioni Python disponibili con la scheda STeaMi, consulta ",
+            "learn-link": "https://github.com/steamicc/micropython-steami-sample"
           }
         },
         "noticeCommon": {
@@ -5454,7 +5785,9 @@
               "code": "Codice",
               "codeonly": "Solo codice",
               "simuonly": "Solo simulatore",
-              "consoleonly": "Solo console"
+              "consoleonly": "Solo console",
+              "default": "Predefinito",
+              "player": "Scena Adacraft"
             },
             "embed": {
               "title": "Intestazione Vittascience",
@@ -5617,7 +5950,10 @@
         "rightsAttributed": "Diritti di accesso concessi",
         "readOnlyAlert": "Questo progetto è in modalità di sola lettura. Non è possibile apportare modifiche",
         "readOnlyAlert2": "Se si desidera modificarlo, fare clic sul pulsante seguente per creare una copia : ",
-        "readOnlyCopyBtn": "<i class='fas fa-edit'></i> Modificare una copia"
+        "readOnlyCopyBtn": "<i class='fas fa-edit'></i> Modificare una copia",
+        "notAvailableBlocks": "Alcuni blocchi nel progetto sono stati disabilitati perché la mappa selezionata, o la mappa collegata al progetto, non è in grado di utilizzarli.",
+        "blocksAvailableOn": "Sembra che questi blocchi siano disponibili con le mappe.",
+        "changeBoardMsg": "Se desideri modificare la mappa, clicca sul menu accanto al pulsante <b>Carica</b>, quindi su <b>Scegli una mappa</b>."
       },
       "save": {
         "content": {
@@ -5815,19 +6151,28 @@
         }
       }
     },
-    "hardware": {
+    "board-selector": {
+      "title": "Selezione scheda",
       "arduino": {
-        "title": "Scegli la scheda",
-        "content": {
-          "welcome": "Benvenuti all'interfaccia Arduino!",
-          "intro": "Seleziona la scheda che desideri programmare. Questo adatterà i diversi blocchi e l'immagine nel simulatore.",
-          "firmware": "Seleziona la versione del firmware che desideri utilizzare.",
-          "tutorial_link": "Inizia a usare l'interfaccia Arduino con il tutorial",
-          "compatibility_link": "Scopri le schede, i sensori e i robot compatibili con l'interfaccia"
-        },
-        "buttons": {
-          "validate": "Convalida"
+        "welcome": "Benvenuti all'interfaccia Arduino!",
+        "tutorial_link": "Inizia a usare l'interfaccia Arduino con questo tutorial",
+        "firmware": "Seleziona la versione del firmware che desideri utilizzare."
+      },
+      "esp32": {
+        "welcome": "Benvenuti all'interfaccia ESP32!",
+        "tutorial_link": "Inizia a usare l'interfaccia ESP32 con questo tutorial"
+      },
+      "content": {
+        "intro": "Seleziona la scheda che desideri programmare. Questo adatterà i vari blocchi e l'immagine nel simulatore.",
+        "compatibility_link": "Scopri le schede, i sensori e i robot compatibili con l'interfaccia",
+        "shield-grove": {
+          "title": "Modalità Shield Grove",
+          "text": "Abilita i pin collegati allo Shield Grove nei blocchi e la vista nel simulatore"
         }
+      },
+      "buttons": {
+        "validate": "Convalida",
+        "setting": "Configura la mia carta"
       }
     },
     "simulator": {
@@ -5980,6 +6325,14 @@
           "confirm": "Aggiorna il firmware"
         }
       },
+      "modal-tts-premium-warning": {
+        "title": "Funzionalità Premium",
+        "description": "Per usare la sintesi vocale avanzata senza limiti di caratteri, passa alla versione Premium di Vittascience.",
+        "buttons": {
+          "cancel": "Annulla",
+          "upgrade": "Vedi le offerte Premium"
+        }
+      },
       "modal-edge-raw-import-data": {
         "title": "Importa dati",
         "description": "Importa un file di dati in formato CSV",
@@ -6022,7 +6375,7 @@
       },
       "camera-blocked": {
         "title": "Errore durante il caricamento della fotocamera",
-        "text": "<p class='camera-blocked-intro'>Si è verificato un errore durante l'inizializzazione della fotocamera. La causa più probabile è che l'accesso alle fotocamere è bloccato nel tuo browser. Puoi sbloccare le fotocamere seguendo i passaggi seguenti. Se il problema persiste e il tuo sistema operativo è Windows, potrebbe essere che un altro programma stia già usando la fotocamera.</p><ul class='camera-blocked-list'><li><p>Su Google Chrome</p><ol class='camera-blocked-ordered-list'><li><p>Clicca sul lucchetto a sinistra della barra degli URL.</p> <img src='/ia/assets/images/camera-blocked-chrome-1.png'></li><li>Clicca sul pulsante della riga <q>Fotocamera</q> per attivarla.</li><li>Clicca sul pulsante <q>Aggiorna</q> apparso sotto la barra degli URL.</li></ol></li><li><p>Su Mozilla Firefox<p><ol class='camera-blocked-ordered-list'><li><p>Clicca sull'icona della fotocamera barrata a sinistra della barra degli URL.</p> <img src='/ia/assets/images/camera-blocked-firefox-1.png'></li><li>Clicca sul pulsante <q>Bloccato temporaneamente X</q> nella riga della fotocamera per attivarla.</li><li>Seleziona <q>Consenti</q> al prossimo tentativo di accesso alla fotocamera.</li></ol></li></ul>"
+        "text": "<p class='camera-blocked-intro'>Si è verificato un errore durante l'inizializzazione della fotocamera. La causa più probabile è che l'accesso alle fotocamere è bloccato nel tuo browser. Puoi sbloccare le fotocamere seguendo i passaggi seguenti. Se il problema persiste e il tuo sistema operativo è Windows, potrebbe essere che un altro programma stia già usando la fotocamera.</p><ul class='camera-blocked-list'><li><p>Su Google Chrome</p><ol class='camera-blocked-ordered-list'><li><p>Clicca sul lucchetto a sinistra della barra degli URL.</p> <img src='/ia/assets/images/camera-blocked-chrome-1.png' alt=''></li><li>Clicca sul pulsante della riga <q>Fotocamera</q> per attivarla.</li><li>Clicca sul pulsante <q>Aggiorna</q> apparso sotto la barra degli URL.</li></ol></li><li><p>Su Mozilla Firefox<p><ol class='camera-blocked-ordered-list'><li><p>Clicca sull'icona della fotocamera barrata a sinistra della barra degli URL.</p> <img src='/ia/assets/images/camera-blocked-firefox-1.png' alt=''></li><li>Clicca sul pulsante <q>Bloccato temporaneamente X</q> nella riga della fotocamera per attivarla.</li><li>Seleziona <q>Consenti</q> al prossimo tentativo di accesso alla fotocamera.</li></ol></li></ul>"
       },
       "notification-save-export": {
         "title": "Usa questo modello",
@@ -6167,6 +6520,11 @@
       "booking-slot-exceeded": {
         "title": "Slot di prenotazione superato",
         "content": "<p>Non puoi purtroppo utilizzare questo slot perché è scaduto.</p>",
+        "accept": "Ho capito"
+      },
+      "booking-modification-not-allowed": {
+        "title": "Modifica prenotazione non autorizzata",
+        "content": "<p>Non puoi modificare questa prenotazione perché mancano meno di 24 ore.</p>",
         "accept": "Ho capito"
       }
     },
@@ -6332,9 +6690,14 @@
         "spike": "Interfaccia di programmazione per il LEGO® Education SPIKE™ Essential",
         "photon": "Interfaccia di programmazione per il robot Photon",
         "codey": "Interfaccia di programmazione per la scheda Codey e il robot Rocky di Makeblock",
-        "uno-r4": "Interfaccia di programmazione per la scheda Arduino R4 WiFi",
+        "uno-r4-wifi": "Interfaccia di programmazione per la scheda Arduino R4 WiFi",
+        "uno-r4-minima": "Interfaccia di programmazione per la scheda Arduino R4 Minima",
         "nano": "Interfaccia di programmazione per la scheda Arduino Nano",
-        "mega": "Interfaccia di programmazione per la scheda Arduino Méga"
+        "mega": "Interfaccia di programmazione per la scheda Arduino Mega",
+        "steami": "Interfaccia di programmazione per la scheda STeaMi",
+        "nano-esp32": "Interfaccia di programmazione della scheda Arduino Nano ESP32",
+        "alvik": "Interfaccia di programmazione per il robot Alvik di Arduino",
+        "alphai": "Interfaccia di programmazione per il robot AlphAI"
       }
     },
     "features_title": "Caratteristiche comuni",
@@ -6457,6 +6820,7 @@
     "projectNotFound": "Errore durante il salvataggio dell'enunciato: il progetto non esiste!",
     "notExerciseStatementCreator": "Non hai il permesso di modificare l'enunciato!",
     "needProjectName": "Devi inserire il nome del progetto prima di poterlo salvare!",
+    "projectNoChangesToSave": "Nessuna modifica da salvare!",
     "projectSaveError": "Si è verificato un errore durante il salvataggio!",
     "projectSaveSuccess": "Il tuo progetto è stato salvato con successo!",
     "loadedProjectNotFound": "Il progetto richiesto non esiste!",
@@ -6488,6 +6852,11 @@
     "categoryRemoveImageError": "AiCategory->removeImage: l'argomento deve essere un oggetto. Passato {{type}}!",
     "imageSetElementError": "AiImage->setElement: l'elemento {{element}} non è un elemento HTML valido!",
     "imageSetCategoryError": "AiImage->setCategory: l'argomento deve essere un oggetto. Passato {{type}}!",
+    "moderationContent": "Il contenuto è stato segnalato come inappropriato dalla moderazione e non può essere elaborato.",
+    "premiumRequiredTTS": "È necessario un abbonamento premium per utilizzare la funzionalità di sintesi vocale oltre i limiti di utilizzo gratuito.",
+    "errorGeneratingTTSAudio": "Si è verificato un errore durante la generazione dell'audio TTS",
+    "textTooLongTTS": "Il testo da sintetizzare supera il limite massimo consentito.",
+    "textTooLongTTSSpeaker": "Il testo da sintetizzare supera il limite massimo consentito per almeno uno dei parlanti selezionati.",
     "modelSetCategoriesError": "AiModel->setCategories: l'argomento deve essere un array!",
     "modelSetParentElementError": "AiModel->setParentElement: l'elemento {{element}} non è un elemento HTML valido!",
     "modelAddImageByInputOrDropError": "AiModel->_addImageByFileInput: l'immagine {{imageName}} è nel formato {{fileType}} che non è valido. I formati consentiti sono {{validTypes}}.",
@@ -6574,7 +6943,11 @@
     "edgeSerialDeviceNotConnected": "Collega la scheda al tuo computer per raccogliere i dati",
     "notConnected": "Devi essere connesso per eseguire questa azione!",
     "turtleExerciseSaved": "L'esercizio è stato salvato con successo!",
-    "turtleExerciseSaveFailed": "Il salvataggio dell'esercizio è fallito!"
+    "turtleExerciseSaveFailed": "Il salvataggio dell'esercizio è fallito!",
+    "ragTooManyRequests": "Troppe richieste. Riprova tra {{seconds}} secondi.",
+    "ragBlockedDomain": "Il sito {{domain}} blocca l'estrazione automatica. Prova a copiare e incollare il testo manualmente.",
+    "ragExtractionFailed": "Impossibile estrarre il contenuto della pagina. Alcune pagine web sono protette.",
+    "ragFetchError": "Alcune estensioni impediscono il caricamento. Prova a disattivarle o usa la navigazione in incognito."
   },
   "switchAccessibility": {
     "title": "Accessibilità",
@@ -6620,18 +6993,19 @@
     "compatibility": {
       "title": "Compatibilità con browser e tecnologie assistive",
       "intro": "<span class=\"basic-information website-name\">Vittascience</span> è progettato per essere compatibile con le seguenti tecnologie assistive:",
-      "description": "Il sito Vittascience è progettato e testato per essere accessibile e compatibile con i seguenti ambienti, per garantire la migliore esperienza agli utenti di tecnologie assistive: Windows 10 e 11 con browser Google Chrome, Mozilla Firefox e Microsoft Edge, associati al lettore di schermo NVDA (NonVisual Desktop Access). macOS (versioni recenti) con browser Safari e Google Chrome, associati al lettore di schermo integrato VoiceOver. La navigazione solo da tastiera è completamente supportata su tutti i principali browser e sistemi operativi, permettendo l'accesso a tutti gli elementi interattivi senza mouse. Pur impegnandoci a rispettare gli standard RGAA 4.1 e WCAG 2.2 livello AA e a garantire la compatibilità in questi ambienti, alcune combinazioni di browser, tecnologie assistive o sistemi più vecchi possono presentare limitazioni. In caso di difficoltà, consigliamo di utilizzare gli ambienti sopra indicati per una migliore accessibilità."
+      "description": "Il sito Vittascience è progettato e testato per essere accessibile e compatibile con i seguenti ambienti, per garantire la migliore esperienza agli utenti di tecnologie assistive: Windows 10 e 11 con i browser Google Chrome, Mozilla Firefox e Microsoft Edge, abbinati al lettore di schermo NVDA (NonVisual Desktop Access). macOS (versioni recenti) con i browser Safari e Google Chrome, abbinati al lettore di schermo integrato VoiceOver. La navigazione esclusivamente da tastiera è pienamente supportata su tutti i principali browser e sistemi operativi, consentendo l'accesso a tutti gli elementi interattivi senza mouse. Pur impegnandoci a rispettare le norme RGAA 4.1 e WCAG 2.2 livello AA e a garantire la compatibilità in questi ambienti, alcune combinazioni di browser, tecnologie assistive o sistemi più datati potrebbero presentare limitazioni. In caso di difficoltà, consigliamo di utilizzare gli ambienti sopra indicati per una migliore accessibilità."
     },
     "technical": {
       "title": "Specifiche tecniche",
       "intro": "L'accessibilità di <span class=\"basic-information website-name\">Vittascience</span> si basa sull'uso delle seguenti tecnologie, in combinazione con il tuo browser e eventuali estensioni o tecnologie assistive:",
-      "note": "Queste tecnologie sono necessarie per garantire la conformità agli standard di accessibilità applicati."
+      "note": "Queste tecnologie sono necessarie per garantire la conformità alle norme di accessibilità applicate."
     },
     "limitations": {
       "title": "Limitazioni e alternative",
-      "intro": "Nonostante tutti i nostri sforzi per garantire l'accessibilità del sito <span class=\"basic-information website-name\">Vittascience</span>, alcune limitazioni possono persistere. Ecco una descrizione dei punti noti e delle soluzioni previste. Non esitare a contattarci per qualsiasi problema non elencato.",
+      "intro": "Nonostante i nostri sforzi per garantire l'accessibilità del sito <span class=\"basic-information website-name\">Vittascience</span>, possono persistere alcune limitazioni. Di seguito una descrizione dei problemi noti e delle soluzioni previste. Contattaci per qualsiasi problema non riportato.",
       "known": "Limitazioni note del sito <span class=\"basic-information website-name\">Vittascience</span>:",
-      "item1": "<strong>Abbiamo identificato alcune limitazioni di accessibilità, in particolare nelle interfacce di programmazione interattive e negli strumenti basati su IA. Queste parti possono presentare difficoltà per gli utenti di lettori di schermo o persone con disabilità motorie. Stiamo lavorando attivamente per migliorarle e raggiungere la conformità RGAA 4.1 e WCAG 2.2.</strong>: Le limitazioni riguardano soprattutto l'uso da tastiera e con lettori di schermo di queste interfacce complesse. Stiamo implementando correzioni per risolvere questi problemi. Se riscontri difficoltà, contattaci."
+      "item1": "<strong>Abbiamo identificato alcune limitazioni di accessibilità, in particolare nelle interfacce di programmazione interattive e negli strumenti basati su IA. Queste parti possono risultare difficili per chi usa lettori di schermo o ha problemi motori. Stiamo lavorando attivamente per migliorarle e raggiungere la conformità RGAA 4.1 e WCAG 2.2.</strong>: Le limitazioni riguardano soprattutto l'uso da tastiera e con lettori di schermo di queste interfacce complesse. Stiamo implementando correttivi per risolvere questi problemi. Se riscontri difficoltà, contattaci.",
+      "item2": "<strong>Non è garantita l'accessibilità dei documenti d'ufficio (es. PDF) ai quali l'IA rimanda.</strong>: Questi documenti provengono da fonti esterne e potrebbero non rispettare le norme di accessibilità. Stiamo lavorando per migliorare i contenuti interni e ti consigliamo di contattarci se hai bisogno di una versione accessibile di un documento."
     },
     "evaluation": {
       "title": "Metodo di valutazione",
@@ -6640,15 +7014,55 @@
     },
     "report": {
       "title": "Rapporto di valutazione",
-      "description": "Un rapporto di valutazione per <span class=\"basic-information website-name\">Vittascience</span> è disponibile al seguente indirizzo: <a class=\"technical-information related-evidence\" href=\"https://drive.google.com/drive/folders/1xC4xWczVDgmB2lOV0oq_ms_TP_dkj39z?usp=sharing\">https://drive.google.com/drive/folders/1xC4xWczVDgmB2lOV0oq_ms_TP_dkj39z?usp=sharing</a>."
+      "description": "Un rapporto di valutazione per <span class=\"basic-information website-name\">Vittascience</span> è disponibile al seguente indirizzo : <a class=\"technical-information related-evidence\" href=\"https://drive.google.com/drive/folders/1xC4xWczVDgmB2lOV0oq_ms_TP_dkj39z?usp=sharing\">https://drive.google.com/drive/folders/1xC4xWczVDgmB2lOV0oq_ms_TP_dkj39z?usp=sharing</a>."
     },
     "complaints": {
       "title": "Reclami",
-      "description": "Ci impegniamo a rispondere ai feedback sull'accessibilità entro 3 giorni lavorativi e a proporre una soluzione entro 10 giorni lavorativi.<br>I vostri feedback sono fondamentali per aiutarci a migliorare l'accessibilità e l'esperienza utente."
+      "description": "Ci impegniamo a rispondere ai feedback sull'accessibilità entro 3 giorni lavorativi e a proporre una soluzione entro 10 giorni lavorativi.<br>I tuoi feedback sono fondamentali per aiutarci a migliorare l'accessibilità e l'esperienza utente."
     },
     "date": {
       "title": "Data",
-      "description": "Questa dichiarazione è stata creata il <span class=\"basic-information statement-created-date\">28 giugno 2025</span> utilizzando lo <a href=\"https://www.w3.org/WAI/planning/statements/\">strumento di generazione della dichiarazione di accessibilità del W3C</a>."
+      "description": "Questa dichiarazione è stata creata il <span class=\"basic-information statement-created-date\">28 giugno 2025</span> utilizzando lo <a href=\"https://www.w3.org/WAI/planning/statements/\">strumento di generazione delle dichiarazioni di accessibilità del W3C</a>."
+    },
+    "roadmap": {
+      "title": "Piano di miglioramento (T4 2025 – T4 2026)",
+      "q4_2025": {
+        "title": "T4 2025 (in corso)",
+        "item1": "Completamento della correzione dei problemi di focus e tabulazione nelle interfacce dinamiche.",
+        "item2": "Stabilizzazione dei componenti dell'interfaccia negli editor di programmazione (riscontri dai lettori di schermo, annunci ARIA, ruoli, titoli).",
+        "item3": "Miglioramento dell'accessibilità negli strumenti basati su IA (gestione del focus, navigazione da tastiera coerente, alternative testuali).",
+        "item4": "Implementazione di un sistema interno per il monitoraggio dei ticket di accessibilità e di un controllo qualità sistematico prima di ogni rilascio.",
+        "item5": "Formazioni interne \"come produrre contenuti accessibili su Vittascience\"."
+      },
+      "q1_2026": {
+        "title": "T1 2026",
+        "item1": "Rifacimento completo della navigazione da tastiera negli editor a blocchi e nei moduli interattivi.",
+        "item2": "Miglioramento del markup semantico sull'intero sito (titoli, aree, landmark ARIA).",
+        "item3": "Test utente specifici con persone non vedenti.",
+        "item4": "Implementazione di un design system unificato con componenti conformi a RGAA/WCAG (libreria interna).",
+        "item5": "Implementazione di un sistema automatico per rilevare le regressioni di accessibilità nella CI/CD."
+      },
+      "q2_2026": {
+        "title": "T2 2026",
+        "item1": "Ulteriori correzioni dei contrasti e ottimizzazione della lettura in modalità zoom elevato e su schermi piccoli.",
+        "item2": "Miglioramento della gestione del focus nei percorsi complessi (sequenze di azioni, messaggi di conferma, errori).",
+        "item3": "Ottimizzazione dell'accessibilità in condizioni reali: zoom elevato (200–400%), schermi piccoli, uso combinato di tastiera e lettore dello schermo.",
+        "item4": "Estensione dei test automatizzati di accessibilità a più percorsi chiave (login, creazione, modifica, pubblicazione)."
+      },
+      "q3_2026": {
+        "title": "T3 2026",
+        "item1": "Miglioramento dell'accessibilità nei contenuti didattici, inclusi i PDF scaricabili (tagging, alternative, struttura).",
+        "item2": "Finalizzazione dell'accessibilità degli editor di codice, con obiettivi di compatibilità NVDA/JAWS/VoiceOver.",
+        "item3": "Controlli di conformità rafforzati sui flussi dinamici (caricamenti, modali, notifiche).",
+        "item4": "Assicurare il rispetto dei criteri WCAG 2.2 inclusi Focus Appearance, Dragging Movements e Target Size."
+      },
+      "q4_2026": {
+        "title": "T4 2026",
+        "item1": "Audit esterno completo di conformità RGAA 4.1.",
+        "item2": "Correzioni finali derivanti dall'audit.",
+        "item3": "Aggiornamento ufficiale sullo stato di conformità.",
+        "item4": "Pubblicazione di una dashboard pubblica per il monitoraggio dell'accessibilità, per maggiore trasparenza."
+      }
     }
   },
   "partners": {
@@ -6733,8 +7147,8 @@
     "one-month": "1 mese",
     "one-year": "1 anno",
     "three-years": "3 anni",
-    "per-month": "/mese",
-    "per-teacher": "/insegnante",
+    "per-month": "per mese",
+    "per-teacher": "per insegnante e per mese",
     "yearly": "fatturato annualmente",
     "3yearly": "fatturato ogni 3 anni",
     "monthly": "fatturato mensilmente",
@@ -6763,7 +7177,8 @@
       "area": "Seleziona il tuo dipartimento:",
       "collab": "Aiuta a creare una collaborazione",
       "offers": "Consulta le offerte",
-      "access-page": "Vai alla pagina di iscrizione"
+      "access-page": "Vai alla pagina di iscrizione",
+      "info-ai-tts": "Sintesi vocale IA: 30 secondi di generazione al giorno"
     },
     "starter-license": {
       "title": "Premium",
@@ -6774,7 +7189,8 @@
       "info-ai": "IA Testo e Immagine: Modelli Premium",
       "info-ai-rag": "Aggiunta di fonti per l'IA (RAG)",
       "info-delivery": "Consegna gratuita dal negozio verso la Francia metropolitana (eccetto abbonamento mensile)",
-      "button": "Abbonati"
+      "button": "Abbonati",
+      "info-ai-tts": "Sintesi vocale IA: generazione illimitata"
     },
     "multi-license": {
       "title": "Team",
@@ -6848,7 +7264,9 @@
       "line15": "Tariffa mensile",
       "line16": "Tariffa annuale",
       "line17": "Tariffa triennale",
-      "section8": "Intelligenza artificiale : Immagine"
+      "section8": "Intelligenza artificiale : Immagine",
+      "section9": "Intelligenza artificiale: Audio",
+      "line18": "Tempo di generazione della sintesi vocale"
     },
     "faq": {
       "title": "Domande Frequenti",
@@ -7326,6 +7744,11 @@
       "title": "Scopri le risorse del kit <span>Qualità dell'aria</span>",
       "desc": "Consulta il libretto ufficiale per realizzare il tuo kit ed esplora risorse, programmi e tutorial per approfondire l’apprendimento della programmazione."
     },
+    "cybersecurity": {
+      "name": "Sicurezza informatica",
+      "title": "Scopri il kit <span>Sicurezza informatica</span>",
+      "desc": "Pensato per la scuola media, il liceo e l'università, permette a studenti e studentesse di avvicinarsi alla sicurezza informatica attraverso la sperimentazione con 3 schede programmabili che formano una rete (trasmettitore, ricevitore e hacker). Situazioni concrete aiutano a capire e adottare buone pratiche digitali: comunicazioni intercettate, password deboli, attacchi realistici, crittografia…"
+    },
     "marsrover": {
       "name": "Rover marziano",
       "title": "Scopri le risorse del kit <span>Rover marziano</span>",
@@ -7418,6 +7841,10 @@
       "title": "Generazione Immagine",
       "desc": "Crea immagini a partire da un prompt"
     },
+    "tts": {
+      "title": "Sintesi vocale",
+      "desc": "Trasformare il testo in voce umana"
+    },
     "useExistingModel": {
       "title": "Usa un modello già addestrato",
       "man_woman": "Uomo/Donna",
@@ -7466,6 +7893,10 @@
       "title": "L’interfaccia IA di Vittascience è stata realizzata con il supporto del programma Édu-up",
       "desc": "Questo programma, guidato dal Ministero dell’Istruzione, sostiene la produzione di risorse digitali innovative e adatte all’apprendimento.",
       "know_more": "Scopri Édu-up"
+    },
+    "video-generation": {
+      "title": "Generazione video",
+      "desc": "Abbina ogni video generato dall'IA al prompt corretto"
     }
   },
   "noCookiePage": {
@@ -7519,7 +7950,8 @@
     "enterAtLeast2Chars": "Inserire almeno 2 caratteri",
     "description": "Troverete la descrizione dei blocchi usati nel codice e dei loro equivalenti {{interface}}, i loro valori restituiti e i link ai tutorial.",
     "imgDescription": "Immagine del modulo citato nel paragrafo precedente.",
-    "blocksNotFound": "Nessun blocco corrisponde alla ricerca"
+    "blocksNotFound": "Nessun blocco corrisponde alla ricerca",
+    "selectSubCategory": "Seleziona una sottocategoria dal menu per visualizzare il contenuto."
   },
   "vittaForm": {
     "errorHint": "Valore non valido!",
@@ -7818,6 +8250,51 @@
       "btn": "Iscriviti"
     }
   },
+  "ia-orientation-page": {
+    "section-1": {
+      "title": "Intelligenza artificiale al servizio dell’orientamento",
+      "description": "Ampliate la capacità di offrire informazioni di qualità sull’orientamento."
+    },
+    "section-2": {
+      "title": "L’assistente virtuale come primo livello di consulenza personalizzata",
+      "description": "Aiutate ciascuno a scoprire professioni, percorsi formativi e opportunità adatte.",
+      "point1": "Sicuro",
+      "point2": "Dati da fonti affidabili",
+      "point3": "Riduzione delle allucinazioni",
+      "demo": "Richiedi una dimostrazione"
+    },
+    "section-3": {
+      "title": "Integrare l’IA nei vostri dispositivi d’orientamento",
+      "description": "Una soluzione affidabile, etica e sovrana al servizio degli utenti.",
+      "cards": {
+        "title1": "Sicurezza e conformità",
+        "description1": "LLM sovrano, host basati in Francia. I dati non vengono mai riutilizzati per addestrare l’IA.",
+        "title2": "Personalizzabile",
+        "description2": "Selezione delle banche dati, possibile terziarizzazione, adattamento del tono e dei contenuti alle vostre esigenze specifiche.",
+        "title3": "Accessibile",
+        "description3": "Interfaccia pensata per l'uso mobile, conforme alle norme d’accessibilità RGAA.",
+        "title4": "Etica",
+        "description4": "Un'IA responsabile per l’uguaglianza delle opportunità che limita bias e discriminazioni, grazie al modello RAG e alle IA agentiche."
+      }
+    },
+    "section-4": {
+      "title": "L'incontro tra due competenze: tecnologia e lavoro sul campo",
+      "description": "Una soluzione nata dall’associazione di due EdTech francesi con competenze complementari:",
+      "point1": "Con Jexplore, la soluzione s’radica nelle realtà dei beneficiari e degli accompagnatori.",
+      "point2": "Con Vittascience, l’IA diventa accessibile e sicura.",
+      "contact": "Contattaci"
+    },
+    "section-5": {
+      "title": "Hanno adottato la soluzione",
+      "description": "La Région Île-de-France ha lanciato un agente IA conversazionale, vocale e testuale, inclusivo e sovrano, per accompagnare tutti i residenti dell'Île-de-France nel loro percorso d’orientamento. Integrato nella piattaforma Oriane.info, questo strumento guida gli utenti nelle loro pratiche di orientamento professionale.",
+      "test": "Prova l'IA Oriane"
+    },
+    "section-6": {
+      "title": "Pronti a trasformare il vostro accompagnamento all’orientamento ?",
+      "description": "Scoprite come l’IA Orientamento può arricchire i vostri servizi.",
+      "contact": "Contattaci"
+    }
+  },
   "teachersEntity": {
     "allGrades": [
       "CP",
@@ -8050,18 +8527,543 @@
     },
     "main": {
       "title": "Calcola il tuo impatto eq CO<sub>2</sub> dell'uso digitale",
-      "body": "🌍<strong> Lo sapevi?</strong> In Francia, ogni persona emette in media 10 tonnellate di CO₂ equivalente all'anno.<br><br>🎯 <strong>Obiettivo COP21:</strong> Ridurre questa impronta a 2 tonnellate di CO₂ equivalente per persona all'anno.<br><br>💻 <strong>E il digitale?</strong> Il digitale (Internet, smartphone, computer, ecc.) rappresenta il 4% di questa emissione, cioè 400 kg di CO₂ equivalente all'anno.<br><br>🚀 <strong>La sfida per il digitale:</strong> Per rispettare l'obiettivo COP21, questa emissione dovrebbe scendere a 80 kg di CO₂ equivalente all'anno.<br><br>❓ <strong>E tu?</strong> Sei pronto a raccogliere la sfida? Inizia valutando il tuo impatto attuale e scopri come ridurre la tua impronta di carbonio. 🌱✨"
+      "body": "🌍<strong> Lo sapevi?</strong> In Francia, ogni persona emette in media 10 tonnellate di CO₂ equivalente all'anno.<p>🎯 <strong>Obiettivo COP21:</strong> Ridurre questa impronta a 2 tonnellate di CO₂ equivalente per persona all'anno.</p><p>💻 <strong>E il digitale?</strong> Il digitale (Internet, smartphone, computer, ecc.) rappresenta il 4% di questa emissione, cioè 400 kg di CO₂ equivalente all'anno.</p><p>🚀 <strong>La sfida per il digitale:</strong> Per rispettare l'obiettivo COP21, questa emissione dovrebbe scendere a 80 kg di CO₂ equivalente all'anno.</p><p>❓ <strong>E tu?</strong> Sei pronto a raccogliere la sfida? Inizia valutando il tuo impatto attuale e scopri come ridurre la tua impronta di carbonio. 🌱✨",
+      "lastEvaluation": "Ultima valutazione : "
+    },
+    "units": {
+      "singular": {
+        "hour": "ora",
+        "year": "anno",
+        "image": "immagine"
+      },
+      "plural": {
+        "hours": "ore",
+        "years": "anni",
+        "images": "immagini"
+      },
+      "options": {
+        "new": "Nuovo",
+        "refurbished": "Usato"
+      },
+      "co2": " kg eqCO<sub>2</sub>/anno"
+    },
+    "device": {
+      "title": "Scegli i tuoi dispositivi",
+      "description": "Seleziona i dispositivi che usi quotidianamente. Puoi scegliere più opzioni.",
+      "computer": "Computer",
+      "smartphone": "Smartphone",
+      "tablette": "Tablet",
+      "television": "Televisore",
+      "console": "Console di gioco",
+      "speaker": "Altoparlante connesso",
+      "questions": {
+        "smartphone": {
+          "icon": "📱",
+          "title": " Smartphone",
+          "rules": "<strong>Basi del calcolo:</strong> Schermo medio da 6,63 pollici, mix di tecnologie LCD e OLED, 8 GB di RAM, 210 GB di memoria (media ponderata tra 3 configurazioni, 24%, 24%, 52%).",
+          "practical_tips": "Per un uso più responsabile del tuo smartphone, adotta alcune semplici abitudini:<br/>🔋 <strong>Attiva la modalità risparmio energetico</strong><br/>🌞 <strong>Imposta la luminosità automatica</strong><br/>❌ <strong>Chiudi le app inutilizzate</strong><br/>🌱 <strong>Conserva il telefono più a lungo</strong> per ridurre significativamente il suo impatto ambientale. Acquistare un modello usato è un'ottima scelta per il pianeta",
+          "label_how_many_years": {
+            "label": "Da quanto tempo possiedi il tuo dispositivo?",
+            "info": "<p>La produzione, distribuzione e fine vita di uno smartphone generano 85,3 kg di eq CO₂ 🌍📱.</p><p>Usandolo più a lungo, questo impatto si distribuisce su più anni, riducendo così l'impronta di carbonio complessiva. ♻️💚</p><p>Prolungare significa risparmiare! ⏳🌱✨</p>"
+          },
+          "label_change": {
+            "label": "Per quanto tempo prevedi di tenere ancora il tuo smartphone?",
+            "info": "<p>La durata media di uno smartphone è di circa 2,5 anni. 📱 Prolungarne l'uso di un anno potrebbe ridurre il suo impatto annuale di 10 kg di eq CO₂ ♻️.</p><ul><li>✅ 2,5 anni → Impatto annuale: 34,36 kg di eq CO₂</li><li>✅ 3,5 anni → Impatto annuale: 24,6 kg di eq CO₂</li></ul><p> 🎯 Vantaggio: circa 10 kg di eq CO₂ risparmiati all'anno 💨</p>",
+            "links": [
+              "https://nsysgroup.com/fr/blog/average-device-lifespan-how-long-does-a-cell-phone-last/",
+              "https://impactco2.fr/outils/numerique/smartphone"
+            ]
+          },
+          "label_state": {
+            "label": "Preferisci uno smartphone nuovo o usato?",
+            "info": "<p>Nonostante l'impatto del processo di ricondizionamento, acquistare uno smartphone ricondizionato riduce l'impatto ambientale annuale dal 64% all'87% (in media: 75%) rispetto a un acquisto nuovo. 😊</p>",
+            "options": {
+              "new": "Nuovo",
+              "refurbished": "Usato"
+            }
+          },
+          "label_day_time": {
+            "label": "Quanto tempo usi il tuo smartphone ogni giorno?",
+            "advice": "Per controllare, puoi andare su Impostazioni → Benessere digitale o tempo di utilizzo.",
+            "info": "<p>Secondo l'ADEME, un anno di utilizzo di uno smartphone (3h/giorno) emette 0,22 kg di eq CO₂. Gli adolescenti, che passano in media 4h30 al giorno (50% in più), aumentano questo impatto. 📱⏳</p><p>La batteria, spesso l'elemento più fragile, inizia a perdere efficienza dopo 800 cicli di carica completi. Un uso moderato e intelligente ne prolunga la durata. 🔋</p>",
+            "links": [
+              "https://impactco2.fr/outils/numerique/smartphone",
+              "https://www.sudouest.fr/societe/parentalite/age-pour-un-premier-smartphone-temps-passe-sur-les-ecrans-une-etude-decrypte-notre-rapport-au-numerique-21690366.php",
+              "https://conscienceeco.fr/achats-et-activites/numerique/batteries/optimiser-la-duree-de-vie-dune-batterie-de-telephone/"
+            ]
+          }
+        },
+        "tablette": {
+          "icon": "🖥️",
+          "title": "Tablet",
+          "rules": "<strong>Basi del calcolo: </strong>Schermo da 10,53 pollici, mix di tecnologie LCD, 4,7 GB di RAM, 144 GB di memoria (media ponderata tra 3 configurazioni di tablet). Media degli usi personali e professionali",
+          "practical_tips": "Per ridurre l'impatto del tuo tablet, adotta questi semplici gesti:<br/>🚫 <strong>Disattiva le sincronizzazioni automatiche inutili</strong><br/>🔕 <strong>Limita le notifiche</strong><br/>💾 <strong>Preferisci l'archiviazione locale</strong> invece del cloud quando possibile<br/>⏳ <strong>Conserva il tablet più a lungo</strong> dei 3 anni previsti per ridurre l'impatto ambientale",
+          "link": "https://impactco2.fr/outils/numerique/tabletteclassique",
+          "label_how_many_years": {
+            "label": "Da quanto tempo possiedi il tuo tablet?",
+            "info": "<p>La produzione e distribuzione di un tablet generano 60,1 kg di eq CO₂.</p><p>Usandolo più a lungo, questo impatto si distribuisce su più anni, riducendo l'impronta di carbonio complessiva. ♻️💚</p><p>Prolungare significa risparmiare!</p>"
+          },
+          "label_change": {
+            "label": "Per quanto tempo prevedi di tenere ancora il tuo tablet?",
+            "info": "<p>In media, la durata di un tablet è di circa 3 anni.</p><ul><li>✅ 3 anni → Impatto annuale: 20,63 kg di eq CO₂</li><li>✅ 4 anni → Impatto annuale: 15,63 kg di eq CO₂</li></ul><p>Il vantaggio di prolungare l'uso di un anno può arrivare a 5 kg di eq CO₂ risparmiati all'anno. 💨🌍</p>"
+          },
+          "label_state": {
+            "label": "Preferisci un tablet nuovo o usato?",
+            "info": "<p>Secondo l'ADEME, l'impatto ambientale annuale di un tablet ricondizionato è ridotto dal 46% all'80% (media: 63%) rispetto a un modello nuovo. ♻️</p>",
+            "links": [
+              "https://librairie.ademe.fr/economie-circulaire-et-dechets/5241-evaluation-de-l-impact-environnemental-d-un-ensemble-de-produits-reconditionnes.html"
+            ],
+            "options": {
+              "new": "Nuovo",
+              "refurbished": "Usato"
+            }
+          },
+          "label_day_time": {
+            "label": "Quanto tempo usi il tuo tablet ogni giorno?",
+            "info": "<p>Un anno di utilizzo di un tablet per 3 ore al giorno emette 0,6 kg di eq CO₂. Un'ora in più aumenta questo impatto del 30%.⏳🌍</p>"
+          }
+        },
+        "speaker": {
+          "icon": "📻",
+          "title": "Altoparlante connesso",
+          "practical_tips": "Ottimizza l'uso del tuo altoparlante connesso con questi consigli:<br/>🔌 <strong>Scollegalo</strong> quando non lo usi<br/>📶 <strong>Preferisci una connessione Wi-Fi stabile</strong><br/>⏸️ <strong>Evita di lasciarlo in standby prolungato</strong><br/>♻️ <strong>Scegliere un modello usato</strong> è particolarmente vantaggioso per il pianeta",
+          "link": "https://impactco2.fr/outils/numerique/enceintebluetooth",
+          "label_how_many_years": {
+            "label": "Da quanto tempo lo possiedi?",
+            "info": "<p>La produzione, distribuzione e fine vita di un altoparlante generano 20,2 kg di eq CO₂. 🔊</p><p>Usandolo più a lungo, questo impatto si distribuisce su più anni, riducendo l'impronta di carbonio annuale. ♻️</p>"
+          },
+          "label_change": {
+            "label": "Quando pensi di cambiare l'altoparlante?",
+            "info": "La durata media di un altoparlante è di circa 5 anni (a seconda della qualità).<ul><li>✅ 5 anni → Impatto annuale: 5,30 kg di eq CO₂</li><li>✅ 6 anni → Impatto annuale: 4,62 kg di eq CO₂</li></ul>Il vantaggio di prolungare l'uso di un anno può arrivare a 0,68 kg di eq CO₂ risparmiati all'anno. 💨"
+          },
+          "label_state": {
+            "label": "Preferisci un altoparlante connesso nuovo o usato?",
+            "info": "Anche se i dati precisi per gli altoparlanti non sono disponibili, si può ragionevolmente stimare che l'uso di un altoparlante usato offra un vantaggio CO2 significativo, probabilmente simile a quello degli smartphone, con una riduzione dal 64% all'87% (media: 75%) degli impatti ambientali per ogni anno di utilizzo aggiuntivo.🌍✨",
+            "options": {
+              "new": "Nuovo",
+              "refurbished": "Usato"
+            }
+          },
+          "label_day_time": {
+            "label": "Quanto tempo ascolti il tuo altoparlante ogni giorno?",
+            "info": "Un anno di utilizzo di un altoparlante per 3 ore al giorno emette 1,2 kg di eq CO₂. Un'ora in più aumenta questo impatto del 20%. ⏳"
+          }
+        },
+        "computer": {
+          "icon": "💻",
+          "title": "Computer",
+          "rules": "<strong>Basi del calcolo:</strong> Schermo medio da 14,6 pollici, 1 CPU, 11 GB di RAM, 497 GB di SSD (media ponderata tra 3 configurazioni di laptop per uso personale).",
+          "practical_tips": "Riduci l'impatto del tuo computer adottando queste buone pratiche:<br/>⚙️ <strong>Disattiva le funzioni inutili</strong><br/>🌙 <strong>Mettilo in standby</strong> durante le pause<br/>🗑️ <strong>Elimina regolarmente</strong> i file superflui<br/>🗓️ <strong>Conservarlo per 3 anni è già positivo</strong> — più lo tieni, più riduci la sua impronta di carbonio",
+          "label_how_many_years": {
+            "label": "Da quanto tempo lo possiedi?",
+            "name": "computer_years_usage",
+            "type": "number",
+            "unit": "anni",
+            "info": "<p>La produzione, distribuzione e fine vita di un laptop generano 185,8 kg di eq CO₂. 🌍</p><p>Usandolo più a lungo, questo impatto si distribuisce su più anni, riducendo l'impronta di carbonio annuale. ♻️</p>"
+          },
+          "label_change": {
+            "label": "Per quanto tempo prevedi di tenere ancora il tuo computer?",
+            "name": "computer_change",
+            "type": "number",
+            "unit": "anni",
+            "info": "<p>In media, la durata di un computer è di circa 5 anni.</p><ul><li>✅ 5 anni → Impatto annuale: 38,68 kg di eq CO₂</li><li>✅ 6 anni → Impatto annuale: 32,49 kg di eq CO₂</li></ul><p>Il vantaggio di prolungare l'uso di un anno può arrivare a 6 kg di eq CO₂ risparmiati all'anno. 💨🌍</p>"
+          },
+          "label_state": {
+            "label": "Preferisci un computer nuovo o usato?",
+            "name": "computer_condition",
+            "type": "select",
+            "info": "Secondo l'ADEME, l'impatto ambientale annuale di un laptop ricondizionato è ridotto dal 43% al 97% (media: 70%) rispetto a un modello nuovo. ♻️",
+            "options": {
+              "new": "Nuovo",
+              "refurbished": "Usato"
+            }
+          },
+          "label_day_time": {
+            "label": "Quanto tempo usi il tuo computer ogni giorno?",
+            "advice": "Puoi controllare su Windows o Mac con l'opzione Tempo di utilizzo.",
+            "type": "number",
+            "name": "computer_day_time",
+            "unit": "ora",
+            "info": "Un anno di utilizzo di un laptop per 3 ore al giorno emette 1,56 kg di eq CO₂. Un'ora in più aumenta questo impatto del 33%. ♻️. Un consumo ragionevole aiuta a prolungare la vita del dispositivo:<ul><li>🔋 Una batteria può supportare circa 3.000 cicli di carica.</li><li>🖥️ Gli schermi LCD durano tra 50.000 e 60.000 ore.</li></ul>"
+          }
+        },
+        "console": {
+          "icon": "🎮",
+          "title": "Console di gioco",
+          "practical_tips": "Adotta buone abitudini per ridurre l'impatto della tua console di gioco:<br/>🔋 <strong>Attiva la modalità risparmio energetico</strong><br/>🛑 <strong>Spegnila completamente</strong> dopo l'uso invece di lasciarla in standby<br/>🕒 <strong>Scarica gli aggiornamenti</strong> durante le ore di minor utilizzo<br/>📅 <strong>Conservarla per 3 anni</strong> è una scelta responsabile per limitare l'impronta di carbonio",
+          "label_how_many_years": {
+            "label": "Da quanto tempo la possiedi?",
+            "name": "console_years_usage",
+            "type": "number",
+            "info": "La produzione e distribuzione di una console da salotto generano 284,8 kg di eq CO₂. È importante usarla almeno 6 anni per ammortizzare questo impatto. Usandola più a lungo, questo impatto si distribuisce su più anni, riducendo l'impronta di carbonio annuale. 📅",
+            "unit": "anni"
+          },
+          "label_change": {
+            "label": "Quando pensi di cambiare la tua console?",
+            "name": "console_change",
+            "type": "number",
+            "info": "In media, la durata di una console di gioco è di circa 6 anni.<ul><li>✅ 6 anni → Impatto annuale: 49 kg di eq CO₂</li><li>✅ 7 anni → Impatto annuale: 42,21 kg di eq CO₂</li></ul> <p>Il vantaggio di prolungare l'uso di un anno può arrivare a 6,79 kg di eq CO₂ risparmiati all'anno. 💨🌍</p>",
+            "unit": "anni"
+          },
+          "label_state": {
+            "label": "Preferisci una console nuova o usata?",
+            "name": "console_condition",
+            "type": "select",
+            "info": "🎮 Anche se i dati precisi per le console non sono disponibili, si può ragionevolmente stimare che l'uso di una console usata offra un vantaggio CO2 significativo, probabilmente simile a quello degli smartphone, con una riduzione dal 64% all'87% (media: 75%) degli impatti ambientali per ogni anno di utilizzo aggiuntivo.🕹️",
+            "options": {
+              "new": "Nuovo",
+              "refurbished": "Usato"
+            }
+          },
+          "label_day_time": {
+            "label": "Quanto tempo giochi con la tua console ogni giorno?",
+            "type": "number",
+            "name": "console_day_time",
+            "unit": "ora",
+            "info": "Un anno di utilizzo di una console per un'ora al giorno emette 1,52 kg di CO₂ eq. Un'ora in più aumenta questo impatto del 16%.👾"
+          }
+        },
+        "television": {
+          "icon": "📺",
+          "title": "Televisione",
+          "rules": "<strong>Basi del calcolo:</strong> Dimensioni e tecnologia medie (82% LCD (45 pollici), 1% OLED (53 pollici), 17% OLED (68 pollici)) (mix ponderato tra 3 configurazioni di televisori).",
+          "practical_tips": "Per un uso più responsabile della tua televisione:<br/>🌅 <strong>Regola la luminosità</strong> in base alla luce ambientale<br/>💤 <strong>Evita la modalità standby prolungata</strong><br/>🏠 <strong>Scegli uno schermo adatto</strong> alla dimensione della stanza<br/>🗓️ <strong>Conserva il televisore per almeno 4 anni</strong> per ridurre l'impatto ambientale",
+          "label_how_many_years": {
+            "label": "Da quanto tempo lo possiedi?",
+            "name": "television_years_usage",
+            "type": "number",
+            "unit": "anni",
+            "info": "La produzione e distribuzione di una televisione genera 388 kg di CO₂ eq. Usandola più a lungo, questo impatto si distribuisce su più anni, riducendo l'impronta complessiva.📺"
+          },
+          "label_change": {
+            "label": "Quando pensi di cambiare televisore?",
+            "name": "television_change",
+            "type": "number",
+            "unit": "anni",
+            "info": "In media, la durata di una televisione è di circa 8 anni.📺.<ul><li>✅ 8 anni → Impatto annuo: 59,1 kg di CO₂ eq</li><li>✅ 9 anni → Impatto annuo: 53,71 kg di CO₂ eq</li></ul><p>Prolungare l'uso di un anno può far risparmiare fino a 5,39 kg di CO₂ eq all'anno. 💨.</p>"
+          },
+          "label_state": {
+            "label": "Preferisci una televisione nuova o usata?",
+            "name": "television_condition",
+            "type": "select",
+            "info": "Anche se i dati precisi per le televisioni non sono disponibili, si può ragionevolmente stimare che usare una televisione usata offra un significativo beneficio in termini di CO₂, probabilmente simile a quello degli smartphone, con una riduzione del 64-87% (media: 75%) degli impatti ambientali per ogni anno di utilizzo aggiuntivo.♻️🌍",
+            "options": {
+              "new": "Nuovo",
+              "refurbished": "Usato"
+            }
+          },
+          "label_day_time": {
+            "label": "Quanto tempo guardi la televisione ogni giorno?",
+            "type": "number",
+            "name": "television_day_time",
+            "unit": "ora",
+            "info": "Un anno di utilizzo della televisione per 3 ore al giorno emette 10,6 kg di CO₂ eq. Un'ora in più aumenta questo impatto del 30%.⚡🌱"
+          }
+        }
+      }
+    },
+    "service": {
+      "title": "Scegli i tuoi servizi online",
+      "description": "Seleziona i servizi online che usi regolarmente. Puoi scegliere più opzioni.",
+      "streaming": "Streaming video",
+      "network": "Social network",
+      "courses": "Strumenti didattici",
+      "email": "Email",
+      "music": "Streaming musicale",
+      "video": "Videoconferenza",
+      "gaming": "Giochi online",
+      "ai": "Intelligenza artificiale",
+      "questions": {
+        "streaming": {
+          "icon": "🎥",
+          "title": " Streaming",
+          "rules": "<strong>Basi del calcolo:</strong> Trasmissione, uso dei dispositivi e data center, senza considerare la produzione dei dispositivi. Dispositivo usato: televisione, qualità video: alta definizione, wifi",
+          "practical_tips": "Adotta questi semplici accorgimenti per uno streaming più ecologico:<br/>📉 <strong>Scegli una definizione adatta</strong> invece della massima qualità di default<br/>📂 <strong>Scarica i contenuti</strong> che guardi spesso<br/>🌐 <strong>Usa il Wi-Fi</strong> invece dei dati mobili<br/>🔗 <strong>Raggruppa le visioni</strong> per evitare connessioni multiple",
+          "label_day_time": {
+            "label": "Quanto tempo passi a guardare video in streaming (Netflix, Disney+, ecc.) ogni giorno?",
+            "info": "Secondo Ademe, un'ora di streaming emette 31,7 g di CO₂ 💨. L'impatto varia in base a: tipo di dispositivo usato e qualità del video 🎥."
+          },
+          "label_connection": {
+            "label": "Usi principalmente il Wi-Fi o la 4G per lo streaming?",
+            "info": "Un'ora di streaming in 4G 📶 può aumentare l'impatto ambientale del 50-60% in termini di emissioni di CO₂ eq 💨 rispetto a una connessione Wi-Fi 📡, e questo impatto è 10 volte superiore rispetto a una connessione in fibra ottica⚡",
+            "options": {
+              "Wi-fi": "Wi-fi",
+              "4G": "4G"
+            }
+          }
+        },
+        "courses": {
+          "icon": "🎓",
+          "title": "Corsi online",
+          "rules": "<strong>Basi del calcolo:</strong> Include l'impatto della trasmissione, uso dei dispositivi e data center, senza considerare la produzione dei dispositivi. Dispositivo usato: computer, qualità video: bassa definizione, 1 partecipante.",
+          "practical_tips": "Per corsi online più sostenibili:<br/>📥 <strong>Scarica i documenti</strong> per usarli offline<br/>📶 <strong>Preferisci il Wi-Fi</strong> per seguire le lezioni<br/>❌ <strong>Chiudi le altre app</strong> durante le sessioni di studio",
+          "label_day_time": {
+            "label": "Quanto tempo dedichi a questi corsi ogni settimana?",
+            "type": "text",
+            "name": "courses_day_time",
+            "info": "Secondo Ademe, un'ora di corso online emette 8 g di CO₂ eq 🌍💨 se usi il Wi-Fi. L'impatto varia in base a: tipo di dispositivo usato e qualità del video 🎥."
+          },
+          "label_connection": {
+            "label": "Usi principalmente il Wi-Fi o la 4G per i tuoi corsi?",
+            "type": "select",
+            "name": "courses_connection",
+            "info": "Un'ora di corso online emette circa 19 grammi di CO₂ eq 💨 se usi una rete mobile 📶, mentre l'impatto è minore con una connessione Wi-Fi 📡 o fibra ottica 🌐.",
+            "options": {
+              "Wi-fi": "Wi-fi",
+              "4G": "4G"
+            }
+          }
+        },
+        "gaming": {
+          "icon": "🎮",
+          "title": "Giochi video",
+          "practical_tips": "Adotta pratiche più sostenibili per i tuoi giochi video:<br/>🤖 <strong>Tieni la tua console</strong> (Xbox, PlayStation, Nintendo Switch) o PC il più a lungo possibile<br/>🚫 <strong>Evita uno schermo 4K</strong> se non necessario<br/>🎯 <strong>Concentrati su un solo gioco</strong> alla volta, su una sola console, e cerca di finirlo<br/>📀 <strong>Preferisci l'acquisto di giochi</strong> in versione fisica, soprattutto usati<br/>🕹️ <strong>Imposta lo spegnimento automatico</strong>: il 50% del consumo elettrico avviene in standby",
+          "label_day_time": {
+            "label": "Quanto tempo giochi ai videogiochi ogni settimana?",
+            "type": "number",
+            "name": "gaming_day_time",
+            "info": "Console 🎮: giocare su console può generare circa 13 g di CO₂ eq all'ora."
+          },
+          "label_connection": {
+            "label": "Usi principalmente il Wi-fi o la 4G?",
+            "type": "select",
+            "name": "gaming_connection",
+            "info": "Uno studio indica che l'impatto carbonico della 4G è circa 2,7 volte superiore a quello di una connessione Wi-Fi domestica.",
+            "options": {
+              "Wi-fi": "Wi-fi",
+              "4G": "4G"
+            }
+          }
+        },
+        "music": {
+          "icon": "🎧",
+          "title": "Streaming musicale",
+          "practical_tips": "Ottimizza l'impatto del tuo ascolto musicale online:<br/>🎧 <strong>Scarica le tue playlist preferite</strong> per ascoltare offline<br/>📶 <strong>Usa una qualità audio adatta</strong> al tuo utilizzo<br/>📡 <strong>Preferisci il Wi-Fi</strong> per lo streaming musicale",
+          "label_day_time": {
+            "label": "Quanto tempo ascolti musica tramite una piattaforma ogni giorno?",
+            "type": "number",
+            "name": "music_day_time",
+            "info": "La differenza d'impatto tra audio 🎧 e video 📹 è dovuta principalmente al volume di dati molto diverso:<div class='data-comparison'><ul><li>🎧 <strong>Audio</strong>: circa 72 MB all'ora</li><li>📹 <strong>Video breve</strong>: circa 250 MB all'ora</li><li>🎬 <strong>Video lungo</strong>: circa 3 GB all'ora</li></ul></div><p>Questi dati mostrano come la quantità di dati trasferiti influisce sul consumo energetico di server e reti.</p>"
+          },
+          "label_connection": {
+            "label": "Usi principalmente il Wi-fi o la 4G per lo streaming musicale?",
+            "type": "select",
+            "name": "music_connection",
+            "info": "L'impatto carbonico della 4G è 2,7 volte superiore a una connessione con box internet",
+            "options": {
+              "Wi-Fi": "Wi-Fi",
+              "4G": "4G"
+            }
+          }
+        },
+        "video": {
+          "icon": "💻",
+          "title": " Videoconferenza",
+          "rules": "<strong>Basi del calcolo:</strong> Include l'impatto della trasmissione, uso dei dispositivi e data center, senza considerare la produzione dei dispositivi. Dispositivo usato: smartphone, qualità video: bassa definizione, 1 partecipante.",
+          "practical_tips": "Rendi le tue videoconferenze più ecologiche:<br/>🎧 <strong>Preferisci la modalità audio</strong> quando il video non è necessario<br/>🖼️ <strong>Usa uno sfondo neutro</strong> invece di uno virtuale che consuma energia<br/>📶 <strong>Ottimizza la tua connessione Wi-Fi</strong> per evitare riconnessioni multiple",
+          "label_day_time": {
+            "label": "Quanto tempo passi in videoconferenza ogni giorno?",
+            "type": "number",
+            "name": "video_day_time",
+            "info": "Un'ora di videoconferenza in Wi-Fi 📡 emette circa 7 g di CO₂ eq 💨, ma questo impatto può variare in base al tipo di dispositivo usato.  "
+          },
+          "label_connection": {
+            "label": "Usi principalmente il Wi-Fi o la 4G?",
+            "type": "select",
+            "name": "video_connection",
+            "info": "L'impatto carbonico della 4G 📶 è 2,7 volte superiore a quello di una connessione con box internet 📡. Varia in base alla qualità del segnale 📶 e al tipo di dispositivo usato.",
+            "options": {
+              "Wi-fi": "Wi-fi",
+              "4G": "4G"
+            }
+          },
+          "label_preference": {
+            "label": "Quando fai una chiamata, attivi il video o preferisci restare solo in audio?",
+            "type": "select",
+            "name": "video_audio",
+            "info": "La differenza di impatto tra audio 🎧 e video 📹 è dovuta principalmente al diverso volume di dati:<div class='data-comparison'><ul><li>🎧 <strong>Audio</strong>: circa 72 MB all'ora</li><li>📹 <strong>Video breve</strong>: circa 250 MB all'ora</li><li>🎬 <strong>Video lungo</strong>: circa 3 GB all'ora</li></ul></div><p>Questi dati mostrano come la quantità di dati trasferiti influisca sul consumo energetico di server e reti.</p>",
+            "options": {
+              "video": "Video",
+              "audio": "Audio"
+            }
+          }
+        },
+        "network": {
+          "icon": "👥",
+          "title": "Social network",
+          "rules": "<strong>Basi del calcolo:</strong> Trasmissione, uso dei dispositivi e data center, senza considerare la costruzione dei dispositivi. Dispositivo usato: smartphone, qualità video: bassa definizione",
+          "practical_tips": "Riduci l'impatto dei social network con questi semplici consigli:<br/>🔇 <strong>Disattiva la riproduzione automatica</strong> dei video<br/>🔕 <strong>Limita le notifiche</strong><br/>🧹 <strong>Svuota regolarmente la cache</strong> delle app<br/>⏰ <strong>Ridurre il tempo trascorso</strong> su queste piattaforme è il modo più efficace per abbassare il loro impatto ambientale",
+          "label_day_time": {
+            "label": "Quanto tempo trascorri ogni giorno sui social network?",
+            "type": "number",
+            "name": "network_day_time",
+            "info": "Un'ora sui social in Wi-Fi emette circa 7 grammi di CO₂ eq. È l'equivalente di quanto assorbe un albero in un giorno. 🌳"
+          },
+          "label_connection": {
+            "label": "Usi principalmente il Wi-Fi o la 4G?",
+            "type": "select",
+            "name": "network_connection",
+            "options": {
+              "Wi-fi": "Wi-fi",
+              "4G": "4G"
+            },
+            "info": "Un'ora sui social in 4G emette circa 18 grammi di CO₂ eq. È l'equivalente di quanto assorbe un albero in 2 giorni. 🌳"
+          }
+        },
+        "cloud": {
+          "icon": "☁️",
+          "title": "Archiviazione cloud",
+          "rules": "Il calcolo si basa su una media di 0,005 kWh per GB all'anno, cioè 0,5 g CO₂ eq per GB all'anno (varia a seconda del fornitore).",
+          "practical_tips": "Rendi l'archiviazione cloud più ecologica:<br/>🗑️ <strong>Elimina regolarmente i file non necessari</strong><br/>📦 <strong>Comprimi i file</strong> prima di caricarli<br/>🔒 <strong>Organizza le cartelle</strong> per evitare duplicati",
+          "label_storage": {
+            "label": "Quanti GB di dati conservi nel cloud?",
+            "info": "1 GB archiviato nel cloud per 1 anno = 0,5 g CO₂ eq. Eliminare 10 GB di file vecchi fa risparmiare 5 g CO₂ eq all'anno."
+          }
+        },
+        "email": {
+          "icon": "📧",
+          "title": "Email",
+          "rules": "<strong>Basi del calcolo:</strong> Include trasmissione, uso dei dispositivi e data center, senza considerare la costruzione dei dispositivi. Dispositivo usato: computer, tempo di scrittura: 5 minuti, destinatari: 1.",
+          "practical_tips": "Riduci l'impatto ambientale delle tue email con queste buone pratiche:<br/>🗑️ <strong>Elimina regolarmente</strong> i messaggi inutili<br/>📂 <strong>Limita l'invio</strong> di allegati pesanti<br/>📨 <strong>Disattiva le iscrizioni</strong> a newsletter non rilevanti<br/>💻 <strong>Preferisci strumenti di collaborazione</strong> online per ridurre gli scambi ripetuti di email",
+          "label_emails": {
+            "label": "Quante email (ricevute e inviate) gestisci ogni giorno?",
+            "info": "In media, 10 email al giorno = 15 kg CO₂ eq all'anno. Eliminare 50 email vecchie equivale al consumo di una lampadina da 60 W accesa per 24 ore."
+          },
+          "label_day_time": {
+            "label": "Quante email di testo (circa) ricevi e invii ogni giorno?",
+            "type": "number",
+            "name": "email_text",
+            "info": "L'invio di un'email semplice (senza allegati) emette circa 0,21 grammi di CO₂ eq 📧"
+          },
+          "label_attachment": {
+            "label": "Quante email con allegati invii e ricevi ogni giorno?",
+            "type": "number",
+            "name": "email_attachment",
+            "info": "Una lettera con un file allegato emette circa 1,29 grammi di CO₂ eq ✉️📎🌱"
+          },
+          "label_spam": {
+            "label": "Quante email indesiderate e spam si accumulano nella tua casella ogni giorno? (inclusi messaggi social e promozionali)",
+            "type": "number",
+            "name": "email_spam",
+            "info": "Un'email di spam emette circa 3,74 grammi di CO₂ eq 📧. È l'equivalente di quanto assorbe un albero in un giorno 🌳."
+          }
+        },
+        "social_media": {
+          "icon": "📱",
+          "title": "Social network",
+          "rules": "Il calcolo si basa su una media di 1,5 g CO₂ eq per minuto trascorso sui social network (Instagram, TikTok, Facebook, ecc.).",
+          "practical_tips": "Per ridurre l'impatto dell'uso dei social:<br/>⏱️ <strong>Imposta limiti di tempo d'uso</strong><br/>📶 <strong>Preferisci il Wi-Fi</strong> alla rete mobile<br/>📷 <strong>Disattiva la riproduzione automatica dei video</strong>",
+          "label_day_time": {
+            "label": "Quanto tempo passi sui social network ogni giorno?",
+            "info": "10 minuti al giorno = 5,5 kg CO₂ eq all'anno. Ridurre di 30 minuti al giorno fa risparmiare 16,5 kg CO₂ eq all'anno."
+          }
+        },
+        "videoconference": {
+          "icon": "🎥",
+          "title": "Videoconferenze",
+          "rules": "Il calcolo si basa su una media di 0,07 g CO₂ eq al minuto con la videocamera spenta e 0,23 g CO₂ eq al minuto con la videocamera accesa.",
+          "practical_tips": "Rendi le videoconferenze più ecologiche:<br/>📷 <strong>Disattiva la videocamera</strong> quando non è necessaria<br/>🎤 <strong>Metti il microfono in muto</strong> quando non parli<br/>📶 <strong>Preferisci il Wi‑Fi</strong> al 4G/5G",
+          "label_day_time": {
+            "label": "Quanto tempo trascorri in videoconferenze ogni giorno?",
+            "info": "1 ora con videocamera accesa = 13,8 g CO₂ eq. Spegnere la videocamera riduce questo valore del 70%."
+          },
+          "label_camera": {
+            "label": "Di solito usi la videocamera?",
+            "options": {
+              "on": "Sì, videocamera accesa",
+              "off": "No, videocamera spenta"
+            },
+            "info": "Spegnere la videocamera durante una chiamata di un'ora consente di risparmiare circa 10 g CO₂ eq. Moltiplica questo risparmio per le riunioni che fai ogni settimana!"
+          }
+        },
+        "ai": {
+          "icon": "🤖",
+          "title": "Uso dell'intelligenza artificiale",
+          "practical_tips": "Riduci l'impatto ambientale dell'intelligenza artificiale:<br/>🛠️ <strong>Preferisci modelli ottimizzati</strong> per le tue esigenze<br/>⏳ <strong>Usa i servizi di IA</strong> solo quando necessario<br/>☁️ <strong>Scegli fornitori cloud impegnati</strong> in infrastrutture eco-sostenibili<br/>⚙️ <strong>Ottimizza le tue richieste e analisi</strong> per limitare il consumo di risorse",
+          "label_day_time_text": {
+            "label": "Quante volte al giorno (circa) fai domande a chatbot come ChatGPT?",
+            "type": "number",
+            "name": "ai_text",
+            "info": "Per la generazione di testo con IA ✍️, il consumo energetico è di circa 0,047 kWh ⚡, equivalente a 2,44 g di CO₂ eq 💨 (usando il fattore di emissione di 52 g CO₂ eq/kWh dell'Ademe 🌍)."
+          },
+          "label_day_time_image": {
+            "label": "Usi l'intelligenza artificiale per generare immagini? Se sì, quante immagini crei in media a settimana?",
+            "type": "number",
+            "name": "ai_image",
+            "info": "La generazione di immagini con IA 🖼️ consuma circa 2,907 kWh ⚡, con un'emissione di 151 g di CO₂ eq 💨 secondo lo stesso fattore di emissione."
+          }
+        }
+      }
     },
     "progress": {
-      "averageText": "",
+      "notRated": "non è ancora valutato",
+      "averageText": "La tua impronta di carbonio digitale",
       "step100": "100 kg",
       "step200": "200 kg",
-      "step300": "300 kg"
+      "step300": "300 kg",
+      "description": "Barra di progresso che indica la tua impronta di carbonio digitale da 0 a 400 kg di CO2 all'anno",
+      "zones": {
+        "green": "Zona verde: Impatto basso",
+        "orange": "Zona arancione: Impatto moderato",
+        "red": "Zona rossa: Impatto alto"
+      }
     },
     "nav": {
       "prev": "Indietro",
       "next": "Avanti",
-      "stepLabel": ""
+      "stepLabel": "Indicatore di passo del questionario",
+      "nextStep": "Passa alla domanda successiva",
+      "prevStep": "Torna alla domanda precedente",
+      "returnToSimulation": "Torna alla simulazione",
+      "of": "di"
+    },
+    "scroll": {
+      "startQuestionnaire": "Inizia il questionario",
+      "ariaLabel": "Scorri verso il basso per iniziare il questionario"
+    },
+    "accessibility": {
+      "bannerLabel": "Intestazione dell'applicazione",
+      "partnersLabel": "Loghi dei partner",
+      "calculatorLabel": "Calcolatore dell'impronta di carbonio digitale",
+      "questionnaireLabel": "Questionario di valutazione dell'impronta di carbonio",
+      "simulationLabel": "Area di simulazione e risultati",
+      "navigationLabel": "Navigazione del questionario",
+      "progressLabel": "Indicatore di progresso dell'impronta di carbonio",
+      "currentStateLabel": "Stato attuale della tua impronta di carbonio",
+      "iconLabel": "Icona {{device}}",
+      "detailsButton": "Mostra le informazioni dettagliate su {{device}}",
+      "closeButton": "Chiudi i dettagli"
+    },
+    "logos": {
+      "verdinum": "Logo Verdinum - Partner Ambientale",
+      "vittascience": "Logo VittaScience - Piattaforma Educativa"
+    },
+    "images": {
+      "illustration": "Illustrazione Digitale",
+      "explosion": "Icona esplosione"
+    },
+    "dynamic": {
+      "impactDetails": "Dettagli del tuo impatto",
+      "total": "Totale",
+      "totalWithReduction": "Totale con riduzione:",
+      "reduceImpact": "Riduci il mio impatto",
+      "refurbishedDevices": "Con preferenza per dispositivi ricondizionati",
+      "videoCalls": "Preferisci le chiamate video in modalità audio",
+      "wifiUsage": "Preferisci l'uso del dispositivo in Wi-Fi",
+      "deviceLifespan": "Assicura una lunga durata ai tuoi dispositivi.",
+      "advice": "Per verificare, puoi andare su Impostazioni → Benessere digitale o tempo di schermo."
+    },
+    "buttons": {
+      "shareImpact": "Condividi il resoconto",
+      "captureImpact": "Salva uno screenshot del resoconto",
+      "printImpact": "Stampa il resoconto",
+      "showDetails": "Mostra le informazioni dettagliate su",
+      "closeDetails": "Chiudi",
+      "clickForDetails": "Clicca per vedere i dettagli dell'impatto"
+    },
+    "errors": {
+      "valueRange": "Inserisci un valore tra {{min}} e {{max}}",
+      "errorLabel": "Errore"
     }
   },
   "eduup": {
@@ -8125,6 +9127,218 @@
         "cta": "Accedi alla banca risorse"
       },
       "thanks": "Grazie a Édu-up per il suo supporto!"
+    }
+  },
+  "foia": {
+    "head": {
+      "mainTitle": "Future of IA x Vittascience",
+      "title": "Un laboratorio per formarsi sui <br/><em>temi dell'IA</em>",
+      "lead": "Esplora il potenziale, le sfide e le professioni dell'intelligenza artificiale al servizio di missioni di interesse generale in Future of IA. Un'esperienza didattica proposta da Latitudes e Vittascience.",
+      "startButton": "Inizia il laboratorio"
+    },
+    "scroll": {
+      "startQuestionnaire": "Scopri il laboratorio",
+      "toMission": "Percorso guidato",
+      "toFonctions": "Percorso libero"
+    },
+    "home": {
+      "mission": {
+        "title": "<span class=\"underline blue\">Scopri</span> Future of IA ?",
+        "description": "Scopri Future of IA? Segui il nostro percorso guidato per vivere l'esperienza completa. Scegli una missione d'interesse generale ed esplora quali funzionalità dell'IA possono aiutarti a risolverla!",
+        "startButton": "Avvia l'introduzione",
+        "duration": "50 minuti"
+      },
+      "fonction": {
+        "title": "<span class=\"underline blue\">Hai già partecipato</span> a un laboratorio Future of IA ?",
+        "description": "Segui il percorso libero per sperimentare le funzionalità dell'IA, esplorare missioni di interesse generale o comprendere gli impatti dell'IA.",
+        "discoverButton": "Avvia il percorso libero"
+      }
+    },
+    "selected": {
+      "selectedMission": "Missione selezionata",
+      "selectedInterfaces": "Funzionalità IA selezionate",
+      "selectedImpact": "Impatto della tua soluzione"
+    },
+    "fonctions": {
+      "header": {
+        "title": "Scopri e prova <em>le funzionalità</em> IA del gioco",
+        "subtitle": "Scegli una <em>funzionalità IA</em> per la tua missione"
+      },
+      "cards": {
+        "discoverButton": "Scopri le interfacce",
+        "text-generation": {
+          "title": "IA generative",
+          "description": "Le IA generative usano modelli di IA, programmati da esseri umani, per creare testo, immagini o audio a partire da esempi noti. Il modello genera contenuti basandosi su ciò che ha appreso durante l'addestramento."
+        },
+        "classification": {
+          "title": "Riconoscimento del suono, dell'immagine o della postura",
+          "description": "Il riconoscimento di suoni, immagini o posture identifica elementi confrontando un'immagine, un suono o un movimento con esempi forniti. Confronta ciò che corrisponde meglio a quanto gli viene proposto, in base alle categorie apprese durante l'addestramento."
+        },
+        "object-detection": {
+          "title": "Rilevamento degli oggetti",
+          "description": "Il rilevamento degli oggetti utilizza sistemi IA per localizzare e identificare più oggetti nella stessa immagine o video. Questi sistemi analizzano i dati visivi per rilevare la presenza e la posizione precisa di ciascun oggetto."
+        },
+        "recommendation": {
+          "title": "Motori di raccomandazione",
+          "description": "I motori di raccomandazione sono sistemi IA che analizzano le preferenze e i comportamenti degli utenti per proporre contenuti o prodotti personalizzati."
+        },
+        "tts-generation": {
+          "title": "Sintesi vocale",
+          "description": "Trasformare testo in voce umana."
+        },
+        "text-gen": {
+          "title": "Generazione di testo",
+          "description": "Le IA per la generazione di testo creano contenuti scritti (articoli, dialoghi, riassunti) basandosi su modelli linguistici addestrati su vasti corpus di testi."
+        },
+        "image-video-gen": {
+          "title": "Generazione di immagini e video",
+          "description": "Le IA per la generazione di immagini e video producono contenuti visivi originali da descrizioni testuali o esempi, usando modelli addestrati su milioni di immagini."
+        },
+        "voice-music-gen": {
+          "title": "Generazione di voce e musica",
+          "description": "Le IA di sintesi vocale e generazione musicale trasformano testo in parlato naturale o compongono musica imitando stili e strutture sonore apprese."
+        },
+        "image-recognition": {
+          "title": "Riconoscimento delle immagini",
+          "description": "Il riconoscimento delle immagini identifica e classifica elementi visivi (oggetti, volti, posture, gesti) confrontando le immagini con esempi appresi durante l'addestramento del modello."
+        },
+        "sound-recognition": {
+          "title": "Riconoscimento del suono",
+          "description": "Il riconoscimento del suono analizza i segnali audio per identificare parole, rumori o strumenti confrontandoli con esempi appresi durante l'addestramento."
+        },
+        "predictive-ai": {
+          "title": "IA predittiva",
+          "description": "L'IA predittiva analizza dati storici per prevedere tendenze, comportamenti o eventi futuri, basandosi su algoritmi statistici e di apprendimento automatico."
+        }
+      },
+      "impacts": {
+        "understand": "Comprendere questo impatto"
+      },
+      "second": {
+        "title": "Esplora gli <em>impatti</em> dell'IA"
+      },
+      "third": {
+        "title": "Scopri come l'IA può servire <em>missioni di interesse generale</em>"
+      },
+      "missions": {
+        "discover": "Scopri"
+      }
+    },
+    "vs-interfaces": {
+      "header": {
+        "title": "Scegli un'interfaccia <em>per la tua missione</em>",
+        "subtitle": "Seleziona l'interfaccia più adatta alla tua missione"
+      },
+      "cards": {
+        "chatbot": {
+          "title": "Chatbot",
+          "description": "Un chatbot è un programma informatico che usa l'intelligenza artificiale per simulare una conversazione umana. Può rispondere a domande, fornire informazioni o aiutare a svolgere compiti specifici."
+        },
+        "image-generator": {
+          "title": "Generatore di immagini",
+          "description": "Un generatore di immagini è uno strumento basato sull'intelligenza artificiale che crea immagini da descrizioni testuali o esempi visivi. Utilizza modelli di deep learning per produrre immagini realistiche o artistiche."
+        }
+      }
+    },
+    "missions": {
+      "chooseMission": {
+        "header": {
+          "title": "Seleziona una missione <span class=\"underline red\">di interesse generale</span>",
+          "subtitle": "Questa è LA missione di interesse generale a cui cercherai poi di trovare una soluzione."
+        },
+        "buttons": {
+          "back": "Indietro",
+          "choose": "Scegli questa missione"
+        }
+      },
+      "startMission": {
+        "header": {
+          "title": "Seleziona le <span class=\"underline yellow\">funzionalità</span> che possono aiutarti a risolvere la missione",
+          "subtitle": "Esistono molte funzionalità dell'IA. Esplorale e sperimentale per identificare quelle che possono aiutarti a progredire nella missione."
+        },
+        "buttons": {
+          "previous": "Precedente",
+          "next": "Successivo",
+          "test": "Prova",
+          "select": "Seleziona",
+          "selected": "Selezionata"
+        }
+      },
+      "impactStep": {
+        "header": {
+          "title": "Misura <span class=\"underline green\">il tuo impatto</span>",
+          "subtitle": "Ogni funzionalità d’IA ha un impatto reale: ambientale e umano. Tienilo presente per l’usarla con discernimento. Se lo desideri, puoi commentare le tue riflessioni su come questi impatti dovrebbero influenzare l’utilizzo delle funzionalità dell’IA per risolvere la tua missione d’interesse generale."
+        },
+        "buttons": {
+          "previous": "Indietro",
+          "next": "Conferma",
+          "understand": "Comprendere questo impatto",
+          "validate": "Conferma"
+        },
+        "reflectionPlaceholder": "Condividi le tue riflessioni sugli impatti dell’IA...",
+        "remarksTitle": "Condividi le tue osservazioni",
+        "remarksPlaceholder": "Hai osservazioni sull’impatto"
+      },
+      "finishStep": {
+        "header": {
+          "titleSuccess": "Complimenti, la tua soluzione è pertinente !",
+          "titleFail": "Ops, ci sei quasi riuscito !",
+          "missionTitle": "Missione",
+          "chosenInterfaces": "Riepilogo delle funzionalità scelte per la tua missione",
+          "correctInterfaces": "Ecco le funzionalità pertinenti alla tua missione",
+          "solutionExists": "C'è davvero una soluzione !",
+          "functionalities": "Funzionalità",
+          "howItWorks": "Come funziona ?",
+          "impacts": "Impatti",
+          "yourReflection": "Le tue riflessioni:",
+          "noReflection": "Nessun commento fornito.",
+          "attentionPoints": "Punti da tenere a mente",
+          "addConclusion": "Aggiungi la tua conclusione e ciò che hai imparato durante il percorso",
+          "conclusionPlaceholder": "La tua conclusione..."
+        },
+        "badge": {
+          "correct": "✓ Pertinente",
+          "incorrect": "✗ Non pertinente",
+          "missing": "Non selezionato"
+        },
+        "buttons": {
+          "previous": "Indietro",
+          "generatePdf": "Genera un PDF riepilogativo",
+          "backHome": "Torna a l’accueil",
+          "restart": "Ricomincia l’atelier"
+        }
+      }
+    },
+    "nav": {
+      "futureOfIA": "Futuro dell'IA",
+      "fonctionnalites": "Funzionalità"
+    },
+    "guidedTour": {
+      "title": "Futuro dell'IA",
+      "backLabel": "Torna a l’accueil",
+      "closeLabel": "Chiudi l’atelier"
+    },
+    "pdf": {
+      "headerTitle": "Futuro dell'IA",
+      "headerSubtitle": "Formati sugli aspetti dell’IA",
+      "selectedInterfaces": "Funzionalità IA associate",
+      "selectedImpact": "Impatto selezionato",
+      "questionPrefix": "Domanda : ",
+      "testPrefix": "Da testare : ",
+      "learnMorePrefix": "Per saperne di più : ",
+      "impactReflection": "Riflessioni sugli impatti",
+      "conclusion": "Conclusione",
+      "generating": "Generazione...",
+      "errorGenerating": "Si è verificato un errore durante la generazione del PDF."
+    },
+    "alerts": {
+      "selectMission": "Seleziona una missione prima di procedere.",
+      "selectInterface": "Seleziona almeno un'interfaccia prima di procedere."
+    },
+    "modal": {
+      "understandPrefix": "Comprendere : ",
+      "understandPlaceholder": "Contenuto in arrivo. Questo modulo ti aiuterà a comprendere meglio l’impatto <strong>{{impact}}</strong> de l’IA.",
+      "instruction": "Spiega brevemente perché questo impatto è pertinente alla missione selezionata."
     }
   }
 }

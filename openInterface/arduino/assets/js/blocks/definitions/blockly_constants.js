@@ -8,8 +8,6 @@ Blockly.Constants.HTML_BLOCKS = [
   'network_html_addSwitch',
   'network_html_addGauge',
   'network_html_addLink',
-  'network_html_addImage',
-  'network_html_addStream',
   'network_HTML_Tags',
   'network_HTML_formatText',
   'network_HTML_newline',
@@ -27,22 +25,24 @@ Blockly.Constants.LOOP_TYPES = [
   'controls_whileUntil'
 ];
 
+Blockly.Types.UINT8_T = new Blockly.Type({ typeId: "Uint8_t", typeMsgName: "ARD_TYPE_UINT8_T", compatibleTypes: [] });
+Blockly.Types.UINT16_T = new Blockly.Type({ typeId: "Uint16_t", typeMsgName: "ARD_TYPE_UINT16_T", compatibleTypes: [] });
+Blockly.Types.UINT32_T = new Blockly.Type({ typeId: "Uint32_t", typeMsgName: "ARD_TYPE_UINT32_T", compatibleTypes: [] });
+
 Blockly.Constants.Utils.FIELD_VARIABLE_TYPE_GETTER = {
-  BLOCKS_STRING_VAR: [
-    'text_append',
-    'communication_onSerialDataReceived',
-    'communication_onSerialBluetoothDataReceived',
-    'communication_hc05_onBluetoothDataReceived',
-    'communication_hm10_onBluetoothDataReceived',
-    'communication_onRadioNRF24_dataReceived',
-    'communication_onRadio433mhzDataReceived',
-    'communication_onGPSDataReceived'
-  ],
-  BLOCKS_INT_VAR: [
-    'controls_for',
-    'communication_onIRDataReceived',
-    'communication_onRemoteCommandReceived'
-  ],
+  BLOCKS_VARIABLE_TYPES: {
+    'text_append': Blockly.Types.TEXT,
+    'communication_onSerialDataReceived': Blockly.Types.TEXT,
+    'communication_onSerialBluetoothDataReceived': Blockly.Types.TEXT,
+    'communication_hc05_onBluetoothDataReceived': Blockly.Types.TEXT,
+    'communication_hm10_onBluetoothDataReceived': Blockly.Types.TEXT,
+    'communication_onRadioNRF24_dataReceived': Blockly.Types.TEXT,
+    'communication_onRadio433mhzDataReceived': Blockly.Types.TEXT,
+    'communication_onGPSDataReceived': Blockly.Types.TEXT,
+    'controls_for': Blockly.Types.NUMBER,
+    'communication_onIRDataReceived': Blockly.Types.UINT32_T,
+    'communication_onRemoteCommandReceived': Blockly.Types.NUMBER
+  },
   /**
    * @return {String} variable name
    * @this {Blockly.Block}
@@ -55,17 +55,13 @@ Blockly.Constants.Utils.FIELD_VARIABLE_TYPE_GETTER = {
    * @this {Blockly.Block}
    */
   getVarType: function () {
-    var index = Blockly.Constants.Utils.FIELD_VARIABLE_TYPE_GETTER.BLOCKS_STRING_VAR.indexOf(this.type);
-    if (index != -1) {
-      return Blockly.Types.TEXT;
+    const blocks = Blockly.Constants.Utils.FIELD_VARIABLE_TYPE_GETTER.BLOCKS_VARIABLE_TYPES;
+    const varType = blocks[this.type];
+    if (varType) {
+      return varType;
     } else {
-      index = Blockly.Constants.Utils.FIELD_VARIABLE_TYPE_GETTER.BLOCKS_INT_VAR.indexOf(this.type);
-      if (index != -1) {
-        return Blockly.Types.NUMBER;
-      } else {
-        console.error(`The '${this.getVarName()}' variable's type is not defined. As default, the block '${this.type}' returns the variable as a 'void'. Add block in BLOCKS_STRING_VAR or in BLOCKS_INT_VAR.`);
-        return Blockly.Types.NULL;
-      }
+      console.error(`The '${this.getVarName()}' variable's type is not defined. As default, the block '${this.type}' returns the variable as a 'void'. Add variable type of block in BLOCKS_VARIABLE_TYPES.`);
+      return Blockly.Types.NULL;
     }
   }
 };
@@ -79,8 +75,6 @@ Blockly.Constants.Pins = Object.create(null);
 //arduino digital/analog pins
 Blockly.Constants.Pins.digital = {
   [BOARD_ARDUINO_UNO]: [
-    ["D0 (RX)", "0"],
-    ["D1 (TX)", "1"],
     ["D2", "2"],
     ["D3", "3"],
     ["D4", "4"],
@@ -98,11 +92,11 @@ Blockly.Constants.Pins.digital = {
     ["A2", "A2"],
     ["A3", "A3"],
     ["A4", "A4"],
-    ["A5", "A5"]
+    ["A5", "A5"],
+    ["D0 (RX)", "0"],
+    ["D1 (TX)", "1"]
   ],
   [BOARD_ARDUINO_NANO]: [
-    ["RX0", "0"],
-    ["TX1", "1"],
     ["D2", "2"],
     ["D3", "3"],
     ["D4", "4"],
@@ -122,11 +116,11 @@ Blockly.Constants.Pins.digital = {
     ["A4", "A4"],
     ["A5", "A5"],
     ["A6", "A6"],
-    ["A7", "A7"]
+    ["A7", "A7"],
+    ["RX0", "0"],
+    ["TX1", "1"]
   ],
   [BOARD_ARDUINO_MEGA]: [
-    ["RX0", "0"],
-    ["TX0", "1"],
     ["D2", "2"],
     ["D3", "3"],
     ["D4", "4"],
@@ -162,11 +156,11 @@ Blockly.Constants.Pins.digital = {
     ["A12", "A12"],
     ["A13", "A13"],
     ["A14", "A14"],
-    ["A15", "A15"]
+    ["A15", "A15"],
+    ["RX0", "0"],
+    ["TX0", "1"]
   ],
   [BOARD_ARDUINO_PRO_MINI]: [
-    ["RXI", "0"],
-    ["TX0", "1"],
     ["2", "2"],
     ["3", "3"],
     ["4", "4"],
@@ -182,11 +176,14 @@ Blockly.Constants.Pins.digital = {
     ["A0", "A0"],
     ["A1", "A1"],
     ["A2", "A2"],
-    ["A3", "A3"]
+    ["A3", "A3"],
+    ["RXI", "0"],
+    ["TX0", "1"]
   ],
 };
 
 Blockly.Constants.Pins.digital[BOARD_ARDUINO_UNO_R4_WIFI] = Blockly.Constants.Pins.digital[BOARD_ARDUINO_UNO];
+Blockly.Constants.Pins.digital[BOARD_ARDUINO_UNO_R4_MINIMA] = Blockly.Constants.Pins.digital[BOARD_ARDUINO_UNO];
 
 for (const i in Blockly.Constants.Pins.digital) {
   Blockly.Constants.Pins.digital[i].type = 'digital';
@@ -239,6 +236,7 @@ Blockly.Constants.Pins.analog_read = {
 };
 
 Blockly.Constants.Pins.analog_read[BOARD_ARDUINO_UNO_R4_WIFI] = Blockly.Constants.Pins.analog_read[BOARD_ARDUINO_UNO];
+Blockly.Constants.Pins.analog_read[BOARD_ARDUINO_UNO_R4_MINIMA] = Blockly.Constants.Pins.analog_read[BOARD_ARDUINO_UNO];
 
 for (const i in Blockly.Constants.Pins.analog_read) {
   Blockly.Constants.Pins.analog_read[i].type = 'analog_read';
@@ -289,6 +287,7 @@ Blockly.Constants.Pins.PWM = {
 };
 
 Blockly.Constants.Pins.PWM[BOARD_ARDUINO_UNO_R4_WIFI] = Blockly.Constants.Pins.PWM[BOARD_ARDUINO_UNO];
+Blockly.Constants.Pins.PWM[BOARD_ARDUINO_UNO_R4_MINIMA] = Blockly.Constants.Pins.PWM[BOARD_ARDUINO_UNO];
 
 for (const i in Blockly.Constants.Pins.PWM) {
   Blockly.Constants.Pins.PWM[i].type = 'PWM';
@@ -299,7 +298,6 @@ for (const i in Blockly.Constants.Pins.PWM) {
  * @this {Blockly.Block}
  */
 Blockly.Constants.Utils.PINS_RX_TX_INIT_EXTENSION = function () {
-  const board = Blockly.Constants.getSelectedBoard();
   const checkInput = function (block) {
     if (block.inputList) {
       for (var input of block.inputList) {
@@ -326,7 +324,8 @@ Blockly.Constants.Utils.PINS_RX_TX_INIT_EXTENSION = function () {
       }
     }
   };
-  if (board == BOARD_ARDUINO_UNO_R4_WIFI) {
+  const isR4MinimaOrWifi = [BOARD_ARDUINO_UNO_R4_WIFI, BOARD_ARDUINO_UNO_R4_MINIMA].includes(Blockly.Constants.getSelectedBoard());
+  if (isR4MinimaOrWifi) {
     checkInput(this);
     if (this.getInput('PINS_INPUTS_TO_REMOVE')) {
       this.removeInput("PINS_INPUTS_TO_REMOVE")

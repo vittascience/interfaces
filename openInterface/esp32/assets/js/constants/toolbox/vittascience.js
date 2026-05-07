@@ -38,7 +38,7 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
             "icon": "icon_blockly fa-solid fa-camera"
         },
         "contents": [],
-        "onlyBoards": "esp32-cam"
+        "onlyBoards": BOARD_ESP32_CAM
     },
     {
         "kind": "category",
@@ -78,15 +78,16 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
         "cssConfig": {
             "icon": "icon_blockly fas fa-robot"
         },
-        "contents": []
+        "contents": [],
+        "onlyBoards": [BOARD_ILO, BOARD_NANO_ESP32]
     },
     {
         "kind": "category",
-        "toolboxitemid": "cameras",
-        "name": "%{BKY_CATEGORY_AI_CAMERAS}",
-        "style": "cameras_category",
+        "toolboxitemid": "ia",
+        "name": "%{BKY_CATEGORY_VITTAIA}",
+        "style": "ia_category",
         "cssConfig": {
-            "icon": "icon_blockly fa-solid fa-camera"
+            "icon": "icon_blockly fas fa-brain"
         },
         "contents": []
     },
@@ -176,6 +177,45 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
     }
 ];
 
+const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
+    "robots": [
+        {
+            "kind": "category",
+            "toolboxitemid": "ilo",
+            "name": "%{BKY_SUBCATEGORY_ILO}",
+            "style": "robots_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-robot"
+            },
+            "contents": [],
+            "onlyBoards": BOARD_ILO
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "alvik",
+            "name": "%{BKY_SUBCATEGORY_ALVIK}",
+            "style": "robots_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-robot"
+            },
+            "contents": [],
+            "onlyBoards": BOARD_NANO_ESP32
+        }
+    ],
+    "ia": [
+        {
+            "kind": "category",
+            "toolboxitemid": "cameras",
+            "name": "%{BKY_SUBCATEGORY_CAMERAS}",
+            "style": "ia_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-camera"
+            },
+            "contents": []
+        }
+    ]
+};
+
 const TOOLBOX_VITTASCIENCE_CONTENT = {
     "display": [
         {
@@ -200,6 +240,13 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'display_neopixel_controlAllLedRGB',
                 'display_neopixel_controlAllLedPalette',
                 'display_rainbowNeopixel'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_DISPLAYS_LED_MATRIX}",
+            "blocks": [
+                'display_led_matrix_DrawBitmap',
+                'display_led_matrix_clear'
             ]
         },
         {
@@ -269,9 +316,9 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'io_writeDigitalPin',
                 'io_readAnalogPin',
                 'io_writePwm',
-                'io_writeAnalogPin',
                 'io_setPwm',
                 'io_stopPwm',
+                'io_writeAnalogPin',
                 'io_getVoltage'
             ]
         }
@@ -282,6 +329,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             "blocks": [
                 'communication_serialWrite',
                 'communication_graphSerialWrite',
+                'communication_onSerialMessageReceived',
                 'communication_playComputerMusic',
                 'communication_playComputerFrequency',
                 'communication_stopComputerMusic'
@@ -305,10 +353,10 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_WIRELESS_COMMUNICATION}",
+            "label": "%{BKY_SUBCATEGORY_EXTERNAL_BLUETOOTH}",
             "blocks": [
-                'communication_sendBluetoothData',
-                'communication_onBluetoothDataReceived'
+                'communication_hc05_sendBluetoothData',
+                'communication_hc05_onBluetoothDataReceived'
             ]
         },
         {
@@ -320,6 +368,9 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         {
             "label": "%{BKY_SUBCATEGORY_TRACKING_MODULES}",
             "blocks": [
+                'communication_rfid_getCardID',
+                'communication_rfid_convertData',
+                'communication_mfrc522_getCardID',
                 'communication_gps_getNMEA',
                 'communication_gps_getGGAInformations',
                 'communication_clockRTC_setDate',
@@ -377,12 +428,12 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'sensors_getGroveMoisture',
                 'sensors_getGroveTemperature',
                 'sensors_getGroveHighTemperature',
+                'sensors_barometerReadData',
                 'sensors_DHT11ReadData',
                 'sensors_DHT22ReadData',
                 'sensors_TH02readData',
                 'sensors_SHT31readData',
                 'sensors_SHT35readData',
-                'sensors_barometerReadData',
                 'sensors_DS18B20_getTemperature',
                 'sensors_getGroveWaterAmount',
                 'sensors_getRainGauge',
@@ -393,7 +444,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             "label": "%{BKY_SUBCATEGORY_SENSORS_SOUNDLIGHT}",
             "blocks": [
                 'sensors_getGroveLight',
-                'sensors_getSi1145Light',
+                'sensors_getSunlightData',
                 'sensors_colorSensor_getData',
                 'sensors_getUVindex',
                 'sensors_getGroveSound'
@@ -469,7 +520,8 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             "blocks": [
                 'network_server_sendData',
                 'network_server_getClientData',
-                'network_server_getClientIp'
+                'network_server_getClientIp',
+                'network_server_closeClientConnection'
             ]
         },
         {
@@ -546,44 +598,96 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
     ],
     "robots": [
         {
-            "label": "%{BKY_SUBCATEGORY_ILO}",
-            "blocks": [
-                'robots_moveIloBySteps',
-                'robots_moveOneSquareForwardIlo',
-                'robots_moveOneSquareBackwardIlo',
-                'robots_turnLeftIlo',
-                'robots_turnRightIlo',
-                'robots_stopRobotIlo',
-                'robots_setIloTempo',
-                'robots_moveIlo',
-                'robots_moveIloMotor',
-                'robots_rotateIlo',
-                'robots_setIloAcc',
-                'robots_setLedColor',
-                'robots_setLedColorRGB',
-                'robots_setLedShape',
-                'robots_setLedAnim',
-                'robots_setLedSingle',
-                'robots_getDistanceIlo',
-                'robots_lineDetectorIlo',
-                'robots_setLineDetectorThresholdIlo',
-                'robots_getColorRawIlo',
-                'robots_getColorCardIlo',
-                'robots_getLuminosityIlo',
-                'robots_getInternalSensors'
-            ]
+            "subCategoryId": 'ilo',
+            "contents": [{
+                "label": "%{BKY_SUBCATEGORY_ILO}",
+                "blocks": [
+                    'robots_moveIloBySteps',
+                    'robots_moveOneSquareForwardIlo',
+                    'robots_moveOneSquareBackwardIlo',
+                    'robots_turnLeftIlo',
+                    'robots_turnRightIlo',
+                    'robots_stopRobotIlo',
+                    'robots_setIloTempo',
+                    'robots_moveIlo',
+                    'robots_moveIloMotor',
+                    'robots_rotateIlo',
+                    'robots_setIloAcc',
+                    'robots_setLedColor',
+                    'robots_setLedColorRGB',
+                    'robots_setLedShape',
+                    'robots_setLedAnim',
+                    'robots_setLedSingle',
+                    'robots_displayLedAnimationStateIlo',
+                    'robots_getDistanceIlo',
+                    'robots_lineDetectorIlo',
+                    'robots_setLineDetectorThresholdIlo',
+                    'robots_getColorRawIlo',
+                    'robots_getColorCardIlo',
+                    'robots_getLuminosityIlo',
+                    'robots_getInternalSensors'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": 'alvik',
+            "contents": [{
+                "label": "%{BKY_SUBCATEGORY_ALVIK_MOTORS}",
+                "blocks": [
+                    'robots_alvik_rotate',
+                    'robots_alvik_move',
+                    'robots_alvik_set_wheels_speed',
+                    'robots_alvik_set_wheels_position',
+                    'robots_alvik_drive',
+                    'robots_alvik_stop',
+                    'robots_alvik_brake',
+                    'robots_alvik_get_wheels_speed',
+                    'robots_alvik_get_wheels_position',
+                    'robots_alvik_get_drive_speed',
+                    'robots_alvik_set_servo_positions'
+                ]
+            },
+            {
+                "label": "%{BKY_SUBCATEGORY_ALVIK_LEDS}",
+                "blocks": [
+                    'robots_alvik_set_builtin_led',
+                    'robots_alvik_set_illuminator'
+                ]
+            },
+            {
+                "label": "%{BKY_SUBCATEGORY_ALVIK_SENSORS}",
+                "blocks": [
+                    'robots_alvik_get_distance',
+                    'robots_alvik_get_line_sensors',
+                    'robots_alvik_get_orientation',
+                    'robots_alvik_get_acceleration',
+                    'robots_alvik_get_gyros',
+                    'robots_alvik_get_battery_charge',
+                    'robots_alvik_get_touch_button',
+                    'robots_alvik_get_color',
+                    'robots_alvik_get_color_raw',
+                    'robots_alvik_color_calibration',
+                    'robots_alvik_rgb2hsv',
+                    'robots_alvik_hsv2label'
+                ]
+            }]
         }
     ],
-    "cameras": [
+    "ia": [
         {
-            "label": "Wio Lite AI",
-            "blocks": [
-                'wio_get_class_data',
-                'wio_get_class_data_by_id',
-                'wio_get_class_max_id',
-                'wio_get_status'
+            "subCategoryId": 'cameras',
+            "contents": [
+                {
+                    "label": "Wio Lite AI",
+                    "blocks": [
+                        'wio_get_class_data',
+                        'wio_get_class_data_by_id',
+                        'wio_get_class_max_id',
+                        'wio_get_status'
+                    ]
+                },
             ]
-        }
+        },
     ],
     "logic": [{
         "blocks": [
@@ -639,21 +743,24 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'text_split',
                 'text_length',
                 'text_isEmpty',
+                'text_includesSubstr',
                 'text_indexOf',
                 'text_charAt',
                 'text_getSubstring',
+                'text_count_characters',
                 'text_changeCase',
                 'text_trim',
                 'text_count',
                 'text_replace',
-                'text_reverse'
+                'text_reverse',
+                'text_random_string'
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_TEXT_ANALYSIS}",
+            "label": "%{BKY_SUBCATEGORY_ENCRYPTION}",
             "blocks": [
-                'text_count_characters',
-                'text_random_string'
+                'text_caesar_cipher',
+                'text_caesar_cipher_brute_force'
             ],
         }
     ],
@@ -706,6 +813,13 @@ const TOOLBOX_VITTASCIENCE_CONTENT_SIMPLE = {
                 'display_neopixel_controlAllLedRGB',
                 'display_neopixel_controlAllLedPalette',
                 'display_rainbowNeopixel'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_DISPLAYS_LED_MATRIX}",
+            "blocks": [
+                'display_led_matrix_DrawBitmap',
+                'display_led_matrix_clear'
             ]
         },
         {
@@ -778,6 +892,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT_SIMPLE = {
             "blocks": [
                 'communication_serialWrite',
                 'communication_graphSerialWrite',
+                'communication_onSerialMessageReceived',
                 'communication_playComputerMusic',
                 'communication_playComputerFrequency',
                 'communication_stopComputerMusic'
@@ -789,25 +904,31 @@ const TOOLBOX_VITTASCIENCE_CONTENT_SIMPLE = {
                 'communication_StartBT',
                 'communication_SendBT',
                 'communication_BLE_ReadData',
+                'communication_BLE_AppInventorReadData',
                 'communication_FizziqBT'
             ]
         },
         {
             "label": "%{BKY_SUBCATEGORY_DATA_LOGGING}",
             "blocks": [
-                'communication_writeOpenLogSd'
+                'communication_writeOpenLogSd',
+                'communication_esp32_FS_saveData'
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_WIRELESS_COMMUNICATION}",
+            "label": "%{BKY_SUBCATEGORY_EXTERNAL_BLUETOOTH}",
             "blocks": [
-                'communication_sendBluetoothData',
-                'communication_onBluetoothDataReceived'
+                'communication_hc05_sendBluetoothData',
+                'communication_hc05_onBluetoothDataReceived'
             ]
         },
         {
             "label": "%{BKY_SUBCATEGORY_TRACKING_MODULES}",
             "blocks": [
+                'communication_rfid_getCardID',
+                'communication_rfid_convertData',
+                'communication_gps_getNMEA',
+                'communication_gps_getGGAInformations',
                 'communication_clockRTC_setDate',
                 'communication_clockRTC_setHour',
                 'communication_clockRTC_readTime'
@@ -827,7 +948,8 @@ const TOOLBOX_VITTASCIENCE_CONTENT_SIMPLE = {
             "blocks": [
                 'network_server_sendData',
                 'network_server_getClientData',
-                'network_server_getClientIp'
+                'network_server_getClientIp',
+                'network_server_closeClientConnection'
             ]
         },
         {
@@ -888,7 +1010,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT_SIMPLE = {
             "label": "%{BKY_SUBCATEGORY_SENSORS_SOUNDLIGHT}",
             "blocks": [
                 'sensors_getGroveLight',
-                'sensors_getSi1145Light',
+                'sensors_getSunlightData',
                 'sensors_colorSensor_getData',
                 'sensors_getUVindex',
                 'sensors_getGroveSound'
@@ -922,6 +1044,99 @@ const TOOLBOX_VITTASCIENCE_CONTENT_SIMPLE = {
                 'actuators_playMusicGroveBuzzer'
             ]
         }
+    ],
+    "robots": [
+        {
+            "subCategoryId": 'ilo',
+            "contents": [{
+                "label": "%{BKY_SUBCATEGORY_ILO}",
+                "blocks": [
+                    'robots_moveIloBySteps',
+                    'robots_moveOneSquareForwardIlo',
+                    'robots_moveOneSquareBackwardIlo',
+                    'robots_turnLeftIlo',
+                    'robots_turnRightIlo',
+                    'robots_stopRobotIlo',
+                    'robots_setIloTempo',
+                    'robots_moveIlo',
+                    'robots_moveIloMotor',
+                    'robots_rotateIlo',
+                    'robots_setIloAcc',
+                    'robots_setLedColor',
+                    'robots_setLedColorRGB',
+                    'robots_setLedShape',
+                    'robots_setLedAnim',
+                    'robots_setLedSingle',
+                    'robots_displayLedAnimationStateIlo',
+                    'robots_getDistanceIlo',
+                    'robots_lineDetectorIlo',
+                    'robots_setLineDetectorThresholdIlo',
+                    'robots_getColorRawIlo',
+                    'robots_getColorCardIlo',
+                    'robots_getLuminosityIlo',
+                    'robots_getInternalSensors'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": 'alvik',
+            "contents": [{
+                "label": "%{BKY_SUBCATEGORY_ALVIK_MOTORS}",
+                "blocks": [
+                    'robots_alvik_rotate',
+                    'robots_alvik_move',
+                    'robots_alvik_set_wheels_speed',
+                    'robots_alvik_set_wheels_position',
+                    'robots_alvik_drive',
+                    'robots_alvik_stop',
+                    'robots_alvik_brake',
+                    'robots_alvik_get_wheels_speed',
+                    'robots_alvik_get_wheels_position',
+                    'robots_alvik_get_drive_speed',
+                    'robots_alvik_set_servo_positions'
+                ]
+            },
+            {
+                "label": "%{BKY_SUBCATEGORY_ALVIK_LEDS}",
+                "blocks": [
+                    'robots_alvik_set_builtin_led',
+                    'robots_alvik_set_illuminator'
+                ]
+            },
+            {
+                "label": "%{BKY_SUBCATEGORY_ALVIK_SENSORS}",
+                "blocks": [
+                    'robots_alvik_get_distance',
+                    'robots_alvik_get_line_sensors',
+                    'robots_alvik_get_orientation',
+                    'robots_alvik_get_acceleration',
+                    'robots_alvik_get_gyros',
+                    'robots_alvik_get_battery_charge',
+                    'robots_alvik_get_touch_button',
+                    'robots_alvik_get_color',
+                    'robots_alvik_get_color_raw',
+                    'robots_alvik_color_calibration',
+                    'robots_alvik_rgb2hsv',
+                    'robots_alvik_hsv2label'
+                ]
+            }]
+        }
+    ],
+    "ia": [
+        {
+            "subCategoryId": 'cameras',
+            "contents": [
+                {
+                    "label": "Wio Lite AI",
+                    "blocks": [
+                        'wio_get_class_data',
+                        'wio_get_class_data_by_id',
+                        'wio_get_class_max_id',
+                        'wio_get_status'
+                    ]
+                },
+            ]
+        },
     ],
     "logic": [{
         "blocks": [
@@ -973,18 +1188,24 @@ const TOOLBOX_VITTASCIENCE_CONTENT_SIMPLE = {
                 'text_split',
                 'text_length',
                 'text_isEmpty',
+                'text_includesSubstr',
+                'text_indexOf',
                 'text_charAt',
+                'text_getSubstring',
+                'text_count_characters',
                 'text_changeCase',
+                'text_trim',
                 'text_count',
                 'text_replace',
-                'text_reverse'
+                'text_reverse',
+                'text_random_string'
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_TEXT_ANALYSIS}",
+            "label": "%{BKY_SUBCATEGORY_ENCRYPTION}",
             "blocks": [
-                'text_count_characters',
-                'text_random_string'
+                'text_caesar_cipher',
+                'text_caesar_cipher_brute_force'
             ],
         }
     ],

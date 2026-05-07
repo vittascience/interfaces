@@ -1,11 +1,4 @@
-function setupMonitor() {
-	if ($('#monitor').hasClass('monitor-closed')) {
-		InterfaceMonitor.toggle();
-	}
-	if ($('#monitor-btn-console').length > 0 && !$('#monitor-btn-console').hasClass('activated')) {
-		InterfaceMonitor.managePanel('console');
-	}
-};
+
 
 async function uploadPythonBLE() {
 	if (LegoSpikeWebBLEAPI.device === null || !LegoSpikeWebBLEAPI.gattConnected()) {
@@ -16,7 +9,7 @@ async function uploadPythonBLE() {
 	} else {
 		Simulator.replay();
 	}
-	setupMonitor();
+	InterfaceMonitor.setup();
 };
 
 async function doConnectBLE() {

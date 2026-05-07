@@ -6,8 +6,10 @@ const SimulatorModals = {
     imagesLoaded: 0,
     visibleImageCount: 1, // at least one image will be displayed
     errorNotif: new VittaNotif(5),
+    _obstacleHtmlCache: null,
     simu_backgrounds: {
         'robot': [
+            ["Labyrinthe-Catacombes-Paris-Mission-1-16_9.png", "Labyrinthe Catacombes Paris Mission 1"],
             ["piste_robot_software-republique.png", "Piste Softaware République"],
             ["Parcours_sur_la_lune-1.png", "Parcours sur la lune 1"],
             ["Parcours_sur_la_luneprimaire-1.png", "Parcours sur la lune primaire 1"],
@@ -33,6 +35,7 @@ const SimulatorModals = {
             ["piste_kit_2.png", "Piste kit 2"],
             ["piste_kit_3.png", "Piste kit 3"],
             ["piste_kit_4.png", "Piste kit 4"],
+            ["Image_circuit_AlphAI.jpg", "Piste course  AlphAI"],
             ["white_road.png", 'Piste blanche'],
             ["white_road1.png", 'Piste blanche bis'],
             ["Image_circuit_foot2.png", 'Circuit foot'],
@@ -192,7 +195,6 @@ const SimulatorModals = {
                     console.error(error);
                 }
             });
-
             SimulatorModals.eventsSetup = true;
         }
     },
@@ -211,7 +213,7 @@ const SimulatorModals = {
             if (Simulator.isInWiringMode) {
                 WiringSimulator.img.background.src = this.backgroundChoice;
             } else {
-                if (Simulator._has3DRobotSimulator() && !Simulator._classicRobotSimulatorPrepareForRun) {
+                if (Simulator.has3DRobotSimulator() && !Simulator._classicRobotSimulatorPrepareForRun) {
                     RobotSimulator3D.updateBackground(this.backgroundChoice);
                 } else {
                     RobotSimulator.img.background.src = this.backgroundChoice;
@@ -233,7 +235,7 @@ const SimulatorModals = {
     useObstacleRobot: function () {
         const linkSplitted = this.obstacleChoice.replace(".png", '').split('/');
         const id = linkSplitted.at(-1);
-        if (Simulator._has3DRobotSimulator() && !Simulator._classicRobotSimulatorPrepareForRun) {
+        if (Simulator.has3DRobotSimulator() && !Simulator._classicRobotSimulatorPrepareForRun) {
             RobotSimulator3D.Obstacle.obstaclesDB[randHex()] = Object.assign({}, RobotSimulator3D.Obstacle.obstaclesDef[id]);
             RobotSimulator3D.Obstacle.saveToLS();
             window.Simulator3D.addObstacles();
@@ -263,7 +265,7 @@ const SimulatorModals = {
             reader.addEventListener('load', (event) => {
                 const dataUrl = event.target.result;
 
-                // On crée un objet Image pour en vérifier le ratio
+                // On crée un objet Image pour en vérifier le ratio et redimensionner si nécessaire
                 const img = new Image();
                 img.onload = () => {
                     const w = img.naturalWidth;
@@ -271,15 +273,33 @@ const SimulatorModals = {
                     const ratio = w / h;
                     const expected = 16 / 9;
                     const tolerance = 0.01; // 1% de marge
+                    const MAX_W = 1280;
+                    const MAX_H = 720;
 
                     if (Math.abs(ratio - expected) > tolerance) {
-                        SimulatorModals.errorNotif.displayNotification(null, "Attention : l'image importée n'est pas au format 16 :9 (" + w + "x" + h + ").\nMerci d'utiliser une image en 16:9.", 'bg-warning');
+                        SimulatorModals.errorNotif.displayNotification(null, "L'image importée n'est pas au format 16:9 (" + w + "x" + h + "), elle étirée pour correspondre au format du simulateur.", 'bg-info');
                     }
 
-                    // Si OK, on affiche la miniature
-                    thumbnailElement.style.backgroundImage = `url('${dataUrl}')`;
+                    // Resize si l'image dépasse 1280x720
+                    let finalDataUrl = dataUrl;
+                    if (w > MAX_W || h > MAX_H) {
+                        const scale = Math.min(MAX_W / w, MAX_H / h);
+                        const targetW = Math.round(w * scale);
+                        const targetH = Math.round(h * scale);
+
+                        const canvas = document.createElement('canvas');
+                        canvas.width = targetW;
+                        canvas.height = targetH;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, targetW, targetH);
+                        finalDataUrl = canvas.toDataURL(file.type || 'image/png');
+
+                        SimulatorModals.errorNotif.displayNotification(null, `Image redimensionnée de ${w}x${h} à ${targetW}x${targetH} px.`, 'bg-info');
+                    }
+
+                    thumbnailElement.style.backgroundImage = `url('${finalDataUrl}')`;
                     thumbnailElement.style.backgroundSize = "100% 100%";
-                    this.backgroundChoice = dataUrl;
+                    this.backgroundChoice = finalDataUrl;
                 };
                 img.src = dataUrl;
             });
@@ -351,20 +371,28 @@ const SimulatorModals = {
                 this.obstacles['robot'].unshift(["ramp_front_3D.png", "Ramp Front", "Rampe"]);
                 this.obstacles['robot'].unshift(["ramp_flat_3D.png", "Ramp Flat", "Rampe"]);
             }
+            // List changed: invalidate the cached HTML so it gets rebuilt below.
+            this._obstacleHtmlCache = null;
         } else if (typeof Simulator3D !== 'undefined' && Simulator._classicRobotSimulatorPrepareForRun && this.obstacles['robot'].findIndex((item) => item[0] === "mur_horizontal.png") !== -1) {
             const obstacles3D = ["mur_horizontal.png", "mur_vertical.png", "ramp_left_3D.png", "ramp_right_3D.png", "ramp_back_3D.png", "ramp_front_3D.png", "ramp_flat_3D.png"];
             this.obstacles['robot'] = this.obstacles['robot'].filter((item) => !obstacles3D.includes(item[0]));
-
+            // List changed: invalidate the cached HTML.
+            this._obstacleHtmlCache = null;
         }
-        let html = "";
-        this.obstacles[type].forEach((item) => {
-            html +=
-                `<div class="obstacle-option ${item[0] === "mur_horizontal.png" ? "obstacle-option-thin" : ""}">
+
+        // Build the HTML only once; reuse the cached version on subsequent openings.
+        if (!this._obstacleHtmlCache) {
+            let html = "";
+            this.obstacles[type].forEach((item) => {
+                html +=
+                    `<div class="obstacle-option ${item[0] === "mur_horizontal.png" ? "obstacle-option-thin" : ""}">
         <img src="/openInterface/interfaces/assets/media/simulator/${type}/obstacles/${item[0]}" alt="${item[1]}"/>
         <span>${item[2]}</span>
         </div>`;
-        });
-        $(".modal-obstacle-body .modal-content").html(html);
+            });
+            this._obstacleHtmlCache = html;
+        }
+        $(".modal-obstacle-body .modal-content").html(this._obstacleHtmlCache);
     },
 };
 

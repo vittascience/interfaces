@@ -8,7 +8,13 @@ const DEFAULT_XML_START = {
 const DEFAULT_CODE_START = 'from microbit import *\n\nwhile True:\n  pass';
 const REPLACE_CODE_REQUESTS = {
     "robots_readMaqueenPlusPatrol": [/<\s*block type=\s*"robots_readMaqueenPlusv(1|2)Patrol"\s*id="([^"]{20})"\s*>/g, "<block type=\"robots_readMaqueenPlusPatrol\" id=\"$2\"><field name=\"VERSION\">$1</field>"],
-    "robots_setMaqueenPlusServoAngle": [/<\s*block type=\s*"robots_setMaqueenPlusV(1|2)ServoAngle"\s*id="([^"]{20})"\s*>/g, "<block type=\"robots_setMaqueenPlusServoAngle\" id=\"$2\"><field name=\"VERSION\">$1</field>"]
+    "robots_setMaqueenPlusServoAngle": [/<\s*block type=\s*"robots_setMaqueenPlusV(1|2)ServoAngle"\s*id="([^"]{20})"\s*>/g, "<block type=\"robots_setMaqueenPlusServoAngle\" id=\"$2\"><field name=\"VERSION\">$1</field>"],
+    "actuators_setFanPower": [/<\s*block type=\s*"actuators_setMotorPower"\s*id="([^"]{20})"\s*>/g, "<block type=\"actuators_setFanPower\" id=\"$1\">"],
+    "io_initChronometer": [/<\s*block type=\s*"io_resetChronometer"\s*id="([^"]{20})"\s*>/g, "<block type=\"io_initChronometer\" id=\"$1\">"],
+    "sensors_getSi1145Light": [/<\s*block type=\s*"sensors_getSi1145Light"\s*id="([^"]{20})"\s*>/g, "<block type=\"sensors_getSunlightData\" id=\"$1\"><field name=\"VERSION\">SI1145</field>"],
+    "communication_hc05_sendBluetoothData": [/<\s*block type=\s*"communication_sendBluetoothData"\s*id="([^"]{20})"\s*>/g, "<block type=\"communication_hc05_sendBluetoothData\" id=\"$1\">"],
+    "communication_hc05_onBluetoothDataReceived": [/<\s*block type=\s*"communication_onBluetoothDataReceived"\s*id="([^"]{20})"\s*>/g, "<block type=\"communication_hc05_onBluetoothDataReceived\" id=\"$1\">"],
+    "vittaia_load_cloud_model": [/<\s*block type=\s*"vittaia_load_cloud_model"\s*id="([^"]{20})"><value name=\s*"MODEL_ID"\s*>/g, "<block type=\"vittaia_load_cloud_model\" id=\"$1\"><value name=\"MODEL_URL\">"],
 };
 //modes
 const MODE_CODE = "code";
@@ -27,7 +33,6 @@ const BLOCKS_OUTSIDE_SCOPE = ["on_start", "forever", "scratch_on_start", "proced
 const EXAMPLE_PROJECT_LINKS = ['639ad9ef9d9c2', '639b1b5370397', '639b2ddd92f68', '639b235d72ca5', '639b32a296779', '639b342082b37', '639b350bac99f', '639b36d820b84'];
 //adc
 const READ_ANALOG_MAX_VALUE = 1023;
-const WRITE_ANALOG_MAX_VALUE = 1023;
 const PWM_MAX_DUTY = 1023;
 //libraries
 const LIBRARIES_PATH = {
@@ -53,6 +58,7 @@ const LIBRARIES_PATH = {
     'sht31': "/grove",
     'hp206c': "/grove",
     'si1145': "/grove",
+    'si1151': "/grove",
     'th02': "/grove",
     'tm1637': "/grove",
     'veml6040': "/grove",
@@ -67,8 +73,10 @@ const LIBRARIES_PATH = {
     'buggyMove': "/microbit",
     'game': "/microbit",
     'lcd1in8': "/microbit",
+    'lcd_i2c_8574': "/microbit",
     'bar_graph': "/microbit",
     'stepper': '/microbit',
+    "kitronik_servo_driver": "/microbit",
     'ir_receiver': "/infrared",
     'nec_remote': "/infrared",
     'onewire': "/micropython",
@@ -78,13 +86,16 @@ const LIBRARIES_PATH = {
     'maqueenplusv2': "/robot",
     'maqueenplusv3': "/robot",
     'tello': "/robot",
+    'uhandbit': "/robot",
+    'wukong': "/robot",
     'matrixLidarDistanceSensor': "/robot",
     'edgeModel': "/ai",
     'edgeModelmicro': "/ai",
     'edgeModelP0-P1': "/ai",
     'edgeModelP0': "/ai",
-    'edgeModelP1': "/ai"
+    'edgeModelP1': "/ai",
 };
+const BOARD_DEFAULT = 'microbit';
 //simulator
 const SIMULATOR_DEFAULT_BOARD = {
     "link": 'microbit.svg',

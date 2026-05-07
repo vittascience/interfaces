@@ -12,9 +12,9 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
             "name": "PIN",
             "options": Blockly.Constants.Pins.I2C[Blockly.Constants.getSelectedBoard()]
         }],
-        "output": "List",
+        "output": "Array",
         "inputsInline": true,
-        "style": "cameras_blocks",
+        "style": "ia_blocks",
         "tooltip": "%{BKY_WIO_GET_DATA_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
@@ -36,7 +36,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         }],
         "output": "Number",
         "inputsInline": true,
-        "style": "cameras_blocks",
+        "style": "ia_blocks",
         "tooltip": "%{BKY_WIO_GET_CLASS_DATA_BY_ID_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
@@ -53,7 +53,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         }],
         "output": "String",
         "inputsInline": true,
-        "style": "cameras_blocks",
+        "style": "ia_blocks",
         "tooltip": "%{BKY_WIO_GET_CLASS_MAX_ID_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
@@ -78,7 +78,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         }],
         "output": "Number",
         "inputsInline": true,
-        "style": "cameras_blocks",
+        "style": "ia_blocks",
         "tooltip": "%{BKY_WIO_GET_STATUS_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"

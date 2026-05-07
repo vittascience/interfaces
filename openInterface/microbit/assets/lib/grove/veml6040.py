@@ -74,21 +74,17 @@ class PiicoDev_VEML6040(object):
     # Read colours from VEML6040
     # Returns raw red, green and blue readings, ambient light [Lux] and colour temperature [K]
     def readRGB(self):
-        try:
-            raw_data = self.i2c.readfrom_mem(self.addr, _REG_RED, 2)        # returns a bytes object   
-            u16red = int.from_bytes(raw_data, 'little')
-            
-            raw_data = (self.i2c.readfrom_mem(self.addr, _REG_GREEN, 2))    # returns a bytes object
-            u16grn = int.from_bytes(raw_data, 'little')
-            
-            raw_data = (self.i2c.readfrom_mem(self.addr, _REG_BLUE, 2))     # returns a bytes object
-            u16blu = int.from_bytes(raw_data, 'little')
-            
-            raw_data = (self.i2c.readfrom_mem(self.addr, _REG_WHITE, 2))    # returns a bytes object
-            data_white_int = int.from_bytes(raw_data, 'little')
-        except:
-            print(i2c_err_str.format(self.addr))
-            return {"red":_NaN,"green":_NaN,"blue":_NaN,"white":_NaN,"als":_NaN,"cct":_NaN}
+        raw_data = self.i2c.readfrom_mem(self.addr, _REG_RED, 2)        # returns a bytes object   
+        u16red = int.from_bytes(raw_data, 'little')
+        
+        raw_data = (self.i2c.readfrom_mem(self.addr, _REG_GREEN, 2))    # returns a bytes object
+        u16grn = int.from_bytes(raw_data, 'little')
+        
+        raw_data = (self.i2c.readfrom_mem(self.addr, _REG_BLUE, 2))     # returns a bytes object
+        u16blu = int.from_bytes(raw_data, 'little')
+        
+        raw_data = (self.i2c.readfrom_mem(self.addr, _REG_WHITE, 2))    # returns a bytes object
+        data_white_int = int.from_bytes(raw_data, 'little')
         
         # Generate the XYZ matrix based on https://www.vishay.com/docs/84331/designingveml6040.pdf
         colour_X = (-0.023249*u16red)+(0.291014*u16grn)+(-0.364880*u16blu)

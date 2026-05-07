@@ -54,6 +54,33 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "mutator": "communication_serialWrite_mutator"
   },
 
+  // BLOCK NUMBER SERIAL WRITE
+  {
+    "type": "communication_NumberSerialWrite",
+    "message0": "%{BKY_COMMUNICATION_SERIAL_WRITE_NUMBER_TITLE}",
+    "args0": [{
+      "type": "input_value",
+      "name": "NUMBER",
+      "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+    }, {
+      "type": "field_grid_dropdown",
+      "name": "TYPE",
+      "options": [
+        ["HEX", "HEX"],
+        ["DEC", "DEC"]
+      ]
+    }],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "communication_blocks",
+    "tooltip": "%{BKY_COMMUNICATION_SERIAL_WRITE_NUMBER_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "number_serial_write_on_change"
+    ]
+  },
+
   // BLOCK COM SERIAL ON DATA AVAILABLE | READ 
   {
     "type": "communication_onSerialDataReceived",
@@ -178,3 +205,39 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
   }
 
 ]); // END JSON EXTRACT (Do not delete this comment.)
+
+Blockly.Constants.Communication = Object.create(null);
+
+/**
+ * Trunc whenever float number is number input in blocks 'communication_NumberSerialWrite'
+ * @mixin
+ * @augments Blockly.Block
+ * @package
+ * @readonly
+ */
+Blockly.Constants.Communication.COMMUNICATION_NUMBER_SERIAL_WRITE_ON_CHANGE_MIXIN = {
+  /**
+   * Called whenever anything on the workspace changes.
+   * Prevent mismatched types.
+   * @this {Blockly.Block} logic_ternary
+   */
+  onchange: function() {
+    const target = this.getInputTargetBlock('NUMBER');
+    if (!target) return;
+
+    if (target.type === 'math_number') {
+      const field = target.getField('NUM');
+      if (!field) return;
+
+      const value = Number(field.getValue());
+      const truncated = Math.trunc(value);
+
+      if (value !== truncated) {
+        field.setValue(truncated);
+      }
+    }
+  }
+};
+
+Blockly.Extensions.registerMixin('number_serial_write_on_change',
+  Blockly.Constants.Communication.COMMUNICATION_NUMBER_SERIAL_WRITE_ON_CHANGE_MIXIN);

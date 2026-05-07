@@ -39,7 +39,7 @@ const THEME_VITTASCIENCE = {
         "colourPrimary": "#1a6da8"
     },
     "variable_blocks": {
-       "colourPrimary": "#d9553e"
+        "colourPrimary": "#d9553e"
     },
     "lists_blocks": {
         "colourPrimary": "#e58544"
@@ -56,19 +56,38 @@ const THEME_VITTASCIENCE = {
     },
     "comment_block": {
         "colourPrimary": "#bdbdbd"
+    },
+    "backpack_blocks": {
+        "colourPrimary": "#3349aa"
     }
 };
 
 const THEME_SCRATCH = {
+    "procedure_blocks": {
+        "colourPrimary": "#ff4d6a",
+        "hat": "cap"
+    },
+    "control_blocks": {
+        "colourPrimary": "#ffab19",
+        "hat": "cap"
+    },
+    "logic_blocks": {
+        "colourPrimary": "#fc7417"
+    },
+    "io_blocks": {
+        "colourPrimary": "#448ae5"
+    },
+    "backpack_blocks": {
+        "colourPrimary": "#3349aa"
+    },
+    "network_blocks": {
+        "colourPrimary": "#9c354d"
+    },
     "display_blocks": {
         "colourPrimary": "#9966ff"
     },
     "sound_blocks": {
         "colourPrimary": "#cf63cf"
-    },
-    "control_blocks": {
-        "colourPrimary": "#ffab19",
-        "hat": "cap"
     },
     "communication_blocks": {
         "colourPrimary": "#7ac943"

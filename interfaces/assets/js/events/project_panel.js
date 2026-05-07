@@ -225,17 +225,21 @@ function updateLocalProject(project) {
     let title = '';
     history.pushState(state, title, removeParam("link", window.location.href));
     projectManager.newProject(project);
-    CodeManager.getSharedInstance().codeWasManuallyModified = project.codeManuallyModified;
     CodeManager.getSharedInstance().setTextCode(project.codeText);
     CodeManager.getSharedInstance().setCodeMode(project.mode);
     CodeManager.getSharedInstance().setXml(project.code);
     CodeManager.getSharedInstance().loadBlocks();
+    const ws = CodeManager.getSharedInstance()._worspace;
+    const codeBlock = (typeof Blockly.Python === 'undefined'
+                    ? Blockly.Arduino.workspaceToCode(ws)
+                    : Blockly.Python.workspaceToCode(ws));
+    CodeManager.getSharedInstance().codeWasManuallyModified = codeBlock.replace(/\s+/g, '') !== project.codeText.replace(/\s+/g, '');
     projectManager.localStorageManager.setLocalProject(project);
     $("#project-name").html(decodeURI(project.name));
     $("#project-name").attr('data-bs-title', '<span class="tooltip-title">' + project.name + '</span><span class="tooltip-author">' + (project.user ? project.user.firstname + ' ' + project.user.surname : i18next.t('code.tooltip.anonymousAuthor')) + '</span><span class="tooltip-description">' + decodeURI(project.description) + '</span>');
     projectManager.updateUrl();
     projectManager.projectsFinder_updateProject();
-    updateToolbox(project.options.toolbox);
+    updateToolbox(project.options.toolbox); 
     switch (project.mode) {
         case 'blocks':
             switchBlockMode();
@@ -258,7 +262,7 @@ $('body').on('fileloaded', '#importproject-fileinput', async function () {
     const interface = Main.getInterface();
 
     const inoInterfaces = ["arduino", "mBot", "letsstartcoding"];
-    const pyInterfaces = ["python", "microbit", "esp32", "wb55", "l476", "TI-83", "galaxia", "raspberrypi", "niryo", "nao", "GalaxiaCircuitPython", "buddy", "cyberpi", "pico", "eliobot", "thymio", "winky", "sphero", "lotibot", "bluebot", "spike", "photon", "codey"];
+    const pyInterfaces = ["python", "microbit", "esp32", "wb55", "l476", "TI-83", "galaxia", "raspberrypi", "niryo", "nao", "GalaxiaCircuitPython", "buddy", "cyberpi", "pico", "eliobot", "thymio", "winky", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai"];
 
     if ((inoInterfaces.includes(interface) && extension !== "ino") || (pyInterfaces.includes(interface) && extension !== "py")) {
         const infoBox = document.getElementById("import-extension-warning-box");
@@ -320,6 +324,7 @@ $('body').on('click', '#help-setting', function () {
         capytaleManager.openInterfaceHelp();
         return;
     }
+    pseudoModal.openModal('modal-help');
     $("#modal-help-btn-tuto").click(function () {
         if (Main.inIframe() == false)
             window.location.href = "/learn/";
@@ -641,14 +646,15 @@ function shareProjectChoice(frame, projectLink) {
             embed: '',
             nocloud: '',
             toolbox: '',
-            board: ''
+            board: '',
+            player: ''
         }
     };
     const link = stringifyLinkShare(linkStruct);
     $('#modal-shareproject-tab-link, #modal-shareproject-tab-iframe').unbind('click');
 
     if (frame == '#iframe') {
-        if (typeof rtcInterfaces != 'undefined' && !rtcInterfaces.includes(INTERFACE_NAME)) {
+        if ((typeof rtcInterfaces != 'undefined' && !rtcInterfaces.includes(INTERFACE_NAME)) || INTERFACE_NAME === "ai") {
             $('#modal-shareproject-tab-link, #modal-shareproject-tab-link-content').removeClass('active show');
             $('#modal-shareproject-tab-iframe, #modal-shareproject-tab-iframe-content').addClass('active show');
         }
@@ -664,7 +670,7 @@ function shareProjectChoice(frame, projectLink) {
         });
 
     } else {
-        if (typeof rtcInterfaces != 'undefined' && !rtcInterfaces.includes(INTERFACE_NAME)) {
+        if ((typeof rtcInterfaces != 'undefined' && !rtcInterfaces.includes(INTERFACE_NAME)) || INTERFACE_NAME === "ai") {
             $('#modal-shareproject-tab-iframe, #modal-shareproject-tab-iframe-content').removeClass('active show');
             $('#modal-shareproject-tab-link, #modal-shareproject-tab-link-content').addClass('active show');
         }
@@ -801,9 +807,10 @@ function shareProjectChoice(frame, projectLink) {
     };
 
     function updateValueLinkShare(key, value) {
-        if (linkStruct.args.hasOwnProperty(key)) {
+        if (linkStruct.args.hasOwnProperty(key) && typeof value !== 'undefined' && value != null) {
             linkStruct.args[key] = value;
         }
+
         updateLinkShare(linkStruct);
         updateLinkIntegrate(linkStruct);
 
@@ -848,6 +855,13 @@ function shareProjectChoice(frame, projectLink) {
     });
     $('input[type=radio][name=shareOptionsBoard]').change(function () {
         updateValueLinkShare('board', this.value !== BOARD_DEFAULT ? this.value : '');
+    });
+    $('input[type=radio][name=shareOptionsModeAdacraft]').change(function () {
+        if (this.value == 'true') {
+            updateValueLinkShare('player', this.value);
+        } else {
+            updateValueLinkShare('player', '');
+        }
     });
 
     if (getParamValue('mode') != null) {
@@ -910,21 +924,32 @@ function shareProjectChoice(frame, projectLink) {
         $("input[value='']#shareOptionsSimulatorDisable").attr("checked", "checked");
     }
     paramValue = getParamValue('toolbox');
-    if (paramValue == TOOLBOX_STYLE_VITTA) {
-        $("input[value='vittascience']#toolboxModeVittascienceShare").attr("checked", "checked");
-    } else if (typeof TOOLBOX_STYLE_SCRATCH != 'undefined' && paramValue == TOOLBOX_STYLE_SCRATCH) {
-        $("input[value='scratch']#toolboxModeScratchShare").attr("checked", "checked");
-        updateValueLinkShare('toolbox', paramValue);
-    } else if (typeof TOOLBOX_STYLE_TI != 'undefined' && paramValue == TOOLBOX_STYLE_TI) {
-        $("input[value='texas-instruments']#toolboxModeTexasInstrumentsShare").attr("checked", "checked");
+    if (INTERFACE_NAME !== "adacraft" && INTERFACE_NAME !== "ai") {
+        if (typeof TOOLBOX_STYLE_VITTA != 'undefined' && paramValue == TOOLBOX_STYLE_VITTA) {
+            $(`input[value='${TOOLBOX_STYLE_VITTA}']#toolboxModeVittascienceShare`).attr("checked", "checked");
+        } else if (typeof TOOLBOX_STYLE_SCRATCH != 'undefined' && paramValue == TOOLBOX_STYLE_SCRATCH) {
+            $(`input[value='${TOOLBOX_STYLE_SCRATCH}']#toolboxModeScratchShare`).attr("checked", "checked");
+        } else if (typeof TOOLBOX_STYLE_HARDWARE != 'undefined' && paramValue == TOOLBOX_STYLE_HARDWARE) {
+            $(`input[value='${TOOLBOX_STYLE_HARDWARE}']#toolboxModeHardwareShare`).attr("checked", "checked");
+        } else if (typeof TOOLBOX_STYLE_TI != 'undefined' && paramValue == TOOLBOX_STYLE_TI) {
+            $(`input[value='${TOOLBOX_STYLE_TI}']#toolboxModeTexasInstrumentsShare`).attr("checked", "checked");
+        }
         updateValueLinkShare('toolbox', paramValue);
     }
-
     paramValue = getParamValue('board');
-    if (paramValue && (typeof SIMULATOR_BOARDS !== 'undefined') && Object.keys(SIMULATOR_BOARDS).includes(paramValue)) {
+    if (paramValue && (typeof INTERFACE_BOARDS !== 'undefined') && Object.keys(INTERFACE_BOARDS).includes(paramValue)) {
         $("input[value='" + paramValue + "']#board_" + paramValue + "_Share").attr("checked", "checked");
         if (paramValue != BOARD_DEFAULT) {
             updateValueLinkShare('board', paramValue);
+        }
+    }
+    if (INTERFACE_NAME === "adacraft") {
+        paramValue = getParamValue('player');
+        if (paramValue == "true") {
+            $("input[value='true']#shareOptionsModePlayer").attr("checked", "checked");
+            updateValueLinkShare('player', 'true');
+        } else {
+            $("input[value='true']#shareOptionsModeDefault").attr("checked", "checked");
         }
     }
 };
@@ -984,7 +1009,21 @@ async function deleteProject(projectLink) {
         }
         let deleteResponse;
         try {
-            deleteResponse = JSON.parse(await deleteAssets(assetsToDelete));
+            if (typeof aiMain._model.getAiInterfaceType === 'function' && aiMain._model.getAiInterfaceType() === 'tts') {
+                const keyPart = assetsToDelete[0].split('-');
+                if (assetsToDelete.length === 0){
+                    deleteResponse = { success: false };
+                }
+                if (keyPart.length === 2){
+                    const folderId = keyPart[0];
+                    const key = keyPart[1];
+                    deleteResponse = JSON.parse(await deleteAudioForTTS(key, folderId));
+                } else {
+                    deleteResponse = { success: false };
+                }
+            } else {
+                deleteResponse = JSON.parse(await deleteAssets(assetsToDelete));
+            }
         } catch (error) {
             aiMain._notif.displayNotification('#global-notifications-area', String(error), 'bg-danger');
         }
@@ -1387,7 +1426,7 @@ async function updateAfterSaving(isCopy = false) {
         }, SAVE_TIMEOUT);
     } else {
         if (UserManager.getUser() != null) {
-            if (isCopy && Main.getInterface() !== "adacraft") {
+            if (isCopy) {
                 const link = projectManager._pastedProject.link;
                 if (link !== null) {
                     window.open(
@@ -1653,7 +1692,7 @@ function populateProjects(projects, parentDivId) {
 
     if (parentDivId === "example-projects") {
         const categories = [...new Set(projects.map(p => p.exampleCategory).filter(Boolean))];
-        
+
         if (categories.length === 0) {
             populate(projects, parentDivId);
             return;
@@ -1830,7 +1869,7 @@ $('body').on('click', '#modal-new-btn-create, #readOnlyCopyBtn', async function 
             $("#users").html("");
         }
         if (INTERFACE_NAME !== 'ai' && rtcInterfaces?.includes(INTERFACE_NAME)) await projectManager.initializeRtc();
-        
+
     }
 
     async function createProjectProcess(project) {
@@ -1859,7 +1898,7 @@ $('body').on('click', '#modal-new-btn-create, #readOnlyCopyBtn', async function 
                         return;
                     }
                     aiMain._model.clearModel();
-                    if (aiMain._model.getAiInterfaceType() != 'text' && aiMain._model.getCategories().length <= 0) aiMain._model.addCategory()
+                    if (aiMain._model.getAiInterfaceType() !== 'text' && aiMain._model.getAiInterfaceType() !== 'tts' && aiMain._model.getCategories().length <= 0) aiMain._model.addCategory()
                     aiMain._controller._updateIdeAfterSaving();
                     setTimeout(function () {
                         pseudoModal.closeModal('modal-newproject');

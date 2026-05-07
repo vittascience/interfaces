@@ -5,13 +5,13 @@ class Linky:
 	def __init__(self, pin, unit = False):
 		self.unit = unit
 		self.data = {
-        'HCHC':   [6,'Wh','', False], # indexe heure creuses (Wh)
-        'HCHP':   [6,'Wh','', False], # indexe heures pleines (Wh)
-        'BASE':   [6,'Wh','', False], # indexe base (Wh)
-        'PAPP':   [5,'W','', False],  # puissance apparante (W)
-        'ISOUSC': [2,'A','', False],  # intensitée souscrite (A)
-        'PTEC':   [2,'','', False],   # période tarrifaire en cours
-        'OPTARIF':[4,'','', False],   # option tarrifaire
+			'HCHC':   [6,'Wh','', False], # indexe heure creuses (Wh)
+			'HCHP':   [6,'Wh','', False], # indexe heures pleines (Wh)
+			'BASE':   [6,'Wh','', False], # indexe base (Wh)
+			'PAPP':   [5,'W','', False],  # puissance apparante (W)
+			'ISOUSC': [2,'A','', False],  # intensitée souscrite (A)
+			'PTEC':   [2,'','', False],   # période tarrifaire en cours
+			'OPTARIF':[4,'','', False],   # option tarrifaire
 		}
 		self.uart = machine.UART(1)
 		self.uart.init(baudrate=1200, bits=7, parity=0, stop=1, rx=pin)

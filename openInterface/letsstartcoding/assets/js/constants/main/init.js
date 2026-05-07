@@ -26,7 +26,6 @@ const BLOCKS_OUTSIDE_SCOPE = ["on_start", "forever", "scratch_on_start", "proced
 const EXAMPLE_PROJECT_LINKS = [];
 //adc
 const READ_ANALOG_MAX_VALUE = 1023;
-const WRITE_ANALOG_MAX_VALUE = 255;
 const PWM_MAX_DUTY = 255;
 //simulator
 const SIMULATOR_DEFAULT_BOARD = {
@@ -36,5 +35,5 @@ const SIMULATOR_DEFAULT_BOARD = {
 // serial options
 const SERIAL_OPTIONS = {
     boardSelection: false,
-    board: BOARD_ARDUINO_NANO
+    boardId: BOARD_ARDUINO_NANO
 };

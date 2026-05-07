@@ -15,7 +15,7 @@ def getLow8SectionValue():
     low_data = i2c.read(ATTINY2_LOW_ADDR, 8, reg_config)
     return list(low_data)
 
-def check_water_level():
+def measurePercentLevel():
     touch_val = 0
     low_data = getLow8SectionValue()
     high_data = getHigh12SectionValue()

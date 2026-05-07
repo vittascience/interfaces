@@ -18,7 +18,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "UNIT",
             "options": [
-                ["%{BKY_IO_WAIT_SECOND}", "SECOND"],
+                ["%{BKY_IO_WAIT_SECOND}", "SEC"],
                 ["%{BKY_IO_WAIT_MILLISECOND}", "MILLI"],
                 ["%{BKY_IO_WAIT_MICROSECOND}", "MICRO"]
             ]

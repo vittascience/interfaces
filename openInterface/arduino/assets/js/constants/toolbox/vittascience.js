@@ -73,21 +73,11 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
     },
     {
         "kind": "category",
-        "toolboxitemid": "vittaia",
+        "toolboxitemid": "ia",
         "name": "%{BKY_CATEGORY_VITTAIA}",
-        "style": "vittaia_category",
+        "style": "ia_category",
         "cssConfig": {
             "icon": "icon_blockly fas fa-brain"
-        },
-        "contents": []
-    },
-    {
-        "kind": "category",
-        "toolboxitemid": "cameras",
-        "name": "%{BKY_CATEGORY_AI_CAMERAS}",
-        "style": "cameras_category",
-        "cssConfig": {
-            "icon": "icon_blockly fa-solid fa-camera"
         },
         "contents": []
     },
@@ -167,6 +157,31 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
     }
 ];
 
+const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
+    "ia": [
+        {
+            "kind": "category",
+            "toolboxitemid": "vittaia",
+            "name": "%{BKY_SUBCATEGORY_SENSOR_DATA}",
+            "style": "ia_category",
+            "cssConfig": {
+                "icon": "icon_blockly svgIcon"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "cameras",
+            "name": "%{BKY_SUBCATEGORY_CAMERAS}",
+            "style": "ia_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-camera"
+            },
+            "contents": []
+        }
+    ]
+};
+
 const TOOLBOX_VITTASCIENCE_CONTENT = {
     "display": [
         {
@@ -243,7 +258,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
     ],
     "io": [
         {
-            'label': '%{BKY_SUBCATEGORY_ARDUINO}',
+            'label': '%{BKY_SUBCATEGORY_TIME}',
             "blocks": [
                 'io_wait',
                 'io_waitUntil',
@@ -273,6 +288,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'io_groveMp3_next',
                 'io_groveMp3_playSDSong',
                 'io_groveMp3_playSDDirectorySong',
+                'io_groveMp3_KT403A_playSongSpecify',
                 'io_groveMp3_getVolume',
                 'io_groveMp3_setVolume',
                 'io_groveMp3_changePlayingMode'
@@ -292,7 +308,9 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'io_writeAnalogPin_input',
                 'io_setPwm',
                 'io_readPulseIn',
-                'io_attachInterrupt'
+                'io_attachInterrupt',
+                'io_detachInterrupt',
+                'io_setPinMode'
             ]
         }
     ],
@@ -301,6 +319,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             'label': '%{BKY_SUBCATEGORY_SERIAL_CONNECTION}',
             "blocks": [
                 'communication_serialWrite',
+                'communication_NumberSerialWrite',
                 'communication_onSerialDataReceived',
                 'communication_graphSerialWrite',
                 'communication_playComputerMusic',
@@ -316,7 +335,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         },
         {
-            'label': '%{BKY_SUBCATEGORY_WIRELESS_COMMUNICATION}',
+            'label': '%{BKY_SUBCATEGORY_EXTERNAL_BLUETOOTH}',
             'blocks': [
                 //'communication_setSerialBluetooth',
                 'communication_groveSerialBluetooth_setATCommand',
@@ -340,9 +359,18 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'communication_sendRadioNRF24Data',
                 'communication_onRadioNRF24_dataReceived',
                 'communication_sendRadio433mhzData',
-                'communication_onRadio433mhzDataReceived',
+                'communication_onRadio433mhzDataReceived'
+            ]
+        },
+        {
+            'label': '%{BKY_SUBCATEGORY_IR_COMMUNICATION}',
+            'blocks': [
+                'communication_ir_sendNECCommand',
+                'communication_ir_sendFrame',
                 'communication_onIRDataReceived',
-                'communication_onRemoteCommandReceived'
+                'communication_ir_getProtocoleParam',
+                'communication_onRemoteCommandReceived',
+                'communication_onRemoteCommandReceived_car_mp3_gray'
             ]
         },
         {
@@ -472,6 +500,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             'label': '%{BKY_SUBCATEGORY_SENSORS_CLIMATE}',
             "blocks": [
                 'sensors_getBmp280Data',
+                'sensors_bme280_getData',
                 'sensors_getDps310Data',
                 'sensors_getGroveMoisture',
                 'sensors_getGroveTemperature',
@@ -514,13 +543,22 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         },
         {
+            'label': '%{BKY_SUBCATEGORY_SENSORS_HEALTH}',
+            "blocks": [
+                'sensors_getPulse',
+                'sensors_getPulseBpm',
+                'sensors_mlx90614_readObjectTemperature',
+                'sensors_getEarClipHeartRate',
+                'sensors_dfrobot_max30102_takeMeasure',
+                'sensors_dfrobot_max30102_getData'
+            ]
+        },
+        {
             'label': '%{BKY_SUBCATEGORY_SENSORS_OTHER}',
             "blocks": [
                 'sensors_getIna219Data',
                 'sensors_getVoltageDividerData',
-                'sensors_getFsr402Force',
-                'sensors_getPulse',
-                'sensors_getPulseBpm'
+                'sensors_getFsr402Force'
             ]
         }
     ],
@@ -568,6 +606,8 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             'label': '%{BKY_SUBCATEGORY_ACTUATORS_OTHER}',
             "blocks": [
                 'actuators_setGroveRelayState',
+                'actuators_SPDTRelay_defineNCNO',
+                'actuators_SPDTRelay_controlState',
                 'actuators_setVibrationMotorState',
                 'actuators_setWaterAtomizerState',
                 'actuators_setElectromagnetState'
@@ -592,29 +632,57 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             'message': true
         }
     ],
-    "vittaia": [
+    "ia": [
         {
-            "label": "%{BKY_SUBCATEGORY_VITTAIA_MICROCONTROLLER}",
-            "blocks": [
-                // 'vittaia_load_model',
-                'vittaia_load_local_model',
-                'vittaia_load_cloud_model',
-                'vittaia_make_prediction',
-                'vittaia_get_highest_probability_class',
-                'vittaia_detect_class',
+            "subCategoryId": 'vittaia',
+            "contents": [
+                {
+                    "label": "%{BKY_SUBCATEGORY_VITTAIA_SENSOR_DATA}",
+                    "blocks": [
+                        'vittaia_load_local_model',
+                        'vittaia_load_cloud_model',
+                        'vittaia_make_prediction',
+                        'vittaia_get_highest_probability_class',
+                        'vittaia_detect_class',
+                    ]
+                },
             ]
         },
-    ],
-    "cameras": [
         {
-            "label": "Wio Lite AI",
-            "blocks": [
-                'wio_get_class_data_by_id',
-                'wio_get_class_max_id',
-                'wio_get_status',
-                'wio_get_class_data'
+            "subCategoryId": 'cameras',
+            "contents": [
+                {
+                    "label": "%{BKY_SUBCATEGORY_HUSKYLENS}",
+                    "blocks": [
+                        'cameras_huskylens_setMode',
+                        'cameras_huskylens_setText',
+                        'cameras_huskylens_clearScreen',
+                        'cameras_huskylens_learnID',
+                        'cameras_huskylens_customName',
+                        'cameras_huskylens_forgetIDs',
+                        'cameras_huskylens_getData',
+                        'cameras_huskylens_requestBlocksData',
+                        'cameras_huskylens_requestArrowsData',
+                        'cameras_huskylens_requestBlockXY',
+                        'cameras_huskylens_getNumberOfDetectedElements',
+                        'cameras_huskylens_getDataByID',
+                        'cameras_huskylens_checkID',
+                        'cameras_huskylens_getLineDirection',
+                        'cameras_huskylens_saveModel',
+                        'cameras_huskylens_loadModel'
+                    ]
+                },
+                {
+                    "label": "Wio Lite AI",
+                    "blocks": [
+                        'wio_get_class_data',
+                        'wio_get_class_data_by_id',
+                        'wio_get_class_max_id',
+                        'wio_get_status'
+                    ]
+                }
             ]
-        }
+        },
     ],
     "logic": [
         {

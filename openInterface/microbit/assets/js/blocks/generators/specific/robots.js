@@ -4,7 +4,7 @@
 
 // Remote Control
 
-Blockly.Python.robots_onRemoteCommandReceived_generator = function (block) {
+Blockly.Python.robots_onRemoteCommandReceived_generator = function (block, pin = 'pin16') {
     const IRvariableName = "ir_current_remote_button";
     block.workspace.createVariable(IRvariableName);
     var n = 0;
@@ -13,7 +13,7 @@ Blockly.Python.robots_onRemoteCommandReceived_generator = function (block) {
     Blockly.Python.addImport('nec_remote', IMPORT_NEC_REMOTE);
     Blockly.Python.addInit(IRvariableName, IRvariableName + " = None");
     Blockly.Python.addFunction('remoteNEC_callback', FUNCTIONS_MICROBIT.DEF_REMOTE_NEC_CALLBACK);
-    Blockly.Python.addPowerOn('ir_remote', "ir_remote = NEC_8(pin16, remoteNEC_callback)");
+    Blockly.Python.addPowerOn('ir_remote', "ir_remote = NEC_8(" + pin + ", remoteNEC_callback)");
     if (Blockly.Python.STATEMENT_PREFIX) {
         // Automatic prefix insertion is switched off for this block.  Add manually.
         code += Blockly.Python.injectId(Blockly.Python.STATEMENT_PREFIX, block);
@@ -58,7 +58,7 @@ Blockly.Python.robots_getIRcode_generator = function () {
     return ["ir_current_remote_button", Blockly.Python.ORDER_ATOMIC];
 };
 
-// Maqueen
+// Maqueen Lite - Detection
 
 Blockly.Python.robots_getMaqueenUltrasonicRanger = function (block) {
     Blockly.Python.addImport('machine_pulse', IMPORT_MACHINE_PULSE_MS);
@@ -75,15 +75,21 @@ Blockly.Python.robots_readMaqueenPatrol = function (block) {
     return [block.getFieldValue("PIN") + ".read_digital()", Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python.robots_controlMaqueenLed = function (block) {
-    const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
+Blockly.Python.robots_maqueenV5_readPatrol = function (block) {
     Blockly.Python.addConstant('maqueen-robot', "\"\"\" Maqueen robot \"\"\"");
-    if (block.getFieldValue("LED") == 0) {
-        return "pin8.write_digital(" + state + ")" + NEWLINE;
-    } else {
-        return "pin12.write_digital(" + state + ")" + NEWLINE;
-    }
+    const sensor = block.getFieldValue("SENSOR");
+    Blockly.Python.addFunction('maqueenV5_readPatrol', FUNCTIONS_MICROBIT.DEF_MAQUEEN_V5_READ_PATROL);
+    return [`maqueenV5_readPatrol(${sensor})`, Blockly.Python.ORDER_ATOMIC];
 };
+
+Blockly.Python.robots_maqueenV5_batteryLevel = function (block) {
+    Blockly.Python.addConstant('maqueen-robot', "\"\"\" Maqueen robot \"\"\"");
+    const type = block.getFieldValue("TYPE");
+    Blockly.Python.addFunction('maqueenV5_getBatteryLevel', FUNCTIONS_MICROBIT.DEF_MAQUEEN_V5_GET_BATTERY_LEVEL);
+    return [`maqueenV5_getBatteryLevel(${type})`, Blockly.Python.ORDER_ATOMIC];
+};
+
+// Maqueen Lite - Moving
 
 Blockly.Python.robots_setMaqueenGo = function (block) {
     Blockly.Python.addConstant('maqueen-robot', "\"\"\" Maqueen robot \"\"\"");
@@ -122,29 +128,6 @@ Blockly.Python.robots_controlMaqueenMotor = function (block) {
     if (speed > 255) speed = 255;
     if (speed < 0) speed = 0;
     return "i2c.write(0x10, bytearray([" + motor + ", " + dir + ", int(" + speed + ")]))" + NEWLINE;
-};
-
-Blockly.Python.robots_stopMaqueenMotors = function (block) {
-    Blockly.Python.addConstant('maqueen-robot', "\"\"\" Maqueen robot \"\"\"");
-    const motor = block.getFieldValue("MOTOR");
-    if (motor == "both") {
-        return "i2c.write(0x10, bytearray([0x00, 0, 0]))" + NEWLINE + "i2c.write(0x10, bytearray([0x02, 0, 0]))" + NEWLINE;
-    } else {
-        return "i2c.write(0x10, bytearray([" + motor + ", 0, 0]))" + NEWLINE;
-    }
-};
-
-Blockly.Python.robots_setMaqueenServoAngle = function (block) {
-    const servo = block.getFieldValue("SERVO");
-    Blockly.Python.addConstant('maqueen-robot', "\"\"\" Maqueen robot \"\"\"");
-    let angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
-    if (angle > 180) angle = 180;
-    if (angle < 0) angle = 0;
-    if (servo == "both") {
-        return "i2c.write(0x10, bytearray([0x14, " + angle + "]))" + NEWLINE + "i2c.write(0x10, bytearray([0x15, " + angle + "]))" + NEWLINE;
-    } else {
-        return "i2c.write(0x10, bytearray([" + servo + ", " + angle + "]))" + NEWLINE;
-    }
 };
 
 Blockly.Python.robots_moveOneSquareForward = function () {
@@ -188,58 +171,26 @@ Blockly.Python.robots_stopRobot = function () {
     return "i2c.write(0x10, bytearray([0x00, 0, 0]))" + NEWLINE + "i2c.write(0x10, bytearray([0x02, 0, 0]))" + NEWLINE;
 };
 
-Blockly.Python.robots_blinkRobot = function () {
-    Blockly.Python.addImport('utime', IMPORT_UTIME);
-    Blockly.Python.addImport('neopixel', IMPORT_NEOPIXEL);
+Blockly.Python.robots_stopMaqueenMotors = function (block) {
     Blockly.Python.addConstant('maqueen-robot', "\"\"\" Maqueen robot \"\"\"");
-    Blockly.Python.addInit('maqueen_neopixel', "npMaq = neopixel.NeoPixel(pin15, 4)");
-    Blockly.Python.addFunction('maqueenPlusV2_blink', FUNCTIONS_MICROBIT.DEF_MAQUEEN_PLUS_V2_BLINK);
-    return "maqueenPlusV2_blink()" + NEWLINE;
-};
-
-Blockly.Python.robots_setMaqueenNeopixel = function (block) {
-    Blockly.Python.addImport('neopixel', IMPORT_NEOPIXEL);
-    Blockly.Python.addConstant('maqueen-robot', "\"\"\" Maqueen robot \"\"\"");
-    Blockly.Python.addInit('neopixel_pin15', "# Neopixel on pin15");
-    Blockly.Python.addInit('maqueen_neopixel', "npMaq = neopixel.NeoPixel(pin15, 4)");
-    let r = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_NONE) || "0";
-    let g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
-    let b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
-    if (r > 255) r = 255;
-    if (r < 0) r = 0;
-    if (g > 255) g = 255;
-    if (g < 0) g = 0;
-    if (b > 255) b = 255;
-    if (b < 0) b = 0;
-    if (block.getFieldValue("LED") == "all") {
-        return "for i in range(4):" + NEWLINE + "  npMaq[i] = (" + r + ", " + g + ", " + b + ")" + NEWLINE + "npMaq.show()" + NEWLINE;
+    const motor = block.getFieldValue("MOTOR");
+    if (motor == "both") {
+        return "i2c.write(0x10, bytearray([0x00, 0, 0]))" + NEWLINE + "i2c.write(0x10, bytearray([0x02, 0, 0]))" + NEWLINE;
     } else {
-        return "npMaq[" + block.getFieldValue("LED") + "] = (" + r + ", " + g + ", " + b + ")" + NEWLINE + "npMaq.show()" + NEWLINE;
+        return "i2c.write(0x10, bytearray([" + motor + ", 0, 0]))" + NEWLINE;
     }
 };
 
-Blockly.Python.robots_setMaqueenNeopixelPalette = function (block) {
-    Blockly.Python.addImport('neopixel', IMPORT_NEOPIXEL);
-    Blockly.Python.addConstant('maqueen-robot', "\"\"\" Maqueen robot \"\"\"");
-    Blockly.Python.addInit('neopixel_pin15', "# Neopixel on pin15");
-    Blockly.Python.addInit('maqueen_neopixel', "npMaq = neopixel.NeoPixel(pin15, 4)");
-    const led = block.getFieldValue("LED");
-    const colour = Blockly.Python.valueToCode(block, "COLOR", Blockly.Python.ORDER_NONE) || "(0,0,0)";
-    if (led == "all") {
-        return "for i in range(4):" + NEWLINE + "  npMaq[i] = " + colour + NEWLINE + "npMaq.show()" + NEWLINE;
-    } else {
-        return "npMaq[" + led + "] = " + colour + NEWLINE + "npMaq.show()" + NEWLINE;
-    }
-};
+// Maqueen Lite - Control
 
-Blockly.Python.robots_setMaqueenRainbow = function () {
-    Blockly.Python.addImport('neopixel', IMPORT_NEOPIXEL);
+Blockly.Python.robots_controlMaqueenLed = function (block) {
+    const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
     Blockly.Python.addConstant('maqueen-robot', "\"\"\" Maqueen robot \"\"\"");
-    Blockly.Python.addInit('neopixel_pin15', "# Neopixel on pin15");
-    Blockly.Python.addInit('maqueen_neopixel', "npMaq = neopixel.NeoPixel(pin15, 4)");
-    Blockly.Python.addFunction('neopixel_showAllLed', FUNCTIONS_MICROBIT.DEF_NEOPIXEL_SHOW_ALL_LED);
-    Blockly.Python.addFunction('neopixel_rainbow', FUNCTIONS_MICROBIT.DEF_NEOPIXEL_RAINBOW);
-    return "neopixel_rainbow(npMaq, 4)" + NEWLINE;
+    if (block.getFieldValue("LED") == 0) {
+        return "pin8.write_digital(" + state + ")" + NEWLINE;
+    } else {
+        return "pin12.write_digital(" + state + ")" + NEWLINE;
+    }
 };
 
 Blockly.Python.robots_setMaqueenBuzzer = function (block) {
@@ -272,10 +223,80 @@ Blockly.Python.robots_playMaqueenMusic = function (block) {
     }
 };
 
+Blockly.Python.robots_setMaqueenServoAngle = function (block) {
+    const servo = block.getFieldValue("SERVO");
+    Blockly.Python.addConstant('maqueen-robot', "\"\"\" Maqueen robot \"\"\"");
+    const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
+    if (servo == "both") {
+        return "i2c.write(0x10, bytearray([0x14, int(" + angle + ")]))" + NEWLINE + "i2c.write(0x10, bytearray([0x15, int(" + angle + ")]))" + NEWLINE;
+    } else {
+        return "i2c.write(0x10, bytearray([" + servo + ", int(" + angle + ")]))" + NEWLINE;
+    }
+};
+
+Blockly.Python.robots_maqueenV5_patrolling = function (block) {
+    Blockly.Python.addConstant('maqueen-robot', "\"\"\" Maqueen robot \"\"\"");
+    const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
+    return "i2c.write(0x10, bytearray([0x47, 0x01 if " + state + " else 0x02]))" + NEWLINE;
+};
+
+// Maqueen Lite - LED RGB
+
+Blockly.Python.robots_blinkRobot = function () {
+    Blockly.Python.addImport('utime', IMPORT_UTIME);
+    Blockly.Python.addImport('neopixel', IMPORT_NEOPIXEL);
+    Blockly.Python.addConstant('maqueen-robot', "\"\"\" Maqueen robot \"\"\"");
+    Blockly.Python.addInit('maqueen_neopixel', "npMaq = neopixel.NeoPixel(pin15, 4)");
+    Blockly.Python.addFunction('maqueenPlusV2_blink', FUNCTIONS_MICROBIT.DEF_MAQUEEN_PLUS_V2_BLINK);
+    return "maqueenPlusV2_blink()" + NEWLINE;
+};
+
+Blockly.Python.robots_setMaqueenNeopixel = function (block) {
+    Blockly.Python.addImport('neopixel', IMPORT_NEOPIXEL);
+    Blockly.Python.addConstant('maqueen-robot', "\"\"\" Maqueen robot \"\"\"");
+    Blockly.Python.addInit('neopixel_pin15', "# Neopixel on pin15");
+    Blockly.Python.addInit('maqueen_neopixel', "npMaq = neopixel.NeoPixel(pin15, 4)");
+    const r = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_NONE) || "0";
+    const g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
+    const b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
+    if (block.getFieldValue("LED") == "all") {
+        return "for i in range(4):" + NEWLINE + "  npMaq[i] = (" + r + ", " + g + ", " + b + ")" + NEWLINE + "npMaq.show()" + NEWLINE;
+    } else {
+        return "npMaq[" + block.getFieldValue("LED") + "] = (" + r + ", " + g + ", " + b + ")" + NEWLINE + "npMaq.show()" + NEWLINE;
+    }
+};
+
+Blockly.Python.robots_setMaqueenNeopixelPalette = function (block) {
+    Blockly.Python.addImport('neopixel', IMPORT_NEOPIXEL);
+    Blockly.Python.addConstant('maqueen-robot', "\"\"\" Maqueen robot \"\"\"");
+    Blockly.Python.addInit('neopixel_pin15', "# Neopixel on pin15");
+    Blockly.Python.addInit('maqueen_neopixel', "npMaq = neopixel.NeoPixel(pin15, 4)");
+    const led = block.getFieldValue("LED");
+    const colour = Blockly.Python.valueToCode(block, "COLOR", Blockly.Python.ORDER_NONE) || "(0,0,0)";
+    if (led == "all") {
+        return "for i in range(4):" + NEWLINE + "  npMaq[i] = " + colour + NEWLINE + "npMaq.show()" + NEWLINE;
+    } else {
+        return "npMaq[" + led + "] = " + colour + NEWLINE + "npMaq.show()" + NEWLINE;
+    }
+};
+
+Blockly.Python.robots_setMaqueenRainbow = function () {
+    Blockly.Python.addImport('neopixel', IMPORT_NEOPIXEL);
+    Blockly.Python.addConstant('maqueen-robot', "\"\"\" Maqueen robot \"\"\"");
+    Blockly.Python.addInit('neopixel_pin15', "# Neopixel on pin15");
+    Blockly.Python.addInit('maqueen_neopixel', "npMaq = neopixel.NeoPixel(pin15, 4)");
+    Blockly.Python.addFunction('neopixel_showAllLed', FUNCTIONS_MICROBIT.DEF_NEOPIXEL_SHOW_ALL_LED);
+    Blockly.Python.addFunction('neopixel_rainbow', FUNCTIONS_MICROBIT.DEF_NEOPIXEL_RAINBOW);
+    return "neopixel_rainbow(npMaq, 4)" + NEWLINE;
+};
+
+// Maqueen Lite - Remote Control
+
 Blockly.Python.robots_maqueen_onRemoteCommandReceived = function (block) {
     Blockly.Python.addConstant('maqueen-robot', '""" Maqueen robot """');
     const code = Blockly.Python.robots_onRemoteCommandReceived_generator(block);
     Blockly.Python.addConstant('NEC_REMOTE_TYPE', "NEC_REMOTE_TYPE = 'basic_black'");
+    Blockly.Python.addConstant('basic_black_NEC_buttons', FUNCTIONS_MICROBIT.DEF_REMOTE_NEC_BASIC_BLACK_BUTTONS);
     Blockly.Python.addFunction('remoteNEC_basicBlack_getButton', FUNCTIONS_MICROBIT.DEF_REMOTE_NEC_BASIC_BLACK_GET_BUTTON);
     return code;
 };
@@ -284,6 +305,7 @@ Blockly.Python.robots_maqueen_onRemoteCommandReceived_car_mp3_gray = function (b
     Blockly.Python.addConstant('maqueen-robot', '""" Maqueen robot """');
     const code = Blockly.Python.robots_onRemoteCommandReceived_generator(block);
     Blockly.Python.addConstant('NEC_REMOTE_TYPE', "NEC_REMOTE_TYPE = 'Car_mp3'");
+    Blockly.Python.addConstant('car_mp3_gray_NEC_buttons', FUNCTIONS_MICROBIT.DEF_REMOTE_NEC_AR_MP3_GRAY_BUTTONS);
     Blockly.Python.addFunction('remoteNEC_Carmp3_gray_getButton', FUNCTIONS_MICROBIT.DEF_REMOTE_NEC_AR_MP3_GRAY_GET_BUTTON);
     return code;
 };
@@ -318,7 +340,7 @@ Blockly.Python.ROBOTS_MAQUEEN_PLUS_INIT = function (block, v) {
 Blockly.Python.robots_getMaqueenPlusV2UltrasonicRanger = function (block) {
     Blockly.Python.addImport('machine_pulse', IMPORT_MACHINE_PULSE_MS);
     Blockly.Python.addImport('utime', IMPORT_UTIME);
-    Blockly.Python.addConstant(`maqueen-plus2-robot`, `""" MaqueenPlusV2 robot """`);
+    Blockly.Python.addConstant(`maqueen-plus-V2`, `""" MaqueenPlusV2 robot """`);
     const trig = 'pin13', echo = 'pin14';
     Blockly.Python.addInit(trig, `# Ultrasonic TRIG on ${trig}`);
     Blockly.Python.addInit(echo, `# Ultrasonic ECHO on ${echo}`);
@@ -332,7 +354,7 @@ Blockly.Python.robots_getMaqueenPlusUltrasonicRangerTrigEcho = function (block) 
     const version = block.getFieldValue("VERSION");
     const trig = block.getFieldValue("TRIG");
     const echo = block.getFieldValue("ECHO");
-    Blockly.Python.addConstant(`maqueen-plus${version}-robot`, `""" MaqueenPlusV${version} robot """`);
+    Blockly.Python.addConstant(`maqueen-plus-V${version}`, `""" MaqueenPlusV${version} robot """`);
     Blockly.Python.addInit(trig, `# Ultrasonic TRIG on ${trig}`);
     Blockly.Python.addInit(echo, `# Ultrasonic ECHO on ${echo}`);
     Blockly.Python.addFunction('getUltrasonicData', FUNCTIONS_MICROBIT.DEF_GROVE_ULTRASONIC);
@@ -498,17 +520,19 @@ Blockly.Python.robots_setMaqueenPlusRainbow = function (block) {
 // Maqueen Plus - Remote control
 
 Blockly.Python.robots_maqueenPlus_onRemoteCommandReceived = function (block) {
-    Blockly.Python.addConstant(`maqueen-plus2-robot`, `""" MaqueenPlusV2 robot """`);
+    Blockly.Python.addConstant(`maqueen-plus-V2`, `""" MaqueenPlusV2 robot """`);
     const code = Blockly.Python.robots_onRemoteCommandReceived_generator(block);
     Blockly.Python.addConstant('NEC_REMOTE_TYPE', "NEC_REMOTE_TYPE = 'basic_black'");
+    Blockly.Python.addConstant('basic_black_NEC_buttons', FUNCTIONS_MICROBIT.DEF_REMOTE_NEC_BASIC_BLACK_BUTTONS);
     Blockly.Python.addFunction('remoteNEC_basicBlack_getButton', FUNCTIONS_MICROBIT.DEF_REMOTE_NEC_BASIC_BLACK_GET_BUTTON);
     return code;
 };
 
 Blockly.Python.robots_maqueenPlus_onRemoteCommandReceived_car_mp3_gray = function (block) {
-    Blockly.Python.addConstant(`maqueen-plus2-robot`, `""" MaqueenPlusV2 robot """`);
+    Blockly.Python.addConstant(`maqueen-plus-V2`, `""" MaqueenPlusV2 robot """`);
     const code = Blockly.Python.robots_onRemoteCommandReceived_generator(block);
     Blockly.Python.addConstant('NEC_REMOTE_TYPE', "NEC_REMOTE_TYPE = 'Car_mp3'");
+    Blockly.Python.addConstant('car_mp3_gray_NEC_buttons', FUNCTIONS_MICROBIT.DEF_REMOTE_NEC_AR_MP3_GRAY_BUTTONS);
     Blockly.Python.addFunction('remoteNEC_Carmp3_gray_getButton', FUNCTIONS_MICROBIT.DEF_REMOTE_NEC_AR_MP3_GRAY_GET_BUTTON);
     return code;
 };
@@ -646,7 +670,7 @@ Blockly.Python.robots_maqueenPlusV3_lidar_getFixedPoint = function (block) {
     return [`LiDAR.get_fixed_point_data(${x}, ${y})`, Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python.robots_maqueenPlusV3_lidar_configAvoidance = function(block) {
+Blockly.Python.robots_maqueenPlusV3_lidar_configAvoidance = function (block) {
     const wall_cm = Blockly.Python.valueToCode(block, "WALL", Blockly.Python.ORDER_NONE) || '0';
     return `LiDAR.config_avoidance(${wall_cm})` + NEWLINE;
 };
@@ -713,15 +737,9 @@ Blockly.Python.robots_controlCutebotRGBLedPalette = function (block) {
 Blockly.Python.robots_controlCutebotRGBLed = function (block) {
     Blockly.Python.addImport('cutebot', IMPORT_CUTEBOT);
     Blockly.Python.addConstant('cutebot-robot', "\"\"\" Cutebot robot \"\"\"");
-    let r = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_NONE) || "0";
-    let g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
-    let b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
-    if (r > 255) r = 255;
-    if (r < 0) r = 0;
-    if (g > 255) g = 255;
-    if (g < 0) g = 0;
-    if (b > 255) b = 255;
-    if (b < 0) b = 0;
+    const r = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_NONE) || "0";
+    const g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
+    const b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
     return "cutebot.set_" + block.getFieldValue("LED") + "_rgb_led(" + r + "," + g + "," + b + ")" + NEWLINE;
 };
 
@@ -731,15 +749,9 @@ Blockly.Python.robots_setCutebotNeopixel = function (block) {
     Blockly.Python.addImport('cutebot', IMPORT_CUTEBOT);
     Blockly.Python.addInit('neopixel_pin15', "# Neopixel on pin15");
     Blockly.Python.addInit('cutebot_neopixel', "npCutebot = neopixel.NeoPixel(pin15, 2)");
-    let r = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_NONE) || "0";
-    let g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
-    let b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
-    if (r > 255) r = 255;
-    if (r < 0) r = 0;
-    if (g > 255) g = 255;
-    if (g < 0) g = 0;
-    if (b > 255) b = 255;
-    if (b < 0) b = 0;
+    const r = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_NONE) || "0";
+    const g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
+    const b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
     if (block.getFieldValue("LED") == "all") {
         return "for i in range(2):" + NEWLINE + "  npCutebot[i] = (" + r + ", " + g + ", " + b + ")" + NEWLINE + "npCutebot.show()" + NEWLINE;
     } else {
@@ -800,9 +812,7 @@ Blockly.Python.robots_controlCutebotMotors = function (block) {
     Blockly.Python.addConstant('cutebot-robot', "\"\"\" Cutebot robot \"\"\"");
     const dir = block.getFieldValue("DIR");
     const motor = (block.getFieldValue("MOTOR") === 'RIGHT' ? "cutebot.MOTOR_RIGHT" : "cutebot.MOTOR_LEFT");
-    let speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
-    if (speed > 100) speed = 100;
-    if (speed < 0) speed = 0;
+    const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
     switch (dir) {
         case "CLOCKWISE":
             return "cutebot._set_motor_speed(" + motor + "," + speed + ")" + NEWLINE;
@@ -815,9 +825,7 @@ Blockly.Python.robots_setCutebotServoAngle = function (block) {
     Blockly.Python.addImport('cutebot', IMPORT_CUTEBOT);
     Blockly.Python.addConstant('cutebot-robot', "\"\"\" Cutebot robot \"\"\"");
     const servo = block.getFieldValue("SERVO");
-    let angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
-    if (angle > 180) angle = 180;
-    if (angle < 0) angle = 0;
+    const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
     switch (servo) {
         case "both":
             return "cutebot.set_servo_1_angle(" + angle + ")" + NEWLINE + "cutebot.set_servo_2_angle(" + angle + ")" + NEWLINE;
@@ -900,6 +908,7 @@ Blockly.Python.robots_cutebot_onRemoteCommandReceived = function (block) {
     Blockly.Python.addConstant('cutebot-robot', '""" Cutebot robot """');
     const code = Blockly.Python.robots_onRemoteCommandReceived_generator(block);
     Blockly.Python.addConstant('NEC_REMOTE_TYPE', "NEC_REMOTE_TYPE = 'basic_black'");
+    Blockly.Python.addConstant('basic_black_NEC_buttons', FUNCTIONS_MICROBIT.DEF_REMOTE_NEC_BASIC_BLACK_BUTTONS);
     Blockly.Python.addFunction('remoteNEC_basicBlack_getButton', FUNCTIONS_MICROBIT.DEF_REMOTE_NEC_BASIC_BLACK_GET_BUTTON);
     return code;
 };
@@ -908,6 +917,7 @@ Blockly.Python.robots_cutebot_onRemoteCommandReceived_car_mp3_gray = function (b
     Blockly.Python.addConstant('cutebot-robot', '""" Cutebot robot """');
     const code = Blockly.Python.robots_onRemoteCommandReceived_generator(block);
     Blockly.Python.addConstant('NEC_REMOTE_TYPE', "NEC_REMOTE_TYPE = 'Car_mp3'");
+    Blockly.Python.addConstant('car_mp3_gray_NEC_buttons', FUNCTIONS_MICROBIT.DEF_REMOTE_NEC_AR_MP3_GRAY_BUTTONS);
     Blockly.Python.addFunction('remoteNEC_Carmp3_gray_getButton', FUNCTIONS_MICROBIT.DEF_REMOTE_NEC_AR_MP3_GRAY_GET_BUTTON);
     return code;
 };
@@ -1274,6 +1284,7 @@ Blockly.Python.robots_CutebotPro_onRemoteCommandReceived = function (block) {
     Blockly.Python.addConstant('cutebotpro-robot', '""" Cutebot Pro robot """');
     const code = Blockly.Python.robots_onRemoteCommandReceived_generator(block);
     Blockly.Python.addConstant('NEC_REMOTE_TYPE', "NEC_REMOTE_TYPE = 'basic_black'");
+    Blockly.Python.addConstant('basic_black_NEC_buttons', FUNCTIONS_MICROBIT.DEF_REMOTE_NEC_BASIC_BLACK_BUTTONS);
     Blockly.Python.addFunction('remoteNEC_basicBlack_getButton', FUNCTIONS_MICROBIT.DEF_REMOTE_NEC_BASIC_BLACK_GET_BUTTON);
     return code;
 };
@@ -1282,6 +1293,7 @@ Blockly.Python.robots_CutebotPro_onRemoteCommandReceived_car_mp3_gray = function
     Blockly.Python.addConstant('cutebotpro-robot', '""" Cutebot Pro robot """');
     const code = Blockly.Python.robots_onRemoteCommandReceived_generator(block);
     Blockly.Python.addConstant('NEC_REMOTE_TYPE', "NEC_REMOTE_TYPE = 'Car_mp3'");
+    Blockly.Python.addConstant('car_mp3_gray_NEC_buttons', FUNCTIONS_MICROBIT.DEF_REMOTE_NEC_AR_MP3_GRAY_BUTTONS);
     Blockly.Python.addFunction('remoteNEC_Carmp3_gray_getButton', FUNCTIONS_MICROBIT.DEF_REMOTE_NEC_AR_MP3_GRAY_GET_BUTTON);
     return code;
 };
@@ -1878,8 +1890,6 @@ Blockly.Python.robots_setBitCarGo = function (block) {
     Blockly.Python.addConstant('bitcar-robot', "\"\"\" BitCar robot \"\"\"");
     const dir = block.getFieldValue("DIR");
     let speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
-    if (speed > 100) speed = 100;
-    if (speed < 0) speed = 0;
     return `bitCarMove(${dir}, ${speed})` + NEWLINE;
 };
 
@@ -1890,8 +1900,6 @@ Blockly.Python.robots_rotateBitCar = function (block) {
     Blockly.Python.addConstant('bitcar-robot', "\"\"\" BitCar robot \"\"\"");
     const dir = block.getFieldValue("DIR");
     let speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
-    if (speed > 100) speed = 100;
-    if (speed < 0) speed = 0;
     return `bitCarRotate(${dir}, ${speed})` + NEWLINE;
 };
 
@@ -1902,8 +1910,6 @@ Blockly.Python.robots_controlBitCarMotor = function (block) {
     const dir = block.getFieldValue("DIR");
     const motor = block.getFieldValue("MOTOR");
     let speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
-    if (speed > 100) speed = 100;
-    if (speed < 0) speed = 0;
     switch (motor) {
         case 'L':
             return `setBitCarServoSpeed(pin13, pin14, ${dir}, ${speed})` + NEWLINE;
@@ -1932,15 +1938,9 @@ Blockly.Python.robots_setBitCarNeopixel = function (block) {
     Blockly.Python.addConstant('bitcar-robot', "\"\"\" BitCar robot \"\"\"");
     Blockly.Python.addInit('neopixel_pin8', "# Neopixel on pin8");
     Blockly.Python.addInit('bitcar_neopixel', "npBitCar = neopixel.NeoPixel(pin8, 4)");
-    let r = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_NONE) || "0";
-    let g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
-    let b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
-    if (r > 255) r = 255;
-    if (r < 0) r = 0;
-    if (g > 255) g = 255;
-    if (g < 0) g = 0;
-    if (b > 255) b = 255;
-    if (b < 0) b = 0;
+    const r = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_NONE) || "0";
+    const g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
+    const b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
     if (block.getFieldValue("LED") == "all") {
         return "for i in range(4):" + NEWLINE + "  npBitCar[i] = (" + r + ", " + g + ", " + b + ")" + NEWLINE + "npMaq.show()" + NEWLINE;
     } else {
@@ -1986,6 +1986,7 @@ Blockly.Python.robots_bitcar_onRemoteCommandReceived = function (block) {
     Blockly.Python.addConstant('bitcar-robot', '""" BitCar robot """');
     const code = Blockly.Python.robots_onRemoteCommandReceived_generator(block);
     Blockly.Python.addConstant('NEC_REMOTE_TYPE', "NEC_REMOTE_TYPE = 'basic_black'");
+    Blockly.Python.addConstant('basic_black_NEC_buttons', FUNCTIONS_MICROBIT.DEF_REMOTE_NEC_BASIC_BLACK_BUTTONS);
     Blockly.Python.addFunction('remoteNEC_basicBlack_getButton', FUNCTIONS_MICROBIT.DEF_REMOTE_NEC_BASIC_BLACK_GET_BUTTON);
     return code;
 };
@@ -1994,6 +1995,7 @@ Blockly.Python.robots_bitcar_onRemoteCommandReceived_car_mp3_gray = function (bl
     Blockly.Python.addConstant('bitcar-robot', '""" BitCar robot """');
     const code = Blockly.Python.robots_onRemoteCommandReceived_generator(block);
     Blockly.Python.addConstant('NEC_REMOTE_TYPE', "NEC_REMOTE_TYPE = 'Car_mp3'");
+    Blockly.Python.addConstant('car_mp3_gray_NEC_buttons', FUNCTIONS_MICROBIT.DEF_REMOTE_NEC_AR_MP3_GRAY_BUTTONS);
     Blockly.Python.addFunction('remoteNEC_Carmp3_gray_getButton', FUNCTIONS_MICROBIT.DEF_REMOTE_NEC_AR_MP3_GRAY_GET_BUTTON);
     return code;
 };
@@ -2006,4 +2008,332 @@ Blockly.Python.robots_decodeBitCarIRreceiver = function () {
 Blockly.Python.robots_getBitCarIRcode = function () {
     Blockly.Python.addConstant('bitcar-robot', "\"\"\" BitCar robot \"\"\"");
     return Blockly.Python.robots_getIRcode_generator();
+};
+
+Blockly.Python.robots_uhandbit_controlServo = function (block) {
+    const port = block.getFieldValue("PORT");
+    const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
+    const duration = Blockly.Python.valueToCode(block, "DURATION", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.addImport('uhandbit', IMPORT_UHANDBIT);
+    Blockly.Python.addInit('uhandbit_servo', "uhandbit_servo = UhandbitServo()");
+    return `uhandbit_servo.set_servo(${port}, ${angle}, ${duration})` + NEWLINE;
+};
+
+// uHandbit color sensor - apds9960
+Blockly.Python.robots_uhandbit_colorSensor_read_rgb = function (block) {
+    Blockly.Python.addImport('uhandbit', IMPORT_UHANDBIT);
+    Blockly.Python.addInit('uhandbit_color', "uhandbit_color = UhandbitColorSensor()");
+    return ["uhandbit_color.read_rgb()[" + block.getFieldValue("DATA") + "]", Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.robots_uhandbit_colorSensor_get_color = function () {
+    Blockly.Python.addImport('uhandbit', IMPORT_UHANDBIT);
+    Blockly.Python.addInit('uhandbit_color', "uhandbit_color = UhandbitColorSensor()");
+    return ["uhandbit_color.get_color()", Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.robots_uhandbit_ultrasonic_get_distance = function (block) {
+    let pinTRIG;
+    let pinECHO;
+    switch (block.getFieldValue("PORT")) {
+        case "1":
+            pinTRIG = "pin1"
+            pinECHO = "pin2";
+            break;
+        case "2":
+            pinTRIG = "pin13";
+            pinECHO = "pin14";
+            break;
+    }
+    Blockly.Python.addInit(pinTRIG, "# Ultrasonic TRIG on " + pinTRIG);
+    Blockly.Python.addInit(pinECHO, "# Ultrasonic ECHO on " + pinECHO);
+    Blockly.Python.addImport('machine_pulse', IMPORT_MACHINE_PULSE_MS);
+    Blockly.Python.addImport('utime', IMPORT_UTIME);
+    Blockly.Python.addFunction('getUltrasonicData', FUNCTIONS_MICROBIT.DEF_GROVE_ULTRASONIC);
+    let code = "";
+    switch (block.getFieldValue("DATA")) {
+        case "DIST":
+            code = "distance";
+            break;
+        case "TIME":
+            code = "duration";
+            break;
+    }
+    return ["getUltrasonicData(" + pinTRIG + ", " + pinECHO + ", '" + code + "')", Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.robots_uhandbit_setNeopixel = function (block) {
+    Blockly.Python.addImport('neopixel', IMPORT_NEOPIXEL);
+    Blockly.Python.addInit('neopixel_pin15', "# Neopixel on pin15");
+    Blockly.Python.addInit('uhandbit_neopixel', "npuHandbit = neopixel.NeoPixel(pin15, 2)");
+    const r = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_NONE) || "0";
+    const g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
+    const b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
+    let l = Blockly.Python.valueToCode(block, "LED", Blockly.Python.ORDER_NONE) || "0";
+    if (l < 0 || l > 11) {
+        return "npuHandbit[0]=(0,0,0)" + NEWLINE + "npuHandbit.show()" + NEWLINE;
+    }
+    return "npuHandbit[" + l + "] = (" + r + ", " + g + ", " + b + ")" + NEWLINE + "npuHandbit.show()" + NEWLINE;
+};
+
+Blockly.Python.robots_uhandbit_setNeopixelPalette = function (block) {
+    const led = Blockly.Python.valueToCode(block, "LED", Blockly.Python.ORDER_NONE) || "0";
+    const colour = Blockly.Python.valueToCode(block, "COLOR", Blockly.Python.ORDER_NONE) || "(0,0,0)";
+    Blockly.Python.addImport('neopixel', IMPORT_NEOPIXEL);
+    Blockly.Python.addInit('neopixel_pin15', "# Neopixel on pin15");
+    Blockly.Python.addInit('uhandbit_neopixel', "npuHandbit = neopixel.NeoPixel(pin15, 2)");
+    return "npuHandbit[" + led + "] = " + colour + NEWLINE + "npuHandbit.show()" + NEWLINE;
+};
+
+Blockly.Python.robots_uhandbit_setNeopixelRainbow = function () {
+    Blockly.Python.addImport('neopixel', IMPORT_NEOPIXEL);
+    Blockly.Python.addInit('neopixel_pin15', "# Neopixel on pin15");
+    Blockly.Python.addInit('uhandbit_neopixel', "npuHandbit = neopixel.NeoPixel(pin15, 2)");
+    Blockly.Python.addFunction('neopixel_showAllLed', FUNCTIONS_MICROBIT.DEF_NEOPIXEL_SHOW_ALL_LED);
+    Blockly.Python.addFunction('neopixel_rainbow', FUNCTIONS_MICROBIT.DEF_NEOPIXEL_RAINBOW);
+    return "neopixel_rainbow(npuHandbit, 2)" + NEWLINE;
+};
+
+// wukong
+
+Blockly.Python.robots_wukong_setLightMode = function (block) {
+    Blockly.Python.addImport('wukong', IMPORT_WUKONG);
+    Blockly.Python.addConstant('wukong-robot', "\"\"\" Wukong robot \"\"\"");
+    Blockly.Python.addInit('wukong', "wk = WUKONG()");
+    const mode = block.getFieldValue("MODE");
+    if (mode == "BREATH") {
+        return "wk.set_light_breath(True)" + NEWLINE;
+    } else {
+        return "wk.set_light_breath(False)" + NEWLINE;
+    }
+};
+
+Blockly.Python.robots_wukong_setLightIntensity = function (block) {
+    Blockly.Python.addImport('wukong', IMPORT_WUKONG);
+    Blockly.Python.addConstant('wukong-robot', "\"\"\" Wukong robot \"\"\"");
+    Blockly.Python.addInit('wukong', "wk = WUKONG()");
+    const light = Blockly.Python.valueToCode(block, "LIGHT", Blockly.Python.ORDER_NONE) || "0";
+    return "wk.set_light(" + light + ")" + NEWLINE;
+};
+
+Blockly.Python.robots_wukong_controlMotors = function (block) {
+    Blockly.Python.addImport('wukong', IMPORT_WUKONG);
+    Blockly.Python.addConstant('wukong-robot', "\"\"\" Wukong robot \"\"\"");
+    Blockly.Python.addInit('wukong', "wk = WUKONG()");
+    const dir = block.getFieldValue("DIR");
+    const motor = block.getFieldValue("MOTOR");
+    let speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
+    if (dir == "ANTICLOCKWISE") {
+        speed = "-" + speed;
+    }
+    if (motor == "BOTH") {
+        return "wk.set_motors(1, " + speed + ")" + NEWLINE + "wk.set_motors(2, " + speed + ")" + NEWLINE;
+    } else {
+        return "wk.set_motors(" + motor + ", " + speed + ")" + NEWLINE;
+    }
+};
+
+Blockly.Python.robots_wukong_stopMotors = function (block) {
+    Blockly.Python.addImport('wukong', IMPORT_WUKONG);
+    Blockly.Python.addConstant('wukong-robot', "\"\"\" Wukong robot \"\"\"");
+    Blockly.Python.addInit('wukong', "wk = WUKONG()");
+    const motor = block.getFieldValue("MOTOR");
+    if (motor == "BOTH") {
+        return "wk.set_motors(1, 0)" + NEWLINE + "wk.set_motors(2, 0)" + NEWLINE;;
+    } else {
+        return "wk.set_motors(" + motor + ", 0)" + NEWLINE;
+    }
+};
+
+Blockly.Python.robots_wukong_setServoAngle = function (block) {
+    Blockly.Python.addImport('wukong', IMPORT_WUKONG);
+    Blockly.Python.addConstant('wukong-robot', "\"\"\" Wukong robot \"\"\"");
+    Blockly.Python.addInit('wukong', "wk = WUKONG()");
+    const servo = block.getFieldValue("SERVO");
+    const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
+    const type = block.getFieldValue("TYPE");
+    switch (servo) {
+        case "ALL":
+            return "for s in range(7):" + NEWLINE + "wk.set_servo(s + 1, " + angle + ", servoType = wk._" + type + ")" + NEWLINE;
+        default:
+            return "wk.set_servo(" + servo + ", " + angle + ", servoType = wk._" + type + ")" + NEWLINE;
+    }
+};
+
+Blockly.Python.robots_wukong_setServoSpeed = function (block) {
+    Blockly.Python.addImport('wukong', IMPORT_WUKONG);
+    Blockly.Python.addConstant('wukong-robot', "\"\"\" Wukong robot \"\"\"");
+    Blockly.Python.addInit('wukong', "wk = WUKONG()");
+    const servo = block.getFieldValue("SERVO");
+    const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
+    switch (servo) {
+        case "ALL":
+            return "for s in range(7):" + NEWLINE + "wk.set_servo_speed(s + 1, " + speed + ")" + NEWLINE;
+        default:
+            return "wk.set_servo_speed(" + servo + ", " + speed + ")" + NEWLINE;
+    }
+};
+
+// Building:bit Super - Base
+
+Blockly.Python.robots_buildingBit_setNeopixel = function (block) {
+    Blockly.Python.addImport('neopixel', IMPORT_NEOPIXEL);
+    Blockly.Python.addConstant('buildingbit-robot', "\"\"\" Building:bit robot \"\"\"");
+    Blockly.Python.addInit('neopixel_pin12', "# Neopixel on pin12");
+    Blockly.Python.addInit('buildingbit_neopixel', "npSuperBit = neopixel.NeoPixel(pin12, 4)");
+    const r = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_NONE) || "0";
+    const g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
+    const b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
+    if (block.getFieldValue("LED") == "all") {
+        return "for i in range(4):" + NEWLINE + "  npSuperBit[i] = (" + r + ", " + g + ", " + b + ")" + NEWLINE + "npSuperBit.show()" + NEWLINE;
+    } else {
+        return "npSuperBit[" + block.getFieldValue("LED") + "] = (" + r + ", " + g + ", " + b + ")" + NEWLINE + "npSuperBit.show()" + NEWLINE;
+    }
+};
+
+Blockly.Python.robots_buildingBit_setNeopixelPalette = function (block) {
+    Blockly.Python.addImport('neopixel', IMPORT_NEOPIXEL);
+    Blockly.Python.addConstant('buildingbit-robot', "\"\"\" Building:bit robot \"\"\"");
+    Blockly.Python.addInit('neopixel_pin12', "# Neopixel on pin12");
+    Blockly.Python.addInit('buildingbit_neopixel', "npSuperBit = neopixel.NeoPixel(pin12, 4)");
+    const led = block.getFieldValue("LED");
+    const colour = Blockly.Python.valueToCode(block, "COLOR", Blockly.Python.ORDER_NONE) || "(0,0,0)";
+    if (led == "all") {
+        return "for i in range(4):" + NEWLINE + "  npSuperBit[i] = " + colour + NEWLINE + "npSuperBit.show()" + NEWLINE;
+    } else {
+        return "npSuperBit[" + led + "] = " + colour + NEWLINE + "npSuperBit.show()" + NEWLINE;
+    }
+};
+
+Blockly.Python.robots_buildingBit_setServoAngle = function (block) {
+    Blockly.Python.addImport('superbit', IMPORT_SUPERBIT);
+    Blockly.Python.addConstant('buildingbit-robot', "\"\"\" Building:bit robot \"\"\"");
+    const servo = block.getFieldValue("SERVO");
+    const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
+    const type = block.getFieldValue("TYPE");
+    return "superbit.servo" + type + "(superbit." + servo + ", " + angle + ")" + NEWLINE;
+};
+
+Blockly.Python.robots_buildingBit_controlMotors = function (block) {
+    Blockly.Python.addImport('superbit', IMPORT_SUPERBIT);
+    Blockly.Python.addConstant('buildingbit-robot', "\"\"\" Building:bit robot \"\"\"");
+    const dir = block.getFieldValue("DIR");
+    const motor = block.getFieldValue("MOTOR");
+    let speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
+    if (dir == "ANTICLOCKWISE") {
+        speed = "-" + speed;
+    }
+    return "superbit.motor_control(superbit." + motor + ", " + speed + ", 0)" + NEWLINE;
+};
+
+Blockly.Python.robots_buildingBit_stopMotors = function (block) {
+    Blockly.Python.addImport('superbit', IMPORT_SUPERBIT);
+    Blockly.Python.addConstant('buildingbit-robot', "\"\"\" Building:bit robot \"\"\"");
+    const motor = block.getFieldValue("MOTOR");
+    return "superbit.motor_control(superbit." + motor + ", 0, 0)" + NEWLINE;
+};
+
+Blockly.Python.robots_buildingBit_controlStepperMotors = function (block) {
+    Blockly.Python.addImport('superbit', IMPORT_SUPERBIT);
+    Blockly.Python.addConstant('buildingbit-robot', "\"\"\" Building:bit robot \"\"\"");
+    const motor = block.getFieldValue("MOTOR");
+    const position = Blockly.Python.valueToCode(block, "POSITION", Blockly.Python.ORDER_NONE) || "0";
+    return "superbit.stepper_control(superbit." + motor + ", " + position + ")" + NEWLINE;
+};
+
+// Building:bit Super - Sensor
+
+Blockly.Python.robots_buildingBit_getUltrasonicDistance = function (block) {
+    const pinTRIG = block.getFieldValue("TRIG");
+    const pinECHO = block.getFieldValue("ECHO");
+    Blockly.Python.addImport('WOM_Sensor_Kit', IMPORT_WOM_SENSOR_KIT);
+    Blockly.Python.addInit(pinTRIG, "# Ultrasonic TRIG on " + pinTRIG);
+    Blockly.Python.addInit(pinECHO, "# Ultrasonic ECHO on " + pinECHO);
+    return ["WOM_Sensor_Kit.WOM_ultrasonic(" + pinECHO + ", " + pinTRIG + ")", Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.robots_buildingBit_getPotentiometerValue = function (block) {
+    const pin = block.getFieldValue("PIN");
+    Blockly.Python.addImport('WOM_Sensor_Kit', IMPORT_WOM_SENSOR_KIT);
+    Blockly.Python.addInit('potentiometer_module_' + pin, "# Potentiometer on " + pin);
+    return ["WOM_Sensor_Kit.WOM_Knob(" + pin + ")", Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.robots_buildingBit_getLightLevel = function (block) {
+    const pin = block.getFieldValue("PIN");
+    Blockly.Python.addImport('WOM_Sensor_Kit', IMPORT_WOM_SENSOR_KIT);
+    Blockly.Python.addInit('light_module_' + pin, "# Light Sensor on " + pin);
+    return ["WOM_Sensor_Kit.WOM_light_V2(" + pin + ")", Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.robots_buildingBit_isObstacleDetected = function (block) {
+    const pin = block.getFieldValue("PIN");
+    Blockly.Python.addImport('WOM_Sensor_Kit', IMPORT_WOM_SENSOR_KIT);
+    Blockly.Python.addInit('obstacle_detector' + pin, "# IR Obstacle Detector on " + pin);
+    return ["WOM_Sensor_Kit.WOM_ir(" + pin + ") == 0", Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.robots_buildingBit_getPIRstate = function (block) {
+    const pin = block.getFieldValue("PIN");
+    Blockly.Python.addImport('WOM_Sensor_Kit', IMPORT_WOM_SENSOR_KIT);
+    Blockly.Python.addInit('motion_module_' + pin, "# PIR Motion Sensor on " + pin);
+    return ["WOM_Sensor_Kit.WOM_pir(" + pin + ")", Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.robots_buildingBit_dht11_redData = function (block) {
+    const pin = block.getFieldValue("PIN");
+    Blockly.Python.addImport('WOM_Sensor_Kit', IMPORT_WOM_SENSOR_KIT);
+    Blockly.Python.addInit('dht11_' + pin, "# DHT11 Sensor on " + pin);
+    switch (block.getFieldValue("DATA")) {
+        case "TEMP":
+            let code = "WOM_Sensor_Kit.WOM_dht11(" + pin + ", WOM_Sensor_Kit.WOM_temp_C)";
+            if (block.getInput("TEMP_UNIT")) {
+                switch (block.getFieldValue("UNIT")) {
+                    case "FAHRENHEIT":
+                        code += "*9/5 + 32";
+                        break;
+                    case "KELVIN":
+                        code += " + 273.15";
+                        break;
+                }
+            }
+            return [code, Blockly.Python.ORDER_ADDITIVE];
+        case "HUM":
+            return ["WOM_Sensor_Kit.WOM_dht11(" + pin + ", WOM_Sensor_Kit.WOM_humidity)", Blockly.Python.ORDER_ATOMIC];
+    }
+};
+
+Blockly.Python.robots_buildingBit_getColor = function (block) {
+    Blockly.Python.addImport('WOM_Sensor_Kit', IMPORT_WOM_SENSOR_KIT);
+    switch (block.getFieldValue("COLOR")) {
+        case "R":
+            return ["WOM_Sensor_Kit.WOM_color(WOM_Sensor_Kit.WOM_red)", Blockly.Python.ORDER_ATOMIC];
+        case "G":
+            return ["WOM_Sensor_Kit.WOM_color(WOM_Sensor_Kit.WOM_green)", Blockly.Python.ORDER_ATOMIC];
+        case "B":
+            return ["WOM_Sensor_Kit.WOM_color(WOM_Sensor_Kit.WOM_green)", Blockly.Python.ORDER_ATOMIC];
+    }
+};
+
+Blockly.Python.robots_buildingBitonJoystickDir = function (block) {
+    Blockly.Python.addImport('WOM_Sensor_Kit', IMPORT_WOM_SENSOR_KIT);
+    const pinX = block.getFieldValue("PIN_X");
+    const pinY = block.getFieldValue("PIN_Y");
+    const branchCode = Blockly.Python.statementToCode(block, "DO") || Blockly.Python.PASS;
+    let dir;
+    switch (block.getFieldValue("DIR")) {
+        case "UP":
+            dir = "WOM_Sensor_Kit.WOM_up";
+            break;
+        case "DOWN":
+            dir = "WOM_Sensor_Kit.WOM_down";
+            break;
+        case "RIGHT":
+            dir = "WOM_Sensor_Kit.WOM_right";
+            break;
+        case "LEFT":
+            dir = "WOM_Sensor_Kit.WOM_left";
+            break;
+    }
+    return "if WOM_Sensor_Kit.WOM_rocker(" + pinX + ", " + pinY + ", " + dir + "):" + NEWLINE + branchCode;
 };

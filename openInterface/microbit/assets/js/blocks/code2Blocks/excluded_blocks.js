@@ -108,7 +108,7 @@ const AUTHORIZED_BLOCKS_SENSORS = [
     "sensors_getRainGauge",
     "sensors_getAnemometer",
     "sensors_getGroveLight",
-    "sensors_getSi1145Light",
+    "sensors_getSunlightData",
     "sensors_getUVindex",
     "sensors_colorSensor_getData",
     "sensors_getGroveSound",
@@ -212,9 +212,9 @@ const AUTHORIZED_BLOCKS_COMMUNICATION = [
     "communication_log_addData",
     "communication_log_data",
     // Bluetooth
-    "communication_onBluetoothDataReceived",
+    "communication_hc05_sendBluetoothData",
+    "communication_hc05_onBluetoothDataReceived",
     "communication_HM10_onBluetoothDataReceived",
-    "communication_sendBluetoothData",
     "communication_HM10_sendBluetoothData",
 ]
 

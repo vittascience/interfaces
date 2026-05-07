@@ -6,6 +6,12 @@ const DEFAULT_XML_START = {
     "scratch": '<xml xmlns="https://developers.google.com/blockly/xml"><block type="scratch_on_start" id="G[=T#8yqB70`NFgYq}GP" deletable="false" x="0" y="0"><next><block type="scratch_forever" id="o[WN]+eeF.OUxGch67@8" deletable="false"></block></next></block></xml>'
 };
 const DEFAULT_CODE_START = "void setup() {\n}\n\nvoid loop() {\n}";
+const REPLACE_CODE_REQUESTS = {
+    "vittaia_load_cloud_model": [/<\s*block type=\s*"vittaia_load_cloud_model"\s*id="([^"]{20})"><value name=\s*"MODEL_ID"\s*>/g, "<block type=\"vittaia_load_cloud_model\" id=\"$1\"><value name=\"MODEL_URL\">"],
+};
+const REMOVE_INPUT_VALUE_CONNECTION = {
+    "communication_onRemoteCommandReceived": "DATA"
+};
 //modes
 const MODE_CODE = "code";
 const MODE_BLOCKS = "blocks";
@@ -19,22 +25,25 @@ const TOOLBOX_STYLE_SCRATCH = "scratch";
 const TOOLBOX_STYLE_DEFAULT = TOOLBOX_STYLE_VITTA;
 //board
 const BOARD_ARDUINO_UNO = "uno";
-const BOARD_SHIELD_GROVE = "shield-grove";
 const BOARD_ARDUINO_NANO = "nano";
 const BOARD_ARDUINO_MEGA = "mega";
 const BOARD_ARDUINO_UNO_R4_WIFI = "unor4wifi";
+const BOARD_ARDUINO_UNO_R4_MINIMA = "unor4minima";
 const BOARD_ARDUINO_PRO_MINI = 'pro-mini';
 const BOARD_DEFAULT = BOARD_ARDUINO_UNO;
+//shield
+const BOARD_SHIELD_GROVE = "shield-grove";
+const BOARD_SHIELD_GROVE_MEGA = "shield-grove-mega";
+const BOARD_SHIELD_GROVE_NANO = "shield-grove-nano";
 //standalone_blocks
 const BLOCKS_OUTSIDE_SCOPE = ["on_start", "forever", "scratch_on_start", "procedures_defnoreturn", "procedures_defreturn", "io_attachInterrupt", "preproc_include", "preproc_define", "preproc_define", "comment_block_standalone"];
 //example projects
 const EXAMPLE_PROJECT_LINKS = ['639987a2d76c3', '6399a76286bfd', '6399a8b8ee0d4', '6399a9b491f07', '6399bd8184b3f', '6399c0b51e361'];
 //adc
 const READ_ANALOG_MAX_VALUE = 1023;
-const WRITE_ANALOG_MAX_VALUE = 255;
 const PWM_MAX_DUTY = 255;
-//simulator
-const SIMULATOR_BOARDS = {
+//boards
+const INTERFACE_BOARDS = {
     [BOARD_ARDUINO_UNO]: {
         "id": BOARD_ARDUINO_UNO,
         "link": 'arduino_uno.svg',
@@ -43,6 +52,7 @@ const SIMULATOR_BOARDS = {
         "animId": "ellipse-top",
         "ledId": "ar-led13",
         "mcu": "avr_8bits",
+        "shieldId": BOARD_SHIELD_GROVE,
         "shieldLink": 'arduino_uno_grove_shield.svg',
         "shieldName": 'Shield Grove UNO'
     },
@@ -54,17 +64,19 @@ const SIMULATOR_BOARDS = {
         "animId": "reset_on",
         "ledId": "ar-led13",
         "mcu": "avr_8bits",
+        "shieldId": BOARD_SHIELD_GROVE_NANO,
         "shieldLink": 'arduino_nano_grove_shield.svg',
         "shieldName": 'Shield Grove Nano'
     },
     [BOARD_ARDUINO_MEGA]: {
         "id": BOARD_ARDUINO_MEGA,
         "link": 'arduino-mega-2560.svg',
-        "name": "Arduino Méga",
+        "name": "Arduino Mega",
         "resetId": "reset",
         "animId": "reset_on",
         "ledId": "led_l_on",
         "mcu": "avr_8bits",
+        "shieldId": BOARD_SHIELD_GROVE_MEGA,
         "shieldLink": 'arduino_mega_grove_shield.svg',
         "shieldName": 'Shield Grove Mega'
     },
@@ -76,6 +88,19 @@ const SIMULATOR_BOARDS = {
         "animId": "button_on",
         "ledId": "led_l_on",
         "mcu": "32bits",
+        "shieldId": BOARD_SHIELD_GROVE,
+        "shieldLink": 'arduino_uno_grove_shield.svg',
+        "shieldName": 'Shield Grove UNO'
+    },
+    [BOARD_ARDUINO_UNO_R4_MINIMA]: {
+        "id": BOARD_ARDUINO_UNO_R4_MINIMA,
+        "link": 'arduino-uno-r4-minima.svg',
+        "name": "Arduino UNO R4 Minima",
+        "resetId": "button_off",
+        "animId": "button_on",
+        "ledId": "led_l_on",
+        "mcu": "32bits",
+        "shieldId": BOARD_SHIELD_GROVE,
         "shieldLink": 'arduino_uno_grove_shield.svg',
         "shieldName": 'Shield Grove UNO'
     },
@@ -89,6 +114,7 @@ const SIMULATOR_BOARDS = {
         "mcu": "8bits"
     }
 };
+//simulator
 const SIMULATOR_CPP_LIMITS = {
     'avr_8bits': {
         "char": { "max": 0x7f, "min": -0x80, "bytes": 1 },
@@ -159,7 +185,8 @@ const SIMULATOR_TYPE_FORMATS = {
         p: ["p"],
     }
 };
-const SIMULATOR_DEFAULT_BOARD = SIMULATOR_BOARDS[BOARD_DEFAULT];
+const SIMULATOR_DEFAULT_BOARD = INTERFACE_BOARDS[BOARD_DEFAULT];
+//serial
 const SERIAL_OPTIONS = {
     boardSelection: true,
     bauds: {
@@ -167,6 +194,7 @@ const SERIAL_OPTIONS = {
         [BOARD_ARDUINO_NANO]: 115200,
         [BOARD_ARDUINO_MEGA]: 9600,
         [BOARD_ARDUINO_UNO_R4_WIFI]: 115200,
+        [BOARD_ARDUINO_UNO_R4_MINIMA]: 115200,
         [BOARD_ARDUINO_PRO_MINI]: 19200
     },
     variant_ids: {
@@ -174,6 +202,7 @@ const SERIAL_OPTIONS = {
         [BOARD_ARDUINO_NANO]: ['nano', 'nano-aTmega328-old', 'nano-atmega168'],
         [BOARD_ARDUINO_MEGA]: ['mega-1280', 'mega-2560', 'mega-adk'],
         [BOARD_ARDUINO_UNO_R4_WIFI]: ['unor4wifi'],
+        [BOARD_ARDUINO_UNO_R4_MINIMA]: ['unor4minima'],
         [BOARD_ARDUINO_PRO_MINI]: ['pro-mini-atmega328-16mhz', 'pro-mini-atmega328-8mhz', 'pro-mini-atmega168-16mhz', 'pro-mini-atmega168-8mhz']
     }
 };

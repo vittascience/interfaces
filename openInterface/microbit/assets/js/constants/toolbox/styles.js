@@ -29,10 +29,7 @@ const THEME_VITTASCIENCE = {
     "tello_blocks": {
         'colourPrimary': "#5c5c5c"
     },
-    "vittaia_blocks": {
-        "colourPrimary": "#0fbd8c"
-    },
-    "cameras_blocks": {
+    "ia_blocks": {
         "colourPrimary": "#ffab19"
     },
     "logic_blocks": {
@@ -87,17 +84,14 @@ const THEME_SCRATCH = {
         "colourPrimary": "#5cb1d6",
         "hat": "cap"
     },
-    "vittaia_blocks": {
-        "colourPrimary": "#0fbd8c"
-    },
     "robots_blocks": {
         "colourPrimary": "#3349aa"
     },
     "tello_blocks": {
         'colourPrimary': "#5c5c5c"
     },
-    "cameras_blocks": {
-        "colourPrimary": "#ffab19"
+    "ia_blocks": {
+        "colourPrimary": "#0fbd8c"
     },
     "math_blocks": {
         "colourPrimary": "#59c059"

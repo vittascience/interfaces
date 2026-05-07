@@ -31,11 +31,11 @@ class microbitFsWrapper {
      * Creates an instance of Micropythonthis.
      * @private
      */
-    constructor(filename = 'main.py') {
+    constructor(filename = 'main.py', hex_v2 = 'micropython-microbit-v2.1.1.hex') {
         this.filename = filename;
         this.fs = null;
         this.HEX_V1 = `${CDN_PATH}${_PATH}/microbit/assets/js/hex/micropython-microbit-v1.0.hex`;
-        this.HEX_V2 = `${CDN_PATH}${_PATH}/microbit/assets/js/hex/micropython-microbit-v2.1.1.hex`;
+        this.HEX_V2 = `${CDN_PATH}${_PATH}/microbit/assets/js/hex/${hex_v2}`;
         this.commonFsSize = 20 * 1024;
         this.passthroughMethods = [
             'create',

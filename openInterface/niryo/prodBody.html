@@ -45,39 +45,39 @@
     <div id="ide-content">
         <div id="searchBlocklyDiv" style="display: none; visibility: 'hidden';"></div>
         <div class="ide-base">
-            <div id="movements-overlay" class="">
+            <div id="movements-overlay">
                 <div class="slider-movement-container">
                     <div class="slider-movement-buttons-setup">
-                        <button id="close-movements-button" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-xmark"></i></button>
+                        <button id="close-movements-button" class="btn btn-outline-secondary btn-sm" aria-label="Close movements panel" data-i18n="[aria-label]code.simulator.buttons.simulator3D.closeMovements"><i class="fa-solid fa-xmark"></i></button>
                         <button id="add-block-button" class="btn btn-outline-secondary btn-sm">Ajouter un bloc</button>
                     </div>
                     <div class="slider-movement">
-                        <div class="slider-movement-title">J1 - base</div>
+                        <label for="slider-j1" class="slider-movement-title">J1 - base</label>
                         <input type="range" min="-2.9" max="2.9" value="0" step="0.01" class="slider-joint-element" id="slider-j1">
                         <div class="slider-movement-value" id="slider-j1-value">0</div>
                     </div>
                     <div class="slider-movement">
-                        <div class="slider-movement-title">J2 - Shoulder</div>
+                        <label for="slider-j2" class="slider-movement-title">J2 - Shoulder</label>
                         <input type="range" min="-1.83" max="0.610" value="0" step="0.01" class="slider-joint-element" id="slider-j2">
                         <div class="slider-movement-value" id="slider-j2-value">0</div>
                     </div>
                     <div class="slider-movement">
-                        <div class="slider-movement-title">J3 - Elbow</div>
+                        <label for="slider-j3" class="slider-movement-title">J3 - Elbow</label>
                         <input type="range" min="-1.34" max="1.47" value="0" step="0.01" class="slider-joint-element" id="slider-j3">
                         <div class="slider-movement-value" id="slider-j3-value">0</div>
                     </div>
                     <div class="slider-movement">
-                        <div class="slider-movement-title">J4 - Forarm Rotation</div>
+                        <label for="slider-j4" class="slider-movement-title">J4 - Forarm Rotation</label>
                         <input type="range" min="-2.090" max="2.090" value="0" step="0.01" class="slider-joint-element" id="slider-j4">
                         <div class="slider-movement-value" id="slider-j4-value">0</div>
                     </div>
                     <div class="slider-movement">
-                        <div class="slider-movement-title">J5 - Wrist</div>
+                        <label for="slider-j5" class="slider-movement-title">J5 - Wrist</label>
                         <input type="range" min="-1.920" max="1.920" value="0" step="0.01" class="slider-joint-element" id="slider-j5">
                         <div class="slider-movement-value" id="slider-j5-value">0</div>
                     </div>
                     <div class="slider-movement">
-                        <div class="slider-movement-title">J6 - Hand Rotation</div>
+                        <label for="slider-j6" class="slider-movement-title">J6 - Hand Rotation</label>
                         <input type="range" min="-2.53" max="2.53" value="0" step="0.01" class="slider-joint-element" id="slider-j6">
                         <div class="slider-movement-value" id="slider-j6-value">0</div>
                     </div>
@@ -101,10 +101,10 @@
                 <div id="monitor-content" class="monitor-grid-bottom">
                     <div id="monitor-view">
                         <div id="monitor-view-group-btn">
-                            <button id="monitor-btn-console" class="monitor-view-btn btn activated" data-i18n="[title]code.console.buttons.consoleMode" data-toggle="tooltip" data-placement="left" title="Mode console">
+                            <button id="monitor-btn-console" class="monitor-view-btn btn activated" data-i18n="[title]code.console.buttons.consoleMode;[aria-label]code.console.buttons.consoleMode" data-toggle="tooltip" data-placement="left" title="Mode console">
                                 <i class="fas fa-terminal"></i>
                             </button>
-                            <button id="monitor-btn-graph" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.graphMode" data-toggle="tooltip" data-placement="left" title="Mode graphique">
+                            <button id="monitor-btn-graph" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.graphMode;[aria-label]code.console.buttons.graphMode" data-toggle="tooltip" data-placement="left" title="Mode graphique">
                                 <i class="fas fa-chart-line"></i>
                             </button>
                             <div id="monitor-graph-tooltip" class="interface-tooltip" style="display: none;">
@@ -121,7 +121,7 @@
                                     Pour visualiser les données reçues dans la console, cliquer sur le bouton <b>Graphique</b>
                                 </span>
                             </div>
-                            <button id="monitor-clear" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.clearConsole" data-toggle="tooltip" data-placement="left" title="Nettoyer l'écran">
+                            <button id="monitor-clear" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.clearConsole;[aria-label]code.console.buttons.clearConsole" data-toggle="tooltip" data-placement="left" title="Nettoyer l'écran">
                                 <i class="fas fa-broom"></i>
                             </button>
                         </div>
@@ -145,7 +145,7 @@
 
                             <div class="w-75 d-flex me-1">
                                 <div class="dropup dropup-center">
-                                    <button class="btn monitor-controls-button dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button class="btn monitor-controls-button dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-i18n="[aria-label]code.console.buttons.monitorTool.controlsMenu">
                                         <i class="fas fa-cog"></i>
                                     </button>
                                     <div id="monitor-controls-dropdown" class="dropdown-menu">
@@ -178,8 +178,8 @@
                                                 <i class="fas fa-arrows-alt-v"></i>
                                             </label>
                                             <div class="input-group gap-0">
-                                                <input class="tracer-controls form-control mx-0" id="minY" type="text" placeholder="min" title="Auto par défaut">
-                                                <input class="tracer-controls form-control mx-0" type="text" id="maxY" placeholder="max" title="Auto par défaut">
+                                                <input class="tracer-controls form-control mx-0" id="minY" type="text" placeholder="min" title="Auto par défaut" aria-label="Minimum Y value">
+                                                <input class="tracer-controls form-control mx-0" type="text" id="maxY" placeholder="max" title="Auto par défaut" aria-label="Maximum Y value">
                                             </div>
                                         </div>
                                         <div class="dropdown-item mt-1">
@@ -281,24 +281,116 @@
                         </div>
                         <div id="checkbox-switch-angle">
                             <div>
-                                <label for="input-rad-checkbox">Rad</label>
+                                <label for="radian-radio-button">Rad</label>
                                 <input id="radian-radio-button" type="radio" name="angle-checkbox" checked>
                             </div>
                             <div>
-                                <label for="input-deg-checkbox">Deg</label>
+                                <label for="degre-radio-button">Deg</label>
                                 <input id="degre-radio-button" type="radio" name="angle-checkbox">
                             </div>
                         </div>
                     </div>
                     <div id='experience-ar'></div>
+                    <!-- <div id="remote-object-in-scene" style="display: none;">
+                        <button id="button-remote-object"><i class="fa-regular fa-circle-dot"></i></button>
+                    </div> -->
                     <div class="pen-drawing">
-                        <button id="button-pen-drawing" onclick="drawLineButton()">Tracé</button>
+                        <button data-toggle="tooltip" title="Tracé" data-placement="top" data-i18n="[title]code.simulator.buttons.simulator3D.pen" id="button-pen-drawing" onclick="drawLineButton()"><img src="/openInterface/interfaces/assets/media/simulator/robot/buttons/icon-write.svg" alt="Pen icon"></button>
+                    </div>
+                    <div class="simulation-parameters">
+                        <button data-toggle="tooltip" title="Paramètres" data-placement="top" data-i18n="[title]code.simulator.buttons.simulator3D.params" id="button-simulation-parameters"><i class="fa-solid fa-gear"></i></button>
+                        <div id="simulation-parameters-container" style="display: none;">
+                            <div class="simulation-parameters-header">
+                                <span>Paramètres simulation</span>
+                                <button type="button" id="close-parameters-button" class="btn-close-parameters"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                            <div class="simulation-parameters-content">
+                                <div id="parameter-simulation-remote-control" style="display: none;">
+                                    <button id="synchronize-objects-in-scene" class="btn-parameter btn-small">
+                                        <i class="fa-solid fa-rotate-right"></i> Synchroniser objets
+                                    </button>
+                                </div>
+                                <!-- Activation de la physique -->
+                                <div class="parameter-item-inline">
+                                    <label for="physics-toggle">Physique</label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="physics-toggle" checked class="toggle-input">
+                                        <label for="physics-toggle" class="toggle-label"></label>
+                                    </div>
+                                </div>
+
+                                <!-- Gravité -->
+                                <div class="parameter-item">
+                                    <label for="gravity-select">Gravité</label>
+                                    <select id="gravity-select" class="parameter-select">
+                                        <option value="9.81" selected>Terre (9.81 m/s²)</option>
+                                        <option value="3.71">Mars (3.71 m/s²)</option>
+                                        <option value="1.62">Lune (1.62 m/s²)</option>
+                                        <option value="24.79">Jupiter (24.79 m/s²)</option>
+                                        <option value="10.44">Saturne (10.44 m/s²)</option>
+                                        <option value="8.87">Vénus (8.87 m/s²)</option>
+                                        <option value="3.7">Mercure (3.7 m/s²)</option>
+                                        <option value="8.69">Uranus (8.69 m/s²)</option>
+                                        <option value="11.15">Neptune (11.15 m/s²)</option>
+                                        <option value="0">Aucune (0 m/s²)</option>
+                                    </select>
+                                </div>
+
+                                <!-- Réinitialiser la physique -->
+                                <div class="parameter-item">
+                                    <button id="reset-physics-button" class="btn-parameter btn-small">
+                                        <i class="fa-solid fa-rotate-right"></i> Réinitialiser physique
+                                    </button>
+                                </div>
+                                
+                                <div id="parameter-simulation">
+                                    <div class="parameter-item">
+                                        <label for="scenario-select">Scénario</label>
+                                        <select id="scenario-select" class="parameter-select">
+                                            <option value="scenario1">Démonstration</option>
+                                            <option value="scenario2">Tour</option>
+                                            <option value="scenario3">Pyramide</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Couleur du tracé -->
+                                    <div class="parameter-item">
+                                        <label for="pen-color-select">Couleur tracé</label>
+                                        <select id="pen-color-select" class="parameter-select">
+                                            <option value="#FF0000" selected>Rouge</option>
+                                            <option value="#000000">Noir</option>
+                                            <option value="#00FF00">Vert</option>
+                                            <option value="#0000FF">Bleu</option>
+                                            <option value="#FFFF00">Jaune</option>
+                                            <option value="#FF00FF">Magenta</option>
+                                            <option value="#00FFFF">Cyan</option>
+                                            <option value="#FFFFFF">Blanc</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Couleur du robot -->
+                                    <div class="parameter-item">
+                                        <label for="robot-color-select">Couleur robot</label>
+                                        <select id="robot-color-select" class="parameter-select">
+                                            <option value="#008EE7" selected>Bleu</option>
+                                            <option value="#FF0000">Rouge</option>
+                                            <option value="#00FF00">Vert</option>
+                                            <option value="#FFFF00">Jaune</option>
+                                            <option value="#FF00FF">Magenta</option>
+                                            <option value="#00FFFF">Cyan</option>
+                                            <option value="#808080">Gris</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
                     </div>
                     <div id="robot-status-container">
                         <div id="robot-status"> Simulation</div>
                     </div>
                     <div class="movements-buttons-container">
-                        <button id="movements-button"><i class="fa-solid fa-sliders"></i></button>
+                        <button data-toggle="tooltip" title="Mouvements" data-placement="top" data-i18n="[title]code.simulator.buttons.simulator3D.movements" id="movements-button"><i class="fa-solid fa-sliders"></i></button>
                     </div>
                     <div class="experience3D"></div>
                 </div>
@@ -326,7 +418,7 @@
                                 data-toggle="tooltip" data-placement="top" title="Afficher les variables" onclick="Simulator.Debugger.toggleVariablesPanel()">
                             <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-variable.svg" alt="Variable icon">
                         </button>
-                        <button id="simulator_fullscreen" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.fullscreen" 
+                        <button id="simulator_fullscreen" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.fullscreen;[aria-label]code.simulator.buttons.base.fullscreen" aria-label="Fullscreen" 
                                 data-toggle="tooltip" data-placement="top" title="Plein écran" onclick="Simulator.toggleFullscreen()">
                             <i class="fa-solid fa-expand" style="font-size: larger;"></i>
                         </button>
@@ -402,7 +494,6 @@
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-python.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-languages_tools.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-searchbox.min.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/ace-ide/aceInit.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/file-input/js/fileinput.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/file-input/themes/fa/theme.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/svg-inject.min.js"></script>
@@ -437,7 +528,6 @@
 <script src="/openInterface/interfaces/assets/js/constants/main/errors.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/main/patterns.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/main/api.js"></script>
-<script src="/openInterface/interfaces/assets/js/constants/blocks/helpurl.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/generators/constants.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/generators/functions.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/tooltip/image.js"></script>
@@ -478,12 +568,11 @@
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/lists.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/procedures.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/exceptions.js"></script>
-
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/common/start.js"></script>
 <script src="/openInterface/niryo/assets/js/blocks/definitions/specific/movements.js"></script>
 <script src="/openInterface/niryo/assets/js/blocks/definitions/specific/tools.js"></script>
 <script src="/openInterface/niryo/assets/js/blocks/definitions/specific/actuators.js"></script>
 <script src="/openInterface/niryo/assets/js/blocks/definitions/specific/utility.js"></script>
-<script src="/openInterface/niryo/assets/js/blocks/definitions/specific/start.js"></script>
 <script src="/openInterface/niryo/assets/js/blocks/definitions/specific/display.js"></script>
 <script src="/openInterface/niryo/assets/js/blocks/definitions/specific/input_output.js"></script>
 <script src="/openInterface/niryo/assets/js/blocks/definitions/specific/network.js"></script>
@@ -549,13 +638,11 @@
         }
         // add button script to load the interface buttons (remote or simple interface)
         const buttonScript = document.createElement('script');
-        buttonScript.addEventListener('load', function () {
-            loadInterface(INTERFACE_NAME);
+        buttonScript.addEventListener('load', async function () {
+            await loadInterface(INTERFACE_NAME);
         });
         buttonScript.src = '/openInterface/niryo/assets/js/constants/main/buttons.js';
         document.body.appendChild(buttonScript);
-        
-        // loadInterface(INTERFACE_NAME);
     });
 </script>
 <!-- footer scripts -->

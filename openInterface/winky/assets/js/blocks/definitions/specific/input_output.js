@@ -1,5 +1,5 @@
 /**
- * @fileoverview Input/Output blocks for Esp32.
+ * @fileoverview Input/Output blocks for Winky.
  */
 
 Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
@@ -73,7 +73,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "options": [
                 ["(s)", "SEC"],
                 ["(ms)", "MILLI"],
-                ["(µ)", "MICRO"]
+                ["(µs)", "MICRO"]
             ]
         }],
         "output": "Number",

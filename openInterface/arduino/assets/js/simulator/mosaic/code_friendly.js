@@ -1,5 +1,42 @@
 Simulator.CodeFriendly = Object.create(null);
 
+Simulator.CodeFriendly.getCode = function (userCode, _setups) {
+	return `#include <Arduino.h>
+#include <SoftwareSerial.h>
+using namespace std;
+${userCode}
+int main() {
+  ${_setups}
+  setup();
+  do {
+    loop();
+  }
+  while(true);
+  return 0;
+}`;
+};
+
+Simulator.CodeFriendly.getAdaptedCode = function (code) {
+	// functions
+	code = Simulator.CodeFriendly.remove_functions(code);
+	// pin modules
+	code = Simulator.CodeFriendly.replace_pinModules(code);
+	// pulse sensor
+	code = Simulator.CodeFriendly.pulseSensor(code);
+	// type
+	code = Simulator.CodeFriendly.typing(code);
+	// serial
+	code = Simulator.CodeFriendly.serial(code);
+	// serial print
+	code = Simulator.CodeFriendly.print(code);
+	// wifi
+	code = Simulator.CodeFriendly.setDeclarations(code);
+	// adding setups and user code
+	code = Simulator.CodeFriendly.getSetups(code);
+	code = Simulator.CodeFriendly.getCode(code, Simulator.CodeFriendly.setups.join('\n'));
+	return code;
+};
+
 Simulator.CodeFriendly.getSetups = function (userCode) {
 	Simulator.CodeFriendly.setups = [];
 	Simulator.CodeFriendly.objects = ['SoftwareSerial', 'DHT', 'HighTemp', 'AirQualitySensor', 'TM1637', 'Grove_LED_Bar', 'Ultrasonic', 'OneWire', 'Adafruit_NeoPixel', 'ChainableLED', 'LiquidCrystal_I2C']
@@ -22,8 +59,11 @@ Simulator.CodeFriendly.getSetups = function (userCode) {
 	return userCode;
 };
 
-Simulator.CodeFriendly.wifi_setups = function (userCode) {
-	const objects = ['IPAddress', 'WiFiServer', 'Vittascience_Server'];
+Simulator.CodeFriendly.setDeclarations = function (userCode) {
+	const objects = [
+		'IPAddress', 'WiFiServer', 'Vittascience_Server', 
+		'U8G2_SSD1306_128X64_NONAME_2_HW_I2C', 'U8G2_SSD1315_128X64_NONAME_2_HW_I2C', 'U8G2_SSD1306_128X64_NONAME_F_HW_I2C', 'U8G2_SSD1315_128X64_NONAME_F_HW_I2C'
+	];
 	for (obj of objects) {
 		const re = obj + /\s+([A-Za-z_0-9]\w*)\s*\(([^)]*)\)\s*;/.source;
 		const declarations = userCode.match(new RegExp(re, 'g'));
@@ -41,43 +81,6 @@ Simulator.CodeFriendly.wifi_setups = function (userCode) {
 	return userCode;
 };
 
-Simulator.CodeFriendly.getCode = function (userCode, _setups) {
-	return `#include <Arduino.h>
-#include <SoftwareSerial.h>
-using namespace std;
-${userCode}
-int main() {
-  ${_setups}
-  setup();
-  do {
-    loop();
-  }
-  while(true);
-  return 0;
-}`;
-}
-
-Simulator.CodeFriendly.getAdaptedCode = function (code) {
-	// functions
-	code = Simulator.CodeFriendly.remove_functions(code);
-	// pin modules
-	code = Simulator.CodeFriendly.replace_pinModules(code);
-	// pulse sensor
-	code = Simulator.CodeFriendly.pulseSensor(code);
-	// type
-	code = Simulator.CodeFriendly.typing(code);
-	// serial
-	code = Simulator.CodeFriendly.serial(code);
-	// serial print
-	code = Simulator.CodeFriendly.print(code);
-	// wifi
-	code = Simulator.CodeFriendly.wifi_setups(code);
-	// adding setups and user code
-	code = Simulator.CodeFriendly.getSetups(code);
-	code = Simulator.CodeFriendly.getCode(code, Simulator.CodeFriendly.setups.join('\n'));
-	return code;
-};
-
 /**
  * These functions may to be implemented in cpp interpretor for Arduino. It's clean working with blocks
  * but useless for code mode.
@@ -92,8 +95,8 @@ Simulator.CodeFriendly.remove_functions = function (code) {
 	code = code.replace(FUNCTIONS_ARDUINO.DEF_MPX5700AP_GET_PRESSURE + NEWLINE, '');
 	code = code.replace(FUNCTIONS_ARDUINO.DEF_HCSR04_GET_ULTRASONIC_DATA + NEWLINE, '');
 	code = code.replace(FUNCTIONS_ARDUINO.DEF_SCD30_READ + NEWLINE, '');
-	code = code.replace(FUNCTIONS_ARDUINO.DEF_MP3_READ_SONG_NAME + NEWLINE, '');
-	code = code.replace(FUNCTIONS_ARDUINO.DEF_MP3_GET_ALL_SONG + NEWLINE, '');
+	code = code.replace(FUNCTIONS_ARDUINO.DEF_MP3_V3_READ_SONG_NAME + NEWLINE, '');
+	code = code.replace(FUNCTIONS_ARDUINO.DEF_MP3_V3_GET_ALL_SONG + NEWLINE, '');
 	return code;
 };
 
@@ -161,7 +164,7 @@ Simulator.CodeFriendly.replace_pinModules = function (code) {
 	code = code.replace(/#include <avr\/pgmspace.h>/, '');
 	code = code.replace(/(vittascienceLogo|arduinoLogo|seeedLogo|microbitLogo)( |)\[\] PROGMEM/g, '$1[1024]');
 	code = code.replace(/\((int|uint8_t)\*\)(vittascienceLogo|arduinoLogo|seeedLogo|microbitLogo)/g, '$2');
-	code = code.replace(/( |)\[\] PROGMEM/g, '[8]');
+	code = code.replace(/( |)\[\] (U8X8_|)PROGMEM/g, '[]');
 	//color sensor
 	code = code.replace(/Adafruit_TCS34725 (.*) = Adafruit_TCS34725\((.*)\);/g, 'Adafruit_TCS34725 $1;');
 	//onewire ds18b20
@@ -255,6 +258,7 @@ Simulator.CodeFriendly.typing = function (code) {
 	code = code.replace(/ \+ ""/g, '');
 	code = code.replace(/::/g, '.');
 	code = code.replace(/Stream& /g, 'SoftwareSerial ');
+	code = code.replace(/const String(& | &)/g, 'const String ');
 	return code;
 };
 
@@ -275,7 +279,7 @@ Simulator.CodeFriendly.mp3 = function (code) {
 	code = code.replace(FUNCTIONS_ARDUINO.DECLARE_STRUCT_MP3_PLAY_HISTORY, '');
 	code = code.replace('Mp3Player.init(COMSerial);', 'Mp3Player.init();');
 	code = code.replace(/SoftwareSerial SSerial\(.+\);(\n|)/g, '');
-	code = code.replace('getAllSong()', 'Mp3Player.getAllSong()');
+	code = code.replace('MP3_V3_getAllSong()', 'Mp3Player.getAllSong()');
 	return code;
 };
 
@@ -303,7 +307,6 @@ float getBPM(uint8_t pin) {
 	return bpm;
 }`;
 	code = code.replace(FUNCTIONS_ARDUINO.DEF_PULSE_SENSOR_GET_BPM, pulseSensorBpmSimu);
-	code = code.replace(/millis\(\)/g, 'arduino_millis()');
 	return code;
 }
 

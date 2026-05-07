@@ -1,9 +1,9 @@
 const cardCommunicationButtons = {
     'upload': {
         id: "upload-python",
-        classes: 'ide-btn-check ide-btn-left',
+        classes: 'ide-btn-check ide-btn-left e2e-upload-btn',
         fontAwesome: 'fas fa-bolt',
-        onclick: "uploadPython()",
+        onclick: "InterfaceConnection.uploadPython()",
         title: 'code.topbar.tooltips.uploadPython',
         label: {
             hidden: true,
@@ -36,7 +36,7 @@ const downloadOptions = {
         icon: "/openInterface/interfaces/assets/js/external/font-awesome/svgs/brands/usb.svg",
         title: 'code.topbar.tooltips.disconnect',
         tooltipPlacement: "left",
-        onclick: "doDisconnect()",
+        onclick: "InterfaceConnection.doDisconnect()",
         show: false,
         label: {
             value: "code.topbar.label.disconnect"

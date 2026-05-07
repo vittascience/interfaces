@@ -94,12 +94,14 @@ class CapytaleManager {
             this._initialLoading = false;
             return false;
         }
-        // localStorage.removeItem(`${INTERFACE_NAME}CurrentProject`); // TEMPORARY COMMENTED, TO BE DELETED AFTER LOCALSTORAGE REWORK
         if (project) {
             projectManager._currentProject = project;
             await projectManager.projectLoader_injectInInterface(project);
         } else {
             projectManager._initializeInterfaceProject();
+        }
+        if (INTERFACE_NAME === 'arduino' && (!project || !project.options || !project.options.board)) {
+            VittaInterface.openBoardSelector(true);
         }
         this.setInitialLoading(false);
         return true;
@@ -118,9 +120,9 @@ class CapytaleManager {
         this._initialLoading = isInitialLoading;
     }
 
-    getWelcomeMessage() {
+    getWelcomeMessage(msg) {
         const fullLink = this._getWikiUrl();
-        let defaultWelcomeMessage = i18next.t(`code.welcome.${INTERFACE_NAME}`);
+        let defaultWelcomeMessage = i18next.t(msg);
         let replacedMessage = defaultWelcomeMessage.replace(/href="[^"]*"/g, `href="${fullLink}"`);
         if (defaultWelcomeMessage !== replacedMessage) return replacedMessage;
         replacedMessage = `${defaultWelcomeMessage} <a href="${fullLink}" target="_blank" rel="noopener noreferrer">${i18next.t('code.topbar.label.help')}</a>`;

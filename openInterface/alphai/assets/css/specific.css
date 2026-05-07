@@ -1,0 +1,101 @@
+@import url('../../../interfaces/assets/css/simulator-modules.css');
+@import url('../../../interfaces/assets/css/simulator-robot.css');
+
+#board-viewer {
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+}
+
+.alphai-motorLeft,
+.alphai-motorRight {
+	z-index: 1;
+	top: 0px;
+	left: 18px;
+}
+
+.alphai-motorLeft_base {
+	z-index: 2;
+	opacity: 0.9;
+}
+
+.alphai-motorLeft_base,
+.alphai-motorRight_base {
+	bottom: 0px;
+	left: 16px;
+}
+
+#alphai-trsensor1_base,
+#alphai-trsensor2_base,
+#alphai-trsensor3_base,
+#alphai-trsensor4_base,
+#alphai-trsensor5_base {
+	left: 29px;
+	width: 17px;
+}
+
+#alphai-trsensor1,
+#alphai-trsensor2,
+#alphai-trsensor3,
+#alphai-trsensor4,
+#alphai-trsensor5 {
+	z-index: 1;
+	top: -24px;
+	left: 20px;
+}
+
+.alphai-trsensor1_module .module-value,
+.alphai-trsensor2_module .module-value,
+.alphai-trsensor3_module .module-value,
+.alphai-trsensor4_module .module-value,
+.alphai-trsensor5_module .module-value {
+	width: 83px;
+}
+
+#alphai-trsensor1_anim,
+#alphai-trsensor2_anim,
+#alphai-trsensor3_anim,
+#alphai-trsensor4_anim,
+#alphai-trsensor5_anim {
+	bottom: 16px;
+}
+
+.alphai-trsensor1_module .module-value,
+.alphai-trsensor2_module .module-value,
+.alphai-trsensor3_module .module-value,
+.alphai-trsensor4_module .module-value,
+.alphai-trsensor5_module .module-value {
+	width: 83px;
+}
+
+#alphai-trsensor1_anim,
+#alphai-trsensor2_anim,
+#alphai-trsensor3_anim,
+#alphai-trsensor4_anim,
+#alphai-trsensor5_anim {
+	bottom: 16px;
+}
+
+.alphai-leds_module .module-value {
+	display: flex;
+}
+
+.alphai-leds_base {
+	width: 50px;
+	left: unset;
+}
+
+#alphai-leds>div.module-body.body-output>div.module-value {
+	width: 35%;
+}
+
+.alphai-buzzer {
+	z-index: 1;
+	animation: shake 2s cubic-bezier(.36, .07, .19, .97) infinite;
+	bottom: -6px;
+	left: -9px;
+	width: 80px;
+	height: auto;
+	max-height: none !important;
+	opacity: 0;
+}

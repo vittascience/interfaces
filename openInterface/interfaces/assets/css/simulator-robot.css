@@ -12,7 +12,7 @@
 
 .simulator-control-window {
   display: none;
-  background-color: white;
+  background-color: var(--bg-0);
   flex-direction: column;
   border: solid 1px var(--bg-3);
   border-radius: 10px;
@@ -22,27 +22,30 @@
   display: flex !important;
 }
 
-#control-dropdown-container, #control-dropdown-container-3D {
+#control-dropdown-container,
+#control-dropdown-container-3D {
   position: absolute;
   display: flex;
   align-items: flex-end;
   top: -225px;
   height: 215px;
   right: 100px;
-  /* border: solid 1px var(--bg-3); */
   font-size: 0.9em;
 }
 
-#control-dropdown-window, #control-dropdown-window-3D {
+#control-dropdown-window,
+#control-dropdown-window-3D {
   padding: 0.5em 0.1em;
   gap: 5px;
   justify-content: center;
   align-items: flex-start;
+  background-color: var(--bg-0);
 }
 
-#control-dropdown-window button, #control-dropdown-window-3D button {
+#control-dropdown-window button,
+#control-dropdown-window-3D button {
   border: none;
-  background-color: white;
+  background-color: var(--bg-0);
   color: var(--text-1);
   text-align: left;
   display: flex;
@@ -52,17 +55,20 @@
   transition: all ease-in-out 0.2s;
 }
 
-#control-dropdown-window button:hover, #control-dropdown-window-3D button:hover {
+#control-dropdown-window button:hover,
+#control-dropdown-window-3D button:hover {
   color: var(--text-0);
   transition: all ease-in-out 0.2s;
 }
 
-#control-dropdown-colors-window ul, #control-dropdown-colors-window-3D ul {
+#control-dropdown-colors-window ul,
+#control-dropdown-colors-window-3D ul {
   padding: 10px;
   margin: 0;
 }
 
-#control-dropdown-colors-window ul div:first-child, #control-dropdown-colors-window-3D ul div:first-child {
+#control-dropdown-colors-window ul div:first-child,
+#control-dropdown-colors-window-3D ul div:first-child {
   width: 15px;
   height: 15px;
   border-radius: 3px;
@@ -70,7 +76,8 @@
   border: solid 1px rgba(0, 0, 0, 0.1);
 }
 
-#control-dropdown-colors-window ul li, #control-dropdown-colors-window-3D ul li {
+#control-dropdown-colors-window ul li,
+#control-dropdown-colors-window-3D ul li {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -83,7 +90,8 @@
   color: var(--text-1);
 }
 
-#control-dropdown-colors-window ul li:hover, #control-dropdown-colors-window-3D ul li:hover {
+#control-dropdown-colors-window ul li:hover,
+#control-dropdown-colors-window-3D ul li:hover {
   color: var(--text-0);
 }
 
@@ -107,7 +115,8 @@
   user-select: none;
 }
 
-.angle-slider-knob, .angle-slider-knob-3D {
+.angle-slider-knob,
+.angle-slider-knob-3D {
   width: 80px;
   height: 80px;
   background: rgb(180, 180, 180);
@@ -121,20 +130,22 @@
   justify-content: center;
 }
 
-.angle-slider-knob .angle-slider-rotator, .angle-slider-knob-3D .angle-slider-rotator {
+.angle-slider-knob .angle-slider-rotator,
+.angle-slider-knob-3D .angle-slider-rotator {
   width: 60px;
   height: 60px;
-  background: rgb(235, 235, 235);
+  background-color: var(--bg-0);
   border-radius: 50%;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2), inset 1px 2px 1px white,
-      2px -1px 1px rgba(0, 0, 0, 0.2), -1px 0px 1px rgba(0, 0, 0, 0.2);
+    2px -1px 1px rgba(0, 0, 0, 0.2), -1px 0px 1px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   position: relative;
   z-index: 1;
 }
 
-.angle-slider-knob .angle-slider-text, .angle-slider-knob-3D .angle-slider-text {
+.angle-slider-knob .angle-slider-text,
+.angle-slider-knob-3D .angle-slider-text {
   width: 50px;
   height: 50px;
   padding-left: 12px;
@@ -161,6 +172,7 @@
 
 .angle-slider-pointer .angle-slider-bullet {
   font-size: 10px;
+  cursor: grab;
 }
 
 /* Background Modal */

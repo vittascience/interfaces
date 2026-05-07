@@ -301,6 +301,19 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
+    // BUILTIN DISPLAY _ DISPLAY CLEAR
+    {
+        "type": "cyberpi_display_clear",
+        "message0": "%{BKY_CYBERPI_DISPLAY_CLEAR_TITLE}",
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "display_blocks",
+        "tooltip": "%{BKY_CYBERPI_DISPLAY_CLEAR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
     /* Text blocks definition */
 
     // BUILTIN DISPLAY _ LINECHART ADD

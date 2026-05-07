@@ -31,9 +31,9 @@ const TOOLBOX_SCRATCH_CATEGORIES = [
     },
     {
         "kind": "category",
-        "toolboxitemid": "sounds",
-        "name": "%{BKY_CATEGORY_SOUNDS}",
-        "style": "sounds_category",
+        "toolboxitemid": "sound",
+        "name": "%{BKY_CATEGORY_SOUND}",
+        "style": "sound_category",
         "cssConfig": {
             "icon": "icon_blockly fa-solid fa-music"
         },
@@ -150,9 +150,8 @@ const TOOLBOX_SCRATCH_CONTENT = {
             ]
         }
     ],
-    "io": [
+    "time": [
         {
-            "label": "%{BKY_SUBCATEGORY_TIME}",
             "blocks": [
                 'io_pause',
                 'io_waitUntil',
@@ -170,7 +169,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
             ]
         }
     ],
-    "sounds": [
+    "sound": [
         {
             "blocks": [
                 'sounds_setVolume',
@@ -252,21 +251,24 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'text_split',
                 'text_length',
                 'text_isEmpty',
+                'text_includesSubstr',
                 'text_indexOf',
                 'text_charAt',
                 'text_getSubstring',
+                'text_count_characters',
                 'text_changeCase',
                 'text_trim',
                 'text_count',
                 'text_replace',
-                'text_reverse'
+                'text_reverse',
+                'text_random_string'
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_TEXT_ANALYSIS}",
+            "label": "%{BKY_SUBCATEGORY_ENCRYPTION}",
             "blocks": [
-                'text_count_characters',
-                'text_random_string'
+                'text_caesar_cipher',
+                'text_caesar_cipher_brute_force'
             ],
         }
     ],

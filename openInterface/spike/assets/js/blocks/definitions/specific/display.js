@@ -143,7 +143,7 @@ Blockly.Constants.Display.DISPLAY_SHOW_LEDS_INIT_EXTENSION = function () {
     for (let row = 0; row < 3; row++) {
         const rowBoxes = this.appendDummyInput("ROW" + row);
         for (let column = 0; column < 3; column++) {
-            const box = new Blockly.FieldCheckboxColor("0", { 'height': 24, 'width': 24 });
+            const box = new Blockly.FieldCheckboxColor("0", { 'height': 24, 'width': 24 , 'reverseColors': true});
             box.setValidator(function (newValue) {
                 const ledValues = JSON.parse(this.getField("HIDDEN_LEDS_MATRIX").value_);
                 const color = this.getField("COLOR").value_;

@@ -81,6 +81,16 @@ const TOOLBOX_SCRATCH_CATEGORIES = [
     },
     {
         "kind": "category",
+        "toolboxitemid": "ia",
+        "name": "%{BKY_CATEGORY_VITTAIA}",
+        "style": "ia_category",
+        "cssConfig": {
+            "icon": "icon_blockly fas fa-brain"
+        },
+        "contents": []
+    },
+    {
+        "kind": "category",
         "toolboxitemid": "math",
         "name": "%{BKY_CATEGORY_OPERATORS}",
         "style": "math_category",
@@ -141,6 +151,21 @@ const TOOLBOX_SCRATCH_CATEGORIES = [
     }
 ];
 
+const TOOLBOX_SCRATCH_SUBCATEGORIES = {
+    "ia": [
+        {
+            "kind": "category",
+            "toolboxitemid": "cameras",
+            "name": "%{BKY_SUBCATEGORY_CAMERAS}",
+            "style": "ia_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-camera"
+            },
+            "contents": []
+        }
+    ]
+};
+
 const TOOLBOX_SCRATCH_CONTENT = {
     "display": [
         {
@@ -174,6 +199,13 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'display_addOledText',
                 'display_setOledPixel',
                 'display_drawOledLine'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_DISPLAYS_LED_MATRIX}",
+            "blocks": [
+                'display_led_matrix_DrawBitmap',
+                'display_led_matrix_clear'
             ]
         },
         {
@@ -232,21 +264,53 @@ const TOOLBOX_SCRATCH_CONTENT = {
             "blocks": [
                 'communication_serialWrite',
                 'communication_graphSerialWrite',
-                'communication_onSerialDataReceived'
+                'communication_onSerialMessageReceived'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_INTEGRATED_BT} (Pico W)",
+            "blocks": [
+                'communication_StartBT',
+                'communication_SendBT',
+                'communication_BLE_ReadData',
+                'communication_FizziqBT'
             ]
         },
         {
             "label": "%{BKY_SUBCATEGORY_DATA_LOGGING}",
             "blocks": [
-                'communication_writeOpenLogSd'
+                'communication_writeOpenLogSd',
+                'communication_esp32_FS_saveData'
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_INTEGRATED_BT}",
+            "label": "%{BKY_SUBCATEGORY_EXTERNAL_BLUETOOTH}",
             "blocks": [
-                'communication_StartBT',
-                'communication_SendBT',
-                'communication_BLE_ReadData'
+                'communication_groveSerialBluetooth_setATCommand',
+                'communication_groveSerialBluetooth_getATCommand',
+                'communication_sendSerialBluetoothData',
+                'communication_onSerialBluetoothDataReceived',
+                'communication_hc05_sendBluetoothData',
+                'communication_hc05_onBluetoothDataReceived'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_TRACKING_MODULES}",
+            "blocks": [
+                'communication_rfid_getCardID',
+                'communication_rfid_convertData',
+                'communication_mfrc522_getCardID',
+                'communication_gps_getNMEA',
+                'communication_gps_getGGAInformations'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_UART}",
+            "blocks": [
+                'communication_serialInit',
+                'communication_uart_writeData',
+                'communication_uart_isDataAvailable',
+                'communication_uart_readData'
             ]
         }
     ],
@@ -350,7 +414,8 @@ const TOOLBOX_SCRATCH_CONTENT = {
             "blocks": [
                 'network_server_sendData',
                 'network_server_getClientData',
-                'network_server_getClientIp'
+                'network_server_getClientIp',
+                'network_server_closeClientConnection'
             ]
         },
         {
@@ -372,7 +437,6 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'network_html_addGauge',
                 'network_html_addLink',
                 'network_html_addImage',
-                'network_html_addStream',
                 'network_HTML_Tags',
                 'network_HTML_formatText',
                 'network_HTML_newline',
@@ -388,42 +452,42 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'network_server_getSwitchValue'
             ]
         },
-        {
-            "label": "%{BKY_SUBCATEGORY_HTTP}",
-            "blocks": [
-                'network_connectStation_simple',
-                'network_getHTTPRequest',
-                'network_thingspeak_sendData',
-                'network_thingspeak_sendData_field',
-                'request_thingspeak_readFeeds'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_UMAIL}",
-            "blocks": [
-                'network_umail_smtp',
-                'network_umail_setup',
-                'network_umail_to',
-                'network_umail_write_sender',
-                'network_umail_write',
-                'network_umail_send_image',
-                'network_umail_quit'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_MQTT}",
-            "blocks": [
-                'network_mqtt_connectWithAuth',
-                'network_mqtt_subscribeTopic',
-                'network_mqtt_publishValue',
-                'network_mqtt_disconnect',
-                'network_mqtt_onMessageReceived',
-                'network_mqtt_ifTopicIs',
-                'variables_get-message_MQTT',
-                'network_mqtt_onConnect',
-                'network_mqtt_onDisconnect',
-            ]
-        }
+        // {
+        //     "label": "%{BKY_SUBCATEGORY_HTTP}",
+        //     "blocks": [
+        //         'network_connectStation_simple',
+        //         'network_getHTTPRequest',
+        //         'network_thingspeak_sendData',
+        //         'network_thingspeak_sendData_field',
+        //         'request_thingspeak_readFeeds'
+        //     ]
+        // },
+        // {
+        //     "label": "%{BKY_SUBCATEGORY_UMAIL}",
+        //     "blocks": [
+        //         'network_umail_smtp',
+        //         'network_umail_setup',
+        //         'network_umail_to',
+        //         'network_umail_write_sender',
+        //         'network_umail_write',
+        //         'network_umail_send_image',
+        //         'network_umail_quit'
+        //     ]
+        // },
+        // {
+        //     "label": "%{BKY_SUBCATEGORY_MQTT}",
+        //     "blocks": [
+        //         'network_mqtt_connectWithAuth',
+        //         'network_mqtt_subscribeTopic',
+        //         'network_mqtt_publishValue',
+        //         'network_mqtt_disconnect',
+        //         'network_mqtt_onMessageReceived',
+        //         'network_mqtt_ifTopicIs',
+        //         'variables_get-message_MQTT',
+        //         'network_mqtt_onConnect',
+        //         'network_mqtt_onDisconnect',
+        //     ]
+        // }
     ],
     "process": [
         {
@@ -432,6 +496,22 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'process_forever_core1',
                 'process_exit_core1',
                 'process_global_var'
+            ]
+        }
+    ],
+    "ia": [
+        {
+            "subCategoryId": 'cameras',
+            "contents": [
+                {
+                    "label": "Wio Lite AI",
+                    "blocks": [
+                        'wio_get_class_data',
+                        'wio_get_class_data_by_id',
+                        'wio_get_class_max_id',
+                        'wio_get_status'
+                    ]
+                },
             ]
         }
     ],
@@ -476,21 +556,24 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'text_split',
                 'text_length',
                 'text_isEmpty',
+                'text_includesSubstr',
                 'text_indexOf',
                 'text_charAt',
                 'text_getSubstring',
+                'text_count_characters',
                 'text_changeCase',
                 'text_trim',
                 'text_count',
                 'text_replace',
                 'text_reverse',
+                'text_random_string'
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_TEXT_ANALYSIS}",
+            "label": "%{BKY_SUBCATEGORY_ENCRYPTION}",
             "blocks": [
-                'text_count_characters',
-                'text_random_string'
+                'text_caesar_cipher',
+                'text_caesar_cipher_brute_force'
             ],
         }
     ],

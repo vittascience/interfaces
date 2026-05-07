@@ -980,9 +980,9 @@ Simulator.Mosaic.specific = {
                 max: 14575,
                 value: 1166
             });
-        $('.mod_rover-colorSensor_r,' +
-            '.mod_rover-colorSensor_g,' +
-            '.mod_rover-colorSensor_b').slider({
+        $('.mod_rover-ColorSensor_r,' +
+            '.mod_rover-ColorSensor_g,' +
+            '.mod_rover-ColorSensor_b').slider({
                 min: 0,
                 max: 255,
                 value: 55
@@ -1035,7 +1035,7 @@ Simulator.Mosaic.specific = {
             id: "neopixel-color",
             title: "Neopixel",
             codeFlag: "Neopixel",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             pins: 'digital',
             type: 'output',
             value: "",
@@ -1456,7 +1456,7 @@ Simulator.Mosaic.specific = {
         {
             id: "ti-groveTemp",
             title: "Capteur de temp. : ",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
             // codeFlag: 'Temperature Sensor',
@@ -1587,7 +1587,7 @@ Simulator.Mosaic.specific = {
         },
         {
             regex: /(red|green|blue|gray|color)_measurement\(\)/g,
-            id: "rover-colorSensor",
+            id: "rover-ColorSensor",
             title: "Capteur de couleurs : ",
             pin: "Rover",
             type: 'input',
@@ -1615,10 +1615,10 @@ Simulator.Mosaic.specific = {
             pictureAnimation: "Transparent.png",
             animate: function (Animator) {
                 $(Animator.valueId).text(Animator.value);
-                $("#rover-colorSensor_anim").css('background-color', "rgb(" +
-                    parseInt($("#rover-colorSensor_slider_r").slider('option', 'value')) + "," +
-                    parseInt($("#rover-colorSensor_slider_g").slider('option', 'value')) + "," +
-                    parseInt($("#rover-colorSensor_slider_b").slider('option', 'value')) + ")"
+                $("#rover-ColorSensor_anim").css('background-color', "rgb(" +
+                    parseInt($("#rover-ColorSensor_slider_r").slider('option', 'value')) + "," +
+                    parseInt($("#rover-ColorSensor_slider_g").slider('option', 'value')) + "," +
+                    parseInt($("#rover-ColorSensor_slider_b").slider('option', 'value')) + ")"
                 );
             }
         },
@@ -1723,7 +1723,7 @@ Simulator.Mosaic.specific = {
             regex: /loudness\(\"((IN|BB) ([0-9]{1,2}))\"\)/g,
             id: "loudness",
             title: "Capteur de son",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             type: 'input',
             listeners: [{
                 default: 0,
@@ -1746,7 +1746,7 @@ Simulator.Mosaic.specific = {
             regex: /conservo\(\"((OUT|BB) ([0-9]{1,2}))\"\)/gi,
             id: "continuousServo",
             title: "Servo continu",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             type: 'output',
             class: 'servo',
             value: 0,
@@ -1757,7 +1757,7 @@ Simulator.Mosaic.specific = {
             regex: /vibration_motor\(\"((OUT|BB) ([0-9]{1,2}))\"\)/gi,
             id: "vibrationMotor",
             title: "Moteur à vibrations",
-            pin: 'pin n° ',
+            pin: 'pin n°',
             type: 'output',
             value: 0,
             picture: "LED.png",

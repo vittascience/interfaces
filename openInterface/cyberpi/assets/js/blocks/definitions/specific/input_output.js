@@ -80,7 +80,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "options": [
                 ["(s)", "SEC"],
                 ["(ms)", "MILLI"],
-                ["(µ)", "MICRO"]
+                ["(µs)", "MICRO"]
             ]
         }],
         "output": "Number",

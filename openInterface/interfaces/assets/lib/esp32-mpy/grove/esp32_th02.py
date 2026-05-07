@@ -25,7 +25,7 @@ class TH02(object):
     if addr not in i2cModules:
       error = "Unable to find module 'TH02' at address " + str(hex(addr)) + ". Please check connections with the board.\n"
       error += "[Info] I2C address.es detected: " + str([hex(a) for a in i2cModules])
-      raise ValueError(error)
+      raise OSError(error)
     self._addr = addr
 
   def init_temp(self):

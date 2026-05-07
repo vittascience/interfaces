@@ -11,7 +11,7 @@ class SHT3X:
         if addr not in i2cModules:
             error = "Unable to find module 'SHT35' at address " + str(hex(addr)) + ". Please check connections with the board.\n"
             error += "[Info] I2C address.es detected: " + str([hex(a) for a in i2cModules])
-            raise ValueError(error)
+            raise OSError(error)
         self._addr = addr
 
     def get_temperature_in_celsius(self, data):

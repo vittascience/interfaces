@@ -71,21 +71,11 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
     },
     {
         "kind": "category",
-        "toolboxitemid": "vittaia",
+        "toolboxitemid": "ia",
         "name": "%{BKY_CATEGORY_VITTAIA}",
-        "style": "vittaia_category",
+        "style": "ia_category",
         "cssConfig": {
             "icon": "icon_blockly fas fa-brain"
-        },
-        "contents": []
-    },
-    {
-        "kind": "category",
-        "toolboxitemid": "cameras",
-        "name": "%{BKY_CATEGORY_AI_CAMERAS}",
-        "style": "cameras_category",
-        "cssConfig": {
-            "icon": "icon_blockly fa-solid fa-camera"
         },
         "contents": []
     },
@@ -286,6 +276,58 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
                 "icon": "icon_blockly fas fa-robot"
             },
             "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "uhandbit",
+            "name": "uHandbit",
+            "style": "robots_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-robot"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "wukong",
+            "name": "WuKong",
+            "style": "robots_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-robot"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "superbit",
+            "name": "Building:bit Super",
+            "style": "robots_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-robot"
+            },
+            "contents": []
+        }
+    ],
+    "ia": [
+        {
+            "kind": "category",
+            "toolboxitemid": "vittaia",
+            "name": "%{BKY_SUBCATEGORY_SENSOR_DATA}",
+            "style": "ia_category",
+            "cssConfig": {
+                "icon": "icon_blockly svgIcon"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "cameras",
+            "name": "%{BKY_SUBCATEGORY_CAMERAS}",
+            "style": "ia_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-camera"
+            },
+            "contents": []
         }
     ]
 };
@@ -367,10 +409,11 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_KITRONIC_TRAFFIC}",
+            "label": "%{BKY_SUBCATEGORY_KITRONIK}",
             "blocks": [
                 "display_setTrafficLight",
-                "display_setLampBitLight"
+                "display_setLampBitLight",
+                "sensors_getLampBitLuminosity"
             ]
         },
         {
@@ -405,13 +448,17 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
     ],
     "io": [
         {
-            "label": "%{BKY_SUBCATEGORY_MICROBIT}",
+            "label": "%{BKY_SUBCATEGORY_TIME}",
             "blocks": [
                 'io_pause',
                 'io_waitUntil',
                 'io_initChronometer',
-                'io_resetChronometer',
-                'io_getChronometer',
+                'io_getChronometer'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_MICROBIT}",
+            "blocks": [
                 'io_onButtonPressed',
                 'io_onPinPressed',
                 'io_onMovement',
@@ -423,7 +470,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_MICROPHONE}",
+            "label": "%{BKY_SUBCATEGORY_MICROPHONE} (V2)",
             "blocks": [
                 "io_micro_onSoundDetected",
                 "io_micro_getCurrentSound",
@@ -437,16 +484,16 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         {
             "label": "%{BKY_SUBCATEGORY_EXTERNAL_INPUTS}",
             "blocks": [
-                "io_getGroveButton",
-                "io_getGroveSwitch",
-                "io_getMagneticSwitch",
-                "io_getGroveTactile",
-                "io_getGroveRotaryAngle",
-                "io_getGroveSlidePotentiometer",
-                "io_getGroveColoredButton",
-                "io_setGroveColoredButton",
-                "io_getKeypadNumber",
-                "io_getGroveThumbJoystick"
+                'io_getGroveButton',
+                'io_getGroveSwitch',
+                'io_getMagneticSwitch',
+                'io_getGroveTactile',
+                'io_getGroveRotaryAngle',
+                'io_getGroveSlidePotentiometer',
+                'io_getGroveColoredButton',
+                'io_setGroveColoredButton',
+                'io_getKeypadNumber',
+                'io_getGroveThumbJoystick'
             ]
         },
         {
@@ -475,10 +522,11 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             "blocks": [
                 'communication_serialWrite',
                 'communication_graphSerialWrite',
+                'communication_onSerialMessageReceived',
+                'communication_onSerialDataReceived',
                 'communication_playComputerMusic',
                 'communication_playComputerFrequency',
-                'communication_stopComputerMusic',
-                'communication_onSerialDataReceived'
+                'communication_stopComputerMusic'
             ]
         },
         {
@@ -511,10 +559,10 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_WIRELESS_COMMUNICATION}",
+            "label": "%{BKY_SUBCATEGORY_EXTERNAL_BLUETOOTH}",
             "blocks": [
-                'communication_sendBluetoothData',
-                'communication_onBluetoothDataReceived',
+                'communication_hc05_sendBluetoothData',
+                'communication_hc05_onBluetoothDataReceived',
                 'communication_HM10_sendBluetoothData',
                 'communication_HM10_onBluetoothDataReceived',
             ]
@@ -546,35 +594,35 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         {
             "label": "%{BKY_SUBCATEGORY_MICROBIT}",
             "blocks": [
-                "sensors_getLight",
-                "sensors_getTemperature",
-                "sensors_getAcceleration",
-                "sensors_getRotation",
-                "sensors_getCompass",
-                "sensors_calibrateCompass",
-                "sensors_isCompassCalibrated",
-                "sensors_getMagneticForce"
+                'sensors_getLight',
+                'sensors_getTemperature',
+                'sensors_getAcceleration',
+                'sensors_getRotation',
+                'sensors_getCompass',
+                'sensors_calibrateCompass',
+                'sensors_isCompassCalibrated',
+                'sensors_getMagneticForce'
             ]
         },
         {
             "label": "%{BKY_SUBCATEGORY_ENVIRO_BIT}",
             "blocks": [
-                "sensors_envirobit_tcs3472_getRGB",
-                "sensors_envirobit_tcs3472_getBrightness",
-                "sensors_envirobit_tcs3472_setLED",
-                "sensors_envirobit_bme280_getData",
-                "sensors_envirobit_getSoundLevel",
-                "sensors_envirobit_waitForClaps"
+                'sensors_envirobit_tcs3472_getRGB',
+                'sensors_envirobit_tcs3472_getBrightness',
+                'sensors_envirobit_tcs3472_setLED',
+                'sensors_envirobit_bme280_getData',
+                'sensors_envirobit_getSoundLevel',
+                'sensors_envirobit_waitForClaps'
             ]
         },
         {
             "label": "%{BKY_SUBCATEGORY_WEATHER_BIT}",
             "blocks": [
-                "sensors_weatherbit_bme280_getData",
-                "sensors_weatherbit_anemometer_getSpeed",
-                "sensors_weatherbit_weathercock_getDirection",
-                "sensors_weatherbit_rainGauge_getDumps",
-                "sensors_weatherbit_getSoilMoisture"
+                'sensors_weatherbit_bme280_getData',
+                'sensors_weatherbit_anemometer_getSpeed',
+                'sensors_weatherbit_weathercock_getDirection',
+                'sensors_weatherbit_rainGauge_getDumps',
+                'sensors_weatherbit_getSoilMoisture'
             ]
         },
         {
@@ -585,68 +633,62 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_KITRONIC_TRAFFIC}",
-            "blocks": [
-                "sensors_getLampBitLuminosity"
-            ]
-        },
-        {
             "label": "%{BKY_SUBCATEGORY_SENSORS_GAS}",
             "blocks": [
-                "sensors_getSgp30Gas",
-                "sensors_getMultichannelGas",
-                "sensors_getMultichannelGasV2",
-                "sensors_getO2gas",
-                "sensors_SCD30_readData",
-                "sensors_SCD30_forcedCalibration",
-                "sensors_getAirQualityValue",
-                "sensors_getParticulateMatter"
+                'sensors_getSgp30Gas',
+                'sensors_getMultichannelGas',
+                'sensors_getMultichannelGasV2',
+                'sensors_getO2gas',
+                'sensors_SCD30_readData',
+                'sensors_SCD30_forcedCalibration',
+                'sensors_getAirQualityValue',
+                'sensors_getParticulateMatter'
             ]
         },
         {
             "label": "%{BKY_SUBCATEGORY_SENSORS_CLIMATE}",
             "blocks": [
-                "sensors_getBmp280Data",
-                "sensors_bme280_getData",
-                "sensors_getGroveMoisture",
-                "sensors_getGroveCapacitiveMoisture",
-                "sensors_getGroveTemperature",
-                "sensors_getGroveHighTemperature",
-                "sensors_barometerReadData",
-                "sensors_dhtReadData",
-                "sensors_TH02readData",
-                "sensors_SHT31readData",
-                "sensors_SHT35readData",
-                "sensors_mpx5700ap_getPressure",
-                "sensors_mpx5700ap_calibrate",
-                "sensors_getGroveWaterAmount",
-                "sensors_getRainGauge",
-                "sensors_getAnemometer"
+                'sensors_getBmp280Data',
+                'sensors_bme280_getData',
+                'sensors_getGroveMoisture',
+                'sensors_getGroveCapacitiveMoisture',
+                'sensors_getGroveTemperature',
+                'sensors_getGroveHighTemperature',
+                'sensors_barometerReadData',
+                'sensors_dhtReadData',
+                'sensors_TH02readData',
+                'sensors_SHT31readData',
+                'sensors_SHT35readData',
+                'sensors_mpx5700ap_getPressure',
+                // 'sensors_mpx5700ap_calibrate',
+                'sensors_getGroveWaterAmount',
+                'sensors_getRainGauge',
+                'sensors_getAnemometer'
             ]
         },
         {
             "label": "%{BKY_SUBCATEGORY_SENSORS_SOUNDLIGHT}",
             "blocks": [
-                "sensors_getGroveLight",
-                "sensors_getSi1145Light",
-                "sensors_getUVindex",
-                "sensors_colorSensor_getData",
-                "sensors_colorSensorV3_getData",
-                "sensors_getGroveSound"
+                'sensors_getGroveLight',
+                'sensors_getSunlightData',
+                'sensors_getUVindex',
+                'sensors_colorSensor_getData',
+                'sensors_colorSensorV3_getData',
+                'sensors_getGroveSound'
             ]
         },
         {
             "label": "%{BKY_SUBCATEGORY_SENSORS_DISTANCEMOVEMENT}",
             "blocks": [
-                "sensors_getGroveUltrasonicRanger",
-                "sensors_VL53L0X_getRangeMillimeters",
-                "sensors_getGesture",
-                "sensors_onGestureTypeDetected",
-                "sensors_getGroveLineFinder",
-                "sensors_getGroveMotion",
-                "sensors_getMiniPirGroveMotion",
-                "sensors_getGroveTilt",
-                "sensors_getPiezoVibration"
+                'sensors_getGroveUltrasonicRanger',
+                'sensors_VL53L0X_getRangeMillimeters',
+                'sensors_getGesture',
+                'sensors_onGestureTypeDetected',
+                'sensors_getGroveLineFinder',
+                'sensors_getGroveMotion',
+                'sensors_getMiniPirGroveMotion',
+                'sensors_getGroveTilt',
+                'sensors_getPiezoVibration'
             ]
         },
         {
@@ -669,10 +711,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'actuators_stepperMotor_uln2003driver_init',
                 'actuators_stepperMotor_uln2003driver_moveSteps',
                 'actuators_stepperMotor_uln2003driver_setDelay',
-                'actuators_setMotorPower',
                 'actuators_setFanPower',
-                'actuators_kitronik_controlMotor',
-                'actuators_kitronik_stopMotor',
                 'actuators_setVibrationMotorState',
                 'actuators_setGroveRelayState',
                 'actuators_mosfet_setState',
@@ -680,14 +719,25 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_KITRONIC_TRAFFIC}",
+            "label": "%{BKY_SUBCATEGORY_KITRONIK}",
             "blocks": [
                 'actuators_controlAccessBitBarrier',
-                'actuators_controlAccessBitBuzzer'
+                'actuators_controlAccessBitBuzzer',
+                'actuators_kitronik_controlMotor',
+                'actuators_kitronik_stopMotor',
+                'actuators_kitronikShield_setServoAngle',
+                'actuators_kitronik_playFrequency'
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_MUSIC}",
+            "label": "%{BKY_SUBCATEGORY_AUDIO} (V2)",
+            "blocks": [
+                'microbit_audio_play',
+                'microbit_audio_stop'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_MUSIC} (V2)",
             "blocks": [
                 'actuators_playMusicGroveBuzzer',
                 'actuators_music_playSong',
@@ -695,12 +745,11 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'actuators_music_playFrequency',
                 'actuators_music_stop',
                 'actuators_music_setVolume',
-                'actuators_music_setTempo',
-                'actuators_kitronik_playFrequency'
+                'actuators_music_setTempo'
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_SPEECH}",
+            "label": "%{BKY_SUBCATEGORY_SPEECH} (V2)",
             "blocks": [
                 'actuators_speech_saySomething'
             ]
@@ -717,15 +766,14 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         {
             "subCategoryId": 'cutebot',
             "contents": [{
-                "label": "%{BKY_SUBCATEGORY_CUTEBOT}",
+                "label": "%{BKY_SUBCATEGORY_DETECTION}",
                 "blocks": [
                     'robots_getCutebotUltrasonicRanger',
                     'robots_readCutebotPatrol',
-                    'robots_controlCutebotRGBLedPalette',
-                    'robots_controlCutebotRGBLed',
-                    'robots_setCutebotNeopixelPalette',
-                    'robots_setCutebotNeopixel',
-                    'robots_blinkCutebotRobot',
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_MOVING}",
+                "blocks": [
                     'robots_setCutebotGo',
                     'robots_setCutebotTurn',
                     'robots_controlCutebotMotors',
@@ -733,10 +781,27 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                     'robots_moveCutebotOneSquareForward',
                     'robots_moveCutebotOneSquareBackward',
                     'robots_turnCutebotLeft',
-                    'robots_turnCutebotRight',
+                    'robots_turnCutebotRight'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_CONTROL}",
+                "blocks": [
                     'robots_setCutebotBuzzer',
                     'robots_playCutebotMusic',
-                    'robots_setCutebotServoAngle',
+                    'robots_setCutebotServoAngle'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_RGB_LED}",
+                "blocks": [
+                    'robots_blinkCutebotRobot',
+                    'robots_controlCutebotRGBLedPalette',
+                    'robots_controlCutebotRGBLed',
+                    'robots_setCutebotNeopixelPalette',
+                    'robots_setCutebotNeopixel'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_REMOTE_CONTROL}",
+                "blocks": [
                     'robots_cutebot_onRemoteCommandReceived',
                     'robots_cutebot_onRemoteCommandReceived_car_mp3_gray',
                     'robots_decodeCutebotIRreceiver',
@@ -792,7 +857,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                     'robots_CutebotPro_turnWheel'
                 ]
             }, {
-                "label": "%{BKY_SUBCATEGORY_SERVOS}",
+                "label": "%{BKY_SUBCATEGORY_SERVOMOTORS}",
                 "blocks": [
                     'robots_CutebotPro_setServoAngle',
                     'robots_CutebotPro_setServoSpeed'
@@ -816,27 +881,46 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         {
             "subCategoryId": 'maqueen',
             "contents": [{
-                "label": "%{BKY_SUBCATEGORY_MAQUEEN}",
+                "label": "%{BKY_SUBCATEGORY_DETECTION}",
                 "blocks": [
                     'robots_getMaqueenUltrasonicRanger',
                     'robots_readMaqueenPatrol',
-                    'robots_controlMaqueenLed',
+                    'robots_maqueenV5_readPatrol',
+                    'robots_maqueenV5_batteryLevel'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_MOVING}",
+                "blocks": [
                     'robots_setMaqueenGo',
                     'robots_rotateMaqueen',
                     'robots_controlMaqueenMotor',
                     'robots_stopMaqueenMotors',
-                    'robots_setMaqueenServoAngle',
                     'robots_moveOneSquareForward',
                     'robots_moveOneSquareBackward',
                     'robots_turnLeft',
                     'robots_turnRight',
-                    'robots_stopRobot',
+                    'robots_stopRobot'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_CONTROL}",
+                "blocks": [
+                    'robots_controlMaqueenLed',
+                    'robots_setMaqueenBuzzer',
+                    'robots_playMaqueenMusic',
+                    'robots_setMaqueenServoAngle',
+                    'robots_maqueenV5_patrolling'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_RGB_LED}",
+                "blocks": [
                     'robots_blinkRobot',
                     'robots_setMaqueenNeopixelPalette',
                     'robots_setMaqueenNeopixel',
-                    'robots_setMaqueenRainbow',
-                    'robots_setMaqueenBuzzer',
-                    'robots_playMaqueenMusic',
+                    'robots_setMaqueenRainbow'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_REMOTE_CONTROL}",
+                "blocks": [
                     'robots_maqueen_onRemoteCommandReceived',
                     'robots_maqueen_onRemoteCommandReceived_car_mp3_gray',
                     'robots_decodeMaqueenIRreceiver',
@@ -921,18 +1005,34 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         {
             "subCategoryId": 'bitcar',
             "contents": [{
-                "label": "%{BKY_SUBCATEGORY_BITCAR}",
+                "label": "%{BKY_SUBCATEGORY_DETECTION}",
                 "blocks": [
                     'robots_getBitCarUltrasonicRanger',
-                    'robots_readBitCarPatrol',
+                    'robots_readBitCarPatrol'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_MOVING}",
+                "blocks": [
                     'robots_setBitCarGo',
                     'robots_rotateBitCar',
                     'robots_controlBitCarMotor',
-                    'robots_stopBitCarMotors',
+                    'robots_stopBitCarMotors'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_CONTROL}",
+                "blocks": [
+                    'robots_setBitCarBuzzer'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_RGB_LED}",
+                "blocks": [
                     'robots_setBitCarNeopixelPalette',
                     'robots_setBitCarNeopixel',
-                    'robots_setBitCarRainbow',
-                    'robots_setBitCarBuzzer',
+                    'robots_setBitCarRainbow'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_REMOTE_CONTROL}",
+                "blocks": [
                     'robots_bitcar_onRemoteCommandReceived',
                     'robots_bitcar_onRemoteCommandReceived_car_mp3_gray',
                     'robots_decodeBitCarIRreceiver',
@@ -943,10 +1043,14 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         {
             "subCategoryId": 'kitrobot',
             "contents": [{
-                "label": "%{BKY_SUBCATEGORY_KITROBOT}",
+                "label": "%{BKY_SUBCATEGORY_DETECTION}",
                 "blocks": [
                     'robots_getKitrobotUltrasonicRanger',
-                    'robots_readKitrobotPatrol',
+                    'robots_readKitrobotPatrol'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_MOVING}",
+                "blocks": [
                     'robots_setKitrobotGo',
                     'robots_rotateKitrobot',
                     'robots_controlKitrobotMotor',
@@ -955,12 +1059,20 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                     'robots_kitrobotMoveOneSquareBackward',
                     'robots_kitrobotTurnLeft',
                     'robots_kitrobotTurnRight',
-                    'robots_kitrobotStopRobot',
+                    'robots_kitrobotStopRobot'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_CONTROL}",
+                "blocks": [
+                    'robots_setKitrobotBuzzer'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_RGB_LED}",
+                "blocks": [
                     'robots_kitrobotBlinkRobot',
                     'robots_setKitrobotNeopixelPalette',
                     'robots_setKitrobotNeopixel',
-                    'robots_setKitrobotRainbow',
-                    'robots_setKitrobotBuzzer',
+                    'robots_setKitrobotRainbow'
                 ]
             }]
         },
@@ -1042,6 +1154,65 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                     'robots_playGamepadMusic'
                 ]
             }]
+        },
+        {
+            "subCategoryId": "uhandbit",
+            "contents": [{
+                "label": "uHandbit",
+                "blocks": [
+                    'robots_uhandbit_controlServo',
+                    'robots_uhandbit_colorSensor_read_rgb',
+                    'robots_uhandbit_colorSensor_get_color',
+                    'robots_uhandbit_ultrasonic_get_distance',
+                    'robots_uhandbit_setNeopixelPalette',
+                    'robots_uhandbit_setNeopixel',
+                    'robots_uhandbit_setNeopixelRainbow'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "wukong",
+            "contents": [{
+                "label": "WuKong",
+                "blocks": [
+                    'robots_wukong_setLightMode',
+                    'robots_wukong_setLightIntensity',
+                    'robots_wukong_controlMotors',
+                    'robots_wukong_stopMotors',
+                    'robots_wukong_setServoAngle',
+                    'robots_wukong_setServoSpeed'
+                ]
+            }, {
+                "label": "Mecanum",
+                "blocks": [
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "superbit",
+            "contents": [{
+                "label": "%{BKY_SUBCATEGORY_SUPERBIT_BASIC}",
+                "blocks": [
+                    'robots_buildingBit_setNeopixel',
+                    'robots_buildingBit_setNeopixelPalette',
+                    'robots_buildingBit_setServoAngle',
+                    'robots_buildingBit_controlMotors',
+                    'robots_buildingBit_stopMotors',
+                    'robots_buildingBit_controlStepperMotors'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_SUPERBIT_SENSORS}",
+                "blocks": [
+                    'robots_buildingBit_getUltrasonicDistance',
+                    'robots_buildingBit_getPotentiometerValue',
+                    'robots_buildingBit_getLightLevel',
+                    'robots_buildingBit_isObstacleDetected',
+                    'robots_buildingBit_getPIRstate',
+                    'robots_buildingBit_dht11_redData',
+                    'robots_buildingBit_getColor',
+                    'robots_buildingBitonJoystickDir'
+                ]
+            }]
         }
     ],
     "tello": [
@@ -1062,7 +1233,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'tello_move_up_down',
                 'tello_move',
                 'tello_rectangle_form',
-                "tello_square_form",
+                'tello_square_form',
                 'tello_rotate',
                 'tello_go',
                 'tello_stream_on',
@@ -1073,54 +1244,62 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             "label": "%{BKY_SUBCATEGORY_TELLO_READ}",
             "blocks": [
                 'tello_speed',
-                "tello_battery",
-                "tello_flight_time",
+                'tello_battery',
+                'tello_flight_time',
             ]
         }
     ],
-    "vittaia": [
+    "ia": [
         {
-            "label": "%{BKY_SUBCATEGORY_VITTAIA_MICROCONTROLLER}",
-            "blocks": [
-                // 'vittaia_load_model',
-                'vittaia_load_local_model',
-                'vittaia_load_cloud_model',
-                'vittaia_make_prediction',
-                'vittaia_get_highest_probability_class',
-                'vittaia_detect_class',
-            ]
-        },
-    ],
-    "cameras": [
-        {
-            "label": "%{BKY_SUBCATEGORY_HUSKYLENS}",
-            "blocks": [
-                'cameras_huskylens_setMode',
-                'cameras_huskylens_setText',
-                'cameras_huskylens_clearScreen',
-                'cameras_huskylens_learnID',
-                'cameras_huskylens_customName',
-                'cameras_huskylens_forgetIDs',
-                'cameras_huskylens_getData',
-                'cameras_huskylens_requestBlocksData',
-                'cameras_huskylens_requestArrowsData',
-                'cameras_huskylens_requestBlockXY',
-                'cameras_huskylens_getNumberOfDetectedElements',
-                'cameras_huskylens_checkID',
-                'cameras_huskylens_getLineDirection',
-                'cameras_huskylens_saveModel',
-                'cameras_huskylens_loadModel'
+            "subCategoryId": 'vittaia',
+            "contents": [
+                {
+                    "label": "%{BKY_SUBCATEGORY_VITTAIA_SENSOR_DATA}",
+                    "blocks": [
+                        'vittaia_load_local_model',
+                        'vittaia_load_cloud_model',
+                        'vittaia_make_prediction',
+                        'vittaia_get_highest_probability_class',
+                        'vittaia_detect_class',
+                    ]
+                },
             ]
         },
         {
-            "label": "Wio Lite AI",
-            "blocks": [
-                'wio_get_class_data',
-                'wio_get_class_data_by_id',
-                'wio_get_class_max_id',
-                'wio_get_status'
+            "subCategoryId": 'cameras',
+            "contents": [
+                {
+                    "label": "%{BKY_SUBCATEGORY_HUSKYLENS}",
+                    "blocks": [
+                        'cameras_huskylens_setMode',
+                        'cameras_huskylens_setText',
+                        'cameras_huskylens_clearScreen',
+                        'cameras_huskylens_learnID',
+                        'cameras_huskylens_customName',
+                        'cameras_huskylens_forgetIDs',
+                        'cameras_huskylens_getData',
+                        'cameras_huskylens_requestBlocksData',
+                        'cameras_huskylens_requestArrowsData',
+                        'cameras_huskylens_requestBlockXY',
+                        'cameras_huskylens_getNumberOfDetectedElements',
+                        'cameras_huskylens_getDataByID',
+                        'cameras_huskylens_checkID',
+                        'cameras_huskylens_getLineDirection',
+                        'cameras_huskylens_saveModel',
+                        'cameras_huskylens_loadModel'
+                    ]
+                },
+                {
+                    "label": "Wio Lite AI",
+                    "blocks": [
+                        'wio_get_class_data',
+                        'wio_get_class_data_by_id',
+                        'wio_get_class_max_id',
+                        'wio_get_status'
+                    ]
+                }
             ]
-        }
+        },
     ],
     "logic": [
         {
@@ -1165,9 +1344,9 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'math_random_int',
                 'math_random_float',
                 'math_atan2',
-                "math_RSA_generate_keys",
-                "math_RSA_cipher_message",
-                "math_RSA_decipher_message"
+                'math_RSA_generate_keys',
+                'math_RSA_cipher_message',
+                'math_RSA_decipher_message'
             ]
         }
     ],
@@ -1182,21 +1361,22 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'text_split',
                 'text_length',
                 'text_isEmpty',
+                'text_includesSubstr',
                 'text_indexOf',
                 'text_charAt',
                 'text_getSubstring',
+                'text_count_characters',
                 'text_changeCase',
                 'text_trim',
                 'text_count',
                 'text_replace',
                 'text_reverse',
+                'text_random_string'
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_TEXT_ANALYSIS}",
+            "label": "%{BKY_SUBCATEGORY_ENCRYPTION}",
             "blocks": [
-                'text_count_characters',
-                'text_random_string',
                 'text_caesar_cipher',
                 'text_caesar_cipher_brute_force'
             ],

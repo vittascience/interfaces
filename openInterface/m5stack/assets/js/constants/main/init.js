@@ -6,6 +6,10 @@ const DEFAULT_XML_START = {
     "scratch": '<xml xmlns="https://developers.google.com/blockly/xml"><block type="scratch_on_start" id="G[=T#8yqB70`NFgYq}GP" deletable="false" x="0" y="0"><next><block type="scratch_forever" id="o[WN]+eeF.OUxGch67@8"></block></next></block></xml>'
 };
 const DEFAULT_CODE_START = 'from m5stack import *\nfrom m5ui import *\nfrom uiflow import *\n\nlcd.setRotation(3)\n\nwhile True:\n  pass';
+const REPLACE_CODE_REQUESTS = {
+    "communication_hc05_sendBluetoothData": [/<\s*block type=\s*"communication_sendBluetoothData"\s*id="([^"]{20})"\s*>/g, "<block type=\"communication_hc05_sendBluetoothData\" id=\"$1\">"],
+    "communication_hc05_onBluetoothDataReceived": [/<\s*block type=\s*"communication_onBluetoothDataReceived"\s*id="([^"]{20})"\s*>/g, "<block type=\"communication_hc05_onBluetoothDataReceived\" id=\"$1\">"],
+};
 //modes
 const MODE_CODE = "code";
 const MODE_BLOCKS = "blocks";
@@ -40,7 +44,6 @@ const WRITE_ANALOG_MAX_VALUE = 255;
 const PWM_MAX_DUTY = 1023;
 //libraries
 const LIBRARIES_PATH = {
-    'bme280' : "/grove",
 };
 //simulator
 const SIMULATOR_DEFAULT_BOARD = {

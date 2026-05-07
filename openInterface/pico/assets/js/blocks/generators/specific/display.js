@@ -24,31 +24,50 @@ Blockly.Python.display_controlPicoWLed = function (block) {
 
 Blockly.Python.display_lcdSetText = function (block) {
     const pin = block.getFieldValue("PIN");
-    Blockly.Python.addImport('lcd1602', IMPORT_ESP32_LCD1602);
-    Blockly.Python.addInit('lcd1602', "lcd = LCD1602(i2c=I2C(0, scl=Pin(" + JSON.parse(pin).scl + "), sda=Pin(" + JSON.parse(pin).sda + ")))");
-    let txt = Blockly.Python.valueToCode(block, "TEXT", Blockly.Python.ORDER_NONE) || "''";
-    let line = block.getFieldValue("LINE");
-    let position = block.getFieldValue("POS");
-    if (Blockly.Constants.Utils.isInputTextBlock(block, "TEXT")) {
-        return "lcd.setCursor(" + position + ", " + line + ")" + NEWLINE + "lcd.writeTxt(" + txt + ")" + NEWLINE;
+    const txt = Blockly.Python.valueToCode(block, "TEXT", Blockly.Python.ORDER_NONE) || "''";
+    const line = block.getFieldValue("LINE");
+    const position = block.getFieldValue("POS");
+    const addr = block.getFieldValue("ADDR") || "0x3e";
+    if (addr == "0x3f" || addr == "0x27") {
+        Blockly.Python.addImport('esp32_lcd_i2c8574', IMPORT_ESP32_LCD_I2C8574);
+        Blockly.Python.addInit('lcd8574', `lcd8574 = I2cLcd(${Blockly.Python.Generators.I2C(pin)}, i2c_addr=${addr})`);
+        if (Blockly.Constants.Utils.isInputTextBlock(block, "TEXT")) {
+            return "lcd8574.move_to(" + position + ", " + line + ")" + NEWLINE + "lcd8574.write(" + txt + ")" + NEWLINE;
+        } else {
+            return "lcd8574.move_to(" + position + ", " + line + ")" + NEWLINE + "lcd8574.write(str(" + txt + "))" + NEWLINE;
+        }
     } else {
-        return "lcd.setCursor(" + position + ", " + line + ")" + NEWLINE + "lcd.writeTxt(str(" + txt + "))" + NEWLINE;
+        Blockly.Python.addImport('esp32_lcd_i2c', IMPORT_ESP32_LCD1602);
+        Blockly.Python.addInit('lcd1602', `lcd = LCD1602(i2c=${Blockly.Python.Generators.I2C(pin)})`);
+        if (Blockly.Constants.Utils.isInputTextBlock(block, "TEXT")) {
+            return "lcd.setCursor(" + position + ", " + line + ")" + NEWLINE + "lcd.writeTxt(" + txt + ")" + NEWLINE;
+        } else {
+            return "lcd.setCursor(" + position + ", " + line + ")" + NEWLINE + "lcd.writeTxt(str(" + txt + "))" + NEWLINE;
+        }
     }
 };
 
 Blockly.Python.display_lcdClear = function (block) {
     const pin = block.getFieldValue("PIN");
-    Blockly.Python.addImport('lcd1602', IMPORT_ESP32_LCD1602);
-    Blockly.Python.addInit('lcd1602', "lcd = LCD1602(i2c=I2C(0, scl=Pin(" + JSON.parse(pin).scl + "), sda=Pin(" + JSON.parse(pin).sda + ")))");
-    return "lcd.clear()" + NEWLINE;
+    const addr = block.getFieldValue("ADDR") || "0x3e";
+    if (addr == "0x3f" || addr == "0x27") {
+        Blockly.Python.addImport('esp32_lcd_i2c8574', IMPORT_ESP32_LCD_I2C8574);
+        Blockly.Python.addInit('lcd8574', `lcd8574 = I2cLcd(${Blockly.Python.Generators.I2C(pin)}, i2c_addr=${addr})`);
+        return "lcd8574.clear()" + NEWLINE;
+    } else {
+        Blockly.Python.addImport('esp32_lcd_i2c', IMPORT_ESP32_LCD1602);
+        Blockly.Python.addInit('lcd1602', `lcd = LCD1602(i2c=${Blockly.Python.Generators.I2C(pin)})`);
+        return "lcd.clear()" + NEWLINE;
+    }
 };
+
 Blockly.Python.display_addOledText = function (block) {
     const pin = block.getFieldValue("PIN");
     const str = Blockly.Python.valueToCode(block, "TEXT", Blockly.Python.ORDER_NONE) || "''";
     const x = Blockly.Python.valueToCode(block, "X", Blockly.Python.ORDER_NONE) || "0";
     const y = Blockly.Python.valueToCode(block, "Y", Blockly.Python.ORDER_NONE) || "0";
     Blockly.Python.addImport('ssd1306', IMPORT_ESP32_SSD1306_I2C);
-    Blockly.Python.addInit('oled', "oled = SSD1306_I2C(128, 64, I2C(0, scl=Pin(" + JSON.parse(pin).scl + "), sda=Pin(" + JSON.parse(pin).sda + ")))");
+    Blockly.Python.addInit('oled', `oled = SSD1306_I2C(128, 64, ${Blockly.Python.Generators.I2C(pin)})`);
     if (Blockly.Constants.Utils.isInputTextBlock(block, "TEXT")) {
         return "oled.text(" + str + ", " + x + ", " + y + ")" + NEWLINE + "oled.show()" + NEWLINE;
     } else {
@@ -62,7 +81,7 @@ Blockly.Python.display_setOledPixel = function (block) {
     const x = Blockly.Python.valueToCode(block, "X", Blockly.Python.ORDER_NONE) || "0";
     const y = Blockly.Python.valueToCode(block, "Y", Blockly.Python.ORDER_NONE) || "0";
     Blockly.Python.addImport('ssd1306', IMPORT_ESP32_SSD1306_I2C);
-    Blockly.Python.addInit('oled', "oled = SSD1306_I2C(128, 64,I2C(0, scl=Pin(" + JSON.parse(pin).scl + "), sda=Pin(" + JSON.parse(pin).sda + ")))");
+    Blockly.Python.addInit('oled', `oled = SSD1306_I2C(128, 64, ${Blockly.Python.Generators.I2C(pin)})`);
     return "oled.pixel(" + x + ", " + y + ", " + state + ")" + NEWLINE + "oled.show()" + NEWLINE;
 };
 
@@ -72,14 +91,39 @@ Blockly.Python.display_showOledIcon = function (block) {
     const x = Blockly.Python.valueToCode(block, "X", Blockly.Python.ORDER_NONE) || "0";
     const y = Blockly.Python.valueToCode(block, "Y", Blockly.Python.ORDER_NONE) || "0";
     Blockly.Python.addImport('ssd1306', IMPORT_ESP32_SSD1306_I2C);
-    Blockly.Python.addInit('oled', "oled = SSD1306_I2C(128, 64,I2C(0, scl=Pin(" + JSON.parse(pin).scl + "), sda=Pin(" + JSON.parse(pin).sda + ")))");
-    return "oled.blit(oled.STAMP_" + i + ", " + x + ", " + y + ")" + NEWLINE;
+    Blockly.Python.addInit('oled', `oled = SSD1306_I2C(128, 64, ${Blockly.Python.Generators.I2C(pin)})`);
+    return "oled.blit(oled.STAMP_" + i + ", " + x + ", " + y + ")" + NEWLINE + "oled.show()" + NEWLINE;
 };
 
 Blockly.Python.display_clearOledScreen = function () {
     Blockly.Python.addImport('ssd1306', IMPORT_ESP32_SSD1306_I2C);
-    Blockly.Python.addInit('oled', "oled = SSD1306_I2C(128, 64, I2C(scl=Pin(22), sda=Pin(21)))");
+    Blockly.Python.addInit('oled', `oled = SSD1306_I2C(128, 64, ${Blockly.Python.Generators.I2C(pin)})`);
     return "oled.fill(0)" + NEWLINE + "oled.show()" + NEWLINE;
+};
+
+// RED LED Matrix
+
+Blockly.Python.display_led_matrix_DrawBitmap = function (block) {
+    const pin = block.getFieldValue("PIN");
+    Blockly.Python.addImport('ht16k33matrix', IMPORT_HT16K33_MATRIX);
+    Blockly.Python.addInit('HT16K33Matrix', `ht16k33matrix = HT16K33Matrix(${Blockly.Python.Generators.I2C(pin)})`);
+    const matrix_color = block.getField("LEDS_MATRIX").getText().split(',');
+    let code = "b\"";
+    if (matrix_color.length != 0) {
+        for (var i = 0; i < matrix_color.length; i++) {
+            code += "\\x";
+            let hex = parseInt(matrix_color[i], 2).toString(16).toUpperCase();
+            code += ((hex.length > 1) ? hex : "0" + hex);
+        }
+    }
+    return "ht16k33matrix.set_icon(" + code + "\").draw()" + NEWLINE;
+};
+
+Blockly.Python.display_led_matrix_clear = function (block) {
+    const pin = block.getFieldValue("PIN");
+    Blockly.Python.addImport('ht16k33matrix', IMPORT_HT16K33_MATRIX);
+    Blockly.Python.addInit('HT16K33Matrix', `ht16k33matrix = HT16K33Matrix(${Blockly.Python.Generators.I2C(pin)})`);
+    return "ht16k33matrix.clear()" + NEWLINE + "ht16k33matrix.draw()" + NEWLINE;
 };
 
 // LED modules
@@ -103,7 +147,7 @@ Blockly.Python.display_setLEDintensity = function (block) {
  * @param {int} numPin
  * @param {int} ledCount
  */
-Blockly.Python.neopixel_codeInitialization = function (block, pin, ledCount) {
+Blockly.Python.DISPLAY_NEOPIXEL_INIT_GENERATOR = function (block, pin, ledCount) {
     const numPin = pin.match(/\d+/g)[0];
     Blockly.Python.addInit('neopixel_' + pin, "# Neopixel on " + pin);
     Blockly.Python.addInit(pin, pin + " = Pin(" + pin.replace('p', '') + ", Pin.OUT)");
@@ -132,9 +176,9 @@ Blockly.Python.neopixel_checkDefinedBlock = function (block, pin) {
 };
 
 Blockly.Python.display_defineNeopixel = function (block) {
-    const ledCount = Blockly.Python.valueToCode(block, "N", Blockly.Python.ORDER_NONE) || "20";
-    let pin = block.getFieldValue("PIN");
-    Blockly.Python.neopixel_codeInitialization(block, pin, ledCount);
+    const ledCount = block.getFieldValue("N");
+    const pin = block.getFieldValue("PIN");
+    Blockly.Python.DISPLAY_NEOPIXEL_INIT_GENERATOR(block, pin, ledCount);
     return "";
 };
 
@@ -145,7 +189,7 @@ Blockly.Python.display_controlNeopixelLed = function (block) {
     var g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
     var b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
     if (!Blockly.Python.neopixel_checkDefinedBlock(block, pin)) {
-        Blockly.Python.neopixel_codeInitialization(block, pin, "30");
+        Blockly.Python.DISPLAY_NEOPIXEL_INIT_GENERATOR(block, pin, "30");
     }
     return "np_" + pin.match(/\d+/g)[0] + "[" + led + "] = (" + r + ", " + g + ", " + b + ")" + NEWLINE + "np_" + pin.match(/\d+/g)[0] + ".write()" + NEWLINE;
 };
@@ -154,7 +198,7 @@ Blockly.Python.display_controlColorNeopixelLed = function (block) {
     let pin = block.getFieldValue("PIN");
     let ledIndex = Blockly.Python.valueToCode(block, "LED", Blockly.Python.ORDER_NONE) || "0";
     let colour = Blockly.Python.valueToCode(block, "COLOR", Blockly.Python.ORDER_NONE) || "(0,0,0)";
-    Blockly.Python.neopixel_codeInitialization(block, pin, "30");
+    Blockly.Python.DISPLAY_NEOPIXEL_INIT_GENERATOR(block, pin, "30");
     return "np_" + pin.match(/\d+/g)[0] + "[" + ledIndex + "] = " + colour + NEWLINE + "np_" + pin.match(/\d+/g)[0] + ".write()" + NEWLINE;
 };
 
@@ -164,7 +208,7 @@ Blockly.Python.display_neopixel_controlAllLedRGB = function (block) {
     var g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
     var b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
     if (!Blockly.Python.neopixel_checkDefinedBlock(block, pin)) {
-        Blockly.Python.neopixel_codeInitialization(block, pin, "30");
+        Blockly.Python.DISPLAY_NEOPIXEL_INIT_GENERATOR(block, pin, "30");
     }
     Blockly.Python.addFunction('neopixel_showAllLed', FUNCTIONS_PICO.DEF_NEOPIXEL_SHOW_ALL_LED);
     return "neopixel_showAllLed(np_" + pin.match(/\d+/g)[0] + ", " + NEOPIXEL_LED_COUNT + pin.match(/\d+/g)[0] + ", " + r + ", " + g + ", " + b + ")" + NEWLINE;
@@ -175,7 +219,7 @@ Blockly.Python.display_neopixel_controlAllLedPalette = function (block) {
     let colour = Blockly.Python.valueToCode(block, "COLOR", Blockly.Python.ORDER_NONE) || "(0,0,0)";
     let colourList = colour.match(/([0-9]{1,3})/g);
     if (!Blockly.Python.neopixel_checkDefinedBlock(block, pin)) {
-        Blockly.Python.neopixel_codeInitialization(block, pin, "30");
+        Blockly.Python.DISPLAY_NEOPIXEL_INIT_GENERATOR(block, pin, "30");
     }
     Blockly.Python.addFunction('neopixel_showAllLed', FUNCTIONS_PICO.DEF_NEOPIXEL_SHOW_ALL_LED);
     return "neopixel_showAllLed(np_" + pin.match(/\d+/g)[0] + ", " + NEOPIXEL_LED_COUNT + pin.match(/\d+/g)[0] + ", " + colourList[0] + ", " + colourList[1] + ", " + colourList[2] + ")" + NEWLINE;
@@ -186,19 +230,20 @@ Blockly.Python.display_rainbowNeopixel = function (block) {
     Blockly.Python.addImport('utime', IMPORT_UTIME);
     Blockly.Python.addFunction('neopixel_showAllLed', FUNCTIONS_PICO.DEF_NEOPIXEL_SHOW_ALL_LED);
     if (!Blockly.Python.neopixel_checkDefinedBlock(block, pin)) {
-        Blockly.Python.neopixel_codeInitialization(block, pin, "30 ");
+        Blockly.Python.DISPLAY_NEOPIXEL_INIT_GENERATOR(block, pin, "30 ");
     }
     Blockly.Python.addFunction('neopixel_rainbow', FUNCTIONS_PICO.DEF_NEOPIXEL_RAINBOW);
     return "neopixel_rainbow(np_" + pin.match(/\d+/g)[0] + ", " + NEOPIXEL_LED_COUNT + pin.match(/\d+/g)[0] + ")" + NEWLINE;
 };
 
 Blockly.Python.display_setNumberGrove4Digit = function (block) {
-    const pinName_CLK = Blockly.Python.Generators.digital_write(block.getFieldValue("CLK"), '4 Digit Display CLK');
-    const pinName_DIO = Blockly.Python.Generators.digital_write(block.getFieldValue("DIO"), '4 Digit Display DIO');
+    const pinName_CLK = Blockly.Python.Generators.digital_write(block.getFieldValue("CLK"));
+    const pinName_DIO = Blockly.Python.Generators.digital_write(block.getFieldValue("DIO"));
     const n = Blockly.Python.valueToCode(block, "N", Blockly.Python.ORDER_NONE) || "0";
     const displayOption = block.getFieldValue("SHOW");
     const objName = "tm1637_" + pinName_CLK;
     Blockly.Python.addImport('esp32_tm1637', IMPORT_ESP32_TM1637);
+    Blockly.Python.addInit(objName + '_codeFlag', '# 4 Digit Display CLK/DIO on ' + pinName_CLK + '/' + pinName_DIO);
     Blockly.Python.addInit(objName, objName + " = TM1637(clk=" + pinName_CLK + ", dio=" + pinName_DIO + ")");
     switch (displayOption) {
         case "NUM":
@@ -212,8 +257,8 @@ Blockly.Python.display_setNumberGrove4Digit = function (block) {
 
 Blockly.Python.display_setClockGrove4Digit = function (block) {
     let date = new Date();
-    const pinName_CLK = Blockly.Python.Generators.digital_write(block.getFieldValue("CLK"), '4 Digit Display CLK');
-    const pinName_DIO = Blockly.Python.Generators.digital_write(block.getFieldValue("DIO"), '4 Digit Display DIO');
+    const pinName_CLK = Blockly.Python.Generators.digital_write(block.getFieldValue("CLK"));
+    const pinName_DIO = Blockly.Python.Generators.digital_write(block.getFieldValue("DIO"));
     const objName = "tm1637_" + pinName_CLK;
     Blockly.Python.addImport('esp32_tm1637', IMPORT_ESP32_TM1637);
     Blockly.Python.addImport('utime', IMPORT_UTIME);
@@ -225,25 +270,28 @@ Blockly.Python.display_setClockGrove4Digit = function (block) {
         "MIN_START = " + date.getMinutes() + NEWLINE +
         "HOUR_START = " + date.getHours());
     Blockly.Python.addFunction('getCurrentTime', FUNCTIONS_PICO.DEF_GET_CURRENT_TIME);
+    Blockly.Python.addInit(objName + '_codeFlag', '# 4 Digit Display CLK/DIO on ' + pinName_CLK + '/' + pinName_DIO);
     Blockly.Python.addInit(objName, objName + " = TM1637(clk=" + pinName_CLK + ", dio=" + pinName_DIO + ")");
     return objName + ".clock(getCurrentTime())" + NEWLINE;
 };
 
 Blockly.Python.display_setLevelLedBar = function (block) {
-    const pinName_DI = Blockly.Python.Generators.digital_write(block.getFieldValue("DI"), 'LED Bar DI');
-    const pinName_DCKI = Blockly.Python.Generators.digital_write(block.getFieldValue("DCKI"), 'LED Bar DCKI');
+    const pinName_DI = Blockly.Python.Generators.digital_write(block.getFieldValue("DI"));
+    const pinName_DCKI = Blockly.Python.Generators.digital_write(block.getFieldValue("DCKI"));
     const objName = 'ledBar_' + pinName_DI;
     Blockly.Python.addImport('esp32_my9221', IMPORT_ESP32_MY9221);
+    Blockly.Python.addInit(objName + '_codeFlag', '# LED Bar DI/DCKI on ' + pinName_DI + '/' + pinName_DCKI);
     Blockly.Python.addInit(objName, objName + " = MY9221(" + pinName_DI + ", " + pinName_DCKI + ")");
     const level = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || "0";
     return objName + ".level(" + level + ")" + NEWLINE;
 };
 
 Blockly.Python.display_my9221_reverse = function (block) {
-    const pinName_DI = Blockly.Python.Generators.digital_write(block.getFieldValue("DI"), 'LED Bar DI');
-    const pinName_DCKI = Blockly.Python.Generators.digital_write(block.getFieldValue("DCKI"), 'LED Bar DCKI');
+    const pinName_DI = Blockly.Python.Generators.digital_write(block.getFieldValue("DI"));
+    const pinName_DCKI = Blockly.Python.Generators.digital_write(block.getFieldValue("DCKI"));
     const objName = 'ledBar_' + pinName_DI;
     Blockly.Python.addImport('esp32_my9221', IMPORT_ESP32_MY9221);
+    Blockly.Python.addInit(objName + '_codeFlag', '# LED Bar DI/DCKI on ' + pinName_DI + '/' + pinName_DCKI);
     Blockly.Python.addInit(objName, objName + " = MY9221(" + pinName_DI + ", " + pinName_DCKI + ")");
     const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
     return objName + ".reverse(" + state + ")" + NEWLINE;

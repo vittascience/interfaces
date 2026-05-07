@@ -29,16 +29,16 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
         },
         "contents": []
     },
-    {
-        "kind": "category",
-        "toolboxitemid": "network",
-        "name": "%{BKY_CATEGORY_NETWORK}",
-        "style": "network_category",
-        "cssConfig": {
-            "icon": "icon_blockly fas fa-wifi"
-        },
-        "contents": []
-    },
+    // {
+    //     "kind": "category",
+    //     "toolboxitemid": "network",
+    //     "name": "%{BKY_CATEGORY_NETWORK}",
+    //     "style": "network_category",
+    //     "cssConfig": {
+    //         "icon": "icon_blockly fas fa-wifi"
+    //     },
+    //     "contents": []
+    // },
     {
         "kind": "category",
         "toolboxitemid": "sensors",
@@ -51,21 +51,21 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
     },
     {
         "kind": "category",
-        "toolboxitemid": "senseHat",
-        "name": "%{BKY_CATEGORY_SENSEHAT}",
-        "style": "senseHat_category",
-        "contents": [],
-        "cssConfig": {
-            "icon": "icon_blockly svgIcon"
-        },
-    },
-    {
-        "kind": "category",
         "toolboxitemid": "actuators",
         "name": "%{BKY_CATEGORY_ACTUATORS}",
         "style": "actuators_category",
         "cssConfig": {
             "icon": "icon_blockly fas fa-fan"
+        },
+        "contents": []
+    },
+    {
+        "kind": "category",
+        "toolboxitemid": "robots",
+        "name": "%{BKY_CATEGORY_ROBOTS}",
+        "style": "robots_category",
+        "cssConfig": {
+            "icon": "icon_blockly fas fa-robot"
         },
         "contents": []
     },
@@ -158,238 +158,7 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
 const TOOLBOX_VITTASCIENCE_CONTENT = {
     "display": [
         {
-            "label": "%{BKY_SUBCATEGORY_DISPLAYS_LCD}",
-            "blocks": [
-                'display_lcdSetText',
-                'display_lcdClear'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_NEOPIXEL}",
-            "blocks": [
-                'display_defineNeopixel',
-                'display_controlNeopixelLed',
-                'display_controlColorNeopixelLed',
-                'display_neopixel_controlAllLedRGB',
-                'display_neopixel_controlAllLedPalette',
-                // 'display_rainbowNeopixel'
-            ]
-        },
-        //     {
-        //         "label": "%{BKY_SUBCATEGORY_DISPLAYS_OLED}",
-        //         "blocks": [
-        //             'display_addOledText',
-        //             'display_setOledPixel',
-        //             'display_drawOledLine',
-        //             'display_showOledIcon',
-        //             'display_setOledBackground',
-        //             'display_clearOledScreen'
-        //         ]
-        //     },
-        //     {
-        //         "label": "%{BKY_SUBCATEGORY_LED}",
-        //         "blocks": [
-        //             'display_setGroveSocketLed',
-        //             'display_setLEDintensity',
-        //             'display_setVariableColorLED',
-        //             'display_setNumberGrove4Digit',
-        //             'display_setClockGrove4Digit',
-        //             'display_setLevelLedBar',
-        //             'display_my9221_reverse'
-        //         ]
-        //     },
-        //     {
-        //         "label": "%{BKY_SUBCATEGORY_CHAINABLE_LED_RGB}",
-        //         "blocks": [
-        //             'display_defineChainableRGBLed',
-        //             'display_setColorChainableRGBLed',
-        //             'display_setPaletteColorChainableRGBLed',
-        //             'display_setColorAllChainableRGBLed',
-        //             'display_setPaletteAllChainableRGBLed',
-        //             'display_resetAllChainableRGBLed'
-        //         ]
-        //     }
-    ],
-    "io": [
-        {
-            "label": "%{BKY_SUBCATEGORY_TIME}",
-            "blocks": [
-                'io_pause',
-                'io_waitUntil',
-                'io_initChronometer',
-                'io_getChronometer'
-            ]
-        },
-        // {
-        //     "label": "%{BKY_SUBCATEGORY_GALAXIA_TOUCH_BUTTONS}",
-        //     "blocks": [
-        //         'io_ifTouchSensitiveButtonTouched',
-        //         'io_isTouchSensitiveButtonTouched',
-        //         'io_onTouchSensitiveButtonEvent',
-        //         'io_TouchSensitiveButton_getTouches'
-        //     ]
-        // },
-        // {
-        //     "label": "%{BKY_SUBCATEGORY_EXTERNAL_INPUTS}",
-        //     "blocks": [
-        //         'io_getGroveButton',
-        //         'io_getGroveSwitch',
-        //         'io_getGroveTactile',
-        //         'io_getGroveRotaryAngle',
-        //         'io_getGroveSlidePotentiometer',
-        //         'io_getGroveColoredButton',
-        //         'io_setGroveColoredButton',
-        //         "io_getGroveThumbJoystick",
-        //         "io_rotaryEncoder",
-        //     ]
-        // },
-        // {
-        //     "label": "%{BKY_SUBCATEGORY_PINS}",
-        //     "blocks": [
-        //         'io_digital_signal',
-        //         'io_readDigitalPin',
-        //         'io_writeDigitalPin',
-        //         'io_readAnalogPin',
-        //         'io_writePwm',
-        //         //'io_writeAnalogPin',
-        //         'io_setPwm',
-        //         'io_stopPwm',
-        //         'io_getVoltage'
-        //     ]
-        // }
-    ],
-    "communication": [
-        {
-            "label": "%{BKY_SUBCATEGORY_SERIAL_CONNECTION}",
-            "blocks": [
-                'communication_serialWrite',
-                // 'communication_graphSerialWrite',
-                // 'communication_playComputerMusic',
-                // 'communication_playComputerFrequency',
-                // 'communication_stopComputerMusic'
-            ]
-        },
-        // {
-        //     "label": "%{BKY_SUBCATEGORY_INTEGRATED_RADIO}",
-        //     "blocks": [
-        //         'communication_radioSendString',
-        //         'communication_radioSendNumber',
-        //         'communication_radioSendValue',
-        //         'communication_onRadioDataReceived',
-        //         'communication_onRadioNumberReceived',
-        //         'communication_onRadioValueReceived',
-        //         'communication_radioConfig'
-        //     ]
-        // },
-        // {
-        //     "label": "%{BKY_SUBCATEGORY_DATA_LOGGING}",
-        //     "blocks": [
-        //         'communication_writeOpenLogSd'
-        //     ]
-        // },
-        // {
-        //     "label": "%{BKY_SUBCATEGORY_TRACKING_MODULES}",
-        //     "blocks": [
-        //         'communication_gps_getNMEA',
-        //         // 'communication_gps_getGGAInformations',
-        //         'communication_clockRTC_setDate',
-        //         'communication_clockRTC_setHour',
-        //         'communication_clockRTC_readTime'
-        //     ]
-        // },
-        // {
-        //     "label": "%{BKY_SUBCATEGORY_UART}",
-        //     "blocks": [
-        //         'communication_serialInit',
-        //         'communication_uart_writeData',
-        //         'communication_uart_isDataAvailable',
-        //         'communication_uart_readData'
-        //     ]
-        // }
-    ],
-    "sensors": [
-        {
-            "label": "%{BKY_SUBCATEGORY_SENSORS_DISTANCEMOVEMENT}",
-            "blocks": [
-                'sensors_getGroveUltrasonicRanger',
-                // 'sensors_getGroveLineFinder',
-                // 'sensors_getGroveTilt',
-                // 'sensors_getGroveMotion',
-                // 'sensors_getPiezoVibration'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_SENSORS_GAS}",
-            "blocks": [
-                // 'sensors_getSgp30Gas',
-                // 'sensors_getMultichannelGas',
-                // 'sensors_getO2gas',
-                // 'sensors_SCD30_readData',
-                // 'sensors_SCD30_forcedCalibration',
-                // 'sensors_getAirQualityValue',
-                // 'sensors_getParticulateMatter'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_SENSORS_CLIMATE}",
-            "blocks": [
-                // 'sensors_linky',
-                // 'sensors_getBmp280Data',
-                'sensors_getGroveMoisture',
-                'sensors_getGroveTemperature',
-                // 'sensors_getGroveHighTemperature',
-                'sensors_DHT11ReadData',
-                // 'sensors_DHT22ReadData',
-                // 'sensors_TH02readData',
-                // 'sensors_SHT31readData',
-                // 'sensors_DS18B20_getTemperature',
-                // 'sensors_getGroveWaterAmount',
-                // 'sensors_getRainGauge',
-                // 'sensors_getAnemometer'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_SENSORS_SOUNDLIGHT}",
-            "blocks": [
-                'sensors_getGroveLight',
-                // 'sensors_getSi1145Light',
-                // 'sensors_colorSensor_getData',
-                // 'sensors_getUVindex',
-                // 'sensors_getGroveSound'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_SENSORS_CAMERA}",
-            "blocks": [
-                "sensors_rpi_camera_take_picture",
-                "sensors_rpi_camera_take_video",
-            ]
-        },
-
-    ],
-    "senseHat": [
-        {
-            "label": "%{BKY_SUBCATEGORY_SENSEHAT_SENSORS}",
-            "blocks": [
-                'sensehat_getSenseHatHumidity',
-                "sensehat_getSenseHatTemperature",
-                'sensehat_getTemperatureFrom',
-                'sensehat_getSenseHatPressure',
-                'sensehat_set_imu_config',
-                'sensehat_imu_get_orientation',
-                'sensehat_imu_get_compass',
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_SENSEHAT_IO}",
-            "blocks": [
-                'sensehat_wait_for_event',
-                'sensehat_get_event_action_direction',
-                'sensehat_get_event_joystick',
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_SENSEHAT_DISPLAY}",
+            "label": "%{BKY_SUBCATEGORY_SENSEHAT_MATRIX}",
             "blocks": [
                 "sensehat_display_set_pixel",
                 "sensehat_display_set_pixel_palette",
@@ -404,37 +173,235 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 // "sensehat_display_set_pixel_palette",
             ]
         },
-    ],
-    "actuators": [
-        // {
-        //     "label": "%{BKY_SUBCATEGORY_MOTORS}",
-        //     "blocks": [
-        //         'actuators_setServoAngle',
-        //         'actuators_continuousServo_setSpeed',
-        //         'actuators_setMotorPower',
-        //         'actuators_setVibrationMotorState',
-        //         'actuators_setGroveRelayState'
-        //     ]
-        // },
         {
-            "label": "%{BKY_SUBCATEGORY_MUSIC}",
+            "label": "%{BKY_SUBCATEGORY_DISPLAYS_LCD}",
             "blocks": [
-                // 'actuators_playMusicGroveBuzzer',
-                // 'actuators_music_playNotes',
-                // 'actuators_music_note',
-                'actuators_music_playFrequency',
-                // 'actuators_music_stop'
+                'display_lcdSetText',
+                'display_lcdClear'
             ]
-        }
-    ],
-    "network": [
+        },
         {
-            "label": "%{BKY_SUBCATEGORY_WIFI}",
+            "label": "%{BKY_SUBCATEGORY_NEOPIXEL}",
             "blocks": [
-                'network_get_pi_name'
+                'display_defineNeopixel',
+                'display_controlNeopixelLed',
+                'display_controlColorNeopixelLed',
+                'display_neopixel_controlAllLedRGB',
+                'display_neopixel_controlAllLedPalette',
+                'display_rainbowNeopixel'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_LED}",
+            "blocks": [
+                'display_setGroveSocketLed',
+                'display_setLEDintensity',
+                'display_setVariableColorLED',
+                'display_setNumberGrove4Digit',
+                'display_setClockGrove4Digit'
             ]
         },
     ],
+    "io": [
+        {
+            "label": "%{BKY_SUBCATEGORY_TIME}",
+            "blocks": [
+                'io_pause',
+                'io_waitUntil',
+                'io_initChronometer',
+                'io_getChronometer',
+                'io_datetime_ymd_hms'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_SENSEHAT_JOYSTICK}",
+            "blocks": [
+                'sensehat_wait_for_event',
+                'sensehat_get_event_action_direction',
+                'sensehat_get_event_joystick',
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_PINS}",
+            "blocks": [
+                'io_digital_signal',
+                'io_readDigitalPin',
+                'io_writeDigitalPin',
+                'io_writePwm',
+                'io_setPwm',
+                'io_stopPwm'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_EXTERNAL_INPUTS}",
+            "blocks": [
+                'io_getGroveButton',
+                'io_getGroveSwitch',
+                'io_getMagneticSwitch',
+                'io_getGroveTactile',
+                'io_getGroveColoredButton',
+                'io_setGroveColoredButton'
+            ]
+        },
+    ],
+    "communication": [
+        {
+            "label": "%{BKY_SUBCATEGORY_SERIAL_CONNECTION}",
+            "blocks": [
+                'communication_serialWrite',
+                'communication_graphSerialWrite',
+                'communication_graphSerialWrite_datasFormat'
+            ]
+        },
+    ],
+    "sensors": [
+        {
+            "label": "%{BKY_SUBCATEGORY_CAMERAS}",
+            "blocks": [
+                'sensors_rpi_camera_takePicture',
+                'sensors_rpi_camera_takeVideo',
+                'sensors_rpi_camera_changeSize',
+                'sensors_usb_camera_takePicture',
+                'sensors_usb_camera_takeVideo',
+                'sensors_usb_camera_changeSize',
+                'sensors_cv2_camera_savePicture',
+                'sensors_camera_showPictureInVittascience-img',
+                'sensors_camera_showPictureInVittascience-filename',
+                'sensors_camera_showVideoInVittascience',
+                'sensors_camera_getPictureFiles',
+                'sensors_camera_getVideoFiles'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_SENSEHAT_SENSORS}",
+            "blocks": [
+                'sensehat_getSenseHatHumidity',
+                'sensehat_getSenseHatTemperature',
+                'sensehat_getTemperatureFrom',
+                'sensehat_getSenseHatPressure',
+                'sensehat_set_imu_config',
+                'sensehat_imu_get_orientation',
+                'sensehat_imu_get_compass',
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_SENSORS_GAS}",
+            "blocks": [
+                'sensors_getSgp30Gas',
+                'sensors_SCD30_readData',
+                //'sensors_getParticulateMatter'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_SENSORS_CLIMATE}",
+            "blocks": [
+                'sensors_getBmp280Data',
+                'sensors_DHT11ReadData',
+                'sensors_DHT22ReadData',
+                'sensors_SHT31readData',
+                'sensors_DS18B20_getTemperature',
+                'sensors_getRainGauge',
+                'sensors_getAnemometer'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_SENSORS_SOUNDLIGHT}",
+            "blocks": [
+                'sensors_getSunlightData',
+                'sensors_colorSensorV2_getData'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_SENSORS_DISTANCEMOVEMENT}",
+            "blocks": [
+                'sensors_getGroveUltrasonicRanger',
+                'sensors_getGesture',
+                'sensors_onGestureTypeDetected',
+                'sensors_getGroveLineFinder',
+                'sensors_getGroveMotion',
+                'sensors_getGroveTilt',
+                'sensors_getPiezoVibration'
+            ]
+        }
+    ],
+    "actuators": [
+        {
+            "label": "%{BKY_SUBCATEGORY_MOTORS}",
+            "blocks": [
+                'actuators_setServoAngle',
+                'actuators_continuousServo_setSpeed',
+                'actuators_setMotorPower',
+                'actuators_setVibrationMotorState',
+                'actuators_setGroveRelayState'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_MOSFET}",
+            "blocks": [
+                'actuators_mosfet_setState',
+                'actuators_mosfet_setPercentValue',
+                'actuators_mosfet_setFrequency'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_MUSIC}",
+            "blocks": [
+                'actuators_playMusicGroveBuzzer',
+                'actuators_music_playNotes',
+                'actuators_music_note',
+                'actuators_music_playFrequency',
+                'actuators_music_stop',
+            ]
+        }
+    ],
+    "robots": [
+        {
+            "label": "Yahboom G1 Tank - " + "%{BKY_SUBCATEGORY_CONTROL}",
+            "blocks": [
+                'robots_yahboom_g1tank_setLedColor',
+                'robots_yahboom_g1tank_setLedColor_RGB',
+                'robots_yahboom_g1tank_setLedColor_Palette',
+                'robots_yahboom_g1tank_setLEDServoAngle'
+            ]
+        },
+        {
+            "label": "Yahboom G1 Tank - " + "%{BKY_SUBCATEGORY_DETECTION}",
+            "blocks": [
+                'robots_yahboom_g1tank_getUltrasonicRanger',
+                'robots_yahboom_g1tank_getLineFinderState',
+                'robots_yahboom_g1tank_waitKEY'
+            ]
+        },
+        {
+            "label": "Yahboom G1 Tank - " + "%{BKY_SUBCATEGORY_MOVING}",
+            "blocks": [
+                'robots_yahboom_g1tank_setGo',
+                'robots_yahboom_g1tank_stop',
+                'robots_yahboom_g1tank_turn',
+                'robots_yahboom_g1tank_spin',
+                'robots_yahboom_g1tank_controlMotors'
+            ]
+        },
+        {
+            "label": "Yahboom G1 Tank - " + "%{BKY_SUBCATEGORY_CAMERA}",
+            "blocks": [
+                'robots_yahboom_g1tank_setCameraPanAngle',
+                'robots_yahboom_g1tank_setCameraTiltAngle'
+            ]
+        },
+        {
+            'label': "%{BKY_MESSAGE_ROBOTS_USB_CAMERA}",
+            'message': true
+        }
+    ],
+    // "network": [
+    //     {
+    //         "label": "%{BKY_SUBCATEGORY_WIFI}",
+    //         "blocks": [
+    //             'network_get_pi_name'
+    //         ]
+    //     },
+    // ],
     "logic": [{
         "blocks": [
             'controls_if',
@@ -489,21 +456,24 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'text_split',
                 'text_length',
                 'text_isEmpty',
+                'text_includesSubstr',
                 'text_indexOf',
                 'text_charAt',
                 'text_getSubstring',
+                'text_count_characters',
                 'text_changeCase',
                 'text_trim',
                 'text_count',
                 'text_replace',
-                'text_reverse'
+                'text_reverse',
+                'text_random_string'
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_TEXT_ANALYSIS}",
+            "label": "%{BKY_SUBCATEGORY_ENCRYPTION}",
             "blocks": [
-                'text_count_characters',
-                'text_random_string'
+                'text_caesar_cipher',
+                'text_caesar_cipher_brute_force'
             ],
         }
     ],
@@ -539,323 +509,4 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
     }]
 };
 
-const TOOLBOX_VITTASCIENCE_CONTENT_SIMPLE = {
-    "display": [
-        {
-            "label": "%{BKY_SUBCATEGORY_DISPLAYS_LCD}",
-            "blocks": [
-                'display_lcdSetText',
-                'display_lcdClear'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_NEOPIXEL}",
-            "blocks": [
-                'display_defineNeopixel',
-                'display_controlNeopixelLed',
-                'display_controlColorNeopixelLed',
-                'display_neopixel_controlAllLedRGB',
-                'display_neopixel_controlAllLedPalette',
-                'display_rainbowNeopixel'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_DISPLAYS_OLED}",
-            "blocks": [
-                'display_addOledText',
-                'display_setOledPixel',
-                'display_drawOledLine',
-                'display_showOledIcon',
-                'display_setOledBackground',
-                'display_clearOledScreen'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_LED}",
-            "blocks": [
-                'display_setGroveSocketLed',
-                'display_setLEDintensity',
-                'display_setVariableColorLED',
-                'display_setNumberGrove4Digit',
-                'display_setClockGrove4Digit',
-                'display_setLevelLedBar',
-                'display_my9221_reverse'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_CHAINABLE_LED_RGB}",
-            "blocks": [
-                'display_defineChainableRGBLed',
-                'display_setColorChainableRGBLed',
-                'display_setPaletteColorChainableRGBLed',
-                'display_setColorAllChainableRGBLed',
-                'display_setPaletteAllChainableRGBLed',
-                'display_resetAllChainableRGBLed'
-            ]
-        }
-    ],
-    "io": [
-        {
-            "label": "%{BKY_SUBCATEGORY_TIME}",
-            "blocks": [
-                'io_pause',
-                'io_initChronometer',
-                'io_getChronometer'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_EXTERNAL_INPUTS}",
-            "blocks": [
-                'io_getGroveButton',
-                'io_getGroveSwitch',
-                'io_getGroveTactile',
-                'io_getGroveRotaryAngle',
-                'io_getGroveSlidePotentiometer',
-                'io_getGroveColoredButton',
-                'io_setGroveColoredButton',
-                "io_getGroveThumbJoystick",
-                "io_rotaryEncoder",
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_PINS}",
-            "blocks": [
-                'io_getVoltage'
-            ]
-        }
-    ],
-    "communication": [
-        {
-            "label": "%{BKY_SUBCATEGORY_SERIAL_CONNECTION}",
-            "blocks": [
-                'communication_serialWrite',
-                'communication_graphSerialWrite',
-                'communication_playComputerMusic',
-                'communication_playComputerFrequency',
-                'communication_stopComputerMusic'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_INTEGRATED_BT}",
-            "blocks": [
-                'communication_StartBT',
-                'communication_SendBT',
-                'communication_BLE_ReadData',
-                'communication_FizziqBT'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_DATA_LOGGING}",
-            "blocks": [
-                'communication_writeOpenLogSd'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_WIRELESS_COMMUNICATION}",
-            "blocks": [
-                'communication_sendBluetoothData',
-                'communication_onBluetoothDataReceived'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_TRACKING_MODULES}",
-            "blocks": [
-                'communication_clockRTC_setDate',
-                'communication_clockRTC_setHour',
-                'communication_clockRTC_readTime'
-            ]
-        }
-    ],
-    "network": [
-        {
-            "label": "%{BKY_SUBCATEGORY_WIFI}",
-            "blocks": [
-                'network_connectStation',
-                'network_configureAccessPoint'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_SERVER}",
-            "blocks": [
-                'network_server_sendData',
-                'network_server_getClientData',
-                'network_server_getClientIp'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_CLIENT}",
-            "blocks": [
-                'network_client_sendData',
-                'network_client_getServerData'
-            ]
-        }
-    ],
-    "sensors": [
-        {
-            "label": "%{BKY_SUBCATEGORY_ESP32}",
-            "blocks": [
-                'sensors_readProcessorTemperature',
-                'sensors_readHallSensor'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_SENSORS_GAS}",
-            "blocks": [
-                'sensors_getSgp30Gas',
-                'sensors_getMultichannelGas',
-                'sensors_getO2gas',
-                'sensors_SCD30_readData',
-                'sensors_SCD30_forcedCalibration',
-                'sensors_getAirQualityValue',
-                'sensors_getParticulateMatter'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_SENSORS_CLIMATE}",
-            "blocks": [
-                'sensors_getBmp280Data',
-                'sensors_getGroveMoisture',
-                'sensors_getGroveTemperature',
-                'sensors_getGroveHighTemperature',
-                'sensors_DHT11ReadData',
-                'sensors_DHT22ReadData',
-                'sensors_TH02readData',
-                'sensors_SHT31readData',
-                'sensors_getGroveWaterAmount',
-                'sensors_getRainGauge',
-                'sensors_getAnemometer'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_SENSORS_SOUNDLIGHT}",
-            "blocks": [
-                'sensors_getGroveLight',
-                'sensors_getSi1145Light',
-                'sensors_colorSensor_getData',
-                'sensors_getUVindex',
-                'sensors_getGroveSound'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_SENSORS_DISTANCEMOVEMENT}",
-            "blocks": [
-                'sensors_getGroveUltrasonicRanger',
-                'sensors_getGroveLineFinder',
-                'sensors_getGroveTilt',
-                'sensors_getGroveMotion',
-                'sensors_getPiezoVibration'
-            ]
-        }
-    ],
-    "actuators": [
-        {
-            "label": "%{BKY_SUBCATEGORY_MOTORS}",
-            "blocks": [
-                'actuators_setServoAngle',
-                'actuators_continuousServo_setSpeed',
-                'actuators_setMotorPower',
-                'actuators_setVibrationMotorState',
-                'actuators_setGroveRelayState'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_MUSIC}",
-            "blocks": [
-                'actuators_playMusicGroveBuzzer'
-            ]
-        }
-    ],
-    "logic": [{
-        "blocks": [
-            'controls_if',
-            'controls_if-else',
-            'logic_compare-eq',
-            'logic_operation-and',
-            'logic_negate',
-            'logic_boolean',
-            'logic_null'
-        ]
-    }
-    ],
-    "loops": [{
-        "blocks": [
-            'forever',
-            'controls_repeat',
-            'controls_whileUntil',
-            'controls_for',
-            'controls_forEach'
-        ]
-    }
-    ],
-    "math": [{
-        "blocks": [
-            'math_number',
-            'math_arithmetic-add',
-            'math_single',
-            'math_trig',
-            'math_constant',
-            'math_number_property',
-            'math_map',
-            'math_round',
-            'math_round_ndigits',
-            'math_modulo',
-            'math_random_int',
-            'math_random_float'
-        ]
-    }
-    ],
-    "text": [
-        {
-            "blocks": [
-                'text_comment',
-                'text',
-                'text_join',
-                'text_newline',
-                'text_append',
-                'text_split',
-                'text_length',
-                'text_isEmpty',
-                'text_charAt',
-                'text_changeCase',
-                'text_count',
-                'text_replace',
-                'text_reverse'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_TEXT_ANALYSIS}",
-            "blocks": [
-                'text_count_characters',
-                'text_random_string'
-            ],
-        }
-    ],
-    "variables": "customized",
-    "lists": [{
-        "blocks": [
-            'lists_create_with-0',
-            'lists_create_with',
-            'lists_repeat',
-            'lists_length',
-            'lists_isEmpty',
-            'math_on_list',
-            'lists_reverse',
-            'lists_shuffle',
-            'lists_getIndex',
-            'lists_append',
-            'lists_setIndex',
-            'lists_split'
-        ]
-    }
-    ],
-    "procedures": "customized",
-    "exception": [{
-        "blocks": [
-
-            // 'exception_raise',
-            // 'exception_exception',
-            // 'exception_type',
-            // 'exception_try'
-        ]
-    }]
-};
+const TOOLBOX_VITTASCIENCE_CONTENT_SIMPLE = TOOLBOX_VITTASCIENCE_CONTENT;

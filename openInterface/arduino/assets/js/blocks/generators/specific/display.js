@@ -65,10 +65,7 @@ Blockly.Arduino.display_builtinMatrix_drawString = function (block) {
     Blockly.Arduino.addFunction('matrix_scrollText', FUNCTIONS_ARDUINO.DEF_LED_MATRIX_SCROLL_TEXT);
     Blockly.Arduino.addSetup(objName + "-begin", objName + ".begin();");
     const c = block.inputList[0].connection.targetBlock();
-    if (c && (c.type != 'text')) {
-        if (c.type == 'text_join') {
-            return "matrix_scrollText(" + text + ", " + speed + ", Font_5x7);" + NEWLINE;
-        }
+    if (c && (c.type !== 'text') && (c.type !== 'text_join')) {
         return "matrix_scrollText(String(" + text + "), " + speed + ", Font_5x7);" + NEWLINE;
     }
     return "matrix_scrollText(" + text + ", " + speed + ", Font_5x7);" + NEWLINE;
@@ -208,132 +205,133 @@ Blockly.Arduino.display_lcdRGBSetPaletteColor = function (block) {
     return "lcdRgb.setRGB(" + colour + ");" + NEWLINE;
 };
 
+/**
+ * This is not a block generator, it's util function used in all oled blocks.
+ */
+Blockly.Arduino.DISPLAY_OLED_INIT = function (type) {
+    Blockly.Arduino.addInclude('wire', INCLUDE_WIRE);
+    Blockly.Arduino.addInclude('U8g2lib', INCLUDE_U8G2LIB);
+    let declaration;
+    const objName = type.toLowerCase();
+    const board = Blockly.Constants.getSelectedBoard();
+    const fullBuf = [BOARD_ARDUINO_UNO_R4_WIFI, BOARD_ARDUINO_UNO_R4_MINIMA, BOARD_ARDUINO_MEGA].includes(board);
+    switch (type) {
+        case "SSD1315":
+            if (fullBuf) {
+                declaration = "U8G2_SSD1315_128X64_NONAME_F_HW_I2C";
+            } else {
+                declaration = "U8G2_SSD1315_128X64_NONAME_2_HW_I2C";
+            }
+            break;
+        case "SSD1306":
+        default:
+            if (fullBuf) {
+                declaration = "U8G2_SSD1306_128X64_NONAME_F_HW_I2C";
+            } else {
+                declaration = "U8G2_SSD1306_128X64_NONAME_2_HW_I2C";
+            }
+            break;
+    }
+    Blockly.Arduino.addDeclaration('ug8_' + objName, declaration + " " + objName + "(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);");
+    Blockly.Arduino.addSetup('ug8_' + objName, objName + ".begin();" + NEWLINE + objName + ".setBusClock(400000);");
+    return fullBuf;
+};
+
 // GROVE OLED DISPLAY _ SET TEXT BLOCK
 Blockly.Arduino.display_addOledText = function (block) {
+    const type = block.getFieldValue('TYPE');
     const x = Blockly.Arduino.valueToCode(block, "X", Blockly.Arduino.ORDER_ATOMIC);
     const y = Blockly.Arduino.valueToCode(block, "Y", Blockly.Arduino.ORDER_ATOMIC);
-    const text = Blockly.Arduino.valueToCode(block, "TEXT", Blockly.Arduino.ORDER_ATOMIC);
-    Blockly.Arduino.addInclude('wire', INCLUDE_WIRE);
-    Blockly.Arduino.addInclude('include_seeed_oled', INCLUDE_SEEED_OLED);
-    Blockly.Arduino.addFunction('func_setup_seeed_oled', FUNCTIONS_ARDUINO.DEF_SETUP_SEEED_OLED);
-    Blockly.Arduino.addSetup('setup_wire', "Wire.begin();");
-    Blockly.Arduino.addSetup('setup_seeed_oled', "SeeedOled_setup();");
-    const c = block.inputList[0].connection.targetBlock();
-    if (c && (c.type != 'text')) {
-        return "SeeedOled.setTextXY(" + y + ", " + x + ");" + NEWLINE + "SeeedOled.putString(String(" + text + ").c_str());" + NEWLINE;
+    let text = Blockly.Arduino.valueToCode(block, "TEXT", Blockly.Arduino.ORDER_ATOMIC);
+    const fullBuf = Blockly.Arduino.DISPLAY_OLED_INIT(type);
+    const objName = type.toLowerCase();
+    Blockly.Arduino.addSetup(`ug8_${objName}_font`, objName + ".setFont(u8g2_font_6x10_tf);");
+    if (fullBuf) {
+        const c = block.inputList[0].connection.targetBlock();
+        if (c && c.type !== 'text') {
+            text += ".c_str()";
+        }
+        return `${objName}.drawStr(${x}, ${y}, ${text});${NEWLINE}${objName}.sendBuffer();${NEWLINE}`;
+    } else {
+        switch (type) {
+            case "SSD1315":
+                Blockly.Arduino.addFunction(objName + '_writeStr', FUNCTIONS_ARDUINO.DEF_WRITE_STR_SSD1315_UG8_2HW);
+                break;
+            case "SSD1306":
+            default:
+                Blockly.Arduino.addFunction(objName + '_writeStr', FUNCTIONS_ARDUINO.DEF_WRITE_STR_SSD1306_UG8_2HW);
+                break;
+        }
+        return `${objName}_writeStr(&${objName}, ${x}, ${y}, ${text});` + NEWLINE;
     }
-    return "SeeedOled.setTextXY(" + y + ", " + x + ");" + NEWLINE + "SeeedOled.putString(" + text + ");" + NEWLINE;
 };
 
 // GROVE OLED DISPLAY _ DRAW BITMAP LOGO
 Blockly.Arduino.display_oledScreen_drawBitmapLogo = function (block) {
-    Blockly.Arduino.addInclude('wire', INCLUDE_WIRE);
-    Blockly.Arduino.addInclude('include_seeed_oled', INCLUDE_SEEED_OLED);
-    Blockly.Arduino.addInclude('include_avr_pgmspace', INCLUDE_AVR_PGMSPACE);
-    Blockly.Arduino.addFunction('func_setup_seeed_oled', FUNCTIONS_ARDUINO.DEF_SETUP_SEEED_OLED);
+    const type = block.getFieldValue('TYPE');
+    const fullBuf = Blockly.Arduino.DISPLAY_OLED_INIT(type);
     const logo = block.getFieldValue("LOGO");
-    switch (logo) {
-        case "vittascienceLogo":
-            Blockly.Arduino.addDeclaration('bitmap_vittascience', BITMAP_VITTASCIENCE_LOGO);
-            break;
-        case "arduinoLogo":
-            Blockly.Arduino.addDeclaration('bitmap_arduino', BITMAP_ARDUINO_LOGO);
-            break;
-        case "seeedLogo":
-            Blockly.Arduino.addDeclaration('bitmap_seeed', BITMAP_SEEED_LOGO);
-            break;
-        case "microbitLogo":
-            Blockly.Arduino.addDeclaration('bitmap_microbit', BITMAP_MICROBIT_LOGO);
-            break;
-        default:
-            throw Error("Unhandled logo option: " + logo);
+    const bitmaps = {
+        "vittascienceLogo": BITMAP_VITTASCIENCE_LOGO_XBM,
+        "arduinoLogo": BITMAP_ARDUINO_LOGO_XBM,
+        "seeedLogo": BITMAP_SEEED_LOGO_XBM,
+        "microbitLogo": BITMAP_MICROBIT_LOGO_XBM,
+    };
+    const objName = type.toLowerCase();
+    Blockly.Arduino.addDeclaration(logo + '_xbm', bitmaps[logo]);
+    if (fullBuf) {
+        return `${objName}.drawXBMP(0, 0, 128, 64, ${logo + '_xbm'});${NEWLINE}${objName}.sendBuffer();${NEWLINE}`;
+    } else {
+        switch (type) {
+            case "SSD1315":
+                Blockly.Arduino.addFunction(objName + '_drawXBM', FUNCTIONS_ARDUINO.DEF_DRAW_XBM_SSD1315_UG8_2HW);
+                break;
+            case "SSD1306":
+            default:
+                Blockly.Arduino.addFunction(objName + '_drawXBM', FUNCTIONS_ARDUINO.DEF_DRAW_XBM_SSD1306_UG8_2HW);
+                break;
+        }
+        return `${objName}_drawXBM(&${objName}, 0, 0, 128, 64, ${logo + '_xbm'});` + NEWLINE;
     }
-    Blockly.Arduino.addSetup('setup_wire', "Wire.begin();");
-    Blockly.Arduino.addSetup('init_seeed_oled', "SeeedOled_setup();");
-    return "SeeedOled.clearDisplay();" + NEWLINE + "SeeedOled.drawBitmap((uint8_t*)" + logo + ", 1024);" + NEWLINE;
 };
 
 // GROVE OLED DISPLAY _ DRAW BITMAP LOGO
 Blockly.Arduino.display_oledScreen_drawIcon = function (block) {
-    Blockly.Arduino.addInclude('wire', INCLUDE_WIRE);
-    Blockly.Arduino.addInclude('include_seeed_oled', INCLUDE_SEEED_OLED);
-    Blockly.Arduino.addInclude('include_avr_pgmspace', INCLUDE_AVR_PGMSPACE);
-    Blockly.Arduino.addFunction('func_setup_seeed_oled', FUNCTIONS_ARDUINO.DEF_SETUP_SEEED_OLED);
-    Blockly.Arduino.addFunction('func_draw_icon', FUNCTIONS_ARDUINO.DEF_OLED_DRAW_ICON);
+    const type = block.getFieldValue('TYPE');
+    const fullBuf = Blockly.Arduino.DISPLAY_OLED_INIT(type);
     const x = Blockly.Arduino.valueToCode(block, "X", Blockly.Arduino.ORDER_ATOMIC);
     const y = Blockly.Arduino.valueToCode(block, "Y", Blockly.Arduino.ORDER_ATOMIC);
-    const logo = block.getFieldValue("ICON");
-    switch (logo) {
-        case "HEART":
-            Blockly.Arduino.addDeclaration('bitmap_icon_heart', BITMAP_ICON_HEART);
-            break;
-        case "HAPPY":
-            Blockly.Arduino.addDeclaration('bitmap_icon_happy', BITMAP_ICON_HAPPY);
-            break;
-        case "SAD":
-            Blockly.Arduino.addDeclaration('bitmap_icone_sad', BITMAP_ICON_SAD);
-            break;
-        case "YES":
-            Blockly.Arduino.addDeclaration('bitmap_icon_yes', BITMAP_ICON_YES);
-            break;
-        case "NO":
-            Blockly.Arduino.addDeclaration('bitmap_icon_no', BITMAP_ICON_NO);
-            break;
-        case "MAN":
-            Blockly.Arduino.addDeclaration('bitmap_icon_man', BITMAP_ICON_MAN);
-            break;
-        case "FORK":
-            Blockly.Arduino.addDeclaration('bitmap_icon_fork', BITMAP_ICON_FORK);
-            break;
-        case "UMBRELLA":
-            Blockly.Arduino.addDeclaration('bitmap_icon_umbrella', BITMAP_ICON_UMBRELLA);
-            break;
-        case "SKULL":
-            Blockly.Arduino.addDeclaration('bitmap_icon_skull', BITMAP_ICON_SKULL);
-            break;
-        case "GRID":
-            Blockly.Arduino.addDeclaration('bitmap_icon_grid', BITMAP_ICON_GRID);
-            break;
-        case "BUTTERFLY":
-            Blockly.Arduino.addDeclaration('bitmap_icon_butterfly', BITMAP_ICON_BUTTERFLY);
-            break;
-        case "SWORD":
-            Blockly.Arduino.addDeclaration('bitmap_icon_sword', BITMAP_ICON_SWORD);
-            break;
-        case "WINE":
-            Blockly.Arduino.addDeclaration('bitmap_icon_wine', BITMAP_ICON_WINE);
-            break;
-        case "LOCK":
-            Blockly.Arduino.addDeclaration('bitmap_icon_lock', BITMAP_ICON_LOCK);
-            break;
-        case "NET":
-            Blockly.Arduino.addDeclaration('bitmap_icon_net', BITMAP_ICON_NET);
-            break;
-        case "BATTERY1":
-            Blockly.Arduino.addDeclaration('bitmap_icon_battery1', BITMAP_ICON_BATTERY1);
-            break;
-        case "BATTERY2":
-            Blockly.Arduino.addDeclaration('bitmap_icon_battery2', BITMAP_ICON_BATTERY2);
-            break;
-        case "BATTERY3":
-            Blockly.Arduino.addDeclaration('bitmap_icon_battery3', BITMAP_ICON_BATTERY3);
-            break;
-        default:
-            throw "Unknown logo : " + logo;
+    const icon = block.getFieldValue("ICON");
+    const objName = type.toLowerCase();
+    Blockly.Arduino.addDeclaration(icon + '_xbm', BITMAP_ICONS[icon].xbm);
+    if (fullBuf) {
+        return `${objName}.drawXBMP(${x}, ${y}, 8, 8, ${icon + '_XBM'});${NEWLINE}${objName}.sendBuffer();${NEWLINE}`;
+    } else {
+        switch (type) {
+            case "SSD1315":
+                Blockly.Arduino.addFunction(objName + '_drawXBM', FUNCTIONS_ARDUINO.DEF_DRAW_XBM_SSD1315_UG8_2HW);
+                break;
+            case "SSD1306":
+            default:
+                Blockly.Arduino.addFunction(objName + '_drawXBM', FUNCTIONS_ARDUINO.DEF_DRAW_XBM_SSD1306_UG8_2HW);
+                break;
+        }
+        return `${objName}_drawXBM(&${objName}, ${x}, ${y}, 8, 8, ${icon + '_XBM'});` + NEWLINE;
     }
-    Blockly.Arduino.addSetup('setup_wire', "Wire.begin();");
-    Blockly.Arduino.addSetup('setup_seeed_oled', "SeeedOled_setup();");
-    return "SeeedOled_drawIcon(" + block.getFieldValue("ICON") + ", " + x + ", " + y + ");" + NEWLINE;
 };
 
 // GROVE OLED DISPLAY _ DRAW BITMAP
-Blockly.Arduino.display_clearOledScreen = function () {
-    Blockly.Arduino.addInclude('wire', INCLUDE_WIRE);
-    Blockly.Arduino.addInclude('include_seeed_oled', INCLUDE_SEEED_OLED);
-    Blockly.Arduino.addFunction('func_setup_seeed_oled', FUNCTIONS_ARDUINO.DEF_SETUP_SEEED_OLED);
-    Blockly.Arduino.addSetup('setup_wire', "Wire.begin();");
-    Blockly.Arduino.addSetup('setup_seeed_oled', "SeeedOled_setup();");
-    return "SeeedOled.clearDisplay();" + NEWLINE;
+Blockly.Arduino.display_clearOledScreen = function (block) {
+    const type = block.getFieldValue('TYPE');
+    Blockly.Arduino.DISPLAY_OLED_INIT(type);
+    const objName = type.toLowerCase();
+    switch (type) {
+        case "SSD1315":
+            return objName + ".clearDisplay();" + NEWLINE;
+        case "SSD1306":
+        default:
+            return objName + ".clearDisplay();" + NEWLINE;
+    }
 };
 
 // LED DIGITAL CONTROL BLOCK
@@ -429,7 +427,7 @@ Blockly.Arduino.display_setPaletteAllChainableRGBLed = function (block) {
  * @param {int} numPin
  * @param {int} ledCount
  */
-Blockly.Arduino.neopixel_codeInitialization = function (block, pin, ledCount) {
+Blockly.Arduino.DISPLAY_NEOPIXEL_INIT_GENERATOR = function (block, pin, ledCount) {
     Blockly.Arduino.addInclude('include_neopixel', INCLUDE_ADAFRUIT_NEOPIXEL);
     Blockly.Arduino.addDefine('def_led_count_' + pin, "#define " + NEOPIXEL_LED_COUNT + pin + " " + ledCount);
     Blockly.Arduino.addDeclaration('init_neopixel_' + pin, "Adafruit_NeoPixel Neopixel_" + pin + "(" + NEOPIXEL_LED_COUNT + pin + ", " + pin + ", NEO_GRB + NEO_KHZ800);");
@@ -460,7 +458,7 @@ Blockly.Arduino.neopixel_checkDefinedBlock = function (block, pin) {
 Blockly.Arduino.display_defineNeopixel = function (block) {
     let pin = block.getFieldValue("PIN");
     let ledCount = block.getFieldValue("N");
-    Blockly.Arduino.neopixel_codeInitialization(block, pin, ledCount);
+    Blockly.Arduino.DISPLAY_NEOPIXEL_INIT_GENERATOR(block, pin, ledCount);
     return "";
 };
 
@@ -472,7 +470,7 @@ Blockly.Arduino.display_controlNeopixelLed = function (block) {
     var g = Blockly.Arduino.valueToCode(block, "G", Blockly.Arduino.ORDER_NONE) || "0";
     var b = Blockly.Arduino.valueToCode(block, "B", Blockly.Arduino.ORDER_NONE) || "0";
     if (!Blockly.Arduino.neopixel_checkDefinedBlock(block, pin)) {
-        Blockly.Arduino.neopixel_codeInitialization(block, pin, "30");
+        Blockly.Arduino.DISPLAY_NEOPIXEL_INIT_GENERATOR(block, pin, "30");
     }
     return "Neopixel_" + pin + ".setPixelColor(" + led + ", Neopixel_" + pin + ".Color(" + r + ", " + g + ", " + b + "));" + NEWLINE + "Neopixel_" + pin + ".show();" + NEWLINE;
 };
@@ -483,7 +481,7 @@ Blockly.Arduino.display_controlColorNeopixelLed = function (block) {
     let ledIndex = Blockly.Arduino.valueToCode(block, "LED", Blockly.Arduino.ORDER_NONE) || "0";
     let colour = Blockly.Arduino.valueToCode(block, "COLOR", Blockly.Arduino.ORDER_NONE) || "0, 0, 0";
     if (!Blockly.Arduino.neopixel_checkDefinedBlock(block, pin)) {
-        Blockly.Arduino.neopixel_codeInitialization(block, pin, "30");
+        Blockly.Arduino.DISPLAY_NEOPIXEL_INIT_GENERATOR(block, pin, "30");
     }
     return "Neopixel_" + pin + ".setPixelColor(" + ledIndex + ", Neopixel_" + pin + ".Color(" + colour + "));" + NEWLINE + "Neopixel_" + pin + ".show();" + NEWLINE;
 };
@@ -494,7 +492,7 @@ Blockly.Arduino.display_neopixel_controlAllLedRGB = function (block) {
     var g = Blockly.Arduino.valueToCode(block, "G", Blockly.Arduino.ORDER_NONE) || "0";
     var b = Blockly.Arduino.valueToCode(block, "B", Blockly.Arduino.ORDER_NONE) || "0";
     if (!Blockly.Arduino.neopixel_checkDefinedBlock(block, pin)) {
-        Blockly.Arduino.neopixel_codeInitialization(block, pin, "30");
+        Blockly.Arduino.DISPLAY_NEOPIXEL_INIT_GENERATOR(block, pin, "30");
     }
     Blockly.Arduino.addFunction('neopixel_showAllLed', FUNCTIONS_ARDUINO.DEF_NEOPIXEL_SHOW_ALL_LED);
     return "neopixel_showAllLed(&Neopixel_" + pin + ", " + NEOPIXEL_LED_COUNT + pin + ", " + r + "," + g + ", " + b + ");" + NEWLINE;
@@ -505,7 +503,7 @@ Blockly.Arduino.display_neopixel_controlAllLedPalette = function (block) {
     const colour = Blockly.Arduino.valueToCode(block, "COLOR", Blockly.Arduino.ORDER_NONE) || "(0,0,0)";
     const colourList = colour.match(/([0-9]{1,3})/g);
     if (!Blockly.Arduino.neopixel_checkDefinedBlock(block, pin)) {
-        Blockly.Arduino.neopixel_codeInitialization(block, pin, "30");
+        Blockly.Arduino.DISPLAY_NEOPIXEL_INIT_GENERATOR(block, pin, "30");
     }
     Blockly.Arduino.addFunction('neopixel_showAllLed', FUNCTIONS_ARDUINO.DEF_NEOPIXEL_SHOW_ALL_LED);
     return "neopixel_showAllLed(&Neopixel_" + pin + ", " + NEOPIXEL_LED_COUNT + pin + ", " + colourList[0] + ", " + colourList[1] + ", " + colourList[2] + ");" + NEWLINE;
@@ -514,7 +512,7 @@ Blockly.Arduino.display_neopixel_controlAllLedPalette = function (block) {
 // GROVE NEOPIXEL - SET RAINBOW
 Blockly.Arduino.display_rainbowNeopixel = function (block) {
     const pin = block.getFieldValue("PIN");
-    Blockly.Arduino.neopixel_codeInitialization(block, pin, "30");
+    Blockly.Arduino.DISPLAY_NEOPIXEL_INIT_GENERATOR(block, pin, "30");
     Blockly.Arduino.addFunction('neopixel_showAllLed', FUNCTIONS_ARDUINO.DEF_NEOPIXEL_SHOW_ALL_LED);
     Blockly.Arduino.addFunction('neopixel_rainbow', FUNCTIONS_ARDUINO.DEF_NEOPIXEL_RAINBOW);
     return "neopixel_rainbow(&Neopixel_" + pin + ", " + NEOPIXEL_LED_COUNT + pin + ");" + NEWLINE;
@@ -530,6 +528,7 @@ Blockly.Arduino.display_setNumberGrove4Digit = function (block) {
     const pinConstantDIO = Blockly.Arduino.Generators.digital_write(pinDIO, '4 Digit Display DIO');
     const objName = 'tm1637_' + pinConstantCLK.replace('PIN_4_DIGIT_DISPLAY_CLK_', '');
     Blockly.Arduino.addInclude('tm1637', INCLUDE_TM1637);
+    Blockly.Arduino.addDeclaration(objName + '_codeFlag', '// 4 Digit Display CLK/DIO on ' + pinCLK + '/' + pinDIO);
     Blockly.Arduino.addDeclaration(objName, "TM1637 " + objName + "(" + pinConstantCLK + ", " + pinConstantDIO + ");");
     Blockly.Arduino.addSetup(objName, objName + ".init();");
     Blockly.Arduino.addSetup(objName + '_brigth', objName + ".set(7); // Maximum brightness");
@@ -548,6 +547,7 @@ Blockly.Arduino.display_setClockGrove4Digit = function (block) {
     const pinConstantDIO = Blockly.Arduino.Generators.digital_write(pinDIO, '4 Digit Display DIO');
     const objName = 'tm1637_' + pinConstantCLK.replace('PIN_4_DIGIT_DISPLAY_CLK_', '');
     Blockly.Arduino.addInclude('tm1637', INCLUDE_TM1637);
+    Blockly.Arduino.addDeclaration(objName + '_codeFlag', '// 4 Digit Display CLK/DIO on ' + pinCLK + '/' + pinDIO);
     Blockly.Arduino.addDeclaration(objName, "TM1637 " + objName + "(" + pinConstantCLK + ", " + pinConstantDIO + ");");
     Blockly.Arduino.addSetup(objName, objName + ".init();");
     Blockly.Arduino.addSetup(objName + '_brigth', objName + ".set(7); // Maximum brightness");
@@ -573,6 +573,7 @@ Blockly.Arduino.display_setTemperatureGrove4Digit = function (block) {
     const pinConstantDIO = Blockly.Arduino.Generators.digital_write(pinDIO, '4 Digit Display DIO');
     const objName = 'tm1637_' + pinConstantCLK.replace('PIN_4_DIGIT_DISPLAY_CLK_', '');
     Blockly.Arduino.addInclude('tm1637', INCLUDE_TM1637);
+    Blockly.Arduino.addDeclaration(objName + '_codeFlag', '// 4 Digit Display CLK/DIO on ' + pinCLK + '/' + pinDIO);
     Blockly.Arduino.addDeclaration(objName, "TM1637 " + objName + "(" + pinConstantCLK + ", " + pinConstantDIO + ");");
     Blockly.Arduino.addSetup(objName, objName + ".init();");
     Blockly.Arduino.addSetup(objName + '_brigth', objName + ".set(7); // Maximum brightness");
@@ -586,10 +587,13 @@ Blockly.Arduino.display_setTemperatureGrove4Digit = function (block) {
 // GROVE LED BAR _ CONTROL BLOCK
 // http://wiki.seeedstudio.com/Grove-LED_Bar/
 Blockly.Arduino.display_setLevelLedBar = function (block) {
-    const pinConstantDI = Blockly.Arduino.Generators.digital_write(block.getFieldValue("DI"), 'LED Bar DI');
-    const pinConstantDCKI = Blockly.Arduino.Generators.digital_write(block.getFieldValue("DCKI"), 'LED Bar DCKI');
+    const pinDI = block.getFieldValue("DI");
+    const pinDCKI = block.getFieldValue("DCKI");
+    const pinConstantDI = Blockly.Arduino.Generators.digital_write(pinDI, 'LED Bar DI');
+    const pinConstantDCKI = Blockly.Arduino.Generators.digital_write(pinDCKI, 'LED Bar DCKI');
     const objName = 'bar_' + pinConstantDI.replace('PIN_LED_BAR_DI_', '');
     Blockly.Arduino.addInclude('Grove_LED_Bar', INCLUDE_GROVE_LED_BAR);
+    Blockly.Arduino.addDeclaration(objName + '_codeFlag', '// LED Bar DI/DCKI on ' + pinDI + '/' + pinDCKI);
     Blockly.Arduino.addDeclaration(objName, "Grove_LED_Bar " + objName + "(" + pinConstantDI + ", " + pinConstantDCKI + ", 0);");
     Blockly.Arduino.addSetup(objName, objName + ".begin();");
     const value = Blockly.Arduino.valueToCode(block, "VALUE", Blockly.Arduino.ORDER_ATOMIC);
@@ -597,10 +601,13 @@ Blockly.Arduino.display_setLevelLedBar = function (block) {
 };
 
 Blockly.Arduino.display_setGreenToRedLedBar = function (block) {
-    const pinConstantDI = Blockly.Arduino.Generators.digital_write(block.getFieldValue("DI"), 'LED Bar DI');
-    const pinConstantDCKI = Blockly.Arduino.Generators.digital_write(block.getFieldValue("DCKI"), 'LED Bar DCKI');
+    const pinDI = block.getFieldValue("DI");
+    const pinDCKI = block.getFieldValue("DCKI");
+    const pinConstantDI = Blockly.Arduino.Generators.digital_write(pinDI, 'LED Bar DI');
+    const pinConstantDCKI = Blockly.Arduino.Generators.digital_write(pinDCKI, 'LED Bar DCKI');
     const objName = 'bar_' + pinConstantDI.replace('PIN_LED_BAR_DI_', '');
     Blockly.Arduino.addInclude('Grove_LED_Bar', INCLUDE_GROVE_LED_BAR);
+    Blockly.Arduino.addDeclaration(objName + '_codeFlag', '// LED Bar DI/DCKI on ' + pinDI + '/' + pinDCKI);
     Blockly.Arduino.addDeclaration(objName, "Grove_LED_Bar " + objName + "(" + pinConstantDI + ", " + pinConstantDCKI + ", 0);");
     Blockly.Arduino.addSetup(objName, objName + ".begin();");
     const value = block.getFieldValue('COLOR');

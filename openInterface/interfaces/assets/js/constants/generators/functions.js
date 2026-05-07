@@ -183,6 +183,19 @@ const FUNCTIONS = {
     return [pub, priv]
   `,
 
+  // Math _ Modular Exponentiation
+  DEF_MATH_MOD_POW:
+  `def math_mod_pow(base, exp, mod):
+    base %= mod
+    result = 1
+    while exp > 0:
+        if exp & 1:
+            result = (result * base) % mod
+        exp >>= 1
+        base = (base * base) % mod
+    return result
+  `,
+
   // Math _ cipher message
   DEF_MATH_RSA_CIPHER_MESSAGE:
   `def math_RSA_cipher_message(message, key):
@@ -192,7 +205,7 @@ const FUNCTIONS = {
         m = ord(ch)
         if m >= n:
             raise ValueError("Character code too large for key size.")
-        c = pow(m, exp, n)
+        c = math_mod_pow(m, exp, n)
         cipher_numbers.append(str(c))
     return " ".join(cipher_numbers)
   `,
@@ -205,7 +218,7 @@ const FUNCTIONS = {
     message_chars = []
     for c_str in cipher_numbers:
         c = int(c_str)
-        m = pow(c, exp, n)
+        m = math_mod_pow(c, exp, n)
         message_chars.append(chr(m))
     return "".join(message_chars)
   `,
