@@ -6,7 +6,10 @@
     <meta charset="utf-8" />
     <!-- ©️ Copyright Vittascience  -->
     <script>const CDN_PATH = ''</script>
+    <script>const VS_USER_DATA_BASE = <?= json_encode(\Utils\UserDataUrl::base()) ?>;</script>
+    <script>const VS_PRODUCT_DATA_BASE = <?= json_encode(\Shop\ProductDataUrl::base()) ?>;</script>
     <script>const IS_CAPYTALE_CONTEXT = true;</script>
+    
     <!-- Matomo Analytics -->
     <script>
         function initializeMatomo() {
@@ -32,10 +35,11 @@
         }
         setTimeout(() => {
             initializeMatomo();
-        }, 2000); 
+        }, 2000);
         // wait for the user to be loaded
     </script>
     <!-- End Matomo Code -->
+    
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Security-Policy" content="">
     <link rel="icon" href="/public/content/img/favicon.png">
@@ -123,6 +127,8 @@
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/monitor.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/python/assets/css/python.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/rtc.css">
+<!-- Origamia : surcharges visuelles, actives uniquement si la classe html.provider-origamia est posée (provider=origamia) -->
+<link rel="stylesheet" type="text/css" href="/openInterface/python/assets/css/origamia.css">
 <link rel="stylesheet" href="/public/css/capytale-standalone.css">
 </head>
 
@@ -295,7 +301,20 @@
 
 
 <div id="ide-absolute-container" style="height: 100%;">
-    <!-- IDE -->
+    <!-- Origamia : pose la classe + injecte le loader le plus tôt possible (avant que
+     l'interface ne s'affiche) pour masquer toute la mise en place. -->
+<script>
+    if (new URLSearchParams(location.search).get('provider') === 'origamia') {
+        document.documentElement.classList.add('provider-origamia');
+        var _origamiaLoader = document.createElement('div');
+        _origamiaLoader.id = 'origamia-loader';
+        _origamiaLoader.innerHTML = '<div class="origamia-loader-inner"><div class="origamia-spinner"></div>'
+            + '<p>Chargement de l\'interface en cours…</p></div>';
+        (document.body || document.documentElement).appendChild(_origamiaLoader);
+    }
+</script>
+
+<!-- IDE -->
 <div class="overlay"></div>
 <div id="ide">
 
@@ -631,6 +650,8 @@
 <script type="module" src="/public/js/scripts/turtleAutocorrector/TurtleAutocorrector.js"></script>
 <link property rel="stylesheet" href="/python/assets/css/vittapyther.css" media="screen" />
 <script src="/python/assets/js/vittapyther/socket.io.min.js"></script>
+<!-- Origamia : comportements JS (no-op hors provider=origamia) -->
+<script src="/openInterface/python/assets/js/origamia.js"></script>
 </div>
 
 <script src="/interfaces/assets/js/main/ExerciseStatement.js"></script>

@@ -6,7 +6,10 @@
     <meta charset="utf-8" />
     <!-- ©️ Copyright Vittascience  -->
     <script>const CDN_PATH = ''</script>
+    <script>const VS_USER_DATA_BASE = <?= json_encode(\Utils\UserDataUrl::base()) ?>;</script>
+    <script>const VS_PRODUCT_DATA_BASE = <?= json_encode(\Shop\ProductDataUrl::base()) ?>;</script>
     <script>const IS_CAPYTALE_CONTEXT = true;</script>
+    
     <!-- Matomo Analytics -->
     <script>
         function initializeMatomo() {
@@ -32,10 +35,11 @@
         }
         setTimeout(() => {
             initializeMatomo();
-        }, 2000); 
+        }, 2000);
         // wait for the user to be loaded
     </script>
     <!-- End Matomo Code -->
+    
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Security-Policy" content="">
     <link rel="icon" href="/public/content/img/favicon.png">
@@ -123,11 +127,12 @@
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/simulator.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/led_matrix_modal.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/color_picker.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/mpy-fs-modal.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/l476/assets/css/specific.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/ace_themes.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/auto-corrector-modals.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/rtc.css">
-<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/js/external/shepherd.js@10.0.1/sheperd.css"/>
+
 <link rel="stylesheet" href="/public/css/capytale-standalone.css">
 </head>
 
@@ -423,7 +428,7 @@
                                     <div class="music-slider mt-2" id="octave-slider"></div>
                                 </div>
                                 <div class="music-control">
-                                    <label class="music-control-label"><b data-i18n="code.console.music.waveform">Forme
+                                    <label for="osc-select" class="music-control-label"><b data-i18n="code.console.music.waveform">Forme
                                             d'onde</b></label>
                                     <select id="osc-select" class="custom-select">
                                         <option value="triangle" data-i18n="code.console.music.waveforms.triangle">
@@ -460,7 +465,7 @@
 
                             <div class="w-75 d-flex mr-1">
                                 <div class="btn-group dropup">
-                                    <button class="btn dropdown-toggle mt-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Monitor settings" data-i18n="[aria-label]code.console.graph.buttons.settings" style="background-color: transparent; color: inherit; outline: none !important; box-shadow: none;">
+                                    <button class="btn dropdown-toggle mt-1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Monitor settings" data-i18n="[aria-label]code.console.graph.buttons.settings" style="background-color: transparent; color: inherit; outline: none !important; box-shadow: none;">
                                         <i class="fas fa-cog"></i>
                                     </button>
                                     <div id="monitor-controls-dropdown" class="dropdown-menu">
@@ -542,19 +547,7 @@
                                 </div>
                             </div>
 
-                            <div id="monitor-div-btn" class="d-flex ms-auto justify-content-end">
-
-                                <button type="button" class="ide-btn ide-btn-alone tracer-export mr-1" onclick="openExportProjectWindow()" data-toggle="tooltip" data-placement="top" data-i18n="[title]code.monitor.controls.tooltips.export">
-                                    <i class="fas fa-file-export"></i>
-                                    <span class="hide" data-i18n="code.monitor.controls.text.export"></span>
-                                </button>
-
-                                <button type="button" onclick="InterfaceConnection.toggleReplOverture()" class="ide-btn ide-btn-alone" id="repl-control" data-status="open" data-toggle="tooltip" data-placement="top" data-i18n="[title]code.monitor.controls.tooltips.openRepl">
-                                    <i class="fas fa-terminal"></i>
-                                    <span class="hide" data-i18n="code.monitor.controls.text.openRepl">REPL</span>
-                                </button>
-
-                            </div>
+                            <div id="monitor-div-btn" class="d-flex ms-auto justify-content-end"></div>
                         </div>
                     </div>
                 </div>
@@ -563,11 +556,7 @@
         <div class="ide-simulator">
             <div id="simulator" style="display:none;">
                 <div id="headerOut">
-                    <div class="simulator-board-buttons">
-                        <button id="simulator-board-toggler" class="btn simulator-button-circle" type="button" onclick="Simulator.toggleBoardDisplay()" aria-label="Toggle board display" data-i18n="[aria-label]code.simulator.buttons.base.toggleBoardDisplay">
-                            <i class="fa-solid fa-minus simulator-buttons-icon"></i>
-                        </button>
-                    </div>
+                    <div class="simulator-board-buttons"></div>
                     <span id="title-board" style="display: none;">STM32 NUCLEO-L476</span>
                     <div id="board-container">
                         <object id="board-viewer" class="mt-3" role="img" aria-label="Board simulator view"></object>
@@ -688,7 +677,7 @@
 <script src="/openInterface/interfaces/assets/js/external/echarts-5.4.0/echarts.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ansi-up/ansi_up.min.js" type="text/javascript"></script>
 <script src="/openInterface/interfaces/assets/js/external/tone/tone.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/shepherd.js@10.0.1/sheperd.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/jszip.js"></script>
 <!-- endbuild -->
 <!-- build:js-autocomplete-->
 <script src="/openInterface/interfaces/assets/js/autocomplete/stm32/tree.js"></script>
@@ -818,7 +807,8 @@
 <!-- build:js-serial -->
 <script src="/openInterface/interfaces/assets/js/serial/Serial.js"></script>
 <script src="/openInterface/interfaces/assets/js/serial/micropython/MicropythonRepl.js"></script>
-<script src="/openInterface/interfaces/assets/js/serial/stm32/InterfaceConnection.js"></script>
+<script src="/openInterface/interfaces/assets/js/serial/micropython/MicropythonFS.js"></script>
+<script src="/openInterface/interfaces/assets/js/serial/micropython/InterfaceConnection.js"></script>
 <!-- endbuild -->
 <!-- loader -->
 <script src="/openInterface/interfaces/assets/js/events/load.js"></script>

@@ -6,7 +6,10 @@
     <meta charset="utf-8" />
     <!-- ©️ Copyright Vittascience  -->
     <script>const CDN_PATH = ''</script>
+    <script>const VS_USER_DATA_BASE = <?= json_encode(\Utils\UserDataUrl::base()) ?>;</script>
+    <script>const VS_PRODUCT_DATA_BASE = <?= json_encode(\Shop\ProductDataUrl::base()) ?>;</script>
     <script>const IS_CAPYTALE_CONTEXT = true;</script>
+    
     <!-- Matomo Analytics -->
     <script>
         function initializeMatomo() {
@@ -32,10 +35,11 @@
         }
         setTimeout(() => {
             initializeMatomo();
-        }, 2000); 
+        }, 2000);
         // wait for the user to be loaded
     </script>
     <!-- End Matomo Code -->
+    
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Security-Policy" content="">
     <link rel="icon" href="/public/content/img/favicon.png">
@@ -421,7 +425,7 @@
                                     <div class="music-slider mt-2" id="octave-slider"></div>
                                 </div>
                                 <div class="music-control">
-                                    <label class="music-control-label"><b data-i18n="code.console.music.waveform">Forme
+                                    <label for="osc-select" class="music-control-label"><b data-i18n="code.console.music.waveform">Forme
                                             d'onde</b></label>
                                     <select id="osc-select" class="custom-select">
                                         <option value="triangle" data-i18n="code.console.music.waveforms.triangle">
@@ -532,25 +536,15 @@
 
                                     <input type="text" id="serial-input" class="serial-controls form-control ide-btn-left" autocomplete="off" data-i18n="[placeholder]code.monitor.controls.text.send"/>
                                     <div id="serial-input-btn" class="input-group-append">
-                                        <button id="serial-send" class="ide-btn serial-controls ide-btn-right" data-placement="top" data-toggle="tooltip" data-i18n="[title]code.monitor.controls.tooltips.send;[aria-label]code.monitor.controls.tooltips.send"                                             <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                        <button id="serial-send" class="ide-btn serial-controls ide-btn-right" data-placement="top" data-toggle="tooltip" data-i18n="[title]code.monitor.controls.tooltips.send;[aria-label]code.monitor.controls.tooltips.send" >
+                                            <i class="fa fa-paper-plane" aria-hidden="true"></i>
                                         </button>
                                     </div>
 
                                 </div>
                             </div>
 
-                            <div id="monitor-div-btn" class="d-flex ms-auto justify-content-end">
-
-                                <button type="button" class="ide-btn ide-btn-alone tracer-export me-1" onclick="openExportProjectWindow()"  data-placement="top" data-toggle="tooltip" data-i18n="[title]code.monitor.controls.tooltips.export">
-                                    <i class="fas fa-file-export"></i>
-                                    <span class="hide" data-i18n="code.monitor.controls.text.export"></span>
-                                </button>
-
-                                <button type="button" onclick="InterfaceConnection.toggleSerialConsole()" class="ide-btn ide-btn-alone" id="serial-monitor" data-status="connect" data-toggle="tooltip" data-placement="top" data-i18n="[title]code.monitor.controls.tooltips.monitor">
-                                    <i class="fa-solid fa-plug"></i>
-                                    <span class="hide" data-i18n="code.monitor.controls.text.monitor">Serial monitor</span>
-                                </button>
-                            </div>
+                            <div id="monitor-div-btn" class="d-flex ms-auto justify-content-end"></div>
                         </div>
                     </div>
                 </div>
@@ -561,11 +555,7 @@
 
             <div id="simulator">
                 <div id="headerOut">
-                    <div class="simulator-board-buttons">
-                        <button id="simulator-board-toggler" class="btn simulator-button-circle" type="button" onclick="Simulator.toggleBoardDisplay()" aria-label="Toggle board display" data-i18n="[aria-label]code.simulator.buttons.base.toggleBoardDisplay">
-                            <i class="fa-solid fa-minus simulator-buttons-icon"></i>
-                        </button>
-                    </div>
+                    <div class="simulator-board-buttons"></div>
                     <span id="title-board" style="display: none;">mCore 1</span>
                     <div id="board-container">
                         <object id="board-viewer" class="mt-3" type="image/svg+xml" role="img" aria-label="Board simulator view"></object>
@@ -718,6 +708,7 @@
 <script src="/openInterface/interfaces/assets/js/constants/main/patterns.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/main/api.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/generators/constants.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/blocks/ProjectsCleaner.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/tooltip/image.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/modals/buttons.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/modals/options.js"></script>
@@ -761,14 +752,14 @@
 <!-- build:js-blocks -->
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/constants.js"></script>
 <script src="/openInterface/mBot/assets/js/blocks/definitions/blockly_constants.js"></script>
-<script src="/openInterface/mBot/assets/js/blocks/definitions/basic/colour.js"></script>
-<script src="/openInterface/mBot/assets/js/blocks/definitions/basic/logic.js"></script>
-<script src="/openInterface/mBot/assets/js/blocks/definitions/basic/loops.js"></script>
-<script src="/openInterface/mBot/assets/js/blocks/definitions/basic/math.js"></script>
-<script src="/openInterface/mBot/assets/js/blocks/definitions/basic/text.js"></script>
-<script src="/openInterface/mBot/assets/js/blocks/definitions/basic/variables.js"></script>
-<script src="/openInterface/mBot/assets/js/blocks/definitions/basic/lists.js"></script>
-<script src="/openInterface/mBot/assets/js/blocks/definitions/basic/procedures.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/colour.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/logic.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/loops.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/math.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/text.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/variables.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/lists.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/procedures.js"></script>
 <script src="/openInterface/mBot/assets/js/blocks/definitions/specific/start.js"></script>
 <script src="/openInterface/mBot/assets/js/blocks/definitions/specific/mCore.js"></script>
 <script src="/openInterface/mBot/assets/js/blocks/definitions/specific/display.js"></script>
@@ -783,7 +774,7 @@
 <script src="/openInterface/mBot/assets/js/blocks/generators/basic/loops.js"></script>
 <script src="/openInterface/mBot/assets/js/blocks/generators/basic/math.js"></script>
 <script src="/openInterface/mBot/assets/js/blocks/generators/basic/text.js"></script>
-<script src="/openInterface/mBot/assets/js/blocks/generators/basic/variables.js"></script>
+<script src="/openInterface/arduino/assets/js/blocks/generators/basic/variables.js"></script>
 <script src="/openInterface/mBot/assets/js/blocks/generators/basic/lists.js"></script>
 <script src="/openInterface/mBot/assets/js/blocks/generators/basic/procedures.js"></script>
 <script src="/openInterface/mBot/assets/js/blocks/generators/specific/start.js"></script>
