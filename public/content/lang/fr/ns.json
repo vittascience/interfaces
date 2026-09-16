@@ -5773,7 +5773,7 @@
             "copy": "Sauvegarder sous ...",
             "share": "Partager",
             "cancel": "Annuler",
-            "download": "Télécharger sur l'ordinateur",
+            "download": "Télécharger",
             "downloadModel": "Télécharger modèle sur l'ordinateur"
           },
           "iaWarning": "<i class='fa fa-exclamation-triangle'></i> Votre model IA est stocké dans la mémoire du navigateur et ne sera pas enregistré avec votre projet.",
@@ -6553,7 +6553,7 @@
         },
         "content": {
           "to-save": "Pour sauvegarder un projet Vittascience et le réimporter dans l'interface",
-          "step-1": "Cliquer sur le bouton <b>Télécharger sur l'ordinateur</b>.",
+          "step-1": "Cliquer sur le bouton <b>Télécharger</b>.",
           "step-2": "Sauvegarder le fichier sur votre ordinateur. Ce fichier ",
           "step-2-bis": " contient le code texte et les blocs. L'en-tête du fichier contient toutes les informations de votre projet Vittascience.",
           "step-3": "Lorsque vous reviendrez sur l'interface, cliquer sur l'icône",

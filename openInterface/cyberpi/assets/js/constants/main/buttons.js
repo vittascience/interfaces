@@ -1,5 +1,18 @@
-const cardCommunicationButtons = {
-    'upload': {
+const cardCommunicationButtons = {};
+
+if (typeof window !== 'undefined' && window.__vittaInterfaceSlug) {
+    cardCommunicationButtons['uploadBLE'] = {
+        id: "upload-python-ble-opt",
+        classes: 'ide-btn-check ide-btn-left',
+        fontAwesome: 'fa-brands fa-bluetooth',
+        tooltipPlacement: "left",
+        onclick: "uploadPythonBLE()",
+        label: {
+            value: "code.topbar.label.uploadBluetooth"
+        }
+    };
+} else {
+    cardCommunicationButtons['upload'] = {
         id: "upload-python",
         classes: 'ide-btn-check ide-btn-left e2e-upload-btn',
         fontAwesome: 'fas fa-bolt',
@@ -9,28 +22,20 @@ const cardCommunicationButtons = {
             hidden: true,
             value: "code.topbar.label.upload"
         }
-    },
-    'download': {
-        isDropdown: true,
-        id: "download",
-        classes: 'ide-btn-group-download',
-        style: 'ide-btn-right'
-    }
+    };
+}
+
+cardCommunicationButtons['download'] = {
+    isDropdown: true,
+    id: "download",
+    classes: 'ide-btn-group-download',
+    style: 'ide-btn-right'
 };
 
-const downloadOptions = {
-    'uploadBLE': {
-        id: "upload-python-ble-opt",
-        classes: 'ide-btn-check ide-btn-left-dropdown',
-        fontAwesome: 'fa-brands fa-bluetooth',
-        tooltipPlacement: "left",
-        onclick: "uploadPythonBLE()",
-        show: true,
-        label: {
-            value: "code.topbar.label.uploadBluetooth"
-        }
-    },
-    'disconnect': {
+const downloadOptions = {};
+
+if (typeof window !== 'undefined' && !window.__vittaInterfaceSlug) {
+    downloadOptions['disconnect'] = {
         id: "disconnect-opt",
         classes: 'ide-btn-check ide-btn-left-dropdown',
         icon: "/openInterface/interfaces/assets/js/external/font-awesome/svgs/brands/usb.svg",
@@ -41,8 +46,19 @@ const downloadOptions = {
         label: {
             value: "code.topbar.label.disconnect"
         }
-    },
-    'disconnectBLE': {
+    };
+    downloadOptions['uploadBLE'] = {
+        id: "upload-python-ble-opt",
+        classes: 'ide-btn-check ide-btn-left-dropdown',
+        fontAwesome: 'fa-brands fa-bluetooth',
+        tooltipPlacement: "left",
+        onclick: "uploadPythonBLE()",
+        show: true,
+        label: {
+            value: "code.topbar.label.uploadBluetooth"
+        }
+    };
+    downloadOptions['disconnectBLE'] = {
         id: "disconnect-opt-ble",
         classes: 'ide-btn-check ide-btn-left-dropdown',
         fontAwesome: 'fa-brands fa-bluetooth',
@@ -53,8 +69,21 @@ const downloadOptions = {
         label: {
             value: "code.topbar.label.disconnect"
         }
-    }
-};
+    };
+} else {
+    downloadOptions['disconnectBLE'] = {
+        id: "disconnect-opt-ble",
+        classes: 'ide-btn-check ide-btn-left-dropdown',
+        fontAwesome: 'fa-brands fa-bluetooth',
+        title: 'code.topbar.tooltips.disconnect',
+        tooltipPlacement: "left",
+        onclick: "doDisconnectBLE()",
+        show: true,
+        label: {
+            value: "code.topbar.label.disconnect"
+        }
+    };
+}
 
 const settingsOptions = {
     'accessibility': {

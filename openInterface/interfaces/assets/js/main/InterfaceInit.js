@@ -141,6 +141,7 @@ class InterfaceInit {
     _displayWelcomeMessage(stringPath) {
         if (i18next.isInitialized && i18next.t(stringPath) !== stringPath && typeof i18next.t(stringPath) !== 'undefined') {
             InterfaceMonitor.writeConsole(stringPath, 'neutral', false);
+            if (typeof window !== 'undefined' && window.__vittaInterfaceSlug) return;
             if (this._needSerialAPI()) {
                 if (this._interface == 'arduinoq') {
                     if (!navigator.usb) {

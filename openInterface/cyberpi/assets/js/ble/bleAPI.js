@@ -10,7 +10,9 @@ function onGATTconnected() {
 };
 
 function onGATTdisconnected() {
-	$("#disconnect-opt-ble").hide();
+	if (typeof window !== 'undefined' && !window.__vittaInterfaceSlug) {
+		$("#disconnect-opt-ble").hide();
+	}
 	$("#connected-icon-ble").remove();
 	InterfaceMonitor.writeConsole(jsonPath('code.serialAPI.boardDisconnected'), 'warning');
 	InterfaceMonitor.writeConsole(jsonPath('code.WebBluetoothAPI.BLEclosed'), 'success', false, true);
@@ -194,5 +196,5 @@ async function sendBLECommand() {
 	}
 	if (WebBLEAPI.gattConnected()) {
 		await checkResponseAndSend();
-	}		
+	}
 };

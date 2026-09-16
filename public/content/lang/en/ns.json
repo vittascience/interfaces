@@ -5748,7 +5748,7 @@
             "copy": "Save as ...",
             "share": "Share",
             "cancel": "Cancel",
-            "download": "Download on computer",
+            "download": "Download",
             "downloadModel": "Download model on computer"
           },
           "iaWarning": "<i class='fa fa-exclamation-triangle'></i> Your IA model is stored in the browser memory and will not be saved with your project.",
@@ -6528,7 +6528,7 @@
         },
         "content": {
           "to-save": "To save Vittascience project and get it back on interface",
-          "step-1": "Click on the <b>Download project</b> button.",
+          "step-1": "Click on the <b>Download</b> button.",
           "step-2": "Save your file whenever you want on your computer. This ",
           "step-2-bis": " file contain the script of your program and the blocs. The header of file has a string with all information of your Vittascience project.",
           "step-3": "When you come back to the interface, just click on",
