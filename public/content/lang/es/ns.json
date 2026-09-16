@@ -5711,7 +5711,7 @@
             "copy": "Guardar como ...",
             "share": "Compartir",
             "cancel": "Cancelar",
-            "download": "Descarga en el ordenador",
+            "download": "Descarga",
             "downloadModel": "Download model on computer"
           },
           "iaWarning": "<i class='fa fa-exclamation-triangle'></i> Su modelo IA se almacena en la memoria del navegador y no se guardará con su proyecto.",

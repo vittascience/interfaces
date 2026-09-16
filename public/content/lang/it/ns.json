@@ -5720,7 +5720,6 @@
             "copy": "Salva come ...",
             "share": "Condividi",
             "cancel": "Annulla",
-            "download": "Scarica sul computer",
             "downloadModel": "Scarica modello sul computer"
           },
           "iaWarning": "<i class='fa fa-exclamation-triangle'></i> Il tuo modello IA è memorizzato nella memoria del browser e non sarà salvato con il progetto.",

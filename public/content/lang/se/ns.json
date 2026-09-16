@@ -5711,7 +5711,6 @@
             "copy": "Spara som ...",
             "share": "Dela",
             "cancel": "Avbryt",
-            "download": "Ladda ner till datorn",
             "downloadModel": "Ladda ner modellen till datorn"
           },
           "iaWarning": "<i class='fa fa-exclamation-triangle'></i> Din AI-modell lagras i webbläsarens minne och sparas inte med projektet.",

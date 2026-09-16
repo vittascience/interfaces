@@ -5711,7 +5711,6 @@
             "copy": "Speichern unter ...",
             "share": "Teilen",
             "cancel": "Abbrechen",
-            "download": "Auf Computer herunterladen",
             "downloadModel": "Modell auf Computer herunterladen"
           },
           "iaWarning": "<i class='fa fa-exclamation-triangle'></i> Ihr KI-Modell wird im Browser-Speicher abgelegt und nicht mit Ihrem Projekt gespeichert.",

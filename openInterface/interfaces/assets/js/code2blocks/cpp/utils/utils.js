@@ -290,7 +290,8 @@ class Utils {
 		if (INTERFACE_NAME == 'arduinoq') {
 			path =  `/openInterface/arduino/assets/js/blocks/code2Blocks/imports.js`;
 		}
-		const imports = await import(path);
+		const moduleUrl = new URL(path, window.location.href).toString();
+		const imports = await import(moduleUrl);
 		this.LIBS = imports.default.LIB_IMPORT;
 		this.RESERVED_WORD = imports.default.RESERVED_WORD || [];
 		// this.CLASS_METHODS = imports.default.CLASS_METHODS;

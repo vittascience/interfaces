@@ -522,7 +522,8 @@ class Utils {
 	 * */
 	async interfaceImports() {
 		const path = `${_PATH}/${INTERFACE_NAME}/assets/js/blocks/code2Blocks/imports.js`;
-		const imports = await import(path);
+		const moduleUrl = new URL(path, window.location.href).toString();
+		const imports = await import(moduleUrl);
 		this.LIBS = imports.default.LIB_IMPORT;
 		this.CLASS_METHODS = imports.default.CLASS_METHODS;
 		this.EXCLUDED_COMMENTS = imports.default.EXCLUDED_COMMENTS;
