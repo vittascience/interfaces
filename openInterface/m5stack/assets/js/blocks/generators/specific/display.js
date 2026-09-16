@@ -2,36 +2,56 @@
  * @fileoverview Display generators for M5Stack.
  */
 
-// Screens
+// LCD
 
 Blockly.Python.display_lcdSetText = function (block) {
-    Blockly.Python.addImport('lcd1602', IMPORT_ESP32_LCD1602);
-    Blockly.Python.addImport('machine', IMPORT_MACHINE);
-    Blockly.Python.addInit('lcd1602', "lcd = LCD1602(i2c=I2C(scl=Pin(22), sda=Pin(21)))");
-    let txt = Blockly.Python.valueToCode(block, "TEXT", Blockly.Python.ORDER_NONE) || "''";
-    let line = block.getFieldValue("LINE");
-    let position = block.getFieldValue("POS");
-    if (Blockly.Constants.Utils.isInputTextBlock(block, "TEXT")) {
-        return "lcd.setCursor(" + position + ", " + line + ")" + NEWLINE + "lcd.writeTxt(" + txt + ")" + NEWLINE;
+    const i2c = Blockly.Python.Generators.default_I2C();
+    const txt = Blockly.Python.valueToCode(block, "TEXT", Blockly.Python.ORDER_NONE) || "''";
+    const line = block.getFieldValue("LINE");
+    const position = block.getFieldValue("POS");
+    const addr = block.getFieldValue("ADDR") || "0x3e";
+    if (addr == "0x3f" || addr == "0x27") {
+        Blockly.Python.addImport('esp32_lcd_i2c8574', IMPORT_ESP32_LCD_I2C8574);
+        Blockly.Python.addInit('lcd8574', "lcd8574 = I2cLcd(" + i2c + ", i2c_addr=" + addr + ")");
+        if (Blockly.Constants.Utils.isInputTextBlock(block, "TEXT")) {
+            return "lcd8574.move_to(" + position + ", " + line + ")" + NEWLINE + "lcd8574.write(" + txt + ")" + NEWLINE;
+        } else {
+            return "lcd8574.move_to(" + position + ", " + line + ")" + NEWLINE + "lcd8574.write(str(" + txt + "))" + NEWLINE;
+        }
     } else {
-        return "lcd.setCursor(" + position + ", " + line + ")" + NEWLINE + "lcd.writeTxt(str(" + txt + "))" + NEWLINE;
+        Blockly.Python.addImport('esp32_lcd_i2c', IMPORT_ESP32_LCD1602);
+        Blockly.Python.addInit('lcd', "lcd = LCD1602(i2c=" + i2c + ")");
+        if (Blockly.Constants.Utils.isInputTextBlock(block, "TEXT")) {
+            return "lcd.setCursor(" + position + ", " + line + ")" + NEWLINE + "lcd.writeTxt(" + txt + ")" + NEWLINE;
+        } else {
+            return "lcd.setCursor(" + position + ", " + line + ")" + NEWLINE + "lcd.writeTxt(str(" + txt + "))" + NEWLINE;
+        }
     }
 };
 
-Blockly.Python.display_lcdClear = function () {
-    Blockly.Python.addImport('lcd1602', IMPORT_ESP32_LCD1602);
-    Blockly.Python.addImport('machine', IMPORT_MACHINE);
-    Blockly.Python.addInit('lcd1602', "lcd = LCD1602(i2c=I2C(scl=Pin(22), sda=Pin(21)))");
-    return "lcd.clear()" + NEWLINE;
+Blockly.Python.display_lcdClear = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
+    const addr = block.getFieldValue("ADDR") || "0x3e";
+    if (addr == "0x3f" || addr == "0x27") {
+        Blockly.Python.addImport('esp32_lcd_i2c8574', IMPORT_ESP32_LCD_I2C8574);
+        Blockly.Python.addInit('lcd8574', "lcd8574 = I2cLcd(" + i2c + ", i2c_addr=" + addr + ")");
+        return "lcd8574.clear()" + NEWLINE;
+    } else {
+        Blockly.Python.addImport('esp32_lcd_i2c', IMPORT_ESP32_LCD1602);
+        Blockly.Python.addInit('lcd', "lcd = LCD1602(i2c=" + i2c + ")");
+        return "lcd.clear()" + NEWLINE;
+    }
 };
 
+// OLED
+
 Blockly.Python.display_addOledText = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     const str = Blockly.Python.valueToCode(block, "TEXT", Blockly.Python.ORDER_NONE) || "''";
     const x = Blockly.Python.valueToCode(block, "X", Blockly.Python.ORDER_NONE) || "0";
     const y = Blockly.Python.valueToCode(block, "Y", Blockly.Python.ORDER_NONE) || "0";
     Blockly.Python.addImport('ssd1306', IMPORT_ESP32_SSD1306_I2C);
-    Blockly.Python.addImport('machine', IMPORT_MACHINE);
-    Blockly.Python.addInit('oled', "oled = SSD1306_I2C(128, 64, I2C(scl=Pin(22), sda=Pin(21)))");
+    Blockly.Python.addInit('oled', "oled = SSD1306_I2C(128, 64, " + i2c + ")");
     if (Blockly.Constants.Utils.isInputTextBlock(block, "TEXT")) {
         return "oled.text(" + str + ", " + x + ", " + y + ")" + NEWLINE + "oled.show()" + NEWLINE;
     } else {
@@ -40,49 +60,49 @@ Blockly.Python.display_addOledText = function (block) {
 };
 
 Blockly.Python.display_setOledPixel = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
     const x = Blockly.Python.valueToCode(block, "X", Blockly.Python.ORDER_NONE) || "0";
     const y = Blockly.Python.valueToCode(block, "Y", Blockly.Python.ORDER_NONE) || "0";
     Blockly.Python.addImport('ssd1306', IMPORT_ESP32_SSD1306_I2C);
-    Blockly.Python.addImport('machine', IMPORT_MACHINE);
-    Blockly.Python.addInit('oled', "oled = SSD1306_I2C(128, 64, I2C(scl=Pin(22), sda=Pin(21)))");
+    Blockly.Python.addInit('oled', "oled = SSD1306_I2C(128, 64, " + i2c + ")");
     return "oled.pixel(" + x + ", " + y + ", " + state + ")" + NEWLINE + "oled.show()" + NEWLINE;
 };
 
 Blockly.Python.display_drawOledLine = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     const xa = Blockly.Python.valueToCode(block, "XA", Blockly.Python.ORDER_NONE) || "0";
     const ya = Blockly.Python.valueToCode(block, "YA", Blockly.Python.ORDER_NONE) || "0";
     const xb = Blockly.Python.valueToCode(block, "XB", Blockly.Python.ORDER_NONE) || "0";
     const yb = Blockly.Python.valueToCode(block, "YB", Blockly.Python.ORDER_NONE) || "0";
     Blockly.Python.addImport('ssd1306', IMPORT_ESP32_SSD1306_I2C);
-    Blockly.Python.addImport('machine', IMPORT_MACHINE);
-    Blockly.Python.addInit('oled', "oled = SSD1306_I2C(128, 64, I2C(scl=Pin(22), sda=Pin(21)))");
+    Blockly.Python.addInit('oled', "oled = SSD1306_I2C(128, 64, " + i2c + ")");
     return "oled.line(" + xa + ", " + ya + ", " + xb + ", " + yb + ", 1)" + NEWLINE + "oled.show()" + NEWLINE;
 };
 
 Blockly.Python.display_showOledIcon = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     const i = block.getFieldValue("ICON");
     const x = Blockly.Python.valueToCode(block, "X", Blockly.Python.ORDER_NONE) || "0";
     const y = Blockly.Python.valueToCode(block, "Y", Blockly.Python.ORDER_NONE) || "0";
     Blockly.Python.addImport('ssd1306', IMPORT_ESP32_SSD1306_I2C);
-    Blockly.Python.addImport('machine', IMPORT_MACHINE);
-    Blockly.Python.addInit('oled', "oled = SSD1306_I2C(128, 64, I2C(scl=Pin(22), sda=Pin(21)))");
+    Blockly.Python.addInit('oled', "oled = SSD1306_I2C(128, 64, " + i2c + ")");
     return "oled.blit(oled.STAMP_" + i + ", " + x + ", " + y + ")" + NEWLINE + "oled.show()" + NEWLINE;
 };
 
 
 Blockly.Python.display_clearOledScreen = function () {
+    const i2c = Blockly.Python.Generators.default_I2C();
     Blockly.Python.addImport('ssd1306', IMPORT_ESP32_SSD1306_I2C);
-    Blockly.Python.addImport('machine', IMPORT_MACHINE);
-    Blockly.Python.addInit('oled', "oled = SSD1306_I2C(128, 64, I2C(scl=Pin(22), sda=Pin(21)))");
+    Blockly.Python.addInit('oled', "oled = SSD1306_I2C(128, 64, " + i2c + ")");
     return "oled.fill(0)" + NEWLINE + "oled.show()" + NEWLINE;
 };
 
 Blockly.Python.display_setOledBackground = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     const color = block.getFieldValue("BACKGROUND");
     Blockly.Python.addImport('ssd1306', IMPORT_ESP32_SSD1306_I2C);
-    Blockly.Python.addImport('machine', IMPORT_MACHINE);
-    Blockly.Python.addInit('oled', "oled = SSD1306_I2C(128, 64, I2C(scl=Pin(22), sda=Pin(21)))");
+    Blockly.Python.addInit('oled', "oled = SSD1306_I2C(128, 64, " + i2c + ")");
     return "oled.invert(" + color + ")" + NEWLINE;
 };
 

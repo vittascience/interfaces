@@ -65,11 +65,13 @@ const IMPORT_WATER_LEVEL = "import water_level";
 const IMPORT_VL53L0X = "from vl53l0x import VL53L0X";
 const IMPORT_VEML6040 = "from veml6040 import PiicoDev_VEML6040";
 const IMPORT_KITRONIK_SERVO_DRIVER = "from kitronik_servo_driver import KitronikServoBoard";
+const IMPORT_REKABIT = "from rekabit import *";
 //grove modules libraries - Pins
 const IMPORT_TM1637 = "from tm1637 import TM1637";
 const IMPORT_MY9221 = "from my9221 import MY9221";
 const IMPORT_DHT11 = "from dht11 import DHT11";
 const IMPORT_DHT11_V2 = "from dht11_v2 import DHT11";
+const IMPORT_MFRC522 = 'from mfrc522 import MFRC522';
 //modules libraries - custom
 const IMPORT_NEC_REMOTE = "from nec_remote import NEC_8, NEC_16";
 //IA 

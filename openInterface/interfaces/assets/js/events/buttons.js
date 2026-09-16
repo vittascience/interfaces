@@ -252,10 +252,13 @@ function appendLangSwitcherForInterfaces() {
             let innerHTML = $(this).html();
             let active = $(this).hasClass('active');
 
-            let newLink = document.createElement('a');
+            let newLink;
             if (onclick) {
+                newLink = document.createElement('button');
+                newLink.setAttribute('type', 'button');
                 newLink.setAttribute('onclick', onclick);
             } else {
+                newLink = document.createElement('a');
                 newLink.setAttribute('href', href);
             }
             newLink.setAttribute('class', 'list-group-item list-group-item-action');
@@ -352,7 +355,7 @@ if (INTERFACE_NAME !== "adacraft") {
             ></button>
         </div>
     `;
-    const downloadOptionInterfaces = ["arduino", "microbit", "esp32", "wb55", "l476", "galaxia", "GalaxiaCircuitPython", "mBot", "m5stack", "buddy", "cyberpi", "letsstartcoding", "pico", "eliobot", "thymio", "raspberrypi", "winky", "niryo", "nao", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai"];
+    const downloadOptionInterfaces = ["arduino", "microbit", "esp32", "wb55", "l476", "galaxia", "GalaxiaCircuitPython", "mBot", "m5stack", "buddy", "cyberpi", "letsstartcoding", "pico", "eliobot", "thymio", "raspberrypi", "winky", "niryo", "nao", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai", "arduinoq"];
     if (downloadOptionInterfaces.includes(INTERFACE_NAME)) {
         $('.ide-btn-group-download').append(dropdownHeaderDownload);
 
@@ -979,13 +982,8 @@ function toggleToolbox() {
 /* Function action on ide */
 
 function undoAction() {
-    //still having a huge bug here
-    //this is mainly problem with chained blocks and actions
     if (Main.getCodingMode() == "mixed" || Main.getCodingMode() == "block") {
         Main.undo(false);
-        if (INTERFACE_NAME != 'python')
-            if (Main.getAllBlocks().length < 2)
-                Main.undo(true);
     } else {
         Main.undoCodeMode(true);
     }
@@ -994,9 +992,6 @@ function undoAction() {
 function redoAction() {
     if (Main.getCodingMode() == "mixed" || Main.getCodingMode() == "block") {
         Main.undo(true);
-        if (INTERFACE_NAME != 'python')
-            if (Main.getAllBlocks().length < 2)
-                Main.undo(false);
     } else {
         Main.undoCodeMode(false);
     }
@@ -1010,8 +1005,14 @@ function switchBlockMode(animation = true) {
     const previousCodeMode = Main.getCodeMode();
 
     UIManager.disableSwitchingButtons();
+    if (previousCodeMode === MODE_CODE && (INTERFACE_NAME === 'python' || Main.hasCpp2Blocks() || Main.hasPython2Blocks())) {
+        if (CodeManager.getSharedInstance().codeWasManuallyModified) {
+            Main.updateCodeEditor();
+            Main.convertCodeToBlocks();
+        }
+    }
     Main.switchCodingMode(MODE_BLOCKS);
-    if (Main.getInterface() == 'TI-83' && previousToolbox === TOOLBOX_STYLE_TI_CODE && previousCodeMode === MODE_CODE) {
+    if (INTERFACE_NAME === 'TI-83' && previousToolbox === TOOLBOX_STYLE_TI_CODE && previousCodeMode === MODE_CODE) {
         Main.setToolboxManager(TOOLBOX_STYLE_TI);
     }
     if (Main.hasDragAndDrop()) {
@@ -1079,8 +1080,14 @@ function switchMixedMode(animation = true) {
     $('.blocklyScrollbarHorizontal.blocklyMainWorkspaceScrollbar').css("display", 'block');
 
     UIManager.disableSwitchingButtons();
+    if (previousCodeMode === MODE_CODE && (INTERFACE_NAME === 'python' || Main.hasCpp2Blocks() || Main.hasPython2Blocks())) {
+        if (CodeManager.getSharedInstance().codeWasManuallyModified) {
+            Main.updateCodeEditor();
+            Main.convertCodeToBlocks();
+        }
+    }
     Main.switchCodingMode(MODE_MIXED);
-    if (INTERFACE_NAME == 'TI-83' && previousToolbox === TOOLBOX_STYLE_TI_CODE && previousCodeMode === MODE_CODE) {
+    if (INTERFACE_NAME === 'TI-83' && previousToolbox === TOOLBOX_STYLE_TI_CODE && previousCodeMode === MODE_CODE) {
         Main.setToolboxManager(TOOLBOX_STYLE_TI);
     }
     if (Main.hasDragAndDrop()) {
@@ -1092,7 +1099,7 @@ function switchMixedMode(animation = true) {
         $("#generator").show();
         $(".ide-block").show();
         $(".ide-block").width('100%');
-        if (INTERFACE_NAME == 'python' || Main.hasCpp2Blocks() || Main.hasPython2Blocks()) {
+        if (INTERFACE_NAME === 'python' || Main.hasCpp2Blocks() || Main.hasPython2Blocks()) {
             Main.setOptionForEditor("readOnly", false);
             if (document.getElementById('mixed-popup-readonly')) {
                 $('#mixed-popup-readonly').remove();
@@ -1130,7 +1137,7 @@ function switchMixedMode(animation = true) {
             complete: function () {
                 $("#generator").show();
                 $(".ide-block").show();
-                if (INTERFACE_NAME == 'python' || Main.hasCpp2Blocks() || Main.hasPython2Blocks() || !Main.getIsXmlBasedInterface()) {
+                if (INTERFACE_NAME === 'python' || Main.hasCpp2Blocks() || Main.hasPython2Blocks() || !Main.getIsXmlBasedInterface()) {
                     Main.setOptionForEditor("readOnly", false);
                     if (document.getElementById('mixed-popup-readonly')) {
                         $('#mixed-popup-readonly').remove();
@@ -1221,9 +1228,9 @@ function switchCodeMode(animation = true) {
     $('#monitor').css('z-index', '800');
 
     UIManager.disableSwitchingButtons();
-    Main.switchCodingMode("code");
+    Main.switchCodingMode(MODE_CODE);
 
-    if (Main.getInterface() == "TI-83" && previousToolbox === TOOLBOX_STYLE_TI) {
+    if (INTERFACE_NAME === "TI-83" && previousToolbox === TOOLBOX_STYLE_TI) {
         Main.setToolboxManager(TOOLBOX_STYLE_TI_CODE);
     }
 
@@ -1736,7 +1743,7 @@ async function updateToolbox(toolboxMode, fromUser = false) {
             await lti13Controller.saveCurrentResource();
             lti13Controller._redirectWithPostMethod(refreshUrl);
         } else {
-            if (Main.getInterface() == "TI-83" && toolboxMode == TOOLBOX_STYLE_TI && Main.getCodeMode() == MODE_CODE) {
+            if (INTERFACE_NAME === "TI-83" && toolboxMode === TOOLBOX_STYLE_TI && Main.getCodeMode() === MODE_CODE) {
                 toolboxMode = TOOLBOX_STYLE_TI_CODE;
             }
             Main.setToolboxManager(toolboxMode);
@@ -1807,10 +1814,10 @@ async function updateBoard(event = false, boardSelector = BOARD_DEFAULT, shieldV
                     if (Simulator._hasWebSimulator(previousBoard)) {
                         WifiSimulator.close();
                     }
-                    if (Simulator.hasRobotSimulator(previousBoard)) {
+                    if (Simulator._hasRobotSimulator(previousBoard)) {
                         RobotSimulator.close();
                     }
-                    if (Simulator.has3DRobotSimulator(previousBoard)) {
+                    if (Simulator._has3DRobotSimulator(previousBoard)) {
                         document.getElementById('experience-3d-container').style.display = 'none';
                     }
                     if ($("#simulator").is(":visible")) {
@@ -1852,7 +1859,7 @@ async function updateBoard(event = false, boardSelector = BOARD_DEFAULT, shieldV
                     window.location = window.location.href;
                 }
             }
-        } else if (['arduino', 'esp32'].includes(INTERFACE_NAME) && shieldView !== null && shieldView !== VittaInterface.shieldView) {
+        } else if (Simulator._hasUpdateBoardV2() && shieldView !== null && shieldView !== VittaInterface.shieldView) {
             VittaInterface.shieldView = shieldView;
             SimulatorLS.set('shieldView', shieldView);
             if (Main.hasSimulator()) {
@@ -1915,7 +1922,7 @@ function toggleSimuOnly() {
 }
 
 async function toggleSimulator() {
-    await waitFor(_ => VittaInterface !== null && VittaInterface.initialized);
+    await waitFor(_ => VittaInterface !== null && VittaInterface.initialized, 20);
     if (typeof projectManager !== 'undefined' && projectManager) projectManager.multiToggleSimulator();
     UIManager.disableSwitchingButtons();
     if (Simulator.isOpen) {
@@ -1976,7 +1983,6 @@ async function toggleSimulator() {
         }
         if (typeof Simulator !== 'undefined') {
             await Simulator.update(true);
-
             if (typeof Simulator.getSerialInput !== 'undefined') {
                 $("#serial-send").off('click').click(Simulator.getSerialInput.bind(Simulator));
             }
@@ -1987,6 +1993,11 @@ async function toggleSimulator() {
         } else if (typeof InterfaceConnection !== 'undefined') {
             await InterfaceConnection.doDisconnect();
             await new Promise(resolve => setTimeout(resolve, 500));
+        } else if (INTERFACE_NAME == 'raspberrypi') {
+            await RaspberryCommunication.socketIOdisconnect();
+        }
+        if (INTERFACE_NAME == 'arduinoq') {
+            CodeManager.getSharedInstance().openFile('sketch.ino', true);
         }
         $('.ide-base').animate({
             width: $('#ide-content').width() - 500
@@ -2221,8 +2232,7 @@ async function saveExerciseStatement(e) {
                 document.querySelector('#exercise-statement-input').value = '';
             }
             Main.vittaNotif.displayNotification(notification.div, notification.message, notification.type);
-            projectManager._exerciseStatement.setStatementContent(statementInput);
-            projectManager._exerciseStatement.displayStatement();
+            projectManager.exercises_updateStatementState(statementInput);
         } else if (response.errors) {
             // If the request is OK and response contains errors, show the relevant notification(s)
             for (let error of response.errors) {

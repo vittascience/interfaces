@@ -1,7 +1,6 @@
 /**
  * @fileoverview Colour blocks for Blockly.
  */
-
 Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 
   // Block for colour picker.
@@ -17,6 +16,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "helpUrl": "%{BKY_COLOUR_PICKER_HELPURL}",
     "style": "colour_blocks",
     "tooltip": "%{BKY_COLOUR_PICKER_TOOLTIP}",
+    "extensions": ["block_init_color"],
   },
 
   // Block for random colour.
@@ -26,7 +26,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "output": "Colour",
     "helpUrl": "%{BKY_COLOUR_RANDOM_HELPURL}",
     "style": "colour_blocks",
-    "tooltip": "%{BKY_COLOUR_RANDOM_TOOLTIP}"
+    "tooltip": "%{BKY_COLOUR_RANDOM_TOOLTIP}",
+    "extensions": ["block_init_color"],
   },
 
   // Block for composing a colour from RGB components.
@@ -34,29 +35,30 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "type": "colour_rgb",
     "message0": "R %1 G %2 B %3",
     "args0": [{
-      "type": "input_value",
-      "name": "RED",
-      "check": "Number",
-      "align": "RIGHT"
-    },
-    {
-      "type": "input_value",
-      "name": "GREEN",
-      "check": "Number",
-      "align": "RIGHT"
-    },
-    {
-      "type": "input_value",
-      "name": "BLUE",
-      "check": "Number",
-      "align": "RIGHT"
-    }
+        "type": "input_value",
+        "name": "RED",
+        "check": Blockly.Constants.Types.NUMBER.compatibleTypes_,
+        "align": "RIGHT"
+      },
+      {
+        "type": "input_value",
+        "name": "GREEN",
+        "check": Blockly.Constants.Types.NUMBER.compatibleTypes_,
+        "align": "RIGHT"
+      },
+      {
+        "type": "input_value",
+        "name": "BLUE",
+        "check": Blockly.Constants.Types.NUMBER.compatibleTypes_,
+        "align": "RIGHT"
+      }
     ],
     "output": "Colour",
     "inputsInline": true,
     "helpUrl": "%{BKY_COLOUR_RGB_HELPURL}",
     "style": "colour_blocks",
-    "tooltip": "%{BKY_COLOUR_RGB_TOOLTIP}"
+    "tooltip": "%{BKY_COLOUR_RGB_TOOLTIP}",
+    "extensions": ["block_init_color"],
   },
 
   // Block for blending two colours together.
@@ -65,28 +67,29 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "message0": "%{BKY_COLOUR_BLEND_TITLE} %{BKY_COLOUR_BLEND_COLOUR1} " +
       "%1 %{BKY_COLOUR_BLEND_COLOUR2} %2 %{BKY_COLOUR_BLEND_RATIO} %3",
     "args0": [{
-      "type": "input_value",
-      "name": "COLOUR1",
-      "check": "Colour",
-      "align": "RIGHT"
-    },
-    {
-      "type": "input_value",
-      "name": "COLOUR2",
-      "check": "Colour",
-      "align": "RIGHT"
-    },
-    {
-      "type": "input_value",
-      "name": "RATIO",
-      "check": "Number",
-      "align": "RIGHT"
-    }
+        "type": "input_value",
+        "name": "COLOUR1",
+        "check": "Colour",
+        "align": "RIGHT"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOUR2",
+        "check": "Colour",
+        "align": "RIGHT"
+      },
+      {
+        "type": "input_value",
+        "name": "RATIO",
+        "check": Blockly.Constants.Types.NUMBER.compatibleTypes_,
+        "align": "RIGHT"
+      }
     ],
     "output": "Colour",
     "helpUrl": "%{BKY_COLOUR_BLEND_HELPURL}",
     "style": "colour_blocks",
-    "tooltip": "%{BKY_COLOUR_BLEND_TOOLTIP}"
+    "tooltip": "%{BKY_COLOUR_BLEND_TOOLTIP}",
+    "extensions": ["block_init_color"],
   }
-
+  
 ]); // END JSON EXTRACT (Do not delete this comment.)

@@ -285,7 +285,8 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'io_writeDigitalPin',
                 'io_writePwm',
                 'io_setPwm',
-                'io_stopPwm'
+                'io_stopPwm',
+                'io_setPinMode'
             ]
         },
         {

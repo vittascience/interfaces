@@ -34,29 +34,39 @@ class CapytaleManager {
             web: '', 
             winky: ''
         };
+        this._model = null;
+        this._modeReady = new Promise((resolve) => {
+            this._modeReadyResolve = resolve;
+        });
     }
 
     init() {
         this._socket.plug(
-            ['simple-content(json):1', 'reload:1'],
-            ([mp_sc, mp_r]) => {     
+            ['simple-content(json):1', 'reload:1', 'mode:1'],
+            ([mp_sc, mp_r, mp_m]) => {     
                 return [
-                {
-                    loadContent: (c) => {
-                        this._loadProject(c);
+                    {
+                        loadContent: (c) => {
+                            this._loadProject(c);
+                        },
+                        getContent() {      
+                            return projectManager.getCurrentProjectDataForAppAgent();
+                        },
+                        contentSaved() {
+                            // console.log('Content saved in platform!');
+                        }
                     },
-                    getContent() {      
-                        return projectManager.getCurrentProjectDataForAppAgent();
+                    {
+                        reloaded: (state) => {
+                            this._loadProject(state.project);
+                        }
                     },
-                    contentSaved() {
-                        // console.log('Content saved in platform!');
+                    {
+                        setMode: (mode) => { 
+                            this._mode = mode;
+                            this._modeReadyResolve(mode); 
+                        }
                     }
-                },
-                {
-                    reloaded: (state) => {
-                        this._loadProject(state.project);
-                    }
-                }
                 ];
             }
         );
@@ -104,6 +114,7 @@ class CapytaleManager {
             VittaInterface.openBoardSelector(true);
         }
         this.setInitialLoading(false);
+        await this.applyModeRestrictions();
         return true;
     }
 
@@ -138,6 +149,32 @@ class CapytaleManager {
         let currentInterfaceDocSlug = this._capytaleInterfacesDocSlug[INTERFACE_NAME];
         if (!currentInterfaceDocSlug || currentInterfaceDocSlug === '') currentInterfaceDocSlug = 'Activites';
         return `${this._capytaleDocumentationUrl}${currentInterfaceDocSlug}`;
+    }
+
+    async getMode() {
+        if (this._mode != null) return this._mode;
+        this._mode = await this._socket.exec(
+            'mode',
+            sc_m => sc_m.i?.getCurrentMode()
+        );
+        return this._mode;
+    }
+
+    isTeacherMode() {
+        return this._mode === 'create' || this._mode === 'review';
+    }
+
+    isStudentMode() {
+        return this._mode === 'assignment';
+    }
+
+    async applyModeRestrictions() {
+        await this._modeReady;
+
+        if (this.isStudentMode()) {
+            const toolboxRestrictionBtn = document.getElementById('capytale-toolbox-restriction');
+            if (toolboxRestrictionBtn) toolboxRestrictionBtn.style.display = 'none';
+        }
     }
 }
 

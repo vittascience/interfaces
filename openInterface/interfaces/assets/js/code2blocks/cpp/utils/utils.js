@@ -286,7 +286,10 @@ class Utils {
 	 * @returns {void}
 	 * */
 	async interfaceImports() {
-		const path = `/openInterface/${INTERFACE_NAME}/assets/js/blocks/code2Blocks/imports.js`;
+		let path = `${_PATH}/${INTERFACE_NAME}/assets/js/blocks/code2Blocks/imports.js`;
+		if (INTERFACE_NAME == 'arduinoq') {
+			path =  `/openInterface/arduino/assets/js/blocks/code2Blocks/imports.js`;
+		}
 		const imports = await import(path);
 		this.LIBS = imports.default.LIB_IMPORT;
 		this.RESERVED_WORD = imports.default.RESERVED_WORD || [];

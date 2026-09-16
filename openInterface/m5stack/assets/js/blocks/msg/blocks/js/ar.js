@@ -195,7 +195,7 @@ Blockly.Msg['COMMUNICATION_WRITE_SD_TOOLTIP'] = 'Allows writing data to the M5St
 Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TITLE'] = '[HC05 BT] send on pins RX %1 TX %2 message %3';
 Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Enable to send any data by bluetooth HC05 module on pins RX/TX.';
 Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TITLE'] = '[HC05 BT] on message received RX %1 TX %2 in %3 then';
-Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Allows you to execute instructions on data received by Bluetooth HC05 module in the \'bluetoothData\' variable on pins TX/RX.';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Allows you to execute instructions on data received by Bluetooth HC05 module in the \'HC05Data\' variable on pins TX/RX.';
 // Communication - Tracking modules
 Blockly.Msg['COMMUNICATION_GPS_M5_GETINFORMATIONS_TITLE'] = '[Module GPS M5] get %1';
 Blockly.Msg['COMMUNICATION_GPS_M5_GETINFORMATIONS_TOOLTIP'] = '';
@@ -250,11 +250,13 @@ Blockly.Msg['COMMUNICATION_UART_READ_TOOLTIP'] = 'Read data from UART port (1 or
 Blockly.Msg['COMMUNICATION_UART_READ_SIZE'] = 'data size';
 Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TITLE'] = '[uart %1] data available';
 Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TOOLTIP'] = 'Returns the size of data available on the UART port (1 or 2). By default, the pins are as: UART 1 (tx=10, rx=9) and UART 2 ( tx=17, rx=16). Otherwise, use the \'Set serial connection to RX TX Baudrate...\' block.';
-// Display - Screen
-Blockly.Msg['DISPLAY_LCD_SETTEXT_TITLE'] = '[LCD] show text %1 on line %2 position %3';
-Blockly.Msg['DISPLAY_LCD_SETTEXT_TOOLTIP'] = IMG_MODULE_LCD_3V3 + Blockly.Tooltip.SEP + 'Show text on the grove lcd 1602 display. Connect lcd on I2C port.';
-Blockly.Msg['DISPLAY_LCD_CLEAR_TITLE'] = '[LCD] clear display';
-Blockly.Msg['DISPLAY_LCD_CLEAR_TOOLTIP'] = IMG_MODULE_LCD_3V3 + Blockly.Tooltip.SEP + 'Enable to clear the entire lcd text. Connect lcd on I2C port.';
+
+// Display - LCD
+Blockly.Msg['DISPLAY_LCD_SETTEXT_TITLE'] = '[LCD address %1] show text %2 on line %3 position %4';
+Blockly.Msg['DISPLAY_LCD_SETTEXT_TOOLTIP'] = IMG_MODULE_LCD_I2C + Blockly.Tooltip.SEP + 'Show text on the grove lcd 1602 display. Connect lcd on I2C port.';
+Blockly.Msg['DISPLAY_LCD_CLEAR_TITLE'] = '[LCD address %1] clear display';
+Blockly.Msg['DISPLAY_LCD_CLEAR_TOOLTIP'] = IMG_MODULE_LCD_I2C + Blockly.Tooltip.SEP + 'Enable to clear the entire lcd text. Connect lcd on I2C port.';
+// Display - OLED
 Blockly.Msg['DISPLAY_OLED_ADDTEXT_TITLE'] = '[OLED] show text %1 at position x %2 y %3';
 Blockly.Msg['DISPLAY_OLED_ADDTEXT_TOOLTIP'] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + 'Enable write text on OLED display (128x64 px). Connect the OLED display on I2C port.';
 Blockly.Msg['DISPLAY_OLED_SETPIXEL_TITLE'] = '[OLED] control pixel x %1 y %2 to state %3';
@@ -391,7 +393,7 @@ Blockly.Msg['SENSORS_GETANEMOMETER_TOOLTIP'] = IMG_MODULE_ANEMOMETER + Blockly.T
 // Sensors - Sound & Light
 Blockly.Msg['SENSORS_GETGROVELIGHT_TITLE'] = '[Light Sensor] light level on pin %1';
 Blockly.Msg['SENSORS_GETGROVELIGHT_TOOLTIP'] = IMG_MODULE_LIGHT + Blockly.Tooltip.SEP + 'Returns grove light sensor value (from 0 to 4095) on analog pins p34 through p36, or p39 (as A2 to A4 on shield Grove).';
-Blockly.Msg['SENSORS_SUNLIGHT_GETDATA_TITLE'] = '[Sunlight Sensor] get %1';
+Blockly.Msg['SENSORS_SUNLIGHT_GETDATA_TITLE'] = '[Sunlight Sensor %1] get %2';
 Blockly.Msg['SENSORS_SUNLIGHT_GETDATA_TOOLTIP'] = IMG_MODULE_SI1145 + Blockly.Tooltip.SEP + 'Returns Ultraviolet light index, IR light (in lumen) or Visible light (in lumen) from si1145 sensor. It works with Grove Sunlight Sensor or GY1145 sensor. Connect sensor on I2C port.';
 Blockly.Msg['SENSORS_SUNLIGHT_UV'] = 'UV index';
 Blockly.Msg['SENSORS_SUNLIGHT_VISIBLE'] = 'visible (lumen)';
@@ -469,3 +471,8 @@ Blockly.Msg['NOTE_A'] = 'A';
 Blockly.Msg['NOTE_A_SHARP'] = 'A#';
 Blockly.Msg['NOTE_B'] = 'B';
 Blockly.Msg['MUSIC_SILENCE'] = 'Silence';
+Blockly.Msg["DISPLAY_CONTROL_BUILTIN_LED_TOOLTIP"] = "يشغل LED المدمج على الدبوس p2. لا تحتاج هذه الكتلة إلى أي حساس أو LED خارجي.";
+Blockly.Msg['SENSORS_SHT35_READDATA_TITLE'] = '[مستشعر SHT35] %1';
+Blockly.Msg['SENSORS_SHT35_READDATA_TOOLTIP'] = IMG_MODULE_SHT35 + Blockly.Tooltip.SEP + 'يعيد درجة الحرارة بالدرجة المئوية (°C)، فهرنهايت (°F) أو كلفن (K)، أو الرطوبة (%) باستخدام مستشعر SHT35. صِل المستشعر بمنفذ I2C.';
+Blockly.Msg['IO_READPULSEIN_TITLE'] = 'قراءة مدة النبضة (μs) للحالة %1 على الدبوس %2';
+Blockly.Msg['IO_READPULSEIN_TOOLTIP'] = 'يعيد مدة النبضة الواردة عندما تكون الحالة HIGH أو LOW، بالميكروثانية (µs).';

@@ -109,6 +109,8 @@ Blockly.Msg["IO_SETPWM_TITLE"] = "apply a square signal of %1 (Hz) frequency on 
 Blockly.Msg["IO_SETPWM_TOOLTIP"] = "Enable to apply a PWM square signal with 50% of duty cycle. You can change frequency of the signal.";
 Blockly.Msg["IO_STOPPWM_TITLE"] = "stop PWM signal of pin %1";
 Blockly.Msg["IO_STOPPWM_TOOLTIP"] = "Enable to stop applied PWM signal of a pin.";
+Blockly.Msg['IO_SETPINMODE_TITLE'] = 'apply mode %1 to pin %2';
+Blockly.Msg['IO_SETPINMODE_TOOLTIP'] = 'Apply the (PUD_OFF, PUD_DOWN, PUD_UP) mode to a pin.';
 // Input/Output - External modules
 Blockly.Msg["IO_GETGROVEBUTTON_TITLE"] = "[Button Module] button state on pin %1 ";
 Blockly.Msg["IO_GETGROVEBUTTON_TOOLTIP"] = IMG_MODULE_BUTTON + Blockly.Tooltip.SEP + "Returns grove button state (0 or 1) on digital pins.";
@@ -292,7 +294,7 @@ Blockly.Msg['ROBOTS_GO_BACKWARD'] = 'move backward';
 Blockly.Msg['ROBOTS_YAHBOOM_GETULTRASONIC_TITLE'] = '[Yahboom G1 - Ultrasonic] %1';
 Blockly.Msg['ROBOTS_YAHBOOM_GETULTRASONIC_TOOLTIP'] = IMG_ROBOT_YAHBOOM_G1TANK + Blockly.Tooltip.SEP + 'Measures the distance (in cm) or the round-trip time of the wave (in µs) in front of the Yahboom G1 Tank robot with the ultrasonic sensor.';
 Blockly.Msg['ROBOTS_YAHBOOM_GET_LINE_FINDER_STATE_TITLE'] = '[Yahboom G1 - black line] sensor state %1';
-Blockly.Msg['ROBOTS_YAHBOOM_GET_LINE_FINDER_STATE_TOOLTIP'] = IMG_ROBOT_YAHBOOM_G1TANK + Blockly.Tooltip.SEP + 'Returns the state of one of the four infrared black line sensors (0 or 1) located under the Yahboom G1 Tank robot. The names P1, P2, P3, or P3 are printed under the robot.';
+Blockly.Msg['ROBOTS_YAHBOOM_GET_LINE_FINDER_STATE_TOOLTIP'] = IMG_ROBOT_YAHBOOM_G1TANK + Blockly.Tooltip.SEP + 'Returns the state of one of the four infrared black line sensors (0 if detected else 1) located under the Yahboom G1 Tank robot. The names P1, P2, P3, or P3 are printed under the robot. Use the physical potentiometers to adjust the sensor detection according to the circuit conditions.';
 // Robots - Yahboom GATank - Control
 Blockly.Msg['ROBOTS_YAHBOOM_SET_LED_COLOR_TITLE'] = '[Yahboom G1] control the front LEDs %1 to %2';
 Blockly.Msg['ROBOTS_YAHBOOM_SET_LED_COLOR_TOOLTIP'] = IMG_ROBOT_YAHBOOM_G1TANK + Blockly.Tooltip.SEP + 'Allows you to control the two front LEDs of the Yahboom G1 Tank robot by turning red, green, or blue on/off.';

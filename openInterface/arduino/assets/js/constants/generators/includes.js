@@ -36,6 +36,7 @@ const INCLUDE_GROVE_I2C_MOTOR_DRIVER = "#include <Grove_I2C_Motor_Driver.h>";
 const INCLUDE_SPARK_FUN_MINI_MOTO = "#include <SparkFunMiniMoto.h>";
 const INCLUDE_DUAL_MC33926_MOTOR_SHIELD = "#include <DualMC33926MotorShield.h>";
 const INCLUDE_MULTI_CHANNEL_RELAY = "#include <multi_channel_relay.h>";
+const INCLUDE_TB6612FNG_MOTOR_DRIVER = "#include <Grove_Motor_Driver_TB6612FNG.h>";
 //sensors modules
 const INCLUDE_ADAFRUIT_BMP280 = "#include <Adafruit_BMP280_I2C.h>";
 const INCLUDE_SEEED_BME280 = "#include <Seeed_BME280.h>";

@@ -217,14 +217,6 @@ Simulator.Mosaic.specific = {
 				value: 0
 			});
 
-		$('#colorSensor_slider_r,' +
-			'#colorSensor_slider_g,' +
-			'#colorSensor_slider_b').slider({
-				min: 0,
-				max: 255,
-				value: 0
-			});
-
 		$('#mhz19-co2_slider').slider({
 			min: 0,
 			max: 2000,
@@ -267,7 +259,7 @@ Simulator.Mosaic.specific = {
 	definitions: [
 		{
 			id: "arduino-led13",
-			regex: /digitalWrite\(13,.*\)/gi,
+			regex: /digitalWrite\(LED_BUILTIN,.*\)/gi,
 			title: "LED intégrée",
 			pin: 'pin n°',
 			type: 'output',
@@ -444,44 +436,6 @@ Simulator.Mosaic.specific = {
 				Animator.updateListeners({
 					"": roundFloat(t, 1)
 				}, callbackAnim);
-			}
-		},
-		{
-			id: "colorSensor",
-			title: "Capteur de couleurs - ",
-			pin: 'I2C',
-			type: "input",
-			color: "#22b573",
-			listeners: [{
-				suffix: "_r",
-				default: 0,
-				unit: '',
-				color: "#dc3545",
-				title: "R"
-			},
-			{
-				suffix: "_g",
-				default: 0,
-				unit: '',
-				color: "#22b573",
-				title: "G"
-			},
-			{
-				suffix: "_b",
-				default: 0,
-				unit: '',
-				color: "#3fa9f5",
-				title: "B"
-			}
-			],
-			class: 'RGB-circle',
-			pictureAnimation: "Transparent.png",
-			animate: function (Animator) {
-				const r = $(Animator.sliderId.replace(/_(g|b)/, '_r')).slider('option', 'value');
-				const g = $(Animator.sliderId.replace(/_(b|r)/, '_g')).slider('option', 'value');
-				const b = $(Animator.sliderId.replace(/_(r|g)/, '_b')).slider('option', 'value');
-				$(Animator.animId).css('background-color', "rgb(" + r + "," + g + "," + b + ")");
-				$(Animator.valueId).html(Animator.value);
 			}
 		},
 		{

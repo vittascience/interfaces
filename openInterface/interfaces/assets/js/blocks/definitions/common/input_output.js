@@ -415,4 +415,27 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_IO_STOPPWM_TOOLTIP}",
     },
 
+    // BLOCK PULSE IN HIGH/LOW 
+    {
+        "type": "io_readPulseIn",
+        "message0": "%{BKY_IO_READPULSEIN_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "STATE",
+            "check": "Boolean"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "output": "Number",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ],
+        "tooltip": "%{BKY_IO_READPULSEIN_TOOLTIP}",
+    },
+
 ]); // END JSON EXTRACT (Do not delete this comment.)

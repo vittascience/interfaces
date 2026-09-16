@@ -1,30 +1,5 @@
 Blockly.Python.esp32 = Object.create(null);
 
-Blockly.Python.esp32.writeJavascriptFile = function (data) {
-  data.pop();
-  // console.log(data);
-  const jsScriptWriter = "f = open('vitta_script.js', 'w')" + NEWLINE
-    + 'javascript_code = """' + NEWLINE
-    + data.join("\n")
-    + '"""' + NEWLINE
-    + 'f.write(javascript_code)' + NEWLINE
-    + 'f.close()' + NEWLINE
-    + 'javascript_code = None' + NEWLINE
-  return jsScriptWriter;
-};
-
-Blockly.Python.esp32.writeCssFile = function (data) {
-  data.pop();
-  const cssStyleWriter = "f = open('vitta_style.css', 'w')" + NEWLINE
-    + 'css_style_code = """' + NEWLINE
-    + data.join("\n")
-    + '"""' + NEWLINE
-    + 'f.write(css_style_code)' + NEWLINE
-    + 'f.close()' + NEWLINE
-    + 'css_style_code = None' + NEWLINE
-  return cssStyleWriter;
-};
-
 Blockly.Python.esp32.getStringFormat = function (value) {
   return '""" + ' + value + ' + """';
 };

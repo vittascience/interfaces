@@ -78,6 +78,23 @@ Blockly.defineBlocksWithJsonArray([
     "tooltip": "Add event listener",
     "helpUrl": "https://developer.mozilla.org/fr/docs/Web/API/EventTarget/addEventListener"
   },
+  //addEventListener block
+  {
+    "type": "addeventlistenerOnLoad",
+    "message0": '%{BKY_JS_DOM_ADDEVENTLISTENER_ON_LOAD}',
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#fc7417",
+    "tooltip": "Add event listener on load",
+    "helpUrl": "https://developer.mozilla.org/fr/docs/Web/API/EventTarget/addEventListener"
+  },
   //removeEventListener block
   /*   {
       "type": "removeeventlistener",
@@ -105,6 +122,51 @@ Blockly.defineBlocksWithJsonArray([
       "tooltip": "Remove event listener",
       "helpUrl": "https://developer.mozilla.org/fr/docs/Web/API/EventTarget/removeEventListener"
     }, */
+  {
+    "type": "socket_emit_message",
+    "message0": "%{BKY_JS_SOCKET_EMIT_MESSAGE}",
+    "args0": [{
+      "type": "field_input",
+      "name": "ID",
+      "text": "request_id"
+    }, {
+      "type": "input_value",
+      "name": "MESSAGE",
+      "check": "String"
+    }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "js_socket_blocks",
+    "tooltip": "envoyer une requête avec un message et un ID",
+    "extensions": [
+      "block_init_helpurl"
+    ]
+  },
+  {
+    "type": "socket_on_message_receive",
+    "message0": "%{BKY_JS_SOCKET_ON_MESSAGE_RECEIVE}",
+    "args0": [{
+      "type": "field_input",
+      "name": "ID",
+      "text": "request_id"
+    }, {
+      "type": "field_variable",
+      "name": "VAR",
+      "variable": "message"
+    }],
+    "message1": "%1",
+    "args1": [{
+      "type": "input_statement",
+      "name": "DO"
+    }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "js_socket_blocks",
+    "tooltip": "exécuter des instructions si un message est reçu",
+    "extensions": [
+      "block_init_helpurl"
+    ]
+  },
   //edit attribut block
   {
     "type": "editattribut",
@@ -149,7 +211,8 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": null,
     "colour": "#fc7417",
     "tooltip": "Edit attribut",
-    "helpUrl": "https://developer.mozilla.org/fr/docs/Web/API/Element/setAttribute"
+    "helpUrl": "https://developer.mozilla.org/fr/docs/Web/API/Element/setAttribute",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_comment",
@@ -160,7 +223,8 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": null,
     "colour": 90,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_assignment",
@@ -188,7 +252,8 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": null,
     "colour": 330,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_assignment_return",
@@ -214,7 +279,8 @@ Blockly.defineBlocksWithJsonArray([
     "output": true,
     "colour": 330,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
 
   {
@@ -250,7 +316,8 @@ Blockly.defineBlocksWithJsonArray([
     "output": "Boolean",
     "colour": 210,
     "tooltip": "Tooltip à personnaliser",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_logic_operation",
@@ -278,7 +345,8 @@ Blockly.defineBlocksWithJsonArray([
     "output": "Boolean",
     "colour": 210,
     "tooltip": "Tooltip à personnaliser",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_try_catch",
@@ -319,7 +387,8 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": null,
     "colour": 90,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_catch",
@@ -344,7 +413,8 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": null,
     "colour": 90,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_throw",
@@ -361,7 +431,8 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": null,
     "colour": 120,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
 
   {
@@ -383,7 +454,8 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": null,
     "colour": 120,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_yield_return",
@@ -403,7 +475,8 @@ Blockly.defineBlocksWithJsonArray([
     "output": "null",
     "colour": 120,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_export",
@@ -419,7 +492,8 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": null,
     "colour": 90,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_import",
@@ -438,7 +512,8 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": null,
     "colour": 90,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_import_as",
@@ -458,7 +533,8 @@ Blockly.defineBlocksWithJsonArray([
     "output": null,
     "colour": 90,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
 
   {
@@ -487,7 +563,8 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": null,
     "colour": 120,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_for_in",
@@ -512,7 +589,8 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": null,
     "colour": 120,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_switch",
@@ -544,7 +622,8 @@ Blockly.defineBlocksWithJsonArray([
     "extensions": ["block_buttons_plus_minus", "bi_call_editable_return_extension"],
     "mutator": "bi_call_editable_return_mutator",
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_case",
@@ -564,7 +643,8 @@ Blockly.defineBlocksWithJsonArray([
     "output": "null",
     "colour": 120,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_continue",
@@ -574,7 +654,8 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": null,
     "colour": 120,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_break",
@@ -584,7 +665,8 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": null,
     "colour": 120,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_s1",
@@ -605,7 +687,8 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": null,
     "colour": 290,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_field",
@@ -626,7 +709,8 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": null,
     "colour": 330,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
 
   {
@@ -648,7 +732,8 @@ Blockly.defineBlocksWithJsonArray([
     "output": null,
     "colour": 330,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_call",
@@ -675,6 +760,7 @@ Blockly.defineBlocksWithJsonArray([
     "helpUrl": "http://www.example.com/",
     // "extensions": ["block_buttons_plus_minus", "bi_call_editable_return_extension"],
     // "mutator": "bi_call_editable_return_mutator",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_call_return",
@@ -700,6 +786,7 @@ Blockly.defineBlocksWithJsonArray([
     "helpUrl": "http://www.example.com/",
     // "extensions": ["block_buttons_plus_minus", "bi_call_editable_return_extension"],
     // "mutator": "bi_call_editable_return_mutator",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_direct_call_editable",
@@ -726,6 +813,7 @@ Blockly.defineBlocksWithJsonArray([
     "helpUrl": "http://www.example.com/",
     "extensions": ["block_buttons_plus_minus", "bi_call_editable_return_extension"],
     "mutator": "bi_call_editable_return_mutator",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_direct_call_editable_return",
@@ -748,7 +836,8 @@ Blockly.defineBlocksWithJsonArray([
     "output": "Array",
     "colour": 290,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"]
   },
   {
     "type": "bi_call_editable",
@@ -771,7 +860,7 @@ Blockly.defineBlocksWithJsonArray([
     "colour": 290,
     "tooltip": "",
     "helpUrl": "http://www.example.com/",
-    "extensions": ["block_buttons_plus_minus", "bi_call_editable_return_extension"],
+    "extensions": ["block_buttons_plus_minus", "bi_call_editable_return_extension", "block_init_color"],
     "mutator": "bi_call_editable_return_mutator",
   },
   {
@@ -792,7 +881,7 @@ Blockly.defineBlocksWithJsonArray([
     "colour": 290,
     "tooltip": "",
     "helpUrl": "http://www.example.com/",
-    "extensions": ["block_buttons_plus_minus", "bi_call_editable_return_extension"],
+    "extensions": ["block_buttons_plus_minus", "bi_call_editable_return_extension", "block_init_color"],
     "mutator": "bi_call_editable_return_mutator",
   },
 
@@ -834,6 +923,7 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": null,
     "tooltip": "",
     "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
   {
     "type": "bi_function_return",
@@ -870,7 +960,8 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": null,
     "colour": 290,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
   {
     "type": "bi_return",
@@ -886,7 +977,8 @@ Blockly.defineBlocksWithJsonArray([
     "previousStatement": null,
     "nextStatement": null,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
   {
     "type": "bi_maps_set",
@@ -914,7 +1006,8 @@ Blockly.defineBlocksWithJsonArray([
     "colour": 345,
     "output": null,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
   {
     "type": "bi_maps_get",
@@ -937,7 +1030,8 @@ Blockly.defineBlocksWithJsonArray([
     "colour": 345,
     "output": null,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
   {
     "type": "bi_var",
@@ -971,7 +1065,8 @@ Blockly.defineBlocksWithJsonArray([
     "previousStatement": null,
     "nextStatement": null,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
   {
     "type": "bi_var_name",
@@ -986,7 +1081,8 @@ Blockly.defineBlocksWithJsonArray([
     "colour": 330,
     "output": null,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
   {
     "type": "bi_new",
@@ -1001,7 +1097,8 @@ Blockly.defineBlocksWithJsonArray([
     "colour": 55,
     "output": null,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
   {
     "type": "bi_anonymous_class",
@@ -1032,7 +1129,8 @@ Blockly.defineBlocksWithJsonArray([
     "colour": 55,
     "output": null,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
 
   {
@@ -1065,7 +1163,8 @@ Blockly.defineBlocksWithJsonArray([
     "previousStatement": null,
     "nextStatement": null,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
   {
     "type": "bi_static",
@@ -1081,7 +1180,8 @@ Blockly.defineBlocksWithJsonArray([
     "previousStatement": null,
     "nextStatement": null,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
   {
     "type": "bi_get",
@@ -1097,7 +1197,8 @@ Blockly.defineBlocksWithJsonArray([
     "previousStatement": null,
     "nextStatement": null,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
   {
     "type": "bi_set",
@@ -1113,7 +1214,8 @@ Blockly.defineBlocksWithJsonArray([
     "previousStatement": null,
     "nextStatement": null,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
   // {
   //   "type": "bi_field",
@@ -1155,7 +1257,8 @@ Blockly.defineBlocksWithJsonArray([
     "colour": "#7ac943",
     "output": null,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
 
   {
@@ -1164,20 +1267,21 @@ Blockly.defineBlocksWithJsonArray([
     "args0": [
       {
         "type": "input_value",
-        "name": "index",
+        "name": "chain",
         "check": null
       },
       {
         "type": "input_value",
-        "name": "chain",
+        "name": "index",
         "check": null
-      }
+      },
     ],
     "colour": "#e58544",
     "output": null,
     "inputsInline": true,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
   {
     "type": "bi_adaptor",
@@ -1194,7 +1298,8 @@ Blockly.defineBlocksWithJsonArray([
     "colour": 55,
     "output": null,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
   {
     "type": "bi_statement",
@@ -1212,7 +1317,8 @@ Blockly.defineBlocksWithJsonArray([
     "previousStatement": null,
     "nextStatement": null,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
 
   {
@@ -1228,7 +1334,8 @@ Blockly.defineBlocksWithJsonArray([
     "colour": 290,
     "output": null,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
   // Math blocks
   {
@@ -1244,7 +1351,8 @@ Blockly.defineBlocksWithJsonArray([
     "colour": 230,
     "output": null,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
   {
     "type": "bi_unary",
@@ -1265,7 +1373,8 @@ Blockly.defineBlocksWithJsonArray([
     "previousStatement": null,
     "nextStatement": null,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
   {
     "type": "bi_unary_return",
@@ -1285,7 +1394,8 @@ Blockly.defineBlocksWithJsonArray([
     "colour": 230,
     "output": null,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
   {
     "type": "bi_unary_postfix",
@@ -1306,7 +1416,8 @@ Blockly.defineBlocksWithJsonArray([
     "previousStatement": null,
     "nextStatement": null,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
   {
     "type": "bi_unary_postfix_return",
@@ -1326,7 +1437,8 @@ Blockly.defineBlocksWithJsonArray([
     "colour": 230,
     "output": null,
     "tooltip": "",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
   {
     "type": "bi_math_arithmetic",
@@ -1359,7 +1471,8 @@ Blockly.defineBlocksWithJsonArray([
     "output": "Number",
     "colour": 230,
     "tooltip": "Tooltip à personnaliser",
-    "helpUrl": "http://www.example.com/"
+    "helpUrl": "http://www.example.com/",
+    "extensions": ["block_init_color"],
   },
 ]); // END JSON EXTRACT (Do not delete this comment.)
 

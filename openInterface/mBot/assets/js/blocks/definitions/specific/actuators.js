@@ -20,7 +20,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         }, {
             "type": "input_value",
             "name": "SPEED",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }],
         "inputsInline": true,
         "previousStatement": null,
@@ -53,7 +53,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         }, {
             "type": "input_value",
             "name": "SPEED",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }],
         "inputsInline": true,
         "previousStatement": null,

@@ -2,12 +2,7 @@ const InterfaceConnection = {
 	serial: null,
 	uploader: null,
 	init: function (options, boardId = null) {
-		this.options = Object.assign({}, options) || {
-			"boardSelection": false,
-			"boardsFilter": null,
-			"bauds": 115200,
-			"chunkSizes": { 'default': 1024 }
-		};
+		this.options = Object.assign({}, options);
 		if (!this.options.boardId) this.options.boardId = boardId;
 		if (this.options.bauds) {
 			document.querySelector('#baud option[value="' + this.options.bauds + '"]').selected = true;
@@ -39,12 +34,12 @@ const InterfaceConnection = {
 			this.serial.filename = filename;
 			this.serial._controller.online = false;
 			await this.serial.write(new Uint8Array(payloads[0]));
-			await waitFor(_ => this.serial._controller.online === true);
+			await waitFor(_ => this.serial._controller.online === true, 20);
 			for (var i = 1; i < payloads.length; i++) {
 				this.serial._controller.payloadWritted = false;
 				this.serial.percent = Math.round(i / (payloads.length - 1) * 100);
 				await this.serial.write(new Uint8Array(payloads[i]));
-				await waitFor(_ => this.serial._controller.payloadWritted === true);
+				await waitFor(_ => this.serial._controller.payloadWritted === true, 20);
 			}
 		};
 		const config = async () => {
@@ -53,7 +48,7 @@ const InterfaceConnection = {
 			await this.serial.write(new Uint8Array(pack.to_buffer()));
 			await this.sendScriptCommand("try:\n    import config\nexcept:\n    pass", TYPE_RUN_WITH_CONFIG);
 			await this.sendScriptCommand("try:\n    config.write_config('repl_enable', False)\nexcept:\n    pass", TYPE_RUN_WITH_CONFIG);
-			await waitFor(_ => this.serial._controller.restarted === true);
+			await waitFor(_ => this.serial._controller.restarted === true, 20);
 		};
 		const upload = async () => {
 			// get requested libraries in user main
@@ -188,7 +183,7 @@ const InterfaceConnection = {
 		this.serial._controller.waitingScript = true;
 		await this.serial.write(new Uint8Array(pack.to_buffer()));
 		InterfaceMonitor.writeConsole("</br>> " + cmd, 'default', false, true);
-		await waitFor(_ => this.serial._controller.waitingScript === false);
+		await waitFor(_ => this.serial._controller.waitingScript === false, 20);
 		return true;
 	},
 

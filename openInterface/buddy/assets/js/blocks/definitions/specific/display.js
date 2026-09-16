@@ -663,7 +663,7 @@ Blockly.Constants.Display = Object.create(null);
  * @this {Blockly.Block}
  */
 Blockly.Constants.Display.DISPLAY_SET_MOOD_INIT_EXTENSION = function () {
-    this.speed_ = false;
+    this.option_ = false;
     this.update_();
     this.setInputsInline(true);
 };
@@ -690,7 +690,7 @@ Blockly.Extensions.registerMutator('display_set_mood_speed_mutator',
  * @this {Blockly.Block}
  */
 Blockly.Constants.Display.DISPLAY_SET_FACIAL_EXPRESSION_INIT_EXTENSION = function () {
-    this.speed_ = false;
+    this.option_ = false;
     this.update_();
     this.setInputsInline(true);
 };
@@ -717,7 +717,7 @@ Blockly.Extensions.registerMutator('display_set_facial_expression_speed_mutator'
  * @this {Blockly.Block}
  */
 Blockly.Constants.Display.DISPLAY_PLAY_FACIAL_EVENT_INIT_EXTENSION = function () {
-    this.speed_ = false;
+    this.option_ = false;
     this.update_();
     this.setInputsInline(true);
 };

@@ -190,6 +190,41 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
+    // BLOCK OLED DRAW LINE
+    {
+        "type": "display_drawOledLine",
+        "message0": "%{BKY_DISPLAY_OLED_DRAWLINE_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "XA",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "YA",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "XB",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "YB",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": Blockly.Constants.Pins.I2C[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "display_blocks",
+        "tooltip": "%{BKY_DISPLAY_OLED_DRAWLINE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
     // BLOCK OLED SHOW ICON
     {
         "type": "display_showOledIcon",

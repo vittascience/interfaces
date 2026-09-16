@@ -112,8 +112,8 @@ const linkHtml =
 </label>
 <div class='d-flex mt-1'>
     <input id='link-value' class='form-control' readonly='readonly' style="border-top-right-radius:0; border-bottom-right-radius: 0;"/>
-    <button class='btn vitta-button' id='copy-link' style="border-top-left-radius: 0; border-bottom-left-radius: 0;" onclick='copyToClipboard($("#link-value"), $("#copy-link-msg"))'>
-    <i class="fas fa-copy"></i>
+    <button class='btn vitta-button' id='copy-link' style="border-top-left-radius: 0; border-bottom-left-radius: 0;" onclick='copyToClipboard($("#link-value"), $("#copy-link-msg"))' data-i18n="[aria-label]modals.standard.share.content.link.buttonCopy" aria-label="Copier le lien">
+    <i class="fas fa-copy" aria-hidden="true"></i>
     </button>
 </div>
 <div class='alert alert-success mt-2 mb-0' style='display:none;' id='copy-link-msg' data-i18n="modals.standard.share.content.link.successCopy">

@@ -213,7 +213,7 @@ const SimulatorModals = {
             if (Simulator.isInWiringMode) {
                 WiringSimulator.img.background.src = this.backgroundChoice;
             } else {
-                if (Simulator.has3DRobotSimulator() && !Simulator._classicRobotSimulatorPrepareForRun) {
+                if (Simulator._has3DRobotSimulator() && !Simulator._classicRobotSimulatorPrepareForRun) {
                     RobotSimulator3D.updateBackground(this.backgroundChoice);
                 } else {
                     RobotSimulator.img.background.src = this.backgroundChoice;
@@ -235,7 +235,7 @@ const SimulatorModals = {
     useObstacleRobot: function () {
         const linkSplitted = this.obstacleChoice.replace(".png", '').split('/');
         const id = linkSplitted.at(-1);
-        if (Simulator.has3DRobotSimulator() && !Simulator._classicRobotSimulatorPrepareForRun) {
+        if (Simulator._has3DRobotSimulator() && !Simulator._classicRobotSimulatorPrepareForRun) {
             RobotSimulator3D.Obstacle.obstaclesDB[randHex()] = Object.assign({}, RobotSimulator3D.Obstacle.obstaclesDef[id]);
             RobotSimulator3D.Obstacle.saveToLS();
             window.Simulator3D.addObstacles();

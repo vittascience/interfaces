@@ -1,0 +1,96 @@
+#generator.ide-generator {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg-1);
+}
+
+.file-tabs {
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background-color: var(--bg-1);
+    border-top: 0;
+    z-index: 1000;
+}
+
+.file-tab {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 40px;
+    max-width: none;
+    padding: 0 0.7em;
+    border: 1px solid var(--bg-4);
+    border-radius: 10px 10px 0 0;
+    background: transparent;
+    color: var(--text-0);
+    font-size: 12px;
+    font-weight: 700;
+    font-family: var(--main-font);
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.2s ease, color 0.2s;
+}
+
+.file-tab:hover {
+    background: var(--bg-3);
+    color: var(--text-1);
+}
+
+.file-tab.active {
+    margin-top: -2px;
+    height: 38px;
+    border-top: 2px solid var(--vitta-orange);
+    background: var(--vitta-orange-light-transparent);
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+}
+
+.file-tab.active,
+.file-tab-right.active,
+.file-tab-left.active {
+    border-radius: 10px 10px 10px 10px;
+}
+
+.file-tab:not(.active) {
+    border-radius: 10px 10px 0 0;
+}
+
+.file-tab:focus-visible {
+    outline: 2px solid var(--vitta-blue);
+    outline-offset: 1px;
+}
+
+.file-tab.left-active {
+    border-radius: 10px 10px 0 10px;
+}
+
+.file-tab.right-active {
+    border-radius: 10px 10px 10px 0;
+}
+
+.file-icon-svg {
+    width: 16px;   /* largeur de l'icône */
+    height: 16px;  /* hauteur de l'icône */
+    vertical-align: middle; /* aligne verticalement avec le texte */
+}
+
+#content_code {
+    position: absolute !important;
+    top: 40px !important;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: auto !important;
+    background: var(--bg-1);
+    overflow: hidden;
+}

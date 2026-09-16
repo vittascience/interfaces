@@ -49,7 +49,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "math_number_property": this.Set.number("NUMBER_TO_CHECK", 9),
             "math_map": this.Set.number("VALUE", 512) + this.Set.number("MIN1") + this.Set.number("MAX1", 1023) + this.Set.number("MIN2") + this.Set.number("MAX2", 100),
             "math_round": this.Set.number("NUM", 3.1),
-            "math_round_ndigits": this.Set.number("NUM", 3.1) + this.Set.number("DIGITS", 2),
+            "math_round_ndigits": this.Set.number("NUM", 3.14159) + this.Set.number("DIGITS", 2),
             "math_modulo": this.Set.number("DIVIDEND", 64) + this.Set.number("DIVISOR", 10),
             "math_constrain": this.Set.number("LOW", 1) + this.Set.number("HIGH", 100),
             "math_random_int": this.Set.number("FROM", 1) + this.Set.number("TO", 100),
@@ -73,12 +73,17 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             // list
             "lists_create_with-0": '<mutation items="0"></mutation>',
             "lists_repeat": this.Set.number("NUM", 5),
+            "lists_length": this.Set.variable("VALUE", '{listVariable}'),
+            "lists_isEmpty": this.Set.variable("VALUE", '{listVariable}'),
+            "math_on_list": this.Set.variable("LIST", '{listVariable}'),
+            "lists_reverse": this.Set.variable("LIST", '{listVariable}'),
             "lists_indexOf": this.Set.variable("LIST", '{listVariable}'),
-            "lists_getIndex": this.Set.variable("VALUE", '{listVariable}'),
+            "lists_getIndex": this.Set.variable("VALUE", '{listVariable}') + this.Set.number("AT", 0) + '<mutation statement="false" at="true"></mutation>',
             "lists_append": this.Set.variable("LIST", '{listVariable}'),
-            "lists_setIndex": this.Set.variable("LIST", '{listVariable}'),
-            "lists_getSublist": this.Set.variable("LIST", '{listVariable}'),
-            "lists_split": this.Set.text('DELIM', ',')
+            "lists_setIndex": this.Set.variable("LIST", '{listVariable}') + this.Set.number("AT", 0) + '<mutation statement="false" at="true"></mutation>',
+            "lists_getSublist": this.Set.variable("LIST", '{listVariable}') + this.Set.number("AT1", 0) + this.Set.number("AT2", 1),
+            "lists_split": this.Set.text('INPUT', '1,2,3') + this.Set.text('DELIM', ','),
+            "lists_sort": this.Set.variable("LIST", '{listVariable}')
         }
     }
 };

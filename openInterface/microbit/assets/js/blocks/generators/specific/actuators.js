@@ -73,6 +73,22 @@ Blockly.Python.actuators_stepperMotor_uln2003driver_setDelay = function (block) 
     return "motor" + motor + ".setDelay(" + delay + ")" + NEWLINE;
 };
 
+// Reka:bit
+Blockly.Python.actuators_rekabit_runMotor = function (block) {
+    const motor = block.getFieldValue("MOTOR");
+    const direction = block.getFieldValue("DIR");
+    const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.addImport('reka:bit', IMPORT_REKABIT);
+    return "run_motor(Motor_" + motor + ", Direction_" + direction + ", " + speed + ")" + NEWLINE;
+};
+
+Blockly.Python.actuators_rekabit_setServoPosition = function (block) {
+    const servo = block.getFieldValue("SERVO");
+    const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.addImport('reka:bit', IMPORT_REKABIT);
+    return "sets_servo_position(Servo_" + servo + ", " + angle + ")" + NEWLINE;
+}
+
 // KITRONIK
 
 Blockly.Python.actuators_controlAccessBitBarrier = function (block) {

@@ -163,6 +163,9 @@ class Model extends Observable {
     getImpactEmailSpam(id) {
         return this.questionnaireDataUtilization[0].questions.options.filter(el => el.id === id)[0].impact_email_spam
     }
+    getImpactCloud(id) {
+        return this.questionnaireDataUtilization[0].questions.options.filter(el => el.id === id)[0].impact_cloud
+    }
 
 
 
@@ -296,7 +299,14 @@ class Model extends Observable {
             const emailspam = el.inputUser.email_spam
             const result = (impactEmailText * emailtext + impactEmailAttachment * emailattachment + impactEmailAttachment5 * emailattachment5 + impactEmailSpam * emailspam) * 365 / 1000
             return result
-        } else {
+        } 
+         if (el.id === "cloud") {
+            const impactCloud = this.getImpactCloud(el.id)
+            const cloudStorage = el.inputUser.quantity
+            const result = (impactCloud * cloudStorage)
+            console.log('Impact cloud calculated:', result, impactCloud, cloudStorage) // Debug log
+            return result
+        }else {
             const dailyTime = el.inputUser.day_time
             const connection = el.inputUser.connection
             const quality = el.id === 'video' ? el.inputUser.quality : false

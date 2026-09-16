@@ -119,6 +119,13 @@
     color: var(--bg-0);
 }
 
+.theme-dark .ide-dropdown .btn-close {
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 4px;
+    opacity: 0.75;
+}
+
 .ide-btn:focus-within {
     border-color: var(--vitta-blue) !important;
 }

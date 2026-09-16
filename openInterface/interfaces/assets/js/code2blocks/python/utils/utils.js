@@ -521,7 +521,7 @@ class Utils {
 	 * @returns {void}
 	 * */
 	async interfaceImports() {
-		const path = `/openInterface/${INTERFACE_NAME}/assets/js/blocks/code2Blocks/imports.js`;
+		const path = `${_PATH}/${INTERFACE_NAME}/assets/js/blocks/code2Blocks/imports.js`;
 		const imports = await import(path);
 		this.LIBS = imports.default.LIB_IMPORT;
 		this.CLASS_METHODS = imports.default.CLASS_METHODS;

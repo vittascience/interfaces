@@ -1,6 +1,143 @@
 /**
- * 
- * @param {string} theme : dark or light 
+ * Make Blockly zoom controls and trashcan keyboard-accessible.
+ * Strategy: put tabindex="0" on a <rect> child sized to the visible clip area,
+ * NOT on the <g> parent — this ensures the browser focus ring is the right size
+ * and no double-outline occurs.
+ * Must be called after Blockly has fully rendered (use a small timeout).
+ */
+function setBlocklyControlsA11y() {
+    setTimeout(() => {
+
+        const SVG_NS = 'http://www.w3.org/2000/svg';
+
+        /**
+         * Dispatch events so Blockly's native handlers fire on the <g>.
+         * In modern browsers Blockly's conditionalBind maps mousedown → pointerdown
+         * (via Blockly.Touch.TOUCH_MAP), so we must dispatch PointerEvents.
+         */
+        function triggerClick(group) {
+            const rect = group.getBoundingClientRect();
+            const baseOpts = {
+                bubbles: true,
+                cancelable: true,
+                view: window,
+                clientX: rect.left + rect.width  / 2,
+                clientY: rect.top  + rect.height / 2,
+            };
+            if (window.PointerEvent) {
+                const ptrOpts = { ...baseOpts, pointerId: 1, pointerType: 'mouse', isPrimary: true };
+                group.dispatchEvent(new PointerEvent('pointerdown', ptrOpts));
+                group.dispatchEvent(new PointerEvent('pointerup',   ptrOpts));
+            } else {
+                group.dispatchEvent(new MouseEvent('mousedown', baseOpts));
+                group.dispatchEvent(new MouseEvent('mouseup',   baseOpts));
+            }
+            group.dispatchEvent(new MouseEvent('click', baseOpts));
+        }
+
+        /**
+         * Add an HTML <button> inside a <foreignObject> as the real focus target.
+         * HTML buttons respond to `outline:none` reliably (unlike SVG elements in Chrome).
+         * A separate SVG <rect> with stroke handles the custom visual focus indicator.
+         * The <g> itself is removed from tab order.
+         */
+        function addFocusTarget(group, w, h, label) {
+            group.setAttribute('tabindex', '-1');
+
+            // SVG stroke rect — purely visual, no tabindex
+            const focusRing = document.createElementNS(SVG_NS, 'rect');
+            focusRing.setAttribute('width',  w);
+            focusRing.setAttribute('height', h);
+            focusRing.setAttribute('rx', '3');
+            focusRing.setAttribute('fill', 'none');
+            focusRing.setAttribute('stroke', 'transparent');
+            focusRing.setAttribute('stroke-width', '2.5');
+            focusRing.setAttribute('pointer-events', 'none');
+            group.appendChild(focusRing);
+
+            // HTML <button> inside <foreignObject> — receives focus, outline suppressed via CSS
+            const fo = document.createElementNS(SVG_NS, 'foreignObject');
+            fo.setAttribute('width',  w);
+            fo.setAttribute('height', h);
+            const btn = document.createElement('button');
+            btn.setAttribute('aria-label', label);
+            btn.style.cssText = 'width:100%;height:100%;background:transparent;border:none;padding:0;cursor:pointer;';
+            fo.appendChild(btn);
+            group.appendChild(fo);
+
+            btn.addEventListener('focus', () => focusRing.setAttribute('stroke', '#4d90fe'));
+            btn.addEventListener('blur',  () => focusRing.setAttribute('stroke', 'transparent'));
+            btn.addEventListener('click', () => triggerClick(group));
+            btn.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    triggerClick(group);
+                }
+            });
+
+            return btn;
+        }
+
+        // ── 1. Zoom controls ───────────────────────────────────────────────
+
+        const ZOOM_CFG = {
+            Zoomreset:  { label: 'Réinitialiser le zoom', w: 32, h: 32 },
+            Zoomin:     { label: 'Zoom avant',            w: 32, h: 32 },
+            Zoomout:    { label: 'Zoom arrière',           w: 32, h: 32 },
+            Screenshot: { label: "Capture d'écran",       w: 38, h: 32 },
+        };
+
+        const zoomMap = {};
+        document.querySelectorAll('.blocklyZoom').forEach(group => {
+            const clipId = group.querySelector('clipPath')?.id ?? '';
+            const key = Object.keys(ZOOM_CFG).find(k => clipId.includes(k));
+            if (!key) return;
+            zoomMap[key] = group;
+            const cfg = ZOOM_CFG[key];
+            addFocusTarget(group, cfg.w, cfg.h, cfg.label);
+        });
+
+        // Reorder zoom siblings: reset → in → out → screenshot
+        const firstZoom = Object.values(zoomMap)[0];
+        const zoomContainer = firstZoom?.parentElement;
+        if (zoomContainer) {
+            ['Screenshot', 'Zoomreset', 'Zoomin', 'Zoomout']
+                .map(k => zoomMap[k])
+                .filter(Boolean)
+                .forEach(g => zoomContainer.appendChild(g));
+        }
+
+        // ── 2. Backpack ────────────────────────────────────────────────────────
+        // .blocklyBackpack is on the <image> child (where aria-label is set by
+        // blockly-accessibility.js); we need the <g> parent for the focus target.
+        const backpackImg = document.querySelector('.blocklyBackpack');
+        const backpack = backpackImg?.parentElement ?? null;
+        if (backpack) {
+            const label = backpackImg?.getAttribute('aria-label') || 'Sac à dos';
+            addFocusTarget(backpack, 50, 50, label);
+        }
+
+        // ── 3. Trash ───────────────────────────────────────────────────────
+
+        const trash = document.querySelector('.blocklyTrash');
+        if (trash) {
+            addFocusTarget(trash, 47, 60, 'Corbeille');
+        }
+
+        // ── 4. Tab order in SVG: backpack → zoom container → trash ─────────
+        const svgRoot = document.querySelector('.blocklySvg');
+        if (svgRoot) {
+            [backpack, zoomContainer, trash]
+                .filter(Boolean)
+                .forEach(el => svgRoot.appendChild(el));
+        }
+
+    }, 500);
+}
+
+/**
+ *
+ * @param {string} theme : dark or light
  */
 function setBlocklyWorkspaceIcons(theme) {
     const themeIcons = {

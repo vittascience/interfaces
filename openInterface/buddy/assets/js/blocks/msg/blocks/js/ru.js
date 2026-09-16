@@ -299,3 +299,6 @@ Blockly.Msg['VITTAIA_LOAD_POSTURE_MODEL_TOOLTIP'] = 'Загружает указ
 Blockly.Msg['VITTAIA_POSTURE_MAKE_PREDICTIONS_TITLE'] = '%1 запустить распознавание позы на изображении с веб-камеры';
 Blockly.Msg['VITTAIA_POSTURE_MAKE_PREDICTIONS_TOOLTIP'] = 'Выполняет предсказания модели позы с веб-камеры. Предсказание включает класс и вероятность.';
 Blockly.Msg['VITTAIA_INIT_WEBCAM_TITLE'] = '%1 инициализировать веб-камеру';
+Blockly.Msg["VISION_DETECTION_AREA_CENTER"] = "в центре";
+Blockly.Msg["VISION_DETECTION_AREA_RIGHT"] = "справа";
+Blockly.Msg["VISION_DETECTION_AREA_LEFT"] = "слева";

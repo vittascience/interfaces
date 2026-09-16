@@ -183,6 +183,12 @@ Blockly.Python.io_stopPwm = function (block) {
     return "try:" + NEWLINE + "  __PWM[str(" + pinName + ")].deinit()" + NEWLINE + "except: pass" + NEWLINE;
 };
 
+Blockly.Python.io_readPulseIn = function (block) {
+    const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
+    const pinName = Blockly.Python.Generators.digital_read(block.getFieldValue("PIN"));
+    return ["time_pulse_us(" + pinName + ", " + state + ", 100000)", Blockly.Python.ORDER_ATOMIC];
+};
+
 Blockly.Python.io_getVoltage = function (block) {
     const value = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || "0";
     const resolution = block.getFieldValue("RESOLUTION");

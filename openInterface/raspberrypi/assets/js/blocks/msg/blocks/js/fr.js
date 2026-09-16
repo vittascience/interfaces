@@ -109,6 +109,8 @@ Blockly.Msg['IO_SETPWM_TITLE'] = 'appliquer un signal carré de fréquence %1 (H
 Blockly.Msg['IO_SETPWM_TOOLTIP'] = 'Permet d\'appliquer un signal carré (PWM) avec un cycle fixé à 50% sur une broche. Ce bloc permet de changer la fréquence du signal.';
 Blockly.Msg['IO_STOPPWM_TITLE'] = 'arrêter le signal PWM de la broche %1';
 Blockly.Msg['IO_STOPPWM_TOOLTIP'] = 'Permet d\'arrêter le signal PWM appliqué sur une broche.';
+Blockly.Msg['IO_SETPINMODE_TITLE'] = 'appliquer le mode %1 sur la broche %2';
+Blockly.Msg['IO_SETPINMODE_TOOLTIP'] = 'Permet d\'appliquer le mode (PUD_OFF, PUD_DOWN, PUD_UP) sur une broche.';
 // Input/Output - External modules
 Blockly.Msg['IO_GETGROVEBUTTON_TITLE'] = '[Module bouton] état sur la broche %1 ';
 Blockly.Msg['IO_GETGROVEBUTTON_TOOLTIP'] = IMG_MODULE_BUTTON + Blockly.Tooltip.SEP + 'Renvoie la valeur du bouton Grove (0 ou 1) sur les broches digitales.';
@@ -292,7 +294,7 @@ Blockly.Msg['ROBOTS_GO_BACKWARD'] = 'reculer';
 Blockly.Msg['ROBOTS_YAHBOOM_GETULTRASONIC_TITLE'] = '[Yahboom G1 - Ultrasonic] %1';
 Blockly.Msg['ROBOTS_YAHBOOM_GETULTRASONIC_TOOLTIP'] = IMG_ROBOT_YAHBOOM_G1TANK + Blockly.Tooltip.SEP + 'Mesure la distance (en cm) ou la durée de l\'aller-retour de l\'onde (en µs) devant le robot G1 Tank de Yahboom avec le capteur à ultrasons.';
 Blockly.Msg['ROBOTS_YAHBOOM_GET_LINE_FINDER_STATE_TITLE'] = '[Yahboom G1 - ligne noire] état du capteur %1';
-Blockly.Msg['ROBOTS_YAHBOOM_GET_LINE_FINDER_STATE_TOOLTIP'] = IMG_ROBOT_YAHBOOM_G1TANK + Blockly.Tooltip.SEP + 'Renvoie l\'état d\'un des 4 capteurs de ligne noire infrarouges (0 ou 1) situés sous le robot G1 Tank de Yahboom. Les noms P1, P2, P3 ou P3 sont inscrits sous le robot.';
+Blockly.Msg['ROBOTS_YAHBOOM_GET_LINE_FINDER_STATE_TOOLTIP'] = IMG_ROBOT_YAHBOOM_G1TANK + Blockly.Tooltip.SEP + 'Renvoie l\'état d\'un des 4 capteurs de ligne noire infrarouges (0 si détecté sinon 1) situés sous le robot G1 Tank de Yahboom. Les noms P1, P2, P3 ou P3 sont inscrits sous le robot. Utilisez les potentiomètres physiques pour régler la détection des capteurs selon les conditions du circuit.';
 // Robots - Yahboom GATank - Control
 Blockly.Msg['ROBOTS_YAHBOOM_SET_LED_COLOR_TITLE'] = '[Yahboom G1] contrôler les LED avant %1 à %2';
 Blockly.Msg['ROBOTS_YAHBOOM_SET_LED_COLOR_TOOLTIP'] = IMG_ROBOT_YAHBOOM_G1TANK + Blockly.Tooltip.SEP + 'Permet de piloter les deux LED à l\'avant du robot G1 Tank de Yahboom en activant/désactivant le rouge, vert ou bleu.';

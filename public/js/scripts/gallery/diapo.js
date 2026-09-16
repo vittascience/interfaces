@@ -4,6 +4,7 @@ let currentDiapo = false;
 let exp = 0;
 let expContentId = 0;
 let currentLoad = false;
+let lastFocusedItem = null;
 
 // $(window).resize(function(){
 //     if ($("#diapo").is(':visible')) {
@@ -17,12 +18,14 @@ function showFullHearth() {
     $('.diapo-heart').removeClass('diapo-heart-empty');
     $('.diapo-heart').removeClass('far');
     $('.diapo-heart').addClass('fas');
+    $('.like-btn').attr('aria-pressed', 'true').attr('aria-label', i18next.t('gallery.unlikeImage'));
 }
 
 function showEmptyHearth() {
     $('.diapo-heart').addClass('diapo-heart-empty');
     $('.diapo-heart').removeClass('fas');
     $('.diapo-heart').addClass('far');
+    $('.like-btn').attr('aria-pressed', 'false').attr('aria-label', i18next.t('gallery.likeImage'));
 }
 
 function addLike(idContent) {
@@ -86,7 +89,9 @@ function checkIfUserHasLike(change, idContent) {
                         removeLike(idContent);
                     else {
                         showFullHearth();
-                        $(diapoDiv).fadeIn("fast");
+                        $(diapoDiv).fadeIn("fast", function () {
+                            document.querySelector('.gallery-close-btn').focus();
+                        });
                         currentLoad = false;
                     }
                 } else {
@@ -94,7 +99,9 @@ function checkIfUserHasLike(change, idContent) {
                         addLike(idContent);
                     } else {
                         showEmptyHearth();
-                        $(diapoDiv).fadeIn("fast");
+                        $(diapoDiv).fadeIn("fast", function () {
+                            document.querySelector('.gallery-close-btn').focus();
+                        });
                         currentLoad = false;
                     }
                 }
@@ -140,27 +147,33 @@ function openDiapo(id, src, idContent, likes) {
     if (currentLoad)
             return ;
     currentLoad = true;
+    lastFocusedItem = document.activeElement;
     $("html").css("overflow-y","hidden");
     window.history.replaceState(null, null, "/gallery?id=" + idContent);
     let img = document.createElement('img');
     img.src = src;
     img.className = "gallery-media-content";
+    img.alt = "";
     $(diapoContent).prepend(img);
     currentDiapo = src;
     expContentId = idContent;
+    $(diapoDiv).attr('aria-hidden', 'false');
     loadDataFromExperience(id, idContent, likes);
-    $('.gallery-media-content').imagesLoaded( function() {
-    });
 }
 
 function closeDiapo() {
     closeShare();
     $("html").css("overflow-y","visible");
     $(diapoDiv).fadeOut("fast");
+    $(diapoDiv).attr('aria-hidden', 'true');
     currentDiapo = false;
     currentLoad = false;
     $('.gallery-media-content').remove();
     window.history.replaceState(null, null, "/gallery");
+    if (lastFocusedItem) {
+        lastFocusedItem.focus();
+        lastFocusedItem = null;
+    }
 }
 
 function openByUrl(id)
@@ -170,7 +183,7 @@ function openByUrl(id)
         if (request.readyState === XMLHttpRequest.DONE) {
             if (request.status === 200) {
                 let res = JSON.parse(request.responseText);
-                openDiapo(res.exp_img_experiment, "/public/content/user_data/exp_img/" + res.exp_img_name, id, res.exp_img_like);
+                openDiapo(res.exp_img_experiment, VS_USER_DATA_BASE + "/exp_img/" + res.exp_img_name, id, res.exp_img_like);
             } else if (request.status === 404) {
                 alert("Image non trouvée.");
             } else {
@@ -239,10 +252,30 @@ $(function () {
 $(document).keyup(function(e) {
     if (e.keyCode === 27 && $(diapoDiv).is(':visible'))
         closeDiapo();
-    if (e.keyCode === 39)
+    if ($(diapoDiv).is(':visible') && e.keyCode === 39)
         getPictureKeyEvent(false);
-    if (e.keyCode === 37)
+    if ($(diapoDiv).is(':visible') && e.keyCode === 37)
         getPictureKeyEvent(true);
+});
+
+$(document).keydown(function(e) {
+    if (!$(diapoDiv).is(':visible')) return;
+    if (e.key !== 'Tab') return;
+    var focusable = $(diapoDiv).find('button:visible').toArray();
+    if (focusable.length === 0) return;
+    var first = focusable[0];
+    var last = focusable[focusable.length - 1];
+    if (e.shiftKey) {
+        if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+        }
+    } else {
+        if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+        }
+    }
 });
 
 let paramsUrl = getUrlVars("id");

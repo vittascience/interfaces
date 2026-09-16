@@ -346,7 +346,7 @@ export const JSCPP_INTERPRETER = {
                                     if (!providedTypes[i]) {
                                         if (!isOptional) {
                                             ok = false;
-                                            console.warn(`Argument obligatoire manquant à l'indice ${i} (attendu: ${this.makeTypeString(expectedTypes[i])})`);
+                                            console.warn(`${name}: Argument obligatoire manquant à l'indice ${i} (attendu: ${this.makeTypeString(expectedTypes[i])})`);
                                             break;
                                         }
                                         continue;

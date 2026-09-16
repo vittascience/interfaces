@@ -141,6 +141,8 @@ Blockly.Msg['IO_SETPWM_TITLE'] = 'appliquer un signal carré de fréquence %1 (H
 Blockly.Msg['IO_SETPWM_TOOLTIP'] = 'Permet d\'appliquer un signal carré (PWM) avec un cycle fixé à 50% sur une broche. Ce bloc permet de changer la fréquence du signal.';
 Blockly.Msg['IO_STOPPWM_TITLE'] = 'arrêter le signal PWM de la broche %1';
 Blockly.Msg['IO_STOPPWM_TOOLTIP'] = 'Permet d\'arrêter le signal PWM appliqué sur une broche.';
+Blockly.Msg['IO_READPULSEIN_TITLE'] = 'lire l\'impulsion (μs) de l\'état %1 sur la broche %2';
+Blockly.Msg['IO_READPULSEIN_TOOLTIP'] = 'Renvoie la durée de l\'impulsion entrante à l\'état HAUT ou BAS en (us).';
 Blockly.Msg['IO_GETVOLTAGE_TITLE'] = 'convertir %1 sur %2 en tension';
 Blockly.Msg['IO_GETVOLTAGE_TOOLTIP'] = 'Permet de convertir une valeur analogique en tension avec la résolution (12-bit: 4096 ou 16-bit: 65536) et un maximum de 3.3V.';
 Blockly.Msg['IO_GETVOLTAGE_12BIT'] = '12 bits';
@@ -202,7 +204,7 @@ Blockly.Msg['COMMUNICATION_OPENLOG_WRITE_TITLE'] = '[Openlog] écrire dans la ca
 Blockly.Msg['COMMUNICATION_OPENLOG_WRITE_TOOLTIP'] = IMG_MODULE_OPENLOG + Blockly.Tooltip.SEP + 'Permet d\'écrire des données dans la carte micro SD avec le module Openlog. Fonctionnement en transmission UART.';
 // Communication - Wireless
 Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TITLE'] = '[HC05 BT] envoyer sur les broches RX %1 TX %2 message %3';
-Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Permet d\'envoyer des données via le module BLuetooth HC05 sur les broches RX/TX.';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Permet d\'envoyer des données via le module Bluetooth HC05 sur les broches RX/TX.';
 Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TITLE'] = '[HC05 BT] si message reçu sur les broches RX %1 TX %2 dans %3 alors';
 Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Permet d\'exécuter des instructions si une donnée est reçue par un module Bluetooth HC05 dans la variable \'bluetoothData\' sur les broches RX/TX.';
 // Communication - GPS

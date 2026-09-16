@@ -354,3 +354,5 @@ Blockly.Msg['SUBCATEGORY_MBOT_MOTORS'] = 'Motoren';
 Blockly.Msg['SUBCATEGORY_SERVOMOTOR'] = 'Servomotor';
 Blockly.Msg['SUBCATEGORY_MINI_FAN'] = 'Mini-Lüfter';
 Blockly.Msg['SUBCATEGORY_POTENTIOMETER'] = 'Potentiometer';
+Blockly.Msg['CATEGORY_BASIC'] = 'Grundlagen';
+Blockly.Msg['SUBCATEGORY_TB6612FNG_MOTOR_DRIVER'] = 'TB6612FNG-Motortreiber';

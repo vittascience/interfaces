@@ -38,13 +38,14 @@ Blockly.Python.variables_increment = function (block) {
 
 Blockly.Python.variables_force_type = function (block) {
   const value = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_MEMBER) || "0",
-    type = block.getFieldValue("TYPE")
-  return [type + "(" + value + ")", Blockly.Python.ORDER_ATOMIC];
+    type = block.getFieldValue("TYPE");
+  const pythonType = Blockly.Python.getPythonType_(Blockly.Types[type]);
+  return [pythonType + "(" + value + ")", Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.variables_type_of = function (block) {
   const varName = Blockly.Python.nameDB_.getName(block.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME);
-  return ["type(" + varName + ")", Blockly.Python.ORDER_ATOMIC];
+  return ["str(type(" + varName + "))", Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.variables_tuple = function (block) {

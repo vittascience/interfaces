@@ -1,5 +1,5 @@
 /**
- * @fileoverview English messages for Raspberry Pi Pico. (EN)
+ * @fileoverview French messages for Raspberry Pi Pico. (FR)
  */
 
 'use strict';
@@ -9,19 +9,26 @@ Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TITLE'] = '[Pico] contrôler la LED int
 Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TOOLTIP'] = 'Permet de contrôler l\'état de la led intégrée de la Raspberry Pi Pico.';
 Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_W_TITLE'] = '[Pico W] contrôler la LED intégrée (GPIO) à l\'état %1';
 Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_W_TOOLTIP'] = 'Permet de contrôler l\'état de la led intégrée de la Raspberry Pi Pico W.';
-// Display - Screen
+// Display - LCD
 Blockly.Msg['DISPLAY_LCD_SETTEXT_TITLE'] = '[LCD adresse %1] afficher le texte %2 sur la ligne %3 position %4 sur le port %5';
 Blockly.Msg['DISPLAY_LCD_SETTEXT_TOOLTIP'] = IMG_MODULE_LCD_I2C + Blockly.Tooltip.SEP + 'Affiche du texte sur l\'une des deux lignes de l\'écran LCD1602 grove. Brancher le module sur un port I2C. Les caractères accentués ne sont pas supportés.';
 Blockly.Msg['DISPLAY_LCD_CLEAR_TITLE'] = '[LCD adresse %1] nettoyer l\'écran sur le port %2';
 Blockly.Msg['DISPLAY_LCD_CLEAR_TOOLTIP'] = IMG_MODULE_LCD_I2C + Blockly.Tooltip.SEP + 'Permet d\'effacer tous les caractères de l\'écran LCD. Brancher le module sur un port I2C.';
-Blockly.Msg['DISPLAY_OLED_ADDTEXT_TITLE'] = '[Ecran OLED] afficher le texte %1 à la position x %2 y %3 sur le port %4';
-Blockly.Msg['DISPLAY_OLED_ADDTEXT_TOOLTIP'] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + 'Permet d\'écrire du texte sur un écran OLED grove avec 4x11 caractères. Brancher l\'afficheur sur un port I2C.';
-Blockly.Msg['DISPLAY_OLED_SETPIXEL_TITLE'] = '[Ecran OLED] contrôler le pixel x %1 y %2 état %3 sur le port %4';
-Blockly.Msg['DISPLAY_OLED_SETPIXEL_TOOLTIP'] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + 'Permet de contrôler chaque pixel de l\'écran OLED 16x32 pixels. Brancher l\'afficheur sur un port I2C.';
-Blockly.Msg['DISPLAY_OLED_CLEARSCREEN_TITLE'] = '[Ecran OLED] effacer l\'écran sur le port %1';
-Blockly.Msg['DISPLAY_OLED_CLEARSCREEN_TOOLTIP'] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + 'Permet de nettoyer l\'écran OLED. Brancher le module sur un port I2C.';
-Blockly.Msg['DISPLAY_OLED_DRAWICON_TITLE'] = '[Ecran OLED] afficher l\'icône %1 position x %2 y %3 sur le port %4';
-Blockly.Msg['DISPLAY_OLED_DRAWICON_TOOLTIP'] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + 'Permet d\'afficher une icône, à la position (x,y) sur l\'écran grove OLED. Brancher l\'afficheur sur un port I2C.';
+// Display - OLED
+Blockly.Msg['DISPLAY_OLED_ADDTEXT_TITLE'] = '[OLED] afficher le texte %1 à la position x %2 y %3 sur le port %4';
+Blockly.Msg['DISPLAY_OLED_ADDTEXT_TOOLTIP'] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + 'Permet d\'écrire du texte sur un écran OLED de taille 128x64. Brancher l\'écran sur un port I2C.';
+Blockly.Msg['DISPLAY_OLED_SETPIXEL_TITLE'] = '[OLED] contrôler le pixel x %1 y %2 état %3 sur le port %4';
+Blockly.Msg['DISPLAY_OLED_SETPIXEL_TOOLTIP'] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + 'Permet de contrôler chaque pixel de l\'écran OLED de taille 128x64. Brancher l\'écran sur un port I2C.';
+Blockly.Msg['DISPLAY_OLED_DRAWLINE_TITLE'] = '[OLED] dessiner une ligne de (%1, %2) à (%3, %4) sur le port %5';
+Blockly.Msg['DISPLAY_OLED_DRAWLINE_TOOLTIP'] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + 'Permet de dessiner une ligne entre deux points de l\'écran OLED de taille 128x64. Brancher l\'écran sur un port I2C.';
+Blockly.Msg['DISPLAY_OLED_SETBACKGROUND_TITLE'] = '[OLED] définir le fond en %1';
+Blockly.Msg['DISPLAY_OLED_WHITE'] = 'blanc';
+Blockly.Msg['DISPLAY_OLED_BLACK'] = 'noir';
+Blockly.Msg['DISPLAY_OLED_SETBACKGROUND_TOOLTIP'] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + 'Permet d\'inverser le rétroélcairage de l\'écran. Brancher l\'écran sur un port I2C.';
+Blockly.Msg['DISPLAY_OLED_CLEARSCREEN_TITLE'] = '[OLED] effacer l\'écran sur le port %1';
+Blockly.Msg['DISPLAY_OLED_CLEARSCREEN_TOOLTIP'] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + 'Permet d\'effacer le contenu de l\'écran OLED. Brancher l\'écran sur un port I2C.';
+Blockly.Msg['DISPLAY_OLED_DRAWICON_TITLE'] = '[OLED] afficher l\'icône %1 position x %2 y %3 sur le port %4';
+Blockly.Msg['DISPLAY_OLED_DRAWICON_TOOLTIP'] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + 'Permet d\'afficher une icône de la librairie Image de ESP32, à la position (x,y) sur l\'écran grove OLED. Brancher l\'afficheur sur un port I2C.';
 // Display - Neopixel
 Blockly.Msg['DISPLAY_NEOPIXEL_DEFINE_TITLE'] = '[Neopixel] définir %1 LED sur la broche %2';
 Blockly.Msg['DISPLAY_NEOPIXEL_DEFINE_TOOLTIP'] = IMG_MODULE_NEOPIXEL + Blockly.Tooltip.SEP + 'Permet de définir le nombre de LED du neopixel. Ce bloc doit être utilisé dans le bloc \'Au démarrage\'.';
@@ -42,9 +49,9 @@ Blockly.Msg['DISPLAY_LED_MATRIX_CLEAR_TITLE'] = '[Matrice de LED] effacer la mat
 Blockly.Msg['DISPLAY_LED_MATRIX_CLEAR_TOOLTIP'] = IMG_MODULE_LED_MATRIX_8_8 + Blockly.Tooltip.SEP + 'Éteint toutes les LEDs de la matrice';
 // Display - LED modules
 Blockly.Msg['DISPLAY_SETGROVELED_TITLE'] = '[LED] contrôler la LED à %1 sur la broche  %2';
-Blockly.Msg['DISPLAY_SETGROVELED_TOOLTIP'] = IMG_MODULE_LED + Blockly.Tooltip.SEP + 'Permet d\'activer ou désactiver la LED Grove (0 ou 1) sur les broches digitales P0 à P20.';
-Blockly.Msg['DISPLAY_SETLEDINTENSITY_TITLE'] = '[LED] régler la luminosité à %1 sur la broche %2';
-Blockly.Msg['DISPLAY_SETLEDINTENSITY_TOOLTIP'] = IMG_MODULE_LED_PWM + Blockly.Tooltip.SEP + 'Permet de régler la luminosité d\'une LED de 0 à 255 sur les broches PWM.';
+Blockly.Msg['DISPLAY_SETGROVELED_TOOLTIP'] = IMG_MODULE_LED + Blockly.Tooltip.SEP + 'Permet d\'activer ou désactiver la LED Grove (0 ou 1) sur les broches digitales.';
+Blockly.Msg['DISPLAY_SETLEDINTENSITY_TITLE'] = '[LED] régler la luminosité à %1 (%) sur la broche %2';
+Blockly.Msg['DISPLAY_SETLEDINTENSITY_TOOLTIP'] = IMG_MODULE_LED_PWM + Blockly.Tooltip.SEP + 'Permet de régler la luminosité d\'une LED de 0 à 100 % sur les broches PWM.';
 Blockly.Msg['DISPLAY_4DIGIT_SETNUMBER_TITLE'] = '[Afficheur 4-digit] afficher %1 %2 sur les broches CLK %3 DIO %4';
 Blockly.Msg['DISPLAY_4DIGIT_SETNUMBER_TOOLTIP'] = IMG_MODULE_4DIGITDISPLAY + Blockly.Tooltip.SEP + 'Permet d\'afficher un nombre, une température ou l\'horloge sur l\'afficheur 4-digit grove (TM1637) avec les broches digitales P0 à P20.';
 Blockly.Msg['DISPLAY_4DIGIT_SETCLOCK_TITLE'] = '[Afficheur 4-digit] l\'horloge sur les broches CLK %1 DIO %2';
@@ -68,63 +75,7 @@ Blockly.Msg['DISPLAY_CHAINABLE_PALETTEALLRGBLED_TITLE'] = '[Chainable LED] contr
 Blockly.Msg['DISPLAY_CHAINABLE_PALETTEALLRGBLED_TOOLTIP'] = IMG_MODULE_LED_RGB + Blockly.Tooltip.SEP + 'Bloc contrôlant la couleur des DEL RGB, choisir une couleur dans la palette.';
 Blockly.Msg['DISPLAY_CHAINABLE_RESETALLRGBLED_TITLE'] = '[Chainable LED] éteindre sur les broches CIN %1 DIN %2';
 Blockly.Msg['DISPLAY_CHAINABLE_RESETALLRGBLED_TOOLTIP'] = IMG_MODULE_LED_RGB + Blockly.Tooltip.SEP + 'Bloc éteignant toutes les DEL RGB.';
-// Input/Output - Microphone module
-Blockly.Msg['IO_MICRO_LOUD'] = 'fort';
-Blockly.Msg['IO_MICRO_QUIET'] = 'faible';
-Blockly.Msg['IO_MICRO_IS'] = 'est';
-Blockly.Msg['IO_MICRO_WAS'] = 'a été';
-Blockly.Msg['IO_MICRO_ONSOUNDDETECTED_TITLE'] = '[Micro] si un son %1 %2 détecté alors';
-Blockly.Msg['IO_MICRO_ONSOUNDDETECTED_TOOLTIP'] = 'Exécute des instructions si u1023n son (fort/faible) est détecté. Option \'was: Exécute des instructions si un son (fort/faible) s\'est produit depuis le dernier appel de la fonction \'was_sound()\'.';
-Blockly.Msg['IO_MICRO_GETCURRENTSOUND_TITLE'] = '[Micro] état du son';
-Blockly.Msg['IO_MICRO_GETCURRENTSOUND_TOOLTIP'] = 'Renvoie l\'état du son (fort/faible).';
-Blockly.Msg['IO_MICRO_WASSOUNDDETECTED_TITLE'] = '[Micro] son %1 a été détecté';
-Blockly.Msg['IO_MICRO_WASSOUNDDETECTED_TOOLTIP'] = 'Retourne \'True\' si un son (fort/faible) s\'est produit depuis le dernier appel de la fonction \'was_sound()\'.';
-Blockly.Msg['IO_MICRO_GETSOUNDLEVEL_TITLE'] = '[Micro] intensité du son';
-Blockly.Msg['IO_MICRO_GETSOUNDLEVEL_TOOLTIP'] = 'Permet d\'obtenir l\'intensité du son.';
-Blockly.Msg['IO_MICRO_GETHISTORYSOUND_TITLE'] = '[Micro] historique des sons';
-Blockly.Msg['IO_MICRO_GETHISTORYSOUND_TOOLTIP'] = 'Renvoie l\'historique des sons depuis le dernier appel de la fonction \'get_sounds()\'.';
-Blockly.Msg['IO_MICRO_SETSOUNDTHRESHOLD_TITLE'] = '[Micro] définir le seuil des sons %1 à %2';
-Blockly.Msg['IO_MICRO_SETSOUNDTHRESHOLD_TOOLTIP'] = 'Permet de définir un seuil du niveau sonore des sons forts/faibles de 0 à 255.';
-Blockly.Msg['IO_MICRO_SOUNDCONDITION_TITLE'] = '[Micro] %1';
-Blockly.Msg['IO_MICRO_SOUNDCONDITION_TOOLTIP'] = 'Permet d\'utiliser les constantes (LOUD/QUIET) de la librairie microphone dans les blocs de la catégorie \'Logique\'';
-// Input/Output - External modules
-Blockly.Msg['IO_GROVEKEYPAD_GETNUMBER_TITLE'] = '[Clavier numérique] chiffre sur les broches RX %1 TX %2';
-Blockly.Msg['IO_GROVEKEYPAD_GETNUMBER_TOOLTIP'] = IMG_MODULE_KEYPAD + Blockly.Tooltip.SEP + 'Permet d\'obtenir la touche appuyée du clavier numérique grove sur les broches TX et RX. Quand vous connectez le module, s\'assurer que les broches sont \'croisées\' : RX de la carte avec TX du module et inversement.';
-Blockly.Msg['IO_GROVEJOYSTICK_GETAXIS_TITLE'] = '[Module joystick] valeur de l\'axe %1 sur les broches X %2 Y %3';
-Blockly.Msg['IO_GROVEJOYSTICK_GETAXIS_TOOLTIP'] = IMG_MODULE_JOYSTICK + Blockly.Tooltip.SEP + 'Renvoie la valeur de l\'axe X ou Y (de 0 à 1023) du joystick Grove sur les broches P0 à P4, ou P10.';
-Blockly.Msg['IO_GROVECOLOREDBUTTON_GET_TITLE'] = '[Module bouton coloré] état sur la broche SIG2 %1 ';
-Blockly.Msg['IO_GROVECOLOREDBUTTON_GET_TOOLTIP'] = IMG_MODULE_LED_BUTTON + Blockly.Tooltip.SEP + 'Renvoie l\'état du bouton coloré grove (0 or 1) sur les broches digitales P0 à P20.';
-Blockly.Msg['IO_GROVECOLOREDBUTTON_SETLED_TITLE'] = '[Module bouton coloré] contrôler la LED à l\'état %1 sur la broche SIG1 %2';
-Blockly.Msg['IO_GROVECOLOREDBUTTON_SETLED_TOOLTIP'] = IMG_MODULE_LED_BUTTON + Blockly.Tooltip.SEP + 'Permet d\'allumer ou éteindre la LED (0 or 1) sur les broches digitales P0 à P20.';
-Blockly.Msg['IO_GETGROVEROTARYANGLE_TITLE'] = '[Potentiomètre rotatif] valeur sur la broche %1';
-Blockly.Msg['IO_GETGROVEROTARYANGLE_TOOLTIP'] = IMG_MODULE_ROTARY_ANGLE + Blockly.Tooltip.SEP + 'Renvoie l\'angle (de 0 à 1023) du potentiomètre rotatif Grove sur les broches P0 à P4, ou P10.';
-Blockly.Msg['IO_GETGROVESLIDEPOTENTIOMETER_TITLE'] = '[Potentiomètre linéaire] valeur sur la broche %1';
-Blockly.Msg['IO_GETGROVESLIDEPOTENTIOMETER_TOOLTIP'] = IMG_MODULE_SLIDE_POT + Blockly.Tooltip.SEP + 'Renvoie la position (de 0 à 1023) du potentiomètre linéaire Grove sur les broches P0 à P4, ou P10.';
-Blockly.Msg['IO_GETGROVETACTILE_TITLE'] = '[Capteur tactile] état sur la broche %1 ';
-Blockly.Msg['IO_GETGROVETACTILE_TOOLTIP'] = IMG_MODULE_TOUCH + Blockly.Tooltip.SEP + 'Renvoie la valeur du capteur tactile Grove (0 ou 1) sur les broches digitales P0 à P20.';
-Blockly.Msg['IO_GETGROVEBUTTON_TITLE'] = '[Module bouton] état sur la broche %1 ';
-Blockly.Msg['IO_GETGROVEBUTTON_TOOLTIP'] = IMG_MODULE_BUTTON + Blockly.Tooltip.SEP + 'Renvoie la valeur du bouton Grove (0 ou 1) sur les broches digitales P0 à P20.';
-Blockly.Msg['IO_GETGROVESWITCH_TITLE'] = '[Module interrupteur] état sur la broche %1 ';
-Blockly.Msg['IO_GETGROVESWITCH_TOOLTIP'] = IMG_MODULE_SWITCH + Blockly.Tooltip.SEP + 'Renvoie la valeur de l\'interrupteur Grove (0 ou 1) sur les broches digitales P0 à P20.';
-// Input/Output - Pins
-Blockly.Msg['IO_DIGITAL_SIGNAL_TITLE'] = '%1';
-Blockly.Msg['IO_DIGITAL_SIGNAL_HIGH'] = 'HAUT (1)';
-Blockly.Msg['IO_DIGITAL_SIGNAL_LOW'] = 'BAS (0)';
-Blockly.Msg['IO_DIGITAL_SIGNAL_TOOLTIP'] = 'Retourne une valeur booléene (1 si HAUT ou 0 si BAS).';
-Blockly.Msg['IO_READDIGITALPIN_TITLE'] = 'état de la broche numérique %1';
-Blockly.Msg['IO_READDIGITALPIN_TOOLTIP'] = 'Permet de lire la valeur d\'une entrée digitale (0 ou 1).';
-Blockly.Msg['IO_WRITEDIGITALPIN_TITLE'] = 'écrire sur la broche numérique %1 l\'état %2';
-Blockly.Msg['IO_WRITEDIGITALPIN_TOOLTIP'] = 'Permet d\'écrire une valeur sur une entrée digitale (0 ou 1).';
-Blockly.Msg['IO_READANALOGPIN_TITLE'] = 'lire la broche analogique %1';
-Blockly.Msg['IO_READANALOGPIN_TOOLTIP'] = 'Permet de lire la valeur d\'une entrée analogique (0-1023).';
-Blockly.Msg['IO_WRITEANALOGPIN_TITLE'] = 'écrire sur la broche analogique %1 la valeur %2';
-Blockly.Msg['IO_WRITEANALOGPIN_TOOLTIP'] = 'Permet d\'écrire sur la broche analogique la valeur (0-1023). Cette fonction n\'écrit pas vraiment de valeur analogique, elle écrit un signal PWM. Par exemple, écrire 511 correspond à un cycle utile de 50 %, la tension moyenne est de 1,65V.';
-Blockly.Msg['IO_SETPWM_TITLE'] = 'appliquer un signal de période %1 %2 sur la broche %3';
-Blockly.Msg['IO_SETPWM_TOOLTIP'] = 'Permet d\'appliquer un signal PWM avec une période en ms ou en sur une broche de période minimale 256 μs.';
-Blockly.Msg['IO_WRITEPWMPIN_TITLE'] = 'écrire la valeur %1 sur la broche PWM %2';
-Blockly.Msg['IO_WRITEPWMPIN_TOOLTIP'] = 'Permet d\'appliquer un signal PWM avec une fréquence fixée à 10kH et en changeant le cycle de 0 à 1023. La valeur 512 correspondra à 50% du cycle, donc environ 1.66V.';
-Blockly.Msg['IO_READPULSEIN_TITLE'] = 'lire l\'impulsion (μs) de l\'état %1 sur la broche %2';
-Blockly.Msg['IO_READPULSEIN_TOOLTIP'] = 'Renvoie la durée de l\'impulsion entrante à l\'état HAUT ou BAS en (us).';
+
 // Input/Output - Time
 Blockly.Msg['IO_WAIT_TITLE'] = 'attendre %1 %2';
 Blockly.Msg['IO_WAIT_TOOLTIP'] = 'Effectue une pause dans l\'exécution du code.';
@@ -137,6 +88,44 @@ Blockly.Msg['IO_INITCHRONOMETER_TITLE'] = 'remettre le chronomètre à 0';
 Blockly.Msg['IO_INITCHRONOMETER_TOOLTIP'] = 'Initialise un chronomètre à 0 (en secondes).';
 Blockly.Msg['IO_GETCHRONOMETER_TITLE'] = 'valeur du chronomètre en %1';
 Blockly.Msg['IO_GETCHRONOMETER_TOOLTIP'] = 'Renvoie la valeur du chronomètre à partir de l\'initialisation (en secondes ou millisecondes).';
+// Input/Output - External modules
+Blockly.Msg['IO_GROVEKEYPAD_GETNUMBER_TITLE'] = '[Clavier numérique] chiffre sur les broches RX %1 TX %2';
+Blockly.Msg['IO_GROVEKEYPAD_GETNUMBER_TOOLTIP'] = IMG_MODULE_KEYPAD + Blockly.Tooltip.SEP + 'Permet d\'obtenir la touche appuyée du clavier numérique grove sur les broches TX et RX. Quand vous connectez le module, s\'assurer que les broches sont \'croisées\' : RX de la carte avec TX du module et inversement.';
+Blockly.Msg['IO_GROVEJOYSTICK_GETAXIS_TITLE'] = '[Module joystick] valeur de l\'axe %1 sur les broches X %2 Y %3';
+Blockly.Msg['IO_GROVEJOYSTICK_GETAXIS_TOOLTIP'] = IMG_MODULE_JOYSTICK + Blockly.Tooltip.SEP + 'Renvoie la valeur de l\'axe X ou Y (de 0 à 1023) du joystick Grove sur les broches P0 à P4, ou P10.';
+Blockly.Msg['IO_GROVECOLOREDBUTTON_GET_TITLE'] = '[Module bouton coloré] état sur la broche SIG2 %1 ';
+Blockly.Msg['IO_GROVECOLOREDBUTTON_GET_TOOLTIP'] = IMG_MODULE_LED_BUTTON + Blockly.Tooltip.SEP + 'Renvoie l\'état du bouton coloré grove (0 or 1) sur les broches digitales.';
+Blockly.Msg['IO_GROVECOLOREDBUTTON_SETLED_TITLE'] = '[Module bouton coloré] contrôler la LED à l\'état %1 sur la broche SIG1 %2';
+Blockly.Msg['IO_GROVECOLOREDBUTTON_SETLED_TOOLTIP'] = IMG_MODULE_LED_BUTTON + Blockly.Tooltip.SEP + 'Permet d\'allumer ou éteindre la LED (0 or 1) sur les broches digitales.';
+Blockly.Msg['IO_GETGROVEROTARYANGLE_TITLE'] = '[Potentiomètre rotatif] valeur sur la broche %1';
+Blockly.Msg['IO_GETGROVEROTARYANGLE_TOOLTIP'] = IMG_MODULE_ROTARY_ANGLE + Blockly.Tooltip.SEP + 'Renvoie l\'angle (de 0 à 1023) du potentiomètre rotatif Grove sur les broches P0 à P4, ou P10.';
+Blockly.Msg['IO_GETGROVESLIDEPOTENTIOMETER_TITLE'] = '[Potentiomètre linéaire] valeur sur la broche %1';
+Blockly.Msg['IO_GETGROVESLIDEPOTENTIOMETER_TOOLTIP'] = IMG_MODULE_SLIDE_POT + Blockly.Tooltip.SEP + 'Renvoie la position (de 0 à 1023) du potentiomètre linéaire Grove sur les broches P0 à P4, ou P10.';
+Blockly.Msg['IO_GETGROVETACTILE_TITLE'] = '[Capteur tactile] état sur la broche %1 ';
+Blockly.Msg['IO_GETGROVETACTILE_TOOLTIP'] = IMG_MODULE_TOUCH + Blockly.Tooltip.SEP + 'Renvoie la valeur du capteur tactile Grove (0 ou 1) sur les broches digitales.';
+Blockly.Msg['IO_GETGROVEBUTTON_TITLE'] = '[Module bouton] état sur la broche %1 ';
+Blockly.Msg['IO_GETGROVEBUTTON_TOOLTIP'] = IMG_MODULE_BUTTON + Blockly.Tooltip.SEP + 'Renvoie la valeur du bouton Grove (0 ou 1) sur les broches digitales.';
+Blockly.Msg['IO_GETGROVESWITCH_TITLE'] = '[Module interrupteur] état sur la broche %1 ';
+Blockly.Msg['IO_GETGROVESWITCH_TOOLTIP'] = IMG_MODULE_SWITCH + Blockly.Tooltip.SEP + 'Renvoie la valeur de l\'interrupteur Grove (0 ou 1) sur les broches digitales.';
+// Input/Output - Pins
+Blockly.Msg['IO_DIGITAL_SIGNAL_TITLE'] = '%1';
+Blockly.Msg['IO_DIGITAL_SIGNAL_HIGH'] = 'HAUT (1)';
+Blockly.Msg['IO_DIGITAL_SIGNAL_LOW'] = 'BAS (0)';
+Blockly.Msg['IO_DIGITAL_SIGNAL_TOOLTIP'] = 'Retourne une valeur booléene (1 si HAUT ou 0 si BAS).';
+Blockly.Msg['IO_READDIGITALPIN_TITLE'] = 'état de la broche numérique %1';
+Blockly.Msg['IO_READDIGITALPIN_TOOLTIP'] = 'Permet de lire la valeur d\'une entrée digitale (0 ou 1).';
+Blockly.Msg['IO_WRITEDIGITALPIN_TITLE'] = 'écrire sur la broche numérique %1 l\'état %2';
+Blockly.Msg['IO_WRITEDIGITALPIN_TOOLTIP'] = 'Permet d\'écrire une valeur sur une entrée digitale (0 ou 1).';
+Blockly.Msg['IO_READANALOGPIN_TITLE'] = 'lire la broche analogique %1';
+Blockly.Msg['IO_READANALOGPIN_TOOLTIP'] = 'Permet de lire la valeur d\'une entrée analogique (0-1023).';
+Blockly.Msg['IO_WRITEPWMPIN_TITLE'] = 'écrire la valeur %1 sur la broche PWM %2';
+Blockly.Msg['IO_WRITEPWMPIN_TOOLTIP'] = 'Permet d\'appliquer un signal PWM avec une fréquence fixée à 10kH et en changeant le cycle de 0 à 1023. La valeur 512 correspondra à 50% du cycle, donc environ 1.66V.';
+Blockly.Msg['IO_SETPWM_TITLE'] = 'appliquer un signal carré de fréquence %1 (Hz) sur la broche %2';
+Blockly.Msg['IO_SETPWM_TOOLTIP'] = 'Permet d\'appliquer un signal carré (PWM) avec un cycle fixé à 50% sur une broche. Ce bloc permet de changer la fréquence du signal.';
+Blockly.Msg['IO_STOPPWM_TITLE'] = 'arrêter le signal PWM de la broche %1';
+Blockly.Msg['IO_STOPPWM_TOOLTIP'] = 'Permet d\'arrêter le signal PWM appliqué sur une broche.';
+Blockly.Msg['IO_READPULSEIN_TITLE'] = 'lire l\'impulsion (μs) de l\'état %1 sur la broche %2';
+Blockly.Msg['IO_READPULSEIN_TOOLTIP'] = 'Renvoie la durée de l\'impulsion entrante à l\'état HAUT ou BAS en (us).';
 
 // Communication - Common
 Blockly.Msg['COMMUNICATION_RX_TX_PINS'] = 'sur les broches RX %1 TX %2';
@@ -195,7 +184,7 @@ Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE
 Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TITLE'] = '[HC05 BT] envoyer sur les broches RX %1 TX %2 message %3';
 Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Permet d\'envoyer des données via le module Bluetooth HC05 sur les broches RX/TX.';
 Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TITLE'] = '[HC05 BT] si message reçu sur les broches RX %1 TX %2 dans %3 alors';
-Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Permet d\'exécuter des instructions si une donnée est reçue par un module Bluetooth HC05 dans la variable \'bluetoothData\' sur les broches RX/TX.';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Permet d\'exécuter des instructions si une donnée est reçue par un module Bluetooth HC05 dans la variable \'HC05Data\' sur les broches RX/TX.';
 // Communication - Tracking modules
 Blockly.Msg['COMMUNICATION_RFID_GETSTRINGCARDID_TITLE'] = '[RFID - 125kHz] ID du badge sur le bus UART %1';
 Blockly.Msg['COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP'] = IMG_MODULE_RFID_125KHZ + Blockly.Tooltip.SEP + 'Permet de récupérer l\'identifiant UID sous forme de chaîne de caractères du module Grove RFID 125 kHz si celui si est disponible sur les broches UART.\nLes données reçues du module sont sous forme d\'un tableau d\'octets. Pour les convertir, utiliser le bloc "[RFID] convertir les données ... en INT".\nPar défaut, les broches sont telles que: UART 1 (tx=4, rx=5) et UART 0 (tx=0, rx=1).';
@@ -316,9 +305,9 @@ Blockly.Msg['SENSORS_MPX5700AP_CALIBRATE_TOOLTIP'] = IMG_MODULE_MPX5700AP + Bloc
 Blockly.Msg['SENSORS_GETGROVEWATER_TITLE'] = '[Capteur d\'eau] quantité d\'eau sur la broche %1';
 Blockly.Msg['SENSORS_GETGROVEWATER_TOOLTIP'] = IMG_MODULE_WATER + Blockly.Tooltip.SEP + 'Renvoie la quantité d\'eau (de 0 à 255) mesurée grâce au capteur d\'eau grove sur les broches P0/P14, P1/P15 ou P2/P16.';
 Blockly.Msg['SENSORS_GETRAINGAUGE_TITLE'] = '[Capteur de pluie] état sur la broche %1';
-Blockly.Msg['SENSORS_GETRAINGAUGE_TOOLTIP'] = IMG_MODULE_RAIN_GAUGE + Blockly.Tooltip.SEP + 'Renvoie l\'état du capteur de pluie (1 s\'il pleut ou 0 sinon) sur les broches digitales P0 à P20.';
+Blockly.Msg['SENSORS_GETRAINGAUGE_TOOLTIP'] = IMG_MODULE_RAIN_GAUGE + Blockly.Tooltip.SEP + 'Renvoie l\'état du capteur de pluie (1 s\'il pleut ou 0 sinon) sur les broches digitales.';
 Blockly.Msg['SENSORS_GETANEMOMETER_TITLE'] = '[Anémomètre] état sur la broche %1';
-Blockly.Msg['SENSORS_GETANEMOMETER_TOOLTIP'] = IMG_MODULE_ANEMOMETER + Blockly.Tooltip.SEP + 'Renvoie l\'état de l\'anémomètre (deux fois état HAUT à chaque rotation) sur les broches digitales P0 à P20.';
+Blockly.Msg['SENSORS_GETANEMOMETER_TOOLTIP'] = IMG_MODULE_ANEMOMETER + Blockly.Tooltip.SEP + 'Renvoie l\'état de l\'anémomètre (deux fois état HAUT à chaque rotation) sur les broches digitales.';
 // Sensors - Sound & Light
 Blockly.Msg['SENSORS_GETGROVELIGHT_TITLE'] = '[Capteur de lumière] luminosité sur la broche %1';
 Blockly.Msg['SENSORS_GETGROVELIGHT_TOOLTIP'] = IMG_MODULE_LIGHT + Blockly.Tooltip.SEP + 'Renvoie la luminosité (de 0 à 1023) du capteur de lumière Grove sur les broches P0 à P4, ou P10.';
@@ -332,10 +321,10 @@ Blockly.Msg['SENSORS_GETUVINDEX_TOOLTIP'] = IMG_MODULE_UV + Blockly.Tooltip.SEP 
 Blockly.Msg['SENSORS_GROVECOLOR_GETDATA_TITLE'] = '[Capteur de couleurs] %1 sur le port %2';
 Blockly.Msg['SENSORS_GROVECOLOR_GETDATA_TOOLTIP'] = IMG_MODULE_I2C_COLOR + Blockly.Tooltip.SEP + 'Permet de lire le niveau d\'une des trois couleurs primaires avec le capteur de couleur grove, le niveau est compris entre 0 et 255. Brancher le capteur sur un port I2C.';
 Blockly.Msg['SENSORS_GETGROVESOUND_TITLE'] = '[Capteur de son] niveau sonore sur la broche %1';
-Blockly.Msg['SENSORS_GETGROVESOUND_TOOLTIP'] = IMG_MODULE_SOUND_LOUDNESS + Blockly.Tooltip.SEP + 'Renvoie le niveau sonore (0 à 1023) avec le capteur de son Grove sur les broches digitales P0 à P20.';
+Blockly.Msg['SENSORS_GETGROVESOUND_TOOLTIP'] = IMG_MODULE_SOUND_LOUDNESS + Blockly.Tooltip.SEP + 'Renvoie le niveau sonore (0 à 1023) avec le capteur de son Grove sur les broches digitales.';
 // Sensors - Distance & Motion
 Blockly.Msg['SENSORS_GETGROVEULTRASONIC_TITLE'] = '[Capteur à ultrasons %1] %2';
-Blockly.Msg['SENSORS_GETGROVEULTRASONIC_TOOLTIP'] = IMG_MODULE_ULTRASONIC + Blockly.Tooltip.SEP + 'Renvoie la distance (en cm) mesurée grâce au capteur grove à ultrasons sur les broches digitales P0 à P20. Attention, si le capteur est un modèle grove, TRIG et ECHO sont sur la même broche SIG.';
+Blockly.Msg['SENSORS_GETGROVEULTRASONIC_TOOLTIP'] = IMG_MODULE_ULTRASONIC + Blockly.Tooltip.SEP + 'Renvoie la distance (en cm) mesurée grâce au capteur grove à ultrasons sur les broches digitales. Attention, si le capteur est un modèle grove, TRIG et ECHO sont sur la même broche SIG.';
 Blockly.Msg['SENSORS_ULTRASONIC_DISTANCE'] = 'distance (cm)';
 Blockly.Msg['SENSORS_ULTRASONIC_DURATION'] = 'durée de l\'aller-retour (µs)';
 Blockly.Msg['SENSORS_ULTRASONIC_1PIN'] = 'sur la broche ';
@@ -354,31 +343,31 @@ Blockly.Msg['SENSORS_GESTURE_CLOCKWISE'] = 'horaire';
 Blockly.Msg['SENSORS_GESTURE_ANTICLOCKWISE'] = 'antihoraire';
 Blockly.Msg['SENSORS_GESTURE_WAVE'] = 'onde';
 Blockly.Msg['SENSORS_GETGROVELINEFINDER_TITLE'] = '[Capteur de ligne noire] état sur la broche %1';
-Blockly.Msg['SENSORS_GETGROVELINEFINDER_TOOLTIP'] = IMG_MODULE_LINE_FINDER + Blockly.Tooltip.SEP + 'Renvoie la valeur du capteur de ligne noire grove (0 ou 1) sur les broches digitales P0 à P20.';
+Blockly.Msg['SENSORS_GETGROVELINEFINDER_TOOLTIP'] = IMG_MODULE_LINE_FINDER + Blockly.Tooltip.SEP + 'Renvoie la valeur du capteur de ligne noire grove (0 ou 1) sur les broches digitales.';
 Blockly.Msg['SENSORS_GETGROVEMOTION_TITLE'] = '[Capteur de mouvement] état sur la broche %1';
-Blockly.Msg['SENSORS_GETGROVEMOTION_TOOLTIP'] = IMG_MODULE_MOTION + Blockly.Tooltip.SEP + 'Renvoie la valeur du capteur de mouvement Grove PIR Motion (0 ou 1) sur les broches digitales P0 à P20.';
+Blockly.Msg['SENSORS_GETGROVEMOTION_TOOLTIP'] = IMG_MODULE_MOTION + Blockly.Tooltip.SEP + 'Renvoie la valeur du capteur de mouvement Grove PIR Motion (0 ou 1) sur les broches digitales.';
 Blockly.Msg['SENSORS_GETPIEZOVIBRATION_TITLE'] = '[Capteur de vibrations] état sur la broche %1';
-Blockly.Msg['SENSORS_GETPIEZOVIBRATION_TOOLTIP'] = IMG_MODULE_VIBRATIONS + Blockly.Tooltip.SEP + 'Renvoie l\'état de la vibration (0 ou 1) grâce au capteur de vibration piezoélectrique sur les broches digitales P0 à P20.';
+Blockly.Msg['SENSORS_GETPIEZOVIBRATION_TOOLTIP'] = IMG_MODULE_VIBRATIONS + Blockly.Tooltip.SEP + 'Renvoie l\'état de la vibration (0 ou 1) grâce au capteur de vibration piezoélectrique sur les broches digitales.';
 Blockly.Msg['SENSORS_GETGROVETILT_TITLE'] = '[Module inclinaison] état sur la broche %1';
-Blockly.Msg['SENSORS_GETGROVETILT_TOOLTIP'] = IMG_MODULE_TILT + Blockly.Tooltip.SEP + 'Renvoie la valeur de l\'inclinaison du module Grove (0 ou 1) sur les broches digitales P0 à P20.';
+Blockly.Msg['SENSORS_GETGROVETILT_TOOLTIP'] = IMG_MODULE_TILT + Blockly.Tooltip.SEP + 'Renvoie la valeur de l\'inclinaison du module Grove (0 ou 1) sur les broches digitales.';
 // Other sensors
 Blockly.Msg['SENSORS_GETGROVEBUTTON_TITLE'] = '[Module bouton] %1 sur la broche %2';
-Blockly.Msg['SENSORS_GETGROVEBUTTON_TOOLTIP'] = IMG_MODULE_BUTTON + Blockly.Tooltip.SEP + 'Renvoie la valeur numérique du bouton Grove (0/1 ou 0V/3.3V) sur les broches digitales P0 à P20.';
+Blockly.Msg['SENSORS_GETGROVEBUTTON_TOOLTIP'] = IMG_MODULE_BUTTON + Blockly.Tooltip.SEP + 'Renvoie la valeur numérique du bouton Grove (0/1 ou 0V/3.3V) sur les broches digitales.';
 Blockly.Msg['SENSORS_GETGROVEBUTTON_VOLTAGE'] = 'tension';
 Blockly.Msg['SENSORS_GETGROVEBUTTON_STATE'] = 'état';
 Blockly.Msg['SENSORS_DS18B20_GETTEMPERATURE_TITLE'] = '[Capteur DS18B20] température en %1 sur la broche %2';
 Blockly.Msg['SENSORS_DS18B20_GETTEMPERATURE_TOOLTIP'] = IMG_MODULE_DS18B20 + Blockly.Tooltip.SEP + 'Renvoie la température en degré Celsius (°C), Fahrenheit (°F) ou Kelvin (K) du capteur de température étanche DS18B20 sur les broches digitales.';
 // Actuators
 Blockly.Msg['ACTUATORS_SERVO_SETANGLE_TITLE'] = '[Servomoteur] contrôler l\'angle à %1 ° sur la broche %2';
-Blockly.Msg['ACTUATORS_SERVO_SETANGLE_TOOLTIP'] = IMG_MODULE_SERVO + Blockly.Tooltip.SEP + 'Permet de contrôler l\'angle d\'un servomoteur (de 0 à 180) sur les broches digitales P0 à P20. Attention, le montage doit être alimenté par une batterie pour fournir assez de courant au servomoteur.';
+Blockly.Msg['ACTUATORS_SERVO_SETANGLE_TOOLTIP'] = IMG_MODULE_SERVO + Blockly.Tooltip.SEP + 'Permet de contrôler l\'angle d\'un servomoteur (de 0 à 180) sur les broches digitales. Attention, le montage doit être alimenté par une batterie pour fournir assez de courant au servomoteur.';
 Blockly.Msg['ACTUATORS_CONTINUOUS_SERVO_SETSPEED_TITLE'] = '[Servomoteur continu] contrôler la vitesse à %1 (%) direction %2 sur la broche %3';
 Blockly.Msg['ACTUATORS_CONTINUOUS_SERVO_SETSPEED_TOOLTIP'] = IMG_MODULE_CONTINUOUS_SERVO + Blockly.Tooltip.SEP + 'Permet de contrôler la vitesse (de 0 à 100 %) d\'un servomoteur continu sur les broches PWM.';
 Blockly.Msg['ACTUATORS_MOTOR_SETPOWER_TITLE'] = '[Moteur] contrôler la puissance à %1 sur la broche %2';
-Blockly.Msg['ACTUATORS_MOTOR_SETPOWER_TOOLTIP'] = IMG_MODULE_MOTOR + Blockly.Tooltip.SEP + 'Permet de contrôler la puissance d\'un moteur (de 0 à 1023) sur les broches digitales P0 à P20. Attention, le montage doit être alimenté par une batterie pour fournir assez de courant au moteur.';
+Blockly.Msg['ACTUATORS_MOTOR_SETPOWER_TOOLTIP'] = IMG_MODULE_MOTOR + Blockly.Tooltip.SEP + 'Permet de contrôler la puissance d\'un moteur (de 0 à 1023) sur les broches digitales. Attention, le montage doit être alimenté par une batterie pour fournir assez de courant au moteur.';
 Blockly.Msg['ACTUATORS_GROVERELAY_CONTROL_TITLE'] = '[Module relais] contrôler le relais à l\'état %1 sur la broche %2';
-Blockly.Msg['ACTUATORS_GROVERELAY_CONTROL_TOOLTIP'] = IMG_MODULE_RELAY + Blockly.Tooltip.SEP + 'Permet de contrôler la valeur du relais (0 ou 1) sur les broches digitales P0 à P20.';
+Blockly.Msg['ACTUATORS_GROVERELAY_CONTROL_TOOLTIP'] = IMG_MODULE_RELAY + Blockly.Tooltip.SEP + 'Permet de contrôler la valeur du relais (0 ou 1) sur les broches digitales.';
 Blockly.Msg['ACTUATORS_GROVEVIBRATIONMOTOR_CONTROL_TITLE'] = '[Moteur à vibration] contrôler le moteur à l\'état %1 sur la broche  %2';
-Blockly.Msg['ACTUATORS_GROVEVIBRATIONMOTOR_CONTROL_TOOLTIP'] = IMG_MODULE_VIBRATION_MOTOR + Blockly.Tooltip.SEP + 'Permet d\'activer ou de désactiver le moteur à vibration grove (0 ou 1) sur les broches digitales P0 à P20.';
+Blockly.Msg['ACTUATORS_GROVEVIBRATIONMOTOR_CONTROL_TOOLTIP'] = IMG_MODULE_VIBRATION_MOTOR + Blockly.Tooltip.SEP + 'Permet d\'activer ou de désactiver le moteur à vibration grove (0 ou 1) sur les broches digitales.';
 // Actuators - MOSFET
 Blockly.Msg['ACTUATORS_MOSFET_SETSTATE_TITLE'] = '[MOSFET] contrôler à l\'état %1 sur la broche %2';
 Blockly.Msg['ACTUATORS_MOSFET_SETSTATE_TOOLTIP'] = IMG_MODULE_MOSFET + Blockly.Tooltip.SEP + 'Permet de contrôler l\'état du transitor MOSFET (0 ou 1) sur une broche PWM.';
@@ -386,12 +375,11 @@ Blockly.Msg['ACTUATORS_MOSFET_SETPERCENTVALUE_TITLE'] = '[MOSFET] contrôler la 
 Blockly.Msg['ACTUATORS_MOSFET_SETPERCENTVALUE_TOOLTIP'] = IMG_MODULE_MOSFET + Blockly.Tooltip.SEP + 'Permet de contrôler la puissance de sortie du transitor MOSFET (de 0 à 100 %) sur une broche PWM.';
 Blockly.Msg['ACTUATORS_MOSFET_SETFREQUENCY_TITLE'] = '[MOSFET] contrôler la fréquence du cycle à %1 (Hz) sur la broche %2';
 Blockly.Msg['ACTUATORS_MOSFET_SETFREQUENCY_TOOLTIP'] = IMG_MODULE_MOSFET + Blockly.Tooltip.SEP + 'Permet de contrôler la fréquence cyclique (Hz) du transistor MOSFET sur une broche PWM.';
-Blockly.Msg['ACTUATORS_MOSFET_PULL'] = 'pull';
 // Actuators - Music
 Blockly.Msg['ACTUATORS_MUSIC_PLAYMUSIC_TITLE'] = '[Music] jouer la musique %1 sur %2';
-Blockly.Msg['ACTUATORS_MUSIC_PLAYMUSIC_TOOLTIP'] = IMG_MODULE_BUZZER_SPEAKER + Blockly.Tooltip.SEP + 'Permet de jouer une musique avec le module buzzer ou speaker grove sur les broches digitales P0 à P20.';
+Blockly.Msg['ACTUATORS_MUSIC_PLAYMUSIC_TOOLTIP'] = IMG_MODULE_BUZZER_SPEAKER + Blockly.Tooltip.SEP + 'Permet de jouer une musique avec le module buzzer ou speaker grove sur les broches digitales.';
 Blockly.Msg['ACTUATORS_MUSIC_PLAY_NOTES_TITLE'] = '[Music] jouer les notes sur';
-Blockly.Msg['ACTUATORS_MUSIC_PLAY_NOTES_TOOLTIP'] = IMG_MODULE_BUZZER_SPEAKER + Blockly.Tooltip.SEP + 'Permet de jouer des notes avec un module buzzer ou speaker sur les broches digitales P0 à P20.';
+Blockly.Msg['ACTUATORS_MUSIC_PLAY_NOTES_TOOLTIP'] = IMG_MODULE_BUZZER_SPEAKER + Blockly.Tooltip.SEP + 'Permet de jouer des notes avec un module buzzer ou speaker sur les broches digitales.';
 Blockly.Msg['ACTUATORS_MUSIC_NOTE_TITLE'] = 'note %1 à l\'octave %2 durée %3';
 Blockly.Msg['ACTUATORS_MUSIC_NOTE_TOOLTIP'] = IMG_MODULE_BUZZER_SPEAKER + Blockly.Tooltip.SEP + 'Permet de définir une note avec son octave et sa durée.';
 Blockly.Msg['ACTUATORS_MUSIC_PLAY_FREQUENCY_TITLE'] = '[Music] jouer la fréquence %1 pendant %2 (ms) sur %3';

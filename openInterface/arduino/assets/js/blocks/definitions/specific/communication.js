@@ -130,8 +130,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     }, {
       "type": "input_value",
       "name": "DATA",
-      "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_.concat(
-        Blockly.Constants.Types.Arduino.BOOLEAN.compatibleTypes_
+      "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_.concat(
+        Blockly.Constants.Types.BOOLEAN.compatibleTypes_
       )
     }],
     "output": "Number",
@@ -181,7 +181,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "args0": [{
       "type": "input_value",
       "name": "FREQUENCY",
-      "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+      "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
     }],
     "inputsInline": true,
     "previousStatement": null,
@@ -272,45 +272,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     ]
   },
 
-  // GROVE SERIAL BLUETOOTH _ MODULE SETTINGS JSON
-  {
-    "type": "communication_setSerialBluetooth",
-    "message0": "%{BKY_COMMUNICATION_BLUETOOTH_SETTINGS_TITLE}",
-    "args0": [{
-      "type": "input_value",
-      "name": "NAME",
-      "check": ["String"]
-    }, {
-      "type": "input_value",
-      "name": "MODE",
-      "check": ["String"]
-    }, {
-      "type": "input_value",
-      "name": "PIN",
-      "check": ["String"]
-    }],
-    "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
-    "args1": [{
-      "type": "field_grid_dropdown",
-      "name": "RX",
-      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
-    }, {
-      "type": "field_grid_dropdown",
-      "name": "TX",
-      "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
-    }],
-    "inputsInline": true,
-    "previousStatement": null,
-    "nextStatement": null,
-    "style": "communication_blocks",
-    "tooltip": "%{BKY_COMMUNICATION_BLUETOOTH_SETTINGS_TOOLTIP}",
-    "extensions": [
-      "block_init_helpurl",
-      "pins_management_global",
-      "pins_management_rxtx"
-    ]
-  },
-
   // GROVE SERIAL BLUETOOTH _ SET AT COMMAND
   {
     "type": "communication_groveSerialBluetooth_setATCommand",
@@ -347,7 +308,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       "block_init_helpurl",
       "pins_management_global",
       "pins_management_rxtx",
-      "bt_tooltip_helper"
+      "bt_tooltip_helper",
+      "groveBT_tooltips"
     ]
   },
 
@@ -670,7 +632,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       "block_init_helpurl",
       "pins_management_global",
       "pins_management_rxtx",
-      "bt_tooltip_helper"
+      "bt_tooltip_helper",
+      "groveBT_tooltips"
     ]
   },
 
@@ -806,7 +769,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     }, {
       "type": "input_value",
       "name": "CANAL",
-      "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+      "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
     }, {
       "type": "field_grid_dropdown",
       "name": "CE",
@@ -846,7 +809,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     }, {
       "type": "input_value",
       "name": "CANAL",
-      "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+      "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
     }, {
       "type": "field_grid_dropdown",
       "name": "CE",
@@ -1210,15 +1173,15 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     }, {
       "type": "input_value",
       "name": "HOUR",
-      "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+      "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
     }, {
       "type": "input_value",
       "name": "MIN",
-      "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+      "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
     }, {
       "type": "input_value",
       "name": "SEC",
-      "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+      "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
     }],
     "inputsInline": true,
     "previousStatement": null,
@@ -1286,11 +1249,39 @@ Blockly.Extensions.register('bt_tooltip_helper',
   Blockly.Constants.Communication.BT_INIT_EXTENSION);
 
 /**
+ * Performs final setup of grove MP3 blocks by define tooltip.
+ * @this {Blockly.Block}
+ */
+Blockly.Constants.Communication.GROVE_BLUETOOTH_TOOLTIP_EXTENSION = function () {
+    const tooltip = this.getTooltip().split('[AT+BAUD]:')[0];
+    this.setTooltip(() => {
+      switch (this.getFieldValue('COMMAND')) {
+        case 'AT+BAUD':
+          return tooltip + Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_ATBAUD_HELPER'] +
+`1200: 1
+2400: 2
+4800: 3
+9600: 4
+19200: 5
+38400: 6
+57600: 7
+115200: 8
+230400: 9`;
+        default:
+          return tooltip;
+      }
+    });
+};
+
+Blockly.Extensions.register('groveBT_tooltips',
+    Blockly.Constants.Communication.GROVE_BLUETOOTH_TOOLTIP_EXTENSION);
+
+/**
 * Performs final setup of 'network_client_sendData' block.
 * @this {Blockly.Block}
 */
 Blockly.Constants.Communication.COMMUNICATION_IR_SEND_NEC_INIT_EXTENSION = function () {
-  this.repeat_ = false;
+  this.option_ = false;
   this.update_(this.updateField_);
 };
 
@@ -1639,3 +1630,28 @@ Blockly.Constants.Communication.COMMUNICATION_REMOTECONTROL_ONCOMMANDRECEIVED_MU
 
 Blockly.Extensions.registerMutator("communication_onRemoteCommandReceived_mutator",
   Blockly.Constants.Communication.COMMUNICATION_REMOTECONTROL_ONCOMMANDRECEIVED_MUTATOR_MIXIN);
+
+
+/**
+ * Performs final setup of 'communication_groveSerialBluetooth_setATCommand' block.
+ * @this {Blockly.Block}
+ */
+Blockly.Constants.Communication.COMMUNICATION_GROVE_SERIAL_BT_SET_AT_COMMAND_INIT_EXTENSION = function () {
+    this.option_ = false;
+    this.update_(this.updateField_);
+};
+
+Blockly.Extensions.register("communication_groveSerialBluetooth_setATCommand_extension",
+    Blockly.Constants.Communication.COMMUNICATION_GROVE_SERIAL_BT_SET_AT_COMMAND_INIT_EXTENSION);
+
+/**
+ * Mixin for mutator functions in the 'communication_groveSerialBluetooth_setATCommand' extension.
+ * @mixin
+ * @augments Blockly.Block
+ * @package
+ */
+Blockly.Constants.Communication.COMMUNICATION_GROVE_SERIAL_BT_SET_AT_COMMAND_MUTATOR_MIXIN =
+    Blockly.Constants.Utils.addOptionMutatorMixin('baudrate', 'COMMUNICATION_GROVE_SERIAL_BT_SET_AT_COMMAND_BAUDRATE', 'dropdown', );
+
+Blockly.Extensions.registerMutator('communication_groveSerialBluetooth_setATCommand_mutator',
+    Blockly.Constants.Communication.COMMUNICATION_GROVE_SERIAL_BT_SET_AT_COMMAND_MUTATOR_MIXIN);

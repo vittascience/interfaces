@@ -584,10 +584,19 @@ const TOOLBOX_SCRATCH_CONTENT = {
             ]
         },
         {
+            "label": "%{BKY_SUBCATEGORY_MOSFET}",
+            "blocks": [
+                'actuators_mosfet_setState',
+                'actuators_mosfet_setPercentValue',
+                'actuators_mosfet_setFrequency'
+            ]
+        },
+        {
             "label": "%{BKY_SUBCATEGORY_KITRONIK}",
             "blocks": [
                 'actuators_kitronik_controlMotor',
-                'actuators_kitronik_stopMotor'
+                'actuators_kitronik_stopMotor',
+                'actuators_kitronikShield_setServoAngle'
             ]
         }
     ],

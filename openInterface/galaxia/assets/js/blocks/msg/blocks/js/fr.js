@@ -178,6 +178,8 @@ Blockly.Msg['IO_SETPWM_TITLE'] = 'appliquer un signal carré de fréquence %1 (H
 Blockly.Msg['IO_SETPWM_TOOLTIP'] = 'Permet d\'appliquer un signal carré (PWM) avec un cycle fixé à 50% (soit 512) sur une broche. Ce bloc permet de changer la fréquence du signal de 0 à 4.29 GHz.';
 Blockly.Msg['IO_STOPPWM_TITLE'] = 'arrêter le signal PWM de la broche %1';
 Blockly.Msg['IO_STOPPWM_TOOLTIP'] = 'Permet d\'arrêter le signal PWM appliqué sur une broche.';
+Blockly.Msg['IO_READPULSEIN_TITLE'] = 'lire l\'impulsion (μs) de l\'état %1 sur la broche %2';
+Blockly.Msg['IO_READPULSEIN_TOOLTIP'] = 'Renvoie la durée de l\'impulsion entrante à l\'état HAUT ou BAS en (us).';
 Blockly.Msg['IO_GETVOLTAGE_TITLE'] = 'convertir %1 sur %2 en tension';
 Blockly.Msg['IO_GETVOLTAGE_TOOLTIP'] = 'Permet de convertir une valeur analogique en tension en choisissant la résolution (10-bit: 1024, 12-bit: 4096, 9-bit: 512, 11-bit: 2048, 12-bit: 4096, 13-bit: 8191) et un maximum de 3.6V.';
 
@@ -224,8 +226,8 @@ Blockly.Msg['COMMUNICATION_RADIO_ONNUMBERRECEIVED_TITLE'] = '[Radio] si un nombr
 Blockly.Msg['COMMUNICATION_RADIO_ONNUMBERRECEIVED_TOOLTIP'] = 'Permet d\'exécuter des instructions si un nombre est reçu par radio dans la variable \'numberData\'.';
 Blockly.Msg['COMMUNICATION_RADIO_ONVALUERECEIVED_TITLE'] = '[Radio] si une valeur est reçue dans %1 %2 alors';
 Blockly.Msg['COMMUNICATION_RADIO_ONVALUERECEIVED_TOOLTIP'] = 'Permet d\'exécuter des instructions si un nom et sa valeur sont reçus par radio dans les variables \'name\' et \'value\'.';
-Blockly.Msg['COMMUNICATION_RADIO_CONFIG_TITLE'] = '[Radio] configurer Canal %1 Puissance %2 Taille des données %3 Groupe %4';
-Blockly.Msg['COMMUNICATION_RADIO_CONFIG_TOOLTIP'] = 'Permet de configurer le canal de la radio (de 0 to 83), la taille des données transmises (en octets), la puissance de transmission (de 0 à 7)  ainsi que le group (de 0 à 255).';
+Blockly.Msg['COMMUNICATION_RADIO_CONFIG_TITLE'] = '[Radio] configurer le canal %1';
+Blockly.Msg['COMMUNICATION_RADIO_CONFIG_TOOLTIP'] = 'Permet de configurer le canal de la radio (de 0 to 83).';
 // Communication - Data logging
 Blockly.Msg['COMMUNICATION_OPENLOG_WRITE_TITLE'] = '[Openlog] écrire dans la carte SD %1 avec la carte %2 sur les broches RXI %3 TXO %4 %5 Données %6';
 Blockly.Msg['COMMUNICATION_OPENLOG_WRITE_TOOLTIP'] = IMG_MODULE_OPENLOG + Blockly.Tooltip.SEP + 'Permet d\'écrire des données dans la carte micro SD avec le module Openlog. Le baudrate de l\'OpenLog doit être configuré à la moitié du baudrate de la carte. Exemple: Pour la carte v1, si le baudrate est à 9600 (cf config.txt sur la carte SD), le baudrate doit être à 4800, la moitié.\nEn revanche, pour le modèle de Sparkfun, il est basiquement à 9600, vous pouvez renseignez le même baudrate (9600) dans le block ET dans le fichier config.txt.\nPar ailleurs, il faut aussi au préalable placer la carte SD dans le module OpenLog avant sa remise sous tension.';
@@ -450,8 +452,18 @@ Blockly.Msg['SENSORS_GETGROVEBUTTON_TITLE'] = '[Module bouton] %1 sur la broche 
 Blockly.Msg['SENSORS_GETGROVEBUTTON_TOOLTIP'] = IMG_MODULE_BUTTON + Blockly.Tooltip.SEP + 'Renvoie la valeur numérique du bouton Grove (0/1 ou 0V/3.3V) sur les broches digitales.';
 Blockly.Msg['SENSORS_GETGROVEBUTTON_VOLTAGE'] = 'tension';
 Blockly.Msg['SENSORS_GETGROVEBUTTON_STATE'] = 'état';
+Blockly.Msg['SENSORS_MLX90621_READTEMPERATURE_TITLE'] = '[Capteur temp. IR MLX90621] température (°C) type %1';
+Blockly.Msg['SENSORS_MLX90621_READTEMPERATURE_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Renvoie la température en degré Celsius (°C) avec le capteur infrarouge MLX90621. Brancher le capteur sur un port I2C.';
+Blockly.Msg['SENSORS_MLX90621_INT_TYPE'] = 'entier';
+Blockly.Msg['SENSORS_MLX90621_FLOAT_TYPE'] = 'décimal';
+Blockly.Msg['SENSORS_MLX90621_GETTEMPDATA_TITLE'] = '[Capteur temp. IR MLX90621] température (°C) %1';
+Blockly.Msg['SENSORS_MLX90621_TEMP_MIN'] = 'minimum';
+Blockly.Msg['SENSORS_MLX90621_TEMP_MAX'] = 'maximum';
+Blockly.Msg['SENSORS_MLX90621_TEMP_AVG'] = 'moyenne';
+Blockly.Msg['SENSORS_MLX90621_GETTEMPDATA_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Renvoie la température min, max ou moyenne d\'un objet en degré Celsius (°C) avec le capteur infrarouge MLX90621. Brancher le capteur sur un port I2C.';
 Blockly.Msg['SENSORS_GET_WATER_LEVEL_TITLE'] = '[Capteur d\'eau] niveau (%)';
 Blockly.Msg['SENSORS_GET_WATER_LEVEL_TOOLTIP'] = IMG_MODULE_WATER_I2C + Blockly.Tooltip.SEP + 'Mesure le niveau d\'eau en pourcentage (de 0 à 100%) sur le port I2C.';
+
 // Actuators - Motors
 Blockly.Msg['ACTUATORS_SERVO_SETANGLE_TITLE'] = '[Servomoteur] contrôler l\'angle à %1 sur la broche %2';
 Blockly.Msg['ACTUATORS_SERVO_SETANGLE_TOOLTIP'] = IMG_MODULE_SERVO + Blockly.Tooltip.SEP + 'Permet de contrôler l\'angle d\'un servomoteur (de 0 à 180) sur les broches digitales.. Attention, le montage doit être alimenté par une batterie pour fournir assez de courant au servomoteur.';
@@ -463,6 +475,13 @@ Blockly.Msg['ACTUATORS_GROVERELAY_CONTROL_TITLE'] = '[Module relais] contrôler 
 Blockly.Msg['ACTUATORS_GROVERELAY_CONTROL_TOOLTIP'] = IMG_MODULE_RELAY + Blockly.Tooltip.SEP + 'Permet de contrôler la valeur du relais (0 ou 1) sur les broches digitales.';
 Blockly.Msg['ACTUATORS_GROVEVIBRATIONMOTOR_CONTROL_TITLE'] = '[Moteur à vibration] contrôler le moteur à l\'état %1 sur la broche  %2';
 Blockly.Msg['ACTUATORS_GROVEVIBRATIONMOTOR_CONTROL_TOOLTIP'] = IMG_MODULE_VIBRATION_MOTOR + Blockly.Tooltip.SEP + 'Permet d\'activer ou de désactiver le moteur à vibration grove (0 ou 1) sur les broches digitales.';
+// Actuators - MOSFET
+Blockly.Msg['ACTUATORS_MOSFET_SETSTATE_TITLE'] = '[MOSFET] contrôler à l\'état %1 sur la broche %2';
+Blockly.Msg['ACTUATORS_MOSFET_SETSTATE_TOOLTIP'] = IMG_MODULE_MOSFET + Blockly.Tooltip.SEP + 'Permet de contrôler l\'état du transitor MOSFET (0 ou 1) sur une broche PWM.';
+Blockly.Msg['ACTUATORS_MOSFET_SETPERCENTVALUE_TITLE'] = '[MOSFET] contrôler la puissance à %1 (%) sur la broche %2';
+Blockly.Msg['ACTUATORS_MOSFET_SETPERCENTVALUE_TOOLTIP'] = IMG_MODULE_MOSFET + Blockly.Tooltip.SEP + 'Permet de contrôler la puissance de sortie du transitor MOSFET (de 0 à 100 %) sur une broche PWM.';
+Blockly.Msg['ACTUATORS_MOSFET_SETFREQUENCY_TITLE'] = '[MOSFET] contrôler la fréquence du cycle à %1 (Hz) sur la broche %2';
+Blockly.Msg['ACTUATORS_MOSFET_SETFREQUENCY_TOOLTIP'] = IMG_MODULE_MOSFET + Blockly.Tooltip.SEP + 'Permet de contrôler la fréquence cyclique (Hz) du transistor MOSFET sur une broche PWM.';
 // Actuators - Kitronik
 Blockly.Msg['ACTUATORS_KITRONIK_CONTROLMOTOR_TITLE'] = '[Kitronik Motors] contrôler le moteur %1 direction %2 vitesse %3';
 Blockly.Msg['ACTUATORS_KITRONIK_CONTROLMOTOR_TOOLTIP'] = IMG_SHIELD_KITRONIK + Blockly.Tooltip.SEP + 'Permet de contrôler MOTOR1, MOTOR2 ou les deux en changeant le sens (↻ : MARCHE AVANT, ↺ : MARCHE ARRIÈRE) ou la vitesse (de 0 à 100 %) du shield moteur Kitronik pour BBC:microbit. L\'alimentation du shield doit être comprise entre 3V et 10V.';
@@ -496,6 +515,7 @@ Blockly.Msg['NOTE_A'] = 'La';
 Blockly.Msg['NOTE_A_SHARP'] = 'La#';
 Blockly.Msg['NOTE_B'] = 'Si';
 Blockly.Msg['MUSIC_SILENCE'] = 'Silence';
+
 // IA - Sensor data
 Blockly.Msg['VITTAIA_LOAD_LOCAL_MODEL_TITLE'] = '%1 charger le modèle local';
 Blockly.Msg['VITTAIA_LOAD_LOCAL_MODEL_TOOLTIP'] = 'Permet de charger un modèle IA stocké localement depuis le navigateur web.';

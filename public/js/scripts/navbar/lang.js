@@ -1,3 +1,21 @@
+function getAiImagesPwaLangUrl(code) {
+    const url = new URL(window.location.href);
+    const isAiImagesPage = /\/ia\/images(?:\.php)?$/.test(url.pathname);
+    const isPwaShell = url.searchParams.has('pwa');
+
+    if (!isAiImagesPage || !isPwaShell) {
+        return null;
+    }
+
+    const pwaUrl = new URL('/ia/images', window.location.origin);
+    pwaUrl.searchParams.set('pwa', '1');
+    pwaUrl.searchParams.set('nocloud', '1');
+    pwaUrl.searchParams.set('nouse', '1');
+    pwaUrl.searchParams.set('lang', code);
+
+    return pwaUrl.toString();
+}
+
 function switchLang(code) {
     const isDoubleLangCookies = document.cookie.split('; ').map((cookie) =>{ return cookie.split('=')}).filter((cookie) => {return cookie[0] === 'lng'}).length > 1;
     if (isDoubleLangCookies) {
@@ -13,6 +31,12 @@ function switchLang(code) {
     //set cookie for 1 years
     d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000)); 
     setCookie("lng", code, d.toUTCString()) 
+
+    const pwaUrl = getAiImagesPwaLangUrl(code);
+    if (pwaUrl) {
+        window.location.href = pwaUrl;
+        return;
+    }
 
     // set custom behaviour for "learn" path 
     if( learnPathRegex.test(location) && urlParams.get('lang')){
@@ -30,5 +54,5 @@ function switchLang(code) {
             location.href(location)
         }
     }
-     location.reload();
+    window.location.reload();
 }

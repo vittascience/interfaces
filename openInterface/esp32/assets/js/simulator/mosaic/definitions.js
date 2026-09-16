@@ -790,6 +790,24 @@ Simulator.Mosaic.specific = {
             }
         },
         // Alvik
+         {
+            regex: /led_right\.set_color\(/,
+            id: "alvik-led-right",
+            title: "LED RGB droite",
+            pin: 'Alvik',
+            type: 'output',
+            picture: "RGB-LED.svg",
+            value: ""
+        },
+         {
+            regex: /led_left\.set_color\(/,
+            id: "alvik-led-left",
+            title: "LED RGB gauche",
+            pin: 'Alvik',
+            type: 'output',
+            picture: "RGB-LED.svg",
+            value: ""
+        },
         {
             regex: /alvik\.set_builtin_led/,
             id: "alvik-builtin-led",

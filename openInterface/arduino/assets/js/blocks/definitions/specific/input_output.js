@@ -13,7 +13,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "TIME",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "UNIT",
@@ -373,7 +373,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "input_value",
             "name": "INDEX",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }],
         "previousStatement": null,
         "nextStatement": null,
@@ -393,11 +393,11 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "DIRECTORY",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "INDEX",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }],
         "previousStatement": null,
         "nextStatement": null,
@@ -675,7 +675,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "input_value",
             "name": "VALUE",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }],
         "previousStatement": null,
         "nextStatement": null,
@@ -696,7 +696,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "input_value",
             "name": "VALUE",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }],
         "previousStatement": null,
         "nextStatement": null,
@@ -715,7 +715,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "VALUE",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",

@@ -1,5 +1,5 @@
 /**
- * @fileoverview English messages for Raspberry Pi Pico. (EN)
+ * @fileoverview Arabic messages for Raspberry Pi Pico. (AR)
  */
 'use strict';
 
@@ -8,19 +8,26 @@ Blockly.Msg["DISPLAY_CONTROL_BUILTIN_LED_TITLE"] = "[Pico] control built-in led 
 Blockly.Msg["DISPLAY_CONTROL_BUILTIN_LED_TOOLTIP"] = "Enbable to control the built-in led of the Raspberry Pi Pico.";
 Blockly.Msg["DISPLAY_CONTROL_BUILTIN_LED_W_TITLE"] = "[Pico] control built-in led (GPI0) at state %1";
 Blockly.Msg["DISPLAY_CONTROL_BUILTIN_LED_W_TOOLTIP"] = "Enbable to control the built-in led of the Raspberry Pi Pico W.";
-// Display - Screen
+// Display - LCD
 Blockly.Msg["DISPLAY_LCD_SETTEXT_TITLE"] = "[LCD address %1] show text %2 on line %3 position %4 on port %5";
 Blockly.Msg["DISPLAY_LCD_SETTEXT_TOOLTIP"] = IMG_MODULE_LCD_I2C + Blockly.Tooltip.SEP + "Show text on the grove lcd 1602 display. Connect lcd on I2C port.";
 Blockly.Msg["DISPLAY_LCD_CLEAR_TITLE"] = "[LCD address %1] clear display on port %2";
 Blockly.Msg["DISPLAY_LCD_CLEAR_TOOLTIP"] = IMG_MODULE_LCD_I2C + Blockly.Tooltip.SEP + "Enable to clear the entire lcd text. Connect lcd on I2C port.";
-Blockly.Msg["DISPLAY_OLED_ADDTEXT_TITLE"] = "[OLED display] show text %1 at position x %2 y %3 on port %4";
-Blockly.Msg["DISPLAY_OLED_ADDTEXT_TOOLTIP"] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + "Enable write text on OLED display. Connect the OLED display on I2C port.";
-Blockly.Msg["DISPLAY_OLED_SETPIXEL_TITLE"] = "[OLED display] control pixel x %1 y %2 to state %3 on port %4";
-Blockly.Msg["DISPLAY_OLED_SETPIXEL_TOOLTIP"] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + "Enable to control each OLED display pixel. Connect the OLED display on I2C port.";
-Blockly.Msg["DISPLAY_OLED_CLEARSCREEN_TITLE"] = "[OLED display] clear screen on port %1";
-Blockly.Msg["DISPLAY_OLED_CLEARSCREEN_TOOLTIP"] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + "Enable to clear the entire grove oled screen. Connect the OLED display on I2C port.";
-Blockly.Msg["DISPLAY_OLED_DRAWICON_TITLE"] = "[OLED] draw icon %1 at position x %2 y %3 on port %4";
-Blockly.Msg["DISPLAY_OLED_DRAWICON_TOOLTIP"] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + "Enable to draw an icon from Pico_ssd1306 library, at the position (x,y) on the OLED screen. Connect the OLED display on I2C port.";
+// Display - OLED
+Blockly.Msg['DISPLAY_OLED_ADDTEXT_TITLE'] = '[OLED] show text %1 at position x %2 y %3 on port %4';
+Blockly.Msg['DISPLAY_OLED_ADDTEXT_TOOLTIP'] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + 'Enable write text on OLED display (128x64 px). Connect the OLED display on I2C port.';
+Blockly.Msg['DISPLAY_OLED_SETPIXEL_TITLE'] = '[OLED] control pixel x %1 y %2 to state %3 on port %4';
+Blockly.Msg['DISPLAY_OLED_SETPIXEL_TOOLTIP'] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + 'Enable to control each OLED display pixel (128x64 px). Connect the OLED display on I2C port.';
+Blockly.Msg['DISPLAY_OLED_DRAWLINE_TITLE'] = '[OLED] draw a line from (%1, %2) to (%3, %4) on port %5';
+Blockly.Msg['DISPLAY_OLED_DRAWLINE_TOOLTIP'] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + 'Enable to draw a line between two points on the Grove OLED display (128x64 px). Connect the OLED display on I2C port.';
+Blockly.Msg['DISPLAY_OLED_SETBACKGROUND_TITLE'] = '[OLED] set background to %1 on port %2';
+Blockly.Msg['DISPLAY_OLED_WHITE'] = 'white';
+Blockly.Msg['DISPLAY_OLED_BLACK'] = 'black';
+Blockly.Msg['DISPLAY_OLED_SETBACKGROUND_TOOLTIP'] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + 'Enable to invert the Grove OLED display. Connect the OLED display on I2C port.';
+Blockly.Msg['DISPLAY_OLED_CLEARSCREEN_TITLE'] = '[OLED] clear screen on port %1';
+Blockly.Msg['DISPLAY_OLED_CLEARSCREEN_TOOLTIP'] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + 'Enable to clear the entire Grove OLED screen. Connect the OLED display on I2C port.';
+Blockly.Msg['DISPLAY_OLED_DRAWICON_TITLE'] = '[OLED] draw icon %1 at position x %2 y %3 on port %4';
+Blockly.Msg['DISPLAY_OLED_DRAWICON_TOOLTIP'] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + 'Enable to draw an icon from esp32_ssd1306 library, at the position (x,y) on the OLED screen. Connect the OLED display on I2C port.';
 // Display - Neopixel
 Blockly.Msg["DISPLAY_NEOPIXEL_DEFINE_TITLE"] = "[Neopixel] define %1 LED on pin %2";
 Blockly.Msg["DISPLAY_NEOPIXEL_DEFINE_TOOLTIP"] = IMG_MODULE_NEOPIXEL + Blockly.Tooltip.SEP + "Enable to define LED number of neopixel. This block have to be used in setup.";
@@ -37,8 +44,8 @@ Blockly.Msg["DISPLAY_NEOPIXEL_RAINBOW_TOOLTIP"] = IMG_MODULE_NEOPIXEL + Blockly.
 // Display - LED modules
 Blockly.Msg["DISPLAY_SETGROVELED_TITLE"] = "[LED] control LED to state %1 on pin %2";
 Blockly.Msg["DISPLAY_SETGROVELED_TOOLTIP"] = IMG_MODULE_LED + Blockly.Tooltip.SEP + "Enable to switch on or switch off the LED socket kit Grove (0 or 1) on digitals pins P0 up through P20.";
-Blockly.Msg["DISPLAY_SETLEDINTENSITY_TITLE"] = "[LED] set LED intensity to %1 on pin %2";
-Blockly.Msg["DISPLAY_SETLEDINTENSITY_TOOLTIP"] = IMG_MODULE_LED_PWM + Blockly.Tooltip.SEP + "Enable to set the LED intensity from 0 to 255 on PWM pins.";
+Blockly.Msg["DISPLAY_SETLEDINTENSITY_TITLE"] = "[LED] set LED intensity to %1 (%) on pin %2";
+Blockly.Msg["DISPLAY_SETLEDINTENSITY_TOOLTIP"] = IMG_MODULE_LED_PWM + Blockly.Tooltip.SEP + "Enable to set the LED intensity from 0 to 100 % on PWM pins.";
 Blockly.Msg["DISPLAY_4DIGIT_SETNUMBER_TITLE"] = "[4-Digit module] show %1 %2 on pins CLK %3 DIO %4";
 Blockly.Msg["DISPLAY_4DIGIT_SETNUMBER_TOOLTIP"] = IMG_MODULE_4DIGITDISPLAY + Blockly.Tooltip.SEP + "Enable to show numbers or temperature on grove 4-digit display (TM1637) on digital pins from P0 to P20.";
 Blockly.Msg["DISPLAY_4DIGIT_SETCLOCK_TITLE"] = "[4-Digit module] show clock on pins CLK %1 DIO %2";
@@ -62,25 +69,19 @@ Blockly.Msg["DISPLAY_CHAINABLE_PALETTEALLRGBLED_TITLE"] = "[Chainable LED] set a
 Blockly.Msg["DISPLAY_CHAINABLE_PALETTEALLRGBLED_TOOLTIP"] = IMG_MODULE_LED_RGB + Blockly.Tooltip.SEP + "Block controlling the color of all the LED, choose a colour in the given palette.";
 Blockly.Msg["DISPLAY_CHAINABLE_RESETALLRGBLED_TITLE"] = "[Chainable LED] Shut off all the LED on pins CIN %1 DIN %2";
 Blockly.Msg["DISPLAY_CHAINABLE_RESETALLRGBLED_TOOLTIP"] = IMG_MODULE_LED_RGB + Blockly.Tooltip.SEP + "Block shutting off all the LED.";
-// Input/Output - Microphone module
-Blockly.Msg["IO_MICRO_LOUD"] = "loud";
-Blockly.Msg["IO_MICRO_QUIET"] = "quiet";
-Blockly.Msg["IO_MICRO_IS"] = "is";
-Blockly.Msg["IO_MICRO_WAS"] = "was";
-Blockly.Msg["IO_MICRO_ONSOUNDDETECTED_TITLE"] = "[Micro] if %1 sound %2 detected then";
-Blockly.Msg["IO_MICRO_ONSOUNDDETECTED_TOOLTIP"] = "Execute instructions if sound condition (loud/quiet) is detected. 'was' option: Execute instructions if a (loud/quiet) sound occured since the last call to 'was_sound()'.";
-Blockly.Msg["IO_MICRO_GETCURRENTSOUND_TITLE"] = "[Micro] sound condition";
-Blockly.Msg["IO_MICRO_GETCURRENTSOUND_TOOLTIP"] = "Returns the sound condition (loud/quiet).";
-Blockly.Msg["IO_MICRO_WASSOUNDDETECTED_TITLE"] = "[Micro] %1 sound was detected";
-Blockly.Msg["IO_MICRO_WASSOUNDDETECTED_TOOLTIP"] = "Returns True if a (loud/quiet) sound occured since the last call to 'was_sound()'.";
-Blockly.Msg["IO_MICRO_GETSOUNDLEVEL_TITLE"] = "[Micro] sound level";
-Blockly.Msg["IO_MICRO_GETSOUNDLEVEL_TOOLTIP"] = "Enable du get sound level from 0 to 255.";
-Blockly.Msg["IO_MICRO_GETHISTORYSOUND_TITLE"] = "[Micro] history of sounds";
-Blockly.Msg["IO_MICRO_GETHISTORYSOUND_TOOLTIP"] = "Returns history of sounds since last call to 'get_sounds()'.";
-Blockly.Msg["IO_MICRO_SETSOUNDTHRESHOLD_TITLE"] = "[Micro] set %1 sound threshold to %2";
-Blockly.Msg["IO_MICRO_SETSOUNDTHRESHOLD_TOOLTIP"] = "Enable to set sound level threshold loud/quiet from 0 to 255.";
-Blockly.Msg["IO_MICRO_SOUNDCONDITION_TITLE"] = "[Micro] %1";
-Blockly.Msg["IO_MICRO_SOUNDCONDITION_TOOLTIP"] = "Enable to use (LOUD/QUIET) constants from microphone module in 'Logic' category.";
+
+// Input/Output - Time
+Blockly.Msg["IO_WAIT_TITLE"] = "wait %1 %2";
+Blockly.Msg["IO_WAIT_TOOLTIP"] = "Stop the code execution (duration in seconds or milliseconds).";
+Blockly.Msg["IO_WAIT_SECOND"] = "second.s";
+Blockly.Msg['IO_WAIT_MILLISECOND'] = "millisecond.s";
+Blockly.Msg['IO_WAIT_MICROSECOND'] = "microsecond.s";
+Blockly.Msg["IO_WAIT_UNTIL_TITLE"] = "wait until %1";
+Blockly.Msg["IO_WAIT_UNTIL_TOOLTIP"] = "Stop the code execution until the satisfied condition.";
+Blockly.Msg["IO_INITCHRONOMETER_TITLE"] = "Initialize the chronometer";
+Blockly.Msg["IO_INITCHRONOMETER_TOOLTIP"] = "Allows you to initialize the chronometer (in seconds).";
+Blockly.Msg["IO_GETCHRONOMETER_TITLE"] = "get chronometer in %1";
+Blockly.Msg["IO_GETCHRONOMETER_TOOLTIP"] = "Returns the chronometer value from the initialization in seconds or milliseconds.";
 // Input/Output - External modules
 Blockly.Msg["IO_GROVEKEYPAD_GETNUMBER_TITLE"] = "[Numeric Touch Keypad] get number on pins RX %1 TX %2";
 Blockly.Msg["IO_GROVEKEYPAD_GETNUMBER_TOOLTIP"] = IMG_MODULE_KEYPAD + Blockly.Tooltip.SEP + "Enable to get touched number from keypad grove module on pins RX & TX. When you connect device, make sure you “cross” the wires. Raspberry Pi Pico TX pin needs to be connected with device's RX pin, and the RX pin with the device's TX pin.";
@@ -111,26 +112,14 @@ Blockly.Msg["IO_WRITEDIGITALPIN_TITLE"] = "write on digital pin %1 state %2";
 Blockly.Msg["IO_WRITEDIGITALPIN_TOOLTIP"] = "Enable to write the value (0 or 1) on digital pin.";
 Blockly.Msg["IO_READANALOGPIN_TITLE"] = "read analog pin %1";
 Blockly.Msg["IO_READANALOGPIN_TOOLTIP"] = "Enable to read the analog value of pins (0-1023).";
-Blockly.Msg["IO_WRITEANALOGPIN_TITLE"] = "write on analog pin %1 value %2";
-Blockly.Msg["IO_WRITEANALOGPIN_TOOLTIP"] = "Enable to write on analog pin the value (0-1023). This function does not really write analog value, it writes PWM signal. For example, writing 511 has 50% duty cycle, the average voltage is 1,65V.";
-Blockly.Msg["IO_SETPWM_TITLE"] = "apply a signal of period %1 %2 on pin %3";
-Blockly.Msg["IO_SETPWM_TOOLTIP"] = "Enable to apply a PWM signal on a pin";
 Blockly.Msg["IO_WRITEPWMPIN_TITLE"] = "write value %1 on PWM pin %2";
 Blockly.Msg["IO_WRITEPWMPIN_TOOLTIP"] = "Enable to apply PWM signal with fixed 10kHz-frequency. You can change value from 0 to 1023. 512 will be 50% of duty cycle, as around 1.66V.";
+Blockly.Msg["IO_SETPWM_TITLE"] = "apply a signal of period %1 %2 on pin %3";
+Blockly.Msg["IO_SETPWM_TOOLTIP"] = "Enable to apply a PWM signal on a pin";
+Blockly.Msg["IO_STOPPWM_TITLE"] = "stop PWM signal of pin %1";
+Blockly.Msg["IO_STOPPWM_TOOLTIP"] = "Enable to stop applied PWM signal of a pin.";
 Blockly.Msg["IO_READPULSEIN_TITLE"] = "read pulse in (μs) of state %1 on pin %2";
 Blockly.Msg["IO_READPULSEIN_TOOLTIP"] = "Returns the duration of pulse in. Choice state (HIGH or LOW)";
-// Input/Output - Time
-Blockly.Msg["IO_WAIT_TITLE"] = "wait %1 %2";
-Blockly.Msg["IO_WAIT_TOOLTIP"] = "Stop the code execution (duration in seconds or milliseconds).";
-Blockly.Msg["IO_WAIT_SECOND"] = "second.s";
-Blockly.Msg['IO_WAIT_MILLISECOND'] = "millisecond.s";
-Blockly.Msg['IO_WAIT_MICROSECOND'] = "microsecond.s";
-Blockly.Msg["IO_WAIT_UNTIL_TITLE"] = "wait until %1";
-Blockly.Msg["IO_WAIT_UNTIL_TOOLTIP"] = "Stop the code execution until the satisfied condition.";
-Blockly.Msg["IO_INITCHRONOMETER_TITLE"] = "Initialize the chronometer";
-Blockly.Msg["IO_INITCHRONOMETER_TOOLTIP"] = "Allows you to initialize the chronometer (in seconds).";
-Blockly.Msg["IO_GETCHRONOMETER_TITLE"] = "get chronometer in %1";
-Blockly.Msg["IO_GETCHRONOMETER_TOOLTIP"] = "Returns the chronometer value from the initialization in seconds or milliseconds.";
 
 // Communication - Common
 Blockly.Msg['COMMUNICATION_RX_TX_PINS'] = 'on pins RX %1 TX %2';
@@ -189,7 +178,7 @@ Blockly.Msg["COMMUNICATION_GROVE_BLUETOOTH_ONDATARECEIVED_TOOLTIP"] = IMG_MODULE
 Blockly.Msg["COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TITLE"] = "[HC05 BT] send on pins RX %1 TX %2 message %3";
 Blockly.Msg["COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TOOLTIP"] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + "Enable to send any data by Bluetooth HC05 module on pins RX/TX.";
 Blockly.Msg["COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TITLE"] = "[HC05 BT] on message received RX %1 TX %2 in %3 then";
-Blockly.Msg["COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP"] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + "Allows you to execute instructions on data received by Bluetooth HC05 module in the 'bluetoothData' variable on pins TX/RX.";
+Blockly.Msg["COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP"] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + "Allows you to execute instructions on data received by Bluetooth HC05 module in the 'HC05Data' variable on pins TX/RX.";
 // Communication - Tracking modules
 Blockly.Msg['COMMUNICATION_RFID_GETSTRINGCARDID_TITLE'] = '[RFID - 125kHz] Badge ID on the UART bus %1';
 Blockly.Msg['COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP'] = IMG_MODULE_RFID_125KHZ + Blockly.Tooltip.SEP + 'Allows you to retrieve the UID as a string from the Grove RFID 125 kHz module if it is available on the UART pins. By default, the pins are: UART 1 (tx=4, rx=5) and UART 0 (tx=0, rx=1). The data received from the module is in the form of a byte array. To convert it, use the "[RFID] convert data ... to INT" block.';
@@ -380,7 +369,6 @@ Blockly.Msg["ACTUATORS_MOSFET_SETPERCENTVALUE_TITLE"] = "[MOSFET] control power 
 Blockly.Msg["ACTUATORS_MOSFET_SETPERCENTVALUE_TOOLTIP"] = IMG_MODULE_MOSFET + Blockly.Tooltip.SEP + "Allows you to control the output power of the MOSFET transistor (from 0 to 100%) on a PWM pin.";
 Blockly.Msg["ACTUATORS_MOSFET_SETFREQUENCY_TITLE"] = "[MOSFET] control frequency to %1 (Hz) on pin %2";
 Blockly.Msg["ACTUATORS_MOSFET_SETFREQUENCY_TOOLTIP"] = IMG_MODULE_MOSFET + Blockly.Tooltip.SEP + "Allows you to control the cycle frequency (Hz) of the MOSFET transistor on a PWM pin.";
-Blockly.Msg["ACTUATORS_MOSFET_PULL"] = "pull";
 // Actuators - Music
 Blockly.Msg["ACTUATORS_MUSIC_PLAYMUSIC_TITLE"] = "[Buzzer/Speaker] play music %1 on %2";
 Blockly.Msg["ACTUATORS_MUSIC_PLAYMUSIC_TOOLTIP"] = IMG_MODULE_BUZZER_SPEAKER + Blockly.Tooltip.SEP + "Enable to play the choosen music on Grove buzzer module (or speaker) on digital pins.";

@@ -17,7 +17,7 @@ export default class RosConnection {
 	init() {
 		this.ros = new ROSLIB.Ros({
 			// url: 'ws://51.83.12.237:9090',
-			url: 'wss://vniryo.vittascience.com',
+			url: 'wss://niryo.vittascience.com',
 			// url: 'ws://localhost:9090',
 		});
 		this.ros.on('connection', () => {

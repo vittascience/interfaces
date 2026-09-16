@@ -1,24 +1,7 @@
-Simulator.Mosaic.pin_regex = /([0-9]{1,2})/;
-
-Simulator.Mosaic.getPinDef = (pin, mod) => {
-	const pins = Blockly.Constants.Pins[mod.pins];
-	const pinName = pins.find((p) => p[1] == pin);
-	return {
-		name: pinName ? pinName[0] : null,
-		id: pin.replace('pin', ''),
-	};
-};
-
 Simulator.Mosaic.externalLibraries = {
 	'src/lib/niryo_robot_python_ros_wrapper.js': Simulator.PATH_LIB + 'niryo.js',
 	'src/lib/rospy.js': Simulator.PATH_LIB + 'rospy.js',
 };
-
-Simulator.Mosaic.addSpecificInitializations = async function () { };
-
-Simulator.Mosaic.addSpecificSkulptFunctions = function () { };
-
-Simulator.Mosaic.groveRegex = {};
 
 Simulator.Mosaic.specific = {
 	

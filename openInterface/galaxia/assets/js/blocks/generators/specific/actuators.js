@@ -42,6 +42,32 @@ Blockly.Python.actuators_setGroveRelayState = function (block) {
     return "writeDigital(" + pinName + ", " + state + ")" + NEWLINE;
 };
 
+// MOSFET
+
+Blockly.Python.actuators_mosfet_setState = function (block) {
+    const pin = block.getFieldValue("PIN");
+    const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
+    const pinName = Blockly.Python.Generators.pwm(pin, 'Mosfet', 1000);
+    Blockly.Python.addFunction('writePWM', FUNCTIONS_GALAXIA.DEF_WRITE_WPM);
+    return "writePWM(" + pinName + ", " + state + "*" + PWM_MAX_DUTY + ")" + NEWLINE;
+};
+
+Blockly.Python.actuators_mosfet_setPercentValue = function (block) {
+    const pin = block.getFieldValue("PIN");
+    const value = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || "0";
+    const pinName = Blockly.Python.Generators.pwm(pin, 'Mosfet', 1000);
+    Blockly.Python.addFunction('writePWM', FUNCTIONS_GALAXIA.DEF_WRITE_WPM);
+    return "writePWM(" + pinName + ", " + value + "/100.0*" + PWM_MAX_DUTY + ")" + NEWLINE;
+};
+
+Blockly.Python.actuators_mosfet_setFrequency = function (block) {
+    const pin = block.getFieldValue("PIN");
+    const frequency = Blockly.Python.valueToCode(block, "FREQUENCY", Blockly.Python.ORDER_NONE) || "0";
+    const pinName = Blockly.Python.Generators.pwm(pin, 'Mosfet', 1000);
+    Blockly.Python.addFunction('writePWM', FUNCTIONS_GALAXIA.DEF_WRITE_WPM);
+    return "writePWM(" + pinName + ", 512, " + frequency + ")" + NEWLINE;
+};
+
 // Kitronik
 
 Blockly.Python.actuators_kitronik_controlMotor = function (block) {

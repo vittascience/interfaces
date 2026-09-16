@@ -1,9 +1,17 @@
 let loginDiv = null,
-    loginModal = null;
+    loginModal = null,
+    pendingRedirect = null;
 
-function displayLogin() {
+function displayLogin(redirectUrl = null) {
+    if (redirectUrl) {
+        pendingRedirect = redirectUrl;
+    }
     if (mobileDetect != null) {
-        window.location = ("/login");
+        if (redirectUrl) {
+            window.location = "/login?redirect=" + encodeURIComponent(redirectUrl);
+        } else {
+            window.location = "/login";
+        }
     } else {
         // Display the modal
         if (loginModal == null) {
@@ -70,6 +78,10 @@ function checkNavLogin(fromLoginPage = false) {
                                 parent.postMessage('logged-in-campus-numeria', '*');
                                 return;
                             };
+                            if (pendingRedirect) {
+                                window.location = pendingRedirect;
+                                return;
+                            }
                             let interfaces = ['/arduino/', '/microbit/', '/python/', 'wb55', '/esp32/', '/TI-83/']
                             if (interfaces.includes(window.location.pathname)) {
                                 document.location.reload();

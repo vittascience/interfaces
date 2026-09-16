@@ -299,3 +299,6 @@ Blockly.Msg['VITTAIA_LOAD_POSTURE_MODEL_TOOLTIP'] = 'Lädt das angegebene Modell
 Blockly.Msg['VITTAIA_POSTURE_MAKE_PREDICTIONS_TITLE'] = '%1 Haltungs-Vorhersage auf Webcam-Bild starten';
 Blockly.Msg['VITTAIA_POSTURE_MAKE_PREDICTIONS_TOOLTIP'] = 'Führt Haltungs-Vorhersagen auf dem Webcam-Bild durch. Eine Vorhersage enthält Klasse und Wahrscheinlichkeit.';
 Blockly.Msg['VITTAIA_INIT_WEBCAM_TITLE'] = '%1 Webcam initialisieren';
+Blockly.Msg["VISION_DETECTION_AREA_CENTER"] = "in der Mitte";
+Blockly.Msg["VISION_DETECTION_AREA_RIGHT"] = "rechts";
+Blockly.Msg["VISION_DETECTION_AREA_LEFT"] = "links";

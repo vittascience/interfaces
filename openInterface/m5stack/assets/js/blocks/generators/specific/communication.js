@@ -271,24 +271,25 @@ Blockly.Python.communication_gps_getGGAInformations = function (block) {
 };
 
 Blockly.Python.communication_clockRTC_setDate = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     const date = block.getFieldValue("DATE").split("-");
     const module = block.getFieldValue("MODULE");
-    Blockly.Python.addImport('machine', IMPORT_MACHINE);
     switch (module) {
         case "PCF85063TP":
             Blockly.Python.addImport('esp32_pcf85063tp', IMPORT_ESP32_PCF85063TP);
-            Blockly.Python.addInit('clock_rtc_hp', "clock_hp = RTC_HP(i2c=I2C(scl=Pin(22), sda=Pin(21)), addr=0x51)");
+            Blockly.Python.addInit('clock_rtc_hp', "clock_hp = RTC_HP(i2c=" + i2c + ", addr=0x51)");
             Blockly.Python.addPowerOn('clock_rtc_hp', "clock_hp.reset()");
             return "clock_hp.fillByYMD(" + parseInt(date[0]) + ", " + parseInt(date[1]) + ", " + parseInt(date[2]) + ")" + NEWLINE + "clock_hp.fillDayOfWeek('" + block.getFieldValue("DAY") + "')" + NEWLINE;
         case "DS1307":
             Blockly.Python.addImport('esp32_ds1307', IMPORT_ESP32_DS1307);
-            Blockly.Python.addInit('clock_rtc_v1', "clock_v1 = DS1307(i2c=I2C(scl=Pin(22), sda=Pin(21)), addr=0x68)");
+            Blockly.Python.addInit('clock_rtc_v1', "clock_v1 = DS1307(i2c=" + i2c + ", addr=0x68)");
             Blockly.Python.addPowerOn('clock_rtc_v1', "clock_v1.reset()");
             return "clock_v1.fillByYMD(" + parseInt(date[0]) + ", " + parseInt(date[1]) + ", " + parseInt(date[2]) + ")" + NEWLINE + "clock_v1.fillDayOfWeek('" + block.getFieldValue("DAY") + "')" + NEWLINE;
     }
 };
 
 Blockly.Python.communication_clockRTC_setHour = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     const hour = Blockly.Python.valueToCode(block, "HOUR", Blockly.Python.ORDER_ATOMIC);
     const minute = Blockly.Python.valueToCode(block, "MIN", Blockly.Python.ORDER_ATOMIC);
     const second = Blockly.Python.valueToCode(block, "SEC", Blockly.Python.ORDER_ATOMIC);
@@ -296,24 +297,25 @@ Blockly.Python.communication_clockRTC_setHour = function (block) {
     switch (module) {
         case "PCF85063TP":
             Blockly.Python.addImport('esp32_pcf85063tp', IMPORT_ESP32_PCF85063TP);
-            Blockly.Python.addInit('clock_rtc_hp', "clock_hp = RTC_HP(i2c=I2C(scl=Pin(22), sda=Pin(21)), addr=0x51)");
+            Blockly.Python.addInit('clock_rtc_hp', "clock_hp = RTC_HP(i2c=" + i2c + ", addr=0x51)");
             Blockly.Python.addPowerOn('clock_rtc_hp', "clock_hp.reset()");
             return "clock_hp.fillByHMS(" + hour + ", " + minute + ", " + second + ")" + NEWLINE;
         case "DS1307":
             Blockly.Python.addImport('esp32_ds1307', IMPORT_ESP32_DS1307);
-            Blockly.Python.addInit('clock_rtc_v1', "clock_v1 = DS1307(i2c=I2C(scl=Pin(22), sda=Pin(21)), addr=0x68)");
+            Blockly.Python.addInit('clock_rtc_v1', "clock_v1 = DS1307(i2c=" + i2c + ", addr=0x68)");
             Blockly.Python.addPowerOn('clock_rtc_v1', "clock_v1.reset()");
             return "clock_v1.fillByHMS(" + hour + ", " + minute + ", " + second + ")" + NEWLINE;
     }
 };
 
 Blockly.Python.communication_clockRTC_readTime = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     const module = block.getFieldValue("MODULE");
     const data = block.getFieldValue("DATA");
     switch (module) {
         case "PCF85063TP":
             Blockly.Python.addImport('esp32_pcf85063tp', IMPORT_ESP32_PCF85063TP);
-            Blockly.Python.addInit('clock_rtc_hp', "clock_hp = RTC_HP(i2c=I2C(scl=Pin(22), sda=Pin(21)), addr=0x51)");
+            Blockly.Python.addInit('clock_rtc_hp', "clock_hp = RTC_HP(i2c=" + i2c + ", addr=0x51)");
             Blockly.Python.addPowerOn('clock_rtc_hp', "clock_hp.reset()");
             if (data == "ALL") {
                 return ["clock_hp.readTime()", Blockly.Python.ORDER_ATOMIC];
@@ -322,7 +324,7 @@ Blockly.Python.communication_clockRTC_readTime = function (block) {
             }
         case "DS1307":
             Blockly.Python.addImport('esp32_ds1307', IMPORT_ESP32_DS1307);
-            Blockly.Python.addInit('clock_rtc_v1', "clock_v1 = DS1307(i2c=I2C(scl=Pin(22), sda=Pin(21)), addr=0x68)");
+            Blockly.Python.addInit('clock_rtc_v1', "clock_v1 = DS1307(i2c=" + i2c + ", addr=0x68)");
             Blockly.Python.addPowerOn('clock_rtc_v1', "clock_v1.reset()");
             if (data == "ALL") {
                 return ["clock_v1.readTime()", Blockly.Python.ORDER_ATOMIC];

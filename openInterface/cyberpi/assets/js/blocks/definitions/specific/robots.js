@@ -785,7 +785,7 @@ Blockly.Constants.Robots = Object.create(null);
  * @this {Blockly.Block}
  */
 Blockly.Constants.Robots.ROBOTS_MBOT2_MOVE_INIT_EXTENSION = function () {
-  this.duration_ = false;
+  this.option_ = false;
   this.update_(this.updateField_);
 };
 

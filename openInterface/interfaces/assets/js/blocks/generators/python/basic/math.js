@@ -189,7 +189,7 @@ Blockly.Python.math_round_ndigits = function (block) {
   if (digits === "0") {
     return ["round(" + number + ")", Blockly.Python.ORDER_NONE];
   } else {
-    return ["round(" + number + ", " + Math.round(digits) + ")", Blockly.Python.ORDER_NONE];
+    return ["round(" + number + ", " + digits + ")", Blockly.Python.ORDER_NONE];
   }
 };
 
@@ -240,14 +240,11 @@ Blockly.Python.math_atan2 = function (block) {
 
 Blockly.Python.math_min_max = function (block) {
   let code;
-  const op = block.getFieldValue("OP") || "MIN";
   const elements = new Array(block.itemCount_);
-
   for (var i = 0; i < block.itemCount_; i++) {
     elements[i] = Blockly.Python.valueToCode(block, "ADD" + i, Blockly.Python.ORDER_NONE) || "0";
   }
-
-  switch (op) {
+  switch (block.getFieldValue("OP")) {
     case "MIN":
       code = "min(" + elements + ")"
       break;

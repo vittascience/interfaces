@@ -158,7 +158,8 @@ const TOOLBOX_HARDWARE_CONTENT = {
                 'io_writeDigitalPin',
                 'io_writePwm',
                 'io_setPwm',
-                'io_stopPwm'
+                'io_stopPwm',
+                'io_setPinMode'
             ]
         },
     ],

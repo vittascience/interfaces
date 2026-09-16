@@ -1,7 +1,7 @@
 Simulator.Mosaic.pin_regex = /([0-9]{1,2})/;
 
 Simulator.Mosaic.getPinDef = (pin, mod) => {
-	const pins = Blockly.Constants.Pins[mod.pins];
+	const pins = Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()];
 	const pinName = pins.find((p) => p[1] == pin);
 	return {
 		name: pinName ? pinName[0] : null,
@@ -10,34 +10,35 @@ Simulator.Mosaic.getPinDef = (pin, mod) => {
 };
 
 Simulator.Mosaic.externalLibraries = {
-	// js common libraries
-	'src/lib/ujson.js': Simulator.PATH_LIB_COMMON + 'micropython/json.js',
-	'src/lib/json.js': Simulator.PATH_LIB_COMMON + 'micropython/json.js',
-	'src/lib/gc.js': Simulator.PATH_LIB_COMMON + 'micropython/gc.js',
-	// js common esp32 libraries
-	'src/lib/esp.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/esp.js',
-	'src/lib/urequests.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/requests.js',
-	'src/lib/requests.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/requests.js',
-	'src/lib/socket.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/socket.js',
-	'src/lib/usocket.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/socket.js',
-	'src/lib/network.js': Simulator.PATH_LIB_COMMON + 'esp32/micropython/network.js',
 	// raspberry pi libraries
-	// lcd1602
-	'src/lib/sense_hat.js': Simulator.PATH_LIB + 'python/sense_hat.js',
-	'src/lib/lcd1602.js': Simulator.PATH_LIB + 'grove/lcd1602.js',
-	'src/lib/neopixel.js': Simulator.PATH_LIB + 'python/neopixel.js',
-	'src/lib/buzzer.js': Simulator.PATH_LIB + 'grove/buzzer.js',
-	'src/lib/ultrasonic_ranger.js': Simulator.PATH_LIB + 'grove/ultrasonic.js',
-	'src/lib/dht.js': Simulator.PATH_LIB + 'grove/dht.js',
 	'src/lib/adc.js': Simulator.PATH_LIB + 'grove/GroveADC.js',
-	// sensehat
+	'src/lib/time.js': Simulator.PATH_LIB + 'time.js',
+	'src/lib/board.js': Simulator.PATH_LIB + 'board.js',
+	'src/lib/RPi/__init__.js': Simulator.PATH_LIB + 'RPi/__init__.js',
+	'src/lib/RPi/GPIO/__init__.js': Simulator.PATH_LIB + 'RPi/GPIO/__init__.js',
+	// external modules
+	'src/lib/sense_hat.js': Simulator.PATH_LIB + 'sense_hat.js',
+	'src/lib/rpi_ws281x.js': Simulator.PATH_LIB + 'rpi_ws281x.js',
+	'src/lib/seeed_dht.js': Simulator.PATH_LIB + 'seeed_dht.js',
+	'src/lib/w1thermsensor.js': Simulator.PATH_LIB + 'w1thermsensor.js',
+	'src/lib/adafruit_bmp280.js': Simulator.PATH_LIB + 'adafruit_bmp280.js',
+	// grove
+	'src/lib/grove/__init__.js': Simulator.PATH_LIB + 'grove/__init__.js',
+	'src/lib/grove/grove_i2c_color_sensor_v2/__init__.js': Simulator.PATH_LIB + 'grove/grove_i2c_color_sensor_v2/__init__.js',
+	'src/lib/grove/grove_ultrasonic_ranger/__init__.js': Simulator.PATH_LIB + 'grove/grove_ultrasonic_ranger/__init__.js',
+	// grove.display
+	'src/lib/grove/display/__init__.js': Simulator.PATH_LIB + 'grove/display/__init__.js',
+	'src/lib/grove/display/jhd1802/__init__.js': Simulator.PATH_LIB + 'grove/display/jhd1802/__init__.js',
+	// grove.modules
+	'src/lib/grove/modules/__init__.js': Simulator.PATH_LIB + 'grove/modules/__init__.js',
+	'src/lib/grove/modules/sgp30/__init__.js': Simulator.PATH_LIB + 'grove/modules/sgp30/__init__.js',
 };
 
 // Specific to galaxia board buttons
 Simulator.Mosaic.addSpecificInitializations = async function () {
 	await Simulator.waitBoardViewer();
 	if (Simulator.board.name === 'SenseHat') {
-		const senseHat = Simulator.Mosaic.specific.senseHatEvent
+		const senseHat = Simulator.Mosaic.specific.senseHatEvent;
 		senseHat.senseHat = true;
 
 		// initialize joystick buttons
@@ -54,11 +55,9 @@ Simulator.Mosaic.addSpecificInitializations = async function () {
 
 		}
 	} else if (Simulator.board.name === "GrouvePi") {
-		const GrouvePiHat = Simulator.Mosaic.specific.GrouvePiHat
+		const GrouvePiHat = Simulator.Mosaic.specific.GrouvePiHat;
 		GrouvePiHat.GrouvePi = true;
 	}
-
-
 };
 
 Simulator.Mosaic.addSpecificSkulptFunctions = function () {
@@ -82,18 +81,14 @@ Simulator.Mosaic.addSpecificSkulptFunctions = function () {
 
 	Sk.builtins.hcsr04_getUltrasonicData = function (trig, echo, data, timeout_us) {
 		if (trig !== undefined && echo !== undefined) {
-			$('#read-digital_' + echo.pin).hide();
+			$('#read-digital_' + echo.v).hide();
 			Sk.builtin.pyCheckArgsLen('hcsr04_getUltrasonicData', arguments.length, 2, 4);
 			Sk.builtin.pyCheckType('data', 'string', Sk.builtin.checkString(data));
 			Sk.builtin.pyCheckType('timeout_us', 'integer', Sk.builtin.checkInt(timeout_us));
-			const pins = Blockly.Constants.Pins.GALAXIA_PINS;
-			const id = '#hcsr04_' + trig.pin;
-			if (trig.pin !== echo.pin) {
-				$(id)
-					.find('.subtitle-module')
-					.html(pins.find((p) => p[1] == 'p' + trig.pin)[0] + ' / ' + pins.find((p) => p[1] == 'p' + echo.pin)[0]);
-			} else {
-				throw new Sk.builtin.AttributeError('[HCSR04] trig and echo cannot be on same pin (' + pins.find((p) => p[1] == 'p' + trig.pin)[0] + ')');
+			const pins = Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()];
+			const id = '#hcsr04_' + trig.v;
+			if (trig.v == echo.v) {
+				throw new Sk.builtin.AttributeError('[HCSR04] trig and echo cannot be on same pin (' + pins.find((p) => p[1] == trig.v)[0] + ')');
 			}
 			const duration = $(id + '_slider_d').slider('option', 'value');
 			if (data.v == 'distance') {
@@ -104,7 +99,7 @@ Simulator.Mosaic.addSpecificSkulptFunctions = function () {
 				throw new Sk.builtin.ValueError("Data option '" + data.v + "' is not valid");
 			}
 		} else {
-			throw new Sk.builtin.ValueError("Pin '" + trig.pin + "' or '" + echo.pin + "' is not valid");
+			throw new Sk.builtin.ValueError("Pin '" + trig.v + "' or '" + echo.v + "' is not valid");
 		}
 	};
 	Sk.builtins.hcsr04_getUltrasonicData.co_varnames = ['trig', 'echo', 'data', 'timeout_us'];
@@ -170,45 +165,27 @@ Simulator.Mosaic.addSpecificSkulptFunctions = function () {
 };
 
 Simulator.Mosaic.groveRegex = {
-	// digital readers
-	'read-digital': /(^(?!.*ADC\()| )(machine.|)Pin\(([0-9]{1,2}),( |)(mode=|)(machine.|)Pin.IN(?!, id=.*)(,|\))/gi,
-	// analog readers
-	'read-analog': /(pinADC\(([0-9]{1,2})|(machine.|)ADC\((machine.|)Pin\(([0-9]{1,2})\),)\)/g,
-	// digital writers
-	'write-digital': /(^(?!.*ADC\()| )(machine.|)Pin\(([0-9]{1,2}),( |)(mode=|)(machine.|)Pin.OUT(?!, id=.*)/gi,
-	// analog writers
-	'write-analog': /(machine.|)DAC\((machine.|)Pin\(([0-9]{1,2})(?!, bits=.*)\)/gi,
-	// pwm
-	"pwm": /(machine.|)PWM\((machine.|)Pin\([0-9]{1,2}/gi,
+	'read-digital': /(RPi.|)GPIO.input\((gpio|)([0-9]{1,2})\)/gi,
+	'write-digital': /(RPi.|)GPIO.output\((gpio|)([0-9]{1,2}),( |)(RPi.|)GPIO.HIGH\)/gi,
+	'pwm': /(RPi.|)GPIO.PWM\((gpio|)([0-9]{1,2}),/gi,
 
 	// I2C modules
-	"lcdGrove": /(.|)LCD1602\(/gi,
-	"oled": /SSD1306_I2C\(./gi,
+	"lcdGrove": /(.|)JHD1802\(/gi,
 	"sgp30": /(.|)SGP30\(/gi,
-	"multichannel": /(.|)GAS\(/gi,
-	"scd30-co2": /scd30_read\(0\)/gi,
-	"scd30-temp": /scd30_read\(1\)/gi,
-	"scd30-hum": /scd30_read\(2\)/gi,
-	"hm330x": /(.|)HM330X\(/g,
-	'bmp280-temp': /(.|)BMP280\(/gi,
-	'bmp280-press': /(.|)BMP280\(/gi,
-	'bmp280-alt': /(.|)BMP280\(/gi,
-	"si1145": /(.|)SI1145\(/gi,
-	"vl53l0x": /(.|)VL53L0X\(/gi,
-	'th02-hum': /(.|)TH02\(/gi,
-	'th02-temp': /(.|)TH02\(/gi,
+	"scd30-co2": /SCD30\(/gi,
+	"scd30-temp": /SCD30\(/gi,
+	"scd30-hum": /SCD30\(/gi,
+	'bmp280-temp': /(.|)Adafruit_BMP280_I2C\(/gi,
+	'bmp280-press': /(.|)Adafruit_BMP280_I2C\(/gi,
+	'bmp280-alt': /(.|)Adafruit_BMP280_I2C\(/gi,
+	"si1145": /(.|)grove_si114x\(/gi,
 	'sht31-hum': /(.|)SHT31\(/gi,
 	'sht31-temp': /(.|)SHT31\(/gi,
-
-	// Pins on module - inputs
-	"gps": /(machine.|)Pin\(([0-9]{1,2}),( |)(mode=|)(machine.|)Pin.IN, id="gps"/gi,
-	// Pins on module - outputs
-	"openlog": /Lecteur SD TX on p([0-9]{1,2})/gi,
-	"RGBLed": /CHAINABLE_LED_COUNT_((A|D|)[0-9]{1,2})( |)=/gi,
-	// "Buzzer": /(machine.|)Pin\(([0-9]{1,2}),( |)(mode=|)(machine.|)Pin.OUT, id="buzzer"/gi
+	'colorSensor': /(.|)GroveI2cColorSensorV2\(/gi
 };
 
 Simulator.Mosaic.specific = {
+
 	senseHatEvent: {
 		senseHat: null,
 
@@ -224,7 +201,6 @@ Simulator.Mosaic.specific = {
 					direction: arrow.id,
 					action: 'pressed'
 				};
-				// console.log(Simulator.Mosaic.specific.senseHatEvent.joystickEvent);
 				Simulator.Mosaic.specific.senseHatEvent.joystickEventTriggered = true;
 			};
 		},
@@ -236,7 +212,6 @@ Simulator.Mosaic.specific = {
 					direction: arrow.id,
 					action: 'released'
 				};
-				// console.log(Simulator.Mosaic.specific.senseHatEvent.joystickEvent);
 				Simulator.Mosaic.specific.senseHatEvent.joystickEventTriggered = true;
 			};
 		},
@@ -289,20 +264,44 @@ Simulator.Mosaic.specific = {
 		grouvePi: null,
 	},
 
-	extract: (str, func) =>
-		str
-			.split(func + '(')[1]
-			.split(',')[0]
-			.replace(')', ''),
-	extractPin: {
-		'write-digital': (str) => Simulator.Mosaic.specific.extract(str, 'Pin'),
-		'read-digital': (str) => Simulator.Mosaic.specific.extract(str, 'Pin'),
-		'write-analog': (str) => Simulator.Mosaic.specific.extract(str, 'Pin'),
-		'read-analog': (str) => (str.includes('pinADC') ? str.split('pinADC(')[1].replace(')', '') : Simulator.Mosaic.specific.extract(str, 'Pin')),
-		pwm: (str) => Simulator.Mosaic.specific.extract(str, 'Pin'),
+	g1tank: {
+		in1: 0,
+		in2: 0,
+		in3: 0,
+		in4: 0,
+		setMotorRPM: function (motor, rpm, direction) {
+			const speed_cm_s = RobotSimulator.convertRPMtoSpeedMS(rpm) * 100; // to cm.s-1
+			$('#g1tank-motor' + motor + '_value').html(Math.round(speed_cm_s * 10) / 10 + ' cm/s');
+			if (direction != 'stop') {
+				$('.g1tank-motor' + motor).css('animation', 'rotation-' + direction + ' ' + (60 / rpm) + 's infinite linear');
+			} else {
+				$('.g1tank-motor' + motor).css('animation', 'none');
+			}
+		},
+
+		setMotorSpeedPercent: function (pin, speed) {
+			const rpm = speed / 100 * RobotSimulator.robot.MAX_SPEED;
+			if (pin == 16 && this.in1 && !this.in2) {
+				this.setMotorRPM('Left', rpm, 'forward');
+			} else if (pin == 16 && !this.in1 && this.in2) {
+				this.setMotorRPM('Left', rpm, 'backward');
+			} else if (pin == 13 && this.in3 && !this.in4) {
+				this.setMotorRPM('Right', rpm, 'forward');
+			} else if (pin == 13 && !this.in3 && this.in4) {
+				this.setMotorRPM('Right', rpm, 'backward');
+			} else {
+				this.setMotorRPM(pin == 16 ? 'Left' : 'Right', 0, 'stop');
+			}
+		}
 	},
 
-	SERVER_REGEXP: /(import vitta_server|from vitta_server import (\*|SERVER))/,
+	extract: (str, func) => str.split(func + '(')[1].split(',')[0].replace(')', '').replace('gpio', ''),
+	extractPin: {
+		'write-digital': (str) => Simulator.Mosaic.specific.extract(str, 'output'),
+		'read-digital': (str) => Simulator.Mosaic.specific.extract(str, 'input'),
+		pwm: (str) => Simulator.Mosaic.specific.extract(str, 'PWM'),
+	},
+
 	gesture: {
 		ACCELEROMETER_GESTURES: ['shake', 'up', 'down', 'left', 'right', 'face up', 'face down', 'freefall', '3g', '6g', '8g'],
 		history: null,
@@ -342,6 +341,9 @@ Simulator.Mosaic.specific = {
 				return -((duty + GAP) / 90 - 1) * 100;
 			}
 		},
+		getDistance: function (round_trip_duration_us) {
+			return 343 * round_trip_duration_us / 1e6 / 2 * 100;
+		}
 	},
 
 	buttons: {
@@ -353,18 +355,6 @@ Simulator.Mosaic.specific = {
 	},
 
 	createSliders: function () {
-		$('.mod_dht11-temp').slider({
-			min: 0,
-			max: 50,
-			value: 20,
-			step: 0.1,
-		});
-		$('.mod_dht11-hum').slider({
-			min: 20,
-			max: 80,
-			value: 50,
-			step: 0.1,
-		});
 		$('#sense-hat-temp_slider,' + '#sense-hat-temp-hum_slider').slider({
 			min: 0,
 			max: 100,
@@ -376,7 +366,6 @@ Simulator.Mosaic.specific = {
 			value: 50,
 			step: 0.1,
 		});
-
 		$('#sense-hat-pressure_slider').slider({
 			min: 20,
 			max: 100,
@@ -393,63 +382,17 @@ Simulator.Mosaic.specific = {
 			max: 110000,
 			value: 38700,
 		});
-		$('.mod_ultrasonic_t,' +
-			'.mod_ultrasonic_d').slider({
-				min: 88,
-				max: 14575,
-				value: 1166,
-				step: 0.1
+		$('.mod_g1tank-buttonKey,' +
+			'.mod_g1tank-lineFinder1,' +
+			'.mod_g1tank-lineFinder2,' +
+			'.mod_g1tank-lineFinder3,' +
+			'.mod_g1tank-lineFinder4').slider({
+				min: 0,
+				max: 1
 			});
 	},
 
-	calculs: {
-		getServoAngle(duty) {
-			return (((duty / PWM_MAX_DUTY) * 100 - 2.5) * 180) / (12.5 - 2.5);
-		},
-		getServoSpeed(duty) {
-			const GAP = 14;
-			if (duty >= 90 - GAP) {
-				return ((duty + GAP) / 90 - 1) * 100;
-			} else if (duty < 90 - GAP) {
-				return -((duty + GAP) / 90 - 1) * 100;
-			}
-		},
-	},
-
 	definitions: [
-		{
-			id: "ultrasonic",
-			title: "Télémètre: ",
-			pin: 'pin n°',
-			pins: 'digital',
-			type: 'input',
-			noCombine: true,
-			codeFlag: 'Ultrasonic',
-			listeners: [{
-				default: 20,
-				unit: 'cm',
-				color: "#f9d142 ",
-				suffix: "_d",
-				title: "Distance"
-			}, {
-				suffix: "_t",
-				default: 1166,
-				unit: 'μs',
-				color: "#f9d142",
-				title: "Durée"
-			}],
-			class: 'ultrasonic',
-			picture: "Ultrason.png",
-			pictureAnimation: "Ultrason-animation.png",
-			animate: function (Animator) {
-				const callbackAnim = (value) => Animator.opacity(14575, 0, text = value);
-				const t = Animator.value;
-				Animator.updateListeners({
-					"_d": roundFloat(Simulator.Mosaic.grove.calculs.getDistance(t), 1),
-					"_t": t
-				}, callbackAnim);
-			}
-		},
 		{
 			regex: /sense.stick_wait_for_event/g,
 			id: 'sense-hat-joystick',
@@ -459,7 +402,7 @@ Simulator.Mosaic.specific = {
 			picture: 'sensehat_joystick_module.svg',
 		},
 		{
-			regex: /get_pressure/g,
+			regex: /senseHat_getPressure\(/g,
 			id: 'sense-hat-pressure',
 			title: 'SenseHat - Pression',
 			pin: 'SenseHat',
@@ -486,7 +429,7 @@ Simulator.Mosaic.specific = {
 			},
 		},
 		{
-			regex: /get_pressure/g,
+			regex: /senseHat_getPressure\(/g,
 			id: 'sense-hat-alt',
 			title: 'SenseHat - Altitude',
 			pin: 'Altitude (pression)',
@@ -514,7 +457,7 @@ Simulator.Mosaic.specific = {
 		},
 
 		{
-			regex: /get_humidity/g,
+			regex: /sense.get_humidity\(/g,
 			id: 'sense-hat-hum',
 			title: 'Humidité',
 			pin: 'SenseHat',
@@ -535,7 +478,7 @@ Simulator.Mosaic.specific = {
 			},
 		},
 		{
-			regex: /get_temperature\(/g,
+			regex: /senseHat_getTemperature\(/g,
 			id: 'sense-hat-temp',
 			title: 'Temperature',
 			pin: 'SenseHat',
@@ -576,116 +519,200 @@ Simulator.Mosaic.specific = {
 				Animator.gauge();
 			},
 		},
+
 		{
-			regex: /DHT\(/g,
-			id: 'dht11-temp',
-			title: 'DHT11 - Température',
-			pin: 'pin n°',
-			pins: 'PWM',
-			type: 'input',
-			// codeFlag: 'DHT11',
-			noCombine: true,
-			listeners: [
-				{
-					suffix: '',
-					default: 20,
-					unit: '°C',
-					color: '#ff4d6a',
-				},
-			],
-			multiple: ['dht11-hum'],
-			class: 'gauge',
-			picture: 'Temperature_pression_altitude.png',
-			pictureAnimation: 'Temperature-animation.png',
-			animate: function (Animator) {
-				Animator.gauge();
-			},
-		},
-		{
-			regex: /DHT\(/g,
-			id: 'dht11-hum',
-			title: 'DHT11 - Humidité',
-			pin: 'pin n°',
-			pins: 'PWM',
-			type: 'input',
-			// codeFlag: 'DHT11',
-			noCombine: true,
-			listeners: [
-				{
-					suffix: '',
-					default: 50,
-					unit: '%',
-					color: '#ff4d6a',
-				},
-			],
-			multiple: ['dht11-temp'],
-			class: 'cloud',
-			picture: 'CO2-COV.png',
-			pictureAnimation: 'cloud-animation.png',
-			animate: function (Animator) {
-				Animator.opacity(20, 80);
-			},
-		},
-		{
-			regex: /NeoPixel\(/g,
-			id: 'neopixel',
-			title: 'Neopixel',
-			// codeFlag: "Neopixel",
+			id: "g1tank-led-red",
+			title: "LED (rouge)",
 			pin: 'pin n°',
 			pins: 'PWM',
 			type: 'output',
-			value: '',
-		},
-
-		{
-			// regex: /linky\.get_data\(/,
-			id: 'linky',
-			title: 'Capteur linky',
-			pin: 'pin n°',
-			pins: 'analog',
-			type: 'input',
-			codeFlag: 'Linky',
-			listeners: [
-				{
-					default: 500,
-					unit: 'Wh',
-					color: '#f8a10f',
-					suffix: '_PAPP',
-					title: 'PAPP',
-				},
-				{
-					default: 500,
-					unit: 'Wh',
-					color: '#f8a10f',
-					suffix: '_HCHC',
-					title: 'HCHC',
-				},
-				{
-					default: 500,
-					unit: 'Wh',
-					color: '#f8a10f',
-					suffix: '_HCHP',
-					title: 'HCHP',
-				},
-			],
-			class: 'gauge',
-			picture: 'Relais.png',
-			pictureAnimation: 'Relais-animation.png',
+			noCombine: true,
+			codeFlag: 'G1 Tank LED - red',
+			value: [75, 75, 75],
+			class: 'RGB-circle',
+			pictureAnimation: "Transparent.png",
 			animate: function (Animator) {
-				Animator.gauge();
-				$(Animator.animId).css({ 'z-index': 100, height: '27px', width: '13px', 'margin-top': '11px', 'margin-left': '2px' });
-			},
+				const animEl = $("#g1tank-led-red_22_anim");
+				const bg = animEl.css('background');
+				const rgb = bg.match(/\d+/g).map(Number);
+				rgb[0] = Animator.value * 255;
+				const color = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+				animEl.css('background', color);
+				$("#g1tank-led-green_27_anim").css('background', color);
+				$("#g1tank-led-blue_24_anim").css('background', color);
+			}
 		},
-
 		{
-			regex: /Pin\(([0-9]{1,2}),( |)(mode=|)Pin.IN, id="bluetooth"/gi,
-			id: 'bluetooth',
-			title: 'Bluetooth',
-			pin: 'UART',
-			codeFlag: 'Bluetooth',
+			id: "g1tank-led-green",
+			title: "LED (verte)",
+			pin: 'pin n°',
+			pins: 'PWM',
 			type: 'output',
-			value: '',
-			picture: '',
+			noCombine: true,
+			codeFlag: 'G1 Tank LED - green',
+			value: [75, 75, 75],
+			class: 'RGB-circle',
+			pictureAnimation: "Transparent.png",
+			animate: function (Animator) {
+				const animEl = $("#g1tank-led-green_27_anim");
+				const bg = animEl.css('background');
+				const rgb = bg.match(/\d+/g).map(Number);
+				rgb[1] = Animator.value * 255;
+				const color = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+				animEl.css('background', color);
+				$("#g1tank-led-red_22_anim").css('background', color);
+				$("#g1tank-led-blue_24_anim").css('background', color);
+			}
+		},
+		{
+			id: "g1tank-led-blue",
+			title: "LED (bleue)",
+			pin: 'pin n°',
+			pins: 'PWM',
+			type: 'output',
+			noCombine: true,
+			codeFlag: 'G1 Tank LED - blue',
+			value: [75, 75, 75],
+			class: 'RGB-circle',
+			pictureAnimation: "Transparent.png",
+			animate: function (Animator) {
+				const animEl = $("#g1tank-led-blue_24_anim");
+				const bg = animEl.css('background');
+				const rgb = bg.match(/\d+/g).map(Number);
+				rgb[2] = Animator.value * 255;
+				const color = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+				animEl.css('background', color);
+				$("#g1tank-led-red_22_anim").css('background', color);
+				$("#g1tank-led-green_27_anim").css('background', color);
+			}
+		},
+		{
+			regex: /g1tank_control_motor/gi,
+			id: "g1tank-motorLeft",
+			title: "Moteur Gauche",
+			pin: "G1 Tank",
+			usedPins: ['19', '26', '13'],
+			type: 'output',
+			value: 0,
+			picture: "Roue.png",
+			pictureAnimation: "Roue-animation.png"
+		},
+		{
+			regex: /g1tank_control_motor/,
+			id: "g1tank-motorRight",
+			title: "Moteur Droit",
+			pin: "G1 Tank",
+			usedPins: ['20', '21', '16'],
+			type: 'output',
+			value: 0,
+			picture: "Roue.png",
+			pictureAnimation: "Roue-animation.png"
+		},
+		{
+			id: "g1tank-lineFinder1",
+			title: "Capteur de ligne noire 1",
+			pin: 'pin n°',
+			pins: 'digital',
+			type: 'input',
+			noCombine: true,
+			class: 'finder',
+			codeFlag: 'Line Finder P1',
+			listeners: [{
+				default: 0,
+				unit: '',
+				color: "#f9d142",
+				suffix: ""
+			}],
+			picture: "Capteur-ligne-line.png",
+			pictureAnimation: "Capteur-ligne-anim.png",
+			animate: function (Animator) {
+				Animator.translation('digital');
+			}
+		},
+		{
+			id: "g1tank-lineFinder2",
+			title: "Capteur de ligne noire 2",
+			pin: 'pin n°',
+			pins: 'digital',
+			noCombine: true,
+			type: 'input',
+			class: 'finder',
+			codeFlag: 'Line Finder P2',
+			listeners: [{
+				default: 0,
+				unit: '',
+				color: "#f9d142",
+				suffix: ""
+			}],
+			picture: "Capteur-ligne-line.png",
+			pictureAnimation: "Capteur-ligne-anim.png",
+			animate: function (Animator) {
+				Animator.translation('digital');
+			}
+		},
+		{
+			id: "g1tank-lineFinder3",
+			title: "Capteur de ligne noire 3",
+			pin: 'pin n°',
+			pins: 'digital',
+			noCombine: true,
+			type: 'input',
+			class: 'finder',
+			codeFlag: 'Line Finder P3',
+			listeners: [{
+				default: 0,
+				unit: '',
+				color: "#f9d142",
+				suffix: ""
+			}],
+			picture: "Capteur-ligne-line.png",
+			pictureAnimation: "Capteur-ligne-anim.png",
+			animate: function (Animator) {
+				Animator.translation('digital');
+			}
+		},
+		{
+			id: "g1tank-lineFinder4",
+			title: "Capteur de ligne noire 4",
+			pin: 'pin n°',
+			pins: 'digital',
+			noCombine: true,
+			type: 'input',
+			class: 'finder',
+			codeFlag: 'Line Finder P4',
+			listeners: [{
+				default: 0,
+				unit: '',
+				color: "#f9d142",
+				suffix: ""
+			}],
+			picture: "Capteur-ligne-line.png",
+			pictureAnimation: "Capteur-ligne-anim.png",
+			animate: function (Animator) {
+				Animator.translation('digital');
+			}
+		},
+		{
+			id: "g1tank-buttonKey",
+			title: "Bouton KEY",
+			pin: 'pin n°',
+			pins: 'digital',
+			type: 'input',
+			codeFlag: 'G1 Tank KEY',
+			releaser: true,
+			listeners: [{
+				default: "OFF",
+				unit: '',
+				color: "#f9d142",
+				suffix: ""
+			}],
+			class: "button",
+			picture: "Bouton.png",
+			pictureAnimation: "Bouton-animation.png",
+			animate: function (Animator) {
+				const pull = Simulator.pinList.find((component) => component.id == Animator.id).pull;
+				Animator.button(Animator.value, pull);
+			}
 		},
 	],
 };

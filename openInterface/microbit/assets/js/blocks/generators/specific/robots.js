@@ -64,10 +64,10 @@ Blockly.Python.robots_getMaqueenUltrasonicRanger = function (block) {
     Blockly.Python.addImport('machine_pulse', IMPORT_MACHINE_PULSE_MS);
     Blockly.Python.addImport('utime', IMPORT_UTIME);
     Blockly.Python.addConstant('maqueen-robot', "\"\"\" Maqueen robot \"\"\"");
-    Blockly.Python.addInit('pin1', "# Ultrasonic TRIG on pin1");
-    Blockly.Python.addInit('pin2', "# Ultrasonic ECHO on pin2");
+    const pinTRIG = 'pin1', pinECHO = 'pin2';
+    Blockly.Python.addInit('hcsr04_' + pinTRIG + '_codeFlag', '# Ultrasonic TRIG/ECHO on ' + pinTRIG + '/' + pinECHO);
     Blockly.Python.addFunction('getUltrasonicData', FUNCTIONS_MICROBIT.DEF_GROVE_ULTRASONIC);
-    return ["getUltrasonicData(pin1, pin2, '" + block.getFieldValue("DATA") + "')", Blockly.Python.ORDER_ATOMIC];
+    return [`getUltrasonicData(${pinTRIG}, ${pinECHO}, "${block.getFieldValue("DATA")}")`, Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.robots_readMaqueenPatrol = function (block) {
@@ -341,24 +341,22 @@ Blockly.Python.robots_getMaqueenPlusV2UltrasonicRanger = function (block) {
     Blockly.Python.addImport('machine_pulse', IMPORT_MACHINE_PULSE_MS);
     Blockly.Python.addImport('utime', IMPORT_UTIME);
     Blockly.Python.addConstant(`maqueen-plus-V2`, `""" MaqueenPlusV2 robot """`);
-    const trig = 'pin13', echo = 'pin14';
-    Blockly.Python.addInit(trig, `# Ultrasonic TRIG on ${trig}`);
-    Blockly.Python.addInit(echo, `# Ultrasonic ECHO on ${echo}`);
+    const pinTRIG = 'pin13', pinECHO = 'pin14';
+    Blockly.Python.addInit('hcsr04_' + pinTRIG + '_codeFlag', '# Ultrasonic TRIG/ECHO on ' + pinTRIG + '/' + pinECHO);
     Blockly.Python.addFunction('getUltrasonicData', FUNCTIONS_MICROBIT.DEF_GROVE_ULTRASONIC);
-    return [`getUltrasonicData(${trig}, ${echo}, "${block.getFieldValue("DATA")}")`, Blockly.Python.ORDER_ATOMIC];
+    return [`getUltrasonicData(${pinTRIG}, ${pinECHO}, "${block.getFieldValue("DATA")}")`, Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.robots_getMaqueenPlusUltrasonicRangerTrigEcho = function (block) {
     Blockly.Python.addImport('machine_pulse', IMPORT_MACHINE_PULSE_MS);
     Blockly.Python.addImport('utime', IMPORT_UTIME);
     const version = block.getFieldValue("VERSION");
-    const trig = block.getFieldValue("TRIG");
-    const echo = block.getFieldValue("ECHO");
+    const pinTRIG = block.getFieldValue("TRIG");
+    const pinECHO = block.getFieldValue("ECHO");
     Blockly.Python.addConstant(`maqueen-plus-V${version}`, `""" MaqueenPlusV${version} robot """`);
-    Blockly.Python.addInit(trig, `# Ultrasonic TRIG on ${trig}`);
-    Blockly.Python.addInit(echo, `# Ultrasonic ECHO on ${echo}`);
+    Blockly.Python.addInit('hcsr04_' + pinTRIG + '_codeFlag', '# Ultrasonic TRIG/ECHO on ' + pinTRIG + '/' + pinECHO);
     Blockly.Python.addFunction('getUltrasonicData', FUNCTIONS_MICROBIT.DEF_GROVE_ULTRASONIC);
-    return [`getUltrasonicData(${trig}, ${echo}, "${block.getFieldValue("DATA")}")`, Blockly.Python.ORDER_ATOMIC];
+    return [`getUltrasonicData(${pinTRIG}, ${pinECHO}, "${block.getFieldValue("DATA")}")`, Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.robots_readMaqueenPlusPatrol = function (block) {
@@ -704,10 +702,10 @@ Blockly.Python.robots_getCutebotUltrasonicRanger = function (block) {
     Blockly.Python.addImport('machine_pulse', IMPORT_MACHINE_PULSE_MS);
     Blockly.Python.addImport('utime', IMPORT_UTIME);
     Blockly.Python.addConstant('cutebot-robot', "\"\"\" Cutebot robot \"\"\"");
-    Blockly.Python.addInit('pin8', "# Ultrasonic TRIG on pin8");
-    Blockly.Python.addInit('pin12', "# Ultrasonic ECHO on pin12");
+    const pinTRIG = 'pin8', pinECHO = 'pin12';
+    Blockly.Python.addInit('hcsr04_' + pinTRIG + '_codeFlag', '# Ultrasonic TRIG/ECHO on ' + pinTRIG + '/' + pinECHO);
     Blockly.Python.addFunction('getUltrasonicData', FUNCTIONS_MICROBIT.DEF_GROVE_ULTRASONIC);
-    return ["getUltrasonicData(pin8, pin12, '" + block.getFieldValue("DATA") + "')", Blockly.Python.ORDER_ATOMIC];
+    return [`getUltrasonicData(${pinTRIG}, ${pinECHO}, "${block.getFieldValue("DATA")}")`, Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.robots_readCutebotPatrol = function (block) {
@@ -2045,8 +2043,7 @@ Blockly.Python.robots_uhandbit_ultrasonic_get_distance = function (block) {
             pinECHO = "pin14";
             break;
     }
-    Blockly.Python.addInit(pinTRIG, "# Ultrasonic TRIG on " + pinTRIG);
-    Blockly.Python.addInit(pinECHO, "# Ultrasonic ECHO on " + pinECHO);
+    Blockly.Python.addInit('hcsr04_' + pinTRIG + '_codeFlag', '# Ultrasonic TRIG/ECHO on ' + pinTRIG + '/' + pinECHO);
     Blockly.Python.addImport('machine_pulse', IMPORT_MACHINE_PULSE_MS);
     Blockly.Python.addImport('utime', IMPORT_UTIME);
     Blockly.Python.addFunction('getUltrasonicData', FUNCTIONS_MICROBIT.DEF_GROVE_ULTRASONIC);
@@ -2059,7 +2056,7 @@ Blockly.Python.robots_uhandbit_ultrasonic_get_distance = function (block) {
             code = "duration";
             break;
     }
-    return ["getUltrasonicData(" + pinTRIG + ", " + pinECHO + ", '" + code + "')", Blockly.Python.ORDER_ATOMIC];
+    return [`getUltrasonicData(${pinTRIG}, ${pinECHO}, "${code}")`, Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.robots_uhandbit_setNeopixel = function (block) {

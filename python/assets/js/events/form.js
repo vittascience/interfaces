@@ -24,38 +24,23 @@ var confirms = {
  * Add a new part to the form
  */
 function addTest(content) {
-    if (content === false) {
-        var idTest = null
-        var hint = ""
-    } else {
-        var idTest = content.id
-        var inputsLength = content.inputs.length
-        var outputsLength = content.outputs.length
-        var hint = content.hint
-    }
-    var regEx = /^"/
+    const unitTestContent = content === false ? null : content;
+    const idTest = unitTestContent ? unitTestContent.id : null;
+    const hint = unitTestContent ? (unitTestContent.hint || "") : "";
+    const inputs = unitTestContent && unitTestContent.inputs.length > 0
+        ? unitTestContent.inputs
+        : [false];
+    const outputs = unitTestContent && unitTestContent.outputs.length > 0
+        ? unitTestContent.outputs
+        : [false];
+
     let html = '<div class="test-unit row mb-1">'
     html += '<input type="hidden" class="id-test" value=' + idTest + '>'
     html += '<div class="d-flex justify-content-start p-0"><p class="p-0 fs-5"><span data-i18n="code.popups.formTest.unit.title"></span><span class="number-test"></span></p><button class="btn btn-secondary btn-sm remove-link remove-test"><span data-i18n="code.popups.formTest.deleteExercise"></span></button></div>'
     html += '<div class="row m-0 p-0 m-auto">'
     html += '<div class="form-group col-md-7 m-0 p-0 row">'
-    html += `<div class="form-group col-md-12 m-0 p-0">
-    <label for="form-input" class="tutorial-label"><i class="fas fa-sign-in-alt me-1"></i><span data-i18n="code.popups.formTest.unit.input">Entrée</span>
-    </label>
-    <div class="row col-md-12 m-0"><input type="hidden" class="id-IO" value="null"><div class="col-6 col-md-8 p-0 m-0"><input type="text" class="form-control form-input  form-IO " placeholder="Un input " value=""></div><select name="type" class="col-2 col-md-2 ms-1 p-0"><option value="integer">Integer</option><option value="string">String</option></select>
-    <button class="btn btn-secondary form-python mt-auto mb-auto remove-input col-md-1 ms-1">
-    <i class="fas fa-times"></i>
-    </button>
-    </div></div>`
-    for (let i = 0; i < inputsLength; i++) {
-        if (i > 0) var trimIo = content.inputs[i].replace(/^ /, '')
-        else var trimIo = content.inputs[i]
-        if (regEx.test(trimIo)) var typeIo = "string"
-        else var typeIo = "integer"
-        trimIo = trimIo.replace(/^"/, '')
-        trimIo = trimIo.replace(/"$/, '')
-        trimIo = trimIo.replace(/"/gi, '&quot;')
-        html += addItem(trimIo, content.id_inputs[i], 'input', null, typeIo)
+    for (let i = 0; i < inputs.length; i++) {
+        html += addItem(inputs[i], null, 'input', null)
     }
     html += '    <div class="form-button-input form-row m-0 my-2 p-0">'
     html += '        <button class="add-input btn btn-success btn-block">'
@@ -63,18 +48,8 @@ function addTest(content) {
     html += '       </button>'
     html += '     </div></div>'
     html += '<div class="form-group col-md-5 m-0 p-0 row">'
-    html += `<div class="form-group col-md-12 m-0 p-0">
-    <label for="form-output" class="tutorial-label"><i class="fas fa-sign-out-alt me-1"></i><span data-i18n="code.popups.formTest.unit.output">Sortie</span>
-    </label>
-    <div class="row col-md-12 m-0"><input type="hidden" class="id-IO" value="null"><div class="col-9 col-md-10 p-0 m-0"><input type="text" class="form-control form-output  form-IO " placeholder="Un output " value=""></div>
-    <button class="btn btn-secondary form-python mt-auto mb-auto remove-output col-md-1 ms-1">
-    <i class="fas fa-times"></i>
-    </button>
-    </div></div>`
-    for (let i = 0; i < outputsLength; i++) {
-        if (i > 0) var trimIo = content.outputs[i].replace(/^ /, '')
-        else var trimIo = content.outputs[i]
-        html += addItem(trimIo, content.id_outputs[i], 'output', null)
+    for (let i = 0; i < outputs.length; i++) {
+        html += addItem(outputs[i], null, 'output', null)
     }
     html += '    <div class="form-button-output form-row m-0 my-2 p-0">'
     html += '        <button class="add-output btn btn-success btn-block">'
@@ -87,12 +62,81 @@ function addTest(content) {
     html += '<label class="tutorial-label">'
     html += '<i class="far fa-smile-wink"></i> <span data-i18n="code.popups.formTest.unit.hint"></span>'
     html += '</label>'
-    html += '<input type="text" class="form-control form-title" value="' + hint + '" data-i18n="[placeholder]code.popups.formTest.unit.hintHolder" />'
+    html += '<input type="text" class="form-control form-title" value="' + escapeAttributeValue(hint) + '" data-i18n="[placeholder]code.popups.formTest.unit.hintHolder" />'
     html += '</div>'
     html += ' </div>'
     $(html).insertBefore($("#form-button-unitest"));
+    refreshIOTypeControls($('.test-unit').last());
     $('body').localize()
     countTest()
+}
+
+function escapeAttributeValue(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
+function getUnitTestValueHelper() {
+    return window.PythonUnitTestValues;
+}
+
+function getTypeSelectHtml(typeIo) {
+    const valueHelper = getUnitTestValueHelper();
+    const selectedType = typeIo || valueHelper.EXPRESSION_TYPE;
+    const options = valueHelper.TYPE_OPTIONS.map((option) => {
+        const isSelected = option.value === selectedType ? ' selected' : '';
+        return `<option value="${option.value}"${isSelected}>${option.label}</option>`;
+    }).join('');
+    return `<select name="type" class="col-4 col-md-3 ms-1 p-0 form-io-type">${options}</select>`;
+}
+
+function getNormalizedItemContent(content, fallbackType) {
+    if (content === false || !content) {
+        return {
+            id: null,
+            type: fallbackType,
+            value: ''
+        };
+    }
+
+    const valueHelper = getUnitTestValueHelper();
+    return {
+        id: content.id ?? null,
+        type: content.type || fallbackType,
+        value: valueHelper.formatValueForForm(content)
+    };
+}
+
+function updateIOTypeControl(control) {
+    const row = $(control).closest('.form-io-row');
+    const input = row.find('.form-IO');
+    const type = $(control).val();
+    let placeholder = row.data('ioKind') === 'input' ? 'Un input' : 'Un output';
+
+    if (type === 'boolean') {
+        placeholder = 'True / False';
+    } else if (type === 'list') {
+        placeholder = '[1, 2, 3]';
+    } else if (type === 'none') {
+        placeholder = 'None';
+    } else if (type === 'string') {
+        placeholder = 'Un texte';
+    }
+
+    input.attr('placeholder', placeholder);
+    input.prop('disabled', type === 'none');
+    if (type === 'none') {
+        input.val('');
+    }
+}
+
+function refreshIOTypeControls(scope) {
+    $(scope).find('.form-io-type').each(function () {
+        updateIOTypeControl(this);
+    });
 }
 /**
  * Add a new part to the form
@@ -101,10 +145,10 @@ function addTest(content) {
  * @param {*} type 
  */
 function addItem(content, id, type, div, typeIo = null) {
-    let contentValue = "";
-    let colValue = type == 'input' ? 'col-6 col-md-8' : 'col-9 col-md-10';
-    if (content !== false)
-        contentValue = content;
+    const valueHelper = getUnitTestValueHelper();
+    const normalizedContent = getNormalizedItemContent(content, typeIo || valueHelper.EXPRESSION_TYPE);
+    const contentValue = escapeAttributeValue(normalizedContent.value);
+    const colValue = 'col-6 col-md-7';
 
     let html = `<div class="form-group col-md-12 m-0 p-0">
     <label for="form-` + type + `" class="tutorial-label">`
@@ -112,16 +156,10 @@ function addItem(content, id, type, div, typeIo = null) {
     else html += `<i class="fas fa-sign-out-alt me-1"></i>`
     html += `<span data-i18n="code.popups.formTest.unit.` + type + `"></span>
     </label>
-    <div class="row col-md-12 m-0">`
-    html += '<input type="hidden" class="id-IO" value=' + id + ' />'
-    html += '<div class="'+colValue+' p-0 m-0"><input type="text" class="form-control form-' + type + '  form-IO " placeholder="Un ' + type + ' " value="' + contentValue + '"/></div>'
-    if (type == 'input') {
-        html += '<select name=type class="col-2 col-md-2 ms-1 p-0"><option value="integer"'
-        if (typeIo == "integer") html += 'selected'
-        html += '>Integer</option><option value="string"'
-        if (typeIo == "string") html += 'selected'
-        html += '>String</option></select>'
-    }
+    <div class="row col-md-12 m-0 form-io-row" data-io-kind="` + type + `">`
+    html += '<input type="hidden" class="id-IO" value=' + (normalizedContent.id ?? id ?? 'null') + ' />'
+    html += '<div class="' + colValue + ' p-0 m-0"><input type="text" class="form-control form-' + type + '  form-IO " placeholder="Un ' + type + ' " value="' + contentValue + '"/></div>'
+    html += getTypeSelectHtml(normalizedContent.type)
     html +=
         `
     <button class="btn btn-secondary form-python mt-auto mb-auto remove-` + type + ` col-md-1 ms-1">
@@ -129,7 +167,8 @@ function addItem(content, id, type, div, typeIo = null) {
     </button>
     </div></div>`
     if (div != null) {
-        $(html).insertBefore(div.parent().parent().find($(".form-button-" + type)));
+        $(html).insertBefore(div.closest(".form-button-" + type));
+        refreshIOTypeControls(div.closest('.test-unit'));
         $("body").localize()
     } else {
         return html
@@ -144,6 +183,9 @@ $("body").on('click', '.add-input', function () {
 });
 $("body").on('click', '#add-unitest', function () {
     addTest(false);
+});
+$("body").on('change', '.form-io-type', function () {
+    updateIOTypeControl(this);
 });
 
 
@@ -214,6 +256,144 @@ function countTest() {
     })
 }
 
+function extractIOData(formTest, ioType) {
+    const valueHelper = getUnitTestValueHelper();
+    const items = [];
+    const ids = [];
+    const errors = [];
+    const formRows = formTest.find(`.form-${ioType}`);
+    const testNumber = formTest.find('.number-test').text().trim() || '?';
+
+    formRows.each(function (index) {
+        const field = $(this);
+        const row = field.closest('.form-io-row');
+        let id = parseInt(row.find('.id-IO').val());
+        id = (isNaN(id) ? null : id);
+
+        const type = row.find('.form-io-type').val() || valueHelper.EXPRESSION_TYPE;
+        const serializedValue = valueHelper.serializeStoredValue(type, field.val());
+
+        if (!serializedValue.ok) {
+            if (!serializedValue.skip) {
+                const label = ioType === 'input' ? 'input' : 'output';
+                errors.push(`Test ${testNumber}, ${label} ${index + 1} : ${serializedValue.error}`);
+            }
+            return;
+        }
+
+        const deserializedValue = valueHelper.deserializeStoredValue(serializedValue.value);
+        if (!valueHelper.isMeaningfulEntry(deserializedValue)) {
+            return;
+        }
+
+        ids.push(id);
+        items.push({
+            id: id,
+            value: serializedValue.value,
+            dom: row
+        });
+    });
+
+    return {
+        items: items,
+        ids: ids,
+        errors: errors
+    };
+}
+
+function validateUnitTestsForms(uniTests) {
+    const errors = [];
+
+    uniTests.each(function () {
+        const formTest = $(this);
+        const inputs = extractIOData(formTest, 'input');
+        const outputs = extractIOData(formTest, 'output');
+        errors.push(...inputs.errors, ...outputs.errors);
+
+        if (outputs.items.length === 0) {
+            const testNumber = formTest.find('.number-test').text().trim() || '?';
+            errors.push(`Test ${testNumber} : au moins une sortie attendue est nécessaire.`);
+        }
+    });
+
+    return errors;
+}
+
+function getStoredPythonUnitTests() {
+    if (!window.localStorage.PythonUnitTests) {
+        return null;
+    }
+
+    try {
+        return JSON.parse(window.localStorage.PythonUnitTests);
+    } catch (error) {
+        return null;
+    }
+}
+
+function getStoredUnitTest(index) {
+    const allTests = getStoredPythonUnitTests();
+    if (!allTests || !allTests.exercise || !Array.isArray(allTests.unitTests)) {
+        return null;
+    }
+    return allTests.unitTests[index] || null;
+}
+
+function getStoredIOIds(unitTest, ioType) {
+    const ioCollection = unitTest && Array.isArray(unitTest[`${ioType}s`]) ? unitTest[`${ioType}s`] : [];
+    return ioCollection
+        .map((item) => item && item.id)
+        .filter((item) => item !== null && item !== undefined);
+}
+
+function getRemovedIds(existingIds, keptIds) {
+    return existingIds.filter((id) => !keptIds.includes(id));
+}
+
+function buildIOPayload(items, unitTestResponse) {
+    return items.map((item) => ({
+        data: {
+            id: item.id,
+            value: item.value,
+            unitTest: unitTestResponse
+        },
+        dom: item.dom
+    }));
+}
+
+function saveIOCollection(route, entries) {
+    const domRows = entries.map((entry) => entry.dom);
+    const dataRows = entries.map((entry) => entry.data);
+
+    $.ajax({
+        type: "POST",
+        url: "/routing/Routing.php?controller=" + route + "&action=update",
+        data: {
+            "iO": dataRows
+        },
+        success: function (response) {
+            if (response !== false) {
+                const parsedResponse = JSON.parse(response);
+                for (let i = 0; i < domRows.length; i++) {
+                    domRows[i].find('.id-IO').val(parsedResponse[i].id);
+                }
+            } else {
+                console.log("Error while saving the " + route);
+            }
+        },
+        error: function (response) {
+            console.error(response);
+        }
+    });
+}
+
+function removeMissingStoredIO(unitTest, keptIds, ioType) {
+    const removedIds = getRemovedIds(getStoredIOIds(unitTest, ioType), keptIds);
+    if (removedIds.length > 0) {
+        removeIO(removedIds, ioType === 'input');
+    }
+}
+
 function saveExercise(dataExercise, uniTests) {
     function updateTests() {
         setTimeout(function () {
@@ -225,217 +405,112 @@ function saveExercise(dataExercise, uniTests) {
         }, 2000);
     }
     var index = 0
-    var p = new Promise(function (resolve, reject) {
-        $.ajax({
-            type: "POST",
-            url: "/routing/Routing.php?controller=exercise&action=update",
-            data: {
-                "exercise": dataExercise
-            },
-            success: function (response) {
-                if (response !== false) {
-                    var response = JSON.parse(response)
-                    var logIdTest = []
-                    uniTests.each(function () {
-                        let id = parseInt($(this).find('.id-test').val())
-                        id = (isNaN(id) ? null : id)
-                        $('#id-exercise').val(response.id)
-                        let testToSave = {
-                            'id': id,
-                            'hint': $(this).find(".form-title").val(),
-                            'exercise': response
-                        }
-                        logIdTest.push(id)
-                        saveTest($(this), testToSave, index)
-                        index++
-                    })
-                    if (window.localStorage.PythonUnitTests && JSON.parse(window.localStorage.PythonUnitTests).exercise) {
-                        var allTests = JSON.parse(window.localStorage.PythonUnitTests)
-                        for (let i = 0; i < allTests.unitTests.length; i++) {
-                            if (logIdTest.includes(allTests.unitTests[i].id) == false) {
-                                removeTest(allTests.unitTests[i])
-                            }
+    $.ajax({
+        type: "POST",
+        url: "/routing/Routing.php?controller=exercise&action=update",
+        data: {
+            "exercise": dataExercise
+        },
+        success: function (response) {
+            if (response !== false) {
+                const parsedExercise = JSON.parse(response)
+                const savedTestIds = []
+                uniTests.each(function () {
+                    let id = parseInt($(this).find('.id-test').val())
+                    id = (isNaN(id) ? null : id)
+                    $('#id-exercise').val(parsedExercise.id)
+                    const testToSave = {
+                        'id': id,
+                        'hint': $(this).find(".form-title").val(),
+                        'exercise': parsedExercise
+                    }
+                    savedTestIds.push(id)
+                    saveTest($(this), testToSave, index)
+                    index++
+                })
+                const allTests = getStoredPythonUnitTests();
+                if (allTests && allTests.exercise) {
+                    for (let i = 0; i < allTests.unitTests.length; i++) {
+                        if (savedTestIds.includes(allTests.unitTests[i].id) == false) {
+                            removeTest(allTests.unitTests[i])
                         }
                     }
-                    setTimeout(updateTests(), 2000);
-
-                } else
-                    console.log("Error while saving the exercise");
+                }
+                updateTests();
+            } else {
+                console.log("Error while saving the exercise");
             }
-        })
+        }
     })
-
 }
 
 function saveTest(formTest, uniTest, index) {
-    var p = new Promise(function (resolve, reject) {
-        $.ajax({
-            type: "POST",
-            url: "/routing/Routing.php?controller=unitTests&action=update",
-            data: {
-                "test": uniTest
-            },
-            success: function (response) {
-                if (response !== false) {
-                    formTest.find('.id-test').val(JSON.parse(response).id)
-                    var logIdInput = []
-                    var logIdOutput = []
-                    let dataIoObject = {
-                        'input': [],
-                        'output': []
-                    }
+    $.ajax({
+        type: "POST",
+        url: "/routing/Routing.php?controller=unitTests&action=update",
+        data: {
+            "test": uniTest
+        },
+        success: function (response) {
+            if (response !== false) {
+                const parsedResponse = JSON.parse(response)
+                formTest.find('.id-test').val(parsedResponse.id)
 
-                    formTest.find(".form-IO").each(function () {
-                        let id = parseInt($(this).parent().find('.id-IO').val())
-                        id = (isNaN(id) ? null : id)
-                        let valueIo = $(this).val()
-                        let typeIo = $(this).parent().find("select").val()
-                        if (typeIo == "string") {
-                            valueIo = '"' + valueIo.replace(/"/gi, '&quot;') + '"'
-                        }
-                        let dataIO = {
-                            'id': id,
-                            'value': valueIo,
-                            'unitTest': response
-                        }
+                const inputs = extractIOData(formTest, 'input');
+                const outputs = extractIOData(formTest, 'output');
+                const dataIoObject = {
+                    input: buildIOPayload(inputs.items, response),
+                    output: buildIOPayload(outputs.items, response)
+                };
 
-                        if ($(this).hasClass('form-output')) {
-                            //var input = false
-                            logIdOutput.push(id)
-                            dataIoObject.output.push({data:dataIO, dom:$(this)})
-                        } else {
-                            //var input = true
-                            logIdInput.push(id)
-                            dataIoObject.input.push({data:dataIO, dom:$(this)})
-                        }
-                        //saveIO(dataIO, $(this), input)
-                    })
-                    saveIO(dataIoObject)
-                    var allTests = []
-                    if (typeof window.localStorage.PythonUnitTests != 'undefined' && JSON.parse(window.localStorage.PythonUnitTests).exercise && JSON.parse(window.localStorage.PythonUnitTests) != '') {
-                        allTests = JSON.parse(window.localStorage.PythonUnitTests)
-                        if (allTests.unitTests[index].id_inputs.length > 0) {
-                            let inputsToRemove = []
-                            for (let j = 0; j < allTests.unitTests[index].id_inputs.length; j++) {
-                                if (logIdInput.includes(allTests.unitTests[index].id_inputs[j]) == false) {
-                                    inputsToRemove.push(allTests.unitTests[index].id_inputs[j])
-                                }
-                            }
-                            removeIO(inputsToRemove, true)
-                        }
-                        if (allTests.unitTests[index].id_outputs.length > 0) {
-                            let outputsToRemove = []
-                            for (let j = 0; j < allTests.unitTests[index].id_outputs.length; j++) {
-                                if (logIdOutput.includes(allTests.unitTests[index].id_outputs[j]) == false) {
-                                    outputsToRemove.push(allTests.unitTests[index].id_outputs[j])
-                                }
-                            }
-                            removeIO(outputsToRemove, false)
-                        }
-                    }
-                } else
-                    console.log("Error while saving the unit test");
+                saveIO(dataIoObject);
+
+                const storedUnitTest = getStoredUnitTest(index);
+                if (storedUnitTest) {
+                    removeMissingStoredIO(storedUnitTest, inputs.ids, 'input');
+                    removeMissingStoredIO(storedUnitTest, outputs.ids, 'output');
+                }
+            } else {
+                console.log("Error while saving the unit test");
             }
-        })
-    });
+        }
+    })
 }
 
 function saveIO(dataIO/* , domIO, input = true */) {
-    var p = new Promise(function (resolve, reject) {
-        /* if (input) {
-            var route = "input"
-        } else {
-            var route = "output"
-        } */
-        let domTabInput = []
-        let dataTabInput = []
-        for (let i = 0; i < dataIO.input.length; i++) {
-            domTabInput.push(dataIO.input[i].dom)
-            dataTabInput.push(dataIO.input[i].data)
-        }
-        let domTabOutput = []
-        let dataTabOutput = []
-        for (let i = 0; i < dataIO.output.length; i++) {
-            domTabOutput.push(dataIO.output[i].dom)
-            dataTabOutput.push(dataIO.output[i].data)
-        }
-        $.ajax({
-            type: "POST",
-            url: "/routing/Routing.php?controller=input&action=update",
-            data: {
-                "iO": dataTabInput
-            },
-            success: function (response) {
-                if (response !== false) {
-                    var response = JSON.parse(response)
-                    for (let i = 0; i < domTabInput.length; i++) {
-                        domTabInput[i].find('.id-IO').val(response[i].id)
-                    }
-                    //$(dataIO.input.dom).find('.id-IO').val(response)
-                } else {
-                    console.log("Error while saving the input");
-                }
-            },
-            error: function (response) {
-                console.error(response)
-            }
-        })
-        $.ajax({
-            type: "POST",
-            url: "/routing/Routing.php?controller=output&action=update",
-            data: {
-                "iO": dataTabOutput
-            },
-            success: function (response) {
-                if (response !== false) {
-                    var response = JSON.parse(response)
-                    for (let i = 0; i < domTabOutput.length; i++) {
-                        domTabOutput[i].find('.id-IO').val(response[i].id)
-                    }
-                    //$(dataIO.output.dom).find('.id-IO').val(response)
-                } else {
-                    console.log("Error while saving the output");
-                }
-            }
-        })
-    });
+    saveIOCollection('input', dataIO.input);
+    saveIOCollection('output', dataIO.output);
 }
 
 function removeTest(test) {
-    var p = new Promise(function (resolve, reject) {
-        $.ajax({
-            type: "POST",
-            url: "/routing/Routing.php?controller=unitTests&action=delete",
-            data: {
-                "test": test.id
-            },
-            success: function (response) {
-                if (response !== "false") {} else
-                    console.log("Error while deleting the test");
+    $.ajax({
+        type: "POST",
+        url: "/routing/Routing.php?controller=unitTests&action=delete",
+        data: {
+            "test": test.id
+        },
+        success: function (response) {
+            if (response === "false") {
+                console.log("Error while deleting the test");
             }
-        })
-    });
+        }
+    })
 }
 
 function removeIO(dataIO, input = true) {
-    var p = new Promise(function (resolve, reject) {
-        if (input) {
-            var route = "input"
-        } else {
-            var route = "output"
-        }
-        $.ajax({
-            type: "POST",
-            url: "/routing/Routing.php?controller=" + route + "&action=delete",
-            data: {
-                "iO": dataIO
-            },
-            success: function (response) {
-                if (response !== "false") {} else
-                    console.log("Error while deleting the I/O");
+    const route = input ? "input" : "output";
+    $.ajax({
+        type: "POST",
+        url: "/routing/Routing.php?controller=" + route + "&action=delete",
+        data: {
+            "iO": dataIO
+        },
+        success: function (response) {
+            if (response === "false") {
+                console.log("Error while deleting the I/O");
             }
-        })
-    });
+        }
+    })
 }
 
 $('body').on('click', '#save-test', async function () {
@@ -447,6 +522,8 @@ $('body').on('click', '#save-test', async function () {
         if ($(fonction).val().length > 30) {
             errors.push("code.add.form.errors.function");
         }
+
+        errors.push(...validateUnitTestsForms(uniTests));
 
         if (errors.length === 0) {
             let id = parseInt($('#id-exercise').val())
@@ -461,7 +538,7 @@ $('body').on('click', '#save-test', async function () {
             await turtleAutocorrector.removeTurtleExercise();
             saveExercise(exerciseToSave, uniTests)
         } else {
-            console.error(errors)
+            UIManager.showErrorMessage("save-exercise-message", "<span class='fa fa-times'></span> " + errors.join('<br>'));
         }
     } else {
         UIManager.showErrorMessage("save-exercise-message", "<span  class='fa fa-times'>Vous devez d'abord sauver le projet en base de donnée</span>");

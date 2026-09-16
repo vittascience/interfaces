@@ -1,7 +1,7 @@
-var cancelAnimation_WiringSimulator =
+const cancelAnimation_WiringSimulator =
   window.cancelAnimationFrame || window.mozCancelAnimationFrame;
 
-var requestAnimation_WiringSimulator =
+const requestAnimation_WiringSimulator =
   window.requestAnimationFrame || window.mozRequestAnimationFrame ||
   window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
@@ -34,6 +34,7 @@ var WiringSimulator = {
   },
 
   init: function () {
+    this.addWiringSimulatorToDom();
     this.img.background.src = this.PATH_MEDIA + "/backgrounds/white-background.jpg";
     this.img.logo.src = this.PATH_MEDIA + "/logo.png";
     this.canvas = document.querySelector("#wiring-simulator");
@@ -54,6 +55,49 @@ var WiringSimulator = {
     this.wereInitialized = true;
   },
 
+  addWiringSimulatorToDom: function () {
+    if (document.querySelector("#simulator-wires")) return;
+
+    const wiringModeBtnHtml = `
+    <button id="wiring-mode" class="btn simulator-button-circle" type="button" onclick="switchWiringMode()" aria-label="wiring mode" data-i18n="[aria-label]simulator.switchWiringMode">
+        <img class="simulator-mosaic-icon simulator-buttons-icon" src="/openInterface/interfaces/assets/media/icon-wiring.svg" alt="wiring mode">
+    </button>`;
+    document.querySelector('.simulator-board-buttons').insertAdjacentHTML('beforeend', wiringModeBtnHtml);
+
+    const wiringSimultorHtml = `
+    <div id="simulator-wires" style="display: none;">
+        <button id="mosaic-mode" class="btn simulator-button-circle" onclick="switchMosaicMode()" aria-label="mosaic mode" data-i18n="[aria-label]simulator.switchMosaicMode">
+            <img class="simulator-wiring-icon simulator-buttons-icon" src="/openInterface/interfaces/assets/media/icon-mosaic.svg" alt="mosaic mode"/>
+        </button>
+        <div id="wiring-overlay">
+            <button id="modules-close" onclick="WiringSimulator.closeModule()" tabindex="-1">&times;</button>
+            <div id="wiring-modules" style="display:none;"></div>
+        </div>
+        <canvas id="wiring-simulator">Canvas Not Supported</canvas>
+        <div id="wiring-message-container"></div>
+        <div class="d-flex justify-content-center my-2">
+            <div id="wiring-buttons-control" class="control-run-btn btn-group oi-btn-group-simulator oi-simulation-activated"></div>
+            <div id="wiring-buttons-fullscreen" class="control-mode-btn oi-btn-group-simulator oi-option-activated"></div>
+            <div class="wiring-buttons btn-group oi-btn-group-simulator oi-option-activated">
+                <button id="wiring-background-button" class="btn oi-btn-simulator" 
+                        data-toggle="tooltip" data-placement="top" title="Background">
+                    <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-img.svg" alt="Image icon">
+                </button>
+                <button id="simulator-export" class="btn oi-btn-simulator" 
+                        data-toggle="tooltip" data-placement="top" title="Screenshot" onclick="WiringSimulator.getScreenshot()">
+                    <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-photo.svg" alt="Photo icon">
+                </button>
+                <button id="wiring-record-button" class="btn oi-btn-simulator" 
+                        data-toggle="tooltip" data-placement="top" title="Video record" onclick="WiringSimulator.recordVideo()">
+                    <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-rec.svg" alt="Record icon">
+                </button>
+            </div>
+        </div>
+    </div>`;
+
+    document.querySelector('.ide-simulator').insertAdjacentHTML('beforeend', wiringSimultorHtml);
+
+  },
 
   initBoard: function () {
     const boardImage = new Image();

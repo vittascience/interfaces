@@ -36,151 +36,108 @@ const backModals = {
         },
         content:
             `
-        <!-- Bouton pour ouvrir/fermer la section -->
-        <button 
-            class="openproject-collapse-title btn btn-link" 
-            type="button" 
-            data-bs-toggle="collapse" 
-            data-bs-target="#openproject-cloud-section" 
-            aria-expanded="true" 
-            aria-controls="openproject-cloud-section">
-            <span data-i18n="modals.standard.open.content.notice.title" class="fw-bold" style="font-family: Montserrat;">1. Depuis le cloud</span>
-        </button>
+            <!-- Onglets de navigation -->
+            <div class="openproject-tabs" role="tablist" aria-label="Ouvrir un projet">
+                <button
+                    type="button"
+                    id="my-openproject-subtitle"
+                    class="openproject-tab-btn active"
+                    data-tab-target="my-projects-list"
+                    role="tab"
+                    aria-selected="true"
+                    aria-controls="my-projects-list">
+                    <i class="fa fa-cloud" aria-hidden="true"></i>
+                    <span data-i18n="[html]modals.standard.open.content.categories.private">Mes projets</span>
+                    <span id="my-projects-count" class="project-count" aria-hidden="true"></span>
+                </button>
+                <button
+                    type="button"
+                    id="shared-projects-list"
+                    class="openproject-tab-btn"
+                    data-tab-target="shared-projects-panel"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="shared-projects-panel">
+                    <i class="fa fa-globe" aria-hidden="true"></i>
+                    <span data-i18n="[html]modals.standard.open.content.categories.public">Projets partagés</span>
+                    <span id="shared-projects-count" class="project-count" aria-hidden="true"></span>
+                </button>
+                <button
+                    type="button"
+                    id="example-projects-list"
+                    class="openproject-tab-btn"
+                    data-tab-target="example-projects-panel"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="example-projects-panel">
+                    <i class="fa fa-table-cells" aria-hidden="true"></i>
+                    <span data-i18n="[html]modals.standard.open.content.categories.example">Exemples</span>
+                    <span id="example-projects-count" class="project-count" aria-hidden="true"></span>
+                </button>
+                <button
+                    type="button"
+                    id="local-storage-projects-tab"
+                    class="openproject-tab-btn"
+                    data-tab-target="local-storage-projects-panel"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="local-storage-projects-panel">
+                    <i class="fa fa-laptop" aria-hidden="true"></i>
+                    <span data-i18n="[html]modals.standard.open.content.categories.local">Mes projets locaux</span>
+                    <span id="local-storage-projects-count" class="project-count" aria-hidden="true"></span>
+                </button>
+                <button
+                    type="button"
+                    id="local-projects-list"
+                    class="openproject-tab-btn"
+                    data-tab-target="local-projects-panel"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="local-projects-panel">
+                    <i class="fa fa-desktop" aria-hidden="true"></i>
+                    <span data-i18n="modals.standard.open.content.noticeCloud.title">Depuis votre appareil</span>
+                </button>
+            </div>
 
-        <!-- Contenu de la section collapsible -->
-        <div id="openproject-cloud-section" class="collapse show" role="region" aria-labelledby="openproject-cloud-section">
-            <div class="input-group mt-1" id="search-project">
-                <label for="search-project-input" class="visually-hidden">Rechercher un projet</label>
-                <input 
-                    id="search-project-input" 
-                    class="form-control" 
-                    type="text" 
-                    placeholder="Rechercher un projet" 
+            <label for="search-project-input" class="visually-hidden">Rechercher un projet</label>
+            <div class="input-group mt-3" id="search-project">
+                <input
+                    id="search-project-input"
+                    class="form-control"
+                    type="text"
+                    data-i18n="[placeholder]modals.standard.open.content.search"
                     aria-label="Rechercher un projet">
-                <button 
-                    type="button" 
-                    id="search-button" 
-                    class="btn btn-primary search-button" 
-                    aria-label="Lancer la recherche">
+                <button
+                    type="button"
+                    id="search-button"
+                    class="btn btn-primary search-button"
+                    data-i18n="[aria-label]modals.standard.open.content.searchButton" aria-label="Lancer la recherche">
                     <span class="fa fa-search" aria-hidden="true"></span>
                 </button>
             </div>
 
-            <!-- Arborescence des projets -->
-            <div id="projects-tree" class="mt-4" role="tree">
-                <!-- Liste de mes projets -->
-                <div id="my-projects-list" class="openproject-list" role="treeitem" aria-expanded="false" tabindex="0">
-                    <h2 id="my-openproject-subtitle" class="openproject-subtitle">
-                        <button class="btn btn-link p-0" aria-expanded="false" aria-controls="my-projects">
-                            <i class="fas fa-chevron-right list-dropdown" aria-hidden="true"></i>
-                            <i class="fa fa-user" aria-hidden="true"></i>
-                            <span data-i18n="[html]modals.standard.open.content.categories.private">Mes projets</span>
-                        </button>
-                        <span id="my-projects-count" class="project-count" aria-hidden="true"></span>
-                    </h2>
-                    <div id="my-projects" class="collapse open-project-content" role="group" aria-labelledby="my-openproject-subtitle"></div>
+            <!-- Panneaux des onglets -->
+            <div id="projects-tree" class="mt-3">
+                <div id="my-projects-list" class="openproject-tab-panel active" role="tabpanel" aria-labelledby="my-openproject-subtitle">
+                    <div id="my-projects" class="open-project-content"></div>
                 </div>
-
-                <!-- Liste des projets partagés -->
-                <div id="shared-projects-list" class="openproject-list" role="treeitem" aria-expanded="false" tabindex="0">
-                    <h2 class="openproject-subtitle">
-                        <button class="btn btn-link p-0" aria-expanded="false" aria-controls="shared-projects">
-                            <i class="fas fa-chevron-right list-dropdown" aria-hidden="true"></i>
-                            <i class="fa fa-globe" aria-hidden="true"></i>
-                            <span data-i18n="[html]modals.standard.open.content.categories.public">Projets partagés</span>
-                        </button>
-                        <span id="shared-projects-count" class="project-count" aria-hidden="true"></span>
-                    </h2>
-                    <div id="shared-projects" class="collapse open-project-content" role="group" aria-labelledby="shared-projects-list"></div>
+                <div id="shared-projects-panel" class="openproject-tab-panel" role="tabpanel" aria-labelledby="shared-projects-list">
+                    <div id="shared-projects" class="open-project-content"></div>
                 </div>
-
-                <!-- Liste des exemples -->
-                <div id="example-projects-list" class="openproject-list" role="treeitem" aria-expanded="false" tabindex="0">
-                    <h2 class="openproject-subtitle">
-                        <button class="btn btn-link p-0" aria-expanded="false" aria-controls="example-projects">
-                            <i class="fas fa-chevron-right list-dropdown" aria-hidden="true"></i>
-                            <i class="fa fa-table" aria-hidden="true"></i>
-                            <span data-i18n="[html]modals.standard.open.content.categories.example">Exemples</span>
-                        </button>
-                        <span id="example-projects-count" class="project-count" aria-hidden="true"></span>
-                    </h2>
-                    <div id="example-projects" class="collapse open-project-content" role="group" aria-labelledby="example-projects-list">
-                        <div id="sub-example-projects" class="open-project-content" role="group" aria-labelledby="example-projects-list"></div>
-                    </div>
-                    
+                <div id="example-projects-panel" class="openproject-tab-panel" role="tabpanel" aria-labelledby="example-projects-list">
+                    <div id="example-projects" class="open-project-content"></div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Séparateur visuel avec un texte -->
-        <div class="modal-openproject-separator d-flex align-items-center text-center">
-            <hr class="flex-grow-1 bg-secondary" />
-            <span class="px-3 text-muted">
-                <span class="bg-light px-2" data-i18n="modals.standard.save.content.form.or">OU</span>
-            </span>
-            <hr class="flex-grow-1 bg-secondary" />
-        </div>
-        `,
-        content:
-            `
-            <button class="openproject-collapse-title" type="button" data-bs-toggle="collapse" data-bs-target="#openproject-cloud-section" aria-expanded="true" aria-controls="openproject-cloud-section">
-                <span data-i18n="modals.standard.open.content.notice.title" style="font-weight: bold; font-style: Montserrat;">1. Depuis le cloud</span>
-            </button>
-            <div id="openproject-cloud-section" class="collapse show">
-                <div class="input-group mt-1" id="search-project">
-                    <input id="search-project-input" class="form-control" data-i18n="[placeholder]modals.standard.open.content.search">
-                    <button type="button" id="search-button" class="btn btn-primary search-button">
-                        <span class="fa fa-search"></span>
-                    </button>
+                <div id="local-storage-projects-panel" class="openproject-tab-panel" role="tabpanel" aria-labelledby="local-storage-projects-tab">
+                    <div id="local-storage-projects" class="open-project-content"></div>
                 </div>
-                <div id="projects-tree" class="mt-4">
-                    <div id="my-projects-list" class="openproject-list" tabindex="0">
-                        <h2 id="my-openproject-subtitle" class="openproject-subtitle">
-                            <i class="fas fa-chevron-right list-dropdown"></i>
-                            <i class="fa fa-user"></i>
-                            <span data-i18n="[html]modals.standard.open.content.categories.private">Mes projets</span>
-                            <span id="my-projects-count" class="project-count"></span>
-                        </h2>
-                        <div id="my-projects" class="open-project-content"></div>
-                    </div>
-                    <div id="shared-projects-list" class="openproject-list" tabindex="0">
-                        <h2 class="openproject-subtitle">
-                            <i class="fas fa-chevron-right list-dropdown"></i>
-                            <i class="fa fa-globe"></i>
-                            <span data-i18n="[html]modals.standard.open.content.categories.public">Projets partagés</span>
-                            <span id="shared-projects-count" class="project-count"></span>
-                        </h2>
-                        <div id="shared-projects" class="open-project-content"></div>
-                    </div>
-                    <div id="example-projects-list" class="openproject-list" tabindex="0">
-                        <h2 class="openproject-subtitle">
-                            <i class="fas fa-chevron-right list-dropdown"></i>
-                            <i class="fa fa-table"></i>
-                            <span data-i18n="[html]modals.standard.open.content.categories.example">Exemples</span>
-                            <span id="example-projects-count" class="project-count"></span>
-                        </h2>
-                        <div id="example-projects" class="open-project-content"></div>
+                <div id="local-projects-panel" class="openproject-tab-panel" role="tabpanel" aria-labelledby="local-projects-list">
+                    <div class="text-center mx-auto w-100 mh-100 mb-2">
+                        ${fileImportInput}
                     </div>
                 </div>
-            </div>
-            <div class="modal-openproject-separator" style="position: relative;text-align:center;display: grid;align-items: center;">
-                <hr style="background-color: var(--bg-5);"/>
-                <span style="position: absolute; background-color: transparent; left: 0; right: 0; padding-right: 7px; padding-left: 7px; color: var(--text-2);">
-                    <span style="background-color: var(--bg-2); padding: 0 5px;" data-i18n="modals.standard.save.content.form.or">OU</span>
-                </span>
             </div>
             `,
-        footer:
-            `
-              <button class="openproject-collapse-title" type="button" data-bs-toggle="collapse" data-bs-target="#openproject-local-section" aria-expanded="true" aria-controls="openproject-local-section">
-                  <span data-i18n="modals.standard.open.content.noticeCloud.title" style="font-weight: bold; font-style: Montserrat;">2. Depuis votre ordinateur</span>
-              </button>
-              <div id="openproject-local-section" class="collapse show">
-                <div class="text-center mx-auto w-100 mh-100 mb-2">
-                    ${fileImportInput}
-                </div>
-              </div>
-            `,
+        footer: '',
     },
     'modal-saveproject': {
         selector: '',
@@ -325,7 +282,7 @@ const backModals = {
             <div class="form-group">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="shareProjectNewCopie">
-                    <label class="form-check-label" for="shareProjectNewCopie">
+                    <label class="form-check-label" for="shareProjectNewCopie" data-i18n="modals.standard.new.content.useCurrentProject">
                         Cochez cette case si vous souhaitez prendre comme base le projet en cours.                    </label>
                 </div>
             </div>
@@ -397,7 +354,7 @@ const backModals = {
                 <div class="tab-pane fade" id="modal-shareproject-tab-iframe-content" role="tabpanel" aria-labelledby="iframe-tab">Iframe</div>
             </div>
             <div class="mt-2" style="display: flex; width: 100%;">
-                <button type="button" id="modal-save-as-btn-back" class="btn v-btn-basic" style="flex:1;" data-i18n="[html]modals.standard.save-as.content.buttons.back" onclick="saveProjectbtn()">
+                <button type="button" id="modal-save-as-btn-back" class="btn v-btn-basic" style="flex:1;" data-i18n="[html]modals.standard.save-as.buttons.back" onclick="saveProjectbtn()">
                     Retour
                 </button>
             </div>`,
@@ -704,6 +661,24 @@ const backModals = {
                         <span data-i18n="modals.standard.exercise.autocorrector.modalButton"></span>
                     </button>
                 </div>
+            </div>`,
+        footer: ``
+    },
+    'modal-toolbox-restriction': {
+        selector: '',
+        header: {
+            icon: 'fas fa-tasks',
+            title: 'modals.standard.toolboxRestriction.title'
+        },
+        content: `
+            <div id="check_box_div" class="d-flex mt-4">
+                <span style="margin-top: 5px; margin-right: 10px;" data-i18n="[html]modals.standard.exercise.restriction.label">
+                    Restreindre la bibliothèque de blocs seulement à ceux présent dans la zone d'assemblage.
+                </span>
+                <label class="switch">
+                    <input type="checkbox" name="toolboxRestrictionName" id ="toolbox-restriction-capytale" onchange="Main.restrictToolbox()">
+                    <span class="slider round"></span>
+                </label>
             </div>`,
         footer: ``
     },

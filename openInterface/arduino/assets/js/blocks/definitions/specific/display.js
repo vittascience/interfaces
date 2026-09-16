@@ -16,10 +16,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_CONTROL_BUILTIN_LED_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
 
@@ -37,11 +37,11 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "input_value",
             "name": "X",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "Y",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "CLEARING",
@@ -72,7 +72,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "input_value",
             "name": "SPEED",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }],
         "inputsInline": true,
         "previousStatement": null,
@@ -91,7 +91,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "N",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }],
         "inputsInline": true,
         "previousStatement": null,
@@ -135,10 +135,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "message0": "%{BKY_DISPLAY_BUILTINMATRIX_CLEARSCREEN_TITLE}",
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_BUILTINMATRIX_CLEARSCREEN_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
 
@@ -187,12 +187,12 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             ]
         }],
         "inputsInline": true,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_LCD_SETTEXT_TOOLTIP}",
         "previousStatement": null,
         "nextStatement": null,
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
 
@@ -200,7 +200,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     {
         "type": "display_lcdRGBClear",
         "message0": "%{BKY_DISPLAY_LCD_CLEAR_TITLE}",
-        "style": "display_blocks",
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "ADDR",
@@ -214,7 +213,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "previousStatement": null,
         "nextStatement": null,
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
 
@@ -222,7 +222,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     {
         "type": "display_setDisplay",
         "message0": "%{BKY_DISPLAY_LCD_SET_DISPLAY_TITLE}",
-        "style": "display_blocks",
         "args0": [{
             "type": "field_grid_dropdown",
             "name": "ADDR",
@@ -243,7 +242,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "previousStatement": null,
         "nextStatement": null,
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
 
@@ -254,23 +254,23 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "R",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": "Number"
         }, {
             "type": "input_value",
             "name": "G",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "B",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }],
         "inputsInline": true,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_LCD_SETRGBCOLOR_TOOLTIP}",
         "previousStatement": null,
         "nextStatement": null,
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
 
@@ -286,10 +286,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "previousStatement": null,
         "nextStatement": null,
         "inputsInline": true,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_LCD_SETPALETTERGBCOLOR_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ],
     },
 
@@ -311,19 +311,19 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "input_value",
             "name": "X",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "Y",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }],
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_OLED_ADDTEXT_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
 
@@ -345,19 +345,19 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "input_value",
             "name": "X",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "Y",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }],
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_OLED_DRAWICON_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
 
@@ -385,10 +385,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_OLED_DRAWBITMAPLOGO_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
 
@@ -407,10 +407,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_OLED_CLEARSCREEN_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
 
@@ -428,12 +428,12 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
         }],
         "inputsInline": true,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_SETGROVELED_TOOLTIP}",
         "previousStatement": null,
         "nextStatement": null,
         "extensions": [
             "block_init_helpurl",
+            "block_init_color",
             "pins_management_global"
         ]
     },
@@ -445,7 +445,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "VALUE",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",
@@ -454,10 +454,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_SETLEDINTENSITY_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
+            "block_init_color",
             "pins_management_global"
         ]
     },
@@ -469,7 +469,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "VALUE",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",
@@ -478,10 +478,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_SET_VARIABLE_COLOR_LED_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
+            "block_init_color",
             "pins_management_global"
         ]
     },
@@ -505,13 +505,13 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "name": "DIN",
             "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
         }],
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_CHAINABLERGBLED_DEFINE_TOOLTIP}",
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
         "extensions": [
             "block_init_helpurl",
+            "block_init_color",
             "pins_management_global"
         ]
     },
@@ -523,19 +523,19 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "LED",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "R",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "G",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "B",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "CIN",
@@ -545,13 +545,13 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "name": "DIN",
             "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
         }],
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_CHAINABLE_RGBLED_TOOLTIP}",
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
         "extensions": [
             "block_init_helpurl",
+            "block_init_color",
             "pins_management_global"
         ]
     },
@@ -563,7 +563,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "LED",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "COLOR",
@@ -577,13 +577,13 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "name": "DIN",
             "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
         }],
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_CHAINABLE_PALETTERGBLED_TOOLTIP}",
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
         "extensions": [
             "block_init_helpurl",
+            "block_init_color",
             "pins_management_global"
         ]
     },
@@ -595,15 +595,15 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "R",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "G",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "B",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "CIN",
@@ -616,10 +616,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_CHAINABLE_ALLRGBLED_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
+            "block_init_color",
             "pins_management_global"
         ]
     },
@@ -644,10 +644,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_CHAINABLE_PALETTEALLRGBLED_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
+            "block_init_color",
             "pins_management_global"
         ]
     },
@@ -668,12 +668,12 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
         }],
         "inputsInline": true,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_NEOPIXEL_DEFINE_TOOLTIP}",
         "previousStatement": null,
         "nextStatement": null,
         "extensions": [
             "block_init_helpurl",
+            "block_init_color",
             "pins_management_global"
         ]
     },
@@ -685,19 +685,19 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "LED",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "R",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "G",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "B",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",
@@ -706,10 +706,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "previousStatement": null,
         "nextStatement": null,
         "inputsInline": true,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_NEOPIXEL_LEDCONTROL_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
+            "block_init_color",
             "pins_management_global"
         ],
     },
@@ -721,7 +721,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "LED",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "COLOR",
@@ -734,10 +734,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "previousStatement": null,
         "nextStatement": null,
         "inputsInline": true,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_NEOPIXEL_SETPALETTECOLOR_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
+            "block_init_color",
             "pins_management_global"
         ],
     },
@@ -766,10 +766,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_NEOPIXEL_SETALLLEDRGB_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
+            "block_init_color",
             "pins_management_global"
         ]
     },
@@ -790,10 +790,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_NEOPIXEL_SETALLLEDCOLOR_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
+            "block_init_color",
             "pins_management_global"
         ]
     },
@@ -810,10 +810,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "previousStatement": null,
         "nextStatement": null,
         "inputsInline": true,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_NEOPIXEL_RAINBOW_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
+            "block_init_color",
             "pins_management_global"
         ]
     },
@@ -825,7 +825,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "N",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "CLK",
@@ -836,12 +836,12 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
         }],
         "inputsInline": true,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_4DIGIT_SETNUMBER_TOOLTIP}",
         "previousStatement": null,
         "nextStatement": null,
         "extensions": [
             "block_init_helpurl",
+            "block_init_color",
             "pins_management_global"
         ]
     },
@@ -862,10 +862,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_4DIGIT_SETCLOCK_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
+            "block_init_color",
             "pins_management_global"
         ]
     },
@@ -877,7 +877,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "TEMP",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "CLK",
@@ -888,12 +888,12 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
         }],
         "inputsInline": true,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_4DIGIT_SETTEMP_TOOLTIP}",
         "previousStatement": null,
         "nextStatement": null,
         "extensions": [
             "block_init_helpurl",
+            "block_init_color",
             "pins_management_global"
         ]
     },
@@ -905,7 +905,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "VALUE",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "DI",
@@ -918,10 +918,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_MY9221_SET_LEVEL_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
+            "block_init_color",
             "pins_management_global"
         ]
     },
@@ -949,10 +949,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_MY9221_SET_GREEN_TO_RED_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
+            "block_init_color",
             "pins_management_global"
         ]
     },
@@ -964,7 +964,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "VALUE",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "STATE",
@@ -981,10 +981,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_MY9221_SET_LED_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
+            "block_init_color",
             "pins_management_global"
         ]
     }

@@ -171,7 +171,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     {
         "type": "robot_getCamera",
         "message0": "%{BKY_ROBOT_GET_CAMERA_TITLE}",
-        "output": "Array",
+        "output": ["Number", "Array"],
         "style": "robot_blocks",
         "tooltip": "%{BKY_ROBOT_GET_CAMERA_TOOLTIP}",
         "extensions": [
@@ -259,7 +259,7 @@ Blockly.Constants.Robot = Object.create(null);
  * @this {Blockly.Block}
  */
 Blockly.Constants.Robot.ROBOT_SET_DURATION_INIT_EXTENSION = function () {
-    this.duration_ = false;
+    this.option_ = false;
     this.update_(this.updateField_);
 };
 

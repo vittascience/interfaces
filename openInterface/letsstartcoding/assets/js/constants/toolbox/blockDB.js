@@ -110,7 +110,6 @@ const TOOLBOXES_BLOCKS_CONTENT = {
                 "kind": "block",
                 "type": "controls_whileUntil"
             }
-
         ]
     }
 };

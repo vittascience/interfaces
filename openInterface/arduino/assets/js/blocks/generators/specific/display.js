@@ -4,9 +4,9 @@
 
 // BUILTIN LED _ CONTROL STATE
 Blockly.Arduino.io_control_arduino_led = function (block) {
-    Blockly.Arduino.addSetup('pin13', "pinMode(13, OUTPUT);", !1);
+    Blockly.Arduino.addSetup('pin13', "pinMode(LED_BUILTIN, OUTPUT);", !1);
     const state = Blockly.Arduino.valueToCode(block, "STATE", Blockly.Arduino.ORDER_ATOMIC) || 'LOW';
-    return "digitalWrite(13, " + state + ");" + NEWLINE;
+    return "digitalWrite(LED_BUILTIN, " + state + ");" + NEWLINE;
 };
 
 // UNO R4 WIFI - LED MATRIX DRAW BITMAP
@@ -15,8 +15,8 @@ Blockly.Arduino.display_builtinMatrix_drawBitmap = function (block) {
     const y = Blockly.Arduino.valueToCode(block, "Y", Blockly.Arduino.ORDER_ATOMIC);
     const clear = block.getFieldValue("CLEARING");
     const objName = "builtinMatrix";
-    Blockly.Arduino.addInclude("ArduinoGraphics", INCLUDE_ARDUINO_GRAPHICS);
-    Blockly.Arduino.addInclude("Arduino_LED_Matrix", INCLUDE_ARDUINO_LED_MATRIX);
+    Blockly.Arduino.addInclude('ArduinoGraphics', INCLUDE_ARDUINO_GRAPHICS);
+    Blockly.Arduino.addInclude('Arduino_LED_Matrix', INCLUDE_ARDUINO_LED_MATRIX);
     Blockly.Arduino.addDeclaration(objName + '-simu', "// LED Matrix");
     Blockly.Arduino.addDeclaration(objName, "ArduinoLEDMatrix " + objName + ";");
     Blockly.Arduino.addDeclaration('declare_matrix_frame_32bit', "uint32_t frame_32bits[3] = {0};");
@@ -58,8 +58,8 @@ Blockly.Arduino.display_builtinMatrix_drawString = function (block) {
     const text = Blockly.Arduino.valueToCode(block, "TEXT", Blockly.Arduino.ORDER_ATOMIC);
     const speed = Blockly.Arduino.valueToCode(block, "SPEED", Blockly.Arduino.ORDER_ATOMIC);
     const objName = "builtinMatrix";
-    Blockly.Arduino.addInclude("ArduinoGraphics", INCLUDE_ARDUINO_GRAPHICS);
-    Blockly.Arduino.addInclude("Arduino_LED_Matrix", INCLUDE_ARDUINO_LED_MATRIX);
+    Blockly.Arduino.addInclude('ArduinoGraphics', INCLUDE_ARDUINO_GRAPHICS);
+    Blockly.Arduino.addInclude('Arduino_LED_Matrix', INCLUDE_ARDUINO_LED_MATRIX);
     Blockly.Arduino.addDeclaration(objName + '-simu', "// LED Matrix");
     Blockly.Arduino.addDeclaration(objName, "ArduinoLEDMatrix " + objName + ";");
     Blockly.Arduino.addFunction('matrix_scrollText', FUNCTIONS_ARDUINO.DEF_LED_MATRIX_SCROLL_TEXT);
@@ -75,8 +75,8 @@ Blockly.Arduino.display_builtinMatrix_drawString = function (block) {
 Blockly.Arduino.display_builtinMatrix_showNumber = function (block) {
     const number = Blockly.Arduino.valueToCode(block, "N", Blockly.Arduino.ORDER_ATOMIC);
     const objName = "builtinMatrix";
-    Blockly.Arduino.addInclude("ArduinoGraphics", INCLUDE_ARDUINO_GRAPHICS);
-    Blockly.Arduino.addInclude("Arduino_LED_Matrix", INCLUDE_ARDUINO_LED_MATRIX);
+    Blockly.Arduino.addInclude('ArduinoGraphics', INCLUDE_ARDUINO_GRAPHICS);
+    Blockly.Arduino.addInclude('Arduino_LED_Matrix', INCLUDE_ARDUINO_LED_MATRIX);
     Blockly.Arduino.addDefine('DIGITS_3x5', FUNCTIONS_ARDUINO.DEF_LED_MATRIX_DIGITS_5X7);
     Blockly.Arduino.addDeclaration(objName + '-simu', "// LED Matrix");
     Blockly.Arduino.addDeclaration(objName, "ArduinoLEDMatrix " + objName + ";");
@@ -93,8 +93,8 @@ Blockly.Arduino.display_builtinMatrix_setPixel = function (block) {
     const y = Blockly.Arduino.valueToCode(block, "N", Blockly.Arduino.ORDER_ATOMIC) || "0";
     const state = Blockly.Arduino.valueToCode(block, "STATE", Blockly.Arduino.ORDER_ATOMIC) || "LOW";
     const objName = "builtinMatrix";
-    Blockly.Arduino.addInclude("ArduinoGraphics", INCLUDE_ARDUINO_GRAPHICS);
-    Blockly.Arduino.addInclude("Arduino_LED_Matrix", INCLUDE_ARDUINO_LED_MATRIX);
+    Blockly.Arduino.addInclude('ArduinoGraphics', INCLUDE_ARDUINO_GRAPHICS);
+    Blockly.Arduino.addInclude('Arduino_LED_Matrix', INCLUDE_ARDUINO_LED_MATRIX);
     Blockly.Arduino.addDeclaration(objName + '-simu', "// LED Matrix");
     Blockly.Arduino.addDeclaration(objName, "ArduinoLEDMatrix " + objName + ";");
     Blockly.Arduino.addSetup(objName + "-begin", objName + ".begin();");
@@ -105,7 +105,8 @@ Blockly.Arduino.display_builtinMatrix_setPixel = function (block) {
 // UNO R4 WIFI - LED MATRIX CLEAR
 Blockly.Arduino.display_builtinMatrix_clearScreen = function () {
     const objName = "builtinMatrix";
-    Blockly.Arduino.addInclude("Arduino_LED_Matrix", INCLUDE_ARDUINO_LED_MATRIX);
+    Blockly.Arduino.addInclude('ArduinoGraphics', INCLUDE_ARDUINO_GRAPHICS);
+    Blockly.Arduino.addInclude('Arduino_LED_Matrix', INCLUDE_ARDUINO_LED_MATRIX);
     Blockly.Arduino.addDeclaration(objName + '-simu', "// LED Matrix");
     Blockly.Arduino.addDeclaration(objName, "ArduinoLEDMatrix " + objName + ";");
     Blockly.Arduino.addSetup(objName + "-begin", objName + ".begin();");

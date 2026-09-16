@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const eventHTML = `
                         <div class="event-card">
                             ${new Date(event.date) > currentDate ? '<span class="badge rounded-pill text-bg-info event-badge">A venir</span>' : ''}
-                            <img src="/public/content/user_data/research/images/${event.image}" class="img-fluid rounded-circle" alt="image ${event['title' + suffix]}" style="width: 125px; height: 125px;">
+                            <img src="${VS_USER_DATA_BASE}/research/images/${event.image}" class="img-fluid rounded-circle" alt="image ${event['title' + suffix]}" style="width: 125px; height: 125px;">
                             <p class="text-center my-2">${checkIfDateIsValid(event.date)} - ${event['type' + suffix]}</p>
                             <p class="text-center vitta-green fw-bold">${event['title' + suffix]}</p>
                             <p>${event['content' + suffix]}</p>

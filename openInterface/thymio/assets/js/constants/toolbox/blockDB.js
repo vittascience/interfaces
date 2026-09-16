@@ -10,7 +10,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
      */
     get: function () {
         return {
-            /** esp32 default blocks */
+            /** thymio default blocks */
 
             // display 
             "display_controlBuiltInLED": this.Set.colour_picker('#ff0000'),
@@ -27,23 +27,6 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "io_timer_ms": this.Set.number("TIME", 1000),
             // io - sounds
             "io_sound_mic_threshold": this.Set.number("THRESHOLD", 40),
-            // io - esp32
-            "io_pause": this.Set.number("TIME", 1),
-            "io_waitUntil": "<value name='UNTIL'><block type='logic_compare'>" + this.Set.field("OP", "EQ") + this.Set.number("B", 1) + "</block></value>",            // io - external modules
-            "io_getGroveColoredButton": this.Set.field("PIN", "p25"),
-            "io_setGroveColoredButton": this.Set.state(),
-            "io_getGroveThumbJoystick": this.Set.field("PIN_Y", "p34"),
-            // io - pins
-            "io_writeDigitalPin": this.Set.state(),
-            "io_writeAnalogPin": this.Set.number("VALUE", 255),
-            "io_writePwm": this.Set.number("VALUE", PWM_MAX_DUTY),
-            "io_setPwm": this.Set.number("FREQUENCY", 10),
-            "io_getVoltage": this.Set.number("VALUE", 255),
-            // communication
-            "communication_serialWrite": '<mutation newlines="false"></mutation>' + this.Set.text('TEXT', "{hello}"),
-            "communication_graphSerialWrite": "<mutation items='1'></mutation>" 
-                + "<value name='ADD0'><block type='communication_graphSerialWrite_datasFormat'><field name='NAME'>{data1}</field></block></value>",
-            
             // actuators - motors
             "robot_rotate_forever": this.Set.number("VALUE", 125),
             "robot_move": this.Set.number("VALUE", 125),

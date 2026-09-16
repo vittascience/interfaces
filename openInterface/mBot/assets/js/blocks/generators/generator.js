@@ -17,3 +17,20 @@ Blockly.Arduino.Generators.analog_read = function (pin, codeFlag) {
   Blockly.Arduino.addPowerOn(pin + '_ADC', pinName + " = pinADC(" + pin.replace('p', '') + ")");
   return pinName;
 };
+
+Blockly.Arduino.Generators.DEFINE_VARIABLE_TYPE =
+`// Generic catch-all implementation.
+template <typename T_ty> struct TypeInfo {static const char* name;};
+template <typename T_ty> const char* TypeInfo<T_ty>::name = "unknown";
+// Handy macro to make defining stuff easier.
+#define MAKE_TYPE_INFO(type) template <> const char* TypeInfo<type>::name = #type;
+// Type-specific implementations.
+MAKE_TYPE_INFO(char)
+MAKE_TYPE_INFO(String)
+MAKE_TYPE_INFO(boolean)
+MAKE_TYPE_INFO(short)
+MAKE_TYPE_INFO(int)
+MAKE_TYPE_INFO(long)
+MAKE_TYPE_INFO(float)
+// Handy macro to make querying stuff easier.
+#define TYPE_NAME(var) TypeInfo<typeof(var)>::name`;

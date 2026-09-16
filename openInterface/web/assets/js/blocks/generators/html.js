@@ -437,7 +437,6 @@ Blockly.JavaScript["textshadownew"] = function (block) {
   const y = fullEscape(block.getFieldValue('yoffset'));
   const b = fullEscape(block.getFieldValue('blur'));
   const c = Blockly.JavaScript.statementToCode(block, 'color', Blockly.JavaScript.ORDER_ATOMIC).trim();
-
   return `text-shadow: ${x} ${y} ${b} ${c};\n`;
 };
 

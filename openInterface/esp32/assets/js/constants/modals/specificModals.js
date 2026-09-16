@@ -53,7 +53,7 @@ const specificModals = {
                             </div>
                         </label>
                     </div>
-                    <!-- <div class="board-option" data-board="${BOARD_NANO_ESP32}">
+                    <div class="board-option" data-board="${BOARD_NANO_ESP32}">
                         <input type="radio" name="boardChoice" value="${BOARD_NANO_ESP32}" id="board-choice-${BOARD_NANO_ESP32}">
                         <label for="board-choice-${BOARD_NANO_ESP32}" class="board-card">
                             <div class="board-image">
@@ -64,7 +64,7 @@ const specificModals = {
                                 <span class="board-name">${INTERFACE_BOARDS[BOARD_NANO_ESP32].name}</span>
                             </div>
                         </label>
-                    </div> -->
+                    </div>
                     <div class="board-option" data-board="${BOARD_WEMOS_D1R32}">
                         <input type="radio" name="boardChoice" value="${BOARD_WEMOS_D1R32}" id="board-choice-${BOARD_WEMOS_D1R32}">
                         <label for="board-choice-${BOARD_WEMOS_D1R32}" class="board-card">
@@ -106,10 +106,10 @@ const specificModals = {
                     <h5>${jsonPath('modals.board-selector.content.shield-grove.title')}</h5>
                     <div class="board-selector-shield-grove mb-2">
                         <label class="switch">
-                            <input type="checkbox" id="shieldGroveCheckBox">
+                            <input type="checkbox" id="shieldGroveCheckBox" aria-labelledby="shieldGroveLabel">
                             <span class="slider round"></span>
                         </label>
-                        <span  style="margin-left: 10px; vertical-align: top;">${jsonPath('modals.board-selector.content.shield-grove.text')}</span>
+                        <span id="shieldGroveLabel" style="margin-left: 10px; vertical-align: top;">${jsonPath('modals.board-selector.content.shield-grove.text')}</span>
                     </div>
                 </div>
                 <div class="board-selector-footer-container">

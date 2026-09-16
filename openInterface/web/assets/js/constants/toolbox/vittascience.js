@@ -555,6 +555,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                     "getelementsbyclassname",
                     "getelementsbytagname",
                     "addeventlistener",
+                    "addeventlistenerOnLoad",
                     "editattribut"
                 ]
             }]

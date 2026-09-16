@@ -307,3 +307,5 @@ Blockly.Msg['VITTAIA_LOAD_POSTURE_MODEL_TOOLTIP'] = 'Carga el modelo pasado como
 Blockly.Msg['VITTAIA_POSTURE_MAKE_PREDICTIONS_TITLE'] = '%1 iniciar la predicción de postura en la imagen de la webcam';
 Blockly.Msg['VITTAIA_POSTURE_MAKE_PREDICTIONS_TOOLTIP'] = 'Realiza predicciones del modelo de postura de la webcam. Una predicción tiene 2 elementos: clase y probabilidad.';
 Blockly.Msg['VITTAIA_INIT_WEBCAM_TITLE'] = '%1 inicializar la webcam';
+Blockly.Msg["VISION_DETECTION_AREA_RIGHT"] = "a la derecha";
+Blockly.Msg["VISION_DETECTION_AREA_LEFT"] = "a la izquierda";

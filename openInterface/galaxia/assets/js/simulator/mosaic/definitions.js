@@ -1,5 +1,5 @@
 Simulator.Mosaic.BOARD_HEADER =
-    `<object id="board-viewer" type="image/svg+xml"></object>
+    `<object id="board-viewer" type="image/svg+xml" role="img" aria-labelledby="title-board"></object>
 <div id="main-py">main.py<span></span></div>
 <span id="galaxia_screen-value" class="galaxia_screen-value_text"></span>
 <canvas class="canvas-galaxia-screen" width='160' height='128'></canvas>`;

@@ -168,13 +168,17 @@
 }
 
 #monitor-view {
-	grid-area: 1 / 1 / 2 / 3
+	grid-area: 1 / 1 / 2 / 3;
 }
 
+/* Variables panel */
+
 #monitor-debugger {
-	display: inline-table;
 	grid-area: 1 / 2 / 2 / 3;
 	padding-left: 10px;
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
 	display: none;
 }
 
@@ -187,14 +191,23 @@
 	border-radius: 10px;
 	background-color: var(--bg-1);
 	height: 100%;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
 }
 
-/* Variables panel */
+#monitor-variables-panel {
+	flex: 1;
+	min-height: 0;
+	overflow-y: auto;
+}
 
 .variables_panel {
 	padding: 5px;
 	box-sizing: border-box;
+	display: flex;
 	flex-direction: column;
+	min-height: 0;
 }
 
 @media (max-width: 610px) {

@@ -107,6 +107,237 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
+    // PCA9685 - SET PWM FREQUENCY
+    {
+        "type": "actuators_pca9685_setPwmFrequency",
+        "message0": "%{BKY_ACTUATORS_PCA9685_SETPWMFREQUENCY_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "FREQUENCY",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_ACTUATORS_PCA9685_SETPWMFREQUENCY_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
+    // PCA9685 - SET PWM DC PERCENT
+    {
+        "type": "actuators_pca9685_setPwmDutyCyclePercent",
+        "message0": "%{BKY_ACTUATORS_PCA9685_SETPWMDUTYCYCLEPERCENT_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "DUTY",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "CHANNEL",
+            "options": [
+                ["0", "0"],
+                ["1", "1"],
+                ["2", "2"],
+                ["3", "3"],
+                ["4", "4"],
+                ["5", "5"],
+                ["6", "6"],
+                ["7", "7"],
+                ["8", "8"],
+                ["9", "9"],
+                ["10", "10"],
+                ["11", "11"],
+                ["12", "12"],
+                ["13", "13"],
+                ["14", "14"],
+                ["15", "15"]
+            ]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_ACTUATORS_PCA9685_SETPWMDUTYCYCLEPERCENT_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
+    // PCA9685 - SET PWM DC ONTIME
+    {
+        "type": "actuators_pca9685_setPwmDutyCycleOnTime",
+        "message0": "%{BKY_ACTUATORS_PCA9685_SETPWMDUTYCYCLEONTIME_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "ON_TIME",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "CHANNEL",
+            "options": [
+                ["0", "0"],
+                ["1", "1"],
+                ["2", "2"],
+                ["3", "3"],
+                ["4", "4"],
+                ["5", "5"],
+                ["6", "6"],
+                ["7", "7"],
+                ["8", "8"],
+                ["9", "9"],
+                ["10", "10"],
+                ["11", "11"],
+                ["12", "12"],
+                ["13", "13"],
+                ["14", "14"],
+                ["15", "15"]
+            ]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_ACTUATORS_PCA9685_SETPWMDUTYCYCLEONTIME_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
+    // PCA9685 - SET PWM DC
+    {
+        "type": "actuators_pca9685_setPwmDutyCycle",
+        "message0": "%{BKY_ACTUATORS_PCA9685_SETPWMDUTYCYCLE_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "FALLING_EDGE_CNT",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "RISING_EDGE_CNT",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "CHANNEL",
+            "options": [
+                ["0", "0"],
+                ["1", "1"],
+                ["2", "2"],
+                ["3", "3"],
+                ["4", "4"],
+                ["5", "5"],
+                ["6", "6"],
+                ["7", "7"],
+                ["8", "8"],
+                ["9", "9"],
+                ["10", "10"],
+                ["11", "11"],
+                ["12", "12"],
+                ["13", "13"],
+                ["14", "14"],
+                ["15", "15"]
+            ]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_ACTUATORS_PCA9685_SETPWMDUTYCYCLE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
+    // PCA9685 - SERVO SET ANGLE
+    {
+        "type": "actuators_pca9685_setServoAngle",
+        "message0": "%{BKY_ACTUATORS_PCA9685_SETSERVOANGLE_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "ANGLE",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "CHANNEL",
+            "options": [
+                ["0", "0"],
+                ["1", "1"],
+                ["2", "2"],
+                ["3", "3"],
+                ["4", "4"],
+                ["5", "5"],
+                ["6", "6"],
+                ["7", "7"],
+                ["8", "8"],
+                ["9", "9"],
+                ["10", "10"],
+                ["11", "11"],
+                ["12", "12"],
+                ["13", "13"],
+                ["14", "14"],
+                ["15", "15"]
+            ]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_ACTUATORS_PCA9685_SETSERVOANGLE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
+    // PCA9685 - SERVO SET ANGLE CUSTOM
+    {
+        "type": "actuators_pca9685_setServoAngleCustom",
+        "message0": "%{BKY_ACTUATORS_PCA9685_SETSERVOANGLECUSTOM_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "ANGLE",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "CHANNEL",
+            "options": [
+                ["0", "0"],
+                ["1", "1"],
+                ["2", "2"],
+                ["3", "3"],
+                ["4", "4"],
+                ["5", "5"],
+                ["6", "6"],
+                ["7", "7"],
+                ["8", "8"],
+                ["9", "9"],
+                ["10", "10"],
+                ["11", "11"],
+                ["12", "12"],
+                ["13", "13"],
+                ["14", "14"],
+                ["15", "15"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "MIN_PULSE",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "MAX_PULSE",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_ACTUATORS_PCA9685_SETSERVOANGLECUSTOM_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
     // GROVE RELAY _ WRITE DIGITAL
     {
         "type": "actuators_setGroveRelayState",

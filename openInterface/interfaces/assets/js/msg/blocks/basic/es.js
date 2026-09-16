@@ -65,29 +65,29 @@ Blockly.Msg["NEW_VARIABLE_TYPE_TITLE"] = "Nuevo tipo de variable :";
 Blockly.Msg["VARIABLE_ALREADY_EXISTS"] = "Ya existe una variable llamada '%1'.";
 Blockly.Msg["VARIABLE_ALREADY_EXISTS_FOR_ANOTHER_TYPE"] = "Ya existe una variable llamada '%1' para otro typo : '%2'.";
 
- // Deleción de variable.
+// Deleción de variable.
 Blockly.Msg["DELETE_VARIABLE"] = "Eliminar la variable '%1'";
 Blockly.Msg["DELETE_VARIABLE_CONFIRMATION"] = "Eliminar %1 usos de la variable ' %2' ?";
 Blockly.Msg["CANNOT_DELETE_VARIABLE_PROCEDURE"] = "Imposible eliminar la variable '%1' porque es parte de la definición de la función '%2'";
 
- // Texto de advertencia.
+// Texto de advertencia.
 Blockly.Msg["LOGIC_COMPARE_WARNING"] = "Imposible comparar la primera entrada del tipo '%1' \n con el segundo tipo '%2'";
 Blockly.Msg["LOGIC_TERNARY_WARNING"] = "Imposible devolver la primera entrada del tipo '%1' \n con el segundo tipo '%2'";
 Blockly.Msg["VARIABLES_SET_WARNING"] = "La variable '%1' ya se ha declarado al tipo '%2' \n \n y este bloque trata de pasarlo al tipo '%3'."
 Blockly.Msg["VARIABLES_SET_WARNING_NUMBERS"] = "<Ayuda>: Tal vez use el bloque <convertir x en 'float'> \n en la inicialización de la variable.";
- 
- // Bloques de inicio.
+
+// Bloques de inicio.
 Blockly.Msg["ON_START_TITLE"] = "Al inicio";
 Blockly.Msg["ON_START_TOOLTIP"] = "Agregue instrucciones a este bloque para ejecutarlas al inicio de la tarjeta programable.";
 Blockly.Msg["FOREVER_TITLE"] = "Repita indefinidamente";
 Blockly.Msg["FOREVER_TOOLTIP"] = "Agregue instrucciones a este bloque para ejecutarlas en un bucle.";
 
- // Colores.
+// Colores.
 Blockly.Msg["COLOR_LEVEL_RED"] = "nivel de rojo";
 Blockly.Msg["COLOR_LEVEL_GREEN"] = "nivel de verde";
 Blockly.Msg["COLOR_LEVEL_BLUE"] = "nivel de azul";
- 
- // Bloques de color.
+
+// Bloques de color.
 Blockly.Msg["COLOUR_PICKER_HELPURL"] = "https://fr.wikipedia.org/wiki/Colores";
 Blockly.Msg["COLOUR_PICKER_TOOLTIP"] = "Elija un color en la paleta.";
 Blockly.Msg["COLOUR_RANDOM_HELPURL"] = "http://randomcolour.com";
@@ -117,7 +117,7 @@ Blockly.Msg["EXCEPTION_EXCEPTION_TOOLTIP"] = "crear una excepción";
 Blockly.Msg["EXCEPTION_TYPE_TOOLTIP"] = "Todos los tipos de excepción posibles";
 Blockly.Msg["EXCEPTION_TRY_TOOLTIP"] = "Ejecuta un bloque de código y permite ejecutar un bloque de código en caso de excepción";
 
- // Bloques de lógica.
+// Bloques de lógica.
 Blockly.Msg["CONTROLS_IF_HELPURL"] = "https://github.com/google/blockly/wiki/IfElse";
 Blockly.Msg["CONTROLS_IF_TOOLTIP_1"] = "Si un valor es correcto, ejecute ciertos ordenes.";
 Blockly.Msg["CONTROLS_IF_TOOLTIP_2"] = "Si un valor es correcto, ejecute el primer bloque de ordenes.Si no, ejecute el segundo bloque de ordenes.";
@@ -168,7 +168,7 @@ Blockly.Msg["LOGIC_TERNARY_TOOLTIP"] = "Verifique la condición en 'prueba'.Si e
 Blockly.Msg["LOGIC_ASSERT_TOOLTIP"] = "Comprueba si una condición es verdadera. Si la condición es falsa, genera un error e interrumpe la ejecución del programa.";
 Blockly.Msg["LOGIC_ASSERT_HELPURL"] = "https://en.wikipedia.org/wiki/Assertion_(software_development)";
 
- // Bloques de bucle.
+// Bloques de bucle.
 Blockly.Msg["CONTROLS_REPEAT_HELPURL"] = "http://fr.wikipedia.org/wiki/Boucle_for";
 Blockly.Msg["CONTROLS_REPEAT_TITLE"] = "repetir %1 veces";
 Blockly.Msg["CONTROLS_REPEAT_TOOLTIP"] = "Ejecutar instrucciones varias veces.";
@@ -198,7 +198,7 @@ Blockly.Msg["CONTROLS_RANGE_TITLE_2"] = ", inicio ";
 Blockly.Msg["CONTROLS_RANGE_TITLE_3"] = ", paso ";
 Blockly.Msg["CONTROLS_RANGE_TOOLTIP"] = "Crear una secuencia de números";
 
- // Bloques de matemáticas.
+// Bloques de matemáticas.
 Blockly.Msg["MATH_ADDITION_SYMBOL"] = "+";
 Blockly.Msg["MATH_SUBTRACTION_SYMBOL"] = "-";
 Blockly.Msg["MATH_DIVISION_SYMBOL"] = "÷";
@@ -404,7 +404,7 @@ Blockly.Msg["VARIABLES_TYPEOF_TOOLTIP"] = "Devuelve el tipo de esta variable.";
 Blockly.Msg["VARIABLES_TUPLE_TITLE"] = "Tuple con los valores :";
 Blockly.Msg["VARIABLES_TUPLE_TOOLTIP"] = "Crear una tupla de estos valores";
 
- // Listas de bloques. Blockly.Msg["LISTS_CREATE_EMPTY_HELPURL"] = "https://github.com/google/blockly/wiki/Lists#create-empty-list";
+// Listas de bloques. Blockly.Msg["LISTS_CREATE_EMPTY_HELPURL"] = "https://github.com/google/blockly/wiki/Lists#create-empty-list";
 Blockly.Msg["LISTS_CREATE_EMPTY_TITLE"] = "lista vacía";
 Blockly.Msg["LISTS_CREATE_EMPTY_TOOLTIP"] = "Devolver una lista, de longitud 0, que no ningún registro";
 Blockly.Msg["LISTS_CREATE_WITH_HELPURL"] = "https://github.com/google/blockly/wiki/Lists#create-list-with";
@@ -513,36 +513,36 @@ Blockly.Msg["LISTS_SORT_TOOLTIP"] = "Ordenar una copia de una lista";
 Blockly.Msg["LISTS_SORT_TYPE_IGNORECASE"] = "alfabético, ignorando mayúsculas y minúsculas";
 Blockly.Msg["LISTS_SORT_TYPE_NUMERIC"] = "numérico";
 Blockly.Msg["LISTS_SORT_TYPE_TEXT"] = "alfabético";
- 
- // Bloques de procedimientos.
- Blockly.Msg["PROCEDURES_DEFNORETURN_HELPURL"] = "https://en.wikipedia.org/wiki/Subroutine";
- Blockly.Msg["PROCEDURES_DEFNORETURN_TITLE"] = "definir";
- Blockly.Msg["PROCEDURES_DEFNORETURN_PROCEDURE"] = "function_name";
- Blockly.Msg["PROCEDURES_BEFORE_PARAMS"] = "con:";
- Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS"] = Blockly.Msg["PROCEDURES_BEFORE_PARAMS"];
- Blockly.Msg["PROCEDURES_DEFNORETURN_DO"] = "";
- Blockly.Msg["PROCEDURES_DEFNORETURN_TOOLTIP"] = "Crea una función sin salida";
- Blockly.Msg["PROCEDURES_DEFNORETURN_COMMENT"] = "Describe esta función...";
- Blockly.Msg["PROCEDURES_DEFRETURN_HELPURL"] = "https://en.wikipedia.org/wiki/Subroutine";
- Blockly.Msg["PROCEDURES_DEFRETURN_TITLE"] = Blockly.Msg["PROCEDURES_DEFNORETURN_TITLE"];
- Blockly.Msg["PROCEDURES_DEFRETURN_PROCEDURE"] = Blockly.Msg["PROCEDURES_DEFNORETURN_PROCEDURE"];
- Blockly.Msg["PROCEDURES_DEFRETURN_DO"] = Blockly.Msg["PROCEDURES_DEFNORETURN_DO"];
- Blockly.Msg["PROCEDURES_DEFRETURN_COMMENT"] = Blockly.Msg["PROCEDURES_DEFNORETURN_COMMENT"];
- Blockly.Msg["PROCEDURES_DEFRETURN_RETURN"] = "return";
- Blockly.Msg["PROCEDURES_DEFRETURN_TOOLTIP"] = "Crear una función con salida";
- Blockly.Msg["PROCEDURES_ALLOW_STATEMENTS"] = "permitir comandos";
- Blockly.Msg["PROCEDURES_DEF_DUPLICATE_WARNING"] = "Aviso: Esta función tiene parámetros duplicados";
- Blockly.Msg["PROCEDURES_CALLNORETURN_HELPURL"] = "https://fr.wikipedia.org/wiki/Sous-programme";
- Blockly.Msg["PROCEDURES_CALLNORETURN_TOOLTIP"] = "Ejecuta la función definida por el usuario '%1'";
- Blockly.Msg["PROCEDURES_CALLRETURN_HELPURL"] = "https://fr.wikipedia.org/wiki/Sous-programme";
- Blockly.Msg["PROCEDURES_CALLRETURN_TOOLTIP"] = "Ejecuta la función definida por el usuario '%1' y utiliza su resultado";
- Blockly.Msg["PROCEDURES_HIGHLIGHT_DEF"] = "Resaltar la definición de la función";
- Blockly.Msg["PROCEDURES_CREATE_DO"] = "Crear '%1'";
- Blockly.Msg["PROCEDURES_IFRETURN_TITLE"] = "si";
- Blockly.Msg["PROCEDURES_IFRETURN_HELPURL"] = "http://c2.com/cgi/wiki?GuardClause";
- Blockly.Msg["PROCEDURES_IFRETURN_TOOLTIP"] = "Si un valor es verdadero, entonces devuelve un segundo valor";
- Blockly.Msg["PROCEDURES_IFRETURN_WARNING"] = "Advertencia: Este bloque sólo puede utilizarse en una definición de función";
- 
+
+// Bloques de procedimientos.
+Blockly.Msg["PROCEDURES_DEFNORETURN_HELPURL"] = "https://en.wikipedia.org/wiki/Subroutine";
+Blockly.Msg["PROCEDURES_DEFNORETURN_TITLE"] = "definir";
+Blockly.Msg["PROCEDURES_DEFNORETURN_PROCEDURE"] = "function_name";
+Blockly.Msg["PROCEDURES_BEFORE_PARAMS"] = "con:";
+Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS"] = Blockly.Msg["PROCEDURES_BEFORE_PARAMS"];
+Blockly.Msg["PROCEDURES_DEFNORETURN_DO"] = "";
+Blockly.Msg["PROCEDURES_DEFNORETURN_TOOLTIP"] = "Crea una función sin salida";
+Blockly.Msg["PROCEDURES_DEFNORETURN_COMMENT"] = "Describe esta función...";
+Blockly.Msg["PROCEDURES_DEFRETURN_HELPURL"] = "https://en.wikipedia.org/wiki/Subroutine";
+Blockly.Msg["PROCEDURES_DEFRETURN_TITLE"] = Blockly.Msg["PROCEDURES_DEFNORETURN_TITLE"];
+Blockly.Msg["PROCEDURES_DEFRETURN_PROCEDURE"] = Blockly.Msg["PROCEDURES_DEFNORETURN_PROCEDURE"];
+Blockly.Msg["PROCEDURES_DEFRETURN_DO"] = Blockly.Msg["PROCEDURES_DEFNORETURN_DO"];
+Blockly.Msg["PROCEDURES_DEFRETURN_COMMENT"] = Blockly.Msg["PROCEDURES_DEFNORETURN_COMMENT"];
+Blockly.Msg["PROCEDURES_DEFRETURN_RETURN"] = "return";
+Blockly.Msg["PROCEDURES_DEFRETURN_TOOLTIP"] = "Crear una función con salida";
+Blockly.Msg["PROCEDURES_ALLOW_STATEMENTS"] = "permitir comandos";
+Blockly.Msg["PROCEDURES_DEF_DUPLICATE_WARNING"] = "Aviso: Esta función tiene parámetros duplicados";
+Blockly.Msg["PROCEDURES_CALLNORETURN_HELPURL"] = "https://fr.wikipedia.org/wiki/Sous-programme";
+Blockly.Msg["PROCEDURES_CALLNORETURN_TOOLTIP"] = "Ejecuta la función definida por el usuario '%1'";
+Blockly.Msg["PROCEDURES_CALLRETURN_HELPURL"] = "https://fr.wikipedia.org/wiki/Sous-programme";
+Blockly.Msg["PROCEDURES_CALLRETURN_TOOLTIP"] = "Ejecuta la función definida por el usuario '%1' y utiliza su resultado";
+Blockly.Msg["PROCEDURES_HIGHLIGHT_DEF"] = "Resaltar la definición de la función";
+Blockly.Msg["PROCEDURES_CREATE_DO"] = "Crear '%1'";
+Blockly.Msg["PROCEDURES_IFRETURN_TITLE"] = "si";
+Blockly.Msg["PROCEDURES_IFRETURN_HELPURL"] = "http://c2.com/cgi/wiki?GuardClause";
+Blockly.Msg["PROCEDURES_IFRETURN_TOOLTIP"] = "Si un valor es verdadero, entonces devuelve un segundo valor";
+Blockly.Msg["PROCEDURES_IFRETURN_WARNING"] = "Advertencia: Este bloque sólo puede utilizarse en una definición de función";
+
 // Dict blocks
 Blockly.Msg["DICTIONARIES_CREATE_EMPTY_TITLE"] = "crear un diccionario vacío";
 Blockly.Msg["DICTIONARIES_CREATE_EMPTY_TOOLTIP"] = "Inicializa un diccionario vacío.";

@@ -17,6 +17,12 @@ function getListParam() {
 function $_GET(param) {
     const url = new URL(window.location.href);
     const searchParams = new URLSearchParams(url.search);
+    if (typeof IS_CAPYTALE_CONTEXT !== 'undefined') {
+        switch (param) {
+            case 'nocloud':
+                return 1;
+        }
+    }
     if (param) return searchParams.get(param);
     const params = {};
     searchParams.forEach((value, key) => { params[key] = value });
@@ -27,6 +33,9 @@ function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
     var ca = decodedCookie.split(';');
+    if (cname === "lng" && typeof IS_CAPYTALE_CONTEXT !== 'undefined') {
+        return 'fr';
+    }
     for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
         while (c.charAt(0) == ' ') {

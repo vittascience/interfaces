@@ -32,19 +32,28 @@ const PWM_MAX_DUTY = 65535;
 const LIBRARIES_PATH = {
     'elio': ''
 };
-//simulator
-const SIMULATOR_DEFAULT_BOARD = {
-    "link": 'eliobot.svg',
-    "name": "Eliobot"
-};
-const SIMULATOR_DEFAULT_ROBOT = 'Eliobot';
-//serial
-/*
-const SERIAL_PRODUCTS = {
-    'eliobot': {
-        'usbProductId': 0x32770,
-        'usbVendorId': 0x12346
+// boards
+const INTERFACE_BOARDS = {
+    [BOARD_ELIOBOT]: {
+        "id": BOARD_ELIOBOT,
+        "link": 'eliobot.svg',
+        "name": "Eliobot"
     }
 };
-*/
-const SERIAL_PRODUCT_FILTER = false;
+//simulator
+const SIMULATOR_DEFAULT_BOARD = INTERFACE_BOARDS[BOARD_DEFAULT];
+const SIMULATOR_DEFAULT_ROBOT = 'Eliobot';
+//serial
+const SERIAL_OPTIONS = {
+    chunkSizes: {
+        write: {
+            'default': 1 // KiB (reduced compared to default ESP32)
+        },
+        read: {
+            'default': 0.5 // KiB (reduced compared to default ESP32)
+        }
+    },
+    boardsFilter: [
+        { usbVendorId: 0x303A, usbProductId: 0x8002 }  // Eliobot
+    ]
+};

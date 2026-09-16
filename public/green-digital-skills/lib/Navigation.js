@@ -84,7 +84,7 @@ class Navigation extends Observable {
 			if (stepElement) stepElement.innerText = '';
 			const nextButton = document.getElementById('next');
 			if (nextButton.classList.contains('d-none')) nextButton.classList.remove('d-none')
-			if (nextButton) nextButton.innerText = 'Tous les conseils';
+			if (nextButton) nextButton.innerText = i18next.t("co2.nav.allTips");
 			const downloadPdfBtn = document.querySelector('#download-pdf');
 			if (downloadPdfBtn) {
 				downloadPdfBtn.classList.add('d-none');
@@ -183,7 +183,7 @@ class Navigation extends Observable {
 	addBtnDownloadPDF() {
 		const btn = document.createElement('button');
 		btn.classList.add('btn', 'btn-primary');
-		btn.innerText = 'Télécharger le PDF';
+		btn.innerText = i18next.t("co2.nav.loadPdf");
 		btn.id = 'download-pdf';
 		document.querySelector('#navigation').appendChild(btn);
 		btn.addEventListener('click', () => {

@@ -46,15 +46,15 @@ const InterfaceConnection = {
 	 * adding all arduino boards in board setting option.
 	 */
 	init: function (options, boardId = null) {
-		this.options = Object.assign({}, options) || {
-			"boardSelection": true,
-			"board": boardId,
-			"boardsFilter": null,
-			"bauds": null,
-			"variant_ids": null
-		};
-		if (!this.options.boardId) this.options.boardId = boardId;
 		if (navigator.serial) {
+			this.options = Object.assign({}, options) || {
+				"boardSelection": true,
+				"board": boardId,
+				"boardsFilter": null,
+				"bauds": null,
+				"variant_ids": null
+			};
+			if (!this.options.boardId) this.options.boardId = boardId;
 			$("#upload-arduino").show();
 			$("#download-arduino").hide();
 			$("#upload-arduino-opt").hide();
@@ -217,7 +217,6 @@ const InterfaceConnection = {
 			InterfaceMonitor.writeConsole('code.serialAPI.serialPortClosed', 'success');
 		}
 	},
-
 	/**
 	 * [Button] Upload Arduino program using the VPS server compiling Arduino code.
 	 */
@@ -545,7 +544,7 @@ const InterfaceConnection = {
 	/**
 	 * [Button] Send serial command to the board.
 	 */
-	sendSerialCommand: function () {
+	sendSerialCommand: async function () {
 		if (!Simulator.isOpen) {
 			if (this.serialMonitorConnected) {
 				const message = $("#serial-input").val();

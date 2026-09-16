@@ -1,4 +1,14 @@
 {
+  "webinars": {
+    "fr": {
+      "title": "Webinaires Vittascience — IA, programmation, robotique",
+      "desc": "Inscrivez-vous aux prochains webinaires Vittascience et retrouvez les replays des sessions passées : IA, programmation, robotique et ressources pédagogiques."
+    },
+    "en": {
+      "title": "Vittascience Webinars — AI, programming, robotics",
+      "desc": "Sign up for upcoming Vittascience webinars and watch replays of past sessions: AI, programming, robotics and teaching resources."
+    }
+  },
     "default": {
         "fr": {
             "title": "Vittascience — L'apprentissage du numérique et de l'IA pour tous",
@@ -389,6 +399,16 @@
             "desc": "Programming interface for the AlphAI robot"
         }
     },
+    "arduinoq": {
+        "fr": {
+            "title": "Vittascience — Arduino UNO Q",
+            "desc": "Interface de programmation pour la carte Arduino UNO Q"
+        },
+        "en": {
+            "title": "Vittascience — Arduino UNO Q",
+            "desc": "Programming interface for the Arduino UNO Q board"
+        }
+    },
     "learn": {
         "fr": {
             "title": "Vittascience — Apprendre à coder avec nos tutoriels",
@@ -549,6 +569,16 @@
             "desc": "Learn about our partnership with Capytale to provide innovative educational solutions in programming and science through interactive tools."
         }
     },
+    "ma": {
+        "fr": {
+            "title": "Vittascience — Commande par Mandat Administratif",
+            "desc": "Établissement relevant de la comptabilité publique ? Découvrez comment commander le matériel Vittascience et régler par mandat administratif, étape par étape."
+        },
+        "en": {
+            "title": "Vittascience — Order by Administrative Mandate",
+            "desc": "Public accounting institution? Learn step by step how to order Vittascience equipment and pay by administrative mandate."
+        }
+    },
     "legalNotice": {
         "fr": {
             "title": "Vittascience — Mentions légales",
@@ -567,6 +597,136 @@
         "en": {
             "title": "Vittascience — Privacy Policy",
             "desc": "Read Vittascience’s privacy policy: how we collect, use, and protect your personal data."
+        }
+    },
+    "kit-airquality": {
+        "fr": {
+            "title": "Vittascience — Kit Qualité de l’Air",
+            "desc": "Découvrez les ressources pédagogiques du kit Qualité de l’Air de Vittascience : tutoriels, programmes et livret officiel."
+        },
+        "en": {
+            "title": "Vittascience — Air Quality Kit",
+            "desc": "Discover the educational resources for the Vittascience Air Quality Kit: tutorials, programs and official booklet."
+        }
+    },
+    "kit-ia": {
+        "fr": {
+            "title": "Vittascience — Kit Intelligence Artificielle",
+            "desc": "Découvrez les ressources pédagogiques du kit Intelligence Artificielle de Vittascience : tutoriels, programmes et livret officiel."
+        },
+        "en": {
+            "title": "Vittascience — Artificial Intelligence Kit",
+            "desc": "Discover the educational resources for the Vittascience Artificial Intelligence Kit: tutorials, programs and official booklet."
+        }
+    },
+    "kit-connectedplant": {
+        "fr": {
+            "title": "Vittascience — Kit Plante Connectée",
+            "desc": "Découvrez les ressources pédagogiques du kit Plante Connectée de Vittascience : tutoriels, programmes et livret officiel."
+        },
+        "en": {
+            "title": "Vittascience — Connected Plant Kit",
+            "desc": "Discover the educational resources for the Vittascience Connected Plant Kit: tutorials, programs and official booklet."
+        }
+    },
+    "kit-cybersecurity": {
+        "fr": {
+            "title": "Vittascience — Kit Cybersécurité",
+            "desc": "Découvrez les ressources pédagogiques du kit Cybersécurité de Vittascience : tutoriels, programmes et livret officiel."
+        },
+        "en": {
+            "title": "Vittascience — Cybersecurity Kit",
+            "desc": "Discover the educational resources for the Vittascience Cybersecurity Kit: tutorials, programs and official booklet."
+        }
+    },
+    "kit-ledrace": {
+        "fr": {
+            "title": "Vittascience — Kit Course de LED",
+            "desc": "Découvrez les ressources pédagogiques du kit Course de LED de Vittascience : tutoriels, programmes et livret officiel."
+        },
+        "en": {
+            "title": "Vittascience — LED Race Kit",
+            "desc": "Discover the educational resources for the Vittascience LED Race Kit: tutorials, programs and official booklet."
+        }
+    },
+    "kit-marsrover": {
+        "fr": {
+            "title": "Vittascience — Kit Robot Martien",
+            "desc": "Découvrez les ressources pédagogiques du kit Robot Martien de Vittascience : tutoriels, programmes et livret officiel."
+        },
+        "en": {
+            "title": "Vittascience — Martian Robot Kit",
+            "desc": "Discover the educational resources for the Vittascience Martian Robot Kit: tutorials, programs and official booklet."
+        }
+    },
+    "kit-micropython": {
+        "fr": {
+            "title": "Vittascience — Kit MicroPython avec la Galaxia",
+            "desc": "Découvrez les ressources pédagogiques du kit MicroPython avec la Galaxia de Vittascience : tutoriels, programmes et livret officiel."
+        },
+        "en": {
+            "title": "Vittascience — MicroPython with the Galaxia Kit",
+            "desc": "Discover the educational resources for the Vittascience MicroPython with the Galaxia Kit: tutorials, programs and official booklet."
+        }
+    },
+    "kit-solarballoon": {
+        "fr": {
+            "title": "Vittascience — Kit Ballon Solaire",
+            "desc": "Découvrez les ressources pédagogiques du kit Ballon Solaire de Vittascience : tutoriels, programmes et livret officiel."
+        },
+        "en": {
+            "title": "Vittascience — Solar Balloon Kit",
+            "desc": "Discover the educational resources for the Vittascience Solar Balloon Kit: tutorials, programs and official booklet."
+        }
+    },
+    "kit-solaroven": {
+        "fr": {
+            "title": "Vittascience — Kit Four Solaire",
+            "desc": "Découvrez les ressources pédagogiques du kit Four Solaire de Vittascience : tutoriels, programmes et livret officiel."
+        },
+        "en": {
+            "title": "Vittascience — Solar Oven Kit",
+            "desc": "Discover the educational resources for the Vittascience Solar Oven Kit: tutorials, programs and official booklet."
+        }
+    },
+    "kit-ventilationalert": {
+        "fr": {
+            "title": "Vittascience — Kit Alerte Ventilation",
+            "desc": "Découvrez les ressources pédagogiques du kit Alerte Ventilation de Vittascience : tutoriels, programmes et livret officiel."
+        },
+        "en": {
+            "title": "Vittascience — Ventilation Alert Kit",
+            "desc": "Discover the educational resources for the Vittascience Ventilation Alert Kit: tutorials, programs and official booklet."
+        }
+    },
+    "kit-weatherstation": {
+        "fr": {
+            "title": "Vittascience — Kit Station Météo",
+            "desc": "Découvrez les ressources pédagogiques du kit Station Météo de Vittascience : tutoriels, programmes et livret officiel."
+        },
+        "en": {
+            "title": "Vittascience — Weather Station Kit",
+            "desc": "Discover the educational resources for the Vittascience Weather Station Kit: tutorials, programs and official booklet."
+        }
+    },
+    "board-uno": {
+        "fr": {
+            "title": "Vittascience — Carte Uno",
+            "desc": "Découvrez les ressources de la carte Uno de Vittascience : tutoriels, programmes d'exemple et vidéos pour démarrer vos projets électroniques."
+        },
+        "en": {
+            "title": "Vittascience — Uno Board",
+            "desc": "Discover the resources for the Vittascience Uno board: tutorials, example programs and videos to get your electronics projects started."
+        }
+    },
+    "board-esp32": {
+        "fr": {
+            "title": "Vittascience — Carte ESP32",
+            "desc": "Découvrez les ressources de la carte EDU ESP32 de Vittascience : tutoriels, programmes d'exemple et vidéos pour vos projets connectés Wi-Fi et BLE."
+        },
+        "en": {
+            "title": "Vittascience — ESP32 Board",
+            "desc": "Discover the resources for the Vittascience EDU ESP32 board: tutorials, example programs and videos for your Wi-Fi and BLE connected projects."
         }
     }
 }

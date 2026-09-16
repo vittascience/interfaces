@@ -54,10 +54,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
           ["\u200F\u2264", "LTE"],
           ["\u200F>", "GT"],
           ["\u200F\u2265", "GTE"],
-          ["is", "IS"],
-          ["is not", "ISNOT"],
-          ["in", "IN"],
-          ["not in", "NOTIN"]
         ]
       },
       {
@@ -70,7 +66,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "helpUrl": "%{BKY_LOGIC_COMPARE_HELPURL}",
     "extensions": [
       "block_init_color",
-      "logic_compare_on_change",
+      "logic_compare_on_change_mixin",
+      "logic_compare_op_init",
       "logic_op_tooltip"
     ]
   },
@@ -131,7 +128,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "helpUrl": "%{BKY_LOGIC_COMPARE_HELPURL}",
     "extensions": [
       "block_init_color",
-      "logic_compare_on_change",
+      "logic_compare_on_change_mixin",
+      "logic_compare_op_init"
     ]
   },
 
@@ -251,7 +249,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "helpUrl": "%{BKY_LOGIC_TERNARY_HELPURL}",
     "extensions": [
       "block_init_color",
-      "logic_ternary_on_change",
+      "logic_ternary_mixin",
     ],
   },
 
@@ -292,6 +290,9 @@ Blockly.Constants.Logic.CONTROLS_IF_INIT_EXTENSION = function () {
   this.updateShape_();
   Blockly.Constants.Logic.CONTROLS_IF_TOOLTIP_EXTENSION.call(this);
 };
+
+Blockly.Extensions.register('controls_if_init',
+  Blockly.Constants.Logic.CONTROLS_IF_INIT_EXTENSION);
 
 /**
  * Mixin for mutator functions in the 'controls_if_mutator' extension.
@@ -503,6 +504,9 @@ Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN = {
   }
 };
 
+Blockly.Extensions.registerMutator("controls_if_mutator",
+  Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN);
+
 /**
  * "controls_if" extension function. Adds mutator, shape updating methods,
  * and dynamic tooltip to "controls_if" blocks.
@@ -523,6 +527,9 @@ Blockly.Constants.Logic.CONTROLS_IF_TOOLTIP_EXTENSION = function () {
     return '';
   }.bind(this));
 };
+
+Blockly.Extensions.register('controls_if_tooltip',
+  Blockly.Constants.Logic.CONTROLS_IF_TOOLTIP_EXTENSION);
 
 /**
  * Tooltip text, keyed by block OP value. Used by 'logic_compare' and
@@ -548,25 +555,34 @@ Blockly.Constants.Logic.TOOLTIPS_BY_OP = {
   'OR': '%{BKY_LOGIC_OPERATION_TOOLTIP_OR}'
 };
 
+Blockly.Extensions.register('logic_op_tooltip',
+  Blockly.Extensions.buildTooltipForDropdown(
+    'OP', Blockly.Constants.Logic.TOOLTIPS_BY_OP));
+
 /**
- * Adds dynamic type validation for the left and right sides of 
- * a 'logic_compare' block.
- * @mixin
- * @augments Blockly.Block
- * @package
- * @readonly
- */
+* Adds dynamic type validation for the left and right sides of 
+* a 'logic_compare' block.
+* @mixin
+* @augments Blockly.Block
+* @package
+* @readonly
+*/
 Blockly.Constants.Logic.LOGIC_COMPARE_ON_CHANGE_MIXIN = {
   /**
    * Called whenever anything on the workspace changes.
    * Prevent mismatched types from being compared.
    * @this {Blockly.Block} logic_compare
    */
-  onchange: function () {
-    var blockA = this.getInputTargetBlock('A');
-    var blockB = this.getInputTargetBlock('B');
-    // Check if types are different and display warning
+  onchange: function (event) {
+    if (event.type === Blockly.Events.FINISHED_LOADING) {
+      setTimeout(() => this.updateOpOptions_(), 0);
+      return;
+    }
+    if (event.blockId !== this.id) return;
+    const blockA = this.getInputTargetBlock('A');
+    const blockB = this.getInputTargetBlock('B');
     this.setWarningType(blockA, blockB);
+    this.updateOpOptions_();
   },
   /**
    * Called whenever anything on the workspace changes.
@@ -578,8 +594,49 @@ Blockly.Constants.Logic.LOGIC_COMPARE_ON_CHANGE_MIXIN = {
   setWarningType: function (inputA, inputB) {
     return Blockly.Constants.Logic.SET_WARNING_WHEN_INPUTS_COMPARING(
       this, inputA, inputB, Blockly.Msg["LOGIC_COMPARE_WARNING"])
+  },
+  updateOpOptions_: function () {
+    const baseOptions = [
+      ["=", "EQ"],
+      ["\u2260", "NEQ"],
+      ["\u200F<", "LT"],
+      ["\u200F\u2264", "LTE"],
+      ["\u200F>", "GT"],
+      ["\u200F\u2265", "GTE"],
+    ];
+
+    const pythonOptions = [
+      ["is", "IS"],
+      ["is not", "ISNOT"],
+      ["in", "IN"],
+      ["not in", "NOTIN"],
+    ];
+
+    const isForPython = Blockly.Constants.Utils.isForPythonContext(this);
+    const newOptions = isForPython ? [...baseOptions, ...pythonOptions] : baseOptions;
+    const currentField = this.getField('OP');
+    if (!currentField || typeof currentField.getOptions !== 'function') return;
+    const currentOptions = currentField.getOptions();
+    if (JSON.stringify(currentOptions) === JSON.stringify(newOptions)) return;
+
+    const input = currentField.getParentInput();
+    if (!input) return;
+    const currentValue = currentField.getValue();
+    input.removeField('OP');
+    input.appendField(new FieldGridDropdown(newOptions), 'OP');
+
+    // Restaurer la valeur si elle existe toujours dans les nouvelles options
+    const valueStillValid = newOptions.some(([, v]) => v === currentValue);
+    this.setFieldValue(valueStillValid ? currentValue : 'EQ', 'OP');
   }
 };
+
+Blockly.Extensions.registerMixin('logic_compare_on_change_mixin',
+  Blockly.Constants.Logic.LOGIC_COMPARE_ON_CHANGE_MIXIN);
+
+Blockly.Extensions.register('logic_compare_op_init', function () {
+  this.updateOpOptions_();
+});
 
 /**
  * Adds type coordination between output then and output else.
@@ -588,17 +645,22 @@ Blockly.Constants.Logic.LOGIC_COMPARE_ON_CHANGE_MIXIN = {
  * @package
  * @readonly
  */
-Blockly.Constants.Logic.LOGIC_TERNARY_ON_CHANGE_MIXIN = {
+Blockly.Constants.Logic.LOGIC_TERNARY_MIXIN = {
   /**
    * Called whenever anything on the workspace changes.
    * Prevent mismatched types.
    * @this {Blockly.Block} logic_ternary
    */
   onchange: function () {
-    var blockA = this.getInputTargetBlock('THEN');
-    var blockB = this.getInputTargetBlock('ELSE');
+    const blockA = this.getInputTargetBlock('THEN');
+    const blockB = this.getInputTargetBlock('ELSE');
     // Check if return types are different and display warning
     this.setWarningType(blockA, blockB);
+
+    if (blockA && blockB) {
+      const t = Blockly.Types.getChildBlockType(blockA);
+      this.setOutput(true, t.typeId);
+    }
   },
   /**
    * Called whenever anything on the workspace changes.
@@ -610,76 +672,83 @@ Blockly.Constants.Logic.LOGIC_TERNARY_ON_CHANGE_MIXIN = {
   setWarningType: function (inputThen, inputElse) {
     return Blockly.Constants.Logic.SET_WARNING_WHEN_INPUTS_COMPARING(
       this, inputThen, inputElse, Blockly.Msg["LOGIC_TERNARY_WARNING"])
+  },
+  /**
+   * @return {Blockly.Type} type
+   * @this {Blockly.Block} logic_ternary
+   */
+  getBlockType: function () {
+    const child_iftrue = this.getInputTargetBlock('THEN');
+    const child_iffalse = this.getInputTargetBlock('ELSE');
+    if (child_iftrue && child_iffalse) {
+      return Blockly.Types.getChildBlockType(child_iftrue);
+    }
+    return Blockly.Types.CHILD_BLOCK_MISSING;
   }
 };
 
+Blockly.Extensions.registerMixin("logic_ternary_mixin",
+  Blockly.Constants.Logic.LOGIC_TERNARY_MIXIN);
+
 /**
- * Compare type of input A and input B. Set warning text in case they are different.
- * @param {Blockly.Block} block
- * @param {Blockly.Block} inputA
- * @param {Blockly.Block} inputB
- * @param {String} warningText
- */
+* Compare type of input A and input B. Set warning text in case they are different.
+* @param {Blockly.Block} block
+* @param {Blockly.Block} inputA
+* @param {Blockly.Block} inputB
+* @param {String} warningText
+*/
 Blockly.Constants.Logic.SET_WARNING_WHEN_INPUTS_COMPARING = function (block, inputA, inputB, warningText) {
-  if (inputA && inputB) {
-    var warningLabel = 'typeCompare',
-      typeA = Blockly.Types.getChildBlockType(inputA),
-      typeB = Blockly.Types.getChildBlockType(inputB),
-      isVarGet = false;
-    addWarning = true;
+  var warningLabel = 'typeCompare';
 
-    if (typeA.typeId == "Boolean" && typeB.typeId == "Number"
-      && (inputB.getFieldValue("NUM") == 0 || inputB.getFieldValue("NUM") == 1)) {
-      addWarning = false;
-    }
+  if (!inputA || !inputB) {
+    block.setWarningText(null, warningLabel);
+    return;
+  }
 
-    if (typeA.typeId == "Number" && typeB.typeId == "Boolean"
-      && (inputB.getFieldValue("NUM") == 0 || inputB.getFieldValue("NUM") == 1)) {
-      addWarning = false;
-    }
+  const typeA = Blockly.Types.getChildBlockType(inputA),
+    typeB = Blockly.Types.getChildBlockType(inputB);
 
-    // Case type of input A and input B are different, display warning
-    if (inputA.type == 'variables_get' || inputB.type == 'variables_get') {
-      addWarning = false;
-    }
+  if (!shouldWarn()) {
+    block.setWarningText(null, warningLabel);
+    return;
+  }
 
-    if (!!addWarning) {
-      if (!isVarGet && typeA != typeB) {
-        warningText = warningText.replace('%1', typeA.typeId);
-        warningText = warningText.replace('%2', typeB.typeId);
-        block.setWarningText(warningText, warningLabel);
-        // Case types are same, remove warning
-      } else if (typeA == typeB) {
-        block.setWarningText(null, warningLabel);
-      }
-    } else {
-      block.setWarningText(null, warningLabel);
-    }
-
-    // Case child blocks are missing
+  if (typeA !== typeB) {
+    block.setWarningText(
+      warningText.replace('%1', typeA.typeId).replace('%2', typeB.typeId),
+      warningLabel
+    );
   } else {
     block.setWarningText(null, warningLabel);
   }
+
+  function shouldWarn() {
+    if (Blockly.Arduino) {
+      const variables = Blockly.Arduino.StaticTyping.collectVarsWithTypes(block.workspace);
+      if (inputA.type == 'variables_get' && typeA == Blockly.Types.NULL)
+        typeA = variables[inputA.getField('VAR').getVariable().getId()];
+      if (inputB.type == 'variables_get' && typeB == Blockly.Types.NULL)
+        typeB = variables[inputB.getField('VAR').getVariable().getId()];
+      return !isNumberDecimalMix(typeA, typeB);
+    }
+
+    if (Blockly.Python) {
+      if (inputA.type == 'variables_get' || inputB.type == 'variables_get')
+        return false;
+      return !isBooleanNumberMix(typeA, typeB, inputA, inputB);
+    }
+
+    return true;
+  }
+
+  function isNumberDecimalMix(tA, tB) {
+    return (tA.typeId == 'Number' && tB.typeId == 'Decimal') ||
+      (tA.typeId == 'Decimal' && tB.typeId == 'Number');
+  }
+
+  function isBooleanNumberMix(tA, tB, inA, inB) {
+    var numVal = inA.getFieldValue("NUM") ?? inB.getFieldValue("NUM");
+    return (tA.typeId == 'Boolean' && tB.typeId == 'Number' ||
+      tA.typeId == 'Number' && tB.typeId == 'Boolean') && (numVal == 0 || numVal == 1);
+  }
 };
-
-// Initialization extensions
-Blockly.Extensions.register('controls_if_init',
-  Blockly.Constants.Logic.CONTROLS_IF_INIT_EXTENSION);
-
-Blockly.Extensions.register('controls_if_tooltip',
-  Blockly.Constants.Logic.CONTROLS_IF_TOOLTIP_EXTENSION);
-
-Blockly.Extensions.register('logic_op_tooltip',
-  Blockly.Extensions.buildTooltipForDropdown(
-    'OP', Blockly.Constants.Logic.TOOLTIPS_BY_OP));
-
-// Mixin functions
-Blockly.Extensions.registerMixin('logic_compare_on_change',
-  Blockly.Constants.Logic.LOGIC_COMPARE_ON_CHANGE_MIXIN);
-
-Blockly.Extensions.registerMixin('logic_ternary_on_change',
-  Blockly.Constants.Logic.LOGIC_TERNARY_ON_CHANGE_MIXIN);
-
-// Mutator
-Blockly.Extensions.registerMutator("controls_if_mutator",
-  Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN);

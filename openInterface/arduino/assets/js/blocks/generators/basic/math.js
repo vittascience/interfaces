@@ -179,6 +179,18 @@ Blockly.Arduino.math_modulo = function (block) {
     return [dividend + ' % ' + divisor, Blockly.Arduino.ORDER_MULTIPLICATIVE];
 };
 
+Blockly.Arduino.math_round_ndigits = function (block) {
+  const digits = Blockly.Arduino.valueToCode(block, "DIGITS", Blockly.Arduino.ORDER_NONE) || "0";
+  const number = Blockly.Arduino.valueToCode(block, "NUM", Blockly.Arduino.ORDER_NONE) || "0";
+  if (digits === "0") {
+    return ["round(" + number + ")", Blockly.Arduino.ORDER_NONE];
+  } else {
+    Blockly.Arduino.addInclude('math', INCLUDE_MATH);
+    Blockly.Arduino.addFunction('roundFloat', FUNCTIONS_ARDUINO.DEF_MATH_ROUND_FLOAT);
+    return ["roundFloat(" + number + ", " + digits + ")", Blockly.Arduino.ORDER_NONE];
+  }
+};
+
 Blockly.Arduino.math_constrain = function (block) {
     const value = Blockly.Arduino.valueToCode(block, 'VALUE', Blockly.Arduino.ORDER_NONE) || '0',
         min = Blockly.Arduino.valueToCode(block, 'LOW', Blockly.Arduino.ORDER_NONE) || '0',

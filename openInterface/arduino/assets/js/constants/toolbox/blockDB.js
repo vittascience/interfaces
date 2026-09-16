@@ -85,7 +85,6 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "communication_SDWriteDataSPI": this.Set.field("CS", '4') + '<value name="DATA"><block type="text_join">'
                 + this.Set.text("ADD0", '{data1}') + this.Set.text("ADD1", ';') + this.Set.text("ADD2", '{data2}') + '</block></value>',
             // communication - bluetooth
-            //"communication_setSerialBluetooth": this.Set.text("NAME", "VittaEmitter") + this.Set.text("MODE", "M") + this.Set.text("PIN", "0000") + this.Set.field("RX", '7') + this.Set.field("TX", '6'),
             "communication_groveSerialBluetooth_setATCommand": this.Set.field("RX", '7') + this.Set.field("TX", '6') + this.Set.text("VALUE"),
             "communication_groveSerialBluetooth_getATCommand": this.Set.field("RX", '7') + this.Set.field("TX", '6'),
             "communication_sendSerialBluetoothData": this.Set.field("RX", '7') + this.Set.field("TX", '6') + this.Set.text("TEXT"),
@@ -194,6 +193,9 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "actuators_stepperMotor_run": this.Set.number("STEP", 1024),
             // actuators - mini I2C motor driver
             "actuators_MiniDriver_DCMotor_drive": this.Set.number("SPEED", 100) + this.Set.number("DURATION", 1),
+            // actuators - TB6612FNG motor driver
+            "actuators_TB6612FNGMotorDriver_DCMotorRun": this.Set.number("SPEED", 125),
+            "actuators_TB6612FNGMotorDriver_StepperRun": this.Set.number("STEPS", 0) + this.Set.number("RPM", 100),
             // actuators - arduino motor shield 
             "actuators_MC33926MotorShield_setSpeed": this.Set.number("SPEED", 400),
             // actuators - MOSFET
@@ -257,25 +259,25 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "math_atan2": this.Set.number("X", 1) + this.Set.number("Y", 1),
             // text
             "text_comment": this.Set.field("TEXT", '{comment}'),
-            "text_append": this.Set.text('TEXT'),
-            "text_length": this.Set.text('VALUE', 'abc'),
-            "text_changeCase": this.Set.variable("TEXT", 'abc'),
-            // TODO: check if the blocks need to be add on Arduino
-            /*
             "text_newline": this.Set.number('N', 1),
-            "text_split": this.Set.text('VALUE') + this.Set.text('SEP' ,';'),
+            "text_append": this.Set.text('TEXT'),
+            "text_split": this.Set.text('VALUE') + this.Set.text('SEP', ';'),
+            "text_length": this.Set.text('VALUE', 'abc'),
+            "text_includesSubstr": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('FIND', 'abc'),
             "text_indexOf": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('VALUE', 'abc'),
             "text_charAt": this.Set.variable("VALUE", '{textVariable}'),
             "text_getSubstring": this.Set.variable("STRING", '{textVariable}'),
+            "text_count_characters": this.Set.text('TEXT', 'P@ssw0rd'),
             "text_trim": this.Set.text('TEXT', 'abc'),
+            "text_changeCase": this.Set.text("TEXT", 'abc'),
             "text_count": this.Set.text('SUB', 'bon') + this.Set.text('TEXT', 'bonbon'),
-            "text_replace": this.Set.text('FROM', 'a') + this.Set.text('TO', 'b') + this.Set.text('TEXT', 'abc'),
             "text_reverse": this.Set.text('TEXT', 'abc'),
-            */
+            "text_replace": this.Set.text('FROM', 'a') + this.Set.text('TO', 'b') + this.Set.text('TEXT', 'abc'),
+            "text_random_string": this.Set.number('LENGTH', 6),
             // list
             "lists_repeat": this.Set.number("NUM", 5),
-            "lists_length": this.Set.variable("LIST", '{listVariable}'),
-            "lists_getIndex": this.Set.variable("LIST", '{listVariable}') + this.Set.number("AT"),
+            "lists_length": this.Set.variable("VALUE", '{listVariable}'),
+            "lists_getIndex": this.Set.variable("VALUE", '{listVariable}') + this.Set.number("AT"),
             // TODO: check if the blocks need to be add on Arduino
             /*
             "lists_indexOf": this.Set.variable("LIST", '{listVariable}'),

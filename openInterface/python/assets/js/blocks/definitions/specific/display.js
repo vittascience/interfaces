@@ -14,10 +14,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }],
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_PRINT_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
 
@@ -31,10 +31,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "check": "String"
         }],
         "output": "String",
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_INPUT_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
 
@@ -48,10 +48,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "check": "String"
         }],
         "output": "Number",
-        "style": "display_blocks",
         "tooltip": "%{BKY_DISPLAY_INPUT_NUMBER_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
 
@@ -74,10 +74,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }],
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
         "tooltip": "%{BKY_TIME_SLEEP_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
 
@@ -86,10 +86,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "message0": "%{BKY_TIME_TIME_TITLE}",
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
         "tooltip": "%{BKY_TIME_SLEEP_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
 
@@ -104,10 +104,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }],
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
         "tooltip": "%{BKY_TIME_WAIT_UNTIL_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
 
@@ -117,10 +117,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "message0": "%{BKY_TIME_INITCHRONOMETER_TITLE}",
         "previousStatement": null,
         "nextStatement": null,
-        "style": "display_blocks",
         "tooltip": "%{BKY_TIME_INITCHRONOMETER_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
 
@@ -138,10 +138,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             ]
         }],
         "output": "Number",
-        "style": "display_blocks",
         "tooltip": "%{BKY_TIME_GETCHRONOMETER_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     },
 
@@ -150,10 +150,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "time_getDate",
         "message0": "%{BKY_TIME_GET_DATE_TITLE}",
         "output": "String",
-        "style": "display_blocks",
         "tooltip": "%{BKY_TIME_GET_DATE_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color"
         ]
     }
 

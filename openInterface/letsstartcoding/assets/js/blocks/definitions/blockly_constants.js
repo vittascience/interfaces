@@ -12,37 +12,6 @@ Blockly.Types.UINT8_T = new Blockly.Type({ typeId: "Uint8_t", typeMsgName: "ARD_
 Blockly.Types.UINT16_T = new Blockly.Type({ typeId: "Uint16_t", typeMsgName: "ARD_TYPE_UINT16_T", compatibleTypes: [] });
 Blockly.Types.UINT32_T = new Blockly.Type({ typeId: "Uint32_t", typeMsgName: "ARD_TYPE_UINT32_T", compatibleTypes: [] });
 
-Blockly.Constants.Utils.FIELD_VARIABLE_TYPE_GETTER = {
-
-  BLOCKS_VARIABLE_TYPES: {
-    'text_append': Blockly.Types.TEXT,
-    'controls_for': Blockly.Types.NUMBER
-  },
-  /**
-   * @return {String} variable name
-   * @this {Blockly.Block}
-   */
-  getVarName: function () {
-    return this.workspace.getVariableById(this.getFieldValue('VAR')).name;
-  },
-  /**
-   * @return {Blockly.Type} type
-   * @this {Blockly.Block}
-   */
-  getVarType: function () {
-    const varType = Blockly.Constants.Utils.FIELD_VARIABLE_TYPE_GETTER.BLOCKS_VARIABLE_TYPES[this.type];
-    if (varType) {
-      return varType;
-    } else {
-      console.error(`The '${this.getVarName()}' variable's type is not defined. As default, the block '${this.type}' returns the variable as a 'void'. Add variable type of block in BLOCKS_VARIABLE_TYPES.`);
-      return Blockly.Types.NULL;
-    }
-  }
-};
-
-Blockly.Extensions.registerMixin("field_variable_type_getter",
-  Blockly.Constants.Utils.FIELD_VARIABLE_TYPE_GETTER);
-
 // Constants object for board pins
 Blockly.Constants.Pins = Object.create(null);
 

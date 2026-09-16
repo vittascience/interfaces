@@ -19,6 +19,7 @@ const AUTHORIZED_BLOCKS_SENSORS = [
     "sensors_getMultichannelGas",
     "sensors_getSgp30Gas",
     "sensors_SHT31readData", // a little bit tricky due to the subscript method on this call
+    "sensors_SHT35readData",
 ];
 
 const AUTHORIZED_BLOCKS_IO = [
@@ -62,6 +63,3 @@ const AUTHORIZED_BLOCKS = [...AUTHORIZED_BLOCKS_DISPLAY, ...AUTHORIZED_BLOCKS_SE
  * List of all excluded categories that should be automatically added to reverse traduction
  */
 const excludedCategories = ['loops', 'logic', 'math', 'text', 'lists', 'variables', 'procedures', 'exception'];
-
-
-

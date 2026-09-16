@@ -18,7 +18,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "UNIT",
             "options": [
-                ["%{BKY_MICROBIT_SLEEP_SECOND}", "SEC"]
+                ["%{BKY_MICROBIT_SLEEP_SECOND}", "SEC"],
                 ["%{BKY_MICROBIT_SLEEP_MILLISECOND}", "MILLI"],
                 ["%{BKY_MICROBIT_SLEEP_MICROSECOND}", "MICRO"]
             ]

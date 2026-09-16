@@ -33,11 +33,11 @@ const BOARD_DEFAULT = BOARD_GALAXIA;
 const GALAXIA_SHELL_START = "MPY: soft reboot"
 //standalone_blocks
 const BLOCKS_OUTSIDE_SCOPE = [
-    "on_start", 
-    "forever", 
-    "scratch_on_start", 
-    "procedures_defnoreturn", 
-    "procedures_defreturn", 
+    "on_start",
+    "forever",
+    "scratch_on_start",
+    "procedures_defnoreturn",
+    "procedures_defreturn",
     "network_mqtt_onMessageReceived",
     "network_mqtt_onConnect",
     "network_mqtt_onDisconnect",
@@ -61,19 +61,36 @@ const LIBRARIES_PATH = {
     'edgeModelP19': "/ai",
     'edgeModelP7': "/ai",
 };
-//simulator
-const SIMULATOR_DEFAULT_BOARD = {
-    "link": 'galaxia.svg',
-    "name": "Thingz-Galaxia"
-};
-//serial
-const SERIAL_PRODUCTS = {
-    'galaxia': {
-        'usbProductId': 0x4003,
-        'usbVendorId': 0x303A
+// boards
+const INTERFACE_BOARDS = {
+    [BOARD_GALAXIA]: {
+        "id": BOARD_GALAXIA,
+        "link": 'galaxia.svg',
+        "name": "Thingz-Galaxia"
     }
 };
-const SERIAL_PRODUCT_FILTER = true;
+//simulator
+const SIMULATOR_DEFAULT_BOARD = INTERFACE_BOARDS[BOARD_DEFAULT];
+//serial
+const SERIAL_OPTIONS = {
+    chunkSizes: {
+        write: {
+            'default': 1 // KiB (reduced compared to default ESP32)
+        },
+        read: {
+            'default': 0.125 // KiB (reduced compared to default ESP32)
+        },
+        readingDelayPerKiB: {
+            'default': 50 // ms (reduced compared to default ESP32)
+        }
+    },
+    boardsFilter: [
+        { usbVendorId: 0x303A, usbProductId: 0x4003 }  // Thingz-Galaxia
+    ],
+    variablesGetterTimeout: {
+        'default': 500 // ms
+    }
+};
 
 /*
 P0 -- board.P0                   -- ADC ? 1

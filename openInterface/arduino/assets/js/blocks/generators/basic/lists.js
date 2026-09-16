@@ -22,14 +22,14 @@ Blockly.Arduino.lists_repeat = function (block) {
 };
 
 Blockly.Arduino.lists_length = function (block) {
-    var list = Blockly.Arduino.valueToCode(block, "LIST", Blockly.Arduino.ORDER_ATOMIC) || "NULL";
+    var list = Blockly.Arduino.valueToCode(block, "VALUE", Blockly.Arduino.ORDER_ATOMIC) || "NULL";
     return ["sizeof(" + list + ")/sizeof(" + list + "[0])", Blockly.Arduino.ORDER_ATOMIC]
 };
 
 Blockly.Arduino.lists_getIndex = function (block) {
     var where = block.getFieldValue("WHERE") || "FROM_START",
         order = "RANDOM" == where ? Blockly.Arduino.ORDER_NONE : Blockly.Arduino.ORDER_ATOMIC,
-        list = Blockly.Arduino.valueToCode(block, "LIST", order) || "{}",
+        list = Blockly.Arduino.valueToCode(block, "VALUE", order) || "{}",
         index;
     switch (where) {
         case "FIRST":

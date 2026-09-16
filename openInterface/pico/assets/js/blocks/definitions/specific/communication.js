@@ -508,7 +508,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 
     // BLOCK HC05 SERIAL BLUETOOTH _ ON DATA RECEIVED
     {
-        "type": "communication_HM10_onBluetoothDataReceived",
+        "type": "communication_hm10_onBluetoothDataReceived",
         "message0": "%{BKY_COMMUNICATION_HM10_BLUETOOTH_ONDATARECEIVED_TITLE}",
         "args0": [{
             "type": "field_grid_dropdown",
@@ -970,7 +970,7 @@ Blockly.Constants.Communication.COMMUNICATION_UART_READ_MUTATOR_MIXIN = {
  * @this {Blockly.Block}
  */
 Blockly.Constants.Communication.COMMUNICATION_FS_SAVE_DATA_INIT_EXTENSION = function () {
-    this.extension_ = true;
+    this.option_ = true;
     this.update_(this.updateField_);
 };
 

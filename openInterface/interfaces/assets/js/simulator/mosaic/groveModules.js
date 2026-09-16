@@ -23,7 +23,10 @@ Simulator.Mosaic.grove = {
         });
         $('.mod_colorVariableLed_r,' +
             '.mod_colorVariableLed_g,' +
-            '.mod_colorVariableLed_b').slider({
+            '.mod_colorVariableLed_b,' +
+            '#colorSensor_slider_r,' +
+            '#colorSensor_slider_g,' +
+            '#colorSensor_slider_b').slider({
                 min: 0,
                 max: 255,
                 value: 0
@@ -240,14 +243,14 @@ Simulator.Mosaic.grove = {
         // Outputs
         {
             id: "lcdGrove",
-            title: "Ecran LCD Grove",
+            get title() { return i18next.t('code.simulator.modules.lcdGrove') },
             pin: 'I2C',
             type: 'output',
             value: "",
         },
         {
             id: "oled",
-            title: "Ecran OLED",
+            get title() { return i18next.t('code.simulator.modules.oled') },
             pin: 'I2C',
             type: 'output',
             large: ["arduino", "letsstartcoding"].includes(INTERFACE_NAME) ? true : false,
@@ -256,7 +259,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "neopixel",
-            title: "Neopixel",
+            get title() { return i18next.t('code.simulator.modules.neopixel') },
             codeFlag: "Neopixel",
             pin: 'pin n°',
             pins: 'digital',
@@ -265,21 +268,21 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "LEDMatrix",
-            title: "Matrice LED",
+            get title() { return i18next.t('code.simulator.modules.LEDMatrix') },
             pin: 'I2C',
             type: 'output',
             value: "",
         },
         {
             id: "RGBLEDMatrix",
-            title: "Matrice LED RGB",
+            get title() { return i18next.t('code.simulator.modules.RGBLEDMatrix') },
             pin: 'I2C',
             type: 'output',
             value: "",
         },
         {
             id: "ledModule",
-            title: "LED  ",
+            get title() { return i18next.t('code.simulator.modules.ledModule') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'output',
@@ -309,7 +312,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "colorVariableLed",
-            title: "LED RGB - ",
+            get title() { return i18next.t('code.simulator.modules.colorVariableLed') },
             pin: 'pin n°',
             pins: 'PWM',
             type: 'output',
@@ -362,7 +365,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "tm1637",
-            title: "Afficheurs 4 digits",
+            get title() { return i18next.t('code.simulator.modules.tm1637') },
             pin: 'pin n°',
             codeFlag: '4 Digit Display CLK/DIO',
             twoPins: true,
@@ -375,7 +378,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "ledBar",
-            title: "Barre de LED",
+            get title() { return i18next.t('code.simulator.modules.ledBar') },
             pin: 'pin n°',
             codeFlag: 'LED Bar DI/DCKI',
             twoPins: true,
@@ -388,7 +391,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "RGBLed",
-            title: "LED RGB",
+            get title() { return i18next.t('code.simulator.modules.RGBLed') },
             pin: 'pin n°',
             multipleModules: CHAINABLE_LED_COUNT,
             pins: 'digital',
@@ -403,7 +406,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "servo",
-            title: "Servomoteur",
+            get title() { return i18next.t('code.simulator.modules.servo') },
             pin: 'pin n°',
             pins: 'PWM',
             type: 'output',
@@ -428,7 +431,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "continuousServo",
-            title: "Servo continu",
+            get title() { return i18next.t('code.simulator.modules.continuousServo') },
             pin: 'pin n°',
             pins: 'PWM',
             type: 'output',
@@ -457,7 +460,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "motor",
-            title: "Moteur",
+            get title() { return i18next.t('code.simulator.modules.motor') },
             pin: 'pin n°',
             pins: 'PWM',
             type: 'output',
@@ -481,7 +484,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "stepper-motor",
-            title: "Moteur pas à pas",
+            get title() { return i18next.t('code.simulator.modules.stepper-motor') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'output',
@@ -494,7 +497,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "fan",
-            title: "Ventilateur",
+            get title() { return i18next.t('code.simulator.modules.fan') },
             pin: 'pin n°',
             pins: 'PWM',
             type: 'output',
@@ -517,7 +520,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "vibrationMotor",
-            title: "Moteur à vibration",
+            get title() { return i18next.t('code.simulator.modules.vibrationMotor') },
             pin: 'pin n°',
             pins: 'PWM',
             type: 'output',
@@ -532,7 +535,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "buzzer",
-            title: "Buzzer",
+            get title() { return i18next.t('code.simulator.modules.buzzer') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'output',
@@ -547,7 +550,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "relay",
-            title: "Relais",
+            get title() { return i18next.t('code.simulator.modules.relay') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'output',
@@ -561,7 +564,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "openlog",
-            title: "OpenLog (SD)",
+            get title() { return i18next.t('code.simulator.modules.openlog') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'output',
@@ -581,7 +584,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "LoRa",
-            title: "LoRa",
+            get title() { return i18next.t('code.simulator.modules.LoRa') },
             pin: 'UART',
             type: 'output',
             value: "",
@@ -591,7 +594,7 @@ Simulator.Mosaic.grove = {
         // inputs
         {
             id: "coloredButton",
-            title: "Bouton coloré",
+            get title() { return i18next.t('code.simulator.modules.coloredButton') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -612,7 +615,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "rotaryEncoder",
-            title: "Encodeur rotatif",
+            get title() { return i18next.t('code.simulator.modules.rotaryEncoder') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -631,7 +634,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "touchButton",
-            title: "Bouton Tactile",
+            get title() { return i18next.t('code.simulator.modules.touchButton') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -652,7 +655,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "button",
-            title: "Bouton",
+            get title() { return i18next.t('code.simulator.modules.button') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -674,7 +677,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "reversedButton",
-            title: "Bouton Inversé",
+            get title() { return i18next.t('code.simulator.modules.reversedButton') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -696,7 +699,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "switchButton",
-            title: "Interrupteur",
+            get title() { return i18next.t('code.simulator.modules.switchButton') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -717,7 +720,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "sgp30",
-            title: "SGP30 : ",
+            get title() { return i18next.t('code.simulator.modules.sgp30') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -742,7 +745,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "multichannel",
-            title: "Capteur de gas : ",
+            get title() { return i18next.t('code.simulator.modules.multichannel') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -806,7 +809,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "scd30-co2",
-            title: "SCD30 - CO2",
+            get title() { return i18next.t('code.simulator.modules.scd30-co2') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -825,7 +828,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "scd30-temp",
-            title: "SCD30 - Température",
+            get title() { return i18next.t('code.simulator.modules.scd30-temp') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -844,7 +847,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "scd30-hum",
-            title: "SCD30 - Humidité",
+            get title() { return i18next.t('code.simulator.modules.scd30-hum') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -863,7 +866,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "sht31-temp",
-            title: "SHT31 - Température",
+            get title() { return i18next.t('code.simulator.modules.sht31-temp') },
             pin: 'I2C(0x44)',
             type: 'input',
             listeners: [{
@@ -882,7 +885,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "sht31-hum",
-            title: "SHT31 - Humidité",
+            get title() { return i18next.t('code.simulator.modules.sht31-hum') },
             pin: 'I2C(0x44)',
             type: 'input',
             listeners: [{
@@ -901,7 +904,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "th02-temp",
-            title: "TH02 - Température",
+            get title() { return i18next.t('code.simulator.modules.th02-temp') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -920,7 +923,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "th02-hum",
-            title: "TH02 - Humidité",
+            get title() { return i18next.t('code.simulator.modules.th02-hum') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -939,7 +942,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "hm330x",
-            title: "HM330X - ",
+            get title() { return i18next.t('code.simulator.modules.hm330x') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -970,7 +973,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "bmp280-temp",
-            title: "BMP280 - Température",
+            get title() { return i18next.t('code.simulator.modules.bmp280-temp') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -989,7 +992,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "bmp280-press",
-            title: "BMP280 - Pression",
+            get title() { return i18next.t('code.simulator.modules.bmp280-press') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -1009,7 +1012,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "bmp280-alt",
-            title: "BMP280 - Altitude",
+            get title() { return i18next.t('code.simulator.modules.bmp280-alt') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -1029,7 +1032,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "bme280-temp",
-            title: "BME280 - Température",
+            get title() { return i18next.t('code.simulator.modules.bme280-temp') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -1048,7 +1051,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "bme280-press",
-            title: "BME280 - Pression",
+            get title() { return i18next.t('code.simulator.modules.bme280-press') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -1068,7 +1071,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "bme280-alt",
-            title: "BME280 - Altitude",
+            get title() { return i18next.t('code.simulator.modules.bme280-alt') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -1088,7 +1091,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "bme280-hum",
-            title: "BME280 - Humidité",
+            get title() { return i18next.t('code.simulator.modules.bme280-hum') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -1107,7 +1110,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "dht11-temp",
-            title: "DHT11 - Température",
+            get title() { return i18next.t('code.simulator.modules.dht11-temp') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -1129,7 +1132,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "dht11-hum",
-            title: "DHT11 - Humidité",
+            get title() { return i18next.t('code.simulator.modules.dht11-hum') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -1151,7 +1154,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "dht22-temp",
-            title: "DHT22 - Température",
+            get title() { return i18next.t('code.simulator.modules.dht22-temp') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -1173,7 +1176,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "dht22-hum",
-            title: "DHT22 - Humidité",
+            get title() { return i18next.t('code.simulator.modules.dht22-hum') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -1195,7 +1198,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "ds18x20",
-            title: "DS18X20 - Température",
+            get title() { return i18next.t('code.simulator.modules.ds18x20') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -1216,7 +1219,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "dustSensor",
-            title: "Capteur de particules",
+            get title() { return i18next.t('code.simulator.modules.dustSensor') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -1238,7 +1241,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "groveRain",
-            title: "Capteur de pluie",
+            get title() { return i18next.t('code.simulator.modules.groveRain') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -1259,7 +1262,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "rainGauge",
-            title: "Capteur de pluie",
+            get title() { return i18next.t('code.simulator.modules.rainGauge') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -1280,7 +1283,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "anemometer",
-            title: "Anémomètre",
+            get title() { return i18next.t('code.simulator.modules.anemometer') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -1301,7 +1304,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "si1145",
-            title: "SI1145 : ",
+            get title() { return i18next.t('code.simulator.modules.si1145') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -1334,8 +1337,43 @@ Simulator.Mosaic.grove = {
             }
         },
         {
+            id: "colorSensor",
+            get title() { return i18next.t('code.simulator.modules.colorSensor') },
+            pin: 'I2C',
+            type: "input",
+            color: "#22b573",
+            listeners: [{
+                suffix: "_r",
+                default: 0,
+                unit: '',
+                color: "#dc3545",
+                title: "R"
+            }, {
+                suffix: "_g",
+                default: 0,
+                unit: '',
+                color: "#22b573",
+                title: "G"
+            }, {
+                suffix: "_b",
+                default: 0,
+                unit: '',
+                color: "#3fa9f5",
+                title: "B"
+            }],
+            class: 'RGB-circle',
+            pictureAnimation: "Transparent.png",
+            animate: function (Animator) {
+                const r = $(Animator.sliderId.replace(/_(g|b)/, '_r')).slider('option', 'value');
+                const g = $(Animator.sliderId.replace(/_(b|r)/, '_g')).slider('option', 'value');
+                const b = $(Animator.sliderId.replace(/_(r|g)/, '_b')).slider('option', 'value');
+                $(Animator.animId).css('background-color', "rgb(" + r + "," + g + "," + b + ")");
+                $(Animator.valueId).html(Animator.value);
+            }
+        },
+        {
             id: "ultrasonic",
-            title: "Télémètre: ",
+            get title() { return i18next.t('code.simulator.modules.ultrasonic') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -1368,7 +1406,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "hcsr04",
-            title: "HC-SR04: ",
+            get title() { return i18next.t('code.simulator.modules.hcsr04') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -1402,7 +1440,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "vl53l0x",
-            title: "Time Of Flight - Distance",
+            get title() { return i18next.t('code.simulator.modules.vl53l0x') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -1421,7 +1459,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "groveFinder",
-            title: "Capteur de ligne noire",
+            get title() { return i18next.t('code.simulator.modules.groveFinder') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -1441,7 +1479,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "groveTilt",
-            title: "Capteur d'inclinaison",
+            get title() { return i18next.t('code.simulator.modules.groveTilt') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -1462,7 +1500,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "groveMotion",
-            title: "Capteur de mouvement",
+            get title() { return i18next.t('code.simulator.modules.groveMotion') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -1484,7 +1522,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "groveMotionMini",
-            title: "Capteur de mouvement",
+            get title() { return i18next.t('code.simulator.modules.groveMotionMini') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -1505,7 +1543,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "grovePIRMotion",
-            title: "Capteur de mouvement",
+            get title() { return i18next.t('code.simulator.modules.grovePIRMotion') },
             pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
@@ -1526,7 +1564,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "groveVibration",
-            title: "Capteur de vibrations",
+            get title() { return i18next.t('code.simulator.modules.groveVibration') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -1547,7 +1585,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "obstacleDetector",
-            title: "Capteur d'obstacles IR",
+            get title() { return i18next.t('code.simulator.modules.obstacleDetector') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -1569,7 +1607,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "gps",
-            title: "GPS : ",
+            get title() { return i18next.t('code.simulator.modules.gps') },
             pin: 'pin n°',
             pins: 'digital',
             codeFlag: 'GPS',
@@ -1611,7 +1649,7 @@ Simulator.Mosaic.grove = {
         },
         {
             id: "groveEarClip",
-            title: "Capteur de fréquence cardiaque",
+            get title() { return i18next.t('code.simulator.modules.groveEarClip') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',

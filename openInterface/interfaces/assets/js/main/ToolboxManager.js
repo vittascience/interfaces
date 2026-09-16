@@ -132,11 +132,7 @@ class ToolboxManager {
         }
         Blockly.svgResize(this._workspace);
         if (Main.getInterface() == 'TI-83') {
-            if (this._getMode() == TOOLBOX_STYLE_TI_CODE) {
-                this._setBlockStyleForTiCode(true);
-            } else {
-                this._setBlockStyleForTiCode(false);
-            }
+            this._setBlockStyleForTiCode(this._getMode() === TOOLBOX_STYLE_TI_CODE);
         }
         setTimeout(() => {
             this._addVariables();
@@ -251,7 +247,10 @@ class ToolboxManager {
      * @return {Array<Object>} mode
      */
     _getCategoryContent(categoryId) {
-        return this._getCategory(categoryId).toolboxItemDef_.contents;
+        const cat = this._getCategory(categoryId);
+        if (cat) {
+            return cat.toolboxItemDef_.contents;
+        }
     };
     /**
      * Get toolbox constants data by mode.
@@ -281,9 +280,10 @@ class ToolboxManager {
         this._emptyToolboxTree();
         if (this._hasCategories) {
             this._toolboxTree.kind = "";
-            const categories = this.getToolboxBase().categories;
-            const subcategories = this.getToolboxBase().subcategories;
-            const baseContents = this._getLevel() === "1" ? this.getToolboxBase()['content-simple'] : this.getToolboxBase()['content'];
+            const base = this.getToolboxBase();
+            const categories = base.categories;
+            const subcategories = base.subcategories;
+            const baseContents = base[this._getLevel() === "1" ? 'content-simple' : 'content'];
             if (categories !== null) {
                 for (var i = 0; i < categories.length; i++) {
                     const catContent = baseContents ? baseContents[categories[i].toolboxitemid] : null;
@@ -309,19 +309,8 @@ class ToolboxManager {
         let len = this._getToolboxTreeContent().length;
         const toolboxContents = this._getToolboxTreeContent();
         for (var i = 0; i < len; i++) {
-            const empty = function (item) {
-                if (item.contents && item.contents.length > 0) {
-                    for (var j = 0; j < item.contents.length; j++) {
-                        if (item.contents[j].kind === "category") {
-                            empty(item.contents[j]);
-                        }
-                    }
-                    item.contents.length = 0;
-                }
-            }
-            empty(toolboxContents[i]);
+            this._emptyItem(toolboxContents[i]);
         }
-
         if (toolboxContents[0] && toolboxContents[0].toolboxitemid == 'search') {
             len = len - 1;
         }
@@ -329,6 +318,21 @@ class ToolboxManager {
             toolboxContents.pop();
         }
         this._updateToolbox();
+    };
+    /**
+     * Empty content of item.
+     * @param {object} item
+     * @private
+     */
+    _emptyItem(item) {
+        if (item.contents && item.contents.length > 0) {
+            for (var j = 0; j < item.contents.length; j++) {
+                if (item.contents[j].kind === "category") {
+                    this._emptyItem(item.contents[j]);
+                }
+            }
+            item.contents.length = 0;
+        }
     };
     /**
      * Push a flyout tree with blocks and update.
@@ -359,90 +363,136 @@ class ToolboxManager {
      * @param {Object} category
      */
     _pushCategory(category) {
-        this._getToolboxTreeContent().push(category);
+        this._getToolboxTreeContent().push(this._cloneCategoryForPush(category));
         this._updateToolbox();
     };
     /**
      * Push a sub category in category of toolbox and update.
      * @private
-     * @param {Object} category
+     * @param {string} categoryId
+     * @param {Object} subCategory 
      */
     _pushSubCategory(categoryId, subCategory) {
-        this._getToolboxTreeContent().filter(cat => cat.toolboxitemid === categoryId)[0].contents.push(subCategory);
+        const category = this._getToolboxCategoryDefinition(categoryId);
+        if (!category) return;
+        if (!Array.isArray(category.contents)) {
+            category.contents = [];
+        }
+        category.contents.push(this._cloneCategoryForPush(subCategory));
         this._updateToolbox();
     };
     /**
      * Push content of a category in toolbox.
      * @private
      * @param {Object} category
-     * @param {Array<Object> | string} catContent
+     * @param {Array<Object> | string} content
      * @param {Array<Object>} subCatContent
      */
     _pushCategoryContent(category, catContent, subCatContent) {
         if (category.kind === "sep") {
             this._pushCategory(category);
-        } else if (catContent) {
-            if (Object.keys(catContent).includes('0') || Object.keys(catContent).includes('1')) {
-                this._pushContent(category, catContent, subCatContent);
-            } else {
-                this._pushCategory(category);
-                const pushTest = (category) => {
-                    for (var i = 0; i < category.contents.length; i++) {
-                        const subCat = category.contents[i];
-                        if (Array.isArray(subCat.contents)) {
-                            for (const sub of subCat.contents) {
-                                if (sub.kind === "category") {
-                                    pushTest(sub);
-                                }
-                            }
-                        }
-                        const pushElements = (item, id) => {
-                            const hasLabel = item.label !== null && item.label !== undefined;
-                            const targetCategoryId = id || category.toolboxitemid;
-                            let labelAdded = false;
-                            let subCategoryAdded = false;
-                            for (const blockType of item.blocks) {
-                                const catLabel = this._getCategoryLabels(hasLabel, targetCategoryId, item.label);
-                                const matches = (this.keyword === "") || ToolboxManager.isMatchingBlock(blockType, this.keyword, catLabel);
-                                const inRestriction = !this._reducedToolboxBlocks || this._reducedToolboxBlocks.includes(blockType);
-                                if (matches && inRestriction) {
-                                    if (id && !subCategoryAdded && subCatContent) {
-                                        const subCatDef = subCatContent.find(item => item.toolboxitemid === id);
-                                        if (subCatDef) {
-                                            this._pushSubCategory(category.toolboxitemid, subCatDef);
-                                        }
-                                        subCategoryAdded = true;
-                                    }
-                                    if (hasLabel && !labelAdded) {
-                                        this._addLabel(targetCategoryId, item.label);
-                                        labelAdded = true;
-                                    }
-                                    this._addBlock(targetCategoryId, blockType);
-                                }
-                            }
-                        };
-                        const subCategoryId = category.contents[i].toolboxitemid;
-                        const subCategoryContent = catContent[subCategoryId];
-                        if (subCategoryContent) {
-                            for (var j = 0; j < subCategoryContent.length; j++) {
-                                pushElements(subCategoryContent[j], subCategoryId);
-                            }
-                            if (!Array.isArray(subCategoryContent) && Object.keys(subCategoryContent).length > 0) {
-                                for (const sub in subCategoryContent) {
-                                    if (subCategoryContent[sub].length > 0) {
-                                        for (var k = 0; k < subCategoryContent[sub].length; k++) {
-                                            pushElements(subCategoryContent[sub][k], sub);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    };
-                };
-                pushTest(category);
-            }
-        } else {
+            return;
+        }
+        if (!catContent) {
             this._pushCategory(category);
+            return;
+        }
+        if (catContent === "customized") {
+            this._pushCustomizedItem(category, {
+                category, categoryId: category.toolboxitemid, subCat: null,
+                state: {
+                    categoryAdded: false,
+                    subCategoriesAdded: new Set(),
+                    labelAdded: false
+                }
+            });
+            return;
+        }
+        if (Array.isArray(catContent)) {
+            this._pushContent(category, catContent, subCatContent);
+            return;
+        }
+        this._pushCategory(category);
+        const state = {
+            categoryAdded: true,
+            subCategoriesAdded: new Set(),
+            labelAdded: false
+        };
+        for (const [subCategoryId, subCategoryContent] of Object.entries(catContent)) {
+            const subCat = this._getSubCategoryById(subCatContent, subCategoryId);
+            if (subCat && !ToolboxManager.hasToBeAdded(subCat)) {
+                this._disableBlocksAccordingToBoard(subCategoryContent, subCat.onlyBoards);
+                continue;
+            }
+            if (Array.isArray(subCategoryContent)) {
+                this._pushContentItems(subCategoryContent, {
+                    category, categoryId: subCategoryId, subCat, subCatContent, state
+                });
+
+                continue;
+            }
+            if (subCategoryContent && typeof subCategoryContent === "object") {
+                for (const [nestedSubCategoryId, nestedItems] of Object.entries(subCategoryContent)) {
+                    if (!Array.isArray(nestedItems)) continue;
+                    const nestedSubCat = this._getSubCategoryById(subCatContent, nestedSubCategoryId);
+                    this._pushContentItems(nestedItems, {
+                        category, categoryId: nestedSubCategoryId, subCat: nestedSubCat, subCatContent, state
+                    });
+                }
+            }
+        }
+    };
+    /**
+     * Push a category or subcategory if customized blocks are available.
+     * @private
+     * @param {Object} item
+     * @param {Object} context
+     */
+    _pushCustomizedItem(item, context) {
+        if (!item) return;
+        const pushIfPresence = (cat) => {
+            if (!this._reducedToolboxBlocks || !this._reducedToolboxBlocks.length) {
+                this._pushItem(context);
+                return;
+            }
+            const types = Object.keys(Blockly.Blocks).filter(type => type.includes(cat));
+            if (this._reducedToolboxBlocks.some(type => types.includes(type))) {
+                this._pushItem(context);
+            }
+        };
+        if (item.custom === "VARIABLE") {
+            pushIfPresence('variables_');
+        } else if (item.custom === "PROCEDURE") {
+            pushIfPresence('procedures_');
+        } else if (item.custom === "PROCEDURE_CPP") {
+            pushIfPresence('cpp_procedures_');
+            this._workspace.registerToolboxCategoryCallback(item.custom, function (ws) {
+                return Blockly.Procedures.flyoutCategory(ws, 'cpp');
+            });
+        } else if (item.custom === "PROCEDURE_PY") {
+            pushIfPresence('py_procedures_');
+            this._workspace.registerToolboxCategoryCallback(item.custom, function (ws) {
+                return Blockly.Procedures.flyoutCategory(ws, 'py');
+            });
+        }
+    };
+    /**
+     * Push category and subcategory once according to context.
+     * @private
+     * @param {Object} context
+     */
+    _pushItem(context) {
+        if (!context.state.categoryAdded) {
+            this._pushCategory(context.category);
+            context.state.categoryAdded = true;
+        }
+        if (Array.isArray(context.subCatPath)) {
+            for (const item of context.subCatPath) {
+                if (!context.state.subCategoriesAdded.has(item.categoryId)) {
+                    this._pushSubCategory(item.parentCategoryId, item.subCat);
+                    context.state.subCategoriesAdded.add(item.categoryId);
+                }
+            }
         }
     };
     /**
@@ -453,79 +503,99 @@ class ToolboxManager {
      * @param {Array<Object>} subCatContent
      */
     _pushContent(category, content, subCatContent) {
-        let categoryId = category.toolboxitemid;
-        if (content == "customized") {
-            if (this._reducedToolboxBlocks && this._reducedToolboxBlocks.length) {
-                const pushIfPresence = (cat) => {
-                    const types = Object.keys(Blockly.Blocks).filter(type => type.includes(cat));
-                    if (this._reducedToolboxBlocks.some(type => types.includes(type))) {
-                        this._pushCategory(category);
-                    }
-                };
-                if (category.custom === "VARIABLE") {
-                    pushIfPresence('variables_');
-                } else if (category.custom === "PROCEDURE") {
-                    pushIfPresence('procedures_');
-                }
-            } else {
-                this._pushCategory(category);
+        if (!Array.isArray(content) || !content.length) {
+            return;
+        }
+        const state = {
+            categoryAdded: false,
+            subCategoriesAdded: new Set(),
+            labelAdded: false
+        };
+        const context = {
+            category, categoryId: category.toolboxitemid, parentCategoryId: category.toolboxitemid, subCat: null, subCatPath: [], subCatContent, state
+        };
+        this._pushContentItems(content, context);
+    };
+    /**
+     * Push content of a sub category 
+     * @param {Array<object>} items 
+     * @param {object} context 
+     */
+    _pushContentItems(items, context) {
+        if (!Array.isArray(items)) return;
+        for (const item of items) {
+            if (!item) continue;
+            if (!ToolboxManager.hasToBeAdded(item)) {
+                this._disableBlocksAccordingToBoard(item, item.onlyBoards);
+                continue;
             }
-        } else if (content.length > 0) {
-            let categoryAdded = false;
-            const pushElements = (cnt, id) => {
-                let subCategoryAdded = false;
-                let subCat;
-                if (id && subCatContent) {
-                    categoryId = id;
-                    subCat = subCatContent.filter(item => item.toolboxitemid == id)[0];
-                    if (!ToolboxManager.hasToBeAdded(subCat)) {
-                        this._disableBlocksAccordingToBoard(cnt, subCat.onlyBoards);
-                        return;
-                    }
-                }
-                for (var j = 0; j < cnt.length; j++) {
-                    if (cnt[j]) {
-                        if (!ToolboxManager.hasToBeAdded(cnt[j])) {
-                            this._disableBlocksAccordingToBoard(cnt[j], cnt[j].onlyBoards);
-                            continue;
-                        }
-                        if (cnt[j].blocks && cnt[j].blocks.length > 0) {
-                            let labelAdded = false;
-                            for (var blockIndex = 0; blockIndex < cnt[j].blocks.length; blockIndex++) {
-                                const hasLabel = cnt[j].label !== null && cnt[j].label !== undefined;
-                                const catLabel = this._getCategoryLabels(hasLabel, categoryId, cnt[j].label);
-                                const blockType = cnt[j].blocks[blockIndex];
-                                const isMatching = ToolboxManager.isMatchingBlock(blockType, this.keyword, catLabel);
-                                const blockInRestriction = this._reducedToolboxBlocks && this._reducedToolboxBlocks.includes(blockType);
-                                if ((this.keyword == "" || isMatching) && (!this._reducedToolboxBlocks || blockInRestriction)) {
-                                    if (!categoryAdded) {
-                                        this._pushCategory(category);
-                                        categoryAdded = true;
-                                    }
-                                    if (!subCategoryAdded && subCat) {
-                                        this._pushSubCategory(category.toolboxitemid, subCat);
-                                        subCategoryAdded = true;
-                                    }
-                                    if (hasLabel && !labelAdded) {
-                                        this._addLabel(categoryId, cnt[j].label);
-                                        labelAdded = true;
-                                    }
-                                    this._addBlock(categoryId, blockType);
-                                }
-                            }
-                        } else if (cnt[j].contents) {
-                            pushElements(cnt[j].contents, cnt[j].subCategoryId);
-                        } else if (cnt[j].message) {
-                            if (!categoryAdded) {
-                                this._pushCategory(category)
-                                categoryAdded = true;
-                            }
-                            this._addLabel(categoryId, cnt[j].label);
-                        }
-                    }
-                }
+            if (item.blocks?.length) {
+                this._pushBlockItems(
+                    item, context.categoryId, context.category, context.parentCategoryId, context.subCat, context.subCatPath, context.state
+                );
+                continue;
             }
-            pushElements(content);
+            if (item.contents) {
+                const hasSubCategoryId = item.subCategoryId !== undefined && item.subCategoryId !== null;
+                const subCategoryId = hasSubCategoryId ? item.subCategoryId : context.categoryId;
+                const subCat = hasSubCategoryId ? this._getSubCategoryById(context.subCatContent, subCategoryId) : context.subCat;
+                const parentCategoryId = hasSubCategoryId ? context.categoryId : context.parentCategoryId;
+                const subCatPath = hasSubCategoryId && subCat ? [
+                    ...context.subCatPath, { parentCategoryId, categoryId: subCategoryId, subCat }
+                ] : context.subCatPath;
+                if (subCat && !ToolboxManager.hasToBeAdded(subCat)) {
+                    this._disableBlocksAccordingToBoard(item.contents, subCat.onlyBoards);
+                    continue;
+                }
+                if (item.contents === "customized") {
+                    this._pushCustomizedItem(subCat, {
+                        ...context, categoryId: subCategoryId, parentCategoryId, subCat, subCatPath
+                    });
+                    continue;
+                }
+                this._pushContentItems(item.contents, {
+                    ...context, categoryId: subCategoryId, parentCategoryId, subCat, subCatPath
+                });
+                continue;
+            }
+            if (item.message) {
+                if (!context.state.categoryAdded) {
+                    this._pushCategory(context.category);
+                    context.state.categoryAdded = true;
+                }
+                this._addLabel(context.categoryId, item.label);
+            }
+        }
+    };
+    /**
+     * Push filtered blocks of a single item into the toolbox.
+     * Core shared between _pushContent and _pushCategoryContent.
+     * @private
+     * @param {Object} item - objet avec .blocks et optionnellement .label
+     * @param {String} categoryId
+     * @param {Object} parentCategory
+     * @param {string} parentCategoryId 
+     * @param {Object|null} subCat
+     * @param {{ categoryAdded: boolean, subCategoriesAdded: Set, labelAdded: boolean }} state
+     */
+    _pushBlockItems(item, categoryId, parentCategory, parentCategoryId, subCat, subCatPath, state) {
+        if (!item.blocks?.length) return;
+        const hasLabel = item.label != null;
+        state.labelAdded = false;
+        for (const blockType of item.blocks) {
+            const catLabel = this._getCategoryLabels(hasLabel, categoryId, item.label);
+            const isMatching = ToolboxManager.isMatchingBlock(blockType, this.keyword, catLabel);
+            const inRestriction = !this._reducedToolboxBlocks
+                || this._reducedToolboxBlocks.includes(blockType);
+            if (!isMatching || !inRestriction) continue;
+            this._pushItem({
+                category: parentCategory, categoryId, parentCategoryId, subCat, subCatPath, state
+            });
+            if (hasLabel && !state.labelAdded) {
+                this._addLabel(categoryId, item.label);
+                state.labelAdded = true;
+            }
+            this._addBlock(categoryId, blockType);
         }
     };
     /**
@@ -552,7 +622,8 @@ class ToolboxManager {
     _addBlock(categoryId, blockType) {
         if (INTERFACE_NAME !== 'web') {
             const boardId = Blockly.Constants.getSelectedBoard();
-            if (typeof EXCLUDED_BLOCKS_BY_BOARD !== 'undefined' && EXCLUDED_BLOCKS_BY_BOARD[boardId] && EXCLUDED_BLOCKS_BY_BOARD[boardId].includes(blockType)) {
+            if (typeof EXCLUDED_BLOCKS_BY_BOARD !== 'undefined' && EXCLUDED_BLOCKS_BY_BOARD[boardId]
+                && EXCLUDED_BLOCKS_BY_BOARD[boardId].includes(blockType)) {
                 this._disableBlocksAccordingToBoard(blockType);
                 return;
             }
@@ -571,7 +642,10 @@ class ToolboxManager {
                 if (INTERFACE_NAME == 'TI-83' && this._mode === TOOLBOX_STYLE_TI_CODE) {
                     block['gap'] = '16';
                 }
-                this._getCategoryContent(categoryId).push(block);
+                const catContent = this._getCategoryContent(categoryId);
+                if (catContent) {
+                    catContent.push(block);
+                }
             } catch (e) {
                 console.error(e)
             }
@@ -584,11 +658,14 @@ class ToolboxManager {
      * @param {String} label
      */
     _addLabel(categoryId, label) {
-        this._getCategoryContent(categoryId).push({
-            "kind": "label",
-            "text": label,
-            "web-class": "myLabelStyle"
-        });
+        const catContent = this._getCategoryContent(categoryId);
+        if (catContent) {
+            catContent.push({
+                "kind": "label",
+                "text": label,
+                "web-class": "myLabelStyle"
+            });
+        }
         /*
         if (categoryId == "ia" && label == Blockly.Msg['SUBCATEGORY_VITTAIA_SENSOR_DATA']) {
             const url = CDN_PATH + "/ia/sensors";
@@ -648,9 +725,10 @@ class ToolboxManager {
                         if (this._theme.categoryStyles[catStyle]) {
                             colour = this._theme.categoryStyles[catStyle].colour;
                         }
+                        const catId = categories[cat].toolboxitemid;
                         if (catStyle !== "search_category") {
-                            const blocklyRow = document.getElementById(categories[cat].toolboxitemid);
-                            const blocklyInput = document.getElementById(categories[cat].toolboxitemid + ".label");
+                            const blocklyRow = document.getElementById(catId);
+                            const blocklyInput = document.getElementById(catId + ".label");
                             if (rows[i] && !subcat) {
                                 blocklyRow.style.cssText = "padding-inline-start: 0px; font-family:var(--text-1); border-inline-start: 8px solid; text-align: start;";
                             }
@@ -658,9 +736,9 @@ class ToolboxManager {
                             blocklyInput.style.color = colour;
                         }
                         if (subcat) {
-                            catStyle = categories[cat].toolboxitemid + '_subcategory';
+                            catStyle = catId + '_subcategory';
                         }
-                        ToolboxManager._injectSVGIcons(catStyle, colour);
+                        ToolboxManager._injectSVGIcons(catStyle);
                     }
                     if (!subcat) {
                         i++;
@@ -727,7 +805,6 @@ class ToolboxManager {
      * @private
      * @static
      * @param {String} catStyle
-     * @param {String} colour
      * */
     static _injectSVGIcons(catStyle) {
         const inject = (id) => $(id + " .svgIcon").html(TOOLBOXES_SVGS[catStyle]);
@@ -739,7 +816,7 @@ class ToolboxManager {
                 inject("#backpack_display");
                 break;
             default:
-                inject("#" + catStyle.split('_')[0]);
+                inject("#" + catStyle.replace('_category', '').replace('_subcategory', ''));
                 break;
         }
     };
@@ -772,10 +849,7 @@ class ToolboxManager {
         let searchCat = document.getElementById("search.label") || document.querySelector('#search .blocklyTreeLabel');
         if (searchCat) {
             const stop = (e) => e.stopPropagation();
-            search.addEventListener('mousedown', stop);
-            search.addEventListener('click', stop);
-            search.addEventListener('dblclick', stop);
-            search.addEventListener('pointerdown', stop);
+            ['mousedown', 'click', 'dblclick', 'pointerdown'].forEach(e => search.addEventListener(e, stop));
             search.addEventListener('touchstart', stop, { passive: true });
             searchCat.replaceWith(search);
         }
@@ -838,6 +912,51 @@ class ToolboxManager {
                 switchMixedMode();
             }
         });
+    };
+    /**
+     * Get the subcategory by id.
+     * @param {Array<Object>} subCatContent 
+     * @param {string} subCategoryId 
+     * @returns {object} subCat
+     */
+    _getSubCategoryById(subCatContent, subCategoryId) {
+        if (!Array.isArray(subCatContent) || !subCategoryId) return null;
+        for (const item of subCatContent) {
+            if (item.toolboxitemid === subCategoryId) return item;
+            const subCat = this._getSubCategoryById(item.contents, subCategoryId);
+            if (subCat) return subCat;
+        }
+        return null;
+    };
+    /**
+     * Get category definition recursively from toolbox tree.
+     * @private
+     * @param {string} categoryId
+     * @param {Array<Object>} contents
+     * @returns {Object|null} category
+     */
+    _getToolboxCategoryDefinition(categoryId, contents = this._getToolboxTreeContent()) {
+        for (const item of contents) {
+            if (item.toolboxitemid === categoryId) return item;
+            if (Array.isArray(item.contents)) {
+                const found = this._getToolboxCategoryDefinition(categoryId, item.contents);
+                if (found) return found;
+            }
+        }
+        return null;
+    };
+    /**
+     * Clone category before pushing it in toolbox tree.
+     * @private
+     * @param {Object} category
+     * @returns {Object} clone
+     */
+    _cloneCategoryForPush(category) {
+        const clone = { ...category };
+        if (Array.isArray(clone.contents)) {
+            clone.contents = [];
+        }
+        return clone;
     };
     /**
      * Append level div after search div at the top of toolbox.
@@ -908,6 +1027,7 @@ class ToolboxManager {
      * @return {boolean}
      */
     static isMatchingBlock(blockType, keyword, catLabel, searchInCode = false) {
+        if (keyword === "") return true;
         keyword = ToolboxManager.cleanString(keyword);
         if (blockType && ToolboxManager.cleanString(blockType).search(keyword) > -1) {
             return true;
@@ -1071,7 +1191,7 @@ class ToolboxManager {
      */
     static hasToBeAdded(obj) {
         if (INTERFACE_NAME === 'web') return true;
-        if (obj.onlyBoards) {
+        if (obj && obj.onlyBoards) {
             const currentBoard = Blockly.Constants.getSelectedBoard();
             if (Array.isArray(obj.onlyBoards) && obj.onlyBoards.includes(currentBoard)) {
                 return true;
@@ -1103,6 +1223,9 @@ class ToolboxManager {
             },
             state: function () {
                 return this.valueInput("STATE", '<shadow type="io_digital_signal"></shadow>');
+            },
+            list: function (name, n, values) {
+                return this.valueInput(name, '<block type="lists_create_with"><mutation items="' + n + '"></mutation>' + values + '</block>');
             },
             colour_picker: function (color, name = "COLOR") {
                 if (color == undefined) {

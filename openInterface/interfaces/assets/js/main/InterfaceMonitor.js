@@ -7,7 +7,8 @@ const InterfaceMonitor = {
         "warning": "var(--vitta-red)",
         "neutral": "var(--text-1)",
         "success": "var(--vitta-green)",
-        "interrupt": "var(--vitta-orange)"
+        "interrupt": "var(--vitta-orange)",
+        "pasting": "var(--vitta-blue)"
     },
     history: [],
     historyCursor: null,
@@ -49,6 +50,30 @@ const InterfaceMonitor = {
 
         this.addMonitorToolsToDom();
         this.console = $('#console');
+        this.monitor = document.querySelector("#console");
+
+        if (this.hasTracerExportBtn()) {
+            if (['codey', 'cyberpi', 'thymio', 'raspberrypi', 'buddy', 'sphero', 'lotibot', 'spike', 'photon', 'alphai'].includes(INTERFACE_NAME)) {
+                this.addTracerExportBtnToDom('ide-btn ide-btn-alone');
+            } else {
+                this.addTracerExportBtnToDom();
+            }
+        }
+        if (this.hasMonitorDebugger()) {
+            this.addToggleVariablesPanelBtnToDom();
+        }
+        if (this.hasMonitorFS()) {
+            this.addToggleFSBtnToDom();
+        }
+        if (this.hasToggleReplOvertureBtn()) {
+            this.addToggleReplOvertureBtnToDom();
+        }
+        if (this.hasToggleSerialConsoleBtn()) {
+            this.addToggleSerialConsoleBtnToDom();
+        }
+        if(this.hasMonitorDebugger()) {
+            this.addMonitorDebuggerToDom();
+        }
     },
 
     setup() {
@@ -103,6 +128,121 @@ const InterfaceMonitor = {
         $('[data-toggle="tooltip"]').tooltip();
     },
 
+    addTracerExportBtnToDom(style = 'ide-btn ide-btn-left') {
+        const button = {
+            id: "tracer-export",
+            classes: style,
+            fontAwesome: 'fas fa-file-export',
+            onclick: "openExportProjectWindow()",
+            title: 'code.monitor.controls.tooltips.export',
+            label: {
+                value: "code.monitor.controls.text.export"
+            }
+        };
+        const monitorDivBtn = document.getElementById("monitor-div-btn");
+        if (monitorDivBtn && !monitorDivBtn.querySelector("#tracer-export")) {
+            monitorDivBtn.insertAdjacentHTML('beforeend', Button(button));
+            $(monitorDivBtn).find('.tracer-export').localize();
+        }
+    },
+
+    addToggleVariablesPanelBtnToDom() {
+        const button = {
+            id: "repl-variables",
+            classes: 'ide-btn',
+            fontAwesome: 'fas fa-table',
+            onclick: "InterfaceConnection.toggleVariablesPanel()",
+            title: 'code.monitor.controls.tooltips.openVariables',
+            label: {
+                value: "code.monitor.controls.text.openVariables"
+            }
+        };
+        const monitorDivBtn = document.getElementById("monitor-div-btn");
+        if (monitorDivBtn && !monitorDivBtn.querySelector("#repl-variables")) {
+            monitorDivBtn.insertAdjacentHTML('beforeend', Button(button));
+        }
+    },
+
+    addToggleFSBtnToDom() {
+        const button = {
+            id: "repl-fs",
+            classes: 'ide-btn',
+            fontAwesome: 'fas fa-hdd',
+            onclick: "InterfaceConnection.toggleFileSystem()",
+            title: 'code.monitor.controls.tooltips.openFileSystem',
+            label: {
+                value: "code.monitor.controls.text.openFileSystem"
+            }
+        };
+        const monitorDivBtn = document.getElementById("monitor-div-btn");
+        if (monitorDivBtn && !monitorDivBtn.querySelector("#repl-fs")) {
+            monitorDivBtn.insertAdjacentHTML('beforeend', Button(button));
+        }
+    },
+
+    addToggleReplOvertureBtnToDom() {
+        const button = {
+            id: "repl-control",
+            classes: 'ide-btn ide-btn-right',
+            fontAwesome: 'fas fa-terminal',
+            onclick: "InterfaceConnection.toggleReplOverture()",
+            title: 'code.monitor.controls.tooltips.openRepl',
+            label: {
+                value: "code.monitor.controls.text.openRepl"
+            }
+        };
+        const monitorDivBtn = document.getElementById("monitor-div-btn");
+        if (monitorDivBtn && !monitorDivBtn.querySelector("#repl-control")) {
+            monitorDivBtn.insertAdjacentHTML('beforeend', Button(button));
+        }
+    },
+
+    addToggleSerialConsoleBtnToDom() {
+        const button = {
+            id: "repl-control",
+            classes: 'ide-btn ide-btn-right',
+            fontAwesome: 'fa-solid fa-plug',
+            onclick: "InterfaceConnection.toggleSerialConsole()",
+            title: 'code.monitor.controls.tooltips.monitor',
+            label: {
+                value: "code.monitor.controls.text.monitor"
+            }
+        };
+        const monitorDivBtn = document.getElementById("monitor-div-btn");
+        if (monitorDivBtn && !monitorDivBtn.querySelector("#serial-monitor")) {
+            monitorDivBtn.insertAdjacentHTML('beforeend', Button(button));
+            $(monitorDivBtn).find('#serial-monitor').localize();
+        }
+    },
+
+    addMonitorDebuggerToDom() {
+        const monitorDebuggerHtml = `
+        <div id="monitor-debugger" class="monitor-debugger">
+            <div class="monitor-debugger-wrapper" id="monitor-debugger-wrapper">
+                <div id="monitor-variables-panel">
+                    <div class="variables_panel">
+                        <div class="variables_table_wrapper">
+                            <table id="variables_table">
+                                <thead>
+                                    <tr>
+                                        <th style="padding-right: 33px;">Nom de la variable</th>
+                                        <th style="padding-right: 80px;">Valeur</th>
+                                        <th style="padding-right: 5px;">Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="variables-table-body-repl"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+        const monitorContent = document.querySelector("#monitor-content");
+        if (monitorContent && !document.querySelector("#monitor-debugger")) {
+            monitorContent.insertAdjacentHTML('beforeend', monitorDebuggerHtml);
+        }
+    },
+
     /**
      * This function manage the console input history navigation.
      * @param {int} direction (-1/1)
@@ -126,32 +266,33 @@ const InterfaceMonitor = {
      * @param {boolean} rawMsg if true, preserves multiple consecutive spaces using &nbsp;
      */
     writeConsole(message, color, isPre = false, isBold = false, rawMsg = false) {
-        const monitor = document.querySelector("#console");
-        const tag = isPre === true ? 'pre' : 'p';
-        if (typeof color == 'undefined' || typeof this.TEXT_COLOR[color] == 'undefined') {
+        const monitor = this.monitor || (this.monitor = document.querySelector("#console"));
+        const tag = isPre ? 'pre' : 'p';
+        if (typeof color === 'undefined' || typeof this.TEXT_COLOR[color] === 'undefined') {
             color = 'default';
         }
-        let html = "<" + tag + " style='color:" + this.TEXT_COLOR[color] + ";";
-        html += (isBold ? "font-weight: bold;" : '') + "'>";
         const capytaleWelcome = typeof IS_CAPYTALE_CONTEXT !== 'undefined' && /code.welcome/.test(message);
-
         let content;
         if (/code.(serialAPI|WebBluetoothAPI|errorMsg|welcome|successMsg|simulator)./.test(message) && !capytaleWelcome) {
             content = i18next.t(message);
         } else {
             content = message;
         }
-
-        html += rawMsg ? content.replace(/ {2,}/g, m => '&nbsp;'.repeat(m.length)) : content;
-
-        html += "</" + tag + ">";
-        if ((monitor.innerHTML.match(/\r?\n/g) || '').length + 1 > this.MAX_CONSOLE_LINES) {
-            let lines = monitor.innerHTML.split(/\r?\n/g);
-            lines.splice(0, lines.length - this.MAX_CONSOLE_LINES);
-            monitor.innerHTML = lines.join('\r\n');
+        while (monitor.childElementCount >= this.MAX_CONSOLE_LINES) {
+            monitor.firstElementChild.remove();
         }
-        monitor.insertAdjacentHTML('beforeend', html);
-        if (this.console.localize && html.match(/data-i18n/)) {
+        const el = document.createElement(tag);
+        el.style.color = this.TEXT_COLOR[color];
+        if (isBold) {
+            el.style.fontWeight = 'bold';
+        }
+        if (rawMsg) {
+            el.innerHTML = content.replace(/ {2,}/g, m => '&nbsp;'.repeat(m.length));
+        } else {
+            el.innerHTML = content;
+        }
+        monitor.appendChild(el);
+        if (this.console.localize && el.querySelector('[data-i18n]')) {
             this.console.localize();
         }
         this.scrollToBottom();
@@ -473,8 +614,27 @@ const InterfaceMonitor = {
                 }, 'fast');
             }
         }
-    }
+    },
 
+    hasTracerExportBtn() {
+        return ["arduino", "letsstartcoding", "microbit", "wb55", "l476", "buddy", "TI-83", "mBot", "cyberpi", "esp32", "thymio", "winky", "galaxia", "raspberrypi", "pico", "m5stack", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "eliobot", "alphai", "GalaxiaCircuitPython", "steami"].includes(INTERFACE_NAME);
+    },
+
+    hasToggleReplOvertureBtn() {
+        return ["esp32", "eliobot", "galaxia", "l476", "m5stack", "microbit", "pico", "steami", "wb55"].includes(INTERFACE_NAME);
+    },
+
+    hasToggleSerialConsoleBtn() {
+        return ["arduino", "letsstartcoding", "mBot"].includes(INTERFACE_NAME);
+    },
+
+    hasMonitorDebugger() {
+        return ["esp32", "galaxia", "m5stack", "microbit", "pico", "wb55", "l476"].includes(INTERFACE_NAME);
+    },
+
+    hasMonitorFS() {
+        return ["esp32", "galaxia", "m5stack", "pico", "wb55", "l476", "microbit", "steami", "eliobot"].includes(INTERFACE_NAME);
+    }
 };
 
 // TO DO : Control on REPL

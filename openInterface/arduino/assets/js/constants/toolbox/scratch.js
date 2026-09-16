@@ -315,7 +315,6 @@ const TOOLBOX_SCRATCH_CONTENT = {
         {
             'label': '%{BKY_SUBCATEGORY_EXTERNAL_BLUETOOTH}',
             'blocks': [
-                //'communication_setSerialBluetooth',
                 'communication_groveSerialBluetooth_setATCommand',
                 'communication_groveSerialBluetooth_getATCommand',
                 'communication_sendSerialBluetoothData',
@@ -678,6 +677,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'math_constant',
                 'math_single',
                 'math_modulo',
+                'math_round_ndigits',
                 'math_constrain',
                 'math_trig',
                 'math_atan2',
@@ -691,10 +691,21 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'text_comment',
                 'text',
                 'text_join',
+                'text_newline',
                 'text_append',
                 'text_length',
                 'text_isEmpty',
+                'text_includesSubstr',
+                'text_indexOf',
+                'text_charAt',
+                'text_getSubstring',
+                'text_count_characters',
+                'text_trim',
                 'text_changeCase',
+                'text_count',
+                'text_reverse',
+                'text_replace',
+                'text_random_string'
             ]
         }
     ],

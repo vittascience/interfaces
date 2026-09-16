@@ -1,3 +1,14 @@
+<script>
+    if (new URLSearchParams(location.search).get('provider') === 'origamia') {
+        document.documentElement.classList.add('provider-origamia');
+        var _origamiaLoader = document.createElement('div');
+        _origamiaLoader.id = 'origamia-loader';
+        _origamiaLoader.innerHTML = '<div class="origamia-loader-inner"><div class="origamia-spinner"></div>'
+            + '<p>Chargement de l\'interface en cours…</p></div>';
+        (document.body || document.documentElement).appendChild(_origamiaLoader);
+    }
+</script>
+
 <!-- IDE -->
 <div class="overlay"></div>
 <div id="ide">
@@ -314,42 +325,7 @@
                                 </div>
                             </div>
 
-                            <div id="monitor-div-btn" class="d-flex ms-auto justify-content-end">
-
-                                <button type="button" class="ide-btn ide-btn-alone tracer-export me-1" onclick="openExportProjectWindow()" data-toggle="tooltip" data-placement="top" data-i18n="[title]code.monitor.controls.tooltips.export">
-                                    <i class="fas fa-file-export"></i>
-                                    <span class="hide" data-i18n="code.monitor.controls.text.export"></span>
-                                </button>
-
-                                <button type="button" onclick="InterfaceConnection.toggleVariablesPanel()" class="ide-btn ide-btn-alone me-1" id="repl-variables" data-toggle="tooltip" data-placement="top" data-i18n="[title]code.monitor.controls.tooltips.openVariables">
-                                    <i class="fas fa-table"></i>
-                                    <span class="hide" data-i18n="code.monitor.controls.text.openVariables">(x)</span>
-                                </button>
-
-                                <button type="button" onclick="InterfaceConnection.toggleReplOverture()" class="ide-btn ide-btn-alone" id="repl-control" data-status="open" data-toggle="tooltip" data-placement="top" data-i18n="[title]code.monitor.controls.tooltips.openRepl">
-                                    <i class="fas fa-terminal"></i>
-                                    <span class="hide" data-i18n="code.monitor.controls.text.openRepl">REPL</span>
-                                </button>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div id="monitor-debugger" class="monitor-debugger">
-                        <div class="monitor-debugger-wrapper" id="monitor-debugger-wrapper">
-                            <div id="monitor-variables-panel">
-                                <div class="d-flex justify-content-center variables_panel">
-                                    <table id="variables_table">
-                                        <thead>
-                                            <tr>
-                                                <th style="padding-right: 33px;">Nom de la variable </th>
-                                                <th style="padding-right: 80px;">Valeur</th>
-                                                <th style="padding-right: 5px;">Type</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="variables-table-body-repl"></tbody>
-                                    </table>
-                                </div>
-                            </div>
+                            <div id="monitor-div-btn" class="d-flex ms-auto justify-content-end"></div>
                         </div>
                     </div>
                 </div>
@@ -358,14 +334,7 @@
         <div class="ide-simulator">
             <div id="simulator">
                 <div id="headerOut">
-                    <div class="simulator-board-buttons">
-                        <button id="simulator-board-toggler" data-i18n="[aria-label]code.simulator.buttons.base.toggleBoardDisplay" class="btn simulator-button-circle" type="button" onclick="Simulator.toggleBoardDisplay()">
-                            <i class="fa-solid fa-minus simulator-buttons-icon"></i>
-                        </button>
-                        <button id="wiring-mode" data-i18n="[aria-label]code.simulator.buttons.base.switchWiringMode" class="btn simulator-button-circle" type="button" onclick="switchWiringMode()">
-                            <img class="simulator-mosaic-icon simulator-buttons-icon" src="/openInterface/interfaces/assets/media/icon-wiring.svg" alt="mosaic mode">
-                        </button>
-                    </div>
+                    <div class="simulator-board-buttons"></div>
                     <span id="title-board" style="display: none;">BBC micro:bit</span>
                     <div id="board-container">
                         <object id="board-viewer" class="mt-3" type="image/svg+xml" role="img" aria-label="Board simulator view"></object>
@@ -451,39 +420,6 @@
                     <span class="hide" data-i18n="code.simulator.buttons.auto-corrector.exercise">Exercice</span>
                 </button>
             </div>
-
-            <div id="simulator-wires" style="display: none;">
-<!--                cp 10-->
-<!--                data-i18n="Passer en mode mosaïque"-->
-                <button id="mosaic-mode" data-i18n="[aria-label]code.simulator.buttons.base.switchMosaicMode" class="btn simulator-button-circle" onclick="switchMosaicMode()">
-                    <img class="simulator-wiring-icon simulator-buttons-icon" src="/openInterface/interfaces/assets/media/icon-mosaic.svg" alt="wiring mode"/>
-                </button>
-                <div id="wiring-overlay">
-                    <button id="modules-close" onclick="WiringSimulator.closeModule()" tabindex="-1">&times;</button>
-                    <div id="wiring-modules" style="display:none;"></div>
-                </div>
-                <canvas id="wiring-simulator">Canvas Not Supported</canvas>
-                <div id="wiring-message-container"></div>
-                <div class="d-flex justify-content-center my-2">
-                    <div id="wiring-buttons-control" class="control-run-btn btn-group oi-btn-group-simulator oi-simulation-activated"></div>
-                    <div id="wiring-buttons-fullscreen" class="control-mode-btn oi-btn-group-simulator oi-option-activated"></div>
-                    <div class="wiring-buttons btn-group oi-btn-group-simulator oi-option-activated">
-                        <button id="wiring-background-button" class="btn oi-btn-simulator" 
-                                data-toggle="tooltip" data-placement="top" title="Background">
-                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-img.svg" alt="Image icon">
-                        </button>
-                        <button id="simulator-export" class="btn oi-btn-simulator" 
-                                data-toggle="tooltip" data-placement="top" title="Screenshot" onclick="WiringSimulator.getScreenshot()">
-                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-photo.svg" alt="Photo icon">
-                        </button>
-                        <button id="wiring-record-button" class="btn oi-btn-simulator" 
-                                data-toggle="tooltip" data-placement="top" title="Video record" onclick="WiringSimulator.recordVideo()">
-                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-rec.svg" alt="Record icon">
-                        </button>
-                    </div>
-                </div>
-            </div>
-
         </div> <!-- END IDE SIMULATOR -->
 
         <div class="global-overlay" id="global-overlay"></div>
@@ -491,7 +427,7 @@
             <div class="progress-bar-area">
                 <div class="progress-bar-description" id="progress-bar-description">Téléversement du programme python ...</div>
                 <div class="progress-bar-wrapper">
-                    <div class="progress-bar-value" id="progress-bar-mb">0%</div>
+                    <div class="progress-bar-value" id="progress-bar-serial">0%</div>
                 </div>
             </div>
         </div>
@@ -546,7 +482,7 @@
 <script src="/openInterface/interfaces/assets/js/external/tone/tone.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/microbit/microbit-fs/microbit-fs.umd.min.js" type="application/javascript"></script>
 <script src="/openInterface/interfaces/assets/js/external/microbit/microbit-uh/microbit-uh.umd.min.js" type="application/javascript"></script>
-<script src="/openInterface/interfaces/assets/js/external/shepherd.js@10.0.1/sheperd.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/jszip.js"></script>
 <!-- endbuild -->
 <!-- build:js-autocomplete-->
 <script src="/openInterface/microbit/assets/js/autocomplete/tree.js"></script>
@@ -713,6 +649,7 @@
 <!-- build:js-serial -->
 <script src="/openInterface/interfaces/assets/js/serial/Serial.js"></script>
 <script src="/openInterface/interfaces/assets/js/serial/micropython/MicropythonRepl.js"></script>
+<script src="/openInterface/interfaces/assets/js/serial/micropython/MicropythonFS.js"></script>
 <script src="/openInterface/microbit/assets/js/serial/InterfaceConnection.js"></script>
 <!-- endbuild -->
 <script src="/openInterface/microbit/assets/js/accessibility/accessibility.js" type="module"></script>
@@ -724,6 +661,8 @@
 <!-- reverse traduction -->
 <script src="/openInterface/interfaces/assets/js/external/tree-sitter/tree-sitter.js"></script>
 <script src="/openInterface/microbit/assets/js/blocks/code2Blocks/excluded_blocks.js"></script>
+
+<script src="/openInterface/microbit/assets/js/origamia.js"></script>
 
 <script>
     window.checkNavigatorVersionForPurpose('interfaces');

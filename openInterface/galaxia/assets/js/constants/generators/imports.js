@@ -50,6 +50,8 @@ const IMPORT_ESP32_MY9221 = "from esp32_my9221 import MY9221";
 const IMPORT_ESP32_DS18B20 = "from esp32_ds18b20 import DS18X20";
 const IMPORT_ESP32_LINKY = "from esp32_linky import Linky";
 const IMPORT_ESP32_ROTARY = "from esp32_rotary import RotaryIRQ";
+const IMPORT_ESP32_MLX90621 = "from esp32_mlx90621 import MLX90621";
+const IMPORT_KITRONIK_SERVO_DRIVER = "from kitronik_servo_driver import KitronikServoBoard";
 //grove modules libraries - custom
 const IMPORT_NEC_REMOTE = "from nec_remote import NEC_8, NEC_16"; // TO DO
 // IA 

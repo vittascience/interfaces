@@ -25,6 +25,42 @@ var AutoCorrector = {
     displayChonogram: false,
     loader_link: `${CDN_PATH}/public/content/img/spinning-loader.svg`,
 
+    origamiaResolve: null,
+    _origamiaRun: 0,
+    ORIGAMIA_TIMEOUT: 60000,
+    ORIGAMIA_MODE_SWITCH_DELAY: 500,
+
+    /**
+     * @public
+     * @returns {Promise<string>}
+     */
+    validateForOrigamia: function () {
+        return new Promise((resolve) => {
+            this._origamiaSettle('failed');
+            const run = (this._origamiaRun || 0) + 1;
+            this._origamiaRun = run;
+            this.origamiaResolve = resolve;
+            setTimeout(() => {
+                if (this._origamiaRun === run) this._origamiaSettle('failed');
+            }, this.ORIGAMIA_TIMEOUT);
+            if (!$('#exercise-mode').hasClass('active')) {
+                $('#exercise-mode').click();
+            }
+            setTimeout(() => this.validate(), this.ORIGAMIA_MODE_SWITCH_DELAY);
+        });
+    },
+
+    /**
+     * @private
+     * @param {string} result - "success" ou "failed"
+     */
+    _origamiaSettle: function (result) {
+        if (typeof this.origamiaResolve !== 'function') return;
+        const resolve = this.origamiaResolve;
+        this.origamiaResolve = null;
+        resolve(result);
+    },
+
     /**
      * Initialize AutoCorrector buttons.
      * @public
@@ -349,6 +385,7 @@ var AutoCorrector = {
             $("#incorrect-error").html(`<p>
                 ${jsonPath('modals.simulator.auto-corrector.missingComponents')}
             </p>`);
+            this._origamiaSettle('failed');
             if (typeof xapiAutocorrection != 'undefined') {
                 xapiAutocorrection.sendFailTrace();
             }
@@ -448,6 +485,7 @@ var AutoCorrector = {
                             ${jsonPath('modals.simulator.auto-corrector.detectedError')} <b>${this.currentError.module}</b> ${jsonPath('modals.simulator.auto-corrector.isNotCorrect')} <b>t = ${this.currentError.time} ms<br>
                         </p>`);
                             this.isFalse = false;
+                            this._origamiaSettle('failed');
                             if (typeof xapiAutocorrection != 'undefined') {
                                 xapiAutocorrection.sendFailTrace();
                             }
@@ -485,6 +523,7 @@ var AutoCorrector = {
                                     });
                             }
                         } else {
+                            this._origamiaSettle('success');
                             pseudoModal.openModal("modal-auto-corrector-correct");
                             /**
                              * There are big problems with the MOOC, so it doesn't matter if it is an iframe for the MOOC or directly the Galaxia interface, we display the code 

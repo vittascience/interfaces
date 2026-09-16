@@ -10,7 +10,7 @@ Blockly.Python.Generators.digital_read = function (pin, codeFlag) {
   if (codeFlag) {
     Blockly.Python.addInit(codeFlag.trim() + '_' + pin, "# " + codeFlag + " on " + pin);
   }
-  Blockly.Python.addInit(pin + '_IN',  "GPIO.setup(" + pinName + ", GPIO.IN)");
+  Blockly.Python.addInit(pin + '_IN',  "GPIO.setup(" + pinName + ", GPIO.IN, pull_up_down=GPIO.PUD_UP)");
   return pinName;
 };
 

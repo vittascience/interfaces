@@ -416,7 +416,7 @@ Blockly.Constants.Communication.COMMUNICATION_UART_READ_MUTATOR_MIXIN = {
  * @this {Blockly.Block}
  */
 Blockly.Constants.Communication.COMMUNICATION_FS_SAVE_DATA_INIT_EXTENSION = function () {
-    this.extension_ = true;
+    this.option_ = true;
     this.update_(this.updateField_);
 };
 

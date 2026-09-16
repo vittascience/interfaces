@@ -724,19 +724,6 @@ h2.cgv-subtitle {
 
 
 /* Misc */
-/* Small change of background color on dark high-contrast for visibility of partners logos */
-
-.theme-dark .logos-opensource-partners a {
-    background-color: rgba(21, 21, 21);
-}
-
-.theme-dark .logos-opensource-partners .logo-pic {
-    background-color: rgba(21, 21, 21);
-}
-
-.theme-dark .opensource-partners-block img {
-    background-color: rgba(21, 21, 21);
-}
 
 /* WIKI */
 

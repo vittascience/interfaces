@@ -381,31 +381,23 @@ var $builtinmodule = function () {
     thingz.touch_w = new Pad();
     thingz.touch_w.tp$init([new Sk.builtin.str('left')]);
 
-
-
     var Radio = new Sk.misceval.buildClass(thingz, function ($gbl, $loc) {
 
         $loc.__init__ = new Sk.builtin.func(function (self) {
-            self.name = 'radio';
             self._rx_buffer = new Array();
         });
 
-        $loc.on = new Sk.builtin.func(function (self) {
-            return new Sk.builtin.bool(true);
+        $loc.set_channel = new Sk.builtin.func(function (self, channel) {
+            Sk.builtin.pyCheckArgsLen("set_channel", arguments.length, 2, 2);
+            Sk.builtin.pyCheckType("channel", "integer", Sk.builtin.checkInt(channel));
+            self.channel = channel;
+            return Sk.builtin.none();
         });
 
-        $loc.off = new Sk.builtin.func(function (self) {
-            return new Sk.builtin.bool(false);
+        $loc.get_channel = new Sk.builtin.func(function (self) {
+            Sk.builtin.pyCheckArgsLen("set_channel", arguments.length, 1, 1);
+            return self.channel;
         });
-
-        var config = function (self, channel, power, length, group) {
-            return new Sk.builtin.NotImplementedError("radio.config() is not yet implemented");
-        };
-
-        config.co_varnames = ['self', 'channel', 'power', 'length', 'group'];
-        config.$defaults = [Sk.builtin.none(), new Sk.builtin.int_(7), new Sk.builtin.int_(6), new Sk.builtin.int_(32), new Sk.builtin.int_(0)];
-        config.co_numargs = 2;
-        $loc.config = new Sk.builtin.func(config);
 
         $loc.send = new Sk.builtin.func(async function (self, data) {
             if (data !== undefined) {
@@ -448,18 +440,9 @@ var $builtinmodule = function () {
 
         });
 
-        $loc.receive = new Sk.builtin.func(function (self, size) {
-            const getData = function (sz) {
-                let size;
-                if (size === undefined) {
-                    size = self._rx_buffer.length;
-                } else {
-                    size = sz.v;
-                }
-                return self._rx_buffer.shift();
-            };
+        $loc.receive = new Sk.builtin.func(function (self) {
             if (self._rx_buffer.length !== 0) {
-                return new Sk.builtin.str(getData(size));
+                return new Sk.builtin.str(self._rx_buffer.shift());
             } else {
                 // Appelée pour vérifier s'il y a des messages en attente de lecture dans RX
                 const multiEditorLS = localStorage.getItem('multiEditor');
@@ -489,7 +472,7 @@ var $builtinmodule = function () {
                             '_tx_buffer': new Array()
                         };
                         localStorage.setItem('multiEditor', JSON.stringify(multiEditor));
-                        return new Sk.builtin.str(getData(size));
+                        return new Sk.builtin.str(self._rx_buffer.shift());
                     }
                 } else {
                     InterfaceMonitor.writeConsole("Radio Error: no service");
@@ -501,7 +484,6 @@ var $builtinmodule = function () {
     }, "Radio", []);
 
     thingz.radio = new Radio();
-
     thingz.radio.tp$init([]);
 
     const addPoint = (value) => {

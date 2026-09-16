@@ -54,15 +54,14 @@ const WikiLoader = (function () {
         }
     }
 
-    function loadScripts(scripts) {
+    function loadScripts(scripts, err_msg) {
         return new Promise(async (resolve, reject) => {
             checkLocalStorage();
             for (let script of scripts) {
                 try {
                     await getScriptLoadingPromise(script);
                 } catch (e) {
-                    reject(e);
-                    return;
+                    console.error(`${err_msg} loading error: ${e}`);
                 }
             }
             resolve();

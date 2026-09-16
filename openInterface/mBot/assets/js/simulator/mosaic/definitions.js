@@ -35,10 +35,6 @@ Simulator.Mosaic.addSpecificInitializations = async function () {
             }
         };
 
-        const getRandomInt = function (min, max) {
-            return Math.floor(Math.random() * (max - min) + min);
-        };
-
         // mCore switches
         const up = 'translate(0px, 0px)', // button css animation
             down = 'translate(0px, 7px)',
@@ -49,14 +45,14 @@ Simulator.Mosaic.addSpecificInitializations = async function () {
         if (button !== null && reset !== null) {
             button.addEventListener("mousedown", function () {
                 playButtonAnimation(this.id, down);
-                if (document.getElementById("mCore-button_slider") !== null) {
-                    $("#mCore-button_slider").slider('value', getRandomInt(10, 1024));
+                if (document.getElementById("mCoreButton_slider") !== null) {
+                    $("#mCoreButton_slider").slider('value', 1023);
                 }
             });
             button.addEventListener("mouseup", function () {
                 playButtonAnimation(this.id, up);
-                if (document.getElementById("mCore-button_slider") !== null) {
-                    $("#mCore-button_slider").slider('value', getRandomInt(0, 10));
+                if (document.getElementById("mCoreButton_slider") !== null) {
+                    $("#mCoreButton_slider").slider('value', 0);
                 }
             });
             button.addEventListener("touchstart", function () {
@@ -127,7 +123,8 @@ Simulator.Mosaic.specific = {
         $('#mCoreButton_slider').slider({
             min: 0,
             max: 1023,
-            value: 512
+            value: 0,
+            step: 1023
         });
         $('.mod_ultrasonic_t,' +
             '.mod_ultrasonic_d').slider({

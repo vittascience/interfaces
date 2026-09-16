@@ -13,7 +13,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "TIME",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "UNIT",
@@ -271,7 +271,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "input_value",
             "name": "VALUE",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }],
         "inputsInline": true,
         "previousStatement": null,
@@ -290,7 +290,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "VALUE",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",

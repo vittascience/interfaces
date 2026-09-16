@@ -57,8 +57,8 @@ let stdModals = {};
                         <span data-i18n="modals.standard.export.content.api.howToContent">${jsonPath('modals.standard.export.content.api.howToContent')}</span>
                     </p>
     
-                    <div class="alert alert-warning" id="api-warning" style="display: none;">
-                        <i class="fa fa-exclamation-triangle"></i>
+                    <div class="alert alert-warning" id="api-warning" style="display: none; color: #000;">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                         <span data-i18n="modals.standard.export.content.api.warning">${jsonPath('modals.standard.export.content.api.warning')}</span>
                     </div>
     
@@ -66,8 +66,8 @@ let stdModals = {};
                         <label for="api-key-input" data-i18n="modals.standard.export.content.api.link" class="mt-3">${jsonPath('modals.standard.export.content.api.link')}</label>
                         <div class="d-flex mt-1">
                             <input id="api-key-input" value="" class="form-control" readonly="readonly" style="border-top-right-radius:0; border-bottom-right-radius: 0;">
-                            <button class="btn vitta-button" id="copy-link" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
-                            <i class="fas fa-copy"></i>
+                            <button class="btn vitta-button" id="copy-link" style="border-top-left-radius: 0; border-bottom-left-radius: 0;" data-i18n="[aria-label]modals.standard.export.content.api.copyButton" aria-label="Copier la clé API">
+                            <i class="fas fa-copy" aria-hidden="true"></i>
                             </button>
                         </div>
                         <div class="form-text">
@@ -1011,6 +1011,258 @@ let stdModals = {};
                 <span style="margin-left: 10px; vertical-align: top;">${jsonPath('modals.warning.project.changeBoardMsg')}</span>`,
             footer: ``
         },
+        'modal-micropython-fs': {
+            header: {
+                icon: 'fas fa-folder-tree',
+                title: 'modals.standard.mpy-fs.title',
+            },
+            optionalClass: {
+                modal: 'vitta-modal-mpy-fs'
+            },
+            content: `
+                <div class="mpy-fs">
+                    <aside class="mpy-fs-sidebar">
+                        <div class="mpy-fs-toolbar">
+                            <button id="mpy-fs-upload" class="btn v-btn" data-toggle="tooltip" data-placement="top" data-i18n="[title]modals.standard.mpy-fs.tooltips.upload">
+                                <i class="fas fa-upload"></i>
+                            </button>
+                            <button id="mpy-fs-new-file" class="btn v-btn" data-toggle="tooltip" data-placement="top" data-i18n="[title]modals.standard.mpy-fs.tooltips.newFile">
+                                <i class="fas fa-file"></i>
+                            </button>
+                            ${INTERFACE_NAME === 'microbit' ? '' :
+                                `<button id="mpy-fs-new-folder" class="btn v-btn" data-toggle="tooltip" data-placement="top" data-i18n="[title]modals.standard.mpy-fs.tooltips.newFolder">
+                                    <i class="fas fa-folder-plus"></i>
+                                </button>`
+                            }
+                            <button id="mpy-fs-rename" class="btn v-btn" data-toggle="tooltip" data-placement="top" data-i18n="[title]modals.standard.mpy-fs.tooltips.rename">
+                                <i class="fas fa-pen"></i>
+                            </button>
+                            <button id="mpy-fs-download" class="btn v-btn" data-toggle="tooltip" data-placement="top" data-i18n="[title]modals.standard.mpy-fs.tooltips.download">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="btn v-btn v-btn--danger" id="mpy-fs-delete" data-toggle="tooltip" data-placement="top" data-i18n="[title]modals.standard.mpy-fs.tooltips.delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        <div class="mpy-fs-storage">
+                            <div class="mpy-fs-storage-header">
+                                <span data-i18n="modals.standard.mpy-fs.spaceUsed">Space used :</span>
+                                <span id="mpy-fs-storage-text">0 / 0 kB</span>
+                            </div>
+
+                            <div class="mpy-fs-storage-bar">
+                                <div class="mpy-fs-storage-fill" id="mpy-fs-storage-fill">
+                                    <span id="mpy-fs-storage-percent">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="mpy-fs-tree" class="mpy-fs-tree">
+                            <div class="mpy-fs-empty" data-i18n="modals.standard.mpy-fs.noLoadedFile">
+                                No loaded file
+                            </div>
+                        </div>
+                    </aside>
+
+                    <section class="mpy-fs-main">
+                        <div class="mpy-fs-tabs">
+                            <ul class="nav nav-tabs" id="mpy-fs-tabs-list" role="tablist"></ul>
+                        </div>
+
+                        <div class="mpy-fs-editor-wrapper">
+                            <div id="mpy-fs-empty-editor" class="mpy-fs-empty-editor" data-i18n="modals.standard.mpy-fs.clickToOpenFile">
+                                Double-click on a file to open it.
+                            </div>
+                            <div id="mpy-fs-editor"></div>
+                        </div>
+                    </section>
+                </div>`,
+            footer: `
+                <footer class="mpy-fs-footer">
+                    <button type="button" id="mpy-fs-save" class="btn v-btn mpy-fs-save-btn" data-toggle="tooltip" data-placement="top" data-i18n="[title]modals.standard.mpy-fs.buttons.save.tooltip">
+                        <span class="label-button" aria-hidden="true">
+                            ${jsonPath('modals.standard.mpy-fs.buttons.save.text')}
+                        </span>
+                    </button>
+                    <button type="button" id="mpy-fs-play" class="btn v-btn mpy-fs-play-btn" data-toggle="tooltip" data-placement="top" data-i18n="[title]modals.standard.mpy-fs.buttons.play.tooltip">
+                        <i class="fas fa-play"></i>
+                        <span class="label-button" aria-hidden="true">
+                            ${jsonPath('modals.standard.mpy-fs.buttons.play.text')}
+                        </span>
+                    </button>
+                    <button type="button" class="btn v-btn-basic mpy-fs-close-btn" data-toggle="tooltip" data-placement="top" data-i18n="[title]modals.standard.mpy-fs.buttons.close.tooltip" onclick="pseudoModal.closeModal('modal-micropython-fs')">
+                        <span class="label-button" aria-hidden="true">
+                            ${jsonPath('modals.standard.mpy-fs.buttons.close.text')}
+                        </span>
+                    </button>
+                </footer>`
+        },
+        'modal-mpy-fs-warningsave': {
+            header: {
+                icon: 'fa fa-exclamation-circle',
+                title: 'modals.warning.default.title',
+            },
+            optionalClass: {
+                "modal": 'vitta-modal-warning',
+                "content": "text-center"
+            },
+            selector: '#warning-save',
+            customAttributes: [
+                { name: 'role', value: 'dialog' },
+                { name: 'aria-modal', value: 'true' },
+                { name: 'aria-labelledby', value: 'modal-mpy-fs-warningsave-title' },
+                { name: 'aria-describedby', value: 'modal-mpy-fs-warningsave-question modal-mpy-fs-warningsave-hint' },
+                { name: 'tabindex', value: '-1' }
+            ],
+            content: `
+                <div id="modal-mpy-fs-warningsave-question" style="text-align: center;">
+                    <div class="d-flex align-items-center justify-content-center gap-2">
+                        <i class="fa fa-save" aria-hidden="true"></i>
+                        <div data-i18n="[html]modals.warning.mpy-fs.save.question">
+                            Do you want to save the changes to the file?
+                        </div> 
+                    </div>
+                    <div>
+                        <div id="modal-mpy-fs-warningsave-hint" class="hint" style="margin-top: 0.5em;"
+                            data-i18n="[html]modals.warning.mpy-fs.save.hint">
+                            Otherwise, changes made to the file will be lost.
+                        </div>
+                    </div>
+                </div>
+            `,
+            footer: `
+                <footer class="modal-mpy-fs-warningsave-footer">
+                    <button type="button" id="modal-mpy-fs-warningsave-yes" class="btn v-btn mpy-fs-warningsave-yes" data-i18n="modals.warning.mpy-fs.save.buttons.save">
+                        Save
+                    </button>
+                    <button type="button" id="modal-mpy-fs-warningsave-no" class="btn v-btn mpy-fs-warningsave-no" data-i18n="modals.warning.mpy-fs.save.buttons.dontSave">
+                        Do not save 
+                    </button>
+                </footer>`
+        },
+        'modal-mpy-fs-warningdelete': {
+            header: {
+                icon: 'fa fa-exclamation-circle',
+                title: 'modals.warning.default.title',
+            },
+            optionalClass: {
+                "modal": 'vitta-modal-warning',
+                "content": "text-center"
+            },
+            selector: '#warning-delete',
+            customAttributes: [
+                { name: 'role', value: 'dialog' },
+                { name: 'aria-modal', value: 'true' },
+                { name: 'aria-labelledby', value: 'modal-mpy-fs-warningdelete-title' },
+                { name: 'aria-describedby', value: 'modal-mpy-fs-warningdelete-question modal-mpy-fs-warningdelete-hint' },
+                { name: 'tabindex', value: '-1' }
+            ],
+            content: `
+                <div id="modal-mpy-fs-warningdelete-question" style="text-align: center;">
+                    <div class="d-flex align-items-center justify-content-center gap-2">
+                        <i class="fa fa-save" aria-hidden="true"></i>
+                        <div data-i18n="[html]modals.warning.mpy-fs.delete.question">
+                            Are you sure you want to delete the file(s)?
+                        </div>
+                    </div>
+                </div>
+            `,
+            footer: `
+                <footer class="modal-mpy-fs-warningdelete-footer">
+                    <button type="button" id="modal-mpy-fs-warningdelete-yes" class="btn v-btn mpy-fs-warningdelete-yes" data-i18n="modals.warning.mpy-fs.delete.buttons.delete">
+                        Delete
+                    </button>
+                    <button type="button" id="modal-mpy-fs-warningdelete-no" class="btn v-btn mpy-fs-warningdelete-no" data-i18n="modals.warning.mpy-fs.delete.buttons.cancel">
+                        Cancel
+                    </button>
+                </footer>`
+        },
+        'modal-mpy-fs-warningreplace': {
+            header: {
+                icon: 'fa fa-exclamation-circle',
+                title: 'modals.warning.default.title',
+            },
+            optionalClass: {
+                "modal": 'vitta-modal-warning',
+                "content": "text-center"
+            },
+            selector: '#warning-replace',
+            customAttributes: [
+                { name: 'role', value: 'dialog' },
+                { name: 'aria-modal', value: 'true' },
+                { name: 'aria-labelledby', value: 'modal-mpy-fs-warningreplace-title' },
+                { name: 'aria-describedby', value: 'modal-mpy-fs-warningreplace-question' },
+                { name: 'tabindex', value: '-1' }
+            ],
+            content: `
+                <div id="modal-mpy-fs-warningreplace-question" style="text-align: center;">
+                    <div class="d-flex align-items-center justify-content-center gap-2">
+                        <i class="fa fa-copy" aria-hidden="true"></i>
+                        <div id="mpy-fs-warningreplace-question-text" data-i18n="[html]modals.warning.mpy-fs.replace.question">
+                            One or more files in the destination contain the same name. Do you want to replace them?
+                        </div>
+                    </div>
+                </div>`,
+            footer: `
+                <footer class="modal-mpy-fs-warningreplace-footer">
+                    <button type="button" id="modal-mpy-fs-warningreplace-yes" class="btn v-btn mpy-fs-warningreplace-yes" data-i18n="modals.warning.mpy-fs.replace.buttons.replace">
+                        Replace
+                    </button>
+                    <button type="button" id="modal-mpy-fs-warningreplace-no" class="btn v-btn mpy-fs-warningreplace-no" data-i18n="modals.warning.mpy-fs.replace.buttons.cancel">
+                        Cancel
+                    </button>
+                </footer>`
+        },
+        'modal-mpy-fs-warningimport': {
+            header: {
+                icon: 'fa fa-exclamation-circle',
+                title: 'modals.warning.default.title',
+            },
+            optionalClass: {
+                modal: 'vitta-modal-warning',
+                content: 'text-center'
+            },
+            content: `
+                <div style="text-align: center;">
+                    <div class="d-flex align-items-center justify-content-center gap-2">
+                        <i class="fa fa-image" aria-hidden="true"></i>
+                        <div data-i18n="modals.warning.mpy-fs.importSize.message">
+                            The image cannot be imported.
+                        </div>
+                    </div>
+                    <div id="mpy-fs-warningimport-hint" class="hint" style="margin-top: 0.5em;"></div>
+                </div>`,
+            footer: `
+                <footer class="modal-mpy-fs-warningimport-footer">
+                    <button type="button" class="btn v-btn" data-i18n="modals.warning.mpy-fs.importSize.buttons.understood" onclick="pseudoModal.closeModal('modal-mpy-fs-warningimport')">
+                        Understood
+                    </button>
+                </footer>`
+        },
+        'modal-arduino-q-password': {
+            selector: '',
+            header: {
+                icon: 'fas fa-lock',
+                title: 'modals.standard.arduino-q-password.title'
+            },
+            optionalClass: {
+                modal: 'vitta-modal-warning',
+                content: 'text-center'
+            },
+            content: `
+                <div class="text-center">
+                    <p class="mb-3" data-i18n="modals.standard.arduino-q-password.content">
+                        Enter your Arduino Q board password to continue uploading the project.
+                    </p>
+                    <input type="password" id="arduino-q-password-input" class="form-control" autocomplete="current-password" data-i18n="[placeholder]modals.standard.arduino-q-password.placeholder" placeholder="Password" style="max-width: 320px; margin: auto;">
+                </div>`,
+            footer: `
+                <button type="button" id="arduino-q-password-confirm" class="btn vitta-button" style="flex:1;" data-i18n="modals.standard.arduino-q-password.buttons.confirm">
+                    Confirm
+                </button>
+                <button type="button" id="arduino-q-password-close" class="btn btn-secondary" style="flex:1; margin-left:5px;" data-i18n="modals.standard.arduino-q-password.buttons.close">
+                    Close
+                </button>`
+        }
 
         // Template not modify, not delete
         // '0': {

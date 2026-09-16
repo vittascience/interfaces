@@ -15,6 +15,8 @@ const REPLACE_CODE_REQUESTS = {
     "communication_hc05_sendBluetoothData": [/<\s*block type=\s*"communication_sendBluetoothData"\s*id="([^"]{20})"\s*>/g, "<block type=\"communication_hc05_sendBluetoothData\" id=\"$1\">"],
     "communication_hc05_onBluetoothDataReceived": [/<\s*block type=\s*"communication_onBluetoothDataReceived"\s*id="([^"]{20})"\s*>/g, "<block type=\"communication_hc05_onBluetoothDataReceived\" id=\"$1\">"],
     "vittaia_load_cloud_model": [/<\s*block type=\s*"vittaia_load_cloud_model"\s*id="([^"]{20})"><value name=\s*"MODEL_ID"\s*>/g, "<block type=\"vittaia_load_cloud_model\" id=\"$1\"><value name=\"MODEL_URL\">"],
+    "communication_hm10_sendBluetoothData": [/<\s*block type=\s*"communication_HM10_sendBluetoothData"\s*id="([^"]{20})"\s*>/g, "<block type=\"communication_hm10_sendBluetoothData\" id=\"$1\">"],
+    "communication_hm10_onBluetoothDataReceived": [/<\s*block type=\s*"communication_HM10_onBluetoothDataReceived"\s*id="([^"]{20})"\s*>/g, "<block type=\"communication_hm10_onBluetoothDataReceived\" id=\"$1\">"],
 };
 //modes
 const MODE_CODE = "code";
@@ -76,7 +78,9 @@ const LIBRARIES_PATH = {
     'lcd_i2c_8574': "/microbit",
     'bar_graph': "/microbit",
     'stepper': '/microbit',
-    "kitronik_servo_driver": "/microbit",
+    'kitronik_servo_driver': "/microbit",
+    'mfrc522': "/microbit",
+    'rekabit': "/microbit",
     'ir_receiver': "/infrared",
     'nec_remote': "/infrared",
     'onewire': "/micropython",

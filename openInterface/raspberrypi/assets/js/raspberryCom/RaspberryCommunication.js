@@ -67,6 +67,10 @@ const RaspberryCommunication = {
 	 * @returns {Promise} - Promise object represents the connection status
 	 **/
 	socketIOConnect(hostname) {
+		if ($("#simulator").is(":visible")) {
+			toggleSimulator();
+		}
+		InterfaceMonitor.setup();
 		return new Promise((resolve, reject) => {
 			if (this.connected) {
 				resolve(true);

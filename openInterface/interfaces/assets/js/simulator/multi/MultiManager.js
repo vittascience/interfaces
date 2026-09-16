@@ -66,7 +66,7 @@ export class MultiManager {
         await new Promise((resolve) => {
             const iframeId = projectManager.localStorageManager.uniqid('multi');
             this._setIframeStartingBlocksAndCode(iframeId);
-            this._iframe.src = `/${INTERFACE_NAME}/?renderer=${blockStyle}&localId=${iframeId}`;
+            this._iframe.src = `/${INTERFACE_NAME}/?renderer=${blockStyle}&localId=${iframeId}&embed=true`;
             this._iframe.addEventListener('load', () => {
                 resolve();
             });
@@ -252,8 +252,18 @@ export class MultiManager {
      */
     _setIframeStartingBlocksAndCode(localId) {
         const currentLS = projectManager.localStorageManager.getLocalProjectContent();
-        if (!currentLS.options) return;
-        const multiChildProject = currentLS.options.multiChildProject;
+        if (!currentLS || !currentLS.options) return;
+        let options = currentLS.options;
+        // options can be a JSON string when the project was first saved via LTI (_getCurrentProjectData stringifies it)
+        if (typeof options === 'string') {
+            try { 
+                options = JSON.parse(options); 
+            } catch (e) { 
+                console.warn('Could not parse project options JSON string, multi iframe will not be able to get the starting blocks and code');
+                return;
+            }
+        }
+        const multiChildProject = options.multiChildProject;
         if (!multiChildProject) return;
         projectManager.localStorageManager.setLocalProject(multiChildProject, localId);
     }

@@ -182,6 +182,8 @@ Blockly.Msg["IO_SETPWM_TITLE"] = "apply a square signal of %1 (Hz) frequency on 
 Blockly.Msg["IO_SETPWM_TOOLTIP"] = "Enable to apply a PWM square signal with 50% of duty cycle. You can change frequency of the signal.";
 Blockly.Msg["IO_STOPPWM_TITLE"] = "stop PWM signal of pin %1";
 Blockly.Msg["IO_STOPPWM_TOOLTIP"] = "Enable to stop applied PWM signal of a pin.";
+Blockly.Msg["IO_READPULSEIN_TITLE"] = "read pulse in (μs) of state %1 on pin %2";
+Blockly.Msg["IO_READPULSEIN_TOOLTIP"] = "Returns the duration of pulse in. Choice state (HIGH or LOW)";
 Blockly.Msg["IO_GETVOLTAGE_TITLE"] = "convert %1 in voltage with resolution %2";
 Blockly.Msg["IO_GETVOLTAGE_TOOLTIP"] = "Enable to convert analog value in voltage by resolution (10-bit: 1024, 12-bit: 4096, 9-bit: 512, 11-bit: 2048) and maximum of 3.6V.";
 
@@ -219,8 +221,8 @@ Blockly.Msg["COMMUNICATION_RADIO_ONNUMBERRECEIVED_TITLE"] = "[Radio] on data rec
 Blockly.Msg["COMMUNICATION_RADIO_ONNUMBERRECEIVED_TOOLTIP"] = "Allows you to execute instructions on number received by radio in the 'numberData' variable.";
 Blockly.Msg["COMMUNICATION_RADIO_ONVALUERECEIVED_TITLE"] = "[Radio] on data received in %1 %2 then";
 Blockly.Msg["COMMUNICATION_RADIO_ONVALUERECEIVED_TOOLTIP"] = "Allows you to execute instructions on name as string and value as number received by radio in the 'name' and 'value' variables.";
-Blockly.Msg["COMMUNICATION_RADIO_CONFIG_TITLE"] = "[Radio] set Channel %1 Power %2 Data size %3 Group %4";
-Blockly.Msg["COMMUNICATION_RADIO_CONFIG_TOOLTIP"] = "Allows you to configure the frequence channel (from 0 to 83), data size (bytes), transmission power (from 0 to 7), and group (from 0 to 255).";
+Blockly.Msg["COMMUNICATION_RADIO_CONFIG_TITLE"] = "[Radio] set channel %1";
+Blockly.Msg["COMMUNICATION_RADIO_CONFIG_TOOLTIP"] = "Allows you to configure the frequence channel (from 0 to 83).";
 // Communication - log
 Blockly.Msg['COMMUNICATION_LOG_DELETE_TITLE'] = '[Log] clear logs';
 Blockly.Msg['COMMUNICATION_LOG_DELETE_TOOLTIP'] = 'Allows clearing the logs from the Galaxia board.';
@@ -261,7 +263,7 @@ Blockly.Msg["COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP"] = IMG_MODULE_RFID_125K
 Blockly.Msg["COMMUNICATION_RFID_CONVERTDATA_TITLE"] = "[RFID - 125kHz] convert data %1 to %2";
 Blockly.Msg["COMMUNICATION_RFID_CONVERTDATA_TOOLTIP"] = IMG_MODULE_RFID_125KHZ + Blockly.Tooltip.SEP + "Allows you to convert data (bytes-typed) to int, hex or list of int.";
 Blockly.Msg['COMMUNICATION_SPI_HELPER'] = '\nBy default, the Thingz-Galaxia SPI 2 pins are on SCK: Pin(34) [P14], MISO: Pin(35) [P15], and MOSI: Pin(36) [P16].';
-Blockly.Msg['COMMUNICATION_MFRC522_GETSTRINGCARDID_TITLE'] = '[RFID RC522] SPI %1 Badge ID on NSS pin %2';
+Blockly.Msg['COMMUNICATION_MFRC522_GETSTRINGCARDID_TITLE'] = '[RFID RC522] Badge ID on NSS pin %1';
 Blockly.Msg['COMMUNICATION_MFRC522_GETSTRINGCARDID_TOOLTIP'] = IMG_MODULE_RFID_RC522 + Blockly.Tooltip.SEP + 'Allows retrieval of the UID identifier as a character string of the Joy-It RC522 SPI RFID module if it is detected on the digital pins.' + Blockly.Msg['COMMUNICATION_SPI_HELPER'];
 Blockly.Msg["COMMUNICATION_GPS_INFO_TYPE"] = "frame type";
 Blockly.Msg["COMMUNICATION_GPS_INFO_CLOCK"] = "clock (h, m, s)";
@@ -455,9 +457,19 @@ Blockly.Msg["SENSORS_GETGROVEBUTTON_TITLE"] = "[Button Module] button %1 on pin 
 Blockly.Msg["SENSORS_GETGROVEBUTTON_TOOLTIP"] = IMG_MODULE_BUTTON + Blockly.Tooltip.SEP + "Returns numeric value of grove button (0/1 or 0V/3.3V) on digital pins.";
 Blockly.Msg["SENSORS_GETGROVEBUTTON_VOLTAGE"] = "voltage";
 Blockly.Msg["SENSORS_GETGROVEBUTTON_STATE"] = "state";
+Blockly.Msg['SENSORS_MLX90621_READTEMPERATURE_TITLE'] = '[IR Temp. Sensor MLX90621] temperature (°C) type %1';
+Blockly.Msg['SENSORS_MLX90621_READTEMPERATURE_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Returns the temperature in degrees Celsius (°C) using the MLX90621 infrared sensor. Connect the sensor to an I2C port.';
+Blockly.Msg['SENSORS_MLX90621_INT_TYPE'] = 'integer';
+Blockly.Msg['SENSORS_MLX90621_FLOAT_TYPE'] = 'decimal';
+Blockly.Msg['SENSORS_MLX90621_GETTEMPDATA_TITLE'] = '[IR Temp. Sensor MLX90621] temperature (°C) %1';
+Blockly.Msg['SENSORS_MLX90621_TEMP_MIN'] = 'minimum';
+Blockly.Msg['SENSORS_MLX90621_TEMP_MAX'] = 'maximum';
+Blockly.Msg['SENSORS_MLX90621_TEMP_AVG'] = 'average';
+Blockly.Msg['SENSORS_MLX90621_GETTEMPDATA_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Returns the minimum, maximum, or average object temperature in degrees Celsius (°C) using the MLX90621 infrared sensor. Connect the sensor to an I2C port.';
 Blockly.Msg['SENSORS_GET_WATER_LEVEL_TITLE'] = '[Water Sensor] level (%)';
 Blockly.Msg['SENSORS_GET_WATER_LEVEL_TOOLTIP'] = IMG_MODULE_WATER_I2C + Blockly.Tooltip.SEP + 'Measures water level as a percentage (from 0 to 100%) on the I2C port.';
-// Actuators
+
+// Actuators - Motors
 Blockly.Msg["ACTUATORS_SERVO_SETANGLE_TITLE"] = "[Servomotor] set angle to %1 on pin %2";
 Blockly.Msg["ACTUATORS_SERVO_SETANGLE_TOOLTIP"] = IMG_MODULE_SERVO + Blockly.Tooltip.SEP + "Enable to control servo angle (from 0 to 180) on digital pins. Warning, Galaxia has to be powered by external batterie in order to provide enough energy to servomotor.";
 Blockly.Msg["ACTUATORS_CONTINUOUS_SERVO_SETSPEED_TITLE"] = "[Continuous Servomotor] set speed to %1 (%) direction %2 on pin %3";
@@ -468,7 +480,14 @@ Blockly.Msg["ACTUATORS_GROVERELAY_CONTROL_TITLE"] = "[Relay module] control rela
 Blockly.Msg["ACTUATORS_GROVERELAY_CONTROL_TOOLTIP"] = IMG_MODULE_RELAY + Blockly.Tooltip.SEP + "Enable to control state grove relay module (0 or 1) on digital pins.";
 Blockly.Msg["ACTUATORS_GROVEVIBRATIONMOTOR_CONTROL_TITLE"] = "[Vibration motor] control motor to state %1 on pin %2";
 Blockly.Msg["ACTUATORS_GROVEVIBRATIONMOTOR_CONTROL_TOOLTIP"] = IMG_MODULE_VIBRATION_MOTOR + Blockly.Tooltip.SEP + "Enable to control state of grove vibration motor (0 or 1) on digital pins.";
-// actuators - Kitronik
+// Actuators - MOSFET
+Blockly.Msg["ACTUATORS_MOSFET_SETSTATE_TITLE"] = "[MOSFET] control state to %1 on pin %2";
+Blockly.Msg["ACTUATORS_MOSFET_SETSTATE_TOOLTIP"] = IMG_MODULE_MOSFET + Blockly.Tooltip.SEP + "Allows you to control the state of the MOSFET transistor (0 or 1) on a PWM pin.";
+Blockly.Msg["ACTUATORS_MOSFET_SETPERCENTVALUE_TITLE"] = "[MOSFET] control power to %1 (%) on pin %2";
+Blockly.Msg["ACTUATORS_MOSFET_SETPERCENTVALUE_TOOLTIP"] = IMG_MODULE_MOSFET + Blockly.Tooltip.SEP + "Allows you to control the output power of the MOSFET transistor (from 0 to 100%) on a PWM pin.";
+Blockly.Msg["ACTUATORS_MOSFET_SETFREQUENCY_TITLE"] = "[MOSFET] control frequency to %1 (Hz) on pin %2";
+Blockly.Msg["ACTUATORS_MOSFET_SETFREQUENCY_TOOLTIP"] = IMG_MODULE_MOSFET + Blockly.Tooltip.SEP + "Allows you to control the cycle frequency (Hz) of the MOSFET transistor on a PWM pin.";
+// Actuators - Kitronik
 Blockly.Msg['ACTUATORS_KITRONIK_CONTROLMOTOR_TITLE'] = '[Kitronik Motors] control motor %1 direction %2 speed %3';
 Blockly.Msg['ACTUATORS_KITRONIK_CONTROLMOTOR_TOOLTIP'] = IMG_SHIELD_KITRONIK + Blockly.Tooltip.SEP + 'Allows you to control MOTOR1, MOTOR2, or both by changing the direction (↻: FORWARD, ↺: BACKWARD) or speed (from 0 to 100%) of the Kitronik motor shield for BBC micro:bit. The shield\'s power supply should be between 3V and 10V.';
 Blockly.Msg['ACTUATORS_KITRONIK_STOPMOTOR_TITLE'] = '[Kitronik Motors] stop motor %1';
@@ -501,6 +520,7 @@ Blockly.Msg["NOTE_A"] = "A";
 Blockly.Msg["NOTE_A_SHARP"] = "A#";
 Blockly.Msg["NOTE_B"] = "B";
 Blockly.Msg["MUSIC_SILENCE"] = "Silence";
+
 // IA - Sensor Data
 Blockly.Msg['VITTAIA_LOAD_LOCAL_MODEL_TITLE'] = '%1 load local model';
 Blockly.Msg['VITTAIA_LOAD_LOCAL_MODEL_TOOLTIP'] = 'Allows loading an AI model stored locally from the web browser.';

@@ -75,25 +75,10 @@ Blockly.Python.io_readAnalogPin = function (block) {
     return [pinName + ".read_u16()", Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python.io_writeAnalogPin = function (block) {
-    const pin = block.getFieldValue("PIN");
-    const value = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || "0";
-    const pinName = Blockly.Python.Generators.pwm(pin);
-    return pinName + ".write(int(" + value + "))" + NEWLINE;
-};
-
 Blockly.Python.io_setPwm = function (block) {
-    let period = Blockly.Python.valueToCode(block, "PERIOD", Blockly.Python.ORDER_NONE) || "0";
-    let pin = block.getFieldValue("PIN");
-    let unit = block.getFieldValue("UNIT");
-    switch (unit) {
-        case "MS":
-            if (period * 1000 < 256) period = 256;
-            return pin + ".set_analog_period(" + period + ")" + NEWLINE;
-        case "US":
-            if (period < 256) period = 256;
-            return pin + ".set_analog_period_microseconds(" + period + ")" + NEWLINE;
-    }
+    const frequency = Blockly.Python.valueToCode(block, "FREQUENCY", Blockly.Python.ORDER_NONE) || "0";
+    const pinName = Blockly.Python.Generators.pwm(block.getFieldValue("PIN"), 'Mosfet', 1000);
+    return pinName + ".freq(" + frequency + ")" + NEWLINE + pinName + ".duty_u16(32768)" + NEWLINE;
 };
 
 Blockly.Python.io_writePwm = function (block) {
@@ -103,11 +88,17 @@ Blockly.Python.io_writePwm = function (block) {
     return pinName + '.duty_u16(int(' + value + '))' + NEWLINE
 };
 
+Blockly.Python.io_stopPwm = function (block) {
+    const pin = block.getFieldValue("PIN");
+    const pinName = Blockly.Python.Generators.pwm(pin);
+    return "if " + pinName + " is not None: " + NEWLINE 
+        + "  " + pinName + ".deinit()" + NEWLINE;
+};
+
 Blockly.Python.io_readPulseIn = function (block) {
-    Blockly.Python.addImport('utime', IMPORT_UTIME);
-    Blockly.Python.addFunction('pulseIn', FUNCTIONS_PICO.DEF_IO_PULSE_IN);
-    var state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
-    return ["pulseIn(" + block.getFieldValue("PIN") + ", " + state + ")", Blockly.Python.ORDER_ATOMIC];
+    const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
+    const pinName = Blockly.Python.Generators.digital_read(block.getFieldValue("PIN"));
+    return ["time_pulse_us(" + pinName + ", " + state + ", 100000)", Blockly.Python.ORDER_ATOMIC];
 };
 
 // External modules

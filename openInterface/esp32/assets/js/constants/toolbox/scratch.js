@@ -515,6 +515,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'io_writePwm',
                 'io_setPwm',
                 'io_stopPwm',
+                'io_readPulseIn',
                 'io_writeAnalogPin',
                 'io_getVoltage'
             ]
@@ -582,6 +583,14 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'actuators_setMotorPower',
                 'actuators_setVibrationMotorState',
                 'actuators_setGroveRelayState'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_MOSFET}",
+            "blocks": [
+                'actuators_mosfet_setState',
+                'actuators_mosfet_setPercentValue',
+                'actuators_mosfet_setFrequency'
             ]
         },
         {

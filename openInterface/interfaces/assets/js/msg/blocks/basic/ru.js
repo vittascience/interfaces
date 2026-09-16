@@ -551,3 +551,4 @@ Blockly.Msg["TEXT_CAESAR_CIPHER_TOOLTIP"] = "Шифрует или расшиф�
 Blockly.Msg["TEXT_CAESAR_CIPHER_BRUTE_FORCE_TITLE"] = "Перебор сдвигов шифра Цезаря для %1, язык %2";
 Blockly.Msg["TEXT_CAESAR_CIPHER_BRUTE_FORCE_TOOLTIP"] = "Перебирает все возможные сдвиги, чтобы расшифровать сообщение, зашифрованное шифром Цезаря.";
 Blockly.Msg["BKY_MATH_RSA_GENERATE_KEYS_HELPURL"] = "https://ru.wikipedia.org/wiki/RSA";
+Blockly.Msg["MATH_RSA_DECIPHER_MESSAGE_HELPURL"] = "https://ru.wikipedia.org/wiki/Криптосистема_RSA"

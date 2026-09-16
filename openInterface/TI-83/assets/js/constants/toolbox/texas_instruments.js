@@ -171,16 +171,6 @@ const TOOLBOX_TI_SUBCATEGORIES = {
         },
         {
             "kind": "category",
-            "toolboxitemid": "ti_rover",
-            "name": "ti_rover",
-            "style": "ti_rover_category",
-            "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
-            },
-            "contents": []
-        },
-        {
-            "kind": "category",
             "toolboxitemid": "mb",
             "name": "micro:bit",
             "style": "mb_category",
@@ -443,7 +433,7 @@ const TOOLBOX_TI_CONTENT = {
                     ]
                 }
             ]
-        }, 
+        },
         {
             "subCategoryId": "ti_hub",
             "contents": [

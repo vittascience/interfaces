@@ -5,8 +5,6 @@ var $builtinmodule = function (name) {
 
 	buzzer.__name__ = new Sk.builtin.str('buzzer');
 
-    
-
 	buzzer.pith = new Sk.builtin.func(function (self, pin, frequency, duration) {
 		const module = Simulator.getModuleByKey('buzzer');
 		const stopMusic = function (self) {

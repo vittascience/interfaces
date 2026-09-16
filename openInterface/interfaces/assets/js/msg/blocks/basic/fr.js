@@ -542,6 +542,8 @@ Blockly.Msg["PROCEDURES_IFRETURN_TITLE"] = "si";
 Blockly.Msg["PROCEDURES_IFRETURN_HELPURL"] = "http://c2.com/cgi/wiki?GuardClause";
 Blockly.Msg["PROCEDURES_IFRETURN_TOOLTIP"] = "Si une valeur est vraie, alors renvoyer une seconde valeur.";
 Blockly.Msg["PROCEDURES_IFRETURN_WARNING"] = "Attention : Ce bloc pourrait n’être utilisé que dans une définition de fonction.";
+Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TITLE"] = "Fonction: %1";
+Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TOOLTIP"] = "Obtenir la référence de la fonction pour la passer en argument dans une autre fonction.";
 
 // Dict blocks
 Blockly.Msg["DICTIONARIES_CREATE_EMPTY_TITLE"] = "créer un dictionaire vide";

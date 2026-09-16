@@ -4,6 +4,8 @@
 
 Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 
+    /** Begin Motors blocks */
+
     // SERVOMOTEUR _ SET POSITION
     {
         "type": "actuators_setServoAngle",
@@ -20,10 +22,11 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "actuators_blocks",
         "tooltip": "%{BKY_ACTUATORS_SERVO_SETANGLE_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -50,10 +53,11 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "actuators_blocks",
         "tooltip": "%{BKY_ACTUATORS_CONTINUOUS_SERVO_SETSPEED_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -73,10 +77,11 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "actuators_blocks",
         "tooltip": "%{BKY_ACTUATORS_MOTOR_SETPOWER_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -96,10 +101,11 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "actuators_blocks",
         "tooltip": "%{BKY_ACTUATORS_GROVERELAY_CONTROL_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
         ]
     },
 
@@ -119,10 +125,86 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "style": "actuators_blocks",
         "tooltip": "%{BKY_ACTUATORS_GROVEVIBRATIONMOTOR_CONTROL_TOOLTIP}",
         "extensions": [
-            "block_init_helpurl"
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    /** Begin MOSFET blocks */
+
+    // GROVE MOSFET - ANALOG WRITE STATE
+    {
+        "type": "actuators_mosfet_setState",
+        "message0": "%{BKY_ACTUATORS_MOSFET_SETSTATE_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "STATE",
+            "check": "Boolean"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": Blockly.Constants.Pins.PWM[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_ACTUATORS_MOSFET_SETSTATE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // GROVE MOSFET - PWM WRITE VALUE
+    {
+        "type": "actuators_mosfet_setPercentValue",
+        "message0": "%{BKY_ACTUATORS_MOSFET_SETPERCENTVALUE_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "VALUE",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": Blockly.Constants.Pins.PWM[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_ACTUATORS_MOSFET_SETPERCENTVALUE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // GROVE MOSFET - PWM WRITE FREQUENCY
+    {
+        "type": "actuators_mosfet_setFrequency",
+        "message0": "%{BKY_ACTUATORS_MOSFET_SETFREQUENCY_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "FREQUENCY",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": Blockly.Constants.Pins.PWM[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_ACTUATORS_MOSFET_SETFREQUENCY_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "block_buttons_plus_minus",
+            "pins_management_global"
         ]
     },
 
@@ -150,7 +232,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_ACTUATORS_MUSIC_PLAYMUSIC_TOOLTIP}",
     },
@@ -248,7 +331,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_ACTUATORS_MUSIC_PLAY_FREQUENCY_TOOLTIP}",
     },
@@ -266,7 +350,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_ACTUATORS_MUSIC_STOP_TOOLTIP}",
     }

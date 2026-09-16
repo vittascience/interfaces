@@ -282,6 +282,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'io_writePwm',
                 'io_setPwm',
                 'io_stopPwm',
+                'io_readPulseIn',
                 'io_writeAnalogPin',
                 'io_getVoltage'
             ]
@@ -523,6 +524,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'sensors_DHT22ReadData',
                 'sensors_TH02readData',
                 'sensors_SHT31readData',
+                'sensors_SHT35readData',
                 'sensors_DS18B20_getTemperature',
                 'sensors_getGroveWaterAmount',
                 'sensors_getRainGauge',
@@ -533,7 +535,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             "label": "%{BKY_SUBCATEGORY_SENSORS_SOUNDLIGHT}",
             "blocks": [
                 'sensors_getGroveLight',
-                'sensors_getSi1145Light',
+                'sensors_getSunlightData',
                 'sensors_colorSensor_getData',
                 'sensors_getUVindex',
                 'sensors_getGroveSound'

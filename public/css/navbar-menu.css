@@ -298,6 +298,51 @@ html[dir=rtl] .vs-navbar .navbar-login-dropdown {
   overflow: auto;
 }
 
+.theme-dark #access-dropdown .btn-close {
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 4px;
+  opacity: 0.75;
+}
+
+.vs-navbar.pwa-lite-navbar .navbar-toggler,
+.vs-navbar.pwa-lite-navbar .navbar-login-dropdown {
+	display: none !important;
+}
+
+.vs-navbar.pwa-lite-navbar .navbar-brand {
+	margin-left: 0 !important;
+	margin-right: auto !important;
+}
+
+.vs-navbar.pwa-lite-navbar #navbarToggle {
+	display: flex !important;
+	flex-basis: auto;
+	flex-grow: 0;
+}
+
+.vs-navbar.pwa-lite-navbar #navbarToggleUl {
+	margin-left: auto;
+	gap: 0.25rem;
+}
+
+.vs-navbar.pwa-lite-navbar #navbarToggleUl > li:not(#navbar-a11y):not(#navbar-support):not(#navbar-lang) {
+	display: none !important;
+}
+
+.vs-navbar.pwa-lite-navbar #navbar-a11y,
+.vs-navbar.pwa-lite-navbar #navbar-support,
+.vs-navbar.pwa-lite-navbar #navbar-lang {
+	display: grid !important;
+}
+
+@media (max-width: 991px) {
+	.vs-navbar.pwa-lite-navbar #navbarToggleUl {
+		flex-direction: row;
+		align-items: center !important;
+	}
+}
+
 /* Classe responsive pour une position relative à partir de l'écran large (min-width: 992px) */
 @media (min-width: 992px) {
   #navbarToggle, #navbar-options, #navbar-a11y {

@@ -22,6 +22,7 @@ const IMPORT_UREQUESTS = "import urequests";
 const IMPORT_SOCKET = "import socket";
 const IMPORT_ESP32_MPU6050 = "from esp32_mpu6050 import MPU6050";
 const IMPORT_ESP32_MFRC522 = "from esp32_mfrc522 import MFRC522";
+const IMPORT_ESP32_MLX90621 = "from esp32_mlx90621 import MLX90621";
 //wifi custom libraries
 const IMPORT_VITTA_SERVER = "from vitta_server import SERVER";
 const IMPORT_VITTA_CLIENT = "from vitta_client import CLIENT";
@@ -55,6 +56,7 @@ const IMPORT_ESP32_SSD1306_I2C = "from esp32_ssd1306 import SSD1306, SSD1306_I2C
 const IMPORT_ESP32_TH02 = "from esp32_th02 import TH02";
 const IMPORT_ESP32_WATER_LEVEL = "import esp32_water_level";
 const IMPORT_HT16K33_MATRIX = "from ht16k33matrix import HT16K33Matrix";
+const IMPORT_ESP32_PCA9685 = "from esp32_pca9685 import PCA9685Driver";
 //grove modules libraries - Pins
 const IMPORT_ESP32_P9813 = "from esp32_chainableLED import P9813";
 const IMPORT_ESP32_TM1637 = "from esp32_tm1637 import TM1637";

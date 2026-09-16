@@ -857,6 +857,38 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 
     // LEDS
     {
+        "type": "robots_alvik_set_color",
+        "message0": "%{BKY_ROBOTS_ALVIK_SET_COLOR_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "LED",
+            "options": [
+                ["%{BKY_ROBOTS_ALVIK_LED_LEFT}", "led_left"],
+                ["%{BKY_ROBOTS_ALVIK_LED_RIGHT}", "led_right"]
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "COLOR",
+            "options": [
+                ["%{BKY_ROBOTS_ALVIK_COLOR_RED}", "red"],
+                ["%{BKY_ROBOTS_ALVIK_COLOR_GREEN}", "green"],
+                ["%{BKY_ROBOTS_ALVIK_COLOR_BLUE}", "blue"],
+                ["%{BKY_ROBOTS_ALVIK_COLOR_YELLOW}", "yellow"],
+                ["%{BKY_ROBOTS_ALVIK_COLOR_MAGENTA}", "magenta"],
+                ["%{BKY_ROBOTS_ALVIK_COLOR_CYAN}", "cyan"],
+                ["%{BKY_ROBOTS_ALVIK_COLOR_WHITE}", "white"],
+                ["%{BKY_ROBOTS_ALVIK_COLOR_OFF}", "off"]
+            ]
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_ALVIK_SET_COLOR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+    {
         "type": "robots_alvik_set_builtin_led",
         "message0": "%{BKY_ROBOTS_ALVIK_SET_BUILTIN_LED_TITLE}",
         "args0": [{

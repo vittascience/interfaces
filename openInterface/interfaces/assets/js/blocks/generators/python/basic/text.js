@@ -256,4 +256,4 @@ Blockly.Python.text_caesar_cipher_brute_force = function (block) {
   const text = Blockly.Python.valueToCode(block, "TEXT", Blockly.Python.ORDER_MEMBER) || "''";
   Blockly.Python.addFunction('caesar_cipher_brute_force', FUNCTIONS.DEF_TEXT_CAESAR_CIPHER_BRUTE_FORCE);
   return [`caesar_cipher_brute_force(${text})`, Blockly.Python.ORDER_MEMBER];
-}
+};

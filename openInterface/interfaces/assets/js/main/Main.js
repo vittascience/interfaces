@@ -205,6 +205,11 @@ const Main = (function () {
             Blockly.Events.enable();
         }
         CodeManager.getSharedInstance().setXml();
+        CodeManager.getSharedInstance().setGeneratedCode();
+        if (typeof projectManager !== 'undefined' && projectManager && projectManager._currentProject) {
+            // Keep in-memory project XML in sync with the converted Blockly workspace.
+            projectManager._currentProject.code = CodeManager.getSharedInstance().getXml();
+        }
         if ($("#toolboxRestriction").is(':checked')) {
             const workspaceBlocks = Blockly.getMainWorkspace().getAllBlocks().filter(block => !block.isShadow_);
             const restrictedBlockTypes = Code.toolbox.updateVariantBlocks(workspaceBlocks);
@@ -216,6 +221,11 @@ const Main = (function () {
     Code.initEditor = function () {
 
         Code.editor.container = ace.edit(document.getElementById("content_code"));
+
+        const codeManager = CodeManager.getSharedInstance();
+        if (INTERFACE_NAME == 'arduinoq' && typeof MultiCodeManager !== 'undefined' && codeManager instanceof MultiCodeManager) {
+            codeManager.initGeneratedCodeTabs(Code.editor.container);
+        }
 
         InterfaceAutocomplete.init(Code.editor.container, Code.getInterface());
 
@@ -292,32 +302,42 @@ const Main = (function () {
         }
         tryLocalize();
 
-        Code.editor.container.on("change", function () {
+        Code.editor.container.on("change", function (event) {
             if ((Main.hasCpp2Blocks() || Main.hasPython2Blocks()) && Code.isEditorLocked && Code.userConsentCodeToBlocks === null && Code.editor.container.isFocused()) {
                 Code.getUserConsentForTrad();
             }
-            if (CodeManager.getSharedInstance().isCodeSelected() == true || CodeManager.getSharedInstance().isCodeOnlySelected() || !Main.getIsXmlBasedInterface()) {
-                CodeManager.getSharedInstance().codeWasManuallyModified = true;
-                const code = Code.editor.container.getSession().getValue();
-                CodeManager.getSharedInstance().updateTextCode(code);
-                if (typeof projectManager !== 'undefined' && projectManager) {
-                    projectManager._refreshProjectStatus();
+            if (Code.editor.container.isFocused() && typeof projectManager !== 'undefined' && projectManager !== null && projectManager._isInitializing) {
+                projectManager._userTypedDuringInit = true;
+            }
+            let code = Code.editor.container.getSession().getValue();
+            if (INTERFACE_NAME == 'arduinoq') {
+                code = CodeManager.getSharedInstance().getMergeEditorTabsCode();
+            }
+            if (CodeManager.getSharedInstance().isCodeSelected() || CodeManager.getSharedInstance().isCodeOnlySelected() || !Main.getIsXmlBasedInterface()) {
+                const codeBlock = CodeManager.getSharedInstance().getGeneratedCode();
+                if (code) {
+                    if (codeBlock !== code) {
+                        CodeManager.getSharedInstance().codeWasManuallyModified = true;
+                    }
+                    CodeManager.getSharedInstance().updateTextCode(code);
+                    if (typeof projectManager !== 'undefined' && projectManager) {
+                        projectManager._refreshProjectStatus();
+                    }
                 }
             }
             if (INTERFACE_NAME === 'python' || Main.hasCpp2Blocks() || Main.hasPython2Blocks()) {
-                const code = Code.editor.container.getSession().getValue();
                 CodeManager.getSharedInstance().updateTextCode(code);
-                if (Main.getCodingMode() === 'mixed' && Code.editor.container.isFocused()) {
+                if (Main.getCodingMode() === MODE_MIXED && Code.editor.container.isFocused()) {
                     CodeManager.getSharedInstance().codeWasManuallyModified = true;
                     Code.editor.convertCodeToBlocks();
                 }
             }
-            if (Main.getCodingMode() !== 'code' && Main.hasDragAndDrop()) {
+            if (CodeManager.getSharedInstance().isCodeSelected() && Main.hasDragAndDrop()) {
                 dragAndDrop.updateDictionnaries();
             }
             if (typeof Simulator !== 'undefined') {
                 Simulator.lastUpdate = Date.now();
-                const userCode = CodeManager.getSharedInstance().getCode();
+                const userCode = Simulator.getProjectCode();
                 if (userCode !== Simulator._userCode && Simulator.isOpen && Simulator.isStopped) {
                     Simulator.replay();
                 }
@@ -351,7 +371,12 @@ const Main = (function () {
          * @param {string} code Code to be inserted
          */
         Code.editor.updateCode = function () {
-            Code.editor.container.session.setValue(CodeManager.getSharedInstance().getCode());
+            const codeManager = CodeManager.getSharedInstance();
+            if (typeof MultiCodeManager !== 'undefined' && codeManager instanceof MultiCodeManager) {
+                codeManager.updateEditorFile();
+                return;
+            }
+            Code.editor.container.getSession().setValue(codeManager.getCode());
         };
         /**
          * Change the current ide mode
@@ -366,16 +391,9 @@ const Main = (function () {
             const instance = CodeManager.getSharedInstance();
             instance.setCodeMode(mode);
             replaceParam("mode", mode);
-            if (mode != "code" && mode != "codeOnly") {
-                if (Code.getInterface() === 'python' || Main.hasCpp2Blocks() || Main.hasPython2Blocks()) {
-                    if (CodeManager.getSharedInstance().codeWasManuallyModified) {
-                        Code.editor.updateCode();
-                        Code.editor.convertCodeToBlocks();
-                    }
-                    return;
-                }
+            if (mode !== MODE_CODE && mode !== MODE_CODE_ONLY) {
                 const currentInterfaceLS = CodeManager.getSharedInstance().localStorageManager.getLocalProjectContent();
-                if (typeof projectManager !== 'undefined' && projectManager && projectManager.getCurrentProject().code != instance.getDefaultXmlStart() && currentInterfaceLS != null) {
+                if (currentInterfaceLS !== null && typeof currentInterfaceLS.code === 'string') {
                     instance.setXml(currentInterfaceLS.code);
                 } else {
                     if (Main.getIsXmlBasedInterface()) {
@@ -480,7 +498,7 @@ const Main = (function () {
                     if (Code.getInterface() === 'pico' || Code.getInterface() === 'winky') {
                         if (event.type === Blockly.Events.BLOCK_CREATE) {
                             const block = Code.workspace.getBlockById(event.blockId);
-                            if (typeof block !== 'undefined') {
+                            if (block) {
                                 if (block.type === 'process_on_start_core1') {
                                     if (typeof Blockly.Python.core1BlockUsed !== 'undefined' && Blockly.Python.core1BlockUsed !== event.blockId) {
                                         Code.displayBlockNotification(block);
@@ -573,6 +591,9 @@ const Main = (function () {
     };
 
     Code.manageBlocksDisabling = function () {
+        // Auto-enabling/disabling blocks is derived state. Keep it out of undo/redo history.
+        Blockly.Events.disable();
+        try {
         const currentBlocks = Code.workspace.getAllBlocks();
         let innerBlocksToExclude = [];
         let innerBlocksToKeep = [];
@@ -586,6 +607,9 @@ const Main = (function () {
             draggedByGroup = null;
         }
         for (let i = 1; i < currentBlocks.length; i++) {
+            // Recompute state from scratch to avoid blocks staying disabled after undo/redo.
+            currentBlocks[i].setEnabled(true);
+
             if (Code.isParentTopBlock(currentBlocks[i])) {
                 if (Code.toolbox.notAllowedToRenderBlocks.includes(currentBlocks[i].type)) {
                     currentBlocks[i].setEnabled(false);
@@ -623,6 +647,9 @@ const Main = (function () {
                 }
             }
         }
+        } finally {
+            Blockly.Events.enable();
+        }
     }
     /**
      * Need to find a better way to handle this
@@ -653,9 +680,14 @@ const Main = (function () {
                 console.error(e)
             }
         } else {
-            return Code.editor.container.getSession().setValue(CodeManager.getSharedInstance().getTextCode());
+            const codeManager = CodeManager.getSharedInstance();
+            if (typeof MultiCodeManager !== 'undefined' && codeManager instanceof MultiCodeManager) {
+                return codeManager.updateEditorFile();
+            }
+            return Code.editor.container.getSession().setValue(codeManager.getTextCode());
         }
         if (!Code.editor.container.isFocused()) {
+            CodeManager.getSharedInstance().codeWasManuallyModified = false;
             Code.editor.updateCode();
         }
         if (typeof projectManager !== 'undefined' && projectManager) {
@@ -835,6 +867,16 @@ const Main = (function () {
             }
             Blockly.blockRendering.ConstantProvider.prototype.FIELD_COLOUR_FULL_BLOCK = false;
 
+            // Origamia : toolbox en bande horizontale en haut (sinon disposition verticale par défaut).
+            // On lit la classe posée au parse (fiable même après réécriture d'URL) plutôt que $_GET.
+            const isOrigamiaProvider = document.documentElement.classList.contains('provider-origamia');
+
+            // Origamia : toolbox PLATE (flyout, sans catégories). La populer en blocs
+            // de l'exercice est géré par origamia.js (patch de ToolboxManager.setToolbox).
+            if (isOrigamiaProvider) {
+                toolbox_ = { "kind": "flyoutToolbox", "id": "toolbox", "contents": [] };
+            }
+
             Code.workspace = Blockly.inject('content_blocks', {
                 grid: {
                     spacing: 25,
@@ -846,10 +888,12 @@ const Main = (function () {
                 rtl: isRtl,
                 renderer: renderer,
                 toolbox: toolbox_,
-                trashcan: true,
+                horizontalLayout: isOrigamiaProvider,
+                toolboxPosition: 'start',
+                trashcan: true,     /* origamia : poubelle masquée en CSS (la désactiver casse le rendu des contrôles) */
                 zoom: {
                     controls: true,
-                    screenshot: true,
+                    screenshot: !isOrigamiaProvider,   /* origamia : pas de bouton photo */
                     startScale: zoomStyle
                 },
                 move: {
@@ -874,6 +918,8 @@ const Main = (function () {
                 }
             } catch (e) { }
 
+            setBlocklyControlsA11y();
+
             // init workspace
             document.getElementById('content_blocks').style.visibility = 'visible';
             Code.workspace.setVisible(true);
@@ -883,6 +929,7 @@ const Main = (function () {
                 case "arduino":
                 case "letsstartcoding":
                 case "mBot":
+                case "arduinoq":
                     var codeLang = Blockly.Arduino;
                     break;
                 case 'web':
@@ -898,17 +945,24 @@ const Main = (function () {
                     $('#content_code').addClass('ace-ti');
                     break;
                 case "arduino":
+                case "arduinoq":
                 case "letsstartcoding":
                 case "mBot":
                     $('#content_code').addClass('ace-ar');
                     break;
             }
 
-            if (interfaceName !== "bluebot") {
-                CodeManager.getSharedInstance("mixed", Code.workspace, codeLang);
-            } else {
-                CodeManager.getSharedInstance("blocks", Code.workspace, codeLang);
+            let codeManagerClass = CodeManager;
+            let codeMode = "mixed";
+            if (interfaceName === "arduinoq") {
+                codeManagerClass = MultiCodeManager;
+            } else if (interfaceName === "bluebot") {
+                codeMode = "blocks";
             }
+            if (interfaceName === "arduinoq" && CodeManager.instance && !(CodeManager.instance instanceof MultiCodeManager)) {
+                CodeManager.instance = null;
+            }
+            codeManagerClass.getSharedInstance(codeMode, Code.workspace, codeLang);
 
             if (Main.getIsXmlBasedInterface()) {
                 CodeManager.getSharedInstance().loadBlocks();
@@ -994,35 +1048,79 @@ const Main = (function () {
          * @param {boolean} action The action, false for undo and true for redo.
          */
         undo: function (action) {
+            const workspace = Code.workspace;
+            if (!workspace) {
+                return;
+            }
+
+            if (action === false && Main.getInterface() !== 'python') {
+                const blocks = workspace.getAllBlocks().filter((block) => !block.isShadow());
+                if (blocks.length === 1 && (blocks[0].type === 'on_start' || blocks[0].type === 'scratch_on_start')) {
+                    return;
+                }
+            }
+
+            const workspaceToText = () => Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));
+
+            const beforeUndo = workspaceToText();
+            workspace.undo(action);
+            const afterUndo = workspaceToText();
+
+            if (action === false && afterUndo === '<xml xmlns="https://developers.google.com/blockly/xml"></xml>') {
+                workspace.undo(true);
+                return;
+            }
+            // Native Blockly history should handle most cases (block mode/mixed mode).
+            if (beforeUndo !== afterUndo) {
+                return;
+            }
+
+            // Fallback for interfaces that keep an additional history while translating code to blocks.
             if (Main.hasPython2Blocks() || Main.hasCpp2Blocks()) {
                 const codeToBlocks = Main.hasPython2Blocks() ? Python2Blocks : Cpp2Blocks;
                 if (typeof codeToBlocks !== "undefined" && codeToBlocks.initialized === true) {
                     const maxIndex = codeToBlocks.previousXml.length;
+                    if (maxIndex === 0) {
+                        return;
+                    }
 
                     if (action === false) { // Undo
                         const newIndex = codeToBlocks.indexPreviousXml === null
-                            ? maxIndex - 1
+                            ? maxIndex - 2
                             : Math.max(codeToBlocks.indexPreviousXml - 1, 0);
 
-                        if (codeToBlocks.previousXml[newIndex]) {
-                            Code.workspace.clear();
-                            Blockly.Xml.domToWorkspace(codeToBlocks.previousXml[newIndex], Code.workspace);
+                        if (newIndex < 0 || !codeToBlocks.previousXml[newIndex]) {
+                            return;
+                        }
+
+                        Blockly.Events.disable();
+                        try {
+                            workspace.clear();
+                            Blockly.Xml.domToWorkspace(codeToBlocks.previousXml[newIndex], workspace);
                             codeToBlocks.indexPreviousXml = newIndex;
+                        } finally {
+                            Blockly.Events.enable();
                         }
                     } else { // Redo
-                        const newIndex = codeToBlocks.indexPreviousXml === null
-                            ? 0
-                            : Math.min(codeToBlocks.indexPreviousXml + 1, maxIndex);
+                        if (codeToBlocks.indexPreviousXml === null) {
+                            return;
+                        }
 
-                        if (codeToBlocks.previousXml[newIndex]) {
-                            Code.workspace.clear();
-                            Blockly.Xml.domToWorkspace(codeToBlocks.previousXml[newIndex], Code.workspace);
+                        const newIndex = Math.min(codeToBlocks.indexPreviousXml + 1, maxIndex - 1);
+                        if (newIndex === codeToBlocks.indexPreviousXml || !codeToBlocks.previousXml[newIndex]) {
+                            return;
+                        }
+
+                        Blockly.Events.disable();
+                        try {
+                            workspace.clear();
+                            Blockly.Xml.domToWorkspace(codeToBlocks.previousXml[newIndex], workspace);
                             codeToBlocks.indexPreviousXml = newIndex;
+                        } finally {
+                            Blockly.Events.enable();
                         }
                     }
                 }
-            } else {
-                Code.workspace.undo(action);
             }
         },
         /**
@@ -1181,7 +1279,7 @@ const Main = (function () {
          * @returns {boolean}
          */
         hasSimulator: function () {
-            return /(arduino|microbit|wb55|l476|esp32|TI-83|raspberrypi|niryo|nao|galaxia|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|pico|eliobot|thymio|winky|sphero|lotibot|bluebot|spike|photon|codey|steami|alphai)/.test(Code.getInterface());
+            return /(arduinoq|arduino|microbit|wb55|l476|esp32|TI-83|raspberrypi|niryo|nao|galaxia|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|pico|eliobot|thymio|winky|sphero|lotibot|bluebot|spike|photon|codey|steami|alphai)/.test(Code.getInterface());
         },
         /**
          * Returns true if interface has an auto-corrector.
@@ -1197,7 +1295,7 @@ const Main = (function () {
          * @returns {boolean}
          */
         hasToolboxModes: function () {
-            return /(arduino|microbit|esp32|wb55|l476|TI-83|galaxia|raspberrypi|buddy|niryo|nao|GalaxiaCircuitPython|mBot|m5stack|cyberpi|eliobot|thymio|pico|winky|sphero|lotibot|bluebot|spike|photon|codey|steami|alphai)/.test(Code.getInterface());
+            return ["arduino", "microbit", "esp32", "wb55", "l476", "TI-83", "galaxia", "raspberrypi", "buddy", "niryo", "nao", "GalaxiaCircuitPython", "mBot", "m5stack", "cyberpi", "eliobot", "thymio", "pico", "winky", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai"].includes(Code.getInterface());
         },
         /**
          * Returns true if interface has the drag and drop feature.
@@ -1213,7 +1311,7 @@ const Main = (function () {
          * @returns {boolean}
          */
         hasBoardSelector: function () {
-            return /(esp32|pico|arduino|raspberrypi)/.test(Code.getInterface());
+            return ['esp32', 'pico', 'arduino', 'raspberrypi'].includes(Code.getInterface());
         },
         /**
          * Returns true if interface has trad <> to bloc management (this one is only for python Interface => ro rework).
@@ -1237,7 +1335,7 @@ const Main = (function () {
          * @returns {boolean}
          * */
         hasCpp2Blocks: function () {
-            return /(arduino|mBot)/.test(Code.getInterface());
+            return ['arduino', 'mBot'].includes(Code.getInterface());
         },
         /**
          * Returns true if untranslated blocks are present in the workspace.
@@ -1324,6 +1422,7 @@ const Main = (function () {
          * @param {Array<string>} data [OPTIONAL] Restrict toolbox with only blocks from workspace if null else use data
          */
         restrictToolbox(data = null) {
+            const toolboxRestrictionSwitchId = (typeof IS_CAPYTALE_CONTEXT !== 'undefined') ? '#toolbox-restriction-capytale' : '#toolboxRestriction';
             if (data) {
                 if (data.blocks && Array.isArray(data.blocks)) {
                     Code.toolbox.restrictTo(data.blocks);
@@ -1331,15 +1430,15 @@ const Main = (function () {
                 if (data.variables && Array.isArray(data.variables)) {
                     Code.toolbox.setWorkspaceVariables(data.variables);
                 }
-                $("input[name='toolboxRestrictionName']#toolboxRestriction").attr("checked", "checked");
+                $(`input[name='toolboxRestrictionName']${toolboxRestrictionSwitchId}`).attr("checked", "checked");
             } else {
-                if ($("#toolboxRestriction").is(':checked')) {
+                if ($(toolboxRestrictionSwitchId).is(':checked')) {
                     const workspaceBlocks = this.getWorkSpace().getAllBlocks().filter(block => !block.isShadow_);
                     const restrictedBlockTypes = Code.toolbox.updateVariantBlocks(workspaceBlocks);
                     Code.toolbox.restrictTo(restrictedBlockTypes);
                 } else {
                     Code.toolbox.resetRestriction();
-                    $("input[name='toolboxRestrictionName']#toolboxRestriction").removeAttr("checked");
+                    $(`input[name='toolboxRestrictionName']${toolboxRestrictionSwitchId}`).removeAttr("checked");
                 }
             }
             if (typeof projectManager !== 'undefined' && projectManager) {
@@ -1381,6 +1480,12 @@ const Main = (function () {
             // success copy notification
             const successNotif = new VittaNotif()
             successNotif.displayNotification('#copy-editor-action-notif', 'Code copié avec succès', 'bg-success');
+        },
+        /**
+         * Convert text code to blocks code.
+         */
+        convertCodeToBlocks() {
+            return Code.editor.convertCodeToBlocks();
         },
         resetInvalidBlocksWarning() {
             Code.invalidBlocksMsgSeen = false;

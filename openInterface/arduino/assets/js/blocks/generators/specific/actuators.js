@@ -139,6 +139,53 @@ Blockly.Arduino.actuators_MC33926MotorShield_getCurrent = function (block) {
     }
 };
 
+// TB6612FNG MOTOR DRIVER _ DCMOTORRUN JSON
+Blockly.Arduino.actuators_TB6612FNGMotorDriver_DCMotorRun = function (block) {
+    const channel = block.getFieldValue("CHANNEL");
+    const speed = Blockly.Arduino.valueToCode(block, "SPEED", Blockly.Arduino.ORDER_ATOMIC);
+    const dir = block.getFieldValue("DIRECTION");
+    Blockly.Arduino.addInclude('include_tb6612fng_motor', INCLUDE_TB6612FNG_MOTOR_DRIVER);
+    Blockly.Arduino.addInclude('wire', INCLUDE_WIRE);
+    Blockly.Arduino.addDeclaration('tb6612fng', "MotorDriver motor;");
+    Blockly.Arduino.addSetup('setup_wire', "Wire.begin();");
+    Blockly.Arduino.addSetup('tb6612fng', "motor.init();");
+    return "motor.dcMotorRun(MOTOR_CH" + channel + ", " + dir + "*" + speed + ");" + NEWLINE;
+};
+
+// TB6612FNG MOTOR DRIVER _ DCMOTORBRAKE JSON
+Blockly.Arduino.actuators_TB6612FNGMotorDriver_DCMotorBrake = function (block) {
+    const channel = block.getFieldValue("CHANNEL");
+    Blockly.Arduino.addInclude('include_tb6612fng_motor', INCLUDE_TB6612FNG_MOTOR_DRIVER);
+    Blockly.Arduino.addInclude('wire', INCLUDE_WIRE);
+    Blockly.Arduino.addDeclaration('tb6612fng', "MotorDriver motor;");
+    Blockly.Arduino.addSetup('setup_wire', "Wire.begin();");
+    Blockly.Arduino.addSetup('tb6612fng', "motor.init();");
+    return "motor.dcMotorBrake(MOTOR_CH" + channel + ");" + NEWLINE;
+};
+
+// TB6612FNG MOTOR DRIVER _ STEPPERRUN JSON
+Blockly.Arduino.actuators_TB6612FNGMotorDriver_StepperRun = function (block) {
+    const steps = Blockly.Arduino.valueToCode(block, "STEPS", Blockly.Arduino.ORDER_ATOMIC);
+    const mode = block.getFieldValue("MODE");
+    const rpm = Blockly.Arduino.valueToCode(block, "RPM", Blockly.Arduino.ORDER_ATOMIC);
+    Blockly.Arduino.addInclude('include_tb6612fng_motor', INCLUDE_TB6612FNG_MOTOR_DRIVER);
+    Blockly.Arduino.addInclude('wire', INCLUDE_WIRE);
+    Blockly.Arduino.addDeclaration('tb6612fng', "MotorDriver motor;");
+    Blockly.Arduino.addSetup('setup_wire', "Wire.begin();");
+    Blockly.Arduino.addSetup('tb6612fng', "motor.init();");
+    return "motor.stepperRun(" + mode + ", " + steps + ", " + rpm + ");" + NEWLINE;
+};
+
+// TB6612FNG MOTOR DRIVER _ STEPPERSTOP JSON
+Blockly.Arduino.actuators_TB6612FNGMotorDriver_StepperStop = function (block) {
+    Blockly.Arduino.addInclude('include_tb6612fng_motor', INCLUDE_TB6612FNG_MOTOR_DRIVER);
+    Blockly.Arduino.addInclude('wire', INCLUDE_WIRE);
+    Blockly.Arduino.addDeclaration('tb6612fng', "MotorDriver motor;");
+    Blockly.Arduino.addSetup('setup_wire', "Wire.begin();");
+    Blockly.Arduino.addSetup('tb6612fng', "motor.init();");
+    return "motor.stepperStop();" + NEWLINE;
+};
+
 // GROVE VIBRATION MOTOR _ CONTROL STATE BLOCK
 Blockly.Arduino.actuators_setVibrationMotorState = function (block) {
     const pin = block.getFieldValue("PIN");

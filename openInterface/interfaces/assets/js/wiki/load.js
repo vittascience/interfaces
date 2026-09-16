@@ -32,8 +32,10 @@ function loadInterface(interfaceName) {
                 }
             ];
 
-            const toolboxes_src = (['python', 'TI-83'].includes(interfaceName) ? `openInterface/${interfaceName}/assets/js/constants/toolbox/toolboxes.js` : '/openInterface/interfaces/assets/js/constants/toolbox/toolboxes.js');
-            const interface_type = (['arduino', 'mBot', 'letsstartcoding'].includes(interfaceName) ? interfaceName : 'interfaces');
+            const toolboxes_src = (['python', 'TI-83', 'arduinoq'].includes(interfaceName) ? `openInterface/${interfaceName}/assets/js/constants/toolbox/toolboxes.js` : '/openInterface/interfaces/assets/js/constants/toolbox/toolboxes.js');
+            const interface_type = (['arduino', 'mBot', 'letsstartcoding', 'arduinoq'].includes(interfaceName)
+                ? (interfaceName === 'arduinoq' ? 'arduino' : interfaceName)
+                : 'interfaces');
 
             let COMMON_CONSTANTS_SCRIPTS = [
                 {
@@ -86,21 +88,23 @@ function loadInterface(interfaceName) {
                 }
             ];
 
+            if (['python', 'arduinoq'].includes(interfaceName)) {
+                COMMON_CONSTANTS_SCRIPTS = COMMON_CONSTANTS_SCRIPTS.filter(script => script.id !== 'scratch');
+            }
+            console.log("interface_type: " + interface_type)
+
             if (interface_type === 'interfaces') {
-                if (interfaceName === 'python') {
-                    COMMON_CONSTANTS_SCRIPTS = COMMON_CONSTANTS_SCRIPTS.filter(script => script.id !== 'scratch');
-                } else {
+                COMMON_CONSTANTS_SCRIPTS.push({
+                    id: interfaceName + '-functions',
+                    src: `/openInterface/${interfaceName}/assets/js/constants/generators/functions.js`
+                });
+                if (interfaceName == 'steami') {
                     COMMON_CONSTANTS_SCRIPTS.push({
-                        id: interfaceName + '-functions',
-                        src: `/openInterface/${interfaceName}/assets/js/constants/generators/functions.js`
+                        id: 'wb55-functions',
+                        src: `/openInterface/wb55/assets/js/constants/generators/functions.js`
                     });
-                    if (interfaceName == 'steami') {
-                        COMMON_CONSTANTS_SCRIPTS.push({
-                            id: 'wb55-functions',
-                            src: `/openInterface/wb55/assets/js/constants/generators/functions.js`
-                        });
-                    }
                 }
+
                 COMMON_CONSTANTS_SCRIPTS.push({
                     id: interfaceName + '-imports',
                     src: `/openInterface/${interfaceName}/assets/js/constants/generators/imports.js`
@@ -164,6 +168,16 @@ function loadInterface(interfaceName) {
                         src: `/openInterface/wb55/assets/js/blocks/msg/blocks/js/${_language}.js`
                     });
                 }
+                if (interfaceName == 'arduinoq') {
+                    scripts.push({
+                        id: "arduino_block_msg",
+                        src: `/openInterface/arduino/assets/js/blocks/msg/blocks/js/${_language}.js`
+                    });
+                    scripts.push({
+                        id: "python_block_msg",
+                        src: `/openInterface/python/assets/js/blocks/msg/blocks/js/${_language}.js`
+                    });
+                }
                 scripts.push({
                     id: interfaceName + "_block_msg",
                     src: `${SPECIFIC_MSG_PATH}/blocks/js/${_language}.js`
@@ -177,21 +191,20 @@ function loadInterface(interfaceName) {
             // Common block definitions
 
             let blockCategories = ['logic', 'loops', 'math', 'variables', 'procedures',]
-            if (interface_type !== 'letsstartcoding') {
+            if (interfaceName !== 'letsstartcoding') {
                 blockCategories = blockCategories.concat(['colour', 'text', 'lists']);
             }
-            if (interface_type === 'interfaces') {
+            if (!['arduino', 'mBot', 'letsstartcoding', 'arduinoq'].includes(interfaceName)) {
                 blockCategories.push('exceptions');
             }
-            if (['python', 'microbit'].includes(interfaceName)) {
+            if (['python', 'microbit', 'arduinoq'].includes(interfaceName)) {
                 blockCategories.push('dictionaries');
             }
             const COMMON_INTERFACES_BLOCKS_PATH = '/openInterface/interfaces/assets/js/blocks/';
-            const COMMON_BLOCKS_DEFINITIONS_PATH = `/openInterface/${interface_type}/assets/js/blocks/definitions/`;
             const COMMON_BLOCKS_DEFINITIONS_SCRIPTS = blockCategories.map(cat => {
                 return {
                     id: 'blocks-' + cat,
-                    src: COMMON_BLOCKS_DEFINITIONS_PATH + 'basic/' + cat + '.js'
+                    src: COMMON_INTERFACES_BLOCKS_PATH + 'definitions/basic/' + cat + '.js'
                 }
             });
             COMMON_BLOCKS_DEFINITIONS_SCRIPTS.unshift({
@@ -202,7 +215,7 @@ function loadInterface(interfaceName) {
             // Python generators
 
             let pythonCategories = ['colour', 'logic', 'loops', 'math', 'text', 'variables', 'lists', 'procedures', 'exceptions'];
-            if (['python', 'microbit'].includes(interfaceName)) {
+            if (['python', 'microbit', 'arduinoq'].includes(interfaceName)) {
                 pythonCategories.push('dictionaries');
             }
             const COMMON_PYTHON_GENERATORS_PATH = COMMON_INTERFACES_BLOCKS_PATH + 'generators/python/';
@@ -216,12 +229,13 @@ function loadInterface(interfaceName) {
                 id: 'python-init',
                 src: COMMON_PYTHON_GENERATORS_PATH + 'init.js'
             });
+            console.log(COMMON_PYTHON_BLOCKS_GENERATORS)
 
             // Arduino generators
 
-            let arduinoCategories = ['logic', 'loops', 'math', 'variables', 'procedures'];
+            let arduinoCategories = ['variables', 'procedures'];
             if (interface_type !== 'letsstartcoding') {
-                arduinoCategories = arduinoCategories.concat(['colour', 'text', 'lists']);
+                arduinoCategories = arduinoCategories.concat(['logic', 'loops', 'math', 'colour', 'text', 'lists']);
             }
             const pathCommonArduinoGenerators = `/openInterface/${interface_type}/assets/js/blocks/generators/`;
             const COMMON_ARDUINO_BLOCKS_GENERATORS = arduinoCategories.map(cat => {
@@ -238,6 +252,7 @@ function loadInterface(interfaceName) {
                 id: 'arduino-init',
                 src: COMMON_INTERFACES_BLOCKS_PATH + 'generators/arduino/init.js'
             });
+            console.log(COMMON_ARDUINO_BLOCKS_GENERATORS)
 
             const COMMON_SCRIPTS = [
                 {
@@ -253,8 +268,19 @@ function loadInterface(interfaceName) {
                 {
                     id: 'themes',
                     src: '/openInterface/interfaces/assets/js/themes/themes.js'
-                }
+                },
+                {
+                    id: "code_manager",
+                    src: "/openInterface/interfaces/assets/js/main/CodeManager.js"
+                },
             ];
+
+            if (interfaceName == 'arduinoq') {
+                COMMON_SCRIPTS.push(                {
+                    id: "multi_code_manager",
+                    src: "/openInterface/arduinoq/assets/js/main/MultiCodeManager.js"
+                });
+            }
 
             const SPECIFIC_BLOCKS_PATH = (_interface = interfaceName) => `/openInterface/${_interface}/assets/js/blocks/definitions/specific/`;
             const SPECIFIC_BLOCKS_DEFINITIONS_SCRIPTS = [];
@@ -311,81 +337,95 @@ function loadInterface(interfaceName) {
             if (!['niryo', 'web'].includes(interfaceName)) {
                 SPECIFIC_BLOCKS_DEFINITIONS_SCRIPTS.push({
                     id: 'blockly_constants.js',
-                    src: `/openInterface/${interfaceName}/assets/js/blocks/definitions/blockly_constants.js`
+                    src: `/openInterface/${interfaceName == 'arduinoq' ? 'arduino' : interfaceName}/assets/js/blocks/definitions/blockly_constants.js`
                 });
             }
 
             // generator.js
             // Note: Add interface name if it IS required.
             if (['arduino', 'letsstartcoding', 'esp32', 'pico', 'm5stack', 'galaxia', 'GalaxiaCircuitPython', 'wb55', 'l476', 'mBot', 'cyberpi',
-                'raspberrypi', 'TI-83', 'eliobot', 'codey', 'steami'].includes(interfaceName)) {
+                'raspberrypi', 'TI-83', 'eliobot', 'codey', 'steami', 'arduinoq'].includes(interfaceName)) {
                 SPECIFIC_BLOCKS_GENERATORS_SCRIPTS.push({
                     id: 'generator.js',
-                    src: `/openInterface/${interfaceName == 'steami' ? 'wb55' : interfaceName}/assets/js/blocks/generators/generator.js`
+                    src: `/openInterface/${interfaceName == 'steami' ? 'wb55'
+                        : (interfaceName == 'arduinoq' ? 'arduino'
+                            : interfaceName)
+                        }/assets/js/blocks/generators/generator.js`
                 });
             }
 
-            // start.js
-            if (!['python'].includes(interfaceName)) {
-                if (['arduino', 'mBot', 'letsstartcoding'].includes(interfaceName)) {
-                    addBlockAndGeneratorScripts(['start.js']);
-                } else {
-                    if (interfaceName == 'steami') {
+            if (interfaceName !== 'letsstartcoding') {
+
+                // start.js
+                if (!['python'].includes(interfaceName)) {
+                    if (['arduino', 'mBot', 'letsstartcoding'].includes(interfaceName)) {
+                        addBlockAndGeneratorScripts(['start.js']);
+                    } else if (interfaceName == 'steami') {
                         addBlockAndGeneratorScripts(['start.js'], true, false, 'wb55');
+                    } else if (interfaceName == 'arduinoq') {
+                        addBlockAndGeneratorScripts(['start-cpp.js'], false, false);
+                        addBlockAndGeneratorScripts(['start-py.js'], false, false);
+                        addBlockAndGeneratorScripts(['bricks.js'], false, false);
                     } else {
                         addBlockAndGeneratorScripts(['start.js'], true, false);
+
                     }
                 }
-            }
 
-            // common block scripts
+                // common block scripts
 
-            // display.js | input_output.js | communication.js | actuators.js | sensors.js
-            // Note: Add interface name on each file if it IS required.
-            const interfacesForScripts = {
-                'display.js': ['esp32', 'microbit', 'galaxia', 'raspberrypi'],
-                'input_output.js': ['esp32', 'microbit', 'galaxia', 'raspberrypi'],
-                'communication.js': ['esp32', 'microbit', 'galaxia'],
-                'actuators.js': ['esp32', 'microbit', 'galaxia', 'raspberrypi'],
-                'sensors.js': ['esp32', 'microbit', 'galaxia', 'raspberrypi']
-            };
+                // display.js | input_output.js | communication.js | actuators.js | sensors.js
+                // Note: Add interface name on each file if it IS required.
+                const interfacesForScripts = {
+                    'display.js': ['esp32', 'microbit', 'galaxia', 'm5stack', 'raspberrypi'],
+                    'input_output.js': ['esp32', 'microbit', 'galaxia', 'm5stack', 'raspberrypi'],
+                    'communication.js': ['esp32', 'microbit', 'galaxia', 'm5stack'],
+                    'actuators.js': ['esp32', 'microbit', 'galaxia', 'm5stack', 'raspberrypi'],
+                    'sensors.js': ['esp32', 'microbit', 'galaxia', 'm5stack', 'raspberrypi']
+                };
 
-            for (const file in interfacesForScripts) {
-                if (interfacesForScripts[file].includes(interfaceName)) {
-                    addBlockScripts([file]);
+                for (const file in interfacesForScripts) {
+                    if (interfacesForScripts[file].includes(interfaceName)) {
+                        addBlockScripts([file]);
+                    }
                 }
-            }
 
-            // specific block scripts
+                // specific block scripts
 
-            // display.js | input_output.js | communication.js | actuators.js | sensors.js
-            // Note: Add interface name on each file if it IS NOT required.
-            const excludedInterfacesForScripts = {
-                'display.js': ['TI-83', 'letsstartcoding', 'bluebot'],
-                'input_output.js': ['python', 'TI-83', 'niryo', 'nao'],
-                'communication.js': ['python', 'TI-83', 'letsstartcoding', 'niryo', 'buddy', 'steami', 'bluebot'],
-                'actuators.js': ['python', 'TI-83', 'niryo', 'nao', 'steami'],
-                'sensors.js': ['python', 'TI-83', 'letsstartcoding', 'niryo', 'bluebot']
-            };
+                // display.js | input_output.js | communication.js | actuators.js | sensors.js
+                // Note: Add interface name on each file if it IS NOT required.
+                const excludedInterfacesForScripts = {
+                    'display.js': ['TI-83', 'bluebot', 'arduinoq'],
+                    'input_output.js': ['python', 'TI-83', 'niryo', 'nao', 'arduinoq'],
+                    'communication.js': ['python', 'TI-83', 'niryo', 'buddy', 'steami', 'bluebot', 'arduinoq'],
+                    'actuators.js': ['python', 'TI-83', 'niryo', 'nao', 'steami', 'arduinoq'],
+                    'sensors.js': ['python', 'TI-83', 'niryo', 'bluebot', 'arduinoq']
+                };
 
-            // interfaces with only the common block definitions
-            const noSpecificBlocksDefinitions = {
-                'actuators.js': ['esp32']
-            };
+                // interfaces with only the common block definitions
+                const noSpecificBlocksDefinitions = {
+                    'actuators.js': ['esp32', 'm5stack']
+                };
 
-            for (const file in excludedInterfacesForScripts) {
-                if (!excludedInterfacesForScripts[file].includes(interfaceName)) {
-                    const commonInterfaces = interfacesForScripts[file];
-                    const noSpecificDefinitions = noSpecificBlocksDefinitions[file]
-                    addBlockAndGeneratorScripts([file],
-                        commonInterfaces ? commonInterfaces.includes(interfaceName) : false,
-                        noSpecificDefinitions ? !noSpecificDefinitions.includes(interfaceName) : true
-                    );
+                for (const file in excludedInterfacesForScripts) {
+                    if (!excludedInterfacesForScripts[file].includes(interfaceName)) {
+                        const commonInterfaces = interfacesForScripts[file];
+                        const noSpecificDefinitions = noSpecificBlocksDefinitions[file]
+                        addBlockAndGeneratorScripts([file],
+                            commonInterfaces ? commonInterfaces.includes(interfaceName) : false,
+                            noSpecificDefinitions ? !noSpecificDefinitions.includes(interfaceName) : true
+                        );
+                    }
+                    if (interfaceName == 'steami') {
+                        addBlockAndGeneratorScripts([file], false, true, 'wb55');
+                    }
+                    if (interfaceName == 'arduinoq') {
+                        addBlockAndGeneratorScripts([file], false, true, 'arduino');
+                    }
                 }
-                console.log(file)
-                if (interfaceName == 'steami') {
-                    addBlockAndGeneratorScripts([file], false, true, 'wb55');
-                }
+
+            } else {
+                addBlockAndGeneratorScripts(['lsc.js'], false, true);
             }
 
             // robots.js
@@ -409,7 +449,6 @@ function loadInterface(interfaceName) {
                         id: 'generators/network.js',
                         src: SPECIFIC_GENERATORS_PATH() + 'network.js'
                     });
-                    console.log(SPECIFIC_BLOCKS_GENERATORS_SCRIPTS)
                 }
             }
 
@@ -500,25 +539,33 @@ function loadInterface(interfaceName) {
                 case 'photon':
                     addBlockAndGeneratorScripts(['sound.js']);
                     break;
+                case 'arduinoq':
+                    SPECIFIC_BLOCKS_DEFINITIONS_SCRIPTS.push({
+                        id: 'arduinoq-definitions/bridges.js',
+                        src: SPECIFIC_BLOCKS_PATH('arduinoq') + 'bridges.js'
+                    });
+                    SPECIFIC_BLOCKS_GENERATORS_SCRIPTS.push({
+                        id: 'arduinoq-generators/bridges-cpp.js',
+                        src: SPECIFIC_GENERATORS_PATH('arduinoq') + 'bridges-cpp.js'
+                    });
+                    SPECIFIC_BLOCKS_GENERATORS_SCRIPTS.push({
+                        id: 'arduinoq-generators/bridges-py.js',
+                        src: SPECIFIC_GENERATORS_PATH('arduinoq') + 'bridges-py.js'
+                    });
+                    SPECIFIC_BLOCKS_GENERATORS_SCRIPTS.push({
+                        id: 'arduinoq-generators/start-html.js',
+                        src: SPECIFIC_GENERATORS_PATH('arduinoq') + 'start-html.js'
+                    });
+                    // définitions Python spécifiques
+                    addBlockAndGeneratorScripts(['display.js', 'graph.js', 'numpy.js'], false, true, 'python');
+                    break;
             }
 
-            try {
-                await WikiLoader.loadScripts(EXTERNAL_SCRIPTS);
-            } catch (e) {
-                console.error(`ExternalScripts loading error: ${e}`);
-            }
+            await WikiLoader.loadScripts(EXTERNAL_SCRIPTS, 'ExternalScripts');
 
-            try {
-                await WikiLoader.loadScripts(SPECIFIC_CONSTANTS_SCRIPTS);
-            } catch (e) {
-                console.error(`SpecificConstansScript loading error: ${e}`);
-            }
+            await WikiLoader.loadScripts(SPECIFIC_CONSTANTS_SCRIPTS, 'SpecificConstansScript');
 
-            try {
-                await WikiLoader.loadScripts(COMMON_CONSTANTS_SCRIPTS);
-            } catch (e) {
-                console.error(`CommonConstansScripts loading error: ${e}`);
-            }
+            await WikiLoader.loadScripts(COMMON_CONSTANTS_SCRIPTS, 'CommonConstansScripts');
 
             try {
                 await WikiLoader.loadScripts(LANG_SCRIPTS);
@@ -526,39 +573,24 @@ function loadInterface(interfaceName) {
                 await WikiLoader.loadScripts(FALLBACK_LANG_SCRIPTS);
             }
 
-            try {
-                await WikiLoader.loadScripts(COMMON_BLOCKS_DEFINITIONS_SCRIPTS);
-            } catch (e) {
-                console.error(`CommonBlocksDefinitionsScripts loading error: ${e}`);
-            }
+            await WikiLoader.loadScripts(COMMON_BLOCKS_DEFINITIONS_SCRIPTS, 'CommonBlocksDefinitionsScripts');
 
-            try {
-                await WikiLoader.loadScripts(SPECIFIC_BLOCKS_DEFINITIONS_SCRIPTS);
-            } catch (e) {
-                console.error(`SpecificBlocksDefinitionsScripts loading error: ${e}`);
-            }
+            await WikiLoader.loadScripts(SPECIFIC_BLOCKS_DEFINITIONS_SCRIPTS, 'SpecificBlocksDefinitionsScripts');
 
-            try {
+            if (interfaceName === 'arduinoq') {
+                await WikiLoader.loadScripts(COMMON_PYTHON_BLOCKS_GENERATORS, 'CommonBlocksGeneratorsScripts')
+                await WikiLoader.loadScripts(COMMON_ARDUINO_BLOCKS_GENERATORS, 'CommonBlocksGeneratorsScripts');
+            } else {
                 if (interface_type === 'interfaces') {
-                    await WikiLoader.loadScripts(COMMON_PYTHON_BLOCKS_GENERATORS)
+                    await WikiLoader.loadScripts(COMMON_PYTHON_BLOCKS_GENERATORS, 'CommonBlocksGeneratorsScripts')
                 } else {
-                    await WikiLoader.loadScripts(COMMON_ARDUINO_BLOCKS_GENERATORS);
+                    await WikiLoader.loadScripts(COMMON_ARDUINO_BLOCKS_GENERATORS, 'CommonBlocksGeneratorsScripts');
                 }
-            } catch (e) {
-                console.error(`CommonBlocksGeneratorsScripts loading error: ${e}`);
             }
 
-            try {
-                await WikiLoader.loadScripts(SPECIFIC_BLOCKS_GENERATORS_SCRIPTS);
-            } catch (e) {
-                console.error(`specificBlocksGeneratorScripts loading error: ${e}`);
-            }
+            await WikiLoader.loadScripts(SPECIFIC_BLOCKS_GENERATORS_SCRIPTS, 'specificBlocksGeneratorScripts');
 
-            try {
-                await WikiLoader.loadScripts(COMMON_SCRIPTS);
-            } catch (e) {
-                console.error(`CommonScripts loading error: ${e}`);
-            }
+            await WikiLoader.loadScripts(COMMON_SCRIPTS, 'CommonScripts');
 
             try {
                 await WikiLoader.loadScripts(COMMON_LANG_SCRIPTS);

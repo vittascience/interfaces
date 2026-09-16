@@ -15,10 +15,14 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "value": 0
       }
     ],
-    "output": "Number",
+    "output": null,
     "helpUrl": "%{BKY_MATH_NUMBER_HELPURL}",
     "style": "math_blocks",
-    "tooltip": "%{BKY_MATH_NUMBER_TOOLTIP}"
+    "tooltip": "%{BKY_MATH_NUMBER_TOOLTIP}",
+    "extensions": [
+      "math_number_set_output",
+      "math_number_get_type",
+    ]
   },
 
   // Block for basic arithmetic operator.
@@ -29,7 +33,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       {
         "type": "input_value",
         "name": "A",
-        "check": "Number"
+        "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
       },
       {
         "type": "field_grid_dropdown",
@@ -45,14 +49,17 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       {
         "type": "input_value",
         "name": "B",
-        "check": "Number"
+        "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
       }
     ],
-    "output": "Number",
+    "output": null,
     "inputsInline": true,
     "style": "math_blocks",
     "helpUrl": "%{BKY_MATH_ARITHMETIC_HELPURL}",
-    "extensions": ["math_op_tooltip"]
+    "extensions": [
+      "math_arithmetic_get_type",
+      "math_op_tooltip"
+    ]
   },
 
   // Block for advanced math operators with single operand.
@@ -76,13 +83,17 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       {
         "type": "input_value",
         "name": "NUM",
-        "check": "Number"
+        "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
       }
     ],
-    "output": "Number",
+    "output": null,
     "style": "math_blocks",
     "helpUrl": "%{BKY_MATH_SINGLE_HELPURL}",
-    "extensions": ["math_op_tooltip"]
+    "extensions": [
+      "math_op_tooltip",
+      "math_default_set_output",
+      "math_default_get_type"
+    ]
   },
 
   // Block for trigonometry operators.
@@ -105,43 +116,17 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       {
         "type": "input_value",
         "name": "NUM",
-        "check": "Number"
+        "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
       }
     ],
-    "output": "Number",
+    "output": null,
     "style": "math_blocks",
     "helpUrl": "%{BKY_MATH_TRIG_HELPURL}",
-    "extensions": ["math_op_tooltip"]
-  },
-
-  // Not displayed block
-  // Block for trigonometry operators radian.
-  {
-    "type": "math_trig_rad",
-    "message0": "%1 %2 (rad)",
-    "args0": [
-      {
-        "type": "field_grid_dropdown",
-        "name": "OP",
-        "options": [
-          ["%{BKY_MATH_TRIG_SIN}", "SIN"],
-          ["%{BKY_MATH_TRIG_COS}", "COS"],
-          ["%{BKY_MATH_TRIG_TAN}", "TAN"],
-          ["%{BKY_MATH_TRIG_ASIN}", "ASIN"],
-          ["%{BKY_MATH_TRIG_ACOS}", "ACOS"],
-          ["%{BKY_MATH_TRIG_ATAN}", "ATAN"]
-        ]
-      },
-      {
-        "type": "input_value",
-        "name": "NUM",
-        "check": "Number"
-      }
-    ],
-    "output": "Number",
-    "style": "math_blocks",
-    "helpUrl": "%{BKY_MATH_TRIG_HELPURL}",
-    "extensions": ["math_op_tooltip_rad"],
+    "extensions": [
+      "math_op_tooltip",
+      "math_default_set_output",
+      "math_default_get_type"
+    ]
   },
 
   // Block for constants: PI, E, the Golden Ratio, sqrt(2), 1/sqrt(2), INFINITY.
@@ -162,10 +147,14 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
       }
     ],
-    "output": "Number",
+    "output": null,
     "style": "math_blocks",
     "tooltip": "%{BKY_MATH_CONSTANT_TOOLTIP}",
-    "helpUrl": "%{BKY_MATH_CONSTANT_HELPURL}"
+    "helpUrl": "%{BKY_MATH_CONSTANT_HELPURL}",
+    "extensions": [
+      "math_default_set_output",
+      "math_default_get_type"
+    ]
   },
 
   // Block for checking if a number is even, odd, prime, whole, positive,
@@ -177,7 +166,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       {
         "type": "input_value",
         "name": "NUMBER_TO_CHECK",
-        "check": "Number"
+        "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
       },
       {
         "type": "field_grid_dropdown",
@@ -208,34 +197,36 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       {
         "type": "input_value",
         "name": "VALUE",
-        "check": "Number"
+        "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
       },
       {
         "type": "input_value",
         "name": "MIN1",
-        "check": "Number"
+        "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
       },
       {
         "type": "input_value",
         "name": "MAX1",
-        "check": "Number"
+        "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
       },
       {
         "type": "input_value",
         "name": "MIN2",
-        "check": "Number"
+        "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
       },
       {
         "type": "input_value",
         "name": "MAX2",
-        "check": "Number"
+        "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
       }
     ],
-    "output": "Number",
+    "output": null,
     "style": "math_blocks",
     "tooltip": "%{BKY_MATH_MAP_TOOLTIP}",
     "extensions": [
-      "block_init_helpurl"
+      "block_init_helpurl",
+      "math_default_set_output",
+      "math_default_get_type"
     ]
   },
 
@@ -256,7 +247,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       {
         "type": "input_value",
         "name": "NUM",
-        "check": "Number"
+        "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
       }
     ],
     "output": "Number",
@@ -273,7 +264,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       {
         "type": "input_value",
         "name": "NUM",
-        "check": "Number"
+        "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
       },
       {
         "type": "input_value",
@@ -295,12 +286,12 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       {
         "type": "input_value",
         "name": "DIVIDEND",
-        "check": "Number"
+        "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
       },
       {
         "type": "input_value",
         "name": "DIVISOR",
-        "check": "Number"
+        "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
       }
     ],
     "output": "Number",
@@ -318,17 +309,17 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       {
         "type": "input_value",
         "name": "VALUE",
-        "check": "Number"
+        "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
       },
       {
         "type": "input_value",
         "name": "LOW",
-        "check": "Number"
+        "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
       },
       {
         "type": "input_value",
         "name": "HIGH",
-        "check": "Number"
+        "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
       }
     ],
     "output": "Number",
@@ -341,17 +332,18 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
   // Block for random integer between [X] and [Y].
   {
     "type": "math_random_int",
-    "message0": "%{BKY_MATH_RANDOM_INT_TITLE}",
+    "message0": INTERFACE_NAME == 'letsstartcoding' ?
+      "%{BKY_LSC_MATH_RANDOM_INT_TITLE}" : "%{BKY_MATH_RANDOM_INT_TITLE}",
     "args0": [
       {
         "type": "input_value",
         "name": "FROM",
-        "check": "Number"
+        "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
       },
       {
         "type": "input_value",
         "name": "TO",
-        "check": "Number"
+        "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
       }
     ],
     "output": "Number",
@@ -365,10 +357,14 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
   {
     "type": "math_random_float",
     "message0": "%{BKY_MATH_RANDOM_FLOAT_TITLE_RANDOM}",
-    "output": "Number",
+    "output": null,
     "style": "math_blocks",
     "tooltip": "%{BKY_MATH_RANDOM_FLOAT_TOOLTIP}",
-    "helpUrl": "%{BKY_MATH_RANDOM_FLOAT_HELPURL}"
+    "helpUrl": "%{BKY_MATH_RANDOM_FLOAT_HELPURL}",
+    "extensions": [
+      "math_default_set_output",
+      "math_default_get_type"
+    ]
   },
 
   // Block for calculating atan2 of [X] and [Y].
@@ -416,30 +412,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "mutator": "math_min_max_mutator",
     "tooltip": "%{BKY_MATH_MIN_MAX_TOOLTIP}",
     "helpUrl": "%{BKY_MATH_MIN_MAX_HELPURL}"
-  },
-
-  
-
-  {
-    "type": "math_atan2_rad",
-    "message0": "%{BKY_MATH_ATAN2_TITLE} (radian)",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "X",
-        "check": "Number"
-      },
-      {
-        "type": "input_value",
-        "name": "Y",
-        "check": "Number"
-      }
-    ],
-    "output": "Number",
-    "inputsInline": true,
-    "style": "math_blocks",
-    "tooltip": "%{BKY_MATH_ATAN2_RAD_TOOLTIP}",
-    "helpUrl": "%{BKY_MATH_ATAN2_HELPURL}"
   },
 
   {
@@ -538,17 +510,6 @@ Blockly.Constants.Math.TOOLTIPS_BY_OP = {
   'ATAN': '%{BKY_MATH_TRIG_TOOLTIP_ATAN}'
 };
 
-
-Blockly.Constants.Math.TOOLTIPS_TRIG_RAD = {
-  // math_trig
-  'SIN': '%{BKY_MATH_TRIG_TOOLTIP_SIN_RAD}',
-  'COS': '%{BKY_MATH_TRIG_TOOLTIP_COS_RAD}',
-  'TAN': '%{BKY_MATH_TRIG_TOOLTIP_TAN_RAD}',
-  'ASIN': '%{BKY_MATH_TRIG_TOOLTIP_ASIN}',
-  'ACOS': '%{BKY_MATH_TRIG_TOOLTIP_ACOS}',
-  'ATAN': '%{BKY_MATH_TRIG_TOOLTIP_ATAN}'
-};
-
 /**
  * Mixin for mutator functions in the 'math_is_divisibleby_mutator'
  * extension.
@@ -610,6 +571,131 @@ Blockly.Constants.Math.IS_DIVISIBLE_MUTATOR_EXTENSION = function () {
     this.getSourceBlock().updateShape_(divisorInput);
   });
 };
+
+Blockly.Constants.Math.MATH_DEFAULT_GET_TYPE = {
+  /**
+   * @return {Blockly.Type} type
+   * @this {Blockly.Block} math_number
+   */
+  getBlockType: function () {
+    let language = null;
+    if (INTERFACE_NAME == 'arduinoq') {
+      const topBlock = this.getRootBlock();
+      const topType = topBlock ? topBlock.type : null;
+      language = MultiCodeManager.getRootBlockLanguage(topType);
+    } else if (typeof Blockly.Arduino !== 'undefined') {
+      language = 'cpp';
+    } else if (typeof Blockly.Python !== 'undefined') {
+      language = 'py';
+    }
+    if (language == 'cpp') {
+      this.setOutput(true, "Decimal");
+      return Blockly.Types.DECIMAL;
+    } else {
+      this.setOutput(true, "Number");
+      return Blockly.Types.NUMBER;
+    }
+  }
+};
+
+Blockly.Constants.Math.MATH_DEFAULT_SET_OUTPUT = function () {
+  if (INTERFACE_NAME !== 'arduinoq') {
+    if (typeof Blockly.Arduino !== 'undefined') {
+      this.setOutput(true, "Decimal");
+    } else if (typeof Blockly.Python !== 'undefined') {
+      this.setOutput(true, "Number");
+    }
+  }
+};
+
+Blockly.Constants.Math.MATH_NUMBER_GET_TYPE = {
+  /**
+   * @return {Blockly.Type} type
+   * @this {Blockly.Block} math_number
+   */
+  getBlockType: function () {
+    let language = null;
+    if (INTERFACE_NAME == 'arduinoq') {
+      const topBlock = this.getRootBlock();
+      const topType = topBlock ? topBlock.type : null;
+      language = MultiCodeManager.getRootBlockLanguage(topType);
+    } else if (typeof Blockly.Arduino !== 'undefined') {
+      language = 'cpp';
+    } else if (typeof Blockly.Python !== 'undefined') {
+      language = 'py';
+    }
+    if (language == 'cpp') {
+      const value = this.getFieldValue("NUM");
+      return Blockly.Types.identifyNumber(value);
+    } else {
+      return Blockly.Types.NUMBER;
+    }
+  }
+};
+
+Blockly.Constants.Math.MATH_NUMBER_SET_OUTPUT = function () {
+  if (INTERFACE_NAME !== 'arduinoq') {
+    if (typeof Blockly.Python !== 'undefined') {
+      this.setOutput(true, "Number");
+    } else if (typeof Blockly.Arduino !== 'undefined') {
+      this.getField("NUM").validator_ = (value) => {
+        const t = Blockly.Types.identifyNumber(value);
+        this.setOutput(true, t.typeId);
+        return value;
+      }
+    }
+  }
+};
+
+Blockly.Constants.Math.MATH_ARITHMETIC_GET_TYPE = {
+  /**
+   * @return {Blockly.Type} type
+   * @this {Blockly.Block} math_arithmetic
+   */
+  getBlockType: function () {
+    let operation = this.getFieldValue("OP");
+    let a = this.getInput("A").connection.targetBlock();
+    let b = this.getInput("B").connection.targetBlock();
+    if (a && b) {
+      var a_type = Blockly.Types.getChildBlockType(a);
+      var b_type = Blockly.Types.getChildBlockType(b);
+    }
+    if (operation == 'ADD' || operation == 'MINUS' || operation == 'MULTIPLY' || operation == 'POWER') {
+      if (a_type && b_type) {
+        if (a_type == Blockly.Types.NUMBER && b_type == Blockly.Types.NUMBER) {
+          return Blockly.Types.NUMBER;
+        }
+      }
+    }
+    return Blockly.Types.DECIMAL;
+  }
+};
+
+// Extensions
+Blockly.Extensions.register('math_op_tooltip',
+  Blockly.Extensions.buildTooltipForDropdown(
+    'OP', Blockly.Constants.Math.TOOLTIPS_BY_OP));
+
+// Mixin functions
+Blockly.Extensions.registerMixin("math_number_get_type",
+  Blockly.Constants.Math.MATH_NUMBER_GET_TYPE);
+
+Blockly.Extensions.register("math_number_set_output",
+  Blockly.Constants.Math.MATH_NUMBER_SET_OUTPUT);
+
+Blockly.Extensions.registerMixin("math_arithmetic_get_type",
+  Blockly.Constants.Math.MATH_ARITHMETIC_GET_TYPE);
+
+Blockly.Extensions.registerMixin("math_default_get_type",
+  Blockly.Constants.Math.MATH_DEFAULT_GET_TYPE);
+
+Blockly.Extensions.register("math_default_set_output",
+  Blockly.Constants.Math.MATH_DEFAULT_SET_OUTPUT);
+
+// Mutators
+Blockly.Extensions.registerMutator('math_is_divisibleby_mutator',
+  Blockly.Constants.Math.IS_DIVISIBLEBY_MUTATOR_MIXIN,
+  Blockly.Constants.Math.IS_DIVISIBLE_MUTATOR_EXTENSION);
 
 Blockly.Constants.Math.MATH_MIN_MAX_MUTATOR_MIXIN = {
   /**
@@ -736,19 +822,73 @@ Blockly.Constants.Math.MATH_MIN_MAX_MUTATOR_MIXIN = {
   }
 };
 
-// Extensions
-Blockly.Extensions.register('math_op_tooltip',
-  Blockly.Extensions.buildTooltipForDropdown(
-    'OP', Blockly.Constants.Math.TOOLTIPS_BY_OP));
+Blockly.Extensions.registerMutator('math_min_max_mutator',
+  Blockly.Constants.Math.MATH_MIN_MAX_MUTATOR_MIXIN);
+
+/** For Code to blocks, Not displayed block  */
+
+Blockly.defineBlocksWithJsonArray([
+  // Block for trigonometry operators radian.
+  {
+    "type": "math_trig_rad",
+    "message0": "%1 %2 (rad)",
+    "args0": [
+      {
+        "type": "field_grid_dropdown",
+        "name": "OP",
+        "options": [
+          ["%{BKY_MATH_TRIG_SIN}", "SIN"],
+          ["%{BKY_MATH_TRIG_COS}", "COS"],
+          ["%{BKY_MATH_TRIG_TAN}", "TAN"],
+          ["%{BKY_MATH_TRIG_ASIN}", "ASIN"],
+          ["%{BKY_MATH_TRIG_ACOS}", "ACOS"],
+          ["%{BKY_MATH_TRIG_ATAN}", "ATAN"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "NUM",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "style": "math_blocks",
+    "helpUrl": "%{BKY_MATH_TRIG_HELPURL}",
+    "extensions": ["math_op_tooltip_rad"],
+  },
+  {
+    "type": "math_atan2_rad",
+    "message0": "%{BKY_MATH_ATAN2_TITLE} (radian)",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "inputsInline": true,
+    "style": "math_blocks",
+    "tooltip": "%{BKY_MATH_ATAN2_RAD_TOOLTIP}",
+    "helpUrl": "%{BKY_MATH_ATAN2_HELPURL}"
+  },
+]);
+
+Blockly.Constants.Math.TOOLTIPS_TRIG_RAD = {
+  // math_trig
+  'SIN': '%{BKY_MATH_TRIG_TOOLTIP_SIN_RAD}',
+  'COS': '%{BKY_MATH_TRIG_TOOLTIP_COS_RAD}',
+  'TAN': '%{BKY_MATH_TRIG_TOOLTIP_TAN_RAD}',
+  'ASIN': '%{BKY_MATH_TRIG_TOOLTIP_ASIN}',
+  'ACOS': '%{BKY_MATH_TRIG_TOOLTIP_ACOS}',
+  'ATAN': '%{BKY_MATH_TRIG_TOOLTIP_ATAN}'
+};
 
 Blockly.Extensions.register('math_op_tooltip_rad',
   Blockly.Extensions.buildTooltipForDropdown(
     'OP', Blockly.Constants.Math.TOOLTIPS_TRIG_RAD));
-
-// Mutators
-Blockly.Extensions.registerMutator('math_is_divisibleby_mutator',
-  Blockly.Constants.Math.IS_DIVISIBLEBY_MUTATOR_MIXIN,
-  Blockly.Constants.Math.IS_DIVISIBLE_MUTATOR_EXTENSION);
-
-Blockly.Extensions.registerMutator('math_min_max_mutator',
-  Blockly.Constants.Math.MATH_MIN_MAX_MUTATOR_MIXIN);

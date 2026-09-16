@@ -274,7 +274,7 @@ Blockly.Constants.Actuators = Object.create(null);
  * @this {Blockly.Block}
  */
 Blockly.Constants.Actuators.AUDIO_PLAY_TONE_INIT_EXTENSION = function () {
-    this.duration_ = false;
+    this.option_ = false;
     this.update_(this.updateField_);
 };
 
@@ -300,7 +300,7 @@ Blockly.Extensions.registerMutator("actuators_audio_play_tone_mutator",
 * @this {Blockly.Block}
 */
 Blockly.Constants.Actuators.AUDIO_PLAY_NOTE_INIT_EXTENSION = function () {
-    this.duration_ = false;
+    this.option_ = false;
     this.update_(this.updateField_);
 };
 

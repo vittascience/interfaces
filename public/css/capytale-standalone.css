@@ -1,5 +1,13 @@
-.ide-dropdown-files {
-    display: none;
+.ide-dropdown-files .project-data {
+    display: none !important;
+}
+
+.ide-btn-open{
+    display: block;
+}
+
+.ide-btn-save {
+    display: block;
 }
 
 button[onclick="createExercise()"] {

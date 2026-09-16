@@ -32,16 +32,14 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       {
         "type": "field_input",
         "name": "TEXT",
-        "text": null
+        "text": "" // "text": null in python
       }
     ],
     "output": "String",
     "style": "text_blocks",
-    "tooltip": "%{BKY_TEXT_TEXT_TOOLTIP}",
     "helpUrl": "%{BKY_TEXT_TEXT_HELPURL}",
-    "extensions": [
-      "text_quotes"
-    ]
+    "tooltip": "%{BKY_TEXT_TEXT_TOOLTIP}",
+    "extensions": ["text_quotes"]
   },
 
   // Block for joining text items
@@ -50,8 +48,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "output": "String",
     "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
     "style": "text_blocks",
-    "tooltip": "%{BKY_TEXT_JOIN_TOOLTIP}",
     "helpUrl": "%{BKY_TEXT_JOIN_HELPURL}",
+    "tooltip": "%{BKY_TEXT_JOIN_TOOLTIP}",
     "extensions": [
       "block_buttons_plus_minus",
       "text_join_init"
@@ -109,7 +107,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "nextStatement": null,
     "style": "text_blocks",
     "extensions": [
-      "text_append_tooltip"
+      "text_append_tooltip",
+      "field_variable_type_getter"
     ]
   },
 
@@ -146,7 +145,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "check": ['String', 'Array']
       }
     ],
-    "output": "Number",
+    "output": 'Number',
     "style": "text_blocks",
     "tooltip": "%{BKY_TEXT_LENGTH_TOOLTIP}",
     "helpUrl": "%{BKY_TEXT_LENGTH_HELPURL}"
@@ -163,7 +162,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "check": ['String', 'Array']
       }
     ],
-    "output": "Boolean",
+    "output": 'Boolean',
     "style": "text_blocks",
     "tooltip": "%{BKY_TEXT_ISEMPTY_TOOLTIP}",
     "helpUrl": "%{BKY_TEXT_ISEMPTY_HELPURL}"
@@ -223,6 +222,82 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     ]
   },
 
+  // Block for getting character at specified index
+  {
+    "type": "text_charAt",
+    "message0": "%{BKY_TEXT_CHARAT_TITLE}",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "String"
+      },
+      {
+        "type": "field_grid_dropdown",
+        "name": "WHERE",
+        "options": [
+          ["%{BKY_TEXT_CHARAT_FROM_START}", "FROM_START"],
+          ["%{BKY_TEXT_CHARAT_FROM_END}", "FROM_END"],
+          ["%{BKY_TEXT_CHARAT_FIRST}", "FIRST"],
+          ["%{BKY_TEXT_CHARAT_LAST}", "LAST"],
+          ["%{BKY_TEXT_CHARAT_RANDOM}", "RANDOM"]
+        ]
+      }
+    ],
+    "output": "String",
+    "inputsInline": true,
+    "style": "text_blocks",
+    "helpUrl": "%{BKY_TEXT_CHARAT_HELPURL}",
+    "mutator": "text_charAt_mutator"
+  },
+
+  {
+    "type": "text_getSubstring",
+    "message0": "%{BKY_TEXT_GET_SUBSTRING_INPUT_IN_TEXT} %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "STRING",
+        "check": "String"
+      }
+    ],
+    "output": "String",
+    "inputsInline": true,
+    "style": "text_blocks",
+    "tooltip": "%{BKY_TEXT_GET_SUBSTRING_TOOLTIP}",
+    "helpUrl": "%{BKY_TEXT_GET_SUBSTRING_HELPURL}",
+    "mutator": "text_getSubstring_mutator"
+  },
+
+  {
+    "type": "text_count_characters",
+    "message0": "%{BKY_TEXT_COUNT_CHARACTERS_TITLE}",
+    "args0": [
+      {
+        "type": "field_grid_dropdown",
+        "name": "TYPE",
+        "options": [
+          ["%{BKY_TEXT_COUNT_CHARACTERS_UPPER}", "UPPER"],
+          ["%{BKY_TEXT_COUNT_CHARACTERS_LOWER}", "LOWER"],
+          ["%{BKY_TEXT_COUNT_CHARACTERS_DIGITS}", "DIGITS"],
+          ["%{BKY_TEXT_COUNT_CHARACTERS_SPECIAL}", "SPECIAL"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      }
+    ],
+    "output": "Number",
+    "inputsInline": true,
+    "style": "text_blocks",
+    "tooltip": "%{BKY_TEXT_COUNT_CHARACTERS_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl"
+    ]
+  },
+
   // Block for trimming spaces
   {
     "type": "text_trim",
@@ -273,35 +348,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "style": "text_blocks",
     "tooltip": "%{BKY_TEXT_CHANGECASE_TOOLTIP}",
     "helpUrl": "%{BKY_TEXT_CHANGECASE_HELPURL}"
-  },
-
-  // Block for getting character at specified index
-  {
-    "type": "text_charAt",
-    "message0": "%{BKY_TEXT_CHARAT_TITLE}",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "VALUE",
-        "check": "String"
-      },
-      {
-        "type": "field_grid_dropdown",
-        "name": "WHERE",
-        "options": [
-          ["%{BKY_TEXT_CHARAT_FROM_START}", "FROM_START"],
-          ["%{BKY_TEXT_CHARAT_FROM_END}", "FROM_END"],
-          ["%{BKY_TEXT_CHARAT_FIRST}", "FIRST"],
-          ["%{BKY_TEXT_CHARAT_LAST}", "LAST"],
-          ["%{BKY_TEXT_CHARAT_RANDOM}", "RANDOM"]
-        ]
-      }
-    ],
-    "output": "String",
-    "inputsInline": true,
-    "style": "text_blocks",
-    "helpUrl": "%{BKY_TEXT_CHARAT_HELPURL}",
-    "mutator": "text_charAt_mutator"
   },
 
   // Block for counting occurence of subtext in text
@@ -371,35 +417,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "style": "text_blocks",
     "tooltip": "%{BKY_TEXT_REPLACE_TOOLTIP}",
     "helpUrl": "%{BKY_TEXT_REPLACE_HELPURL}"
-  },
-
-  {
-    "type": "text_count_characters",
-    "message0": "%{BKY_TEXT_COUNT_CHARACTERS_TITLE}",
-    "args0": [
-      {
-        "type": "field_grid_dropdown",
-        "name": "TYPE",
-        "options": [
-          ["%{BKY_TEXT_COUNT_CHARACTERS_UPPER}", "UPPER"],
-          ["%{BKY_TEXT_COUNT_CHARACTERS_LOWER}", "LOWER"],
-          ["%{BKY_TEXT_COUNT_CHARACTERS_DIGITS}", "DIGITS"],
-          ["%{BKY_TEXT_COUNT_CHARACTERS_SPECIAL}", "SPECIAL"]
-        ]
-      },
-      {
-        "type": "input_value",
-        "name": "TEXT",
-        "check": "String"
-      }
-    ],
-    "output": "Number",
-    "inputsInline": true,
-    "style": "text_blocks",
-    "tooltip": "%{BKY_TEXT_COUNT_CHARACTERS_TOOLTIP}",
-    "extensions": [
-      "block_init_helpurl"
-    ]
   },
 
   {
@@ -481,136 +498,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 
 ]); // END JSON EXTRACT (Do not delete this comment.)
 
-Blockly.Blocks['text_getSubstring'] = {
-  /**
-   * Block for getting substring.
-   * @this {Blockly.Block}
-   */
-  init: function () {
-    this['WHERE_OPTIONS_1'] = [
-      [Blockly.Msg['TEXT_GET_SUBSTRING_START_FROM_START'], 'FROM_START'],
-      [Blockly.Msg['TEXT_GET_SUBSTRING_START_FROM_END'], 'FROM_END'],
-      [Blockly.Msg['TEXT_GET_SUBSTRING_START_FIRST'], 'FIRST']
-    ];
-    this['WHERE_OPTIONS_2'] = [
-      [Blockly.Msg['TEXT_GET_SUBSTRING_END_FROM_START'], 'FROM_START'],
-      [Blockly.Msg['TEXT_GET_SUBSTRING_END_FROM_END'], 'FROM_END'],
-      [Blockly.Msg['TEXT_GET_SUBSTRING_END_LAST'], 'LAST']
-    ];
-    this.setHelpUrl(Blockly.Msg['TEXT_GET_SUBSTRING_HELPURL']);
-    this.setStyle('text_blocks');
-    this.appendValueInput('STRING')
-      .setCheck('String')
-      .appendField(Blockly.Msg['TEXT_GET_SUBSTRING_INPUT_IN_TEXT']);
-    this.appendDummyInput('AT1');
-    this.appendDummyInput('AT2');
-    if (Blockly.Msg['TEXT_GET_SUBSTRING_TAIL']) {
-      this.appendDummyInput('TAIL')
-        .appendField(Blockly.Msg['TEXT_GET_SUBSTRING_TAIL']);
-    }
-    this.setInputsInline(true);
-    this.setOutput(true, 'String');
-    this.updateAt_(1, true);
-    this.updateAt_(2, true);
-    this.setTooltip(Blockly.Msg['TEXT_GET_SUBSTRING_TOOLTIP']);
-  },
-  /**
-   * Create XML to represent whether there are 'AT' inputs.
-   * @return {!Element} XML storage element.
-   * @this {Blockly.Block}
-   */
-  mutationToDom: function () {
-    var container = Blockly.utils.xml.createElement('mutation');
-    var isAt1 = this.getInput('AT1').type == Blockly.INPUT_VALUE;
-    container.setAttribute('at1', isAt1);
-    var isAt2 = this.getInput('AT2').type == Blockly.INPUT_VALUE;
-    container.setAttribute('at2', isAt2);
-    return container;
-  },
-  /**
-   * Parse XML to restore the 'AT' inputs.
-   * @param {!Element} xmlElement XML storage element.
-   * @this {Blockly.Block}
-   */
-  domToMutation: function (xmlElement) {
-    var isAt1 = (xmlElement.getAttribute('at1') == 'true');
-    var isAt2 = (xmlElement.getAttribute('at2') == 'true');
-    this.updateAt_(1, isAt1);
-    this.updateAt_(2, isAt2);
-  },
-  /**
-   * Create or delete an input for a numeric index.
-   * This block has two such inputs, independent of each other.
-   * @param {number} n Specify first or second input (1 or 2).
-   * @param {boolean} isAt True if the input should exist.
-   * @private
-   * @this {Blockly.Block}
-   */
-  updateAt_: function (n, isAt) {
-    // Create or delete an input for the numeric index.
-    // Destroy old 'AT' and 'ORDINAL' inputs.
-    this.removeInput('AT' + n);
-    this.removeInput('ORDINAL' + n, true);
-    // Create either a value 'AT' input or a dummy input.
-    if (isAt) {
-      this.appendValueInput('AT' + n).setCheck('Number');
-      if (Blockly.Msg['ORDINAL_NUMBER_SUFFIX']) {
-        this.appendDummyInput('ORDINAL' + n)
-          .appendField(Blockly.Msg['ORDINAL_NUMBER_SUFFIX']);
-      }
-    } else {
-      this.appendDummyInput('AT' + n);
-    }
-    // Move tail, if present, to end of block.
-    if (n == 2 && Blockly.Msg['TEXT_GET_SUBSTRING_TAIL']) {
-      this.removeInput('TAIL', true);
-      this.appendDummyInput('TAIL')
-        .appendField(Blockly.Msg['TEXT_GET_SUBSTRING_TAIL']);
-    }
-    var menu = new Blockly.FieldDropdown(this['WHERE_OPTIONS_' + n],
-      function (value) {
-        var newAt = (value == 'FROM_START') || (value == 'FROM_END');
-        // The 'isAt' variable is available due to this function being a
-        // closure.
-        if (newAt != isAt) {
-          var block = this.getSourceBlock();
-          block.updateAt_(n, newAt);
-          // This menu has been destroyed and replaced.
-          // Update the replacement.
-          block.setFieldValue(value, 'WHERE' + n);
-          return null;
-        }
-        return undefined;
-      });
-
-    this.getInput('AT' + n)
-      .appendField(menu, 'WHERE' + n);
-    /**
-     * WAITING GOOGLE ISSUE (dropdown colour)
-     */
-    this.setStyle("text_blocks");
-    /**
-     * END
-     */
-    if (n == 1) {
-      this.moveInputBefore('AT1', 'AT2');
-      if (this.getInput('ORDINAL1')) {
-        this.moveInputBefore('ORDINAL1', 'AT2');
-      }
-    }
-  }
-};
-
 Blockly.Constants.Text = Object.create(null);
-
-/**
- * Wraps TEXT field with images of double quote characters.
- * @this {Blockly.Block}
- */
-Blockly.Constants.Text.TEXT_QUOTES_EXTENSION = function () {
-  this.mixin(Blockly.Constants.Text.QUOTE_IMAGE_MIXIN);
-  this.quoteField_('TEXT');
-};
 
 /**
  * @mixin
@@ -687,6 +575,18 @@ Blockly.Constants.Text.QUOTE_IMAGE_MIXIN = {
 };
 
 /**
+ * Wraps TEXT field with images of double quote characters.
+ * @this {Blockly.Block}
+ */
+Blockly.Constants.Text.TEXT_QUOTES_EXTENSION = function () {
+  this.mixin(Blockly.Constants.Text.QUOTE_IMAGE_MIXIN);
+  this.quoteField_('TEXT');
+};
+
+Blockly.Extensions.register('text_quotes',
+  Blockly.Constants.Text.TEXT_QUOTES_EXTENSION);
+
+/**
  * Performs final setup of a 'text_join' block.
  * @this {Blockly.Block}
  */
@@ -694,6 +594,9 @@ Blockly.Constants.Text.TEXT_JOIN_INIT_EXTENSION = function () {
   this.itemCount_ = 3;
   this.updateShape_();
 };
+
+Blockly.Extensions.register('text_join_init',
+  Blockly.Constants.Text.TEXT_JOIN_INIT_EXTENSION);
 
 /**
  * Mixin for mutator functions in the 'text_join_mutator' extension.
@@ -828,15 +731,12 @@ Blockly.Constants.Text.TEXT_JOIN_MUTATOR_MIXIN = {
   }
 };
 
-/**
- * Update the tooltip of 'text_indexOf' block to reference the variable.
- * @this {Blockly.Block}
- */
-Blockly.Constants.Text.TEXT_INDEXOF_TOOLTIP_EXTENSION = function () {
-  this.setTooltip(function () {
-    return Blockly.Msg['TEXT_INDEXOF_TOOLTIP'].replace('%1', '-1');
-  });
-};
+Blockly.Extensions.registerMutator('text_join_mutator',
+  Blockly.Constants.Text.TEXT_JOIN_MUTATOR_MIXIN);
+
+Blockly.Extensions.register('text_append_tooltip',
+  Blockly.Extensions.buildTooltipWithFieldText(
+    '%{BKY_TEXT_APPEND_TOOLTIP}', 'VAR'));
 
 /**
  * Mixin for mutator functions in the 'text_charAt_mutator' extension.
@@ -925,24 +825,94 @@ Blockly.Constants.Text.TEXT_CHARAT_EXTENSION = function () {
   });
 };
 
-// Extensions
-Blockly.Extensions.register('text_quotes',
-  Blockly.Constants.Text.TEXT_QUOTES_EXTENSION);
+Blockly.Extensions.registerMutator('text_charAt_mutator',
+  Blockly.Constants.Text.TEXT_CHARAT_MUTATOR_MIXIN,
+  Blockly.Constants.Text.TEXT_CHARAT_EXTENSION);
 
-Blockly.Extensions.register('text_join_init',
-  Blockly.Constants.Text.TEXT_JOIN_INIT_EXTENSION);
-
-Blockly.Extensions.register('text_append_tooltip',
-  Blockly.Extensions.buildTooltipWithFieldText(
-    '%{BKY_TEXT_APPEND_TOOLTIP}', 'VAR'));
+/**
+ * Update the tooltip of 'text_indexOf' block to reference the variable.
+ * @this {Blockly.Block}
+ */
+Blockly.Constants.Text.TEXT_INDEXOF_TOOLTIP_EXTENSION = function () {
+  this.setTooltip(function () {
+    return Blockly.Msg['TEXT_INDEXOF_TOOLTIP'].replace('%1', '-1');
+  });
+};
 
 Blockly.Extensions.register('text_indexOf_tooltip',
   Blockly.Constants.Text.TEXT_INDEXOF_TOOLTIP_EXTENSION);
 
-// Mutators
-Blockly.Extensions.registerMutator('text_join_mutator',
-  Blockly.Constants.Text.TEXT_JOIN_MUTATOR_MIXIN);
+Blockly.Constants.Text.TEXT_GET_SUBSTRING_MUTATOR_MIXIN = {
+  mutationToDom: function () {
+    const container = Blockly.utils.xml.createElement("mutation");
+    container.setAttribute("at1", this.getInput("AT1").type === Blockly.INPUT_VALUE);
+    container.setAttribute("at2", this.getInput("AT2").type === Blockly.INPUT_VALUE);
+    return container;
+  },
+  domToMutation: function (xmlElement) {
+    const isAt1 = xmlElement.getAttribute("at1") === "true";
+    const isAt2 = xmlElement.getAttribute("at2") === "true";
+    this.updateAt_(1, isAt1);
+    this.updateAt_(2, isAt2);
+  },
+  updateAt_: function (n, isAt) {
+    this.removeInput("AT" + n, true);
+    this.removeInput("ORDINAL" + n, true);
+    if (isAt) {
+      this.appendValueInput("AT" + n).setCheck("Number");
+      if (Blockly.Msg["ORDINAL_NUMBER_SUFFIX"]) {
+        this.appendDummyInput("ORDINAL" + n).appendField(Blockly.Msg["ORDINAL_NUMBER_SUFFIX"]);
+      }
+    } else {
+      this.appendDummyInput("AT" + n);
+    }
+    if (n === 2 && Blockly.Msg["TEXT_GET_SUBSTRING_TAIL"]) {
+      this.removeInput("TAIL", true);
+      this.appendDummyInput("TAIL").appendField(Blockly.Msg["TEXT_GET_SUBSTRING_TAIL"]);
+    }
+    const menu = new Blockly.FieldDropdown(this["WHERE_OPTIONS_" + n], function (value) {
+      const newAt = value === "FROM_START" || value === "FROM_END";
+      if (newAt !== isAt) {
+        const block = this.getSourceBlock();
+        block.updateAt_(n, newAt);
+        block.setFieldValue(value, "WHERE" + n);
+        return null;
+      }
+      return undefined;
+    });
+    this.getInput("AT" + n).appendField(menu, "WHERE" + n);
+    this.setStyle("text_blocks");
+    if (n === 1) {
+      this.moveInputBefore("AT1", "AT2");
+      if (this.getInput("ORDINAL1")) {
+        this.moveInputBefore("ORDINAL1", "AT2");
+      }
+    }
+  }
+};
 
-Blockly.Extensions.registerMutator('text_charAt_mutator',
-  Blockly.Constants.Text.TEXT_CHARAT_MUTATOR_MIXIN,
-  Blockly.Constants.Text.TEXT_CHARAT_EXTENSION);
+Blockly.Constants.Text.TEXT_GET_SUBSTRING_EXTENSION = function () {
+  this.WHERE_OPTIONS_1 = [
+    [Blockly.Msg["TEXT_GET_SUBSTRING_START_FROM_START"], "FROM_START"],
+    [Blockly.Msg["TEXT_GET_SUBSTRING_START_FROM_END"], "FROM_END"],
+    [Blockly.Msg["TEXT_GET_SUBSTRING_START_FIRST"], "FIRST"]
+  ];
+  this.WHERE_OPTIONS_2 = [
+    [Blockly.Msg["TEXT_GET_SUBSTRING_END_FROM_START"], "FROM_START"],
+    [Blockly.Msg["TEXT_GET_SUBSTRING_END_FROM_END"], "FROM_END"],
+    [Blockly.Msg["TEXT_GET_SUBSTRING_END_LAST"], "LAST"]
+  ];
+  this.appendDummyInput("AT1");
+  this.appendDummyInput("AT2");
+  if (Blockly.Msg["TEXT_GET_SUBSTRING_TAIL"]) {
+    this.appendDummyInput("TAIL").appendField(Blockly.Msg["TEXT_GET_SUBSTRING_TAIL"]);
+  }
+  this.updateAt_(1, true);
+  this.updateAt_(2, true);
+};
+
+Blockly.Extensions.registerMutator(
+  "text_getSubstring_mutator",
+  Blockly.Constants.Text.TEXT_GET_SUBSTRING_MUTATOR_MIXIN,
+  Blockly.Constants.Text.TEXT_GET_SUBSTRING_EXTENSION
+);

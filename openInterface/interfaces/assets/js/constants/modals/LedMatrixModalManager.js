@@ -24,6 +24,12 @@ let LedMatrixModalManager = {
         LedMatrixModalManager.setExamples();
         //click events listener
         $('.suggestion-img').click(LedMatrixModalManager.change_leds_matrix_from_img);
+        $('.suggestion-img').on('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                $(this).trigger('click');
+            }
+        });
         if (LedMatrixModalManager.isRGB) {
             //change led color on click
             $('#edit_leds_matrix_rgb svg rect').click(LedMatrixModalManager.change_led_color);
@@ -129,25 +135,25 @@ let LedMatrixModalManager = {
             Blockly.Constants.RGB_LEDS_MATRIX_BLOCK.setValue(LedMatrixModalManager.matrix_base64);
             Blockly.Constants.RGB_LEDS_MATRIX_BLOCK.setAlt(LedMatrixModalManager.get_matrix_color());
             Blockly.Constants.HIDDEN_RGB_LEDS_MATRIX.setValue(LedMatrixModalManager.get_matrix_color());
-            $('#popup_matrix_LED_RGB,.overlay').css('display', 'none');
+            pseudoModal.closeModal('popup_matrix_LED_RGB');
         } else {
             LedMatrixModalManager.matrix_base64 = LedMatrixModalManager.get_matrix_base64(document.querySelector("#matrix"));
             Blockly.Constants.LEDS_MATRIX_BLOCK.setValue(LedMatrixModalManager.matrix_base64);
             Blockly.Constants.LEDS_MATRIX_BLOCK.setAlt(LedMatrixModalManager.img_to_binary(new_dataset));
             Blockly.Constants.HIDDEN_MONO_LEDS_MATRIX.setValue(LedMatrixModalManager.img_to_binary(new_dataset));
-            $('#popup_matrix_LED,.overlay').css('display', 'none');
+            pseudoModal.closeModal('popup_matrix_LED');
         }
     },
     cancel_matrix: function () { // event triggered when the cancelled button is pressed -> retrieves the old block matrix and loads it into the modal
         let leds = "";
         if (LedMatrixModalManager.isRGB) {
             leds = $('#edit_leds_matrix_rgb svg rect');
-            $('#popup_matrix_LED_RGB,.overlay').css('display', 'none');
+            pseudoModal.closeModal('popup_matrix_LED_RGB');
             for (let i = 0; i < leds.length; i++)
                 leds[i].attributes['fill']['value'] = Blockly.Constants.RGB_LEDS_MATRIX[i];
         } else {
             leds = $('#edit_leds_matrix svg rect');
-            $('#popup_matrix_LED,.overlay').css('display', 'none');
+            pseudoModal.closeModal('popup_matrix_LED');
             for (let i = 0; i < leds.length; i++)
                 leds[i].attributes['fill']['value'] = Blockly.Constants.LEDS_MATRIX[i];
         }
@@ -266,9 +272,9 @@ let LedMatrixModalManager = {
         if (INTERFACE_NAME == 'mbot')
             LedMatrixModalManager.dark_mode_examples_imgs();
         if (LedMatrixModalManager.isRGB)
-            $("#popup_matrix_LED_RGB,.overlay").css("display", "block");
+            pseudoModal.openModal('popup_matrix_LED_RGB');
         else
-            $("#popup_matrix_LED,.overlay").css("display", "block");
+            pseudoModal.openModal('popup_matrix_LED');
     },
     resize_mod: function () {
         if (LedMatrixModalManager.isRGB)
@@ -314,9 +320,9 @@ let LedMatrixModalManager = {
                         <span class="vitta-modal-title-led-matrix">
                             <span>${jsonPath('modals.led-matrix.title')}</span>
                         </span>
-                        <div class="btn vitta-modal-exit-btn" type="button"  title="Fermer la modale" onclick="LedMatrixModalManager.cancel_matrix()">
+                        <button class="btn vitta-modal-exit-btn" type="button" title="Fermer la modale" onclick="LedMatrixModalManager.cancel_matrix()">
                             <i class="fa fa-times"></i>
-                        </div>
+                        </button>
                     </section>`
         let content = `<section id="content_popup">
                             <section id="leds_matrix">
@@ -358,6 +364,7 @@ let LedMatrixModalManager = {
 
         html += header + content + footer + `</section>`;
         $('body').append(html);
+        pseudoModal.add('popup_matrix_LED');
     },
     setModalRGB: function (width, height) {
         let html = `<section id="popup_matrix_LED_RGB">`;
@@ -365,9 +372,9 @@ let LedMatrixModalManager = {
                         <span class="vitta-modal-title-led-matrix">
                             <span>${jsonPath('modals.led-matrix.title-rgb')}</span>
                         </span>
-                        <div class="btn vitta-modal-exit-btn" type="button"  title="Fermer la modale" onclick="LedMatrixModalManager.cancel_matrix()">
+                        <button class="btn vitta-modal-exit-btn" type="button" title="Fermer la modale" onclick="LedMatrixModalManager.cancel_matrix()">
                             <i class="fa fa-times"></i>
-                        </div>
+                        </button>
                     </section>`
         let content = `<section id="content_popup_rgb">
                             <section id="leds_matrix_rgb">
@@ -418,6 +425,7 @@ let LedMatrixModalManager = {
 
         html += header + content + footer + `</section>`;
         $('body').append(html);
+        pseudoModal.add('popup_matrix_LED_RGB');
     },
     setExamples: function () {
         if (LedMatrixModalManager.isRGB) {
@@ -427,6 +435,8 @@ let LedMatrixModalManager = {
                 images[cpt].name = key;
                 images[cpt].src = LedMatrixModalManager.example_imgs_path + LedMatrixModalManager.DRAW_BITMAP_RGB[key].name;
                 images[cpt].dataset.actionValue = LedMatrixModalManager.DRAW_BITMAP_RGB[key].data;
+                images[cpt].setAttribute('tabindex', '0');
+                images[cpt].setAttribute('role', 'button');
                 cpt += 1;
             }
         } else {
@@ -435,6 +445,8 @@ let LedMatrixModalManager = {
             for (var key in LedMatrixModalManager.DRAW_BITMAP) {
                 images[cpt].src = LedMatrixModalManager.example_imgs_path + LedMatrixModalManager.DRAW_BITMAP[key].name;
                 images[cpt].dataset.actionValue = LedMatrixModalManager.DRAW_BITMAP[key].data;
+                images[cpt].setAttribute('tabindex', '0');
+                images[cpt].setAttribute('role', 'button');
                 cpt += 1;
             }
         }

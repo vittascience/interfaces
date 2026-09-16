@@ -116,56 +116,14 @@ Blockly.Python.io_microbit_reset = function () {
     return "reset()" + NEWLINE;
 };
 
-// Microphone module
-
-Blockly.Python.io_micro_onSoundDetected = function (block) {
-    const branchCode = Blockly.Python.statementToCode(block, "DO") || Blockly.Python.PASS;
-    const state = block.getFieldValue("STATE");
-    const type = block.getFieldValue("TYPE");
-    switch (type) {
-        case "IS":
-            return "if microphone.current_event() == SoundEvent." + state + ":" + NEWLINE + branchCode;
-        case "WAS":
-            return "if microphone.was_sound(SoundEvent." + state + "):" + NEWLINE + branchCode;
-        default:
-            throw Error("Unhandled type option for microphone sensor :'" + type + "'")
-    }
-};
-
-Blockly.Python.io_micro_getCurrentSound = function () {
-    return ["microphone.current_event()", Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python.io_micro_wasSoundDetected = function (block) {
-    const state = block.getFieldValue("STATE");
-    return ["microphone.was_sound(SoundEvent." + state + ")", Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python.io_micro_getSoundLevel = function () {
-    return ["microphone.sound_level()", Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python.io_micro_getHistorySounds = function () {
-    return ["microphone.get_sounds()", Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python.io_micro_setSoundThreshold = function (block) {
-    const state = block.getFieldValue("STATE");
-    const threshold = Blockly.Python.valueToCode(block, "THRESH", Blockly.Python.ORDER_NONE) || "0";
-    return "microphone.set_threshold(SoundEvent." + state + ", " + threshold + ")" + NEWLINE;
-};
-
-Blockly.Python.io_micro_soundCondition = function (block) {
-    const state = block.getFieldValue("STATE");
-    return ["SoundEvent." + state, Blockly.Python.ORDER_ATOMIC];
-};
-
 // External modules
 
 Blockly.Python.io_getKeypadNumber = function (block) {
-    Blockly.Python.addInit('init_one_uart_module', "uart.init(baudrate=9600, bits=8, parity=None, stop=1, tx=" + block.getFieldValue("RX") + ", rx=" + block.getFieldValue("TX") + ")");
+    const pinRX = block.getFieldValue("RX");
+    const pinTX = block.getFieldValue("TX");
+    Blockly.Python.addFunction('uart_switchTo', FUNCTIONS_MICROBIT.DEF_UART_SWITCH_TO);
     Blockly.Python.addFunction('getKeypadNumber', FUNCTIONS_MICROBIT.DEF_KEYPAD_GET_NUMBER);
-    return ["getKeypadNumber()", Blockly.Python.ORDER_ATOMIC];
+    return ["getKeypadNumber(" + pinRX + ", " + pinTX + ")", Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.io_getGroveThumbJoystick = function (block) {

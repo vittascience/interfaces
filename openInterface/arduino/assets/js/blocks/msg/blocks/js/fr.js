@@ -1,5 +1,5 @@
 /**
- * @fileoverview French messages for Arduino UNO R4. (FR)
+ * @fileoverview French messages for Arduino. (FR)
  */
 'use strict';
 //COMMENT - Arduino
@@ -224,6 +224,7 @@ Blockly.Msg['COMMUNICATION_BLUETOOTH_SETTINGS_TITLE'] = '[Grove BT] configurer :
 Blockly.Msg['COMMUNICATION_BLUETOOTH_SETTINGS_TOOLTIP'] = IMG_MODULE_GROVE_BT + Blockly.Tooltip.SEP + 'Permet de configurer le module série Bluetooth en renseignant le nom, le mode (\'S\' pour esclave et \'M\' pour maitre) et le code pin.';
 Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_SET_AT_COMMAND_TITLE'] = '[Grove BT] AT - changer le paramètre %1 en %2';
 Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_SET_AT_COMMAND_TOOLTIP'] = IMG_MODULE_GROVE_BT + Blockly.Tooltip.SEP + 'Permet de changer les paramètres du module Grove Serial Bluetooth v3 en envoyant une commande AT. Une fois le paramètre changé, il n\'est plus nécéssaire de retourner dans ce mode car celui-ci est gardé en mémoire du module.';
+Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_ATBAUD_HELPER'] = '\n.\nPour changer le baudrate, utiliser le chiffre correspondant dans la table suivante. Une fois la commande envoyée, réinitialiser la carte Arduino en appuyant sur le bouton Reset pour appliquer le nouveau baurate.\n';
 Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_GET_AT_COMMAND_TITLE'] = '[Grove BT] AT - valeur du paramètre %1';
 Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_GET_AT_COMMAND_TOOLTIP'] = IMG_MODULE_GROVE_BT + Blockly.Tooltip.SEP + 'Permet de récupérer la valeur des paramètres du module Grove Serial Bluetooth v3 en envoyant une commande AT.';
 Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_SENDDATA_TITLE'] = '[Grove BT] envoyer message %1';
@@ -231,7 +232,7 @@ Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_GROVE
 Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_ONDATARECEIVED_TITLE'] = '[Grove BT] si message reçu dans %1';
 Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_GROVE_BT + Blockly.Tooltip.SEP + 'Permet d\'exécuter des instructions si une donnée est reçue par un module série Bluetooth dans la variable \'bluetoothData\'.';
 Blockly.Msg['COMMUNICATION_BLUETOOTH_HELPER_R4'] = '\n.\nBranchements: Avec la Carte Arduino R4, RXD du module se branche sur TX (D1) et TXD du module se branche sur RX (D0). Cela correspond au port UART sur le shield Grove.'
-Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_KEY_HELPER'] = '\n.\nAttention, pour utiliser ce bloc il faut que le module soit en mode AT. Pour cela, connecter la broche KEY du module à la borne 3V3 de l\'Arduino avec un câble type dupont, puis débranchez et rebranchez la carte Arduino. Le mode AT est visible lorsque la LED clignote environ toutes les secondes sur le module HC05.'
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_KEY_HELPER'] = '\n.\nVeuillez noter : pour utiliser ce bloc, le module doit être en mode AT. Pour cela, branchez la broche KEY du module au terminal 3V3 de l\'Arduino avec un câble Dupont, puis débranchez et rebranchez la carte Arduino. Le mode AT est actif lorsque la LED du module HC05 clignote environ une fois par seconde.';
 Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SET_AT_COMMAND_TITLE'] = '[HC05 BT] AT - changer le paramètre %1 en %2';
 Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SET_AT_COMMAND_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Permet de changer les paramètres du module bluetooth HC05 en envoyant une commande AT. Une fois le paramètre changé, il n\'est plus nécéssaire de retourner dans ce mode car celui-ci est gardé en mémoire du module.' + Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_KEY_HELPER'];
 Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_GET_AT_COMMAND_TITLE'] = '[HC05 BT] AT - valeur du paramètre %1';
@@ -248,7 +249,7 @@ Blockly.Msg['COMMUNICATION_HM10_BLUETOOTH_SET_AT_COMMAND_TOOLTIP'] = IMG_MODULE_
 Blockly.Msg['COMMUNICATION_HM10_BLUETOOTH_GET_AT_COMMAND_TITLE'] = '[HM10 BT] AT - valeur du paramètre %1';
 Blockly.Msg['COMMUNICATION_HM10_BLUETOOTH_GET_AT_COMMAND_TOOLTIP'] = IMG_MODULE_HM10_BT + Blockly.Tooltip.SEP + 'Permet de récupérer la valeur des paramètres du module bluetooth HM10 en envoyant une commande AT.';
 Blockly.Msg['COMMUNICATION_HM10_BLUETOOTH_SENDDATA_TITLE'] = '[HM10 BT] envoyer message %1';
-Blockly.Msg['COMMUNICATION_HM10_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_HM10_BT + Blockly.Tooltip.SEP + 'Permet d\'envoyer des données via le module série BLuetooth HM10 sur les broches digitales D0 à D13.';
+Blockly.Msg['COMMUNICATION_HM10_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_HM10_BT + Blockly.Tooltip.SEP + 'Permet d\'envoyer des données via le module série Bluetooth HM10 sur les broches digitales D0 à D13.';
 Blockly.Msg['COMMUNICATION_HM10_BLUETOOTH_ONDATARECEIVED_TITLE'] = '[HM10 BT] si message reçu dans %1';
 Blockly.Msg['COMMUNICATION_HM10_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HM10_BT + Blockly.Tooltip.SEP + 'Permet d\'exécuter des instructions si une donnée est reçue par un module série Bluetooth HM10 dans la variable \'HM10Data\' sur les broches digitales D0 à D13. Par défaut, le module s\'appelle MLT-BT05.';
 Blockly.Msg['COMMUNICATION_RADIONRF24_SENDDATA_TITLE'] = '[Radio nRF24L01] envoyer à Adresse %1 Canal %2 sur les broches CE %3 CSN %4 le message %5';
@@ -520,6 +521,14 @@ Blockly.Msg['ACTUATORS_MC33926_MOTOR_SHIELD_SETSPEED_TITLE'] = '[Shield Moteurs 
 Blockly.Msg['ACTUATORS_MC33926_MOTOR_SHIELD_SETSPEED_TOOLTIP'] = IMG_MODULE_MC33926_SHIELD_MOTOR + Blockly.Tooltip.SEP + 'Permet de contrôler la vitesse (de 0 à 400) des moteurs à courant continu branchés sur le shield moteur Arduino MC33926.';
 Blockly.Msg['ACTUATORS_MC33926_MOTOR_SHIELD_GETCURRENT_TITLE'] = '[Shield Moteurs MC33926] courant (mA) du moteur %1';
 Blockly.Msg['ACTUATORS_MC33926_MOTOR_SHIELD_GETCURRENT_TOOLTIP'] = IMG_MODULE_MC33926_SHIELD_MOTOR + Blockly.Tooltip.SEP + 'Renvoie le courant (en mA) traversant les moteurs à courant continu branchés sur le shield moteur Arduino MC33926.';
+Blockly.Msg['ACTUATORS_TB6612FNG_MOTOR_DRIVER_DCMOTORRUN_TITLE'] = '[Driver TB6612FNG] contrôler le moteur canal %1 vitesse %2 direction %3';
+Blockly.Msg['ACTUATORS_TB6612FNG_MOTOR_DRIVER_DCMOTORRUN_TOOLTIP'] = 'Permet de piloter un moteur à courant continu connecté sur le canal A ou B du driver TB6612FNG.';
+Blockly.Msg['ACTUATORS_TB6612FNG_MOTOR_DRIVER_DCMOTORBRAKE_TITLE'] = '[Driver moteur TB6612FNG] arrêter le moteur canal %1';
+Blockly.Msg['ACTUATORS_TB6612FNG_MOTOR_DRIVER_DCMOTORBRAKE_TOOLTIP'] = 'Permet de freiner le moteur à courant continu connecté sur le canal A ou B du driver TB6612FNG.';
+Blockly.Msg['ACTUATORS_TB6612FNG_MOTOR_DRIVER_STEPPERRUN_TITLE'] = '[Driver moteur TB6612FNG] moteur pas à pas mode %1 pas %2 vitesse %3 (rpm)';
+Blockly.Msg['ACTUATORS_TB6612FNG_MOTOR_DRIVER_STEPPERRUN_TOOLTIP'] = 'Permet de piloter un moteur pas à pas via le driver TB6612FNG en définissant le mode, le nombre de pas et la vitesse en rpm.';
+Blockly.Msg['ACTUATORS_TB6612FNG_MOTOR_DRIVER_STEPPERSTOP_TITLE'] = '[Driver moteur TB6612FNG] arrêter le moteur';
+Blockly.Msg['ACTUATORS_TB6612FNG_MOTOR_DRIVER_STEPPERSTOP_TOOLTIP'] = 'Permet d\'arrêter le moteur pas à pas piloté par le driver TB6612FNG.';
 Blockly.Msg['ACTUATORS_GROVEVIBRATIONMOTOR_CONTROL_TITLE'] = '[Moteur à vibration] contrôler le %1 sur la broche %2';
 Blockly.Msg['ACTUATORS_GROVEVIBRATIONMOTOR_CONTROL_TOOLTIP'] = IMG_MODULE_VIBRATION_MOTOR + Blockly.Tooltip.SEP + 'Permet d\'activer ou de désactiver le moteur à vibration grove (HAUT ou BAS) sur les broches digitales D0 à D13.';
 Blockly.Msg['ACTUATORS_GROVERELAY_CONTROL_TITLE'] = '[Module relais] contrôler à l\'état %1 sur la broche %2';
@@ -626,5 +635,4 @@ Blockly.Msg['CAMERAS_HUSKYLENS_SAVE_MODEL_TITLE'] = '[HuskyLens] sauvegarder en 
 Blockly.Msg['CAMERAS_HUSKYLENS_SAVE_MODEL_TOOLTIP'] = IMG_HUSKYLENS + Blockly.Tooltip.SEP + 'Sauvegarde le modèle sur la carte SD de la caméra HuskyLens.';
 Blockly.Msg['CAMERAS_HUSKYLENS_LOAD_MODEL_TITLE'] = '[HuskyLens] charger le modèle n°%1';
 Blockly.Msg['CAMERAS_HUSKYLENS_LOAD_MODEL_TOOLTIP'] = IMG_HUSKYLENS + Blockly.Tooltip.SEP + 'Charge le modèle sur la carte SD de la caméra HuskyLens.';
-Blockly.Msg['COMMUNICATION_BLUETOOTH_HELPER_R4'] = '\n.\nConnexions : sur la carte Arduino R4, RXD se connecte à TX (D1) et TXD se connecte à RX (D0). Cela correspond au port UART du shield Grove';
-Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_KEY_HELPER'] = '\n.\nVeuillez noter : pour utiliser ce bloc, le module doit être en mode AT. Pour cela, branchez la broche KEY du module au terminal 3V3 de l\'Arduino avec un câble Dupont, puis débranchez et rebranchez la carte Arduino. Le mode AT est actif lorsque la LED du module HC05 clignote environ une fois par seconde.';
+Blockly.Msg['COMMUNICATION_BLUETOOTH_HELPER_R4'] = '\n.\nConnexions: Sur la carte Arduino R4, RXD est relié à TX (D1) et TXD à RX (D0). Cela correspond au port UART du Grove shield.';

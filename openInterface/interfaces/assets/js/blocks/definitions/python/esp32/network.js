@@ -1265,7 +1265,7 @@ Blockly.Constants.Network.NETWORK_CONNECT_STATION_MUTATOR_MIXIN = {
  * @this {Blockly.Block}
  */
 Blockly.Constants.Network.NETWORK_SERVER_GET_CLIENT_DATA_INIT_EXTENSION = function () {
-    this.closing_ = false;
+    this.option_ = false;
     this.update_(this.updateField_);
 };
 
@@ -1284,7 +1284,7 @@ Blockly.Constants.Network.NETWORK_SERVER_GET_CLIENT_DATA_MUTATOR_MIXIN =
  * @this {Blockly.Block}
  */
 Blockly.Constants.Network.NETWORK_CLIENT_SEND_DATA_INIT_EXTENSION = function () {
-    this.port_ = false;
+    this.option_ = false;
     this.update_(this.updateField_);
 };
 
@@ -2243,7 +2243,7 @@ Blockly.Constants.Network.NETWORK_THINGSPEAK_SEND_DATA_MUTATOR_MIXIN = {
  * @this {Blockly.Block}
  */
 Blockly.Constants.Network.NETWORK_MQTT_CONNECT_WITH_AUTH_INIT_EXTENSION = function () {
-    this.port_ = false;
+    this.option_ = false;
     this.update_(this.updateField_);
 };
 

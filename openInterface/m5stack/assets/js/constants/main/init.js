@@ -7,6 +7,7 @@ const DEFAULT_XML_START = {
 };
 const DEFAULT_CODE_START = 'from m5stack import *\nfrom m5ui import *\nfrom uiflow import *\n\nlcd.setRotation(3)\n\nwhile True:\n  pass';
 const REPLACE_CODE_REQUESTS = {
+    "sensors_getSi1145Light": [/<\s*block type=\s*"sensors_getSi1145Light"\s*id="([^"]{20})"\s*>/g, "<block type=\"sensors_getSunlightData\" id=\"$1\"><field name=\"VERSION\">SI1145</field>"],
     "communication_hc05_sendBluetoothData": [/<\s*block type=\s*"communication_sendBluetoothData"\s*id="([^"]{20})"\s*>/g, "<block type=\"communication_hc05_sendBluetoothData\" id=\"$1\">"],
     "communication_hc05_onBluetoothDataReceived": [/<\s*block type=\s*"communication_onBluetoothDataReceived"\s*id="([^"]{20})"\s*>/g, "<block type=\"communication_hc05_onBluetoothDataReceived\" id=\"$1\">"],
 };
@@ -45,16 +46,19 @@ const PWM_MAX_DUTY = 1023;
 //libraries
 const LIBRARIES_PATH = {
 };
-//simulator
-const SIMULATOR_DEFAULT_BOARD = {
-    "link": 'm5stack.svg',
-    "name": "M5Stack (CORE1)"
-};
-//serial
-const SERIAL_PRODUCTS = {
-    'm5stack-core': {
-        'usbProductId': 0x55D4,
-        'usbVendorId': 0x1A86
+//boards
+const INTERFACE_BOARDS = {
+    [BOARD_M5STACK_CORE1]: {
+        "id": BOARD_M5STACK_CORE1,
+        "link": 'm5stack.svg',
+        "name": "M5Stack (CORE1)"
     }
 };
-const SERIAL_PRODUCT_FILTER = true;
+//simulator
+const SIMULATOR_DEFAULT_BOARD = INTERFACE_BOARDS[BOARD_DEFAULT];
+//serial
+const SERIAL_OPTIONS = {
+    boardsFilter: [
+        { usbVendorId: 0x1A86, usbProductId: 0x55D4 }  // M5Stack
+    ]
+};

@@ -154,9 +154,15 @@ Simulator._3DRobotSimulatorPrepareForRun = false;
 
 /**
  * Voice synthesis object.
- * @type {Object} synthesis
+ * @type {Array} synthesis
  */
 Simulator.voices = [];
+
+/**
+ * Interval set in simulator.
+ * @type {Object} intervals
+ */
+Simulator.intervals = Object.create(null);
 
 /**
  * Open simulator.
@@ -203,7 +209,7 @@ Simulator.closingSimulator = async function () {
     if (this._hasGalaxiaSimulator()) {
         this.Mosaic.specific.galaxiaUi.clearScreen(true);
     }
-    if (this.hasRobotSimulator()) {
+    if (this._hasRobotSimulator()) {
         RobotSimulator.isRunning = false;
         $("#graph-zoom-in").prop('disabled', false);
         $("#graph-zoom-out").prop('disabled', false);
@@ -239,12 +245,16 @@ Simulator.init = async function () {
         if (this._hasMultiSimulator() && document.querySelector('#simulator-multi-info') === null) {
             this.addMultiSimulatorToDom();
         }
-        this.initBoard();
-        if (['arduino', 'esp32'].includes(INTERFACE_NAME)) {
-            this.updateBoard_v2();
-        } else {
-            this.updateBoard();
+
+        if (this._hasBoardSimulator()) {
+            this.initBoard();
+            if (this._hasUpdateBoardV2()) {
+                this.updateBoard_v2();
+            } else {
+                this.updateBoard();
+            }
         }
+
         this._getInterfaceModules();
 
         if (this.Mosaic.externalLibraries && typeof this.Mosaic.externalLibraries.init !== 'undefined') {
@@ -267,7 +277,7 @@ Simulator.init = async function () {
             this.Mosaic.specific.galaxiaUi.init();
         }
         /* Robot simulator */
-        if (this.hasRobotSimulator()) {
+        if (this._hasRobotSimulator()) {
             if (typeof SIMULATOR_DEFAULT_ROBOT !== 'undefined' && SIMULATOR_DEFAULT_ROBOT) {
                 RobotSimulator.currentRobotName = SIMULATOR_DEFAULT_ROBOT;
             }
@@ -320,6 +330,19 @@ Simulator.init = async function () {
 };
 
 /**
+ * Get code for simulator
+ */
+Simulator.getProjectCode = function () {
+    let userCode;
+    if (INTERFACE_NAME == 'arduinoq') {
+        userCode = CodeManager.getSharedInstance().getFile('sketch.ino');
+    } else {
+        userCode = CodeManager.getSharedInstance().getCode();
+    }
+    return userCode;
+};
+
+/**
  * Add multi simulator to dom
  */
 Simulator.addMultiSimulatorToDom = function () {
@@ -351,8 +374,8 @@ Simulator.addMultiSimulatorToDom = function () {
 Simulator.update = async function (forcedUpdate = false) {
     try {
         this._requestWirelessSimulation();
-        const userCode = CodeManager.getSharedInstance().getCode();
-        if (forcedUpdate ||userCode != this._userCode || this._userCode == null) {
+        const userCode = Simulator.getProjectCode();
+        if (forcedUpdate || userCode != this._userCode || this._userCode == null) {
             this.code = typeof this.CodeFriendly.getAdaptedCode !== 'undefined' ? this.CodeFriendly.getAdaptedCode(userCode) : userCode;
             this._userCode = userCode;
             if (this._hasAutoCorrector() && $('#simulator-modules').hasClass("visualizer-mode")) {
@@ -364,7 +387,7 @@ Simulator.update = async function (forcedUpdate = false) {
                 console.error(e);
             }
             if (!$('#simulator-modules').hasClass("visualizer-mode")) {
-                if (this.hasRobotSimulator()) {
+                if (this._hasRobotSimulator()) {
                     if (RobotSimulator.robot && RobotSimulator.robot.resetObjects) {
                         RobotSimulator.robot.resetObjects();
                     }
@@ -432,7 +455,7 @@ Simulator.play = async function () {
     if (this.isVittaCompanionConnected()) return;
     $("#simulator_play").prop('disabled', true);
     $("#simulator_pause").prop('disabled', false);
-    if (this.has3DRobotSimulator() && typeof Simulator3D !== 'undefined' && typeof Simulator3D.pause === 'function') {
+    if (this._has3DRobotSimulator() && typeof Simulator3D !== 'undefined' && typeof Simulator3D.pause === 'function') {
         Simulator3D.play();
     }
     if (this.wasPaused) {
@@ -446,7 +469,7 @@ Simulator.play = async function () {
         if (this.audioContext && this.audioContext.state != 'closed') {
             this.audioContext.suspend();
         }
-        const userCode = CodeManager.getSharedInstance().getCode();
+        const userCode = Simulator.getProjectCode();
         this.code = typeof this.CodeFriendly.getAdaptedCode !== 'undefined' ? this.CodeFriendly.getAdaptedCode(userCode) : userCode;
         this.isRunning = true;
         this.prepareToRun();
@@ -480,7 +503,7 @@ Simulator.pause = function () {
         AndroidInterface.buddySayNo(40, 5);
     }
 
-    if (this.has3DRobotSimulator() && typeof Simulator3D !== 'undefined' && typeof Simulator3D.pause === 'function') {
+    if (this._has3DRobotSimulator() && typeof Simulator3D !== 'undefined' && typeof Simulator3D.pause === 'function') {
         Simulator3D.pause();
     }
 
@@ -508,11 +531,11 @@ Simulator.replay = async function () {
     this.Debugger.emptyVariablesPanel();
     this.Debugger.eraseBreakpoint();
     this.Components.Button.reset();
-    if (this.hasRobotSimulator() && RobotSimulator.isRunning) {
+    if (this._hasRobotSimulator() && RobotSimulator.isRunning) {
         RobotSimulator.restartRobot();
         RobotSimulator.Pen.positions = new Array();
     }
-    if ((this.has3DRobotSimulator() || this._has3DInterface()) && typeof Simulator3D !== 'undefined' && typeof Simulator3D.startPosition !== 'undefined') {
+    if ((this._has3DRobotSimulator() || this._has3DInterface()) && typeof Simulator3D !== 'undefined' && typeof Simulator3D.startPosition !== 'undefined') {
         await Simulator3D.reset();
         await waitFor(() => Simulator3D.isBusy === false);
     }
@@ -621,12 +644,14 @@ Simulator.prepareToRun = function () {
         if (typeof this.Mosaic.BOARD_HEADER !== 'undefined') {
             $('#board-container').html(this.Mosaic.BOARD_HEADER);
         } else {
-            $('#board-container').html(`<object id="board-viewer" class="mt-3" type="image/svg+xml"></object>`);
+            $('#board-container').html(`<object id="board-viewer" class="mt-3" type="image/svg+xml" role="img" aria-label="Board simulator view"></object>`);
         }
-        if (['arduino', 'esp32'].includes(INTERFACE_NAME)) {
-            this.updateBoard_v2();
-        } else {
-            this.updateBoard();
+        if (this._hasBoardSimulator()) {
+            if (this._hasUpdateBoardV2()) {
+                this.updateBoard_v2();
+            } else {
+                this.updateBoard();
+            }
         }
     } else {
         this.Mosaic.specific.ti.clearTurtleScreen();
@@ -648,7 +673,12 @@ Simulator.prepareToRun = function () {
 Simulator.waitBoardViewer = async function () {
     if (!/(TI-83|niryo|winky|spike|sphero|nao)/.test(INTERFACE_NAME)) {
         return new Promise(resolve => {
-            document.querySelector('#board-viewer').addEventListener('load', () => resolve());
+            const el = document.querySelector('#board-viewer');
+            if (el.contentDocument && el.contentDocument.querySelector('svg')) {
+                resolve();
+                return;
+            }
+            el.addEventListener('load', () => resolve(), { once: true });
         });
     }
 };
@@ -689,11 +719,37 @@ Simulator.resumeModulesAnimations = function () {
     });
 };
 
+Simulator.addBoardTogglerToDom = function () {
+    if (document.getElementById('simulator-board-toggler') !== null) return;
+    const boardTogglerHtml = `
+    <button id="simulator-board-toggler" class="btn simulator-button-circle" type="button" onclick="Simulator.toggleBoardDisplay()" aria-label="Toggle board display" data-i18n="[aria-label]code.simulator.buttons.base.toggleBoardDisplay">
+        <i class="fa-solid fa-minus simulator-buttons-icon"></i>
+    </button>`;
+    document.querySelector('.simulator-board-buttons').insertAdjacentHTML('beforeend', boardTogglerHtml);
+};
+
+Simulator.addBoardOptionToDom = function () {
+    if (document.getElementById('simulator-board-selector') !== null) return;
+    const simulatorBoardOptionHtml = `
+    <div class="dropdown">
+        <button id="simulator-board-selector" class="btn dropdown-toggle simulator-button-circle" type="button"
+            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Select board" data-i18n="[aria-label]code.simulator.buttons.base.selectBoard">
+            <i class="fa-solid fa-microchip simulator-board-selector-microship"></i>
+        </button>
+        <div id="simulator-board-options" class="dropdown-menu" aria-labelledby="simulator-board-selector"></div>
+    </div>`;
+    document.querySelector('.simulator-board-buttons').insertAdjacentHTML('beforeend', simulatorBoardOptionHtml);
+};
+
 Simulator.initBoard = function () {
+    if (!(['TI-83', 'winky']).includes(INTERFACE_NAME)) {
+        this.addBoardTogglerToDom();
+    }
     if (Main.hasBoardSelector()) {
+        Simulator.addBoardOptionToDom();
         const boardId = Blockly.Constants.getSelectedBoard();
         this.board = INTERFACE_BOARDS[boardId];
-        if (['arduino', 'esp32'].includes(INTERFACE_NAME)) {
+        if (this._hasUpdateBoardV2()) {
             document.getElementById("simulator-board-options").innerHTML = "";
             const addButton = (buttonId, boardName, isShield = false) => {
                 const btn = `<button id="${buttonId}" class="dropdown-item" onclick="updateBoard(true, '${boardId}', ${isShield});" data-board="${boardName}">${boardName}</button>`;
@@ -703,6 +759,15 @@ Simulator.initBoard = function () {
             if (Object.values(INTERFACE_BOARDS).filter(item => item.shieldId !== undefined).map(item => item.id).includes(boardId)) {
                 addButton("shield-grove", INTERFACE_BOARDS[boardId].shieldName, true);
             }
+        } else if (INTERFACE_NAME === "raspberrypi" && document.querySelector('#simulator-board-options .dropdown-item') === null) {
+            const buttonsHtml = `
+            <button id="main-board" class="dropdown-item fw-bold"
+                onclick="updateBoard(true,'raspberrypi')" data-board="Raspberry Pi">Raspberry Pi</button>
+            <button class="dropdown-item"
+                onclick="updateBoard(true,'sensehat')" data-board="SenseHat">SenseHat</button>
+            <button class="dropdown-item"
+                onclick="updateBoard(true,'grovepihat')" data-board="GrovePi Hat">GrovePi Hat</button>`;
+            document.querySelector('#simulator-board-options').insertAdjacentHTML('beforeend', buttonsHtml);
         }
     } else {
         this.board = SIMULATOR_DEFAULT_BOARD;
@@ -723,7 +788,7 @@ Simulator.updateBoard = function (link, name) {
     }
     if (this.board.link) {
         const path = _PATH + "/" + INTERFACE_NAME + "/assets/media/simulator/board/" + this.board.link;
-        if (/(microbit|wb55|l476|mBot|m5stack|galaxia|GalaxiaCircuitPython|buddy|cyberpi|pico|eliobot|thymio|raspberrypi|lotibot|photon|bluebot|codey|steami|alphai)/.test(INTERFACE_NAME) && (this.board.link).includes('.svg')) {
+        if (/(arduinoq|microbit|wb55|l476|mBot|m5stack|galaxia|GalaxiaCircuitPython|buddy|cyberpi|pico|eliobot|thymio|raspberrypi|lotibot|photon|bluebot|codey|steami|alphai)/.test(INTERFACE_NAME) && (this.board.link).includes('.svg')) {
             $("#board-viewer").attr("data", path);
         } else {
             $("#board-viewer").css('background-image', "url('" + path + "')");
@@ -740,9 +805,9 @@ Simulator.updateBoard = function (link, name) {
                 option.classList.remove('fw-bold');
             }
         });
-        if (typeof this.Mosaic.addSpecificInitializations !== 'undefined') {
-            this.Mosaic.addSpecificInitializations();
-        }
+    }
+    if (typeof this.Mosaic.addSpecificInitializations !== 'undefined') {
+        this.Mosaic.addSpecificInitializations();
     }
 };
 
@@ -860,7 +925,6 @@ Simulator.resetErrorMessage = function () {
  * Check if interface need radio button for multi page.
  */
 Simulator._requestWirelessSimulation = function () {
-    if (typeof ltiVariables13 !== 'undefined') return;
     const regExps = {
         "microbit": /(import radio|from radio import \*)/,
         "esp32": /(import vitta_(server|client)|from vitta_(server|client) import ((SERVER|CLIENT)|\*))/,
@@ -873,7 +937,7 @@ Simulator._requestWirelessSimulation = function () {
     };
     const requested = regExps[Main.getInterface()];
     const url = (window.location != window.parent.location) ? document.referrer : document.location.href;
-    if (typeof isMultiChild === 'undefined' && requested && requested.test(this.code) && !url.includes('/multi') && !$_GET('duo') && !url.includes('/classroom')) {
+    if (typeof isMultiChild === 'undefined' && requested && requested.test(this.code) && !url.includes('/multi') && !$_GET('duo') && !document.querySelector('#multi-iframe-wrapper')) {
         $("#simulator-multi-info").localize().show();
         $("#simulator-multi-info .interface-tooltip__header-close-btn").click(function () {
             $('#simulator-multi-tooltip').hide();
@@ -920,7 +984,7 @@ Simulator.toggleFullscreen = function () {
     } else {
         setFullscreen(false);
     }
-    if (this.hasRobotSimulator() && RobotSimulator.isRunning) {
+    if (this._hasRobotSimulator() && RobotSimulator.isRunning) {
         RobotSimulator.resize();
     }
     if (this._hasWiringSimulator() && WiringSimulator.isRunning) {
@@ -972,12 +1036,12 @@ Simulator.redoDropdownOptions = function () {
  * Check if interface has to add Robot simulator.
  * @return {boolean} state
  */
-Simulator.hasRobotSimulator = function (board) {
+Simulator._hasRobotSimulator = function (board) {
     if (INTERFACE_NAME == "esp32") {
         if (!board) board = Blockly.Constants.getSelectedBoard();
         return board == BOARD_NANO_ESP32;
     }
-    return ["microbit", "wb55", "l476", "TI-83", "mBot", "buddy", "cyberpi", "pico", "eliobot", "thymio", "sphero", "lotibot", "bluebot", "photon", "codey", "alphai"].includes(INTERFACE_NAME);
+    return ["microbit", "wb55", "l476", "TI-83", "mBot", "buddy", "cyberpi", "pico", "eliobot", "thymio", "sphero", "lotibot", "bluebot", "photon", "codey", "alphai", "raspberrypi"].includes(INTERFACE_NAME);
 };
 
 /**
@@ -992,7 +1056,7 @@ Simulator._has3DInterface = function () {
  * check if interface has to add 3D Robot simulator.
  * @returns {boolean} state
  */
-Simulator.has3DRobotSimulator = function (board) {
+Simulator._has3DRobotSimulator = function (board) {
     if (INTERFACE_NAME == "esp32") {
         if (!board) board = Blockly.Constants.getSelectedBoard();
         return board == BOARD_ILO;
@@ -1053,11 +1117,27 @@ Simulator._hasWebSimulator = function (board) {
 };
 
 /**
- * Check if interface need speech synthesis.
+ * Check if interface has speech synthesis.
  * @returns {boolean} state
  */
 Simulator._hasSpeechSynthesis = function () {
     return ["spike"].includes(INTERFACE_NAME);
+};
+
+/**
+ * Check if interface has board simulator.
+ * @returns {boolean} state
+ */
+Simulator._hasBoardSimulator = function () {
+    return ["arduino", "microbit", "wb55", "l476", "buddy", "TI-83", "mBot", "cyberpi", "esp32", "thymio", "winky", "galaxia", "raspberrypi", "pico", "m5stack", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "eliobot", "alphai", "GalaxiaCircuitPython", "steami", "arduinoq"].includes(INTERFACE_NAME);
+};
+
+/**
+ * Check if interface has board updateBoard_v2.
+ * @returns {boolean} state
+ */
+Simulator._hasUpdateBoardV2 = function () {
+    return ['arduino', 'esp32', 'pico'].includes(INTERFACE_NAME);
 };
 
 /**
@@ -1072,20 +1152,22 @@ Simulator.initMosaicSliders = function () {
         change: this.onSliderChanged.bind(this)
     }).on("slide", this.onSliderChanged.bind(this));
 
-    $("body").on('change', '.module-gauge-selector', () => {
-        const id_module = $(this).attr('id').substr(0, $(this).attr('id').length - 7);
-        const suffix = $(this).val();
+    $("body").on('change', '.module-gauge-selector', (event) => {
+        const $el = $(event.currentTarget);
+        const id_module = $el.attr('id').substr(0, $el.attr('id').length - 7);
+        const suffix = $el.val();
         const id_gauge = "#" + id_module + '_gauge' + suffix;
-        $(this).parent().parent().parent().find('.slide-display').addClass('not-shown');
+        $("#" + id_module).find('.slide-display').addClass('not-shown');
         $(id_gauge).removeClass('not-shown');
         this.pinList.find(module => module.id == id_module).suffix = suffix;
     });
 
-    $("body").on('change', '.module-color-selector', () => {
-        const id_module = $(this).attr('id').substr(0, $(this).attr('id').length - 7);
+    $("body").on('change', '.module-color-selector', (event) => {
+        const $el = $(event.currentTarget);
+        const id_module = $el.attr('id').substr(0, $el.attr('id').length - 7);
         const mod = this.getModuleByKey(id_module.split('_')[0]);
         for (let i = 0; i < mod.palette.length; i++) {
-            if (mod.palette[i].title == $(this).val()) {
+            if (mod.palette[i].title == $el.val()) {
                 $("#" + id_module).css("filter", 'hue-rotate(' + mod.palette[i].angle + 'deg)');
                 break;
             }
@@ -1306,94 +1388,102 @@ Simulator._getInterfaceModules = function () {
         if (this.Mosaic.groveRegex && this.Mosaic.grove_analog) {
             this.modules = this.modules.concat(this.Mosaic.grove_analog.definitions);
         }
-        if (typeof READ_ANALOG_MAX_VALUE === "undefined") return;
-        const getExtract = (id) => (this.Mosaic.specific.extractPin && this.Mosaic.specific.extractPin[id]) ? this.Mosaic.specific.extractPin[id] : null;
-        const pinsModules = [{
-            extractPin: getExtract("read-digital"),
-            id: "read-digital",
-            title: "Lecture digitale",
-            pin: 'pin n°',
-            pins: 'digital',
-            type: 'input',
-            listeners: [{
-                default: 'OFF',
-                unit: '',
-                color: "#f9d142 ",
-                suffix: ""
-            }],
-            class: "button",
-            picture: "Bouton.png",
-            pictureAnimation: "Bouton-animation.png",
-            pictureInteraction: "buttonPush",
-            animate: function (Animator) {
-                Animator.button();
+        if (this.Mosaic.specific?.extractPin) {
+            const getExtract = (id) => this.Mosaic.specific.extractPin?.[id];
+            let pinsModules = [{
+                extractPin: getExtract("read-digital"),
+                id: "read-digital",
+                title: "Lecture digitale",
+                pin: 'pin n°',
+                pins: 'digital',
+                type: 'input',
+                listeners: [{
+                    default: 'OFF',
+                    unit: '',
+                    color: "#f9d142 ",
+                    suffix: ""
+                }],
+                class: "button",
+                picture: "Bouton.png",
+                pictureAnimation: "Bouton-animation.png",
+                pictureInteraction: "buttonPush",
+                animate: function (Animator) {
+                    Animator.button();
+                }
+            },
+            {
+                extractPin: getExtract("write-digital"),
+                id: "write-digital",
+                title: "Ecriture digitale",
+                pin: 'pin n°',
+                pins: 'digital',
+                type: 'output',
+                value: 0,
+                picture: "LED.png",
+                pictureAnimation: "LED-animation.png",
+                animate: function (Animator) {
+                    Animator.led();
+                }
+            }];
+
+            if (typeof READ_ANALOG_MAX_VALUE !== "undefined") {
+                pinsModules.push({
+                    extractPin: getExtract("read-analog"),
+                    id: "read-analog",
+                    title: "Lecture analogique",
+                    pin: 'pin n°',
+                    pins: 'analog_read',
+                    type: 'input',
+                    listeners: [{
+                        default: Math.round(READ_ANALOG_MAX_VALUE / 2),
+                        unit: '',
+                        color: "#f9d142",
+                        suffix: ""
+                    }],
+                    picture: "Bouton.png",
+                    picture: "Potentiometre.png",
+                    pictureAnimation: "Potentiometre-animation.png",
+                    animate: function (Animator) {
+                        Animator.rotate(0, READ_ANALOG_MAX_VALUE, text = Animator.value, angle = 270);
+                    }
+                });
             }
-        },
-        {
-            extractPin: getExtract("write-digital"),
-            id: "write-digital",
-            title: "Ecriture digitale",
-            pin: 'pin n°',
-            pins: 'digital',
-            type: 'output',
-            value: 0,
-            picture: "LED.png",
-            pictureAnimation: "LED-animation.png",
-            animate: function (Animator) {
-                Animator.led();
+            if (typeof READ_ANALOG_MAX_VALUE !== "undefined" && typeof PWM_MAX_DUTY !== 'undefined') {
+                pinsModules.push({
+                    extractPin: getExtract("write-analog"),
+                    id: "write-analog",
+                    title: "Ecriture analogique",
+                    pin: 'pin n°',
+                    pins: 'PWM',
+                    type: 'output',
+                    value: 0,
+                    picture: "LED.png",
+                    pictureAnimation: "LED-animation.png",
+                    animate: function (Animator) {
+                        Animator.opacity(0, typeof WRITE_ANALOG_MAX_VALUE !== 'undefined' ? WRITE_ANALOG_MAX_VALUE : PWM_MAX_DUTY);
+                    }
+                });
             }
-        },
-        {
-            extractPin: getExtract("read-analog"),
-            id: "read-analog",
-            title: "Lecture analogique",
-            pin: 'pin n°',
-            pins: 'analog_read',
-            type: 'input',
-            listeners: [{
-                default: Math.round(READ_ANALOG_MAX_VALUE / 2),
-                unit: '',
-                color: "#f9d142",
-                suffix: ""
-            }],
-            picture: "Bouton.png",
-            picture: "Potentiometre.png",
-            pictureAnimation: "Potentiometre-animation.png",
-            animate: function (Animator) {
-                Animator.rotate(0, READ_ANALOG_MAX_VALUE, text = Animator.value, angle = 270);
+            if (typeof PWM_MAX_DUTY !== 'undefined') {
+                pinsModules.push({
+                    extractPin: getExtract("pwm"),
+                    id: "pwm",
+                    title: "Signal PWM",
+                    pin: 'pin n°',
+                    pins: 'PWM',
+                    type: 'output',
+                    value: 0,
+                    picture: "LED.png",
+                    pictureAnimation: "LED-animation.png",
+                    animate: function (Animator) {
+                        $(Animator.valueId).html(Animator.value);
+                        $(Animator.animId).css('opacity', Animator.value / PWM_MAX_DUTY);
+                    }
+                });
             }
-        },
-        {
-            extractPin: getExtract("write-analog"),
-            id: "write-analog",
-            title: "Ecriture analogique",
-            pin: 'pin n°',
-            pins: 'PWM',
-            type: 'output',
-            value: 0,
-            picture: "LED.png",
-            pictureAnimation: "LED-animation.png",
-            animate: function (Animator) {
-                Animator.opacity(0, typeof WRITE_ANALOG_MAX_VALUE !== 'undefined' ? WRITE_ANALOG_MAX_VALUE : PWM_MAX_DUTY);
-            }
-        },
-        {
-            extractPin: getExtract("pwm"),
-            id: "pwm",
-            title: "Signal PWM",
-            pin: 'pin n°',
-            pins: 'PWM',
-            type: 'output',
-            value: 0,
-            picture: "LED.png",
-            pictureAnimation: "LED-animation.png",
-            animate: function (Animator) {
-                $(Animator.valueId).html(Animator.value);
-                $(Animator.animId).css('opacity', Animator.value / PWM_MAX_DUTY);
-            }
-        }];
-        var _this = this;
-        pinsModules.forEach(item => _this.modules.push(item));
+            var _this = this;
+            pinsModules.forEach(item => _this.modules.push(item));
+        }
     }
 };
 
@@ -1421,7 +1511,7 @@ Simulator.updateModules = async function () {
     }
 
     // Manage Robot Simulator running.
-    if (this.hasRobotSimulator()) {
+    if (this._hasRobotSimulator()) {
         let robot = Robots[RobotSimulator.currentRobotName];
         if (typeof this.Mosaic.getCurrentRobot === "function") {
             const robotName = this.Mosaic.getCurrentRobot();
@@ -1457,7 +1547,7 @@ Simulator.updateModules = async function () {
         }
     }
 
-    if (this.has3DRobotSimulator() && typeof Simulator3D !== 'undefined') {
+    if (this._has3DRobotSimulator() && typeof Simulator3D !== 'undefined') {
         if (typeof this.Mosaic !== 'undefined' && typeof this.Mosaic.getCurrentRobot3D === "function") {
             const robotName = this.Mosaic.getCurrentRobot3D();
             if (robotName === "error") {
@@ -1507,27 +1597,29 @@ Simulator.updateModules = async function () {
  * Update the pin list used by all pin modules.
  */
 Simulator.update_pinList = function () {
-    const modules = this.getSimulatedModules();
-    for (let i = modules.length - 1; i > -1; i--) {
-        const moduleDiv = modules[i];
-        if (moduleDiv && moduleDiv.id !== undefined) {
-            const coreId = moduleDiv.id.split('_')[0];
-            const mod = this.modules.find(element => element.id == coreId);
-            if (mod) {
-                if (/pin n°/.test(mod.pin)) {
-                    const modulePin = this.pinList.find(obj => obj.id === moduleDiv.id);
-                    if (modulePin && modulePin.regex && !this.code.match(modulePin.regex)) {
-                        $("#" + moduleDiv.id).remove();
-                        this.pinList = this.pinList.filter(obj => obj.id != moduleDiv.id);
-                    }
-                } else {
-                    const regex = this._checkRegex(mod);
-                    if (regex && !this.code.match(regex)) {
-                        $("#" + moduleDiv.id).remove();
-                    }
-                }
+    const modulesById = new Map(this.modules.map(mod => [mod.id, mod]));
+    const pinById = new Map(this.pinList.map(pin => [pin.id, pin]));
+    const idsToRemoveFromPinList = new Set();
+    for (const moduleDiv of this.getSimulatedModules()) {
+        if (!moduleDiv?.id) continue;
+        const coreId = moduleDiv.id.split('_')[0];
+        const mod = modulesById.get(coreId);
+        if (!mod) continue;
+        if (/pin n°/.test(mod.pin)) {
+            const modulePin = pinById.get(moduleDiv.id);
+            if (modulePin?.regex && !this.code.match(modulePin.regex)) {
+                moduleDiv.remove();
+                idsToRemoveFromPinList.add(moduleDiv.id);
             }
+            continue;
         }
+        const regex = this._checkRegex(mod);
+        if (regex && !this.code.match(regex)) {
+            moduleDiv.remove();
+        }
+    }
+    if (idsToRemoveFromPinList.size) {
+        this.pinList = this.pinList.filter(pin => !idsToRemoveFromPinList.has(pin.id));
     }
 };
 
@@ -1542,16 +1634,11 @@ Simulator.addModule = function (mod, regex) {
         .filter(unique);
 
     const addModuleByPin = (pin, moduleCodeLine, slot, secondPin) => {
-        // Define pin by it number
         let pinDef = this.Mosaic.getPinDef(pin, mod);
         if (/UART/.test(pin)) {
             pinDef = { name: pin, id: pin };
         }
-        // Set specific line regex of module
-        let specificRegex = regex.toString().replace(/[0-9]{1,2}/, pin);
-        if (secondPin) {
-            specificRegex = new RegExp(specificRegex.replace(/[0-9]{1,2}/, secondPin));
-        }
+        let specificRegex = new RegExp(moduleCodeLine.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
         if (mod.multipleModules) {
             const nLine = moduleCodeLine.split(' ');
             for (let j = 0; j < parseInt(nLine[nLine.length - 1]); j++) {
@@ -1720,7 +1807,8 @@ Simulator.checkPossibleCombination = function (mod, id, pinDef, pinIndex) {
             const possibleCombine = (attachedMod.type === mod.type) && (attachedMod.pins === mod.pins || digitalWriteAndPwm);
             const possibleCombination = !(typeof attachedMod.noCombine === 'undefined' || attachedMod.noCombine != true) || !(typeof mod.noCombine === 'undefined' || mod.noCombine != true);
             if ((!possibleCombine || (typeof mod.extractPin === 'undefined' && typeof attachedMod.extractPin === 'undefined')) && !possibleCombination) {
-                this.pinError = "[Pin Error] The module <b>" + (mod.multiple ? mod.id.split('-')[0] : mod.id) + "</b> cannot be connected on pin <b>" + this.pinList[pinIndex].pin + "</b>. The module <b>" + (attachedMod.multiple ? attachedMod.id.split('-')[0] : attachedMod.id) + "</b> is already connected.";
+                console.warn("If combination seems possible, check if you added 'pins' in module definition.")
+                this.pinError = i18next.t('code.simulator.pinError', { modId: (mod.multiple ? mod.id.split('-')[0] : mod.id), pin: this.pinList[pinIndex].pin, attachedId: (attachedMod.multiple ? attachedMod.id.split('-')[0] : attachedMod.id) });
             }
         }
     }
@@ -1901,7 +1989,7 @@ Simulator.generateModuleDiv_header = function (mod, id, pinName) {
             html += ' i2c-module';
         } else if (/(ESP32|STM32|Maqueen|micro:bit|Gamepad|Buggy|Codo|Oobybot|Innovator Hub|raspberrypi|Galaxia|GalaxiaCircuitPython|thymio)/.test(mod.pin)) {
             html += ' internal-module';
-        } else if (/Rover|mCore|mBot|CyberPi|Codey|STeaMi/.test(mod.pin)) {
+        } else if (/(Rover|mCore|mBot|CyberPi|Codey|STeaMi|G1 Tank)/.test(mod.pin)) {
             html += ' blue-module';
         }
 

@@ -11,7 +11,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "ANGLE",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",
@@ -35,7 +35,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "SPEED",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "DIR",
@@ -100,7 +100,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         }, {
             "type": "input_value",
             "name": "SPEED",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }],
         "inputsInline": true,
         "previousStatement": null,
@@ -141,7 +141,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "STEP",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "DIR",
@@ -181,11 +181,11 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         }, {
             "type": "input_value",
             "name": "SPEED",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "DURATION",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }],
         "inputsInline": true,
         "previousStatement": null,
@@ -240,7 +240,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         }, {
             "type": "input_value",
             "name": "SPEED",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }],
         "inputsInline": true,
         "previousStatement": null,
@@ -266,6 +266,108 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         }],
         "output": "Decimal",
         "tooltip": "%{BKY_ACTUATORS_MC33926_MOTOR_SHIELD_GETCURRENT_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
+    // TB6612FNG MOTOR DRIVER _ DCMOTORRUN JSON
+    {
+        "type": "actuators_TB6612FNGMotorDriver_DCMotorRun",
+        "message0": "%{BKY_ACTUATORS_TB6612FNG_MOTOR_DRIVER_DCMOTORRUN_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "CHANNEL",
+            "options": [
+                ["A", "A"],
+                ["B", "B"]
+            ]
+        },
+        {
+            "type": "input_value",
+            "name": "SPEED",
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
+        },
+        {
+            "type": "field_grid_dropdown",
+            "name": "DIRECTION",
+            "options": [
+                ["↺", "1"],
+                ["↻", "-1"]
+            ]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_ACTUATORS_TB6612FNG_MOTOR_DRIVER_DCMOTORRUN_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
+    // TB6612FNG MOTOR DRIVER _ DCMOTORBRAKE JSON
+    {
+        "type": "actuators_TB6612FNGMotorDriver_DCMotorBrake",
+        "message0": "%{BKY_ACTUATORS_TB6612FNG_MOTOR_DRIVER_DCMOTORBRAKE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "CHANNEL",
+            "options": [
+                ["A", "A"],
+                ["B", "B"]
+            ]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_ACTUATORS_TB6612FNG_MOTOR_DRIVER_DCMOTORBRAKE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
+    // TB6612FNG MOTOR DRIVER _ STEPPERRUN JSON
+    {
+        "type": "actuators_TB6612FNGMotorDriver_StepperRun",
+        "message0": "%{BKY_ACTUATORS_TB6612FNG_MOTOR_DRIVER_STEPPERRUN_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "MODE",
+            "options": [
+                ["full step", "FULL_STEP"],
+                ["half step", "HALF_STEP"],
+                ["wave drive", "WAVE_DRIVE"],
+                ["micro stepping", "MICRO_STEPPING"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "STEPS",
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
+        }, {
+            "type": "input_value",
+            "name": "RPM",
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_ACTUATORS_TB6612FNG_MOTOR_DRIVER_STEPPERRUN_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
+    // TB6612FNG MOTOR DRIVER _ STEPPERSTOP JSON
+    {
+        "type": "actuators_TB6612FNGMotorDriver_StepperStop",
+        "message0": "%{BKY_ACTUATORS_TB6612FNG_MOTOR_DRIVER_STEPPERSTOP_TITLE}",
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_ACTUATORS_TB6612FNG_MOTOR_DRIVER_STEPPERSTOP_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
             "block_init_color"
@@ -434,7 +536,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "VALUE",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",
@@ -535,7 +637,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         }, {
             "type": "input_value",
             "name": "DURATION",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",
@@ -558,7 +660,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "FREQUENCY",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",
@@ -582,11 +684,11 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "FREQUENCY",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "DURATION",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",

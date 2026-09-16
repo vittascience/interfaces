@@ -35,7 +35,7 @@ class InterfaceInit {
     }
 
     _needPythonLibraries() {
-        return ["microbit", "esp32", "wb55", "l476", "buddy", "galaxia", "m5stack", "GalaxiaCircuitPython", "pico", "eliobot", "thymio", "winky", "niryo"].includes(this._interface);
+        return ["microbit", "esp32", "wb55", "l476", "buddy", "galaxia", "m5stack", "GalaxiaCircuitPython", "pico", "eliobot", "thymio", "winky", "niryo", "arduinoq"].includes(this._interface);
     }
 
     _needCommonEsp32Libraries() {
@@ -51,7 +51,7 @@ class InterfaceInit {
     }
 
     _needSerialAPI() {
-        return ['arduino', 'microbit', 'esp32', 'wb55', 'l476', 'galaxia', 'm5stack', 'letsstartcoding', 'mBot', 'GalaxiaCircuitPython', 'cyberpi', 'pico', 'eliobot', 'codey', 'steami'].includes(this._interface);
+        return ['arduino', 'microbit', 'esp32', 'wb55', 'l476', 'galaxia', 'm5stack', 'letsstartcoding', 'mBot', 'GalaxiaCircuitPython', 'cyberpi', 'pico', 'eliobot', 'codey', 'steami', 'arduinoq'].includes(this._interface);
     }
 
     async init() {
@@ -59,8 +59,8 @@ class InterfaceInit {
             InterfaceMonitor.init();
             this.displayWelcome();
         }
-        if ($_GET('robot') !== null || $_GET('module') !== null) {
-            this._setShepherdTourContent();
+        if ($_GET('robot') !== null || $_GET('module') !== null || $_GET('drone') !== null) {
+            await this._setShepherdTourContent();
         }
         if (this._needCommonEsp32Libraries()) {
             Object.assign(this.externalLibraries, await this.loadCommonLibraries('esp32'));
@@ -100,9 +100,6 @@ class InterfaceInit {
         }
         if (typeof resizeBlocklyToolBox !== "undefined") {
             resizeBlocklyToolBox();
-        }
-        if (this.shepherdTourContent.id !== null && this.shepherdTourContent.message !== null) {
-            this._setupShepherdTour();
         }
         this.initialized = true;
     }
@@ -144,8 +141,14 @@ class InterfaceInit {
     _displayWelcomeMessage(stringPath) {
         if (i18next.isInitialized && i18next.t(stringPath) !== stringPath && typeof i18next.t(stringPath) !== 'undefined') {
             InterfaceMonitor.writeConsole(stringPath, 'neutral', false);
-            if (this._needSerialAPI() && !navigator.serial) {
-                InterfaceMonitor.writeConsole('code.serialAPI.noSerialAPI', 'interrupt', false, true);
+            if (this._needSerialAPI()) {
+                if (this._interface == 'arduinoq') {
+                    if (!navigator.usb) {
+                        InterfaceMonitor.writeConsole('code.webusb.noWebUsb', 'interrupt', false, true);
+                    }
+                } else if (!navigator.serial) {
+                    InterfaceMonitor.writeConsole('code.serialAPI.noSerialAPI', 'interrupt', false, true);
+                }
             }
         } else {
             setTimeout(() => {
@@ -178,6 +181,10 @@ class InterfaceInit {
                 $("#serial-send").off('click').click(InterfaceConnection.sendSerialCommand.bind(InterfaceConnection));
             }
             if (INTERFACE_NAME === 'microbit') {
+                const content = await this.fetchDir(`${CDN_PATH}/openInterface/microbit/assets/lib/variables_getter.py`);
+                if (content) {
+                    Object.assign(this.externalLibraries, { 'variables_getter': content });
+                }
                 await new Promise(function awaitMicrobitFsWrapper(resolve, reject) {
                     if (typeof microbitFsWrapper !== 'undefined') {
                         resolve();
@@ -269,6 +276,7 @@ class InterfaceInit {
         for (const item of LIBRARIES_PATH) {
             await loadFile(item, `${CDN_PATH}/openInterface/interfaces/assets/lib/${board}-mpy/`);
         }
+        await loadFile('variables_getter', `${CDN_PATH}/openInterface/interfaces/assets/lib/`);
         return libraries;
     }
 
@@ -290,7 +298,7 @@ class InterfaceInit {
             return await response.arrayBuffer();
         }
         return await response.text();
-    };
+    }
 
     async downloadFile(filePath, type = "text", replace = null) {
         await this.fetchDir(filePath, type)
@@ -317,9 +325,9 @@ class InterfaceInit {
     }
 
     async downloadFirmware(fileName) {
-        const path = "/openInterface/" + this._interface + "/assets/firmware/" + fileName;
+        const path = _PATH + "/" + this._interface + "/assets/firmware/" + fileName;
         await this.downloadFile(path, "blob");
-    };
+    }
 
     _initializeTogglers() {
         $('input[type=radio][name=toolboxMode]').change(function () {
@@ -330,7 +338,7 @@ class InterfaceInit {
             rotateConsole(this.value);
         });
         rotateConsole(InterfaceMonitor.getPosition());
-    };
+    }
 
     openBoardSelector(opening = false) {
         if (opening) {
@@ -349,7 +357,7 @@ class InterfaceInit {
                 InterfaceConnection.addFirmwareOptions(boardId);
             });
         }
-    };
+    }
 
     async validateSelectedBoard() {
         Main.resetInvalidBlocksWarning();
@@ -360,7 +368,7 @@ class InterfaceInit {
             await updateBoard(true, boardId, false);
         }
         pseudoModal.closeModal(this._interface + '-board-selector');
-    };
+    }
 
     async _initializeBoardSelector() {
         const savedShieldView = SimulatorLS.get('shieldView');
@@ -405,13 +413,34 @@ class InterfaceInit {
             };
             updateUrlAndStorage('board', storageBoard);
         });
-    };
+    }
 
-    _setShepherdTourContent() {
+    hasShepherdTour() {
+        return this.shepherdTourContent.id !== null && this.shepherdTourContent.message !== null;
+    }
+
+    async _setShepherdTourContent() {
+        await Promise.all([
+            this.loadResources([`${CDN_PATH}/openInterface/interfaces/assets/js/external/shepherd.js@10.0.1/sheperd.js`], this.loadScript),
+            this.loadResources([`${CDN_PATH}/openInterface/interfaces/assets/js/external/shepherd.js@10.0.1/sheperd.css`], this.loadCSS)
+        ]);
+
         if ($_GET('robot') !== null) {
+            const robotName = $_GET('robot');
+            let robotCategory = 'robots';
+            let robotMessage = jsonPath('code.robotGuide.tuto');
+            if (INTERFACE_NAME === 'TI-83') {
+                robotCategory = 'advanced';
+                robotMessage = jsonPath('code.robotGuide.tuto-rover');
+            }
             this.shepherdTourContent = {
-                message: jsonPath('code.robotGuide.tuto').replace('[ROBOT_NAME]', $_GET('robot')),
-                id: 'robots'
+                message: robotMessage.replace('[ROBOT_NAME]', robotName),
+                id: robotCategory
+            };
+        } else if ($_GET('drone') !== null) {
+            this.shepherdTourContent = {
+                message: jsonPath('code.droneGuide.tuto').replace('[DRONE_NAME]', $_GET('drone')),
+                id: 'tello'
             };
         } else if ($_GET('module') !== null) {
             this.shepherdTourContent = {
@@ -419,9 +448,10 @@ class InterfaceInit {
                 id: 'modules'
             };
         }
+        return;
     }
 
-    _setupShepherdTour() {
+    _startShepherdTour() {
         const tour = new Shepherd.Tour({
             useModalOverlay: true,
             defaultStepOptions: {
@@ -438,7 +468,7 @@ class InterfaceInit {
             buttons: [
                 {
                     action() {
-                        return this.next();
+                        return this.complete();
                     },
                     classes: 'btn btn-primary',
                     text: 'OK'
@@ -450,8 +480,44 @@ class InterfaceInit {
         tour.on('complete', () => {
             history.pushState({}, '', removeParam("robot", window.location.href));
             history.pushState({}, '', removeParam("module", window.location.href));
+            history.pushState({}, '', removeParam("drone", window.location.href));
         });
 
         tour.start();
-    };
+    }
+
+    loadScript(src) {
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = src;
+            script.onload = () => resolve(src);
+            script.onerror = () => reject(new Error(`Impossible de charger le script : ${src}`));
+            document.head.appendChild(script);
+        });
+    }
+
+    loadCSS(href) {
+        return new Promise((resolve, reject) => {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = href;
+            link.onload = () => resolve(href);
+            link.onerror = () => reject(new Error(`Impossible de charger le CSS : ${href}`));
+            document.head.appendChild(link);
+        });
+    }
+
+    async loadResources(resources, loader, parallel = true) {
+        if (parallel) {
+            return Promise.all(resources.map(loader));
+        }
+
+        const loaded = [];
+
+        for (const resource of resources) {
+            loaded.push(await loader(resource));
+        }
+
+        return loaded;
+    }
 };

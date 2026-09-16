@@ -6,30 +6,53 @@ DEF_WIFI_CONNECT_STATION:
 `def connect_station(ssid='', password='', ip='', mask='', gateway='', dhcp_hostname=''):
   global station
   station = network.WLAN(network.STA_IF)
-  if station.isconnected():
-    if station.config('essid') is ssid:
-      print("Already connected on ssid: '%s'" % station.config('essid'))
-      return
-    else:
-      disconnect_station()
-  print("\\nTrying to connect to '%s' ..." % ssid)
-  if len(ip) is not 0:
-    if len(gateway) == 0:
-      gateway = ip.split('.')[0] + '.' + ip.split('.')[1] + '.' + ip.split('.')[2] + '.1'
-    if len(mask) == 0:
-      mask = '255.255.255.0'
-    station.ifconfig([ip, mask, gateway, gateway])
+
+  wanted_ip = ip
+  wanted_mask = mask if len(mask) != 0 else '255.255.255.0'
+  wanted_gateway = gateway
+
+  if len(wanted_ip) != 0 and len(wanted_gateway) == 0:
+    parts = wanted_ip.split('.')
+    wanted_gateway = parts[0] + '.' + parts[1] + '.' + parts[2] + '.1'
+
   if not station.active():
     station.active(True)
+
+  if station.isconnected():
+    current_ssid = station.config('essid')
+    current_ip, current_mask, current_gateway, current_dns = station.ifconfig()
+
+    same_ssid = (current_ssid == ssid)
+    same_ip = (len(wanted_ip) == 0 or current_ip == wanted_ip)
+
+    if same_ssid and same_ip:
+      print("Already connected on ssid: '%s'" % current_ssid)
+      return
+    else:
+      print("Network settings changed, reconnecting...")
+      disconnect_station()
+      utime.sleep_ms(200)
+      if not station.active():
+        station.active(True)
+
+  print("\\nTrying to connect to '%s' ..." % ssid)
+
   if len(dhcp_hostname) != 0:
     station.config(dhcp_hostname=dhcp_hostname)
+  if len(wanted_ip) != 0:
+    station.ifconfig((wanted_ip, wanted_mask, wanted_gateway, wanted_gateway))
+
   try:
     station.connect(ssid, password)
     while not station.isconnected():
       pass
     print("Station connected !")
   except OSError as e:
-    print(e + ": new attempt of connection.")
+    print(str(e) + ": new attempt of connection.")
+    try:
+      station.disconnect()
+    except:
+      pass
     station.active(False)
     utime.sleep_ms(500)
     station.active(True)
@@ -40,7 +63,7 @@ DEF_WIFI_CONNECT_STATION:
 DEF_WIFI_CONFIGURE_ACCESS_POINT:
 `def configure_access_point(ssid='', ip='', activate=True, max_clients=50):
   ap = network.WLAN(network.AP_IF)
-  if len(ip) is not 0:
+  if len(ip) != 0:
     gateway = ip.split('.')[0] + '.' + ip.split('.')[1] + '.' + ip.split('.')[2] + '.1'
     ap.ifconfig([ip, '255.255.255.0', gateway, gateway])
   ap.active(activate)
@@ -78,7 +101,7 @@ REQUEST_THINGSPEAK_WRITE:
     if request is not None:
       response = request.text
       request.close()
-      if response is '0':
+      if response == '0':
         print("[ThingSpeak INFOS] Error: Please check if your API key or field index is correct. Check delay.")
         print("[ThingSpeak INFOS] Note: You have to wait at least 15 seconds between each value sending.")
       elif '400 Bad Request' in response:
@@ -99,7 +122,7 @@ REQUEST_THINGSPEAK_READ_FIELD:
     if results is not None:
       url += '&results=' + str(results)
     request = urequests.request(method = 'GET', url = url)
-    if request.text is '-1':
+    if request.text == '-1':
       print("[ThingSpeak INFOS] Error: Please check if your API key is correct.")
     return request.json()
   else:

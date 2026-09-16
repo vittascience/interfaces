@@ -49,13 +49,17 @@ const SIMULATOR_DEFAULT_BOARD = INTERFACE_BOARDS[BOARD_DEFAULT];
 const SIMULATOR_DEFAULT_ROBOT = 'Alphabot';
 //serial
 const SERIAL_OPTIONS = {
-    baud: 115200,
     chunkSizes: {
-        'default': 255
+        readingDelayPerKiB: {
+            'default': 50 // ms (reduced compared to default STM32)
+        }
     },
     boardsFilter: [
         { usbVendorId: 0xf055, usbProductId: 0x9800 }, // STM32 NUCLEO-WB55RG
         { usbVendorId: 0x483, usbProductId: 0x374E }, // STM32 NUCLEO-WB55JC
         { usbVendorId: 0xd28, usbProductId: 0x204 }, // STM32 NUCLEO-WB55RG
-    ]
+    ],
+    variablesGetterTimeout: {
+        'default': 200 // ms
+    }
 };

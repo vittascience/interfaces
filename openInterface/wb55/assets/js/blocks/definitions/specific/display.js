@@ -940,7 +940,7 @@ Blockly.Constants.Display.DISPLAY_LED_MATRIX_DURATION_INIT_EXTENSION = function 
             }
         });
     }
-    this.duration_ = false;
+    this.option_ = false;
     this.update_(this.updateField_);
 };
 

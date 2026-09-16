@@ -1,4 +1,44 @@
 {
+  "webinars": {
+    "hero": {
+      "title": "Vittascience <span>Seminarios web</span>",
+      "description": "Descubre los seminarios web de Vittascience: inscríbete en las próximas sesiones y mira las repeticiones de las anteriores. IA, programación, robótica, recursos docentes... ¡Inspírate con Vittascience!",
+      "imageAlt": "Vittabot en modo seminario web"
+    },
+    "upcoming": {
+      "title": "Próximos",
+      "empty": "No hay seminarios web programados en este momento."
+    },
+    "past": {
+      "title": "Anteriores",
+      "empty": "No hay repeticiones disponibles en este momento."
+    },
+    "card": {
+      "inscription": "Inscribirse",
+      "replay": "Repetición"
+    },
+    "agenda": {
+      "google": "Añadir a Google Calendar",
+      "yahoo": "Añadir a Yahoo Calendar",
+      "outlook": "Añadir a Outlook"
+    },
+    "inscription": {
+      "title": "Inscríbete en el seminario web",
+      "submit": "Confirmar inscripción",
+      "success": "¡Inscripción confirmada! Recibirás los detalles por correo electrónico.",
+      "error": "Ocurrió un error al inscribirte. Por favor, inténtalo de nuevo."
+    },
+    "seeMore": "Ver más",
+    "newsletter": {
+      "intro": "Para no perderte ninguno de nuestros próximos seminarios web, suscríbete a nuestro boletín mensual.",
+      "title": "Suscríbete a nuestro boletín",
+      "placeholder": "Tu dirección de correo electrónico",
+      "button": "Suscribirse",
+      "subscribers": "¡Ya somos más de {{count}} suscriptores!",
+      "success": "Tu correo electrónico se ha guardado. ¡Gracias por suscribirte a nuestro boletín!",
+      "error": "¡Vaya! Ocurrió un error al suscribirte al boletín. Por favor, inténtalo de nuevo."
+    }
+  },
   "maintenance": {
     "title": "Mantenimiento en curso en la página de recursos :)",
     "text": "Nuestro equipo está actualizando el sitio. Volveremos pronto.",
@@ -141,6 +181,7 @@
     "eighteenConfirm": "Confirmo que soy mayor de 18 años (artículo 1124 del código civil) y que acepto las <a target=\"_blank\" href=\"/cgu\">Condiciones de uso</a>.",
     "cguConfirm": "He leído y acepto las <a target=\"_blank\" href=\"/cgu\">condiciones generales de uso</a>.",
     "nlConfirm": "Deseo suscribirme al <a href='https://vittascience.com/newsletter' target='_blank'>boletín de noticias</a>: 1 correo al mes para seguir las noticias de la comunidad Vittascience",
+    "pixelTracking": "Acepto que se me rastree mediante píxeles de seguimiento en los correos electrónicos para recibir comunicaciones personalizadas",
     "concernedAboutPrivacy": "Vittascience sitúa la seguridad y la confidencialidad de los datos personales de sus usuarios en el centro de sus preocupaciones. Descubra <a target=\"_blank\" href=\"/privacy\">nuestra política de protección de datos personales</a>",
     "intro": "Para finalizar tu inscripción, por favor completa los siguientes campos:",
     "errors": {
@@ -282,6 +323,10 @@
           "content": "Generar texto e imágenes, entrenar y experimentar con modelos de IA, y visualizar las zonas de interacción que permiten a la IA tomar su decisión. Luego explora la estructura de la red neuronal."
         }
       }
+    },
+    "learn": {
+      "preparingInterface": "Preparando la interfaz...",
+      "failedToLoad": "Error al cargar la interfaz."
     },
     "eduup": {
       "title": "Vittascience es el ganador del programa Edu-Up",
@@ -482,7 +527,7 @@
               "description": "L’actividad dura alrededor de 45 minutos. Los alumnos trabajan la noción d’asignación de variables en un programa, mediante una serie d’ejercicios interactivos. Los grupos se asignan al azar y todos los datos recogidos se anonimizan por completo (no se registra ningún dato personal).",
               "join": {
                 "title": "<i class=\"fa-solid fa-chalkboard-user\"></i> Para participar",
-                "step1": "Accede al siguiente enlace : <a href=\"/student-experiment/teacher\">Inscripción docente</a>",
+                "step1": "Accede al siguiente enlace : <a href=\"/student-experiment/v1/teacher\">Inscripción docente</a>",
                 "step2": "Inicia sesión con tu cuenta Vittascience",
                 "step3": "Introduce algunos datos sobre tu centro",
                 "step4": "Copia el enlace generado y compártelo con tus alumnos — pueden participar en clase o desde casa"
@@ -561,6 +606,7 @@
         "vittamap": "Ver más experiencias en Vittamap"
       },
       "resources": "Recursos relacionados",
+      "reference": "Referencia",
       "compatibility": {
         "title": "Compatibilidad",
         "arduino": {
@@ -653,6 +699,8 @@
         }
       },
       "available": "productos disponibles",
+      "catalogue": "Catálogo",
+      "premium": "Premium",
       "allProducts": "Todos los productos",
       "newProducts": "Novedades",
       "support": "Admite",
@@ -661,6 +709,8 @@
       "official_reseller": "Vittascience es un revendedor oficial"
     },
     "shopPayment": {
+      "paymentMode": "Método de pago",
+      "choosePaymentMethod": "Selecciona tu método de pago",
       "estimateChoice": "Create a custom estimate",
       "cardChoice": "Pay by credit card",
       "optional": "Optional",
@@ -677,6 +727,7 @@
       "contactInfos": "Información de contacto",
       "particular": "Individuos",
       "school": "Establecimiento",
+      "billedToQuestion": "¿A quién se facturará este pedido?",
       "addressName": "Nombre de la dirección",
       "name": "Nombre",
       "firstname": "Nombre",
@@ -719,6 +770,8 @@
       "resumeInvoice": "Su pedido ha sido validado",
       "orderNumber": "Está numerado #",
       "estimatePaid": "El seguimiento de este estará disponible en breve en su perfil.",
+      "estimatePaidTitle": "¡Tu presupuesto ha sido pagado!",
+      "estimatePaidSubtitle": "Tu pedido se procesará en breve.",
       "emailSummary": "Se le ha enviado un resumen por correo electrónico.",
       "orderHistory": "Historial de pedidos",
       "orderTracking": "Todos los paquetes son enviados por nosotros, usted recibirá un enlace de seguimiento para el envío.",
@@ -741,6 +794,7 @@
       "cbExplanation": "Pague de forma segura con Stripe.",
       "cgv": "He leído <a href='/cgv' target='_blank'>los términos y condiciones</a> y los acepto sin reservas.",
       "orderValidate": "Validar el pedido",
+      "confirmOrder": "Confirmar y enviar",
       "noAccount": {
         "hasAccount": "¿Ya es cliente?",
         "needsAccount": "¿No tiene una cuenta?",
@@ -768,7 +822,15 @@
       "quickbooksCreationFailed1": "Su pedido ha sido procesado, pero nuestro software de creación automática de facturas está experimentando un problema técnico. Le enviaremos la factura lo antes posible a la dirección de correo electrónico que nos haya facilitado al realizar el pedido.",
       "quickbooksCreationFailed2": "Nos disculpamos por las molestias causadas.",
       "increaseQuantity": "Aumentar cantidad",
-      "decreaseQuantity": "Disminuir cantidad"
+      "decreaseQuantity": "Disminuir cantidad",
+      "paymentError": {
+        "title": "Error de pago",
+        "notConfirmed": "No se confirmó el pago. Por favor, inténtalo de nuevo.",
+        "sessionIncomplete": "La sesión de pago no se completó. Por favor, inténtalo de nuevo.",
+        "stripeError": "Ocurrió un error al verificar el pago. Intenta de nuevo o contacta con soporte.",
+        "subscriptionNotAllowed": "Las suscripciones Premium no se pueden pagar con tarjeta de crédito mediante esta interfaz.",
+        "generic": "Ocurrió un error. Por favor, inténtalo de nuevo."
+      }
     },
     "shopBdc": {
       "cgv": "Al hacer clic en el botón de envío, acepto los <a href='/cgv' target='_blank'>Términos y condiciones</a> y me adhiero a ellos sin reservas.",
@@ -959,6 +1021,7 @@
       "geoloc": "Geolocalícese",
       "geoloc_progress": "<Localización...",
       "searchbox": "Buscar...",
+      "searchButton": "Buscar",
       "flight_conditions": {
         "title": "Condiciones de vuelo:",
         "excellentes": "Excelente",
@@ -1164,16 +1227,12 @@
       "serialMonitorSent": "Envío de %1 bytes al puerto serie: \"%2%3\"",
       "minimaNotInDFU": "La placa todavía está en modo normal (runtime), no en bootloader DFU.\n➡️ <b>Pulsa dos veces RESET (LED que parpadea con un fadeout) y vuelve a iniciar la carga.</b>",
       "badResponse": "Por favor, desconecte y vuelva a conectar su tarjeta a la computadora.",
-      "codeExecution": "Ejecutando código 'main.py'",
       "noPortSelected": "Ningún puerto seleccionado.",
       "badBoard": "La placa conectada no es del tipo ",
       "checkBoardSettings": "Seleccione el tablero correcto en Configuración, luego Opciones de tarjeta.",
       "flashFailed": "Error al enviar el programa.",
       "baudrateError": "Ocurrió un error al leer datos del puerto serie. Intente cambiar la velocidad en baudios en la configuración del monitor.",
       "firmwareWarning": "Atención, para beneficiarse de todas las funcionalidades de esta interfaz con la placa STM32, actualice a la versión de firmware 1.17 siguiendo este tutorial: <a href=\"https://es.vittascience.com/learn/ tutorial.php?id=398\" target=\"_blank\" rel=\"noopener noreferrer\">Actualizar el firmware</a>",
-      "firmwareNotFound": "[AYUDA] El firmware de Micropython debe actualizarse en la placa. Para hacer esto, siga este tutorial: <a href=\"https://es.vittascience.com/learn/tutorial.php?id=341\" style=\"color: var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Firmware Esp32 intermitente</a>",
-      "powerSupply": "La fuente de alimentación de tu Esp32 por puerto USB es insuficiente. Conecta una fuente de alimentación externa.",
-      "internetAccess": "[AYUDA] No se puede acceder a Internet. Verifique su IP y puerta de enlace en la función de conexión de estación.",
       "compiling": "Compilación en curso. Esto puede tardar hasta unos segundos...",
       "noSpaceLeft": "No hay espacio suficiente en la tarjeta para cargar el programa."
     },
@@ -1354,6 +1413,7 @@
         "sendByBluetoothToRobot": "Enviar el programa al robot por Bluetooth",
         "downloadFirmware": "Descargar el firmware de MicroPython",
         "downloadCamFirmware": "Descargar el firmware de MicroPython para ESP32-CAM",
+        "downloadPiAPI": "Descarga el servidor Python para Raspberry Pi. Ejecuta la API en modo administrador.",
         "downloadHex": "Exportar el programa micro:bit en formato [.hex].",
         "downloadTexas": "Descargar el programa .py para la calculadora",
         "runBuddy": "Ejecutar el programa en Buddy",
@@ -1381,6 +1441,7 @@
         "checkTest": " Validar",
         "stopCode": " Stop",
         "exerciseSettings": "Creación de un ejercicio",
+        "toolboxRestriction": "Restringir los bloques disponibles",
         "consoleSettings": "Parámetros generales",
         "accessibility": "Configurar el tema y el tipo de letra",
         "addBlockSettings": "Añadir un bloque",
@@ -1427,6 +1488,7 @@
         "stopNiryo": "Stop",
         "uploadNiryoRemote": "Controlar a distancia",
         "uploadThymio": "Send to Thymio",
+        "uploadRPi": "Enviar al RPi",
         "stopRobot": "Detener",
         "view": "Ver",
         "uploadPython": "Descargar",
@@ -1437,6 +1499,7 @@
         "downloadZip": "Descargue el archivo .zip",
         "downloadFirmware": "Descargue el archivo .bin",
         "downloadCamFirmware": "Descargue el archivo .bin ESP32-CAM",
+        "downloadPiAPI": "Descargar API.cmd",
         "downloadUf2Pico": "Firmware Pico",
         "downloadUf2PicoW": "Firmware Pico W",
         "downloadPython": "Descargue el archivo .py",
@@ -1455,6 +1518,7 @@
         "fullscreen": "Pantalla completa",
         "help": "Ayuda",
         "exercise": "Crear un ejercicio",
+        "toolboxRestriction": "Restringir bloques",
         "blockMode": "Modo bloque",
         "mixedMode": "Modo híbrido",
         "codeMode": "Modo de código",
@@ -1517,6 +1581,8 @@
           },
           "send": "Mensaje que se enviará a la tarjeta a través del puerto serie",
           "export": "Exportar",
+          "openVariables": "Variables",
+          "openFileSystem": "Archivos",
           "monitor": "Monitor de serie",
           "openRepl": "REPL"
         },
@@ -1525,13 +1591,14 @@
             "clearData": "Borrar datos"
           },
           "send": "Enviar el mensaje a la tarjeta a través del puerto serie",
-          "export": "Exportación de datos",
+          "export": "Exportar los datos del gráfico",
           "disconnect": "Desconectar la tarjeta",
           "connect": "Conexión a la tarjeta",
           "monitor": "Mostrar los datos del puerto serie",
           "closeRepl": "Cerrar la consola de MicroPython",
           "openRepl": "Abrir la consola de MicroPython",
           "openVariables": "Mostrar variables del programa",
+          "openFileSystem": "Abrir el sistema de archivos de la placa",
           "graph": "Para ver los datos recibidos en la consola, haga clic en el botón <b>Gráfico</b>.",
           "monitorToggler": "Para visualizar los datos recibidos, haz clic en el botón <i class='fas fa-chevron-up'></i>"
         }
@@ -1679,7 +1746,95 @@
       },
       "tooltips": {
         "bluebot-buttons": "¡Puedes usar los botones del robot Blue-bot para programarlo!"
-      }
+      },
+      "modules": {
+        "lcdGrove": "Pantalla LCD Grove",
+        "oled": "Pantalla OLED",
+        "neopixel": "Neopixel",
+        "LEDMatrix": "Matriz LED",
+        "RGBLEDMatrix": "Matriz LED RGB",
+        "ledModule": "LED",
+        "colorVariableLed": "LED RGB",
+        "tm1637": "Pantalla de 4 dígitos",
+        "ledBar": "Barra de LED",
+        "RGBLed": "LED RGB",
+        "servo": "Servomotor",
+        "continuousServo": "Servo continuo",
+        "motor": "Motor",
+        "stepper-motor": "Motor paso a paso",
+        "fan": "Ventilador",
+        "vibrationMotor": "Motor de vibración",
+        "buzzer": "Zumbador",
+        "relay": "Relé",
+        "openlog": "OpenLog (SD)",
+        "LoRa": "LoRa",
+        "coloredButton": "Botón de color",
+        "rotaryEncoder": "Codificador rotativo",
+        "touchButton": "Botón táctil",
+        "button": "Botón",
+        "reversedButton": "Botón invertido",
+        "switchButton": "Interruptor",
+        "sgp30": "SGP30",
+        "multichannel": "Sensor de gas",
+        "scd30-co2": "SCD30 - CO2",
+        "scd30-temp": "SCD30 - Temperatura",
+        "scd30-hum": "SCD30 - Humedad",
+        "sht31-temp": "SHT31 - Temperatura",
+        "sht31-hum": "SHT31 - Humedad",
+        "th02-temp": "TH02 - Temperatura",
+        "th02-hum": "TH02 - Humedad",
+        "hm330x": "HM330X",
+        "bmp280-temp": "BMP280 - Temperatura",
+        "bmp280-press": "BMP280 - Presión",
+        "bmp280-alt": "BMP280 - Altitud",
+        "bme280-temp": "BME280 - Temperatura",
+        "bme280-press": "BME280 - Presión",
+        "bme280-alt": "BME280 - Altitud",
+        "bme280-hum": "BME280 - Humedad",
+        "dht11-temp": "DHT11 - Temperatura",
+        "dht11-hum": "DHT11 - Humedad",
+        "dht22-temp": "DHT22 - Temperatura",
+        "dht22-hum": "DHT22 - Humedad",
+        "ds18x20": "DS18X20 - Temperatura",
+        "dustSensor": "Sensor de partículas",
+        "groveRain": "Sensor de lluvia",
+        "rainGauge": "Pluviómetro",
+        "anemometer": "Anemómetro",
+        "si1145": "SI1145",
+        "colorSensor": "Sensor de color",
+        "ultrasonic": "Telémetro ultrasónico",
+        "hcsr04": "HC-SR04",
+        "vl53l0x": "Tiempo de vuelo - Distancia",
+        "groveFinder": "Sensor de línea negra",
+        "groveTilt": "Sensor de inclinación",
+        "groveMotion": "Sensor de movimiento",
+        "groveMotionMini": "Sensor de movimiento",
+        "grovePIRMotion": "Sensor de movimiento PIR",
+        "groveVibration": "Sensor de vibración",
+        "obstacleDetector": "Detector de obstáculos IR",
+        "gps": "GPS",
+        "groveEarClip": "Sensor de frecuencia cardiaca",
+        "potentiometer": "Potenciómetro",
+        "groveForce": "Sensor de fuerza",
+        "groveVoltageDivider": "Divisor de tensión",
+        "joystick": "Joystick",
+        "multichannelV2": "Sensor de gas",
+        "dioxygen": "Sensor de oxígeno",
+        "airQuality": "Sensor de calidad del aire",
+        "groveMoisture": "Sensor de humedad del suelo",
+        "groveCapacitiveMoisture": "Sensor de humedad capacitivo",
+        "groveTemp": "Sensor de temperatura",
+        "highTemp-thmc": "H. Temp. - T° medida",
+        "highTemp-room": "H. Temp. - T° ambiente",
+        "mq135": "MQ135 - CO2",
+        "groveWater": "Sensor de agua",
+        "mpx5700": "MPX5700 - Presión",
+        "groveLight": "Sensor de luz",
+        "groveUV": "Sensor de índice UV",
+        "groveSound": "Sensor de sonido",
+        "grovePulse": "Sensor de pulso"
+      },
+      "pinError": "[Error de pin] El módulo <b>{{modId}}</b> no puede conectarse al pin <b>{{pin}}</b>. El módulo <b>{{attachedId}}</b> ya está conectado."
     },
     "ch340driver": {
       "title": "¿Problemas al cargar?",
@@ -1983,7 +2138,11 @@
       "descExercise": "Para crear un ejercicio, debe estar conectado."
     },
     "robotGuide": {
-      "tuto": "Para encontrar los bloques de programación del robot <b>[ROBOT_NAME]</b>, haz clic en la pestaña <b><i class='fa-solid fa-robot me-1'></i>Robots</b>."
+      "tuto": "Para encontrar los bloques de programación del robot <b>[ROBOT_NAME]</b>, haz clic en la pestaña <b><i class='fa-solid fa-robot me-1'></i>Robots</b>.",
+      "tuto-rover": "Para encontrar los bloques de programación del robot <b>[ROBOT_NAME]</b>, haz clic en la pestaña <b><i class='fas fa-cogs'></i>Avanzado</b> y luego en <b><i class='fa-solid fa-robot me-1'></i>ti_rover</b>."
+    },
+    "droneGuide": {
+      "tuto": "Para encontrar los bloques de programación del dron <b>[DRONE_NAME]</b>, haz clic en la pestaña <b><i class='fa-solid fa-robot me-1'></i>Drones</b>."
     },
     "moduleGuide": {
       "tuto": "Para encontrar los bloques de programación del módulo <b>[MODULE_NAME]</b>, haz clic en la pestaña <b><i class='fas fa-plug me-1'></i>Sensores</b>."
@@ -2022,6 +2181,7 @@
           "dragDropFilesHere": "Suba sus archivos aquí",
           "imagesCount": "{{imagesCount}} image(s)",
           "recordsCount": "{{recordsCount}} registro(s)",
+          "flipCamera": "Cambiar cámara",
           "datasets": {
             "displaySounds": "Monstrar audios",
             "displayImages": "Ver imágenes",
@@ -2388,8 +2548,8 @@
                 "keyWords": {
                   "emotion": "emoción",
                   "emotions": "emociones",
-                  "netral": "neutral",
-                  "neutral": "neutral"
+                  "neutral": "neutral",
+                  "netral": "neutral"
                 }
               },
               "insect_bee": {
@@ -2728,6 +2888,18 @@
             "biasedExplanations": "Este conjunto de datos contiene un sesgo. Puedes usarlo para entrenar un modelo y ver las limitaciones de la Inteligencia Artificial."
           }
         },
+        "captureSettings": {
+          "delay": "Temporizador:",
+          "continuousMode": "Modo continuo",
+          "interval": "Capturar 1 imagen cada",
+          "duration": "durante",
+          "enable": "Activar",
+          "disable": "Desactivar",
+          "cancel": "Cancelar",
+          "save": "Guardar",
+          "second": "segundo",
+          "seconds": "segundos"
+        },
         "addCategoryButton": "Añadir una categoría",
         "rgpdInfoTitle": "GDPR",
         "rgpdInfoText": "Estos datos permanecen en su ordenador durante toda la fase de formación y uso y no se transmiten a través de Internet."
@@ -2890,6 +3062,9 @@
     },
     "aiTTSInterface": {
       "settings": {
+        "dailyQuota": "Cuota diaria",
+        "quotaRemaining": "Restante",
+        "dailyQuotaTooltip": "{{used}} créditos usados / {{remaining}} créditos restantes",
         "random": "Aleatorio",
         "aiDialog": "La IA",
         "footballMatch": "Partido de fútbol",
@@ -2903,7 +3078,6 @@
         "language": "Idioma",
         "phonemize": "Fonemas",
         "quotas": "Cuota",
-        "dailyQuota": "Cuota diaria",
         "mode": "Modo",
         "ambience": "Ambiente",
         "ambienceValues": {
@@ -2928,6 +3102,12 @@
         }
       },
       "loading": "Sintetizando...",
+      "infoBlocks": {
+        "consum": {
+          "allSynthesis": "Todas las síntesis",
+          "lastSynthesis": "Última síntesis de voz"
+        }
+      },
       "tutorial": {
         "step": "paso",
         "buttons": {
@@ -2973,16 +3153,11 @@
           "title": "Controles de reproducción",
           "description": "Utilice el botón Reproducir para escuchar la síntesis de voz. También puede ajustar la velocidad y descargar el audio."
         }
-      },
-      "infoBlocks": {
-        "consum": {
-          "allSynthesis": "Todas las síntesis",
-          "lastSynthesis": "Última síntesis de voz"
-        }
       }
     },
     "aiTextInterface": {
       "quickPrompts": {
+        "length": 91,
         "text": [
           "🌌 ¿Por qué la Vía Láctea tiene este nombre?",
           "🐬 ¿Cómo se comunican los delfines entre sí?",
@@ -3076,8 +3251,7 @@
           "🍌¿Cómo reutilizar la cáscara de un plátano?",
           "🍳¿Por qué es importante desayunar por la mañana?",
           "¿👨Existen todavía hombres prehistóricos?"
-        ],
-        "length": 91
+        ]
       },
       "aiTextGuide": {
         "step-welcome": {
@@ -3215,7 +3389,8 @@
         "moderation": "Moderación",
         "import": "Agregar una fuente",
         "seePrompt": "Ver el aviso completo",
-        "generate": "Generar"
+        "generate": "Generar",
+        "copyButtonTooltip": "Copiar respuesta"
       },
       "dropdownHeader": "Haga clic en un token para reanudar la generación a partir de él.",
       "settings": {
@@ -3225,14 +3400,20 @@
         "temperature": "Aleatorio",
         "use": "Uso",
         "text": "Texto",
-        "steps": "Paso a paso <img style=\"filter: brightness(0.7);\" src ='/ia/assets/ai-text-images/icon-bug.png'>",
+        "steps": "Paso a paso <img style=\"filter: brightness(0.7);\" src ='/ia/assets/ai-text-images/icon-bug.png' alt=''>",
         "show": "Mostrar",
         "hide": "Ocultar",
         "random": "prompt aleatorio",
         "parameters": "Parámetros",
+        "generation": "Generación",
         "sources": "Fuentes",
         "consumption": "Consumo",
-        "chat": "Chat"
+        "chat": "Chat",
+        "embeddings": "Ver vectores de palabras",
+        "tokenIDs": "ID de token"
+      },
+      "stepsBySteps": {
+        "changeTemperature": "Cambiar l’aleatorio. En función de l’aleatorio, el modelo calcula y predice tokens diferentes."
       },
       "infoBlocks": {
         "temperature": "Controla la aleatoriedad: disminuir da como resultado finalizaciones menos aleatorias. A medida que la temperatura se acerca a cero, el modelo se vuelve determinista y repetitivo",
@@ -3240,6 +3421,23 @@
         "parametresNumber": "el número de parámetros ajustables en el modelo (en mil millones)",
         "contextLength": "La 'longitud del contexto' se refiere a cuántas palabras o información previa tiene en cuenta un modelo de generación de texto al crear una nueva secuencia de palabras.",
         "instruct": "Un modelo de lenguaje educado ha sido entrenado para seguir instrucciones",
+        "steps": "Muestra los pasos de generación",
+        "hasLogprobs": "Muestra las probabilidades de cada token generado",
+        "hasReasoning": "Piensa antes de responder",
+        "accessibility": {
+          "open-source": {
+            "label": "Código abierto",
+            "tooltip": "Modelo de código abierto: su código y sus pesos son accesibles y reutilizables."
+          },
+          "semi-open": {
+            "label": "Semiabierto",
+            "tooltip": "Modelo semiabierto: sus pesos están disponibles pero con condiciones (licencia restringida)."
+          },
+          "own": {
+            "label": "Propietario",
+            "tooltip": "Modelo propietario: su código y pesos no son públicos."
+          }
+        },
         "tooltips": {
           "consumption": "El modelo {{ modelName }} ({{ params }} mil millones de parámetros) generó {{ tokens }} tokens, lo que resulta en un consumo energético estimado de {{ energy }} wh. Fuente (ecologits: https://github.com/genai-impact/ecologits)",
           "consumptionTotal": "Generaste {{ tokens }} tokens, lo que resulta en un consumo energético estimado de {{ energy }} wh. Fuente (ecologits: https://github.com/genai-impact/ecologits)"
@@ -3266,8 +3464,17 @@
         }
       },
       "input": "Ingrese una instrucción o cargue un ejemplo",
+      "changeTokenMessage": "Regenera la frase reemplazando el token \"{{from}}\" por \"{{to}}\"",
       "modals": {
         "titleForModelModal": "Elige un modelo",
+        "showMoreModels": "Ver más modelos",
+        "showLessModels": "Ver menos modelos",
+        "logprobs-restriction": {
+          "title": "Información",
+          "text": "El modelo seleccionado no admite mostrar las probabilidades de los tokens. <br/>Elige otro modelo para usar esta función.",
+          "choose-model": "Elegir otro modelo",
+          "continue": "Seguir con este modelo"
+        },
         "titleForStylesModal": "Elija un estilo",
         "titleForExempleModal": "Elija una instrucción",
         "titleForCensorshipModal": "Atención, lenguaje no autorizado",
@@ -3289,8 +3496,7 @@
           "body": [
             "La moderación de las respuestas de IA en las interfaces de Vittascience incluye varios elementos: <br />",
             "<ul><li>1. Todos los modelos utilizados están entrenados para mantener una conversación 'moderada'. Sin embargo, puede haber situaciones que requieran una intervención adicional. </lu>",
-            "<li>2. Las respuestas generadas por la IA pasan por una moderación palabra por palabra. Si se detecta una palabra que podría considerarse «inapropiada», el mecanismo interno la sustituye por una cadena de asteriscos cuya longitud corresponde a la de la palabra sustituida. Este mismo mecanismo avisa a los usuarios cuando se ha detectado una palabra inapropiada mostrando un mensaje justo después de la respuesta de la IA.</li></ul>",
-            "Hemos ocultado una expresión inapropiada en la respuesta generada por el modelo de Inteligencia Artificial. De hecho, a pesar de todas nuestras precauciones, no podemos evitar totalmente que el sistema genere palabras malsonantes o inapropiadas."
+            "<li>2. Las respuestas generadas por la IA pasan por una moderación palabra por palabra. Si se detecta una palabra que podría considerarse «inapropiada», el mecanismo interno la sustituye por una cadena de asteriscos cuya longitud corresponde a la de la palabra sustituida. Este mismo mecanismo avisa a los usuarios cuando se ha detectado una palabra inapropiada mostrando un mensaje justo después de la respuesta de la IA.</li></ul>"
           ],
           "understood": "He entendido"
         },
@@ -3331,6 +3537,44 @@
         "openRagPrompt": {
           "title": "Aviso completo enviado a IA",
           "info-block": "Ha agregado una fuente (o fuentes) para mejorar la relevancia de la IA. Este proceso se denomina “generación aumentada por recuperación” o “RAG”, porque la generación de texto de la IA se aumenta al recuperar fragmentos de texto de las fuentes. El primer paso del proceso es cortar las fuentes en trozos de 1000 caracteres para luego vectorizarlos, es decir hacerlos comprensibles para la IA. Luego, se realiza una búsqueda de proximidad entre el mensaje y las fuentes, con el fin de seleccionar los tres extractos de texto más relevantes con respecto al mensaje. Por último, estos tres extractos se agregan al mensaje para mejorar la relevancia de la respuesta de la IA. <br/><strong>A continuación se muestra el mensaje completo enviado a la IA, que incluye el mensaje inicial y los tres extractos: </strong>"
+        },
+        "embeddingsVisu": {
+          "title": "Visualizar embeddings",
+          "description": "Los vectores de palabras (embeddings) permiten que la IA transforme texto, imágenes o datos en vectores numéricos que puede comparar y entender. Sirven para encontrar similitudes, recomendar contenidos, buscar información o agrupar elementos relacionados. En resumen, ayudan a la IA a 'comprender' el significado más allá de las palabras."
+        },
+        "userRestrictions": {
+          "credits": "Créditos",
+          "remaining": "{{count}} restantes",
+          "creditCondition": "Cada solicitud consume 1 crédito.",
+          "dailyReset": "Los créditos diarios se restablecen a medianoche UTC",
+          "subscriptionDetails": "Ver nuestros planes",
+          "subscriptionDetailsPremium": "Ver los detalles de tu suscripción",
+          "monthlyReset": "Los créditos mensuales se restablecen cada 30 días",
+          "progressAria": "{{used}} créditos usados de {{limit}}",
+          "titleCreditInfo": "Información de créditos",
+          "unlimitedCredits": "Ilimitado",
+          "unlimitedReset": "Los suscriptores Premium tienen generación de texto ilimitada",
+          "unlimitedConditions": "Tu plan Premium incluye generación de texto ilimitada."
+        },
+        "notifications": {
+          "quota-reached": "Has alcanzado tu cuota de solicitudes para hoy. Inténtalo de nuevo en {{hours}}h {{minutes}}min {{seconds}}s.",
+          "quota-reached-monthly": "Has alcanzado tu cuota de solicitudes para este mes. Inténtalo de nuevo en {{days}}d {{hours}}h {{minutes}}min {{seconds}}s."
+        },
+        "quotaModal": {
+          "title": "Cuota alcanzada",
+          "message": "Has alcanzado tu cuota de solicitudes.",
+          "resetIn": "Por favor, inténtalo de nuevo en:",
+          "buttons": {
+            "close": "Cerrar"
+          }
+        }
+      },
+      "quotaModal": {
+        "title": "Cuota alcanzada",
+        "message": "Has alcanzado tu cuota de solicitudes.",
+        "resetIn": "Por favor, inténtalo de nuevo en:",
+        "buttons": {
+          "close": "Cerrar"
         }
       },
       "modelInfo": {
@@ -3342,89 +3586,53 @@
           "contextLength": "32k Tokens",
           "availableState": "¡Próximamente!"
         },
-        "mistral-nemo-instruct-2407": {
-          "description": "Modelo conversacional desarrollado por Mistral AI en colaboración con el marco NVIDIA NeMo. Optimizado para tareas que requieren una comprensión fina de las instrucciones y una generación de respuestas precisas, este modelo es particularmente adecuado para aplicaciones de asistencia técnica avanzada y análisis de datos complejos.",
-          "strengths": "Comprensión contextual avanzada, generación estructurada, adaptabilidad a solicitudes complejas.",
-          "laboratory": "Mistral AI (en colaboración con NVIDIA NeMo Framework)",
-          "parameters": "24.7 mil millones",
-          "contextLength": "32k Tokens"
+        "mistral-small-3-2-24b-instruct-2506": {
+          "description": "Modelo compacto y rápido para tareas cotidianas."
         },
-        "mistral-small-3-24b-instruct-2506": {
-          "description": "Mistral-Small-3.2-24B-Instruct-2506 es una versión actualizada del Small 3.1, con mayor precisión en el seguimiento de instrucciones. Admite texto e imágenes (capacidad texto-imagen), lo que lo hace adecuado para casos de uso como la comprensión de documentos, preguntas y respuestas visuales y la generación de contenido multimodal.",
-          "strengths": "Sus principales ventajas incluyen un mejor seguimiento de instrucciones y una reducción de las respuestas repetitivas. Además, ofrece un modelo de llamada de funciones más robusto y capacidades avanzadas de texto-imagen.",
-          "laboratory": "Mistral AI",
-          "parameters": "24 mil millones",
-          "contextLength": "128k Tokens"
+        "mistral-medium-3-5": {
+          "description": "Optimizado para agentes autónomos y tareas de programación."
         },
-        "mistral-large-2411": {
-          "description": "Mistral Large 2 es el modelo insignia de Mistral AI, con capacidades avanzadas de razonamiento, excelente comprensión multilingüe y generación de código de alta calidad. Ideal para tareas complejas que requieren un razonamiento profundo.",
-          "strengths": "Razonamiento avanzado, comprensión multilingüe, generación de código de alta calidad, gran ventana de contexto.",
-          "laboratory": "Mistral AI",
-          "parameters": "123 mil millones",
-          "contextLength": "128k Tokens"
+        "mistral-large-2512": {
+          "description": "Modelo para tareas complejas."
         },
-        "mistral-medium-2505": {
-          "description": "Mistral Medium 3 es un modelo versátil de tamaño intermedio de Mistral AI, con una excelente relación rendimiento/coste. Destaca en una amplia variedad de tareas profesionales siendo más accesible que los modelos más grandes.",
-          "strengths": "Buen equilibrio rendimiento/coste, versatilidad, buen razonamiento, adecuado para tareas profesionales.",
-          "laboratory": "Mistral AI",
-          "parameters": "N/A",
-          "contextLength": "128k Tokens"
-        },
-        "deepseek-v3": {
-          "description": "DeepSeek-V3 es un modelo de lenguaje avanzado que mejora significativamente la eficiencia y la precisión en la generación de respuestas, superando a sus predecesores. Está diseñado para una variedad de tareas que van desde el procesamiento del lenguaje natural hasta la programación y las matemáticas.",
-          "strengths": "Excelente desempeño en comprensión de lenguaje natural, razonamiento y generación de código.",
-          "laboratory": "DeepSeek AI",
-          "parameters": "671 mil M",
-          "contextLength": "128k Tokens"
-        },
-        "deepseek-r1-0528": {
-          "description": "DeepSeek-R1 es un modelo de razonamiento de inteligencia artificial de código abierto. Se distingue por sus avanzadas capacidades de resolución de problemas y razonamiento lógico, gracias a un proceso de pensamiento interno que le permite “pensar” antes de dar una respuesta.",
-          "strengths": "Excelentes habilidades de razonamiento y resolución de problemas matemáticos. Autocorrección sin supervisión humana.",
-          "laboratory": "DeepSeek AI",
-          "parameters": "671 mil M",
-          "contextLength": "128 000 Tokens"
-        },
-        "gpt-4o-mini": {
-          "strengths": "Modelo pequeño, asequible e inteligente para tareas rápidas y ligeras. GPT-4o mini es más barato y más capaz que GPT-3.5 Turbo.",
-          "description": "gpt-4o-mini es un modelo de lenguaje muy versátil y eficiente que puede usarse en varias aplicaciones",
-          "laboratory": "OpenAI",
-          "parameters": "8 mil M",
-          "contextLength": "128 Tokens"
+        "glm-5-2": {
+          "description": "El modelo abierto más potente del mercado."
         },
         "gpt-oss-120b": {
-          "description": "GPT-OSS-120B es un modelo de IA muy potente creado por OpenAI. Está diseñado para comprender instrucciones complejas, razonar sobre diversos temas y trabajar con grandes volúmenes de texto. A pesar de su tamaño impresionante, puede ejecutarse en una sola máquina potente, lo que lo hace más accesible para la investigación y el desarrollo.",
-          "strengths": "Comprensión avanzada de instrucciones, capacidad para manejar conversaciones o documentos largos, posibilidad de utilizar herramientas como la búsqueda web o la ejecución de código, y un rendimiento excelente en diferentes áreas como el razonamiento y la programación.",
-          "laboratory": "OpenAI",
-          "parameters": "120 mil millones",
-          "contextLength": "128k Tokens"
+          "description": "GPT-OSS-120B es un modelo de IA muy potente creado por OpenAI. Está diseñado para comprender instrucciones complejas, razonar sobre diversos temas y trabajar con grandes volúmenes de texto. A pesar de su tamaño impresionante, puede ejecutarse en una sola máquina potente, lo que lo hace más accesible para la investigación y el desarrollo."
         },
-        "gpt-4o": {
-          "strengths": "GPT-4o proporciona la mejor visión y rendimiento en idiomas distintos del inglés.",
-          "description": "GPT-4o es multimodal (acepta entrada de texto o imagen y genera texto) y tiene la misma alta inteligencia que GPT-4 Turbo pero es mucho más eficiente: genera texto 2 veces más rápido y es un 50% más barato .",
-          "laboratory": "OpenAI",
-          "parameters": "170 mil M",
-          "contextLength": "128 000 Tokens"
+        "gpt-4o-mini-2024-07-18": {
+          "description": "Modelo versátil para redactar y resumir."
         },
-        "llama-3-70b-instruct": {
-          "strengths": "Llama-3.3-70B-Instruct ofrece un rendimiento sólido en razonamiento lógico, matemáticas y generación de código, lo que lo hace útil para tareas complejas que requieren una comprensión profunda",
-          "description": "Llama-3.3-70B-Instruct es un modelo de lenguaje multilingüe de gran tamaño, diseñado para seguir instrucciones y destaca en tareas como el razonamiento, las matemáticas, la generación de texto y código, así como en conversaciones multilingües.",
-          "laboratory": "Meta AI",
-          "parameters": "70 mil M",
-          "contextLength": "128k Tokens"
+        "gpt-5-4-mini-2026-03-17": {
+          "description": "Modelo rápido y capaz para programar y razonar."
         },
-        "llama-3-8b-instruct": {
-          "description": "LLaMA-3.1 es un modelo potente y versátil, muy adecuado para una amplia gama de aplicaciones que requieren capacidades avanzadas de procesamiento del lenguaje natural.",
-          "strengths": "LLaMA-3.1 ofrece un rendimiento superior con mayor eficiencia computacional, lo que permite tiempos de respuesta más rápidos y un uso más económico de los recursos de hardware.",
-          "laboratoire": "Meta AI",
-          "parameters": "8 mil M",
-          "contextLength": "128k Tokens"
+        "qwen3-5-397b-a17b": {
+          "description": "Modelo que procesa texto, imágenes y documentos con precisión."
+        },
+        "qwen3-235b-a22b-instruct-2507": {
+          "description": "Diseñado para contextos muy largos, documentos extensos y RAG avanzado."
         },
         "qwen3-coder-30b-a3b-instruct": {
-          "description": "Qwen3-Coder es el modelo de lenguaje extenso y el modelo multimodal extenso (anteriormente conocido como CodeQwen) desarrollado por Alibaba Cloud. Destaca en tareas como generación, finalización, razonamiento y reparación de código, manteniendo capacidades generales y matemáticas.",
-          "strengths": "Alcanza un rendimiento de vanguardia en más de 10 benchmarks relacionados con código, incluyendo generación, completado, razonamiento y reparación. Supera a otros modelos de tamaño similar en estas tareas.",
-          "laboratory": "Alibaba Cloud",
-          "parameters": "32 mil M",
-          "contextLength": "32k tokens"
+          "description": "Qwen3-Coder es el modelo de lenguaje extenso y el modelo multimodal extenso (anteriormente conocido como CodeQwen) desarrollado por Alibaba Cloud. Destaca en tareas como generación, finalización, razonamiento y reparación de código, manteniendo capacidades generales y matemáticas."
+        },
+        "qwen3-6-35b-a3b": {
+          "description": "Modelo de alto rendimiento para programar y analizar distintos tipos de contenido."
+        },
+        "llama-3-1-8b-instruct": {
+          "description": "Modelo abierto versátil."
+        },
+        "llama-3-3-70b-instruct": {
+          "description": "Modelo de alto rendimiento para texto."
+        },
+        "pixtral-12b-2409": {
+          "description": "Modelo multimodal abierto, potente en visión, comprensión de documentos, razonamiento y programación."
+        },
+        "holo2-30b-a3b": {
+          "description": "Modelo multimodal creativo: generación, lluvia de ideas y tareas artísticas."
+        },
+        "gemma-4-26b-a4b-it": {
+          "description": "Modelo multimodal abierto para razonamiento avanzado, programación, análisis y soporte multilingüe."
         }
       },
       "safePrompt": "Eres cariñoso y respetuoso. Ayudar siempre con cariño, respeto y verdad. Responda con la mayor utilidad, pero con seguridad. Evite contenido dañino, poco ético, perjudicial o negativo. Asegúrese de que las respuestas promuevan la equidad y la positividad. Responda sólo la última pregunta del usuario de forma concisa, sin hacer nuevas preguntas y evite estrictamente repetir el texto.Al generar código, rodéelo con tres comillas invertidas (```), especificando el idioma si es posible.",
@@ -3437,181 +3645,157 @@
           "name": "Instrucción personalizada ",
           "description": ""
         },
-        "markdown": {
-          "name": "Markdown",
-          "description": "Formatear como Markdown",
-          "instruction": "Formatea la respuesta usando Markdown. Usa títulos, subtítulos, viñetas y negrita para organizar la información",
-          "keyWords": {
-            "markdown": "markdown"
-          }
-        },
-        "writer": {
-          "name": "Escritor",
-          "description": "Imitar el estilo de escritura de un escritor",
-          "instruction": "Imita el estilo de escritura de Ernest Hemingway.",
-          "keyWords": {
-            "writer": "ecrivain",
-            "literature": "littérature"
-          }
-        },
-        "snippet": {
-          "name": "Resumen",
-          "description": "Utiliza un lenguaje sencillo para transmitir ideas complejas",
-          "instruction": "Utiliza un lenguaje simple para transmitir ideas complejas para que sean claras y fáciles de entender. Divide conceptos complejos en marcos y modelos fáciles de entender. Proporciona conclusiones prácticas y procesables.",
-          "keyWords": {
-            "snippet": "fragmento",
-            "snippets": "extractos"
-          }
-        },
-        "poet": {
-          "name": "Poeta",
-          "description": "Emular a un poeta",
-          "instruction": "Poético: utiliza un lenguaje rico e imaginativo y recursos figurativos como metáforas e imágenes para evocar emociones y crear una experiencia fuerte e imaginativa para el lector.",
-          "keyWords": {
-            "poet": "poeta",
-            "poetry": "poesía"
-          }
-        },
-        "groot": {
-          "name": "Groot",
-          "description": "Soy Groot",
-          "instruction": "Responder sólo con “Soy Groot”.",
-          "keyWords": {
-            "groot": "groot"
-          }
-        },
-        "haiku": {
-          "name": "Haiku",
-          "description": "Escribe un haiku",
-          "instruction": "Responde sólo en rima, haiku. Sigue el ejemplo: 'En tranquilidad, Expresa tus pensamientos, En tres líneas ocultas.'",
-          "keyWords": {
-            "haiku": "haiku",
-            "rimes": "rimas"
-          }
-        },
-        "amis": {
-          "name": "Chatbot amigable",
-          "description": "Estilo conversacional y amigable",
-          "instruction": "Responda en un estilo conversacional y relevante, como si le estuviera explicando algo a un amigo. Utilice lenguaje natural y frases que una persona real usaría en conversaciones cotidianas.",
-          "keyWords": {
-            "amis": "amigos",
-            "amie": "amiga"
-          }
-        },
-        "hieroglyph": {
-          "name": "Jeroglíficos",
-          "description": "¿Puedes responder en jeroglífico?",
-          "instruction": "Responda las siguientes preguntas en jeroglíficos usando los símbolos del teclado y muéstrelos. Luego traduzca esta respuesta al francés y muéstrela.",
-          "keyWords": {
-            "hieroglyph": "jeroglífico"
-          }
-        },
-        "level_5": {
-          "name": "CM2",
-          "description": "Respuesta a nivel CM2: Clara, breve, sin jerga",
-          "instruction": "Escribe a un nivel de quinto grado. Usa un lenguaje claro y simple, incluso cuando expliques temas complejos. Usa oraciones cortas. Evita la jerga y las siglas.",
-          "keyWords": {
-            "level": "nivel"
-          }
-        },
-        "vittaBot": {
-          "name": "VittaBot",
-          "description": "Identificación del ChatBot",
-          "instruction": "Eres un asistente útil llamado 'VittaBot'. Comience cada respuesta con el apodo 'VittaBot' y evite utilizar los términos 'assistant' y 'system'.",
-          "keyWords": {
-            "chat": "chat",
-            "chatBot": "chatBot",
-            "vittaBot": "vittaBot"
-          }
-        },
-        "english_to_french": {
-          "name": "Traductor",
-          "description": "Inglés al francés",
-          "instruction": "Traducir el siguiente texto en inglés al francés",
-          "keyWords": {
-            "translator": "traductor",
-            "english": "inglés",
-            "french": "francés"
-          }
-        },
-        "french_to_english": {
-          "name": "Traductor",
-          "description": "de francés a inglés",
-          "instruction": "traduce el siguiente texto en francés al inglés",
-          "keyWords": {
-            "translator": "traductor",
-            "english": "inglés",
-            "french": "francés"
-          }
-        },
-        "old_french": {
-          "name": "Traductor",
-          "description": "Francés antiguo",
-          "instruction": "Generar una respuesta en francés antiguo:",
-          "keyWords": {
-            "translator": "traductor",
-            "old": "viejo",
-            "french": "francés"
-          }
-        },
-        "cadavres_exquis": {
-          "name": "Cadavre exquis",
-          "description": "Un juego colectivo de escritura",
-          "instruction": "Hola, ¿te gustaría jugar a un juego divertido y creativo llamado Cadavres Exquis? En este juego, crearemos juntos una historia, una frase o un dibujo, una pieza cada vez, sin saber lo que la otra persona ha escrito o dibujado previamente. Cada uno de nosotros añadirá una pieza a la creación. Jugaremos hasta que yo escriba 'Fin', momento en el que verás nuestro trabajo colaborativo completo. Para empezar, yo escribiré la primera palabra o frase, y luego tú te encargarás de añadir el resto. Podemos elegir un tema o dar rienda suelta a nuestra imaginación. ¿Te parece bien? Si estás preparado, di 'Sí' para empezar, o si tienes alguna sugerencia para un tema, dímelo. ¿Listo para jugar? ",
-          "keyWords": {
-            "game": "juego",
-            "group": "colectivo",
-            "corpse": "cadaver"
-          }
-        },
         "safe_prompt": {
           "name": "Declaración predeterminada",
+          "descriptionIntro": "Por motivos de seguridad, la siguiente instrucción se añade automáticamente, independientemente del modelo o la instrucción que elijas:",
           "description": "Como medida de seguridad, la siguiente instrucción se agrega automáticamente independientemente de su elección de plantilla o instrucción: 'Es usted considerado y respetuoso. Ayuda siempre con cariño, respeto y verdad. Responda de la manera más útil pero segura posible. Evite contenidos dañinos, poco éticos, dañinos o negativos. Asegúrese de que las respuestas promuevan la justicia y la positividad.'",
           "instruction": "",
           "keyWords": {}
         },
-        "create_quiz": {
+        "generate_quiz": {
           "name": "Crear un cuestionario",
-          "description": "Crear un cuestionario para alumnos de CM2",
-          "instruction": "Eres un profesor experto en crear y administrar evaluaciones de alumnos. Crea un cuestionario de 3 preguntas para completar, basado en el texto del manual de clase, para los alumnos de CM2 en ciencias. Utilice conceptos clave, términos de vocabulario y asegúrese de cubrir todas las partes del capítulo. Proporcione un banco de palabras para los alumnos y una clave de respuestas para el profesor. El tema es:",
+          "description": "Creación de cuestionarios sobre temas concretos con preguntas y respuestas detalladas",
+          "instruction": "Crea un cuestionario adecuado al nivel solicitado con preguntas y respuestas explicadas.",
           "keyWords": {
-            "quiz": "quiz",
-            "evaluation": "evaluación",
-            "teacher": "enseignant"
+            "quiz": "cuestionario",
+            "questions": "preguntas",
+            "evaluation": "evaluación"
           }
         },
-        "pass_quiz": {
-          "name": "Pasar un quiz",
-          "description": "Elige tu quiz",
-          "instruction": "¡Hola! Bienvenido a nuestro quiz interactivo. Estoy aquí para poner a prueba tus conocimientos sobre un tema determinado. Te haré preguntas sobre el tema que has elegido y tendrás que responderlas. Espero tu respuesta. Justo después de recibir tu respuesta, te corregiré y te propondré la siguiente pregunta. Si estás preparado, indica el tema. Empecemos. Especifique un asunto:",
+        "translation": {
+          "name": "Traducción",
+          "description": "Traducción entre distintos idiomas",
+          "instruction": "Traduce el texto proporcionado al idioma solicitado.",
           "keyWords": {
-            "game": "juego",
-            "group": "colectivo",
-            "quiz": "quiz"
+            "translate": "traducir",
+            "language": "idioma",
+            "english": "inglés",
+            "french": "francés"
           }
         },
-        "humor": {
-          "name": "Humor",
-          "description": "Evalúa el humor de un texto",
-          "instruction": "Evalúa el humor de este texto: ",
+        "poem_writer": {
+          "name": "Escribir un poema",
+          "description": "Crear poemas a partir de un tema dado",
+          "instruction": "Escribe un poema según el tema e instrucciones indicados.",
           "keyWords": {
-            "humor": "humor",
-            "rating": "notation"
+            "poem": "poema",
+            "write": "escribir",
+            "verse": "verso"
           }
         },
-        "plus_syllables": {
-          "name": "Sílaba",
-          "description": "Más sílabas",
-          "instruction": "En el siguiente texto añade la misma sílaba después de la primera sílaba",
+        "solve_equation": {
+          "name": "Resolver una ecuación",
+          "description": "Resolver ecuaciones matemáticas",
+          "instruction": "Resuelve la ecuación proporcionada y explica los pasos.",
           "keyWords": {
-            "syllable": "sílaba"
+            "math": "matemáticas",
+            "equation": "ecuación",
+            "solve": "resolver"
+          }
+        },
+        "code_generator": {
+          "name": "Generador de código",
+          "description": "Generación de código en distintos lenguajes",
+          "instruction": "Genera código según la petición del usuario en el lenguaje especificado.",
+          "keyWords": {
+            "code": "código",
+            "programming": "programación",
+            "language": "lenguaje"
+          }
+        },
+        "summary_writer": {
+          "name": "Resumen",
+          "description": "Redacción de resúmenes de textos",
+          "instruction": "Resume el texto proporcionado de forma clara y concisa.",
+          "keyWords": {
+            "summary": "resumen",
+            "text": "texto",
+            "summarize": "resumir"
+          }
+        },
+        "educational_exercises": {
+          "name": "Ejercicios educativos",
+          "description": "Creación de ejercicios adaptados a niveles escolares",
+          "instruction": "Crea ejercicios adaptados al nivel solicitado, con respuestas.",
+          "keyWords": {
+            "exercise": "ejercicio",
+            "education": "educación",
+            "school": "escuela"
+          }
+        },
+        "story_creator": {
+          "name": "Creador de historias",
+          "description": "Creación de personajes e historias",
+          "instruction": "Crea una historia o personajes según las instrucciones dadas.",
+          "keyWords": {
+            "story": "historia",
+            "character": "personaje",
+            "narrative": "narrativa"
+          }
+        },
+        "class_project": {
+          "name": "Proyecto de clase",
+          "description": "Creación de proyectos educativos",
+          "instruction": "Propón un proyecto de clase estructurado con actividades y objetivos educativos.",
+          "keyWords": {
+            "project": "proyecto",
+            "class": "clase",
+            "school": "escuela"
+          }
+        },
+        "academic_writing": {
+          "name": "Redacción académica",
+          "description": "Ayuda con la redacción académica",
+          "instruction": "Ayuda a redactar textos académicos estructurados y coherentes.",
+          "keyWords": {
+            "academic": "académico",
+            "essay": "ensayo",
+            "writing": "redacción"
+          }
+        },
+        "revision_sheets": {
+          "name": "Fichas de repaso",
+          "description": "Creación de fichas de repaso escolar",
+          "instruction": "Genera una ficha de repaso clara y estructurada sobre el tema solicitado.",
+          "keyWords": {
+            "revision": "repaso",
+            "sheet": "ficha",
+            "study": "estudio"
+          }
+        },
+        "language_dialogues": {
+          "name": "Diálogos para aprendizaje de idiomas",
+          "description": "Creación de diálogos para el aprendizaje de idiomas",
+          "instruction": "Crea un diálogo sencillo y didáctico en el idioma solicitado.",
+          "keyWords": {
+            "dialogue": "diálogo",
+            "language": "idioma",
+            "conversation": "conversación"
+          }
+        },
+        "tech_integration_class": {
+          "name": "Tecnología en el aula",
+          "description": "Ayuda para integrar herramientas digitales en la enseñanza",
+          "instruction": "Sugiere actividades didácticas que integren herramientas tecnológicas.",
+          "keyWords": {
+            "technology": "tecnología",
+            "class": "clase",
+            "coding": "programación"
+          }
+        },
+        "writing_style": {
+          "name": "Escritor",
+          "description": "Imitación de estilos de redacción",
+          "instruction": "Escribe en el estilo solicitado por el usuario.",
+          "keyWords": {
+            "style": "estilo",
+            "writer": "escritor",
+            "text": "texto"
           }
         }
       },
       "adacraftBlock": "¿Que puedo hacer por usted?",
-      "stepsBySteps": {
-        "changeTemperature": "Cambiar l’aleatorio. En función de l’aleatorio, el modelo calcula y predice tokens diferentes."
-      }
+      "aiResponseWarningButton": "Reportar un problema"
     },
     "imageGenerate": {
       "editor": {
@@ -3634,8 +3818,8 @@
         "seed": "Semilla",
         "noStyle": "Ninguno",
         "size": "Tamaño de la imagen",
-        "imagePrompt": "prompt para la imagen",
-        "negativePrompt": "prompt negativo",
+        "imagePrompt": "Prompt para la imagen",
+        "negativePrompt": "Prompt negativo",
         "mode": "Mostrar",
         "steps": "Pasos",
         "image": "Imagen"
@@ -3682,6 +3866,12 @@
           ],
           "understood": "entendido"
         },
+        "steps-restriction": {
+          "title": "Información",
+          "text": "El modelo actual no permite visualizar los pasos; selecciona otro modelo.",
+          "choose-model": "Elige otro modelo",
+          "continue": "Mantener el modelo actual"
+        },
         "imageEditor": {
           "threshold": "Umbral de opacidad del fondo",
           "title": "Prepara tu sprite para Adacraft",
@@ -3694,25 +3884,62 @@
           "title": "Elige cómo usar esta imagen para Adacraft",
           "sprite": "Usar como sprite u objeto",
           "background": "Usar como imagen de fondo"
+        },
+        "userParameters": {
+          "isPremiumUser": "Incluido en tu suscripción",
+          "isPremium": "Premium",
+          "estimatedSize": "Tamaño estimado",
+          "unitsBillion": "B"
+        },
+        "userRestrictions": {
+          "credits": "Créditos",
+          "remaining": "{{count}} restantes",
+          "creditCondition": "Crear una imagen requiere un crédito",
+          "dailyReset": "Los créditos diarios se restablecen a medianoche UTC",
+          "monthlyReset": "Los créditos mensuales se restablecen cada 30 días",
+          "subscriptionDetails": "Ver nuestros planes",
+          "subscriptionDetailsPremium": "Ver los detalles de tu suscripción Premium",
+          "progressAria": "{{used}} créditos usados de {{limit}}",
+          "titleCreditInfo": "Información sobre créditos",
+          "unlimitedCredits": "Ilimitado",
+          "unlimitedReset": "Tu suscripción Premium incluye generación de texto ilimitada",
+          "unlimitedConditions": "Tu suscripción Premium incluye generación de texto ilimitada."
         }
       },
       "notifications": {
         "image-is-broken": "😒 Lo sentimos, algo salió mal, intenta de nuevo con un prompt diferente",
         "not-delete": "No puedes eliminar una imagen marcada como favorita",
-        "asset-deleted": "Imagen eliminada"
+        "asset-deleted": "Imagen eliminada",
+        "image-generation-queued": "La generación de tu imagen está en cola.",
+        "image-generation-queued-position": "La generación de tu imagen está en cola. Posición: {{position}}. Espera estimada: {{waitLabel}}.",
+        "image-generation-queued-position-only": "La generación de tu imagen está en cola. Posición: {{position}}.",
+        "image-generation-queued-wait-only": "La generación de tu imagen está en cola. Espera estimada: {{waitLabel}}.",
+        "quota-reached": "Has alcanzado tu cuota de generación de imágenes para hoy. Inténtalo de nuevo en {{hours}}h {{minutes}}min {{seconds}}s.",
+        "quota-reached-monthly": "Has alcanzado tu cuota de generación de imágenes de este mes. Inténtalo de nuevo en {{days}}d {{hours}}h {{minutes}}min {{seconds}}s.",
+        "image-generation-started": "La generación de tu imagen ha comenzado."
       },
       "image-generate-models": {
-        "SSD-1B": {
-          "description": "El modelo Segmind Stable Diffusion (SSD-1B) es una versión reducida del modelo de difusión estable XL (SDXL), que ofrece una aceleración del 60 % mientras conserva capacidades de generación de texto a imagen de alta calidad. Se ha entrenado en varios conjuntos de datos, incluidos Grit y Midjourney scrape data, para mejorar su capacidad de crear una amplia gama de contenido visual basado en solicitudes de texto."
+        "DreamShaper": {
+          "description": "Modelo de código abierto y versátil."
         },
         "Stable-Diffusion-XL": {
           "description": "El modelo Stable Diffusion XL 1024 v1.0 es una versión avanzada de la serie de modelos de difusión estable. Su rendimiento mejorado en resolución y fidelidad visual lo convierte en una herramienta adecuada para aplicaciones creativas exigentes como la ilustración, el diseño y las producciones multimedia de alta calidad."
         },
-        "FLUX-dev": {
-          "description": "El modelo FLUX[dev], diseñado por Black Forest Labs, es un generador de imágenes IA de peso abierto. Este modelo sobresale en la generación de texto a imagen, proporcionando salidas extremadamente precisas y detalladas. Es particularmente apreciado por su capacidad para seguir solicitudes complejas y generar imágenes anatómicamente precisas, especialmente con detalles difíciles como manos y rostros. El modelo se basa en un transformador de flujo rectificado con 12 mil millones de parámetros."
+        "FLUX2[klein]": {
+          "description": "Modelo ligero para generar imágenes rápidamente."
+        },
+        "FLUX2[flex]": {
+          "description": "Versátil para crear imágenes con texto."
+        },
+        "FLUX2[max]": {
+          "description": "Ofrece la máxima calidad para imágenes complejas."
+        },
+        "Qwen-Image": {
+          "description": "Renderizado preciso del texto dentro de las imágenes."
         }
       },
       "imageQuickPrompts": {
+        "length": 20,
         "text": [
           {
             "id": "default_1",
@@ -3835,8 +4062,7 @@
             "description": "un desierto con dunas de arena y un cielo estrellado",
             "style": "estilo minimalista"
           }
-        ],
-        "length": 20
+        ]
       },
       "imageStyles": [
         {
@@ -4016,8 +4242,14 @@
         "lastCreations": "<i class='fas fa-clock-rotate-left m-1'></i>Mis creaciones",
         "publicCreations": "<i class='fa-solid fa-users m-1'></i>Creaciones comunitarias",
         "favoriteCreations": "<i class='fa-solid fa-heart m-1'></i>Mis favoritas",
-        "bestCreations": "<i class='fa-solid fa-star m-1'></i></i>Competición",
-        "gameCreations": "<i class='fa-solid fa-gamepad m-1'></i></i>Desafío",
+        "bestCreations": {
+          "title": "<i class='fa-solid fa-trophy m-1'></i></i>Concurso",
+          "tooltip": "Cada mes, participa en un concurso de generación de imágenes con un tema definido. Publica tu creación e intenta estar entre las 3 imágenes con más me gusta de la comunidad para ganar tarjetas regalo. (Solo se puede otorgar un código de premio por usuario y por mes.)"
+        },
+        "gameCreations": {
+          "title": "<i class='fa-solid fa-gamepad m-1'></i></i>Desafío",
+          "tooltip": "Cada semana, afronta un nuevo desafío de recreación de imagen. El objetivo es encontrar el prompt original usado para generar la imagen propuesta escribiendo un prompt lo más parecido posible. La puntuación se calcula según la similitud entre tu prompt y el prompt de referencia, no por el parecido visual entre las imágenes."
+        },
         "lifeTime": "Hace {{ time }}",
         "gameTitle": "Imagen de la Semana",
         "rules": "El objetivo es reproducir esta imagen. Cuanto más te acerques, mayor será tu puntuación.",
@@ -4036,7 +4268,12 @@
         "bestCreationTab": "Intenta generar la mejor creación sobre el tema <strong>'{{ name }}'</strong>. Para ser nominado, te invitamos a iniciar sesión o crear una cuenta (es gratis). Vota por tus imágenes favoritas con el botón ❤️. Las 3 obras que recibieron más ❤️ se muestran a continuación.",
         "noCompetition": "Parece que no hay ningún concurso anunciado. Sin embargo, puedes consultar las imágenes ganadoras de concursos anteriores.",
         "noItemCompetition": "Aún no se ha generado ninguna imagen para el concurso.",
-        "weekCompetitionButton": "Las mejores creaciones del {{ firstDate}} al {{ secondDate}}: <strong>'{{ name }}'</strong>"
+        "weekCompetitionButton": "Las mejores creaciones del {{ firstDate}} al {{ secondDate}}: <strong>'{{ name }}'</strong>",
+        "tipsGenerationImage": {
+          "title": "¿Cómo mejorar la generación de tu imagen?",
+          "description": "Descubre nuestros 10 consejos para redactar tus prompts",
+          "link": "Acceder al artículo"
+        }
       },
       "button": {
         "download": "Descargar en el ordenador",
@@ -4045,6 +4282,17 @@
         "delete": "Eliminar",
         "moderation": "Moderación en la interfaz",
         "report": "Reportar un problema/bug"
+      },
+      "visibility": {
+        "premiumOnly": "Esta función está reservada para los usuarios Premium de Vittascience.",
+        "infoTooltip": "¿Por qué conservar las imágenes generadas y los prompts asociados? Cuando un usuario desea crear una imagen, Vittascience busca si otro usuario ya ha generado una imagen con el mismo prompt y el mismo modelo de IA. Si es así, no es necesario generar una nueva imagen. Este método permite mantener el acceso gratuito y limitar la huella ecológica de la plataforma. Con el tiempo, un motor de búsqueda permitirá encontrar fácilmente imágenes en el banco público a partir de los prompts asociados. Los usuarios Premium pueden ocultar sus imágenes del banco público.",
+        "title": "Visibilidad",
+        "private": "Privado",
+        "public": "Público",
+        "infoAriaLabel": "Más información sobre la visibilidad"
+      },
+      "logprob-restriction": {
+        "text": "Los logprobs no están disponibles para el modelo seleccionado. <br/>El modelo actual no admite la visualización de logprobs; por favor, elige otro modelo."
       }
     },
     "aiVisualization": {
@@ -4098,6 +4346,79 @@
       }
     },
     "repl": {
+      "flashRepl": "El firmware MicroPython debe cargarse antes de abrir el REPL.",
+      "flashPython": "El firmware MicroPython debe cargarse antes de descargar código Python.",
+      "codeExecution": "Ejecutando código 'main.py'",
+      "commandError": "Ocurrió un error al enviar el comando.",
+      "libCollectingEnd": "Recopilación de bibliotecas desde la placa completada.",
+      "consoleGraphData": "El programa envía datos gráficos a la consola.",
+      "help": {
+        "jsFileError": "[HELP] Ocurrió un error al subir el archivo 'script.js'. Verifica que los IDs usados en los bloques [html] sean entradas de texto.",
+        "cssFileError": "[HELP] Ocurrió un error al subir el archivo 'style.css'. Verifica que los IDs usados en los bloques [html] sean entradas de texto.",
+        "flashFirmware": "[HELP] Es necesario cargar el firmware MicroPython en la placa.",
+        "internetAccess": "[AYUDA] No se puede acceder a Internet. Verifique su IP y puerta de enlace en la función de conexión de estación.",
+        "gatewayFind": "[HELP] Para encontrar la puerta de enlace de la red, usa el comando <b>ipconfig</b> en un terminal en Windows, o <b>ifconfig</b> en Mac OS</br>.",
+        "i2cError": "[HELP] La placa no puede encontrar el dispositivo I2C. Por favor, revisa las conexiones SDA/SCL y el dispositivo.</br>",
+        "mail": "[HELP] No se puede conectar a tu buzón. Veamos el tutorial para más información:",
+        "powerSupply": "[HELP] La alimentación por USB de tu ESP32 es insuficiente. Conecta una fuente externa o intenta cambiar el cable.</br>"
+      },
+      "progressBar": {
+        "default": "Subiendo el programa Python...",
+        "uploadFile": "Subiendo archivo",
+        "filesLoading": "Cargando archivos desde la placa...",
+        "fileReading": "Leyendo el archivo"
+      },
+      "fs": {
+        "notEnoughSpace": "No hay espacio suficiente en la tarjeta para transferir",
+        "readingFileError": "No se pueden leer los archivos de la tarjeta.",
+        "movingFileError": "No se puede mover este archivo.",
+        "incompleteFileReading": "Lectura del archivo incompleta.",
+        "fileModifyError": "No se puede modificar este archivo.",
+        "savedFile": "Archivo guardado.",
+        "deleteProtectedFile": "Algunos archivos protegidos no se pueden eliminar.",
+        "deleteFolderFiles": "Elimina primero los archivos contenidos en la carpeta.",
+        "deletedFiles": "Archivo(s) eliminado(s).",
+        "deleteFileError": "No se pueden eliminar los archivos seleccionados.",
+        "noFileUploaded": "No se subió ningún archivo.",
+        "importFile": "Importando el archivo...",
+        "dragDropFiles": "Arrastra y suelta archivos aquí para importarlos a la placa.",
+        "writingProtectedFile": "Este archivo está protegido contra escritura.",
+        "noSelectedFile": "Ningún archivo seleccionado.",
+        "fileDownloaded": "Archivo descargado.",
+        "zipFile": "Archivos descargados en un archivo ZIP.",
+        "downloadError": "No se pueden descargar los archivos.",
+        "unauthorizedFormat": "Formato no autorizado.",
+        "permittedImageFormat": "Formato de imagen no permitido. Formatos aceptados: PNG, JPG, WEBP, BMP.",
+        "importedFiles": "archivo(s) importado(s).",
+        "importError": "No se puede importar el archivo.",
+        "pastedFiles": "archivo(s) pegado(s).",
+        "copiedFiles": "archivo(s) copiado(s).",
+        "nameAlreadyExists": "Este nombre ya está en uso por otro archivo o carpeta.",
+        "noFileToMove": "No hay archivos para mover.",
+        "movingProtectedFiles": "Los archivos protegidos no se pueden mover.",
+        "readyFiles": "archivo(s) listo(s) para mover.",
+        "noCopiedFile": "No hay archivos para copiar.",
+        "noCopiedFiles": "No hay archivos copiados o cortados.",
+        "movingSameFolder": "No se puede mover el archivo a la misma carpeta.",
+        "pasteFilesError": "No se pueden pegar los archivos.",
+        "selectOneFile": "Por favor, seleccione solo un archivo o una carpeta.",
+        "renamingError": "No se puede renombrar este archivo.",
+        "renamingNotPossible": "Ya existe un archivo o carpeta con este nombre.",
+        "pasteError": "No se puede copiar el archivo. Lectura o escritura incompleta.",
+        "movingProtectedNotPossible": "No se puede mover un archivo protegido.",
+        "renamedFile": "Elemento renombrado.",
+        "buttons": {
+          "copy": "Copiar",
+          "duplicate": "Duplicar",
+          "download": "Descargar",
+          "rename": "Renombrar...",
+          "delete": "Eliminar",
+          "paste": "Pegar",
+          "import": "Importar...",
+          "newFile": "Nuevo archivo...",
+          "newFolder": "Nueva carpeta..."
+        }
+      },
       "commands": {
         "history": {
           "noCommand": "Sin orden en la historia",
@@ -4255,7 +4576,8 @@
       },
       "sharePopup": {
         "title": "<i class=\"fas fa-link\"></i> Comparte el proyecto"
-      }
+      },
+      "searchButton": "Buscar"
     },
     "addressBloc": {
       "edit": "Editar",
@@ -4867,7 +5189,14 @@
     "seeExp": "Ver la experiencia",
     "loading": "Cargando...",
     "error": "Se ha producido un error. Por favor, inténtelo más tarde.",
-    "loaded": "Todas las imágenes están cargadas."
+    "loaded": "Todas las imágenes están cargadas.",
+    "dialog": "Visor de imágenes",
+    "close": "Cerrar",
+    "prevImage": "Imagen anterior",
+    "nextImage": "Imagen siguiente",
+    "viewImage": "Ver imagen",
+    "likeImage": "Dar me gusta a esta imagen",
+    "unlikeImage": "Quitar \"me gusta\" a esta imagen"
   },
   "hire": {
     "title": "¿Le apasiona la educación?",
@@ -4961,6 +5290,7 @@
         "title": "Título",
         "description": "Descripción",
         "searchPlaceholder": "Buscar recursos para añadir a tu selección",
+        "searchButton": "Buscar recursos",
         "selectionTitle": "Tu selección"
       },
       "words": {
@@ -5312,12 +5642,14 @@
             "title": "Desde su ordenador"
           },
           "search": "Buscar un proyecto",
+          "searchButton": "Buscar",
           "categories": {
             "private": "Mis proyectos",
             "public": "Proyectos compartidos",
             "example": "Ejemplos"
           },
           "exampleCategories": {
+            "campus-numeria": "Campus Numeria",
             "cybersecurity": "Ciberseguridad",
             "essentials": "Lo esencial del B.O.:",
             "hybrid_projects": "Proyectos híbridos (Bloques/Python)",
@@ -5325,8 +5657,7 @@
             "python_projects-hub": "Proyectos Python — Hub",
             "python_projects-rover": "Proyectos Python — Rover",
             "python_projects-turtle": "Proyectos Python — Turtle",
-            "python_projects-microbit": "Proyectos Python — BBC micro:bit",
-            "campus-numeria": "Campus Numeria"
+            "python_projects-microbit": "Proyectos Python — BBC micro:bit"
           },
           "exampleSubcategories": {
             "mission_1": "Hoja 1: Fortaleza de la contraseña",
@@ -5450,6 +5781,7 @@
             "warning": "Se ha producido un error durante la recuperación de su clave API.",
             "link": "Enlace para llamar a la API que contiene su clave :",
             "copy": "Copiar",
+            "copyButton": "Copiar clave API",
             "copied": "Enlace copiado",
             "activate": "Activar la API para este proyecto",
             "connected": "Debe estar conectado para recuperar su clave API."
@@ -5465,6 +5797,7 @@
             "name": "Nombre del proyecto",
             "desc": "Describe tu boceto, útil si quieres compartir tu proyecto más adelante."
           },
+          "useCurrentProject": "Marca esta casilla si quieres usar el proyecto actual como base.",
           "messages": {
             "success": {
               "new": "¡Nuevo proyecto creado con éxito!",
@@ -5741,7 +6074,8 @@
           "qrcode": {
             "title": "Código QR del proyecto",
             "copy": "Copiar código QR",
-            "download": "Descargar código QR"
+            "download": "Descargar código QR",
+            "successCopy": "Código QR copiado con éxito"
           },
           "send": {
             "title": "<i class='fas fa-paper-plane'></i> Enviar",
@@ -5843,6 +6177,9 @@
           "modalButton": "Corrección automática"
         }
       },
+      "toolboxRestriction": {
+        "title": "Restringir la biblioteca de bloques"
+      },
       "confirmStatement": {
         "title": "Confirmación de la declaración",
         "descriptionAdd": "¿Confirma la afirmación que acaba de hacer?",
@@ -5927,6 +6264,38 @@
         "emulatorLoaded": "¡Compilador cargado!",
         "compilationStepsLabel": "Compilación&nbsp;",
         "compilationDone": "Compilación completada &#x2705;"
+      },
+      "mpy-fs": {
+        "title": "Archivos de la placa",
+        "spaceUsed": "Espacio usado:",
+        "noLoadedFile": "No hay archivos cargados",
+        "clickToOpenFile": "Haga doble clic en un archivo para abrirlo.",
+        "buttons": {
+          "save": {
+            "text": "Guardar archivo",
+            "tooltip": "Guardar el archivo actual"
+          },
+          "play": {
+            "text": "Ejecutar",
+            "tooltip": "Ejecutar el archivo actual"
+          },
+          "stop": {
+            "text": "Detener",
+            "tooltip": "Detener el programa actual"
+          },
+          "close": {
+            "text": "Cerrar",
+            "tooltip": "Cerrar el sistema de archivos"
+          }
+        },
+        "tooltips": {
+          "upload": "Importar un archivo desde el ordenador",
+          "newFile": "Crear un nuevo archivo",
+          "newFolder": "Crear una nueva carpeta",
+          "rename": "Renombrar los elementos seleccionados",
+          "download": "Descargar los archivos seleccionados en el ordenador",
+          "delete": "Eliminar los archivos seleccionados"
+        }
       }
     },
     "warning": {
@@ -6033,6 +6402,38 @@
       "backenderror": {
         "content": {
           "warn": "Se ha producido un error"
+        }
+      },
+      "mpy-fs": {
+        "delete": {
+          "question": "¿Está seguro de que desea eliminar los archivos?",
+          "buttons": {
+            "delete": "Eliminar",
+            "cancel": "Cancelar"
+          }
+        },
+        "save": {
+          "question": "¿Desea guardar los cambios en el archivo?",
+          "hint": "De lo contrario, los cambios realizados en el archivo se perderán.",
+          "buttons": {
+            "save": "Guardar",
+            "dontSave": "No guardar"
+          }
+        },
+        "replace": {
+          "question": "Uno o más archivos en el destino comparten el mismo nombre. ¿Desea reemplazarlos?",
+          "questionFilename": "El archivo <b>{FILENAME}</b> ya existe en el destino. ¿Desea reemplazarlo?",
+          "buttons": {
+            "replace": "Reemplazar",
+            "cancel": "Cancelar"
+          }
+        },
+        "importSize": {
+          "message": "No se puede importar la imagen.",
+          "hint": "El archivo {FILENAME} tiene un tamaño de {SIZE}. El tamaño máximo permitido es 250 KB.",
+          "buttons": {
+            "understood": "Entendido"
+          }
         }
       }
     },
@@ -6333,6 +6734,14 @@
           "upgrade": "Ver las ofertas Premium"
         }
       },
+      "aiTTS-restriction-info": {
+        "title": "La conversión de texto a voz requiere créditos",
+        "description": "Cada segundo de audio generado consume un crédito. Tienes una asignación diaria de créditos gratuita que se renueva cada día. Volver a escuchar audio ya generado no consume créditos. Con una suscripción Premium, la conversión de texto a voz es ilimitada.",
+        "buttons": {
+          "subscriptionDetailsPremium": "Ver los detalles de tu suscripción",
+          "subscriptionDetails": "Ver nuestros planes"
+        }
+      },
       "modal-edge-raw-import-data": {
         "title": "Importar datos",
         "description": "Por favor, importe un archivo de datos en formato CSV",
@@ -6618,7 +7027,7 @@
       "search": "Buscar una interfaz",
       "types": {
         "title": "Tipos",
-        "cards": "Tarjetas programables",
+        "boards": "Tarjetas programables",
         "robots": "Robots/Drones",
         "drones": "Drones",
         "software": "Software/Calculadoras",
@@ -6697,7 +7106,12 @@
         "steami": "Interfaz de programación para la placa STeaMi",
         "nano-esp32": "Interfaz de programación para la placa Arduino Nano ESP32",
         "alvik": "Interfaz de programación para el robot Alvik de Arduino",
-        "alphai": "Interfaz de programación para el robot AlphAI"
+        "alphai": "Interfaz de programación para el robot AlphAI",
+        "g1tank": "Interfaz de programación para el robot Yahboom G1 Tank",
+        "tello": "Interfaz de programación para el dron DJI Tello",
+        "uhandbit": "Interfaz de programación para la mano robótica uHandbit",
+        "wonder": "Interfaz de programación para el kit Elecfreaks Wonder",
+        "buildingbit": "Interfaz de programación para el kit Yahboom Building:bit Super Kit"
       }
     },
     "features_title": "Características comunes",
@@ -6719,7 +7133,7 @@
         "free": "El acceso a las interfaces de programación y a los recursos de Vittascience es gratuito. ¿Está pensando en utilizarlo con sus alumnos? <a href='/precios'>Consulta nuestras ofertas</a>."
       }
     },
-    "cards_info": {
+    "boards_info": {
       "title": "Tarjetas programables",
       "desc": "Estas interfaces permiten programar microcontroladores como Arduino, ESP32 o Micro:bit. Combinan editores visuales (como Scratch) para principiantes y lenguajes más avanzados como Python o C++ para usuarios experimentados. Estas herramientas ofrecen opciones para configurar sensores, actuadores y sistemas embebidos, con características intuitivas como la simulación y el despliegue directo en las tarjetas.",
       "btn": "Descubre la tarjeta Micro:bit"
@@ -6820,8 +7234,9 @@
     "projectNotFound": "Error al guardar la declaración: ¡el proyecto no existe!",
     "notExerciseStatementCreator": "¡No tienes permiso para modificar el enunciado!",
     "needProjectName": "Debe rellenar el nombre de su proyecto antes de poder guardarlo.",
-    "projectNoChangesToSave": "No hay cambios para guardar.",
     "projectSaveError": "Se ha producido un error durante el registro.",
+    "projectSaveConflict": "Tu proyecto NO se ha guardado: se modificó en otro lugar. Vuelve a guardar para sobrescribir la versión almacenada en el servidor.",
+    "projectNoChangesToSave": "No hay cambios para guardar.",
     "projectSaveSuccess": "Su proyecto ha sido registrado.",
     "loadedProjectNotFound": "El proyecto solicitado no existe.",
     "exportModelNeedSave": "Primero debe registrar su proyecto para utilizar la plantilla en otra interfaz",
@@ -6852,12 +7267,14 @@
     "categoryRemoveImageError": "AiCategory->removeImage: el argumento debe ser un objeto. {{type}} ¡pasado!",
     "imageSetElementError": "AiImage->setElement: ¡el elemento {{element}} no es un elemento HTML válido!",
     "imageSetCategoryError": "AiImage->setCategory : el argumento debe ser un objeto. {{type}} ¡pasado!",
+    "modelSetCategoriesError": "¡AiModel->setCategories : el argumento debe ser un array !",
     "moderationContent": "El contenido ha sido marcado como inapropiado por los moderadores y no puede ser procesado.",
     "premiumRequiredTTS": "Se requiere una suscripción premium para utilizar la función de síntesis de voz más allá de los límites de uso gratuito.",
+    "dailyLimitReachedTTS": "Has alcanzado el límite diario de texto a voz.",
     "errorGeneratingTTSAudio": "Se ha producido un error al generar el audio de síntesis de voz",
+    "noSpeakerTTS": "¡No se ha seleccionado un altavoz para la conversión de texto a voz! Por favor, selecciona al menos un altavoz.",
     "textTooLongTTS": "El texto a sintetizar supera el límite máximo permitido.",
     "textTooLongTTSSpeaker": "El texto a sintetizar supera el límite máximo permitido para al menos uno de los locutores seleccionados.",
-    "modelSetCategoriesError": "¡AiModel->setCategories : el argumento debe ser un array !",
     "modelSetParentElementError": "AiModel->setParentElement: ¡el elemento {{element}} no es un elemento HTML válido!",
     "modelAddImageByInputOrDropError": "AiModel->_addImageByFileInput: la imagen {{imageName}} está en el formato {{fileType}} que es incorrecto. Los formatos permitidos son {{validTypes}}.",
     "videoSetIsStreamingError": "AiVideo->setIsStreaming: el argumento debe ser un booleano. {{type}} ¡pasado!",
@@ -6936,6 +7353,7 @@
     "isActiveToken": "El token que seleccionó está actualmente en uso, ¡seleccione otro!",
     "modelNotFound": "Hay un problema temporal con el modelo. Intente con otro modelo.",
     "temporaryError": "Esta inteligencia artificial está experimentando un problema actualmente, pruebe con otro modelo.",
+    "backendNotificationFailed": "La imagen fue generada pero no se pudo guardar en la base de datos.",
     "noResource": "No hay ningún recurso disponible para su solicitud.",
     "noCompatible": "La función no es compatible con 'pensar'",
     "promptTooBig": "⚠️ Según las reglas, el mensaje no debe superar los {{max}} caracteres.",
@@ -6947,7 +7365,14 @@
     "ragTooManyRequests": "Demasiadas solicitudes. Inténtelo de nuevo en {{seconds}} segundos.",
     "ragBlockedDomain": "El sitio {{domain}} bloquea la extracción automática. Intente copiar y pegar el texto manualmente.",
     "ragExtractionFailed": "No se pudo extraer el contenido de la página. Algunas páginas web protegen su contenido.",
-    "ragFetchError": "Algunas extensiones bloquean la carga. Intente desactivarlas o utilice la navegación privada."
+    "ragFetchError": "Algunas extensiones bloquean la carga. Intente desactivarlas o utilice la navegación privada.",
+    "noDisussion": "Para ver embeddings de texto, inicia una conversación con la IA.",
+    "connexionBlocked": "La conexión con la IA está bloqueada (red escolar o proxy). Contacta con tu administrador de red.",
+    "connexionDegraded": "Conexión degradada: WebSocket está bloqueado por tu red. La IA funciona en modo HTTP, el rendimiento puede ser reducido.",
+    "errorJwt": "Tu sesión ha expirado. Por favor, recarga la página.",
+    "badTimeout": "El servidor está sobrecargado. Por favor, inténtalo de nuevo en un momento.",
+    "connexionReconnecting": "Conexión perdida, reintentando…",
+    "connexionFailed": "El servicio de IA no está disponible temporalmente. Por favor, inténtalo más tarde."
   },
   "switchAccessibility": {
     "title": "Accesibilidad",
@@ -7072,6 +7497,8 @@
   "opensource": {
     "title": "Créditos del software de código abierto",
     "subtitle": "Vittascience no estaría donde está sin su aportación",
+    "license": "Licencia: ",
+    "project_link": "Enlace al proyecto",
     "sources": {
       "jscpp": "<b>JSCPP</b> es un intérprete ligero para el lenguaje C++ que se puede utilizar desde un navegador.</br> Sirve de base para nuestro simulador de Arduino.",
       "blockly": "<b>Blockly</b> es un servicio de programación visual. Los usuarios pueden ensamblar bloques para construir programas. Lo utilizamos para la parte de bloques de nuestras interfaces de programación.",
@@ -7171,14 +7598,16 @@
       "info-resources": "acceso al banco de recursos de Vittascience",
       "info-learners": "Hasta 50 alumnos y 1 grupo de alumnos",
       "info-ai": "IA de texto e imagen: modelos básicos",
+      "ai-image-credits": "IA Imagen: 3 créditos diarios",
+      "ai-text-credits": "IA Texto: 30 créditos por mes (máximo 10 por día)",
+      "info-ai-tts": "IA Síntesis de voz : 30 segundos de generación por día",
       "info-gar": "acceso seguro a través del <a href='/gar' class='gar-link'>GAR</a>",
       "button": "Registrarse",
       "financing": "Descubre si tu suscripción puede ser financiada",
       "area": "Selecciona tu departamento:",
       "collab": "Ayudar a crear una colaboración",
       "offers": "Consultar las ofertas",
-      "access-page": "Acceder a la página de registro",
-      "info-ai-tts": "IA Síntesis de voz : 30 segundos de generación por día"
+      "access-page": "Acceder a la página de registro"
     },
     "starter-license": {
       "title": "Premium",
@@ -7187,10 +7616,12 @@
       "info-learners": "Hasta 400 alumnos y 20 grupos de alumnos",
       "info-coaching": "1 h de acompañamiento compartido",
       "info-ai": "IA de texto e imagen: modelos Premium",
+      "ai-image-credits": "IA Imagen: 100 créditos mensuales",
+      "ai-text-credits": "IA Texto: 1000 créditos por mes",
       "info-ai-rag": "Añadir fuentes para la IA (RAG)",
+      "info-ai-tts": "IA Síntesis de voz : Generación ilimitada",
       "info-delivery": "Envío gratuito desde la tienda a Francia metropolitana (excepto suscripción mensual)",
-      "button": "Suscribirse",
-      "info-ai-tts": "IA Síntesis de voz : Generación ilimitada"
+      "button": "Suscribirse"
     },
     "multi-license": {
       "title": "Equipo",
@@ -7708,6 +8139,10 @@
           "1": "Acceder al centro de ayuda",
           "2": "Contáctanos"
         }
+      },
+      "access_product_shop": "Acceder al producto en la tienda",
+      "videos": {
+        "title": "Ver los <span>tutoriales</span>"
       }
     },
     "ventilationalert": {
@@ -7789,6 +8224,16 @@
       "name": "Inteligencia Artificial",
       "title": "Descubre el Kit <span>Inteligencia Artificial</span>",
       "desc": "Consulta el folleto oficial para construir tu kit, y explora los recursos, programas y tutoriales asociados para profundizar en el aprendizaje de la programación."
+    },
+    "board_uno": {
+      "name": "Placa Uno",
+      "title": "Descubre los recursos <span>de la placa Uno</span>",
+      "desc": "Potente, versátil y accesible, la placa Uno es la placa para todos los que quieren dar vida a sus proyectos electrónicos, del prototipo a la realización."
+    },
+    "board_esp32": {
+      "name": "Placa ESP32",
+      "title": "Descubre los recursos <span>de la placa ESP32</span>",
+      "desc": "La placa EDU ESP32 con formato Arduino UNO, potente y conectada (Wi-Fi & BLE), ideal para todos tus proyectos, desde los primeros experimentos hasta los desarrollos avanzados, con MicroPython preinstalado."
     }
   },
   "let": {
@@ -7841,6 +8286,10 @@
       "title": "Generación de Imágenes",
       "desc": "Crea imágenes a partir de un prompt"
     },
+    "video-generation": {
+      "title": "Generación de vidéo",
+      "desc": "Asocia cada vídeo generado por la IA con el prompt adecuado"
+    },
     "tts": {
       "title": "Síntesis de voz",
       "desc": "Convertir texto en voz humana"
@@ -7855,7 +8304,7 @@
     },
     "ai-kit": {
       "title": "Descubre el Kit",
-      "kit_name": "Inteligencia Artificial",
+      "kit_name": "Inteligencia Artificial Micro:bit",
       "paragraph": "¡La Inteligencia Artificial pronto te revelará sus secretos!<br>Entrena tu propio modelo de IA con programación simplificada importando imágenes y sonidos. Luego, usa tu modelo en tu ordenador junto con una tarjeta micro:bit.",
       "button": "Explora el Kit de IA"
     },
@@ -7864,6 +8313,11 @@
       "kit_name": "Inteligencia Artificial integrada",
       "paragraph": "Entrene su propio modelo de IA de manera sencilla a partir de imágenes. Luego, use su modelo de IA integrada en la tarjeta Wio Lite AI y en múltiples robots como el del kit Robot marciano.",
       "button": "Explorar el kit AI"
+    },
+    "foia": {
+      "title": "Explora los desafíos de la IA con Future of IA",
+      "paragraph": "Explora el potencial, los desafíos y las carreras relacionadas con la inteligencia artificial al servicio de misiones de interés público en Future of IA. Una experiencia educativa ofrecida por Latitudes y Vittascience.",
+      "button": "Descubre Future of IA"
     },
     "info": {
       "title": "<span class='text-primary'>¿Qué es la interfaz de IA?</span>",
@@ -7889,14 +8343,14 @@
       "tutoNeutralNetwork": "Tutorial de red neuronal de IA",
       "webinar": "Webinaire Intelligence Artificielle - 15 mars 2023"
     },
+    "learn": {
+      "preparingInterface": "Preparando la interfaz...",
+      "failedToLoad": "Error al cargar la interfaz."
+    },
     "eduup": {
       "title": "La interfaz de IA de Vittascience se creó con el apoyo del programa Edu-up",
       "desc": "Este programa, liderado por el Ministerio de Educación Nacional, apoya la producción de recursos digitales innovadores y adaptados.",
       "know_more": "Más información"
-    },
-    "video-generation": {
-      "title": "Generación de vidéo",
-      "desc": "Asocia cada vídeo generado por la IA con el prompt adecuado"
     }
   },
   "noCookiePage": {
@@ -8127,6 +8581,44 @@
       "answer-9": "Capytale permite a los docentes supervisar el trabajo de los alumnos en tiempo real. Puede acceder a los cuadernos compartidos con los alumnos, ver sus modificaciones y hacer comentarios directamente en el documento. También es posible consultar el historial de versiones para seguir la evolución del trabajo.",
       "question-10": "¿Es Capytale compatible con otras plataformas educativas?",
       "answer-10": "La plataforma Capytale está diseñada para funcionar principalmente en relación con los servicios de la Educación Nacional, especialmente los ENT. Sin embargo, los cuadernos y otros recursos creados en Capytale pueden ser exportados y compartidos en forma de archivos o enlaces, lo que permite cierta interoperabilidad."
+    }
+  },
+  "ma-page": {
+    "index": {
+      "title": "Pedido por mandato administrativo",
+      "description": "Para una institución sujeta a contabilidad pública (escuela, entidad local, Réseau Canopé, etc.), es posible el pago por mandato administrativo.",
+      "intro": "Vittascience te acompaña en cada paso, desde rellenar el carrito hasta pagar la factura a través de Chorus Pro. Sigue el tutorial para hacer tu pedido con facilidad."
+    },
+    "tip": {
+      "label": "Consejo",
+      "text": "Información para crear el registro del proveedor (Opale, etc.): el número SIRET de Vittascience es <strong>83797329600010</strong>. Los datos bancarios (RIB) se enviarán como adjunto con el presupuesto."
+    },
+    "tutorial": {
+      "title": "Tutorial paso a paso",
+      "step1": {
+        "title": "Paso 1: Añade productos al carrito",
+        "description": "Ve a la página de Equipamiento de Vittascience: <a href=\"/shop/\">vittascience.com/shop</a> luego haz clic en los productos que te interesen y añádelos al carrito. Después haz clic en el icono del carrito en la esquina superior derecha de la pantalla (<i class=\"fa fa-shopping-basket\" aria-hidden=\"true\"></i>)."
+      },
+      "step2": {
+        "title": "Paso 2: Confirma tu carrito",
+        "description": "Revisa el resumen y ajusta las cantidades si es necesario. Haz clic en el botón \"Solicitar presupuesto\" en el resumen. Es necesario crear una cuenta en Vittascience; solo necesitas nombre, apellidos, correo electrónico y contraseña (también puedes registrarte con tu cuenta de Google, Microsoft o Apple)."
+      },
+      "step3": {
+        "title": "Paso 3: Generar un presupuesto",
+        "description": "Debe iniciar sesión en su cuenta, introducir su dirección de facturación y de entrega, y confirmar en el paso final. Como parte de la facturación electrónica, es importante facilitar su SIREN y su número de IVA."
+      },
+      "step4": {
+        "title": "Paso 4: Enviar un pedido de compra",
+        "description": "Una vez generado el presupuesto, recibirá un correo electrónico con el presupuesto y un enlace para presentar el pedido de compra. Puede crear un pedido con un número de compromiso legal y enviarlo a través del enlace dedicado, proporcionando la información necesaria para Chorus Pro."
+      },
+      "step5": {
+        "title": "Paso 5: Recepción y pago",
+        "description": "Una vez enviado el pedido, preparamos y enviamos la mercancía junto con la factura, que presentamos en Chorus Pro. Después, usted confirma el \"servicio prestado\" al recibir el pedido para que podamos recibir el pago."
+      }
+    },
+    "contact": {
+      "title": "¿Alguna pregunta?",
+      "text": "Si lo desea, puede contactar con nuestro equipo por teléfono en <a href=\"tel:+33636424225\">(+33)6 36 42 42 25</a> o por correo electrónico en <a href=\"mailto:shop@vittascience.com\">shop@vittascience.com</a>."
     }
   },
   "luxembourg-page": {
@@ -8422,6 +8914,11 @@
       "disconnect": "Desconectar"
     },
     "detectedAsLuxembourg": "Le recomendamos utilizar la conexión a través del portal del Ministerio de Educación Nacional de Luxemburgo",
+    "luxSamlModal": {
+      "title": "¿Eres docente en Luxemburgo?",
+      "description": "Accede a Vittascience Premium de forma gratuita como parte del programa KI Kompass, financiado por el Ministerio de Educación Nacional, Infancia y Juventud. Inicia sesión directamente con tus credenciales IAM. </br> <a href='/luxembourg'>Más información</a>",
+      "dismiss": "Continuar sin IAM"
+    },
     "google": "Iniciar sesión con Google",
     "signupGoogle": "Registrarse con Google",
     "microsoft": "Iniciar sesión con Microsoft",
@@ -8528,7 +9025,12 @@
     "main": {
       "title": "Calcula tu impacto eq CO<sub>2</sub> del uso digital",
       "body": "🌍<strong> ¿Lo sabías?</strong> En Francia, cada persona emite en promedio 10 toneladas de eq CO₂ al año.<br><br>🎯 <strong>El objetivo de la COP21:</strong> Reducir esta huella de carbono a 2 toneladas de eq CO₂ por año y por persona. <br><br>💻 <strong>¿Y el mundo digital?</strong> El sector digital (Internet, smartphones, ordenadores, etc.) representa el 4 % de esta contaminación, es decir, 400 kg de eq CO₂ al año.<br><br>🚀 <strong>El reto para el mundo digital:</strong> Para cumplir el objetivo de la COP21, habría que reducir esta contaminación a 80 kg de eq CO₂ al año. <br><br>❓ <strong>¿Y tú qué?</strong> ¿Estás listo/a para el desafío? Para saberlo, empieza por evaluar tu impacto actual y descubre cómo actuar para reducir tu huella de carbono. 🌱✨",
-      "lastEvaluation": "Última evaluación: "
+      "lastEvaluation": "Última evaluación: ",
+      "notRated": "Aún no valorado",
+      "decrease": "Disminuir",
+      "increase": "Aumentar",
+      "decreased": "Disminuido",
+      "increased": "Aumentado"
     },
     "units": {
       "singular": {
@@ -8610,13 +9112,13 @@
           "label_state": {
             "label": "¿Prefieres una tableta nueva o de segunda mano ?",
             "info": "<p>Según ADEME, el impacto ambiental anual de una tableta reacondicionada se reduce entre el 46 % y el 80 % (media: 63 %) respecto a un modelo nuevo. ♻️</p>",
-            "links": [
-              "https://librairie.ademe.fr/economie-circulaire-et-dechets/5241-evaluation-de-l-impact-environnemental-d-un-ensemble-de-produits-reconditionnes.html"
-            ],
             "options": {
               "new": "Nuevo",
               "refurbished": "Reacondicionada"
-            }
+            },
+            "links": [
+              "https://librairie.ademe.fr/economie-circulaire-et-dechets/5241-evaluation-de-l-impact-environnemental-d-un-ensemble-de-produits-reconditionnes.html"
+            ]
           },
           "label_day_time": {
             "label": "¿Cuánto tiempo usas tu tableta cada día ?",
@@ -8772,6 +9274,7 @@
       "music": "Música en streaming",
       "video": "Videoconferencia",
       "gaming": "Juegos en línea",
+      "cloud": "Almacenamiento en la nube",
       "ai": "Inteligencia artificial",
       "questions": {
         "streaming": {
@@ -8914,21 +9417,23 @@
           "icon": "☁️",
           "title": "Almacenamiento en la nube",
           "rules": "El cálculo se basa en un promedio de 0,005 kWh por GB y año, es decir, 0,5 g CO₂ eq por GB y año (según el proveedor).",
-          "practical_tips": "Haz tu almacenamiento en la nube más ecológico:<br/>🗑️ <strong>Elimina archivos innecesarios</strong> con regularidad<br/>📦 <strong>Comprime los archivos</strong> antes de subirlos<br/>🔒 <strong>Organiza las carpetas</strong> para evitar duplicados",
           "label_storage": {
             "label": "¿Cuántos GB de datos almacenas en la nube?",
             "info": "1 GB almacenado en la nube durante 1 año = 0,5 g CO₂ eq. Borrar 10 GB de archivos antiguos ahorra 5 g CO₂ eq al año."
-          }
+          },
+          "label_how_many": {
+            "label": "¿Cuántos gigabytes (GB) de datos almacena en línea?",
+            "type": "number",
+            "name": "cloud_storage",
+            "info": "Almacenar un gigabyte (GB) de datos en línea genera aproximadamente 0,24 gramos de CO₂ eq por año. ?￰ﾟﾒﾨ"
+          },
+          "practical_tips": "Haz tu almacenamiento en la nube más ecológico:<br/>🗑️ <strong>Elimina archivos innecesarios</strong> con regularidad<br/>📦 <strong>Comprime los archivos</strong> antes de subirlos<br/>🔒 <strong>Organiza las carpetas</strong> para evitar duplicados"
         },
         "email": {
           "icon": "📧",
           "title": "Correos electrónicos",
           "rules": "<strong>Bases del cálculo:</strong> Incluye la transmisión, el uso de los dispositivos y los centros de datos, sin contar la fabricación de los equipos. Dispositivo usado : ordenador, duración de la redacción : 5 minutos, destinatario : 1.",
           "practical_tips": "Reduce el impacto ambiental de tus correos con estas buenas prácticas :<br/>🗑️ <strong>Elimina regularmente</strong> los mensajes innecesarios<br/>📂 <strong>Limita el envío</strong> de archivos adjuntos voluminosos<br/>📨 <strong>Da de baja</strong> las suscripciones a boletines no relevantes<br/>💻 <strong>Usa herramientas de colaboración</strong> en línea para reducir los intercambios repetidos de correos",
-          "label_emails": {
-            "label": "¿Cuántos correos electrónicos (recibidos y enviados) procesas al día?",
-            "info": "En promedio, 10 correos al día = 15 kg CO₂ eq al año. Borrar 50 correos antiguos ahorra lo equivalente a una bombilla de 60 W encendida durante 24 horas."
-          },
           "label_day_time": {
             "label": "¿Cuántos correos de texto (aprox.) recibes y envías cada día?",
             "type": "number",
@@ -8946,34 +9451,10 @@
             "type": "number",
             "name": "email_spam",
             "info": "Un correo spam emite aproximadamente 3,74 gramos de eq CO₂ 📧. Es el equivalente a lo que un árbol absorbe en 1 día 🌳."
-          }
-        },
-        "social_media": {
-          "icon": "📱",
-          "title": "Redes sociales",
-          "rules": "El cálculo se basa en un promedio de 1,5 g CO₂ eq por minuto en redes sociales (Instagram, TikTok, Facebook, etc.).",
-          "practical_tips": "Para reducir el impacto de tus redes sociales:<br/>⏱️ <strong>Fija límites de tiempo de pantalla</strong><br/>📶 <strong>Prefiere Wi‑Fi</strong> en lugar de datos móviles<br/>📷 <strong>Desactiva la reproducción automática de vídeos</strong>",
-          "label_day_time": {
-            "label": "¿Cuánto tiempo pasas en redes sociales cada día?",
-            "info": "10 minutos al día = 5,5 kg CO₂ eq al año. Reducir 30 minutos al día ahorra 16,5 kg CO₂ eq al año."
-          }
-        },
-        "videoconference": {
-          "icon": "🎥",
-          "title": "Videoconferencias",
-          "rules": "El cálculo se basa en un promedio de 0,07 g CO₂ eq por minuto con la cámara apagada y 0,23 g CO₂ eq por minuto con la cámara encendida.",
-          "practical_tips": "Haz tus videoconferencias más ecológicas:<br/>📷 <strong>Apaga la cámara</strong> cuando no sea necesaria<br/>🎤 <strong>Silencia el micrófono</strong> cuando no hables<br/>📶 <strong>Prefiere Wi‑Fi</strong> frente a 4G/5G",
-          "label_day_time": {
-            "label": "¿Cuánto tiempo pasas en videoconferencias cada día?",
-            "info": "1 hora con la cámara encendida = 13,8 g CO₂ eq. Apagar la cámara reduce esto en un 70%."
           },
-          "label_camera": {
-            "label": "¿Sueles usar la cámara?",
-            "options": {
-              "on": "Sí, cámara encendida",
-              "off": "No, cámara apagada"
-            },
-            "info": "Apagar la cámara durante una llamada de 1 hora ahorra unos 10 g CO₂ eq. ¡Piensa en lo que supone al multiplicarlo por varias reuniones a la semana!"
+          "label_emails": {
+            "label": "¿Cuántos correos electrónicos (recibidos y enviados) procesas al día?",
+            "info": "En promedio, 10 correos al día = 15 kg CO₂ eq al año. Borrar 50 correos antiguos ahorra lo equivalente a una bombilla de 60 W encendida durante 24 horas."
           }
         },
         "ai": {
@@ -8998,6 +9479,9 @@
     "progress": {
       "notRated": "aún no está valorado",
       "averageText": "Tu huella de carbono digital",
+      "firstThreshold": "Primer umbral: 100 kilogramos de CO₂",
+      "secondThreshold": "Segundo umbral: 200 kilogramos de CO₂",
+      "thirdThreshold": "Tercer umbral: 300 kilogramos de CO₂",
       "step100": "100 kg",
       "step200": "200 kg",
       "step300": "300 kg",
@@ -9015,7 +9499,9 @@
       "nextStep": "Ir a la siguiente pregunta",
       "prevStep": "Volver a la pregunta anterior",
       "returnToSimulation": "Volver a la simulación",
-      "of": "de"
+      "of": "de",
+      "loadPdf": "Descargar PDF",
+      "allTips": "Todos los consejos"
     },
     "scroll": {
       "startQuestionnaire": "Comenzar el cuestionario",
@@ -9051,7 +9537,12 @@
       "videoCalls": "Preferir llamadas en modo audio",
       "wifiUsage": "Conectar el dispositivo por Wi‑Fi cuando sea posible",
       "deviceLifespan": "Prolonga la vida útil de tus dispositivos.",
-      "advice": "Para comprobarlo, puedes ir a Ajustes → Bienestar digital o tiempo de’pantalla."
+      "advice": "Para comprobarlo, puedes ir a Ajustes → Bienestar digital o tiempo de’pantalla.",
+      "source": "Fuente",
+      "textDisplayInfo": "Mostrar información detallada sobre {{device}}",
+      "closeInfo": "Cerrar la información detallada sobre {{device}}",
+      "practicalTips": "Consejos prácticos para {{device}}",
+      "titleDisplayInfo": "Haga clic para ver los detalles del impacto"
     },
     "buttons": {
       "shareImpact": "Compartir el informe",
@@ -9066,75 +9557,18 @@
       "errorLabel": "Error"
     }
   },
-  "eduup": {
-    "logos": {
-      "lead": "El Ministerio de Educación Nacional apoya la producción de recursos digitales innovadores y adaptados gracias al programa Édu-up.<br><a href=\"https://eduscol.education.fr/1603/le-dispositif-edu\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Éduscol\" data-i18n=\"eduup.logos.link\"> Acceder a la descripción en Éduscol </a>",
-      "link": "Acceder a la descripción en Éduscol"
-    },
-    "laureat": {
-      "title": "Vittascience ha sido galardonada dos veces por el programa Édu-Up:",
-      "btn2022": "Comisión Édu-up del 01 de febrero de 2022",
-      "btn2019": "Comisión Édu-up del 24 de septiembre de 2019"
-    },
-    "ai": {
-      "header": {
-        "title": "Proyecto « Vittascience IA » en 2022",
-        "subtitle": "Recursos producidos con el apoyo del Ministerio de Educación Nacional"
-      },
-      "interface": {
-        "title": "Interfaz de entrenamiento IA",
-        "p1": "Una interfaz que permite el entrenamiento y la experimentación de modelos de IA, así como la visualización de las zonas de interacción que permiten a la IA tomar decisiones.",
-        "p2": "Conjuntos de datos y modelos preentrenados están disponibles en la interfaz para facilitar la implementación de proyectos educativos. Estos datos y modelos se acompañan de contenidos pedagógicos que invitan a la experimentación y al trabajo colaborativo entre alumnos y docentes.",
-        "p3": "La interfaz cumple con el RGPD, los derechos de autor y los derechos de imagen.",
-        "cta": "Descubrir la interfaz IA"
-      },
-      "nn": {
-        "title": "Una red neuronal",
-        "p1": "Una herramienta de visualización y manipulación 3D de la red neuronal permite comprender su estructura de forma más tangible y desmitificar la IA.",
-        "p2": "La interfaz es sencilla para entender la estructura y funcionamiento de una red neuronal de modelos entrenados para « abrir la caja negra ».",
-        "cta": "Descubrir la red neuronal"
-      },
-      "compat": {
-        "title": "Compatibilidad con Adacraft y Python",
-        "p1": "La innovación pedagógica radica en crear una interfaz todo en uno. Es posible, sin salir de la plataforma Vittascience, recopilar datos de aprendizaje, iniciar uno o varios entrenamientos, probar los modelos creados y usarlos directamente en Adacraft y Python.",
-        "p2": "Dentro del programa, se pueden añadir datos etiquetados, configurar y lanzar el entrenamiento de la IA. Este uso, más avanzado que el entrenamiento de IA mediante la interfaz gráfica, permite comprender mejor los retos del diseño de Inteligencias Artificiales."
-      },
-      "thanks": "¡Gracias a Édu-up por su apoyo!"
-    },
-    "vs": {
-      "header": {
-        "title": "Proyecto « Plataforma Vittascience » en 2019",
-        "subtitle": "Recursos producidos con el apoyo del Ministerio de Educación Nacional"
-      },
-      "class": {
-        "title": "Gestión de clase",
-        "p": "Crea actividades fácilmente, asígnalas a los estudiantes y visualiza sus resultados. El módulo de gestión de clase facilita el seguimiento de los alumnos en actividades de programación. <br><br> Este módulo integra contenidos pedagógicos producidos por la comunidad Vittascience. <br><br> Accesible desde el GAR a través del mediacenter de los ENT, todo está diseñado para garantizar la seguridad de los datos (cumple con RGPD) y mantener la facilidad de uso.",
-        "cta": "Descubrir el módulo de gestión de clase"
-      },
-      "access": {
-        "title": "Opciones de accesibilidad",
-        "p": "La interfaz Vittascience permite cambiar de un lenguaje de bloques (tipo Scratch) a Python, asegurando continuidad desde primaria hasta bachillerato. <br><br> Gracias al apoyo del Ministerio de Educación Nacional, Vittascience ha implementado opciones que facilitan el uso para personas con discapacidad: selector de fuentes y temas, navegación por teclado en la interfaz, adaptación a normas ARIA y lectores de pantalla. <br><br> Actualmente poco desarrolladas en software de programación, Vittascience espera impulsar la consideración de la accesibilidad en otras plataformas de codificación.",
-        "cta": "Ver la página dedicada a la accesibilidad"
-      },
-      "python": {
-        "title": "Corrección automática para Python",
-        "p": "La interfaz para Python incluye un sistema de corrección automática que ahorra mucho tiempo a los docentes. <br><br> Las pruebas son dinámicas y se centran en el fondo del programa, cubriendo todas las formas diferentes de escribir el código. <br><br> Los profesores pueden crear sus propias pruebas mediante una interfaz intuitiva.",
-        "cta": "Ver un ejemplo"
-      },
-      "content": {
-        "title": "Producción de contenidos",
-        "p": "Para facilitar el uso de las herramientas Vittascience y apoyar la adopción de los nuevos programas escolares, el programa Édu-up permitió la creación de 91 contenidos pedagógicos.<br><br> Estos contenidos listos para usar se centran en microcontroladores y programación en Python.<br><br> Todos estos contenidos están disponibles gratuitamente y se pueden compartir desde el sitio Vittascience bajo licencia libre Creative Commons.<br><br> Un formulario de creación permite a los docentes editar fácilmente sus producciones.",
-        "cta": "Acceder al banco de recursos"
-      },
-      "thanks": "¡Gracias a Édu-up por su apoyo!"
-    }
-  },
   "foia": {
     "head": {
       "mainTitle": "Future of IA x Vittascience",
       "title": "Un taller para formarse en <br/><em>desafíos de la’IA</em>",
       "lead": "Explora el potencial, los desafíos y las profesiones de la’inteligencia artificial al servicio de misiones de’interés general en Future of IA. Una experiencia pedagógica propuesta por Latitudes y Vittascience.",
       "startButton": "Comenzar el taller"
+    },
+    "footer": {
+      "title": "¿Te gustaría organizar o acoger un taller presencial de Future of AI?",
+      "desc": "L’experiencia en línea de Future of AI continúa con un mazo de cartas que te permite d’explorar nuevas carreras relacionadas con la IA fuera de línea con jóvenes.",
+      "desc2": "En 2 horas, el juego ayuda a los jóvenes a agudizar su pensamiento crítico para tomar decisiones deliberadas y reflexionar sobre sus hábitos digitales cotidianos. C’es también una experiencia de equipo multidisciplinaria que se apoya en l’inteligencia colectiva mientras s’cuestiona su rumbo!",
+      "privacy": "Política de privacidad"
     },
     "scroll": {
       "startQuestionnaire": "Descubrir el’taller",
@@ -9283,29 +9717,30 @@
         "header": {
           "titleSuccess": "¡Enhorabuena, su solución es pertinente!",
           "titleFail": "¡Vaya, casi lo consigue!",
-          "missionTitle": "Misión",
           "chosenInterfaces": "Recordatorio de las funcionalidades elegidas para su misión",
           "correctInterfaces": "Estas son las funcionalidades pertinentes para su misión",
           "solutionExists": "¡Existe realmente una solución!",
-          "functionalities": "Funciones",
           "howItWorks": "¿Cómo?",
-          "impacts": "Impactos",
-          "yourReflection": "Tus comentarios:",
-          "noReflection": "No hay comentarios.",
           "attentionPoints": "Puntos a tener en cuenta",
           "addConclusion": "Añada su conclusión y lo que aprendió durante este recorrido",
-          "conclusionPlaceholder": "Su conclusión..."
-        },
-        "badge": {
-          "correct": "✓ Relevante",
-          "incorrect": "✗ No pertinente",
-          "missing": "No seleccionado"
+          "conclusionPlaceholder": "Su conclusión...",
+          "missionTitle": "Misión",
+          "functionalities": "Funciones",
+          "impacts": "Impactos",
+          "yourReflection": "Tus comentarios:",
+          "noReflection": "No hay comentarios."
         },
         "buttons": {
           "previous": "Anterior",
           "generatePdf": "Generar un PDF resumen",
           "backHome": "Volver a l’inicio",
           "restart": "Reiniciar l’taller"
+        },
+        "badge": {
+          "correct": "✓ Relevante",
+          "incorrect": "✗ No pertinente",
+          "missing": "No seleccionado",
+          "selected": "✓ Seleccionada"
         }
       }
     },
@@ -9339,6 +9774,88 @@
       "understandPrefix": "Comprender: ",
       "understandPlaceholder": "Contenido en breve. Este módulo le ayudará a comprender mejor l’impact <strong>{{impact}}</strong> de l’IA.",
       "instruction": "Explica brevemente por qué este impacto es relevante para la misión seleccionada."
+    }
+  },
+  "learn": {
+    "preparingInterface": "Preparando la interfaz...",
+    "failedToLoad": "Error al cargar la interfaz."
+  },
+  "eduup": {
+    "logos": {
+      "lead": "El Ministerio de Educación Nacional apoya la producción de recursos digitales innovadores y adaptados gracias al programa Édu-up.<br><a href=\"https://eduscol.education.fr/1603/le-dispositif-edu\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Éduscol\" data-i18n=\"eduup.logos.link\"> Acceder a la descripción en Éduscol </a>",
+      "link": "Acceder a la descripción en Éduscol"
+    },
+    "laureat": {
+      "title": "Vittascience ha sido galardonada dos veces por el programa Édu-Up:",
+      "btn2022": "Comisión Édu-up del 01 de febrero de 2022",
+      "btn2019": "Comisión Édu-up del 24 de septiembre de 2019"
+    },
+    "ai": {
+      "header": {
+        "title": "Proyecto « Vittascience IA » en 2022",
+        "subtitle": "Recursos producidos con el apoyo del Ministerio de Educación Nacional"
+      },
+      "interface": {
+        "title": "Interfaz de entrenamiento IA",
+        "p1": "Una interfaz que permite el entrenamiento y la experimentación de modelos de IA, así como la visualización de las zonas de interacción que permiten a la IA tomar decisiones.",
+        "p2": "Conjuntos de datos y modelos preentrenados están disponibles en la interfaz para facilitar la implementación de proyectos educativos. Estos datos y modelos se acompañan de contenidos pedagógicos que invitan a la experimentación y al trabajo colaborativo entre alumnos y docentes.",
+        "p3": "La interfaz cumple con el RGPD, los derechos de autor y los derechos de imagen.",
+        "cta": "Descubrir la interfaz IA"
+      },
+      "nn": {
+        "title": "Una red neuronal",
+        "p1": "Una herramienta de visualización y manipulación 3D de la red neuronal permite comprender su estructura de forma más tangible y desmitificar la IA.",
+        "p2": "La interfaz es sencilla para entender la estructura y funcionamiento de una red neuronal de modelos entrenados para « abrir la caja negra ».",
+        "cta": "Descubrir la red neuronal"
+      },
+      "compat": {
+        "title": "Compatibilidad con Adacraft y Python",
+        "p1": "La innovación pedagógica radica en crear una interfaz todo en uno. Es posible, sin salir de la plataforma Vittascience, recopilar datos de aprendizaje, iniciar uno o varios entrenamientos, probar los modelos creados y usarlos directamente en Adacraft y Python.",
+        "p2": "Dentro del programa, se pueden añadir datos etiquetados, configurar y lanzar el entrenamiento de la IA. Este uso, más avanzado que el entrenamiento de IA mediante la interfaz gráfica, permite comprender mejor los retos del diseño de Inteligencias Artificiales."
+      },
+      "thanks": "¡Gracias a Édu-up por su apoyo!"
+    },
+    "vs": {
+      "header": {
+        "title": "Proyecto « Plataforma Vittascience » en 2019",
+        "subtitle": "Recursos producidos con el apoyo del Ministerio de Educación Nacional"
+      },
+      "class": {
+        "title": "Gestión de clase",
+        "p": "Crea actividades fácilmente, asígnalas a los estudiantes y visualiza sus resultados. El módulo de gestión de clase facilita el seguimiento de los alumnos en actividades de programación. <br><br> Este módulo integra contenidos pedagógicos producidos por la comunidad Vittascience. <br><br> Accesible desde el GAR a través del mediacenter de los ENT, todo está diseñado para garantizar la seguridad de los datos (cumple con RGPD) y mantener la facilidad de uso.",
+        "cta": "Descubrir el módulo de gestión de clase"
+      },
+      "access": {
+        "title": "Opciones de accesibilidad",
+        "p": "La interfaz Vittascience permite cambiar de un lenguaje de bloques (tipo Scratch) a Python, asegurando continuidad desde primaria hasta bachillerato. <br><br> Gracias al apoyo del Ministerio de Educación Nacional, Vittascience ha implementado opciones que facilitan el uso para personas con discapacidad: selector de fuentes y temas, navegación por teclado en la interfaz, adaptación a normas ARIA y lectores de pantalla. <br><br> Actualmente poco desarrolladas en software de programación, Vittascience espera impulsar la consideración de la accesibilidad en otras plataformas de codificación.",
+        "cta": "Ver la página dedicada a la accesibilidad"
+      },
+      "python": {
+        "title": "Corrección automática para Python",
+        "p": "La interfaz para Python incluye un sistema de corrección automática que ahorra mucho tiempo a los docentes. <br><br> Las pruebas son dinámicas y se centran en el fondo del programa, cubriendo todas las formas diferentes de escribir el código. <br><br> Los profesores pueden crear sus propias pruebas mediante una interfaz intuitiva.",
+        "cta": "Ver un ejemplo"
+      },
+      "content": {
+        "title": "Producción de contenidos",
+        "p": "Para facilitar el uso de las herramientas Vittascience y apoyar la adopción de los nuevos programas escolares, el programa Édu-up permitió la creación de 91 contenidos pedagógicos.<br><br> Estos contenidos listos para usar se centran en microcontroladores y programación en Python.<br><br> Todos estos contenidos están disponibles gratuitamente y se pueden compartir desde el sitio Vittascience bajo licencia libre Creative Commons.<br><br> Un formulario de creación permite a los docentes editar fácilmente sus producciones.",
+        "cta": "Acceder al banco de recursos"
+      },
+      "thanks": "¡Gracias a Édu-up por su apoyo!"
+    }
+  },
+  "luxDocs": {
+    "hero": {
+      "title": "Recursos <span>para descargar</span>",
+      "p1": "En esta página encontrará todos los recursos que ponemos a su disposición: guías, materiales didácticos, fichas de actividades y documentos prácticos. Todos estos archivos se pueden descargar libremente para apoyar sus proyectos y facilitar el inicio con nuestras herramientas.",
+      "p2": "Utilice el filtro de categoría para encontrar rápidamente el documento que necesita."
+    },
+    "listTitle": "DOCUMENTOS DISPONIBLES",
+    "filterAll": "Todos",
+    "download": "Descargar",
+    "empty": "No hay documentos disponibles en este momento.",
+    "login": {
+      "title": "Acceso restringido",
+      "text": "Esta página está reservada a usuarios que hayan iniciado sesión a través de IAM Luxembourg. Por favor, inicie sesión para acceder a los documentos."
     }
   }
 }

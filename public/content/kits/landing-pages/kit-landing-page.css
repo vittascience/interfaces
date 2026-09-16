@@ -296,3 +296,128 @@ h3 span {
     border-radius: 0px;
     filter: none;
 }
+/* BOARD LANDING PAGES */
+
+#head-section #product-img.board-product-img {
+    background-color: transparent;
+    border-radius: 0;
+    object-fit: contain;
+    width: auto;
+    max-width: 100%;
+    max-height: 20em;
+    display: block;
+    margin-inline: auto;
+}
+
+.landing-band {
+    --band-color: var(--bg-1-rgb);
+
+    background: rgb(var(--band-color));
+    margin-bottom: 2rem;
+    border-radius: 0px 4em 4em 0px;
+    filter: drop-shadow(0px 0px 15px var(--vitta-shadow-color));
+    z-index: 5;
+    position: relative;
+}
+
+.landing-band::before {
+    content: "";
+    position: absolute;
+    top: -50px;
+    right: 0;
+    left: 0;
+    height: 50px;
+    background: radial-gradient(farthest-side at top right, transparent 98%, rgb(var(--band-color)) 100%) 0/50px no-repeat;
+}
+
+.landing-band::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    height: 50px;
+    background: radial-gradient(farthest-side at bottom right, transparent 98%, rgb(var(--band-color)) 100%) 0/50px no-repeat;
+}
+
+.landing-section {
+    padding: 3.5em 2em;
+}
+
+.landing-cards-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.landing-cards-header {
+    margin-block: 2em;
+}
+
+.landing-cards-header h2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.landing-cards-header h2 span {
+    font-size: 0.65em;
+}
+
+.landing-cards-list {
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+    overflow-x: auto;
+    margin-block: 2em;
+    width: 100%;
+}
+
+@media (min-width: 576px) {
+    .landing-cards-row {
+        flex-direction: row;
+    }
+
+    .landing-cards-header {
+        margin-block: 0;
+    }
+
+    .landing-cards-list {
+        flex-direction: row;
+        margin-inline-start: 2em;
+        width: auto;
+    }
+
+}
+
+#videos-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2em;
+    margin-block: 2em;
+}
+
+.video-card-container .top-part {
+    position: relative;
+}
+
+.video-card-container .video-play-badge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 3rem;
+    height: 3rem;
+    border-radius: 999px;
+
+    background-color: rgba(0, 0, 0, 0.6);
+    color: var(--vitta-white);
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

@@ -7,7 +7,7 @@ DEF_SETUP_GPIO:
   GPIO.setmode(GPIO.BCM)
   #pins = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 21, 22, 23, 24, 25, 26, 27]
   #for pin in pins:
-  #  GPIO.setup(pin, GPIO.IN)`,
+  #  GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)`,
 
 DEF_TIME_PULSE_US:
 `def time_pulse_us(pin, level, timeout_us=1000000):
@@ -411,7 +411,7 @@ DEF_COLORSENSORV2_MEASURE:
     "blue": 2,
     "clear": 3
   }
-  return _last_raw[index[color]]`,
+  return _colorSensorV2_last_raw[index[color]]`,
 
 // Grove Ultrasonic sensor _ get data
 DEF_HCSR04_ULTRASONIC:
@@ -439,7 +439,7 @@ DEF_HCSR04_ULTRASONIC:
 DEF_SERVO_SET_ANGLE:
 `def setServoAngle(pwm_pin, angle):
   if (angle >= 0 and angle <= 180):
-    pwm_pin.ChangeDutyCycle(int(0.025*${PWM_MAX_DUTY} + (angle*0.1*${PWM_MAX_DUTY})/180))
+    pwm_pin.ChangeDutyCycle(2.5 + (angle*10)/180)
   else:
     raise ValueError("Servomotor angle have to be set between 0 and 180")`,
 

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Italian messages for TI-83 Premium CE. (EN)
+ * @fileoverview Spanish messages for TI-83 Premium CE. (ES)
  */
 'use strict';
 // Common messages

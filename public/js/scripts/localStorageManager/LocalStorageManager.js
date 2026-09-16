@@ -19,7 +19,7 @@ class LocalStorageManager {
         const newUrl = new URL(window.location.href);
         if ($_GET('link')) {
             newUrl.searchParams.delete('localId');
-        } else if ($_GET('localId')) {
+        } else if ($_GET('localId') || $_GET('launch_id')) {
             return;
         } else {
             const currentId = this.uniqid('loc');
@@ -40,6 +40,39 @@ class LocalStorageManager {
         const id = sec.toString(16).replace(/\./g, '').padEnd(14, '0');
         return `${prefix}${id}${random ? `.${Math.trunc(Math.random() * 100000000)}`:''}`;
     };
+
+    /**
+     * Resolve the current project identifier for localStorage usage
+     * @private
+     * @param {string|false} id - Optional explicit project identifier
+     * @returns {string|null} The resolved project identifier
+     */
+    _getProjectId(id = null) {
+        const resolvedId = id || $_GET('link') || $_GET('localId') || $_GET('launch_id');
+        return resolvedId;
+    }
+
+    /**
+     * Build a scoped localStorage key for the current project
+     * @private
+     * @param {string} scope - The storage namespace
+     * @param {string|false} id - Optional explicit project identifier
+     * @returns {string|null} The scoped storage key
+     */
+    _getScopedStorageKey(scope, id = null) {
+        if (typeof scope !== 'string' || !scope.trim()) {
+            console.error('The provided scope must be a non-empty string.');
+            return null;
+        }
+
+        const projectId = this._getProjectId(id);
+        if (!projectId) {
+            console.warn('No link or localId! Skipping scoped localStorage synchronization...');
+            return null;
+        }
+
+        return `${INTERFACE_NAME}:${scope}:${projectId}`;
+    }
 
     /**
      * Remove the localId parameter in URL query string
@@ -66,8 +99,7 @@ class LocalStorageManager {
             console.error(`The provided argument must be an object, ${projectType} provided!`);
             return false;
         }
-
-        let currentProjectId = $_GET('link') || $_GET('localId');
+        let currentProjectId = this._getProjectId();
         if (id) currentProjectId = id;
         if (currentProjectId === null) {
             console.warn('No link or localId! Skipping localStorage synchronization...');
@@ -103,15 +135,17 @@ class LocalStorageManager {
      * @private
      * @param {Array} projects - Projects array of the current interface (oldest first)
      * @param {string} currentProjectId - Project ID to protect from eviction
+     * @param {Function|null} writeOperation - Optional localStorage write to retry after evictions
      * @returns {boolean} false if the current project alone exceeds the quota
      */
-    _evictUntilFits(projects, currentProjectId) {
-        const storageKey = `${INTERFACE_NAME}Projects`;
+    _evictUntilFits(projects, currentProjectId, writeOperation = null) {
+        const currentStorageKey = `${INTERFACE_NAME}Projects`;
+        const persist = writeOperation || (() => localStorage.setItem(currentStorageKey, JSON.stringify(projects)));
 
         // Phase 1 : evict from the current interface
         while (projects.length > 0) {
             try {
-                localStorage.setItem(storageKey, JSON.stringify(projects));
+                persist();
                 return true;
             } catch (e) {
                 if (!this._isQuotaExceeded(e)) {
@@ -125,10 +159,11 @@ class LocalStorageManager {
 
             console.warn(`localStorage: quota exceeded, deleting project "${projects[evictIndex].id}" from "${INTERFACE_NAME}".`);
             projects.splice(evictIndex, 1);
+            if (!this._persistProjectsList(currentStorageKey, projects)) return false;
         }
 
         // Phase 2 : evict from other interfaces, oldest project first across all of them
-        return this._evictFromOtherInterfaces(storageKey, projects, currentProjectId);
+        return this._evictFromOtherInterfaces(persist, currentStorageKey);
     }
 
     /**
@@ -136,18 +171,17 @@ class LocalStorageManager {
      * project across all other interfaces at each step, until the current interface
      * data fits or no more candidates remain.
      * @private
-     * @param {string} storageKey - The localStorage key of the current interface
-     * @param {Array} projects - Projects array of the current interface (may be reduced to current project only)
-     * @param {string} currentProjectId - Project ID to protect from eviction
+     * @param {Function} writeOperation - The localStorage write to retry after evictions
+     * @param {string} currentStorageKey - The localStorage key of the current interface
      * @returns {boolean} false if even after full eviction the current project does not fit
      */
-    _evictFromOtherInterfaces(storageKey, projects, currentProjectId) {
+    _evictFromOtherInterfaces(writeOperation, currentStorageKey) {
         // Build a map of { key, projects[] } for every other interface found in localStorage
-        const otherInterfaces = this._getOtherInterfacesProjects(storageKey);
+        const otherInterfaces = this._getOtherInterfacesProjects(currentStorageKey);
 
         while (true) {
             try {
-                localStorage.setItem(storageKey, JSON.stringify(projects));
+                writeOperation();
                 return true;
             } catch (e) {
                 if (!this._isQuotaExceeded(e)) {
@@ -175,7 +209,24 @@ class LocalStorageManager {
             const { interfaceKey } = oldestEntry;
             const evicted = otherInterfaces[interfaceKey].shift();
             console.warn(`localStorage: quota exceeded, deleting project "${evicted.id}" from "${interfaceKey}".`);
-            localStorage.setItem(interfaceKey, JSON.stringify(otherInterfaces[interfaceKey]));
+            if (!this._persistProjectsList(interfaceKey, otherInterfaces[interfaceKey])) return false;
+        }
+    }
+
+    /**
+     * Persist a projects list after an eviction step so the freed space is actually committed.
+     * @private
+     * @param {string} storageKey - The localStorage key to update
+     * @param {Array} projects - The reduced projects list to persist
+     * @returns {boolean} True if the list has been persisted
+     */
+    _persistProjectsList(storageKey, projects) {
+        try {
+            localStorage.setItem(storageKey, JSON.stringify(projects));
+            return true;
+        } catch (e) {
+            console.error(`localStorage: failed to persist eviction changes for "${storageKey}".`, e);
+            return false;
         }
     }
 
@@ -216,13 +267,86 @@ class LocalStorageManager {
     }
 
     /**
+     * Save scoped data in localStorage for the current project
+     * @public
+     * @param {string} scope - The storage namespace
+     * @param {object} data - The data to persist
+     * @param {string|false} id - Optional explicit project identifier
+     * @returns {boolean} True if the data has been saved
+     */
+    setProjectScopedData(scope, data, id = false) {
+        if (typeof data !== 'object' || data === null) {
+            console.error('The provided scoped data must be a non-null object.');
+            return false;
+        }
+
+        const projectId = this._getProjectId(id);
+        const storageKey = this._getScopedStorageKey(scope, projectId);
+        if (!storageKey) {
+            return false;
+        }
+
+        const serializedData = JSON.stringify(data);
+        return this._evictUntilFits(
+            this.getLocalProjects(),
+            projectId,
+            () => localStorage.setItem(storageKey, serializedData)
+        );
+    }
+
+    /**
+     * Read scoped data from localStorage for the current project
+     * @public
+     * @param {string} scope - The storage namespace
+     * @param {string|false} id - Optional explicit project identifier
+     * @returns {object|null} The stored data, or null when absent
+     */
+    getProjectScopedData(scope, id = false) {
+        const storageKey = this._getScopedStorageKey(scope, id);
+        if (!storageKey) {
+            return null;
+        }
+
+        const serializedData = localStorage.getItem(storageKey);
+        if (!serializedData) {
+            return null;
+        }
+
+        try {
+            return JSON.parse(serializedData);
+        } catch (error) {
+            console.error(error);
+            console.warn('Erasing compromised scoped localStorage...');
+            localStorage.removeItem(storageKey);
+            return null;
+        }
+    }
+
+    /**
+     * Remove scoped data from localStorage for the current project
+     * @public
+     * @param {string} scope - The storage namespace
+     * @param {string|false} id - Optional explicit project identifier
+     * @returns {boolean} True if the scoped data has been removed
+     */
+    deleteProjectScopedData(scope, id = false) {
+        const storageKey = this._getScopedStorageKey(scope, id);
+        if (!storageKey) {
+            return false;
+        }
+
+        localStorage.removeItem(storageKey);
+        return true;
+    }
+
+    /**
      * Get a local project from the database
      * @public
      * @param {string} id [OPTIONAL] - The id of the project (the current localId by default)
      * @returns {object|boolean} The project found, false otherwise
      */
     getLocalProject(id = false) {
-        if (!id) id = $_GET('link') || $_GET('localId');
+        if (!id) id = this._getProjectId();
         const currentLocalProjects = this.getLocalProjects();
         let foundProject = false;
         for (let i = 0; i<currentLocalProjects.length; i++) {
@@ -253,7 +377,7 @@ class LocalStorageManager {
      * @returns {boolean} true in success, false otherwise
      */
     deleteLocalProject(id = false) {
-        if (!id) id = $_GET('link') || $_GET('localId');
+        if (!id) id = this._getProjectId();
         const currentLocalProjects = this.getLocalProjects();
         for (let i = 0; i<currentLocalProjects.length; i++) {
             if (currentLocalProjects[i].id === id) {

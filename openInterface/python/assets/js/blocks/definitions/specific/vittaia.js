@@ -94,6 +94,24 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "mutator": "vittaia_image_uploaded_mutator",
     },
     {
+        "type": "vittaia_make_predictions_from_url",
+        "message0": "%{BKY_VITTAIA_MAKE_PREDICTIONS_FROM_URL_TITLE}",
+        "args0": [
+            Blockly.Constants.Utils.ADD_ICON('image'),
+            {
+                "type": "input_value",
+                "name": "PICTURE_URL"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "vittaia_blocks",
+        "tooltip": "%{BKY_VITTAIA_MAKE_PREDICTIONS_FROM_URL_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+    {
         "type": "vittaia_make_predictions_file_standalone",
         "message0": "%{BKY_VITTAIA_MAKE_PREDICTIONS_FILE_TITLE}",
         "args0": [

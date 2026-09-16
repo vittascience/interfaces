@@ -42,7 +42,7 @@ DEF_GPS_READ_NMEA:
     global gpsInfos
     global gpsBuffer
     if uart.any():
-      gpsBuffer += str(uart.read())[2:-1]
+      gpsBuffer += uart.read().decode()
       a = gpsBuffer.split("\\\\\\r\\\\\\n")
       Frames = []
       for f in a:

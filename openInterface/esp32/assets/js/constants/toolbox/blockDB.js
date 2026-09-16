@@ -146,6 +146,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "io_writeAnalogPin": this.Set.field("PIN", getPin("PIN3")) + this.Set.number("VALUE", 255),
             "io_writePwm": this.Set.field("PIN", getPin("PIN5")) + this.Set.number("VALUE", PWM_MAX_DUTY),
             "io_setPwm": this.Set.field("PIN", getPin("PIN5")) + this.Set.number("FREQUENCY", 10),
+            "io_readPulseIn": this.Set.state(),
             "io_getVoltage": this.Set.number("VALUE", 255),
             // communication - console
             "communication_serialWrite": '<mutation newlines="false"></mutation>' + this.Set.text('TEXT', "{hello}"),
@@ -215,6 +216,17 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "actuators_setMotorPower": this.Set.field("PIN", getPin("PIN5")) + this.Set.number("POWER", PWM_MAX_DUTY),
             "actuators_setGroveRelayState": this.Set.field("PIN", getPin("PIN2")) + this.Set.state(),
             "actuators_setVibrationMotorState": this.Set.field("PIN", getPin("PIN2")) + this.Set.state(),
+            // actuators - PCA9685
+            "actuators_pca9685_setPwmFrequency": this.Set.number("FREQUENCY", 50),
+            "actuators_pca9685_setPwmDutyCyclePercent": this.Set.number("DUTY", 100),
+            "actuators_pca9685_setPwmDutyCycleOnTime": this.Set.number("ON_TIME", 10),
+            "actuators_pca9685_setPwmDutyCycle": this.Set.number("FALLING_EDGE_CNT", 2048) + this.Set.number("RISING_EDGE_CNT", 0),
+            "actuators_pca9685_setServoAngle": this.Set.number("ANGLE", 90),
+            "actuators_pca9685_setServoAngleCustom": this.Set.number("ANGLE", 90) + this.Set.number("MIN_PULSE", 0.5) + this.Set.number("MAX_PULSE", 2.5),
+            // actuators - MOSFET
+            "actuators_mosfet_setState": this.Set.state(),
+            "actuators_mosfet_setPercentValue": this.Set.number("VALUE", 100),
+            "actuators_mosfet_setFrequency": this.Set.number("FREQUENCY", 10),
             // actuators - buzzer/speaker
             "actuators_music_playNotes": this.Set.field("PIN", getPin("PIN2")) +
                 `<mutation items='3'></mutation>

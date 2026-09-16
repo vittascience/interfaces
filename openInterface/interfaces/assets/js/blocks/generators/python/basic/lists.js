@@ -82,6 +82,9 @@ Blockly.Python.lists_getIndex = function(block) {
       listOrder = (where == "RANDOM") ? Blockly.Python.ORDER_NONE : Blockly.Python.ORDER_MEMBER,
       list = Blockly.Python.valueToCode(block, "VALUE", listOrder) || "[]";
 
+  if (!block.getFieldValue("MODE") && !block.outputConnection) {
+    mode = "REMOVE";
+  }
   switch (where) {
     case "FIRST":
       if (mode == "GET") {
