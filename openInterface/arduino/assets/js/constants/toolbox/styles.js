@@ -69,7 +69,7 @@ const THEME_VITTASCIENCE = {
 
 const THEME_SCRATCH = {
     "comment_block": {
-        "colourPrimary": "C0C0C0"
+        "colourPrimary": "#c0c0c0"
     },
     "display_blocks": {
         "colourPrimary": "#9966ff"

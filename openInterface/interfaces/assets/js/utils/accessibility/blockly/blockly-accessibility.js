@@ -28,8 +28,8 @@ function addAriaLabels(){
   const blocklyBackpack = document.querySelector('.blocklyBackpack');
   if (blocklyBackpack) {
     blocklyBackpack.setAttribute('aria-label', i18next.t('code.tooltip.backpack') + " – " + i18next.t('code.tooltip.blocklyBackpack') );
-    blocklyBackpack.setAttribute('role', 'button');
-    blocklyBackpack.setAttribute('tabindex', '0');
+    blocklyBackpack.setAttribute('role', 'img');
+    // tabindex is handled by setBlocklyControlsA11y() via a <button> in <foreignObject>
   }
 }
 

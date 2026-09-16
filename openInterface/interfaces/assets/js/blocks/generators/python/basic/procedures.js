@@ -119,3 +119,7 @@ Blockly.Python.procedures_simple_return = function(block) {
   const returnValue = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_NONE) || '';
   return 'return ' + returnValue + NEWLINE;
 };
+
+Blockly.Python.procedures_functionReference = function (block) {
+  return [block.getFieldValue("NAME"), Blockly.Python.ORDER_ATOMIC];
+};

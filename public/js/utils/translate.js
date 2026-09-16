@@ -1,4 +1,4 @@
-var languageWhitelist = ['fr', 'en', 'it', 'ar', 'es', 'de', 'ru', 'cat'];
+var languageWhitelist = ['fr', 'en', 'it', 'ar', 'es', 'de', 'ru', 'cat', 'se'];
 i18next.use(window.i18nextXHRBackend)
     .init({
         debug: false,
@@ -53,6 +53,8 @@ function getCookie(cname) {
             lng = "ar";
         } else if (/es\.vittascience/.test(url)) {
             lng = "es";
+        } else if (/se\.vittascience/.test(url)) {
+            lng = "se";
         }
         return lng;
     }

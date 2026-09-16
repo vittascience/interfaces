@@ -99,22 +99,6 @@
 	bottom: 16px;
 }
 
-.alphabot-trsensor1_module .module-value,
-.alphabot-trsensor2_module .module-value,
-.alphabot-trsensor3_module .module-value,
-.alphabot-trsensor4_module .module-value,
-.alphabot-trsensor5_module .module-value {
-	width: 83px;
-}
-
-#alphabot-trsensor1_anim,
-#alphabot-trsensor2_anim,
-#alphabot-trsensor3_anim,
-#alphabot-trsensor4_anim,
-#alphabot-trsensor5_anim {
-	bottom: 16px;
-}
-
 /* Specific */
 
 .bmp280-temp {

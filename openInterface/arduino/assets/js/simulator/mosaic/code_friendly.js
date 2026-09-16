@@ -29,6 +29,8 @@ Simulator.CodeFriendly.getAdaptedCode = function (code) {
 	code = Simulator.CodeFriendly.serial(code);
 	// serial print
 	code = Simulator.CodeFriendly.print(code);
+	//json
+	code = Simulator.CodeFriendly.arduinoJson(code);
 	// wifi
 	code = Simulator.CodeFriendly.setDeclarations(code);
 	// adding setups and user code
@@ -61,7 +63,7 @@ Simulator.CodeFriendly.getSetups = function (userCode) {
 
 Simulator.CodeFriendly.setDeclarations = function (userCode) {
 	const objects = [
-		'IPAddress', 'WiFiServer', 'Vittascience_Server', 
+		'IPAddress', 'WiFiServer', 'Vittascience_Server',
 		'U8G2_SSD1306_128X64_NONAME_2_HW_I2C', 'U8G2_SSD1315_128X64_NONAME_2_HW_I2C', 'U8G2_SSD1306_128X64_NONAME_F_HW_I2C', 'U8G2_SSD1315_128X64_NONAME_F_HW_I2C'
 	];
 	for (obj of objects) {
@@ -308,5 +310,41 @@ float getBPM(uint8_t pin) {
 }`;
 	code = code.replace(FUNCTIONS_ARDUINO.DEF_PULSE_SENSOR_GET_BPM, pulseSensorBpmSimu);
 	return code;
-}
+};
+
+Simulator.CodeFriendly.arduinoJson = function (code) {
+	// include case
+	code = code.replace(/#include\s+<ArduinoJson\.h>/g, '#include <ArduinoJson.h>');
+
+	// StaticJsonDocument<200> doc; -> StaticJsonDocument doc = StaticJsonDocument(200);
+	code = code.replace(
+		/\bStaticJsonDocument\s*<\s*(\d+)\s*>\s+([A-Za-z_]\w*)\s*;/g, 'StaticJsonDocument $2 = StaticJsonDocument($1);'
+	);
+	code = code.replace(
+		/\bDynamicJsonDocument\s*<\s*(\d+)\s*>\s+([A-Za-z_]\w*)\s*;/g, 'DynamicJsonDocument $2 = DynamicJsonDocument($1);'
+	);
+
+	// doc["key"] = value; -> jsonObjectSet(doc, "key", value);
+	code = code.replace(/([A-Za-z_]\w*)\s*\[\s*(".*?"|'.*?'|[A-Za-z_]\w*)\s*\]\s*=\s*([^;]+);/g, 'jsonObjectSet($1, $2, $3);'
+	);
+
+	// doc["key"].as<String>() -> jsonGetString(doc, "key")
+	code = code.replace(
+		/([A-Za-z_]\w*)\s*\[\s*(".*?"|'.*?'|[A-Za-z_]\w*)\s*\]\s*\.as\s*<\s*String\s*>\s*\(\s*\)/g, 'jsonGetString($1, $2)'
+	);
+
+	// doc["key"].as<int>() -> jsonGetInt(doc, "key")
+	code = code.replace(
+		/([A-Za-z_]\w*)\s*\[\s*(".*?"|'.*?'|[A-Za-z_]\w*)\s*\]\s*\.as\s*<\s*int\s*>\s*\(\s*\)/g,
+		'jsonGetInt($1, $2)'
+	);
+
+	// doc["key"].to<JsonObject>() -> jsonGetObject(doc, "key")
+	code = code.replace(
+		/([A-Za-z_]\w*)\s*\[\s*(".*?"|'.*?'|[A-Za-z_]\w*)\s*\]\s*\.to\s*<\s*JsonObject\s*>\s*\(\s*\)/g,
+		'jsonGetObject($1, $2)'
+	);
+
+	return code;
+};
 

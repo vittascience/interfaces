@@ -336,6 +336,9 @@ hr {
     font-size: 16px;
     border-radius: 5px;
 }
+.arabic-calculator #navigation{
+    direction: ltr;
+}
 
 /* Container de la barre de progression */
 .progress-container {
@@ -349,6 +352,17 @@ hr {
     margin-bottom: 50px;
 
 }
+.arabic-calculator .progress-container {
+    direction: ltr;
+    transform: scaleX(-1); /* Inverse horizontalement le conteneur */
+}
+.arabic-calculator .progress-container p, .arabic-calculator .progress-container span {
+    transform: scaleX(-1); /* Inverse horizontalement le conteneur */
+}
+.arabic-calculator #progressBarAverageText span {
+    unicode-bidi: bidi-override;
+}
+
 
 /*image d'explosion */
 .progress-container img {
@@ -486,6 +500,7 @@ hr {
     border-radius: 0 10px 10px 0;
     border: 1px var(--bg-5) solid;
 }
+
 
 
 .number-input-container {
@@ -653,6 +668,9 @@ input[type=number]::-ms-clear {
     position: relative;
     z-index: 2;
 
+}
+.arabic-calculator .switcher {
+    direction: ltr;
 }
 
 .switcher__toggle {
@@ -864,6 +882,9 @@ fieldset legend {
     padding: 5px;
     border-radius: 50%;
     border: 1px solid;
+  }
+  .arabic-calculator .close-button {
+    left: 0% !important;
   }
   .close-button:hover {
     opacity: 1.0;

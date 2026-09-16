@@ -57,7 +57,7 @@ class ProgressBar extends Observable {
         }
 
         // Met à jour le texte final de la barre de progression
-        progressBarAverageText.innerHTML = `${co2Value} ${this._view.getStringElts().co2}`;
+        progressBarAverageText.innerHTML = `<span>${co2Value}</span> ${this._view.getStringElts().co2}`;
         progressBarLastDate.innerHTML = `${i18next.t("co2.main.lastEvaluation")} ${date}`;
     }
     updateProgressAverage() {
@@ -95,7 +95,7 @@ class ProgressBar extends Observable {
         }
 
         if (lastAverage === undefined) {
-            document.getElementById('progressBarAverageText').innerHTML = `${co2Value} ${this._view.getStringElts().co2}`;
+            document.getElementById('progressBarAverageText').innerHTML = `<span>${co2Value}</span> ${this._view.getStringElts().co2}`;
 
             return;
         }
@@ -143,7 +143,7 @@ class ProgressBar extends Observable {
         }
 
         // Met à jour le texte final de la barre de progression
-        progressBarAverageText.innerHTML = `${sumAverage.toFixed(1)} ${this._view.getStringElts().co2}`;
+        progressBarAverageText.innerHTML = `<span>${sumAverage.toFixed(1)}</span> ${this._view.getStringElts().co2}`;
     }
 
     addProgressBarSimulation() {

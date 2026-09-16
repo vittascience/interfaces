@@ -7,11 +7,12 @@
 // Display - Esp32
 Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TITLE'] = '[Esp32] controlar el LED incorporado (p2) en estado %1';
 Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TOOLTIP'] = 'Permite controlar el estado del LED conectado al pin p2 de la placa Esp32';
-// Display - Screen
+// Display - LCD
 Blockly.Msg['DISPLAY_LCD_SETTEXT_TITLE'] = '[LCD dirección %1] mostrar texto %2 en la línea %3 posición %4';
 Blockly.Msg['DISPLAY_LCD_SETTEXT_TOOLTIP'] = IMG_MODULE_LCD_I2C + Blockly.Tooltip.SEP + 'Mostrar texto en una de las dos líneas de la arboleda LCD1602. Conecte el módulo a un puerto I2C';
 Blockly.Msg['DISPLAY_LCD_CLEAR_TITLE'] = '[LCD dirección %1] limpiar pantalla';
 Blockly.Msg['DISPLAY_LCD_CLEAR_TOOLTIP'] = IMG_MODULE_LCD_I2C + Blockly.Tooltip.SEP + 'Permite borrar todos los caracteres de la pantalla LCD. Conecte el módulo a un puerto I2C';
+// Display - OLED
 Blockly.Msg['DISPLAY_OLED_ADDTEXT_TITLE'] = '[OLED] mostrar texto %1 en la posición x %2 y %3';
 Blockly.Msg['DISPLAY_OLED_ADDTEXT_TOOLTIP'] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + 'Permite escribir texto en una pantalla OLED de 128x64. Conecta la pantalla a un puerto I2C';
 Blockly.Msg['DISPLAY_OLED_SETPIXEL_TITLE'] = '[OLED] controlar píxel x %1 y %2 estado %3';
@@ -120,6 +121,8 @@ Blockly.Msg['IO_SETPWM_TITLE'] = 'aplicar una señal de onda cuadrada de frecuen
 Blockly.Msg['IO_SETPWM_TOOLTIP'] = 'Aplicar una señal de onda cuadrada (PWM) con un ciclo fijo del 50% a un pin. Este bloque permite cambiar la frecuencia de la señal';
 Blockly.Msg['IO_STOPPWM_TITLE'] = 'detener la señal PWM del pin %1';
 Blockly.Msg['IO_STOPPWM_TOOLTIP'] = 'Detener la señal PWM aplicada a un pin';
+Blockly.Msg['IO_READPULSEIN_TITLE'] = 'leer pulso en (μs) del estado %1 en el pin %2';
+Blockly.Msg['IO_READPULSEIN_TOOLTIP'] = 'Devuelve la duración del pulso en. Elección del estado (HIGH o LOW)';
 Blockly.Msg['IO_GETVOLTAGE_TITLE'] = 'convertir %1 en %2 en voltaje';
 Blockly.Msg['IO_GETVOLTAGE_TOOLTIP'] = 'Convierte un valor analógico a voltaje eligiendo la resolución (10 bits: 1024, 12 bits: 4096, 9 bits: 512, 11 bits: 2048) y un máximo de 3,6V';
 
@@ -168,9 +171,9 @@ Blockly.Msg['COMMUNICATION_FS_SAVE_DATA_TITLE'] = '[ESP32] guardar datos %1 en e
 Blockly.Msg['COMMUNICATION_FS_SAVE_DATA_TOOLTIP'] = 'Le permite guardar datos en un archivo de texto en el sistema de archivos ESP32. Si utiliza el mismo nombre de archivo, los datos se agregarán al final del archivo. También puedes presionar el botón + para cambiar la extensión del archivo.';
 // Communication - Wireless
 Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TITLE'] = '[HC05 BT] enviar en los pines RX %1 TX %2 mensaje %3';
-Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Permite enviar datos a través del módulo BLuetooth HC05 en los pines RX/TX';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Permite enviar datos a través del módulo Bluetooth HC05 en los pines RX/TX';
 Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TITLE'] = '[HC05 BT] si el mensaje se recibe en los pines RX %1 TX %2 en %3 entonces';
-Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Permite ejecutar instrucciones si se reciben datos por un módulo Bluetooth HC05 en la variable \'bluetoothData\' en los pines RX/TX';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Permite ejecutar instrucciones si se reciben datos por un módulo Bluetooth HC05 en la variable \'HC05Data\' en los pines RX/TX';
 // Communication - Infrared
 Blockly.Msg['COMMUNICATION_INFRARED_ONDATARECEIVED_TITLE'] = '[IR] si se recibe %1 en %2 %3pin %4 con el protocolo %5 entonces';
 Blockly.Msg['COMMUNICATION_INFRARED_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_IR_RECEIVER + Blockly.Tooltip.SEP + 'Permite ejecutar instrucciones si se reciben datos por el receptor infrarrojo Grove en la variable en el pin Digital, con un protocolo específico (NEC_8 o NEC16).';
@@ -541,6 +544,18 @@ Blockly.Msg['ROBOTS_ALVIK_GET_DRIVE_SPEED_TITLE'] = 'velocidad de conducción li
 Blockly.Msg['ROBOTS_ALVIK_GET_DRIVE_SPEED_TOOLTIP'] = 'Obtener las velocidades de conducción actuales';
 Blockly.Msg['ROBOTS_ALVIK_SET_SERVO_POSITIONS_TITLE'] = 'posición servos A %1 B %2 °';
 Blockly.Msg['ROBOTS_ALVIK_SET_SERVO_POSITIONS_TOOLTIP'] = 'Definir las posiciones de los servomotores A y B';
+Blockly.Msg['ROBOTS_ALVIK_SET_COLOR_TITLE'] = 'LED %1 color %2';
+Blockly.Msg['ROBOTS_ALVIK_SET_COLOR_TOOLTIP'] = 'Cambia el color del LED integrado (izquierdo o derecho) del robot Alvik.';
+Blockly.Msg['ROBOTS_ALVIK_LED_LEFT'] = 'izquierda';
+Blockly.Msg['ROBOTS_ALVIK_LED_RIGHT'] = 'derecha';
+Blockly.Msg['ROBOTS_ALVIK_COLOR_RED'] = 'rojo';
+Blockly.Msg['ROBOTS_ALVIK_COLOR_GREEN'] = 'verde';
+Blockly.Msg['ROBOTS_ALVIK_COLOR_BLUE'] = 'azul';
+Blockly.Msg['ROBOTS_ALVIK_COLOR_OFF'] = 'apagado';
+Blockly.Msg['ROBOTS_ALVIK_COLOR_WHITE'] = 'blanco';
+Blockly.Msg['ROBOTS_ALVIK_COLOR_YELLOW'] = 'amarillo';
+Blockly.Msg['ROBOTS_ALVIK_COLOR_CYAN'] = 'cian';
+Blockly.Msg['ROBOTS_ALVIK_COLOR_MAGENTA'] = 'magenta';
 Blockly.Msg['ROBOTS_ALVIK_SET_BUILTIN_LED_TITLE'] = 'estado del LED integrado %1';
 Blockly.Msg['ROBOTS_ALVIK_SET_BUILTIN_LED_TOOLTIP'] = 'Encender o apagar el LED integrado';
 Blockly.Msg['ROBOTS_ALVIK_SET_ILLUMINATOR_TITLE'] = 'estado LED del sensor de color %1';
@@ -608,3 +623,32 @@ Blockly.Msg["COMMUNICATION_RFID_CONVERTDATA_TOOLTIP"] = IMG_MODULE_RFID_125KHZ +
 Blockly.Msg['COMMUNICATION_SPI_HELPER'] = '\nPor defecto, los pines SPI 2 de la placa ESP32 están en SCK: Pin(18) [D13], MISO: Pin(19) [D12] y MOSI: Pin(23) [D11] y los pines de SPI 1 están en SCK: Pin(14) [D7], MISO: Pin(12) [D8] y MOSI: Pin(13) [D9].';
 Blockly.Msg['COMMUNICATION_MFRC522_GETSTRINGCARDID_TITLE'] = '[RFID RC522] SPI %1 ID de la tarjeta en el pin NSS %2';
 Blockly.Msg['COMMUNICATION_MFRC522_GETSTRINGCARDID_TOOLTIP'] = IMG_MODULE_RFID_RC522 + Blockly.Tooltip.SEP + 'Permite obtener el identificador UID como cadena de caracteres del módulo RFID RC522 en SPI de Joy-It si está detectado en los pines digitales.' + Blockly.Msg['COMMUNICATION_SPI_HELPER'];
+Blockly.Msg["SENSORS_ULTRASONIC_1PIN"] = "en el pin";
+Blockly.Msg["SENSORS_ULTRASONIC_2PINS"] = "en los pines ";
+Blockly.Msg["ACTUATORS_MOSFET_SETSTATE_TITLE"] = "[MOSFET] establecer estado a %1 en el pin %2";
+Blockly.Msg["ACTUATORS_MOSFET_SETSTATE_TOOLTIP"] = IMG_MODULE_MOSFET + Blockly.Tooltip.SEP + "Permite controlar el estado del transistor MOSFET (0 o 1) en un pin PWM.";
+Blockly.Msg["ACTUATORS_MOSFET_SETPERCENTVALUE_TITLE"] = "[MOSFET] ajustar la potencia a %1 (%) en el pin %2";
+Blockly.Msg["ACTUATORS_MOSFET_SETPERCENTVALUE_TOOLTIP"] = IMG_MODULE_MOSFET + Blockly.Tooltip.SEP + "Permite controlar la potencia de salida del transistor MOSFET (de 0 a 100%) en un pin PWM.";
+Blockly.Msg["ACTUATORS_MOSFET_SETFREQUENCY_TITLE"] = "[MOSFET] ajustar la frecuencia a %1 (Hz) en el pin %2";
+Blockly.Msg["ACTUATORS_MOSFET_SETFREQUENCY_TOOLTIP"] = IMG_MODULE_MOSFET + Blockly.Tooltip.SEP + "Permite controlar la frecuencia de ciclo (Hz) del transistor MOSFET en un pin PWM.";
+Blockly.Msg['SENSORS_MLX90621_READTEMPERATURE_TITLE'] = '[Sensor IR MLX90621] temperatura (°C) tipo %1';
+Blockly.Msg['SENSORS_MLX90621_READTEMPERATURE_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Devuelve la temperatura en grados Celsius (°C) medida con el sensor infrarrojo MLX90621. Conecta el sensor a un puerto I2C.';
+Blockly.Msg['SENSORS_MLX90621_INT_TYPE'] = 'entero';
+Blockly.Msg['SENSORS_MLX90621_FLOAT_TYPE'] = 'decimal';
+Blockly.Msg['SENSORS_MLX90621_GETTEMPDATA_TITLE'] = '[Sensor IR MLX90621] temperatura (°C) %1';
+Blockly.Msg['SENSORS_MLX90621_TEMP_MIN'] = 'mínimo';
+Blockly.Msg['SENSORS_MLX90621_TEMP_MAX'] = 'máximo';
+Blockly.Msg['SENSORS_MLX90621_TEMP_AVG'] = 'promedio';
+Blockly.Msg['SENSORS_MLX90621_GETTEMPDATA_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Devuelve la temperatura del objeto (mínima, máxima o promedio) en grados Celsius (°C) usando el sensor infrarrojo MLX90621. Conecta el sensor a un puerto I2C.';
+Blockly.Msg['ACTUATORS_PCA9685_SETPWMFREQUENCY_TITLE'] = '[PCA9685] establecer la frecuencia de la señal PWM a %1 (Hz)';
+Blockly.Msg['ACTUATORS_PCA9685_SETPWMFREQUENCY_TOOLTIP'] = IMG_MODULE_PCA9685 + Blockly.Tooltip.SEP + 'Permite configurar la frecuencia de la señal PWM (en Hz) para todos los canales del módulo PCA9685. Conecta el módulo a un puerto I2C.';
+Blockly.Msg['ACTUATORS_PCA9685_SETPWMDUTYCYCLEPERCENT_TITLE'] = '[PCA9685] establecer la potencia de salida a %1 (%) en el canal %2';
+Blockly.Msg['ACTUATORS_PCA9685_SETPWMDUTYCYCLEPERCENT_TOOLTIP'] = IMG_MODULE_PCA9685 + Blockly.Tooltip.SEP + 'Permite controlar la potencia de salida PWM (de 0 a 100%) en un canal del módulo PCA9685. Conecta el módulo a un puerto I2C.';
+Blockly.Msg['ACTUATORS_PCA9685_SETPWMDUTYCYCLEONTIME_TITLE'] = '[PCA9685] establecer tiempo de encendido a %1 (ms) en el canal %2';
+Blockly.Msg['ACTUATORS_PCA9685_SETPWMDUTYCYCLEONTIME_TOOLTIP'] = IMG_MODULE_PCA9685 + Blockly.Tooltip.SEP + 'Permite controlar el tiempo de encendido de la señal PWM (en ms) en un canal del módulo PCA9685. Conecta el módulo a un puerto I2C.';
+Blockly.Msg['ACTUATORS_PCA9685_SETPWMDUTYCYCLE_TITLE'] = '[PCA9685] flanco de subida %1 flanco de bajada %2 en el canal %3';
+Blockly.Msg['ACTUATORS_PCA9685_SETPWMDUTYCYCLE_TOOLTIP'] = IMG_MODULE_PCA9685 + Blockly.Tooltip.SEP + 'Permite controlar la señal PWM estableciendo los contadores de flanco de subida y de bajada (0 a 4095) en un canal del módulo PCA9685. Conecta el módulo a un puerto I2C.';
+Blockly.Msg['ACTUATORS_PCA9685_SETSERVOANGLE_TITLE'] = '[PCA9685] establecer el ángulo del servomotor a %1 en el canal %2';
+Blockly.Msg['ACTUATORS_PCA9685_SETSERVOANGLE_TOOLTIP'] = IMG_MODULE_PCA9685 + Blockly.Tooltip.SEP + 'Permite controlar el ángulo de un servomotor (de 0 a 180) en un canal del módulo PCA9685. Conecta el módulo a un puerto I2C. Atención: el montaje debe alimentarse con una batería para suministrar la corriente necesaria al servomotor.';
+Blockly.Msg['ACTUATORS_PCA9685_SETSERVOANGLECUSTOM_TITLE'] = '[PCA9685] establecer el ángulo del servomotor a %1 en el canal %2 con pulso mínimo %3 (ms) y pulso máximo %4 (ms)';
+Blockly.Msg['ACTUATORS_PCA9685_SETSERVOANGLECUSTOM_TOOLTIP'] = IMG_MODULE_PCA9685 + Blockly.Tooltip.SEP + 'Permite controlar el ángulo de un servomotor (de 0 a 180) en un canal del módulo PCA9685 definiendo las anchuras de pulso en ms para los ángulos 0° y 180°. Conecta el módulo a un puerto I2C. Atención: el montaje debe alimentarse con una batería para suministrar la corriente necesaria al servomotor.';

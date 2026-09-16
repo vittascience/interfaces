@@ -363,28 +363,50 @@ var $builtinmodule = function (name) {
 
 	machine.I2C = new Sk.misceval.buildClass(machine, function ($gbl, $loc) {
 
-		I2C__init__ = function (self, id, scl, sda, addr) {
-			Sk.builtin.pyCheckArgsLen("__init__", arguments.length, 3, 5);
-			// Sk.builtin.pyCheckType("freq", "integer", Sk.builtin.checkInt(freq));
+		I2C__init__ = function (self, id, scl, sda, freq, timeout) {
+			Sk.builtin.pyCheckArgsLen("__init__", arguments.length, 4, 6);
+			Sk.builtin.pyCheckType("freq", "integer", Sk.builtin.checkInt(freq));
+			Sk.builtin.pyCheckType("timeout", "integer", Sk.builtin.checkInt(timeout));
 			if (scl.pin && sda.pin) {
 				self.id = id;
 				self.scl = scl;
 				self.sda = sda;
-				// self.freq = freq.v;
-				self.addr = addr;
+				self.freq = freq.v;
+				self.timeout = timeout.v;
 			} else {
 				// TODO: print error
 			}
 		};
 
-		I2C__init__.co_varnames = ['self', 'id', 'scl', 'sda', 'addr'];
-		I2C__init__.$defaults = [new Sk.builtin.int_(5000)];
+		I2C__init__.co_varnames = ['self', 'id', 'scl', 'sda', 'freq', 'timeout'];
+		I2C__init__.$defaults = [new Sk.builtin.int_(400000), new Sk.builtin.int_(50000)];
 
 		$loc.__init__ = new Sk.builtin.func(I2C__init__);
 
 	});
 
-	machine.SoftI2C = machine.I2C;
+	machine.SoftI2C = new Sk.misceval.buildClass(machine, function ($gbl, $loc) {
+
+		SoftI2C__init__ = function (self, scl, sda, freq, timeout) {
+			Sk.builtin.pyCheckArgsLen("__init__", arguments.length, 3, 5);
+			Sk.builtin.pyCheckType("freq", "integer", Sk.builtin.checkInt(freq));
+			Sk.builtin.pyCheckType("timeout", "integer", Sk.builtin.checkInt(timeout));
+			if (scl.pin && sda.pin) {
+				self.scl = scl;
+				self.sda = sda;
+				self.freq = freq.v;
+				self.timeout = timeout.v;
+			} else {
+				// TODO: print error
+			}
+		};
+
+		SoftI2C__init__.co_varnames = ['self', 'scl', 'sda', 'freq', 'timeout'];
+		SoftI2C__init__.$defaults = [new Sk.builtin.int_(400000), new Sk.builtin.int_(50000)];
+
+		$loc.__init__ = new Sk.builtin.func(SoftI2C__init__);
+
+	});
 
 	machine.UART = new Sk.misceval.buildClass(machine, function ($gbl, $loc) {
 

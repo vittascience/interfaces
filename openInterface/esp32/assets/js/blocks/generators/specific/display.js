@@ -23,7 +23,7 @@ Blockly.Python.display_controlBuiltInLED = function (block) {
     }
 };
 
-// Screens
+// LCD
 
 Blockly.Python.display_lcdSetText = function (block) {
     const i2c = Blockly.Python.Generators.default_I2C();
@@ -63,6 +63,8 @@ Blockly.Python.display_lcdClear = function (block) {
         return "lcd.clear()" + NEWLINE;
     }
 };
+
+// OLED
 
 Blockly.Python.display_addOledText = function (block) {
     const i2c = Blockly.Python.Generators.default_I2C();

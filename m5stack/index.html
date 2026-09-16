@@ -6,7 +6,10 @@
     <meta charset="utf-8" />
     <!-- ©️ Copyright Vittascience  -->
     <script>const CDN_PATH = ''</script>
+    <script>const VS_USER_DATA_BASE = <?= json_encode(\Utils\UserDataUrl::base()) ?>;</script>
+    <script>const VS_PRODUCT_DATA_BASE = <?= json_encode(\Shop\ProductDataUrl::base()) ?>;</script>
     <script>const IS_CAPYTALE_CONTEXT = true;</script>
+    
     <!-- Matomo Analytics -->
     <script>
         function initializeMatomo() {
@@ -32,10 +35,11 @@
         }
         setTimeout(() => {
             initializeMatomo();
-        }, 2000); 
+        }, 2000);
         // wait for the user to be loaded
     </script>
     <!-- End Matomo Code -->
+    
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Security-Policy" content="">
     <link rel="icon" href="/public/content/img/favicon.png">
@@ -121,6 +125,7 @@
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/buttons.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/monitor.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/simulator.css">
+<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/mpy-fs-modal.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/m5stack/assets/css/specific.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/ace_themes.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/auto-corrector-modals.css">
@@ -315,7 +320,8 @@
             <!-- fullscreen -->
         </div>
         <div class="ide-dropdown ide-dropdown-always">
-            <button class="ide-btn ide-btn-toggle ide-btn-alone" data-i18n="[title]code.topbar.tooltips.consoleSettings" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-cog"></i></button>
+            <button class="ide-btn ide-btn-toggle ide-btn-alone" data-i18n="[title]code.topbar.tooltips.consoleSettings"
+                data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-cog"></i></button>
             <div class="ide-btn-group ide-btn-group-settings hidden">
                 <!-- accessibility
                     board settings
@@ -361,10 +367,14 @@
                 <div id="monitor-content" class="monitor-grid-bottom">
                     <div id="monitor-view">
                         <div id="monitor-view-group-btn">
-                            <button id="monitor-btn-console" class="monitor-view-btn btn activated" data-i18n="[title]code.console.buttons.consoleMode;[aria-label]code.console.buttons.consoleMode" data-toggle="tooltip" data-placement="left" title="Mode console">
+                            <button id="monitor-btn-console" class="monitor-view-btn btn activated"
+                                data-i18n="[title]code.console.buttons.consoleMode;[aria-label]code.console.buttons.consoleMode"
+                                data-toggle="tooltip" data-placement="left" title="Mode console">
                                 <i class="fas fa-terminal"></i>
                             </button>
-                            <button id="monitor-btn-graph" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.graphMode;[aria-label]code.console.buttons.graphMode" data-toggle="tooltip" data-placement="left" title="Mode graphique">
+                            <button id="monitor-btn-graph" class="monitor-view-btn btn"
+                                data-i18n="[title]code.console.buttons.graphMode;[aria-label]code.console.buttons.graphMode"
+                                data-toggle="tooltip" data-placement="left" title="Mode graphique">
                                 <i class="fas fa-chart-line"></i>
                             </button>
                             <div id="monitor-graph-tooltip" class="interface-tooltip" style="display: none;">
@@ -373,18 +383,23 @@
                                         <i class="fas fa-info-circle"></i>
                                         <b data-i18n="code.simulator.buttons.multi-mode.tooltip.title">Info</b>
                                     </div>
-                                    <button class="btn v-btn-basic interface-tooltip__header-close-btn" >
+                                    <button class="btn v-btn-basic interface-tooltip__header-close-btn">
                                         <i class="fas fa-times"></i>
                                     </button>
                                 </div>
                                 <span data-i18n="[html]code.monitor.controls.tooltips.graph">
-                                    Pour visualiser les données reçues dans la console, cliquer sur le bouton <b>Graphique</b>
+                                    Pour visualiser les données reçues dans la console, cliquer sur le bouton
+                                    <b>Graphique</b>
                                 </span>
                             </div>
-                            <button id="monitor-btn-music" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.musicMode;[aria-label]code.console.buttons.musicMode" data-toggle="tooltip" data-placement="left" title="Mode musical">
+                            <button id="monitor-btn-music" class="monitor-view-btn btn"
+                                data-i18n="[title]code.console.buttons.musicMode;[aria-label]code.console.buttons.musicMode"
+                                data-toggle="tooltip" data-placement="left" title="Mode musical">
                                 <i class="fas fa-music"></i>
                             </button>
-                            <button id="monitor-clear" class="monitor-view-btn btn" data-i18n="[title]code.console.buttons.clearConsole;[aria-label]code.console.buttons.clearConsole" data-toggle="tooltip" data-placement="left" title="Nettoyer l'écran">
+                            <button id="monitor-clear" class="monitor-view-btn btn"
+                                data-i18n="[title]code.console.buttons.clearConsole;[aria-label]code.console.buttons.clearConsole"
+                                data-toggle="tooltip" data-placement="left" title="Nettoyer l'écran">
                                 <i class="fas fa-broom"></i>
                             </button>
                         </div>
@@ -405,20 +420,25 @@
                         <div id="music-tab" class="monitor-tab">
                             <div id="music-panel">
                                 <div class="music-control">
-                                    <label class="music-control-label"><b data-i18n="code.console.music.enable">Sons</b></label>
-                                    <button id="audio-enable-button" class="btn btn-outline-secondary btn-sm  mt-1 music-control-button" data-i18n="code.console.music.enablebutton">Activé
+                                    <label class="music-control-label"><b
+                                            data-i18n="code.console.music.enable">Sons</b></label>
+                                    <button id="audio-enable-button"
+                                        class="btn btn-outline-secondary btn-sm  mt-1 music-control-button"
+                                        data-i18n="code.console.music.enablebutton">Activé
                                     </button>
                                 </div>
                                 <div class="music-control">
-                                    <label class="music-control-label"><i class="fa fa-volume-up"></i> <b data-i18n="code.console.music.volume">Volume</b></label>
+                                    <label class="music-control-label"><i class="fa fa-volume-up"></i> <b
+                                            data-i18n="code.console.music.volume">Volume</b></label>
                                     <div class="music-slider mt-2" id="volume-slider"></div>
                                 </div>
                                 <div class="music-control">
-                                    <label class="music-control-label"><b data-i18n="code.console.music.octave">Octave</b></label>
+                                    <label class="music-control-label"><b
+                                            data-i18n="code.console.music.octave">Octave</b></label>
                                     <div class="music-slider mt-2" id="octave-slider"></div>
                                 </div>
                                 <div class="music-control">
-                                    <label class="music-control-label"><b data-i18n="code.console.music.waveform">Forme
+                                    <label for="osc-select" class="music-control-label"><b data-i18n="code.console.music.waveform">Forme
                                             d'onde</b></label>
                                     <select id="osc-select" class="custom-select">
                                         <option value="triangle" data-i18n="code.console.music.waveforms.triangle">
@@ -437,12 +457,19 @@
                                     </select>
                                 </div>
                                 <div class="music-control">
-                                    <label class="music-control-label"><b data-i18n="code.console.music.effect">Effets</b></label>
-                                    <button id="reverb-button" class="btn btn-outline-secondary btn-sm mt-1 music-control-button" data-i18n="code.console.music.effects.reverb">Reverb
+                                    <label class="music-control-label"><b
+                                            data-i18n="code.console.music.effect">Effets</b></label>
+                                    <button id="reverb-button"
+                                        class="btn btn-outline-secondary btn-sm mt-1 music-control-button"
+                                        data-i18n="code.console.music.effects.reverb">Reverb
                                     </button>
-                                    <button id="delay-button" class="btn btn-outline-secondary btn-sm music-control-button mt-1" data-i18n="code.console.music.effects.delay">Delay
+                                    <button id="delay-button"
+                                        class="btn btn-outline-secondary btn-sm music-control-button mt-1"
+                                        data-i18n="code.console.music.effects.delay">Delay
                                     </button>
-                                    <button id="crush-button" class="btn btn-outline-secondary music-control-button btn-sm mt-1" data-i18n="code.console.music.effects.bitcrusher">BitCrusher
+                                    <button id="crush-button"
+                                        class="btn btn-outline-secondary music-control-button btn-sm mt-1"
+                                        data-i18n="code.console.music.effects.bitcrusher">BitCrusher
                                     </button>
                                 </div>
                             </div>
@@ -455,12 +482,16 @@
 
                             <div class="w-75 d-flex mr-1">
                                 <div class="btn-group dropup">
-                                    <button class="btn dropdown-toggle mt-1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Monitor settings" data-i18n="[aria-label]code.console.graph.buttons.settings" style="background-color: transparent; color: inherit; outline: none !important; box-shadow: none;">
+                                    <button class="btn dropdown-toggle mt-1" data-bs-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false" aria-label="Monitor settings"
+                                        data-i18n="[aria-label]code.console.graph.buttons.settings"
+                                        style="background-color: transparent; color: inherit; outline: none !important; box-shadow: none;">
                                         <i class="fas fa-cog"></i>
                                     </button>
                                     <div id="monitor-controls-dropdown" class="dropdown-menu">
                                         <div class="dropdown-item">
-                                            <label for="tracer-select" class="tracer-controls" data-i18n="[html]code.console.graph.buttons.datasToShow">
+                                            <label for="tracer-select" class="tracer-controls"
+                                                data-i18n="[html]code.console.graph.buttons.datasToShow">
                                                 <i class="fa fa-chart-line"></i> Donnée à afficher:
                                             </label>
                                             <select class="tracer-controls form-select" id="tracer-select">
@@ -470,7 +501,8 @@
 
                                         <!-- Number of values -->
                                         <div class="dropdown-item">
-                                            <label for="tracer-values" class="tracer-controls" data-i18n="[html]code.console.graph.buttons.valuesToShow">
+                                            <label for="tracer-values" class="tracer-controls"
+                                                data-i18n="[html]code.console.graph.buttons.valuesToShow">
                                                 <i class="fa fa-filter"></i> Nombre de valeurs:
                                             </label>
                                             <select class="tracer-controls form-select" id="tracer-values">
@@ -484,18 +516,23 @@
 
                                         <!-- Min | Max -->
                                         <div class="dropdown-item">
-                                            <label for="maxY" class="tracer-controls" data-i18n="[html]code.console.graph.axeY">
+                                            <label for="maxY" class="tracer-controls"
+                                                data-i18n="[html]code.console.graph.axeY">
                                                 <i class="fas fa-arrows-alt-v"></i>
                                             </label>
                                             <div class="input-group gap-0">
-                                                <input class="tracer-controls form-control mx-0" id="minY" type="text" placeholder="min" title="Auto par défaut">
-                                                <input class="tracer-controls form-control mx-0" type="text" id="maxY" placeholder="max" title="Auto par défaut">
+                                                <input class="tracer-controls form-control mx-0" id="minY" type="text"
+                                                    placeholder="min" title="Auto par défaut">
+                                                <input class="tracer-controls form-control mx-0" type="text" id="maxY"
+                                                    placeholder="max" title="Auto par défaut">
                                             </div>
                                         </div>
 
                                         <!-- Baud -->
                                         <div class="dropdown-item">
-                                            <label for="baud" class="serial-controls tracer-controls" data-i18n="[html]code.console.baud" data-toggle="tooltip" data-placement="top">
+                                            <label for="baud" class="serial-controls tracer-controls"
+                                                data-i18n="[html]code.console.baud" data-toggle="tooltip"
+                                                data-placement="top">
                                                 Baud:
                                             </label>
 
@@ -518,37 +555,35 @@
                                         </div>
 
                                         <div class="dropdown-item mt-1">
-                                            <button type="button" id="init-traceur" class="btn btn-secondary tracer-export w-100" data-toggle="tooltip" data-placement="right" data-i18n="[title]code.monitor.controls.tooltips.menu.clearData">
+                                            <button type="button" id="init-traceur"
+                                                class="btn btn-secondary tracer-export w-100" data-toggle="tooltip"
+                                                data-placement="right"
+                                                data-i18n="[title]code.monitor.controls.tooltips.menu.clearData">
                                                 <i class="fas fa-broom"></i>
-                                                <span class="tracer-controls" data-i18n="code.monitor.controls.text.menu.clearData"></span>
+                                                <span class="tracer-controls"
+                                                    data-i18n="code.monitor.controls.text.menu.clearData"></span>
                                             </button>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div id="serial-input-group" class="input-group">
-                                    <input type="text" id="serial-input" class="serial-controls form-control ide-btn-left" autocomplete="off" data-i18n="[placeholder]code.monitor.controls.text.send" />
+                                    <input type="text" id="serial-input"
+                                        class="serial-controls form-control ide-btn-left" autocomplete="off"
+                                        data-i18n="[placeholder]code.monitor.controls.text.send" />
 
                                     <div id="serial-input-btn" class="input-group-append">
-                                        <button id="serial-send" class="ide-btn serial-controls ide-btn-right" data-placement="top" data-toggle="tooltip" data-i18n="[title]code.monitor.controls.tooltips.send;[aria-label]code.monitor.controls.tooltips.send" aria-label="Envoyer">
+                                        <button id="serial-send" class="ide-btn serial-controls ide-btn-right"
+                                            data-placement="top" data-toggle="tooltip"
+                                            data-i18n="[title]code.monitor.controls.tooltips.send;[aria-label]code.monitor.controls.tooltips.send"
+                                            aria-label="Envoyer">
                                             <i class="fa fa-paper-plane" aria-hidden="true"></i>
                                         </button>
                                     </div>
                                 </div>
                             </div>
 
-                            <div id="monitor-div-btn" class="d-flex ms-auto justify-content-end">
-
-                                <button type="button" class="ide-btn ide-btn-alone tracer-export mr-1" onclick="openExportProjectWindow()" data-toggle="tooltip" data-placement="top" data-i18n="[title]code.monitor.controls.tooltips.export">
-                                    <i class="fas fa-file-export"></i>
-                                    <span class="hide" data-i18n="code.monitor.controls.text.export"></span>
-                                </button>
-
-                                <button type="button" onclick="toggleReplOverture()" class="ide-btn ide-btn-alone" id="repl-control" data-status="open" data-toggle="tooltip" data-placement="top" data-i18n="[title]code.monitor.controls.tooltips.openRepl">
-                                    <i class="fas fa-terminal"></i>
-                                    <span class="hide" data-i18n="code.monitor.controls.text.openRepl">REPL</span>
-                                </button>
-                            </div>
+                            <div id="monitor-div-btn" class="d-flex ms-auto justify-content-end"></div>
                         </div>
                     </div>
                 </div>
@@ -557,11 +592,7 @@
         <div class="ide-simulator">
             <div id="simulator">
                 <div id="headerOut">
-                    <div class="simulator-board-buttons">
-                        <button id="simulator-board-toggler" class="btn simulator-button-circle" type="button" onclick="Simulator.toggleBoardDisplay()" aria-label="Toggle board display" data-i18n="[aria-label]code.simulator.buttons.base.toggleBoardDisplay">
-                            <i class="fa-solid fa-minus simulator-buttons-icon"></i>
-                        </button>
-                    </div>
+                    <div class="simulator-board-buttons"></div>
                     <span id="title-board" style="display: none;">M5Stack (CORE1)</span>
                     <div id="board-container">
                         <object id="board-viewer" class="mt-3" role="img" aria-label="Board simulator view"></object>
@@ -570,30 +601,44 @@
                 </div>
                 <div class="simulator-buttons my-2">
                     <div class="control-run-btn btn-group oi-btn-group-simulator oi-simulation-activated">
-                        <button id="simulator_play" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.play" 
-                                data-toggle="tooltip" data-placement="top" title="Play" onclick="Simulator.play()">
-                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-play.svg" alt="Play icon">
+                        <button id="simulator_play" class="btn oi-btn-simulator"
+                            data-i18n="[title]code.simulator.buttons.base.play" data-toggle="tooltip"
+                            data-placement="top" title="Play" onclick="Simulator.play()">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-play.svg"
+                                alt="Play icon">
                         </button>
-                        <button id="simulator_pause" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.pause" 
-                                data-toggle="tooltip" data-placement="top" title="Stop" onclick="Simulator.pause()">
-                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-pause.svg" alt="Pause icon">
+                        <button id="simulator_pause" class="btn oi-btn-simulator"
+                            data-i18n="[title]code.simulator.buttons.base.pause" data-toggle="tooltip"
+                            data-placement="top" title="Stop" onclick="Simulator.pause()">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-pause.svg"
+                                alt="Pause icon">
                         </button>
-                        <button id="simulator_replay" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.reload" 
-                                data-toggle="tooltip" data-placement="top" title="Replay" onclick="Simulator.replay()">
-                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-replay.svg" alt="Replay icon">
+                        <button id="simulator_replay" class="btn oi-btn-simulator"
+                            data-i18n="[title]code.simulator.buttons.base.reload" data-toggle="tooltip"
+                            data-placement="top" title="Replay" onclick="Simulator.replay()">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-replay.svg"
+                                alt="Replay icon">
                         </button>
                     </div>
                     <div class="control-mode-btn btn-group oi-btn-group-simulator oi-option-activated">
-                        <button id="simulator_slow_play" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.debug" 
-                                data-toggle="tooltip" data-placement="top" title="Simulation pas à pas" onclick="Simulator.Debugger.toggleDebugMode()">
-                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-bug.svg" alt="Bug icon">
+                        <button id="simulator_slow_play" class="btn oi-btn-simulator"
+                            data-i18n="[title]code.simulator.buttons.base.debug" data-toggle="tooltip"
+                            data-placement="top" title="Simulation pas à pas"
+                            onclick="Simulator.Debugger.toggleDebugMode()">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-bug.svg"
+                                alt="Bug icon">
                         </button>
-                        <button id="simulator_show_vars" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.variables" 
-                                data-toggle="tooltip" data-placement="top" title="Afficher les variables" onclick="Simulator.Debugger.toggleVariablesPanel()">
-                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-variable.svg" alt="Variable icon">
+                        <button id="simulator_show_vars" class="btn oi-btn-simulator"
+                            data-i18n="[title]code.simulator.buttons.base.variables" data-toggle="tooltip"
+                            data-placement="top" title="Afficher les variables"
+                            onclick="Simulator.Debugger.toggleVariablesPanel()">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-variable.svg"
+                                alt="Variable icon">
                         </button>
-                        <button id="simulator_fullscreen" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.fullscreen;[aria-label]code.simulator.buttons.base.fullscreen" aria-label="Fullscreen" 
-                                data-toggle="tooltip" data-placement="top" title="Plein écran" onclick="Simulator.toggleFullscreen()">
+                        <button id="simulator_fullscreen" class="btn oi-btn-simulator"
+                            data-i18n="[title]code.simulator.buttons.base.fullscreen;[aria-label]code.simulator.buttons.base.fullscreen"
+                            aria-label="Fullscreen" data-toggle="tooltip" data-placement="top" title="Plein écran"
+                            onclick="Simulator.toggleFullscreen()">
                             <i class="fa-solid fa-expand" style="font-size: larger;"></i>
                         </button>
                     </div>
@@ -604,17 +649,20 @@
                 </div>
                 <div id="debugger-container" style="display:none;">
                     <div id="debugger-controls" class="d-flex ml-2 justify-content-center">
-                        <div id="timeout-controls" >
+                        <div id="timeout-controls">
                             <span id="timeout" class="debugger-text">Durée de la pause : </span>
-                            <button id="simulator_faster" class="v-btn-basic-outline debugger-btn" onclick="Simulator.Debugger.changeExecSpeed('fast')">
+                            <button id="simulator_faster" class="v-btn-basic-outline debugger-btn"
+                                onclick="Simulator.Debugger.changeExecSpeed('fast')">
                                 <i class="fas fa-minus"></i>
                             </button>
                             <span id="debugger-timeout">1 s</span>
-                            <button id="simulator_slower" class="v-btn-basic-outline debugger-btn" onclick="Simulator.Debugger.changeExecSpeed('slow')">
+                            <button id="simulator_slower" class="v-btn-basic-outline debugger-btn"
+                                onclick="Simulator.Debugger.changeExecSpeed('slow')">
                                 <i class="fas fa-plus"></i>
                             </button>
                             <span id="step_forward" class="debugger-text">Etape suivante :</span>
-                            <button id="simulator_step_forward" class="v-btn-basic-outline debugger-step-btn" onclick="Simulator.Debugger.stepForward()">
+                            <button id="simulator_step_forward" class="v-btn-basic-outline debugger-step-btn"
+                                onclick="Simulator.Debugger.stepForward()">
                                 <i class="fas fa-fast-forward"></i>
                                 <span id="step-next">NEXT</span>
                             </button>
@@ -652,7 +700,7 @@
 </div> <!-- END IDE -->
 
 <!-- build:js-externals -->
- <!-- code to blocks -->
+<!-- code to blocks -->
 <script src="/openInterface/interfaces/assets/js/code2blocks/python/pythonCode2Blocks.js" type="module"></script>
 <script src="/openInterface/env.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/jquery.blockUI-2.70.min.js"></script>
@@ -661,11 +709,15 @@
 <script src="/openInterface/interfaces/assets/js/external/interact-1.5.4.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/blockly_compressed.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_date_compressed.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_grid_dropdown_compressed.js"></script>
+<script
+    src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_grid_dropdown_compressed.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_slider_compressed.js"></script>
 <script type="module" src="/openInterface/interfaces/assets/js/external/blockly/extensions/backpack/index.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ace.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-python.min.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-javascript.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-html.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-css.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-languages_tools.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-searchbox.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/file-input/js/fileinput.js"></script>
@@ -678,6 +730,7 @@
 <script src="/openInterface/interfaces/assets/js/external/echarts-5.4.0/echarts.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ansi-up/ansi_up.min.js" type="text/javascript"></script>
 <script src="/openInterface/interfaces/assets/js/external/tone/tone.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/jszip.js"></script>
 <!-- endbuild -->
 <!-- build:js-utils -->
 <script src="/openInterface/interfaces/assets/js/utils/url.js"></script>
@@ -752,12 +805,16 @@
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/procedures.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/exceptions.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/common/start.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/common/display.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/common/input_output.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/common/communication.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/common/sensors.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/common/actuators.js"></script>
 <script src="/openInterface/m5stack/assets/js/blocks/definitions/specific/screen.js"></script>
 <script src="/openInterface/m5stack/assets/js/blocks/definitions/specific/input_output.js"></script>
 <script src="/openInterface/m5stack/assets/js/blocks/definitions/specific/communication.js"></script>
 <script src="/openInterface/m5stack/assets/js/blocks/definitions/specific/display.js"></script>
 <script src="/openInterface/m5stack/assets/js/blocks/definitions/specific/sensors.js"></script>
-<script src="/openInterface/m5stack/assets/js/blocks/definitions/specific/actuators.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/python/esp32/network.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/generators/python/init.js"></script>
 <script src="/openInterface/m5stack/assets/js/blocks/generators/generator.js"></script>
@@ -794,7 +851,8 @@
 <!-- build:js-serial -->
 <script src="/openInterface/interfaces/assets/js/serial/Serial.js"></script>
 <script src="/openInterface/interfaces/assets/js/serial/micropython/MicropythonRepl.js"></script>
-<script src="/openInterface/m5stack/assets/js/serial/serialAPI.js"></script>
+<script src="/openInterface/interfaces/assets/js/serial/micropython/MicropythonFS.js"></script>
+<script src="/openInterface/interfaces/assets/js/serial/micropython/InterfaceConnection.js"></script>
 <!-- endbuild -->
 <!-- loader -->
 <script src="/openInterface/interfaces/assets/js/events/load.js"></script>

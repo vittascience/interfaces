@@ -85,26 +85,26 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "math_atan2": this.Set.number("X", 1) + this.Set.number("Y", 1),
             // text
             "text_comment": this.Set.field("TEXT", '{comment}'),
-            "text_append": this.Set.text('TEXT'),
-            "text_length": this.Set.text('VALUE', 'abc'),
-            "text_changeCase": this.Set.variable("TEXT", 'abc'),
-            // TODO: check if the blocks need to be add on Arduino
-            /*
             "text_newline": this.Set.number('N', 1),
-            "text_split": this.Set.text('VALUE') + this.Set.text('SEP' ,';'),
+            "text_append": this.Set.text('TEXT'),
+            "text_split": this.Set.text('VALUE') + this.Set.text('SEP', ';'),
+            "text_length": this.Set.text('VALUE', 'abc'),
+            "text_includesSubstr": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('FIND', 'abc'),
             "text_indexOf": this.Set.variable("VALUE", '{textVariable}') + this.Set.text('VALUE', 'abc'),
             "text_charAt": this.Set.variable("VALUE", '{textVariable}'),
             "text_getSubstring": this.Set.variable("STRING", '{textVariable}'),
+            "text_count_characters": this.Set.text('TEXT', 'P@ssw0rd'),
             "text_trim": this.Set.text('TEXT', 'abc'),
+            "text_changeCase": this.Set.text("TEXT", 'abc'),
             "text_count": this.Set.text('SUB', 'bon') + this.Set.text('TEXT', 'bonbon'),
-            "text_replace": this.Set.text('FROM', 'a') + this.Set.text('TO', 'b') + this.Set.text('TEXT', 'abc'),
             "text_reverse": this.Set.text('TEXT', 'abc'),
-            */
+            "text_replace": this.Set.text('FROM', 'a') + this.Set.text('TO', 'b') + this.Set.text('TEXT', 'abc'),
+            "text_random_string": this.Set.number('LENGTH', 6),
             // list
             "lists_create_with-0": '<mutation items="0"></mutation>',
             "lists_repeat": this.Set.number("NUM", 5),
-            "lists_length": this.Set.variable("LIST", '{listVariable}'),
-            "lists_getIndex": this.Set.variable("LIST", '{listVariable}') + this.Set.number("AT"),
+            "lists_length": this.Set.variable("VALUE", '{listVariable}'),
+            "lists_getIndex": this.Set.variable("VALUE", '{listVariable}') + this.Set.number("AT"),
             // TODO: check if the blocks need to be add on Arduino
             /*
             "lists_indexOf": this.Set.variable("LIST", '{listVariable}'),

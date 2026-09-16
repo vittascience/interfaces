@@ -157,6 +157,20 @@ const settingsOptions = {
     }
 }
 
+if (typeof IS_CAPYTALE_CONTEXT !== 'undefined') {
+    settingsOptions['capytale-toolbox-restriction'] = {
+        id: 'capytale-toolbox-restriction',
+        classes: ' ide-btn-restriction',
+        fontAwesome: 'fas fa-tasks',
+        title: 'code.topbar.tooltips.toolboxRestriction',
+        tooltipPlacement: "left",
+        onclick: "pseudoModal.openModal('modal-toolbox-restriction')",
+        label: {
+        value: "code.topbar.label.toolboxRestriction"
+        }
+    }
+}
+
 const uiButtons = {
     'undo': {
         classes: 'ide-btn-undo ide-btn-left hide-vsm ',

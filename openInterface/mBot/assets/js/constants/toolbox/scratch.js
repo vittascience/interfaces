@@ -319,10 +319,21 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'text_comment',
                 'text',
                 'text_join',
+                'text_newline',
                 'text_append',
                 'text_length',
                 'text_isEmpty',
+                'text_includesSubstr',
+                'text_indexOf',
+                'text_charAt',
+                'text_getSubstring',
+                'text_count_characters',
+                'text_trim',
                 'text_changeCase',
+                'text_count',
+                'text_reverse',
+                'text_replace',
+                'text_random_string'
             ]
         }
     ],

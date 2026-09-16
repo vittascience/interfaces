@@ -198,7 +198,9 @@ const TOOLBOX_SCRATCH_CONTENT = {
             "blocks": [
                 'display_addOledText',
                 'display_setOledPixel',
-                'display_drawOledLine'
+                'display_drawOledLine',
+                'display_showOledIcon',
+                'display_clearOledScreen'
             ]
         },
         {
@@ -224,7 +226,11 @@ const TOOLBOX_SCRATCH_CONTENT = {
         {
             "label": "%{BKY_SUBCATEGORY_MUSIC}",
             "blocks": [
-                'actuators_playMusicGroveBuzzer'
+                'actuators_playMusicGroveBuzzer',
+                'actuators_music_playNotes',
+                'actuators_music_note',
+                'actuators_music_playFrequency',
+                'actuators_music_stop'
             ]
         }
     ],
@@ -322,8 +328,9 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'io_readDigitalPin',
                 'io_writeDigitalPin',
                 'io_readAnalogPin',
-                'io_writeAnalogPin',
+                'io_writePwm',
                 'io_setPwm',
+                'io_stopPwm',
                 'io_readPulseIn'
             ]
         },
@@ -379,7 +386,20 @@ const TOOLBOX_SCRATCH_CONTENT = {
     ],
     "robots": [
         {
-            "label": "%{BKY_SUBCATEGORY_KITRO}",
+            "label": "%{BKY_SUBCATEGORY_MOTORS}",
+            "blocks": [
+                'actuators_setServoAngle',
+                'actuators_continuousServo_setSpeed',
+                'actuators_setMotorPower',
+                'actuators_setVibrationMotorState',
+                'actuators_setGroveRelayState',
+                'actuators_mosfet_setState',
+                'actuators_mosfet_setPercentValue',
+                'actuators_mosfet_setFrequency'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_KITRONIK}",
             "blocks": [
                 "robots_moveKitro",
                 "robots_rotateKitro",

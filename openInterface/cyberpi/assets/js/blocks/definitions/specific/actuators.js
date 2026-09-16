@@ -473,7 +473,7 @@ Blockly.Constants.Actuators = Object.create(null);
  * @this {Blockly.Block}
  */
 Blockly.Constants.Actuators.AUDIO_PLAY_TONE_INIT_EXTENSION = function () {
-    this.duration_ = false;
+    this.option_ = false;
     this.update_(this.updateField_);
 };
 

@@ -20,7 +20,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "helpUrl": "%{BKY_VARIABLES_GET_HELPURL}",
     "tooltip": "%{BKY_VARIABLES_GET_TOOLTIP}",
     "extensions": [
-      "contextMenu_variableSetterGetter"
+      "contextMenu_variableSetterGetter",
+      "variables_get_get_type"
     ]
   },
 
@@ -46,26 +47,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "helpUrl": "%{BKY_VARIABLES_SET_HELPURL}",
     "extensions": [
       "contextMenu_variableSetterGetter",
-    ]
-  },
-
-  {
-    "type": "variables_set_tuple",
-    "message0": "affecter la valeur %1 à",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "VALUE"
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "style": "variable_blocks",
-    "tooltip": "%{BKY_VARIABLES_SET_TOOLTIP}",
-    "helpUrl": "%{BKY_VARIABLES_SET_HELPURL}",
-    "mutator": "variable_set_tuple_mutator",
-    "extensions": [
-      "block_buttons_plus_minus"
+      "variables_set_get_type"
     ]
   },
 
@@ -82,7 +64,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       {
         "type": "input_value",
         "name": "DELTA",
-        "check": "Number"
+        "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
       }
     ],
     "previousStatement": null,
@@ -104,11 +86,11 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "type": "field_grid_dropdown",
         "name": "TYPE",
         "options": [
-          ["%{BKY_VARIABLES_FORCE_TYPE_INTEGER}", "int"],
-          ["%{BKY_VARIABLES_FORCE_TYPE_FLOAT}", "float"],
-          ["%{BKY_VARIABLES_FORCE_TYPE_TEXT}", "str"],
-          ["%{BKY_VARIABLES_FORCE_TYPE_BOOLEAN}", "bool"],
-          ["%{BKY_VARIABLES_FORCE_TYPE_LONG}", "long"]
+          ["%{BKY_VARIABLES_FORCE_TYPE_INTEGER}", "NUMBER"],
+          ["%{BKY_VARIABLES_FORCE_TYPE_FLOAT}", "DECIMAL"],
+          ["%{BKY_VARIABLES_FORCE_TYPE_TEXT}", "TEXT"],
+          ["%{BKY_VARIABLES_FORCE_TYPE_BOOLEAN}", "BOOLEAN"],
+          ["%{BKY_VARIABLES_FORCE_TYPE_LONG}", "LARGE_NUMBER"]
         ]
       }
     ],
@@ -117,7 +99,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "style": "variable_blocks",
     "tooltip": "%{BKY_VARIABLES_FORCE_TYPE_TOOLTIP}",
     "helpUrl": "%{BKY_VARIABLES_FORCE_TYPE_HELPURL}",
-    "extensions": ["variables_force_type_get_type"]
+    "extensions": [
+      "variables_force_type_mixin",
+      "variables_force_type_init"
+    ]
   },
 
   // Block for adding to a variable in place.
@@ -131,22 +116,9 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "variable": "%{BKY_VARIABLES_DEFAULT_NAME}"
       }
     ],
-    "output": null,
+    "output": "String",
     "style": "variable_blocks",
     "tooltip": "%{BKY_VARIABLES_TYPEOF_TOOLTIP}"
-  },
-
-  // Block for adding to a variable in place.
-  {
-    "type": "variables_tuple",
-    "message0": "%{BKY_VARIABLES_TUPLE_TITLE}",
-    "output": null,
-    "style": "variable_blocks",
-    "extensions": [
-      "block_buttons_plus_minus"
-    ],
-    "mutator": "variable_tuple_mutator",
-    "tooltip": "%{BKY_VARIABLES_TUPLE_TOOLTIP}"
   },
 
   // Block for global variable.
@@ -259,35 +231,249 @@ Blockly.Constants.Variables.DELETE_OPTION_CALLBACK_FACTORY = function (block) {
   };
 };
 
-Blockly.Constants.Variables.VARIABLES_FORCE_TYPE_GET_TYPE = {
+Blockly.Constants.Variables.VARIABLES_SET_GET_TYPE = {
+  /**
+   * @return {String} variable name
+   * @this {Blockly.Block} variables_set
+   */
+  getVarName: function () {
+    return this.workspace.getVariableById(this.getFieldValue('VAR')).name;
+  },
+  /**
+   * @return {Blockly.Type} type
+   * @this {Blockly.Block} variables_set
+   */
+  getVarType: function (arrayItem = false) {
+    const child = this.inputList[0].connection.targetBlock(),
+      typeCheck = Blockly.Types.CHILD_BLOCK_MISSING;
+    //Case variables_set has a child and is not a a recursive variable
+    if (child) {
+      if (arrayItem) {
+        if (typeof child.getItemType === 'function') {
+          return child.getItemType();
+        }
+        return Blockly.Types.getChildBlockType(child);
+      }
+      return Blockly.Types.getChildBlockType(child);
+    }
+    return typeCheck;
+  }
+};
+
+Blockly.Constants.Variables.VARIABLES_GET_GET_TYPE = {
+  /**
+   * @return {String} variable name
+   * @this {Blockly.Block} variables_get
+   */
+  getVarName: function () {
+    return this.workspace.getVariableById(this.getFieldValue('VAR')).name;
+  },
+  /**
+   * @return {Blockly.Type} typeCheck
+   * @this {Blockly.Block} variables_get
+   */
+  getBlockType: function (arrayItem = false) {
+    let typeCheck = Blockly.Types.CHILD_BLOCK_MISSING;
+    const varName = this.getVarName();
+    const funcArg = Blockly.StaticTyping.getProcedureVarType(this.workspace, varName);
+    if (funcArg) return funcArg;
+    else {
+      const blocks = Blockly.StaticTyping.getAllStatementsOrdered(this.workspace);
+      var var_setters = [];
+      for (var i = 0; i < blocks.length; i++) {
+        var getVarType = blocks[i].getVarType;
+        if (getVarType) {
+          if (blocks[i].getVarName() == varName) {
+            var_setters.push(blocks[i])
+          }
+        }
+      }
+      const blockDB = this.workspace.blockDB_;
+      var var_getters = [];
+      for (block in blockDB) {
+        if (blockDB[block].type == 'variables_get') {
+          if (blockDB[block].getVarName() == varName) {
+            var_getters.push(blockDB[block])
+          }
+        }
+      }
+      var recursiveParentIdSetters = []
+      for (var i = 0; i < var_getters.length; i++) {
+        var recursiveParentId = this.isRecursiveVariable(var_getters[i]);
+        recursiveParentIdSetters.push(recursiveParentId);
+      }
+      for (var i = 0; i < var_setters.length; i++) {
+        // Go to next 'variable_set' block for getting type case is recursive variable
+        for (var j = 0; j < recursiveParentIdSetters.length; j++) {
+          if (var_setters[i] && var_setters[i].id == recursiveParentIdSetters[j]) {
+            var_setters.splice(i, 1)
+          }
+        }
+      }
+      if (var_setters[0]) {
+        if (arrayItem) {
+          typeCheck = var_setters[0].getVarType(true);
+        } else {
+          typeCheck = Blockly.Types.getChildBlockType(var_setters[0]);
+        }
+      };
+    }
+    return typeCheck;
+  },
+  /**
+   * The block 'variables_get' is looking for its name in its parent blocks
+   * @return {Blockly.Block{id}} IdParent
+   * @this {Blockly.Block} variables_get
+   */
+  isRecursiveVariable: function (variableGetter) {
+    var hasParent = true,
+      parent = variableGetter.getParent(),
+      IdParent = null;
+    while (hasParent) {
+      if (parent) {
+        if (parent.type != 'variables_set') {
+          if (parent.outputConnection) {
+            parent = parent.getParent();
+          } else hasParent = false;
+        } else {
+          if (parent.type == 'variables_set') {
+            if (parent.getVarName() == variableGetter.getVarName()) {
+              hasParent = false;
+              IdParent = parent.id;
+            } else hasParent = false;
+          } else hasParent = false;
+        }
+      } else hasParent = false;
+    }
+    return IdParent;
+  }
+};
+
+// Mixin functions
+Blockly.Extensions.registerMixin('contextMenu_variableSetterGetter',
+  Blockly.Constants.Variables.CUSTOM_CONTEXT_MENU_VARIABLE_GETTER_SETTER_MIXIN);
+
+Blockly.Extensions.registerMixin("variables_set_get_type",
+  Blockly.Constants.Variables.VARIABLES_SET_GET_TYPE);
+
+Blockly.Extensions.registerMixin("variables_get_get_type",
+  Blockly.Constants.Variables.VARIABLES_GET_GET_TYPE);
+
+/**
+* Adds dynamic type validation for the left and right sides of 
+* a 'variables_force_type' block.
+* @mixin
+* @augments Blockly.Block
+* @package
+* @readonly
+*/
+Blockly.Constants.Variables.VARIABLES_FORCE_TYPE_MIXIN = {
+  /**
+   * Called whenever anything on the workspace changes.
+   * Prevent mismatched types from being compared.
+   * @this {Blockly.Block} variables_force_type
+   */
+  onchange: function (event) {
+    if (event.type === Blockly.Events.FINISHED_LOADING) {
+      setTimeout(() => this.updateTypeOptions_(), 0);
+      return;
+    }
+    if (event.type === Blockly.Events.BLOCK_DRAG) {
+      if (!event.isStart) setTimeout(() => this.updateTypeOptions_(), 0);
+      return;
+    }
+    if (event.type !== Blockly.Events.BLOCK_MOVE) return;
+    if (event.blockId !== this.id) return;
+    if (!event.newParentId) return; // lâché dans le vide, ignorer
+
+    this.updateTypeOptions_();
+  },
+  updateTypeOptions_: function () {
+
+    const baseOptions = [
+      ["%{BKY_VARIABLES_FORCE_TYPE_INTEGER}", "NUMBER"],
+      ["%{BKY_VARIABLES_FORCE_TYPE_FLOAT}", "DECIMAL"],
+      ["%{BKY_VARIABLES_FORCE_TYPE_TEXT}", "TEXT"],
+      ["%{BKY_VARIABLES_FORCE_TYPE_BOOLEAN}", "BOOLEAN"],
+      ["%{BKY_VARIABLES_FORCE_TYPE_LONG}", "LARGE_NUMBER"]
+    ];
+
+    const arduinoOptions = [
+      ["%{BKY_VARIABLES_FORCE_TYPE_SHORT}", "SHORT_NUMBER"],
+      ["%{BKY_VARIABLES_FORCE_TYPE_CHAR}", "CHARACTER"],
+      ["uint8_t", "UINT8_T"],
+      ["uint16_t", "UINT16_T"],
+      ["uint32_t", "UINT32_T"]
+    ];
+
+    const isForPy = Blockly.Constants.Utils.isForPythonContext(this);
+    const newOptions = isForPy ? baseOptions : [...baseOptions, ...arduinoOptions];
+    const currentField = this.getField('TYPE');
+    const currentOptions = currentField.getOptions();
+    if (JSON.stringify(currentOptions) === JSON.stringify(newOptions)) return;
+
+    const input = currentField.getParentInput();
+    const currentValue = currentField.getValue();
+    input.removeField('TYPE');
+    input.appendField(new FieldGridDropdown(newOptions), 'TYPE');
+
+    // Restaurer la valeur si elle existe toujours dans les nouvelles options
+    const valueStillValid = newOptions.some(([, v]) => v === currentValue);
+    this.setFieldValue(valueStillValid ? currentValue : 'NUMBER', 'TYPE');
+  },
   /**
    * @return {Blockly.Type} type
    * @this {Blockly.Block} variables_force_type
    */
   getBlockType: function () {
-    var type = this.getFieldValue("TYPE");
-    switch (type) {
-      case "int":
-        return Blockly.Types.NUMBER;
-      case "float":
-        return Blockly.Types.NUMBER;
-      case "str":
-        return Blockly.Types.TEXT;
-      case "bool":
-        return Blockly.Types.BOOLEAN;
-      case "long":
-        return Blockly.Types.NUMBER;
-      case "uint8_t":
-        return Blockly.Types.UINT8_T;
-      case "uint16_t":
-        return Blockly.Types.UINT16_T;
-      case "uint32_t":
-        return Blockly.Types.UINT32_T;
-      default:
-        return Blockly.Types.NUMBER;
-    }
+    const type = this.getFieldValue("TYPE");
+    return Blockly.Types[type];
   }
 };
+
+Blockly.Extensions.registerMixin("variables_force_type_mixin",
+  Blockly.Constants.Variables.VARIABLES_FORCE_TYPE_MIXIN);
+
+Blockly.Extensions.register('variables_force_type_init', function () {
+  this.updateTypeOptions_();
+});
+
+// For PyBlock
+
+Blockly.defineBlocksWithJsonArray([
+  // Block for adding to a variable in place.
+  {
+    "type": "variables_tuple",
+    "message0": "%{BKY_VARIABLES_TUPLE_TITLE}",
+    "output": null,
+    "style": "variable_blocks",
+    "extensions": [
+      "block_buttons_plus_minus"
+    ],
+    "mutator": "variable_tuple_mutator",
+    "tooltip": "%{BKY_VARIABLES_TUPLE_TOOLTIP}"
+  },
+
+  {
+    "type": "variables_set_tuple",
+    "message0": "affecter la valeur %1 à",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "VALUE"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "variable_blocks",
+    "tooltip": "%{BKY_VARIABLES_SET_TOOLTIP}",
+    "helpUrl": "%{BKY_VARIABLES_SET_HELPURL}",
+    "mutator": "variable_set_tuple_mutator",
+    "extensions": [
+      "block_buttons_plus_minus"
+    ]
+  }]
+);
 
 Blockly.Constants.Variables.VARIABLES_SET_TUPLE_MUTATOR_MIXIN = {
   /**
@@ -407,7 +593,7 @@ Blockly.Constants.Variables.VARIABLES_SET_TUPLE_MUTATOR_MIXIN = {
     this.setOutputShape(showHorizontalList ?
       Blockly.OUTPUT_SHAPE_ROUND : Blockly.OUTPUT_SHAPE_SQUARE);
   }
-}
+};
 
 Blockly.Constants.Variables.VARIABLES_TUPLE_MUTATOR_MIXIN = {
   /**
@@ -528,14 +714,7 @@ Blockly.Constants.Variables.VARIABLES_TUPLE_MUTATOR_MIXIN = {
     this.setOutputShape(showHorizontalList ?
       Blockly.OUTPUT_SHAPE_ROUND : Blockly.OUTPUT_SHAPE_SQUARE);
   }
-}
-
-// Mixin functions
-Blockly.Extensions.registerMixin('contextMenu_variableSetterGetter',
-  Blockly.Constants.Variables.CUSTOM_CONTEXT_MENU_VARIABLE_GETTER_SETTER_MIXIN);
-
-Blockly.Extensions.registerMixin("variables_force_type_get_type",
-  Blockly.Constants.Variables.VARIABLES_FORCE_TYPE_GET_TYPE);
+};
 
 Blockly.Extensions.registerMutator('variable_set_tuple_mutator',
   Blockly.Constants.Variables.VARIABLES_SET_TUPLE_MUTATOR_MIXIN);

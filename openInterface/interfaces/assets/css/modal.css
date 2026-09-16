@@ -213,17 +213,183 @@ div#modal-openproject .modal-content-div>#projects-tree {
     flex-shrink: 1;
 }
 
-div#modal-openproject .vitta-modal-footer .file-input,
-div#modal-openproject .vitta-modal-footer .file-preview {
+/* Search field */
+
+div#modal-openproject #search-project-input {
+    border-color: var(--vitta-green);
+}
+
+div#modal-openproject #search-project-input:focus {
+    border-color: var(--vitta-green);
+}
+
+/* Tabs bar */
+
+div#modal-openproject .openproject-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25em;
+    border-bottom: 2px solid var(--bg-3);
+}
+
+div#modal-openproject .openproject-tab-btn {
+    appearance: none;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: var(--text-2);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.45em;
+    padding: 0.6em 0.9em;
+    font-weight: 600;
+    font-size: 0.95em;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+    margin-bottom: -2px;
+}
+
+div#modal-openproject .openproject-tab-btn:hover {
+    color: var(--text-1);
+}
+
+div#modal-openproject .openproject-tab-btn.active {
+    color: var(--vitta-green);
+    border-bottom-color: var(--vitta-green);
+}
+
+div#modal-openproject .openproject-tab-btn .project-count {
+    background-color: var(--bg-3);
+    color: var(--vitta-white);
+    border-radius: 999px;
+    padding: 0.05em 0.55em;
+    font-size: 0.75em;
+    font-weight: 700;
+}
+
+div#modal-openproject .openproject-tab-btn.active .project-count {
+    background-color: var(--vitta-green);
+    color: var(--vitta-white);
+}
+
+/* Tab panels */
+
+div#modal-openproject .openproject-tab-panel {
+    display: none;
+}
+
+div#modal-openproject .openproject-tab-panel.active {
+    display: block;
+}
+
+div#modal-openproject .openproject-tab-panel .open-project-content {
+    display: block;
+    overflow-y: visible;
+}
+
+/* Project cards */
+
+div#modal-openproject .project-item {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    padding: 0.9em 0.25em;
+    border-bottom: 1px solid var(--bg-3);
+}
+
+div#modal-openproject .project-item:last-child {
+    border-bottom: none;
+}
+
+div#modal-openproject .project-thumb {
+    flex-shrink: 0;
+    width: 3em;
+    height: 3em;
+    border-radius: 10px;
+    background: var(--bg-3);
+    color: var(--vitta-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3em;
+}
+
+div#modal-openproject .project-body {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2em;
+}
+
+div#modal-openproject .project-info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5em;
+}
+
+div#modal-openproject .project-name {
+    font-weight: 700;
+    color: var(--text-1);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+div#modal-openproject .project-badge,
+div#modal-openproject .project-tag {
+    font-size: 0.72em;
+    font-weight: 600;
+    color: var(--text-2);
+    background-color: var(--bg-3);
+    border-radius: 999px;
+    padding: 0.1em 0.6em;
+    white-space: nowrap;
+}
+
+div#modal-openproject .project-date,
+div#modal-openproject .project-author {
+    font-size: 0.78em;
+    color: var(--text-2);
+}
+
+div#modal-openproject .project-actions {
+    flex-shrink: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4em;
+    justify-content: flex-end;
+}
+
+div#modal-openproject .project-actions .btn {
+    border-radius: 999px;
+    font-size: 0.75em !important;
+    padding: 0.4em 0.9em;
+}
+
+@media (max-width: 700px) {
+    div#modal-openproject .project-item {
+        flex-wrap: wrap;
+    }
+
+    div#modal-openproject .project-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
+/* Local import tab */
+
+div#modal-openproject #local-projects-panel .file-input,
+div#modal-openproject #local-projects-panel .file-preview {
     display: flex;
     flex-direction: column;
 }
 
-div#modal-openproject .vitta-modal-footer .modal-footer-div {
-    flex-direction: column;
-}
-
-div#modal-openproject .vitta-modal-footer .modal-footer-div .file-preview {
+div#modal-openproject #local-projects-panel .file-preview {
     background-color: var(--bg-1);
     border-radius: 10px !important;
 }
@@ -630,6 +796,13 @@ div#arduino-board-selector .modal-content-div {
 
 .board-selector-link:hover {
 	color: #145a93;
+}
+
+.theme-dark .board-selector-link {
+	color: #6ea8fe;
+}
+.theme-dark .board-selector-link:hover {
+	color: #9ec5fe;
 }
 
 .board-selector-shield-grove {

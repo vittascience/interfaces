@@ -12,7 +12,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             // display - screen
             'show_number': this.Set.number("VALUE"),
             'show_number-txt': this.Set.text('VALUE', "{hello}"),
-            'show_string-num': this.Set.text('TEXT', "1024"),
+            'show_string-num': this.Set.number('TEXT', 1024),
             'show_string': this.Set.text('TEXT', "{hello}"),
             'display_show_gauge': this.Set.number("VALUE", 255) + this.Set.number("MAX", 1024),
             'display_plot_bar_graph': this.Set.number("VALUE"),
@@ -30,7 +30,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "display_showOledIcon": this.Set.field("ICON", "BUTTERFLY") + this.Set.number("X") + this.Set.number("Y") + this.Set.state(),
             // display - LED
             "display_setGroveSocketLed": this.Set.state(),
-            "display_setLEDintensity": this.Set.number("VALUE", 1023),
+            "display_setLEDintensity": this.Set.number("VALUE", PWM_MAX_DUTY),
             "display_setVariableColorLED": this.Set.number("VALUE", 100),
             "display_setNumberGrove4Digit": this.Set.field("DIO", "pin14") + this.Set.number("N", 1024),
             "display_setClockGrove4Digit": this.Set.field("DIO", "pin14"),
@@ -62,8 +62,6 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "io_pause": this.Set.number("TIME", 1),
             "io_waitUntil": "<value name='UNTIL'><block type='logic_compare'>" + this.Set.field("OP", 'EQ') + this.Set.number("B", 1) + "</block></value>",
             "io_runEvery": this.Set.number("H") + this.Set.number("MIN") + this.Set.number("S", 1) + this.Set.number("MS"),
-            // io - microphone
-            "io_micro_setSoundThreshold": this.Set.number("THRESH", 255),
             // io - external modules
             "io_getGroveButton": this.Set.field('PIN', "pin1"),
             "io_getGroveSwitch": this.Set.field('PIN', "pin1"),
@@ -79,7 +77,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "io_readDigitalPin": this.Set.field('PIN', "pin1"),
             "io_writeDigitalPin": this.Set.field('PIN', "pin2") + this.Set.state(),
             "io_readAnalogPin": this.Set.field('PIN', "pin1"),
-            "io_writeAnalogPin": this.Set.field('PIN', "pin2") + this.Set.number("VALUE", 1023),
+            "io_writeAnalogPin": this.Set.field('PIN', "pin2") + this.Set.number("VALUE", PWM_MAX_DUTY),
             "io_setPwm": this.Set.field('PIN', "pin1") + this.Set.number("PERIOD", 1000),
             "io_readPulseIn": this.Set.field('PIN', "pin1") + this.Set.state(),
             "io_exec": this.Set.text('CODE', "print('Hello World')"),
@@ -98,21 +96,31 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "communication_graphSerialWrite": "<mutation items='1'></mutation>"
                 + "<value name='ADD0'><block type='communication_graphSerialWrite_datasFormat'><field name='NAME'>{data1}</field></block></value>",
             "communication_playComputerFrequency": this.Set.number("FREQUENCY", 440),
-            "communication_serialInit": this.Set.field("RX", "pin14"),
+            // communication - data logging
             "communication_writeOpenLogSd": this.Set.field("RX", "pin14")
                 + "<value name='DATA'><block type='text_join'><mutation items='3'></mutation>"
                 + this.Set.text('ADD0', "{data1}", true) + this.Set.text('ADD1', ";", true) + this.Set.text('ADD2', "{data2}", true)
                 + "</block></value>",
-            "communication_uart_writeData": this.Set.text('DATA'),
             // communication - bluetooth
             "communication_hc05_sendBluetoothData": this.Set.field("RX", "pin14") + this.Set.text("DATA"),
             "communication_hc05_onBluetoothDataReceived": this.Set.field("RX", "pin14"),
-            "communication_HM10_sendBluetoothData": this.Set.field("RX", "pin14") + this.Set.text("DATA"),
-            "communication_HM10_onBluetoothDataReceived": this.Set.field("RX", "pin14"),
+            "communication_hm10_setATCommand": this.Set.field("TXD", "pin14") + this.Set.text("VALUE"),
+            "communication_hm10_getATCommand": this.Set.field("TXD", "pin14"),
+            "communication_hm10_sendBluetoothData": this.Set.field("TXD", "pin14") + this.Set.text("DATA"),
+            "communication_hm10_onBluetoothDataReceived": this.Set.field("TXD", "pin14"),
             // communication - tracking modules
             "communication_gps_getNMEA": this.Set.field("RX", "pin14"),
             "communication_gps_getGGAInformations": this.Set.field("RX", "pin14"),
             "communication_clockRTC_setHour": this.Set.number("HOUR", 8) + this.Set.number("MIN", 40) + this.Set.number("SEC", 10),
+            // communication - UART
+            "communication_serialInit": this.Set.field("RX", "pin14"),
+            "communication_uart_writeData": this.Set.text('DATA'),
+            // communication - I2C
+            "communication_i2c_init": this.Set.number('FREQ', 100000) + this.Set.field("SDA", "pin20") + this.Set.field("SCL", "pin19"),
+            "communication_i2c_read": '<mutation repeat="false"></mutation>' + this.Set.number('ADDR', 63) + this.Set.number('N', 1),
+            "communication_i2c_write": '<mutation repeat="false"></mutation>' + this.Set.number('ADDR', 63) + this.Set.list('BUF', 3, this.Set.number('ADD0') + this.Set.number('ADD1') + this.Set.number('ADD2')),
+            // sensors - microphone
+            "io_micro_setSoundThreshold": this.Set.number("THRESH", 255),
             // sensors - enviro:bit
             "sensors_envirobit_tcs3472_setLED": this.Set.state(),
             "sensors_envirobit_waitForClaps": this.Set.number("DURATION", 1),
@@ -148,12 +156,15 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             // actuators - motors
             "actuators_setServoAngle": this.Set.field('PIN', "pin2") + this.Set.number("ANGLE", 90),
             "actuators_continuousServo_setSpeed": this.Set.field('PIN', "pin2") + this.Set.number("SPEED", 100),
-            "actuators_setFanPower": this.Set.field('PIN', "pin2") + this.Set.number("POWER", 1023),
+            "actuators_setFanPower": this.Set.field('PIN', "pin2") + this.Set.number("POWER", PWM_MAX_DUTY),
             "actuators_setVibrationMotorState": this.Set.field('PIN', "pin2") + this.Set.state(),
             "actuators_setGroveRelayState": this.Set.field('PIN', "pin2") + this.Set.state(),
             "actuators_stepperMotor_uln2003driver_init": this.Set.field('IN1', "pin0") + this.Set.field('IN2', "pin14") + this.Set.field('IN3', "pin1") + this.Set.field('IN4', "pin15"),
             "actuators_stepperMotor_uln2003driver_moveSteps": this.Set.number('STEPS', 1) + this.Set.field('UNIT', 'ROTATIONS'),
             "actuators_stepperMotor_uln2003driver_setDelay" : this.Set.number('DELAY', 3),
+            // actuators - Reka:Bit
+            "actuators_rekabit_runMotor": this.Set.number("SPEED", 125),
+            "actuators_rekabit_setServoPosition": this.Set.number("ANGLE", 90),
             // actuators - Kitronik
             "actuators_controlAccessBitBuzzer": this.Set.number('VALUE', 500),
             "actuators_kitronik_controlMotor": this.Set.number("SPEED", 100),
@@ -342,7 +353,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "math_number_property": this.Set.number("NUMBER_TO_CHECK", 9),
             "math_map": this.Set.number("VALUE", 512) + this.Set.number("MIN1") + this.Set.number("MAX1", 1023) + this.Set.number("MIN2") + this.Set.number("MAX2", 255),
             "math_round": this.Set.number("NUM", 3.1),
-            "math_round_ndigits": this.Set.number("NUM", 3.1) + this.Set.number("DIGITS", 2),
+            "math_round_ndigits": this.Set.number("NUM", 3.14159) + this.Set.number("DIGITS", 2),
             "math_modulo": this.Set.number("DIVIDEND", 64) + this.Set.number("DIVISOR", 10),
             "math_constrain": this.Set.number("LOW", 1) + this.Set.number("HIGH", 100),
             "math_random_int": this.Set.number("FROM", 1) + this.Set.number("TO", 100),

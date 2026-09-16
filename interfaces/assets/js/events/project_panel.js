@@ -44,7 +44,9 @@ function initPrivateModal() {
         $("#modal-saveproject .modal-content-div").hide();
         // switch the onclick call to directly save the project instead of opening the modal
         $("#saveproject-btn").attr("onclick", "downloadScript(true)");
-        $('#modal-openproject, #modal-openproject #my-projects-list').hide();
+        // Keep only local import tab available in nocloud mode.
+        $('.openproject-tabs, #search-project').hide();
+        activateProjectTab('local-projects-panel');
     }
 
     // create a setInterval function to check if the referer is maclasseti.fr
@@ -54,12 +56,12 @@ function initPrivateModal() {
     const refererCheckLimit = 10;
     const refererInterval = setInterval(() => {
         if (typeof window.maClasseTiIntegration !== 'undefined' && window.maClasseTiIntegration) {
-            $('#shared-projects-list').hide();
-            $('#my-projects-list').hide();
+            $('#shared-projects-list, #my-openproject-subtitle').hide();
             $('#modal-shareproject-footer').hide();
             $('#search-project').hide();
             $('#i18n-setting').hide();
             $('#share-project-qrcode #qrcode').css('filter', 'grayscale(100%)');
+            activateProjectTab('example-projects-panel');
             clearInterval(refererInterval);
         }
         if (refererCheckCount >= refererCheckLimit) {
@@ -70,10 +72,8 @@ function initPrivateModal() {
 
     // Buddy app case
     if (typeof AndroidInterface !== 'undefined' && AndroidInterface !== null) {
-        $('#my-projects-list').hide();
-        $('.modal-openproject-separator').hide();
-        $('.openproject-collapse-title').hide();
-        $('#openproject-local-section').hide();
+        $('#my-openproject-subtitle, #local-projects-list').hide();
+        activateProjectTab('shared-projects-panel');
     }
     setButtonDisplay();
     $(".ide-btn-pythtest").hide();
@@ -231,25 +231,27 @@ function updateLocalProject(project) {
     CodeManager.getSharedInstance().loadBlocks();
     const ws = CodeManager.getSharedInstance()._worspace;
     const codeBlock = (typeof Blockly.Python === 'undefined'
-                    ? Blockly.Arduino.workspaceToCode(ws)
-                    : Blockly.Python.workspaceToCode(ws));
+        ? Blockly.Arduino.workspaceToCode(ws)
+        : Blockly.Python.workspaceToCode(ws));
     CodeManager.getSharedInstance().codeWasManuallyModified = codeBlock.replace(/\s+/g, '') !== project.codeText.replace(/\s+/g, '');
     projectManager.localStorageManager.setLocalProject(project);
     $("#project-name").html(decodeURI(project.name));
     $("#project-name").attr('data-bs-title', '<span class="tooltip-title">' + project.name + '</span><span class="tooltip-author">' + (project.user ? project.user.firstname + ' ' + project.user.surname : i18next.t('code.tooltip.anonymousAuthor')) + '</span><span class="tooltip-description">' + decodeURI(project.description) + '</span>');
     projectManager.updateUrl();
     projectManager.projectsFinder_updateProject();
-    updateToolbox(project.options.toolbox); 
-    switch (project.mode) {
-        case 'blocks':
-            switchBlockMode();
-            break;
-        case 'mixed':
-            switchMixedMode();
-            break;
-        default:
-            switchCodeMode();
-            break;
+    updateToolbox(project.options.toolbox);
+    if (Main.getCodeMode() !== project.mode) {
+        switch (project.mode) {
+            case 'blocks':
+                switchBlockMode();
+                break;
+            case 'mixed':
+                switchMixedMode();
+                break;
+            default:
+                switchCodeMode();
+                break;
+        }
     }
 };
 
@@ -1011,10 +1013,10 @@ async function deleteProject(projectLink) {
         try {
             if (typeof aiMain._model.getAiInterfaceType === 'function' && aiMain._model.getAiInterfaceType() === 'tts') {
                 const keyPart = assetsToDelete[0].split('-');
-                if (assetsToDelete.length === 0){
+                if (assetsToDelete.length === 0) {
                     deleteResponse = { success: false };
                 }
-                if (keyPart.length === 2){
+                if (keyPart.length === 2) {
                     const folderId = keyPart[0];
                     const key = keyPart[1];
                     deleteResponse = JSON.parse(await deleteAudioForTTS(key, folderId));
@@ -1461,87 +1463,231 @@ async function updateAfterSaving(isCopy = false) {
  */
 async function openProjectBtn() {
     pseudoModal.openModal('modal-openproject');
-    if (typeof projectManager === 'undefined' || projectManager == null
-        || (projectManager !== null && !projectManager.isVisitor && !projectManager.myProjectsLoaded)
-        || (projectManager !== null && projectManager.isVisitor && !projectManager.publicProjectsLoaded)
-        || (projectManager !== null && projectManager.isVisitor && !projectManager.exampleProjectsLoaded)) {
-        pseudoModal.newBlocker("modals.standard.open.warning-message", 'modal-openproject', '2rem');
+    const isNoCloud = (typeof $_GET !== 'undefined' && $_GET('nocloud') == 1);
+    // Clear any search left over from a previous time the panel was opened, so it always reopens on a fresh, unfiltered view.
+    const searchProjectInputEl = document.querySelector('#search-project-input');
+    if (searchProjectInputEl && searchProjectInputEl.value) {
+        searchProjectInputEl.value = '';
     }
-    $(".openproject-subtitle").rotate({
-        bind: {
-            click: function () {
-                toggleProjectSection(this);
-            },
-        },
-    });
-
-    $(".openproject-list").on('keypress', function (event) {
-        if (event.key === "Enter" || event.keyCode === 13) {
-            toggleProjectSection(this.firstElementChild);
+    if (typeof projectManager !== 'undefined' && projectManager) {
+        if (projectManager.publicProjectsLoaded && projectManager._publicProjectsSearchKeyword) {
+            projectManager.resetPublicProjectsSearch();
+        } else {
+            projectManager.ensurePublicProjectsLoaded();
         }
+    }
+    if (!isNoCloud && (typeof projectManager === 'undefined' || projectManager == null
+        || (projectManager !== null && !projectManager.isVisitor && !projectManager.myProjectsLoaded)
+        || (projectManager !== null && !projectManager.publicProjectsLoaded)
+        || (projectManager !== null && projectManager.isVisitor && !projectManager.exampleProjectsLoaded))) {
+        pseudoModal.newBlocker("modals.standard.open.warning-message", 'modal-openproject', '2rem');
+    } else {
+        pseudoModal.endBlocker('modal-openproject');
+    }
+    $(".openproject-tab-btn").off('click').on('click', function () {
+        activateProjectTab($(this).data('tab-target'));
     });
 
     if (typeof projectManager !== 'undefined' && projectManager) {
         projectManager.populateAllProjects();
     }
+    populateLocalStorageProjects();
 
     const searchProjectInput = document.querySelector('#search-project-input');
     if (searchProjectInput.isSearchKeyUpEvent) return; // We avoid to duplicate a previously created event listener
+    let publicProjectsSearchDebounce = null;
     $("#search-project-input").keyup(function () {
         try { // We are using try/catch blocks as errors are caught within jquery keyup callback
             const keyword = $("#search-project-input").val();
             const emptySearch = (keyword.length === 0 || !keyword.trim());
-            if (emptySearch === true) {
-                projectManager.populateAllProjects();
-            } else {
-                const callback = function (projects) {
-                    return projectManager.projectsFinder_search(projects, keyword);
-                };
-                projectManager.populateAllProjects(callback);
-            }
+            // My projects and examples are small, already fully loaded: filter them client-side for instant feedback.
+            const callback = emptySearch ? undefined : function (projects) {
+                return projectManager.projectsFinder_search(projects, keyword);
+            };
+            projectManager.populateAllProjects(callback);
+
+            // Public projects can span way more rows than what's loaded, so search them server-side (debounced).
+            clearTimeout(publicProjectsSearchDebounce);
+            publicProjectsSearchDebounce = setTimeout(() => {
+                projectManager.searchPublicProjects(emptySearch ? '' : keyword);
+            }, 350);
         } catch (error) { console.error(error) }
     });
+
+    setupSharedProjectsInfiniteScroll();
 
     $("#modal-openproject").localize();
     searchProjectInput.isSearchKeyUpEvent = true;
     return true;
 };
 
-function toggleProjectSection(element) {
-    let drop = $(element).find(".list-dropdown");
-    let content = $(element).parent().find(".open-project-content");
+/*
+ * Switch the active tab/panel of the "Ouvrir un projet" modal.
+ * @param {string} targetPanelId - id of the panel to activate (e.g. "my-projects-list")
+ */
+function activateProjectTab(targetPanelId) {
+    $(".openproject-tab-btn").each(function () {
+        const isActive = $(this).data('tab-target') === targetPanelId;
+        $(this).toggleClass('active', isActive);
+        $(this).attr('aria-selected', isActive ? 'true' : 'false');
+    });
+    $(".openproject-tab-panel").each(function () {
+        $(this).toggleClass('active', this.id === targetPanelId);
+    });
+    $('#search-project').toggle(targetPanelId !== 'local-projects-panel');
+}
 
-    if (drop.hasClass("dropped")) {
-        drop.rotate({
-            angle: drop.getRotateAngle(),
-            animateTo: 0
-        });
-        content.slideUp("fast", function () {
-            drop.removeClass("dropped");
-        });
-    } else {
-        drop.rotate({
-            angle: drop.getRotateAngle(),
-            animateTo: 90
-        });
-        $(".openproject-subtitle").each(function (index, element) {
-            let drop = $(element).find(".list-dropdown");
-            let content = $(element).parent().find(".open-project-content");
-            if (drop.hasClass("dropped")) {
-                drop.rotate({
-                    angle: drop.getRotateAngle(),
-                    animateTo: 0
-                });
-                content.slideUp("fast", function () {
-                    drop.removeClass("dropped");
-                });
+/**
+ * Load the next page of public projects when the user scrolls near the bottom of the shared-projects list.
+ * Bound once (guarded), since openProjectBtn() runs on every click of the "Open project" button.
+ */
+function setupSharedProjectsInfiniteScroll() {
+    const listElement = document.querySelector('#shared-projects');
+    if (!listElement || listElement.isInfiniteScrollBound) return;
+    listElement.isInfiniteScrollBound = true;
+
+    // The actual scrollable ancestor isn't fixed (depends on modal layout/content height), so it's resolved on every scroll rather than cached once.
+    const findScrollParent = (element) => {
+        let node = element.parentElement;
+        while (node && node !== document.body) {
+            const style = window.getComputedStyle(node);
+            if (/(auto|scroll)/.test(style.overflowY) && node.scrollHeight > node.clientHeight) {
+                return node;
+            }
+            node = node.parentElement;
+        }
+        return window;
+    };
+
+    let scrollScheduled = false;
+    const onScroll = () => {
+        if (scrollScheduled) return;
+        scrollScheduled = true;
+        requestAnimationFrame(() => {
+            scrollScheduled = false;
+            if (typeof projectManager === 'undefined' || !projectManager || !projectManager.publicProjectsLoaded) return;
+            const scrollParent = findScrollParent(listElement);
+            const nearBottom = scrollParent === window
+                ? (window.innerHeight + window.scrollY) >= (document.body.scrollHeight - 200)
+                : (scrollParent.scrollTop + scrollParent.clientHeight) >= (scrollParent.scrollHeight - 200);
+            if (nearBottom) {
+                projectManager.loadMorePublicProjects();
             }
         });
-        content.slideDown("fast", function () {
-            drop.addClass("dropped");
-        });
-    }
+    };
+    // capture: true catches scroll events from any nested scrollable ancestor (scroll events don't bubble, but capture-phase listeners still see them).
+    window.addEventListener('scroll', onScroll, true);
+    window.addEventListener('resize', onScroll);
 }
+
+/**
+ * Populate the "Mes projets locaux" tab with the projects stored in the browser's localStorage
+ * (visitor projects, or local drafts, not saved on the server).
+ */
+function populateLocalStorageProjects() {
+    const parentDiv = $("#local-storage-projects");
+    parentDiv.html("");
+
+    if (typeof projectManager === 'undefined' || !projectManager || !projectManager.localStorageManager) return;
+
+    const localProjects = projectManager.localStorageManager.getLocalProjects()
+        .slice()
+        .sort((a, b) => (b.lastUpdated ?? 0) - (a.lastUpdated ?? 0));
+
+    $("#local-storage-projects-count").attr("class", "project-count badge bg-" + (localProjects.length === 0 ? "secondary" : "success"));
+    $("#local-storage-projects-count").text(localProjects.length);
+
+    if (localProjects.length === 0) {
+        parentDiv.html(`<div class='no-project py-5'><b>${i18next.t('modals.standard.open.no-project')}</b></div>`);
+        return;
+    }
+
+    localProjects.forEach((entry) => {
+        parentDiv.append(_generateLocalStorageProjectDiv(entry));
+    });
+};
+
+/**
+ * Generate the HTML code for a project stored in the browser's localStorage.
+ * @param {object} entry - { id, project, lastUpdated }
+ */
+function _generateLocalStorageProjectDiv(entry) {
+    const project = entry.project || {};
+    const name = project.name ? decodeURI(project.name) : i18next.t('code.popups.openProject.categories.projectsList.description');
+    const dateText = entry.lastUpdated ? new Date(entry.lastUpdated).toLocaleString() : '';
+
+    let projectDiv = $('<div />');
+    projectDiv.attr("class", "project-item");
+
+    const htmlString = `
+        <div class="project-thumb" aria-hidden="true"><i class="fa fa-laptop"></i></div>
+        <div class="project-body">
+            <b class="project-info">
+                <span class="project-name">${name}</span>
+            </b>
+            <span class="project-date">${dateText}</span>
+        </div>
+        <div class="project-actions">
+            <button data-i18n="[html]code.popups.openProject.categories.projectsList.buttons.open" class="btn vitta-button" onclick="openLocalStorageProject('${entry.id}')">Ouvrir<span class="fa fa-arrow-circle-right"></span></button>
+            <button data-i18n="[html]code.popups.openProject.categories.projectsList.buttons.delete" class="btn btn-danger" onclick="deleteLocalStorageProject('${entry.id}')">Supprimer <span class="fas fa-trash"></span></button>
+        </div>
+    `;
+    projectDiv.html(htmlString);
+    return projectDiv;
+};
+
+/**
+ * Open a project stored in the browser's localStorage by navigating to it (?localId=...).
+ * @param {string} id
+ */
+function openLocalStorageProject(id) {
+    const doOpen = () => {
+        const newUrl = new URL(window.location.href);
+        newUrl.searchParams.delete('link');
+        newUrl.searchParams.delete('launch_id');
+        newUrl.searchParams.set('localId', id);
+        window.location.href = newUrl.toString();
+    };
+
+    if (typeof projectManager !== 'undefined' && projectManager && projectManager.needSaving()) {
+        pseudoModal.resetMessage("modal-warningsave");
+        pseudoModal.openModal("modal-warningsave");
+        $("#modal-warning-save-btn-yes, #modal-warning-save-btn-no").unbind();
+        $("#modal-warning-save-btn-yes").click(async function () {
+            const currentProject = projectManager.getCurrentProject();
+            try {
+                await projectManager.saveProject(currentProject.name, currentProject.description, currentProject.public);
+            } catch (error) {
+                displayFrontError(error, 'modal-warningsave');
+                return;
+            }
+            pseudoModal.closeModal("modal-warningsave");
+            doOpen();
+        });
+        $("#modal-warning-save-btn-no").click(function () {
+            pseudoModal.closeModal("modal-warningsave");
+            doOpen();
+        });
+    } else {
+        doOpen();
+    }
+};
+
+/**
+ * Delete a project stored in the browser's localStorage.
+ * @param {string} id
+ */
+async function deleteLocalStorageProject(id) {
+    // Reuse the same confirm modal/flow as the cloud deleteProject() above, instead of a native confirm().
+    pseudoModal.openModal('modal-warningdelete');
+    $("#btn_warning_delete_project").prop("disabled", false);
+    const validatedDeletion = await deleteProjectValidation();
+    if (!validatedDeletion) return;
+
+    projectManager.localStorageManager.deleteLocalProject(id);
+    populateLocalStorageProjects();
+    pseudoModal.closeModal('modal-warningdelete');
+};
 
 /**
  * Generate the HTML code for a given project
@@ -1575,15 +1721,14 @@ function _generateProjectDiv(project, parentDivId) {
             boundary: 'window'
         });
     });
-    let htmlString = "";
-    let publicHtml = "";
+    let badgeHtml = "";
+    let authorHtml = "";
     if (parentDivId == "my-projects") {
         if (project.public !== null) {
-            publicHtml += (project.public === true) ?
-                "<span data-i18n='[html]code.popups.openProject.categories.public' class= 'ms-1 me-1' style='font-size:11px; font-weight:normal;'>&nbsp;Public</span><span><i class='fa fa-globe' style='font-size: 11px;'></i></span>" :
-                "<span data-i18n='[html]code.popups.openProject.categories.private' class= 'ms-1 me-1' style='font-size:11px; font-weight:normal;'>Privée</span><span><i class='fa fa-lock' style='font-size: 11px;'></i></span>";
+            badgeHtml += (project.public === true) ?
+                "<span class='project-badge' data-i18n='[html]code.popups.openProject.categories.public'><i class='fa fa-globe' aria-hidden='true'></i>&nbsp;Public</span>" :
+                "<span class='project-badge' data-i18n='[html]code.popups.openProject.categories.private'><i class='fa fa-lock' aria-hidden='true'></i>&nbsp;Privée</span>";
         }
-        htmlString += '<div style="flex:1; justify-content:center; align-items:center; align-content:center;">';
     } else {
         let authorFullname;
         if (project.authorFullname) {
@@ -1598,23 +1743,31 @@ function _generateProjectDiv(project, parentDivId) {
             ? `/userDetails?id=${project.authorId}`
             : '#'
 
-        publicHtml += `<span data-i18n="[html]code.popups.openProject.categories.sharedBy" data-i18n-options=\'{"authorName": "${authorFullname}", "authorLink": "${userLink}" }\' style='font-size:11px; font-weight:normal;'>&nbsp;Partagé par <a href="${userLink}" target="_blank"> ${authorFullname}</a></span>`;
-        htmlString += '<div style="flex:1; justify-content:space-between" display:flex; class="ide-modal-sharedproject-item">';
+        authorHtml = `<span class="project-author" data-i18n="[html]code.popups.openProject.categories.sharedBy" data-i18n-options='{"authorName": "${authorFullname}", "authorLink": "${userLink}" }'>&nbsp;Partagé par <a href="${userLink}" target="_blank"> ${authorFullname}</a></span>`;
     }
-    htmlString +=
-        `<b class="project-info">
-        <span class="fa fa-code"></span> 
-        <span class="project-name">${name}</span>`;
-    htmlString += publicHtml;
-    htmlString += `</b><span class="project-date">${dateUpdatedAsText}</span></div>`;
-    htmlString += '<div>';
-    htmlString += '<button style="font-size:10px;" data-i18n="[html]code.popups.openProject.categories.projectsList.buttons.open" class="btn vitta-button me-1" onclick=openProject(\'' + project.link + '\')>Ouvrir<span class="fa fa-arrow-circle-right"></span></button>';
-    htmlString += '<button style="font-size:10px;" data-i18n="[html]code.popups.openProject.categories.projectsList.buttons.shared" class="btn vitta-button me-1" id="btn_share" onclick=shareProject("' + project.link + '")>Partager <span class="fa fa-link"></span></button>';
-    htmlString += '<button style="font-size:10px;" data-i18n="[html]code.popups.openProject.categories.projectsList.buttons.embed" class="btn vitta-button me-1" id="btn_integer" onclick=integerProject("' + project.link + '")>Intégrer <span class="fa fa-code"></span></button>';
-    if (parentDivId == "my-projects") {
-        htmlString += '<button style="font-size:10px;" data-i18n="[html]code.popups.openProject.categories.projectsList.buttons.delete" class="btn btn-danger" onclick=deleteProject("' + project.link + '")>Supprimer <span class="fas fa-trash"></span></button>';
-    }
-    htmlString += '</div>';
+
+    const categoryTag = project.exampleCategory
+        ? `<span class="project-tag"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;${i18next.t('modals.standard.open.content.exampleCategories.' + project.exampleCategory)}</span>`
+        : '';
+
+    let htmlString = `
+        <div class="project-thumb" aria-hidden="true"><i class="fa fa-code"></i></div>
+        <div class="project-body">
+            <b class="project-info">
+                <span class="project-name">${name}</span>
+                ${badgeHtml}
+                ${categoryTag}
+            </b>
+            <span class="project-date">${dateUpdatedAsText}</span>
+            ${authorHtml}
+        </div>
+        <div class="project-actions">
+            <button data-i18n="[html]code.popups.openProject.categories.projectsList.buttons.open" class="btn vitta-button" onclick=openProject('${project.link}')>Ouvrir<span class="fa fa-arrow-circle-right"></span></button>
+            <button data-i18n="[html]code.popups.openProject.categories.projectsList.buttons.shared" class="btn vitta-button" id="btn_share" onclick=shareProject("${project.link}")>Partager <span class="fa fa-link"></span></button>
+            <button data-i18n="[html]code.popups.openProject.categories.projectsList.buttons.embed" class="btn vitta-button" id="btn_integer" onclick=integerProject("${project.link}")>Intégrer <span class="fa fa-code"></span></button>
+            ${parentDivId == "my-projects" ? `<button data-i18n="[html]code.popups.openProject.categories.projectsList.buttons.delete" class="btn btn-danger" onclick=deleteProject("${project.link}")>Supprimer <span class="fas fa-trash"></span></button>` : ''}
+        </div>
+    `;
 
     projectDiv.html(htmlString);
 
@@ -2097,7 +2250,7 @@ async function addToClipboard(blob) {
         const data = [new ClipboardItem({ [blob.type]: blob })];
         await navigator.clipboard.write(data);
         const successNotif = new VittaNotif()
-        successNotif.displayNotification('#qr-action-notif', 'Le QR code a été copié avec succès', 'bg-success')
+        successNotif.displayNotification('#qr-action-notif', i18next.t('modals.standard.share.content.qrcode.successCopy'), 'bg-success')
     } catch (error) {
         console.error(error);
     }

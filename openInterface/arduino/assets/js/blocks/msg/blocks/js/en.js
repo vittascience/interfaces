@@ -3,6 +3,7 @@
  */
 
 'use strict';
+
 //COMMENT - Arduino
 Blockly.Msg['CALL_EXPRESSION_COMMENT_TITLE'] = 'comment %1';
 Blockly.Msg['CALL_EXPRESSION_COMMENT_TOOLTIP'] = 'This block allows you to add a comment to your code.';
@@ -227,6 +228,7 @@ Blockly.Msg["COMMUNICATION_BLUETOOTH_SETTINGS_TITLE"] = "[Grove BT] set name %1 
 Blockly.Msg["COMMUNICATION_BLUETOOTH_SETTINGS_TOOLTIP"] = IMG_MODULE_GROVE_BT + Blockly.Tooltip.SEP + "Enable to set 3 parameters (name, mode 'S' for slave or 'M' for master, and pin code) of serial bluetooth module.";
 Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_SET_AT_COMMAND_TITLE'] = '[Grove BT] AT - change parameter %1 to %2';
 Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_SET_AT_COMMAND_TOOLTIP'] = IMG_MODULE_GROVE_BT + Blockly.Tooltip.SEP + 'Allows you to change the Grove Serial Bluetooth v3 module\'s parameters by sending an AT command. Once the parameter is changed, it is no longer necessary to return to this mode because it is stored in the module\'s memory.';
+Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_ATBAUD_HELPER'] = '\n.\nTo change the baud rate, use the corresponding number in the following table. Once the command has been sent, reset the Arduino board by pressing the Reset button to apply the new base rate.\n';
 Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_GET_AT_COMMAND_TITLE'] = '[Grove BT] AT - parameter value %1';
 Blockly.Msg['COMMUNICATION_GROVE_BLUETOOTH_GET_AT_COMMAND_TOOLTIP'] = IMG_MODULE_GROVE_BT + Blockly.Tooltip.SEP + 'Retrieves the Grove Serial Bluetooth v3 module parameter values ​​by sending an AT command.';
 Blockly.Msg["COMMUNICATION_GROVE_BLUETOOTH_SENDDATA_TITLE"] = "[Grove BT] send message %1";
@@ -513,6 +515,14 @@ Blockly.Msg["ACTUATORS_MC33926_MOTOR_SHIELD_SETSPEED_TITLE"] = "[MC33926 Motor S
 Blockly.Msg["ACTUATORS_MC33926_MOTOR_SHIELD_SETSPEED_TOOLTIP"] = IMG_MODULE_MC33926_SHIELD_MOTOR + Blockly.Tooltip.SEP + "Enable to control speed (from 0 to 400) of DC motors plugged on Dual MC33926 Shield Motor.";
 Blockly.Msg["ACTUATORS_MC33926_MOTOR_SHIELD_GETCURRENT_TITLE"] = "[MC33926 Motor Shield] get current (mA) from motor %1";
 Blockly.Msg["ACTUATORS_MC33926_MOTOR_SHIELD_GETCURRENT_TOOLTIP"] = IMG_MODULE_MC33926_SHIELD_MOTOR + Blockly.Tooltip.SEP + "Enable to get current (in mA) from DC motors plugged on Dual MC33926 Shield Motor.";
+Blockly.Msg["ACTUATORS_TB6612FNG_MOTOR_DRIVER_DCMOTORRUN_TITLE"] = "[TB6612FNG Driver] control DC motor channel %1 speed %2 direction %3";
+Blockly.Msg["ACTUATORS_TB6612FNG_MOTOR_DRIVER_DCMOTORRUN_TOOLTIP"] = "Allows controlling a DC motor connected on channel A or B of the TB6612FNG motor driver.";
+Blockly.Msg["ACTUATORS_TB6612FNG_MOTOR_DRIVER_DCMOTORBRAKE_TITLE"] = "[TB6612FNG Motor Driver] stop DC motor channel %1";
+Blockly.Msg["ACTUATORS_TB6612FNG_MOTOR_DRIVER_DCMOTORBRAKE_TOOLTIP"] = "Allows braking the DC motor connected on channel A or B of the TB6612FNG motor driver.";
+Blockly.Msg["ACTUATORS_TB6612FNG_MOTOR_DRIVER_STEPPERRUN_TITLE"] = "[TB6612FNG Motor Driver] stepper mode %1 steps %2 speed %3 (rpm)";
+Blockly.Msg["ACTUATORS_TB6612FNG_MOTOR_DRIVER_STEPPERRUN_TOOLTIP"] = "Allows controlling a stepper motor with the TB6612FNG motor driver by setting mode, steps and speed in rpm.";
+Blockly.Msg["ACTUATORS_TB6612FNG_MOTOR_DRIVER_STEPPERSTOP_TITLE"] = "[TB6612FNG Motor Driver] stop stepper motor";
+Blockly.Msg["ACTUATORS_TB6612FNG_MOTOR_DRIVER_STEPPERSTOP_TOOLTIP"] = "Allows stopping the stepper motor driven by the TB6612FNG motor driver.";
 Blockly.Msg["ACTUATORS_GROVEVIBRATIONMOTOR_CONTROL_TITLE"] = "[Vibration motor] control state to %1 on pin %2";
 Blockly.Msg["ACTUATORS_GROVEVIBRATIONMOTOR_CONTROL_TOOLTIP"] = IMG_MODULE_VIBRATION_MOTOR + Blockly.Tooltip.SEP + "Enable to control state of grove vibration motor (HIGH or LOW) on digitals pins D0 up through D13.";
 Blockly.Msg["ACTUATORS_GROVERELAY_CONTROL_TITLE"] = "[Relay module] control state to %1 on pin %2";

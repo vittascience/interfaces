@@ -49,3 +49,8 @@ Blockly.Python.Generators.pwm = function (pin, codeFlag, freq = 50, duty = 0) {
   return pinName;
 };
 
+Blockly.Python.Generators.default_I2C = function () {
+  Blockly.Python.addImport('machine', IMPORT_MACHINE);
+  return "I2C(scl=Pin(22), sda=Pin(21))";
+};
+

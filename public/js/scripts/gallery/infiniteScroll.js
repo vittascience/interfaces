@@ -166,10 +166,10 @@ function appendItems(res) {
         if (srcType !== false && srcType !== 'mp4') {
             let srcThumbnail = getThumbnail(element[1], srcType);
             let srcMedium = getMedium(element[1], srcType);
-            let html = '<div class="grid-item" style="display:none; opacity:0;" data-expid="' + element[0] + '" data-conid="' + element[2] + '">' +
+            let html = '<div class="grid-item" style="display:none; opacity:0;" data-expid="' + element[0] + '" data-conid="' + element[2] + '" tabindex="0" role="button" aria-label="' + i18next.t('gallery.viewImage') + '">' +
                 '<div class="grid-item-content hovereffect">';
             if (srcType == 'jpeg') {
-                html += '<img class="lazyload" data-fullsrc="/public/content/user_data/exp_img/' + element[1] + '" data-src="/public/content/user_data/exp_img/' + srcMedium + '" src="/public/content/user_data/exp_img/' + srcThumbnail + '" alt="photo"/>'
+                html += '<img class="lazyload" data-fullsrc="' + VS_USER_DATA_BASE + '/exp_img/' + element[1] + '" data-src="' + VS_USER_DATA_BASE + '/exp_img/' + srcMedium + '" src="' + VS_USER_DATA_BASE + '/exp_img/' + srcThumbnail + '" alt="photo"/>'
             }
             html += '<div class="overlay">' +
                 '<div class="overlay-content"><div style="position:absolute;bottom:0;margin-left:10px;">';
@@ -192,11 +192,17 @@ function appendItems(res) {
         isLoading = false;
     });
     $('.grid-item').on('click', function () {
+        lastFocusedItem = this;
         let picFull = $(this).find('img').data('fullsrc');
         let expId = $(this).data('expid');
         let conId = $(this).data('conid');
         let likes = $(this).find('.overlay-nbr-likes').html();
         openDiapo(expId, picFull, conId, likes);
+    }).on('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            $(this).trigger('click');
+        }
     });
     $('.overlay-like').on('click', function (e) {
         e.stopPropagation();

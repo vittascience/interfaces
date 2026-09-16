@@ -630,6 +630,49 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 
     /** Begin Other sensors blocks */
 
+    // GROVE MLX90621 INFRARED THERMOMETER _ READ TEMPERATURE (I2C)
+    {
+        "type": "sensors_getMlx90621Temperature",
+        "message0": "%{BKY_SENSORS_MLX90621_READTEMPERATURE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "DATA_TYPE",
+            "options": [
+                ["%{BKY_SENSORS_MLX90621_INT_TYPE}", "int"],
+                ["%{BKY_SENSORS_MLX90621_FLOAT_TYPE}", "float"]
+            ]
+        }],
+        "output": "Array",
+        "tooltip": "%{BKY_SENSORS_MLX90621_READTEMPERATURE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // GROVE MLX90621 INFRARED THERMOMETER _ TEMP DATA MIN,MAX AND AVG (I2C)
+    {
+        "type": "sensors_getMlx90621TempData",
+        "message0": "%{BKY_SENSORS_MLX90621_GETTEMPDATA_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "DATA_TYPE",
+            "options": [
+                ["%{BKY_SENSORS_MLX90621_TEMP_MIN}", "min"],
+                ["%{BKY_SENSORS_MLX90621_TEMP_MAX}", "max"],
+                ["%{BKY_SENSORS_MLX90621_TEMP_AVG}", "avg"]
+            ]
+        }],
+        "output": "Array",
+        "tooltip": "%{BKY_SENSORS_MLX90621_GETTEMPDATA_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
     // GROVE FSR402 SENSOR _ GET FORCE
     {
         "type": "sensors_getFsr402Force",

@@ -316,9 +316,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'io_digital_signal',
                 'io_readDigitalPin',
                 'io_writeDigitalPin',
-                // 'io_readAnalogPin',
                 'io_writePwm',
-                // 'io_writeAnalogPin',
                 'io_setPwm',
                 'io_stopPwm',
                 'io_getVoltage'

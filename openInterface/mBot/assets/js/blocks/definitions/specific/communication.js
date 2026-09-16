@@ -61,7 +61,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "args0": [{
       "type": "input_value",
       "name": "NUMBER",
-      "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+      "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
     }, {
       "type": "field_grid_dropdown",
       "name": "TYPE",
@@ -130,7 +130,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     }, {
       "type": "input_value",
       "name": "DATA",
-      "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+      "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
     }],
     "output": "Number",
     "inputsInline": true,
@@ -179,7 +179,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "args0": [{
       "type": "input_value",
       "name": "FREQUENCY",
-      "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+      "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
     }],
     "inputsInline": true,
     "previousStatement": null,

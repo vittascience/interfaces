@@ -347,7 +347,7 @@ const shutdownCommand = () => {
  * @returns {string} - the final function to be executed on the NAO robot
  * **/
 const parseCode = () => {
-	const tsParsedCode = Python2Blocks.parseCode();
+	const tsParsedCode = Python2Blocks.parseCode(true);
 	const functions = [];
 	const imports = [];
 	const mainBody = [];

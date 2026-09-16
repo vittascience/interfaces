@@ -151,19 +151,8 @@ Blockly.Python.communication_onRadioValueReceived = function (block) {
 };
 
 Blockly.Python.communication_radioConfig = function (block) {
-    var canal = Blockly.Python.valueToCode(block, "CANAL", Blockly.Python.ORDER_NONE) || "0";
-    if (canal > 83) canal = 83;
-    if (canal < 0) canal = 0;
-    var power = Blockly.Python.valueToCode(block, "POWER", Blockly.Python.ORDER_NONE) || "0";
-    if (power > 7) power = 7;
-    if (power < 0) power = 0;
-    var len = Blockly.Python.valueToCode(block, "LEN", Blockly.Python.ORDER_NONE) || "0";
-    if (len > 251) len = 251;
-    if (len < 0) len = 0;
-    var group = Blockly.Python.valueToCode(block, "GROUP", Blockly.Python.ORDER_NONE) || "0";
-    if (group > 255) group = 255;
-    if (group < 0) group = 0;
-    return "radio.config(channel = " + canal + ", power = " + power + ", length = " + len + ", group=" + group + ")" + NEWLINE;
+    const canal = Blockly.Python.valueToCode(block, "CANAL", Blockly.Python.ORDER_NONE) || "0";
+    return "radio.set_channel(" + canal + ")" + NEWLINE;
 };
 
 // Data logging

@@ -113,23 +113,63 @@ class ProjectManagerUser extends ProjectManager {
         });
     };
 
+    _syncProjectDateUpdated(project) {
+        if (!project || !project.dateUpdated) {
+            return;
+        }
+        this._currentProject.dateUpdated = project.dateUpdated;
+        const index = this._myProjects.findIndex((myProject) => myProject.id === this._currentProject.id);
+        if (index !== -1) {
+            this._myProjects[index].dateUpdated = project.dateUpdated;
+        }
+    };
+
+    _handleUpdateConflict(error) {
+        let serverProject = null;
+        try {
+            serverProject = JSON.parse(error.responseText).serverProject;
+        } catch (parsingError) {
+            serverProject = null;
+        }
+        this._syncProjectDateUpdated(serverProject);
+        this._ajaxLocked = false;
+        const message = i18next.t('notifications.projectSaveConflict', {
+            defaultValue: 'Your project has NOT been saved: it was modified elsewhere. Save again to overwrite the version stored on the server.'
+        });
+        if (typeof VittaNotif !== 'undefined') {
+            new VittaNotif().displayNotification(null, message, 'bg-danger');
+        } else if (typeof displayNotification !== 'undefined') {
+            displayNotification('#notif-div', message, 'error');
+        } else {
+            alert(message);
+        }
+    };
+
     uploadProjectUpdate(container) {
         return new Promise((resolve, reject) => {
             const callback = (response) => {
-                this._currentProject = response;
-                const projectAlreadyExists = this.getProjectAlreadyExistLocally(response);
-                if (!projectAlreadyExists) {
-                    this._myProjects.push(response);
+                const responseProject = {
+                    ...response,
+                    exerciseStatement: typeof response.exerciseStatement !== 'undefined'
+                        ? response.exerciseStatement
+                        : container._currentProject.exerciseStatement
+                };
+                this._currentProject = responseProject;
+                const existingProjectIndex = this._myProjects.findIndex((project) => project.id === responseProject.id);
+                if (existingProjectIndex === -1) {
+                    this._myProjects.push(responseProject);
+                } else {
+                    this._myProjects[existingProjectIndex] = responseProject;
                 }
                 if (typeof Main !== 'undefined' && Main.inIframe()) {
-                    window.localStorage.saveProject = JSON.stringify(response)
+                    window.localStorage.saveProject = JSON.stringify(responseProject)
                 }
                 if (INTERFACE_NAME == 'adacraft') {
-                    this.localStorageManager.setLocalProject(response);
+                    this.localStorageManager.setLocalProject(responseProject);
                 } else if (INTERFACE_NAME === 'ai') {
-                    this.localStorageManager.setLocalProject(response);
+                    this.localStorageManager.setLocalProject(responseProject);
                 } else {
-                    this.localStorageManager.setLocalProject(response);
+                    this.localStorageManager.setLocalProject(responseProject);
                 }
                 this._ajaxLocked = false;
             };
@@ -145,15 +185,21 @@ class ProjectManagerUser extends ProjectManager {
                 success: function (response) {
                     if (INTERFACE_NAME == 'adacraft') {
                         window.localStorage[CodeManager.getSharedInstance()._lStorage] = JSON.stringify(response);
-                        adacraft.askLoadingOfProjectById(container._currentProject.link)
+                        container._syncProjectDateUpdated(response);
+                        adacraft.askLoadingOfProjectById(container._currentProject.link);
+                        container._ajaxLocked = false;
                     } else {
                         callback(response);
                     }
                     return resolve(response);
                 },
                 error: function (error) {
+                    if (error.status === 409) {
+                        container._handleUpdateConflict(error);
+                        return reject(error);
+                    }
                     new VittaControllerNotif().manageError(error, this);
-                    reject();
+                    reject(error);
                 }
             });
         });

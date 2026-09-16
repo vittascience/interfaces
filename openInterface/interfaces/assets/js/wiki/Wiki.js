@@ -23,9 +23,9 @@ Blockly.Wiki.init = async function (categoryId) {
         Blockly.Wiki.blocker = new VittaBlocker(undefined, '#wiki-content', undefined, `${CDN_PATH}/public/content/img/loader.gif`);
     }
     // Ace editor color syntax
-    Blockly.Wiki.inoInterfaces = ["arduino", "mBot"];
+    Blockly.Wiki.inoInterfaces = ["arduino", "mBot", "arduinoq"];
     Blockly.Wiki.language = (Blockly.Wiki.inoInterfaces.includes(INTERFACE_NAME) ? "c_cpp" : "python");
-    await Blockly.Wiki.showCategoryContent();
+    Blockly.Wiki.showCategoryContent();
 
     if (window.location.hash) {
         const blockType = window.location.hash.substring(1).replace("Div-container", "");
@@ -33,7 +33,7 @@ Blockly.Wiki.init = async function (categoryId) {
         if (subCatId) {
             await sleep_ms(500)
             Blockly.Wiki.changeCategory(subCatId);
-            await Blockly.Wiki.showCategoryContent();
+            Blockly.Wiki.showCategoryContent();
         }
     }
 
@@ -588,34 +588,23 @@ Blockly.Wiki.renderCachedBlockFast = function (cachedBlock, blockType, loadingId
 };
 
 // Fonction pour charger les blocs par batch
-Blockly.Wiki.loadBlocksBatch = async function (blockTypes, searchMode = false, loadingId = null, batchSize = 5) {
-    let loadedBlocks = 0;
-
-    const yieldToBrowser = async () => {
-        // 1 frame minimum pour laisser le browser peindre
-        await new Promise(r => requestAnimationFrame(r));
-    };
-
-    await yieldToBrowser();
-
+Blockly.Wiki.loadBlocksBatch = async function (blockTypes, searchMode = false, loadingId = null, batchSize = 3) {
     for (let i = 0; i < blockTypes.length; i += batchSize) {
         if (loadingId && Blockly.Wiki.currentLoadingId !== loadingId) return;
 
         const batch = blockTypes.slice(i, i + batchSize);
 
-        // Charge le batch (DOM lourd)
-        await Promise.all(batch.map(blockType => Blockly.Wiki.loadBlock(blockType, searchMode, loadingId)));
+        // Charger le batch avec try/catch pour éviter crash
+        await Promise.all(batch.map(async blockType => {
+            try {
+                await Blockly.Wiki.loadBlock(blockType, searchMode, loadingId);
+            } catch (e) {
+                console.warn('Erreur chargement block', blockType, e);
+            }
+        }));
 
-        loadedBlocks += batch.length;
-        await yieldToBrowser();
-
-        // Petit délai seulement si pas full cache (optionnel)
-        const currentCategory = searchMode ? '' : getParamValue('category');
-        const allCached = batch.every(blockType => Blockly.Wiki.blockCache.has(`${currentCategory}_${blockType}`));
-        if (!allCached) {
-            await new Promise(r => setTimeout(r, 5));
-            await yieldToBrowser();
-        }
+        // Laisser le navigateur respirer
+        await new Promise(r => requestAnimationFrame(r));
     }
 };
 
@@ -632,7 +621,6 @@ Blockly.Wiki.getCategoryName = function (categoryName) {
 Blockly.Wiki.createCat = function (category, parentCat = null) {
     const radio = document.createElement("input");
     const label = document.createElement("label");
-    // Add the name, type, value and classes
     radio.type = "radio";
     radio.name = "category";
     radio.value = category.toolboxitemid;
@@ -646,12 +634,15 @@ Blockly.Wiki.createCat = function (category, parentCat = null) {
     // Replace "_category" by "_blocks" to find the block style 
     // thus: "display_category" becomes "display_blocks"
     const categoryStyle = category.style.replace("_category", "_blocks");
-    label.style.setProperty("--_color", Blockly.Wiki.toolbox.theme[categoryStyle]["colourPrimary"]);
+    const themeStyle = Blockly.Wiki.toolbox.theme[categoryStyle]
+        || Blockly.Wiki.toolbox.theme[category.style]
+        || { colourPrimary: '#5b80a5' };
+    label.style.setProperty("--_color", themeStyle.colourPrimary);
     if (parentCat) {
         label.style.setProperty("display", 'none');
     }
     // also add it to the body as a variable so that we can use it in the CSS
-    document.body.style.setProperty("--_current-color", Blockly.Wiki.toolbox.theme[categoryStyle]["colourPrimary"]);
+    document.body.style.setProperty("--_current-color", themeStyle.colourPrimary);
     // check if the category exists in the TOOLBOXES_SVGS variable
     if (typeof TOOLBOXES_SVGS !== 'undefined' && Object.keys(TOOLBOXES_SVGS).includes(category.style)) {
         // if it does, add the SVG to the label
@@ -659,12 +650,11 @@ Blockly.Wiki.createCat = function (category, parentCat = null) {
     } else if (parentCat && typeof TOOLBOXES_SVGS !== 'undefined' && Object.keys(TOOLBOXES_SVGS).includes(category.toolboxitemid + '_subcategory')) {
         label.innerHTML += `<i>${TOOLBOXES_SVGS[category.toolboxitemid + '_subcategory']}</i>`;
     } else {
-        const categoryIcon = category.cssConfig.icon;
-        label.innerHTML += `<i class="${categoryIcon}"></i>`;
+        const categoryIcon = category.cssConfig?.icon;
+        if (categoryIcon) label.innerHTML += `<i class="${categoryIcon}"></i>`;
     }
 
     label.innerHTML += Blockly.Wiki.getCategoryName(category.name);
-    // Put the radio into the label, into the container, into the selector
     label.appendChild(radio);
     return label;
 };
@@ -700,11 +690,11 @@ Blockly.Wiki.createCategories = function () {
             radio.addEventListener('click', async function () {
                 if (Blockly.Wiki.currentCategoryShow !== this.value) {
                     Blockly.Wiki.setUrlParameters('subcategory', null);
-                    await Blockly.Wiki.showCategoryContent();
+                    Blockly.Wiki.showCategoryContent();
                 } else {
                     if (Blockly.Wiki.toolbox.subcategories && Blockly.Wiki.toolbox.subcategories[Blockly.Wiki.currentCategoryShow]) {
                         Blockly.Wiki.setUrlParameters('subcategory', null);
-                        await Blockly.Wiki.showCategoryContent();
+                        Blockly.Wiki.showCategoryContent();
                     }
                 }
             });
@@ -713,7 +703,6 @@ Blockly.Wiki.createCategories = function () {
 };
 
 Blockly.Wiki.showCategoryContent = function () {
-    return new Promise(async (resolve, reject) => {
         try {
             const loadingId = Date.now() + Math.random();
             Blockly.Wiki.currentLoadingId = loadingId;
@@ -759,7 +748,7 @@ Blockly.Wiki.showCategoryContent = function () {
                     cat.style.display = cat.style.display == "none" ? "block" : "none";
                 }
                 Blockly.Wiki.isLoading = false;
-                resolve();
+                return;
             } else {
                 // Collecter tous les blocs à charger
                 let allBlocks = [];
@@ -803,22 +792,19 @@ Blockly.Wiki.showCategoryContent = function () {
                 if (categoryInCache) {
                     // Chargement depuis le cache - batch size plus grand
                     console.log('Loading from cache for category:', radio.value);
-                    await Blockly.Wiki.loadBlocksBatch(allBlocks, false, loadingId, 15); // 15 blocs à la fois depuis le cache
+                    Blockly.Wiki.loadBlocksBatch(allBlocks, false, loadingId, 15); // 15 blocs à la fois depuis le cache
                 } else {
                     // Chargement normal
                     console.log('Loading fresh data for category:', radio.value);
-                    await Blockly.Wiki.loadBlocksBatch(allBlocks, false, loadingId, 5);
+                    Blockly.Wiki.loadBlocksBatch(allBlocks, false, loadingId, 5);
                 }
 
                 Blockly.Wiki.isLoading = false;
-                resolve();
             }
         } catch (error) {
             Blockly.Wiki.isLoading = false;
-            reject();
             console.error(error);
         }
-    });
 };
 
 Blockly.Wiki.getSubCat = function (blockType) {

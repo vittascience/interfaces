@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const articleHTML = `
                         <div class="row ${index % 2 === 0 ? "" : "flex-row-reverse"}">
                             <div class="col-12 col-md-6 d-flex justify-content-center align-items-center">
-                                <img src="/public/content/user_data/kit_media/images/${article.image}" alt="Image ${article.image}" class="img-fluid rounded w-75">
+                                <img src="${VS_USER_DATA_BASE}/kit_media/images/${article.image}" alt="Image ${article.image}" class="img-fluid rounded w-75">
                             </div>
                             <div class="col-12 col-md-6 d-flex flex-column justify-content-between align-items-start">
                                 <div class="d-flex flex-column">
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <div class="d-flex flex-column flex-grow-1 mx-4">
                                 <p class="mb-0 fw-bold">${article.content}</p>
                             </div>
-                            <a href="/public/content/user_data/kit_media/pdf/${article.pdf}" target="_blank" class="btn btn-sm btn-primary">Accéder</a>
+                            <a href="${VS_USER_DATA_BASE}/kit_media/pdf/${article.pdf}" target="_blank" class="btn btn-sm btn-primary">Accéder</a>
                         </div>
                         <hr>
                     `;

@@ -6,7 +6,10 @@
     <meta charset="utf-8" />
     <!-- ©️ Copyright Vittascience  -->
     <script>const CDN_PATH = ''</script>
+    <script>const VS_USER_DATA_BASE = <?= json_encode(\Utils\UserDataUrl::base()) ?>;</script>
+    <script>const VS_PRODUCT_DATA_BASE = <?= json_encode(\Shop\ProductDataUrl::base()) ?>;</script>
     <script>const IS_CAPYTALE_CONTEXT = true;</script>
+    
     <!-- Matomo Analytics -->
     <script>
         function initializeMatomo() {
@@ -32,10 +35,11 @@
         }
         setTimeout(() => {
             initializeMatomo();
-        }, 2000); 
+        }, 2000);
         // wait for the user to be loaded
     </script>
     <!-- End Matomo Code -->
+    
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Security-Policy" content="">
     <link rel="icon" href="/public/content/img/favicon.png">
@@ -404,7 +408,6 @@
 <script src="/openInterface/web/assets/js/blocks/definitions/constants.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/js-beautify.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/jszip.js"></script>
-
 
 <!-- Trad html/css -->
 <script src="/openInterface/web/assets/js/blocks/codeToBlocks.js"></script>

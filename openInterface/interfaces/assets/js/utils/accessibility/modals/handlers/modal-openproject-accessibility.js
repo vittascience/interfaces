@@ -1,60 +1,43 @@
 import { registerModalAccessibility } from "../registry.js";
 
 function bindEditProjectModal(modal) {
-    const collapseButtons = modal.querySelectorAll('[data-bs-toggle="collapse"]');
-    collapseButtons.forEach((button) => {
-        const targetId = button.getAttribute('data-bs-target').replace('#', '');
+    const tabButtons = modal.querySelectorAll('.openproject-tab-btn[data-tab-target]');
+    tabButtons.forEach((button) => {
+        const targetId = button.getAttribute('data-tab-target');
         const targetElement = document.getElementById(targetId);
 
         if (targetElement) {
-            const handleCollapseShown = () => {
+            const handleTabShown = () => {
                 const firstFocusable = targetElement.querySelector('input, button, [tabindex]:not([tabindex="-1"])');
                 if (firstFocusable) {
                     firstFocusable.focus();
                 }
             }
 
-            const handleCollapseHidden = () => {
-                button.focus();
+            const handleClick = () => {
+                requestAnimationFrame(handleTabShown);
             }
 
-            targetElement.addEventListener('shown.bs.collapse', handleCollapseShown);
-            targetElement.addEventListener('hidden.bs.collapse', handleCollapseHidden);
-
-            button._collapseHandlers = { handleCollapseShown, handleCollapseHidden };
+            button.addEventListener('click', handleClick);
+            button._tabHandlers = { handleClick };
 
             if (targetElement.querySelector('#importproject-fileinput')) {
                 bindFileImportAccessibility(modal, targetElement);
             }
         }
-
-        const handleKeydown = (event) => {
-            if (event.key === 'Enter') {
-                button.click();
-            }
-        }
-
-        button.addEventListener('keydown', handleKeydown);
-        button._keydownHandler = handleKeydown;
     });
 }
 
 function unbindEditProjectModal(modal) {
-    const collapseButtons = modal.querySelectorAll('[data-bs-toggle="collapse"]');
+    const tabButtons = modal.querySelectorAll('.openproject-tab-btn[data-tab-target]');
 
-    collapseButtons.forEach((button) => {
-        const targetId = button.getAttribute('data-bs-target').replace('#', '');
+    tabButtons.forEach((button) => {
+        const targetId = button.getAttribute('data-tab-target');
         const targetElement = document.getElementById(targetId);
 
-        if (targetElement && button._collapseHandlers) {
-            targetElement.removeEventListener('shown.bs.collapse', button._collapseHandlers.handleCollapseShown);
-            targetElement.removeEventListener('hidden.bs.collapse', button._collapseHandlers.handleCollapseHidden);
-            delete button._collapseHandlers;
-        }
-
-        if (button._keydownHandler) {
-            button.removeEventListener('keydown', button._keydownHandler);
-            delete button._keydownHandler;
+        if (button._tabHandlers) {
+            button.removeEventListener('click', button._tabHandlers.handleClick);
+            delete button._tabHandlers;
         }
 
         if (targetElement && targetElement.querySelector('#importproject-fileinput')) {

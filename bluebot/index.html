@@ -6,7 +6,10 @@
     <meta charset="utf-8" />
     <!-- ©️ Copyright Vittascience  -->
     <script>const CDN_PATH = ''</script>
+    <script>const VS_USER_DATA_BASE = <?= json_encode(\Utils\UserDataUrl::base()) ?>;</script>
+    <script>const VS_PRODUCT_DATA_BASE = <?= json_encode(\Shop\ProductDataUrl::base()) ?>;</script>
     <script>const IS_CAPYTALE_CONTEXT = true;</script>
+    
     <!-- Matomo Analytics -->
     <script>
         function initializeMatomo() {
@@ -32,10 +35,11 @@
         }
         setTimeout(() => {
             initializeMatomo();
-        }, 2000); 
+        }, 2000);
         // wait for the user to be loaded
     </script>
     <!-- End Matomo Code -->
+    
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Security-Policy" content="">
     <link rel="icon" href="/public/content/img/favicon.png">
@@ -367,11 +371,7 @@
         <div class="ide-simulator">
             <div id="simulator">
                 <div id="headerOut">
-                    <div class="simulator-board-buttons">
-                        <button id="simulator-board-toggler" class="btn simulator-button-circle" type="button" onclick="Simulator.toggleBoardDisplay()" aria-label="Toggle board display" data-i18n="[aria-label]code.simulator.buttons.base.toggleBoardDisplay">
-                            <i class="fa-solid fa-minus simulator-buttons-icon"></i>
-                        </button>
-                    </div>
+                    <div class="simulator-board-buttons"></div>
                     <span id="title-board" style="display: none;">bluebot</span>
                     <div id="board-container">
                         <object id="board-viewer" class="mt-3" type="image/svg+xml" role="img" aria-label="Board simulator view"></object>

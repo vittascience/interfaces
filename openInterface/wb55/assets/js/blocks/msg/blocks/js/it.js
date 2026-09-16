@@ -1,5 +1,5 @@
 /**
- * @fileoverview English messages for STM32. (EN)
+ * @fileoverview Italian messages for STM32. (IT)
  */
 'use strict';
 // Notes
@@ -157,6 +157,8 @@ Blockly.Msg['IO_SETPWM_TITLE'] = 'applica un segnale di onda quadra %1 (Hz) sul 
 Blockly.Msg['IO_SETPWM_TOOLTIP'] = 'Permette di applicare un segnale di onda quadra (PWM) con ciclo impostato sul 50% su un pin. Questo blocco permette di cambiare la frequenza del segnale.';
 Blockly.Msg['IO_STOPPWM_TITLE'] = 'interrompi il segnale PWM del pin %1';
 Blockly.Msg['IO_STOPPWM_TOOLTIP'] = 'Permette di interrompere il segnale PWM applicato su un pin.';
+Blockly.Msg["IO_READPULSEIN_TITLE"] = 'leggi l\'impulso (μs) dello stato %1 sul pin %2';
+Blockly.Msg["IO_READPULSEIN_TOOLTIP"] = 'Restituisce la durata dell\'impulso in ingresso. Scegli lo stato (ALTO o BASSO)';
 Blockly.Msg['IO_GETVOLTAGE_TITLE'] = 'converti %1 su %2 in tensione';
 Blockly.Msg['IO_GETVOLTAGE_TOOLTIP'] = 'Permette di convertire un valore analogico in una tensione, con risoluzione (12-bit: 4096 o 16-bit: 65536) e fino a un massimo di 3,3 V.';
 Blockly.Msg['IO_GETVOLTAGE_12BIT'] = '12 bit';

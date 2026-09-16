@@ -54,9 +54,7 @@ Simulator.Mosaic.externalLibraries = {
 
 Simulator.Mosaic.addSpecificInitializations = async function () {
     await Simulator.waitBoardViewer();
-    console.log("Hey")
     const board = document.getElementById("board-viewer").contentDocument;
-    console.log(board)
     if (board !== null) {
         const up = 'translate(0px, -3px)',
             down = 'translate(0px, 0px)';
@@ -71,7 +69,6 @@ Simulator.Mosaic.addSpecificInitializations = async function () {
         // STM32 switches SW1, SW2 , SW3 & SW4
         for (let i = 1; i < 5; i++) {
             let button = board.querySelector("#SW" + i + "_BTN");
-            console.log(button)
             if (button != null) {
                 button.addEventListener("mousedown", function () {
                     playButtonAnimation(this.id, down);

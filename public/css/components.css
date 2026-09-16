@@ -303,6 +303,7 @@
     --vitta-orange-light: #ff9403;
     --vitta-orange-light-rgb: 255, 148, 3;
     --vitta-orange-light-focus-shadow: #ff940380;
+    --vitta-orange-light-transparent: #fc731720;
 
     /* Yellow */
     --vitta-yellow: #f9d142;
@@ -385,6 +386,7 @@
     --vitta-orange-light: #ff9403;
     --vitta-orange-light-rgb: 255, 148, 3;
     --vitta-orange-light-focus-shadow: #ff940380;
+    --vitta-orange-light-transparent: #fc731720;
 
     /* Yellow */
     --vitta-yellow: #f9d142;
@@ -486,6 +488,7 @@
     --vitta-orange-light: #ff9403;
     --vitta-orange-light-rgb: 255, 148, 3;
     --vitta-orange-light-focus-shadow: #ff940380;
+    --vitta-orange-light-transparent: #fc731720;
 
     /* Yellow */
     --vitta-yellow: #f9d142;
@@ -676,6 +679,10 @@ h6 {
 .text-bg-primary,
 .text-bg-success {
     background-color: var(--vitta-green) !important;
+}
+
+.theme-dark .badge.bg-success {
+    background-color: #1a8256 !important;
 }
 
 .text-bg-secondary {
@@ -1217,6 +1224,8 @@ form-control-rounded -> Circle edges
 .form-check-alt .form-check-input {
     height: 25px;
     width: 25px;
+    min-width: 25px;
+    flex-shrink: 0;
     border: 1px solid var(--text-1);
     background-image: none !important;
     box-shadow: inset 0px 0px 0 3px var(--bg-1);
@@ -1456,8 +1465,8 @@ html[dir=rtl] .fa-hand-point-right {
 .alert-warning,
 .alert-orange {
     --bs-alert-color: var(--vitta-white);
-    --bs-alert-bg: var(--vitta-orange-light);
-    --bs-alert-border-color: var(--vitta-orange-light);
+    --bs-alert-bg: #a65f00;
+    --bs-alert-border-color: #a65f00;
 }
 
 .alert-info,
@@ -1487,6 +1496,11 @@ html[dir=rtl] .fa-hand-point-right {
 .alert-lite {
     --bs-alert-color: var(--text-1);
     --bs-alert-bg: transparent;
+}
+
+.theme-dark .alert-lite {
+    --bs-alert-color: var(--text-1);
+    color: var(--text-1);
 }
 
 /* VITTA-NOTIF */

@@ -1050,7 +1050,10 @@
 .profile-img-wrapper {
   position: relative;
   display: inline-block;
-    /* s'ajuste à la taille de l'image */
+}
+
+.navbar-profil-pic {
+  height: 100%;
 }
 
 .profile-img-wrapper.premium-style::after {
@@ -1456,7 +1459,7 @@
 
 .wet {
   background-color: var(--vitta-orange);
-  color: var(--vitta-white);
+  color: #000;
 }
 
 .total-output {
@@ -2063,7 +2066,11 @@ textarea#desc-project-input {
 }
 
 .switch input {
-  display: none;
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
 }
 
 .slider {
@@ -2094,8 +2101,10 @@ input:checked + .slider {
   background-color: var(--vitta-green);
 }
 
-input:focus + .slider {
-  box-shadow: 0 0 1px var(--vitta-green);
+input:focus-visible + .slider {
+  outline: 2px solid #4d90fe;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(77, 144, 254, 0.25);
 }
 
 input:checked + .slider:before {
@@ -2124,7 +2133,11 @@ input:checked + .slider:before {
 }
 
 .switch-mini input {
-  display: none;
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
 }
 
 .slider-mini {
@@ -2155,8 +2168,10 @@ input:checked + .slider-mini {
   background-color: var(--vitta-green);
 }
 
-input:focus + .slider-mini {
-  box-shadow: 0 0 1px var(--vitta-green);
+input:focus-visible + .slider-mini {
+  outline: 2px solid #4d90fe;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(77, 144, 254, 0.25);
 }
 
 input:checked + .slider-mini:before {
@@ -2592,6 +2607,10 @@ h1.profil-title {
   text-align: justify;
 }
 
+.theme-dark .cgv-para {
+  color: var(--text-1);
+}
+
 .cgv-subtitle {
   font-size: 20px;
   padding: 20px 0px;
@@ -2626,6 +2645,10 @@ h1.profil-title {
   font-size: 15px;
   color: #666666;
   margin: 20px 60px 20px 0;
+}
+
+.theme-dark .cgv-sign {
+  color: var(--text-1);
 }
 
 @media (max-width: 600px) {
@@ -3533,6 +3556,33 @@ p.errpage_subtitle_2 {
   color: var(--vitta-white);
   font-size: 3.5rem;
   cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+  line-height: 1;
+}
+
+.gallery-chevron {
+  background: transparent;
+  border: none;
+  padding: 0;
+  line-height: 1;
+}
+
+.like-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.gallery-close-btn:focus,
+.gallery-chevron:focus,
+.like-btn:focus {
+  outline: 2px solid white;
+  outline-offset: 6px;
+  border-radius: 4px;
 }
 
 .diapo-heart {
@@ -4361,6 +4411,14 @@ p.errpage_subtitle_2 {
 
 .opensource-partners-block {
   min-height: 150px;
+}
+
+.theme-dark .logos-opensource-partners a,
+.theme-dark .opensource-partners-block a {
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  padding: 6px;
+  display: inline-block;
 }
 
 .opensource-partners-img {

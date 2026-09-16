@@ -304,3 +304,5 @@ Blockly.Msg['VITTAIA_LOAD_POSTURE_MODEL_TOOLTIP'] = 'قم بتحميل النم�
 Blockly.Msg['VITTAIA_POSTURE_MAKE_PREDICTIONS_TITLE'] = '%1 بدء توقع الوضعية على صورة الكاميرا';
 Blockly.Msg['VITTAIA_POSTURE_MAKE_PREDICTIONS_TOOLTIP'] = 'يتم إجراء توقعات نموذج الوضعية من الكاميرا. يحتوي التوقع على عنصرين: الفئة والاحتمالية.';
 Blockly.Msg['VITTAIA_INIT_WEBCAM_TITLE'] = '%1 تهيئة الكاميرا';
+Blockly.Msg["VISION_DETECTION_AREA_RIGHT"] = "إلى اليمين";
+Blockly.Msg["VISION_DETECTION_AREA_LEFT"] = "إلى اليسار";

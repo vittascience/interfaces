@@ -300,7 +300,7 @@ Blockly.Constants.Vision = Object.create(null);
 * @this {Blockly.Block}
 */
 Blockly.Constants.Vision.VISION_DETECT_FACES_INIT_EXTENSION = function () {
-this.thres_ = false;
+this.option_ = false;
 this.update_();
 this.setInputsInline(true);
 };
@@ -328,7 +328,7 @@ Blockly.Constants.Vision.VISION_DETECT_FACES_THRES_MIXIN);
 * @this {Blockly.Block}
 */
 Blockly.Constants.Vision.VISION_DETECT_PERSON_INIT_EXTENSION = function () {
-this.thres_ = false;
+this.option_ = false;
 this.update_();
 this.setInputsInline(true);
 };
@@ -356,7 +356,7 @@ Blockly.Constants.Vision.VISION_DETECT_PERSON_THRES_MIXIN);
 * @this {Blockly.Block}
 */
 Blockly.Constants.Vision.VISION_START_VISUAL_TRACKING_INIT_EXTENSION = function () {
-this.thres_ = false;
+this.option_ = false;
 this.update_();
 this.setInputsInline(true);
 };

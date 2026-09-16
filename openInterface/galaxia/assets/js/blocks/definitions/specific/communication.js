@@ -207,18 +207,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "input_value",
             "name": "CANAL",
             "check": "Number"
-        }, {
-            "type": "input_value",
-            "name": "POWER",
-            "check": "Number"
-        }, {
-            "type": "input_value",
-            "name": "LEN",
-            "check": "Number"
-        }, {
-            "type": "input_value",
-            "name": "GROUP",
-            "check": "Number"
         }],
         "inputsInline": true,
         "previousStatement": null,
@@ -996,7 +984,7 @@ Blockly.Extensions.registerMutator('communication_log_addData_mutator',
  * @this {Blockly.Block}
  */
 Blockly.Constants.Communication.COMMUNICATION_FS_SAVE_DATA_INIT_EXTENSION = function () {
-    this.extension_ = true;
+    this.option_ = true;
     this.update_(this.updateField_);
 };
 

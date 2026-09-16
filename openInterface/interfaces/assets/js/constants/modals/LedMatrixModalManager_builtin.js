@@ -12,6 +12,12 @@ let LedMatrixModalManager = {
             //click events listener
             $('#edit_leds_matrix svg rect').click(LedMatrixModalManager.change_led_color);
             $('.suggestion-img').click(LedMatrixModalManager.change_leds_matrix_from_img);
+            $('.suggestion-img').on('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    $(this).trigger('click');
+                }
+            });
         }
         //init matrix
         $('.img-selected').trigger('click');
@@ -81,13 +87,13 @@ let LedMatrixModalManager = {
         Blockly.Constants.LEDS_MATRIX_BLOCK.setValue(LedMatrixModalManager.matrix_base64);
         const data = LedMatrixModalManager.img_to_binary(new_dataset);
         Blockly.Constants.LEDS_MATRIX_BLOCK.setAlt(data);
-        $('#popup_matrix_LED,.overlay').css('display', 'none');
+        pseudoModal.closeModal('popup_matrix_LED');
     },
     cancel_matrix: function () {
         let leds = $('#edit_leds_matrix svg rect');
         for (let i = 0; i < leds.length; i++)
             leds[i].attributes['fill']['value'] = Blockly.Constants.LEDS_MATRIX[i];
-        $('#popup_matrix_LED,.overlay').css('display', 'none');
+        pseudoModal.closeModal('popup_matrix_LED');
     },
     create_columns: function (number) {
         let columns_string = "<span> </span>";
@@ -165,9 +171,7 @@ let LedMatrixModalManager = {
         return new_dataset;
     },
     disp_modal: function () {
-        //LedMatrixModalManager.dark_mode_examples_imgs();
-        $(".overlay").css("display", "block");
-        $("#popup_matrix_LED").css("display", "block");
+        pseudoModal.openModal('popup_matrix_LED');
     },
     resize_mod: function () {
         $('#leds_matrix').after($('#suggestions'));
@@ -207,9 +211,9 @@ let LedMatrixModalManager = {
                         <span class="vitta-modal-title-led-matrix">
                             <span>${jsonPath('modals.led-matrix.title')}</span>
                         </span>
-                        <div class="btn vitta-modal-exit-btn" type="button"  title="Fermer la modale" onclick="LedMatrixModalManager.cancel_matrix()">
+                        <button class="btn vitta-modal-exit-btn" type="button" title="Fermer la modale" onclick="LedMatrixModalManager.cancel_matrix()">
                             <i class="fa fa-times"></i>
-                        </div>
+                        </button>
                     </section>`
         let content = `<section id="content_popup">
                             <section id="leds_matrix">
@@ -239,6 +243,7 @@ let LedMatrixModalManager = {
 
         html += header + content + footer + `</section>`;
         $('body').append(html);
+        pseudoModal.add('popup_matrix_LED');
     },
     setSuggestions: function () {
         const suggestions = document.querySelectorAll("#leds_matrix #suggestions .suggestions-column");
@@ -252,13 +257,15 @@ let LedMatrixModalManager = {
                 const action_data = LedMatrixModalManager.decodeFrameToColors(LedMatrixModalManager.options.suggestions_data[id]);
                 img.setAttribute("data-action-value", action_data);
                 img.setAttribute('class', 'suggestion-img');
+                img.setAttribute('tabindex', '0');
+                img.setAttribute('role', 'button');
                 suggestions[column].appendChild(img);
             }
         }
     },
     decodeFrameToColors(frame_data) {
         let bits = [];
-        if (INTERFACE_NAME == 'arduino') {
+        if (['arduino', 'arduinoq'].includes(INTERFACE_NAME)) {
             for (let w = 0; w < frame_data.length; w++) {
                 const bin = frame_data[w].toString(2).padStart(32, "0");
                 for (let b of bin) {

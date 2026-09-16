@@ -42,9 +42,16 @@ const INTERFACE_BOARDS = {
 const SIMULATOR_DEFAULT_BOARD = INTERFACE_BOARDS[BOARD_DEFAULT];
 //serial
 const SERIAL_OPTIONS = {
-    baud: 115200,
     chunkSizes: {
-        [BOARD_STEAMI]: 128
+        write: {
+            'default': 0.0625 // KiB (reduced compared to default STM32)
+        },
+        write: {
+            'default': 0.125 // KiB (reduced compared to default STM32)
+        },
+        readingDelayPerKiB: {
+            'default': 150 // ms (increased compared to default STM32)
+        }
     },
     boardsFilter: [
         { usbVendorId: 0xd28, usbProductId: 0x204 }, // STeaMi

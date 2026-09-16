@@ -274,6 +274,50 @@ function loadUnitTests(unitTests) {
     });
     unitTestsloaded = true;
 }
+
+function compareUnitTestOutput(unitTest, rawResult) {
+    const actualValue = window.PythonUnitTestValues.parseExpressionValue(rawResult, true);
+    const expectedValue = window.PythonUnitTestValues.buildExpectedOutput(unitTest.outputs);
+    return window.PythonUnitTestValues.deepEqual(expectedValue, actualValue);
+}
+
+function extractUnitTestResults(consoleOutput) {
+    const lines = String(consoleOutput ?? '').split("\n");
+
+    for (const line of lines) {
+        if (line.match(/@vittatest/, "")) {
+            const nbspRemoved = line.replace(/&nbsp;/g, " ");
+            return nbspRemoved
+                .replace("@vittatest ", "")
+                .split("@unitest ")
+                .slice(1)
+                .map((result) => result.trim());
+        }
+    }
+
+    return [];
+}
+
+function applyUnitTestResults(unitTests, exercise, results) {
+    for (let index = 0; index < results.length; index++) {
+        const unitTest = unitTests[index];
+        if (!unitTest) {
+            continue;
+        }
+
+        unitTest.pass = true;
+        unitTest.success = compareUnitTestOutput(unitTest, results[index]);
+
+        if (unitTest.success === true) {
+            validUTest(unitTests, exercise, index + 1);
+        } else {
+            failUTest(unitTests, index + 1);
+        }
+    }
+
+    return checkSuccess(unitTests, exercise);
+}
+
 window.addEventListener('storage', () => {
     if (window.localStorage.autocorrect == 'true') {
         autocorrectionPython();
@@ -283,8 +327,8 @@ window.addEventListener('storage', () => {
 async function autocorrectionPython() {
     projectManager.incrementPythonAutocorrectionRunCount();
     if (turtleAutocorrector.isEnabled()) {
-        turtleAutocorrector.runAutocorrection();
-        return;
+        const ok = await turtleAutocorrector.runAutocorrection();
+        return ok ? "success" : "failed";
     }
     $("#console_fake").html("");
     $("#unittests-log").html("");
@@ -315,38 +359,9 @@ async function autocorrectionPython() {
         $("#console_fake").css("color", "rgb(0, 0, 0)");
         return false;
     } else {
-        let result = $("#console_fake").html().split("\n");
-        for (let i = 0; i < result.length; i++) {
-            if (result[i].match(/@vittatest/, "")) {
-                const nbspRemoved = result[i].replace(/&nbsp;/g, " ");
-                const outputs = nbspRemoved.replace("@vittatest ", "");
-                const tabResult = outputs.split("@unitest ");
-                for (let j = 1; j < tabResult.length; j++) {
-                    unitTests[j - 1].success = true;
-                    const result = tabResult[j].substring(0, tabResult[j].length);
-                    const regStart = /^\[/;
-                    if (regStart.test(result)) {
-                        result = result.replace(/^\[/, "");
-                        result = result.replace(/\]$/, "");
-                        result = result.replace(/\] $/, "");
-                    }
-                    outbis = unitTests[j - 1].outputs + ' ';
-                    if (result == unitTests[j - 1].outputs || result == outbis) {
-                        unitTests[j - 1].success = true;
-                    } else {
-                        unitTests[j - 1].success = false;
-                    }
-                    unitTests[j - 1].pass = true;
-                    if (unitTests[j - 1].success === true) {
-                        validUTest(unitTests, exercise, j);
-                    } else {
-                        failUTest(unitTests, j);
-                    }
-                }
-                //check tests
-                const testsResult = checkSuccess(unitTests, exercise);
-                return testsResult;
-            }
+        const results = extractUnitTestResults($("#console_fake").html());
+        if (results.length > 0) {
+            return applyUnitTestResults(unitTests, exercise, results);
         }
     }
     //return false;

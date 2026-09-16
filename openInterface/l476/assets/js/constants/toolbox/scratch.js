@@ -365,6 +365,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'io_writePwm',
                 'io_setPwm',
                 'io_stopPwm',
+                'io_readPulseIn',
                 'io_getVoltage'
             ]
         },

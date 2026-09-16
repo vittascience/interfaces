@@ -30,10 +30,10 @@ Blockly.Python.sensors_readProcessorTemperature = function (block) {
 // Climate sensors
 
 Blockly.Python.sensors_getBmp280Data = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     const addr = block.getFieldValue("ADDR");
     Blockly.Python.addImport('bmp280', IMPORT_ESP32_BMP280);
-    Blockly.Python.addImport('machine', IMPORT_MACHINE);
-    Blockly.Python.addInit('bmp280', "bmp280 = BMP280(i2c=I2C(scl=Pin(22), sda=Pin(21)), addr=" + addr + ")");
+    Blockly.Python.addInit('bmp280', "bmp280 = BMP280(" + i2c + ", addr=" + addr + ")");
     Blockly.Python.addPowerOn('bmp280', "bmp280.set_default_measure()");
     switch (block.getFieldValue("DATA")) {
         case "TEMP":
@@ -57,8 +57,9 @@ Blockly.Python.sensors_getBmp280Data = function (block) {
 };
 
 Blockly.Python.sensors_getBme280Data = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     Blockly.Python.addImport('esp32_bme280', IMPORT_ESP32_BME280);
-    Blockly.Python.addInit('bme280', "bme280 = BME280(i2c=I2C(scl=Pin(22), sda=Pin(21)))");
+    Blockly.Python.addInit('bme280', "bme280 = BME280(" + i2c + ")");
     switch (block.getFieldValue("DATA")) {
         case "TEMP":
             var code = "bme280.temperature()";
@@ -87,9 +88,9 @@ Blockly.Python.sensors_getBme280Data = function (block) {
 // Gas sensors
 
 Blockly.Python.sensors_getSgp30Gas = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     Blockly.Python.addImport('esp32_sgp30', IMPORT_ESP32_SGP30);
-    Blockly.Python.addImport('machine', IMPORT_MACHINE);
-    Blockly.Python.addInit('sgp30', "sgp30 = SGP30(i2c=I2C(scl=Pin(22), sda=Pin(21)))");
+    Blockly.Python.addInit('sgp30', "sgp30 = SGP30(" + i2c + ")");
     switch (block.getFieldValue("GAS")) {
         case "CO2":
             return ["sgp30.co2_equivalent()", Blockly.Python.ORDER_ATOMIC];
@@ -107,14 +108,14 @@ Blockly.Python.sensors_getO2gas = function (block) {
 
 // SCD30 SENSOR _ READ CO2/TEMP/HUM BLOCK
 Blockly.Python.sensors_SCD30_readData = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     Blockly.Python.addImport('esp32_scd30', IMPORT_ESP32_SCD30);
-    Blockly.Python.addImport('machine', IMPORT_MACHINE);
     Blockly.Python.addImport('utime', IMPORT_UTIME);
     Blockly.Python.addImport('math', IMPORT_MATH);
     Blockly.Python.addInit('scd30_data', "scd30_data = [0, 0, 0]");
     Blockly.Python.addInit('t_scd', "t_scd = utime.ticks_ms()");
     Blockly.Python.addFunction('scd30_read', FUNCTIONS_M5STACK.DEF_SCD30_READ);
-    Blockly.Python.addInit('scd30', "scd30 = SCD30(i2c=I2C(scl=Pin(22), sda=Pin(21)))");
+    Blockly.Python.addInit('scd30', "scd30 = SCD30(" + i2c + ")");
     switch (block.getFieldValue("DATA")) {
         case "CO2":
             return ["scd30_read(0)", Blockly.Python.ORDER_ATOMIC];
@@ -138,24 +139,25 @@ Blockly.Python.sensors_SCD30_readData = function (block) {
 
 //SCD30 SENSOR FORCE RECALIBRATION
 Blockly.Python.sensors_SCD30_forcedCalibration = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     const co2ppm = Blockly.Python.valueToCode(block, "DEFAULT", Blockly.Python.ORDER_NONE) || "0";
     Blockly.Python.addImport('esp32_scd30', IMPORT_ESP32_SCD30);
-    Blockly.Python.addImport('machine', IMPORT_MACHINE);
     Blockly.Python.addImport('utime', IMPORT_UTIME);
-    Blockly.Python.addInit('scd30', "scd30 = SCD30(i2c=I2C(scl=Pin(22), sda=Pin(21)))");
+    Blockly.Python.addInit('scd30', "scd30 = SCD30(" + i2c + ")");
     Blockly.Python.addFunction('scd30_calibrateSensor', FUNCTIONS_M5STACK.DEF_SCD30_CALIBRATE);
     return "scd30.set_forced_recalibration(" + co2ppm + ")" + NEWLINE;
 }
 Blockly.Python.sensors_getMultichannelGas = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     Blockly.Python.addImport('esp32_gas', IMPORT_ESP32_GAS);
-    Blockly.Python.addImport('machine', IMPORT_MACHINE);
-    Blockly.Python.addInit('gas', "multichannel = GAS(i2c=I2C(scl=Pin(22), sda=Pin(21)))");
+    Blockly.Python.addInit('gas', "multichannel = GAS(" + i2c + ")");
     return ["multichannel.calc_gas(multichannel." + block.getFieldValue("GAS") + ")", Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.sensors_getMultichannelGasV2 = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     Blockly.Python.addImport('esp32_gas_gmxxx', IMPORT_ESP32_GAS_GMXXX);
-    Blockly.Python.addInit('multichannel_v2', "multichannel_v2 = GAS_GMXXX(I2C(scl=Pin(22), sda=Pin(21)), addr=0x08)");
+    Blockly.Python.addInit('multichannel_v2', "multichannel_v2 = GAS_GMXXX(" + i2c + ", addr=0x08)");
     return ["multichannel_v2.calcVol(multichannel_v2.measure_" + block.getFieldValue("GAS") + "())", Blockly.Python.ORDER_ATOMIC];
 };
 
@@ -165,9 +167,9 @@ Blockly.Python.sensors_getAirQualityValue = function (block) {
 };
 
 Blockly.Python.sensors_getParticulateMatter = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     Blockly.Python.addImport('hm330x', IMPORT_ESP32_HM330X);
-    Blockly.Python.addImport('machine', IMPORT_MACHINE);
-    Blockly.Python.addInit('hm330x', "hm330x = HM330X(i2c=I2C(scl=Pin(22), sda=Pin(21)))");
+    Blockly.Python.addInit('hm330x', "hm330x = HM330X(" + i2c + ")");
     return ["hm330x.getData(" + block.getFieldValue("TYPE") + ")", Blockly.Python.ORDER_ATOMIC];
 };
 
@@ -206,9 +208,9 @@ Blockly.Python.sensors_DHT22ReadData = function (block) {
 };
 
 Blockly.Python.sensors_TH02readData = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     Blockly.Python.addImport('esp32_th02', IMPORT_ESP32_TH02);
-    Blockly.Python.addImport('machine', IMPORT_MACHINE);
-    Blockly.Python.addInit('th02', 'th02 = TH02(i2c=I2C(scl=Pin(22), sda=Pin(21)))');
+    Blockly.Python.addInit('th02', 'th02 = TH02(' + i2c + ')');
     let data = block.getFieldValue("DATA");
     switch (data) {
         case "TEMP":
@@ -278,10 +280,10 @@ Blockly.Python.sensors_getGroveHighTemperature = function (block) {
 };
 
 Blockly.Python.sensors_SHT31readData = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     const data = block.getFieldValue("DATA");
     Blockly.Python.addImport('esp32_sht31', IMPORT_ESP32_SHT31);
-    Blockly.Python.addImport('machine', IMPORT_MACHINE);
-    Blockly.Python.addInit('sht31', 'sht31 = SHT31(i2c=I2C(scl=Pin(22), sda=Pin(21)))');
+    Blockly.Python.addInit('sht31', 'sht31 = SHT31(' + i2c + ')');
     switch (data) {
         case "TEMP":
             var code;
@@ -301,6 +303,33 @@ Blockly.Python.sensors_SHT31readData = function (block) {
             return ["sht31.get_temp_humi()[1]", Blockly.Python.ORDER_ATOMIC];
         default:
             throw Error("Unhandled data option for sht31 sensor :'" + data + "'")
+    }
+};
+
+Blockly.Python.sensors_SHT35readData = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
+    Blockly.Python.addImport('esp32_sht35', IMPORT_ESP32_SHT35);
+    Blockly.Python.addInit('sht35', 'sht35 = SHT35(i2c=' + i2c + ')');
+    const data = block.getFieldValue("DATA");
+    switch (data) {
+        case "TEMP":
+            let code = "sht35.get_measurement('temp_celsius')";
+            if (block.getInput("TEMP_UNIT")) {
+                switch (block.getFieldValue("UNIT")) {
+                    case "FAHRENHEIT":
+                        code = "sht35.get_measurement('temp_fahrenheit')";
+                    case "KELVIN":
+                        code += " + 273.15";
+                    case "CELSIUS":
+                    default:
+                        break;
+                }
+            }
+            return [code, Blockly.Python.ORDER_ATOMIC];
+        case "HUM":
+            return ["sht35.get_measurement('humidity')", Blockly.Python.ORDER_ATOMIC];
+        default:
+            throw Error("Unhandled data option for sht35 sensor :'" + data + "'")
     }
 };
 
@@ -352,17 +381,27 @@ Blockly.Python.sensors_getGroveLight = function (block) {
     return [pinName + ".read()", Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python.sensors_getSi1145Light = function (block) {
-    Blockly.Python.addImport('esp32_si1145', IMPORT_ESP32_SI1145);
-    Blockly.Python.addImport('machine', IMPORT_MACHINE);
-    Blockly.Python.addInit('si1145', "si1145 = SI1145(i2c=I2C(scl=Pin(22), sda=Pin(21)))");
+Blockly.Python.sensors_getSunlightData = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
+    const version = block.getFieldValue("VERSION");
+    let obj = 'si1145';
+    switch (version) {
+        case 'SI1151':
+            obj = 'si1151';
+            Blockly.Python.addImport('esp32_' + obj, IMPORT_ESP32_SI1151);
+            break;
+        default:
+        case 'SI1145':
+            Blockly.Python.addImport('esp32_' + obj, IMPORT_ESP32_SI1145);
+    }
+    Blockly.Python.addInit(obj, obj + " = " + version + "(" + i2c + ")");
     switch (block.getFieldValue("LIGHT")) {
         case "UV":
-            return ["si1145.read_uv()", Blockly.Python.ORDER_ATOMIC];
+            return [obj + ".read_uv()", Blockly.Python.ORDER_ATOMIC];
         case "VIS":
-            return ["si1145.read_visible()", Blockly.Python.ORDER_ATOMIC];
+            return [obj + ".read_visible()", Blockly.Python.ORDER_ATOMIC];
         case "IR":
-            return ["si1145.read_ir()", Blockly.Python.ORDER_ATOMIC];
+            return [obj + ".read_ir()", Blockly.Python.ORDER_ATOMIC];
     }
 };
 
@@ -374,9 +413,9 @@ Blockly.Python.sensors_getUVindex = function (block) {
 };
 
 Blockly.Python.sensors_colorSensor_getData = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
     Blockly.Python.addImport('color_sensor', IMPORT_ESP32_COLOR_SENSOR);
-    Blockly.Python.addImport('machine', IMPORT_MACHINE);
-    Blockly.Python.addInit('color_sensor', "colorSensor = TCS34725(i2c=I2C(scl=Pin(22), sda=Pin(21)))");
+    Blockly.Python.addInit('color_sensor', "colorSensor = TCS34725(" + i2c + ")");
     return ["colorSensor.html_rgb()[" + block.getFieldValue("DATA") + "]", Blockly.Python.ORDER_ATOMIC];
 };
 

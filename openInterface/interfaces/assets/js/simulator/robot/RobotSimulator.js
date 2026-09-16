@@ -25,6 +25,7 @@ const RobotSimulator = {
   FPS: 20,
   recorder: null,
   isRecording: false,
+  isCameraViewVisible: true,
   currentRobotName: null,
   robot: null,
   robotIsDragging: false,
@@ -241,9 +242,22 @@ const RobotSimulator = {
       if (document.querySelector('#cam-sim') === null) {
         this.addCameraSimulatorToDom();
       }
+      const camAnchor = document.getElementById('cam-sim-anchor');
+      const camContainer = document.getElementById('cam-sim-container');
       const camCanvas = document.getElementById('cam-sim');
+      if (camAnchor) {
+        camAnchor.style.width = this.Track.WIDTH_PX + "px";
+        camAnchor.style.height = this.Track.WIDTH_PX * this.Track.RATIO + "px";
+      }
+      if (camContainer) {
+        camContainer.style.width = this.Track.WIDTH_PX + "px";
+        camContainer.style.height = this.Track.WIDTH_PX * this.Track.RATIO + "px";
+        camContainer.style.marginLeft = '0';
+      }
       camCanvas.style.width = this.Track.WIDTH_PX + "px";
       camCanvas.style.height = this.Track.WIDTH_PX * this.Track.RATIO + "px";
+      this.isCameraViewVisible = true;
+      this.toggleCameraView(true);
       this.robot.camera = new RobotCamera(camCanvas, {
         arenaWidth: this.Track.WIDTH_PX,
         arenaHeight: this.Track.WIDTH_PX * this.Track.RATIO,
@@ -411,10 +425,66 @@ const RobotSimulator = {
 
   addCameraSimulatorToDom() {
     const camSimulatorHTML = `
-    <canvas id="cam-sim" style="touch-action: none">
-      Canvas Not Supported
-    </canvas>`;
+    <div id="cam-sim-anchor" style="position: relative; display: inline-block;">
+      <button id="cam-sim-toggle" class="btn oi-btn-simulator" type="button"
+              style="position: absolute; top: 8px; right: 8px; z-index: 10;"
+              title="Masquer la camera" aria-label="Masquer la camera"
+              onclick="RobotSimulator.toggleCameraView()">
+        <i class="fa-solid fa-eye"></i>
+      </button>
+      <div id="cam-sim-container" style="width: 100%; height: 100%;">
+        <canvas id="cam-sim" style="touch-action: none">
+          Canvas Not Supported
+        </canvas>
+      </div>
+    </div>`;
     document.querySelector("#robot-sim").insertAdjacentHTML('afterend', camSimulatorHTML);
+  },
+
+  toggleCameraView: function (forceVisible = null) {
+    const camAnchor = document.getElementById('cam-sim-anchor');
+    const camContainer = document.getElementById('cam-sim-container');
+    const camCanvas = document.getElementById('cam-sim');
+    const toggleBtn = document.getElementById('cam-sim-toggle');
+    if (!camAnchor || !camContainer || !camCanvas || !toggleBtn) {
+      return;
+    }
+
+    this.isCameraViewVisible = forceVisible === null ? !this.isCameraViewVisible : !!forceVisible;
+    if (this.robot && typeof this.robot.camera !== 'undefined' && this.robot.camera !== null) {
+      this.robot.camera.setAutoRender(this.isCameraViewVisible);
+    }
+
+    if (this.isCameraViewVisible) {
+      const camWidth = this.Track.WIDTH_PX + "px";
+      const camHeight = this.Track.WIDTH_PX * this.Track.RATIO + "px";
+      camAnchor.style.width = camWidth;
+      camAnchor.style.height = camHeight;
+      camContainer.style.width = camWidth;
+      camContainer.style.height = camHeight;
+      camContainer.style.marginLeft = '0';
+      camCanvas.style.width = camWidth;
+      camCanvas.style.height = camHeight;
+      camCanvas.style.visibility = 'visible';
+    } else {
+      camCanvas.style.visibility = 'hidden';
+      camCanvas.style.width = '0px';
+      camCanvas.style.height = '0px';
+      // Keep only enough space for the toggle button when camera is hidden.
+      const btnW = toggleBtn.offsetWidth || 36;
+      const btnH = toggleBtn.offsetHeight || 36;
+      camAnchor.style.width = this.Track.WIDTH_PX + 'px';
+      camAnchor.style.height = (btnH + 16) + 'px';
+      camContainer.style.width = (btnW + 16) + 'px';
+      camContainer.style.height = (btnH + 16) + 'px';
+      camContainer.style.marginLeft = 'auto';
+    }
+
+    toggleBtn.title = this.isCameraViewVisible ? 'Masquer la camera' : 'Afficher la camera';
+    toggleBtn.setAttribute('aria-label', toggleBtn.title);
+    toggleBtn.innerHTML = this.isCameraViewVisible
+      ? '<i class="fa-solid fa-eye"></i>'
+      : '<i class="fa-solid fa-eye-slash"></i>';
   },
 
   initRobotSystem: function () {
@@ -685,7 +755,7 @@ const RobotSimulator = {
         document.addEventListener("mousedown", (e) => {
           if (e.target.closest(".angle-slider-knob")) {
             isRotating = true;
-            // if (Simulator.has3DRobotSimulator() && window.Simulator3D.physics) {
+            // if (Simulator._has3DRobotSimulator() && window.Simulator3D.physics) {
             //   window.Simulator3D.physics.setRotating(true);
             // }
           }
@@ -882,7 +952,7 @@ const RobotSimulator = {
         }
         // Snapshot du canvas pour la caméra 3D avant de dessiner le robot,
         // pour que le robot ne soit pas visible dans le retour caméra.
-        if (typeof this.robot.camera !== 'undefined' && this.robot.camera !== null) {
+        if (this.isCameraViewVisible && typeof this.robot.camera !== 'undefined' && this.robot.camera !== null) {
           if (!this._cameraTrackCanvas) {
             this._cameraTrackCanvas = document.createElement('canvas');
             this.robot.camera.setTrackSource(this._cameraTrackCanvas);
@@ -1186,6 +1256,10 @@ const RobotSimulator = {
   },
 
   checkingCanvasRobotCollisions: function () {
+    if (this.hasCircleCollisionShape()) {
+      return this.checkingCanvasRobotCircleCollisions();
+    }
+
     const robotCorners = this.getRobotCorners();
     const canvasCorners = this.getCanvasCorners();
     const getPoint = function (point) {
@@ -1208,16 +1282,49 @@ const RobotSimulator = {
           if (INTERFACE_NAME === 'thymio') {
             Simulator.Mosaic.specific.onEvent.collisionEvent();
           }
-          if (RobotSimulator.robot.TYPE == "robot")
+          if (RobotSimulator.robot.TYPE == "robot") {
             this.moveRobotWithCollision(c);
-          else
+          } else {
             this.moveDroneWithCollision(c);
+          }
           break;
         }
       }
       if (isTouchingSide) break;
     }
     return isTouchingSide;
+  },
+
+  checkingCanvasRobotCircleCollisions: function () {
+    const circle = this.getRobotCircle();
+
+    let dx = 0;
+    let dy = 0;
+
+    if (circle.x - circle.r < 0) {
+      dx = circle.r - circle.x;
+    } else if (circle.x + circle.r > this.width.px) {
+      dx = this.width.px - (circle.x + circle.r);
+    }
+
+    if (circle.y - circle.r < 0) {
+      dy = circle.r - circle.y;
+    } else if (circle.y + circle.r > this.width.px * this.Track.RATIO) {
+      dy = this.width.px * this.Track.RATIO - (circle.y + circle.r);
+    }
+
+    if (dx !== 0 || dy !== 0) {
+      if (INTERFACE_NAME === 'thymio') {
+        Simulator.Mosaic.specific.onEvent.collisionEvent();
+      }
+
+      this.robot.rotationCenter.x += dx;
+      this.robot.rotationCenter.y += dy;
+
+      return true;
+    }
+
+    return false;
   },
 
   moveDroneWithCollision: function (c) {
@@ -1229,6 +1336,18 @@ const RobotSimulator = {
       this.robot.rotationCenter.x -= this.constants.COLLISION_PUSH_BACK;
     } else if (c == 3) {
       this.robot.rotationCenter.x += this.constants.COLLISION_PUSH_BACK;
+    }
+  },
+
+  moveRobotCircleWithCollision: function (sideCollision) {
+    if (sideCollision === 'top') {
+      this.robot.rotationCenter.y -= this.constants.COLLISION_PUSH_BACK;
+    } else if (sideCollision === 'right') {
+      this.robot.rotationCenter.x += this.constants.COLLISION_PUSH_BACK;
+    } else if (sideCollision === 'bottom') {
+      this.robot.rotationCenter.y += this.constants.COLLISION_PUSH_BACK;
+    } else if (sideCollision === 'left') {
+      this.robot.rotationCenter.x -= this.constants.COLLISION_PUSH_BACK;
     }
   },
 
@@ -1352,6 +1471,10 @@ const RobotSimulator = {
   },
 
   checkObstacleCollisions: function () {
+    if (this.hasCircleCollisionShape()) {
+      return this.checkObstacleCircleCollisions();
+    }
+
     this.robot.angle += 1e-3;
     const robotForm = new Shape(this.robot.rotationCenter.x, this.robot.rotationCenter.y, this.robot.size.width, this.robot.size.height, this.robot.angle, -this.getMotorCenterOffset());
     for (const i in this.Obstacle.obstaclesDB) {
@@ -1380,9 +1503,73 @@ const RobotSimulator = {
     return false;
   },
 
+  checkObstacleCircleCollisions: function () {
+    const robotCircle = this.getRobotCircle();
+    for (const i in this.Obstacle.obstaclesDB) {
+      const obstacle = this.Obstacle.obstaclesDB[i];
+      let sideCollision = null;
+      if (obstacle.shape == 'circle') {
+        sideCollision = this.checkCircleCircleCollision(robotCircle, {
+          x: obstacle.x + obstacle.w / 2,
+          y: obstacle.y + obstacle.h / 2,
+          r: obstacle.w / 2
+        });
+      } else {
+        sideCollision = this.checkCircleRectangleCollision(robotCircle, obstacle);
+      }
+      if (sideCollision) {
+        if (INTERFACE_NAME === 'thymio') {
+          Simulator.Mosaic.specific.onEvent.collisionEvent();
+        }
+        this.moveRobotCircleWithCollision(sideCollision);
+        return true;
+      }
+    }
+    return false;
+  },
+
+  checkCircleCircleCollision: function (circleA, circleB) {
+    const dx = circleA.x - circleB.x;
+    const dy = circleA.y - circleB.y;
+    const minDistance = circleA.r + circleB.r;
+
+    if (dx * dx + dy * dy > minDistance * minDistance) {
+      return null;
+    }
+
+    if (Math.abs(dx) > Math.abs(dy)) {
+      return dx < 0 ? 'left' : 'right';
+    }
+
+    return dy < 0 ? 'top' : 'bottom';
+  },
+
+  checkCircleRectangleCollision: function (circle, rect) {
+    const closestX = Math.max(rect.x, Math.min(circle.x, rect.x + rect.w));
+    const closestY = Math.max(rect.y, Math.min(circle.y, rect.y + rect.h));
+
+    const dx = circle.x - closestX;
+    const dy = circle.y - closestY;
+
+    if (dx * dx + dy * dy > circle.r * circle.r) {
+      return null;
+    }
+
+    if (Math.abs(dx) > Math.abs(dy)) {
+      return dx < 0 ? 'left' : 'right';
+    }
+
+    return dy < 0 ? 'top' : 'bottom';
+  },
+
   drawDebugObjects: function () {
-    const robotCorners = RobotSimulator.getRobotCorners();
-    CanvasUtils.drawDebugRectangle(robotCorners);
+    if (this.hasCircleCollisionShape()) {
+      const robotCircle = RobotSimulator.getRobotCircle();
+      CanvasUtils.drawDebugCircle(robotCircle.x, robotCircle.y, robotCircle.r);
+    } else {
+      const robotCorners = RobotSimulator.getRobotCorners();
+      CanvasUtils.drawDebugRectangle(robotCorners);
+    }
     for (const i in this.Obstacle.obstaclesDB) {
       if (this.Obstacle.obstaclesDB[i].shape == 'rectangle') {
         const obstacleCorners = RobotSimulator.getRectangleCorners({
@@ -1775,6 +1962,48 @@ const RobotSimulator = {
     );
   },
 
+  getRobotCollisionShape: function () {
+    return this.robot.COLLISION_SHAPE || 'rectangle';
+  },
+
+  hasCircleCollisionShape: function () {
+    return this.getRobotCollisionShape() === 'circle';
+  },
+
+  getRobotCircle: function () {
+    let localOffsetX = -this.getMotorCenterOffset();
+    let localOffsetY = 0;
+    let radius = Math.min(this.robot.image.width, this.robot.image.height) / 2;
+
+    switch (this.currentRobotName) {
+      case 'Rover':
+        localOffsetX = 0;
+        localOffsetY = 0;
+        radius = Math.min(
+          this.robot.image.width * 0.4,
+          this.robot.image.height
+        ) / 2;
+        break;
+
+      case 'lotibot':
+        localOffsetX = 0;
+        localOffsetY = 0;
+        radius = Math.min(
+          this.robot.image.width * 0.5,
+          this.robot.image.height * 0.5
+        ) / 2;
+        break;
+    }
+
+    const angle = degToRad(this.robot.angle);
+
+    return {
+      x: this.robot.rotationCenter.x + localOffsetX * Math.cos(angle) - localOffsetY * Math.sin(angle),
+      y: this.robot.rotationCenter.y + localOffsetX * Math.sin(angle) + localOffsetY * Math.cos(angle),
+      r: radius
+    };
+  },
+
   getRobotCorners: function () {
     let center;
     let image;
@@ -1814,6 +2043,14 @@ const RobotSimulator = {
   },
 
   isPointingOnRobot: function (e) {
+    if (this.hasCircleCollisionShape()) {
+      const circle = this.getRobotCircle();
+      const dx = e.offsetX - circle.x;
+      const dy = e.offsetY - circle.y;
+
+      return dx * dx + dy * dy <= circle.r * circle.r;
+    }
+
     const corners = RobotSimulator.getRobotCorners();
     return RobotSimulator.pointIsInsidePolygon([e.offsetX, e.offsetY], corners);
   },

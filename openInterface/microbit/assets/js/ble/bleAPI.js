@@ -164,7 +164,7 @@ async function doDisconnectBLE() {
 const BLE_progressBar = {
 
 	_displayProgressBar: function () {
-		document.querySelector('#progress-bar-mb').style.width = '0%';
+		document.querySelector('#progress-bar-serial').style.width = '0%';
 		document.querySelector('#global-overlay').style.display = 'flex';
 		document.querySelector('#progress-bar-container').style.display = 'flex';
 	},
@@ -172,11 +172,11 @@ const BLE_progressBar = {
 	_hideProgressBar: function () {
 		document.querySelector('#progress-bar-container').style.display = 'none';
 		document.querySelector('#global-overlay').style.display = 'none';
-		document.querySelector('#progress-bar-mb').style.width = '0%';
+		document.querySelector('#progress-bar-serial').style.width = '0%';
 	},
 
 	_updateProgressBar: function (percentage) {
-		const progressBarElt = document.querySelector('#progress-bar-mb');
+		const progressBarElt = document.querySelector('#progress-bar-serial');
 		progressBarElt.textContent = `${percentage}%`;
 		getComputedStyle(progressBarElt).width;
 		progressBarElt.style.width = `${percentage}%`;

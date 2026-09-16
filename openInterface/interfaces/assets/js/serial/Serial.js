@@ -281,19 +281,4 @@ class Serial {
     sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     };
-    /**
-     * Split large string in chunks.
-     * @public
-     * @param {string} str
-     * @param {int} size
-     * @return {Array<string>}
-     */
-    chunk(str, size) {
-        const numChunks = Math.ceil(str.length / size);
-        const chunks = new Array(numChunks);
-        for (var i = 0, o = 0; i < numChunks; ++i, o += size) {
-            chunks[i] = str.substr(o, size);
-        }
-        return chunks;
-    };
 };

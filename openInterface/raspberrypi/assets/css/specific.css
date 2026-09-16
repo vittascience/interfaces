@@ -6,20 +6,17 @@
 	background-size: contain;
 }
 
-#modal-imagePiCamera-body{
+#modal-imagePiCamera-body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	object-fit: contain;
 }
 
-#modal-imagePiCamera-body img{
+#modal-imagePiCamera-body img {
 	max-width: 100%;
 	max-height: 100%;
 }
-
-
-
 
 #raspberrypi-compassDir_anim {
 	z-index: 1;
@@ -30,14 +27,13 @@
 	transform-origin: bottom center;
 }
 
-
-
 #raspberrypi_gesture_list {
 	border-style: solid;
 	border-width: 1px;
 	border-color: var(--text-0);
 	min-height: 1em;
 }
+
 .raspberrypi_current_gesture {
 	border-color: var(--vitta-red);
 	margin: 1em;
@@ -47,9 +43,11 @@
 	0% {
 		transform: scale(1, 1);
 	}
+
 	50% {
 		transform: scale(0.8, 0.8);
 	}
+
 	100% {
 		transform: scale(1, 1);
 	}
@@ -58,31 +56,38 @@
 .raspberrypi_active_gesture_down {
 	transform: rotate(180deg);
 }
+
 .raspberrypi-gesture-left_active,
 .raspberrypi-gesture-right_active {
 	-webkit-transform: rotateY(80deg);
 	transform: rotateY(80deg);
 }
+
 .raspberrypi-gesture-facedown_active {
 	-webkit-transform: rotateY(180deg);
 	transform: rotateY(180deg);
 }
+
 .raspberrypi-gesture-freefall_active {
 	transform: scale(0.2, 0.2);
 }
+
 .raspberrypi-gesture-shake_active {
 	animation-name: shake;
 	animation-duration: 0.3s;
 	animation-iteration-count: infinite;
 }
+
 .raspberrypi-gesture-3g_active {
 	animation-name: shake;
 	animation-duration: 0.5s;
 }
+
 .raspberrypi-gesture-6g_active {
 	animation-name: shake;
 	animation-duration: 0.3s;
 }
+
 .raspberrypi-gesture-8g_active {
 	animation-name: shake;
 	animation-duration: 0.1s;
@@ -99,7 +104,7 @@
 #raspberrypi-gesture-3g_anim,
 #raspberrypi-gesture-6g_anim,
 #raspberrypi-gesture-8g_anim {
- 	bottom: 6px;
+	bottom: 6px;
 }
 
 #raspberrypi-accelerometer-pitch_anim,
@@ -114,4 +119,17 @@
 	left: 27px;
 	top: -8px;
 	transform-origin: bottom center;
+}
+
+.g1tank-motorLeft,
+.g1tank-motorRight {
+	z-index: 1;
+	top: -1px;
+	left: 2px;
+}
+
+.g1tank-motorRight_base,
+.g1tank-motorLeft_base {
+	z-index: 2;
+	opacity: 0.9;
 }

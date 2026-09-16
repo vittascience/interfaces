@@ -214,8 +214,8 @@ const AUTHORIZED_BLOCKS_COMMUNICATION = [
     // Bluetooth
     "communication_hc05_sendBluetoothData",
     "communication_hc05_onBluetoothDataReceived",
-    "communication_HM10_onBluetoothDataReceived",
-    "communication_HM10_sendBluetoothData",
+    "communication_hm10_onBluetoothDataReceived",
+    "communication_hm10_sendBluetoothData",
 ]
 
 const AUTHORIZED_BLOCKS_ROBOTS = [

@@ -40,8 +40,8 @@ export default class RaycastModel {
 		newMaterial.emissiveIntensity = 0.05;
 		newMaterial.transparent = true;
 		newMaterial.opacity = 0.60;
-        newMaterial.side = THREE.DoubleSide;
-        newMaterial.castShadow = true;
+		newMaterial.side = THREE.DoubleSide;
+		newMaterial.castShadow = true;
 
 
 		this.meshesByGroup[group].meshes.forEach((mesh) => {
@@ -61,15 +61,15 @@ export default class RaycastModel {
 	}
 
 	async handleClick() {
-        if (this.actualGroup === "torsoGroup") return;
+		if (this.actualGroup === "torsoGroup") return;
 		if (this.actualGroup && !this.groupedLocked) {
-			
+
 			document.body.style.cursor = 'default';
 			this.groupedLocked = true;
 			const overlayMovement = document.getElementById('movements-overlay');
 			overlayMovement.classList.toggle('active-overlay-button');
-            const jointGroupElement = document.getElementById(this.actualGroup);
-            jointGroupElement.classList.toggle('active-joints-group');
+			const jointGroupElement = document.getElementById(this.actualGroup);
+			jointGroupElement.classList.toggle('active-joints-group');
 			this.mapJointValues.setAllRotationsValues();
 		}
 	}
@@ -120,8 +120,8 @@ export default class RaycastModel {
 		const closeMovementButton = document.getElementById('close-movements-button');
 		closeMovementButton.addEventListener('click', () => {
 			this.restoreMaterial(this.actualGroup);
-            const jointGroupElement = document.getElementById(this.actualGroup);
-            jointGroupElement.classList.toggle('active-joints-group');
+			const jointGroupElement = document.getElementById(this.actualGroup);
+			jointGroupElement.classList.toggle('active-joints-group');
 			this.actualGroup = null;
 			const overlayMovement = document.getElementById('movements-overlay');
 			overlayMovement.classList.toggle('active-overlay-button');
@@ -131,6 +131,7 @@ export default class RaycastModel {
 		const experience3D = document.querySelector('.experience3D');
 		experience3D.addEventListener('mousedown', this.handleClick.bind(this));
 		window.addEventListener('resize', () => {
+			const canvasElement = document.querySelector('.experience3D canvas');
 			this.rect = canvasElement.getBoundingClientRect();
 		});
 	}

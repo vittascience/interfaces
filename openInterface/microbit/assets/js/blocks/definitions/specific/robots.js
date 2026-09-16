@@ -5498,7 +5498,7 @@ Blockly.Constants.Robots.ROBOTS_REMOTECONTROL_ONCOMMANDRECEIVED_MUTATOR_MIXIN = 
  * @this {Blockly.Block}
  */
 Blockly.Constants.Robots.ROBOTS_CUTEBOTPRO_RUN_WAITING_INIT_EXTENSION = function () {
-    this.wait_ = false;
+    this.option_ = false;
     this.update_(this.updateField_);
 };
 

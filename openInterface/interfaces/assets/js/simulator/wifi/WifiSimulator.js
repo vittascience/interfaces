@@ -81,9 +81,11 @@ var WifiSimulator = {
         for (var id in mutiEditorInterface) {
             if (mutiEditorInterface[id].network) {
                 const server = mutiEditorInterface[id].network.server;
-                if (server && server.dateUpdated && (server.addr[1] == addr.port) && ((server.hostname == addr.hostname) || (server.addr[0] == addr.ip))) {
-                    validServers.push(server);
-                    server.editorId = id;
+                if (server && server.dateUpdated && (server.addr[1] == addr.port)) { // same port
+                    if ((server.hostname && addr.hostname && server.hostname == addr.hostname) || (server.addr[0] == addr.ip)) {
+                        validServers.push(server);
+                        server.editorId = id;
+                    }
                 }
             }
         }
@@ -734,7 +736,7 @@ var iFrameSimulator = {
     },
 
     waitingServerResponse: function () {
-        // console.log("[IFRAME] waitingServerResponse()")
+        console.log("[IFRAME] waitingServerResponse()")
         const STATUS = {
             INACTIF: 0,
             NO_CLIENT: -1,
@@ -748,11 +750,11 @@ var iFrameSimulator = {
             if (server.currentClient) {
                 if (((server.currentClient.addr[0] == _this.ip) || (_this.hostname ? (server.currentClient.hostname == _this.hostname) : false ) ) && server.currentClient.sent) {
                     const sent = server.currentClient.sent;
-                    if (sent.length > 3 && sent[1].match(/application\\\/json/)) {
+                    if (sent.length > 3 && (sent[1].match(/application\\\/json/) || sent[2].match(/application\\\/json/))) {
                         multiEditor[_this._interface][_this.currentServerId].network.server.currentClient.sent = [];
                         localStorage.setItem('multiEditor', JSON.stringify(multiEditor));
-                        const json = sent[3].substr(2,sent[3].length-3);
-                        const serverResponse = JSON.parse(sent[3]);
+                        const json = sent[sent.length - 1];
+                        const serverResponse = JSON.parse(json);
                         if (serverResponse.spans) {
                             for (var i in serverResponse.spans) {
                                 const span = document.getElementById(i);

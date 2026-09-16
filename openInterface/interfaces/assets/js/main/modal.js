@@ -264,19 +264,22 @@ window.Modal.prototype = {
         return jsonPath(key);
     },
 
-     /**
-     * Open a modal
-     * @param {string} modal ID of the modal element 
-     * @param {boolean} showOverlay Whether to show the overlay
-     */
-    openModal: function(modal, showOverlay = true) {
+    /**
+    * Open a modal
+    * @param {string} modal ID of the modal element 
+    * @param {boolean} showOverlay Whether to show the overlay
+    * @param {boolean} closeOthers
+    */
+    openModal: function (modal, showOverlay = true, closeOthers = true) {
         try {
             $("#" + modal).localize();
         } catch (e) {
             console.error('Cannot find selector for element: ' + modal);
         }
 
-        this.closeAllModal();
+        if (closeOthers) {
+            this.closeAllModal();
+        }
 
         if (typeof vittaFormValidator !== 'undefined') vittaFormValidator.observeExistingForms();
 
@@ -320,7 +323,7 @@ window.Modal.prototype = {
      * Close the modal and reset its message
      * @param {string} modal ID of the modal element
      */
-    closeModal: function(modal) {
+    closeModal: function (modal) {
         if (ModalsBlockers[modal]) {
             ModalsBlockers[modal].end();
         }
@@ -349,7 +352,7 @@ window.Modal.prototype = {
      * Sets focus to the first interactive element in a modal, excluding close buttons.
      * @param {string} modal - ID of the modal element.
      */
-    setFocusToFirstElement: function(modal) {
+    setFocusToFirstElement: function (modal) {
         const currentModalElt = document.getElementById(modal);
         if (!currentModalElt) {
             console.error(`Modal with ID ${modal} not found.`);
@@ -372,7 +375,7 @@ window.Modal.prototype = {
     /**
      * Close all registered modals
      */
-    closeAllModal: function() {
+    closeAllModal: function () {
         ModalsOpenedModals.forEach((e) => {
             this.closeModal(e);
         });
@@ -382,14 +385,14 @@ window.Modal.prototype = {
      * Check if any modal is open
      * @returns {boolean}
      */
-    isOpen: function() {
+    isOpen: function () {
         return ModalsOpenedModals.length > 0;
     },
 
     /**
      * Close latest modal opened
      */
-    closeLatestModal: function() {
+    closeLatestModal: function () {
         if (ModalsOpenedModals.length > 0) {
             const lastModal = ModalsOpenedModals[ModalsOpenedModals.length - 1];
             this.closeModal(lastModal);
@@ -402,7 +405,7 @@ window.Modal.prototype = {
      * Register modal - Add modal to the list
      * @param {string} modal ID of the modal element
      */
-    add: function(modal) {
+    add: function (modal) {
         ModalsListModals.push(modal);
     },
 
@@ -411,7 +414,7 @@ window.Modal.prototype = {
      * @param {string} modal 
      * @returns {boolean}
      */
-    contains: function(modal) {
+    contains: function (modal) {
         return ModalsListModals.includes(modal);
     },
 
@@ -419,10 +422,11 @@ window.Modal.prototype = {
      * Reset message in a specific modal
      * @param {string} modal ID of the modal element
      */
-    resetMessage: function(modal) {
+    resetMessage: function (modal) {
         if (this.contains(modal)) {
             const modalElem = document.getElementById(modal);
             const msg = modalElem.getElementsByClassName('modal-message')[0];
+            if (!msg) return;
             msg.innerHTML = "";
             msg.setAttribute('class', 'modal-message');
             msg.removeAttribute('style');
@@ -434,7 +438,7 @@ window.Modal.prototype = {
      * @param {string} modal ID of the modal element
      * @param {function} cb Callback function to bind on exit button
      */
-    clickOnExit: function(modal, cb) {
+    clickOnExit: function (modal, cb) {
         if (this.contains(modal)) {
             const modalElem = document.getElementById(modal);
             const exitBtn = modalElem.querySelector('.vitta-modal-exit-btn');
@@ -448,13 +452,13 @@ window.Modal.prototype = {
      * @param {string} msg Your message i18next code
      * @param {string} type Message type
      */
-    setMessage: function(modal, msg, type = 'info') {
+    setMessage: function (modal, msg, type = 'info') {
         this.resetMessage(modal);
         const modalElem = document.getElementById(modal);
         const msgElem = modalElem.getElementsByClassName('modal-message')[0];
         msgElem.innerHTML = msg;
         msgElem.setAttribute('style', 'margin-bottom: 0.25rem');
-        
+
         const alertClasses = {
             'info': ['alert', 'alert-info'],
             'success': ['alert', 'alert-success'],
@@ -471,7 +475,7 @@ window.Modal.prototype = {
      * @param {string} elem Element ID
      * @param {string} event Event type
      */
-    resetEventOnElement: function(elem, event = '') {
+    resetEventOnElement: function (elem, event = '') {
         const element = document.getElementById(elem);
         if (element && event) {
             element.removeEventListener(event);
@@ -483,7 +487,7 @@ window.Modal.prototype = {
      * @param {array} listElem List of element IDs
      * @param {string} event Event type
      */
-    resetEventOnElements: function(listElem = [], event = '') {
+    resetEventOnElements: function (listElem = [], event = '') {
         listElem.forEach((e) => {
             this.resetEventOnElement(e, event);
         });
@@ -493,7 +497,7 @@ window.Modal.prototype = {
      * Shortcut to remove click event
      * @param {string} elem Element ID
      */
-    resetEventClick: function(elem) {
+    resetEventClick: function (elem) {
         this.resetEventOnElement(elem, 'click');
     },
 
@@ -503,7 +507,7 @@ window.Modal.prototype = {
      * @param {string} event Event type
      * @param {function} cb Callback function
      */
-    bindEvent: function(elem, event, cb) {
+    bindEvent: function (elem, event, cb) {
         this.resetEventClick(elem);
         const element = document.getElementById(elem);
         if (element) {
@@ -516,7 +520,7 @@ window.Modal.prototype = {
      * @param {string} modal ID of the modal element
      * @param {string} element Element to bind the event
      */
-    bindEventExitOnElement: function(modal, element) {
+    bindEventExitOnElement: function (modal, element) {
         const el = document.getElementById(element);
         if (el) {
             el.addEventListener('click', () => {
@@ -530,7 +534,7 @@ window.Modal.prototype = {
      * @param {string} modal ID of the modal element 
      * @param {array} listElem List of elements to apply event
      */
-    bindEventExitOnElements: function(modal, listElem) {
+    bindEventExitOnElements: function (modal, listElem) {
         listElem.forEach((element) => {
             this.bindEventExitOnElement(modal, element);
         });
@@ -541,7 +545,7 @@ window.Modal.prototype = {
      * @param {string} modal ID of the modal elements 
      * @param {string} msg Code i18next referenced to the correct string
      */
-    showInfo: function(modal, msg) {
+    showInfo: function (modal, msg) {
         this.setMessage(modal, msg);
     },
 
@@ -550,7 +554,7 @@ window.Modal.prototype = {
      * @param {string} modal ID of the modal elements 
      * @param {string} msg Code i18next referenced to the correct string
      */
-    showSuccess: function(modal, msg) {
+    showSuccess: function (modal, msg) {
         this.setMessage(modal, msg, "success");
         this.openModal(modal);
     },
@@ -560,7 +564,7 @@ window.Modal.prototype = {
      * @param {string} modal ID of the modal elements 
      * @param {string} msg Code i18next referenced to the correct string
      */
-    showWarning: function(modal, msg) {
+    showWarning: function (modal, msg) {
         this.setMessage(modal, msg, "warning");
         this.openModal(modal);
     },
@@ -570,7 +574,7 @@ window.Modal.prototype = {
      * @param {string} modal ID of the modal elements 
      * @param {string} msg Code i18next referenced to the correct string
      */
-    showError: function(modal, msg) {
+    showError: function (modal, msg) {
         this.setMessage(modal, msg, "error");
         this.openModal(modal);
     },
@@ -580,12 +584,12 @@ window.Modal.prototype = {
      * @param {string} content Content HTML
      * @param {string} footer Footer HTML
      */
-    setWarningModal: function(content = '', footer = '') {
+    setWarningModal: function (content = '', footer = '') {
         const warningModal = document.getElementById('warning-modal');
         if (warningModal) {
             const contentModal = warningModal.getElementsByClassName('modal-content-div');
             const footerModal = warningModal.getElementsByClassName('modal-footer-div');
-            
+
             // Implémentation à compléter selon votre besoin
             this.openModal('warning-modal');
         }
@@ -597,7 +601,7 @@ window.Modal.prototype = {
      * @param {string} modal Modal ID
      * @param {number} fontSize Font size
      */
-    newBlocker: function(message, modal, fontSize = null) {
+    newBlocker: function (message, modal, fontSize = null) {
         if (fontSize !== null) {
             ModalsBlockers[modal] = new VittaBlocker(message, '#' + modal, fontSize);
         } else {
@@ -609,7 +613,7 @@ window.Modal.prototype = {
      * End blocker
      * @param {string} modal Modal ID
      */
-    endBlocker: function(modal) {
+    endBlocker: function (modal) {
         if (ModalsBlockers[modal]) {
             ModalsBlockers[modal].end();
         }

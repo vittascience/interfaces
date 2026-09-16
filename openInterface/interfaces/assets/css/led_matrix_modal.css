@@ -2,6 +2,7 @@
 #popup_matrix_LED_RGB {
   padding: 1.5em;
   display: none;
+  flex-direction: column;
   background: var(--bg-2);
   z-index: 1001;
   border-radius: 0.75rem;

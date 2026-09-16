@@ -19,9 +19,11 @@ Blockly.Arduino.scratch_on_start = function (block) {
     let nextBlock = block.nextConnection.targetBlock()
     while (nextBlock !== null) {
         if (nextBlock.type !== 'scratch_forever') {
-            let blockCode = Blockly.Arduino[nextBlock.type](nextBlock);
-            if (blockCode !== undefined) {
-                stack += Blockly.Arduino.indent(blockCode, 1)
+            if (Blockly.Arduino[nextBlock.type] && !nextBlock.disabled) {
+                let blockCode = Blockly.Arduino[nextBlock.type](nextBlock);
+                if (blockCode !== undefined) {
+                    stack += Blockly.Arduino.indent(blockCode, 1)
+                }
             }
             nextBlock = nextBlock.nextConnection.targetBlock();
         } else {

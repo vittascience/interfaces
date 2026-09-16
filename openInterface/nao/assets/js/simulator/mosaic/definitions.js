@@ -1,14 +1,3 @@
-Simulator.Mosaic.pin_regex = /([0-9]{1,2})/;
-
-Simulator.Mosaic.getPinDef = (pin, mod) => {
-	const pins = Blockly.Constants.Pins[mod.pins];
-	const pinName = pins.find((p) => p[1] == pin);
-	return {
-		name: pinName ? pinName[0] : null,
-		id: pin.replace('pin', ''),
-	};
-};
-
 Simulator.Mosaic.externalLibraries = {
 	'src/lib/nao.js': Simulator.PATH_LIB + 'nao.js',
 	'src/lib/asr.js': Simulator.PATH_LIB + 'asr.js',
@@ -20,13 +9,6 @@ Simulator.Mosaic.externalLibraries = {
 	'src/lib/tts.js': Simulator.PATH_LIB + 'tts.js',
 	'src/lib/game.js': Simulator.PATH_LIB + 'game.js',
 };
-
-Simulator.Mosaic.addSpecificInitializations = function () {
-};
-
-Simulator.Mosaic.addSpecificSkulptFunctions = function () { };
-
-Simulator.Mosaic.groveRegex = {};
 
 Simulator.Mosaic.specific = {
 

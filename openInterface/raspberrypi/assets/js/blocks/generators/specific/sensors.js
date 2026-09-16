@@ -389,8 +389,9 @@ Blockly.Python.sensors_colorSensorV2_getData = function (block) {
     Blockly.Python.addImport('grove_i2c_color_sensor_v2', IMPORT_GROVE_COLORSENSORV2);
     Blockly.Python.addInit('colorSensorV2', "colorSensorV2 = GroveI2cColorSensorV2()");
     Blockly.Python.addImport('time', IMPORT_TIME);
+    Blockly.Python.addInit('colorSensorV2_vars', "_colorSensorV2_last_time = 0.0\n_colorSensorV2_last_raw = None");
     Blockly.Python.addFunction('colorSensorV2_measure', FUNCTIONS_RASPBERRY.DEF_COLORSENSORV2_MEASURE);
-    return ["colorSensorV2_measure(" + block.getFieldValue("DATA") + ")", Blockly.Python.ORDER_ATOMIC];
+    return ["colorSensorV2_measure('" + block.getFieldValue("DATA") + "')", Blockly.Python.ORDER_ATOMIC];
 };
 
 // Distance & Movement sensors

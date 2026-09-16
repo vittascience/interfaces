@@ -25,6 +25,8 @@ const PythonRun = {
             this.externalLibraries = Simulator.Mosaic.externalLibraries;
         } else {
             this.externalLibraries = {
+                'src/lib/vittatrace/__init__.js': this.PATH_LIB + 'vittatrace/__init__.js',
+                'src/lib/vittatrace/runtime.py': this.PATH_LIB + 'vittatrace/runtime.py',
                 'src/lib/numpy/__init__.js': this.PATH_LIB + 'numpy/__init__.js',
                 'src/lib/numpy/random/__init__.js': this.PATH_LIB + 'numpy/random/__init__.js',
                 'src/lib/matplotlib/__init__.js': this.PATH_LIB + 'matplotlib/__init__.js',
@@ -90,26 +92,38 @@ const PythonRun = {
      */
     startTest: async function (code, outputDivId, test, exercise) {
         code = code.replace(/input\(["'].+["']\)/, "1");
-        let input = 'print("@vittatest"';
-        for (var unit in test) {
-            input += ',"@unitest",';
-            if (test[unit].inputs == false) {
-                input += exercise.functionName + '()';
-            } else {
-                input += exercise.functionName + '(';
-                for (let l = 0; l < test[unit].inputs.length; l++) {
-                    input += test[unit].inputs[l];
-                    if (l != test[unit].inputs.length - 1) input += ",";
-                }
-                input += ')';
-            }
-        }
-        input += ')';
-        const codeBis = code + "\n" + input;
+        const codeBis = code + "\n" + this._buildUnitTestsRunner(test, exercise.functionName);
         this.monitor = document.getElementById(outputDivId);
         this.isTest = true;
         await this._runCode(codeBis);
         return true;
+    },
+
+    _buildUnitTestArguments: function (unitTest) {
+        const valueHelper = window.PythonUnitTestValues;
+        const unitInputs = Array.isArray(unitTest.inputs) ? unitTest.inputs : [];
+
+        return unitInputs
+            .map((entry) => valueHelper ? valueHelper.toPythonExpression(entry) : String(entry))
+            .filter((entry) => entry !== '')
+            .join(',');
+    },
+
+    _buildUnitTestCall: function (unitTest, functionName) {
+        const inputArguments = this._buildUnitTestArguments(unitTest);
+        if (inputArguments === '') {
+            return 'repr(' + functionName + '())';
+        }
+        return 'repr(' + functionName + '(' + inputArguments + '))';
+    },
+
+    _buildUnitTestsRunner: function (unitTests, functionName) {
+        let runner = 'print("@vittatest"';
+        for (const unitTest of unitTests) {
+            runner += ',"@unitest",' + this._buildUnitTestCall(unitTest, functionName);
+        }
+        runner += ')';
+        return runner;
     },
 
     /**
@@ -212,7 +226,17 @@ const PythonRun = {
         }
         this.isStopped = false;
         return new Promise((resolve, reject) => {
-            code = this._getAdaptedCode(code);
+            code = this._getAdaptedCode(code)
+                .split('\n')
+                .map((line) => {
+                    const simpleImportMatch = line.match(/^(\s*)import\s+random(\s*(?:#.*)?)$/);
+                    if (simpleImportMatch) {
+                        const [, indent, trailer] = simpleImportMatch;
+                        return `${indent}import _random as random${trailer}`;
+                    }
+                    return line;
+                })
+                .join('\n');
             if (code.match(/input\(.*\)/gi)) {
                 this.TIME_LIMIT = Infinity;
             }
@@ -238,7 +262,20 @@ const PythonRun = {
                 inputfun: PythonInput.promiseFunction,
                 inputfunTakesPrompt: true /* then you need to output the prompt yourself */
             });
-            (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'canvas-turtle';
+            const _turtleGraphics = (Sk.TurtleGraphics || (Sk.TurtleGraphics = {}));
+            _turtleGraphics.target = 'canvas-turtle';
+            _turtleGraphics.assets = Object.assign({
+                'maze.png': '/openInterface/python/assets/media/turtle/maze.png',
+                'grid.png': '/openInterface/python/assets/media/turtle/grid.png',
+                'vittascience.png': '/openInterface/python/assets/media/turtle/vittascience.png',
+                'labyrinthe1.png': '/openInterface/python/assets/media/turtle/labyrinthe1.png',
+                'labyrinthe2.png': '/openInterface/python/assets/media/turtle/labyrinthe2.png',
+                'labyrinthe3.png': '/openInterface/python/assets/media/turtle/labyrinthe3.png',
+                'labyrinthe4.png': '/openInterface/python/assets/media/turtle/labyrinthe4.png',
+                'labyrinthe5.png': '/openInterface/python/assets/media/turtle/labyrinthe5.png',
+                'labyrinthe6.png': '/openInterface/python/assets/media/turtle/labyrinthe6.png',
+                'labyrinthe7.png': '/openInterface/python/assets/media/turtle/labyrinthe7.png'
+            }, _turtleGraphics.assets || {});
             Sk.canvas = 'canvas-matplotlib';
             _this._initializeTurtle(/.*turtle.*import.*/.test(code) || /.*import.*turtle.*/.test(code));
 
@@ -303,7 +340,239 @@ const PythonRun = {
                 code = code.replace(RegExp(functions[i].replace('def ', '').replace('(', ''), 'g'), newDef.replace('def ', '').replace('(', ''));
             }
         }
+        if (this._shouldInjectTurtleTracing(code)) {
+            code = this._injectTurtleTracingPrelude(code);
+        }
         return code;
+    },
+
+    /**
+     * Tell whether turtle tracing must be injected in the executed code.
+     * @private
+     * @param {string} code
+     * @returns {boolean}
+     */
+    _shouldInjectTurtleTracing: function (code) {
+        const globalScope = typeof globalThis !== 'undefined' ? globalThis : window;
+        const isTraceCaptureEnabled = Boolean(globalScope && globalScope.__VittaTurtleTraceExecution);
+        return isTraceCaptureEnabled && /(^|\n)\s*(import\s+turtle\b|from\s+turtle\s+import\b)/m.test(code);
+    },
+
+    /**
+     * Inject the turtle tracing helper and insert one trace call after each matched turtle line.
+     * @private
+     * @param {string} code
+     * @returns {string}
+     */
+    _injectTurtleTracingPrelude: function (code) {
+        const context = this._analyzeTurtleTracingContext(code);
+        const instrumentedCode = this._instrumentTurtleTracingCode(code, context);
+        return `${this._getTurtleTracingPrelude()}\n\n${instrumentedCode}`;
+    },
+
+    /**
+     * Collect the turtle names used in the current script.
+     * @private
+     * @param {string} code
+     * @returns {object}
+     */
+    _analyzeTurtleTracingContext: function (code) {
+        const context = {
+            moduleAliases: new Set(['turtle']),
+            importedNames: new Map(),
+            tracedTargets: new Set(),
+            methods: {
+                forward: 'forward', fd: 'forward',
+                backward: 'backward', back: 'backward', bk: 'backward',
+                goto: 'goto', setpos: 'goto', setposition: 'goto',
+                setx: 'setx', sety: 'sety', home: 'home',
+                left: 'left', lt: 'left', right: 'right', rt: 'right',
+                setheading: 'setheading', seth: 'setheading',
+                circle: 'circle', dot: 'dot', write: 'write', stamp: 'stamp',
+                clear: 'clear', reset: 'reset', clearscreen: 'clearscreen', resetscreen: 'resetscreen', undo: 'undo',
+                begin_fill: 'begin_fill', end_fill: 'end_fill',
+                penup: 'penup', up: 'penup', pu: 'penup',
+                pendown: 'pendown', down: 'pendown', pd: 'pendown',
+                pencolor: 'pencolor', fillcolor: 'fillcolor', color: 'color',
+                pensize: 'pensize', width: 'pensize',
+                shape: 'shape', showturtle: 'showturtle', st: 'showturtle', hideturtle: 'hideturtle', ht: 'hideturtle',
+                degrees: 'degrees', radians: 'radians',
+                setup: 'setup', setworldcoordinates: 'setworldcoordinates'
+            },
+            constructors: new Set(['Turtle', 'Pen', 'Screen'])
+        };
+
+        for (const line of code.split('\n')) {
+            const importMatch = line.match(/^\s*import\s+(.+?)\s*(?:#.*)?$/);
+            if (importMatch) {
+                for (const moduleChunk of importMatch[1].split(',')) {
+                    const moduleSpec = moduleChunk.trim().match(/^turtle(?:\s+as\s+([A-Za-z_]\w*))?$/);
+                    if (moduleSpec) {
+                        context.moduleAliases.add(moduleSpec[1] || 'turtle');
+                    }
+                }
+            }
+
+            const fromImportMatch = line.match(/^\s*from\s+turtle\s+import\s+(.+?)\s*(?:#.*)?$/);
+            if (fromImportMatch) {
+                this._registerTurtleImportedNames(context, fromImportMatch[1]);
+            }
+
+            const assignedCallMatch = line.match(/^\s*([A-Za-z_]\w*)\s*=\s*(?:([A-Za-z_]\w*)\.)?([A-Za-z_]\w*)\s*\(/);
+            if (!assignedCallMatch) {
+                continue;
+            }
+
+            const [, assignedName, ownerName, callableName] = assignedCallMatch;
+            const importedCallable = ownerName ? null : context.importedNames.get(callableName);
+            const resolvedCallable = importedCallable || callableName;
+
+            if ((ownerName && context.moduleAliases.has(ownerName) && context.constructors.has(callableName)) || context.constructors.has(resolvedCallable)) {
+                context.tracedTargets.add(assignedName);
+            }
+
+            if (callableName === 'clone' && context.tracedTargets.has(ownerName)) {
+                context.tracedTargets.add(assignedName);
+            }
+        }
+
+        return context;
+    },
+
+    /**
+     * Register names imported through `from turtle import ...`.
+     * @private
+     * @param {object} context
+     * @param {string} importSpec
+     * @returns {void}
+     */
+    _registerTurtleImportedNames: function (context, importSpec) {
+        const availableNames = [...Object.keys(context.methods), ...context.constructors];
+        if (importSpec.trim() === '*') {
+            for (const name of availableNames) {
+                context.importedNames.set(name, name);
+            }
+            return;
+        }
+
+        for (const importedChunk of importSpec.split(',')) {
+            const importedMatch = importedChunk.trim().match(/^([A-Za-z_]\w*)(?:\s+as\s+([A-Za-z_]\w*))?$/);
+            if (importedMatch) {
+                context.importedNames.set(importedMatch[2] || importedMatch[1], importedMatch[1]);
+            }
+        }
+    },
+
+    /**
+     * Insert a trace line after each matched turtle instruction.
+     * @private
+     * @param {string} code
+     * @param {object} context
+     * @returns {string}
+     */
+    _instrumentTurtleTracingCode: function (code, context) {
+        return code
+            .split('\n')
+            .flatMap((line) => this._instrumentTurtleTracingLine(line, context))
+            .join('\n');
+    },
+
+    /**
+     * Instrument one line when it contains one supported turtle call.
+     * @private
+     * @param {string} line
+     * @param {object} context
+     * @returns {string[]}
+     */
+    _instrumentTurtleTracingLine: function (line, context) {
+        if (!line || line.includes('__vitta_turtle_trace__(') || line.includes('__vitta_turtle_register__(')) {
+            return [line];
+        }
+
+        const assignedCallMatch = line.match(/^(\s*)([A-Za-z_]\w*)\s*=\s*(?:([A-Za-z_]\w*)\.)?([A-Za-z_]\w*)\((.*)\)(\s*(?:#.*)?)$/);
+        if (assignedCallMatch) {
+            const [, indent, assignedName, ownerName, callableName] = assignedCallMatch;
+            const importedCallable = ownerName ? null : context.importedNames.get(callableName);
+            const resolvedCallable = importedCallable || callableName;
+            const isConstructor = (
+                ownerName
+                && context.moduleAliases.has(ownerName)
+                && context.constructors.has(callableName)
+            ) || context.constructors.has(resolvedCallable);
+
+            if (isConstructor) {
+                return [line, this._buildTurtleRegisterLine(indent, assignedName)];
+            }
+
+            if (callableName === 'clone' && context.tracedTargets.has(ownerName)) {
+                return [line, this._buildTurtleRegisterLine(indent, assignedName, ownerName)];
+            }
+        }
+
+        const memberCallMatch = line.match(/^(\s*)([A-Za-z_]\w*)\.([A-Za-z_]\w*)\((.*)\)(\s*(?:#.*)?)$/);
+        if (memberCallMatch) {
+            const [, indent, targetName, methodName, argsSource] = memberCallMatch;
+            const instruction = context.methods[methodName];
+            if (instruction && (context.moduleAliases.has(targetName) || context.tracedTargets.has(targetName))) {
+                return [line, this._buildTurtleTraceLine(indent, targetName, instruction, argsSource)];
+            }
+        }
+
+        const bareCallMatch = line.match(/^(\s*)([A-Za-z_]\w*)\((.*)\)(\s*(?:#.*)?)$/);
+        if (!bareCallMatch) {
+            return [line];
+        }
+
+        const [, indent, bareName, argsSource] = bareCallMatch;
+        const importedName = context.importedNames.get(bareName);
+        const instruction = context.methods[importedName];
+        if (!instruction) {
+            return [line];
+        }
+
+        return [line, this._buildTurtleTraceLine(indent, '__vitta_turtle_module__', instruction, argsSource)];
+    },
+
+    /**
+     * Build the injected target registration line.
+     * @private
+     * @param {string} indent
+     * @param {string} targetExpression
+     * @param {string} [sourceExpression]
+     * @returns {string}
+     */
+    _buildTurtleRegisterLine: function (indent, targetExpression, sourceExpression) {
+        if (sourceExpression) {
+            return `${indent}__vitta_turtle_register__(${targetExpression}, ${sourceExpression})`;
+        }
+
+        return `${indent}__vitta_turtle_register__(${targetExpression})`;
+    },
+
+    /**
+     * Build the injected trace line.
+     * @private
+     * @param {string} indent
+     * @param {string} targetExpression
+     * @param {string} instruction
+     * @param {string} argsSource
+     * @returns {string}
+     */
+    _buildTurtleTraceLine: function (indent, targetExpression, instruction, argsSource) {
+        const traceArgs = argsSource && argsSource.trim().length ? `, ${argsSource.trim()}` : '';
+        return `${indent}__vitta_turtle_trace__('${instruction}', ${targetExpression}${traceArgs})`;
+    },
+
+    /**
+     * Build the import prelude used by the turtle source rewrite.
+     * @private
+     * @returns {string}
+     */
+    _getTurtleTracingPrelude: function () {
+        return [
+            'import turtle as __vitta_turtle_module__',
+            'from vittatrace.runtime import __vitta_turtle_register__, __vitta_turtle_trace__'
+        ].join('\n');
     },
 
     builtinRead: function (file) {

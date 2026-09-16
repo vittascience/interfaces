@@ -1,3 +1,16 @@
+<!-- Origamia : pose la classe + injecte le loader le plus tôt possible (avant que
+     l'interface ne s'affiche) pour masquer toute la mise en place. -->
+<script>
+    if (new URLSearchParams(location.search).get('provider') === 'origamia') {
+        document.documentElement.classList.add('provider-origamia');
+        var _origamiaLoader = document.createElement('div');
+        _origamiaLoader.id = 'origamia-loader';
+        _origamiaLoader.innerHTML = '<div class="origamia-loader-inner"><div class="origamia-spinner"></div>'
+            + '<p>Chargement de l\'interface en cours…</p></div>';
+        (document.body || document.documentElement).appendChild(_origamiaLoader);
+    }
+</script>
+
 <!-- IDE -->
 <div class="overlay"></div>
 <div id="ide">
@@ -334,3 +347,5 @@
 <script type="module" src="/public/js/scripts/turtleAutocorrector/TurtleAutocorrector.js"></script>
 <link property rel="stylesheet" href="/python/assets/css/vittapyther.css" media="screen" />
 <script src="/python/assets/js/vittapyther/socket.io.min.js"></script>
+<!-- Origamia : comportements JS (no-op hors provider=origamia) -->
+<script src="/openInterface/python/assets/js/origamia.js"></script>

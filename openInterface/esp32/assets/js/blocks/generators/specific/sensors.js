@@ -492,6 +492,24 @@ Blockly.Python.sensors_gy521_getData = function (block) {
 
 // Other sensors
 
+Blockly.Python.sensors_getMlx90621Temperature = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
+    Blockly.Python.addImport('esp32_mlx90621', IMPORT_ESP32_MLX90621);
+    Blockly.Python.addInit('mlx90621', "mlx90621 = MLX90621(i2c=" + i2c + ")");
+    Blockly.Python.addPowerOn('mlx90621', "mlx90621.mlx90621_init()");
+    const dataType = block.getFieldValue("DATA_TYPE");
+    return [`mlx90621.mlx90621_read_ir('${dataType}')`, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.sensors_getMlx90621TempData = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
+    Blockly.Python.addImport('esp32_mlx90621', IMPORT_ESP32_MLX90621);
+    Blockly.Python.addInit('mlx90621', "mlx90621 = MLX90621(i2c=" + i2c + ")");
+    Blockly.Python.addPowerOn('mlx90621', "mlx90621.mlx90621_init()");
+    const dataType = block.getFieldValue("DATA_TYPE");
+    return [`mlx90621.get_${dataType}_temp()`, Blockly.Python.ORDER_ATOMIC];
+};
+
 Blockly.Python.sensors_getFsr402Force = function (block) {
     const pinName = Blockly.Python.Generators.analog_read(block.getFieldValue("PIN"), 'Force Sensor');
     return [pinName + ".read()", Blockly.Python.ORDER_ATOMIC];

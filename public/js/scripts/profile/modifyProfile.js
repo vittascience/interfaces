@@ -1,3 +1,28 @@
+(function () {
+    var gradeInput = document.getElementById("teacher-grade-input");
+    var subjectInput = document.getElementById("teacher-subject-input");
+    if (!gradeInput || !subjectInput || !window.TEACHER_GRADE_SUBJECTS) {
+        return;
+    }
+
+    function refillSubjects() {
+        var subjects = window.TEACHER_GRADE_SUBJECTS[gradeInput.value] || [];
+        subjectInput.innerHTML = "";
+        subjects.forEach(function (subject, index) {
+            var option = document.createElement("option");
+            option.value = index;
+            option.textContent = subject;
+            subjectInput.appendChild(option);
+        });
+    }
+
+    gradeInput.addEventListener("change", refillSubjects);
+
+    if (subjectInput.options.length === 0) {
+        refillSubjects();
+    }
+})();
+
 function modifyProfile(){
     
     var request = getAjaxRequest();

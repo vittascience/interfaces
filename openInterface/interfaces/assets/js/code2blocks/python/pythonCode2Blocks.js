@@ -226,9 +226,7 @@ export default class Python2Blocks {
 		// old methode to get the code
 		// const code = this.codeManager.getTextCode();
 		// try to get the code from the editor directly
-		const code = Main.getCodeEditor().container.getSession().getValue();
-
-		return code;
+		return Main.getCodeEditor().container.getSession().getValue();
 	}
 
 	storeXml() {
@@ -242,8 +240,10 @@ export default class Python2Blocks {
 	 * Parse the code and reconstrut the AST recursively
 	 * @returns {object} - The AST in json format
 	 * */
-	parseCode() {
-		this.code = this.getTextCode();
+	parseCode(gettingCode = false) {
+		if (gettingCode) {
+			this.code = this.getTextCode();
+		}
 		const time = new Date().getTime();
 		let tree;
 		try {
@@ -2570,13 +2570,13 @@ export default class Python2Blocks {
 	 * @returns {void} => call the injectBlocks function
 	 * */
 	prepareInjection() {
-		const code = this.getTextCode();
+		this.code = this.getTextCode();
 		try {
-			if (code.length > 400) {
+			if (this.code.length > 400) {
 				this.debounceFunction(this.injectBlocks.bind(this), 500)();
-			} else if (code.length > 800) {
+			} else if (this.code.length > 800) {
 				this.debounceFunction(this.injectBlocks.bind(this), 1000)();
-			} else if (code.length > 1200) {
+			} else if (this.code.length > 1200) {
 				this.debounceFunction(this.injectBlocks.bind(this), 1500)();
 			} else {
 				this.injectBlocks();

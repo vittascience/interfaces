@@ -11,8 +11,8 @@
                         "id": "smartphone",
                         "label": "Smartphone",
                         "image": "phone.svg",
-                        "fabrication": 85.3,
-                        "one_year_utilization": 0.22,
+                        "fabrication": 79.516,
+                        "one_year_utilization": 0.255737256,
                         "theoretical_use": 3,
                         "lifetime": 2.5,
                         "secondHandImpact": 75
@@ -21,8 +21,8 @@
                         "id": "tablette",
                         "label": "Tablette",
                         "image": "tablet.svg",
-                        "fabrication": 60.1,
-                        "one_year_utilization": 0.6,
+                        "fabrication": 84.294,
+                        "one_year_utilization": 0.9471749999999999,
                         "theoretical_use": 3,
                         "lifetime": 3,
                         "secondHandImpact": 63
@@ -32,7 +32,7 @@
                         "label": "Enceinte connectée",
                         "image": "enceinte.svg",
                         "fabrication": 20.5,
-                        "one_year_utilization": 1.2,
+                        "one_year_utilization": 1.13661,
                         "theoretical_use": 3,
                         "lifetime": 5,
                         "secondHandImpact": 75
@@ -41,8 +41,8 @@
                         "id": "computer",
                         "label": "Ordinateur",
                         "image": "computer.svg",
-                        "fabrication": 185.8,
-                        "one_year_utilization": 1.52,
+                        "fabrication": 185.09,
+                        "one_year_utilization": 1.50600825,
                         "theoretical_use": 3,
                         "lifetime": 5,
                         "secondHandImpact": 70
@@ -62,7 +62,7 @@
                         "label": "Télévision",
                         "image": "tv.svg",
                         "image_darkmode": "tv-darkmode.svg",
-                        "fabrication": 388,
+                        "fabrication": 387.6,
                         "one_year_utilization": 10.6,
                         "theoretical_use": 3,
                         "lifetime": 8,
@@ -586,15 +586,15 @@
                         "impact_ai_image": 0.01475
                     },
                     {
-                        "id": "email",
-                        "label": " Emails",
-                        "image": "mail.svg",
-                        "impact_email_text": 0.00021,
-                        "impact_email_attachment": 0.00129, 
-                        "impact_email_attachment_5": 0.00562,
-                        "impact_email_spam": 3.74,
-                        "theoretical_use": 1
+                        "id": "cloud",
+                        "label": " Stockage dans le cloud",
+                        "image": "cloud.svg",
+                        "impact_cloud": 0.00023533417,
+                        "theoretical_use": 1,
+                        "unit": "années"
+                      
                     }
+       
                 ]
             }
         },
@@ -930,8 +930,9 @@
                 }
             ]
         },
+ 
         {
-            "title": "📧 Emails",
+            "title": "📦 Stockage dans le cloud",
             "visible_if": {
                 "device_selection": [
                     "smartphone",
@@ -939,54 +940,25 @@
                     "tablette"
                 ]
             },
-            "id": "email",
-            "practical_tips": [
-                "Réduisez l’impact environnemental de vos e-mails avec ces bonnes pratiques :<br/>",
-                "🗑️ Supprimez régulièrement les messages inutiles <br/>",
-                "📂 Limitez l’envoi de pièces jointes volumineuses <br/>",
-                "📨 Désactivez les abonnements à des newsletters non pertinentes <br/>",
-                "💻 Favorisez les outils de collaboration en ligne pour réduire les échanges d’e-mails répétés"
-            ],
-            "storage duration": 10,
-            "rules": "<strong>Les bases du calcul:</strong>Comprend la transmission, l'utilisation des terminaux et des data centers, sans inclure la construction des terminaux. Appareil utilisé : ordinateur, durée de la rédaction : 5 minutes, destinataire : 1.",
-            "send_mail": 117.7,
+            "id": "cloud",
+
+            "storage duration": 1,
+            "rules": "<strong>Les bases du calcul:</strong>Stockage de données dans le cloud pendant un an",
+            "data_saved": 20,
             "questions": [
                 {
-                     "ref": "label_day_time",
-                    "label": "Combien d'e-mails texte (environ) reçois-tu et envoies-tu chaque jour?",
+                     "ref": "label_how_many",
+                    "label": "Combien de données stockes-tu dans le cloud (en Go) ?",
                     "type": "number",
-                    "name": "email_text",
+                    "name": "cloud",
                     "info": [
-                        "L'envoi d'un e-mail simple (sans pièce jointe) émet environ 0.21 grammes de eq CO₂ 📧"
+                        "Le stockage de données dans le cloud émet environ 0,24 grammes de eq CO₂ par Go et par an 🌍"
                     ],
                     "links": [
-                        "https://impactco2.fr/outils/usagenumerique/email"
-                    ]
-                },
-                {
-                     "ref": "label_attachment",
-                    "label": "Combien d’e-mails avec pièces jointes envoies-tu et reçois-tu chaque jour?",
-                    "type": "number",
-                    "name": "email_attachment",
-                    "info": [
-                        "Une lettre avec un fichier attaché émet environ 1,29 gramme de eq CO₂ ✉️📎🌱"
-                    ],
-                    "links": [
-                        "https://impactco2.fr/outils/usagenumerique/email"
-                    ]
-                },
-                {
-                     "ref": "label_spam",
-                    "label": "Combien de courriers indésirables et de spams s'accumulent dans ta boîte de réception chaque jour ? (en prenant en compte les courriers sociaux et promotionnels)",
-                    "type": "number",
-                    "name": "email_spam",
-                    "info": [
-                        "Un e-mail de spam émet environ 3,74 grammes de eq CO₂ 📧. C'est l'équivalent de ce qu'un arbre absorbe en 1 jour 🌳."
-                    ],
-                    "link": [
-                        "https://impactco2.fr/outils/usagenumerique/spam"
+                        "https://impactco2.fr/outils/usagenumerique/stockagedonnee"
                     ]
                 }
+        
             ]
         },
         {

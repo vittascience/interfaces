@@ -35,6 +35,7 @@ class ProjectManager {
             }
         }
     };
+    static PUBLIC_PROJECTS_PAGE_SIZE = 30;
     //684fc7a4917ab
     static TEST_PROJECT = '<xml xmlns="https://developers.google.com/blockly/xml"><block type="forever" id="o[WN]+eeF.OUxGch67@8" deletable="false" x="-1087" y="-38"><statement name="DO"><block type="robots_setMaqueenPlusV2ServoAngle" id="Zyr0Ula7%iq0$pjDlq4g"><field name="SERVO">pin0</field><value name="ANGLE"><shadow type="math_number" id="5qe}:O6(_5$S?0:YP}+i"><field name="NUM">90</field></shadow></value><next><block type="robots_setMaqueenPlusV2ServoAngle" id="Fq.a`Va:NJZ3#!o0B?)b"><field name="SERVO">pin0</field><value name="ANGLE"><shadow type="math_number" id=";~$pHGbQb+A|7-S-MJ$p"><field name="NUM">90</field></shadow></value><next><block type="robots_setMaqueenPlusV2ServoAngle" id="J*t8JKyB9Pmv1u`]EIDP"><field name="SERVO">pin0</field><value name="ANGLE"><shadow type="math_number" id="MYGUa8wi0=|FyfEF`ar|"><field name="NUM">90</field></shadow></value><next><block type="robots_setMaqueenPlusV2ServoAngle" id="2c*wgCC-pjPHC-d]a23#"><field name="SERVO">pin0</field><value name="ANGLE"><shadow type="math_number" id="s$s/ES!6u!k{?7aDp_F9"><field name="NUM">90</field></shadow></value></block></next></block></next></block></next></block></statement></block><block type="on_start" id="G[=T#8yqB70`NFgYq}GP" deletable="false" x="-462" y="-38"></block></xml>';
     /**
@@ -50,6 +51,10 @@ class ProjectManager {
         this._myProjects = [];
         this._allPublicProjects = [];
         this._allExampleProjects = [];
+        this._publicProjectsOffset = 0;
+        this._publicProjectsHasMore = true;
+        this._publicProjectsSearchKeyword = '';
+        this._publicProjectsPageLoading = false;
         this._rpc = null;
         this.requiresSetupBlocks = false;
         this.myProjectsLoaded = false;
@@ -61,11 +66,14 @@ class ProjectManager {
         this.isLocalAiModel = false;
         this.pythonAutocorrectionRunCount = 0;
         this._startTime = Date.now();
+        this._isInitializing = true;
+        this._userTypedDuringInit = false;
         this.localStorageManager.addLocalId();
         this._setupWebInterfaceParameters();
         this._setupArduinoInterfaceParameters();
         this._setupPythonInterfaceParameters();
         this._setupEvidenceBRPC();
+        this._setupOrigamiaRPC();
         this._setupTiRPC();
         this._setExerciseStatement();
         this._hideAutocorrectorButton();
@@ -95,6 +103,7 @@ class ProjectManager {
         return new Promise(async (resolve, reject) => {
             try {
                 if (typeof IS_CAPYTALE_CONTEXT !== 'undefined') return resolve();
+                if (typeof $_GET !== 'undefined' && $_GET('nocloud')) return resolve();
                 const allProjectPromises = [];
                 allProjectPromises.push(
                     new Promise(async (resolve, reject) => {
@@ -104,15 +113,6 @@ class ProjectManager {
                         if (!this.isVisitor) {
                             this.myProjectsLoaded = true;
                         }
-                        resolve();
-                    })
-                );
-                allProjectPromises.push(
-                    new Promise(async (resolve, reject) => {
-                        await this._projectsFinder_getPublics();
-                        this.populateAllProjects();
-                        this.publicProjectsLoaded = true;
-                        pseudoModal.endBlocker('modal-openproject');
                         resolve();
                     })
                 );
@@ -148,33 +148,113 @@ class ProjectManager {
             this._allExampleProjects = this._filterProjectsByAiType(this._allExampleProjects);
         }
         populateProjects(callback(this._myProjects), "my-projects");
-        populateProjects(callback(this._allPublicProjects), "shared-projects");
+        // _allPublicProjects is already filtered/paginated server-side (see _publicProjectsFetchPage), don't re-filter it here.
+        populateProjects(this._allPublicProjects, "shared-projects");
         populateProjects(callback(this._allExampleProjects), "example-projects");
     };
 
     /**
-     * Init public projects using call back.
-     * @private
+     * Lazily fetch the first page of public projects the first time they're needed (open-project panel), instead of on every page load.
+     * @public
+     * @returns {Promise}
      */
-    _projectsFinder_getPublics() {
+    ensurePublicProjectsLoaded() {
+        if (typeof IS_CAPYTALE_CONTEXT !== 'undefined') return Promise.resolve();
+        if (typeof $_GET !== 'undefined' && $_GET('nocloud')) return Promise.resolve();
+        if (this.publicProjectsLoaded) return Promise.resolve();
+        if (this._publicProjectsLoading) return this._publicProjectsLoading;
+        this._publicProjectsLoading = this._publicProjectsFetchPage({ reset: true })
+            .then(() => {
+                this.publicProjectsLoaded = true;
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+            .finally(() => {
+                pseudoModal.endBlocker('modal-openproject');
+                this._publicProjectsLoading = null;
+            });
+        return this._publicProjectsLoading;
+    };
+
+    /**
+     * Fetch one page of public projects (optionally filtered by _publicProjectsSearchKeyword) and either
+     * replace the in-memory list (reset, e.g. first load or new search) or append to it (load more / infinite scroll).
+     * @public
+     * @param {Object} [options]
+     * @param {boolean} [options.reset=false]
+     * @returns {Promise}
+     */
+    _publicProjectsFetchPage({ reset = false } = {}) {
+        if (reset) {
+            this._allPublicProjects = [];
+            this._publicProjectsOffset = 0;
+            this._publicProjectsHasMore = true;
+        }
+        if (!this._publicProjectsHasMore || this._publicProjectsPageLoading) {
+            return Promise.resolve();
+        }
+        this._publicProjectsPageLoading = true;
         return new Promise((resolve, reject) => {
             $.ajax({
                 type: "POST",
                 url: "/routing/Routing.php?controller=project&action=get_all_public",
                 data: {
-                    "interface": this._interface
+                    "interface": this._interface,
+                    "limit": ProjectManager.PUBLIC_PROJECTS_PAGE_SIZE,
+                    "offset": this._publicProjectsOffset,
+                    "search": this._publicProjectsSearchKeyword
                 },
                 dataType: "JSON",
                 success: (response) => {
-                    this._allPublicProjects = response;
+                    const projects = (response && Array.isArray(response.projects)) ? response.projects : [];
+                    this._allPublicProjects = this._allPublicProjects.concat(projects);
+                    this._publicProjectsOffset += projects.length;
+                    this._publicProjectsHasMore = !!(response && response.hasMore);
+                    this.populateAllProjects();
                     resolve();
                 },
-                error: function (error) {
+                error: (error) => {
                     new VittaControllerNotif().manageError(error, this);
                     reject();
+                },
+                complete: () => {
+                    this._publicProjectsPageLoading = false;
                 }
             });
         });
+    };
+
+    /**
+     * Search public projects server-side (debounced by the caller) and replace the shared-projects list with the results.
+     * @public
+     * @param {string} keyword
+     * @returns {Promise}
+     */
+    searchPublicProjects(keyword) {
+        this._publicProjectsSearchKeyword = keyword || '';
+        return this._publicProjectsFetchPage({ reset: true });
+    };
+
+    /**
+     * Force a refetch of the unfiltered first page of public projects (e.g. reopening the panel after a search
+     * was left active) while going through the same loading-blocker handling as the first load.
+     * @public
+     * @returns {Promise}
+     */
+    resetPublicProjectsSearch() {
+        this._publicProjectsSearchKeyword = '';
+        this.publicProjectsLoaded = false;
+        return this.ensurePublicProjectsLoaded();
+    };
+
+    /**
+     * Load the next page of public projects (load more / infinite scroll). No-op if already loading or no more pages.
+     * @public
+     * @returns {Promise}
+     */
+    loadMorePublicProjects() {
+        return this._publicProjectsFetchPage({ reset: false });
     };
 
     /**
@@ -183,39 +263,52 @@ class ProjectManager {
      * @returns {Promise}
      */
     _projectsFinder_getExamples() {
-        const getExamples = async (links, category = null, subcategorie = null) => {
-            for (var link of links) {
-                const project = await this.ajax_getProjectByLinkFromDB(link, this._interface);
-                if (project && project.interface == this._interface) {
-                    project.exampleCategory = category;
-                    if (subcategorie) {
-                        project.exampleSubcategories = subcategorie;
-                    }
-                    this._allExampleProjects.push(project);
-                }
-            }
-        };
         return new Promise(async (resolve, reject) => {
-            // check if the example projects are a simple array of links or an object with categories
-            if (Array.isArray(EXAMPLE_PROJECT_LINKS)) {
-                const links = EXAMPLE_PROJECT_LINKS;
-                await getExamples(links);
-                return resolve();
-            }
-            for (var category in EXAMPLE_PROJECT_LINKS) {
-                if (Array.isArray(EXAMPLE_PROJECT_LINKS[category])) {
-                    await getExamples(EXAMPLE_PROJECT_LINKS[category], category);
-                    continue;
-
+            try {
+                // Flatten EXAMPLE_PROJECT_LINKS (a plain array, or an object with categories/subcategories) into {link, category, subcategorie} entries.
+                const entries = [];
+                const collectLinks = (links, category = null, subcategorie = null) => {
+                    for (var link of links) {
+                        entries.push({ link, category, subcategorie });
+                    }
+                };
+                if (Array.isArray(EXAMPLE_PROJECT_LINKS)) {
+                    collectLinks(EXAMPLE_PROJECT_LINKS);
                 } else {
-                    for (var subCategory in EXAMPLE_PROJECT_LINKS[category]) {
-                        // if the category is an object, it means that we have subcategories
-                        const links = EXAMPLE_PROJECT_LINKS[category][subCategory];
-                        await getExamples(links, category, subCategory);
+                    for (var category in EXAMPLE_PROJECT_LINKS) {
+                        if (Array.isArray(EXAMPLE_PROJECT_LINKS[category])) {
+                            collectLinks(EXAMPLE_PROJECT_LINKS[category], category);
+                        } else {
+                            for (var subCategory in EXAMPLE_PROJECT_LINKS[category]) {
+                                collectLinks(EXAMPLE_PROJECT_LINKS[category][subCategory], category, subCategory);
+                            }
+                        }
                     }
                 }
+                if (entries.length === 0) return resolve();
+
+                // Fetch every example project in a single batched request instead of one request per link.
+                const uniqueLinks = [...new Set(entries.map((entry) => entry.link))];
+                const projects = await this.ajax_getProjectsByLinksFromDB(uniqueLinks, this._interface);
+                const projectsByLink = new Map(projects.map((project) => [project.link, project]));
+
+                for (var entry of entries) {
+                    const project = projectsByLink.get(entry.link);
+                    if (project && project.interface == this._interface) {
+                        // Clone so a link shared by several categories doesn't end up with a single, shared exampleCategory tag.
+                        const projectCopy = Object.assign({}, project);
+                        projectCopy.exampleCategory = entry.category;
+                        if (entry.subcategorie) {
+                            projectCopy.exampleSubcategories = entry.subcategorie;
+                        }
+                        this._allExampleProjects.push(projectCopy);
+                    }
+                }
+                resolve();
+            } catch (error) {
+                console.error(error);
+                reject(error);
             }
-            resolve();
         });
     };
 
@@ -395,6 +488,30 @@ class ProjectManager {
         return null;
     };
 
+    /**
+     * Get the authoritative project payload for a project opened from the finder.
+     * Fallback to the cached list entry if the DB request fails.
+     * @private
+     * @param {string} projectLink - The project link
+     * @returns {Promise<object>} The finder result payload
+     */
+    async _projectLoader_getHydratedFinderProject(projectLink) {
+        const result = await this.getProjectByLink(projectLink, false);
+        if (result.list === null) {
+            return result;
+        }
+        try {
+            const hydratedProject = await this.ajax_getProjectByLinkFromDB(projectLink, this._interface);
+            if (await this._projectLoader_isValidProject(hydratedProject)) {
+                result.project = hydratedProject;
+                this[result.list][result.index] = hydratedProject;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        return result;
+    };
+
     // ================================ PROJECT LOADER ================================
 
     /**
@@ -407,7 +524,7 @@ class ProjectManager {
         return new Promise(async (resolve, reject) => {
             const project = await this.ajax_getProjectByLinkFromDB(link, this._interface);
             let status = ProjectManager.STATUS.LOADING.FROM_DB.success;
-            if (this._projectLoader_isValidProject(project)) {
+            if (await this._projectLoader_isValidProject(project)) {
                 if (this._projectLoader_checkRTCAccess(project)) {
                     if (this._interface != 'ai') Main.resetInvalidBlocksWarning();
                     status = await this.projectLoader_injectInInterface(project);
@@ -556,7 +673,7 @@ class ProjectManager {
      */
     async projectLoader_loadFromFinder(projectLink) {
         if (!projectLink) return false;
-        const result = await this.getProjectByLink(projectLink);
+        const result = await this._projectLoader_getHydratedFinderProject(projectLink);
         if (result.list === null) {
             return ProjectManager.STATUS.LOADING.FINDER.invalid;
         }
@@ -604,7 +721,7 @@ class ProjectManager {
             return true;
         }
         if (projectLink === null) return false;
-        const result = await this.getProjectByLink(projectLink);
+        const result = await this._projectLoader_getHydratedFinderProject(projectLink);
         if (result.list === null) {
             return false;
         }
@@ -664,7 +781,7 @@ class ProjectManager {
             if (typeof Main !== 'undefined') {
                 if (Main.hasSimulator()) {
 
-                    if (Simulator.hasRobotSimulator()) {
+                    if (Simulator._hasRobotSimulator()) {
                         // Option : simulator robot background
                         const robotBackground = this._currentProject.options.robotBackground;
                         if (robotBackground) {
@@ -722,7 +839,7 @@ class ProjectManager {
                         }
                     }
 
-                    if (Simulator.has3DRobotSimulator() && typeof Simulator3D !== 'undefined') {
+                    if (Simulator._has3DRobotSimulator() && typeof Simulator3D !== 'undefined') {
                         // Option: 3D simulator robot background
                         const robotBackground = this._currentProject.options.robotBackground;
                         if (robotBackground) {
@@ -804,10 +921,16 @@ class ProjectManager {
     _projectLoader_updateAndRefreshDOM() {
         return new Promise(async (resolve, reject) => {
             let status = ProjectManager.STATUS.LOADING.DOM.success;
+            const preserveUserCode = this._isInitializing && this._userTypedDuringInit;
+            const userCode = preserveUserCode && Main.getCodeEditor() && Main.getCodeEditor().container
+                ? Main.getCodeEditor().container.getSession().getValue()
+                : null;
             CodeManager.getSharedInstance().codeWasManuallyModified = this._currentProject.codeManuallyModified;
             if (!Main.getIsXmlBasedInterface()) {
                 CodeManager.getSharedInstance().convertOldWebProjectCode();
-                this.loadCodeForCodeBasedInterface(this._currentProject.code);
+                if (!preserveUserCode) {
+                    this.loadCodeForCodeBasedInterface(this._currentProject.code);
+                }
             } else {
                 if (Main.hasToolboxModes()) {
                     const modes = [TOOLBOX_STYLE_SCRATCH, TOOLBOX_STYLE_VITTA];
@@ -821,13 +944,15 @@ class ProjectManager {
                     }
                 }
                 CodeManager.getSharedInstance().setXml(this._currentProject.code);
-                status = CodeManager.getSharedInstance().loadBlocks();
                 CodeManager.getSharedInstance().setTextCode(this._currentProject.codeText);
-                if (typeof Code !== 'undefined' && Code.editor) {
-                    Code.editor.updateCode();
-                }
+                status = CodeManager.getSharedInstance().loadBlocks();
             }
             this._projectLoader_setInterfaceMode();
+            if (preserveUserCode && userCode !== null) {
+                CodeManager.getSharedInstance().codeWasManuallyModified = true;
+                CodeManager.getSharedInstance().updateTextCode(userCode);
+                Main.getCodeEditor().container.getSession().setValue(userCode);
+            }
             if (this._interface === 'python') {
                 UnitTests.init(this._currentProject);
             }
@@ -957,6 +1082,7 @@ class ProjectManager {
             'user': UserManager.getUser(),
             'sharedUsers': null,
             'sharedStatus': 0,
+            'exerciseStatement': null,
             'options': {
                 'console': this._interface !== 'web' && this._interface !== "adacraft" ? InterfaceMonitor.getPosition() : '',
             }
@@ -1005,6 +1131,7 @@ class ProjectManager {
             userInformations = `<span class="tooltip-author">${UserManager.getUser().firstname} ${UserManager.getUser().surname}</span>`;
         }
         $('#project-name').attr("data-bs-title", `<span class="tooltip-title">${decodeURI(this._currentProject.name)}</span>${userInformations}<span class="tooltip-description">${decodeURI(this._currentProject.description)}</span>`);
+        this._exercises_populateStatement();
         this.updateUrl();
         await this.projectsFinder_updateProject();
         this._currentExercise = "";
@@ -1039,12 +1166,12 @@ class ProjectManager {
                     options.multiChildProject = currentProjectLS.options.multiChildProject;
                 }
                 // Option : simulatorViewShield
-                if (typeof INTERFACE_BOARDS !== 'undefined' && VittaInterface.shieldView !== null) {
+                if (typeof INTERFACE_BOARDS !== 'undefined' && VittaInterface?.shieldView) {
                     options.simulatorViewShield = VittaInterface.shieldView;
                 }
 
                 // Option : data from robot simulator
-                if (Simulator.hasRobotSimulator() && Simulator._classicRobotSimulatorPrepareForRun) {
+                if (Simulator._hasRobotSimulator() && Simulator._classicRobotSimulatorPrepareForRun) {
                     const backgroundSrc = SimulatorLS.getData(RobotSimulator.currentRobotName, 'backgrounds');
                     if (backgroundSrc) {
                         options.robotBackground = backgroundSrc;
@@ -1067,7 +1194,7 @@ class ProjectManager {
                     if (obstaclesDB) {
                         options.obstaclesDB = obstaclesDB;
                     }
-                } else if (Simulator.has3DRobotSimulator() && Simulator._3DRobotSimulatorPrepareForRun) {
+                } else if (Simulator._has3DRobotSimulator() && Simulator._3DRobotSimulatorPrepareForRun) {
 
                     const backgroundSrc = SimulatorLS.getData(RobotSimulator3D.currentRobotName, 'backgrounds');
                     if (backgroundSrc) {
@@ -1103,6 +1230,8 @@ class ProjectManager {
                     reducedToolbox['variables'] = variables.map(variable => variable.name);
                 }
                 options.reducedToolbox = JSON.stringify(reducedToolbox);
+            } else if (typeof options.reducedToolbox !== 'undefined') {
+                delete options.reducedToolbox;
             }
         }
         return options;
@@ -1485,7 +1614,7 @@ class ProjectManager {
                 }
                 if (Main.hasSimulator()) {
                     simu = getURLparam("simu");
-                    if (Simulator.hasRobotSimulator() || Simulator.has3DRobotSimulator()) {
+                    if (Simulator._hasRobotSimulator() || Simulator._has3DRobotSimulator()) {
                         robot = getURLparam("robot");
                     }
                 }
@@ -1514,6 +1643,7 @@ class ProjectManager {
         const noUse = $_GET("nouse") ? $_GET("nouse") : '';
         const noWelcome = $_GET("nowelcome") ? $_GET("nowelcome") : '';
         const noRag = $_GET("norag") ? $_GET("norag") : '';
+        const provider = $_GET("provider") ? $_GET("provider") : '';
         const linkStruct = {
             base: `${window.location.origin}${window.location.pathname}`,
             args: {
@@ -1548,7 +1678,8 @@ class ProjectManager {
                 nouse: noUse,
                 nowelcome: noWelcome,
                 norag: noRag,
-                aiMode: aiMode
+                aiMode: aiMode,
+                provider: provider
 
             }
         };
@@ -1690,8 +1821,86 @@ class ProjectManager {
                 ? this._currentProject.exerciseStatement.statementContent
                 : '';
             this._exerciseStatement.setStatementContent(currentStatement);
-            if (this._exerciseStatement.getStatementContent()) {
-                document.querySelector('#exercise-statement-input').value = this._exerciseStatement.getStatementContent();
+            const exerciseStatementInput = document.querySelector('#exercise-statement-input');
+            if (exerciseStatementInput) {
+                exerciseStatementInput.value = currentStatement;
+            }
+            this._exerciseStatement.displayStatement();
+        }
+    };
+
+    /**
+     * Build the normalized exercise statement payload stored on projects
+     * @private
+     * @param {string} statementContent - The statement content
+     * @returns {object|null} The normalized statement payload
+     */
+    _exercises_getStatementPayload(statementContent = '') {
+        const normalizedStatement = typeof statementContent === 'string'
+            ? statementContent
+            : '';
+        return normalizedStatement === ''
+            ? null
+            : { statementContent: normalizedStatement };
+    };
+
+    /**
+     * Apply the normalized exercise statement payload to a project object
+     * @private
+     * @param {object} project - The project object to update
+     * @param {object|null} statementPayload - The normalized statement payload
+     */
+    _exercises_applyStatementPayload(project, statementPayload) {
+        if (!project || typeof project !== 'object') {
+            return;
+        }
+        project.exerciseStatement = statementPayload ? { ...statementPayload } : null;
+    };
+
+    /**
+     * Synchronize the exercise statement across the current project, cached project lists,
+     * localStorage and the statement UI.
+     * @public
+     * @param {string} statementContent - The statement content to synchronize
+     */
+    exercises_updateStatementState(statementContent = '') {
+        const normalizedStatement = typeof statementContent === 'string'
+            ? statementContent
+            : '';
+        const statementPayload = this._exercises_getStatementPayload(normalizedStatement);
+
+        this._exercises_applyStatementPayload(this._currentProject, statementPayload);
+
+        const currentProjectLink = this._currentProject && this._currentProject.link
+            ? this._currentProject.link
+            : null;
+        const currentProjectId = this._currentProject && this._currentProject.id
+            ? this._currentProject.id
+            : null;
+        const projectCollections = [this._myProjects, this._allPublicProjects, this._allExampleProjects];
+
+        for (const projects of projectCollections) {
+            if (!Array.isArray(projects)) {
+                continue;
+            }
+            for (const project of projects) {
+                const sameLink = currentProjectLink && project && project.link === currentProjectLink;
+                const sameId = currentProjectId && project && project.id === currentProjectId;
+                if (sameLink || sameId) {
+                    this._exercises_applyStatementPayload(project, statementPayload);
+                }
+            }
+        }
+
+        if (this._currentProject && (currentProjectLink || $_GET('localId'))) {
+            this.localStorageManager.setLocalProject(this._currentProject, currentProjectLink || false);
+        }
+
+        if (this._exerciseStatement) {
+            this._exerciseStatement.setStatementContent(normalizedStatement);
+            const exerciseStatementInput = document.querySelector('#exercise-statement-input');
+            if (exerciseStatementInput) {
+                exerciseStatementInput.value = normalizedStatement;
             }
             this._exerciseStatement.displayStatement();
         }
@@ -1764,11 +1973,13 @@ class ProjectManager {
             'link': null,
             'user': UserManager.getUser(),
             'sharedUsers': null,
-            'sharedStatus': 0
+            'sharedStatus': 0,
+            'exerciseStatement': null
         };
 
         this.updateUrl();
         this._currentExercise = "";
+        this._exercises_populateStatement();
         this._refreshAiProjectDOM();
         this.localStorageManager.setLocalProject(this._currentProject);
         return true;
@@ -1825,6 +2036,33 @@ class ProjectManager {
                 dataType: "JSON",
                 success: function (response) {
                     resolve(response);
+                },
+                error: function (error) {
+                    new VittaControllerNotif().manageError(error, this);
+                    reject(null);
+                }
+            });
+        })
+    };
+
+    /**
+     * Fetch several projects by link in a single request instead of one request per link.
+     * @param {Array<string>} links
+     * @param {string} projectInterface
+     * @returns {Promise<Array>}
+     */
+    async ajax_getProjectsByLinksFromDB(links, projectInterface) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                type: "POST",
+                url: "/routing/Routing.php?controller=project&action=get_by_links",
+                data: {
+                    'links': links,
+                    'interface': projectInterface
+                },
+                dataType: "JSON",
+                success: function (response) {
+                    resolve(Array.isArray(response) ? response : []);
                 },
                 error: function (error) {
                     new VittaControllerNotif().manageError(error, this);
@@ -2125,7 +2363,10 @@ class ProjectManager {
                 this._interface = INTERFACE_NAME;
                 break;
             default:
-                this._interface = window.location.pathname.replace(CodeManager.getSharedInstance().REGEXP_INTERFACES, "$1");
+                const interfaceFromPath = window.location.pathname.replace(CodeManager.getSharedInstance().REGEXP_INTERFACES, "$1");
+                this._interface = (interfaceFromPath !== window.location.pathname)
+                    ? interfaceFromPath
+                    : INTERFACE_NAME;
                 break;
         }
     }
@@ -2146,6 +2387,44 @@ class ProjectManager {
         this._rpc.expose("getPythonCode", () => { return CodeManager.getSharedInstance().getCode() });
         this._evidenceBContext = true;
         return true;
+    }
+
+    /**
+     * Setup the RPC for interoperability with the Origamia page (provider=origamia).
+     * Same pattern as EvidenceB : the Origamia page (window.parent) calls
+     * `autocorrectionPython` when the student submits, and gets "success"/"failed".
+     * @private
+     * @returns false if we aren't in an Origamia context
+     */
+    async _setupOrigamiaRPC() {
+        if (getParamValue("provider") !== 'origamia') return false;
+        await this._loadRPCScript();
+        this._rpc = new RPC({
+            target: window.parent,
+            serviceId: "origamia-activite"
+        });
+        this._rpc.expose("autocorrectionPython", () => this._origamiaAutocorrection());
+        this._rpc.expose("getPythonCode", () => { return CodeManager.getSharedInstance().getCode() });
+        this._origamiaContext = true;
+        return true;
+    }
+
+    /**
+     * Run the autocorrector of the current interface for Origamia.
+     * python : tests unitaires / turtle. Interfaces a simulateur : AutoCorrector.
+     * @private
+     * @returns {Promise<string>} "success" ou "failed"
+     */
+    async _origamiaAutocorrection() {
+        if (typeof autocorrectionPython === 'function') {
+            const result = await autocorrectionPython();
+            return result === 'success' ? 'success' : 'failed';
+        }
+        if (typeof AutoCorrector !== 'undefined') {
+            return AutoCorrector.validateForOrigamia();
+        }
+        console.error('[origamia] aucun correcteur automatique pour cette interface');
+        return 'failed';
     }
 
     _setupTiRPC() {
@@ -2252,6 +2531,7 @@ class ProjectManager {
         if (document.referrer.includes('testIframe') || document.referrer.includes('winkyverse.io')) {
             await this._setupWinkyRPC();
         }
+        this._isInitializing = false;
     }
 
     /**
@@ -2319,6 +2599,7 @@ class ProjectManager {
             const state = adacraft.appStateStore.getState();
             state.scratchGui.vm.loadProject(this._currentProject.code);
         }
+        this._exercises_populateStatement();
         this.updateUrl();
     };
 
@@ -2376,6 +2657,8 @@ class ProjectManager {
             this.loadCodeForCodeBasedInterface(this._currentProject.code);
         }
         this._setupReporterForLTI();
+        this.setIsLoadedProject(true);
+        this._setDuoMode();
     };
 
     /**
@@ -3390,7 +3673,7 @@ class ProjectManager {
         }
         setTimeout(() => {
             if (this.exampleProjectsLoaded) {
-                $("#example-projects-list .openproject-subtitle").click();
+                $("#example-projects-list").click();
                 setTimeout(() => {
                     $("#essentials-content").prev().click();
                 }, 1000);

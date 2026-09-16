@@ -27,6 +27,7 @@ const IMG_MODULE_KITRONIK_ZIP_HALO_HD = TOOLTIP_IMG_PATH + 'kitronik-zip-halo-hd
 const IMG_MODULE_KITRONIK_SHIELD_16_SERVOS = TOOLTIP_IMG_PATH + 'shield-kitronik-board-16-servos.jpg';
 const IMG_MODULE_UHANDBIT = TOOLTIP_IMG_PATH + 'nm_uHandbit-back.jpg';
 const IMG_MICROBIT_WUKONG = TOOLTIP_IMG_PATH + 'wukong-microbit-extension.png';
+const IMG_MODULE_REKABIT = TOOLTIP_IMG_PATH + 'nm_rekabit-front.webp';
 //compatible-stm32
 const IMG_MODULE_ALPHABOT = TOOLTIP_IMG_PATH + 'robot-alphabot-v2-front.jpg';
 const IMG_X_NUCLEO_IKS01A3 = TOOLTIP_IMG_PATH + 'X-NUCLEO-IKS01A3.jpg';
@@ -144,7 +145,7 @@ const IMG_MODULE_I2C_COLOR_V3 = TOOLTIP_IMG_PATH + 'capteur-de-couleurs-grove-v3
 const IMG_MODULE_CAMERA = TOOLTIP_IMG_PATH + 'module-photo-front.jpg';
 const IMG_MODULE_SOUND_LOUDNESS = TOOLTIP_IMG_PATH + 'capteur-sonore-grove-block-front.jpg';
 //sensors-distance&movement
-const IMG_MODULE_VL53L0X = '/public/content/products/vl53l0x-front.jpg';
+const IMG_MODULE_VL53L0X = TOOLTIP_IMG_PATH + 'vl53l0x-front.jpg';
 const IMG_MODULE_ULTRASONIC = TOOLTIP_IMG_PATH + 'telemetre-a-ultrasons-grove-front.jpg';
 const IMG_MODULE_GESTURE = TOOLTIP_IMG_PATH + 'capteur-de-gestes-grove-back.jpg';
 const IMG_MODULE_LINE_FINDER = TOOLTIP_IMG_PATH + 'suiveur-de-ligne-grove-front.jpg';
@@ -159,6 +160,7 @@ const IMG_MODULE_EMG_DETECTOR = TOOLTIP_IMG_PATH + 'nm_pulsation-front.jpg';
 const IMG_MODULE_MLX90614 = TOOLTIP_IMG_PATH + 'capteur-infrarouge-mlx90614.webp';
 const IMG_MODULE_DFROBOT_MAX30102 = TOOLTIP_IMG_PATH + 'DFRobot_MAX30102_Sensor.png';
 //sensors-others
+const IMG_MODULE_MLX90621 = TOOLTIP_IMG_PATH + 'grove-thermal-imaging-camera-mlx90621-bab-16x4.webp';
 const IMG_MODULE_INA219 = TOOLTIP_IMG_PATH + 'capteur-courant-tension-puissance-ina219-front.jpg';
 const IMG_MODULE_FORCE = TOOLTIP_IMG_PATH + 'capteur_de_force_grove_back.jpg';
 const IMG_MODULE_VOLTAGE_DIVDER = TOOLTIP_IMG_PATH + 'grove_voltage_divider.jpg';
@@ -180,6 +182,7 @@ const IMG_MODULE_NFC = TOOLTIP_IMG_PATH + 'tag-ST-M24SR64-front.jpg';
 const IMG_MODULE_LORA = TOOLTIP_IMG_PATH + 'LoRa-E5-back.jpg';
 const IMG_MODULE_STEPPER_ULN2003 = TOOLTIP_IMG_PATH + 'stepper-motor-28BYJ-48-08-ULN2003A-driver.webp';
 const IMG_MODULE_MULTI_CHANNEL_RELAY = TOOLTIP_IMG_PATH + 'module-grove-4-multi-channel-relay-SPDT.jpg';
+const IMG_MODULE_PCA9685 = TOOLTIP_IMG_PATH + 'module-pca9685-16-canaux-pwm-front.webp';
 //robots-mBot
 const IMG_MODULE_MBOT = TOOLTIP_IMG_PATH + 'robot_mbot_arduino_front.jpg';
 const IMG_MODULE_MAKEBLOCK_REMOTE_CONTROL = TOOLTIP_IMG_PATH + 'module-makeBlock-telecommande-front.jpg';

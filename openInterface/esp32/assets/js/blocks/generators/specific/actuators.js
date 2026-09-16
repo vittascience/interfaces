@@ -2,6 +2,8 @@
  * @fileoverview Actuators generators for Esp32.
  */
 
+// Motors
+
 Blockly.Python.actuators_setServoAngle = function (block) {
     const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
     const pinName = Blockly.Python.Generators.pwm(block.getFieldValue("PIN"), 'Servo', 50, 26);
@@ -34,6 +36,91 @@ Blockly.Python.actuators_setGroveRelayState = function (block) {
     const pinName = Blockly.Python.Generators.digital_write(block.getFieldValue("PIN"), 'Grove Relay');
     return 'try:' + NEWLINE + '  ' + (state == '1' ? pinName + ".on()" : pinName + ".off()") + NEWLINE + 'except:' + NEWLINE + '  ' + (state == '1' ? pinName + ".duty(" + PWM_MAX_DUTY + ")" : pinName + ".duty(0)") + NEWLINE;
 };
+
+// PCA9685
+
+Blockly.Python.actuators_pca9685_setPwmFrequency = function (block) {
+    const frequency = Blockly.Python.valueToCode(block, "FREQUENCY", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.addImport('esp32_pca9685', IMPORT_ESP32_PCA9685);
+    Blockly.Python.addInit('pca9685', "pca9685 = PCA9685Driver(scl_pin=22, sda_pin=21)");
+    return "pca9685.set_pwm_frequency(" + frequency + ")" + NEWLINE;
+};
+
+Blockly.Python.actuators_pca9685_setPwmDutyCyclePercent = function (block) {
+    const channel = block.getFieldValue("CHANNEL");
+    const duty = Blockly.Python.valueToCode(block, "DUTY", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.addImport('esp32_pca9685', IMPORT_ESP32_PCA9685);
+    Blockly.Python.addInit('pca9685', "pca9685 = PCA9685Driver(scl_pin=22, sda_pin=21)");
+    return "pca9685.set_pwm_dc_percent(" + channel + ", " + duty + ")" + NEWLINE;
+};
+
+Blockly.Python.actuators_pca9685_setPwmDutyCycleOnTime = function (block) {
+    const channel = block.getFieldValue("CHANNEL");
+    const onTime = Blockly.Python.valueToCode(block, "ON_TIME", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.addImport('esp32_pca9685', IMPORT_ESP32_PCA9685);
+    Blockly.Python.addInit('pca9685', "pca9685 = PCA9685Driver(scl_pin=22, sda_pin=21)");
+    return "pca9685.set_pwm_dc_ontime(" + channel + ", " + onTime + ")" + NEWLINE;
+};
+
+Blockly.Python.actuators_pca9685_setPwmDutyCycle = function (block) {
+    const channel = block.getFieldValue("CHANNEL");
+    const falling_edge_cnt = Blockly.Python.valueToCode(block, "FALLING_EDGE_CNT", Blockly.Python.ORDER_NONE) || "0";
+    const rising_edge_cnt = Blockly.Python.valueToCode(block, "RISING_EDGE_CNT", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.addImport('esp32_pca9685', IMPORT_ESP32_PCA9685);
+    Blockly.Python.addInit('pca9685', "pca9685 = PCA9685Driver(scl_pin=22, sda_pin=21)");
+    return "pca9685.set_pwm_dc(" + channel + ", " + falling_edge_cnt + ", " + rising_edge_cnt + ")" + NEWLINE;
+};
+
+Blockly.Python.actuators_pca9685_setServoAngle = function (block) {
+    const channel = block.getFieldValue("CHANNEL");
+    const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.addImport('esp32_pca9685', IMPORT_ESP32_PCA9685);
+    Blockly.Python.addInit('pca9685', "pca9685 = PCA9685Driver(scl_pin=22, sda_pin=21)");
+    return "pca9685.servo_set_angle(" + channel + ", " + angle + ")" + NEWLINE;
+};
+
+Blockly.Python.actuators_pca9685_setServoAngleCustom = function (block) {
+    const channel = block.getFieldValue("CHANNEL");
+    const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
+    const min_pulse = Blockly.Python.valueToCode(block, "MIN_PULSE", Blockly.Python.ORDER_NONE) || "0";
+    const max_pulse = Blockly.Python.valueToCode(block, "MAX_PULSE", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.addImport('esp32_pca9685', IMPORT_ESP32_PCA9685);
+    Blockly.Python.addInit('pca9685', "pca9685 = PCA9685Driver(scl_pin=22, sda_pin=21)");
+    return "pca9685.servo_set_angle_custom(" + channel + ", " + angle + ", " + min_pulse + ",  " + max_pulse + ")" + NEWLINE;
+};
+
+// MOSFET
+
+Blockly.Python.actuators_mosfet_setState = function (block) {
+    const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
+    const pinName = Blockly.Python.Generators.pwm(block.getFieldValue("PIN"), 'Mosfet', 1000);
+    return "try:" + NEWLINE 
+        + "  " + pinName + ".duty(int(" + state + "*" + PWM_MAX_DUTY + "))" + NEWLINE 
+        + 'except:' + NEWLINE 
+        + '  ' + pinName + " = PWM(Pin(" + pin.replace('p', '') + "), freq=5000, duty=int(" + state + "*" + PWM_MAX_DUTY + "))" + NEWLINE;
+};
+
+Blockly.Python.actuators_mosfet_setPercentValue = function (block) {
+    const value = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || "0";
+    const pinName = Blockly.Python.Generators.pwm(block.getFieldValue("PIN"), 'Mosfet', 1000);
+    return "try:" + NEWLINE 
+        + "  " + pinName + ".duty(int(" + value + "/100.0*" + PWM_MAX_DUTY + "))" + NEWLINE 
+        + 'except:' + NEWLINE 
+        + '  ' + pinName + " = PWM(Pin(" + pinName.replace('p', '') + "), freq=5000, duty=int(" + value + "/100.0*" + PWM_MAX_DUTY + "))" + NEWLINE;
+};
+
+Blockly.Python.actuators_mosfet_setFrequency = function (block) {
+    const frequency = Blockly.Python.valueToCode(block, "FREQUENCY", Blockly.Python.ORDER_NONE) || "0";
+    const pinName = Blockly.Python.Generators.pwm(block.getFieldValue("PIN"), 'Mosfet', 1000);
+    return "try:" + NEWLINE 
+        + "  " + pinName + ".freq(" + frequency + ")" + NEWLINE 
+        + "  " + pinName + ".duty(512)" + NEWLINE 
+        + "  " + pinName + ".init()" + NEWLINE 
+        + "except:" + NEWLINE 
+        + "  " + pinName + " = PWM(Pin(" + pinName.replace('p', '') + "), freq=" + frequency + ", duty=512)" + NEWLINE;
+};
+
+// Buzzer / Speaker
 
 Blockly.Python.actuators_playMusicGroveBuzzer = function (block) {
     const music = block.getFieldValue("MUSIC");

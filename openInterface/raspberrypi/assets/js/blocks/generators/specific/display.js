@@ -137,7 +137,6 @@ Blockly.Python.sensehat_display_show_letter = function (block) {
     const backgroundColor = Blockly.Python.valueToCode(block, "BACKGROUND_COLOR", Blockly.Python.ORDER_NONE) || "[0,0,0]";
     Blockly.Python.addImport('sense_hat_all', IMPORT_SENSE_HAT_ALL);
     Blockly.Python.addInit('sense_hat_all', 'sense = SenseHat()\n');
-    console.log(`sense.show_letter(${letter}, [${color.replace('(', '').replace(')', '')}], [${backgroundColor.replace('(', '').replace(')', '')}])\n`)
     return `sense.show_letter(${letter}, [${color.replace('(', '').replace(')', '')}], [${backgroundColor.replace('(', '').replace(')', '')}])` + NEWLINE;
 };
 
@@ -167,7 +166,7 @@ Blockly.Python.display_lcdSetText = function (block) {
     }
 };
 
-Blockly.Python.display_lcdClear = function () {
+Blockly.Python.display_lcdClear = function (block) {
     const addr = block.getFieldValue("ADDR") || "0x3e";
     if (addr == "0x3f" || addr == "0x27") {
         Blockly.Python.addImport('CharLCD', IMPORT_RPLCD_I2C_CHARLCD);

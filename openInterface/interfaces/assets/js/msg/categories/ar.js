@@ -354,3 +354,5 @@ Blockly.Msg['SUBCATEGORY_MBOT_MOTORS'] = 'محركات';
 Blockly.Msg['SUBCATEGORY_SERVOMOTOR'] = 'سيرفو';
 Blockly.Msg['SUBCATEGORY_MINI_FAN'] = 'مروحة صغيرة';
 Blockly.Msg['SUBCATEGORY_POTENTIOMETER'] = 'مقاومة قابلة للتعديل';
+Blockly.Msg['CATEGORY_BASIC'] = 'أساسيات';
+Blockly.Msg['SUBCATEGORY_TB6612FNG_MOTOR_DRIVER'] = 'مشغّل المحرك TB6612FNG';

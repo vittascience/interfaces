@@ -165,7 +165,7 @@ class Controller extends Observable {
 	}
 	/**
  * Initializes user data for a service with calculated default values
- * @param {string} id - The device identifier
+ * @param {string} id - The service identifier
  * @returns {object} Structured user data with default values
  */
 	initUserDataByService(id) {
@@ -189,6 +189,17 @@ class Controller extends Observable {
 				}
 			}
 		}
+		if (id === "cloud") {
+			return {
+				id: id,
+				inputUser: {
+					quantity: 500,
+
+				}
+			}
+		}
+		
+
 		if (id === "video") {
 			return {
 				id: id,
@@ -470,7 +481,8 @@ class Controller extends Observable {
 			'ai_image': 'ai_image',
 			'_years_usage': 'yearsUsage',
 			'_change': 'change',
-			'_day_time': 'day_time'
+			'_day_time': 'day_time',
+			'cloud': 'quantity'
 		};
 
 		// Find and update the appropriate property
@@ -603,13 +615,13 @@ class Controller extends Observable {
 				}
 			});
 			iconButton.addEventListener('mouseover', (e) => {
-				iconButton.setAttribute('title', "Cliquer pour voir les détails de l'impact");
+				iconButton.setAttribute('title', i18next.t("co2.dynamic.titleDisplayInfo"));
 			});
 			iconButton.addEventListener('mouseout', (e) => {
 				iconButton.removeAttribute('title');
 			});
 			iconButton.addEventListener('focus', (e) => {
-				iconButton.setAttribute('title', "Cliquer pour voir les détails de l'impact");
+				iconButton.setAttribute('title', i18next.t("co2.dynamic.titleDisplayInfo"));
 			});
 			iconButton.addEventListener('blur', (e) => {
 				iconButton.removeAttribute('title');

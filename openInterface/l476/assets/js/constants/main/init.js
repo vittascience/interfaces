@@ -36,20 +36,29 @@ const LIBRARIES_PATH = {
     'stm32_alphabot_v2': "/alphabot",
     'stm32_TRsensors': "/alphabot"
 };
-//simulator
-const SIMULATOR_DEFAULT_BOARD = {
-    "link": 'nucleo_l476rg_v2.svg',
-    "name": 'STM32 NUCLEO-L476RG'
+//boards
+const INTERFACE_BOARDS = {
+    [BOARD_NUCLEO_L476]: {
+        "id": BOARD_NUCLEO_L476,
+        "link": 'nucleo_l476rg_v2.svg',
+        "name": 'STM32 NUCLEO-L476RG'
+    }
 };
+//simulator
+const SIMULATOR_DEFAULT_BOARD = INTERFACE_BOARDS[BOARD_DEFAULT];
 const SIMULATOR_DEFAULT_ROBOT = 'Alphabot';
 //serial
 const SERIAL_OPTIONS = {
-    baud: 115200,
     chunkSizes: {
-        'default': 255
+        readingDelayPerKiB: {
+            'default': 50 // ms (reduced compared to default STM32)
+        }
     },
     boardsFilter: [
         { usbVendorId: 0x483, usbProductId: 0x374B }, // stm32_nucleo_l476
         { usbVendorId: 0x483, usbProductId: 0x3752 }, // stm32_nucleo_l476_without_mass_storage
-    ]
+    ],
+    variablesGetterTimeout: {
+        'default': 500 // ms
+    }
 };

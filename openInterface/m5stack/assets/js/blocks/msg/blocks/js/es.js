@@ -135,7 +135,7 @@ Blockly.Msg['IO_DIGITAL_SIGNAL_LOW'] = 'BAJO (0)';
 Blockly.Msg['IO_DIGITAL_SIGNAL_TOOLTIP'] = 'Devuelve un valor booleano (1 si es HIGH o 0 si es LOW)';
 Blockly.Msg['IO_READDIGITALPIN_TITLE'] = 'leer pin digital %1';
 Blockly.Msg['IO_READDIGITALPIN_TOOLTIP'] = 'Habilitar para leer el valor digital de los pines (0 o 1)';
-Blockly.Msg['IO_WRITEDIGITALPIN_TITLE'] = 'Escribe el estado %1 en el pin digital %2';
+Blockly.Msg['IO_WRITEDIGITALPIN_TITLE'] = 'escribe el estado %1 en el pin digital %2';
 Blockly.Msg['IO_WRITEDIGITALPIN_TOOLTIP'] = 'Habilitar para escribir el valor (0 o 1) en el pin digital';
 Blockly.Msg['IO_READANALOGPIN_TITLE'] = 'leer pin analógico %1';
 Blockly.Msg['IO_READANALOGPIN_TOOLTIP'] = 'Habilita la lectura del valor analógico de los pines (0-1023) entre 0 y 3,6V';
@@ -145,9 +145,9 @@ Blockly.Msg['IO_WRITEANALOGPIN_TITLE'] = 'escribe el valor %1 en el pin analógi
 Blockly.Msg['IO_WRITEANALOGPIN_TOOLTIP'] = 'Permite escribir en el pin analógico el valor (0-255) para los pines DAC (p25/p26). Esp32 utiliza un convertidor de digital a analógico (DAC) para establecer la tensión entre 0 y 3,3V';
 Blockly.Msg['IO_SETPWM_TITLE'] = 'aplica una señal cuadrada de frecuencia %1 (Hz) en el pin %2';
 Blockly.Msg['IO_SETPWM_TOOLTIP'] = 'Habilitar para aplicar una señal cuadrada PWM con un 50% de ciclo de trabajo. Se puede cambiar la frecuencia de la señal';
-Blockly.Msg['IO_STOPPWM_TITLE'] = 'Detener la señal PWM del pin %1';
+Blockly.Msg['IO_STOPPWM_TITLE'] = 'detener la señal PWM del pin %1';
 Blockly.Msg['IO_STOPPWM_TOOLTIP'] = 'Habilitar para detener la señal PWM aplicada de un pin';
-Blockly.Msg['IO_GETVOLTAGE_TITLE'] = 'Convertir %1 en tensión con resolución %2';
+Blockly.Msg['IO_GETVOLTAGE_TITLE'] = 'convertir %1 en tensión con resolución %2';
 Blockly.Msg['IO_GETVOLTAGE_TOOLTIP'] = 'Permite convertir el valor analógico en voltaje con resolución (10 bits: 1024, 12 bits: 4096, 9 bits: 512, 11 bits: 2048) y máximo de 3,6V';
 //Communication - Internal Bluetooth
 Blockly.Msg['COMMUNICATION_START_BT_TITLE'] = '[ESP32 Bluetooth UART] initialize bluetooth %1';
@@ -195,7 +195,7 @@ Blockly.Msg['COMMUNICATION_WRITE_SD_TOOLTIP'] = 'Permite escribir datos en la ta
 Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TITLE'] = '[HC05 BT] send on pins RX %1 TX %2 message %3';
 Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Enable to send any data by bluetooth HC05 module on pins RX/TX.';
 Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TITLE'] = '[HC05 BT] on message received RX %1 TX %2 in %3 then';
-Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Allows you to execute instructions on data received by Bluetooth HC05 module in the \'bluetoothData\' variable on pins TX/RX.';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Allows you to execute instructions on data received by Bluetooth HC05 module in the \'HC05Data\' variable on pins TX/RX.';
 // Communication - Tracking modules
 Blockly.Msg['COMMUNICATION_GPS_M5_GETINFORMATIONS_TITLE'] = '[Module GPS M5] get %1';
 Blockly.Msg['COMMUNICATION_GPS_M5_GETINFORMATIONS_TOOLTIP'] = '';
@@ -250,11 +250,13 @@ Blockly.Msg['COMMUNICATION_UART_READ_TOOLTIP'] = 'Read data from UART port (1 or
 Blockly.Msg['COMMUNICATION_UART_READ_SIZE'] = 'data size';
 Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TITLE'] = '[uart %1] data available';
 Blockly.Msg['COMMUNICATION_UART_DATA_AVAILABLE_TOOLTIP'] = 'Returns the size of data available on the UART port (1 or 2). By default, the pins are as: UART 1 (tx=10, rx=9) and UART 2 ( tx=17, rx=16). Otherwise, use the \'Set serial connection to RX TX Baudrate...\' block.';
-// Display - Screen
-Blockly.Msg['DISPLAY_LCD_SETTEXT_TITLE'] = '[LCD] mostrar texto %1 en la línea %2 posición %3';
-Blockly.Msg['DISPLAY_LCD_SETTEXT_TOOLTIP'] = IMG_MODULE_LCD_3V3 + Blockly.Tooltip.SEP + 'Mostrar texto en la pantalla lcd 1602 de Grove. Conecte el lcd en el puerto I2C';
-Blockly.Msg['DISPLAY_LCD_CLEAR_TITLE'] = '[LCD] limpiar pantalla';
-Blockly.Msg['DISPLAY_LCD_CLEAR_TOOLTIP'] = IMG_MODULE_LCD_3V3 + Blockly.Tooltip.SEP + 'Habilitar para borrar todo el texto del lcd. Conecte el lcd en el puerto I2C';
+
+// Display - LCD
+Blockly.Msg['DISPLAY_LCD_SETTEXT_TITLE'] = '[LCD dirección %1] mostrar texto %2 en la línea %3 posición %4';
+Blockly.Msg['DISPLAY_LCD_SETTEXT_TOOLTIP'] = IMG_MODULE_LCD_I2C + Blockly.Tooltip.SEP + 'Mostrar texto en una de las dos líneas de la arboleda LCD1602. Conecte el módulo a un puerto I2C';
+Blockly.Msg['DISPLAY_LCD_CLEAR_TITLE'] = '[LCD dirección %1] limpiar pantalla';
+Blockly.Msg['DISPLAY_LCD_CLEAR_TOOLTIP'] = IMG_MODULE_LCD_I2C + Blockly.Tooltip.SEP + 'Permite borrar todos los caracteres de la pantalla LCD. Conecte el módulo a un puerto I2C';
+// Display - OLED
 Blockly.Msg['DISPLAY_OLED_ADDTEXT_TITLE'] = '[OLED] mostrar texto %1 en la posición x %2 y %3';
 Blockly.Msg['DISPLAY_OLED_ADDTEXT_TOOLTIP'] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + 'Activar la escritura de texto en la pantalla OLED (128x64 px). Conecte la pantalla OLED en el puerto I2C';
 Blockly.Msg['DISPLAY_OLED_SETPIXEL_TITLE'] = '[OLED] controla el píxel x %1 y %2 al estado %3';
@@ -382,6 +384,8 @@ Blockly.Msg['SENSORS_TH02_READDATA_TITLE'] = '[Sensor TH02] %1';
 Blockly.Msg['SENSORS_TH02_READDATA_TOOLTIP'] = IMG_MODULE_TH02 + Blockly.Tooltip.SEP + 'Devuelve la temperatura en grados Celsius (°C), Fahrenheit (°F) o Kelvin (K), o la humedad del aire (en %) del sensor TH02. Conecte el sensor en el puerto I2C';
 Blockly.Msg['SENSORS_SHT31_READDATA_TITLE'] = '[Sensor SHT31] %1';
 Blockly.Msg['SENSORS_SHT31_READDATA_TOOLTIP'] = IMG_MODULE_SHT31 + Blockly.Tooltip.SEP + 'Devuelve la temperatura en grados Celsius (°C), Fahrenheit (°F) o Kelvin (K), o la humedad del aire (en %) del sensor SHT31. Conecte el sensor en el puerto I2C';
+Blockly.Msg['SENSORS_SHT35_READDATA_TITLE'] = '[Sensor SHT35] %1';
+Blockly.Msg['SENSORS_SHT35_READDATA_TOOLTIP'] = IMG_MODULE_SHT35 + Blockly.Tooltip.SEP + 'Devuelve la temperatura en grados Celsius (°C), Fahrenheit (°F) o Kelvin (K), o la humedad (en %) usando el sensor SHT35. Conectar el sensor a un puerto I2C.';
 Blockly.Msg['SENSORS_GETGROVEWATER_TITLE'] = '[Sensor de agua] cantidad de agua en el pin %1';
 Blockly.Msg['SENSORS_GETGROVEWATER_TOOLTIP'] = IMG_MODULE_WATER + Blockly.Tooltip.SEP + 'Devuelve la cantidad de agua (de 0 a 255) del sensor de agua de la arboleda en los pines analógicos p34 a p36, o p39 (como A2 a A4 en la arboleda del escudo).';
 Blockly.Msg['SENSORS_GETRAINGAUGE_TITLE'] = '[Sensor de pluviómetro] valor de estado en el pin %1';
@@ -391,11 +395,11 @@ Blockly.Msg['SENSORS_GETANEMOMETER_TOOLTIP'] = IMG_MODULE_ANEMOMETER + Blockly.T
 // Sensors - Sound & Light
 Blockly.Msg['SENSORS_GETGROVELIGHT_TITLE'] = '[Sensor de luz] nivel de luz en el pin %1';
 Blockly.Msg['SENSORS_GETGROVELIGHT_TOOLTIP'] = IMG_MODULE_LIGHT + Blockly.Tooltip.SEP + 'Devuelve el valor del sensor de luz de Grove (de 0 a 4095) en los pines analógicos p34 a p36, o p39 (como A2 a A4 en el shield Grove)';
-Blockly.Msg['SENSORS_SUNLIGHT_GETDATA_TITLE'] = '[Sensor SI1145] obtener luz %1';
-Blockly.Msg['SENSORS_SUNLIGHT_GETDATA_TOOLTIP'] = IMG_MODULE_SI1145 + Blockly.Tooltip.SEP + 'Devuelve el índice de luz ultravioleta, luz IR (en lumen) o luz visible (en lumen) del sensor si1145. Funciona con el sensor de luz solar Grove o el sensor GY1145. Conecte el sensor en el puerto I2C';
+Blockly.Msg['SENSORS_SUNLIGHT_GETDATA_TITLE'] = '[Sensor de luz %1] brillo %2';
+Blockly.Msg['SENSORS_SUNLIGHT_GETDATA_TOOLTIP'] = IMG_MODULE_SI1145 + Blockly.Tooltip.SEP + 'Devuelve el índice de luz ultravioleta, el brillo visible (en lumen) o el brillo infrarrojo (en lumen) utilizando el sensor Grove Sunlight o el sensor GY1145. Conecte el sensor a un puerto I2C';
 Blockly.Msg['SENSORS_SUNLIGHT_UV'] = 'Índice UV';
 Blockly.Msg['SENSORS_SUNLIGHT_VISIBLE'] = 'visible (lumen)';
-Blockly.Msg['SENSORS_SUNLIGHT_IR'] = 'infrarrojo (lumen)';
+Blockly.Msg['SENSORS_SUNLIGHT_IR'] = 'infrarrojos (lumen)';
 Blockly.Msg['SENSORS_GETUVINDEX_TITLE'] = '[Sensor Ultravioleta] Índice UV en el pin %1';
 Blockly.Msg['SENSORS_GETUVINDEX_TOOLTIP'] = IMG_MODULE_UV + Blockly.Tooltip.SEP + 'Devuelve el índice UV, para ondas entre 240 nm y 380 nm, con el sensor UV Grove en los pines analógicos p34 a p36, o p39 (como A2 a A4 en el escudo Grove)';
 Blockly.Msg['SENSORS_GROVECOLOR_GETDATA_TITLE'] = '[Sensor de color] %1';
@@ -469,3 +473,6 @@ Blockly.Msg['NOTE_A'] = 'A';
 Blockly.Msg['NOTE_A_SHARP'] = 'A#';
 Blockly.Msg['NOTE_B'] = 'B';
 Blockly.Msg['MUSIC_SILENCE'] = 'Silencio';
+Blockly.Msg["DISPLAY_CONTROL_BUILTIN_LED_TOOLTIP"] = "Enciende el LED integrado en el pin p2. Este bloque no requiere ningún sensor ni LED externo.";
+Blockly.Msg['IO_READPULSEIN_TITLE'] = 'leer la duración del pulso (μs) del estado %1 en el pin %2';
+Blockly.Msg['IO_READPULSEIN_TOOLTIP'] = 'Devuelve la duración del pulso entrante en estado ALTO o BAJO, en microsegundos (us).';

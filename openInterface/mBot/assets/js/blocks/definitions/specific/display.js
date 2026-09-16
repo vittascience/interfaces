@@ -15,11 +15,11 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "input_value",
             "name": "X",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "Y",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "PORT",
@@ -42,7 +42,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "N",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "PORT",
@@ -65,11 +65,11 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "HOUR",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "MIN",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "PORT",
@@ -99,11 +99,11 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "input_value",
             "name": "X",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "Y",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "PORT",
@@ -156,19 +156,19 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "LED",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "R",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "G",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "B",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "PORT",
@@ -195,7 +195,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "LED",
-            "check": Blockly.Constants.Types.Arduino.NUMBER.compatibleTypes_
+            "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "COLOR",
@@ -311,15 +311,15 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "R",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "G",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "input_value",
             "name": "B",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "LED",
@@ -385,7 +385,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "N",
-            "check": Blockly.Constants.Types.Arduino.DECIMAL.compatibleTypes_
+            "check": Blockly.Constants.Types.DECIMAL.compatibleTypes_
         }, {
             "type": "field_grid_dropdown",
             "name": "PORT",

@@ -115,11 +115,13 @@ const SIMULATOR_DEFAULT_ROBOT = 'Alvik';
 //const SIMULATOR_3D_DEFAULT_ROBOT = 'Ilo';
 //serial
 const SERIAL_OPTIONS = {
-    boardSelection: true,
-    baud: 115200,
     chunkSizes: {
-        'default': 1024,
-        [BOARD_NANO_ESP32]: 128
+        write: {
+            [BOARD_NANO_ESP32]: 0.125 // KiB (reduced compared to default ESP32)
+        },
+        readingDelayPerKiB: {
+            [BOARD_NANO_ESP32]: 150 // ms (increased compared to default ESP32)
+        }
     },
     boardsFilter: [
         { usbVendorId: 0x303a }, // Espressif Systems (ESP32-S2 / S3 / C3)      
@@ -127,5 +129,9 @@ const SERIAL_OPTIONS = {
         { usbVendorId: 0x1a86 }, // USB-SERIAL CH340/CH341 | CH9102x -> Nanjing Qinheng Microelectronics Co., Ltd (Wemos D1R32, Ilo)
         { usbVendorId: 0x10c4 }, // Silicon Labs CP210x USB to UART Bridge -> ESP32 WROOM-S2
         { usbVendorId: 0x0403, usbProductId: 0x6001 }  // FT232R
-    ]
+    ],
+    variablesGetterTimeout: {
+        [BOARD_NANO_ESP32]: 1000,
+        'default': 500 // ms
+    }
 };

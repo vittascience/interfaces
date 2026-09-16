@@ -31,17 +31,17 @@ var $builtinmodule = function () {
 		});
 
 		$loc.temperature = new Sk.builtin.func(function () {
-			const temperature = $("#bmp280-temp_slider").slider('option', 'value');
+			const temperature = Simulator.getSliderValue("bmp280-temp");
 			return new Sk.builtin.float_(temperature);
 		});
 
 		$loc.pressure = new Sk.builtin.func(function () {
-			const pressure = $("#bmp280-press_slider").slider('option', 'value');
+			const pressure = Simulator.getSliderValue("bmp280-press");
 			return new Sk.builtin.int_(pressure);
 		});
 
 		$loc.altitude = new Sk.builtin.func(function () {
-			const press = $("#bmp280-press_slider").slider('option', 'value');
+			const press = Simulator.getSliderValue("bmp280-press");
 			const altitude = 44330*(1-(press/101325)**(1/5.255));
 			return new Sk.builtin.int_(Math.round(altitude));
 		});

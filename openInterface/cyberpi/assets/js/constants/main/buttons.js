@@ -68,15 +68,15 @@ const settingsOptions = {
             value: "code.topbar.label.themes"
         }
     },
-    'create-exercise-auto-corrector': {
-        id: 'create-exercise-auto-corrector',
-        classes: ' ide-btn-exercise',
-        fontAwesome: 'fas fa-tasks',
-        title: 'code.topbar.tooltips.exerciseSettings',
+    'i18n': {
+        id: "i18n-setting",
+        classes: '',
+        fontAwesome: 'fas fa-globe',
+        title: 'code.topbar.tooltips.i18n',
         tooltipPlacement: "left",
-        onclick: "createExercise()",
+        onclick: "pseudoModal.openModal('modal-i18n')",
         label: {
-            value: "code.topbar.label.exercise"
+            value: "code.topbar.label.i18n"
         }
     },
     'monitor': {
@@ -88,6 +88,17 @@ const settingsOptions = {
         onclick: "pseudoModal.openModal('modal-settings')",
         label: {
             value: "code.topbar.label.console"
+        }
+    },
+    'create-exercise-auto-corrector': {
+        id: 'create-exercise-auto-corrector',
+        classes: ' ide-btn-exercise',
+        fontAwesome: 'fas fa-tasks',
+        title: 'code.topbar.tooltips.exerciseSettings',
+        tooltipPlacement: "left",
+        onclick: "createExercise()",
+        label: {
+            value: "code.topbar.label.exercise"
         }
     },
     'addblock': {
@@ -109,6 +120,20 @@ const settingsOptions = {
         tooltipPlacement: "left",
         label: {
             value: "code.topbar.label.help"
+        }
+    }
+}
+
+if (typeof IS_CAPYTALE_CONTEXT !== 'undefined') {
+    settingsOptions['capytale-toolbox-restriction'] = {
+        id: 'capytale-toolbox-restriction',
+        classes: ' ide-btn-restriction',
+        fontAwesome: 'fas fa-tasks',
+        title: 'code.topbar.tooltips.toolboxRestriction',
+        tooltipPlacement: "left",
+        onclick: "pseudoModal.openModal('modal-toolbox-restriction')",
+        label: {
+            value: "code.topbar.label.toolboxRestriction"
         }
     }
 }

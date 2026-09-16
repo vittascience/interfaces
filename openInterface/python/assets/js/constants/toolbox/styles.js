@@ -55,9 +55,7 @@ const THEME_VITTASCIENCE = {
         "colourPrimary": "#bdbdbd"
     },
     "exception_blocks": {
-        "colourPrimary": "#8F2D56",
-        "colourSecondary": "#7F1D46",
-        "colourTertiary": "#6F0D36",
+        "colourPrimary": "#7F1D46",
     }
 };
 

@@ -521,6 +521,7 @@ h1 {
 #simulator,
 .blocklyToolboxDiv,
 #console,
+#monitor-variables-panel,
 .modal-background-content {
   scrollbar-width: thin !important;
   scrollbar-color: rgb(121, 121, 121, 0.4) #0000;
@@ -531,6 +532,7 @@ h1 {
 #simulator::-webkit-scrollbar-track,
 .blocklyToolboxDiv::-webkit-scrollbar-track,
 #console::-webkit-scrollbar-track,
+#monitor-variables-panel::-webkit-scrollbar-track,
 .modal-background-content::-webkit-scrollbar-track {
   background: #0000;
 }
@@ -540,6 +542,7 @@ h1 {
 #simulator::-webkit-scrollbar,
 .blocklyToolboxDiv::-webkit-scrollbar,
 #console::-webkit-scrollbar,
+#monitor-variables-panel::-webkit-scrollbar,
 .modal-background-content::-webkit-scrollbar {
   width: 10px;
   background-color: #0000;
@@ -550,6 +553,7 @@ h1 {
 #simulator::-webkit-scrollbar-thumb,
 .blocklyToolboxDiv::-webkit-scrollbar-thumb,
 #console::-webkit-scrollbar-thumb,
+#monitor-variables-panel::-webkit-scrollbar-thumb,
 .modal-background-content::-webkit-scrollbar-thumb {
   background-color: rgb(121, 121, 121, 0.4);
   border-radius: 6px;
@@ -956,4 +960,20 @@ body.buddy-app .oi-btn-simulator img {
 
 #ide-absolute-container.multi-iframe-child .ide-simulator {
   border: 0;
+}
+
+
+.blocklyZoom foreignObject button:focus,
+.blocklyTrash foreignObject button:focus,
+.blocklyBackpack foreignObject button:focus {
+    outline: none !important;
+}
+
+.file-drop-zone-title {
+    color: #767676;
+}
+
+.theme-dark .btn-file,
+.theme-dark .btn-file .hidden-xs {
+    color: #000;
 }

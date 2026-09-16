@@ -64,6 +64,7 @@ Blockly.Msg['CATEGORY_NETWORK'] = 'Red';
 Blockly.Msg['CATEGORY_SENSORS'] = 'Sensores';
 Blockly.Msg['CATEGORY_ACTUATORS'] = 'Actuadores';
 Blockly.Msg['CATEGORY_ROBOTS'] = 'Robots';
+Blockly.Msg['CATEGORY_ROBOT'] = 'Robot';
 Blockly.Msg['CATEGORY_VITTAIA'] = 'IA';
 Blockly.Msg['CATEGORY_TIME'] = 'Tiempo';
 // Toolbox scratch mode
@@ -88,6 +89,43 @@ Blockly.Msg['CATEGORY_ACTIONS'] = 'Acciones';
 Blockly.Msg['CATEGORY_SCREEN'] = 'Pantalla';
 Blockly.Msg['CATEGORY_DRONE'] = 'Dron';
 Blockly.Msg['CATEGORY_MUSIC'] = 'Música';
+Blockly.Msg['CATEGORY_MCORE'] = 'mCore';
+Blockly.Msg['CATEGORY_BACKPACK'] = 'Mochila';
+Blockly.Msg['CATEGORY_BASIC'] = 'Básico';
+Blockly.Msg['CATEGORY_STYLE'] = 'Estilo';
+
+// Web categories
+Blockly.Msg['CATEGORY_HTML'] = 'HTML';
+Blockly.Msg['CATEGORY_JAVASCRIPT'] = 'Javascript';
+// HTML subcategories
+Blockly.Msg['HTML_CATEGORY_STRUCTURE'] = 'Estructura';
+Blockly.Msg['HTML_CATEGORY_ATTRIBUTES'] = 'Atributos';
+Blockly.Msg['HTML_CATEGORY_TEXTS'] = 'Textos';
+Blockly.Msg['HTML_CATEGORY_TABLES'] = 'Tablas';
+Blockly.Msg['HTML_CATEGORY_LISTS'] = 'Listas';
+Blockly.Msg['HTML_CATEGORY_FORMS'] = 'Formularios';
+Blockly.Msg['HTML_CATEGORY_MEDIAS'] = 'Medios';
+// CSS subcategories
+Blockly.Msg['CSS_CATEGORY_STRUCTURE'] = 'Estructura';
+Blockly.Msg['CSS_CATEGORY_TEXTS'] = 'Textos';
+Blockly.Msg['CSS_CATEGORY_DISPLAY'] = 'Visualización';
+Blockly.Msg['CSS_CATEGORY_DIMENSIONS'] = 'Dimensiones';
+Blockly.Msg['CSS_CATEGORY_COLORS'] = 'Colores';
+Blockly.Msg['CSS_CATEGORY_BACKGROUNDS'] = 'Fondos';
+Blockly.Msg['CSS_CATEGORY_BORDERS'] = 'Bordes';
+Blockly.Msg['CSS_CATEGORY_MISCELLANOUS'] = 'Varios';
+Blockly.Msg['CSS_CATEGORY_TRANSITIONS'] = 'Transiciones';
+// Javascript subcategories
+Blockly.Msg['JS_CATEGORY_LOGIC'] = 'Lógica';
+Blockly.Msg['JS_CATEGORY_LOOPS'] = 'Bucles';
+Blockly.Msg['JS_CATEGORY_MATH'] = 'Matemáticas';
+Blockly.Msg['JS_CATEGORY_TEXTS'] = 'Textos';
+Blockly.Msg['JS_CATEGORY_LISTS'] = 'Listas';
+Blockly.Msg['JS_CATEGORY_COLORS'] = 'Colores';
+Blockly.Msg['JS_CATEGORY_DOM'] = 'DOM';
+Blockly.Msg['JS_CATEGORY_VARIABLES'] = 'Variables';
+Blockly.Msg['JS_CATEGORY_FUNCTIONS'] = 'Funciones';
+Blockly.Msg['JS_CATEGORY_ADVANCEDJS'] = 'JS avanzado';
 
 // Toolbox hardware subcategories
 // DISPLAY
@@ -106,6 +144,7 @@ Blockly.Msg['SUBCATEGORY_EXTERNAL_INPUTS'] = 'Entradas externas';
 Blockly.Msg['SUBCATEGORY_PINS'] = 'Pines';
 Blockly.Msg['SUBCATEGORY_EVENTS'] = 'Eventos';
 // COMMUNICATION
+Blockly.Msg['SUBCATEGORY_COMMUNICATION'] = 'Comunicación';
 Blockly.Msg['SUBCATEGORY_SERIAL_CONNECTION'] = 'Conexión serie';
 Blockly.Msg['SUBCATEGORY_GPS'] = 'GPS';
 Blockly.Msg['SUBCATEGORY_NFC'] = 'NFC';
@@ -133,16 +172,23 @@ Blockly.Msg['SUBCATEGORY_SENSORS_GAS'] = 'Sensores de gas';
 Blockly.Msg['SUBCATEGORY_SENSORS_CLIMATE'] = 'Sensores meteorológicos';
 Blockly.Msg['SUBCATEGORY_SENSORS_SOUNDLIGHT'] = 'Sensores de sonido y luz';
 Blockly.Msg['SUBCATEGORY_SENSORS_DISTANCEMOVEMENT'] = 'Sensores de distancia y movimiento';
+Blockly.Msg['SUBCATEGORY_SENSORS_HEALTH'] = 'Sensores de salud';
 Blockly.Msg['SUBCATEGORY_SENSORS_OTHER'] = 'Otros sensores';
 // ACTUATORS
+Blockly.Msg['SUBCATEGORY_ACTUATORS'] = 'Actuadores';
 Blockly.Msg['SUBCATEGORY_MOTORS'] = 'Motores';
+Blockly.Msg['SUBCATEGORY_FREE_MOVEMENTS'] = 'Movimientos libres';
+Blockly.Msg['SUBCATEGORY_MOVE_BY_SQUARES'] = 'Movimiento por casillas';
 Blockly.Msg['SUBCATEGORY_MUSIC'] = 'Música';
+Blockly.Msg['SUBCATEGORY_AUDIO'] = 'Audio';
 Blockly.Msg['SUBCATEGORY_MOSFET'] = 'MOSFET';
 Blockly.Msg['SUBCATEGORY_ACTUATORS_OTHER'] = 'Otros actuadores';
+Blockly.Msg['SUBCATEGORY_TB6612FNG_MOTOR_DRIVER'] = 'Controlador de motor TB6612FNG';
 // ROBOTS
 Blockly.Msg['SUBCATEGORY_SERVOMOTORS'] = 'Servomotores';
 Blockly.Msg['SUBCATEGORY_DETECTION'] = 'Detección';
 Blockly.Msg['SUBCATEGORY_CAMERA'] = 'Cámara';
+Blockly.Msg['SUBCATEGORY_KITRONIK'] = 'Kitronik';
 // IA
 Blockly.Msg['SUBCATEGORY_CAMERAS'] = 'Cámaras';
 Blockly.Msg['SUBCATEGORY_SENSOR_DATA'] = 'Datos del sensor';
@@ -169,7 +215,6 @@ Blockly.Msg['SUBCATEGORY_ARDUINO_SHILED_MOTOR'] = 'Shield de motor Arduino';
 
 // BBC micro:bit
 Blockly.Msg['SUBCATEGORY_MICROBIT'] = 'micro:bit';
-Blockly.Msg['SUBCATEGORY_KITRONIK'] = "Kitronik"
 Blockly.Msg['SUBCATEGORY_GAMES'] = 'Juegos';
 Blockly.Msg['SUBCATEGORY_EXEC'] = 'Ejecutar código Python';
 Blockly.Msg['SUBCATEGORY_MICROBIT_LOG'] = 'Registro micro:bit';
@@ -201,6 +246,8 @@ Blockly.Msg['SUBCATEGORY_TELLO_SEND_COMMAND'] = 'Tello - Enviar comando';
 Blockly.Msg['SUBCATEGORY_TELLO_READ'] = 'Tello - Recibir datos';
 Blockly.Msg['SUBCATEGORY_HUSKYLENS'] = 'HuskyLens';
 Blockly.Msg['SUBCATEGORY_ZIP_HALO'] = 'Kitronik ZIP Halo HD';
+Blockly.Msg['SUBCATEGORY_SUPERBIT_BASIC'] = 'Superbit - Básico';
+Blockly.Msg['SUBCATEGORY_SUPERBIT_SENSORS'] = 'Yahboom - Sensores';
 
 // Python
 Blockly.Msg['SUBCATEGORY_MATPLOTLIB'] = 'Matplotlib';
@@ -233,6 +280,7 @@ Blockly.Msg['SUBCATEGORY_ASR'] = 'Reconocimiento de voz';
 Blockly.Msg['SUBCATEGORY_CAPITAL_CITY'] = 'Capitales y países';
 Blockly.Msg['SUBCATEGORY_STORY_TELLING'] = 'Narración interactiva';
 Blockly.Msg['SUBCATEGORY_MENTAL_CALCULATION'] = 'Cálculo mental';
+
 // Nyrio
 Blockly.Msg['SUBCATEGORY_MOVEMENT_JOINTS'] = 'Articulaciones';
 Blockly.Msg['SUBCATEGORY_MOVEMENT_POSE'] = 'Posicionamiento';
@@ -244,7 +292,6 @@ Blockly.Msg['SUBCATEGORY_UTILITIES'] = 'Utilidades';
 
 // Pico
 Blockly.Msg['SUBCATEGORY_PICO_LED'] = 'Raspberry Pi Pico';
-Blockly.Msg["SUBCATEGORY_KITRO"] = "Kitronik";
 
 // Buddy
 Blockly.Msg['SUBCATEGORY_OBJECT_DETECTION'] = 'Detección de objetos';
@@ -280,9 +327,9 @@ Blockly.Msg['SUBCATEGORY_SOUNDS'] = 'Sonidos';
 
 // Cyberpi
 Blockly.Msg['SUBCATEGORY_CYBERPI'] = 'CyberPi';
+Blockly.Msg['SUBCATEGORY_TEXT'] = 'Texto';
 Blockly.Msg['SUBCATEGORY_CHART'] = 'Gráfico';
 Blockly.Msg['SUBCATEGORY_BUTTONS'] = 'Botones';
-Blockly.Msg['SUBCATEGORY_AUDIO'] = 'Audio';
 Blockly.Msg['SUBCATEGORY_ENCODER_MOTORS'] = 'Motores con codificador';
 Blockly.Msg['SUBCATEGORY_MOTORS_M1_M2'] = 'Motores M1 y M2';
 Blockly.Msg['SUBCATEGORY_ULTRASONIC_SENSORS'] = 'Sensores ultrasónicos';
@@ -290,8 +337,12 @@ Blockly.Msg['SUBCATEGORY_QUAD_RGB_SENSORS'] = 'Sensores RGB cuádruples';
 
 // Eliobot
 Blockly.Msg['SUBCATEGORY_ELIOBOT'] = 'Eliobot';
+Blockly.Msg['SUBCATEGORY_BUILTIN_LED'] = 'LED integrada';
+Blockly.Msg['SUBCATEGORY_EYES'] = 'Ojos';
 Blockly.Msg['SUBCATEGORY_LINE_SENSORS'] = 'Sensores de línea';
 Blockly.Msg['SUBCATEGORY_BUZZER'] = 'Zumbador';
+Blockly.Msg['SUBCATEGORY_IR_REMOTE'] = 'Control remoto IR';
+Blockly.Msg['SUBCATEGORY_POTENTIOMETER'] = 'Potenciómetro';
 
 // Galaxia
 Blockly.Msg['SUBCATEGORY_GALAXIA'] = 'Galaxia';
@@ -329,29 +380,19 @@ Blockly.Msg['SUBCATEGORY_WEB_SERVER'] = 'Servidor web';
 // Codey & Rocky
 Blockly.Msg['SUBCATEGORY_OTHER'] = 'Otros';
 Blockly.Msg['SUBCATEGORY_MOTION'] = 'Movimiento';
-Blockly.Msg['CATEGORY_MCORE'] = 'mCore';
-Blockly.Msg['SUBCATEGORY_TEXT'] = 'Texto';
+
+// mBot
 Blockly.Msg['SUBCATEGORY_MCORE_LED'] = 'mCore - LED azul';
 Blockly.Msg['SUBCATEGORY_MCORE_RGB_LED'] = 'mCore - LED RGB';
 Blockly.Msg['SUBCATEGORY_MCORE_SENSORS'] = 'mCore - Sensores';
 Blockly.Msg['SUBCATEGORY_MCORE_BUZZER'] = 'mCore - Zumbador';
 Blockly.Msg['SUBCATEGORY_MCORE_INFRARED'] = 'mCore - Infrarrojos';
-Blockly.Msg['CATEGORY_ROBOT'] = 'Robot';
-Blockly.Msg['CATEGORY_BACKPACK'] = 'Mochila';
-Blockly.Msg['SUBCATEGORY_COMMUNICATION'] = 'Comunicación';
-Blockly.Msg['SUBCATEGORY_SENSORS_HEALTH'] = 'Sensores de salud';
-Blockly.Msg['SUBCATEGORY_ACTUATORS'] = 'Actuadores';
-Blockly.Msg['SUBCATEGORY_FREE_MOVEMENTS'] = 'Movimientos libres';
-Blockly.Msg['SUBCATEGORY_MOVE_BY_SQUARES'] = 'Movimiento por casillas';
-Blockly.Msg['SUBCATEGORY_SUPERBIT_BASIC'] = 'Superbit - Básico';
-Blockly.Msg['SUBCATEGORY_SUPERBIT_SENSORS'] = 'Yahboom - Sensores';
-Blockly.Msg['SUBCATEGORY_BUILTIN_LED'] = 'LED integrada';
-Blockly.Msg['SUBCATEGORY_EYES'] = 'Ojos';
-Blockly.Msg['SUBCATEGORY_IR_REMOTE'] = 'Control remoto IR';
 Blockly.Msg['SUBCATEGORY_LED_MATRIX'] = 'Matriz de LED';
 Blockly.Msg['SUBCATEGORY_4DIGITS_DISPLAY'] = 'Pantalla de 7 segmentos';
 Blockly.Msg['SUBCATEGORY_MBOT_MOTORS'] = 'Motores';
 Blockly.Msg['SUBCATEGORY_SERVOMOTOR'] = 'Servomotor';
 Blockly.Msg['SUBCATEGORY_MINI_FAN'] = 'Mini ventilador';
-Blockly.Msg['SUBCATEGORY_KITRONIK'] = "Kitronik";
-Blockly.Msg['SUBCATEGORY_POTENTIOMETER'] = 'Potenciómetro';
+
+// Arduino Q
+Blockly.Msg['CATEGORY_BRIDGES'] = 'Puentes';
+Blockly.Msg['CATEGORY_IA_CAMERAS'] = 'Cámaras IA';

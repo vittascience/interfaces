@@ -4,6 +4,21 @@ const $builtinmodule = function () {
 
     const arduino_alvik = {};
 
+    const AlvikLed = Sk.misceval.buildClass(arduino_alvik, function ($gbl, $loc) {
+        $loc.__init__ = new Sk.builtin.func(function (self, side_) {
+            self.side = Sk.ffi.remapToJs(side_);
+        });
+
+        $loc.set_color = new Sk.builtin.func(function (self, red, green, blue) {
+            const r = Sk.ffi.remapToJs(red) ? 255 : 0;
+            const g = Sk.ffi.remapToJs(green) ? 255 : 0;
+            const b = Sk.ffi.remapToJs(blue) ? 255 : 0;
+            const hexColor = '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('');
+            $("#alvik-led-" + self.side + " .circle-in").attr("fill", "rgb(" + r + "," + g + "," + b + ")");
+            return new Sk.builtin.none();
+        });
+    }, 'AlvikLed', []);
+
     arduino_alvik.ArduinoAlvik = new Sk.misceval.buildClass(arduino_alvik, function ($gbl, $loc) {
 
         const setMotor = function (motorSide, speed, direction, unit = 'rpm') {
@@ -185,6 +200,9 @@ const $builtinmodule = function () {
             const rightSpeedUnit = ($("#alvik-motorRight_value").html().split(' ')[1] || "rpm");
             return new Sk.builtin.list([convertSpeed(leftSpeed, leftSpeedUnit, unit_), convertSpeed(rightSpeed, rightSpeedUnit, unit_)]);
         });
+
+        $loc.led_right = Sk.misceval.callsimArray(AlvikLed, [new Sk.builtin.str('right')]);
+        $loc.led_left = Sk.misceval.callsimArray(AlvikLed, [new Sk.builtin.str('left')]);
 
         $loc.set_builtin_led = new Sk.builtin.func(function (self, state) {
             const state_ = Sk.ffi.remapToJs(state);
@@ -425,7 +443,7 @@ const $builtinmodule = function () {
             const g = parseInt(self.colorSensor_g.slider('option', 'value'));
             const b = parseInt(self.colorSensor_b.slider('option', 'value'));
             if (mode_ == 'rgb') {
-                return new Sk.builtin.tuple([parseFloat((r/255).toFixed(7)), parseFloat((g/255).toFixed(7)), parseFloat((b/255).toFixed(7))]);
+                return new Sk.builtin.tuple([parseFloat((r / 255).toFixed(7)), parseFloat((g / 255).toFixed(7)), parseFloat((b / 255).toFixed(7))]);
             } else if (mode_ == 'hsv') {
                 const { h, s, v } = rgbToHsv(r, g, b);
                 console.log(h, s, v)

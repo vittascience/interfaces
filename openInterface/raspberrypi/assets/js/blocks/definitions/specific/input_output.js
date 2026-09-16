@@ -59,6 +59,34 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "block_init_helpurl",
             "block_init_color"
         ],
-    }
+    },
+    // BLOCK SET PIN MODE
+    {
+        "type": "io_setPinMode",
+        "message0": "%{BKY_IO_SETPINMODE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "MODE",
+            "options": [
+                ["INPUT_PULLUP", "PUD_DOWN"],
+                ["INPUT_PULLDOWN", "PUD_UP"],
+                ["INPUT_PULLOFF", "PUD_OFF"],
+                ["OUTPUT", "OUTPUT"],
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "inputsInline": true,
+        "tooltip": "%{BKY_IO_SETPINMODE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
 
 ]); // END JSON EXTRACT (Do not delete this comment.)

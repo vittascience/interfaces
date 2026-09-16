@@ -77,9 +77,12 @@ class ExerciseStatement {
 		this._statementContentElt = document.createElement('div');
 		this._statementContentElt.id = 'statement-content';
 		this._statementContentElt.setAttribute('before-elt', i18next.t('code.statement'));
+		this._statementContentElt.setAttribute('data-i18n', '[before-elt]code.statement');
 
 		this._statementButtonElt = document.createElement('button');
 		this._statementButtonElt.classList = 'btn btn-orange';
+		this._statementButtonElt.setAttribute('data-i18n', '[aria-label]code.statementButtons.collaps');
+		this._statementButtonElt.setAttribute('aria-label', i18next.t('code.statementButtons.collaps'))
 		this._statementButtonElt.innerHTML = '<i class="fas fa-minus"></i>';
 
 		this._statementWrapperElt.appendChild(this._statementButtonElt);
@@ -124,9 +127,13 @@ class ExerciseStatement {
 	_toggleCollapse() {
 		if (this._statementWrapperElt.classList.contains('statement-collapsed')) {
 			this._statementWrapperElt.classList.remove('statement-collapsed');
+			this._statementButtonElt.setAttribute('data-i18n', '[aria-label]code.statementButtons.collaps');
+			this._statementButtonElt.setAttribute('aria-label', i18next.t('code.statementButtons.collaps'))
 			this._statementButtonElt.innerHTML = '<i class="fas fa-minus"></i>';
 		} else {
 			this._statementWrapperElt.classList.add('statement-collapsed');
+			this._statementButtonElt.setAttribute('data-i18n', '[aria-label]code.statementButtons.expand');
+			this._statementButtonElt.setAttribute('aria-label', i18next.t('code.statementButtons.expand'))
 			this._statementButtonElt.innerHTML = '<i class="fas fa-plus"></i>';
 		}
 

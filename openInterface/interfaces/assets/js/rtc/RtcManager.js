@@ -65,9 +65,7 @@ class RtcManager {
       signedLink = await projectManager.ajax_getSignedLink(projectManager.getCurrentProject().link);
     }
     try {
-      //this.socket = io('https://vittascience-rtc.com:443/', {
-      //this.socket = io('https://vitta-rtc-test.ovh:3000/', {
-      this.socket = io('https://vittascience-rtc.com:443/', {
+      this.socket = io('https://rtc.vittascience.com:443/', {
         query: {
           clientInfos: (UserManager.getUser() != null) ? JSON.stringify({ name: UserManager.getUser().firstname + ' ' + UserManager.getUser().surname, icon: UserManager.getUser().picture }) : JSON.stringify(this.professionArray[Math.floor(Math.random() * 27)]),
           room: getParamValue('link'),

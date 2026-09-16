@@ -399,7 +399,8 @@ const ARDUINO_H = {
 
             rt.defVar("Serial", HardwareSerial_t, HardwareSerial(0, 1));
 
-            if (typeof BOARD_ARDUINO_UNO_R4_WIFI !== 'undefined' && rt.config.board.id === BOARD_ARDUINO_UNO_R4_WIFI) {
+            if ((typeof BOARD_ARDUINO_UNO_R4_WIFI !== 'undefined' && rt.config.board.id == BOARD_ARDUINO_UNO_R4_WIFI)
+                || (typeof BOARD_ARDUINO_UNO_Q !== 'undefined' && rt.config.board.id == BOARD_ARDUINO_UNO_Q)) {
                 rt.defVar("Serial1", HardwareSerial_t, HardwareSerial(0, 1));
             }
 
@@ -492,7 +493,10 @@ const ARDUINO_H = {
             rt.defVar("M_SQRT2", rt.doubleTypeLiteral, rt.val(rt.doubleTypeLiteral, 1.41421356237309504880));
             rt.defVar("M_SQRT1_2", rt.doubleTypeLiteral, rt.val(rt.doubleTypeLiteral, 0.70710678118654752440));
 
-            if (typeof BOARD_ARDUINO_UNO_R4_WIFI !== 'undefined' && rt.config.board.id == BOARD_ARDUINO_UNO_R4_WIFI) {
+            rt.defVar("LED_BUILTIN", rt.unsignedcharTypeLiteral, rt.val(rt.unsignedcharTypeLiteral, 13));
+
+            if ((typeof BOARD_ARDUINO_UNO_R4_WIFI !== 'undefined' && rt.config.board.id == BOARD_ARDUINO_UNO_R4_WIFI)
+                || (typeof BOARD_ARDUINO_UNO_Q !== 'undefined' && rt.config.board.id == BOARD_ARDUINO_UNO_Q)) {
                 const t = rt.primitiveType("long double");
                 rt.defVar("INFINITY", t, rt.val(t, 1.79769e+308));
             } else {
@@ -690,7 +694,7 @@ const ARDUINO_H = {
                 if (component !== undefined) {
                     id = component.id;
                 } else if (pin.v === 13) {
-                    if (INTERFACE_NAME == 'arduino' || INTERFACE_NAME == "letsstartcoding") {
+                    if (['arduino', 'arduinoq', 'letsstartcoding'].includes(INTERFACE_NAME)) {
                         id = 'arduino-led13'
                     } else if (INTERFACE_NAME == 'mBot') {
                         id = 'mCoreBuiltinBlueLED';

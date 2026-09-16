@@ -222,6 +222,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             "blocks": [
                 'display_addOledText',
                 'display_setOledPixel',
+                'display_drawOledLine',
                 'display_showOledIcon',
                 'display_clearOledScreen',
             ]
@@ -266,7 +267,6 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'io_getChronometer',
             ]
         },
-
         {
             "label": "%{BKY_SUBCATEGORY_EXTERNAL_INPUTS}",
             "blocks": [
@@ -287,8 +287,10 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'io_readDigitalPin',
                 'io_writeDigitalPin',
                 'io_readAnalogPin',
-                'io_writeAnalogPin',
-                'io_writePwm'
+                'io_writePwm',
+                'io_setPwm',
+                'io_stopPwm',
+                'io_readPulseIn'
             ]
         }
     ],
@@ -507,6 +509,14 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         },
         {
+            "label": "%{BKY_SUBCATEGORY_MOSFET}",
+            "blocks": [
+                'actuators_mosfet_setState',
+                'actuators_mosfet_setPercentValue',
+                'actuators_mosfet_setFrequency'
+            ]
+        },
+        {
             "label": "%{BKY_SUBCATEGORY_MUSIC}",
             "blocks": [
                 'actuators_playMusicGroveBuzzer',
@@ -519,7 +529,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
     ],
     "robots": [
         {
-            "label": "%{BKY_SUBCATEGORY_KITRO}",
+            "label": "%{BKY_SUBCATEGORY_KITRONIK}",
             "blocks": [
                 "robots_moveKitro",
                 "robots_rotateKitro",

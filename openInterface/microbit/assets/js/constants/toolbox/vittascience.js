@@ -470,18 +470,6 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_MICROPHONE} (V2)",
-            "blocks": [
-                "io_micro_onSoundDetected",
-                "io_micro_getCurrentSound",
-                "io_micro_wasSoundDetected",
-                "io_micro_getSoundLevel",
-                "io_micro_getHistorySounds",
-                "io_micro_setSoundThreshold",
-                "io_micro_soundCondition"
-            ]
-        },
-        {
             "label": "%{BKY_SUBCATEGORY_EXTERNAL_INPUTS}",
             "blocks": [
                 'io_getGroveButton',
@@ -563,17 +551,18 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             "blocks": [
                 'communication_hc05_sendBluetoothData',
                 'communication_hc05_onBluetoothDataReceived',
-                'communication_HM10_sendBluetoothData',
-                'communication_HM10_onBluetoothDataReceived',
+                'communication_hm10_setATCommand',
+                'communication_hm10_getATCommand',
+                'communication_hm10_sendBluetoothData',
+                'communication_hm10_onBluetoothDataReceived',
             ]
         },
         {
             "label": "%{BKY_SUBCATEGORY_TRACKING_MODULES}",
             "blocks": [
+                'communication_mfrc522_getCardID',
                 'communication_gps_getNMEA',
                 'communication_gps_getGGAInformations',
-                // 'communication_onGPSDataReceived',
-                // 'communication_analyzeGPSInfo',
                 'communication_clockRTC_setDate',
                 'communication_clockRTC_setHour',
                 'communication_clockRTC_readTime'
@@ -586,7 +575,17 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'communication_serialRedirectUSB',
                 'communication_uart_writeData',
                 'communication_uart_isDataAvailable',
-                'communication_uart_readData'
+                'communication_uart_readData',
+                'communication_uart_readLineData'
+            ]
+        },
+        {
+            "label": "I2C",
+            "blocks": [
+                'communication_i2c_init',
+                'communication_i2c_scan',
+                'communication_i2c_read',
+                'communication_i2c_write'
             ]
         }
     ],
@@ -602,6 +601,18 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'sensors_calibrateCompass',
                 'sensors_isCompassCalibrated',
                 'sensors_getMagneticForce'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_MICROPHONE} (V2)",
+            "blocks": [
+                "io_micro_onSoundDetected",
+                "io_micro_getCurrentSound",
+                "io_micro_wasSoundDetected",
+                "io_micro_getSoundLevel",
+                "io_micro_getHistorySounds",
+                "io_micro_setSoundThreshold",
+                "io_micro_soundCondition"
             ]
         },
         {
@@ -727,6 +738,13 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'actuators_kitronik_stopMotor',
                 'actuators_kitronikShield_setServoAngle',
                 'actuators_kitronik_playFrequency'
+            ]
+        },
+        {
+            "label": "Reka:Bit",
+            "blocks": [
+                'actuators_rekabit_runMotor',
+                'actuators_rekabit_setServoPosition'
             ]
         },
         {

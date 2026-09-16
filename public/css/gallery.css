@@ -63,6 +63,12 @@
   /* For IE8 and earlier */
 }
 
+.grid-item:focus {
+  outline: 3px solid var(--vitta-green);
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
 .captiontext,
 .figure {
   display: inherit;

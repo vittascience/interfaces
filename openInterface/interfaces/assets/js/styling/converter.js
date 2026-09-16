@@ -8,13 +8,13 @@ function replaceXmlCode(to, xmlString = null) {
         workspaceXml = Blockly.Xml.workspaceToDom(Main.getWorkSpace());
         xmlToLoad = Blockly.Xml.domToText(workspaceXml);
     }
-    if ((typeof TOOLBOX_STYLE_SCRATCH != 'undefined' && to == TOOLBOX_STYLE_SCRATCH) || (typeof TOOLBOX_STYLE_TI != 'undefined' && to == TOOLBOX_STYLE_TI)) {
+    if ((typeof TOOLBOX_STYLE_SCRATCH != 'undefined' && to == TOOLBOX_STYLE_SCRATCH) || (typeof TOOLBOX_STYLE_TI != 'undefined' && to == TOOLBOX_STYLE_TI) || (typeof TOOLBOX_STYLE_HARDWARE != 'undefined' && to == TOOLBOX_STYLE_HARDWARE)) {
         let isNotScratch = !/type=\"scratch_on_start\"/.test(xmlToLoad);
         if (isNotScratch) {
             xmlToLoad = adaptVittascienceToScratch(workspaceXml);
         }
     } else {
-        let isNotVitta = !/type=\"on_start\"/.test(xmlToLoad)
+        let isNotVitta = !/type=\"on_start\"/.test(xmlToLoad);
         if (isNotVitta) {
             xmlToLoad = adaptScratchToVittascience(workspaceXml);
         }
@@ -133,113 +133,220 @@ function gettingOnStartBlocks(children) {
 
 function adaptScratchToVittascience(workspaceXml) {
     const xml = Blockly.Xml.textToDom('<xml xmlns="https://developers.google.com/blockly/xml"></xml>');
-    var user_start = null;
-    var user_functions = [];
-    var user_variables = null;
-    var start_pos = [0, 0];
 
-    // Get scratch_on_start node, variables stack and user functions
-    for (var i = 0; i < workspaceXml.childNodes.length; i++) {
-        const block = workspaceXml.childNodes[i]
-        if (/type=\"scratch_on_start\"/.test(block.outerHTML)) {
-            user_start = block
-        } else if (/<variables>/.test(block.outerHTML)) {
-            user_variables = block;
-        } else {
-            user_functions.push(block);
+    let userStart = null;
+    let userVariables = null;
+    const userFunctions = [];
+
+    const HORIZONTAL_STEP = 200;
+    const VERTICAL_PRIORITY_STEP = 28;
+    const FOREVER_OFFSET_X = 524;
+    const FOREVER_OFFSET_Y = -25;
+
+    const isElement = (node) => node && node.nodeType === 1;
+    const getType = (node) => isElement(node) ? node.getAttribute('type') : null;
+    const parseCoord = (value, fallback = 0) => {
+        const n = parseInt(value, 10);
+        return Number.isFinite(n) ? n : fallback;
+    };
+
+    function getDirectChild(node, tagName) {
+        return Array.from(node.childNodes).find(
+            (child) => isElement(child) && child.tagName === tagName
+        ) || null;
+    }
+
+    function getDirectNextBlock(block) {
+        const next = getDirectChild(block, 'next');
+        if (!next) return null;
+        return Array.from(next.childNodes).find(
+            (child) => isElement(child) && child.tagName === 'block'
+        ) || null;
+    }
+
+    function removeDirectChildren(node, tagName) {
+        Array.from(node.childNodes)
+            .filter((child) => isElement(child) && child.tagName === tagName)
+            .forEach((child) => node.removeChild(child));
+    }
+
+    function cloneWithoutDirectNext(block) {
+        const clone = block.cloneNode(true);
+        removeDirectChildren(clone, 'next');
+        return clone;
+    }
+
+    function appendNext(parentBlock, childBlock) {
+        const next = xml.ownerDocument.createElement('next');
+        next.appendChild(childBlock);
+        parentBlock.appendChild(next);
+    }
+
+    function appendChainToStatement(statement, blocks) {
+        if (!blocks.length) return;
+        statement.appendChild(blocks[0]);
+        let current = blocks[0];
+        for (let i = 1; i < blocks.length; i++) {
+            appendNext(current, blocks[i]);
+            current = blocks[i];
         }
     }
 
-    // add user variables to workspace xml
-    if (user_variables !== null) {
-        xml.appendChild(user_variables);
+    function ensureWhileShape(block) {
+        if (!block || getType(block) !== 'scratch_forever') return;
+
+        block.setAttribute('type', 'controls_whileUntil');
+
+        const elementChildren = Array.from(block.childNodes).filter(isElement);
+        const hasModeField = elementChildren.some(
+            (child) => child.tagName === 'field' && child.getAttribute('name') === 'MODE'
+        );
+        const hasBoolValue = elementChildren.some(
+            (child) => child.tagName === 'value' && child.getAttribute('name') === 'BOOL'
+        );
+
+        if (!hasModeField) {
+            const field = xml.ownerDocument.createElement('field');
+            field.setAttribute('name', 'MODE');
+            field.textContent = 'WHILE';
+            block.insertBefore(field, elementChildren[0] || null);
+        }
+
+        if (!hasBoolValue) {
+            const value = xml.ownerDocument.createElement('value');
+            value.setAttribute('name', 'BOOL');
+
+            const boolBlock = xml.ownerDocument.createElement('block');
+            boolBlock.setAttribute('type', 'logic_boolean');
+
+            const boolField = xml.ownerDocument.createElement('field');
+            boolField.setAttribute('name', 'BOOL');
+            boolField.textContent = 'TRUE';
+
+            boolBlock.appendChild(boolField);
+            value.appendChild(boolBlock);
+
+            const statementDo = elementChildren.find(
+                (child) => child.tagName === 'statement' && child.getAttribute('name') === 'DO'
+            );
+            block.insertBefore(value, statementDo || null);
+        }
     }
 
-    if (user_start !== null) {
-        let XMLCode = {
-            "childNode": user_start.childNodes
-        };
-        let x_pos = parseInt(start_pos[0])
-        let startBlockInit = true;
+    function convertNestedScratchForever(root) {
+        if (!root || !root.querySelectorAll) return;
+        if (getType(root) === 'scratch_forever') ensureWhileShape(root);
+        root.querySelectorAll('block[type="scratch_forever"]').forEach(ensureWhileShape);
+    }
 
-        // loop on typed 'scratch_forever_blocks' in user project code
-        if (user_start.childNodes.length > 0) {
+    function appendDisabledBlock(block) {
+        if (!block) return;
+        const clone = block.cloneNode(true);
+        convertNestedScratchForever(clone);
+        clone.setAttribute('disabled', 'true');
+        xml.appendChild(clone);
 
-            while (XMLCode.childNode !== null) {
+        if (typeof InterfaceMonitor !== 'undefined' && InterfaceMonitor.writeConsole) {
+            InterfaceMonitor.writeConsole("Certains blocs n'ont pas pu être convertis au style Vittascience.\n");
+        }
+    }
 
-                XMLCode = searchingNextBlocks(XMLCode.childNode);
-                if (startBlockInit) {
-                    // convert 'scratch_on_start' block to vittascience 'on_start' block with statement "DO"
-                    let startXml = user_start.outerHTML.replace(user_start.innerHTML, '')
-                    // get position of 'scratch_on_start' block
-                    let position = startXml.match(/deletable=\"false\" x=\"([0-9]{0,3})\" y=\"([0-9]{0,3})\"/);
-                    if (position) {
-                        start_pos = [position[1], position[2]];
-                    }
-                    startXml = Blockly.Xml.textToDom(startXml);
-                    if (XMLCode.nextBlocksCode !== null && XMLCode.nextBlocksCode.length > 0) {
-                        // add blocks in 'on_start' if 'scratch_on_start' has next statement different of 'scratch_forever'
-                        let regExpForever = /type=\"scratch_forever\" id=\"(.{20,20})\">/g;
-                        replacement = 'type=\"controls_whileUntil\" id=\"$1\"><field name=\"MODE\">WHILE</field><value name=\"BOOL\"><block type=\"logic_boolean\" id=\"9YHj@-zEIez}TFTAfZro\"><field name=\"BOOL\">TRUE</field></block></value>';
-                        XMLCode.nextBlocksCode = XMLCode.nextBlocksCode.replace(regExpForever, replacement);
-                        startXml.appendChild(Blockly.Xml.textToDom('<statement name=\"DO\">' + XMLCode.nextBlocksCode + '</statement>'));
-                    }
-                    // append 'on_start' block to workspace xml
-                    xml.appendChild(Blockly.Xml.textToDom(Blockly.Xml.domToText(startXml).replace(/type=\"scratch_on_start\"/, 'type=\"on_start\"')));
-                    startBlockInit = false;
-                } else {
-                    // if next connection of 'scratch_forever' has blocks, push them in workspace in disabled mode 
-                    if (XMLCode.nextBlocksCode !== null && XMLCode.nextBlocksCode.length > 0) {
-                        let regExpForever = /type=\"scratch_forever\" id=\"(.{20,20})\">/g;
-                        replacement = 'type=\"controls_whileUntil\" id=\"$1\"><field name=\"MODE\">WHILE</field><value name=\"BOOL\"><block type=\"logic_boolean\" id=\"9YHj@-zEIez}TFTAfZro\"><field name=\"BOOL\">TRUE</field></block></value>';
-                        XMLCode.nextBlocksCode = XMLCode.nextBlocksCode.replace(regExpForever, replacement);
-                        let disabledBlocks = XMLCode.nextBlocksCode.replace(/<block type=\"(.{1,50})\" id=\"(.{20,20})\">/, '<block type=\"$1\" id=\"$2\" disabled=\"true\">');
-                        xml.appendChild(Blockly.Xml.textToDom(disabledBlocks));
-                        InterfaceMonitor.writeConsole("Certains blocs n'ont pas pu être convertis au style Vittascience.\n");
-                    }
+    // 1) Séparer variables / start / autres blocs top-level
+    for (const node of Array.from(workspaceXml.childNodes)) {
+        if (!isElement(node)) continue;
+
+        if (node.tagName === 'variables') {
+            userVariables = node;
+        } else if (getType(node) === 'scratch_on_start') {
+            userStart = node;
+        } else {
+            userFunctions.push(node);
+        }
+    }
+
+    // 2) Variables
+    if (userVariables) {
+        xml.appendChild(userVariables.cloneNode(true));
+    }
+
+    let baseForeverX = 300;
+    let baseForeverY = 0;
+
+    // 3) scratch_on_start -> on_start + forevers top-level
+    if (userStart) {
+        const startX = parseCoord(userStart.getAttribute('x'));
+        const startY = parseCoord(userStart.getAttribute('y'));
+
+        baseForeverX = startX + FOREVER_OFFSET_X;
+        baseForeverY = startY + FOREVER_OFFSET_Y;
+
+        const startClone = userStart.cloneNode(false);
+        startClone.setAttribute('type', 'on_start');
+        removeDirectChildren(startClone, 'next');
+        removeDirectChildren(startClone, 'statement');
+
+        const startChain = [];
+        const forevers = [];
+
+        let current = getDirectNextBlock(userStart);
+
+        while (current) {
+            if (getType(current) === 'scratch_forever') {
+                let cursor = current;
+                while (cursor && getType(cursor) === 'scratch_forever') {
+                    forevers.push(cursor);
+                    cursor = getDirectNextBlock(cursor);
                 }
-
-                if (XMLCode.foreverCode !== null && XMLCode.foreverCode.length > 0) {
-                    x_pos += 200;
-                    // convert 'scratch_forever' block into 'forever' changing x position 
-                    let regExpForever = /type=\"scratch_forever\" id=\"(.{20,20})\" deletable=\"false\">/g;
-                    let deletable = "true";
-                    if (regExpForever.test(XMLCode.foreverCode)) {
-                        deletable = "false";
-                    } else {
-                        regExpForever = /type=\"scratch_forever\" id=\"(.{20,20})\">/g;
-                    }
-                    let replacement = "type=\"forever\" id=\"$1\" deletable=\"" + deletable + "\" x=\"" + x_pos + "\" y=\"" + start_pos[1] + "\">";
-                    let loopCode = XMLCode.foreverCode.replace(regExpForever, replacement);
-                    if (XMLCode.statementCode) {
-                        // replacing 'scratch_on_start' blocks from input statement into 'control_whileUntil' block
-                        replacement = 'type=\"controls_whileUntil\" id=\"$1\"><field name=\"MODE\">WHILE</field><value name=\"BOOL\"><block type=\"logic_boolean\" id=\"9YHj@-zEIez}TFTAfZro\"><field name=\"BOOL\">TRUE</field></block></value>';
-                        XMLCode.statementCode = XMLCode.statementCode.replace(regExpForever, replacement);
-                        // push blocks in statement "DO"
-                        loopCode = loopCode.substring(0, loopCode.length - 8) + XMLCode.statementCode + '</block>';
-                    }
-                    // append 'forever' block to workspace xml
-                    loopXml = Blockly.Xml.textToDom(loopCode);
-                    xml.appendChild(loopXml)
-                }
+                if (cursor) appendDisabledBlock(cursor);
+                break;
             }
+
+            const clone = cloneWithoutDirectNext(current);
+            convertNestedScratchForever(clone);
+            startChain.push(clone);
+            current = getDirectNextBlock(current);
+        }
+
+        if (startChain.length) {
+            const statement = xml.ownerDocument.createElement('statement');
+            statement.setAttribute('name', 'DO');
+            appendChainToStatement(statement, startChain);
+            startClone.appendChild(statement);
+        }
+
+        xml.appendChild(startClone);
+
+        forevers.forEach((scratchForever, index) => {
+            const foreverClone = cloneWithoutDirectNext(scratchForever);
+            foreverClone.setAttribute('type', 'forever');
+
+            const deletable = scratchForever.getAttribute('deletable');
+            if (deletable !== null) foreverClone.setAttribute('deletable', deletable);
+
+            foreverClone.setAttribute('x', String(baseForeverX + index * HORIZONTAL_STEP));
+            foreverClone.setAttribute('y', String(baseForeverY + index * VERTICAL_PRIORITY_STEP));
+
+            xml.appendChild(foreverClone);
+        });
+    }
+
+    // 4) Autres blocs top-level
+    userFunctions.forEach((node, index) => {
+        const clone = node.cloneNode(true);
+
+        if (getType(clone) === 'scratch_forever') {
+            clone.setAttribute('type', 'forever');
+            clone.setAttribute('x', String(parseCoord(clone.getAttribute('x'), baseForeverX) + index * HORIZONTAL_STEP));
+            clone.setAttribute('y', String(parseCoord(clone.getAttribute('y'), baseForeverY) + index * VERTICAL_PRIORITY_STEP));
         } else {
-            const startCode = user_start.outerHTML.replace(/type=\"scratch_on_start\"/, 'type=\"on_start\"');
-            xml.appendChild(Blockly.Xml.textToDom(startCode));
+            convertNestedScratchForever(clone);
         }
-    }
-    // add user functions and disabled blocks to workspace xml
-    if (user_functions.length > 0) {
-        for (var j = 0; j < user_functions.length; j++) {
-            const replacedCode = 'type=\"controls_whileUntil\" id=\"$1\"><field name=\"MODE\">WHILE</field><value name=\"BOOL\"><block type=\"logic_boolean\" id=\"9YHj@-zEIez}TFTAfZro\"><field name=\"BOOL\">TRUE</field></block></value>';
-            const functionCode = Blockly.Xml.domToText(user_functions[j]).replace(/type=\"scratch_forever\" id=\"(.{20,20})\">/, replacedCode)
-            xml.appendChild(Blockly.Xml.textToDom(functionCode));
-        }
-    }
+
+        xml.appendChild(clone);
+    });
 
     return Blockly.Xml.domToText(xml);
 };
-
 
 function searchingNextBlocks(children) {
     const XMLCode = {

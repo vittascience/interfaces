@@ -1,5 +1,5 @@
 /**
- * @fileoverview French messages for AlphAI. (FR)
+ * @fileoverview Italian messages for AlphAI. (IT)
  */
 
 'use strict';

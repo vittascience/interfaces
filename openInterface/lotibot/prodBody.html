@@ -177,18 +177,7 @@
                                 </div>
                             </div>
 
-                            <div id="monitor-div-btn" class="d-flex ms-auto justify-content-end">
-
-                                <button type="button" class="ide-btn ide-btn-alone tracer-export me-1" onclick="openExportProjectWindow()" data-toggle="tooltip" data-placement="top" data-i18n="[title]code.monitor.controls.tooltips.export">
-                                    <i class="fas fa-file-export"></i>
-                                    <span class="hide" data-i18n="code.monitor.controls.text.export"></span>
-                                </button>
-
-                                <!-- <button type="button" onclick="toggleReplOverture()" class="ide-btn ide-btn-alone" id="repl-control" data-status="open" data-toggle="tooltip" data-placement="top" data-i18n="[title]code.monitor.controls.tooltips.openRepl">
-                                    <i class="fas fa-terminal"></i>
-                                    <span class="hide" data-i18n="code.monitor.controls.text.openRepl">REPL</span>
-                                </button> -->
-                            </div>
+                            <div id="monitor-div-btn" class="d-flex ms-auto justify-content-end"></div>
                         </div>
                     </div>
                 </div>
@@ -197,11 +186,7 @@
         <div class="ide-simulator">
             <div id="simulator">
                 <div id="headerOut">
-                    <div class="simulator-board-buttons">
-                        <button id="simulator-board-toggler" class="btn simulator-button-circle" type="button" onclick="Simulator.toggleBoardDisplay()" aria-label="Toggle board display" data-i18n="[aria-label]code.simulator.buttons.base.toggleBoardDisplay">
-                            <i class="fa-solid fa-minus simulator-buttons-icon"></i>
-                        </button>
-                    </div>
+                    <div class="simulator-board-buttons"></div>
                     <span id="title-board" style="display: none;">lotibot</span>
                     <div id="board-container">
                         <object id="board-viewer" class="mt-3" type="image/svg+xml" role="img" aria-label="Board simulator view"></object>

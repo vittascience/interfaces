@@ -158,6 +158,44 @@ DEF_COM_RADIO_RECEIVE_FULL:
   else:
     return -1`,
 
+DEF_UART_SWITCH_TO:
+`def uart_switchTo(rx = None, tx = None, baudrate = 9600):
+  if rx is None and tx is None:
+    uart.init(baudrate=115200, bits=8, parity=None, stop=1)
+  else:
+    uart.init(baudrate=baudrate, bits=8, parity=None, stop=1, tx=tx, rx=rx)`,
+
+  DEF_HM10_BLUETOOTH_SEND_COMMAND_AT:
+`def hm10_bluetooth_sendCommandAT(rx, tx, command, value = ""):
+  data = command + (value if len(value) > 0 else "") + "\\r\\n"
+  print("[HM10 INFOS] Command sent: " + data)
+  uart_switchTo(rx, tx)
+  uart.write(data)
+  utime.sleep_ms(200)
+  if not uart.any():
+    uart_switchTo()
+    print("Check connection wires. Invert RXD and TXD if necessary. Additionally, it is not possible to interact with AT mode when the module is connected to another device.\\n")
+    print("Waiting HM10 module in AT Mode...\\n")
+    uart_switchTo(rx, tx)
+    while not uart.any():
+      utime.sleep_ms(100)
+  raw = uart.read()
+  uart_switchTo()
+  if raw is None:
+    return ""
+  response = raw.decode().replace("\\r", "").strip()
+  if len(value) > 0:
+    print(response)
+  return response`,
+
+  DEF_RC522_READ_TAG_UID:
+`def rc522_readTagUid():
+  (stat, tag_type) = rfid_rc522.request(rfid_rc522.REQIDL)
+  if stat == rfid_rc522.OK:
+    (stat, uid) = rfid_rc522.anticoll()
+    if stat == rfid_rc522.OK:
+    	return ''.join('%02X' % i for i in uid)`,
+
 // Grove GPS _ read NMEA
 DEF_GPS_READ_NMEA:
 `def gps_readNMEA(rx, tx, wait = False):
@@ -165,10 +203,10 @@ DEF_GPS_READ_NMEA:
   def read():
     global gpsInfos
     global gpsBuffer
-    uart.init(baudrate=9600, bits=8, parity=None, stop=1, tx=rx, rx=tx)
+    uart_switchTo(rx, tx)
     if uart.any():
-      gpsBuffer += str(uart.read())[2:-1]
-      uart.init(baudrate=115200, bits=8, parity=None, stop=1)
+      gpsBuffer += uart.read().decode()
+      uart_switchTo()
       a = gpsBuffer.split("\\\\r\\\\n")
       Frames = []
       for f in a:
@@ -195,6 +233,7 @@ DEF_GPS_READ_NMEA:
       sleep(100)
   else:
     read()
+  uart_switchTo()
   return gpsInfos['nmea']`,
 
 // Gove GPS _ read info
@@ -661,10 +700,12 @@ DEF_NEOPIXEL_RAINBOW:
 
 // Touch Keypad _ get touched number
 DEF_KEYPAD_GET_NUMBER:
-`def getKeypadNumber():
+`def getKeypadNumber(rx, tx):
+  uart_switchTo(tx, rx) # Here is the required inversion
   while not uart.any():
     pass
   data = str(uart.read())[5:-1] #select the content of byte
+  uart_switchTo()
   if data == 'a': return '*'
   elif data == 'b': return '0'
   elif data == 'c': return '#'

@@ -1,20 +1,20 @@
 var $builtinmodule = function () {
 
-	var ht16k33 = {};
+    var ht16k33 = {};
 
     var HT16K33 = function ($gbl, $loc) {
 
-        HT16K33__init__ = function (self,callback) {};
+        HT16K33__init__ = function (self, callback) { };
 
         HT16K33__init__.co_varnames = ['self', 'callback'];
-		HT16K33__init__.$defaults = [Sk.builtin.none(), Sk.builtin.none()];
+        HT16K33__init__.$defaults = [Sk.builtin.none(), Sk.builtin.none()];
 
-		$loc.__init__ = new Sk.builtin.func(HT16K33__init__);
+        $loc.__init__ = new Sk.builtin.func(HT16K33__init__);
 
-        $loc.draw = new Sk.builtin.func(function(self){
+        $loc.draw = new Sk.builtin.func(function (self) {
             let icon = self.draw,
                 binary_icon = [],
-                led_rows = $('#LEDMatrix_value .led-grid .led-row');            
+                led_rows = $('#LEDMatrix_value .led-grid .led-row');
             for (var i = 0; i < icon.length; i++) {
                 let binary = icon[i].toString(2),
                     length = binary.length;
@@ -23,7 +23,7 @@ var $builtinmodule = function () {
             for (var i = 0; i < binary_icon.length; i++) {
                 for (var j = 0; j < binary_icon[i].length; j++) {
                     let row = $(led_rows[i]).children();
-                    if (binary_icon[i][j] == 1) 
+                    if (binary_icon[i][j] == 1)
                         $(row[j]).css('background-color', '#e63737');
                     else
                         $(row[j]).css('background-color', '#f5f5f5');
@@ -31,15 +31,15 @@ var $builtinmodule = function () {
             }
         });
 
-        $loc.clear = new Sk.builtin.func(function(self){
+        $loc.clear = new Sk.builtin.func(function (self) {
             const led_rows = $('#LEDMatrix_value .led-grid .led-row');
-            for (let i = 0; i < led_rows.length ; i++){
+            for (let i = 0; i < led_rows.length; i++) {
                 let row = $(led_rows[i]).children();
-                for (let j = 0 ; j < row.length ; j++)
+                for (let j = 0; j < row.length; j++)
                     $(row[j]).css('background-color', '#f5f5f5');
-            }  
+            }
         });
-	};
+    };
 
     ht16k33.HT16K33 = new Sk.misceval.buildClass(ht16k33, HT16K33, "HT16K33", []);
 

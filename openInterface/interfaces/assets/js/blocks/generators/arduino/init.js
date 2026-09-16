@@ -111,22 +111,31 @@ Blockly.Arduino.init = function (workspace) {
   Blockly.Arduino.nameDB_.setVariableMap(workspace.getVariableMap());
 
   // Iterate through to capture all blocks types and set the function arguments
-  var varsWithTypes = Blockly.Arduino.StaticTyping
-    .collectVarsWithTypes(workspace);
-  var varListId = Blockly.Arduino.StaticTyping.collectListsId(
-    workspace);
-  Blockly.Arduino.StaticTyping.setProcedureArgs(workspace,
-    varsWithTypes);
+  var varsWithTypes = Blockly.Arduino.StaticTyping.collectVarsWithTypes(workspace);
+  var varListId = Blockly.Arduino.StaticTyping.collectListsId(workspace);
+  Blockly.Arduino.StaticTyping.setProcedureArgs(workspace, varsWithTypes);
+
+  // Collecter les IDs de variables utilisées dans le contexte Arduino uniquement
+  const arduinoVarIds = new Set();
+  if (INTERFACE_NAME === 'arduinoq') {
+    workspace.getAllBlocks(false).forEach(block => {
+      if (Blockly.Constants.Utils.isBlockInContext(block, 'cpp')) {
+        if (block.type === 'variables_get' || block.type === 'variables_set') {
+          const varField = block.getField('VAR');
+          if (varField) arduinoVarIds.add(varField.getVariable().getId());
+        }
+      }
+    });
+  }
 
   for (var variable in varsWithTypes) {
+    // Filtrer par contexte seulement sur arduinoq, sinon tout passe
+    if (INTERFACE_NAME === 'arduinoq' && !arduinoVarIds.has(variable)) continue;
     if (!Blockly.StaticTyping.getProcedureVarType(workspace, variable)) {
       if (varListId[variable] == null) {
-        let varName = Blockly.Arduino.nameDB_.getName(
-          variable, Blockly.Variables.NAME_TYPE);
-        let varType = Blockly.Arduino.getArduinoType_(varsWithTypes[
-          variable]);
-        Blockly.Arduino.addVariable(variable, varType + " " +
-          varName + ";");
+        let varName = Blockly.Arduino.nameDB_.getName(variable, Blockly.Variables.NAME_TYPE);
+        let varType = Blockly.Arduino.getArduinoType_(varsWithTypes[variable]);
+        Blockly.Arduino.addVariable(variable, varType + " " + varName + ";");
       }
     }
   }
@@ -428,6 +437,44 @@ Blockly.Arduino.scrub_ = function (block, code) {
     .targetBlock();
   var nextCode = this.blockToCode(nextBlock);
   return commentCode + code + nextCode;
+};
+
+/**
+ * Gets a property and adjusts the value, taking into account indexing, and
+ * casts to an integer.
+ * @param {!Blockly.Block} block The block.
+ * @param {string} atId The property ID of the element to get.
+ * @param {number=} opt_delta Value to add.
+ * @param {boolean=} opt_negate Whether to negate the value.
+ * @return {string|number}
+ */
+Blockly.Arduino.getAdjustedInt = function (block, atId, opt_delta, opt_negate) {
+  let delta = opt_delta || 0;
+  const oneBasedIndex = block.workspace.options.oneBasedIndex;
+  if (oneBasedIndex) {
+    delta--;
+  }
+  const defaultAtIndex = oneBasedIndex ? "1" : "0";
+  const atOrder = delta ? Blockly.Arduino.ORDER_ADDITIVE : Blockly.Arduino.ORDER_NONE;
+  let at = Blockly.Arduino.valueToCode(block, atId, atOrder) || defaultAtIndex;
+  if (Blockly.isNumber(at)) {
+    at = parseInt(at, 10) + delta;
+    if (opt_negate) {
+      at = -at;
+    }
+  } else {
+    if (delta > 0) {
+      at = "(" + at + " + " + delta + ")";
+    } else if (delta < 0) {
+      at = "(" + at + " - " + -delta + ")";
+    } else {
+      at = "(" + at + ")";
+    }
+    if (opt_negate) {
+      at = "-" + at;
+    }
+  }
+  return at;
 };
 
 /**

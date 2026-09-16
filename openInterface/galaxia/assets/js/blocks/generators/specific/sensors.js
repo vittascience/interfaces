@@ -494,6 +494,22 @@ Blockly.Python.sensors_getGroveTilt = function (block) {
     return [pinName + ".value()", Blockly.Python.ORDER_ATOMIC];
 };
 
+Blockly.Python.sensors_getMlx90621Temperature = function (block) {
+    Blockly.Python.addImport('esp32_mlx90621', IMPORT_ESP32_MLX90621);
+    Blockly.Python.addInit('mlx90621', "mlx90621 = MLX90621(i2c=I2C(scl=Pin(13), sda=Pin(14)))");
+    Blockly.Python.addPowerOn('mlx90621', "mlx90621.mlx90621_init()");
+    const dataType = block.getFieldValue("DATA_TYPE");
+    return [`mlx90621.mlx90621_read_ir('${dataType}')`, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.sensors_getMlx90621TempData = function (block) {
+    Blockly.Python.addImport('esp32_mlx90621', IMPORT_ESP32_MLX90621);
+    Blockly.Python.addInit('mlx90621', "mlx90621 = MLX90621(i2c=I2C(scl=Pin(13), sda=Pin(14)))");
+    Blockly.Python.addPowerOn('mlx90621', "mlx90621.mlx90621_init()");
+    const dataType = block.getFieldValue("DATA_TYPE");
+    return [`mlx90621.get_${dataType}_temp()`, Blockly.Python.ORDER_ATOMIC];
+};
+
 Blockly.Python.sensors_getWaterLevel = function () {
     Blockly.Python.addImport('esp32_water_level', IMPORT_ESP32_WATER_LEVEL);
     return ["esp32_water_level.measurePercentLevel(I2C(scl=Pin(13), sda=Pin(14)))", Blockly.Python.ORDER_ATOMIC];

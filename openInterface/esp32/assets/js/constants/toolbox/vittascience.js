@@ -318,6 +318,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'io_writePwm',
                 'io_setPwm',
                 'io_stopPwm',
+                'io_readPulseIn',
                 'io_writeAnalogPin',
                 'io_getVoltage'
             ]
@@ -464,6 +465,8 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         {
             "label": "%{BKY_SUBCATEGORY_SENSORS_OTHER}",
             "blocks": [
+                'sensors_getMlx90621Temperature',
+                'sensors_getMlx90621TempData',
                 'sensors_getFsr402Force',
                 'sensors_getVoltageDividerData',
                 'sensors_getEmgDetector',
@@ -481,6 +484,25 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'actuators_setMotorPower',
                 'actuators_setVibrationMotorState',
                 'actuators_setGroveRelayState'
+            ]
+        },
+        {
+            "label": "PCA9685",
+            "blocks": [
+                'actuators_pca9685_setPwmFrequency',
+                'actuators_pca9685_setPwmDutyCyclePercent',
+                'actuators_pca9685_setPwmDutyCycleOnTime',
+                'actuators_pca9685_setPwmDutyCycle',
+                'actuators_pca9685_setServoAngle',
+                'actuators_pca9685_setServoAngleCustom'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_MOSFET}",
+            "blocks": [
+                'actuators_mosfet_setState',
+                'actuators_mosfet_setPercentValue',
+                'actuators_mosfet_setFrequency'
             ]
         },
         {
@@ -650,6 +672,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             {
                 "label": "%{BKY_SUBCATEGORY_ALVIK_LEDS}",
                 "blocks": [
+                    'robots_alvik_set_color',
                     'robots_alvik_set_builtin_led',
                     'robots_alvik_set_illuminator'
                 ]

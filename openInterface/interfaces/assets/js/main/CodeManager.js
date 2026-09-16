@@ -36,7 +36,7 @@ class CodeManager {
      */
 
     constructor(codeMode, workspace, generator, xml) {
-        this.REGEXP_INTERFACES = /.*(arduino|microbit|python|adacraft|wb55|l476|esp32|TI-83|galaxia|raspberrypi|niryo|nao|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|eliobot|thymio|letsstartcoding|pico|winky|web|sphero|lotibot|bluebot|spike|photon|codey|steami|alphai).*/g;
+        this.REGEXP_INTERFACES = /.*(arduinoq|arduino|microbit|python|adacraft|wb55|l476|esp32|TI-83|galaxia|raspberrypi|niryo|nao|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|eliobot|thymio|letsstartcoding|pico|winky|web|sphero|lotibot|bluebot|spike|photon|codey|steami|alphai).*/g;
         if (typeof ltiVariables13 != 'undefined') {
             this._interface = ltiVariables13.interface;
         } else if (typeof ltiVariables != 'undefined') {
@@ -79,6 +79,7 @@ class CodeManager {
             case 'codey':
             case 'steami':
             case 'alphai':
+            case 'arduinoq':
                 this._lStorage = this._interface + "CurrentProject";
                 this._lSaveStorage = this._interface + "SavedProjects"; //[! NOT USED: Visitor need account to save his projects]
                 break;
@@ -366,7 +367,7 @@ class CodeManager {
      */
     setGeneratedCode(code = null) {
         if (code !== null) {
-            this._generatedCode = code
+            this._generatedCode = code;
         } else {
             this._generatedCode = this._generator.workspaceToCode(this._workspace);
         }

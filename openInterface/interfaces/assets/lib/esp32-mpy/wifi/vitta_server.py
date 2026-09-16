@@ -1,4 +1,4 @@
-import machine, gc, ujson, utime
+import machine, gc, ujson, utime, socket
 
 CMD_RECEIVE_SIMPLE_DATA = 0
 CMD_SEND_SIMPLE_DATA = 1
@@ -18,10 +18,48 @@ class SERVER:
     self.locked = False
     self.html_page = ""
     self.web_data_DB = {}
+
+  def _safe_close(self, obj):
+    try:
+      if obj is not None:
+        obj.close()
+    except: pass
+
+  def cleanup(self, reset_wifi=False):
+    self._safe_close(self.client)
+    self._safe_close(self.socketServer)
+    self.client = None
+    self.socketServer = None
+    self.client_ip = None
+    self.client_data = None
+    self.client_reset = True
+    self.locked = False
+    if reset_wifi:
+      try:
+        if self.station is not None:
+          try:
+            self.station.disconnect()
+          except: pass
+          try:
+            self.station.active(False)
+          except: pass
+      except: pass
+      try:
+        if self.AP is not None:
+          self.AP.active(False)
+      except: pass
+      utime.sleep(0.2)
+      try:
+        if self.station is not None:
+          self.station.active(True)
+      except: pass
+    gc.collect()
+    utime.sleep(0.2)
     
   def start(self, sta=None, ap=None, ip='', port=80):
     self.AP = ap
     self.station = sta
+    self.cleanup(reset_wifi=False)
     if self.socketServer is None or (self.station is None and self.AP is not None):
       import socket
       self.socketServer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -34,45 +72,44 @@ class SERVER:
         if wlan is None:
           raise ValueError("Station not connected or Access Point not started.")
         ip, mask, dns, gateway = wlan.ifconfig()
-        print('Server started.')
+        print('[Server INFOS]: Server started.')
         http = 'https' if port == 443 else 'http'
-        access = 'Access to server: ' + http + '://' + ip
+        access = '[Server INFOS]: Access to server: ' + http + '://' + ip
         try:
           access += (' or ' + http + '://' + wlan.config('dhcp_hostname')) if self.station is not None else ''
         except: pass
         print(access)
       except OSError as e:
-        print("Failed to start server. Error:", str(e))
+        print("[Server INFOS]: Failed to start server. Error:", str(e))
+        self.cleanup(reset_wifi=False)
         try:
-          import thingz
-          machine.soft_reset()
-        except: return
-        import os
-        if 'Pico' in os.uname():
-          self.closeClient(True)
-          gc.collect()
-          utime.sleep(2)
-          self.start(sta=sta, ap=ap, ip=ip, port=port)
-        else:
+          self.socketServer = None
+          self.socketServer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+          self.socketServer.bind((ip, port))
+          self.socketServer.listen(50)
+          print("[Server INFOS]: Server restarted successfully")
+        except Exception as error:
+          print("[Server INFOS]: Restart failed:", error)
           machine.reset()
 
   def waitingClient(self):
     if self.client is None:
       if gc.mem_free() < 102000:
         gc.collect()
-      print("\nWaiting new client...")
+      print("\n[Server INFOS]: Waiting new client...")
+      self.socketServer.settimeout(10.0)
       self.client, adresse = self.socketServer.accept()
-      self.client.settimeout(4.0)
-      print("Connection established with the client: ", adresse)
+      self.client.settimeout(5.0)
+      print("[Server INFOS]: Connection established with the client: ", adresse)
       self.client_ip, port = adresse
-      print("Receipt of the request...")
+      print("[Server INFOS]: Receipt of the request...")
       self.client_data = self.client.recv(1024).decode()     #requête du client
       #print("Client request: ", self.client_data)
       self.client.settimeout(None)
       return self.client_ip, self.client_data
     elif not self.client_reset:
       self.client.settimeout(None)
-      print("Receipt of the request...")
+      print("[Server INFOS]: Receipt of the request...")
       self.client_data = self.client.recv(1024).decode()     #requête du client
       #print("Client request: ", self.client_data)
     else:
@@ -86,7 +123,7 @@ class SERVER:
       self.client.sendall(data)
     else:
       self.client.send(data)
-    
+
   def manageSocket(self, cmd, data = None):
     try:
       self.waitingClient()
@@ -140,8 +177,10 @@ class SERVER:
           self.locked = True
           self.client.send(data)
     except OSError as e:
-      print(e)
-      print('Try to connect the server using fixed IP.\n')
+      print('[Server INFOS]: ' + str(e))
+      if 'ETIMEDOUT' in str(e):
+        print('[Server INFOS]: No client requesting connection or sending data.')
+        print('[Server INFOS]: Try to connect the server using fixed IP.\n')
       self.closeClient(True)
 
   def getClientData(self, close = True, parameter = False):
@@ -168,7 +207,7 @@ class SERVER:
       self.client.close()
       self.client = None
       self.locked = False
-      print("Client: " + self.client_ip + " closed.")
+      print("[Server INFOS]: Client: " + self.client_ip + " closed.")
       self.client_ip = None
 
   def sendHtmlPage(self, with_vars):
@@ -193,8 +232,9 @@ class SERVER:
       else:
         raise ValueError("File named '" + fileName + "' can't be added into HTML web page.")
       f.close()
-    except OSError:
-      raise OSError('No such file or directory ' + fileName)
+    except OSError as e:
+      if 'ENOENT' in str(e): pass
+      print('[Server INFOS]: ' + str(e) + ": " + fileName)
 
   def updateDataWithRequest(self):
     if self.client_data is not None:

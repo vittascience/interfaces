@@ -1,0 +1,169 @@
+#lux-docs-container {
+    min-height: 200px;
+}
+
+/* Encart "accès réservé" (non connecté IAM Luxembourg) */
+#lux-docs-login {
+    max-width: 520px;
+    background-color: var(--bg-1);
+    border: 1px solid var(--bg-3);
+    border-radius: 1.5em;
+    padding: 2.5em 2em;
+    box-shadow: 0 0 10px 0 var(--vitta-shadow-color);
+}
+
+#lux-docs-login .btn-saml {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lux-docs-filter-btn {
+    background-color: var(--bg-1);
+    color: var(--text-1);
+    border: 1px solid var(--vitta-green);
+    border-radius: 100vh;
+    padding: 0.4em 1.2em;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.lux-docs-filter-btn:hover {
+    background-color: rgba(var(--vitta-green-rgb), 0.12);
+}
+
+.lux-docs-filter-btn.active {
+    background-color: var(--vitta-green);
+    color: #fff;
+}
+
+.lux-doc-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: var(--bg-1);
+    border: 1px solid var(--bg-3);
+    border-radius: 1.2em;
+    overflow: hidden;
+    box-shadow: 0 0 10px 0 var(--vitta-shadow-color);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.lux-doc-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px 0 var(--vitta-shadow-color);
+}
+
+.lux-doc-card .lux-doc-media {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    background-color: var(--bg-2);
+    overflow: hidden;
+}
+
+.lux-doc-card .lux-doc-thumb {
+    height: 100%;
+    object-fit: cover;
+}
+
+.lux-doc-card .lux-doc-ficon {
+    font-size: 4rem;
+    line-height: 1;
+    color: var(--text-2);
+}
+
+.lux-doc-card .lux-doc-ficon-pdf   { color: var(--vitta-red); }
+.lux-doc-card .lux-doc-ficon-word  { color: var(--vitta-blue); }
+.lux-doc-card .lux-doc-ficon-excel { color: var(--vitta-green); }
+.lux-doc-card .lux-doc-ficon-ppt   { color: var(--vitta-orange-light); }
+.lux-doc-card .lux-doc-ficon-video { color: var(--vitta-blue); }
+.lux-doc-card .lux-doc-ficon-audio { color: var(--vitta-orange-light); }
+.lux-doc-card .lux-doc-ficon-zip   { color: var(--text-2); }
+.lux-doc-card .lux-doc-ficon-txt   { color: var(--text-2); }
+
+.lux-doc-card .lux-doc-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 1.25em;
+}
+
+.lux-doc-card .lux-doc-category {
+    display: inline-block;
+    align-self: flex-start;
+    background-color: rgba(var(--vitta-green-rgb), 0.12);
+    color: var(--vitta-green);
+    border-radius: 100vh;
+    padding: 0.15em 0.8em;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 0.6em;
+}
+
+.lux-doc-card .lux-doc-title {
+    font-family: var(--header-font);
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: var(--text-0);
+    margin-bottom: 0.4em;
+}
+
+.lux-doc-card .lux-doc-desc {
+    color: var(--text-1);
+    font-size: 0.95rem;
+    margin-bottom: 1em;
+    flex-grow: 1;
+}
+
+.lux-doc-card .lux-doc-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+}
+
+/* Compteur de téléchargements : en haut à droite de la zone média */
+.lux-doc-card .lux-doc-downloads {
+    position: absolute;
+    top: 0.6em;
+    right: 0.6em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    background-color: rgba(var(--bg-1-rgb, 255, 255, 255), 0.85);
+    color: var(--text-1);
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1;
+    padding: 0.3em 0.6em;
+    border-radius: 100vh;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    white-space: nowrap;
+}
+
+.lux-doc-card .lux-doc-downloads i {
+    color: var(--vitta-green);
+}
+
+#lux-docs-pagination {
+    margin-inline: auto;
+}
+
+.theme-dark .nav-pagination {
+    background-color: var(--bg-3);
+}
+
+@media (max-width: 575.98px) {
+    .lux-doc-card .lux-doc-body {
+        padding: 1em;
+    }
+    .lux-doc-card .lux-doc-media {
+        height: 120px;
+    }
+}

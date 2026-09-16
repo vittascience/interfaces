@@ -18,6 +18,7 @@ const Robots = {
     WHEELS_DIAMETER: 4.4, // cm
     MIN_SPEED: 1, // rpm
     MAX_SPEED: 250, // rpm   // m.s-1 => (2π * WHEELS_DIAMETER/2 * MAX_SPEED/60)
+    COLLISION_SHAPE: 'circle',
     image: null,
     rotationCenter: {
       x: 0,

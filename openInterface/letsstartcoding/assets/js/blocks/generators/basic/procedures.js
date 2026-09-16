@@ -2,7 +2,6 @@
  * @fileoverview Procedures generators for Arduino.
  */
 
-
 Blockly.Arduino.procedures_defreturn = function(block) {
   var funcName = Blockly.Arduino.nameDB_.getName(block.getFieldValue('NAME'), Blockly.Procedures.NAME_TYPE);
   var branch = Blockly.Arduino.statementToCode(block, 'STACK');
@@ -66,4 +65,8 @@ Blockly.Arduino.procedures_ifreturn = function(block) {
   }
   code += '}' + NEWLINE;
   return code;
+};
+
+Blockly.Arduino.procedures_functionReference = function (block) {
+  return [block.getFieldValue("NAME"), Blockly.Arduino.ORDER_ATOMIC];
 };

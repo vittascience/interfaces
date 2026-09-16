@@ -332,7 +332,14 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "options": [
                 ["%{BKY_TURTLE_SCREEN_PICTURE_MAZE}", "maze.png"],
                 ["%{BKY_TURTLE_SCREEN_PICTURE_GRID}", "grid.png"],
-                ["%{BKY_TURTLE_SCREEN_PICTURE_VITTASCIENCE}", "vittascience.png"]
+                ["%{BKY_TURTLE_SCREEN_PICTURE_VITTASCIENCE}", "vittascience.png"],
+                ["Labyrinthe 1", "labyrinthe1.png"],
+                ["Labyrinthe 2", "labyrinthe2.png"],
+                ["Labyrinthe 3", "labyrinthe3.png"],
+                ["Labyrinthe 4", "labyrinthe4.png"],
+                ["Labyrinthe 5", "labyrinthe5.png"],
+                ["Labyrinthe 6", "labyrinthe6.png"],
+                ["Labyrinthe 7", "labyrinthe7.png"]
             ]
         }],
         "inputsInline": true,

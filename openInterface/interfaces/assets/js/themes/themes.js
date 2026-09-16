@@ -237,11 +237,12 @@ Blockly.Themes.VittascienceLightHcLuciole.setFontStyle({
   'size': 12
 });
 
+/*
 if (INTERFACE_NAME != "web") {
-  /**
-   * @definition Vittascience High Contrast theme.
-   * Contains multi-coloured border to create shadow effect.
-   */
+  // *
+  //  * @definition Vittascience High Contrast theme.
+  //  * Contains multi-coloured border to create shadow effect.
+  //  
 
   Blockly.Themes.VittascienceHighContrast = Blockly.Theme.defineTheme('high_contrast', {
     'blockStyles': THEME_VITTASCIENCE_HIGH_CONTRAST,
@@ -258,4 +259,4 @@ if (INTERFACE_NAME != "web") {
     'weight': null,
     'size': 12
   });
-}
+}*/

@@ -1,0 +1,13 @@
+const IMPORT_ARDUINO_APP_UTILS = "from arduino.app_utils import *";
+const IMPORT_TENSOR_FLOW = "import tensorflow as tf";
+const IMPORT_URLLIB_PARSE = "from urllib.parse import urlparse, parse_qs";
+const IMPORT_JSON = "import json";
+const IMPORT_SYS = "import sys";
+const IMPORT_RE = "import re";
+const IMPORT_PATHLIB = "from pathlib import Path";
+const IMPORT_PIL_IMAGE = "from PIL import Image";
+const IMPORT_REQUESTS = "import requests";
+const IMPORT_DATETIME = "from datetime import datetime";
+const IMPORT_CV2 = "import cv2";
+const IMPORT_VITTA_TF = "from vitta_tf import VittaTF";
+const IMPORT_BRICK_WEBUI = "from arduino.app_bricks.web_ui import WebUI";

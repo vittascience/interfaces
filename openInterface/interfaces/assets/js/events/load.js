@@ -13,7 +13,7 @@ const STANDARD_A11Y_INTERFACES = [
     'galaxia', 'GalaxiaCircuitPython', 'l476', 'letsstartcoding', 'lotibot',
     'm5stack', 'mBot', 'microbit', 'nao', 'niryo', 'photon', 'pico', 'python',
     'raspberrypi', 'sphero', 'spike', 'thymio', 'TI-83', 'wb55', 'web', 'winky',
-    'steami', 'alphai'
+    'steami', 'alphai', 'arduinoq'
 ];
 
 /**
@@ -88,24 +88,38 @@ async function loadInterface(interfaceName) {
     const COMMON_ACE_LANG_SCRIPTS = GET_COMMON_ACE_LANG_SCRIPTS(lng);
     const FALLBACK_COMMON_ACE_LANG_SCRIPTS = GET_COMMON_ACE_LANG_SCRIPTS('en');
 
-    const SPECIFIC_MSG_PATH = `/openInterface/${interfaceName}/assets/js/blocks/msg`;
-    const GET_BKY_LANG_SCRIPTS = (language) => {
+    const SPECIFIC_MSG_PATH = `${_PATH}/${interfaceName}/assets/js/blocks/msg`;
+    const GET_BKY_LANG_SCRIPTS = (_language) => {
         let scripts = [];
         if (['web', 'TI-83'].includes(interfaceName)) {
             scripts.push({
                 id: "cat_msg",
-                src: `${SPECIFIC_MSG_PATH}/categories/js/${language}.js`
+                src: `${SPECIFIC_MSG_PATH}/categories/js/${_language}.js`
             });
         }
         if (interfaceName == 'steami') {
             scripts.push({
-                id: "block_msg",
-                src: `/openInterface/wb55/assets/js/blocks/msg/blocks/js/${language}.js`
+                id: "wb55_block_msg",
+                src: `/openInterface/wb55/assets/js/blocks/msg/blocks/js/${_language}.js`
+            });
+        }
+        if (interfaceName == 'arduinoq') {
+            scripts.push({
+                id: "arduino_block_msg",
+                src: `/openInterface/arduino/assets/js/blocks/msg/blocks/js/${_language}.js`
+            });
+            scripts.push({
+                id: "python_block_msg",
+                src: `/openInterface/python/assets/js/blocks/msg/blocks/js/${_language}.js`
+            });
+            scripts.push({
+                id: "web_block_msg",
+                src: `/openInterface/web/assets/js/blocks/msg/blocks/js/${_language}.js`
             });
         }
         scripts.push({
             id: "block_msg",
-            src: `${SPECIFIC_MSG_PATH}/blocks/js/${language}.js`
+            src: `${SPECIFIC_MSG_PATH}/blocks/js/${_language}.js`
         });
         return scripts;
     };
@@ -113,7 +127,7 @@ async function loadInterface(interfaceName) {
     const LANG_SCRIPTS = GET_BKY_LANG_SCRIPTS(lng);
     const FALLBACK_LANG_SCRIPTS = GET_BKY_LANG_SCRIPTS('en');
 
-    const SPECIFIC_ACE_MSG_PATH = `${CDN_PATH}/openInterface/${interfaceName}/assets/js/autocomplete`;
+    const SPECIFIC_ACE_MSG_PATH = `${CDN_PATH}${_PATH}/${interfaceName}/assets/js/autocomplete`;
     const GET_ACE_LANG_SCRIPTS = (language) => {
         let scripts = [];
         if (['microbit', 'galaxia', 'steami'].includes(interfaceName)) {
@@ -260,12 +274,11 @@ async function loadInterface(interfaceName) {
         }
     }
 
-    //updateTooltips();
-    await loadingPrivate(interfaceName);
     VittaInterface = new InterfaceInit(interfaceName);
     await VittaInterface.init();
+    await loadingPrivate(interfaceName);
+    if (VittaInterface.hasShepherdTour()) VittaInterface._startShepherdTour();
     window.VittaInterface = VittaInterface;
-    //checkBlockMsg();
 };
 
 /**

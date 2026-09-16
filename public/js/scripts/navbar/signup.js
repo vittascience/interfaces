@@ -130,6 +130,7 @@ function displaySignup() {
         var passwordConfInput = document.getElementById("pwd-conf-input");
         var eighteenConfirmInputElt = document.getElementById('eighteen-confirm-input');
         var nlConfirmInputElt = document.getElementById('nl-confirm-input');
+        var pixelTrackingInputElt = document.getElementById('pixel-tracking-input');
         var errorBox = document.getElementById("signup-error-alert");
 
         var error = true;
@@ -177,6 +178,7 @@ function displaySignup() {
             var email = document.getElementById("email-input").value.trim();
             var password = document.getElementById("pwd-input").value;
             var nlConfirm = nlConfirmInputElt.checked;
+            var pixelTracking = pixelTrackingInputElt ? pixelTrackingInputElt.checked : false;
 
             var formData = new FormData();
 
@@ -185,6 +187,7 @@ function displaySignup() {
             formData.append("email", email);
             formData.append("password", password);
             formData.append("nlConfirm", nlConfirm);
+            formData.append("pixelTracking", pixelTracking);
 
             var request = getAjaxRequest();
             request.onreadystatechange = function () {

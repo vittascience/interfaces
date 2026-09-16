@@ -30,5 +30,6 @@ const arrayInterfaces = [
   'photon',
   'codey',
   'steami',
-  'alphai'
+  'alphai',
+  'arduinoq'
 ];

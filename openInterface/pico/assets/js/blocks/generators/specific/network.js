@@ -419,7 +419,7 @@ Blockly.Python.network_html_addLink = function (block) {
     if (fontSize) {
         fontSize = 'font-size:' + Blockly.Python.esp32.getStringFormat('str(' + fontSize + ')') + 'px;';
     }
-    Blockly.Python.esp32.addCssStyle('default_init', FUNCTIONS_ESP32_MICROCHIP.CSS_DEFAULT_INIT);
+    Blockly.Python.esp32.addCssStyle('default_init', FUNCTIONS_PICO.CSS_DEFAULT_INIT);
     const formattedText = Blockly.Python.esp32.getStringFormat('str(' + text + ')');
     return '  <a href="' + url + '" style="color:' + colour + ';' + fontSize + '" target="_blank" rel="noopener noreferrer">' + formattedText + '</a>' + NEWLINE;
 };
@@ -462,8 +462,8 @@ Blockly.Python.network_html_addImage = function (block) {
             h = Blockly.Python.esp32.getStringFormat('str(' + h + ')');
         }
     }
-    Blockly.Python.esp32.addCssStyle('default_init', FUNCTIONS_ESP32_MICROCHIP.CSS_DEFAULT_INIT);
-    Blockly.Python.esp32.addCssStyle('default_image', FUNCTIONS_ESP32_MICROCHIP.CSS_IMAGE_STYLE);
+    Blockly.Python.esp32.addCssStyle('default_init', FUNCTIONS_PICO.CSS_DEFAULT_INIT);
+    Blockly.Python.esp32.addCssStyle('default_image', FUNCTIONS_PICO.CSS_IMAGE_STYLE);
     const html = '  <div class="frame" style="width:' + w + 'px ; height:' + h + 'px;">' + NEWLINE
         + data + NEWLINE
         + '  </div>' + NEWLINE;

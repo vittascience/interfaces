@@ -17,10 +17,11 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             // display - OLED
             "display_addOledText": this.Set.number("X") + this.Set.number("Y") + this.Set.text("TEXT"),
             "display_setOledPixel": this.Set.number("X") + this.Set.number("Y") + this.Set.state(),
+            "display_drawOledLine": this.Set.number("XA") + this.Set.number("YA", 32) + this.Set.number("XB", 128) + this.Set.number("YB", 32),
             "display_showOledIcon": this.Set.number("X") + this.Set.number("Y"),
             // display - LED
             "display_setGroveSocketLed": this.Set.state(),
-            "display_setLEDintensity": this.Set.number("VALUE", 1023),
+            "display_setLEDintensity": this.Set.number("VALUE", 100),
             "display_setNumberGrove4Digit": this.Set.field("DIO", "p16") + this.Set.number("N", 1024),
             "display_setClockGrove4Digit": this.Set.field("DIO", "p16"),
             // display - LED Bar
@@ -56,8 +57,8 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "io_getGroveThumbJoystick": this.Set.field("PIN_Y", "p27"),
             // io - pins
             "io_writeDigitalPin": this.Set.state(),
-            "io_writeAnalogPin": this.Set.number("VALUE", 1023),
-            "io_writePwm": this.Set.number("VALUE", 1023),
+            "io_writePwm": this.Set.number("VALUE", PWM_MAX_DUTY),
+            "io_setPwm": this.Set.number("FREQUENCY", 10),
             "io_readPulseIn": this.Set.state(),
             // communication - serial
             "communication_serialWrite": '<mutation newlines="false"></mutation>' + this.Set.text('TEXT', "{hello}"),
@@ -166,13 +167,14 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             // actuators - motors
             "actuators_setServoAngle": this.Set.field('PIN', "p16") + this.Set.number("ANGLE", 90),
             "actuators_continuousServo_setSpeed": this.Set.field('PIN', "p16") + this.Set.number("SPEED", 100),
-            "actuators_setMotorPower": this.Set.field('PIN', "p16") + this.Set.number("POWER", 1023),
+            "actuators_setMotorPower": this.Set.field('PIN', "p16") + this.Set.number("POWER", PWM_MAX_DUTY),
             "actuators_kitronik_controlMotor": this.Set.number("SPEED", 100),
             "actuators_setVibrationMotorState": this.Set.field('PIN', "p16") + this.Set.state(),
             "actuators_setGroveRelayState": this.Set.field('PIN', "p16") + this.Set.state(),
             // actuators - MOSFET
             "actuators_mosfet_setState": this.Set.state(),
             "actuators_mosfet_setPercentValue": this.Set.number("VALUE", 100),
+            "actuators_mosfet_setFrequency": this.Set.number("FREQUENCY", 10),
             // actuators - buzzer/speaker
             "actuators_music_playNotes":
                 `<mutation items='3'></mutation>
@@ -215,7 +217,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "math_number_property": this.Set.number("NUMBER_TO_CHECK", 9),
             "math_map": this.Set.number("VALUE", 512) + this.Set.number("MIN1") + this.Set.number("MAX1", 1023) + this.Set.number("MIN2") + this.Set.number("MAX2", 255),
             "math_round": this.Set.number("NUM", 3.1),
-            "math_round_ndigits": this.Set.number("NUM", 3.1) + this.Set.number("DIGITS", 2),
+            "math_round_ndigits": this.Set.number("NUM", 3.14159) + this.Set.number("DIGITS", 2),
             "math_modulo": this.Set.number("DIVIDEND", 64) + this.Set.number("DIVISOR", 10),
             "math_constrain": this.Set.number("LOW", 1) + this.Set.number("HIGH", 100),
             "math_random_int": this.Set.number("FROM", 1) + this.Set.number("TO", 100),

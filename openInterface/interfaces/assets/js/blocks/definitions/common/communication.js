@@ -465,6 +465,6 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "extensions": [
             "block_init_helpurl"
         ]
-    },
+    }
 
 ]); // END JSON EXTRACT (Do not delete this comment.)

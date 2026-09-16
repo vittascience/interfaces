@@ -21,6 +21,15 @@ const $builtinmodule = function (name) {
         }
     };
 
+    RobotSimulator.robot.setMotorsInModules = function (speed_L, speed_R) {
+        const dir = (speed) => speed == 0 ? 'stop' : (speed > 0 ? 'forward' : 'backward');
+        setMotor('Left', Math.abs(speed_L), dir(speed_L));
+        setMotor('Right', Math.abs(speed_R), dir(speed_R));
+        if (speed_L == 0 && speed_R == 0) {
+            Simulator.Mosaic.specific.isRunning = false;
+        }
+    };
+
     const stopMusic = function (module, id) {
         if (alphai_robot._data.osc) {
             alphai_robot._data.osc.stop();
@@ -50,11 +59,18 @@ const $builtinmodule = function (name) {
         return new Sk.builtin.none();
     });
 
-    alphai_robot.set_motor = new Sk.builtin.func(function (speedLeft, speedRight) {
+    alphai_robot.set_motor = new Sk.builtin.func(function (speedLeft, speedRight, duration) {
+        const durationMs = Sk.ffi.remapToJs(duration) * 1000;
         const directionLeft = (speedLeft.v > 0 ? "forward" : "backward");
         const directionRight = (speedRight.v > 0 ? "forward" : "backward");
         setMotor('Left', Math.abs(speedLeft.v), directionLeft);
         setMotor('Right', Math.abs(speedRight.v), directionRight);
+        if (durationMs > 0) {
+            return RobotSimulator.delayOnMovement(durationMs, () => {
+                setMotor('Left', 0, 'stop');
+                setMotor('Right', 0, 'stop');
+            }, true, 1000);
+        }
         return new Sk.builtin.none();
     });
 

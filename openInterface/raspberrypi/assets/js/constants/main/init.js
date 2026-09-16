@@ -24,8 +24,6 @@ const BOARD_SENSE_HAT = "sensehat";
 const BOARD_RASPBERRY_PI = "raspberrypi";
 const GROUVE_PI_HAT = "grovepihat";
 const BOARD_DEFAULT = BOARD_RASPBERRY_PI;
-//Galaxia screen simulator
-const GALAXIA_SHELL_START = "MPY: soft reboot"
 //standalone_blocks
 const BLOCKS_OUTSIDE_SCOPE = ["on_start", "forever", "scratch_on_start", "procedures_defnoreturn", "procedures_defreturn", "network_get_pi_name"];
 //example projects
@@ -33,8 +31,7 @@ const EXAMPLE_PROJECT_LINKS = [];
 //adc
 const WRITE_ANALOG_MAX_VALUE = 255;
 const PWM_MAX_DUTY = 100; // 0 to 100%
-//simulator
-
+// boards
 const INTERFACE_BOARDS = {
     [BOARD_SENSE_HAT]:{
         'link': 'Sensehat.svg',
@@ -48,5 +45,7 @@ const INTERFACE_BOARDS = {
         'link': 'grovepihat.svg',
         "name": "GrovePi Hat"
     }
-}
+};
+//simulator
 const SIMULATOR_DEFAULT_BOARD = INTERFACE_BOARDS[BOARD_DEFAULT];
+const SIMULATOR_DEFAULT_ROBOT = 'g1tank';

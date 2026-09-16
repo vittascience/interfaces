@@ -1,0 +1,507 @@
+/* Micropython FS Modal */
+
+div#modal-micropython-fs {
+    width: min(95vw, 1200px);
+    height: 75vh;
+    margin-top: 8vh;
+    max-height: 85vh;
+}
+
+div#modal-micropython-fs .vitta-modal-content,
+div#modal-micropython-fs .modal-content-div {
+    height: 100%;
+}
+
+.mpy-fs {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 12px;
+    height: 100%;
+    min-height: 0;
+}
+
+.mpy-fs-sidebar,
+.mpy-fs-main {
+    min-height: 0;
+    border: 1px solid var(--bg-3);
+    border-radius: 12px;
+    background: var(--bg-0);
+}
+
+.mpy-fs-sidebar {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.mpy-fs-toolbar {
+    display: flex;
+    gap: 6px;
+    padding: 8px;
+    border-bottom: 1px solid var(--bg-3);
+}
+
+.mpy-fs-tree {
+    flex: 1;
+    overflow: auto;
+    padding: 8px;
+}
+
+.mpy-fs-main {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.mpy-fs-tabs {
+    flex-shrink: 0;
+    padding: 8px 8px 0;
+}
+
+.mpy-fs-editor-wrapper {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    padding: 8px;
+}
+
+#mpy-fs-editor {
+    width: 100%;
+    height: 100%;
+}
+
+.mpy-fs-empty,
+.mpy-fs-empty-editor {
+    color: var(--text-2);
+    opacity: 0.7;
+    padding: 1rem;
+    text-align: center;
+}
+
+@media (max-width: 800px) {
+    .mpy-fs {
+        grid-template-columns: 1fr;
+        grid-template-rows: 220px 1fr;
+    }
+}
+
+#modal-micropython-fs .vitta-modal-footer .modal-footer-div {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#modal-micropython-fs .mpy-fs-close-btn {
+    position: absolute;
+    right: 0;
+}
+
+#modal-micropython-fs .mpy-fs-save-btn {
+    margin: 0 auto;
+}
+
+#modal-mpy-fs-warningsave .vitta-modal-footer .modal-footer-div {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#modal-micropython-fs .mpy-fs-main,
+#modal-micropython-fs .mpy-fs-editor-wrapper,
+#modal-micropython-fs #mpy-fs-editor {
+    height: 100%;
+    min-height: 0;
+}
+
+#modal-micropython-fs #mpy-fs-editor {
+    display: flex;
+}
+
+#modal-micropython-fs .mpy-fs-textarea {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    resize: none;
+    border: none;
+    outline: none;
+    padding: 12px;
+    background: var(--bg-0);
+    color: var(--text-0);
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+#mpy-fs-delete {
+    background: var(--vitta-red);
+}
+
+.mpy-fs-editor--readonly {
+    opacity: 0.75;
+}
+
+.mpy-fs-editor--readonly .ace_cursor {
+    display: none !important;
+}
+
+.mpy-fs-tree {
+    flex: 1;
+    overflow: auto;
+    padding: 4px 0;
+    font-size: 13px;
+    font-family: var(--main-font, sans-serif);
+    user-select: none;
+}
+
+.mpy-fs-tree-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 24px;
+    padding-right: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+    color: var(--text-1);
+    transition: background 0.1s;
+}
+
+.mpy-fs-tree-row:hover {
+    background: var(--bg-2);
+}
+
+/* Sélectionné (simple clic) → vert */
+.mpy-fs-tree-row--selected {
+    background: var(--vitta-green) !important;
+    color: #fff !important;
+}
+
+.mpy-fs-tree-row--selected .mpy-fs-tree-size {
+    color: #ffffffaa;
+}
+
+/* Chargé (double clic) → gris */
+.mpy-fs-tree-row--loaded {
+    background: var(--bg-3) !important;
+    color: var(--text-2) !important;
+}
+
+.mpy-fs-tree-row--file.mpy-fs-tree-row--selected {
+    background: var(--vitta-green) !important;
+    color: var(--bg-1) !important;
+}
+
+.mpy-fs-tree-row--file.mpy-fs-tree-row--selected .mpy-fs-tree-size,
+.mpy-fs-tree-row--file.mpy-fs-tree-row--selected .mpy-fs-tree-icon {
+    color: var(--bg-3) !important;
+}
+
+.mpy-fs-tree-row--drop-target {
+    outline: 2px dashed var(--vitta-green);
+    background: var(--bg-2);
+}
+
+.mpy-fs-tree-arrow {
+    width: 12px;
+    font-size: 11px;
+    color: var(--text-2);
+    flex-shrink: 0;
+}
+
+.mpy-fs-tree-icon {
+    width: 14px;
+    font-size: 13px;
+    flex-shrink: 0;
+    color: var(--text-2);
+}
+
+.mpy-fs-tree-icon--dir {
+    color: #e8a020;
+    /* couleur dossier Thonny/VSCode */
+}
+
+.mpy-fs-tree-label {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mpy-fs-tree-size {
+    margin-left: auto;
+    font-size: 0.72em;
+    color: var(--text-2);
+    opacity: 0.7;
+    flex-shrink: 0;
+}
+
+.mpy-fs-tree-children {
+    /* pas de padding ici, géré par l'indent px */
+}
+
+.mpy-fs-tree-children--collapsed {
+    display: none;
+}
+
+#mpy-fs-ace-editor {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+}
+
+.mpy-fs-inline-input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--text-1);
+    font-size: 13px;
+    font-family: var(--main-font, sans-serif);
+}
+
+.mpy-fs-tree--external-drop-root {
+    position: relative;
+    outline: 2px dashed var(--vitta-green);
+    outline-offset: -6px;
+    background: color-mix(in srgb, var(--vitta-green) 10%, transparent);
+}
+
+.mpy-fs-tree--external-drop-root::after {
+    position: absolute;
+    inset: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    pointer-events: none;
+    color: var(--vitta-green);
+    font-weight: 600;
+    background: color-mix(in srgb, var(--bg-0) 80%, transparent);
+}
+
+.mpy-fs-drop-hint {
+    position: sticky;
+    bottom: 0;
+    margin-top: auto;
+    padding: 8px 10px;
+    font-size: 12px;
+    color: var(--text-2);
+    opacity: 0.65;
+    text-align: center;
+    pointer-events: none;
+}
+
+#modal-micropython-fs .mpy-fs {
+    grid-template-columns: 310px 1fr;
+}
+
+#modal-micropython-fs .mpy-fs-toolbar {
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: nowrap;
+}
+
+#modal-micropython-fs .mpy-fs-toolbar .btn,
+#modal-micropython-fs .mpy-fs-toolbar button {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0;
+    border-radius: 50vh !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 40px;
+}
+
+#modal-micropython-fs .mpy-fs-toolbar .btn i,
+#modal-micropython-fs .mpy-fs-toolbar button i {
+    font-size: 0.95rem;
+}
+
+#modal-mpy-fs-warningdelete .vitta-modal-footer .modal-footer-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.mpy-fs-readonly-badge {
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    right: 1.2em;
+    top: 0;
+    transform: translate(22%, -22%);
+    border-radius: 50%;
+    background: var(--bg-1);
+    color: var(--text-1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6em;
+    line-height: 1;
+    pointer-events: none;
+    box-shadow: 0 0 0 1px var(--bg-3);
+}
+
+#mpy-fs-tabs-list {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    max-width: 100%;
+    scrollbar-width: thin;
+}
+
+#mpy-fs-tabs-list .nav-item {
+    flex: 0 0 auto;
+}
+
+#mpy-fs-tabs-list .nav-link {
+    position: relative;
+    white-space: nowrap;
+    padding-right: 2.6em;
+}
+
+.mpy-fs-readonly-indicator {
+    right: 0.2em;
+    top: 0.2em;
+    pointer-events: none;
+}
+
+.mpy-fs-tab-close {
+    position: relative;
+    z-index: 2;
+}
+
+.mpy-fs-context-menu {
+    position: fixed;
+    z-index: 9999;
+}
+
+.mpy-fs-context-menu-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.mpy-fs-context-menu .ide-btn {
+    width: 100%;
+    min-width: 190px;
+    margin: 0;
+    text-align: left;
+    border-radius: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.mpy-fs-context-menu .ide-btn:last-child {
+    border-bottom: 0;
+}
+
+.mpy-fs-storage {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--bg-3);
+}
+
+.mpy-fs-storage-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 0.75em;
+    color: var(--text-2);
+    white-space: nowrap;
+}
+
+.mpy-fs-storage-bar {
+    position: relative;
+    height: 1.5em;
+    min-width: 0;
+    border-radius: 999px;
+    overflow: hidden;
+    background: var(--bg-2);
+    box-shadow: inset 0 0 0 1px var(--bg-3);
+}
+
+.mpy-fs-storage-fill {
+    height: 100%;
+    width: 0%;
+    min-width: 2.4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-2);
+    color: var(--text-2);
+    font-size: 0.75em;
+    font-weight: 700;
+    transition: width 0.2s ease;
+}
+
+.mpy-fs-storage-fill--active {
+    background: linear-gradient(90deg,
+            var(--vitta-green) 0%,
+            var(--vitta-orange) 90%,
+            var(--vitta-red) 100%);
+    background-size: var(--mpy-fs-storage-bar-width, 100%) 100%;
+    color: var(--bg-2);
+}
+
+.mpy-fs-storage-text {
+    font-size: 0.75em;
+    color: var(--text-2);
+    white-space: nowrap;
+}
+
+.mpy-fs-image-preview {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    background: var(--bg-0);
+}
+
+.mpy-fs-image-preview img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+#modal-mpy-fs-warningimport .vitta-modal-footer .modal-footer-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#modal-mpy-fs-warningreplace .vitta-modal-footer .modal-footer-div {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mpy-fs-play-btn {
+    background: var(--vitta-green);
+    color: #fff;
+}
+ 
+.mpy-fs-play-btn:hover {
+    filter: brightness(1.12);
+}
+ 
+.mpy-fs-play-btn:active {
+    filter: brightness(0.92);
+}
+ 
+.mpy-fs-play-btn i {
+    font-size: 0.85em;
+}

@@ -137,6 +137,7 @@ Blockly.Msg['SUBCATEGORY_SENSORS_OTHER'] = 'Другие датчики';
 // ACTUATORS
 Blockly.Msg['SUBCATEGORY_MOTORS'] = 'Двигатели';
 Blockly.Msg['SUBCATEGORY_MUSIC'] = 'Музыка';
+Blockly.Msg['SUBCATEGORY_AUDIO'] = 'Аудио';
 Blockly.Msg['SUBCATEGORY_MOSFET'] = 'MOSFET';
 Blockly.Msg['SUBCATEGORY_ACTUATORS_OTHER'] = 'Другие исполнительные устройства';
 // ROBOTS
@@ -244,7 +245,6 @@ Blockly.Msg['SUBCATEGORY_UTILITIES'] = 'Утилиты';
 
 // Pico
 Blockly.Msg['SUBCATEGORY_PICO_LED'] = 'Raspberry Pi Pico';
-Blockly.Msg['SUBCATEGORY_KITRO'] = 'Kitronik';
 
 // Buddy
 Blockly.Msg['SUBCATEGORY_OBJECT_DETECTION'] = 'Обнаружение объектов';
@@ -282,7 +282,6 @@ Blockly.Msg['SUBCATEGORY_SOUNDS'] = 'Звуки';
 Blockly.Msg['SUBCATEGORY_CYBERPI'] = 'CyberPi';
 Blockly.Msg['SUBCATEGORY_CHART'] = 'График';
 Blockly.Msg['SUBCATEGORY_BUTTONS'] = 'Кнопки';
-Blockly.Msg['SUBCATEGORY_AUDIO'] = 'Аудио';
 Blockly.Msg['SUBCATEGORY_ENCODER_MOTORS'] = 'Двигатели с энкодером';
 Blockly.Msg['SUBCATEGORY_MOTORS_M1_M2'] = 'Двигатели M1 и M2';
 Blockly.Msg['SUBCATEGORY_ULTRASONIC_SENSORS'] = 'Ультразвуковые датчики';
@@ -354,3 +353,5 @@ Blockly.Msg['SUBCATEGORY_MBOT_MOTORS'] = 'Двигатели';
 Blockly.Msg['SUBCATEGORY_SERVOMOTOR'] = 'Сервопривод';
 Blockly.Msg['SUBCATEGORY_MINI_FAN'] = 'Мини-вентилятор';
 Blockly.Msg['SUBCATEGORY_POTENTIOMETER'] = 'Потенциометр';
+Blockly.Msg['CATEGORY_BASIC'] = 'Основные';
+Blockly.Msg['SUBCATEGORY_TB6612FNG_MOTOR_DRIVER'] = 'Драйвер двигателей TB6612FNG';

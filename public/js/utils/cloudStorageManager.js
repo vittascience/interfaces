@@ -944,6 +944,25 @@ function deleteGenerativeAssetByCreator(id) {
     })
 }
 
+function toggleGenerativeAssetVisibility(id) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: "POST",
+            url: "/routing/Routing.php?controller=cloud&action=toggle_generative_asset_visibility",
+            data: {
+                id: id
+            },
+            success: function (response) {
+                resolve(response);
+            },
+            error: function (error) {
+                new VittaControllerNotif().manageError(error, this);
+                reject(null);
+            }
+        });
+    })
+}
+
 // get file from input field and parse it to base64
 const assetFileToBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();

@@ -440,7 +440,7 @@ class AlphAIWebBLE {
 		}
 
 		if (name === 'print message') {
-			if (value.includes('ERROR')) {
+			if (typeof value === 'string' && value.includes('ERROR')) {
 				InterfaceMonitor.writeConsole(`⚠️ ${value}`, 'interrupt', false, true, true);
 			} else {
 				InterfaceMonitor.writeConsole(`🤖 ${value}`, 'neutral');

@@ -1,50 +1,49 @@
 // Blockly.Constants is used in all other files block
+
 Blockly.Constants = Object.create(null);
 
 Blockly.Constants.Types = {
-    Arduino: {
-        ARRAY: {
-            compatibleTypes_: ['Array']
-        },
-        BOOLEAN: {
-            compatibleTypes_: ['Boolean']
-        },
-        CHARACTER: {
-            compatibleTypes_: ['Character']
-        },
-        CHILD_BLOCK_MISSING: {
-            compatibleTypes_: ['ChildBlockMissing']
-        },
-        DECIMAL: {
-            compatibleTypes_: ['Decimal', 'Short Number', 'Number', 'Large Number']
-        },
-        LARGE_NUMBER: {
-            compatibleTypes_: ['Large Number', 'Short Number', 'Number', 'Decimal']
-        },
-        NULL: {
-            compatibleTypes_: ['Null']
-        },
-        NUMBER: {
-            compatibleTypes_: ['Number', 'Short Number', 'Large Number', 'Uint32_t']
-        },
-        SHORT_NUMBER: {
-            compatibleTypes_: ['Short Number', 'Number', 'Large Number', 'Decimal']
-        },
-        TEXT: {
-            compatibleTypes_: ['Character', 'String']
-        },
-        UNDEF: {
-            compatibleTypes_: ['Undefined']
-        },
-        UINT8_T: {
-            compatibleTypes_: ['Uint8_t']
-        },
-        UINT16_T: {
-            compatibleTypes_: ['Uint16_t']
-        },
-        UINT32_T: {
-            compatibleTypes_: ['Uint32_t']
-        }
+    ARRAY: {
+        compatibleTypes_: ['Array']
+    },
+    BOOLEAN: {
+        compatibleTypes_: ['Boolean']
+    },
+    CHARACTER: {
+        compatibleTypes_: ['Character']
+    },
+    CHILD_BLOCK_MISSING: {
+        compatibleTypes_: ['ChildBlockMissing']
+    },
+    DECIMAL: {
+        compatibleTypes_: ['Decimal', 'Short Number', 'Number', 'Large Number']
+    },
+    LARGE_NUMBER: {
+        compatibleTypes_: ['Large Number', 'Short Number', 'Number', 'Decimal']
+    },
+    NULL: {
+        compatibleTypes_: ['Null']
+    },
+    NUMBER: {
+        compatibleTypes_: ['Number', 'Short Number', 'Large Number', 'Uint32_t']
+    },
+    SHORT_NUMBER: {
+        compatibleTypes_: ['Short Number', 'Number', 'Large Number', 'Decimal']
+    },
+    TEXT: {
+        compatibleTypes_: ['Character', 'String']
+    },
+    UNDEF: {
+        compatibleTypes_: ['Undefined']
+    },
+    UINT8_T: {
+        compatibleTypes_: ['Uint8_t']
+    },
+    UINT16_T: {
+        compatibleTypes_: ['Uint16_t']
+    },
+    UINT32_T: {
+        compatibleTypes_: ['Uint32_t']
     }
 };
 
@@ -52,7 +51,7 @@ Blockly.Constants.Types = {
  * Update the type compatibility list recursively
  */
 function updateCompatibleTypes() {
-    const types = Blockly.Constants.Types.Arduino;
+    const types = Blockly.Constants.Types;
     // Function to convert a type name to its key form
     function toTypeKey(typeName) {
         return typeName.replace(/\s+/g, '_').toUpperCase();
@@ -254,51 +253,54 @@ Blockly.Constants.Utils.BlockStyling = {
      */
     registerInformationsFromToolbox: function () {
         const toolbox = ToolboxManager.toolboxDefined(this.toolboxMode);
-        if (toolbox) {
-            for (const cat of Object.keys(toolbox.content)) {
-                const catContent = toolbox.content[cat];
-                if (Array.isArray(catContent)) {
-                    const register = (type) => {
-                        type = type.split('-')[0];
-                        const settings = () => Blockly.Constants.Utils.BlockStyling.blocks[type];
-                        if (!settings()) {
-                            Blockly.Constants.Utils.BlockStyling.blocks[type] = {}
-                        }
-                        // reg color
-                        const theme = toolbox.theme[cat + "_blocks"];
-                        if (theme) {
-                            if (settings().colours) {
-                                settings().colours[this.toolboxMode] = theme.colourPrimary;
-                            } else {
-                                settings().colours = { [this.toolboxMode]: theme.colourPrimary }
-                            }
-                        } else {
-                            console.error("Color not found for " + type);
-                        }
-                        // reg category
-                        if (settings().categories) {
-                            settings().categories[this.toolboxMode] = cat;
-                        } else {
-                            settings().categories = { [this.toolboxMode]: cat }
-                        }
-                    };
-                    for (const subcat of Object.keys(catContent)) {
-                        if (catContent[subcat].contents) {
-                            for (const item of catContent[subcat].contents) {
-                                for (const type of item.blocks) {
-                                    register(type);
-                                }
-                            }
-                        } else {
-                            if (catContent[subcat].blocks) {
-                                for (const type of catContent[subcat].blocks) {
-                                    register(type);
-                                }
-                            }
-                        }
-                    }
+        if (!toolbox) return;
+        const getThemeCategory = (cat, fallbackCat) => {
+            if (toolbox.theme[cat + "_blocks"]) return cat;
+            if (fallbackCat && toolbox.theme[fallbackCat + "_blocks"]) return fallbackCat;
+            return cat;
+        };
+        const register = (type, cat) => {
+            type = type.split('-')[0];
+            const settings = () => Blockly.Constants.Utils.BlockStyling.blocks[type];
+            if (!settings()) {
+                Blockly.Constants.Utils.BlockStyling.blocks[type] = {};
+            }
+            const theme = toolbox.theme[cat + "_blocks"];
+            if (theme) {
+                if (settings().colours) {
+                    settings().colours[this.toolboxMode] = theme.colourPrimary;
+                } else {
+                    settings().colours = { [this.toolboxMode]: theme.colourPrimary };
+                }
+            } else {
+                console.warn("Color not found for " + type + " in category " + cat);
+            }
+            if (settings().categories) {
+                settings().categories[this.toolboxMode] = cat;
+            } else {
+                settings().categories = { [this.toolboxMode]: cat };
+            }
+        };
+        const registerContent = (content, cat) => {
+            if (!content || typeof content === "string") return;
+            if (Array.isArray(content)) {
+                for (const item of content) {
+                    registerContent(item, cat);
+                }
+                return;
+            }
+            const currentCat = content.subCategoryId ? getThemeCategory(content.subCategoryId, cat) : cat;
+            if (Array.isArray(content.blocks)) {
+                for (const type of content.blocks) {
+                    register(type, currentCat);
                 }
             }
+            if (content.contents) {
+                registerContent(content.contents, currentCat);
+            }
+        };
+        for (const cat of Object.keys(toolbox.content)) {
+            registerContent(toolbox.content[cat], cat);
         }
     },
     /**
@@ -430,6 +432,48 @@ Blockly.Constants.Utils.INIT_BUTTON_UPLOAD = function () {
 Blockly.Extensions.register('block_init_button_upload',
     Blockly.Constants.Utils.INIT_BUTTON_UPLOAD);
 
+Blockly.Constants.Utils.FIELD_VARIABLE_TYPE_GETTER = {
+    BLOCKS_VARIABLE_TYPES: {
+        'text_append': 'TEXT',
+        'communication_onSerialDataReceived': 'TEXT',
+        'communication_onSerialBluetoothDataReceived': 'TEXT',
+        'communication_hc05_onBluetoothDataReceived': 'TEXT',
+        'communication_hm10_onBluetoothDataReceived': 'TEXT',
+        'communication_onRadioNRF24_dataReceived': 'TEXT',
+        'communication_onRadio433mhzDataReceived': 'TEXT',
+        'communication_onGPSDataReceived': 'TEXT',
+        'controls_for': 'NUMBER',
+        'communication_onIRDataReceived': 'UINT32_T',
+        'communication_onRemoteCommandReceived': 'NUMBER',
+    },
+    /**
+     * @return {String} variable name
+     * @this {Blockly.Block}
+     */
+    getVarName: function () {
+        return this.workspace.getVariableById(this.getFieldValue('VAR')).name;
+    },
+    /**
+     * @return {Blockly.Type} type
+     * @this {Blockly.Block}
+     */
+    getVarType: function () {
+        const blocks = Blockly.Constants.Utils.FIELD_VARIABLE_TYPE_GETTER.BLOCKS_VARIABLE_TYPES;
+        const varTypeKey = blocks[this.type];
+        const varType = varTypeKey ? Blockly.Types[varTypeKey] : null;
+
+        if (varType) {
+            return varType;
+        } else {
+            console.error(`The '${this.getVarName()}' variable's type is not defined. As default, the block '${this.type}' returns the variable as a 'void'. Add variable type of block in BLOCKS_VARIABLE_TYPES.`);
+            return Blockly.Types.NULL;
+        }
+    }
+};
+
+Blockly.Extensions.registerMixin("field_variable_type_getter",
+    Blockly.Constants.Utils.FIELD_VARIABLE_TYPE_GETTER);
+
 /**
  * Connect a default block in block input.
  * @param {Blockly.Block} block
@@ -460,7 +504,7 @@ Blockly.Constants.Utils.CONNECT_DEFAULT_BLOCK = function (block, input_block_set
  * @augments Blockly.Block
  * @package
  */
-Blockly.Constants.Utils.addOptionMutatorMixin = function (attribute, message, type, value, after = "") {
+Blockly.Constants.Utils.addOptionMutatorMixin = function (attribute, message, type, value = null, after = "") {
     return {
         /**
          * Create XML to represent list inputs.
@@ -511,21 +555,27 @@ Blockly.Constants.Utils.addOptionMutatorMixin = function (attribute, message, ty
                     const input = this.appendDummyInput(attribute.toUpperCase() + "FIELD");
                     input.appendField(Blockly.Msg[message]);
                     if (type == 'input') {
+                        this.appendValueInput(attribute.toUpperCase());
                         if (typeof value === 'boolean') {
-                            this.appendValueInput(attribute.toUpperCase());
                             this.addDefaultBlock({
                                 "name": attribute.toUpperCase(),
                                 "type": "logic_boolean",
                                 "field_name": "BOOL",
                                 "value": value ? "TRUE" : "FALSE"
                             });
-                        } else {
-                            this.appendValueInput(attribute.toUpperCase());
+                        } else if (typeof value === 'number') {
                             this.addDefaultBlock({
                                 "name": attribute.toUpperCase(),
                                 "type": "math_number",
                                 "field_name": "NUM",
                                 "value": value
+                            });
+                        } else if (this.type == 'bricks_app_run') {
+                            this.addDefaultBlock({
+                                "name": attribute.toUpperCase(),
+                                "type": "procedures_functionReference",
+                                "field_name": "NAME",
+                                "value": 'loop'
                             });
                         }
                     } else if (type == 'dropdown') {
@@ -567,7 +617,6 @@ Blockly.Constants.Utils.addOptionMutatorMixin = function (attribute, message, ty
                 if (/Src value of an image field is required/.test(String(e))) {
                     console.error("Please, add the 'block_buttons_plus_minus' extension to block")
                 }
-                
             }
         },
         update_: function (update) {
@@ -582,6 +631,47 @@ Blockly.Constants.Utils.addOptionMutatorMixin = function (attribute, message, ty
             });
         }
     }
+};
+
+/**
+ * Returns the root block by traversing all connection types
+ * (output, previous, next) to reach the topmost block.
+ * @param {Blockly.Block} block
+ * @return {Blockly.Block}
+*/
+Blockly.Constants.Utils.getRootBlock = function (block) {
+    let current = block;
+    while (true) {
+        const parent = current.outputConnection?.targetConnection?.getSourceBlock()
+            || current.previousConnection?.targetConnection?.getSourceBlock();
+        if (!parent) return current;
+        current = parent;
+    }
+};
+
+Blockly.Constants.Utils.isBlockInContext = function (block, language) {
+    const topBlock = Blockly.Constants.Utils.getRootBlock(block);
+    if (!topBlock) return false;
+    const topType = topBlock.type;
+    if (!topType) return false;
+    if (INTERFACE_NAME == 'arduinoq') {
+        return MultiCodeManager.getRootBlockLanguage(topType) === language;
+    }
+};
+
+Blockly.Constants.Utils.isForPythonContext = function (block) {
+    let isForPy = false;
+    if (INTERFACE_NAME == 'arduinoq') {
+        const topBlock = Blockly.Constants.Utils.getRootBlock(block);
+        const topType = topBlock ? topBlock.type : null;
+        if (topType) {
+            const language = MultiCodeManager.getRootBlockLanguage(topType);
+            isForPy = language == 'py';
+        }
+    } else if (Blockly.Python) {
+        isForPy = true;
+    }
+    return isForPy;
 };
 
 /**

@@ -434,14 +434,14 @@ class View extends Observable {
                     </div>
                     <span>${impact} ${this.getStringElts().co2}</span>
                     <span  class="mx-2 clickable">
-                        <button type="button" aria-label="Afficher les informations détaillées sur ${labelDevice}" aria-expanded="false" aria-controls="co2-tooltip-${device}" class="info-btn">
+                        <button type="button" aria-label="${i18next.t('co2.dynamic.textDisplayInfo', { device: labelDevice })}" aria-expanded="false" aria-controls="co2-tooltip-${device}" class="info-btn">
                             <i class="fa-regular fa-circle-question" aria-hidden="true"></i>
                         </button>
                     </span>
                     </div>
                     <div class="info-block d-none" id="co2-tooltip-${device}" role="region" aria-live="polite" tabindex="-1">
-                        <button type="button" aria-label="Fermer les informations" class="btn btn-close close-button"></button>
-                        <div aria-label="Conseils pratiques">${tip}</div>
+                        <button type="button" aria-label="${i18next.t('co2.dynamic.closeInfo', { device: labelDevice })}" class="btn btn-close close-button"></button>
+                        <div aria-label="${i18next.t('co2.dynamic.practicalTips', { device: labelDevice })}">${tip}</div>
                     </div>
             </div>
                 `;
@@ -472,12 +472,12 @@ class View extends Observable {
                         </div>
                         <span>${impact} ${this.getStringElts().co2}</span>
                         <span class="mx-2 clickable">
-                            <button type="button" aria-label="Afficher les informations détaillées sur ${labelService}" aria-expanded="false" aria-controls="co2-tooltip-${service}" class="info-btn">
+                            <button type="button" aria-label="${i18next.t('co2.dynamic.textDisplayInfo', { device: labelService })}" aria-expanded="false" aria-controls="co2-tooltip-${service}" class="info-btn">
                                 <i class="fa-regular fa-circle-question" aria-hidden="true"></i>
                             </button>
                         </span>
                     </div>
-                    <div class="info-block d-none" id="co2-tooltip-${service}" role="region" aria-live="polite" tabindex="-1"><button type="button" aria-label="Fermer les informations" class="btn btn-close close-button"></button><div aria-label="Conseils pratiques">${tip}</div></div>
+                    <div class="info-block d-none" id="co2-tooltip-${service}" role="region" aria-live="polite" tabindex="-1"><button type="button" aria-label="${i18next.t('co2.dynamic.closeInfo', { device: labelService })}" class="btn btn-close close-button"></button><div aria-label="${i18next.t('co2.dynamic.practicalTips', { device: labelService })}">${tip}</div></div>
             </div>
             `;
 
@@ -573,7 +573,12 @@ class View extends Observable {
         } else if (el.name.includes('email_')) {
             value = data.inputUser[el.name];
             unit = "";
-        } else if (el.name.includes('_day_time')) {
+        }else if (el.name.includes('cloud')) {
+            value = data.inputUser.quantity;
+            step = 10;
+            min = 0;
+            max = 1000;
+        }else if (el.name.includes('_day_time')) {
             value = data.inputUser.day_time;
             unit = value <= 1 ? i18next.t("co2.units.singular.hour") : i18next.t("co2.units.plural.hours");
             min = 0.5;
@@ -600,7 +605,8 @@ class View extends Observable {
         let domains = "", source = ""
         if (el.links) {
             domains = this.extractDomain(el.links);
-            source = el.links ? `<p>Sources&nbsp;: ${domains}</p>` : "";
+            const wordSource = i18next.t("co2.dynamic.source");
+            source = el.links ? `<p>${wordSource}&nbsp;: ${domains}</p>` : "";
         }
         let rules = rule && (el.name.includes('years_usage') || (type === 'service' && el.name.includes('day_time')))
             ? `<span>${rule}<hr/></span>` : "";
@@ -655,8 +661,8 @@ class View extends Observable {
     
     <button id="minus-${el.name}" class="minus" 
            type="button"
-           title="Diminuer ${el.label || el.name}"
-           aria-label="Diminuer ${el.label || el.name}" 
+           title=${i18next.t('co2.main.decrease')}
+           aria-label=${i18next.t('co2.main.decrease')} 
            aria-controls="input_${el.name}">-</button>
     
     <input type="number" id="input_${el.name}" min="${min}" max="${max}" 
@@ -670,8 +676,8 @@ class View extends Observable {
     
     <button id="plus-${el.name}" class="plus" 
             type="button"
-            title="Augmenter ${el.label || el.name}" 
-            aria-label="Augmenter ${el.label || el.name}" 
+            title=${i18next.t('co2.main.increase')} 
+            aria-label=${i18next.t('co2.main.increase')} 
             aria-controls="input_${el.name}">+</button>`;
     }
     createElementInputNumber(el, type, data) {
@@ -855,7 +861,7 @@ class View extends Observable {
      */
     announceImpactChange(id, oldValue, newValue) {
         if (oldValue !== newValue) {
-            const changeDirection = parseFloat(newValue) > parseFloat(oldValue) ? 'augmenté' : 'diminué';
+            const changeDirection = parseFloat(newValue) > parseFloat(oldValue) ? i18next.t('co2.main.increased') : i18next.t('co2.main.decreased');
             const deviceName = this._model.getArrayDeviceIds().includes(id)
                 ? i18next.t(`co2.device.${id}`)
                 : i18next.t(`co2.service.${id}`);

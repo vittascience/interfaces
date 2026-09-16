@@ -11,7 +11,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "args0": [{
       "type": "input_value",
       "name": "TIMES",
-      "check": "Number"
+      "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
     }],
     "message1": "%1",
     "args1": [{
@@ -20,11 +20,11 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     }],
     "previousStatement": null,
     "nextStatement": null,
+    "tooltip": "%{BKY_CONTROLS_REPEAT_TOOLTIP}",
+    "helpUrl": "%{BKY_CONTROLS_REPEAT_HELPURL}",
     "extensions": [
       "block_init_color"
     ],
-    "tooltip": "%{BKY_CONTROLS_REPEAT_TOOLTIP}",
-    "helpUrl": "%{BKY_CONTROLS_REPEAT_HELPURL}"
   },
 
   // Block for 'do while/until' loop.
@@ -50,6 +50,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       "type": "input_statement",
       "name": "DO"
     }],
+    "style": "loops_blocks",
     "previousStatement": null,
     "nextStatement": null,
     "helpUrl": "%{BKY_CONTROLS_WHILEUNTIL_HELPURL}",
@@ -71,19 +72,19 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     {
       "type": "input_value",
       "name": "FROM",
-      "check": "Number",
+      "check": Blockly.Constants.Types.NUMBER.compatibleTypes_,
       "align": "RIGHT"
     },
     {
       "type": "input_value",
       "name": "TO",
-      "check": "Number",
+      "check": Blockly.Constants.Types.NUMBER.compatibleTypes_,
       "align": "RIGHT"
     },
     {
       "type": "input_value",
       "name": "BY",
-      "check": "Number",
+      "check": Blockly.Constants.Types.NUMBER.compatibleTypes_,
       "align": "RIGHT"
     }
     ],
@@ -92,6 +93,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       "type": "input_statement",
       "name": "DO"
     }],
+    "style": "loops_blocks",
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
@@ -99,7 +101,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "extensions": [
       "block_init_color",
       "contextMenu_newGetVariableBlock",
-      "controls_for_tooltip"
+      "controls_for_tooltip",
+      "field_variable_type_getter"
     ]
   },
 
@@ -164,57 +167,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "style": "loops_blocks",
     "tooltip": "%{BKY_CONTROLS_FLOW_STATEMENTS_OPERATOR_PASS_TOOLTIP}",
     "helpUrl": "%{BKY_CONTROLS_FLOW_STATEMENTS_OPERATOR_PASS_HELPURL}",
-  },
-
-  // Block for comp List : [ a for a in range(10)]
-  {
-    "type": "controls_ListComp",
-    "message0": "%{BKY_CONTROLS_LISTCOMP_TITLE}",
-    "args0": [{
-      "type": "input_value",
-      "name": "EXPR",
-      "variable": null
-    },
-    {
-      "type": "field_variable",
-      "name": "VAR",
-      "variable": null
-    },
-    {
-      "type": "input_value",
-      "name": "LIST",
-      "check": "Array"
-    }],
-    "output": "Array",
-    "style": "loops_blocks",
-    "tooltip": "%{BKY_CONTROLS_LISTCOMP_TOOLTIP}",
-    "extensions": [
-      "block_buttons_plus_minus",
-      "controls_ListComp_init_extension"
-    ],
-    "mutator": "controls_ListComp_mutator"
-  },
-
-  // Block range
-  {
-    "type": "controls_range",
-    "message0": "%1",
-    "args0": [{
-      "type": "input_value",
-      "name": "END"
-    }],
-    "inputsInline": true,
-    "output": "Array",
-    "style": "loops_blocks",
-    "tooltip": "%{BKY_CONTROLS_RANGE_TOOLTIP}",
-    "extensions": [
-      "block_init_helpurl",
-      "block_buttons_plus_minus",
-      "controls_range_init_extension"
-    ],
-    "mutator": "controls_range_mutator"
-  },
-
+  }
 
 ]); // END JSON EXTRACT (Do not delete this comment.)
 
@@ -288,12 +241,6 @@ Blockly.Constants.Loops.CUSTOM_CONTEXT_MENU_CREATE_VARIABLES_GET_MIXIN = {
  * @readonly
  */
 Blockly.Constants.Loops.CONTROL_FLOW_IN_LOOP_CHECK_MIXIN = {
-  /**
-   * List of block types that are loops and thus do not need warnings.
-   * To add a new loop type add this to your code:
-   * Blockly.Constants.Loops.CONTROL_FLOW_IN_LOOP_CHECK_MIXIN.LOOP_TYPES.push('custom_loop');
-   */
-  LOOP_TYPES: Blockly.Constants.LOOP_TYPES,
 
   /**
    * Don't automatically add STATEMENT_PREFIX and STATEMENT_SUFFIX to generated
@@ -342,6 +289,84 @@ Blockly.Constants.Loops.CONTROL_FLOW_IN_LOOP_CHECK_MIXIN = {
   }
 };
 
+// Tooltip extensions
+Blockly.Extensions.register('controls_whileUntil_tooltip',
+  Blockly.Extensions.buildTooltipForDropdown(
+    'MODE', Blockly.Constants.Loops.WHILE_UNTIL_TOOLTIPS));
+
+Blockly.Extensions.register('controls_flow_tooltip',
+  Blockly.Extensions.buildTooltipForDropdown(
+    'FLOW', Blockly.Constants.Loops.BREAK_CONTINUE_TOOLTIPS));
+
+Blockly.Extensions.register('controls_for_tooltip',
+  Blockly.Extensions.buildTooltipWithFieldText(
+    '%{BKY_CONTROLS_FOR_TOOLTIP}', 'VAR'));
+
+Blockly.Extensions.register('controls_forEach_tooltip',
+  Blockly.Extensions.buildTooltipWithFieldText(
+    '%{BKY_CONTROLS_FOREACH_TOOLTIP}', 'VAR'));
+
+// Mixin functions
+Blockly.Extensions.registerMixin('contextMenu_newGetVariableBlock',
+  Blockly.Constants.Loops.CUSTOM_CONTEXT_MENU_CREATE_VARIABLES_GET_MIXIN);
+
+Blockly.Extensions.registerMixin('controls_flow_in_loop_check',
+  Blockly.Constants.Loops.CONTROL_FLOW_IN_LOOP_CHECK_MIXIN);
+
+
+
+// For PyBlock
+
+Blockly.defineBlocksWithJsonArray([
+  // Block for comp List : [ a for a in range(10)]
+  {
+    "type": "controls_ListComp",
+    "message0": "%{BKY_CONTROLS_LISTCOMP_TITLE}",
+    "args0": [{
+      "type": "input_value",
+      "name": "EXPR",
+      "variable": null
+    },
+    {
+      "type": "field_variable",
+      "name": "VAR",
+      "variable": null
+    },
+    {
+      "type": "input_value",
+      "name": "LIST",
+      "check": "Array"
+    }],
+    "output": "Array",
+    "style": "loops_blocks",
+    "tooltip": "%{BKY_CONTROLS_LISTCOMP_TOOLTIP}",
+    "extensions": [
+      "block_buttons_plus_minus",
+      "controls_ListComp_init_extension"
+    ],
+    "mutator": "controls_ListComp_mutator"
+  },
+
+  // Block range
+  {
+    "type": "controls_range",
+    "message0": "%1",
+    "args0": [{
+      "type": "input_value",
+      "name": "END"
+    }],
+    "inputsInline": true,
+    "output": "Array",
+    "style": "loops_blocks",
+    "tooltip": "%{BKY_CONTROLS_RANGE_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "block_buttons_plus_minus",
+      "controls_range_init_extension"
+    ],
+    "mutator": "controls_range_mutator"
+  }
+]);
 
 /**
  * Performs setup of 'control_range' block.
@@ -352,12 +377,27 @@ Blockly.Constants.Loops.CONTROLS_RANGE_MUTATOR_INIT_EXTENSION = function () {
   this.updateShape_();
 };
 
+Blockly.Extensions.register('controls_range_init_extension',
+  Blockly.Constants.Loops.CONTROLS_RANGE_MUTATOR_INIT_EXTENSION);
+
 /**
- * Mixin for mutator functions in the 'control_range' extension.
- * @mixin
- * @augments Blockly.Block
- * @package
- */
+* Performs setup of 'Control_range' block.
+* @this {Blockly.Block}
+*/
+Blockly.Constants.Loops.CONTROLS_LISTCOMP_INIT_EXTENSION = function () {
+  this.itemCount_ = 1;
+  this.updateShape_();
+};
+
+Blockly.Extensions.register('controls_ListComp_init_extension',
+  Blockly.Constants.Loops.CONTROLS_LISTCOMP_INIT_EXTENSION);
+
+/**
+* Mixin for mutator functions in the 'control_range' extension.
+* @mixin
+* @augments Blockly.Block
+* @package
+*/
 Blockly.Constants.Loops.CONTROLS_RANGE_MUTATOR_MIXIN = {
   /**
    * Create XML to represent number of data inputs.
@@ -467,21 +507,15 @@ Blockly.Constants.Loops.CONTROLS_RANGE_MUTATOR_MIXIN = {
   },
 };
 
-/**
- * Performs setup of 'Control_range' block.
- * @this {Blockly.Block}
- */
-Blockly.Constants.Loops.CONTROLS_LISTCOMP_INIT_EXTENSION = function () {
-  this.itemCount_ = 1;
-  this.updateShape_();
-};
+Blockly.Extensions.registerMutator('controls_range_mutator',
+  Blockly.Constants.Loops.CONTROLS_RANGE_MUTATOR_MIXIN);
 
 /**
- * Mixin for mutator functions in the 'control_range' extension.
- * @mixin
- * @augments Blockly.Block
- * @package
- */
+* Mixin for mutator functions in the 'control_range' extension.
+* @mixin
+* @augments Blockly.Block
+* @package
+*/
 Blockly.Constants.Loops.CONTROLS_LISTCOMP_MUTATOR_MIXIN = {
   /**
    * Create XML to represent number of data inputs.
@@ -569,39 +603,6 @@ Blockly.Constants.Loops.CONTROLS_LISTCOMP_MUTATOR_MIXIN = {
       .appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", that.addItem_.bind(that), false));
   },
 };
-
-// Tooltip extensions
-Blockly.Extensions.register('controls_whileUntil_tooltip',
-  Blockly.Extensions.buildTooltipForDropdown(
-    'MODE', Blockly.Constants.Loops.WHILE_UNTIL_TOOLTIPS));
-
-Blockly.Extensions.register('controls_flow_tooltip',
-  Blockly.Extensions.buildTooltipForDropdown(
-    'FLOW', Blockly.Constants.Loops.BREAK_CONTINUE_TOOLTIPS));
-
-Blockly.Extensions.register('controls_for_tooltip',
-  Blockly.Extensions.buildTooltipWithFieldText(
-    '%{BKY_CONTROLS_FOR_TOOLTIP}', 'VAR'));
-
-Blockly.Extensions.register('controls_forEach_tooltip',
-  Blockly.Extensions.buildTooltipWithFieldText(
-    '%{BKY_CONTROLS_FOREACH_TOOLTIP}', 'VAR'));
-
-Blockly.Extensions.register('controls_range_init_extension',
-  Blockly.Constants.Loops.CONTROLS_RANGE_MUTATOR_INIT_EXTENSION);
-
-Blockly.Extensions.register('controls_ListComp_init_extension',
-  Blockly.Constants.Loops.CONTROLS_LISTCOMP_INIT_EXTENSION);
-
-// Mixin functions
-Blockly.Extensions.registerMixin('contextMenu_newGetVariableBlock',
-  Blockly.Constants.Loops.CUSTOM_CONTEXT_MENU_CREATE_VARIABLES_GET_MIXIN);
-
-Blockly.Extensions.registerMixin('controls_flow_in_loop_check',
-  Blockly.Constants.Loops.CONTROL_FLOW_IN_LOOP_CHECK_MIXIN);
-
-Blockly.Extensions.registerMutator('controls_range_mutator',
-  Blockly.Constants.Loops.CONTROLS_RANGE_MUTATOR_MIXIN);
 
 Blockly.Extensions.registerMutator('controls_ListComp_mutator',
   Blockly.Constants.Loops.CONTROLS_LISTCOMP_MUTATOR_MIXIN);

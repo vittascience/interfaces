@@ -140,6 +140,142 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
+    /*Begin microphone module blocks */
+
+    // BLOCK MICROPHONE _ ON SOUND DETECTED
+    {
+        "type": "io_micro_onSoundDetected",
+        "message0": "%{BKY_SENSORS_MICRO_ONSOUNDDETECTED_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "STATE",
+            "options": [
+                ["%{BKY_SENSORS_MICRO_LOUD}", "LOUD"],
+                ["%{BKY_SENSORS_MICRO_QUIET}", "QUIET"]
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "TYPE",
+            "options": [
+                ["%{BKY_SENSORS_MICRO_IS}", "IS"],
+                ["%{BKY_SENSORS_MICRO_WAS}", "WAS"]
+            ]
+        }],
+        "message1": "%1",
+        "args1": [{
+            "type": "input_statement",
+            "name": "DO"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_SENSORS_MICRO_ONSOUNDDETECTED_TOOLTIP}",
+    },
+
+    // BLOCK MICROPHONE _ GET CURRENT SOUND
+    {
+        "type": "io_micro_getCurrentSound",
+        "message0": "%{BKY_SENSORS_MICRO_GETCURRENTSOUND_TITLE}",
+        "output": "String",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_SENSORS_MICRO_GETCURRENTSOUND_TOOLTIP}",
+    },
+
+    // BLOCK MICROPHONE _  WAS SOUND DETECTED
+    {
+        "type": "io_micro_wasSoundDetected",
+        "message0": "%{BKY_SENSORS_MICRO_WASSOUNDDETECTED_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "STATE",
+            "options": [
+                ["%{BKY_SENSORS_MICRO_LOUD}", "LOUD"],
+                ["%{BKY_SENSORS_MICRO_QUIET}", "QUIET"]
+            ]
+        }],
+        "output": "Boolean",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_SENSORS_MICRO_WASSOUNDDETECTED_TOOLTIP}",
+    },
+
+    // BLOCK MICROPHONE _ GET SOUND LEVEL
+    {
+        "type": "io_micro_getSoundLevel",
+        "message0": "%{BKY_SENSORS_MICRO_GETSOUNDLEVEL_TITLE}",
+        "output": "Number",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_SENSORS_MICRO_GETSOUNDLEVEL_TOOLTIP}",
+    },
+
+    // BLOCK MICROPHONE _ GET HISTORY SOUND
+    {
+        "type": "io_micro_getHistorySounds",
+        "message0": "%{BKY_SENSORS_MICRO_GETHISTORYSOUND_TITLE}",
+        "output": "Array",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_SENSORS_MICRO_GETHISTORYSOUND_TOOLTIP}",
+    },
+
+    // BLOCK MICROPHONE _ ON LOUD/QUIET SOUND WAS
+    {
+        "type": "io_micro_setSoundThreshold",
+        "message0": "%{BKY_SENSORS_MICRO_SETSOUNDTHRESHOLD_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "STATE",
+            "options": [
+                ["%{BKY_SENSORS_MICRO_LOUD}", "LOUD"],
+                ["%{BKY_SENSORS_MICRO_QUIET}", "QUIET"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "THRESH",
+            "check": "Number"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_SENSORS_MICRO_SETSOUNDTHRESHOLD_TOOLTIP}",
+    },
+
+    // BLOCK MICROHONE _ GET (LOUD/QUIET) CONSTANT
+    {
+        "type": "io_micro_soundCondition",
+        "message0": "%{BKY_SENSORS_MICRO_SOUNDCONDITION_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "STATE",
+            "options": [
+                ["%{BKY_SENSORS_MICRO_LOUD}", "LOUD"],
+                ["%{BKY_SENSORS_MICRO_QUIET}", "QUIET"]
+            ]
+        }],
+        "output": "String",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_SENSORS_MICRO_SOUNDCONDITION_TOOLTIP}",
+    },
+
     /* Begin Enviro:bit blocks */
 
     // ENVIRO:BIT _ TCS3472 _ GET RGB

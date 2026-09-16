@@ -3,7 +3,7 @@ const cardCommunicationButtons = {
         id: "upload-python",
         classes: 'ide-btn-check ide-btn-left e2e-upload-btn',
         fontAwesome: 'fas fa-bolt',
-        onclick: "uploadPython()",
+        onclick: "InterfaceConnection.uploadPython()",
         title: 'code.topbar.tooltips.uploadPython',
         label: {
             hidden: true,
@@ -25,7 +25,7 @@ const downloadOptions = {
         icon: "/openInterface/interfaces/assets/js/external/font-awesome/svgs/brands/usb.svg",
         title: 'code.topbar.tooltips.disconnect',
         tooltipPlacement: "left",
-        onclick: "doDisconnect()",
+        onclick: "InterfaceConnection.doDisconnect()",
         show: false,
         label: {
             value: "code.topbar.label.disconnect"
@@ -109,6 +109,20 @@ const settingsOptions = {
         tooltipPlacement: "left",
         label: {
             value: "code.topbar.label.help"
+        }
+    }
+}
+
+if (typeof IS_CAPYTALE_CONTEXT !== 'undefined') {
+    settingsOptions['capytale-toolbox-restriction'] = {
+        id: 'capytale-toolbox-restriction',
+        classes: ' ide-btn-restriction',
+        fontAwesome: 'fas fa-tasks',
+        title: 'code.topbar.tooltips.toolboxRestriction',
+        tooltipPlacement: "left",
+        onclick: "pseudoModal.openModal('modal-toolbox-restriction')",
+        label: {
+        value: "code.topbar.label.toolboxRestriction"
         }
     }
 }

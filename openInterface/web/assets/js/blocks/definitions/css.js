@@ -149,7 +149,10 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": "stylecontent",
     "colour": "#22b573",
     "tooltip": "CSS font-family",
-    "helpUrl": "https://www.w3schools.com/cssref/pr_font_font-family.asp"
+    "helpUrl": "https://www.w3schools.com/cssref/pr_font_font-family.asp",
+    "extensions": [
+      "block_init_color"
+    ]
   },
   //fontsize block
   {
@@ -166,7 +169,10 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": "stylecontent",
     "colour": "#22b573",
     "tooltip": "CSS font-size",
-    "helpUrl": "https://www.w3schools.com/cssref/pr_font_font-size.asp"
+    "helpUrl": "https://www.w3schools.com/cssref/pr_font_font-size.asp",
+    "extensions": [
+      "block_init_color"
+    ]
   },
   //fontweight block
   {
@@ -190,7 +196,10 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": "stylecontent",
     "colour": "#22b573",
     "tooltip": "Font-weight CSS property",
-    "helpUrl": "https://www.w3schools.com/cssref/pr_font_weight.asp"
+    "helpUrl": "https://www.w3schools.com/cssref/pr_font_weight.asp",
+    "extensions": [
+      "block_init_color"
+    ]
   },
   //color block
 
@@ -208,7 +217,7 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": "stylecontent",
     "colour": 290,
     "tooltip": "CSS Color",
-    "helpUrl": "https://www.w3schools.com/cssref/pr_text_color.asp"
+    "helpUrl": "https://www.w3schools.com/cssref/pr_text_color.asp",
 
   },
 
@@ -226,7 +235,10 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": "stylecontent",
     "colour": "#22b573",
     "tooltip": "CSS Color",
-    "helpUrl": "https://www.w3schools.com/cssref/pr_text_color.asp"
+    "helpUrl": "https://www.w3schools.com/cssref/pr_text_color.asp",
+    "extensions": [
+      "block_init_color"
+    ]
   },
   //colordropdown block
   {
@@ -246,7 +258,10 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": "stylecontent",
     "colour": "#22b573",
     "tooltip": "CSS Color",
-    "helpUrl": "https://www.w3schools.com/cssref/pr_text_color.asp"
+    "helpUrl": "https://www.w3schools.com/cssref/pr_text_color.asp",
+    "extensions": [
+      "block_init_color"
+    ]
   },
   //texashadow block
   {
@@ -278,7 +293,10 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": "stylecontent",
     "colour": "#22b573",
     "tooltip": "CSS Text-shadow",
-    "helpUrl": "https://www.w3schools.com/cssref/css3_pr_text-shadow.asp"
+    "helpUrl": "https://www.w3schools.com/cssref/css3_pr_text-shadow.asp",
+    "extensions": [
+      "block_init_color"
+    ]
   },
   //texttransform block
   {
@@ -302,7 +320,10 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": "stylecontent",
     "colour": "#22b573",
     "tooltip": "CSS Text-transform",
-    "helpUrl": "https://www.w3schools.com/cssref/pr_text_text-transform.asp"
+    "helpUrl": "https://www.w3schools.com/cssref/pr_text_text-transform.asp",
+    "extensions": [
+      "block_init_color"
+    ]
   },
   //textalign block
   {
@@ -324,7 +345,10 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": "stylecontent",
     "colour": "#22b573",
     "tooltip": "CSS Text-align",
-    "helpUrl": "https://www.w3schools.com/cssref/pr_text_text-align.asp"
+    "helpUrl": "https://www.w3schools.com/cssref/pr_text_text-align.asp",
+    "extensions": [
+      "block_init_color"
+    ]
   },
   //letterspacing block
   {
@@ -341,7 +365,10 @@ Blockly.defineBlocksWithJsonArray([
     "nextStatement": "stylecontent",
     "colour": "#22b573",
     "tooltip": "CSS Letter-spacing",
-    "helpUrl": "https://www.w3schools.com/cssref/pr_text_letter-spacing.asp"
+    "helpUrl": "https://www.w3schools.com/cssref/pr_text_letter-spacing.asp",
+    "extensions": [
+      "block_init_color"
+    ]
   },
   ///////////// DISPLAY blocks /////////////
   //display block

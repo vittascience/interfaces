@@ -35,6 +35,28 @@ Blockly.Python.actuators_setGroveRelayState = function (block) {
     return 'try:' + NEWLINE + '  ' + (state == '1' ? pinName + ".on()" : pinName + ".off()") + NEWLINE + 'except:' + NEWLINE + '  ' + (state == '1' ? pinName + ".duty_u16(" + PWM_MAX_DUTY + ")" : pinName + ".duty_u16(0)") + NEWLINE;
 };
 
+// MOSFET
+
+Blockly.Python.actuators_mosfet_setState = function (block) {
+    const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
+    const pinName = Blockly.Python.Generators.pwm(block.getFieldValue("PIN"), 'Mosfet', 1000);
+    return pinName + ".duty_u16(int(" + state + " * " + PWM_MAX_DUTY + "))" + NEWLINE;
+};
+
+Blockly.Python.actuators_mosfet_setPercentValue = function (block) {
+    const value = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || "0";
+    const pinName = Blockly.Python.Generators.pwm(block.getFieldValue("PIN"), 'Mosfet', 1000);
+    return pinName + ".duty_u16(int(" + value + "/100.0*" + PWM_MAX_DUTY + "))" + NEWLINE;
+};
+
+Blockly.Python.actuators_mosfet_setFrequency = function (block) {
+    const frequency = Blockly.Python.valueToCode(block, "FREQUENCY", Blockly.Python.ORDER_NONE) || "0";
+    const pinName = Blockly.Python.Generators.pwm(block.getFieldValue("PIN"), 'Mosfet', 1000);
+    return pinName + ".freq(" + frequency + ")" + NEWLINE + pinName + ".duty_u16(32768)" + NEWLINE;
+};
+
+// Buzzer / Speaker
+
 Blockly.Python.actuators_playMusicGroveBuzzer = function (block) {
     const music = block.getFieldValue("MUSIC");
     const pinName = Blockly.Python.Generators.digital_write(block.getFieldValue("PIN"), 'Buzzer');

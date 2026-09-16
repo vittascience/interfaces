@@ -70,6 +70,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "io_writeDigitalPin": this.Set.state(),
             "io_writePwm": this.Set.number("VALUE", PWM_MAX_DUTY),
             "io_setPwm": this.Set.number("FREQUENCY", 10),
+            "io_readPulseIn": this.Set.state(),
             "io_getVoltage": this.Set.number("VALUE", 255),
             "io_rotaryEncoder": this.Set.field("CLK", 'p7') + this.Set.field("DT", "p6"),
             // communication logs
@@ -80,7 +81,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "communication_radioSendString": this.Set.text('STR', "{radioMessage}"),
             "communication_radioSendNumber": this.Set.number("N", 1),
             "communication_radioSendValue": this.Set.text('NAME', "pi") + this.Set.number("VALUE", 3.14),
-            "communication_radioConfig": this.Set.number("CANAL", 7) + this.Set.number("POWER", 6) + this.Set.number("LEN", 32) + this.Set.number("GROUP"),
+            "communication_radioConfig": this.Set.number("CANAL", 7),
             // communication - console
             "communication_serialWrite": '<mutation newlines="false"></mutation>' + this.Set.text('TEXT', "{hello}"),
             "communication_graphSerialWrite": "<value name='ADD0'><block type='communication_graphSerialWrite_datasFormat'><field name='NAME'>{data1}</field></block></value>"
@@ -119,7 +120,14 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "actuators_setMotorPower": this.Set.number("POWER", PWM_MAX_DUTY),
             "actuators_setVibrationMotorState": this.Set.state(),
             "actuators_setGroveRelayState": this.Set.state(),
+            
+            // actuators - MOSFET
+            "actuators_mosfet_setState": this.Set.state(),
+            "actuators_mosfet_setPercentValue": this.Set.number("VALUE", 100),
+            "actuators_mosfet_setFrequency": this.Set.number("FREQUENCY", 10),
+            // actuators - kitronik
             "actuators_kitronik_controlMotor": this.Set.number("SPEED", 100),
+            "actuators_kitronikShield_setServoAngle": this.Set.number("SERVO", 1) + this.Set.number("ANGLE", 90),
             // actuators - buzzer/speaker
             "actuators_music_playNotes":
                 `<mutation items='3'></mutation>

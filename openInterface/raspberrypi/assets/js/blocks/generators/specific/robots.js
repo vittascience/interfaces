@@ -10,24 +10,24 @@ Blockly.Python.robots_yahboom_g1tank_setLedColor = function (block) {
     const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_ATOMIC) || '0';
     switch (color) {
         case 'RED':
-            Blockly.Python.Generators.pwm('22', 'G1 Tank LED', 2000);
+            Blockly.Python.Generators.pwm('22', 'G1 Tank LED - red', 2000);
             Blockly.Python.addFunction('g1tank_led_setRed', FUNCTIONS_RASPBERRY.DEF_G1TANK_SET_LED_RED);
             return `g1tank_led_setRed(${state}*100)` + NEWLINE;
         case 'GREEN':
-            Blockly.Python.Generators.pwm('27', 'G1 Tank LED', 2000);
+            Blockly.Python.Generators.pwm('27', 'G1 Tank LED - green', 2000);
             Blockly.Python.addFunction('g1tank_led_setGreen', FUNCTIONS_RASPBERRY.DEF_G1TANK_SET_LED_GREEN);
             return `g1tank_led_setGreen(${state}*100)` + NEWLINE;
         case 'BLUE':
-            Blockly.Python.Generators.pwm('24', 'G1 Tank LED', 2000);
+            Blockly.Python.Generators.pwm('24', 'G1 Tank LED - blue', 2000);
             Blockly.Python.addFunction('g1tank_led_setBlue', FUNCTIONS_RASPBERRY.DEF_G1TANK_SET_LED_BLUE);
             return `g1tank_led_setBlue(${state}*100)` + NEWLINE;
     }
 };
 
 Blockly.Python.robots_yahboom_g1tank_setLedColor_RGB = function (block) {
-    Blockly.Python.Generators.pwm('22', 'G1 Tank LED', 2000);
-    Blockly.Python.Generators.pwm('27', 'G1 Tank LED', 2000);
-    Blockly.Python.Generators.pwm('24', 'G1 Tank LED', 2000);
+    Blockly.Python.Generators.pwm('22', 'G1 Tank LED - red', 2000);
+    Blockly.Python.Generators.pwm('27', 'G1 Tank LED - green', 2000);
+    Blockly.Python.Generators.pwm('24', 'G1 Tank LED - blue', 2000);
     const R = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_NONE) || "0";
     const G = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
     const B = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
@@ -35,13 +35,13 @@ Blockly.Python.robots_yahboom_g1tank_setLedColor_RGB = function (block) {
     Blockly.Python.addFunction('g1tank_led_setGreen', FUNCTIONS_RASPBERRY.DEF_G1TANK_SET_LED_GREEN);
     Blockly.Python.addFunction('g1tank_led_setBlue', FUNCTIONS_RASPBERRY.DEF_G1TANK_SET_LED_BLUE);
     Blockly.Python.addFunction('g1tank_setLEDRGB', FUNCTIONS_RASPBERRY.DEF_G1TANK_SET_LED_RGB);
-    return "g1tank_setLEDRGB(" + R, ", " + G + ", " + B + ")" + NEWLINE;
+    return "g1tank_setLEDRGB(" + R + ", " + G + ", " + B + ")" + NEWLINE;
 };
 
 Blockly.Python.robots_yahboom_g1tank_setLedColor_Palette = function (block) {
-    Blockly.Python.Generators.pwm('22', 'G1 Tank LED', 2000);
-    Blockly.Python.Generators.pwm('27', 'G1 Tank LED', 2000);
-    Blockly.Python.Generators.pwm('24', 'G1 Tank LED', 2000);
+    Blockly.Python.Generators.pwm('22', 'G1 Tank LED - red', 2000);
+    Blockly.Python.Generators.pwm('27', 'G1 Tank LED - green', 2000);
+    Blockly.Python.Generators.pwm('24', 'G1 Tank LED - blue', 2000);
     const colour = Blockly.Python.valueToCode(block, "COLOR", Blockly.Python.ORDER_NONE) || "(0,0,0)";
     Blockly.Python.addFunction('g1tank_led_setRed', FUNCTIONS_RASPBERRY.DEF_G1TANK_SET_LED_RED);
     Blockly.Python.addFunction('g1tank_led_setGreen', FUNCTIONS_RASPBERRY.DEF_G1TANK_SET_LED_GREEN);
@@ -70,6 +70,7 @@ Blockly.Python.robots_yahboom_g1tank_getUltrasonicRanger = function (block) {
             break;
     }
     Blockly.Python.addImport('time', IMPORT_TIME);
+    Blockly.Python.addConstant('G1Tank-robot', '""" Yahboom G1 Tank robot """');
     Blockly.Python.addInit('hcsr04_1_codeFlag', '# Ultrasonic TRIG/ECHO on 1/0');
     const pinName_TRIG = Blockly.Python.Generators.digital_write("1");
     const pinName_ECHO = Blockly.Python.Generators.digital_read("0");
@@ -79,6 +80,7 @@ Blockly.Python.robots_yahboom_g1tank_getUltrasonicRanger = function (block) {
 };
 
 Blockly.Python.robots_yahboom_g1tank_getLineFinderState = function (block) {
+    Blockly.Python.addConstant('G1Tank-robot', '""" Yahboom G1 Tank robot """');
     switch (block.getFieldValue("SENSOR")) {
         case 'P1':
             const pinName_P1 = Blockly.Python.Generators.digital_read("3", "Line Finder P1");
@@ -97,6 +99,7 @@ Blockly.Python.robots_yahboom_g1tank_getLineFinderState = function (block) {
 
 Blockly.Python.robots_yahboom_g1tank_waitKEY = function (block) {
     Blockly.Python.addImport('time', IMPORT_TIME);
+    Blockly.Python.addConstant('G1Tank-robot', '""" Yahboom G1 Tank robot """');
     Blockly.Python.addFunction('g1tank_wait_KEY_press', FUNCTIONS_RASPBERRY.DEF_G1TANK_WAIT_KEY_PRESSING);
     Blockly.Python.Generators.digital_read("8", "G1 Tank KEY");
     return 'g1tank_wait_KEY_press()' + NEWLINE;

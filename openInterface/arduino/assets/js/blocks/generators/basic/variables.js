@@ -20,7 +20,7 @@ Blockly.Arduino.variables_set = function (block) {
                 // case empty list, we create default empty list of type int 
                 if (listSize == 0) return "int" + " " + Blockly.Arduino.nameDB_.getName(block.getFieldValue("VAR"), Blockly.Variables.NAME_TYPE) + " = " + value + ";" + NEWLINE;
                 if (['on_start', 'scratch_on_start'].includes(block.getRootBlock().type)) {
-                    const code = Blockly.Arduino.getArduinoType_(child.getBlockType()) + " " + Blockly.Arduino.nameDB_.getName(block.getFieldValue("VAR"), Blockly.Variables.NAME_TYPE) + "[" + listSize + "]" + " = " + value + ";"
+                    const code = Blockly.Arduino.getArduinoType_(child.getItemType()) + " " + Blockly.Arduino.nameDB_.getName(block.getFieldValue("VAR"), Blockly.Variables.NAME_TYPE) + "[" + listSize + "]" + " = " + value + ";"
                     Blockly.Arduino.addDeclaration(code, code);
                     return '';
                 }
@@ -28,7 +28,7 @@ Blockly.Arduino.variables_set = function (block) {
             if (child.type == 'lists_repeat') {
                 listSize = Blockly.Arduino.valueToCode(child, "NUM", Blockly.Arduino.ORDER_ATOMIC) || "0";
             }
-            return Blockly.Arduino.getArduinoType_(child.getBlockType()) + " " + Blockly.Arduino.nameDB_.getName(block.getFieldValue("VAR"), Blockly.Variables.NAME_TYPE) + "[" + listSize + "]" + " = " + value + ";" + NEWLINE;
+            return Blockly.Arduino.getArduinoType_(child.getItemType()) + " " + Blockly.Arduino.nameDB_.getName(block.getFieldValue("VAR"), Blockly.Variables.NAME_TYPE) + "[" + listSize + "]" + " = " + value + ";" + NEWLINE;
         }
     }
     // case we are not declaring a list

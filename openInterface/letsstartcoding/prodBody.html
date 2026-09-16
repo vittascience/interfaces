@@ -172,18 +172,7 @@
                                 </div>
                             </div>
 
-                            <div id="monitor-div-btn" class="d-flex ms-auto justify-content-end">
-
-                                <button type="button" class="ide-btn ide-btn-alone tracer-export me-1" onclick="openExportProjectWindow()"  data-placement="top" data-toggle="tooltip" data-i18n="[title]code.monitor.controls.tooltips.export">
-                                    <i class="fas fa-file-export"></i>
-                                    <span class="hide" data-i18n="code.monitor.controls.text.export"></span>
-                                </button>
-
-                                <button type="button" onclick="InterfaceConnection.toggleSerialConsole()" class="ide-btn ide-btn-alone" id="serial-monitor" data-status="connect" data-toggle="tooltip" data-placement="top" data-i18n="[title]code.monitor.controls.tooltips.monitor">
-                                    <i class="fa-solid fa-plug"></i>
-                                    <span class="hide" data-i18n="code.monitor.controls.text.monitor">Serial monitor</span>
-                                </button>
-                            </div>
+                            <div id="monitor-div-btn" class="d-flex ms-auto justify-content-end"></div>
                         </div>
                     </div>
                 </div>
@@ -230,7 +219,6 @@
 <script src="/openInterface/letsstartcoding/assets/js/constants/main/init.js"></script>
 <script src="/openInterface/letsstartcoding/assets/js/constants/generators/includes.js"></script>
 <script src="/openInterface/letsstartcoding/assets/js/constants/generators/functions.js"></script>
-<script src="/openInterface/letsstartcoding/assets/js/constants/generators/bitmap.js"></script>
 <script src="/openInterface/letsstartcoding/assets/js/constants/toolbox/blockDB.js"></script>
 <script src="/openInterface/letsstartcoding/assets/js/constants/toolbox/styles.js"></script>
 <script src="/openInterface/letsstartcoding/assets/js/constants/toolbox/toolboxes.js"></script>
@@ -243,6 +231,7 @@
 <script src="/openInterface/interfaces/assets/js/constants/main/patterns.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/main/api.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/generators/constants.js"></script>
+<script src="/openInterface/interfaces/assets/js/constants/blocks/ProjectsCleaner.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/tooltip/image.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/modals/buttons.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/modals/options.js"></script>
@@ -265,24 +254,14 @@
 <!-- build:js-blocks -->
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/constants.js"></script>
 <script src="/openInterface/letsstartcoding/assets/js/blocks/definitions/blockly_constants.js"></script>
-<script src="/openInterface/letsstartcoding/assets/js/blocks/definitions/basic/logic.js"></script>
-<script src="/openInterface/letsstartcoding/assets/js/blocks/definitions/basic/loops.js"></script>
-<script src="/openInterface/letsstartcoding/assets/js/blocks/definitions/basic/math.js"></script>
-<script src="/openInterface/letsstartcoding/assets/js/blocks/definitions/basic/variables.js"></script>
-<script src="/openInterface/letsstartcoding/assets/js/blocks/definitions/basic/procedures.js"></script>
-<script src="/openInterface/letsstartcoding/assets/js/blocks/definitions/specific/start.js"></script>
-<script src="/openInterface/letsstartcoding/assets/js/blocks/definitions/specific/input_output.js"></script>
-<script src="/openInterface/letsstartcoding/assets/js/blocks/definitions/specific/actuators.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/variables.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/basic/procedures.js"></script>
+<script src="/openInterface/letsstartcoding/assets/js/blocks/definitions/specific/lsc.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/generators/arduino/init.js"></script>
 <script src="/openInterface/letsstartcoding/assets/js/blocks/generators/generator.js"></script>
-<script src="/openInterface/letsstartcoding/assets/js/blocks/generators/basic/logic.js"></script>
-<script src="/openInterface/letsstartcoding/assets/js/blocks/generators/basic/loops.js"></script>
-<script src="/openInterface/letsstartcoding/assets/js/blocks/generators/basic/math.js"></script>
-<script src="/openInterface/letsstartcoding/assets/js/blocks/generators/basic/variables.js"></script>
+<script src="/openInterface/letsstartcoding/assets/js/blocks/generators/specific/lsc.js"></script>
+<script src="/openInterface/arduino/assets/js/blocks/generators/basic/variables.js"></script>
 <script src="/openInterface/letsstartcoding/assets/js/blocks/generators/basic/procedures.js"></script>
-<script src="/openInterface/letsstartcoding/assets/js/blocks/generators/specific/start.js"></script>
-<script src="/openInterface/letsstartcoding/assets/js/blocks/generators/specific/input_output.js"></script>
-<script src="/openInterface/letsstartcoding/assets/js/blocks/generators/specific/actuators.js"></script>
 <!-- endbuild -->
 <!-- build:js-main -->
 <script src="/openInterface/interfaces/assets/js/main/InterfaceInit.js"></script>

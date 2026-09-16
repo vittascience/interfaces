@@ -25,7 +25,7 @@ DEF_SD_CARD_WRITE_FILE:
     data = str(data)
   if extension in ['jpeg', 'jpg', 'png']:
     mode = 'wb'
-  if mode is 'wb' and not isinstance(data, bytes):
+  if mode == 'wb' and not isinstance(data, bytes):
     print("[Storage_INFO] Data not available to store.")
   else:
     if date:
@@ -42,7 +42,7 @@ DEF_SD_CARD_WRITE_FILE:
         mode = 'w'
     filename += '.' + extension
     with open(('/sd/' if sd else '') + filename, mode) as file:
-      file.write(data if mode is 'wb' else str(data))
+      file.write(data if mode == 'wb' else str(data))
       file.close()
     print("[Storage_INFO] File '" + filename + "' in " + ("SD card." if sd else "Pico filestorage."))`,
 
@@ -165,7 +165,7 @@ DEF_GPS_GET_GGA_INFORMATIONS:
       nmeaArray = gpsNMEA.split(',')
       for i in frame:
         data = nmeaArray[frame.index(i)]
-        if i is 'clock':
+        if i == 'clock':
           try:
             date = float(data)
             h = int(date / 10000)
@@ -173,19 +173,19 @@ DEF_GPS_GET_GGA_INFORMATIONS:
             s = int(date - h*10000 - m*100)
             gpsInfos[i] = (h, m, s)
           except: pass
-        elif i is 'latitude' or i is 'longitude':
+        elif i == 'latitude' or i == 'longitude':
           try:
             pos = float(data)
             base = int(pos/100)
             side = 1
-            if (i is 'latitude' and nmeaArray[frame.index(i) + 1] is 'S') or (i is 'longitude' and nmeaArray[frame.index(i) + 1] is 'W'):
+            if (i == 'latitude' and nmeaArray[frame.index(i) + 1] == 'S') or (i == 'longitude' and nmeaArray[frame.index(i) + 1] == 'W'):
               side = -1
             gpsInfos[i] = side*float("%03.5f"%(base + (pos - base*100)/60))
           except: pass
-        elif i is 'positionType' or i is 'satellite':
+        elif i == 'positionType' or i == 'satellite':
           try: gpsInfos[i] = int(data)
           except: pass
-        elif i is 'precision' or i is 'altitude':
+        elif i == 'precision' or i == 'altitude':
           try: gpsInfos[i] = float(data)
           except: pass
         else:
@@ -227,7 +227,7 @@ DEF_SERVO_SET_SPEED:
 // Buzzer module _ play music
 DEF_BUZZER_PITCH:
 `def pitch (pin, noteFrequency, noteDuration, silence_ms = 10):
-  if noteFrequency is not 0:
+  if noteFrequency != 0:
     microsecondsPerWave = 1e6 / noteFrequency
     millisecondsPerCycle = 1000 / (microsecondsPerWave * 2)
     loopTime = noteDuration * millisecondsPerCycle
@@ -482,14 +482,14 @@ DEF_DHT_GET_MEASURE:
 `def dht_getMeasure(sensor, data, unit='celsius'):
   sensor.measure()
   utime.sleep(1)
-  if data is 't':
+  if data == 't':
     t = sensor.temperature()
     if unit == 'fahrenheit':
       t = t*9/5 + 32
     elif unit == 'kelvin':
       t += 273.15
     return t
-  elif data is 'h':
+  elif data == 'h':
     return sensor.humidity()
   else:
     raise ValueError("dht_getMeasure() has not option \'" + data + "\'")`,
@@ -585,7 +585,7 @@ DEF_WIFI_CONNECT_STATION:
   ap = network.WLAN(network.AP_IF)
   ap.active(False)
   print("\\nTrying to connect to '%s' ..." % ssid)
-  if len(ip) is not 0:
+  if len(ip) != 0:
     if len(gateway) == 0:
       gateway = ip.split('.')[0] + '.' + ip.split('.')[1] + '.' + ip.split('.')[2] + '.1'
     if len(mask) == 0:
@@ -631,7 +631,7 @@ DEF_WIFI_DISCONNECT_STATION:
 // DEF_WIFI_CONFIGURE_ACCESS_POINT:
 // `def configure_access_point(ssid='', ip='', activate=True):
 //   ap = network.WLAN(network.AP_IF)
-//   if len(ip) is not 0:
+//   if len(ip) != 0:
 //     gateway = ip.split('.')[0] + '.' + ip.split('.')[1] + '.' + ip.split('.')[2] + '.1'
 //     ap.ifconfig((ip, '255.255.255.0', gateway, gateway))
 //   ap.config(ssid=ssid, security=0)

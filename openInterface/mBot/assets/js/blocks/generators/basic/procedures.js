@@ -72,3 +72,7 @@ Blockly.Arduino.procedures_simple_return = function(block) {
   const returnValue = Blockly.Arduino.valueToCode(block, 'VALUE', Blockly.Arduino.ORDER_NONE) || '';
   return 'return ' + returnValue + ';' + NEWLINE;
 };
+
+Blockly.Arduino.procedures_functionReference = function (block) {
+  return [block.getFieldValue("NAME"), Blockly.Arduino.ORDER_ATOMIC];
+};

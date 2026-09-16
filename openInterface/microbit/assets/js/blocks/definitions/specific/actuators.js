@@ -230,6 +230,73 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
+    // Reka:bit - RUN MOTOR
+    {
+        "type": "actuators_rekabit_runMotor",
+        "message0": "%{BKY_ACTUATORS_REKABIT_RUNMOTOR_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "MOTOR",
+            "options": [
+                ["%{BKY_ACTUATORS_REKABIT_MOTOR_M1}", "M1"],
+                ["%{BKY_ACTUATORS_REKABIT_MOTOR_M2}", "M2"],
+                ["%{BKY_ACTUATORS_REKABIT_MOTOR_ALL}", "All"]
+            ]
+        },
+        {
+            "type": "field_grid_dropdown",
+            "name": "DIR",
+            "options": [
+                ["%{BKY_ACTUATORS_REKABIT_MOTOR_FORWARD}", "Forward"],
+                ["%{BKY_ACTUATORS_REKABIT_MOTOR_BACKWARD}", "Backward"]
+            ]
+        },
+        {
+            "type": "input_value",
+            "name": "SPEED",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_ACTUATORS_REKABIT_RUNMOTOR_TOOLTIP}",
+    },
+
+    // Reka:bit - SETS SERVO POSITION
+    {
+        "type": "actuators_rekabit_setServoPosition",
+        "message0": "%{BKY_ACTUATORS_REKABIT_SETSERVOPOSITION_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "SERVO",
+            "options": [
+                ["%{BKY_ACTUATORS_REKABIT_SERVO_S1}", "S1"],
+                ["%{BKY_ACTUATORS_REKABIT_SERVO_S2}", "S2"],
+                ["%{BKY_ACTUATORS_REKABIT_SERVO_S3}", "S3"],
+                ["%{BKY_ACTUATORS_REKABIT_SERVO_S4}", "S4"],
+                ["%{BKY_ACTUATORS_REKABIT_SERVO_ALL}", "All"]
+            ]
+        },
+        {
+            "type": "input_value",
+            "name": "ANGLE",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_ACTUATORS_REKABIT_SETSERVOPOSITION_TOOLTIP}",
+    },
+
+
     // KITRONIK ENVIRONMENTAL _ PLAY FREQUENCY
     {
         "type": "actuators_kitronik_playFrequency",

@@ -50,6 +50,15 @@ function $_GET(param) {
                 }
                 return ltiVariables13.board;
 
+            case 'launch_id':
+                return params['launch_id'] ?? null;
+
+            case 'duo':
+                return params['duo'] ?? null;
+
+            case 'link':
+                return params['link'] ?? null;
+
             default:
                 if (typeof ltiVariables13.customerSettings === 'undefined' || ltiVariables13.customerSettings === null || typeof ltiVariables13.customerSettings.interfaceParams === 'undefined') {
                     return null;
@@ -80,6 +89,13 @@ function $_GET(param) {
                 
             default:
                 break;
+        }
+    }
+
+    if (typeof IS_CAPYTALE_CONTEXT !== 'undefined') {
+        switch (param) {
+            case 'nocloud':
+                return 1;
         }
     }
 

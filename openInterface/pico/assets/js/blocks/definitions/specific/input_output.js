@@ -117,7 +117,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "output": "Number",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_IO_GROVEJOYSTICK_GETAXIS_TOOLTIP}",
     },
@@ -134,7 +135,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "output": "Boolean",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_IO_GROVECOLOREDBUTTON_GET_TOOLTIP}",
     },
@@ -157,7 +159,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_IO_GROVECOLOREDBUTTON_SETLED_TOOLTIP}",
     },
@@ -174,7 +177,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "output": "Number",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_IO_GETGROVESLIDEPOTENTIOMETER_TOOLTIP}",
     },
@@ -191,7 +195,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "output": "Number",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_IO_GETGROVEROTARYANGLE_TOOLTIP}",
     },
@@ -208,7 +213,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "output": "Boolean",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_IO_GETGROVETACTILE_TOOLTIP}",
     },
@@ -225,7 +231,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "output": "Boolean",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_IO_GETGROVEBUTTON_TOOLTIP}",
     },
@@ -242,7 +249,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "output": "Boolean",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_IO_GETGROVESWITCH_TOOLTIP}",
     },
@@ -280,7 +288,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }],
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "output": "Boolean",
         "tooltip": "%{BKY_IO_READDIGITALPIN_TOOLTIP}",
@@ -304,7 +313,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_IO_WRITEDIGITALPIN_TOOLTIP}",
     },
@@ -321,32 +331,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "output": "Number",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_IO_READANALOGPIN_TOOLTIP}",
-    },
-
-    // BLOCK WRITE ANALOG 
-    {
-        "type": "io_writeAnalogPin",
-        "message0": "%{BKY_IO_WRITEANALOGPIN_TITLE}",
-        "args0": [{
-            "type": "field_grid_dropdown",
-            "name": "PIN",
-            "options": Blockly.Constants.Pins.analog_read[Blockly.Constants.getSelectedBoard()]
-        }, {
-            "type": "input_value",
-            "name": "VALUE",
-            "check": "Number"
-        }],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "extensions": [
-            "block_init_helpurl",
-            "block_init_color"
-        ],
-        "tooltip": "%{BKY_IO_WRITEANALOGPIN_TOOLTIP}",
     },
 
     // BLOCK WRITE ANALOG PIN
@@ -367,26 +355,20 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "inputsInline": true,
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_IO_WRITEPWMPIN_TOOLTIP}",
     },
 
-    // BLOCK SET PWM
+    // BLOCK SET PWM FREQUENCY
     {
         "type": "io_setPwm",
         "message0": "%{BKY_IO_SETPWM_TITLE}",
         "args0": [{
             "type": "input_value",
-            "name": "PERIOD",
+            "name": "FREQUENCY",
             "check": "Number"
-        }, {
-            "type": "field_grid_dropdown",
-            "name": "UNIT",
-            "options": [
-                ["(ms)", "MS"],
-                ["(μs)", "US"]
-            ]
         }, {
             "type": "field_grid_dropdown",
             "name": "PIN",
@@ -397,9 +379,30 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "nextStatement": null,
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_IO_SETPWM_TOOLTIP}",
+    },
+
+    // BLOCK STOP PWM
+    {
+        "type": "io_stopPwm",
+        "message0": "%{BKY_IO_STOPPWM_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": Blockly.Constants.Pins.PWM[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ],
+        "tooltip": "%{BKY_IO_STOPPWM_TOOLTIP}",
     },
 
     // BLOCK PULSE IN HIGH/LOW 
@@ -419,7 +422,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "output": "Number",
         "extensions": [
             "block_init_helpurl",
-            "block_init_color"
+            "block_init_color",
+            "pins_management_global"
         ],
         "tooltip": "%{BKY_IO_READPULSEIN_TOOLTIP}",
     }

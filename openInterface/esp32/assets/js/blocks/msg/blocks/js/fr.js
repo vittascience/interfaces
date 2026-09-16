@@ -7,11 +7,12 @@
 // Display - Esp32
 Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TITLE'] = '[Esp32] contrôler la LED intégrée (p2) à l\'état %1';
 Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TOOLTIP'] = 'Permet de contrôler l\'état de la LED connectée à la broche p2 sur la carte Esp32.';
-// Display - Screen
+// Display - LCD
 Blockly.Msg['DISPLAY_LCD_SETTEXT_TITLE'] = '[LCD adresse %1] afficher le texte %2 sur la ligne %3 position %4';
 Blockly.Msg['DISPLAY_LCD_SETTEXT_TOOLTIP'] = IMG_MODULE_LCD_I2C + Blockly.Tooltip.SEP + 'Affiche du texte sur l\'une des deux lignes de l\'écran LCD1602 grove. Brancher le module sur un port I2C. Les caractères accentués ne sont pas supportés.';
 Blockly.Msg['DISPLAY_LCD_CLEAR_TITLE'] = '[LCD adresse %1] nettoyer l\'écran';
 Blockly.Msg['DISPLAY_LCD_CLEAR_TOOLTIP'] = IMG_MODULE_LCD_I2C + Blockly.Tooltip.SEP + 'Permet d\'effacer tous les caractères de l\'écran LCD. Brancher le module sur un port I2C.';
+// Display - OLED
 Blockly.Msg['DISPLAY_OLED_ADDTEXT_TITLE'] = '[OLED] afficher le texte %1 à la position x %2 y %3';
 Blockly.Msg['DISPLAY_OLED_ADDTEXT_TOOLTIP'] = IMG_MODULE_OLED + Blockly.Tooltip.SEP + 'Permet d\'écrire du texte sur un écran OLED de taille 128x64. Brancher l\'écran sur un port I2C.';
 Blockly.Msg['DISPLAY_OLED_SETPIXEL_TITLE'] = '[OLED] contrôler le pixel x %1 y %2 état %3';
@@ -75,7 +76,7 @@ Blockly.Msg['DISPLAY_CHAINABLE_PALETTEALLRGBLED_TOOLTIP'] = IMG_MODULE_LED_RGB +
 Blockly.Msg['DISPLAY_CHAINABLE_RESETALLRGBLED_TITLE'] = '[Chainable LED] éteindre sur les broches CIN %1 DIN %2';
 Blockly.Msg['DISPLAY_CHAINABLE_RESETALLRGBLED_TOOLTIP'] = IMG_MODULE_LED_RGB + Blockly.Tooltip.SEP + 'Bloc éteignant toutes les DEL RGB.';
 
-// Input/Output - Esp32
+// Input/Output - Time
 Blockly.Msg['IO_WAIT_TITLE'] = 'attendre %1 %2';
 Blockly.Msg['IO_WAIT_TOOLTIP'] = 'Effectue une pause dans l\'exécution du code.';
 Blockly.Msg['IO_WAIT_SECOND'] = 'seconde(s)';
@@ -127,6 +128,8 @@ Blockly.Msg['IO_SETPWM_TITLE'] = 'appliquer un signal carré de fréquence %1 (H
 Blockly.Msg['IO_SETPWM_TOOLTIP'] = 'Permet d\'appliquer un signal carré (PWM) avec un cycle fixé à 50% sur une broche. Ce bloc permet de changer la fréquence du signal.';
 Blockly.Msg['IO_STOPPWM_TITLE'] = 'arrêter le signal PWM de la broche %1';
 Blockly.Msg['IO_STOPPWM_TOOLTIP'] = 'Permet d\'arrêter le signal PWM appliqué sur une broche.';
+Blockly.Msg['IO_READPULSEIN_TITLE'] = 'lire l\'impulsion (μs) de l\'état %1 sur la broche %2';
+Blockly.Msg['IO_READPULSEIN_TOOLTIP'] = 'Renvoie la durée de l\'impulsion entrante à l\'état HAUT ou BAS en (us).';
 Blockly.Msg['IO_GETVOLTAGE_TITLE'] = 'convertir %1 sur %2 en tension';
 Blockly.Msg['IO_GETVOLTAGE_TOOLTIP'] = 'Permet de convertir une valeur analogique en tension en choisissant la résolution (10-bit: 1024, 12-bit: 4096, 9-bit: 512, 11-bit: 2048) et un maximum de 3.6V.';
 
@@ -175,9 +178,9 @@ Blockly.Msg['COMMUNICATION_FS_SAVE_DATA_TITLE'] = '[ESP32] enregistrer les donn�
 Blockly.Msg['COMMUNICATION_FS_SAVE_DATA_TOOLTIP'] = 'Permet d\'enregistrer des données dans un fichier texte dans le système de fichier de l\'ESP32. Si vous utilisez le même nom de fichier, les données seront ajoutées à la fin du fichier. Vous pouvez également appuyer sur le bouton + pour modifier l\'extension du fichier.';
 // Communication - Wireless
 Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TITLE'] = '[HC05 BT] envoyer sur les broches RX %1 TX %2 message %3';
-Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Permet d\'envoyer des données via le module BLuetooth HC05 sur les broches RX/TX.';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_SENDDATA_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Permet d\'envoyer des données via le module Bluetooth HC05 sur les broches RX/TX.';
 Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TITLE'] = '[HC05 BT] si message reçu sur les broches RX %1 TX %2 dans %3 alors';
-Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Permet d\'exécuter des instructions si une donnée est reçue par un module Bluetooth HC05 dans la variable \'bluetoothData\' sur les broches RX/TX.';
+Blockly.Msg['COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + 'Permet d\'exécuter des instructions si une donnée est reçue par un module Bluetooth HC05 dans la variable \'HC05Data\' sur les broches RX/TX.';
 // Communication - Infrared
 Blockly.Msg['COMMUNICATION_INFRARED_ONDATARECEIVED_TITLE'] = '[IR] si %1 est reçu dans %2 %3broche %4 avec le protocol %5 alors';
 Blockly.Msg['COMMUNICATION_INFRARED_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_IR_RECEIVER + Blockly.Tooltip.SEP + 'Permet d\'exécuter des instructions si une donnée est reçue par un module infrarouge dans une variable sur la broche digitale avec un protocol NEC_8 ou NEC_16.';
@@ -374,6 +377,15 @@ Blockly.Msg['SENSORS_GETGROVEBUTTON_TITLE'] = '[Module bouton] %1 sur la broche 
 Blockly.Msg['SENSORS_GETGROVEBUTTON_TOOLTIP'] = IMG_MODULE_BUTTON + Blockly.Tooltip.SEP + 'Renvoie la valeur numérique du bouton Grove (0/1 ou 0V/3.3V) les broches digitales.';
 Blockly.Msg['SENSORS_GETGROVEBUTTON_VOLTAGE'] = 'tension';
 Blockly.Msg['SENSORS_GETGROVEBUTTON_STATE'] = 'état';
+Blockly.Msg['SENSORS_MLX90621_READTEMPERATURE_TITLE'] = '[Capteur temp. IR MLX90621] température (°C) type %1';
+Blockly.Msg['SENSORS_MLX90621_READTEMPERATURE_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Renvoie la température d\'un objet en degré Celsius (°C) avec le capteur infrarouge MLX90621. Brancher le capteur sur un port I2C.';
+Blockly.Msg['SENSORS_MLX90621_INT_TYPE'] = 'entier';
+Blockly.Msg['SENSORS_MLX90621_FLOAT_TYPE'] = 'décimal';
+Blockly.Msg['SENSORS_MLX90621_GETTEMPDATA_TITLE'] = '[Capteur temp. IR MLX90621] température (°C) %1';
+Blockly.Msg['SENSORS_MLX90621_TEMP_MIN'] = 'minimum';
+Blockly.Msg['SENSORS_MLX90621_TEMP_MAX'] = 'maximum';
+Blockly.Msg['SENSORS_MLX90621_TEMP_AVG'] = 'moyenne';
+Blockly.Msg['SENSORS_MLX90621_GETTEMPDATA_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Renvoie la température min, max ou moyenne d\'un objet en degré Celsius (°C) avec le capteur infrarouge MLX90621. Brancher le capteur sur un port I2C.';
 Blockly.Msg['SENSORS_FSR402_GETFORCE_TITLE'] = '[Détecteur de force] valeur sur la broche %1';
 Blockly.Msg['SENSORS_FSR402_GETFORCE_TOOLTIP'] = IMG_MODULE_FORCE + Blockly.Tooltip.SEP + 'Renvoie la force exercée sur le détecteur rond grâce au capteur FSR402 sur les broches analogiques.';
 Blockly.Msg['SENSORS_EMG_DETECTOR_TITLE'] = '[Détecteur EMG] valeur sur la broche %1';
@@ -395,6 +407,26 @@ Blockly.Msg['ACTUATORS_GROVERELAY_CONTROL_TITLE'] = '[Module relais] contrôler 
 Blockly.Msg['ACTUATORS_GROVERELAY_CONTROL_TOOLTIP'] = IMG_MODULE_RELAY + Blockly.Tooltip.SEP + 'Permet de contrôler la valeur du relais (0 ou 1) sur les broches digitales.';
 Blockly.Msg['ACTUATORS_GROVEVIBRATIONMOTOR_CONTROL_TITLE'] = '[Moteur à vibration] contrôler le moteur à l\'état %1 sur la broche  %2';
 Blockly.Msg['ACTUATORS_GROVEVIBRATIONMOTOR_CONTROL_TOOLTIP'] = IMG_MODULE_VIBRATION_MOTOR + Blockly.Tooltip.SEP + 'Permet d\'activer ou de désactiver le moteur à vibration grove (0 ou 1) sur les broches digitales.';
+// Actuators - PCA9685
+Blockly.Msg['ACTUATORS_PCA9685_SETPWMFREQUENCY_TITLE'] = '[PCA9685] configurer la fréquence du signal PWM à %1 (Hz)';
+Blockly.Msg['ACTUATORS_PCA9685_SETPWMFREQUENCY_TOOLTIP'] = IMG_MODULE_PCA9685 + Blockly.Tooltip.SEP + 'Permet de configurer la fréquence du signal PWM (en Hz) pour tous les canaux du module PCA9685. Brancher le module sur un port I2C.';
+Blockly.Msg['ACTUATORS_PCA9685_SETPWMDUTYCYCLEPERCENT_TITLE'] = '[PCA9685] contrôler la puissance à %1 (%) sur le canal %2';
+Blockly.Msg['ACTUATORS_PCA9685_SETPWMDUTYCYCLEPERCENT_TOOLTIP'] = IMG_MODULE_PCA9685 + Blockly.Tooltip.SEP + 'Permet de contrôler la puissance de sortie du signal PWM (de 0 à 100 %) sur un canal du module PCA9685. Brancher le module sur un port I2C.';
+Blockly.Msg['ACTUATORS_PCA9685_SETPWMDUTYCYCLEONTIME_TITLE'] = '[PCA9685] contrôler le temps d\'activation à %1 (ms) sur le canal %2';
+Blockly.Msg['ACTUATORS_PCA9685_SETPWMDUTYCYCLEONTIME_TOOLTIP'] = IMG_MODULE_PCA9685 + Blockly.Tooltip.SEP + 'Permet de contrôler le temps d\'activation du signal PWM (en ms) sur un canal du module PCA9685. Brancher le module sur un port I2C.';
+Blockly.Msg['ACTUATORS_PCA9685_SETPWMDUTYCYCLE_TITLE'] = '[PCA9685] front montant %1 front descendant %2 sur le canal %3';
+Blockly.Msg['ACTUATORS_PCA9685_SETPWMDUTYCYCLE_TOOLTIP'] = IMG_MODULE_PCA9685 + Blockly.Tooltip.SEP + 'Permet de contrôler le signal PWM en indiquant le temps du front montant et du front descendant (0 à 4095) sur un canal du module PCA9685. Brancher le module sur un port I2C.';
+Blockly.Msg['ACTUATORS_PCA9685_SETSERVOANGLE_TITLE'] = '[PCA9685] contrôler l\'angle du servomoteur à %1 sur le canal %2';
+Blockly.Msg['ACTUATORS_PCA9685_SETSERVOANGLE_TOOLTIP'] = IMG_MODULE_PCA9685 + Blockly.Tooltip.SEP + 'Permet de contrôler l\'angle d\'un servomoteur (de 0 à 180) sur un canal du module PCA9685. Brancher le module sur un port I2C. Attention, le montage doit être alimenté par une batterie pour fournir assez de courant au servomoteur.';
+Blockly.Msg['ACTUATORS_PCA9685_SETSERVOANGLECUSTOM_TITLE'] = '[PCA9685] contrôler l\'angle du servomoteur à %1 sur le canal %2 avec les impulsions min %3 (ms) et max %4 (ms)';
+Blockly.Msg['ACTUATORS_PCA9685_SETSERVOANGLECUSTOM_TOOLTIP'] = IMG_MODULE_PCA9685 + Blockly.Tooltip.SEP + 'Permet de contrôler l\'angle d\'un servomoteur (de 0 à 180) sur un canal du module PCA9685 en indiquant les impulsions en ms pour les angles 0° et 180°. Brancher le module sur un port I2C. Attention, le montage doit être alimenté par une batterie pour fournir assez de courant au servomoteur.';
+// Actuators - MOSFET
+Blockly.Msg['ACTUATORS_MOSFET_SETSTATE_TITLE'] = '[MOSFET] contrôler à l\'état %1 sur la broche %2';
+Blockly.Msg['ACTUATORS_MOSFET_SETSTATE_TOOLTIP'] = IMG_MODULE_MOSFET + Blockly.Tooltip.SEP + 'Permet de contrôler l\'état du transitor MOSFET (0 ou 1) sur une broche PWM.';
+Blockly.Msg['ACTUATORS_MOSFET_SETPERCENTVALUE_TITLE'] = '[MOSFET] contrôler la puissance à %1 (%) sur la broche %2';
+Blockly.Msg['ACTUATORS_MOSFET_SETPERCENTVALUE_TOOLTIP'] = IMG_MODULE_MOSFET + Blockly.Tooltip.SEP + 'Permet de contrôler la puissance de sortie du transitor MOSFET (de 0 à 100 %) sur une broche PWM.';
+Blockly.Msg['ACTUATORS_MOSFET_SETFREQUENCY_TITLE'] = '[MOSFET] contrôler la fréquence du cycle à %1 (Hz) sur la broche %2';
+Blockly.Msg['ACTUATORS_MOSFET_SETFREQUENCY_TOOLTIP'] = IMG_MODULE_MOSFET + Blockly.Tooltip.SEP + 'Permet de contrôler la fréquence cyclique (Hz) du transistor MOSFET sur une broche PWM.';
 // Actuators - Music
 Blockly.Msg['ACTUATORS_MUSIC_PLAYMUSIC_TITLE'] = '[Buzzer/Speaker] jouer la musique %1 sur %2';
 Blockly.Msg['ACTUATORS_MUSIC_PLAYMUSIC_TOOLTIP'] = IMG_MODULE_BUZZER_SPEAKER + Blockly.Tooltip.SEP + 'Permet de jouer une musique avec un module Grove buzzer (ou speaker) sur les broches digitales.';
@@ -562,6 +594,18 @@ Blockly.Msg['ROBOTS_ALVIK_GET_DRIVE_SPEED_TOOLTIP'] = 'Obtenir les vitesses de c
 Blockly.Msg['ROBOTS_ALVIK_SET_SERVO_POSITIONS_TITLE'] = 'position servos A %1 B %2 °';
 Blockly.Msg['ROBOTS_ALVIK_SET_SERVO_POSITIONS_TOOLTIP'] = 'Définir les positions des servomoteurs A et B';
 // LEDS
+Blockly.Msg['ROBOTS_ALVIK_SET_COLOR_TITLE'] = 'LED %1 couleur %2';
+Blockly.Msg['ROBOTS_ALVIK_SET_COLOR_TOOLTIP'] = 'Change la couleur de la LED intégrée (gauche ou droite) du robot Alvik.';
+Blockly.Msg['ROBOTS_ALVIK_LED_LEFT'] = 'gauche';
+Blockly.Msg['ROBOTS_ALVIK_LED_RIGHT'] = 'droite';
+Blockly.Msg['ROBOTS_ALVIK_COLOR_RED'] = 'rouge';
+Blockly.Msg['ROBOTS_ALVIK_COLOR_GREEN'] = 'vert';
+Blockly.Msg['ROBOTS_ALVIK_COLOR_BLUE'] = 'bleu';
+Blockly.Msg['ROBOTS_ALVIK_COLOR_OFF'] = 'éteinte';
+Blockly.Msg['ROBOTS_ALVIK_COLOR_WHITE'] = 'blanc';
+Blockly.Msg['ROBOTS_ALVIK_COLOR_YELLOW'] = 'jaune';
+Blockly.Msg['ROBOTS_ALVIK_COLOR_CYAN'] = 'cyan';
+Blockly.Msg['ROBOTS_ALVIK_COLOR_MAGENTA'] = 'magenta';
 Blockly.Msg['ROBOTS_ALVIK_SET_BUILTIN_LED_TITLE'] = 'état de la LED intégrée %1';
 Blockly.Msg['ROBOTS_ALVIK_SET_BUILTIN_LED_TOOLTIP'] = 'Allumer ou éteindre la LED intégrée';
 Blockly.Msg['ROBOTS_ALVIK_SET_ILLUMINATOR_TITLE'] = 'état LED capteur de couleur %1';

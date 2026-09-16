@@ -46,7 +46,7 @@ class RobotCamera {
         this._resolution = o.resolution ?? [160, 120];
         this._fov = (o.fov ?? 105) * Math.PI / 180;
         this._wallColor = o.wallColor ?? '#888888';
-        this._obstColor = o.obstacleColor ?? '#4488cc';
+        this._obstColor = o.obstacleColor ?? '#000000';
         this._noiseAmt = o.noiseAmount ?? 0.04;
         this._useIR = o.useIrFloor ?? true;
         this._irRect = o.irLineRect ?? { x0: 80, y0: 70, x1: 400, y1: 200, lineWidth: 12 };
@@ -68,12 +68,19 @@ class RobotCamera {
         this._dirty = true;  // forcer un premier rendu
 
         // Source de la piste (mode par défaut : rectangle fixe)
-        this._showResolution = true;
+        this._showResolution = false;
         this._trackMode = 'rect';
         this._trackCanvas = null;
+        this._trackCtx = null;
         this._trackCallback = null;
         this._trackPixels = null;
         this._darkThreshold = 100;
+
+        // Caches de rendu pour limiter les allocations par frame
+        this._imgData = null;
+        this._imgDataW = 0;
+        this._imgDataH = 0;
+        this._colorCache = Object.create(null);
 
         if (o.autoRender) this.setAutoRender(true);
         else this.render();
@@ -190,9 +197,6 @@ class RobotCamera {
      */
     setResolution(w, h) {
         this._resolution = [w, h];
-        this._showResolution = true;
-        // canvas.width/height = résolution interne (modifié dans _render)
-        // canvas style.width/height = taille d'affichage (on ne touche pas au CSS)
         this._dirty = true;
     }
 
@@ -305,24 +309,23 @@ class RobotCamera {
         let surfaceType = 'wall';
         let color = this._wallColor;
 
-        // ── Murs extérieurs ──────────────────────────────────────────────────────
-        const walls = [
-            { nx: 0, ny: -1, d: -oy },
-            { nx: 0, ny: 1, d: oy - this._arenaH },
-            { nx: -1, ny: 0, d: -ox },
-            { nx: 1, ny: 0, d: ox - this._arenaW },
-        ];
-
-        for (const w of walls) {
-            const denom = w.nx * cos + w.ny * sin;
-            if (denom > 1e-6) {
-                const t = -w.d / denom;
-                if (t > 0.01 && t < minDist) {
-                    minDist = t;
-                    surfaceType = 'wall';
-                    color = this._wallColor;
-                }
-            }
+        // ── Murs extérieurs (sans allocations intermédiaires) ───────────────────
+        let t;
+        if (sin < -1e-6) {
+            t = (0 - oy) / sin;
+            if (t > 0.01 && t < minDist) minDist = t;
+        }
+        if (sin > 1e-6) {
+            t = (this._arenaH - oy) / sin;
+            if (t > 0.01 && t < minDist) minDist = t;
+        }
+        if (cos < -1e-6) {
+            t = (0 - ox) / cos;
+            if (t > 0.01 && t < minDist) minDist = t;
+        }
+        if (cos > 1e-6) {
+            t = (this._arenaW - ox) / cos;
+            if (t > 0.01 && t < minDist) minDist = t;
         }
 
         // ── Obstacles AABB ────────────────────────────────────────────────────────
@@ -392,14 +395,17 @@ class RobotCamera {
         if (source === null) {
             this._trackMode = 'rect';
             this._trackCanvas = null;
+            this._trackCtx = null;
             this._trackCallback = null;
         } else if (typeof source === 'function') {
             this._trackMode = 'callback';
             this._trackCallback = source;
             this._trackCanvas = null;
+            this._trackCtx = null;
         } else if (source instanceof HTMLCanvasElement) {
             this._trackMode = 'canvas';
             this._trackCanvas = source;
+            this._trackCtx = source.getContext('2d', { willReadFrequently: true });
             this._trackCallback = null;
         } else {
             console.warn('RobotCamera.setTrackSource: source invalide');
@@ -411,10 +417,9 @@ class RobotCamera {
 
     /** Capture les pixels du canvas arène une fois par frame (appelé depuis _render). */
     _refreshTrackPixels() {
-        if (this._trackMode !== 'canvas' || !this._trackCanvas) return;
+        if (this._trackMode !== 'canvas' || !this._trackCanvas || !this._trackCtx) return;
         const c = this._trackCanvas;
-        const ctx = c.getContext('2d', { willReadFrequently: true });
-        this._trackPixels = ctx.getImageData(0, 0, c.width, c.height);
+        this._trackPixels = this._trackCtx.getImageData(0, 0, c.width, c.height);
         this._trackCanvasW = c.width;
         this._trackCanvasH = c.height;
     }
@@ -466,13 +471,14 @@ class RobotCamera {
 
     _render() {
         const [nx, ny] = this._resolution;
-        this._canvas.width = nx;
-        this._canvas.height = ny;
+        if (this._canvas.width !== nx) this._canvas.width = nx;
+        if (this._canvas.height !== ny) this._canvas.height = ny;
 
         // Capture les pixels du canvas arène si mode 'canvas'
         this._refreshTrackPixels();
 
-        const horizon = Math.floor(ny / 2);
+        // Pour ny=1, horizon doit valoir au moins 1 pour que le sol soit rendu
+        const horizon = Math.max(1, Math.floor(ny / 2));
         const distMin = 30;
         const { x, y, ori } = this._robot;
 
@@ -598,40 +604,34 @@ class RobotCamera {
             }
         }
 
-        // ── Flip vertical (image renversée → axe Y vers le bas) ──────────────────
-        const flipped = new Float32Array(ny * nx * 3);
-        for (let row = 0; row < ny; row++) {
-            const srcOff = (ny - 1 - row) * nx * 3;
-            flipped.set(img.subarray(srcOff, srcOff + nx * 3), row * nx * 3);
+        // ── ImageData → canvas (avec flip vertical + miroir horizontal intégrés) ─
+        if (!this._imgData || this._imgDataW !== nx || this._imgDataH !== ny) {
+            this._imgData = this._ctx.createImageData(nx, ny);
+            this._imgDataW = nx;
+            this._imgDataH = ny;
         }
-
-        // ── Bruit gaussien ────────────────────────────────────────────────────────
-        if (this._noiseAmt > 0) {
-            for (let i = 0; i < flipped.length; i += 3) {
-                const n = this._gaussian() * this._noiseAmt;
-                flipped[i] = Math.min(1, Math.max(0, flipped[i] + n));
-                flipped[i + 1] = Math.min(1, Math.max(0, flipped[i + 1] + n));
-                flipped[i + 2] = Math.min(1, Math.max(0, flipped[i + 2] + n));
+        const out = this._imgData.data;
+        const withNoise = this._noiseAmt > 0;
+        for (let row = 0; row < ny; row++) {
+            const srcRow = ny - 1 - row;
+            for (let col = 0; col < nx; col++) {
+                const srcCol = nx - 1 - col;
+                const srcIdx = (srcRow * nx + srcCol) * 3;
+                const dstIdx = (row * nx + col) * 4;
+                const noise = withNoise ? this._gaussian() * this._noiseAmt : 0;
+                let r = img[srcIdx] + noise;
+                let g = img[srcIdx + 1] + noise;
+                let b = img[srcIdx + 2] + noise;
+                r = r < 0 ? 0 : (r > 1 ? 1 : r);
+                g = g < 0 ? 0 : (g > 1 ? 1 : g);
+                b = b < 0 ? 0 : (b > 1 ? 1 : b);
+                out[dstIdx] = r * 255;
+                out[dstIdx + 1] = g * 255;
+                out[dstIdx + 2] = b * 255;
+                out[dstIdx + 3] = 255;
             }
         }
-
-        // ── ImageData → canvas ────────────────────────────────────────────────────
-        const imgData = this._ctx.createImageData(nx, ny);
-        for (let i = 0; i < nx * ny; i++) {
-            imgData.data[i * 4] = flipped[i * 3] * 255;
-            imgData.data[i * 4 + 1] = flipped[i * 3 + 1] * 255;
-            imgData.data[i * 4 + 2] = flipped[i * 3 + 2] * 255;
-            imgData.data[i * 4 + 3] = 255;
-        }
-        this._ctx.putImageData(imgData, 0, 0);
-
-        // ── Miroir horizontal ─────────────────────────────────────────────────────
-        // On copie l'image sur elle-même avec un flip X pour corriger l'orientation
-        // de la piste par rapport à la vue 2D du simulateur.
-        this._ctx.save();
-        this._ctx.scale(-1, 1);
-        this._ctx.drawImage(this._canvas, -nx, 0);
-        this._ctx.restore();
+        this._ctx.putImageData(this._imgData, 0, 0);
 
         // ── Affichage de la résolution en haut à gauche ───────────────────────────
         // Le texte est dessiné dans l'espace canvas interne MAIS avec une taille
@@ -658,8 +658,12 @@ class RobotCamera {
     // ─── Utilitaires ──────────────────────────────────────────────────────────
 
     _hexToRgb(hex) {
+        const cached = this._colorCache[hex];
+        if (cached) return cached;
         const n = parseInt(hex.replace('#', ''), 16);
-        return [(n >> 16 & 255) / 255, (n >> 8 & 255) / 255, (n & 255) / 255];
+        const rgb = [(n >> 16 & 255) / 255, (n >> 8 & 255) / 255, (n & 255) / 255];
+        this._colorCache[hex] = rgb;
+        return rgb;
     }
 
     _gaussian() {

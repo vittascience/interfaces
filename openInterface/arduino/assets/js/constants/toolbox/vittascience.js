@@ -337,7 +337,6 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         {
             'label': '%{BKY_SUBCATEGORY_EXTERNAL_BLUETOOTH}',
             'blocks': [
-                //'communication_setSerialBluetooth',
                 'communication_groveSerialBluetooth_setATCommand',
                 'communication_groveSerialBluetooth_getATCommand',
                 'communication_sendSerialBluetoothData',
@@ -589,6 +588,15 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         },
         {
+            'label': '%{BKY_SUBCATEGORY_TB6612FNG_MOTOR_DRIVER}',
+            "blocks": [
+                'actuators_TB6612FNGMotorDriver_DCMotorRun',
+                'actuators_TB6612FNGMotorDriver_DCMotorBrake',
+                'actuators_TB6612FNGMotorDriver_StepperRun',
+                'actuators_TB6612FNGMotorDriver_StepperStop'
+            ]
+        },
+        {
             'label': '%{BKY_SUBCATEGORY_ARDUINO_SHILED_MOTOR}',
             "blocks": [
                 'actuators_MC33926MotorShield_setSpeed',
@@ -720,6 +728,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'math_map',
                 'math_round',
                 'math_modulo',
+                'math_round_ndigits',
                 'math_constrain',
                 'math_random_int',
                 'math_random_float',
@@ -733,10 +742,21 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'text_comment',
                 'text',
                 'text_join',
+                'text_newline',
                 'text_append',
                 'text_length',
                 'text_isEmpty',
+                'text_includesSubstr',
+                'text_indexOf',
+                'text_charAt',
+                'text_getSubstring',
+                'text_count_characters',
+                'text_trim',
                 'text_changeCase',
+                'text_count',
+                'text_reverse',
+                'text_replace',
+                'text_random_string'
             ]
         }
     ],

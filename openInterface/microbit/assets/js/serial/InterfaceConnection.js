@@ -9,24 +9,51 @@ const InterfaceConnection = {
 		this.fsWrapper = new microbitFsWrapper('main.py', hex_v2);
 		await this.fsWrapper.initialize();
 		await this.webusb.init(this.fsWrapper);
-
 		const MICROBIT = {
 			usbProductId: 0x0204,
 			usbVendorId: 0x0d28
 		};
 		this.serial = new Serial(115200, [MICROBIT]);
-		this.serial.CHUNK_SIZE = 128;
-
+		this.replOptions = {
+			"writeChunkSize": 0.125, // KiB
+			"variablesGetterTimeout": 500, // ms
+			"libraries": VittaInterface.externalLibraries,
+			"readChunkSize": 1, // kiB
+			"readingDelayPerKiB": 20 // ms
+		};
 		if (!navigator.serial) this.reorganizeButtons();
-
+		window.addEventListener('pagehide', () => {
+			this.doDisconnect();
+		});
+		window.addEventListener('beforeunload', () => {
+			this.doDisconnect();
+		});
 		this.initialized = true;
 	},
 
+	waitInitialization: async function () {
+		await new Promise(function awaitInterfaceConnection(resolve, reject) {
+			if (InterfaceConnection.initialized) {
+				return resolve();
+			}
+			setTimeout(() => {
+				awaitInterfaceConnection(resolve, reject);
+			}, 100);
+		});
+	},
+
 	reset: function () {
-		var _this = InterfaceConnection;
-		_this.serial.reset();
-		_this.webusb.init(_this.fsWrapper);
-		_this.varPanel = null;
+		if (this.varPanel?.getterActive) {
+			this.varPanel.reset();
+			this.varPanel = null;
+		}
+		if (this.FileSystem) {
+			this.FileSystem.reset();
+			this.FileSystem = null;
+		}
+		this.serial.reset();
+		this.webusb.init(this.fsWrapper);
+		this.varPanel = null;
 		$('#repl-control').removeClass("activated");
 		$("#repl-variables").removeClass('activated');
 		$("#disconnect-opt").hide();
@@ -62,7 +89,8 @@ const InterfaceConnection = {
 	upload: async function () {
 		if (this.repl && this.repl.hasFirmware) {
 			this.repl.Queue.reset();
-			this.repl.uploadUserCode();
+			const code = CodeManager.getSharedInstance().getCode();
+			this.repl.uploadUserCode(code);
 			this.repl.resetBoard('machine');
 			$('#repl-control').removeClass("activated");
 			this.serial.isDownloading = true;
@@ -147,32 +175,19 @@ const InterfaceConnection = {
 		} else if (error.match(/(DOMException|NetworkError): The device has been lost\./)) {
 			InterfaceMonitor.writeConsole(jsonPath('code.serialAPI.boardDisconnected'), 'warning', false, true);
 			this.reset();
+		} else {
+			console.error(error);
 		}
 	},
 
-	toggleReplOverture: async function () {
-		if (!this.webusb.isUploading) {
-			if (this.serial.isConnected) {
-				this.openRepl();
-			} else {
-				await this.connectBoard();
-				if (this.serial.isConnected) {
-					this.openRepl();
-				} else {
-					InterfaceMonitor.writeConsole('code.serialAPI.boardMustBeConnectedForREPL', 'warning', false, true);
-				}
-			}
-		}
-	},
-
-	openRepl: async function (forceOpening = false) {
+	openRepl: async function (runningMain = true) {
 		if (this.repl && this.repl.hasFirmware) {
 			if (!this.repl.isRawOpen) {
 				if (!this.repl.isOpen) {
 					await this.repl.open();
-				} else if (!forceOpening) {
+				} else if (runningMain) {
 					this.repl.runFile();
-					this.repl.sendCommand(this.repl.Queue.dequeue());
+					await this.repl.sendCommand(this.repl.Queue.dequeue());
 				}
 			} else {
 				this.repl.close_raw_repl();
@@ -180,40 +195,77 @@ const InterfaceConnection = {
 		}
 	},
 
-	toggleVariablesPanel: async function () {
+	toggleReplOverture: async function () {
+		await InterfaceConnection.waitInitialization();
 		if (!this.webusb.isUploading) {
-			const commands = [
-				"def runVariablesGetter():",
-				"  global variablesGetter",
-				"  variablesGetter = True",
-				"  @run_every(ms=400)",
-				"  def every_function_vars():",
-				"    print('@GlobalVars: refresh.')",
-				"    variables = globals()",
-				"    for i in variables:",
-				`      if not "'function'" in str(type(variables[i])) and not 'MicroBit' in str(variables[i]) and not 'module ' in str(variables[i]):`,
-				`        print('@GlobalVars:' + str(i) +  " | " + str(variables[i]) + " | " + str(type(variables[i])))`,
-				"    if not variablesGetter:",
-				"      import utime",
-				"      utime.sleep_ms(100)",
-				`      raise NameError("Stop global variables getter.")`,
-				"try:",
-				"  if not variablesGetter:",
-				"    runVariablesGetter()",
-				"except:",
-				"  runVariablesGetter()"
-			];
-			if (this.serial.isConnected && this.varPanel) {
+			if (this.serial.isConnected) {
+				await this.openRepl();
+			} else {
+				await this.connectBoard();
+				if (this.serial.isConnected) {
+					await this.openRepl();
+				} else {
+					InterfaceMonitor.writeConsole('code.serialAPI.boardMustBeConnectedForREPL', 'warning', false, true);
+				}
+			}
+		}
+	},
+
+	toggleVariablesPanel: async function () {
+		await this.waitInitialization();
+		if (!this.serial.isDownloading) {
+			const openVarPanel = async () => {
 				if (this.varPanel.isOpen) {
 					this.varPanel.setVariablesPanel(false);
+					if (this.repl.isOpen && this.varPanel.getterActive) {
+						await this.varPanel.toggleGetter();
+					}
 				} else {
 					this.varPanel.setVariablesPanel(true);
 					if (!this.varPanel.getterActive) {
-						await this.varPanel.toggleGetter(commands);
+						await this.varPanel.toggleGetter();
 					}
 				}
+			}
+			if (this.serial.isConnected && this.varPanel) {
+				await openVarPanel();
 			} else {
-				InterfaceMonitor.writeConsole('code.serialAPI.boardMustBeConnectedVariables', 'warning', false, true);
+				await this.connectBoard();
+				if (this.serial.isConnected && this.varPanel) {
+					await openVarPanel();
+				} else {
+					InterfaceMonitor.writeConsole('code.serialAPI.boardMustBeConnectedVariables', 'warning', false, true);
+				}
+			}
+		}
+	},
+
+	toggleFileSystem: async function () {
+		await this.waitInitialization();
+		const toggleFS = async () => {
+			if (!this.serial.isDownloading) {
+				if (!this.FileSystem.isOpen) {
+					pseudoModal.openModal('modal-micropython-fs');
+					await this.openRepl(false);
+					this.FileSystem.openDirs?.clear();
+					this.repl.readingDelay = 30;
+					await this.FileSystem.refresh();
+					this.FileSystem.isOpen = true;
+				} else {
+					pseudoModal.closeModal('modal-micropython-fs');
+					this.FileSystem.isOpen = false;
+					this.repl.readingDelay = 50;
+				}
+			}
+		}
+		if (this.serial.isConnected) {
+			await toggleFS();
+		} else {
+			await this.connectBoard();
+			if (this.serial.isConnected) {
+				await toggleFS();
+			} else {
+				InterfaceMonitor.writeConsole(jsonPath('code.serialAPI.boardMustBeConnectedForDownload'), 'warning');
 			}
 		}
 	},
@@ -240,12 +292,10 @@ const InterfaceConnection = {
 			console.log(await this.serial.getInfo());
 			console.log(await this.serial.getSignals());
 			console.log(this.serial.port);
-			const boardOptions = {
-				"chunkSize": this.serial.CHUNK_SIZE,
-				"libraries": VittaInterface.externalLibraries
-			};
-			this.repl = new MicropythonRepl(this.serial, boardOptions);
+			this.repl = new MicropythonRepl(this.serial, this.replOptions);
 			this.varPanel = new VariablesPanel(this.repl);
+			this.FileSystem = new MicropythonFS(this.repl);
+			this.FileSystem.init();
 			this.repl.readingLoop();
 			InterfaceMonitor.writeConsole('code.serialAPI.boardConnected', 'success', false, true);
 			if (!$("#connected-icon")[0]) {
@@ -265,7 +315,7 @@ const InterfaceConnection = {
 			}
 			if (this.repl.isOpen) {
 				this.repl.resetBoard('machine');
-				this.repl.sendCommand(this.repl.Queue.dequeue());
+				await this.repl.sendCommand(this.repl.Queue.dequeue());
 			} else {
 				this.repl.isLoopClosed = true;
 			}
@@ -281,6 +331,13 @@ const InterfaceConnection = {
 			if (this.repl) {
 				this.repl.setRepl(false);
 				this.repl = null;
+				if (this.FileSystem) {
+					this.FileSystem.reset();
+					this.FileSystem = null;
+				}
+			}
+			if (this.varPanel) {
+				this.varPanel = null;
 			}
 			this.webusb.disconnect();
 		}
@@ -376,19 +433,18 @@ const InterfaceConnection = {
 		 * Setup filesystem and flash python program.
 		 */
 		flashProgram: async function () {
-			await new Promise(function awaitInterfaceConnection(resolve, reject) {
-				if (InterfaceConnection.initialized) {
-					return resolve();
-				}
-				setTimeout(() => {
-					awaitInterfaceConnection(resolve, reject);
-				}, 100);
-			});
+			await InterfaceConnection.waitInitialization();
 			if (!this.isUploading) {
 				InterfaceMonitor.setup();
 				this.isUploading = true;
-				if (InterfaceConnection.serial?.isConnected) {
-					InterfaceConnection.varPanel.close();
+				if (InterfaceConnection.varPanel?.getterActive) {
+					await InterfaceConnection.varPanel.close();
+				}
+				if (InterfaceConnection.FileSystem?.isOpen) {
+					await this.toggleFileSystem();
+				}
+				if (InterfaceConnection.repl?.isOpen) {
+					InterfaceConnection.repl.setRepl(false);
 				}
 				const code = CodeManager.getSharedInstance().getCode();
 				if (code.match(/from edgeModel import Model/)) {
@@ -407,9 +463,12 @@ const InterfaceConnection = {
 				const flashed = await this.flash(true);
 				this.isUploading = false;
 				if (flashed) {
-					InterfaceMonitor.writeConsole(jsonPath('code.serialAPI.fileDownloaded'), 'success', false, true);
+					InterfaceMonitor.writeConsole(jsonPath('code.serialAPI.fileDownloaded') + '\n', 'success', false, true);
 					if (code && /@Graph:/.test(code)) {
 						InterfaceMonitor.writeConsole('Le programme envoie des données graphiques dans la console.', 'neutral', true);
+					}
+					if (InterfaceConnection.repl) {
+						InterfaceConnection.repl.readingDelay = 50;
 					}
 					await InterfaceConnection.activeSerialMonitor();
 				}
@@ -553,7 +612,7 @@ const InterfaceConnection = {
 		progressBar: {
 
 			_displayProgressBar: function () {
-				document.querySelector('#progress-bar-mb').style.width = '0%';
+				document.querySelector('#progress-bar-serial').style.width = '0%';
 				document.querySelector('#global-overlay').style.display = 'flex';
 				document.querySelector('#progress-bar-container').style.display = 'flex';
 			},
@@ -561,11 +620,11 @@ const InterfaceConnection = {
 			_hideProgressBar: function () {
 				document.querySelector('#progress-bar-container').style.display = 'none';
 				document.querySelector('#global-overlay').style.display = 'none';
-				document.querySelector('#progress-bar-mb').style.width = '0%';
+				document.querySelector('#progress-bar-serial').style.width = '0%';
 			},
 
 			_updateProgressBar: function (percentage) {
-				const progressBarElt = document.querySelector('#progress-bar-mb');
+				const progressBarElt = document.querySelector('#progress-bar-serial');
 				progressBarElt.textContent = `${percentage}%`;
 				getComputedStyle(progressBarElt).width;
 				progressBarElt.style.width = `${percentage}%`;

@@ -75,6 +75,17 @@ Blockly.Python.display_addOledText = function (block) {
     }
 };
 
+Blockly.Python.display_drawOledLine = function (block) {
+    const pin = block.getFieldValue("PIN");
+    const xa = Blockly.Python.valueToCode(block, "XA", Blockly.Python.ORDER_NONE) || "0";
+    const ya = Blockly.Python.valueToCode(block, "YA", Blockly.Python.ORDER_NONE) || "0";
+    const xb = Blockly.Python.valueToCode(block, "XB", Blockly.Python.ORDER_NONE) || "0";
+    const yb = Blockly.Python.valueToCode(block, "YB", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.addImport('ssd1306', IMPORT_ESP32_SSD1306_I2C);
+    Blockly.Python.addInit('oled', `oled = SSD1306_I2C(128, 64, ${Blockly.Python.Generators.I2C(pin)})`);
+    return "oled.line(" + xa + ", " + ya + ", " + xb + ", " + yb + ", 1)" + NEWLINE + "oled.show()" + NEWLINE;
+};
+
 Blockly.Python.display_setOledPixel = function (block) {
     const pin = block.getFieldValue("PIN");
     const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";

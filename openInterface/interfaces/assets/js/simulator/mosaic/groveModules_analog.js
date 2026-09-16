@@ -55,7 +55,7 @@ Simulator.Mosaic.grove_analog = {
     definitions: [
         {
             id: "potentiometer",
-            title: "Potentiomètre",
+            get title() { return i18next.t('code.simulator.modules.potentiometer') },
             pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
@@ -74,7 +74,7 @@ Simulator.Mosaic.grove_analog = {
         },
         {
             id: "groveForce",
-            title: "Capteur de force",
+            get title() { return i18next.t('code.simulator.modules.groveForce') },
             pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
@@ -93,7 +93,7 @@ Simulator.Mosaic.grove_analog = {
         },
         {
             id: "groveVoltageDivider",
-            title: "Diviseur de tension",
+            get title() { return i18next.t('code.simulator.modules.groveVoltageDivider') },
             pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
@@ -112,7 +112,7 @@ Simulator.Mosaic.grove_analog = {
         },
         {
             id: "joystick",
-            title: "Joystick",
+            get title() { return i18next.t('code.simulator.modules.joystick') },
             pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
@@ -125,7 +125,7 @@ Simulator.Mosaic.grove_analog = {
         },
         {
             id: "multichannelV2",
-            title: "Capteur de gas : ",
+            get title() { return i18next.t('code.simulator.modules.multichannelV2') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -162,7 +162,7 @@ Simulator.Mosaic.grove_analog = {
         },
         {
             id: "dioxygen",
-            title: "Capteur de dioxygène",
+            get title() { return i18next.t('code.simulator.modules.dioxygen') },
             pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
@@ -184,7 +184,7 @@ Simulator.Mosaic.grove_analog = {
         },
         {
             id: "airQuality",
-            title: "Capteur de qualité de l'air",
+            get title() { return i18next.t('code.simulator.modules.airQuality') },
             pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
@@ -204,7 +204,7 @@ Simulator.Mosaic.grove_analog = {
         },
         {
             id: "groveMoisture",
-            title: "Capteur d'humidité du sol",
+            get title() { return i18next.t('code.simulator.modules.groveMoisture') },
             pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
@@ -223,7 +223,7 @@ Simulator.Mosaic.grove_analog = {
         },
         {
             id: "groveCapacitiveMoisture",
-            title: "Capteur d'humidité capacitif",
+            get title() { return i18next.t('code.simulator.modules.groveCapacitiveMoisture') },
             pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
@@ -242,7 +242,7 @@ Simulator.Mosaic.grove_analog = {
         },
         {
             id: "groveTemp",
-            title: "Capteur de temp. : ",
+            get title() { return i18next.t('code.simulator.modules.groveTemp') },
             pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
@@ -279,7 +279,7 @@ Simulator.Mosaic.grove_analog = {
         },
         {
             id: "highTemp-thmc",
-            title: "H. Temp. - T° mesurée",
+            get title() { return i18next.t('code.simulator.modules.highTemp-thmc') },
             pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
@@ -303,7 +303,7 @@ Simulator.Mosaic.grove_analog = {
         },
         {
             id: "highTemp-room",
-            title: "H. Temp. - T° ambiante",
+            get title() { return i18next.t('code.simulator.modules.highTemp-room') },
             pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
@@ -325,7 +325,7 @@ Simulator.Mosaic.grove_analog = {
         },
         {
             id: "mq135",
-            title: "MQ135 - CO2",
+            get title() { return i18next.t('code.simulator.modules.mq135') },
             pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
@@ -346,7 +346,7 @@ Simulator.Mosaic.grove_analog = {
         },
         {
             id: "groveWater",
-            title: "Capteur d'eau",
+            get title() { return i18next.t('code.simulator.modules.groveWater') },
             pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
@@ -365,7 +365,7 @@ Simulator.Mosaic.grove_analog = {
         },
         {
             id: "mpx5700",
-            title: "MPX5700 - Pression",
+            get title() { return i18next.t('code.simulator.modules.mpx5700') },
             pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
@@ -384,7 +384,7 @@ Simulator.Mosaic.grove_analog = {
         },
         {
             id: "groveLight",
-            title: "Capteur de luminosité",
+            get title() { return i18next.t('code.simulator.modules.groveLight') },
             pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
@@ -404,7 +404,7 @@ Simulator.Mosaic.grove_analog = {
         },
         {
             id: "groveUV",
-            title: "Capteur d'indice ultraviolet",
+            get title() { return i18next.t('code.simulator.modules.groveUV') },
             pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
@@ -424,7 +424,7 @@ Simulator.Mosaic.grove_analog = {
         },
         {
             id: "groveSound",
-            title: "Capteur de son",
+            get title() { return i18next.t('code.simulator.modules.groveSound') },
             pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
@@ -443,7 +443,7 @@ Simulator.Mosaic.grove_analog = {
         },
         {
             id: "grovePulse",
-            title: "Capteur de Pouls",
+            get title() { return i18next.t('code.simulator.modules.grovePulse') },
             pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',

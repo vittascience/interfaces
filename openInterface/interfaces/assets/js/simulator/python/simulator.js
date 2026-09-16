@@ -11,7 +11,6 @@ const Simulator = {
 	startTime: 0,
 	serialData: '',
 	dropdownOptions: {},
-	intervals: {},
 	Behaviours: {},
 	CodeFriendly: {},
 	PATH_LIB: _PATH + `/${INTERFACE_NAME}/assets/js/simulator/src/`,
@@ -315,7 +314,7 @@ const Simulator = {
 						}, 50);
 					});
 				}
-				if (Simulator.has3DRobotSimulator()) {
+				if (Simulator._has3DRobotSimulator()) {
 					await new Promise((r) => setTimeout(r, 5)); // Allow a short pause to avoid overloading the cpu (to adjust if needed) 
 				}
 				return Promise.resolve(susp.resume());

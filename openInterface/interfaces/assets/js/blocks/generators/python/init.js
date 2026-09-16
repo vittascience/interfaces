@@ -147,6 +147,11 @@ Blockly.Python.init = function (workspace) {
     Blockly.Python.htmlImages_ = Object.create(null);
   }
 
+  if (["arduinoq"].includes(INTERFACE_NAME)) {
+    // Create a dictionary of html id and its image data.
+    Blockly.Python.uploadedImages_ = Object.create(null);
+  }
+
   if (!Blockly.Python.nameDB_) {
     Blockly.Python.nameDB_ = new Blockly.Names(Blockly.Python.RESERVED_WORDS_);
   } else {
@@ -214,6 +219,9 @@ Blockly.Python.finish = function (userLoop) {
     delete Blockly.Python.htmlSpans_;
     delete Blockly.Python.htmlGauges_;
     delete Blockly.Python.htmlImages_;
+  }
+  if (["arduinoq"].includes(INTERFACE_NAME)) {
+    delete Blockly.Python.uploadedImages_;
   }
   Blockly.Python.nameDB_.reset();
   const replace_n = (code) => code.replace(/\n\n+/g, '\n\n').replace(/\n*$/, '\n\n');
@@ -486,6 +494,30 @@ Blockly.Python.getAdjustedInt = function (block, atId, opt_delta, opt_negate) {
     }
   }
   return at;
+};
+
+/**
+ * Get the c++ type string by defined types in Blockly.Types
+ * @param {Blockly.Type} type
+ * @return {String} c++ type
+ */
+Blockly.Python.getPythonType_ = function (type) {
+  switch (type) {
+    case Blockly.Types.TEXT:
+      return "str";
+    case Blockly.Types.BOOLEAN:
+      return "bool";
+    case Blockly.Types.NUMBER:
+      return "int";
+    case Blockly.Types.LARGE_NUMBER:
+      return "long";
+    case Blockly.Types.DECIMAL:
+      return "float";
+    case Blockly.Types.NULL:
+      return "None";
+    default:
+      return "invalidBlocklyType"
+  }
 };
 
 /**

@@ -316,6 +316,33 @@ Blockly.Python.robots_alvik_set_servo_positions = function (block) {
 };
 
 // LEDS
+
+Blockly.Python.robots_alvik_set_color = function (block) {
+    Blockly.Python.initialize_alvik();
+    const color = block.getFieldValue('COLOR');
+    const led = block.getFieldValue('LED');
+    switch (color) {
+        case 'red':
+            return `alvik.${led}.set_color(1, 0, 0)` + NEWLINE;
+        case 'green':
+            return `alvik.${led}.set_color(0, 1, 0)` + NEWLINE;
+        case 'blue':
+            return `alvik.${led}.set_color(0, 0, 1)` + NEWLINE;
+        case 'yellow':
+            return `alvik.${led}.set_color(1, 1, 0)` + NEWLINE;
+        case 'magenta':
+            return `alvik.${led}.set_color(1, 0, 1)` + NEWLINE;
+        case 'cyan':
+            return `alvik.${led}.set_color(0, 1, 1)` + NEWLINE;
+        case 'white':
+            return `alvik.${led}.set_color(1, 1, 1)` + NEWLINE;
+        case 'off':
+            return `alvik.${led}.set_color(0, 0, 0)` + NEWLINE;
+         default:
+            return `alvik.${led}.set_color(0, 0, 0)` + NEWLINE;
+    }
+};
+
 Blockly.Python.robots_alvik_set_builtin_led = function (block) {
     Blockly.Python.initialize_alvik();
     const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";

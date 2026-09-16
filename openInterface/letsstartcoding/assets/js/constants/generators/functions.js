@@ -27,6 +27,18 @@ DEF_MATH_IS_PRIME:
   return true;
 }`,
 
+  /**
+   * Return the rounding of a float value with n digits
+   * @param {float} val
+   * @param {int} n
+   * @return {float}
+   */
+  DEF_MATH_ROUND_FLOAT:
+`float roundFloat(float val, int n) {
+  float factor = pow(10, n);
+  return round(val * factor) / factor;
+}`,
+
 // Text blocks
 
 /**

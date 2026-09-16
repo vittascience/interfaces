@@ -110,6 +110,16 @@ Blockly.Python.io_stopPwm = function (block) {
     return pwmName + ".stop()" + NEWLINE;
 };
 
+Blockly.Python.io_setPinMode = function (block) {
+    const pin = block.getFieldValue("PIN");
+    const mode = block.getFieldValue("MODE");
+    if (mode == "OUTPUT") {
+        return "GPIO.setup(" + pin + ", GPIO.OUT)" + NEWLINE;
+    } else {
+        return "GPIO.setup(" + pin + ", GPIO.IN, pull_up_down=GPIO." + mode + ")" + NEWLINE;
+    }
+};
+
 // External modules
 
 Blockly.Python.io_getGroveButton = function (block) {

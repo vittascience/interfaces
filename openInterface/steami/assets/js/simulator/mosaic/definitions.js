@@ -1,5 +1,5 @@
 Simulator.Mosaic.BOARD_HEADER =
-    `<object id="board-viewer" type="image/svg+xml"></object>
+    `<object id="board-viewer" type="image/svg+xml" role="img" aria-labelledby="title-board"></object>
 <canvas class="canvas-steami-screen" width='128' height='128'></canvas>`;
 
 Simulator.Mosaic.pin_regex = /P[0-9]{1,2}/;

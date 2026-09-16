@@ -20,15 +20,16 @@ const TOOLBOX_STYLE_SCRATCH = "scratch";
 const TOOLBOX_STYLE_DEFAULT = TOOLBOX_STYLE_VITTA;
 //board
 const BOARD_PI_PICO = "basic-pico";
+//shield
 const BOARD_SHIELD_GROVE = "shield-grove";
-const BOARD_DEFAULT = BOARD_SHIELD_GROVE;
+const BOARD_DEFAULT = BOARD_PI_PICO;
 //standalone_blocks
 const BLOCKS_OUTSIDE_SCOPE = [
-    "on_start", "forever", 
-    "process_on_start_core1", 
-    "scratch_on_start", 
-    "procedures_defnoreturn", 
-    "procedures_defreturn", 
+    "on_start", "forever",
+    "process_on_start_core1",
+    "scratch_on_start",
+    "procedures_defnoreturn",
+    "procedures_defreturn",
     "network_mqtt_onMessageReceived",
     "network_mqtt_onConnect",
     "network_mqtt_onDisconnect"
@@ -40,13 +41,17 @@ const READ_ANALOG_MAX_VALUE = 65535;
 const PWM_MAX_DUTY = 65535;
 //libraries
 const LIBRARIES_PATH = {
-    'PicoAutonomousRobotics' : "/kitronik"
+    'PicoAutonomousRobotics': "/kitronik"
 };
 //simulator
 const INTERFACE_BOARDS = {
     [BOARD_PI_PICO]: {
+        "id": BOARD_PI_PICO,
         "link": 'raspberry_pi_pico.svg',
-        "name": 'Raspberry Pi Pico'
+        "name": 'Raspberry Pi Pico',
+        "shieldId": BOARD_SHIELD_GROVE,
+        "shieldLink": 'pico_grove_shield.svg',
+        "shieldName": "Shield Grove"
     },
     [BOARD_SHIELD_GROVE]: {
         "link": 'pico_grove_shield.svg',
@@ -56,11 +61,16 @@ const INTERFACE_BOARDS = {
 const SIMULATOR_DEFAULT_BOARD = INTERFACE_BOARDS[BOARD_DEFAULT];
 const SIMULATOR_DEFAULT_ROBOT = 'Kitronik';
 //serial
-const SERIAL_PRODUCTS = {
-    'pico': {
-        usbProductId: 0x05,
-        usbVendorId: 0x2E8A
+const SERIAL_OPTIONS = {
+    chunkSizes: {
+        readingDelayPerKiB: {
+            'default': 120 // ms (reduced compared to default ESP32)
+        }
+    },
+    boardsFilter: [
+        { usbVendorId: 0x2E8A, usbProductId: 0x05 }  // rp2
+    ],
+    variablesGetterTimeout: {
+        'default': 100 // ms
     }
 };
-const SERIAL_PRODUCT_FILTER = true;
-const SERIAL_CHUNK_SIZE = 4095;

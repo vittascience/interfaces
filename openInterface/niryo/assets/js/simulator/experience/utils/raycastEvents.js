@@ -33,17 +33,17 @@ export default class RaycastModel {
 			this.restoreMaterial(this.actualGroup); // Restore previous group's material
 		}
 		this.actualGroup = group;
-		
+
 		const newMaterial = new THREE.MeshStandardMaterial();
 		newMaterial.color = new THREE.Color(0xd145ed);
 		newMaterial.emissive = new THREE.Color(0xd145ed);
 		newMaterial.emissiveIntensity = 2;
 		newMaterial.transparent = true;
 		newMaterial.opacity = 0.80;
-        newMaterial.side = THREE.DoubleSide;
-        newMaterial.castShadow = true;
-		
-		
+		newMaterial.side = THREE.DoubleSide;
+		newMaterial.castShadow = true;
+
+
 		this.meshesByGroup[group].meshes.forEach((mesh) => {
 			console.log('group', group);
 			this.savedMaterial.push({ mesh, material: mesh.material });
@@ -62,7 +62,7 @@ export default class RaycastModel {
 
 	async handleClick() {
 		if (this.actualGroup && !this.groupedLocked) {
-			
+
 			document.body.style.cursor = 'default';
 			this.groupedLocked = true;
 			this.experience3D.openOverlayMovement(this.jointGroups[this.actualGroup]);
@@ -74,12 +74,12 @@ export default class RaycastModel {
 		const pointer = new THREE.Vector2();
 
 		const groups = {
-			joint1Group: { names: 'joint1Group', patterns: ["shoulder_link"], sliderId: "slider-j1"},
-			joint2Group: { names: 'joint2Group', patterns: ["arm_link"], sliderId: "slider-j2"},
-			joint3Group: { names: 'joint3Group', patterns: ["joint_3"], sliderId: "slider-j3"},
-			joint4Group: { names: 'joint4Group', patterns: ["forearm_link"], sliderId: "slider-j4"},
-			joint5Group: { names: 'joint5Group', patterns: ["wrist_link"], sliderId: "slider-j5"},
-			joint6Group: { names: 'joint6Group', patterns: ["joint_6"], sliderId: "slider-j6"},
+			joint1Group: { names: 'joint1Group', patterns: ["shoulder_link"], sliderId: "slider-j1" },
+			joint2Group: { names: 'joint2Group', patterns: ["arm_link"], sliderId: "slider-j2" },
+			joint3Group: { names: 'joint3Group', patterns: ["joint_3"], sliderId: "slider-j3" },
+			joint4Group: { names: 'joint4Group', patterns: ["forearm_link"], sliderId: "slider-j4" },
+			joint5Group: { names: 'joint5Group', patterns: ["wrist_link"], sliderId: "slider-j5" },
+			joint6Group: { names: 'joint6Group', patterns: ["joint_6"], sliderId: "slider-j6" },
 		};
 
 		this.jointGroups = groups
@@ -116,8 +116,8 @@ export default class RaycastModel {
 		const closeMovementButton = document.getElementById('close-movements-button');
 		closeMovementButton.addEventListener('click', () => {
 			this.restoreMaterial(this.actualGroup);
-            const jointGroupElement = document.getElementById(this.actualGroup);
-            jointGroupElement.classList.toggle('active-joints-group');
+			const jointGroupElement = document.getElementById(this.actualGroup);
+			jointGroupElement.classList.toggle('active-joints-group');
 			this.actualGroup = null;
 			const overlayMovement = document.getElementById('movements-overlay');
 			overlayMovement.classList.toggle('active-overlay-button');
@@ -127,6 +127,7 @@ export default class RaycastModel {
 		const experience3D = document.querySelector('.experience3D');
 		experience3D.addEventListener('mousedown', this.handleClick.bind(this));
 		window.addEventListener('resize', () => {
+			const canvasElement = document.querySelector('.experience3D canvas');
 			this.rect = canvasElement.getBoundingClientRect();
 		});
 	}

@@ -1246,88 +1246,490 @@ const LIBRARIES_H = {
         load: function (rt) {
             const Font_t = rt.newClass("Font", []);
             rt.defVar("Font_5x7", Font_t, rt.val(Font_t, ALPHABET_5X7));
-            rt.defVar("SCROLL_LEFT", rt.unsignedintTypeLiteral, rt.val(rt.unsignedintTypeLiteral, 1));
+
+            rt.defVar("SCROLL_LEFT", rt.unsignedintTypeLiteral, rt.val(rt.unsignedintTypeLiteral, 0));
+            rt.defVar("SCROLL_RIGHT", rt.unsignedintTypeLiteral, rt.val(rt.unsignedintTypeLiteral, 1));
 
             const ArduinoGraphics_t = rt.newClass("ArduinoGraphics", [], ["Print"]);
 
-        }
-    },
-    "Arduino_LED_Matrix.h": {
-        load: function (rt) {
-            const ArduinoLEDMatrix_t = rt.newClass("ArduinoLEDMatrix", [], ["ArduinoGraphics"]);
-            const Font_5x7 = rt.readVar('Font_5x7');
+            rt.regFunc(function (rt, _this) {
+                return rt.val(rt.intTypeLiteral, _this.width || 0);
+            }, ArduinoGraphics_t, "width", [], rt.intTypeLiteral);
 
-            function setLED(x, y, state) {
-                const boardSvg = document.getElementById("board-viewer").contentDocument;
-                if (boardSvg !== null) {
-                    const ledId = `#led${y + 1}-${x + 1}_on`;
-                    const led = boardSvg.querySelector(ledId);
-                    if (state) {
-                        led.style.display = 'block';
-                    } else {
-                        led.style.display = 'none';
-                    }
+            rt.regFunc(function (rt, _this) {
+                return rt.val(rt.intTypeLiteral, _this.height || 0);
+            }, ArduinoGraphics_t, "height", [], rt.intTypeLiteral);
+
+            rt.regFunc(function (rt, _this) {
+                _this._drawing = true;
+
+                if (_this._beginDraw) {
+                    _this._beginDraw();
                 }
-            };
+            }, ArduinoGraphics_t, "beginDraw", [], rt.voidTypeLiteral);
 
             rt.regFunc(function (rt, _this) {
-                _this.stroke = 0;
-                _this.matrix = Array.from({ length: 8 }, () => Array(12).fill(_this.stroke));
-            }, ArduinoLEDMatrix_t, "begin", [], rt.voidTypeLiteral);
+                _this._drawing = false;
 
-            rt.regFunc(function (rt, _this) {
-            }, ArduinoLEDMatrix_t, "clear", [], rt.voidTypeLiteral);
+                if (_this._endDraw) {
+                    _this._endDraw();
+                }
+            }, ArduinoGraphics_t, "endDraw", [], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, r, g, b) {
+                _this.bg = { r: r.v, g: g.v, b: b.v };
+            }, ArduinoGraphics_t, "background", [
+                rt.unsignedcharTypeLiteral,
+                rt.unsignedcharTypeLiteral,
+                rt.unsignedcharTypeLiteral
+            ], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, luma) {
+                _this.bg = { r: luma.v, g: luma.v, b: luma.v };
+            }, ArduinoGraphics_t, "background", [rt.unsignedcharTypeLiteral], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, r, g, b) {
+                _this.stroke = { r: r.v, g: g.v, b: b.v, on: (r.v || g.v || b.v) ? 1 : 0 };
+            }, ArduinoGraphics_t, "stroke", [
+                rt.unsignedcharTypeLiteral,
+                rt.unsignedcharTypeLiteral,
+                rt.unsignedcharTypeLiteral
+            ], rt.voidTypeLiteral);
 
             rt.regFunc(function (rt, _this, value) {
-                _this.stroke = value.v;
-            }, ArduinoLEDMatrix_t, "stroke", [rt.doubleTypeLiteral], rt.voidTypeLiteral);
-
-            // Arduino Graphics functions
+                const c = value.v >>> 0;
+                const r = (c >> 16) & 0xff;
+                const g = (c >> 8) & 0xff;
+                const b = c & 0xff;
+                _this.stroke = { r, g, b, on: c ? 1 : 0 };
+            }, ArduinoGraphics_t, "stroke", [rt.intTypeLiteral], rt.voidTypeLiteral);
 
             rt.regFunc(function (rt, _this) {
-            }, ArduinoLEDMatrix_t, "beginDraw", [], rt.voidTypeLiteral);
+                _this.stroke = { r: 0, g: 0, b: 0, on: 0 };
+            }, ArduinoGraphics_t, "noStroke", [], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, r, g, b) {
+                _this.fill = { r: r.v, g: g.v, b: b.v, on: (r.v || g.v || b.v) ? 1 : 0 };
+            }, ArduinoGraphics_t, "fill", [
+                rt.unsignedcharTypeLiteral,
+                rt.unsignedcharTypeLiteral,
+                rt.unsignedcharTypeLiteral
+            ], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, luma) {
+                _this.fill = { r: luma.v, g: luma.v, b: luma.v, on: luma.v ? 1 : 0 };
+            }, ArduinoGraphics_t, "fill", [rt.unsignedcharTypeLiteral], rt.voidTypeLiteral);
 
             rt.regFunc(function (rt, _this) {
-                for (var y = 0; y < 8; y++) {
-                    for (var x = 0; x < 12; x++) {
-                        setLED(x, y, _this.matrix[y][x]);
+                _this.fill = { r: 0, g: 0, b: 0, on: 0 };
+            }, ArduinoGraphics_t, "noFill", [], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, x, y) {
+                const strokeOn = _this.stroke ? _this.stroke.on : 1;
+                if (_this.setPixel) _this.setPixel(x.v, y.v, strokeOn);
+            }, ArduinoGraphics_t, "point", [rt.intTypeLiteral, rt.intTypeLiteral], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, x1, y1, x2, y2) {
+                let ax = x1.v;
+                let ay = y1.v;
+                const bx = x2.v;
+                const by = y2.v;
+
+                const dx = Math.abs(bx - ax);
+                const sx = ax < bx ? 1 : -1;
+                const dy = -Math.abs(by - ay);
+                const sy = ay < by ? 1 : -1;
+                let err = dx + dy;
+
+                const strokeOn = _this.stroke ? _this.stroke.on : 1;
+
+                while (true) {
+                    if (_this.setPixel) _this.setPixel(ax, ay, strokeOn);
+                    if (ax === bx && ay === by) break;
+
+                    const e2 = 2 * err;
+                    if (e2 >= dy) {
+                        err += dy;
+                        ax += sx;
+                    }
+                    if (e2 <= dx) {
+                        err += dx;
+                        ay += sy;
                     }
                 }
-            }, ArduinoLEDMatrix_t, "endDraw", [], rt.voidTypeLiteral);
+            }, ArduinoGraphics_t, "line", [
+                rt.intTypeLiteral,
+                rt.intTypeLiteral,
+                rt.intTypeLiteral,
+                rt.intTypeLiteral
+            ], rt.voidTypeLiteral);
 
-            rt.regFunc(function (rt, _this, xx, yy) {
-                const point = {
-                    x: xx.v,
-                    y: yy.v
+            rt.regFunc(function (rt, _this, x, y, w, h) {
+                const x0 = x.v;
+                const y0 = y.v;
+                const x1 = x0 + w.v - 1;
+                const y1 = y0 + h.v - 1;
+
+                const strokeOn = _this.stroke ? _this.stroke.on : 1;
+                const fillOn = _this.fill ? _this.fill.on : 0;
+
+                for (let px = x0; px <= x1; px++) {
+                    for (let py = y0; py <= y1; py++) {
+                        const border = px === x0 || px === x1 || py === y0 || py === y1;
+                        const val = border ? strokeOn : fillOn;
+                        if (_this.setPixel && val) _this.setPixel(px, py, val);
+                    }
+                }
+            }, ArduinoGraphics_t, "rect", [
+                rt.intTypeLiteral,
+                rt.intTypeLiteral,
+                rt.intTypeLiteral,
+                rt.intTypeLiteral
+            ], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, cx, cy, diam) {
+                const strokeOn = _this.stroke ? _this.stroke.on : 1;
+                let r = Math.floor(diam.v / 2);
+                let x = 0;
+                let y = r;
+                let d = 3 - 2 * r;
+
+                const plot8 = (px, py) => {
+                    const points = [
+                        [px, py], [-px, py], [px, -py], [-px, -py],
+                        [py, px], [-py, px], [py, -px], [-py, -px]
+                    ];
+
+                    for (const [ox, oy] of points) {
+                        if (_this.setPixel) _this.setPixel(cx.v + ox, cy.v + oy, strokeOn);
+                    }
                 };
-                _this.matrix[point.y][point.x] = _this.stroke;
-            }, ArduinoLEDMatrix_t, "point", [rt.intTypeLiteral, rt.intTypeLiteral], rt.voidTypeLiteral);
 
-            rt.regFunc(function (rt, _this, speed) {
-                rt.raiseException("<b>textScrollSpeed()</b> from <b>ArduinoLEDMatrix</b> is not yet implemented.")
-                _this.speed = speed.v;
-            }, ArduinoLEDMatrix_t, "textScrollSpeed", [rt.intTypeLiteral], rt.voidTypeLiteral);
+                while (y >= x) {
+                    plot8(x, y);
+                    x++;
+
+                    if (d > 0) {
+                        y--;
+                        d += 4 * (x - y) + 10;
+                    } else {
+                        d += 4 * x + 6;
+                    }
+                }
+            }, ArduinoGraphics_t, "circle", [
+                rt.intTypeLiteral,
+                rt.intTypeLiteral,
+                rt.intTypeLiteral
+            ], rt.voidTypeLiteral);
 
             rt.regFunc(function (rt, _this, font) {
                 _this.font = font.v;
-            }, ArduinoLEDMatrix_t, "textFont", [Font_5x7.t], rt.voidTypeLiteral);
+            }, ArduinoGraphics_t, "textFont", [Font_t], rt.voidTypeLiteral);
 
-            rt.regFunc(function (rt, _this, param1, param2, stroke) {
-                _this.beginText = {
-                    param1: param1.v,
-                    param2: param2.v,
-                    stroke: stroke.v
+            rt.regFunc(function (rt, _this, speed) {
+                _this.scrollSpeed = speed.v;
+            }, ArduinoGraphics_t, "textScrollSpeed", [rt.intTypeLiteral], rt.voidTypeLiteral);
+
+            function beginTextColor32(rt, _this, x, y, color) {
+                const c = color.v >>> 0;
+
+                const r = (c >> 16) & 0xff;
+                const g = (c >> 8) & 0xff;
+                const b = c & 0xff;
+
+                _this.textCursor = { x: x.v, y: y.v };
+                _this.stroke = {
+                    r,
+                    g,
+                    b,
+                    on: c ? 1 : 0
                 };
-            }, ArduinoLEDMatrix_t, "beginText", [rt.intTypeLiteral, rt.intTypeLiteral, rt.unsignedintTypeLiteral], rt.voidTypeLiteral);
+                _this.textBuffer = "";
+            }
+
+            rt.regFunc(beginTextColor32, ArduinoGraphics_t, "beginText", [
+                rt.intTypeLiteral,
+                rt.intTypeLiteral,
+                rt.unsignedlongTypeLiteral
+            ], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, x, y, r, g, b) {
+                _this.textCursor = { x: x.v, y: y.v };
+                _this.stroke = {
+                    r: r.v,
+                    g: g.v,
+                    b: b.v,
+                    on: (r.v || g.v || b.v) ? 1 : 0
+                };
+                _this.textBuffer = "";
+            }, ArduinoGraphics_t, "beginText", [
+                rt.intTypeLiteral,
+                rt.intTypeLiteral,
+                rt.unsignedcharTypeLiteral,
+                rt.unsignedcharTypeLiteral,
+                rt.unsignedcharTypeLiteral
+            ], rt.voidTypeLiteral);
 
             rt.regFunc(function (rt, _this, direction) {
-                _this.direction = direction.v;
-            }, ArduinoLEDMatrix_t, "endText", [rt.unsignedintTypeLiteral], rt.voidTypeLiteral);
+                _this.textDirection = direction ? direction.v : 0;
+                _this._drawing = false;
+                if (_this.renderText) {
+                    _this.renderText();
+                }
+            }, ArduinoGraphics_t, "endText", [rt.unsignedintTypeLiteral], rt.voidTypeLiteral);
+
+            const graphicsWrite = function (rt, _this, data) {
+                let string = "";
+
+                if (rt.isCharType && rt.isCharType(data.t)) {
+                    string = String.fromCharCode(data.v);
+                } else if (rt.isStringType && rt.isStringType(data)) {
+                    string = rt.charArray_getJSString(data);
+                } else if (rt.isStringClass && rt.isStringClass(data)) {
+                    string = rt.String_getJSString(data);
+                } else if (data && data.v !== undefined) {
+                    string = String.fromCharCode(data.v & 0xff);
+                } else {
+                    string = String(data);
+                }
+
+                string = string.replace(/[\r\n]/g, "");
+
+                _this.textBuffer = (_this.textBuffer || "") + string;
+                return rt.val(rt.intTypeLiteral, string.length);
+            };
+
+            rt.regFunc(graphicsWrite, ArduinoGraphics_t, "write", ["?"], rt.intTypeLiteral);
+        }
+    },
+
+    "Arduino_LED_Matrix.h": {
+        load: function (rt) {
+            rt.include("ArduinoGraphics.h");
+
+            const ArduinoLEDMatrix_t = rt.newClass("ArduinoLEDMatrix", [], ["ArduinoGraphics"]);
+
+            const COLS = 12;
+            const ROWS = 8;
+
+            function createMatrix() {
+                return Array.from({ length: ROWS }, () => new Array(COLS).fill(0));
+            }
+
+            function setLED(x, y, state) {
+                const boardSvg = document.getElementById("board-viewer");
+                if (!boardSvg) return;
+
+                const doc = boardSvg.contentDocument;
+                if (!doc) return;
+
+                const led = doc.querySelector(`#led${y + 1}-${x + 1}_on`);
+                if (!led) return;
+
+                led.style.display = state ? "block" : "none";
+            }
+
+            function flushMatrix(matrix) {
+                if (!matrix) return;
+
+                for (let y = 0; y < ROWS; y++) {
+                    for (let x = 0; x < COLS; x++) {
+                        setLED(x, y, matrix[y][x]);
+                    }
+                }
+            }
+
+            function readUint32(rt, ptr, index) {
+                if (!ptr || !ptr.v) return 0;
+
+                const target = ptr.v.target;
+                const position = ptr.v.position || 0;
+
+                if (!target) return 0;
+
+                const elem = target[position + index];
+                return elem ? (elem.v >>> 0) : 0;
+            }
+
+            function ensureInitialized(_this) {
+                _this.width = COLS;
+                _this.height = ROWS;
+
+                if (!_this.matrix) {
+                    _this.matrix = createMatrix();
+                }
+
+                if (!_this.stroke) {
+                    _this.stroke = { r: 1, g: 1, b: 1, on: 1 };
+                }
+
+                if (!_this.fill) {
+                    _this.fill = { r: 0, g: 0, b: 0, on: 0 };
+                }
+
+                if (!_this.textBuffer) {
+                    _this.textBuffer = "";
+                }
+
+                if (!_this.textCursor) {
+                    _this.textCursor = { x: 0, y: 1 };
+                }
+
+                if (!_this.scrollSpeed) {
+                    _this.scrollSpeed = 100;
+                }
+
+                _this.setPixel = function (x, y, val) {
+                    if (!_this.matrix) _this.matrix = createMatrix();
+
+                    if (x >= 0 && x < COLS && y >= 0 && y < ROWS) {
+                        _this.matrix[y][x] = val ? 1 : 0;
+                    }
+                };
+
+                _this.renderText = function () {
+                    if (!_this.matrix) _this.matrix = createMatrix();
+
+                    const text = _this.textBuffer || "";
+                    const strokeOn = _this.stroke ? _this.stroke.on : 1;
+                    const curY = (_this.textCursor ? _this.textCursor.y : 1) - 1;
+                    const direction = _this.textDirection || 0;
+                    const speed = _this.scrollSpeed || 100;
+                    const font = _this.font || ALPHABET_5X7;
+
+                    function clearInternal() {
+                        for (let y = 0; y < ROWS; y++) {
+                            _this.matrix[y].fill(0);
+                        }
+                    }
+
+                    function drawTextAt(offsetX) {
+                        clearInternal();
+
+                        let px = offsetX;
+
+                        for (let ci = 0; ci < text.length; ci++) {
+                            const ch = text[ci];
+                            const glyph = font[ch] || ALPHABET_5X7[ch];
+
+                            if (!glyph) {
+                                px += 6;
+                                continue;
+                            }
+
+                            for (let col = 0; col < glyph.length; col++) {
+                                const colBits = glyph[col];
+
+                                for (let row = 0; row < 8; row++) {
+                                    if (colBits & (1 << row)) {
+                                        const dx = px + col;
+                                        const dy = curY + row;
+
+                                        if (dx >= 0 && dx < COLS && dy >= 0 && dy < ROWS) {
+                                            _this.matrix[dy][dx] = strokeOn;
+                                        }
+                                    }
+                                }
+                            }
+
+                            px += glyph.length + 1;
+                        }
+
+                        flushMatrix(_this.matrix);
+                    }
+
+                    let totalWidth = 0;
+
+                    for (let ci = 0; ci < text.length; ci++) {
+                        const ch = text[ci];
+                        const glyph = font[ch] || ALPHABET_5X7[ch];
+                        totalWidth += glyph ? glyph.length + 1 : 6;
+                    }
+
+                    if (Simulator.intervals['ledMatrixScroll']) {
+                        clearInterval(Simulator.intervals['ledMatrixScroll']);
+                        Simulator.intervals['ledMatrixScroll'] = null;
+                    }
+
+                    if (direction === 0) { // SCROLL_LEFT
+                        let offset = COLS;
+
+                        Simulator.intervals['ledMatrixScroll'] = setInterval(function () {
+                            drawTextAt(offset);
+                            offset--;
+
+                            if (offset < -totalWidth) {
+                                clearInterval(Simulator.intervals['ledMatrixScroll']);
+                                Simulator.intervals['ledMatrixScroll'] = null;
+
+                                clearInternal();
+                                flushMatrix(_this.matrix);
+                            }
+                        }, speed);
+                    } else {
+                        drawTextAt(0);
+                    }
+                };
+
+                _this._beginDraw = function () {
+                    ensureInitialized(_this);
+                };
+
+                _this._endDraw = function () {
+                    ensureInitialized(_this);
+                    flushMatrix(_this.matrix);
+                };
+            }
+
+            rt.regFunc(function (rt, _this) {
+                ensureInitialized(_this);
+
+                _this._drawing = false;
+
+                for (let y = 0; y < ROWS; y++) {
+                    _this.matrix[y].fill(0);
+                }
+
+                flushMatrix(_this.matrix);
+            }, ArduinoLEDMatrix_t, "begin", [], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this) {
+                ensureInitialized(_this);
+
+                for (let y = 0; y < ROWS; y++) {
+                    _this.matrix[y].fill(0);
+                }
+
+                if (!_this._drawing) {
+                    flushMatrix(_this.matrix);
+                }
+            }, ArduinoLEDMatrix_t, "clear", [], rt.voidTypeLiteral);
 
             rt.regFunc(function (rt, _this, frame) {
-                rt.raiseException("<b>loadFrame()</b> from <b>ArduinoLEDMatrix</b> is not yet implemented.")
-            }, ArduinoLEDMatrix_t, "loadFrame", [rt.arrayPointerType(rt.unsignedintTypeLiteral)], rt.voidTypeLiteral);
+                ensureInitialized(_this);
 
+                const w0 = readUint32(rt, frame, 0);
+                const w1 = readUint32(rt, frame, 1);
+                const w2 = readUint32(rt, frame, 2);
+
+                const bits = new Array(96);
+
+                for (let i = 0; i < 32; i++) bits[i] = (w0 >>> (31 - i)) & 1;
+                for (let i = 0; i < 32; i++) bits[32 + i] = (w1 >>> (31 - i)) & 1;
+                for (let i = 0; i < 32; i++) bits[64 + i] = (w2 >>> (31 - i)) & 1;
+
+                for (let row = 0; row < ROWS; row++) {
+                    for (let col = 0; col < COLS; col++) {
+                        _this.matrix[row][col] = bits[row * COLS + col];
+                    }
+                }
+
+                if (!_this._drawing) {
+                    flushMatrix(_this.matrix);
+                }
+            }, ArduinoLEDMatrix_t, "loadFrame", [
+                rt.arrayPointerType(rt.unsignedintTypeLiteral)
+            ], rt.voidTypeLiteral);
         }
     },
     "WiFi.h": {
@@ -1367,7 +1769,7 @@ const LIBRARIES_H = {
                     members: { a: val(192), b: val(168), c: val(1), d: val(10) }
                 });
                 return _this.v.members._status;
-            }, WiFi_t, "begin", ["?"], rt.voidTypeLiteral);
+            }, WiFi_t, "begin", ["?"], rt.intTypeLiteral);
 
             rt.regFunc(function (rt, _this) {
                 return _this.v.members._ssid;
@@ -1382,6 +1784,21 @@ const LIBRARIES_H = {
             }, WiFi_t, "RSSI", [], rt.longTypeLiteral);
 
             rt.readVar('WiFi').v.members._status = rt.readVar("WL_IDLE_STATUS");
+
+            rt.regFunc(function (rt, _this, ip, dns) {
+                _this.v.members._ip = ip;
+            }, WiFi_t, "config", [IPAddress_t, IPAddress_t], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, ip, dns, gateway) {
+                _this.v.members._ip = ip;
+                _this.v.members._gateway = gateway;
+            }, WiFi_t, "config", [IPAddress_t, IPAddress_t, IPAddress_t], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, ip, dns, gateway, subnet) {
+                _this.v.members._ip = ip;
+                _this.v.members._gateway = gateway;
+                _this.v.members._subnet = subnet;
+            }, WiFi_t, "config", [IPAddress_t, IPAddress_t, IPAddress_t, IPAddress_t], rt.voidTypeLiteral);
         }
     },
     "WiFiTypes.h": {
@@ -1446,6 +1863,18 @@ const LIBRARIES_H = {
             };
             rt.regFunc(toStringCPP, IPAddress_t, "toStringCPP", [], rt.String_t);
 
+            rt.regFunc(function (rt, _this, str) {
+                const parts = rt.String_getJSString(str).split('.').map(v => parseInt(v));
+                if (parts.length === 4 && parts.every(v => !isNaN(v))) {
+                    _this.v.members.a = val(parts[0]);
+                    _this.v.members.b = val(parts[1]);
+                    _this.v.members.c = val(parts[2]);
+                    _this.v.members.d = val(parts[3]);
+                    return rt.val(rt.boolTypeLiteral, true);
+                }
+                return rt.val(rt.boolTypeLiteral, false);
+            }, IPAddress_t, "fromString", [rt.String_t], rt.boolTypeLiteral);
+
             rt.regFunc(function (rt, _this, index) {
                 switch (index.v) {
                     case 0: return _this.v.members.a;
@@ -1456,13 +1885,12 @@ const LIBRARIES_H = {
                 }
             }, IPAddress_t, "o([])", [rt.unsignedintTypeLiteral], rt.unsignedcharTypeLiteral);
 
-            rt.regFunc(function (rt, ip1, ip2) {
-                const isEqual = (ip1.v.members.a.v == ip2.v.members.a.v)
-                    && (ip1.v.members.b.v == ip2.v.members.b.v)
-                    && (ip1.v.members.c.v == ip2.v.members.c.v)
-                    && (ip1.v.members.d.v == ip2.v.members.d.v);
+            rt.regFunc(function (rt, _this, other) {
+                const a = _this.v.members;
+                const b = other.v.members;
+                const isEqual = a.a.v === b.a.v && a.b.v === b.b.v && a.c.v === b.c.v && a.d.v === b.d.v;
                 return rt.val(rt.boolTypeLiteral, isEqual);
-            }, IPAddress_t, "o(==)", [IPAddress_t, IPAddress_t], rt.boolTypeLiteral);
+            }, IPAddress_t, "o(==)", [IPAddress_t], rt.boolTypeLiteral);
 
         }
     },
@@ -1643,6 +2071,8 @@ const LIBRARIES_H = {
     "Vittascience_Server.h": {
         load: function (rt) {
 
+            rt.include("ArduinoJson.h") // TO DO (temp)
+
             const COMMANDS = {
                 "CMD_RECEIVE_SIMPLE_DATA": rt.val(rt.unsignedcharTypeLiteral, 0),
                 "CMD_RECEIVE_SIMPLE_IP": rt.val(rt.unsignedcharTypeLiteral, 1),
@@ -1687,43 +2117,61 @@ const LIBRARIES_H = {
                 return rt.getFunc(WiFiClient_t, action, types)(rt, _this.v.members.client, ...args);
             };
 
+            const StaticJsonDocument_t = { name: "StaticJsonDocument", type: "class" };
+            const StaticJsonDocument = function (size) {
+                return rt.getFunc("global", "StaticJsonDocument", [rt.intTypeLiteral])(rt, {}, rt.val(rt.intTypeLiteral, size));
+            };
+
+            const DynamicJsonDocument_t = { name: "DynamicJsonDocument", type: "class" };
+            const DynamicJsonDocument = function (size) {
+                return rt.getFunc("global", "DynamicJsonDocument", [rt.intTypeLiteral])(rt, {}, rt.val(rt.intTypeLiteral, size));
+            };
+
             // Vittascience_Server constructor
             const Vittascience_Server_t = rt.newClass("Vittascience_Server", [{
                 type: WiFiServer_t,
                 name: "server",
-                initialize(rt, _this) { return WiFiServer(0) }
+                initialize(rt, _this) { return WiFiServer(0); }
             }, {
                 type: WiFiClient_t,
                 name: "client",
-                initialize(rt, _this) { return WiFiClient() }
+                initialize(rt, _this) { return WiFiClient(); }
             }, {
                 type: rt.String_t,
                 name: "client_ip",
-                initialize(rt, _this) { return rt.String_makeValueFromJSString("") }
+                initialize(rt, _this) { return rt.String_makeValueFromJSString(""); }
             }, {
                 type: rt.String_t,
                 name: "client_data",
-                initialize(rt, _this) { return rt.String_makeValueFromJSString("") }
+                initialize(rt, _this) { return rt.String_makeValueFromJSString(""); }
             }, {
                 type: rt.boolTypeLiteral,
                 name: "locked",
-                initialize(rt, _this) { return rt.val(rt.boolTypeLiteral, false) }
+                initialize(rt, _this) { return rt.val(rt.boolTypeLiteral, false); }
             }, {
                 type: rt.boolTypeLiteral,
                 name: "with_vars",
-                initialize(rt, _this) { return rt.val(rt.boolTypeLiteral, false) }
+                initialize(rt, _this) { return rt.val(rt.boolTypeLiteral, false); }
             }, {
                 type: rt.String_t,
                 name: "html_page",
-                initialize(rt, _this) { return rt.String_makeValueFromJSString("", true) }
+                initialize(rt, _this) { return rt.String_makeValueFromJSString("", true); }
             }, {
                 type: rt.arrayPointerType(rt.charTypeLiteral),
                 name: "_js",
-                initialize(rt, _this) { return rt.nullPointerValue }
+                initialize(rt, _this) { return rt.nullPointerValue; }
             }, {
                 type: rt.arrayPointerType(rt.charTypeLiteral),
                 name: "_css",
-                initialize(rt, _this) { return rt.nullPointerValue }
+                initialize(rt, _this) { return rt.nullPointerValue; }
+            }, {
+                type: StaticJsonDocument_t,
+                name: "web_data_DB",
+                initialize(rt, _this) { return StaticJsonDocument(2048); }
+            }, {
+                type: DynamicJsonDocument_t,
+                name: "_json_data_received",
+                initialize(rt, _this) { return DynamicJsonDocument(0); }
             }]);
 
             rt.regFunc(function (rt, _this, port) {
@@ -1739,7 +2187,9 @@ const LIBRARIES_H = {
                             with_vars: rt.val(rt.boolTypeLiteral, false),
                             html_page: rt.String_makeValueFromJSString(""),
                             _js: rt.nullPointerValue,
-                            _css: rt.nullPointerValue
+                            _css: rt.nullPointerValue,
+                            web_data_DB: StaticJsonDocument(2048),
+                            _json_data_received: DynamicJsonDocument(0)
                         }
                     },
                     left: false
@@ -1884,7 +2334,7 @@ const LIBRARIES_H = {
 
                         else if (client_data_indexOf("GET /requestVariables&") < 0 && client_data_indexOf("GET /") >= 0 && client_data_indexOf(" HTTP/") >= 0) {
 
-                            if (!_this.v.members.locked.locked && cmd == COMMANDS["CMD_RECEIVE_OBJ_VALUE"]) {
+                            if (!_this.v.members.locked.v && cmd == COMMANDS["CMD_RECEIVE_OBJ_VALUE"]) {
                                 let parts = client_data_split(_this, " HTTP");
                                 if (parts[0].length > 0 && parts[0].indexOf("=") >= 0) {
                                     parts = parts[0].split("GET /");
@@ -1892,7 +2342,7 @@ const LIBRARIES_H = {
                                     const id = parts[0];
                                     if (id.length > 0) {
                                         _this.v.members.locked.v = true;
-                                        _updateDBclientData(id, parts[1]);
+                                        _updateDBclientData(rt, _this, rt.String_makeValueFromJSString(id), rt.String_makeValueFromJSString(parts[1]));
                                         _sendHTTPSocket(rt, _this, rt.charArray_makeFromJSString("text"), rt.String_makeValueFromJSString("OK\n"));
                                     }
                                 }
@@ -1914,9 +2364,9 @@ const LIBRARIES_H = {
                             if (!_this.v.members.locked.v && (cmd == COMMANDS["CMD_SEND_SIMPLE_DATA"] || cmd == COMMANDS["CMD_RECEIVE_SIMPLE_DATA"])) {
 
                                 const isJson = client_data_indexOf('{') >= 0 && client_data_indexOf('}') >= 0 && client_data_indexOf(':') >= 0;
-                                if (isJson && _JSON_parse(rt.String_getJSString(_this.v.members.client_data.v))) {
-                                    rt.include("ArduinoJson.h"); // TO DO (temp)
-                                    // TO DO
+                                const jsonData = _JSON_parse(rt, _this, _this.v.members.client_data);
+                                if (isJson && jsonData.v) {                                    
+                                    const _json_data_received = _this.v.members._json_data_received.v.members._json;
                                     if (_json_data_received["cmd"] == COMMANDS["CMD_CLIENT_RECEIVER"]) {
                                         _this.v.members.client_data = rt.String_makeValueFromJSString("");
                                         if (cmd == COMMANDS["CMD_SEND_SIMPLE_DATA"] && Simulator.getStringFromInterpretor(data).length > 0) {
@@ -1924,10 +2374,11 @@ const LIBRARIES_H = {
                                             client_do(rt, _this, 'print', [data]);
                                         }
                                     } else if (_json_data_received["cmd"] == COMMANDS["CMD_CLIENT_TRANSMITTER"]) {
-                                        //_this.v.members.client_data.v = _json_data_received["data"].as < String > ();
+                                        _this.v.members.client_data = rt.String_makeValueFromJSString(_json_data_received["data"]);
                                         client_do(rt, _this, 'print', [rt.String_makeValueFromJSString("OK\n")]);
                                     }
-                                    //_json_data_received = DynamicJsonDocument(0);
+                                    delete _this.v.members._json_data_received;
+                                    _this.v.members._json_data_received = DynamicJsonDocument(0);
                                 };
                             }
                         }
@@ -1984,33 +2435,28 @@ const LIBRARIES_H = {
                 _this.v.members._css = code;
             }, Vittascience_Server_t, "setCSSFile", [rt.arrayPointerType(rt.charTypeLiteral)], rt.voidTypeLiteral);
 
-
             const _updateDBclientData = function (rt, _this, id, value) {
-                rt.include("ArduinoJson.h"); // TO DO (temp)
-                // if (web_data_DB.overflowed()) {
-                //     Serial.println(F("⚠️ ArduinoJson overflow: augmente StaticJsonDocument<...>"));
-                // }
-                // JsonObject DB_client = web_data_DB[client_ip].as < JsonObject > ();
-                // if (DB_client.isNull()) {
-                //     DB_client = web_data_DB[client_ip].to < JsonObject > ();
-                // }
-                // DB_client[id] = value;
+                const client_ip = rt.String_getJSString(_this.v.members.client_ip);
+                const key = rt.String_getJSString(id);
+                if (!_this.v.members.web_data_DB.v.members._json[client_ip]) {
+                    _this.v.members.web_data_DB.v.members._json[client_ip] = {};
+                }
+                _this.v.members.web_data_DB.v.members._json[client_ip][key] = rt.String_getJSString(value);
             };
             rt.regFunc(_updateDBclientData, Vittascience_Server_t, "_updateDBclientData", [rt.String_t, rt.String_t], rt.voidTypeLiteral);
 
             const getValueById = async function (rt, _this, id, defaultValue) {
                 await manageSocket(rt, _this, COMMANDS["CMD_RECEIVE_OBJ_VALUE"]);
                 if (rt.getFunc(rt.String_t, "length", [])(rt, _this.v.members.client_ip).v > 0) {
-                    rt.include("ArduinoJson.h") // TO DO (temp)
-                    // serializeJsonPretty(_this.v.members.web_data_DB.v, Serial);
-                    // JsonObject DB_client = web_data_DB[client_ip].as < JsonObject > ();
-                    // if (DB_client.isNull()) {
-                    //     DB_client = web_data_DB[client_ip].to < JsonObject > ();
-                    // }
-                    // if (!DB_client.containsKey(id)) {
-                    //     _updateDBclientData(id, String(defaultValue));
-                    // }
-                    // return DB_client[id].as < String > ();
+                    const client_ip = rt.String_getJSString(_this.v.members.client_ip);
+                    const key = rt.String_getJSString(id);
+                    if (!_this.v.members.web_data_DB.v.members._json[client_ip]) {
+                        _this.v.members.web_data_DB.v.members._json[client_ip] = {};
+                    }
+                    if (!(key in _this.v.members.web_data_DB.v.members._json[client_ip])) {
+                        _updateDBclientData(rt, _this, id, rt.String_makeValueFromJSString(String(defaultValue.v)));
+                    }
+                    return rt.String_makeValueFromJSString(_this.v.members.web_data_DB.v.members._json[client_ip][key]);
                 }
                 return rt.String_makeValueFromJSString("");
             };
@@ -2020,6 +2466,18 @@ const LIBRARIES_H = {
             };
             rt.regAsyncFunc(Susp_getValueById, getValueById);
             rt.regFunc(Susp_getValueById, Vittascience_Server_t, "getValueById", [rt.String_t, rt.intTypeLiteral], rt.String_t, [rt.intTypeLiteral]);
+
+            const sendVariables = async function (rt, _this, vars) {
+                const json = JSON.stringify(vars.v.members._json || {});
+                const data = rt.String_makeValueFromJSString(json);
+                await manageSocket(rt, _this, COMMANDS["CMD_SEND_VARIABLES"], data);
+            };
+
+            const Susp_sendVariables = function (rt, _this, vars) {
+                return rt.asyncToSuspension(sendVariables, [rt, _this, vars]);
+            };
+            rt.regAsyncFunc(Susp_sendVariables, sendVariables);
+            rt.regFunc(Susp_sendVariables, Vittascience_Server_t, "sendVariables", [StaticJsonDocument_t], rt.voidTypeLiteral);
 
             const mimeFromExt = function (rt, _this, ext) {
                 const pchar = rt.arrayPointerType(rt.charTypeLiteral);
@@ -2037,6 +2495,31 @@ const LIBRARIES_H = {
                 return rt.charArray_makeFromJSString("text/plain; charset=utf-8");
             };
             rt.regFunc(mimeFromExt, "global", "mimeFromExt", [rt.arrayPointerType(rt.charTypeLiteral)], rt.arrayPointerType(rt.charTypeLiteral));
+
+            const _JSON_parse = function (rt, _this, data) {
+                const str = rt.String_getJSString(data);
+                let len = str.length + 64;
+
+                for (let i = 0; i < 3; i++) {
+                    _this.v.members._json_data_received = DynamicJsonDocument(len);
+                    try {
+                        _this.v.members._json_data_received.v.members._json = JSON.parse(str);
+                        _this.v.members._json_data_received.v.members._overflowed = false;
+                        return rt.val(rt.boolTypeLiteral, true);
+                    } catch (e) {
+                        // Dans la simulation, on ne distingue pas vraiment NoMemory.
+                        // JSON invalide => échec direct.
+                        _this.v.members._json_data_received = DynamicJsonDocument(0);
+                        return rt.val(rt.boolTypeLiteral, false);
+                    }
+                    len = len * 2;
+                }
+
+                _this.v.members._json_data_received = DynamicJsonDocument(0);
+                return rt.val(rt.boolTypeLiteral, false);
+            };
+
+            rt.regFunc(_JSON_parse, Vittascience_Server_t, "_JSON_parse", [rt.String_t], rt.boolTypeLiteral);
         }
     },
     "WebPageScripts.h": {
@@ -2050,9 +2533,162 @@ const LIBRARIES_H = {
             rt.defVar("web_page_css", rt.arrayPointerType(rt.charTypeLiteral), rt.charArray_makeFromJSString(css));
         }
     },
-    "ArduinoJson.H": {
+    "ArduinoJson.h": {
         load: function (rt) {
-            // TO DO
+
+            const writeOutput = function (output, str) {
+                const buffer = rt.charArray_makeFromJSString(str);
+                try {
+                    return rt.getFunc(output.t, "print", [rt.arrayPointerType(rt.charTypeLiteral)])(rt, output, buffer);
+                } catch (e) {
+                    return rt.getFunc(output.t, "print", ['?'])(rt, output, buffer);
+                }
+            };
+
+            const serializeJson = function (rt, _this, doc, output) {
+                const str = JSON.stringify(doc.v.members._json ?? {});
+                return writeOutput(output, str);
+            };
+
+            const serializeJsonPretty = function (rt, _this, doc, output) {
+                const str = JSON.stringify(doc.v.members._json ?? {}, null, 2);
+                return writeOutput(output, str);
+            };
+
+            const deserializeJson = function (rt, _this, doc, input) {
+                try {
+                    const str = Simulator.getStringFromInterpretor(input);
+                    doc.v.members._json = JSON.parse(str);
+                    doc.v.members._overflowed = false;
+                    return rt.val(rt.intTypeLiteral, 0); // OK
+                } catch (e) {
+                    doc.v.members._json = {};
+                    doc.v.members._overflowed = false;
+                    return rt.val(rt.intTypeLiteral, 1); // erreur
+                }
+            };
+
+            const overflowed = function (rt, _this) {
+                return rt.val(rt.boolTypeLiteral, _this.v.members._overflowed ? 1 : 0);
+            };
+
+            /**  Declare type StaticJsonDocument_t */
+
+            const StaticJsonDocument_t = rt.newClass("StaticJsonDocument", [
+                {
+                    type: rt.intTypeLiteral,
+                    name: "_capacity",
+                    initialize(rt) {
+                        return rt.val(rt.intTypeLiteral, 0);
+                    }
+                }
+            ]);
+
+            rt.regFunc(function (rt, _this, capacity) {
+                return {
+                    t: StaticJsonDocument_t,
+                    v: {
+                        members: {
+                            _capacity: rt.val(rt.intTypeLiteral, capacity.v),
+                            _json: {},
+                            _overflowed: false
+                        }
+                    },
+                    left: false
+                };
+            }, "global", "StaticJsonDocument", [rt.intTypeLiteral], StaticJsonDocument_t);
+
+            // serializeJson(doc, output)
+            rt.regFunc(serializeJson, "global", "serializeJson", [StaticJsonDocument_t, '?'], rt.intTypeLiteral);
+            // serializeJsonPretty(doc, output)
+            rt.regFunc(serializeJsonPretty, "global", "serializeJsonPretty", [StaticJsonDocument_t, '?'], rt.intTypeLiteral);
+            // deserializeJson(doc, input)
+            rt.regFunc(deserializeJson, "global", "deserializeJson", [StaticJsonDocument_t, '?'], rt.intTypeLiteral);
+            rt.regFunc(overflowed, StaticJsonDocument_t, "overflowed", [], rt.boolTypeLiteral);
+
+            /**  Declare type DynamicJsonDocument_t */
+
+            const DynamicJsonDocument_t = rt.newClass("DynamicJsonDocument", [
+                {
+                    type: rt.intTypeLiteral,
+                    name: "_capacity",
+                    initialize(rt) {
+                        return rt.val(rt.intTypeLiteral, 0);
+                    }
+                }
+            ]);
+
+            rt.regFunc(function (rt, _this, capacity) {
+                return {
+                    t: DynamicJsonDocument_t,
+                    v: {
+                        members: {
+                            _capacity: rt.val(rt.intTypeLiteral, capacity.v),
+                            _json: {},
+                            _overflowed: false
+                        }
+                    },
+                    left: false
+                };
+            }, "global", "DynamicJsonDocument", [rt.intTypeLiteral], DynamicJsonDocument_t);
+
+            // serializeJson(doc, output)
+            rt.regFunc(serializeJson, "global", "serializeJson", [DynamicJsonDocument_t, '?'], rt.intTypeLiteral);
+            // serializeJsonPretty(doc, output)
+            rt.regFunc(serializeJsonPretty, "global", "serializeJsonPretty", [DynamicJsonDocument_t, '?'], rt.intTypeLiteral);
+            // deserializeJson(doc, input)
+            rt.regFunc(deserializeJson, "global", "deserializeJson", [DynamicJsonDocument_t, '?'], rt.intTypeLiteral);
+            rt.regFunc(overflowed, DynamicJsonDocument_t, "overflowed", [], rt.boolTypeLiteral);
+
+            /**  Declare type JsonObject_t */
+
+            const JsonObject_t = rt.newClass("JsonObject", []);
+
+            const makeJsonObject = function (target) {
+                return {
+                    t: JsonObject_t,
+                    v: {
+                        members: {
+                            _json: target || {}
+                        }
+                    },
+                    left: false
+                };
+            };
+
+            rt.regFunc(function (rt, _this) {
+                return makeJsonObject();
+            }, "global", "JsonObject", [], JsonObject_t);
+
+            rt.regFunc(function (rt, _this, doc, key) {
+                const k = rt.charArray_getJSString(key);
+                if (!doc.v.members._json[k]) {
+                    doc.v.members._json[k] = {};
+                }
+                return makeJsonObject(doc.v.members._json[k]);
+            }, "global", "jsonGetObject", [StaticJsonDocument_t, rt.arrayPointerType(rt.charTypeLiteral)], JsonObject_t);
+
+            rt.regFunc(function (rt, _this, doc, key, value) {
+                const k = rt.charArray_getJSString(key);
+                let v;
+                if (rt.isStringType(value)) {
+                    v = Simulator.getStringFromInterpretor(value);
+                } else {
+                    v = value.v;
+                }
+                doc.v.members._json[k] = v;
+            }, "global", "jsonObjectSet", [JsonObject_t, rt.arrayPointerType(rt.charTypeLiteral), '?'], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, doc, key) {
+                const k = rt.charArray_getJSString(key);
+                return rt.String_makeValueFromJSString(String(doc.v.members._json[k] ?? ""));
+            }, "global", "jsonGetString", [JsonObject_t, rt.arrayPointerType(rt.charTypeLiteral)], rt.String_t);
+
+            rt.regFunc(function (rt, _this, doc, key) {
+                const k = rt.charArray_getJSString(key);
+                return rt.val(rt.intTypeLiteral, parseInt(doc.v.members._json[k] ?? 0));
+            }, "global", "jsonGetInt", [JsonObject_t, rt.arrayPointerType(rt.charTypeLiteral)], rt.intTypeLiteral);
+
         }
     },
     "U8g2lib.h": {

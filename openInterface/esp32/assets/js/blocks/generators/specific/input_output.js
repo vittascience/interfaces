@@ -95,13 +95,6 @@ Blockly.Python.io_writePwm = function (block) {
         + '  ' + pinName + " = PWM(Pin(" + pin.replace('p', '') + "), freq=5000, duty=int(" + value + "))" + NEWLINE;
 };
 
-Blockly.Python.io_writeAnalogPin = function (block) {
-    const pin = block.getFieldValue("PIN") || Blockly.Constants.Pins.DAC[Blockly.Constants.getSelectedBoard()][0][1];
-    const value = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || "0";
-    Blockly.Python.addInit(pin + '_DAC', pin + " = DAC(Pin(" + pin.replace('p', '') + "))");
-    return pin + ".write(int(" + value + "))" + NEWLINE;
-};
-
 Blockly.Python.io_setPwm = function (block) {
     const pin = block.getFieldValue("PIN");
     const freq = Blockly.Python.valueToCode(block, "FREQUENCY", Blockly.Python.ORDER_NONE) || "0";
@@ -119,6 +112,19 @@ Blockly.Python.io_stopPwm = function (block) {
     const pinName = Blockly.Python.Generators.pwm(pin);
     return "if " + pinName + " is not None: " + NEWLINE 
         + "  " + pinName + ".deinit()" + NEWLINE;
+};
+
+Blockly.Python.io_readPulseIn = function (block) {
+    const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
+    const pinName = Blockly.Python.Generators.digital_read(block.getFieldValue("PIN"));
+    return ["time_pulse_us(" + pinName + ", " + state + ", 100000)", Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.io_writeAnalogPin = function (block) {
+    const pin = block.getFieldValue("PIN") || Blockly.Constants.Pins.DAC[Blockly.Constants.getSelectedBoard()][0][1];
+    const value = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.addInit(pin + '_DAC', pin + " = DAC(Pin(" + pin.replace('p', '') + "))");
+    return pin + ".write(int(" + value + "))" + NEWLINE;
 };
 
 Blockly.Python.io_getVoltage = function (block) {
