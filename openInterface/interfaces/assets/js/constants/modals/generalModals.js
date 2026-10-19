@@ -324,6 +324,17 @@ let stdModals = {};
             content: `<div id="interface-i18n-list-group" class="list-group"></div>`,
             footer: ``
         },
+        'modal-shortcuts': {
+            selector: '',
+            header: {
+                icon: 'fas fa-keyboard',
+                title: 'modals.standard.shortcuts.title'
+            },
+            // filled by openShortcutsModal(). Focusable, as the modal focuses its first focusable element
+            // and has no other one: the focus, and so the screen reader, would stay behind the modal.
+            content: `<div id="shortcuts-modal-content" tabindex="0" role="region" aria-labelledby="modal-shortcuts-title"></div>`,
+            footer: ``
+        },
         'modal-settings': {
             selector: '',
             header: {
@@ -1238,6 +1249,39 @@ let stdModals = {};
                     </button>
                 </footer>`
         },
+        'modal-arduino-q-wifi': {
+            selector: '',
+            header: {
+                icon: 'fas fa-wifi',
+                title: 'modals.standard.arduino-q-wifi.title'
+            },
+            content: `
+                <div style="max-width: 420px; margin: auto;">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="form-check form-switch m-0">
+                            <input class="form-check-input" type="checkbox" role="switch" id="arduino-q-wifi-toggle" onchange="QWifiSettings.toggle()">
+                            <label class="form-check-label" for="arduino-q-wifi-toggle" data-i18n="modals.standard.arduino-q-wifi.enabled">Wi-Fi</label>
+                        </div>
+                        <div id="arduino-q-wifi-status" role="status" aria-live="polite"></div>
+                    </div>
+                    <div id="arduino-q-wifi-networks-area">
+                        <label for="arduino-q-wifi-networks" class="form-label" data-i18n="modals.standard.arduino-q-wifi.network">Network</label>
+                        <div class="input-group flex-nowrap mb-2">
+                            <select id="arduino-q-wifi-networks" class="form-select" onchange="QWifiSettings.onNetworkChange()"></select>
+                            <button type="button" id="arduino-q-wifi-scan" class="input-group-text" onclick="QWifiSettings.refresh(true)" data-i18n="[title]modals.standard.arduino-q-wifi.scan;[aria-label]modals.standard.arduino-q-wifi.scan" title="Search networks" aria-label="Search networks">
+                                <i class="fas fa-sync-alt" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <!-- A form (username = network) so that the browser can remember the password of each network -->
+                        <form id="arduino-q-wifi-password-area" onsubmit="QWifiSettings.connect(); return false;">
+                            <input type="text" id="arduino-q-wifi-ssid" name="username" autocomplete="username" hidden>
+                            <input type="password" id="arduino-q-wifi-password" class="form-control" autocomplete="current-password" data-i18n="[placeholder]modals.standard.arduino-q-wifi.password" placeholder="Network password">
+                        </form>
+                        <button type="button" id="arduino-q-wifi-connect" class="btn vitta-button w-100 mt-3" onclick="QWifiSettings.connect()" data-i18n="modals.standard.arduino-q-wifi.connect">Connect</button>
+                    </div>
+                </div>`,
+            footer: ``
+        },
         'modal-arduino-q-password': {
             selector: '',
             header: {
@@ -1253,13 +1297,21 @@ let stdModals = {};
                     <p class="mb-3" data-i18n="modals.standard.arduino-q-password.content">
                         Enter your Arduino Q board password to continue uploading the project.
                     </p>
-                    <input type="password" id="arduino-q-password-input" class="form-control" autocomplete="current-password" data-i18n="[placeholder]modals.standard.arduino-q-password.placeholder" placeholder="Password" style="max-width: 320px; margin: auto;">
+                    <!-- Password field in a form (browser password managers), Enter is handled by askArduinoQPassword() -->
+                    <form class="input-group flex-nowrap" style="max-width: 320px; margin: auto;" onsubmit="return false;">
+                        <input type="text" name="username" value="arduino" autocomplete="username" hidden>
+                        <input type="password" id="arduino-q-password-input" class="form-control" autocomplete="current-password" data-i18n="[placeholder]modals.standard.arduino-q-password.placeholder" placeholder="Password">
+                        <button type="button" id="arduino-q-password-toggle" class="input-group-text" style="cursor:pointer" data-i18n="[title]modals.standard.arduino-q-password.buttons.togglePassword.tooltip;[aria-label]modals.standard.arduino-q-password.buttons.togglePassword.tooltip" title="Show / hide password" aria-label="Show / hide password" aria-pressed="false"
+                            onclick="const input = document.getElementById('arduino-q-password-input'); const show = input.type === 'password'; input.type = show ? 'text' : 'password'; this.setAttribute('aria-pressed', show); this.firstElementChild.className = show ? 'fa fa-fw fa-eye-slash' : 'fa fa-fw fa-eye'; input.focus();">
+                            <i class="fa fa-fw fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </form>
                 </div>`,
             footer: `
-                <button type="button" id="arduino-q-password-confirm" class="btn vitta-button" style="flex:1;" data-i18n="modals.standard.arduino-q-password.buttons.confirm">
+                <button type="button" id="arduino-q-password-confirm" class="btn vitta-button" style="flex:1;" data-i18n="modals.standard.arduino-q-password.buttons.confirm.text;[title]modals.standard.arduino-q-password.buttons.confirm.tooltip">
                     Confirm
                 </button>
-                <button type="button" id="arduino-q-password-close" class="btn btn-secondary" style="flex:1; margin-left:5px;" data-i18n="modals.standard.arduino-q-password.buttons.close">
+                <button type="button" id="arduino-q-password-close" class="btn btn-secondary" style="flex:1; margin-left:5px;" data-i18n="modals.standard.arduino-q-password.buttons.close.text;[title]modals.standard.arduino-q-password.buttons.close.tooltip">
                     Close
                 </button>`
         }

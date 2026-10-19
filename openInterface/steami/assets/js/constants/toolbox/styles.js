@@ -22,6 +22,9 @@ const THEME_VITTASCIENCE = {
     "actuators_blocks": {
         "colourPrimary": "#ff4d6a"
     },
+    "robots_blocks": {
+        "colourPrimary": "#3349aa"
+    },
     "ia_blocks": {
         "colourPrimary": "#ffab19"
     },
@@ -39,7 +42,7 @@ const THEME_VITTASCIENCE = {
         "colourPrimary": "#1a6da8"
     },
     "variable_blocks": {
-       "colourPrimary": "#d9553e"
+        "colourPrimary": "#d9553e"
     },
     "lists_blocks": {
         "colourPrimary": "#e58544"
@@ -78,6 +81,9 @@ const THEME_SCRATCH = {
     },
     "actuators_blocks": {
         "colourPrimary": "#ff4d6a"
+    },
+    "robots_blocks": {
+        "colourPrimary": "#3349aa"
     },
     "ia_blocks": {
         "colourPrimary": "#0fbd8c"
@@ -162,9 +168,7 @@ const THEME_VITTASCIENCE_HIGH_CONTRAST = {
         "colourTertiary": "#FFECA6",
     },
     "lists_blocks": {
-        "colourPrimary": "#B34F0B",
-        "colourSecondary": "#DE8B53",
-        "colourTertiary": "#FFC8A2",
+        "colourPrimary": "#ff661a"
     },
     "procedure_blocks": {
         "colourPrimary": "#008D86",

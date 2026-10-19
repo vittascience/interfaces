@@ -2,7 +2,7 @@ function replaceXmlCode(to, xmlString = null) {
     let workspaceXml = null;
     let xmlToLoad = null;
     if (xmlString !== null) {
-        workspaceXml = Blockly.Xml.textToDom(xmlString);
+        workspaceXml = Blockly.utils.xml.textToDom(xmlString);
         xmlToLoad = xmlString;
     } else {
         workspaceXml = Blockly.Xml.workspaceToDom(Main.getWorkSpace());
@@ -24,7 +24,7 @@ function replaceXmlCode(to, xmlString = null) {
 
 function adaptVittascienceToScratch(workspaceXml) {
     // Créer un nouveau document XML propre
-    const newXml = Blockly.Xml.textToDom('<xml xmlns="https://developers.google.com/blockly/xml"></xml>');
+    const newXml = Blockly.utils.xml.textToDom('<xml xmlns="https://developers.google.com/blockly/xml"></xml>');
     
     let user_start = null;
     let user_variables = null;
@@ -132,7 +132,7 @@ function gettingOnStartBlocks(children) {
 };
 
 function adaptScratchToVittascience(workspaceXml) {
-    const xml = Blockly.Xml.textToDom('<xml xmlns="https://developers.google.com/blockly/xml"></xml>');
+    const xml = Blockly.utils.xml.textToDom('<xml xmlns="https://developers.google.com/blockly/xml"></xml>');
 
     let userStart = null;
     let userVariables = null;

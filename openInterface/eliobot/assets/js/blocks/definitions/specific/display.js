@@ -138,7 +138,7 @@ Blockly.Constants.Display.DISPLAY_EYES_MATRIX_UNICOLOR_INIT_EXTENSION = function
         .appendField(Blockly.Msg['DISPLAY_LEFT_EYE'])
         .appendField(' '.repeat(35 - Blockly.Msg['DISPLAY_RIGHT_EYE'].length))
         .appendField(Blockly.Msg['DISPLAY_RIGHT_EYE'])
-        .setAlign(Blockly.ALIGN_CENTRE);
+        .setAlign(Blockly.inputs.Align.CENTRE);
 
     for (let row = 0; row < 8; row++) {
         const rowBoxes = this.appendDummyInput("ROW" + row);
@@ -182,7 +182,7 @@ Blockly.Constants.Display.DISPLAY_EYES_MATRIX_INIT_EXTENSION = function () {
         .appendField(Blockly.Msg['DISPLAY_LEFT_EYE'])
         .appendField(' '.repeat(35 - Blockly.Msg['DISPLAY_RIGHT_EYE'].length))
         .appendField(Blockly.Msg['DISPLAY_RIGHT_EYE'])
-        .setAlign(Blockly.ALIGN_CENTRE);
+        .setAlign(Blockly.inputs.Align.CENTRE);
 
     for (let row = 0; row < 8; row++) {
         const rowBoxes = this.appendDummyInput("ROW" + row);

@@ -1,0 +1,206 @@
+/* Block extensions catalog (BlockExtensions.Panel) */
+.bext-dialog {
+    width: min(1200px, 96vw);
+    max-height: 92vh;
+    padding: 28px 40px 0;
+    border: none;
+    border-radius: 16px;
+    background: var(--bg-0, #fff);
+    color: var(--text-0, #2b2b2b);
+    font-family: var(--main-font, inherit);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.bext-dialog[open] {
+    display: flex;
+    flex-direction: column;
+}
+
+.bext-dialog > *,
+.bext-card > * {
+    flex-shrink: 0;
+}
+
+.bext-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.bext-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.bext-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.bext-close {
+    padding: 0 4px;
+    border: none;
+    background: none;
+    color: inherit;
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+.bext-note {
+    margin: 10px 0 20px;
+    color: var(--text-1, #565656);
+}
+
+.bext-search {
+    position: relative;
+    display: block;
+    margin-bottom: 24px;
+}
+
+.bext-search-input:focus {
+    border-color: var(--vitta-green, #187a52);
+    outline: none;
+    box-shadow: 0 0 0 3px var(--vitta-green-focus-shadow, #187a5280);
+}
+
+.bext-search-input {
+    width: 100%;
+    padding: 12px 48px 12px 18px;
+    border: 1px solid var(--bg-4, #d5d5d5);
+    border-radius: 10px;
+    background: var(--bg-2, #f5f5f5);
+    color: inherit;
+}
+
+.bext-search .fa-search {
+    position: absolute;
+    top: 50%;
+    right: 18px;
+    transform: translateY(-50%);
+    font-size: 1.1rem;
+    pointer-events: none;
+}
+
+.bext-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+    grid-auto-rows: max-content;
+    gap: 24px;
+    flex-shrink: 1;
+    min-height: 0;
+    margin: 0 -40px;
+    padding: 24px 40px 32px;
+    border-top: 1px solid var(--bg-3, #e3e3e3);
+    background: var(--bg-2, #f5f5f5);
+    overflow-y: auto;
+}
+
+.bext-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0 0 18px;
+    border: 1px solid var(--bg-3, #e3e3e3);
+    border-radius: 14px;
+    background: var(--bg-0, #fff);
+    color: inherit;
+    text-align: start;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.bext-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+}
+
+.bext-card:focus-visible {
+    outline: 3px solid var(--vitta-green-focus-shadow, #187a5280);
+    outline-offset: 2px;
+}
+
+.bext-card[aria-pressed="true"] {
+    border-color: var(--vitta-green, #187a52);
+    box-shadow: 0 0 0 2px var(--vitta-green, #187a52), 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.bext-card-image {
+    position: relative;
+    display: block;
+    margin-bottom: 10px;
+    aspect-ratio: 16 / 9;
+    border-bottom: 1px solid var(--bg-3, #e3e3e3);
+    background: #fff;
+}
+
+.bext-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.bext-card-image .bext-card-logo {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    width: 52px;
+    height: auto;
+}
+
+.bext-card-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 2px 10px;
+    border-radius: 12px;
+    background: var(--vitta-green, #187a52);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.bext-card-title,
+.bext-card-description {
+    padding: 0 18px;
+}
+
+.bext-card-title {
+    font-size: 1.15rem;
+}
+
+.bext-card-description {
+    color: var(--text-1, #565656);
+    font-size: 0.95rem;
+    line-height: 1.45;
+}
+
+.bext-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--text-1, #565656);
+}
+
+@media (max-width: 600px) {
+    .bext-dialog {
+        padding: 20px 16px 0;
+    }
+
+    .bext-grid {
+        margin: 0 -16px;
+        padding: 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bext-card {
+        transition: none;
+    }
+
+    .bext-card:hover {
+        transform: none;
+    }
+}

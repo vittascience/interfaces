@@ -52,3 +52,12 @@
 	stroke: black;
     stroke-width: 1px;
 }
+/* Upload progress bar: full-screen dimmed overlay */
+#progress-bar-container {
+	position: fixed;
+	inset: 0;
+	transform: none;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(0, 0, 0, 0.5);
+}

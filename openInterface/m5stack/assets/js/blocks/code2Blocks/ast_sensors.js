@@ -17,7 +17,7 @@ utils.prototypeBlocks['SHT31'] = function (node, identifier) {
 
 	return {
 		type: 'define_class_declaration',
-		fields: { VAR: { name: 'VAR', id: Blockly.utils.genUid(), value: identifier }, NAME: className},
+		fields: { VAR: { name: 'VAR', id: Blockly.utils.idGenerator.genUid(), value: identifier }, NAME: className},
 		values: {
 			ARGS: null,
 		},
@@ -68,7 +68,7 @@ utils.prototypeBlocks['GAS'] = function (node, identifier) {
 
 	const classDeclaration = {
 		type: 'define_class_declaration',
-		fields: { VAR: { name: 'VAR', id: Blockly.utils.genUid(), value: identifier }, NAME: className},
+		fields: { VAR: { name: 'VAR', id: Blockly.utils.idGenerator.genUid(), value: identifier }, NAME: className},
 		values: {
 		},
 		mutations: {
@@ -128,7 +128,7 @@ utils.prototypeBlocks['SGP30'] = function (node, identifier) {
 
 	const classDeclaration = {
 		type: 'define_class_declaration',
-		fields: { VAR: { name: 'VAR', id: Blockly.utils.genUid(), value: identifier }, NAME: className},
+		fields: { VAR: { name: 'VAR', id: Blockly.utils.idGenerator.genUid(), value: identifier }, NAME: className},
 		values: {
 		},
 		mutations: {

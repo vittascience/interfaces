@@ -129,15 +129,15 @@ function resizeBlocklyToolBox() {
     // TI-83 has toolbox in code mode only but no ide-block, in this case need to check the ide-editor width instead of ide-block
     if (INTERFACE_NAME === "TI-83" && ($_GET('mode') === 'code' || $_GET('mode') === 'python')) {
         if ($(".ide-editor").width() < 550 + 133) {
-            $('.blocklyToolboxDiv').addClass('blocklyToolboxDiv-small');
+            $('.blocklyToolbox').addClass('blocklyToolboxDiv-small');
         } else {
-            $('.blocklyToolboxDiv').removeClass('blocklyToolboxDiv-small');
+            $('.blocklyToolbox').removeClass('blocklyToolboxDiv-small');
         }
     } else {
         if ($(".ide-block").width() < 550) {
-            $('.blocklyToolboxDiv').addClass('blocklyToolboxDiv-small');
+            $('.blocklyToolbox').addClass('blocklyToolboxDiv-small');
         } else {
-            $('.blocklyToolboxDiv').removeClass('blocklyToolboxDiv-small');
+            $('.blocklyToolbox').removeClass('blocklyToolboxDiv-small');
         }
     }
     Main.resizeWorkSpace();
@@ -222,9 +222,9 @@ $(window).resize(function () {
     if (Main.hasDragAndDrop() && Main.getCodingMode() == 'code') {
         resizeBlocklyToolBox();
         if ($("#simulator").is(":visible") || $("#simulator-wires").is(":visible"))
-            $('#generator').width($(window).width() - $('.blocklyToolboxDiv').width() - $('.ide-simulator').width());
+            $('#generator').width($(window).width() - $('.blocklyToolbox').width() - $('.ide-simulator').width());
         else
-            $('#generator').width($(window).width() - $('.blocklyToolboxDiv').width());
+            $('#generator').width($(window).width() - $('.blocklyToolbox').width());
     } else {
         resizeBlocklyToolBox();
         if (INTERFACE_NAME != "adacraft" && INTERFACE_NAME != "web" && Main.getCodingMode() != 'code'){

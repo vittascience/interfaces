@@ -92,6 +92,8 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/esp32_chainableLED.js': Simulator.PATH_LIB_COMMON + 'esp32/grove/esp32_chainableLED.js',
     'src/lib/esp32_my9221.js': Simulator.PATH_LIB_COMMON + 'esp32/grove/esp32_my9221.js',
     'src/lib/esp32_ds18b20.js': Simulator.PATH_LIB_COMMON + 'esp32/grove/esp32_ds18b20.js',
+    'src/lib/esp32_mlx90621.js': Simulator.PATH_LIB_COMMON + 'esp32/grove/esp32_mlx90621.js',
+    'src/lib/esp32_bn880.js': Simulator.PATH_LIB_COMMON + 'esp32/grove/esp32_bn880.js'
 };
 
 Simulator.Mosaic.addSpecificInitializations = async function () {
@@ -280,6 +282,8 @@ Simulator.Mosaic.groveRegex = {
     "hm10": /Bluetooth HM10 on UART( |)(1|2)/gi,
     "groveBT": /Grove Serial Bluetooth on UART( |)(1|2)/gi,
     "gps": /GPS on UART( |)(1|2)/gi,
+    "mlx90621": /(.|)MLX90621\(/gi,
+    "bn880": /detect_magnetometer\(/gi
 };
 
 Simulator.Mosaic.specific = {
@@ -405,6 +409,7 @@ Simulator.Mosaic.specific = {
             '#alvik-finderMiddle_slider_v').slider({
                 min: 0,
                 max: 1,
+                step: 0.001,
                 value: 0
             });
 
@@ -533,8 +538,8 @@ Simulator.Mosaic.specific = {
             value: null,
             picture: "bluetooth.svg",
             animate: function (Animator) {
-				Animator.bluetooth();
-			}
+                Animator.bluetooth();
+            }
         },
         {
             id: "hm10",
@@ -546,8 +551,8 @@ Simulator.Mosaic.specific = {
             value: null,
             picture: "bluetooth.svg",
             animate: function (Animator) {
-				Animator.bluetooth();
-			}
+                Animator.bluetooth();
+            }
         },
         {
             id: "groveBT",
@@ -559,8 +564,8 @@ Simulator.Mosaic.specific = {
             value: null,
             picture: "bluetooth.svg",
             animate: function (Animator) {
-				Animator.bluetooth();
-			}
+                Animator.bluetooth();
+            }
         },
         {
             regex: /ilo\.(step|move|drive_single_motor_speed_front_left)\(/gi,
@@ -790,7 +795,7 @@ Simulator.Mosaic.specific = {
             }
         },
         // Alvik
-         {
+        {
             regex: /led_right\.set_color\(/,
             id: "alvik-led-right",
             title: "LED RGB droite",
@@ -799,7 +804,7 @@ Simulator.Mosaic.specific = {
             picture: "RGB-LED.svg",
             value: ""
         },
-         {
+        {
             regex: /led_left\.set_color\(/,
             id: "alvik-led-left",
             title: "LED RGB gauche",
@@ -962,7 +967,7 @@ Simulator.Mosaic.specific = {
             type: 'input',
             class: 'finder',
             listeners: [{
-                default: 'OFF',
+                default: 0,
                 unit: '',
                 color: "#f9d142",
                 suffix: "_v"
@@ -970,18 +975,20 @@ Simulator.Mosaic.specific = {
             picture: "Capteur-ligne-line.png",
             pictureAnimation: "Capteur-ligne-anim.png",
             animate: function (Animator) {
-                Animator.translation('digital');
+                const normalizedValue = Number(Animator.value) || 0;
+                const displayedValue = Math.round(Math.max(0, Math.min(1, normalizedValue)) * 1000);
+                Animator.translation('analog', normalizedValue > 0.5, displayedValue);
             }
         },
         {
             regex: /alvik\.get_line_sensors\(\)\[1\]/gi,
-            id: "alvik-finderCenter",
+            id: "alvik-finderMiddle",
             title: "Capteur de ligne noire - central",
             pin: 'Alvik',
             type: 'input',
             class: 'finder',
             listeners: [{
-                default: 'OFF',
+                default: 0,
                 unit: '',
                 color: "#f9d142",
                 suffix: "_v"
@@ -989,7 +996,9 @@ Simulator.Mosaic.specific = {
             picture: "Capteur-ligne-line.png",
             pictureAnimation: "Capteur-ligne-anim.png",
             animate: function (Animator) {
-                Animator.translation('digital');
+                const normalizedValue = Number(Animator.value) || 0;
+                const displayedValue = Math.round(Math.max(0, Math.min(1, normalizedValue)) * 1000);
+                Animator.translation('analog', normalizedValue > 0.5, displayedValue);
             }
         },
         {
@@ -1000,7 +1009,7 @@ Simulator.Mosaic.specific = {
             type: 'input',
             class: 'finder',
             listeners: [{
-                default: 'OFF',
+                default: 0,
                 unit: '',
                 color: "#f9d142",
                 suffix: "_v"
@@ -1008,7 +1017,9 @@ Simulator.Mosaic.specific = {
             picture: "Capteur-ligne-line.png",
             pictureAnimation: "Capteur-ligne-anim.png",
             animate: function (Animator) {
-                Animator.translation('digital');
+                const normalizedValue = Number(Animator.value) || 0;
+                const displayedValue = Math.round(Math.max(0, Math.min(1, normalizedValue)) * 1000);
+                Animator.translation('analog', normalizedValue > 0.5, displayedValue);
             }
         },
         {
@@ -1109,6 +1120,26 @@ Simulator.Mosaic.specific = {
             regex: /alvik\.get_touch_(right|any)/gi,
             id: "alvik-touchRight",
             title: "Bouton Tactile Droit",
+            pin: 'Alvik',
+            type: 'input',
+            listeners: [{
+                default: "OFF",
+                unit: '',
+                color: "#f9d142 ",
+                suffix: ""
+            }],
+            class: "button",
+            picture: "Bouton.png",
+            pictureAnimation: "Bouton-animation.png",
+            pictureInteraction: "buttonPush",
+            animate: function (Animator) {
+                Animator.button();
+            }
+        },
+        {
+            regex: /alvik\.get_touch_(center|any)/gi,
+            id: "alvik-touchCenter",
+            title: "Bouton Tactile Centre",
             pin: 'Alvik',
             type: 'input',
             listeners: [{

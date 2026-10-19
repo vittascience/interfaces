@@ -222,3 +222,77 @@ Blockly.Python.sensors_mbuild_quad_RGB_get_light = function (block) {
     const probe = block.getFieldValue("PROBE");
     return ["mbuild.quad_rgb_sensor.get_light(\'" + probe + "\',index=" + sensor + ")", Blockly.Python.ORDER_ATOMIC];
 };
+
+Blockly.Python.sensors_mbuild_quad_RGB_detection_L1_R1_is = function (block) {
+    Blockly.Python.addImport('mbuild', IMPORT_MBUILD);
+    const sensor = block.getFieldValue("SENSOR");
+    Blockly.Python.addPowerOn('quad_rgb_sensor' + sensor + '-simu', "# Line Finder on PORT_" + sensor);
+    const mode = block.getFieldValue("MODE");
+    const result = block.getFieldValue("RESULT");
+    return ["mbuild.quad_rgb_sensor.get_" + mode + "_sta(\'middle\', " + sensor + ") == " + result, Blockly.Python.ORDER_RELATIONAL];
+};
+
+Blockly.Python.sensors_mbuild_quad_RGB_get_detection_L1_R1 = function (block) {
+    Blockly.Python.addImport('mbuild', IMPORT_MBUILD);
+    const sensor = block.getFieldValue("SENSOR");
+    Blockly.Python.addPowerOn('quad_rgb_sensor' + sensor + '-simu', "# Line Finder on PORT_" + sensor);
+    const mode = block.getFieldValue("MODE");
+    return ["mbuild.quad_rgb_sensor.get_" + mode + "_sta(\'middle\', " + sensor + ")", Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.sensors_mbuild_quad_RGB_set_custom_color = function (block) {
+    Blockly.Python.addImport('mbuild', IMPORT_MBUILD);
+    const sensor = block.getFieldValue("SENSOR");
+    Blockly.Python.addPowerOn('quad_rgb_sensor' + sensor + '-simu', "# Line Finder on PORT_" + sensor);
+    const red = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_NONE) || "0";
+    const green = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
+    const blue = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
+    const tolerance = Blockly.Python.valueToCode(block, "TOLERANCE", Blockly.Python.ORDER_NONE) || "50";
+    return "mbuild.quad_rgb_sensor.set_custom_color(" + red + ", " + green + ", " + blue + ", " + tolerance + ", " + sensor + ")" + NEWLINE;
+};
+
+Blockly.Python.sensors_mbuild_quad_RGB_calibrate = function (block) {
+    Blockly.Python.addImport('mbuild', IMPORT_MBUILD);
+    const sensor = block.getFieldValue("SENSOR");
+    Blockly.Python.addPowerOn('quad_rgb_sensor' + sensor + '-simu', "# Line Finder on PORT_" + sensor);
+    return "mbuild.quad_rgb_sensor.adjust(" + sensor + ")" + NEWLINE;
+};
+
+Blockly.Python.sensors_mbuild_quad_RGB_color_mode = function (block) {
+    Blockly.Python.addImport('mbuild', IMPORT_MBUILD);
+    const mode = block.getFieldValue("MODE");
+    return "mbuild.quad_rgb_sensor.color_mode(\'" + mode + "\')" + NEWLINE;
+};
+
+// Gamepad
+
+Blockly.Python.robots_gamepad_is_key_pressed = function (block) {
+    Blockly.Python.addImport('gamepad', IMPORT_GAMEPAD);
+    const key = block.getFieldValue("KEY");
+    return ["gamepad.is_key_pressed(\'" + key + "\')", Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.robots_gamepad_get_joystick = function (block) {
+    Blockly.Python.addImport('gamepad', IMPORT_GAMEPAD);
+    const axis = block.getFieldValue("AXIS");
+    return ["gamepad.get_joystick(\'" + axis + "\')", Blockly.Python.ORDER_ATOMIC];
+};
+
+// Line following
+
+Blockly.Python.robots_mbot2_follow_line = function (block) {
+    Blockly.Python.addImport('mbot2', IMPORT_MBOT2);
+    Blockly.Python.addImport('mbuild', IMPORT_MBUILD);
+    const sensor = block.getFieldValue("SENSOR");
+    Blockly.Python.addPowerOn('quad_rgb_sensor' + sensor + '-simu', "# Line Finder on PORT_" + sensor);
+    const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_ADDITIVE) || "10";
+    const sensitivity = Blockly.Python.valueToCode(block, "SENSITIVITY", Blockly.Python.ORDER_MULTIPLICATIVE) || "0.6";
+    const offset = Blockly.Python.nameDB_.getDistinctName('line_offset', Blockly.VARIABLE_CATEGORY_NAME);
+    const indent = Blockly.Python.INDENT;
+    // Proportional line following until the 4 probes see the line (state 0 = 0000)
+    return "while not mbuild.quad_rgb_sensor.get_line_sta(index=" + sensor + ") == 0:" + NEWLINE
+        + indent + offset + " = mbuild.quad_rgb_sensor.get_offset_track(index=" + sensor + ")" + NEWLINE
+        + indent + "mbot2.EM_set_power(" + speed + " - " + sensitivity + " * " + offset + ", 'EM1')" + NEWLINE
+        + indent + "mbot2.EM_set_power(-1 * (" + speed + " + " + sensitivity + " * " + offset + "), 'EM2')" + NEWLINE
+        + "mbot2.EM_stop('ALL')" + NEWLINE;
+};

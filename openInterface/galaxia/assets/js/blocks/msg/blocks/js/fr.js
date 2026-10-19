@@ -403,6 +403,8 @@ Blockly.Msg['SENSORS_SHT35_READDATA_TITLE'] = '[Capteur SHT35] %1';
 Blockly.Msg['SENSORS_SHT35_READDATA_TOOLTIP'] = IMG_MODULE_SHT35 + Blockly.Tooltip.SEP + 'Renvoie la température en degré Celsius (°C), Fahrenheit (°F) ou Kelvin (K), ou l\'humidité (en %) grâce au capteur SHT35. Brancher le capteur sur un port I2C.';
 Blockly.Msg['SENSORS_GETGROVEWATER_TITLE'] = '[Capteur d\'eau] quantité d\'eau sur la broche %1';
 Blockly.Msg['SENSORS_GETGROVEWATER_TOOLTIP'] = IMG_MODULE_WATER + Blockly.Tooltip.SEP + 'Renvoie la quantité d\'eau (de 0 à 255) mesurée grâce au capteur d\'eau grove sur les broches analogiques.';
+Blockly.Msg['SENSORS_DISPLAYMLX90621_CUSTOM_VALUES_TITLE'] = '[Capteur temp. IR MLX90621] afficher les valeurs %1';
+Blockly.Msg['SENSORS_DISPLAYMLX90621_CUSTOM_VALUES_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Affiche les valeurs mesurées par le capteur infrarouge MLX90621 sur la carte Galaxia.';
 Blockly.Msg['SENSORS_GETRAINGAUGE_TITLE'] = '[Capteur de pluie] état sur la broche %1';
 Blockly.Msg['SENSORS_GETRAINGAUGE_TOOLTIP'] = IMG_MODULE_RAIN_GAUGE + Blockly.Tooltip.SEP + 'Renvoie l\'état du capteur de pluie (1 s\'il pleut ou 0 sinon) sur les broches digitales.';
 Blockly.Msg['SENSORS_GETANEMOMETER_TITLE'] = '[Anémomètre] état sur la broche %1';
@@ -461,6 +463,8 @@ Blockly.Msg['SENSORS_MLX90621_TEMP_MIN'] = 'minimum';
 Blockly.Msg['SENSORS_MLX90621_TEMP_MAX'] = 'maximum';
 Blockly.Msg['SENSORS_MLX90621_TEMP_AVG'] = 'moyenne';
 Blockly.Msg['SENSORS_MLX90621_GETTEMPDATA_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Renvoie la température min, max ou moyenne d\'un objet en degré Celsius (°C) avec le capteur infrarouge MLX90621. Brancher le capteur sur un port I2C.';
+Blockly.Msg['SENSORS_DISPLAYMLX90621VALUES_TITLE'] = '[Capteur temp. IR MLX90621] afficher les valeurs';
+Blockly.Msg['SENSORS_DISPLAYMLX90621VALUES_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Permet d\'afficher les valeurs mesurées par le capteur infrarouge MLX90621 sur la carte Galaxia.';
 Blockly.Msg['SENSORS_GET_WATER_LEVEL_TITLE'] = '[Capteur d\'eau] niveau (%)';
 Blockly.Msg['SENSORS_GET_WATER_LEVEL_TOOLTIP'] = IMG_MODULE_WATER_I2C + Blockly.Tooltip.SEP + 'Mesure le niveau d\'eau en pourcentage (de 0 à 100%) sur le port I2C.';
 

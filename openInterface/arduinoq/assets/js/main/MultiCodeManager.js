@@ -56,7 +56,7 @@ class MultiCodeManager extends CodeManager {
     }
 
     static _multiRootBlocks = {
-        cpp: ['cpp_on_start', 'cpp_forever', 'cpp_scratch_on_start', 'cpp_procedures_defreturn', 'cpp_procedures_defnoreturn', 'io_attachInterrupt'],
+        cpp: ['cpp_on_start', 'cpp_forever', 'cpp_on_start_forever', 'cpp_scratch_on_start', 'cpp_procedures_defreturn', 'cpp_procedures_defnoreturn', 'io_attachInterrupt'],
         py: ['py_on_start', 'py_forever', 'py_scratch_on_start', 'py_procedures_defreturn', 'py_procedures_defnoreturn', 'bricks_webui_on_message'],
         html: ['html_page']
     };
@@ -84,6 +84,24 @@ class MultiCodeManager extends CodeManager {
         });
         this.updateFileTabs();
         this.updateFileAceMode(this._activeGeneratedFile);
+        this.alignFileTabsWithGutter();
+    }
+
+    /**
+     * The tabs start above the code: the line numbers column (its width changes with the number of lines and the
+     * zoom) goes on in the tabs bar
+     */
+    alignFileTabsWithGutter() {
+        const tabsElt = document.getElementById('file-tabs');
+        const renderer = this._editor && this._editor.renderer;
+        if (!tabsElt || !renderer) return;
+        renderer.on('afterRender', () => {
+            const width = renderer.gutterWidth + 'px';
+            const gutterElt = renderer.$gutter;
+            const color = gutterElt ? getComputedStyle(gutterElt).backgroundColor : '';
+            if (tabsElt.style.getPropertyValue('--gutter-width') !== width) tabsElt.style.setProperty('--gutter-width', width);
+            if (tabsElt.style.getPropertyValue('--gutter-color') !== color) tabsElt.style.setProperty('--gutter-color', color);
+        });
     }
 
     openFile(filename, manual = false) {
@@ -125,19 +143,6 @@ class MultiCodeManager extends CodeManager {
         this.tabsEl.forEach(button => {
             const isActive = button.dataset.codeTarget === activeFile;
             button.classList.toggle('active', isActive);
-        });
-        this.updateFileTabNeighbors();
-    }
-
-    updateFileTabNeighbors() {
-        this.tabsEl.forEach(tab => {
-            tab.classList.remove('left-active', 'right-active');
-            const prev = tab.previousElementSibling;
-            const next = tab.nextElementSibling;
-            if (!tab.classList.contains('active')) {
-                if (prev && prev.classList.contains('active')) tab.classList.add('left-active');
-                if (next && next.classList.contains('active')) tab.classList.add('right-active');
-            }
         });
     }
 
@@ -213,7 +218,26 @@ class MultiCodeManager extends CodeManager {
             const section = this._multiSections[language];
             if (!generator || !section) return;
 
-            const code = this.generateLanguageFromCurrentWorkspace(language, generator).trimEnd();
+            let code = this.generateLanguageFromCurrentWorkspace(language, generator).trimEnd();
+            if (language === 'py') {
+                // index.html is only served by the WebUI brick
+                const usesHtml = this._workspace.getBlocksByType('html_page', false).some(block => block.isEnabled());
+                if (usesHtml && !/WebUI\(\)/.test(code)) {
+                    code += '\n\nfrom arduino.app_bricks.web_ui import WebUI\nui = WebUI()';
+                }
+                // Without App.run() (or a top-level forever loop) the script ends right after Bridge.provide()
+                // and the bridge dies with it; bricks such as WebUI are also only started by App.run()
+                if (/Bridge\.provide\(|WebUI\(\)/.test(code) && !/App\.run\(/.test(code) && !/^while True:/m.test(code)) {
+                    if (!/from arduino\.app_utils import/.test(code)) {
+                        code += '\nfrom arduino.app_utils import *';
+                    }
+                    code += '\nApp.run()';
+                }
+            }
+            // The shared Arduino blocks write to Serial, which is not the sketch console on the UNO Q
+            if (language === 'cpp') {
+                code = code.replace(/\bSerial\b/g, 'Monitor');
+            }
             this._generatedFiles[section.filename] = code;
 
             if (code.trim()) sections.push(this.wrapGeneratedSection(language, code));
@@ -228,7 +252,14 @@ class MultiCodeManager extends CodeManager {
 
     generateLanguageFromCurrentWorkspace(language, generator) {
         this.allBlocks = this._workspace.getAllBlocks(false);
-        const previousStates = this.allBlocks.map(b => ({ block: b, enabled: b.isEnabled() }));
+        // enabled: aggregate state, used by the temporary generation logic.
+        // manuallyDisabled: the manual reason only, which is what is restored afterwards (a block
+        // disabled for another reason, e.g. orphaned, must not be left manually disabled).
+        const previousStates = this.allBlocks.map(b => ({
+            block: b,
+            enabled: b.isEnabled(),
+            manuallyDisabled: b.hasDisabledReason(Blockly.constants.MANUALLY_DISABLED)
+        }));
         const previousStatesMap = new Map();
         previousStates.forEach(s => previousStatesMap.set(s.block, s.enabled));
         this.disableOtherLanguages(language, previousStatesMap);
@@ -238,7 +269,7 @@ class MultiCodeManager extends CodeManager {
         // restore tous les blocs
         previousStates.forEach(s => {
             if (!s.block.isDisposed()) {
-                s.block.setEnabled(s.enabled);
+                s.block.setDisabledReason(s.manuallyDisabled, Blockly.constants.MANUALLY_DISABLED);
             }
         });
         this.disableBlocksByTopBlock();
@@ -264,7 +295,7 @@ class MultiCodeManager extends CodeManager {
 
     enableRecursive(block, previousStatesMap = null) {
         if (!previousStatesMap || previousStatesMap.get(block)) {
-            block.setEnabled(true);
+            block.setDisabledReason(false, Blockly.constants.MANUALLY_DISABLED);
         }
         let next = block.getNextBlock();
         while (next) {
@@ -281,7 +312,7 @@ class MultiCodeManager extends CodeManager {
     }
 
     disableRecursive(block) {
-        block.setEnabled(false);
+        block.setDisabledReason(true, Blockly.constants.MANUALLY_DISABLED);
         let next = block.getNextBlock();
         while (next) {
             this.disableRecursive(next);
@@ -303,8 +334,19 @@ class MultiCodeManager extends CodeManager {
         allBlocks.forEach(block => {
             const topBlock = block.getRootBlock ? block.getRootBlock() : block;
             const topType = topBlock ? topBlock.type : null;
+            const topLanguage = MultiCodeManager.getRootBlockLanguage(topType);
+            // A block from another language category (e.g. Arduino block on the Python thread) is disabled
+            // with its own reason, so it comes back as soon as it is moved to the right thread
+            block.setDisabledReason(!MultiCodeManager.isBlockAllowedIn(topLanguage, block.type, this._multiGenerators[topLanguage]), MultiCodeManager.WRONG_LANGUAGE_DISABLED);
+            // Common procedure blocks: colour of the language of their thread, else of the flyout they come from
+            if (MultiCodeManager.COMMON_PROCEDURE_BLOCKS.includes(block.type)) {
+                const language = ['py', 'cpp'].includes(topLanguage) ? topLanguage : block.data;
+                const style = Blockly.Constants.Procedures.getLanguageStyle(language ? language + '_' : block.type);
+                if (block.getStyleName() !== style) block.setStyle(style);
+            }
 
-            let state = block.isEnabled(); // conserve l'état actuel par défaut
+            // conserve l'état actuel par défaut (raison manuelle seulement, pas l'état global)
+            let state = !block.hasDisabledReason(Blockly.constants.MANUALLY_DISABLED);
 
             // On parcourt tous les langages
             for (const language of Object.keys(MultiCodeManager._multiRootBlocks)) {
@@ -318,7 +360,7 @@ class MultiCodeManager extends CodeManager {
                 }
             }
 
-            block.setEnabled(state);
+            block.setDisabledReason(!state, Blockly.constants.MANUALLY_DISABLED);
         });
     }
 
@@ -337,6 +379,48 @@ class MultiCodeManager extends CodeManager {
         });
 
         return maps;
+    }
+
+    static WRONG_LANGUAGE_DISABLED = 'WRONG_LANGUAGE';
+
+    // Procedure blocks common to the Arduino and Python functions (the call blocks follow their definition)
+    static COMMON_PROCEDURE_BLOCKS = ['procedures_functionReference', 'procedures_simple_return', 'procedures_ifreturn'];
+
+    // Toolbox categories allowed under the root blocks of each language
+    static _allowedToolboxCategories = {
+        cpp: ['basic', 'cpp'],
+        py: ['basic', 'python'],
+        html: ['basic', 'html', 'style', 'javascript']
+    };
+
+    /**
+     * @param {string} language - cpp, py or html
+     * @param {string} type - block type
+     * @param {Object} generator - generator of the language: the common blocks (Base) are only allowed where
+     * they generate code (e.g. Time: Arduino and Python waits)
+     */
+    static isBlockAllowedIn(language, type, generator = null) {
+        if (!language) return true;
+        if (!MultiCodeManager._toolboxCategories) {
+            // block type -> top level toolbox categories listing it ('controls_if-else' variants -> 'controls_if')
+            const map = {};
+            const walk = (node, category) => {
+                if (Array.isArray(node)) {
+                    node.forEach(child => walk(child, category));
+                } else if (node && typeof node === 'object') {
+                    (node.blocks || []).forEach(block => {
+                        if (typeof block === 'string') (map[block.split('-')[0]] ||= new Set()).add(category);
+                    });
+                    walk(node.contents, category);
+                }
+            };
+            Object.entries(TOOLBOX_VITTASCIENCE_CONTENT).forEach(([category, content]) => walk(content, category));
+            MultiCodeManager._toolboxCategories = map;
+        }
+        const categories = MultiCodeManager._toolboxCategories[type];
+        // Blocks not listed in the toolbox (function calls, shadows...) are not restricted
+        return !categories || [...categories].some(category => MultiCodeManager._allowedToolboxCategories[language].includes(category)
+            && (category !== 'basic' || !generator || typeof generator[type] === 'function'));
     }
 
     // ---------- Helper for temporary state ----------

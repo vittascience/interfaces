@@ -1111,7 +1111,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
     }],
     "inputsInline": true,
-    "output": "String",
+    "output": "Number",
     "style": "communication_blocks",
     "tooltip": "%{BKY_COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP}",
     "extensions": [
@@ -1469,10 +1469,10 @@ Blockly.Constants.Communication.COMMUNICATION_REMOTECONTROL_ONCOMMANDRECEIVED_MU
   // Restore pointers to any connected child blocks.
   restoreConnections_: function () {
     for (var i = 1; i <= this.elseifCount_; i++) {
-      Blockly.Mutator.reconnect(this.statementConnections_[i], this, 'DO' + i);
+      this.statementConnections_[i]?.reconnect(this, 'DO' + i);
     }
     if (this.getInput('ELSE')) {
-      Blockly.Mutator.reconnect(this.elseStatementConnection_, this, 'ELSE');
+      this.elseStatementConnection_?.reconnect(this, 'ELSE');
     }
   },
   addElse_: function () {
@@ -1548,14 +1548,14 @@ Blockly.Constants.Communication.COMMUNICATION_REMOTECONTROL_ONCOMMANDRECEIVED_MU
         .appendField(
           new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
             this.buttonSize, "*", removeElseIf, false))
-        .setAlign(Blockly.ALIGN_RIGHT);
+        .setAlign(Blockly.inputs.Align.RIGHT);
       this.appendStatementInput('DO' + i)
     }
     if (this.elseCount_) {
       this.appendDummyInput('ELSETITLE')
         .appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSE);
       this.appendDummyInput('ELSEBUTTONS')
-        .setAlign(Blockly.ALIGN_RIGHT)
+        .setAlign(Blockly.inputs.Align.RIGHT)
         .appendField(
           new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
             this.buttonSize, "*", that.removeElse_.bind(that), false));
@@ -1609,9 +1609,9 @@ Blockly.Constants.Communication.COMMUNICATION_REMOTECONTROL_ONCOMMANDRECEIVED_MU
   reconnectChildBlocks_: function (statementConnections,
     elseStatementConnection) {
     for (var i = 1; i <= this.elseifCount_; i++) {
-      Blockly.Mutator.reconnect(statementConnections[i], this, 'DO' + i);
+      statementConnections[i]?.reconnect(this, 'DO' + i);
     }
-    Blockly.Mutator.reconnect(elseStatementConnection, this, 'ELSE');
+    elseStatementConnection?.reconnect(this, 'ELSE');
   },
   saveDropdownFields_: function () {
     this.dropdownFieldsValue = new Array();

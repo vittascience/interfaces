@@ -1119,6 +1119,16 @@
     }
   },
   "code": {
+    "blockExtensions": {
+      "category": "Extensions",
+      "title": "Block extensions",
+      "note": "Add new blocks to program other robots, models or modules. The chosen extensions are saved with the project.",
+      "close": "Close",
+      "search": "Search for an extension",
+      "added": "Added",
+      "noResult": "No extension found.",
+      "confirmRemoveUsed": "{{count}} block(s) of this extension used in the program will be deleted. Continue?"
+    },
     "tooltip": {
       "anonymousAuthor": "Anonym författare",
       "backpack": "Ryggsäck",
@@ -1190,6 +1200,7 @@
       "badBoard": "Det anslutna kortet är inte av typen ",
       "checkBoardSettings": "Välj rätt kort under Inställningar, sedan Kortalternativ.",
       "flashFailed": "Misslyckades med att skicka programmet.",
+      "boardNotResponding": "Kortet svarar inte: kontrollera att roboten är påslagen.",
       "baudrateError": "Ett fel uppstod vid läsning från seriell port. Försök ändra baudrate i monitorinställningarna.",
       "firmwareWarning": "Observera, för att få alla funktioner i detta gränssnitt med STM32-kortet, uppgradera firmware till version 1.17 genom att följa denna handledning: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=398\" target=\"_blank\" rel=\"noopener noreferrer\">Uppdatera firmware</a>",
       "compiling": "Kompilering pågår. Det kan ta några sekunder...",
@@ -1343,6 +1354,7 @@
     "statement": "Meddelande:",
     "topbar": {
       "tooltips": {
+        "boardWifi": "Konfigurera Wi-Fi för det anslutna Arduino UNO Q-kortet",
         "new": "Nytt projekt",
         "save": "Spara",
         "open": "Öppna projekt",
@@ -1360,6 +1372,7 @@
         "stopNaoProgram": "Stoppa programmet",
         "uploadPythonThymio": "Ladda upp Python-skriptet till Thymio",
         "uploadArduino": "Ladda upp Arduino-programmet till kortet",
+        "uploadArduinoQProject": "Ladda upp appen (Arduino, Python och webbsida) till Arduino UNO Q-kortet",
         "compileArduino": "Kör kompilering",
         "arduinoBoardSelector": "Välj Arduino-kort att programmera",
         "esp32BoardSelector": "Välj ESP32-kort att programmera",
@@ -1429,6 +1442,7 @@
         "i18n": "Språk"
       },
       "label": {
+        "boardWifi": "Kortets Wi-Fi",
         "texas": "Ladda ner .py för miniräknare",
         "new": "Nytt projekt",
         "save": "Spara",
@@ -1601,8 +1615,13 @@
         }
       },
       "music": {
-        "enable": "Ljud",
-        "enablebutton": "Aktiverat",
+        "note": "Ton",
+        "stop": "Stoppa",
+        "test": "Testa",
+        "sound": "Ljud",
+        "held": "Uthållen",
+        "percussive": "Perkussiv",
+        "oscilloscope": "Oscilloskop",
         "volume": "Volym ",
         "octave": "Oktav",
         "waveform": "Vågform",
@@ -1616,7 +1635,9 @@
         "effects": {
           "reverb": "Efterklang",
           "delay": "Fördröjning",
-          "bitcrusher": "BitCrusher"
+          "bitcrusher": "BitCrusher",
+          "vibrato": "Vibrato",
+          "distortion": "Distorsion"
         }
       },
       "feedback": {
@@ -1649,7 +1670,9 @@
           "downloadScreen": "Skärmbild",
           "toggleBoardDisplay": "Visa/dölj simulatorkarta",
           "switchWiringMode": "Byt till kopplingsläge",
-          "switchMosaicMode": "Byt till mosaikläge"
+          "switchMosaicMode": "Byt till mosaikläge",
+          "wiringZoomIn": "Zoom in",
+          "wiringZoomOut": "Zoom out"
         },
         "robot": {
           "background": "Bakgrund",
@@ -1820,6 +1843,9 @@
       "mixed-popup-leave-editor": "För att stänga kodeditorn från tangentbordet, tryck samtidigt på <kbd>Caps Lock</kbd> och <kbd>Esc</kbd>.",
       "mixed-popup-readonly": "<i class='fa-solid fa-lock'></i> I blandat läge är kodeditorn <strong>skrivskyddad</strong> i detta gränssnitt. Du kan bara redigera med block.",
       "mixed-popup-readonly-sr": "I blandat läge är koden skrivskyddad för detta gränssnitt",
+      "mixed-small-screen": "On a small screen, the hybrid mode is not very practical: we recommend switching to the blocks or code mode.",
+      "mixed-small-screen-stay": "Stay in hybrid mode",
+      "mixed-small-screen-close": "Close",
       "saveWarning": {
         "title": "<span class=\"fa fa-exclamation-circle\"></span> Varning!",
         "warn": "<span class=\"fa fa-save\"></span> Vill du spara ditt arbete innan du fortsätter?<p class=\"mb-0 mt-0 hint\"> Om du skapar ett nytt projekt utan att spara det tidigare kommer ditt arbete att gå förlorat...",
@@ -3529,7 +3555,7 @@
           "contextLength": "32k token",
           "availableState": "Kommer snart!"
         },
-        "mistral-small-3-24b-instruct-2506": {
+        "mistral-small-3.2-24b-instruct-2506": {
           "description": "Mistral-Small-3.2-24B-Instruct-2506 är en uppdaterad version av Small 3.1 med förbättrad noggrannhet vid följande av instruktioner. Den stöder både text och bilder (text–bild-funktionalitet), vilket gör den lämplig för tillämpningar som dokumentförståelse, visuella frågesvar och multimodal innehållsgenerering.",
           "laboratory": "Mistral AI",
           "parameters": "24 miljarder",
@@ -5149,7 +5175,7 @@
         },
         "2": {
           "title": "Hur avaktiverar jag statistisk spårning?",
-          "content": "Du kan avaktivera denna statistiska spårning så att Matomo slutar inkludera dina besök i statistiken. För att göra det kan du följa någon av följande procedurer:<br/><ul><li>aktivera funktionen « Förhindra att jag spåras » i din webbläsare: <a href='https://support.mozilla.org/fr/kb/activer-desactiver-cookies-preferences' target='_blank'>Mozilla Firefox</a> ; <a href='https://support.microsoft.com/fr-fr/help/17442/windows-internet-explorer-delete-manage-cookies' target='_blank'>Internet Explorer</a> ; <a href='https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=fr' target='_blank'>Google Chrome</a> ; <a href='http://help.opera.com/Windows/10.20/fr/cookies.html' target='_blank'>Opera</a> ; <a href='https://support.apple.com/kb/ph21411?locale=fr_CA' target='_blank'>Safari</a> ;</li></ul><br/>Eller:<br/><ul><li>Avmarkera följande ruta</li></ul><iframe style='border: 0; height: 160px; width: 100%;border-radius: 16px;' src='https://matomo.vittascience.com/matomo/index.php?module=CoreAdminHome&action=optOut&language=fr&backgroundColor=&fontColor=565656&backgroundColor=FFFFFF&fontSize=14px&fontFamily=Montserrat'></iframe><br/>"
+          "content": "Du kan avaktivera denna statistiska spårning så att Matomo slutar inkludera dina besök i statistiken. För att göra det kan du följa någon av följande procedurer:<br/><ul><li>aktivera funktionen « Förhindra att jag spåras » i din webbläsare: <a href='https://support.mozilla.org/fr/kb/activer-desactiver-cookies-preferences' target='_blank'>Mozilla Firefox</a> ; <a href='https://support.microsoft.com/fr-fr/help/17442/windows-internet-explorer-delete-manage-cookies' target='_blank'>Internet Explorer</a> ; <a href='https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=fr' target='_blank'>Google Chrome</a> ; <a href='http://help.opera.com/Windows/10.20/fr/cookies.html' target='_blank'>Opera</a> ; <a href='https://support.apple.com/kb/ph21411?locale=fr_CA' target='_blank'>Safari</a> ;</li></ul><br/>Eller:<br/><ul><li>Avmarkera följande ruta</li></ul><iframe style='border: 0; height: 160px; width: 100%;border-radius: 16px;' src='https://matomo.vittascience.com/index.php?module=CoreAdminHome&action=optOut&language=fr&backgroundColor=&fontColor=565656&backgroundColor=FFFFFF&fontSize=14px&fontFamily=Montserrat'></iframe><br/>"
         }
       }
     },
@@ -5696,6 +5722,25 @@
   },
   "modals": {
     "standard": {
+      "arduino-q-wifi": {
+        "title": "Wi-Fi för Arduino UNO Q-kortet",
+        "enabled": "Wi-Fi aktiverat",
+        "network": "Nätverk",
+        "scan": "Sök nätverk",
+        "password": "Nätverkets lösenord",
+        "connect": "Anslut",
+        "status": {
+          "loading": "Läser Wi-Fi-status…",
+          "nmcliMissing": "NetworkManager (nmcli) hittades inte på kortet.",
+          "disabled": "Wi-Fi avaktiverat",
+          "connected": "Ansluten till %1 (%2)",
+          "notConnected": "Inte ansluten",
+          "noNetwork": "Inget nätverk hittades",
+          "connecting": "Ansluter till %1…",
+          "cancelled": "Åtgärden avbröts.",
+          "failed": "Anslutningen misslyckades."
+        }
+      },
       "default": {
         "title": "Standardtitel",
         "exit": "Stäng dialog"
@@ -6316,6 +6361,10 @@
         "info": {
           "title": "Kodläge låst",
           "content": "Kodläget är låst. Det innebär att block- och hybridlägen är inaktiverade."
+        },
+        "exit": {
+          "title": "Leave code-only mode",
+          "content": "Do you wish to unlock code-only mode so that block and hybrid modes can be used again?"
         }
       },
       "local-compilation": {
@@ -6898,7 +6947,11 @@
         "generate": "Generera",
         "flash": "Ladda upp en modell från din enhet",
         "embeddedAiKit": "Embedded AI Kit",
-        "seedStudioKit": "Seeed Studio Kit"
+        "seedStudioKit": "Seeed Studio Kit",
+        "arduinoQ": "Arduino UNO Q",
+        "arduinoQExplanations": "Arduino UNO Q-kortet kör modellen direkt på sin Linux-processor: ingen optimering via servern behövs.</br>Modellen öppnas i Arduino UNO Q-gränssnittet med ett exempelprogram och skickas sedan till kortet vid uppladdningen.",
+        "arduinoQNote": "<strong>Obs:</strong> om ditt projekt inte är sparat online stannar modellen i den här webbläsaren: ladda upp programmet från samma webbläsare.",
+        "openArduinoQ": "Öppna i Arduino UNO Q-gränssnittet"
       },
       "microcontroller-queue": {
         "title": "Väntar på att servern ska bli tillgänglig...",
@@ -7176,6 +7229,7 @@
         "codey": "Programmeringsgränssnitt för Codey-kortet och Rocky-roboten från Makeblock",
         "uno-r4-wifi": "Programmeringsgränssnitt för Arduino UNO R4 WiFi-kortet",
         "uno-r4-minima": "Programmeringsgränssnitt för Arduino UNO R4 Minima-kortet",
+        "uno-q": "Programmeringsgränssnitt för Arduino UNO Q-kortet (Arduino, Python och webbsida)",
         "nano": "Programmeringsgränssnitt för Arduino Nano-kortet",
         "mega": "Programmeringsgränssnitt för Arduino Mega-kortet",
         "steami": "Programmeringsgränssnitt för STeaMi-kortet",
@@ -9014,7 +9068,8 @@
       "groupNotFound": "Gruppen du försöker lägga till användaren i finns inte.",
       "errorAddingUserToGroup": "Ett fel uppstod när användaren skulle läggas till i gruppen.",
       "emptyData": "Det uppstod ett problem vid hämtning av data. Om felet kvarstår, kontakta teknisk support.",
-      "emptySSO": "Det uppstod ett problem vid hämtning av SSO-data. Om felet kvarstår, kontakta teknisk support."
+      "emptySSO": "Det uppstod ett problem vid hämtning av SSO-data. Om felet kvarstår, kontakta teknisk support.",
+      "samlEfIDenied": "Åtkomst nekad: plattformen är inte öppen för elever i cykel 2 och 3 i grundskolan. Om du tror att detta är ett fel, kontakta din skola."
     },
     "modal": {
       "title": "Välkommen till Vittascience",

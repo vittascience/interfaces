@@ -448,9 +448,15 @@ const ARDUINO_H = {
                 // write behavior for 'Serial' TO DO: behavior with another component on material ports
                 if (string.match(/\n/)) {
                     InterfaceMonitor.sendDataToChart(Simulator.outputMemory);
+                    InterfaceMonitor.playMusicMessage(Simulator.outputMemory);
                     Simulator.outputMemory = '';
                 } else {
                     Simulator.outputMemory += string;
+                }
+                // Arduino UNO Q: "[Arduino]" in front of the lines, the Python part writes in the same console
+                if (typeof QAppSimulator !== 'undefined') {
+                    QAppSimulator.print('Arduino', string);
+                    return rt.val(rt.intTypeLiteral, strLength);
                 }
                 const cons = document.getElementById('console');
                 string = string.replaceAll('<', '&lt;').replaceAll('>', '&gt;');
@@ -493,7 +499,15 @@ const ARDUINO_H = {
             rt.defVar("M_SQRT2", rt.doubleTypeLiteral, rt.val(rt.doubleTypeLiteral, 1.41421356237309504880));
             rt.defVar("M_SQRT1_2", rt.doubleTypeLiteral, rt.val(rt.doubleTypeLiteral, 0.70710678118654752440));
 
-            rt.defVar("LED_BUILTIN", rt.unsignedcharTypeLiteral, rt.val(rt.unsignedcharTypeLiteral, 13));
+            if (typeof QAppSimulator !== 'undefined') {
+                // Arduino UNO Q: RGB LEDs 3 and 4 of the board, LED_BUILTIN is the red of the LED 3
+                for (const [name, pin] of Object.entries(QAppSimulator.RGB_LED_PINS)) {
+                    rt.defVar(name, rt.unsignedcharTypeLiteral, rt.val(rt.unsignedcharTypeLiteral, pin));
+                }
+                rt.defVar("LED_BUILTIN", rt.unsignedcharTypeLiteral, rt.val(rt.unsignedcharTypeLiteral, QAppSimulator.RGB_LED_PINS.LED3_R));
+            } else {
+                rt.defVar("LED_BUILTIN", rt.unsignedcharTypeLiteral, rt.val(rt.unsignedcharTypeLiteral, 13));
+            }
 
             if ((typeof BOARD_ARDUINO_UNO_R4_WIFI !== 'undefined' && rt.config.board.id == BOARD_ARDUINO_UNO_R4_WIFI)
                 || (typeof BOARD_ARDUINO_UNO_Q !== 'undefined' && rt.config.board.id == BOARD_ARDUINO_UNO_Q)) {
@@ -688,6 +702,7 @@ const ARDUINO_H = {
 
             //digitalWrite
             rt.regFunc((function (rt, _this, pin, state) {
+                if (typeof QAppSimulator !== 'undefined' && QAppSimulator.writeRgbLed(pin.v, state.v)) return;
                 const pinStr = Simulator.getPinString(pin.v);
                 let id = 'write-digital';
                 const component = Simulator.pinList.find((component) => component.pin == pinStr);

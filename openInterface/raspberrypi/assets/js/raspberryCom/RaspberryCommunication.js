@@ -244,9 +244,7 @@ const RaspberryCommunication = {
 							// Graph mode
 							this._manageGraphData(line);
 							// Music mode
-							if (line.match(/^@music:/) && $('#audio-switch').append("On")) {
-								this._playNote(line);
-							}
+							InterfaceMonitor.playMusicMessage(line);
 						} else {
 							if (i == lines.length - 1) {
 								this.buffer = '\n';

@@ -150,6 +150,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       ]
     }],
     "previousStatement": null,
+    "suppressPrefixSuffix": true,
     "helpUrl": "%{BKY_CONTROLS_FLOW_STATEMENTS_HELPURL}",
     "extensions": [
       "block_init_color",
@@ -243,12 +244,6 @@ Blockly.Constants.Loops.CUSTOM_CONTEXT_MENU_CREATE_VARIABLES_GET_MIXIN = {
 Blockly.Constants.Loops.CONTROL_FLOW_IN_LOOP_CHECK_MIXIN = {
 
   /**
-   * Don't automatically add STATEMENT_PREFIX and STATEMENT_SUFFIX to generated
-   * code. These will be handled manually in this block's generators.
-   */
-  suppressPrefixSuffix: true,
-
-  /**
    * Is the given block enclosed (at any level) by a loop?
    * @param {!Blockly.Block} block Current block.
    * @return {Blockly.Block} The nearest surrounding loop, or null if none.
@@ -278,12 +273,12 @@ Blockly.Constants.Loops.CONTROL_FLOW_IN_LOOP_CHECK_MIXIN = {
       .getSurroundLoop(this)) {
       this.setWarningText(null);
       if (!this.isInFlyout) {
-        this.setEnabled(true);
+        this.setDisabledReason(false, Blockly.constants.MANUALLY_DISABLED);
       }
     } else {
       this.setWarningText(Blockly.Msg['CONTROLS_FLOW_STATEMENTS_WARNING']);
       if (!this.isInFlyout && !this.getInheritedDisabled()) {
-        this.setEnabled(false);
+        this.setDisabledReason(true, Blockly.constants.MANUALLY_DISABLED);
       }
     }
   }
@@ -315,7 +310,7 @@ Blockly.Extensions.registerMixin('controls_flow_in_loop_check',
 
 
 
-// For PyBlock
+// Blocks created by the former reverse translation (PyBlock): kept for the projects saved with them
 
 Blockly.defineBlocksWithJsonArray([
   // Block for comp List : [ a for a in range(10)]
@@ -437,11 +432,11 @@ Blockly.Constants.Loops.CONTROLS_RANGE_MUTATOR_MIXIN = {
   },
   restoreConnections_: function () {
     if (this.itemCount_ > 0 && this.itemBlock_.length > 1)
-      Blockly.Mutator.reconnect(this.itemBlock_[0], this, 'END');
+      this.itemBlock_[0]?.reconnect(this, 'END');
     if (this.itemCount_ > 1 && this.itemBlock_.length > 1)
-      Blockly.Mutator.reconnect(this.itemBlock_[1], this, 'START');
+      this.itemBlock_[1]?.reconnect(this, 'START');
     if (this.itemCount_ > 2 && this.itemBlock_.length > 2)
-      Blockly.Mutator.reconnect(this.itemBlock_[2], this, 'STEP');
+      this.itemBlock_[2]?.reconnect(this, 'STEP');
   },
   addItem_: function () {
     this.storeConnections_();
@@ -549,7 +544,7 @@ Blockly.Constants.Loops.CONTROLS_LISTCOMP_MUTATOR_MIXIN = {
   },
   restoreConnections_: function () {
     for (let i = 1; i < this.itemCount_; i++)
-      Blockly.Mutator.reconnect(this.itemBlock_[i - 1], this, 'ITEM' + i);
+      this.itemBlock_[i - 1]?.reconnect(this, 'ITEM' + i);
   },
   addItem_: function () {
     this.storeConnections_();

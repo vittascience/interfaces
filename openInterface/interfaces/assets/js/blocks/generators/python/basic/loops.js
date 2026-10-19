@@ -4,7 +4,7 @@
 
 Blockly.Python.controls_repeat = function (block) {
   let repeats = Blockly.Python.valueToCode(block, "TIMES", Blockly.Python.ORDER_NONE) || "0";
-  if (Blockly.isNumber(repeats)) {
+  if (Blockly.utils.string.isNumber(repeats)) {
     repeats = parseInt(repeats, 10);
   } else {
     repeats = "int(" + repeats + ")";

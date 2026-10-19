@@ -117,6 +117,34 @@ Simulator.Behaviours.input.gamepad_v4_in = function () {
 	return mod;
 };
 
+Simulator.Behaviours.input.joystick_bit_v2_in = function () {
+	const mod = Object.create(null);
+	mod.data = {
+		c: 0,
+		d: 0,
+		e: 0,
+		f: 0
+	};
+mod['getButton_C'] = new Sk.builtin.func(function () {
+	mod.data.c = $('#mb-joystick-bit-v2-c_value').html() == "ON" ? 0 : 1;
+	return new Sk.builtin.int_(mod.data.c);
+});
+mod['getButton_D'] = new Sk.builtin.func(function () {
+	mod.data.d = $('#mb-joystick-bit-v2-d_value').html() == "ON" ? 0 : 1;
+	return new Sk.builtin.int_(mod.data.d);
+});
+mod['getButton_E'] = new Sk.builtin.func(function () {
+	mod.data.e = $('#mb-joystick-bit-v2-e_value').html() == "ON" ? 0 : 1;
+	return new Sk.builtin.int_(mod.data.e);
+});
+mod['getButton_F'] = new Sk.builtin.func(function () {
+	mod.data.f = $('#mb-joystick-bit-v2-f_value').html() == "ON" ? 0 : 1;
+	return new Sk.builtin.int_(mod.data.f);
+});
+
+return mod;
+};
+
 Simulator.Behaviours.input.bitplayer_in = function () {
 	const mod = Object.create(null);
 	mod.data = {

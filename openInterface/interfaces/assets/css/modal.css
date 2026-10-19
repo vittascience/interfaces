@@ -57,6 +57,7 @@
     .vitta-modal-warning,
     #modal-codeOnly,
     #modal-codeOnly-info,
+    #modal-codeOnly-exit,
     #modal-microbit-bluetooth-pairing {
         width: 50%;
     }
@@ -815,4 +816,73 @@ div#arduino-board-selector .modal-content-div {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+/* Import of a project file (open project modal): click or drag and drop (project_panel.js, importProjectFile) */
+.import-dropzone {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 200px;
+    margin: 0;
+    padding: 28px 16px;
+    border: 2px dashed var(--bg-4);
+    border-radius: 12px;
+    background-color: var(--bg-2);
+    color: var(--text-1);
+    font-family: var(--main-font);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+/* The children don't get the drag events (no flickering of the highlight) */
+.import-dropzone > :not(input) {
+    pointer-events: none;
+}
+
+.import-dropzone:hover,
+.import-dropzone.is-dragover {
+    border-color: var(--vitta-green);
+    background-color: rgba(var(--vitta-green-rgb), 0.08);
+}
+
+.import-dropzone:focus-within {
+    box-shadow: var(--vitta-focus-box-shadow);
+}
+
+.import-dropzone-icon {
+    font-size: 2.4em;
+    color: var(--vitta-green);
+}
+
+.import-dropzone-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-0);
+}
+
+.import-dropzone-button {
+    padding: 6px 18px;
+    border-radius: 50vh;
+    background-color: var(--vitta-green);
+    color: var(--vitta-white);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.import-dropzone-extensions {
+    font-size: 12px;
+    color: var(--text-2);
+}
+
+/* Native input: hidden but still reachable with the keyboard */
+.import-dropzone-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
 }

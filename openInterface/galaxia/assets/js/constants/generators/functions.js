@@ -658,4 +658,47 @@ DEF_DS18B20_MEASURE:
   else:
     return t[index]`,
 
+DEF_MLX90621_TEMP_TO_COLOR:
+`def temp_to_color(temp, local_min, local_max):
+  n = min([max([(temp - local_min) / (local_max - local_min), 0]), 1])
+  if n < 0.5:
+    k = n * 2
+    r = 0
+    g = int((k * 255))
+    b = int(((1 - k) * 255))
+  else:
+    k = (n - 0.5) * 2
+    r = int((k * 255))
+    g = int(((1 - k) * 255))
+    b = 0
+  return (r * 65536 + g * 256) + b`,
+
+DEF_MLX90621_DISPLAY_VALUES: 
+`def mlx90621_display_values(values = None):
+  COLS = 16
+  ROWS = 4
+  SCREEN_W = 160
+  SCREEN_H = 128
+  START_X = 0
+  START_Y = 32
+  CELL_W = SCREEN_W // COLS              # 160 / 16 = 10
+  CELL_H = (SCREEN_H - START_Y) // ROWS  # (128 - 32) / 4 = 24
+  local_min = None
+  local_max = None
+  if values is None:
+    values = mlx90621.mlx90621_read_ir('float')
+    local_min = mlx90621.get_min_temp()
+    local_max = mlx90621.get_max_temp()
+  else:
+    if type(values) is str:
+      values = ujson.loads(values)
+    local_min, local_max = min_max_list_of_sublists(values)
+ 
+  for i in range(0, ROWS, 1):
+    for j in range(0, COLS, 1):
+      color = temp_to_color(values[int(i)][int(j)], local_min, local_max)
+      rect = display.raw.Rect(START_X + j * CELL_W, START_Y + i * CELL_H, CELL_W, CELL_H, color)
+      rect.show(True)
+  display.raw.print(2, 4, ('{}' * 3).format('Min : ', local_min, '°C'))
+  display.raw.print(2, 16, ('{}' * 3).format('Max : ', local_max, '°C'))`
 }

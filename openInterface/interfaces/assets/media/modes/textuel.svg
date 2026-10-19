@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="152" height="152" viewBox="0 0 152 152">
+  <g id="img_textuel" transform="translate(-1698.43 -263)">
+    <g id="Rectangle_3952" data-name="Rectangle 3952" transform="translate(1699.43 264)" fill="#fff" stroke="#707070" stroke-width="1">
+      <rect width="150" height="150" stroke="none"/>
+      <rect x="-0.5" y="-0.5" width="151" height="151" fill="none"/>
+    </g>
+    <g id="texte">
+      <text id="From_microbi_while_True:_display.s" data-name="From microbi
+
+while True:
+   display.s" transform="translate(1727.43 307.5)" fill="#0078d0" font-size="16" font-family="AndaleMono, Andale Mono, Menlo, Consolas, monospace"><tspan x="0" y="0" fill="#ff931e">From </tspan><tspan y="0" fill="#000">microbi</tspan><tspan fill="#ff931e"><tspan x="0" y="25"></tspan><tspan x="0" y="50">while</tspan><tspan y="50" xml:space="preserve" fill="#b154ff"> True</tspan><tspan y="50" fill="#707070">:</tspan></tspan><tspan fill="#b154ff"><tspan x="0" y="75" xml:space="preserve">   </tspan><tspan y="75" fill="#707070">display.</tspan><tspan y="75" fill="#0078d0">s</tspan></tspan></text>
+      <text id="_1_2_3_4" data-name="1
+2
+3
+4" transform="translate(1706.43 292.5)" font-size="16" font-family="AndaleMono, Andale Mono, Menlo, Consolas, monospace"><tspan x="-4" y="15">1</tspan><tspan x="-4" y="40">2</tspan><tspan x="-4" y="65">3</tspan><tspan x="-4" y="90">4</tspan></text>
+    </g>
+  </g>
+</svg>

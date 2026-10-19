@@ -48,11 +48,24 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/multichannel_gas.py': Simulator.PATH_LIB + 'grove/simu_multichannel_gas.py',
     'src/lib/dht11.py': Simulator.PATH_LIB + 'grove/simu_dht11.py',
     'src/lib/dht11_v2.py': Simulator.PATH_LIB + 'grove/simu_dht11.py',
+    'src/lib/rfid_reader.py': Simulator.PATH_LIB + 'grove/simu_rfid_reader.py',
+    'src/lib/voiceRecognition.py': Simulator.PATH_LIB + 'grove/simu_voiceRecognition.py',
+    'src/lib/fingerprint.py': Simulator.PATH_LIB + 'grove/simu_fingerprint.py',
     'src/lib/edgeModel.py': Simulator.PATH_LIB + 'ai/edgeModel.py',
     'src/lib/edgeModelmicro.py': Simulator.PATH_LIB + 'ai/edgeModelmicro.py',
     'src/lib/edgeModelP0-P1.py': Simulator.PATH_LIB + 'ai/edgeModelP0-P1.py',
     'src/lib/edgeModelP0.py': Simulator.PATH_LIB + 'ai/edgeModelP0.py',
     'src/lib/edgeModelP1.py': Simulator.PATH_LIB + 'ai/edgeModelP1.py',
+    'src/lib/huskylens_v2.py': Simulator.PATH_LIB + 'grove/simu_huskylens_v2.py',
+    // A4 microSySTEM models (block extensions)
+    'src/lib/a4_access.py': Simulator.PATH_LIB + 'a4/simu_a4_access.py',
+    'src/lib/a4_barrier.py': Simulator.PATH_LIB + 'a4/simu_a4_barrier.py',
+    'src/lib/a4_board.py': Simulator.PATH_LIB + 'a4/simu_a4_board.py',
+    'src/lib/a4_screen.py': Simulator.PATH_LIB + 'a4/simu_a4_screen.py',
+    'src/lib/a4_shifumi.py': Simulator.PATH_LIB + 'a4/simu_a4_shifumi.py',
+    'src/lib/a4_weight.py': Simulator.PATH_LIB + 'a4/simu_a4_weight.py',
+    // DFRobot micro:Driver (actuators blocks)
+    'src/lib/dfr0548.py': Simulator.PATH_LIB + 'dfrobot/simu_dfr0548.py',
     // js grove lib
     'src/lib/lcd_i2c.js': Simulator.PATH_LIB + 'grove/lcd_i2c.js',
     'src/lib/hm330x.js': Simulator.PATH_LIB + 'grove/hm330x.js',
@@ -66,7 +79,7 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/bme280.js': Simulator.PATH_LIB + 'envirobit/bme280.js',
     'src/lib/tcs3472.js': Simulator.PATH_LIB + 'envirobit/tcs3472.js',
     'src/lib/veml6040.js': Simulator.PATH_LIB + 'grove/veml6040.js',
-    'src/lib/HuskyLens.js': Simulator.PATH_LIB + 'grove/HuskyLens.js',
+    'src/lib/huskyLens.js': Simulator.PATH_LIB + 'grove/HuskyLens.js',
     // js robots libraries
     'src/lib/cutebotpro.js': Simulator.PATH_LIB + 'robots/cutebotpro.js',
     'src/lib/cutebot.js': Simulator.PATH_LIB + 'robots/cutebot.js',
@@ -302,6 +315,22 @@ Simulator.Mosaic.addSpecificSkulptFunctions = function () {
         return new Sk.builtin.int_(pin.name);
     });
 
+    // Show a value on an output module (ignored when the module is not displayed).
+    Sk.builtins.simulator_setOutput = new Sk.builtin.func(function (id, value) {
+        const mod = Simulator.modules.find(module => module.id === id.v);
+        if (mod) Simulator.setAnimator(mod, mod.id, Sk.ffi.remapToJs(value));
+        return new Sk.builtin.none();
+    });
+
+    // Move an input slider, e.g. to release a key once the program has read it.
+    Sk.builtins.simulator_setSliderValue = new Sk.builtin.func(function (id, value) {
+        const sliderId = id.v;
+        $('#' + sliderId).slider('value', value.v);
+        const mod = Simulator.modules.find(module => sliderId.startsWith(module.id + '_slider'));
+        if (mod) Simulator.setAnimator(mod, mod.id, value.v, sliderId);
+        return new Sk.builtin.none();
+    });
+
     Sk.builtins.simulator_runEvery = new Sk.builtin.func(function (process, days, h, min, s, ms) {
         Sk.builtin.pyCheckType("process", "callable", Sk.builtin.checkCallable(process));
         Sk.builtin.pyCheckType("days", "integer", Sk.builtin.checkInt(days));
@@ -418,6 +447,7 @@ Simulator.Mosaic.groveRegex = {
     "multichannelV2": /multichannel_v2\.measure_/gi,
     // Pins on module - inputs
     "gps": /# GPS on UART/gi,
+    "rfidReader": /rfid_(readCardID|reader\.rfid_read)\(/gi,
     // Pins on module - outputs
     "openlog": /# Lecteur SD on pin([0-9]{1,2})/gi,
     "stepper-motor": /StepperMotor\(pin[0-9]{1,2}, pin[0-9]{1,2}, pin[0-9]{1,2}, pin[0-9]{1,2}\)/gi
@@ -730,11 +760,61 @@ Simulator.Mosaic.specific = {
     },
 
     createSliders: function () {
+        const a4 = this.a4;
+        a4.addControls('a4-keypad', a4.keys('a4-keypad', '123456789*0#', 3));
+        a4.addControls('a4-keypad4x4', a4.keys('a4-keypad4x4', '123A456B789C*0#D', 4));
+        a4.addControls('a4-rfid', $('<div class="a4-badges">').append(a4.BADGES.map(([colour, name], index) => $('<button type="button">')
+            .attr('aria-label', 'Badge ' + name).html(a4.badge(colour)).on('click', () => a4.setInput('a4-rfid', index + 1)))));
+        a4.addControls('a4-port', $('<button type="button" class="a4-car">').attr('aria-label', 'Véhicule').html(a4.CAR)
+            .on('click', () => a4.setInput('a4-port', 1 - $('#a4-port_slider').slider('value'))));
+        a4.addControls('a4-mass', a4.SCALE);
+        // la masse est aussi saisissable au clavier, plus précise que le slider sur 0-5000 g
+        $('#a4-mass_slider').show();
+        $('#a4-mass_value')
+            .attr({ contenteditable: 'true', spellcheck: 'false' })
+            .off('.a4Mass')
+            .on('mousedown.a4Mass', (e) => e.stopPropagation())
+            .on('keydown.a4Mass', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    this.blur();
+                }
+            })
+            .on('blur.a4Mass', function () {
+                a4.setInput('a4-mass', Math.min(Math.max(parseInt(this.textContent, 10) || 0, 0), 5000));
+            });
+        $('#a4-battery_slider').slider({ min: 0, max: 100, value: 100 });
+        $('#a4-mass_slider').slider({ min: 0, max: 5000, value: 0 });
+        $('#a4-distance_slider').slider({ min: 0, max: 200, value: 50 });
+        $('#a4-keypad_slider').slider({ min: 0, max: 12, value: 0 });
+        $('#a4-keypad4x4_slider').slider({ min: 0, max: 16, value: 0 });
+        $('#a4-rfid_slider').slider({ min: 0, max: 3, value: 0 });
         $('#mb-thermometer_slider').slider({
             min: 0,
             max: 100,
             value: 20
         });
+        $('#voiceRecognition_slider').slider({
+            min: 0,
+            max: 208,
+            value: 0
+        });
+        // identifiant aussi saisissable au clavier, plus précis que le slider sur 0-208
+        $('#voiceRecognition_value')
+            .attr({ contenteditable: 'true', spellcheck: 'false' })
+            .off('.voiceId')
+            .on('mousedown.voiceId', (e) => e.stopPropagation())
+            .on('keydown.voiceId', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    this.blur();
+                }
+            })
+            .on('blur.voiceId', function () {
+                const id = Math.min(Math.max(parseInt(this.textContent, 10) || 0, 0), 208);
+                $('#voiceRecognition_slider').slider('value', id);
+                this.textContent = id;
+            });
         $('#mb-light_slider,' +
             '#mb-micro_slider,' +
             '#tcs3472-light_slider').slider({
@@ -781,8 +861,11 @@ Simulator.Mosaic.specific = {
             });
         $('#mb-button-a_slider,' +
             '#mb-button-b_slider,' +
+            '#a4-port_slider,' +
+            '#a4-door_slider,' +
             '#mb-button-ab_slider,' +
             '#mb-pin-logo_slider,' +
+            '#fingerprint_slider,' +
             '#mb-pin-0_slider,' +
             '#mb-pin-1_slider,' +
             '#mb-pin-2_slider,' +
@@ -808,6 +891,10 @@ Simulator.Mosaic.specific = {
             '#mb-gamepad-v4-e_slider,' +
             '#mb-gamepad-v4-f_slider,' +
             '#mb-gamepad-v4-z_slider,' +
+            '#mb-joystick-bit-v2-c_slider,' +
+            '#mb-joystick-bit-v2-d_slider,' +
+            '#mb-joystick-bit-v2-e_slider,' +
+            '#mb-joystick-bit-v2-f_slider,' +
             '#mb-gamepad-X_slider,' +
             '#mb-gamepad-Y_slider,' +
             '#mb-gamepad-up_slider,' +
@@ -906,7 +993,301 @@ Simulator.Mosaic.specific = {
         "b": 0
     },
 
+    /* Drawings and controls of the A4 microSySTEM models (block extensions) */
+    a4: {
+        rgb: (colour) => colour.some(value => value) ? 'rgb(' + colour.join(',') + ')' : null,
+        hex: (colour) => '#' + colour.toString(16).padStart(6, '0'),
+
+        /** Set an input module like its slider would. */
+        setInput(id, value) {
+            $('#' + id + '_slider').slider('value', value);
+            const mod = Simulator.modules.find(module => module.id === id);
+            if (mod) Simulator.setAnimator(mod, id, value, id + '_slider');
+        },
+
+        /** Put clickable controls in an input module, instead of its slider. */
+        addControls(id, controls) {
+            if (!$('#' + id).length) return;
+            $('#' + id + ' .a4-controls').remove();
+            $('#' + id + ' .module-body').prepend($('<div class="a4-controls">').append(controls));
+            $('#' + id + '_slider').hide();
+        },
+
+        keys(id, keys, columns) {
+            return $('<div class="a4-keys">').css('grid-template-columns', `repeat(${columns}, 1fr)`)
+                .append([...keys].map((key, index) => $('<button type="button">').text(key).on('click', () => this.setInput(id, index + 1))));
+        },
+
+        CAR: '<svg viewBox="0 0 80 40" width="88" height="44" aria-hidden="true"><path d="M8 28 L12 16 Q14 10 22 10 H52 Q58 10 62 16 L70 22 Q76 23 76 28 V31 H6 V28 Z" fill="#1e5bb8"/>'
+            + '<rect x="20" y="13" width="14" height="8" rx="2" fill="#cfe0f5"/><rect x="38" y="13" width="14" height="8" rx="2" fill="#cfe0f5"/>'
+            + '<circle cx="20" cy="32" r="6" fill="#222"/><circle cx="60" cy="32" r="6" fill="#222"/></svg>',
+
+        BADGES: [['#1e5bb8', 'bleu'], ['#f2c200', 'jaune'], ['#d8262c', 'rouge']],
+
+        badge: (colour) => '<svg viewBox="0 0 30 40" width="26" height="35" aria-hidden="true"><circle cx="15" cy="6" r="4" fill="none" stroke="#999" stroke-width="2"/>'
+            + `<path d="M15 10 C4 10 3 22 6 30 C9 38 21 38 24 30 C27 22 26 10 15 10 Z" fill="${colour}"/></svg>`,
+
+        SCALE: '<svg viewBox="0 0 80 50" width="56" height="35" aria-hidden="true"><rect x="10" y="8" width="60" height="5" rx="2" fill="#aaa"/>'
+            + '<rect x="36" y="13" width="8" height="12" fill="#888"/><rect x="5" y="25" width="70" height="22" rx="4" fill="#c8a165"/></svg>',
+
+        /** Barrier: the arm rises with the servo angle (5° closed, 115° open), the light is on the post. */
+        barrier(angle, rgb) {
+            const tilt = -Math.max(0, Math.min(90, (angle - 5) * 90 / 110));
+            const light = this.rgb(rgb);
+            let stripes = '';
+            for (let x = 62; x < 190; x += 32) stripes += `<rect x="${x}" y="46" width="16" height="8" fill="#d8262c"/>`;
+            return `<svg viewBox="0 0 200 110" width="145" height="80" role="img" aria-label="Barrière ${Math.round(angle)}°">`
+                + '<rect x="0" y="102" width="200" height="6" rx="2" fill="#9e9e9e"/>'
+                + '<rect x="28" y="44" width="20" height="60" rx="3" fill="#c8a165" stroke="#8a6a3a"/>'
+                + (light ? `<circle cx="38" cy="26" r="14" fill="${light}" opacity="0.35"/>` : '')
+                + `<circle cx="38" cy="26" r="8" fill="${light || '#555'}" stroke="#333" stroke-width="1.5"/>`
+                + `<g transform="rotate(${tilt} 38 50)"><rect x="38" y="45" width="152" height="10" rx="4" fill="#fff" stroke="#333"/>${stripes}</g>`
+                + '<circle cx="38" cy="50" r="5" fill="#333"/></svg>';
+        },
+
+        /** ShiFuMi disc: the symbol of the servo angle (0° rock, 90° paper, 180° scissors) is under the pointer. */
+        shifumi(angle, rgb) {
+            const light = this.rgb(rgb);
+            // Words rather than emojis: not every system has an emoji font.
+            const symbols = [['pierre', 0], ['feuille', 90], ['ciseaux', 180]]
+                .map(([symbol, position]) => `<text x="60" y="28" font-size="11" font-weight="bold" fill="#333" text-anchor="middle" transform="rotate(${-position} 60 55)">${symbol}</text>`).join('');
+            return `<svg viewBox="0 0 120 105" width="92" height="80" role="img" aria-label="Disque ${Math.round(angle)}°">`
+                + (light ? `<circle cx="60" cy="55" r="49" fill="${light}" opacity="0.45"/>` : '')
+                + `<g transform="rotate(${angle} 60 55)"><circle cx="60" cy="55" r="42" fill="${light || '#f2f2f2'}" fill-opacity="${light ? 0.3 : 1}" stroke="#999"/>${symbols}</g>`
+                + '<path d="M53 1 H67 L60 11 Z" fill="#333"/></svg>';
+        },
+
+        lock(locked) {
+            const shackle = locked ? '<path d="M20 30 V20 a10 10 0 0 1 20 0 V30"' : '<path d="M20 30 V13 a10 10 0 0 1 20 0 V19"';
+            return '<svg viewBox="0 0 60 60" width="56" height="56" aria-hidden="true">'
+                + `${shackle} fill="none" stroke="#666" stroke-width="5"/>`
+                + `<rect x="12" y="30" width="36" height="26" rx="4" fill="${locked ? '#c0392b' : '#27ae60'}"/><circle cx="30" cy="41" r="4" fill="#fff"/></svg>`
+                + `<span class="a4-lock-text">${locked ? 'verrouillée' : 'déverrouillée'}</span>`;
+        },
+
+        /** 320x240 screen: texts at their position, images as placeholders (they are stored on the real screen). */
+        screen(background, backgroundImage, texts, images) {
+            const scale = 0.6;
+            const place = (element, x, y) => element.css({ left: x * scale, top: y * scale });
+            const screen = $('<div class="a4-screen">').css('background', this.hex(background));
+            if (backgroundImage) screen.append($('<span class="a4-screen-image">').text('🖼 ' + backgroundImage).css({ left: 4, bottom: 4 }));
+            images.forEach(([name, x, y]) => screen.append(place($('<span class="a4-screen-image">').text('🖼 ' + name), x, y)));
+            texts.forEach(([text, x, y, size, colour]) => screen.append(place($('<span class="a4-screen-text">').text(text)
+                .css({ color: this.hex(colour), fontSize: size === 1 ? '15px' : '10px' }), x, y)));
+            return screen;
+        }
+    },
+
     definitions: [
+
+        /* A4 microSySTEM models (block extensions), simulated by src/a4/simu_a4_*.py and drawn by specific.a4 */
+        {
+            regex: /a4_barrier\.(servo|set_light)\(/,
+            id: "a4-barrier",
+            title: "Barrière",
+            pin: 'S0 / P0',
+            type: 'output',
+            value: [5, [0, 0, 0]],
+            animate: function (Animator) {
+                $(Animator.valueId).html(Simulator.Mosaic.specific.a4.barrier(...Animator.value));
+            }
+        },
+        {
+            regex: /a4_shifumi\.(servo|set_backlight|set_brightness)\(/,
+            id: "a4-shifumi",
+            title: "Disque ShiFuMi",
+            pin: 'S0 / P0',
+            type: 'output',
+            value: [90, [0, 0, 0]],
+            animate: function (Animator) {
+                $(Animator.valueId).html(Simulator.Mosaic.specific.a4.shifumi(...Animator.value));
+            }
+        },
+        {
+            regex: /a4_board\.write_port\(/,
+            id: "a4-lock",
+            title: "Ventouse magnétique",
+            pin: 'C0',
+            type: 'output',
+            value: 0,
+            animate: function (Animator) {
+                $(Animator.valueId).html(Simulator.Mosaic.specific.a4.lock(Animator.value));
+            }
+        },
+        {
+            regex: /a4_board\.read_port\(/,
+            id: "a4-port",
+            title: "Véhicule détecté",
+            pin: 'C0',
+            type: 'input',
+            listeners: [{ default: "non", unit: '', color: "#1a6da8", suffix: "" }],
+            animate: function (Animator) {
+                $('#a4-port .a4-car').toggleClass('present', Animator.value == 1);
+                $(Animator.valueId).text(Animator.value == 1 ? "oui" : "non");
+            }
+        },
+        {
+            regex: /a4_board\.battery\(/,
+            id: "a4-battery",
+            title: "Batterie",
+            pin: 'I2C (0x33)',
+            type: 'input',
+            listeners: [{ default: 100, unit: '%', color: "#1a6da8", suffix: "" }],
+            picture: "battery_buddy.svg",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value);
+            }
+        },
+        {
+            regex: /a4_board\.set_(leds|brightness)\(/,
+            id: "a4-rgb0",
+            title: "LED RGB0",
+            pin: 'I2C (0x33)',
+            type: 'output',
+            value: [0, 0, 0],
+            class: 'RGB-circle',
+            pictureAnimation: "Transparent.png",
+            animate: function (Animator) {
+                $(Animator.animId).css('background', "rgb(" + Animator.value.join(",") + ")");
+            }
+        },
+        {
+            regex: /a4_board\.set_(leds|brightness)\(/,
+            id: "a4-rgb1",
+            title: "LED RGB1",
+            pin: 'I2C (0x33)',
+            type: 'output',
+            value: [0, 0, 0],
+            class: 'RGB-circle',
+            pictureAnimation: "Transparent.png",
+            animate: function (Animator) {
+                $(Animator.animId).css('background', "rgb(" + Animator.value.join(",") + ")");
+            }
+        },
+        {
+            regex: /a4_access\.door_is\(/,
+            id: "a4-door",
+            title: "Porte fermée",
+            pin: 'P0',
+            type: 'input',
+            listeners: [{ default: "OFF", unit: '', color: "#1a6da8", title: "", suffix: "" }],
+            class: "button",
+            picture: "Bouton.png",
+            pictureAnimation: "Bouton-animation.png",
+            pictureInteraction: "buttonPush",
+            animate: function (Animator) {
+                Animator.button();
+            }
+        },
+        {
+            regex: /a4_access\.(wait_key|read_key|entered_code|clear_code|delete_last)\(/,
+            id: "a4-keypad",
+            title: "Clavier",
+            pin: 'UART (P14/P15)',
+            type: 'input',
+            listeners: [{ default: "–", unit: '', color: "#1a6da8", suffix: "" }],
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value ? '123456789*0#'[Animator.value - 1] : "–");
+            }
+        },
+        {
+            regex: /a4_barrier\.read_tag\(/,
+            id: "a4-rfid",
+            title: "Lecteur de badges RFID",
+            pin: 'UART (P14/P15)',
+            type: 'input',
+            listeners: [{ default: "aucun", unit: '', color: "#1a6da8", suffix: "" }],
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value ? 1234567890 + Animator.value : "aucun");
+            }
+        },
+        {
+            regex: /a4_weight\.(init|tare|mass|connected|start_calibration|calibrate|raw_average)\(/,
+            id: "a4-mass",
+            title: "Masse sur la balance",
+            pin: 'I2C (0x64)',
+            type: 'input',
+            listeners: [{ default: 0, unit: 'g', color: "#1a6da8", suffix: "" }],
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value);
+            }
+        },
+        {
+            regex: /a4_weight\.(pressed_key|wait_key)\(/,
+            id: "a4-keypad4x4",
+            title: "Clavier 4x4",
+            pin: 'P0-P3, P8, P13-P15',
+            type: 'input',
+            listeners: [{ default: "–", unit: '', color: "#1a6da8", suffix: "" }],
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value ? '123A456B789C*0#D'[Animator.value - 1] : "–");
+            }
+        },
+        {
+            regex: /a4_shifumi\.(distance|hand_detected)\(/,
+            id: "a4-distance",
+            title: "Capteur à ultrasons",
+            pin: 'P2',
+            type: 'input',
+            listeners: [{ default: 50, unit: 'cm', color: "#f9d142", suffix: "" }],
+            picture: "Ultrason.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value);
+            }
+        },
+        {
+            regex: /a4_shifumi\.lcd_/,
+            id: "a4-lcd",
+            title: "Écran LCD 16x2",
+            pin: 'I2C (0x3E)',
+            type: 'output',
+            value: ['', ''],
+            animate: function (Animator) {
+                $(Animator.valueId).addClass('a4-lcd').text(Animator.value.map(line => line.padEnd(16)).join('\n'));
+            }
+        },
+        {
+            regex: /a4_screen\./,
+            id: "a4-screen",
+            title: "Écran couleur 320x240",
+            pin: 'I2C / UART',
+            type: 'output',
+            large: true,
+            value: [0, '', [], []],
+            animate: function (Animator) {
+                $(Animator.valueId).empty().append(Simulator.Mosaic.specific.a4.screen(...Animator.value));
+            }
+        },
+
+        // DFRobot micro:Driver (DFR0548)
+        ...[1, 2, 3, 4, 5, 6, 7, 8].map(i => ({
+            regex: new RegExp('dfr0548\\.servo\\(' + i + ','),
+            id: 'dfr0548-servo' + i,
+            title: 'Servo S' + i,
+            pin: 'DFR0548 (I2C 0x40)',
+            type: 'output',
+            class: 'servo',
+            value: 90,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).html(Math.round(Animator.value) + " °");
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        })),
+        ...[1, 2, 3, 4].map(i => ({
+            regex: new RegExp('dfr0548\\.motor_(run|stop)\\(' + i + '\\b'),
+            id: 'dfr0548-motor' + i,
+            title: 'Moteur M' + i,
+            pin: 'DFR0548 (I2C 0x40)',
+            type: 'output',
+            value: 0,
+            picture: "Roue.png",
+            pictureAnimation: "Roue-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).text(Animator.value + " %");
+            }
+        })),
 
         /* Microbit modules */
         {
@@ -919,6 +1300,24 @@ Simulator.Mosaic.specific = {
             picture: "Log.png",
             pictureAnimation: "Log-animation.png",
             animate: function (Animator) {
+            }
+        },
+        {
+            regex: /voiceRecognition\.(getCMDID|isCommand)\(/,
+            id: "voiceRecognition",
+            title: "Reconnaissance vocale",
+            pin: 'I2C (0x64)',
+            type: 'input',
+            listeners: [{
+                default: 0,
+                unit: '',
+                color: "#1a6da8",
+                suffix: ""
+            }],
+            picture: "Capteur de son-micro.png",
+            animate: function (Animator) {
+                // affiche l'identifiant choisi avec le slider
+                $(Animator.valueId).text(Animator.value);
             }
         },
         {
@@ -1163,6 +1562,27 @@ Simulator.Mosaic.specific = {
             id: "mb-pin-logo",
             title: "Logo",
             pin: 'micro:bit',
+            type: 'input',
+            listeners: [{
+                default: "OFF",
+                unit: '',
+                color: "#1a6da8",
+                title: "",
+                suffix: ""
+            }],
+            class: "button",
+            picture: "Bouton.png",
+            pictureAnimation: "Bouton-animation.png",
+            pictureInteraction: "buttonPush",
+            animate: function (Animator) {
+                Animator.button();
+            }
+        },
+        {
+            regex: /fingerprint\.(verify|register)\(/,
+            id: "fingerprint",
+            title: "Capteur d'empreinte capacitif",
+            pin: 'UART',
             type: 'input',
             listeners: [{
                 default: "OFF",
@@ -2852,6 +3272,102 @@ Simulator.Mosaic.specific = {
             picture: "Buzzer.png",
             pictureAnimation: "Buzzer-animation.png",
         },
+        // Joystick:bit V2
+        {
+
+            regex: /joystick_bit_v2_in\.getButton_C/gi,
+            id: "mb-joystick-bit-v2-c",
+            title: "Touche C",
+            pin: 'Joystick:bit V2 (P12)',
+            type: 'input',
+            listeners: [{
+                default: "OFF",
+                unit: '',
+                color: "#000000",
+                title: "",
+                suffix: ""
+            }],
+            class: "button",
+            picture: "Bouton.png",
+            pictureAnimation: "Bouton-animation-Green.png",
+            pictureInteraction: "buttonPush",
+            animate: function (Animator) {
+                Animator.button();
+            }
+        },
+        {
+            regex: /joystick_bit_v2_in\.getButton_D/gi,
+            id: "mb-joystick-bit-v2-d",
+            title: "Touche D",
+            pin: 'Joystick:bit V2 (P13)',
+            type: 'input',
+            listeners: [{
+                default: "OFF",
+                unit: '',
+                color: "#000000",
+                title: "",
+                suffix: ""
+            }],
+            class: "button",
+            picture: "Bouton.png",
+            pictureAnimation: "Bouton-animation-Yellow.png",
+            pictureInteraction: "buttonPush",
+            animate: function (Animator) {
+                Animator.button();
+            }
+        },
+        {
+            regex: /joystick_bit_v2_in\.getButton_E/gi,
+            id: "mb-joystick-bit-v2-e",
+            title: "Touche E",
+            pin: 'Joystick:bit V2 (P14)',
+            type: 'input',
+            listeners: [{
+                default: "OFF",
+                unit: '',
+                color: "#000000",
+                title: "",
+                suffix: ""
+            }],
+            class: "button",
+            picture: "Bouton.png",
+            pictureAnimation: "Bouton-animation-Red.png",
+            pictureInteraction: "buttonPush",
+            animate: function (Animator) {
+                Animator.button();
+            }
+        },
+        {
+            regex: /joystick_bit_v2_in\.getButton_F/gi,
+            id: "mb-joystick-bit-v2-f",
+            title: "Touche F",
+            pin: 'Joystick:bit V2 (P15)',
+            type: 'input',
+            listeners: [{
+                default: "OFF",
+                unit: '',
+                color: "#000000",
+                title: "",
+                suffix: ""
+            }],
+            class: "button",
+            picture: "Bouton.png",
+            pictureAnimation: "Bouton-animation-Blue.png",
+            pictureInteraction: "buttonPush",
+            animate: function (Animator) {
+                Animator.button();
+            }
+        },
+        {
+            regex: /joystick_bit_v2_out\.setVibration/gi,
+            id: "mb-joystick-bit-v2-vibration",
+            title: "Vibrations",
+            pin: "Joystick:bit V2 (P16)",
+            type: "output",
+            value: "OFF",
+            picture: "Buzzer.png",
+            pictureAnimation: "Buzzer-animation.png"
+        },
         // Gamepad
         {
             regex: /gamepad_in.getButton_X/gi,
@@ -3181,7 +3697,15 @@ Simulator.Mosaic.specific = {
             value: 'ON',
             picture: "husky.png",
         },
-
+        {
+            regex: /HuskyLensV2/g,
+            id: "huskylens-v2",
+            title: "HuskyLens V2",
+            pin: "I2C",
+            type: "output",
+            value: "ON",
+            picture: "husky.png",
+        },
         //uHandbit servo port 1
         {
             regex: /uhandbit_servo\.set_servo\(1/gi,

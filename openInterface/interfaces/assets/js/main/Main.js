@@ -35,7 +35,6 @@ const Main = (function () {
      * @type {Blockly.WorkspaceSvg}
      */
     Code.workspace = null;
-    Code.hidden_workspace = null;
     Code.initFocus = false;
     Code.forceGeneration = false;
 
@@ -118,103 +117,23 @@ const Main = (function () {
                 return Sk.builtinFiles["files"][filename];
             }
         });
-        Code.pyBlock = new PyBlock();
     }
 
     /**
-     * For Python Interface
-     * recursive function to check height of next blocks that are connected to the parent block
-     * @param {block} block 
-     **/
-    function getTotalBlockHeight(block) {
-        let totalHeight = block.height;
-        let nextBlock = block.getNextBlock();
-        if (nextBlock) {
-            totalHeight += getTotalBlockHeight(nextBlock) - 8 // -8 (px?) to avoid extra space added to total height (empirical value)
-        }
-        return totalHeight;
-    }
-
-    /**
-     * For Python Interface
-     * move block to a specific position
-     * @param {block} block blockly block
-     * @param {number} x position in workspace for moveBy function
-     * @param {number} y position in workspace for moveBy function
-     * @returns {void}
-     **/
-    function moveBlock(block, x, y) {
-        let currentPosition = block.getRelativeToSurfaceXY();
-        block.moveBy(x - currentPosition.x, y - currentPosition.y); // reset position
-    }
-
-    /**
-     * For Python Interface
-     * reorganize blocks in the workspace
-     * @param {workspace} workspaceToOrganize
-     *  
-     **/
-    function reorganizeBlocks(workspaceToOrganize) {
-        let workspace = workspaceToOrganize;
-        const allBlocks = workspace.getAllBlocks();
-
-        // parent blocks are the blocks that have no previous block
-        const topBlocks = allBlocks.filter(block => !block.getParent());
-        let yPosition = 0;
-        let yPositionFunctions = 0;
-        const fixedX = 30;
-        const fixedXFonctions = 300; // maybe need to adjust this value in the future to avoid overlapping, or dynamically calculate it with .ide-block container size
-        for (let i = 0; i < topBlocks.length; i++) {
-            let block = topBlocks[i];
-            if (block.type === 'procedures_defreturn' || block.type === 'procedures_defnoreturn') {
-                let blockHeight = block.height;
-                moveBlock(block, fixedXFonctions, yPositionFunctions);
-                yPositionFunctions += blockHeight + 10;
-            } else {
-                // next blocks are connected to the parent block, they are not child blocks
-                const checkNextBlock = block.getNextBlock();
-                let blockHeight
-                if (checkNextBlock !== null) {
-                    blockHeight = getTotalBlockHeight(block);
-                } else {
-                    blockHeight = block.height;
-                }
-                moveBlock(block, fixedX, yPosition);
-                yPosition += blockHeight;
+     * Python interface: after the conversion of the code into blocks (Python2Blocks), keep the project XML in sync with
+     * the workspace and apply the toolbox restriction.
+     */
+    if (INTERFACE_NAME == 'python') {
+        document.addEventListener('python2blocks:injected', () => {
+            if (typeof projectManager !== 'undefined' && projectManager && projectManager._currentProject) {
+                projectManager._currentProject.code = CodeManager.getSharedInstance().getXml();
             }
-        }
-    }
-
-    function updatePyBlockCode() {
-        /**
-         * PyBlock : transform python into block
-         * 
-        */
-        const code = Main.getCodeEditor().container.getValue();
-        let oldCode = PyBlock.oldCode || "";
-        if (code == oldCode) return;
-
-        PyBlock.oldCode = code;
-        const xml = Code.pyBlock.convertSource("__main__.py", code);
-        const xmlDom = Blockly.Xml.textToDom(xml.xml);
-        if (Main.getWorkSpace) {
-            const workspace = Main.getWorkSpace();
-            Blockly.Events.disable();
-            Blockly.Xml.clearWorkspaceAndLoadFromXml(xmlDom, workspace);
-            reorganizeBlocks(workspace);
-            Blockly.Events.enable();
-        }
-        CodeManager.getSharedInstance().setXml();
-        CodeManager.getSharedInstance().setGeneratedCode();
-        if (typeof projectManager !== 'undefined' && projectManager && projectManager._currentProject) {
-            // Keep in-memory project XML in sync with the converted Blockly workspace.
-            projectManager._currentProject.code = CodeManager.getSharedInstance().getXml();
-        }
-        if ($("#toolboxRestriction").is(':checked')) {
-            const workspaceBlocks = Blockly.getMainWorkspace().getAllBlocks().filter(block => !block.isShadow_);
-            const restrictedBlockTypes = Code.toolbox.updateVariantBlocks(workspaceBlocks);
-            Code.toolbox.restrictTo(restrictedBlockTypes);
-        }
+            if ($("#toolboxRestriction").is(':checked')) {
+                const workspaceBlocks = Blockly.getMainWorkspace().getAllBlocks().filter(block => !block.isShadow());
+                const restrictedBlockTypes = Code.toolbox.updateVariantBlocks(workspaceBlocks);
+                Code.toolbox.restrictTo(restrictedBlockTypes);
+            }
+        });
     }
 
     Code.editor = {};
@@ -247,7 +166,7 @@ const Main = (function () {
         */
         Code.editor.container.on('focus', () => {
             Code.previousCode = CodeManager.getSharedInstance().getTextCode();
-            if (INTERFACE_NAME === 'TI-83' && getParamValue('mode') === 'code') {
+            if (INTERFACE_NAME === 'TI-83' && Main.getCodingMode() === MODE_CODE) {
                 Main.getWorkSpace().getFlyout().hide();
             }
             const editor = this.editor;
@@ -332,13 +251,9 @@ const Main = (function () {
                     Code.editor.convertCodeToBlocks();
                 }
             }
-            if (CodeManager.getSharedInstance().isCodeSelected() && Main.hasDragAndDrop()) {
-                dragAndDrop.updateDictionnaries();
-            }
             if (typeof Simulator !== 'undefined') {
                 Simulator.lastUpdate = Date.now();
-                const userCode = Simulator.getProjectCode();
-                if (userCode !== Simulator._userCode && Simulator.isOpen && Simulator.isStopped) {
+                if (Simulator.getWatchedCode() !== Simulator._userCode && Simulator.isOpen && Simulator.isStopped) {
                     Simulator.replay();
                 }
             }
@@ -408,9 +323,7 @@ const Main = (function () {
             Code.editor.updateCode();
         };
         Code.editor.convertCodeToBlocks = function () {
-            if (INTERFACE_NAME === 'python') {
-                updatePyBlockCode();
-            } else if (Main.hasCpp2Blocks()) {
+            if (Main.hasCpp2Blocks()) {
                 if (Cpp2Blocks !== "undefined" && Cpp2Blocks.initialized === true) {
                     Cpp2Blocks.injectBlocks();
                 }
@@ -601,18 +514,18 @@ const Main = (function () {
             for (const id of draggedByGroup) {
                 const b = Code.workspace.getBlockById(id);
                 if (b) {
-                    b.setEnabled(true);
+                    b.setDisabledReason(false, Blockly.constants.MANUALLY_DISABLED);
                 }
             }
             draggedByGroup = null;
         }
         for (let i = 1; i < currentBlocks.length; i++) {
             // Recompute state from scratch to avoid blocks staying disabled after undo/redo.
-            currentBlocks[i].setEnabled(true);
+            currentBlocks[i].setDisabledReason(false, Blockly.constants.MANUALLY_DISABLED);
 
             if (Code.isParentTopBlock(currentBlocks[i])) {
                 if (Code.toolbox.notAllowedToRenderBlocks.includes(currentBlocks[i].type)) {
-                    currentBlocks[i].setEnabled(false);
+                    currentBlocks[i].setDisabledReason(true, Blockly.constants.MANUALLY_DISABLED);
                     Code.forceGeneration = true;
                     displayInvalidBlocksWarning();
                 }
@@ -624,14 +537,14 @@ const Main = (function () {
                     innerBlocksToKeep.push(...innerHTML.keep);
                 }
                 if (innerBlocksToExclude.includes(currentBlocks[i].id)) {
-                    currentBlocks[i].setEnabled(false);
+                    currentBlocks[i].setDisabledReason(true, Blockly.constants.MANUALLY_DISABLED);
                 }
             } else {
-                currentBlocks[i].setEnabled(false);
+                currentBlocks[i].setDisabledReason(true, Blockly.constants.MANUALLY_DISABLED);
             }
             // warn the user if the block is not allowed for translation
             if (typeof EXCLUDED_BLOCKS_FOR_TRADUCTION !== "undefined" && EXCLUDED_BLOCKS_FOR_TRADUCTION.includes(currentBlocks[i].type)) {
-                if (!currentBlocks[i].disabled) {
+                if (currentBlocks[i].isEnabled()) {
                     Code.isEditorLocked = true;
                 } else {
                     Code.isEditorLocked = false;
@@ -643,7 +556,7 @@ const Main = (function () {
             const htmlBlocks = Code.workspace.getAllBlocks(false).filter(block => typeSet.has(block.type));
             for (const block of htmlBlocks) {
                 if (!innerBlocksToKeep.includes(block.id) && !block.outputConnection) {
-                    block.setEnabled(false);
+                    block.setDisabledReason(true, Blockly.constants.MANUALLY_DISABLED);
                 }
             }
         }
@@ -794,7 +707,7 @@ const Main = (function () {
         if (!valid) {
             const msg = 'The generator code for the following blocks not specified for ' +
                 generator.name_ + ':\n - ' + missingBlockGenerators.join('\n - ');
-            Blockly.alert(msg); // Assuming synchronous. No callback.
+            Blockly.dialog.alert(msg); // Assuming synchronous. No callback.
         }
         return valid;
     };
@@ -905,8 +818,23 @@ const Main = (function () {
                     wheel: true
                 },
                 comments: true,
-                disable: true
+                disable: true,
+                // Auto-scroll when a block is dragged near the workspace edge (@blockly/plugin-scroll-options)
+                plugins: typeof ScrollOptions !== 'undefined' ? {
+                    // No auto-scroll over a drop zone (toolbox, trashcan, backpack): dropping a block there must not shift the view
+                    blockDragger: class extends ScrollBlockDragger {
+                        scrollWorkspaceWhileDragging_(e) {
+                            if (this.dragTarget) return this.stopAutoScrolling();
+                            super.scrollWorkspaceWhileDragging_(e);
+                        }
+                        // Only the cursor reaching an edge scrolls, not the dragged block's bounds
+                        computeBlockCandidateScrolls_() { }
+                    },
+                    metricsManager: ScrollMetricsManager
+                } : {}
             });
+            // Distances in workspace units from the edge (negative = inside the workspace): slow scroll near the edge, fast once the cursor is past it
+            if (typeof ScrollOptions !== 'undefined') new ScrollOptions(Code.workspace).init({ edgeScrollOptions: { slowMouseStartDistance: -30, fastMouseStartDistance: 0 } });
 
             Code.workspace.getRenderer().getConstants().FIELD_COLOUR_FULL_BLOCK = false;
 
@@ -954,10 +882,14 @@ const Main = (function () {
 
             let codeManagerClass = CodeManager;
             let codeMode = "mixed";
-            if (interfaceName === "arduinoq") {
-                codeManagerClass = MultiCodeManager;
-            } else if (interfaceName === "bluebot") {
-                codeMode = "blocks";
+            switch (interfaceName) {
+                case "arduinoq":
+                    codeManagerClass = MultiCodeManager;
+                    break;
+                case "bluebot":
+                case "primastem":
+                    codeMode = "blocks";
+                    break;
             }
             if (interfaceName === "arduinoq" && CodeManager.instance && !(CodeManager.instance instanceof MultiCodeManager)) {
                 CodeManager.instance = null;
@@ -989,7 +921,7 @@ const Main = (function () {
                     Main.getWorkSpace().registerButtonCallback('createVariableButtonHandler',
                         function (button) {
                             Blockly.Variables.createVariableButtonHandler(button.getTargetWorkspace(), null, 'int');
-                            const lastVarName = Main.getWorkSpace().getAllVariableNames().slice(-1);
+                            const lastVarName = Main.getWorkSpace().getVariableMap().getAllVariables().map((v) => v.getName()).slice(-1);
                             Code.toolbox.pushVariable(lastVarName);
                         }
                     );
@@ -1001,25 +933,6 @@ const Main = (function () {
 
             Blockly.Tooltip.HOVER_MS = 200;
 
-            if (Main.hasDragAndDrop()) {
-                Code.hidden_workspace = Blockly.inject('hidden_workspace', { media: _PATH + '/interfaces/assets/js/external/blockly/media/' });
-
-                try {
-                    const hiddenInjectionDiv = document.querySelector('#hidden_workspace .injectionDiv');
-                    if (hiddenInjectionDiv) {
-                        hiddenInjectionDiv.setAttribute('role', 'region');
-                    }
-                } catch (e) { }
-
-                Code.workspace.addChangeListener(dragAndDrop.initDictionnaries.bind(dragAndDrop));
-                //observers
-                dragAndDrop.blocklyFlyout = document.getElementsByClassName('blocklyFlyout')[1];
-                dragAndDrop.blocklyBlockDragSurface = document.getElementsByClassName('blocklyBlockDragSurface')[0];
-
-                // tip to know the position of a block that is being dragged by the user
-                dragAndDrop.observerBlocklyBlockDragSurface = new MutationObserver(dragAndDrop.trackBlock);
-                dragAndDrop.observerBlocklyFlyout = new MutationObserver(dragAndDrop.fixedFlyout);
-            }
             // Add backpacks
             Code.backpack = new Backpack(Code.workspace);
             Code.backpack.init();
@@ -1279,7 +1192,7 @@ const Main = (function () {
          * @returns {boolean}
          */
         hasSimulator: function () {
-            return /(arduinoq|arduino|microbit|wb55|l476|esp32|TI-83|raspberrypi|niryo|nao|galaxia|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|pico|eliobot|thymio|winky|sphero|lotibot|bluebot|spike|photon|codey|steami|alphai)/.test(Code.getInterface());
+            return /(arduinoq|arduino|microbit|wb55|l476|esp32|TI-83|raspberrypi|niryo|nao|galaxia|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|pico|eliobot|thymio|winky|sphero|lotibot|bluebot|spike|photon|codey|steami|alphai|primastem)/.test(Code.getInterface());
         },
         /**
          * Returns true if interface has an auto-corrector.
@@ -1295,7 +1208,7 @@ const Main = (function () {
          * @returns {boolean}
          */
         hasToolboxModes: function () {
-            return ["arduino", "microbit", "esp32", "wb55", "l476", "TI-83", "galaxia", "raspberrypi", "buddy", "niryo", "nao", "GalaxiaCircuitPython", "mBot", "m5stack", "cyberpi", "eliobot", "thymio", "pico", "winky", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai"].includes(Code.getInterface());
+            return ["arduino", "microbit", "esp32", "wb55", "l476", "TI-83", "galaxia", "raspberrypi", "buddy", "niryo", "nao", "GalaxiaCircuitPython", "mBot", "m5stack", "cyberpi", "eliobot", "thymio", "pico", "winky", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai", "primastem"].includes(Code.getInterface());
         },
         /**
          * Returns true if interface has the drag and drop feature.
@@ -1314,7 +1227,7 @@ const Main = (function () {
             return ['esp32', 'pico', 'arduino', 'raspberrypi'].includes(Code.getInterface());
         },
         /**
-         * Returns true if interface has trad <> to bloc management (this one is only for python Interface => ro rework).
+         * Returns true for the Python interface (code written freely, run from its text).
          * @public
          * @returns {boolean}
          */
@@ -1322,12 +1235,12 @@ const Main = (function () {
             return /(python)/.test(Code.getInterface());
         },
         /**
-         * Returns true if interface has python 2 blocks. For all other interfaces than python that use python 2 blocks.
+         * Returns true if interface has python 2 blocks (reverse translation of the Python code with Python2Blocks).
          * @public
          * @returns {boolean}
          * */
         hasPython2Blocks: function () {
-            return /(microbit|esp32|galaxia|m5stack|pico|cyberpi|eliobot|wb55|l476|thymio|lotibot|sphero|bluebot|spike|photon|nao|codey|steami)/.test(Code.getInterface());
+            return /(python|microbit|esp32|galaxia|m5stack|pico|cyberpi|eliobot|wb55|l476|thymio|lotibot|sphero|bluebot|spike|photon|nao|codey|steami|primastem|buddy|niryo|raspberrypi|winky)/.test(Code.getInterface());
         },
         /**
          * Returns true if interface has cpp 2 blocks.
@@ -1368,14 +1281,6 @@ const Main = (function () {
          */
         getCodeMode: function () {
             return Code.getCodeMode();
-        },
-        /**
-         * Returns hidden workspace.
-         * @public
-         * @returns {Blockly.Worspace}
-         */
-        getHiddenWorkSpace: function () {
-            return Code.hidden_workspace;
         },
         /**
          * Set workspace theme.
@@ -1433,7 +1338,7 @@ const Main = (function () {
                 $(`input[name='toolboxRestrictionName']${toolboxRestrictionSwitchId}`).attr("checked", "checked");
             } else {
                 if ($(toolboxRestrictionSwitchId).is(':checked')) {
-                    const workspaceBlocks = this.getWorkSpace().getAllBlocks().filter(block => !block.isShadow_);
+                    const workspaceBlocks = this.getWorkSpace().getAllBlocks().filter(block => !block.isShadow());
                     const restrictedBlockTypes = Code.toolbox.updateVariantBlocks(workspaceBlocks);
                     Code.toolbox.restrictTo(restrictedBlockTypes);
                 } else {

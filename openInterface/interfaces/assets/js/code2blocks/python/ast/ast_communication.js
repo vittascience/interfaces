@@ -4,8 +4,8 @@ utils.prototypeBlocks['print'] = function (type, fields, values, mutations, stat
 	if (statementsNode.length > 1 && utils.prototypeBlocks['print_with_separator']) {
 		return utils.prototypeBlocks['print_with_separator'](type, fields, values, mutations, statementsNode, statement);
 	}
-	//  no print on bluebot or buddy
-	if (INTERFACE_NAME === 'bluebot' || INTERFACE_NAME === 'buddy') {
+	//  no print block for these interfaces, "print()" without argument (ex: code being typed): generic call
+	if (['bluebot', 'buddy', 'primastem'].includes(INTERFACE_NAME) || !statementsNode?.length) {
 		return null;
 	}
 
@@ -117,7 +117,7 @@ utils.prototypeBlocks['communication_graphSerialWrite_datasFormat'] = function (
 
 
 utils.prototypeBlocks['print_with_separator'] = function (type, fields, values, mutations, statementsNode, statement) {
-	if (INTERFACE_NAME === 'bluebot' || INTERFACE_NAME === 'buddy') {
+	if (['bluebot', 'buddy', 'primastem'].includes(INTERFACE_NAME)) {
 		return null;
 	}
 

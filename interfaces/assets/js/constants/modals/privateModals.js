@@ -5,14 +5,27 @@ const webSepFileButtonContent = `<div style="margin-top:15px; display:flex; gap:
 
 const webSeparateFilesButton = INTERFACE_NAME === 'web' ? webSepFileButtonContent : '';
 
+// Import of a project file: click (native file input) or drag and drop on the zone (project_panel.js, importProjectFile)
+const IMPORT_INO_INTERFACES = ["arduino", "mBot", "letsstartcoding"];
+const IMPORT_PY_INTERFACES = ["python", "microbit", "esp32", "wb55", "l476", "TI-83", "galaxia", "raspberrypi", "niryo", "nao", "GalaxiaCircuitPython", "buddy", "cyberpi", "pico", "eliobot", "thymio", "winky", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai", 'primastem'];
+const importProjectAccept = IMPORT_INO_INTERFACES.includes(INTERFACE_NAME) ? '.ino'
+    : IMPORT_PY_INTERFACES.includes(INTERFACE_NAME) ? '.py'
+    : INTERFACE_NAME === 'arduinoq' ? '.py,.txt,.ino,.zip' : '.py,.txt,.ino';
 let fileImportInput = `
-  <input
-    id="importproject-fileinput"
-    name="importproject-fileinput[]"
-    type="file"
-    data-i18n="[title]modals.standard.open.content.form.importCode"
-    accept=".py,.txt,.ino"
-  />
+  <label id="importproject-dropzone" class="import-dropzone" for="importproject-fileinput">
+    <i class="fas fa-file-import import-dropzone-icon" aria-hidden="true"></i>
+    <span class="import-dropzone-title" data-i18n="modals.standard.open.content.file-input.dropZoneTitle">Déposez vos fichiers ici...</span>
+    <span class="import-dropzone-button" data-i18n="modals.standard.open.content.file-input.btnBrowse">Ouvrir ...</span>
+    <span class="import-dropzone-extensions">${importProjectAccept.split(',').join(' ')}</span>
+    <input
+      id="importproject-fileinput"
+      name="importproject-fileinput[]"
+      type="file"
+      class="import-dropzone-input"
+      data-i18n="[title]modals.standard.open.content.form.importCode"
+      accept="${importProjectAccept}"
+    />
+  </label>
 `;
 
 if (INTERFACE_NAME === 'web') {
@@ -1151,6 +1164,22 @@ const backModals = {
                 </div>`,
         footer: `
             <button type="button" id="modal-codeOnly-info-confirm" class="btn btn-green me-5 ms-4" style="flex:1;" data-i18n="modals.standard.codeOnly.confirm" onclick="pseudoModal.closeModal('modal-codeOnly-info')">
+                Confirm
+            </button>`
+    },
+    'modal-codeOnly-exit': {
+        header: {
+            icon: 'fa-solid fa-lock-open',
+            title: 'modals.standard.codeOnly.exit.title'
+        },
+        content: `<div class="container text-center">
+                    <p data-i18n="modals.standard.codeOnly.exit.content"></p>
+                </div>`,
+        footer: `
+            <button type="button" id="modal-codeOnly-exit-cancel" class="btn btn-secondary me-4 ms-5" style="flex:1;" data-i18n="modals.standard.codeOnly.cancel" onclick="pseudoModal.closeModal('modal-codeOnly-exit')">
+                Cancel
+            </button>
+            <button type="button" id="modal-codeOnly-exit-confirm" class="btn btn-green me-5 ms-4" style="flex:1;" data-i18n="modals.standard.codeOnly.confirm" onclick="deactivateCodeOnly()">
                 Confirm
             </button>`
     },

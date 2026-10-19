@@ -120,6 +120,11 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "sensors_cameraTakePicture": this.Set.field("PIN_CS", '4'),
             // sensors - distance & movement
             "sensors_getGroveUltrasonicRanger": this.Set.field("PIN", '8'),
+            // Modulino
+            "modulino_buzzer_tone": this.Set.number("FREQUENCY", 440) + this.Set.number("DURATION", 500),
+            "modulino_pixels_setColor": this.Set.number("LED", 0) + this.Set.colour_picker("#ff0000") + this.Set.number("BRIGHTNESS", 25),
+            "modulino_pixels_setRGB": this.Set.number("LED", 0) + this.Set.number("R", 255) + this.Set.number("G", 0) + this.Set.number("B", 0) + this.Set.number("BRIGHTNESS", 25),
+            "modulino_knob_set": this.Set.number("VALUE", 0),
             "sensors_getGroveLineFinder": this.Set.field("PIN", '8'),
             "sensors_getGroveTilt": this.Set.field("PIN", '8'),
             "sensors_getGroveMotion": this.Set.field("PIN", '8'),
@@ -232,6 +237,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             // bridges
             "bridges_provide": '<shadow type="procedures_functionReference"></shadow>' + this.Set.text("ID", "id_du_pont"),
             "bridges_call": this.Set.text("ID", "id_du_pont"),
+            "bridges_call_return": this.Set.text("ID", "id_du_pont"),
             // bricks
             "bricks_app_run": '<mutation user_loop="false"></mutation>',
             "bricks_webui_send_message": this.Set.text("MESSAGE"),
@@ -275,12 +281,12 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             'orderedlist': this.Set.valueInput("content", '<block type="listitem">' + this.specific.textContent() + '</block>'),
             'listitem': this.specific.textContent(),
             'label': this.specific.textContent(),
-            'colornew': this.Set.colour_picker('#fff', "value"),
-            'textshadownew': this.Set.colour_picker('#fff', "color"),
-            'bgcolornew': this.Set.colour_picker('#fff', "value"),
-            'bordernew': this.Set.colour_picker('#fff', "color"),
-            'borderedge': this.Set.colour_picker('#fff', "color"),
-            'boxshadownew': this.Set.colour_picker('#fff', "color"),
+            'colornew': this.Set.valueInput("value", '<block type="color_picker"></block>'),
+            'textshadownew': this.Set.valueInput("color", '<block type="color_picker"></block>'),
+            'bgcolornew': this.Set.valueInput("value", '<block type="color_picker"></block>'),
+            'bordernew': this.Set.valueInput("color", '<block type="color_picker"></block>'),
+            'borderedge': this.Set.valueInput("color", '<block type="color_picker"></block>'),
+            'boxshadownew': this.Set.valueInput("color", '<block type="color_picker"></block>'),
             'transition': this.Set.valueInput("timing-function", '<block type="transitiontimingdropdown"></block>'),
             'bi_math_arithmetic': this.Set.number("A", 1) + this.Set.number("B", 1),
             'socket_emit_message': this.Set.text("MESSAGE")

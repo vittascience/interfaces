@@ -1,4 +1,6 @@
 import utils from '/openInterface/interfaces/assets/js/code2blocks/python/utils/utils.js';
+import '/openInterface/interfaces/assets/js/code2blocks/python/utils/chronometer.js';
+import '/openInterface/interfaces/assets/js/code2blocks/python/utils/music.js';
 
 // pin declarations
 utils.prototypeBlocks['define_pin'] = function (node, identifier) {
@@ -119,7 +121,8 @@ utils.prototypeBlocks['on'] = function (node, identifier) {
 	const classes = utils.python2Blocks._classes;
 	const checkClasses = classes[identifier];
 	if (!checkClasses) {
-		return '';
+		// not a pin of the program (ex: method of another object): generic call
+		return null;
 	}
 	const pin = checkClasses.pin;
 	const mode = checkClasses.mode;
@@ -151,7 +154,8 @@ utils.prototypeBlocks['off'] = function (node, identifier) {
 	const classes = utils.python2Blocks._classes;
 	const checkClasses = classes[identifier];
 	if (!checkClasses) {
-		return '';
+		// not a pin of the program (ex: method of another object): generic call
+		return null;
 	}
 	const pin = checkClasses.pin;
 	const mode = checkClasses.mode;

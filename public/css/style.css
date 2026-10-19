@@ -4636,14 +4636,16 @@ img.btn-cabri {
   color: var(--vitta-green) !important;
 }
 
-svg [tabindex]:focus,
-svg rect:focus,
-svg circle:focus,
-svg ellipse:focus,
-svg path:focus,
-svg polygon:focus,
-svg line:focus,
-svg g:focus {
+/* Not Blockly: since Blockly 12 its workspace, blocks and fields take the focus and Blockly
+   draws its own focus indicator (this stroke is inherited by the texts of the blocks). */
+svg [tabindex]:focus:not(.injectionDiv *),
+svg rect:focus:not(.injectionDiv *),
+svg circle:focus:not(.injectionDiv *),
+svg ellipse:focus:not(.injectionDiv *),
+svg path:focus:not(.injectionDiv *),
+svg polygon:focus:not(.injectionDiv *),
+svg line:focus:not(.injectionDiv *),
+svg g:focus:not(.injectionDiv *) {
   outline: none;
   stroke: #0d6efd;
   stroke-width: 30px;

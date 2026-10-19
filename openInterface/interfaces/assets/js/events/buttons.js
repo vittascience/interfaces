@@ -19,12 +19,15 @@ let showEditBtn = true;
 let showProjData = true;
 
 // Events for empty trash button (blockly)
+// The flyouts are found by class: their order in the DOM changed in Blockly 13.
+const TRASHCAN_FLYOUT = "#content_blocks .blocklyTrashcanFlyout";
+const BACKPACK_FLYOUT = "#content_blocks .blocklyFlyout:not(.blocklyToolboxFlyout):not(.blocklyTrashcanFlyout)";
 const emptyTrashButtonObserver = new MutationObserver(
     function (emptyTrashMutations) {
         emptyTrashMutations.forEach(() => {
             const emptyTrashBtn = $("#empty-trash-btn").css("display"),
-                trash = $("#content_blocks .blocklyFlyout")[0].style.display,
-                trashBlocks = $("#content_blocks .blocklyFlyout .blocklyWorkspace .blocklyBlockCanvas")[0];
+                trash = $(TRASHCAN_FLYOUT)[0].style.display,
+                trashBlocks = $(TRASHCAN_FLYOUT + " .blocklyWorkspace .blocklyBlockCanvas")[0];
             trashBlocks.setAttribute("transform", "translate(0,50) scale(0.9)");
             if (emptyTrashBtn == "none" && trash == "block") {
                 $("#empty-trash-btn").css("display", "block")
@@ -37,10 +40,10 @@ const emptyTrashButtonObserver = new MutationObserver(
 const emptyBackpackButtonObserver = new MutationObserver(
     function (emptyBackpackMutations) {
         emptyBackpackMutations.forEach(() => {
-            const backpackWidth = $("#content_blocks .injectionDiv .blocklyFlyout")[2].width['baseVal'].value,
+            const backpackWidth = $(BACKPACK_FLYOUT)[0].width['baseVal'].value,
                 emptyBackpackBtn = $("#empty-backpack-btn").css("display"),
-                backpack = $("#content_blocks .blocklyFlyout")[2].style.display,
-                backpackBlocks = $("#content_blocks .blocklyFlyout .blocklyWorkspace .blocklyBlockCanvas")[2];
+                backpack = $(BACKPACK_FLYOUT)[0].style.display,
+                backpackBlocks = $(BACKPACK_FLYOUT + " .blocklyWorkspace .blocklyBlockCanvas")[0];
             backpackBlocks.setAttribute("transform", "translate(0,50) scale(0.9)");
             if (backpackWidth > 33) {  // backpack not empty
                 if (emptyBackpackBtn == "none" && backpack == "block") {
@@ -57,8 +60,8 @@ const emptyBackpackButtonObserver = new MutationObserver(
 
 const setupObserver = function () {
     if (document.querySelector("#content_blocks .blocklyFlyout")) {
-        const trashLocation = $("#content_blocks .blocklyFlyout")[0], //trash
-            backpackLocation = $("#content_blocks .blocklyFlyout")[2]; // backpack
+        const trashLocation = $(TRASHCAN_FLYOUT)[0], //trash
+            backpackLocation = $(BACKPACK_FLYOUT)[0]; // backpack
         emptyTrashButtonObserver.observe(trashLocation, { attributes: true, attributeFilter: ['style'] });
         emptyBackpackButtonObserver.observe(backpackLocation, { attributes: true, attributeFilter: ['style'] });
     } else {
@@ -231,6 +234,18 @@ $('.ide-btn-group-settings').append(dropdownHeader);
 $.each(settingsOptions, (value, button) => {
     $('.ide-btn-group-settings').append(Button(button))
 });
+// Available in every interface, so not part of each settingsOptions
+$('.ide-btn-group-settings').append(Button({
+    id: 'shortcuts-setting',
+    classes: '',
+    fontAwesome: 'fas fa-keyboard',
+    title: 'code.topbar.tooltips.shortcuts',
+    tooltipPlacement: 'left',
+    onclick: 'openShortcutsModal()',
+    label: {
+        value: 'code.topbar.label.shortcuts'
+    }
+}));
 
 // check if we have fullscreen permissions before adding the buttons
 if (document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled) {
@@ -355,7 +370,7 @@ if (INTERFACE_NAME !== "adacraft") {
             ></button>
         </div>
     `;
-    const downloadOptionInterfaces = ["arduino", "microbit", "esp32", "wb55", "l476", "galaxia", "GalaxiaCircuitPython", "mBot", "m5stack", "buddy", "cyberpi", "letsstartcoding", "pico", "eliobot", "thymio", "raspberrypi", "winky", "niryo", "nao", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai", "arduinoq"];
+    const downloadOptionInterfaces = ["arduino", "microbit", "esp32", "wb55", "l476", "galaxia", "GalaxiaCircuitPython", "mBot", "m5stack", "buddy", "cyberpi", "letsstartcoding", "pico", "eliobot", "thymio", "raspberrypi", "winky", "niryo", "nao", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai", "arduinoq", "primastem"];
     if (downloadOptionInterfaces.includes(INTERFACE_NAME)) {
         $('.ide-btn-group-download').append(dropdownHeaderDownload);
 
@@ -671,6 +686,106 @@ document.addEventListener('keydown', function (event) {
     }
 });
 
+/* ** Keyboard shortcuts modal ** */
+
+const SHORTCUTS_IS_MAC = /Mac|iPhone|iPad/.test(navigator.platform);
+
+// Shortcuts defined outside of Blockly. "Ctrl" is Cmd on Mac, as in Ace.
+const INTERFACE_SHORTCUTS = {
+    general: [
+        { action: 'save', keys: [['Ctrl', 'S']] },
+        { action: 'closeModal', keys: [['Esc']] },
+        { action: 'focusNext', keys: [['Tab'], ['Shift', 'Tab']] },
+        { action: 'resizeConsole', keys: [['Up'], ['Down']] }
+    ],
+    code: [
+        { action: 'enterEditor', keys: [['Enter']] },
+        // Esc disables Tab indentation (see Main.js), then Tab moves the focus out
+        { action: 'leaveEditor', keys: [['Esc'], ['Tab']], sequence: true },
+        { action: 'undo', keys: [['Ctrl', 'Z']] },
+        { action: 'redo', keys: [['Ctrl', 'Y'], ['Ctrl', 'Shift', 'Z']] },
+        { action: 'selectAll', keys: [['Ctrl', 'A']] },
+        { action: 'duplicateLine', keys: [['Ctrl', 'D']] },
+        { action: 'moveLine', keys: [['Alt', 'Up'], ['Alt', 'Down']] },
+        { action: 'indent', keys: [['Tab'], ['Shift', 'Tab']] },
+        { action: 'toggleComment', keys: [['Ctrl', '/']] },
+        { action: 'find', keys: [['Ctrl', 'F']] },
+        { action: 'replace', keys: [SHORTCUTS_IS_MAC ? ['Ctrl', 'Alt', 'F'] : ['Ctrl', 'H']] }
+    ],
+    // Blockly's arrow navigation has no message, the other blocks shortcuts are read from Blockly
+    blocks: [
+        { action: 'navigateBlocks', keys: [['Up'], ['Down'], ['Left'], ['Right']] }
+    ]
+};
+
+const SHORTCUT_KEY_CODES = { 8: 'Backspace', 9: 'Tab', 13: 'Enter', 27: 'Esc', 32: 'Space', 33: 'PageUp', 34: 'PageDown', 35: 'End', 36: 'Home', 37: 'Left', 38: 'Up', 39: 'Right', 40: 'Down', 46: 'Delete', 93: 'ContextMenu', 188: ',', 190: '.', 191: '/', 219: '[', 221: ']' };
+const SHORTCUT_KEY_MESSAGES = { Ctrl: SHORTCUTS_IS_MAC ? 'COMMAND_KEY' : 'CONTROL_KEY', Control: 'CONTROL_KEY', Meta: 'COMMAND_KEY', Alt: SHORTCUTS_IS_MAC ? 'OPTION_KEY' : 'ALT_KEY', Shift: 'SHIFT_KEY', Enter: 'ENTER_KEY', Esc: 'ESCAPE', Tab: 'TAB_KEY', Space: 'SPACE_KEY', ContextMenu: 'CONTEXT_MENU_KEY', Backspace: 'BACKSPACE_KEY', Delete: 'DELETE_KEY', Home: 'HOME_KEY', End: 'END_KEY', PageUp: 'PAGE_UP_KEY', PageDown: 'PAGE_DOWN_KEY' };
+const SHORTCUT_ARROWS = { Up: '↑', Down: '↓', Left: '←', Right: '→' };
+
+/**
+ * @param {string} key - a key of INTERFACE_SHORTCUTS, or a Blockly modifier name / key code
+ * @returns {string} the translated key name
+ */
+function shortcutKeyLabel(key) {
+    if (/^\d+$/.test(key)) {
+        key = SHORTCUT_KEY_CODES[key] || (key >= 112 && key <= 123 ? `F${key - 111}` : String.fromCharCode(key));
+    }
+    const msg = typeof Blockly !== 'undefined' ? Blockly.Msg : {};
+    return SHORTCUT_ARROWS[key] || msg[SHORTCUT_KEY_MESSAGES[key]] || key;
+}
+
+/**
+ * Lists the shortcuts registered in Blockly, with Blockly's own labels, for the current platform.
+ * @returns {{label: string, keys: string[][]}[]}
+ */
+function getBlocklyShortcuts() {
+    if (typeof Blockly === 'undefined' || !Blockly.ShortcutItems) return [];
+    // Shortcuts whose message is not SHORTCUTS_<id>
+    const messages = { COPY: 'COPY_SHORTCUT', CUT: 'CUT_SHORTCUT', PASTE: 'PASTE_SHORTCUT', UNDO: 'UNDO', REDO: 'REDO', MENU: 'SHORTCUTS_SHOW_CONTEXT_MENU', TOGGLE_SCREENREADER: 'SHORTCUTS_TOGGLE_SCREENREADER_MODE' };
+    return Object.entries(Blockly.ShortcutItems.names).map(([id, name]) => {
+        // serialized as "Control+Shift+90"
+        const combos = Blockly.ShortcutRegistry.registry.getKeyCodesByShortcutName(name).map((key) => key.split('+'));
+        const platformCombos = combos.filter((keys) => keys.includes('Meta') === SHORTCUTS_IS_MAC);
+        return {
+            label: Blockly.Msg[messages[id] || `SHORTCUTS_${id}`],
+            keys: platformCombos.length ? platformCombos : combos
+        };
+    }).filter((shortcut) => shortcut.label && shortcut.keys.length);
+}
+
+function shortcutsTable(id, title, shortcuts) {
+    const t = (key) => jsonPath(`modals.standard.shortcuts.${key}`);
+    const rows = shortcuts.map(({ label, keys, sequence }) => {
+        const combos = keys.map((combo) => combo.map((key) => `<kbd>${shortcutKeyLabel(key)}</kbd>`).join(' + '));
+        return `<tr><td>${combos.join(` ${t(sequence ? 'then' : 'or')} `)}</td><td>${label}</td></tr>`;
+    }).join('');
+    return `<h5 class="mt-3" id="shortcuts-${id}-title">${title}</h5>
+        <table class="table table-sm" aria-labelledby="shortcuts-${id}-title">
+            <thead><tr><th scope="col">${t('table.keys')}</th><th scope="col">${t('table.action')}</th></tr></thead>
+            <tbody>${rows}</tbody>
+        </table>`;
+}
+
+/**
+ * Fills the keyboard shortcuts modal when it opens, as Blockly's shortcuts are only known at runtime.
+ */
+function openShortcutsModal() {
+    const t = (key) => jsonPath(`modals.standard.shortcuts.${key}`);
+    const withLabels = (shortcuts) => shortcuts.map((shortcut) => ({ ...shortcut, label: t(`actions.${shortcut.action}`) }));
+    const sections = [
+        ['general', withLabels(INTERFACE_SHORTCUTS.general)],
+        ['code', withLabels(INTERFACE_SHORTCUTS.code)],
+        ['blocks', typeof Blockly === 'undefined' ? [] : [...withLabels(INTERFACE_SHORTCUTS.blocks), ...getBlocklyShortcuts()]]
+    ];
+    document.getElementById('shortcuts-modal-content').innerHTML = sections
+        .filter(([, shortcuts]) => shortcuts.length)
+        .map(([id, shortcuts]) => shortcutsTable(id, t(`sections.${id}`), shortcuts))
+        .join('');
+    // Refocused on close (modals-accessibility.js), the clicked menu button being hidden by then
+    window.lastFocusedElement = document.querySelector('.ide-btn-group-settings')?.parentElement.querySelector('.ide-btn-toggle');
+    pseudoModal.openModal('modal-shortcuts');
+}
+
 /**
  * Listen to all the document submit events and execute the saveExerciseStatement if the event target is the exercise statement form
  */
@@ -705,6 +820,9 @@ function setupInterfaceWithUrlParams() {
 /**
  * Save the project to the current user device -> default behavior
  */
+// Vittascience project file stored at the root of the Arduino UNO Q project zip (see saveDefaultProjectToComputer)
+const ARDUINOQ_PROJECT_FILE = 'vittascience_project.py';
+
 function saveDefaultProjectToComputer(downloadingProject) {
     const inoInterfaces = ["arduino", "letsstartcoding", "mBot"];
     let name = "";
@@ -717,7 +835,7 @@ function saveDefaultProjectToComputer(downloadingProject) {
         name = $('#project-name').text().replaceAll('.', '_');
         description = projectManager.getCurrentProject().description;
     }
-    if (name == "no name" || name == null) {
+    if (name == "no name" || name == null || name.trim() === '') {
         name = 'main';
     }
 
@@ -729,11 +847,31 @@ function saveDefaultProjectToComputer(downloadingProject) {
         if (user !== null) {
             header += `Auteur: ${user.firstname + ' ' + user.surname}\n`;
         }
+        const statementManager = projectManager.getExerciseStatement();
+        const statement = statementManager ? statementManager.getStatementContent() : '';
+        const ex = projectManager._currentExercise;
+        const tests = ex && Array.isArray(ex.unitTests) && ex.unitTests.length ? {
+            exercise: { functionName: ex.exercise.functionName, secretWord: ex.exercise.secretWord, linkSolution: ex.exercise.linkSolution },
+            unitTests: ex.unitTests.map((t) => ({
+                name: t.name, hint: t.hint,
+                inputs: t.inputs.map(({ type, value }) => ({ type, value })),
+                outputs: t.outputs.map(({ type, value }) => ({ type, value }))
+            }))
+        } : null;
+        const restrictedBlocks = Main.getToolboxManager && Main.getToolboxManager() ? Main.getToolboxManager().getToolboxRestricted() : null;
+        const toolboxRestriction = Array.isArray(restrictedBlocks) && restrictedBlocks.length ? {
+            blocks: restrictedBlocks,
+            variables: Main.getWorkSpace().getVariableMap().getAllVariables().map((variable) => variable.name)
+        } : null;
+        // base64: keeps the header valid Python / C++ comment and free of "Key:" lines
+        const exerciseLine = (statement || tests || toolboxRestriction)
+            ? `Exercise: ${btoa(unescape(encodeURIComponent(JSON.stringify({ statement: statement || undefined, tests: tests || undefined, toolboxRestriction: toolboxRestriction || undefined }))))}\n`
+            : '';
         const body = `Nom du projet: ${name}
 Description: ${description}
 Toolbox: ${(getParamValue('toolbox') || TOOLBOX_STYLE_DEFAULT)}
 Mode: ${Main.getCodingMode()}\n
-Blocks: ${CodeManager.getSharedInstance()._workspaceToXml()}\n`;
+Blocks: ${CodeManager.getSharedInstance()._workspaceToXml()}\n${exerciseLine}`;
         const footer = (title, link) =>
             `Projet généré par ${title}.
 Ce fichier contient le code textuel ainsi que le code blocs. Il peut être importé de nouveau
@@ -755,6 +893,24 @@ sur l'interface ${link}\n\n`;
         for (i in date) {
             name += date[i].toString();
         }
+    }
+    // Arduino UNO Q: zip of the Arduino App Lab app (same files as an upload), plus the Vittascience project file
+    // (code + blocks) that the import reads back from the zip
+    if (INTERFACE_NAME === 'arduinoq') {
+        const zip = new JSZip();
+        const uploader = InterfaceConnection.unoqUp || new UnoQuploader({}); // reuses the cached library index
+        uploader.buildAppFiles(CodeManager.getSharedInstance().getCodeFiles()).then(files => {
+            files.forEach(([path, file]) => zip.file(path, file));
+            zip.file(ARDUINOQ_PROJECT_FILE, script);
+            return zip.generateAsync({ type: 'blob' });
+        }).then(blob => {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = name + '.zip';
+            link.click();
+            setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+        }).catch(error => console.error('[download] Arduino UNO Q project zip:', error));
+        return;
     }
     const element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(script));
@@ -826,7 +982,7 @@ function saveWebProjectToComputer(downloadingProject = false, saveForLTI = false
             name = $('#project-name').text();
             description = projectManager.getCurrentProject().description;
         }
-        if (name == "no name" || name == null) {
+        if (name == "no name" || name == null || name.trim() === '') {
             name = 'main';
         }
 
@@ -942,7 +1098,7 @@ function toggleToolbox() {
         } else {
             //open the toolbox
             $('#generator').animate({
-                width: $(window).width() - $('.blocklyToolboxDiv').width() - 500,
+                width: $(window).width() - $('.blocklyToolbox').width() - 500,
             }, '500', function () {
                 document.querySelectorAll('.fa-chevron-right').forEach(function (chevron) {
                     chevron.classList.replace('fa-chevron-right', 'fa-chevron-left');
@@ -966,7 +1122,7 @@ function toggleToolbox() {
             });
         } else {
             $('#generator').animate({
-                width: $(window).width() - $('.blocklyToolboxDiv').width(),
+                width: $(window).width() - $('.blocklyToolbox').width(),
             }, '500', function () {
                 document.querySelectorAll('.fa-chevron-right').forEach(function (chevron) {
                     chevron.classList.replace('fa-chevron-right', 'fa-chevron-left');
@@ -1158,6 +1314,38 @@ function switchMixedMode(animation = true) {
 }
 
 /**
+ * On a narrow screen the hybrid mode splits an already small width: when the page opens in hybrid mode,
+ * recommend the blocks or code mode (only the modes offered by the interface).
+ */
+function showMixedSmallScreenPopup() {
+    if (Main.getCodingMode() !== MODE_MIXED || !window.matchMedia('(max-width: 500px)').matches) return;
+    const modes = [['block_mode', 'blockMode', 'blocs', switchBlockMode], ['code_mode', 'codeMode', 'textuel', switchCodeMode]]
+        .filter(([id]) => document.getElementById(id));
+    if (!modes.length) return;
+    const popup = $('<div id="mixed-popup-small-screen" role="dialog" aria-modal="false">')
+        .attr('aria-label', i18next.t('code.popups.mixed-small-screen'))
+        .append(
+            $('<button type="button" class="btn-close">').attr('aria-label', i18next.t('code.popups.mixed-small-screen-close'))
+                .on('click', () => popup.remove()),
+            $('<p>').text(i18next.t('code.popups.mixed-small-screen'))
+        );
+    const actions = $('<div class="mixed-popup-actions">').appendTo(popup);
+    for (const [, label, image, switchMode] of modes) {
+        $('<button type="button" class="mixed-popup-mode">')
+            .append(
+                $('<img alt="">').attr('src', `${_PATH}/interfaces/assets/media/modes/${image}.svg`),
+                $('<span>').text(i18next.t('code.topbar.label.' + label))
+            )
+            .on('click', () => { popup.remove(); switchMode(); })
+            .appendTo(actions);
+    }
+    $('<button type="button" class="mixed-popup-stay">').text(i18next.t('code.popups.mixed-small-screen-stay'))
+        .on('click', () => popup.remove())
+        .appendTo(actions);
+    $('body').append(popup);
+}
+
+/**
  * Show popup notification for mixed mode read-only code editor
  */
 function showMixedReadOnlyPopup() {
@@ -1243,7 +1431,6 @@ function switchCodeMode(animation = true) {
         if (Main.hasDragAndDrop()) {
             dragAndDrop.enable();
             $('.ace_gutter-layer').css('cursor', 'unset');
-            $("body").append('<span id="ruler"></span>');
             //Fix for mobile phone
             $("#generator").width(dragAndDrop.size());
         } else {
@@ -1266,7 +1453,6 @@ function switchCodeMode(animation = true) {
         if (Main.hasDragAndDrop()) {
             dragAndDrop.enable();
             $('.ace_gutter-layer').css('cursor', 'unset');
-            $("body").append('<span id="ruler"></span>');
             //Fix for mobile phone
             generatorSize = dragAndDrop.size();
         } else {
@@ -1316,13 +1502,13 @@ function switchCodeOnlyMode() {
     switchCodeOnlyStyle();
 };
 
-function switchCodeOnlyStyle(flag = true) {
+async function switchCodeOnlyStyle(flag = true) {
     if (flag) {
         $('#block_mode, #mixed_mode').hide();
         $('#code_mode').removeClass('ide-btn-right');
         $('#code_mode').addClass('ide-btn-alone mode-selected');
         $('#code_mode').css('cursor', 'help');
-        $('#code_mode').attr('onclick', 'pseudoModal.openModal("modal-codeOnly-info")');
+        $('#code_mode').attr('onclick', 'openCodeOnlyLockedModal()');
         $('#codeOnly_mode').css({ 'top': '0', 'cursor': 'not-allowed', 'pointer-events': 'none' });
         $('#codeOnly_mode > i').removeClass('fa-lock-open').addClass('fa-lock');
     } else {
@@ -2272,6 +2458,26 @@ function activateCodeOnly() {
     switchCodeOnlyMode();
 }
 
+// Only the project owner can leave code only mode, others just see the locked info
+async function openCodeOnlyLockedModal() {
+    if (typeof capytaleManager !== 'undefined') {
+        const currentMode = await capytaleManager.getMode();
+        const isTeacher = currentMode !== 'assignment';
+        pseudoModal.openModal(isTeacher ? 'modal-codeOnly-exit' : 'modal-codeOnly-info');
+    } else {
+        const isProjectOwner = typeof projectManager !== 'undefined' && projectManager && projectManager.getIsCurrentProjectOwner();
+        pseudoModal.openModal(isProjectOwner ? 'modal-codeOnly-exit' : 'modal-codeOnly-info');
+    }
+}
+
+function deactivateCodeOnly() {
+    pseudoModal.closeModal('modal-codeOnly-exit');
+    switchCodeOnlyStyle(false);
+    $(".sync-code-span, .sync-code").css('display', '');
+    if ($_GET("nocloud") != "1") $('#addblock-setting').css('display', '');
+    switchCodeMode(false);
+}
+
 // =================== WEB INTERFACE SECTION ================
 
 function togglePreview(open = false) {
@@ -2329,3 +2535,12 @@ $("#fullscreen-preview-btn").on("click", function () {
 });
 
 // ============== WEB INTERFACE SECTION  END ================
+
+// Only when the page is loaded: once the interface is ready and its project mode applied.
+window.addEventListener('load', function waitInterfaceForMixedPopup() {
+    if (typeof VittaInterface === 'undefined' || !VittaInterface || !VittaInterface.initialized) {
+        setTimeout(waitInterfaceForMixedPopup, 200);
+        return;
+    }
+    setTimeout(showMixedSmallScreenPopup, 1000);
+});

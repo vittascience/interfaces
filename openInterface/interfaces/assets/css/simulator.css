@@ -23,8 +23,21 @@
 		top: 0;
 		left: 0;
 		min-width: 0px;
-		width: 100%;
+		width: 100% !important; /* the fullscreen mode would shrink it to 60% */
 		height: 100%;
+	}
+
+	/* The simulator already takes the whole screen: its fullscreen button would change nothing. */
+	#simulator_fullscreen,
+	#simulator_autocorrector_fullscreen {
+		display: none !important;
+	}
+
+	/* The hidden fullscreen button stays the last child: round the button before it. */
+	.oi-btn-group-simulator > .btn:has(+ #simulator_fullscreen),
+	.oi-btn-group-simulator > .btn:has(+ #simulator_autocorrector_fullscreen) {
+		border-top-right-radius: var(--bs-btn-border-radius);
+		border-bottom-right-radius: var(--bs-btn-border-radius);
 	}
 }
 
@@ -192,75 +205,28 @@
 	z-index: 990;
 }
 
-/* Debug mode panel */
+/* Debug mode panel (buttons: openComponents.css) */
 
 .debugger-text {
-	height: 32px;
 	text-align: center;
 	font-family: var(--main-font);
 	font-weight: 600;
 	font-size: 14px;
 	color: var(--text-0);
-	margin-top: 10px;
-}
-
-#timeout {
-	width: 142px;
-}
-
-.debugger-btn {
-	width: 30px;
-	height: 30px;
-	margin: 5px;
-	line-height: 0px;
-	text-align: center;
-	letter-spacing: -1px;
-	border-radius: 14px;
-}
-
-.debugger-btn:hover {
-	background: var(--vitta-orange);
-	cursor: pointer;
 }
 
 #timeout-controls {
-	display: grid;
-	grid-template-columns: repeat(6, auto);
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 	align-items: center;
+	gap: 8px 6px;
+	margin: 8px 0;
 }
 
-@media (max-width: 500px) {
-	#timeout-controls {
-		grid-template-columns: repeat(4, auto);
-	}
-
-	#timeout-controls #simulator_step_forward {
-		grid-column-start: 2;
-		grid-column-end: 5;
-	}
-
-}
-
-#debugger-timeout {
-	height: 30px;
-	width: 50px;
-	text-align: center;
-	border: 2px solid;
-	border-color: var(--text-2);
-	border-radius: 8px;
-}
-
-#step_forward {
-	width: 120px;
-}
-
-.debugger-step-btn {
-	border-radius: 15px;
-}
-
-.debugger-step-btn:hover {
-	background: var(--vitta-orange);
-	cursor: pointer;
+/* Space between the pause setting and the next step */
+#timeout-controls #step_forward {
+	margin-left: 14px;
 }
 
 /* Robot simulator */

@@ -116,6 +116,9 @@ Blockly.Msg["EXCEPTION_RAISE_TOOLTIP"] = "lanzar una excepción";
 Blockly.Msg["EXCEPTION_EXCEPTION_TOOLTIP"] = "crear una excepción";
 Blockly.Msg["EXCEPTION_TYPE_TOOLTIP"] = "Todos los tipos de excepción posibles";
 Blockly.Msg["EXCEPTION_TRY_TOOLTIP"] = "Ejecuta un bloque de código y permite ejecutar un bloque de código en caso de excepción";
+Blockly.Msg["EXCEPTION_RAISE_TITLE"] = "lanzar";
+Blockly.Msg["EXCEPTION_TRY_TITLE"] = "intentar";
+Blockly.Msg["EXCEPTION_EXCEPT_TITLE"] = "en caso de excepción";
 
 // Bloques de lógica.
 Blockly.Msg["CONTROLS_IF_HELPURL"] = "https://github.com/google/blockly/wiki/IfElse";
@@ -528,7 +531,8 @@ Blockly.Msg["PROCEDURES_DEFRETURN_TITLE"] = Blockly.Msg["PROCEDURES_DEFNORETURN_
 Blockly.Msg["PROCEDURES_DEFRETURN_PROCEDURE"] = Blockly.Msg["PROCEDURES_DEFNORETURN_PROCEDURE"];
 Blockly.Msg["PROCEDURES_DEFRETURN_DO"] = Blockly.Msg["PROCEDURES_DEFNORETURN_DO"];
 Blockly.Msg["PROCEDURES_DEFRETURN_COMMENT"] = Blockly.Msg["PROCEDURES_DEFNORETURN_COMMENT"];
-Blockly.Msg["PROCEDURES_DEFRETURN_RETURN"] = "return";
+Blockly.Msg["PROCEDURES_DEFRETURN_RETURN"] = "devolver";
+Blockly.Msg["PROCEDURES_SIMPLE_RETURN_TOOLTIP"] = "Devuelve un valor y sale de la función.";
 Blockly.Msg["PROCEDURES_DEFRETURN_TOOLTIP"] = "Crear una función con salida";
 Blockly.Msg["PROCEDURES_ALLOW_STATEMENTS"] = "permitir comandos";
 Blockly.Msg["PROCEDURES_DEF_DUPLICATE_WARNING"] = "Aviso: Esta función tiene parámetros duplicados";
@@ -598,3 +602,5 @@ Blockly.Msg['WIO_GET_STATUS_TOOLTIP'] = IMG_WIO_LITE_AI + Blockly.Tooltip.SEP + 
 Blockly.Msg["MATH_RSA_GENERATE_KEYS_HELPURL"] = "https://es.wikipedia.org/wiki/RSA";
 Blockly.Msg["LISTS_CREATE_EMPTY_HELPURL"] = "https://github.com/google/blockly/wiki/Lists#create-empty-list";
 Blockly.Msg["VARIABLES_SET_WARNING"] = "La variable '%1' fue asignada primero como '%2'\n\n y este bloque intenta asignarle el tipo '%3'.\n";
+Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TITLE"] = "Función: %1";
+Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TOOLTIP"] = "Obtén la referencia de la función para pasarla como argumento a otra función.";

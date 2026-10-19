@@ -528,3 +528,7 @@ Blockly.Msg['SENSORS_MLX90621_TEMP_MIN'] = 'الحد الأدنى';
 Blockly.Msg['SENSORS_MLX90621_TEMP_MAX'] = 'الحد الأقصى';
 Blockly.Msg['SENSORS_MLX90621_TEMP_AVG'] = 'المتوسط';
 Blockly.Msg['SENSORS_MLX90621_GETTEMPDATA_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'يعيد درجة حرارة الجسم الأدنى أو الأعلى أو المتوسط بالدرجات المئوية (°C) باستخدام مستشعر الأشعة تحت الحمراء MLX90621. أوصل المستشعر بمنفذ I2C.';
+Blockly.Msg['SENSORS_DISPLAYMLX90621VALUES_TITLE'] = '[حساس حرارة IR MLX90621] عرض القيم';
+Blockly.Msg['SENSORS_DISPLAYMLX90621VALUES_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'يسمح بعرض القيم المقاسة بواسطة حساس الأشعة تحت الحمراء MLX90621 على لوحة غالاكسي.';
+Blockly.Msg['SENSORS_DISPLAYMLX90621_CUSTOM_VALUES_TITLE'] = '[حساس حرارة IR MLX90621] عرض القيم المخصصة %1';
+Blockly.Msg['SENSORS_DISPLAYMLX90621_CUSTOM_VALUES_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'يعرض القيم الحرارية المخصصة المقاسة بواسطة حساس الأشعة تحت الحمراء MLX90621 على لوحة غالاكسي.';

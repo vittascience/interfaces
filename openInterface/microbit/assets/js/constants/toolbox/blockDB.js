@@ -72,6 +72,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "io_getGroveColoredButton": this.Set.field('PIN', "pin15"),
             "io_setGroveColoredButton": this.Set.field('PIN', "pin1") + this.Set.state(),
             "io_getKeypadNumber": this.Set.field("TX", "pin1") + this.Set.field("RX", "pin15"),
+            "io_fingerprint_register": this.Set.number("ID", 1),
             "io_getGroveThumbJoystick": this.Set.field("PIN_Y", "pin1"),
             // io - pins
             "io_readDigitalPin": this.Set.field('PIN', "pin1"),
@@ -112,6 +113,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "communication_gps_getNMEA": this.Set.field("RX", "pin14"),
             "communication_gps_getGGAInformations": this.Set.field("RX", "pin14"),
             "communication_clockRTC_setHour": this.Set.number("HOUR", 8) + this.Set.number("MIN", 40) + this.Set.number("SEC", 10),
+            "communication_rfid_getCardID": this.Set.field("RX", "pin0") + this.Set.field("TX", "pin1"),
             // communication - UART
             "communication_serialInit": this.Set.field("RX", "pin14"),
             "communication_uart_writeData": this.Set.text('DATA'),
@@ -119,6 +121,8 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "communication_i2c_init": this.Set.number('FREQ', 100000) + this.Set.field("SDA", "pin20") + this.Set.field("SCL", "pin19"),
             "communication_i2c_read": '<mutation repeat="false"></mutation>' + this.Set.number('ADDR', 63) + this.Set.number('N', 1),
             "communication_i2c_write": '<mutation repeat="false"></mutation>' + this.Set.number('ADDR', 63) + this.Set.list('BUF', 3, this.Set.number('ADD0') + this.Set.number('ADD1') + this.Set.number('ADD2')),
+            "communication_voiceRecognition_setVolume": this.Set.number("VOLUME", 4),
+            "communication_voiceRecognition_playByCMDID": this.Set.number("ID", 22),
             // sensors - microphone
             "io_micro_setSoundThreshold": this.Set.number("THRESH", 255),
             // sensors - enviro:bit
@@ -165,6 +169,11 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             // actuators - Reka:Bit
             "actuators_rekabit_runMotor": this.Set.number("SPEED", 125),
             "actuators_rekabit_setServoPosition": this.Set.number("ANGLE", 90),
+            // actuators - DFRobot micro:Driver
+            "actuators_dfr0548_setServoAngle": this.Set.number("ANGLE", 90),
+            "actuators_dfr0548_runMotor": this.Set.number("SPEED", 80),
+            "actuators_dfr0548_stepper": this.Set.number("DEGREES", 360),
+            "actuators_dfr0548_stepperDual": this.Set.number("DEGREES1", 360) + this.Set.number("DEGREES2", 360),
             // actuators - Kitronik
             "actuators_controlAccessBitBuzzer": this.Set.number('VALUE', 500),
             "actuators_kitronik_controlMotor": this.Set.number("SPEED", 100),
@@ -287,6 +296,8 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "robots_setBitBotNeopixelPalette": this.Set.number("LED") + this.Set.colour_picker(),
             // robots - gamepad
             "robots_setGamepadV4LEDMotor": this.Set.state(),
+            "robots_setJoystickBitV2BuzzerFreq": this.Set.number("FREQUENCY", 440) + this.Set.number("TIME", 500),
+            "robots_setJoystickBitV2MotorVibration": this.Set.state(),
             "robots_setGamepadLED": this.Set.state(),
             "robots_setGamepadMotorVibration": this.Set.state(),
             "robots_setGamepadBuzzerFreq": this.Set.number("FREQUENCY", 440) + this.Set.number("TIME", 500),
@@ -324,6 +335,13 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "cameras_huskylens_saveModel": this.Set.number("INDEX"),
             "cameras_huskylens_loadModel": this.Set.number("INDEX"),
             "cameras_huskylens_learnID": this.Set.number("ID", 1),
+            // Cameras - HuskyLens V2
+            "cameras_huskylens_v2_readBox": this.Set.number("ID", 1),
+            "cameras_huskylens_v2_readArrow": this.Set.number("ID", 1),
+            "cameras_huskylens_v2_isAppear": this.Set.number("ID", 1),
+            "cameras_huskylens_v2_writeName": this.Set.number("ID", 1) + this.Set.text("NAME", 'Nom'),
+            "cameras_huskylens_v2_writeOSD": this.Set.text("NAME", 'Vittascience') + this.Set.number("X", 160) + this.Set.number("Y", 120),
+            "cameras_huskylens_v2_saveModelToTFCard": this.Set.number("DATA"),
             // Cameras - Wio Lite
             "wio_get_class_data_by_id": this.Set.number("ID", 1),
             // EDGE AI blocks

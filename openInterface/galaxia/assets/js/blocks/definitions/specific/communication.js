@@ -758,7 +758,7 @@ Blockly.Constants.Communication.COMMUNICATION_LOG_SETLABEL_MUTATOR_MIXIN = {
     },
     restoreValueConnections_: function () {
         for (var i = 0; i < this.itemCount_; i++) {
-            Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'ADD' + i);
+            this.valueConnections_[i]?.reconnect(this, 'ADD' + i);
         }
     },
     addItem_: function () {
@@ -774,7 +774,7 @@ Blockly.Constants.Communication.COMMUNICATION_LOG_SETLABEL_MUTATOR_MIXIN = {
                 const newBlock = Blockly.utils.xml.createElement('block');
                 newBlock.setAttribute('type', dataBlockName);
                 if (newBlock) {
-                    const id = Blockly.utils.genUid();
+                    const id = Blockly.utils.idGenerator.genUid();
                     newBlock.setAttribute('id', id);
                     Blockly.Xml.domToBlock(newBlock, this.workspace);
                     const block = this.workspace.getBlockById(id);
@@ -887,7 +887,7 @@ Blockly.Constants.Communication.COMMUNICATION_LOG_ADDDATA_MUTATOR_MIXIN = {
     },
     restoreValueConnections_: function () {
         for (var i = 0; i < this.itemCount_; i++) {
-            Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'ADD' + i);
+            this.valueConnections_[i]?.reconnect(this, 'ADD' + i);
         }
     },
     addItem_: function () {
@@ -903,7 +903,7 @@ Blockly.Constants.Communication.COMMUNICATION_LOG_ADDDATA_MUTATOR_MIXIN = {
                 const newBlock = Blockly.utils.xml.createElement('block');
                 newBlock.setAttribute('type', dataBlockName);
                 if (newBlock) {
-                    const id = Blockly.utils.genUid();
+                    const id = Blockly.utils.idGenerator.genUid();
                     newBlock.setAttribute('id', id);
                     newBlock.appendChild(this.addShadowBlock_('LABEL', 'text', 'TEXT', 'Label' + this.itemCount_));
                     newBlock.appendChild(this.addShadowBlock_('DATA', 'math_number', 'NUM', 0));

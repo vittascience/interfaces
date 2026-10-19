@@ -264,3 +264,20 @@ utils.prototypeBlocks['show'] = function (node, identifier, values, mutations, s
 
     return 'show';
 }
+
+// "oled.invert(1)" of the AlphaBot screen (initialized on the AlphaBot I2C bus): background of the screen
+utils.prototypeBlocks['invert'] = function (type, identifier, values, mutations, statementsNode, statement) {
+    const checkClasses = utils.python2Blocks._classes[identifier];
+    const background = statementsNode?.[0]?.text;
+    if (!checkClasses || !/alphabot\.i2c/.test(utils.python2Blocks.code || '') || !['0', '1'].includes(background)) {
+        return null;
+    }
+    return {
+        type: 'robots_alphabot_oled_setBackground',
+        fields: { BACKGROUND: background },
+        values: null,
+        mutations: null,
+        statementsNode: null,
+        statements: null,
+    };
+};

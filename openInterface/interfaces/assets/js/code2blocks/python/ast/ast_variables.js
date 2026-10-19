@@ -5,7 +5,7 @@ utils.prototypeBlocks['str'] = function (type, fields, values, mutations, statem
     return {
         type: 'variables_force_type',
         fields: {
-            TYPE: 'str',
+            TYPE: 'TEXT', // str()
         },
         values: {
             VALUE: null,
@@ -20,7 +20,7 @@ utils.prototypeBlocks['int'] = function (type, fields, values, mutations, statem
     return {
         type: 'variables_force_type',
         fields: {
-            TYPE: 'int',
+            TYPE: 'NUMBER', // int()
         },
         values: {
             VALUE: null,
@@ -52,7 +52,7 @@ utils.prototypeBlocks['float'] = function (type, fields, values, mutations, stat
     return {
         type: 'variables_force_type',
         fields: {
-            TYPE: 'float',
+            TYPE: 'DECIMAL', // float()
         },
         values: {
             VALUE: null,
@@ -67,7 +67,7 @@ utils.prototypeBlocks['bool'] = function (type, fields, values, mutations, state
     return {
         type: 'variables_force_type',
         fields: {
-            TYPE: 'bool',
+            TYPE: 'BOOLEAN', // bool()
         },
         values: {
             VALUE: null,
@@ -82,7 +82,7 @@ utils.prototypeBlocks['long'] = function (type, fields, values, mutations, state
     return {
         type: 'variables_force_type',
         fields: {
-            TYPE: 'long',
+            TYPE: 'LARGE_NUMBER', // long()
         },
         values: {
             VALUE: null,

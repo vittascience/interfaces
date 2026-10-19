@@ -14,7 +14,16 @@ Blockly.Python.vittaia_load_model = function (block) {
     const model_url = Blockly.Python.valueToCode(block, "MODEL_URL", Blockly.Python.ORDER_NONE) || "''";
     //Blockly.Python.addFunction('download_file', FUNCTIONS_ARDUINO_Q.py.DEF_DOWNLOAD_FILE);
     //Blockly.Python.addFunction('load_vittascience_model', FUNCTIONS_ARDUINO_Q.py.DEF_LOAD_VITTASCIENCE_MODEL);
+    Blockly.Python.addImport('vitta_tf.VittaTF', IMPORT_VITTA_TF);
+    Blockly.Python.addInit('vittamodel', "vittamodel = VittaTF()");
     return "vittamodel.load_vittascience_model(" + model_url + ")" + NEWLINE;
+};
+
+// Model trained in the Vittascience AI tool of this browser: the uploader sends it to the board (buildAppFiles)
+Blockly.Python.vittaia_load_local_model = function () {
+    Blockly.Python.addImport('vitta_tf.VittaTF', IMPORT_VITTA_TF);
+    Blockly.Python.addInit('vittamodel', "vittamodel = VittaTF()");
+    return "vittamodel.load_local_model()" + NEWLINE;
 };
 
 Blockly.Python.vittaia_load_model_default = function (block) {
@@ -33,15 +42,16 @@ Blockly.Python.vittaia_load_model_default = function (block) {
 Blockly.Python.VITTAIA_DO_PREDICTION_CODE = function (block) {
     Blockly.Python.addImport('vitta_tf.VittaTF', IMPORT_VITTA_TF);
     Blockly.Python.addInit('vittamodel', "vittamodel = VittaTF()");
-    block.workspace.createVariable('modelPredictionIndex');
-    block.workspace.createVariable('modelPredictionScore');
-    block.workspace.createVariable('modelPredictionOutput');
+    block.workspace.getVariableMap().createVariable('modelPredictionIndex');
+    block.workspace.getVariableMap().createVariable('modelPredictionScore');
+    block.workspace.getVariableMap().createVariable('modelPredictionOutput');
 };
 
 Blockly.Python.vittaia_make_predictions_webcam = function (block) {
     Blockly.Python.addImport('pathlib.Path', IMPORT_PATHLIB);
     Blockly.Python.addImport('datetime', IMPORT_DATETIME);
     Blockly.Python.addImport('cv2', IMPORT_CV2);
+    Blockly.Python.addImport('PIL.Image', IMPORT_PIL_IMAGE);
     Blockly.Python.addFunction('capture_webcam_image', FUNCTIONS_ARDUINO_Q.py.DEF_CAPTURE_WEBCAM_IMAGE);
     Blockly.Python.addInit('current_webcam_index', 'current_webcam_index = 0');
     Blockly.Python.VITTAIA_DO_PREDICTION_CODE(block);
@@ -51,6 +61,7 @@ Blockly.Python.vittaia_make_predictions_webcam = function (block) {
 
 Blockly.Python.vittaia_make_predictions_file = function (block) {
     const picture = block.getFieldValue("PICTURE") || "";
+    Blockly.Python.addImport('PIL.Image', IMPORT_PIL_IMAGE);
     Blockly.Python.VITTAIA_DO_PREDICTION_CODE(block);
     const filename = picture.replace(/'/g, '\\\'').replace(/"/g, '\\\"');
     Blockly.Python.unoq.addImage(filename, filename);
@@ -74,7 +85,8 @@ Blockly.Python.vittaia_make_predictions_from_url = function (block) {
 // };
 
 Blockly.Python.vittaia_get_highest_probability_class = function () {
-    return ["modelPredictionIndex", Blockly.Python.ORDER_ATOMIC];
+    // Class name (as on the Python interface), set by the last prediction
+    return ["vittamodel.current_label", Blockly.Python.ORDER_MEMBER];
 };
 
 Blockly.Python.vittaia_get_confidence_rate = function () {
@@ -90,7 +102,7 @@ Blockly.Python.vittaia_detect_class = function (block) {
     const model_class = Blockly.Python.valueToCode(block, "MODEL_CLASS", Blockly.Python.ORDER_NONE) || "''";
     let branch = Blockly.Python.statementToCode(block, "DO");
     branch = Blockly.Python.addLoopTrap(branch, block) || Blockly.Python.PASS;
-    return `if modelPredictionIndex ${is_detected} ${model_class}:` + NEWLINE + branch;
+    return `if vittamodel.current_label ${is_detected} ${model_class}:` + NEWLINE + branch;
 };
 
 // Blockly.Python.vittaia_image_uploaded = function (block) {

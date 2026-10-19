@@ -203,16 +203,16 @@
 <script src="/openInterface/interfaces/assets/js/external/rotate.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/interact-1.5.4.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/blockly_compressed.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_date_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_colour_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/vittascience_patches.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_grid_dropdown_compressed.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_slider_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/scroll_options_compressed.js"></script>
 <script type="module" src="/openInterface/interfaces/assets/js/external/blockly/extensions/backpack/index.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ace.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-python.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-languages_tools.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-searchbox.min.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/file-input/js/fileinput.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/file-input/themes/fa/theme.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/skulpt/skulpt.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/skulpt/skulpt-stdlib.js"></script>
 <!-- endbuild -->
@@ -289,30 +289,10 @@
 <script src="/public/js/lib/teachablemachine_pose-0.8/teachablemachine-pose.min.js"></script>
 <!--NEW Speech Commands -->
 <script src="/public/js/lib/speech-commands/speech-commands.min.js"></script>
-<!-- build:pyblock -->
-<script src="/public/js/pyblock/pyblock.js" type="text/javascript"></script>
-<script src="/public/js/pyblock/ast/type_cast.js" type="text/javascript"></script>
-<script src="/public/js/pyblock/ast/type_variable.js" type="text/javascript"></script>
-<script src="/public/js/pyblock/ast/ast_Call.js" type="text/javascript"></script>
-<script src="/public/js/pyblock/ast/ast_Import.js" type="text/javascript"></script>
-<script src="/public/js/pyblock/ast/ast_Subscript.js" type="text/javascript"></script>
-
-<script src="/openInterface/interfaces/assets/js/blocks/pyblock/basic/ast_exceptions.js"></script>
-<script src="/openInterface/interfaces/assets/js/blocks/pyblock/basic/ast_lists.js"></script>
-<script src="/openInterface/interfaces/assets/js/blocks/pyblock/basic/ast_logic.js"></script>
-<script src="/openInterface/interfaces/assets/js/blocks/pyblock/basic/ast_loops.js"></script>
-<script src="/openInterface/interfaces/assets/js/blocks/pyblock/basic/ast_math.js"></script>
-<script src="/openInterface/interfaces/assets/js/blocks/pyblock/basic/ast_procedures.js"></script>
-<script src="/openInterface/interfaces/assets/js/blocks/pyblock/basic/ast_text.js"></script>
-<script src="/openInterface/interfaces/assets/js/blocks/pyblock/basic/ast_variables.js"></script>
-<script src="/openInterface/interfaces/assets/js/blocks/pyblock/basic/ast_other.js"></script>
-<script src="/openInterface/interfaces/assets/js/blocks/pyblock/basic/ast_dictionaries.js"></script>
-<script src="/openInterface/python/assets/js/blocks/pyblock/python/ast_display.js"></script>
-<script src="/openInterface/python/assets/js/blocks/pyblock/python/ast_turtle.js"></script>
-<script src="/openInterface/python/assets/js/blocks/pyblock/python/ast_graph.js"></script>
-<script src="/openInterface/python/assets/js/blocks/pyblock/python/ast_numpy.js"></script>
-<script src="/openInterface/python/assets/js/blocks/pyblock/python/ast_vittaia.js"></script>
-<!-- endpyblock -->
+<!-- reverse traduction (Python code => blocks), same system as the other Python interfaces -->
+<script src="/openInterface/interfaces/assets/js/external/tree-sitter/tree-sitter.js"></script>
+<script src="/openInterface/python/assets/js/blocks/code2Blocks/excluded_blocks.js"></script>
+<script src="/openInterface/interfaces/assets/js/code2blocks/python/pythonCode2Blocks.js" type="module"></script>
 <!-- build:js-main -->
 <script src="/openInterface/interfaces/assets/js/main/InterfaceInit.js"></script>
 <script src="/openInterface/interfaces/assets/js/main/Loader.js"></script>

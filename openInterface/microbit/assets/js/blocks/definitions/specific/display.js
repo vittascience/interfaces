@@ -1013,7 +1013,7 @@ Blockly.Extensions.register("show_rgb_leds_matrix", function () {
     if (!LedMatrixModalManager.isSet(true) && typeof Blockly.Wiki === 'undefined')
         LedMatrixModalManager.init(8, 8, true);
 
-    this.getField('RGB_LEDS_MATRIX').clickHandler_ = (() => {
+    this.getField('RGB_LEDS_MATRIX').setOnClickHandler((() => {
         Blockly.Constants.RGB_LEDS_MATRIX_BLOCK = this.inputList[0].fieldRow[1];
         Blockly.Constants.HIDDEN_RGB_LEDS_MATRIX = this.getField("HIDDEN_RGB_LEDS_MATRIX");
 
@@ -1024,7 +1024,7 @@ Blockly.Extensions.register("show_rgb_leds_matrix", function () {
         LedMatrixModalManager.disp_modal();
         // saving the image in case of cancellation
         Blockly.Constants.RGB_LEDS_MATRIX = LedMatrixModalManager.get_matrix_dataset();
-    });
+    }));
 });
 
 // Mutator

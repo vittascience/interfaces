@@ -1,12 +1,19 @@
-Simulator.Mosaic.pin_regex = /PORT_([1-8])/gi;
+// mBuild modules on PORT_1-8, mBot2 servos on S1-S4
+Simulator.Mosaic.pin_regex = /(?:PORT_([1-8])|S[1-4])/gi;
 
 Simulator.Mosaic.getPinDef = (pin, mod) => {
-    if (!/PORT/.test(pin)) {
-        pin = Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()].find(p => (p[1] == pin || p[0] == pin))[0]
+    if (/PORT/.test(pin)) {
+        return {
+            name: pin.replace('_', ' '),
+            id: pin.trim().replace('_', '')
+        };
     }
+    // The code gives the pin number (machine.Pin(2)) or the servo port (S1): the board list gives its label (IO2 (MOSI))
+    const pins = Blockly.Constants.Pins[mod && Blockly.Constants.Pins[mod.pins] ? mod.pins : 'digital'][Blockly.Constants.getSelectedBoard()];
+    const pinDef = pins.find(p => (p[1] == pin || p[1] == 'p' + pin || p[0] == pin));
     return {
-        name: pin.replace('_', ' '),
-        id: pin.trim().replace('_', '')
+        name: pinDef ? pinDef[0] : String(pin),
+        id: String(pin).trim()
     };
 };
 
@@ -34,6 +41,8 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/cyberpi.js': Simulator.PATH_LIB + 'micropython/cyberpi.js',
     'src/lib/mbot2.js': Simulator.PATH_LIB + 'micropython/mbot2.js',
     'src/lib/mbuild.js': Simulator.PATH_LIB + 'micropython/mbuild.js',
+    'src/lib/gamepad.js': Simulator.PATH_LIB + 'micropython/gamepad.js',
+    'src/lib/event.js': Simulator.PATH_LIB + 'micropython/event.js',
 };
 
 Simulator.Mosaic.addSpecificSkulptFunctions = function () {
@@ -305,6 +314,8 @@ Simulator.Mosaic.specific = {
         {
             id: "mbuild-ultrasonic",
             title: "Télémètre: ",
+            // mBuild modules of different types share the same index on the chain
+            multiple: ['mbuildFinder-left2', 'mbuildFinder-right2', 'mbuildFinder-left1', 'mbuildFinder-right1'],
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -347,7 +358,7 @@ Simulator.Mosaic.specific = {
                 color: "#000000",
                 suffix: "_v"
             }],
-            multiple: ['mbuildFinder-right1', 'mbuildFinder-right2', 'mbuildFinder-left1'],
+            multiple: ['mbuildFinder-right1', 'mbuildFinder-right2', 'mbuildFinder-left1', 'mbuild-ultrasonic'],
             picture: "Capteur-ligne-line.svg",
             pictureAnimation: "Capteur-ligne-anim.png",
             animate: function (Animator) {
@@ -367,7 +378,7 @@ Simulator.Mosaic.specific = {
                 color: "#000000",
                 suffix: "_v"
             }],
-            multiple: ['mbuildFinder-left1', 'mbuildFinder-left2', 'mbuildFinder-right1'],
+            multiple: ['mbuildFinder-left1', 'mbuildFinder-left2', 'mbuildFinder-right1', 'mbuild-ultrasonic'],
             picture: "Capteur-ligne-line.svg",
             pictureAnimation: "Capteur-ligne-anim.png",
             animate: function (Animator) {
@@ -387,7 +398,7 @@ Simulator.Mosaic.specific = {
                 color: "#000000",
                 suffix: "_v"
             }],
-            multiple: ['mbuildFinder-right1', 'mbuildFinder-right2', 'mbuildFinder-left2'],
+            multiple: ['mbuildFinder-right1', 'mbuildFinder-right2', 'mbuildFinder-left2', 'mbuild-ultrasonic'],
             picture: "Capteur-ligne-line.svg",
             pictureAnimation: "Capteur-ligne-anim.png",
             animate: function (Animator) {
@@ -407,7 +418,7 @@ Simulator.Mosaic.specific = {
                 color: "#000000",
                 suffix: "_v"
             }],
-            multiple: ['mbuildFinder-left1', 'mbuildFinder-left2', 'mbuildFinder-right2'],
+            multiple: ['mbuildFinder-left1', 'mbuildFinder-left2', 'mbuildFinder-right2', 'mbuild-ultrasonic'],
             picture: "Capteur-ligne-line.svg",
             pictureAnimation: "Capteur-ligne-anim.png",
             animate: function (Animator) {

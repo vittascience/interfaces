@@ -774,6 +774,285 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       "block_init_helpurl",
       "block_init_color"
     ]
+  },
+
+  // BLOCK QUAD RGB - L1 R1 DETECTION IS ?
+  {
+    "type": "sensors_mbuild_quad_RGB_detection_L1_R1_is",
+    "message0": "%{BKY_MBUILD_SENSORS_QUAD_RGB_L1_R1_DETECTION_IS_TITLE}",
+    "args0": [{
+      "type": "field_grid_dropdown",
+      "name": "SENSOR",
+      "options": [
+        ["1", "1"],
+        ["2", "2"],
+        ["3", "3"],
+        ["4", "4"],
+        ["5", "5"],
+        ["6", "6"],
+        ["7", "7"],
+        ["8", "8"]
+      ]
+    }, {
+      "type": "field_grid_dropdown",
+      "name": "MODE",
+      "options": [
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_LINE}", "line"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_GROUND}", "ground"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_WHITE}", "white"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_RED}", "red"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_YELLOW}", "yellow"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_GREEN}", "green"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_CYAN}", "cyan"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_BLUE}", "blue"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_PURPLE}", "purple"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_BLACK}", "black"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_CUSTOM}", "custom"]
+      ]
+    }, {
+      "type": "field_grid_dropdown",
+      "name": "RESULT",
+      "options": [
+        ["0 (00)", "0"],
+        ["1 (01)", "1"],
+        ["2 (10)", "2"],
+        ["3 (11)", "3"]
+      ]
+    }],
+    "output": "Boolean",
+    "tooltip": "%{BKY_MBUILD_SENSORS_QUAD_RGB_L1_R1_DETECTION_IS_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "block_init_color"
+    ]
+  },
+
+  // BLOCK QUAD RGB - GET L1 R1 DETECTION VALUE
+  {
+    "type": "sensors_mbuild_quad_RGB_get_detection_L1_R1",
+    "message0": "%{BKY_MBUILD_SENSORS_QUAD_RGB_GET_L1_R1_DETECTION_TITLE}",
+    "args0": [{
+      "type": "field_grid_dropdown",
+      "name": "SENSOR",
+      "options": [
+        ["1", "1"],
+        ["2", "2"],
+        ["3", "3"],
+        ["4", "4"],
+        ["5", "5"],
+        ["6", "6"],
+        ["7", "7"],
+        ["8", "8"]
+      ]
+    }, {
+      "type": "field_grid_dropdown",
+      "name": "MODE",
+      "options": [
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_LINE}", "line"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_GROUND}", "ground"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_WHITE}", "white"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_RED}", "red"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_YELLOW}", "yellow"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_GREEN}", "green"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_CYAN}", "cyan"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_BLUE}", "blue"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_PURPLE}", "purple"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_BLACK}", "black"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_MODE_CUSTOM}", "custom"]
+      ]
+    }],
+    "output": "Number",
+    "tooltip": "%{BKY_MBUILD_SENSORS_QUAD_RGB_GET_L1_R1_DETECTION_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "block_init_color"
+    ]
+  },
+
+  // BLOCK QUAD RGB - SET CUSTOM COLOR
+  {
+    "type": "sensors_mbuild_quad_RGB_set_custom_color",
+    "message0": "%{BKY_MBUILD_SENSORS_QUAD_RGB_SET_CUSTOM_COLOR_TITLE}",
+    "args0": [{
+      "type": "field_grid_dropdown",
+      "name": "SENSOR",
+      "options": [
+        ["1", "1"],
+        ["2", "2"],
+        ["3", "3"],
+        ["4", "4"],
+        ["5", "5"],
+        ["6", "6"],
+        ["7", "7"],
+        ["8", "8"]
+      ]
+    }, {
+      "type": "input_value",
+      "name": "R",
+      "check": "Number"
+    }, {
+      "type": "input_value",
+      "name": "G",
+      "check": "Number"
+    }, {
+      "type": "input_value",
+      "name": "B",
+      "check": "Number"
+    }, {
+      "type": "input_value",
+      "name": "TOLERANCE",
+      "check": "Number"
+    }],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "tooltip": "%{BKY_MBUILD_SENSORS_QUAD_RGB_SET_CUSTOM_COLOR_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "block_init_color"
+    ]
+  },
+
+  // BLOCK QUAD RGB - CALIBRATE
+  {
+    "type": "sensors_mbuild_quad_RGB_calibrate",
+    "message0": "%{BKY_MBUILD_SENSORS_QUAD_RGB_CALIBRATE_TITLE}",
+    "args0": [{
+      "type": "field_grid_dropdown",
+      "name": "SENSOR",
+      "options": [
+        ["1", "1"],
+        ["2", "2"],
+        ["3", "3"],
+        ["4", "4"],
+        ["5", "5"],
+        ["6", "6"],
+        ["7", "7"],
+        ["8", "8"]
+      ]
+    }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "tooltip": "%{BKY_MBUILD_SENSORS_QUAD_RGB_CALIBRATE_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "block_init_color"
+    ]
+  },
+
+  // BLOCK QUAD RGB - COLOR DETECTION MODE
+  {
+    "type": "sensors_mbuild_quad_RGB_color_mode",
+    "message0": "%{BKY_MBUILD_SENSORS_QUAD_RGB_COLOR_MODE_TITLE}",
+    "args0": [{
+      "type": "field_dropdown",
+      "name": "MODE",
+      "options": [
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_DETECTION_MODE_STANDARD}", "standard"],
+        ["%{BKY_MBUILD_SENSORS_QUAD_RGB_DETECTION_MODE_ENHANCE}", "enhance"]
+      ]
+    }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "tooltip": "%{BKY_MBUILD_SENSORS_QUAD_RGB_COLOR_MODE_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "block_init_color"
+    ]
+  },
+
+  /* Begin gamepad blocks */
+
+  // BLOCK GAMEPAD - IS KEY PRESSED
+  {
+    "type": "robots_gamepad_is_key_pressed",
+    "message0": "%{BKY_ROBOTS_GAMEPAD_IS_KEY_PRESSED_TITLE}",
+    "args0": [{
+      "type": "field_dropdown",
+      "name": "KEY",
+      "options": [
+        ["1", "N1"],
+        ["2", "N2"],
+        ["3", "N3"],
+        ["4", "N4"],
+        ["←", "Left"],
+        ["↑", "Up"],
+        ["→", "Right"],
+        ["↓", "Down"],
+        ["L1", "L1"],
+        ["R1", "R1"],
+        ["L2", "L2"],
+        ["R2", "R2"],
+        ["%{BKY_ROBOTS_GAMEPAD_KEY_L_THUMB}", "L_Thumb"],
+        ["%{BKY_ROBOTS_GAMEPAD_KEY_R_THUMB}", "R_Thumb"],
+        ["+", "Start"],
+        ["≡", "Select"]
+      ]
+    }],
+    "output": "Boolean",
+    "tooltip": "%{BKY_ROBOTS_GAMEPAD_IS_KEY_PRESSED_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "block_init_color"
+    ]
+  },
+
+  // BLOCK GAMEPAD - GET JOYSTICK
+  {
+    "type": "robots_gamepad_get_joystick",
+    "message0": "%{BKY_ROBOTS_GAMEPAD_GET_JOYSTICK_TITLE}",
+    "args0": [{
+      "type": "field_dropdown",
+      "name": "AXIS",
+      "options": [
+        ["LX", "Lx"],
+        ["LY", "Ly"],
+        ["RX", "Rx"],
+        ["RY", "Ry"]
+      ]
+    }],
+    "output": "Number",
+    "tooltip": "%{BKY_ROBOTS_GAMEPAD_GET_JOYSTICK_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "block_init_color"
+    ]
+  },
+
+  // BLOCK MBOT2 - FOLLOW LINE UNTIL AN INTERSECTION
+  {
+    "type": "robots_mbot2_follow_line",
+    "message0": "%{BKY_ROBOTS_MBOT2_FOLLOW_LINE_TITLE}",
+    "args0": [{
+      "type": "input_value",
+      "name": "SPEED",
+      "check": "Number"
+    }, {
+      "type": "input_value",
+      "name": "SENSITIVITY",
+      "check": "Number"
+    }, {
+      "type": "field_grid_dropdown",
+      "name": "SENSOR",
+      "options": [
+        ["1", "1"],
+        ["2", "2"],
+        ["3", "3"],
+        ["4", "4"],
+        ["5", "5"],
+        ["6", "6"],
+        ["7", "7"],
+        ["8", "8"]
+      ]
+    }],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "tooltip": "%{BKY_ROBOTS_MBOT2_FOLLOW_LINE_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "block_init_color"
+    ]
   }
 
 ]); // END JSON EXTRACT (Do not delete this comment.)

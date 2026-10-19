@@ -57,6 +57,7 @@ Simulator.CodeFriendly.replace_pinModules = function (code) {
 	code = code.replace(/def read_heart_rate( |)\(/, 'def read_heart_rate_UNUSED(');
 	//pitch
 	code = code.replace(/def pitch( |)\(/g, 'def pitch_UNUSED(');
+	code = code.replace(/pitch\((pin[0-9]+),\s*([^,]+),\s*([^\)]+)\)/g, 'music.pitch($2, duration=$3, pin=$1)');
 	//maqueen
 	code = Simulator.CodeFriendly.maqueen(code);
 	//kitrobot
@@ -75,6 +76,8 @@ Simulator.CodeFriendly.replace_pinModules = function (code) {
 	code = Simulator.CodeFriendly.bitcar(code);
 	//gamepad v4
 	code = Simulator.CodeFriendly.gamepad_v4(code);
+	// Joystick:bit V2
+	code = Simulator.CodeFriendly.joystick_bit_v2(code);
 	//gamepad
 	code = Simulator.CodeFriendly.gamepad(code);
 	//bitplayer
@@ -198,6 +201,16 @@ Simulator.CodeFriendly.gamepad_v4 = function (code) {
 		code = code.replace(/pin15.read_digital/g, 'gamepad_v4_in.getButton_E');
 		code = code.replace(/pin16.read_digital/g, 'gamepad_v4_in.getButton_F');
 		code = code.replace(/pin12.write_digital\(/g, 'gamepad_v4_out.setLEDandVibration(');
+	}
+	return code;
+};
+Simulator.CodeFriendly.joystick_bit_v2 = function (code) {
+	if (/Joystick:bit V2/.test(code)) {
+		code = code.replace(/pin12.read_digital/g, 'joystick_bit_v2_in.getButton_C');
+		code = code.replace(/pin13.read_digital/g, 'joystick_bit_v2_in.getButton_D');
+		code = code.replace(/pin14.read_digital/g, 'joystick_bit_v2_in.getButton_E');
+		code = code.replace(/pin15.read_digital/g, 'joystick_bit_v2_in.getButton_F');
+		code = code.replace(/pin16.write_digital\(/g, 'joystick_bit_v2_out.setVibration(');
 	}
 	return code;
 };

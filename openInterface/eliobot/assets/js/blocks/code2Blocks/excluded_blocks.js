@@ -5,6 +5,10 @@
 // array to be filled with all the blocks that are not in the authorized blocks
 const EXCLUDED_BLOCKS_FOR_TRADUCTION = [];
 
+// The blocks without hand written translation are translated by the templates learned from their generators
+// (interfaces/assets/js/code2blocks/python/learnedTranslations.js): checked for this interface, they do not lock the editor.
+const LEARNED_REVERSE_TRANSLATION = true;
+
 // to modify each time we add a new block in reverse translation
 
 const AUTHORIZED_BLOCKS_DISPLAY = [
@@ -19,10 +23,7 @@ const AUTHORIZED_BLOCKS_IO = [
     "io_pause",
     "io_waitUntil",
     "io_initChronometer",
-    "io_initChronometer_simple",
     "io_getChronometer",
-    "io_digital_signal",
-    "io_writeDigitalPin",
 ];
 
 const AUTHORIZED_BLOCKS_ACTUATORS = [

@@ -472,6 +472,8 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             "blocks": [
                 'sensors_getMlx90621Temperature',
                 'sensors_getMlx90621TempData',
+                'sensors_displayMlx90621Values',
+                'sensors_displayMlx90621CustomValues',
                 'sensors_getWaterLevel'
             ]
         }

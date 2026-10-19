@@ -497,6 +497,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
             "blocks": [
                 'io_getGroveButton',
                 'io_getGroveSwitch',
+                'io_getGroveDistanceInterrupter',
                 'io_getGroveTactile',
                 'io_getGroveRotaryAngle',
                 'io_getGroveSlidePotentiometer',
@@ -570,7 +571,8 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'sensors_getGroveTilt',
                 'sensors_getGroveMotion',
                 'sensors_getPiezoVibration',
-                'sensors_gy521_getData'
+                'sensors_gy521_getData',
+                'sensors_bn880_getHeading'
             ]
         }
     ],

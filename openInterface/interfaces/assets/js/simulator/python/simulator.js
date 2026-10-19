@@ -35,6 +35,7 @@ const Simulator = {
 						if (graph !== null) {
 							InterfaceMonitor.sendDataToChart(graph);
 						}
+						InterfaceMonitor.playMusicMessage(text);
 					}
 				}
 				const monitor = document.getElementById('console');

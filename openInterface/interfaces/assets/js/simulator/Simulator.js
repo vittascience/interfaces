@@ -308,7 +308,7 @@ Simulator.init = async function () {
         this.updateSimulatorInterval = null;
         this.updateVariablesPanelInterval = null;
 
-        if (!['winky', 'sphero', 'lotibot', 'bluebot', 'spike', 'photon'].includes(INTERFACE_NAME)) {
+        if (!['winky', 'sphero', 'lotibot', 'bluebot', 'spike', 'photon', 'primastem'].includes(INTERFACE_NAME)) {
             window.addEventListener("visibilitychange", () => {
                 if (this.isOpen) {
                     if (document.visibilityState === 'visible') {
@@ -343,6 +343,13 @@ Simulator.getProjectCode = function () {
 };
 
 /**
+ * Get the code whose changes replay the simulation (the Arduino UNO Q adds its Python and web page)
+ */
+Simulator.getWatchedCode = function () {
+    return Simulator.getProjectCode();
+};
+
+/**
  * Add multi simulator to dom
  */
 Simulator.addMultiSimulatorToDom = function () {
@@ -372,12 +379,14 @@ Simulator.addMultiSimulatorToDom = function () {
  * Update mosaic simulator.
  */
 Simulator.update = async function (forcedUpdate = false) {
+    let replayed = false;
     try {
         this._requestWirelessSimulation();
         const userCode = Simulator.getProjectCode();
-        if (forcedUpdate || userCode != this._userCode || this._userCode == null) {
+        const watchedCode = Simulator.getWatchedCode();
+        if (forcedUpdate || watchedCode != this._userCode || this._userCode == null) {
             this.code = typeof this.CodeFriendly.getAdaptedCode !== 'undefined' ? this.CodeFriendly.getAdaptedCode(userCode) : userCode;
-            this._userCode = userCode;
+            this._userCode = watchedCode;
             if (this._hasAutoCorrector() && $('#simulator-modules').hasClass("visualizer-mode")) {
                 $("#training-mode").click();
             }
@@ -393,6 +402,7 @@ Simulator.update = async function (forcedUpdate = false) {
                     }
                 }
                 await this.replay();
+                replayed = true;
             }
             if (projectManager !== null && projectManager._currentExercise !== "no-exercise" && this._hasAutoCorrector()) {
                 this.updateExercisePanel();
@@ -401,6 +411,7 @@ Simulator.update = async function (forcedUpdate = false) {
     } catch (e) {
         console.error(e);
     }
+    return replayed;
 };
 
 Simulator.bluetoothDeviceConnected = function () {
@@ -415,6 +426,8 @@ Simulator.bluetoothDeviceConnected = function () {
             return LegoSpikeWebBLEAPI.isConnected;
         case 'photon':
             return PhotonWebBLEAPI.isConnected;
+        case 'primastem':
+            return PrimaStemWebBLEAPI.isConnected;
         default:
             return false;
     }
@@ -473,7 +486,8 @@ Simulator.play = async function () {
         this.code = typeof this.CodeFriendly.getAdaptedCode !== 'undefined' ? this.CodeFriendly.getAdaptedCode(userCode) : userCode;
         this.isRunning = true;
         this.prepareToRun();
-        await this.update();
+        // replay() already ran the code through a nested play(): don't run it a second time
+        if (await this.update()) return;
         if (typeof AndroidInterface !== 'undefined' && AndroidInterface !== null) {
             AndroidInterface.buddySayYes(20, 20);
             AndroidInterface.buddySayNo(40, 5);
@@ -569,6 +583,14 @@ Simulator.replay = async function () {
  */
 Simulator.stop = function () {
     if (this.isStopped) return;
+    // Music mode of the console (events/music.js)
+    if (typeof stopMusic === 'function') stopMusic();
+    if (INTERFACE_NAME === 'primastem') {
+        PrimaStemWebBLEAPI.abort();
+    }
+    if (typeof IloBLE !== 'undefined' && IloBLE.isConnected) {
+        IloBLE.write('<>'); // stop the real robot
+    }
     return new Promise((resolve, reject) => {
         this.mainExecutionStarted = false;
         $("#board-viewer").addClass('greyscale');
@@ -788,7 +810,7 @@ Simulator.updateBoard = function (link, name) {
     }
     if (this.board.link) {
         const path = _PATH + "/" + INTERFACE_NAME + "/assets/media/simulator/board/" + this.board.link;
-        if (/(arduinoq|microbit|wb55|l476|mBot|m5stack|galaxia|GalaxiaCircuitPython|buddy|cyberpi|pico|eliobot|thymio|raspberrypi|lotibot|photon|bluebot|codey|steami|alphai)/.test(INTERFACE_NAME) && (this.board.link).includes('.svg')) {
+        if (/(arduinoq|microbit|wb55|l476|mBot|m5stack|galaxia|GalaxiaCircuitPython|buddy|cyberpi|pico|eliobot|thymio|raspberrypi|lotibot|photon|bluebot|codey|steami|alphai|primastem)/.test(INTERFACE_NAME) && (this.board.link).includes('.svg')) {
             $("#board-viewer").attr("data", path);
         } else {
             $("#board-viewer").css('background-image', "url('" + path + "')");
@@ -1041,7 +1063,7 @@ Simulator._hasRobotSimulator = function (board) {
         if (!board) board = Blockly.Constants.getSelectedBoard();
         return board == BOARD_NANO_ESP32;
     }
-    return ["microbit", "wb55", "l476", "TI-83", "mBot", "buddy", "cyberpi", "pico", "eliobot", "thymio", "sphero", "lotibot", "bluebot", "photon", "codey", "alphai", "raspberrypi"].includes(INTERFACE_NAME);
+    return ["microbit", "wb55", "l476", "TI-83", "mBot", "buddy", "cyberpi", "pico", "eliobot", "thymio", "sphero", "lotibot", "bluebot", "photon", "codey", "alphai", "raspberrypi", "primastem", "steami"].includes(INTERFACE_NAME);
 };
 
 /**
@@ -1061,7 +1083,7 @@ Simulator._has3DRobotSimulator = function (board) {
         if (!board) board = Blockly.Constants.getSelectedBoard();
         return board == BOARD_ILO;
     }
-    return ["l476"].includes(INTERFACE_NAME);
+    return ["l476", "steami"].includes(INTERFACE_NAME);
 }
 
 /**
@@ -1129,7 +1151,7 @@ Simulator._hasSpeechSynthesis = function () {
  * @returns {boolean} state
  */
 Simulator._hasBoardSimulator = function () {
-    return ["arduino", "microbit", "wb55", "l476", "buddy", "TI-83", "mBot", "cyberpi", "esp32", "thymio", "winky", "galaxia", "raspberrypi", "pico", "m5stack", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "eliobot", "alphai", "GalaxiaCircuitPython", "steami", "arduinoq"].includes(INTERFACE_NAME);
+    return ["arduino", "microbit", "wb55", "l476", "buddy", "TI-83", "mBot", "cyberpi", "esp32", "thymio", "winky", "galaxia", "raspberrypi", "pico", "m5stack", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "eliobot", "alphai", "GalaxiaCircuitPython", "steami", "arduinoq", "primastem"].includes(INTERFACE_NAME);
 };
 
 /**
@@ -1159,7 +1181,9 @@ Simulator.initMosaicSliders = function () {
         const id_gauge = "#" + id_module + '_gauge' + suffix;
         $("#" + id_module).find('.slide-display').addClass('not-shown');
         $(id_gauge).removeClass('not-shown');
-        this.pinList.find(module => module.id == id_module).suffix = suffix;
+        // Only modules plugged on a pin are in pinList (not I2C ones such as the Modulino)
+        const pinModule = this.pinList.find(module => module.id == id_module);
+        if (pinModule) pinModule.suffix = suffix;
     });
 
     $("body").on('change', '.module-color-selector', (event) => {
@@ -1345,16 +1369,13 @@ Simulator.Debugger = {
     },
 
     /**
-     * Color line by a yellow mark.
+     * Color line by a yellow mark, and select its block (yellow outline) in the workspace.
      * @param {int} line 
      */
     colorLineEditor: function (line) {
-        // to keep => highlight block in python simulation
-        // if (typeof Python2Blocks !== 'undefined') {
-        //     Python2Blocks.highlightBlock(line);
-        // }
         const Range = ace.require('ace/range').Range;
         this.debugMarker = Main.getCodeEditor().container.session.addMarker(new Range(line, 0, line, 1), "ace-debug-marker", "fullLine");
+        CodeManager.getSharedInstance().selectLineBlock(line);
     },
 
     /**
@@ -1362,10 +1383,12 @@ Simulator.Debugger = {
      */
     eraseBreakpoint: function () {
         Main.getCodeEditor().container.session.removeMarker(this.debugMarker);
+        CodeManager.getSharedInstance().selectLineBlock(null);
     },
 
     stepForward: function () {
-        Simulator.clearCurrentDelay();
+        // Set only while a delay of the program is pending
+        if (Simulator.clearCurrentDelay) Simulator.clearCurrentDelay();
         if (Simulator.currentDelays) {
             Object.values(Simulator.currentDelays).forEach(resolve => resolve());
             Simulator.currentDelays = {};
@@ -1610,6 +1633,12 @@ Simulator.update_pinList = function () {
             if (modulePin?.regex && !this.code.match(modulePin.regex)) {
                 moduleDiv.remove();
                 idsToRemoveFromPinList.add(moduleDiv.id);
+            } else if (!modulePin) {
+                // Module sharing the pin of another one (mod.multiple): it is not in the pin list
+                const regex = this._checkRegex(mod);
+                if (regex && !this.code.match(regex)) {
+                    moduleDiv.remove();
+                }
             }
             continue;
         }
@@ -1985,7 +2014,7 @@ Simulator.generateModuleDiv_header = function (mod, id, pinName) {
         html += '<br>';
         html += `<span class="subtitle-module`;
 
-        if (/(I2C|AlphaBot|Arduino|Cutebot|Cutebot Pro)/.test(mod.pin)) {
+        if (/(I2C|AlphaBot|Arduino|Cutebot|Cutebot Pro|primaSTEM)/.test(mod.pin)) {
             html += ' i2c-module';
         } else if (/(ESP32|STM32|Maqueen|micro:bit|Gamepad|Buggy|Codo|Oobybot|Innovator Hub|raspberrypi|Galaxia|GalaxiaCircuitPython|thymio)/.test(mod.pin)) {
             html += ' internal-module';
@@ -2692,3 +2721,21 @@ const SimulatorLS = {
         return (wrongFileName !== null && wrongFileName.length > 0 ? fileName.split(wrongFileName[0])[1] : fileName);
     }
 };
+/**
+ * jQuery UI sliders (simulator gauges) only listen to the mouse: forward the touches on a slider as mouse events
+ * so that they can be dragged on touch screens. Touches elsewhere are untouched (the page still scrolls).
+ */
+(function forwardSliderTouches() {
+    const forward = (mouseType) => (event) => {
+        const touch = event.changedTouches[0];
+        if (event.touches.length > 1 || !(touch.target instanceof Element) || !touch.target.closest('.ui-slider')) return;
+        event.preventDefault();
+        touch.target.dispatchEvent(new MouseEvent(mouseType, {
+            bubbles: true, cancelable: true, view: window, button: 0,
+            clientX: touch.clientX, clientY: touch.clientY, screenX: touch.screenX, screenY: touch.screenY
+        }));
+    };
+    document.addEventListener('touchstart', forward('mousedown'), { passive: false });
+    document.addEventListener('touchmove', forward('mousemove'), { passive: false });
+    document.addEventListener('touchend', forward('mouseup'), { passive: false });
+})();

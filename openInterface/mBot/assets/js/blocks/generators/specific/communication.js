@@ -61,7 +61,7 @@ Blockly.Arduino.communication_NumberSerialWrite = function (block) {
 
 Blockly.Arduino.communication_onSerialDataReceived = function (block) {
     Blockly.Arduino.Generators.setupSerialConnection();
-    const dtaVar = Blockly.Arduino.nameDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+    const dtaVar = Blockly.Arduino.nameDB_.getName(block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
     const branchCode = Blockly.Arduino.statementToCode(block, 'DO');
     return "if (Serial.available()) {" + NEWLINE + TAB + dtaVar + " = Serial.readString();" + NEWLINE + branchCode + "}" + NEWLINE;
 };

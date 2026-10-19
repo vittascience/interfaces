@@ -12,7 +12,6 @@ This file is included in the main Open Interface CSS file.
     --vitta-purple: #e638db;
     --vitta-purple-dark: #b62dad;
 
-    --simulator-play: #22b573;
     --simulator-record: #dc3545;
 }
 
@@ -58,19 +57,21 @@ This file is included in the main Open Interface CSS file.
 
 .oi-simulation-activated>.oi-btn-simulator:disabled {
     --bs-btn-disabled-color: var(--vitta-white);
-    --bs-btn-disabled-bg: var(--simulator-play);
+    --bs-btn-disabled-bg: var(--vitta-green);
     --bs-btn-disabled-border-color: transparent;
     --bs-btn-disabled-opacity: 1;
 
-    box-shadow: 0px 0px 6px var(--simulator-play);
+    box-shadow: 0px 0px 6px var(--vitta-green);
 }
 
+/* Same green (theme colour, used directly so that the dark theme applies) for the running simulation, the enabled
+   options and the next step */
 .oi-option-activated>.oi-btn-simulator.activated {
-    --bs-btn-bg: var(--vitta-green-dark);
-    --bs-btn-hover-bg: var(--vitta-green-dark);
-    --bs-btn-active-bg: var(--vitta-green-dark);
+    --bs-btn-bg: var(--vitta-green);
+    --bs-btn-hover-bg: var(--vitta-green);
+    --bs-btn-active-bg: var(--vitta-green);
 
-    box-shadow: 0px 0px 6px var(--vitta-green-dark);
+    box-shadow: 0px 0px 6px var(--vitta-green);
 }
 
 .oi-option-activated>.oi-btn-simulator.recording {
@@ -122,4 +123,62 @@ This file is included in the main Open Interface CSS file.
 
 .oi-btn-group-simulator button:last-child img {
     margin-right: 2px;
+}
+
+/* Step by step mode (#timeout-controls of the simulators and of the python interface): same look as the simulator
+   buttons, the next step is the main action (play colour) */
+
+#timeout-controls .debugger-btn,
+#timeout-controls .debugger-step-btn,
+#timeout-controls #debugger-timeout {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 2.1em;
+    margin: 0;
+    padding: 0 0.9em;
+    border: none;
+    border-radius: 50vh;
+    font-family: var(--main-font);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: normal;
+}
+
+#timeout-controls .debugger-btn {
+    width: 2.5em;
+    padding: 0;
+    background-color: var(--simulator-button-background-color);
+    color: var(--vitta-white);
+}
+
+#timeout-controls .debugger-btn:hover {
+    background-color: var(--simulator-button-background-color-hover);
+    color: var(--vitta-white);
+}
+
+#timeout-controls #debugger-timeout {
+    min-width: 3.4em;
+    background-color: var(--bg-2);
+    border: 1px solid var(--bg-4);
+    color: var(--text-0);
+}
+
+#timeout-controls .debugger-step-btn {
+    background-color: var(--vitta-green);
+    color: var(--vitta-white);
+}
+
+#timeout-controls .debugger-step-btn:hover {
+    background-color: var(--vitta-green);
+    color: var(--vitta-white);
+    filter: brightness(1.1);
+}
+
+#timeout-controls .debugger-btn:focus-visible,
+#timeout-controls .debugger-step-btn:focus-visible {
+    box-shadow: var(--vitta-focus-box-shadow);
+    outline: none;
 }

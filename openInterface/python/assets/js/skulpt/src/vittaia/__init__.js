@@ -36,7 +36,7 @@ const loadModelImagePromise = (self, url) => {
         const that = {};
         that._url = Sk.ffi.remapToJs(url);
 
-        const isModelLoaded = checkLoadedModel(that._url);
+        const isModelLoaded = checkLoadedModel(that._url, 'image');
         let index;
         if (!isModelLoaded) {
             try {
@@ -47,7 +47,7 @@ const loadModelImagePromise = (self, url) => {
                 } else {
                     teachable = await tmImage.load(`${that._url}model.json`, `${that._url}metadata.json`);
                 }
-                index = window.pythonAi.models.push({ url: that._url, teachable: teachable }) - 1;
+                index = window.pythonAi.models.push({ url: that._url, type: 'image', teachable: teachable }) - 1;
             } catch (error) {
                 reject(`Failed to load the model files!`);
                 return;
@@ -55,23 +55,40 @@ const loadModelImagePromise = (self, url) => {
         } else {
             index = isModelLoaded.index;
         }
-        if (typeof window.pythonAi.models[index].instances === 'undefined') {
-            window.pythonAi.models[index].instances = [];
-        }
-        window.pythonAi.models[index].instances.push(self);
+        bindInstanceToModel(self, index);
         resolve(new Sk.ffi.remapToPy(true));
         return;
     });
 };
 
 /**
- * Check if the provided url string has already been used among the previously loaded models
+ * Binds the python instance to the model at the given index, unbinding it from any previously loaded model
+ * so that reloading a model on the same instance actually switches the model used by predict
+ * @param {*} self - The python self parameter
+ * @param {number} index - The model index in the window.pythonAi.models array
+ */
+const bindInstanceToModel = (self, index) => {
+    for (const model of window.pythonAi.models) {
+        if (model.instances) {
+            model.instances = model.instances.filter((instance) => instance !== self);
+        }
+    }
+    if (typeof window.pythonAi.models[index].instances === 'undefined') {
+        window.pythonAi.models[index].instances = [];
+    }
+    window.pythonAi.models[index].instances.push(self);
+};
+
+/**
+ * Check if the provided url string has already been used among the previously loaded models of the same type
+ * (local models all share the 'local' url)
  * @param {*} url 
+ * @param {string} type - The model type ('image', 'posture' or 'sound')
  * @returns An object containing the matched model index in the window.pythonAi.models array or false if not found
  */
-const checkLoadedModel = (url) => {
+const checkLoadedModel = (url, type) => {
     for (let i = 0; i < window.pythonAi.models.length; i++) {
-        if (window.pythonAi.models[i].url === url) {
+        if (window.pythonAi.models[i].url === url && window.pythonAi.models[i].type === type) {
             return { index: i };
         }
     }
@@ -123,7 +140,7 @@ const predictPromise = (self, imageSource) => {
         image.addEventListener('load', async () => {
             var predictions = await currentModel.teachable.predict(image);
             for (let i = 0; i < predictions.length; i++) {
-                predictions[i] = [predictions[i].className, predictions[i].probability];
+                predictions[i] = [predictions[i].className.trim(), predictions[i].probability];
             }
             const predictionResponse = {
                 success: true,
@@ -352,7 +369,7 @@ let loadModelPosturePromise = (self, url) => {
         const that = {};
         that._url = Sk.ffi.remapToJs(url);
 
-        const isModelLoaded = checkLoadedModel(that._url);
+        const isModelLoaded = checkLoadedModel(that._url, 'posture');
         let index;
         if (!isModelLoaded) {
             try {
@@ -364,7 +381,7 @@ let loadModelPosturePromise = (self, url) => {
                     teachable = await tmPose.load(`${that._url}model.json`, `${that._url}metadata.json`);
 
                 }
-                index = window.pythonAi.models.push({ url: that._url, teachable: teachable }) - 1;
+                index = window.pythonAi.models.push({ url: that._url, type: 'posture', teachable: teachable }) - 1;
 
             } catch (error) {
                 reject(`Failed to load the model files!`);
@@ -373,10 +390,7 @@ let loadModelPosturePromise = (self, url) => {
         } else {
             index = isModelLoaded.index;
         }
-        if (typeof window.pythonAi.models[index].instances === 'undefined') {
-            window.pythonAi.models[index].instances = [];
-        }
-        window.pythonAi.models[index].instances.push(self);
+        bindInstanceToModel(self, index);
 
         resolve(new Sk.ffi.remapToPy(true));
         return;
@@ -432,7 +446,7 @@ const predictPosturePromise = (self, imageSource) => {
             const { pose, posenetOutput } = await currentModel.teachable.estimatePose(image);
             var predictions = await currentModel.teachable.predict(posenetOutput);
             for (let i = 0; i < predictions.length; i++) {
-                predictions[i] = [predictions[i].className, predictions[i].probability];
+                predictions[i] = [predictions[i].className.trim(), predictions[i].probability];
             }
             drawPose(pose, image)
             const predictionResponse = {
@@ -537,7 +551,7 @@ let loadModelSoundPromise = (self, url) => {
         const that = {};
         that._url = Sk.ffi.remapToJs(url);
 
-        const isModelLoaded = checkLoadedModel(that._url);
+        const isModelLoaded = checkLoadedModel(that._url, 'sound');
 
         let index;
         if (!isModelLoaded) {
@@ -558,7 +572,7 @@ let loadModelSoundPromise = (self, url) => {
                         that._url + 'metadata.json');
                 }
                 await teachable.ensureModelLoaded();
-                index = window.pythonAi.models.push({ url: that._url, teachable: teachable }) - 1;
+                index = window.pythonAi.models.push({ url: that._url, type: 'sound', teachable: teachable }) - 1;
 
             } catch (error) {
                 reject(`Failed to load the model files!`);
@@ -567,10 +581,7 @@ let loadModelSoundPromise = (self, url) => {
         } else {
             index = isModelLoaded.index;
         }
-        if (typeof window.pythonAi.models[index].instances === 'undefined') {
-            window.pythonAi.models[index].instances = [];
-        }
-        window.pythonAi.models[index].instances.push(self);
+        bindInstanceToModel(self, index);
 
         resolve(new Sk.ffi.remapToPy(true));
         return;
@@ -878,7 +889,7 @@ const connectSocket = (self) => {
         } else {
             protocol = "wss";
             port = "443";
-            host = "vmoodle.vittascience.com/node-llm";
+            host = "llminterfacer-dev.vittascience.com/node-llm";
             if (isProduction()) {
                 host = "llminterfacer.vittascience.com/node-llm";
             }
@@ -946,12 +957,9 @@ const connectSocket = (self) => {
 
     });
 };
+
 const isProduction = function (self) {
-    const hostName = location.hostname;
-    const splitHostname = hostName.split('.');
-    if (splitHostname.length !== 3) return false;
-    if (splitHostname[0].length !== 2) return false;
-    return true;
+    return CDN_PATH !== '';
 }
 
 const setTemperature = function (self, temperature) {

@@ -13,7 +13,7 @@ const InterfaceAutocomplete = {
 
         const isMpy = ['codey', 'cyberpi', 'eliobot', 'esp32', 'galaxia', 'l476', 'm5stack', 'microbit', 'pico', 'raspberrypi', 'steami', 'wb55'].includes(_interface);
         const isCpp = ['arduino', 'letsstartcoding', 'mBot'].includes(_interface);
-        const isPy = ['python', 'spike', 'buddy', 'nao', 'bluebot', 'lotibot', 'niryo', 'photon', 'sphero', 'TI-83', 'winky', 'thymio', 'alphai'].includes(_interface);
+        const isPy = ['python', 'spike', 'buddy', 'nao', 'bluebot', 'lotibot', 'niryo', 'photon', 'sphero', 'TI-83', 'winky', 'thymio', 'alphai', 'primastem'].includes(_interface);
 
         let langMode;
         if (isCpp) {

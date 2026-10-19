@@ -108,11 +108,6 @@
                         <div id="music-tab" class="monitor-tab">
                             <div id="music-panel">
                                 <div class="music-control">
-                                    <label class="music-control-label"><b data-i18n="code.console.music.enable">Sons</b></label>
-                                    <button id="audio-enable-button" class="btn btn-outline-secondary btn-sm  mt-1 music-control-button" data-i18n="code.console.music.enablebutton">Activé
-                                    </button>
-                                </div>
-                                <div class="music-control">
                                     <label class="music-control-label"><i class="fa fa-volume-up"></i> <b data-i18n="code.console.music.volume">Volume</b></label>
                                     <div class="music-slider mt-2" id="volume-slider"></div>
                                 </div>
@@ -230,8 +225,7 @@
                                 </div>
 
                                 <div id="serial-input-group" class="input-group">
-                                    <input type="text" id="serial-input" class="serial-controls form-control ide-btn-left" autocomplete="off" data-i18n="[placeholder]code.monitor.controls.text.send" />
-
+                                    <input type="text" id="serial-input" name="serial_message" class="serial-controls form-control ide-btn-left" autocomplete="one-time-code" data-i18n="[placeholder]code.monitor.controls.text.send"/>
                                     <div id="serial-input-btn" class="input-group-append">
                                         <button id="serial-send" class="ide-btn serial-controls ide-btn-right" onclick="InterfaceConnection.sendSerialCommand()" data-placement="top" data-toggle="tooltip" data-i18n="[title]code.monitor.controls.tooltips.send">
                                             <i class="fa fa-paper-plane" aria-hidden="true"></i>
@@ -284,6 +278,13 @@
                                 data-toggle="tooltip" data-placement="top" title="Plein écran" onclick="Simulator.toggleFullscreen()">
                             <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-fullscreen.svg" alt="Fullscreen icon">
                         </button>
+                    </div>
+                </div>
+                <div id="experience-3d-container" style="display: none">
+                    <button id="gizmo-button" class="btn">
+                        <i class="fa-solid fa-cube"></i>
+                    </button>
+                    <div class="experience3D">
                     </div>
                 </div>
                 <div id="message-container">
@@ -349,16 +350,16 @@
 <script src="/openInterface/interfaces/assets/js/external/rotate.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/interact-1.5.4.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/blockly_compressed.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_date_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_colour_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/vittascience_patches.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_grid_dropdown_compressed.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_slider_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/scroll_options_compressed.js"></script>
 <script type="module" src="/openInterface/interfaces/assets/js/external/blockly/extensions/backpack/index.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ace.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-python.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-languages_tools.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-searchbox.min.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/file-input/js/fileinput.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/file-input/themes/fa/theme.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/svg-inject.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/charts-loader.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/echarts-5.4.0/echarts.min.js"></script>
@@ -406,7 +407,6 @@
 <script src="/openInterface/interfaces/assets/js/constants/modals/options.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/modals/generalModals.js"></script>
 <script src="/openInterface/interfaces/assets/js/constants/modals/LedMatrixModalManager.js"></script>
-
 <!-- endbuild -->
 <!-- build:js-events -->
 <script src="/openInterface/interfaces/assets/js/events/footer.js"></script>
@@ -426,6 +426,15 @@
 <script src="/openInterface/interfaces/assets/js/simulator/mosaic/groveModules_analog.js"></script>
 <script src="/openInterface/wb55/assets/js/simulator/mosaic/code_friendly.js"></script>
 <script src="/openInterface/steami/assets/js/simulator/mosaic/definitions.js"></script>
+<!-- endbuild -->
+ <!-- build:js-robot-simulator -->
+<script src="/openInterface/interfaces/assets/js/simulator/robot/RobotSimulator.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/robot/DistanceSensorSimulator.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/robot/LineFinderSimulator.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/Recorder.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/SimulatorModals.js"></script>
+<script src="/openInterface/interfaces/assets/js/simulator/robot/utils/math.js"></script>
+<script src="/openInterface/l476/assets/js/simulator/robot/robot.js"></script>
 <!-- endbuild -->
 <!-- build:js-auto-corrector -->
 <script src="/openInterface/interfaces/assets/js/external/svg-3.1.1/svg.min.js"></script>
@@ -453,7 +462,9 @@
 <script src="/openInterface/wb55/assets/js/blocks/definitions/specific/actuators.js"></script>
 <script src="/openInterface/steami/assets/js/blocks/definitions/specific/display.js"></script>
 <script src="/openInterface/steami/assets/js/blocks/definitions/specific/sensors.js"></script>
+<script src="/openInterface/steami/assets/js/blocks/definitions/specific/communication.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/common/cameras.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/definitions/python/stm32/robots.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/generators/python/init.js"></script>
 <script src="/openInterface/wb55/assets/js/blocks/generators/generator.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/generators/python/basic/colour.js"></script>
@@ -474,7 +485,9 @@
 <script src="/openInterface/wb55/assets/js/blocks/generators/specific/actuators.js"></script>
 <script src="/openInterface/steami/assets/js/blocks/generators/specific/display.js"></script>
 <script src="/openInterface/steami/assets/js/blocks/generators/specific/sensors.js"></script>
+<script src="/openInterface/steami/assets/js/blocks/generators/specific/communication.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/generators/python/stm32/cameras.js"></script>
+<script src="/openInterface/interfaces/assets/js/blocks/generators/python/stm32/robots.js"></script>
 <!-- endbuild -->
 <!-- build:js-main -->
 <script src="/openInterface/interfaces/assets/js/main/InterfaceInit.js"></script>
@@ -494,6 +507,7 @@
 <script src="/openInterface/interfaces/assets/js/serial/micropython/MicropythonFS.js"></script>
 <script src="/openInterface/interfaces/assets/js/serial/micropython/InterfaceConnection.js"></script>
 <!-- endbuild -->
+ <script src="/openInterface/steami/assets/js/simulator/experience/experience.js" type="module"></script>
 <!-- loader -->
 <script src="/openInterface/interfaces/assets/js/events/load.js"></script>
 <!-- check browser compatibility -->

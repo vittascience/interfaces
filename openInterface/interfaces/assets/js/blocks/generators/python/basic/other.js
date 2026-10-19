@@ -14,7 +14,7 @@ Blockly.Python.ast_AttributeFull = function (block) {
 };
 
 Blockly.Python.ast_Attribute = function (block) {
-  const value = Blockly.Python.variableDB_.getName(block.getFieldValue('VALUE'), Blockly.Variables.NAME_TYPE);
+  const value = Blockly.Python.variableDB_.getName(block.getFieldValue('VALUE'), Blockly.VARIABLE_CATEGORY_NAME);
   const attr = block.getFieldValue('ATTR');
   return [value + "." + attr, Blockly.Python.ORDER_MEMBER];
 };

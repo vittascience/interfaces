@@ -191,8 +191,8 @@ Blockly.Python.neopixel_checkDefinedBlock = function (block, pin) {
     let alreadyDefined = false;
     for (block in definedBlocks) {
         const fieldDropdownPin = definedBlocks[block].getField('PIN');
-        const selectedOption = fieldDropdownPin.selectedOption_[1];
-        if (selectedOption == pin && !definedBlocks[block].disabled) {
+        const selectedOption = fieldDropdownPin.getValue();
+        if (selectedOption == pin && !definedBlocks[block].hasDisabledReason(Blockly.constants.MANUALLY_DISABLED)) {
             alreadyDefined = true;
         }
     }
@@ -214,7 +214,7 @@ Blockly.Python.DISPLAY_NEOPIXEL_INIT_GENERATOR = function (pin, ledCount) {
 };
 
 Blockly.Python.display_defineNeopixel = function (block) {
-    const ledCount = Blockly.Python.valueToCode(block, "N", Blockly.Python.ORDER_NONE) || "20";
+    const ledCount = block.getFieldValue("N");
     const pin = block.getFieldValue("PIN");
     Blockly.Python.DISPLAY_NEOPIXEL_INIT_GENERATOR(pin, ledCount);
     return "";
@@ -267,7 +267,7 @@ Blockly.Python.display_neopixel_controlAllLedPalette = function (block) {
 
 Blockly.Python.display_rainbowNeopixel = function (block) {
     const pin = block.getFieldValue("PIN");
-    Blockly.Python.addImport('utime', IMPORT_UTIME);
+    Blockly.Python.addImport('time', IMPORT_TIME);
     Blockly.Python.addFunction('neopixel_showAllLed', FUNCTIONS_RASPBERRY.DEF_NEOPIXEL_SHOW_ALL_LED);
     if (!Blockly.Python.neopixel_checkDefinedBlock(block, pin)) {
         Blockly.Python.DISPLAY_NEOPIXEL_INIT_GENERATOR(pin, "30");

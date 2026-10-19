@@ -19,7 +19,7 @@ Blockly.Arduino.scratch_on_start = function (block) {
     let nextBlock = block.nextConnection.targetBlock()
     while (nextBlock !== null) {
         if (nextBlock.type !== 'scratch_forever') {
-            if (Blockly.Arduino[nextBlock.type] && !nextBlock.disabled) {
+            if (Blockly.Arduino[nextBlock.type] && !nextBlock.hasDisabledReason(Blockly.constants.MANUALLY_DISABLED)) {
                 let blockCode = Blockly.Arduino[nextBlock.type](nextBlock);
                 if (blockCode !== undefined) {
                     stack += Blockly.Arduino.indent(blockCode, 1)
@@ -41,14 +41,14 @@ Blockly.Arduino.scratch_forever = function (block) {
 };
 
 Blockly.Arduino.activateBlocks = function (block, stack) {
-    stack = Blockly.Arduino.addLoopTrap(stack, block.id);
+    stack = Blockly.Arduino.addLoopTrap(stack, block);
     const splitted = stack.match(/[^\r\n]+/g);
     if (splitted != null) {
         splitted.forEach(element => {
             if (block.type === "on_start" || block.type === "scratch_on_start") {
-                Blockly.Arduino.addUserSetup(Blockly.utils.genUid(), element);
+                Blockly.Arduino.addUserSetup(Blockly.utils.idGenerator.genUid(), element);
             } else if (block.type === "forever" || block.type === "scratch_forever") {
-                Blockly.Arduino.addUserLoop(Blockly.utils.genUid(), element);
+                Blockly.Arduino.addUserLoop(Blockly.utils.idGenerator.genUid(), element);
             } else {
                 throw Error('Statement "' + statement + '" is not defined. Unable to generate code in ' + block.type);
             }
@@ -56,9 +56,9 @@ Blockly.Arduino.activateBlocks = function (block, stack) {
         if ((block.type === "forever" || block.type === "scratch_forever") && Blockly.Constants.getSelectedBoard() == BOARD_ARDUINO_UNO_R4_WIFI) {
             const progMode = Blockly.Arduino.unor4wifi.getProgrammingMode();
             if (progMode.mode == Blockly.Arduino.unor4wifi.MODE_SERVER && progMode.loop) {
-                Blockly.Arduino.addUserLoop(Blockly.utils.genUid(), '  vittaServer.closeClient();');
+                Blockly.Arduino.addUserLoop(Blockly.utils.idGenerator.genUid(), '  vittaServer.closeClient();');
             } else if (progMode.mode == Blockly.Arduino.unor4wifi.MODE_CLIENT && progMode.loop) {
-                Blockly.Arduino.addUserLoop(Blockly.utils.genUid(), '  vittaClient.clearBufferData();');
+                Blockly.Arduino.addUserLoop(Blockly.utils.idGenerator.genUid(), '  vittaClient.clearBufferData();');
             }
         }
     }

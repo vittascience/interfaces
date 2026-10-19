@@ -296,6 +296,147 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_ACTUATORS_REKABIT_SETSERVOPOSITION_TOOLTIP}",
     },
 
+    // DFRobot micro:Driver (DFR0548)
+    {
+        "type": "actuators_dfr0548_setServoAngle",
+        "message0": "%{BKY_ACTUATORS_DFR0548_SETSERVOANGLE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "SERVO",
+            "options": [["S1", "1"], ["S2", "2"], ["S3", "3"], ["S4", "4"], ["S5", "5"], ["S6", "6"], ["S7", "7"], ["S8", "8"]]
+        },
+        {
+            "type": "input_value",
+            "name": "ANGLE",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_ACTUATORS_DFR0548_SETSERVOANGLE_TOOLTIP}",
+    },
+
+    {
+        "type": "actuators_dfr0548_runMotor",
+        "message0": "%{BKY_ACTUATORS_DFR0548_RUNMOTOR_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "MOTOR",
+            "options": [["M1", "1"], ["M2", "2"], ["M3", "3"], ["M4", "4"]]
+        },
+        {
+            "type": "field_grid_dropdown",
+            "name": "DIR",
+            "options": [["↻", "1"], ["↺", "-1"]]
+        },
+        {
+            "type": "input_value",
+            "name": "SPEED",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_ACTUATORS_DFR0548_RUNMOTOR_TOOLTIP}",
+    },
+
+    {
+        "type": "actuators_dfr0548_stopMotor",
+        "message0": "%{BKY_ACTUATORS_DFR0548_STOPMOTOR_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "MOTOR",
+            "options": [["M1", "1"], ["M2", "2"], ["M3", "3"], ["M4", "4"], ["%{BKY_ACTUATORS_DFR0548_MOTOR_ALL}", "ALL"]]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_ACTUATORS_DFR0548_STOPMOTOR_TOOLTIP}",
+    },
+
+    {
+        "type": "actuators_dfr0548_stepper",
+        "message0": "%{BKY_ACTUATORS_DFR0548_STEPPER_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "TYPE",
+            "options": [["42", "42"], ["28", "28"]]
+        },
+        {
+            "type": "field_grid_dropdown",
+            "name": "STEPPER",
+            "options": [["M1 + M2", "1"], ["M3 + M4", "2"]]
+        },
+        {
+            "type": "field_grid_dropdown",
+            "name": "DIR",
+            "options": [["↻", "1"], ["↺", "-1"]]
+        },
+        {
+            "type": "input_value",
+            "name": "DEGREES",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_ACTUATORS_DFR0548_STEPPER_TOOLTIP}",
+    },
+
+    {
+        "type": "actuators_dfr0548_stepperDual",
+        "message0": "%{BKY_ACTUATORS_DFR0548_STEPPERDUAL_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "TYPE",
+            "options": [["42", "42"], ["28", "28"]]
+        },
+        {
+            "type": "field_grid_dropdown",
+            "name": "DIR1",
+            "options": [["↻", "1"], ["↺", "-1"]]
+        },
+        {
+            "type": "input_value",
+            "name": "DEGREES1",
+            "check": "Number"
+        },
+        {
+            "type": "field_grid_dropdown",
+            "name": "DIR2",
+            "options": [["↻", "1"], ["↺", "-1"]]
+        },
+        {
+            "type": "input_value",
+            "name": "DEGREES2",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_ACTUATORS_DFR0548_STEPPERDUAL_TOOLTIP}",
+    },
+
 
     // KITRONIK ENVIRONMENTAL _ PLAY FREQUENCY
     {

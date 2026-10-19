@@ -61,6 +61,13 @@ Blockly.Python.communication_onSerialDataReceived = function (block) {
     return "if uart.any():" + NEWLINE + TAB + dataVar + " = uart.read()" + NEWLINE + branchCode;
 };
 
+Blockly.Python.communication_rfid_getCardID = function (block) {
+    const rx = block.getFieldValue("RX");
+    const tx = block.getFieldValue("TX");
+    Blockly.Python.addImport('rfid_reader', IMPORT_RFID_READER);
+    return ["rfid_reader.rfid_read(" + rx + ", " + tx + ")", Blockly.Python.ORDER_ATOMIC];
+};
+
 Blockly.Python.communication_playComputerMusic = function (block) {
     const note = block.getFieldValue("NOTE");
     return "print('@music:" + note + "|')" + NEWLINE;
@@ -294,9 +301,9 @@ Blockly.Python.communication_gps_getNMEA = function (block) {
     Blockly.Python.addInit('gps_module', "# GPS on UART");
     Blockly.Python.addInit('gpsInfos', "gpsInfos = {}");
     Blockly.Python.addInit('gpsInfos[\'nmea\']', "gpsInfos['nmea'] = None");
-    block.workspace.createVariable('gpsInfos');
+    block.workspace.getVariableMap().createVariable('gpsInfos');
     Blockly.Python.addInit('gpsBuffer', "gpsBuffer = \"\"");
-    block.workspace.createVariable('gpsBuffer');
+    block.workspace.getVariableMap().createVariable('gpsBuffer');
     Blockly.Python.addFunction('uart_switchTo', FUNCTIONS_MICROBIT.DEF_UART_SWITCH_TO);
     Blockly.Python.addFunction('gps_readNMEA', FUNCTIONS_MICROBIT.DEF_GPS_READ_NMEA);
     return ["gps_readNMEA(" + pinRX + ", " + pinTX + ", True)", Blockly.Python.ORDER_ATOMIC];
@@ -309,9 +316,9 @@ Blockly.Python.communication_gps_getGGAInformations = function (block) {
     Blockly.Python.addInit('gps_module', "# GPS on UART");
     Blockly.Python.addInit('gpsInfos', "gpsInfos = {}");
     Blockly.Python.addInit('gpsInfos[\'nmea\']', "gpsInfos['nmea'] = None");
-    block.workspace.createVariable('gpsInfos');
+    block.workspace.getVariableMap().createVariable('gpsInfos');
     Blockly.Python.addInit('gpsBuffer', "gpsBuffer = \"\"");
-    block.workspace.createVariable('gpsBuffer');
+    block.workspace.getVariableMap().createVariable('gpsBuffer');
     Blockly.Python.addFunction('uart_switchTo', FUNCTIONS_MICROBIT.DEF_UART_SWITCH_TO);
     Blockly.Python.addFunction('gps_readNMEA', FUNCTIONS_MICROBIT.DEF_GPS_READ_NMEA);
     Blockly.Python.addFunction('gps_GGA_getInformation', FUNCTIONS_MICROBIT.DEF_GPS_GET_GGA_INFORMATIONS);
@@ -443,4 +450,31 @@ Blockly.Python.communication_i2c_write = function (block) {
     let repeat = Blockly.Python.valueToCode(block, "REPEAT", Blockly.Python.ORDER_NONE);
     if (repeat) repeat = ", repeat=" + repeat;
     return "i2c.write(" + addr + ", bytes(" + buf  + ")" + repeat + ")" + NEWLINE;
+};
+
+// VOICE RECOGNITION _ SET VOLUME
+Blockly.Python.communication_voiceRecognition_setVolume = function (block) {
+    const volume = Blockly.Python.valueToCode(block, "VOLUME", Blockly.Python.ORDER_NONE) || "4";
+    Blockly.Python.addImport('voiceRecognition', IMPORT_VOICE_RECOGNITION);
+    return "voiceRecognition.setVolume(" + volume + ")" + NEWLINE;
+};
+
+// VOICE RECOGNITION _ GET COMMAND ID
+Blockly.Python.communication_voiceRecognition_getCMDID = function (block) {
+    Blockly.Python.addImport('voiceRecognition', IMPORT_VOICE_RECOGNITION);
+    return ["voiceRecognition.getCMDID()", Blockly.Python.ORDER_ATOMIC];
+};
+
+// VOICE RECOGNITION _ ON FIXED COMMAND
+Blockly.Python.communication_voiceRecognition_onCommand = function (block) {
+    const branchCode = Blockly.Python.statementToCode(block, "DO") || Blockly.Python.PASS;
+    Blockly.Python.addImport('voiceRecognition', IMPORT_VOICE_RECOGNITION);
+    return "if voiceRecognition.isCommand(" + block.getFieldValue("ID") + "):" + NEWLINE + branchCode;
+};
+
+// VOICE RECOGNITION _ PLAY BY COMMAND ID
+Blockly.Python.communication_voiceRecognition_playByCMDID = function (block) {
+    const id = Blockly.Python.valueToCode(block, "ID", Blockly.Python.ORDER_NONE) || "22";
+    Blockly.Python.addImport('voiceRecognition', IMPORT_VOICE_RECOGNITION);
+    return "voiceRecognition.playByCMDID(" + id + ")" + NEWLINE;
 };

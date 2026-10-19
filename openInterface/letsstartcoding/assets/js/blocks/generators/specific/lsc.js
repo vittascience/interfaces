@@ -39,14 +39,14 @@ Blockly.Arduino.scratch_forever = function (block) {
 };
 
 Blockly.Arduino.activateBlocks = function (block, stack) {
-    stack = Blockly.Arduino.addLoopTrap(stack, block.id);
+    stack = Blockly.Arduino.addLoopTrap(stack, block);
     var splitted = stack.match(/[^\r\n]+/g);
     if (splitted != null) {
         splitted.forEach(element => {
             if (block.type === "on_start" || block.type === "scratch_on_start") {
-                Blockly.Arduino.addUserSetup(Blockly.utils.genUid(), element);
+                Blockly.Arduino.addUserSetup(Blockly.utils.idGenerator.genUid(), element);
             } else if (block.type === "forever" || block.type === "scratch_forever") {
-                Blockly.Arduino.addUserLoop(Blockly.utils.genUid(), element);
+                Blockly.Arduino.addUserLoop(Blockly.utils.idGenerator.genUid(), element);
             } else {
                 throw Error('Statement "' + statement + '" is not defined. Unable to generate code in ' + block.type);
             }
@@ -248,19 +248,19 @@ Blockly.Arduino.logic_boolean = function(block) {
 Blockly.Arduino.controls_whileUntil = function(block) {
   var bool = Blockly.Arduino.valueToCode(block, 'BOOL', Blockly.Arduino.ORDER_NONE) || 'false',
       branch = Blockly.Arduino.statementToCode(block, 'DO');
-  branch = Blockly.Arduino.addLoopTrap(branch, block.id);
+  branch = Blockly.Arduino.addLoopTrap(branch, block);
   return 'while (' + bool + ') {' + NEWLINE + branch + '}' + NEWLINE;
 };
 
 Blockly.Arduino.controls_for = function(block) {
-  var variable0 = Blockly.Arduino.nameDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE),
+  var variable0 = Blockly.Arduino.nameDB_.getName(block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME),
       start = Blockly.Arduino.valueToCode(block, 'FROM', Blockly.Arduino.ORDER_ASSIGNMENT) || '0',
       end = Blockly.Arduino.valueToCode(block, 'TO', Blockly.Arduino.ORDER_ASSIGNMENT) || '0',
       increment = Blockly.Arduino.valueToCode(block, 'BY', Blockly.Arduino.ORDER_ASSIGNMENT) || '1',
       branch = Blockly.Arduino.statementToCode(block, 'DO');
-  branch = Blockly.Arduino.addLoopTrap(branch, block.id);
+  branch = Blockly.Arduino.addLoopTrap(branch, block);
   var code;
-  if (Blockly.isNumber(start) && Blockly.isNumber(end) && Blockly.isNumber(increment)) {
+  if (Blockly.utils.string.isNumber(start) && Blockly.utils.string.isNumber(end) && Blockly.utils.string.isNumber(increment)) {
     // All arguments are simple numbers.
     var up = parseFloat(start) <= parseFloat(end);
     code = 'for (' + variable0 + ' = ' + start + '; ' + variable0 + (up ? ' <= ' : ' >= ') + end + '; ' + variable0;
@@ -275,20 +275,20 @@ Blockly.Arduino.controls_for = function(block) {
     code = '';
     // Cache non-trivial values to variables to prevent repeated look-ups.
     var startVar = start;
-    if (!start.match(/^\w+$/) && !Blockly.isNumber(start)) {
-      var startVar = Blockly.Arduino.nameDB_.getDistinctName(variable0 + '_start', Blockly.Variables.NAME_TYPE);
+    if (!start.match(/^\w+$/) && !Blockly.utils.string.isNumber(start)) {
+      var startVar = Blockly.Arduino.nameDB_.getDistinctName(variable0 + '_start', Blockly.VARIABLE_CATEGORY_NAME);
       code += 'int ' + startVar + ' = ' + start + ';' + NEWLINE;
     }
     var endVar = end;
-    if (!end.match(/^\w+$/) && !Blockly.isNumber(end)) {
-      var endVar = Blockly.Arduino.nameDB_.getDistinctName(variable0 + '_end', Blockly.Variables.NAME_TYPE);
+    if (!end.match(/^\w+$/) && !Blockly.utils.string.isNumber(end)) {
+      var endVar = Blockly.Arduino.nameDB_.getDistinctName(variable0 + '_end', Blockly.VARIABLE_CATEGORY_NAME);
       code += 'int ' + endVar + ' = ' + end + ';' + NEWLINE;
     }
     // Determine loop direction at start, in case one of the bounds
     // changes during loop execution.
-    var incVar = Blockly.Arduino.nameDB_.getDistinctName(variable0 + '_inc', Blockly.Variables.NAME_TYPE);
+    var incVar = Blockly.Arduino.nameDB_.getDistinctName(variable0 + '_inc', Blockly.VARIABLE_CATEGORY_NAME);
     code += 'int ' + incVar + ' = ';
-    if (Blockly.isNumber(increment)) {
+    if (Blockly.utils.string.isNumber(increment)) {
       code += Math.abs(increment) + ';' + NEWLINE;
     } else {
       code += 'abs(' + increment + ');' + NEWLINE;

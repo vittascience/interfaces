@@ -19,17 +19,21 @@ Blockly.Arduino.display_builtinMatrix_drawBitmap = function (block) {
     Blockly.Arduino.addInclude('Arduino_LED_Matrix', INCLUDE_ARDUINO_LED_MATRIX);
     Blockly.Arduino.addDeclaration(objName + '-simu', "// LED Matrix");
     Blockly.Arduino.addDeclaration(objName, "ArduinoLEDMatrix " + objName + ";");
-    Blockly.Arduino.addDeclaration('declare_matrix_frame_32bit', "uint32_t frame_32bits[3] = {0};");
+    // 12 columns on the UNO R4 WiFi, 13 on the UNO Q (BUILTIN_MATRIX, block definitions)
+    const columns = BUILTIN_MATRIX.columns;
+    const wordsCount = Math.ceil(columns * 8 / 32);
+    Blockly.Arduino.addDeclaration('declare_matrix_cols', "const uint8_t builtinMatrix_cols = " + columns + ";");
+    Blockly.Arduino.addDeclaration('declare_matrix_frame_32bit', "uint32_t frame_32bits[" + wordsCount + "] = {0};");
     Blockly.Arduino.addFunction('matrix_drawFrameAt', FUNCTIONS_ARDUINO.DEF_LED_MATRIX_DRAW_AT);
     Blockly.Arduino.addSetup(objName + "-begin", objName + ".begin();");
     let code = "";
-    const binary_img = block.getField("LEDS_MATRIX_BUTTON")['altText_'].split(',');
+    const binary_img = block.getField("LEDS_MATRIX_BUTTON").getText().split(',');
     function columns8ToUint32(binCols, msbTop = true) {
         const cols = binCols.map(b => typeof b === "string" ? parseInt(b, 2) : (b >>> 0) & 0xFF);
-        const words = [0, 0, 0];
+        const words = Array(wordsCount).fill(0);
         let i = 0;
         for (let row = 0; row < 8; row++) {
-            for (let col = 0; col < 12; col++) {
+            for (let col = 0; col < columns; col++) {
                 const bit = msbTop ? (cols[col] >> (7 - row)) & 1 : (cols[col] >> row) & 1;
                 const pos = 31 - (i % 32);
                 const w = (i / 32) | 0;
@@ -40,7 +44,7 @@ Blockly.Arduino.display_builtinMatrix_drawBitmap = function (block) {
         return words.map(w => w >>> 0);
     }
     const binary = columns8ToUint32(binary_img);
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < wordsCount; i++) {
         const hexValues = binary.map(x => "0x" + x.toString(16).padStart(8, "0"));
         code += "frame_32bits[" + i + "] = " + hexValues[i] + ";" + NEWLINE;
     }
@@ -371,7 +375,7 @@ Blockly.Arduino.chainableLED_codeInitialization = function (block, ledCount = 3)
     const pinConstantDIN = Blockly.Arduino.Generators.digital_write(pinCIN, 'Chainable LED CIN');
     const objName = 'RGBLed_' + pinCIN;
     const ledCountVar = CHAINABLE_LED_COUNT + '_' + pinCIN;
-    block.workspace.createVariable(CHAINABLE_LED_COUNT);
+    block.workspace.getVariableMap().createVariable(CHAINABLE_LED_COUNT);
     Blockly.Arduino.addInclude('include_chainable_led', INCLUDE_CHAINABLE_LED);
     Blockly.Arduino.addDefine(objName, "#define " + ledCountVar + ' ' + ledCount);
     Blockly.Arduino.addDeclaration(objName, "ChainableLED " + objName + "(" + pinConstantDIN + ", " + pinConstantCIN + ", " + ledCountVar + ");");
@@ -433,7 +437,7 @@ Blockly.Arduino.DISPLAY_NEOPIXEL_INIT_GENERATOR = function (block, pin, ledCount
     Blockly.Arduino.addDefine('def_led_count_' + pin, "#define " + NEOPIXEL_LED_COUNT + pin + " " + ledCount);
     Blockly.Arduino.addDeclaration('init_neopixel_' + pin, "Adafruit_NeoPixel Neopixel_" + pin + "(" + NEOPIXEL_LED_COUNT + pin + ", " + pin + ", NEO_GRB + NEO_KHZ800);");
     Blockly.Arduino.addSetup('setup_neopixel_' + pin, "Neopixel_" + pin + ".begin();");
-    block.workspace.createVariable(NEOPIXEL_LED_COUNT + ledCount)
+    block.workspace.getVariableMap().createVariable(NEOPIXEL_LED_COUNT + ledCount)
 };
 
 /**
@@ -447,8 +451,8 @@ Blockly.Arduino.neopixel_checkDefinedBlock = function (block, pin) {
     let alreadyDefined = false;
     for (block in defineBlocks) {
         const fieldDropdownPin = defineBlocks[block].getField('PIN');
-        const selectedOption = fieldDropdownPin.selectedOption_[1];
-        if (selectedOption == pin && !defineBlocks[block].disabled) {
+        const selectedOption = fieldDropdownPin.getValue();
+        if (selectedOption == pin && !defineBlocks[block].hasDisabledReason(Blockly.constants.MANUALLY_DISABLED)) {
             alreadyDefined = true;
         }
     }

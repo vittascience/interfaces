@@ -55,7 +55,8 @@ const LIB_IMPORT = {
     INCLUDE_SEEED_BME680: "#include <seeed_bme680.h>",
     INCLUDE_SEEED_HM330X: "#include <Seeed_HM330X.h>",
     INCLUDE_SEEED_GROVE_MP3: "#include <SeeedGroveMP3.h>",
-    INCLUDE_ADAFRUIT_MLX90614: "#include <Adafruit_MLX90614.h>"
+    INCLUDE_ADAFRUIT_MLX90614: "#include <Adafruit_MLX90614.h>",
+    INCLUDE_MLX90621: "#include <MLX90621.h>"
 };
 
 const EXCLUDED_COMMENTS = [];

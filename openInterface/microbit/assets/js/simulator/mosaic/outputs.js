@@ -597,3 +597,16 @@ Simulator.Behaviours.output.gamepad_v4_out = function () {
 	});
 	return mod;
 };
+
+Simulator.Behaviours.output.joystick_bit_v2_out = function () {
+	const mod = Object.create(null);
+	mod.data = {
+		vibration: 0
+	};
+	mod['setVibration'] = new Sk.builtin.func(function (state) {
+		mod.data.vibration = state.v;
+		$('#mb-joystick-bit-v2-vibration_value').html(state.v == 0 ? "OFF" : "ON");
+		$('#mb-joystick-bit-v2-vibration_anim').css('opacity', mod.data.vibration);
+	});
+	return mod;
+};

@@ -104,7 +104,37 @@ utils.prototypeBlocks['@onevent_prox'] = function (decorator, functionDef, funct
     }
 };
 
+// timer of the flashing LEDs block (display_timer_flash_led), generated with its initializations
+const FLASH_BODY = /^(?:global[^\n]*\n)?ifwaiting==1:\nnf_leds_top\(0,0,0\)\nnf_leds_bottom_right\(0,0,0\)\nnf_leds_bottom_left\(0,0,0\)\nwaiting=0\nelse:\nnf_leds_top\((\d+),(\d+),(\d+)\)\nnf_leds_bottom_right\(\1,\2,\3\)\nnf_leds_bottom_left\(\1,\2,\3\)\nwaiting=1$/;
+
+const flashLedsBlock = (functionBlock) => {
+    const flash = (functionBlock?.text || '').replace(/[ \t]+/g, '').match(FLASH_BODY);
+    const period = (utils.python2Blocks.code || '').match(/^timer_period\[0\]\s*=\s*(\d+)\s*$/m);
+    if (!flash || !period) return null;
+    const [red, green, blue] = flash.slice(1, 4).map(Number);
+    const colour = '#' + [red, green, blue].map((value) => Math.min(255, Math.round(value * 255 / 32)).toString(16).padStart(2, '0')).join('');
+    // initializations generated again by the block: ignored by the translation (next pass)
+    const rgb = `${red},${green},${blue}`;
+    for (const line of [`nf_leds_top(${rgb})`, `nf_leds_bottom_right(${rgb})`, `nf_leds_bottom_left(${rgb})`, `timer_period[0]=${period[1]}`, 'waiting=1']) {
+        utils.python2Blocks.learned?.recognizedDefinitions.add(line);
+    }
+    const seconds = Number(period[1]) / 1000;
+    return {
+        type: 'display_timer_flash_led',
+        fields: {},
+        values: { COLOR: null, TIME: null },
+        mutations: null,
+        statementsNode: {
+            COLOR: { type: 'bypass', block: 'color_picker', text: colour },
+            TIME: { type: Number.isInteger(seconds) ? 'integer' : 'float', text: String(seconds), children: [] },
+        },
+        statements: null,
+    };
+};
+
 utils.prototypeBlocks['@onevent_timer0'] = function (decorator, functionDef, functionBlock) {
+    const flashLeds = flashLedsBlock(functionBlock);
+    if (flashLeds) return flashLeds;
     return {
         type: 'io_onTimer_event',
         fields: { TIMER: 0 },

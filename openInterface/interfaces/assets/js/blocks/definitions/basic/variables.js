@@ -226,7 +226,7 @@ Blockly.Constants.Variables.DELETE_OPTION_CALLBACK_FACTORY = function (block) {
   return function () {
     var workspace = block.workspace;
     var variable = block.getField('VAR').getVariable();
-    workspace.deleteVariableById(variable.getId());
+    Blockly.Variables.deleteVariable(workspace, variable);
     workspace.refreshToolboxSelection();
   };
 };
@@ -237,7 +237,7 @@ Blockly.Constants.Variables.VARIABLES_SET_GET_TYPE = {
    * @this {Blockly.Block} variables_set
    */
   getVarName: function () {
-    return this.workspace.getVariableById(this.getFieldValue('VAR')).name;
+    return this.workspace.getVariableMap().getVariableById(this.getFieldValue('VAR')).name;
   },
   /**
    * @return {Blockly.Type} type
@@ -266,7 +266,7 @@ Blockly.Constants.Variables.VARIABLES_GET_GET_TYPE = {
    * @this {Blockly.Block} variables_get
    */
   getVarName: function () {
-    return this.workspace.getVariableById(this.getFieldValue('VAR')).name;
+    return this.workspace.getVariableMap().getVariableById(this.getFieldValue('VAR')).name;
   },
   /**
    * @return {Blockly.Type} typeCheck
@@ -288,12 +288,11 @@ Blockly.Constants.Variables.VARIABLES_GET_GET_TYPE = {
           }
         }
       }
-      const blockDB = this.workspace.blockDB_;
       var var_getters = [];
-      for (block in blockDB) {
-        if (blockDB[block].type == 'variables_get') {
-          if (blockDB[block].getVarName() == varName) {
-            var_getters.push(blockDB[block])
+      for (const block of this.workspace.getAllBlocks(false)) {
+        if (block.type == 'variables_get') {
+          if (block.getVarName() == varName) {
+            var_getters.push(block)
           }
         }
       }
@@ -438,7 +437,7 @@ Blockly.Extensions.register('variables_force_type_init', function () {
   this.updateTypeOptions_();
 });
 
-// For PyBlock
+// Blocks created by the former reverse translation (PyBlock): kept for the projects saved with them
 
 Blockly.defineBlocksWithJsonArray([
   // Block for adding to a variable in place.
@@ -506,7 +505,7 @@ Blockly.Constants.Variables.VARIABLES_SET_TUPLE_MUTATOR_MIXIN = {
   },
   restoreConnections_: function () {
     for (var i = 0; i < this.itemCount_; i++) {
-      Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'ITEM' + i);
+      this.valueConnections_[i]?.reconnect(this, 'ITEM' + i);
     }
   },
   addItem_: function () {
@@ -533,7 +532,7 @@ Blockly.Constants.Variables.VARIABLES_SET_TUPLE_MUTATOR_MIXIN = {
           shadowDom.appendChild(shadowDomField);
 
           if (shadowDom) {
-            shadowDom.setAttribute('id', Blockly.utils.genUid());
+            shadowDom.setAttribute('id', Blockly.utils.idGenerator.genUid());
             newInput.connection.setShadowDom(shadowDom);
             newInput.connection.respawnShadow_();
           }
@@ -626,7 +625,7 @@ Blockly.Constants.Variables.VARIABLES_TUPLE_MUTATOR_MIXIN = {
   },
   restoreConnections_: function () {
     for (var i = 0; i < this.itemCount_; i++) {
-      Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'ITEM' + i);
+      this.valueConnections_[i]?.reconnect(this, 'ITEM' + i);
     }
   },
   addItem_: function () {
@@ -654,7 +653,7 @@ Blockly.Constants.Variables.VARIABLES_TUPLE_MUTATOR_MIXIN = {
           shadowDom.appendChild(shadowDomField);
 
           if (shadowDom) {
-            shadowDom.setAttribute('id', Blockly.utils.genUid());
+            shadowDom.setAttribute('id', Blockly.utils.idGenerator.genUid());
             newInput.connection.setShadowDom(shadowDom);
             newInput.connection.respawnShadow_();
           }

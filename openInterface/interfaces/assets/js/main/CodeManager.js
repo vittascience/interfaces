@@ -36,7 +36,7 @@ class CodeManager {
      */
 
     constructor(codeMode, workspace, generator, xml) {
-        this.REGEXP_INTERFACES = /.*(arduinoq|arduino|microbit|python|adacraft|wb55|l476|esp32|TI-83|galaxia|raspberrypi|niryo|nao|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|eliobot|thymio|letsstartcoding|pico|winky|web|sphero|lotibot|bluebot|spike|photon|codey|steami|alphai).*/g;
+        this.REGEXP_INTERFACES = /.*(arduinoq|arduino|microbit|python|adacraft|wb55|l476|esp32|TI-83|galaxia|raspberrypi|niryo|nao|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|eliobot|thymio|letsstartcoding|pico|winky|web|sphero|lotibot|bluebot|spike|photon|codey|steami|alphai|primastem).*/g;
         if (typeof ltiVariables13 != 'undefined') {
             this._interface = ltiVariables13.interface;
         } else if (typeof ltiVariables != 'undefined') {
@@ -80,6 +80,7 @@ class CodeManager {
             case 'steami':
             case 'alphai':
             case 'arduinoq':
+            case 'primastem':
                 this._lStorage = this._interface + "CurrentProject";
                 this._lSaveStorage = this._interface + "SavedProjects"; //[! NOT USED: Visitor need account to save his projects]
                 break;
@@ -110,8 +111,8 @@ class CodeManager {
             localstorage = this.localStorageManager.getLocalProjectContent();
         }
         if (localstorage != null && typeof localstorage.code === 'string') {
-            $('#project-name').html(localstorage.name);
-            $('#project-name').attr('data-bs-title', `<span class="tooltip-title">${localstorage.name}</span><span class="tooltip-author">${i18next.t('code.tooltip.anonymousAuthor')}</span><span class="tooltip-description">${localstorage.description}</span>`);
+            $('#project-name').html(CodeManager.getProjectDisplayName(localstorage.name));
+            $('#project-name').attr('data-bs-title', `<span class="tooltip-title">${localstorage.name}</span><span class="tooltip-author">${i18next.t('code.tooltip.anonymousAuthor')}</span><span class="tooltip-description">${CodeManager.getProjectDisplayDescription(localstorage.description)}</span>`);
             this._textCode = localstorage.codeText;
             this._xml = localstorage.code;
             this.codeWasManuallyModified = localstorage.codeManuallyModified;
@@ -165,6 +166,38 @@ class CodeManager {
      * @param {Blockly.Generator} [generator=null] generator
      * @param {string} [xml=null] xml
      */
+    /**
+     * Gets the project description from the #project-name tooltip.
+     * Takes the innermost .tooltip-description so descriptions polluted by nested tooltip html get cleaned.
+     * @public
+     * @returns {string} description
+     */
+    /**
+     * Name of the project displayed in the page: the translated default name ("Nouveau projet") for a project without
+     * name or with the former default name "no name".
+     * @param {string} name
+     * @returns {string}
+     */
+    static getProjectDisplayName(name) {
+        const decodedName = name ? String(name).replace(/%20/g, ' ').trim() : '';
+        if (!decodedName || decodedName.toLowerCase() === 'no name' || decodedName.toLowerCase() === 'no-name') {
+            return typeof i18next !== 'undefined' && i18next.isInitialized ? i18next.t('code.newProject') : 'Nouveau projet';
+        }
+        return name;
+    };
+    /**
+     * Description of the project displayed in the page: empty for the former default description "No-description".
+     * @param {string} description
+     * @returns {string}
+     */
+    static getProjectDisplayDescription(description) {
+        return !description || description === 'undefined' || /^no[-\s]?description$/i.test(String(description).trim()) ? '' : description;
+    };
+    static getProjectDescription() {
+        // DOMParser builds an inert document: event handlers in the (user controlled) title are never executed
+        const doc = new DOMParser().parseFromString($('#project-name').attr('data-bs-title') || '', 'text/html');
+        return $(doc.body).find('.tooltip-description').last().text();
+    };
     static getSharedInstance(codeMode = null, workspace = null, generator = null, xml = null) {
         if (!!CodeManager.instance) {
             return CodeManager.instance;
@@ -190,7 +223,7 @@ class CodeManager {
      * @returns {void}
      */
     _xmlToWorkspace(xml) {
-        Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), this._workspace);
+        Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xml), this._workspace);
     };
     /**
      * Converts workspace dom to code in xml form.
@@ -213,6 +246,7 @@ class CodeManager {
         let status = CodeManager.STATUS.DOM.xmlSuccess;
         if (this._workspace !== null) {
             this._workspace.clear();
+            if (typeof BlockExtensions !== 'undefined') BlockExtensions.syncFromProject();
             if (xml !== null) {
                 if (typeof REPLACE_CODE_REQUESTS !== 'undefined') {
                     for (const request of Object.values(REPLACE_CODE_REQUESTS)) {
@@ -334,23 +368,36 @@ class CodeManager {
      */
     setXml(xml = this._workspaceToXml()) {
         this._xml = xml;
-        const currentProjectState = {
-            'code': this.getXml(),
-            'codeText': this.getTextCode(),
-            'codeManuallyModified': this.isCodeManuallyModified(),
-            'mode': this._getSelectedMode(),
-            'name': $('#project-name').html(),
-            'description': $('#project-name').attr('data-bs-title')
-        };
-
-        if (this.localStorageManager.getLocalProjectContent() && this.localStorageManager.getLocalProjectContent().options) currentProjectState.options = this.localStorageManager.getLocalProjectContent().options;
-
-        this.localStorageManager.setLocalProject(currentProjectState);
+        this._saveLocalProjectState(this.getXml());
         window.localStorage.currentExercise = JSON.stringify({
             "codeText": this.getTextCode(),
             'code': this.getXml(),
             'manuallyModified': this.codeWasManuallyModified
         });
+    };
+    /**
+     * Save the current state of the project in the localStorage (current project id).
+     * While the project is loading (project manager not ready yet or initializing), the page does not show its name and
+     * description yet: the ones already saved are kept.
+     * @private
+     * @param {string} code - blocks (xml) or code of the project
+     * @returns {void}
+     */
+    _saveLocalProjectState(code) {
+        const savedProject = this.localStorageManager.getLocalProjectContent();
+        const pageName = $('#project-name').html();
+        const isInitializing = typeof projectManager === 'undefined' || !projectManager || projectManager._isInitializing;
+        const isLoading = (isInitializing || !pageName) && savedProject && savedProject.name;
+        const currentProjectState = {
+            'code': code,
+            'codeText': this.getTextCode(),
+            'codeManuallyModified': this.isCodeManuallyModified(),
+            'mode': this._getSelectedMode(),
+            'name': isLoading ? savedProject.name : pageName,
+            'description': isLoading ? savedProject.description : CodeManager.getProjectDescription()
+        };
+        if (savedProject && savedProject.options) currentProjectState.options = savedProject.options;
+        this.localStorageManager.setLocalProject(currentProjectState);
     };
     /**
      * Gets xml.
@@ -372,6 +419,124 @@ class CodeManager {
             this._generatedCode = this._generator.workspaceToCode(this._workspace);
         }
     };
+
+    // Step by step mode (Simulator.Debugger, PythonDebugger): block of the line being run
+
+    /**
+     * Ids of the statement blocks that generated each line of the code editor (null: line of no statement block).
+     * The code is generated again with marker lines around the code of each statement block (blockToCode wrapped),
+     * the innermost block is kept for each line. Computed again when the code changes. The lines of the editor are
+     * aligned with the generated lines (code typed by hand may be written differently).
+     * @returns {Array<string|null>}
+     */
+    getLineBlocks() {
+        const workspace = this._workspace;
+        const generator = this._generator;
+        const editorCode = Main.getCodeEditor().container.getValue();
+        if (this.lineBlocks && this.lineBlocks.code === editorCode) {
+            return this.lineBlocks.blocks;
+        }
+        this.lineBlocks = { code: editorCode, blocks: [] };
+        if (!workspace || !generator) {
+            return this.lineBlocks.blocks;
+        }
+        const comment = generator === Blockly.Python ? '#' : '//';
+        const marker = /^\s*(?:#|\/\/)@@vitta-(start|end):(\S+)\s*$/;
+        const ownBlockToCode = Object.prototype.hasOwnProperty.call(generator, 'blockToCode') ? generator.blockToCode : null;
+        const blockToCode = generator.blockToCode;
+        let code;
+        try {
+            // Only the statement blocks (the value blocks return [code, order]) whose code is full lines
+            generator.blockToCode = function (block, thisOnly) {
+                const blockCode = blockToCode.call(this, block, thisOnly);
+                if (!block || typeof blockCode !== 'string' || !blockCode.endsWith('\n')) return blockCode;
+                return `${comment}@@vitta-start:${block.id}\n${blockCode}${comment}@@vitta-end:${block.id}\n`;
+            };
+            code = generator.workspaceToCode(workspace);
+        } catch (error) {
+            console.warn('Step by step: blocks of the lines not found', error);
+            return this.lineBlocks.blocks;
+        } finally {
+            if (ownBlockToCode) {
+                generator.blockToCode = ownBlockToCode;
+            } else {
+                delete generator.blockToCode;
+            }
+        }
+        // Lines of the code with their block, without the markers
+        const stack = [];
+        const lines = [];
+        for (const line of code.split('\n')) {
+            const match = line.match(marker);
+            if (!match) {
+                lines.push({ text: line, block: stack.length ? stack[stack.length - 1] : null });
+            } else if (match[1] === 'start') {
+                stack.push(match[2]);
+            } else if (stack.lastIndexOf(match[2]) !== -1) {
+                stack.length = stack.lastIndexOf(match[2]);
+            }
+        }
+        // The code typed in the editor (mixed mode) may be written differently from the code of its blocks (e.g.
+        // range(3) / range(0, 3, 1)): the lines are aligned as a diff. Same lines (longest common subsequence of the
+        // non-blank lines), then between two of them the same number of different lines on both sides are the same
+        // lines written differently; otherwise no block (rather than a wrong one).
+        const generated = lines.filter(line => line.text.trim() !== '');
+        const editorLines = editorCode.split('\n');
+        const edited = editorLines.map((text, index) => ({ text: text.trim(), index })).filter(line => line.text !== '');
+        const n = edited.length;
+        const m = generated.length;
+        const lcs = Array.from({ length: n + 1 }, () => new Uint16Array(m + 1));
+        for (let i = n - 1; i >= 0; i--) {
+            for (let j = m - 1; j >= 0; j--) {
+                lcs[i][j] = edited[i].text === generated[j].text.trim() ? lcs[i + 1][j + 1] + 1 : Math.max(lcs[i + 1][j], lcs[i][j + 1]);
+            }
+        }
+        const blocks = editorLines.map(() => null);
+        const pairGap = (fromI, toI, fromJ, toJ) => {
+            if (toI - fromI === toJ - fromJ) {
+                for (let k = 0; k < toI - fromI; k++) blocks[edited[fromI + k].index] = generated[fromJ + k].block;
+            }
+        };
+        let i = 0, j = 0, gapI = 0, gapJ = 0;
+        while (i < n && j < m) {
+            if (edited[i].text === generated[j].text.trim()) {
+                pairGap(gapI, i, gapJ, j);
+                blocks[edited[i].index] = generated[j].block;
+                i++; j++;
+                gapI = i; gapJ = j;
+            } else if (lcs[i + 1][j] >= lcs[i][j + 1]) {
+                i++;
+            } else {
+                j++;
+            }
+        }
+        pairGap(gapI, n, gapJ, m);
+        this.lineBlocks.blocks = blocks;
+        return this.lineBlocks.blocks;
+    }
+
+    /**
+     * Select (yellow outline) the block of a line of the code editor, scrolled into view.
+     * @param {int|null} line - null to unselect
+     */
+    selectLineBlock(line) {
+        try {
+            if (this.debugBlock && !this.debugBlock.isDeadOrDying()) {
+                this.debugBlock.removeSelect();
+            }
+            this.debugBlock = null;
+            if (line === null || Main.getCodeMode?.() === 'code') return;
+            const id = this.getLineBlocks()[line];
+            const block = id ? this._workspace.getBlockById(id) : null;
+            if (!block) return;
+            block.addSelect();
+            block.workspace.scrollBoundsIntoView?.(block.getBoundingRectangleWithoutChildren?.() || block.getBoundingRectangle());
+            this.debugBlock = block;
+        } catch (error) {
+            console.warn('Step by step: block of the line not selected', error);
+        }
+    }
+
     /**
      * Gets generated code.
      * @public 
@@ -389,18 +554,7 @@ class CodeManager {
      */
     updateTextCode(textCode) {
         this.setTextCode(textCode);
-        const currentProjectState = {
-            'code': this._xml,
-            'codeText': this.getTextCode(),
-            'codeManuallyModified': this.isCodeManuallyModified(),
-            'mode': this._getSelectedMode(),
-            'name': $('#project-name').html(),
-            'description': $('#project-name').attr('data-bs-title'),
-        };
-
-        if (this.localStorageManager.getLocalProjectContent() && this.localStorageManager.getLocalProjectContent().options) currentProjectState.options = this.localStorageManager.getLocalProjectContent().options;
-
-        this.localStorageManager.setLocalProject(currentProjectState);
+        this._saveLocalProjectState(this._xml);
         window.localStorage.currentExercise = JSON.stringify({
             "codeText": this.getTextCode(),
             'code': this._xml

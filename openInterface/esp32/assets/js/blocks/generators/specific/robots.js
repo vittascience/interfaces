@@ -404,6 +404,11 @@ Blockly.Python.robots_alvik_get_color = function (block) {
     return [`alvik.get_color('${colorFormat}')`, Blockly.Python.ORDER_ATOMIC];
 };
 
+Blockly.Python.robots_alvik_get_color_label = function (block) {
+    Blockly.Python.initialize_alvik();
+    return [`alvik.get_color_label()`, Blockly.Python.ORDER_ATOMIC];
+};
+
 Blockly.Python.robots_alvik_get_color_raw = function (block) {
     Blockly.Python.initialize_alvik();
     const color = block.getFieldValue('COLOR');

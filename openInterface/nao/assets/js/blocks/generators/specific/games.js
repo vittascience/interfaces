@@ -17,13 +17,13 @@ Blockly.Python.game_capital_play = function(block) {
     Blockly.Python.addImport('game_countries', IMPORT_GAME_COUNTRIES);
     Blockly.Python.addImport('asr', IMPORT_ASR_SERVICE);
     Blockly.Python.addImport('tts', IMPORT_TTS);
-    const country = Blockly.Python.nameDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+    const country = Blockly.Python.nameDB_.getName(block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
     Blockly.Python.addFunction('game_play', FUNCTIONS_NAO.GAME_COUNTRY_PLAY);
     return `game_play(${country})` + NEWLINE;
 };
 
 Blockly.Python.game_capital_get_element_from_country = function(block) {
-    const country = Blockly.Python.nameDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+    const country = Blockly.Python.nameDB_.getName(block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
     const element = block.getFieldValue('ELEMENT');
     return [`countries[${country}]["${element}"]`, Blockly.Python.ORDER_ATOMIC];
 };
@@ -48,7 +48,7 @@ Blockly.Python.game_dynamic_story_init = function(block) {
 Blockly.Python.game_play_current_scene = function(block) {
     Blockly.Python.addImport('tts', IMPORT_TTS);
     Blockly.Python.addFunction('game_play_current_scene', FUNCTIONS_NAO.GAME_PLAY_CURRENT_SCENE);
-    const current_scene = Blockly.Python.nameDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+    const current_scene = Blockly.Python.nameDB_.getName(block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
 
     return [`game_play_current_scene(${current_scene})`, Blockly.Python.ORDER_ATOMIC];
 };
@@ -70,7 +70,7 @@ Blockly.Python.game_mental_math_play = function(block) {
     Blockly.Python.addImport('random', IMPORT_RANDOM);
     Blockly.Python.addImport('tts', IMPORT_TTS);
     Blockly.Python.addImport('mental_math_numbers', IMPORT_GAME_MENTAL_MATH);
-    const result = Blockly.Python.nameDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+    const result = Blockly.Python.nameDB_.getName(block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
     Blockly.Python.addInit('result_mental_math', `${result} = 0`);
     const operation = block.getFieldValue('OPERATION');
     Blockly.Python.addFunction('game_mental_math_play', FUNCTIONS_NAO.GAME_MENTAL_MATH_PLAY);

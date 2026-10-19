@@ -87,7 +87,7 @@ utils.prototypeBlocks['BMP280'] = function (node, identifier) {
 	
 	const classDeclaration = {
 		type: 'define_class_declaration',
-		fields: { VAR: { name: 'VAR', id: Blockly.utils.genUid(), value: identifier }, NAME: className},
+		fields: { VAR: { name: 'VAR', id: Blockly.utils.idGenerator.genUid(), value: identifier }, NAME: className},
 		values: {
 		},
 		mutations: {

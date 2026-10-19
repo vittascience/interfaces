@@ -402,7 +402,7 @@ Blockly.Constants.Actuators.ACTUATORS_PLAY_NOTES_MUTATOR_MIXIN = {
     },
     restoreValueConnections_: function () {
         for (var i = 0; i < this.itemCount_; i++) {
-            Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'ADD' + i);
+            this.valueConnections_[i]?.reconnect(this, 'ADD' + i);
         }
     },
     addItem_: function () {
@@ -426,7 +426,7 @@ Blockly.Constants.Actuators.ACTUATORS_PLAY_NOTES_MUTATOR_MIXIN = {
                     const shadowInputType = shadowInputDom.getAttribute('type');
                     shadowDom.setAttribute('type', shadowInputType);
                     if (shadowDom) {
-                        shadowDom.setAttribute('id', Blockly.utils.genUid());
+                        shadowDom.setAttribute('id', Blockly.utils.idGenerator.genUid());
                         newInput.connection.setShadowDom(shadowDom);
                         newInput.connection.respawnShadow_();
                     }

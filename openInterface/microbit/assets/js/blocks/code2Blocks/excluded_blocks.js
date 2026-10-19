@@ -5,6 +5,10 @@
 // array to be filled with all the blocks that are not in the authorized blocks
 const EXCLUDED_BLOCKS_FOR_TRADUCTION = [];
 
+// The blocks without hand written translation are translated by the templates learned from their generators
+// (interfaces/assets/js/code2blocks/python/learnedTranslations.js): checked for this interface, they do not lock the editor.
+const LEARNED_REVERSE_TRANSLATION = true;
+
 // to modify each time we add a new block in reverse translation
 
 const AUTHORIZED_BLOCKS_DISPLAY = [
@@ -19,7 +23,6 @@ const AUTHORIZED_BLOCKS_DISPLAY = [
     "display_neopixel_controlAllLedRGB",
     "display_neopixel_controlAllLedPalette",
     "display_rainbowNeopixel",
-    "color_picker",
     "clear",
     "display_lcdSetText",
     "display_lcdClear",
@@ -61,6 +64,16 @@ const AUTHORIZED_BLOCKS_DISPLAY = [
     "display_morpionMoveCursor",
     "display_morpionSetPlayerFigure",
     "display_morpionIsEndGame",
+    "get_pixelState",
+    "toggle_pixelState",
+    "display_controlColorZipHaloLed", // same code as the neopixel blocks on pin8
+    "display_controlZipHaloLed", // same code as the neopixel blocks on pin8
+    "display_ZipHaloLed_controlAllLedPalette", // same code as the neopixel blocks on pin8
+    "display_ZipHaloLed_controlAllLedRGB", // same code as the neopixel blocks on pin8
+    "display_ZipHaloLed_rainbow", // same code as the neopixel blocks on pin8
+    "display_setVariableColorLED",
+    "display_setLampBitLight", // same code as io_writeDigitalPin
+    "sensors_getLampBitLuminosity", // same code as io_readAnalogPin
 ];
 
 const AUTHORIZED_BLOCKS_SENSORS = [
@@ -122,6 +135,16 @@ const AUTHORIZED_BLOCKS_SENSORS = [
     "sensors_getEmgDetector",
     "sensors_getFsr402Force",
     "sensors_getWaterLevel",
+    "sensors_getRotation",
+    "sensors_weatherbit_rainGauge_getDumps",
+    "sensors_weatherbit_getSoilMoisture",
+    "sensors_kitronik_bme280_getData", // same code as sensors_envirobit_bme280_getData
+    "sensors_kitronik_klimate_bme280_getData", // same code as sensors_envirobit_bme280_getData
+    "sensors_colorSensorV3_getData",
+    "sensors_getGesture",
+    "sensors_onGestureTypeDetected",
+    "sensors_getMiniPirGroveMotion",
+    "sensors_getGroveButton",
 ];
 
 const AUTHORIZED_BLOCKS_IO = [
@@ -157,7 +180,13 @@ const AUTHORIZED_BLOCKS_IO = [
     "io_getGroveThumbJoystick", // same as read_analog can not be translated to blockly
     "io_readPulseIn",
     "io_setPull",
-    'io_exec'
+    'io_exec',
+    "io_waitUntil",
+    "io_initChronometer",
+    "io_getChronometer",
+    "io_isPinPressed",
+    "io_microbit_reset",
+    "io_getKeypadNumber",
 ];
 
 const AUTHORIZED_BLOCKS_ACTUATORS = [
@@ -183,8 +212,15 @@ const AUTHORIZED_BLOCKS_ACTUATORS = [
     'actuators_kitronik_playFrequency',
     'actuators_speech_saySomething',
     "actuators_setElectromagnetState",
-    "actuators_setWaterAtomizerState"
-
+    "actuators_setWaterAtomizerState",
+    "actuators_stepperMotor_uln2003driver_init",
+    "actuators_stepperMotor_uln2003driver_moveSteps",
+    "actuators_stepperMotor_uln2003driver_setDelay",
+    "actuators_kitronikShield_setServoAngle",
+    "actuators_rekabit_runMotor",
+    "actuators_rekabit_setServoPosition",
+    "microbit_audio_play",
+    "microbit_audio_stop",
 ];
 
 const AUTHORIZED_BLOCKS_COMMUNICATION = [
@@ -216,6 +252,27 @@ const AUTHORIZED_BLOCKS_COMMUNICATION = [
     "communication_hc05_onBluetoothDataReceived",
     "communication_hm10_onBluetoothDataReceived",
     "communication_hm10_sendBluetoothData",
+    "communication_onSerialMessageReceived",
+    "communication_radioReceiveFull",
+    "communication_writeOpenLogSd",
+    "communication_hm10_setATCommand",
+    "communication_hm10_getATCommand",
+    "communication_mfrc522_getCardID",
+    "communication_gps_getNMEA",
+    "communication_gps_getGGAInformations",
+    "communication_clockRTC_setDate",
+    "communication_clockRTC_setHour",
+    "communication_clockRTC_readTime",
+    "communication_serialInit",
+    "communication_serialRedirectUSB",
+    "communication_uart_writeData",
+    "communication_uart_isDataAvailable",
+    "communication_uart_readData",
+    "communication_uart_readLineData",
+    "communication_i2c_init",
+    "communication_i2c_scan",
+    "communication_i2c_read",
+    "communication_i2c_write",
 ]
 
 const AUTHORIZED_BLOCKS_ROBOTS = [
@@ -243,17 +300,78 @@ const AUTHORIZED_BLOCKS_ROBOTS = [
     "robots_CutebotPro_setServoAngle",
     "robots_CutebotPro_setServoSpeed",
     "robots_CutebotPro_setExtendedMotorSpeed",
-    "robots_CutebotPro_stopExtendedMotor"
+    "robots_CutebotPro_stopExtendedMotor",
+    "robots_controlCutebotRGBLedPalette", // same code as robots_controlCutebotRGBLed
+    // The other robot blocks are translated by the templates learned from their generators (learnedTranslations.js).
 ]
+
+const AUTHORIZED_BLOCKS_TELLO = [
+    "drone_init",
+    "tello_takeoff",
+    "tello_land",
+    "tello_emergency",
+    "tello_stop",
+    "tello_flip",
+    "tello_move_up_down",
+    "tello_move",
+    "tello_rectangle_form",
+    "tello_square_form",
+    "tello_rotate",
+    "tello_go",
+    "tello_stream_on",
+    "tello_stream_off",
+    "tello_speed",
+    "tello_battery",
+    "tello_flight_time",
+];
+
+const AUTHORIZED_BLOCKS_IA = [
+    "vittaia_load_local_model",
+    "vittaia_load_cloud_model",
+    "vittaia_make_prediction",
+    "vittaia_get_highest_probability_class",
+    "vittaia_detect_class", // "if" block with vittaia_get_highest_probability_class (same code)
+    "cameras_huskylens_setMode",
+    "cameras_huskylens_setText",
+    "cameras_huskylens_clearScreen",
+    "cameras_huskylens_learnID",
+    "cameras_huskylens_customName",
+    "cameras_huskylens_forgetIDs",
+    "cameras_huskylens_getData",
+    "cameras_huskylens_requestBlocksData",
+    "cameras_huskylens_requestArrowsData",
+    "cameras_huskylens_requestBlockXY",
+    "cameras_huskylens_getNumberOfDetectedElements",
+    "cameras_huskylens_getDataByID",
+    "cameras_huskylens_checkID",
+    "cameras_huskylens_getLineDirection",
+    "cameras_huskylens_saveModel",
+    "cameras_huskylens_loadModel",
+    "cameras_huskylens_v2_initMode",
+    "cameras_huskylens_v2_readBox",
+    "cameras_huskylens_v2_readArrow",
+    "cameras_huskylens_v2_readId",
+    "cameras_huskylens_v2_count",
+    "cameras_huskylens_v2_isAppear",
+    "cameras_huskylens_v2_writeLearn1",
+    "cameras_huskylens_v2_learnedId",
+    "cameras_huskylens_v2_forgetLearn",
+    "cameras_huskylens_v2_writeName",
+    "cameras_huskylens_v2_writeOSD",
+    "cameras_huskylens_v2_clearOSD",
+    "cameras_huskylens_v2_saveModelToTFCard",
+    "wio_get_class_data",
+    "wio_get_class_data_by_id",
+    "wio_get_class_max_id",
+    "wio_get_status",
+];
 
 /**
  * List of all authorized blocks (concatenation of all the authorized blocks by category)
 */
-const AUTHORIZED_BLOCKS = [...AUTHORIZED_BLOCKS_DISPLAY, ...AUTHORIZED_BLOCKS_SENSORS, ...AUTHORIZED_BLOCKS_IO, ...AUTHORIZED_BLOCKS_ACTUATORS, ...AUTHORIZED_BLOCKS_COMMUNICATION, ...AUTHORIZED_BLOCKS_ROBOTS];
+const AUTHORIZED_BLOCKS = [...AUTHORIZED_BLOCKS_DISPLAY, ...AUTHORIZED_BLOCKS_SENSORS, ...AUTHORIZED_BLOCKS_IO, ...AUTHORIZED_BLOCKS_ACTUATORS, ...AUTHORIZED_BLOCKS_COMMUNICATION, ...AUTHORIZED_BLOCKS_ROBOTS, ...AUTHORIZED_BLOCKS_TELLO, ...AUTHORIZED_BLOCKS_IA];
 
 /**
  * List of all excluded categories that should be automatically added to reverse traduction
  */
 const excludedCategories = ['loops', 'logic', 'math', 'text', 'lists', 'variables', 'procedures', 'exception'];
-
-

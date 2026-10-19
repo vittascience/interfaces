@@ -207,3 +207,5 @@ Blockly.Msg['TURTLE_SCREEN_PICTURE_TOOLTIP'] = 'Ein Hintergrundbild für die Lei
 Blockly.Msg['TURTLE_SCREEN_PICTURE_MAZE'] = 'Labyrinth';
 Blockly.Msg['TURTLE_SCREEN_PICTURE_GRID'] = 'Raster';
 Blockly.Msg['TURTLE_SCREEN_PICTURE_VITTASCIENCE'] = 'vittascience';
+Blockly.Msg['VITTAIA_MAKE_PREDICTIONS_FROM_URL_TITLE'] = '%1 beginnt die Erkennung auf der Bild-URL %2';
+Blockly.Msg['VITTAIA_MAKE_PREDICTIONS_FROM_URL_TOOLTIP'] = 'Modellvorhersagen für das von einer URL heruntergeladene Bild durchführen. Eine Vorhersage besteht aus zwei Elementen: der Klasse und dem Vertrauensniveau.';

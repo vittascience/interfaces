@@ -24,9 +24,6 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "display_galaxia_raw_rect": this.Set.number("X", 20) + this.Set.number("Y", 40) + this.Set.number("W", 60) + this.Set.number("H", 30) + this.Set.colour_picker('#22b573'),
             "display_galaxia_raw_print_img": this.Set.text("IMAGE", "vittabot-hey.bmp") + this.Set.number("X", 0) + this.Set.number("Y", 0),
             "display_galaxia_raw_print_custom_img": this.Set.number("X", 0) + this.Set.number("Y", 0),
-
-            /** esp32 default blocks */
-
             //display Galaxia Screen
             "display_galaxia_screen_set_text": this.Set.text('TEXT', 'Bonjour'),
             "display_galaxia_screen_set_text_value": this.Set.text('TEXT', 'text') + this.Set.number("VALUE"),
@@ -114,6 +111,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             // sensors
             "sensors_getGroveHighTemperature": this.Set.field("A1", "p7"),
             "sensors_SCD30_forcedCalibration": this.Set.number("DEFAULT", 420),
+            "sensors_displayMlx90621CustomValues": "<value name=\"VALUES\"><block type=\"sensors_getMlx90621Temperature\"><field name=\"DATA_TYPE\">int</field></block></value>",
             // actuators - motors
             "actuators_setServoAngle": this.Set.number("ANGLE", 90),
             "actuators_continuousServo_setSpeed": this.Set.number("SPEED", 100),

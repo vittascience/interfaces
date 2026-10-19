@@ -70,7 +70,7 @@ Blockly.Python.tello_speed = function () {
 };
 //time
 Blockly.Python.tello_flight_time = function () {
-	return ["drone.send_cmd('time?, False')", Blockly.Python.ORDER_ATOMIC];
+	return ["drone.send_cmd('time?', False)", Blockly.Python.ORDER_ATOMIC];
 };
 //battery
 Blockly.Python.tello_battery = function () {

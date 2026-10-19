@@ -15,7 +15,10 @@
 })(this, function (Blockly) {
 	'use strict';
 	Blockly.JavaScript = new Blockly.Generator('JavaScript');
-	Blockly.JavaScript.addReservedWords('break,case,catch,class,const,continue,debugger,default,delete,do,else,export,extends,finally,for,function,if,import,in,instanceof,new,return,super,switch,this,throw,try,typeof,var,void,while,with,yield,enum,implements,interface,let,package,private,protected,public,static,await,null,true,false,arguments,' + Object.getOwnPropertyNames(Blockly.utils.global).join(','));
+	// Block generators are Blockly.JavaScript.<blockType> functions: since Blockly 10
+	// the generator looks them up in forBlock.
+	Blockly.JavaScript.forBlock = Blockly.JavaScript;
+	Blockly.JavaScript.addReservedWords('break,case,catch,class,const,continue,debugger,default,delete,do,else,export,extends,finally,for,function,if,import,in,instanceof,new,return,super,switch,this,throw,try,typeof,var,void,while,with,yield,enum,implements,interface,let,package,private,protected,public,static,await,null,true,false,arguments,' + Object.getOwnPropertyNames(globalThis).join(','));
 	Blockly.JavaScript.ORDER_ATOMIC = 0;
 	Blockly.JavaScript.ORDER_NEW = 1.1;
 	Blockly.JavaScript.ORDER_MEMBER = 1.2;
@@ -76,7 +79,7 @@
 		this.isInitialized = !0;
 	};
 	Blockly.JavaScript.finish = function (a) {
-		var b = Blockly.utils.object.values(this.definitions_);
+		var b = Object.values(this.definitions_);
 		a = Object.getPrototypeOf(this).finish.call(this, a);
 		this.isInitialized = !1;
 		this.nameDB_.reset();
@@ -97,7 +100,7 @@
 		if (!a.outputConnection || !a.outputConnection.targetConnection) {
 			var e = a.getCommentText();
 			e && ((e = Blockly.utils.string.wrap(e, this.COMMENT_WRAP - 3)), (d += this.prefixLines(e + '\n', '// ')));
-			for (var f = 0; f < a.inputList.length; f++) a.inputList[f].type == Blockly.inputTypes.VALUE && (e = a.inputList[f].connection.targetBlock()) && (e = this.allNestedComments(e)) && (d += this.prefixLines(e, '// '));
+			for (var f = 0; f < a.inputList.length; f++) a.inputList[f].type == Blockly.inputs.inputTypes.VALUE && (e = a.inputList[f].connection.targetBlock()) && (e = this.allNestedComments(e)) && (d += this.prefixLines(e, '// '));
 		}
 		a = a.nextConnection && a.nextConnection.targetBlock();
 		c = c ? '' : this.blockToCode(a);
@@ -109,7 +112,7 @@
 		a.workspace.options.oneBasedIndex && c--;
 		var f = a.workspace.options.oneBasedIndex ? '1' : '0';
 		a = 0 < c ? this.valueToCode(a, b, this.ORDER_ADDITION) || f : 0 > c ? this.valueToCode(a, b, this.ORDER_SUBTRACTION) || f : d ? this.valueToCode(a, b, this.ORDER_UNARY_NEGATION) || f : this.valueToCode(a, b, e) || f;
-		if (Blockly.isNumber(a)) (a = Number(a) + c), d && (a = -a);
+		if (Blockly.utils.string.isNumber(a)) (a = Number(a) + c), d && (a = -a);
 		else {
 			if (0 < c) {
 				a = a + ' + ' + c;
@@ -433,7 +436,7 @@
 		a = '';
 		var d = Blockly.JavaScript.nameDB_.getDistinctName('count', Blockly.VARIABLE_CATEGORY_NAME),
 			e = b;
-		b.match(/^\w+$/) || Blockly.isNumber(b) || ((e = Blockly.JavaScript.nameDB_.getDistinctName('repeat_end', Blockly.VARIABLE_CATEGORY_NAME)), (a += 'var ' + e + ' = ' + b + ';\n'));
+		b.match(/^\w+$/) || Blockly.utils.string.isNumber(b) || ((e = Blockly.JavaScript.nameDB_.getDistinctName('repeat_end', Blockly.VARIABLE_CATEGORY_NAME)), (a += 'var ' + e + ' = ' + b + ';\n'));
 		return a + ('for (var ' + d + ' = 0; ' + d + ' < ' + e + '; ' + d + '++) {\n' + c + '}\n');
 	};
 	Blockly.JavaScript.controls_repeat = Blockly.JavaScript.controls_repeat_ext;
@@ -452,7 +455,7 @@
 			e = Blockly.JavaScript.valueToCode(a, 'BY', Blockly.JavaScript.ORDER_ASSIGNMENT) || '1',
 			f = Blockly.JavaScript.statementToCode(a, 'DO');
 		f = Blockly.JavaScript.addLoopTrap(f, a);
-		if (Blockly.isNumber(c) && Blockly.isNumber(d) && Blockly.isNumber(e)) {
+		if (Blockly.utils.string.isNumber(c) && Blockly.utils.string.isNumber(d) && Blockly.utils.string.isNumber(e)) {
 			var g = Number(c) <= Number(d);
 			a = 'for (' + b + ' = ' + c + '; ' + b + (g ? ' <= ' : ' >= ') + d + '; ' + b;
 			b = Math.abs(Number(e));
@@ -460,12 +463,12 @@
 		} else
 			(a = ''),
 				(g = c),
-				c.match(/^\w+$/) || Blockly.isNumber(c) || ((g = Blockly.JavaScript.nameDB_.getDistinctName(b + '_start', Blockly.VARIABLE_CATEGORY_NAME)), (a += 'var ' + g + ' = ' + c + ';\n')),
+				c.match(/^\w+$/) || Blockly.utils.string.isNumber(c) || ((g = Blockly.JavaScript.nameDB_.getDistinctName(b + '_start', Blockly.VARIABLE_CATEGORY_NAME)), (a += 'var ' + g + ' = ' + c + ';\n')),
 				(c = d),
-				d.match(/^\w+$/) || Blockly.isNumber(d) || ((c = Blockly.JavaScript.nameDB_.getDistinctName(b + '_end', Blockly.VARIABLE_CATEGORY_NAME)), (a += 'var ' + c + ' = ' + d + ';\n')),
+				d.match(/^\w+$/) || Blockly.utils.string.isNumber(d) || ((c = Blockly.JavaScript.nameDB_.getDistinctName(b + '_end', Blockly.VARIABLE_CATEGORY_NAME)), (a += 'var ' + c + ' = ' + d + ';\n')),
 				(d = Blockly.JavaScript.nameDB_.getDistinctName(b + '_inc', Blockly.VARIABLE_CATEGORY_NAME)),
 				(a += 'var ' + d + ' = '),
-				(a = Blockly.isNumber(e) ? a + (Math.abs(e) + ';\n') : a + ('Math.abs(' + e + ');\n')),
+				(a = Blockly.utils.string.isNumber(e) ? a + (Math.abs(e) + ';\n') : a + ('Math.abs(' + e + ');\n')),
 				(a = a + ('if (' + g + ' > ' + c + ') {\n') + (Blockly.JavaScript.INDENT + d + ' = -' + d + ';\n')),
 				(a += '}\n'),
 				(a += 'for (' + b + ' = ' + g + '; ' + d + ' >= 0 ? ' + b + ' <= ' + c + ' : ' + b + ' >= ' + c + '; ' + b + ' += ' + d + ') {\n' + f + '}\n');

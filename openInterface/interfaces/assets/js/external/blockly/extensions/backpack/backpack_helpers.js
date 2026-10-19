@@ -194,7 +194,7 @@ function registerPasteAllBackpack() {
       const contents = backpack.getContents();
       contents.forEach((blockText) => {
         const block =
-            Blockly.Xml.domToBlock(Blockly.Xml.textToDom(blockText), ws);
+            Blockly.Xml.domToBlock(Blockly.utils.xml.textToDom(blockText), ws);
         block.scheduleSnapAndBump();
       });
     },
@@ -252,6 +252,8 @@ export function cleanBlockXML(xml) {
       node.removeAttribute('y');
       node.removeAttribute('id');
       node.removeAttribute('disabled');
+      // Blockly >= 11 serializes disabled blocks (e.g. orphans) with this attribute instead of 'disabled'
+      node.removeAttribute('disabled-reasons');
       if (node.nodeName == 'comment') {
         node.removeAttribute('h');
         node.removeAttribute('w');

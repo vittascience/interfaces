@@ -409,6 +409,16 @@
             "desc": "Programming interface for the Arduino UNO Q board"
         }
     },
+     "primastem": {
+        "fr": {
+            "title": "Vittascience — primaSTEM",
+            "desc": "Interface de programmation pour le robot primaSTEM"
+        },
+        "en": {
+            "title": "Vittascience — primaSTEM",
+            "desc": "Programming interface for primaSTEM robot"
+        }
+    },
     "learn": {
         "fr": {
             "title": "Vittascience — Apprendre à coder avec nos tutoriels",

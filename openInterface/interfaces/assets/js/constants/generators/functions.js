@@ -23,6 +23,13 @@ const FUNCTIONS = {
   b = round(b1 * (1 - ratio) + b2 * ratio)
   return '#%02x%02x%02x' % (r, g, b)`,
 
+  // Min and Max from a list of sub lists
+  DEF_MIN_MAX_FROM_LIST_OF_SUB_LISTS:
+`def min_max_list_of_sublists(values):
+  minimum = min(min(sub_list) for sub_list in values)
+  maximum = max(max(sub_list) for sub_list in values)
+  return minimum, maximum`,
+
   /****** LOOPS CATEGORY ******/
 
   // Loops _ up range

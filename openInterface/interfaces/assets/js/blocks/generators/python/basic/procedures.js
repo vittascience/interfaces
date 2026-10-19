@@ -63,7 +63,8 @@ Blockly.Python.procedures_defreturn = function (block) {
   if (branch && returnValue) {
     xfix2 = xfix1;
   }
-  if (block.type == "procedures_defreturn") {
+  // Check the input, not the type: aliases like py_procedures_defreturn (Arduino Q) also return
+  if (block.getInput("RETURN")) {
     if (returnValue) {
       returnValue = Blockly.Python.INDENT + "return " + returnValue + NEWLINE;
     } else {

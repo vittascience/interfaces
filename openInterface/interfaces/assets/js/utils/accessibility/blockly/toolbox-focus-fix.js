@@ -4,7 +4,7 @@
  */
 
 export function fixBlocklyToolboxFocus() {
-  const toolboxDiv = document.querySelector('.blocklyToolboxDiv');
+  const toolboxDiv = document.querySelector('.blocklyToolbox');
   
   if (toolboxDiv && needsFocusFix(toolboxDiv)) {
     toolboxDiv.setAttribute('tabindex', '0');
@@ -32,15 +32,15 @@ const observer = new MutationObserver((mutations) => {
     if (mutation.type === 'childList') {
       mutation.addedNodes.forEach(node => {
         if (node.nodeType === Node.ELEMENT_NODE) {
-          if (node.matches?.('.blocklyToolboxDiv') ||
-              node.querySelector?.('.blocklyToolboxDiv')) {
+          if (node.matches?.('.blocklyToolbox') ||
+              node.querySelector?.('.blocklyToolbox')) {
             needsFix = true;
           }
         }
       });
     } else if (mutation.type === 'attributes' && 
                mutation.attributeName === 'tabindex' &&
-               mutation.target.classList.contains('blocklyToolboxDiv')) {
+               mutation.target.classList.contains('blocklyToolbox')) {
       needsFix = true;
     }
   });

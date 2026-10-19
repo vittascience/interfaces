@@ -466,6 +466,10 @@ Blockly.Msg['SENSORS_MLX90621_TEMP_MIN'] = 'minimum';
 Blockly.Msg['SENSORS_MLX90621_TEMP_MAX'] = 'maximum';
 Blockly.Msg['SENSORS_MLX90621_TEMP_AVG'] = 'average';
 Blockly.Msg['SENSORS_MLX90621_GETTEMPDATA_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Returns the minimum, maximum, or average object temperature in degrees Celsius (°C) using the MLX90621 infrared sensor. Connect the sensor to an I2C port.';
+Blockly.Msg['SENSORS_DISPLAYMLX90621VALUES_TITLE'] = '[IR Temp. Sensor MLX90621] display values';
+Blockly.Msg['SENSORS_DISPLAYMLX90621VALUES_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Allows displaying the values measured by the MLX90621 infrared sensor on the Galaxia board.';
+Blockly.Msg['SENSORS_DISPLAYMLX90621_CUSTOM_VALUES_TITLE'] = '[IR Temp. Sensor MLX90621] display custom values %1';
+Blockly.Msg['SENSORS_DISPLAYMLX90621_CUSTOM_VALUES_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Displays the custom temperature values measured by the MLX90621 infrared sensor on the Galaxia board.';
 Blockly.Msg['SENSORS_GET_WATER_LEVEL_TITLE'] = '[Water Sensor] level (%)';
 Blockly.Msg['SENSORS_GET_WATER_LEVEL_TOOLTIP'] = IMG_MODULE_WATER_I2C + Blockly.Tooltip.SEP + 'Measures water level as a percentage (from 0 to 100%) on the I2C port.';
 

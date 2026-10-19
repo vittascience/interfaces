@@ -510,6 +510,27 @@ Blockly.Python.sensors_getMlx90621TempData = function (block) {
     return [`mlx90621.get_${dataType}_temp()`, Blockly.Python.ORDER_ATOMIC];
 };
 
+Blockly.Python.sensors_displayMlx90621Values = function (block) {
+    Blockly.Python.addImport('esp32_mlx90621', IMPORT_ESP32_MLX90621);
+    Blockly.Python.addInit('mlx90621', "mlx90621 = MLX90621(i2c=I2C(scl=Pin(13), sda=Pin(14)))");
+    Blockly.Python.addPowerOn('mlx90621', "mlx90621.mlx90621_init()");
+    Blockly.Python.addFunction('mlx90621_temp_to_color', FUNCTIONS_GALAXIA.DEF_MLX90621_TEMP_TO_COLOR);
+    Blockly.Python.addFunction('mlx90621_display_values', FUNCTIONS_GALAXIA.DEF_MLX90621_DISPLAY_VALUES);
+    return "mlx90621_display_values()" + NEWLINE;
+};
+
+Blockly.Python.sensors_displayMlx90621CustomValues = function (block) {
+    Blockly.Python.addImport('import_ujson', "import ujson");
+    // Blockly.Python.addImport('esp32_mlx90621', IMPORT_ESP32_MLX90621);
+    // Blockly.Python.addInit('mlx90621', "mlx90621 = MLX90621(i2c=I2C(scl=Pin(13), sda=Pin(14)))");
+    // Blockly.Python.addPowerOn('mlx90621', "mlx90621.mlx90621_init()");
+    Blockly.Python.addFunction('mlx90621_temp_to_color', FUNCTIONS_GALAXIA.DEF_MLX90621_TEMP_TO_COLOR);
+    Blockly.Python.addFunction('mlx90621_display_values', FUNCTIONS_GALAXIA.DEF_MLX90621_DISPLAY_VALUES);
+    Blockly.Python.addFunction('min_max_list_of_sublists', FUNCTIONS.DEF_MIN_MAX_FROM_LIST_OF_SUB_LISTS);
+    const values = Blockly.Python.valueToCode(block, "VALUES", Blockly.Python.ORDER_NONE) || "None";
+    return `mlx90621_display_values(${values})` + NEWLINE;
+};
+
 Blockly.Python.sensors_getWaterLevel = function () {
     Blockly.Python.addImport('esp32_water_level', IMPORT_ESP32_WATER_LEVEL);
     return ["esp32_water_level.measurePercentLevel(I2C(scl=Pin(13), sda=Pin(14)))", Blockly.Python.ORDER_ATOMIC];

@@ -1595,7 +1595,7 @@ function parseCode(code, workspaceElement){
     // console.log(err)
     // window._BIDE.b2c_error = true
     
-    let tb = workspace.topBlocks_
+    let tb = workspace.getTopBlocks(false)
     let id = tb[tb.length-1].id
     console.log('Error line number: '+ block_loc[id].start.line)
     console.log(err)

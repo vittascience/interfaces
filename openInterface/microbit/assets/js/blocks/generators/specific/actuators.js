@@ -89,6 +89,38 @@ Blockly.Python.actuators_rekabit_setServoPosition = function (block) {
     return "sets_servo_position(Servo_" + servo + ", " + angle + ")" + NEWLINE;
 }
 
+// DFRobot micro:Driver (DFR0548)
+Blockly.Python.actuators_dfr0548_setServoAngle = function (block) {
+    const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.addImport('dfr0548', IMPORT_DFR0548);
+    return "dfr0548.servo(" + block.getFieldValue("SERVO") + ", " + angle + ")" + NEWLINE;
+};
+
+Blockly.Python.actuators_dfr0548_runMotor = function (block) {
+    const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.addImport('dfr0548', IMPORT_DFR0548);
+    return "dfr0548.motor_run(" + block.getFieldValue("MOTOR") + ", " + block.getFieldValue("DIR") + ", " + speed + ")" + NEWLINE;
+};
+
+Blockly.Python.actuators_dfr0548_stopMotor = function (block) {
+    const motor = block.getFieldValue("MOTOR");
+    Blockly.Python.addImport('dfr0548', IMPORT_DFR0548);
+    return (motor === "ALL" ? "dfr0548.stop_all()" : "dfr0548.motor_stop(" + motor + ")") + NEWLINE;
+};
+
+Blockly.Python.actuators_dfr0548_stepper = function (block) {
+    const degrees = Blockly.Python.valueToCode(block, "DEGREES", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.addImport('dfr0548', IMPORT_DFR0548);
+    return "dfr0548.stepper(" + block.getFieldValue("TYPE") + ", " + block.getFieldValue("STEPPER") + ", " + block.getFieldValue("DIR") + ", " + degrees + ")" + NEWLINE;
+};
+
+Blockly.Python.actuators_dfr0548_stepperDual = function (block) {
+    const degrees1 = Blockly.Python.valueToCode(block, "DEGREES1", Blockly.Python.ORDER_NONE) || "0";
+    const degrees2 = Blockly.Python.valueToCode(block, "DEGREES2", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.addImport('dfr0548', IMPORT_DFR0548);
+    return "dfr0548.stepper_dual(" + block.getFieldValue("TYPE") + ", " + block.getFieldValue("DIR1") + ", " + degrees1 + ", " + block.getFieldValue("DIR2") + ", " + degrees2 + ")" + NEWLINE;
+};
+
 // KITRONIK
 
 Blockly.Python.actuators_controlAccessBitBarrier = function (block) {

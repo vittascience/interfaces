@@ -26,6 +26,10 @@ var WiringSimulator = {
   },
   selectedModuleId: null,
   isDragging: false,
+  // View of the board, modules and wires: zoom (buttons) and offset (dragging the background).
+  view: { zoom: 1, x: 0, y: 0 },
+  ZOOM: { MIN: 0.5, MAX: 3, STEP: 1.25 },
+  panStart: null,
   modules: [],
   wiringOverlay: null,
   groveDefinitions: [],
@@ -73,7 +77,19 @@ var WiringSimulator = {
             <button id="modules-close" onclick="WiringSimulator.closeModule()" tabindex="-1">&times;</button>
             <div id="wiring-modules" style="display:none;"></div>
         </div>
-        <canvas id="wiring-simulator">Canvas Not Supported</canvas>
+        <div class="wiring-canvas-container">
+            <canvas id="wiring-simulator">Canvas Not Supported</canvas>
+            <div class="wiring-zoom">
+                <button id="wiring-zoom-in" type="button" onclick="WiringSimulator.zoom(1)"
+                        data-i18n="[title]code.simulator.buttons.base.wiringZoomIn;[aria-label]code.simulator.buttons.base.wiringZoomIn" title="Zoom in" aria-label="Zoom in">
+                    <i class="fa-solid fa-magnifying-glass-plus" aria-hidden="true"></i>
+                </button>
+                <button id="wiring-zoom-out" type="button" onclick="WiringSimulator.zoom(-1)"
+                        data-i18n="[title]code.simulator.buttons.base.wiringZoomOut;[aria-label]code.simulator.buttons.base.wiringZoomOut" title="Zoom out" aria-label="Zoom out">
+                    <i class="fa-solid fa-magnifying-glass-minus" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
         <div id="wiring-message-container"></div>
         <div class="d-flex justify-content-center my-2">
             <div id="wiring-buttons-control" class="control-run-btn btn-group oi-btn-group-simulator oi-simulation-activated"></div>
@@ -183,6 +199,31 @@ var WiringSimulator = {
   },
 
   /**
+   * [BUTTON] Zoom in (direction 1) or out (direction -1), around the centre of the canvas.
+   * @param {number} direction
+   */
+  zoom: function (direction) {
+    const zoom = Math.min(this.ZOOM.MAX, Math.max(this.ZOOM.MIN, this.view.zoom * this.ZOOM.STEP ** direction));
+    const ratio = zoom / this.view.zoom;
+    const centreX = this.canvas.width / 2;
+    const centreY = this.canvas.height / 2;
+    this.view.x = centreX - (centreX - this.view.x) * ratio;
+    this.view.y = centreY - (centreY - this.view.y) * ratio;
+    this.view.zoom = zoom;
+    $('#wiring-zoom-in').prop('disabled', zoom >= this.ZOOM.MAX);
+    $('#wiring-zoom-out').prop('disabled', zoom <= this.ZOOM.MIN);
+  },
+
+  /**
+   * Position of a pointer event in the zoomed and moved view.
+   * @param {PointerEvent} e
+   * @returns {{x: number, y: number}}
+   */
+  toView: function (e) {
+    return { x: (e.offsetX - this.view.x) / this.view.zoom, y: (e.offsetY - this.view.y) / this.view.zoom };
+  },
+
+  /**
    * [BUTTON] Close opened module from canvas.
    */
   closeModule: function () {
@@ -227,9 +268,11 @@ var WiringSimulator = {
     this.canvas.height = this.width.px * this.Track.RATIO;
     this.drawBackground();
     this.drawLogo();
+    this.ctx.setTransform(this.view.zoom, 0, 0, this.view.zoom, this.view.x, this.view.y);
     this.drawBoard();
     this.drawAllImages();
     this.drawAllWires();
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
   },
 
   updateModules: function () {
@@ -308,12 +351,13 @@ var WiringSimulator = {
   initCanvasPointers: function () {
 
     this.canvas.onpointerdown = (e) => {
-      if (this.isPointingOnBoard(e)) {
+      const point = this.toView(e);
+      if (this.isPointingOnBoard(point)) {
         groveShield.isDraggable = true;
       }
       if (!groveShield.isDraggable) {
         for (var i = 0; i < this.modules.length; i++) {
-          if (this.isPointingOnModule(e, this.modules[i].wiring)) {
+          if (this.isPointingOnModule(point, this.modules[i].wiring)) {
             if (this.modules[i].id === null) {
               this.selectedModuleId = this.modules[i].wiring.id;
             } else {
@@ -323,15 +367,21 @@ var WiringSimulator = {
           }
         }
       }
+      // Nothing under the pointer: dragging moves the view.
+      if (!groveShield.isDraggable && this.selectedModuleId === null) {
+        this.panStart = { x: e.offsetX - this.view.x, y: e.offsetY - this.view.y };
+      }
     };
 
     this.canvas.onpointerup = (e) => {
       groveShield.isDraggable = false;
       this.selectedModuleId = null;
+      this.panStart = null;
       if (!this.isDragging) {
+        const point = this.toView(e);
         for (var i = 0; i < this.modules.length; i++) {
           const wiringDef = this.modules[i].wiring;
-          if (this.modules[i].id !== null && this.isPointingOnModule(e, wiringDef)) {
+          if (this.modules[i].id !== null && this.isPointingOnModule(point, wiringDef)) {
             this.closeModule();
             if (this.modules[i].multiple && typeof wiringDef.id == 'object') {
               for (var i = 0; i < wiringDef.id.length; i++) {
@@ -352,34 +402,38 @@ var WiringSimulator = {
       this.selectedModuleId = null;
       groveShield.isDraggable = false;
       this.isDragging = false;
+      this.panStart = null;
     };
 
     this.canvas.onpointermove = (e) => {
+      const point = this.toView(e);
       if (groveShield.isDraggable) {
-        groveShield.x = e.offsetX - groveShield.SIZE.w / 2;
-        groveShield.y = e.offsetY - groveShield.SIZE.h / 2;
+        groveShield.x = point.x - groveShield.SIZE.w / 2;
+        groveShield.y = point.y - groveShield.SIZE.h / 2;
+        this.isDragging = true;
+      } else if (this.selectedModuleId !== null) {
+        const wiringDef = this.modules.find(module => (this.selectedModuleId == module.id || this.selectedModuleId === module.wiring.id)).wiring;
+        wiringDef.x = point.x - wiringDef.w / 2;
+        wiringDef.y = point.y - wiringDef.h / 2;
+        this.isDragging = true;
+      } else if (this.panStart !== null) {
+        this.view.x = e.offsetX - this.panStart.x;
+        this.view.y = e.offsetY - this.panStart.y;
         this.isDragging = true;
       } else {
-        if (this.selectedModuleId !== null) {
-          const wiringDef = this.modules.find(module => (this.selectedModuleId == module.id || this.selectedModuleId === module.wiring.id)).wiring;
-          wiringDef.x = e.offsetX - wiringDef.w / 2;
-          wiringDef.y = e.offsetY - wiringDef.h / 2;
-          this.isDragging = true;
-        } else {
-          this.isDragging = false;
-        }
+        this.isDragging = false;
       }
     };
   },
 
-  isPointingOnBoard: function (e) {
-    return e.offsetX <= groveShield.x + groveShield.SIZE.w && e.offsetX >= groveShield.x &&
-      e.offsetY <= groveShield.y + groveShield.SIZE.h && e.offsetY >= groveShield.y;
+  isPointingOnBoard: function (point) {
+    return point.x <= groveShield.x + groveShield.SIZE.w && point.x >= groveShield.x &&
+      point.y <= groveShield.y + groveShield.SIZE.h && point.y >= groveShield.y;
   },
 
-  isPointingOnModule: function (e, module) {
-    return e.offsetX <= module.x + module.w && e.offsetX >= module.x &&
-      e.offsetY <= module.y + module.h && e.offsetY >= module.y;
+  isPointingOnModule: function (point, module) {
+    return point.x <= module.x + module.w && point.x >= module.x &&
+      point.y <= module.y + module.h && point.y >= module.y;
   },
 
   drawBackground: function () {

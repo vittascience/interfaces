@@ -62,7 +62,7 @@ export class MultiManager {
             </div>
         </div>`;
         const ideContentElt = document.querySelector('#ide-content');
-        const blockStyle = Main.getWorkSpace().renderer_.name;
+        const blockStyle = Main.getWorkSpace().options.renderer;
         await new Promise((resolve) => {
             const iframeId = projectManager.localStorageManager.uniqid('multi');
             this._setIframeStartingBlocksAndCode(iframeId);
@@ -470,7 +470,7 @@ export class MultiManager {
             updatedProject = {
                 code: DEFAULT_XML_START[Blockly.Constants.getToolboxStyle()],
                 codeText: DEFAULT_CODE_START,
-                name: 'no name'
+                name: CodeManager.getProjectDisplayName('')
             };
         }
         console.log(this._getIframeCodeMode());

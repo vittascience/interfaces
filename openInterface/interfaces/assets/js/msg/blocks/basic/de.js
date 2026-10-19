@@ -116,6 +116,9 @@ Blockly.Msg["EXCEPTION_RAISE_TOOLTIP"] = "eine Ausnahme auslösen";
 Blockly.Msg["EXCEPTION_EXCEPTION_TOOLTIP"] = "eine Ausnahme erstellen";
 Blockly.Msg["EXCEPTION_TYPE_TOOLTIP"] = "Alle möglichen Ausnahmetypen";
 Blockly.Msg["EXCEPTION_TRY_TOOLTIP"] = "Führt einen Codeblock aus und ermöglicht es, bei einer Ausnahme einen anderen Codeblock auszuführen.";
+Blockly.Msg["EXCEPTION_RAISE_TITLE"] = "auslösen";
+Blockly.Msg["EXCEPTION_TRY_TITLE"] = "versuchen";
+Blockly.Msg["EXCEPTION_EXCEPT_TITLE"] = "bei Ausnahme";
 
 // Logikblöcke.
 Blockly.Msg["CONTROLS_IF_HELPURL"] = "https://github.com/google/blockly/wiki/IfElse";
@@ -530,6 +533,7 @@ Blockly.Msg["PROCEDURES_DEFRETURN_PROCEDURE"] = Blockly.Msg["PROCEDURES_DEFNORET
 Blockly.Msg["PROCEDURES_DEFRETURN_DO"] = Blockly.Msg["PROCEDURES_DEFNORETURN_DO"];
 Blockly.Msg["PROCEDURES_DEFRETURN_COMMENT"] = Blockly.Msg["PROCEDURES_DEFNORETURN_COMMENT"];
 Blockly.Msg["PROCEDURES_DEFRETURN_RETURN"] = "zurückgeben";
+Blockly.Msg["PROCEDURES_SIMPLE_RETURN_TOOLTIP"] = "Gibt einen Wert zurück und beendet die Funktion.";
 Blockly.Msg["PROCEDURES_DEFRETURN_TOOLTIP"] = "Erstellt eine Funktion mit Rückgabewert.";
 Blockly.Msg["PROCEDURES_ALLOW_STATEMENTS"] = "Anweisungen erlauben";
 Blockly.Msg["PROCEDURES_DEF_DUPLICATE_WARNING"] = "Warnung: Diese Funktion hat doppelte Parameter.";
@@ -598,3 +602,5 @@ Blockly.Msg["WIO_GET_VERSION"] = "die Version";
 Blockly.Msg["WIO_GET_STATUS_TOOLTIP"] = IMG_WIO_LITE_AI + Blockly.Tooltip.SEP + "Gibt die Version oder den Status des Wio lite zurück (0: beschäftigt, 1: bereit, 2: Ergebnis verfügbar).";
 
 Blockly.Msg["MATH_RSA_GENERATE_KEYS_HELPURL"] = "https://de.wikipedia.org/wiki/RSA";
+Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TITLE"] = "Funktion: %1";
+Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TOOLTIP"] = "Erhalten Sie die Funktionsreferenz, um sie als Argument an eine andere Funktion zu übergeben.";

@@ -7,7 +7,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
   // Raise block.
   {
     "type": "exception_raise",
-    "message0": "raise %1",
+    "message0": "%{BKY_EXCEPTION_RAISE_TITLE} %1",
     "args0": [{
       "type": "input_value",
       "name": "EXC"
@@ -79,7 +79,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
   // Try Except block
   {
     "type": "exception_try",
-    "message0": "try",
+    "message0": "%{BKY_EXCEPTION_TRY_TITLE}",
     "message1": "%1",
     "args1": [{
       "type": "input_statement",
@@ -124,16 +124,12 @@ Blockly.Constants.Exception.EXCEPTION_TRY_MUTATOR_MIXIN = {
    * @this Blockly.Block
    */
   mutationToDom: function () {
-    if (!this.exceptArgCount_ && !this.elseCount_) {
-      return null;
-    }
+    // "exceptarg" is always saved: without it the bare "except:" clause is added back (default of older projects)
     var container = Blockly.utils.xml.createElement('mutation');
     if (this.exceptArgCount_) {
       container.setAttribute('except', this.exceptArgCount_);
     }
-    if (this.elseCount_) {
-      container.setAttribute('exceptarg', 1);
-    }
+    container.setAttribute('exceptarg', this.elseCount_ ? 1 : 0);
     return container;
   },
   /**
@@ -144,7 +140,8 @@ Blockly.Constants.Exception.EXCEPTION_TRY_MUTATOR_MIXIN = {
   domToMutation: function (xmlElement) {
     if (!xmlElement) return;
     this.exceptArgCount_ = parseInt(xmlElement.getAttribute('except'), 10) || 0;
-    this.elseCount_ = parseInt(xmlElement.getAttribute('exceptarg'), 10) || 1;
+    const exceptArg = xmlElement.getAttribute('exceptarg');
+    this.elseCount_ = exceptArg === null ? 1 : (parseInt(exceptArg, 10) || 0);
     this.rebuildShape_();
   },
   // Store pointers to any connected child blocks.
@@ -169,11 +166,11 @@ Blockly.Constants.Exception.EXCEPTION_TRY_MUTATOR_MIXIN = {
   // Restore pointers to any connected child blocks.
   restoreConnections_: function () {
     for (var i = 1; i <= this.exceptArgCount_; i++) {
-      Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'EXCEPT' + i);
-      Blockly.Mutator.reconnect(this.statementConnections_[i], this, 'DO' + i);
+      this.valueConnections_[i]?.reconnect(this, 'EXCEPT' + i);
+      this.statementConnections_[i]?.reconnect(this, 'DO' + i);
     }
     if (this.getInput('EXCEPTARG')) {
-      Blockly.Mutator.reconnect(this.elseStatementConnection_, this, 'EXCEPTARG');
+      this.elseStatementConnection_?.reconnect(this, 'EXCEPTARG');
     }
   },
   addExceptArg_: function () {
@@ -241,20 +238,20 @@ Blockly.Constants.Exception.EXCEPTION_TRY_MUTATOR_MIXIN = {
       }(i);
       this.appendValueInput('EXCEPT' + i)
         .setCheck('ErrorType')
-        .appendField("except");
+        .appendField(Blockly.Msg["EXCEPTION_EXCEPT_TITLE"]);
       this.appendDummyInput('EXCEPTTITLE' + i)
       this.appendDummyInput('EXCEPTBUTTONS' + i)
         .appendField(
           new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
             this.buttonSize, "*", removeElseIf, false))
-        .setAlign(Blockly.ALIGN_RIGHT);
+        .setAlign(Blockly.inputs.Align.RIGHT);
       this.appendStatementInput('DO' + i);
     }
     if (this.elseCount_) {
       this.appendDummyInput('EXCEPTARGTITLE')
-        .appendField("except");
+        .appendField(Blockly.Msg["EXCEPTION_EXCEPT_TITLE"]);
       this.appendDummyInput('EXCEPTARGBUTTONS')
-        .setAlign(Blockly.ALIGN_RIGHT)
+        .setAlign(Blockly.inputs.Align.RIGHT)
         .appendField(
           new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
             this.buttonSize, "*", that.removeExceptArg_.bind(that), false));
@@ -313,10 +310,10 @@ Blockly.Constants.Exception.EXCEPTION_TRY_MUTATOR_MIXIN = {
   reconnectChildBlocks_: function (valueConnections, statementConnections,
     elseStatementConnection) {
     for (var i = 1; i <= this.exceptArgCount_; i++) {
-      Blockly.Mutator.reconnect(valueConnections[i], this, 'EXCEPT' + i);
-      Blockly.Mutator.reconnect(statementConnections[i], this, 'DO' + i);
+      valueConnections[i]?.reconnect(this, 'EXCEPT' + i);
+      statementConnections[i]?.reconnect(this, 'DO' + i);
     }
-    Blockly.Mutator.reconnect(elseStatementConnection, this, 'EXCEPTARG');
+    elseStatementConnection?.reconnect(this, 'EXCEPTARG');
   }
 };
 

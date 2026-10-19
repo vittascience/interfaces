@@ -543,8 +543,14 @@ var UnitTests = (function () {
                     "project": project
                 },
                 success: function (response) {
-                    if (response !== "null") {
-                        getUnitTests(JSON.parse(response));
+                    let exercise = null;
+                    try {
+                        exercise = JSON.parse(response);
+                    } catch (error) {
+                        console.error('Unable to load the unit tests of the project', error);
+                    }
+                    if (exercise) {
+                        getUnitTests(exercise);
                     } else {
                         if (typeof xapiAutocorrection != 'undefined') {
                             xapiAutocorrection.alertNoUnitTest();
@@ -587,6 +593,31 @@ var UnitTests = (function () {
     }
 
     /**
+     * Store the model, expose it to the runner and show the unit tests button.
+     * @param {Object} model - as built by renderUnitTestsModel
+     */
+    function applyUnitTestsModel(model) {
+        // The secret word must not be persisted in clear text, it stays in projectManager._currentExercise
+        window.localStorage.PythonUnitTests = JSON.stringify(model, (key, value) => key === 'secretWord' ? undefined : value);
+        projectManager._currentExercise = model;
+        if (typeof ltiVariables13 !== 'undefined' && !ltiVariables13.isTeacher && ltiVariables13.customerSettings && ltiVariables13.customerSettings.validateButtonHidden) {
+            return;
+        }
+        
+        if(getParamValue('evidenceB') == null){
+            $("#runButtonPython").css({
+                'border-top-right-radius': '0',
+                'border-bottom-right-radius': '0'
+            });
+            $("#UTrunButtonPython").css({
+                'border-top-left-radius': '0',
+                'border-bottom-left-radius': '0'
+            });
+            $(".ide-btn-pythtest").show()
+        }
+    }
+
+    /**
      * Load the inputs and outputs linked to the unit test.
      * @param {ExercisePython} dataExercise
      * @param {UnitTests} dataUnitTests
@@ -610,23 +641,7 @@ var UnitTests = (function () {
                         getNextUnitTestIO(index);
                     } else {
                         allIO.reverse();
-                        window.localStorage.PythonUnitTests = JSON.stringify(renderUnitTestsModel(dataExercise, dataUnitTests, allIO));
-                        projectManager._currentExercise = renderUnitTestsModel(dataExercise, dataUnitTests, allIO)
-                        if (typeof ltiVariables13 !== 'undefined' && !ltiVariables13.isTeacher && ltiVariables13.customerSettings && ltiVariables13.customerSettings.validateButtonHidden) {
-                            return;
-                        }
-                        
-                        if(getParamValue('evidenceB') == null){
-                            $("#runButtonPython").css({
-                                'border-top-right-radius': '0',
-                                'border-bottom-right-radius': '0'
-                            });
-                            $("#UTrunButtonPython").css({
-                                'border-top-left-radius': '0',
-                                'border-bottom-left-radius': '0'
-                            });
-                            $(".ide-btn-pythtest").show()
-                        }
+                        applyUnitTestsModel(renderUnitTestsModel(dataExercise, dataUnitTests, allIO));
                     }
                 }
             });
@@ -686,6 +701,7 @@ var UnitTests = (function () {
     return {
         init: function (id) {
             return init(id);
-        }
+        },
+        applyModel: applyUnitTestsModel
     }
 }());

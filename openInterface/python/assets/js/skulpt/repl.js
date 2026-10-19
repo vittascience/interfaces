@@ -138,8 +138,8 @@ const PythonREPL = {
                 this.promptLine.caretSpanElt.classList.remove('active');
                 this.promptLine.caretSpanElt.classList.add('inactive');
             } else if (this.promptLine.caretSpanElt.classList.contains('inactive')) {
-                if (Blockly && Blockly.selected) {
-                    Blockly.selected.unselect();
+                if (Blockly && Blockly.common.getSelected()) {
+                    Blockly.common.getSelected().unselect();
                 }
                 this.promptLine.caretSpanElt.classList.remove('inactive');
                 this.promptLine.caretSpanElt.classList.add('active');

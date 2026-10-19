@@ -559,12 +559,18 @@ const TOOLBOX_SCRATCH_CONTENT = {
         {
             "label": "%{BKY_SUBCATEGORY_TRACKING_MODULES}",
             "blocks": [
-                'communication_mfrc522_getCardID',
                 'communication_gps_getNMEA',
                 'communication_gps_getGGAInformations',
                 'communication_clockRTC_setDate',
                 'communication_clockRTC_setHour',
-                'communication_clockRTC_readTime'
+                'communication_clockRTC_readTime',
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_RFID}",
+            "blocks": [
+                'communication_mfrc522_getCardID',
+                'communication_rfid_getCardID',
             ]
         },
         {
@@ -1280,7 +1286,25 @@ const TOOLBOX_SCRATCH_CONTENT = {
                         'cameras_huskylens_checkID',
                         'cameras_huskylens_getLineDirection',
                         'cameras_huskylens_saveModel',
-                        'cameras_huskylens_loadModel'
+                        'cameras_huskylens_loadModel',
+                    ]
+                },
+                {
+                    "label": "HuskyLens V2",
+                    "blocks": [
+                        'cameras_huskylens_v2_initMode',
+                        'cameras_huskylens_v2_readBox',
+                        'cameras_huskylens_v2_readArrow',
+                        'cameras_huskylens_v2_readId',
+                        'cameras_huskylens_v2_count',
+                        'cameras_huskylens_v2_isAppear',
+                        'cameras_huskylens_v2_writeLearn1',
+                        'cameras_huskylens_v2_learnedId',
+                        'cameras_huskylens_v2_forgetLearn',
+                        'cameras_huskylens_v2_writeName',
+                        'cameras_huskylens_v2_writeOSD',
+                        'cameras_huskylens_v2_clearOSD',
+                        'cameras_huskylens_v2_saveModelToTFCard'
                     ]
                 },
                 {

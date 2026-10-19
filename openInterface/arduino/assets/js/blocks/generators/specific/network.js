@@ -387,7 +387,7 @@ Blockly.Arduino.network_html_addImage = function (block) {
         data = Blockly.Arduino.unor4wifi.getHtmlFormat(block, "DATA", data);
         data = "    \"<img src='data:image/png;base64, " + data + "'>\"";
     } else {
-        const inputCheck = inputBlock.outputConnection.check_;
+        const inputCheck = inputBlock.outputConnection.getCheck();
         if (inputCheck) {
             if (inputCheck[0] == "Array") {
                 data = Blockly.Arduino.unor4wifi.getStringFormat('String(' + data + ')[2:-3]');
@@ -610,7 +610,7 @@ Blockly.Arduino.unor4wifi.getVariablesIncludedInHtml = function (block) {
     let html_var_names = new Array()
     for (let id in var_gets) {
         let blockGet = var_gets[id];
-        if (!blockGet.disabled) {
+        if (!blockGet.hasDisabledReason(Blockly.constants.MANUALLY_DISABLED)) {
             while (true) {
                 if (blockGet.parentBlock_ !== null) {
                     if (Blockly.Constants.HTML_BLOCKS.includes(blockGet.getParent().type)) {

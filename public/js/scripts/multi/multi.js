@@ -84,7 +84,7 @@ $("body").on("click", "#interface-action", function () {
         $("#copy-link").show();
         $("#link-expiration-msg").show();
         $("#link-notice-msg").hide();
-        $("#link-value").val(window.parent.location.href);
+        displayShareLink(window.parent.location.href);
     } else {
         $("#link-value").hide();
         $("#copy-link").hide();
@@ -155,6 +155,37 @@ function updateMultiUrl(multiPage) {
     };
     history.pushState({}, '', stringifyLinkShare(linkStruct));
 };
+
+const projectShortlinks = {};
+
+function getProjectShortlink(link) {
+    if (!projectShortlinks[link]) {
+        projectShortlinks[link] = fetch('/services/post/postProjectShortlink.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ realLink: link })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) throw new Error('shortlink');
+                return data.shortLink;
+            })
+            .catch(error => {
+                delete projectShortlinks[link];
+                throw error;
+            });
+    }
+    return projectShortlinks[link];
+}
+
+function displayShareLink(link) {
+    const linkInput = document.getElementById('link-value');
+    linkInput.dataset.fullLink = link;
+    linkInput.value = link;
+    getProjectShortlink(link).then(shortLink => {
+        if (linkInput.dataset.fullLink === link) linkInput.value = shortLink;
+    }).catch(() => {});
+}
 
 /**
  * Stringify shared link from object.

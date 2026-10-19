@@ -112,6 +112,7 @@ Simulator.Mosaic.groveRegex = {
 	"i2cMotor1": /motor_speed\(1/gi,
 	"i2cMotor2": /motor_speed\(2/gi,
 	"i2cMotorStepper": /motor_StepperRun\(/gi,
+	"stepper28BYJ48": /#include <Stepper.h>/,
 	"groveMP3": /PIN_MP3_PLAYER_(R|T)X/g
 };
 
@@ -180,6 +181,7 @@ Simulator.Mosaic.specific = {
 		if (boardSvg !== null) {
 			const board = Blockly.Constants.getSelectedBoard();
 			const ledId = INTERFACE_BOARDS[board].ledId;
+			if (!ledId) return;
 			const led = boardSvg.querySelector(`#${ledId}`);
 			if (led !== null) {
 				if ([BOARD_ARDUINO_UNO, BOARD_ARDUINO_NANO].includes(board)) {
@@ -229,6 +231,16 @@ Simulator.Mosaic.specific = {
 			value: 20,
 		});
 
+		// Modulino (Arduino Plug and Make Kit)
+		$('.mod_modulino-buttonA, .mod_modulino-buttonB, .mod_modulino-buttonC, .mod_modulino-knobButton').slider({ min: 0, max: 1, value: 0 });
+		$('.mod_modulino-knob').slider({ min: -100, max: 100, value: 0 });
+		$('.mod_modulino-distance').slider({ min: 0, max: 1200, value: 200 });
+		$('.mod_modulino-acceleration_x, .mod_modulino-acceleration_y').slider({ min: -4, max: 4, step: 0.01, value: 0 });
+		$('.mod_modulino-acceleration_z').slider({ min: -4, max: 4, step: 0.01, value: 1 });
+		$('.mod_modulino-rotation_roll, .mod_modulino-rotation_pitch, .mod_modulino-rotation_yaw').slider({ min: -250, max: 250, value: 0 });
+		$('.mod_modulino-temperature').slider({ min: -20, max: 60, value: 20 });
+		$('.mod_modulino-humidity').slider({ min: 0, max: 100, value: 50 });
+
 		$('.mod_dustSensor').slider({
 			min: 0,
 			max: 2507800,
@@ -256,7 +268,198 @@ Simulator.Mosaic.specific = {
 			});
 	},
 
+	/**
+	 * HTML of the 3 LEDs of the Modulino Buttons (A, B, C)
+	 * @param {Array<boolean>} states
+	 */
+	modulinoButtonsLeds: function (states = [false, false, false]) {
+		return '<div class="modulino-leds">' + states.map((on, i) =>
+			`<div class="modulino-led-group"><span class="modulino-led${on ? ' modulino-led-on' : ''}"></span>${'ABC'.charAt(i)}</div>`).join('') + '</div>';
+	},
+
 	definitions: [
+		// Modulino (Arduino Plug and Make Kit): driven by the "Modulino.h" simulated library (Libraries_H.js)
+		{
+			id: "modulino-buttonA",
+			regex: /modulino_buttonPressed\(0\)/,
+			get title() { return Blockly.Msg['MODULINO_LABEL_BUTTONS'] + ' A' },
+			pin: 'I2C',
+			type: 'input',
+			releaser: true,
+			listeners: [{ default: "OFF", unit: '', color: "#00979d", suffix: "" }],
+			class: "button",
+			picture: "Bouton.png",
+			pictureAnimation: "Bouton-animation.png",
+			animate: function (Animator) {
+				Animator.button(Animator.value, 'down');
+			}
+		},
+		{
+			id: "modulino-buttonB",
+			regex: /modulino_buttonPressed\(1\)/,
+			get title() { return Blockly.Msg['MODULINO_LABEL_BUTTONS'] + ' B' },
+			pin: 'I2C',
+			type: 'input',
+			releaser: true,
+			listeners: [{ default: "OFF", unit: '', color: "#00979d", suffix: "" }],
+			class: "button",
+			picture: "Bouton.png",
+			pictureAnimation: "Bouton-animation.png",
+			animate: function (Animator) {
+				Animator.button(Animator.value, 'down');
+			}
+		},
+		{
+			id: "modulino-buttonC",
+			regex: /modulino_buttonPressed\(2\)/,
+			get title() { return Blockly.Msg['MODULINO_LABEL_BUTTONS'] + ' C' },
+			pin: 'I2C',
+			type: 'input',
+			releaser: true,
+			listeners: [{ default: "OFF", unit: '', color: "#00979d", suffix: "" }],
+			class: "button",
+			picture: "Bouton.png",
+			pictureAnimation: "Bouton-animation.png",
+			animate: function (Animator) {
+				Animator.button(Animator.value, 'down');
+			}
+		},
+		{
+			id: "modulino-buttonsLeds",
+			regex: /modulino_buttons\.setLeds\(/,
+			get title() { return Blockly.Msg['MODULINO_LABEL_BUTTONS'] + ' LED' },
+			pin: 'I2C',
+			type: 'output',
+			get value() { return Simulator.Mosaic.specific.modulinoButtonsLeds(); },
+			animate: function (Animator) {
+				$(Animator.valueId).html(Animator.value);
+			}
+		},
+		{
+			id: "modulino-buzzer",
+			regex: /modulino_buzzer\./,
+			get title() { return Blockly.Msg['MODULINO_LABEL_BUZZER'] },
+			pin: 'I2C',
+			type: 'output',
+			value: 0,
+			picture: "Buzzer.png",
+			pictureAnimation: "Buzzer-animation.png",
+			animate: function (Animator) {
+				Animator.opacity(0, 1, text = Animator.value ? Math.round(Animator.value) + " Hz" : "OFF");
+			}
+		},
+		{
+			id: "modulino-pixels",
+			regex: /modulino_pixels\./,
+			get title() { return Blockly.Msg['MODULINO_LABEL_PIXELS'] },
+			pin: 'I2C',
+			type: 'output',
+			value: "",
+			animate: function () { }
+		},
+		{
+			id: "modulino-knob",
+			regex: /modulino_knob\.(get|set)\(/,
+			get title() { return Blockly.Msg['MODULINO_LABEL_KNOB'] },
+			pin: 'I2C',
+			type: 'input',
+			listeners: [{ default: 0, unit: '', color: "#00979d", suffix: "" }],
+			picture: "Potentiometre.png",
+			pictureAnimation: "Potentiometre-animation.png",
+			animate: function (Animator) {
+				Animator.rotate(-100, 100, text = "Position " + Animator.value, angle = 270);
+			}
+		},
+		{
+			id: "modulino-knobButton",
+			regex: /modulino_knob\.isPressed\(/,
+			get title() { return Blockly.Msg['MODULINO_LABEL_KNOB_BUTTON'] },
+			pin: 'I2C',
+			type: 'input',
+			releaser: true,
+			listeners: [{ default: "OFF", unit: '', color: "#00979d", suffix: "" }],
+			class: "button",
+			picture: "Bouton.png",
+			pictureAnimation: "Bouton-animation.png",
+			animate: function (Animator) {
+				Animator.button(Animator.value, 'down');
+			}
+		},
+		{
+			id: "modulino-distance",
+			regex: /modulino_getDistance\(/,
+			get title() { return Blockly.Msg['MODULINO_LABEL_DISTANCE'] },
+			pin: 'I2C',
+			type: 'input',
+			listeners: [{ default: 200, unit: 'mm', color: "#00979d", suffix: "" }],
+			picture: "Ultrason.png",
+			pictureAnimation: "Ultrason-animation.png",
+			animate: function (Animator) {
+				Animator.opacity(1200, 0);
+			}
+		},
+		{
+			id: "modulino-acceleration",
+			regex: /modulino_movementGet(X|Y|Z)\(/,
+			get title() { return Blockly.Msg['MODULINO_LABEL_MOVEMENT'] + ' (g)' },
+			pin: 'I2C',
+			type: 'input',
+			listeners: [
+				{ default: 0, unit: 'g', color: "#00979d", suffix: "_x", title: "x" },
+				{ default: 0, unit: 'g', color: "#00979d", suffix: "_y", title: "y" },
+				{ default: 1, unit: 'g', color: "#00979d", suffix: "_z", title: "z" }
+			],
+			picture: "Accélerateur.png",
+			pictureAnimation: "Accelérateur-animation.png",
+			animate: function (Animator) {
+				Animator.rotate(-4, 4);
+			}
+		},
+		{
+			id: "modulino-rotation",
+			regex: /modulino_movementGet(Roll|Pitch|Yaw)\(/,
+			get title() { return Blockly.Msg['MODULINO_LABEL_MOVEMENT'] + ' (°/s)' },
+			pin: 'I2C',
+			type: 'input',
+			listeners: [
+				{ default: 0, unit: '°/s', color: "#00979d", suffix: "_roll", title: "roll" },
+				{ default: 0, unit: '°/s', color: "#00979d", suffix: "_pitch", title: "pitch" },
+				{ default: 0, unit: '°/s', color: "#00979d", suffix: "_yaw", title: "yaw" }
+			],
+			picture: "Boussole.png",
+			pictureAnimation: "Boussole-animation.png",
+			animate: function (Animator) {
+				Animator.rotate(-250, 250);
+			}
+		},
+		{
+			id: "modulino-temperature",
+			regex: /modulino_thermo\.getTemperature\(/,
+			get title() { return Blockly.Msg['MODULINO_LABEL_THERMO'] + ' (°C)' },
+			pin: 'I2C',
+			type: 'input',
+			listeners: [{ default: 20, unit: '°C', color: "#00979d", suffix: "" }],
+			class: 'gauge',
+			picture: "Temperature-Pression-Altitude.png",
+			pictureAnimation: "Temperature-animation.png",
+			animate: function (Animator) {
+				Animator.gauge();
+			}
+		},
+		{
+			id: "modulino-humidity",
+			regex: /modulino_thermo\.getHumidity\(/,
+			get title() { return Blockly.Msg['MODULINO_LABEL_THERMO'] + ' (%)' },
+			pin: 'I2C',
+			type: 'input',
+			listeners: [{ default: 50, unit: '%', color: "#00979d", suffix: "" }],
+			class: 'cloud',
+			picture: "CO2-COV.png",
+			pictureAnimation: "cloud-animation.png",
+			animate: function (Animator) {
+				Animator.opacity(0, 100);
+			}
+		},
 		{
 			id: "arduino-led13",
 			regex: /digitalWrite\(LED_BUILTIN,.*\)/gi,
@@ -545,6 +748,16 @@ Simulator.Mosaic.specific = {
 			id: "i2cMotorStepper",
 			title: "Shield - Moteur pas à pas",
 			pin: 'I2C',
+			type: 'output',
+			value: 0,
+			class: "motor",
+			picture: "Motor.png",
+			pictureAnimation: "Motor-animation.png"
+		},
+		{
+			id: "stepper28BYJ48",
+			title: "Moteur pas à pas 28BYJ-48",
+			pin: 'IN1-IN4',
 			type: 'output',
 			value: 0,
 			class: "motor",

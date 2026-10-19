@@ -105,9 +105,9 @@ Blockly.Python.communication_gps_getNMEA = function (block) {
     Blockly.Python.addInit(objName + '_init', objName + " = machine.UART(" + numPort + ", baudrate = 9600)");
     Blockly.Python.addInit('gpsInfos', "gpsInfos = {}");
     Blockly.Python.addInit('gpsInfos[\'nmea\']', "gpsInfos['nmea'] = None");
-    block.workspace.createVariable('gpsInfos');
+    block.workspace.getVariableMap().createVariable('gpsInfos');
     Blockly.Python.addInit('gpsBuffer', "gpsBuffer = \"\"");
-    block.workspace.createVariable('gpsBuffer');
+    block.workspace.getVariableMap().createVariable('gpsBuffer');
     Blockly.Python.addFunction('gps_readNMEA', FUNCTIONS_L476.DEF_GPS_READ_NMEA);
     return ["gps_readNMEA(" + objName + ", True)", Blockly.Python.ORDER_ATOMIC];
 };
@@ -127,9 +127,9 @@ Blockly.Python.communication_gps_getGGAInformations = function (block) {
     Blockly.Python.addInit(objName + '_init', objName + " = machine.UART(" + numPort + ", baudrate = 9600)");
     Blockly.Python.addInit('gpsInfos', "gpsInfos = {}");
     Blockly.Python.addInit('gpsInfos[\'nmea\']', "gpsInfos['nmea'] = None");
-    block.workspace.createVariable('gpsInfos');
+    block.workspace.getVariableMap().createVariable('gpsInfos');
     Blockly.Python.addInit('gpsBuffer', "gpsBuffer = \"\"");
-    block.workspace.createVariable('gpsBuffer');
+    block.workspace.getVariableMap().createVariable('gpsBuffer');
     Blockly.Python.addFunction('gps_readNMEA', FUNCTIONS_L476.DEF_GPS_READ_NMEA);
     Blockly.Python.addFunction('gps_GGA_getInformation', FUNCTIONS_L476.DEF_GPS_GET_GGA_INFORMATIONS);
     return ["gps_GGA_getInformation(" + objName + ", '" + info + "')", Blockly.Python.ORDER_ATOMIC];

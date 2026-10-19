@@ -4,7 +4,6 @@ const $builtinmodule = function () {
 	const stm32_donutbot = {};
 
 	const simulator3D = window.Simulator3D;
-
 	simulator3D.physics.leftLocked = false;
 	simulator3D.p;
 	const checkReady = async () => {
@@ -76,7 +75,7 @@ const $builtinmodule = function () {
 	stm32_donutbot.donutbot_get_distance = new Sk.builtin.func(function (s) {
 		const sensor = s.v;
 		return new Sk.builtin.int_(parseInt(Simulator.getSliderValue('donutbot-distanceFront')));
-		
+
 	});
 
 	stm32_donutbot.donutbot_moveWithSquare = new Sk.builtin.func(function (step, direction, speed) {
@@ -87,11 +86,11 @@ const $builtinmodule = function () {
 		return new Sk.misceval.promiseToSuspension(
 			new Promise(async function (resolve) {
 				if (_direction !== null) {
-					if (simulator3D.physics){
+					if (simulator3D.physics) {
 						if (_direction === 'forward') {
-							await simulator3D.physics.moveRobotDistance(_step, 'forward',  _speed,);
+							await simulator3D.physics.moveRobotDistance(_step, 'forward', _speed,);
 						} else if (_direction === 'backward') {
-							await simulator3D.physics.moveRobotDistance(_step,'backward', _speed);
+							await simulator3D.physics.moveRobotDistance(_step, 'backward', _speed);
 						}
 					}
 				}
@@ -103,16 +102,16 @@ const $builtinmodule = function () {
 	stm32_donutbot.donutbot_turnAngle = new Sk.builtin.func(function (angle, speed) {
 		const _angle = angle.v;
 		const _speed = speed.v;
-		
+
 		return new Sk.misceval.promiseToSuspension(
 			new Promise(async function (resolve) {
-				if (simulator3D.physics){
+				if (simulator3D.physics) {
 					await simulator3D.physics.rotateRobotAngle(_angle, _speed);
 				}
 				resolve(Sk.builtin.none());
 			})
 		);
-		
+
 
 	})
 
@@ -178,7 +177,7 @@ const $builtinmodule = function () {
 	});
 
 	stm32_donutbot.donutbot_get_color = new Sk.builtin.func(() => {
-		
+
 		const rgbColor = simulator3D.rgbTextureValue;
 		const rgbValues = rgbColor.reduce((acc, color) => {
 			acc.r += Number(color.r);
@@ -186,7 +185,7 @@ const $builtinmodule = function () {
 			acc.b += Number(color.b);
 			return acc;
 		}, { r: 0, g: 0, b: 0 });
-		
+
 
 		rgbValues.r /= 3;
 		rgbValues.g /= 3;
@@ -211,11 +210,11 @@ const $builtinmodule = function () {
 
 	stm32_donutbot.donutbot_get_line = new Sk.builtin.func((s) => {
 		const side = s.v;
-		
+
 		if (side === "left") {
 			const rgbColor = simulator3D.rgbTextureValue[0];
 			const white_l = (rgbColor.r + rgbColor.g + rgbColor.b) / 3;
-			
+
 			if (white_l < COLOR_TRESHOLD) {
 				$("#ilo-finderLeft_slider_v").slider('value', 1);
 				return new Sk.builtin.int_(1);
@@ -224,11 +223,11 @@ const $builtinmodule = function () {
 				return new Sk.builtin.int_(0);
 			}
 		}
-		
+
 		if (side === "center") {
 			const rgbColor = simulator3D.rgbTextureValue[1];
 			const white_m = (rgbColor.r + rgbColor.g + rgbColor.b) / 3;
-			
+
 			if (white_m < COLOR_TRESHOLD) {
 				$("#ilo-finderCenter_slider_v").slider('value', 1);
 				return new Sk.builtin.int_(1);
@@ -237,11 +236,11 @@ const $builtinmodule = function () {
 				return new Sk.builtin.int_(0);
 			}
 		}
-		
+
 		if (side === "right") {
 			const rgbColor = simulator3D.rgbTextureValue[2];
 			const white_r = (rgbColor.r + rgbColor.g + rgbColor.b) / 3;
-			
+
 			if (white_r < COLOR_TRESHOLD) {
 				$("#ilo-finderRight_slider_v").slider('value', 1);
 				return new Sk.builtin.int_(1);
@@ -250,23 +249,23 @@ const $builtinmodule = function () {
 				return new Sk.builtin.int_(0);
 			}
 		}
-		
+
 		const rgbColorLeft = simulator3D.rgbTextureValue[0];
 		const rgbColorCenter = simulator3D.rgbTextureValue[1];
 		const rgbColorRight = simulator3D.rgbTextureValue[2];
-		
+
 		const white_l = (rgbColorLeft.r + rgbColorLeft.g + rgbColorLeft.b) / 3;
 		const white_m = (rgbColorCenter.r + rgbColorCenter.g + rgbColorCenter.b) / 3;
 		const white_r = (rgbColorRight.r + rgbColorRight.g + rgbColorRight.b) / 3;
-		
+
 		const line_left = white_l < COLOR_TRESHOLD ? 1 : 0;
 		const line_center = white_m < COLOR_TRESHOLD ? 1 : 0;
 		const line_right = white_r < COLOR_TRESHOLD ? 1 : 0;
-		
+
 		$("#ilo-finderLeft_slider_v").slider('value', line_left);
 		$("#ilo-finderCenter_slider_v").slider('value', line_center);
 		$("#ilo-finderRight_slider_v").slider('value', line_right);
-		
+
 		return new Sk.builtin.tuple([
 			new Sk.builtin.int_(line_left),
 			new Sk.builtin.int_(line_center),
@@ -278,7 +277,7 @@ const $builtinmodule = function () {
 
 		const max_val = Math.max(rgbColor.r, rgbColor.g, rgbColor.b);
 		let r, g, b;
-		
+
 		if (max_val === 0) {
 			r = 0; g = 0; b = 0;
 		} else {
@@ -287,7 +286,7 @@ const $builtinmodule = function () {
 			g = Math.min(Math.floor(rgbColor.g * scale), 255);
 			b = Math.min(Math.floor(rgbColor.b * scale), 255);
 		}
-		
+
 		const colors = {
 			'white': [209, 255, 161],
 			'orange': [255, 225, 66],
@@ -299,24 +298,24 @@ const $builtinmodule = function () {
 			'blue': [166, 255, 121],
 			'red': [255, 121, 37]
 		};
-		
+
 		let min_val = null;
 		let best_match = 'None';
-		
+
 		for (const name in colors) {
 			const [r_ref, g_ref, b_ref] = colors[name];
 			const diff = Math.abs(r - r_ref) + Math.abs(g - g_ref) + Math.abs(b - b_ref);
-			
+
 			if (min_val === null || diff < min_val) {
 				min_val = diff;
 				best_match = name;
 			}
 		}
-		
+
 		if (min_val > 50) {
 			return 'None';
 		}
-		
+
 		return best_match;
 	}
 

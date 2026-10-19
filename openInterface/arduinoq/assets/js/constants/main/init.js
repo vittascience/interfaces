@@ -4,10 +4,8 @@ const INTERFACE_NAME = "arduinoq";
 const DEFAULT_XML_START = {
     "vittascience": 
 `<xml xmlns="https://developers.google.com/blockly/xml">
-    <block type="cpp_scratch_on_start" id="G[=T#8yqB20jNFgYq}GP" deletable="false" x="0" y="0"><next>
-        <block type="cpp_scratch_forever" id="o[WN]+eeF.OUxGch67@8" deletable="false"></block></next>
-    </block>
-    <block type="py_scratch_on_start" id="D[=T#7yqB70eNFfYq}GP" deletable="false" x="0" y="200"></block>
+    <block type="cpp_on_start_forever" id="G[=T#8yqB20jNFgYq}GP" deletable="false" x="0" y="0"></block>
+    <block type="py_scratch_on_start" id="D[=T#7yqB70eNFfYq}GP" deletable="false" x="0" y="250"></block>
 </xml>`
 };
 // <block type="html_page" id="D[=T@fyq470eNFf23}GP" deletable="true" x="0" y="300"></block>
@@ -42,7 +40,7 @@ const LIBRARIES_PATH = {
 //shield
 const BOARD_SHIELD_GROVE = "shield-grove";
 //standalone_blocks
-const BLOCKS_OUTSIDE_SCOPE = ["cpp_on_start", "cpp_forever", "cpp_scratch_on_start", "cpp_procedures_defnoreturn", "cpp_procedures_defreturn", "py_on_start", "py_forever", "py_scratch_on_start", "py_procedures_defnoreturn", "py_procedures_defreturn", "io_attachInterrupt", "html_page", "bricks_webui_on_message"];
+const BLOCKS_OUTSIDE_SCOPE = ["cpp_on_start", "cpp_forever", "cpp_on_start_forever", "cpp_scratch_on_start", "cpp_procedures_defnoreturn", "cpp_procedures_defreturn", "py_on_start", "py_forever", "py_scratch_on_start", "py_procedures_defnoreturn", "py_procedures_defreturn", "io_attachInterrupt", "html_page", "bricks_webui_on_message"];
 //example projects
 const EXAMPLE_PROJECT_LINKS = ['639987a2d76c3', '6399a76286bfd', '6399a8b8ee0d4', '6399a9b491f07', '6399bd8184b3f', '6399c0b51e361'];
 //adc
@@ -52,11 +50,11 @@ const PWM_MAX_DUTY = 255;
 const INTERFACE_BOARDS = {
     [BOARD_ARDUINO_UNO_Q]: {
         "id": BOARD_ARDUINO_UNO_Q,
-        "link": 'arduino-uno-r4-wifi.svg',
+        "link": 'arduino-uno-q.svg',
         "name": "Arduino UNO Q",
         "resetId": "reset_button",
         "animId": "ellipse-top",
-        "ledId": "ar-led13",
+        "ledId": null,
         "mcu": "32bits",
         "shieldId": BOARD_SHIELD_GROVE,
         "shieldLink": 'arduino_uno_grove_shield.svg',
@@ -932,8 +930,9 @@ SPDX-License-Identifier: MPL-2.0
 </body>
 </html>`;
 
+// String.raw: the minified library contains backslash sequences that a plain template literal would alter
 const UNO_Q_SOCKET =
-    `/*!
+    String.raw`/*!
  * Socket.IO v4.8.1
  * (c) 2014-2024 Guillermo Rauch
  * Released under the MIT License.

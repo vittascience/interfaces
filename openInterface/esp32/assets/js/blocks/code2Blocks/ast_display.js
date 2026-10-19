@@ -13,14 +13,14 @@ utils.prototypeBlocks['neopixel.NeoPixel'] = function (type, fields, values, mut
 	classVariable.pin = pin;
 	classVariable.ledCount = statementsNode[1].text;
 	Blockly.Python.addHiddenConstant(`NEOPIXEL_LED_COUNT_${pin.substr(1)}`, statementsNode[1].text);
+	// LED count: number field of the block, written or in a constant (ex: NP_LED_COUNT_D0 = 20)
+	const ledCount = [statementsNode[1]?.text, utils._variables[statementsNode[1]?.text]?.variable?.text].find((count) => /^[0-9]+$/.test(count));
 	return {
 		type: 'display_defineNeopixel',
-		fields: { PIN: pin },
-		values: {
-			N: null,
-		},
+		fields: { PIN: pin, ...(ledCount && { N: ledCount }) },
+		values: {},
 		mutations: null,
-		statementsNode: { N: statementsNode[1] },
+		statementsNode: null,
 		statements: null,
 	};
 };

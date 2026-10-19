@@ -23,4 +23,7 @@ const CLASS_METHODS = {};
 
 const MICROPYTHON_CLASSES = {};
 
-export default { LIB_IMPORT, EXCLUDED_COMMENTS, CLASS_METHODS, MICROPYTHON_CLASSES, SPECIFIC_INIT };
+// assignments translated by utils.prototypeBlocks (ex: chronometer "t0 = utime.ticks_ms()")
+const RESERVED_WORDS = ['t0'];
+
+export default { LIB_IMPORT, EXCLUDED_COMMENTS, CLASS_METHODS, MICROPYTHON_CLASSES, SPECIFIC_INIT, RESERVED_WORDS};

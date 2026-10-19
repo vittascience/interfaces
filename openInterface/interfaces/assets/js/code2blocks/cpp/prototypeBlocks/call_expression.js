@@ -177,6 +177,17 @@ Blockly.Arduino['comment_block_standalone'] = function (block) {
 
 Blockly.Arduino['untranslatable_block'] = function (block) {
 	const code = block.getFieldValue('CODE');
+	// global code kept by the reverse translation (out of setup and loop): in the head of the program
+	if (!block.getParent()) {
+		const store = /^\s*#include/.test(code) ? 'includes_' : /^\s*#/.test(code) ? 'definitions_' : /^[^=;{]*\)\s*\{/.test(code) ? 'userFunctions_' : 'declarations_';
+		Blockly.Arduino[store]['untranslatable_' + code] = code;
+		// variable declared by the code (ex: "int x = 0;"): not declared again for the variable blocks ("int x;")
+		const name = store === 'declarations_' && code.match(/^[^=;(]*?[\s*&]([A-Za-z_]\w*)\s*(\[[^\]]*\]\s*)*(=[^;]*)?;\s*(\/\/.*)?$/)?.[1];
+		for (const [key, declaration] of Object.entries(name ? Blockly.Arduino.variables_ || {} : {})) {
+			if (new RegExp(`[\\s*&]${name}\\s*;\\s*$`).test(declaration)) delete Blockly.Arduino.variables_[key];
+		}
+		return '';
+	}
 	return `${code}\n`;
 };
 
@@ -223,7 +234,7 @@ Blockly.Constants.add_items.CALL_MUTATOR_MIXIN = {
 	 * @this {Blockly.Block}
 	 */
 	domToMutation: function (xmlElement) {
-		this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10);
+		this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10) || 0;
 		this.updateShape_();
 	},
 	/**
@@ -249,7 +260,7 @@ Blockly.Constants.add_items.CALL_MUTATOR_MIXIN = {
 	},
 	restoreValueConnections_: function () {
 		for (var i = 0; i < this.itemCount_; i++) {
-			Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'items' + i);
+			this.valueConnections_[i]?.reconnect(this, 'items' + i);
 		}
 	},
 	addItem_: function () {
@@ -265,7 +276,7 @@ Blockly.Constants.add_items.CALL_MUTATOR_MIXIN = {
 				const newBlock = Blockly.utils.xml.createElement('block');
 				newBlock.setAttribute('type', dataBlockName);
 				if (newBlock) {
-					const id = Blockly.utils.genUid();
+					const id = Blockly.utils.idGenerator.genUid();
 					newBlock.setAttribute('id', id);
 					Blockly.Xml.domToBlock(newBlock, this.workspace);
 					const block = this.workspace.getBlockById(id);

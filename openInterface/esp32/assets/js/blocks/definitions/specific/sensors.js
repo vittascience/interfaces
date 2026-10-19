@@ -145,6 +145,17 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "mutator": "sensors_gy521_mutator"
     },
 
+    // BN-880 SENSOR _ GET MAGNETIC HEADING
+    {
+        "type": "sensors_bn880_getHeading",
+        "message0": "%{BKY_SENSORS_BN880_GET_HEADING_TITLE}",
+        "output": "Number",
+        "style": "sensors_blocks",
+        "tooltip": "%{BKY_SENSORS_BN880_GET_HEADING_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
     // Other sensors
 
     // GROVE VOLTAGE DIVIDER SENSOR 

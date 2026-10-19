@@ -378,6 +378,273 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "tooltip": "%{BKY_CAMERAS_HUSKYLENS_LOAD_MODEL_TOOLTIP}",
     },
 
+    /** Begin HUSKYLENS V2 blocks */
+    {
+        "type": "cameras_huskylens_v2_initMode",
+        "message0": "%{BKY_CAMERAS_HUSKYLENS_V2_INIT_MODE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "MODE",
+            "options": [
+                ["%{BKY_CAMERAS_HUSKYLENS_SET_MODE_FACE_RECOGNITION}", "face"],
+                ["%{BKY_CAMERAS_HUSKYLENS_SET_MODE_OBJECT_RECOGNITION}", "object"],
+                ["%{BKY_CAMERAS_HUSKYLENS_SET_MODE_OBJECT_TRACKING}", "tracking"],
+                ["%{BKY_CAMERAS_HUSKYLENS_SET_MODE_COLOR_RECOGNITION}", "color"],
+                ["%{BKY_CAMERAS_HUSKYLENS_SET_MODE_OBJECT_CLASSIFICATION}", "classification"],
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_MODE_HAND_RECOGNITION}", "hand"],
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_MODE_POSE_RECOGNITION}", "pose"],
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_MODE_LINE_TRACKING}", "line"],
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_MODE_QR_CODE_RECOGNITION}", "qr"],
+            ]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_CAMERAS_HUSKYLENS_V2_INIT_MODE_TOOLTIP}",
+    },
+
+    {
+        "type": "cameras_huskylens_v2_readBox",
+        "message0": "%{BKY_CAMERAS_HUSKYLENS_V2_READ_BOX_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "ID",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "DATA",
+            "options": [
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_DATA_ID}", "id"],
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_DATA_X}", "x"],
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_DATA_Y}", "y"],
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_DATA_WIDTH}", "width"],
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_DATA_HEIGHT}", "height"],
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_DATA_NAME}", "name"],
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_DATA_CONTENT}", "content"],
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_DATA_CONFIDENCE}", "confidence"]
+            ]
+        }],
+        "output": null,
+        "inputsInline": true,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_CAMERAS_HUSKYLENS_V2_READ_BOX_TOOLTIP}",
+    },
+
+    {
+        "type": "cameras_huskylens_v2_readArrow",
+        "message0": "%{BKY_CAMERAS_HUSKYLENS_V2_READ_ARROW_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "ID",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "DATA",
+            "options": [
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_DATA_ID}", "id"],
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_DATA_X}", "x"],
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_DATA_Y}", "y"],
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_DATA_ANGLE}", "angle"],
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_DATA_LENGTH}", "length"],
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_DATA_NAME}", "name"],
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_DATA_CONTENT}", "content"],
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_DATA_CONFIDENCE}", "confidence"]
+            ]
+        }],
+        "output": null,
+        "inputsInline": true,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_CAMERAS_HUSKYLENS_V2_READ_ARROW_TOOLTIP}",
+    },
+
+    {
+        "type": "cameras_huskylens_v2_readId",
+        "message0": "%{BKY_CAMERAS_HUSKYLENS_V2_READ_ID_TITLE}",
+        "output": "Number",
+        "inputsInline": true,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_CAMERAS_HUSKYLENS_V2_READ_ID_TOOLTIP}",
+    },
+
+    {
+        "type": "cameras_huskylens_v2_count",
+        "message0": "%{BKY_CAMERAS_HUSKYLENS_V2_COUNT_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "TYPE",
+            "options": [
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_TYPE_BOX}", "BOX"],
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_TYPE_ARROW}", "ARROW"]
+            ]
+        }],
+        "output": "Number",
+        "inputsInline": true,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_CAMERAS_HUSKYLENS_V2_COUNT_TOOLTIP}",
+    },
+
+    {
+        "type": "cameras_huskylens_v2_isAppear",
+        "message0": "%{BKY_CAMERAS_HUSKYLENS_V2_IS_APPEAR_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "ID",
+            "check": "Number"
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "TYPE",
+            "options": [
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_TYPE_BOX}", "BOX"],
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_TYPE_ARROW}", "ARROW"]
+            ]
+        }],
+        "output": "Boolean",
+        "inputsInline": true,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_CAMERAS_HUSKYLENS_V2_IS_APPEAR_TOOLTIP}",
+    },
+
+    {
+        "type": "cameras_huskylens_v2_writeLearn1",
+        "message0": "%{BKY_CAMERAS_HUSKYLENS_V2_WRITE_LEARN1_TITLE}",
+        "previousStatement": null,
+        "nextStatement": null,
+        "inputsInline": true,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_CAMERAS_HUSKYLENS_V2_WRITE_LEARN1_TOOLTIP}",
+    },
+
+    {
+        "type": "cameras_huskylens_v2_learnedId",
+        "message0": "%{BKY_CAMERAS_HUSKYLENS_V2_LEARNED_ID_TITLE}",
+        "output": "Number",
+        "inputsInline": true,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_CAMERAS_HUSKYLENS_V2_LEARNED_ID_TOOLTIP}",
+    },
+
+    {
+        "type": "cameras_huskylens_v2_forgetLearn",
+        "message0": "%{BKY_CAMERAS_HUSKYLENS_V2_FORGET_LEARN_TITLE}",
+        "previousStatement": null,
+        "nextStatement": null,
+        "inputsInline": true,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_CAMERAS_HUSKYLENS_V2_FORGET_LEARN_TOOLTIP}",
+    },
+
+    {
+        "type": "cameras_huskylens_v2_writeName",
+        "message0": "%{BKY_CAMERAS_HUSKYLENS_V2_WRITE_NAME_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "ID",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "NAME"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "inputsInline": true,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_CAMERAS_HUSKYLENS_V2_WRITE_NAME_TOOLTIP}",
+    },
+
+    {
+        "type": "cameras_huskylens_v2_writeOSD",
+        "message0": "%{BKY_CAMERAS_HUSKYLENS_V2_WRITE_OSD_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "NAME"
+        }, {
+            "type": "input_value",
+            "name": "X",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "Y",
+            "check": "Number"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "inputsInline": true,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_CAMERAS_HUSKYLENS_V2_WRITE_OSD_TOOLTIP}",
+    },
+
+    {
+        "type": "cameras_huskylens_v2_clearOSD",
+        "message0": "%{BKY_CAMERAS_HUSKYLENS_V2_CLEAR_OSD_TITLE}",
+        "previousStatement": null,
+        "nextStatement": null,
+        "inputsInline": true,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_CAMERAS_HUSKYLENS_V2_CLEAR_OSD_TOOLTIP}",
+    },
+
+    {
+        "type": "cameras_huskylens_v2_saveModelToTFCard",
+        "message0": "%{BKY_CAMERAS_HUSKYLENS_V2_SAVE_MODEL_TO_TF_CARD_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "COMMAND",
+            "options": [
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_COMMAND_SAVE}", "SAVE"],
+                ["%{BKY_CAMERAS_HUSKYLENS_V2_COMMAND_LOAD}", "LOAD"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "DATA",
+            "check": "Number"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "inputsInline": true,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_CAMERAS_HUSKYLENS_V2_SAVE_MODEL_TO_TF_CARD_TOOLTIP}",
+    },
+
     /** Begin WIO Lite blocks */
     {
         "type": "wio_make_prediction",

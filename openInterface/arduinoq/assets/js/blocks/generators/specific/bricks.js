@@ -28,7 +28,8 @@ Blockly.Python.bricks_webui_on_message = function (block) {
     const id = block.getFieldValue("ID");
     const branchCode = Blockly.Python.statementToCode(block, 'DO');
     const funcName = "onUiMessage_" + id;
-    Blockly.Python.addFunction(funcName, "def " + funcName + "():" + NEWLINE + (branchCode ? branchCode : "  pass"));
+    // WebUI calls the handler with the client session id and the message data
+    Blockly.Python.addFunction(funcName, "def " + funcName + "(sid, data):" + NEWLINE + (branchCode ? branchCode : "  pass"));
     Blockly.Python.addPowerOn(funcName, "ui.on_message('" + id + "', " + funcName + ")");
     return "";
 };

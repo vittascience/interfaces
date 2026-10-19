@@ -241,6 +241,8 @@ Simulator.Mosaic.groveRegex = {
 Simulator.Mosaic.specific = {
 
     extractPin: {
+        'read-digital': (str) => str.split(',')[0].split('Pin(')[1].replace(/'/gi, ""),
+        'write-digital': (str) => str.split(',')[0].split('Pin(')[1].replace(/'/gi, ""),
         'pwm': (str) => str.split(',')[0].split('Pin(')[1].replace(/'/gi, "")
     },
 

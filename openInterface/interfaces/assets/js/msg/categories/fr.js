@@ -210,6 +210,9 @@ Blockly.Msg['SUBCATEGORY_COMPUTER'] = 'Ordinateur';
 // Arduino
 Blockly.Msg['SUBCATEGORY_BUILTIN_LED_MATRIX'] = 'Matrice de LED intégrée';
 Blockly.Msg['SUBCATEGORY_I2C_MOTOR_DRIVER'] = 'Driver de moteur I2C';
+Blockly.Msg['SUBCATEGORY_RFID'] = 'Module RFID';
+Blockly.Msg['SUBCATEGORY_VOICE_RECOGNITION'] = 'Reconnaissance vocale';
+Blockly.Msg['SUBCATEGORY_ULN2004_STEPPER_DRIVER'] = 'Driver moteur pas à pas ULN2004';
 Blockly.Msg['SUBCATEGORY_MINI_I2C_MOTOR_DRIVER'] = 'Mini driver de moteur I2C';
 Blockly.Msg['SUBCATEGORY_TB6612FNG_MOTOR_DRIVER'] = 'Driver TB6612FNG';
 Blockly.Msg['SUBCATEGORY_ARDUINO_SHILED_MOTOR'] = 'Shield moteur Arduino';

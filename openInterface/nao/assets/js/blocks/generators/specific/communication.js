@@ -39,7 +39,7 @@ Blockly.Python.communication_asr_stopRecognition = function (block) {
 Blockly.Python.communication_asr_getLastWord_callback_decorated = function (block) {
     Blockly.Python.addImport('asr_service', IMPORT_ASR_SERVICE);
     const statement = Blockly.Python.statementToCode(block, "DO") || `${Blockly.Python.INDENT}pass${NEWLINE}`;
-    const variable = Blockly.Python.nameDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+    const variable = Blockly.Python.nameDB_.getName(block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
     const functionCallback = `def on_speech_recognized(${variable}):${NEWLINE}${statement}` + NEWLINE;
     Blockly.Python.addFunction('on_speech_recognized', functionCallback);
     return '';

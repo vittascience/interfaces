@@ -116,14 +116,6 @@
                         <div id="music-tab" class="monitor-tab">
                             <div id="music-panel">
                                 <div class="music-control">
-                                    <label class="music-control-label"><b
-                                            data-i18n="code.console.music.enable">Sons</b></label>
-                                    <button id="audio-enable-button"
-                                        class="btn btn-outline-secondary btn-sm  mt-1 music-control-button"
-                                        data-i18n="code.console.music.enablebutton">Activé
-                                    </button>
-                                </div>
-                                <div class="music-control">
                                     <label class="music-control-label"><i class="fa fa-volume-up"></i> <b
                                             data-i18n="code.console.music.volume">Volume</b></label>
                                     <div class="music-slider mt-2" id="volume-slider"></div>
@@ -262,10 +254,7 @@
                                 </div>
 
                                 <div id="serial-input-group" class="input-group">
-                                    <input type="text" id="serial-input"
-                                        class="serial-controls form-control ide-btn-left" autocomplete="off"
-                                        data-i18n="[placeholder]code.monitor.controls.text.send" />
-
+                                    <input type="text" id="serial-input" name="serial_message" class="serial-controls form-control ide-btn-left" autocomplete="one-time-code" data-i18n="[placeholder]code.monitor.controls.text.send"/>
                                     <div id="serial-input-btn" class="input-group-append">
                                         <button id="serial-send" class="ide-btn serial-controls ide-btn-right"
                                             data-placement="top" data-toggle="tooltip"
@@ -403,10 +392,12 @@
 <script src="/openInterface/interfaces/assets/js/external/rotate.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/interact-1.5.4.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/blockly_compressed.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_date_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_colour_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/vittascience_patches.js"></script>
 <script
     src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_grid_dropdown_compressed.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_slider_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/scroll_options_compressed.js"></script>
 <script type="module" src="/openInterface/interfaces/assets/js/external/blockly/extensions/backpack/index.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ace.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-python.min.js"></script>
@@ -415,8 +406,6 @@
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-css.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-languages_tools.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-searchbox.min.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/file-input/js/fileinput.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/file-input/themes/fa/theme.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/svg-inject.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/charts-loader.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/echarts-5.4.0/echarts.min.js"></script>

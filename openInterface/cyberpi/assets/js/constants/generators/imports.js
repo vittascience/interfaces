@@ -25,5 +25,6 @@ const IMPORT_VITTA_CLIENT = "from vitta_client import CLIENT";
 const IMPORT_CYBERPI = "import cyberpi";
 const IMPORT_MBOT2 = "import mbot2";
 const IMPORT_MBUILD = "import mbuild";
+const IMPORT_GAMEPAD = "import gamepad";
 const IMPORT_EVENT = "import event";
 const IMPORT_CONFIG = "import config";

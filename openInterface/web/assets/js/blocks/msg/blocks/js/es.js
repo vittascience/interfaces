@@ -16,3 +16,6 @@ Blockly.Msg['JS_DOM_ADDEVENTLISTENER_MESSAGE_2'] = 'sobre el bloque';
 Blockly.Msg['JS_DOM_EDITATTRIBUT_MESSAGE_1'] = 'modificar el atributo';
 Blockly.Msg['JS_DOM_EDITATTRIBUT_MESSAGE_2'] = 'de';
 Blockly.Msg['JS_DOM_EDITATTRIBUT_MESSAGE_3'] = 'en';
+Blockly.Msg["JS_DOM_ADDEVENTLISTENER_ON_LOAD"] = "Al cargar la página";
+Blockly.Msg["JS_SOCKET_EMIT_MESSAGE"] = "[socket] enviar solicitud ID %1 con mensaje %2";
+Blockly.Msg["JS_SOCKET_ON_MESSAGE_RECEIVE"] = "[socket] si se recibe la solicitud ID %1 en la variable %2";

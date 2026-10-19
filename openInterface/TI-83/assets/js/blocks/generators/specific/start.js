@@ -10,7 +10,7 @@ Blockly.Python.on_start = function (block) {
 };
 
 Blockly.Python.forever = function (block) {
-    const statements = Blockly.Python.addLoopTrap(Blockly.Python.statementToCode(block, "DO"), block.id) || Blockly.Python.PASS;
+    const statements = Blockly.Python.addLoopTrap(Blockly.Python.statementToCode(block, "DO"), block) || Blockly.Python.PASS;
     return "while True:" + NEWLINE + statements;
 };
 
@@ -19,7 +19,7 @@ Blockly.Python.scratch_on_start = function () {
 };
 
 Blockly.Python.scratch_forever = function (block) {
-    const statements = Blockly.Python.addLoopTrap(Blockly.Python.statementToCode(block, "DO"), block.id) || Blockly.Python.PASS;
+    const statements = Blockly.Python.addLoopTrap(Blockly.Python.statementToCode(block, "DO"), block) || Blockly.Python.PASS;
     let n = NEWLINE;
     if (block.previousConnection.targetBlock() !== null && block.previousConnection.targetBlock().type === 'scratch_on_start') {
         n = "";

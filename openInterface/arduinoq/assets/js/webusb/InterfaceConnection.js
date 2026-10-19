@@ -49,8 +49,8 @@ const InterfaceConnection = {
             await toggleSimulator();
         }
         InterfaceMonitor.setup();
-        if (navigator.serial && !this.serialMonitorConnected) {
-            await this.doConnect();
+        if (!this.unoqUp.isConnected()) {
+            await this.unoqUp.connect();
         }
     },
 
@@ -75,12 +75,49 @@ const InterfaceConnection = {
     onOpen: function () {
         $("#execution-buttons-panel").append('<i id="connected-icon" class="fab fa-usb"></i>');
         $("#disconnect-opt").show();
+        $("#board-wifi-opt").show();
         InterfaceMonitor.writeConsole(jsonPath('code.arduinoq.boardConnected'), 'success');
     },
 
     onClose: function () {
+        if (InterfaceConnection.FileSystem) {
+            if (InterfaceConnection.FileSystem.isOpen) {
+                pseudoModal.closeModal('modal-micropython-fs');
+            }
+            InterfaceConnection.FileSystem.reset();
+            InterfaceConnection.FileSystem = null;
+        }
         $("#connected-icon").remove();
         $("#disconnect-opt").hide();
+        $("#board-wifi-opt").hide();
+        QWifiSettings.onBoardDisconnected();
+    },
+
+    /**
+     * [Button] Open/close the file manager of the board apps.
+     */
+    toggleFileSystem: async function () {
+        if (this.FileSystem?.isOpen) {
+            pseudoModal.closeModal('modal-micropython-fs');
+            this.FileSystem.isOpen = false;
+            return;
+        }
+        if (!this.unoqUp.isConnected()) {
+            await this.connectBoard();
+            if (!this.unoqUp.isConnected()) return;
+        }
+        // A running app keeps a "logs --follow" shell open, stop it to free the board
+        if (this.unoqUp.shell != null) {
+            await this.unoqUp.stopCurrentShell();
+        }
+        pseudoModal.openModal('modal-micropython-fs');
+        if (!this.FileSystem) {
+            this.FileSystem = new UnoQFS(this.unoqUp);
+            this.FileSystem.init();
+        }
+        this.FileSystem.openDirs.clear();
+        await this.FileSystem.refresh();
+        this.FileSystem.isOpen = true;
     },
 
     /**
@@ -91,8 +128,13 @@ const InterfaceConnection = {
             if (!this.unoqUp.webusb || !this.unoqUp.adb) {
                 await this.unoqUp.connect();
             }
-            if (["connected"].includes(this.unoqUp.status)) {
-                const message = $("#serial-input").val();
+            // A running app keeps a "logs --follow" shell open, stop it to free the board
+            if (this.unoqUp.shell != null) {
+                await this.unoqUp.stopCurrentShell();
+            }
+            const message = $("#serial-input").val();
+            if (["connected"].includes(this.unoqUp.status) && message) {
+                InterfaceMonitor.history.push(message);
                 if (message.startsWith('sudo ')) {
                     const output = await this.unoqUp.sudo(message.replace('sudo ', ''));
                 } else {

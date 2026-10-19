@@ -59,6 +59,11 @@ const THEME_VITTASCIENCE = {
         "colourPrimary": "#bdbdbd"
     },
 
+    // Arduino and Python time blocks (colour of the inputs / outputs)
+    "time_blocks": {
+        "colourPrimary": "#448ae5"
+    },
+
     "bridges_category": {
         "colourPrimary": "#5c5c5c"
     },
@@ -82,6 +87,9 @@ const THEME_VITTASCIENCE = {
     },
     "actuators_blocks": {
         "colourPrimary": "#ff4d6a"
+    },
+    "modulino_blocks": {
+        "colourPrimary": "#00979d"
     },
     "robots_blocks": {
         "colourPrimary": "#3349aa"

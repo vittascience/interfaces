@@ -410,6 +410,11 @@ var $builtinmodule = function (name) {
 			if (![1, 2].includes(port.v)) {
 				throw new Sk.builtin.ValueError("UART(" + port.v + ") does not exist");
 			}
+			// ilo robot connected by bluetooth: frames go to the real robot
+			if (typeof IloBLE !== 'undefined' && IloBLE.isConnected) {
+				self.ilo = true;
+				return;
+			}
 			if (Sk.builtin.checkNone(tx)) {
 				if (port.v == 1) tx = Sk.misceval.callsim(machine.Pin, new Sk.builtin.int_(10));
 				else if (port.v == 2) tx = Sk.misceval.callsim(machine.Pin, new Sk.builtin.int_(17));
@@ -452,10 +457,12 @@ var $builtinmodule = function (name) {
 			}
 		};
 
-		$loc.init = new Sk.builtin.func(function (self) {
+		const UART_init = function (self) {
 			self.init = true;
 			return new Sk.builtin.bool(true);
-		});
+		};
+		UART_init.co_kwargs = true; // uart.init(bits=8, parity=None, stop=2)
+		$loc.init = new Sk.builtin.func(UART_init);
 
 		$loc.deinit = new Sk.builtin.func(function (self) {
 			self.init = false;
@@ -482,7 +489,11 @@ var $builtinmodule = function (name) {
 			return "";
 		};
 
-		$loc.read = new Sk.builtin.func(function (self) {
+		$loc.read = new Sk.builtin.func(function (self, nbytes) {
+			if (self.ilo) {
+				const n = (nbytes === undefined || Sk.builtin.checkNone(nbytes)) ? Infinity : nbytes.v;
+				return Sk.misceval.promiseToSuspension(IloBLE.read(n).then((b) => b.length ? new Sk.builtin.bytes(b) : Sk.builtin.none.none$));
+			}
 			return new Sk.builtin.str(_read(self, true));
 		});
 
@@ -494,10 +505,16 @@ var $builtinmodule = function (name) {
 		});
 
 		$loc.write = new Sk.builtin.func(function (self, buffer) {
+			if (self.ilo) {
+				return Sk.misceval.promiseToSuspension(IloBLE.write(buffer.v).then(() => Sk.builtin.none.none$));
+			}
 			component_write(self, buffer.v);
 		});
 
 		$loc.any = new Sk.builtin.func(function (self) {
+			if (self.ilo) {
+				return new Sk.builtin.int_(IloBLE.rx.length);
+			}
 			if (['hc05', 'hm10', 'groveBT'].includes(self.module.mod.id)) {
 				const n = BluetoothSimulator.checkBluetoothData('available', self.module.pin.id);
 				return new Sk.builtin.int_(n);

@@ -23,4 +23,11 @@ def readSteamiButton(button):
   elif button == "RIGHT_BUTTON":
     btn_pin = MCP23009_BTN_RIGHT
   return mcp.get_level(btn_pin)`,
+
+DEF_LOG_ERASE: `
+def log_erase():
+  flash.clear_flash()
+  sleep_ms(500)
+  print("Flash erased.")`
+
 };

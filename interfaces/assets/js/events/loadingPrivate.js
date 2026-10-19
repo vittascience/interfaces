@@ -6,11 +6,12 @@ const privateSource = `
         <div id="manage-button-panel" class="ide-btn-group ide-btn-group-save hidden">
             <!-- Project information -->
             <div class="project-data">
-                <span class="project-name" id="project-name" data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="project-info-tooltip" data-bs-title="Nom du projet">no name</span>
-                <div class="d-flex justify-content-between">
+                <!-- Save status, name and edit button on one line -->
+                <div class="project-title-row">
                 <span id="project-is-saved" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Sauvegarder le projet">
                     <i class="fas fa-check"></i>
                 </span>
+                <span class="project-name" id="project-name" data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="project-info-tooltip" data-bs-title="Nom du projet"></span>
                 <button id="edit-project-name"
                     class="btn"
                     style="color: var(--text-1);cursor: pointer;"
@@ -95,6 +96,5 @@ async function loadingPrivate(interfaceName) {
     }
     // Init tooltips after loading private
     $("#manage-button-panel button").tooltip();
-    fileUploaderInit();
     return true;
 };

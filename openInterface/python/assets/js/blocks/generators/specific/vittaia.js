@@ -29,7 +29,7 @@ Blockly.Python.vittaia_make_predictions_webcam = function (block) {
     Blockly.Python.addInit('modelImage', 'modelImage = via.ModelImage()');
     Blockly.Python.addInit('webcam', 'webcam = via.Webcam()');
     Blockly.Python.addInit('select_camera', 'webcam.select_camera(0)');
-    block.workspace.createVariable(MODEL_PREDICTIONS);
+    block.workspace.getVariableMap().createVariable(MODEL_PREDICTIONS);
     return "webcam.display()" + NEWLINE + MODEL_PREDICTIONS + " = modelImage.predict(webcam.capture())" + NEWLINE
 };
 
@@ -37,7 +37,7 @@ Blockly.Python.vittaia_make_predictions_file = function (block) {
     Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
     Blockly.Python.addInit('modelImage', 'modelImage = via.ModelImage()');
     const picture = block.getFieldValue("PICTURE") || "";
-    block.workspace.createVariable(MODEL_PREDICTIONS);
+    block.workspace.getVariableMap().createVariable(MODEL_PREDICTIONS);
     return MODEL_PREDICTIONS + " = modelImage.predict(via.getUploadedImage('" + picture.replace(/'/g, '\\\'').replace(/"/g, '\\\"') + "'))" + NEWLINE;
 };
 
@@ -63,7 +63,7 @@ Blockly.Python.vittaia_get_confidence_rate = function () {
 
 Blockly.Python.vittaia_get_predictions = function (block) {
     Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    block.workspace.createVariable(MODEL_PREDICTIONS);
+    block.workspace.getVariableMap().createVariable(MODEL_PREDICTIONS);
     return [MODEL_PREDICTIONS, Blockly.Python.ORDER_ATOMIC];
 };
 

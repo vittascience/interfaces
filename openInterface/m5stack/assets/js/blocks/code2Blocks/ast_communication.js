@@ -18,13 +18,10 @@ utils.prototypeBlocks['define_file'] = function (node, identifier, values, mutat
 
 utils.prototypeBlocks['write'] = function (method, identifier, values, mutations, statementsNode, statement) {
     const classVariable = utils.python2Blocks._classes[identifier];
-    if (classVariable === "undefined") return null;
-    let filePath = null
-    if (classVariable.fileName !== 'undefined') {
-        filePath = classVariable.fileName;
-    } else {
-        filePath = { type: 'string', text: '/sd/data.txt' };
-    }
+    if (classVariable === undefined) return null;
+    // write of another object than a file (ex: "np_2.write()" of a neopixel): generated again by its blocks
+    if (classVariable.fileName === undefined) return "used";
+    const filePath = classVariable.fileName || { type: 'string', text: '/sd/data.txt' };
     return {
         type: 'communication_writeSd',
         fields: {},
@@ -39,6 +36,6 @@ utils.prototypeBlocks['write'] = function (method, identifier, values, mutations
 
 utils.prototypeBlocks['close'] = function (method, identifier, values, mutations, statementsNode, statement) {
     const classVariable = utils.python2Blocks._classes[identifier];
-    if (classVariable === "undefined") return null;
+    if (classVariable === undefined) return null;
     return "untracked";
 }

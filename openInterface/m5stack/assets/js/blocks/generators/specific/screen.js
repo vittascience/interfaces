@@ -7,9 +7,9 @@
 Blockly.Python.screen_setBackgroundColorPalette = function (block) {
     const colour = Blockly.Python.valueToCode(block, "COLOR", Blockly.Python.ORDER_NONE) || "(0, 0, 0)";
     const colourList = colour.match(/([0-9]{1,3})/g);
-    const add0 = (index) => (parseInt(colourList[index]) < 10 ? '0' : "");
-    const addColor = (index) => parseInt(colourList[index]).toString(16);
-    const colorHex = "0x" + add0(0) + addColor(0) + add0(1) + addColor(1) + add0(2) + addColor(2);
+    // two hexadecimal digits per component (ex: 10 => "0a")
+    const addColor = (index) => parseInt(colourList[index]).toString(16).padStart(2, '0');
+    const colorHex = "0x" + addColor(0) + addColor(1) + addColor(2);
     return "setScreenColor(" + colorHex + ")" + NEWLINE;
 };
 
@@ -17,9 +17,8 @@ Blockly.Python.screen_setBackgroundColorRGB = function (block) {
     const r = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_NONE) || "0";
     const g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
     const b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
-    const add0 = (color) => (parseInt(color) < 10 ? '0' : "");
-    const addColor = (color) => parseInt(color).toString(16);
-    const colorHex = "0x" + add0(r) + addColor(r) + add0(g) + addColor(g) + add0(b) + addColor(b);
+    const addColor = (color) => parseInt(color).toString(16).padStart(2, '0');
+    const colorHex = "0x" + addColor(r) + addColor(g) + addColor(b);
     return "setScreenColor(" + colorHex + ")" + NEWLINE;
 };
 
@@ -35,9 +34,9 @@ Blockly.Python.getInputColor = function (block, name) {
     } else if (inputBlock && inputBlock.type == 'colour_picker') {
         const colour = Blockly.Python.valueToCode(block, name, Blockly.Python.ORDER_NONE);
         const colourList = colour.match(/([0-9]{1,3})/g);
-        const add0 = (index) => (parseInt(colourList[index]) < 10 ? '0' : "");
-        const addColor = (index) => parseInt(colourList[index]).toString(16);
-        colorCode = "0x" + add0(0) + addColor(0) + add0(1) + addColor(1) + add0(2) + addColor(2);
+        // two hexadecimal digits per component (ex: 10 => "0a")
+        const addColor = (index) => parseInt(colourList[index]).toString(16).padStart(2, '0');
+        colorCode = "0x" + addColor(0) + addColor(1) + addColor(2);
     } else {
         colorCode = "0x00";
     }

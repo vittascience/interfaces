@@ -66,6 +66,24 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "block_init_color"
         ],
         "tooltip": "%{BKY_IO_GETVOLTAGE_TOOLTIP}",
+    },
+
+     // BLOCK GROVE DIGITAL DISTANCE INTERRUPTER
+    {
+        "type": "io_getGroveDistanceInterrupter",
+        "message0": "%{BKY_IO_GETGROVEDISTANCEINTERRUPTER_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "PIN",
+            "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+        }],
+        "output": "Boolean",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ],
+        "tooltip": "%{BKY_IO_GETGROVEDISTANCEINTERRUPTER_TOOLTIP}"
     }
 
 ]); // END JSON EXTRACT (Do not delete this comment.)

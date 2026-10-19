@@ -16,3 +16,6 @@ Blockly.Msg["JS_DOM_ADDEVENTLISTENER_MESSAGE_2"] = "к блоку";
 Blockly.Msg["JS_DOM_EDITATTRIBUT_MESSAGE_1"] = "изменить атрибут";
 Blockly.Msg["JS_DOM_EDITATTRIBUT_MESSAGE_2"] = "у";
 Blockly.Msg["JS_DOM_EDITATTRIBUT_MESSAGE_3"] = "на";
+Blockly.Msg["JS_DOM_ADDEVENTLISTENER_ON_LOAD"] = "При загрузке страницы";
+Blockly.Msg["JS_SOCKET_EMIT_MESSAGE"] = "[сокет] отправить запрос ID %1 с сообщением %2";
+Blockly.Msg["JS_SOCKET_ON_MESSAGE_RECEIVE"] = "[сокет] если получен запрос ID %1 в переменной %2";

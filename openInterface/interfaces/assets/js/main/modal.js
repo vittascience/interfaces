@@ -79,7 +79,7 @@ window.Modal.prototype = {
 
         if (selector instanceof HTMLElement) {
             elements = [selector];
-        } else if (typeof selector === 'string') {
+        } else if (typeof selector === 'string' && selector) {
             try {
                 elements = document.querySelectorAll(selector);
             } catch (error) {

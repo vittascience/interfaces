@@ -38,6 +38,12 @@ const READ_ANALOG_MAX_VALUE = 1023;
 const PWM_MAX_DUTY = 1023;
 //libraries
 const LIBRARIES_PATH = {
+    'a4_access': "/a4",
+    'a4_barrier': "/a4",
+    'a4_board': "/a4",
+    'a4_screen': "/a4",
+    'a4_shifumi': "/a4",
+    'a4_weight': "/a4",
     'bme280': "/envirobit",
     'tcs3472': "/envirobit",
     'bmp280': "/grove",
@@ -70,9 +76,15 @@ const LIBRARIES_PATH = {
     'ht16k33': "/grove",
     'ht16k33matrix': "/grove",
     'huskyLens': "/grove",
+    'huskylens_v2': "/grove",
+    'huskylens_v2_protocol': "/grove",
     'water_level': "/grove",
     'vl53l0x': "/grove",
+    'rfid_reader': "/grove",
+    'voiceRecognition': "/grove",
+    'fingerprint': "/grove",
     'buggyMove': "/microbit",
+    'dfr0548': "/microbit",
     'game': "/microbit",
     'lcd1in8': "/microbit",
     'lcd_i2c_8574': "/microbit",

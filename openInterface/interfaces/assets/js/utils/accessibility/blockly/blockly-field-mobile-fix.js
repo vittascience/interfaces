@@ -36,16 +36,18 @@ export function fixBlocklyFieldMobileClose() {
 
     // console.log('[mobile-fix] Applying patches...');
 
-    Blockly.FieldTextInput.prototype.showEditor_ = function (_a, b) {
+    // manageEphemeralFocus: third argument since Blockly 13 (true by default, as in Blockly).
+    Blockly.FieldTextInput.prototype.showEditor_ = function (_a, b, manageEphemeralFocus = true) {
         this.workspace_ = this.sourceBlock_.workspace;
         if (b) {
-            this.showInlineEditor_(b);
+            // showInlineEditor_ / showPromptEditor_ lost their trailing underscore in Blockly 11.
+            (this.showInlineEditor_ || this.showInlineEditor).call(this, b, manageEphemeralFocus);
             return;
         }
         var self = this;
         // Delay lets Chrome's synthetic events (mousedown/click) finish before the blocking prompt opens.
         setTimeout(function () {
-            self.showPromptEditor_();
+            (self.showPromptEditor_ || self.showPromptEditor).call(self);
         }, 250);
     };
 }

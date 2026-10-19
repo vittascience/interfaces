@@ -28,13 +28,13 @@ Blockly.Python.io_waitUntil = function (block) {
 Blockly.Python.io_initChronometer = function (block) {
     Blockly.Python.addImport('utime', IMPORT_UTIME);
     Blockly.Python.addConstant('chronometer', "t0 = utime.ticks_ms()");
-    block.workspace.createVariable('t0');
+    block.workspace.getVariableMap().createVariable('t0');
     return "" + NEWLINE;
 };
 
 Blockly.Python.io_initChronometer_simple = function (block) {
     Blockly.Python.addImport('utime', IMPORT_UTIME);
-    return ["time.ticks_ms()", Blockly.Python.ORDER_ATOMIC];
+    return ["utime.ticks_ms()", Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.io_getChronometer = function (block) {
@@ -42,7 +42,7 @@ Blockly.Python.io_getChronometer = function (block) {
     // Remove the following line to avoid duplicated constant definition with python traduction
     // 02/26 - Redo the following line => We need to declare t0 to avoid using io_initChronometer
     Blockly.Python.addConstant('chronometer', "t0 = utime.ticks_ms()");
-    block.workspace.createVariable('t0');
+    block.workspace.getVariableMap().createVariable('t0');
     switch (block.getFieldValue("UNIT")) {
         case "SEC":
             return ["utime.ticks_diff(utime.ticks_ms(), t0)/1e3", Blockly.Python.ORDER_ATOMIC];

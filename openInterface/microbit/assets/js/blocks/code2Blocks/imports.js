@@ -4,6 +4,8 @@ import '/openInterface/microbit/assets/js/blocks/code2Blocks/ast_actuators.js'; 
 import '/openInterface/microbit/assets/js/blocks/code2Blocks/ast_sensors.js'; // sensors blocks
 import '/openInterface/microbit/assets/js/blocks/code2Blocks/ast_communication.js'; // communication blocks
 import '/openInterface/microbit/assets/js/blocks/code2Blocks/ast_robot.js'; // robot blocks
+import '/openInterface/microbit/assets/js/blocks/code2Blocks/ast_tello.js'; // tello drone blocks
+import '/openInterface/microbit/assets/js/blocks/code2Blocks/ast_ia.js'; // AI blocks (VittaIA, HuskyLens, Wio Lite)
 
 
 const LIB_IMPORT = {
@@ -67,8 +69,8 @@ const LIB_IMPORT = {
     IMPORT_TELLO: "from tello import Tello"
 };
 
-const EXCLUDED_COMMENTS = ["Water Atomizer on", "Electromagnet on", "Servo on pin", "MOSFET on pin", "Vibration Motor on ", "Fan on pin", "Force Sensor on pin", "EMG Detector on pin", "Ear Clip on pin", "Tilt Sensor on pin", "PIR Motion Sensor on", "Vibration Sensor on pin", "Line Finder on", "Ultrasonic TRIG on pin", "Ultrasonic on pin", "Sound Sensor on pin", "UV Sensor on pin", "Light Sensor on pin", "Anemometer on pin", "Rain Gauge on pin", "Water Sensor on pin", "MPX5700 on pin", "DHT11 Sensor on pin", "High Temperature room on pin", "High Temperature thmc on pin", "Temperature Sensor on", "Capacitive Moisture Sensor on", "Moisture Sensor on", "Air Quality Sensor", "Dioxygen Sensor on pin", '# Motor on pin2', 'Continuous Servo on pin1', 'Servo on pin2', 'Serial Receive used', 'Neopixel on pin', 'Buzzer on pin', 'LED Module on pin', '4 Digit Display', "If micro:bit is powered off", "Warning, the clock is recovered", "LED Bar DI/DCKI on", "Traffic Light", "# Simple Button on", "# Switch Button on", "# Magnetic Switch on", "# Touch Button on", "# Potentiometer on", "# Colored Button / read on", "# Colored Button / write on"]
-const EXCLUDED_DOCSTRINGS = ["Cutebot Pro robot"]
+const EXCLUDED_COMMENTS = ["Water Atomizer on", "Electromagnet on", "Servo on pin", "MOSFET on pin", "Vibration Motor on ", "Fan on pin", "Force Sensor on pin", "EMG Detector on pin", "Ear Clip on pin", "Tilt Sensor on pin", "PIR Motion Sensor on", "Vibration Sensor on pin", "Line Finder on", "Ultrasonic TRIG on pin", "Ultrasonic on pin", "Sound Sensor on pin", "UV Sensor on pin", "Light Sensor on pin", "Anemometer on pin", "Rain Gauge on pin", "Water Sensor on pin", "MPX5700 on pin", "DHT11 Sensor on pin", "High Temperature room on pin", "High Temperature thmc on pin", "Temperature Sensor on", "Capacitive Moisture Sensor on", "Moisture Sensor on", "Air Quality Sensor", "Dioxygen Sensor on pin", '# Motor on pin2', 'Continuous Servo on pin1', 'Servo on pin2', 'Serial Receive used', 'Neopixel on pin', 'Buzzer on pin', 'LED Module on pin', '4 Digit Display', "If micro:bit is powered off", "Warning, the clock is recovered", "LED Bar DI/DCKI on", "Traffic Light", "# Simple Button on", "# Switch Button on", "# Magnetic Switch on", "# Touch Button on", "# Potentiometer on", "# Colored Button / read on", "# Colored Button / write on", "Variable Color LED on", "Lecteur SD on", "# RFID-MFRC522 on SPI", "# GPS on UART"]
+const EXCLUDED_DOCSTRINGS = ["Cutebot Pro robot", "Tello drone"]
 
 const CLASS_METHODS = {
     "neopixel": {
@@ -155,6 +157,21 @@ const CLASS_METHODS = {
     "GESTURE": {
         "call": { astCallBack: "GESTURE", argsNode: '' }
     },
+    "DS1307": {
+        "call": { astCallBack: "DS1307", argsNode: '' }
+    },
+    "RTC_HP": {
+        "call": { astCallBack: "RTC_HP", argsNode: '' }
+    },
+    "PiicoDev_VEML6040": {
+        "call": { astCallBack: "PiicoDev_VEML6040", argsNode: '' }
+    },
+    "HuskyLensLibrary": {
+        "call": { astCallBack: "HuskyLensLibrary", argsNode: '' }
+    },
+    "KitronikServoBoard": {
+        "call": { astCallBack: "KitronikServoBoard", argsNode: '' }
+    },
     "CBP": {
         "call": { astCallBack: "CBP", argsNode: '' }
     },
@@ -165,14 +182,14 @@ const PYTHON_MICROCONTROLER_BUILTIN = ['write_digital', 'write_analog', 'read_di
 
 const PYTHON_EXCLUDED_VARIABLES_DISPLAY = ["NP_LED_COUNT_", "STAMP_BUTTERFLY", "STAMP_HAPPY", "STAMP_SAD", "STAMP_HEART", "STAMP_YES", "STAMP_NO", "STAMP_STICKFIGURE", "STAMP_PITCHFORK", "STAMP_UMBRELLA", "STAMP_SKULL", "STAMP_CHESSBOARD", "MIN_START", "HOUR_START"]
 
-const PYTHON_EXCLUDED_VARIABLES_COMMUNICATION = ["stringData", "numberData"]
+const PYTHON_EXCLUDED_VARIABLES_COMMUNICATION = ["stringData", "numberData", "gpsInfos", "gpsBuffer"]
 
-const PYTHON_EXCLUDED_VARIABLES_SENSORS = ["ENVIROBIT_SOUND_OFFSET"]
+const PYTHON_EXCLUDED_VARIABLES_SENSORS = ["ENVIROBIT_SOUND_OFFSET", "RAIN_HEIGHT_RATIO", "rainGauge_dumps"]
 
 const PYTHON_EXCLUDED_VARIABLES = [...PYTHON_EXCLUDED_VARIABLES_DISPLAY, ...PYTHON_EXCLUDED_VARIABLES_COMMUNICATION, ...PYTHON_EXCLUDED_VARIABLES_SENSORS];
 
 const RESERVED_WORDS = [
-    "radio_receiveValue()", "t_scd", "scd30_data", "Var_VtoT_K", "tempRoom_0", "tempRoom_1", "tempRoom_2", "tempRoom_3", "tempRoom_4", "tempRoom_10"
+    "radio_receiveValue()", "t0", "rfid_rc522", "motorA", "motorB", "drone", "model", "huskyLensBlocksData", "huskyLensArrowsData", "t_scd", "scd30_data", "Var_VtoT_K", "tempRoom_0", "tempRoom_1", "tempRoom_2", "tempRoom_3", "tempRoom_4", "tempRoom_10"
 ];
 
 export default { LIB_IMPORT, EXCLUDED_COMMENTS, EXCLUDED_DOCSTRINGS, CLASS_METHODS, PYTHON_MICROCONTROLER_BUILTIN, PYTHON_EXCLUDED_VARIABLES, RESERVED_WORDS };

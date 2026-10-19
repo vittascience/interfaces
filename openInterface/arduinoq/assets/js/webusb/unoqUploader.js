@@ -45,7 +45,7 @@ class UnoQuploader {
                 this.is_webapp = (pair[1] == "yes");
         }
         this.set_sketch_yaml = (libraries) => `profiles:\n  default:\n    platforms:\n      - platform: arduino:zephyr\n    libraries:\n${libraries}\ndefault_profile: default`;
-        this.set_app_yaml = (bricks) => `name: IA images vittascience\ndescription: Vittascience - Détection d'images.\nports: []\nbricks:\n${bricks}\nicon: 🟢`;
+        this.set_app_yaml = (bricks) => `name: Vittascience\ndescription: Application créée avec Vittascience.\nports: []\nbricks:\n${bricks}\nicon: 🟢`;
 
         this.adb = null;
         this.webusb = null;
@@ -134,6 +134,13 @@ class UnoQuploader {
 
         if (isAppStarting) {
             this._isPythonWarningBlock = false;
+            // "app logs" first gives the logs of the previous runs: only keep the last run
+            const monitor = InterfaceMonitor.monitor || document.querySelector("#console");
+            if (monitor && this._appLogsConsoleStart !== null) {
+                while (monitor.childElementCount > this._appLogsConsoleStart) {
+                    monitor.lastElementChild.remove();
+                }
+            }
         }
 
         if (isTracebackStart || isPythonFileLine) {
@@ -297,6 +304,7 @@ class UnoQuploader {
                 this.showErrorMessage(error.message + " " + jsonPath('code.arduinoq.arduinoClaiming'));
                 this.state("ready");
                 fastboot = null;
+                this.webusb.device.close().catch(() => {});
                 this.webusb = null;
                 return;
             }
@@ -317,6 +325,7 @@ class UnoQuploader {
                 this.showErrorMessage(error.message + " Ensure that the USB port is not in use (i.e. adb server is running). Please, close Arduino App Lab if opened and try the command in command line: adb kill-server");
                 this.state("ready");
                 this.adb = null;
+                this.webusb.device.close().catch(() => {});
                 this.webusb = null;
                 return;
             }
@@ -333,7 +342,8 @@ class UnoQuploader {
         this.showOutput(message);
     };
 
-    async execute(cmd) {
+    // silent: run an internal command without echoing it and its output to the console
+    async execute(cmd, silent = false) {
         //console.log("[unoq] execute()")
         if (!this.webusb || !this.adb) {
             throw new Error("UNO Q is not connected.");
@@ -355,7 +365,10 @@ class UnoQuploader {
                 .replaceAll("<", "&lt;")
                 .replaceAll(">", "&gt;")
                 .replaceAll("\n", "\\n");
-            this.showOutput(`\n${ESC}[1m${ESC}[32m${productName}${ESC}[0m:/$ ${ESC}[1m${shownCmd}${ESC}[0m\n`);
+            if (!silent) this.showOutput(`\n${ESC}[1m${ESC}[32m${productName}${ESC}[0m:/$ ${ESC}[1m${shownCmd}${ESC}[0m\n`);
+            // Console position after the command line, to remove the logs of the previous app runs
+            const monitor = InterfaceMonitor.monitor || document.querySelector("#console");
+            this._appLogsConsoleStart = / app logs /.test(safeCmd) && monitor ? monitor.childElementCount : null;
 
             this.state("running");
 
@@ -386,7 +399,7 @@ class UnoQuploader {
                         data = data.slice(lastStartIndex);
                     }
 
-                    this.showOutput(data);
+                    if (!silent) this.showOutput(data);
                     output += data;
                 }
 
@@ -592,7 +605,12 @@ class UnoQuploader {
 
         const execApp = "sh -lc 'export TMPDIR=/tmp; export HOME=/home/arduino;" +
             " export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH;" +
-            " arduino-app-cli app start \"/home/arduino/ArduinoApps/" + app + "\"'";
+            // Drop the compiled sketch objects: files are pushed with the computer's time, so if the board clock
+            // is ahead, arduino-cli thinks the old objects are up to date and links a stale sketch
+            " rm -rf \"/home/arduino/ArduinoApps/" + app + "/.cache/sketch/sketch\";" +
+            " arduino-app-cli app start \"/home/arduino/ArduinoApps/" + app + "\"" +
+            // Make the app start on boot, so it runs when the board is unplugged from the computer
+            " && arduino-app-cli properties set default \"/home/arduino/ArduinoApps/" + app + "\"'";
 
         const output = await this.execute("shell:" + execApp);
 
@@ -624,7 +642,22 @@ class UnoQuploader {
         return output;
     }
 
-    async sudo(cmd) {
+    /**
+     * Quote a value for the board shell (single quotes: no $, ` or \ expansion)
+     * @param {string} value
+     * @returns {string}
+     */
+    static shellQuote(value) {
+        return "'" + String(value).replace(/'/g, "'\\''") + "'";
+    }
+
+    /**
+     * Run a command as root, the board password is asked to the user
+     * @param {string} cmd
+     * @param {boolean} silent - don't show the command (e.g. it contains a secret) and its output in the console
+     * @returns {Promise<string|null>} output, null if the user cancelled
+     */
+    async sudo(cmd, silent = false) {
         while (true) {
             InterfaceMonitor.writeConsole(jsonPath('code.arduinoq.passwordRequired'), 'neutral', true, true);
             const password = await this.askArduinoQPassword();
@@ -635,7 +668,8 @@ class UnoQuploader {
             }
 
             const output = await this.execute(
-                `shell:printf '%s\\n' ${JSON.stringify(password)} | sudo -S -p "" sh -lc ${JSON.stringify(cmd)}`
+                `shell:printf '%s\\n' ${UnoQuploader.shellQuote(password)} | sudo -S -p "" sh -lc ${UnoQuploader.shellQuote(cmd)}`,
+                silent
             );
 
             if (/incorrect password attempt/i.test(output)) {
@@ -685,6 +719,13 @@ class UnoQuploader {
                 }
 
                 input.value = '';
+                // The modal is reused: always reopen with the password hidden
+                input.type = 'password';
+                const toggleButton = document.getElementById('arduino-q-password-toggle');
+                if (toggleButton) {
+                    toggleButton.setAttribute('aria-pressed', 'false');
+                    toggleButton.firstElementChild.className = 'fa fa-fw fa-eye';
+                }
                 input.focus();
 
                 const close = value => {
@@ -729,12 +770,10 @@ class UnoQuploader {
             this.disconnect();
             return;
         }
-        let output = await this.execute("shell:arduino-app-cli app new \"vittascience-app\"");
+        await this.execute("shell:arduino-app-cli app new \"vittascience-app\"");
 
-        output = await this.sudo(
-            "set -e; apt update; apt install -y python3-pip; python3 -m pip install --break-system-packages tensorflow tensorflowjs tf-keras h5py"
-        );
-        if (!output) return;
+        // The Python packages of the app (tensorflow...) are installed by App Lab in the app container from
+        // python/requirements.txt (buildAppFiles): nothing to install on the board system, no sudo password
 
         const projectFiles = CodeManager.getSharedInstance().getCodeFiles();
 
@@ -742,73 +781,16 @@ class UnoQuploader {
         const pyCode = projectFiles[this.MAIN_PY];
         const htlmCode = projectFiles[this.INDEX_HTML];
 
-        const dependencies = this.readLibrariesFromIno(sketchCode);
-
-        let yamlCode = "";
-        for (const i in dependencies) {
-            const latest = await this.getLatestArduinoLibraryVersion(dependencies[i].name);
-            if (latest) {
-                yamlCode += `      - ${latest.name} (${latest.version})`;
-            }
+        // Same files as the downloaded project zip (buildAppFiles)
+        let appFiles;
+        try {
+            appFiles = await this.buildAppFiles(projectFiles);
+        } catch (error) {
+            InterfaceMonitor.writeConsole(error.message, 'warning', false, true);
+            return;
         }
-        yamlCode = this.set_sketch_yaml(yamlCode);
-        const yamlFile = new File([yamlCode], "sketch.yaml", { type: "text/plain" });
-        await this.push_usb(this.APP_PATH + "/sketch/sketch.yaml", [yamlFile]);
-        await sleep_ms(500)
-
-        const inoFile = new File([sketchCode], this.SKETCH_INO, { type: "text/plain" });
-        await this.push_usb(this.APP_PATH + "/sketch/" + this.SKETCH_INO, [inoFile]);
-        await sleep_ms(500)
-
-        let appYamlCode = "";
-        const bricks = this.extractAppBricks();
-        for (const i in bricks) {
-            appYamlCode += `- arduino:${bricks[i]}: {}`
-        }
-        appYamlCode = this.set_app_yaml(appYamlCode);
-        const appYamlFile = new File([appYamlCode], "app.yaml", { type: "text/plain" });
-        await this.push_usb(this.APP_PATH + "/app.yaml", [appYamlFile]);
-        await sleep_ms(500)
-
-        const requirementsCode = "tensorflow\ntensorflowjs\ntf-keras\nh5py\n";
-        const requirementsFile = new File([requirementsCode], "requirements.txt", { type: "text/plain" });
-        await this.push_usb(this.APP_PATH + "/python/requirements.txt", [requirementsFile]);
-        await sleep_ms(500)
-
-        // python file
-        const pyFile = new File([pyCode], this.MAIN_PY, { type: "text/plain" });
-        await this.push_usb(this.APP_PATH + "/python/" + this.MAIN_PY, [pyFile]);
-        await sleep_ms(500)
-
-        if (/vitta_tf/.test(pyCode)) {
-            const pyVittaTFFile = new File([VittaInterface.externalLibraries['vitta_tf']], 'vitta_tf.py', { type: "text/plain" });
-            await this.push_usb(this.APP_PATH + "/python/vitta_tf.py", [pyVittaTFFile]);
-            await sleep_ms(500)
-        }
-
-        // html file
-        if (htlmCode && htlmCode.length > 0) {
-            const htmlFile = new File([htlmCode], this.INDEX_HTML, { type: "text/plain" });
-            await this.push_usb(this.APP_PATH + "/assets/" + this.INDEX_HTML, [htmlFile]);
-            await sleep_ms(500)
-
-            // // js file
-            // const jsFile = new File([UNO_Q_JS], "app.js", { type: "text/plain" });
-            // await this.push_usb(this.APP_PATH + "/assets/app.js", [jsFile]);
-            // await sleep_ms(500)
-
-            // // css file
-            // const cssFile = new File([UNO_Q_CSS], "style.css", { type: "text/plain" });
-            // await this.push_usb(this.APP_PATH + "/assets/style.css", [cssFile]);
-            // await sleep_ms(500)
-
-            const socketLibFile = new File([UNO_Q_SOCKET], "socket.io.min.js", { type: "text/plain" });
-            await this.push_usb(this.APP_PATH + "/assets/libs/socket.io.min.js", [socketLibFile]);
-            await sleep_ms(500)
-
-            const faviconBlob = await VittaInterface.fetchDir("/public/content/img/favicon.png", "blob");
-            const faviconFile = new File([faviconBlob], "favicon.png", { type: faviconBlob.type || "image/png" });
-            await this.push_usb(this.APP_PATH + "/assets/img/favicon.png", [faviconFile]);
+        for (const [path, file] of appFiles) {
+            await this.push_usb(this.APP_PATH + "/" + path, [file]);
             await sleep_ms(500);
         }
 
@@ -818,10 +800,136 @@ class UnoQuploader {
         //     'shell:arduino-app-cli app clean-cache "/home/arduino/ArduinoApps/vittascience-app"'
         // );
 
-        await this.startApp("vittascience-app", false);
+        const started = await this.startApp("vittascience-app", false);
 
-        // // Puis affichage live normal.
-        // this.logsPromise = this.getAppLogs("vittascience-app");
+        // Give the address of the app web page served by the WebUI brick (port 7000).
+        // The source address of the default route is the board LAN IP (not the containers' bridge one).
+        if (started && (htlmCode || /WebUI\(\)/.test(pyCode))) {
+            const routeOutput = await this.execute("shell:ip -4 route get 1.1.1.1", true);
+            // `ip` colors its output with ANSI codes (e.g. "src \x1b[35m192.168..."): strip them first
+            const ip = (String(routeOutput).replace(/\x1b\[[0-9;]*m/g, '').match(/\bsrc (\d+\.\d+\.\d+\.\d+)/) || [])[1];
+            if (!ip) {
+                console.warn("[UNOQ] board IP not found in:", routeOutput);
+            } else {
+                const url = `http://${ip}:7000`;
+                InterfaceMonitor.writeConsole(`${jsonPath('code.arduinoq.webAppUrl')} <a href="${url}" target="_blank" rel="noopener">${url}</a>`, 'success', false, true);
+            }
+        }
+
+        // Show the sketch console live when the sketch writes to it (Serial is renamed to Monitor on the UNO Q).
+        // Sending a command from the console input stops this stream.
+        if (started && /\bMonitor\./.test(sketchCode)) {
+            this.logsPromise = this.execute("shell:sh -lc 'export HOME=/home/arduino; arduino-app-cli monitor'");
+        } else if (started && /\bprint\(/.test(pyCode)) {
+            // Else the Python output (print, errors) of the app logs.
+            // ponytail: one stream at a time, the sketch console wins when both write
+            this.logsPromise = this.getAppLogs("vittascience-app");
+        }
+    };
+
+    /**
+     * Files of the Arduino App Lab app (paths relative to the app folder), pushed to the board on upload and
+     * zipped by the "Download" button.
+     * @param {Object} projectFiles generated files: sketch.ino, main.py, index.html
+     * @returns {Promise<Array<[string, File]>>}
+     */
+    async buildAppFiles(projectFiles) {
+        const sketchCode = projectFiles[this.SKETCH_INO] || "";
+        const pyCode = projectFiles[this.MAIN_PY] || "";
+        const htlmCode = projectFiles[this.INDEX_HTML] || "";
+        const text = (content, name) => new File([content], name, { type: "text/plain" });
+        const files = [];
+
+        let yamlCode = "";
+        // The sketch profile only installs the listed libraries: the dependencies of the libraries are listed too
+        const dependencies = this.readLibrariesFromIno(sketchCode);
+        const listed = new Set();
+        for (let i = 0; i < dependencies.length; i++) {
+            const dependency = dependencies[i];
+            try {
+                const latest = await this.getLatestArduinoLibraryVersion(dependency);
+                if (latest && !listed.has(latest.name)) {
+                    listed.add(latest.name);
+                    yamlCode += `      - ${latest.name} (${latest.version})\n`;
+                    dependencies.push(...latest.dependencies.map(name => ({ header: "", name })));
+                }
+            } catch (e) {
+                console.warn("[UNOQ] library not added to sketch.yaml:", dependency.header || dependency.name, e);
+            }
+        }
+        files.push(["sketch/sketch.yaml", text(this.set_sketch_yaml(yamlCode), "sketch.yaml")]);
+        files.push(["sketch/" + this.SKETCH_INO, text(sketchCode, this.SKETCH_INO)]);
+
+        let appYamlCode = "";
+        for (const brick of this.extractAppBricks(pyCode)) {
+            appYamlCode += `- arduino:${brick}: {}\n`;
+        }
+        files.push(["app.yaml", text(this.set_app_yaml(appYamlCode), "app.yaml")]);
+
+        files.push(["python/requirements.txt", text("tensorflow\ntensorflowjs\ntf-keras\nh5py\n", "requirements.txt")]);
+        files.push(["python/" + this.MAIN_PY, text(pyCode, this.MAIN_PY)]);
+        if (/vitta_tf/.test(pyCode)) {
+            files.push(["python/vitta_tf.py", text(VittaInterface.externalLibraries['vitta_tf'], "vitta_tf.py")]);
+        }
+        if (/load_local_model\(/.test(pyCode)) {
+            for (const [name, content] of await this.readLocalImageModel()) {
+                files.push(["python/local_model/" + name, new File([content], name)]);
+            }
+        }
+
+        if (htlmCode.length > 0) {
+            files.push(["assets/" + this.INDEX_HTML, text(htlmCode, this.INDEX_HTML)]);
+            files.push(["assets/libs/socket.io.min.js", text(UNO_Q_SOCKET, "socket.io.min.js")]);
+            const faviconBlob = await VittaInterface.fetchDir("/public/content/img/favicon.png", "blob");
+            files.push(["assets/img/favicon.png", new File([faviconBlob], "favicon.png", { type: faviconBlob.type || "image/png" })]);
+        }
+        return files;
+    };
+
+    /**
+     * Image model trained in the Vittascience AI tool of this browser, as the files of a model downloaded from
+     * Vittascience (read by VittaTF.load_local_model on the board). The tool saves it with TensorFlow.js in IndexedDB
+     * ('indexeddb://vittascience-image-model') and its metadata (class labels) in localStorage.
+     * @returns {Promise<Array<[string, (string|Blob)]>>} model.json, model.weights.bin and metadata.json
+     */
+    async readLocalImageModel() {
+        const metadata = localStorage.getItem('modelMetadata');
+        const artifacts = await new Promise((resolve, reject) => {
+            const request = indexedDB.open('tensorflowjs');
+            // No model saved yet: don't create an empty database, TensorFlow.js creates its stores on creation only
+            request.onupgradeneeded = () => request.transaction.abort();
+            request.onerror = () => request.error && request.error.name === 'AbortError' ? resolve(null) : reject(request.error);
+            request.onsuccess = () => {
+                const db = request.result;
+                if (!db.objectStoreNames.contains('models_store')) {
+                    db.close();
+                    return resolve(null);
+                }
+                const get = db.transaction('models_store', 'readonly').objectStore('models_store').get('vittascience-image-model');
+                get.onerror = () => reject(get.error);
+                get.onsuccess = () => {
+                    db.close();
+                    resolve(get.result ? get.result.modelArtifacts : null);
+                };
+            };
+        });
+        if (!artifacts || !metadata) {
+            throw new Error(jsonPath('code.arduinoq.localModelMissing'));
+        }
+        const modelJson = {
+            modelTopology: artifacts.modelTopology,
+            format: artifacts.format,
+            generatedBy: artifacts.generatedBy,
+            convertedBy: artifacts.convertedBy,
+            weightsManifest: [{ paths: ['model.weights.bin'], weights: artifacts.weightSpecs }]
+        };
+        // Recent TensorFlow.js versions may store the weights as several buffers
+        const weights = new Blob([].concat(artifacts.weightData));
+        return [
+            ['model.json', JSON.stringify(modelJson)],
+            ['model.weights.bin', weights],
+            ['metadata.json', metadata]
+        ];
     };
 
     extractAppBricks(code) {
@@ -1029,11 +1137,40 @@ class UnoQuploader {
         return errors;
     };
 
-    async getLatestArduinoLibraryVersion(libraryName) {
-        const url = "https://downloads.arduino.cc/libraries/library_index.json";
-        const res = await fetch(url, { cache: "no-store" });
-        if (!res.ok) throw new Error(`HTTP ${res.status} while fetching library index`);
-        const index = await res.json();
+    async getLatestArduinoLibraryVersion(dependency) {
+        // Bundled with the arduino:zephyr platform, must not be listed in sketch.yaml
+        if (dependency.header === "Arduino_RouterBridge.h") return null;
+        // Library names that differ from their header (Grove/Seeed libraries used by the blocks)
+        const HEADER_LIBRARIES = {
+            "rgb_lcd.h": "Grove - LCD RGB Backlight",
+            "SeeedOLED.h": "Grove - OLED Display 0.96",
+            "ChainableLED.h": "Grove - Chainable RGB LED",
+            "Grove_LED_Bar.h": "Grove LED Bar",
+            "TM1637.h": "Grove 4-Digit Display",
+            "Ultrasonic.h": "Grove Ultrasonic Ranger",
+            "DHT.h": "Grove Temperature And Humidity Sensor",
+            "Seeed_BME280.h": "Grove - Barometer Sensor BME280",
+            "Seeed_HM330X.h": "Grove - Laser PM2.5 Sensor HM3301",
+            "Air_Quality_Sensor.h": "Grove - Air quality sensor",
+            "High_Temp.h": "Grove - High Temperature Sensor",
+            "DS1307.h": "Grove - RTC DS1307",
+            "PCF85063TP.h": "Grove - High Precision RTC",
+            "MutichannelGasSensor.h": "Grove - Multichannel Gas Sensor",
+            "Grove_Motor_Driver_TB6612FNG.h": "Grove - Motor Driver TB6612FNG",
+            "paj7620.h": "Gesture PAJ7620",
+            "LiquidCrystal_I2C.h": "LiquidCrystal I2C",
+            "Adafruit_NeoPixel.h": "Adafruit NeoPixel",
+            "Modulino.h": "Arduino_Modulino"
+        };
+        const libraryName = HEADER_LIBRARIES[dependency.header] || dependency.name;
+        // The index is ~60 MB: download it once per page
+        if (!this.libraryIndex) {
+            const url = "https://downloads.arduino.cc/libraries/library_index.json";
+            const res = await fetch(url, { cache: "no-store" });
+            if (!res.ok) throw new Error(`HTTP ${res.status} while fetching library index`);
+            this.libraryIndex = await res.json();
+        }
+        const index = this.libraryIndex;
         const libs = (index?.libraries ?? []).filter(l => l?.name === libraryName);
         if (libs.length === 0) return null;
         libs.sort((x, y) => this.cmpSemver(x.version, y.version));
@@ -1041,6 +1178,7 @@ class UnoQuploader {
         return {
             name: latest.name,
             version: latest.version,
+            dependencies: (latest.dependencies ?? []).map(d => d.name),
             // souvent dispo dans l’index (selon époque/entrée)
             // url: latest.url,
             // archiveFileName: latest.archiveFileName,

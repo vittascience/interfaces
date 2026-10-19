@@ -152,7 +152,7 @@ Blockly.Arduino.sensors_getDustConcentration = function (block) {
     Blockly.Arduino.addDefine('sampletime', "#define SAMPLETIME_MS   30000 //ms");
     Blockly.Arduino.addCodeVariable('t_dust', "float t_dust = 0;");
     Blockly.Arduino.addFunction('dustSensor_readParticulate', FUNCTIONS_ARDUINO.DEF_DUST_GET_PARTICULATE_DATA);
-    block.workspace.createVariable('t_dust');
+    block.workspace.getVariableMap().createVariable('t_dust');
     Blockly.Arduino.addSetup('t_dust', "t_dust = millis();");
     return ["dustSensor_readParticulate(" + pinConstant + ", " + block.getFieldValue("DATA") + ")", Blockly.Arduino.ORDER_ATOMIC];
 };
@@ -824,6 +824,26 @@ Blockly.Arduino.sensors_mlx90614_readObjectTemperature = function (block) {
         }
     }
     return [code, Blockly.Arduino.ORDER_ATOMIC];
+};
+
+// GROVE Infrared Temperature Sensor MLX90621 _ READ OBJECT TEMPERATURE
+Blockly.Arduino.sensors_mlx90621_readObjectTemperature = function (block) {
+    Blockly.Arduino.Generators.setupSerialConnection();
+    Blockly.Arduino.addInclude('mlx90621', INCLUDE_MLX90621);
+    Blockly.Arduino.addDeclaration('mlx90621', "MLX90621 mlx90621;");
+    Blockly.Arduino.addFunction('mlx90621_setup', FUNCTIONS_ARDUINO.SETUP_MLX90621);
+    Blockly.Arduino.addSetup('mlx90621_setup', "setupMLX90621();");
+    const list = Blockly.Arduino.valueToCode(block, "VALUE", Blockly.Arduino.ORDER_ATOMIC) || "NULL";
+    switch (block.getFieldValue("DATA_TYPE")) {
+        case 'int':
+            Blockly.Arduino.addFunction('mlx90621_get_temperature_int', FUNCTIONS_ARDUINO.GET_TEMPERATURE_INT_MLX90621);
+            break;
+        case 'float':
+            Blockly.Arduino.addFunction('mlx90621_get_temperature_float', FUNCTIONS_ARDUINO.GET_TEMPERATURE_FLOAT_MLX90621);
+            break;
+    }
+
+    return `getTemperaturesMLX90621(${list});` + NEWLINE;
 };
 
 Blockly.Arduino.sensors_getEarClipHeartRate = function (block) {

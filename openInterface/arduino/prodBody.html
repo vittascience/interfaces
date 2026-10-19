@@ -108,11 +108,6 @@
                         <div id="music-tab" class="monitor-tab">
                             <div id="music-panel">
                                 <div class="music-control">
-                                    <label class="music-control-label"><b data-i18n="code.console.music.enable">Sons</b></label>
-                                    <button id="audio-enable-button" class="btn btn-outline-secondary btn-sm  mt-1 music-control-button" data-i18n="code.console.music.enablebutton">Activé
-                                    </button>
-                                </div>
-                                <div class="music-control">
                                     <label class="music-control-label"><i class="fa fa-volume-up"></i> <b data-i18n="code.console.music.volume">Volume</b></label>
                                     <div class="music-slider mt-2" id="volume-slider"></div>
                                 </div>
@@ -229,14 +224,12 @@
                                 </div>
 
                                 <div id="serial-input-group" class="input-group">
-
-                                    <input type="text" id="serial-input" class="serial-controls form-control ide-btn-left" autocomplete="off" data-i18n="[placeholder]code.monitor.controls.text.send"/>
+                                    <input type="text" id="serial-input" name="serial_message" class="serial-controls form-control ide-btn-left" autocomplete="one-time-code" data-i18n="[placeholder]code.monitor.controls.text.send"/>
                                     <div id="serial-input-btn" class="input-group-append">
                                         <button id="serial-send" class="ide-btn serial-controls ide-btn-right" data-placement="top" data-toggle="tooltip" data-i18n="[title]code.monitor.controls.tooltips.send;[aria-label]code.monitor.controls.tooltips.send" >
                                             <i class="fa fa-paper-plane" aria-hidden="true"></i>
                                         </button>
                                     </div>
-
                                 </div>
                             </div>
 
@@ -360,17 +353,17 @@
 <script src="/openInterface/interfaces/assets/js/external/rotate.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/interact-1.5.4.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/blockly_compressed.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_date_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_colour_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/vittascience_patches.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_grid_dropdown_compressed.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_slider_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/scroll_options_compressed.js"></script>
 <script type="module" src="/openInterface/interfaces/assets/js/external/blockly/extensions/backpack/index.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ace.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-c_cpp.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-languages_tools.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-searchbox.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/aceInit.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/file-input/js/fileinput.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/file-input/themes/fa/theme.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/svg-inject.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/charts-loader.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/echarts-5.4.0/echarts.min.js"></script>
@@ -474,6 +467,7 @@
 <script src="/openInterface/arduino/assets/js/blocks/definitions/specific/sensors.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/definitions/python/esp32/network.js"></script>
 <script src="/openInterface/arduino/assets/js/blocks/definitions/specific/actuators.js"></script>
+<script src="/openInterface/arduino/assets/js/blocks/definitions/specific/modulino.js"></script>
 <script src="/openInterface/interfaces/assets/js/blocks/generators/arduino/init.js"></script>
 <script src="/openInterface/arduino/assets/js/blocks/generators/generator.js"></script>
 <script src="/openInterface/arduino/assets/js/blocks/generators/basic/colour.js"></script>
@@ -491,6 +485,7 @@
 <script src="/openInterface/arduino/assets/js/blocks/generators/specific/network.js"></script>
 <script src="/openInterface/arduino/assets/js/blocks/generators/specific/sensors.js"></script>
 <script src="/openInterface/arduino/assets/js/blocks/generators/specific/actuators.js"></script>
+<script src="/openInterface/arduino/assets/js/blocks/generators/specific/modulino.js"></script>
 <script src="/openInterface/arduino/assets/js/blocks/generators/specific/cameras.js"></script>
 <script src="/openInterface/arduino/assets/js/blocks/generators/specific/vittaia.js"></script>
 <!-- endbuild -->

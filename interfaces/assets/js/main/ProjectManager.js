@@ -382,7 +382,8 @@ class ProjectManager {
             if (window.localStorage.pythonCurrentProject === undefined || JSON.parse(window.localStorage.pythonCurrentProject).id != this._currentProject.id) {
                 if (this._currentProject.id) {
                     UnitTests.init(this._currentProject);
-                } else {
+                } else if (!(this._currentExercise && this._currentExercise.exercise && this._currentExercise.exercise.id === null)) {
+                    // keep unit tests imported from a local file (no DB id yet) so they can be saved with the form
                     window.localStorage.PythonUnitTests = "";
                     this._currentExercise = "";
                     $(".ide-btn-pythtest").hide();
@@ -741,7 +742,7 @@ class ProjectManager {
         this._currentProject = {
             'name': this.decodeSanitizedString(project.name),
             'dateUpdated': project.dateUpdated,
-            'description': project.description != null ? this.decodeSanitizedString(project.description) : "No-description",
+            'description': project.description != null ? this.decodeSanitizedString(project.description) : '',
             'code': project.code,
             'codeText': project.codeText,
             'codeManuallyModified': project.codeManuallyModified,
@@ -830,11 +831,10 @@ class ProjectManager {
                         // Option : simulator robot obstacles
                         const obstaclesDB = this._currentProject.options.obstaclesDB;
                         if (obstaclesDB) {
+                            // init() reads obstacles from SimulatorLS, so store them even if the simulator isn't running yet
+                            SimulatorLS.set('obstaclesDB', obstaclesDB);
                             if (RobotSimulator.isRunning) {
-                                SimulatorLS.set('obstaclesDB', obstaclesDB);
                                 RobotSimulator.Obstacle.setFromLS();
-                            } else {
-                                SimulatorLS.projectOptions.obstaclesDB = obstaclesDB;
                             }
                         }
                     }
@@ -882,6 +882,7 @@ class ProjectManager {
                     // Option : board
                     if (Main.hasBoardSelector()) {
                         const boardId = this._currentProject.options.board;
+                        const urlBoard = $_GET('board');
                         if (Main.hasSimulator()) {
                             let shieldView = null;
                             if (typeof this._currentProject.options.simulatorViewShield !== 'undefined') {
@@ -891,7 +892,20 @@ class ProjectManager {
                             }
                             SimulatorLS.set('shieldView', shieldView);
                             let board = BOARD_DEFAULT;
-                            if (boardId && boardId !== 'shield-grove') {
+                            // If URL already carries a valid board, keep it as source of truth.
+                            if (['arduino', 'esp32'].includes(this._interface)
+                                && typeof INTERFACE_BOARDS !== 'undefined'
+                                && urlBoard) {
+                                const boardIdByShield = Object.entries(INTERFACE_BOARDS).find(([, value]) => value.shieldId === urlBoard);
+                                const isBoardIdInUrl = Object.keys(INTERFACE_BOARDS).includes(urlBoard);
+                                if (boardIdByShield) {
+                                    board = boardIdByShield[0];
+                                    shieldView = true;
+                                } else if (isBoardIdInUrl) {
+                                    board = urlBoard;
+                                }
+                            }
+                            if (board === BOARD_DEFAULT && boardId && boardId !== 'shield-grove') {
                                 board = boardId;
                             }
                             SimulatorLS.set('board', board);
@@ -1124,18 +1138,37 @@ class ProjectManager {
                 CodeManager.getSharedInstance().setXml(this._currentProject.code);
                 CodeManager.getSharedInstance().loadBlocks();
             }
+            this._clearSimulatorObstacles();
         }
-        $('#project-name').html(decodeURI(this._currentProject.name));
+        $('#project-name').html(CodeManager.getProjectDisplayName(decodeURI(this._currentProject.name)));
         let userInformations = '';
         if (UserManager.getUser() !== null) {
             userInformations = `<span class="tooltip-author">${UserManager.getUser().firstname} ${UserManager.getUser().surname}</span>`;
         }
-        $('#project-name').attr("data-bs-title", `<span class="tooltip-title">${decodeURI(this._currentProject.name)}</span>${userInformations}<span class="tooltip-description">${decodeURI(this._currentProject.description)}</span>`);
+        $('#project-name').attr("data-bs-title", `<span class="tooltip-title">${decodeURI(this._currentProject.name)}</span>${userInformations}<span class="tooltip-description">${CodeManager.getProjectDisplayDescription(decodeURI(this._currentProject.description))}</span>`);
         this._exercises_populateStatement();
         this.updateUrl();
         await this.projectsFinder_updateProject();
         this._currentExercise = "";
         return true;
+    };
+
+    /**
+     * Remove robot simulator obstacles (classic and 3D) left by a previous project.
+     * @private
+     */
+    _clearSimulatorObstacles() {
+        if (typeof SimulatorLS === 'undefined' || !SimulatorLS.get('obstaclesDB')) return;
+        SimulatorLS.set('obstaclesDB', '{}');
+        if (typeof RobotSimulator !== 'undefined') {
+            RobotSimulator.Obstacle.setFromLS();
+        }
+        if (typeof window.RobotSimulator3D !== 'undefined') {
+            window.RobotSimulator3D.Obstacle.setFromLS();
+        }
+        if (typeof Simulator3D !== 'undefined' && typeof Simulator3D.removeObstacles === 'function') {
+            Simulator3D.removeObstacles();
+        }
     };
 
     /**
@@ -1225,13 +1258,17 @@ class ProjectManager {
                 const reducedToolbox = {
                     'blocks': Main.getToolboxManager().getToolboxRestricted(),
                 }
-                const variables = Main.getWorkSpace().getAllVariables();
+                const variables = Main.getWorkSpace().getVariableMap().getAllVariables();
                 if (variables.length) {
                     reducedToolbox['variables'] = variables.map(variable => variable.name);
                 }
                 options.reducedToolbox = JSON.stringify(reducedToolbox);
             } else if (typeof options.reducedToolbox !== 'undefined') {
                 delete options.reducedToolbox;
+            }
+            // Option : block extensions created by the user
+            if (typeof BlockExtensions !== 'undefined') {
+                BlockExtensions.writeOption(options);
             }
         }
         return options;
@@ -1344,15 +1381,20 @@ class ProjectManager {
     _refreshProjectStatus(skipRpcEdited = false) {
         return new Promise(async (resolve, reject) => {
             await new Promise((resoolve) => { setTimeout(resoolve, 100); }); // resoolve to avoid conflict with the main resolve
-            const currentProjectName = typeof this._currentProject.name !== 'undefined' ? this.decodeSanitizedString(this._currentProject.name) : i18next.t('code.newProject');
+            const currentProjectName = CodeManager.getProjectDisplayName(typeof this._currentProject.name !== 'undefined' ? this.decodeSanitizedString(this._currentProject.name) : '');
             const currentProjectAuthor = typeof this._currentProject.user !== 'undefined' && this._currentProject.user !== null ? (this._currentProject.user.firstname + " " + this._currentProject.user.surname) : i18next.t('code.tooltip.anonymousAuthor');
             const currentProjectDescription = typeof this._currentProject.description != 'undefined' ? this.decodeSanitizedString(this._currentProject.description) : '';
 
             $("#project-name").text(decodeURI(currentProjectName));
-            $('#project-name').attr('data-bs-title', `<span class="tooltip-title">${decodeURI(currentProjectName)}</span><span class="tooltip-author">${currentProjectAuthor}</span><span class="tooltip-description">${decodeURI(currentProjectDescription)}</span>`);
+            $('#project-name').attr('data-bs-title', `<span class="tooltip-title">${decodeURI(currentProjectName)}</span><span class="tooltip-author">${currentProjectAuthor}</span><span class="tooltip-description">${CodeManager.getProjectDisplayDescription(decodeURI(currentProjectDescription))}</span>`);
 
             if (this._isUpToDate() === false) {
-                $("#project-is-saved").css('color', 'var(--vitta-orange)').html('<i class="fas fa-save"></i>');
+                // Orange disk only if the project can be saved (local projects of the visitors: saved automatically)
+                if (this.canSaveProject()) {
+                    $("#project-is-saved").css('color', 'var(--vitta-orange)').html('<i class="fas fa-save"></i>');
+                } else {
+                    $("#project-is-saved").html('<i class="fas fa-check"></i>');
+                }
                 // In LTI context, we inform the parent window that the project isn't up to date
                 if (typeof ltiVariables13 !== 'undefined' && !skipRpcEdited) {
                     lti13Controller.setprojectStatusToEdited();
@@ -1491,7 +1533,7 @@ class ProjectManager {
      * @param {string} projectDescription - The project description
      * @returns {undefined} undefined in early return case (ai context)
      */
-    editCurrentProject(projectName, projectDescription = 'No-description') {
+    editCurrentProject(projectName, projectDescription = '') {
         this._currentProject.name = projectName;
         this._currentProject.description = projectDescription;
         if (this._interface === 'ai') return;
@@ -1516,12 +1558,24 @@ class ProjectManager {
     };
 
     /**
+     * Return true if the project can be saved: connected user, or LTI / Capytale context (saved by the platform). The
+     * local projects of the visitors are saved automatically in the localStorage.
+     * @public
+     * @return {boolean}
+     */
+    canSaveProject() {
+        return UserManager.getUser() !== null || typeof ltiVariables13 !== 'undefined' || !!this._rpc || !!this._capytaleManager;
+    };
+
+    /**
      * Return true if the project needs to be saved.
      * @public
      * @return {boolean} Whether the project is up to date or not
      */
     needSaving() {
         if (this._interface === 'ai') return true;
+        // Local projects of the visitors: saved automatically in the localStorage, nothing to save
+        if (!this.canSaveProject()) return false;
         return !this._isUpToDate();
     };
 
@@ -2052,10 +2106,11 @@ class ProjectManager {
      * @returns {Promise<Array>}
      */
     async ajax_getProjectsByLinksFromDB(links, projectInterface) {
+        const url = '/routing/Routing.php?controller=project&action=get_by_links';
         return new Promise((resolve, reject) => {
             $.ajax({
                 type: "POST",
-                url: "/routing/Routing.php?controller=project&action=get_by_links",
+                url: url,
                 data: {
                     'links': links,
                     'interface': projectInterface
@@ -2064,9 +2119,30 @@ class ProjectManager {
                 success: function (response) {
                     resolve(Array.isArray(response) ? response : []);
                 },
-                error: function (error) {
-                    new VittaControllerNotif().manageError(error, this);
-                    reject(null);
+                error: function (jqXHR, textStatus, errorThrown) {
+                    new VittaControllerNotif().manageError(jqXHR, this);
+
+                    let reason;
+                    if (textStatus === 'parsererror') {
+                        reason = 'empty or invalid response (JSON expected)';
+                    } else if (textStatus === 'timeout') {
+                        reason = 'timeout';
+                    } else if (textStatus === 'abort') {
+                        reason = 'canceled request';
+                    } else if (jqXHR.status === 0) {
+                        reason = 'server unreachable (CORS or network)';
+                    } else {
+                        reason = `HTTP ${jqXHR.status} ${errorThrown || ''}`.trim();
+                    }
+
+                    const err = new Error(`Unable to load projects: ${reason}`);
+                    err.name = 'ProjectsLoadError';
+                    err.status = jqXHR.status;
+                    err.textStatus = textStatus;
+                    err.responseText = jqXHR.responseText; // souvent utile pour voir l'erreur PHP
+                    err.url = url;
+                    err.cause = errorThrown;               // conserve l'erreur d'origine
+                    reject(err);
                 }
             });
         })
@@ -2483,6 +2559,8 @@ class ProjectManager {
                 this._initializeImageModelProjectForAdacraft();
             } else if (this._interface === 'python') {
                 await this._initializeImageModelProjectForPython();
+            } else if (this._interface === 'arduinoq') {
+                await this._initializeImageModelProjectForArduinoQ();
             } else if (this._interface === 'buddy') {
                 this._initializeImageModelProjectForBuddy();
             } else if (this._interface === 'microbit') {
@@ -2739,6 +2817,36 @@ class ProjectManager {
         await this._createNewProject({
             code: xml_ia_start,
             name: "Modèle d'images IA (" + model + ")"
+        });
+        this._projectLoader_setInterfaceMode(false);
+        history.pushState({}, '', removeParam('model', window.location.href));
+    };
+
+    /**
+     * Initialize the Arduino UNO Q project that uses an image ai model (opened from the AI interface): the Python
+     * part of the app loads the model ('local' = trained in this browser, sent to the board on upload), then detects
+     * and prints the class seen by the USB camera in a "repeat forever" loop
+     * @private
+     */
+    async _initializeImageModelProjectForArduinoQ() {
+        const model = String(getParamValue("model"));
+        // The model id comes from the URL: only an alphanumeric id is put in the project XML
+        const loadModel = /^[a-zA-Z0-9]+$/.test(model) && model !== 'local'
+            ? `<block type="vittaia_load_model"><value name="MODEL_URL"><shadow type="text"><field name="TEXT">${location.origin}/ia/model/${model}/</field></shadow></value>`
+            : `<block type="vittaia_load_local_model">`;
+        const code = `<xml xmlns="https://developers.google.com/blockly/xml">
+            <block type="cpp_on_start_forever" deletable="false" x="0" y="0"></block>
+            <block type="py_scratch_on_start" deletable="false" x="0" y="250"><next>${loadModel}<next>
+                <block type="controls_forever"><statement name="DO">
+                    <block type="vittaia_make_predictions_webcam"><next>
+                        <block type="display_print"><value name="TEXT"><shadow type="text"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class"></block></value></block>
+                    </next></block>
+                </statement></block>
+            </next></block></next></block>
+        </xml>`;
+        await this._createNewProject({
+            code: code,
+            name: "Modèle d'images IA (" + (model === 'local' ? model : model.replace(/[^a-zA-Z0-9]/g, '')) + ")"
         });
         this._projectLoader_setInterfaceMode(false);
         history.pushState({}, '', removeParam('model', window.location.href));
@@ -3476,10 +3584,10 @@ class ProjectManager {
             const currentBlocks = workspace.getAllBlocks();
             currentBlocks.forEach(block => {
                 const isEnabledHtml = this._isWithinSpecificBranch(block, 'html');
-                block.setEnabled(isEnabledHtml);
+                block.setDisabledReason(!isEnabledHtml, Blockly.constants.MANUALLY_DISABLED);
                 if (JS_BLOCKS.includes(block.type)) {
                     const isEnabled = this._isWithinSpecificBranch(block, "script_tag");
-                    block.setEnabled(isEnabled);
+                    block.setDisabledReason(!isEnabled, Blockly.constants.MANUALLY_DISABLED);
                 }
             });
         } else if (event.type == Blockly.Events.BLOCK_CHANGE && this.timeoutChange == true) {
@@ -3521,7 +3629,7 @@ class ProjectManager {
     _runCodeToBlocks() {
         this.isUpdating = true;
         const workspace = Main.getWorkSpace();
-        const ALL_DISABLED_BLOCKS = workspace.getAllBlocks().filter(block => block.disabled === true);
+        const ALL_DISABLED_BLOCKS = workspace.getAllBlocks().filter(block => block.hasDisabledReason(Blockly.constants.MANUALLY_DISABLED) === true);
         this.disabledBlocksXml = ALL_DISABLED_BLOCKS.filter(block => !block.getParent()).map(block => Blockly.Xml.blockToDomWithXY(block));
         const codeHtml = Main.getCodeEditor().container.getValue();
         // separate html and script (only works properly if there is only one script tag)
@@ -3659,9 +3767,11 @@ class ProjectManager {
                 this.tiProjectsEvents(true);
                 break;
             case "newPythonEditor200124":
-                document.querySelector('.blocklyTreeRow#math').scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+                // The category id is on the row up to Blockly 11, on its container since Blockly 12.
+                document.getElementById('math').scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
                 setTimeout(() => {
-                    $(".blocklyTreeRow#math").click()
+                    const toolbox = Main.getWorkSpace().getToolbox();
+                    toolbox.setSelectedItem(toolbox.getToolboxItemById('math'));
                 }, 500);
                 break;
         }
@@ -3975,9 +4085,11 @@ class ProjectManager {
      * @returns {Promise} false if RTC hasn't been initialized, true otherwise
      */
     async initializeRtc() {
+        if (typeof IS_CAPYTALE_CONTEXT !== 'undefined') return false;
         await this.awaitInitialProjectLoaded();
         if (this.getCurrentProject().sharedStatus === 3) return false;
-        if (!this._rtcLoaded) {
+        // Memoize the loading promise so concurrent calls don't inject the RTC scripts twice
+        if (!this._rtcLoadingPromise) {
             const rtcFiles = [
                 '/openInterface/interfaces/assets/js/rtc/RtcManager.js',
                 '/openInterface/interfaces/assets/js/rtc/AceCursorMarker.js',
@@ -3990,9 +4102,9 @@ class ProjectManager {
             for (const file of rtcFiles) {
                 fileLoadPromises.push(this.loadJavascriptFile(`${file}`));
             }
-            await Promise.all(fileLoadPromises);
-            this._rtcLoaded = true;
+            this._rtcLoadingPromise = Promise.all(fileLoadPromises);
         }
+        await this._rtcLoadingPromise;
         rtcManager = new RtcManager();
         rtcManager.init();
         return true;

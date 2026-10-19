@@ -31,5 +31,6 @@ const arrayInterfaces = [
   'codey',
   'steami',
   'alphai',
-  'arduinoq'
+  'arduinoq',
+  'primastem'
 ];

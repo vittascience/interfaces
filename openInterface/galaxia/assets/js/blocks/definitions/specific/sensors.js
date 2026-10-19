@@ -266,6 +266,36 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "block_init_helpurl",
             "pins_management_global"
         ]
+    },
+
+    /** Begin Other sensors blocks */
+    {
+        "type": "sensors_displayMlx90621Values",
+        "message0": "%{BKY_SENSORS_DISPLAYMLX90621VALUES_TITLE}",
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "sensors_blocks",
+        "tooltip": "%{BKY_SENSORS_DISPLAYMLX90621VALUES_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    {
+        "type": "sensors_displayMlx90621CustomValues",
+        "message0": "%{BKY_SENSORS_DISPLAYMLX90621_CUSTOM_VALUES_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "VALUES",
+            "check": "Array"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "sensors_blocks",
+        "tooltip": "%{BKY_SENSORS_DISPLAYMLX90621_CUSTOM_VALUES_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
     }
 
 ]); // END JSON EXTRACT (Do not delete this comment.)

@@ -491,3 +491,7 @@ Blockly.Msg['SENSORS_MLX90621_TEMP_MIN'] = 'минимум';
 Blockly.Msg['SENSORS_MLX90621_TEMP_MAX'] = 'максимум';
 Blockly.Msg['SENSORS_MLX90621_TEMP_AVG'] = 'среднее';
 Blockly.Msg['SENSORS_MLX90621_GETTEMPDATA_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Возвращает минимальную, максимальную или среднюю температуру объекта в градусах Цельсия (°C), измеренную инфракрасным (ИК) датчиком MLX90621. Подключите датчик к порту I2C.';
+Blockly.Msg['SENSORS_DISPLAYMLX90621VALUES_TITLE'] = '[Ир. датчик температуры MLX90621] отображение значений';
+Blockly.Msg['SENSORS_DISPLAYMLX90621VALUES_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Позволяет отображать значения, измеренные инфракрасным датчиком MLX90621 на плате Galaxia.';
+Blockly.Msg['SENSORS_DISPLAYMLX90621_CUSTOM_VALUES_TITLE'] = '[Ир. датчик температуры MLX90621] отображение пользовательских значений %1';
+Blockly.Msg['SENSORS_DISPLAYMLX90621_CUSTOM_VALUES_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Отображает пользовательские значения температуры, измеренные инфракрасным датчиком MLX90621 на плате Galaxia.';

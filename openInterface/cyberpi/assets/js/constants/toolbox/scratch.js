@@ -140,6 +140,8 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'cyberpi_led_on_all_palette',
                 'cyberpi_led_on_RGB',
                 'cyberpi_led_on_palette',
+                'cyberpi_led_on_duration',
+                'cyberpi_led_off',
                 'cyberpi_led_play',
                 'cyberpi_led_move',
                 'cyberpi_led_set_brightness',
@@ -299,6 +301,8 @@ const TOOLBOX_SCRATCH_CONTENT = {
         {
             "label": "%{BKY_SUBCATEGORY_QUAD_RGB_SENSORS}",
             "blocks": [
+                'sensors_mbuild_quad_RGB_detection_L1_R1_is',
+                'sensors_mbuild_quad_RGB_get_detection_L1_R1',
                 'sensors_mbuild_quad_RGB_detection_is',
                 'sensors_mbuild_quad_RGB_get_detection',
                 'sensors_mbuild_quad_RGB_is_color_detected',
@@ -307,7 +311,10 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'sensors_mbuild_quad_RGB_define_color',
                 'sensors_mbuild_quad_RGB_set_color_list',
                 'sensors_mbuild_quad_RGB_close_led',
-                'sensors_mbuild_quad_RGB_get_light'
+                'sensors_mbuild_quad_RGB_get_light',
+                'sensors_mbuild_quad_RGB_set_custom_color',
+                'sensors_mbuild_quad_RGB_calibrate',
+                'sensors_mbuild_quad_RGB_color_mode'
             ]
         },
         {
@@ -335,7 +342,8 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'robots_mbot2_stop_motor',
                 'robots_mbot2_get_motor_encoding',
                 'robots_mbot2_reset_motor_angular_position',
-                'robots_mbot2_control_motor_locking'
+                'robots_mbot2_control_motor_locking',
+                'robots_mbot2_follow_line'
             ]
         },
         {

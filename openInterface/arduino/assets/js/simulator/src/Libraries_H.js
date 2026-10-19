@@ -3,6 +3,103 @@ const LIBRARIES_H = {
     "Wire.h": {
         load: function (rt) { }
     },
+    // Arduino UNO Q bridge: Bridge.begin() and the Monitor console (which behaves like Serial in the simulator)
+    "Arduino_RouterBridge.h": {
+        load: function (rt) {
+            const Bridge_t = rt.newClass("BridgeClass", []);
+            rt.defVar("Bridge", Bridge_t, { t: Bridge_t, v: { members: {} }, left: false });
+            rt.regFunc(function (rt, _this) { }, Bridge_t, "begin", [], rt.voidTypeLiteral);
+
+            // Link with the Python part of the app (QAppSimulator.js, Arduino UNO Q interface)
+            rt.regFunc(function (rt, _this, name, func) {
+                if (typeof QAppSimulator !== 'undefined') QAppSimulator.provideCpp(Simulator.getStringFromInterpretor(name), rt, func.v.name);
+            }, Bridge_t, "provide", ["?"], rt.voidTypeLiteral);
+
+            const callPython = async function (rt, _this, name, ...args) {
+                return typeof QAppSimulator !== 'undefined' ? QAppSimulator.callPython(rt, name, args) : null;
+            };
+            const Susp_call = function (rt, _this, ...args) {
+                return rt.asyncToSuspension(async (...a) => { await callPython(...a); }, [rt, _this, ...args]);
+            };
+            rt.regAsyncFunc(Susp_call, callPython);
+            rt.regFunc(Susp_call, Bridge_t, "call", ["?"], rt.voidTypeLiteral);
+
+            // Bridge.call(...).result(var) of the "call with a return value" block (see QAppSimulator.getProjectCode)
+            const resultTypes = {
+                String: (rt, value) => rt.String_makeValueFromJSString(value === null ? '' : String(value)),
+                int: (rt, value) => rt.val(rt.intTypeLiteral, Math.trunc(Number(value)) || 0),
+                float: (rt, value) => rt.val(rt.floatTypeLiteral, Number(value) || 0),
+                bool: (rt, value) => rt.val(rt.boolTypeLiteral, Boolean(value))
+            };
+            for (const type in resultTypes) {
+                const callResult = async function (rt, _this, name, ...args) {
+                    return resultTypes[type](rt, await callPython(rt, _this, name, ...args));
+                };
+                const Susp_callResult = function (rt, _this, ...args) {
+                    return rt.asyncToSuspension(callResult, [rt, _this, ...args]);
+                };
+                rt.regAsyncFunc(Susp_callResult, callResult);
+                rt.regFunc(Susp_callResult, Bridge_t, "callResult_" + type, ["?"], type === 'String' ? rt.String_t : (type === 'int' ? rt.intTypeLiteral : (type === 'float' ? rt.floatTypeLiteral : rt.boolTypeLiteral)));
+            }
+
+            // Same class as Serial (defined in HardwareSerial.h), so print/println/read/available are shared
+            const HardwareSerial_t = { type: "class", name: "HardwareSerial" };
+            rt.defVar("Monitor", HardwareSerial_t, {
+                t: HardwareSerial_t,
+                v: {
+                    members: {
+                        _rx: rt.val(rt.unsignedcharTypeLiteral, 0),
+                        _tx: rt.val(rt.unsignedcharTypeLiteral, 1)
+                    }
+                },
+                left: false
+            });
+            // Monitor.begin() takes no baudrate
+            rt.regFunc(function (rt, _this) { }, HardwareSerial_t, "begin", [], rt.voidTypeLiteral);
+        }
+    },
+    "Stepper.h": {
+        load: function (rt) {
+            const Stepper_t = rt.newClass("Stepper", [{
+                type: rt.intTypeLiteral,
+                name: "stepsPerRevolution"
+            }, {
+                type: rt.doubleTypeLiteral,
+                name: "rpm"
+            }]);
+
+            // ordre du constructeur Stepper.h pour le 28BYJ-48 : IN1, IN3, IN2, IN4
+            rt.regFunc(function (rt, _this, stepsPerRevolution, in1, in3, in2, in4) {
+                _this.v.members.stepsPerRevolution.v = stepsPerRevolution.v;
+                _this.v.members.rpm.v = 0;
+                const pins = [in1, in2, in3, in4].map(pin => Simulator.getPinString(pin.v, true));
+                $('#stepper28BYJ48 .subtitle-module').html(pins.map((pin, i) => 'IN' + (i + 1) + ': ' + pin).join(' / '));
+            }, Stepper_t, "__init__", [rt.intTypeLiteral, rt.intTypeLiteral, rt.intTypeLiteral, rt.intTypeLiteral, rt.intTypeLiteral], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, rpm) {
+                _this.v.members.rpm.v = rpm.v;
+            }, Stepper_t, "setSpeed", [rt.doubleTypeLiteral], rt.voidTypeLiteral);
+
+            // bloquant comme sur la carte : dure |pas| / (pas/tour * tr/min) minutes
+            const step = async function (rt, _this, steps) {
+                const stepsPerRevolution = _this.v.members.stepsPerRevolution.v;
+                const rpm = _this.v.members.rpm.v;
+                const duration = rpm > 0 ? Math.abs(steps.v) * 60000 / (stepsPerRevolution * rpm) : 0;
+                // angle stocké sur l'élément : conservé au replay comme la rotation affichée
+                const anim = $('#stepper28BYJ48_anim');
+                const angle = (anim.data('angle') || 0) - steps.v * 360 / stepsPerRevolution; // pas > 0 = sens anti-horaire
+                anim.data('angle', angle);
+                $('#stepper28BYJ48_value').html(steps.v);
+                anim.css({ transition: 'transform ' + duration + 'ms linear', transform: 'rotate(' + angle + 'deg)' });
+                await Simulator.sleep_ms(duration);
+            };
+            const Susp_step = function (rt, _this, steps) {
+                return rt.asyncToSuspension(step, [rt, _this, steps]);
+            };
+            rt.regAsyncFunc(Susp_step, step);
+            rt.regFunc(Susp_step, Stepper_t, "step", [rt.intTypeLiteral], rt.voidTypeLiteral);
+        }
+    },
     "SoftwareSerial.h": {
         load: function (rt) {
             const SoftwareSerial_t = rt.newClass("SoftwareSerial", [
@@ -1503,13 +1600,106 @@ const LIBRARIES_H = {
         }
     },
 
+    // Modulino (Arduino Plug and Make Kit): sensors read the mosaic sliders, outputs update the mosaic modules
+    // (Simulator.Mosaic.specific.definitions, ids "modulino-...")
+    "Modulino.h": {
+        load: function (rt) {
+            const B = rt.boolTypeLiteral, I = rt.intTypeLiteral, D = rt.doubleTypeLiteral, V = rt.voidTypeLiteral;
+            const bool = (value) => rt.val(B, !!value);
+            const double = (value) => rt.val(D, Number(value) || 0);
+            const newModule = (name) => {
+                const type = rt.newClass(name, []);
+                rt.regFunc(() => bool(true), type, "begin", [], B);
+                return type;
+            };
+
+            const ModulinoClass_t = rt.newClass("ModulinoClass", []);
+            rt.regFunc(() => { }, ModulinoClass_t, "begin", [], V);
+            rt.defVar("Modulino", ModulinoClass_t, { t: ModulinoClass_t, v: { members: {} }, left: false });
+
+            // Buttons: A, B, C held with the mouse in the mosaic
+            const Buttons_t = newModule("ModulinoButtons");
+            rt.regFunc(() => bool(true), Buttons_t, "update", [], B);
+            rt.regFunc((rt, _this, index) => bool(Simulator.getSliderValue('modulino-button' + 'ABC'.charAt(index.v))), Buttons_t, "isPressed", [I], B);
+            rt.regFunc((rt, _this, a, b, c) => {
+                $('#modulino-buttonsLeds_value').html(Simulator.Mosaic.specific.modulinoButtonsLeds([a.v, b.v, c.v]));
+            }, Buttons_t, "setLeds", [B, B, B], V);
+
+            // Buzzer
+            const Buzzer_t = newModule("ModulinoBuzzer");
+            const buzzerDisplay = (frequency) => {
+                $('#modulino-buzzer_value').html(frequency ? frequency + ' Hz' : 'OFF');
+                $('#modulino-buzzer_anim').css('opacity', frequency ? 1 : 0);
+            };
+            rt.regFunc(async (rt, _this, frequency, duration) => {
+                buzzerDisplay(frequency.v);
+                await Simulator.music.startAudio();
+                await Simulator.music.pitch(frequency.v, duration.v);
+                buzzerDisplay(0);
+            }, Buzzer_t, "tone", [D, D], V);
+            rt.regFunc(() => {
+                Simulator.music.stop();
+                buzzerDisplay(0);
+            }, Buzzer_t, "noTone", [], V);
+
+            // Pixels: 8 LEDs, the color is displayed on show()
+            const Pixels_t = newModule("ModulinoPixels");
+            const pixels = new Array(8).fill('#000000');
+            const pixelsShow = () => {
+                if (!$('#modulino-pixels_value .neopixel-block').length) {
+                    $('#modulino-pixels_value').html('<div class="modulino-pixels">' + pixels.map(() => '<div class="modulino-pixel"></div>').join('') + '</div>');
+                }
+                pixels.forEach((color, i) => $('#modulino-pixels_value .modulino-pixel').eq(i).css({
+                    'background-color': color,
+                    'box-shadow': color === '#000000' ? '' : '0 0 8px ' + color
+                }));
+            };
+            rt.regFunc((rt, _this, index, r, g, b, brightness) => {
+                if (index.v < 0 || index.v > 7) return;
+                // brightness 0-100 %: the color is darkened accordingly, a lit LED staying clearly visible
+                const level = Math.max(0, Math.min(100, brightness.v)) / 100;
+                const k = 0.7 + 0.3 * level;
+                pixels[index.v] = (r.v || g.v || b.v) && level ? `rgb(${Math.round(r.v * k)}, ${Math.round(g.v * k)}, ${Math.round(b.v * k)})` : '#000000';
+            }, Pixels_t, "set", [I, I, I, I, I], V);
+            rt.regFunc(() => { pixels.fill('#000000'); }, Pixels_t, "clear", [], V);
+            rt.regFunc((rt, _this, index) => { if (index.v >= 0 && index.v < 8) pixels[index.v] = '#000000'; }, Pixels_t, "clear", [I], V);
+            rt.regFunc(() => pixelsShow(), Pixels_t, "show", [], V);
+
+            // Knob: position slider + button held with the mouse
+            const Knob_t = newModule("ModulinoKnob");
+            rt.regFunc(() => rt.val(I, Math.round(Simulator.getSliderValue('modulino-knob'))), Knob_t, "get", [], I);
+            rt.regFunc(() => bool(Simulator.getSliderValue('modulino-knobButton')), Knob_t, "isPressed", [], B);
+            rt.regFunc((rt, _this, value) => { Simulator.setSliderValue('modulino-knob', value.v); }, Knob_t, "set", [I], V);
+
+            // Distance (mm)
+            const Distance_t = newModule("ModulinoDistance");
+            rt.regFunc(() => bool(true), Distance_t, "available", [], B);
+            rt.regFunc(() => double(Simulator.getSliderValue('modulino-distance')), Distance_t, "get", [], D);
+
+            // Movement: acceleration (g) and rotation speed (°/s)
+            const Movement_t = newModule("ModulinoMovement");
+            rt.regFunc(() => rt.val(I, 1), Movement_t, "update", [], I);
+            for (const axis of ['X', 'Y', 'Z']) {
+                rt.regFunc(() => double(Simulator.getSliderValue('modulino-acceleration', '_' + axis.toLowerCase())), Movement_t, "get" + axis, [], D);
+            }
+            for (const axis of ['Roll', 'Pitch', 'Yaw']) {
+                rt.regFunc(() => double(Simulator.getSliderValue('modulino-rotation', '_' + axis.toLowerCase())), Movement_t, "get" + axis, [], D);
+            }
+
+            // Thermo
+            const Thermo_t = newModule("ModulinoThermo");
+            rt.regFunc(() => double(Simulator.getSliderValue('modulino-temperature')), Thermo_t, "getTemperature", [], D);
+            rt.regFunc(() => double(Simulator.getSliderValue('modulino-humidity')), Thermo_t, "getHumidity", [], D);
+        }
+    },
     "Arduino_LED_Matrix.h": {
         load: function (rt) {
             rt.include("ArduinoGraphics.h");
 
             const ArduinoLEDMatrix_t = rt.newClass("ArduinoLEDMatrix", [], ["ArduinoGraphics"]);
 
-            const COLS = 12;
+            // 13 columns on the UNO Q, 12 on the UNO R4 WiFi
+            const COLS = INTERFACE_NAME === 'arduinoq' ? 13 : 12;
             const ROWS = 8;
 
             function createMatrix() {

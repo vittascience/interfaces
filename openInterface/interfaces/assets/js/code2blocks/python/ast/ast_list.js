@@ -571,6 +571,19 @@ utils.prototypeBlocks['list_built_in'] = function (type, list, statementsNode, p
  * @description custome prototype block for list slice
  */
 utils.prototypeBlocks['list_slice'] = function (identifier, sliceNode) {
+	// The block end index (from start) is the Python end index - 1: only integer ends are translated, the other
+	// slices (expression end, step) are kept as code by the caller.
+	const parts = sliceNode.children.filter((child) => child.type !== ':');
+	const colons = sliceNode.children.filter((child) => child.type === ':').length;
+	if (colons !== 1) return null;
+	const endNode = sliceNode.children[sliceNode.children.length - 1];
+	if (endNode.type !== ':' && endNode.type !== 'unary_operator' && endNode.type !== 'integer') return null;
+	// nodes copied: the translation changes their text
+	sliceNode = { ...sliceNode, children: sliceNode.children.map((child) => structuredClone(child)) };
+	const lastIndex = sliceNode.children.length - 1;
+	if (sliceNode.children[lastIndex].type === 'integer') {
+		sliceNode.children[lastIndex].text = String(Number(sliceNode.children[lastIndex].text) - 1);
+	}
 	const sliceBlock = {
 		type: 'lists_getSublist',
 		fields: {},
@@ -598,8 +611,8 @@ utils.prototypeBlocks['list_slice'] = function (identifier, sliceNode) {
 			sliceBlock.values = { LIST: null, AT2: null };
 			let value = null;
 			if (sliceNode.children[1].type === 'unary_operator') {
+				// end from the end: same index for the block
 				value = sliceNode.children[1].children[1];
-				value.text = String(Number(value.text) - 1);
 			} else {
 				value = sliceNode.children[1];
 			}
@@ -618,8 +631,8 @@ utils.prototypeBlocks['list_slice'] = function (identifier, sliceNode) {
 			value1 = sliceNode.children[0];
 		}
 		if (sliceNode.children[2].type === 'unary_operator') {
+			// end from the end: same index for the block
 			value2 = sliceNode.children[2].children[1];
-			value2.text = String(Number(value2.text) - 1);
 		} else {
 			value2 = sliceNode.children[2];
 		}

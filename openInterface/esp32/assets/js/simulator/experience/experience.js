@@ -825,7 +825,7 @@ export default class Simulator3d {
 		const obstacleDB = SimulatorLS.get('obstaclesDB');
 
 		if (typeof obstacleDB === 'undefined' || obstacleDB === null) return;
-		RobotSimulator.Obstacle.obstaclesDB = {};
+		this.robotSimulator.Obstacle.obstaclesDB = {};
 		const obs = JSON.parse(obstacleDB);
 		for (const key in obs) {
 			const shape = obs[key].shape;
@@ -840,7 +840,7 @@ export default class Simulator3d {
 			if (lockedObstacles){
 				this.obstaclesHandler.lockedObstacles.add(id);
 			}
-			RobotSimulator.Obstacle.obstaclesDB[id] = obs[key];
+			this.robotSimulator.Obstacle.obstaclesDB[id] = obs[key];
 		}
 	}
 

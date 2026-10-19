@@ -72,8 +72,7 @@ const emptyButtons = {
         tooltipPlacement: "left",
         onclick: 'Blockly.getMainWorkspace().trashcan.emptyContents()',
         label: {
-            hidden: true,
-            value: 'code.blockly.label.trash'
+            value: 'code.blockly.label.trash' // always shown: the button has no icon
         }
     },
     'emptyBackpack': {
@@ -84,8 +83,7 @@ const emptyButtons = {
         tooltipPlacement: "left",
         onclick: 'Main.getBackpack().empty()',
         label: {
-            hidden: true,
-            value: 'code.blockly.label.backpack'
+            value: 'code.blockly.label.backpack' // always shown: the button has no icon
         }
     }
 }

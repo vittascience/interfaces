@@ -1,4 +1,5 @@
 import utils from '/openInterface/interfaces/assets/js/code2blocks/python/utils/utils.js';
+import '/openInterface/interfaces/assets/js/code2blocks/python/utils/chronometer.js';
 
 utils.prototypeBlocks['sleep'] = function (type, identifier, values, mutations, statementsNode, statement) {
 	const checkImport = utils.checkImport(identifier);
@@ -358,7 +359,8 @@ utils.prototypeBlocks['on'] = function (node, identifier) {
 	const classes = utils.python2Blocks._classes;
 	const checkClasses = classes[identifier];
 	if (!checkClasses) {
-		return '';
+		// not a pin of the program (ex: method of another object): generic call
+		return null;
 	}
 
 	const pin = checkClasses.pin;
@@ -380,7 +382,8 @@ utils.prototypeBlocks['off'] = function (node, identifier) {
 	const classes = utils.python2Blocks._classes;
 	const checkClasses = classes[identifier];
 	if (!checkClasses) {
-		return '';
+		// not a pin of the program (ex: method of another object): generic call
+		return null;
 	}
 
 	const pin = checkClasses.pin;

@@ -360,22 +360,26 @@ input:checked+.slider {
     fill: var(--text-0) !important;
 }
 
-.theme-light .blocklyEditableText>image {
+.theme-light .blocklyEditableText>image,
+.theme-light .blocklyEditableField>image {
     filter: invert(1);
 }
 
-/* Toolbox */
+/* Toolbox (Blockly <= 11 class names, then the Blockly 12 ones) */
 
-.vittascience_classic-theme div.blocklyToolboxDiv {
+.vittascience_classic-theme div.blocklyToolboxDiv,
+.vittascience_classic-theme div.blocklyToolbox {
     background: var(--bg-0) !important;
 }
 
-.blocklyToolboxDiv div.blocklyTreeRow:hover {
+.blocklyToolboxDiv div.blocklyTreeRow:hover,
+.blocklyToolbox div.blocklyToolboxCategory:hover {
     background-color: var(--bg-0) !important;
     outline: 2px dotted var(--text-0) !important;
 }
 
 .blocklyTreeLabel,
+.blocklyToolboxCategoryLabel,
 span.icon_blockly {
     color: var(--text-0) !important;
 }
@@ -386,7 +390,8 @@ span.icon_blockly {
     fill: var(--text-0);
 }
 
-div.blocklyTreeSelected {
+div.blocklyTreeSelected,
+div.blocklyToolboxSelected {
     background-color: var(--bg-0) !important;
     outline: var(--text-0) 2px dotted !important;
 }
@@ -432,11 +437,13 @@ div.blocklyDropDownDiv {
     background-color: var(--bg-0);
 }
 
-g.blocklyEditableText>.blocklyText {
+g.blocklyEditableText>.blocklyText,
+g.blocklyEditableField>.blocklyText {
     fill: var(--text-0) !important;
 }
 
-g.blocklyEditableText>rect.blocklyFieldRect {
+g.blocklyEditableText>rect.blocklyFieldRect,
+g.blocklyEditableField>rect.blocklyFieldRect {
     fill: var(--bg-0) !important;
 }
 

@@ -490,6 +490,13 @@ Blockly.Python.sensors_gy521_getData = function (block) {
     }
 };
 
+Blockly.Python.sensors_bn880_getHeading = function (block) {
+    Blockly.Python.addImport("machine_all", IMPORT_MACHINE_ALL);
+    Blockly.Python.addImport("esp32_bn880", IMPORT_ESP32_BN880);
+    Blockly.Python.addInit("bn880", "bn880_i2c = " + Blockly.Python.Generators.default_I2C());
+    Blockly.Python.addInit("bn880_type", "bn880_type = detect_magnetometer(bn880_i2c)");
+    return ["read_heading(bn880_i2c, bn880_type)", Blockly.Python.ORDER_ATOMIC];
+};
 // Other sensors
 
 Blockly.Python.sensors_getMlx90621Temperature = function (block) {

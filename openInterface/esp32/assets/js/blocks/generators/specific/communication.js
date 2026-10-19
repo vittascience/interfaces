@@ -187,7 +187,7 @@ Blockly.Python.communication_writeOpenLogSd = function (block) {
 
 Blockly.Python.communication_esp32_FS_saveData = function (block) {
     const data = Blockly.Python.valueToCode(block, "DATA", Blockly.Python.ORDER_NONE) || "None";
-    const filename = Blockly.Python.valueToCode(block, "FILENAME", Blockly.Python.ORDER_NONE) || "";
+    const filename = Blockly.Python.valueToCode(block, "FILENAME", Blockly.Python.ORDER_NONE) || "''";
     let extension = Blockly.Python.valueToCode(block, "EXTENSION", Blockly.Python.ORDER_NONE) || ""
     if (block.getInput("EXTENSION") && extension) {
         extension = ", extension = " + extension;
@@ -269,7 +269,7 @@ Blockly.Python.communication_rfid_convertData = function (block) {
 Blockly.Python.COMMUNICATION_INIT_GPS = function (block) {
     Blockly.Python.addImport('utime', IMPORT_UTIME);
     Blockly.Python.addInit('GPS-uart_2', "# GPS on UART 2");
-    block.workspace.createVariable('gpsInfos');
+    block.workspace.getVariableMap().createVariable('gpsInfos');
     Blockly.Python.addInit('gpsInfos', "gpsInfos = {\n  'nmea': None,\n  'buffer': ''\n}");
     Blockly.Python.addFunction('gps_readNMEA', FUNCTIONS_ESP32.DEF_GPS_READ_NMEA);
     const pinTX = block.getFieldValue("TX").replace('p', '');

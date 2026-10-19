@@ -36,13 +36,18 @@ Blockly.Constants.Pins.digital = {
 
 Blockly.Constants.Pins.PWM = {
   [BOARD_STEAMI]: [
-    ["D3", "'TIM1_CH3'"],
-    ["D5", "'TIM2_CH1'"],
-    ["D6", "'TIM1_CH1'"],
-    ["D9", "'TIM1_CH2'"],
-    ["D11", "'TIM17_CH1'"],
-    ["D12", "'TIM16_CH1'"]
+    ["P7", "'P7'"],
+    ["P10", "'P10'"],
+    ["P11", "'P11'"]
   ]
+};
+
+// Timer and channel of the PWM pins (STM32WB55: P7 = PA9, P10 = PA6, P11 = PA8, see
+// https://wiki.steami.cc/docs/hardware/pin-mapping/edge-connector and the STM32WB55 alternate functions)
+Blockly.Constants.Pins.PWM_TIMERS = {
+  "'P7'": 'TIM1_CH2',
+  "'P10'": 'TIM16_CH1',
+  "'P11'": 'TIM1_CH1'
 };
 
 Blockly.Constants.Pins.analog_read = {

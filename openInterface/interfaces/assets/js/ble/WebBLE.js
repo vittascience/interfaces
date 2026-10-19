@@ -48,7 +48,8 @@ class WebBLE {
         };
         this.onGATTdisconnected = (event) => {
             this.events.disconnect();
-            this._bleDevice.removeEventListener('gattserverdisconnected', this.onGATTdisconnected);
+            // event.target: unpair() may already have reset this._bleDevice
+            event.target.removeEventListener('gattserverdisconnected', this.onGATTdisconnected);
             this.reset();
         }
     }

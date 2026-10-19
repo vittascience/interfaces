@@ -69,11 +69,11 @@ Blockly.Python.cameras_huskylens_getData = function (block) {
     const type = block.getFieldValue("TYPE");
     switch (type) {
         case "ARROWS":
-            block.workspace.createVariable('huskyLensArrowsData');
+            block.workspace.getVariableMap().createVariable('huskyLensArrowsData');
             return `huskyLensArrowsData = huskylens.command_request_arrows()` + NEWLINE;
         case "BLOCKS":
         default:
-            block.workspace.createVariable('huskyLensBlocksData');
+            block.workspace.getVariableMap().createVariable('huskyLensBlocksData');
             return `huskyLensBlocksData = huskylens.command_request_blocks()` + NEWLINE;
     }
 };
@@ -166,6 +166,94 @@ Blockly.Python.cameras_huskylens_loadModel = function (block) {
     Blockly.Python.addInit('huskylens-init', 'huskylens = HuskyLensLibrary()');
     const index = Blockly.Python.valueToCode(block, "INDEX", Blockly.Python.ORDER_NONE) || "0";
     return `huskylens.command_request_load_model_from_SD_card(${index})` + NEWLINE;
+};
+
+// HuskyLens V2
+
+const addHuskyLensV2 = function () {
+    Blockly.Python.addImport('huskylens_v2', IMPORT_HUSKYLENSV2);
+    Blockly.Python.addInit('huskylens-v2-init', 'huskylens2 = HuskyLensV2()');
+    Blockly.Python.addInit('huskylens-v2-begin', 'huskylens2.initI2c()');
+};
+
+Blockly.Python.cameras_huskylens_v2_initMode = function (block) {
+    addHuskyLensV2();
+    const mode = block.getFieldValue("MODE") || "face";
+    return `huskylens2.initMode("${mode}")` + NEWLINE;
+};
+
+Blockly.Python.cameras_huskylens_v2_readBox = function (block) {
+    addHuskyLensV2();
+    const id = Blockly.Python.valueToCode(block, "ID", Blockly.Python.ORDER_NONE) || "1";
+    const data = block.getFieldValue("DATA") || "";
+    return [`huskylens2.readBox(${id}, "${data}")`, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.cameras_huskylens_v2_readArrow = function (block) {
+    addHuskyLensV2();
+    const id = Blockly.Python.valueToCode(block, "ID", Blockly.Python.ORDER_NONE) || "1";
+    const data = block.getFieldValue("DATA") || "";
+    return [`huskylens2.readArrow(${id}, "${data}")`, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.cameras_huskylens_v2_readId = function () {
+    addHuskyLensV2();
+    return ["huskylens2.readId()", Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.cameras_huskylens_v2_count = function (block) {
+    addHuskyLensV2();
+    const type = block.getFieldValue("TYPE") || "BOX";
+    return [`huskylens2.count("${type}")`, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.cameras_huskylens_v2_isAppear = function (block) {
+    addHuskyLensV2();
+    const id = Blockly.Python.valueToCode(block, "ID", Blockly.Python.ORDER_NONE) || "1";
+    const type = block.getFieldValue("TYPE") || "BOX";
+    return [`huskylens2.isAppear(${id}, "${type}")`, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.cameras_huskylens_v2_writeLearn1 = function () {
+    addHuskyLensV2();
+    return "huskylens2.writeLearn1()" + NEWLINE;
+};
+
+Blockly.Python.cameras_huskylens_v2_learnedId = function () {
+    addHuskyLensV2();
+    return ["huskylens2.learned_id", Blockly.Python.ORDER_MEMBER];
+};
+
+Blockly.Python.cameras_huskylens_v2_forgetLearn = function () {
+    addHuskyLensV2();
+    return "huskylens2.forgetLearn()" + NEWLINE;
+};
+
+Blockly.Python.cameras_huskylens_v2_writeName = function (block) {
+    addHuskyLensV2();
+    const id = Blockly.Python.valueToCode(block, "ID", Blockly.Python.ORDER_NONE) || "1";
+    const name = Blockly.Python.valueToCode(block, "NAME", Blockly.Python.ORDER_NONE) || "''";
+    return `huskylens2.writeName(${id}, ${name})` + NEWLINE;
+};
+
+Blockly.Python.cameras_huskylens_v2_writeOSD = function (block) {
+    addHuskyLensV2();
+    const name = Blockly.Python.valueToCode(block, "NAME", Blockly.Python.ORDER_NONE) || "''";
+    const x = Blockly.Python.valueToCode(block, "X", Blockly.Python.ORDER_NONE) || "0";
+    const y = Blockly.Python.valueToCode(block, "Y", Blockly.Python.ORDER_NONE) || "0";
+    return `huskylens2.writeOSD(${name}, ${x}, ${y})` + NEWLINE;
+};
+
+Blockly.Python.cameras_huskylens_v2_clearOSD = function () {
+    addHuskyLensV2();
+    return "huskylens2.clearOSD()" + NEWLINE;
+};
+
+Blockly.Python.cameras_huskylens_v2_saveModelToTFCard = function (block) {
+    addHuskyLensV2();
+    const command = JSON.stringify(block.getFieldValue("COMMAND") || "SAVE");
+    const data = Blockly.Python.valueToCode(block, "DATA", Blockly.Python.ORDER_NONE) || "0";
+    return `huskylens2.saveModelToTFCard(${command}, ${data})` + NEWLINE;
 };
 
 // Wio Lite

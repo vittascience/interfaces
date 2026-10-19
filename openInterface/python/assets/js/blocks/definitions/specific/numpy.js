@@ -287,7 +287,7 @@ Blockly.Constants.Numpy.NUMPY_CREATE_TABLE_WITH_MUTATOR_MIXIN = {
     },
     restoreConnections_: function () {
         for (var i = 0; i < this.itemCount_; i++) {
-            Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'ADD' + i);
+            this.valueConnections_[i]?.reconnect(this, 'ADD' + i);
         }
     },
     addItem_: function () {
@@ -314,7 +314,7 @@ Blockly.Constants.Numpy.NUMPY_CREATE_TABLE_WITH_MUTATOR_MIXIN = {
                     shadowDomField.setAttribute('name', 'NUM');
                     shadowDom.appendChild(shadowDomField);
                     if (shadowDom) {
-                        shadowDom.setAttribute('id', Blockly.utils.genUid());
+                        shadowDom.setAttribute('id', Blockly.utils.idGenerator.genUid());
                         newInput.connection.setShadowDom(shadowDom);
                         newInput.connection.respawnShadow_();
                     }
@@ -483,7 +483,7 @@ Blockly.Constants.Numpy.NUMPY_SQUARE_MATRIX_MUTATOR_MIXIN = {
             for (var i = 0; i < this.dim_; i++) {
                 this.line[j].appendField(new Blockly.FieldTextInput("0"), 'element_' + j + i);
             }
-            this.line[j].setAlign(Blockly.ALIGN_CENTRE);
+            this.line[j].setAlign(Blockly.inputs.Align.CENTRE);
         }
     }
 };

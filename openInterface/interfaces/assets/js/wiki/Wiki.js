@@ -8,6 +8,8 @@ Blockly.Wiki.init = async function (categoryId) {
     Blockly.Wiki.previewWorkspace = Blockly.inject('previewBlocklyDiv', { renderer: 'zelos' });
     Blockly.Wiki.toolboxMode = Blockly.Constants.getToolboxStyle();
     Blockly.Wiki.toolbox = ToolboxManager.toolboxDefined(Blockly.Wiki.toolboxMode);
+    // Toolboxes without categories (letsstartcoding): nothing to list.
+    if (!Array.isArray(Blockly.Wiki.toolbox.categories)) return;
     Blockly.Wiki.blockDB = ToolboxManager.DB_.get();
     ToolboxManager.DISABLE_BLOCK_HELPURL_EXTENSION = true;
     ToolboxManager.DISABLE_DISABLING_DUPLICATES_EXTENSION = true;
@@ -264,8 +266,8 @@ Blockly.Wiki.setWorkspaceBlock = function (blockType, blocks) {
     return blockDivName;
 };
 
-Blockly.Wiki.getTopBlock = function (blockDB_) {
-    for (const db in blockDB_) return blockDB_[db];
+Blockly.Wiki.getTopBlock = function (blocks) {
+    return blocks[0];
 };
 
 Blockly.Wiki.domToWorkspace = function (xmlToLoad, previewWorkspace) {
@@ -315,49 +317,49 @@ Blockly.Wiki.loadBlock = function (blockType, searchMode = false, loadingId = nu
             }
         }
 
-        let xmlToLoad = Blockly.Xml.textToDom('<xml xmlns="http://www.w3.org/1999/xhtml">' + blockXml + '</xml>');
+        let xmlToLoad = Blockly.utils.xml.textToDom('<xml xmlns="http://www.w3.org/1999/xhtml">' + blockXml + '</xml>');
         Blockly.Wiki.domToWorkspace(xmlToLoad, Blockly.Wiki.previewWorkspace);
 
         if (['arduino', 'mBot'].includes(INTERFACE_NAME)) {
-            let block = Blockly.Wiki.getTopBlock(Blockly.Wiki.previewWorkspace.blockDB_);
+            let block = Blockly.Wiki.getTopBlock(Blockly.Wiki.previewWorkspace.getAllBlocks(false));
             const xmlToLoadStart = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="on_start"><statement name="DO">';
             const xmlToLoadEnd = '</statement></block></xml>';
 
             if (['display', 'io', 'communication', 'sensors', 'actuators', 'logic', 'math', 'text', 'variables'].includes(Blockly.Wiki.category) &&
                 !BLOCKS_OUTSIDE_SCOPE.includes(blockType)) {
                 if ((block.previousConnection !== null && block.nextConnection !== null)) {
-                    xmlToLoad = Blockly.Xml.textToDom(xmlToLoadStart + blockXml + xmlToLoadEnd);
+                    xmlToLoad = Blockly.utils.xml.textToDom(xmlToLoadStart + blockXml + xmlToLoadEnd);
                 } else {
-                    block.workspace.createVariable('variable');
-                    xmlToLoad = Blockly.Xml.textToDom(xmlToLoadStart + '<block type="variables_set"><field name="VAR">variable</field><value name="VALUE">' + blockXml + '</value></block>' + xmlToLoadEnd);
+                    block.workspace.getVariableMap().createVariable('variable');
+                    xmlToLoad = Blockly.utils.xml.textToDom(xmlToLoadStart + '<block type="variables_set"><field name="VAR">variable</field><value name="VALUE">' + blockXml + '</value></block>' + xmlToLoadEnd);
                 }
             } else if (['loops'].includes(Blockly.Wiki.category)) {
-                xmlToLoad = Blockly.Xml.textToDom(xmlToLoadStart + blockXml + xmlToLoadEnd);
+                xmlToLoad = Blockly.utils.xml.textToDom(xmlToLoadStart + blockXml + xmlToLoadEnd);
             } else if (['procedures'].includes(Blockly.Wiki.category)) {
                 switch (blockType) {
                     case 'procedures_callnoreturn':
-                        xmlToLoad = Blockly.Xml.textToDom(xmlToLoadStart + blockXml + xmlToLoadEnd);
+                        xmlToLoad = Blockly.utils.xml.textToDom(xmlToLoadStart + blockXml + xmlToLoadEnd);
                         break;
                     case 'procedures_callreturn':
-                        xmlToLoad = Blockly.Xml.textToDom(xmlToLoadStart + '<block type="variables_set"><field name="VAR">variable</field><value name="VALUE">' + blockXml + '</value></block>' + xmlToLoadEnd);
+                        xmlToLoad = Blockly.utils.xml.textToDom(xmlToLoadStart + '<block type="variables_set"><field name="VAR">variable</field><value name="VALUE">' + blockXml + '</value></block>' + xmlToLoadEnd);
                         break;
                     case 'procedures_ifreturn-0':
-                        xmlToLoad = Blockly.Xml.textToDom('<xml xmlns="http://www.w3.org/1999/xhtml"><block type="procedures_defnoreturn"><mutation name="nom_de_la_fonction"></mutation><field name="NAME">nom_de_la_fonction</field><statement name="STACK">' + blockXml + '</statement></block></xml>');
+                        xmlToLoad = Blockly.utils.xml.textToDom('<xml xmlns="http://www.w3.org/1999/xhtml"><block type="procedures_defnoreturn"><mutation name="nom_de_la_fonction"></mutation><field name="NAME">nom_de_la_fonction</field><statement name="STACK">' + blockXml + '</statement></block></xml>');
                         break;
                     case 'procedures_ifreturn-1':
-                        xmlToLoad = Blockly.Xml.textToDom('<xml xmlns="http://www.w3.org/1999/xhtml"><block type="procedures_defreturn"><mutation name="nom_de_la_fonction"></mutation><field name="NAME">nom_de_la_fonction</field><statement name="STACK">' + blockXml + '</statement></block></xml>');
+                        xmlToLoad = Blockly.utils.xml.textToDom('<xml xmlns="http://www.w3.org/1999/xhtml"><block type="procedures_defreturn"><mutation name="nom_de_la_fonction"></mutation><field name="NAME">nom_de_la_fonction</field><statement name="STACK">' + blockXml + '</statement></block></xml>');
                         break;
                 }
             } else if (['network'].includes(Blockly.Wiki.category) && !BLOCKS_OUTSIDE_SCOPE.includes(blockType)) {
                 if ((block.previousConnection !== null && block.nextConnection !== null)) {
                     if (Blockly.Constants.HTML_BLOCKS.includes(blockType)) {
-                        xmlToLoad = Blockly.Xml.textToDom(xmlToLoadStart + '<block type="network_server_sendWebPage"><statement name="BODY">' + blockXml + '</statement></block>' + xmlToLoadEnd);
+                        xmlToLoad = Blockly.utils.xml.textToDom(xmlToLoadStart + '<block type="network_server_sendWebPage"><statement name="BODY">' + blockXml + '</statement></block>' + xmlToLoadEnd);
                     } else {
-                        xmlToLoad = Blockly.Xml.textToDom(xmlToLoadStart + blockXml + xmlToLoadEnd);
+                        xmlToLoad = Blockly.utils.xml.textToDom(xmlToLoadStart + blockXml + xmlToLoadEnd);
                     }
                 } else {
-                    block.workspace.createVariable('variable');
-                    xmlToLoad = Blockly.Xml.textToDom(xmlToLoadStart + '<block type="variables_set"><field name="VAR">variable</field><value name="VALUE">' + blockXml + '</value></block>' + xmlToLoadEnd);
+                    block.workspace.getVariableMap().createVariable('variable');
+                    xmlToLoad = Blockly.utils.xml.textToDom(xmlToLoadStart + '<block type="variables_set"><field name="VAR">variable</field><value name="VALUE">' + blockXml + '</value></block>' + xmlToLoadEnd);
                 }
             }
             Blockly.Wiki.domToWorkspace(xmlToLoad, Blockly.Wiki.previewWorkspace);
@@ -367,7 +369,7 @@ Blockly.Wiki.loadBlock = function (blockType, searchMode = false, loadingId = nu
             return resolve();
         }
 
-        const blockDivName = Blockly.Wiki.setWorkspaceBlock(blockType, Blockly.Wiki.previewWorkspace.blockDB_);
+        const blockDivName = Blockly.Wiki.setWorkspaceBlock(blockType, Blockly.Wiki.previewWorkspace.getAllBlocks(false));
 
         if (loadingId && Blockly.Wiki.currentLoadingId !== loadingId) {
             const element = document.getElementById(blockDivName + "-container");
@@ -390,9 +392,10 @@ Blockly.Wiki.loadBlock = function (blockType, searchMode = false, loadingId = nu
         workspace.setTheme(Blockly.Themes.ClassicBase);
 
         try {
-            const codeBlock = (typeof Blockly.Python === 'undefined' ?
-                Blockly.Arduino.workspaceToCode(workspace) :
-                Blockly.Python.workspaceToCode(workspace));
+            // The generator of the block (arduinoq has several, web only JavaScript).
+            const generator = [Blockly.Python, Blockly.Arduino, Blockly.JavaScript]
+                .find(gen => gen && gen.forBlock && typeof gen.forBlock[blockType] === 'function');
+            const codeBlock = generator ? generator.workspaceToCode(workspace) : '';
 
             Blockly.Wiki.displayCodeBlock(blockDivName + "-container", (codeBlock !== undefined ? codeBlock : ''));
 
@@ -469,7 +472,7 @@ Blockly.Wiki.renderCachedBlock = function (cachedBlock, blockType, loadingId) {
             // Recréer le workspace et le DOM à partir du cache
             Blockly.Wiki.domToWorkspace(cachedBlock.xmlToLoad, Blockly.Wiki.previewWorkspace);
 
-            const blockDivName = Blockly.Wiki.setWorkspaceBlock(blockType, Blockly.Wiki.previewWorkspace.blockDB_);
+            const blockDivName = Blockly.Wiki.setWorkspaceBlock(blockType, Blockly.Wiki.previewWorkspace.getAllBlocks(false));
 
             if (loadingId && Blockly.Wiki.currentLoadingId !== loadingId) {
                 const element = document.getElementById(blockDivName + "-container");

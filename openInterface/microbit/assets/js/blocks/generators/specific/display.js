@@ -251,7 +251,7 @@ Blockly.Python.DISPLAY_NEOPIXEL_INIT_GENERATOR = function (block, pin, ledCount)
     Blockly.Python.addInit('neopixel_' + pin, "# Neopixel on " + pin);
     Blockly.Python.addConstant('led_count_' + numPin, NEOPIXEL_LED_COUNT + numPin + " = " + ledCount);
     Blockly.Python.addInit('neopixel_' + numPin, "np_" + numPin + " = neopixel.NeoPixel(" + pin + ", " + NEOPIXEL_LED_COUNT + numPin + ")");
-    block.workspace.createVariable(NEOPIXEL_LED_COUNT + numPin);
+    block.workspace.getVariableMap().createVariable(NEOPIXEL_LED_COUNT + numPin);
 };
 
 /**
@@ -264,8 +264,8 @@ Blockly.Python.neopixel_checkDefinedBlock = function (block, pin) {
     let alreadyDefined = false;
     for (var block in defineBlocks) {
         const fieldDropdownPin = defineBlocks[block].getField('PIN');
-        const selectedOption = fieldDropdownPin.selectedOption_[1];
-        if (selectedOption == pin && !defineBlocks[block].disabled) {
+        const selectedOption = fieldDropdownPin.getValue();
+        if (selectedOption == pin && !defineBlocks[block].hasDisabledReason(Blockly.constants.MANUALLY_DISABLED)) {
             alreadyDefined = true;
         }
     }
@@ -412,7 +412,7 @@ Blockly.Python.display_setClockGrove4Digit = function (block) {
     const pinDIO = block.getFieldValue("DIO");
     const objName = 'tm1637_' + pinCLK.substr(3);
     Blockly.Python.addConstant('chronometer', "t0 = 0");
-    block.workspace.createVariable('t0');
+    block.workspace.getVariableMap().createVariable('t0');
     Blockly.Python.addConstant('time_read',
         "#Warning, the clock is recovered by browser when micro:bit is flashed." + NEWLINE +
         "#If micro:bit is powered off, time will not flow." + NEWLINE +
@@ -559,7 +559,7 @@ Blockly.Python.display_morpionIsEndGame = function () {
 Blockly.Python.initializeGamesGenerator = function (block) {
     Blockly.Python.addImport('game', IMPORT_GAME);
     Blockly.Python.addInit('myGame', "myGame = GAME()");
-    block.workspace.createVariable("sprite");
+    block.workspace.getVariableMap().createVariable("sprite");
 };
 
 Blockly.Python.display_games_createSprite = function (block) {

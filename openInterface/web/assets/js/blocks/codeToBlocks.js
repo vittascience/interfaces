@@ -31,8 +31,8 @@ function fontAwesome(icon) {
 
 (function () {
 	'use strict';
-	Blockly.HSV_SATURATION = 1;
-	Blockly.HSV_VALUE = 0.7;
+	Blockly.utils.colour.setHsvSaturation(1);
+	Blockly.utils.colour.setHsvValue(0.7);
 })();
 
 const colorNames = [
@@ -1810,7 +1810,7 @@ class CodeToBlocks {
 		});
 
 		// change the text to dom
-		const dom = Blockly.Xml.textToDom(xmlLoader.innerHTML);
+		const dom = Blockly.utils.xml.textToDom(xmlLoader.innerHTML);
 		// clear the workspace to avoid adding code on top
 		this.clearWorkspace(false, workSpaceTarget);
 

@@ -13,7 +13,7 @@ const STANDARD_A11Y_INTERFACES = [
     'galaxia', 'GalaxiaCircuitPython', 'l476', 'letsstartcoding', 'lotibot',
     'm5stack', 'mBot', 'microbit', 'nao', 'niryo', 'photon', 'pico', 'python',
     'raspberrypi', 'sphero', 'spike', 'thymio', 'TI-83', 'wb55', 'web', 'winky',
-    'steami', 'alphai', 'arduinoq'
+    'steami', 'alphai', 'arduinoq', 'primastem'
 ];
 
 /**
@@ -50,6 +50,12 @@ async function loadInterface(interfaceName) {
                 })
             }
         }
+        // Blockly's own messages first (translations of the core UI, including the
+        // messages added by recent Blockly versions): the interfaces' files override them.
+        scripts.unshift({
+            id: "blockly_core_msg",
+            src: `${CDN_PATH}/openInterface/interfaces/assets/js/external/blockly/msg/${language}.js`
+        });
         return scripts;
     };
 
@@ -277,7 +283,15 @@ async function loadInterface(interfaceName) {
     VittaInterface = new InterfaceInit(interfaceName);
     await VittaInterface.init();
     await loadingPrivate(interfaceName);
-    if (VittaInterface.hasShepherdTour()) VittaInterface._startShepherdTour();
+    if (VittaInterface.hasShepherdTour()) {
+        if (typeof IS_CAPYTALE_CONTEXT !== 'undefined') {
+            while (typeof capytaleManager === 'undefined') {
+                await new Promise(r => setTimeout(r, 50));
+            }
+            await capytaleManager.awaitInitialProjectLoaded();
+        }
+        VittaInterface._startShepherdTour();
+    }
     window.VittaInterface = VittaInterface;
 };
 

@@ -59,6 +59,7 @@ const Obstacle = {
 		const obstaclesLS = SimulatorLS.get('obstaclesDB');
 		if (obstaclesLS) {
 			const obstacles = JSON.parse(obstaclesLS);
+			this.obstaclesDB = Object.create(null);
 			for (const id in obstacles) {
 				this.obstaclesDB[id] = Object.assign({}, obstacles[id]);
 				this.obstaclesDB[id].image = PATH_MEDIA + '/obstacles/' + obstacles[id].image;
@@ -85,6 +86,7 @@ export default class RobotSimulator3D {
 			isDisplayed: false,
 		};
 		this.angleSliderInitialized = false;
+		this.angleTextInputInitialized = false;
 		this.initAngle = null;
 		this.angle = 0;
 		this.pen = {
@@ -448,5 +450,59 @@ export default class RobotSimulator3D {
     </div>`;
 		const experienceContainer = document.getElementById('experience-3d-container');
 		experienceContainer.insertAdjacentHTML('beforeend', robotSimulatorHTML);
+		this.initAngleTextInput();
+	}
+
+	initAngleTextInput() {
+		if (this.angleTextInputInitialized) {
+			return;
+		}
+
+		const angleText = document.querySelector('#control-dropdown-robot-angle-window-3D .angle-slider-text');
+		if (!angleText) {
+			return;
+		}
+
+		const normalizeAngle = (rawValue) => {
+			const parsed = Number(String(rawValue).replace(',', '.').replace(/[^0-9.+-]/g, ''));
+			if (Number.isNaN(parsed)) {
+				return null;
+			}
+			return ((Math.round(parsed) % 360) + 360) % 360;
+		};
+
+		const commitAngle = () => {
+			const angle = normalizeAngle(angleText.textContent);
+			if (angle === null) {
+				this.setInitialRobotAngle(Number(this.angle) || 0);
+				return;
+			}
+			this.setInitialRobotAngle(angle);
+		};
+
+		angleText.setAttribute('contenteditable', 'true');
+		angleText.setAttribute('spellcheck', 'false');
+
+		angleText.addEventListener('mousedown', (e) => {
+			e.stopPropagation();
+		});
+
+		angleText.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter') {
+				e.preventDefault();
+				commitAngle();
+				angleText.blur();
+			} else if (e.key === 'Escape') {
+				e.preventDefault();
+				this.setInitialRobotAngle(Number(this.angle) || 0);
+				angleText.blur();
+			}
+		});
+
+		angleText.addEventListener('blur', () => {
+			commitAngle();
+		});
+
+		this.angleTextInputInitialized = true;
 	}
 }

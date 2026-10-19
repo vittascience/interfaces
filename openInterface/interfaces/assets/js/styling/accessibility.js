@@ -67,7 +67,9 @@ function setBlocklyControlsA11y() {
 
             btn.addEventListener('focus', () => focusRing.setAttribute('stroke', '#4d90fe'));
             btn.addEventListener('blur',  () => focusRing.setAttribute('stroke', 'transparent'));
-            btn.addEventListener('click', () => triggerClick(group));
+            // A mouse click (detail >= 1) already reaches Blockly through the native pointerdown bubbling to the group:
+            // only relay non-pointer activations (screen readers), otherwise zoom/trash/backpack act twice
+            btn.addEventListener('click', (e) => { if (e.detail === 0) triggerClick(group); });
             btn.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();

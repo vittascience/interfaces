@@ -515,7 +515,7 @@ utils.prototypeBlocks['neopixel_showAllLed'] = function (type, fields, values, m
 		classVariable = utils.python2Blocks._classes[statementsNode[0].text];
 	}
 
-	if (classVariable === null) {
+	if (!classVariable) {
 		return null;
 	}
 
@@ -558,7 +558,7 @@ utils.prototypeBlocks['neopixel_rainbow'] = function (type, fields, values, muta
 		classVariable = utils.python2Blocks._classes[statementsNode[0].text];
 	}
 
-	if (classVariable === null) {
+	if (!classVariable) {
 		return null;
 	}
 
@@ -1149,17 +1149,18 @@ utils.prototypeBlocks['displayFrames'] = function (method, identifier, values, m
 		row = [];
 	}
 
-	let duration = statementsNode[1] || 1000;
-	let mutator = !statementsNode[2].type || false;
+	// image of the block drawn from the hidden field after the injection (own key: the mono matrix uses HT16K33Matrix)
+	utils.python2Blocks.interface_specific_end.RGBMatrix = LedMatrixModalManager.updateImageRGB;
 
-	utils.python2Blocks.interface_specific_end.HT16K33Matrix = LedMatrixModalManager.updateImageRGB;
-
+	// "1000, True" (loop, no duration) or "<duration>, False" (duration option of the block)
+	const [, duration, loop] = statementsNode;
+	const withDuration = loop?.text === 'False' && duration;
 	return {
 		type: 'display_rgb_led_matrix_DrawBitmap',
 		fields: { HIDDEN_RGB_LEDS_MATRIX: reverse_matrix.join(',') },
-		mutations: { DURATION: duration },
-		values: null,
-		statementsNode: null,
+		mutations: { duration: withDuration ? 'true' : 'false' },
+		values: withDuration ? { DURATION: null } : null,
+		statementsNode: withDuration ? { DURATION: duration } : null,
 		statements: null,
 	};
 };
@@ -1528,3 +1529,50 @@ utils.prototypeBlocks['endGame'] = function (type, identifier, values, mutations
 		statements: null,
 	}
 }
+// Pixel state: "display.get_pixel(x, y) > 0"
+utils.binaryInterceptors['display.get_pixel_GT'] = function (left, operator, right) {
+	if (right.text !== '0') return null;
+	const args = utils.getArgumentList(left.children.find((child) => child.type === 'argument_list').children);
+	return {
+		type: 'get_pixelState',
+		fields: {},
+		values: { X: null, Y: null },
+		mutations: null,
+		statementsNode: { X: args[0], Y: args[1] },
+		statement: null,
+	};
+};
+
+utils.prototypeBlocks['togglePixelState'] = function (type, fields, values, mutations, statementsNode) {
+	return {
+		type: 'toggle_pixelState',
+		fields: {},
+		values: { X: null, Y: null },
+		mutations: null,
+		statementsNode: { X: statementsNode[0], Y: statementsNode[1] },
+		statement: null,
+	};
+};
+
+// Variable Color LED: "pinX.write_analog(int(1023 * (1 -VALUE / 100)))"
+utils.prototypeBlocks['#VariableColorLEDon'] = function (pin, statementsNode) {
+	const findValue = (node) => {
+		if (!node) return null;
+		if (node.type === 'binary_operator' && node.children[1]?.text === '/' && node.children[2]?.text === '100') {
+			return node.children[0];
+		}
+		for (const child of node.children || []) {
+			const value = findValue(child);
+			if (value) return value;
+		}
+		return null;
+	};
+	return {
+		type: 'display_setVariableColorLED',
+		fields: { PIN: pin },
+		values: { VALUE: null },
+		mutations: null,
+		statementsNode: { VALUE: findValue(statementsNode[0]) || { type: 'integer', text: '0' } },
+		statement: null,
+	};
+};

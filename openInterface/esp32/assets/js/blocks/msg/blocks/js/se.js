@@ -667,3 +667,5 @@ Blockly.Msg['ROBOTS_COLOR_GREEN'] = 'grön';
 Blockly.Msg['ROBOTS_COLOR_BLUE'] = 'blå';
 Blockly.Msg['ROBOTS_COLOR_BLACK'] = 'svart';
 Blockly.Msg['ROBOTS_COLOR_WHITE'] = 'vit';
+Blockly.Msg["IO_GETGROVEDISTANCEINTERRUPTER_TITLE"] = "[Avståndsavbrott] tillstånd på pin %1";
+Blockly.Msg["IO_GETGROVEDISTANCEINTERRUPTER_TOOLTIP"] =IMG_MODULE_DISTANCE_INTERRUPTER + Blockly.Tooltip.SEP +"Returnerar tillståndet för avståndsavbrottet (0 eller 1).";

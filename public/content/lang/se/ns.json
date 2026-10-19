@@ -29,6 +29,12 @@
       "error": "Ett fel uppstod vid anmälan. Försök igen."
     },
     "seeMore": "Se mer",
+    "backToWebinars": "Tillbaka till webbseminarier",
+    "mosaic": {
+      "searchPlaceholder": "Sök ett webbseminarium...",
+      "filterAll": "Alla",
+      "noResult": "Inga resultat."
+    },
     "newsletter": {
       "intro": "Vill du inte missa våra kommande webbinarier? Prenumerera på vårt nyhetsbrev!",
       "title": "Prenumerera på vårt nyhetsbrev",
@@ -764,6 +770,37 @@
       "infos": "Information",
       "delivery": "Leverans",
       "freeWithPremium": "Gratis med premiumkonto",
+      "shippingAtDeliveryStep": "Beräknas vid leveranssteget",
+      "shippingFree": "Gratis",
+      "shippingFreeWithPremium": "Gratis frakt till fastlandet Frankrike med Vittascience Premium-abonnemanget",
+      "shippingFreeThanksToPremium": "Gratis frakt till fastlandet Frankrike tack vare ditt Vittascience Premium-abonnemang",
+      "shippingFreeWithCartPremium": "Gratis frakt till fastlandet Frankrike tack vare Premium-abonnemanget i din beställning",
+      "shippingFreeMetropolitan": "Gratis till fastlandet Frankrike",
+      "premiumUpsellTitle": "Vittascience Premium årsabonnemang – 1 användare",
+      "premiumUpsellText": "Få tillgång till alla Vittascience Premium-resurser och njut av gratis frakt till fastlandet Frankrike, börja med denna beställning.",
+      "premiumUpsellPrice": "{{price}} inkl. moms / år",
+      "premiumUpsellAdd": "Lägg till i kundvagn",
+      "premiumUpsellShort": "Gratis frakt till fastlandet Frankrike med det årliga Premium-abonnemanget ({{price}} inkl. moms / år)",
+      "premiumRenewalNotice": "Ditt Premium-abonnemang betalas med denna beställning, och förnyas automatiskt vid varje förnyelse till samma pris. Du kan avboka det när som helst från din profil, under Premium-fliken.",
+      "cbDisabledTeamSubscription": "Med kort kan endast ett 1-användar Premium-abonnemang läggas till en beställning. Multianvändarabonnemang tecknas från din profil eller genom offert.",
+      "cbDisabledAlreadySubscribed": "Ditt konto har redan ett Premium-abonnemang: ta bort abonnemanget från din kundvagn för att fortsätta.",
+      "quotePayment": {
+        "alreadySubscribed": "Ditt konto har redan ett Premium-abonnemang: denna offert innehåller ett abonnemang och kan inte betalas med kort. Kontakta oss för att justera det.",
+        "subscriptionNotAllowed": "Denna offert innehåller ett multianvändar-abonnemang: den kan inte betalas med kort. Betala med banköverföring eller ladda upp din inköpsorder.",
+        "stripeError": "Kortbetalning för denna offert kunde inte förberedas. Försök igen om en stund eller kontakta oss.",
+        "alreadyPaid": "Denna offert har redan betalats.",
+        "nothingToPay": "Denna offert har inget belopp att betala med kort: vårt team kommer att validera det direkt.",
+        "generic": "Betalning för denna offert kunde inte påbörjas. Försök igen eller kontakta oss."
+      },
+      "premiumRemovedFromCart": "Premium-abonnemanget har tagits bort från din kundvagn: ditt konto är redan prenumererat.",
+      "premiumAlreadySubscribedCart": "Ditt konto har redan ett Premium-abonnemang: detta abonnemang kan inte läggas till kundvagnen.",
+      "premiumModal": {
+        "title": "Premium-abonnemang från din profil",
+        "message": "Med kort kan en beställning endast innehålla ett 1-användar Premium-abonnemang. Multianvändarabonnemang tecknas från din profil, via vår säkra återkommande betalning, eller genom offert.",
+        "steps": "Prenumerera från din profil först, och kom sedan tillbaka för att beställa din hårdvara: frakten blir gratis till fastlandet Frankrike.",
+        "cancel": "Avbryt",
+        "subscribe": "Prenumerera"
+      },
       "billing": "Betalning",
       "validate": "Bekräftelse",
       "resumeEstimate": "Din offertförfrågan har bekräftats.",
@@ -829,6 +866,8 @@
         "sessionIncomplete": "Betalningssessionen slutfördes inte. Försök igen.",
         "stripeError": "Ett fel uppstod vid verifiering av betalningen. Försök igen eller kontakta support.",
         "subscriptionNotAllowed": "Premiumprenumerationer kan inte betalas med kreditkort via detta gränssnitt.",
+        "alreadySubscribed": "Ditt konto har nu ett Premium-abonnemang: abonnemanget har tagits bort från din kundvagn. Kontrollera din beställning innan du bekräftar den.",
+        "insufficientStock": "Otillräckligt lager för {{product}}. Justera mängden i din kundvagn.",
         "generic": "Ett fel uppstod. Försök igen."
       }
     },
@@ -935,6 +974,8 @@
       "marc": "Marc började hos Vittascience i september 2024. Han gör sin lärlingspraktik hos oss och, tillsammans med Ylarie, sköter all logistik och ser till att butiken fungerar smidigt.",
       "ylarie": "Sedan september 2024 tar Ylarie hand om logistiken i Vittascience-butiken tillsammans med Marc — från att lägga in produkter till att skicka paket!",
       "hire": "Brinner du för utbildning, tycker om projekt och tror att dina färdigheter skulle stärka vårt team? Tveka inte att kontakta oss! <br/><a href=\"/hire\" style=\"text-decoration:none;\"><button class=\"mt-3 btn v-btn-important about-recruit-btn\">Bli en del av vårt team :) <span class=\"fa fa-chevron-right\"></span></button></a>",
+      "junior": "Webbutvecklare och IT-supportpraktikant på Vittascience, passionerad om utveckling och digitala teknologier.",
+      "zouhir": "Zouhir började på Vittascience i september 2026 som praktikant inom front-end utveckling, inbyggda system och teknisk support.",
       "hireTitle": "Bli en del av oss"
     },
     "hof": {
@@ -1160,6 +1201,16 @@
     }
   },
   "code": {
+    "blockExtensions": {
+      "category": "Extensions",
+      "title": "Block extensions",
+      "note": "Add new blocks to program other robots, models or modules. The chosen extensions are saved with the project.",
+      "close": "Close",
+      "search": "Search for an extension",
+      "added": "Added",
+      "noResult": "No extension found.",
+      "confirmRemoveUsed": "{{count}} block(s) of this extension used in the program will be deleted. Continue?"
+    },
     "tooltip": {
       "anonymousAuthor": "Anonym författare",
       "backpack": "Ryggsäck",
@@ -1231,6 +1282,7 @@
       "badBoard": "Det anslutna kortet är inte av typen ",
       "checkBoardSettings": "Välj rätt kort i Inställningar, sedan Kortalternativ.",
       "flashFailed": "Det gick inte att skicka programmet.",
+      "boardNotResponding": "Kortet svarar inte: kontrollera att roboten är påslagen.",
       "baudrateError": "Ett fel uppstod vid läsning från den seriella porten. Försök ändra baudrate i monitorinställningarna.",
       "firmwareWarning": "Observera: för att få alla funktioner med STM32-kortet, uppgradera firmware till version 1.17 enligt denna handledning: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=398\" target=\"_blank\" rel=\"noopener noreferrer\">Uppdatera firmware</a>",
       "compiling": "Kompilering pågår. Detta kan ta några sekunder...",
@@ -1247,6 +1299,16 @@
       "BLEclosed": "Bluetooth-anslutning stängdes!",
       "gattConnected": "Anslutning till GATT-tjänster lyckades!",
       "usePhone": "För närvarande är Bluetooth-uppladdning endast tillgänglig på mobil eller surfplatta."
+    },
+    "arduinoq": {
+      "boardConnected": "Anslutning av brädan lyckades!",
+      "webAppUrl": "Appens webbsida (från en enhet i samma nätverk):",
+      "localModelMissing": "Ingen lokal AI-modell hittades i den här webbläsaren: träna först en bildmodell i Vittasciences AI-verktyg (i samma webbläsare) eller använd blocket \"ladda modellen\" med dess länk.",
+      "passwordRequired": "För att fortsätta överföringen krävs lösenordet för Arduino Q-brädan.",
+      "incorrectPassword": "Lösenordet är felaktigt, försök igen.",
+      "transfertAborted": "Överföring avbruten.",
+      "arduinoClaiming": "Se till att USB-porten inte är i bruk (d.v.s. adb-servern är aktiv).</br>Vänligen stäng Arduino App Lab om det är öppet och försök kommandot i kommandoraden: adb kill-server",
+      "transferAborted": "Överföring avbruten."
     },
     "welcome": {
       "arduino": "Välkommen till Vittascience-gränssnittet för Arduino!</br>Du kan titta på handledningen här : <a href=\"https://en.vittascience.com/learn/tutorial.php?id=911/prise-en-main-de-la-carte-arduino-uno-et-de-l-interface-vittascience\" target=\"_blank\" rel=\"noopener noreferrer\">Kom igång med Vittascience-gränssnittet för Arduino UNO-kortet</a>",
@@ -1280,7 +1342,9 @@
       "codey": "Välkommen till Vittasciences gränssnitt för Codey och Rocky från Makeblock!",
       "nano-esp32": "Välkommen till Vittasciences gränssnitt för Arduino Nano ESP32-kortet och Alvik-roboten! Som standard finns MicroPython-tolken redan på kortet. Om du vill uppdatera Arduino Nano ESP32-kortet, flasha MicroPython-firmware på kortet enligt denna handledning: <b><a href=\"https://fr.vittascience.com/learn/tutorial.php?id=341/flasher-le-firmware-micropython-dans-la-carte-esp32\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashning av MicroPython-firmware</a></b>",
       "steami": "Välkommen till Vittasciences gränssnitt för STeaMi!",
-      "alphai": "Välkommen till Vittasciences gränssnitt för AlphAI-roboten!"
+      "alphai": "Välkommen till Vittasciences gränssnitt för AlphAI-roboten!",
+      "arduinoq": "Välkommen till Vittascience-gränssnittet för Arduino UNO Q-brädan!</br></br>Gränssnittet stöder olika språk (Arduino, Python, HTML) för programmering av ett komplett projekt med brädan. Blocken i kategorin 'Bas' kan användas på vilket språk som helst; den genererade koden kommer då att anpassas till språktypen av headerblocket.</br></br>Det är möjligt att skicka Linux-kommandon till Arduino Q-brädan genom att skriva kommandot i inmatningsfältet längst ner i konsolen.",
+      "primastem": "Välkommen till Vittascience-gränssnittet för PrimaStem-roboten!"
     },
     "chromeApp": {
       "noPort": "Ingen port upptäckt",
@@ -1382,8 +1446,14 @@
       "notice": "Din skärm är för liten för att utvecklingsgränssnittet ska fungera optimalt."
     },
     "statement": "Meddelande:",
+    "statementButtons": {
+      "expand": "Expandera",
+      "collaps": "Kollapsa"
+    },
     "topbar": {
       "tooltips": {
+        "boardWifi": "Konfigurera Wi-Fi för det anslutna Arduino UNO Q-kortet",
+        "projectMenu": "Projektmeny",
         "new": "Nytt projekt",
         "save": "Spara",
         "open": "Öppna projekt",
@@ -1401,6 +1471,7 @@
         "stopNaoProgram": "Stoppa programmet",
         "uploadPythonThymio": "Ladda upp Python-skriptet till Thymio",
         "uploadArduino": "Ladda upp Arduino-programmet till kortet",
+        "uploadArduinoQProject": "Ladda upp appen (Arduino, Python och webbsida) till Arduino UNO Q-kortet",
         "compileArduino": "Kör kompilering",
         "arduinoBoardSelector": "Välj Arduino-kort att programmera",
         "esp32BoardSelector": "Välj ESP32-kort att programmera",
@@ -1467,9 +1538,11 @@
         "repl": "Tryck på Enter ↩️ för att köra kommandot",
         "runningCode": "Kör din kod... vänta ett ögonblick.",
         "runningCodeStopButton": "Stoppa",
-        "i18n": "Språk"
+        "i18n": "Språk",
+        "settingsMenu": "Inställningsmeny"
       },
       "label": {
+        "boardWifi": "Kortets Wi-Fi",
         "texas": "Ladda ner .py för miniräknare",
         "new": "Nytt projekt",
         "save": "Spara",
@@ -1580,6 +1653,7 @@
             "clearData": "Rensa data"
           },
           "send": "Meddelande som skickas till kortet via seriell port",
+          "sendQ": "Linux-kommando att skicka till Arduino Q-brädan",
           "export": "Exportera",
           "openVariables": "Variabler",
           "openFileSystem": "Filer",
@@ -1642,8 +1716,13 @@
         }
       },
       "music": {
-        "enable": "Ljud",
-        "enablebutton": "Aktiverat",
+        "note": "Ton",
+        "stop": "Stoppa",
+        "test": "Testa",
+        "sound": "Ljud",
+        "held": "Uthållen",
+        "percussive": "Perkussiv",
+        "oscilloscope": "Oscilloskop",
         "volume": "Volym ",
         "octave": "Oktav",
         "waveform": "Vågform",
@@ -1657,7 +1736,9 @@
         "effects": {
           "reverb": "Reverb",
           "delay": "Fördröjning",
-          "bitcrusher": "Bitcrusher"
+          "bitcrusher": "Bitcrusher",
+          "vibrato": "Vibrato",
+          "distortion": "Distorsion"
         }
       },
       "feedback": {
@@ -1690,7 +1771,9 @@
           "downloadScreen": "Skärmdump",
           "toggleBoardDisplay": "Visa/dölj simulatorns karta",
           "switchWiringMode": "Byt till kopplingsläge",
-          "switchMosaicMode": "Byt till mosaikläge"
+          "switchMosaicMode": "Byt till mosaikläge",
+          "wiringZoomIn": "Zoom in",
+          "wiringZoomOut": "Zoom out"
         },
         "robot": {
           "background": "Bakgrund",
@@ -1796,6 +1879,7 @@
         "dht22-temp": "DHT22 - Temperatur",
         "dht22-hum": "DHT22 - Luftfuktighet",
         "ds18x20": "DS18X20 - Temperatur",
+        "mlx90621": "MLX90621 - Temperatur",
         "dustSensor": "Partikelsensor",
         "groveRain": "Regnsensor",
         "rainGauge": "Regnmätare",
@@ -1832,7 +1916,8 @@
         "groveLight": "Ljussensor",
         "groveUV": "UV-indexsensor",
         "groveSound": "Ljudsensor",
-        "grovePulse": "Pulssensor"
+        "grovePulse": "Pulssensor",
+        "distanceInterrupter": "Avståndsavbrottare"
       },
       "pinError": "[Pin-fel] Modulen <b>{{modId}}</b> kan inte anslutas till stift <b>{{pin}}</b>. Modulen <b>{{attachedId}}</b> är redan ansluten."
     },
@@ -1861,6 +1946,9 @@
       "mixed-popup-leave-editor": "För att stänga kodeditorn med tangentbordet, tryck samtidigt på <kbd>Caps Lock</kbd> och <kbd>Esc</kbd>.",
       "mixed-popup-readonly": "<i class='fa-solid fa-lock'></i> I mixat läge är kodeditorn <strong>skrivskyddad</strong> i detta gränssnitt. Du kan endast redigera med block.",
       "mixed-popup-readonly-sr": "I mixat läge är koden skrivskyddad i detta gränssnitt",
+      "mixed-small-screen": "On a small screen, the hybrid mode is not very practical: we recommend switching to the blocks or code mode.",
+      "mixed-small-screen-stay": "Stay in hybrid mode",
+      "mixed-small-screen-close": "Close",
       "saveWarning": {
         "title": "<span class=\"fa fa-exclamation-circle\"></span> Varning!",
         "warn": "<span class=\"fa fa-save\"></span> Vill du spara ditt arbete innan du fortsätter?<p class=\"mb-0 mt-0 hint\"> Om du skapar ett nytt projekt utan att spara det tidigare, förloras ditt arbete...",
@@ -2885,8 +2973,13 @@
               }
             },
             "biased": "partisk",
-            "biasedExplanations": "Denna datamängd innehåller en snedvridning. Du kan använda den för att träna en modell och se AI:s begränsningar."
-          }
+            "biasedExplanations": "Denna datamängd innehåller en snedvridning. Du kan använda den för att träna en modell och se AI:s begränsningar.",
+            "imagePreview": "Bildförhandsgranskning {{imageNumber}}"
+          },
+          "deleteImage": "Ta bort bild",
+          "viewImage": "Visa bild",
+          "viewChart": "Visa diagram",
+          "playSound": "Spela ljud"
         },
         "captureSettings": {
           "delay": "Timer:",
@@ -2902,7 +2995,8 @@
         },
         "addCategoryButton": "Lägg till en kategori",
         "rgpdInfoTitle": "GDPR",
-        "rgpdInfoText": "Denna data finns kvar på datorn under hela tränings- och användningsfasen och skickas inte över internet."
+        "rgpdInfoText": "Denna data finns kvar på datorn under hela tränings- och användningsfasen och skickas inte över internet.",
+        "rgpdInfoClose": "Stäng GDPR-information"
       },
       "edgeDevice": {
         "title": "Mikrokontroller",
@@ -2940,7 +3034,9 @@
           "initialModalDownload": "Laddar initial modell...",
           "detectionActivation": "Aktiverar detektion...",
           "finalModalDownload": "Laddar slutmodell..."
-        }
+        },
+        "settingsTitre": "Utbildningsinställningar",
+        "closeSettings": "Stäng utbildningsinställningar"
       },
       "preview": {
         "title": "Förhandsvisning",
@@ -2979,6 +3075,12 @@
           "hideNeuralNetwork": "Dölj det neurala nätverket",
           "inputs": "Egenskaper",
           "denseLayer": "Dense-lager (x16 neuroner)"
+        },
+        "refreshCameras": "Uppdatera kameralista",
+        "imageZoom": {
+          "previous": "Föregående bild",
+          "next": "Nästa bild",
+          "close": "Stäng förhandsvisning"
         }
       },
       "use": {
@@ -3099,7 +3201,16 @@
         "download": {
           "tooltip": "Ladda ner ljud",
           "label": "Ladda ner ljud"
-        }
+        },
+        "quotaInfo": "Kreditinformation",
+        "textInput": "Textinmatning för talsyntes",
+        "seekBackward": "Spola tillbaka 10 sekunder",
+        "playPause": "Spela/Pausa",
+        "seekForward": "Spola framåt 10 sekunder"
+      },
+      "a11y": {
+        "synthesisInProgress": "Talsyntes pågår...",
+        "synthesisComplete": "Talsyntes slutförd"
       },
       "loading": "Syntetiserar...",
       "infoBlocks": {
@@ -3390,6 +3501,12 @@
         "import": "Lägg till källa",
         "seePrompt": "Se prompten",
         "generate": "Generera",
+        "temperatureInfo": "Information om temperaturparameter",
+        "tokensInfo": "Tokeninformation",
+        "copyButtonTooltip": "Kopiera svar"
+      },
+      "a11y": {
+        "responseReceived": "AI-svar mottaget.",
         "copyButtonTooltip": "Kopiera svar"
       },
       "dropdownHeader": "Klicka på en token för att fortsätta <br /> genereringen från den.",
@@ -3586,14 +3703,14 @@
           "contextLength": "32k Tokens",
           "availableState": "Kommer snart!"
         },
-        "mistral-small-3-2-24b-instruct-2506": {
+        "mistral-small-3.2-24b-instruct-2506": {
           "description": "Kompakt, snabb modell för vardagliga uppgifter."
         },
         "mistral-medium-3-5": {
           "description": "Mångsidig modell, effektiv för olika användningsområden."
         },
-        "mistral-large-2512": {
-          "description": "Modell för komplexa uppgifter."
+        "mistral-large-4": {
+          "description": "Avancerad multimodal modell för resonerande och komplexa uppgifter."
         },
         "glm-5-2": {
           "description": "Den mest kraftfulla öppna modellen på marknaden."
@@ -3795,7 +3912,10 @@
         }
       },
       "adacraftBlock": "Vad kan jag göra för dig?",
-      "aiResponseWarningButton": "Problem melden"
+      "aiResponseWarningButton": "Problem melden",
+      "rightBar": {
+        "button": "Minimera inställningspanel"
+      }
     },
     "imageGenerate": {
       "editor": {
@@ -3878,7 +3998,10 @@
           "use": "Använd",
           "advice": "Tips: lägg till 'plain white background' i slutet av din prompt för att enkelt ta bort bakgrunden från din sprite",
           "cancel": "Återgå",
-          "validate": "Bekräfta"
+          "validate": "Bekräfta",
+          "croppedImagePreview": "Förbättrad bildförhandsgranskning",
+          "zoomIn": "Zooma in",
+          "zoomOut": "Zooma ut"
         },
         "editorChoice": {
           "title": "Välj hur du vill använda den här bilden i Adacraft",
@@ -3908,7 +4031,7 @@
       },
       "notifications": {
         "image-is-broken": "😒 Hoppsan, något gick fel — försök igen med en annan instruktion",
-        "not-delete": "Du kan inte ta bort en gillad bild",
+        "delete-failed": "Bilden kunde inte raderas. Försök igen.",
         "asset-deleted": "Bild borttagen",
         "image-generation-queued": "Die Generierung Ihres Bildes befindet sich in der Warteschlange.",
         "image-generation-queued-position": "Die Generierung Ihres Bildes befindet sich in der Warteschlange. Position: {{position}}. Geschätzte Wartezeit: {{waitLabel}}.",
@@ -3916,7 +4039,8 @@
         "image-generation-queued-wait-only": "Die Generierung Ihres Bildes befindet sich in der Warteschlange. Geschätzte Wartezeit: {{waitLabel}}.",
         "quota-reached": "Sie haben Ihr Tageskontingent für Bildgenerierung erreicht. Bitte versuchen Sie es in {{hours}}h {{minutes}}min {{seconds}}s erneut.",
         "quota-reached-monthly": "Sie haben Ihr Monatskontingent für Bildgenerierung erreicht. Bitte versuchen Sie es in {{days}}d {{hours}}h {{minutes}}min {{seconds}}s erneut.",
-        "image-generation-started": "Die Generierung Ihres Bildes hat begonnen."
+        "image-generation-started": "Die Generierung Ihres Bildes hat begonnen.",
+        "duplicate-co2-saved": "🌱 Denna bild finns redan: den kostar inget — inga krediter förbrukade och {{gwp}}g CO2 sparat!"
       },
       "image-generate-models": {
         "DreamShaper": {
@@ -4281,7 +4405,12 @@
         "creatorImages": "Fler bilder av den här skaparen",
         "delete": "Ta bort",
         "moderation": "Moderering i gränssnittet",
-        "report": "Rapportera problem/fel"
+        "report": "Rapportera problem/fel",
+        "cfgScaleInfo": "Information om vägledning",
+        "consumptionInfo": "Information om denna bilds energiförbrukning",
+        "consumptionTotalInfo": "Information om total energiförbrukning",
+        "previousImage": "Föregående bild",
+        "nextImage": "Nästa bild"
       },
       "visibility": {
         "premiumOnly": "Denna funktion är reserverad för Premium-användare av Vittascience.",
@@ -5062,127 +5191,127 @@
   },
   "cookies": {
     "header": {
-      "title": "INFORMATION OM COOKIES",
-      "introduction": "Webbplatsen www.vittascience.com placerar en liten textfil (en « cookie ») på din dator, surfplatta eller mobil när du besöker den. Det hjälper oss att mäta antalet besök och förstå vilka sidor som besöks mest."
+      "title": "COOKIE INFORMATION",
+      "introduction": "Webbplatsen www.vittascience.com placerar en liten textfil (en \"cookie\") på din dator, surfplatta eller mobila enhet när du besöker den. Detta gör det möjligt för oss att mäta antalet besök och förstå vilka sidor som visas mest."
     },
     "content": {
       "sections": {
         "1": {
-          "title": "Denna sida visar ingen cookie-samtyckesbanner, varför det?",
-          "content": "C’est sant, du n’behövde inte klicka på en ruta som täcker halva sidan för att säga att du godkänner att cookies läggs. Inget exceptionellt, inget specialfall.<br/><br/> Vi följer helt enkelt lagen, som säger att vissa verktyg för publikmätning, korrekt konfigurerade för att respektera privatlivet, är undantagna från föregående samtycke.<br/><br/> Vi använder därför <a href='https://matomo.org/' target='_blank'>Matomo</a>, ett <a href='https://matomo.org/free-software/' target='_blank'>fritt</a> verktyg, konfigurerat för att följa CNILs <a href='https://www.cnil.fr/fr/solutions-pour-la-mesure-daudience' target='_blank'>rekommendation « Cookies »</a>. Det innebär att till exempel din IP-adress anonymiseras innan den sparas. Det är därför omöjligt att koppla dina besök på denna webbplats till din person.<br/><br/> Denna konfiguration möjliggör undantag från samtyckesinsamling, i enlighet med artikel 5 i delgivningen nr 2019-093 av den 4 juli 2019 som antog riktlinjer för tillämpning av artikel 82 i lagen av den 6 januari 1978 ändrad avseende läs- eller skrivoperationer i en användares terminal (särskilt cookies och andra spårningsmekanismer).<br/>"
+          "title": "Denna webbplats visar inte en cookie-samtyckesbanner, varför?",
+          "content": "Det stämmer, du behövde inte klicka på en ruta som täcker hälften av sidan för att säga att du samtycker till användningen av cookies. Inget exceptionellt, ingen speciell undantag.<br/><br/> Vi följer helt enkelt lagen, som säger att vissa verktyg för publikmätning, när de är korrekt konfigurerade för att respektera integritet, är undantagna från föregående samtycke.<br/><br/> För detta ändamål använder vi <a href='https://matomo.org/' target='_blank'>Matomo</a>, ett <a href='https://matomo.org/free-software/' target='_blank'>gratis/öppen källkod</a> verktyg, konfigurerat för att följa CNIL:s <a href='https://www.cnil.fr/fr/solutions-pour-la-mesure-daudience' target='_blank'>\"Cookies\" rekommendation</a>. Detta innebär att din IP-adress, till exempel, anonymiseras innan den registreras. Det är därför omöjligt att koppla dina besök på denna webbplats till dig personligen.<br/><br/> Denna konfiguration möjliggör undantag från kravet att få samtycke, i enlighet med artikel 5 i beslut nr 2019-093 den 4 juli 2019 som antog riktlinjer för tillämpningen av artikel 82 i den ändrade lagen den 6 januari 1978 rörande läs-/skrivoperationer på en användares enhet (i synnerhet cookies och andra spårare).<br/>"
         },
         "2": {
-          "title": "Hur inaktiverar jag statistisk spårning?",
-          "content": "Du kan inaktivera denna statistiska spårning så att Matomo slutar inkludera dina besök i statistiken. För detta uppmanar vi dig att följa en av följande procedurer:<br/><ul><li>aktivera funktionen « Spåra inte mig » i din webbläsare: <a href='https://support.mozilla.org/fr/kb/activer-desactiver-cookies-preferences' target='_blank'>Mozilla Firefox</a> ; <a href='https://support.microsoft.com/fr-fr/help/17442/windows-internet-explorer-delete-manage-cookies' target='_blank'>Internet Explorer</a> ; <a href='https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=fr' target='_blank'>Google Chrome</a> ; <a href='http://help.opera.com/Windows/10.20/fr/cookies.html' target='_blank'>Opera</a> ; <a href='https://support.apple.com/kb/ph21411?locale=fr_CA' target='_blank'>Safari</a> ;</li></ul><br/>Eller:<br/><ul><li>Avmarkera följande ruta</li></ul><iframe style='border: 0; height: 160px; width: 100%;border-radius: 16px;' src='https://matomo.vittascience.com/matomo/index.php?module=CoreAdminHome&action=optOut&language=fr&backgroundColor=&fontColor=565656&backgroundColor=FFFFFF&fontSize=14px&fontFamily=Montserrat'></iframe><br/>"
+          "title": "Hur stänger jag av statistisk spårning?",
+          "content": "Du kan stänga av denna statistiska spårning, så att Matomo slutar inkludera dina besök i statistiken. För att göra detta, vänligen följ en av dessa procedurer:<br/><ul><li>aktivera din webbläsares \"DNT\"-funktion: <a href='https://support.mozilla.org/fr/kb/activer-desactiver-cookies-preferences' target='_blank'>Mozilla Firefox</a> ; <a href='https://support.microsoft.com/fr-fr/help/17442/windows-internet-explorer-delete-manage-cookies' target='_blank'>Internet Explorer</a> ; <a href='https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=fr' target='_blank'>Google Chrome</a> ; <a href='http://help.opera.com/Windows/10.20/fr/cookies.html' target='_blank'>Opera</a> ; <a href='https://support.apple.com/kb/ph21411?locale=fr_CA' target='_blank'>Safari</a> ;</li></ul><br/>Eller: <br/><ul><li>Avmarkera följande ruta</li></ul><iframe style='border: 0; height: 160px; width: 100%;border-radius: 16px;' src='https://matomo.vittascience.com/matomo/index.php?module=CoreAdminHome&action=optOut&language=fr&backgroundColor=&fontColor=565656&backgroundColor=FFFFFF&fontSize=14px&fontFamily=Montserrat'></iframe><br/>"
         }
       }
     },
     "footer": {
-      "date": "Senaste uppdatering den 31 augusti 2020."
+      "date": "Senast uppdaterad den 31 augusti 2020."
     }
   },
   "rgpd": {
     "header": {
-      "title": "PRIVATSPOLICY FÖR PERSONUPPGIFTER"
+      "title": "PERSONUPPGIFTSKYDDSPOLICY"
     },
     "content": {
       "introduction": {
         "title": "Introduktion",
-        "content": "Som en engagerad aktör inom utbildning sätter Vittascience säkerheten och konfidentialiteten för sina användares personuppgifter i centrum för sitt arbete.<br/><br/>Vittascience är engagerat i ett kontinuerligt arbete för att skydda användarnas uppgifter i enlighet med franska lagen om information och friheter av den 6 januari 1978 och den allmänna dataskyddsförordningen av den 27 april 2016 (hädanefter: « GDPR »).<br/><br/>Nedan hittar du Vittasciences integritetspolicy för tjänsterna, som vi har försökt presentera så klart som möjligt för att hjälpa dig att bättre förstå och utöva dina rättigheter."
+        "content": "Som en engagerad aktör inom utbildning, sätter Vittascience säkerheten och konfidentialiteten för sina användares personuppgifter i centrum för sina bekymmer.<br/><br/>Vittascience är engagerat i en kontinuerlig process för att skydda sina användares data, i enlighet med den franska lagen om skydd av personuppgifter av den 6 januari 1978 och den allmänna dataskyddsförordningen av den 27 april 2016 (hädanefter: \"GDPR\").<br/><br/>Nedan finner du Vittasciences integritetspolicy, som vi har försökt presentera så tydligt som möjligt för att hjälpa dig att bättre förstå och utöva dina rättigheter."
       },
       "sections": {
         "1": {
-          "title": "Vem ansvarar för behandlingen av dina uppgifter?",
-          "content": "Bolaget VITTASCIENCE (hädanefter: « VITTASCIENCE ») tillhandahåller via sin webbplats www.vittascience.com (hädanefter: « Webbplatsen ») funktioner riktade till lärare och privatpersoner (hädanefter: « Användare ») som är avsedda för undervisning och inlärning av naturvetenskap och digital kompetens. <br/><br/>VITTASCIENCE erbjuder ett antal internetbaserade tjänster (hädanefter: « Tjänsterna ») som gör det möjligt att köra, skapa, ändra och publicera datorprogram samt resurser, aktiviteter och pedagogiska spår (gemensamt kallade här: « Innehåll »). <br/><br/>VITTASCIENCE är därmed den registeransvarige för de personuppgifter du lämnar inom ramen för Tjänsterna som finns på Webbplatsen. <br/><br/>Vissa användare (hädanefter: « Elever ») använder Tjänsterna på inbjudan av eller under kontroll av en annan Användare (t.ex. en lärare, en handledare eller en skolledare). I så fall är denna person gemensamt ansvarig tillsammans med VITTASCIENCE för skyddet av dina uppgifter i samband med din användning av Tjänsterna (hantering av ditt användarkonto och det innehåll du skapar), i den mån det är denna person som valt att erbjuda dig att använda dessa Tjänster. Även i denna situation är VITTASCIENCE din huvudsakliga kontaktpunkt för alla frågor eller oro angående insamling och användning av dina uppgifter.<br/><br/>Webbplatsen och Tjänsterna drivs av bolaget VITTASCIENCE; för mer information och kontaktuppgifter, se <a href='https://vittascience.com/legalnotice'>rättslig information</a>."
+          "title": "Vem är ansvarig för behandlingen av dina uppgifter?",
+          "content": "Företaget VITTASCIENCE (hädanefter: \"VITTASCIENCE\") tillhandahåller, genom sin webbplats www.vittascience.com (hädanefter: \"Sidan\"), funktioner riktade till lärare och individer (hädanefter: \"Användare\") som är dedikerade till undervisning och lärande av vetenskap och digital teknik. <br/><br/>VITTASCIENCE erbjuder en uppsättning online-tjänster (hädanefter: \"Tjänsterna\") som gör det möjligt för användare att köra, skapa, redigera och publicera datorprogram samt utbildningsresurser, aktiviteter och lärstigar (gemensamt kallat hädanefter: \"Innehåll\"). <br/><br/>VITTASCIENCE är därför personuppgiftsansvarig för de personuppgifter du tillhandahåller som en del av Tjänsterna som är tillgängliga på Sidan. <br/><br/>Vissa användare (hädanefter: \"Lärande\") använder Tjänsterna på inbjudan av, eller under övervakning av, en annan Användare (till exempel: en lärare, en utbildare eller en skoladministratör). I detta fall är den personen tillsammans med VITTASCIENCE ansvarig för att skydda dina uppgifter i samband med din användning av Tjänsterna (hantering av ditt användarkonto och det Innehåll du skapar), eftersom det är den personen som valde att erbjuda dig användning av dessa Tjänster. Även i denna situation förblir VITTASCIENCE din primära kontaktperson för frågor eller bekymmer angående insamling och användning av dina uppgifter.<br/><br/> Sidan och Tjänsterna drivs av företaget VITTASCIENCE; för ytterligare detaljer och kontaktinformation, vänligen hänvisa till <a href='https://vittascience.com/legalnotice'>Lagligt meddelande.</a>"
         },
         "2": {
-          "title": "Vilka uppgifter samlas in om dig och varför?",
+          "title": "Vilka uppgifter om dig samlas in, och av vilka skäl?",
           "content": {
-            "introduction": "Generellt går det att använda Webbplatsen och Vittasciences Innehåll utan att lämna personuppgifter.<br/><br/>Avsnittet « 1. Statistiska uppgifter och publikmätning » gäller alla besökare på Webbplatsen; följande delar beskriver flera åtgärder du kan göra som innebär att personuppgifter samlas in. Du kanske inte kan använda vissa funktioner om du vägrar att lämna vissa uppgifter om dig.",
+            "introduction": "I allmänhet går det att använda Vittascience Sidan och Innehållet utan att tillhandahålla några personuppgifter.<br/><br/>Del \"1. Statistiska data och publikmätning\" gäller alla besökare på Sidan; följande delar beskriver flera åtgärder du kan vidta som involverar insamling av personuppgifter. Du kanske inte kan dra nytta av vissa funktioner om du vägrar att tillhandahålla viss information om dig själv.",
             "articles": {
               "1": {
-                "title": "1. Statistiska uppgifter och publikmätning",
-                "content": "För att anpassa vår webbplats efter besökarnas behov och förbättra den för att erbjuda relevant innehåll mäter vi källorna till trafiken till vår webbplats, antal besök, antal visade sidor samt besökarnas aktivitet på webbplatsen och deras återbesöksfrekvens.<br/><br/>Statistikverktyget som används på Webbplatsen är Matomo, ett <a href='https://matomo.org/free-software/' target='_blank'>fritt</a> verktyg, konfigurerat för att följa CNILs <a href='https://www.cnil.fr/fr/solutions-pour-la-mesure-daudience' target='_blank'>rekommendation « Cookies »</a>. Det innebär att din IP-adress exempelvis anonymiseras innan den sparas. Därmed är det omöjligt att koppla dina besök på denna webbplats till din person.<br/><br/>Livslängden för dessa cookies (tiden de lagras på din enhet) överstiger inte 13 månader. Mer information finns på sidan <a href='https://vittascience.com/cookies' target='_blank'>Information om cookies</a>."
+                "title": "1. Statistiska data och publikmätning",
+                "content": "För att anpassa vår sida efter våra besökares behov och förbättra den för att erbjuda dig relevant innehåll, mäter vi trafikens källor till vår sida, antalet besök, antalet sidor som visas samt besökares aktivitet på sidan och hur ofta de återkommer.<br/><br/>Det statistiska verktyget som används på Sidan är Matomo, ett <a href='https://matomo.org/free-software/' target='_blank'>gratis/öppen källkod</a> verktyg, konfigurerat för att följa CNIL:s <a href='https://www.cnil.fr/fr/solutions-pour-la-mesure-daudience' target='_blank'>\"Cookies\" rekommendation</a>. Detta innebär att din IP-adress, till exempel, anonymiseras innan den registreras. Det är därför omöjligt att koppla dina besök till denna webbplats till dig personligen.<br/><br/> Cookiens livslängd (den tid de förblir lagrade på din enhet) överstiger inte 13 månader. Mer information finns på sidan <a href='https://vittascience.com/cookies' target='_blank'>Cookie Information</a>."
               },
               "2": {
-                "title": "2. Uppgifter som samlas in när du ansluter till webbplatsen",
-                "content": "Vissa personuppgifter är nödvändiga för att möjliggöra din anslutning till Webbplatsen, samt för att upptäcka inloggnings- eller visningsfel och försök till cyberangrepp: det rör sig främst om din IP-adress samt andra tekniska uppgifter om din enhet (dator, surfplatta, smartphone eller annan) och din webbläsare.<br/><br/>Dessa uppgifter upptäcks och samlas automatiskt in av tjänsteleverantörens värd för Tjänsterna. De sparas av denna i 12 månader innan de raderas.<br/><br/>Deras insamling och användning är motiverad då de är nödvändiga för VITTASCIENCE legitima intresse, nämligen att kunna leverera funktionella tjänster som är anpassade till olika enheter och webbläsare på marknaden, i enlighet med artikel 6.1.f) i GDPR."
+                "title": "2. Data som samlas in när du ansluter till webbplatsen",
+                "content": "Vissa personuppgifter är nödvändiga för att låta dig ansluta till Sidan, såväl som för att upptäcka anslutnings- eller visningsfel och försök till cyberattacker: detta består främst av din IP-adress, tillsammans med annan teknisk information om din enhet (dator, surfplatta, smartphone eller annan) och din internetwebbläsare.<br/><br/>Denna information upptäckts och samlas automatiskt in av Tjänsternas webbhotell. Den lagras av webbhotellet under en period av 12 månader innan den raderas.<br/><br/>Dess insamling och användning motiveras av att det är nödvändigt för att tillgodose ett legitimt intresse för VITTASCIENCE, nämligen att kunna tillhandahålla Tjänster som är funktionella och anpassade till de olika typerna av enheter och webbläsare som finns på marknaden, i enlighet med artikel 6.1.f) i GDPR."
               },
               "3": {
-                "title": "3. Uppgifter som samlas in vid registrering",
-                "content": "Vissa uppgifter samlas in vid registrering. De begärs via formuläret för att skapa konto: det handlar om ditt namn och efternamn, en e-postadress och ett lösenord. <br/><br/>Dessa uppgifter är nödvändiga för att du ska kunna få tillgång till Tjänsterna och använda dem. Deras insamling, användning och lagring är därför motiverade eftersom de är nödvändiga för ingående och fullgörande av ett avtal mellan dig och VITTASCIENCE, nämligen användarvillkoren för Tjänsterna, i enlighet med artikel 6.1.b) i GDPR.<br/><br/><strong>Viktigt</strong>: Om du är minderårig kan du inte giltigt « teckna ett avtal » med VITTASCIENCE. I så fall samlas uppgifterna in inom ramen för den offentliga tjänst som din skola ansvarar för (grund- eller gymnasieskola).<br/><br/>Flera andra frivilliga uppgifter kan komplettera profilen, till exempel telefonnummer, hemvistande skola, en profilbild och en kort biografi.<br/><br/>Vi kommer att behålla uppgifter kopplade till skapandet och senare ändringar av ditt konto även efter radering av kontot, av två skäl:<ul><li>Det kan bli nödvändigt för oss att använda vissa av dessa uppgifter för att hantera ett krav från dig eller från din skola eller en tredje part, eller för att försvara våra rättigheter i domstol. Det skulle till exempel vara fallet om du bryter mot användarvillkoren, eller om du klagar över ett underlåtande från VITTASCIENCE; vi kommer därför att behålla nödvändiga uppgifter som ett förebyggande mått under den tid då en sådan tvist kan uppstå.<br/><br/>Denna förlängda lagring och denna rättsliga användning av dina uppgifter motiveras av VITTASCIENCE legitima intresse att reservera bevis som kan behövas för att försvara sina rättigheter och intressen, i enlighet med artikel 6.1.f) i GDPR.</li><li>Dessutom kräver lagen att vi gör uppgifter tillgängliga för behöriga myndigheter och domstolar som möjliggör identifiering av användare av våra tjänster (inklusive datum och tid för skapande av användarkonto och den IP-adress som användes). Denna skyldighet föreskrivs av <a href='https://www.legifrance.gouv.fr/affichTexteArticle.do;jsessionid=9559D27BC5C8B0BEB87D1ACA97765148.tplgfr22s_2?idArticle=LEGIARTI000037526491&cidTexte=LEGITEXT000005789847&dateTexte=20190412'>artikel 6.II i lagen nr 575-2004 av den 21 juni 2004 om förtroende i den digitala ekonomin och dess genomförandeföreskrift nr 2011-219 av den 25 februari 2011</a>.<br/></li></ul>Sammanfattningsvis kommer vi att behålla uppgifter kopplade till ditt konto tills dess att det raderas, och därefter arkiveras de för den lagstadgade preskriptionstid som gäller för civil- eller brottmål (i regel fem år).<br/><br>Användare som skapar ett Vittascience-konto kan välja att aktivera en offentlig profil eller inte. I fallet med en offentlig profil blir namn, efternamn, profilbild, biografi och användarens skola offentliga på en särskild profilsida. E-postadress, lösenord och telefonnummer görs aldrig offentliga."
+                "title": "3. Data som samlas in när du registrerar dig",
+                "content": "Vissa uppgifter samlas in när du registrerar dig. Dessa begärs via formuläret för konto skapande: detta består av ditt förnamn och efternamn, en e-postadress och ett lösenord. <br/><br/>Dessa uppgifter är nödvändiga för att låta dig få tillgång till och använda Tjänsterna. Dess insamling, användning och lagring motiveras därför av att det är nödvändigt för att sluta och fullgöra ett avtal mellan dig och VITTASCIENCE, nämligen <a href='http://vittascience.com/cgu'>Användarvillkor</a>, i enlighet med artikel 6.1.b) i GDPR.<br/><br/><strong>Viktigt</strong>: Om du är minderårig kan du inte giltigt \"ingå ett avtal\" med VITTASCIENCE. I så fall samlas uppgifterna in under den offentliga uppdraget som ditt skola fått (grundskola eller gymnasium).<br/><br/>Flera andra valfria uppgifter gör att du kan komplettera din profil, särskilt ditt telefonnummer, din skola, en profilbild och en kort biografi.<br/><br/>Vi kommer att behålla de uppgifter som rör skapandet av och efterföljande ändringar till ditt konto, inklusive efter att det har raderats, av följande två skäl:<ul><li>Vi kan behöva använda en del av dessa uppgifter för att svara på ett krav från dig, från din skola eller från en tredje part, eller för att försvara våra rättigheter i domstol. Detta skulle vara fallet, till exempel, om du bryter mot Användarvillkoren, eller om du klagar över en brist från VITTASCIENCE; vi kommer därför att behålla de nödvändiga uppgifterna som säkerhet, så länge som en sådan tvist kan uppstå.<br/><br/>Denna förlängda lagring och denna tvistiga användning av dina uppgifter motiveras av VITTASCIENCE:s legitima intresse i att bevara bevis som är användbara för att försvara sina rättigheter och intressen, i enlighet med artikel 6.1.f) i GDPR.</li><li>Vidare är lagen skyldig oss att ha tillgängliga för de behöriga myndigheterna och domstolarna de uppgifter som behövs för att identifiera användarna av våra Tjänster (inklusive datum och tid då användarkontot skapades och den använda IP-adressen). Denna skyldighet framgår av <a href='https://www.legifrance.gouv.fr/affichTexteArticle.do;jsessionid=9559D27BC5C8B0BEB87D1ACA97765148.tplgfr22s_2?idArticle=LEGIARTI000037526491&cidTexte=LEGITEXT000005789847&dateTexte=20190412'>Artikel 6.II i Lag nr 575-2004 den 21 juni 2004 om förtroende för den digitala ekonomin och dess tillämpningsdekret nr 2011-219 den 25 februari 2011</a>.<br/></li></ul>Sammanlagt kommer vi därför att behålla de uppgifter som rör ditt konto tills det raderas, och sedan arkivera dem under den juridiskt tillämpliga preskriptionstiden för en åtgärd vid civil- eller brottmål (normalt 5 år).<br/><br/>Användare som skapar ett Vittascience-konto kan välja om de vill aktivera en offentlig profil eller inte. I fallet med en offentlig profil görs användarens förnamn, efternamn, profilbild, biografi och skola offentliga på en dedikerad profilsida. Din e-postadress, lösenord och telefonnummer görs aldrig offentliga."
               },
               "4": {
-                "title": "4. Uppgifter kopplade till innehåll du skapar",
-                "content": "När ditt konto har skapats kan du börja skapa innehåll, det vill säga resurser, aktiviteter, spår, projekt och Vittamap‑upplevelser.<br/><br/>Vi kommer att bevara detta innehåll, samt datum och tid för publicering, knutet till ditt användarkonto.<br/><br/>Denna behandling av uppgifter är motiverad eftersom den är nödvändig för fullgörandet av ett avtal mellan dig och VITTASCIENCE, nämligen användarvillkoren för Tjänsterna, i enlighet med artikel 6.1.b) i GDPR.<br/><br/><strong>Viktigt</strong>: Om du är minderårig kan du inte giltigt « teckna ett avtal » med VITTASCIENCE. I så fall samlas uppgifterna in inom ramen för den offentliga tjänst som din skola ansvarar för (grund- eller gymnasieskola).<br/><br/>Vi kommer att bevara uppgifter kopplade till det innehåll du publicerar (sådana som en spårning av innehållet samt publiceringsdatum och -tid och den IP-adress som användes), även efter att du tagit bort detta innehåll från plattformen, av samma två skäl som nämnts tidigare:<ul><li>Det kan bli nödvändigt för oss att använda vissa av dessa uppgifter för att hantera ett krav från dig eller din skola eller en tredje part, eller för att försvara våra rättigheter i domstol. Ett sådant fall skulle exempelvis vara om du bryter mot användarvillkoren, eller om du klagar över ett åsidosättande från VITTASCIENCE; vi kommer därför att behålla nödvändiga uppgifter som ett förebyggande mått under den tid då en sådan tvist kan uppstå.<br/><br/>Denna förlängda lagring och rättsliga användning av dina uppgifter motiveras av VITTASCIENCE legitima intresse att reservera bevis som kan behövas för att försvara sina rättigheter, i enlighet med artikel 6.1.f) i GDPR.</li><li>Dessutom kräver lagen att vi ställer tillgängliga för behöriga myndigheter och domstolar de uppgifter som möjliggör identifiering av författarna till innehåll publicerat på plattformen (inklusive datum och tid för uppladdning av innehållet, samt den IP-adress som användes). Denna skyldighet föreskrivs av <a href='https://www.legifrance.gouv.fr/affichTexte.do?cidTexte=JORFTEXT000023646013&categorieLien=id'>artikel 6.II i lagen nr 575-2004 av den 21 juni 2004 om förtroende i den digitala ekonomin och dess genomförandeföreskrift nr 2011-219 av den 25 februari 2011.</a>.<br/><br/>Detta är alltså en behandling av dina uppgifter som är nödvändig för att uppfylla VITTASCIENCE rättsliga och författningsmässiga skyldigheter, i enlighet med artikel 6.1.c) i GDPR.</li></ul>Sammanfattningsvis kommer vi att behålla uppgifter kopplade till varje innehåll ända tills du tar bort detta innehåll från Tjänsterna, och därefter arkiveras de för den lagstadgade preskriptionstid som gäller för civil- eller brottmål (i regel fem år).<br/><br>Denne behandling av uppgifter kopplade till innehåll du skapar gäller även kommentarer du lämnar på Webbplatsen."
+                "title": "4. Data relaterade till det Innehåll du skapar",
+                "content": "När ditt konto har skapats kan du börja skapa Innehåll, det vill säga resurser, aktiviteter, lärstigar, projekt och Vittamap-upplevelser.<br/><br/>Vi kommer att behålla detta Innehåll, tillsammans med de datum och tider det publicerades, kopplat till ditt användarkonto.<br/><br/>Denna databehandling motiveras av att det är nödvändigt för fullgörandet av ett avtal mellan dig och VITTASCIENCE, nämligen Användarvillkoren, i enlighet med artikel 6.1.b) i GDPR.<br/><br/><strong>Viktigt</strong>: Om du är minderårig kan du inte giltigt \"ingå ett avtal\" med VITTASCIENCE. I så fall samlas uppgifterna in under den offentliga uppdraget som ditt skola fått (grundskola eller gymnasium).<br/><br/>Vi kommer att behålla de uppgifter som rör det Innehåll du publicerar (som en register för Innehållet, samt datum och tid för publicering och den använda IP-adressen), inklusive efter att du tar bort detta Innehåll från plattformen, av de två skäl som redan nämnts:<ul><li>Vi kan behöva använda en del av dessa uppgifter för att svara på ett krav från dig, från din skola eller från en tredje part, eller för att försvara våra rättigheter i domstol. Detta skulle vara fallet, till exempel, om du bryter mot Användarvillkoren, eller om du klagar över en brist från VITTASCIENCE; vi kommer därför att behålla de nödvändiga uppgifterna som säkerhet, så länge som en sådan tvist kan uppstå.<br/><br/>Denna förlängda lagring och denna tvistiga användning av dina uppgifter motiveras av VITTASCIENCE:s legitima intresse i att bevara bevis som är användbara för att försvara sina rättigheter och intressen, i enlighet med artikel 6.1.f) i GDPR.</li><li>Vidare är lagen skyldig oss att ha tillgängliga för de behöriga myndigheterna och domstolarna de uppgifter som behövs för att identifiera författarna till Innehåll som publicerats på plattformen (inklusive datum och tid då Innehållet publicerades, och den använda IP-adressen). Denna skyldighet framgår av <a href='https://www.legifrance.gouv.fr/affichTexte.do?cidTexte=JORFTEXT000023646013&categorieLien=id'>Artikel 6.II i Lag nr 575-2004 den 21 juni 2004 om förtroende för den digitala ekonomin och dess tillämpningsdekret nr 2011-219 den 25 februari 2011</a>.<br/><br/>Detta är därför en behandling av dina uppgifter som är nödvändig för att efterleva lagliga och reglerande skyldigheter som är specifika för VITTASCIENCE, i enlighet med artikel 6.1.c) i GDPR.</li></ul>Sammanlagt kommer vi därför att behålla de uppgifter som rör varje Innehåll fram till dess att du tar bort det Innehållet från Tjänsterna, och sedan arkivera dem under den juridiskt tillämpliga preskriptionstiden för en åtgärd vid civil- eller brottmål (normalt 5 år).<br/><br/>Denna behandling av data relaterad till det Innehåll du skapar gäller också för kommentarer du lämnar på Sidan."
               },
               "5": {
-                "title": "5. Uppgifter kopplade till beställning och leverans",
-                "content": "Tjänsterna gör det möjligt för dig att beställa och få levererade olika produkter såsom pedagogiska kit och elektronisk utrustning.<br/><br/>För detta kommer vi att be dig uppge din postadress (för fakturering och leverans) och ditt telefonnummer (för att underlätta leveransen).<br/><br/>Denna behandling av uppgifter är motiverad eftersom den är nödvändig för fullgörandet av ett avtal mellan dig och VITTASCIENCE, nämligen användarvillkoren för Tjänsterna, i enlighet med artikel 6.1.b) i GDPR.<br/><br/>Vi kommer också att behålla dessa uppgifter efter leveransen för att hantera eventuella reklamationer från dig, under den civilrättsliga preskriptionstid som gäller. Denna långtidslagring motiveras av VITTASCIENCE legitima intresse att bevara bevis som kan behövas vid en eventuell rättslig process, i enlighet med artikel 6.1.f) i GDPR."
+                "title": "5. Data relaterad till beställningar och leveranser",
+                "content": "Tjänsterna gör det möjligt för dig att beställa och få olika produkter levererade, som utbildningskit och elektronisk utrustning.<br/><br/>För att göra detta kommer vi att be dig att tillhandahålla din postadress (för fakturering och leveransändamål) och ditt telefonnummer (för att underlätta leveransen).<br/><br/>Denna databehandling motiveras av att det är nödvändigt för fullgörandet av ett avtal mellan dig och VITTASCIENCE, nämligen Användarvillkoren, i enlighet med artikel 6.1.b) i GDPR.<br/><br/>Vi kommer också att behålla dessa uppgifter efter leverans, för att hantera eventuella krav från din sida, under den tillämpliga preskriptionstiden för civila ärenden. Denna långsiktiga lagring motiveras av VITTASCIENCE:s legitima intresse i att bevara bevis som är användbara i förväntan på möjliga rättsliga förfaranden, i enlighet med artikel 6.1.f) i GDPR."
               },
               "6": {
-                "title": "6. Uppgifter som samlas in via kontaktformuläret",
-                "content": "Användning av kontaktformuläret som finns på <a href='https://vittascience.com/about' target='_blank'>sidan « om »</a> på vittascience.com kräver att du uppger ditt namn, efternamn, e-postadress och anledning till din kontakt utöver ditt meddelande, så att vi kan svara dig vid behov.<br/><br/>Vi kommer i princip att behålla dessa uppgifter så länge det behövs för att behandla ditt meddelande, det vill säga för att svara (om ett svar krävs från VITTASCIENCE), och därefter arkiveras de för den lagstadgade preskriptionstid som gäller för civil- eller brottmål (i regel fem år).<br/><br/>Insamling och lagring av dessa uppgifter är motiverad av VITTASCIENCE legitima intresse att säkerställa god hantering av sina relationer med användare i allmänhet samt att bevara bevis som kan behövas för att försvara sina rättigheter vid behov på lång sikt, i enlighet med artikel 6.1.f) i GDPR.<br/><br/>Om det meddelande du skickar via formuläret innehåller ett bevisat olagligt innehåll (t.ex. vid förtal eller förolämpning), eller om våra utbyten leder till en rättslig process från din eller vår sida, kan motsvarande uppgifter sparas längre, då preskriptionstiden kan vara längre (t.ex. i straffrättsärenden beroende på typen av påstått brott), eller till och med avbrytas eller stanna under rättegången, vid behov.<br/><br/>Denna långtidslagring motiveras återigen av VITTASCIENCE legitima intresse att reservera och tillhandahålla bevis som kan behövas för att göra gällande sina rättigheter i en rättslig process, i enlighet med artikel 6.1.f) i GDPR."
+                "title": "6. Data som samlas in via kontaktformuläret",
+                "content": "Att använda kontaktformuläret på <a href='https://vittascience.com/about' target='_blank'>\"om\"-sidan</a> på webbplatsen vittascience.com kräver att du anger ditt förnamn, efternamn, e-postadress och anledningen till din kontakt, utöver ditt meddelande, så att vi kan svara på dig vid behov.<br/><br/>Vi kommer vanligtvis att bevara denna information så länge som nödvändigt för att behandla ditt meddelande, det vill säga för att svara på det (om ett svar från VITTASCIENCE är berättigat), och sedan arkivera den för den juridiskt tillämpliga preskriptionstiden för en åtgärd vid civil- eller brottmål (normalt 5 år).<br/><br/>Insamlingen och lagringen av denna information motiveras av VITTASCIENCE:s legitima intresse att på ett korrekt sätt hantera sina relationer med sina användare i allmänhet, och i att bevara de bevis som behövs för att försvara sina rättigheter över lång tid där det är tillämpligt, i enlighet med artikel 6.1.f) i den allmänna dataskyddsförordningen (GDPR).<br/><br/>Men om meddelandet du skickar via formuläret bedöms vara klart olagligt (till exempel vid fall av ärekränkning eller förolämpning), eller om våra utbyten leder till juridiska förfaranden från din eller vår sida, kan den motsvarande informationen behållas under en längre period, eftersom den tillämpliga preskriptionstiden kan vara längre (till exempel vid brottsmål, beroende på vilken typ av anklagelse som görs), eller kan till och med avbrytas eller avbrytas under förfarandena, där det är tillämpligt.<br/><br/>Denna långsiktiga lagring motiveras än en gång av VITTASCIENCE:s legitima intresse att bevara och producera bevis som är användbara för att hävda sina rättigheter i samband med rättsliga förfaranden, i enlighet med artikel 6.1.f) i den allmänna dataskyddsförordningen (GDPR)."
               },
               "7": {
-                "title": "7. Uppgifter kopplade till prenumeration på vårt nyhetsbrev ",
-                "content": "Prenumeration på vårt nyhetsbrev kräver att du anger din e-postadress. Denna adress används endast för att skicka Vittasciences nyhetsbrev. Du kan när som helst klicka på avregistreringslänken i nyhetsbrevet. Uppgifterna sparas från din anmälan tills du avregistrerar dig.<br/><br/>Denna behandling av uppgifter är motiverad eftersom den är nödvändig för fullgörandet av ett avtal mellan dig och VITTASCIENCE, nämligen användarvillkoren för Tjänsterna, i enlighet med artikel 6.1.b) i GDPR."
+                "title": "7. Data relaterad till nyhetsbrevsregistrering",
+                "content": "Att registrera sig för vårt nyhetsbrev kräver att du anger din e-postadress. Denna adress används enbart för att skicka Vittascience nyhetsbrev till dig. Du kan avregistrera dig när som helst via avregistreringslänken som ingår i nyhetsbrevet. Uppgifterna behålls från din registrering tills din avregistrering.<br/><br/>Denna databehandling motiveras av att det är nödvändigt för att fullgöra ett avtal mellan dig och VITTASCIENCE, nämligen Användarvillkoren, i enlighet med artikel 6.1.b) i GDPR."
               }
             }
           }
         },
         "3": {
-          "title": "Vem har tillgång till dina uppgifter? Med vem delas de?",
-          "content": "Vi har infört tekniska och organisatoriska säkerhetsåtgärder för att garantera säkerheten, integriteten och konfidentialiteten för alla dina personuppgifter.<br/><br/>Alla uppgifter på vår webbplats lagras på servrar som finns inom Europeiska unionen hos OVH (hädanefter: « Värden »). För att ta del av vår värds integritetspolicy, vänligen se följande sida: <a href='https://www.ovh.com/fr/protection-donnees-personnelles/gdpr.xml' target='_blank'>Skydd av personuppgifter hos OVH.</a><br/><br/>Dessutom krypteras och säkras dina personuppgifter varje gång de överförs till de servrar där vår webbplats är värd, tack vare HTTPS-protokollet. Eftersom ingen säkerhetsåtgärd är ofelbar kan VITTASCIENCE inte garantera absolut säkerhet för dina personuppgifter.<br/><br/>Dessa uppgifter kan nås av VITTASCIENCE anställda för de uppgifter som krävs i deras arbetsuppgifter.<br/><br/>Förutom Värden och VITTASCIENCE anställda är de enda personer eller organisationer som kan ta emot eller komma åt dessa personuppgifter följande:<ul><li>den Användare som har bjudit in dig att använda Tjänsterna och som åtagit sig att övervaka din användning av dessa Tjänster, särskilt det innehåll du skapar (för elever)</li><li>personer med vilka du väljer att dela ditt innehåll</li><li>tekniska leverantörer som kan anlitas för att underhålla och vidareutveckla tjänsterna</li><li>VITTASCIENCE juridiska rådgivare, i syfte att inhämta råd eller juridisk hjälp för att försvara VITTASCIENCE rättigheter</li><li>franska, europeiska, internationella eller utländska domstolar eller myndigheter som ålägger VITTASCIENCE att lämna ut uppgifterna, eller som VITTASCIENCE frivilligt väljer att överlämna uppgifterna till i syfte att försvara sina rättigheter.</li></ul>Det kan inte uteslutas att vissa av dessa domstolar eller myndigheter kan ligga i länder utanför Europeiska unionen (eller att det handlar om internationella organisationer), även om sannolikheten för en sådan situation i allmänhet är relativt låg. I ett sådant fall kommer vi att vidta lämpliga åtgärder för att säkerställa att den berörda domstolen eller myndigheten garanterar ett tillräckligt dataskydd. Dessa åtgärder kommer att bestå av en noggrann analys av giltigheten i den mottagna förordern och vid behov en förhandskonsultation med den franska tillsynsmyndigheten (CNIL) innan någon överföring av uppgifterna sker.<br/><br/><strong>Viktigt</strong>: Du är ensam ansvarig (eller, för elever, den Användare som bjudit in dig) för valet av de personer du delar ditt innehåll med och för de praktiska eller juridiska följder som kan uppstå. VITTASCIENCE roll är att tillhandahålla en funktion för att skapa innehåll och publicera det på internet.<br/><br/>Det är värt att påminna om att VITTASCIENCE affärsmodell varken bygger på reklam eller på försäljning eller utbyte av användardata. Därför kommer inte Användarens personuppgifter att lämnas ut till kommersiella eller reklaminriktade aktörer."
+          "title": "Vem har tillgång till dina uppgifter? Vem delas de med?",
+          "content": "Vi har genomfört tekniska och organisatoriska säkerhetsåtgärder för att säkerställa säkerheten, integriteten och konfidentialiteten för alla dina personuppgifter.<br/><br/>All vår webbplats data lagras på servrar som ligger inom Europeiska unionen av OVH (hädanefter: \"Värden\"). För att lära dig mer om vår Värds integritetspolicy, vänligen hänvisa till följande sida: <a href='https://www.ovh.com/fr/protection-donnees-personnelles/gdpr.xml' target='_blank'>Skydd av personuppgifter hos OVH.</a><br/><br/>Dessutom är dina personuppgifter krypterade och säkrade varje gång de överförs till de servrar där vår webbplats är värd, tack vare HTTPS-protokollet. Eftersom ingen säkerhetsåtgärd är vattentät kan VITTASCIENCE inte garantera absolut säkerhet för dina personuppgifter.<br/><br/>Dessa uppgifter är tillgängliga för VITTASCIENCE:s anställda i den mån det är nödvändigt för deras uppgifter.<br/><br/>Förutom Värden och VITTASCIENCE:s anställda är de enda personer eller organisationer som kan få eller se dessa personuppgifter:<ul><li>den Användare som inbjudit dig att använda Tjänsterna och som har samtyckt till att övervaka din användning av dessa Tjänster, särskilt det Innehåll du skapar (för Lärande)</li><li>de personer som du väljer att dela ditt Innehåll med</li><li>tekniska tjänsteleverantörer som kan vara ansvariga för underhåll och utveckling av tjänsterna</li><li>VITTASCIENCE:s jurister, för att få rättslig rådgivning eller hjälp med att försvara VITTASCIENCE:s rättigheter</li><li>franska, europeiska, internationella eller utländska domstolar eller myndigheter som beordrar VITTASCIENCE att avslöja uppgifterna för dem, eller som VITTASCIENCE väljer att frivilligt avslöja för att försvara sina rättigheter.</li></ul>Det kan inte uteslutas att vissa av dessa domstolar eller myndigheter kan befinna sig i länder utanför Europeiska unionen (eller att de är, av sin natur, internationella organisationer), även om sannolikheten för ett sådant scenario a priori är relativt låg. I en sådan situation kommer vi att vidta lämpliga åtgärder för att säkerställa att den berörda domstolen eller myndigheten garanterar tillräckligt skydd för de uppgifter som avslöjas. Dessa åtgärder kommer att involvera en grundlig analys av giltigheten av den mottagna beställningen, och vid behov samråd med den berörda franska myndigheten (CNIL), innan någon upplysning av uppgifter sker.<br/><br/><strong>Viktigt</strong>: Du är ensamt ansvarig (eller, för Lärande, den Användare som inbjudit dig) för att välja de personer med vilka du delar ditt Innehåll, och för de praktiska eller juridiska konsekvenser som kan följa. VITTASCIENCE:s roll är begränsad till att erbjuda dig en funktion som möjliggör skapandet av Innehåll och dess publicering på Internet.<br/><br/>Det är värt att påminna här att VITTASCIENCE:s affärsmodell inte bygger på annonsering eller på försäljning eller utbyte av användardata. Därför kommer användarnas personuppgifter inte att överföras till kommersiella eller reklamskapande aktörer."
         },
         "4": {
           "title": "Vilka rättigheter har du för att kontrollera behandlingen av dina egna uppgifter?",
           "content": {
-            "introduction": "Du har ett antal rättigheter enligt lag, vilka beskrivs nedan.<br/><br/>Du kan utöva dessa rättigheter enkelt genom att skriva direkt till följande e-postadress: contact@vittascience.com. Ange tydligt i din e-post vilken rättighet du vill utöva och motivera din begäran om det behövs.",
+            "introduction": "Du har ett antal rättigheter som föreskrivs av tillämpliga förordningar; du hittar detaljer nedan.<br/><br/>Du kan utöva dessa rättigheter genom att helt enkelt skriva direkt till följande e-postadress: contact@vittascience.com. Se till att ange i ditt e-postmeddelande vilken typ av rättighet du önskar utöva och skälen som motiverar din begäran, där det är tillämpligt.",
             "articles": {
               "1": {
-                "title": "1. Rätt till åtkomst",
-                "content": "Du har rätt att begära en kopia av de personuppgifter vi har om dig, i ett lättillgängligt format, samt en kopia av denna policy på ett beständigt medium."
+                "title": "1. Rätt till tillgång",
+                "content": "Du har rätt att be om en kopia av de personuppgifter vi har om dig, i ett lättförståeligt format, samt en kopia av denna policy på ett hållbart medium."
               },
               "2": {
                 "title": "2. Rätt till rättelse",
-                "content": "Du har rätt att begära att vi rättar, kompletterar eller uppdaterar de uppgifter vi har om dig om du anser att de är felaktiga, ofullständiga eller föråldrade.<br/><br/>I så fall ber vi dig vänligen att, i den mån det är möjligt, spontant lämna nya uppgifter som behövs för att genomföra den begärda rättelsen, kompletteringen eller uppdateringen"
+                "content": "Du har rätt att be oss att rätta, komplettera eller uppdatera de uppgifter vi har om dig, om de verkar felaktiga, ofullständiga eller föråldrade.<br/><br/>I så fall, vänligen ge oss, så långt det är möjligt, den nya information som behövs för att genomföra den begärda rättelsen, kompletteringen eller uppdateringen."
               },
               "3": {
-                "title": "3. Rätt till invändning",
-                "content": "I den mån vissa av de behandlingar som listats ovan grundas på VITTASCIENCE legitima intressen (bevarande av vissa uppgifter som bevis; insamling av tekniska uppgifter vid anslutning till webbplatsen; uppgifter kopplade till kontaktformuläret), har du rätt att invända mot dessa behandlingar av skäl som rör din särskilda situation.<br/><br/>Med andra ord kan du begära att VITTASCIENCE upphör med en och/eller flera av dessa behandlingar med hänvisning till de särskilda skäl som enligt dig motiverar denna begäran.<br/><br/>Det kan dock hända att VITTASCIENCE avvisar din begäran om vi anser att behandlingens fortsättning är nödvändig av tvingande skäl (t.ex. om de aktuella uppgifterna är nödvändiga för att skydda och försvara VITTASCIENCE rättigheter i domstol).<br/><br/><strong>Viktigt</strong>: En eventuell invändning (om den är grundad och inget tvingande skäl talar mot den) medför att behandlingen upphör framöver, men inte nödvändigtvis att de berörda uppgifterna förstörs: för att få dem raderade måste du utöva din rätt till radering enligt beskrivningen nedan, med beaktande av begränsningar som kan förekomma, t.ex. behovet att bevara uppgifter för att skydda VITTASCIENCE rättigheter i domstol."
+                "title": "3. Rätt att göra invändningar",
+                "content": "I den mån vissa av de ovan angivna databehandlingarna motiveras av VITTASCIENCE:s legitima intressen (bevarande av vissa uppgifter som bevis; insamling av teknisk information när du ansluter till webbplatsen; uppgifter relaterade till kontaktformuläret), har du rätt att göra invändning mot det av skäl som rör din specifika situation.<br/><br/>Med andra ord kan du be VITTASCIENCE att stoppa en eller flera av dessa behandlingsaktiviteter avseende dig, genom att förklara de specifika skäl som motiverar denna begäran från ditt perspektiv.<br/><br/>Men VITTASCIENCE kan vägra att bevilja din begäran om fortsättningen av denna behandling är nödvändig av tvingande skäl från vår synvinkel (till exempel: om de berörda uppgifterna är nödvändiga för skydd och försvar av VITTASCIENCE:s rättigheter i domstol).<br/><br/><strong>Viktigt</strong>: En invändning (om den baseras på giltiga grunder och om inga tvingande skäl står emot) kommer att leda till att behandlingen stoppas framöver, men inte nödvändigtvis till att de berörda uppgifterna raderas: för att uppnå den raderingen måste du utöva din rätt till radering enligt de villkor som beskrivs nedan, det noterat att denna rätt i sig är föremål för begränsningar, till exempel, återigen, behovet av att behålla uppgifter för skydd och försvar av VITTASCIENCE:s intressen i domstol."
               },
               "4": {
                 "title": "4. Rätt till radering",
-                "content": "Du kan begära att vi raderar helt eller delvis de uppgifter vi har om dig när minst ett av följande villkor är uppfyllt:<ul><li>Du har invänt mot fortsatt behandling och vill dessutom att VITTASCIENCE förstör de berörda uppgifterna.</li><li>De berörda uppgifterna inte längre är nödvändiga för något av de ändamål som anges ovan.</li><li>Du anser att VITTASCIENCE samlat in eller behandlat de berörda uppgifterna i strid med lagen.</li><li>Raderingen av de berörda uppgifterna krävs enligt en rättslig skyldighet.</li><li>De berörda uppgifterna rör en person som var under femton (15) år vid insamlingstillfället.</li></ul>Observera att VITTASCIENCE har rätt att vägra radering av vissa uppgifter när deras bevarande är nödvändigt av särskilt viktiga skäl, såsom skydd och försvar av sina rättigheter i domstol (t.ex. vid mottagande av ett förtalande eller förolämpande meddelande via kontaktformuläret).<br/><br/>Observera också att vi i stället för att radera uppgifterna kan välja att göra dem fullständigt och irreversibelt anonymiserade. På så sätt får vi behålla uppgifterna i ett format som inte längre gör det möjligt att identifiera dig (t.ex. för statistiska ändamål)."
+                "content": "Du kan be oss att radera alla eller delar av de uppgifter vi har om dig, förutsatt att minst ett av följande villkor är uppfyllt:<ul><li>Du har invänt mot fortsatt behandling och önskar vidare att VITTASCIENCE ska radera de berörda uppgifterna.</li><li>De berörda uppgifterna verkar inte längre nödvändiga för något av de syften som anges ovan.</li><li>Du anser att VITTASCIENCE har samlat in och/eller behandlat de berörda uppgifterna olagligt.</li><li>Raderingen av de berörda uppgifterna krävs av en rättslig skyldighet.</li><li>De berörda uppgifterna gäller en person som var under femton (15) år vid tidpunkten för insamlingen.</li></ul>Observera dock att VITTASCIENCE har rätt att motsätta sig raderingen av vissa uppgifter när deras bevarande är nödvändigt av särskilt viktiga skäl, såsom skydd och försvar av sina intressen i domstol (till exempel: vid mottagande av ett förtal eller förolämpande meddelande via kontaktformuläret).<br/><br/>Observera också att vi kan välja, istället för att radera uppgifterna, att helt och oåterkalleligt anonymisera dem. På så sätt kommer vi att ha rätt att behålla dessa uppgifter i ett format som inte längre tillåter dig att identifieras (till exempel: för statistiska ändamål)."
               },
               "5": {
-                "title": "5. Rätt till begränsning av behandlingen",
-                "content": "Som alternativ, om du till exempel avstår från att utöva din rätt till radering, kan du begära att VITTASCIENCE « sätter åt sidan » vissa uppgifter om dig, det vill säga att dessa uppgifter bevaras separat utan att användas (utom för rättsliga skyldigheter).<br/><br/>Du kan framställa en sådan begäran när minst ett av följande villkor är uppfyllt:<ul><li>De berörda uppgifterna verkar vara felaktiga och du föredrar att VITTASCIENCE upphör med att använda dem tills de kontrollerats och eventuellt korrigerats.</li><li>Du har utövat din rätt att invända (se ovan), och föredrar att VITTASCIENCE upphör med att använda de berörda uppgifterna tills invändningen prövats.</li><li>Du anser att VITTASCIENCE samlat in eller behandlat de berörda uppgifterna olagligt, men föredrar ändå att vi bevarar uppgifterna snarare än att radera dem.</li><li>De berörda uppgifterna inte längre är nödvändiga för något av de ändamål som anges ovan, men du vill att VITTASCIENCE behåller dem för att kunna försvara dina intressen i en rättsprocess.</li></ul><br/><br/>I dessa fall sätter vi uppgifterna « i karantän » under nödvändig tid, till exempel genom att märka dem « Får inte användas – Rätt till begränsning »."
+                "title": "5. Rätt till begränsning av behandling",
+                "content": "Om du inte önskar utöva din rätt till radering, kan du också be VITTASCIENCE att \"avskilja\" vissa uppgifter om dig, det vill säga att behålla dessa uppgifter separat, utan att använda dem vidare (utom för rättsliga skyldigheter).<br/><br/>Du kan göra en sådan begäran när minst ett av följande villkor är uppfyllt:<ul><li>De berörda uppgifterna verkar felaktiga för dig, och du skulle föredra att VITTASCIENCE slutar använda dem medan de verifieras och rättas om nödvändigt.</li><li>Du har utövat din rätt att göra invändningar (se ovan), och du skulle föredra att VITTASCIENCE slutar använda de berörda uppgifterna medan giltigheten av din invändning verifieras.</li><li>Du anser att VITTASCIENCE har samlat in och/eller behandlat de berörda uppgifterna olagligt, men du skulle ändå föredra att vi behåller uppgifterna snarare än att radera dem.</li><li>De berörda uppgifterna är inte längre nödvändiga för något av de syften som anges ovan, men du önskar att VITTASCIENCE ska behålla dem i varje fall för att försvara dina intressen i domstol.</li></ul><br/><br/>I dessa fall kommer vi att placera uppgifterna \"i karantän\" under den nödvändiga perioden, till exempel genom att märka dem som \"Ej använd - Rätt till begränsning\"."
               },
               "6": {
                 "title": "6. Rätt till dataportabilitet",
-                "content": "Du kan begära att vi överlämnar uppgifter kopplade till din användning av Tjänsterna i ett standardiserat och strukturerat format som går att läsa maskinellt, i syfte att återanvända dessa uppgifter i en annan tjänst. Du kan också begära att vi överför dessa uppgifter direkt till en annan tjänstleverantör för att underlätta tjänstbyte.<br/><br/><strong>Viktigt</strong>: Uppgifterna som lämnas enligt rätten till dataportabilitet kommer att vara maskinläsbara men inte nödvändigtvis läsbara för dig; om du vill få tillgång till dina uppgifter i ett format som du själv kan läsa och förstå rekommenderar vi att du istället utövar din rätt till åtkomst (se ovan)."
+                "content": "Du kan be oss att tillhandahålla dig de uppgifter som är relaterade till din användning av Tjänsterna i ett standardformat, strukturerat, maskinläsbart format, särskilt för syftet att återanvända dessa uppgifter med en annan tjänst. Du kan också be oss att överföra dessa uppgifter direkt till en annan tjänsteleverantör, för att underlätta din övergång mellan tjänster.<br/><br/><strong>Viktigt</strong>: De uppgifter som ges under rätten till dataportabilitet kommer att vara maskinläsbara, men inte nödvändigtvis läsbara av dig; om du vill få tillgång till dina uppgifter i ett format som du själv kan läsa och förstå, uppmanar vi dig att i stället utöva din rätt till tillgång (se ovan)."
               },
               "7": {
-                "title": "7. Rätt att ange instruktioner för vad som ska hända med dina uppgifter efter din död",
-                "content": "Slutligen har du rätt att ange hur du vill att vi hanterar dina uppgifter i det olyckliga fall att du avlider.<br/><br/>Du kan bland annat begära att vi förstör alla dina uppgifter (med förbehåll för eventuella tvingande behov av bevarande som vi kan ha, till exempel för att försvara VITTASCIENCE rättigheter i domstol), eller att vi överlämnar en kopia av alla dessa uppgifter till en person du utser.<br/><br/>Du kan även utse en person att ansvara för att dina « sista önskningar » verkställs; denna person behöver inte nödvändigtvis vara en av dina arvingar eller testamentsverkställare."
+                "title": "7. Rätt att ställa riktlinjer för vad som händer med dina uppgifter efter din död",
+                "content": "Slutligen har du rätt att meddela oss hur du skulle vilja att vi hanterar dina uppgifter i det olyckliga fallet att du skulle avlida.<br/><br/>I synnerhet kan du be oss att förstöra alla dina uppgifter (med förbehåll för eventuella tvingande skäl som vi kan ha att behålla dem, till exempel för syftet att försvara VITTASCIENCE:s rättigheter i domstol), eller att skicka en kopia av alla dessa uppgifter till en person som du väljer.<br/><br/>Du kan också utse vilken person som helst som du väljer som ansvarig för att genomföra dessa \"sista önskningar\"; denna person behöver inte nödvändigtvis vara en av dina arvingar eller ens den testamentsexekutor som ansvarar för din kvarlåtenskap."
               }
             }
           }
         },
         "5": {
           "title": "Ändringar",
-          "content": "Denna integritetspolicy kan komma att ändras i takt med att Tjänsterna utvecklas. Ändringar kan ske när som helst och utan förvarning. I händelse av ändring kommer Användare med ett konto att få en avisering via e‑post. <br/><br/>Datum för senaste ändring av denna integritetspolicy anges längst ner på sidan."
+          "content": "Denna policy för skydd av personuppgifter kan ändras i linje med eventuella förändringar i Tjänsterna. Sådana förändringar kan ske när som helst och utan förvarning. Om denna policy för skydd av personuppgifter ändras kommer användare med ett konto att få en varning via e-post. <br/><br/>Datumet då denna policy för skydd av personuppgifter senast uppdaterades visas längst ner på denna sida."
         },
         "6": {
           "title": "Kontakt",
-          "content": "Om du har frågor eller klagomål rörande VITTASCIENCE efterlevnad av denna policy, eller om du vill dela rekommendationer eller kommentarer för att förbättra policyn, kan du kontakta VITTASCIENCE via e‑post på adressen <a href='mailto:contact@vittascience.com'>contact@vittascience.com.</a><br/><br/>Om du så önskar har du även rätt att vända dig till den behöriga dataskyddsmyndigheten i Frankrike, Commission Nationale de l’Informatique et des Libertés (CNIL), via dess webbplats cnil.fr eller per post till följande adress : CNIL – 3, place de Fontenoy – TSA 80715 – 75334 PARIS CEDEX 07. <br/><br/>Denna rätt kan utövas när som helst och medför inga kostnader för dig, förutom eventuella portokostnader för brev samt eventuella kostnader för hjälp eller representation om du väljer att anlita en tredje part för att bistå i processen.<br/><br/>"
+          "content": "Om du har några frågor eller klagomål angående VITTASCIENCE:s efterlevnad av denna policy, eller om du vill dela rekommendationer eller kommentarer för att hjälpa till att förbättra kvaliteten på denna policy, kan du kontakta VITTASCIENCE via e-post på <a href='mailto:contact@vittascience.com'>contact@vittascience.com.</a><br/><br/>Om du önskar har du också rätt att lämna in ett klagomål till den behöriga dataskyddsmyndigheten i Frankrike, nämligen Commission Nationale de l'Informatique et des Libertés (CNIL), via deras webbplats cnil.fr eller via post till följande adress: CNIL – 3, place de Fontenoy – TSA 80715 – 75334 PARIS CEDEX 07. <br/><br/>Denna rätt kan utövas när som helst utan kostnad för dig, förutom eventuell kostnad för postbefordran, och eventuella kostnader för hjälp eller representation om du väljer att få hjälp av en tredje part i denna process.<br/><br/>"
         }
       }
     },
     "footer": {
-      "date": "Senaste uppdatering den 15 augusti 2020."
+      "date": "Senast uppdaterad den 15 augusti 2020."
     }
   },
   "gallery": {
@@ -5616,10 +5745,30 @@
     "acceptIt": "Acceptera"
   },
   "switchLang": {
-    "title": "Språk"
+    "title": "Språk",
+    "close": "Stäng språkmeny"
   },
   "modals": {
     "standard": {
+      "arduino-q-wifi": {
+        "title": "Wi-Fi för Arduino UNO Q-kortet",
+        "enabled": "Wi-Fi aktiverat",
+        "network": "Nätverk",
+        "scan": "Sök nätverk",
+        "password": "Nätverkets lösenord",
+        "connect": "Anslut",
+        "status": {
+          "loading": "Läser Wi-Fi-status…",
+          "nmcliMissing": "NetworkManager (nmcli) hittades inte på kortet.",
+          "disabled": "Wi-Fi avaktiverat",
+          "connected": "Ansluten till %1 (%2)",
+          "notConnected": "Inte ansluten",
+          "noNetwork": "Inget nätverk hittades",
+          "connecting": "Ansluter till %1…",
+          "cancelled": "Åtgärden avbröts.",
+          "failed": "Anslutningen misslyckades."
+        }
+      },
       "default": {
         "title": "Standardtitel",
         "exit": "Stäng dialog"
@@ -5646,7 +5795,8 @@
           "categories": {
             "private": "Mina projekt",
             "public": "Delade projekt",
-            "example": "Exempel"
+            "example": "Exempel",
+            "local": "Mina lokala projekt"
           },
           "exampleCategories": {
             "campus-numeria": "Campus Numeria",
@@ -5692,7 +5842,15 @@
         },
         "warning-message": "Laddar projekt ...",
         "no-project": "Inget projekt hittades.",
-        "toggle-all": "Växla alla kategorier"
+        "toggle-all": "Växla alla kategorier",
+        "localSelection": {
+          "selectedSingle": "projekt valt",
+          "selectedMultiple": "projekt valda",
+          "selectAll": "Välj alla",
+          "unselectAll": "Avmarkera alla",
+          "deleteSelection": "Ta bort val",
+          "checkboxLabel": "Välj projekt %project%"
+        }
       },
       "save": {
         "title": "Spara projektet",
@@ -5711,6 +5869,7 @@
             "copy": "Spara som ...",
             "share": "Dela",
             "cancel": "Avbryt",
+            "download": "Ladda ner",
             "downloadModel": "Ladda ner modellen till datorn"
           },
           "iaWarning": "<i class='fa fa-exclamation-triangle'></i> Din AI-modell lagras i webbläsarens minne och sparas inte med projektet.",
@@ -6240,6 +6399,10 @@
         "info": {
           "title": "Kodläge låst",
           "content": "Kodläget är för närvarande låst. Det betyder att block- och hybridlägen är inaktiverade."
+        },
+        "exit": {
+          "title": "Leave code-only mode",
+          "content": "Do you wish to unlock code-only mode so that block and hybrid modes can be used again?"
         }
       },
       "local-compilation": {
@@ -6294,6 +6457,24 @@
           "rename": "Byt namn på valda filer",
           "download": "Ladda ner valda filer till datorn",
           "delete": "Ta bort valda filer"
+        }
+      },
+      "arduino-q-password": {
+        "title": "Arduino Q-användarkonto",
+        "content": "Ange lösenordet för Arduino Q-kortet för att fortsätta:",
+        "placeholder": "Skriv lösenord...",
+        "buttons": {
+          "confirm": {
+            "text": "Bekräfta",
+            "tooltip": "Använd lösenord."
+          },
+          "close": {
+            "text": "Stäng",
+            "tooltip": "Avbryt åtgärden."
+          },
+          "togglePassword": {
+            "tooltip": "Visa / dölj lösenordet"
+          }
         }
       }
     },
@@ -6822,7 +7003,11 @@
         "generate": "Generera",
         "flash": "Ladda upp en modell från din enhet",
         "embeddedAiKit": "Embedded AI Kit",
-        "seedStudioKit": "Seeed Studio Kit"
+        "seedStudioKit": "Seeed Studio Kit",
+        "arduinoQ": "Arduino UNO Q",
+        "arduinoQExplanations": "Arduino UNO Q-kortet kör modellen direkt på sin Linux-processor: ingen optimering via servern behövs.</br>Modellen öppnas i Arduino UNO Q-gränssnittet med ett exempelprogram och skickas sedan till kortet vid uppladdningen.",
+        "arduinoQNote": "<strong>Obs:</strong> om ditt projekt inte är sparat online stannar modellen i den här webbläsaren: ladda upp programmet från samma webbläsare.",
+        "openArduinoQ": "Öppna i Arduino UNO Q-gränssnittet"
       },
       "microcontroller-queue": {
         "title": "Väntar på serverns tillgänglighet...",
@@ -7100,6 +7285,7 @@
         "codey": "Programmeringsmiljö för Codey-kortet och Rocky-roboten från Makeblock",
         "uno-r4-wifi": "Programmeringsgränssnitt för Arduino UNO R4 WiFi-kortet",
         "uno-r4-minima": "Programmeringsgränssnitt för Arduino UNO R4 Minima-kortet",
+        "uno-q": "Programmeringsgränssnitt för Arduino UNO Q-kortet (Arduino, Python och webbsida)",
         "nano": "Programmeringsgränssnitt för Arduino Nano-kortet",
         "mega": "Programmeringsgränssnitt för Arduino Mega-kortet",
         "steami": "Programmeringsgränssnitt för STeaMi-kortet",
@@ -7107,10 +7293,12 @@
         "alvik": "Programmeringsgränssnitt för Arduino Alvik-roboten",
         "alphai": "Programmeringsgränssnitt för AlphAI-roboten",
         "g1tank": "Programmeringsgränssnitt för Yahboom G1 Tank-roboten",
+        "arduinoq": "Programmeringsgränssnitt för Arduino UNO Q-brädan",
         "tello": "Programmierschnittstelle für die DJI Tello-Drohne",
         "uhandbit": "Programmierschnittstelle für die uHandbit-Roboterhand",
         "wonder": "Programmierschnittstelle für das Elecfreaks Wonder Building Kit",
-        "buildingbit": "Programmierschnittstelle für das Yahboom Building:bit Super Kit"
+        "buildingbit": "Programmierschnittstelle für das Yahboom Building:bit Super Kit",
+        "primastem": "Programmeringsgränssnitt för PrimaStem-roboten"
       }
     },
     "features_title": "Gemensamma funktioner",
@@ -8939,13 +9127,15 @@
       "groupNotFound": "Gruppen du försöker lägga till användaren i finns inte.",
       "errorAddingUserToGroup": "Ett fel uppstod när användaren skulle läggas till i gruppen.",
       "emptyData": "Det uppstod ett fel vid hämtning av data. Om det återkommer, kontakta teknisk support.",
-      "emptySSO": "Det uppstod ett fel vid hämtning av SSO-data. Om det återkommer, kontakta teknisk support."
+      "emptySSO": "Det uppstod ett fel vid hämtning av SSO-data. Om det återkommer, kontakta teknisk support.",
+      "samlEfIDenied": "Åtkomst nekad: plattformen är inte öppen för elever i cykel 2 och 3 i grundskolan. Om du tror att detta är ett fel, kontakta din skola."
     },
     "modal": {
       "title": "Välkommen till Vittascience",
       "content": "Vi är glada att välkomna dig 😊. Vill du få Vittasciences månadsbrev för att få information om nya funktioner, evenemang och utbildningsmaterial?",
       "buttonYes": "Ja",
-      "buttonNo": "Nej"
+      "buttonNo": "Nej",
+      "close": "Stäng"
     },
     "dashboard": {
       "student": {
@@ -9856,5 +10046,6 @@
       "title": "Begränsad åtkomst",
       "text": "Den här sidan är reserverad för användare inloggade via IAM Luxembourg. Logga in för att få åtkomst till dokumenten."
     }
-  }
+  },
+  "release-announcement-banner-close": "Stäng meddelandebanner"
 }

@@ -4,7 +4,7 @@
  */
 
 export function fixBlocklyAriaLevels() {
-  const invalidElements = document.querySelectorAll('.blocklyToolboxCategory[aria-level="0"]');
+  const invalidElements = document.querySelectorAll('.blocklyToolboxCategoryContainer[aria-level="0"]');
   
   if (invalidElements.length > 0) {
     invalidElements.forEach(element => {
@@ -20,8 +20,8 @@ const observer = new MutationObserver((mutations) => {
     if (mutation.type === 'childList') {
       mutation.addedNodes.forEach(node => {
         if (node.nodeType === Node.ELEMENT_NODE) {
-          if (node.matches?.('.blocklyToolboxCategory[aria-level="0"]') ||
-              node.querySelector?.('.blocklyToolboxCategory[aria-level="0"]')) {
+          if (node.matches?.('.blocklyToolboxCategoryContainer[aria-level="0"]') ||
+              node.querySelector?.('.blocklyToolboxCategoryContainer[aria-level="0"]')) {
             needsFix = true;
           }
         }
@@ -29,7 +29,7 @@ const observer = new MutationObserver((mutations) => {
     } else if (mutation.type === 'attributes' && 
                mutation.attributeName === 'aria-level' &&
                mutation.target.getAttribute('aria-level') === '0' &&
-               mutation.target.classList.contains('blocklyToolboxCategory')) {
+               mutation.target.classList.contains('blocklyToolboxCategoryContainer')) {
       needsFix = true;
     }
   });

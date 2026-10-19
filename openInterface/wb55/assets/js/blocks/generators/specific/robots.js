@@ -193,7 +193,7 @@ Blockly.Python.robots_alphabot_stopMotors = function (block) {
 // Common NEC remote generator
 Blockly.Python.robots_alphabot_onRemoteCommandReceived_generator = function (block) {
     const IRvariableName = "ir_current_remote_button";
-    block.workspace.createVariable(IRvariableName);
+    block.workspace.getVariableMap().createVariable(IRvariableName);
     var n = 0;
     var code = "utime.sleep_ms(150)" + NEWLINE + "gc.collect()" + NEWLINE;
     var branchCode, conditionCode;

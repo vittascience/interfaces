@@ -955,23 +955,28 @@ SETUP_RADIO_433_RECEIVER:
 
   /**
    * Get ID card of Grove RFID module.
-   * @return {String} id
+   * @return {unsigned long} id
    */
-  DEF_RFID_GET_STRING_CARD_ID:
-`String rfid_getStringCardID() {
-  String frame = "";
+  DEF_RFID_GET_UNSIGNED_LONG_CARD_ID:
+`unsigned long rfid_getLongCardID() {
+  unsigned long cardID = 0;
   if (rfid.available()) {
       delay(50);
       buffer[count++] = rfid.read();
       while (rfid.available()) {
         buffer[count++] = rfid.read();
-        if (count == 64) break;
+        if (count == 63) break;
       }
-      frame += String((char *)buffer);
+      buffer[count] = '\0';
+      String frame = String((char *)buffer);
       clearBufferArray();
       count = 0;
+      if (frame.length() >= 14) {
+        String hexID = frame.substring(3, 11);
+        cardID = strtoul(hexID.c_str(), NULL, 16);
+      }
   }
-  return frame.substring(1, frame.length()-1);
+  return cardID;
 }`,
 
   /**
@@ -1798,6 +1803,32 @@ float mq135_getResistance(uint8_t pin) {
   while (1);
 };`,
 
+  SETUP_MLX90621:
+`void setupMLX90621() {
+  Serial.println("Trying to initialize sensor...");
+  mlx90621.setRefreshRate(RATE_8HZ);
+  mlx90621.setResolution(RES_17bit);
+  mlx90621.setEmissivity(1.0);
+  mlx90621.initialize (); // start the thermo cam
+  Serial.println("Sensor initialized!");
+}`,
+
+  GET_TEMPERATURE_INT_MLX90621:
+`void getTemperaturesMLX90621(int temperatures[64]) {
+  mlx90621.measure(true);
+   for (int i = 0; i < 64; i++) {
+    temperatures[i] = mlx90621.getTemperature(i);
+  }
+}`,
+
+  GET_TEMPERATURE_FLOAT_MLX90621:
+`void getTemperaturesMLX90621(float temperatures[64]) {
+  mlx90621.measure(true);
+  for (int i = 0; i < 64; i++) {
+    temperatures[i] = mlx90621.getTemperature(i);
+  }
+}`,
+
   DEF_EAR_CLIP_GET_BPM:
 `int getBPM(uint8_t pin) {
   int signal = analogRead(pin);
@@ -2041,18 +2072,18 @@ float mq135_getResistance(uint8_t pin) {
 }`,
 
  DEF_LED_MATRIX_DRAW_AT:
-`void matrix_drawFrameAt(const uint32_t src[3], int x0, int y0, bool clearFirst = true) {
+`void matrix_drawFrameAt(const uint32_t src[], int x0, int y0, bool clearFirst = true) {
   builtinMatrix.beginDraw();
   if (clearFirst) builtinMatrix.clear();
   builtinMatrix.stroke(1);
   for (uint8_t y = 0; y < 8; y++) {
-    for (uint8_t x = 0; x < 12; x++) {
-      uint16_t idx = y * 12 + x;
+    for (uint8_t x = 0; x < builtinMatrix_cols; x++) {
+      uint16_t idx = y * builtinMatrix_cols + x;
       uint8_t w = idx / 32;
       uint8_t b = 31 - (idx % 32);
       if ((src[w] >> b) & 1U) {
         int xx = x0 + x, yy = y0 + y;
-        if (xx >= 0 && xx < 12 && yy >= 0 && yy < 8) {
+        if (xx >= 0 && xx < builtinMatrix_cols && yy >= 0 && yy < 8) {
           builtinMatrix.point(xx, yy);
         }
       }

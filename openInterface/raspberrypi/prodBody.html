@@ -255,22 +255,25 @@
 </div> <!-- END IDE -->
 
 <!-- build:js-externals -->
+<!-- code to blocks -->
+<script src="/openInterface/interfaces/assets/js/code2blocks/python/pythonCode2Blocks.js" type="module"></script>
+
 <script src="/openInterface/env.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/jquery.blockUI-2.70.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/jquery-ui-1.12.1.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/rotate.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/interact-1.5.4.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/blockly_compressed.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_date_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_colour_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/vittascience_patches.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_grid_dropdown_compressed.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_slider_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/scroll_options_compressed.js"></script>
 <script type="module" src="/openInterface/interfaces/assets/js/external/blockly/extensions/backpack/index.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ace.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-python.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-languages_tools.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-searchbox.min.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/file-input/js/fileinput.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/file-input/themes/fa/theme.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/svg-inject.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/charts-loader.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/echarts-5.4.0/echarts.min.js"></script>
@@ -408,6 +411,10 @@
 <script src="/openInterface/interfaces/assets/js/events/load.js"></script>
 <!-- check browser compatibility -->
 <script src="/openInterface/interfaces/assets/js/main/compatibilityBrowserCheck.js"></script>
+
+<!-- tree-sitter -->
+<script src="/openInterface/interfaces/assets/js/external/tree-sitter/tree-sitter.js"></script>
+<script src="/openInterface/raspberrypi/assets/js/blocks/code2Blocks/excluded_blocks.js"></script>
 
 <script>
     window.checkNavigatorVersionForPurpose('interfaces');

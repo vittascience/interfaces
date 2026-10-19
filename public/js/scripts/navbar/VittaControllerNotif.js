@@ -7,23 +7,7 @@ class VittaControllerNotif {
 			return VittaControllerNotif._instance;
 		}
 		VittaControllerNotif._instance = this;
-		this._lang = ['ar', 'en', 'es', 'fr', 'it'];
-		this._isProd = false;
-		this._setLangDomains();
-	}
-
-	/**
-	 * Rewrite the domains and check if we are in production context
-	 */
-	_setLangDomains() {
-		const currentDomain = location.host;
-		for (let lang of this._lang) {
-			const rewritedDomain = `${lang}.vittascience.com`;
-			if (rewritedDomain === currentDomain) {
-				this._isProd = true;
-				break;
-			}
-		}
+		this._isProd = CDN_PATH !== '';
 	}
 
 	/**

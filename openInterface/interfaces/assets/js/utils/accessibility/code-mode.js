@@ -1,5 +1,7 @@
 const codeSelectors = ".ace_editor, .ace_scrollbar, .btn-zoom-editor, .ace_text-input";
-const blockSelectors = ".injectionDiv, .blocklyToolboxDiv, .blocklyToolboxContents, .blocklyTreeSearch, .blocklySvg, .blocklyBackpack";
+// No tabindex on the workspace <svg>: since Blockly 12 it would take the focus, and so the
+// selection, from the clicked block, which prevents dragging blocks.
+const blockSelectors = ".injectionDiv, .blocklyToolbox, .blocklyToolboxCategoryGroup, .blocklyTreeSearch, .blocklyBackpack";
 const allSelectors = `${codeSelectors}, ${blockSelectors}`;
 
 export function initCodeModeAccessibility() {

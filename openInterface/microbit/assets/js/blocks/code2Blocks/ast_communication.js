@@ -370,7 +370,51 @@ utils.prototypeBlocks['uart.write'] = function (type, fields, values, mutations,
 		message = statementsNode[0];
 	}
 
+	// "uart_switchTo(rx, tx, baudrate)\nuart.write(DATA + '\n')\nuart_switchTo()": SD card (OpenLog) block
+	if (openLogSwitch?.row !== undefined && message?.start?.row === openLogSwitch.row + 1 && message.type === 'binary_operator' && message.children[2]?.text === "'\\n'") {
+		utils.python2Blocks.blockToRemove.push(utils.lastBlockId);
+		const { rx, tx, baudrate } = openLogSwitch;
+		openLogSwitch = { pendingRedirect: true };
+		return {
+			type: 'communication_writeOpenLogSd',
+			fields: { RX: rx, TX: tx, BAUD: baudrate },
+			values: { DATA: null },
+			mutations: null,
+			statementsNode: { DATA: message.children[0] },
+			statements: null,
+		};
+	}
+
 	const uartClass = utils.python2Blocks._classes['uart'];
+	const unwrapStr = (node) => (node?.type === 'call' && node.children[0]?.text === 'str' ? utils.getArgumentList(node.children[1].children)[0] : node);
+	// "uart_switchTo(rx, tx)\nuart.write(DATA)\nuart_switchTo()": bluetooth module
+	if (bluetoothSwitch && message?.start?.row === bluetoothSwitch.row + 1) {
+		const { rx, tx } = bluetoothSwitch;
+		bluetoothSwitch = null;
+		openLogSwitch = { pendingRedirect: true };
+		return {
+			type: 'communication_hc05_sendBluetoothData',
+			fields: { RX: rx, TX: tx },
+			values: { DATA: null },
+			mutations: null,
+			statementsNode: { DATA: unwrapStr(message) },
+			statements: null,
+		};
+	}
+	if (!uartClass) {
+		// "uart.write(str(DATA))" for non text data
+		if (message?.type === 'call' && message.children[0]?.text === 'str') {
+			message = utils.getArgumentList(message.children[1].children)[0];
+		}
+		return {
+			type: 'communication_uart_writeData',
+			fields: {},
+			values: { DATA: null },
+			mutations: null,
+			statementsNode: { DATA: message || { type: 'string', text: "''" } },
+			statements: null,
+		};
+	}
 
 	return {
 		type: 'communication_hc05_sendBluetoothData',
@@ -397,6 +441,37 @@ utils.prototypeBlocks['uart.any()_string'] = function (type, fields, values, mut
 	const assignementVar = utils.returnFirstExpression(statementsNode.children, "assignment")
 	if (assignementVar !== null) {
 		stringVar = assignementVar.children[0].text;
+	}
+
+	// "uart_switchTo(rx, tx)\nif uart.any():\n  VAR = uart.read()\n  uart_switchTo()\n  ...": data received by a bluetooth module
+	if (bluetoothSwitch && stringVar && statementsNode.start?.row === bluetoothSwitch.row + 2) {
+		const { rx, tx } = bluetoothSwitch;
+		bluetoothSwitch = null;
+		const varID = utils.python2Blocks.getVariableID(stringVar) || utils.python2Blocks.declareBlocklyVariable(stringVar, null);
+		// HM-10 decodes the data, HC-05 does not
+		const isHM10 = utils.rmSpaces(assignementVar.children[2]?.text || '').endsWith('.decode()');
+		return {
+			type: isHM10 ? 'communication_hm10_onBluetoothDataReceived' : 'communication_hc05_onBluetoothDataReceived',
+			fields: isHM10 ? { TXD: rx, RXD: tx, VAR: { name: 'VAR', id: varID, value: stringVar } } : { RX: rx, TX: tx, VAR: { name: 'VAR', id: varID, value: stringVar } },
+			mutations: null,
+			values: null,
+			statementsNode: null,
+			statements: { DO: { type: 'block', children: statementsNode.children.slice(2) } },
+		};
+	}
+
+	// "if uart.any():\n  VAR = uart.read().decode('utf-8')\n  while uart.any():\n    VAR += ...": message received on the UART
+	const uartClass = utils.python2Blocks._classes['uart'];
+	if (!basicSerial && !uartClass && stringVar && statementsNode.children[1]?.type === 'while_statement') {
+		const varID = utils.python2Blocks.getVariableID(stringVar) || utils.python2Blocks.declareBlocklyVariable(stringVar, null);
+		return {
+			type: 'communication_onSerialMessageReceived',
+			fields: { VAR: { name: 'VAR', id: varID, value: stringVar } },
+			mutations: null,
+			values: null,
+			statementsNode: null,
+			statements: { DO: { type: 'block', children: statementsNode.children.slice(2) } },
+		};
 	}
 	
 	const varID = utils.python2Blocks.getVariableID(stringVar) || utils.python2Blocks.declareBlocklyVariable(stringVar, null);
@@ -451,3 +526,142 @@ utils.prototypeBlocks['nameisnotNoneandvalueisnotNone_string'] = function (type,
 		statements: { DO: statementsNode },
 	}
 }
+
+const simpleBlock = (type, fields = {}, inputs = {}) => ({
+	type,
+	fields,
+	values: Object.fromEntries(Object.keys(inputs).map((name) => [name, null])),
+	mutations: null,
+	statementsNode: inputs,
+	statements: null,
+});
+
+utils.prototypeBlocks['radio_receiveFull'] = function (type, fields, values, mutations, statementsNode) {
+	return simpleBlock('communication_radioReceiveFull', { DATA: utils.extractString(statementsNode[0]).text });
+};
+
+// UART switch: "uart_switchTo(rx, tx, baudrate)" (serial init or first line of the SD card block) and "uart_switchTo()" (back to USB)
+let openLogSwitch = null;
+let bluetoothSwitch = null;
+utils.prototypeBlocks['uart_switchTo'] = function (type, fields, values, mutations, statementsNode) {
+	if (!statementsNode.length) {
+		if (openLogSwitch?.pendingRedirect) {
+			openLogSwitch = null;
+			return 'null';
+		}
+		return simpleBlock('communication_serialRedirectUSB');
+	}
+	const [rx, tx, baudrate] = statementsNode.map((node) => node.text);
+	// "uart_switchTo(rx, tx)" without baudrate: first line of the bluetooth blocks (HC-05 and HM-10 generate the same code)
+	if (statementsNode.length === 2) {
+		bluetoothSwitch = { rx, tx, row: statementsNode[0].start?.row };
+		return 'null';
+	}
+	const block = simpleBlock('communication_serialInit', { RX: rx, TX: tx, BAUD: baudrate });
+	openLogSwitch = utils.checkCodeFlag(tx) === '#LecteurSDon' ? { rx, tx, baudrate, row: statementsNode[0].start?.row } : null;
+	return block;
+};
+
+// HM10 AT commands: "hm10_bluetooth_sendCommandAT(txd, rxd, "COMMAND", VALUE)" (set) or without value (get)
+utils.prototypeBlocks['hm10_bluetooth_sendCommandAT'] = function (type, fields, values, mutations, statementsNode) {
+	const pins = { TXD: statementsNode[0].text, RXD: statementsNode[1].text, COMMAND: utils.extractString(statementsNode[2]).text };
+	if (statementsNode.length > 3) {
+		return simpleBlock('communication_hm10_setATCommand', pins, { VALUE: statementsNode[3] });
+	}
+	return simpleBlock('communication_hm10_getATCommand', pins);
+};
+
+// RFID: "rfid_rc522 = MFRC522(spi, NSS)" then "rc522_readTagUid()"
+let rfidNss = 'pin0';
+utils.prototypeBlocks['rfid_rc522'] = function (right) {
+	const args = utils.getArgumentList(right.children.find((child) => child.type === 'argument_list')?.children || []);
+	rfidNss = args[1]?.text || rfidNss;
+	return '';
+};
+utils.prototypeBlocks['rc522_readTagUid'] = function () {
+	return simpleBlock('communication_mfrc522_getCardID', { NSS: rfidNss });
+};
+
+// GPS
+utils.prototypeBlocks['gps_readNMEA'] = function (type, fields, values, mutations, statementsNode) {
+	return simpleBlock('communication_gps_getNMEA', { RX: statementsNode[0].text, TX: statementsNode[1].text });
+};
+utils.prototypeBlocks['gps_GGA_getInformation'] = function (type, fields, values, mutations, statementsNode) {
+	return simpleBlock('communication_gps_getGGAInformations', { RX: statementsNode[0].text, TX: statementsNode[1].text, INFO: utils.extractString(statementsNode[2]).text });
+};
+
+// RTC clocks: "clock_v1 = DS1307(addr=0x68)" (DS1307) or "clock_hp = RTC_HP(addr=0x51)" (PCF85063TP)
+for (const [instance, module] of [['clock_v1', 'DS1307'], ['clock_hp', 'PCF85063TP']]) {
+	// "clock.fillByYMD(Y, M, D)\nclock.fillDayOfWeek('DAY')"
+	let lastDate = null;
+	utils.prototypeBlocks[`${instance}.fillByYMD`] = function (type, fields, values, mutations, statementsNode) {
+		const date = statementsNode.map((node) => node.text.padStart(2, '0')).join('-');
+		const block = simpleBlock('communication_clockRTC_setDate', { MODULE: module, DATE: date, DAY: 'MON' });
+		lastDate = { date };
+		return block;
+	};
+	utils.prototypeBlocks[`${instance}.fillDayOfWeek`] = function (type, fields, values, mutations, statementsNode) {
+		if (!lastDate) return null;
+		utils.python2Blocks.blockToRemove.push(utils.lastBlockId);
+		const block = simpleBlock('communication_clockRTC_setDate', { MODULE: module, DATE: lastDate.date, DAY: utils.extractString(statementsNode[0]).text });
+		lastDate = null;
+		return block;
+	};
+	utils.prototypeBlocks[`${instance}.fillByHMS`] = function (type, fields, values, mutations, statementsNode) {
+		return simpleBlock('communication_clockRTC_setHour', { MODULE: module }, { HOUR: statementsNode[0], MIN: statementsNode[1], SEC: statementsNode[2] });
+	};
+	// "clock.readTime()" or "clock.readTime()[DATA]"
+	utils.prototypeBlocks[`${instance}.readTime`] = function () {
+		return simpleBlock('communication_clockRTC_readTime', { MODULE: module, DATA: 'ALL' });
+	};
+	utils.prototypeBlocks[`${instance}.readTime()`] = function (identifier, index) {
+		return simpleBlock('communication_clockRTC_readTime', { MODULE: module, DATA: index?.text ?? 'ALL' });
+	};
+	// generated with the block
+	utils.prototypeBlocks[`${instance}.reset`] = function () {
+		return 'null';
+	};
+}
+utils.prototypeBlocks['DS1307'] = function () {
+	return 'null';
+};
+utils.prototypeBlocks['RTC_HP'] = function () {
+	return 'null';
+};
+
+// UART
+utils.prototypeBlocks['uart.read'] = function () {
+	return simpleBlock('communication_uart_readData');
+};
+utils.prototypeBlocks['uart.readline'] = function () {
+	return simpleBlock('communication_uart_readLineData');
+};
+utils.prototypeBlocks['uart.any'] = function () {
+	return simpleBlock('communication_uart_isDataAvailable');
+};
+
+// I2C
+utils.prototypeBlocks['i2c.init'] = function (type, fields, values, mutations, statementsNode) {
+	const args = {};
+	for (const child of statementsNode) {
+		if (child.type === 'keyword_argument') {
+			const { key, value } = utils.extractKeyWordArgument(child);
+			args[key.text] = value;
+		}
+	}
+	return simpleBlock('communication_i2c_init', { SDA: args.sda?.text, SCL: args.scl?.text }, { FREQ: args.freq });
+};
+utils.prototypeBlocks['i2c.scan'] = function () {
+	return simpleBlock('communication_i2c_scan');
+};
+utils.prototypeBlocks['i2c.read'] = function (type, fields, values, mutations, statementsNode) {
+	return simpleBlock('communication_i2c_read', {}, { ADDR: statementsNode[0], N: statementsNode[1] });
+};
+// "i2c.write(ADDR, bytes(BUF))"
+utils.prototypeBlocks['i2c.write'] = function (type, fields, values, mutations, statementsNode) {
+	let buffer = statementsNode[1];
+	// other buffers (ex: robots "bytearray([...])") are not written by this block
+	if (buffer?.type !== 'call' || buffer.children[0]?.text !== 'bytes') return null;
+	buffer = utils.getArgumentList(buffer.children[1].children)[0];
+	return simpleBlock('communication_i2c_write', {}, { ADDR: statementsNode[0], BUF: buffer });
+};

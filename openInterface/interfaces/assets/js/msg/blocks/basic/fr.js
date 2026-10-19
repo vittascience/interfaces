@@ -116,6 +116,9 @@ Blockly.Msg["EXCEPTION_RAISE_TOOLTIP"] = "soulever une exception";
 Blockly.Msg["EXCEPTION_EXCEPTION_TOOLTIP"] = "créer une exception";
 Blockly.Msg["EXCEPTION_TYPE_TOOLTIP"] = "Tout les type d'exceptions possible";
 Blockly.Msg["EXCEPTION_TRY_TOOLTIP"] = "Exécute un bloc de code et permet d'exécuter un bloc de code en cas d'exception";
+Blockly.Msg["EXCEPTION_RAISE_TITLE"] = "lever";
+Blockly.Msg["EXCEPTION_TRY_TITLE"] = "essayer";
+Blockly.Msg["EXCEPTION_EXCEPT_TITLE"] = "en cas d'exception";
 
 // Logic blocks.
 Blockly.Msg["CONTROLS_IF_HELPURL"] = "https://github.com/google/blockly/wiki/IfElse";
@@ -529,6 +532,7 @@ Blockly.Msg["PROCEDURES_DEFRETURN_PROCEDURE"] = Blockly.Msg["PROCEDURES_DEFNORET
 Blockly.Msg["PROCEDURES_DEFRETURN_DO"] = Blockly.Msg["PROCEDURES_DEFNORETURN_DO"];
 Blockly.Msg["PROCEDURES_DEFRETURN_COMMENT"] = Blockly.Msg["PROCEDURES_DEFNORETURN_COMMENT"];
 Blockly.Msg["PROCEDURES_DEFRETURN_RETURN"] = "retour";
+Blockly.Msg["PROCEDURES_SIMPLE_RETURN_TOOLTIP"] = "Renvoie une valeur et quitte la fonction.";
 Blockly.Msg["PROCEDURES_DEFRETURN_TOOLTIP"] = "Crée une fonction avec une sortie.";
 Blockly.Msg["PROCEDURES_ALLOW_STATEMENTS"] = "autoriser les ordres";
 Blockly.Msg["PROCEDURES_DEF_DUPLICATE_WARNING"] = "Attention : Cette fonction a des paramètres en double.";

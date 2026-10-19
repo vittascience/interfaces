@@ -243,7 +243,7 @@ Blockly.Python.lists_getSublist = function(block) {
       break;
     case "FROM_END":
       var at2 = Blockly.Python.getAdjustedInt(block, "AT2", 0, true);
-      if (!Blockly.isNumber(String(at2))) {
+      if (!Blockly.utils.string.isNumber(String(at2))) {
         Blockly.Python.addImport('sys', IMPORT_SYS);
         at2 += " or sys.maxsize";
       } else if (at2 == "0") {
