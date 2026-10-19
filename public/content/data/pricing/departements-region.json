@@ -29,7 +29,8 @@
     "dep_name": "Bouches-du-Rhône",
     "is_tne": true
 }, {
-    "dep_name": "Calvados"
+    "dep_name": "Calvados",
+    "is_normandie": true
 }, {
     "dep_name": "Cantal"
 }, {
@@ -55,7 +56,8 @@
 }, {
     "dep_name": "Drôme"
 }, {
-    "dep_name": "Eure"
+    "dep_name": "Eure",
+    "is_normandie": true
 }, {
     "dep_name": "Eure-et-Loir"
 }, {
@@ -112,7 +114,8 @@
 }, {
     "dep_name": "Maine-et-Loire"
 }, {
-    "dep_name": "Manche"
+    "dep_name": "Manche",
+    "is_normandie": true
 }, {
     "dep_name": "Marne",
     "is_lycee4_0": true
@@ -138,7 +141,8 @@
 }, {
     "dep_name": "Oise"
 }, {
-    "dep_name": "Orne"
+    "dep_name": "Orne",
+    "is_normandie": true
 }, {
     "dep_name": "Pas-de-Calais"
 }, {
@@ -171,7 +175,8 @@
     "dep_name": "Paris",
     "is_lycee_up": true
 }, {
-    "dep_name": "Seine-Maritime"
+    "dep_name": "Seine-Maritime",
+    "is_normandie": true
 }, {
     "dep_name": "Seine-et-Marne",
     "is_lycee_up": true

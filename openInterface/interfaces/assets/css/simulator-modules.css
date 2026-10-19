@@ -300,6 +300,35 @@ pre {
 	left: 17px;
 }
 
+.mlx90621-screen {
+	width: calc(160px * 0.65);
+	height: calc(128px * 0.65);
+	margin-left: -20px !important;
+	padding: 0;
+	box-sizing: border-box;
+	border-radius: 4px;
+	overflow: hidden;
+	background: #0b1b33;
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07), 0 8px 16px rgba(0, 0, 0, 0.25);
+}
+
+.mlx90621-heatmap {
+	width: 100%;
+	height: 100%;
+	display: grid;
+	grid-template-columns: repeat(16, 1fr);
+	grid-template-rows: repeat(4, 1fr);
+	gap: 0;
+}
+
+.mlx90621-pixel {
+	width: 100%;
+	height: 100%;
+	border-radius: 0;
+	background: #0a1d5e;
+	box-shadow: none;
+}
+
 /* Animations */
 @keyframes rotation-forward {
 	from {
@@ -450,6 +479,7 @@ pre {
 .groveVoltageDivider,
 .potentiometer,
 .rotaryEncoder,
+.bn880,
 .read-analog {
 	z-index: 1;
 	bottom: 13px;
@@ -609,6 +639,26 @@ pre {
 	display: inline-block;
 	border-radius: 50%;
 	animation: pulseHeart 1s infinite ease-in-out;
+}
+.rfidReader_module .module-img-group {
+    
+    width: 150px;
+    height: 110px;
+    min-height: 80px;
+	position: relative;
+    margin: 12px auto 0;
+}
+
+.rfidReader_module .rfidReader_base {
+    position: absolute;
+    display: block;
+    width: 120px !important;
+    height: auto !important;
+    max-width: none !important;
+    left: 30px;
+    bottom: -20px;
+    transform: translateX(-40%);
+    z-index: 1;
 }
 
 @keyframes pulseHeart {
@@ -989,4 +1039,127 @@ pre {
 	background: var(--bg-2);
 	filter: grayscale(1);
 	pointer-events: none;
+}
+
+/* Modulino (Arduino Plug and Make Kit) - arduino interface */
+.simulator-module.modulino-pixels_module .module-body,
+.simulator-module.modulino-buttonsLeds_module .module-body {
+	align-items: center;
+}
+
+.modulino-pixels_module>.body-output>.module-value,
+.modulino-buttonsLeds_module>.body-output>.module-value {
+	width: 100%;
+}
+
+.modulino-pixels_value_text,
+.modulino-buttonsLeds_value_text {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+/* the 8 LEDs in a row on the module board */
+.modulino-pixels {
+	display: flex;
+	flex-wrap: nowrap;
+	gap: 6px;
+	padding: 10px 12px;
+	background: #00979d;
+	border-radius: 8px;
+}
+
+.modulino-pixel {
+	width: 16px;
+	height: 16px;
+	border-radius: 3px;
+	border: 1px solid #00666a;
+	background-color: #000000;
+}
+
+.modulino-leds {
+	display: flex;
+	gap: 18px;
+	padding: 10px 14px;
+	background: #00979d;
+	border-radius: 8px;
+}
+
+.modulino-led-group {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+	color: #ffffff;
+	font-weight: bold;
+	font-size: 0.9rem;
+}
+
+.modulino-led {
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	border: 1px solid #00666a;
+	background-color: #d9d9d9;
+}
+
+.modulino-led.modulino-led-on {
+	background-color: #4cff6a;
+	box-shadow: 0 0 8px #4cff6a;
+}
+
+/* animated pictures placed like the modules they come from (potentiometer, accelerometer, compass) */
+#modulino-knob_anim {
+	z-index: 1;
+	bottom: 13px;
+	left: 13.5px;
+	height: 33px;
+}
+
+#modulino-acceleration_anim {
+	bottom: 0;
+	left: 12px;
+	transform-origin: top right;
+	z-index: 1;
+	width: 23px;
+	height: auto;
+	transform: rotate(140deg);
+}
+
+#modulino-rotation_anim {
+	z-index: 1;
+	width: 7%;
+	height: auto;
+	left: 27px;
+	top: -8px;
+	transform-origin: bottom center;
+}
+
+/* the axis selectors only hold x/y/z or roll/pitch/yaw: keep room for the module title */
+#modulino-acceleration_select {
+	width: 48px;
+}
+
+#modulino-rotation_select {
+	width: 68px;
+}
+
+/* buzzer waves and distance waves placed like the Grove buzzer and ultrasonic ranger */
+#modulino-buzzer_anim {
+	z-index: 1;
+	animation: shake 2s cubic-bezier(.36, .07, .19, .97) infinite;
+	bottom: -6px;
+	left: -9px;
+	width: 80px;
+	height: auto;
+	max-height: none !important;
+	opacity: 0;
+}
+
+#modulino-distance_anim {
+	z-index: 1;
+	height: 27px;
+	top: -25px;
+	left: 4px;
+	opacity: 0;
 }

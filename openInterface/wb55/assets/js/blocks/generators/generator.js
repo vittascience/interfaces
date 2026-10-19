@@ -33,6 +33,15 @@ Blockly.Python.Generators.digital_write = function (pin, codeFlag) {
   return pinName.toLowerCase();
 };
 
+/**
+ * Timer and channel of a PWM pin: in its value (ex: 'TIM1_CH3') or in the timers of the board (ex: STeaMi 'P7').
+ * @returns {Array<string>} [timer, channel]
+ */
+Blockly.Python.Generators.pwmTimer = function (pin) {
+  const pinNumbers = ((Blockly.Constants.Pins.PWM_TIMERS || {})[pin] || pin || '').match(/TIM([0-9]{1,})_CH([0-9]{1,})/);
+  return pinNumbers ? [pinNumbers[1], pinNumbers[2]] : ['1', '1'];
+};
+
 Blockly.Python.Generators.pwm = function (pin, codeFlag, freq = 100, pull = 'OUT_PP') {
   const pins = Blockly.Constants.Pins.PWM[Blockly.Constants.getSelectedBoard()];
   pin = pin || pins[0][1];
@@ -40,7 +49,8 @@ Blockly.Python.Generators.pwm = function (pin, codeFlag, freq = 100, pull = 'OUT
   if (codeFlag) {
     Blockly.Python.addInit(codeFlag.trim() + '_' + pinName, "# " + codeFlag + " on " + pinName);
   }
-  const pinNumbers = pin.match(/TIM([0-9]{1,})_CH([0-9]{1,})/);
+  // timer of the pin: in its value (ex: 'TIM1_CH3') or in the timers of the board (ex: STeaMi 'P7')
+  const pinNumbers = ((Blockly.Constants.Pins.PWM_TIMERS || {})[pin] || pin).match(/TIM([0-9]{1,})_CH([0-9]{1,})/);
   Blockly.Python.addInit(pinName + '_OUT', pinName.toLowerCase() + " = pyb.Pin('" + pinName + "', pyb.Pin." + pull + ")");
   Blockly.Python.addInit('tim' + pinName.replace('D', ''), "tim_" + pinName.toLowerCase() + " = pyb.Timer(" + pinNumbers[1] + ", freq=" + freq + ")");
   Blockly.Python.addInit('pwm' + pinName.replace('D', ''), "pwm_" + pinName.toLowerCase() + " = tim_" + pinName.toLowerCase() + ".channel(" + pinNumbers[2] + ", pyb.Timer.PWM, pin=" + pinName.toLowerCase() + ")");

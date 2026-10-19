@@ -313,8 +313,8 @@ Blockly.Constants.DICTIONARIES.DICTIONARIES_CREATE_WITH_MUTATOR_MIXIN = {
   },
   restoreConnections_: function () {
     for (var i = 0; i < this.itemCount_; i++) {
-      Blockly.Mutator.reconnect(this.valueConnections_[2 * i], this, 'KEY' + i);
-      Blockly.Mutator.reconnect(this.valueConnections_[2 * i + 1], this, 'VAL' + i);
+      this.valueConnections_[2 * i]?.reconnect(this, 'KEY' + i);
+      this.valueConnections_[2 * i + 1]?.reconnect(this, 'VAL' + i);
     }
   },
   addItem_: function () {

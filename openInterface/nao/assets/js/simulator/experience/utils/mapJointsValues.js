@@ -907,7 +907,7 @@ export default class MapJointValues {
 				</shadow>
 			</value>
 		</block>`;
-		const xml = Blockly.Xml.textToDom(xmlText);
+		const xml = Blockly.utils.xml.textToDom(xmlText);
 		const newBlock = Blockly.Xml.domToBlock(xml, workspace);
 
 		// Si le targetBlock est vide (n'a pas de child blocks)

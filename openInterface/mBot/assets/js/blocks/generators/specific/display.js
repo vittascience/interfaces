@@ -60,7 +60,7 @@ Blockly.Arduino.robots_makeBlock_matrixDrawBitmap = function (block) {
     Blockly.Arduino.addSetup(objName + "-colorIndex", objName + ".setColorIndex(1);");
     Blockly.Arduino.addDeclaration('declare_matrix_buffer' , "uint8_t drawBuffer[16];" + NEWLINE + "uint8_t *drawTemp;");
     let code = "drawTemp = ";
-    let binary_img = block.getField("LEDS_MATRIX_BUTTON")['altText_'].split(','); 
+    let binary_img = block.getField("LEDS_MATRIX_BUTTON").getText().split(','); 
     
     //convert binary img to hex   
     if (binary_img.length != 0) {

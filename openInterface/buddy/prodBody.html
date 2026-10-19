@@ -256,16 +256,16 @@
 <script src="/openInterface/interfaces/assets/js/external/rotate.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/interact-1.5.4.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/blockly_compressed.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_date_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_colour_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/vittascience_patches.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_grid_dropdown_compressed.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_slider_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/scroll_options_compressed.js"></script>
 <script type="module" src="/openInterface/interfaces/assets/js/external/blockly/extensions/backpack/index.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ace.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-python.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-languages_tools.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-searchbox.min.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/file-input/js/fileinput.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/file-input/themes/fa/theme.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/svg-inject.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/charts-loader.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/echarts-5.4.0/echarts.min.js"></script>
@@ -428,9 +428,9 @@
             }, 100);
         
             // wait for the blockly toolbox to be created
-            $('body').on('DOMNodeInserted', '.blocklyToolboxDiv', function () {
+            $('body').on('DOMNodeInserted', '.blocklyToolbox', function () {
                 // force the blockly toolbox to be in mobile mode
-                $('.blocklyToolboxDiv').addClass('blocklyToolboxDiv-small');
+                $('.blocklyToolbox').addClass('blocklyToolboxDiv-small');
 
                 // listen for class changes on the toolbox and force it to be in mobile mode
                 const observer = new MutationObserver(function (mutations) {
@@ -445,7 +445,7 @@
                     });
                 });
 
-                observer.observe($('.blocklyToolboxDiv')[0], {
+                observer.observe($('.blocklyToolbox')[0], {
                     attributes: true
                 });                
             });

@@ -62,6 +62,18 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
     },
     {
         'kind': 'category',
+        'toolboxitemid': 'modulino',
+        'name': 'Modulino',
+        'style': 'modulino_category',
+        'cssConfig': {
+            'icon': 'icon_blockly fas fa-puzzle-piece'
+        },
+        'contents': [],
+        // The Modulino are plugged on the Qwiic connector: UNO R4 WiFi only (the R4 Minima has none, an adapter is needed)
+        "onlyBoards": [BOARD_ARDUINO_UNO_R4_WIFI]
+    },
+    {
+        'kind': 'category',
         'toolboxitemid': 'robots',
         'name': '%{BKY_CATEGORY_ROBOTS}',
         'style': 'robots_category',
@@ -555,6 +567,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         {
             'label': '%{BKY_SUBCATEGORY_SENSORS_OTHER}',
             "blocks": [
+                'sensors_mlx90621_readObjectTemperature',
                 'sensors_getIna219Data',
                 'sensors_getVoltageDividerData',
                 'sensors_getFsr402Force'
@@ -578,6 +591,12 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'actuators_stepperMotor_run',
                 'actuators_DCMotor_setSpeed',
                 'actuators_DCMotor_stop'
+            ]
+        },
+        {
+            'label': '%{BKY_SUBCATEGORY_ULN2004_STEPPER_DRIVER}',
+            "blocks": [
+                'actuators_28BYJ48_run'
             ]
         },
         {
@@ -633,6 +652,15 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'actuators_playMusicGroveBuzzer'
             ]
         }
+    ],
+    "modulino": [
+        { 'label': '%{BKY_MODULINO_LABEL_BUTTONS}', "blocks": ['modulino_buttons_isPressed', 'modulino_buttons_setLeds'] },
+        { 'label': '%{BKY_MODULINO_LABEL_BUZZER}', "blocks": ['modulino_buzzer_tone', 'modulino_buzzer_noTone'] },
+        { 'label': '%{BKY_MODULINO_LABEL_PIXELS}', "blocks": ['modulino_pixels_setColor', 'modulino_pixels_setRGB', 'modulino_pixels_clear'] },
+        { 'label': '%{BKY_MODULINO_LABEL_KNOB}', "blocks": ['modulino_knob_get', 'modulino_knob_isPressed', 'modulino_knob_set'] },
+        { 'label': '%{BKY_MODULINO_LABEL_DISTANCE}', "blocks": ['modulino_distance_get'] },
+        { 'label': '%{BKY_MODULINO_LABEL_MOVEMENT}', "blocks": ['modulino_movement_getAcceleration', 'modulino_movement_getRotation'] },
+        { 'label': '%{BKY_MODULINO_LABEL_THERMO}', "blocks": ['modulino_thermo_getData'] }
     ],
     "robots": [
         {

@@ -16,3 +16,6 @@ Blockly.Msg['JS_DOM_ADDEVENTLISTENER_MESSAGE_2'] = 'على الكتلة';
 Blockly.Msg['JS_DOM_EDITATTRIBUT_MESSAGE_1'] = 'تعديل السمة';
 Blockly.Msg['JS_DOM_EDITATTRIBUT_MESSAGE_2'] = 'من';
 Blockly.Msg['JS_DOM_EDITATTRIBUT_MESSAGE_3'] = 'إلى';
+Blockly.Msg["JS_DOM_ADDEVENTLISTENER_ON_LOAD"] = "Blockly.Msg[\"JS_DOM_ADDEVENTLISTENER_ON_LOAD\"] = \"On page load\";";
+Blockly.Msg["JS_SOCKET_EMIT_MESSAGE"] = "Blockly.Msg[\"JS_SOCKET_EMIT_MESSAGE\"] = \"[socket] send request ID %1 with message %2\";";
+Blockly.Msg["JS_SOCKET_ON_MESSAGE_RECEIVE"] = "Blockly.Msg[\"JS_SOCKET_ON_MESSAGE_RECEIVE\"] = \"[socket] if request ID %1 is received in variable %2\";";

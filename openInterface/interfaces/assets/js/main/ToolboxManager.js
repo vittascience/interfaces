@@ -295,6 +295,7 @@ class ToolboxManager {
                     }
                 }
             }
+            if (typeof BlockExtensions !== 'undefined') BlockExtensions.pushToolbox(this);
         } else {
             this._pushFlyout(ToolboxManager.DB_.get());
             this.pushVariable('variable', true);
@@ -634,7 +635,7 @@ class ToolboxManager {
                 xml = xml.replace(/(^|[^%]){(\w+)}/g, (m, p1, p2) => p1 + Blockly.MESSAGES[p2]);
             }
             try {
-                Blockly.Xml.textToDom(xml);
+                Blockly.utils.xml.textToDom(xml);
                 const block = {
                     "kind": "block",
                     "blockxml": xml
@@ -692,7 +693,7 @@ class ToolboxManager {
     _addVariables() {
         if (this._variableNames) {
             for (var i of this._variableNames) {
-                this._workspace.createVariable(i);
+                this._workspace.getVariableMap().createVariable(i);
             }
         }
     };
@@ -707,13 +708,16 @@ class ToolboxManager {
         this._theme = Blockly.Themes[THEMES[themeLabel][font]] || Blockly.Themes.ClassicBase;
         this._theme.setStartHats(true);
         this._workspace.setTheme(this._theme);
+        // setTheme only restyles the blocks already rendered: render them again so that their
+        // shape follows the theme too (start hats of a project loaded before).
+        this._workspace.render();
     };
     /**
      * Set border-left color, tree icon html, tree icon color and tree label color.
      * @private
      */
     _setToolboxMenuStyle() {
-        const rows = document.getElementsByClassName('blocklyTreeRow');
+        const rows = document.getElementsByClassName('blocklyToolboxCategory');
         const toolboxCat = this._getToolboxTree().contents;
         let i = 0;
         const setStyle = (categories, subcat = false) => {
@@ -727,7 +731,11 @@ class ToolboxManager {
                         }
                         const catId = categories[cat].toolboxitemid;
                         if (catStyle !== "search_category") {
-                            const blocklyRow = document.getElementById(catId);
+                            // The category id is on the row up to Blockly 11, on its container since Blockly 12.
+                            const idElement = document.getElementById(catId);
+                            const blocklyRow = idElement.classList.contains('blocklyToolboxCategoryContainer')
+                                ? idElement.querySelector(':scope > .blocklyToolboxCategory')
+                                : idElement;
                             const blocklyInput = document.getElementById(catId + ".label");
                             if (rows[i] && !subcat) {
                                 blocklyRow.style.cssText = "padding-inline-start: 0px; font-family:var(--text-1); border-inline-start: 8px solid; text-align: start;";
@@ -755,7 +763,7 @@ class ToolboxManager {
      * @param {boolean} enable
      */
     _setBlockStyleForTiCode(enable) {
-        const toolboxDiv = document.querySelector('.blocklyToolboxDiv');
+        const toolboxDiv = document.querySelector('.blocklyToolbox');
         if (enable) {
             toolboxDiv.addEventListener('click', ToolboxManager._updateToolboxSizeEvent);
             const checkStyle = document.getElementById('blocklyStyleTiCode');
@@ -770,9 +778,9 @@ class ToolboxManager {
                 .blocklyText{
                     fill: #000000 !important;
                 }
-                .blocklyPath[filter^="url(#blocklySelectedGlowFilter"] {
+                .blocklyPath.blocklyPathSelected {
                     fill: transparent !important;
-                    filter: none;
+                    filter: none !important;
                     stroke: yellow;
                 }`;
             style.id = 'blocklyStyleTiCode';
@@ -789,7 +797,7 @@ class ToolboxManager {
      * @static
      */
     static _updateToolboxSizeEvent() {
-        const toolboxDiv = document.querySelector('.blocklyToolboxDiv');
+        const toolboxDiv = document.querySelector('.blocklyToolbox');
         if ($_GET('simu') == 1) {
             $('#generator').animate({
                 width: $(window).width() - toolboxDiv.offsetWidth - 500,
@@ -829,9 +837,11 @@ class ToolboxManager {
         const searchInputId = "search-block-input";
         const searchAttributes = {
             "id": searchInputId,
+            "name": "blockly_block_search",
             "type": "text",
             "placeholder": Blockly.MESSAGES.search,
             "class": "blocklyTreeSearch",
+            "autocomplete": "one-time-code",
             "maxlength": "30",
             "size": "10",
             "value": this.keyword
@@ -842,11 +852,11 @@ class ToolboxManager {
             search.setAttribute(attr, searchAttributes[attr]);
         }
         // Removing pointer events on category button
-        const container = document.getElementsByClassName("blocklyToolboxContents")[0].firstChild;
+        const container = document.getElementsByClassName("blocklyToolboxCategoryGroup")[0].firstChild;
         const pointerEvent = container.getElementsByClassName("blocklyTreeRowContentContainer")[0];
         pointerEvent.style.removeProperty("pointer-events");
         // Replacing span label by a search input
-        let searchCat = document.getElementById("search.label") || document.querySelector('#search .blocklyTreeLabel');
+        let searchCat = document.getElementById("search.label") || document.querySelector('#search .blocklyToolboxCategoryLabel');
         if (searchCat) {
             const stop = (e) => e.stopPropagation();
             ['mousedown', 'click', 'dblclick', 'pointerdown'].forEach(e => search.addEventListener(e, stop));
@@ -968,7 +978,7 @@ class ToolboxManager {
         const disableBlock = (type) => {
             const blockSvg = wsBlocks.find(block => block.type == type);
             if (blockSvg) {
-                blockSvg.setEnabled(false);
+                blockSvg.setDisabledReason(true, Blockly.constants.MANUALLY_DISABLED);
                 this.notAllowedToRenderBlocks.push(blockSvg.type);
                 if (!this.notAllowedBoardsReason.includes(boards)) {
                     this.notAllowedBoardsReason.push(boards);
@@ -1044,7 +1054,7 @@ class ToolboxManager {
             }
             const ws = ToolboxManager.setupSearchWorkspace();
             ws.clear();
-            const xmlToLoad = Blockly.Xml.textToDom('<xml xmlns="http://www.w3.org/1999/xhtml">' + blockXml + '</xml>');
+            const xmlToLoad = Blockly.utils.xml.textToDom('<xml xmlns="http://www.w3.org/1999/xhtml">' + blockXml + '</xml>');
             ToolboxManager.DISABLE_BLOCK_COLOR_EXTENSION = true;
             ToolboxManager.DISABLE_BLOCK_HELPURL_EXTENSION = true;
             ToolboxManager.DISABLE_DISABLING_DUPLICATES_EXTENSION = true;
@@ -1053,11 +1063,15 @@ class ToolboxManager {
             ToolboxManager.DISABLE_BLOCK_HELPURL_EXTENSION = false;
             ToolboxManager.DISABLE_DISABLING_DUPLICATES_EXTENSION = false;
             if (searchInCode) {
-                const codeBlock = (typeof Blockly.Python === 'undefined'
-                    ? Blockly.Arduino.workspaceToCode(ws)
-                    : Blockly.Python.workspaceToCode(ws));
-                if (codeBlock.search(keyword) > -1) {
-                    return true;
+                // Arduino UNO Q has both generators: a C++ block is unknown to the Python one and the other way round
+                for (const generator of [Blockly.Python, Blockly.Arduino].filter(Boolean)) {
+                    try {
+                        if (generator.workspaceToCode(ws).search(keyword) > -1) {
+                            return true;
+                        }
+                    } catch (e) {
+                        // block not handled by this generator
+                    }
                 }
             }
             const blockDB = ws.getAllBlocks();

@@ -27,14 +27,14 @@ Blockly.Python.io_waitUntil = function (block) {
 Blockly.Python.io_initChronometer = function (block) {
     Blockly.Python.addImport('time', IMPORT_TIME);
     Blockly.Python.addConstant('chronometer', "t0 = int(time.time())");
-    block.workspace.createVariable('t0');
+    block.workspace.getVariableMap().createVariable('t0');
     return "t0 = int(time.time())" + NEWLINE;
 };
 
 Blockly.Python.io_getChronometer = function (block) {
     Blockly.Python.addImport('utime', IMPORT_UTIME);
     Blockly.Python.addConstant('chronometer', "t0 = int(time.time())");
-    block.workspace.createVariable('t0');
+    block.workspace.getVariableMap().createVariable('t0');
     switch (block.getFieldValue("UNIT")) {
         case "SEC":
             return ["int(time.time()) - t0", Blockly.Python.ORDER_ATOMIC];

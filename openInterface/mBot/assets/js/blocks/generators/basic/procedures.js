@@ -4,7 +4,7 @@
 
 
 Blockly.Arduino.procedures_defreturn = function(block) {
-  var funcName = Blockly.Arduino.nameDB_.getName(block.getFieldValue('NAME'), Blockly.Procedures.NAME_TYPE);
+  var funcName = Blockly.Arduino.nameDB_.getName(block.getFieldValue('NAME'), Blockly.PROCEDURE_CATEGORY_NAME);
   var branch = Blockly.Arduino.statementToCode(block, 'STACK');
   if (Blockly.Arduino.STATEMENT_PREFIX) {
     branch = Blockly.Arduino.prefixLines(Blockly.Arduino.STATEMENT_PREFIX.replace(/%1/g, '\'' + block.id + '\''), Blockly.Arduino.INDENT) + branch;
@@ -38,7 +38,7 @@ Blockly.Arduino.procedures_defreturn = function(block) {
 Blockly.Arduino.procedures_defnoreturn = Blockly.Arduino.procedures_defreturn;
 
 Blockly.Arduino.procedures_callreturn = function(block) {
-  var funcName = Blockly.Arduino.nameDB_.getName(block.getFieldValue('NAME'), Blockly.Procedures.NAME_TYPE);
+  var funcName = Blockly.Arduino.nameDB_.getName(block.getFieldValue('NAME'), Blockly.PROCEDURE_CATEGORY_NAME);
   var args = [];
   for (var x = 0; x < block.arguments_.length; x++) {
     args[x] = Blockly.Arduino.valueToCode(block, 'ARG' + x, Blockly.Arduino.ORDER_NONE) || 'NULL';
@@ -47,7 +47,7 @@ Blockly.Arduino.procedures_callreturn = function(block) {
 };
 
 Blockly.Arduino.procedures_callnoreturn = function(block) {
-  var funcName = Blockly.Arduino.nameDB_.getName(block.getFieldValue('NAME'), Blockly.Procedures.NAME_TYPE);
+  var funcName = Blockly.Arduino.nameDB_.getName(block.getFieldValue('NAME'), Blockly.PROCEDURE_CATEGORY_NAME);
   var args = [];
   for (var x = 0; x < block.arguments_.length; x++) {
     args[x] = Blockly.Arduino.valueToCode(block, 'ARG' + x, Blockly.Arduino.ORDER_NONE) || 'NULL';

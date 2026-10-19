@@ -5,6 +5,10 @@
 // array to be filled with all the blocks that are not in the authorized blocks
 const EXCLUDED_BLOCKS_FOR_TRADUCTION = [];
 
+// The blocks without hand written translation are translated by the templates learned from their generators
+// (interfaces/assets/js/code2blocks/python/learnedTranslations.js): checked for this interface, they do not lock the editor.
+const LEARNED_REVERSE_TRANSLATION = true;
+
 // to modify each time we add a new block in reverse translation
 
 const AUTHORIZED_BLOCKS_DISPLAY = [
@@ -12,6 +16,8 @@ const AUTHORIZED_BLOCKS_DISPLAY = [
     "cyberpi_led_on_all_RGB",
     "cyberpi_led_on_RGB",
     "cyberpi_led_on_palette",
+    "cyberpi_led_on_duration",
+    "cyberpi_led_off",
     "cyberpi_led_play",
     "cyberpi_led_move",
     "cyberpi_led_set_brightness",
@@ -44,7 +50,6 @@ const AUTHORIZED_BLOCKS_IO = [
     "io_waitUntil",
     "io_digital_signal",
     "io_writeDigitalPin",
-    "io_readAnalogPin",
     // buttons
     'io_controller_onButtonPressed',
     'io_controller_isButtonPressed',
@@ -112,6 +117,8 @@ const AUTHORIZED_BLOCKS_ROBOT = [
     'robots_mbot2_ultrasonic_getBrightness',
     'robots_mbot2_ultrasonic_stopLED',
     'robots_mbot2_ultrasonic_playLED',
+    'sensors_mbuild_quad_RGB_detection_L1_R1_is',
+    'sensors_mbuild_quad_RGB_get_detection_L1_R1',
     'sensors_mbuild_quad_RGB_detection_is',
     'sensors_mbuild_quad_RGB_get_detection',
     'sensors_mbuild_quad_RGB_is_color_detected',
@@ -120,7 +127,12 @@ const AUTHORIZED_BLOCKS_ROBOT = [
     'sensors_mbuild_quad_RGB_define_color',
     'sensors_mbuild_quad_RGB_set_color_list',
     'sensors_mbuild_quad_RGB_close_led',
-    'sensors_mbuild_quad_RGB_get_light'
+    'sensors_mbuild_quad_RGB_get_light',
+    'sensors_mbuild_quad_RGB_set_custom_color',
+    'sensors_mbuild_quad_RGB_calibrate',
+    'sensors_mbuild_quad_RGB_color_mode',
+    'robots_gamepad_is_key_pressed',
+    'robots_gamepad_get_joystick'
 ];
 
 AUTHORIZED_BLOCKS_NETWORK = [

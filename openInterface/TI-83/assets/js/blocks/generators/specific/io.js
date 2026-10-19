@@ -24,7 +24,7 @@ Blockly.Python.ti_system_recall_RegEQ = function () {
 
 Blockly.Python.ti_system_while_condition = function (block) {
     const condition = Blockly.Python.valueToCode(block, "CONDITION", Blockly.Python.ORDER_NONE) || "False";
-    const statements = Blockly.Python.addLoopTrap(Blockly.Python.statementToCode(block, "DO"), block.id) || Blockly.Python.PASS;
+    const statements = Blockly.Python.addLoopTrap(Blockly.Python.statementToCode(block, "DO"), block) || Blockly.Python.PASS;
     return "while " + condition + ":" + NEWLINE + statements;
 };
 
@@ -110,14 +110,14 @@ Blockly.Python.io_wait = function (block) {
 Blockly.Python.io_initChronometer = function (block) {
     Blockly.Python.addConstant('chronometer', "t0 = 0");
     Blockly.Python.addImport("time", IMPORT_TIME);
-    block.workspace.createVariable('t0');
+    block.workspace.getVariableMap().createVariable('t0');
     return "t0 = time.monotonic()" + NEWLINE;
 };
 
 Blockly.Python.io_getChronometer = function (block) {
     Blockly.Python.addConstant('chronometer', "t0 = 0");
     Blockly.Python.addImport("time", IMPORT_TIME);
-    block.workspace.createVariable('t0');
+    block.workspace.getVariableMap().createVariable('t0');
     switch (block.getFieldValue("UNIT")) {
         case "SEC":
             return ["(time.monotonic()-t0)", Blockly.Python.ORDER_ATOMIC];

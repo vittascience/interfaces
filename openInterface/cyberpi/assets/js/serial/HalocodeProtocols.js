@@ -308,6 +308,42 @@ class HalocodeUpload {
 };
 
 /**
+ * Show or hide the upload progress overlay.
+ * @param {boolean} show
+ */
+function toggleUploadProgress(show) {
+    if (show) updateUploadProgress('', 0);
+    document.getElementById('progress-bar-container').style.display = show ? 'flex' : 'none';
+};
+
+/**
+ * Update the upload progress bar.
+ * @param {string} filename
+ * @param {int} percent
+ */
+function updateUploadProgress(filename, percent) {
+    const progressBarElt = document.getElementById('progress-bar-serial');
+    document.getElementById('progress-bar-description').innerHTML = filename ? jsonPath('code.repl.progressBar.uploadFile') + ' <b>' + filename + '</b> ...' : jsonPath('code.repl.progressBar.default');
+    progressBarElt.textContent = percent + '%';
+    progressBarElt.style.width = percent + '%';
+};
+
+/**
+ * Wait for a board answer during upload, reject if it never comes (avoid a stuck progress overlay).
+ * @param {function} conditionFunction
+ * @param {string} step name of the awaited answer, for the error message
+ * @param {int} [timeout=15000] ms
+ * @return {Promise}
+ */
+function waitForUpload(conditionFunction, step, timeout = 15000) {
+    // ponytail: waitFor keeps polling after the timeout, harmless as it only reads a flag
+    return Promise.race([
+        waitFor(conditionFunction, 20),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Upload timeout: no answer from the board (' + step + ')')), timeout))
+    ]);
+};
+
+/**
  * @class HalocodeController
  */
 class HalocodeController {
@@ -354,13 +390,11 @@ class HalocodeController {
             }
             await waitFor(_ => this._readerReady);
             const { value, done } = await this._api.read();
-            if (done || !value) {
-                if (this.hasToClose) {
-                    this.isLoopClosed = true;
-                    break;
-                }
-                continue;
-            } else {
+            if (done) {
+                // Reader generator is finished (port closed or device lost): stop, otherwise this loops forever and freezes the page
+                this.isLoopClosed = true;
+                break;
+            } else if (value) {
                 this._on_parse(this._encodeData(value));
                 if (this.hasToClose) {
                     this.isLoopClosed = true;
@@ -403,6 +437,7 @@ class HalocodeController {
                 } else {
                     this.log(log, 'default');
                 }
+                updateUploadProgress(this._api.filename, this._api.percent);
                 this.payloadWritted = true;
                 break;
             default:
@@ -561,9 +596,7 @@ class HalocodeController {
                 if (graph !== null) {
                     InterfaceMonitor.sendDataToChart(graph);
                 }
-                if (lines[i].match(/^@music:/) && $('#audio-switch').append("On")) {
-                    this._playNote(lines[i]);
-                }
+                InterfaceMonitor.playMusicMessage(lines[i]);
             }
         }
         const lastLine = lines[lines.length - 1];
@@ -573,15 +606,6 @@ class HalocodeController {
         } else {
             this._textData = lastLine;
         }
-    };
-    /**
-     * Play note from response on navigator.
-     * @private
-     * @param {string} response
-     * @returns {void}
-     */
-    _playNote(response) {
-        playMusic(response.replace("@music:", "").replace("|", ""));
     };
     /**
      * Decode data from array of byte.

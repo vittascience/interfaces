@@ -10,7 +10,7 @@ const Robots = {
     AXIS_UNIT: 'cm',
     INITIAL_POS_PERCENT: {
       x: 20, // %
-      y: 50, // %
+      y: 58.8, // % : probes centered on the line of the default track (Image_circuit_terre.png)
     },
     WHEELS_X_POSITION: -2.5, // cm // 17.5/2 - 2.5 = 6.25 
     WHEELS_CENTER_RADIUS: 5.8, // cm
@@ -55,10 +55,11 @@ const Robots = {
         }
       };
       this.lineFinder = new LineFinderSimulator(this, [
-        { id: 'right2', initial: [44, -10] },
-        { id: 'right1', initial: [44, -2] },
-        { id: 'left1', initial: [44, 2] },
-        { id: 'left2', initial: [44, 10] }
+        // canvas y axis points down: the left of the robot is on the negative side
+        { id: 'left2', initial: [44, -10] },
+        { id: 'left1', initial: [44, -2] },
+        { id: 'right1', initial: [44, 2] },
+        { id: 'right2', initial: [44, 10] }
       ], 1.5, exportValue);
     },
 
@@ -86,6 +87,7 @@ const Robots = {
     },
     measurements: function () {
       this.lineFinder.measure();
+      this.measureLineOffset();
       this.DistanceSensors.measure();
       this.angle -= this.DistanceSensors.ERROR_DX_NUL;
     },
@@ -93,7 +95,32 @@ const Robots = {
       this.lineFinder.draw();
       this.DistanceSensors.draw();
     },
+    /**
+     * Continuous deviation of the quad RGB sensor from the line (-100: sensor on the left of the line,
+     * +100: on the right), from the mean position of the dark pixels between the L2 and R2 probes.
+     */
+    measureLineOffset: function () {
+      const left2 = this.lineFinder.slots.find((slot) => slot.id == 'left2').position;
+      const right2 = this.lineFinder.slots.find((slot) => slot.id == 'right2').position;
+      if (!left2.length || !right2.length) return;
+      const SAMPLES = 41;
+      let sum = 0;
+      let count = 0;
+      for (let i = 0; i < SAMPLES; i++) {
+        const t = i / (SAMPLES - 1); // 0: L2, 1: R2
+        const x = left2[0] + (right2[0] - left2[0]) * t;
+        const y = left2[1] + (right2[1] - left2[1]) * t;
+        const rgb = RobotSimulator.ctx.getImageData(x, y, 1, 1).data;
+        if (RGBtoGrayscale(rgb[0], rgb[1], rgb[2]) < 50) {
+          sum += t * 2 - 1;
+          count++;
+        }
+      }
+      this.lineOffset = count ? Math.round(-sum / count * 100) : 0;
+    },
+
     resetObjects: function () {
+      this.lineOffset = 0;
       this.DistanceSensors.reset(this);
       this.lineFinder.reset();
     },

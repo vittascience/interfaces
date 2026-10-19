@@ -49,6 +49,16 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
         },
         "contents": []
     },
+    // {
+    //     "kind": "category",
+    //     "toolboxitemid": "robots",
+    //     "name": "%{BKY_CATEGORY_ROBOTS}",
+    //     "style": "robots_category",
+    //     "cssConfig": {
+    //         "icon": "icon_blockly fas fa-robot"
+    //     },
+    //     "contents": []
+    // },
     {
         "kind": "category",
         "toolboxitemid": "ia",
@@ -146,6 +156,18 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
 ];
 
 const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
+    "robots": [
+        {
+            "kind": "category",
+            "toolboxitemid": "donutbot",
+            "name": "Donutbot",
+            "style": "robots_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-robot"
+            },
+            "contents": []
+        }
+    ],
     "ia": [
         {
             "kind": "category",
@@ -308,6 +330,14 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'communication_FizziqBT'
             ]
         },
+        {
+            "label": "Log",
+            "blocks": [
+                'communication_log_setLabel',
+                'communication_log_addData',
+                'communication_log_deleteLogs'
+            ]
+        },
         // {
         //     "label": "%{BKY_SUBCATEGORY_LORA}",
         //     "blocks": [
@@ -351,7 +381,12 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             "blocks": [
                 'sensors_steami_apds9960_readData',
                 'sensors_steami_hts221_readData',
-                'sensors_steami_vl53l1x_read'
+                'sensors_steami_vl53l1x_read',
+                'sensors_steami_wsen_hids_readData',
+                'sensors_steami_wsen_pads_readData',
+                'sensors_steami_lis2mdl_readData',
+                'sensors_steami_ism330dl_readData',
+                'sensors_steami_bq27441_readData'
             ]
         },
         {
@@ -435,6 +470,61 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         }
     ],
+    // "robots": [
+    //     {
+    //         "subCategoryId": 'donutbot',
+    //         "contents": [{
+    //             "label": "%{BKY_SUBCATEGORY_DONUTBOT_MOTORS}",
+    //             "blocks": [
+    //                 'robots_donutbot_setGo',
+    //                 'robots_donutbot_controlMotor',
+    //                 'robots_donutbot_turnTo',
+    //                 'robots_donutbot_turnToAngle',
+    //                 'robots_donutbot_stopMotors',
+    //                 'robots_donutbot_releaseMotors',
+    //                 'robots_donutbot_moveOneSquareForward',
+    //                 'robots_donutbot_moveOneSquareBackward',
+    //                 'robots_donutbot_turnLeft',
+    //                 'robots_donutbot_turnRight'
+    //             ]
+    //         },
+    //         {
+    //             "label": "%{BKY_SUBCATEGORY_DONUTBOT_SENSORS}",
+    //             "blocks": [
+    //                 'robots_donutbot_readDistance',
+    //                 'robots_donutbot_getUltrasonicRange',
+    //                 'robots_donutbot_lineDetectorFunction',
+    //                 'robots_donutbot_lineDetector',
+    //                 'robots_donutbot_lineDetectorThreshold',
+    //                 'robots_donutbot_colorDetector',
+    //                 'robots_donutbot_colorDetector_average',
+    //                 'robots_donutbot_colorDetector_name'
+    //             ]
+    //         },
+    //         {
+    //             "label": "%{BKY_SUBCATEGORY_DONUTBOT_LED_RGB}",
+    //             "blocks": [
+    //                 'robots_donutbot_neopixel_setPaletteColor',
+    //                 'robots_donutbot_neopixel_setColor',
+    //                 'robots_donutbot_blinkRobot',
+    //                 'robots_donutbot_neopixel_setRainbow'
+    //             ]
+    //         },
+    //         {
+    //             "label": "%{BKY_SUBCATEGORY_DONUTBOT_IO}",
+    //             "blocks": [
+    //                 'robots_donutbot_buttons_onPressed'
+    //             ]
+    //         },
+    //         {
+    //             "label": "%{BKY_SUBCATEGORY_DONUTBOT_COMMUNICATION}",
+    //             "blocks": [
+    //                 'robots_donutbot_BLE_SendData',
+    //                 'robots_donutbot_BLE_ReadData'
+    //             ]
+    //         }],
+    //     }
+    // ],
     "ia": [
         {
             "subCategoryId": 'cameras',

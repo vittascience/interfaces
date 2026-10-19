@@ -109,6 +109,8 @@ Blockly.Msg["IO_GETGROVESWITCH_TITLE"] = "[Switch Module] switch state on pin %1
 Blockly.Msg["IO_GETGROVESWITCH_TOOLTIP"] = IMG_MODULE_SWITCH + Blockly.Tooltip.SEP + "Returns grove switch state (0 or 1) on digital pins.";
 Blockly.Msg['IO_GETMAGNETICSWITCH_TITLE'] = '[Magnetic switch module] state on pin %1';
 Blockly.Msg['IO_GETMAGNETICSWITCH_TOOLTIP'] = IMG_MODULE_MAGNETIC_SWITCH + Blockly.Tooltip.SEP + 'Returns the value of the Grove magnetic switch (0 or 1) on digital pins.';
+Blockly.Msg["IO_GETGROVEDISTANCEINTERRUPTER_TITLE"] = "[Distance Interrupter] state on pin %1";
+Blockly.Msg["IO_GETGROVEDISTANCEINTERRUPTER_TOOLTIP"] =IMG_MODULE_DISTANCE_INTERRUPTER + Blockly.Tooltip.SEP +"Returns the distance interrupter state (0 or 1).";
 // Input/Output - Pins
 Blockly.Msg["IO_DIGITAL_SIGNAL_TITLE"] = "%1";
 Blockly.Msg["IO_DIGITAL_SIGNAL_HIGH"] = "HIGH (1)";
@@ -362,6 +364,8 @@ Blockly.Msg['SENSORS_GY521_ACC'] = 'acceleration';
 Blockly.Msg['SENSORS_GY521_GYR'] = 'gyroscope';
 Blockly.Msg['SENSORS_GY521_TEMP'] = 'temperature';
 Blockly.Msg['SENSORS_GY521_AXIS'] = 'axis';
+Blockly.Msg['SENSORS_BN880_GET_HEADING_TITLE'] = '[BN880] magnetic heading';
+Blockly.Msg['SENSORS_BN880_GET_HEADING_TOOLTIP'] = 'Returns the magnetic heading in degrees. The HMC5883L or QMC5883L magnetometer is detected automatically.';
 // Other sensors
 Blockly.Msg["SENSORS_GETGROVEBUTTON_TITLE"] = "[Button Module] button %1 on pin %2";
 Blockly.Msg["SENSORS_GETGROVEBUTTON_TOOLTIP"] = IMG_MODULE_BUTTON + Blockly.Tooltip.SEP + "Returns numeric value of grove button (0/1 or 0V/3.3V) on digital pins.";

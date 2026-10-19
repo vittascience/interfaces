@@ -452,3 +452,50 @@ utils.prototypeBlocks['CutebotPro.stopExtendedMotor'] = function (node, parent) 
 		statement: null,
 	};
 };
+
+// ==============================================
+// IR REMOTE CONTROL (all robots)
+// ==============================================
+
+// "ir_remote.decode()\nif ir_current_remote_button == "1":\n  ...\nelif ...\nelse:\n  ...\n  ir_current_remote_button = None"
+// The robot is given by its docstring in the program and the remote by NEC_REMOTE_TYPE.
+const REMOTE_ROBOTS = [
+	['""" Cutebot Pro robot """', 'CutebotPro'],
+	['""" Cutebot robot """', 'cutebot'],
+	['""" MaqueenPlusV2 robot """', 'maqueenPlus'],
+	['""" Maqueen robot """', 'maqueen'],
+	['""" BitCar robot """', 'bitcar'],
+];
+utils.ifStatementInterceptors.push((ifBlock, node) => {
+	const conditions = Object.keys(ifBlock.statementsNode).map((key) => utils.rmSpaces(ifBlock.statementsNode[key].text));
+	const commands = conditions.map((condition) => condition.match(/^ir_current_remote_button=="(.+)"$/)?.[1]);
+	if (commands.some((command) => command === undefined)) return null;
+
+	const code = utils.python2Blocks.code;
+	const robot = REMOTE_ROBOTS.find(([docstring]) => code.includes(docstring))?.[1];
+	const lines = code.split('\n');
+	if (!robot || lines[node.start.row - 1]?.trim() !== 'ir_remote.decode()') return null;
+	// the "ir_remote.decode()" statement belongs to the block
+	utils.python2Blocks.blockToRemove.push(utils.lastBlockId);
+
+	const block = {
+		type: `robots_${robot}_onRemoteCommandReceived${/NEC_REMOTE_TYPE\s*=\s*'Car_mp3'/.test(code) ? '_car_mp3_gray' : ''}`,
+		fields: {},
+		values: {},
+		mutations: { elseif: commands.length - 1, else: ifBlock.mutations.else },
+		statementsNode: {},
+		statements: {},
+	};
+	commands.forEach((command, i) => {
+		block.fields[`COMMAND${i}`] = command;
+		const body = ifBlock.statements[`DO${i}`];
+		if (body && utils.rmSpaces(body.text) !== 'pass') block.statements[`DO${i}`] = body;
+	});
+	// the else branch ends with "ir_current_remote_button = None", added by the block
+	const elseBody = ifBlock.statements['ELSE'];
+	if (elseBody) {
+		const children = elseBody.children.filter((child) => utils.rmSpaces(child.text) !== 'ir_current_remote_button=None' && utils.rmSpaces(child.text) !== 'pass');
+		if (children.length) block.statements['ELSE'] = { ...elseBody, children };
+	}
+	return block;
+});

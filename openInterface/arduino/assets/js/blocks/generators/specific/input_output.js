@@ -24,13 +24,13 @@ Blockly.Arduino.io_waitUntil = function (block) {
 
 Blockly.Arduino.io_initChronometer = function (block) {
     Blockly.Arduino.addDeclaration('declaration_init_chrono', "float t0 = 0;");
-    block.workspace.createVariable('t0');
+    block.workspace.getVariableMap().createVariable('t0');
     return "t0 = millis();" + NEWLINE;
 };
 
 Blockly.Arduino.io_getChronometer = function (block) {
     Blockly.Arduino.addDeclaration('declaration_init_chrono', "float t0 = 0;");
-    block.workspace.createVariable('t0');
+    block.workspace.getVariableMap().createVariable('t0');
     return ["(millis()-t0)/" + block.getFieldValue("UNIT"), Blockly.Arduino.ORDER_ATOMIC]
 };
 

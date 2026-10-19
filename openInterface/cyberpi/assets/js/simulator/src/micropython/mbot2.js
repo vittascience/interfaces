@@ -22,7 +22,22 @@ const $builtinmodule = function () {
 	mbot2.__ANGLE_CAR_TO_WHEEL_FACTOR = new Sk.builtin.float_(1.7862946);
 	mbot2.__MAX_DISTANCE = new Sk.builtin.float_(17.76613);
 
+	// Angle of the encoder motors (°), integrated from their speed
+	const encoders = {
+		Left: { angle: 0, rpm: 0, time: Date.now() },
+		Right: { angle: 0, rpm: 0, time: Date.now() }
+	};
+	const updateEncoder = function (motor) {
+		const encoder = encoders[motor];
+		const now = Date.now();
+		encoder.angle += encoder.rpm * 6 * (now - encoder.time) / 1000;
+		encoder.time = now;
+	};
+	const encoderMotors = (motor) => ({ EM1: ['Left'], EM2: ['Right'] })[motor] || ['Left', 'Right'];
+
 	const setMotor = function (rpm, motor) {
+		updateEncoder(motor);
+		encoders[motor].rpm = rpm;
 		let direction = 'forward';
 		if (rpm < 0) {
 			direction = 'backward';
@@ -235,13 +250,25 @@ const $builtinmodule = function () {
 		throw new Sk.builtin.NotImplementedError("<b>mbot2.drive_power</b> is not yet implemented");
 	});
 
-	mbot2.EM_reset_angle = new Sk.builtin.func(function () {
-		throw new Sk.builtin.NotImplementedError("<b>mbot2.reset_angle</b> is not yet implemented");
-	});
+	const EM_reset_angle = function (motor) {
+		for (const m of encoderMotors(Sk.ffi.remapToJs(motor))) {
+			updateEncoder(m);
+			encoders[m].angle = 0;
+		}
+		return Sk.builtin.none();
+	};
+	EM_reset_angle.co_varnames = ['motor'];
+	EM_reset_angle.$defaults = [new Sk.builtin.str("ALL")];
+	mbot2.EM_reset_angle = new Sk.builtin.func(EM_reset_angle);
 
-	mbot2.EM_get_angle = new Sk.builtin.func(function () {
-		throw new Sk.builtin.NotImplementedError("<b>mbot2.EM_get_angle</b> is not yet implemented");
-	});
+	const EM_get_angle = function (motor) {
+		const m = encoderMotors(Sk.ffi.remapToJs(motor))[0];
+		updateEncoder(m);
+		return new Sk.builtin.int_(Math.round(encoders[m].angle));
+	};
+	EM_get_angle.co_varnames = ['motor'];
+	EM_get_angle.$defaults = [new Sk.builtin.str("EM1")];
+	mbot2.EM_get_angle = new Sk.builtin.func(EM_get_angle);
 
 	const EM_stop = function (motor) {
 		Sk.builtin.pyCheckArgsLen("EM_stop", arguments.length, 0, 1);
@@ -259,9 +286,13 @@ const $builtinmodule = function () {
 
 	mbot2.EM_stop = new Sk.builtin.func(EM_stop);
 
-	mbot2.EM_lock = new Sk.builtin.func(function () {
-		throw new Sk.builtin.NotImplementedError("<b>mbot2.EM_lock</b> is not yet implemented");
-	});
+	// No external force in the simulator: a locked motor behaves like a stopped one
+	const EM_lock = function (state, motor) {
+		return Sk.builtin.none();
+	};
+	EM_lock.co_varnames = ['state', 'motor'];
+	EM_lock.$defaults = [new Sk.builtin.bool(true), new Sk.builtin.str("ALL")];
+	mbot2.EM_lock = new Sk.builtin.func(EM_lock);
 
 	mbot2.num_range_scale = new Sk.builtin.func(function () {
 		throw new Sk.builtin.NotImplementedError("<b>mbot2.num_range_scale</b> is not yet implemented");
@@ -269,25 +300,47 @@ const $builtinmodule = function () {
 
 	// motor M1 & M2
 
-	mbot2.motor_set = new Sk.builtin.func(function (power, motor) {
-		throw new Sk.builtin.NotImplementedError("<b>mbot2.motor_set</b> is not yet implemented");
-	});
+	// DC motors are not displayed in the simulator: only their power is kept
+	const dcMotors = { M1: 0, M2: 0 };
+	const dcMotorNames = (motor) => motor == 'M1' || motor == 'M2' ? [motor] : ['M1', 'M2'];
+	const setDcPower = (motor, power) => dcMotorNames(Sk.ffi.remapToJs(motor)).forEach((m) => dcMotors[m] = Math.max(-100, Math.min(100, power(m))));
 
-	mbot2.motor_add = new Sk.builtin.func(function (power, motor) {
-		throw new Sk.builtin.NotImplementedError("<b>mbot2.motor_add</b> is not yet implemented");
-	});
+	const motor_set = function (power, motor) {
+		setDcPower(motor, () => Sk.ffi.remapToJs(power));
+		return Sk.builtin.none();
+	};
+	motor_set.co_varnames = ['power', 'motor'];
+	motor_set.$defaults = [new Sk.builtin.str("all")];
+	mbot2.motor_set = new Sk.builtin.func(motor_set);
 
-	mbot2.motor_get = new Sk.builtin.func(function (motor) {
-		throw new Sk.builtin.NotImplementedError("<b>mbot2.motor_get</b> is not yet implemented");
-	});
+	const motor_add = function (power, motor) {
+		setDcPower(motor, (m) => dcMotors[m] + Sk.ffi.remapToJs(power));
+		return Sk.builtin.none();
+	};
+	motor_add.co_varnames = ['power', 'motor'];
+	motor_add.$defaults = [new Sk.builtin.str("all")];
+	mbot2.motor_add = new Sk.builtin.func(motor_add);
+
+	const motor_get = function (motor) {
+		return new Sk.builtin.int_(dcMotors[dcMotorNames(Sk.ffi.remapToJs(motor))[0]]);
+	};
+	motor_get.co_varnames = ['motor'];
+	motor_get.$defaults = [new Sk.builtin.str("M1")];
+	mbot2.motor_get = new Sk.builtin.func(motor_get);
 
 	mbot2.motor_drive = new Sk.builtin.func(function (power_m1, power_m2) {
-		throw new Sk.builtin.NotImplementedError("<b>mbot2.motor_drive</b> is not yet implemented");
+		dcMotors.M1 = Sk.ffi.remapToJs(power_m1);
+		dcMotors.M2 = Sk.ffi.remapToJs(power_m2);
+		return Sk.builtin.none();
 	});
 
-	mbot2.motor_stop = new Sk.builtin.func(function (motor) {
-		throw new Sk.builtin.NotImplementedError("<b>mbot2.motor_stop</b> is not yet implemented");
-	});
+	const motor_stop = function (motor) {
+		setDcPower(motor, () => 0);
+		return Sk.builtin.none();
+	};
+	motor_stop.co_varnames = ['motor'];
+	motor_stop.$defaults = [new Sk.builtin.str("all")];
+	mbot2.motor_stop = new Sk.builtin.func(motor_stop);
 
 	// servo S1 S2 S3 S4
 
@@ -297,39 +350,33 @@ const $builtinmodule = function () {
 		Sk.builtin.pyCheckType("port", "string", Sk.builtin.checkString(port));
 		if (port.v == "all") {
 			for (var i = 1; i < 5; i++) {
-				$('#servo_' + i + '_value').html(Math.round(angle.v % 360) + " °");
-				$('#servo_' + i + '_anim').css("transform", "rotate(" + (angle.v % 360) + "deg)");
+				$('#servo_S' + i + '_value').html(Math.round(angle.v % 360) + " °");
+				$('#servo_S' + i + '_anim').css("transform", "rotate(" + (angle.v % 360) + "deg)");
 			}
 		} else {
-			$('#servo_' + port.v.replace('S', '') + '_value').html(Math.round(angle.v % 360) + " °");
-			$('#servo_' + port.v.replace('S', '') + '_anim').css("transform", "rotate(" + (angle.v % 360) + "deg)");
+			$('#servo_S' + port.v.replace('S', '') + '_value').html(Math.round(angle.v % 360) + " °");
+			$('#servo_S' + port.v.replace('S', '') + '_anim').css("transform", "rotate(" + (angle.v % 360) + "deg)");
 		}
 		return Sk.builtin.none();
 	}
 	mbot2.servo_set = new Sk.builtin.func(servo_set);
 
-	mbot2.servo_add = new Sk.builtin.func(function () {
+	const servoAngle = (port) => parseInt($('#servo_S' + port.replace('S', '') + '_value').html() || "0");
+
+	mbot2.servo_add = new Sk.builtin.func(function (angle, port) {
 		Sk.builtin.pyCheckArgsLen("servo_add", arguments.length, 2, 2);
 		Sk.builtin.pyCheckType("angle", "integer or float", Sk.builtin.checkNumber(angle));
 		Sk.builtin.pyCheckType("port", "string", Sk.builtin.checkString(port));
-		if (port.v == "all") {
-			for (var i = 1; i < 5; i++) {
-				const curret_angle = parseInt($('#servo_' + i + '_value').html() || "0");
-				$('#servo_' + i + '_value').html(Math.round(curret_angle + angle.v % 360) + " °");
-				$('#servo_' + i + '_anim').css("transform", "rotate(" + (curret_angle + angle.v % 360) + "deg)");
-			}
-		} else {
-			const curret_angle = parseInt($('#servo_' + port.v + '_value').html() || "0");
-			$('#servo_' + port.v.replace('S', '') + '_value').html(Math.round(curret_angle + angle.v % 360) + " °");
-			$('#servo_' + port.v.replace('S', '') + '_anim').css("transform", "rotate(" + (curret_angle + angle.v % 360) + "deg)");
+		const ports = port.v == "all" ? ['1', '2', '3', '4'] : [port.v];
+		for (const p of ports) {
+			servo_set(new Sk.builtin.float_(servoAngle(p) + angle.v), new Sk.builtin.str(p));
 		}
 		return Sk.builtin.none();
 	});
 
 	mbot2.servo_get = new Sk.builtin.func(function (port) {
 		Sk.builtin.pyCheckType("port", "string", Sk.builtin.checkString(port));
-		const curret_angle = parseInt($('#servo_' + port.v + '_value').html() || "0");
-		return new Sk.builtin.int_(curret_angle);
+		return new Sk.builtin.int_(servoAngle(port.v));
 	});
 
 	mbot2.servo_drive = new Sk.builtin.func(function () {

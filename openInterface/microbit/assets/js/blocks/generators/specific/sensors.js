@@ -643,8 +643,8 @@ Blockly.Python.sensors_colorSensorV3_getData = function (block) {
         case "cct":
             return ["veml6040.readRGB()['" + data + "']", Blockly.Python.ORDER_ATOMIC];
         case "hue":
-        case "saturation":
-        case "value":
+        case "sat":
+        case "val":
             return ["veml6040.readHSV()['" + data + "']", Blockly.Python.ORDER_ATOMIC];
         case "name":
             return ["veml6040.classifyHue()", Blockly.Python.ORDER_ATOMIC];

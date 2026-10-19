@@ -195,7 +195,7 @@ DEF_UART_SWITCH_TO:
     (stat, uid) = rfid_rc522.anticoll()
     if stat == rfid_rc522.OK:
     	return ''.join('%02X' % i for i in uid)`,
-
+  
 // Grove GPS _ read NMEA
 DEF_GPS_READ_NMEA:
 `def gps_readNMEA(rx, tx, wait = False):

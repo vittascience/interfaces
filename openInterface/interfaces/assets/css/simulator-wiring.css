@@ -597,3 +597,44 @@
     width: 60%;
   }
 }
+
+/* Zoom buttons, floating at the bottom right of the wiring canvas */
+.wiring-canvas-container {
+  position: relative;
+  line-height: 0; /* no text line under the inline canvas: the controls are right at its bottom */
+}
+
+.wiring-zoom {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--bg-4);
+  border-radius: 10px;
+  background-color: var(--bg-0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.wiring-zoom button {
+  line-height: 1;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--text-0);
+}
+
+.wiring-zoom button + button {
+  border-top: 1px solid var(--bg-4);
+}
+
+.wiring-zoom button:hover:not(:disabled) {
+  background-color: var(--bg-2);
+}
+
+.wiring-zoom button:disabled {
+  opacity: 0.35;
+}

@@ -98,8 +98,8 @@ const $builtinmodule = function () {
         });
 
         $loc.set_wheels_speed = new Sk.builtin.func(function (self, leftSpeed, rightSpeed, unit) {
-            const leftSpeed_ = Sk.ffi.remapToJs(leftSpeed);
-            const rightSpeed_ = Sk.ffi.remapToJs(rightSpeed);
+            const leftSpeed_ = Math.round(Number(Sk.ffi.remapToJs(leftSpeed)) || 0);
+            const rightSpeed_ = Math.round(Number(Sk.ffi.remapToJs(rightSpeed)) || 0);
             const unit_ = Sk.ffi.remapToJs(unit);
             setMotors(leftSpeed_, rightSpeed_, unit_);
             return new Sk.builtin.none();
@@ -225,14 +225,23 @@ const $builtinmodule = function () {
             const centerSensor = convertDistance(Simulator.getSliderValue("alvik-distanceCenter"), unit_) || 0;
             const centerRightSensor = convertDistance(Simulator.getSliderValue("alvik-distanceCenterRight"), unit_) || 0;
             const rightSensor = convertDistance(Simulator.getSliderValue("alvik-distanceRight"), unit_) || 0;
-            return new Sk.builtin.list([leftSensor, centerLeftSensor, centerSensor, centerRightSensor, rightSensor]); // TODO
+            return new Sk.builtin.list([new Sk.builtin.float_(leftSensor), new Sk.builtin.float_(centerLeftSensor), new Sk.builtin.float_(centerSensor), new Sk.builtin.float_(centerRightSensor), new Sk.builtin.float_(rightSensor)]);
         });
 
         $loc.get_line_sensors = new Sk.builtin.func(function (self) {
-            const leftSensor = Simulator.getSliderValue("alvik-lineLeft", "_v") || 0;
-            const centerSensor = Simulator.getSliderValue("alvik-lineCenter", "_v") || 0;
-            const rightSensor = Simulator.getSliderValue("alvik-lineRight", "_v") || 0;
-            return new Sk.builtin.list([leftSensor, centerSensor, rightSensor]);
+            const toLineSensorValue = function (value) {
+                const normalized = Number(value);
+                if (Number.isNaN(normalized)) {
+                    return 0;
+                }
+                const clamped = Math.max(0, Math.min(1, normalized));
+                return Math.round(clamped * 1000);
+            };
+
+            const leftSensor = toLineSensorValue(Simulator.getSliderValue("alvik-finderLeft", "_v"));
+            const centerSensor = toLineSensorValue(Simulator.getSliderValue("alvik-finderMiddle", "_v"));
+            const rightSensor = toLineSensorValue(Simulator.getSliderValue("alvik-finderRight", "_v"));
+            return new Sk.builtin.list([new Sk.builtin.int_(leftSensor), new Sk.builtin.int_(centerSensor), new Sk.builtin.int_(rightSensor)]);
         });
 
         /**
@@ -387,7 +396,17 @@ const $builtinmodule = function () {
 
         // TO DO 
         $loc.get_orientation = new Sk.builtin.func(function (self) {
-            throw new Sk.builtin.AttributeError('alvik.get_orientation() is not implemented yet');
+            const roll = 0;
+            const pitch = 0;
+            const yaw = (RobotSimulator && RobotSimulator.robot && typeof RobotSimulator.robot.angle === 'number')
+                ? RobotSimulator.robot.angle
+                : 0;
+
+            return new Sk.builtin.list([
+                new Sk.builtin.float_(roll),
+                new Sk.builtin.float_(pitch),
+                new Sk.builtin.float_(yaw)
+            ]);
         });
 
         // TO DO 
@@ -424,17 +443,19 @@ const $builtinmodule = function () {
             return new Sk.builtin.bool(Simulator.getSliderValue("alvik-touchCancel"));
         });
 
+        $loc.get_touch_center = new Sk.builtin.func(function (self) {
+            return new Sk.builtin.bool(Simulator.getSliderValue("alvik-touchCenter"));
+        });
+
         $loc.get_touch_any = new Sk.builtin.func(function (self) {
             const touchRight = Simulator.getSliderValue("alvik-touchRight");
             const touchLeft = Simulator.getSliderValue("alvik-touchLeft");
             const touchDown = Simulator.getSliderValue("alvik-touchDown");
+            const touchCenter = Simulator.getSliderValue("alvik-touchCenter");
             const touchUp = Simulator.getSliderValue("alvik-touchUp");
             const touchOk = Simulator.getSliderValue("alvik-touchOk");
             const touchCancel = Simulator.getSliderValue("alvik-touchCancel");
-            if (touchRight || touchLeft || touchDown || touchUp || touchOk || touchCancel) {
-                return new Sk.builtin.bool(true);
-            }
-            return new Sk.builtin.bool(false);
+            return new Sk.builtin.bool(touchRight || touchLeft || touchDown || touchUp || touchCenter || touchOk || touchCancel);
         });
 
         $loc.get_color = new Sk.builtin.func(function (self, mode) {
@@ -450,6 +471,93 @@ const $builtinmodule = function () {
                 return new Sk.builtin.tuple([Sk.ffi.remapToPy(parseFloat(h.toFixed(7))), Sk.ffi.remapToPy(parseFloat(s.toFixed(7))), Sk.ffi.remapToPy(parseFloat(v.toFixed(7)))]);
             }
             throw new Sk.builtin.AssertionError('alvik.get_color(mode) has no mode option : ' + mode_);
+        });
+
+        $loc.get_color_label = new Sk.builtin.func(function (self) {
+            const rgbToHsvLocal = function (r, g, b) {
+                const rn = r / 255;
+                const gn = g / 255;
+                const bn = b / 255;
+
+                const min_ = Math.min(rn, gn, bn);
+                const max_ = Math.max(rn, gn, bn);
+                const v = max_;
+                const delta = max_ - min_;
+
+                if (delta < 0.00001) {
+                    return { h: 0, s: 0, v: v };
+                }
+
+                let s;
+                if (max_ > 0) {
+                    s = delta / max_;
+                } else {
+                    return { h: 0, s: 0, v: v };
+                }
+
+                let h;
+                if (rn >= max_) {
+                    h = (gn - bn) / delta;
+                } else if (gn >= max_) {
+                    h = 2.0 + (bn - rn) / delta;
+                } else {
+                    h = 4.0 + (rn - gn) / delta;
+                }
+
+                h *= 60.0;
+                if (h < 0) {
+                    h += 360.0;
+                }
+
+                return { h: h, s: s, v: v };
+            };
+
+            const hsvToLabelLocal = function (h, s, v) {
+                if (s < 0.1) {
+                    if (v < 0.05) {
+                        return 'BLACK';
+                    } else if (v < 0.15) {
+                        return 'GREY';
+                    } else if (v < 0.8) {
+                        return 'LIGHT GREY';
+                    }
+                    return 'WHITE';
+                }
+
+                if (v <= 0.1) {
+                    return 'BLACK';
+                }
+
+                if (20 <= h && h < 90) {
+                    return 'YELLOW';
+                } else if (90 <= h && h < 140) {
+                    return 'LIGHT GREEN';
+                } else if (140 <= h && h < 170) {
+                    return 'GREEN';
+                } else if (170 <= h && h < 210) {
+                    return 'LIGHT BLUE';
+                } else if (210 <= h && h < 250) {
+                    return 'BLUE';
+                } else if (250 <= h && h < 280) {
+                    return 'VIOLET';
+                }
+
+                if (v < 0.5 && s < 0.45) {
+                    return 'BROWN';
+                }
+
+                if (h >= 10 && h <= 25 && s >= 0.078 && v >= 0.078) {
+                    return 'ORANGE';
+                }
+                return 'RED';
+            };
+
+            const r = parseInt(self.colorSensor_r.slider('option', 'value')) || 0;
+            const g = parseInt(self.colorSensor_g.slider('option', 'value')) || 0;
+            const b = parseInt(self.colorSensor_b.slider('option', 'value')) || 0;
+            const hsv = rgbToHsvLocal(r, g, b);
+            const label = hsvToLabelLocal(hsv.h, hsv.s, hsv.v);
+            return new Sk.builtin.str(label);
         });
 
         $loc.get_color_raw = new Sk.builtin.func(function (self) {

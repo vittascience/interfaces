@@ -75,7 +75,7 @@
 			this.itemCount_ = 3;
 			this.updateShape_();
 			this.setOutput(!0, 'Array');
-			this.setMutator(new Blockly.Mutator(['lists_create_with_item']));
+			this.setMutator(new Blockly.icons.MutatorIcon(['lists_create_with_item'], this));
 			this.setTooltip(Blockly.Msg.LISTS_CREATE_WITH_TOOLTIP);
 		},
 		mutationToDom: function () {
@@ -107,7 +107,7 @@
 			}
 			this.itemCount_ = a.length;
 			this.updateShape_();
-			for (b = 0; b < this.itemCount_; b++) Blockly.Mutator.reconnect(a[b], this, 'ADD' + b);
+			for (b = 0; b < this.itemCount_; b++) a[b]?.reconnect(this, 'ADD' + b);
 		},
 		saveConnections: function (a) {
 			a = a.getInputTargetBlock('STACK');
@@ -122,7 +122,7 @@
 			this.itemCount_ && this.getInput('EMPTY') ? this.removeInput('EMPTY') : this.itemCount_ || this.getInput('EMPTY') || this.appendDummyInput('EMPTY').appendField(Blockly.Msg.LISTS_CREATE_EMPTY_TITLE);
 			for (var a = 0; a < this.itemCount_; a++)
 				if (!this.getInput('ADD' + a)) {
-					var b = this.appendValueInput('ADD' + a).setAlign(Blockly.ALIGN_RIGHT);
+					var b = this.appendValueInput('ADD' + a).setAlign(Blockly.inputs.Align.RIGHT);
 					0 == a && b.appendField(Blockly.Msg.LISTS_CREATE_WITH_INPUT_WITH);
 				}
 			for (; this.getInput('ADD' + a); ) this.removeInput('ADD' + a), a++;
@@ -514,7 +514,7 @@
 			tooltip: '%{BKY_LOGIC_BOOLEAN_TOOLTIP}',
 			helpUrl: '%{BKY_LOGIC_BOOLEAN_HELPURL}',
 		},
-		{ type: 'controls_if', message0: '%{BKY_CONTROLS_IF_MSG_IF} %1', args0: [{ type: 'input_value', name: 'IF0', check: 'Boolean' }], message1: '%{BKY_CONTROLS_IF_MSG_THEN} %1', args1: [{ type: 'input_statement', name: 'DO0' }], previousStatement: null, nextStatement: null, style: 'logic_blocks', helpUrl: '%{BKY_CONTROLS_IF_HELPURL}', mutator: 'controls_if_mutator', extensions: ['controls_if_tooltip'] },
+		{ type: 'controls_if', suppressPrefixSuffix: !0, message0: '%{BKY_CONTROLS_IF_MSG_IF} %1', args0: [{ type: 'input_value', name: 'IF0', check: 'Boolean' }], message1: '%{BKY_CONTROLS_IF_MSG_THEN} %1', args1: [{ type: 'input_statement', name: 'DO0' }], previousStatement: null, nextStatement: null, style: 'logic_blocks', helpUrl: '%{BKY_CONTROLS_IF_HELPURL}', mutator: 'controls_if_mutator', extensions: ['controls_if_tooltip'] },
 		{
 			type: 'controls_ifelse',
 			message0: '%{BKY_CONTROLS_IF_MSG_IF} %1',
@@ -590,7 +590,6 @@
 	Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN = {
 		elseifCount_: 0,
 		elseCount_: 0,
-		suppressPrefixSuffix: !0,
 		mutationToDom: function () {
 			if (!this.elseifCount_ && !this.elseCount_) return null;
 			var a = Blockly.utils.xml.createElement('mutation');
@@ -684,8 +683,8 @@
 			this.elseCount_ && this.appendStatementInput('ELSE').appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSE);
 		},
 		reconnectChildBlocks_: function (a, b, c) {
-			for (var d = 1; d <= this.elseifCount_; d++) Blockly.Mutator.reconnect(a[d], this, 'IF' + d), Blockly.Mutator.reconnect(b[d], this, 'DO' + d);
-			Blockly.Mutator.reconnect(c, this, 'ELSE');
+			for (var d = 1; d <= this.elseifCount_; d++) a[d]?.reconnect(this, 'IF' + d), b[d]?.reconnect(this, 'DO' + d);
+			c?.reconnect(this, 'ELSE');
 		},
 	};
 	Blockly.Extensions.registerMutator('controls_if_mutator', Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN, null, ['controls_if_elseif', 'controls_if_else']);
@@ -795,6 +794,7 @@
 		},
 		{
 			type: 'controls_flow_statements',
+			suppressPrefixSuffix: !0,
 			message0: '%1',
 			args0: [
 				{
@@ -839,7 +839,6 @@
 	Blockly.Extensions.register('controls_forEach_tooltip', Blockly.Extensions.buildTooltipWithFieldText('%{BKY_CONTROLS_FOREACH_TOOLTIP}', 'VAR'));
 	Blockly.Constants.Loops.CONTROL_FLOW_IN_LOOP_CHECK_MIXIN = {
 		LOOP_TYPES: ['controls_repeat', 'controls_repeat_ext', 'controls_forEach', 'controls_for', 'controls_whileUntil'],
-		suppressPrefixSuffix: !0,
 		getSurroundLoop: function (a) {
 			do {
 				if (-1 != Blockly.Constants.Loops.CONTROL_FLOW_IN_LOOP_CHECK_MIXIN.LOOP_TYPES.indexOf(a.type)) return a;
@@ -854,7 +853,7 @@
 				if (!this.isInFlyout) {
 					var c = Blockly.Events.getGroup();
 					Blockly.Events.setGroup(a.group);
-					this.setEnabled(b);
+					this.setDisabledReason(!b, 'CONTROL_FLOW_NOT_IN_LOOP');
 					Blockly.Events.setGroup(c);
 				}
 			}
@@ -1180,7 +1179,7 @@
 			a = new Blockly.FieldTextInput(a, Blockly.Procedures.rename);
 			a.setSpellcheck(!1);
 			this.appendDummyInput().appendField(Blockly.Msg.PROCEDURES_DEFNORETURN_TITLE).appendField(a, 'NAME').appendField('', 'PARAMS');
-			this.setMutator(new Blockly.Mutator(['procedures_mutatorarg']));
+			this.setMutator(new Blockly.icons.MutatorIcon(['procedures_mutatorarg'], this));
 			(this.workspace.options.comments || (this.workspace.options.parentWorkspace && this.workspace.options.parentWorkspace.options.comments)) && Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT && this.setCommentText(Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT);
 			this.setStyle('procedure_blocks');
 			this.setTooltip(Blockly.Msg.PROCEDURES_DEFNORETURN_TOOLTIP);
@@ -1263,7 +1262,7 @@
 			for (var b = a.getInputTargetBlock('STACK'); b && !b.isInsertionMarker(); ) {
 				var c = b.getFieldValue('NAME');
 				this.arguments_.push(c);
-				c = this.workspace.getVariable(c, '');
+				c = this.workspace.getVariableMap().getVariable(c, '');
 				this.argumentVarModels_.push(c);
 				this.paramIds_.push(b.id);
 				b = b.nextConnection && b.nextConnection.targetBlock();
@@ -1272,7 +1271,7 @@
 			Blockly.Procedures.mutateCallers(this);
 			a = a.getFieldValue('STATEMENTS');
 			if (null !== a && ((a = 'TRUE' == a), this.hasStatements_ != a))
-				if (a) this.setStatements_(!0), Blockly.Mutator.reconnect(this.statementConnection_, this, 'STACK'), (this.statementConnection_ = null);
+				if (a) this.setStatements_(!0), this.statementConnection_?.reconnect(this, 'STACK'), (this.statementConnection_ = null);
 				else {
 					a = this.getInput('STACK').connection;
 					if ((this.statementConnection_ = a.targetConnection)) (a = a.targetBlock()), a.unplug(), a.bumpNeighbours();
@@ -1289,10 +1288,10 @@
 			return this.argumentVarModels_;
 		},
 		renameVarById: function (a, b) {
-			var c = this.workspace.getVariableById(a);
+			var c = this.workspace.getVariableMap().getVariableById(a);
 			if ('' == c.type) {
 				c = c.name;
-				b = this.workspace.getVariableById(b);
+				b = this.workspace.getVariableMap().getVariableById(b);
 				for (var d = !1, e = 0; e < this.argumentVarModels_.length; e++) this.argumentVarModels_[e].getId() == a && ((this.arguments_[e] = b.name), (this.argumentVarModels_[e] = b), (d = !0));
 				d && (this.displayRenamedVar_(c, b.name), Blockly.Procedures.mutateCallers(this));
 			}
@@ -1338,8 +1337,8 @@
 			a = new Blockly.FieldTextInput(a, Blockly.Procedures.rename);
 			a.setSpellcheck(!1);
 			this.appendDummyInput().appendField(Blockly.Msg.PROCEDURES_DEFRETURN_TITLE).appendField(a, 'NAME').appendField('', 'PARAMS');
-			this.appendValueInput('RETURN').setAlign(Blockly.ALIGN_RIGHT).appendField(Blockly.Msg.PROCEDURES_DEFRETURN_RETURN);
-			this.setMutator(new Blockly.Mutator(['procedures_mutatorarg']));
+			this.appendValueInput('RETURN').setAlign(Blockly.inputs.Align.RIGHT).appendField(Blockly.Msg.PROCEDURES_DEFRETURN_RETURN);
+			this.setMutator(new Blockly.icons.MutatorIcon(['procedures_mutatorarg'], this));
 			(this.workspace.options.comments || (this.workspace.options.parentWorkspace && this.workspace.options.parentWorkspace.options.comments)) && Blockly.Msg.PROCEDURES_DEFRETURN_COMMENT && this.setCommentText(Blockly.Msg.PROCEDURES_DEFRETURN_COMMENT);
 			this.setStyle('procedure_blocks');
 			this.setTooltip(Blockly.Msg.PROCEDURES_DEFRETURN_TOOLTIP);
@@ -1396,7 +1395,7 @@
 		},
 		validator_: function (a) {
 			var b = this.getSourceBlock(),
-				c = Blockly.Mutator.findParentWs(b.workspace);
+				c = b.workspace.getRootWorkspace();
 			a = a.replace(/[\s\xa0]+/g, ' ').replace(/^ | $/g, '');
 			if (!a) return null;
 			for (var d = (b.workspace.targetWorkspace || b.workspace).getAllBlocks(!1), e = a.toLowerCase(), f = 0; f < d.length; f++)
@@ -1405,16 +1404,16 @@
 					if (g && g.toLowerCase() == e) return null;
 				}
 			if (b.isInFlyout) return a;
-			(b = c.getVariable(a, '')) && b.name != a && c.renameVariableById(b.getId(), a);
-			b || ((b = c.createVariable(a, '')) && this.createdVariables_ && this.createdVariables_.push(b));
+			(b = c.getVariableMap().getVariable(a, '')) && b.name != a && c.getVariableMap().renameVariable(b, a);
+			b || ((b = c.getVariableMap().createVariable(a, '')) && this.createdVariables_ && this.createdVariables_.push(b));
 			return a;
 		},
 		deleteIntermediateVars_: function (a) {
-			var b = Blockly.Mutator.findParentWs(this.getSourceBlock().workspace);
+			var b = this.getSourceBlock().workspace.getRootWorkspace();
 			if (b)
 				for (var c = 0; c < this.createdVariables_.length; c++) {
 					var d = this.createdVariables_[c];
-					d.name != a && b.deleteVariableById(d.getId());
+					d.name != a && b.getVariableMap().deleteVariable(d);
 				}
 		},
 	};
@@ -1447,8 +1446,6 @@
 					if (b.length != a.length) throw RangeError('paramNames and paramIds must be the same length.');
 					this.setCollapsed(!1);
 					this.quarkIds_ || ((this.quarkConnections_ = {}), (this.quarkIds_ = []));
-					c = this.rendered;
-					this.rendered = !1;
 					for (var e = 0; e < this.arguments_.length; e++) {
 						var f = this.getInput('ARG' + e);
 						f && ((f = f.connection.targetConnection), (this.quarkConnections_[this.quarkIds_[e]] = f), d && f && -1 == b.indexOf(this.quarkIds_[e]) && (f.disconnect(), f.getSourceBlock().bumpNeighbours()));
@@ -1457,8 +1454,8 @@
 					this.argumentVarModels_ = [];
 					for (e = 0; e < this.arguments_.length; e++) (a = Blockly.Variables.getOrCreateVariablePackage(this.workspace, null, this.arguments_[e], '')), this.argumentVarModels_.push(a);
 					this.updateShape_();
-					if ((this.quarkIds_ = b)) for (e = 0; e < this.arguments_.length; e++) (b = this.quarkIds_[e]), b in this.quarkConnections_ && ((f = this.quarkConnections_[b]), Blockly.Mutator.reconnect(f, this, 'ARG' + e) || delete this.quarkConnections_[b]);
-					(this.rendered = c) && this.render();
+					if ((this.quarkIds_ = b)) for (e = 0; e < this.arguments_.length; e++) (b = this.quarkIds_[e]), b in this.quarkConnections_ && ((f = this.quarkConnections_[b]), f?.reconnect(this, 'ARG' + e) || delete this.quarkConnections_[b]);
+					this.rendered && this.render();
 				}
 		},
 		updateShape_: function () {
@@ -1474,7 +1471,7 @@
 				} else
 					(b = new Blockly.FieldLabel(this.arguments_[a])),
 						this.appendValueInput('ARG' + a)
-							.setAlign(Blockly.ALIGN_RIGHT)
+							.setAlign(Blockly.inputs.Align.RIGHT)
 							.appendField(b, 'ARGNAME' + a)
 							.init();
 			}
@@ -1516,8 +1513,8 @@
 						b = Blockly.utils.xml.createElement('block');
 						b.setAttribute('type', this.defType_);
 						var c = this.getRelativeToSurfaceXY(),
-							d = c.y + 2 * Blockly.SNAP_RADIUS;
-						b.setAttribute('x', c.x + Blockly.SNAP_RADIUS * (this.RTL ? -1 : 1));
+							d = c.y + 2 * Blockly.config.snapRadius;
+						b.setAttribute('x', c.x + Blockly.config.snapRadius * (this.RTL ? -1 : 1));
 						b.setAttribute('y', d);
 						c = this.mutationToDom();
 						b.appendChild(c);
@@ -1534,7 +1531,7 @@
 				} else
 					a.type == Blockly.Events.BLOCK_DELETE
 						? ((b = this.getProcedureCall()), (b = Blockly.Procedures.getDefinition(b, this.workspace)), b || (Blockly.Events.setGroup(a.group), this.dispose(!0), Blockly.Events.setGroup(!1)))
-						: a.type == Blockly.Events.CHANGE && 'disabled' == a.element && ((b = this.getProcedureCall()), (b = Blockly.Procedures.getDefinition(b, this.workspace)) && b.id == a.blockId && ((b = Blockly.Events.getGroup()) && console.log('Saw an existing group while responding to a definition change'), Blockly.Events.setGroup(a.group), a.newValue ? ((this.previousEnabledState_ = this.isEnabled()), this.setEnabled(!1)) : this.setEnabled(this.previousEnabledState_), Blockly.Events.setGroup(b)));
+						: a.type == Blockly.Events.BLOCK_CHANGE && 'disabled' == a.element && ((b = this.getProcedureCall()), (b = Blockly.Procedures.getDefinition(b, this.workspace)) && b.id == a.blockId && ((b = Blockly.Events.getGroup()) && console.log('Saw an existing group while responding to a definition change'), Blockly.Events.setGroup(a.group), this.setDisabledReason(!!a.newValue, 'PROCEDURE_DEFINITION_DISABLED'), Blockly.Events.setGroup(b)));
 		},
 		customContextMenu: function (a) {
 			if (this.workspace.isMovable()) {
@@ -1608,8 +1605,8 @@
 					b = b.getSurroundParent();
 				} while (b);
 				a
-					? ('procedures_defnoreturn' == b.type && this.hasReturnValue_ ? (this.removeInput('VALUE'), this.appendDummyInput('VALUE').appendField(Blockly.Msg.PROCEDURES_DEFRETURN_RETURN), (this.hasReturnValue_ = !1)) : 'procedures_defreturn' != b.type || this.hasReturnValue_ || (this.removeInput('VALUE'), this.appendValueInput('VALUE').appendField(Blockly.Msg.PROCEDURES_DEFRETURN_RETURN), (this.hasReturnValue_ = !0)), this.setWarningText(null), this.isInFlyout || this.setEnabled(!0))
-					: (this.setWarningText(Blockly.Msg.PROCEDURES_IFRETURN_WARNING), this.isInFlyout || this.getInheritedDisabled() || this.setEnabled(!1));
+					? ('procedures_defnoreturn' == b.type && this.hasReturnValue_ ? (this.removeInput('VALUE'), this.appendDummyInput('VALUE').appendField(Blockly.Msg.PROCEDURES_DEFRETURN_RETURN), (this.hasReturnValue_ = !1)) : 'procedures_defreturn' != b.type || this.hasReturnValue_ || (this.removeInput('VALUE'), this.appendValueInput('VALUE').appendField(Blockly.Msg.PROCEDURES_DEFRETURN_RETURN), (this.hasReturnValue_ = !0)), this.setWarningText(null), this.isInFlyout || this.setDisabledReason(!1, 'UNPARENTED_IFRETURN'))
+					: (this.setWarningText(Blockly.Msg.PROCEDURES_IFRETURN_WARNING), this.isInFlyout || this.getInheritedDisabled() || this.setDisabledReason(!0, 'UNPARENTED_IFRETURN'));
 			}
 		},
 		FUNCTION_TYPES: ['procedures_defnoreturn', 'procedures_defreturn'],
@@ -1935,7 +1932,7 @@
 			}
 			this.itemCount_ = a.length;
 			this.updateShape_();
-			for (b = 0; b < this.itemCount_; b++) Blockly.Mutator.reconnect(a[b], this, 'ADD' + b);
+			for (b = 0; b < this.itemCount_; b++) a[b]?.reconnect(this, 'ADD' + b);
 		},
 		saveConnections: function (a) {
 			a = a.getInputTargetBlock('STACK');
@@ -1950,7 +1947,7 @@
 			this.itemCount_ && this.getInput('EMPTY') ? this.removeInput('EMPTY') : this.itemCount_ || this.getInput('EMPTY') || this.appendDummyInput('EMPTY').appendField(this.newQuote_(!0)).appendField(this.newQuote_(!1));
 			for (var a = 0; a < this.itemCount_; a++)
 				if (!this.getInput('ADD' + a)) {
-					var b = this.appendValueInput('ADD' + a).setAlign(Blockly.ALIGN_RIGHT);
+					var b = this.appendValueInput('ADD' + a).setAlign(Blockly.inputs.Align.RIGHT);
 					0 == a && b.appendField(Blockly.Msg.TEXT_JOIN_TITLE_CREATEWITH);
 				}
 			for (; this.getInput('ADD' + a); ) this.removeInput('ADD' + a), a++;
@@ -1960,7 +1957,7 @@
 		this.mixin(Blockly.Constants.Text.QUOTE_IMAGE_MIXIN);
 		this.itemCount_ = 2;
 		this.updateShape_();
-		this.setMutator(new Blockly.Mutator(['text_create_join_item']));
+		this.setMutator(new Blockly.icons.MutatorIcon(['text_create_join_item'], this));
 	};
 	Blockly.Extensions.register('text_append_tooltip', Blockly.Extensions.buildTooltipWithFieldText('%{BKY_TEXT_APPEND_TOOLTIP}', 'VAR'));
 	Blockly.Constants.Text.TEXT_INDEXOF_TOOLTIP_EXTENSION = function () {
@@ -2057,7 +2054,7 @@
 		return function () {
 			var b = a.workspace,
 				c = a.getField('VAR').getVariable();
-			b.deleteVariableById(c.getId());
+			Blockly.Variables.deleteVariable(b, c);
 			b.refreshToolboxSelection();
 		};
 	};
@@ -2085,7 +2082,7 @@
 		customContextMenu: function (a) {
 			if (!this.isInFlyout) {
 				var b = this.getFieldValue('VAR');
-				var c = this.workspace.getVariableById(b).type;
+				var c = this.workspace.getVariableMap().getVariableById(b).type;
 				if ('variables_get_dynamic' == this.type) {
 					b = 'variables_set_dynamic';
 					var d = Blockly.Msg.VARIABLES_GET_CREATE_SET;
@@ -2121,7 +2118,7 @@
 		return function () {
 			var b = a.workspace,
 				c = a.getField('VAR').getVariable();
-			b.deleteVariableById(c.getId());
+			Blockly.Variables.deleteVariable(b, c);
 			b.refreshToolboxSelection();
 		};
 	};

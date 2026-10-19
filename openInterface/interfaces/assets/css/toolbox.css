@@ -1,38 +1,38 @@
 /* Blockly Toolbox Style */
 
-.blocklyToolboxDiv {
+.blocklyToolbox {
   background: var(--bg-2) !important;
   border-inline-end: rgba(128, 128, 128, 0.28) 3px solid;
   overflow-x: hidden;
   transition: all 0.2s;
 }
 
-.blocklyToolboxDiv .blocklyTreeLabel {
+.blocklyToolbox .blocklyToolboxCategoryLabel {
   font-size: 18px;
   font-weight: bold;
   font-family: var(--alt-font);
   cursor: pointer;
 }
 
-.blocklyToolboxDiv .blocklyTreeRow {
+.blocklyToolbox .blocklyToolboxCategory {
   height: 40px;
   padding-top: 7px;
 }
 
-.blocklyToolboxDiv .blocklyTreeRow:hover {
+.blocklyToolbox .blocklyToolboxCategory:hover {
   cursor: pointer !important;
   background-color: var(--bg-3) !important;
 }
 
-.blocklyToolboxDiv .blocklyTreeRow:focus-within {
+.blocklyToolbox .blocklyToolboxCategory:focus-within {
   outline-color: var(--vitta-green);
 }
 
-.blocklyToolboxDiv .blocklyTreeRow {
+.blocklyToolbox .blocklyToolboxCategory {
   height: 40px;
 }
 
-.blocklyToolboxDiv .svgIcon {
+.blocklyToolbox .svgIcon {
   display: inline-flex !important;
   align-content: center;
   align-items: center;
@@ -44,27 +44,27 @@
   transform: translateY(25%);
 }
 
-.blocklyToolboxDiv .svgIcon svg {
+.blocklyToolbox .svgIcon svg {
   height: var(--size);
   width: var(--size);
   max-width: var(--size);
   max-height: var(--size);
 }
 
-.blocklyToolboxDiv .svgIcon,
-.blocklyToolboxDiv .icon_blockly {
+.blocklyToolbox .svgIcon,
+.blocklyToolbox .icon_blockly {
   margin-inline: 0.3em;
 }
 
-.blocklyToolboxDiv .blocklyTreeSeparator {
+.blocklyToolbox .blocklyTreeSeparator {
   border-color: var(--bg-4);
 }
 
-.blocklyTreeSelected {
+.blocklyToolboxSelected {
   background-color: var(--bg-4) !important;
 }
 
-.blocklyTreeIcon {
+.blocklyToolboxCategoryIcon {
   background: none !important;
 }
 
@@ -107,15 +107,15 @@
   margin: unset;
 }
 
-.blocklyToolboxDiv-small .blocklyTreeLabel {
+.blocklyToolboxDiv-small .blocklyToolboxCategoryLabel {
   display: none;
 }
 
-.blocklyToolboxDiv.blocklyToolboxDiv-small {
+.blocklyToolbox.blocklyToolboxDiv-small {
   width: 80px;
 }
 
-.blocklyToolboxDiv-small .blocklyTreeRow {
+.blocklyToolboxDiv-small .blocklyToolboxCategory {
   height: 50px;
   text-align: center;
 
@@ -204,15 +204,15 @@
 
 /* Subcategories arrows */
 
-.blocklyToolboxCategory[aria-expanded="false"],
-.blocklyToolboxCategory[aria-expanded="true"],
-.blocklyToolboxCategory[aria-expanded="undefined"] {
+.blocklyToolboxCategoryContainer[aria-expanded="false"],
+.blocklyToolboxCategoryContainer[aria-expanded="true"],
+.blocklyToolboxCategoryContainer[aria-expanded="undefined"] {
   position: relative;
 }
 
-.blocklyToolboxCategory[aria-expanded="false"]>.blocklyTreeRow::after,
-.blocklyToolboxCategory[aria-expanded="true"]>.blocklyTreeRow::after,
-.blocklyToolboxCategory[aria-expanded="undefined"]>.blocklyTreeRow::after {
+.blocklyToolboxCategoryContainer[aria-expanded="false"]>.blocklyToolboxCategory::after,
+.blocklyToolboxCategoryContainer[aria-expanded="true"]>.blocklyToolboxCategory::after,
+.blocklyToolboxCategoryContainer[aria-expanded="undefined"]>.blocklyToolboxCategory::after {
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
   content: "\f078";
@@ -234,6 +234,6 @@
   width: 1em;
 }
 
-.blocklyToolboxCategory[aria-expanded="true"]>.blocklyTreeRow::after {
+.blocklyToolboxCategoryContainer[aria-expanded="true"]>.blocklyToolboxCategory::after {
   transform: rotate(360deg);
 }

@@ -300,6 +300,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'io_getGroveButton',
                 'io_getGroveSwitch',
                 'io_getMagneticSwitch',
+                'io_getGroveDistanceInterrupter',
                 'io_getGroveTactile',
                 'io_getGroveRotaryAngle',
                 'io_getGroveSlidePotentiometer',
@@ -459,7 +460,8 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'sensors_getGroveTilt',
                 'sensors_getGroveMotion',
                 'sensors_getPiezoVibration',
-                'sensors_gy521_getData'
+                'sensors_gy521_getData',
+                'sensors_bn880_getHeading'
             ]
         },
         {
@@ -689,6 +691,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                     'robots_alvik_get_touch_button',
                     'robots_alvik_get_color',
                     'robots_alvik_get_color_raw',
+                    'robots_alvik_get_color_label',
                     'robots_alvik_color_calibration',
                     'robots_alvik_rgb2hsv',
                     'robots_alvik_hsv2label'
@@ -894,6 +897,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT_SIMPLE = {
             "blocks": [
                 'io_getGroveButton',
                 'io_getGroveSwitch',
+                'io_getGroveDistanceInterrupter',
                 'io_getGroveTactile',
                 'io_getGroveRotaryAngle',
                 'io_getGroveSlidePotentiometer',

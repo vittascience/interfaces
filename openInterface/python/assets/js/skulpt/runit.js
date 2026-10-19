@@ -1148,6 +1148,7 @@ const PythonDebugger = {
     colorLineEditor: function (line) {
         const Range = ace.require('ace/range').Range;
         this.debugMarker = Main.getCodeEditor().container.session.addMarker(new Range(line, 0, line, 1), "ace-debug-marker", "fullLine");
+        CodeManager.getSharedInstance().selectLineBlock(line);
     },
 
     /**
@@ -1155,6 +1156,7 @@ const PythonDebugger = {
      */
     eraseBreakpoint: function () {
         Main.getCodeEditor().container.session.removeMarker(this.debugMarker);
+        CodeManager.getSharedInstance().selectLineBlock(null);
     },
 
     stepForward: function () {

@@ -396,3 +396,5 @@ Blockly.Msg['SUBCATEGORY_MINI_FAN'] = 'Mini ventilador';
 // Arduino Q
 Blockly.Msg['CATEGORY_BRIDGES'] = 'Puentes';
 Blockly.Msg['CATEGORY_IA_CAMERAS'] = 'Cámaras IA';
+Blockly.Msg["JS_CATEGORY_SOCKET"] = "Blockly.Msg[\"JS_CATEGORY_SOCKET\"] = \"Socket\";";
+Blockly.Msg['CATEGORY_BRICKS'] = 'Ladrillos';

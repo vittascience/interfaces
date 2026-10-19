@@ -60,6 +60,7 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/esp32_chainableLED.js': Simulator.PATH_LIB_COMMON + 'esp32/grove/esp32_chainableLED.js',
     'src/lib/esp32_my9221.js': Simulator.PATH_LIB_COMMON + 'esp32/grove/esp32_my9221.js',
     'src/lib/esp32_ds18b20.js': Simulator.PATH_LIB_COMMON + 'esp32/grove/esp32_ds18b20.js',
+    'src/lib/esp32_mlx90621.js': Simulator.PATH_LIB_COMMON + 'esp32/grove/esp32_mlx90621.js'
 };
 
 // Specific to galaxia board buttons
@@ -260,7 +261,8 @@ Simulator.Mosaic.groveRegex = {
     "hc05": /Bluetooth HC05 on UART( |)(0|1)/gi,
     "hm10": /Bluetooth HM10 on UART( |)(0|1)/gi,
     "groveBT": /Grove Serial Bluetooth on UART( |)(0|1)/gi,
-    "gps": /GPS on UART( |)(0|1)/gi
+    "gps": /GPS on UART( |)(0|1)/gi,
+    "mlx90621": /(.|)MLX90621\(/gi
 };
 
 Simulator.Mosaic.specific = {

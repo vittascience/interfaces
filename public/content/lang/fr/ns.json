@@ -770,6 +770,37 @@
       "infos": "Informations",
       "delivery": "Livraison",
       "freeWithPremium": "Offerte avec un compte premium",
+      "shippingAtDeliveryStep": "Calculée à l'étape Livraison",
+      "shippingFree": "Offerte",
+      "shippingFreeWithPremium": "Frais de port offerts en France métropolitaine avec l'abonnement Premium Vittascience",
+      "shippingFreeThanksToPremium": "Frais de port offerts en France métropolitaine grâce à votre abonnement Premium Vittascience",
+      "shippingFreeWithCartPremium": "Frais de port offerts en France métropolitaine grâce à l'abonnement Premium de votre commande",
+      "shippingFreeMetropolitan": "Offerte en France métropolitaine",
+      "premiumUpsellTitle": "Abonnement Vittascience Premium annuel – 1 utilisateur",
+      "premiumUpsellText": "Accédez à toutes les ressources Premium de Vittascience et profitez de la livraison offerte en France métropolitaine, dès cette commande.",
+      "premiumUpsellPrice": "{{price}} TTC / an",
+      "premiumUpsellAdd": "Ajouter au panier",
+      "premiumUpsellShort": "Livraison offerte en France métropolitaine avec l'abonnement Premium annuel ({{price}} TTC / an)",
+      "premiumRenewalNotice": "Votre abonnement Premium est payé avec cette commande, puis renouvelé automatiquement à chaque échéance au même tarif. Vous pouvez le résilier à tout moment depuis votre profil, onglet Premium.",
+      "cbDisabledTeamSubscription": "Par carte bancaire, seul un abonnement Premium 1 utilisateur peut être ajouté à une commande. Les abonnements multi-utilisateurs se souscrivent depuis votre espace profil ou par devis.",
+      "cbDisabledAlreadySubscribed": "Votre compte est déjà abonné Premium : retirez l'abonnement du panier pour continuer.",
+      "quotePayment": {
+        "alreadySubscribed": "Votre compte est déjà abonné Premium : ce devis contient un abonnement et ne peut pas être payé par carte. Contactez-nous pour l'ajuster.",
+        "subscriptionNotAllowed": "Ce devis contient un abonnement multi-utilisateurs : il ne peut pas être payé par carte. Réglez-le par virement ou déposez votre bon de commande.",
+        "stripeError": "Le paiement par carte de ce devis n'a pas pu être préparé. Réessayez dans quelques instants ou contactez-nous.",
+        "alreadyPaid": "Ce devis a déjà été réglé.",
+        "nothingToPay": "Ce devis ne présente aucun montant à régler par carte : notre équipe va le valider directement.",
+        "generic": "Le paiement de ce devis n'a pas pu être lancé. Réessayez ou contactez-nous."
+      },
+      "premiumRemovedFromCart": "L'abonnement Premium a été retiré de votre panier : votre compte est déjà abonné.",
+      "premiumAlreadySubscribedCart": "Votre compte est déjà abonné Premium : cet abonnement ne peut pas être ajouté au panier.",
+      "premiumModal": {
+        "title": "Souscription Premium depuis votre profil",
+        "message": "Par carte bancaire, une commande ne peut contenir qu'un seul abonnement Premium 1 utilisateur. Les abonnements multi-utilisateurs se souscrivent depuis votre espace profil, via notre paiement récurrent sécurisé, ou par devis.",
+        "steps": "Souscrivez d'abord à votre abonnement depuis votre profil, puis revenez commander votre matériel : la livraison sera offerte en France métropolitaine.",
+        "cancel": "Annuler",
+        "subscribe": "Souscrire à l'abonnement"
+      },
       "billing": "Paiement",
       "validate": "Validation",
       "resumeEstimate": "Votre demande de devis a été validée.",
@@ -834,7 +865,9 @@
         "notConfirmed": "Le paiement n'a pas été confirmé. Veuillez réessayer.",
         "sessionIncomplete": "La session de paiement n'a pas été complétée. Veuillez réessayer.",
         "stripeError": "Une erreur est survenue lors de la vérification du paiement. Veuillez réessayer ou contacter le support.",
-        "subscriptionNotAllowed": "Les abonnements premium ne peuvent pas être payés par carte bancaire via cette interface.",
+        "subscriptionNotAllowed": "Seul un abonnement Premium 1 utilisateur peut être payé par carte bancaire avec une commande. Pour un abonnement multi-utilisateurs, passez par votre espace profil ou par un devis.",
+        "alreadySubscribed": "Votre compte est désormais abonné Premium : l'abonnement a été retiré de votre panier. Vérifiez votre commande avant de la valider.",
+        "insufficientStock": "Stock insuffisant pour {{product}}. Merci d'ajuster la quantité dans votre panier.",
         "generic": "Une erreur est survenue. Veuillez réessayer."
       }
     },
@@ -941,6 +974,8 @@
       "marc": "Marc a rejoint Vittascience en septembre 2024, il effectue son alternance à nos côtés et s'occupe, avec Ylarie, de toute la logistique de Vittascience et veille au bon fonctionnement de notre boutique.",
       "ylarie": "Ylarie s'occupe des aspects logistiques de la boutique Vittascience aux côtés de Marc depuis septembre 2024. De l'ajout des produits à l'expédition des colis !",
       "hire": "Vous êtes passionné d'éducation, vous aimez le projet et vous pensez que vous avez des compétences à nous apporter, n'hésitez pas à nous contacter !<br/><a href=\"/hire\" style=\"text-decoration:none;\"><button class=\"mt-3 btn v-btn-important about-recruit-btn\">Rejoins notre équipe :) <span class=\"fa fa-chevron-circle-right\"></span></button></a>",
+      "junior": "Développeur web et support informatique en alternance chez Vittascience, passionné par le développement et les technologies numériques.",
+      "zouhir": "Zouhir a rejoint Vittascience en septembre 2026 en tant que stagiaire en developpement frontend, système embarqué et support technique. ",
       "hireTitle": "Nous rejoindre"
     },
     "hof": {
@@ -1166,6 +1201,16 @@
     }
   },
   "code": {
+    "blockExtensions": {
+      "category": "Extensions",
+      "title": "Extensions de blocs",
+      "note": "Ajoutez de nouveaux blocs pour programmer d’autres robots, maquettes ou modules. Les extensions choisies sont enregistrées avec le projet.",
+      "close": "Fermer",
+      "search": "Rechercher une extension",
+      "added": "Ajoutée",
+      "noResult": "Aucune extension trouvée.",
+      "confirmRemoveUsed": "{{count}} bloc(s) de cette extension utilisé(s) dans le programme seront supprimés. Continuer ?"
+    },
     "tooltip": {
       "anonymousAuthor": "Anonyme",
       "backpack": "Sac à dos",
@@ -1237,6 +1282,7 @@
       "badBoard": "La carte connectée n'est pas de type ",
       "checkBoardSettings": "Sélectionner la bonne carte dans les Paramètres, puis options de la carte.",
       "flashFailed": "Le transfert du code n'a pas abouti.",
+      "boardNotResponding": "La carte ne répond pas : vérifiez que le robot est bien allumé.",
       "baudrateError": "Une erreur est survenue lors de la lecture des données sur le port série. Essayer de changer le baudrate dans les paramètres de la console.",
       "firmwareWarning": "Attention, pour bénéficier de toutes les fonctionnalités de cette interface avec la carte STM32, veuillez passer sur la version 1.17 du firmware MicroPython en suivant ce tutoriel: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=398\" target=\"_blank\" rel=\"noopener noreferrer\">Update the firmware</a>",
       "compiling": "Compilation en cours. Ceci peut prendre jusqu'à quelques secondes...",
@@ -1256,10 +1302,13 @@
     },
     "arduinoq": {
       "boardConnected": "Connexion à la carte réussi !",
+      "webAppUrl": "Page web de l'app (depuis un appareil sur le même réseau) :",
+      "localModelMissing": "Aucun modèle d'IA local trouvé dans ce navigateur : entraîne d'abord un modèle d'images dans l'outil IA de Vittascience (sur ce même navigateur), ou utilise le bloc « charger le modèle » avec son lien.",
       "passwordRequired": "Pour continuer le transfert, le mot de passe de la carte Arduino Q est requis.",
       "incorrectPassword": "Le mot de passe est incorrect, veuillez essayer de nouveau.",
-      "transfertAborted": "Transfert annulé.",
-      "arduinoClaiming": "Assurez-vous que le port USB n'est pas utilisé (c'est-à-dire qu'aucun serveur adb n'est en cours d'exécution).</br>Veuillez fermer Arduino App Lab s'il est ouvert et essayez la commande suivante dans l'invite de commandes: adb kill-server"
+      "transferAborted": "Transfert annulé.",
+      "arduinoClaiming": "Assurez-vous que le port USB n'est pas utilisé (c'est-à-dire qu'aucun serveur adb n'est en cours d'exécution).</br>Veuillez fermer Arduino App Lab s'il est ouvert et essayez la commande suivante dans l'invite de commandes: adb kill-server",
+      "transfertAborted": "Transfert annulé."
     },
     "welcome": {
       "arduino": "Bienvenue sur l'interface Vittascience pour Arduino !</br>Vous pouvez consulter le tutoriel disponible ici : <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=911/prise-en-main-de-la-carte-arduino-uno-et-de-l-interface-vittascience\" target=\"_blank\" rel=\"noopener noreferrer\">Prise en main de l'interface Vittascience pour Arduino UNO</a>",
@@ -1294,7 +1343,8 @@
       "nano-esp32": "Bienvenue sur l'interface Vittascience pour la carte Arduino Nano ESP32 et le robot Alvik !</br>Par défaut, l'interprêteur MicroPython est déjà dans la carte. Si vous souhaitez mettre à jour la carte Arduino Nano ESP32, flasher le firmware MicroPython dans la carte en suivant le tutoriel suivant : <b><a href=\"https://fr.vittascience.com/learn/tutorial.php?id=341/flasher-le-firmware-micropython-dans-la-carte-esp32\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
       "steami": "Bienvenue sur l'interface Vittascience pour STeaMi !",
       "alphai": "Bienvenue sur l'interface Vittascience pour le robot AlphAI !",
-      "arduinoq": "Bienvenue sur l'interface Vittascience pour la carte Arduino UNO Q !</br></br>L'interface prend en charge les différents langages (arduino, python, html) pour programmer un projet complet avec la carte. Les blocs se trouvant dans la catégorie 'Base' sont utilisable dans tout type de langage, le code généré s'adaptera alors au type de langage du bloc en en-tête.</br></br>Il est possible d'envoyer des commandes Linux à la carte Arduino Q en tapant la commande dans l'entrée se trouvant en bas de la console."
+      "arduinoq": "Bienvenue sur l'interface Vittascience pour la carte Arduino UNO Q !</br></br>L'interface prend en charge les différents langages (arduino, python, html) pour programmer un projet complet avec la carte. Les blocs se trouvant dans la catégorie 'Base' sont utilisable dans tout type de langage, le code généré s'adaptera alors au type de langage du bloc en en-tête.</br></br>Il est possible d'envoyer des commandes Linux à la carte Arduino Q en tapant la commande dans l'entrée se trouvant en bas de la console.",
+      "primastem": "Bienvenue sur l'interface Vittascience pour le robot primaSTEM !"
     },
     "chromeApp": {
       "noPort": "Aucun port détecté",
@@ -1402,6 +1452,7 @@
     },
     "topbar": {
       "tooltips": {
+        "boardWifi": "Configurer le Wi-Fi de la carte Arduino UNO Q connectée",
         "projectMenu": "Menu du projet",
         "new": "Nouveau projet",
         "save": "Sauvegarder",
@@ -1420,6 +1471,7 @@
         "stopNaoProgram": "Arrêter le programme en cours",
         "uploadPythonThymio": "Envoyer le programme Python au Thymio",
         "uploadArduino": "Envoyer le programme Arduino dans la carte",
+        "uploadArduinoQProject": "Envoyer l'application (Arduino, Python et page web) dans la carte Arduino UNO Q",
         "compileArduino": "Lancer la compilation",
         "arduinoBoardSelector": "Sélectionner la carte Arduino à programmer",
         "esp32BoardSelector": "Sélectionner la carte ESP32 à programmer",
@@ -1464,6 +1516,7 @@
         "toolboxRestriction": "Restreindre les blocs disponibles",
         "consoleSettings": "Paramètres généraux",
         "accessibility": "Paramétrer le thème et la police",
+        "shortcuts": "Afficher les raccourcis clavier",
         "addBlockSettings": "Ajouter un bloc",
         "fullscreen": "Afficher en plein écran",
         "help": "Aide",
@@ -1490,6 +1543,7 @@
         "i18n": "Changer de langue"
       },
       "label": {
+        "boardWifi": "Wi-Fi de la carte",
         "texas": "Télécharger .py pour la calculatrice",
         "new": "Nouveau projet",
         "save": "Sauvegarder",
@@ -1534,6 +1588,7 @@
         "connectBoard": "Connecter",
         "settings": "Options",
         "themes": "Accessibilité",
+        "shortcuts": "Raccourcis clavier",
         "add": "Ajouter un bloc",
         "fullscreen": "Plein écran",
         "help": "Aide",
@@ -1663,8 +1718,13 @@
         }
       },
       "music": {
-        "enable": "Sons",
-        "enablebutton": "Activé",
+        "note": "Note",
+        "stop": "Arrêter",
+        "test": "Tester",
+        "sound": "Son",
+        "held": "Tenu",
+        "percussive": "Percussif",
+        "oscilloscope": "Oscilloscope",
         "volume": "Volume",
         "octave": "Octave",
         "waveform": "Forme d'onde",
@@ -1678,7 +1738,9 @@
         "effects": {
           "reverb": "Réverbération",
           "delay": "Délai",
-          "bitcrusher": "BitCrusher"
+          "bitcrusher": "BitCrusher",
+          "vibrato": "Vibrato",
+          "distortion": "Distorsion"
         }
       },
       "feedback": {
@@ -1711,7 +1773,9 @@
           "downloadScreen": "Capture d'écran",
           "toggleBoardDisplay": "Afficher / Masquer la carte du simulateur",
           "switchWiringMode": "Passer en mode câblage",
-          "switchMosaicMode": "Passer en mode mosaïque"
+          "switchMosaicMode": "Passer en mode mosaïque",
+          "wiringZoomIn": "Zoomer",
+          "wiringZoomOut": "Dézoomer"
         },
         "robot": {
           "background": "Arrière-plan",
@@ -1817,6 +1881,8 @@
         "dht22-temp": "DHT22 - Température",
         "dht22-hum": "DHT22 - Humidité",
         "ds18x20": "DS18X20 - Température",
+        "mlx90621": "MLX90621 - Température",
+        "bn880": "BN-880 - Cap magnétique",
         "dustSensor": "Capteur de particules",
         "groveRain": "Capteur de pluie",
         "rainGauge": "Pluviomètre",
@@ -1853,7 +1919,8 @@
         "groveLight": "Capteur de luminosité",
         "groveUV": "Capteur d'indice ultraviolet",
         "groveSound": "Capteur de son",
-        "grovePulse": "Capteur de Pouls"
+        "grovePulse": "Capteur de Pouls",
+        "distanceInterrupter": "Interrupteur de distance"
       },
       "pinError": "[Erreur de broche] Le module <b>{{modId}}</b> ne peut pas être connecté sur la broche <b>{{pin}}</b>. Le module <b>{{attachedId}}</b> est déjà connecté."
     },
@@ -1882,6 +1949,9 @@
       "mixed-popup-leave-editor": "Pour quitter l'éditeur de code avec le clavier, appuyez en même temps sur les touches <kbd>Verr Maj</kbd> et <kbd>Esc</kbd>.",
       "mixed-popup-readonly": "<i class='fa-solid fa-lock'></i> En mode hybride, l'éditeur de code est en <strong>lecture seule</strong> pour cette interface. Vous ne pouvez modifier que via les blocs.",
       "mixed-popup-readonly-sr": "En mode hybride, le code est en lecture seule pour cette interface",
+      "mixed-small-screen": "Sur un petit écran, le mode hybride est peu pratique : nous vous conseillons de passer en mode blocs ou en mode code.",
+      "mixed-small-screen-stay": "Rester en mode hybride",
+      "mixed-small-screen-close": "Fermer",
       "saveWarning": {
         "title": "<span class=\"fa fa-exclamation-circle\"></span> Avertissement !",
         "warn": "<span class=\"fa fa-save\"></span> Voulez-vous sauvegarder votre travail avant de continuer ?<p class=\"mb-0 mt-0 hint\">Si vous créez un nouveau projet sans avoir sauvegardé au préalable, votre travail actuel sera perdu...</p>",
@@ -3440,7 +3510,8 @@
         "copyButtonTooltip": "Copier la réponse"
       },
       "a11y": {
-        "responseReceived": "Réponse de l'IA reçue."
+        "responseReceived": "Réponse de l'IA reçue.",
+        "copyButtonTooltip": "Copier la réponse"
       },
       "dropdownHeader": "Cliquez sur un token pour reprendre <br /> la génération à partir de celui-ci.",
       "settings": {
@@ -3631,14 +3702,14 @@
           "contextLength": "32k Tokens",
           "availableState": "Bientôt disponible !"
         },
-        "mistral-small-3-2-24b-instruct-2506": {
+        "mistral-small-3.2-24b-instruct-2506": {
           "description": "Modèle compact et rapide pour les tâches courantes."
         },
         "mistral-medium-3-5": {
           "description": "Modèle polyvalent, efficace pour différents usages."
         },
-        "mistral-large-2512": {
-          "description": "Modèle pour les tâches complexes."
+        "mistral-large-4": {
+          "description": "Modèle multimodal avancé pour le raisonnement et les tâches complexes."
         },
         "glm-5-2": {
           "description": "Modèle ouvert le plus puissant du marché."
@@ -3966,7 +4037,7 @@
       },
       "notifications": {
         "image-is-broken": "😒 Désolé, quelque chose s'est mal passé. Veuillez réessayer avec un autre prompt.",
-        "not-delete": "Vous ne pouvez pas supprimer l'image aimée",
+        "delete-failed": "La suppression de l'image a échoué. Veuillez réessayer.",
         "asset-deleted": "Image supprimée",
         "image-generation-queued": "Votre génération d'image est en file d'attente.",
         "image-generation-queued-position": "Votre génération d'image est en file d'attente. Position: {{position}}. Attente estimée: {{waitLabel}}.",
@@ -3974,7 +4045,8 @@
         "image-generation-queued-wait-only": "Votre génération d'image est en file d'attente. Attente estimée: {{waitLabel}}.",
         "quota-reached": "Vous avez atteint votre quota de génération d'images pour aujourd'hui.",
         "quota-reached-monthly": "Vous avez atteint votre quota de génération d'images pour ce mois.",
-        "image-generation-started": "La génération de votre image a commencé."
+        "image-generation-started": "La génération de votre image a commencé.",
+        "duplicate-co2-saved": "🌱 Cette image existait déjà : elle vous est offerte, aucun crédit consommé et {{gwp}} g de CO2 économisés !"
       },
       "image-generate-models": {
         "DreamShaper": {
@@ -5133,7 +5205,7 @@
         },
         "2": {
           "title": "Comment désactiver le suivi statistique ?",
-          "content": "Vous pouvez désactiver ce suivi statistique, ainsi Matomo cessera d’inclure vos visites dans les statistiques. Pour ce faire, nous vous invitons à suivre l’une de ces procédures :<br/><ul><li>activer la fonctionnalité « Ne pas me pister » de votre navigateur : <a href='https://support.mozilla.org/fr/kb/activer-desactiver-cookies-preferences' target='_blank'>Mozilla Firefox</a> ; <a href='https://support.microsoft.com/fr-fr/help/17442/windows-internet-explorer-delete-manage-cookies' target='_blank'>Internet Explorer</a> ; <a href='https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=fr' target='_blank'>Google Chrome</a> ; <a href='http://help.opera.com/Windows/10.20/fr/cookies.html' target='_blank'>Opera</a> ; <a href='https://support.apple.com/kb/ph21411?locale=fr_CA' target='_blank'>Safari</a> ;</li></ul><br/>Ou bien: <br/><ul><li>Décocher la case suivante</li></ul><iframe style='border: 0; height: 160px; width: 100%;border-radius: 16px;' src='https://matomo.vittascience.com/matomo/index.php?module=CoreAdminHome&action=optOut&language=fr&backgroundColor=&fontColor=565656&backgroundColor=FFFFFF&fontSize=14px&fontFamily=Montserrat' title='Vous pouvez vous opposer au suivi de votre navigation sur ce site web'></iframe><br/>"
+          "content": "Vous pouvez désactiver ce suivi statistique, ainsi Matomo cessera d’inclure vos visites dans les statistiques. Pour ce faire, nous vous invitons à suivre l’une de ces procédures :<br/><ul><li>activer la fonctionnalité « Ne pas me pister » de votre navigateur : <a href='https://support.mozilla.org/fr/kb/activer-desactiver-cookies-preferences' target='_blank'>Mozilla Firefox</a> ; <a href='https://support.microsoft.com/fr-fr/help/17442/windows-internet-explorer-delete-manage-cookies' target='_blank'>Internet Explorer</a> ; <a href='https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=fr' target='_blank'>Google Chrome</a> ; <a href='http://help.opera.com/Windows/10.20/fr/cookies.html' target='_blank'>Opera</a> ; <a href='https://support.apple.com/kb/ph21411?locale=fr_CA' target='_blank'>Safari</a> ;</li></ul><br/>Ou bien: <br/><ul><li>Décocher la case suivante</li></ul><iframe style='border: 0; height: 160px; width: 100%;border-radius: 16px;' src='https://matomo.vittascience.com/index.php?module=CoreAdminHome&action=optOut&language=fr&backgroundColor=&fontColor=565656&backgroundColor=FFFFFF&fontSize=14px&fontFamily=Montserrat' title='Vous pouvez vous opposer au suivi de votre navigation sur ce site web'></iframe><br/>"
         }
       }
     },
@@ -5681,6 +5753,25 @@
   },
   "modals": {
     "standard": {
+      "arduino-q-wifi": {
+        "title": "Wi-Fi de la carte Arduino UNO Q",
+        "enabled": "Wi-Fi activé",
+        "network": "Réseau",
+        "scan": "Rechercher les réseaux",
+        "password": "Mot de passe du réseau",
+        "connect": "Se connecter",
+        "status": {
+          "loading": "Lecture de l'état du Wi-Fi…",
+          "nmcliMissing": "NetworkManager (nmcli) est introuvable sur la carte.",
+          "disabled": "Wi-Fi désactivé",
+          "connected": "Connectée à %1 (%2)",
+          "notConnected": "Non connectée",
+          "noNetwork": "Aucun réseau trouvé",
+          "connecting": "Connexion à %1…",
+          "cancelled": "Opération annulée.",
+          "failed": "La connexion a échoué."
+        }
+      },
       "default": {
         "title": "Titre par défaut",
         "exit": "Fermer le modal"
@@ -5754,7 +5845,15 @@
         },
         "warning-message": "Chargement des projets ...",
         "no-project": "Aucun projet trouvé.",
-        "toggle-all": "Ouvrir/fermer toutes les sous-catégories"
+        "toggle-all": "Ouvrir/fermer toutes les sous-catégories",
+        "localSelection": {
+          "selectedSingle": "projet sélectionné",
+          "selectedMultiple": "projets sélectionnés",
+          "selectAll": "Tout sélectionner",
+          "unselectAll": "Tout désélectionner",
+          "deleteSelection": "Supprimer la sélection",
+          "checkboxLabel": "Sélectionner le projet %project%"
+        }
       },
       "save": {
         "title": "Sauvegarder le projet",
@@ -6295,6 +6394,38 @@
       "i18n": {
         "title": "Changer la langue de l'interface"
       },
+      "shortcuts": {
+        "title": "Raccourcis clavier",
+        "or": "ou",
+        "then": "puis",
+        "table": {
+          "keys": "Touches",
+          "action": "Action"
+        },
+        "sections": {
+          "general": "Général",
+          "code": "Éditeur de code",
+          "blocks": "Espace de blocs"
+        },
+        "actions": {
+          "save": "Sauvegarder le projet",
+          "closeModal": "Fermer la fenêtre ouverte",
+          "focusNext": "Aller à l'élément suivant / précédent",
+          "resizeConsole": "Agrandir / réduire la console (barre de redimensionnement sélectionnée)",
+          "enterEditor": "Entrer dans l'éditeur de code",
+          "leaveEditor": "Quitter l'éditeur de code",
+          "undo": "Annuler",
+          "redo": "Rétablir",
+          "selectAll": "Tout sélectionner",
+          "duplicateLine": "Dupliquer la ligne ou la sélection",
+          "moveLine": "Déplacer la ligne vers le haut / le bas",
+          "indent": "Indenter / désindenter",
+          "toggleComment": "Commenter / décommenter",
+          "find": "Rechercher",
+          "replace": "Rechercher et remplacer",
+          "navigateBlocks": "Naviguer entre les blocs"
+        }
+      },
       "codeOnly": {
         "title": "Passer en mode code seul",
         "content": "Souhaitez-vous masquer le choix de modes afin de rester définivement en mode Code seul (sans blocs) ?",
@@ -6303,6 +6434,10 @@
         "info": {
           "title": "Mode code seul",
           "content": "Le mode code est actuellement verrouillé. Cela signifie que les modes blocs et hybride sont désactivés."
+        },
+        "exit": {
+          "title": "Quitter le mode code seul",
+          "content": "Souhaitez-vous déverrouiller le mode code seul afin de pouvoir à nouveau utiliser les modes blocs et hybride ?"
         }
       },
       "local-compilation": {
@@ -6361,7 +6496,7 @@
       },
       "arduino-q-password": {
         "title": "Compte utilisateur Arduino Q",
-        "content": "Entrez le mot de passe de la carte Arduino Q pour continuer le transfert du projet:",
+        "content": "Entrez le mot de passe de la carte Arduino Q pour continuer :",
         "placeholder": "Taper le mot de passe ...",
         "buttons": {
           "confirm": {
@@ -6370,7 +6505,10 @@
           },
           "close": {
             "text": "Fermer",
-            "tooltip": "Annuler le transfert du projet."
+            "tooltip": "Annuler l'opération."
+          },
+          "togglePassword": {
+            "tooltip": "Afficher / masquer le mot de passe"
           }
         }
       }
@@ -6900,7 +7038,11 @@
         "generate": "Générer",
         "flash": "Téléverser un modèle depuis votre appareil",
         "embeddedAiKit": "Kit IA embarquée",
-        "seedStudioKit": "Kit Seeed Studio"
+        "seedStudioKit": "Kit Seeed Studio",
+        "arduinoQ": "Arduino UNO Q",
+        "arduinoQExplanations": "La carte Arduino UNO Q exécute le modèle directement sur son processeur Linux : aucune optimisation par le serveur n'est nécessaire.</br>Le modèle s'ouvre dans l'interface Arduino UNO Q avec un programme d'exemple, puis il est envoyé à la carte lors du téléversement.",
+        "arduinoQNote": "<strong>Note :</strong> si votre projet n'est pas sauvegardé en ligne, le modèle reste dans ce navigateur : téléversez le programme depuis ce même navigateur.",
+        "openArduinoQ": "Ouvrir dans l'interface Arduino UNO Q"
       },
       "microcontroller-queue": {
         "title": "Attente de disponibilité du serveur...",
@@ -7178,6 +7320,7 @@
         "codey": "Interface de programmation pour la carte Codey et le robot Rocky de Makeblock",
         "uno-r4-wifi": "Interface de programmation pour la carte Arduino UNO R4 WiFi",
         "uno-r4-minima": "Interface de programmation pour la carte Arduino UNO R4 Minima",
+        "uno-q": "Interface de programmation pour la carte Arduino UNO Q (Arduino, Python et page web)",
         "nano": "Interface de programmation pour la carte Arduino Nano",
         "mega": "Interface de programmation pour la carte Arduino Mega",
         "steami": "Interface de programmation pour la carte STeaMi",
@@ -7189,7 +7332,8 @@
         "tello": "Interface de programmation pour le drone Tello de DJI",
         "uhandbit": "Interface de programmation pour la main robotique uHandbit",
         "wonder": "Interface de programmation pour le kit Elecfreaks Wonder Building Kit",
-        "buildingbit": "Interface de programmation pour le kit Yahboom Building:bit Super Kit"
+        "buildingbit": "Interface de programmation pour le kit Yahboom Building:bit Super Kit",
+        "primastem": "Interface de programmation pour le robot primaSTEM"
       }
     },
     "features_title": "Caractéristiques communes",
@@ -9019,7 +9163,8 @@
       "groupNotFound": "Le groupe auquel vous essayez d'ajouter l'utilisateur n'existe pas.",
       "errorAddingUserToGroup": "Une erreur est survenue lors de l'ajout de l'utilisateur au groupe.",
       "emptyData": "Un problème est survenu lors de la récupération des données. si le problème persiste, contactez le support technique.",
-      "emptySSO": "Un problème est survenu lors de la récupération des données SSO. si le problème persiste, contactez le support technique."
+      "emptySSO": "Un problème est survenu lors de la récupération des données SSO. si le problème persiste, contactez le support technique.",
+      "samlEfIDenied": "Accès non autorisé : la plateforme n'est pas ouverte aux élèves de cycles 2 et 3 de l'enseignement fondamental. Si vous pensez qu'il s'agit d'une erreur, contactez votre établissement."
     },
     "modal": {
       "title": "Bienvenue sur Vittascience",

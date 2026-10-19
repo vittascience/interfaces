@@ -1229,6 +1229,12 @@ function microbit_mod(microbit, import_modules) {
 
 	microbit.gamepad_v4_out = new Sk.builtin.module();
 	microbit.gamepad_v4_out.$d = new Simulator.Behaviours.output.gamepad_v4_out();
+	
+	microbit.joystick_bit_v2_in = new Sk.builtin.module();
+	microbit.joystick_bit_v2_in.$d = new Simulator.Behaviours.input.joystick_bit_v2_in();
+
+	microbit.joystick_bit_v2_out = new Sk.builtin.module();
+	microbit.joystick_bit_v2_out.$d = new Simulator.Behaviours.output.joystick_bit_v2_out();
 
 	microbit.bitplayer_in = new Sk.builtin.module();
 	microbit.bitplayer_in.$d = new Simulator.Behaviours.input.bitplayer_in();

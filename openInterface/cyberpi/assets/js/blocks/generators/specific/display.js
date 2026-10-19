@@ -36,6 +36,25 @@ Blockly.Python.cyberpi_led_on_palette = function (block) {
     return "cyberpi.led.on(" + colourList[0] + ", " + colourList[1] + ", " + colourList[2] + ", id=" + id + ")" + NEWLINE;
 };
 
+Blockly.Python.cyberpi_led_on_duration = function (block) {
+    Blockly.Python.addImport('cyberpi', IMPORT_CYBERPI);
+    Blockly.Python.addImport('utime', IMPORT_UTIME);
+    const id = block.getFieldValue("ID");
+    const colour = Blockly.Python.valueToCode(block, "COLOR", Blockly.Python.ORDER_NONE) || "(0,0,0)";
+    const colourList = colour.match(/([0-9]{1,3})/g);
+    const duration = Blockly.Python.valueToCode(block, "DURATION", Blockly.Python.ORDER_NONE) || "1";
+    const idArg = id == "all" ? "" : "id=" + id;
+    return "cyberpi.led.on(" + colourList[0] + ", " + colourList[1] + ", " + colourList[2] + (idArg ? ", " + idArg : "") + ")" + NEWLINE
+        + "utime.sleep(" + duration + ")" + NEWLINE
+        + "cyberpi.led.off(" + idArg + ")" + NEWLINE;
+};
+
+Blockly.Python.cyberpi_led_off = function (block) {
+    Blockly.Python.addImport('cyberpi', IMPORT_CYBERPI);
+    const id = block.getFieldValue("ID");
+    return "cyberpi.led.off(" + (id == "all" ? "" : "id=" + id) + ")" + NEWLINE;
+};
+
 Blockly.Python.cyberpi_led_play = function (block) {
     Blockly.Python.addImport('cyberpi', IMPORT_CYBERPI);
     const animation = block.getFieldValue("ANIMATION");

@@ -13,7 +13,8 @@ Simulator.Mosaic.grove = {
             '.mod_groveTilt,' +
             '.mod_groveMotion,' +
             '.mod_groveMotionMini,' +
-            '.mod_groveVibration').slider({
+            '.mod_groveVibration,' +
+            '.mod_distanceInterrupter').slider({
                 min: 0,
                 max: 1
             });
@@ -78,6 +79,12 @@ Simulator.Mosaic.grove = {
                 value: 50,
                 step: 1
             });
+        $('#bn880_slider').slider({
+            min: 0,
+            max: 360,
+            value: 0,
+            step: 1
+        });
         $('#th02-temp_slider').slider({
             min: 0,
             max: 70,
@@ -719,6 +726,27 @@ Simulator.Mosaic.grove = {
             }
         },
         {
+            id: "distanceInterrupter",
+            get title() { return i18next.t('code.simulator.modules.distanceInterrupter') },
+            pin: 'pin n°',
+            pins: 'digital',
+            type: 'input',
+            codeFlag: 'Grove Distance Interrupter',
+            listeners: [{
+                default: "OFF",
+                unit: '',
+                color: "#f9d142",
+                suffix: ""
+            }],
+            class: "button",
+            picture: "Bouton.png",
+            pictureAnimation: "Bouton-animation.png",
+            pictureInteraction: "buttonPush",
+            animate: function (Animator) {
+                Animator.button();
+            }
+        },
+        {
             id: "sgp30",
             get title() { return i18next.t('code.simulator.modules.sgp30') },
             pin: 'I2C',
@@ -1218,6 +1246,30 @@ Simulator.Mosaic.grove = {
             }
         },
         {
+            id: "bn880",
+            get title() { return i18next.t('code.simulator.modules.bn880') },
+            pin: 'I2C',
+            type: 'input',
+            listeners: [{
+                suffix: "",
+                default: 0,
+                unit: '°',
+                color: "#f9d142",
+            }],
+            picture: "Potentiometre.png",
+            pictureAnimation: "Potentiometre-animation.png",
+            animate: function (Animator) {
+                Animator.rotate(0, 360, Animator.value, 360);
+            }
+        },
+        {
+            id: "mlx90621",
+            get title() { return i18next.t('code.simulator.modules.mlx90621') },
+            pin: 'I2C',
+            type: 'output',
+            value: "",
+        },
+        {
             id: "dustSensor",
             get title() { return i18next.t('code.simulator.modules.dustSensor') },
             pin: 'pin n°',
@@ -1648,6 +1700,15 @@ Simulator.Mosaic.grove = {
             }
         },
         {
+            id: "rfidReader",
+            title: "RFID GROVE 125kHz Reader",
+            subtitle: 'UART Protocol',
+            type: 'input',
+            codeFlag: 'RFID',
+            class: "rfidReader",
+            picture: "lecteur rfid_on.svg",
+        },
+        {
             id: "groveEarClip",
             get title() { return i18next.t('code.simulator.modules.groveEarClip') },
             pin: 'pin n°',
@@ -1674,6 +1735,14 @@ Simulator.Mosaic.grove = {
                 heart.style.animationDuration = `${(m * Animator.value + b).toFixed(2)}s`;
                 Animator.gauge();
             }
+        },
+        {
+            id: "huskylens-v2",
+            title: "HuskyLens V2",
+            pin: "I2C",
+            type: "output",
+            value: "ON",
+            picture: "husky.png",
         },
     ],
 

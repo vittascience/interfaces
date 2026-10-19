@@ -47,7 +47,7 @@ Blockly.Python.Generators.pwm = function (pin, codeFlag, freq = 50, duty = 0) {
 
 Blockly.Python.Generators.default_I2C = function () {
   const board = Blockly.Constants.getSelectedBoard();
-  if (board == BOARD_NANO_ESP32) {
+  if (board == BOARD_NANO_ESP32 || board == BOARD_SHIELD_GROVE_NANO_ESP32) {
     return "SoftI2C(scl=Pin(12), sda=Pin(11))";
   } else {
     return "I2C(scl=Pin(22), sda=Pin(21))";

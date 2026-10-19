@@ -17,6 +17,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "cyberpi_led_on_all_palette": this.Set.colour_picker('#ff0000'),
             "cyberpi_led_on_RGB": this.Set.number("ID", 1) + this.Set.number("R") + this.Set.number("G", 255) + this.Set.number("B"),
             "cyberpi_led_on_palette": this.Set.number("ID", 1) + this.Set.colour_picker('#22b573'),
+            "cyberpi_led_on_duration": this.Set.colour_picker('#ff0000') + this.Set.number("DURATION", 1),
             "cyberpi_led_move": this.Set.number("STEP", 1),
             "cyberpi_led_set_brightness": this.Set.number("BRIGHTNESS", 100),
             // display - console
@@ -69,10 +70,13 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "robots_mbot2_turn": this.Set.number("ANGLE", 90) + this.Set.number("SPEED", 50),
             "robots_mbot2_control_motor": this.Set.number("VALUE", 50),
             "robots_mbot2_turn_motor": this.Set.number("ANGLE", 180) + this.Set.number("SPEED", 50),
+            "robots_mbot2_follow_line": this.Set.number("SPEED", 10) + this.Set.number("SENSITIVITY", 0.6),
             // robots - ultrasonic sensor
             "robots_mbot2_ultrasonic_setBrightness": this.Set.number("ID", 1) + this.Set.number("BRIGHTNESS", 50),
             "robots_mbot2_ultrasonic_getBrightness": this.Set.number("ID", 1),
             "robots_mbot2_ultrasonic_stopLED": this.Set.number("ID", 1),
+            // robots - quad RGB sensor
+            "sensors_mbuild_quad_RGB_set_custom_color": this.Set.number("R", 0) + this.Set.number("G", 0) + this.Set.number("B", 0) + this.Set.number("TOLERANCE", 50),
             // network - wifi
             "cyberpi_wifi_connect": this.Set.text("SSID") + this.Set.text("PASSWORD"),
             // network - LAN

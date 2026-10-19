@@ -6,8 +6,10 @@
     <meta charset="utf-8" />
     <!-- ©️ Copyright Vittascience  -->
     <script>const CDN_PATH = ''</script>
-    <script>const VS_USER_DATA_BASE = <?= json_encode(\Utils\UserDataUrl::base()) ?>;</script>
-    <script>const VS_PRODUCT_DATA_BASE = <?= json_encode(\Shop\ProductDataUrl::base()) ?>;</script>
+    <script>const VS_USER_DATA_BASE = "";</script>
+    <script>const VS_PRODUCT_DATA_BASE = "";</script>
+    
+    <link rel="dns-prefetch" href="https://matomo.vittascience.com">
     <script>const IS_CAPYTALE_CONTEXT = true;</script>
     
     <!-- Matomo Analytics -->
@@ -26,7 +28,7 @@
             _paq.push(['trackPageView']);
             _paq.push(['enableLinkTracking']);
             (function() {
-            const u="https://matomo.vittascience.com/matomo/";
+            const u="https://matomo.vittascience.com/";
             _paq.push(['setTrackerUrl', u+'matomo.php']);
             _paq.push(['setSiteId', '1']);
             const d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
@@ -44,7 +46,6 @@
     <meta http-equiv="Content-Security-Policy" content="">
     <link rel="icon" href="/public/content/img/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Add the reference to the canonical page if this is a duplicate -->
     
 
     <link rel="stylesheet" href="/public/js/lib/jquery-ui-1.12.1/themes/smoothness/jquery-ui.css">
@@ -117,7 +118,6 @@
     <script src="/public/js/scripts/tooltips/tooltipsRemover.js" defer></script>
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/ace.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/js/external/fontawesome-free-6.5.1-web/css/all.css">
-<link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/js/external/file-input/css/fileinput.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/ide-navbar.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/main.css">
 <link rel="stylesheet" type="text/css" href="/openInterface/interfaces/assets/css/toolbox.css">
@@ -424,14 +424,6 @@
                         <div id="music-tab" class="monitor-tab">
                             <div id="music-panel">
                                 <div class="music-control">
-                                    <label class="music-control-label"><b
-                                            data-i18n="code.console.music.enable">Sons</b></label>
-                                    <button id="audio-enable-button"
-                                        class="btn btn-outline-secondary btn-sm  mt-1 music-control-button"
-                                        data-i18n="code.console.music.enablebutton">Activé
-                                    </button>
-                                </div>
-                                <div class="music-control">
                                     <label class="music-control-label"><i class="fa fa-volume-up"></i> <b
                                             data-i18n="code.console.music.volume">Volume</b></label>
                                     <div class="music-slider mt-2" id="volume-slider"></div>
@@ -579,9 +571,7 @@
                                 </div>
 
                                 <div id="serial-input-group" class="input-group">
-                                    <input type="text" id="serial-input"
-                                        class="serial-controls form-control ide-btn-left" autocomplete="off"
-                                        data-i18n="[placeholder]code.monitor.controls.text.send" />
+                                    <input type="text" id="serial-input" name="serial_message" class="serial-controls form-control ide-btn-left" autocomplete="one-time-code" data-i18n="[placeholder]code.monitor.controls.text.send" />
 
                                     <div id="serial-input-btn" class="input-group-append">
                                         <button id="serial-send" class="ide-btn serial-controls ide-btn-right"
@@ -720,9 +710,11 @@
 <script src="/openInterface/interfaces/assets/js/external/rotate.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/interact-1.5.4.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/blockly_compressed.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_date_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_colour_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/vittascience_patches.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_grid_dropdown_compressed.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_slider_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/scroll_options_compressed.js"></script>
 <script type="module" src="/openInterface/interfaces/assets/js/external/blockly/extensions/backpack/index.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ace.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-python.min.js"></script>
@@ -731,8 +723,6 @@
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-css.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-languages_tools.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-searchbox.min.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/file-input/js/fileinput.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/file-input/themes/fa/theme.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/svg-inject.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/charts-loader.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/echarts-5.4.0/echarts.min.js"></script>

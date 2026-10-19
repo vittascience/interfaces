@@ -62,6 +62,9 @@ class MicropythonRepl {
         this.readingDelay = 50;
         this.libAlreadyInFs = [];
         this.variablesGetterRequested = false;
+        this.builtinLibrariesByInterface = {
+            steami: ['hts221', 'hts221.py', 'lis2mdl', 'lis2mdl.py'],
+        };
         this.ansi_up = new AnsiUp;
         if (options.progressBar !== null || options.progressBar) {
             this.progressBar = new ProgressBar();
@@ -658,6 +661,20 @@ def base64_decode(data):
         this.progressBar.hideProgressBar(50);
     };
     /**
+     * Check whether a library is already provided by the board firmware.
+     * @private
+     * @param {string} libName
+     * @returns {boolean}
+     * @memberof MicropythonRepl
+     */
+    _isBuiltinLibrary(libName) {
+        if (!libName) {
+            return false;
+        }
+        const builtinLibraries = this.builtinLibrariesByInterface[INTERFACE_NAME] || [];
+        return builtinLibraries.includes(libName.toLowerCase());
+    };
+    /**
      * Get list of libraries requested by code.
      * @private
      * @param {string} code
@@ -687,7 +704,7 @@ def base64_decode(data):
                 code: vg_lib
             });
         }
-        return requestedLibs;
+        return requestedLibs.filter(lib => !this._isBuiltinLibrary(lib.filename));
     };
     /**
      * Send Micropython command for resetting board.
@@ -825,9 +842,7 @@ def base64_decode(data):
                                 // Graph mode
                                 this._manageGraphData(line);
                                 // Music mode
-                                if (line.match(/^@music:/) && $('#audio-switch').append("On")) {
-                                    this._playNote(line);
-                                }
+                                InterfaceMonitor.playMusicMessage(line);
                             } else {
                                 if (i == lines.length - 1 && !this.isOpen && !this.isRawOpen) {
                                     this.buffer = this.END_MPY_CMD;
@@ -1361,16 +1376,6 @@ def base64_decode(data):
         if (!this.isOpen && stream.data && (stream.data.includes('Utilisez CTRL-D pour relancer.') || stream.data.includes('Use CTRL-D to reload.'))) {
             this.open();
         }
-    };
-    /**
-     * Play note from response on navigator.
-     * @private
-     * @param {string} response
-     * @returns {void}
-     * @memberof MicropythonRepl
-     */
-    _playNote(response) {
-        playMusic(response.replace("@music:", "").replace("|", ""));
     };
     /**
      * Get array of stream from response and its color for console.

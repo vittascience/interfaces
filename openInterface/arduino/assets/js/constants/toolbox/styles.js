@@ -30,6 +30,9 @@ const THEME_VITTASCIENCE = {
     "actuators_blocks": {
         "colourPrimary": "#ff4d6a"
     },
+    "modulino_blocks": {
+        "colourPrimary": "#00979d"
+    },
     "robots_blocks": {
         "colourPrimary": "#3349aa"
     },
@@ -152,6 +155,11 @@ const THEME_VITTASCIENCE_HIGH_CONTRAST = {
         "colourPrimary": "#BD001F",
         "colourSecondary": "#EA5069",
         "colourTertiary": "#FF9AAB"
+    },
+    "modulino_blocks": {
+        "colourPrimary": "#006A6E",
+        "colourSecondary": "#3FA7AB",
+        "colourTertiary": "#A6E2E4"
     },
     "robots_blocks": {
         "colourPrimary": "#70199A",

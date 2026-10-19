@@ -97,7 +97,7 @@ Blockly.Python.actuators_mosfet_setState = function (block) {
     return "try:" + NEWLINE 
         + "  " + pinName + ".duty(int(" + state + "*" + PWM_MAX_DUTY + "))" + NEWLINE 
         + 'except:' + NEWLINE 
-        + '  ' + pinName + " = PWM(Pin(" + pin.replace('p', '') + "), freq=5000, duty=int(" + state + "*" + PWM_MAX_DUTY + "))" + NEWLINE;
+        + '  ' + pinName + " = PWM(Pin(" + pinName.replace('p', '') + "), freq=5000, duty=int(" + state + "*" + PWM_MAX_DUTY + "))" + NEWLINE;
 };
 
 Blockly.Python.actuators_mosfet_setPercentValue = function (block) {

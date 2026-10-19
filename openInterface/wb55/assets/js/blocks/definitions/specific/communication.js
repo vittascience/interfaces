@@ -588,7 +588,7 @@ Blockly.Constants.Communication.COMMUNICATION_BLE_STSENSORAPP_SEND_MUTATOR_MIXIN
     },
     restoreValueConnections_: function () {
         for (var i = 0; i < this.itemCount_; i++) {
-            Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'ADD' + i);
+            this.valueConnections_[i]?.reconnect(this, 'ADD' + i);
         }
     },
     addItem_: function () {
@@ -652,7 +652,7 @@ Blockly.Constants.Communication.COMMUNICATION_BLE_STSENSORAPP_SEND_MUTATOR_MIXIN
             var newBlock = Blockly.utils.xml.createElement('block');
             newBlock.setAttribute('type', dataBlockName);
             if (newBlock) {
-                var id = Blockly.utils.genUid()
+                var id = Blockly.utils.idGenerator.genUid()
                 newBlock.setAttribute('id', id);
 
                 var field = Blockly.utils.xml.createElement('field');
@@ -824,7 +824,7 @@ Blockly.Constants.Communication.COMMUNICATION_LORASEND_MUTATOR_MIXIN = {
     },
     restoreValueConnections_: function () {
         for (var i = 0; i < this.itemCount_; i++) {
-            Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'ADD' + i);
+            this.valueConnections_[i]?.reconnect(this, 'ADD' + i);
         }
     },
     addItem_: function () {
@@ -849,7 +849,7 @@ Blockly.Constants.Communication.COMMUNICATION_LORASEND_MUTATOR_MIXIN = {
                     console.log(shadowDom);
                     shadowDom.setAttribute('type', shadowInputType);
                     if (shadowDom) {
-                        shadowDom.setAttribute('id', Blockly.utils.genUid());
+                        shadowDom.setAttribute('id', Blockly.utils.idGenerator.genUid());
                         newInput.connection.setShadowDom(shadowDom);
                         newInput.connection.respawnShadow_();
                     }

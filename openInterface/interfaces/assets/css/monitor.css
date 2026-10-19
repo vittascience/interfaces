@@ -111,29 +111,107 @@
 	grid-row-gap: 0px;
 }
 
+/* minmax(0, 1fr): a "1fr" column can't be narrower than its content, so the controls bar widened the console over
+   the simulator */
 .monitor-grid-bottom {
-	grid-template-columns: repeat(2, 1fr);
-	grid-template-rows: 1fr 0fr;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	grid-template-rows: minmax(0, 1fr) auto;
 }
 
 .monitor-grid-right {
-	grid-template-columns: 1fr;
-	grid-template-rows: 1fr 1fr 0fr;
+	grid-template-columns: minmax(0, 1fr);
+	grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) auto;
 }
 
 /* Monitor controller */
 
+/* Container: the labels of the buttons are hidden when the console is narrow (see below) */
 #monitor-controls {
+	container-type: inline-size;
 	position: relative;
 	min-height: 45px;
 	/* display: flex; */
 	margin-bottom: .5rem;
 	font-family: var(--main-font);
 	grid-area: 2 / 1 / 3 / 3;
+	container-type: inline-size;
+}
+
+/* Not enough room for the labels (small screen or narrow console): the buttons only show their icon (and keep their tooltip). */
+@container (max-width: 700px) {
+	#monitor-div-btn .label-button {
+		display: none !important;
+	}
 }
 
 .monitor-controls-right {
 	grid-area: 3 / 1 / 4 / 2 !important;
+}
+
+/* Narrow console: the buttons (Export, Variables, Files, REPL...) go under the message input instead of overflowing */
+#monitor-controls > .d-flex {
+	flex-wrap: wrap;
+	row-gap: .5rem;
+}
+
+#monitor-controls > .d-flex > .w-75 {
+	flex: 1 1 200px;
+}
+
+#monitor-div-btn {
+	flex-wrap: wrap;
+	row-gap: .5rem;
+	max-width: 100%;
+}
+
+/* Narrow console: icons only (their tooltip stays), in a column at the bottom right of the console */
+@container (max-width: 650px) {
+	#monitor-div-btn {
+		position: absolute;
+		bottom: calc(100% + 25px);
+		inset-inline-end: 15px;
+		z-index: 49;
+		flex-direction: column;
+		row-gap: 0;
+	}
+
+	/* Same look as the console/graph/music column (.monitor-view-btn) */
+	#monitor-div-btn > * {
+		width: 44px;
+		min-width: 0;
+		height: 38px;
+		padding: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 0;
+		border-radius: 0 !important;
+	}
+
+	/* More specific than "#repl-control:not(.activated)", activated buttons keep their colour */
+	#monitor-controls #monitor-div-btn > :not(.activated) {
+		background-color: var(--bg-2);
+	}
+
+	#monitor-controls #monitor-div-btn > :not(.activated):hover {
+		background-color: var(--bg-3);
+	}
+
+	#monitor-div-btn > :first-child {
+		border-radius: 10px 10px 0 0 !important;
+	}
+
+	#monitor-div-btn > :last-child {
+		border-radius: 0 0 10px 10px !important;
+	}
+
+	#monitor-div-btn > :only-child {
+		border-radius: 10px !important;
+	}
+
+	#monitor-div-btn .label-button {
+		display: none;
+	}
 }
 
 #repl-variables.activated {
@@ -305,6 +383,16 @@ table#variables_table {
 	flex-direction: column;
 }
 
+/* Fixed size (not depending on the font): same buttons as the column of #monitor-div-btn in a narrow console */
+#monitor-view-group-btn>.monitor-view-btn {
+	width: 44px;
+	height: 38px;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 #monitor-view-group-btn>.monitor-view-btn:first-child {
 	border-radius: 10px 10px 0 0;
 }
@@ -398,27 +486,130 @@ table#variables_table {
 
 /* Music tab */
 
-.music-slider {
-	margin-bottom: 10px;
-}
-
-/* Music panel */
+/* Music panel (events/music.js): one card per setting */
 
 #music-panel {
-	height: 100%;
+	min-height: 100%;
 	width: 100%;
 	display: flex;
-	flex-direction: row;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	gap: 10px;
+	font-family: var(--main-font);
 }
 
 .music-control {
-	border-right: rgb(220, 220, 220) 1px solid;
-	padding: 15px 15px;
+	min-width: 110px;
+	padding: 10px 16px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	height: 100%;
-	justify-content: center;
+	justify-content: flex-start;
+	gap: 6px;
+	background-color: var(--bg-2);
+	border: 1px solid var(--bg-3);
+	border-radius: 10px;
+	color: var(--text-1);
+}
+
+/* Console on the right (vertical): one card per line, all of the same width */
+.monitor-grid-right #music-panel > .music-control {
+	flex: 1 1 100%;
+}
+
+#music-panel .music-control-label {
+	font-size: 13px;
+	color: var(--text-0);
+}
+
+#music-panel .music-slider {
+	height: 90px;
+	margin: 4px 0;
+	background: var(--bg-4);
+	border: none;
+	border-radius: 50vh;
+}
+
+#music-panel .music-slider .ui-slider-range {
+	background: var(--vitta-green);
+	border-radius: 50vh;
+}
+
+#music-panel .music-slider .ui-slider-handle {
+	left: 50%;
+	transform: translateX(-50%);
+	margin-left: 0;
+	background: var(--bg-0);
+	border: 2px solid var(--vitta-green);
+	cursor: pointer;
+}
+
+#music-panel .music-slider .ui-slider-handle:focus-visible {
+	box-shadow: 0 0 0 3px var(--vitta-green-focus-shadow);
+}
+
+#music-panel .music-slider-value {
+	font-size: 13px;
+	font-weight: 700;
+	color: var(--text-0);
+}
+
+#music-panel #music-note {
+	min-width: 110px;
+	text-align: center;
+}
+
+/* Drawing of the wave in the waveform buttons */
+#music-panel .music-waveform-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 6px;
+	white-space: nowrap;
+}
+
+#music-panel .music-waveform-button svg {
+	width: 24px;
+	height: 12px;
+	flex-shrink: 0;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.6;
+	stroke-linejoin: round;
+}
+
+/* Pill buttons, as in the console bar */
+#music-panel .music-control-button {
+	width: 100%;
+	min-height: 28px;
+	margin: 0 !important;
+	padding: 4px 14px;
+	border: 1px solid var(--bg-4);
+	border-radius: 50vh;
+	background-color: var(--bg-0);
+	color: var(--text-1);
+	font-size: 13px;
+	font-weight: 600;
+}
+
+#music-panel .music-control-button:hover {
+	background-color: var(--bg-3);
+	color: var(--text-0);
+}
+
+#music-panel .music-control-button.active {
+	background-color: var(--vitta-green);
+	border-color: var(--vitta-green);
+	color: var(--bg-0);
+}
+
+#music-oscilloscope {
+	width: 240px;
+	max-width: 100%;
+	height: 110px;
+	background-color: var(--bg-0);
+	border: 1px solid var(--bg-3);
+	border-radius: 8px;
 }
 
 /* MONITOR DROPDOWN */

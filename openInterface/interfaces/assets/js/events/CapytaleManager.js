@@ -38,6 +38,9 @@ class CapytaleManager {
         this._modeReady = new Promise((resolve) => {
             this._modeReadyResolve = resolve;
         });
+        this._initialProjectLoaded = new Promise((resolve) => {
+            this._initialProjectLoadedResolve = resolve;
+        });
     }
 
     init() {
@@ -102,6 +105,7 @@ class CapytaleManager {
         }
         if (!projectManager || !projectManager.projectLoader_injectInInterface) {
             this._initialLoading = false;
+            this._initialProjectLoadedResolve();
             return false;
         }
         if (project) {
@@ -110,12 +114,17 @@ class CapytaleManager {
         } else {
             projectManager._initializeInterfaceProject();
         }
-        if (INTERFACE_NAME === 'arduino' && (!project || !project.options || !project.options.board)) {
+        if (INTERFACE_NAME === 'arduino' && (!project || !project.options || !project.options.board) && !VittaInterface.hasValidBoardInUrl()) {
             VittaInterface.openBoardSelector(true);
         }
         this.setInitialLoading(false);
+        this._initialProjectLoadedResolve();
         await this.applyModeRestrictions();
         return true;
+    }
+
+    awaitInitialProjectLoaded() {
+        return this._initialProjectLoaded;
     }
 
     getInitialLoading() {

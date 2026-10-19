@@ -63,7 +63,8 @@ const InterfaceMonitor = {
             this.addToggleVariablesPanelBtnToDom();
         }
         if (this.hasMonitorFS()) {
-            this.addToggleFSBtnToDom();
+            // Alone in the bar on Arduino Q (no export or REPL buttons around it)
+            this.addToggleFSBtnToDom(INTERFACE_NAME === 'arduinoq' ? 'ide-btn ide-btn-alone' : 'ide-btn');
         }
         if (this.hasToggleReplOvertureBtn()) {
             this.addToggleReplOvertureBtnToDom();
@@ -163,10 +164,10 @@ const InterfaceMonitor = {
         }
     },
 
-    addToggleFSBtnToDom() {
+    addToggleFSBtnToDom(style = 'ide-btn') {
         const button = {
             id: "repl-fs",
-            classes: 'ide-btn',
+            classes: style,
             fontAwesome: 'fas fa-hdd',
             onclick: "InterfaceConnection.toggleFileSystem()",
             title: 'code.monitor.controls.tooltips.openFileSystem',
@@ -184,7 +185,7 @@ const InterfaceMonitor = {
         const button = {
             id: "repl-control",
             classes: 'ide-btn ide-btn-right',
-            fontAwesome: 'fas fa-terminal',
+            fontAwesome: 'fab fa-python',
             onclick: "InterfaceConnection.toggleReplOverture()",
             title: 'code.monitor.controls.tooltips.openRepl',
             label: {
@@ -292,7 +293,7 @@ const InterfaceMonitor = {
             el.innerHTML = content;
         }
         monitor.appendChild(el);
-        if (this.console.localize && el.querySelector('[data-i18n]')) {
+        if (this.console && this.console.localize && el.querySelector('[data-i18n]')) {
             this.console.localize();
         }
         this.scrollToBottom();
@@ -375,6 +376,17 @@ const InterfaceMonitor = {
     },
 
     /**
+     * Music mode: play on the computer a line "@music:<frequency>|" or "@music:stop|" (events/music.js).
+     * @param {string} line
+     */
+    playMusicMessage(line) {
+        const match = String(line).match(/^\s*@music:([^|]*)/);
+        if (match && typeof playMusic === 'function') {
+            playMusic(match[1].trim());
+        }
+    },
+
+    /**
      * Update curves of chart.
      * @param {string} message 
      */
@@ -453,7 +465,8 @@ const InterfaceMonitor = {
         $('#monitor-btn-music').addClass('activated');
         $("#music-tab").fadeIn("slow");
         if (getParamValue('console') == 'bottom') {
-            this.toggle(this.heightMemory);
+            // Enough height for all the settings of the music panel (column of the effects), as the graph mode
+            this.toggle(Math.max(this.heightMemory, 330));
         }
     },
 
@@ -532,92 +545,87 @@ const InterfaceMonitor = {
             $('#monitor-tools #monitor-toggler i').addClass("fa-chevron-up");
         };
 
+        // Workspace and code editor follow the size of the editor area
+        const resizeEditors = function () {
+            Main.resizeAceEditor();
+            if (!Main.hasDragAndDrop()) {
+                Main.resizeWorkSpace();
+            }
+        };
+        /**
+         * One animation for the console and the editor area: complementary sizes at each frame (eased), the console
+         * content stays visible during the animation and its minimum width does not make it jump.
+         * @param {string} property - 'width' (console on the right) or 'height' (console at the bottom)
+         * @param {number} to - console size at the end (px)
+         * @param {Function} complete - final sizes (in % for a responsive layout) and state of the console
+         */
+        const animateConsole = function (property, to, complete) {
+            const total = property === 'width' ? $('.ide-base').width() : $('.ide-base').height();
+            const from = property === 'width' ? $('#monitor').outerWidth() : $('#monitor').outerHeight();
+            $('#monitor').stop(true).css({ 'overflow': 'hidden', 'min-width': 0 });
+            $({ size: from }).animate({ size: to }, {
+                duration: 250,
+                easing: 'swing',
+                step: function (size) {
+                    $('#monitor').css(property, `${size}px`);
+                    $('.ide-editor').css(property, `${total - size}px`);
+                    resizeEditors();
+                },
+                complete: function () {
+                    $('#monitor').css({ 'overflow': '', 'min-width': '' });
+                    complete();
+                    resizeEditors();
+                }
+            });
+        };
+
         const storageConsole = getOptionStorage('console', 'bottom', ["bottom", "right"]);
         if (storageConsole[INTERFACE_NAME] == 'right') {
-
             if ($('#monitor').hasClass('monitor-closed')) {
-                //Case collapsed
+                // Case collapsed (no minimum width before the animation: it would start at 310px)
+                $('#monitor').css('min-width', 0);
                 open();
                 const width = this.getWidthToExpand();
-                $('.ide-editor').animate({
-                    width: `${100 - parseInt(width)}%`
-                }, 'fast', 'linear', {
-                    queue: false
+                animateConsole('width', $('.ide-base').width() * parseInt(width) / 100, function () {
+                    $('#monitor').css('width', width);
+                    $('.ide-editor').css('width', `${100 - parseInt(width)}%`);
                 });
-                $('#monitor').animate({
-                    width: `${width}`
-                }, 'fast', 'linear', function () {
-                    Main.resizeWorkSpace();
-                    Main.resizeAceEditor();
-                });
-
-            } else {
-                //Case expanded
-                const resize = function () {
-                    $('.ide-editor').width('100%');
-                    Main.resizeWorkSpace();
-                    Main.resizeAceEditor();
-                };
-                this.heightMemory = $('#monitor').height();
-                close();
-                $('.ide-editor').animate({
-                    width: '100%'
-                }, 'fast', 'linear', resize);
-                $('#monitor').animate({
-                    width: '0'
-                }, 'fast', 'linear', function () {
-                    Main.resizeWorkSpace();
-                    Main.resizeAceEditor();
-                }, {
-                    /* needed from the slideDown from top to bottom don't ask why */
-                    step: resize,
-                    complete: resize
-                }, 'fast');
-            }
-
-        } else {
-            const resize = function () {
-                Main.resizeAceEditor();
-                if (!Main.hasDragAndDrop() && Main.getCodingMode != 'code') {
-                    Main.resizeWorkSpace();
-                }
-            };
-            if ($('#monitor').hasClass('monitor-closed') || height !== undefined) {
-                // Case collapsed
-                $('#monitor-tools').toggleClass('monitor-tools-collapsed-bottom');
-                open();
-                height = this.getHeightToExpand(height);
-                $('#monitor').animate({
-                    height: `${height}px`
-                }, 'fast', 'linear', resize);
-                $('.ide-editor').animate({
-                    height: ($('.ide-base').height() - height) + 'px'
-                }, 'fast', 'linear', resize);
-
             } else {
                 // Case expanded
                 this.heightMemory = $('#monitor').height();
-                close();
-                $('#monitor').animate({
-                    height: '0'
-                }, {
-                    step: function () {
-                        /* needed from the slideDown from top to bottom */
-                        $('.ide-editor').height('100%');
-                        Main.resizeAceEditor();
-                    },
-                    complete: function () {
-                        $('.ide-editor').height('100%');
-                        $('#monitor-view').css('margin-top', '0px');
-                        resize();
-                    }
-                }, 'fast');
+                animateConsole('width', 0, function () {
+                    close();
+                    $('#monitor').css('width', '0');
+                    $('.ide-editor').css('width', '100%');
+                });
+            }
+        } else {
+            if ($('#monitor').hasClass('monitor-closed') || height !== undefined) {
+                // Case collapsed
+                if ($('#monitor').hasClass('monitor-closed')) {
+                    $('#monitor-tools').toggleClass('monitor-tools-collapsed-bottom');
+                }
+                open();
+                height = this.getHeightToExpand(height);
+                animateConsole('height', height, function () {
+                    $('#monitor').css('height', `${height}px`);
+                    $('.ide-editor').css('height', `${$('.ide-base').height() - height}px`);
+                });
+            } else {
+                // Case expanded
+                this.heightMemory = $('#monitor').height();
+                animateConsole('height', 0, function () {
+                    close();
+                    $('#monitor').css('height', '0');
+                    $('.ide-editor').css('height', '100%');
+                    $('#monitor-view').css('margin-top', '0px');
+                });
             }
         }
     },
 
     hasTracerExportBtn() {
-        return ["arduino", "letsstartcoding", "microbit", "wb55", "l476", "buddy", "TI-83", "mBot", "cyberpi", "esp32", "thymio", "winky", "galaxia", "raspberrypi", "pico", "m5stack", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "eliobot", "alphai", "GalaxiaCircuitPython", "steami"].includes(INTERFACE_NAME);
+        return ["arduino", "letsstartcoding", "microbit", "wb55", "l476", "buddy", "TI-83", "mBot", "cyberpi", "esp32", "thymio", "winky", "galaxia", "raspberrypi", "pico", "m5stack", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "eliobot", "alphai", "GalaxiaCircuitPython", "steami", "primastem"].includes(INTERFACE_NAME);
     },
 
     hasToggleReplOvertureBtn() {
@@ -633,7 +641,7 @@ const InterfaceMonitor = {
     },
 
     hasMonitorFS() {
-        return ["esp32", "galaxia", "m5stack", "pico", "wb55", "l476", "microbit", "steami", "eliobot"].includes(INTERFACE_NAME);
+        return ["esp32", "galaxia", "m5stack", "pico", "wb55", "l476", "microbit", "steami", "eliobot", "arduinoq"].includes(INTERFACE_NAME);
     }
 };
 

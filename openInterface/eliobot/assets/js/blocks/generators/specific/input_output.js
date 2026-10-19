@@ -25,7 +25,7 @@ Blockly.Python.io_waitUntil = function (block) {
 Blockly.Python.io_initChronometer = function (block) {
     Blockly.Python.addImport('time', IMPORT_TIME);
     Blockly.Python.addConstant('chronometer', "t0 = time.ticks_ms()");
-    block.workspace.createVariable('t0');
+    block.workspace.getVariableMap().createVariable('t0');
     return "";
 };
 
@@ -36,7 +36,7 @@ Blockly.Python.io_initChronometer_simple = function (block) {
 
 Blockly.Python.io_getChronometer = function (block) {
     Blockly.Python.addImport('time', IMPORT_TIME);
-    block.workspace.createVariable('t0');
+    block.workspace.getVariableMap().createVariable('t0');
     switch (block.getFieldValue("UNIT")) {
         case "SEC":
             return ["time.ticks_diff(time.ticks_ms(), t0)/1e3", Blockly.Python.ORDER_ATOMIC];

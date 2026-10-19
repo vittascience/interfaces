@@ -230,13 +230,27 @@ const InterfaceConnection = {
 			if (this.serialMonitorConnected) {
 				await this.doDisconnect();
 			}
+			// 1) Connect the board: the port has to be chosen right after the click (user gesture)
+			try {
+				this.uploadPort = await this._requestUploadPort();
+			} catch (error) {
+				if (!this._isMinima()) {
+					return this.flashCallbackError(error);
+				}
+				// R4 Minima already in DFU mode has no serial port
+				this.uploadPort = null;
+			}
+			// 2) Compile
 			this._displayCompilingNotice();
 			const compilingData = await this._getSettingsForCompiling(this._getSelectedFirmware());
 			const compilationStartTime = Date.now();
 			const hex = await this._compile(compilingData, false);
+			// 3) Upload
 			if (hex) {
+				this._endCompilingProgress();
 				const compilationDuration = Date.now() - compilationStartTime;
-				if (compilationDuration > 4000 && $_GET('compiler') !== 'local') {
+				// R4 Minima: the DFU device (WebUSB) is chosen after the compilation and needs a new user gesture
+				if (this._isMinima() && compilationDuration > 4000 && $_GET('compiler') !== 'local') {
 					await this._askForUserGesture();
 				}
 				$("#compiling-notice").hide()
@@ -251,6 +265,23 @@ const InterfaceConnection = {
 		}
 	},
 
+	_isMinima() {
+		return typeof BOARD_ARDUINO_UNO_R4_MINIMA !== 'undefined' && this.options.boardId == BOARD_ARDUINO_UNO_R4_MINIMA;
+	},
+
+	/**
+	 * Ask the user for the serial port of the board (before the compilation, while the click allows it)
+	 * @private
+	 * @returns {Promise<SerialPort>}
+	 */
+	_requestUploadPort() {
+		let filters = this.options.boardsFilter || [];
+		if (this._isMinima()) {
+			filters = MinimaUploader.PIDS.map(pid => ({ usbVendorId: MinimaUploader.VID, usbProductId: pid }));
+		}
+		return navigator.serial.requestPort({ filters });
+	},
+
 	/**
 	 * Await the user gesture
 	 * @private
@@ -259,7 +290,7 @@ const InterfaceConnection = {
 	async _askForUserGesture() {
 		const compilingButton = document.querySelector('#compiling-notice-upload-btn');
 		if (compilingButton === null) return;
-		compilingButton.style.visibility = 'visible';
+		compilingButton.style.display = '';
 		return await new Promise((resolve) => {
 			compilingButton.addEventListener('click', function uploadToBoard() {
 				compilingButton.removeEventListener('click', uploadToBoard);
@@ -319,6 +350,25 @@ const InterfaceConnection = {
 			});
 			const compilingNoticeTextElt = document.createElement('div');
 			compilingNoticeTextElt.textContent = i18next.t('code.serialAPI.compiling');
+			const compilingProgressElt = document.createElement('div');
+			Object.assign(compilingProgressElt.style, {
+				width: '100%',
+				minWidth: '250px',
+				height: '10px',
+				borderRadius: '5px',
+				overflow: 'hidden',
+				backgroundColor: 'var(--bg-2, #e0e0e0)'
+			});
+			const compilingProgressBarElt = document.createElement('div');
+			compilingProgressBarElt.id = 'compiling-notice-progress-bar';
+			Object.assign(compilingProgressBarElt.style, {
+				height: '100%',
+				width: '0%',
+				borderRadius: '5px',
+				backgroundColor: 'var(--vitta-green, #19a974)',
+				transition: 'width 0.5s linear'
+			});
+			compilingProgressElt.appendChild(compilingProgressBarElt);
 			const compilingNoticeButtonElt = document.createElement('button');
 			Object.assign(compilingNoticeButtonElt.style, {
 				zIndex: '1002',
@@ -330,14 +380,45 @@ const InterfaceConnection = {
 			compilingNoticeButtonElt.classList.add('btn', 'v-btn');
 			compilingWrapperElt.appendChild(compilingOverlayElt);
 			compilingNoticeAreaElt.appendChild(compilingNoticeTextElt);
+			compilingNoticeAreaElt.appendChild(compilingProgressElt);
 			compilingNoticeAreaElt.appendChild(compilingNoticeButtonElt);
 			compilingWrapperElt.appendChild(compilingNoticeAreaElt);
 			compilingNoticeElt.appendChild(compilingWrapperElt);
 			document.querySelector('body').appendChild(compilingNoticeElt);
 		}
 		const compilingButton = document.querySelector('#compiling-notice-upload-btn');
-		compilingButton.style.visibility = 'hidden';
+		compilingButton.style.display = 'none';
 		compilingNoticeElt.style.display = 'flex';
+		this._startCompilingProgress();
+	},
+
+	/**
+	 * Fill the progress bar of the compiling notice while waiting for the compilation server
+	 * ponytail: the server gives no progress, so it is an estimate tending to 95% (half in ~7 s), set to 100% at the end
+	 * @private
+	 */
+	_startCompilingProgress() {
+		const progressBarElt = document.querySelector('#compiling-notice-progress-bar');
+		clearInterval(this._compilingProgressInterval);
+		progressBarElt.style.transition = 'none';
+		progressBarElt.style.width = '0%';
+		getComputedStyle(progressBarElt).width;
+		progressBarElt.style.transition = 'width 0.5s linear';
+		const startTime = Date.now();
+		this._compilingProgressInterval = setInterval(() => {
+			const percentage = 95 * (1 - Math.exp(-(Date.now() - startTime) / 10000));
+			progressBarElt.style.width = percentage + '%';
+		}, 500);
+	},
+
+	/**
+	 * Stop the progress bar of the compiling notice
+	 * @private
+	 */
+	_endCompilingProgress() {
+		clearInterval(this._compilingProgressInterval);
+		const progressBarElt = document.querySelector('#compiling-notice-progress-bar');
+		if (progressBarElt) progressBarElt.style.width = '100%';
 	},
 
 	// Fonction pour flasher le code sur l'Arduino
@@ -372,6 +453,7 @@ const InterfaceConnection = {
 				switch (this.options.boardId) {
 					case BOARD_ARDUINO_UNO_R4_WIFI:
 						this.progressBar._displayProgressBar();
+						if (this.uploadPort) this.r4Uploader._port = this.uploadPort;
 						await this.r4Uploader.flashHex(hex, {
 							verify: true
 						});
@@ -414,7 +496,8 @@ const InterfaceConnection = {
 			port: /pro-mini/.test(board.id) ? '/dev/cu.usbserial-A50285BI' : null,
 			debug: false,
 			requestOptions: {
-				filters: this.options.boardsFilter ? this.options.boardsFilter : []
+				filters: this.options.boardsFilter ? this.options.boardsFilter : [],
+				port: this.uploadPort
 			},
 			progressBar: this.progressBar,
 			onOpen: this.onOpen,
@@ -779,6 +862,7 @@ const InterfaceConnection = {
 					pseudoModal.closeLatestModal();
 					resolve();
 				}
+				_this._endCompilingProgress();
 				$("#compiling-notice").hide()
 			};
 
@@ -981,6 +1065,7 @@ const InterfaceConnection = {
 						if (graph !== null) {
 							InterfaceMonitor.sendDataToChart(graph);
 						}
+						parsedRep.textToPrint.split('<br>').forEach(line => InterfaceMonitor.playMusicMessage(line));
 						this.buffer = parsedRep.buffer;
 					}
 				} else {

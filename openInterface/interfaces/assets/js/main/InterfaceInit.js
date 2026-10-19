@@ -24,6 +24,7 @@ class InterfaceInit {
     constructor(interfaceName) {
         this._interface = interfaceName;
         this._board = null;
+        this._initialUrlBoard = $_GET('board');
         this.shieldView = null;
         this.id = randHex();
         this.initialized = false;
@@ -76,7 +77,6 @@ class InterfaceInit {
             this.updateMultiEditor();
         }
         if (this._interface === "python") {
-            PyBlock.getDefaultXml();
             const textCode = CodeManager.getSharedInstance().getTextCode();
             Main.getCodeEditor().container.session.setValue(textCode);
         }
@@ -341,13 +341,20 @@ class InterfaceInit {
         rotateConsole(InterfaceMonitor.getPosition());
     }
 
+    hasValidBoardInUrl() {
+        const urlBoard = this._initialUrlBoard;
+        if (!urlBoard || typeof INTERFACE_BOARDS === 'undefined') return false;
+        return Object.keys(INTERFACE_BOARDS).includes(urlBoard)
+            || Object.values(INTERFACE_BOARDS).some(board => board.shieldId === urlBoard);
+    }
+
     openBoardSelector(opening = false) {
         if (opening) {
             $('#board-selector-welcome-text').show();
         } else {
             $('#board-selector-welcome-text').hide();
         }
-        const boardId = opening ? BOARD_DEFAULT : Blockly.Constants.getSelectedBoard();
+        const boardId = opening && !this.hasValidBoardInUrl() ? BOARD_DEFAULT : Blockly.Constants.getSelectedBoard();
         $(`input[name="boardChoice"][value="${boardId}"]`).prop('checked', true);
         if ($("#board-selector-shield-grove-section").hasClass('present')) {
             $("#shieldGroveCheckBox").prop("checked", VittaInterface.shieldView ? true : false);
@@ -378,8 +385,7 @@ class InterfaceInit {
         } else {
             this.shieldView = false;
         }
-        if (typeof IS_CAPYTALE_CONTEXT === 'undefined' && ['arduino', 'esp32'].includes(this._interface) && !$_GET('link') && (!$_GET('board')
-            || (typeof INTERFACE_BOARDS !== 'undefined' && (!Object.keys(INTERFACE_BOARDS).includes($_GET('board')) && !Object.values(INTERFACE_BOARDS).filter(board => board.shieldId !== undefined).map(board => board.shieldId).includes($_GET('board')))))) {
+        if (typeof IS_CAPYTALE_CONTEXT === 'undefined' && ['arduino', 'esp32'].includes(this._interface) && !$_GET('link') && !this.hasValidBoardInUrl()) {
             this.openBoardSelector(true);
         }
         await updateBoard();

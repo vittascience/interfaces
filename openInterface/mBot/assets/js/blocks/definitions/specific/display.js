@@ -406,7 +406,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 // Initialization extensions
 Blockly.Extensions.register("show_popup_leds_matrix", function () {
     Blockly.Constants.LOCK_INIT = 0;
-    this.getField('LEDS_MATRIX_BUTTON').clickHandler_ = (() => {
+    this.getField('LEDS_MATRIX_BUTTON').setOnClickHandler((() => {
         Blockly.Constants.LEDS_MATRIX_BLOCK = this.inputList[0].fieldRow[1];
         if (!LedMatrixModalManager.isSet() && typeof Blockly.Wiki === 'undefined') {
             // init matrix
@@ -437,5 +437,5 @@ Blockly.Extensions.register("show_popup_leds_matrix", function () {
         LedMatrixModalManager.load_matrix_from_block();
         LedMatrixModalManager.disp_modal();
         Blockly.Constants.LEDS_MATRIX = LedMatrixModalManager.get_matrix_dataset();
-    });
+    }));
 });

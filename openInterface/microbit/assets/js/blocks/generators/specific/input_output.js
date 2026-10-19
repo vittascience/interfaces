@@ -27,13 +27,13 @@ Blockly.Python.io_waitUntil = function (block) {
 
 Blockly.Python.io_initChronometer = function (block) {
     Blockly.Python.addConstant('chronometer', "t0 = 0");
-    block.workspace.createVariable('t0');
+    block.workspace.getVariableMap().createVariable('t0');
     return "t0 = running_time()" + NEWLINE;
 };
 
 Blockly.Python.io_getChronometer = function (block) {
     Blockly.Python.addConstant('chronometer', "t0 = 0");
-    block.workspace.createVariable('t0');
+    block.workspace.getVariableMap().createVariable('t0');
     switch (block.getFieldValue("UNIT")) {
         case "SEC":
             return ["(running_time()-t0)/1000.0", Blockly.Python.ORDER_ATOMIC];
@@ -124,6 +124,35 @@ Blockly.Python.io_getKeypadNumber = function (block) {
     Blockly.Python.addFunction('uart_switchTo', FUNCTIONS_MICROBIT.DEF_UART_SWITCH_TO);
     Blockly.Python.addFunction('getKeypadNumber', FUNCTIONS_MICROBIT.DEF_KEYPAD_GET_NUMBER);
     return ["getKeypadNumber(" + pinRX + ", " + pinTX + ")", Blockly.Python.ORDER_ATOMIC];
+};
+Blockly.Python.io_fingerprint_register = function (block) {
+    const id = Blockly.Python.valueToCode(block, "ID", Blockly.Python.ORDER_NONE) || "1";
+    const rx = block.getFieldValue("RX");
+    const tx = block.getFieldValue("TX");
+
+    Blockly.Python.addImport('fingerprint', IMPORT_FINGERPRINT);
+
+    Blockly.Python.addInit(
+        'grove-fingerprint',
+        "fingerprint.init(" + tx + ", " + rx + ")"
+    );
+
+    return "fingerprint.register(" + id + ")" + NEWLINE;
+};
+
+Blockly.Python.io_fingerprint_verify = function (block) {
+    const rx = block.getFieldValue("RX");
+    const tx = block.getFieldValue("TX");
+
+    Blockly.Python.addImport('fingerprint', IMPORT_FINGERPRINT);
+
+    Blockly.Python.addInit(
+        'grove-fingerprint',
+        "fingerprint.init(" + tx + ", " + rx + ")"
+    );
+
+    // verify() renvoie l'ID de l'empreinte reconnue, -1 sinon
+    return ["fingerprint.verify() >= 0", Blockly.Python.ORDER_RELATIONAL];
 };
 
 Blockly.Python.io_getGroveThumbJoystick = function (block) {

@@ -462,3 +462,6 @@ MAKE_TYPE_INFO(float)
 }`,
 
 }
+
+// The Arduino generators shared with mBot (arduino/.../generators/basic/*.js) use FUNCTIONS_ARDUINO.
+const FUNCTIONS_ARDUINO = FUNCTIONS_MBOT;

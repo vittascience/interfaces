@@ -652,3 +652,5 @@ Blockly.Msg['ACTUATORS_PCA9685_SETSERVOANGLE_TITLE'] = '[PCA9685] اضبط زا�
 Blockly.Msg['ACTUATORS_PCA9685_SETSERVOANGLE_TOOLTIP'] = IMG_MODULE_PCA9685 + Blockly.Tooltip.SEP + 'يتيح التحكم في زاوية محرك السيرفو (من 0 إلى 180) على قناة واحدة من وحدة PCA9685. قم بتوصيل الوحدة بمنفذ I2C. تحذير: يجب تشغيل الدائرة ببطارية لتوفير تيار كافٍ للمحرك.';
 Blockly.Msg['ACTUATORS_PCA9685_SETSERVOANGLECUSTOM_TITLE'] = '[PCA9685] اضبط زاوية السيرفو إلى %1 على القناة %2 مع مدة نبضة دنيا %3 (ms) ومدة نبضة قصوى %4 (ms)';
 Blockly.Msg['ACTUATORS_PCA9685_SETSERVOANGLECUSTOM_TOOLTIP'] = IMG_MODULE_PCA9685 + Blockly.Tooltip.SEP + 'يتيح التحكم في زاوية محرك السيرفو (من 0 إلى 180) على قناة واحدة من وحدة PCA9685 عن طريق ضبط عرض النبضات بالملي ثانية لزاوية 0° و180°. قم بتوصيل الوحدة بمنفذ I2C. تحذير: يجب تشغيل الدائرة ببطارية لتوفير تيار كافٍ للمحرك.';
+Blockly.Msg["IO_GETGROVEDISTANCEINTERRUPTER_TITLE"] = "Blockly.Msg[\"IO_GETGROVEDISTANCEINTERRUPTER_TITLE\"] = \"[مقاطع المسافة] حالة على الدبوس %1\";";
+Blockly.Msg["IO_GETGROVEDISTANCEINTERRUPTER_TOOLTIP"] =IMG_MODULE_DISTANCE_INTERRUPTER + Blockly.Tooltip.SEP +"ترجع حالة مقاطع المسافة (0 أو 1).";

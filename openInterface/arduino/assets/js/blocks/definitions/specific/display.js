@@ -991,17 +991,53 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 
 ]); // END JSON EXTRACT (Do not delete this comment.)
 
+// Built-in LED matrix of the board (8 rows for both): 13 blue columns on the UNO Q, 12 red ones on the UNO R4 WiFi
+const BUILTIN_MATRIX = INTERFACE_NAME === 'arduinoq' ? { columns: 13, color: '#0099ff' } : { columns: 12, color: '#ff0000' };
+
+/**
+ * Block image of a drawing (same SVG as the modal matrix).
+ * @param {string} leds one 8-bit string per column, top row first (missing columns are off)
+ */
+function builtinMatrixImage(leds) {
+    const columns = leds.split(',');
+    const colors = [];
+    for (let row = 0; row < 8; row++) {
+        for (let col = 0; col < BUILTIN_MATRIX.columns; col++) {
+            colors.push((columns[col] || '')[row] === '1' ? BUILTIN_MATRIX.color : '#f5f5f5');
+        }
+    }
+    return LedMatrixModalManager.thumbnail(colors.join(','), { column_size: BUILTIN_MATRIX.columns, line_size: 8, color: BUILTIN_MATRIX.color });
+}
+
+// The drawing is kept in the alt text of the image field, which Blockly does not serialize:
+// save it in the mutation and rebuild the block image (same SVG as the modal) when the project is loaded.
+Blockly.Blocks['display_builtinMatrix_drawBitmap'].mutationToDom = function () {
+    const container = Blockly.utils.xml.createElement('mutation');
+    container.setAttribute('leds', this.getField('LEDS_MATRIX_BUTTON').getText());
+    return container;
+};
+Blockly.Blocks['display_builtinMatrix_drawBitmap'].domToMutation = function (xmlElement) {
+    const leds = xmlElement.getAttribute('leds');
+    if (!leds) return;
+    const field = this.getField('LEDS_MATRIX_BUTTON');
+    field.setValue(builtinMatrixImage(leds));
+    field.setAlt(leds);
+};
+
 // Initialization extensions
 Blockly.Extensions.register("show_popup_leds_matrix", function () {
     Blockly.Constants.LOCK_INIT = 0;
-    this.getField('LEDS_MATRIX_BUTTON').clickHandler_ = (() => {
+    if (BUILTIN_MATRIX.columns !== 12) {
+        this.getField('LEDS_MATRIX_BUTTON').setValue(builtinMatrixImage(this.getField('LEDS_MATRIX_BUTTON').getText()));
+    }
+    this.getField('LEDS_MATRIX_BUTTON').setOnClickHandler((() => {
         Blockly.Constants.LEDS_MATRIX_BLOCK = this.inputList[0].fieldRow[1];
         if (!LedMatrixModalManager.isSet() && typeof Blockly.Wiki === 'undefined') {
             // init matrix
             LedMatrixModalManager.options = {
                 suggestion_path: "/openInterface/arduino/assets/media/matrix_bitmap/matrix_examples_",
-                color: "#ff0000",
-                column_size: 12,
+                color: BUILTIN_MATRIX.color,
+                column_size: BUILTIN_MATRIX.columns,
                 line_size: 8,
                 suggestions_data: {
                     "LEDMATRIX_BLUETOOTH": [0x10428, 0xa4517ff0, 0x50088104],
@@ -1018,11 +1054,19 @@ Blockly.Extensions.register("show_popup_leds_matrix", function () {
                     "LEDMATRIX_MUSIC_NOTE": [0x1f81f810, 0x81081081, 0x18318300],
                     "LEDMATRIX_RESISTOR": [0x7f, 0xed437fe0, 0x0],
                     "LEDMATRIX_UNO": [0x7fc404e0, 0x4e024024, 0xf24027fc],
-                    "LEDMATRIX_EMPTY": [0x00, 0x00, 0x00]
+                    "LEDMATRIX_EMPTY": [0x00, 0x00, 0x00],
+                    "LEDMATRIX_DOG": [0x6069f9a0, 0x54922042, 0x641080f0],
+                    "LEDMATRIX_CAT": [0x20430c2f, 0x4402492c, 0x632041f8],
+                    "LEDMATRIX_PERSON": [0x0f00f03f, 0xc4624620, 0x60090108],
+                    // 13 columns (4 words) on the UNO Q, 12 columns (3 words) on the UNO R4
+                    "LEDMATRIX_INFINITY": BUILTIN_MATRIX.columns === 13
+                        ? [0x38e228a0, 0x9375d824, 0xa288e380, 0x0]
+                        : [0x30c49286, 0x5b6e8654, 0x9230c000]
                 },
                 suggestions_order: [
                     ['LEDMATRIX_BLUETOOTH', 'LEDMATRIX_BOOTLOADER_ON', 'LEDMATRIX_DANGER', 'LEDMATRIX_MUSIC_NOTE', 'LEDMATRIX_LIKE'],
-                    ['LEDMATRIX_EMOJI_HAPPY', 'LEDMATRIX_EMOJI_SAD', 'LEDMATRIX_HEART_BIG', 'LEDMATRIX_HEART_SMALL', 'LEDMATRIX_EMPTY']
+                    ['LEDMATRIX_EMOJI_HAPPY', 'LEDMATRIX_EMOJI_SAD', 'LEDMATRIX_HEART_BIG', 'LEDMATRIX_HEART_SMALL', 'LEDMATRIX_EMPTY'],
+                    ['LEDMATRIX_DOG', 'LEDMATRIX_CAT', 'LEDMATRIX_PERSON', 'LEDMATRIX_INFINITY']
                 ]
             }
             LedMatrixModalManager.init();
@@ -1030,5 +1074,5 @@ Blockly.Extensions.register("show_popup_leds_matrix", function () {
         LedMatrixModalManager.load_matrix_from_block();
         LedMatrixModalManager.disp_modal();
         Blockly.Constants.LEDS_MATRIX = LedMatrixModalManager.get_matrix_dataset();
-    });
+    }));
 });

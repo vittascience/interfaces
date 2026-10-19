@@ -39,6 +39,12 @@ const InterfaceConnection = {
 			"libraries": VittaInterface.externalLibraries,
 			"progressBar": true
 		};
+		if (typeof IloBLE !== 'undefined') {
+			const isIlo = this.options.boardId === BOARD_ILO;
+			$('#upload-ilo-ble-opt').toggle(isIlo);
+			$('#download-cam-firmware-opt').toggle(!isIlo);
+			if (!isIlo) IloBLE.disconnect();
+		}
 		window.addEventListener('pagehide', () => {
 			this.doDisconnect();
 		});

@@ -1,5 +1,7 @@
 // main utils functions
 import utils from '/openInterface/interfaces/assets/js/code2blocks/cpp/utils/utils.js';
+import LearnedTranslations, { ARDUINO } from '/openInterface/interfaces/assets/js/code2blocks/python/learnedTranslations.js';
+import CodeFidelity from '/openInterface/interfaces/assets/js/code2blocks/python/codeFidelity.js';
 
 import '/openInterface/interfaces/assets/js/code2blocks/cpp/ast/ast_math.js'; // math blocks
 import '/openInterface/interfaces/assets/js/code2blocks/cpp/ast/ast_communication.js'; // communication blocks => need to decentralize the blocks to the corresponding interface (to risky to keep it in the main cppCode2Blocks.js)
@@ -55,6 +57,26 @@ const pinAnalogDeclaration = ['A0', 'A1', 'A2', 'A3', 'A4', 'A5'];
 const pinDeclaration = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', 'A0', 'A1', 'A2', 'A3', 'A4', 'A5'];
 
 const exludedTypes = ['comment', '{', '}', '(', ')'];
+
+// nodes handled by the hand written translation (Cpp2Blocks.getNodeBlockType)
+const HANDLED_NODES = new Set(['function_definition', 'expression_statement', 'compound_statement', 'field_expression', 'call_expression_for_return', 'call_expression', 'number_literal', 'char_literal', 'string_literal', 'binary_expression', 'unary_expression', 'if_statement', 'for_statement', 'continue_statement', 'break_statement', 'declaration', 'assignment_expression', 'identifier', 'comment', 'initializer_list', 'subscript_expression', 'while_statement_forever', 'while_statement', 'cast_expression', 'return_statement', 'switch_statement', 'preproc_include', 'preproc_def', 'pin_declaration', 'false', 'true', 'bypass']);
+
+// tree-sitter node in the json format used by the translation
+function nodeToJson(node) {
+	return {
+		type: node.type,
+		text: node.text,
+		children: node.children ? node.children.map((child) => nodeToJson(child)) : [],
+		start: {
+			row: node.startPosition.row,
+			column: node.startPosition.column,
+		},
+		end: {
+			row: node.endPosition.row,
+			column: node.endPosition.column,
+		},
+	};
+}
 
 const arduinoBuilinFunctions = ["length"]
 
@@ -167,21 +189,39 @@ export default class Cpp2Blocks {
 	 */
 	retreive_all_blocks = () => {
 		const toolboxContent = Main.getToolboxManager().getToolboxBase().content;
-		const allCat = Object.keys(toolboxContent);
-		for (const cat of allCat) {
+		// block types of a category (blocks, or subcategories; dynamic categories have no list)
+		const categoryBlocks = (catContent) => (Array.isArray(catContent) ? catContent : []).flatMap((cat) => cat.blocks || (cat.subCategoryId ? Object.values(cat.contents).flatMap((content) => content.blocks || []) : []))
+			.map((block) => block.split('-')[0]);
+		// blocks of the basic categories are translated, even when a specific category shows them
+		// (blocks of the dynamic categories, ex: "variables", "procedures", recognized by their prefix)
+		const basicBlocks = new Set(excludedCategories.flatMap((cat) => categoryBlocks(toolboxContent[cat])));
+		const basicPrefixes = excludedCategories.filter((cat) => typeof toolboxContent[cat] === 'string').map((cat) => cat + '_');
+		const isBasic = (block) => basicBlocks.has(block) || basicPrefixes.some((prefix) => block.startsWith(prefix));
+		for (const cat of Object.keys(toolboxContent)) {
 			if (!excludedCategories.includes(cat)) {
-				const catContent = toolboxContent[cat];
-				for (const cat of catContent) {
-					if (cat.blocks) {
-						EXCLUDED_BLOCKS_FOR_TRADUCTION.push(...cat.blocks.filter((block) => !AUTHORIZED_BLOCKS.includes(block)));
-					}
-				}
+				EXCLUDED_BLOCKS_FOR_TRADUCTION.push(...categoryBlocks(toolboxContent[cat]).filter((block) => !AUTHORIZED_BLOCKS.includes(block) && !isBasic(block)));
+			}
+		}
+
+		// Learn the reverse translation of the other blocks from their generator (see learnedTranslations.js). The learned
+		// blocks no longer lock the editor in the interfaces whose learned translations have been checked
+		// (LEARNED_REVERSE_TRANSLATION in their excluded_blocks.js).
+		this.learned = new LearnedTranslations(this.parserTS, nodeToJson, (name) => this.getVariableID(name) || this.declareBlocklyVariable(name, null), ARDUINO);
+		const learnedTypes = new Set(this.learned.learn([...new Set(EXCLUDED_BLOCKS_FOR_TRADUCTION)], AUTHORIZED_BLOCKS));
+		// statements whose blocks would change the code are kept as code (STRICT_REVERSE_TRANSLATION in excluded_blocks.js)
+		if (typeof STRICT_REVERSE_TRANSLATION !== 'undefined' && STRICT_REVERSE_TRANSLATION) {
+			const functions = () => Object.fromEntries(Object.entries(this._functions).map(([name, definition]) => [name, { args: definition.args, return: definition.type && definition.type !== 'void' }]));
+			this.fidelity = new CodeFidelity(this.parserTS, functions, ARDUINO);
+		}
+		if (typeof LEARNED_REVERSE_TRANSLATION !== 'undefined' && LEARNED_REVERSE_TRANSLATION) {
+			for (let i = EXCLUDED_BLOCKS_FOR_TRADUCTION.length - 1; i >= 0; i--) {
+				if (learnedTypes.has(EXCLUDED_BLOCKS_FOR_TRADUCTION[i])) EXCLUDED_BLOCKS_FOR_TRADUCTION.splice(i, 1);
 			}
 		}
 		const allBlocks = Main.getWorkSpace().getAllBlocks()
 		for (let i = 0; i < allBlocks.length; i++) {
 			if (typeof EXCLUDED_BLOCKS_FOR_TRADUCTION !== 'undefined' && EXCLUDED_BLOCKS_FOR_TRADUCTION.includes(allBlocks[i].type)) {
-				if (!allBlocks[i].disabled) {
+				if (allBlocks[i].isEnabled()) {
 					Main.lockEditor(true);
 				}
 			}
@@ -218,21 +258,6 @@ export default class Cpp2Blocks {
 			return null;
 		}
 
-		function nodeToJson(node) {
-			return {
-				type: node.type,
-				text: node.text,
-				children: node.children ? node.children.map((child) => nodeToJson(child)) : [],
-				start: {
-					row: node.startPosition.row,
-					column: node.startPosition.column,
-				},
-				end: {
-					row: node.endPosition.row,
-					column: node.endPosition.column,
-				},
-			};
-		}
 		const astJson = nodeToJson(tree.rootNode);
 		this.debug && console.log(`Parsing time: ${new Date().getTime() - time}ms`);
 		return astJson;
@@ -1059,7 +1084,7 @@ export default class Cpp2Blocks {
 			}
 		}
 
-		const variableID = Blockly.utils.genUid();
+		const variableID = Blockly.utils.idGenerator.genUid();
 		if (identifier !== null && type !== null) {
 			const newVariable = utils.newNode('variable', { id: variableID }, identifier, null);
 			if (this._variables[identifier] === undefined) {
@@ -1242,7 +1267,7 @@ export default class Cpp2Blocks {
 			this.xml.prepend(variableNode);
 		}
 
-		const variableID = Blockly.utils.genUid();
+		const variableID = Blockly.utils.idGenerator.genUid();
 		if (this._variables[variableName] === undefined) {
 			this._variables[variableName] = { type: variableType, id: variableID };
 		}
@@ -1781,7 +1806,59 @@ export default class Cpp2Blocks {
 	 * @returns {func} - Call the appropriate function to serialize the node
 	 * */
 	getBlockType(node, parent = null, grandParent = null) {
+		const blockType = this.resolveBlockType(node, parent, grandParent);
+		// global code or statement of setup/loop without block (ex: declaration, function of a block, pin mode): kept as
+		// code after the injection if the blocks do not generate it again (restoreDroppedNodes)
+		// (an object without block type is not serialized either, ex: array declaration)
+		const dropped = blockType === '' || blockType === undefined || blockType === null || (typeof blockType === 'object' && !blockType.type);
+		if (dropped && this.restorable?.has(node) && node.text?.trim()) {
+			this.droppedNodes.push(node);
+		} else if (!dropped) {
+			// statements translated by a block (first statement of the merged ones): position of the restored code
+			this.keptNodes.add(node.type === 'learned_block' ? node.children?.[0] : node);
+		}
+		return blockType;
+	}
+
+	resolveBlockType(node, parent = null, grandParent = null) {
+		if (!node) return '';
+		if (!this.learned || ['compound_statement', 'learned_block'].includes(node.type)) {
+			return this.getNodeBlockType(node, parent, grandParent);
+		}
+		const isStatement = node.type.endsWith('_statement') || ['declaration', 'function_definition'].includes(node.type);
+		const kind = isStatement ? 'statement' : 'value';
+		// initialization added by a learned block (generated again with the block, ex: "#include <Servo.h>",
+		// "pinMode(3, OUTPUT);", comment)
+		if (this.learned.isDefinition(node)) return '';
+		// code of a learned block whose initializations are in the program
+		const learnedInProgram = this.learned.match(node, kind, false, true);
+		if (learnedInProgram) return learnedInProgram;
+		// "if" or function generated by a learned block: before the "if" and function blocks
+		if (['if_statement', 'function_definition'].includes(node.type)) {
+			const learnedSpecific = this.learned.match(node, kind, false, false, true);
+			if (learnedSpecific) return learnedSpecific;
+		}
+		// the hand written translation may modify the nodes
+		const pristineNode = this.learned.recognizes(node, kind) ? structuredClone(node) : null;
+		const blockType = this.getNodeBlockType(node, parent, grandParent);
+		// generic block, or code not handled by the hand written translation: try the reverse translations learned from
+		// the generators (an empty block of a handled node is a statement generated again by a block, ex: pinMode)
+		// (no block: dropped on purpose, ex: pinMode)
+		if ((blockType && this.learned.isGeneric(blockType)) || (blockType === '' && !HANDLED_NODES.has(node.type))) {
+			const learnedBlock = pristineNode && this.learned.match(pristineNode, kind);
+			if (learnedBlock) return learnedBlock;
+		} else if (blockType?.type === 'variables_get') {
+			// variable read by a learned block
+			const learnedBlock = this.learned.match(node, 'value', true);
+			if (learnedBlock) return learnedBlock;
+		}
+		return blockType;
+	}
+
+	getNodeBlockType(node, parent = null, grandParent = null) {
 		switch (node.type) {
+			case 'learned_block':
+				return node.block;
 			case 'function_definition':
 				return this.determineFunctionBlockType(node, parent);
 			case 'expression_statement':
@@ -1854,6 +1931,8 @@ export default class Cpp2Blocks {
 	 * @returns {object} - xml node with child nodes (if any) and next statements if in compound statement
 	 * */
 	serializeMultipleNodes(nodes, parent, grandParent = null, skipNext = false) {
+		// blocks generating several statements (learned translations)
+		if (this.learned) nodes = this.learned.mergeStatements(nodes);
 		let previousBlock = skipNext;
 		let parentNode = null;
 		let next = null;
@@ -1920,14 +1999,27 @@ export default class Cpp2Blocks {
 			if (blockType === 'multiNode') {
 				return this.serializeMultipleNodes(node.children, parent, type);
 			} else if (typeof blockType === 'object' && blockType.type !== undefined) {
-				return this.createBlocklyBlockXml(node, blockType.type, blockType.fields, blockType.values, blockType.mutations, blockType.statementsNode, blockType.element, blockType.statements);
+				const blockXml = this.createBlocklyBlockXml(node, blockType.type, blockType.fields, blockType.values, blockType.mutations, blockType.statementsNode, blockType.element, blockType.statements);
+				// statement whose blocks would change the code (ex: expression not handled by the translation): kept as code
+				// (statements of the functions: the global declarations of the blocks are generated in the head of the program)
+				if (this.fidelity && blockXml && blockType.type !== 'untranslatable_block' && this.restorable?.get(node) !== 'global'
+					&& (/_statement$/.test(node.type) || ['declaration', 'learned_block'].includes(node.type))
+					&& typeof node.text === 'string' && !this.fidelity.sameCode(node.text, blockXml, this.code)) {
+					return this.createBlocklyBlockXml(node, 'untranslatable_block', { CODE: node.text }, {}, null, null);
+				}
+				return blockXml;
 			}
 			return '';
 		} catch (error) {
+			// frequent while the code is typed (incomplete code)
 			if (node.start !== undefined && node.start.row !== undefined) {
-				console.error(`Error serializing node (line ${node.start.row+1}):`, error);
+				console.debug(`Error serializing node (line ${node.start.row+1}):`, error);
 			} else {
-				console.error(`Error serializing node:`, error);
+				console.debug(`Error serializing node:`, error);
+			}
+			// statement kept as code rather than lost
+			if (typeof node.text === 'string' && node.text.trim() && (/_statement$/.test(node.type) || node.type === 'declaration')) {
+				return this.createBlocklyBlockXml(node, 'untranslatable_block', { CODE: node.text }, {}, null, null);
 			}
 			return '';
 		}
@@ -1992,6 +2084,20 @@ export default class Cpp2Blocks {
 		};
 
 		
+		// global nodes and statements of setup/loop: restored as code if they are dropped (see getBlockType)
+		this.restorable = new Map();
+		for (const child of astJson.children) {
+			const name = child.type === 'function_definition' ? child.children.find((element) => element.type === 'function_declarator')?.children[0]?.text : null;
+			if (name === 'setup' || name === 'loop') {
+				const body = child.children.find((element) => element.type === 'compound_statement');
+				for (const statement of body?.children || []) {
+					if (!['{', '}'].includes(statement.type)) this.restorable.set(statement, name);
+				}
+			} else {
+				this.restorable.set(child, 'global');
+			}
+		}
+
 		const toolboxMode = Blockly.Constants.getToolboxStyle();
 		if (toolboxMode === 'scratch'){
 			reworkAst(astJson);
@@ -2041,6 +2147,8 @@ export default class Cpp2Blocks {
 	 * */
 	resetBlocks() {
 		Blockly.Arduino.definitions_ = Object.create(null);
+		this.droppedNodes = [];
+		this.keptNodes = new Set();
 		this._variableNodes = null;
 		this._variables = {};
 		this._includes.clear();
@@ -2049,6 +2157,36 @@ export default class Cpp2Blocks {
 		this._classes = {};
 		this.pinModes = {};
 		this.setupMode = {};
+	}
+
+	/**
+	 * Code of the program without block that the blocks do not generate again (ex: declaration and function of a block
+	 * not recognized, statement calling them): kept as code, global or at the start of setup/loop.
+	 * @param {Blockly.Workspace} workspace
+	 */
+	restoreDroppedNodes(workspace) {
+		if (!this.droppedNodes.length) return;
+		const compact = (text) => text.replace(/\s+/g, '');
+		const generated = compact(Blockly.Arduino.workspaceToCode(workspace));
+		const program = compact(this.code || '');
+		// lost: less occurrences in the generated code than in the program (a function of a block may contain the same line)
+		const occurrences = (text, code) => code.split(text).length - 1;
+		const lost = new Map(this.droppedNodes.filter((node) => occurrences(compact(node.text), generated) < occurrences(compact(node.text), program)).map((node) => [node.text, node]));
+		for (const [code, node] of lost) {
+			const block = workspace.newBlock('untranslatable_block');
+			block.setFieldValue(code, 'CODE');
+			if (workspace.rendered) block.initSvg();
+			const place = this.restorable.get(node);
+			if (place === 'global') continue;
+			// after the blocks of the previous statements of setup/loop (translated, or restored before)
+			const statements = [...this.restorable].filter(([, statementPlace]) => statementPlace === place).map(([statement]) => statement);
+			const previous = statements.slice(0, statements.indexOf(node)).filter((statement) => this.keptNodes.has(statement)).length;
+			let connection = workspace.getBlocksByType(place === 'setup' ? 'on_start' : 'forever')[0]?.getInput('DO')?.connection;
+			for (let i = 0; i < previous && connection?.targetBlock(); i++) connection = connection.targetBlock().nextConnection;
+			if (connection) connection.connect(block.previousConnection);
+			this.keptNodes.add(node);
+		}
+		if (lost.size && workspace.rendered) workspace.render();
 	}
 
 	/**
@@ -2064,14 +2202,15 @@ export default class Cpp2Blocks {
 			let functionX = 350;
 			let functionY = 0;
 			const allBlocks = workspace.getAllBlocks();
-			const untranslatableBlocks = allBlocks.filter((block) => block.type === 'untranslatable_block');
+			// global code kept as code (the code kept in setup/loop is connected to them)
+			const untranslatableBlocks = allBlocks.filter((block) => block.type === 'untranslatable_block' && !block.getParent());
 			// const commentBlocks = allBlocks.filter((block) => block.type === 'comment_block_standalone');
 			const setupBlock = allBlocks.find((block) => block.type === 'on_start' || block.type === 'scratch_on_start');
 			const loopBlock = allBlocks.find((block) => block.type === 'forever');
 			const functionBlocks = allBlocks.filter((block) => block.type === 'procedures_defnoreturn' || block.type === 'procedures_defreturn');
 
 			// preproc includes and defines
-			const preprocBlocks = allBlocks.filter((block) => block.type === 'preproc_include' || block.type === 'preproc_define' || block.type === 'comment_block_standalone');
+			const preprocBlocks = allBlocks.filter((block) => (block.type === 'preproc_include' || block.type === 'preproc_define' || block.type === 'comment_block_standalone') && !block.getParent());
 
 			// get setup block height
 			let setupBlockHeight = 0;
@@ -2134,7 +2273,7 @@ export default class Cpp2Blocks {
 	 * */
 	setBlockStore(){
 		try {
-			const ALL_DISABLED_BLOCKS = this.workspace.getAllBlocks().filter(block => block.disabled === true);
+			const ALL_DISABLED_BLOCKS = this.workspace.getAllBlocks().filter(block => block.hasDisabledReason(Blockly.constants.MANUALLY_DISABLED) === true);
 			this.storedDisabledBlocks = ALL_DISABLED_BLOCKS
 				.filter(block => !block.getParent())
 				.map(block => Blockly.Xml.blockToDomWithXY(block));
@@ -2174,6 +2313,7 @@ export default class Cpp2Blocks {
 	 * @returns {void}
 	 * */
 	injectBlocks() {
+		this.learned?.setProgram(this.getTextCode());
 		this.setBlockStore();
 		this.resetBlocks();
 		this._functions = {};
@@ -2183,11 +2323,14 @@ export default class Cpp2Blocks {
 		let xmlCode;
 		try {
 			// first pass to get all the functions
+			this.learned?.beginPass();
 			xmlCode = this.convertAstToXml();
 
 			//only reset defines and includes stat
 			this.resetBlocks();
 
+			// second pass: the initializations of the learned blocks recognized by the first pass are ignored
+			this.learned?.beginPass();
 			xmlCode = this.convertAstToXml();
 		} catch (error) {
 			this.codeManager.updateTextCode(this.code);
@@ -2200,7 +2343,7 @@ export default class Cpp2Blocks {
 		const workspace = Blockly.getMainWorkspace();
 
 		// Convert the string to a DOM object
-		const xml = Blockly.Xml.textToDom(xmlCode);
+		const xml = Blockly.utils.xml.textToDom(xmlCode);
 		this.debug && console.log(xml);
 
 		this.indexPreviousXml = null;
@@ -2213,6 +2356,11 @@ export default class Cpp2Blocks {
 		} catch (error) {
 			// Blockly error here if the xml is not correct
 			console.error('Error injecting blocks:', error);
+		}
+		try {
+			this.restoreDroppedNodes(workspace);
+		} catch (error) {
+			console.error('Error restoring the code without block:', error);
 		}
 		this.codeManager.setGeneratedCode(this.code);
 		

@@ -13,7 +13,7 @@ Blockly.Python.on_start = function (block) {
 Blockly.Python.forever = function (block) {
     Blockly.Python.addImport('machine', IMPORT_MACHINE_ALL);
     let statements = Blockly.Python.statementToCode(block, "DO");
-    statements = Blockly.Python.addLoopTrap(statements, block.id) || Blockly.Python.PASS;
+    statements = Blockly.Python.addLoopTrap(statements, block) || Blockly.Python.PASS;
     const progMode = Blockly.Python.esp32.getProgrammingMode();
     if (progMode.mode == Blockly.Python.esp32.MODE_SERVER && progMode.loop) {
         return 'while True:' + NEWLINE + statements + '  server.closeClient(server.client_reset)';
@@ -32,7 +32,7 @@ Blockly.Python.scratch_on_start = function () {
 Blockly.Python.scratch_forever = function (block) {
     Blockly.Python.addImport('machine', IMPORT_MACHINE_ALL);
     let statements = Blockly.Python.statementToCode(block, "DO");
-    statements = Blockly.Python.addLoopTrap(statements, block.id) || Blockly.Python.PASS;
+    statements = Blockly.Python.addLoopTrap(statements, block) || Blockly.Python.PASS;
     let n = NEWLINE;
     if (block.previousConnection.targetBlock() !== null && block.previousConnection.targetBlock().type === 'scratch_on_start') {
         n = "";

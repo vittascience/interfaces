@@ -81,7 +81,7 @@ Blockly.Python.esp32Cam_SDcard_saveData = function (block) {
     Blockly.Python.addImport('os', IMPORT_OS);
     Blockly.Python.addImport('sdcard', IMPORT_SDCARD);
     const data = Blockly.Python.valueToCode(block, "DATA", Blockly.Python.ORDER_NONE) || "None";
-    const filename = Blockly.Python.valueToCode(block, "FILENAME", Blockly.Python.ORDER_NONE) || "";
+    const filename = Blockly.Python.valueToCode(block, "FILENAME", Blockly.Python.ORDER_NONE) || "''";
     Blockly.Python.addInit('spi', "spi = SPI(1, 1000000, sck=Pin(14), mosi=Pin(15), miso=Pin(2))");
     Blockly.Python.addInit('sd_init', "sd = sdcard.SDCard(spi, Pin(13))");
     Blockly.Python.addFunction('SDCard_writeFile', FUNCTIONS_ESP32.DEF_SD_CARD_WRITE_FILE);

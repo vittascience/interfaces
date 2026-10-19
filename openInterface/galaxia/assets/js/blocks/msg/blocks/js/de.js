@@ -491,3 +491,7 @@ Blockly.Msg['SENSORS_MLX90621_TEMP_MIN'] = 'Minimum';
 Blockly.Msg['SENSORS_MLX90621_TEMP_MAX'] = 'Maximum';
 Blockly.Msg['SENSORS_MLX90621_TEMP_AVG'] = 'Mittelwert';
 Blockly.Msg['SENSORS_MLX90621_GETTEMPDATA_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Gibt die minimale, maximale oder durchschnittliche Objekttemperatur in Grad Celsius (°C) vom MLX90621-Infrarotsensor zurück. Verbinde den Sensor mit einem I2C-Port.';
+Blockly.Msg['SENSORS_DISPLAYMLX90621VALUES_TITLE'] = '[IR Temp. Sensor MLX90621] Werte anzeigen';
+Blockly.Msg['SENSORS_DISPLAYMLX90621VALUES_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Ermöglicht die Anzeige der Werte, die vom MLX90621-Infrarotsensor auf der Galaxia-Platine gemessen wurden.';
+Blockly.Msg['SENSORS_DISPLAYMLX90621_CUSTOM_VALUES_TITLE'] = '[IR Temp. Sensor MLX90621] benutzerdefinierte Werte anzeigen %1';
+Blockly.Msg['SENSORS_DISPLAYMLX90621_CUSTOM_VALUES_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Zeigt die benutzerdefinierten Temperaturwerte an, die vom MLX90621-Infrarotsensor auf der Galaxia-Platine gemessen wurden.';

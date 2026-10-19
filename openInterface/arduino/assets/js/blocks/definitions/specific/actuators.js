@@ -159,7 +159,51 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
             "block_init_color"
         ]
     },
-
+    // 28BYJ-48 + ULN2004 _ CONTROL STEPPER MOTOR JSON
+{
+    "type": "actuators_28BYJ48_run",
+    "message0": "%{BKY_ACTUATORS_28BYJ48_RUN_TITLE}",
+    "args0": [{
+        "type": "input_value",
+        "name": "STEP",
+        "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
+    }, {
+        "type": "field_grid_dropdown",
+        "name": "DIR",
+        "options": [
+            ["↺", "1"],
+            ["↻", "-1"]
+        ]
+    }, {
+        "type": "input_value",
+        "name": "RPM",
+        "check": Blockly.Constants.Types.NUMBER.compatibleTypes_
+    }, {
+        "type": "field_grid_dropdown",
+        "name": "IN1",
+        "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }, {
+        "type": "field_grid_dropdown",
+        "name": "IN2",
+        "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }, {
+        "type": "field_grid_dropdown",
+        "name": "IN3",
+        "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }, {
+        "type": "field_grid_dropdown",
+        "name": "IN4",
+        "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+    }],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "tooltip": "%{BKY_ACTUATORS_28BYJ48_RUN_TOOLTIP}",
+    "extensions": [
+        "block_init_helpurl",
+        "block_init_color"
+    ]
+    },
     // MINI I2C MOTOR DRIVER _ SET SPEED JSON
     {
         "type": "actuators_MiniDriver_DCMotor_drive",

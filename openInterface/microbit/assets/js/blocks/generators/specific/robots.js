@@ -6,7 +6,7 @@
 
 Blockly.Python.robots_onRemoteCommandReceived_generator = function (block, pin = 'pin16') {
     const IRvariableName = "ir_current_remote_button";
-    block.workspace.createVariable(IRvariableName);
+    block.workspace.getVariableMap().createVariable(IRvariableName);
     var n = 0;
     var code = "ir_remote.decode()" + NEWLINE;
     var branchCode, conditionCode;
@@ -656,7 +656,7 @@ Blockly.Python.robots_maqueenPlusV3_lidar_getData = function (block) {
     const data = block.getFieldValue("DATA");
     if (data == "DISTANCES_MATRIX") {
         return ["LiDAR.get_all_distances()", Blockly.Python.ORDER_ATOMIC];
-    } else if (data = "RAW_LIST") {
+    } else if (data == "RAW_LIST") {
         return ["LiDAR.get_all_data()", Blockly.Python.ORDER_ATOMIC];
     }
 };
@@ -1769,6 +1769,45 @@ Blockly.Python.robots_getBitPlayerJoystick = function (block) {
     Blockly.Python.addInit('bitplayer', '# BitPlayer');
     const axis = block.getFieldValue("AXIS");
     return [`${axis}.read_analog()`, Blockly.Python.ORDER_ATOMIC];
+};
+
+// Joystick:bit V2
+Blockly.Python.robots_onJoystickBitV2ButtonEvent = function (block) {
+    Blockly.Python.addInit('joystick_bit_v2', '# Joystick:bit V2');
+    const button = block.getFieldValue("BUTTON");
+    const branchCode = Blockly.Python.statementToCode(block, "DO") || Blockly.Python.PASS;
+    switch (block.getFieldValue("STATE")) {
+        case "PRESSED":
+            Blockly.Python.addPowerOn('set_pull_' + button, button + ".set_pull(" + button + ".PULL_UP)")
+            return "if not " + button + ".read_digital():" + NEWLINE + branchCode;
+        case "RELEASED":
+            Blockly.Python.addPowerOn('set_pull_' + button, button + ".set_pull(" + button + ".PULL_UP)")
+            return "if " + button + ".read_digital():" + NEWLINE + branchCode;
+        default:
+            throw Error('Invalid state for gamepad button: ' + block.getFieldValue("STATE"));
+    }
+};
+
+Blockly.Python.robots_getJoystickBitV2Axis = function (block) {
+    const axis = block.getFieldValue("AXIS");
+    Blockly.Python.addInit('joystick_bit_v2', '# Joystick:bit V2');
+    return [`${axis}.read_analog()`, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.robots_setJoystickBitV2BuzzerFreq = function (block) {
+    const freq = Blockly.Python.valueToCode(block, "FREQUENCY", Blockly.Python.ORDER_NONE) || "0";
+    const time = Blockly.Python.valueToCode(block, "TIME", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.addImport('music', IMPORT_MUSIC);
+    Blockly.Python.addImport('utime', IMPORT_UTIME);
+    Blockly.Python.addInit('joystick_bit_v2', '# Joystick:bit V2');
+    Blockly.Python.addFunction('pitch', FUNCTIONS_MICROBIT.DEF_BUZZER_PITCH);
+    return "pitch(pin0, " + freq + ", " + time + ")" + NEWLINE;
+};
+
+Blockly.Python.robots_setJoystickBitV2MotorVibration = function (block) {
+    const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.addInit('joystick_bit_v2', '# Joystick:bit V2');
+    return "pin16.write_digital(" + state + ")" + NEWLINE;
 };
 
 // Gamepad v4

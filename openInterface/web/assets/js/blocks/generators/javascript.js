@@ -27,7 +27,7 @@ Blockly.JavaScript.addeventlistenerOnLoad = function (block) {
   return 'document.addEventListener("DOMContentLoaded", function(){' + NEWLINE + statements_name + '});' + NEWLINE;
 };
 
-Blockly.JavaScript.socket_emit_message = function (blocks) {
+Blockly.JavaScript.socket_emit_message = function (block) {
   const id = block.getFieldValue("ID");
   const message = Blockly.JavaScript.valueToCode(block, 'MESSAGE', Blockly.JavaScript.ORDER_ATOMIC) || "null";
   if (message == "null") {
@@ -39,7 +39,7 @@ Blockly.JavaScript.socket_emit_message = function (blocks) {
 Blockly.JavaScript.socket_on_message_receive = function (block) {
   const id = block.getFieldValue("ID");
   const dataVar = Blockly.JavaScript.nameDB_.getName(block.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME);
-  const branchCode = Blockly.Python.statementToCode(block, "DO") || '';
+  const branchCode = Blockly.JavaScript.statementToCode(block, "DO") || '';
   return "socket.on('" + id + "', (" + dataVar + ") => {" + NEWLINE + branchCode + "});" + NEWLINE;
 };
 
@@ -47,6 +47,10 @@ Blockly.JavaScript.editattribut = function (block) {
   const value_id = Blockly.JavaScript.valueToCode(block, 'ID', Blockly.JavaScript.ORDER_ATOMIC);
   const text_attribut = block.getFieldValue('ATTRIBUT');
   const value_value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ATOMIC);
+  // The displayed text is a property, not an attribute
+  if (text_attribut === 'textContent') {
+    return value_id + '.textContent = ' + value_value + ';' + NEWLINE;
+  }
   return value_id + '.setAttribute("' + text_attribut + '", ' + value_value + ');' + NEWLINE;
 };
 
@@ -200,9 +204,15 @@ Blockly.JavaScript['bi_export'] = function (block) {
   return 'export ' + statement_chain
 }
 
+Blockly.JavaScript['bi_parenthesis'] = function (block) {
+  const expression = Blockly.JavaScript.valueToCode(block, 'expression', Blockly.JavaScript.ORDER_NONE) || '';
+  return ['(' + expression + ')', Blockly.JavaScript.ORDER_ATOMIC];
+};
+
 Blockly.JavaScript['bi_import'] = function (block) {
   //  var value_import = Blockly.JavaScript.valueToCode(block, 'import', Blockly.JavaScript.ORDER_ATOMIC);
-  var codeArr = new Array(block.itemCount_ - 1);
+  // The block has no mutator: without items, itemCount_ is undefined
+  var codeArr = new Array(Math.max((block.itemCount_ || 1) - 1, 0));
   for (var n = 1; n < block.itemCount_; n++) {
     codeArr[n - 1] = Blockly.JavaScript.valueToCode(block, 'items' + n,
       Blockly.JavaScript.ORDER_COMMA) || 'null';
@@ -238,7 +248,7 @@ Blockly.JavaScript['bi_code_line'] = function (block) {
 };
 
 Blockly.JavaScript['bi_access_field'] = function (block) {
-  var value_variable = Blockly.JavaScript.variableDB_.getName(block.getFieldValue('variable'), Blockly.Variables.NAME_TYPE);
+  var value_variable = Blockly.JavaScript.variableDB_.getName(block.getFieldValue('variable'), Blockly.VARIABLE_CATEGORY_NAME);
   var text_field = block.getFieldValue('field');
   var value_input = Blockly.JavaScript.valueToCode(block, 'input', Blockly.JavaScript.ORDER_ATOMIC);
   var code = value_variable + "." + text_field + " = " + value_input + "\n";
@@ -254,13 +264,13 @@ Blockly.JavaScript['bi_set_to'] = function (block) {
 
 // Fix, init statements must be separated by a comma
 Blockly.JavaScript['bi_for'] = function (block) {
-  Blockly.Generator.prototype.STATEMENT_PREFIX = ', '
+  Blockly.JavaScript.STATEMENT_PREFIX = ', '
   var statement_init = Blockly.JavaScript.statementToCode(block, 'init');
-  Blockly.Generator.prototype.STATEMENT_PREFIX = null;
+  Blockly.JavaScript.STATEMENT_PREFIX = null;
   var value_test = Blockly.JavaScript.valueToCode(block, 'test', Blockly.JavaScript.ORDER_ATOMIC);
-  Blockly.Generator.prototype.STATEMENT_PREFIX = ', '
+  Blockly.JavaScript.STATEMENT_PREFIX = ', '
   var statement_update = Blockly.JavaScript.statementToCode(block, 'update');
-  Blockly.Generator.prototype.STATEMENT_PREFIX = null;
+  Blockly.JavaScript.STATEMENT_PREFIX = null;
   var statement_chain = Blockly.JavaScript.statementToCode(block, 'chain');
   // g on this REGEX means match all ocurences 
   statement_init = statement_init.replace(', ', '').replace(/\n {2}/g, '').trim();

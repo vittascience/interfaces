@@ -18,3 +18,6 @@ Blockly.Msg["JS_DOM_ADDEVENTLISTENER_MESSAGE_2"] = "på elementet";
 Blockly.Msg["JS_DOM_EDITATTRIBUT_MESSAGE_1"] = "ändra attribut";
 Blockly.Msg["JS_DOM_EDITATTRIBUT_MESSAGE_2"] = "på";
 Blockly.Msg["JS_DOM_EDITATTRIBUT_MESSAGE_3"] = "till";
+Blockly.Msg["JS_DOM_ADDEVENTLISTENER_ON_LOAD"] = "Vid sidladdning";
+Blockly.Msg["JS_SOCKET_EMIT_MESSAGE"] = "[socket] skicka förfrågan ID %1 med meddelande %2";
+Blockly.Msg["JS_SOCKET_ON_MESSAGE_RECEIVE"] = "[socket] om förfrågan ID %1 tas emot i variabel %2";

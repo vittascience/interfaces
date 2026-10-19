@@ -4287,6 +4287,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "block_init_helpurl"
         ]
     },
+   
+   
 
     //BLOCK GAMEPAD V4 JOYSTICK GET AXIS
     {
@@ -4307,6 +4309,113 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "block_init_helpurl"
         ]
     },
+
+    // BLOCK JOYSTICK:BIT V2 ON BUTTON EVENT
+    {
+        "type": "robots_onJoystickBitV2ButtonEvent",
+        "message0": "%{BKY_ROBOTS_JOYSTICK_BIT_V2_ONBUTTONEVENT_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "BUTTON",
+            "options": [
+                ["C", "pin12"],
+                ["D", "pin13"],
+                ["E", "pin14"],
+                ["F", "pin15"],
+                
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "STATE",
+            "options": [
+                ["%{BKY_ROBOTS_GAMEPAD_PRESSED}", "PRESSED"],
+                ["%{BKY_ROBOTS_GAMEPAD_RELEASED}", "RELEASED"],
+            ]
+        }],
+        "message1": "%1",
+        "args1": [{
+            "type": "input_statement",
+            "name": "DO"
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_JOYSTICK_BIT_V2_ONBUTTONEVENT_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+
+
+
+    },
+
+
+    // BLOCK JOYSTICK:BIT V2 GET AXIS
+
+    {
+        "type": "robots_getJoystickBitV2Axis",
+        "message0": "%{BKY_ROBOTS_JOYSTICK_BIT_V2_GETAXIS_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "AXIS",
+            "options": [
+                ["X", "pin1"],
+                ["Y", "pin2"]
+            ]
+        }],
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_JOYSTICK_BIT_V2_GETAXIS_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+
+
+
+
+    },
+    // BLOCK JOYSTICK:BIT V2 SET BUZZER FREQUENCY
+    {
+            "type": "robots_setJoystickBitV2BuzzerFreq",
+            "message0": "%{BKY_ROBOTS_JOYSTICK_BIT_V2_SETBUZZERFREQ_TITLE}",
+            "args0": [{
+                "type": "input_value",
+                "name": "FREQUENCY",
+                "check": "Number"
+            }, {
+                "type": "input_value",
+                "name": "TIME",
+                "check": "Number"
+            }],
+            "inputsInline": true,
+            "previousStatement": null,
+            "nextStatement": null,
+            "style": "robots_blocks",
+            "tooltip": "%{BKY_ROBOTS_JOYSTICK_BIT_V2_SETBUZZERFREQ_TOOLTIP}",
+            "extensions": [
+                "block_init_helpurl"
+            ]
+        },
+        
+// Block JOYSTICK:BIT V2 Motor Vibration
+    {
+        "type": "robots_setJoystickBitV2MotorVibration",
+        "message0": "%{BKY_ROBOTS_JOYSTICK_BIT_V2_SETMOTORVIBRATION_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "STATE",
+            "check": "Boolean"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_JOYSTICK_BIT_V2_SETMOTORVIBRATION_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
     //BLOCK GAMEPAD V4 ON BUTTON EVENT
     {
         "type": "robots_onGamepadV4ButtonEvent",
@@ -5334,10 +5443,10 @@ Blockly.Constants.Robots.ROBOTS_REMOTECONTROL_ONCOMMANDRECEIVED_MUTATOR_MIXIN = 
     // Restore pointers to any connected child blocks.
     restoreConnections_: function () {
         for (var i = 1; i <= this.elseifCount_; i++) {
-            Blockly.Mutator.reconnect(this.statementConnections_[i], this, 'DO' + i);
+            this.statementConnections_[i]?.reconnect(this, 'DO' + i);
         }
         if (this.getInput('ELSE')) {
-            Blockly.Mutator.reconnect(this.elseStatementConnection_, this, 'ELSE');
+            this.elseStatementConnection_?.reconnect(this, 'ELSE');
         }
     },
     addElse_: function () {
@@ -5413,14 +5522,14 @@ Blockly.Constants.Robots.ROBOTS_REMOTECONTROL_ONCOMMANDRECEIVED_MUTATOR_MIXIN = 
                 .appendField(
                     new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
                         this.buttonSize, "*", removeElseIf, false))
-                .setAlign(Blockly.ALIGN_RIGHT);
+                .setAlign(Blockly.inputs.Align.RIGHT);
             this.appendStatementInput('DO' + i)
         }
         if (this.elseCount_) {
             this.appendDummyInput('ELSETITLE')
                 .appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSE);
             this.appendDummyInput('ELSEBUTTONS')
-                .setAlign(Blockly.ALIGN_RIGHT)
+                .setAlign(Blockly.inputs.Align.RIGHT)
                 .appendField(
                     new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
                         this.buttonSize, "*", that.removeElse_.bind(that), false));
@@ -5474,9 +5583,9 @@ Blockly.Constants.Robots.ROBOTS_REMOTECONTROL_ONCOMMANDRECEIVED_MUTATOR_MIXIN = 
     reconnectChildBlocks_: function (statementConnections,
         elseStatementConnection) {
         for (var i = 1; i <= this.elseifCount_; i++) {
-            Blockly.Mutator.reconnect(statementConnections[i], this, 'DO' + i);
+            statementConnections[i]?.reconnect(this, 'DO' + i);
         }
-        Blockly.Mutator.reconnect(elseStatementConnection, this, 'ELSE');
+        elseStatementConnection?.reconnect(this, 'ELSE');
     },
     saveDropdownFields_: function () {
         this.dropdownFieldsValue = new Array();
@@ -5556,7 +5665,8 @@ Blockly.Constants.Robots.ROBOTS_MAQUEEN_PLUS_PATROL_MUTATOR_MIXIN = {
      * @return {!Element} XML storage element.
      * @this {Blockly.Block}
      */
-    mutationToDom: function () { },
+    // null, not undefined: Blockly 13 serialises any non-null value as a mutation.
+    mutationToDom: function () { return null; },
     /**
      * Parse XML to restore the 'sensors' dropdown field.
      * @param {!Element} xmlElement XML storage element.
@@ -5624,7 +5734,8 @@ Blockly.Constants.Robots.ROBOTS_MAQUEEN_PLUS_SERVOS_MUTATOR_MIXIN = {
      * @return {!Element} XML storage element.
      * @this {Blockly.Block}
      */
-    mutationToDom: function () { },
+    // null, not undefined: Blockly 13 serialises any non-null value as a mutation.
+    mutationToDom: function () { return null; },
     /**
      * Parse XML to restore the 'servos' dropdown field.
      * @param {!Element} xmlElement XML storage element.
@@ -5721,7 +5832,8 @@ Blockly.Constants.Robots.ROBOTS_MAQUEEN_PLUS_INTERSECTION_MUTATOR_MIXIN = {
      * @return {!Element} XML storage element.
      * @this {Blockly.Block}
      */
-    mutationToDom: function () { },
+    // null, not undefined: Blockly 13 serialises any non-null value as a mutation.
+    mutationToDom: function () { return null; },
     /**
      * Parse XML to restore the 'run_mode' dropdown field.
      * @param {!Element} xmlElement XML storage element.

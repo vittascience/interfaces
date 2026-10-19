@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Calque_2"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 263.48 263.48" style="transform: rotate(-90deg)">
+    <defs>
+        <style>.cls-1{fill:none;stroke:#1a1a1a;stroke-linecap:round;stroke-width:8.5px;}.cls-1,.cls-2{stroke-miterlimit:10;}.cls-3{fill:#1a1a1a;}.cls-2{fill:#c1976d;stroke:#8a7a64;stroke-width:2.83px;}</style>
+    </defs>
+    <g id="Calque_1-2">
+        <g id="primasteam">
+            <circle class="cls-2" cx="131.74" cy="131.74" r="130.32"/>
+            <circle class="cls-3" cx="69.82" cy="168.77" r="16.06"/>
+            <circle class="cls-3" cx="130.02" cy="133.18" r="16.06"/>
+            <circle class="cls-3" cx="114.52" cy="228.07" r="7.21"/>
+            <circle class="cls-3" cx="148.95" cy="228.07" r="7.21"/>
+            <circle class="cls-3" cx="69.82" cy="94.84" r="16.06"/>
+            <circle class="cls-3" cx="193.65" cy="168.77" r="16.06"/>
+            <circle class="cls-3" cx="193.65" cy="94.84" r="16.06"/>
+            <path class="cls-3" d="M129.37,188.29c-30.48,0-56.61,18.57-67.72,45,19.91,13.77,44.06,21.84,70.09,21.84,24.42,0,47.18-7.1,66.34-19.34-10.48-27.76-37.28-47.5-68.71-47.5ZM108.59,240.76c-9.18,0-16.62-7.44-16.62-16.62s7.44-16.62,16.62-16.62,16.62,7.44,16.62,16.62-7.44,16.62-16.62,16.62ZM154.88,240.76c-9.18,0-16.62-7.44-16.62-16.62s7.44-16.62,16.62-16.62,16.62,7.44,16.62,16.62-7.44,16.62-16.62,16.62Z"/>
+            <line class="cls-1" x1="131.74" y1="12.86" x2="131.74" y2="107.46"/>
+            <line class="cls-1" x1="131.74" y1="158.89" x2="131.74" y2="180.63"/>
+        </g>
+    </g>
+</svg>

@@ -87,6 +87,8 @@ class Utils {
 		this._variables = {};
 		this.lastBlockId = null;
 		this.binaryInterceptors = {};
+		// functions (ifBlock, node) => block | null, tried on every if statement (ex: blocks generating if/elif chains)
+		this.ifStatementInterceptors = [];
 		// worst practice ever => need to find a better way to access the python2Blocks object
 		this.python2Blocks = null;
 
@@ -105,7 +107,7 @@ class Utils {
 	newNode(name, attrs, text, astNode) {
 		let block1;
 		if (name === 'block') {
-			const id = Blockly.utils.genUid();
+			const id = Blockly.utils.idGenerator.genUid();
 			// usefull to suppress the last block if necessary (exemple for the thymio interface single motor speed or both motors speed)
 			if (this.python2Blocks.requireLastBlockId) {
 				this.lastBlockId = id;
@@ -178,7 +180,7 @@ class Utils {
 		if (node.type === 'identifier') {
 			name = node.text;
 		}
-		return { type, name, id: Blockly.utils.genUid() };
+		return { type, name, id: Blockly.utils.idGenerator.genUid() };
 	}
 
 	/**
@@ -439,10 +441,11 @@ class Utils {
 	}
 
 	declareDictionary(dictionaryName, dictionary) {
-		if (!this.python2Blocks._dictionary[dictionaryName]) {
+		// content known when it is JSON (ex: {"a": 1}), the dictionary is declared anyway (ex: {1: x})
+		try {
 			this.python2Blocks._dictionary[dictionaryName] = JSON.parse(dictionary);
-		} else {
-			this.python2Blocks._dictionary[dictionaryName] = JSON.parse(dictionary);
+		} catch (error) {
+			this.python2Blocks._dictionary[dictionaryName] = {};
 		}
 	}
 

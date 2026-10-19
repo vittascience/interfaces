@@ -1133,6 +1133,34 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         ]
     },
 
+    // GROVE Infrared Temperature Sensor MLX90621 _ READ OBJECT TEMPERATURE
+    {
+        "type": "sensors_mlx90621_readObjectTemperature",
+        "message0": "%{BKY_SENSORS_MLX90621_READ_OBJECT_TEMPERATURE_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "DATA_TYPE",
+            "options": [
+                ["%{BKY_SENSORS_MLX90621_INT_TYPE}", "int"],
+                ["%{BKY_SENSORS_MLX90621_FLOAT_TYPE}", "float"]
+            ]
+        },
+        {
+            "type": "input_value",
+            "name": "VALUE",
+            "check": "Array"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "sensors_blocks",
+        "tooltip": "%{BKY_SENSORS_MLX90621_READ_OBJECT_TEMPERATURE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "pins_management_global"
+        ]
+    },
+
     // BLOCK GROVE EAR CLIP _ GET HEART RATE
     {
         "type": "sensors_getEarClipHeartRate",

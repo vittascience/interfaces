@@ -155,6 +155,41 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
     }
 ];
 
+const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
+    "robots": [
+        {
+            "kind": "category",
+            "toolboxitemid": "robots_motors",
+            "name": "%{BKY_SUBCATEGORY_MOTORS}",
+            "style": "robots_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-robot"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "robots_sensors",
+            "name": "%{BKY_SUBCATEGORY_SENSORS}",
+            "style": "robots_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-robot"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "robots_gamepad",
+            "name": "%{BKY_SUBCATEGORY_GAMEPAD}",
+            "style": "robots_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-gamepad"
+            },
+            "contents": []
+        }
+    ]
+};
+
 const TOOLBOX_VITTASCIENCE_CONTENT = {
     "display": [
         {
@@ -164,6 +199,8 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'cyberpi_led_on_all_palette',
                 'cyberpi_led_on_RGB',
                 'cyberpi_led_on_palette',
+                'cyberpi_led_on_duration',
+                'cyberpi_led_off',
                 'cyberpi_led_play',
                 'cyberpi_led_move',
                 'cyberpi_led_set_brightness',
@@ -306,41 +343,69 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
     ],
     "robots": [
         {
-            "label": "%{BKY_SUBCATEGORY_ENCODER_MOTORS}",
-            "blocks": [
-                'robots_mbot2_move',
-                'robots_mbot2_move_by',
-                'robots_mbot2_turn',
-                'robots_mbot2_control_motor',
-                'robots_mbot2_turn_motor',
-                'robots_mbot2_stop_motor',
-                'robots_mbot2_get_motor_encoding',
-                'robots_mbot2_reset_motor_angular_position',
-                'robots_mbot2_control_motor_locking'
+            "subCategoryId": 'robots_motors',
+            "contents": [
+                {
+                    "label": "%{BKY_SUBCATEGORY_ENCODER_MOTORS}",
+                    "blocks": [
+                        'robots_mbot2_move',
+                        'robots_mbot2_move_by',
+                        'robots_mbot2_turn',
+                        'robots_mbot2_control_motor',
+                        'robots_mbot2_turn_motor',
+                        'robots_mbot2_stop_motor',
+                        'robots_mbot2_get_motor_encoding',
+                        'robots_mbot2_reset_motor_angular_position',
+                        'robots_mbot2_control_motor_locking',
+                        'robots_mbot2_follow_line'
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_ULTRASONIC_SENSORS}",
-            "blocks": [
-                'robots_mbot2_ultrasonic_getDistance',
-                'robots_mbot2_ultrasonic_setBrightness',
-                'robots_mbot2_ultrasonic_getBrightness',
-                'robots_mbot2_ultrasonic_stopLED',
-                'robots_mbot2_ultrasonic_playLED'
+            "subCategoryId": 'robots_sensors',
+            "contents": [
+                {
+                    "label": "%{BKY_SUBCATEGORY_ULTRASONIC_SENSORS}",
+                    "blocks": [
+                        'robots_mbot2_ultrasonic_getDistance',
+                        'robots_mbot2_ultrasonic_setBrightness',
+                        'robots_mbot2_ultrasonic_getBrightness',
+                        'robots_mbot2_ultrasonic_stopLED',
+                        'robots_mbot2_ultrasonic_playLED'
+                    ]
+                },
+                {
+                    "label": "%{BKY_SUBCATEGORY_QUAD_RGB_SENSORS}",
+                    "blocks": [
+                        'sensors_mbuild_quad_RGB_detection_L1_R1_is',
+                        'sensors_mbuild_quad_RGB_get_detection_L1_R1',
+                        'sensors_mbuild_quad_RGB_detection_is',
+                        'sensors_mbuild_quad_RGB_get_detection',
+                        'sensors_mbuild_quad_RGB_is_color_detected',
+                        'sensors_mbuild_quad_RGB_get_probe_data',
+                        'sensors_mbuild_quad_RGB_get_offset_track',
+                        'sensors_mbuild_quad_RGB_define_color',
+                        'sensors_mbuild_quad_RGB_set_color_list',
+                        'sensors_mbuild_quad_RGB_close_led',
+                        'sensors_mbuild_quad_RGB_get_light',
+                        'sensors_mbuild_quad_RGB_set_custom_color',
+                        'sensors_mbuild_quad_RGB_calibrate',
+                        'sensors_mbuild_quad_RGB_color_mode'
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_QUAD_RGB_SENSORS}",
-            "blocks": [
-                'sensors_mbuild_quad_RGB_detection_is',
-                'sensors_mbuild_quad_RGB_get_detection',
-                'sensors_mbuild_quad_RGB_is_color_detected',
-                'sensors_mbuild_quad_RGB_get_probe_data',
-                'sensors_mbuild_quad_RGB_get_offset_track',
-                'sensors_mbuild_quad_RGB_define_color',
-                'sensors_mbuild_quad_RGB_set_color_list',
-                'sensors_mbuild_quad_RGB_close_led',
-                'sensors_mbuild_quad_RGB_get_light'
+            "subCategoryId": 'robots_gamepad',
+            "contents": [
+                {
+                    "label": "%{BKY_SUBCATEGORY_GAMEPAD}",
+                    "blocks": [
+                        'robots_gamepad_is_key_pressed',
+                        'robots_gamepad_get_joystick'
+                    ]
+                }
             ]
         }
     ],

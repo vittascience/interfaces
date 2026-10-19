@@ -374,7 +374,11 @@ window.AvrgirlArduino = (() => { // webpackBootstrap
           }
 
           open(callback) {
-            window.navigator.serial.requestPort(this.requestOptions)
+            // requestOptions.port: port already chosen by the user (before the compilation)
+            const portRequest = this.requestOptions.port
+              ? Promise.resolve(this.requestOptions.port)
+              : window.navigator.serial.requestPort(this.requestOptions);
+            portRequest
               .then(async serialPort => {
                 this.port = serialPort;
                 if (this.isOpen) return;

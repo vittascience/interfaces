@@ -5,13 +5,16 @@
 // array to be filled with all the blocks that are not in the authorized blocks
 const EXCLUDED_BLOCKS_FOR_TRADUCTION = [];
 
+// The blocks without hand written translation are translated by the templates learned from their generators
+// (interfaces/assets/js/code2blocks/python/learnedTranslations.js): checked for this interface, they do not lock the editor.
+const LEARNED_REVERSE_TRANSLATION = true;
+
 // to modify each time we add a new block in reverse translation
 
 const AUTHORIZED_BLOCKS_DISPLAY = [
     "display_defineNeopixel",
     "display_controlNeopixelLed",
     "display_controlColorNeopixelLed",
-    "color_picker",
     // "display_controlBuiltInLED",
     "display_lcdSetText",
     "display_controlPicoLed",

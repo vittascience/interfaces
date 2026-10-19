@@ -67,9 +67,13 @@ const LIB_IMPORT = {
     IMPORT_STM32_LORA: "from stm32_LoRa import *"
 };
 
-const EXCLUDED_COMMENTS = ["Ultrasonic on D", "Neopixel on D"]
+const EXCLUDED_COMMENTS = ["Ultrasonic on D", "Neopixel on D", "^# [A-Za-z0-9 /\\-]+ on [A-Z]+[0-9]"]
 
 const CLASS_METHODS = {
+    // pin declaration of the machine module (ex: "d5 = machine.Pin('D5', machine.Pin.OUT)"), see ast_io.js
+    "machine.Pin": {
+        "call": { astCallBack: "pyb.Pin", argsNode: ''}
+    },
     "pyb.Pin": {
         "call": { astCallBack: "define_pyb_pin", argsNode: 'string'}
     },
@@ -108,6 +112,9 @@ const MICROPYTHON_CLASSES = {
 
 
 
-export default {LIB_IMPORT, EXCLUDED_COMMENTS, CLASS_METHODS, MICROPYTHON_CLASSES};
+// assignments translated by utils.prototypeBlocks (ex: chronometer "t0 = utime.ticks_ms()")
+const RESERVED_WORDS = ['t0'];
+
+export default {LIB_IMPORT, EXCLUDED_COMMENTS, CLASS_METHODS, MICROPYTHON_CLASSES, RESERVED_WORDS};
 
 

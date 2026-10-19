@@ -10,6 +10,7 @@ function onGATTconnected() {
 };
 
 function onGATTdisconnected() {
+	toggleUploadProgress(false);
 	if (typeof window !== 'undefined' && !window.__vittaInterfaceSlug) {
 		$("#disconnect-opt-ble").hide();
 	}
@@ -74,15 +75,18 @@ async function doDisconnectBLE() {
 
 async function uploadPythonBLE() {
 	const mainCode = CodeManager.getSharedInstance().getCode();
+	// Global progress is computed on the total size of every uploaded file
+	let totalSize = 0;
+	let sentSize = 0;
 	const uploadFile = async function (filename, code) {
 		const uploader = new HalocodeUpload();
 		uploader.setFile(code, filename);
 		const payloads = uploader.generatePayloads();
 		WebBLEAPI.filename = filename;
-		WebBLEAPI.percent = 0;
+		WebBLEAPI.percent = Math.round(sentSize / totalSize * 100);
 		WebBLEAPI._controller.online = false;
 		await WebBLEAPI.write(payloads[0]);
-		await waitFor(_ => WebBLEAPI._controller.online === true);
+		await waitForUpload(_ => WebBLEAPI._controller.online === true);
 		for (var i = 1; i < payloads.length; i++) {
 			WebBLEAPI._controller.payloadWritted = false;
 			const chunks = WebBLE.chunk(payloads[i], 40);
@@ -90,10 +94,11 @@ async function uploadPythonBLE() {
 				for (var j = 0; j < chunks.length; j++) {
 					await WebBLEAPI.write(chunks[j]);
 				}
-				WebBLEAPI.percent = Math.round(i / (payloads.length - 1) * 100);
-				await waitFor(_ => WebBLEAPI._controller.payloadWritted === true);
+				WebBLEAPI.percent = Math.round((sentSize + code.length * i / (payloads.length - 1)) / totalSize * 100);
+				await waitForUpload(_ => WebBLEAPI._controller.payloadWritted === true);
 			}
 		}
+		sentSize += code.length;
 	};
 	const config = async function () {
 		WebBLEAPI._controller.restarted = false;
@@ -101,29 +106,45 @@ async function uploadPythonBLE() {
 		await WebBLEAPI.write(pack.to_buffer());
 		await sendScriptCommandBLE("try:\n    import config\nexcept:\n    pass", TYPE_RUN_WITH_CONFIG, true);
 		await sendScriptCommandBLE("try:\n    config.write_config(\"repl_enable\", False)\nexcept:\n    pass", TYPE_RUN_WITH_CONFIG);
-		await waitFor(_ => WebBLEAPI._controller.restarted === true);
+		await waitForUpload(_ => WebBLEAPI._controller.restarted === true);
 	};
 	const upload = async function () {
-		const requestedLib = _getRequestedLibrariesBLE(mainCode);
 		let files = "[";
 		for (const i in VittaInterface.externalLibraries) {
 			files += '\'' + i + '.py\','
 		}
+		// Boot file to remove unused files
+		const bootCode = "import os, cyberpi, time\ncyberpi.console.print('Uploading...')\ntime.sleep(0.5)\nfiles = " + files + "]\nfor f in files:\n\tif f in os.listdir():os.remove('/flash/' + f)\nprint(os.listdir())\ntime.sleep(0.5)\n";
+		// Dependencies requested in user main
+		const libFiles = [];
+		for (const lib of _getRequestedLibrariesBLE(mainCode)) {
+			libFiles.push(lib);
+			if (lib.filename === 'vitta_server.py') {
+				libFiles.push({ filename: 'vitta_script.js', code: Blockly.Python.convertObjectInLists(Blockly.Python.jsCodes_).join("\n") });
+				libFiles.push({ filename: 'vitta_style.css', code: Blockly.Python.convertObjectInLists(Blockly.Python.cssStyles_).join("\n") });
+			}
+		}
+		totalSize = bootCode.length + mainCode.length + libFiles.reduce((size, f) => size + f.code.length, 0);
+		sentSize = 0;
 		WebBLEAPI._controller.restarted = false;
-		await uploadFile('main.py', "import os, cyberpi, time\ncyberpi.console.print('Uploading...')\ntime.sleep(0.5)\nfiles = " + files + "\nfor f in files:\n\tif f in os.listdir():os.remove('/flash/' + f)\nprint(os.listdir())\ntime.sleep(0.5)\n")
-		await config();
-		setTimeout(async function () {
-			for (var i = 0; i < requestedLib.length; i++) {
-				await uploadFile(requestedLib[i].filename, requestedLib[i].code);
-				if (requestedLib[i].filename === 'vitta_server.py') {
-					await uploadFile('vitta_script.js', Blockly.Python.convertObjectInLists(Blockly.Python.jsCodes_).join("\n"));
-					await uploadFile('vitta_style.css', Blockly.Python.convertObjectInLists(Blockly.Python.cssStyles_).join("\n"));
-				}
+		toggleUploadProgress(true);
+		try {
+			await uploadFile('main.py', bootCode);
+			await config();
+			await new Promise(resolve => setTimeout(resolve, 1000));
+			for (const lib of libFiles) {
+				await uploadFile(lib.filename, lib.code);
 			}
 			await uploadFile('main.py', mainCode);
 			await config();
-			WebBLEAPI.isDownloading = true;
-		}, 1000);
+			toggleUploadProgress(false);
+		} catch (e) {
+			console.error(e);
+			toggleUploadProgress(false);
+			InterfaceMonitor.writeConsole('code.WebBluetoothAPI.badResponse', 'warning');
+			return;
+		}
+		WebBLEAPI.isDownloading = true;
 	}
 	if (WebBLEAPI.gattConnected()) {
 		await upload();

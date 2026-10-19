@@ -105,6 +105,65 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
+    // BUILTIN LEDs _ TURN ON FOR A DURATION
+    {
+        "type": "cyberpi_led_on_duration",
+        "message0": "%{BKY_CYBERPI_LED_ON_DURATION_TITLE}",
+        "args0": [{
+            "type": "field_dropdown",
+            "name": "ID",
+            "options": [
+                ["%{BKY_CYBERPI_LED_OFF_ALL}", "all"],
+                ["1", "1"],
+                ["2", "2"],
+                ["3", "3"],
+                ["4", "4"],
+                ["5", "5"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "COLOR",
+            "check": "Colour"
+        }, {
+            "type": "input_value",
+            "name": "DURATION",
+            "check": "Number"
+        }],
+        "style": "display_blocks",
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_CYBERPI_LED_ON_DURATION_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    // BUILTIN LEDs _ TURN OFF
+    {
+        "type": "cyberpi_led_off",
+        "message0": "%{BKY_CYBERPI_LED_OFF_TITLE}",
+        "args0": [{
+            "type": "field_dropdown",
+            "name": "ID",
+            "options": [
+                ["%{BKY_CYBERPI_LED_OFF_ALL}", "all"],
+                ["1", "1"],
+                ["2", "2"],
+                ["3", "3"],
+                ["4", "4"],
+                ["5", "5"]
+            ]
+        }],
+        "style": "display_blocks",
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_CYBERPI_LED_OFF_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
     // BUILTIN LEDs _ PLAY ANIMATION
     {
         "type": "cyberpi_led_play",

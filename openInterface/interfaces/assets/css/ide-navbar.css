@@ -43,7 +43,8 @@
     text-align: start;
     display: flex;
     flex-direction: column;
-    max-width: 150px;
+    justify-content: center;
+    max-width: 220px;
     width: 100px;
 }
 
@@ -56,15 +57,39 @@
     cursor: default !important;
 }
 
-#edit-project-name {
+/* Save status: only shown when the project is not saved (orange disk), not the checkmark of a saved project */
+#project-is-saved:has(.fa-check) {
+    display: none !important;
+}
+
+/* Save status, project name and edit button on one line, vertically centred */
+.project-title-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
     height: 100%;
-    width: 35%;
-    vertical-align: text-top;
+}
+
+.project-title-row #project-name {
+    flex: 0 1 auto;
+    min-width: 0;
+    margin: 0;
+}
+
+.project-title-row #project-is-saved,
+#edit-project-name {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+}
+
+#edit-project-name {
     min-height: 0;
-    display: inline-block;
     --bs-btn-padding-x: 0.1rem;
     --bs-btn-padding-y: 0.1rem;
-    --bs-btn-line-height: 0.9;
+    --bs-btn-line-height: 1;
     --bs-btn-border-width: 0px;
 }
 
@@ -193,7 +218,7 @@
 
 .ide-dropdown-always .ide-btn-toggle+.ide-btn-group {
     position: absolute;
-    z-index: 990;
+    z-index: 995; /* above the simulator (990) */
 }
 
 .ide-dropdown-always .ide-btn-group .ide-btn {
@@ -297,7 +322,7 @@
 
     .ide-btn-toggle+.ide-btn-group {
         position: absolute;
-        z-index: 990;
+        z-index: 995; /* above the simulator (990) */
         border-radius: 15px;
     }
 
@@ -444,4 +469,29 @@
 
 .body-lti #help-setting {
     display: none
+}
+/* On phones the upload menu, opened from a button near the left edge, would overflow the screen on the left. */
+@media (max-width: 600px) {
+    .ide-dropdown-always .ide-btn-toggle+.ide-btn-group-download {
+        position: fixed;
+        right: 8px;
+        left: 8px;
+    }
+}
+
+/* On phones: the button groups are evenly spread (the upload group is no longer centered), without the fullscreen button. */
+@media (max-width: 600px) {
+    .ide-navbar {
+        justify-content: space-between;
+    }
+
+    .ide-navbar > * {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .ide-navbar .fullscreen-btn-panel,
+    .ide-navbar > .ide-btn-group-save.hidden /* empty, it would add a gap */ {
+        display: none;
+    }
 }

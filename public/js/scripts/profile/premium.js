@@ -152,7 +152,14 @@ document.addEventListener('DOMContentLoaded', async function () {
             }
             let groupeName = subscribeModal.querySelector('input[name="groupe-name"]').value;
             //redirect to php file
-            const url = "/shop/premium/checkout-stripe.php?subscription=" + subscriptionValue + "&addressId=" + adressId + "&subscribeEmail=" + subscribeEmail + "&teacherNumber=" + teacherNumber + "&garCode=" + garCode + "&groupeName=" + groupeName;
+            const url = "/shop/premium/checkout-stripe.php?" + new URLSearchParams({
+                subscription: subscriptionValue,
+                addressId: adressId,
+                subscribeEmail: subscribeEmail,
+                teacherNumber: teacherNumber,
+                garCode: String(garCode),
+                groupeName: groupeName
+            }).toString();
             /* if (teacherNumber > 1) {
                 url += "&teacherNumber=" + teacherNumber;
             }
@@ -233,7 +240,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             window.history.replaceState({}, document.title, window.location.pathname + "?tab=premium");
         }
         if (window.location.search.includes('tab=premium') && window.location.search.includes('payment=cancel')) {
-            toastDiv.querySelector('.toast-body').innerText = 'Votre abonnement a été résilié avec succès. Vous bé,éficier de vos avantages jusqu\'à la fin de la période en cours.';
+            toastDiv.querySelector('.toast-body').innerText = 'Votre abonnement a été résilié avec succès. Vous bénéficiez de vos avantages jusqu\'à la fin de la période en cours.';
             toastBootstrap.show();
             //remove the payment=success from the url
             window.history.replaceState({}, document.title, window.location.pathname + "?tab=premium");

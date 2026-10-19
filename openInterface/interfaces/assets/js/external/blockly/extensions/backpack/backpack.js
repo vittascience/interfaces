@@ -199,7 +199,7 @@ export class Backpack extends Blockly.DragTarget {
       Blockly.utils.dom.removeNode(this.svgGroup_);
     }
     for (const event of this.boundEvents_) {
-      Blockly.unbindEvent_(event);
+      Blockly.browserEvents.unbind(event);
     }
     this.boundEvents_.length = 0;
   }
@@ -258,7 +258,7 @@ export class Backpack extends Blockly.DragTarget {
   createDom_() {
     this.svgGroup_ = Blockly.utils.dom.createSvgElement(
       Blockly.utils.Svg.G, {}, null);
-    const rnd = Blockly.utils.IdGenerator.getNextUniqueId();
+    const rnd = (Blockly.utils.idGenerator || Blockly.utils.IdGenerator).getNextUniqueId();
     const clip = Blockly.utils.dom.createSvgElement(
       Blockly.utils.Svg.CLIPPATH,
       { 'id': 'blocklyBackpackClipPath' + rnd },
@@ -618,7 +618,7 @@ export class Backpack extends Blockly.DragTarget {
     if (!this.isOpenable_()) {
       return;
     }
-    const xml = this.contents_.map((text) => Blockly.Xml.textToDom(text));
+    const xml = this.contents_.map((text) => Blockly.utils.xml.textToDom(text));
     this.flyout_.show(xml);
     Blockly.Events.fire(new BackpackOpen(true, this.workspace_.id));
   }
@@ -631,7 +631,7 @@ export class Backpack extends Blockly.DragTarget {
     if (!this.isOpen()) {
       return;
     }
-    const xml = this.contents_.map((text) => Blockly.Xml.textToDom(text));
+    const xml = this.contents_.map((text) => Blockly.utils.xml.textToDom(text));
     this.flyout_.show(xml);
   }
 
@@ -666,7 +666,7 @@ export class Backpack extends Blockly.DragTarget {
    */
   onClick_(e) {
     //@change Edited this line to solved issue with former version of blockly
-    if (Blockly.utils.isRightButton(e)) {
+    if (Blockly.browserEvents.isRightButton(e)) {
       return;
     }
     this.open();
@@ -749,7 +749,7 @@ export class Backpack extends Blockly.DragTarget {
    */
   blockMouseDownWhenOpenable_(e) {
     //@change Edited this line to solved issue with former version of blockly
-    if (!Blockly.utils.isRightButton(e) && this.isOpenable_()) {
+    if (!Blockly.browserEvents.isRightButton(e) && this.isOpenable_()) {
       e.stopPropagation(); // Don't start a workspace scroll.
     }
   }

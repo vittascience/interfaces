@@ -37,6 +37,7 @@ const INCLUDE_SPARK_FUN_MINI_MOTO = "#include <SparkFunMiniMoto.h>";
 const INCLUDE_DUAL_MC33926_MOTOR_SHIELD = "#include <DualMC33926MotorShield.h>";
 const INCLUDE_MULTI_CHANNEL_RELAY = "#include <multi_channel_relay.h>";
 const INCLUDE_TB6612FNG_MOTOR_DRIVER = "#include <Grove_Motor_Driver_TB6612FNG.h>";
+const INCLUDE_STEPPER = "#include <Stepper.h>";
 //sensors modules
 const INCLUDE_ADAFRUIT_BMP280 = "#include <Adafruit_BMP280_I2C.h>";
 const INCLUDE_SEEED_BME280 = "#include <Seeed_BME280.h>";
@@ -61,12 +62,14 @@ const INCLUDE_SEEED_BME680 = "#include <seeed_bme680.h>";
 const INCLUDE_SEEED_HM330X = "#include <Seeed_HM330X.h>";
 const INCLUDE_ADAFRUIT_MLX90614 = "#include <Adafruit_MLX90614.h>";
 const INCLUDE_DFROBOT_MAX30102 = "#include <DFRobot_BloodOxygen_S.h>";
+const INCLUDE_MLX90621 = "#include <MLX90621.h>";
 // MP3
 const INCLUDE_SEEED_GROVE_MP3 = "#include <SeeedGroveMP3.h>";
 const INCLUDE_AI = '#include "EdgeModel"';
 // UNO R4 WiFi
 const INCLUDE_ARDUINO_LED_MATRIX = "#include <Arduino_LED_Matrix.h>";
 const INCLUDE_ARDUINO_GRAPHICS = "#include <ArduinoGraphics.h>";
+const INCLUDE_MODULINO = "#include <Modulino.h>";
 const INCLUDE_WIFIS3 = "#include <WiFiS3.h>";
 const INCLUDE_VITTASCIENCE_SERVER = "#include <Vittascience_Server.h>";
 const INCLUDE_VITTASCIENCE_CLIENT = "#include <Vittascience_Client.h>";

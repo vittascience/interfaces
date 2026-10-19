@@ -1048,7 +1048,7 @@ Blockly.Constants.Lists.LISTS_CREATE_WITH_MUTATOR_MIXIN = {
   },
   restoreConnections_: function () {
     for (var i = 0; i < this.itemCount_; i++) {
-      Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'ADD' + i);
+      this.valueConnections_[i]?.reconnect(this, 'ADD' + i);
     }
   },
   addItem_: function () {
@@ -1075,7 +1075,7 @@ Blockly.Constants.Lists.LISTS_CREATE_WITH_MUTATOR_MIXIN = {
           shadowDomField.setAttribute('name', 'NUM');
           shadowDom.appendChild(shadowDomField);
           if (shadowDom) {
-            shadowDom.setAttribute('id', Blockly.utils.genUid());
+            shadowDom.setAttribute('id', Blockly.utils.idGenerator.genUid());
             newInput.connection.setShadowDom(shadowDom);
             newInput.connection.respawnShadow_();
           }

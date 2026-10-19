@@ -109,13 +109,18 @@ Blockly.Python.network_server_getClientData = function (block) {
 };
 
 // Server - get client data parameter
-Blockly.Python.network_server_getClientDataParam = function () {
+Blockly.Python.network_server_getClientDataParam = function (block) {
     const close = Blockly.Python.valueToCode(block, "CLOSING", Blockly.Python.ORDER_NONE) || "";
     if (close) {
         return ["server.getClientData(close = " + close + ", parameter = True)", Blockly.Python.ORDER_ATOMIC];
     } else {
         return ["server.getClientData(parameter = True)", Blockly.Python.ORDER_ATOMIC];
     }
+};
+
+// Server - close client connection
+Blockly.Python.network_server_closeClientConnection = function () {
+    return "server.closeClient(True)" + NEWLINE;
 };
 
 // Server - get client IP
@@ -256,7 +261,7 @@ Blockly.Python.network_html_addText = function (block) {
     const formattedText = Blockly.Python.esp32.getStringFormat('str(' + text + ')');
     const html_vars = Blockly.Python.esp32.getVariablesIncludedInHtml(block);
     if (html_vars.length > 0) {
-        const id = Blockly.utils.genUid().replace(/[\[\]/{}:;#%=\(\)*+?\\^$|<>&"'~,!.]/g, "l");
+        const id = Blockly.utils.idGenerator.genUid().replace(/[\[\]/{}:;#%=\(\)*+?\\^$|<>&"'~,!.]/g, "l");
         for (var i in html_vars) {
             if (text.includes(html_vars[i])) {
                 Blockly.Python.esp32.addHtmlSpanValue(id, text, 'span');
@@ -378,7 +383,7 @@ Blockly.Python.network_html_addGauge = function (block) {
     }
     min = Blockly.Python.esp32.getStringFormat('str(' + min + ')');
     max = Blockly.Python.esp32.getStringFormat('str(' + max + ')');
-    const id = Blockly.utils.genUid().replace(/[\[\]/{}:;#%=\(\)*+?\\^$|<>&"'~,!.]/g, "l");
+    const id = Blockly.utils.idGenerator.genUid().replace(/[\[\]/{}:;#%=\(\)*+?\\^$|<>&"'~,!.]/g, "l");
     const gaugeCss = '.gauge_' + id + ' .semi-circle {background:#3498db;}' + NEWLINE
         + '.gauge_' + id + ' .semi-circle--mask {transform:rotate(20deg) translate3d(0,0,0);}' + NEWLINE;
     Blockly.Python.esp32.addHtmlGaugeValue(id, value);
@@ -434,7 +439,7 @@ Blockly.Python.network_html_addImage = function (block) {
         data = Blockly.Python.esp32.getStringFormat(data);
         data = '    <img src="data:image/png;base64, ' + data + '">';
     } else {
-        const inputCheck = inputBlock.outputConnection.check_;
+        const inputCheck = inputBlock.outputConnection.getCheck();
         if (inputCheck) {
             if (inputCheck[0] == "Array") {
                 data = Blockly.Python.esp32.getStringFormat('str(' + data + ')[2:-3]');

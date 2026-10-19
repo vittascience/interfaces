@@ -237,3 +237,5 @@ Blockly.Msg['EXCEPTION_TRY_TOOLTIP'] = 'ينفذ كتلة من التعليما�
 
 // Other Block
 Blockly.Msg['OTHER_AST_RAW'] = 'كود غير مترجم';
+Blockly.Msg['VITTAIA_MAKE_PREDICTIONS_FROM_URL_TITLE'] = 'بدء الكشف عن صورة الرابط %2 في %1';
+Blockly.Msg['VITTAIA_MAKE_PREDICTIONS_FROM_URL_TOOLTIP'] = 'Blockly.Msg[\'VITTAIA_MAKE_PREDICTIONS_FROM_URL_TOOLTIP\'] = \'يقوم بإجراء توقعات للنموذج للصورة التي تم تحميلها من رابط. يحتوي التوقع على عنصرين: الفئة ومستوى الثقة.\';';

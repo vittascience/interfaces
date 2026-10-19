@@ -16,7 +16,9 @@ export function initBlocklyAccessibility() {
 }
 
 function removeToolboxFocusable() {
-  const focusableElements = document.querySelectorAll('.blocklyToolboxContents, .blocklyTreeSearch, .blocklySvg');
+  // Not the workspace <svg>: a tabindex, even -1, lets it take the focus, and so the selection,
+  // from the clicked block since Blockly 12, which prevents dragging blocks.
+  const focusableElements = document.querySelectorAll('.blocklyToolboxCategoryGroup, .blocklyTreeSearch');
   focusableElements.forEach(element => {
     if (element) {
       element.setAttribute("tabindex", "-1");

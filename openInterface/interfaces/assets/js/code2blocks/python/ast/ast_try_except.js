@@ -35,34 +35,36 @@ const errorTable = [
 
 
 utils.prototypeBlocks['try_statement'] = function (node, parent) {
-
+    // "except ErrorType:" clauses (EXCEPTn/DOn) and the bare "except:" clause (EXCEPTARG)
     const tryBlock = {
         type: 'exception_try',
         fields: {},
         values: {},
-        mutations: {except: 0},
+        mutations: { except: 0, exceptarg: 0 },
         statementsNode: {},
-        statements: {EXC: {type: 'pass', text: 'pass', children: []}},
+        statements: { EXC: { type: 'pass', text: 'pass', children: [] } },
     };
 
     for (const child of node.children) {
         if (child.type === 'block') {
             tryBlock.statements['EXC'] = child;
         } else if (child.type === 'except_clause') {
-            for (const childExcept of child.children) {
-                if (childExcept.type === 'identifier') {
-                    if (errorTable.includes(childExcept.text)) {
-                        
-                        tryBlock.values[`EXCEPT${tryBlock.mutations.except+1}`] = null;
-                        tryBlock.statementsNode[`EXCEPT${tryBlock.mutations.except+1}`] = {type:"bypass", block: "exception_type", text: childExcept.text};
-                        
-                    }
-                } else if (childExcept.type === 'block') {
-                    tryBlock.mutations.except++;
-                    tryBlock.statements[`DO${tryBlock.mutations.except}`] = childExcept;
-                    
-                }
+            const errorType = child.children.find((childExcept) => childExcept.type === 'identifier');
+            const body = child.children.find((childExcept) => childExcept.type === 'block');
+            // other clauses ("except Error as e", "except (A, B)"): not handled
+            if (child.children.some((childExcept) => childExcept.type === 'as_pattern' || childExcept.type === 'tuple')) return null;
+            if (errorType) {
+                if (!errorTable.includes(errorType.text)) return null;
+                tryBlock.mutations.except++;
+                tryBlock.values[`EXCEPT${tryBlock.mutations.except}`] = null;
+                tryBlock.statementsNode[`EXCEPT${tryBlock.mutations.except}`] = { type: 'bypass', block: 'exception_type', text: errorType.text };
+                tryBlock.statements[`DO${tryBlock.mutations.except}`] = body;
+            } else {
+                tryBlock.mutations.exceptarg = 1;
+                tryBlock.statements['EXCEPTARG'] = body;
             }
+        } else if (child.type === 'else_clause' || child.type === 'finally_clause') {
+            return null;
         }
     }
 

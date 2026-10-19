@@ -1,5 +1,5 @@
 # Robots.txt optimisé pour Vittascience
-# Généré automatiquement le 2026-01-14
+# Mis à jour le 2026-06-20 (audit SEO)
 # Contact: support@vittascience.com
 
 # === RÈGLES D'AUTORISATION ===
@@ -38,27 +38,22 @@ Disallow: */post/
 Disallow: */get/
 Disallow: */delete/
 
-# Profils utilisateurs et pages privées
-Disallow: /userDetails
-Disallow: /userDetails?*
-Disallow: /public/userDetails
-Disallow: /profile
-Disallow: /profile?*
+# Profil, panier et paiement : volontairement CRAWLABLES.
+# Ces pages renvoient déjà <meta name="robots" content="noindex, nofollow">.
+# Les bloquer ici empêcherait Google de lire cette balise, et les URL liées
+# depuis la navbar ressortiraient en « Indexée malgré le blocage par robots.txt ».
 
 # Contenu utilisateur privé et données personnelles
 Disallow: /files/
 Disallow: /public/content/user_data/
 Disallow: /content/user_data/
+
+Allow: /public/content/user_data/tuto_img/
+Allow: /public/content/user_data/exp_img/
+Allow: /content/user_data/tuto_img/
+Allow: /content/user_data/exp_img/
 Disallow: /public/sso/
 Disallow: /sso/
-
-# Panier et transactions
-Disallow: /cart
-Disallow: /cart/
-Disallow: /checkout
-Disallow: /checkout/
-Disallow: /shop/cart
-Disallow: /shop/checkout
 
 # Classroom privé (sessions, groupes, etc.)
 Disallow: /classroom/save_classrooms
@@ -114,32 +109,19 @@ Disallow: /*.tar$
 
 # === LIMITATIONS DE CRAWL ===
 
-# Délai pour les bots gourmands
-User-agent: AhrefsBot
-Crawl-delay: 10
-
-User-agent: MJ12bot
-Crawl-delay: 10
-
-User-agent: SemrushBot
-Crawl-delay: 5
-
-# Bots malveillants complètement bloqués
-User-agent: MJ12bot
-Disallow: /
-
 User-agent: AhrefsBot
 Disallow: /
 
 User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
 Disallow: /
 
 # === SITEMAPS ===
 
-# Sitemaps multilingues (toutes les versions de langue)
-Sitemap: https://fr.vittascience.com/public/sitemap.xml
-Sitemap: https://en.vittascience.com/public/sitemap.xml
-Sitemap: https://es.vittascience.com/public/sitemap.xml
-Sitemap: https://it.vittascience.com/public/sitemap.xml
-Sitemap: https://ar.vittascience.com/public/sitemap.xml
-Sitemap: https://www.vittascience.com/public/sitemap.xml
+Sitemap: https://fr.vittascience.com/sitemap-fr.xml
+Sitemap: https://en.vittascience.com/sitemap-en.xml
+Sitemap: https://es.vittascience.com/sitemap-es.xml
+Sitemap: https://it.vittascience.com/sitemap-it.xml
+Sitemap: https://ar.vittascience.com/sitemap-ar.xml

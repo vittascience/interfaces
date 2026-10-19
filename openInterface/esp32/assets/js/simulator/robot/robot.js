@@ -55,9 +55,21 @@ const Robots = {
         const finderSliderID = "#alvik-finder" + id + "_slider_v";
         const colorSensorSliderID = "#alvik-ColorSensor";
         if ($(finderSliderID).data("ui-slider")) {
-          $(finderSliderID).slider('value', value < 50 ? 1 : 0);
+          let sliderValue;
+          if (Array.isArray(rgb) && rgb.length >= 3) {
+            const r = Math.max(0, Math.min(255, Number(rgb[0]) || 0));
+            const g = Math.max(0, Math.min(255, Number(rgb[1]) || 0));
+            const b = Math.max(0, Math.min(255, Number(rgb[2]) || 0));
+            // White / reflective surface -> low value, dark / black surface -> high value.
+            const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+            sliderValue = 1 - (luminance / 255);
+          } else {
+            // Fallback to previous behavior when RGB is not available.
+            sliderValue = value < 50 ? 1 : 0;
+          }
+          $(finderSliderID).slider('value', Math.max(0, Math.min(1, sliderValue)));
         }
-        if (id === 'Middle' && $(colorSensorSliderID).length > 0) {
+        if (id === 'Middle' && Array.isArray(rgb) && rgb.length >= 3 && $(colorSensorSliderID).length > 0) {
           Simulator.setSliderValue('alvik-ColorSensor', rgb[0], '_r');
           Simulator.setSliderValue('alvik-ColorSensor', rgb[1], '_g');
           Simulator.setSliderValue('alvik-ColorSensor', rgb[2], '_b');

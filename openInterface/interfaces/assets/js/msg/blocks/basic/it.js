@@ -116,6 +116,9 @@ Blockly.Msg["EXCEPTION_RAISE_TOOLTIP"] = "sollevare un'eccezione";
 Blockly.Msg["EXCEPTION_EXCEPTION_TOOLTIP"] = "creare un'eccezione";
 Blockly.Msg["EXCEPTION_TYPE_TOOLTIP"] = "Todos los tipos de excepción posibles";
 Blockly.Msg["EXCEPTION_TRY_TOOLTIP"] = "Ejecuta un bloque de código y permite ejecutar un bloque de código en caso de excepción";
+Blockly.Msg["EXCEPTION_RAISE_TITLE"] = "solleva";
+Blockly.Msg["EXCEPTION_TRY_TITLE"] = "prova";
+Blockly.Msg["EXCEPTION_EXCEPT_TITLE"] = "in caso di eccezione";
 
 // Logic blocks.
 Blockly.Msg["CONTROLS_IF_HELPURL"] = "https://github.com/google/blockly/wiki/IfElse";
@@ -566,6 +569,7 @@ Blockly.Msg["PROCEDURES_DEFRETURN_PROCEDURE"] = "nome_della_funzione";
 Blockly.Msg["PROCEDURES_DEFRETURN_DO"] = "";
 Blockly.Msg["PROCEDURES_DEFRETURN_COMMENT"] = "Descrivi questa funzione...";
 Blockly.Msg["PROCEDURES_DEFRETURN_RETURN"] = "ritorna";
+Blockly.Msg["PROCEDURES_SIMPLE_RETURN_TOOLTIP"] = "Restituisce un valore ed esce dalla funzione.";
 Blockly.Msg["PROCEDURES_DEFRETURN_TOOLTIP"] = "Crea una funzione con un output.";
 Blockly.Msg["PROCEDURES_ALLOW_STATEMENTS"] = "consenti dichiarazioni";
 Blockly.Msg["PROCEDURES_DEF_DUPLICATE_WARNING"] = "Attenzione: Questa funzione ha parametri duplicati.";
@@ -607,3 +611,5 @@ Blockly.Msg['WIO_GET_STATUS_TOOLTIP'] = IMG_WIO_LITE_AI + Blockly.Tooltip.SEP + 
 Blockly.Msg["MATH_RSA_GENERATE_KEYS_HELPURL"] = "https://it.wikipedia.org/wiki/RSA";
 Blockly.Msg["VARIABLES_GLOBAL_HELPURL"] = "https://it.wikipedia.org/wiki/Variabile_globale";
 Blockly.Msg["VARIABLES_SET_WARNING"] = "La variabile '%1' è stata inizialmente assegnata al tipo '%2'\n\n e questo blocco cerca di assegnare il tipo '%3'.\n";
+Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TITLE"] = "Funzione: %1";
+Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TOOLTIP"] = "Ottieni il riferimento della funzione da passare come argomento a un'altra funzione.";

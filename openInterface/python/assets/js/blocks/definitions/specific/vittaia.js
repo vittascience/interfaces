@@ -864,20 +864,38 @@ Blockly.Constants.IA.VITTAIA_IMAGE_UPLOADED_MUTATOR_MIXIN = {
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = function () {
-                that.picture_ = file.name;
-                that.updateField_()
-                const img = {
-                    'name': file.name,
-                    'data': reader.result
-                };
-                let images = [img];
-                if (localStorage.pythonPictures) {
-                    images = JSON.parse(localStorage.pythonPictures);
-                    if (!images.filter((pic) => pic.name == img.name)[0]) {
-                        images.push(img);
+                // Downscale before storing: full-size pictures quickly exceed the localStorage quota,
+                // and the models only use a 224x224 input anyway
+                const source = new Image();
+                source.onload = function () {
+                    const scale = Math.min(1, 448 / Math.min(source.width, source.height));
+                    const canvas = document.createElement('canvas');
+                    canvas.width = Math.round(source.width * scale);
+                    canvas.height = Math.round(source.height * scale);
+                    canvas.getContext('2d').drawImage(source, 0, 0, canvas.width, canvas.height);
+                    const img = {
+                        'name': file.name,
+                        'data': canvas.toDataURL('image/jpeg', 0.9)
+                    };
+                    let images = localStorage.pythonPictures ? JSON.parse(localStorage.pythonPictures) : [];
+                    images = images.filter((pic) => pic.name !== img.name);
+                    images.push(img);
+                    try {
+                        localStorage.setItem('pythonPictures', JSON.stringify(images));
+                    } catch (error) {
+                        // Storage full: drop the oldest pictures until the new one fits
+                        while (images.length > 1) {
+                            images.shift();
+                            try {
+                                localStorage.setItem('pythonPictures', JSON.stringify(images));
+                                break;
+                            } catch (e) { }
+                        }
                     }
-                }
-                localStorage.setItem('pythonPictures', JSON.stringify(images));
+                    that.picture_ = file.name;
+                    that.updateField_();
+                };
+                source.src = reader.result;
             };
         });
         inputFile.click();

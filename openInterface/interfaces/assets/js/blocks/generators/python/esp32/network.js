@@ -130,7 +130,7 @@ Blockly.Python.network_server_getClientIp = function () {
 };
 
 // Server - get client data parameter
-Blockly.Python.network_server_getClientDataParam = function () {
+Blockly.Python.network_server_getClientDataParam = function (block) {
     const close = Blockly.Python.valueToCode(block, "CLOSING", Blockly.Python.ORDER_NONE) || "";
     if (close) {
         return ["server.getClientData(close = " + close + ", parameter = True)", Blockly.Python.ORDER_ATOMIC];
@@ -454,7 +454,7 @@ Blockly.Python.network_html_addImage = function (block) {
         data = '    <img src="data:image/png;base64, ' + data + '">';
     } else {
         if (inputBlock) {
-            const inputCheck = inputBlock.outputConnection.check_;
+            const inputCheck = inputBlock.outputConnection.getCheck();
             if (inputCheck) {
                 if (inputCheck[0] == "Array") {
                     data = Blockly.Python.esp32.getStringFormat('str(' + data + ')[2:-3]');
@@ -767,7 +767,7 @@ Blockly.Python.network_mqtt_onMessageReceived = function (block) {
         const variable = Blockly.Python.nameDB_.getName(block.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME);
         const eventFunction = "def mqtt_onMessageReceived_cb(topic, " + variable + "):" + NEWLINE + branchCode;
         Blockly.Python.addFunction('mqtt_onMessageReceived_cb', eventFunction, true);
-        block.workspace.createVariable('topic');
+        block.workspace.getVariableMap().createVariable('topic');
     }
     return "";
 };
@@ -829,7 +829,7 @@ Blockly.Python.esp32.getVariablesIncludedInHtml = function (block) {
     let html_var_names = new Array()
     for (let id in var_gets) {
         let blockGet = var_gets[id];
-        if (!blockGet.disabled) {
+        if (!blockGet.hasDisabledReason(Blockly.constants.MANUALLY_DISABLED)) {
             while (true) {
                 if (blockGet.parentBlock_ !== null) {
                     if (Blockly.Constants.HTML_BLOCKS.includes(blockGet.getParent().type)) {

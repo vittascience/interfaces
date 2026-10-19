@@ -47,6 +47,8 @@ function URLInput(input) {
   } else if (isNewTabUrl(input)) {
     return 'https://' + input;
   }
+  // Anything else (relative path such as "img/cat.png", incomplete URL) is kept as typed instead of "undefined"
+  return input;
 }
 
 function makeId(length) {

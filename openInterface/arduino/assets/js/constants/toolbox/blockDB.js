@@ -180,10 +180,17 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "sensors_cameraTakePicture": this.Set.field("RX", '7') + this.Set.field("TX", '6') + this.Set.field("PIN_CS", '4'),
             // sensors - distance & movement
             "sensors_getGroveUltrasonicRanger": this.Set.field("PIN", '8'),
+            // Modulino
+            "modulino_buzzer_tone": this.Set.number("FREQUENCY", 440) + this.Set.number("DURATION", 500),
+            "modulino_pixels_setColor": this.Set.number("LED", 0) + this.Set.colour_picker("#ff0000") + this.Set.number("BRIGHTNESS", 25),
+            "modulino_pixels_setRGB": this.Set.number("LED", 0) + this.Set.number("R", 255) + this.Set.number("G", 0) + this.Set.number("B", 0) + this.Set.number("BRIGHTNESS", 25),
+            "modulino_knob_set": this.Set.number("VALUE", 0),
             "sensors_getGroveLineFinder": this.Set.field("PIN", '8'),
             "sensors_getGroveTilt": this.Set.field("PIN", '8'),
             "sensors_getGroveMotion": this.Set.field("PIN", '8'),
             "sensors_getPiezoVibration": this.Set.field("PIN", '8'),
+            // sensors - other
+            "sensors_mlx90621_readObjectTemperature": this.Set.variable("VALUE", '{listVariable}'),
             // actuators - servomotors
             "actuators_setServoAngle": this.Set.field("PIN", '3') + this.Set.number("ANGLE", 90),
             "actuators_continuousServo_setSpeed": this.Set.field("PIN", '3') + this.Set.number("SPEED", 100),
@@ -191,6 +198,14 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             // actuators - I2C motor driver
             "actuators_DCMotor_setSpeed": this.Set.number("SPEED", 100),
             "actuators_stepperMotor_run": this.Set.number("STEP", 1024),
+            // actuators - 28BYJ-48 + ULN2004
+            "actuators_28BYJ48_run":
+                this.Set.number("STEP", 2038) +
+                this.Set.number("RPM", 1) +
+                this.Set.field("IN1", '8') +
+                this.Set.field("IN2", '9') +
+                this.Set.field("IN3", '10') +
+                this.Set.field("IN4", '11'),
             // actuators - mini I2C motor driver
             "actuators_MiniDriver_DCMotor_drive": this.Set.number("SPEED", 100) + this.Set.number("DURATION", 1),
             // actuators - TB6612FNG motor driver

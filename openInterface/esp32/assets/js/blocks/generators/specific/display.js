@@ -171,8 +171,8 @@ Blockly.Python.neopixel_checkDefinedBlock = function (block, pin) {
     let alreadyDefined = false;
     for (block in definedBlocks) {
         const fieldDropdownPin = definedBlocks[block].getField('PIN');
-        const selectedOption = fieldDropdownPin.selectedOption_[1];
-        if (selectedOption == pin && !definedBlocks[block].disabled) {
+        const selectedOption = fieldDropdownPin.getValue();
+        if (selectedOption == pin && !definedBlocks[block].hasDisabledReason(Blockly.constants.MANUALLY_DISABLED)) {
             alreadyDefined = true;
         }
     }
@@ -180,7 +180,7 @@ Blockly.Python.neopixel_checkDefinedBlock = function (block, pin) {
 };
 
 Blockly.Python.display_defineNeopixel = function (block) {
-    const ledCount = Blockly.Python.valueToCode(block, "N", Blockly.Python.ORDER_NONE) || "20";
+    const ledCount = block.getFieldValue("N");
     const pin = block.getFieldValue("PIN");
     Blockly.Python.DISPLAY_NEOPIXEL_INIT_GENERATOR(pin, ledCount);
     return "";
@@ -293,7 +293,7 @@ Blockly.Python.display_setClockGrove4Digit = function (block) {
     Blockly.Python.addImport('esp32_tm1637', IMPORT_ESP32_TM1637);
     Blockly.Python.addImport('utime', IMPORT_UTIME);
     Blockly.Python.addConstant('chronometer', "t0 = utime.ticks_ms()");
-    block.workspace.createVariable('t0');
+    block.workspace.getVariableMap().createVariable('t0');
     Blockly.Python.addConstant('time_read',
         "#Warning, the clock is recovered by browser when ESP32 is flashed." + NEWLINE +
         "#If ESP32 is powered off, time will not flow." + NEWLINE +
@@ -358,8 +358,8 @@ Blockly.Python.chainableLED_checkDefinedBlock = function (block, pin) {
     let alreadyDefined = false;
     for (block in definedBlocks) {
         const fieldDropdownPin = definedBlocks[block].getField('CIN');
-        const selectedOption = fieldDropdownPin.selectedOption_[1];
-        if (selectedOption == pin && !definedBlocks[block].disabled) {
+        const selectedOption = fieldDropdownPin.getValue();
+        if (selectedOption == pin && !definedBlocks[block].hasDisabledReason(Blockly.constants.MANUALLY_DISABLED)) {
             alreadyDefined = true;
         }
     }

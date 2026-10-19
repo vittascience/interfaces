@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="152" height="152" viewBox="0 0 152 152">
+  <g id="img_blocs" transform="translate(-1298.43 -263)">
+    <g id="Rectangle_3951" data-name="Rectangle 3951" transform="translate(1299.43 264)" fill="#ececec" stroke="#707070" stroke-width="1">
+      <rect width="150" height="150" stroke="none"/>
+      <rect x="-0.5" y="-0.5" width="151" height="151" fill="none"/>
+    </g>
+    <g id="_html_" data-name="&lt;html&gt;" transform="translate(1091.93 276.7)">
+      <path id="Bloc_html_" data-name="Bloc &lt;html&gt;" d="M1101.606,489.7h-22.39a4.323,4.323,0,0,0-2.813,1.04l-10.786,9.238a2.879,2.879,0,0,1-1.875.693h-16.3a2.884,2.884,0,0,1-1.909-.722l-10.368-9.165a4.323,4.323,0,0,0-2.863-1.085h-9.283a7.226,7.226,0,0,0-7.205,7.205v48.8a7.226,7.226,0,0,0,7.205,7.205h9.283a4.329,4.329,0,0,1,2.863,1.084l10.368,9.165a2.878,2.878,0,0,0,1.909.723h16.3a2.887,2.887,0,0,0,1.875-.693l10.786-9.238a4.323,4.323,0,0,1,2.813-1.04h22.39a7.226,7.226,0,0,0,7.205-7.205v-48.8A7.226,7.226,0,0,0,1101.606,489.7Z" transform="translate(-779.811 -463.702)" fill="#24a069" stroke="#208956" stroke-width="1"/>
+      <text id="Blocs" transform="translate(245 47)" fill="#fff" font-size="21" font-family="Montserrat-Bold, Montserrat, Arial, sans-serif" font-weight="700"><tspan x="0" y="20">Blocs</tspan></text>
+    </g>
+  </g>
+</svg>

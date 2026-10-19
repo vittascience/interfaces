@@ -623,3 +623,54 @@ utils.prototypeBlocks['#WaterAtomizeron'] = function (pin, value, parent) {
 		statements: null,
 	};
 }
+const actuatorBlock = (type, fields = {}, inputs = {}) => ({
+	type,
+	fields,
+	values: Object.fromEntries(Object.keys(inputs).map((name) => [name, null])),
+	mutations: null,
+	statementsNode: inputs,
+	statements: null,
+});
+
+// Stepper motors: "motorA = StepperMotor(IN1, IN2, IN3, IN4)", "motorA.moveClockwise(STEPS, motorA.UNIT)", "motorA.setDelay(DELAY)"
+for (const motor of ['A', 'B']) {
+	utils.prototypeBlocks[`motor${motor}`] = function (right) {
+		const args = utils.getArgumentList(right.children.find((child) => child.type === 'argument_list')?.children || []);
+		if (!right.text.startsWith('StepperMotor(') || args.length !== 4) return '';
+		return actuatorBlock('actuators_stepperMotor_uln2003driver_init', { MOTOR: motor, IN1: args[0].text, IN2: args[1].text, IN3: args[2].text, IN4: args[3].text });
+	};
+	for (const [method, dir] of [['moveClockwise', '1'], ['moveAntiClockwise', '-1']]) {
+		utils.prototypeBlocks[`motor${motor}.${method}`] = function (type, fields, values, mutations, statementsNode) {
+			const unit = statementsNode[1]?.text.split('.').pop() || 'STEPS';
+			return actuatorBlock('actuators_stepperMotor_uln2003driver_moveSteps', { MOTOR: motor, UNIT: unit, DIR: dir }, { STEPS: statementsNode[0] });
+		};
+	}
+	utils.prototypeBlocks[`motor${motor}.setDelay`] = function (type, fields, values, mutations, statementsNode) {
+		return actuatorBlock('actuators_stepperMotor_uln2003driver_setDelay', { MOTOR: motor }, { DELAY: statementsNode[0] });
+	};
+}
+
+// Kitronik servo board: "servoBoard = KitronikServoBoard()" then "servoBoard.servo_write(SERVO, ANGLE)"
+utils.prototypeBlocks['KitronikServoBoard'] = function () {
+	return 'null';
+};
+utils.prototypeBlocks['servoBoard.servo_write'] = function (type, fields, values, mutations, statementsNode) {
+	return actuatorBlock('actuators_kitronikShield_setServoAngle', {}, { SERVO: statementsNode[0], ANGLE: statementsNode[1] });
+};
+
+// Reka:bit: "run_motor(Motor_M1, Direction_Forward, SPEED)" and "sets_servo_position(Servo_S1, ANGLE)"
+utils.prototypeBlocks['run_motor'] = function (type, fields, values, mutations, statementsNode) {
+	return actuatorBlock('actuators_rekabit_runMotor', { MOTOR: statementsNode[0].text.replace('Motor_', ''), DIR: statementsNode[1].text.replace('Direction_', '') }, { SPEED: statementsNode[2] });
+};
+utils.prototypeBlocks['sets_servo_position'] = function (type, fields, values, mutations, statementsNode) {
+	return actuatorBlock('actuators_rekabit_setServoPosition', { SERVO: statementsNode[0].text.replace('Servo_', '') }, { ANGLE: statementsNode[1] });
+};
+
+// micro:bit V2 sounds: "audio.play(Sound.GIGGLE)" and "audio.stop()"
+utils.prototypeBlocks['audio.play'] = function (type, fields, values, mutations, statementsNode) {
+	if (!statementsNode[0]?.text.startsWith('Sound.')) return null;
+	return actuatorBlock('microbit_audio_play', { SONG: statementsNode[0].text.replace('Sound.', '') });
+};
+utils.prototypeBlocks['audio.stop'] = function () {
+	return actuatorBlock('microbit_audio_stop');
+};

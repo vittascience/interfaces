@@ -6,11 +6,11 @@ let LedMatrixModalManager = {
         LedMatrixModalManager.setSuggestions();
         if ($("#matrix").children().length == 0) {
             // create matrix
-            LedMatrixModalManager.create_columns(this.options.column_size);
-            LedMatrixModalManager.create_lines(this.options.line_size);
+            LedMatrixModalManager.create_columns(this.options.column_size, led_size);
+            LedMatrixModalManager.create_lines(this.options.line_size, led_size);
             LedMatrixModalManager.create_matrix(this.options.column_size, this.options.line_size, led_size);
             //click events listener
-            $('#edit_leds_matrix svg rect').click(LedMatrixModalManager.change_led_color);
+            LedMatrixModalManager.enable_painting('#edit_leds_matrix svg rect');
             $('.suggestion-img').click(LedMatrixModalManager.change_leds_matrix_from_img);
             $('.suggestion-img').on('keydown', function (e) {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -63,6 +63,9 @@ let LedMatrixModalManager = {
         let binary_matrix_col_by_col = Blockly.Constants.LEDS_MATRIX_BLOCK.getText().split(','),
             colors = [],
             leds = $('#edit_leds_matrix svg rect');
+        while (binary_matrix_col_by_col.length < LedMatrixModalManager.options.column_size) {
+            binary_matrix_col_by_col.push('0'.repeat(LedMatrixModalManager.options.line_size));
+        }
 
         for (var i = 0; i < binary_matrix_col_by_col[0].length; i++)
             for (var j = 0; j < binary_matrix_col_by_col.length; j++)
@@ -95,17 +98,44 @@ let LedMatrixModalManager = {
             leds[i].attributes['fill']['value'] = Blockly.Constants.LEDS_MATRIX[i];
         pseudoModal.closeModal('popup_matrix_LED');
     },
-    create_columns: function (number) {
-        let columns_string = "<span> </span>";
+    // Labels are exactly one LED wide/high so they stay aligned with the matrix whatever its size
+    create_columns: function (number, size) {
+        let columns_string = "";
         for (var i = 0; i < number; i++)
-            columns_string = columns_string + "<span>" + i + "</span>";
+            columns_string = columns_string + `<span style="width:${size}px;text-align:center;flex:none">${i}</span>`;
         $('#columns').append(columns_string);
     },
-    create_lines: function (number) {
+    create_lines: function (number, size) {
         var lines_string = "";
         for (var i = 0; i < number; i++)
-            lines_string = lines_string + "<span>" + String.fromCharCode(65 + i) + "</span>";
+            lines_string = lines_string + `<span style="height:${size}px;line-height:${size}px;width:20px;text-align:center">${String.fromCharCode(65 + i)}</span>`;
         $('#lines').append(lines_string);
+    },
+    /**
+     * Click toggles a LED; holding the left button down paints the hovered LEDs with the color of the first one
+     * (drawing or erasing). elementFromPoint also follows a finger on touch screens.
+     * @param {string} selector LEDs of the modal matrix
+     */
+    enable_painting: function (selector) {
+        const leds = document.querySelectorAll(selector);
+        const svg = leds.length ? leds[0].ownerSVGElement : null;
+        if (!svg) return;
+        let paintColor = null;
+        svg.style.touchAction = 'none';
+        leds.forEach(led => led.addEventListener('pointerdown', (e) => {
+            if (e.button !== 0) return;
+            e.preventDefault();
+            LedMatrixModalManager.change_led_color.call(led);
+            paintColor = led.attributes['fill']['value'];
+        }));
+        svg.addEventListener('pointermove', (e) => {
+            if (paintColor === null) return;
+            const led = document.elementFromPoint(e.clientX, e.clientY);
+            if (led && led.tagName === 'rect' && led.parentNode === svg) {
+                led.attributes['fill']['value'] = paintColor;
+            }
+        });
+        document.addEventListener('pointerup', () => { paintColor = null; });
     },
     change_led_color: function () {
         let color = $(this)[0].attributes['fill']['value'];
@@ -118,26 +148,16 @@ let LedMatrixModalManager = {
         return rect
     },
     create_matrix: function (columns, lines, size) {
-        // parameters for the svg rect
-        let parameters = {
-            fill: '#f5f5f5',
-            strokeWidth: '1',
-            stroke: '#E0E5EB',
-            x: 3,
-            y: 3,
-            rx: 12,
-            ry: 12,
-            width: 30,
-            height: 30
-        }
+        const matrix = document.getElementById('matrix');
         for (var i = 0; i < lines; i++) {
             for (var j = 0; j < columns; j++) {
-                document.getElementById('matrix').appendChild(LedMatrixModalManager.create_rect(parameters));
-                parameters['x'] += size;
+                matrix.appendChild(LedMatrixModalManager.create_rect(LedMatrixModalManager.led_parameters(j, i, size, '#f5f5f5')));
             }
-            parameters['x'] = 3;
-            parameters['y'] += size;
         }
+    },
+    // SVG attributes of one LED (rounded square), shared by the modal matrix, the thumbnails and the block image
+    led_parameters: function (col, row, size, fill) {
+        return { fill: fill, strokeWidth: '1', stroke: '#E0E5EB', x: 3 + col * size, y: 3 + row * size, rx: 12, ry: 12, width: size - 4, height: size - 4 };
     },
     set_matrix: function (img) {
         let colors = img.dataset.actionValue.split(","),
@@ -215,23 +235,22 @@ let LedMatrixModalManager = {
                             <i class="fa fa-times"></i>
                         </button>
                     </section>`
+        // #matrix: no padding, with border-box sizing it would shrink the SVG and shift the LEDs away from their labels
         let content = `<section id="content_popup">
                             <section id="leds_matrix">
                                 <section id="edit_leds_matrix">
                                     <section style="display: flex;flex-direction:column">
-                                        <section style="display:flex;justify-content:center">
-                                            <section id="columns" style="width:` + width + `px;margin-left:10.75px"></section>
+                                        <section style="display:flex;flex-direction:row;margin-left: 5px;justify-content:center">
+                                            <span style="width:20px;flex:none"></span>
+                                            <section id="columns" style="width:` + width + `px;justify-content:flex-start"></section>
                                         </section>
                                         <section style="display: flex;flex-direction:row;margin-left: 5px;justify-content:center">
                                             <section id="lines"></section>
-                                            <svg id="matrix" width="` + width + `" height="` + height + `" viewBox="0 0 ` + width + ` ` + height + ` "></svg>
+                                            <svg id="matrix" style="padding:0" width="` + width + `" height="` + height + `" viewBox="0 0 ` + width + ` ` + height + ` "></svg>
                                         </section>
                                     </section>
                                 </section>
-                                    <div id="suggestions">
-                                        <div class="suggestions-column"></div>
-                                        <div class="suggestions-column"></div>
-                                    </div>
+                                    <div id="suggestions"></div>
                                 </section>
                             </section>`;
         let footer = `<section class="vitta-modal-led-footer">
@@ -246,15 +265,27 @@ let LedMatrixModalManager = {
         pseudoModal.add('popup_matrix_LED');
     },
     setSuggestions: function () {
-        const suggestions = document.querySelectorAll("#leds_matrix #suggestions .suggestions-column");
+        // One column per entry of suggestions_order
+        const container = document.querySelector("#leds_matrix #suggestions");
+        const suggestions = LedMatrixModalManager.options.suggestions_order.map(() => {
+            const column = document.createElement("div");
+            column.className = "suggestions-column";
+            // Same spacing in every column, even when they don't hold the same number of examples
+            column.style.justifyContent = "flex-start";
+            column.style.gap = "6px";
+            return container.appendChild(column);
+        });
         for (var column = 0; column < suggestions.length; column++) {
             const column_ids = LedMatrixModalManager.options.suggestions_order[column];
             for (var i = 0; i < column_ids.length; i++) {
                 const img = document.createElement("img");
                 const id = column_ids[i];
                 img.setAttribute("id", `suggestion-img-${id}.png`);
-                img.setAttribute("src", `${LedMatrixModalManager.options.suggestion_path}${id}.png`);
                 const action_data = LedMatrixModalManager.decodeFrameToColors(LedMatrixModalManager.options.suggestions_data[id]);
+                // Arduino boards: draw the thumbnail from the frame (the PNG are red, 12 columns, of various sizes)
+                img.setAttribute("src", ['arduino', 'arduinoq'].includes(INTERFACE_NAME)
+                    ? LedMatrixModalManager.thumbnail(action_data)
+                    : `${LedMatrixModalManager.options.suggestion_path}${id}.png`);
                 img.setAttribute("data-action-value", action_data);
                 img.setAttribute('class', 'suggestion-img');
                 img.setAttribute('tabindex', '0');
@@ -262,6 +293,19 @@ let LedMatrixModalManager = {
                 suggestions[column].appendChild(img);
             }
         }
+    },
+    /**
+     * SVG thumbnail of a matrix, as drawn in the modal.
+     * @param {string} colors comma separated LED colors, row by row
+     */
+    thumbnail: function (colors, options = this.options) {
+        const leds = colors.split(','), columns = options.column_size, width = columns * 34, height = options.line_size * 34;
+        const toAttributes = parameters => Object.entries(parameters).map(([key, value]) => `${key.replace(/[A-Z]/g, c => '-' + c.toLowerCase())}="${value}"`).join(' ');
+        let rects = '';
+        leds.forEach((fill, i) => {
+            rects += `<rect ${toAttributes(LedMatrixModalManager.led_parameters(i % columns, Math.floor(i / columns), 34, fill))}/>`;
+        });
+        return "data:image/svg+xml;base64," + window.btoa(`<svg xmlns="http://www.w3.org/2000/svg" id="matrix" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">${rects}</svg>`);
     },
     decodeFrameToColors(frame_data) {
         let bits = [];
@@ -272,7 +316,12 @@ let LedMatrixModalManager = {
                     bits.push(Number(b));
                 }
             }
-            bits = bits.slice(0, 8 * 12);
+            // 12-column frames (3 words, UNO R4) or 13-column ones (4 words, UNO Q): fit each row to the matrix width
+            const frameColumns = frame_data.length > 3 ? 13 : 12;
+            bits = Array.from({ length: 8 }, (_, row) => {
+                const line = bits.slice(row * frameColumns, (row + 1) * frameColumns).slice(0, this.options.column_size);
+                return line.concat(Array(this.options.column_size - line.length).fill(0));
+            }).flat();
         } else {
             for (let y = 0; y < this.options.line_size; y++) {
                 for (let x = 0; x < this.options.column_size; x++) {

@@ -41,6 +41,30 @@ const downloadOptions = {
             value: "code.topbar.label.downloadCamFirmware"
         }
     },
+    'uploadBLE': {
+        id: "upload-ilo-ble-opt",
+        classes: 'ide-btn-check ide-btn-left-dropdown',
+        fontAwesome: 'fa-brands fa-bluetooth',
+        title: 'code.topbar.tooltips.sendByBluetoothToRobot',
+        tooltipPlacement: "left",
+        onclick: "uploadPythonBLE()",
+        show: false,
+        label: {
+            value: "code.topbar.label.sendByBluetoothToRobot"
+        }
+    },
+    'disconnectBLE': {
+        id: "disconnect-opt-ble",
+        classes: 'ide-btn-check ide-btn-left-dropdown',
+        fontAwesome: 'fa-brands fa-bluetooth',
+        title: 'code.topbar.tooltips.disconnect',
+        tooltipPlacement: "left",
+        onclick: "IloBLE.disconnect()",
+        show: false,
+        label: {
+            value: "code.topbar.label.disconnect"
+        }
+    },
     'disconnect': {
         id: "disconnect-opt",
         classes: 'ide-btn-check ide-btn-left-dropdown',

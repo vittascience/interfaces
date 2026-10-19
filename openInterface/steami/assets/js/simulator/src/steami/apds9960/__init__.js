@@ -27,43 +27,43 @@ const $builtinmodule = function () {
         uAPDS9960__init__.$defaults = [new Sk.builtin.none()];
         $loc.__init__ = new Sk.builtin.func(uAPDS9960__init__);
 
-        const enableLightSensor = function (self) {
+        const enable_light_sensor = function (self) {
             return new Sk.builtin.none();
         };
-        enableLightSensor.co_varnames = ['self'];
-        enableLightSensor.$defaults = [new Sk.builtin.none()];
-        $loc.enableLightSensor = new Sk.builtin.func(enableLightSensor);
+        enable_light_sensor.co_varnames = ['self'];
+        enable_light_sensor.$defaults = [new Sk.builtin.none()];
+        $loc.enable_light_sensor = new Sk.builtin.func(enable_light_sensor);
 
-        const readAmbientLight = function (self) {
+        const ambient_light = function (self) {
             return new Sk.builtin.int_(Simulator.getSliderValue('steami-ambient-light-sensor'));
         };
-        $loc.readAmbientLight = new Sk.builtin.func(readAmbientLight);
+        $loc.ambient_light = new Sk.builtin.func(ambient_light);
 
-        const setProximityIntLowThreshold = function (self, threshold) {
+        const set_proximity_int_low_threshold = function (self, threshold) {
             self.threshold = Sk.ffi.remapToJs(threshold);
             return new Sk.builtin.none();
         };
-        $loc.setProximityIntLowThreshold = new Sk.builtin.func(setProximityIntLowThreshold);
+        $loc.set_proximity_int_low_threshold = new Sk.builtin.func(set_proximity_int_low_threshold);
 
-        const enableGestureSensor = function (self) {
+        const enable_gesture_sensor = function (self) {
             return new Sk.builtin.none();
         };
-        $loc.enableGestureSensor = new Sk.builtin.func(enableGestureSensor);
+        $loc.enable_gesture_sensor = new Sk.builtin.func(enable_gesture_sensor);
 
-        const readGesture = function (self) {
+        const gesture = function (self) {
             return apds9960.APDS9960_DIR_NONE;
         };
-        $loc.readGesture = new Sk.builtin.func(readGesture);
+        $loc.gesture = new Sk.builtin.func(gesture);
 
-        const enableProximitySensor = function (self) {
+        const enable_proximity_sensor = function (self) {
             return new Sk.builtin.none();
         };
-        $loc.enableProximitySensor = new Sk.builtin.func(enableProximitySensor);
+        $loc.enable_proximity_sensor = new Sk.builtin.func(enable_proximity_sensor);
 
-        const readProximity = function (self) {
+        const proximity = function (self) {
             return new Sk.builtin.none();
         };
-        $loc.readProximity = new Sk.builtin.func(readProximity);
+        $loc.proximity = new Sk.builtin.func(proximity);
 
     }, "uPADS9960", []);
 

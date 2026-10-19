@@ -27,20 +27,24 @@ const InterfaceConnection = {
 
 	uploadPython: async function () {
 		const mainCode = CodeManager.getSharedInstance().getCode();
+		// Global progress is computed on the total size of every uploaded file
+		let totalSize = 0;
+		let sentSize = 0;
 		const uploadFile = async (filename, code) => {
 			this._uploader.setFile(code, filename);
 			const payloads = this._uploader.generatePayloads();
-			this.serial.percent = 0;
+			this.serial.percent = Math.round(sentSize / totalSize * 100);
 			this.serial.filename = filename;
 			this.serial._controller.online = false;
 			await this.serial.write(new Uint8Array(payloads[0]));
-			await waitFor(_ => this.serial._controller.online === true, 20);
+			await waitForUpload(_ => this.serial._controller.online === true, 'upload mode ' + filename);
 			for (var i = 1; i < payloads.length; i++) {
 				this.serial._controller.payloadWritted = false;
-				this.serial.percent = Math.round(i / (payloads.length - 1) * 100);
+				this.serial.percent = Math.round((sentSize + code.length * i / (payloads.length - 1)) / totalSize * 100);
 				await this.serial.write(new Uint8Array(payloads[i]));
-				await waitFor(_ => this.serial._controller.payloadWritted === true, 20);
+				await waitForUpload(_ => this.serial._controller.payloadWritted === true, 'payload ' + i + '/' + (payloads.length - 1) + ' ' + filename);
 			}
+			sentSize += code.length;
 		};
 		const config = async () => {
 			this.serial._controller.restarted = false;
@@ -48,37 +52,49 @@ const InterfaceConnection = {
 			await this.serial.write(new Uint8Array(pack.to_buffer()));
 			await this.sendScriptCommand("try:\n    import config\nexcept:\n    pass", TYPE_RUN_WITH_CONFIG);
 			await this.sendScriptCommand("try:\n    config.write_config('repl_enable', False)\nexcept:\n    pass", TYPE_RUN_WITH_CONFIG);
-			await waitFor(_ => this.serial._controller.restarted === true, 20);
+			await waitForUpload(_ => this.serial._controller.restarted === true, 'restart');
 		};
 		const upload = async () => {
-			// get requested libraries in user main
-			const requestedLib = this._getRequestedLibraries(mainCode);
 			let files = "[";
 			for (const i in VittaInterface.externalLibraries) {
 				files += '\'' + i + '.py\','
 			}
-			// Write boot file to remove unused files
-			await uploadFile('main.py', "import os, cyberpi, time\ncyberpi.console.print('Uploading...')\ntime.sleep(0.5)\nfiles = " + files + "\nfor f in files:\n\tif f in os.listdir():os.remove('/flash/' + f)\nprint(os.listdir())\ntime.sleep(0.5)");
-			await config();
-			setTimeout(async () => {
-				// Write dependencies
-				for (var i = 0; i < requestedLib.length; i++) {
-					await uploadFile(requestedLib[i].filename, requestedLib[i].code);
-					if (requestedLib[i].filename === 'vitta_server.py') {
-						await uploadFile('vitta_script.js', Blockly.Python.convertObjectInLists(Blockly.Python.jsCodes_).join("\n"));
-						await uploadFile('vitta_style.css', Blockly.Python.convertObjectInLists(Blockly.Python.cssStyles_).join("\n"));
-					}
+			// Boot file to remove unused files
+			const bootCode = "import os, cyberpi, time\ncyberpi.console.print('Uploading...')\ntime.sleep(0.5)\nfiles = " + files + "]\nfor f in files:\n\tif f in os.listdir():os.remove('/flash/' + f)\nprint(os.listdir())\ntime.sleep(0.5)";
+			// Dependencies requested in user main
+			const libFiles = [];
+			for (const lib of this._getRequestedLibraries(mainCode)) {
+				libFiles.push(lib);
+				if (lib.filename === 'vitta_server.py') {
+					libFiles.push({ filename: 'vitta_script.js', code: Blockly.Python.convertObjectInLists(Blockly.Python.jsCodes_).join("\n") });
+					libFiles.push({ filename: 'vitta_style.css', code: Blockly.Python.convertObjectInLists(Blockly.Python.cssStyles_).join("\n") });
+				}
+			}
+			totalSize = bootCode.length + mainCode.length + libFiles.reduce((size, f) => size + f.code.length, 0);
+			sentSize = 0;
+			toggleUploadProgress(true);
+			try {
+				await uploadFile('main.py', bootCode);
+				await config();
+				await new Promise(resolve => setTimeout(resolve, 1000));
+				for (const lib of libFiles) {
+					await uploadFile(lib.filename, lib.code);
 				}
 				this.serial.isDownloading = true;
 				// Write main file
 				this.serial._controller.restarted = false;
 				await uploadFile('main.py', mainCode);
 				await config();
-				InterfaceMonitor.writeConsole('</br>' + jsonPath('code.serialAPI.fileDownloaded'), 'success', false, true);
-				//} else if (/\@event.start/.test(mainCode)) {
-				// 	await this.sendScriptCommand("config.write_config(\"repl_enable\", False)", false);
-				// }
-			}, 1000);
+				toggleUploadProgress(false);
+			} catch (e) {
+				console.error(e);
+				toggleUploadProgress(false);
+				// No answer to the very first request: the USB adapter is detected but the robot is switched off
+				const boardOff = sentSize === 0 && /\(upload mode /.test(e.message);
+				InterfaceMonitor.writeConsole(boardOff ? 'code.serialAPI.boardNotResponding' : 'code.serialAPI.flashFailed', 'warning');
+				return;
+			}
+			InterfaceMonitor.writeConsole('</br>' + jsonPath('code.serialAPI.fileDownloaded'), 'success', false, true);
 		};
 		InterfaceMonitor.setup();
 		if (this.serial.isConnected) {
@@ -112,10 +128,12 @@ const InterfaceConnection = {
 
 	readCallbackError: function (error) {
 		if (error.match(/(DOMException|ParityError|BufferOverrunError): A ((framing|parity) error|buffer overrun) has been detected\./)) {
-			this.serial.dataReceived = this.serial._loop_reader(this.readCallbackError.bind(this));
+			// Recoverable: _loop_reader already reopens the new port.readable. Spawning a new generator here would see the stream locked, end at once and stop readingLoop
+			return;
 		} else if (error.match(/(DOMException|BreakError): A break condition has been detected\./)) {
 			console.log('Please refresh page.')
 		} else if (error.match(/(DOMException|NetworkError): The device has been lost\./)) {
+			toggleUploadProgress(false);
 			InterfaceMonitor.writeConsole(jsonPath('code.serialAPI.boardDisconnected'), 'warning');
 			this.serial.reset();
 			$("#disconnect-opt").hide();
@@ -125,7 +143,7 @@ const InterfaceConnection = {
 
 	doConnect: async function () {
 		try {
-			await this.serial.open(this.connectCallbackError.bind(this));
+			await this.serial.open(this.readCallbackError.bind(this));
 			console.log(await this.serial.getInfo());
 			console.log(await this.serial.getSignals());
 			console.log(this.serial.port);

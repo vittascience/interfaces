@@ -1,4 +1,6 @@
 import utils from '/openInterface/interfaces/assets/js/code2blocks/python/utils/utils.js';
+import '/openInterface/interfaces/assets/js/code2blocks/python/utils/chronometer.js';
+import '/openInterface/interfaces/assets/js/code2blocks/python/utils/music.js';
 
 // pin declarations pyb.Pin
 
@@ -16,8 +18,10 @@ utils.prototypeBlocks['pyb.Pin'] = function (type, identifier, values, mutations
 			checkClasses.mode = child.text;
 		}
 	}
-
+	// generated again by the blocks using the pin
+	return '';
 };
+utils.prototypeBlocks['machine.Pin'] = utils.prototypeBlocks['pyb.Pin'];
 
 
 // pin declarations
@@ -44,8 +48,8 @@ utils.prototypeBlocks['define_pin'] = function (node, identifier) {
 			mode = pinArg;
 		}
 	}
-	checkClasses.pin = pin.text;
-	checkClasses.mode = mode.text;
+	checkClasses.pin = pin?.text;
+	checkClasses.mode = mode?.text;
 
 	return "";
 };
@@ -54,7 +58,8 @@ utils.prototypeBlocks['on'] = function (node, identifier) {
 	const classes = utils.python2Blocks._classes;
 	const checkClasses = classes[identifier];
 	if (!checkClasses) {
-		return '';
+		// not a pin of the program (ex: method of another object): generic call
+		return null;
 	}
 	if (checkClasses.builtin_led) {
 		return {
@@ -71,6 +76,22 @@ utils.prototypeBlocks['on'] = function (node, identifier) {
 	if (!mode === 'Pin.OUT') {
 		return '';
 	}
+	// pin name (ex: 'D0'): LED module block (with its comment in the program) or digital write block
+	if (/^['"][A-Z]+[0-9]+['"]$/.test(String(pin))) {
+		const ledModule = (utils.python2Blocks.code || '').includes('# LED Module on ' + String(pin).replace(/['"]/g, ''));
+		return {
+			type: ledModule ? 'display_setGroveSocketLed' : 'io_writeDigitalPin',
+			fields: { PIN: String(pin).replace(/"/g, "'") },
+			values: { STATE: null },
+			mutations: null,
+			statementsNode: { STATE: { type: 'bypass', block: 'HIGH_STATE_BOOL', text: 'HIGH', children: [] } },
+			statements: null,
+			// generates the call only, not the try/except of a pin declaration (see determineTryStatementBlockType)
+			callOnly: true,
+		};
+	}
+	// pin number of machine.Pin (ex: "p13"), not a pyb pin name (ex: 'D0'): generic call
+	if (!/^\d+$/.test(String(pin))) return null;
 	if (pin === "2"){
 		return {
 			type: 'display_controlBuiltInLED',
@@ -96,7 +117,8 @@ utils.prototypeBlocks['off'] = function (node, identifier) {
 	const classes = utils.python2Blocks._classes;
 	const checkClasses = classes[identifier];
 	if (!checkClasses) {
-		return '';
+		// not a pin of the program (ex: method of another object): generic call
+		return null;
 	}
 	if (checkClasses.builtin_led) {
 		return {
@@ -113,6 +135,22 @@ utils.prototypeBlocks['off'] = function (node, identifier) {
 	if (!mode === 'Pin.OUT') {
 		return '';
 	}
+	// pin name (ex: 'D0'): LED module block (with its comment in the program) or digital write block
+	if (/^['"][A-Z]+[0-9]+['"]$/.test(String(pin))) {
+		const ledModule = (utils.python2Blocks.code || '').includes('# LED Module on ' + String(pin).replace(/['"]/g, ''));
+		return {
+			type: ledModule ? 'display_setGroveSocketLed' : 'io_writeDigitalPin',
+			fields: { PIN: String(pin).replace(/"/g, "'") },
+			values: { STATE: null },
+			mutations: null,
+			statementsNode: { STATE: { type: 'bypass', block: 'LOW_STATE_BOOL', text: 'LOW', children: [] } },
+			statements: null,
+			// generates the call only, not the try/except of a pin declaration (see determineTryStatementBlockType)
+			callOnly: true,
+		};
+	}
+	// pin number of machine.Pin (ex: "p13"), not a pyb pin name (ex: 'D0'): generic call
+	if (!/^\d+$/.test(String(pin))) return null;
 	if (pin === "2"){
 		return {
 			type: 'display_controlBuiltInLED',

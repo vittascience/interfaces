@@ -127,6 +127,7 @@ const TOOLBOXES_SVGS = {
     "py_procedures_subcategory": TOOLBOXES_SVGS_DEFINITION['icon_function'],
     "cpp_display_subcategory": TOOLBOXES_SVGS_DEFINITION['icon_idea_on'],
     "cpp_category": TOOLBOXES_SVGS_DEFINITION['icon_arduino'],
+    "dictionaries_category": TOOLBOXES_SVGS_DEFINITION['icon_bracket']
 };
 
 const LIBRARIES_PATH_ESP32 = [
@@ -139,7 +140,7 @@ const LIBRARIES_PATH_ESP32 = [
         "content": [
             'esp32_bmp280', 'esp32_bme280', 'esp32_chainableLED', 'esp32_colorSensor', 'esp32_ds1307', 'esp32_gas_gmxxx', 'esp32_gas',
             'esp32_hm330x', 'esp32_lcd_i2c', 'esp32_lcd_i2c8574', 'esp32_my9221', 'esp32_paj7620', 'esp32_pcf85063tp', 'esp32_scd30', 'esp32_sgp30',
-            'esp32_sht31', 'esp32_si1145', 'esp32_si1151', 'esp32_ssd1306', 'esp32_th02', 'esp32_tm1637', 'esp32_mpu6050', 'esp32_mlx90621'
+            'esp32_sht31', 'esp32_si1145', 'esp32_si1151', 'esp32_ssd1306', 'esp32_th02', 'esp32_tm1637', 'esp32_mpu6050', 'esp32_mlx90621', 'esp32_bn880'
         ]
     },
     {

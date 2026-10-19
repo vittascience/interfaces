@@ -207,3 +207,5 @@ Blockly.Msg['TURTLE_SCREEN_PICTURE_TOOLTIP'] = 'Установить фонов�
 Blockly.Msg['TURTLE_SCREEN_PICTURE_MAZE'] = 'лабиринт';
 Blockly.Msg['TURTLE_SCREEN_PICTURE_GRID'] = 'сетка';
 Blockly.Msg['TURTLE_SCREEN_PICTURE_VITTASCIENCE'] = 'виттасайнс';
+Blockly.Msg['VITTAIA_MAKE_PREDICTIONS_FROM_URL_TITLE'] = '%1 начать обнаружение по URL изображения %2';
+Blockly.Msg['VITTAIA_MAKE_PREDICTIONS_FROM_URL_TOOLTIP'] = 'Выполняет предсказания модели для изображения, загруженного по URL. Предсказание состоит из двух элементов: класса и уровня уверенности.';

@@ -30,6 +30,7 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/ubluetooth.js': Simulator.PATH_LIB.replace('steami', 'wb55') + 'micropython/bluetooth.js',
     'src/lib/stm32_ble_uart.js': Simulator.PATH_LIB.replace('steami', 'wb55') + 'bluetooth/stm32_ble_uart.js',
     'src/lib/dht.js': Simulator.PATH_LIB_COMMON + 'stm32/micropython/dht.js',
+    'src/lib/stm32_donutbot.js': Simulator.PATH_LIB + 'donutbot/stm32_donutbot.js',
     // js grove libraries
     'src/lib/stm32_lcd_i2c.js': Simulator.PATH_LIB_COMMON + 'stm32/grove/stm32_lcd_i2c.js',
     'src/lib/stm32_tm1637.js': Simulator.PATH_LIB_COMMON + 'stm32/grove/stm32_tm1637.js',
@@ -245,6 +246,8 @@ Simulator.Mosaic.groveRegex = {
 Simulator.Mosaic.specific = {
 
     extractPin: {
+        'read-digital': (str) => str.split(',')[0].split('Pin(')[1].replace(/'/gi, ""),
+        'write-digital': (str) => str.split(',')[0].split('Pin(')[1].replace(/'/gi, ""),
         'pwm': (str) => str.split(',')[0].split('Pin(')[1].replace(/'/gi, "")
     },
 

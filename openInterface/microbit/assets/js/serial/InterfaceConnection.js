@@ -143,6 +143,12 @@ const InterfaceConnection = {
 			// 2. Échanger les classes entre uploadPython et downloadFirmwareOpt
 			[uploadPythonButton.className, downloadFirmwareOptButton.className] =
 				[downloadFirmwareOptButton.className, uploadPythonButton.className];
+			// Et celles des libellés : dans la barre, le libellé est masqué sur mobile pour que la barre tienne.
+			const uploadLabel = uploadPythonButton.querySelector('.label-button');
+			const downloadLabel = downloadFirmwareOptButton.querySelector('.label-button');
+			if (uploadLabel && downloadLabel) {
+				[uploadLabel.className, downloadLabel.className] = [downloadLabel.className, uploadLabel.className];
+			}
 
 			// 3. Déplacer uploadPython sous uploadPythonBLEOpt
 			uploadPythonBLEOptButton.parentNode.insertBefore(uploadPythonButton, uploadPythonBLEOptButton.nextSibling);

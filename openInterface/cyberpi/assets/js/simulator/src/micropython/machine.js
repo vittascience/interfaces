@@ -104,8 +104,6 @@ const $builtinmodule = function (name) {
 			const component = Simulator.pinList.find((component) => component.pin == self.pin);
 			if (component !== undefined) {
 				self.id = component.id;
-			} else if (self.pin === 2) {
-				self.id = "esp32-builtin-led";
 			}
 			switch (self.pull) {
 				case $loc.PULL_UP.v:
@@ -118,7 +116,7 @@ const $builtinmodule = function (name) {
 			self.value = value.v;
 			if (self.mode == $loc.OUT.v && self.id !== undefined) {
 				const module = Simulator.getModuleByKey(self.id.split('_')[0]);
-				if (module.type !== 'input') {
+				if (module && module.type !== 'input') {
 					Simulator.setAnimator(module, self.id, self.value);
 				}
 			}
@@ -256,6 +254,8 @@ const $builtinmodule = function (name) {
 	machine.PWM = new Sk.misceval.buildClass(machine, function ($gbl, $loc) {
 
 		const startPWM = function (self) {
+			// No simulated module plugged on this pin
+			if (self.id === undefined) return;
 			const module = Simulator.getModuleByKey(self.id.split('_')[0]);
 			if (Simulator.intervals[self.id]) {
 				clearInterval(Simulator.intervals[self.id]);
@@ -286,8 +286,8 @@ const $builtinmodule = function (name) {
 				if (module !== undefined && module.animate !== undefined) {
 					Simulator.setAnimator(module, self.id, self.duty);
 				} else {
-					$('#' + id + '_value').html(self.duty == 0 ? "OFF" : self.duty);
-					$('#' + id + '_anim').css('opacity', self.duty / PWM_MAX_DUTY);
+					$('#' + self.id + '_value').html(self.duty == 0 ? "OFF" : self.duty);
+					$('#' + self.id + '_anim').css('opacity', self.duty / PWM_MAX_DUTY);
 				}
 			}
 		};

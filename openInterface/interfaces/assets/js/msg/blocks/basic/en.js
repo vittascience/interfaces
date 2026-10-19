@@ -116,6 +116,9 @@ Blockly.Msg["EXCEPTION_RAISE_TOOLTIP"] = "raise an exception";
 Blockly.Msg["EXCEPTION_EXCEPTION_TOOLTIP"] = "create an exception";
 Blockly.Msg["EXCEPTION_TYPE_TOOLTIP"] = "All possible exception types";
 Blockly.Msg["EXCEPTION_TRY_TOOLTIP"] = "Executes a block of code and allows a block of code to be executed in the event of an exception";
+Blockly.Msg["EXCEPTION_RAISE_TITLE"] = "raise";
+Blockly.Msg["EXCEPTION_TRY_TITLE"] = "try";
+Blockly.Msg["EXCEPTION_EXCEPT_TITLE"] = "except";
 
 // Logic blocks.
 Blockly.Msg["CONTROLS_IF_HELPURL"] = "https://github.com/google/blockly/wiki/IfElse";
@@ -530,6 +533,7 @@ Blockly.Msg["PROCEDURES_DEFRETURN_PROCEDURE"] = Blockly.Msg["PROCEDURES_DEFNORET
 Blockly.Msg["PROCEDURES_DEFRETURN_DO"] = Blockly.Msg["PROCEDURES_DEFNORETURN_DO"];
 Blockly.Msg["PROCEDURES_DEFRETURN_COMMENT"] = Blockly.Msg["PROCEDURES_DEFNORETURN_COMMENT"];
 Blockly.Msg["PROCEDURES_DEFRETURN_RETURN"] = "return";
+Blockly.Msg["PROCEDURES_SIMPLE_RETURN_TOOLTIP"] = "Returns a value and exits the function.";
 Blockly.Msg["PROCEDURES_DEFRETURN_TOOLTIP"] = "Creates a function with an output.";
 Blockly.Msg["PROCEDURES_ALLOW_STATEMENTS"] = "allow statements";
 Blockly.Msg["PROCEDURES_DEF_DUPLICATE_WARNING"] = "Warning: This function has duplicate parameters.";
@@ -598,3 +602,5 @@ Blockly.Msg['WIO_GET_VERSION'] = 'the version';
 Blockly.Msg['WIO_GET_STATUS_TOOLTIP'] = IMG_WIO_LITE_AI + Blockly.Tooltip.SEP + 'Returns the version or status of the Wio lite (0: busy, 1: ready, 2: result available).';
 Blockly.Msg["MATH_RSA_GENERATE_KEYS_HELPURL"] = "https://en.wikipedia.org/wiki/RSA_(cryptosystem)";
 Blockly.Msg["TEXT_SPLIT_TITLE"] = "split text %1 by %2";
+Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TITLE"] = "Function: %1";
+Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TOOLTIP"] = "Get the function reference to pass it as an argument to another function.";

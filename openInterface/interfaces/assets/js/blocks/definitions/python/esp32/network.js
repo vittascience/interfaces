@@ -2155,7 +2155,7 @@ Blockly.Constants.Network.NETWORK_THINGSPEAK_SEND_DATA_MUTATOR_MIXIN = {
     },
     restoreValueConnections_: function () {
         for (var i = 0; i < this.itemCount_; i++) {
-            Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'ADD' + i);
+            this.valueConnections_[i]?.reconnect(this, 'ADD' + i);
         }
     },
     addItem_: function () {
@@ -2224,7 +2224,7 @@ Blockly.Constants.Network.NETWORK_THINGSPEAK_SEND_DATA_MUTATOR_MIXIN = {
             const newBlock = Blockly.utils.xml.createElement('block');
             newBlock.setAttribute('type', dataBlockName);
             if (newBlock) {
-                const id = Blockly.utils.genUid()
+                const id = Blockly.utils.idGenerator.genUid()
                 newBlock.setAttribute('id', id);
                 const field = Blockly.utils.xml.createElement('field');
                 field.setAttribute('name', 'FIELD');
@@ -2316,8 +2316,8 @@ Blockly.Constants.Network.NETWORK_MQTT_IF_TOPIC_IS_MUTATOR_MIXIN = {
     // Restore pointers to any connected child blocks.
     restoreConnections_: function () {
         for (var i = 1; i <= this.elseifCount_; i++) {
-            Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'TOPIC' + i);
-            Blockly.Mutator.reconnect(this.statementConnections_[i], this, 'DO' + i);
+            this.valueConnections_[i]?.reconnect(this, 'TOPIC' + i);
+            this.statementConnections_[i]?.reconnect(this, 'DO' + i);
         }
     },
     addElseIf_: function () {
@@ -2369,7 +2369,7 @@ Blockly.Constants.Network.NETWORK_MQTT_IF_TOPIC_IS_MUTATOR_MIXIN = {
                 .appendField(Blockly.Msg.CONTROLS_IF_MSG_THEN)
                 .appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
                     this.buttonSize, "*", removeElseIf, false))
-                .setAlign(Blockly.ALIGN_RIGHT);
+                .setAlign(Blockly.inputs.Align.RIGHT);
             this.appendStatementInput('DO' + i);
             Blockly.Constants.Utils.CONNECT_DEFAULT_BLOCK(this, {
                 "input": 'TOPIC' + i,
@@ -2420,8 +2420,8 @@ Blockly.Constants.Network.NETWORK_MQTT_IF_TOPIC_IS_MUTATOR_MIXIN = {
      */
     reconnectChildBlocks_: function (valueConnections, statementConnections) {
         for (var i = 1; i <= this.elseifCount_; i++) {
-            Blockly.Mutator.reconnect(valueConnections[i], this, 'TOPIC' + i);
-            Blockly.Mutator.reconnect(statementConnections[i], this, 'DO' + i);
+            valueConnections[i]?.reconnect(this, 'TOPIC' + i);
+            statementConnections[i]?.reconnect(this, 'DO' + i);
         }
     }
 };

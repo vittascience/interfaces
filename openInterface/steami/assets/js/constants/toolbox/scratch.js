@@ -103,7 +103,7 @@ const TOOLBOX_SCRATCH_CATEGORIES = [
         "kind": "category",
         "toolboxitemid": "lists",
         "name": "%{BKY_CATEGORY_LISTS}",
-        "style": "list_category",
+        "style": "lists_category",
         "cssConfig": {
             "icon": "icon_blockly fas fa-list"
         },
@@ -426,7 +426,57 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'actuators_setVibrationMotorState',
                 'actuators_setGroveRelayState'
             ]
-        }
+        },
+        // {
+        //     "label": "%{BKY_SUBCATEGORY_DONUTBOT_MOTORS}",
+        //     "blocks": [
+        //         'robots_donutbot_setGo',
+        //         'robots_donutbot_controlMotor',
+        //         'robots_donutbot_turnTo',
+        //         'robots_donutbot_turnToAngle',
+        //         'robots_donutbot_stopMotors',
+        //         'robots_donutbot_releaseMotors',
+        //         'robots_donutbot_moveOneSquareForward',
+        //         'robots_donutbot_moveOneSquareBackward',
+        //         'robots_donutbot_turnLeft',
+        //         'robots_donutbot_turnRight'
+        //     ]
+        // },
+        // {
+        //     "label": "%{BKY_SUBCATEGORY_DONUTBOT_SENSORS}",
+        //     "blocks": [
+        //         'robots_donutbot_readDistance',
+        //         'robots_donutbot_getUltrasonicRange',
+        //         'robots_donutbot_lineDetectorFunction',
+        //         'robots_donutbot_lineDetector',
+        //         'robots_donutbot_lineDetectorThreshold',
+        //         'robots_donutbot_colorDetector',
+        //         'robots_donutbot_colorDetector_average',
+        //         'robots_donutbot_colorDetector_name'
+        //     ]
+        // },
+        // {
+        //     "label": "%{BKY_SUBCATEGORY_DONUTBOT_LED_RGB}",
+        //     "blocks": [
+        //         'robots_donutbot_neopixel_setPaletteColor',
+        //         'robots_donutbot_neopixel_setColor',
+        //         'robots_donutbot_blinkRobot',
+        //         'robots_donutbot_neopixel_setRainbow'
+        //     ]
+        // },
+        // {
+        //     "label": "%{BKY_SUBCATEGORY_DONUTBOT_IO}",
+        //     "blocks": [
+        //         'robots_donutbot_buttons_onPressed'
+        //     ]
+        // },
+        // {
+        //     "label": "%{BKY_SUBCATEGORY_DONUTBOT_COMMUNICATION}",
+        //     "blocks": [
+        //         'robots_donutbot_BLE_SendData',
+        //         'robots_donutbot_BLE_ReadData'
+        //     ]
+        // }
     ],
     "ia": [
         {

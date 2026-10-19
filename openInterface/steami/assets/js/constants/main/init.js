@@ -40,6 +40,7 @@ const INTERFACE_BOARDS = {
 };
 //simulator
 const SIMULATOR_DEFAULT_BOARD = INTERFACE_BOARDS[BOARD_DEFAULT];
+const SIMULATOR_DEFAULT_ROBOT = 'Alphabot';
 //serial
 const SERIAL_OPTIONS = {
     chunkSizes: {

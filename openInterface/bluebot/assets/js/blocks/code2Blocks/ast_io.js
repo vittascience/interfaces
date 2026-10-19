@@ -1,4 +1,5 @@
 import utils from '/openInterface/interfaces/assets/js/code2blocks/python/utils/utils.js';
+import '/openInterface/interfaces/assets/js/code2blocks/python/utils/chronometer.js';
 
 utils.prototypeBlocks['sleep'] = function (type, identifier, values, mutations, statementsNode, statement) {
 	const checkImport = utils.checkImport(identifier);

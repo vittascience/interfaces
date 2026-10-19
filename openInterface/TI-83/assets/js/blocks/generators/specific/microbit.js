@@ -20,7 +20,7 @@ Blockly.Python.microbit_sleep = function (block) {
 };
 
 Blockly.Python.microbit_while_condition = function (block) {
-    const statements = Blockly.Python.addLoopTrap(Blockly.Python.statementToCode(block, "DO"), block.id) || Blockly.Python.PASS;
+    const statements = Blockly.Python.addLoopTrap(Blockly.Python.statementToCode(block, "DO"), block) || Blockly.Python.PASS;
     const condition = Blockly.Python.valueToCode(block, "CONDITION", Blockly.Python.ORDER_NONE) || "False";
     return "while " + condition + ":" + NEWLINE + statements;
 };
@@ -727,8 +727,8 @@ Blockly.Python.neopixel_checkDefinedBlock = function (block, pin) {
     let alreadyDefined = false;
     for (var block in defineBlocks) {
         const fieldDropdownPin = defineBlocks[block].getField('PIN');
-        const selectedOption = fieldDropdownPin.selectedOption_[1];
-        if (selectedOption == pin && !defineBlocks[block].disabled) {
+        const selectedOption = fieldDropdownPin.getValue();
+        if (selectedOption == pin && !defineBlocks[block].hasDisabledReason(Blockly.constants.MANUALLY_DISABLED)) {
             alreadyDefined = true;
         }
     }

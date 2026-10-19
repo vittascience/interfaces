@@ -65,7 +65,8 @@ class RtcManager {
       signedLink = await projectManager.ajax_getSignedLink(projectManager.getCurrentProject().link);
     }
     try {
-      this.socket = io('https://rtc.vittascience.com:443/', {
+      const rtcServerUrl = CDN_PATH === '' ? 'rtc-dev.vittascience.com' : 'rtc.vittascience.com';
+      this.socket = io(`https://${rtcServerUrl}:443/`, {
         query: {
           clientInfos: (UserManager.getUser() != null) ? JSON.stringify({ name: UserManager.getUser().firstname + ' ' + UserManager.getUser().surname, icon: UserManager.getUser().picture }) : JSON.stringify(this.professionArray[Math.floor(Math.random() * 27)]),
           room: getParamValue('link'),
@@ -150,7 +151,7 @@ class RtcManager {
             userRoundImg.src = '/openInterface/interfaces/assets/media/users-icons/' + JSON.parse(data[element].clientInfos).icon;
           } else {
             userRoundImg.className = 'user-round-picture';
-            userRoundImg.src = `${CDN_PATH}/public/content/user_data/user_img/${JSON.parse(data[element].clientInfos).icon}`;
+            userRoundImg.src = `${VS_USER_DATA_BASE}/user_img/${JSON.parse(data[element].clientInfos).icon}`;
           }
           userRound.appendChild(userRoundImg);
         }
@@ -177,7 +178,7 @@ class RtcManager {
                 document.getElementById('blockly-readonly').className = '';
                 document.getElementById('blockly-readonly').className = 'blockly-readonly';
               }
-              $(".blocklyToolboxDiv").hide();
+              $(".blocklyToolbox").hide();
             }, 10);
           } else {
             if (this.divInterval != null) {
@@ -187,7 +188,7 @@ class RtcManager {
                 document.getElementById('blockly-readonly').remove();
               }
             }
-            $(".blocklyToolboxDiv").show();
+            $(".blocklyToolbox").show();
             if (getParamValue('mode') == 'code') {
               Main.setOptionForEditor("readOnly", false);
             }
@@ -224,7 +225,7 @@ class RtcManager {
   }
   initSocketBlockly() {
     this.socket.on('blockly', (data) => {
-      Blockly.Events.disabled_ = 1;
+      Blockly.Events.disable();
       if (data.socketId != this.socket.id) {
         if (data.event.type == 'selected') {
           this.createMarker(data)
@@ -246,7 +247,7 @@ class RtcManager {
         }
       }
       setTimeout(() => {
-        Blockly.Events.disabled_ = 0;
+        Blockly.Events.enable();
       }, 0);
     });
   }
@@ -313,8 +314,7 @@ class RtcManager {
   initSocketRoomProject() {
     this.socket.on('roomProject', (data) => {
       if (data.id == this.socket.id) {
-        //Blockly.Events.disable()
-        Blockly.Events.disabled_ = 1;
+        Blockly.Events.disable();
         this.aceEditor.removeEventListener('change', this.aceEvents);
         this.aceEditor.selection.removeEventListener("changeCursor", this.aceEvents);
         this.aceEditor.selection.removeEventListener("changeSelection", this.aceEvents);
@@ -324,8 +324,7 @@ class RtcManager {
         CodeManager.getSharedInstance().loadBlocks(codeXml)
         CodeManager.getSharedInstance().setTextCode(codeAce);
         setTimeout(() => {
-          //Blockly.Events.enable()
-          Blockly.Events.disabled_ = 0;
+          Blockly.Events.enable();
           this.aceEditor.addEventListener('change', this.aceEvents);
           this.aceEditor.selection.on("changeCursor", this.aceEvents);
           this.aceEditor.selection.on("changeSelection", this.aceEvents);
@@ -336,7 +335,7 @@ class RtcManager {
   }
   initSocketRoomProjectUpdated() {
     this.socket.on('roomProjectUpdated', (data) => {
-      Blockly.Events.disabled_ = 1;
+      Blockly.Events.disable();
       this.aceEditor.removeEventListener('change', this.aceEvents);
       this.aceEditor.selection.removeEventListener("changeCursor", this.aceEvents);
       this.aceEditor.selection.removeEventListener("changeSelection", this.aceEvents);
@@ -346,7 +345,7 @@ class RtcManager {
       CodeManager.getSharedInstance().loadBlocks(codeXml)
       CodeManager.getSharedInstance().setTextCode(codeAce);
       setTimeout(() => {
-        Blockly.Events.disabled_ = 0;
+        Blockly.Events.enable();
         this.aceEditor.addEventListener('change', this.aceEvents);
         this.aceEditor.selection.on("changeCursor", this.aceEvents);
         this.aceEditor.selection.on("changeSelection", this.aceEvents);

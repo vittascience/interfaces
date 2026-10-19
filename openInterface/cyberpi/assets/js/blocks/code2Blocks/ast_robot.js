@@ -723,3 +723,40 @@ utils.prototypeBlocks['mbuild.quad_rgb_sensor.off_led'] = function (type, identi
         statement: null,
     };
 };
+
+
+// ========== GAMEPAD BLOCKS ==========
+
+utils.prototypeBlocks['gamepad.is_key_pressed'] = function (type, identifier, values, mutations, statementsNode, statement) {
+    const validKeys = ['N1', 'N2', 'N3', 'N4', 'Left', 'Up', 'Right', 'Down', 'L1', 'R1', 'L2', 'R2', 'L_Thumb', 'R_Thumb', 'Start', 'Select'];
+    let key = 'N1';
+    if (statementsNode && statementsNode.length > 0 && statementsNode[0].type === 'string') {
+        const keyValue = utils.extractString(statementsNode[0]).text;
+        if (validKeys.includes(keyValue)) key = keyValue;
+    }
+    return {
+        type: 'robots_gamepad_is_key_pressed',
+        fields: { KEY: key },
+        values: {},
+        mutations: null,
+        statementsNode: {},
+        statement: null,
+    };
+};
+
+utils.prototypeBlocks['gamepad.get_joystick'] = function (type, identifier, values, mutations, statementsNode, statement) {
+    const validAxes = ['Lx', 'Ly', 'Rx', 'Ry'];
+    let axis = 'Lx';
+    if (statementsNode && statementsNode.length > 0 && statementsNode[0].type === 'string') {
+        const axisValue = utils.extractString(statementsNode[0]).text;
+        if (validAxes.includes(axisValue)) axis = axisValue;
+    }
+    return {
+        type: 'robots_gamepad_get_joystick',
+        fields: { AXIS: axis },
+        values: {},
+        mutations: null,
+        statementsNode: {},
+        statement: null,
+    };
+};

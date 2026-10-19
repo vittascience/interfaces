@@ -16,6 +16,11 @@ import '/openInterface/interfaces/assets/js/code2blocks/python/blockInterceptor/
 // generic and prototype blocks
 import '/openInterface/interfaces/assets/js/code2blocks/python/prototypeBlocks/call_expression.js'; // call expression blocks definitions
 
+// reverse translations learned from the generators of the blocks without hand written translation
+import LearnedTranslations from '/openInterface/interfaces/assets/js/code2blocks/python/learnedTranslations.js';
+// check that the blocks generate the code of the statements (interfaces with STRICT_REVERSE_TRANSLATION)
+import CodeFidelity from '/openInterface/interfaces/assets/js/code2blocks/python/codeFidelity.js';
+
 // constants
 const authorizedConnectors = ['procedures_defnoreturn', 'procedures_defreturn', 'forever', 'on_start', 'scratch_on_start', 'scratch_forever'];
 
@@ -59,9 +64,49 @@ switch (INTERFACE_NAME) {
 	case 'sphero':
 		pythonFunctions = FUNCTIONS_SPHERO;
 		break;
+	case 'steami':
+		pythonFunctions = { ...(typeof FUNCTIONS_WB55 !== 'undefined' ? FUNCTIONS_WB55 : {}), ...(typeof FUNCTIONS_STEAMI !== 'undefined' ? FUNCTIONS_STEAMI : {}) };
+		break;
+	case 'codey':
+	case 'cyberpi':
+		pythonFunctions = typeof FUNCTIONS_CYBERPY !== 'undefined' ? FUNCTIONS_CYBERPY : {};
+		break;
+	case 'eliobot':
+		pythonFunctions = typeof FUNCTIONS_ELIOBOT !== 'undefined' ? FUNCTIONS_ELIOBOT : {};
+		break;
+	case 'nao':
+		pythonFunctions = typeof FUNCTIONS_NAO !== 'undefined' ? FUNCTIONS_NAO : {};
+		break;
+	case 'raspberrypi':
+		pythonFunctions = typeof FUNCTIONS_RASPBERRY !== 'undefined' ? FUNCTIONS_RASPBERRY : {};
+		break;
+	case 'winky':
+		pythonFunctions = typeof FUNCTIONS_WINKY !== 'undefined' ? FUNCTIONS_WINKY : {};
+		break;
 	default:
 		pythonFunctions = {};
 		break;
+}
+
+/**
+ * Convert a tree-sitter node to the json node used by the translation.
+ * @param {object} node
+ * @returns {object}
+ */
+function nodeToJson(node) {
+	return {
+		type: node.type,
+		text: node.text,
+		children: node.children ? node.children.map((child) => nodeToJson(child)) : [],
+		start: {
+			row: node.startPosition.row,
+			column: node.startPosition.column,
+		},
+		end: {
+			row: node.endPosition.row,
+			column: node.endPosition.column,
+		},
+	};
 }
 
 const PYTHON_BUILTIN_LIST_METHODS = ['append', 'find', 'rfind', 'copy', 'count', 'extend', 'index', 'insert', 'pop', 'remove', 'reverse', 'replace', 'sort', 'split', 'join', 'format', 'upper', 'lower', 'title', 'strip', 'lstrip', 'rstrip'];
@@ -110,6 +155,9 @@ export default class Python2Blocks {
 		this._classes = {};
 		this._dictionary = {};
 		this.vittaFunctions = new Set();
+		// vitta functions called by code without block: kept as code (from the second pass of the translation)
+		this.rawVittaFunctions = new Set();
+		this.vittaFunctionsCode = new Map();
 		this.pinModes = {};
 		this.isWithinSetup = false;
 		this.codeManager = null;
@@ -189,21 +237,33 @@ export default class Python2Blocks {
 	 */
 	retreive_all_blocks = () => {
 		const toolboxContent = Main.getToolboxManager().getToolboxBase().content;
-		const allCat = Object.keys(toolboxContent);
-		for (const cat of allCat) {
+		// block types of a category (blocks, or subcategories like in robots for microbit; dynamic categories have no list)
+		const categoryBlocks = (catContent) => (Array.isArray(catContent) ? catContent : []).flatMap((cat) => cat.blocks || (cat.subCategoryId ? Object.values(cat.contents).flatMap((content) => content.blocks || []) : []))
+			.map((block) => block.split('-')[0]);
+		// blocks of the basic categories are translated, even when a specific category shows them (ex: variables_get in network)
+		// (blocks of the dynamic categories, ex: "variables", "procedures", recognized by their prefix)
+		const basicBlocks = new Set(excludedCategories.flatMap((cat) => categoryBlocks(toolboxContent[cat])));
+		// blocks of the toolbox: the translation uses only them (ex: dictionary blocks)
+		this.toolboxBlocks = new Set(Object.values(toolboxContent).flatMap((content) => categoryBlocks(content)));
+		const basicPrefixes = excludedCategories.filter((cat) => typeof toolboxContent[cat] === 'string').map((cat) => cat + '_');
+		const isBasic = (block) => basicBlocks.has(block) || basicPrefixes.some((prefix) => block.startsWith(prefix));
+		for (const cat of Object.keys(toolboxContent)) {
 			if (!excludedCategories.includes(cat)) {
-				const catContent = toolboxContent[cat];
-				for (const cat of catContent) {
-					if (cat.blocks) {
-						EXCLUDED_BLOCKS_FOR_TRADUCTION.push(...cat.blocks.filter((block) => !AUTHORIZED_BLOCKS.includes(block)));
-					} else if (cat.subCategoryId){
-						// in case of subcategories like in robots for microbit
-						const catSubContent = cat.contents;
-						for (const blocks in catSubContent){
-							EXCLUDED_BLOCKS_FOR_TRADUCTION.push(...catSubContent[blocks].blocks.filter((block) => !AUTHORIZED_BLOCKS.includes(block)));
-						}
-					}
-				}
+				EXCLUDED_BLOCKS_FOR_TRADUCTION.push(...categoryBlocks(toolboxContent[cat]).filter((block) => !AUTHORIZED_BLOCKS.includes(block) && !isBasic(block)));
+			}
+		}
+
+		// Learn the reverse translation of the other blocks from their generator. The learned blocks no longer lock the
+		// editor in the interfaces whose learned translations have been checked (LEARNED_REVERSE_TRANSLATION in their
+		// excluded_blocks.js), elsewhere they only improve the translation of the code.
+		this.learned = new LearnedTranslations(this.parserTS, nodeToJson, (name) => this.getVariableID(name) || this.declareBlocklyVariable(name, null));
+		if (typeof STRICT_REVERSE_TRANSLATION !== 'undefined' && STRICT_REVERSE_TRANSLATION) {
+			this.fidelity = new CodeFidelity(this.parserTS, () => this._functions);
+		}
+		const learnedTypes = new Set(this.learned.learn([...new Set(EXCLUDED_BLOCKS_FOR_TRADUCTION)], typeof AUTHORIZED_BLOCKS !== 'undefined' ? AUTHORIZED_BLOCKS : []));
+		if (typeof LEARNED_REVERSE_TRANSLATION !== 'undefined' && LEARNED_REVERSE_TRANSLATION) {
+			for (let i = EXCLUDED_BLOCKS_FOR_TRADUCTION.length - 1; i >= 0; i--) {
+				if (learnedTypes.has(EXCLUDED_BLOCKS_FOR_TRADUCTION[i])) EXCLUDED_BLOCKS_FOR_TRADUCTION.splice(i, 1);
 			}
 		}
 
@@ -211,7 +271,7 @@ export default class Python2Blocks {
 		const allBlocks = Main.getWorkSpace().getAllBlocks()
 		for (let i = 0; i < allBlocks.length; i++) {
 			if (typeof EXCLUDED_BLOCKS_FOR_TRADUCTION !== 'undefined' && EXCLUDED_BLOCKS_FOR_TRADUCTION.includes(allBlocks[i].type)) {
-				if (!allBlocks[i].disabled) {
+				if (allBlocks[i].isEnabled()) {
 					Main.lockEditor(true);
 				}
 			}
@@ -246,28 +306,18 @@ export default class Python2Blocks {
 		}
 		const time = new Date().getTime();
 		let tree;
+		// raspberrypi: "time.sleep(1)" generated after the setup (Blockly.Python.finish) is not a block, it is blanked
+		// (same length: the positions in the code are kept)
+		const code = INTERFACE_NAME === 'raspberrypi'
+			? this.code.replace(/^time\.sleep\(1\)(?=\s*(^while True:|$(?![\s\S])))/m, (line) => ' '.repeat(line.length))
+			: this.code;
 		try {
-			tree = this.parserTS.parse(this.code);
+			tree = this.parserTS.parse(code);
 		} catch (error) {
 			console.error('Error parsing code:', error);
 			return null;
 		}
 
-		function nodeToJson(node) {
-			return {
-				type: node.type,
-				text: node.text,
-				children: node.children ? node.children.map((child) => nodeToJson(child)) : [],
-				start: {
-					row: node.startPosition.row,
-					column: node.startPosition.column,
-				},
-				end: {
-					row: node.endPosition.row,
-					column: node.endPosition.column,
-				},
-			};
-		}
 		const astJson = nodeToJson(tree.rootNode);
 		this.debug && console.log(`Parsing time: ${new Date().getTime() - time}ms`); // for debug purpose
 		return astJson;
@@ -309,7 +359,15 @@ export default class Python2Blocks {
 				const value = utils.newNode('value', { name: key }, valueKey, node);
 
 				if (statementNode !== null) {
-					const nodeValue = this.serializeNode(statementNode[key], node);
+					let nodeValue = this.serializeNode(statementNode[key], node);
+					// value without block, or with a statement block (ex: generic call "machine.I2C(1)" in an argument): kept as
+					// code rather than lost
+					const valueNode = statementNode[key];
+					const statementBlock = nodeValue?.getAttribute && !this.blockConnections(nodeValue.getAttribute('type')).output;
+					if ((!nodeValue || statementBlock) && typeof valueNode?.text === 'string' && valueNode.text.trim() && valueNode.type !== 'learned_block') {
+						const raw = this.untranslatableExpression(valueNode);
+						nodeValue = this.createBlocklyBlockXml(valueNode, raw.type, raw.fields, raw.values, raw.mutations, raw.statementsNode);
+					}
 					if (nodeValue) {
 						value.append(nodeValue);
 					}
@@ -484,14 +542,16 @@ export default class Python2Blocks {
 		for (const func in pythonFunctions) {
 			if (declarator !== 'on_start' && declarator !== 'scratch_on_start' && utils.rmSpaces(pythonFunctions[func]) === utils.rmSpaces(node.text)) {
 				this.vittaFunctions.add(declarator);
-				return '';
+				this.vittaFunctionsCode.set(declarator, node.text);
+				return this.rawVittaFunctions.has(declarator) ? this.untranslatableBlock(node) : '';
 			}
 		}
 
 		for (const func in basicPythonFunctions) {
 			if (declarator !== 'on_start' && declarator !== 'scratch_on_start' && utils.rmSpaces(basicPythonFunctions[func]) === utils.rmSpaces(node.text)) {
 				this.vittaFunctions.add(declarator);
-				return '';
+				this.vittaFunctionsCode.set(declarator, node.text);
+				return this.rawVittaFunctions.has(declarator) ? this.untranslatableBlock(node) : '';
 			}
 		}
 
@@ -598,7 +658,8 @@ export default class Python2Blocks {
 					if (PYTHON_BUILTIN_LIST_METHODS.includes(child.text) || utils.PYTHON_MICROCONTROLER_BUILTIN.includes(child.text)) {
 						if (PYTHON_BUILTIN_LIST_METHODS.includes(child.text)) {
 							const builtInMethod = utils.prototypeBlocks['list_built_in'](child.text, identifier, statementsNode, parent);
-							if (builtInMethod !== null) {
+							// methods without block (ex: insert, sort): generic call
+							if (builtInMethod) {
 								return builtInMethod;
 							}
 						} else {
@@ -704,7 +765,8 @@ export default class Python2Blocks {
 		}
 
 		if (Object.keys(this._functions).includes(identifier)) {
-			if (this.vittaFunctions.has(identifier)) return;
+			// call of a vitta function not translated by a block: kept as code, with the function (rawVittaFunctions)
+			if (this.vittaFunctions.has(identifier)) return { ...this.untranslatableExpression(node), vittaFunction: identifier };
 			this._functionsOrder.add(identifier);
 			const functionToCall = this._functions[identifier];
 			const procedureCallBlock = {
@@ -733,11 +795,16 @@ export default class Python2Blocks {
 				return procedureCallBlock;
 			}
 		}
+		// chained attribute ("display.framebuf.text(...)"): the generic blocks keep one level only, kept as code; same for a
+		// call whose name is not found
+		if ((node.children[0]?.type === 'attribute' && node.children[0].children[0]?.type === 'attribute') || (!identifier && typeof node.text === 'string')) return this.untranslatableExpression(node);
+		// object given by its code in the generic blocks (ex: "uart.read()" in "uart.read().decode()")
+		if (identifier && typeof identifier === 'object') identifier = identifier.text;
 		// to rework => maybe unnecessary for python (need to check)
 		// console.log("editableReturn: ", editableReturn);
 		if (callEditable) {
 			// console.log('parent of editable: ', parent, 'editableReturn: ', editableReturn);
-			if (editableReturn || (parent !== null && (node.type.match(/_for_return/gi) || parent.type === 'call' || parent.type === 'bypass' || parent.type === 'expression_statement' || parent.type === 'if_statement' || parent.type === 'keyword_argument' || parent.type === 'declaration' || parent.type === 'binary_operator' || parent.type === 'comparison_operator' || parent.type === 'not_operator'))) {
+			if (editableReturn || (parent !== null && (node.type.match(/_for_return/gi) || parent.type === 'call' || parent.type === 'list' || parent.type === 'bypass' || parent.type === 'expression_statement' || parent.type === 'if_statement' || parent.type === 'keyword_argument' || parent.type === 'declaration' || parent.type === 'binary_operator' || parent.type === 'comparison_operator' || parent.type === 'not_operator'))) {
 				return {
 					type: 'call_expression_editable_return',
 					fields: { NAME: identifier },
@@ -758,7 +825,7 @@ export default class Python2Blocks {
 			}
 		} else {
 			// console.log('parent of call: ', parent);
-			if (parent !== null && (node.type.match(/_for_return/gi) || parent.type === 'call' || parent.type === 'expression_statement' || parent.type === 'if_statement' || parent.type === 'while_statement' || parent.type === 'unary_expression' || parent.type === 'binary_operator' || parent.type === 'comparison_operator' || parent.type === 'for_statement' || parent.type === 'not_operator' || parent.type === 'return_statement')) {
+			if (parent !== null && (node.type.match(/_for_return/gi) || parent.type === 'call' || parent.type === 'list' || parent.type === 'expression_statement' || parent.type === 'if_statement' || parent.type === 'while_statement' || parent.type === 'unary_expression' || parent.type === 'binary_operator' || parent.type === 'comparison_operator' || parent.type === 'for_statement' || parent.type === 'not_operator' || parent.type === 'return_statement')) {
 				return {
 					type: 'call_expression_return',
 					fields: { NAME: identifier },
@@ -795,6 +862,8 @@ export default class Python2Blocks {
 				return this.utils.prototypeBlocks[node.children[2].text](node.children[2].text, variable, node);
 			}
 		}
+		// other attributes (ex: object.attribute): kept as code
+		return this.untranslatableExpression(node);
 	}
 
 	/**
@@ -839,6 +908,8 @@ export default class Python2Blocks {
 
 		const operatorText = node.children[1].text;
 		const operator = operatorType[operatorText];
+		// operators without block (ex: //, in, is, <<): kept as code
+		if (!operator) return this.untranslatableExpression(node);
 		if (operator === 'ADD') {
 			let stringNodes = utils.checkForStringLiteralOnly(node);
 			if (stringNodes.length > 0) {
@@ -868,7 +939,9 @@ export default class Python2Blocks {
 
 		if (left.type === 'subscript') {
 			if (left.children[0].type === 'identifier' && utils.prototypeBlocks[left.children[0].text]) {
-				return utils.prototypeBlocks[left.children[0].text](left, right, operatorText);
+				// no specific block: generic comparison
+				const prototypeBlock = utils.prototypeBlocks[left.children[0].text](left, right, operatorText);
+				if (prototypeBlock) return prototypeBlock;
 			}
 		}
 
@@ -1087,6 +1160,11 @@ export default class Python2Blocks {
 			}
 		}
 
+		for (const interceptor of utils.ifStatementInterceptors) {
+			const block = interceptor(ifBlock, node);
+			if (block) return block;
+		}
+
 		// console.log(ifBlock);
 		return ifBlock;
 	}
@@ -1114,39 +1192,55 @@ export default class Python2Blocks {
 			value: null,
 		};
 
-		for (const child of node.children) {
-			if (child.type === 'identifier' && variableElement.name === null) {
-				const varID = this.getVariableID(child.text) || this.declareBlocklyVariable(child.text, null);
+		// "for <target> in <iterable>:"
+		const inIndex = node.children.findIndex((child) => child.type === 'in');
+		const target = node.children[inIndex - 1];
+		const iterable = node.children[inIndex + 1];
+		// several loop variables (ex: "for a, b in pairs:"): kept as code
+		if (target?.type !== 'identifier' || !iterable) return this.untranslatableBlock(node);
+		const varID = this.getVariableID(target.text) || this.declareBlocklyVariable(target.text, null);
+		variableElement = { name: 'VAR', id: varID, value: target.text };
+		const body = node.children.find((forChild) => forChild.type === 'block');
+		if (body) forBlock.statements['DO'] = body;
 
-				variableElement = { name: 'VAR', id: varID, value: child.text };
-			} else if (child.type === 'call') {
-				let args;
-				for (const callChild of child.children) {
-					if (callChild.type === 'argument_list') {
-						args = utils.getArgumentList(callChild.children);
-					}
+		if (iterable.type === 'call' && iterable.children[0]?.text === 'range') {
+			let args = [];
+			for (const callChild of iterable.children) {
+				if (callChild.type === 'argument_list') {
+					args = utils.getArgumentList(callChild.children);
 				}
-				if (args.length > 2) {
-					forBlock.fields['VAR'] = variableElement;
-					forBlock.values['FROM'] = null;
-					forBlock.statementsNode['FROM'] = args[0];
-					forBlock.values['TO'] = null;
-					forBlock.statementsNode['TO'] = args[1];
-					forBlock.values['BY'] = null;
-					forBlock.statementsNode['BY'] = args[2];
-				} else if (args.length === 1) {
-					forBlock.values['TIMES'] = null;
-					forBlock.statementsNode['TIMES'] = args[0];
-					forBlock.type = 'controls_repeat';
-				}
-			} else if (child.type === 'list' || child.type === 'identifier') {
-				forBlock.type = 'controls_forEach';
-				forBlock.fields['VAR'] = variableElement;
-				forBlock.values['LIST'] = null;
-				forBlock.statementsNode['LIST'] = child;
-			} else if (child.type === 'block') {
-				forBlock.statements['DO'] = child;
 			}
+			// "range(n)" with a loop variable not used in the loop: repeat block, else "for" block (range(from, to, by))
+			const variableUsed = new RegExp(`\\b${variableElement.value}\\b`).test(body?.text || '');
+			if (args.length === 1 && !variableUsed) {
+				forBlock.values['TIMES'] = null;
+				forBlock.statementsNode['TIMES'] = args[0];
+				forBlock.type = 'controls_repeat';
+			} else if (args.length >= 1) {
+				forBlock.fields['VAR'] = variableElement;
+				forBlock.values['FROM'] = null;
+				forBlock.statementsNode['FROM'] = args.length > 1 ? args[0] : { type: 'integer', text: '0', children: [] };
+				forBlock.values['TO'] = null;
+				forBlock.statementsNode['TO'] = args.length > 1 ? args[1] : args[0];
+				forBlock.values['BY'] = null;
+				forBlock.statementsNode['BY'] = args.length > 2 ? args[2] : { type: 'integer', text: '1', children: [] };
+			} else {
+				return this.untranslatableBlock(node);
+			}
+		} else if (this.dictionaryLoop(iterable)) {
+			// "for k in d.keys():" / ".values()" / ".items()" of a dictionary of the program
+			const { dict, op } = this.dictionaryLoop(iterable);
+			forBlock.type = 'dictionaries_loop';
+			forBlock.fields['VAR'] = variableElement;
+			forBlock.fields['OP'] = op;
+			forBlock.values['DICT'] = null;
+			forBlock.statementsNode['DICT'] = dict;
+		} else {
+			// any other iterable (list, string, "d.keys()", ...): "for each" block
+			forBlock.type = 'controls_forEach';
+			forBlock.fields['VAR'] = variableElement;
+			forBlock.values['LIST'] = null;
+			forBlock.statementsNode['LIST'] = iterable;
 		}
 		// console.log(forBlock);
 		return forBlock;
@@ -1178,7 +1272,7 @@ export default class Python2Blocks {
 			}
 		}
 
-		const variableID = Blockly.utils.genUid();
+		const variableID = Blockly.utils.idGenerator.genUid();
 
 		return { variableID, identifier, node: childNode };
 	}
@@ -1204,11 +1298,14 @@ export default class Python2Blocks {
 				index = child;
 			} else if (child.type === 'unary_operator') {
 				index = child;
+			} else if (child.type === 'string' && identifier?.type === 'call') {
+				// string key of a function result, ex: sensor.read()['red']
+				index = child;
 			} else if (child.type === 'slice') {
 				// reverse node
 				if (child.text === '::-1') return utils.prototypeBlocks['text_reverse'](null, null, null, null, identifier, null);
 				// in that case we should extract the slice block to put it in the prototypeBlocks => TODO
-				return utils.prototypeBlocks['list_slice'](identifier, child);
+				return utils.prototypeBlocks['list_slice'](identifier, child) || this.untranslatableExpression(node);
 			} else if (child.type === 'call') {
 				identifier = child;
 			}
@@ -1216,7 +1313,25 @@ export default class Python2Blocks {
 
 		// specific case for subscript to a predefined function in the prototypeBlocks ex : photon.get_line_sensors()[0] => retrieve the index and the identifier
 		if (identifier && utils.prototypeBlocks[identifier.text]) {
-			return utils.prototypeBlocks[identifier.text](identifier, index);
+			// no specific block: generic subscript
+			const prototypeBlock = utils.prototypeBlocks[identifier.text](identifier, index);
+			if (prototypeBlock) return prototypeBlock;
+		}
+		// "d[key]" of a dictionary of the program
+		const dictionary = this.dictionarySubscript(node);
+		if (dictionary && this.toolboxBlocks?.has('dictionaries_get_item')) {
+			return {
+				type: 'dictionaries_get_item',
+				fields: {},
+				values: { DICT: null, KEY: null },
+				mutations: null,
+				statementsNode: { DICT: dictionary.dict, KEY: dictionary.key },
+				statement: null,
+			};
+		}
+		// key of a dictionary (string): kept as code
+		if (identifier?.type !== 'call' && node.children.some((child, i) => i > 0 && child.type === 'string')) {
+			return this.untranslatableExpression(node);
 		}
 
 		for (const child of node.children) {
@@ -1255,23 +1370,14 @@ export default class Python2Blocks {
 
 		let index = 0;
 
+		// Every item is kept (floats, negative numbers, booleans, calls, expressions...): only the punctuation and the
+		// comments are not items
 		for (let i = 0; i < node.children.length; i++) {
 			const child = node.children[i];
-			if (child.type === 'integer' || child.type === 'string' || child.type === 'identifier' || child.type === 'list') {
-				initializerListBlock.values[`ADD${index}`] = null;
-				initializerListBlock.statementsNode[`ADD${index}`] = child;
-				index++;
-			} else {
-				// unused for now but may be interesting to handle the case
-				// return {
-				// 	type: 'untranslatable_block',
-				// 	fields: { CODE: node.text.replace('//', '') },
-				// 	values: {},
-				// 	mutations: null,
-				// 	statementsNode: null,
-				// 	statement: null,
-				// };
-			}
+			if (['[', ']', ',', 'comment'].includes(child.type)) continue;
+			initializerListBlock.values[`ADD${index}`] = null;
+			initializerListBlock.statementsNode[`ADD${index}`] = child;
+			index++;
 		}
 
 		const addMutations = () => {
@@ -1290,6 +1396,9 @@ export default class Python2Blocks {
 	 * @returns {object} - The block xml node with child nodes (if any)
 	 * */
 	determineStringLiteralBlockType(node) {
+		// f-strings and bytes: kept as code (the text block would lose the prefix)
+		const stringStart = node.children?.find((child) => child.type === 'string_start')?.text || '';
+		if (/[fFbB]/.test(stringStart)) return this.untranslatableExpression(node);
 		if (node.is_exec) {
 			return {
 				type: 'text',
@@ -1387,7 +1496,7 @@ export default class Python2Blocks {
 			return this._variables[variableName].id;
 		}
 
-		const variableID = Blockly.utils.genUid();
+		const variableID = Blockly.utils.idGenerator.genUid();
 		const newVariable = utils.newNode('variable', { id: variableID }, variableName, null);
 		this._variableNodes.appendChild(newVariable);
 		this._variables[variableName] = { type: variableType, id: variableID, value: value };
@@ -1460,12 +1569,69 @@ export default class Python2Blocks {
 				statement: null,
 			};
 		}
+		// attribute assignment ("self.x = 1"): kept as code
+		if (!left || node.children[0]?.type === 'attribute' || node.children[0]?.type === 'tuple_pattern') {
+			return this.untranslatableBlock(node);
+		}
+		// value without block (ex: list comprehension, lambda, "3, 4"): assigned as code
+		if (!right) {
+			right = node.children[node.children.length - 1];
+		}
+
+		// "d[key] = value" of a dictionary of the program (interfaces with the dictionary blocks)
+		const dictionary = left.type === 'subscript' && this.toolboxBlocks?.has('dictionaries_update_item') ? this.dictionarySubscript(left) : null;
+		if (dictionary) {
+			return {
+				type: 'dictionaries_update_item',
+				fields: {},
+				values: { DICT: null, KEY: null, VALUE: null },
+				mutations: null,
+				statementsNode: { DICT: dictionary.dict, KEY: dictionary.key, VALUE: right },
+				statement: null,
+			};
+		}
 
 		const checkClasses = utils.storeVariable(left, right);
+		// multiple assignment not handled by the interface ("a, b = b, a"): kept as code
+		if (checkClasses === null && left.type === 'pattern_list') {
+			return this.untranslatableBlock(node);
+		}
+
+		// dictionary assigned to a key of another dictionary (ex: "M5Objects['TextBox'] = {}"): kept as code, the target is
+		// not a variable
+		if (checkClasses === 'dictionary' && left.type !== 'identifier') return this.untranslatableBlock(node);
+		// dictionary: declared (for the subscriptions) and assigned to the variable
+		if (checkClasses === 'dictionary') {
+			const dictionaryID = this.getVariableID(left.text) || this.declareBlocklyVariable(left.text, null);
+			return {
+				type: 'variables_set',
+				fields: { VAR: { name: 'VAR', id: dictionaryID, value: left.text } },
+				values: { VALUE: null },
+				mutations: null,
+				statementsNode: { VALUE: right },
+				statement: null,
+			};
+		}
 
 		if (checkClasses !== null) {
 			if (checkClasses.type === 'call') {
-				return this.getBlockType(checkClasses, node);
+				const callBlock = this.getBlockType(checkClasses, node);
+				if (left.type === 'identifier' && callBlock && typeof callBlock === 'object' && Blockly.Blocks[callBlock.type]) {
+					// value of a method (ex: "y = robot.isMoving()"): assigned to the variable
+					if (this.blockConnections(callBlock.type).output) {
+						return {
+							type: 'variables_set',
+							fields: { VAR: { name: 'VAR', id: this.getVariableID(left.text) || this.declareBlocklyVariable(left.text, null), value: left.text } },
+							values: { VALUE: null },
+							mutations: null,
+							statementsNode: { VALUE: { type: 'learned_block', block: callBlock } },
+							statement: null,
+						};
+					}
+					// generic call statement: the assignment is kept as code
+					if (/^call_expression/.test(callBlock.type)) return this.untranslatableBlock(node);
+				}
+				return callBlock;
 			} else {
 				return checkClasses;
 			}
@@ -1491,6 +1657,8 @@ export default class Python2Blocks {
 		}
 
 		if (left.type === 'subscript') {
+			// key of a dictionary (string): not a list index
+			if (left.children.some((child, i) => i > 0 && child.type === 'string')) return this.untranslatableBlock(node);
 			return utils.prototypeBlocks['list_subscript'](left, right);
 		}
 
@@ -1559,8 +1727,139 @@ export default class Python2Blocks {
 				return callExpressionBlock;
 			} else if (child.type === 'assignment') {
 				return this.determineAssignmentBlockType(child);
+			} else if (child.type === 'augmented_assignment') {
+				return this.determineAugmentedAssignmentBlockType(child);
 			}
 		}
+		// other expressions used as statements (ex: f-string, lambda call): kept as code
+		return this.untranslatableBlock(node);
+	}
+
+	/**
+	 * Augmented assignment ("x += 1"): increment block, the other operators are kept as code.
+	 * @param {object} node
+	 * @returns {object}
+	 */
+	determineAugmentedAssignmentBlockType(node) {
+		const [left, operator, right] = node.children;
+		if (left?.type === 'identifier' && operator?.text === '+=' && right) {
+			const varID = this.getVariableID(left.text) || this.declareBlocklyVariable(left.text, null);
+			return {
+				type: 'variables_increment',
+				fields: { VAR: { name: 'VAR', id: varID, value: left.text } },
+				values: { DELTA: null },
+				mutations: null,
+				statementsNode: { DELTA: right },
+				statement: null,
+			};
+		}
+		return this.untranslatableBlock(node);
+	}
+
+	/**
+	 * Connections of a block type (cached).
+	 * @param {string} type
+	 * @returns {{output: boolean, previous: boolean, next: boolean}}
+	 */
+	blockConnections(type) {
+		this._blockConnections = this._blockConnections || {};
+		if (!this._blockConnections[type]) {
+			try {
+				this._connectionsWorkspace = this._connectionsWorkspace || new Blockly.Workspace();
+				const block = this._connectionsWorkspace.newBlock(type);
+				this._blockConnections[type] = { output: !!block.outputConnection, previous: !!block.previousConnection, next: !!block.nextConnection };
+				block.dispose();
+			} catch (error) {
+				this._blockConnections[type] = { output: false, previous: true, next: true };
+			}
+		}
+		return this._blockConnections[type];
+	}
+
+	/**
+	 * Xml of a statement kept as code.
+	 * @param {object} node
+	 * @returns {Element}
+	 */
+	rawStatementXml(node) {
+		const block = this.untranslatableBlock(node);
+		return this.createBlocklyBlockXml(node, block.type, block.fields, block.values, block.mutations, block.statementsNode);
+	}
+
+	/**
+	 * Statement kept as code (not translated into blocks).
+	 * @param {object} node
+	 * @returns {object}
+	 */
+	untranslatableBlock(node) {
+		// the lines after the first one keep their indentation in the source: remove the indentation of the statement
+		const indentation = ' '.repeat(node.start?.column || 0);
+		const code = node.text.split('\n').map((line, i) => (i > 0 && line.startsWith(indentation) ? line.slice(indentation.length) : line)).join('\n');
+		return { type: 'untranslatable_block', fields: { CODE: code }, values: {}, mutations: null, statementsNode: null, statement: null };
+	}
+
+	/**
+	 * Expression kept as code (not translated into blocks).
+	 * @param {object} node
+	 * @returns {object}
+	 */
+	/**
+	 * Dictionary and operation of "d.keys()", "d.values()" or "d.items()" (dictionary of the program), or null.
+	 */
+	dictionaryLoop(iterable) {
+		if (iterable.type !== 'call' || !this.toolboxBlocks?.has('dictionaries_loop')) return null;
+		const [attribute, args] = iterable.children;
+		const [dict, , method] = attribute?.type === 'attribute' ? attribute.children : [];
+		const op = { keys: 'KEY', values: 'VALUE', items: 'TUPLE' }[method?.text];
+		if (!op || dict?.type !== 'identifier' || !this._dictionary[dict.text] || args?.text !== '()') return null;
+		return { dict, op };
+	}
+
+	/**
+	 * Dictionary block of a dictionary literal ("{}", "{'a': 1}"), if the toolbox has the dictionary blocks.
+	 */
+	dictionaryBlock(node) {
+		const pairs = node.children.filter((child) => child.type === 'pair');
+		if (pairs.length !== node.children.filter((child) => !['{', '}', ','].includes(child.type)).length) return null;
+		if (!pairs.length) {
+			return this.toolboxBlocks?.has('dictionaries_create_empty') ? { type: 'dictionaries_create_empty', fields: {}, values: {}, mutations: null, statementsNode: null, statement: null } : null;
+		}
+		if (!this.toolboxBlocks?.has('dictionaries_create_with')) return null;
+		const block = { type: 'dictionaries_create_with', fields: {}, values: {}, mutations: { items: pairs.length }, statementsNode: {}, statement: null };
+		pairs.forEach((pair, i) => {
+			const [key, value] = pair.children.filter((child) => child.type !== ':');
+			block.values[`KEY${i}`] = null;
+			block.values[`VAL${i}`] = null;
+			block.statementsNode[`KEY${i}`] = key;
+			block.statementsNode[`VAL${i}`] = value;
+		});
+		return block;
+	}
+
+	/**
+	 * Dictionary and key of a subscript of a dictionary of the program ("d[key]"), or null.
+	 */
+	dictionarySubscript(node) {
+		const [dict, ...rest] = node.children;
+		const key = rest.find((child) => !['[', ']'].includes(child.type));
+		if (dict?.type !== 'identifier' || !key || key.type === 'slice' || !this._dictionary[dict.text]) return null;
+		return { dict, key };
+	}
+
+	/**
+	 * Keep as code a vitta function called by code without block, with the vitta functions it calls.
+	 */
+	keepVittaFunction(name) {
+		if (this.rawVittaFunctions.has(name)) return;
+		this.rawVittaFunctions.add(name);
+		const code = this.vittaFunctionsCode.get(name) || '';
+		for (const other of this.vittaFunctionsCode.keys()) {
+			if (new RegExp(`\\b${other}\\s*\\(`).test(code)) this.keepVittaFunction(other);
+		}
+	}
+
+	untranslatableExpression(node) {
+		return { type: 'untranslatable_expression', fields: { CODE: node.text }, values: {}, mutations: null, statementsNode: null, statement: null };
 	}
 
 	/**
@@ -1639,7 +1938,7 @@ export default class Python2Blocks {
 			statements: {},
 		};
 
-		const conditionType = ['unary_expression', 'parenthesized_expression', 'binary_operator', 'identifier', 'call', 'comparison_operator'];
+		const conditionType = ['unary_expression', 'parenthesized_expression', 'binary_operator', 'identifier', 'call', 'comparison_operator', 'true', 'false', 'boolean_operator', 'attribute', 'subscript', 'integer'];
 
 		for (const child of node.children) {
 			if (child.type === 'not_operator') {
@@ -1647,7 +1946,7 @@ export default class Python2Blocks {
 				whileBlock.values['BOOL'] = null;
 				for (const notChild of child.children) {
 					if (notChild.type === 'parenthesized_expression') {
-						whileBlock.statementsNode['BOOL'] = utils.checkForNested('parenthesized_expression', ['unary_operator', 'binary_operator', 'comparison_operator', 'identifier'], notChild);
+						whileBlock.statementsNode['BOOL'] = utils.checkForNested('parenthesized_expression', ['unary_operator', 'binary_operator', 'comparison_operator', 'identifier', 'call', 'attribute', 'boolean_operator', 'true', 'false'], notChild);
 					} else {
 						whileBlock.statementsNode['BOOL'] = conditionType.includes(notChild.type) ? notChild : null;
 					}
@@ -1664,6 +1963,18 @@ export default class Python2Blocks {
 				whileBlock.statements['DO'] = child;
 			}
 		}
+		// "while not CONDITION: pass" is the code of the "wait until" block of the interfaces that have one.
+		const waitUntilType = ['io_waitUntil', 'time_waitUntil'].find((type) => Blockly.Blocks[type]);
+		if (whileBlock.fields['MODE'] === 'UNTIL' && utils.rmSpaces(whileBlock.statements['DO']?.text || '') === 'pass' && waitUntilType) {
+			return {
+				type: waitUntilType,
+				fields: {},
+				values: { UNTIL: null },
+				mutations: null,
+				statementsNode: { UNTIL: whileBlock.statementsNode['BOOL'] },
+				statements: null,
+			};
+		}
 		// console.log('whileBlock: ', whileBlock);
 		return whileBlock;
 	}
@@ -1676,12 +1987,8 @@ export default class Python2Blocks {
 	 * @returns {object} - The block xml node with child nodes (if any)
 	 * */
 	determineReturnStatementBlockType(node, parent = null) {
-		let returnNode;
-		for (const child of node.children) {
-			if (child.type === 'identifier' || child.type === 'integer' || child.type === 'string' || child.type === 'call' || child.type === 'binary_operator') {
-				returnNode = child;
-			}
-		}
+		// returned expression (any type: True, list, comparison...)
+		const returnNode = node.children.find((child) => child.type !== 'return');
 		return {
 			type: 'procedures_simple_return',
 			fields: {},
@@ -1804,10 +2111,7 @@ export default class Python2Blocks {
 	 * @returns {object} - The block xml node with child nodes (if any)
 	 * */
 	determineContinueBreakStatementBlockType = (node, parent, grandParent) => {
-		const grandParentAuthorised = ['forever', 'controls_repeat', 'controls_whileUntil', 'controls_for', 'controls_forEach', 'controls_flow_statements'];
-
-		if (!grandParentAuthorised.includes(grandParent)) return;
-
+		// break/continue in a loop, directly or in a nested block (ex: if) of the loop
 		let statementType = '';
 		for (const child of node.children) {
 			if (child.type === 'continue') {
@@ -1942,7 +2246,7 @@ export default class Python2Blocks {
 	};
 
 	// TODO: handle tuple
-	determineTupleBlockType = (node, parent) => {};
+	determineTupleBlockType = (node, parent) => this.untranslatableExpression(node);
 
 	/**
 	 * Shortcut to determine the block type of a bypass node witch is a custom node that can be used to bypass the serialization of a node and pass directly to the next node
@@ -1996,14 +2300,16 @@ export default class Python2Blocks {
 				if (checkPinDeclaration.length > 0) {
 					// retrieve class declaration => to improve
 					if (Object.keys(this._classes).includes(checkPinDeclaration[0].children[0]?.children[0]?.children[0]?.text)) {
-						return this.getBlockType(checkPinDeclaration[0], node);
+						// specific block generating the try/except, not a generic call (the except clause would be lost)
+						const pinBlock = this.getBlockType(checkPinDeclaration[0], node);
+						if (pinBlock && typeof pinBlock === 'object' && !pinBlock.callOnly && !this.learned?.isGeneric(pinBlock)) return pinBlock;
 					}
 				}
 			}
 		}
 
 		// Otherwise return the try statement block
-		return utils.prototypeBlocks['try_statement'](node, parent);
+		return utils.prototypeBlocks['try_statement'](node, parent) || this.untranslatableBlock(node);
 	}
 
 	/**
@@ -2099,9 +2405,10 @@ export default class Python2Blocks {
 			}
 		}
 		
-		if (utils.prototypeBlocks[`${decorator.text.split('(')[0]}_${functionDef.text}`]) {
-			return utils.prototypeBlocks[`${decorator.text.split('(')[0]}_${functionDef.text}`](decorator, functionDef, functionBlock, parent, args);
-		}
+		const prototype = decorator && functionDef && utils.prototypeBlocks[`${decorator.text.split('(')[0]}_${functionDef.text}`];
+		const prototypeBlock = prototype ? prototype(decorator, functionDef, functionBlock, parent, args) : null;
+		// decorated function without block: kept as code
+		return prototypeBlock || this.untranslatableBlock(node);
 	}
 
 	/**
@@ -2111,7 +2418,65 @@ export default class Python2Blocks {
 	 * @returns {func} - Call the appropriate function to serialize the node
 	 * */
 	getBlockType(node, parent = null, grandParent = null) {
+		const blockType = this.resolveBlockType(node, parent, grandParent);
+		// statement of the program without block (ex: "p26 = Pin(26, Pin.OUT)", generated again by the blocks using it)
+		// (no block: empty, or a marker string of a translation, ex: "buddy_sdk")
+		const dropped = !blockType || (typeof blockType === 'string' && blockType !== 'multiNode') || (typeof blockType === 'object' && !blockType.type);
+		// (imports too: the blocks of the code using them may not generate them)
+		if (dropped && ['expression_statement', 'import_statement', 'import_from_statement'].includes(node?.type) && node.start?.column === 0) this.droppedStatements.push(node);
+		return blockType;
+	}
+
+	resolveBlockType(node, parent = null, grandParent = null) {
+		if (!node) return '';
+		if (!this.learned || node.type === 'block') {
+			return this.getNodeBlockType(node, parent, grandParent);
+		}
+		// Comparisons generated by a learned block (ex: "sensor.read() == 0", "robot.state() is robot.LEFT"): the operator
+		// blocks would split them or have no operator for them.
+		if (node.type === 'comparison_operator' || (node.type === 'binary_operator' && ['is', 'in', 'not'].includes(node.children[1]?.type))) {
+			const learnedBlock = this.learned.match(node, 'value');
+			if (learnedBlock) return learnedBlock;
+		}
+		// formula of a learned block (ex: "value*(3.6/1023)"): before the math blocks
+		if (node.type === 'binary_operator') {
+			const learnedFormula = this.learned.match(node, 'value', false, false, true);
+			if (learnedFormula) return learnedFormula;
+		}
+		// initialization added by a learned block (generated again with the block)
+		if (['expression_statement', 'function_definition', 'decorated_definition'].includes(node.type) && this.learned.isDefinition(node)) return '';
+		// code of a learned block whose initializations are in the program (ex: same code as a generic block but with
+		// the docstring of a robot)
+		const kind = node.type.endsWith('_statement') || ['function_definition', 'decorated_definition'].includes(node.type) ? 'statement' : 'value';
+		const learnedInProgram = this.learned.match(node, kind, false, true);
+		if (learnedInProgram) return learnedInProgram;
+		// "if" or function generated by a learned block (ex: "if uart.any(): data = uart.read()...", MQTT callback):
+		// before the "if" and function blocks
+		if (['if_statement', 'try_statement', 'function_definition', 'decorated_definition'].includes(node.type)) {
+			const learnedIf = this.learned.match(node, kind, false, false, true);
+			if (learnedIf) return learnedIf;
+		}
+		// the hand written translation may modify the nodes (ex: quotes of the strings)
+		const pristineNode = this.learned.recognizes(node, kind) ? structuredClone(node) : null;
+		const blockType = this.getNodeBlockType(node, parent, grandParent);
+		// Generic block: try the reverse translations learned from the generators.
+		if (this.learned.isGeneric(blockType)) {
+			if (this.learned.isDefinition(node)) return '';
+			const learnedBlock = pristineNode && this.learned.match(pristineNode, kind);
+			if (learnedBlock) return learnedBlock;
+			if (blockType?.vittaFunction) this.keepVittaFunction(blockType.vittaFunction);
+		} else if (blockType?.type === 'variables_get') {
+			// variable read by a learned block (ex: "ir_current_remote_button")
+			const learnedBlock = this.learned.match(node, 'value', true);
+			if (learnedBlock) return learnedBlock;
+		}
+		return blockType;
+	}
+
+	getNodeBlockType(node, parent = null, grandParent = null) {
 		switch (node.type) {
+			case 'learned_block':
+				return node.block;
 			case 'block':
 				return 'multiNode';
 			case 'decorated_definition':
@@ -2186,7 +2551,13 @@ export default class Python2Blocks {
 				return this.determineNoneBlockType(node, parent);
 			case 'ERROR':
 				return this.determineErrorBlockType(node, parent);
+			case 'pass_statement':
+				return '';
 			default:
+				// constructions without block (class, with, list comprehension, lambda, tuple, set...): kept as code
+				if (node.type.endsWith('_statement') || node.type.endsWith('_definition')) return this.untranslatableBlock(node);
+				if (node.type === 'dictionary') return this.dictionaryBlock(node) || this.untranslatableExpression(node);
+				if (['list_comprehension', 'dictionary_comprehension', 'set_comprehension', 'generator_expression', 'lambda', 'conditional_expression', 'set', 'concatenated_string', 'slice', 'await', 'named_expression'].includes(node.type)) return this.untranslatableExpression(node);
 				return '';
 		}
 	}
@@ -2198,6 +2569,8 @@ export default class Python2Blocks {
 	 * @returns {object} - xml node with child nodes (if any) and next statements if in block statement
 	 * */
 	serializeMultipleNodes(nodes, parent, grandParent = null, skipNext = null) {
+		// statements generated together by a block (learned from its generator)
+		if (this.learned) nodes = this.learned.mergeStatements(nodes);
 		let previousBlock = skipNext;
 		let parentNode = null;
 		let next = null;
@@ -2205,7 +2578,22 @@ export default class Python2Blocks {
 		nodes.forEach((node) => {
 			this.requireLastBlockId = true;
 
-			const xml = this.serializeNode(node, parent, grandParent);
+			let xml = this.serializeNode(node, parent, grandParent);
+			// value block in place of a statement (ex: incomplete code being typed): kept as code
+			if (xml && typeof node?.text === 'string' && this.blockConnections(xml.getAttribute('type')).output) {
+				xml = this.rawStatementXml(node);
+			}
+			// standalone block (no previous nor output connection, ex: network_get_pi_name): placed at the top level
+			if (xml && this.xml && !this.blockConnections(xml.getAttribute('type')).previous && !this.blockConnections(xml.getAttribute('type')).output) {
+				this.xml.append(xml);
+				return;
+			}
+			// block without next connection followed by a statement: kept as code to chain the statement
+			if (xml && previousBlock && parent.type === 'block' && parentNode && !this.blockConnections(previousBlock.getAttribute('type')).next) {
+				const raw = this.rawStatementXml(parentNode);
+				previousBlock.replaceWith(raw);
+				previousBlock = raw;
+			}
 
 			// this part of the code is used to handle previous block suppression (array this.blockToRemove) if needed. For example in the case multi lines instructions that generates only one block => i.e robot Thymio => motors_left_target = 100\n motors_right_target = 100 should generate a forward block with speed 100 instead of two separated blocks
 			const blockElement = parent.parent.querySelector('block');
@@ -2264,19 +2652,34 @@ export default class Python2Blocks {
 	 * */
 	serializeNode(node, parent = null, type = null, skipNext = null) {
 		try {
-			const blockType = this.getBlockType(node, parent, type);
+			let blockType = this.getBlockType(node, parent, type);
+			// block type unknown in the interface (ex: AST node returned by a translation): kept as code
+			if (blockType && typeof blockType === 'object' && blockType.type !== undefined && !Blockly.Blocks[blockType.type] && typeof node?.text === 'string') {
+				blockType = node.type.endsWith('_statement') ? this.untranslatableBlock(node) : this.untranslatableExpression(node);
+			}
 			if (blockType === 'multiNode') {
 				return this.serializeMultipleNodes(node.children, parent, type, skipNext);
 			} else if (typeof blockType === 'object' && blockType.type !== undefined) {
-				return this.createBlocklyBlockXml(node, blockType.type, blockType.fields, blockType.values, blockType.mutations, blockType.statementsNode, blockType.element, blockType.statements);
+				const blockXml = this.createBlocklyBlockXml(node, blockType.type, blockType.fields, blockType.values, blockType.mutations, blockType.statementsNode, blockType.element, blockType.statements);
+				// statement whose blocks would change the code: kept as code
+				if (this.fidelity && blockXml && blockType.type !== 'untranslatable_block' && /(_statement|_definition)$/.test(node.type) && !this.fidelity.sameCode(node.text, blockXml)) {
+					const block = this.untranslatableBlock(node);
+					return this.createBlocklyBlockXml(node, block.type, block.fields, block.values, block.mutations, block.statementsNode);
+				}
+				return blockXml;
 			}
 			return '';
 		} catch (error) {
-			console.error('Error serializing node:', error);
+			// frequent while the code is typed (incomplete code): the statement is kept as code
 			if (typeof node?.start !== 'undefined' && node.start?.row !== 'undefined') {
-				console.error(`Error serializing node (line ${node.start.row + 1}):`, error);
+				console.debug(`Error serializing node (line ${node.start.row + 1}):`, error);
 			} else {
-				console.error(`Error serializing node:`, error);
+				console.debug(`Error serializing node:`, error);
+			}
+			// statement kept as code rather than lost
+			if (typeof node?.text === 'string' && (node.type.endsWith('_statement') || node.type.endsWith('_definition'))) {
+				const block = this.untranslatableBlock(node);
+				return this.createBlocklyBlockXml(node, block.type, block.fields, block.values, block.mutations, block.statementsNode);
 			}
 			return '';
 		}
@@ -2317,6 +2720,7 @@ export default class Python2Blocks {
 	 * */
 	convertAstToXml(firstPass = true, ast = null) {
 		let astJson;
+		if (firstPass) this.learned?.beginPass();
 
 		if (firstPass) {
 			astJson = this.parseCode();
@@ -2373,15 +2777,29 @@ export default class Python2Blocks {
 				...whiles,
 			];
 		};
-		reworkAst(astJson);
-		this.debug && console.log('final ast', astJson);
 		this.xml = utils.newNode('xml', { xmlns: 'https://developers.google.com/blockly/xml' }, null, null);
-		astJson.children.forEach((node) => {
-			const blockXml = this.serializeNode(node, astJson);
-			if (blockXml) {
-				this.xml.append(blockXml);
-			}
-		});
+		if (!Blockly.Blocks['on_start']) {
+			// Interface without start block (Python): script whose statements follow each other at the top level,
+			// next to the functions definitions.
+			const functions = astJson.children.filter((child) => child.type === 'function_definition' || child.type === 'decorated_definition');
+			const statements = astJson.children.filter((child) => !functions.includes(child));
+			functions.forEach((node) => {
+				const blockXml = this.serializeNode(node, astJson);
+				if (blockXml) this.xml.append(blockXml);
+			});
+			const script = utils.newNode('statement', {}, null, null);
+			this.serializeMultipleNodes(statements, { type: 'statement', parent: script });
+			if (script.firstElementChild) this.xml.append(script.firstElementChild);
+		} else {
+			reworkAst(astJson);
+			this.debug && console.log('final ast', astJson);
+			astJson.children.forEach((node) => {
+				const blockXml = this.serializeNode(node, astJson);
+				if (blockXml) {
+					this.xml.append(blockXml);
+				}
+			});
+		}
 
 		let xmlString = new XMLSerializer().serializeToString(this.xml);
 		// remove default xmlns
@@ -2443,6 +2861,28 @@ export default class Python2Blocks {
 		this.blockToRemove = [];
 		this.interface_specific = { ...utils.SPECIFIC_INIT };
 		this.interface_specific_end = {};
+		this.droppedStatements = [];
+	}
+
+	/**
+	 * Statements of the program without block that the blocks do not generate again (ex: pin declaration used by code
+	 * without block): kept as code at the start of the "on start" block.
+	 * @param {Blockly.Workspace} workspace
+	 */
+	restoreDroppedStatements(workspace) {
+		const onStart = Blockly.Blocks['on_start'] && workspace.getBlocksByType('on_start')[0];
+		if (!this.droppedStatements.length || !onStart) return;
+		const generated = new Set(Blockly.Python.workspaceToCode(workspace).split('\n').map((line) => utils.rmSpaces(line)));
+		const lost = new Map(this.droppedStatements.filter((node) => !generated.has(utils.rmSpaces(node.text))).map((node) => [node.text, node]));
+		let connection = onStart.getInput('DO').connection;
+		for (const code of lost.keys()) {
+			const block = workspace.newBlock('untranslatable_block');
+			block.setFieldValue(code, 'CODE');
+			if (workspace.rendered) block.initSvg();
+			connection.connect(block.previousConnection);
+			connection = block.nextConnection;
+		}
+		if (lost.size && workspace.rendered) workspace.render();
 	}
 
 	/**
@@ -2511,7 +2951,7 @@ export default class Python2Blocks {
 	 * */
 	setBlockStore() {
 		try {
-			const ALL_DISABLED_BLOCKS = this.workspace.getAllBlocks().filter((block) => block.disabled === true);
+			const ALL_DISABLED_BLOCKS = this.workspace.getAllBlocks().filter((block) => block.hasDisabledReason(Blockly.constants.MANUALLY_DISABLED) === true);
 			this.storedDisabledBlocks = ALL_DISABLED_BLOCKS.filter((block) => !block.getParent()).map((block) => Blockly.Xml.blockToDomWithXY(block));
 		} catch (error) {
 			console.error('Error storing blocks:', error);
@@ -2592,9 +3032,12 @@ export default class Python2Blocks {
 	 * @returns {void}
 	 * */
 	injectBlocks() {
+		this.learned?.setProgram(this.code);
 		this.setBlockStore();
 		this.resetBlocks();
 		this.vittaFunctions.clear();
+		this.rawVittaFunctions.clear();
+		this.vittaFunctionsCode.clear();
 		this._functions = {};
 		this._functionsOrder.clear();
 
@@ -2619,18 +3062,30 @@ export default class Python2Blocks {
 		const workspace = Blockly.getMainWorkspace();
 
 		// Convert the string to a DOM object
-		const xml = Blockly.Xml.textToDom(xmlCode);
+		const xml = Blockly.utils.xml.textToDom(xmlCode);
 		this.debug && console.log(xml);
 
 		this.indexPreviousXml = null;
 		this.storeXml();
 		// Clear workspace
 		workspace.clear();
+		// The types deduced from the code (variables) may not match the input checks: the blocks are connected anyway
+		// (the code is valid), Blockly would otherwise reject the whole program.
+		const checker = workspace.connectionChecker;
+		const doTypeChecks = checker.doTypeChecks;
+		checker.doTypeChecks = () => true;
 		try {
 			Blockly.Xml.domToWorkspace(xml, workspace);
 		} catch (error) {
 			// Blockly error here if the xml is not correct
 			console.error('Error injecting blocks:', error);
+		} finally {
+			checker.doTypeChecks = doTypeChecks;
+		}
+		try {
+			this.restoreDroppedStatements(workspace);
+		} catch (error) {
+			console.error('Error restoring the statements without block:', error);
 		}
 		this.codeManager.updateTextCode(this.code);
 		this.codeManager.setGeneratedCode(this.code);
@@ -2648,6 +3103,7 @@ export default class Python2Blocks {
 		this.storedDisabledBlocks = [];
 
 		Blockly.Events.enable();
+		document.dispatchEvent(new CustomEvent('python2blocks:injected'));
 
 		this.debug && console.log(`Injection time: ${new Date().getTime() - time}ms`);
 	}

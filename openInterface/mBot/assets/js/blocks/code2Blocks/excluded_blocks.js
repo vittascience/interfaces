@@ -1,5 +1,11 @@
 const EXCLUDED_BLOCKS_FOR_TRADUCTION = [];
 
+// The blocks without hand written translation are translated by the templates learned from their generators
+// (interfaces/assets/js/code2blocks/python/learnedTranslations.js): checked for this interface, they do not lock the editor.
+const LEARNED_REVERSE_TRANSLATION = true;
+// Statements whose blocks would change the code are kept as code (interfaces/assets/js/code2blocks/python/codeFidelity.js).
+const STRICT_REVERSE_TRANSLATION = true;
+
 // to modify each time we add a new block in reverse translation
 
 const AUTHORIZED_BLOCKS_DISPLAY = [

@@ -241,3 +241,5 @@ Blockly.Msg['EXCEPTION_TRY_TOOLTIP'] = 'Ejecuta un bloque de código y permite e
 
 // Other Block
 Blockly.Msg['OTHER_AST_RAW'] = 'Código no traducido';
+Blockly.Msg['VITTAIA_MAKE_PREDICTIONS_FROM_URL_TITLE'] = 'Blockly.Msg[\'VITTAIA_MAKE_PREDICTIONS_FROM_URL_TITLE\'] = \'%1 iniciar la detección en la URL de la imagen %2\';';
+Blockly.Msg['VITTAIA_MAKE_PREDICTIONS_FROM_URL_TOOLTIP'] = 'Realiza predicciones del modelo para la imagen descargada desde una URL. Una predicción tiene dos elementos: la clase y el nivel de confianza.';

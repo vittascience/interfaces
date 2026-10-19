@@ -12,7 +12,7 @@ Blockly.Python.py_on_start = function (block) {
 
 Blockly.Python.py_forever = function (block) {
     let statements = Blockly.Python.statementToCode(block, "DO");
-    statements = Blockly.Python.addLoopTrap(statements, block.id) || Blockly.Python.PASS;
+    statements = Blockly.Python.addLoopTrap(statements, block) || Blockly.Python.PASS;
     return 'while True:' + NEWLINE + statements;
 };
 
@@ -25,6 +25,6 @@ Blockly.Python.py_scratch_forever = function (block) {
     const prevBlock = block.previousConnection.targetBlock();
     const n = (prevBlock !== null && prevBlock.type === 'py_scratch_on_start' ? "" : NEWLINE);
     let statements = Blockly.Python.statementToCode(block, "DO");
-    statements = Blockly.Python.addLoopTrap(statements, block.id) || Blockly.Python.PASS;
+    statements = Blockly.Python.addLoopTrap(statements, block) || Blockly.Python.PASS;
     return n + 'while True:' + NEWLINE + statements;
 };

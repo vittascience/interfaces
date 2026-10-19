@@ -41,6 +41,7 @@ const LIB_IMPORT = {
     IMPORT_CYBERPI: "import cyberpi",
     IMPORT_MBOT2: "import mbot2",
     IMPORT_MBUILD: "import mbuild",
+    IMPORT_GAMEPAD: "import gamepad",
     IMPORT_EVENT: "import event",
     IMPORT_CONFIG: "import config"
 };
@@ -87,6 +88,9 @@ const MICROPYTHON_CLASSES = {
 
 
 
-export default {LIB_IMPORT, EXCLUDED_COMMENTS, CLASS_METHODS, MICROPYTHON_CLASSES, SPECIFIC_INIT};
+// assignments translated by utils.prototypeBlocks (ex: chronometer "t0 = utime.ticks_ms()")
+const RESERVED_WORDS = ['t0'];
+
+export default {LIB_IMPORT, EXCLUDED_COMMENTS, CLASS_METHODS, MICROPYTHON_CLASSES, SPECIFIC_INIT, RESERVED_WORDS};
 
 

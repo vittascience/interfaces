@@ -193,7 +193,8 @@
 .mb-buzzer,
 .mb-maqueen-buzzer,
 .mb-maqueenplus-buzzer,
-.mb-cutebot-buzzer {
+.mb-cutebot-buzzer,
+.mb-joystick-bit-v2-buzzer {
 	z-index: 1;
 	animation: shake 2s cubic-bezier(.36, .07, .19, .97) infinite;
 	bottom: -6px;
@@ -263,7 +264,8 @@
 	opacity: 0;
 }
 
-.mb-gamepad-v4-vibration {
+.mb-gamepad-v4-vibration , 
+.mb-joystick-bit-v2-vibration {
 	z-index: 1;
 	animation: vibrate 0.2s infinite;
 	bottom: -6px;
@@ -456,4 +458,105 @@
 
 .mb-yahboom-joystick_module .module-value {
 	bottom: 30px;
+}
+/* Simulator: A4 microSySTEM models (block extensions) */
+.a4-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+}
+
+.a4-keys {
+    display: grid;
+    gap: 3px;
+    width: 112px;
+}
+
+.a4-keys button {
+    height: 19px;
+    padding: 0;
+    border: 1px solid var(--bg-4);
+    border-radius: 4px;
+    background: var(--bg-2);
+    color: var(--text-0);
+    font-size: 0.8rem;
+    line-height: 1;
+}
+
+.a4-keys button:hover {
+    border-color: var(--vitta-green);
+}
+
+.a4-keys button:active {
+    background: var(--vitta-green);
+    color: #fff;
+}
+
+.a4-badges {
+    display: flex;
+    gap: 6px;
+}
+
+.a4-badges button,
+.a4-car {
+    padding: 2px;
+    border: none;
+    border-radius: 6px;
+    background: none;
+}
+
+.a4-badges button:hover,
+.a4-car:hover {
+    background: var(--bg-2);
+}
+
+.a4-car svg {
+    opacity: 0.25;
+    transition: opacity 0.2s;
+}
+
+.a4-car.present svg {
+    opacity: 1;
+}
+
+.a4-lock-text {
+    display: block;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.a4-lcd {
+    display: inline-block;
+    padding: 4px 6px;
+    border: 3px solid #333;
+    border-radius: 3px;
+    background: #b5d334;
+    color: #1d2b0a;
+    font-family: monospace;
+    font-size: 0.85rem;
+    line-height: 1.3;
+    white-space: pre;
+}
+
+.a4-screen {
+    position: relative;
+    width: 192px;
+    height: 144px;
+    border: 4px solid #222;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.a4-screen span {
+    position: absolute;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.a4-screen-image {
+    padding: 1px 3px;
+    border: 1px dashed #888;
+    color: #888;
+    font-size: 10px;
 }

@@ -74,6 +74,52 @@ Blockly.Arduino.actuators_stepperMotor_run = function (block) {
     Blockly.Arduino.addSetup("i2c_motor", "Motor.begin(MOTOR_I2C_ADDR);");
     return "Motor.StepperRun(" + dir + "*" + step + ");" + NEWLINE;
 };
+// 28BYJ-48 + ULN2004 _ CONTROL STEPPER MOTOR BLOCK
+Blockly.Arduino.actuators_28BYJ48_run = function (block) {
+    const step = Blockly.Arduino.valueToCode(
+        block,
+        "STEP",
+        Blockly.Arduino.ORDER_ATOMIC
+    ) || "0";
+
+    const dir = block.getFieldValue("DIR");
+
+    const rpm = Blockly.Arduino.valueToCode(
+        block,
+        "RPM",
+        Blockly.Arduino.ORDER_ATOMIC
+    ) || "1";
+
+    const in1 = block.getFieldValue("IN1");
+    const in2 = block.getFieldValue("IN2");
+    const in3 = block.getFieldValue("IN3");
+    const in4 = block.getFieldValue("IN4");
+
+    Blockly.Arduino.addInclude(
+        "stepper",
+        INCLUDE_STEPPER
+    );
+
+    Blockly.Arduino.addDeclaration(
+        "stepper_28BYJ48",
+        "Stepper stepper(2038, " +
+        in1 + ", " +
+        in3 + ", " +
+        in2 + ", " +
+        in4 + ");"
+    );
+
+    return "stepper.setSpeed(" +
+        rpm +
+        ");" +
+        NEWLINE +
+        "stepper.step(" +
+        dir +
+        " * " +
+        step +
+        ");" +
+        NEWLINE;
+};
 
 // I2C MOTOR DRIVER _ SET SPEED BLOCK
 Blockly.Arduino.actuators_MiniDriver_DCMotor_drive = function (block) {

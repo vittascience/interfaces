@@ -28,6 +28,8 @@ var Loader = (function () {
                 resolve(id);
             });
 
+            // Scripts of a same list run in their order (e.g. specific block messages after the common ones)
+            script.async = false;
             if (defer) script.setAttribute('defer', 'defer');
             if (module) script.setAttribute('type', 'module');
             script.id = id;

@@ -29,6 +29,12 @@
       "error": "Si è verificato un errore durante l'iscrizione. Riprova."
     },
     "seeMore": "Vedi altro",
+    "backToWebinars": "Torna ai webinar",
+    "mosaic": {
+      "searchPlaceholder": "Cerca un webinar...",
+      "filterAll": "Tutti",
+      "noResult": "Nessun risultato."
+    },
     "newsletter": {
       "intro": "Per non perdere i nostri prossimi webinar, iscriviti alla newsletter mensile!",
       "title": "Iscriviti alla nostra newsletter",
@@ -764,6 +770,37 @@
       "infos": " Informazioni",
       "delivery": " Consegna",
       "freeWithPremium": " Disponibile con un account premium",
+      "shippingAtDeliveryStep": "Calcolato al passo di consegna",
+      "shippingFree": "Gratuito",
+      "shippingFreeWithPremium": "Spedizione gratuita per la Francia metropolitana con l'abbonamento Vittascience Premium",
+      "shippingFreeThanksToPremium": "Spedizione gratuita per la Francia metropolitana grazie al tuo abbonamento Vittascience Premium",
+      "shippingFreeWithCartPremium": "Spedizione gratuita per la Francia metropolitana grazie all'abbonamento Premium nel tuo ordine",
+      "shippingFreeMetropolitan": "Gratuito per la Francia metropolitana",
+      "premiumUpsellTitle": "Abbonamento annuale Vittascience Premium – 1 utente",
+      "premiumUpsellText": "Accedi a tutte le risorse Vittascience Premium e goditi la spedizione gratuita per la Francia metropolitana, a partire da questo ordine.",
+      "premiumUpsellPrice": "{{price}} incl. IVA / anno",
+      "premiumUpsellAdd": "Aggiungi al carrello",
+      "premiumUpsellShort": "Spedizione gratuita per la Francia metropolitana con l'abbonamento annuale Premium ({{price}} incl. IVA / anno)",
+      "premiumRenewalNotice": "Il tuo abbonamento Premium è pagato con questo ordine, quindi rinnovato automaticamente a ogni scadenza allo stesso prezzo. Puoi annullarlo in qualsiasi momento dal tuo profilo, nella scheda Premium.",
+      "cbDisabledTeamSubscription": "Con la carta, può essere aggiunto all'ordine solo un abbonamento Premium per 1 utente. Gli abbonamenti multi-utente vengono attivati dal tuo profilo o con preventivo.",
+      "cbDisabledAlreadySubscribed": "Il tuo account ha già un abbonamento Premium: rimuovi l'abbonamento dal carrello per continuare.",
+      "quotePayment": {
+        "alreadySubscribed": "Il tuo account ha già un abbonamento Premium: questo preventivo contiene un abbonamento e non può essere pagato con carta. Contattaci per modificarlo.",
+        "subscriptionNotAllowed": "Questo preventivo contiene un abbonamento multi-utente: non può essere pagato con carta. Effettua il pagamento tramite bonifico bancario o carica il tuo ordine di acquisto.",
+        "stripeError": "Il pagamento con carta per questo preventivo non è stato possibile. Per favore riprova tra un momento o contattaci.",
+        "alreadyPaid": "Questo preventivo è già stato pagato.",
+        "nothingToPay": "Questo preventivo non ha importi da pagare con carta: il nostro team lo convaliderà direttamente.",
+        "generic": "Il pagamento per questo preventivo non è stato avviato. Per favore riprova o contattaci."
+      },
+      "premiumRemovedFromCart": "L'abbonamento Premium è stato rimosso dal tuo carrello: il tuo account è già abbonato.",
+      "premiumAlreadySubscribedCart": "Il tuo account ha già un abbonamento Premium: questo abbonamento non può essere aggiunto al carrello.",
+      "premiumModal": {
+        "title": "Abbonamento Premium dal tuo profilo",
+        "message": "Con la carta, un ordine può includere solo un abbonamento Premium per 1 utente. Gli abbonamenti multi-utente vengono attivati dal tuo profilo, attraverso il nostro pagamento ricorrente sicuro, o con preventivo.",
+        "steps": "Iscriviti prima dal tuo profilo, poi torna a ordinare il tuo hardware: la spedizione sarà gratuita per la Francia metropolitana.",
+        "cancel": "Annulla",
+        "subscribe": "Iscriviti"
+      },
       "billing": " Pagamento",
       "validate": " Convalida",
       "resumeEstimate": " La tua richiesta di preventivo è stata convalidata.",
@@ -829,6 +866,8 @@
         "sessionIncomplete": "La sessione di pagamento non è stata completata. Riprova.",
         "stripeError": "Si è verificato un errore durante la verifica del pagamento. Riprova o contatta l'assistenza.",
         "subscriptionNotAllowed": "Gli abbonamenti Premium non possono essere pagati con carta di credito tramite questa interfaccia.",
+        "alreadySubscribed": "Il tuo account ha già un abbonamento Premium: l'abbonamento è stato rimosso dal carrello. Controlla il tuo ordine prima di confermarlo.",
+        "insufficientStock": "Scorte insufficienti per {{product}}. Si prega di regolare la quantità nel carrello.",
         "generic": "Si è verificato un errore. Riprova."
       }
     },
@@ -935,6 +974,8 @@
       "marc": "Marc è entrato in Vittascience a settembre 2024, sta svolgendo il suo tirocinio con noi e si occupa, insieme a Ylarie, di tutta la logistica di Vittascience e si assicura che il nostro negozio funzioni bene.",
       "ylarie": "Ylarie si occupa degli aspetti logistici del negozio Vittascience insieme a Marc da settembre 2024. Dall'aggiunta dei prodotti alla spedizione dei pacchi!",
       "hire": " Sei appassionato di educazione, ami il progetto e pensi di avere capacità da portare a noi, non esitare a contattarci! <br/><a href=\"/hire\" style=\"text-decoration:none;\"><button class=\"mt-3 btn v-btn-important about-recruit-btn\">Entra nella nostra squadra :) <span class=\"fa-chevron-circle-right\"></span></button></a>",
+      "junior": "Sviluppatore Web e Apprendista Supporto IT presso Vittascience, appassionato di sviluppo e tecnologie digitali.",
+      "zouhir": "Zouhir è entrato a far parte di Vittascience nel settembre 2026 come stagista nello sviluppo front-end, nei sistemi embedded e nel supporto tecnico.",
       "hireTitle": " Unisciti a noi"
     },
     "hof": {
@@ -1160,6 +1201,16 @@
     }
   },
   "code": {
+    "blockExtensions": {
+      "category": "Extensions",
+      "title": "Block extensions",
+      "note": "Add new blocks to program other robots, models or modules. The chosen extensions are saved with the project.",
+      "close": "Close",
+      "search": "Search for an extension",
+      "added": "Added",
+      "noResult": "No extension found.",
+      "confirmRemoveUsed": "{{count}} block(s) of this extension used in the program will be deleted. Continue?"
+    },
     "tooltip": {
       "anonymousAuthor": "Autore anonimo",
       "backpack": "Zaino",
@@ -1231,6 +1282,7 @@
       "badBoard": "La scheda collegata non è di tipo ",
       "checkBoardSettings": "Seleziona la scheda corretta in Impostazioni, quindi Opzioni scheda.",
       "flashFailed": "Impossibile trasferire il codice.",
+      "boardNotResponding": "La scheda non risponde: verifica che il robot sia acceso.",
       "baudrateError": "Si è verificato un errore durante la lettura dei dati dalla porta seriale. Prova a cambiare il baudrate nelle impostazioni della console.",
       "firmwareWarning": "Attenzione, per beneficiare di tutte le funzionalità di questa interfaccia con la scheda STM32, eseguire l'aggiornamento alla <b>versione 1.17</b> del firmware MicroPython seguendo questo tutorial: <a href=\"https: //it.vittascience.com/learn/tutorial.php?id=398\" target=\"_blank\" rel=\"noopener noreferrer\">Aggiorna il firmware</a>",
       "compiling": "Compilazione in corso. Questo potrebbe richiedere fino a qualche secondo...",
@@ -1250,10 +1302,13 @@
     },
     "arduinoq": {
       "boardConnected": "Connessione alla scheda riuscita!",
+      "webAppUrl": "Pagina web dell'app (da un dispositivo sulla stessa rete):",
+      "localModelMissing": "Nessun modello di IA locale trovato in questo browser: allena prima un modello di immagini nello strumento IA di Vittascience (in questo stesso browser) oppure usa il blocco «carica il modello» con il suo link.",
       "passwordRequired": "Per continuare il trasferimento, è richiesta la password della scheda Arduino Q.",
       "incorrectPassword": "La password non è corretta, riprova.",
-      "transferAborted": "Trasferimento interrotto.",
-      "arduinoClaiming": "Assicurarsi che la porta USB non sia in uso (ovvero, che il server adb non sia in esecuzione).</br>Chiudere Arduino App Lab se aperto e provare il comando nella riga di comando: adb kill-server"
+      "transfertAborted": "Trasferimento annullato.",
+      "arduinoClaiming": "Assicurarsi che la porta USB non sia in uso (ovvero, che il server adb non sia in esecuzione).</br>Chiudere Arduino App Lab se aperto e provare il comando nella riga di comando: adb kill-server",
+      "transferAborted": "Trasferimento interrotto."
     },
     "welcome": {
       "arduino": "Benvenuto/a nell'interfaccia Vittascience per Arduino!",
@@ -1288,7 +1343,8 @@
       "nano-esp32": "Benvenuto/a nell'interfaccia Vittascience per la scheda Arduino Nano ESP32!",
       "steami": "Benvenuti nell'interfaccia Vittascience per STeaMi !",
       "alphai": "Benvenuti nell'interfaccia Vittascience per il robot AlphAI !",
-      "arduinoq": "Benvenuti nell'interfaccia Vittascience per la scheda Arduino UNO Q!</br></br>L'interfaccia supporta diversi linguaggi (Arduino, Python, HTML) per programmare un progetto completo con la scheda. I blocchi nella categoria 'Base' possono essere utilizzati in qualsiasi linguaggio; il codice generato si adatterà quindi al tipo di linguaggio del blocco di intestazione.</br></br>È possibile inviare comandi Linux alla scheda Arduino Q digitando il comando nel campo di input in fondo alla console."
+      "arduinoq": "Benvenuti nell'interfaccia Vittascience per la scheda Arduino UNO Q!</br></br>L'interfaccia supporta diversi linguaggi (Arduino, Python, HTML) per programmare un progetto completo con la scheda. I blocchi nella categoria 'Base' possono essere utilizzati in qualsiasi linguaggio; il codice generato si adatterà quindi al tipo di linguaggio del blocco di intestazione.</br></br>È possibile inviare comandi Linux alla scheda Arduino Q digitando il comando nel campo di input in fondo alla console.",
+      "primastem": "Benvenuto nell'interfaccia Vittascience per il robot PrimaStem!"
     },
     "chromeApp": {
       "noPort": "Nessuna porta rilevata",
@@ -1390,8 +1446,14 @@
       "notice": "Le dimensioni del tuo schermo non consentono di utilizzare l'interfaccia di sviluppo in modo ottimale. Utilizza uno schermo più grande."
     },
     "statement": "Statement:",
+    "statementButtons": {
+      "expand": "Espandi",
+      "collaps": "Riduci"
+    },
     "topbar": {
       "tooltips": {
+        "boardWifi": "Configurare il Wi-Fi della scheda Arduino UNO Q collegata",
+        "projectMenu": "Menu del progetto",
         "new": "Nuovo progetto",
         "save": "Salva",
         "open": "Apri progetto",
@@ -1409,6 +1471,7 @@
         "stopNaoProgram": "Ferma il programma in esecuzione",
         "uploadPythonThymio": "Invia il programma Python al Thymio",
         "uploadArduino": "Invia il programma Arduino alla scheda",
+        "uploadArduinoQProject": "Caricare l'app (Arduino, Python e pagina web) sulla scheda Arduino UNO Q",
         "compileArduino": "Avvia la compilazione",
         "arduinoBoardSelector": "Seleziona la scheda Arduino da programmare",
         "esp32BoardSelector": "Selezionare la scheda ESP32 da programmare",
@@ -1475,9 +1538,11 @@
         "repl": "Premi invio ↩️ per eseguire il comando",
         "runningCode": "Esecuzione del codice in corso... Attendere prego.",
         "runningCodeStopButton": "Ferma",
-        "i18n": "Cambia lingua"
+        "i18n": "Cambia lingua",
+        "settingsMenu": "Menu Impostazioni"
       },
       "label": {
+        "boardWifi": "Wi-Fi della scheda",
         "texas": "Scarica .py per calcolatrice",
         "new": "Nuovo progetto",
         "save": "Salva",
@@ -1651,8 +1716,13 @@
         }
       },
       "music": {
-        "enable": " Suona",
-        "enablebutton": " Attivato",
+        "note": "Nota",
+        "stop": "Ferma",
+        "test": "Prova",
+        "sound": "Suono",
+        "held": "Tenuto",
+        "percussive": "Percussivo",
+        "oscilloscope": "Oscilloscopio",
         "volume": "Volume",
         "octave": "Ottava",
         "waveform": "Forma d'onda",
@@ -1666,7 +1736,9 @@
         "effects": {
           "reverb": "Riverbero",
           "delay": "Delay",
-          "bitcrusher": "BitCrusher"
+          "bitcrusher": "BitCrusher",
+          "vibrato": "Vibrato",
+          "distortion": "Distorsione"
         }
       },
       "feedback": {
@@ -1699,7 +1771,9 @@
           "downloadScreen": "Cattura schermo",
           "toggleBoardDisplay": "Mostra / Nascondi la mappa del simulatore",
           "switchWiringMode": "Passare alla modalità di cablaggio",
-          "switchMosaicMode": "Passare alla modalità mosaico"
+          "switchMosaicMode": "Passare alla modalità mosaico",
+          "wiringZoomIn": "Zoom in",
+          "wiringZoomOut": "Zoom out"
         },
         "robot": {
           "background": "Background",
@@ -1805,6 +1879,7 @@
         "dht22-temp": "DHT22 - Temperatura",
         "dht22-hum": "DHT22 - Umidità",
         "ds18x20": "DS18X20 - Temperatura",
+        "mlx90621": "MLX90621 - Temperatura",
         "dustSensor": "Sensore di particelle",
         "groveRain": "Sensore di pioggia",
         "rainGauge": "Pluviometro",
@@ -1841,7 +1916,8 @@
         "groveLight": "Sensore di luce",
         "groveUV": "Sensore UV",
         "groveSound": "Sensore di suono",
-        "grovePulse": "Sensore di polso"
+        "grovePulse": "Sensore di polso",
+        "distanceInterrupter": "Interruttore di distanza"
       },
       "pinError": "[Errore pin] Il modulo <b>{{modId}}</b> non può essere collegato al pin <b>{{pin}}</b>. Il modulo <b>{{attachedId}}</b> è già collegato."
     },
@@ -1870,6 +1946,9 @@
       "mixed-popup-leave-editor": "Per uscire dall'editor di codice utilizzando la tastiera, premere contemporaneamente i tasti <kbd>Bloc Maiusc</kbd> e <kbd>Esc</kbd>.",
       "mixed-popup-readonly": "<i class='fa-solid fa-lock'></i> In modalità mista, l'editor di codice è <strong>sola lettura</strong> per questa interfaccia. Puoi modificare solo usando i blocchi.",
       "mixed-popup-readonly-sr": "In modalità mista, il codice è sola lettura per questa interfaccia",
+      "mixed-small-screen": "On a small screen, the hybrid mode is not very practical: we recommend switching to the blocks or code mode.",
+      "mixed-small-screen-stay": "Stay in hybrid mode",
+      "mixed-small-screen-close": "Close",
       "saveWarning": {
         "title": "<span class=\"fa fa-exclamation-circle\"></span> Avviso!",
         "warn": "<span class=\"fa fa-save\"></span> Salvare il lavoro prima di proseguire?<p class=\"mb-0 mt-0 hint\">Se crei un nuovo progetto senza prima salvare, il lavoro attuale andrà perso...</p>",
@@ -2894,8 +2973,13 @@
               }
             },
             "biased": "parziale",
-            "biasedExplanations": "Questo dataset contiene un bias. Puoi usarlo per addestrare un modello e capire i limiti dell'IA."
-          }
+            "biasedExplanations": "Questo dataset contiene un bias. Puoi usarlo per addestrare un modello e capire i limiti dell'IA.",
+            "imagePreview": "Anteprima Immagine {{imageNumber}}"
+          },
+          "deleteImage": "Elimina Immagine",
+          "viewImage": "Visualizza Immagine",
+          "viewChart": "Visualizza Grafico",
+          "playSound": "Riproduci Suono"
         },
         "captureSettings": {
           "delay": "Timer:",
@@ -2911,7 +2995,8 @@
         },
         "addCategoryButton": "Aggiungi categoria",
         "rgpdInfoTitle": "GDPR",
-        "rgpdInfoText": "Questi dati restano sul computer durante tutta la fase di addestramento e utilizzo, non vengono trasmessi su internet."
+        "rgpdInfoText": "Questi dati restano sul computer durante tutta la fase di addestramento e utilizzo, non vengono trasmessi su internet.",
+        "rgpdInfoClose": "Chiudi Informativa GDPR"
       },
       "edgeDevice": {
         "title": "Microcontrollore",
@@ -2949,7 +3034,9 @@
           "initialModalDownload": "Caricamento del modello iniziale...",
           "detectionActivation": "Attivazione del rilevamento...",
           "finalModalDownload": "Caricamento del modello finale..."
-        }
+        },
+        "settingsTitre": "Impostazioni di Formazione",
+        "closeSettings": "Chiudi Impostazioni di Formazione"
       },
       "preview": {
         "title": "Anteprima",
@@ -2988,6 +3075,12 @@
           "hideNeuralNetwork": "Nascondi la rete neurale",
           "inputs": "Caratteristiche",
           "denseLayer": "Strato denso (x16 neuroni)"
+        },
+        "refreshCameras": "Aggiorna Elenco Telecamere",
+        "imageZoom": {
+          "previous": "Immagine Precedente",
+          "next": "Immagine Successiva",
+          "close": "Chiudi Anteprima"
         }
       },
       "use": {
@@ -3108,7 +3201,16 @@
         "download": {
           "tooltip": "Scarica l’audio",
           "label": "Scarica l’audio"
-        }
+        },
+        "quotaInfo": "Informazioni sui crediti",
+        "textInput": "Input di testo per sintesi vocale",
+        "seekBackward": "Riavvolgi 10 secondi",
+        "playPause": "Riproduci/Pausa",
+        "seekForward": "Avanza di 10 secondi"
+      },
+      "a11y": {
+        "synthesisInProgress": "Sintesi vocale in corso...",
+        "synthesisComplete": "Sintesi vocale completata"
       },
       "loading": "Sintesi in corso...",
       "infoBlocks": {
@@ -3399,7 +3501,13 @@
         "import": "Aggiungi una fonte",
         "seePrompt": "Vedi il prompt completo",
         "generate": "Genera",
-        "copyButtonTooltip": "Copia la risposta"
+        "temperatureInfo": "Informazioni sui parametri di temperatura",
+        "tokensInfo": "Informazioni sui token",
+        "copyButtonTooltip": "Copia Risposta"
+      },
+      "a11y": {
+        "responseReceived": "Risposta AI ricevuta.",
+        "copyButtonTooltip": "Copia risposta"
       },
       "dropdownHeader": "Clicca su un token per riprendere <br /> la generazione da lì.",
       "settings": {
@@ -3595,14 +3703,14 @@
           "contextLength": "32k Token",
           "availableState": "Disponibile presto!"
         },
-        "mistral-small-3-2-24b-instruct-2506": {
-          "description": "Modello compatto e veloce per attività quotidiane."
+        "mistral-small-3.2-24b-instruct-2506": {
+          "description": "Modello compatto e veloce per compiti quotidiani."
         },
         "mistral-medium-3-5": {
           "description": "Ottimizzato per agenti autonomi e attività di programmazione."
         },
-        "mistral-large-2512": {
-          "description": "Modello per attività complesse."
+        "mistral-large-4": {
+          "description": "Modello multimodale avanzato per ragionamento e compiti complessi."
         },
         "glm-5-2": {
           "description": "Il modello open più potente sul mercato."
@@ -3804,7 +3912,10 @@
         }
       },
       "adacraftBlock": "Cosa posso fare per te?",
-      "aiResponseWarningButton": "Segnala un problema"
+      "aiResponseWarningButton": "Segnala un problema",
+      "rightBar": {
+        "button": "Riduci Pannello Impostazioni"
+      }
     },
     "imageGenerate": {
       "editor": {
@@ -3887,7 +3998,10 @@
           "use": "Usa",
           "advice": "Consiglio: aggiungi 'sfondo bianco uniforme' alla fine del tuo prompt per rimuovere facilmente lo sfondo del tuo sprite",
           "cancel": "Indietro",
-          "validate": "Conferma"
+          "validate": "Conferma",
+          "croppedImagePreview": "Anteprima Immagine Ritagliata",
+          "zoomIn": "Ingrandisci",
+          "zoomOut": "Riduci"
         },
         "editorChoice": {
           "title": "Scegli come usare questa immagine per Adacraft",
@@ -3917,7 +4031,7 @@
       },
       "notifications": {
         "image-is-broken": "😒 Ci dispiace, qualcosa è andato storto. Riprova con un altro prompt.",
-        "not-delete": "Non puoi eliminare l'immagine preferita",
+        "delete-failed": "L'immagine non può essere eliminata. Per favore riprova.",
         "asset-deleted": "Immagine eliminata",
         "image-generation-queued": "La generazione dell'immagine è in coda.",
         "image-generation-queued-position": "La generazione dell'immagine è in coda. Posizione: {{position}}. Attesa stimata: {{waitLabel}}.",
@@ -3925,7 +4039,8 @@
         "image-generation-queued-wait-only": "La generazione dell'immagine è in coda. Attesa stimata: {{waitLabel}}.",
         "quota-reached": "Hai raggiunto il tuo limite di generazione immagini per oggi. Riprova tra {{hours}}h {{minutes}}min {{seconds}}s.",
         "quota-reached-monthly": "Hai raggiunto il tuo limite di generazione immagini per questo mese. Riprova tra {{days}}d {{hours}}h {{minutes}}min {{seconds}}s.",
-        "image-generation-started": "La generazione dell'immagine è iniziata."
+        "image-generation-started": "La generazione dell'immagine è iniziata.",
+        "duplicate-co2-saved": "🌱 Questa immagine esiste già: è a carico nostro — nessun credito utilizzato e {{gwp}}g di CO2 risparmiati!"
       },
       "image-generate-models": {
         "DreamShaper": {
@@ -4290,7 +4405,12 @@
         "creatorImages": "Altre immagini di questo creatore",
         "delete": "Elimina",
         "moderation": "Moderazione nell'interfaccia",
-        "report": "Segnala un problema/bug"
+        "report": "Segnala un problema/bug",
+        "cfgScaleInfo": "Informazioni sulla guida",
+        "consumptionInfo": "Informazioni sul consumo energetico di quest'immagine",
+        "consumptionTotalInfo": "Informazioni sul consumo energetico totale",
+        "previousImage": "Immagine Precedente",
+        "nextImage": "Immagine Successiva"
       },
       "visibility": {
         "premiumOnly": "Questa funzione è riservata agli utenti Premium di Vittascience.",
@@ -5071,127 +5191,127 @@
   },
   "cookies": {
     "header": {
-      "title": " INFORMAZIONI SUI COOKIE",
-      "introduction": " Il sito web www.vittascience.com inserisce un piccolo file di testo (un \"cookie\") sul vostro computer, tablet o cellulare quando lo visitate. Questo ci permette di misurare il numero di visite e di capire quali sono le pagine più visitate."
+      "title": "INFORMAZIONI SUI COOKIE",
+      "introduction": "Il sito web www.vittascience.com posiziona un piccolo file di testo (un \"cookie\") sul tuo computer, tablet o dispositivo mobile quando lo visiti. Questo ci consente di misurare il numero di visite e capire quali pagine vengono visualizzate di più."
     },
     "content": {
       "sections": {
         "1": {
-          "title": " Questo sito non mostra il banner di consenso ai cookie, perché?",
-          "content": " Esatto, non è stato necessario cliccare su un blocco che copre metà pagina per dire che si è d'accordo con il deposito dei cookie. Niente di eccezionale, nessun lasciapassare.<br/><br/> Semplicemente rispettiamo la legge, che dice che alcuni strumenti di tracciamento dell'audience, opportunamente configurati per rispettare la vita, esentano dall'autorizzazione preventiva.<br/><br/> Per questo usiamo <a href='https://matomo.org/' target='_blank'>Matomo</a>, uno strumento <a href='https://matomo.org/free-software/' target='_blank'>gratuito</a>, creato per rispettare la <a href='https://www.cnil.fr/fr/solutions-pour-la-mesure-daudience' target='_blank'>raccomandazione \"Cookies\"</a> della CNIL. Ciò significa che il vostro indirizzo IP, ad esempio, viene anonimizzato prima di essere registrato. Non è quindi possibile associare le vostre visite a questo sito alla vostra persona.<br/><br/>Questa impostazione consente l'esenzione dalla raccolta del consenso, in conformità con l'articolo 5 della Deliberazione n. 2019-093 del 4 luglio 2019 che adotta le linee guida sull'applicazione dell'articolo 82 della legge del 6 gennaio 1978 e successive modifiche alle operazioni di lettura o scrittura nel terminale di un utente (compresi i cookie e altri traccianti).<br/>"
+          "title": "Perché questo sito non mostra un banner di consenso ai cookie?",
+          "content": "Esatto, non dovevi cliccare su un blocco che copriva metà pagina per dire che sei d'accordo con l'uso dei cookie. Nulla di eccezionale, nessuna esenzione speciale.<br/><br/> Ci conformiamo semplicemente alla legge, che stabilisce che alcuni strumenti di misurazione del pubblico, se configurati correttamente per rispettare la privacy, sono esenti da consenso preventivo.<br/><br/> A tal fine, utilizziamo <a href='https://matomo.org/' target='_blank'>Matomo</a>, uno strumento <a href='https://matomo.org/free-software/' target='_blank'>gratuito/open-source</a>, configurato per conformarsi alla <a href='https://www.cnil.fr/fr/solutions-pour-la-mesure-daudience' target='_blank'>raccomandazione \"Cookie\"</a> della CNIL. Ciò significa che il tuo indirizzo IP, ad esempio, è anonimizzato prima di essere registrato. È quindi impossibile collegare le tue visite a questo sito a te personalmente.<br/><br/> Questa configurazione consente l'esenzione dall'obbligo di ottenere consenso, in conformità con l'Articolo 5 della Deliberazione n. 2019-093 del 4 luglio 2019 che adotta le linee guida sull'applicazione dell'Articolo 82 della legge modificata del 6 gennaio 1978 per le operazioni di lettura/scrittura su un dispositivo dell'utente (in particolare cookie e altri tracker).<br/>"
         },
         "2": {
-          "title": " Come posso disattivare il tracciamento statistico?",
-          "content": " È possibile disattivare questo tracciamento statistico, in modo che Matomo smetta di includere le vostre visite nelle statistiche. Per farlo, vi invitiamo a seguire una delle seguenti procedure:<br/><ul><li>Abilitare la funzione \"Non tracciarmi\" del vostro browser: <a href='https://support.mozilla.org/fr/kb/activer-desactiver-cookies-preferences' target='_blank'>Mozilla Firefox</a>; <a href='https://support.microsoft.com/fr-fr/help/17442/windows-internet-explorer-delete-manage-cookies' target='_blank'>Internet Explorer</a>; <a href='https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=fr' target='_blank'>Google Chrome</a>; <a href='http://help.opera.com/Windows/10.20/it/cookies.html' target='_blank'>Opera</a>; <a href='https://support.apple.com/kb/ph21411?locale=fr_CA' target='_blank'>Safari</a>;</li></ul><br/>Oppure: <br/><ul><li>deselezionare la seguente casella</li></ul><iframe style='border: 0; height: 160px; width: 100%;border-radius: 16px;' src='https://matomo.vittascience.com/matomo/index.php?module=CoreAdminHome&action=optOut&language=fr&backgroundColor=&fontColor=565656&backgroundColor=FFFFFF&fontSize=14px&fontFamily=Montserrat'></iframe><br/>"
+          "title": "Come disabilito il monitoraggio statistico?",
+          "content": "Puoi disabilitare questo monitoraggio statistico, in modo che Matomo smetta di includere le tue visite nelle statistiche. A tal fine, segui una di queste procedure:<br/><ul><li>attiva la funzione \"Do Not Track\" del tuo browser: <a href='https://support.mozilla.org/fr/kb/activer-desactiver-cookies-preferences' target='_blank'>Mozilla Firefox</a> ; <a href='https://support.microsoft.com/fr-fr/help/17442/windows-internet-explorer-delete-manage-cookies' target='_blank'>Internet Explorer</a> ; <a href='https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=fr' target='_blank'>Google Chrome</a> ; <a href='http://help.opera.com/Windows/10.20/fr/cookies.html' target='_blank'>Opera</a> ; <a href='https://support.apple.com/kb/ph21411?locale=fr_CA' target='_blank'>Safari</a> ;</li></ul><br/>Oppure: <br/><ul><li>Deseleziona la casella seguente</li></ul><iframe style='border: 0; height: 160px; width: 100%;border-radius: 16px;' src='https://matomo.vittascience.com/matomo/index.php?module=CoreAdminHome&action=optOut&language=fr&backgroundColor=&fontColor=565656&backgroundColor=FFFFFF&fontSize=14px&fontFamily=Montserrat'></iframe><br/>"
         }
       }
     },
     "footer": {
-      "date": " Ultimo aggiornamento il 31 agosto 2020."
+      "date": "Ultimo aggiornamento il 31 agosto 2020."
     }
   },
   "rgpd": {
     "header": {
-      "title": " POLITICA DI PROTEZIONE DEI DATI PERSONALI"
+      "title": "POLITICA PER LA PROTEZIONE DEI DATI PERSONALI"
     },
     "content": {
       "introduction": {
         "title": " Introduzione",
-        "content": " In qualità di attore impegnato nel settore dell'istruzione, Vittascience pone la sicurezza e la riservatezza dei dati personali dei propri utenti al centro delle proprie preoccupazioni.<br/><br/>Vittascience si impegna ad adottare un approccio continuo alla protezione dei dati dei propri utenti, in conformità alla legge francese sulla protezione dei dati del 6 gennaio 1978 e al regolamento generale sulla protezione dei dati del 27 aprile 2016 (di seguito: il \"GDPR\").<br/><br/>Di seguito troverete l'Informativa sulla privacy di Vittascience Services, che abbiamo cercato di presentare nel modo più chiaro possibile per aiutarvi a comprendere meglio ed esercitare i vostri diritti."
+        "content": "In qualità di attore impegnato nell'istruzione, Vittascience pone la sicurezza e la riservatezza dei dati personali dei propri utenti al centro delle proprie preoccupazioni.<br/><br/>Vittascience è impegnata in un processo continuo per proteggere i dati dei propri utenti, in conformità con la Legge Francese sulla Protezione dei Dati del 6 gennaio 1978 e il Regolamento Generale sulla Protezione dei Dati del 27 aprile 2016 (di seguito: il \"GDPR\").<br/><br/>Di seguito troverai l'Informativa sulla Privacy di Vittascience, che abbiamo cercato di presentare nel modo più chiaro possibile per aiutarti a comprendere meglio e ad esercitare i tuoi diritti."
       },
       "sections": {
         "1": {
-          "title": " Chi è responsabile del trattamento dei vostri dati?",
-          "content": " La società VITTASCIENCE (di seguito: \"VITTASCIENCE\") fornisce, attraverso il sito web www.vittascience.com (di seguito: il \"Sito\"), funzionalità per insegnanti e privati (di seguito: gli \"Utenti\") dedicate all'insegnamento e all'apprendimento delle scienze e delle tecnologie digitali. <VITTASCIENCE offre un insieme di servizi su Internet (di seguito: i \"Servizi\") che consentono l'esecuzione, la creazione, la modifica e la pubblicazione di programmi informatici nonché di risorse, attività e percorsi pedagogici (di seguito denominati congiuntamente: i \"Contenuti\"). <br/><br/>VITTASCIENCE è pertanto responsabile del trattamento dei dati personali che l'utente comunica nell'ambito dei Servizi accessibili sul Sito. <br/><br/>Alcuni utenti (di seguito: gli \"Studenti\") utilizzano i Servizi su invito o sotto il controllo di un altro Utente (ad esempio: un insegnante, un formatore o un dirigente scolastico). In questo caso, questa persona è responsabile congiuntamente a VITTASCIENCE della protezione dei dati dell'utente nell'ambito dell'utilizzo dei Servizi (gestione del suo account utente e dei Contenuti da lei creati), nella misura in cui è questa persona che ha scelto di proporle di utilizzare questi Servizi. Anche in questa situazione, VITTASCIENCE rimane il vostro contatto principale per qualsiasi domanda o dubbio in merito alla raccolta e all'utilizzo dei vostri dati.<br/><br/>Il Sito e i Servizi sono gestiti da VITTASCIENCE, per ulteriori dettagli e informazioni di contatto, andare alla sezione <a href='https://vittascience.com/legalnotice'>Avvisi legali.</a>"
+          "title": "Chi è responsabile del trattamento dei tuoi dati?",
+          "content": "L'azienda VITTASCIENCE (di seguito: \"VITTASCIENCE\") offre, attraverso il suo sito web www.vittascience.com (di seguito: il \"Sito\"), funzionalità dedicate agli insegnanti e agli individui (di seguito: gli \"Utenti\") per l'insegnamento e l'apprendimento delle scienze e della tecnologia digitale.<br/><br/>VITTASCIENCE offre un insieme di servizi online (di seguito: i \"Servizi\") che consentono agli utenti di eseguire, creare, modificare e pubblicare programmi informatici, nonché risorse educative, attività e percorsi di apprendimento (indicati collettivamente di seguito come: i \"Contenuti\").<br/><br/>VITTASCIENCE è quindi il titolare del trattamento dei dati personali che fornisci nell'ambito dei Servizi accessibili sul Sito.<br/><br/>Alcuni utenti (di seguito: i \"Learners\") utilizzano i Servizi su invito, o sotto la supervisione, di un altro Utente (ad esempio: un insegnante, un formatore o un amministratore scolastico). In questo caso, quella persona è co-responsabile con VITTASCIENCE della protezione dei tuoi dati in relazione all'uso dei Servizi (gestione del tuo account e dei Contenuti che crei), poiché è quella persona che ha scelto di offrirti l'uso di questi Servizi. Anche in questa situazione, VITTASCIENCE rimane il tuo principale punto di contatto per qualsiasi domanda o preoccupazione riguardante la raccolta e l'uso dei tuoi dati.<br/><br/>Il Sito e i Servizi sono gestiti dall'azienda VITTASCIENCE; per ulteriori dettagli e informazioni di contatto, si prega di fare riferimento all'<a href='https://vittascience.com/legalnotice'>Informativa Legale.</a>"
         },
         "2": {
-          "title": " Quali dati vengono raccolti su di voi e per quali scopi?",
+          "title": "Quali dati ti riguardano sono raccolti e per quali motivi?",
           "content": {
-            "introduction": " In generale, è possibile utilizzare il Sito e i Contenuti Vittascience senza comunicare informazioni personali.<br/><br/>La sezione \"1. Dati statistici e misurazione dell'audience\" riguarda tutti i visitatori del Sito, le sezioni successive descrivono diverse azioni che è possibile eseguire e che comportano la raccolta di dati personali. L'utente potrebbe non essere in grado di beneficiare di alcune funzioni se rifiuta di fornire determinate informazioni su di sé.",
+            "introduction": "In generale, è possibile utilizzare il Sito e i Contenuti di Vittascience senza fornire alcuna informazione personale.<br/><br/>La parte \"1. Dati statistici e misurazione del pubblico\" riguarda tutti i visitatori del Sito; le parti seguenti descrivono diverse azioni che puoi svolgere che comportano la raccolta di dati personali. Potresti non essere in grado di usufruire di alcune funzionalità se rifiuti di fornire determinate informazioni su di te.",
             "articles": {
               "1": {
-                "title": " 1. Dati statistici e misurazione dell'audience",
-                "content": " Per adattare il nostro sito alle esigenze dei nostri visitatori e migliorarlo per offrirvi contenuti pertinenti, misuriamo le fonti di accesso al nostro sito, il numero di visite, il numero di pagine visualizzate, nonché l'attività dei visitatori sul sito e la loro frequenza di ritorno.<br/><br/>Lo strumento statistico utilizzato sul Sito è Matomo, uno <a href='https://matomo.org/free-software/' target='_blank'>strumento gratuito</a>, predisposto per rispettare la <a href='https://www.cnil.fr/fr/solutions-pour-la-mesure-daudience' target='_blank'>raccomandazione \"Cookies\"</a> della CNIL. Ciò significa che il vostro indirizzo IP, ad esempio, viene anonimizzato prima di essere registrato. È quindi impossibile associare le visite a questo sito alla vostra persona.<br/><br/>La durata di vita di questi cookie (il tempo durante il quale rimangono memorizzati sul vostro terminale) non supera i 13 mesi. Maggiori dettagli sono disponibili nella pagina <a href='https://vittascience.com/cookies' target='_blank'>Informazioni sui cookie.</a>"
+                "title": "1. Dati statistici e misurazione del pubblico",
+                "content": "Per adattare il nostro sito alle esigenze dei visitatori e migliorarne l'offerta di contenuti rilevanti, misuriamo le fonti di traffico sul nostro sito, il numero di visite, il numero di pagine visualizzate e l'attività dei visitatori sul sito e con quale frequenza tornano.<br/><br/>Lo strumento statistico utilizzato sul Sito è Matomo, uno strumento <a href='https://matomo.org/free-software/' target='_blank'>gratuito/open-source</a>, configurato per conformarsi alla <a href='https://www.cnil.fr/fr/solutions-pour-la-mesure-daudience' target='_blank'>raccomandazione \"Cookie\"</a> della CNIL. Ciò significa che il tuo indirizzo IP, ad esempio, è anonimizzato prima di essere registrato. È quindi impossibile collegare le tue visite a questo sito a te personalmente.<br/><br/> La durata di conservazione di questi cookie (il tempo durante il quale rimangono memorizzati sul tuo dispositivo) non supera i 13 mesi. Maggiori dettagli sono disponibili nella pagina <a href='https://vittascience.com/cookies' target='_blank'>Informazioni sui Cookie</a>."
               },
               "2": {
-                "title": " 2. Dati raccolti durante la connessione al sito",
-                "content": " Alcuni dati personali sono necessari per consentire la connessione al Sito, nonché per rilevare errori di connessione o di visualizzazione e tentativi di attacchi informatici: si tratta principalmente del vostro indirizzo IP, nonché di altre informazioni tecniche relative al vostro dispositivo (computer, tablet, smartphone o altro) e al vostro browser Internet.<br/><br/>Queste informazioni vengono rilevate e raccolte automaticamente dall'host dei Servizi. Sono conservati da quest'ultima per un periodo di 12 mesi prima di essere cancellati.<br/><br/>La loro raccolta e il loro utilizzo sono giustificati in quanto necessari per il perseguimento di un interesse legittimo di VITTASCIENCE, interesse che consiste nel poter fornire Servizi funzionali adattati ai diversi tipi di terminali e browser esistenti sul mercato, il tutto ai sensi dell'articolo 6.1.f) del RGPD."
+                "title": "2. Dati raccolti quando ti connetti al sito",
+                "content": "Alcuni dati personali sono necessari per consentirti di connetterti al Sito, nonché per rilevare errori di connessione o visualizzazione e tentativi di attacco informatico: questo consiste principalmente nel tuo indirizzo IP, insieme ad altre informazioni tecniche sul tuo dispositivo (computer, tablet, smartphone o altro) e sul tuo browser internet.<br/><br/>Queste informazioni vengono automaticamente rilevate e raccolte dal fornitore di hosting dei Servizi. Vengono conservate dal fornitore di hosting per un periodo di 12 mesi prima di essere eliminate.<br/><br/>La sua raccolta e il suo utilizzo sono giustificati come necessari per il perseguimento di un legittimo interesse di VITTASCIENCE, vale a dire la possibilità di fornire Servizi funzionali e adattati ai vari tipi di dispositivi e browser presenti sul mercato, in conformità con l'Articolo 6.1.f) del GDPR."
               },
               "3": {
-                "title": " 3. Dati raccolti al momento della registrazione",
-                "content": " Alcuni dati vengono raccolti al momento della registrazione. Sono richiesti tramite il modulo di creazione dell'account: nome e cognome, indirizzo e-mail e password. <Questi dati sono necessari per consentire all'utente di accedere e utilizzare i Servizi. La loro raccolta, utilizzo e conservazione sono pertanto giustificati in quanto necessari per la conclusione e l'esecuzione di un contratto tra l'utente e VITTASCIENCE, vale a dire i <a href='http://vittascience.com/cgu'>Termini e condizioni d'uso dei servizi</a>, ai sensi dell'articolo 6.1.b) del GDPR.<br/><br/><strong>Importante</strong>: se l'utente è minorenne, non può validamente \"firmare un contratto\" con VITTASCIENCE. In questo caso, i dati vengono raccolti nell'ambito della missione di servizio pubblico di cui la scuola è responsabile (istruzione primaria o secondaria).<br/><br/>Al profilo possono essere aggiunte diverse altre informazioni facoltative, tra cui il numero di telefono, la scuola, la foto del profilo e una breve biografia.<br/><br/>Conserveremo i dati relativi alla creazione e alle successive modifiche del vostro account, anche dopo la loro cancellazione, per i seguenti due motivi:<ul><li>Potremmo aver bisogno di utilizzare alcuni di questi dati per gestire un reclamo da parte vostra, della vostra istituzione o di terzi, o per difendere i nostri diritti legali. Ad esempio, in caso di violazione dei termini e delle condizioni d'uso dei Servizi o di reclamo da parte dell'utente per una violazione da parte di VITTASCIENCE, conserveremo i dati necessari come misura precauzionale per tutto il tempo in cui potrebbe sorgere tale controversia.<br/><br/>Questa conservazione prolungata e l'uso contenzioso dei dati dell'utente sono giustificati dal legittimo interesse di VITTASCIENCE a conservare prove utili per difendere i propri diritti e interessi, ai sensi dell'articolo 6.1.f) del GDPR.</li><li>Inoltre, siamo tenuti per legge a tenere a disposizione delle autorità competenti e dei tribunali i dati che consentono l'identificazione degli utenti dei nostri Servizi (tra cui la data, l'ora della creazione dell'account dell'utente e l'indirizzo IP utilizzato). Tale obbligo è previsto dall'<a href='https://www.legifrance.gouv.fr/affichTexteArticle.do;jsessionid=9559D27BC5C8B0BEB87D1ACA97765148.tplgfr22s_2?idArticolo=LEGIARTI000037526491&cidTexte=LEGITEXT000005789847&dateTexte=20190412'>articolo 6.II della legge n. 575-2004 del 21 giugno 2004 per la fiducia nell'economia digitale e del suo decreto attuativo n. 2011-219 del 25 febbraio 2011</a>.<br/></li></ul>In definitiva, conserveremo i dati collegati all'account dell'utente fino alla cancellazione di quest'ultimo, e poi negli archivi per il periodo di prescrizione legalmente applicabile a un'azione presso i tribunali civili o penali (ossia, in linea di principio, 5 anni).<br/><br/>Gli utenti che creano un account Vittascience possono scegliere di attivare o meno un profilo pubblico. Nel caso di un profilo pubblico, il cognome, il nome, la foto del profilo, la biografia e lo stabilimento dell'Utente sono resi pubblici in una pagina dedicata al profilo. L'indirizzo e-mail, la password e il numero di telefono non vengono mai resi pubblici."
+                "title": "3. Dati raccolti quando ti registri",
+                "content": "Alcuni dati vengono raccolti quando ti registri. Ti vengono richiesti tramite il modulo di creazione dell'account: questo consiste nel tuo nome e cognome, un indirizzo email e una password.<br/><br/>Questi dati sono necessari per consentirti di accedere e utilizzare i Servizi. La loro raccolta, utilizzo e conservazione sono quindi giustificati come necessari per la conclusione e l'esecuzione di un contratto tra te e VITTASCIENCE, vale a dire i <a href='http://vittascience.com/cgu'>Termini di Servizio</a>, in conformità con l'Articolo 6.1.b) del GDPR.<br/><br/><strong>Importante</strong>: Se sei un minorenne, non puoi validamente \"stipulare un contratto\" con VITTASCIENCE. In questo caso, i dati vengono raccolti nell'ambito della missione di servizio pubblico affidata alla tua scuola (istruzione primaria o secondaria).<br/><br/>Alcuni altri dati opzionali ti consentono di completare il tuo profilo, in particolare il tuo numero di telefono, la tua scuola, un'immagine del profilo e una breve biografia.<br/><br/>Retenderemo i dati relativi alla creazione e alle eventuali modifiche al tuo account, anche dopo la sua eliminazione, per i seguenti due motivi:<ul><li>Potremmo avere bisogno di utilizzare alcuni di questi dati per rispondere a una richiesta da parte tua, della tua scuola o di un terzo, o per difendere i nostri diritti in tribunale. Questo sarebbe il caso, ad esempio, se violi i Termini di Servizio, o se ti lamenti di un difetto da parte di VITTASCIENCE; pertanto conserveremo i dati necessari come precauzione, per tutto il tempo in cui tale controversia potrebbe sorgere.<br/><br/>Questa conservazione prolungata e questo utilizzo contenzioso dei tuoi dati sono giustificati dall'interesse legittimo di VITTASCIENCE a preservare prove utili per difendere i propri diritti e interessi, in conformità con l'Articolo 6.1.f) del GDPR.</li><li>Inoltre, la legge ci impone di mantenere a disposizione delle autorità competenti e dei tribunali i dati necessari per identificare gli utenti dei nostri Servizi (inclusa la data e l'ora in cui è stato creato l'account utente e l'indirizzo IP utilizzato). Questo obbligo è stabilito nell'<a href='https://www.legifrance.gouv.fr/affichTexteArticle.do;jsessionid=9559D27BC5C8B0BEB87D1ACA97765148.tplgfr22s_2?idArticle=LEGIARTI000037526491&cidTexte=LEGITEXT000005789847&dateTexte=20190412'>Articolo 6.II della Legge n. 575-2004 del 21 giugno 2004 sulla fiducia nell'economia digitale e il suo decreto attuativo n. 2011-219 del 25 febbraio 2011</a>.<br/></li></ul>In totale, conserveremo quindi i dati relativi al tuo account fino a quando non verrà eliminato, e poi li archivieremo per il periodo di prescrizione legalmente applicabile per un'azione davanti a tribunali civili o penali (in linea di principio, 5 anni).<br/><br/>Gli utenti che creano un account Vittascience possono scegliere se abilitare o meno un profilo pubblico. In caso di profilo pubblico, il nome, cognome, immagine del profilo, biografia e scuola dell'Utente vengono resi pubblici su una pagina del profilo dedicata. Il tuo indirizzo email, password e numero di telefono non vengono mai resi pubblici."
               },
               "4": {
-                "title": " 4. Dati relativi ai Contenuti creati dall'utente",
-                "content": " Una volta creato il proprio account, è possibile iniziare a creare Contenuti, ovvero risorse, attività, itinerari, progetti ed esperienze di Vittamap.<br/><br/>Teniamo traccia di questi Contenuti, nonché delle date e degli orari in cui sono stati caricati, collegandoli al proprio account utente.<br/><br/>Questo trattamento dei dati è quindi giustificato in quanto necessario per l'esecuzione di un contratto tra l'utente e VITTASCIENCE, ovvero le condizioni generali di utilizzo dei Servizi, ai sensi dell'articolo 6.1.b) del RGPD.<br/><br/><strong>Importante</strong>: se l'utente è minorenne, non può validamente \"firmare un contratto\" con VITTASCIENCE. In questo caso, i dati vengono raccolti nell'ambito della missione di servizio pubblico di cui la scuola è responsabile (istruzione primaria o secondaria).<br/><br/>Conserveremo i dati relativi ai Contenuti pubblicati dall'utente (come una registrazione dei Contenuti, nonché la data e l'ora di pubblicazione e l'indirizzo IP utilizzato), anche dopo che l'utente avrà rimosso tali Contenuti dalla piattaforma, per i due motivi già menzionati:<ul><li>Potremmo aver bisogno di utilizzare alcuni di questi dati per gestire una richiesta di risarcimento da parte dell'utente, della sua istituzione o di una terza parte, o per difendere i nostri diritti legali. Ciò avverrebbe, ad esempio, in caso di violazione dei termini e delle condizioni d'uso dei Servizi o di reclamo da parte dell'utente per una violazione da parte di VITTASCIENCE; conserveremo pertanto i dati necessari come misura precauzionale, per tutto il tempo in cui potrebbe sorgere una controversia di questo tipo.<br/><br/>Questa conservazione prolungata e l'uso contenzioso dei dati dell'utente sono giustificati dal legittimo interesse di VITTASCIENCE a conservare prove rilevanti per la difesa dei propri diritti e interessi, in conformità con l'Articolo 6.1.f) del RGPD.</li><li> Inoltre, la legge ci impone di tenere a disposizione delle autorità e giurisdizioni competenti i dati che consentono l'identificazione degli autori dei Contenuti pubblicati sulla piattaforma (tra cui la data e l'ora del caricamento dei Contenuti e l'indirizzo IP utilizzato). Tale obbligo è previsto dall'<a href='https://www.legifrance.gouv.fr/affichTexte.do?cidTexte=JORFTEXT000023646013&categorieLien=id'>Articolo 6.II della legge n°575-2004 del 21 giugno 2004 per la fiducia nell'economia digitale e dal suo decreto applicativo n°2011-219 del 25 febbraio 2011.</a>.<br/><br/>Si tratta quindi di un trattamento dei Suoi dati necessario per adempiere a obblighi di legge e regolamentari propri di VITTASCIENCE, ai sensi dell'articolo 6.1.c) del RGPD.</li></ul>In totale, conserveremo quindi i dati relativi a ciascun Contenuto fino a quando l'utente non rimuoverà tale Contenuto dai Servizi, e poi in archivio per la durata della prescrizione legalmente applicabile a un'azione dinanzi a tribunali civili o penali (ossia, in linea di principio, 5 anni).<br/><br/>Questo trattamento dei dati relativi ai Contenuti creati dall'utente si applica anche ai commenti lasciati dall'utente sul Sito."
+                "title": "4. Dati relativi ai Contenuti che crei",
+                "content": "Una volta creato il tuo account, puoi iniziare a creare Contenuti, cioè risorse, attività, percorsi di apprendimento, progetti e esperienze Vittamap.<br/><br/>Conserveremo questi Contenuti, insieme alle date e orari di pubblicazione, collegandoli al tuo account utente.<br/><br/> Questo trattamento dei dati è giustificato come necessario per l'adempimento di un contratto tra te e VITTASCIENCE, vale a dire i Termini di Servizio, in conformità con l'Articolo 6.1.b) del GDPR.<br/><br/><strong>Importante</strong>: Se sei un minorenne, non puoi validamente \"stipulare un contratto\" con VITTASCIENCE. In questo caso, i dati vengono raccolti nell'ambito della missione di servizio pubblico affidata alla tua scuola (istruzione primaria o secondaria).<br/><br/>Conserveremo i dati relativi ai Contenuti che pubblichi (come un registro dei Contenuti, così come la data e l'ora di pubblicazione e l'indirizzo IP utilizzato), anche dopo che hai rimosso questi Contenuti dalla piattaforma, per le due ragioni già menzionate:<ul><li>Potremmo avere bisogno di utilizzare alcuni di questi dati per rispondere a una richiesta da parte tua, della tua scuola o di un terzo, o per difendere i nostri diritti in tribunale. Questo sarebbe il caso, ad esempio, se violi i Termini di Servizio, o se ti lamenti di un difetto da parte di VITTASCIENCE; pertanto conserveremo i dati necessari come precauzione, per tutto il tempo in cui tale controversia potrebbe sorgere.<br/><br/>Questa conservazione prolungata e questo utilizzo contenzioso dei tuoi dati sono giustificati dall'interesse legittimo di VITTASCIENCE a preservare prove utili per difendere i propri diritti e interessi, in conformità con l'Articolo 6.1.f) del GDPR.</li><li>Inoltre, la legge richiede che manteniamo a disposizione delle autorità competenti e dei tribunali i dati necessari per identificare gli autori dei Contenuti pubblicati sulla piattaforma (inclusa la data e l'ora di pubblicazione del Contenuto, e l'indirizzo IP utilizzato). Questo obbligo è stabilito nell'<a href='https://www.legifrance.gouv.fr/affichTexte.do?cidTexte=JORFTEXT000023646013&categorieLien=id'>Articolo 6.II della Legge n. 575-2004 del 21 giugno 2004 sulla fiducia nell'economia digitale e il suo decreto attuativo n. 2011-219 del 25 febbraio 2011</a>.<br/><br/>Questo è quindi un trattamento dei tuoi dati necessario per adempiere a obblighi legali e normativi specifici a VITTASCIENCE, in conformità con l'Articolo 6.1.c) del GDPR.</li></ul>In totale, conserveremo quindi i dati relativi a ciascun Contenuto fino a quando non rimuovi quel Contenuto dai Servizi, e poi lo archivieremo per il periodo di prescrizione legalmente applicabile per un'azione davanti a tribunali civili o penali (in linea di principio, 5 anni).<br/><br/>Questo trattamento dei dati relativi ai Contenuti che crei si applica anche ai commenti che lasci sul Sito."
               },
               "5": {
-                "title": " 5. Dati relativi a ordini e consegne",
-                "content": " I Servizi consentono all'utente di ordinare e farsi consegnare vari prodotti, quali kit di formazione e apparecchiature elettroniche.<br/><br/>A tal fine, l'utente dovrà fornire il proprio indirizzo postale (ai fini della fatturazione e della consegna) e il proprio numero di telefono (per facilitare la consegna).<br/><br/>Questo trattamento dei dati è quindi giustificato in quanto necessario per l'esecuzione di un contratto tra l'utente e VITTASCIENCE, vale a dire le condizioni generali di utilizzo dei Servizi, ai sensi dell'articolo 6.1.b) del GDPR.<br/><br/>Conserveremo inoltre questi dati dopo la consegna, per gestire eventuali reclami da parte dell'utente, per il periodo di prescrizione civile applicabile. Questa conservazione a lungo termine è giustificata dal legittimo interesse di VITTASCIENCE a conservare prove per eventuali controversie, in conformità all'articolo 6.1.f) del GDPR."
+                "title": "5. Dati relativi agli ordini e alle consegne",
+                "content": "I Servizi ti consentono di ordinare e ricevere vari prodotti, come kit educativi ed attrezzature elettroniche.<br/><br/>A tal fine, ti chiederemo di fornire il tuo indirizzo postale (per fatturazione e consegna) e il tuo numero di telefono (per facilitare la consegna).<br/><br/>Questo trattamento dei dati è giustificato come necessario per l'adempimento di un contratto tra te e VITTASCIENCE, vale a dire i Termini di Servizio, in conformità con l'Articolo 6.1.b) del GDPR.<br/><br/>Conserveremo anche questi dati dopo la consegna, per gestire eventuali richieste da parte tua, per il periodo di prescrizione civile applicabile. Questa conservazione a lungo termine è giustificata dall'interesse legittimo di VITTASCIENCE a preservare prove utili in previsione di possibili azioni legali, in conformità con l'Articolo 6.1.f) del GDPR."
               },
               "6": {
-                "title": " 6. Dati raccolti tramite il modulo di contatto",
-                "content": " L'utilizzo del modulo di contatto nella pagina <a href='https://vittascience.com/about' target='_blank'>\"about\"</a> del sito vittascience.com richiede che l'utente fornisca, oltre al messaggio, il proprio nome e cognome, l'indirizzo e-mail e il motivo del contatto, per consentirci di rispondere se necessario.<br/><br/>In linea di principio, conserveremo queste informazioni per il tempo necessario a elaborare il vostro messaggio, ossia per rispondere (se richiede una risposta da parte di VITTASCIENCE), e poi nei nostri archivi per la durata dei termini di prescrizione legalmente applicabili a un'azione davanti a un tribunale civile o penale (ossia, in linea di principio, 5 anni).<br/><br/>La raccolta e l'archiviazione di queste informazioni è giustificata dal legittimo interesse di VITTASCIENCE a garantire la corretta gestione dei rapporti con i propri utenti in generale, e a fornire le prove necessarie per difendere i propri diritti, se necessario a lungo termine, in conformità all'articolo 6.1.f) del Regolamento generale sulla protezione dei dati (GDPR).<br/><br/>Se, tuttavia, il messaggio che inviate tramite il modulo è di comprovata natura illecita (ad esempio, in caso di diffamazione o insulto), o se i nostri scambi danno luogo a un'azione legale da parte vostra o nostra, le informazioni corrispondenti possono essere conservate per un periodo più lungo, il cui termine di prescrizione può essere più lungo (ad esempio, in materia penale, a seconda della natura del reato contestato), o addirittura sospeso o interrotto per la durata del processo, se necessario.<br/><br/>Questa conservazione a lungo termine è ancora una volta giustificata dal legittimo interesse di VITTASCIENCE a riservare e produrre prove utili a far valere i propri diritti nell'ambito di un'azione legale, ai sensi dell'articolo 6.1.f) del Regolamento generale sulla protezione dei dati (GDPR)."
+                "title": "6. Dati raccolti tramite il modulo di contatto",
+                "content": "Utilizzare il modulo di contatto nella <a href='https://vittascience.com/about' target='_blank'>pagina \"chi siamo\"</a> del sito vittascience.com richiede di fornire il tuo nome, cognome, indirizzo email e il motivo del tuo contatto, oltre al tuo messaggio, affinché possiamo rispondere a te se necessario.<br/><br/>Generalmente conserveremo queste informazioni per tutto il tempo necessario per elaborare il tuo messaggio, cioè per rispondere (se è giustificata una risposta da parte di VITTASCIENCE), e poi le archivieremo per il periodo di prescrizione legalmente applicabile per un'azione davanti a tribunali civili o penali (in linea di principio, 5 anni).<br/><br/>La raccolta e la conservazione di queste informazioni sono giustificate dall'interesse legittimo di VITTASCIENCE a gestire correttamente le proprie relazioni con i propri utenti in generale, e a preservare le prove necessarie per difendere i propri diritti a lungo termine, ove applicabile, in conformità con l'Articolo 6.1.f) del Regolamento Generale sulla Protezione dei Dati (GDPR).<br/><br/>Tuttavia, se il messaggio che invii tramite il modulo risulta manifestamente illegittimo (ad esempio, nel caso di diffamazione o insulti), o se i nostri scambi danno luogo a procedimenti legali da parte tua o nostra, le informazioni corrispondenti possono essere conservate per un periodo più lungo, poiché il periodo di prescrizione applicabile potrebbe essere più lungo (ad esempio, in materia penale, a seconda della natura dell'offesa contestata), o può anche essere sospeso o interrotto durante i procedimenti, se applicabile.<br/><br/>Questa conservazione a lungo termine è nuovamente giustificata dall'interesse legittimo di VITTASCIENCE a preservare e produrre prove utili all'affermazione dei propri diritti nel contesto di procedimenti legali, in conformità con l'Articolo 6.1.f) del Regolamento Generale sulla Protezione dei Dati (GDPR)."
               },
               "7": {
-                "title": " 7. Dati relativi all'iscrizione alla nostra newsletter",
-                "content": " Per iscriversi alla nostra newsletter, è necessario inserire il proprio indirizzo e-mail. Questo indirizzo viene utilizzato solo per inviarvi le newsletter di Vittascience. È possibile utilizzare il link di annullamento dell'iscrizione alla newsletter in qualsiasi momento. I dati vengono conservati dalla registrazione fino alla cancellazione dell'iscrizione.<br/><br/>Questo trattamento dei dati è quindi giustificato in quanto necessario per l'esecuzione di un contratto tra l'utente e VITTASCIENCE, vale a dire i termini e le condizioni generali di utilizzo dei Servizi, ai sensi dell'articolo 6.1.b) del GDPR."
+                "title": "7. Dati relativi all'iscrizione alla newsletter",
+                "content": "L'iscrizione alla nostra newsletter richiede di fornire il tuo indirizzo email. Questo indirizzo viene utilizzato esclusivamente per inviarti le newsletter di Vittascience. Puoi disiscriverti in qualsiasi momento utilizzando il link di disiscrizione incluso nella newsletter. I dati vengono conservati dalla tua iscrizione fino alla tua disiscrizione.<br/><br/>Questo trattamento dei dati è giustificato come necessario per l'adempimento di un contratto tra te e VITTASCIENCE, vale a dire i Termini di Servizio, in conformità con l'Articolo 6.1.b) del GDPR."
               }
             }
           }
         },
         "3": {
-          "title": " Chi ha accesso ai vostri dati? Con chi viene condiviso?",
-          "content": " Abbiamo implementato misure di sicurezza tecniche e organizzative per garantire la sicurezza, l'integrità e la riservatezza di tutti i vostri dati personali.<br/><br/>Tutti i dati presenti sul nostro sito web sono memorizzati su server situati nell'Unione Europea da OVH (di seguito: l'\"Host\"). Per conoscere l'informativa sulla privacy del nostro Host, vi invitiamo a visitare la seguente pagina: <a href='https://www.ovh.com/fr/protection-donnees-personnelles/gdpr.xml' target='_blank'>Protezione dei dati personali in OVH.</a><br/><br/>Inoltre, i vostri dati personali sono criptati e protetti ogni volta che vengono trasmessi ai server su cui è ospitato il nostro sito web, utilizzando il protocollo HTTPS. Poiché nessuna misura di sicurezza è infallibile, VITTASCIENCE non è in grado di garantire la sicurezza assoluta dei vostri dati personali.<br/><br/>Questi dati sono accessibili ai dipendenti di VITTASCIENCE ai fini delle loro missioni.<br/><br/>Al di fuori dell'Ospite e dei dipendenti di VITTASCIENCE, le uniche persone o organizzazioni che possono ricevere o consultare questi dati personali sono:<ul><li>l'Utente che ha invitato l'utente a utilizzare i Servizi e ha accettato di monitorare l'utilizzo dei Servizi da parte dell'utente, compresi i Contenuti creati dall'utente (per gli Apprendisti)</li><li>le persone con cui l'utente sceglie di condividere i propri Contenuti</li><li>i fornitori di servizi tecnici che possono essere responsabili della manutenzione e dell'aggiornamento dei Servizi</li><li>il consulente legale di VITTASCIENCE, per ottenere consulenza legale o assistenza nella difesa dei diritti della VITTASCIENCE</li><li>Giurisdizioni o autorità francesi, europee, internazionali o straniere che ordinino alla VITTASCIENCE di comunicarli, o a cui la VITTASCIENCE scelga di comunicarli volontariamente per difendere i propri diritti.</Non si può escludere che alcune di queste giurisdizioni o autorità siano situate in paesi al di fuori dell'Unione Europea (o che siano organizzazioni internazionali per natura), anche se la probabilità che ciò accada è relativamente bassa. In tal caso, adotteremo le misure appropriate per garantire che la giurisdizione o l'autorità interessata garantisca un'adeguata protezione dei dati forniti. Tali misure consisteranno in un'analisi approfondita della validità dell'ingiunzione ricevuta e, se necessario, in una consultazione dell'autorità francese di riferimento (la CNIL), prima di qualsiasi comunicazione di dati.<br/><br/><strong>Importante</strong>: siete solo voi (o, per gli Allievi, l'Utente che vi ha invitato) i responsabili della scelta delle persone con cui condividere i vostri Contenuti e delle conseguenze pratiche o legali che ne possono derivare. Il ruolo di VITTASCIENCE si limita a fornire all'utente una funzionalità che consente la creazione di Contenuti e la loro pubblicazione su Internet.<br/><br/>È utile ricordare che il modello economico di VITTASCIENCE non si basa sulla pubblicità né sulla vendita o sullo scambio di dati degli utenti. Pertanto, i Dati personali dell'Utente non saranno trasmessi a soggetti commerciali o pubblicitari."
+          "title": "Chi ha accesso ai tuoi dati? Con chi vengono condivisi?",
+          "content": "Abbiamo implementato misure di sicurezza tecniche e organizzative per garantire la sicurezza, l'integrità e la riservatezza di tutti i tuoi dati personali.<br/><br/>Tutti i dati del nostro sito web sono memorizzati su server situati nell'Unione Europea da OVH (di seguito: l'\"Host\"). Per conoscere la politica sulla privacy del nostro Host, ti preghiamo di fare riferimento alla seguente pagina: <a href='https://www.ovh.com/fr/protection-donnees-personnelles/gdpr.xml' target='_blank'>Protezione dei Dati Personali presso OVH.</a><br/><br/>Inoltre, i tuoi dati personali sono crittografati e protetti ogni volta che vengono trasmessi ai server su cui è ospitato il nostro sito web, grazie al protocollo HTTPS. Poiché nessuna misura di sicurezza è infallibile, VITTASCIENCE non può garantire la sicurezza assoluta dei tuoi dati personali.<br/><br/>Questi dati sono accessibili ai dipendenti di VITTASCIENCE secondo necessità per le loro mansioni.<br/><br/>Oltre all'Host e ai dipendenti di VITTASCIENCE, le uniche persone o organizzazioni che potrebbero ricevere o visualizzare questi dati personali sono:<ul><li>l'Utente che ti ha invitato a utilizzare i Servizi e che ha accettato di supervisionare il tuo uso di questi Servizi, in particolare i Contenuti che crei (per i Learners)</li><li>le persone con cui scegli di condividere il tuo Contenuto</li><li>fornitori di servizi tecnici che potrebbero essere responsabili della manutenzione e dello sviluppo dei servizi</li><li>il legale di VITTASCIENCE, al fine di ottenere consulenze legali o assistenza nella difesa dei diritti di VITTASCIENCE</li><li>tribunali o autorità francesi, europei, internazionali o stranieri che ordinano a VITTASCIENCE di divulgare i dati a loro, o a cui VITTASCIENCE sceglie di divulgare volontariamente tali dati per difendere i propri diritti.</li></ul>Non si può escludere che alcuni di questi tribunali o autorità possano trovarsi in paesi al di fuori dell'Unione Europea (o che, per loro natura, siano organizzazioni internazionali), sebbene la probabilità di tale scenario sia a priori relativamente bassa. In tale situazione, adotteremo misure appropriate per garantire che il tribunale o l'autorità interessata garantisca una protezione sufficiente per i dati divulgati. Queste misure comporteranno un'analisi approfondita della validità dell'ordine ricevuto e, se necessario, la consultazione con l'autorità francese competente (la CNIL), prima di qualsiasi divulgazione di dati.<br/><br/><strong>Importante</strong>: Sei l'unico responsabile (o, per i Learners, l'Utente che ti ha invitato) della scelta delle persone con cui condividi il tuo Contenuto e delle conseguenze pratiche o legali che ne potrebbero derivare. Il ruolo di VITTASCIENCE è limitato a fornirti una funzionalità che consente la creazione di Contenuti e la loro pubblicazione su Internet.<br/><br/>Vale la pena ricordare qui che il modello di business di VITTASCIENCE non è basato sulla pubblicità o sulla vendita o scambio di dati degli Utenti. Di conseguenza, i Dati Personali degli Utenti non saranno trasferiti a attori commerciali o pubblicitari."
         },
         "4": {
-          "title": " Quali diritti avete per controllare il trattamento dei vostri dati?",
+          "title": "Quali diritti hai per controllare il trattamento dei tuoi dati?",
           "content": {
-            "introduction": " L'utente dispone di un certo numero di diritti previsti dalla normativa, che sono dettagliati di seguito.<br/><br/>Può esercitare tali diritti semplicemente scrivendo direttamente al seguente indirizzo e-mail: contact@vittascience.com. Ricordate di indicare nella vostra e-mail la natura del diritto che desiderate esercitare e le ragioni che giustificano, se del caso, la vostra richiesta di esercitare tale diritto.",
+            "introduction": "Hai una serie di diritti previsti dalla normativa applicabile; di seguito troverai i dettagli.<br/><br/>Puoi esercitare questi diritti semplicemente scrivendo direttamente al seguente indirizzo email: contact@vittascience.com. Assicurati di indicare nella tua email la natura del diritto che desideri esercitare e le ragioni che giustificano la tua richiesta, se applicabile.",
             "articles": {
               "1": {
-                "title": " 1. Diritto di accesso",
-                "content": " L'utente ha il diritto di richiedere una copia dei propri dati personali in nostro possesso in un formato facilmente comprensibile e una copia della presente informativa su un supporto durevole."
+                "title": "1. Diritto di accesso",
+                "content": "Hai il diritto di chiederci una copia dei dati personali che possediamo su di te, in un formato facilmente comprensibile, così come una copia di questa informativa su un supporto durevole."
               },
               "2": {
-                "title": " 2. Diritto di rettifica",
-                "content": " Avete il diritto di chiederci di correggere, completare o aggiornare i dati in nostro possesso, qualora risultino inesatti, incompleti o obsoleti.<br/><br/>In questo caso, vi saremmo grati se poteste fornirci spontaneamente, per quanto possibile, le nuove informazioni necessarie per effettuare la correzione, il completamento o l'aggiornamento richiesto."
+                "title": "2. Diritto di rettifica",
+                "content": "Hai il diritto di chiederci di correggere, completare o aggiornare i dati che abbiamo su di te, se risultano inesatti, incompleti o obsoleti.<br/><br/>In tal caso, ti preghiamo di fornirci, per quanto possibile, le nuove informazioni necessarie per effettuare la correzione, il completamento o l'aggiornamento richiesti."
               },
               "3": {
-                "title": " 3. Diritto di opposizione",
-                "content": " Nella misura in cui alcune delle operazioni di trattamento dei dati sopra elencate sono giustificate dai legittimi interessi di VITTASCIENCE (conservazione di alcuni dati come prova; raccolta di informazioni tecniche al momento della connessione al sito; dati legati al modulo di contatto), l'utente ha il diritto di opporsi ad esse per motivi legati alla sua situazione particolare.<br />In altre parole, potete chiedere a VITTASCIENCE di interrompere uno qualsiasi di questi trattamenti nei vostri confronti, spiegando i motivi particolari che giustificano tale richiesta dal vostro punto di vista.<br/><br/>Tuttavia, VITTASCIENCE può rifiutarsi di dare seguito alla richiesta dell'utente se il proseguimento del trattamento è necessario per motivi impellenti dal nostro punto di vista (ad esempio, se i dati in questione sono necessari per la protezione e la difesa dei diritti legali di VITTASCIENCE).<br/><br/><strong>Importante</strong>: L'opposizione (se basata su valide ragioni e non vi sono motivi imperativi contrari) comporterà la cessazione del trattamento per il futuro, ma non necessariamente la distruzione dei dati in questione: per ottenere tale distruzione è necessario esercitare il diritto alla cancellazione alle condizioni descritte di seguito, fermo restando che quest'ultimo è soggetto a limitazioni relative, ad esempio, ancora una volta, alla necessità di conservare i dati per la tutela e la difesa degli interessi di VITTASCIENCE in sede giudiziaria."
+                "title": "3. Diritto di opposizione",
+                "content": "In quanto alcuni dei trattamenti di dati sopra elencati sono giustificati dagli interessi legittimi di VITTASCIENCE (conservazione di alcuni dati come prova; raccolta di informazioni tecniche quando ti connetti al sito; dati relativi al modulo di contatto), hai il diritto di opporsi per motivi inerenti la tua situazione particolare.<br/><br/>In altre parole, puoi chiedere a VITTASCIENCE di interrompere una o più di queste attività di trattamento nei tuoi confronti, spiegando i particolari motivi che giustificano questa richiesta dal tuo punto di vista.<br/><br/>Tuttavia, VITTASCIENCE può rifiutarsi di accogliere la tua richiesta se la continuazione di questo trattamento è necessaria per motivi imperativi dal nostro punto di vista (ad esempio: se i dati interessati sono necessari per la protezione e la difesa dei diritti di VITTASCIENCE in tribunale).<br/><br/><strong>Importante</strong>: Un'opposizione (se basata su motivi validi e se non sussistono motivi imperativi contrari) comporterà l'interruzione del trattamento a partire da ora in avanti, ma non necessariamente la cancellazione dei dati interessati: per ottenerne la cancellazione, devi esercitare il tuo diritto di cancellazione secondo le condizioni descritte di seguito, specificando che questo diritto stesso è soggetto a limitazioni, ad esempio, nuovamente, la necessità di conservare i dati per la protezione e la difesa degli interessi di VITTASCIENCE in tribunale."
               },
               "4": {
-                "title": " 4. Diritto alla cancellazione",
-                "content": " L'utente può chiederci di cancellare tutti o parte dei dati in nostro possesso, se è soddisfatta almeno una delle seguenti condizioni:<ul><li>L'utente si è opposto alla prosecuzione del trattamento dei dati e, inoltre, desidera che VITTASCIENCE proceda alla distruzione dei dati in questione.</li><li>I dati in questione non risultano più necessari per nessuna delle finalità sopra indicate.</li><li>L'utente ritiene che VITTASCIENCE abbia raccolto e/o trattato i dati in questione in modo contrario alla legge.</li><li>La cancellazione dei dati in questione è imposta come obbligo legale.</li><li>I dati in questione si riferiscono a una persona che aveva meno di quindici (15) anni al momento della raccolta dei dati.</li></ul>Si noti, tuttavia, che VITTASCIENCE ha il diritto di opporsi alla cancellazione di alcuni dati, laddove la loro conservazione sia necessaria per motivi particolarmente importanti, come la protezione e la difesa dei propri interessi in tribunale (ad esempio: nel caso di un messaggio diffamatorio o offensivo ricevuto tramite il modulo di contatto).<L'utente deve inoltre essere consapevole che, invece di cancellare i dati, potremmo decidere di renderli completamente e irreversibilmente anonimi. In questo modo, saremo autorizzati a conservare i dati in un formato che non consenta più di identificarvi (ad esempio, a fini statistici)."
+                "title": "4. Diritto di cancellazione",
+                "content": "Puoi chiederci di eliminare tutto o parte dei dati che abbiamo su di te, a condizione che almeno una delle seguenti condizioni sia soddisfatta:<ul><li>Hai opposto alla continuazione di questo trattamento e desideri ulteriormente che VITTASCIENCE distrugga i dati interessati.</li><li>I dati interessati non sembrano più necessari per nessuno dei fini sopra esposti.</li><li>Ritieni che VITTASCIENCE abbia raccolto e/o trattato i dati interessati in modo illecito.</li><li>La cancellazione dei dati interessati è richiesta da un obbligo legale.</li><li>I dati interessati riguardano una persona che aveva meno di quindici (15) anni al momento della raccolta.</li></ul>Tieni presente, tuttavia, che VITTASCIENCE ha il diritto di opporsi alla cancellazione di alcuni dati quando la loro conservazione è necessaria per motivi particolarmente importanti, come la protezione e la difesa dei propri interessi in tribunale (ad esempio: nel caso di un messaggio diffamatorio o offensivo ricevuto tramite il modulo di contatto).<br/><br/>Ti preghiamo di notare che potremmo scegliere, invece di eliminare i dati, di anonimizzarli completamente e in modo irreversibile. In questo modo, avremo diritto a conservare questi dati in un formato che non consenta più di identificarti (ad esempio: per scopi statistici)."
               },
               "5": {
-                "title": " 5. Diritto di limitare il trattamento",
-                "content": " Ad esempio, se non esercitate il diritto alla cancellazione, potete anche richiedere che VITTASCIENCE \"metta da parte\" alcuni dati che vi riguardano, ossia che li tenga separati e non li utilizzi più (a meno che non sia richiesto dalla legge).<br/><br/>Può presentare tale richiesta quando è soddisfatta almeno una delle seguenti condizioni:<ul><li>I dati in questione le sembrano inesatti e preferirebbe che VITTASCIENCE cessasse di utilizzarli per il tempo necessario a verificarli e rettificarli, se necessario.</li><li>Ha esercitato il suo diritto di opposizione (vedi sopra) e preferirebbe che VITTASCIENCE cessasse di utilizzare i dati in questione per il tempo necessario a verificare la validità della sua obiezione.</li><li>L'utente ritiene che VITTASCIENCE abbia raccolto e/o trattato i dati in questione in modo contrario alla legge, ma preferisce comunque che i dati vengano conservati piuttosto che cancellati.</li><li>I dati in questione non sono più necessari per nessuna delle finalità di cui sopra, ma l'utente desidera comunque che VITTASCIENCE li conservi per difendere i propri interessi legali.</li></ul><br/><br/>In questi casi, metteremo in \"quarantena\" i dati per il tempo necessario, ad esempio mediante un contrassegno \"Non utilizzare - Diritto di restrizione\"."
+                "title": "5. Diritto di limitazione del trattamento",
+                "content": "Se non desideri esercitare il tuo diritto di cancellazione, ad esempio, puoi anche chiedere a VITTASCIENCE di \"sospendere\" alcuni dati su di te, cioè di mantenere questi dati separatamente, senza utilizzarli ulteriormente (eccetto per obblighi legali).<br/><br/>Puoi fare tale richiesta quando almeno una delle seguenti condizioni è soddisfatta:<ul><li>I dati interessati ti sembrano inaccurati e preferisci che VITTASCIENCE smetta di utilizzarli mentre sono verificati e corretti se necessario.</li><li>Hai esercitato il tuo diritto di opposizione (vedi sopra) e preferisci che VITTASCIENCE smetta di utilizzare i dati interessati mentre è in corso la verifica della validità della tua opposizione.</li><li>Ritieni che VITTASCIENCE abbia raccolto e/o trattato i dati interessati in modo illecito, ma preferisci comunque che conserviamo i dati piuttosto che eliminarli.</li><li>I dati interessati non sono più necessari per nessuno dei fini esposti sopra, ma desideri comunque che VITTASCIENCE li mantenga per proteggere i tuoi interessi in tribunale.</li></ul><br/><br/>In questi casi, porremo i dati \"in quarantena\" per il periodo necessario, ad esempio contrassegnandoli come \"Non utilizzare – Diritto di limitazione\"."
               },
               "6": {
-                "title": " 6. Diritto alla portabilità dei dati",
-                "content": " Potete chiederci di fornirvi i dati relativi al vostro utilizzo dei Servizi in un formato standard, strutturato e leggibile da una macchina, in particolare allo scopo di riutilizzare tali dati in relazione a un altro servizio. Potete anche chiederci di fornire questi dati direttamente a un altro fornitore di servizi, per facilitare il vostro cambio di servizio.<br/><br/><strong>Importante</strong>: I dati forniti in base al diritto alla portabilità saranno leggibili a macchina, ma non necessariamente da voi; se desiderate accedere ai vostri dati in un formato che possiate leggere e comprendere voi stessi, vi invitiamo invece a esercitare il vostro diritto di accesso (vedi sopra)."
+                "title": "6. Diritto alla portabilità dei dati",
+                "content": "Puoi chiederci di fornirti i dati relativi al tuo utilizzo dei Servizi in un formato standard, strutturato e leggibile da macchina, in particolare al fine di riutilizzare questi dati con un altro servizio. Puoi anche chiederci di trasmettere questi dati direttamente a un altro fornitore di servizi, per facilitarti il passaggio ai servizi.<br/><br/><strong>Importante</strong>: I dati forniti ai sensi del diritto alla portabilità saranno leggibili da macchina, ma non necessariamente leggibili da te; se desideri accedere ai tuoi dati in un formato comprensibile e leggibile, ti invitiamo invece a esercitare il tuo diritto di accesso (vedi sopra)."
               },
               "7": {
-                "title": " 7. Il diritto di fornire istruzioni su cosa fare dei vostri dati dopo la vostra morte.",
-                "content": " Infine, l'utente ha il diritto di dirci come desidera che trattiamo i suoi dati nel malaugurato caso della sua morte.<br/><br/>In particolare, l'utente può chiederci di distruggere tutti i suoi dati (fatte salve eventuali esigenze impellenti di conservazione, ad esempio per difendere i diritti di VITTASCIENCE in tribunale), o di inviare una copia di tutti questi dati a una persona di sua scelta.<Potete anche designare una persona di vostra scelta come responsabile dell'esecuzione di queste \"ultime volontà\"; questa persona non deve necessariamente essere uno degli eredi o l'esecutore testamentario."
+                "title": "7. Diritto di impostare linee guida su cosa succede ai tuoi dati dopo la tua morte",
+                "content": "Infine, hai il diritto di dirci come vorresti che gestissimo i tuoi dati in caso di decesso.<br/><br/>In particolare, puoi chiedere di distruggere tutti i tuoi dati (fermo restando qualsiasi necessità imperativa che potremmo avere di mantenerli, ad esempio per difendere i diritti di VITTASCIENCE in tribunale), o di inviare una copia di tutti questi dati a una persona di tua scelta.<br/><br/>Puoi anche designare qualsiasi persona di tua scelta come responsabile dell'esecuzione di queste \"ultime volontà\"; questa persona non deve necessariamente essere uno dei tuoi eredi o nemmeno l'esecutore della tua successione."
               }
             }
           }
         },
         "5": {
-          "title": " Cambiamenti",
-          "content": " La presente Informativa sulla privacy può essere soggetta a modifiche in base a qualsiasi sviluppo dei Servizi. Tali modifiche possono essere apportate in qualsiasi momento e senza preavviso. In caso di modifica della presente Informativa sulla privacy, gli utenti con un account riceveranno un avviso sotto forma di e-mail. <br/><br/>La data dell'ultima modifica della presente Informativa sulla privacy è indicata in fondo a questa pagina."
+          "title": "Modifiche",
+          "content": "Questa politica di protezione dei dati personali può essere modificata in funzione di eventuali cambiamenti nei Servizi. Tali modifiche possono avvenire in qualsiasi momento e senza preavviso. Se questa politica di protezione dei dati personali viene modificata, gli Utenti con un Account riceveranno un avviso via email.<br/><br/>La data di ultimo aggiornamento di questa politica di protezione dei dati personali è mostrata in fondo a questa pagina."
         },
         "6": {
           "title": " Contatto",
-          "content": " In caso di domande o reclami relativi alla conformità di VITTASCIENCE alla presente Politica, o se si desidera formulare raccomandazioni o commenti per migliorare la qualità della presente Politica, è possibile contattare VITTASCIENCE via e-mail all'indirizzo <a href='mailto:contact@vittascience.com'>contact@vittascience.com.</a><br/><br/>Se lo desidera, ha anche il diritto di contattare l'autorità competente per la protezione dei dati in Francia, ossia la Commission Nationale de l'Informatique et des Libertés (CNIL), tramite il sito web cnil.fr o per posta al seguente indirizzo CNIL - 3, place de Fontenoy - TSA 80715 - 75334 PARIS CEDEX 07. <br/><br/>Questo diritto può essere esercitato in qualsiasi momento e non comporta alcun costo per l'utente, a parte le spese per l'invio della lettera, se necessario, e le spese di assistenza o di rappresentanza se si sceglie di essere assistiti da terzi in questa procedura.<br/><br/>"
+          "content": "Se hai domande o reclami riguardo alla conformità di VITTASCIENCE a questa Politica, o se desideri condividere raccomandazioni o commenti per migliorare la qualità di questa politica, puoi contattare VITTASCIENCE via email a <a href='mailto:contact@vittascience.com'>contact@vittascience.com.</a><br/><br/>Se desideri, hai anche il diritto di presentare un reclamo all'autorità competente per la protezione dei dati in Francia, vale a dire la Commission Nationale de l'Informatique et des Libertés (CNIL), tramite il suo sito web cnil.fr o per posta al seguente indirizzo: CNIL – 3, place de Fontenoy – TSA 80715 – 75334 PARIS CEDEX 07.<br/><br/>Questo diritto può essere esercitato in qualsiasi momento e senza costi per te, al di fuori delle eventuali spese di invio postale, e eventuali costi di assistenza o rappresentanza se scegli di ricevere assistenza in questo processo da un terzo.<br/><br/>"
         }
       }
     },
     "footer": {
-      "date": " Ultimo aggiornamento il 15 agosto 2020."
+      "date": "Ultimo aggiornamento il 15 agosto 2020."
     }
   },
   "gallery": {
@@ -5625,10 +5745,30 @@
     "acceptIt": " Accettare"
   },
   "switchLang": {
-    "title": "Lingua"
+    "title": "Lingua",
+    "close": "Chiudi Menu Lingua"
   },
   "modals": {
     "standard": {
+      "arduino-q-wifi": {
+        "title": "Wi-Fi della scheda Arduino UNO Q",
+        "enabled": "Wi-Fi attivato",
+        "network": "Rete",
+        "scan": "Cerca reti",
+        "password": "Password della rete",
+        "connect": "Connetti",
+        "status": {
+          "loading": "Lettura dello stato del Wi-Fi…",
+          "nmcliMissing": "NetworkManager (nmcli) non trovato sulla scheda.",
+          "disabled": "Wi-Fi disattivato",
+          "connected": "Connessa a %1 (%2)",
+          "notConnected": "Non connessa",
+          "noNetwork": "Nessuna rete trovata",
+          "connecting": "Connessione a %1…",
+          "cancelled": "Operazione annullata.",
+          "failed": "La connessione non è riuscita."
+        }
+      },
       "default": {
         "title": "Titolo predefinito",
         "exit": "Chiudi la finestra"
@@ -5655,7 +5795,8 @@
           "categories": {
             "private": "I miei progetti",
             "public": "Progetti condivisi",
-            "example": "Esempi"
+            "example": "Esempi",
+            "local": "I miei progetti locali"
           },
           "exampleCategories": {
             "campus-numeria": "Campus Numeria",
@@ -5701,7 +5842,15 @@
         },
         "warning-message": "Caricamento progetti ...",
         "no-project": "Nessun progetto trovato.",
-        "toggle-all": "Apri/chiudi tutte le sottocategorie"
+        "toggle-all": "Apri/chiudi tutte le sottocategorie",
+        "localSelection": {
+          "selectedSingle": "progetto selezionato",
+          "selectedMultiple": "progetti selezionati",
+          "selectAll": "Seleziona tutto",
+          "unselectAll": "Deseleziona tutto",
+          "deleteSelection": "Elimina selezione",
+          "checkboxLabel": "Seleziona progetto %project%"
+        }
       },
       "save": {
         "title": "Salva il progetto",
@@ -5720,6 +5869,7 @@
             "copy": "Salva come ...",
             "share": "Condividi",
             "cancel": "Annulla",
+            "download": "Scarica",
             "downloadModel": "Scarica modello sul computer"
           },
           "iaWarning": "<i class='fa fa-exclamation-triangle'></i> Il tuo modello IA è memorizzato nella memoria del browser e non sarà salvato con il progetto.",
@@ -6249,6 +6399,10 @@
         "info": {
           "title": "Modalità solo codice",
           "content": "La modalità codice è attualmente bloccata. Ciò significa che le modalità blocchi e ibrida sono disattivate."
+        },
+        "exit": {
+          "title": "Leave code-only mode",
+          "content": "Do you wish to unlock code-only mode so that block and hybrid modes can be used again?"
         }
       },
       "local-compilation": {
@@ -6307,7 +6461,7 @@
       },
       "arduino-q-password": {
         "title": "Account utente Arduino Q",
-        "content": "Inserisci la password della scheda Arduino Q per continuare il trasferimento del progetto:",
+        "content": "Inserisci la password della scheda Arduino Q per continuare:",
         "placeholder": "Inserisci la password...",
         "buttons": {
           "confirm": {
@@ -6316,7 +6470,10 @@
           },
           "close": {
             "text": "Chiudi",
-            "tooltip": "Annulla il trasferimento del progetto."
+            "tooltip": "Annulla l'operazione."
+          },
+          "togglePassword": {
+            "tooltip": "Mostra / nascondi la password"
           }
         }
       }
@@ -6846,7 +7003,11 @@
         "generate": "Genera",
         "flash": "Carica un modello dal tuo dispositivo",
         "embeddedAiKit": "Kit IA integrata",
-        "seedStudioKit": "Kit Seeed Studio"
+        "seedStudioKit": "Kit Seeed Studio",
+        "arduinoQ": "Arduino UNO Q",
+        "arduinoQExplanations": "La scheda Arduino UNO Q esegue il modello direttamente sul suo processore Linux: non è necessaria alcuna ottimizzazione dal server.</br>Il modello si apre nell'interfaccia Arduino UNO Q con un programma di esempio, poi viene inviato alla scheda al caricamento.",
+        "arduinoQNote": "<strong>Nota:</strong> se il tuo progetto non è salvato online, il modello resta in questo browser: carica il programma da questo stesso browser.",
+        "openArduinoQ": "Apri nell'interfaccia Arduino UNO Q"
       },
       "microcontroller-queue": {
         "title": "In attesa di disponibilità del server...",
@@ -7124,6 +7285,7 @@
         "codey": "Interfaccia di programmazione per la scheda Codey e il robot Rocky di Makeblock",
         "uno-r4-wifi": "Interfaccia di programmazione per la scheda Arduino R4 WiFi",
         "uno-r4-minima": "Interfaccia di programmazione per la scheda Arduino R4 Minima",
+        "uno-q": "Interfaccia di programmazione per la scheda Arduino UNO Q (Arduino, Python e pagina web)",
         "nano": "Interfaccia di programmazione per la scheda Arduino Nano",
         "mega": "Interfaccia di programmazione per la scheda Arduino Mega",
         "steami": "Interfaccia di programmazione per la scheda STeaMi",
@@ -7135,7 +7297,8 @@
         "tello": "Interfaccia di programmazione per il drone DJI Tello",
         "uhandbit": "Interfaccia di programmazione per la mano robotica uHandbit",
         "wonder": "Interfaccia di programmazione per il kit Elecfreaks Wonder Building",
-        "buildingbit": "Interfaccia di programmazione per il kit Yahboom Building:bit Super"
+        "buildingbit": "Interfaccia di programmazione per il kit Yahboom Building:bit Super",
+        "primastem": "Interfaccia di programmazione per il robot PrimaStem"
       }
     },
     "features_title": "Caratteristiche comuni",
@@ -8964,13 +9127,15 @@
       "groupNotFound": "Il gruppo a cui stai cercando di aggiungere l'utente non esiste.",
       "errorAddingUserToGroup": "Si è verificato un errore durante l'aggiunta dell'utente al gruppo.",
       "emptyData": "Si è verificato un problema nel recupero dei dati. Se il problema persiste, contatta il supporto tecnico.",
-      "emptySSO": "Si è verificato un problema nel recupero dei dati SSO. Se il problema persiste, contatta il supporto tecnico."
+      "emptySSO": "Si è verificato un problema nel recupero dei dati SSO. Se il problema persiste, contatta il supporto tecnico.",
+      "samlEfIDenied": "Accesso negato: la piattaforma non è disponibile per gli studenti dei cicli 2 e 3 dell'istruzione fondamentale. Se ritieni si tratti di un errore, contatta la tua scuola."
     },
     "modal": {
       "title": "Benvenuto su Vittascience",
       "content": "Siamo lieti di darti il benvenuto 😊. Vuoi ricevere la newsletter mensile di Vittascience per rimanere informato/a su novità, eventi e contenuti educativi?",
       "buttonYes": "Sì",
-      "buttonNo": "No"
+      "buttonNo": "No",
+      "close": "Chiudi"
     },
     "dashboard": {
       "student": {
@@ -9881,5 +10046,6 @@
       "title": "Accesso riservato",
       "text": "Questa pagina è riservata agli utenti autenticati tramite IAM Luxembourg. Effettua il login per accedere ai documenti."
     }
-  }
+  },
+  "release-announcement-banner-close": "Chiudi Banner di Annuncio"
 }

@@ -113,6 +113,9 @@ Blockly.Msg["EXCEPTION_RAISE_TOOLTIP"] = "رفع استثناء";
 Blockly.Msg["EXCEPTION_EXCEPTION_TOOLTIP"] = "خلق استثناء";
 Blockly.Msg["EXCEPTION_TYPE_TOOLTIP"] = "جميع أنواع الاستثناءات الممكنة";
 Blockly.Msg["EXCEPTION_TRY_TOOLTIP"] = "ينفذ كتلة من الرموز ويسمح بتنفيذ كتلة من الرموز في حالة وجود استثناء";
+Blockly.Msg["EXCEPTION_RAISE_TITLE"] = "إطلاق";
+Blockly.Msg["EXCEPTION_TRY_TITLE"] = "محاولة";
+Blockly.Msg["EXCEPTION_EXCEPT_TITLE"] = "عند الاستثناء";
 
 // Logic blocks.
 Blockly.Msg["CONTROLS_IF_HELPURL"] = "https://github.com/google/blockly/wiki/IfElse";
@@ -526,6 +529,7 @@ Blockly.Msg["PROCEDURES_DEFRETURN_PROCEDURE"] = Blockly.Msg["PROCEDURES_DEFNORET
 Blockly.Msg["PROCEDURES_DEFRETURN_DO"] = Blockly.Msg["PROCEDURES_DEFNORETURN_DO"];
 Blockly.Msg["PROCEDURES_DEFRETURN_COMMENT"] = Blockly.Msg["PROCEDURES_DEFNORETURN_COMMENT"];
 Blockly.Msg["PROCEDURES_DEFRETURN_RETURN"] = "إرجاع";
+Blockly.Msg["PROCEDURES_SIMPLE_RETURN_TOOLTIP"] = "يُرجع قيمة ويخرج من الدالة.";
 Blockly.Msg["PROCEDURES_DEFRETURN_TOOLTIP"] = "يُنشئ دالة بمخرجات.";
 Blockly.Msg["PROCEDURES_ALLOW_STATEMENTS"] = "تسمح البيانات";
 Blockly.Msg["PROCEDURES_DEF_DUPLICATE_WARNING"] = "تحذير: هذه الوظيفة لها معلمات مكررة.";
@@ -598,3 +602,5 @@ Blockly.Msg["MATH_RSA_GENERATE_KEYS_HELPURL"] = "https://ar.wikipedia.org/wiki/�
 Blockly.Msg["TEXT_SPLIT_TITLE"] = "قسّم النص %1 باستخدام %2";
 Blockly.Msg["VARIABLES_TUPLE_TOOLTIP"] = "إنشاء مجموعة مرتبة من هذه القيم" ;
 Blockly.Msg["LISTS_INDEX_FROM_END_TOOLTIP"] = "%1 هو العنصر الأخير.";
+Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TITLE"] = "وظيفة: %1";
+Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TOOLTIP"] = "الحصول على مرجع الوظيفة لتمريره كوسيط إلى وظيفة أخرى.";

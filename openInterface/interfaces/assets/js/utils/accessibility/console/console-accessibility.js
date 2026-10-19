@@ -3,10 +3,8 @@ import { updateAriaLiveRegion } from "../utils/live-region.js";
 
 function bindMonitorToolsAccessibility() {
   const monitorTools = document.getElementById('monitor-tools');
-  if (!monitorTools) {
-      console.error('Monitor tools container not found');
-      return;
-  }
+  // Interfaces without a console (e.g. web) have no monitor tools.
+  if (!monitorTools) return;
 
   const buttons = monitorTools.querySelectorAll('button');
   buttons.forEach((button) => {
@@ -27,6 +25,7 @@ function bindMonitorToolsAccessibility() {
 
 function observeConsole() {
   const consoleElement = document.getElementById('console');
+  if (!consoleElement) return;
   const callback = function(mutationsList, observer) {
     for (let mutation of mutationsList) {
       if (mutation.type === 'childList') {

@@ -233,6 +233,61 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ],
         "tooltip": "%{BKY_IO_GROVEKEYPAD_GETNUMBER_TOOLTIP}",
     },
+    // BLOCK GROVE FINGERPRINT _ REGISTER
+    {
+        "type": "io_fingerprint_register",
+        "message0": "%{BKY_IO_FINGERPRINT_REGISTER_TITLE}",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "ID",
+                "check": "Number"
+            },
+            {
+                "type": "field_grid_dropdown",
+                "name": "RX",
+                "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+            },
+            {
+                "type": "field_grid_dropdown",
+                "name": "TX",
+                "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_IO_FINGERPRINT_REGISTER_TOOLTIP}"
+    },
+    // BLOCK GROVE FINGERPRINT _ VERIFY
+    {
+        "type": "io_fingerprint_verify",
+        "message0": "%{BKY_IO_FINGERPRINT_VERIFY_TITLE}",
+        "args0": [
+            {
+                "type": "field_grid_dropdown",
+                "name": "RX",
+                "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+            },
+            {
+                "type": "field_grid_dropdown",
+                "name": "TX",
+                "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
+            }
+        ],
+        "inputsInline": true,
+        "output": "Boolean",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ],
+        "tooltip": "%{BKY_IO_FINGERPRINT_VERIFY_TOOLTIP}"
+    },
+
 
     /*Begin control pins blocks*/
 

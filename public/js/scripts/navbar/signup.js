@@ -271,8 +271,8 @@ function displaySignup() {
         }
     };
 
-    // Add the first submit event listener to the form
-    signupForm.addEventListener('submit', submitListener);
+    // displaySignup() runs on every modal opening: assign instead of adding, or submit handlers pile up
+    signupForm.onsubmit = submitListener;
 
     let signupModal = new bootstrap.Modal(signupDiv, {});
     signupModal.show();

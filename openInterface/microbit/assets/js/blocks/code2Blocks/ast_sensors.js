@@ -1,4 +1,5 @@
 import utils from '/openInterface/interfaces/assets/js/code2blocks/python/utils/utils.js';
+import { addBinaryInterceptor } from '/openInterface/microbit/assets/js/blocks/code2Blocks/ast_io.js';
 
 // luminosity
 utils.prototypeBlocks['display.read_light_level'] = function (type, fields, values, mutations, statementsNode, statement) {
@@ -1517,3 +1518,49 @@ utils.prototypeBlocks['waterLevelSensor.measurePercentLevel'] = function (type, 
 		statements: null,
 	}
 }
+const sensorBlock = (type, fields = {}, inputs = {}) => ({
+	type,
+	fields,
+	values: Object.fromEntries(Object.keys(inputs).map((name) => [name, null])),
+	mutations: null,
+	statementsNode: inputs,
+	statements: null,
+});
+
+// Rotation: "math.atan2(...) * 180.0/math.pi"
+addBinaryInterceptor('math.atan2_MULTIPLY', (left) => {
+	const args = utils.rmSpaces(left.text);
+	if (args === 'math.atan2(accelerometer.get_y(),-accelerometer.get_z())') return sensorBlock('sensors_getRotation', { AXIS: 'pitch' });
+	if (args === 'math.atan2(accelerometer.get_x(),math.sqrt(accelerometer.get_y()**2+accelerometer.get_z()**2))') return sensorBlock('sensors_getRotation', { AXIS: 'roll' });
+	return null;
+});
+
+// Grove button voltage: "pinX.read_digital()*3.3" with the "# Simple Button on pinX" comment
+for (const pin of ['pin0', 'pin1', 'pin2', 'pin3', 'pin4', 'pin5', 'pin6', 'pin7', 'pin8', 'pin9', 'pin10', 'pin11', 'pin12', 'pin13', 'pin14', 'pin15', 'pin16', 'pin19', 'pin20', 'pin_speaker']) {
+	addBinaryInterceptor(`${pin}.read_digital_MULTIPLY`, (left, operator, right) => (right.text === '3.3' && utils.checkCodeFlag(pin) === '#SimpleButtonon' ? sensorBlock('sensors_getGroveButton', { TYPE: 'VOLT', PIN: pin }) : null));
+}
+
+// Weather:bit
+utils.prototypeBlocks['rainGauge_getDumps'] = function () {
+	return sensorBlock('sensors_weatherbit_rainGauge_getDumps');
+};
+utils.prototypeBlocks['#SoilMoistureSensoron'] = function () {
+	return sensorBlock('sensors_weatherbit_getSoilMoisture');
+};
+
+utils.prototypeBlocks['#MiniPIRMotionSensoron'] = function (pin) {
+	return sensorBlock('sensors_getMiniPirGroveMotion', { PIN: pin });
+};
+
+// Color sensor V3: "veml6040.readRGB()['red']", "veml6040.readHSV()['hue']" or "veml6040.classifyHue()"
+for (const method of ['readRGB', 'readHSV']) {
+	utils.prototypeBlocks[`veml6040.${method}()`] = function (identifier, index) {
+		return sensorBlock('sensors_colorSensorV3_getData', { DATA: utils.extractString(index).text });
+	};
+}
+utils.prototypeBlocks['veml6040.classifyHue'] = function () {
+	return sensorBlock('sensors_colorSensorV3_getData', { DATA: 'name' });
+};
+utils.prototypeBlocks['PiicoDev_VEML6040'] = function () {
+	return 'null';
+};

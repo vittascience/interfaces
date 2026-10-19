@@ -388,6 +388,7 @@ WiringSimulator.groveDefinitions = [
     y: 175,
     picture: "switch.svg",
   },
+
   {
     id: "touchButton",
     wireOrientation: "left",

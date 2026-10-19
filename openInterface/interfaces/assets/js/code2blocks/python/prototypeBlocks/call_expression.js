@@ -126,6 +126,21 @@ Blockly.defineBlocksWithJsonArray([
 		helpUrl: 'http://www.example.com/',
 	},
 	{
+		type: 'untranslatable_expression',
+		message0: '%1',
+		args0: [
+			{
+				type: 'field_input',
+				name: 'CODE',
+				text: 'code',
+			},
+		],
+		output: null,
+		style: 'comment_block',
+		tooltip: '',
+		helpUrl: '',
+	},
+	{
 		type: 'define_class_declaration',
 		message0: '%1 = classe %2',
 		args0: [
@@ -246,7 +261,18 @@ Blockly.Python['comment_docstrings'] = function (block) {
 
 Blockly.Python['untranslatable_block'] = function (block) {
 	const code = block.getFieldValue('CODE');
+	// definition out of the "on start" block: with the user functions, before the code using it
+	const definition = code.match(/^(?:@[^\n]*\n)*(?:async\s+)?(?:def|class)\s+(\w+)/);
+	if (definition && Blockly.Blocks['on_start'] && Blockly.Python.userFunctions_ && !block.getParent()) {
+		Blockly.Python.userFunctions_['untranslatable_' + definition[1]] = code + '\n';
+		return '';
+	}
 	return `${code}\n`;
+};
+
+// Expression kept as code by the reverse translation (ex: f-string, list comprehension, lambda)
+Blockly.Python['untranslatable_expression'] = function (block) {
+	return [block.getFieldValue('CODE'), Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['call_expression_return'] = function (block) {
@@ -306,7 +332,7 @@ Blockly.Constants.add_items.CALL_MUTATOR_MIXIN = {
 	 * @this {Blockly.Block}
 	 */
 	domToMutation: function (xmlElement) {
-		this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10);
+		this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10) || 0;
 		this.updateShape_();
 	},
 	/**
@@ -332,7 +358,7 @@ Blockly.Constants.add_items.CALL_MUTATOR_MIXIN = {
 	},
 	restoreValueConnections_: function () {
 		for (var i = 0; i < this.itemCount_; i++) {
-			Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'items' + i);
+			this.valueConnections_[i]?.reconnect(this, 'items' + i);
 		}
 	},
 	addItem_: function () {
@@ -348,7 +374,7 @@ Blockly.Constants.add_items.CALL_MUTATOR_MIXIN = {
 				const newBlock = Blockly.utils.xml.createElement('block');
 				newBlock.setAttribute('type', dataBlockName);
 				if (newBlock) {
-					const id = Blockly.utils.genUid();
+					const id = Blockly.utils.idGenerator.genUid();
 					newBlock.setAttribute('id', id);
 					Blockly.Xml.domToBlock(newBlock, this.workspace);
 					const block = this.workspace.getBlockById(id);
@@ -446,7 +472,7 @@ Blockly.Constants.add_items.CLASS_MUTATOR_MIXIN = {
 	 * @this {Blockly.Block}
 	 */
 	domToMutation: function (xmlElement) {
-		this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10);
+		this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10) || 0;
 		this.updateShape_();
 	},
 	/**
@@ -472,7 +498,7 @@ Blockly.Constants.add_items.CLASS_MUTATOR_MIXIN = {
 	},
 	restoreValueConnections_: function () {
 		for (var i = 0; i < this.itemCount_; i++) {
-			Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'items' + i);
+			this.valueConnections_[i]?.reconnect(this, 'items' + i);
 		}
 	},
 	addItem_: function () {
@@ -488,7 +514,7 @@ Blockly.Constants.add_items.CLASS_MUTATOR_MIXIN = {
 				const newBlock = Blockly.utils.xml.createElement('block');
 				newBlock.setAttribute('type', dataBlockName);
 				if (newBlock) {
-					const id = Blockly.utils.genUid();
+					const id = Blockly.utils.idGenerator.genUid();
 					newBlock.setAttribute('id', id);
 					Blockly.Xml.domToBlock(newBlock, this.workspace);
 					const block = this.workspace.getBlockById(id);
@@ -590,7 +616,7 @@ Blockly.Constants.Utils.COMMUNICATION_SERIAL_WRITE_SEPARATOR_MUTATOR_MIXIN = {
 	 * @this {Blockly.Block}
 	 */
 	domToMutation: function (xmlElement) {
-		this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10);
+		this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10) || 0;
 		this.updateShape_();
 	},
 	/**
@@ -616,7 +642,7 @@ Blockly.Constants.Utils.COMMUNICATION_SERIAL_WRITE_SEPARATOR_MUTATOR_MIXIN = {
 	},
 	restoreValueConnections_: function () {
 		for (var i = 0; i < this.itemCount_; i++) {
-			Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'items' + i);
+			this.valueConnections_[i]?.reconnect(this, 'items' + i);
 		}
 	},
 	addItem_: function () {
@@ -632,7 +658,7 @@ Blockly.Constants.Utils.COMMUNICATION_SERIAL_WRITE_SEPARATOR_MUTATOR_MIXIN = {
 				const newBlock = Blockly.utils.xml.createElement('block');
 				newBlock.setAttribute('type', dataBlockName);
 				if (newBlock) {
-					const id = Blockly.utils.genUid();
+					const id = Blockly.utils.idGenerator.genUid();
 					newBlock.setAttribute('id', id);
 					Blockly.Xml.domToBlock(newBlock, this.workspace);
 					const block = this.workspace.getBlockById(id);

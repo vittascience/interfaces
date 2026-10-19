@@ -31,6 +31,7 @@ const RobotSimulator = {
   robotIsDragging: false,
   isForRotation: true,
   angleSliderInitialized: false,
+  angleTextInputInitialized: false,
   gyroscopeTime: 0,
   Axis: {
     isActive: false,
@@ -194,6 +195,7 @@ const RobotSimulator = {
       const obstaclesLS = SimulatorLS.get("obstaclesDB");
       if (obstaclesLS) {
         const obstacles = JSON.parse(obstaclesLS);
+        this.obstaclesDB = Object.create(null);
         for (const id in obstacles) {
           this.obstaclesDB[id] = Object.assign({}, obstacles[id]);
           this.obstaclesDB[id].image = RobotSimulator.PATH_MEDIA + "/obstacles/" + obstacles[id].image;
@@ -421,6 +423,61 @@ const RobotSimulator = {
         </div>
     </div>`;
     document.querySelector("#simulator #variables-panel").insertAdjacentHTML('afterend', robotSimulatorHTML);
+    this.initAngleTextInput();
+  },
+
+  initAngleTextInput: function () {
+    if (this.angleTextInputInitialized) {
+      return;
+    }
+    const angleText = document.querySelector('#control-dropdown-robot-angle-window .angle-slider-text');
+    if (!angleText) {
+      return;
+    }
+
+    const normalizeAngle = function (rawValue) {
+      const parsed = Number(String(rawValue).replace(',', '.').replace(/[^0-9.+-]/g, ''));
+      if (Number.isNaN(parsed)) {
+        return null;
+      }
+      return ((Math.round(parsed) % 360) + 360) % 360;
+    };
+
+    const commitAngle = () => {
+      const angle = normalizeAngle(angleText.textContent);
+      if (angle === null) {
+        const currentAngle = (this.robot && typeof this.robot.angle === 'number') ? this.robot.angle : 0;
+        this.setInitialRobotAngle(currentAngle);
+        return;
+      }
+      this.setInitialRobotAngle(angle);
+    };
+
+    angleText.setAttribute('contenteditable', 'true');
+    angleText.setAttribute('spellcheck', 'false');
+
+    angleText.addEventListener('mousedown', (e) => {
+      e.stopPropagation();
+    });
+
+    angleText.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        commitAngle();
+        angleText.blur();
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        const currentAngle = (this.robot && typeof this.robot.angle === 'number') ? this.robot.angle : 0;
+        this.setInitialRobotAngle(currentAngle);
+        angleText.blur();
+      }
+    });
+
+    angleText.addEventListener('blur', () => {
+      commitAngle();
+    });
+
+    this.angleTextInputInitialized = true;
   },
 
   addCameraSimulatorToDom() {

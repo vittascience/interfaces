@@ -100,7 +100,7 @@ class Utils {
 	newNode(name, attrs, text, astNode) {
 		let block1;
 		if (name === 'block') {
-			const id = Blockly.utils.genUid();
+			const id = Blockly.utils.idGenerator.genUid();
 			if (this.cpp2Blocks.requireLastBlockId) {
 				this.lastBlockId = id;
 			}
@@ -151,7 +151,7 @@ class Utils {
 				type = paramChild.text;
 			}
 		}
-		return { type, name, id: Blockly.utils.genUid() };
+		return { type, name, id: Blockly.utils.idGenerator.genUid() };
 	}
 
 	/**

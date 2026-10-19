@@ -174,18 +174,13 @@ Blockly.Constants.Utils.UPDATE_BLOCK_MUTATOR_MIXIN = function (block, update) {
     Blockly.Events.setGroup(true);
     const oldMutationDom = block.mutationToDom();
     const oldMutation = oldMutationDom && Blockly.Xml.domToText(oldMutationDom);
-    // Switch off rendering while the source block is rebuilt.
-    const savedRendered = block.rendered;
-    block.rendered = false;
     // Update the mutation
     if (update) update.call(block);
     // Allow the source block to rebuild itself.
     const updateShape = block.updateShape_;
     if (updateShape) block.updateShape_();
-    // Restore rendering and show the changes.
-    block.rendered = savedRendered;
-    // Mutation may have compatibleTypesList some elements that need initializing.
-    block.initSvg();
+    // Mutation may have compatibleTypesList some elements that need initializing (blocks displayed in a workspace).
+    if (block.initSvg) block.initSvg();
     // Ensure that any bump is part of this mutation's event group.
     const group = Blockly.Events.getGroup();
     const newMutationDom = block.mutationToDom();
@@ -195,9 +190,9 @@ Blockly.Constants.Utils.UPDATE_BLOCK_MUTATOR_MIXIN = function (block, update) {
             block, 'mutation', null, oldMutation, newMutation));
         setTimeout(function () {
             Blockly.Events.setGroup(group);
-            block.bumpNeighbours();
+            block.bumpNeighbours?.();
             Blockly.Events.setGroup(false);
-        }, Blockly.BUMP_DELAY);
+        }, Blockly.config.bumpDelay);
     }
     if (block.rendered) {
         block.render();
@@ -217,7 +212,7 @@ Blockly.Constants.Utils.INIT_BUTTONS_ADD_AND_REMOVE = function () {
      */
     this.REMOVE_IMAGE_DATAURI = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyMS4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4KCjxzdmcKICAgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIgogICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIgogICB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgeG1sbnM6c29kaXBvZGk9Imh0dHA6Ly9zb2RpcG9kaS5zb3VyY2Vmb3JnZS5uZXQvRFREL3NvZGlwb2RpLTAuZHRkIgogICB4bWxuczppbmtzY2FwZT0iaHR0cDovL3d3dy5pbmtzY2FwZS5vcmcvbmFtZXNwYWNlcy9pbmtzY2FwZSIKICAgdmVyc2lvbj0iMS4xIgogICBpZD0icmVwZWF0IgogICB4PSIwcHgiCiAgIHk9IjBweCIKICAgdmlld0JveD0iMCAwIDI0IDI0IgogICBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyNCAyNDsiCiAgIHhtbDpzcGFjZT0icHJlc2VydmUiCiAgIGlua3NjYXBlOnZlcnNpb249IjAuOTEgcjEzNzI1IgogICBzb2RpcG9kaTpkb2NuYW1lPSJyZW1vdmUuc3ZnIj48bWV0YWRhdGEKICAgICBpZD0ibWV0YWRhdGExNSI+PHJkZjpSREY+PGNjOldvcmsKICAgICAgICAgcmRmOmFib3V0PSIiPjxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0PjxkYzp0eXBlCiAgICAgICAgICAgcmRmOnJlc291cmNlPSJodHRwOi8vcHVybC5vcmcvZGMvZGNtaXR5cGUvU3RpbGxJbWFnZSIgLz48ZGM6dGl0bGU+cmVwZWF0PC9kYzp0aXRsZT48L2NjOldvcms+PC9yZGY6UkRGPjwvbWV0YWRhdGE+PGRlZnMKICAgICBpZD0iZGVmczEzIiAvPjxzb2RpcG9kaTpuYW1lZHZpZXcKICAgICBwYWdlY29sb3I9IiNmZjFhZmYiCiAgICAgYm9yZGVyY29sb3I9IiM2NjY2NjYiCiAgICAgYm9yZGVyb3BhY2l0eT0iMSIKICAgICBvYmplY3R0b2xlcmFuY2U9IjEwIgogICAgIGdyaWR0b2xlcmFuY2U9IjEwIgogICAgIGd1aWRldG9sZXJhbmNlPSIxMCIKICAgICBpbmtzY2FwZTpwYWdlb3BhY2l0eT0iMCIKICAgICBpbmtzY2FwZTpwYWdlc2hhZG93PSIyIgogICAgIGlua3NjYXBlOndpbmRvdy13aWR0aD0iMTY4MCIKICAgICBpbmtzY2FwZTp3aW5kb3ctaGVpZ2h0PSI5NTAiCiAgICAgaWQ9Im5hbWVkdmlldzExIgogICAgIHNob3dncmlkPSJmYWxzZSIKICAgICBpbmtzY2FwZTp6b29tPSIxOS42NjY2NjciCiAgICAgaW5rc2NhcGU6Y3g9IjAuMDUwODQ3NTIxIgogICAgIGlua3NjYXBlOmN5PSI5Ljk2NjEwMTciCiAgICAgaW5rc2NhcGU6d2luZG93LXg9IjAiCiAgICAgaW5rc2NhcGU6d2luZG93LXk9IjAiCiAgICAgaW5rc2NhcGU6d2luZG93LW1heGltaXplZD0iMCIKICAgICBpbmtzY2FwZTpjdXJyZW50LWxheWVyPSJyZXBlYXQiIC8+PHN0eWxlCiAgICAgdHlwZT0idGV4dC9jc3MiCiAgICAgaWQ9InN0eWxlMyI+Cgkuc3Qwe2ZpbGw6I0NGOEIxNzt9Cgkuc3Qxe2ZpbGw6I0ZGRkZGRjt9Cjwvc3R5bGU+PHRpdGxlCiAgICAgaWQ9InRpdGxlNSI+cmVwZWF0PC90aXRsZT48cmVjdAogICAgIHN0eWxlPSJvcGFjaXR5OjE7ZmlsbDojZmZmZmZmO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lO3N0cm9rZS13aWR0aDoxO3N0cm9rZS1saW5lY2FwOnNxdWFyZTtzdHJva2UtbGluZWpvaW46cm91bmQ7c3Ryb2tlLW1pdGVybGltaXQ6NDtzdHJva2UtZGFzaGFycmF5Om5vbmU7c3Ryb2tlLWRhc2hvZmZzZXQ6MDtzdHJva2Utb3BhY2l0eTowLjA3ODQzMTM3IgogICAgIGlkPSJyZWN0NDE0My0xIgogICAgIHdpZHRoPSI0LjA1MDAwMDIiCiAgICAgaGVpZ2h0PSIxMi4zOTcxMTkiCiAgICAgeD0iOS45NzUwMDA0IgogICAgIHk9IjUuODAxNDQwNyIKICAgICByeD0iMC44MSIKICAgICByeT0iMC44MSIKICAgICB0cmFuc2Zvcm09Im1hdHJpeCgwLDEsMSwwLDAsMCkiIC8+PGNpcmNsZQogICAgIHN0eWxlPSJvcGFjaXR5OjE7ZmlsbDpub25lO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTojZmZmZmZmO3N0cm9rZS13aWR0aDoyO3N0cm9rZS1saW5lY2FwOnNxdWFyZTtzdHJva2UtbGluZWpvaW46cm91bmQ7c3Ryb2tlLW1pdGVybGltaXQ6NDtzdHJva2UtZGFzaGFycmF5Om5vbmU7c3Ryb2tlLWRhc2hvZmZzZXQ6MDtzdHJva2Utb3BhY2l0eToxIgogICAgIGlkPSJwYXRoNDEzNiIKICAgICBjeD0iMTIiCiAgICAgY3k9IjEyIgogICAgIHI9IjEwLjUwMzE5MSIgLz48L3N2Zz4=';
     this.buttonSize = 24;
-    if (this.workspace.renderer_.name === 'geras') {
+    if (this.workspace.options.renderer === 'geras') {
         this.buttonSize = 19;
     }
 };
@@ -259,13 +254,27 @@ Blockly.Constants.Utils.BlockStyling = {
             if (fallbackCat && toolbox.theme[fallbackCat + "_blocks"]) return fallbackCat;
             return cat;
         };
+        const categoryStyles = {};
+        (function collectStyles(items) {
+            for (const item of (Array.isArray(items) ? items : Object.values(items || {}))) {
+                if (!item || typeof item !== 'object') continue;
+                if (item.toolboxitemid && item.style) categoryStyles[item.toolboxitemid] = item.style;
+                if (item.contents) collectStyles(item.contents);
+                // Lists of categories, or subcategories grouped by parent category.
+                if (!item.kind) collectStyles(item);
+            }
+        })([toolbox.categories, toolbox.subcategories]);
         const register = (type, cat) => {
             type = type.split('-')[0];
             const settings = () => Blockly.Constants.Utils.BlockStyling.blocks[type];
             if (!settings()) {
                 Blockly.Constants.Utils.BlockStyling.blocks[type] = {};
             }
-            const theme = toolbox.theme[cat + "_blocks"];
+            // "<category>_blocks", else the style of the toolbox category ("bridges_category" ->
+            // "bridges_blocks", or "html_structure_category" itself).
+            const style = categoryStyles[cat];
+            const theme = toolbox.theme[cat + "_blocks"]
+                || (style && (toolbox.theme[style.replace(/_category$/, '_blocks')] || toolbox.theme[style]));
             if (theme) {
                 if (settings().colours) {
                     settings().colours[this.toolboxMode] = theme.colourPrimary;
@@ -424,7 +433,7 @@ Blockly.Constants.Utils.INIT_BUTTON_UPLOAD = function () {
      */
     this.UPLOAD_IMAGE_DATAURI = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBmaWxsPSJyZ2IoMCwxMzAsMjUyKSI+PHBhdGggZD0iTTI5NiAzODRoLTgwYy0xMy4zIDAtMjQtMTAuNy0yNC0yNFYxOTJoLTg3LjdjLTE3LjggMC0yNi43LTIxLjUtMTQuMS0zNC4xTDI0Mi4zIDUuN2M3LjUtNy41IDE5LjgtNy41IDI3LjMgMGwxNTIuMiAxNTIuMmMxMi42IDEyLjYgMy43IDM0LjEtMTQuMSAzNC4xSDMyMHYxNjhjMCAxMy4zLTEwLjcgMjQtMjQgMjR6bTIxNi04djExMmMwIDEzLjMtMTAuNyAyNC0yNCAyNEgyNGMtMTMuMyAwLTI0LTEwLjctMjQtMjRWMzc2YzAtMTMuMyAxMC43LTI0IDI0LTI0aDEzNnY4YzAgMzAuOSAyNS4xIDU2IDU2IDU2aDgwYzMwLjkgMCA1Ni0yNS4xIDU2LTU2di04aDEzNmMxMy4zIDAgMjQgMTAuNyAyNCAyNHptLTEyNCA4OGMwLTExLTktMjAtMjAtMjBzLTIwIDktMjAgMjAgOSAyMCAyMCAyMCAyMC05IDIwLTIwem02NCAwYzAtMTEtOS0yMC0yMC0yMHMtMjAgOS0yMCAyMCA5IDIwIDIwIDIwIDIwLTkgMjAtMjB6Ii8+PC9zdmc+';
     this.buttonSize = 20;
-    if (this.workspace.renderer_.name === 'geras') {
+    if (this.workspace.options.renderer === 'geras') {
         this.buttonSize = 16;
     }
 };
@@ -451,7 +460,7 @@ Blockly.Constants.Utils.FIELD_VARIABLE_TYPE_GETTER = {
      * @this {Blockly.Block}
      */
     getVarName: function () {
-        return this.workspace.getVariableById(this.getFieldValue('VAR')).name;
+        return this.workspace.getVariableMap().getVariableById(this.getFieldValue('VAR')).name;
     },
     /**
      * @return {Blockly.Type} type
@@ -485,7 +494,7 @@ Blockly.Constants.Utils.CONNECT_DEFAULT_BLOCK = function (block, input_block_set
         const newBlock = Blockly.utils.xml.createElement('shadow');
         newBlock.setAttribute('type', dataBlockName);
         if (newBlock) {
-            const id = Blockly.utils.genUid()
+            const id = Blockly.utils.idGenerator.genUid()
             newBlock.setAttribute('id', id);
             const field = Blockly.utils.xml.createElement('field');
             field.setAttribute('name', input_block_settings.name);
@@ -894,7 +903,7 @@ Blockly.Constants.Utils.COMMUNICATION_GRAPH_SERIAL_WRITE_MUTATOR_MIXIN = {
     },
     restoreValueConnections_: function () {
         for (var i = 0; i < this.itemCount_; i++) {
-            Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'ADD' + i);
+            this.valueConnections_[i]?.reconnect(this, 'ADD' + i);
         }
     },
     addItem_: function () {
@@ -958,7 +967,7 @@ Blockly.Constants.Utils.COMMUNICATION_GRAPH_SERIAL_WRITE_MUTATOR_MIXIN = {
             var newBlock = Blockly.utils.xml.createElement('block');
             newBlock.setAttribute('type', dataBlockName);
             if (newBlock) {
-                var id = Blockly.utils.genUid()
+                var id = Blockly.utils.idGenerator.genUid()
                 newBlock.setAttribute('id', id);
                 var field = Blockly.utils.xml.createElement('field');
                 field.setAttribute('name', 'NAME');
@@ -1061,7 +1070,7 @@ Blockly.Constants.Utils.DISPLAY_SHOW_LEDS_MATRIX = function () {
     if (!LedMatrixModalManager.isSet() && typeof Blockly.Wiki === 'undefined')
         LedMatrixModalManager.init(8, 8, false, "#e63737");
 
-    this.getField('LEDS_MATRIX').clickHandler_ = (() => {
+    this.getField('LEDS_MATRIX').setOnClickHandler((() => {
         Blockly.Constants.LEDS_MATRIX_BLOCK = this.inputList[0].fieldRow[1];
         Blockly.Constants.HIDDEN_MONO_LEDS_MATRIX = this.getField("HIDDEN_MONO_LEDS_MATRIX");
 
@@ -1072,7 +1081,7 @@ Blockly.Constants.Utils.DISPLAY_SHOW_LEDS_MATRIX = function () {
         LedMatrixModalManager.disp_modal();
         // saving the image in case of cancellation
         Blockly.Constants.LEDS_MATRIX = LedMatrixModalManager.get_matrix_dataset();
-    });
+    }));
 };
 
 Blockly.Extensions.register("show_leds_matrix", Blockly.Constants.Utils.DISPLAY_SHOW_LEDS_MATRIX);
@@ -1085,7 +1094,7 @@ Blockly.Constants.Utils.DISABLE_DUPLICATES_EXTENSION = function () {
         function onUpdate_(event) {
             if (
                 ((event.type == Blockly.Events.BLOCK_MOVE || event.type == Blockly.Events.BLOCK_CREATE || (event.type == Blockly.Events.BLOCK_CHANGE && event.extensionNoUpdate !== true)) && event.blockId === this.id) ||
-                (event.type == Blockly.Events.BLOCK_DELETE && event.oldXml.outerHTML.includes(this.type))
+                (event.type == Blockly.Events.BLOCK_DELETE && JSON.stringify(event.oldJson).includes(this.type))
             ) {
                 // Lister les blocs supérieurs
                 const topBlocks = this.workspace.getTopBlocks();
@@ -1128,16 +1137,16 @@ Blockly.Constants.Utils.DISABLE_DUPLICATES_EXTENSION = function () {
 
                 // met à jour le statut d'activation de chaque bloc et refait le rendu du block et de ses enfants
                 for (const block of sameTypeBlocks) {
-                    const previousState = block.disabled;
+                    const previousState = block.hasDisabledReason(Blockly.constants.MANUALLY_DISABLED);
                     if (!highestBlocks.includes(block)) {
-                        block.disabled = true;
+                        block.setDisabledReason(true, Blockly.constants.MANUALLY_DISABLED);
                     } else {
-                        block.disabled = false;
+                        block.setDisabledReason(false, Blockly.constants.MANUALLY_DISABLED);
                     }
-                    if (block.disabled != previousState) {
+                    if (block.hasDisabledReason(Blockly.constants.MANUALLY_DISABLED) != previousState) {
                         // childBlock include the block itself
                         for (var i = 0, childBlock; (childBlock = block.getDescendants(true)[i]); i++) {
-                            childBlock.disabled = block.disabled;
+                            childBlock.setDisabledReason(block.hasDisabledReason(Blockly.constants.MANUALLY_DISABLED), Blockly.constants.MANUALLY_DISABLED);
                             childBlock.initSvg();
                         }
                     }
@@ -1184,10 +1193,10 @@ Blockly.Extensions.register("disable_duplicates",
 // Called when workspace event 
 Blockly.Constants.Utils.DISABLE_BLOCKS_ON_EVENT = function (blockType, detectedBlocksArray) {
     const disabled = function (block, state) {
-        block.disabled = state;
+        block.setDisabledReason(state, Blockly.constants.MANUALLY_DISABLED);
         // childBlock include the block itself
         for (var i = 0, childBlock; (childBlock = block.getDescendants(true)[i]); i++) {
-            childBlock.disabled = state;
+            childBlock.setDisabledReason(state, Blockly.constants.MANUALLY_DISABLED);
             childBlock.initSvg();
         }
     };
@@ -1225,20 +1234,24 @@ Blockly.Constants.REPLACE_PIN_DROPDOWN_MENU = function (block) {
                 }
             });
         });
+        // The menu item caption is "content_" up to Blockly 8, "content" since Blockly 9.
+        const setMenuItemContent = function (menuItem, content) {
+            menuItem['content_' in menuItem ? 'content_' : 'content'] = content;
+        };
         const forcePinValue = function (pinField, pins) {
             const pinFieldValue = pinField.value_;
             pinField.menuGenerator_ = pins;
             if (!pins.map(item => item[1]).includes(pinFieldValue)) {
                 pinField.value_ = pins[0][1];
-                pinField.selectedOption_ = pins[0];
-                if (pinField.selectedMenuItem_) {
-                    pinField.selectedMenuItem_.content_ = pins[0][0];
+                pinField.selectedOption = pins[0];
+                if (pinField.selectedMenuItem) {
+                    setMenuItemContent(pinField.selectedMenuItem, pins[0][0]);
                 }
             } else {
                 const selectedOpt = pins.filter(item => item[1] == pinFieldValue)[0];
-                pinField.selectedOption_ = selectedOpt;
-                if (pinField.selectedMenuItem_) {
-                    pinField.selectedMenuItem_.content_ = selectedOpt[0];
+                pinField.selectedOption = selectedOpt;
+                if (pinField.selectedMenuItem) {
+                    setMenuItemContent(pinField.selectedMenuItem, selectedOpt[0]);
                 }
             }
         };

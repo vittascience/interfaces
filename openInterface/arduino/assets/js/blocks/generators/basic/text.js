@@ -37,7 +37,7 @@ Blockly.Arduino.text_newline = function (block) {
 };
 
 Blockly.Arduino.text_append = function (block) {
-  const varName = Blockly.Arduino.nameDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+  const varName = Blockly.Arduino.nameDB_.getName(block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
   let text = Blockly.Arduino.valueToCode(block, 'TEXT', Blockly.Arduino.ORDER_UNARY_POSTFIX);
   if (!Blockly.Constants.Utils.isInputTextBlock(block, "TEXT")) {
     text = "String(" + text + ")";

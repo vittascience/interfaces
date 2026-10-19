@@ -320,13 +320,11 @@
 }
 
 .debugger-text {
-  height: 32px;
   text-align: center;
   font-family: var(--main-font);
   font-weight: 600;
   font-size: 14px;
   color: var(--text-0);
-  margin-top: 10px;
 }
 
 #monitor-start-debugger.activated,
@@ -388,18 +386,12 @@
   }
 }
 
-#debugger-timeout {
-  display: inline-block;
-  height: 30px;
-  width: 50px;
-  text-align: center;
-  border: 2px solid;
-  border-color: var(--text-2);
-  border-radius: 8px;
-}
-
-#step_forward {
-  width: 120px;
+/* Buttons and pause value: openComponents.css */
+#timeout-wrapper,
+#step-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 @media (max-width: 1100px) {

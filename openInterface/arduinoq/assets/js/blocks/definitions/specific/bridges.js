@@ -39,10 +39,52 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
             "bridges_call_init"
         ],
         "mutator": "bridges_call_mutator"
+    },
+    {
+        "type": "bridges_call_return",
+        "message0": "%{BKY_Q_BRIDGES_CALL_RETURN_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "ID",
+            "check": "String"
+        }, {
+            "type": "field_dropdown",
+            "name": "TYPE",
+            "options": [
+                ["String", "String"],
+                ["int", "int"],
+                ["float", "float"],
+                ["bool", "bool"]
+            ]
+        }],
+        "output": null,
+        "style": "bridges_blocks",
+        "tooltip": "%{BKY_Q_BRIDGES_CALL_RETURN_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_buttons_plus_minus",
+            "bridges_call_init"
+        ],
+        "mutator": "bridges_call_mutator"
     }
 ]);
 
 Blockly.Constants.Bridges = Object.create(null);
+
+/**
+ * Static typing of 'bridges_call_return': follows its TYPE dropdown, so a variable set from it gets
+ * the right C++ type (instead of invalidBlocklyType).
+ * @return {Blockly.Type} type
+ * @this {Blockly.Block}
+ */
+Blockly.Blocks['bridges_call_return'].getBlockType = function () {
+    return {
+        String: Blockly.Types.TEXT,
+        int: Blockly.Types.NUMBER,
+        float: Blockly.Types.DECIMAL,
+        bool: Blockly.Types.BOOLEAN
+    }[this.getFieldValue('TYPE')];
+};
 
 /**
  * Performs final setup of 'bridges_call' block.
@@ -93,7 +135,7 @@ Blockly.Constants.Bridges.BRIDGES_CALL_MUTATOR_MIXIN = {
     },
     restoreConnections_: function () {
         for (var i = 0; i < this.itemCount_; i++) {
-            Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'ADD' + i);
+            this.valueConnections_[i]?.reconnect(this, 'ADD' + i);
         }
     },
     addItem_: function () {
@@ -120,7 +162,7 @@ Blockly.Constants.Bridges.BRIDGES_CALL_MUTATOR_MIXIN = {
                     shadowDomField.setAttribute('name', 'NUM');
                     shadowDom.appendChild(shadowDomField);
                     if (shadowDom) {
-                        shadowDom.setAttribute('id', Blockly.utils.genUid());
+                        shadowDom.setAttribute('id', Blockly.utils.idGenerator.genUid());
                         newInput.connection.setShadowDom(shadowDom);
                         newInput.connection.respawnShadow_();
                     }

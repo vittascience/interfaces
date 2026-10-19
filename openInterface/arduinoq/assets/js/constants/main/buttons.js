@@ -64,6 +64,18 @@ const downloadOptions = {
             value: "code.topbar.label.compile"
         }
     },
+    'boardWifi': {
+        id: "board-wifi-opt",
+        classes: 'ide-btn-check ide-btn-left-dropdown',
+        fontAwesome: 'fas fa-wifi',
+        title: 'code.topbar.tooltips.boardWifi',
+        onclick: "QWifiSettings.open()",
+        show: false,
+        tooltipPlacement: "left",
+        label: {
+            value: "code.topbar.label.boardWifi"
+        }
+    },
     'disconnect': {
         id: "disconnect-opt",
         classes: 'ide-btn-check ide-btn-left-dropdown',

@@ -207,14 +207,14 @@ Blockly.Constants.switch_case.SWITCH_CASE_MUTATOR_MIXIN = {
     },
     restoreConnections_: function () {
         for (var i = 0; i < this.caseCount_; i++) {
-            Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'CASE' + i);
-            Blockly.Mutator.reconnect(this.statementConnections_[i], this, 'DO' + i);
+            this.valueConnections_[i]?.reconnect(this, 'CASE' + i);
+            this.statementConnections_[i]?.reconnect(this, 'DO' + i);
         }
     },
     reconnectChildBlocks_: function (valueConnections, statementConnections) {
         for (var i = 0; i < this.caseCount_; i++) {
-            Blockly.Mutator.reconnect(valueConnections[i], this, 'CASE' + i);
-            Blockly.Mutator.reconnect(statementConnections[i], this, 'DO' + i);
+            valueConnections[i]?.reconnect(this, 'CASE' + i);
+            statementConnections[i]?.reconnect(this, 'DO' + i);
         }
     },
     rebuildShape_: function () {

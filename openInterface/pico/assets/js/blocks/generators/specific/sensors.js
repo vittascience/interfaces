@@ -24,6 +24,8 @@ Blockly.Python.sensors_getMultichannelGas = function (block) {
 };
 
 Blockly.Python.sensors_getMultichannelGasV2 = function (block) {
+    // This block has no PIN field: default I2C bus, as the PIN field of the V1 block.
+    const pin = Blockly.Constants.Pins.I2C[Blockly.Constants.getSelectedBoard()][0][1];
     Blockly.Python.addImport('esp32_gas_gmxxx', IMPORT_ESP32_GAS_GMXXX);
     Blockly.Python.addInit('multichannel_v2', `multichannel_v2 = GAS_GMXXX(${Blockly.Python.Generators.I2C(pin)}, addr=0x08)`);
     return ["multichannel_v2.calcVol(multichannel_v2.measure_" + block.getFieldValue("GAS") + "())", Blockly.Python.ORDER_ATOMIC];

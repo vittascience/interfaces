@@ -221,7 +221,7 @@ Blockly.Python.communication_gps_m5_getInformations = function (block) {
     Blockly.Python.addPowerOn('gps_frame', "gps_frame = get_gps_frame()");
     Blockly.Python.addUserLoopVar('gps_frame', "gps_frame = get_gps_frame()");
     Blockly.Python.addFunction('get_gps_frame', FUNCTIONS_M5STACK.DEF_GET_GPS_FRAME);
-    block.workspace.createVariable('gps_frame');
+    block.workspace.getVariableMap().createVariable('gps_frame');
     const info = block.getFieldValue("INFO");
     switch (info) {
         case 'frame':
@@ -246,9 +246,9 @@ Blockly.Python.communication_gps_getNMEA = function (block) {
     Blockly.Python.addImport('machine', IMPORT_MACHINE);
     Blockly.Python.addInit('gpsInfos', "gpsInfos = {}");
     Blockly.Python.addInit('gpsInfos[\'nmea\']', "gpsInfos['nmea'] = None");
-    block.workspace.createVariable('gpsInfos');
+    block.workspace.getVariableMap().createVariable('gpsInfos');
     Blockly.Python.addInit('gpsBuffer', "gpsBuffer = \"\"");
-    block.workspace.createVariable('gpsBuffer');
+    block.workspace.getVariableMap().createVariable('gpsBuffer');
     Blockly.Python.addInit('gpsInfos', "GPS on pin ");
     Blockly.Python.addInit('uart_2', 'uart_2 = UART(2, baudrate=9600, tx=' + block.getFieldValue("RX").replace('p', '') + ', rx=' + block.getFieldValue("TX").replace('p', '') + ')');
     Blockly.Python.addFunction('gps_readNMEA', FUNCTIONS_M5STACK.DEF_GPS_READ_NMEA);
@@ -261,9 +261,9 @@ Blockly.Python.communication_gps_getGGAInformations = function (block) {
     Blockly.Python.addInit('gps_module', "# GPS on UART 2");
     Blockly.Python.addInit('gpsInfos', "gpsInfos = {}");
     Blockly.Python.addInit('gpsInfos[\'nmea\']', "gpsInfos['nmea'] = None");
-    block.workspace.createVariable('gpsInfos');
+    block.workspace.getVariableMap().createVariable('gpsInfos');
     Blockly.Python.addInit('gpsBuffer', "gpsBuffer = \"\"");
-    block.workspace.createVariable('gpsBuffer');
+    block.workspace.getVariableMap().createVariable('gpsBuffer');
     Blockly.Python.addFunction('gps_readNMEA', FUNCTIONS_M5STACK.DEF_GPS_READ_NMEA);
     Blockly.Python.addFunction('gps_GGA_getInformation', FUNCTIONS_M5STACK.DEF_GPS_GET_GGA_INFORMATIONS);
     Blockly.Python.addInit('uart_2', 'uart_2 = UART(2, baudrate=9600, tx=' + block.getFieldValue("RX").replace('p', '') + ', rx=' + block.getFieldValue("TX").replace('p', '') + ')');

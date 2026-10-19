@@ -109,6 +109,8 @@ Blockly.Msg['IO_GETMAGNETICSWITCH_TITLE'] = '[Module interrupteur mag.] état su
 Blockly.Msg['IO_GETMAGNETICSWITCH_TOOLTIP'] = IMG_MODULE_MAGNETIC_SWITCH + Blockly.Tooltip.SEP + 'Renvoie la valeur de l\'interrupteur magnétique Grove (0 ou 1) sur les broches digitales.';
 Blockly.Msg['IO_GETGROVETACTILE_TITLE'] = '[Capteur tactile] état sur la broche %1 ';
 Blockly.Msg['IO_GETGROVETACTILE_TOOLTIP'] = IMG_MODULE_TOUCH + Blockly.Tooltip.SEP + 'Renvoie la valeur du capteur tactile Grove (0 ou 1) sur les broches digitales.';
+Blockly.Msg['IO_GETGROVEDISTANCEINTERRUPTER_TITLE'] = '[Interrupteur de distance] état sur la broche %1';
+Blockly.Msg['IO_GETGROVEDISTANCEINTERRUPTER_TOOLTIP'] = IMG_MODULE_DISTANCE_INTERRUPTER + Blockly.Tooltip.SEP + 'Renvoie l\'état de l\'interrupteur de distance (0 ou 1).';
 // Input/Output - Pins
 Blockly.Msg['IO_DIGITAL_SIGNAL_TITLE'] = '%1';
 Blockly.Msg['IO_DIGITAL_SIGNAL_HIGH'] = 'HAUT (1)';
@@ -372,6 +374,8 @@ Blockly.Msg['SENSORS_GY521_ACC'] = 'accélération';
 Blockly.Msg['SENSORS_GY521_GYR'] = 'gyroscope';
 Blockly.Msg['SENSORS_GY521_TEMP'] = 'température';
 Blockly.Msg['SENSORS_GY521_AXIS'] = 'axe';
+Blockly.Msg['SENSORS_BN880_GET_HEADING_TITLE'] = '[BN880] cap de la boussole';
+Blockly.Msg['SENSORS_BN880_GET_HEADING_TOOLTIP'] = 'Renvoie l\'angle magnétique en degrés. Le magnétomètre HMC5883L ou QMC5883L est détecté automatiquement.';
 // Other sensors
 Blockly.Msg['SENSORS_GETGROVEBUTTON_TITLE'] = '[Module bouton] %1 sur la broche %2';
 Blockly.Msg['SENSORS_GETGROVEBUTTON_TOOLTIP'] = IMG_MODULE_BUTTON + Blockly.Tooltip.SEP + 'Renvoie la valeur numérique du bouton Grove (0/1 ou 0V/3.3V) les broches digitales.';

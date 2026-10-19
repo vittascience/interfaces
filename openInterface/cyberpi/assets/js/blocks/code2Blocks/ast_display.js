@@ -1,5 +1,27 @@
 import utils from '/openInterface/interfaces/assets/js/code2blocks/python/utils/utils.js';
 
+utils.prototypeBlocks['cyberpi.led.off'] = function (type, identifier, values, mutations, statementsNode, statement) {
+	let id = 'all';
+	if (statementsNode && statementsNode.length > 0) {
+		let idNode = statementsNode[0];
+		if (idNode.type === 'keyword_argument') {
+			const { key, value } = utils.extractKeyWordArgument(idNode);
+			idNode = key.text === 'id' ? value : null;
+		}
+		if (idNode && idNode.type === 'integer' && ['1', '2', '3', '4', '5'].includes(idNode.text)) {
+			id = idNode.text;
+		}
+	}
+	return {
+		type: 'cyberpi_led_off',
+		fields: { ID: id },
+		values: {},
+		mutations: null,
+		statementsNode: {},
+		statement: null,
+	};
+};
+
 utils.prototypeBlocks['cyberpi.led.on'] = function (type, identifier, values, mutations, statementsNode, statement) {
 	let r = null;
 	let g = null;

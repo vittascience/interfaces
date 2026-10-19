@@ -21,6 +21,9 @@ const IMPORT_GAME = "from game import GAME";
 const IMPORT_SPRITE = "from sprite import SPRITE";
 const IMPORT_BAR_GRAPH = "import bar_graph";
 const IMPORT_STEPPER_MOTOR = "from stepper import StepperMotor";
+const IMPORT_RFID_READER = 'import rfid_reader';
+const IMPORT_VOICE_RECOGNITION = "import voiceRecognition";
+const IMPORT_FINGERPRINT = "import fingerprint";
 //robot libraries
 const IMPORT_BUGGY_MOVE = "from buggyMove import MOVEMotor";
 const IMPORT_CUTEBOT = "import cutebot";
@@ -66,6 +69,8 @@ const IMPORT_VL53L0X = "from vl53l0x import VL53L0X";
 const IMPORT_VEML6040 = "from veml6040 import PiicoDev_VEML6040";
 const IMPORT_KITRONIK_SERVO_DRIVER = "from kitronik_servo_driver import KitronikServoBoard";
 const IMPORT_REKABIT = "from rekabit import *";
+const IMPORT_DFR0548 = "import dfr0548";
+const IMPORT_HUSKYLENSV2 = "from huskylens_v2 import HuskyLensV2";
 //grove modules libraries - Pins
 const IMPORT_TM1637 = "from tm1637 import TM1637";
 const IMPORT_MY9221 = "from my9221 import MY9221";

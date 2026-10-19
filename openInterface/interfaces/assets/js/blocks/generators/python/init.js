@@ -6,6 +6,10 @@
  * @type {!Blockly.Generator}
  */
 Blockly.Python = new Blockly.Generator('Python');
+// Block generators are defined as Blockly.Python.<blockType> functions. Since Blockly 10 the
+// generator looks them up in forBlock (and Blockly 11 no longer falls back to the
+// generator itself), so forBlock is the generator.
+Blockly.Python.forBlock = Blockly.Python;
 
 /**
  * List of illegal variable names.
@@ -474,7 +478,7 @@ Blockly.Python.getAdjustedInt = function (block, atId, opt_delta, opt_negate) {
   var atOrder = delta ? Blockly.Python.ORDER_ADDITIVE :
     Blockly.Python.ORDER_NONE;
   var at = Blockly.Python.valueToCode(block, atId, atOrder) || defaultAtIndex;
-  if (Blockly.isNumber(at)) {
+  if (Blockly.utils.string.isNumber(at)) {
     // If the index is a naked number, adjust it right now.
     at = parseInt(at, 10) + delta;
     if (opt_negate) {
@@ -538,7 +542,7 @@ Blockly.Python.indent = function (str, numOfIndents) {
  */
 Blockly.Python.getUsedGlobalVarInBlock = function (block, blockCode) {
   /// Get the workspace's variables
-  const variables = block.workspace.getVariablesOfType("");
+  const variables = block.workspace.getVariableMap().getVariablesOfType("");
   const isVarInWorkspace = Object.keys(variables).length > 0;
   let usedVariables = [];
   let globalVar = "";

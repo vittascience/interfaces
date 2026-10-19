@@ -12,7 +12,7 @@ class VittaStorage {
 		}
 		VittaStorage._instance = this;
 		// The subdomains list. If a new language is added on production server, it has to be added in this list.
-		this._subDomains = [{name: 'ar'}, {name: 'en'}, {name: 'es'}, {name: 'fr'}, {name: 'it'}];
+		this._subDomains = [{name: 'ar'}, {name: 'cn'}, {name: 'de'}, {name: 'en'}, {name: 'es'}, {name: 'fr'}, {name: 'in'}, {name: 'it'}, {name: 'jp'}, {name: 'kr'}, {name: 'pt'}, {name: 'ru'}, {name: 'se'}, ];
 		// The tasks pile where all the changes in the localStorage are stored before the synchronization is called
 		this._storageTasks = [];
 		// This is the number of milliseconds between the last localstorage change and the synchronization
@@ -77,24 +77,30 @@ class VittaStorage {
 	}
 
 	/**
-	 * Checks if the current context is in production and dynamically generates the various subdomains url from all the items listed in this._subDomains array, by excluding the current subdomain
-	 * @returns {boolean} false if it is not called in production context
+	 * Checks if the current context is in production or preprod and dynamically generates the various subdomains url from all the items listed in this._subDomains array, by excluding the current subdomain
+	 * Supported hosts : {lang}.vittascience.com (production) and {lang}.preprod.vittascience.com (preprod)
+	 * @returns {boolean} false if it is not called in a production or preprod context
 	 */
 	_setupSubDomains() {
-		const currentSubDomain = location.host.split('.')[0];
-		let isProdDomain = false;
-		for (let i=this._subDomains.length-1; i>=0; i--) {
-			// We remove the current subdomain from the subdomains list as we don't need to update it's localStorage
-			if (currentSubDomain === this._subDomains[i].name) {
-				this._subDomains.splice(i, 1);
-				isProdDomain = true;
-				continue;
-			}
-			// We format the subdomain with the protocol and the domain
-			this._subDomains[i].url = `https://${this._subDomains[i].name}.vittascience.com`;
-		}
-		if (!isProdDomain) {
+		// Group 1: the current subdomain (language), group 2: "preprod." if we are on the preprod server
+		const match = location.hostname.match(/^([a-z]+)\.(preprod\.)?vittascience\.com$/);
+		if (!match) {
 			return false;
+		}
+		const currentSubDomain = match[1];
+		// "vittascience.com" on production, "preprod.vittascience.com" on preprod
+		const baseDomain = `${match[2] || ''}vittascience.com`;
+
+		const currentIndex = this._subDomains.findIndex(subDomain => subDomain.name === currentSubDomain);
+		if (currentIndex === -1) {
+			// Unknown subdomain (ex: alpha, beta...) : not a production/preprod language domain
+			return false;
+		}
+		// We remove the current subdomain from the subdomains list as we don't need to update it's localStorage
+		this._subDomains.splice(currentIndex, 1);
+		// We format the other subdomains with the protocol and the domain of the current environment
+		for (const subDomain of this._subDomains) {
+			subDomain.url = `https://${subDomain.name}.${baseDomain}`;
 		}
 		return true;
 	}
@@ -158,7 +164,10 @@ class VittaStorage {
 			while(tasks.length) {
 				const task = tasks.shift(),
 				taskKey = Object.keys(task)[0];
-				subDomain.iframeWindow.postMessage(JSON.stringify({key: taskKey, method: "set", data: task[taskKey]}), "*");
+				subDomain.iframeWindow.postMessage(
+					JSON.stringify({key: taskKey, method: "set", data: task[taskKey]}),
+					subDomain.url
+				);
 			}
 			resolve();
 		});

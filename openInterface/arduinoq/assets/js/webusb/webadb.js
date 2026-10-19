@@ -129,7 +129,7 @@
 		let version_used = Adb.Opt.use_checksum ? VERSION : VERSION_NO_CHECKSUM;
 		let m = new Adb.Message("CNXN", version_used, MAX_PAYLOAD, "" + banner + "\0");
 		return this.getDevice({ classCode: 255, subclassCode: 66, protocolCode: 1 })
-			.then(match => new Adb.WebUSB.Device(this, match))
+			.then(match => this.reset().then(() => new Adb.WebUSB.Device(this, match)))
 			.then(adb => m.send_receive(adb)
 				.then((function do_auth_response(response) {
 					if (response.cmd != "AUTH" || response.arg0 != AUTH_TOKEN)
@@ -182,8 +182,6 @@
 
 		this.ep_in = get_ep_num(match.alt.endpoints, "in");
 		this.ep_out = get_ep_num(match.alt.endpoints, "out");
-
-		this.transport.reset();
 	}
 
 	Adb.WebUSB.Device.prototype.open = function (service) {
@@ -748,7 +746,6 @@
 
 	function check_cmd(cmd, err_msg) {
 		return function (response) {
-			console.log(response)
 			if (response.cmd == "FAIL") {
 				let decoder = new TextDecoder();
 				throw new Error(decoder.decode(response.data));
@@ -760,7 +757,6 @@
 	}
 
 	function check_ok(err_msg) {
-		console.log(err_msg)
 		return check_cmd("OKAY", err_msg);
 	}
 

@@ -677,10 +677,10 @@ Blockly.Constants.Robots.ROBOTS_ALPHABOT_LINEFINDER_ONABOVEANYSENSOR_MUTATOR_MIX
     // Restore pointers to any connected child blocks.
     restoreConnections_: function () {
         for (var i = 1; i <= this.elseifCount_; i++) {
-            Blockly.Mutator.reconnect(this.statementConnections_[i], this, 'DO' + i);
+            this.statementConnections_[i]?.reconnect(this, 'DO' + i);
         }
         if (this.getInput('ELSE')) {
-            Blockly.Mutator.reconnect(this.elseStatementConnection_, this, 'ELSE');
+            this.elseStatementConnection_?.reconnect(this, 'ELSE');
         }
     },
     addElse_: function () {
@@ -755,14 +755,14 @@ Blockly.Constants.Robots.ROBOTS_ALPHABOT_LINEFINDER_ONABOVEANYSENSOR_MUTATOR_MIX
                 .appendField(
                     new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
                         this.buttonSize, "*", removeElseIf, false))
-                .setAlign(Blockly.ALIGN_RIGHT);
+                .setAlign(Blockly.inputs.Align.RIGHT);
             this.appendStatementInput('DO' + i)
         }
         if (this.elseCount_) {
             this.appendDummyInput('ELSETITLE')
                 .appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSE);
             this.appendDummyInput('ELSEBUTTONS')
-                .setAlign(Blockly.ALIGN_RIGHT)
+                .setAlign(Blockly.inputs.Align.RIGHT)
                 .appendField(
                     new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
                         this.buttonSize, "*", that.removeElse_.bind(that), false));
@@ -817,9 +817,9 @@ Blockly.Constants.Robots.ROBOTS_ALPHABOT_LINEFINDER_ONABOVEANYSENSOR_MUTATOR_MIX
     reconnectChildBlocks_: function (statementConnections,
         elseStatementConnection) {
         for (var i = 1; i <= this.elseifCount_; i++) {
-            Blockly.Mutator.reconnect(statementConnections[i], this, 'DO' + i);
+            statementConnections[i]?.reconnect(this, 'DO' + i);
         }
-        Blockly.Mutator.reconnect(elseStatementConnection, this, 'ELSE');
+        elseStatementConnection?.reconnect(this, 'ELSE');
     }
 };
 
@@ -896,10 +896,10 @@ Blockly.Constants.Robots.ROBOTS_ALPHABOT_ONOBSTACLEDETECTED_MUTATOR_MIXIN = {
     // Restore pointers to any connected child blocks.
     restoreConnections_: function () {
         for (var i = 1; i <= this.elseifCount_; i++) {
-            Blockly.Mutator.reconnect(this.statementConnections_[i], this, 'DO' + i);
+            this.statementConnections_[i]?.reconnect(this, 'DO' + i);
         }
         if (this.getInput('ELSE')) {
-            Blockly.Mutator.reconnect(this.elseStatementConnection_, this, 'ELSE');
+            this.elseStatementConnection_?.reconnect(this, 'ELSE');
         }
     },
     addElse_: function () {
@@ -974,14 +974,14 @@ Blockly.Constants.Robots.ROBOTS_ALPHABOT_ONOBSTACLEDETECTED_MUTATOR_MIXIN = {
                 .appendField(
                     new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
                         this.buttonSize, "*", removeElseIf, false))
-                .setAlign(Blockly.ALIGN_RIGHT);
+                .setAlign(Blockly.inputs.Align.RIGHT);
             this.appendStatementInput('DO' + i)
         }
         if (this.elseCount_) {
             this.appendDummyInput('ELSETITLE')
                 .appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSE);
             this.appendDummyInput('ELSEBUTTONS')
-                .setAlign(Blockly.ALIGN_RIGHT)
+                .setAlign(Blockly.inputs.Align.RIGHT)
                 .appendField(
                     new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
                         this.buttonSize, "*", that.removeElse_.bind(that), false));
@@ -1036,9 +1036,9 @@ Blockly.Constants.Robots.ROBOTS_ALPHABOT_ONOBSTACLEDETECTED_MUTATOR_MIXIN = {
     reconnectChildBlocks_: function (statementConnections,
         elseStatementConnection) {
         for (var i = 1; i <= this.elseifCount_; i++) {
-            Blockly.Mutator.reconnect(statementConnections[i], this, 'DO' + i);
+            statementConnections[i]?.reconnect(this, 'DO' + i);
         }
-        Blockly.Mutator.reconnect(elseStatementConnection, this, 'ELSE');
+        elseStatementConnection?.reconnect(this, 'ELSE');
     }
 };
 
@@ -1174,10 +1174,10 @@ Blockly.Constants.Robots.ROBOTS_ALPHABOT_REMOTECONTROL_ONCOMMANDRECEIVED_MUTATOR
     // Restore pointers to any connected child blocks.
     restoreConnections_: function () {
         for (var i = 1; i <= this.elseifCount_; i++) {
-            Blockly.Mutator.reconnect(this.statementConnections_[i], this, 'DO' + i);
+            this.statementConnections_[i]?.reconnect(this, 'DO' + i);
         }
         if (this.getInput('ELSE')) {
-            Blockly.Mutator.reconnect(this.elseStatementConnection_, this, 'ELSE');
+            this.elseStatementConnection_?.reconnect(this, 'ELSE');
         }
     },
     addElse_: function () {
@@ -1253,14 +1253,14 @@ Blockly.Constants.Robots.ROBOTS_ALPHABOT_REMOTECONTROL_ONCOMMANDRECEIVED_MUTATOR
                 .appendField(
                     new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
                         this.buttonSize, "*", removeElseIf, false))
-                .setAlign(Blockly.ALIGN_RIGHT);
+                .setAlign(Blockly.inputs.Align.RIGHT);
             this.appendStatementInput('DO' + i)
         }
         if (this.elseCount_) {
             this.appendDummyInput('ELSETITLE')
                 .appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSE);
             this.appendDummyInput('ELSEBUTTONS')
-                .setAlign(Blockly.ALIGN_RIGHT)
+                .setAlign(Blockly.inputs.Align.RIGHT)
                 .appendField(
                     new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
                         this.buttonSize, "*", that.removeElse_.bind(that), false));
@@ -1314,9 +1314,9 @@ Blockly.Constants.Robots.ROBOTS_ALPHABOT_REMOTECONTROL_ONCOMMANDRECEIVED_MUTATOR
     reconnectChildBlocks_: function (statementConnections,
         elseStatementConnection) {
         for (var i = 1; i <= this.elseifCount_; i++) {
-            Blockly.Mutator.reconnect(statementConnections[i], this, 'DO' + i);
+            statementConnections[i]?.reconnect(this, 'DO' + i);
         }
-        Blockly.Mutator.reconnect(elseStatementConnection, this, 'ELSE');
+        elseStatementConnection?.reconnect(this, 'ELSE');
     },
     saveDropdownFields_: function () {
         this.dropdownFieldsValue = new Array();
@@ -1408,10 +1408,10 @@ Blockly.Constants.Robots.ROBOTS_ALPHABOT_JOYSTICK_ONCOMMANDRECEIVED_MUTATOR_MIXI
     // Restore pointers to any connected child blocks.
     restoreConnections_: function () {
         for (var i = 1; i <= this.elseifCount_; i++) {
-            Blockly.Mutator.reconnect(this.statementConnections_[i], this, 'DO' + i);
+            this.statementConnections_[i]?.reconnect(this, 'DO' + i);
         }
         if (this.getInput('ELSE')) {
-            Blockly.Mutator.reconnect(this.elseStatementConnection_, this, 'ELSE');
+            this.elseStatementConnection_?.reconnect(this, 'ELSE');
         }
     },
     addElse_: function () {
@@ -1486,14 +1486,14 @@ Blockly.Constants.Robots.ROBOTS_ALPHABOT_JOYSTICK_ONCOMMANDRECEIVED_MUTATOR_MIXI
                 .appendField(
                     new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
                         this.buttonSize, "*", removeElseIf, false))
-                .setAlign(Blockly.ALIGN_RIGHT);
+                .setAlign(Blockly.inputs.Align.RIGHT);
             this.appendStatementInput('DO' + i)
         }
         if (this.elseCount_) {
             this.appendDummyInput('ELSETITLE')
                 .appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSE);
             this.appendDummyInput('ELSEBUTTONS')
-                .setAlign(Blockly.ALIGN_RIGHT)
+                .setAlign(Blockly.inputs.Align.RIGHT)
                 .appendField(
                     new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
                         this.buttonSize, "*", that.removeElse_.bind(that), false));
@@ -1546,9 +1546,9 @@ Blockly.Constants.Robots.ROBOTS_ALPHABOT_JOYSTICK_ONCOMMANDRECEIVED_MUTATOR_MIXI
     reconnectChildBlocks_: function (statementConnections,
         elseStatementConnection) {
         for (var i = 1; i <= this.elseifCount_; i++) {
-            Blockly.Mutator.reconnect(statementConnections[i], this, 'DO' + i);
+            statementConnections[i]?.reconnect(this, 'DO' + i);
         }
-        Blockly.Mutator.reconnect(elseStatementConnection, this, 'ELSE');
+        elseStatementConnection?.reconnect(this, 'ELSE');
     }
 };
 

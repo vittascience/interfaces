@@ -352,11 +352,11 @@ Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN = {
   // Restore pointers to any connected child blocks.
   restoreConnections_: function () {
     for (var i = 1; i <= this.elseifCount_; i++) {
-      Blockly.Mutator.reconnect(this.valueConnections_[i], this, 'IF' + i);
-      Blockly.Mutator.reconnect(this.statementConnections_[i], this, 'DO' + i);
+      this.valueConnections_[i]?.reconnect(this, 'IF' + i);
+      this.statementConnections_[i]?.reconnect(this, 'DO' + i);
     }
     if (this.getInput('ELSE')) {
-      Blockly.Mutator.reconnect(this.elseStatementConnection_, this, 'ELSE');
+      this.elseStatementConnection_?.reconnect(this, 'ELSE');
     }
   },
   addElse_: function () {
@@ -431,14 +431,14 @@ Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN = {
         .appendField(
           new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
             this.buttonSize, "*", removeElseIf, false))
-        .setAlign(Blockly.ALIGN_RIGHT);
+        .setAlign(Blockly.inputs.Align.RIGHT);
       this.appendStatementInput('DO' + i);
     }
     if (this.elseCount_) {
       this.appendDummyInput('ELSETITLE')
         .appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSE);
       this.appendDummyInput('ELSEBUTTONS')
-        .setAlign(Blockly.ALIGN_RIGHT)
+        .setAlign(Blockly.inputs.Align.RIGHT)
         .appendField(
           new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
             this.buttonSize, "*", that.removeElse_.bind(that), false));
@@ -497,10 +497,10 @@ Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN = {
   reconnectChildBlocks_: function (valueConnections, statementConnections,
     elseStatementConnection) {
     for (var i = 1; i <= this.elseifCount_; i++) {
-      Blockly.Mutator.reconnect(valueConnections[i], this, 'IF' + i);
-      Blockly.Mutator.reconnect(statementConnections[i], this, 'DO' + i);
+      valueConnections[i]?.reconnect(this, 'IF' + i);
+      statementConnections[i]?.reconnect(this, 'DO' + i);
     }
-    Blockly.Mutator.reconnect(elseStatementConnection, this, 'ELSE');
+    elseStatementConnection?.reconnect(this, 'ELSE');
   }
 };
 

@@ -21,6 +21,7 @@ const IMPORT_NETWORK = "import network";
 const IMPORT_UREQUESTS = "import urequests";
 const IMPORT_SOCKET = "import socket";
 const IMPORT_ESP32_MPU6050 = "from esp32_mpu6050 import MPU6050";
+const IMPORT_ESP32_BN880 = "from esp32_bn880 import detect_magnetometer, read_heading";
 const IMPORT_ESP32_MFRC522 = "from esp32_mfrc522 import MFRC522";
 const IMPORT_ESP32_MLX90621 = "from esp32_mlx90621 import MLX90621";
 //wifi custom libraries

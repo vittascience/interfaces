@@ -425,17 +425,8 @@ function shareProjectChoice(frame, project, support) {
         $('#modal-shareproject-tab-iframe, #modal-shareproject-tab-iframe-content').removeClass('active show');
         $('#modal-shareproject-tab-link, #modal-shareproject-tab-link-content').addClass('active show');
         $("#modal-shareproject-tab-link-content").html(linkHtml);
-        $('#link-value').val(projectLink);
         $('#modal-shareproject-tab-iframe-content').html('');
-
-        QrCreator.render({
-            text: projectLink,
-            radius: 0, // 0.0 to 0.5
-            ecLevel: 'L', // L, M, Q, H
-            fill: '#22b573', // foreground color
-            background: 'white', // color or null for transparent
-            size: 150 // in pixels
-        }, document.querySelector('#qrcode'));
+        displayShareLink(projectLink);
 
         $('#copy-link').click(function () {
             $('#copy-link').unbind('click');
@@ -451,8 +442,7 @@ function shareProjectChoice(frame, project, support) {
     });
 
     function updateLinkShare(linkStruct) {
-        let link = stringifyLinkShare(linkStruct);
-        $('#link-value').val(link);
+        displayShareLink(stringifyLinkShare(linkStruct));
     }
 
     function updateLinkIntegrate(linkStruct) {
@@ -508,6 +498,51 @@ function shareProjectChoice(frame, project, support) {
 
     $('#modal-shareproject').localize()
     $('#modal-shareproject').show();
+}
+
+const projectShortlinks = {};
+
+function getProjectShortlink(link) {
+    if (!projectShortlinks[link]) {
+        projectShortlinks[link] = fetch('/services/post/postProjectShortlink.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ realLink: link })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) throw new Error('shortlink');
+                return data.shortLink;
+            })
+            .catch(error => {
+                delete projectShortlinks[link];
+                throw error;
+            });
+    }
+    return projectShortlinks[link];
+}
+
+function displayShareLink(link) {
+    const linkInput = document.getElementById('link-value');
+    if (!linkInput) return;
+    linkInput.dataset.fullLink = link;
+    renderShareLink(linkInput, link);
+    getProjectShortlink(link).then(shortLink => {
+        if (linkInput.dataset.fullLink === link) renderShareLink(linkInput, shortLink);
+    }).catch(() => {});
+}
+
+function renderShareLink(linkInput, link) {
+    linkInput.value = link;
+    $('#qrcode').html('');
+    QrCreator.render({
+        text: link,
+        radius: 0,
+        ecLevel: 'L',
+        fill: '#22b573',
+        background: 'white',
+        size: 150
+    }, document.querySelector('#qrcode'));
 }
 
 function stringifyLinkShare(linkObject) {

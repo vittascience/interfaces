@@ -12,15 +12,6 @@ function initPrivateModal() {
         }
     });
 
-    if (INTERFACE_NAME !== 'web') $('#importproject-fileinput').fileinput(); // This library is really problematic with js content for web interface
-
-    if (isMobileDevice()) {
-        const fileInput = document.querySelector('#modal-openproject div.file-preview');
-        if (fileInput !== null) {
-            fileInput.style.display = 'none';
-        }
-    }
-
     $.each(navbarButtons.projectManagement, (value, button) => {
         $('#manage-button-panel').append(Button(button))
     });
@@ -157,9 +148,23 @@ function readFileFromInput(file) {
     });
 };
 
+/**
+ * Arduino UNO Q project zip (Download button): read the Vittascience project file stored at its root.
+ * @param {File} file
+ * @returns {Promise<string>} project file content
+ */
+async function readArduinoQProjectZip(file) {
+    const zip = await JSZip.loadAsync(file);
+    const projectFile = zip.file(ARDUINOQ_PROJECT_FILE);
+    if (!projectFile) {
+        throw new Error(`${ARDUINOQ_PROJECT_FILE} not found in ${file.name}`);
+    }
+    return projectFile.async('string');
+}
+
 function extractProjectInformations(projectFile, headerRegExp) {
     const Myproject = {
-        'name': 'no name',
+        'name': CodeManager.getProjectDisplayName(''),
         'dateUpdated': new Date(),
         'description': 'no description',
         'code': null,
@@ -178,28 +183,60 @@ function extractProjectInformations(projectFile, headerRegExp) {
         console.error("Header not found");
     }
     const headerSplitted = header.split('\n');
-    let toolboxMode = (typeof localStorage.toolbox !== 'undefined' ? JSON.parse(localStorage.toolbox)[INTERFACE_NAME] : 'vittascience');
+
+    let toolboxMode = (
+        typeof localStorage.toolbox !== 'undefined'
+            ? JSON.parse(localStorage.toolbox)[INTERFACE_NAME]
+            : 'vittascience'
+    );
+
     let interfaceName = null;
+
     for (let j = 0; j < headerSplitted.length; j++) {
         if (headerSplitted[j].includes('Interface:')) {
             interfaceName = headerSplitted[j].split('Interface:');
-            interfaceName = interfaceName && interfaceName[1] ? interfaceName[1].trim() : null;
+            interfaceName = interfaceName && interfaceName[1]
+                ? interfaceName[1].trim()
+                : null;
+
         } else if (headerSplitted[j].includes('Nom du projet:')) {
             const projectName = headerSplitted[j].split('Nom du projet:');
-            Myproject.name = projectName && projectName[1] ? projectName[1].trim() : "no name";
+            Myproject.name = projectName && projectName[1]
+                ? projectName[1].trim()
+                : CodeManager.getProjectDisplayName('');
+
         } else if (headerSplitted[j].includes('Description:')) {
             const projectDescription = headerSplitted[j].split('Description:');
-            Myproject.description = projectDescription && projectDescription[1] ? projectDescription[1].trim() : "";
+            Myproject.description = projectDescription && projectDescription[1]
+                ? projectDescription[1].trim()
+                : "";
+
         } else if (headerSplitted[j].includes('Toolbox:')) {
             toolboxMode = headerSplitted[j].split('Toolbox:')[1].trim();
+
         } else if (headerSplitted[j].includes('Mode:')) {
             const projectMode = headerSplitted[j].split('Mode:');
-            Myproject.mode = projectMode && projectMode[1] ? projectMode[1].trim() : Myproject.mode;
-        } else if (headerSplitted[j].includes('Blocks:')) {
-            const projectBlocks = headerSplitted[j].split('Blocks:');
-            Myproject.code = projectBlocks && projectBlocks[1] ? projectBlocks[1].trim() : null;
+            Myproject.mode = projectMode && projectMode[1]
+                ? projectMode[1].trim()
+                : Myproject.mode;
         }
     }
+
+    const blocksMatch = header.match(/Blocks:\s*([\s\S]*?<\/xml>)/);
+
+    if (blocksMatch && blocksMatch[1]) {
+        Myproject.code = blocksMatch[1].trim();
+    }
+
+    const exerciseMatch = header.match(/^Exercise: ([A-Za-z0-9+/=]+)\s*$/m);
+    if (exerciseMatch) {
+        try {
+            Myproject.exercise = JSON.parse(decodeURIComponent(escape(atob(exerciseMatch[1]))));
+        } catch (error) {
+            console.error('[import] invalid Exercise header', error);
+        }
+    }
+
     Myproject.codeText = projectFile.replace(headerRegExp, '').trim() + '\n';
     Myproject.options = {
         'toolbox': toolboxMode
@@ -211,6 +248,7 @@ function extractProjectInformations(projectFile, headerRegExp) {
         }, 100);
         Myproject.code = DEFAULT_XML_START[Myproject.options.toolbox];
         Myproject.mode = "code";
+        delete Myproject.exercise;
     }
     return Myproject;
 };
@@ -224,19 +262,23 @@ function updateLocalProject(project) {
     let state = {};
     let title = '';
     history.pushState(state, title, removeParam("link", window.location.href));
-    projectManager.newProject(project);
+    const created = projectManager.newProject(project);
     CodeManager.getSharedInstance().setTextCode(project.codeText);
     CodeManager.getSharedInstance().setCodeMode(project.mode);
     CodeManager.getSharedInstance().setXml(project.code);
     CodeManager.getSharedInstance().loadBlocks();
-    const ws = CodeManager.getSharedInstance()._worspace;
-    const codeBlock = (typeof Blockly.Python === 'undefined'
-        ? Blockly.Arduino.workspaceToCode(ws)
-        : Blockly.Python.workspaceToCode(ws));
+    const codeManager = CodeManager.getSharedInstance();
+    const ws = codeManager._workspace;
+    // Arduino UNO Q mixes C++, Python and HTML blocks: generate the same multi-file code as the saved project
+    const codeBlock = typeof codeManager.workspaceToMultiCode === 'function'
+        ? codeManager.workspaceToMultiCode()
+        : (typeof Blockly.Python === 'undefined'
+            ? Blockly.Arduino.workspaceToCode(ws)
+            : Blockly.Python.workspaceToCode(ws));
     CodeManager.getSharedInstance().codeWasManuallyModified = codeBlock.replace(/\s+/g, '') !== project.codeText.replace(/\s+/g, '');
     projectManager.localStorageManager.setLocalProject(project);
-    $("#project-name").html(decodeURI(project.name));
-    $("#project-name").attr('data-bs-title', '<span class="tooltip-title">' + project.name + '</span><span class="tooltip-author">' + (project.user ? project.user.firstname + ' ' + project.user.surname : i18next.t('code.tooltip.anonymousAuthor')) + '</span><span class="tooltip-description">' + decodeURI(project.description) + '</span>');
+    $("#project-name").html(CodeManager.getProjectDisplayName(decodeURI(project.name)));
+    $("#project-name").attr('data-bs-title', '<span class="tooltip-title">' + CodeManager.getProjectDisplayName(decodeURI(project.name)) + '</span><span class="tooltip-author">' + (project.user ? project.user.firstname + ' ' + project.user.surname : i18next.t('code.tooltip.anonymousAuthor')) + '</span><span class="tooltip-description">' + CodeManager.getProjectDisplayDescription(decodeURI(project.description)) + '</span>');
     projectManager.updateUrl();
     projectManager.projectsFinder_updateProject();
     updateToolbox(project.options.toolbox);
@@ -253,18 +295,63 @@ function updateLocalProject(project) {
                 break;
         }
     }
+    // newProject resets the exercise state asynchronously: restore only once it has resolved
+    if (project.exercise) {
+        created.then(() => restoreProjectExercise(project.exercise));
+    }
 };
 
-$('body').on('fileloaded', '#importproject-fileinput', async function () {
+/**
+ * Restore the statement and the unit tests read from an imported file (untrusted content)
+ * @param {Object} exercise - {statement, tests}
+ */
+function restoreProjectExercise(exercise) {
+    // decode then re-escape: idempotent on DB (htmlspecialchars) content, neutralises HTML from untrusted files
+    const toSafeText = (s) => { const t = document.createElement('textarea'); t.innerHTML = String(s ?? ''); const d = document.createElement('div'); d.textContent = t.value; return d.innerHTML; };
+    if (typeof exercise.statement === 'string' && exercise.statement && projectManager.getExerciseStatement()) {
+        projectManager.exercises_updateStatementState(toSafeText(exercise.statement));
+    }
+    const isObject = (o) => o && typeof o === 'object';
+    const strings = (a) => (Array.isArray(a) ? a : []).filter((s) => typeof s === 'string');
+    const restriction = exercise.toolboxRestriction;
+    if (isObject(restriction) && strings(restriction.blocks).length && Main.getToolboxManager && Main.getToolboxManager()) {
+        Main.restrictToolbox({ blocks: strings(restriction.blocks), variables: strings(restriction.variables) });
+    }
+    // whitelist: forged ids must never reach the form HTML or the delete requests
+    const toIO = (a) => (Array.isArray(a) ? a : []).filter(isObject).map(({ type, value }) => ({ id: null, type: PythonUnitTestValues.TYPE_OPTIONS.some((o) => o.value === type) ? type : PythonUnitTestValues.EXPRESSION_TYPE, value }));
+    const tests = exercise.tests;
+    if (Main.getInterface() === 'python' && typeof UnitTests !== 'undefined' && tests && tests.exercise && Array.isArray(tests.unitTests) && tests.unitTests.length) {
+        UnitTests.applyModel({
+            exercise: {
+                id: null, project: null, functionName: String(tests.exercise.functionName || ''),
+                secretWord: toSafeText(tests.exercise.secretWord),
+                linkSolution: /^https?:\/\//i.test(tests.exercise.linkSolution || '') ? tests.exercise.linkSolution : ''
+            },
+            unitTests: tests.unitTests.filter(isObject).map((t) => ({
+                id: null, name: String(t.name ?? ''), hint: toSafeText(t.hint),
+                inputs: toIO(t.inputs), outputs: toIO(t.outputs)
+            }))
+        });
+    }
+}
+
+/**
+ * Import a project file from the computer (file input or drag and drop on #importproject-dropzone): a project exported
+ * by Vittascience (header with the blocks) or a code file.
+ * @param {File} file
+ */
+async function importProjectFile(file) {
+    if (!file) return;
+    const input = document.getElementById('importproject-fileinput');
+    const resetInput = () => { if (input) input.value = ''; };
     pseudoModal.openModal('modal-warningimport');
 
-    const fileList = $("#importproject-fileinput").fileinput("getFileStack"); /* now you can work with the file list */
-    const file = fileList[0];
-    const extension = file.name.split('.')[1];
+    // Last extension of the name (a name can contain other dots)
+    const extension = file.name.includes('.') ? file.name.split('.').pop().toLowerCase() : '';
     const interface = Main.getInterface();
 
-    const inoInterfaces = ["arduino", "mBot", "letsstartcoding"];
-    const pyInterfaces = ["python", "microbit", "esp32", "wb55", "l476", "TI-83", "galaxia", "raspberrypi", "niryo", "nao", "GalaxiaCircuitPython", "buddy", "cyberpi", "pico", "eliobot", "thymio", "winky", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai"];
+    const inoInterfaces = IMPORT_INO_INTERFACES;
+    const pyInterfaces = IMPORT_PY_INTERFACES;
 
     if ((inoInterfaces.includes(interface) && extension !== "ino") || (pyInterfaces.includes(interface) && extension !== "py")) {
         const infoBox = document.getElementById("import-extension-warning-box");
@@ -272,42 +359,58 @@ $('body').on('fileloaded', '#importproject-fileinput', async function () {
         infoBox.className = "alert alert-danger";
         infoBox.innerHTML = jsonPath('modals.warning.import.content.extension');
         $("#import-extension-warning-box").fadeIn("slow");
+        resetInput();
         return setTimeout(() => {
-            $("#importproject-fileinput").fileinput('reset');
             pseudoModal.closeLatestModal();
         }, SAVE_TIMEOUT);
     }
     $("#import-extension-warning-box").hide();
     const acceptImport = await acceptImportProject();
     if (!acceptImport) {
+        resetInput();
         pseudoModal.closeLatestModal();
         return;
     }
 
-    if ($("#importproject-fileinput").fileinput("getFileStack").length > 0) {
-        const projectFile = await readFileFromInput(file);
-        const headerRegExp = inoInterfaces.includes(interface) ? /\/\*([\s\S]*?)\*\// : /"""([\s\S]*?)"""/;
-        if (projectFile.toLowerCase().includes('vittascience')) {
-            updateLocalProject(extractProjectInformations(projectFile, headerRegExp));
-            /**
-             * TO BE REMOVED
-             * there's certainly a better way of dealing with the problem
-             */
-            const children = $('.input-group-btn.input-group-append').children();
-            for (let i = 0; i < children.length; i++) {
-                let child = $(children[i]);
-                if (child.hasClass('fileinput-remove') || child.hasClass('fileinput-cancel') || child.hasClass('fileinput-upload')) {
-                    child.remove();
-                }
-            }
-        } else {
-            Main.importCode(projectFile);
-            switchCodeMode();
-            pseudoModal.closeLatestModal();
-        }
-        $("#importproject-fileinput").fileinput('reset');
+    let projectFile;
+    try {
+        projectFile = (interface === 'arduinoq' && /\.zip$/i.test(file.name)) ? await readArduinoQProjectZip(file) : await readFileFromInput(file);
+    } catch (error) {
+        console.error('[import]', error);
+        resetInput();
+        pseudoModal.closeLatestModal();
+        return;
     }
+    const headerRegExp = inoInterfaces.includes(interface) ? /\/\*([\s\S]*?)\*\// : /"""([\s\S]*?)"""/;
+    if (projectFile.toLowerCase().includes('vittascience')) {
+        updateLocalProject(extractProjectInformations(projectFile, headerRegExp));
+    } else {
+        // Code mode first: in blocks/mixed mode the editor shows the code of the blocks and would replace the imported code
+        switchCodeMode();
+        Main.importCode(projectFile);
+        pseudoModal.closeLatestModal();
+    }
+    resetInput();
     pseudoModal.closeLatestModal();
+};
+
+$('body').on('change', '#importproject-dropzone #importproject-fileinput', function () {
+    importProjectFile(this.files[0]);
+});
+
+$('body').on('dragenter dragover', '#importproject-dropzone', function (event) {
+    event.preventDefault();
+    $(this).addClass('is-dragover');
+});
+
+$('body').on('dragleave dragend drop', '#importproject-dropzone', function () {
+    $(this).removeClass('is-dragover');
+});
+
+$('body').on('drop', '#importproject-dropzone', function (event) {
+    event.preventDefault();
+    const files = event.originalEvent.dataTransfer && event.originalEvent.dataTransfer.files;
+    importProjectFile(files && files[0]);
 });
 
 /**
@@ -475,8 +578,8 @@ $('body').on('click', '#edit-project-name', function () {
     pseudoModal.openModal('modal-edit-project-name');
     $('#edit_name').val($("#project-name").text());
 
-    // get the contents of the .tooltip-description element inside the data-bs-title attribute of the #project-name element
-    let desc = $("#project-name").attr("data-bs-title").split('<span class="tooltip-description">')[1].split('</span>')[0];
+    // get the description from the tooltip of the #project-name element
+    let desc = CodeManager.getProjectDescription();
 
     $("#edit_description").val(desc);
     if (typeof vittaFormValidator !== 'undefined') {
@@ -493,7 +596,7 @@ $('body').on('click', '#modal-edit-project-btn-edit', function () {
 
     projectManager.editCurrentProject(newName, newDesc);
     $("#project-name").html(newName);
-    $("#project-name").attr("data-bs-title", `<span class="tooltip-title">${newName}</span><span class="tooltip-author">${currentProjectAuthor}</span><span class="tooltip-description">${newDesc}</span>`);
+    $("#project-name").attr("data-bs-title", `<span class="tooltip-title">${newName}</span><span class="tooltip-author">${currentProjectAuthor}</span><span class="tooltip-description">${CodeManager.getProjectDisplayDescription(newDesc)}</span>`);
     $("#save-name").val(newName);
     let inputEvent = new Event('input');
     document.querySelector('#save-name').dispatchEvent(inputEvent); // Dispatching input event to trigger the VittaformValidator
@@ -715,27 +818,7 @@ function shareProjectChoice(frame, projectLink) {
         // Ajouter l'événement 'input' à l'élément
         inputElement.addEventListener('input', handleInputChange);
 
-
-        document.querySelector('#link-value').value = link;
-        // if we're on maclasseti.fr, make the link go to the right domain
-        if (typeof window.maClasseTiIntegration !== 'undefined' && window.maClasseTiIntegration) {
-            // make it so that https://XX.vittascience.com/... goes to https://maclasseti.fr/...
-            const linkValue = document.querySelector('#link-value');
-            const linkValueValue = linkValue.value;
-
-            // split the link at the last slash
-            const linkValueValueSplit = linkValueValue.split('/');
-            const lastElement = linkValueValueSplit[linkValueValueSplit.length - 1];
-
-            // add the right domain
-            document.querySelector('#link-value').value = 'https://maclasseti.fr/python' + lastElement;
-
-        }
-
-        // Créer un nouvel événement 'input' et le déclencher manuellement
-        const inputEvent = new Event('input');
-        inputElement.dispatchEvent(inputEvent);
-
+        displayShareLink(link);
 
         $('#modal-shareproject-tab-iframe-content').html('');
 
@@ -767,23 +850,7 @@ function shareProjectChoice(frame, projectLink) {
     function updateLinkShare(linkStruct) {
         const link = stringifyLinkShare(linkStruct);
 
-        if (document.querySelector('#link-value')) {
-            document.querySelector('#link-value').value = link;
-            // if we're on maclasseti.fr, make the link go to the right domain
-            if (typeof window.maClasseTiIntegration !== 'undefined' && window.maClasseTiIntegration) {
-                // make it so that https://XX.vittascience.com/... goes to https://maclasseti.fr/...
-                const linkValue = document.querySelector('#link-value');
-                const linkValueValue = linkValue.value;
-
-                // split the link at the last slash
-                const linkValueValueSplit = linkValueValue.split('/');
-                const lastElement = linkValueValueSplit[linkValueValueSplit.length - 1];
-
-                // add the right domain
-                document.querySelector('#link-value').value = 'https://maclasseti.fr/python' + lastElement;
-
-            }
-        }
+        displayShareLink(link);
 
         if (typeof rtcInterfaces != 'undefined' && !rtcInterfaces.includes(INTERFACE_NAME)) {
             if (UserManager.getUser().id && UserManager.getUser().id != projectManager._currentProject.user.id) {
@@ -815,10 +882,6 @@ function shareProjectChoice(frame, projectLink) {
 
         updateLinkShare(linkStruct);
         updateLinkIntegrate(linkStruct);
-
-        // Créer un nouvel événement 'input' et le déclencher manuellement pour mettre à jour le QR code
-        const inputEvent = new Event('input');
-        document.getElementById('link-value').dispatchEvent(inputEvent);
 
         if (typeof document.getElementById('formControlInputMessage') != 'undefined' && document.getElementById('formControlInputMessage') != null) {
             document.getElementById("formControlInputMessage").value = createMailMessage(projectManager._currentProject.user.firstname + ` ` + projectManager._currentProject.user.surname, link);
@@ -955,6 +1018,46 @@ function shareProjectChoice(frame, projectLink) {
         }
     }
 };
+
+const projectShortlinks = {};
+
+function getProjectShortlink(link) {
+    if (!projectShortlinks[link]) {
+        projectShortlinks[link] = fetch('/services/post/postProjectShortlink.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ realLink: link })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) throw new Error('shortlink');
+                return data.shortLink;
+            })
+            .catch(error => {
+                delete projectShortlinks[link];
+                throw error;
+            });
+    }
+    return projectShortlinks[link];
+}
+
+function displayShareLink(link) {
+    const linkInput = document.getElementById('link-value');
+    if (!linkInput) return;
+    linkInput.dataset.fullLink = link;
+    if (typeof window.maClasseTiIntegration !== 'undefined' && window.maClasseTiIntegration) {
+        linkInput.value = 'https://maclasseti.fr/python' + link.split('/').pop();
+        linkInput.dispatchEvent(new Event('input'));
+        return;
+    }
+    linkInput.value = link;
+    linkInput.dispatchEvent(new Event('input'));
+    getProjectShortlink(link).then(shortLink => {
+        if (linkInput.dataset.fullLink !== link) return;
+        linkInput.value = shortLink;
+        linkInput.dispatchEvent(new Event('input'));
+    }).catch(() => {});
+}
 
 function stringifyLinkShare(linkObject) {
     let link = linkObject.base + '?';
@@ -1491,7 +1594,12 @@ async function openProjectBtn() {
     if (typeof projectManager !== 'undefined' && projectManager) {
         projectManager.populateAllProjects();
     }
-    populateLocalStorageProjects();
+    // No local projects of the localStorage in the ai interfaces
+    if (INTERFACE_NAME === 'ai') {
+        $('#local-storage-projects-tab, #local-storage-projects-panel').hide();
+    } else {
+        populateLocalStorageProjects();
+    }
 
     const searchProjectInput = document.querySelector('#search-project-input');
     if (searchProjectInput.isSearchKeyUpEvent) return; // We avoid to duplicate a previously created event listener
@@ -1580,6 +1688,89 @@ function setupSharedProjectsInfiniteScroll() {
     window.addEventListener('resize', onScroll);
 }
 
+const localStorageProjectSelection = new Set();
+
+function getLocalStorageProjectsSelectionLabel(selectedCount) {
+    return jsonPath(selectedCount === 1
+        ? 'modals.standard.open.localSelection.selectedSingle'
+        : 'modals.standard.open.localSelection.selectedMultiple');
+}
+
+function syncLocalStorageProjectSelection(localProjects) {
+    const validIds = new Set(localProjects.map((entry) => String(entry.id)));
+    Array.from(localStorageProjectSelection).forEach((id) => {
+        if (!validIds.has(id)) {
+            localStorageProjectSelection.delete(id);
+        }
+    });
+}
+
+function updateLocalStorageProjectsSelectionUi(totalProjects) {
+    const selectedCount = localStorageProjectSelection.size;
+    const countBadge = $("#local-storage-projects-selected-count");
+    const countLabel = $("#local-storage-projects-selected-label");
+    const toggleSelectionButton = $("#local-storage-projects-toggle-selection");
+    const deleteSelectionButton = $("#local-storage-projects-delete-selection");
+    const allSelected = totalProjects > 0 && selectedCount === totalProjects;
+
+    countBadge.attr("class", "project-count badge me-2 bg-" + (selectedCount === 0 ? "secondary" : "primary"));
+    countBadge.text(selectedCount);
+    countLabel.text(getLocalStorageProjectsSelectionLabel(selectedCount));
+    toggleSelectionButton.text(jsonPath(allSelected
+        ? 'modals.standard.open.localSelection.unselectAll'
+        : 'modals.standard.open.localSelection.selectAll'));
+    toggleSelectionButton.prop('disabled', totalProjects === 0);
+    deleteSelectionButton.prop('disabled', selectedCount === 0);
+}
+
+function toggleLocalStorageProjectSelection(id, isSelected) {
+    const normalizedId = String(id);
+
+    if (isSelected) {
+        localStorageProjectSelection.add(normalizedId);
+    } else {
+        localStorageProjectSelection.delete(normalizedId);
+    }
+
+    updateLocalStorageProjectsSelectionUi($("#local-storage-projects .project-item").length);
+}
+
+function toggleAllLocalStorageProjectsSelection() {
+    const checkboxes = $("#local-storage-projects .local-storage-project-checkbox");
+    const totalProjects = checkboxes.length;
+    const shouldSelectAll = totalProjects > 0 && localStorageProjectSelection.size !== totalProjects;
+
+    checkboxes.each(function () {
+        const normalizedId = String($(this).data('projectId'));
+        $(this).prop('checked', shouldSelectAll);
+
+        if (shouldSelectAll) {
+            localStorageProjectSelection.add(normalizedId);
+        } else {
+            localStorageProjectSelection.delete(normalizedId);
+        }
+    });
+
+    updateLocalStorageProjectsSelectionUi(totalProjects);
+}
+
+async function deleteSelectedLocalStorageProjects() {
+    const selectedIds = Array.from(localStorageProjectSelection);
+    if (selectedIds.length === 0) return;
+
+    pseudoModal.openModal('modal-warningdelete');
+    $("#btn_warning_delete_project").prop("disabled", false);
+    const validatedDeletion = await deleteProjectValidation();
+    if (!validatedDeletion) return;
+
+    selectedIds.forEach((id) => {
+        projectManager.localStorageManager.deleteLocalProject(id);
+    });
+    localStorageProjectSelection.clear();
+    populateLocalStorageProjects();
+    pseudoModal.closeModal('modal-warningdelete');
+}
+
 /**
  * Populate the "Mes projets locaux" tab with the projects stored in the browser's localStorage
  * (visitor projects, or local drafts, not saved on the server).
@@ -1594,17 +1785,35 @@ function populateLocalStorageProjects() {
         .slice()
         .sort((a, b) => (b.lastUpdated ?? 0) - (a.lastUpdated ?? 0));
 
+    syncLocalStorageProjectSelection(localProjects);
+
     $("#local-storage-projects-count").attr("class", "project-count badge bg-" + (localProjects.length === 0 ? "secondary" : "success"));
     $("#local-storage-projects-count").text(localProjects.length);
 
     if (localProjects.length === 0) {
+        localStorageProjectSelection.clear();
         parentDiv.html(`<div class='no-project py-5'><b>${i18next.t('modals.standard.open.no-project')}</b></div>`);
         return;
     }
 
+    parentDiv.append(`
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+            <div class="d-flex align-items-center mb-2 mb-md-0">
+                <span id="local-storage-projects-selected-count" class="project-count badge bg-secondary me-2">0</span>
+                <span id="local-storage-projects-selected-label">${getLocalStorageProjectsSelectionLabel(0)}</span>
+            </div>
+            <div>
+                <button type="button" id="local-storage-projects-toggle-selection" class="btn btn-outline-secondary me-2" onclick="toggleAllLocalStorageProjectsSelection()">${jsonPath('modals.standard.open.localSelection.selectAll')}</button>
+                <button type="button" id="local-storage-projects-delete-selection" class="btn btn-danger" onclick="deleteSelectedLocalStorageProjects()">${jsonPath('modals.standard.open.localSelection.deleteSelection')} <span class="fas fa-trash"></span></button>
+            </div>
+        </div>
+    `);
+
     localProjects.forEach((entry) => {
         parentDiv.append(_generateLocalStorageProjectDiv(entry));
     });
+
+    updateLocalStorageProjectsSelectionUi(localProjects.length);
 };
 
 /**
@@ -1615,11 +1824,18 @@ function _generateLocalStorageProjectDiv(entry) {
     const project = entry.project || {};
     const name = project.name ? decodeURI(project.name) : i18next.t('code.popups.openProject.categories.projectsList.description');
     const dateText = entry.lastUpdated ? new Date(entry.lastUpdated).toLocaleString() : '';
+    const normalizedId = String(entry.id);
+    const isSelected = localStorageProjectSelection.has(normalizedId);
 
     let projectDiv = $('<div />');
     projectDiv.attr("class", "project-item");
+    projectDiv.attr("data-project-id", normalizedId);
+    const checkboxAriaLabel = jsonPath('modals.standard.open.localSelection.checkboxLabel').replace('%project%', name);
 
     const htmlString = `
+        <div class="form-check me-3">
+            <input class="form-check-input local-storage-project-checkbox" type="checkbox" data-project-id="${normalizedId}" aria-label="${checkboxAriaLabel}" onchange="toggleLocalStorageProjectSelection('${normalizedId}', this.checked)" ${isSelected ? 'checked' : ''}>
+        </div>
         <div class="project-thumb" aria-hidden="true"><i class="fa fa-laptop"></i></div>
         <div class="project-body">
             <b class="project-info">
@@ -1628,8 +1844,8 @@ function _generateLocalStorageProjectDiv(entry) {
             <span class="project-date">${dateText}</span>
         </div>
         <div class="project-actions">
-            <button data-i18n="[html]code.popups.openProject.categories.projectsList.buttons.open" class="btn vitta-button" onclick="openLocalStorageProject('${entry.id}')">Ouvrir<span class="fa fa-arrow-circle-right"></span></button>
-            <button data-i18n="[html]code.popups.openProject.categories.projectsList.buttons.delete" class="btn btn-danger" onclick="deleteLocalStorageProject('${entry.id}')">Supprimer <span class="fas fa-trash"></span></button>
+            <button data-i18n="[html]code.popups.openProject.categories.projectsList.buttons.open" class="btn vitta-button" onclick="openLocalStorageProject('${normalizedId}')">Ouvrir<span class="fa fa-arrow-circle-right"></span></button>
+            <button data-i18n="[html]code.popups.openProject.categories.projectsList.buttons.delete" class="btn btn-danger" onclick="deleteLocalStorageProject('${normalizedId}')">Supprimer <span class="fas fa-trash"></span></button>
         </div>
     `;
     projectDiv.html(htmlString);
@@ -1637,7 +1853,9 @@ function _generateLocalStorageProjectDiv(entry) {
 };
 
 /**
- * Open a project stored in the browser's localStorage by navigating to it (?localId=...).
+ * Open a project stored in the browser's localStorage (?localId=...), loaded in the interface without reloading the
+ * page. The page is reloaded on the project URL when the project can't be loaded in place (interfaces not based on
+ * xml blocks, project of another board).
  * @param {string} id
  */
 function openLocalStorageProject(id) {
@@ -1646,7 +1864,15 @@ function openLocalStorageProject(id) {
         newUrl.searchParams.delete('link');
         newUrl.searchParams.delete('launch_id');
         newUrl.searchParams.set('localId', id);
-        window.location.href = newUrl.toString();
+        const project = projectManager.localStorageManager.getLocalProjectContent(id);
+        const otherBoard = project && project.options && project.options.board && Main.hasBoardSelector() && project.options.board !== projectManager.getBoardMode();
+        if (!project || typeof project.code !== 'string' || !Main.getIsXmlBasedInterface() || ['adacraft', 'ai', 'web'].includes(INTERFACE_NAME) || otherBoard) {
+            window.location.href = newUrl.toString();
+            return;
+        }
+        window.history.pushState({}, '', newUrl);
+        updateLocalProject({ ...project, 'options': project.options || {}, 'mode': project.mode || Main.getCodeMode() });
+        pseudoModal.closeModal('modal-openproject');
     };
 
     if (typeof projectManager !== 'undefined' && projectManager && projectManager.needSaving()) {
@@ -1684,6 +1910,7 @@ async function deleteLocalStorageProject(id) {
     const validatedDeletion = await deleteProjectValidation();
     if (!validatedDeletion) return;
 
+    localStorageProjectSelection.delete(String(id));
     projectManager.localStorageManager.deleteLocalProject(id);
     populateLocalStorageProjects();
     pseudoModal.closeModal('modal-warningdelete');
@@ -1962,8 +2189,8 @@ function sortByDate(projects) {
 
 $('body').on('click', '#modal-new-btn-create, #readOnlyCopyBtn', async function () {
     projectManager.setIsLoadedProject(false);
-    const projectName = $("#new_name").val() ? $("#new_name").val() : "No-name";
-    const description = $("#new_description").val() ? $("#new_description").val() : "No-description";
+    const projectName = $("#new_name").val() ? $("#new_name").val() : CodeManager.getProjectDisplayName('');
+    const description = $("#new_description").val() ? $("#new_description").val() : '';
     // const isProjectNameAvailable = await projectManager.isProjectNameAvailable(projectName);
     // if (!isProjectNameAvailable) {
     //     new VittaNotif().displayNotification('#modal-newproject', i18next.t('notifications.projectNameAlreadyUsed'), 'bg-danger');
@@ -2015,7 +2242,7 @@ $('body').on('click', '#modal-new-btn-create, #readOnlyCopyBtn', async function 
         // The following block is responsible for RTC management (reinitialization/initialization)
         if (typeof rtcManager !== 'undefined' && rtcManager != null) {
             clearInterval(rtcManager.divInterval);
-            if (rtcManager.socket.connected == true) {
+            if (rtcManager.socket?.connected == true) {
                 rtcManager.socket.disconnect();
             }
             rtcManager = null;
@@ -2066,7 +2293,8 @@ $('body').on('click', '#modal-new-btn-create, #readOnlyCopyBtn', async function 
                 }, SAVE_TIMEOUT);
             } else {
                 projectManager.localStorageManager.addLocalId();
-                projectManager.localStorageManager.setLocalProject(project);
+                // The whole new project (blocks, code, mode, options), not only its name and description
+                projectManager.localStorageManager.setLocalProject({ ...projectManager._currentProject, 'name': project.name, 'description': project.description });
                 pseudoModal.closeModal('modal-newproject');
                 if (INTERFACE_NAME === 'ai' && !aiMain._controller.getProjectDataRetention()) {
                     aiMain._model.clearModel();
@@ -2123,17 +2351,6 @@ function closeDownloadProjectInfo() {
     saveProjectbtn();
 };
 
-function fileUploaderInit() {
-    if (typeof i18next !== 'undefined' && i18next.isInitialized && $("#importproject-fileinput").length > 0) {
-        $('#modal-openproject').find(".file-drop-zone-title").html(i18next.t('modals.standard.open.content.file-input.dropZoneTitle'));
-        $('#modal-openproject').find(".file-caption-name").attr('placeholder', i18next.t('modals.standard.open.content.file-input.msgPlaceholder'));
-        $('#modal-openproject').find(".hidden-xs").html(i18next.t('modals.standard.open.content.file-input.btnBrowse'));
-        $('#modal-openproject').find(".btn-file").removeClass('btn-primary');
-        $('#modal-openproject').find(".btn-file").addClass('browse-button');
-    } else {
-        setTimeout(fileUploaderInit, 250);
-    }
-};
 async function sendReportAiTextByMail(email, message) {
     function sendSupportMail(email, message) {
         return new Promise(function (resolve, reject) {
@@ -2260,5 +2477,22 @@ document.addEventListener('click', copyQrToClipboard);
 $('body').on('click', '.vitta-modal-exit-btn', function () {
     if (document.querySelector('#blur-div') != null) {
         document.querySelector('#blur-div').remove();
+    }
+});
+/**
+ * Project saved in the user account (link) with unsaved changes: the browser asks for a confirmation before leaving or
+ * reloading the page (its own dialog, a custom modal is not allowed by the browsers). The local projects (localId) are
+ * saved automatically in the localStorage, no confirmation for them nor in the embedded contexts (LTI, embed).
+ */
+window.addEventListener('beforeunload', function (event) {
+    try {
+        if (typeof projectManager === 'undefined' || !projectManager || projectManager._isInitializing) return;
+        if (!getParamValue('link') || UserManager.getUser() == null) return;
+        if (typeof ltiVariables13 !== 'undefined' || getParamValue('embed')) return;
+        if (!projectManager.needSaving()) return;
+        event.preventDefault();
+        event.returnValue = '';
+    } catch (error) {
+        console.error(error);
     }
 });

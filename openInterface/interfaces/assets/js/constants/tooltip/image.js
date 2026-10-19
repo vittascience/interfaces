@@ -28,6 +28,7 @@ const IMG_MODULE_KITRONIK_SHIELD_16_SERVOS = TOOLTIP_IMG_PATH + 'shield-kitronik
 const IMG_MODULE_UHANDBIT = TOOLTIP_IMG_PATH + 'nm_uHandbit-back.jpg';
 const IMG_MICROBIT_WUKONG = TOOLTIP_IMG_PATH + 'wukong-microbit-extension.png';
 const IMG_MODULE_REKABIT = TOOLTIP_IMG_PATH + 'nm_rekabit-front.webp';
+const IMG_MODULE_JOYSTICK_BIT_V2 = TOOLTIP_IMG_PATH + 'joystick-bit-v2-front.jpg';
 //compatible-stm32
 const IMG_MODULE_ALPHABOT = TOOLTIP_IMG_PATH + 'robot-alphabot-v2-front.jpg';
 const IMG_X_NUCLEO_IKS01A3 = TOOLTIP_IMG_PATH + 'X-NUCLEO-IKS01A3.jpg';
@@ -70,11 +71,13 @@ const IMG_MODULE_ROTARY_ANGLE = TOOLTIP_IMG_PATH + 'encodeur-rotatif-noir-grove-
 const IMG_MODULE_ROTARY_ENCODER = TOOLTIP_IMG_PATH + 'encodeur-rotatif-grove-front.png';
 const IMG_MODULE_TOUCH = TOOLTIP_IMG_PATH + 'bouton-tactile-grove-front.jpg';
 const IMG_MODULE_SWITCH = TOOLTIP_IMG_PATH + 'interrupteur-grove-block-front.jpg';
+const IMG_MODULE_DISTANCE_INTERRUPTER = TOOLTIP_IMG_PATH + 'grove-digital-distance-interrupter.png';
 const IMG_MODULE_BUTTON = TOOLTIP_IMG_PATH + 'bouton-poussoir-grove-block-front.jpg';
 const IMG_MODULE_MAGNETIC_SWITCH = TOOLTIP_IMG_PATH + 'nm_interrupteur-magnetique-grove-front.jpg';
 const IMG_MODULE_MP3_V2 = TOOLTIP_IMG_PATH + 'module-mp3-grove-front.jpg';
 const IMG_MODULE_MP3_V3 = TOOLTIP_IMG_PATH + 'module-mp3-grove-v3.jpg';
 const IMG_MODULE_MP3_V4 = TOOLTIP_IMG_PATH + 'module-mp3-grove-v4.jpg';
+
 //communication-save-data
 const IMG_MODULE_OPENLOG = TOOLTIP_IMG_PATH + 'module-openlog-gestion-donnees-block-front.jpg';
 const IMG_MODULE_SD_SPIMODULE = TOOLTIP_IMG_PATH + 'module-micro-sd-block-front.jpg';
@@ -219,6 +222,7 @@ const IMG_MBUILD_SENSORS_QUAD_RGB_SENSOR = TOOLTIP_IMG_PATH + 'mbuild-quad-rgb-s
 const IMG_DRONE_TELLO = TOOLTIP_IMG_PATH + 'Tello-front.jpg';
 //huskylens
 const IMG_HUSKYLENS = TOOLTIP_IMG_PATH + 'huskylens.png';
+const IMG_HUSKYLENS_V2 = TOOLTIP_IMG_PATH + 'huskylensv2.jpg';
 //esp32-cam
 const IMG_ESP32_CAM = TOOLTIP_IMG_PATH + 'esp32-cam.jpg';
 //arduino-r4-wifi

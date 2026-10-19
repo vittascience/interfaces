@@ -2,7 +2,8 @@ export function handleSetupAccessibilityDebug() {
     initCleanLog();
 }
 
-const ringExcludedSelectors = ['.ace_text-input', '.vitta-modal-exit-btn'];
+// Blockly (workspace, toolbox, flyout and its dropdown/widget menus) shows its own focus and selection indicators
+const ringExcludedSelectors = ['.ace_text-input', '.vitta-modal-exit-btn', '.injectionDiv *', '.blocklyDropDownDiv *', '.blocklyWidgetDiv *'];
 
 function initCleanLog() {
     document.addEventListener('focusin', (e) => {

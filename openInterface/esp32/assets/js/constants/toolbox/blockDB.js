@@ -139,6 +139,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "io_getGroveRotaryAngle": this.Set.field("PIN", getPin("PINA0")),
             "io_getGroveSlidePotentiometer": this.Set.field("PIN", getPin("PINA0")),
             "io_getGroveColoredButton": this.Set.field("PIN", getPin("PIN8")),
+            "io_getGroveDistanceInterrupter": this.Set.field("PIN", getPin("PIN8")),
             "io_setGroveColoredButton": this.Set.field("PIN", getPin("PIN2")) + this.Set.state(),
             // io - pins
             "io_readDigitalPin": this.Set.field("PIN", getPin("PIN8")),

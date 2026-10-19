@@ -44,3 +44,37 @@
 	left: 10px;
 	bottom: 6px;
 }
+
+ /* 3D simulator */
+ #experience-3d-container{
+	position: relative;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.experience3D {
+	background: linear-gradient(180deg, #2828c0 0%, #5e5e5e 100%);
+	display: flex;
+	justify-content: center;
+	margin-top: 1.5em;
+}
+
+#gizmo-button {
+	position: absolute;
+	top: 1.75em;
+    right: 0.25em;
+	z-index: 100;
+	color: red;
+}
+
+#gizmo-button.active-gizmo {
+	color: green;
+}
+
+.graph-btn-disabled {
+	background-color: #e6e6e6 !important;
+	border-color: var(--simulator-button-background-color-hover) !important;
+}

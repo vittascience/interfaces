@@ -16,3 +16,6 @@ Blockly.Msg["JS_DOM_ADDEVENTLISTENER_MESSAGE_2"] = "zum Block";
 Blockly.Msg["JS_DOM_EDITATTRIBUT_MESSAGE_1"] = "Attribut ändern";
 Blockly.Msg["JS_DOM_EDITATTRIBUT_MESSAGE_2"] = "von";
 Blockly.Msg["JS_DOM_EDITATTRIBUT_MESSAGE_3"] = "zu";
+Blockly.Msg["JS_DOM_ADDEVENTLISTENER_ON_LOAD"] = "Beim Laden der Seite";
+Blockly.Msg["JS_SOCKET_EMIT_MESSAGE"] = "[socket] Anfrage-ID %1 mit Nachricht %2 senden";
+Blockly.Msg["JS_SOCKET_ON_MESSAGE_RECEIVE"] = "[socket] Wenn Anfrage-ID %1 in der Variable %2 empfangen wird";

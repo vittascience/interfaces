@@ -32,7 +32,7 @@ let LedMatrixModalManager = {
         });
         if (LedMatrixModalManager.isRGB) {
             //change led color on click
-            $('#edit_leds_matrix_rgb svg rect').click(LedMatrixModalManager.change_led_color);
+            LedMatrixModalManager.enable_painting('#edit_leds_matrix_rgb svg rect');
             // change color picker on click
             $('.picker').click(LedMatrixModalManager.update_color_picker);
             //init matrix with img
@@ -41,7 +41,7 @@ let LedMatrixModalManager = {
         else {
             LedMatrixModalManager.led_color = led_color;
             //LedMatrixModalManager.img_selected = $('#suggestions .img-selected');
-            $('#edit_leds_matrix svg rect').click(LedMatrixModalManager.change_led_color);
+            LedMatrixModalManager.enable_painting('#edit_leds_matrix svg rect');
             //init matrix with img
             $('#suggestions .img-selected').trigger('click');
         }
@@ -175,6 +175,32 @@ let LedMatrixModalManager = {
             $('#lines_rgb').append(lines_string);
         else
             $('#lines').append(lines_string);
+    },
+    /**
+     * Click toggles a LED; holding the left button down paints the hovered LEDs with the color of the first one
+     * (drawing or erasing). elementFromPoint also follows a finger on touch screens.
+     * @param {string} selector LEDs of the modal matrix
+     */
+    enable_painting: function (selector) {
+        const leds = document.querySelectorAll(selector);
+        const svg = leds.length ? leds[0].ownerSVGElement : null;
+        if (!svg) return;
+        let paintColor = null;
+        svg.style.touchAction = 'none';
+        leds.forEach(led => led.addEventListener('pointerdown', (e) => {
+            if (e.button !== 0) return;
+            e.preventDefault();
+            LedMatrixModalManager.change_led_color.call(led);
+            paintColor = led.attributes['fill']['value'];
+        }));
+        svg.addEventListener('pointermove', (e) => {
+            if (paintColor === null) return;
+            const led = document.elementFromPoint(e.clientX, e.clientY);
+            if (led && led.tagName === 'rect' && led.parentNode === svg) {
+                led.attributes['fill']['value'] = paintColor;
+            }
+        });
+        document.addEventListener('pointerup', () => { paintColor = null; });
     },
     change_led_color: function () { //"#00b9ff" -> blue
         const rgb2hex = (rgb) => `#${rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/).slice(1).map(n => parseInt(n, 10).toString(16).padStart(2, '0')).join('')}`

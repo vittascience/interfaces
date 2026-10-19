@@ -536,3 +536,7 @@ Blockly.Msg['VITTAIA_IS'] = 'är';
 Blockly.Msg['VITTAIA_ISNOT'] = 'är inte';
 Blockly.Msg['VITTAIA_GET_HIGHEST_PROBABILITY_CLASS_TITLE'] = '%1 upptäckt klass';
 Blockly.Msg['VITTAIA_GET_HIGHEST_PROBABILITY_CLASS_TOOLTIP'] = 'Gör det möjligt att hämta klassen med högst sannolikhet.';
+Blockly.Msg['SENSORS_DISPLAYMLX90621VALUES_TITLE'] = '[IR Temp. Sensor MLX90621] visa värden';
+Blockly.Msg['SENSORS_DISPLAYMLX90621VALUES_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Möjliggör visning av de värden som mäts av MLX90621-infraröd sensorn på Galaxia-kortet.';
+Blockly.Msg['SENSORS_DISPLAYMLX90621_CUSTOM_VALUES_TITLE'] = '[IR Temp. Sensor MLX90621] visa anpassade värden %1';
+Blockly.Msg['SENSORS_DISPLAYMLX90621_CUSTOM_VALUES_TOOLTIP'] = IMG_MODULE_MLX90621 + Blockly.Tooltip.SEP + 'Visar de anpassade temperaturvärdena som mäts av MLX90621-infraröd sensorn på Galaxia-kortet.';

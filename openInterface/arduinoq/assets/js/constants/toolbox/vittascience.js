@@ -87,6 +87,16 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
         },
         {
             'kind': 'category',
+            'toolboxitemid': 'time',
+            'name': '%{BKY_CATEGORY_TIME}',
+            'style': 'time_category',
+            'cssConfig': {
+                'icon': 'icon_blockly fas fa-clock'
+            },
+            'contents': []
+        },
+        {
+            'kind': 'category',
             'toolboxitemid': 'math',
             'name': '%{BKY_CATEGORY_MATH}',
             'style': 'math_category',
@@ -174,6 +184,16 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             'style': 'actuators_category',
             'cssConfig': {
                 'icon': 'icon_blockly fas fa-fan'
+            },
+            'contents': []
+        },
+        {
+            'kind': 'category',
+            'toolboxitemid': 'modulino',
+            'name': 'Modulino',
+            'style': 'modulino_category',
+            'cssConfig': {
+                'icon': 'icon_blockly fas fa-puzzle-piece'
             },
             'contents': []
         },
@@ -318,6 +338,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "html_structure",
             "name": "%{BKY_HTML_CATEGORY_STRUCTURE}",
             "style": "html_structure_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-sitemap"
+            },
             "contents": []
         },
         {
@@ -325,6 +348,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "html_attributes",
             "name": "%{BKY_HTML_CATEGORY_ATTRIBUTES}",
             "style": "html_attributes_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-tags"
+            },
             "contents": []
         },
         {
@@ -332,6 +358,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "html_text",
             "name": "%{BKY_HTML_CATEGORY_TEXTS}",
             "style": "html_text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-font"
+            },
             "contents": []
         },
         {
@@ -339,6 +368,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "html_tables",
             "name": "%{BKY_HTML_CATEGORY_TABLES}",
             "style": "html_tables_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-table"
+            },
             "contents": []
         },
         {
@@ -346,6 +378,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "html_lists",
             "name": "%{BKY_HTML_CATEGORY_LISTS}",
             "style": "html_lists_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-list-ul"
+            },
             "contents": []
         },
         {
@@ -353,6 +388,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "html_forms",
             "name": "%{BKY_HTML_CATEGORY_FORMS}",
             "style": "html_forms_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-pen-to-square"
+            },
             "contents": []
         },
         {
@@ -360,6 +398,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "html_medias",
             "name": "%{BKY_HTML_CATEGORY_MEDIAS}",
             "style": "html_medias_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-photo-film"
+            },
             "contents": []
         }
     ],
@@ -369,6 +410,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "css_structure",
             "name": "%{BKY_CSS_CATEGORY_STRUCTURE}",
             "style": "html_structure_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-layer-group"
+            },
             "contents": []
         },
         {
@@ -376,6 +420,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "css_text",
             "name": "%{BKY_CSS_CATEGORY_TEXTS}",
             "style": "html_text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-text-height"
+            },
             "contents": []
         },
         {
@@ -383,6 +430,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "css_display",
             "name": "%{BKY_CSS_CATEGORY_DISPLAY}",
             "style": "css_display_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-table-columns"
+            },
             "contents": []
         },
         {
@@ -390,6 +440,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "css_dimensions",
             "name": "%{BKY_CSS_CATEGORY_DIMENSIONS}",
             "style": "css_dimensions_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-ruler-combined"
+            },
             "contents": []
         },
         {
@@ -397,6 +450,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "css_colors",
             "name": "%{BKY_CSS_CATEGORY_COLORS}",
             "style": "css_colors_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-palette"
+            },
             "contents": []
         },
         {
@@ -404,6 +460,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "css_backgrounds",
             "name": "%{BKY_CSS_CATEGORY_BACKGROUNDS}",
             "style": "css_backgrounds_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-image"
+            },
             "contents": []
         },
         {
@@ -411,6 +470,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "css_borders",
             "name": "%{BKY_CSS_CATEGORY_BORDERS}",
             "style": "css_borders_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-border-all"
+            },
             "contents": []
         },
         {
@@ -418,6 +480,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "css_miscellaneous",
             "name": "%{BKY_CSS_CATEGORY_MISCELLANOUS}",
             "style": "css_miscellaneous_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-sliders"
+            },
             "contents": []
         },
         {
@@ -425,6 +490,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "css_transitions",
             "name": "%{BKY_CSS_CATEGORY_TRANSITIONS}",
             "style": "css_transitions_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-wand-magic-sparkles"
+            },
             "contents": []
         }
     ],
@@ -434,6 +502,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "js_loops",
             "name": "%{BKY_JS_CATEGORY_LOOPS}",
             "style": "js_loops_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-rotate-right"
+            },
             "contents": []
         },
         {
@@ -441,6 +512,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "js_math",
             "name": "%{BKY_JS_CATEGORY_MATH}",
             "style": "js_math_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-calculator"
+            },
             "contents": []
         },
         {
@@ -448,6 +522,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "js_colors",
             "name": "%{BKY_JS_CATEGORY_COLORS}",
             "style": "css_colors_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-palette"
+            },
             "contents": []
         },
         {
@@ -455,6 +532,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "js_dom",
             "name": "%{BKY_JS_CATEGORY_DOM}",
             "style": "js_dom_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-object-group"
+            },
             "contents": []
         },
         {
@@ -462,6 +542,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "js_socket",
             "name": "%{BKY_JS_CATEGORY_SOCKET}",
             "style": "js_socket_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-plug"
+            },
             "contents": []
         },
         {
@@ -469,6 +552,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "js_variables",
             "name": "%{BKY_JS_CATEGORY_VARIABLES}",
             "style": "js_variables_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-gear"
+            },
             "contents": []
         },
         {
@@ -476,6 +562,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "js_functions",
             "name": "%{BKY_JS_CATEGORY_FUNCTIONS}",
             "style": "js_functions_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-gears"
+            },
             "contents": []
         },
         {
@@ -483,6 +572,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "js_advancedjs",
             "name": "%{BKY_JS_CATEGORY_ADVANCEDJS}",
             "style": "js_advancedjs_category",
+            "cssConfig": {
+                "icon": "icon_blockly fa-solid fa-terminal"
+            },
             "contents": []
         }
     ]
@@ -512,10 +604,25 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             "contents": [
                 {
                     "blocks": [
+                        'controls_forever',
                         'controls_repeat',
                         'controls_whileUntil',
                         'controls_for',
                         'controls_flow_statements'
+                    ]
+                }
+            ]
+        },
+        {
+            // Common time blocks: they generate Arduino or Python code according to the thread
+            "subCategoryId": 'time',
+            "contents": [
+                {
+                    "blocks": [
+                        'io_wait',
+                        'io_waitUntil',
+                        'io_initChronometer',
+                        'io_getChronometer'
                     ]
                 }
             ]
@@ -609,6 +716,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                     'label': 'Arduino',
                     "blocks": [
                         'io_control_arduino_led',
+                        'display_unoq_rgbLed'
                     ]
                 },
                 {
@@ -680,15 +788,6 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         {
             "subCategoryId": 'io',
             "contents": [
-                {
-                    'label': '%{BKY_SUBCATEGORY_TIME}',
-                    "blocks": [
-                        'io_wait',
-                        'io_waitUntil',
-                        'io_initChronometer',
-                        'io_getChronometer'
-                    ]
-                },
                 {
                     'label': '%{BKY_SUBCATEGORY_EXTERNAL_INPUTS}',
                     "blocks": [
@@ -965,6 +1064,19 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             ]
         },
         {
+            // Modulino blocks of the arduino interface (Qwiic connector of the UNO Q)
+            "subCategoryId": 'modulino',
+            "contents": [
+                { 'label': '%{BKY_MODULINO_LABEL_BUTTONS}', "blocks": ['modulino_buttons_isPressed', 'modulino_buttons_setLeds'] },
+                { 'label': '%{BKY_MODULINO_LABEL_BUZZER}', "blocks": ['modulino_buzzer_tone', 'modulino_buzzer_noTone'] },
+                { 'label': '%{BKY_MODULINO_LABEL_PIXELS}', "blocks": ['modulino_pixels_setColor', 'modulino_pixels_setRGB', 'modulino_pixels_clear'] },
+                { 'label': '%{BKY_MODULINO_LABEL_KNOB}', "blocks": ['modulino_knob_get', 'modulino_knob_isPressed', 'modulino_knob_set'] },
+                { 'label': '%{BKY_MODULINO_LABEL_DISTANCE}', "blocks": ['modulino_distance_get'] },
+                { 'label': '%{BKY_MODULINO_LABEL_MOVEMENT}', "blocks": ['modulino_movement_getAcceleration', 'modulino_movement_getRotation'] },
+                { 'label': '%{BKY_MODULINO_LABEL_THERMO}', "blocks": ['modulino_thermo_getData'] }
+            ]
+        },
+        {
             "subCategoryId": 'ia',
             "contents": [
                 {
@@ -1005,7 +1117,8 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 {
                     "blocks": [
                         'bridges_provide',
-                        'bridges_call'
+                        'bridges_call',
+                        'bridges_call_return'
                     ]
                 }
             ]
@@ -1028,14 +1141,9 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                     ]
                 },
                 {
-                    "label": "%{BKY_SUBCATEGORY_TIME}",
+                    "label": "%{BKY_SUBCATEGORY_LED}",
                     "blocks": [
-                        'time_sleep',
-                        'time_time',
-                        'time_waitUntil',
-                        'time_initChronometer',
-                        'time_getChronometer',
-                        'time_getDate'
+                        'display_unoq_linuxRgbLed'
                     ]
                 }
             ]
@@ -1091,7 +1199,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                         'vittaia_load_local_model',
                         'vittaia_load_model_default',
                         'vittaia_make_predictions_webcam',
-                        'vittaia_make_predictions_file',
+                        // 'vittaia_make_predictions_file',
                         'vittaia_make_predictions_from_url',
                         'vittaia_get_highest_probability_class',
                         'vittaia_get_confidence_rate',
@@ -1101,25 +1209,25 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                         'vittaia_init_webcam'
                     ]
                 },
-                {
-                    "label": "%{BKY_SUBCATEGORY_VITTAIA_POSTURE}",
-                    "blocks": [
-                        'vittaia_load_posture_model',
-                        'vittaia_init_posture_webcam',
-                        'vittaia_make_posture_predictions',
-                        'vittaia_list_posture_webcams'
+                // {
+                //     "label": "%{BKY_SUBCATEGORY_VITTAIA_POSTURE}",
+                //     "blocks": [
+                //         'vittaia_load_posture_model',
+                //         'vittaia_init_posture_webcam',
+                //         'vittaia_make_posture_predictions',
+                //         'vittaia_list_posture_webcams'
 
-                    ]
-                },
-                {
-                    "label": "%{BKY_SUBCATEGORY_VITTAIA_TEXT}",
-                    "blocks": [
-                        'vittaia_load_discussion',
-                        'vittaia_set_randomness',
-                        'vittaia_set_model_ia',
-                        'vittaia_model_text_predict',
-                    ]
-                }
+                //     ]
+                // },
+                // {
+                //     "label": "%{BKY_SUBCATEGORY_VITTAIA_TEXT}",
+                //     "blocks": [
+                //         'vittaia_load_discussion',
+                //         'vittaia_set_randomness',
+                //         'vittaia_set_model_ia',
+                //         'vittaia_model_text_predict',
+                //     ]
+                // }
             ]
         },
         {
@@ -1128,7 +1236,8 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 {
                     "blocks": [
                         'bridges_provide',
-                        'bridges_call'
+                        'bridges_call',
+                        'bridges_call_return'
                     ]
                 }
             ]

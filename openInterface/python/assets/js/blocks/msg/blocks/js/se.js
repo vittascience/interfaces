@@ -243,3 +243,5 @@ Blockly.Msg['EXCEPTION_TYPE_TOOLTIP'] = 'Alla möjliga undantagstyper';
 Blockly.Msg['EXCEPTION_TRY_TOOLTIP'] = 'Kör ett kodblock och tillåter att ett annat block körs om ett undantag inträffar';
 Blockly.Msg['OTHER_AST_RAW'] = 'Oöversatt kod';
 Blockly.Msg['NUMPY_SQUARE_MATRIX_TITLE'] = 'matris med element';
+Blockly.Msg['VITTAIA_MAKE_PREDICTIONS_FROM_URL_TITLE'] = '%1 starta detektion på bild-URL %2';
+Blockly.Msg['VITTAIA_MAKE_PREDICTIONS_FROM_URL_TOOLTIP'] = 'Utför modellprediktioner för bilden som hämtats från en URL. En prediktion har två element: klassen och konfidensnivån.';

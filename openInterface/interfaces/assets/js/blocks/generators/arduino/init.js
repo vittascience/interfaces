@@ -6,6 +6,10 @@
  * @type {!Blockly.Generator}
  */
 Blockly.Arduino = new Blockly.Generator('Arduino');
+// Block generators are defined as Blockly.Arduino.<blockType> functions. Since Blockly 10 the
+// generator looks them up in forBlock (and Blockly 11 no longer falls back to the
+// generator itself), so forBlock is the generator.
+Blockly.Arduino.forBlock = Blockly.Arduino;
 Blockly.Arduino.StaticTyping = new Blockly.StaticTyping();
 
 /**
@@ -133,7 +137,7 @@ Blockly.Arduino.init = function (workspace) {
     if (INTERFACE_NAME === 'arduinoq' && !arduinoVarIds.has(variable)) continue;
     if (!Blockly.StaticTyping.getProcedureVarType(workspace, variable)) {
       if (varListId[variable] == null) {
-        let varName = Blockly.Arduino.nameDB_.getName(variable, Blockly.Variables.NAME_TYPE);
+        let varName = Blockly.Arduino.nameDB_.getName(variable, Blockly.VARIABLE_CATEGORY_NAME);
         let varType = Blockly.Arduino.getArduinoType_(varsWithTypes[variable]);
         Blockly.Arduino.addVariable(variable, varType + " " + varName + ";");
       }
@@ -457,7 +461,7 @@ Blockly.Arduino.getAdjustedInt = function (block, atId, opt_delta, opt_negate) {
   const defaultAtIndex = oneBasedIndex ? "1" : "0";
   const atOrder = delta ? Blockly.Arduino.ORDER_ADDITIVE : Blockly.Arduino.ORDER_NONE;
   let at = Blockly.Arduino.valueToCode(block, atId, atOrder) || defaultAtIndex;
-  if (Blockly.isNumber(at)) {
+  if (Blockly.utils.string.isNumber(at)) {
     at = parseInt(at, 10) + delta;
     if (opt_negate) {
       at = -at;

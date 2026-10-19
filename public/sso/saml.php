@@ -1,4 +1,6 @@
 <?php
+use Aiken\i18next\i18next;
+
 require_once '../../vendor/autoload.php';
 require_once '../../bootstrap.php';
 require_once 'utils.php';
@@ -52,6 +54,18 @@ $formattedUser = formatUserData($user, 'saml');
 ensureAppSession();
 unset($_SESSION['backurl']);
 $isStudent = str_contains($user['MEN-Affilation'] ?? '', 'STUDENT');
+
+// EF I (fondamental, cycles 2 et 3) : aucun accès à la plateforme, refus explicite avant
+// toute création de compte/session — jamais de $_SESSION['ssoData'], donc finalizeRegistration()
+// refusera aussi (formatedUserData vide) si l'étape CGU est tentée directement.
+if ($isStudent && resolveLuxRestrictionTier($user['MEN-CurrentStudentAssignments'] ?? '') === 'EF_I') {
+    error_log('SAML Luxembourg: accès refusé (EF I) pour ' . ($userId ?? 'unknown'));
+    session_write_close();
+    initTranslator();
+    http_response_code(403);
+    exit(i18next::getTranslation('sso.messages.samlEfIDenied'));
+}
+
 if (!$isStudent) {
     $backurl = sanitizeBackurl($_GET['backurl'] ?? 'vittascience.com/ia/');
     if ($backurl !== '') {

@@ -41,7 +41,7 @@ Simulator.CodeFriendly.getAdaptedCode = function (code) {
 
 Simulator.CodeFriendly.getSetups = function (userCode) {
 	Simulator.CodeFriendly.setups = [];
-	Simulator.CodeFriendly.objects = ['SoftwareSerial', 'DHT', 'HighTemp', 'AirQualitySensor', 'TM1637', 'Grove_LED_Bar', 'Ultrasonic', 'OneWire', 'Adafruit_NeoPixel', 'ChainableLED', 'LiquidCrystal_I2C']
+	Simulator.CodeFriendly.objects = ['SoftwareSerial', 'DHT', 'HighTemp', 'AirQualitySensor', 'TM1637', 'Grove_LED_Bar', 'Ultrasonic', 'OneWire', 'Adafruit_NeoPixel', 'ChainableLED', 'LiquidCrystal_I2C', 'Stepper']
 	for (const obj of Simulator.CodeFriendly.objects) {
 		const SSmodules_regExp = obj + / (.*)\((.*)\);/.source;
 		const SSmodules = userCode.match(new RegExp(SSmodules_regExp, 'g'));

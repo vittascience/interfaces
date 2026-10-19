@@ -83,6 +83,9 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "communication_uartWrite": this.Set.text("TEXT", "{hello}"),
             // communication - LoRa
             "communication_loraInit": this.Set.text("APPEUI", "01 01 01 01 01 01 01 02") + this.Set.text("APPKEY", "2B 7E 15 16 28 AE D2 A6 AB F7 15 88 09 CF 4F 3C") + '<mutation devaddr="false"></mutation>',
+            // communication - log
+            "communication_log_setLabel": "<mutation items='1'></mutation><value name='ADD0'><block type='text'><field name='TEXT'>Label1</field></block></value>",
+            "communication_log_addData": "<mutation items='1'></mutation><value name='ADD0'><block type='text'><field name='TEXT'>Data1</field></block></value>",
             // sensors - gas
             "sensors_SCD30_forcedCalibration": this.Set.number('DEFAULT', 420),
             // actuators - motors
@@ -102,6 +105,16 @@ const TOOLBOXES_BLOCKS_CONTENT = {
                 <value name='ADD1'><block type='actuators_music_note'><field name='NOTE'>f#</field><field name='OCTAVE'>4</field></block></value>
                 <value name='ADD2'><block type='actuators_music_note'><field name='NOTE'>g</field><field name='OCTAVE'>4</field></block></value>`,
             "actuators_music_playFrequency": this.Set.number("FREQUENCY", 440) + this.Set.number("DURATION", 500),
+            // robots - donutbot
+            "robots_donutbot_setGo": this.Set.number("SPEED", 50),
+            "robots_donutbot_controlMotor": this.Set.number("SPEED", 50),
+            "robots_donutbot_turnTo": this.Set.number("SPEED", 50),
+            "robots_donutbot_turnToAngle": this.Set.number("ANGLE", 90) + this.Set.number("SPEED", 50),
+            "robots_donutbot_neopixel_setColor": this.Set.number("R", 255) + this.Set.number("G") + this.Set.number("B"),
+            "robots_donutbot_neopixel_setPaletteColor": this.Set.colour_picker('#22b573'),
+            "robots_donutbot_blinkRobot": this.Set.colour_picker('#ff0000'),
+            "robots_donutbot_BLE_SendData": this.Set.text("DATA"),
+            "robots_donutbot_lineDetectorThreshold": this.Set.number("THRESHOLD", 50),
             // camera - Wio Lite
             "wio_get_class_data_by_id": this.Set.number("ID", 1),
 

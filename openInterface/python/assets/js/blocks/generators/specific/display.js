@@ -43,13 +43,13 @@ Blockly.Python.time_waitUntil = function (block) {
 
 Blockly.Python.time_initChronometer = function (block) {
     Blockly.Python.addImport('time', IMPORT_TIME);
-    block.workspace.createVariable('t0');
+    block.workspace.getVariableMap().createVariable('t0');
     return "t0 = time.clock()" + NEWLINE;
 };
 
 Blockly.Python.time_getChronometer = function (block) {
     Blockly.Python.addImport('time', IMPORT_TIME);
-    block.workspace.createVariable('t0');
+    block.workspace.getVariableMap().createVariable('t0');
     switch (block.getFieldValue("UNIT")) {
         case "SEC":
             return ["(time.clock() - t0)", Blockly.Python.ORDER_ATOMIC];

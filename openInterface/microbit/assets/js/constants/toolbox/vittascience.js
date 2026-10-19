@@ -481,7 +481,10 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'io_getGroveColoredButton',
                 'io_setGroveColoredButton',
                 'io_getKeypadNumber',
+                'io_fingerprint_register',
+                'io_fingerprint_verify',
                 'io_getGroveThumbJoystick'
+                
             ]
         },
         {
@@ -560,12 +563,27 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         {
             "label": "%{BKY_SUBCATEGORY_TRACKING_MODULES}",
             "blocks": [
-                'communication_mfrc522_getCardID',
                 'communication_gps_getNMEA',
                 'communication_gps_getGGAInformations',
                 'communication_clockRTC_setDate',
                 'communication_clockRTC_setHour',
-                'communication_clockRTC_readTime'
+                'communication_clockRTC_readTime',
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_RFID}",
+            "blocks": [
+                'communication_mfrc522_getCardID',
+                'communication_rfid_getCardID',
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_VOICE_RECOGNITION}",
+            "blocks": [
+                "communication_voiceRecognition_setVolume",
+                "communication_voiceRecognition_onCommand",
+                "communication_voiceRecognition_getCMDID",
+                "communication_voiceRecognition_playByCMDID"
             ]
         },
         {
@@ -745,6 +763,16 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             "blocks": [
                 'actuators_rekabit_runMotor',
                 'actuators_rekabit_setServoPosition'
+            ]
+        },
+        {
+            "label": "DFRobot micro:Driver (DFR0548)",
+            "blocks": [
+                'actuators_dfr0548_setServoAngle',
+                'actuators_dfr0548_runMotor',
+                'actuators_dfr0548_stopMotor',
+                'actuators_dfr0548_stepper',
+                'actuators_dfr0548_stepperDual'
             ]
         },
         {
@@ -1162,7 +1190,17 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                     'robots_getGamepadV4Joystick',
                     'robots_setGamepadV4LEDMotor'
                 ]
-            }, {
+            },{
+                "label": "Joystick:bit V2",
+                "blocks": [
+                    'robots_onJoystickBitV2ButtonEvent',
+                    'robots_getJoystickBitV2Axis',
+                    'robots_setJoystickBitV2BuzzerFreq',
+                    'robots_setJoystickBitV2MotorVibration'
+                ]
+            },{
+            
+
                 "label": "%{BKY_SUBCATEGORY_GAMEPAD}",
                 "blocks": [
                     'robots_onGamepadButtonEvent',
@@ -1305,6 +1343,24 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                         'cameras_huskylens_getLineDirection',
                         'cameras_huskylens_saveModel',
                         'cameras_huskylens_loadModel'
+                      ]
+                },
+                {
+                    "label": "HuskyLens V2",
+                    "blocks": [
+                        'cameras_huskylens_v2_initMode',
+                        'cameras_huskylens_v2_readBox',
+                        'cameras_huskylens_v2_readArrow',
+                        'cameras_huskylens_v2_readId',
+                        'cameras_huskylens_v2_count',
+                        'cameras_huskylens_v2_isAppear',
+                        'cameras_huskylens_v2_writeLearn1',
+                        'cameras_huskylens_v2_learnedId',
+                        'cameras_huskylens_v2_forgetLearn',
+                        'cameras_huskylens_v2_writeName',
+                        'cameras_huskylens_v2_writeOSD',
+                        'cameras_huskylens_v2_clearOSD',
+                        'cameras_huskylens_v2_saveModelToTFCard'
                     ]
                 },
                 {

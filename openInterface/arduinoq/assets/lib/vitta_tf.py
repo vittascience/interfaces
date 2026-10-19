@@ -9,10 +9,14 @@ import tensorflow as tf
 from PIL import Image
 import numpy as np
 import subprocess
+import shutil
+import hashlib
 
 class VittaTF:
     def __init__(self):
         self.current_model_ID = None
+        # Name of the class found by the last prediction (from the model metadata labels)
+        self.current_label = None
 
     def load_vittascience_model(self, model_url):
         parsed = urlparse(model_url)
@@ -28,6 +32,22 @@ class VittaTF:
         
         self.convert_tfjs_model_to_tflite(self.current_model_ID)
         
+        t1 = datetime.now()
+        print(f"Durée de la conversion totale: {(t1-t0).total_seconds()} s")
+
+    def load_local_model(self):
+        """Model trained in the Vittascience AI tool of the browser, pushed by the uploader in python/local_model/."""
+        self.current_model_ID = "local"
+        source_path = Path(__file__).resolve().parent / "local_model"
+        target_path = Path("models") / self.current_model_ID
+        target_path.mkdir(parents=True, exist_ok=True)
+        for filename in ("metadata.json", "model.json", "model.weights.bin"):
+            shutil.copyfile(source_path / filename, target_path / filename)
+
+        t0 = datetime.now()
+
+        self.convert_tfjs_model_to_tflite(self.current_model_ID)
+
         t1 = datetime.now()
         print(f"Durée de la conversion totale: {(t1-t0).total_seconds()} s")
 
@@ -80,6 +100,7 @@ class VittaTF:
             label = labels[i] if i < len(labels) else f"Classe {i}"
             print(f"- {label}: {float(score):.4f}")
 
+        self.current_label = best_label
         return (best_index, best_score, output)
 
     def predict_on_image_url(self, model_id, image_url):
@@ -141,9 +162,11 @@ class VittaTF:
         if not model_json_path.exists() or not weights_path.exists():
             return None
 
+        # A retrained model keeps the same file sizes: compare the contents too
         return {
             "model_json_size": model_json_path.stat().st_size,
             "model_weights_size": weights_path.stat().st_size,
+            "model_sha256": hashlib.sha256(model_json_path.read_bytes() + weights_path.read_bytes()).hexdigest(),
         }
     
     def run_tensorflowjs_converter(self, args):
