@@ -385,7 +385,7 @@ class WebUI:
                 html += '</br>';
                 this._lineSource = null;
             } else {
-                html += char.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;');
+                html += char.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
             }
         }
         cons.innerHTML += html;

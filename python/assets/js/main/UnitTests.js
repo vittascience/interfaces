@@ -597,7 +597,8 @@ var UnitTests = (function () {
      * @param {Object} model - as built by renderUnitTestsModel
      */
     function applyUnitTestsModel(model) {
-        window.localStorage.PythonUnitTests = JSON.stringify(model);
+        // The secret word must not be persisted in clear text, it stays in projectManager._currentExercise
+        window.localStorage.PythonUnitTests = JSON.stringify(model, (key, value) => key === 'secretWord' ? undefined : value);
         projectManager._currentExercise = model;
         if (typeof ltiVariables13 !== 'undefined' && !ltiVariables13.isTeacher && ltiVariables13.customerSettings && ltiVariables13.customerSettings.validateButtonHidden) {
             return;

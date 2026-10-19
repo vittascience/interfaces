@@ -6,7 +6,7 @@
 // Group 1: "vittascience.com" on production, "preprod.vittascience.com" on preprod
 const hostMatch = location.hostname.match(/^[a-z]+\.((?:preprod\.)?vittascience\.com)$/);
 const allowedOriginRegex = hostMatch
-	? new RegExp(`^https://[a-z]+\\.${hostMatch[1].replace(/\./g, '\\.')}$`)
+	? new RegExp(`^https://[a-z]+\\.${hostMatch[1].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`)
 	: null;
 
 window.onmessage = (e) => {

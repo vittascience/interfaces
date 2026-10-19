@@ -194,7 +194,9 @@ class CodeManager {
         return !description || description === 'undefined' || /^no[-\s]?description$/i.test(String(description).trim()) ? '' : description;
     };
     static getProjectDescription() {
-        return $('<div>').html($('#project-name').attr('data-bs-title') || '').find('.tooltip-description').last().text();
+        // DOMParser builds an inert document: event handlers in the (user controlled) title are never executed
+        const doc = new DOMParser().parseFromString($('#project-name').attr('data-bs-title') || '', 'text/html');
+        return $(doc.body).find('.tooltip-description').last().text();
     };
     static getSharedInstance(codeMode = null, workspace = null, generator = null, xml = null) {
         if (!!CodeManager.instance) {

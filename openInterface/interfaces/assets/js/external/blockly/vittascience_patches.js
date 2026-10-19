@@ -489,7 +489,7 @@ Blockly.ZoomControls.prototype.workspaceToSvg_ = async function (e, t) {
 
   const textareas = document.getElementsByTagName('textarea');
   for (let i = 0; i < textareas.length; i++) {
-    textareas[i].innerHTML = textareas[i].value;
+    textareas[i].textContent = textareas[i].value;
   }
 
   const boundingBox = this.vittaGet_("workspace").getBlocksBoundingBox();
