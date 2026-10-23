@@ -61,6 +61,12 @@ function updateChart(data) {
         }
     }
 
+    if (chart == undefined) {
+        // echarts is loaded asynchronously: the data received during its loading are skipped
+        initChart();
+        return;
+    }
+
     if (option.series.length + 1 < data.length) {
         // if we need to update the number of series because there is more data incoming
         addSeriesInChart(data);
