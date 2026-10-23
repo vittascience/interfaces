@@ -170,7 +170,13 @@ Blockly.Variables.flyoutCategory = function (workspace) {
   button.setAttribute("text", "%{BKY_NEW_VARIABLE}");
   button.setAttribute("callbackKey", "CREATE_VARIABLE");
   workspace.registerButtonCallback("CREATE_VARIABLE", function (button) {
-    Blockly.Variables.createVariableButtonHandler(button.getTargetWorkspace());
+    var targetWorkspace = button.getTargetWorkspace();
+    var toolbox = targetWorkspace.getToolbox();
+    var category = toolbox && toolbox.getSelectedItem();
+    // The name prompt closes the flyout: open the category again to use the new variable right away.
+    Blockly.Variables.createVariableButtonHandler(targetWorkspace, function (name) {
+      if (name && category && toolbox.getSelectedItem() !== category) toolbox.setSelectedItem(category);
+    });
   });
   return [button].concat(Blockly.Variables.flyoutCategoryBlocks(workspace));
 };

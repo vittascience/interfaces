@@ -12,7 +12,8 @@ class VittaStorage {
 		}
 		VittaStorage._instance = this;
 		// The subdomains list. If a new language is added on production server, it has to be added in this list.
-		this._subDomains = [{name: 'ar'}, {name: 'cn'}, {name: 'de'}, {name: 'en'}, {name: 'es'}, {name: 'fr'}, {name: 'in'}, {name: 'it'}, {name: 'jp'}, {name: 'kr'}, {name: 'pt'}, {name: 'ru'}, {name: 'se'}, ];
+		// (cn, in, jp, kr, pt removed: these subdomains don't respond, their iframes only failed)
+		this._subDomains = [{name: 'ar'}, {name: 'de'}, {name: 'en'}, {name: 'es'}, {name: 'fr'}, {name: 'it'}, {name: 'ru'}, {name: 'se'}, ];
 		// The tasks pile where all the changes in the localStorage are stored before the synchronization is called
 		this._storageTasks = [];
 		// This is the number of milliseconds between the last localstorage change and the synchronization
@@ -31,11 +32,7 @@ class VittaStorage {
 			console.warn(`${String.fromCodePoint(0x23F8)} ${location.host} is not a production domain. Skipping subdomain localStorage synchronization!`);
 			return false;
 		}
-		try {
-			await this._setupSubDomainIframes();
-		} catch (error) {
-			console.error(error);
-		}
+		// The iframes (one page load per subdomain) are created at the first synchronization, not at page load
 		this._setLocalStorageObserver((prop, value) => {
 			this._addToStorageTasks(prop, value);
 		});
@@ -52,7 +49,8 @@ class VittaStorage {
 			value: new Proxy(localStorage, {
 				// Direct assignment
 				set: (ls, prop, value) => {
-					callback(prop, value);
+					// no synchronization for a value that doesn't change (ex: the theme rewritten at each page load)
+					if (ls.getItem(prop) !== String(value)) callback(prop, value);
 					// Original localStorage.setItem() behavior
 					ls[prop] = value;
 					return true;
@@ -67,7 +65,7 @@ class VittaStorage {
 						}
 					}
 					return (...args) => {
-						callback(args[0], args[1]);
+						if (ls.getItem(args[0]) !== String(args[1])) callback(args[0], args[1]);
 						ls.setItem.apply(ls, args);
 					}
 				}
@@ -131,6 +129,18 @@ class VittaStorage {
 	 */
 	_synchronizeLocalStorages = () => {
 		return new Promise(async (resolve, reject) => {
+			try {
+				// iframes created once, at the first synchronization (retried after a failure)
+				this._iframesReady ??= this._setupSubDomainIframes().catch((error) => {
+					this._iframesReady = null;
+					throw error;
+				});
+				await this._iframesReady;
+			} catch (error) {
+				console.error(error);
+				reject();
+				return;
+			}
 			// The Promises array
 			const syncDomainPile = [];
 			// We loop over the subdomains and we add a synchronization Promise for each one in the Promise array

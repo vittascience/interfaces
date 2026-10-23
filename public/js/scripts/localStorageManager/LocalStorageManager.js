@@ -371,6 +371,22 @@ class LocalStorageManager {
     }
 
     /**
+     * Flag the local copy of a project as a draft holding changes that are not saved on the server
+     * @public
+     * @param {string|null} serverVersion - The server version the draft has been made from, null to unflag the local copy
+     * @param {string} id [OPTIONAL] - The id of the project (the current project id by default)
+     * @returns {boolean} true in success, false otherwise
+     */
+    setLocalProjectDraft(serverVersion, id = false) {
+        if (!id) id = this._getProjectId();
+        const currentLocalProjects = this.getLocalProjects();
+        const localProject = currentLocalProjects.find((entry) => entry.id === id);
+        if (!localProject) return false;
+        localProject.draftOf = serverVersion;
+        return this._evictUntilFits(currentLocalProjects, id);
+    }
+
+    /**
      * Remove a project from the localStorage
      * @public
      * @param {string} id [OPTIONAL] - The id of the project (the current localId by default)

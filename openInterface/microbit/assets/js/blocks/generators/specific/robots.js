@@ -1233,6 +1233,16 @@ Blockly.Python.robots_CutebotPro_turnWheel = function (block) {
     return "CutebotPro.turnWheel(" + wheel + ", " + angle + unit + wait + ")" + NEWLINE;
 };
 
+Blockly.Python.robots_CutebotPro_computePD = function (block) {
+    Blockly.Python.ROBOTS_CUTEBOTPRO_INIT();
+    Blockly.Python.addInit('cutebotpro_pd_last_error', 'cutebotpro_last_error = 0.0');
+    Blockly.Python.addFunction('compute_pd', FUNCTIONS_MICROBIT.DEF_CUTEBOTPRO_COMPUTE_PD);
+    const sensor = Blockly.Python.valueToCode(block, "SENSOR", Blockly.Python.ORDER_NONE) || "0";
+    const kp = Blockly.Python.valueToCode(block, "KP", Blockly.Python.ORDER_NONE) || "0";
+    const kd = Blockly.Python.valueToCode(block, "KD", Blockly.Python.ORDER_NONE) || "0";
+    return ["compute_pd(" + sensor + ", " + kp + ", " + kd + ")", Blockly.Python.ORDER_ATOMIC];
+};
+
 // Cutebot Pro - Servomotors
 
 Blockly.Python.robots_CutebotPro_setServoAngle = function (block) {

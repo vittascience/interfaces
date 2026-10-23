@@ -142,12 +142,12 @@ Blockly.Msg["IO_WRITEDIGITALPIN_TOOLTIP"] = "Gör det möjligt att skriva värde
 Blockly.Msg["IO_READANALOGPIN_TITLE"] = "läs analogt stift %1";
 Blockly.Msg["IO_READANALOGPIN_TOOLTIP"] = "Gör det möjligt att läsa ett stifts analoga värde (0–1023).";
 Blockly.Msg["IO_WRITEPWMPIN_TITLE"] = "skriv värdet %1 på PWM-stift %2";
-Blockly.Msg["IO_WRITEPWMPIN_TOOLTIP"] = "Blockly.Msg[\"IO_WRITEPWMPIN_TOOLTIP\"] = \"Gör det möjligt att applicera en PWM-signal med fast frekvens 10 kHz. Du kan ange värde 0–1023. 512 motsvarar cirka 50% arbetscykel (≈1,66 V).\";";
+Blockly.Msg["IO_WRITEPWMPIN_TOOLTIP"] = "Aktivera för att applicera en PWM-signal med fast frekvens på 10 kHz. Du kan ändra värdet från 0 till 1023. Värdet 512 ger 50 % arbetscykel, vilket motsvarar ungefär 1,66 V.";
 Blockly.Msg["IO_SETPWM_TITLE"] = "applicera en signal med period %1 %2 på stift %3";
 Blockly.Msg["IO_SETPWM_TOOLTIP"] = "Gör det möjligt att applicera en PWM-signal på ett stift";
 Blockly.Msg["IO_STOPPWM_TITLE"] = "stoppa PWM-signal på stift %1";
 Blockly.Msg["IO_STOPPWM_TOOLTIP"] = "Gör det möjligt att stoppa den applicerade PWM-signalen på ett stift.";
-Blockly.Msg["IO_READPULSEIN_TITLE"] = "Blockly.Msg[\"IO_READPULSEIN_TITLE\"] = \"läs pulsens varaktighet (μs) för tillstånd %1 på stift %2\";";
+Blockly.Msg["IO_READPULSEIN_TITLE"] = "läs puls (μs) för tillstånd %1 på stift %2";
 Blockly.Msg["IO_READPULSEIN_TOOLTIP"] = "Returnerar varaktigheten för inkommande puls. Välj tillstånd (HÖG eller LÅG)";
 Blockly.Msg['COMMUNICATION_RX_TX_PINS'] = 'på stiften RX %1 TX %2';
 Blockly.Msg['COMMUNICATION_THEN'] = 'sedan';

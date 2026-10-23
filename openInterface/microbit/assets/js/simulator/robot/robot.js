@@ -2,7 +2,7 @@ const Robots = {
   'Maqueen': {
     CODE_REGEXP: /""" Maqueen robot """/,
     INITIAL_ZOOM: 0,
-    IMG_LINK: "/openInterface/microbit/assets/media/simulator/robot/robot_maqueen.svg",
+    IMG_LINK: `${CDN_PATH}/openInterface/microbit/assets/media/simulator/robot/robot_maqueen.svg`,
     WIDTH_CM: 8.5, // cm
     RATIO: 753.6 / 889.6, // svg ratio
     POSITIVE_Y_TO_UP: true,
@@ -109,7 +109,7 @@ const Robots = {
   'MaqueenPlusV1': {
     CODE_REGEXP: /""" MaqueenPlusV1 robot """/,
     INITIAL_ZOOM: -2,
-    IMG_LINK: "/openInterface/microbit/assets/media/simulator/robot/robot_maqueenplus.svg",
+    IMG_LINK: `${CDN_PATH}/openInterface/microbit/assets/media/simulator/robot/robot_maqueenplus.svg`,
     WIDTH_CM: 10.2, // cm
     RATIO: 267.81 / 192.13, // svg ratio
     POSITIVE_Y_TO_UP: true,
@@ -220,7 +220,7 @@ const Robots = {
   'MaqueenPlusV2': {
     CODE_REGEXP: /""" MaqueenPlusV2 robot """/,
     INITIAL_ZOOM: -2,
-    IMG_LINK: "/openInterface/microbit/assets/media/simulator/robot/robot_maqueenplus.svg",
+    IMG_LINK: `${CDN_PATH}/openInterface/microbit/assets/media/simulator/robot/robot_maqueenplus.svg`,
     WIDTH_CM: 10.2, // cm
     RATIO: 267.81 / 192.13, // svg ratio
     POSITIVE_Y_TO_UP: true,
@@ -331,7 +331,7 @@ const Robots = {
   'MaqueenPlusV3': {
     CODE_REGEXP: /""" MaqueenPlusV3 robot """/,
     INITIAL_ZOOM: -2,
-    IMG_LINK: "/openInterface/microbit/assets/media/simulator/robot/robot_maqueenplus.svg",
+    IMG_LINK: `${CDN_PATH}/openInterface/microbit/assets/media/simulator/robot/robot_maqueenplus.svg`,
     WIDTH_CM: 10.2, // cm
     RATIO: 267.81 / 192.13, // svg ratio
     POSITIVE_Y_TO_UP: true,
@@ -443,7 +443,7 @@ const Robots = {
   'Cutebot': {
     CODE_REGEXP: /""" Cutebot robot """/,
     INITIAL_ZOOM: 0,
-    IMG_LINK: "/openInterface/microbit/assets/media/simulator/robot/robot_cutebot.svg",
+    IMG_LINK: `${CDN_PATH}/openInterface/microbit/assets/media/simulator/robot/robot_cutebot.svg`,
     IMG_INITIAL_BACKGROUND: "Image_circuit_cutebot.jpg",
     WIDTH_CM: 8.5, // cm
     RATIO: 321.09 / 233.68, // svg ratio
@@ -549,7 +549,7 @@ const Robots = {
   'CutebotPro': {
     CODE_REGEXP: /""" Cutebot Pro robot """/,
     INITIAL_ZOOM: 0,
-    IMG_LINK: "/openInterface/microbit/assets/media/simulator/robot/robot_cutebot_pro.svg",
+    IMG_LINK: `${CDN_PATH}/openInterface/microbit/assets/media/simulator/robot/robot_cutebot_pro.svg`,
     WIDTH_CM: 13.2, // cm
     RATIO: 265.04 / 233.92, // svg ratio
     POSITIVE_Y_TO_UP: true,
@@ -656,7 +656,7 @@ const Robots = {
   'Kitrobot': {
     CODE_REGEXP: /""" Kitrobot robot """/,
     INITIAL_ZOOM: 0,
-    IMG_LINK: "/openInterface/microbit/assets/media/simulator/robot/robot_kitrobot.svg",
+    IMG_LINK: `${CDN_PATH}/openInterface/microbit/assets/media/simulator/robot/robot_kitrobot.svg`,
     WIDTH_CM: 12, // cm
     RATIO: 200.6 / 244.94, // svg ratio
     POSITIVE_Y_TO_UP: true,
@@ -758,7 +758,7 @@ const Robots = {
   'Oobybot': {
     CODE_REGEXP: /""" Oobybot robot """/,
     INITIAL_ZOOM: 0,
-    IMG_LINK: "/openInterface/microbit/assets/media/simulator/robot/robot_oobybot.svg",
+    IMG_LINK: `${CDN_PATH}/openInterface/microbit/assets/media/simulator/robot/robot_oobybot.svg`,
     WIDTH_CM: 8.5, // cm
     RATIO: 2 / 1, // svg ratio
     POSITIVE_Y_TO_UP: true,
@@ -812,7 +812,7 @@ const Robots = {
   'BitCar': {
     CODE_REGEXP: /""" BitCar robot """/,
     INITIAL_ZOOM: 0,
-    IMG_LINK: "/openInterface/microbit/assets/media/simulator/robot/robot_bitcar.svg",
+    IMG_LINK: `${CDN_PATH}/openInterface/microbit/assets/media/simulator/robot/robot_bitcar.svg`,
     WIDTH_CM: 9.5, // cm
     RATIO: 200.6 / 244.94, // svg ratio
     POSITIVE_Y_TO_UP: true,
@@ -915,7 +915,7 @@ const Robots = {
     CODE_REGEXP: /""" Tello drone """/,
     TYPE: 'drone',
     INITIAL_ZOOM: -3,
-    IMG_LINK: "/openInterface/microbit/assets/media/simulator/robot/tello.svg",
+    IMG_LINK: `${CDN_PATH}/openInterface/microbit/assets/media/simulator/robot/tello.svg`,
     IMG_LINK_FLYING: "/openInterface/microbit/assets/media/simulator/robot/tello_vole_v2.svg",
     IMG_LINK_SHADOW: "/openInterface/microbit/assets/media/simulator/robot/tello_shadow.svg",
     IMG_INITIAL_BACKGROUND: "Image_piste_tello.png",

@@ -962,6 +962,51 @@ const backModals = {
                     Créer un projet
                 </button>`,
     },
+    'modal-project-loading-error': {
+        header: {
+            icon: 'fa fa-exclamation-circle',
+            title: 'modals.warning.default.title',
+        },
+        optionalClass: {
+            "modal": 'vitta-modal-warning',
+            "content": "text-center"
+        },
+        selector: '',
+        content: `<span class="fa fa-exclamation-circle"></span>
+            <span data-i18n="modals.warning.project.loadingError">
+                Le projet n'a pas pu être chargé : la connexion au serveur a échoué. Vérifiez votre connexion internet puis rechargez la page.
+            </span>`,
+        footer: `<button type="button" id="modal-project-loading-error-btn-reload" class="btn vitta-button" style="flex:1;" data-i18n="modals.warning.project.reloadPage" onclick="projectManager.isLeavingPage = true; location.reload();">
+                    Recharger la page
+                </button>`
+    },
+    'modal-local-draft': {
+        header: {
+            icon: 'fa fa-history',
+            title: 'modals.warning.project.localDraft.title',
+        },
+        optionalClass: {
+            "modal": 'vitta-modal-warning',
+            "content": "text-center"
+        },
+        selector: '',
+        content: `<p data-i18n="modals.warning.project.localDraft.content">
+                Ce projet contient des modifications qui n'ont pas été enregistrées sur le serveur. Elles ont été conservées dans ce navigateur.
+            </p>
+            <p>
+                <span data-i18n="modals.warning.project.localDraft.lastChange">Dernière modification :</span>
+                <b id="modal-local-draft-date"></b>
+            </p>
+            <div class="hint" data-i18n="modals.warning.project.localDraft.hint">
+                Si vous ouvrez la version enregistrée, ces modifications seront définitivement perdues.
+            </div>`,
+        footer: `<button type="button" id="modal-local-draft-btn-restore" class="btn vitta-button" style="flex:1;" data-i18n="modals.warning.project.localDraft.buttons.restore">
+                    Récupérer mes modifications
+                </button>
+                <button type="button" id="modal-local-draft-btn-discard" class="btn btn-secondary" style="flex:1; margin-left:5px;" data-i18n="modals.warning.project.localDraft.buttons.discard">
+                    Ouvrir la version enregistrée
+                </button>`
+    },
     'modal-warningWrongProjectFile': {
         header: {
             icon: 'fa fa-exclamation-circle',
@@ -1206,19 +1251,19 @@ const backModals = {
             <div class="row text-center mt-2 mb-4">
                 <div class="col-md-4">
                     <div class="custom-shadow rounded p-3 h-100">
-                        <image src="../../../interfaces/assets/images/icon-data.svg" alt="Chatbot" class="m-4" style="height: 4.5rem;"/>
+                        <image src="${CDN_PATH}/interfaces/assets/images/icon-data.svg" alt="Chatbot" class="m-4" style="height: 4.5rem;"/>
                         <p class="mb-0" data-i18n="modals.iag.images.card1"></p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="custom-shadow rounded p-3 h-100">
-                        <image src="../../../interfaces/assets/images/icon-save.svg" alt="Chatbot" class="m-4" style="height: 4.5rem;"/>
+                        <image src="${CDN_PATH}/interfaces/assets/images/icon-save.svg" alt="Chatbot" class="m-4" style="height: 4.5rem;"/>
                         <p class="mb-0" data-i18n="modals.iag.images.card2"></p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="custom-shadow rounded p-3 h-100">
-                        <image src="../../../interfaces/assets/images/icon-send.svg" alt="Chatbot" class="m-4" style="height: 4.5rem;"/>
+                        <image src="${CDN_PATH}/interfaces/assets/images/icon-send.svg" alt="Chatbot" class="m-4" style="height: 4.5rem;"/>
                         <p class="mb-0" data-i18n="modals.iag.images.card3"></p>
                     </div>
                 </div>
@@ -1240,25 +1285,25 @@ const backModals = {
                             </div>
 
                             <div class="d-flex justify-content-center align-items-center gap-2">
-                                <img src="../../../interfaces/assets/images/fr-flag.svg" alt="Drapeau de la France" width="20" height="14" loading="lazy">
+                                <img src="${CDN_PATH}/interfaces/assets/images/fr-flag.svg" alt="Drapeau de la France" width="20" height="14" loading="lazy">
                                 <a href="https://www.education.gouv.fr/cadre-d-usage-de-l-ia-en-education-450647" target="_blank" rel="noopener"
                                     data-i18n="modals.iag.common.linkEducationAIFrame"></a>
                             </div>
 
                             <div class="d-flex justify-content-center align-items-center gap-2">
-                                <img src="../../../interfaces/assets/images/fr-flag.svg" alt="Drapeau de la France" width="20" height="14" loading="lazy">
+                                <img src="${CDN_PATH}/interfaces/assets/images/fr-flag.svg" alt="Drapeau de la France" width="20" height="14" loading="lazy">
                                 <a href="https://www.cnil.fr/fr/enseignant-usage-systeme-ia" target="_blank" rel="noopener"
                                     data-i18n="modals.iag.common.linkCnilFaq"></a>
                             </div>
 
                             <div class="d-flex justify-content-center align-items-center gap-2">
-                                <img src="../../../interfaces/assets/images/eu-flag.svg" alt="Drapeau de l'Union européenne" width="20" height="14" loading="lazy">
+                                <img src="${CDN_PATH}/interfaces/assets/images/eu-flag.svg" alt="Drapeau de l'Union européenne" width="20" height="14" loading="lazy">
                                 <a href="https://www.vie-publique.fr/questions-reponses/292157-ai-act-le-reglement-europeen-sur-lintelligence-artificielle-ia" target="_blank" rel="noopener"
                                     data-i18n="modals.iag.common.linkAIAct"></a>
                             </div>
 
                             <div class="d-flex justify-content-center align-items-center gap-2">
-                                <img src="../../../interfaces/assets/images/canada-flag.svg" alt="Drapeau de l'Union européenne" width="20" height="14" loading="lazy">
+                                <img src="${CDN_PATH}/interfaces/assets/images/canada-flag.svg" alt="Drapeau de l'Union européenne" width="20" height="14" loading="lazy">
                                 <a href="https://www.vie-publique.fr/questions-reponses/292157-ai-act-le-reglement-europeen-sur-lintelligence-artificielle-ia" target="_blank" rel="noopener"
                                     data-i18n="modals.iag.common.linkQuebecAI"></a>
                             </div>
@@ -1288,19 +1333,19 @@ const backModals = {
             <div class="row text-center mt-2 mb-4">
                 <div class="col-md-4 ">
                     <div class="custom-shadow rounded p-3 h-100">
-                        <image src="../../../interfaces/assets/images/icon-data.svg" alt="Chatbot" class="m-4" style="height: 4.5rem;"/>
+                        <image src="${CDN_PATH}/interfaces/assets/images/icon-data.svg" alt="Chatbot" class="m-4" style="height: 4.5rem;"/>
                         <p class="mb-0" data-i18n="modals.iag.texts.card1"></p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="custom-shadow rounded p-3 h-100">
-                        <image src="../../../interfaces/assets/images/icon-talk.svg" alt="Chatbot" class="m-4" style="height: 4.5rem;"/>
+                        <image src="${CDN_PATH}/interfaces/assets/images/icon-talk.svg" alt="Chatbot" class="m-4" style="height: 4.5rem;"/>
                         <p class="mb-0" data-i18n="modals.iag.texts.card2"></p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="custom-shadow rounded p-3 h-100">
-                        <image src="../../../interfaces/assets/images/icon-send.svg" alt="Chatbot" class="m-4" style="height: 4.5rem;"/>
+                        <image src="${CDN_PATH}/interfaces/assets/images/icon-send.svg" alt="Chatbot" class="m-4" style="height: 4.5rem;"/>
                         <p class="mb-0" data-i18n="modals.iag.texts.card3"></p>
                     </div>
                 </div>
@@ -1322,25 +1367,25 @@ const backModals = {
                             </div>
 
                             <div class="d-flex justify-content-center align-items-center gap-2">
-                                <img src="../../../interfaces/assets/images/fr-flag.svg" alt="Drapeau de la France" width="20" height="14" loading="lazy">
+                                <img src="${CDN_PATH}/interfaces/assets/images/fr-flag.svg" alt="Drapeau de la France" width="20" height="14" loading="lazy">
                                 <a href="https://www.education.gouv.fr/cadre-d-usage-de-l-ia-en-education-450647" target="_blank" rel="noopener"
                                     data-i18n="modals.iag.common.linkEducationAIFrame"></a>
                             </div>
 
                             <div class="d-flex justify-content-center align-items-center gap-2">
-                                <img src="../../../interfaces/assets/images/fr-flag.svg" alt="Drapeau de la France" width="20" height="14" loading="lazy">
+                                <img src="${CDN_PATH}/interfaces/assets/images/fr-flag.svg" alt="Drapeau de la France" width="20" height="14" loading="lazy">
                                 <a href="https://www.cnil.fr/fr/enseignant-usage-systeme-ia" target="_blank" rel="noopener"
                                     data-i18n="modals.iag.common.linkCnilFaq"></a>
                             </div>
 
                             <div class="d-flex justify-content-center align-items-center gap-2">
-                                <img src="../../../interfaces/assets/images/eu-flag.svg" alt="Drapeau de l'Union européenne" width="20" height="14" loading="lazy">
+                                <img src="${CDN_PATH}/interfaces/assets/images/eu-flag.svg" alt="Drapeau de l'Union européenne" width="20" height="14" loading="lazy">
                                 <a href="https://www.vie-publique.fr/questions-reponses/292157-ai-act-le-reglement-europeen-sur-lintelligence-artificielle-ia" target="_blank" rel="noopener"
                                     data-i18n="modals.iag.common.linkAIAct"></a>
                             </div>
 
                             <div class="d-flex justify-content-center align-items-center gap-2">
-                                <img src="../../../interfaces/assets/images/canada-flag.svg" alt="Drapeau de l'Union européenne" width="20" height="14" loading="lazy">
+                                <img src="${CDN_PATH}/interfaces/assets/images/canada-flag.svg" alt="Drapeau de l'Union européenne" width="20" height="14" loading="lazy">
                                 <a href="https://www.vie-publique.fr/questions-reponses/292157-ai-act-le-reglement-europeen-sur-lintelligence-artificielle-ia" target="_blank" rel="noopener"
                                     data-i18n="modals.iag.common.linkQuebecAI"></a>
                             </div>

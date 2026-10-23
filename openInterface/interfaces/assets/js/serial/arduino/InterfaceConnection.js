@@ -947,7 +947,7 @@ const InterfaceConnection = {
 	 */
 	_manageLoadingProgress() {
 		if (this.localCompilation.initialLoads) return;
-		const addLoadingInfo = () => { document.querySelector('#local-compilation-loading-area').innerHTML = `<img class="local-compilation-spinner" src="/public/content/img/spinning-loader.svg">${i18next.t('modals.standard.local-compilation.loadingDescription')}`; };
+		const addLoadingInfo = () => { document.querySelector('#local-compilation-loading-area').innerHTML = `<img class="local-compilation-spinner" src="${CDN_PATH}/public/content/img/spinning-loader.svg">${i18next.t('modals.standard.local-compilation.loadingDescription')}`; };
 		const addLoadedInfo = () => { document.querySelector('#local-compilation-loading-area').innerHTML = `${i18next.t('modals.standard.local-compilation.emulatorLoaded')} &#x2705;`; };
 		this.localCompilation.initialLoads = true;
 		this._setLoadingProgressBar(vittaCompilator.downloadProgress);

@@ -1,5 +1,72 @@
 Simulator.Mosaic.grove = {
 
+    /**
+     * MLX90621 thermal camera (4 x 16 pixels): random frames with a hot spot, drawn as a heatmap in the mosaic module
+     * "mlx90621". Shared by the simulated libraries (esp32_mlx90621.js, MLX90621.h of Arduino).
+     */
+    mlx90621: {
+        ROWS: 4,
+        COLS: 16,
+
+        /**
+         * @return {Array<Array<number>>} temperatures (°C, 1 decimal) by row then column
+         */
+        randomFrame() {
+            const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+            const frame = [];
+            const bases = []; // without the hot spot: the neighbors average would spread its heat to the whole frame
+            const ambient = 22 + Math.random() * 4;
+            const hotCol = Math.random() * (this.COLS - 1);
+            const hotRow = Math.random() * (this.ROWS - 1);
+            const hotIntensity = 3 + Math.random() * 5;
+            const sigmaX = 2.8 + Math.random() * 1.8;
+            const sigmaY = 0.8 + Math.random() * 0.8;
+            for (let row = 0; row < this.ROWS; row++) {
+                frame.push([]);
+                bases.push([]);
+                for (let col = 0; col < this.COLS; col++) {
+                    const neighbors = [];
+                    if (col > 0) neighbors.push(bases[row][col - 1]);
+                    if (row > 0) neighbors.push(bases[row - 1][col]);
+                    if (row > 0 && col > 0) neighbors.push(bases[row - 1][col - 1]);
+                    const base = neighbors.length
+                        ? neighbors.reduce((sum, value) => sum + value, 0) / neighbors.length + (Math.random() * 1.2 - 0.6)
+                        : ambient + (Math.random() * 1.4 - 0.7);
+                    const dx = (col - hotCol) / sigmaX;
+                    const dy = (row - hotRow) / sigmaY;
+                    const hotspot = hotIntensity * Math.exp(-0.5 * (dx * dx + dy * dy));
+                    bases[row][col] = base;
+                    frame[row][col] = Math.round(clamp(base + hotspot, 18, 40) * 10) / 10;
+                }
+            }
+            return frame;
+        },
+
+        /**
+         * Draw a frame in the module (blue: coldest pixel, red: hottest pixel).
+         * @param {Array<Array<number>>} frame
+         */
+        render(frame) {
+            const container = $('#mlx90621_value');
+            if (!container.length) return;
+            if (!container.find('.mlx90621-pixel').length) {
+                container.html('<div class="mlx90621-screen"><div class="mlx90621-heatmap">'
+                    + '<div class="mlx90621-pixel"></div>'.repeat(this.ROWS * this.COLS) + '</div></div>');
+            }
+            const values = frame.flat();
+            const min = Math.min(...values), max = Math.max(...values);
+            const pixels = container.find('.mlx90621-pixel');
+            values.forEach((temperature, i) => {
+                const n = max > min ? (temperature - min) / (max - min) : 0;
+                const k = n < 0.5 ? n * 2 : (n - 0.5) * 2;
+                const color = n < 0.5
+                    ? `rgb(0, ${Math.floor(k * 255)}, ${Math.floor((1 - k) * 255)})`
+                    : `rgb(${Math.floor(k * 255)}, ${Math.floor((1 - k) * 255)}, 0)`;
+                pixels.eq(i).css('background-color', color);
+            });
+        }
+    },
+
     createSliders: function () {
         $('.mod_button,' +
             '.mod_reversedButton,' +

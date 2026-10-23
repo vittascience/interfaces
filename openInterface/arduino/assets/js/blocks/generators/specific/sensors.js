@@ -834,6 +834,11 @@ Blockly.Arduino.sensors_mlx90621_readObjectTemperature = function (block) {
     Blockly.Arduino.addFunction('mlx90621_setup', FUNCTIONS_ARDUINO.SETUP_MLX90621);
     Blockly.Arduino.addSetup('mlx90621_setup', "setupMLX90621();");
     const list = Blockly.Arduino.valueToCode(block, "VALUE", Blockly.Arduino.ORDER_ATOMIC) || "NULL";
+    // The list variable is declared as an array of the 64 pixels (int or float), unless a list block already declares it
+    const listBlock = block.getInputTargetBlock("VALUE");
+    if (listBlock && listBlock.type === 'variables_get' && !variableHasListDeclaration_(block.workspace, listBlock.getFieldValue("VAR"))) {
+        Blockly.Arduino.addVariable(listBlock.getFieldValue("VAR"), `${block.getFieldValue("DATA_TYPE")} ${list}[64];`, true);
+    }
     switch (block.getFieldValue("DATA_TYPE")) {
         case 'int':
             Blockly.Arduino.addFunction('mlx90621_get_temperature_int', FUNCTIONS_ARDUINO.GET_TEMPERATURE_INT_MLX90621);

@@ -128,7 +128,7 @@ Blockly.Msg['COMMUNICATION_PRINT_DATAS_TITLE'] = 'Nombre %1 Valor %2';
 Blockly.Msg['COMMUNICATION_PRINT_DATAS_TOOLTIP'] = 'Este bloque se debe usar con el bloque "Trazar el gráfico". Debe contener el nombre del valor a mostrar (texto) y el valor en sí (número).';
 
 // Input/Output
-Blockly.Msg['IO_WAIT_TITLE'] = 'wait %1 %2';
+Blockly.Msg["IO_WAIT_TITLE"] = "esperar %1 %2";
 Blockly.Msg['IO_WAIT_TOOLTIP'] = 'Pausa en la ejecución del código';
 Blockly.Msg['IO_WAIT_SECOND'] = 'segundo(s)';
 Blockly.Msg['IO_WAIT_MILLISECOND'] = 'milisegundo(s)';

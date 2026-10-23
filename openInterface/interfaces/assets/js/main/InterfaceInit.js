@@ -58,20 +58,9 @@ class InterfaceInit {
     async init() {
         if (typeof InterfaceMonitor !== 'undefined' && this._interface !== "python") {
             InterfaceMonitor.init();
-            this.displayWelcome();
         }
         if ($_GET('robot') !== null || $_GET('module') !== null || $_GET('drone') !== null) {
             await this._setShepherdTourContent();
-        }
-        if (this._needCommonEsp32Libraries()) {
-            Object.assign(this.externalLibraries, await this.loadCommonLibraries('esp32'));
-        }
-        if (this._needCommonStm32Libraries()) {
-            Object.assign(this.externalLibraries, await this.loadCommonLibraries('stm32'));
-        }
-
-        if (this._needPythonLibraries()) {
-            Object.assign(this.externalLibraries, await this.loadLibraries());
         }
         if (this._needMultiEditorLS()) {
             this.updateMultiEditor();
@@ -140,7 +129,12 @@ class InterfaceInit {
      */
     _displayWelcomeMessage(stringPath) {
         if (i18next.isInitialized && i18next.t(stringPath) !== stringPath && typeof i18next.t(stringPath) !== 'undefined') {
-            InterfaceMonitor.writeConsole(stringPath, 'neutral', false);
+            // welcome pre-rendered by PHP (consoleWelcome in public/lang.php): kept if same message and language, else rewritten
+            const preRendered = document.querySelector('#console > p[data-welcome]');
+            if (!preRendered || preRendered.dataset.welcome !== stringPath || preRendered.dataset.lng !== i18next.language) {
+                preRendered?.remove();
+                InterfaceMonitor.writeConsole(stringPath, 'neutral', false);
+            }
             if (typeof window !== 'undefined' && window.__vittaInterfaceSlug) return;
             if (this._needSerialAPI()) {
                 if (this._interface == 'arduinoq') {
@@ -182,10 +176,6 @@ class InterfaceInit {
                 $("#serial-send").off('click').click(InterfaceConnection.sendSerialCommand.bind(InterfaceConnection));
             }
             if (INTERFACE_NAME === 'microbit') {
-                const content = await this.fetchDir(`${CDN_PATH}/openInterface/microbit/assets/lib/variables_getter.py`);
-                if (content) {
-                    Object.assign(this.externalLibraries, { 'variables_getter': content });
-                }
                 await new Promise(function awaitMicrobitFsWrapper(resolve, reject) {
                     if (typeof microbitFsWrapper !== 'undefined') {
                         resolve();
@@ -226,43 +216,55 @@ class InterfaceInit {
     }
 
     /**
+     * MicroPython libraries sent to the board (connection, upload, flash, export): loaded once, at the first use.
+     * Fills this.externalLibraries in place: same object as the "libraries" option of MicropythonRepl (_CUSTOM_LIB).
+     */
+    loadExternalLibraries() {
+        this.librariesLoading ??= this._fetchExternalLibraries().catch((error) => {
+            this.librariesLoading = null;
+            throw error;
+        });
+        return this.librariesLoading;
+    }
+
+    async _fetchExternalLibraries() {
+        const loads = [];
+        if (this._needCommonEsp32Libraries()) loads.push(this.loadCommonLibraries('esp32'));
+        if (this._needCommonStm32Libraries()) loads.push(this.loadCommonLibraries('stm32'));
+        if (this._needPythonLibraries()) loads.push(this.loadLibraries());
+        if (this._interface === 'microbit') {
+            loads.push(this.fetchDir(`${CDN_PATH}/openInterface/microbit/assets/lib/variables_getter.py`).then(content => content ? { variables_getter: content } : {}));
+        }
+        // same order as before: the specific libraries override the common ones
+        Object.assign(this.externalLibraries, ...await Promise.all(loads));
+    }
+
+    /**
      * Load python libraries of interface.
      */
     async loadLibraries() {
+        const names = Object.keys(LIBRARIES_PATH);
+        const contents = await Promise.all(names.map(lib =>
+            this.fetchDir(`${CDN_PATH}/openInterface/${this._interface}/assets/lib${LIBRARIES_PATH[lib]}/${lib}.py`)));
         const libraries = {};
-        for (const lib in LIBRARIES_PATH) {
-            const fileName = `${CDN_PATH}/openInterface/${this._interface}/assets/lib${LIBRARIES_PATH[lib]}/${lib}.py`;
-            const content = await this.fetchDir(fileName);
-            if (content) {
-                libraries[lib] = content;
+        names.forEach((lib, i) => {
+            if (contents[i]) {
+                libraries[lib] = contents[i];
             }
-        }
+        });
         return libraries;
     }
 
     async loadCommonLibraries(board) {
-        const libraries = {};
-        const loadFile = async (item, path, extension = "py") => {
+        const files = [];
+        const collect = (item, path, extension = "py") => {
             if (typeof item === 'object' && !Array.isArray(item)) {
                 path += item.path + "/";
                 for (const lib of item.content) {
-                    if (item.extension) {
-                        await loadFile(lib, path, item.extension);
-                    } else {
-                        await loadFile(lib, path);
-                    }
+                    collect(lib, path, item.extension || "py");
                 }
             } else {
-                let fileName = path + item;
-                if (extension === "mpy") {
-                    fileName += '/__init__.mpy';
-                } else {
-                    fileName += '.py';
-                }
-                const content = await this.fetchDir(fileName);
-                if (content) {
-                    libraries[item] = content;
-                }
+                files.push([item, path + item + (extension === "mpy" ? '/__init__.mpy' : '.py')]);
             }
         }
         let LIBRARIES_PATH = [];
@@ -275,9 +277,16 @@ class InterfaceInit {
                 break;
         }
         for (const item of LIBRARIES_PATH) {
-            await loadFile(item, `${CDN_PATH}/openInterface/interfaces/assets/lib/${board}-mpy/`);
+            collect(item, `${CDN_PATH}/openInterface/interfaces/assets/lib/${board}-mpy/`);
         }
-        await loadFile('variables_getter', `${CDN_PATH}/openInterface/interfaces/assets/lib/`);
+        collect('variables_getter', `${CDN_PATH}/openInterface/interfaces/assets/lib/`);
+        const contents = await Promise.all(files.map(([, url]) => this.fetchDir(url)));
+        const libraries = {};
+        files.forEach(([name], i) => {
+            if (contents[i]) {
+                libraries[name] = contents[i];
+            }
+        });
         return libraries;
     }
 
@@ -339,6 +348,22 @@ class InterfaceInit {
             rotateConsole(this.value);
         });
         rotateConsole(InterfaceMonitor.getPosition());
+        // Volume of the Blockly sounds (click, delete...), saved for all interfaces
+        let soundVolume = Number(localStorage.getItem('blocklySoundVolume') ?? 100) / 100;
+        const play = Blockly.WorkspaceAudio.prototype.play;
+        Blockly.WorkspaceAudio.prototype.play = function (name, volume = 1) {
+            // A workspace without the sound forwards it to its parent, which applies the volume
+            return play.call(this, name, this.sounds.has(name) ? volume * soundVolume : volume);
+        };
+        $('#blocklySoundVolumeValue').text(Math.round(soundVolume * 100) + ' %');
+        $('#blocklySoundVolume').val(soundVolume * 100).on('input', function () {
+            soundVolume = this.value / 100;
+            localStorage.setItem('blocklySoundVolume', this.value);
+            $('#blocklySoundVolumeValue').text(this.value + ' %');
+        }).on('change', function () {
+            // Preview of the chosen volume when the slider is released
+            Blockly.getMainWorkspace()?.getAudioManager().play('click');
+        });
     }
 
     hasValidBoardInUrl() {

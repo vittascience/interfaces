@@ -1600,6 +1600,34 @@ const LIBRARIES_H = {
         }
     },
 
+    // MLX90621 thermal camera (4 x 16 pixels): random frames drawn in the mosaic module "mlx90621"
+    // (Simulator.Mosaic.grove.mlx90621, shared with the ESP32 simulator)
+    "MLX90621.h": {
+        load: function (rt) {
+            const I = rt.intTypeLiteral, D = rt.doubleTypeLiteral, B = rt.boolTypeLiteral, V = rt.voidTypeLiteral;
+            const camera = Simulator.Mosaic.grove.mlx90621;
+            const MLX90621_t = rt.newClass("MLX90621", []);
+            ['RATE_512HZ', 'RATE_256HZ', 'RATE_128HZ', 'RATE_64HZ', 'RATE_32HZ', 'RATE_16HZ', 'RATE_8HZ', 'RATE_4HZ',
+                'RATE_2HZ', 'RATE_1HZ', 'RATE_0_5HZ'].forEach((name, i) => rt.defVar(name, I, rt.val(I, 15 - i)));
+            ['RES_15bit', 'RES_16bit', 'RES_17bit', 'RES_18bit'].forEach((name, i) => rt.defVar(name, I, rt.val(I, i)));
+            let frame = null;
+            const measure = () => {
+                frame = camera.randomFrame();
+                camera.render(frame);
+            };
+            rt.regFunc(() => { }, MLX90621_t, "setRefreshRate", [I], V);
+            rt.regFunc(() => { }, MLX90621_t, "setResolution", [I], V);
+            rt.regFunc(() => { }, MLX90621_t, "setEmissivity", [D], V);
+            rt.regFunc(() => { frame = null; camera.render([[0]]); }, MLX90621_t, "initialize", [], V);
+            rt.regFunc(() => { measure(); }, MLX90621_t, "measure", [B], V);
+            // Pixels by column, as the library: index = column * 4 + row
+            rt.regFunc((rt, _this, index) => {
+                if (!frame) measure();
+                const col = Math.floor(index.v / camera.ROWS), row = index.v % camera.ROWS;
+                return rt.val(D, frame[row] && frame[row][col] !== undefined ? frame[row][col] : 0);
+            }, MLX90621_t, "getTemperature", [I], D);
+        }
+    },
     // Modulino (Arduino Plug and Make Kit): sensors read the mosaic sliders, outputs update the mosaic modules
     // (Simulator.Mosaic.specific.definitions, ids "modulino-...")
     "Modulino.h": {

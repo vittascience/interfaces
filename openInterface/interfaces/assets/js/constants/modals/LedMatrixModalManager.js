@@ -1,7 +1,7 @@
 let LedMatrixModalManager = {
     img_selected: "",
     matrix_base64: "",
-    example_imgs_path: "/openInterface/interfaces/assets/media/matrix_8x8_icons/",
+    example_imgs_path: `${typeof CDN_PATH !== 'undefined' ? CDN_PATH : ''}/openInterface/interfaces/assets/media/matrix_8x8_icons/`,
     isRGB: false,
     led_color: "",
     width: 0,

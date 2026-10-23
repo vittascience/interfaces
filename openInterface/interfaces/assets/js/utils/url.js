@@ -77,14 +77,21 @@ function filterUrl(paramList = []) {
     setMultipleParam(newParam);
 }
 
+// parsed query string of the current url (getParamValue is called for each created block)
+var paramValuesCache = { href: null, vars: null };
+
 function getParamValue(param) {
-    var vars = {};
-    window.location.href.replace(location.hash, '').replace(
-        /[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
-        function (m, key, value) { // callback
-            vars[key] = value !== undefined ? value : '';
-        }
-    );
+    if (paramValuesCache.href !== window.location.href) {
+        var parsedVars = {};
+        window.location.href.replace(location.hash, '').replace(
+            /[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
+            function (m, key, value) { // callback
+                parsedVars[key] = value !== undefined ? value : '';
+            }
+        );
+        paramValuesCache = { href: window.location.href, vars: parsedVars };
+    }
+    var vars = paramValuesCache.vars;
 
     if (typeof ltiVariables13 != 'undefined') {
         switch (param) {

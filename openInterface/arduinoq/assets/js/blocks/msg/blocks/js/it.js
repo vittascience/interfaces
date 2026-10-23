@@ -1,32 +1,54 @@
 /**
- * @fileoverview Italian messages for Arduino UNO Q. (IT)
+ * @fileoverview English messages for Arduino UNO Q. (EN)
  */
 
 'use strict';
 
-// Inizio blocco C++.
+// Start blocks cpp.
+
+// Start blocks linux.
+
+// Bridge blocks
+
+// Brick Blocks
+
+// UNO Q: the built-in LED is the red of the RGB LED 3 (no LED on D13)
+
 Blockly.Msg["CPP_ON_START_TITLE"] = "[Arduino] All'avvio";
-Blockly.Msg["CPP_ON_START_TOOLTIP"] = "Avanza le istruzioni in questo blocco da utilizzare sul chip STM32 nello schema Arduino Q.";
+Blockly.Msg["CPP_ON_START_TOOLTIP"] = "Aggiungi istruzioni in questo blocco da eseguire quando il chip STM32 della scheda Arduino Q si avvia.";
 Blockly.Msg["CPP_FOREVER_TITLE"] = "[Arduino] Ripeti all'infinito";
-Blockly.Msg["CPP_FOREVER_TOOLTIP"] = "Avanza le istruzioni in questo blocco in un ciclo.";
-
-// Inizio blocco Linux.
+Blockly.Msg["CPP_FOREVER_TOOLTIP"] = "Aggiungi le istruzioni in questo blocco da eseguire in un ciclo.";
 Blockly.Msg["PY_ON_START_TITLE"] = "[Python] All'avvio";
-Blockly.Msg["PY_ON_START_TOOLTIP"] = "Avanza le istruzioni in questo blocco da utilizzare in Linux sullo schema Arduino Q.";
+Blockly.Msg["PY_ON_START_TOOLTIP"] = "Aggiungi istruzioni in questo blocco da eseguire quando la scheda Arduino Q avvia Linux.";
 Blockly.Msg["PY_FOREVER_TITLE"] = "[Python] Ripeti all'infinito";
-Blockly.Msg["PY_FOREVER_TOOLTIP"] = "Aggiungi ungiungi ungiunzioni in questo blocco da eseguire in un ciclo.";
-
-// Blocco collage
-Blockly.Msg["Q_BRIDGES_PROVIDE_TITLE"] = "[Bridge] supporta la funzione %1 con ID %2";
-Blockly.Msg["Q_BRIDGES_PROVIDE_TOOLTIP"] = "Crea un ponte di comunicazione tra lo script Python di Linux e il processore STM32 della scheda Arduino Q. Questo blocco espone una funzione con un ID.";
-Blockly.Msg["Q_BRIDGES_CALL_TITLE"] = "[Bridge] ha attivato la funzione con ID %1";
-Blockly.Msg["Q_BRIDGES_CALL_TOOLTIP"] = "Modifica la funzione pubblicata sul canale con ID. Fai clic sul pulsante per aggiungere la lingua alla funzione pubblicata.";
+Blockly.Msg["PY_FOREVER_TOOLTIP"] = "Aggiungi le istruzioni in questo blocco da eseguire in un ciclo.";
+Blockly.Msg["Q_BRIDGES_PROVIDE_TITLE"] = "[Bridge] esponi la funzione %1 con ID %2";
+Blockly.Msg["Q_BRIDGES_PROVIDE_TOOLTIP"] = "Crea un ponte di comunicazione tra lo script Python su Linux e il processore STM32 della scheda Arduino Q. Questo blocco espone una funzione identificata da un ID.";
+Blockly.Msg["Q_BRIDGES_CALL_TITLE"] = "[Bridge] chiama la funzione con ID %1";
+Blockly.Msg["Q_BRIDGES_CALL_TOOLTIP"] = "Invoca la funzione esposta sul canale tramite il suo ID. Clicca sul pulsante + per aggiungere argomenti alla funzione esposta.";
 Blockly.Msg["Q_BRIDGES_CALL_WITH_ARGUMENTS"] = "con argomenti";
-
-//Block
-Blockly.Msg["BRICKS_APP_RUN_TITLE"] = "Avvia l'applicazione";
-Blockly.Msg["BRICKS_APP_RUN_TOOLTIP"] = "Prima che l'applicazione web termini il programma Python.";
-Blockly.Msg["BRICKS_WEBUI_SEND_MESSAGE_TITLE"] = "[WebUI] invia messaggio %2 con ID %1";
-Blockly.Msg["BRICKS_WEBUI_SEND_MESSAGE_TOOLTIP"] = "Invia un messaggio a un'applicazione web. Tutte le connessioni client al server Arduino possono visualizzare questo messaggio. È possibile accedere a questo messaggio dalla pagina web.";
-Blockly.Msg["BRICKS_WEBUI_ON_MESSAGE_TITLE"] = "[WebUI] ha ricevuto un messaggio con ID %1";
-Blockly.Msg["BRICKS_WEBUI_ON_MESSAGE_TOOLTIP"] = "Consenti l'installazione delle istruzioni per ricevere un messaggio con determinazione dell'ID da un client conosciuto.";
+Blockly.Msg["Q_BRIDGES_CALL_RETURN_TITLE"] = "[Bridge] risultato della funzione con ID %1 di tipo %2";
+Blockly.Msg["Q_BRIDGES_CALL_RETURN_TOOLTIP"] = "Invoca la funzione esposta sul canale tramite il suo ID e restituisce il risultato. Il tipo (String, int, float, bool) è usato solo in C++. Clicca sul pulsante + per aggiungere argomenti alla funzione esposta.";
+Blockly.Msg["CONTROLS_FOREVER_TITLE"] = "ripeti all'infinito";
+Blockly.Msg["CONTROLS_FOREVER_TOOLTIP"] = "Ripete le istruzioni in un ciclo, senza fine.";
+Blockly.Msg["BRICKS_APP_RUN_TITLE"] = "avvia l'applicazione";
+Blockly.Msg["BRICKS_APP_RUN_TOOLTIP"] = "Avvia l'applicazione web al termine del programma Python.";
+Blockly.Msg["BRICKS_WEBUI_SEND_MESSAGE_TITLE"] = "[WebUI] invia il messaggio %2 con ID %1";
+Blockly.Msg["BRICKS_WEBUI_SEND_MESSAGE_TOOLTIP"] = "Invia un messaggio a un'applicazione web. Tutti i client connessi al server Arduino Q visualizzano questo messaggio. Il messaggio può essere intercettato dalla pagina web.";
+Blockly.Msg["BRICKS_WEBUI_ON_MESSAGE_TITLE"] = "[WebUI] se viene ricevuto un messaggio con ID %1";
+Blockly.Msg["BRICKS_WEBUI_ON_MESSAGE_TOOLTIP"] = "Permette di eseguire istruzioni se da un client connesso arriva un messaggio con un certo ID.";
+Blockly.Msg["BRICKS_WEBUI_APP_RUN_USER_LOOP"] = "in ciclo: ";
+Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TITLE'] = "[Arduino] imposta il LED integrato (LED 3 rosso) su %1";
+Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TOOLTIP'] = "Accende (HIGH) o spegne (LOW) il LED integrato della scheda Arduino UNO Q: il rosso del LED RGB #3.";
+Blockly.Msg["UNOQ_RGB_LED_TITLE"] = "[Arduino] imposta il LED RGB #%1 su %2";
+Blockly.Msg["UNOQ_RGB_LED_TOOLTIP"] = "Accende il LED RGB #3 o #4 della scheda Arduino UNO Q (pilotato dal microcontrollore) in uno dei 7 colori, o lo spegne.";
+Blockly.Msg["UNOQ_RGB_LED_OFF"] = "spento";
+Blockly.Msg["UNOQ_RGB_LED_RED"] = "rosso";
+Blockly.Msg["UNOQ_RGB_LED_GREEN"] = "verde";
+Blockly.Msg["UNOQ_RGB_LED_BLUE"] = "blu";
+Blockly.Msg["UNOQ_RGB_LED_YELLOW"] = "giallo";
+Blockly.Msg["UNOQ_RGB_LED_CYAN"] = "ciano";
+Blockly.Msg["UNOQ_RGB_LED_MAGENTA"] = "magenta";
+Blockly.Msg["UNOQ_RGB_LED_WHITE"] = "bianco";
+Blockly.Msg["UNOQ_LINUX_RGB_LED_TITLE"] = "[Python] imposta il LED RGB #%1 su %2";
+Blockly.Msg["UNOQ_LINUX_RGB_LED_TOOLTIP"] = "Accende il LED RGB #1 o #2 della scheda Arduino UNO Q (gestito da Linux) in uno dei 7 colori, o lo spegne.";

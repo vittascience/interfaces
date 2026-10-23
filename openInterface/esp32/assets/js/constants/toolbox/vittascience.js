@@ -371,7 +371,6 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             "label": "%{BKY_SUBCATEGORY_TRACKING_MODULES}",
             "blocks": [
                 'communication_rfid_getCardID',
-                'communication_rfid_convertData',
                 'communication_mfrc522_getCardID',
                 'communication_gps_getNMEA',
                 'communication_gps_getGGAInformations',
@@ -485,7 +484,9 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                 'actuators_continuousServo_setSpeed',
                 'actuators_setMotorPower',
                 'actuators_setVibrationMotorState',
-                'actuators_setGroveRelayState'
+                'actuators_setGroveRelayState',
+                'actuators_mdd3a_init',
+                'actuators_mdd3a_controlMotor'
             ]
         },
         {
@@ -953,7 +954,6 @@ const TOOLBOX_VITTASCIENCE_CONTENT_SIMPLE = {
             "label": "%{BKY_SUBCATEGORY_TRACKING_MODULES}",
             "blocks": [
                 'communication_rfid_getCardID',
-                'communication_rfid_convertData',
                 'communication_gps_getNMEA',
                 'communication_gps_getGGAInformations',
                 'communication_clockRTC_setDate',

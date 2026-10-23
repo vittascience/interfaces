@@ -604,3 +604,4 @@ Blockly.Msg["VARIABLES_TUPLE_TOOLTIP"] = "إنشاء مجموعة مرتبة م�
 Blockly.Msg["LISTS_INDEX_FROM_END_TOOLTIP"] = "%1 هو العنصر الأخير.";
 Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TITLE"] = "وظيفة: %1";
 Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TOOLTIP"] = "الحصول على مرجع الوظيفة لتمريره كوسيط إلى وظيفة أخرى.";
+Blockly.Msg["PINS_DUPLICATE_WARNING"] = "Pin '%1' is selected several times in this block.";

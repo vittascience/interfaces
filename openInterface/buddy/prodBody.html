@@ -90,7 +90,7 @@
                         </div>
 
                         <!-- Panel console -->
-                        <div id="console" class="ide-console monitor-tab" disabled="disabled"></div>
+                        <div id="console" class="ide-console monitor-tab" disabled="disabled"><?= consoleWelcome(basename(__DIR__)) ?></div>
 
                         <!-- Panel graph -->
                         <div id="graph-tab" class="monitor-tab">
@@ -267,8 +267,6 @@
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-languages_tools.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-searchbox.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/svg-inject.min.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/charts-loader.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/echarts-5.4.0/echarts.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ansi-up/ansi_up.min.js" type="text/javascript"></script>
 <script src="/openInterface/interfaces/assets/js/external/tone/tone.js"></script>
 
@@ -311,8 +309,6 @@
 <script src="/openInterface/interfaces/assets/js/events/addBlck.js"></script>
 <!-- endbuild -->
 <!-- build:js-simulator -->
-<script src="/openInterface/interfaces/assets/js/external/skulpt/skulpt.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/skulpt/skulpt-stdlib.js"></script>
 <script src="/openInterface/interfaces/assets/js/simulator/python/simulator.js"></script>
 <script src="/openInterface/interfaces/assets/js/simulator/Simulator.js"></script>
 <script src="/openInterface/interfaces/assets/js/simulator/mosaic/Animator.js"></script>
@@ -389,8 +385,6 @@
 <!-- loader -->
 <script src="/openInterface/interfaces/assets/js/events/load.js"></script>
 
-<!-- tree-sitter -->
-<script src="/openInterface/interfaces/assets/js/external/tree-sitter/tree-sitter.js"></script>
 <script src="/openInterface/buddy/assets/js/blocks/code2Blocks/excluded_blocks.js"></script>
 
 <script>

@@ -665,8 +665,8 @@ Blockly.Msg['MODULINO_KNOB_ISPRESSED_TITLE'] = "[Modulino Bouton rotatif] bouton
 Blockly.Msg['MODULINO_KNOB_ISPRESSED_TOOLTIP'] = "Renvoie vrai si le Modulino Bouton rotatif est enfoncé.";
 Blockly.Msg['MODULINO_KNOB_SET_TITLE'] = "[Modulino Bouton rotatif] régler la position à %1";
 Blockly.Msg['MODULINO_KNOB_SET_TOOLTIP'] = "Remplace la position du Modulino Bouton rotatif par la valeur donnée (par exemple 0 pour la remettre à zéro).";
-Blockly.Msg['MODULINO_DISTANCE_GET_TITLE'] = "[Modulino Distance] distance (mm)";
-Blockly.Msg['MODULINO_DISTANCE_GET_TOOLTIP'] = "Renvoie la distance mesurée par le capteur Modulino Distance, en millimètres.";
+Blockly.Msg['MODULINO_DISTANCE_GET_TITLE'] = "[Modulino Distance] distance %1";
+Blockly.Msg['MODULINO_DISTANCE_GET_TOOLTIP'] = "Renvoie la distance mesurée par le capteur Modulino Distance, en centimètres ou en millimètres.";
 Blockly.Msg['MODULINO_MOVEMENT_ACCELERATION_TITLE'] = "[Modulino Mouvement] accélération sur l'axe %1 (g)";
 Blockly.Msg['MODULINO_MOVEMENT_ACCELERATION_TOOLTIP'] = "Renvoie l'accélération mesurée par le Modulino Mouvement sur l'axe choisi, en g (1 g = pesanteur terrestre).";
 Blockly.Msg['MODULINO_MOVEMENT_ROTATION_TITLE'] = "[Modulino Mouvement] vitesse de rotation en %1 (°/s)";

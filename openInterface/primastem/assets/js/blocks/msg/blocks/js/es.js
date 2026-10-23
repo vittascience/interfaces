@@ -23,7 +23,7 @@ Blockly.Msg['IO_GETCHRONOMETER_TOOLTIP'] = 'Devuelve el valor del cronómetro de
 Blockly.Msg['ACTUATORS_MOVE_FORWARD_TITLE'] = 'mover hacia adelante';
 Blockly.Msg['ACTUATORS_MOVE_FORWARD_TOOLTIP'] = 'Permite que el robot primaSTEM se mueva hacia adelante.';
 Blockly.Msg['ACTUATORS_MOVE_BACKWARD_TITLE'] = 'mover hacia atrás';
-Blockly.Msg['ACTUATORS_MOVE_BACKWARD_TOOLTIP'] = 'Blockly.Msg[\'IO_WAIT_MICROSECOND\'] = \'microsegundos(s)\';';
+Blockly.Msg['ACTUATORS_MOVE_BACKWARD_TOOLTIP'] = 'Permite al robot primaSTEM moverse hacia atrás.';
 Blockly.Msg['ACTUATORS_MOVE_FORWARD_DISTANCE_TITLE'] = 'mover hacia adelante %1 (mm)';
 Blockly.Msg['ACTUATORS_MOVE_FORWARD_DISTANCE_TOOLTIP'] = 'Permite que el robot primaSTEM se mueva hacia adelante una distancia dada.';
 Blockly.Msg['ACTUATORS_MOVE_BACKWARD_DISTANCE_TITLE'] = 'mover hacia atrás %1 (mm)';

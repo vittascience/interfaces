@@ -398,3 +398,6 @@ Blockly.Msg['SUBCATEGORY_MINI_FAN'] = 'Mini ventola';
 Blockly.Msg['CATEGORY_BRIDGES'] = 'Bridge';
 Blockly.Msg['CATEGORY_BRICKS'] = 'Mattoni';
 Blockly.Msg['CATEGORY_IA_CAMERAS'] = 'Telecamere IA';
+Blockly.Msg['SUBCATEGORY_RFID'] = 'Modulo RFID';
+Blockly.Msg['SUBCATEGORY_VOICE_RECOGNITION'] = 'Riconoscimento vocale';
+Blockly.Msg['SUBCATEGORY_ULN2004_STEPPER_DRIVER'] = 'Driver per motore passo-passo ULN2004';

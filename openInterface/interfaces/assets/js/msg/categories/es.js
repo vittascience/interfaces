@@ -396,5 +396,8 @@ Blockly.Msg['SUBCATEGORY_MINI_FAN'] = 'Mini ventilador';
 // Arduino Q
 Blockly.Msg['CATEGORY_BRIDGES'] = 'Puentes';
 Blockly.Msg['CATEGORY_IA_CAMERAS'] = 'Cámaras IA';
-Blockly.Msg["JS_CATEGORY_SOCKET"] = "Blockly.Msg[\"JS_CATEGORY_SOCKET\"] = \"Socket\";";
+Blockly.Msg["JS_CATEGORY_SOCKET"] = "Conexión";
 Blockly.Msg['CATEGORY_BRICKS'] = 'Ladrillos';
+Blockly.Msg['SUBCATEGORY_RFID'] = 'Módulo RFID';
+Blockly.Msg['SUBCATEGORY_VOICE_RECOGNITION'] = 'Reconocimiento de voz';
+Blockly.Msg['SUBCATEGORY_ULN2004_STEPPER_DRIVER'] = 'Controlador de motor paso a paso ULN2004';

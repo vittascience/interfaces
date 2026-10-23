@@ -69,22 +69,24 @@ DEF_SD_CARD_WRITE_FILE:
 
 DEF_RFID_READ_TAG_UID:
 `def rfid_readTagUID(uart):
+  cardID = 0
   if uart.any():
     utime.sleep_ms(50)
     rfid_data = bytes([])
     while uart.any() > 0:
       rfid_data += uart.read()
-    # data: 0x02 + 10 ASCII + checksun (2 bytes) + 0x03 => 14 bytes
-    if len(rfid_data) != 14 or rfid_data[0] != 0x02 or rfid_data[-1] != 0x03:
-      return
-    body = rfid_data[1:-1]
-    card_hex = body[:10]
-    cks_hex  = body[10:12]
-    cks_rx = int(cks_hex, 16)
-    cks = 0
-    for b in bytes.fromhex(card_hex):
-      cks ^= b
-    return card_hex`,
+    # frame: 0x02 + 10 hex chars (2 version + 8 card ID) + 2 hex chars checksum + 0x03
+    idx = rfid_data.find(bytes([2]))
+    if idx != -1 and len(rfid_data) >= idx + 14 and rfid_data[idx + 13] == 3:
+      try:
+        cks = 0
+        for i in range(idx + 1, idx + 11, 2):
+          cks ^= int(rfid_data[i:i + 2], 16)
+        if cks == int(rfid_data[idx + 11:idx + 13], 16):
+          cardID = int(rfid_data[idx + 3:idx + 11], 16)
+      except ValueError:
+        pass
+  return cardID`,
 
   DEF_RC522_READ_TAG_UID:
 `def rc522_readTagUid(rdr):

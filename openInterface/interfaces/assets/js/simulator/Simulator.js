@@ -199,6 +199,7 @@ Simulator.openingSimulator = async function () {
  * Close simulator.
  */
 Simulator.closingSimulator = async function () {
+    this.skulptWaiting = null;
     await this.stop();
     if (this.audioContext !== null) {
         this.audioContext.close();
@@ -263,9 +264,6 @@ Simulator.init = async function () {
         if (typeof this.Mosaic.addSpecificInitializations !== 'undefined') {
             this.Mosaic.addSpecificInitializations();
         }
-        if (typeof this.Mosaic.addSpecificSkulptFunctions !== 'undefined') {
-            this.Mosaic.addSpecificSkulptFunctions();
-        }
 
         this.Animator = new Animator();
         /* TI-83 calculator */
@@ -300,9 +298,9 @@ Simulator.init = async function () {
         if (this._hasSpeechSynthesis()) {
             await this.waitForVoices();
         }
-        /* Python interfaces */
-        if (this.TYPE == 'Skulpt' && !this.skInitialized) {
-            await this.initSkulpt();
+        /* Python interfaces: Skulpt is loaded at the first run (play), unless the page already includes it (TI-83) */
+        if (this.TYPE == 'Skulpt' && typeof Sk !== 'undefined') {
+            await this.loadSkulpt();
         }
 
         this.updateSimulatorInterval = null;
@@ -368,7 +366,7 @@ Simulator.addMultiSimulatorToDom = function () {
             <p data-i18n="code.simulator.buttons.multi-mode.tooltip.paragraph">Pour simuler la communication sans-fil entre plusieurs cartes, nous vous conseillons le mode Multi ci-dessous.</p>
         </div>
         <a href="#" class="btn multi-btn" onclick="projectManager.initializeMultiInterfaces()">
-            <img src="/openInterface/interfaces/assets/media/simulator/menu/multi_mode/multi-mode-icon.svg" alt="Multi mode icon">
+            <img src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/menu/multi_mode/multi-mode-icon.svg" alt="Multi mode icon">
             <span data-i18n="code.simulator.buttons.multi-mode.button">Duo</span>
         </a>
     </div>`;
@@ -479,6 +477,24 @@ Simulator.play = async function () {
         }
         this.resumeModulesAnimations();
     } else {
+        if (this.TYPE == 'Skulpt' && !this.skInitialized) {
+            // Another play() is already waiting for Skulpt: it will run the latest code
+            if (this.skulptWaiting) return;
+            const waiting = this.skulptWaiting = {};
+            try {
+                await this.loadSkulpt();
+            } catch (e) {
+                this.skulptWaiting = null;
+                console.error(e);
+                UIManager.showErrorMessage('error-message', jsonPath('code.simulator.messages.skulptLoadError'));
+                $("#simulator_play").prop('disabled', false);
+                $("#simulator_pause").prop('disabled', true);
+                return;
+            }
+            // Simulator closed while loading
+            if (this.skulptWaiting !== waiting) return;
+            this.skulptWaiting = null;
+        }
         if (this.audioContext && this.audioContext.state != 'closed') {
             this.audioContext.suspend();
         }
@@ -809,7 +825,7 @@ Simulator.updateBoard = function (link, name) {
         };
     }
     if (this.board.link) {
-        const path = _PATH + "/" + INTERFACE_NAME + "/assets/media/simulator/board/" + this.board.link;
+        const path = _SAME_ORIGIN_PATH + "/" + INTERFACE_NAME + "/assets/media/simulator/board/" + this.board.link;
         if (/(arduinoq|microbit|wb55|l476|mBot|m5stack|galaxia|GalaxiaCircuitPython|buddy|cyberpi|pico|eliobot|thymio|raspberrypi|lotibot|photon|bluebot|codey|steami|alphai|primastem)/.test(INTERFACE_NAME) && (this.board.link).includes('.svg')) {
             $("#board-viewer").attr("data", path);
         } else {
@@ -844,7 +860,7 @@ Simulator.updateBoard_v2 = function (boardId, shield = false) {
     if (!boardId) boardId = Blockly.Constants.getSelectedBoard();
     if (!this.board) this.initBoard();
     if (!this.board) return;
-    const img = (filename) => _PATH + "/" + INTERFACE_NAME + "/assets/media/simulator/board/" + filename;
+    const img = (filename) => _SAME_ORIGIN_PATH + "/" + INTERFACE_NAME + "/assets/media/simulator/board/" + filename;
     const path = VittaInterface.shieldView ? img(this.board.shieldLink) : img(this.board.link);
     const name = VittaInterface.shieldView ? this.board.shieldName : this.board.name;
     $("#board-viewer").attr("data", path);
@@ -2063,9 +2079,9 @@ Simulator.generateModuleDiv_image = function (mod, id, exerciseModule) {
         const animAlt = `${mod.title || 'Animation'} animée`;
 
         if (!exerciseModule) {
-            html += `" id="${id}_anim" src="${_PATH}/interfaces/assets/media/simulator/modules/${mod.pictureAnimation}" alt="${animAlt}"`;
+            html += `" id="${id}_anim" src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/modules/${mod.pictureAnimation}" alt="${animAlt}"`;
         } else {
-            html += `" src="${_PATH}/interfaces/assets/media/simulator/modules/${mod.pictureAnimation}" alt="${animAlt}"`;
+            html += `" src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/modules/${mod.pictureAnimation}" alt="${animAlt}"`;
         }
 
         html += ' />';
@@ -2076,7 +2092,7 @@ Simulator.generateModuleDiv_image = function (mod, id, exerciseModule) {
         const picClass = mod.picture.includes('.svg') ? 'svg' : 'img';
         const imgAlt = mod.title || 'Illustration du module';
 
-        html += `<img class="module-${picClass}-base ${mod.id}_base" src="${_PATH}/interfaces/assets/media/simulator/modules/${mod.picture}" alt="${imgAlt}">`;
+        html += `<img class="module-${picClass}-base ${mod.id}_base" src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/modules/${mod.picture}" alt="${imgAlt}">`;
     }
 
     // LED overlays

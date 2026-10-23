@@ -67,7 +67,7 @@ utils.prototypeBlocks['digitalWrite'] = function (type, fields, values, mutation
 		} else if (child.type === 'identifier' && pin === null) {
 			if (child.text.match(/^PIN_LED_MODULE_(\d+|[A-Z]\d)$/)) {
 				pin = child.text;
-			} else if (checkPin.includes(child.text)) {
+			} else if (checkPin.includes(child.text) || child.text === 'LED_BUILTIN') {
 				pin = child.text;
 			} else {
 				pin = child;
@@ -80,7 +80,8 @@ utils.prototypeBlocks['digitalWrite'] = function (type, fields, values, mutation
 
 	if (pinUsed[pin] !== undefined || pinUsed[pin.text] !== undefined) {
 		if (!needInput) {
-			if (pin === '13') {
+			// io_control_arduino_led generates digitalWrite(LED_BUILTIN, ...)
+			if (pin === '13' || pin === 'LED_BUILTIN') {
 				return {
 					type: 'io_control_arduino_led',
 					fields: {},

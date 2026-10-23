@@ -900,7 +900,8 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                     'robots_CutebotPro_defineSquare',
                     'robots_CutebotPro_runSquare',
                     'robots_CutebotPro_placeWithAngle',
-                    'robots_CutebotPro_turnWheel'
+                    'robots_CutebotPro_turnWheel',
+                    'robots_CutebotPro_computePD'
                 ]
             }, {
                 "label": "%{BKY_SUBCATEGORY_SERVOMOTORS}",

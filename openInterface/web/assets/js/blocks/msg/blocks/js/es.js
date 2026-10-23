@@ -1,4 +1,4 @@
-Blockly.Msg['CSS_STRUCTURE_SELECTOR'] = 'selector';
+Blockly.Msg["CSS_STRUCTURE_SELECTOR"] = "selector";
 Blockly.Msg['CSS_STRUCTURE_PROPERTY'] = 'propiedad';
 Blockly.Msg['CSS_STRUCTURE_VALUE'] = 'valor';
 Blockly.Msg['CSS_STRUCTURE_COMMENT'] = 'comentario';

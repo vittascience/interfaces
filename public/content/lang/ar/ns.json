@@ -886,6 +886,22 @@
       "legalCommitmentNumber": "رقم الالتزام القانوني",
       "siret": "رقم SIRET للمؤسسة",
       "serviceName": "اسم الخدمة (اختياري)",
+      "subscriptionStart": "تاريخ البدء المطلوب للاشتراك",
+      "subscriptionEnd": "تاريخ الانتهاء المتوقع",
+      "durationMonth": "شهر واحد",
+      "durationYear": "سنة واحدة",
+      "durationThreeYears": "3 سنوات",
+      "garActivation": "هل ترغب في التفعيل عبر GAR؟",
+      "whatIsGar": "ما هو GAR؟",
+      "garDefinition": "يتيح GAR (Gestionnaire d'accès aux ressources) للمعلمين والتلاميذ الوصول إلى Vittascience من خلال الفضاء الرقمي للمؤسسة (ENT) دون إنشاء حساب.",
+      "uai": "رقم UAI الخاص بالمؤسسة",
+      "uaiHint": "7 أرقام متبوعة بحرف، مثل 0751234A.",
+      "accountEmails": "عنوان (عناوين) البريد الإلكتروني لحسابات Vittascience المراد تفعيلها",
+      "accountEmailsHint": "عنوان واحد في كل سطر، بحد أقصى {{max}} (عنوان لكل ترخيص).",
+      "accountEmailsTooMany": "عدد العناوين كبير جدًا: الحد الأقصى {{max}}.",
+      "accountEmailInvalid": "عنوان بريد إلكتروني غير صالح:",
+      "quoteUpdateError": "تعذّر تسجيل أمر الشراء الخاص بك: فشل تحديث عرض السعر رقم {{number}}. يرجى المحاولة مرة أخرى بعد بضع دقائق. إذا استمرت المشكلة، تواصل معنا:",
+      "licenceFieldsError": "بيانات الاشتراك غير مكتملة أو غير صالحة. يرجى التحقق من تاريخ البدء أو رقم UAI أو عناوين البريد الإلكتروني.",
       "confirmWithoutEdit1": "أؤكد أن أمر الشراء يتطابق تمامًا مع عرض السعر رقم ",
       "confirmWithoutEdit2": " المقابل (نفس المنتج/المنتجات، المبلغ/المبالغ، الكمية/الكميات) بمبلغ إجمالي قدره ",
       "confirmWithEdit": "أمر الشراء لا يتطابق مع عرض السعر المقابل، تم إجراء تغييرات.",
@@ -1201,16 +1217,6 @@
     }
   },
   "code": {
-    "blockExtensions": {
-      "category": "Extensions",
-      "title": "Block extensions",
-      "note": "Add new blocks to program other robots, models or modules. The chosen extensions are saved with the project.",
-      "close": "Close",
-      "search": "Search for an extension",
-      "added": "Added",
-      "noResult": "No extension found.",
-      "confirmRemoveUsed": "{{count}} block(s) of this extension used in the program will be deleted. Continue?"
-    },
     "tooltip": {
       "anonymousAuthor": "مجهول",
       "backpack": "حقيبة الظهر تتيح لك حفظ كتلة أو مجموعة كتل لإعادة استخدامها في مكان آخر في كودك!",
@@ -1534,6 +1540,7 @@
         "beginnerMode": "وضع المبتدئين",
         "advancedMode": "الوضع المتقدم",
         "lastSaveOn": "آخر حفظ في ",
+        "lastSaveFailed": "The last save failed: your changes are not saved. Click to try again.",
         "description": "الوصف:",
         "repl": "اضغط مفتاح الإدخال ↩️ لتنفيذ الأمر",
         "runningCode": "تشغيل الكود... يرجى الانتظار.",
@@ -1825,7 +1832,8 @@
         "sentData": "البيانات المرسلة:",
         "crash": "وضع منع الأعطال مفعل: يحدث هذا عندما يحتوي كودك على حلقة لا نهائية بدون استدعاء دالة sleep(). صحح الكود قبل المحاولة مجددًا.",
         "variables-panel-msg": "هذا البرنامج لا يحتوي على متغيرات",
-        "replaySimulator": "أعد تشغيل المحاكي لإرسال البيانات"
+        "replaySimulator": "أعد تشغيل المحاكي لإرسال البيانات",
+        "skulptLoadError": "تعذر تحميل المحاكي. تحقق من اتصالك ثم أعد تشغيل المحاكي."
       },
       "tooltips": {
         "bluebot-buttons": "يمكنك استخدام أزرار روبوت Blue-bot لبرمجته!"
@@ -6494,6 +6502,18 @@
         "wrongLink": "هذا الرابط يشير إلى مشروع غير موجود أو لم يُنشأ باستخدام هذه الواجهة. يمكنك البحث عن مشروع من خلال فتح مشروع أو إنشاء مشروع جديد",
         "wrongFile": "يبدو أن هذا الملف غير مناسب لهذه الواجهة. تحقق من هذه المعلومة في رأس الملف عند السطر 'Interface:'.",
         "wrongXml": "هذا الرابط يشير إلى مشروع لا يبدو أنه يُحمّل بشكل صحيح في الواجهة. يرجى مشاركة هذا الرابط معنا عبر دعم فيتاساينس. سنحاول إصلاحه.",
+        "loadingError": "The project couldn't be loaded: the connection to the server failed. Check your internet connection then reload the page.",
+        "reloadPage": "Reload the page",
+        "localDraft": {
+            "title": "Unsaved changes",
+            "content": "This project has changes that were not saved on the server. They have been kept in this browser.",
+            "lastChange": "Last change:",
+            "hint": "If you open the saved version, these changes will be permanently lost.",
+            "buttons": {
+                "restore": "Restore my changes",
+                "discard": "Open the saved version"
+            }
+        },
         "privateProject": "مشروع خاص",
         "rightsChange": "تغيرت حقوق الوصول",
         "rightsAttributed": "تم منح حقوق الوصول",
@@ -7423,6 +7443,18 @@
     "needProjectName": "يجب إدخال اسم المشروع قبل الحفظ!",
     "projectSaveError": "حدث خطأ أثناء الحفظ!",
     "projectSaveConflict": "Your project has NOT been saved: it was modified elsewhere. Save again to overwrite the version stored on the server.",
+    "projectSaveNotConnected": "Your project has NOT been saved: your session has expired. Log in again then save again, your changes are kept in this browser.",
+    "projectSaveForbidden": "Your project has NOT been saved: you are not allowed to edit this project. Use “Save as…” to save a copy of it.",
+    "projectSaveNotFound": "Your project has NOT been saved: it no longer exists on the server. Download it to keep your work.",
+    "projectSaveInvalid": "Your project has NOT been saved: the server refused incomplete data (empty project name or code).",
+    "projectSaveNetworkError": "Your project has NOT been saved: the server can't be reached. Check your internet connection then try again, your changes are kept in this browser.",
+    "projectSaveServerError": "Your project has NOT been saved because of a server error. Try again in a few moments; if the problem persists, download your project so you don't lose your work.",
+    "projectOpened": "Project “{{name}}” opened.",
+    "projectOpenError": "The project couldn't be opened. Check your internet connection then try again.",
+    "projectCopySaved": "Copy “{{name}}” saved: you are now working on this copy.",
+    "localDraftRestored": "Your unsaved changes have been restored. Remember to save your project!",
+    "exerciseSaved": "The exercise has been saved successfully!",
+    "exerciseSaveFailed": "The exercise has NOT been saved. Check your internet connection then try again.",
     "projectNoChangesToSave": "لا توجد تغييرات للحفظ !",
     "projectSaveSuccess": "تم حفظ مشروعك بنجاح!",
     "loadedProjectNotFound": "المشروع المطلوب غير موجود!",

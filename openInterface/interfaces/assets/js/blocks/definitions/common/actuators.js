@@ -107,6 +107,71 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
+    // MDD3A _ INIT PINS
+    {
+        "type": "actuators_mdd3a_init",
+        "message0": "%{BKY_ACTUATORS_MDD3A_INIT_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "M1A",
+            "options": Blockly.Constants.Pins.PWM[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "M1B",
+            "options": Blockly.Constants.Pins.PWM[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "M2A",
+            "options": Blockly.Constants.Pins.PWM[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "M2B",
+            "options": Blockly.Constants.Pins.PWM[Blockly.Constants.getSelectedBoard()]
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_ACTUATORS_MDD3A_INIT_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
+    // MDD3A _ CONTROL MOTOR
+    {
+        "type": "actuators_mdd3a_controlMotor",
+        "message0": "%{BKY_ACTUATORS_MDD3A_CONTROLMOTOR_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "MOTOR",
+            "options": [
+                ["M1", "1"],
+                ["M2", "2"]
+            ]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "DIR",
+            "options": [
+                ["%{BKY_ACTUATORS_MDD3A_FORWARD}", "1"],
+                ["%{BKY_ACTUATORS_MDD3A_BACKWARD}", "-1"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "SPEED",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_ACTUATORS_MDD3A_CONTROLMOTOR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color"
+        ]
+    },
+
     // PCA9685 - SET PWM FREQUENCY
     {
         "type": "actuators_pca9685_setPwmFrequency",

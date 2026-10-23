@@ -605,6 +605,10 @@ $('body').on('click', '#modal-edit-project-btn-edit', function () {
     pseudoModal.closeModal('modal-edit-project-name');
 });
 
+$('body').on('click', '#project-is-saved.save-failed', function () {
+    saveProjectbtn();
+});
+
 $('body').on('click', '#modal-edit-project-btn-cancel', function () {
     pseudoModal.closeModal('modal-edit-project-name');
 });
@@ -681,16 +685,21 @@ async function openProject(projectLink = null, skip = false) {
             if (typeof currentProject.name === 'undefined' || currentProject.description === 'undefined' || currentProject.public === 'undefined') {
                 pseudoModal.closeModal("modal-warningsave");
                 saveProjectbtn();
+                return;
             }
             const projectName = currentProject.name;
             const projectDescription = currentProject.description;
             const isPublic = currentProject.public;
+            $(this).prop('disabled', true);
             try {
                 await projectManager.saveProject(projectName, projectDescription, isPublic);
-                openProject(projectLink, true);
             } catch (error) {
                 displayFrontError(error, 'modal-warningsave');
+                return;
+            } finally {
+                $(this).prop('disabled', false);
             }
+            openProject(projectLink, true);
             setTimeout(function () {
                 pseudoModal.closeModal("modal-warningsave");
             }, SAVE_TIMEOUT);
@@ -707,6 +716,10 @@ async function openProject(projectLink = null, skip = false) {
         pseudoModal.closeLatestModal();
         if (status == ProjectManager.STATUS.LOADING.INJECT.error) {
             pseudoModal.openModal('modal-warningWrongXml')
+        } else if (status == ProjectManager.STATUS.LOADING.FINDER.invalid) {
+            new VittaNotif().displayNotification(null, i18next.t('notifications.projectOpenError'), 'bg-danger');
+        } else if (status == ProjectManager.STATUS.LOADING.FINDER.success) {
+            new VittaNotif().displayNotification(null, i18next.t('notifications.projectOpened', { name: projectManager.getCurrentProject().name }), 'bg-success');
         }
     }
     if ($_GET('duo')) {
@@ -1161,6 +1174,7 @@ async function deleteProject(projectLink) {
         }
     } catch (error) {
         console.error(error);
+        pseudoModal.setMessage('modal-warningdelete', i18next.t('notifications.deleteProjectMiscError'), 'error');
     }
 
     $('#btn_warning_delete_project_decline').click(function () {
@@ -1394,6 +1408,10 @@ async function saveProjectbtn() {
         return projectManager !== null ? projectManager.getCurrentProject() : false;
     };
 
+    if (projectManager.loadingFailed) {
+        pseudoModal.openModal('modal-project-loading-error');
+        return;
+    }
     // If there is a link (the project is saved in database), we wait for it to be fully loaded
     if ($_GET('link') !== null) {
         await projectManager.awaitForProjectLoad();
@@ -1478,7 +1496,6 @@ async function saveConfirm() {
         await projectManager.saveProject(projectName, projectDescription, isPublic);
         pseudoModal.setMessage('modal-warningoverride', i18next.t('modals.standard.save.content.messages.success.saved'), 'success');
         pseudoModal.setMessage('modal-saveproject', i18next.t('modals.standard.save.content.messages.success.saved'), 'success');
-        $("#project-is-saved").css('color', 'var(--vitta-green)').html('<i class="fas fa-check"></i>');
         $("#save-name").prop("disabled", true);
         $("#save-description").prop("disabled", true);
         $('#btn_warning_override_project').unbind('click');
@@ -1495,34 +1512,41 @@ async function saveConfirm() {
         }
     } catch (error) {
         console.error(error);
-        displayFrontError();
+        if (!$('#modal-saveproject').is(':visible')) {
+            await saveProjectbtn();
+        }
+        displayFrontError(error);
+        setButton("modal-save-btn-confirm", true);
+        return;
     }
     triggerEventsAfterSave();
 };
 
+/**
+ * Save the current workspace as a copy of the current project and keep working on this copy
+ */
 async function copyProject() {
+    if (UserManager.getUser() == null) return;
     const newProjectName = $("#save-as-name").val();
     const newProjectDescription = $("#save-as-description").val();
-    const newIsPublic = (UserManager.getUser() == null) ? false : $("#shareProjectSaveUnder").is(':checked');
+    const newIsPublic = $("#shareProjectSaveUnder").is(':checked');
     $("#modal-save-as-btn-confirm").prop('disabled', true);
-    setTimeout(() => { //refactor later with something more robust
-        $("#modal-save-as-btn-confirm").prop('disabled', false);
-    }, SAVE_TIMEOUT);
-    if (UserManager.getUser() != null) {
-        const currentProjectLink = projectManager.getCurrentProject().link;
-        const response = await projectManager.duplicateProject(currentProjectLink, newProjectName, newProjectDescription, newIsPublic);
-        projectManager.setCurrentProjectParameters({
-            link: response.link,
-            id: response.id,
-            dateUpdated: response.dateUpdated
-        });
-        projectManager.addToProjects(projectManager.getCurrentProject());
-        updateAfterSaving(true);
+    try {
+        await projectManager.saveProjectAs(newProjectName, newProjectDescription, newIsPublic);
+        projectManager.populateAllProjects();
+        pseudoModal.setMessage('modal-saveproject-under', i18next.t('notifications.projectCopySaved', { name: newProjectName }), 'success');
+        setTimeout(() => {
+            pseudoModal.closeModal('modal-saveproject-under');
+        }, SAVE_TIMEOUT);
+    } catch (error) {
+        console.error(error);
+        projectManager.populateAllProjects();
+        displayFrontError(error, 'modal-saveproject-under');
     }
-    $('#modal-save-btn-copy').unbind('click');
+    $("#modal-save-as-btn-confirm").prop('disabled', false);
 };
 
-async function updateAfterSaving(isCopy = false) {
+async function updateAfterSaving() {
     if (projectManager.hasReachedQuota() == true) {
         pseudoModal.openModal('modal-backenderror');
         pseudoModal.setMessage('modal-backenderror', i18next.t('code.popups.newProject.warningQuota'), 'error');
@@ -1531,30 +1555,19 @@ async function updateAfterSaving(isCopy = false) {
         }, SAVE_TIMEOUT);
     } else {
         if (UserManager.getUser() != null) {
-            if (isCopy) {
-                const link = projectManager._pastedProject.link;
-                if (link !== null) {
-                    window.open(
-                        window.location.href.split('/?')[0] + '/?link=' + link,
-                        '_blank'
-                    );
-                    pseudoModal.closeModal('modal-saveproject-under');
-                }
-            } else {
-                $("#project-is-saved").css('color', 'var(--vitta-green)').html('<i class="fas fa-check"></i>');
-                const link = projectManager.getCurrentProject().link;
-                if (link !== null) {
-                    let state = {};
-                    let title = '';
-                    history.pushState(state, title, replaceParam('link', link));
-                    projectManager.updateUrl();
-                    await projectManager.projectsFinder_updateProject();
-                    projectManager.updateMultiEditorLS(link, projectManager.getInterface());
-                }
-                pseudoModal.setMessage('modal-saveproject-under', i18next.t('modals.standard.new.content.messages.success.new'), 'success');
-                await new Promise((resolve, reject) => { setTimeout(resolve, SAVE_TIMEOUT) });
-                pseudoModal.closeModal('modal-saveproject-under');
+            $("#project-is-saved").css('color', 'var(--vitta-green)').html('<i class="fas fa-check"></i>');
+            const link = projectManager.getCurrentProject().link;
+            if (link !== null) {
+                let state = {};
+                let title = '';
+                history.pushState(state, title, replaceParam('link', link));
+                projectManager.updateUrl();
+                await projectManager.projectsFinder_updateProject();
+                projectManager.updateMultiEditorLS(link, projectManager.getInterface());
             }
+            pseudoModal.setMessage('modal-saveproject-under', i18next.t('modals.standard.new.content.messages.success.new'), 'success');
+            await new Promise((resolve, reject) => { setTimeout(resolve, SAVE_TIMEOUT) });
+            pseudoModal.closeModal('modal-saveproject-under');
             projectManager.populateAllProjects();
         }
     }
@@ -1867,6 +1880,7 @@ function openLocalStorageProject(id) {
         const project = projectManager.localStorageManager.getLocalProjectContent(id);
         const otherBoard = project && project.options && project.options.board && Main.hasBoardSelector() && project.options.board !== projectManager.getBoardMode();
         if (!project || typeof project.code !== 'string' || !Main.getIsXmlBasedInterface() || ['adacraft', 'ai', 'web'].includes(INTERFACE_NAME) || otherBoard) {
+            projectManager.isLeavingPage = true;
             window.location.href = newUrl.toString();
             return;
         }
@@ -2153,7 +2167,8 @@ $('#blockly-setting').click(function () {
 
 /**
  * Display error on save modal according to the error status.
- * @param {Array<Object>} projects 
+ * @param {string} status - A saving error constant or a ProjectManager.STATUS.SAVING status
+ * @param {string} modalId - The modal displaying the error
  */
 function displayFrontError(status, modalId = 'modal-saveproject') {
     switch (status) {
@@ -2166,8 +2181,13 @@ function displayFrontError(status, modalId = 'modal-saveproject') {
         case USER_PROJECTS_SIZE_ERROR:
             pseudoModal.setMessage(modalId, i18next.t('modals.standard.save.content.messages.error.userQuotaSave'), 'error');
             break;
+        case ProjectManager.STATUS.SAVING.notConnected: {
+            const loginLink = `<a href="javascript:void(0)" class="alert-link" onclick="pseudoModal.closeLatestModal(); displayLogin();">${i18next.t('navbar.items.user_shortcuts.willSignin')}</a>`;
+            pseudoModal.setMessage(modalId, `${ProjectManager.getSaveErrorMessage(status)} ${loginLink}`, 'error');
+            break;
+        }
         default:
-            pseudoModal.setMessage(modalId, i18next.t('modals.standard.save.content.messages.error.default'), 'error');
+            pseudoModal.setMessage(modalId, ProjectManager.getSaveErrorMessage(status), 'error');
     }
 };
 
@@ -2258,19 +2278,23 @@ $('body').on('click', '#modal-new-btn-create, #readOnlyCopyBtn', async function 
             Main.restrictToolbox();
         }
         projectManager.localStorageManager.removeLocalId();
+        history.pushState({}, '', removeParam("link", window.location.href));
         const status = await projectManager.newProject(project);
         if (status) {
             if (projectManager._exerciseStatement && projectManager._exerciseStatement._statementContentElt) {
                 projectManager._exerciseStatement.updateStatementContent('');
                 projectManager._exerciseStatement.displayStatement();
             }
-            pseudoModal.setMessage('modal-newproject', i18next.t('modals.standard.new.content.messages.success.new'), 'success');
-            $("#project-is-saved").css('color', 'var(--vitta-green)').html('<i class="fas fa-check"></i>');
-            let state = {};
-            let title = '';
-            history.pushState(state, title, removeParam("link", window.location.href));
             if (UserManager.getUser() != null) {
-                await projectManager.saveProject(project.name, project.description);
+                let isSaved = true;
+                try {
+                    await projectManager.saveProject(project.name, project.description);
+                    pseudoModal.setMessage('modal-newproject', i18next.t('modals.standard.new.content.messages.success.new'), 'success');
+                } catch (error) {
+                    console.error(error);
+                    isSaved = false;
+                    displayFrontError(error, 'modal-newproject');
+                }
                 if (INTERFACE_NAME === 'ai') {
                     if (aiMain._controller.getProjectDataRetention()) {
                         aiMain._controller.setProjectDataRetention(false);
@@ -2279,18 +2303,24 @@ $('body').on('click', '#modal-new-btn-create, #readOnlyCopyBtn', async function 
                     }
                     aiMain._model.clearModel();
                     if (aiMain._model.getAiInterfaceType() !== 'text' && aiMain._model.getAiInterfaceType() !== 'tts' && aiMain._model.getCategories().length <= 0) aiMain._model.addCategory()
-                    aiMain._controller._updateIdeAfterSaving();
-                    setTimeout(function () {
-                        pseudoModal.closeModal('modal-newproject');
-                    }, SAVE_TIMEOUT);
+                    if (isSaved) {
+                        aiMain._controller._updateIdeAfterSaving();
+                        setTimeout(function () {
+                            pseudoModal.closeModal('modal-newproject');
+                        }, SAVE_TIMEOUT);
+                    }
                     projectManager.localStorageManager.addLocalId();
                     return;
                 }
-                updateAfterSaving();
+                if (isSaved) {
+                    updateAfterSaving();
+                    setTimeout(function () {
+                        pseudoModal.closeModal('modal-newproject');
+                    }, SAVE_TIMEOUT);
+                } else {
+                    projectManager.localStorageManager.addLocalId();
+                }
                 await resetInterfaceForNewProject();
-                setTimeout(function () {
-                    pseudoModal.closeModal('modal-newproject');
-                }, SAVE_TIMEOUT);
             } else {
                 projectManager.localStorageManager.addLocalId();
                 // The whole new project (blocks, code, mode, options), not only its name and description
@@ -2495,4 +2525,21 @@ window.addEventListener('beforeunload', function (event) {
     } catch (error) {
         console.error(error);
     }
+});
+
+/**
+ * Warn before leaving the page with unsaved changes: a project opened from its link is loaded again from the database.
+ * Not in an iframe (LTI, Capytale...: the parent page manages the saving), nor after "continue without saving" in the
+ * warning modal of the interface.
+ */
+let leaveWithoutSaving = false;
+$(document).on('click', '#modal-warning-save-btn-no', () => {
+    leaveWithoutSaving = true;
+    setTimeout(() => { leaveWithoutSaving = false; }, 2000); // the page is left right away, or not at all
+});
+window.addEventListener('beforeunload', (event) => {
+    if (leaveWithoutSaving || window.self !== window.top || INTERFACE_NAME === 'ai') return;
+    if (typeof projectManager === 'undefined' || !projectManager || !projectManager.needSaving()) return;
+    event.preventDefault();
+    event.returnValue = '';
 });

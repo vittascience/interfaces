@@ -55,7 +55,7 @@
       "kits": "Hårdvara",
       "premium": "Premium <sup>NYTT</sup>",
       "community": {
-        "title": "Community",
+        "title": "Gemenskap",
         "dropdown": {
           "vittamap": "Vittamap",
           "blog": "Blogg",
@@ -886,6 +886,22 @@
       "legalCommitmentNumber": "Åtagandenummer",
       "siret": "SIRET-nummer för verksamheten",
       "serviceName": "Avdelningens namn (valfritt)",
+      "subscriptionStart": "Önskat startdatum för prenumerationen",
+      "subscriptionEnd": "Beräknat slutdatum",
+      "durationMonth": "1 månad",
+      "durationYear": "1 år",
+      "durationThreeYears": "3 år",
+      "garActivation": "Vill du ha en aktivering via GAR?",
+      "whatIsGar": "Vad är GAR?",
+      "garDefinition": "GAR (Gestionnaire d'accès aux ressources) ger lärare och elever tillgång till Vittascience från skolans digitala arbetsmiljö (ENT), utan att skapa ett konto.",
+      "uai": "Skolans UAI-nummer",
+      "uaiHint": "7 siffror följda av en bokstav, till exempel 0751234A.",
+      "accountEmails": "E-postadress(er) för de Vittascience-konton som ska aktiveras",
+      "accountEmailsHint": "En adress per rad, högst {{max}} (en per licens).",
+      "accountEmailsTooMany": "För många adresser: högst {{max}}.",
+      "accountEmailInvalid": "Ogiltig e-postadress:",
+      "quoteUpdateError": "Ditt inköpsorder kunde inte registreras: uppdateringen av offert nr {{number}} misslyckades. Försök igen om några minuter. Om problemet kvarstår, kontakta oss:",
+      "licenceFieldsError": "Prenumerationsuppgifterna är ofullständiga eller ogiltiga. Kontrollera startdatum, UAI-nummer eller e-postadresser.",
       "confirmWithoutEdit1": "Jag bekräftar att inköpsordern exakt motsvarar offerten nr ",
       "confirmWithoutEdit2": " motsvarande (samma produkt(er), belopp, kvantitet(er)) för ett totalt belopp på ",
       "confirmWithEdit": "Inköpsordern motsvarar inte offerten, ändringar har gjorts.",
@@ -1202,14 +1218,239 @@
   },
   "code": {
     "blockExtensions": {
-      "category": "Extensions",
-      "title": "Block extensions",
-      "note": "Add new blocks to program other robots, models or modules. The chosen extensions are saved with the project.",
-      "close": "Close",
-      "search": "Search for an extension",
-      "added": "Added",
-      "noResult": "No extension found.",
-      "confirmRemoveUsed": "{{count}} block(s) of this extension used in the program will be deleted. Continue?"
+      "category": "Tillägg",
+      "title": "Blocktillägg",
+      "note": "Lägg till nya block för att programmera andra robotar, modeller eller moduler. Valda tillägg sparas med projektet.",
+      "close": "Stäng",
+      "search": "Sök efter ett tillägg",
+      "added": "Lagt till",
+      "noResult": "Inga tillägg hittades.",
+      "confirmRemoveUsed": "{{count}} block från detta tillägg som används i programmet kommer att tas bort. Fortsätt?",
+      "manage": "Hantera tillägg",
+      "filter": "Filtrera tillägg",
+      "filters": {
+        "all": "Alla",
+        "model": "Pedagogiska modeller",
+        "robotics": "Robotik",
+        "display": "Skärm",
+        "lights": "Belysning",
+        "sensors": "Sensorer",
+        "actuators": "Aktuatorer",
+        "ai": "Artificiell intelligens",
+        "games": "Spel",
+        "communication": "Kommunikation"
+      },
+      "catalog": {
+        "colours": {
+          "red": "röd",
+          "green": "grön",
+          "blue": "blå",
+          "yellow": "gul",
+          "cyan": "cyan",
+          "magenta": "magenta",
+          "orange": "orange",
+          "purple": "lila",
+          "white": "vit",
+          "off": "av",
+          "black": "svart"
+        },
+        "a4_leds": {
+          "blocks": {
+            "battery": "Batterinivå (%)",
+            "leds_colour": "sätt RGB0 till {C0} och RGB1 till {C1}",
+            "leds_rgb": "sätt RGB0 till R {R0} G {G0} B {B0} och RGB1 till R {R1} G {G1} B {B1}",
+            "leds_brightness": "sätt RGB-ljusstyrka till {B} (0-255)",
+            "leds_off": "stäng av RGB-LEDs"
+          }
+        },
+        "a4_screen": {
+          "blocks": {
+            "screen_clear": "rensa allt på skärmen",
+            "screen_background": "sätt bakgrundsfärg {C} på skärmen",
+            "screen_background_image": "sätt bakgrundsbild {NAME} på skärmen",
+            "screen_text": "visa text {TEXT} id {ID} vid x {X} y {Y} storlek {SIZE} färg {C}",
+            "screen_image": "visa bild id {ID} namn {NAME} på skärmen vid x {X} y {Y} storlek {ZOOM}",
+            "screen_rotate": "rotera bild id {ID} med vinkel {ANGLE}",
+            "screen_remove": "ta bort {KIND} id {ID}",
+            "screen_init_i2c": "initiera skärmen via I2C",
+            "screen_init_uart": "initiera LCD-skärmen"
+          },
+          "options": {
+            "screen_text_size": {
+              "large": "stor",
+              "small": "liten"
+            },
+            "screen_remove_kind": {
+              "text": "text",
+              "image": "bild"
+            }
+          },
+          "defaults": {
+            "screen_text": "Hej"
+          }
+        },
+        "a4_access": {
+          "description": "Byggnadstillträde: en kapacitiv knappsats låser upp en dörr som hålls av ett magnetlås.",
+          "blocks": {
+            "lock": "sätt dörrlåset till {STATE}",
+            "door_is": "dörren är {STATE}",
+            "wait_key": "vänta på knapptryck på knappsatsen",
+            "read_key": "senaste knapptrycket på knappsatsen",
+            "entered_code": "inmatad kod",
+            "code_is": "inmatad kod är {CODE}",
+            "code_length": "inmatad kod har {N} siffror",
+            "clear_code": "rensa inmatad kod",
+            "delete_last": "ta bort sista kodsiffran"
+          },
+          "options": {
+            "lock_state": {
+              "locked": "låst",
+              "unlocked": "olåst"
+            },
+            "door_is_state": {
+              "closed": "stängd",
+              "open": "öppen"
+            }
+          }
+        },
+        "a4_parking": {
+          "description": "Tidsbegränsad parkeringsstation: en sensor upptäcker fordon och en färgskärm visar återstående tid.",
+          "blocks": {
+            "vehicle": "fordon närvarande",
+            "time": "tid {H} h {M} min {S} s"
+          }
+        },
+        "a4_barrier": {
+          "description": "Parkerings- eller bombarriär med servomotor, RGB-lampa, infraröd sensor och RFID-läsare.",
+          "blocks": {
+            "read_tag": "läs RFID-tag",
+            "move": "{ACTION} bom",
+            "servo": "ställ servovinkel till {ANGLE}",
+            "vehicle": "fordon upptäckt",
+            "light_colour": "sätt signalens färg till {C}",
+            "light_rgb": "sätt signalens färg röd {R} grön {G} blå {B}",
+            "light_off": "stäng av blinkers"
+          },
+          "options": {
+            "move_action": {
+              "open": "öppna",
+              "close": "stäng"
+            }
+          }
+        },
+        "a4_weight": {
+          "description": "Automatisk lastcellsvåg med 4x4-tangentbord och färgskärm för att väga, räkna eller prissätta varor.",
+          "blocks": {
+            "init": "initiera vågen",
+            "tare": "tara vågen",
+            "mass": "massa (g)",
+            "connected": "våg ansluten",
+            "start_calibration": "starta kalibrering av vågen",
+            "calibrate": "kalibrera vågen med en referensmassa på {MASS} g",
+            "pressed_key": "tryckt tangent på knappsatsen",
+            "wait_key": "vänta på knapptryckning på knappsatsen",
+            "key_is_pressed": "tangent {KEY} på knappsatsen är nedtryckt",
+            "set_factor": "sätt vågens kalibreringsfaktor till {VALUE}",
+            "factor": "vågens kalibreringsfaktor",
+            "raw_average": "medelvärde av rått vågvärde över {N} mätningar"
+          }
+        },
+        "a4_shifumi": {
+          "description": "Sten-sax-påse: en servo vrider en belyst skiva och en ultraljudssensor känner av handen.",
+          "blocks": {
+            "disc_angle": "ställ servovinkel för skivan till {ANGLE} °",
+            "distance": "ultraljudsavstånd (cm)",
+            "hand_detected": "hand upptäckt inom {D} cm",
+            "backlight_brightness": "ställ skivans bakgrundsbelysning till {B} %",
+            "backlight_colour": "ställ skivans bakgrundsbelysning till {C}",
+            "backlight_rgb": "ställ skivans bakgrundsbelysning till röd {R} grön {G} blå {B}",
+            "backlight_off": "stäng av skivans bakgrundsbelysning",
+            "lcd_init": "initiera LCD",
+            "lcd_clear": "rensa LCD",
+            "lcd_text": "LCD visa {TEXT} på rad {LINE}",
+            "lcd_number": "LCD visa nummer {VALUE} på rad {LINE}"
+          },
+          "defaults": {
+            "lcd_text": "KLAR"
+          }
+        },
+        "a4_ai_vision": {
+          "description": "HuskyLens 2.0 AI-kameramodul med färgskärm och RGB-LEDs, för att känna igen ansikten, föremål, färger eller gester."
+        },
+        "dfr0997": {
+          "name": "DFR0997 färgskärm",
+          "description": "DFRobot 2.8\" I2C färg-LCD: texter, former, bilder och GIF-filer från dess USB-enhet, mätare, kompass och diagram.",
+          "options": {
+            "fill": {
+              "filled": "fylld",
+              "not_filled": "inte fylld"
+            },
+            "text_size": {
+              "large": "stor",
+              "small": "liten"
+            },
+            "rect_round": {
+              "rounded": "rundade",
+              "square": "fyrkantig"
+            },
+            "set_value_kind": {
+              "progress_bar": "förloppsindikator",
+              "slider": "skjutreglage",
+              "compass": "kompass (°)",
+              "gauge": "mätare",
+              "line_meter": "linjemätare"
+            },
+            "chart_style": {
+              "line": "linje",
+              "bars": "staplar",
+              "shaded_line": "skuggad linje"
+            },
+            "remove_kind": {
+              "text": "text",
+              "image": "bild",
+              "line": "linje",
+              "rectangle": "rektangel",
+              "circle": "cirkel",
+              "triangle": "triangel",
+              "slider": "skjutreglage",
+              "progress_bar": "förloppsindikator",
+              "compass": "kompass",
+              "gauge": "mätare",
+              "line_meter": "linjemätare",
+              "chart": "diagram"
+            }
+          },
+          "blocks": {
+            "clear": "rensa hela skärmen",
+            "background": "skärmens bakgrundsfärg {C}",
+            "background_image": "skärmens bakgrundsbild {NAME}",
+            "rgb": "färg röd {R} grön {G} blå {B}",
+            "text": "skärmen visa text {TEXT} id {ID} x {X} y {Y} storlek {SIZE} färg {C}",
+            "image": "skärmen visa bild {NAME} id {ID} x {X} y {Y} storlek {ZOOM}",
+            "rotate_image": "skärmen rotera bild id {ID} till {ANGLE} °",
+            "gif": "skärmen visa GIF {NAME} id {ID} x {X} y {Y} storlek {ZOOM}",
+            "line": "skärmen linje id {ID} från x {X1} y {Y1} till x {X2} y {Y2} tjocklek {W} färg {C}",
+            "rect": "skärmen rektangel id {ID} x {X} y {Y} bredd {WIDTH} höjd {HEIGHT} kant {W} {C} {FILL} {FC} hörn {ROUND}",
+            "circle": "skärmen cirkel id {ID} centrum x {X} y {Y} radie {R} kant {W} {C} {FILL} {FC}",
+            "triangle": "skärmen triangel id {ID} x1 {X1} y1 {Y1} x2 {X2} y2 {Y2} x3 {X3} y3 {Y3} kant {W} {C} {FILL} {FC}",
+            "slider": "skärmen skjutreglage id {ID} x {X} y {Y} bredd {WIDTH} höjd {HEIGHT} färg {C}",
+            "bar": "skärmen förloppsindikator id {ID} x {X} y {Y} bredd {WIDTH} höjd {HEIGHT} färg {C}",
+            "compass": "skärmen kompass id {ID} x {X} y {Y} diameter {D}",
+            "gauge": "skärmen mätare id {ID} x {X} y {Y} diameter {D} från {MIN} till {MAX} visare {C} bakgrund {BG}",
+            "line_meter": "skärmen linjemätare id {ID} x {X} y {Y} storlek {SIZE} från {MIN} till {MAX} visare {C} bakgrund {BG}",
+            "set_value": "skärm sätt {KIND} id {ID} till {VALUE}",
+            "chart": "skärm diagram id {ID} X-axel {XAXIS} Y-axel {YAXIS} bakgrund {C} stil {STYLE}",
+            "chart_series": "diagram lägg till serie id {ID} färg {C}",
+            "chart_point": "diagramserie id {ID} sätt {X} till {VALUE}",
+            "remove": "skärm ta bort {KIND} id {ID}"
+          },
+          "defaults": {
+            "text": "Hej",
+            "chart_x_axis": "Mån Tis Ons Tor Fre",
+            "chart_point_x": "Mån"
+          }
+        }
+      }
     },
     "tooltip": {
       "anonymousAuthor": "Anonym författare",
@@ -1515,6 +1756,7 @@
         "toolboxRestriction": "Begränsa tillgängliga block",
         "consoleSettings": "Huvudinställningar",
         "accessibility": "Välj tema och teckensnitt",
+        "shortcuts": "Visa kortkommandon",
         "addBlockSettings": "Lägg till block",
         "fullscreen": "Växla helskärm",
         "help": "Hjälp",
@@ -1534,6 +1776,7 @@
         "beginnerMode": "Nybörjarläge",
         "advancedMode": "Avancerat läge",
         "lastSaveOn": "Senast sparat: ",
+        "lastSaveFailed": "The last save failed: your changes are not saved. Click to try again.",
         "description": "Beskrivning:",
         "repl": "Tryck på Enter ↩️ för att köra kommandot",
         "runningCode": "Kör din kod... vänta ett ögonblick.",
@@ -1587,6 +1830,7 @@
         "connectBoard": "Anslut",
         "settings": "Inställningar",
         "themes": "Tillgänglighet",
+        "shortcuts": "Kortkommandon",
         "add": "Lägg till block",
         "fullscreen": "Helskärm",
         "help": "Hjälp",
@@ -1649,7 +1893,7 @@
       "controls": {
         "text": {
           "menu": {
-            "allData": "All data",
+            "allData": "Alla data",
             "clearData": "Rensa data"
           },
           "send": "Meddelande som skickas till kortet via seriell port",
@@ -1734,7 +1978,7 @@
         },
         "effect": "Effekter",
         "effects": {
-          "reverb": "Reverb",
+          "reverb": "Efterklang",
           "delay": "Fördröjning",
           "bitcrusher": "Bitcrusher",
           "vibrato": "Vibrato",
@@ -1772,8 +2016,8 @@
           "toggleBoardDisplay": "Visa/dölj simulatorns karta",
           "switchWiringMode": "Byt till kopplingsläge",
           "switchMosaicMode": "Byt till mosaikläge",
-          "wiringZoomIn": "Zoom in",
-          "wiringZoomOut": "Zoom out"
+          "wiringZoomIn": "Zooma in",
+          "wiringZoomOut": "Zooma ut"
         },
         "robot": {
           "background": "Bakgrund",
@@ -1825,7 +2069,8 @@
         "sentData": "Skickade data:",
         "crash": "Kraschskydd aktiverat: Det här sker när din kod innehåller en oändlig loop utan anrop till sleep(). Åtgärda koden innan du försöker igen.",
         "variables-panel-msg": "Detta program innehåller inga variabler",
-        "replaySimulator": "Kör om simulatorn för att skicka data"
+        "replaySimulator": "Kör om simulatorn för att skicka data",
+        "skulptLoadError": "Simulatorn kunde inte laddas. Kontrollera din anslutning och starta simulatorn igen."
       },
       "tooltips": {
         "bluebot-buttons": "Du kan använda knapparna på Blue-bot-roboten för att programmera den!"
@@ -1880,6 +2125,7 @@
         "dht22-hum": "DHT22 - Luftfuktighet",
         "ds18x20": "DS18X20 - Temperatur",
         "mlx90621": "MLX90621 - Temperatur",
+        "bn880": "BN-880 - Magnetisk kurs",
         "dustSensor": "Partikelsensor",
         "groveRain": "Regnsensor",
         "rainGauge": "Regnmätare",
@@ -1946,9 +2192,9 @@
       "mixed-popup-leave-editor": "För att stänga kodeditorn med tangentbordet, tryck samtidigt på <kbd>Caps Lock</kbd> och <kbd>Esc</kbd>.",
       "mixed-popup-readonly": "<i class='fa-solid fa-lock'></i> I mixat läge är kodeditorn <strong>skrivskyddad</strong> i detta gränssnitt. Du kan endast redigera med block.",
       "mixed-popup-readonly-sr": "I mixat läge är koden skrivskyddad i detta gränssnitt",
-      "mixed-small-screen": "On a small screen, the hybrid mode is not very practical: we recommend switching to the blocks or code mode.",
-      "mixed-small-screen-stay": "Stay in hybrid mode",
-      "mixed-small-screen-close": "Close",
+      "mixed-small-screen": "På liten skärm är hybridläget inte så praktiskt. Vi rekommenderar att du byter till block- eller kodläge.",
+      "mixed-small-screen-stay": "Fortsätt i hybridläge",
+      "mixed-small-screen-close": "Stäng",
       "saveWarning": {
         "title": "<span class=\"fa fa-exclamation-circle\"></span> Varning!",
         "warn": "<span class=\"fa fa-save\"></span> Vill du spara ditt arbete innan du fortsätter?<p class=\"mb-0 mt-0 hint\"> Om du skapar ett nytt projekt utan att spara det tidigare, förloras ditt arbete...",
@@ -4015,7 +4261,7 @@
           "unitsBillion": "B"
         },
         "userRestrictions": {
-          "credits": "Credits",
+          "credits": "Krediter",
           "remaining": "{{count}} verbleibend",
           "creditCondition": "Für die Erstellung eines Bildes wird ein Credit benötigt.",
           "dailyReset": "Die täglichen Credits werden um Mitternacht UTC zurückgesetzt.",
@@ -4999,7 +5245,7 @@
     "address": "VITTASCIENCE SAS</br>6 boulevard Dubreuil</br>91400 Orsay</br>FRANCE",
     "sas": "SAS med 10 000 €<br/>Registrerat vid Évry RCS under nummer: 837 973 296<br/>Momsregistreringsnummer: FR00 837 973 296",
     "contact": "Ansvarig utgivare: Léo Briand</br>Kontakt: <a href=\"/about?contact=1\">klicka här</a> för att komma till kontaktformuläret</br>Telefon: 0606758186",
-    "website": "Website: <a href=\"https://vittascience.com/\">https://vittascience.com/</a></br>Hosted in France by:</br>OVH SAS</br>2 rue Kellermann</br>59100 Roubaix</br>FRANCE",
+    "website": "Webbplats: <a href=\"https://vittascience.com/\">https://vittascience.com/</a></br>Hostad i Frankrike av:</br>OVH SAS</br>2 rue Kellermann</br>59100 Roubaix</br>FRANKRIKE",
     "account": "Skapandet av ett Vittascience-konto är inte nödvändigt för att använda webbplatsens tjänster, förutom vid skapande av resurser, offentliga projekt och experiment på Vittamap. De som väljer att skapa ett Vittascience-konto kan välja om de vill ha en offentlig profil eller inte. Personuppgifter (efternamn, förnamn och skola) publiceras eller delas aldrig utan användarens samtycke och omfattas av strikta säkerhetsåtgärder. E-postadress och telefonnummer (valfritt vid registrering) görs aldrig offentliga.",
     "law": "I enlighet med lagen \\\"Informatique et Libertés\\\" (Computing and Freedom) N° 78-17 du 6 Janvier 1978 har du rätt till åtkomst, rättelse och invändning. Du kan utöva dessa rättigheter via <a href=\"/about?contact=1\"> kontaktformulär </a> eller skriftligen till följande adress: <br/>Vittascience SAS, 6 Boulevard Dubreuil 91400 ORSAY."
   },
@@ -5086,7 +5332,7 @@
     "articles": {
       "1": {
         "title": "1. Syfte",
-        "content": "Vittascience är en samling onlinetjänster (hädanefter \\\"<strong>Services</strong>\\\") som gör det möjligt för användare att köra, skapa, redigera och publicera datorprogram samt pedagogiska resurser, aktiviteter och lärvägar (hädanefter gemensamt kallade \\\"<strong>Content</strong>\\\").</br></br>Vittascience erbjuder också elektronisk utrustning och pedagogiska kit till försäljning via webbplatsen. Se <a href='https://fr.vittascience.com/cgv'>General Terms and Conditions of Sale</a> för mer information.</br></br>Företaget VITTASCIENCE (hädanefter: \\\"<strong>VITTASCIENCE</strong>\\\") tillhandahåller, genom sin webbplats <a href='https://vittascience.com/'>www.vittascience.com</a> (hädanefter: \\\"<strong>Site</strong>\\\"), tjänster avsedda för lärare och privatpersoner (hädanefter: \\\"<strong>Users</strong>\\\") som är tillägnade undervisning och lärande inom naturvetenskap och digital teknik.</br></br>Syftet med dessa villkor är att definiera användningsreglerna för de tjänster som erbjuds på webbplatsen samt användarnas rättigheter och skyldigheter i detta sammanhang. De är tillgängliga och kan skrivas ut när som helst.</br></br>Webbplatsen och tjänsterna drivs av företaget VITTASCIENCE. Mer information och kontaktuppgifter finns i <a href='https://vittascience.com/legalnotice'>Legal Notice</a>."
+        "content": "Vittascience är en uppsättning onlinetjänster (hädanefter \"<strong>Tjänsterna</strong>\") som gör det möjligt för användare att köra, skapa, redigera och publicera datorprogram samt pedagogiska resurser, aktiviteter och lärandevägar (hädanefter gemensamt kallade \"<strong>Innehållet</strong>\").</br></br>Vittascience erbjuder också elektronisk utrustning och pedagogiska kit till salu via webbplatsen. Se <a href='https://fr.vittascience.com/cgv'>Allmänna försäljningsvillkor</a> för mer information.</br></br>Företaget VITTASCIENCE (hädanefter: \"<strong>VITTASCIENCE</strong>\") tillhandahåller, via sin webbplats <a href='https://vittascience.com/'>www.vittascience.com</a> (hädanefter: \"<strong>Webbplatsen</strong>\"), tjänster riktade till lärare och privatpersoner (hädanefter: \"<strong>Användarna</strong>\") med fokus på undervisning och lärande inom naturvetenskap och digital teknik.</br></br>Syftet med dessa villkor är att fastställa villkoren för användningen av tjänsterna som erbjuds på webbplatsen samt användarnas rättigheter och skyldigheter i detta sammanhang. De är tillgängliga och kan skrivas ut när som helst.</br></br>Webbplatsen och tjänsterna drivs av företaget VITTASCIENCE. Mer information och kontaktuppgifter finns i <a href='https://vittascience.com/legalnotice'>Juridisk information</a>."
       },
       "2": {
         "title": "2. Godkännande av användarvillkoren",
@@ -6067,7 +6313,7 @@
             "libraries-link": "https://github.com/vittascience/galaxia-libraries"
           },
           "letsstartcoding": {
-            "name": "Let's start coding",
+            "name": "Dags att börja koda",
             "learn": "Läs mer om C++-funktionerna för Let's start coding-korten på ",
             "learn-link": "https://www.letsstartcoding.com/",
             "libraries-link": "https://github.com/vittascience/arduino-libraries"
@@ -6188,6 +6434,9 @@
           "scroll": {
             "title": "Automatisk rullning",
             "text": "Aktivera automatisk rullning"
+          },
+          "sound": {
+            "title": "Volym för blockljud"
           },
           "toolbox": {
             "title": "Verktygslådans stil",
@@ -6391,6 +6640,38 @@
       "i18n": {
         "title": "Ändra språk"
       },
+      "shortcuts": {
+        "title": "Kortkommandon",
+        "or": "eller",
+        "then": "sedan",
+        "table": {
+          "keys": "Tangenter",
+          "action": "Åtgärd"
+        },
+        "sections": {
+          "general": "Allmänt",
+          "code": "Kodredigerare",
+          "blocks": "Blockarbetsyta"
+        },
+        "actions": {
+          "save": "Spara projektet",
+          "closeModal": "Stäng det öppna fönstret",
+          "focusNext": "Gå till nästa / föregående element",
+          "resizeConsole": "Förstora / förminska konsolen (storleksändringslisten vald)",
+          "enterEditor": "Gå in i kodredigeraren",
+          "leaveEditor": "Lämna kodredigeraren",
+          "undo": "Ångra",
+          "redo": "Gör om",
+          "selectAll": "Markera allt",
+          "duplicateLine": "Duplicera raden eller markeringen",
+          "moveLine": "Flytta raden uppåt / nedåt",
+          "indent": "Indrag / ta bort indrag",
+          "toggleComment": "Kommentera / ta bort kommentar",
+          "find": "Sök",
+          "replace": "Sök och ersätt",
+          "navigateBlocks": "Navigera mellan block"
+        }
+      },
       "codeOnly": {
         "title": "Byt till endast kodläge",
         "content": "Vill du dölja lägesvalet för att permanent stanna i endast kodläge (utan block)?",
@@ -6401,8 +6682,8 @@
           "content": "Kodläget är för närvarande låst. Det betyder att block- och hybridlägen är inaktiverade."
         },
         "exit": {
-          "title": "Leave code-only mode",
-          "content": "Do you wish to unlock code-only mode so that block and hybrid modes can be used again?"
+          "title": "Lämna kodendastläge",
+          "content": "Vill du låsa upp kodendastläget så att block- och hybridlägen kan användas igen?"
         }
       },
       "local-compilation": {
@@ -6494,6 +6775,18 @@
         "wrongLink": "Denna länk leder till ett projekt som inte finns eller som inte skapats med detta gränssnitt. Du kan söka efter ett projekt via <b>Öppna ett projekt</b> eller skapa ett nytt",
         "wrongFile": "Denna fil verkar inte lämpad för det här gränssnittet. Kontrollera raden 'Interface:' i filhuvudet.",
         "wrongXml": "Denna länk leder till ett projekt som inte verkar laddas korrekt i gränssnittet. Dela gärna projektlänken med Vittascience-support så försöker vi åtgärda det.",
+        "loadingError": "The project couldn't be loaded: the connection to the server failed. Check your internet connection then reload the page.",
+        "reloadPage": "Reload the page",
+        "localDraft": {
+            "title": "Unsaved changes",
+            "content": "This project has changes that were not saved on the server. They have been kept in this browser.",
+            "lastChange": "Last change:",
+            "hint": "If you open the saved version, these changes will be permanently lost.",
+            "buttons": {
+                "restore": "Restore my changes",
+                "discard": "Open the saved version"
+            }
+        },
         "privateProject": "Privat projekt",
         "rightsChange": "Åtkomsträttigheter ändrade",
         "rightsAttributed": "Behörigheter beviljade",
@@ -7422,7 +7715,19 @@
     "notExerciseStatementCreator": "Du har inte behörighet att ändra beskrivningen!",
     "needProjectName": "Du måste ange projektets namn innan du kan spara!",
     "projectSaveError": "Ett fel inträffade vid sparning!",
-    "projectSaveConflict": "Your project has NOT been saved: it was modified elsewhere. Save again to overwrite the version stored on the server.",
+    "projectSaveConflict": "Ditt projekt sparades INTE: det ändrades någon annanstans. Spara igen för att skriva över versionen som finns på servern.",
+    "projectSaveNotConnected": "Your project has NOT been saved: your session has expired. Log in again then save again, your changes are kept in this browser.",
+    "projectSaveForbidden": "Your project has NOT been saved: you are not allowed to edit this project. Use “Save as…” to save a copy of it.",
+    "projectSaveNotFound": "Your project has NOT been saved: it no longer exists on the server. Download it to keep your work.",
+    "projectSaveInvalid": "Your project has NOT been saved: the server refused incomplete data (empty project name or code).",
+    "projectSaveNetworkError": "Your project has NOT been saved: the server can't be reached. Check your internet connection then try again, your changes are kept in this browser.",
+    "projectSaveServerError": "Your project has NOT been saved because of a server error. Try again in a few moments; if the problem persists, download your project so you don't lose your work.",
+    "projectOpened": "Project “{{name}}” opened.",
+    "projectOpenError": "The project couldn't be opened. Check your internet connection then try again.",
+    "projectCopySaved": "Copy “{{name}}” saved: you are now working on this copy.",
+    "localDraftRestored": "Your unsaved changes have been restored. Remember to save your project!",
+    "exerciseSaved": "The exercise has been saved successfully!",
+    "exerciseSaveFailed": "The exercise has NOT been saved. Check your internet connection then try again.",
     "projectNoChangesToSave": "Inga ändringar att spara!",
     "projectSaveSuccess": "Ditt projekt har sparats!",
     "loadedProjectNotFound": "Det begärda projektet finns inte!",
@@ -7504,8 +7809,8 @@
     "noTrainingDataToVerify": "Det finns för närvarande inga träningsdata att kontrollera!",
     "badAiInterfaceForProject": "Det öppna projektet är inte kompatibelt med det här gränssnittet.",
     "hideElementTooltipError": "AiView->_hideElementTooltip: det angivna argumentet är inte en instans av HTMLElement!",
-    "openModelFileMissing": "The {{filename}} file is missing!</br> You must add the three files at the same time! (metadata.json, model.json and model.weights.bin)",
-    "openModelBadFileName": "{{filename}} does not have the correct file name!</br> As a reminder, the files must have the names metadata.json, model.json and model.weights.bin",
+    "openModelFileMissing": "Filen {{filename}} saknas!</br>Du måste lägga till alla tre filer samtidigt! (metadata.json, model.json och model.weights.bin)",
+    "openModelBadFileName": "{{filename}} har inte rätt filnamn!</br>Som påminnelse måste filerna heta metadata.json, model.json och model.weights.bin",
     "cantOpenMultipleZipFiles": "Du kan inte öppna mer än en zip-fil åt gången!",
     "zipFileContent": "[Inuti zip-filen] ",
     "shortSoundFile": "Välj en ljudfil som är längre än 2 sekunder",
@@ -7823,7 +8128,7 @@
     "table": {
       "title": "Jämför funktioner",
       "free": {
-        "title": "Discovery",
+        "title": "Upptäck",
         "button": "Registrera dig",
         "line1": "10 projekt",
         "line5": "obegränsat",
@@ -7908,7 +8213,7 @@
       "answer-9": "Ja, alla angivna priser inkluderar moms.",
       "question-10": "Finns det grupp‑erbjudanden eller särskilda priser för skolor?",
       "answer-10": "Skolor kan teckna erbjudandet för lärarlag genom att begära en offert.",
-      "question-11": "Jag har betalat för prenumerationen men don’t have access to premium features. What should I do?",
+      "question-11": "Jag betalade för prenumerationen men har inte tillgång till premiumfunktionerna. Vad ska jag göra?",
       "answer-11": "Om din prenumeration inte aktiveras automatiskt, kontakta oss på <a href='mailto:contact@vittascience.com?subject=Question about premium subscription'>contact@vittascience.com</a> så löser vi problemet.",
       "question-12": "Hur ändrar jag min prenumeration (byta plan, lägga till tillval, osv.)?",
       "answer-12": "Du kan uppgradera från månads- till årsprenumeration, eller från Lärare-erbjudandet till Lärarlag genom att välja önskat alternativ och prenumerera.<br><br>Vid frågor, kontakta oss på: <a href='mailto:contact@vittascience.com?subject=Question about premium subscription'>contact@vittascience.com</a>",
@@ -8243,7 +8548,7 @@
         "section_title": "micro:bit-kort",
         "question_list": {
           "1": {
-            "title": "Får man tillbaka \"Out of the Box\"-programmet efter en återställning?",
+            "title": "När vi gör en återställning, hittar vi programmet \"Out of the Box\"?",
             "answer": "Ja, men om ett annat program har laddats skriver det över startprogrammet. För att hitta startprogrammet, följ denna <a href='https://microbit.org/get-started/user-guide/meet-the-microbit-program/' target='_blank'>handledning</a>."
           },
           "2": {
@@ -9287,7 +9592,7 @@
         "tablette": {
           "icon": "🖥️",
           "title": "Surfplatta",
-          "rules": "<strong>Beräkningsgrunder:</strong> 10.53-inch screen, LCD screen technology mix, 4.7 GB RAM, 144 GB storage (weighted mix between 3 tablet configurations). Average between personal and professional use.",
+          "rules": "<strong>Beräkningsgrunder:</strong> 10,53-tums skärm, blandning av LCD-skärmstekniker, 4,7 GB RAM, 144 GB lagring (viktat snitt mellan 3 konfigurationer för surfplattor). Genomsnitt mellan privat och professionellt bruk.",
           "practical_tips": "För att minska påverkan från din surfplatta, anta dessa enkla vanor:<br/>🚫 <strong>Inaktivera onödiga automatiska synkroniseringar</strong><br/>🔕 <strong>Begränsa aviseringar</strong><br/>💾 <strong>Föredra lokal lagring</strong> framför molnet när det är möjligt<br/>⏳ <strong>Behåll din surfplatta längre än de förväntade 3 åren</strong> för att minska dess miljöpåverkan",
           "link": "https://impactco2.fr/outils/numerique/tabletteclassique",
           "label_how_many_years": {
@@ -9349,14 +9654,14 @@
             "label": "Hur länge har du haft den?",
             "name": "computer_years_usage",
             "type": "number",
-            "unit": "years",
+            "unit": "år",
             "info": "<p>Tillverkning, distribution och slutet av livscykeln för en bärbar dator genererar 185.8 kg CO₂ ekv. 🌍</p><p>Genom att använda den längre sprids denna påverkan över flera år, vilket minskar dess årliga koldioxidavtryck. ♻️</p>"
           },
           "label_change": {
             "label": "Hur mycket längre planerar du att behålla din dator?",
             "name": "computer_change",
             "type": "number",
-            "unit": "years",
+            "unit": "år",
             "info": "<p>I genomsnitt håller en dator omkring 5 år.</p><ul><li>✅ 5 years → Annual impact: 38.68 kg of CO₂ eq</li><li>✅ 6 years → Annual impact: 32.49 kg of CO₂ eq</li></ul><p>Att förlänga användningen med ett år kan spara upp till 6 kg CO₂ ekv per år. 💨🌍</p>"
           },
           "label_state": {
@@ -9374,7 +9679,7 @@
             "advice": "Du kan kontrollera på Windows eller Mac med alternativet Skärmtid.",
             "type": "number",
             "name": "computer_day_time",
-            "unit": "hour",
+            "unit": "timme",
             "info": "Ett år av att använda en bärbar dator 3 timmar per dag ger 1.56 kg CO₂ ekv. En extra timme ökar denna påverkan med 33%. ♻️. Förnuftig användning förlänger också device’s livslängd:<ul><li>🔋 Ett batteri klarar ungefär 3,000 laddningscykler.</li><li>🖥️ LCD-skärmar håller mellan 50,000 och 60,000 timmar.</li></ul>"
           }
         },
@@ -9748,7 +10053,7 @@
   },
   "foia": {
     "head": {
-      "mainTitle": "Future of AI x Vittascience",
+      "mainTitle": "Framtiden för AI x Vittascience",
       "title": "En workshop för att lära om <br/><em>AI:s utmaningar</em>",
       "lead": "Utforska AI:s potential, utmaningar och yrken i tjänst för allmännyttiga uppdrag i Future of AI. En lärandeupplevelse från Latitudes och Vittascience.",
       "startButton": "Starta workshopen"

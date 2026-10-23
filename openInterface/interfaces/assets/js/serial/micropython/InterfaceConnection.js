@@ -321,6 +321,7 @@ const InterfaceConnection = {
 				this.serial.setDTR(false);
 				this.serial.setRTS(false);
 			}
+			await VittaInterface.loadExternalLibraries().catch(console.error); // a library failure must not break the connection
 			console.log(await this.serial.getInfo());
 			console.log(await this.serial.getSignals());
 			console.log(this.serial.port);
@@ -437,6 +438,7 @@ const InterfaceConnection = {
 	 * Update specific AI libraries with model weights and labels.
 	 */
 	updateSpecificAiLibrariesGalaxia: async function (code) {
+		await VittaInterface.loadExternalLibraries();
 		return new Promise(async (resolve, reject) => {
 			const checkRegexCloud = /Model\s*\(\s*(["'])(https?:\/\/[^\/]+\/ia\/(?:model\/([a-zA-Z0-9]+)\/?|sensors(?:\.h)?\?link=([a-zA-Z0-9]+)(?:&[^"']*)?))\1\s*\)/;
 			const cloudRegexResult = code.match(checkRegexCloud);

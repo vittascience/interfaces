@@ -71,7 +71,7 @@ const downloadOptions = {
     'firmware': {
         id: "download-firmware-opt",
         classes: 'ide-btn-check ide-btn-left-dropdown',
-        icon: "/openInterface/interfaces/assets/media/micropython_logo.svg",
+        icon: `${CDN_PATH}/openInterface/interfaces/assets/media/micropython_logo.svg`,
         title: 'code.topbar.tooltips.downloadHex',
         tooltipPlacement: "left",
         //infoModalId: 'modal-download-hex-info',
@@ -83,7 +83,7 @@ const downloadOptions = {
     'disconnect': {
         id: "disconnect-opt",
         classes: 'ide-btn-check ide-btn-left-dropdown',
-        icon: "/openInterface/interfaces/assets/js/external/font-awesome/svgs/brands/usb.svg",
+        icon: `${CDN_PATH}/openInterface/interfaces/assets/js/external/font-awesome/svgs/brands/usb.svg`,
         title: 'code.topbar.tooltips.disconnect',
         tooltipPlacement: "left",
         onclick: "InterfaceConnection.doDisconnect()",

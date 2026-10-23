@@ -719,7 +719,7 @@
       "choosePaymentMethod": "Seleziona il metodo di pagamento",
       "estimateChoice": "Crea un preventivo personalizzato",
       "cardChoice": "Paga con carta di credito",
-      "optional": "Optional",
+      "optional": "Opzionale",
       "recap": " Riassunto",
       "sumHT": " Totale prima delle tasse",
       "txTVA": " Aliquote IVA",
@@ -737,7 +737,7 @@
       "addressName": " Nome dell'indirizzo",
       "name": " Nome",
       "firstname": " Nome",
-      "mail": " E-mail",
+      "mail": "Posta elettronica",
       "phone": " Telefono",
       "phoneInfo": "Il numero di telefono è facoltativo, tuttavia ciò permetterà al servizio di consegna di contattarti in caso di necessità.",
       "address": " Indirizzo",
@@ -886,6 +886,22 @@
       "legalCommitmentNumber": " Numero di impegno legale",
       "siret": " Numero SIRET dello stabilimento",
       "serviceName": " Nome del servizio (opzionale)",
+      "subscriptionStart": "Data di inizio desiderata dell'abbonamento",
+      "subscriptionEnd": "Data di fine prevista",
+      "durationMonth": "1 mese",
+      "durationYear": "1 anno",
+      "durationThreeYears": "3 anni",
+      "garActivation": "Desidera un'attivazione tramite il GAR?",
+      "whatIsGar": "Che cos'è il GAR?",
+      "garDefinition": "Il GAR (Gestionnaire d'accès aux ressources) consente a docenti e studenti di accedere a Vittascience dall'ambiente digitale (ENT) dell'istituto, senza creare un account.",
+      "uai": "Codice UAI dell'istituto",
+      "uaiHint": "7 cifre seguite da una lettera, ad esempio 0751234A.",
+      "accountEmails": "Indirizzo/i e-mail degli account Vittascience da attivare",
+      "accountEmailsHint": "Un indirizzo per riga, al massimo {{max}} (uno per licenza).",
+      "accountEmailsTooMany": "Troppi indirizzi: al massimo {{max}}.",
+      "accountEmailInvalid": "Indirizzo e-mail non valido:",
+      "quoteUpdateError": "Non è stato possibile registrare il suo ordine d'acquisto: l'aggiornamento del preventivo n. {{number}} non è riuscito. La preghiamo di riprovare tra qualche minuto. Se il problema persiste, ci contatti:",
+      "licenceFieldsError": "Le informazioni sull'abbonamento sono incomplete o non valide. Verifichi la data di inizio, il codice UAI o gli indirizzi e-mail.",
       "confirmWithoutEdit1": " Confermo che il modulo d'ordine corrisponde esattamente all'offerta n.",
       "confirmWithoutEdit2": "  (stesso prodotto(i), importo(i), quantità) per un totale di",
       "confirmWithEdit": " Il modulo d'ordine non corrisponde al preventivo a fianco, sono state fatte delle modifiche.",
@@ -964,7 +980,7 @@
       "irina": "Irina fa parte del team dal marzo 2022 ed è principalmente responsabile dell'interfaccia AI sulla piattaforma Vittascience.",
       "antoine": "Antoine è entrato a far parte del team Vittascience come sviluppatore web nell'aprile 2022. È responsabile dell'interfaccia di programmazione.",
       "amandine": "Amandine si occupa della strategia di marketing e comunicazione per migliorare la visibilità dell'azienda e l'immagine del marchio.",
-      "nicolas": "Nicolas joined Vittascience in February 2023 as an intern in frontend developer.",
+      "nicolas": "Nicolas è entrato in Vittascience nel febbraio 2023 come stagista nello sviluppo frontend.",
       "amara": "Amara è entrata in Vittascience nel 2023 come Responsabile della Supply chain. Si occupa della gestione del negozio",
       "lea": "Léa è entrata in Vittascience nel 2024. Dottoranda in psicologia cognitiva, si occupa dell'aspetto ricerca e il suo argomento di tesi è: 'Valutare l'effetto di condivisione dell'attenzione nell'apprendimento della programmazione con linguaggio a blocchi e linguaggio testuale, per studenti con bisogni speciali.'",
       "pascal": "Pascal è entrato in Vittascience come apprendista sviluppatore nel 2024, dopo aver lavorato per due associazioni partner di Vittascience, la L.A.B e La Scientothèque.",
@@ -1073,7 +1089,7 @@
     },
     "days": [
       " Dim",
-      " Mon",
+      "Lun",
       " Mar",
       " Mare",
       " Gioco",
@@ -1202,14 +1218,239 @@
   },
   "code": {
     "blockExtensions": {
-      "category": "Extensions",
-      "title": "Block extensions",
-      "note": "Add new blocks to program other robots, models or modules. The chosen extensions are saved with the project.",
-      "close": "Close",
-      "search": "Search for an extension",
-      "added": "Added",
-      "noResult": "No extension found.",
-      "confirmRemoveUsed": "{{count}} block(s) of this extension used in the program will be deleted. Continue?"
+      "category": "Estensioni",
+      "title": "Estensioni dei blocchi",
+      "note": "Aggiungi nuovi blocchi per programmare altri robot, modelli o moduli. Le estensioni scelte vengono salvate con il progetto.",
+      "close": "Chiudi",
+      "search": "Cerca un'estensione",
+      "added": "Aggiunta",
+      "noResult": "Nessuna estensione trovata.",
+      "confirmRemoveUsed": "Saranno eliminati {{count}} blocchi di questa estensione presenti nel programma. Continuare?",
+      "manage": "Gestisci estensioni",
+      "filter": "Filtra estensioni",
+      "filters": {
+        "all": "Tutte",
+        "model": "Modelli didattici",
+        "robotics": "Robotica",
+        "display": "Schermo",
+        "lights": "Luci",
+        "sensors": "Sensori",
+        "actuators": "Attuatori",
+        "ai": "Intelligenza artificiale",
+        "games": "Giochi",
+        "communication": "Comunicazione"
+      },
+      "catalog": {
+        "colours": {
+          "red": "rosso",
+          "green": "verde",
+          "blue": "blu",
+          "yellow": "giallo",
+          "cyan": "ciano",
+          "magenta": "magenta",
+          "orange": "arancione",
+          "purple": "viola",
+          "white": "bianco",
+          "off": "spento",
+          "black": "nero"
+        },
+        "a4_leds": {
+          "blocks": {
+            "battery": "Livello batteria (%)",
+            "leds_colour": "imposta RGB0 su {C0} e RGB1 su {C1}",
+            "leds_rgb": "imposta RGB0 su R {R0} G {G0} B {B0} e RGB1 su R {R1} G {G1} B {B1}",
+            "leds_brightness": "imposta la luminosità RGB a {B} (0-255)",
+            "leds_off": "spegni i LED RGB"
+          }
+        },
+        "a4_screen": {
+          "blocks": {
+            "screen_clear": "Cancella tutto sullo schermo",
+            "screen_background": "schermo imposta colore di sfondo {C}",
+            "screen_background_image": "schermo imposta immagine di sfondo {NAME}",
+            "screen_text": "schermo mostra testo {TEXT} id {ID} a x {X} y {Y} dimensione {SIZE} colore {C}",
+            "screen_image": "schermo mostra immagine id {ID} nome {NAME} a x {X} y {Y} dimensione {ZOOM}",
+            "screen_rotate": "schermo ruota immagine id {ID} angolo {ANGLE}",
+            "screen_remove": "schermo rimuovi {KIND} id {ID}",
+            "screen_init_i2c": "inizializza lo schermo in I2C",
+            "screen_init_uart": "inizializza lo schermo LCD"
+          },
+          "options": {
+            "screen_text_size": {
+              "large": "grande",
+              "small": "piccolo"
+            },
+            "screen_remove_kind": {
+              "text": "testo",
+              "image": "immagine"
+            }
+          },
+          "defaults": {
+            "screen_text": "Ciao"
+          }
+        },
+        "a4_access": {
+          "description": "Controllo degli accessi: una tastiera capacitiva sblocca una porta bloccata da una serratura magnetica.",
+          "blocks": {
+            "lock": "imposta serratura della porta su {STATE}",
+            "door_is": "porta è {STATE}",
+            "wait_key": "attendi la pressione di un tasto sulla tastiera",
+            "read_key": "ultimo tasto premuto sulla tastiera",
+            "entered_code": "codice inserito",
+            "code_is": "il codice inserito è {CODE}",
+            "code_length": "il codice inserito ha {N} cifre",
+            "clear_code": "cancella codice inserito",
+            "delete_last": "elimina ultima cifra del codice"
+          },
+          "options": {
+            "lock_state": {
+              "locked": "bloccato",
+              "unlocked": "sbloccato"
+            },
+            "door_is_state": {
+              "closed": "chiusa",
+              "open": "aperta"
+            }
+          }
+        },
+        "a4_parking": {
+          "description": "Postazione di parcheggio limitata: un sensore rileva i veicoli e uno schermo a colori mostra il tempo rimanente.",
+          "blocks": {
+            "vehicle": "veicolo presente",
+            "time": "tempo {H} h {M} min {S} s"
+          }
+        },
+        "a4_barrier": {
+          "description": "Barriera per parcheggio o casello con servomotore, luce RGB, sensore a infrarossi e lettore RFID.",
+          "blocks": {
+            "read_tag": "leggi tag RFID",
+            "move": "{ACTION} la barriera",
+            "servo": "imposta angolo del servo {ANGLE}",
+            "vehicle": "veicolo rilevato",
+            "light_colour": "imposta la spia di segnale su {C}",
+            "light_rgb": "imposta la spia di segnale rosso {R} verde {G} blu {B}",
+            "light_off": "spegni la spia di segnale"
+          },
+          "options": {
+            "move_action": {
+              "open": "apri",
+              "close": "chiudi"
+            }
+          }
+        },
+        "a4_weight": {
+          "description": "Bilancia automatica con cella di carico, tastiera 4x4 e schermo a colori, per pesare, contare o prezzare articoli.",
+          "blocks": {
+            "init": "inizializza la bilancia",
+            "tare": "tarare la bilancia",
+            "mass": "massa (g)",
+            "connected": "bilancia collegata",
+            "start_calibration": "avvia la calibrazione della bilancia",
+            "calibrate": "calibra la bilancia con una massa di riferimento di {MASS} g",
+            "pressed_key": "tasto del tastierino premuto",
+            "wait_key": "attendi la pressione di un tasto del tastierino",
+            "key_is_pressed": "il tasto {KEY} del tastierino è premuto",
+            "set_factor": "imposta il fattore di calibrazione della bilancia su {VALUE}",
+            "factor": "fattore di calibrazione della bilancia",
+            "raw_average": "media del valore grezzo della bilancia su {N} campioni"
+          }
+        },
+        "a4_shifumi": {
+          "description": "Gioco sasso-carta-forbice: un servo ruota un disco retroilluminato e un sensore a ultrasuoni rileva la mano.",
+          "blocks": {
+            "disc_angle": "imposta l'angolo del servo del disco su {ANGLE} °",
+            "distance": "distanza a ultrasuoni (cm)",
+            "hand_detected": "mano rilevata sotto {D} cm",
+            "backlight_brightness": "imposta la luminosità della retroilluminazione del disco al {B} %",
+            "backlight_colour": "imposta il colore della retroilluminazione del disco su {C}",
+            "backlight_rgb": "imposta la retroilluminazione del disco rosso {R} verde {G} blu {B}",
+            "backlight_off": "spegni la retroilluminazione del disco",
+            "lcd_init": "inizializza il display LCD",
+            "lcd_clear": "pulisci il display LCD",
+            "lcd_text": "mostra sul display LCD {TEXT} sulla riga {LINE}",
+            "lcd_number": "mostra sul display LCD il numero {VALUE} sulla riga {LINE}"
+          },
+          "defaults": {
+            "lcd_text": "PRONTO"
+          }
+        },
+        "a4_ai_vision": {
+          "description": "Modulo camera AI HuskyLens 2.0 con schermo a colori e LED RGB, per riconoscere volti, oggetti, colori o gesti."
+        },
+        "dfr0997": {
+          "name": "DFR0997 colour screen",
+          "description": "DFRobot 2.8\\\" I2C colour LCD: testi, forme, immagini e GIF dal suo drive USB, indicatori, bussola e grafici.",
+          "options": {
+            "fill": {
+              "filled": "riempito",
+              "not_filled": "non riempito"
+            },
+            "text_size": {
+              "large": "grande",
+              "small": "piccolo"
+            },
+            "rect_round": {
+              "rounded": "arrotondato",
+              "square": "quadrato"
+            },
+            "set_value_kind": {
+              "progress_bar": "barra di progresso",
+              "slider": "cursore",
+              "compass": "bussola (°)",
+              "gauge": "indicatore",
+              "line_meter": "barra lineare"
+            },
+            "chart_style": {
+              "line": "linea",
+              "bars": "barre",
+              "shaded_line": "linea sfumata"
+            },
+            "remove_kind": {
+              "text": "testo",
+              "image": "immagine",
+              "line": "linea",
+              "rectangle": "rettangolo",
+              "circle": "cerchio",
+              "triangle": "triangolo",
+              "slider": "cursore",
+              "progress_bar": "barra di progresso",
+              "compass": "bussola",
+              "gauge": "indicatore",
+              "line_meter": "barra lineare",
+              "chart": "grafico"
+            }
+          },
+          "blocks": {
+            "clear": "cancella tutto lo schermo",
+            "background": "colore di sfondo dello schermo {C}",
+            "background_image": "immagine di sfondo dello schermo {NAME}",
+            "rgb": "colore rosso {R} verde {G} blu {B}",
+            "text": "mostra sullo schermo testo {TEXT} id {ID} x {X} y {Y} dimensione {SIZE} colore {C}",
+            "image": "mostra sullo schermo l'immagine {NAME} id {ID} x {X} y {Y} scala {ZOOM}",
+            "rotate_image": "ruota l'immagine id {ID} sullo schermo a {ANGLE} °",
+            "gif": "mostra sullo schermo la GIF {NAME} id {ID} x {X} y {Y} scala {ZOOM}",
+            "line": "disegna una linea sullo schermo id {ID} da x {X1} y {Y1} a x {X2} y {Y2} larghezza {W} colore {C}",
+            "rect": "disegna rettangolo sullo schermo id {ID} x {X} y {Y} larghezza {WIDTH} altezza {HEIGHT} bordo {W} {C} {FILL} {FC} angoli {ROUND}",
+            "circle": "disegna cerchio sullo schermo id {ID} centro x {X} y {Y} raggio {R} bordo {W} {C} {FILL} {FC}",
+            "triangle": "disegna triangolo sullo schermo id {ID} x1 {X1} y1 {Y1} x2 {X2} y2 {Y2} x3 {X3} y3 {Y3} bordo {W} {C} {FILL} {FC}",
+            "slider": "disegna cursore sullo schermo id {ID} x {X} y {Y} larghezza {WIDTH} altezza {HEIGHT} colore {C}",
+            "bar": "disegna barra di progresso sullo schermo id {ID} x {X} y {Y} larghezza {WIDTH} altezza {HEIGHT} colore {C}",
+            "compass": "schermo bussola id {ID} x {X} y {Y} diametro {D}",
+            "gauge": "schermo indicatore id {ID} x {X} y {Y} diametro {D} da {MIN} a {MAX} ago {C} sfondo {BG}",
+            "line_meter": "schermo metro lineare id {ID} x {X} y {Y} dimensione {SIZE} da {MIN} a {MAX} ago {C} sfondo {BG}",
+            "set_value": "schermo imposta {KIND} id {ID} a {VALUE}",
+            "chart": "schermo grafico id {ID} asse X {XAXIS} asse Y {YAXIS} sfondo {C} stile {STYLE}",
+            "chart_series": "grafico aggiungi serie id {ID} colore {C}",
+            "chart_point": "grafico serie id {ID} imposta {X} a {VALUE}",
+            "remove": "schermo rimuovi {KIND} id {ID}"
+          },
+          "defaults": {
+            "text": "Ciao",
+            "chart_x_axis": "Lun Mar Mer Gio Ven",
+            "chart_point_x": "Lun"
+          }
+        }
+      }
     },
     "tooltip": {
       "anonymousAuthor": "Autore anonimo",
@@ -1226,32 +1467,32 @@
     },
     "rtc": {
       "profession": {
-        "chemist": "Anonymous Chemist",
-        "aeronaut": "Anonymous Aeronaut",
-        "aviator": "Anonymous Aviator",
-        "entomologist": "Anonymous Entomologist",
-        "dronpilot": "Anonymous Drone pilot",
-        "dendrologist": "Anonymous Dendrologist",
-        "neurologist": "Anonymous Neurologist",
-        "roboticist": "Anonymous Robotics engineer",
-        "astronomer": "Anonymous Astronomer",
-        "geneticist": "Anonymous Geneticist",
-        "astrocat": "Anonymous Catstronaut",
-        "herborist": "Anonymous Herborist",
-        "meteor": "Anonymous Meteor",
-        "physicist": "Anonymous Physicist",
-        "astronaut": "Anonymous Astronaut",
-        "ufo": "Anonymous UFO",
-        "alien": "Anonymous Alien",
-        "meteorologist": "Anonymous Meteorologist",
-        "celestialBody": "Anonymous Celestial body",
-        "biologist": "Anonymous Biologist",
-        "magnet": "Anonymous Magnet",
-        "volcanologist": "Anonymous Volcanologist",
-        "virologist": "Anonymous Virologist",
-        "programer": "Anonymous Programer",
-        "planet": "Anonymous Planet",
-        "computerScientist": "Anonymous Computer scientist"
+        "chemist": "Chimico anonimo",
+        "aeronaut": "Aeronauta anonimo",
+        "aviator": "Aviatore anonimo",
+        "entomologist": "Entomologo anonimo",
+        "dronpilot": "Pilota di drone anonimo",
+        "dendrologist": "Dendrologo anonimo",
+        "neurologist": "Neurologo anonimo",
+        "roboticist": "Ingegnere robotico anonimo",
+        "astronomer": "Astronomo anonimo",
+        "geneticist": "Genetista anonimo",
+        "astrocat": "Gattoastronauta anonimo",
+        "herborist": "Erborista anonimo",
+        "meteor": "Meteora anonima",
+        "physicist": "Fisico anonimo",
+        "astronaut": "Astronauta anonimo",
+        "ufo": "UFO anonimo",
+        "alien": "Alieno anonimo",
+        "meteorologist": "Meteorologo anonimo",
+        "celestialBody": "Corpo celeste anonimo",
+        "biologist": "Biologo anonimo",
+        "magnet": "Magnete anonimo",
+        "volcanologist": "Vulcanologo anonimo",
+        "virologist": "Virologo anonimo",
+        "programer": "Programmatore anonimo",
+        "planet": "Pianeta anonimo",
+        "computerScientist": "Informatico anonimo"
       }
     },
     "placeholderError": "Compila tutti i campi ___ prima di eseguire il programma",
@@ -1337,7 +1578,7 @@
       "sphero": "Benvenuto/a nell'interfaccia Vittascience per il robot Sphero Mini !",
       "lotibot": "Benvenuto/a nell'interfaccia Vittascience per il robot Loti-bot !",
       "bluebot": "Benvenuto/a nell'interfaccia Vittascience per il robot Blue-bot !",
-      "spike": "Benvenuto/a nell'interfaccia Vittascience per il LEGO® Education SPIKE™ Essential !<br>LEGO, the LEGO logo, the Minifigure, DUPLO and the SPIKE logo are trademarks of the LEGO Group, which does not sponsor, endorse, or authorize this site.",
+      "spike": "Benvenuti nell'interfaccia Vittascience per LEGO® Education SPIKE™ Essential!<br>LEGO, il logo LEGO, la Minifigure, DUPLO e il logo SPIKE sono marchi del Gruppo LEGO, che non sponsorizza, approva né autorizza questo sito.",
       "photon": "Benvenuto/a nell'interfaccia Vittascience per il robot Photon !",
       "codey": "Benvenuto/a nell'interfaccia Vittascience per Codey e il robot Rocky di Makeblock!",
       "nano-esp32": "Benvenuto/a nell'interfaccia Vittascience per la scheda Arduino Nano ESP32!",
@@ -1411,7 +1652,7 @@
       "chromeInstall": {
         "name": " Chrome",
         "notice": " Troverai qui sotto il link alla Chrome App Thingz, clicca su \"Add to Chrome\" e poi torna all'interfaccia di Vittascience:",
-        "install": " <i class=\"fas fa-circle\"></i> Chrome App Thingz",
+        "install": "<i class=\"fas fa-circle\"></i> Thingz Chrome App",
         "presentation": " La Chrome App Thingz permette di comunicare con le schede Arduino Uno tramite i browser Chromium e Chrome.<br/><b>Questa soluzione è raccomandata perché non richiede l'installazione di software e quindi i diritti di amministratore.</b>",
         "linuxUsers": " <b>Avviso agli utenti Linux:</b>se incontrate difficoltà nell'implementazione del plugin, andate su <a href=\"https://slite.com/api/s/note/WaDtH3cUZsfyMtiFdxeBNB/Preparation-Ubuntu-pour-Thingz\">questa pagina di aiuto</a>."
       },
@@ -1445,7 +1686,7 @@
       "title": "Spiacente",
       "notice": "Le dimensioni del tuo schermo non consentono di utilizzare l'interfaccia di sviluppo in modo ottimale. Utilizza uno schermo più grande."
     },
-    "statement": "Statement:",
+    "statement": "Dichiarazione:",
     "statementButtons": {
       "expand": "Espandi",
       "collaps": "Riduci"
@@ -1515,6 +1756,7 @@
         "toolboxRestriction": "Limita i blocchi disponibili",
         "consoleSettings": "Impostazioni generali",
         "accessibility": "Configura tema e font",
+        "shortcuts": "Mostra scorciatoie da tastiera",
         "addBlockSettings": "Aggiungi un blocco",
         "fullscreen": "Visualizza a schermo intero",
         "help": "Aiuto",
@@ -1534,6 +1776,7 @@
         "beginnerMode": "Modalità principiante",
         "advancedMode": "Modalità avanzata",
         "lastSaveOn": "Ultimo salvataggio il ",
+        "lastSaveFailed": "L'ultimo salvataggio non è riuscito: le tue modifiche non sono salvate. Clicca per riprovare.",
         "description": "Descrizione:",
         "repl": "Premi invio ↩️ per eseguire il comando",
         "runningCode": "Esecuzione del codice in corso... Attendere prego.",
@@ -1546,8 +1789,8 @@
         "texas": "Scarica .py per calcolatrice",
         "new": "Nuovo progetto",
         "save": "Salva",
-        "share": "Share",
-        "shareProject": "Share project",
+        "share": "Condividi",
+        "shareProject": "Condividi progetto",
         "open": "Apri progetto",
         "synchronize": "Sincronizza",
         "undo": "Annulla",
@@ -1579,14 +1822,15 @@
         "downloadTexas": " Scaricare per la calcolatrice",
         "downloadThymioWindows": "Scarica .exe",
         "downloadThymioMacOS": "Scarica .dmg",
-        "downloadNiryoWindows": "Companion App .exe",
-        "downloadNiryoMacOS": "Companion App .dmg",
+        "downloadNiryoWindows": "Companion App.exe",
+        "downloadNiryoMacOS": "Companion App.dmg",
         "downloadNiryoLinux": "Companion App .deb",
-        "runBuddy": "Run on Buddy",
+        "runBuddy": "Esegui su Buddy",
         "disconnect": " Scollegare",
         "connectBoard": " Collegare",
         "settings": "Opzioni",
         "themes": "Accessibilità",
+        "shortcuts": "Scorciatoie da tastiera",
         "add": "Aggiungi un blocco",
         "fullscreen": "Schermo intero",
         "help": "Guida",
@@ -1636,7 +1880,7 @@
     },
     "blocksCat": {
       "logic": " Logica",
-      "loop": " Loops",
+      "loop": "Cicli",
       "maths": " Matematica",
       "text": " Testo",
       "var": " Variabili",
@@ -1735,7 +1979,7 @@
         "effect": "Effetti",
         "effects": {
           "reverb": "Riverbero",
-          "delay": "Delay",
+          "delay": "Ritardo",
           "bitcrusher": "BitCrusher",
           "vibrato": "Vibrato",
           "distortion": "Distorsione"
@@ -1744,7 +1988,7 @@
       "feedback": {
         "cleared": "La console è stata pulita."
       },
-      "baud": "<i class=\"fas fa-tachometer-alt\"></i> Baud: ",
+      "baud": "<i class=\"fas fa-tachometer-alt\"></i> Baud:",
       "sendMessage": "Invia un messaggio alla scheda tramite la porta seriale"
     },
     "editor": {
@@ -1761,9 +2005,9 @@
           "reset": "Azzeramento della simulazione"
         },
         "base": {
-          "play": "Play",
+          "play": "Avvia",
           "pause": "Pause",
-          "reload": "Replay",
+          "reload": "Ripeti",
           "debug": "Simulazione passo dopo passo",
           "variables": "Visualizza le variabili",
           "fullscreen": "Schermo intero",
@@ -1772,11 +2016,11 @@
           "toggleBoardDisplay": "Mostra / Nascondi la mappa del simulatore",
           "switchWiringMode": "Passare alla modalità di cablaggio",
           "switchMosaicMode": "Passare alla modalità mosaico",
-          "wiringZoomIn": "Zoom in",
-          "wiringZoomOut": "Zoom out"
+          "wiringZoomIn": "Ingrandisci",
+          "wiringZoomOut": "Riduci"
         },
         "robot": {
-          "background": "Background",
+          "background": "Sfondo",
           "obstacle": "Ostacoli",
           "zoomout": "Zoom indietro",
           "zoomin": "Ingrandisci",
@@ -1811,7 +2055,7 @@
           "sound": "Suono",
           "penColor": "Colore del pennino",
           "pen": "Pennino",
-          "camera": "Camera",
+          "camera": "Telecamera",
           "restPose": "Posa di riposo",
           "movements": "Movimenti",
           "params": "Parametri"
@@ -1825,7 +2069,8 @@
         "sentData": "Dati inviati:",
         "crash": "Modalità di prevenzione dei crash abilitata: si verifica quando il codice include un ciclo infinito senza una chiamata alla funzione sleep(). Correggi il codice prima di riprovare.",
         "variables-panel-msg": "Questo programma non contiene variabili",
-        "replaySimulator": "Riavvia il simulatore per inviare dati"
+        "replaySimulator": "Riavvia il simulatore per inviare dati",
+        "skulptLoadError": "Impossibile caricare il simulatore. Controlla la connessione e riavvia il simulatore."
       },
       "tooltips": {
         "bluebot-buttons": "Puoi usare i pulsanti del robot Blue-bot per programmarlo!"
@@ -1880,6 +2125,7 @@
         "dht22-hum": "DHT22 - Umidità",
         "ds18x20": "DS18X20 - Temperatura",
         "mlx90621": "MLX90621 - Temperatura",
+        "bn880": "BN-880 - Orientamento magnetico",
         "dustSensor": "Sensore di particelle",
         "groveRain": "Sensore di pioggia",
         "rainGauge": "Pluviometro",
@@ -1923,7 +2169,7 @@
     },
     "ch340driver": {
       "title": "Problemi durante il caricamento?",
-      "gotIt": "Got it",
+      "gotIt": "Ho capito",
       "error": "Se sei qui, significa che non riusciamo ad aprire la porta seriale sul tuo computer per caricare il codice sulla tua scheda ESP32. Per cercare di risolvere questo problema, puoi installare o reinstallare il driver ch340.",
       "link": "Avvia l'installazione del driver ch340 disponibile qui:",
       "tutorial": "Una volta avviato l'eseguibile, premi semplicemente 'installa' se è la prima installazione. Altrimenti, premi 'disinstalla' e poi 'installa'. Alla fine dell'installazione, scollega/riavvia la tua scheda e ricarica l'interfaccia di Vittascience."
@@ -1946,9 +2192,9 @@
       "mixed-popup-leave-editor": "Per uscire dall'editor di codice utilizzando la tastiera, premere contemporaneamente i tasti <kbd>Bloc Maiusc</kbd> e <kbd>Esc</kbd>.",
       "mixed-popup-readonly": "<i class='fa-solid fa-lock'></i> In modalità mista, l'editor di codice è <strong>sola lettura</strong> per questa interfaccia. Puoi modificare solo usando i blocchi.",
       "mixed-popup-readonly-sr": "In modalità mista, il codice è sola lettura per questa interfaccia",
-      "mixed-small-screen": "On a small screen, the hybrid mode is not very practical: we recommend switching to the blocks or code mode.",
-      "mixed-small-screen-stay": "Stay in hybrid mode",
-      "mixed-small-screen-close": "Close",
+      "mixed-small-screen": "Su schermi piccoli la modalità mista non è molto pratica: consigliamo di passare alla modalità blocchi o codice.",
+      "mixed-small-screen-stay": "Rimani in modalità mista",
+      "mixed-small-screen-close": "Chiudi",
       "saveWarning": {
         "title": "<span class=\"fa fa-exclamation-circle\"></span> Avviso!",
         "warn": "<span class=\"fa fa-save\"></span> Salvare il lavoro prima di proseguire?<p class=\"mb-0 mt-0 hint\">Se crei un nuovo progetto senza prima salvare, il lavoro attuale andrà perso...</p>",
@@ -2051,7 +2297,7 @@
         "noticeHint": "<i class=\"fa fa-exclamation-triangle\"></i> Attenzione!</br><p class=\"hint\">Il codice attuale sarà aggiornato all'ultimo salvataggio locale, ossia allo stato salvato prima di passare alla modalità Arduino. Se desideri conservare il tuo codice Arduino, fai clic sul pulsante \"Esporta\".</p>",
         "buttons": {
           "continue": "<i class=\"fa fa-unlock\"></i> Continua",
-          "yes": "Yes",
+          "yes": "Sì",
           "no": "No",
           "export": "<i class=\"fas fa-file-export\"></i> Esporta",
           "cancel": "<i class=\"fa fa-undo \"></i> Annulla"
@@ -2103,7 +2349,7 @@
       },
       "shareProject": {
         "title": "Condividi il progetto",
-        "title2": "Shared project",
+        "title2": "Progetto condiviso",
         "link": {
           "open": "Apri",
           "title": "Link",
@@ -2147,8 +2393,8 @@
         "buttons": {
           "newProject": "Crea un nuovo progetto",
           "cancel": "Annulla",
-          "export": "Export",
-          "carryOn": "Carry on"
+          "export": "Esporta",
+          "carryOn": "Continua"
         }
       },
       "exportProject": {
@@ -2197,7 +2443,7 @@
           "addInput": "Aggiungi un input",
           "addOutput": "Aggiungi un output",
           "input": "Input",
-          "output": "Output"
+          "output": "Uscita"
         }
       },
       "microbitBLE": {
@@ -2982,7 +3228,7 @@
           "playSound": "Riproduci Suono"
         },
         "captureSettings": {
-          "delay": "Timer:",
+          "delay": "Temporizzatore:",
           "continuousMode": "Modalità continua",
           "interval": "Scatta 1 immagine ogni",
           "duration": "per",
@@ -3055,7 +3301,7 @@
         "mobilenet": {
           "preview-title": "<b>Anteprima</b> <br> preview",
           "instruction-title": "<b>Istruzioni</b> <br> instruction",
-          "instructions": "<b>Posiziona un oggetto sul tavolo nell'area dedicata per essere rilevato dalla telecamera.<br> Osserva sullo schermo il risultato della predizione effettuata dall'intelligenza artificiale. </b><br><br> Place an object on the table in the designated area to be detected by the camera.<br> Observe on screen the prediction result from the artificial intelligence.",
+          "instructions": "<b>Posiziona un oggetto sul tavolo nell'area dedicata affinché venga rilevato dalla telecamera.<br>Osserva sullo schermo il risultato della predizione realizzata dall'intelligenza artificiale. </b><br><br>Posiziona un oggetto sul tavolo nell'area designata per essere rilevato dalla telecamera.<br>Osserva sullo schermo il risultato della predizione dell'intelligenza artificiale.",
           "results": "<b>Risultati</b><br>results",
           "explaining-head": "<b>La percentuale mostrata indica la categoria identificata dall'intelligenza artificiale<b>",
           "explaining-body": "La percentuale mostrata indica la categoria identificata dall'intelligenza artificiale."
@@ -4815,8 +5061,8 @@
       "Kit Pallone Solare",
       "Kit Forno Solare",
       "Altro",
-      "Kit Yes We Code",
-      "Kit Starter",
+      "Yes We Code Kit",
+      "Starter Kit",
       "Kit Stazione di Misura",
       "Kit Qualità dell'Aria",
       "Kit Corsa LED",
@@ -6067,7 +6313,7 @@
             "libraries-link": "https://github.com/vittascience/galaxia-libraries"
           },
           "letsstartcoding": {
-            "name": "Lets start coding",
+            "name": "Iniziamo a programmare",
             "learn": "Per saperne di più sulle funzioni C++ disponibili con le schede Let's start coding, visita ",
             "learn-link": "https://www.letsstartcoding.com/",
             "libraries-link": "https://github.com/vittascience/arduino-libraries"
@@ -6189,6 +6435,9 @@
             "title": "Scorrimento automatico",
             "text": "Attiva lo scorrimento automatico"
           },
+          "sound": {
+            "title": "Volume suoni dei blocchi"
+          },
           "toolbox": {
             "title": "Scelta della toolbox",
             "notice": "Puoi cambiare la modalità dell'interfaccia. Questo modifica le categorie e lo stile dei blocchi.",
@@ -6209,7 +6458,7 @@
           "link": {
             "open": "Apri",
             "title": "Link",
-            "title2": "<i class='fas fa-link'></i> Link",
+            "title2": "<i class='fas fa-link'></i> Collegamento",
             "contentTitle": "Link diretto al progetto",
             "notice": "Questo link non scade e rimarrà valido finché il progetto è condiviso.",
             "buttonCopy": "Copia il link",
@@ -6391,6 +6640,38 @@
       "i18n": {
         "title": "Cambia la lingua dell'interfaccia"
       },
+      "shortcuts": {
+        "title": "Scorciatoie da tastiera",
+        "or": "o",
+        "then": "poi",
+        "table": {
+          "keys": "Tasti",
+          "action": "Azione"
+        },
+        "sections": {
+          "general": "Generale",
+          "code": "Editor di codice",
+          "blocks": "Area blocchi"
+        },
+        "actions": {
+          "save": "Salva il progetto",
+          "closeModal": "Chiudi la finestra aperta",
+          "focusNext": "Vai all'elemento successivo/precedente",
+          "resizeConsole": "Ingrandisci/riduci la console (barra di ridimensionamento selezionata)",
+          "enterEditor": "Entra nell'editor di codice",
+          "leaveEditor": "Esci dall'editor di codice",
+          "undo": "Annulla",
+          "redo": "Ripeti",
+          "selectAll": "Seleziona tutto",
+          "duplicateLine": "Duplica la riga o la selezione",
+          "moveLine": "Sposta la riga su/giù",
+          "indent": "Aumenta/riduci l'indentazione",
+          "toggleComment": "Commenta/decommenta",
+          "find": "Trova",
+          "replace": "Trova e sostituisci",
+          "navigateBlocks": "Naviga tra i blocchi"
+        }
+      },
       "codeOnly": {
         "title": "Passa alla modalità solo codice",
         "content": "Vuoi nascondere la selezione delle modalità per rimanere definitivamente in modalità Solo codice (senza blocchi)?",
@@ -6401,8 +6682,8 @@
           "content": "La modalità codice è attualmente bloccata. Ciò significa che le modalità blocchi e ibrida sono disattivate."
         },
         "exit": {
-          "title": "Leave code-only mode",
-          "content": "Do you wish to unlock code-only mode so that block and hybrid modes can be used again?"
+          "title": "Esci dalla modalità solo codice",
+          "content": "Vuoi sbloccare la modalità solo codice per riattivare le modalità a blocchi e ibrida?"
         }
       },
       "local-compilation": {
@@ -6494,6 +6775,18 @@
         "wrongLink": " Questo collegamento punta a un progetto che non esiste o non è stato creato con questa interfaccia. È possibile cercare un progetto da Open Project o crearne uno nuovo.",
         "wrongFile": " Questo file non sembra essere adatto a questa interfaccia. Controllare questa informazione nell'intestazione del file sulla linea 'Interface:'.",
         "wrongXml": "Questo link porta a un progetto che non sembra caricarsi correttamente nell'interfaccia. Condividi il link del progetto con noi contattando l'assistenza Vittascience. Cercheremo di risolvere il problema.",
+        "loadingError": "Impossibile caricare il progetto: la connessione al server non è riuscita. Controlla la tua connessione internet e ricarica la pagina.",
+        "reloadPage": "Ricarica la pagina",
+        "localDraft": {
+            "title": "Modifiche non salvate",
+            "content": "Questo progetto contiene modifiche che non sono state salvate sul server. Sono state conservate in questo browser.",
+            "lastChange": "Ultima modifica:",
+            "hint": "Se apri la versione salvata, queste modifiche andranno perse definitivamente.",
+            "buttons": {
+                "restore": "Recupera le mie modifiche",
+                "discard": "Apri la versione salvata"
+            }
+        },
         "privateProject": "Progetto privato",
         "rightsChange": "Modifica dei diritti di accesso",
         "rightsAttributed": "Diritti di accesso concessi",
@@ -6570,7 +6863,7 @@
             "question": "Sei sicuro/a di voler importare questo file python dal tuo computer?",
             "hint": "Perderai i progressi compiuti manualmente."
           },
-          "extension": "Warning! File type is normally not valid in this interface."
+          "extension": "Attenzione! Questo tipo di file normalmente non è supportato in questa interfaccia."
         },
         "footer": {
           "buttons": {
@@ -7003,7 +7296,7 @@
         "generate": "Genera",
         "flash": "Carica un modello dal tuo dispositivo",
         "embeddedAiKit": "Kit IA integrata",
-        "seedStudioKit": "Kit Seeed Studio",
+        "seedStudioKit": "Seeed Studio Kit",
         "arduinoQ": "Arduino UNO Q",
         "arduinoQExplanations": "La scheda Arduino UNO Q esegue il modello direttamente sul suo processore Linux: non è necessaria alcuna ottimizzazione dal server.</br>Il modello si apre nell'interfaccia Arduino UNO Q con un programma di esempio, poi viene inviato alla scheda al caricamento.",
         "arduinoQNote": "<strong>Nota:</strong> se il tuo progetto non è salvato online, il modello resta in questo browser: carica il programma da questo stesso browser.",
@@ -7093,7 +7386,7 @@
       "error": "Impossibile connettersi a NAO. Controlla l'indirizzo IP e riprova."
     },
     "microbitLogdata": {
-      "title": "micro:bit data log"
+      "title": "Registro dati micro:bit"
     },
     "autosave-warning": {
       "title": "Nuova funzionalità!",
@@ -7423,6 +7716,18 @@
     "needProjectName": "Devi inserire il nome del progetto prima di poterlo salvare!",
     "projectSaveError": "Si è verificato un errore durante il salvataggio!",
     "projectSaveConflict": "Il tuo progetto NON è stato salvato: è stato modificato altrove. Salva di nuovo per sovrascrivere la versione memorizzata sul server.",
+    "projectSaveNotConnected": "Il tuo progetto NON è stato salvato: la tua sessione è scaduta. Accedi di nuovo e salva ancora, le tue modifiche sono conservate in questo browser.",
+    "projectSaveForbidden": "Il tuo progetto NON è stato salvato: non hai il permesso di modificare questo progetto. Usa «Salva con nome…» per salvarne una copia.",
+    "projectSaveNotFound": "Il tuo progetto NON è stato salvato: non esiste più sul server. Scaricalo per conservare il tuo lavoro.",
+    "projectSaveInvalid": "Il tuo progetto NON è stato salvato: il server ha rifiutato dati incompleti (nome o codice del progetto vuoto).",
+    "projectSaveNetworkError": "Il tuo progetto NON è stato salvato: il server non è raggiungibile. Controlla la tua connessione internet e riprova, le tue modifiche sono conservate in questo browser.",
+    "projectSaveServerError": "Il tuo progetto NON è stato salvato a causa di un errore del server. Riprova tra qualche istante; se il problema persiste, scarica il tuo progetto per non perdere il tuo lavoro.",
+    "projectOpened": "Progetto «{{name}}» aperto.",
+    "projectOpenError": "Impossibile aprire il progetto. Controlla la tua connessione internet e riprova.",
+    "projectCopySaved": "Copia «{{name}}» salvata: ora stai lavorando su questa copia.",
+    "localDraftRestored": "Le tue modifiche non salvate sono state recuperate. Ricordati di salvare il tuo progetto!",
+    "exerciseSaved": "L'esercizio è stato salvato con successo!",
+    "exerciseSaveFailed": "L'esercizio NON è stato salvato. Controlla la tua connessione internet e riprova.",
     "projectNoChangesToSave": "Nessuna modifica da salvare!",
     "projectSaveSuccess": "Il tuo progetto è stato salvato con successo!",
     "loadedProjectNotFound": "Il progetto richiesto non esiste!",
@@ -7599,7 +7904,7 @@
       "title": "Feedback",
       "intro": "Accogliamo volentieri i tuoi commenti sull'accessibilità di <span class=\"basic-information website-name\">Vittascience</span>. Segnala qualsiasi difficoltà di accesso riscontrata sul sito:",
       "phone": "Telefono: <span class=\"phone-number p-tel\">+33 6 06 75 81 86</span>",
-      "email": "Email: <a class=\"email u-email\" href=\"mailto:contact@vittascience.com\">contact@vittascience.com</a>",
+      "email": "E-mail: <a class=\"email u-email\" href=\"mailto:contact@vittascience.com\">contact@vittascience.com</a>",
       "address": "Indirizzo postale: <span class=\"visitor-address p-extended-address\">6 Boulevard Dubreuil, 91400 Orsay</span>"
     },
     "compatibility": {
@@ -7715,7 +8020,7 @@
       "classroom-dashboard-new-activity-panel3": " Assegnazione",
       "classroom-table-panel-teacher": " Classe {{name}}",
       "classroom-dashboard-sandbox-creation": " Selezione dell'interfaccia",
-      "classroom-dashboard-ide-panel": " Sandbox {{interface}}",
+      "classroom-dashboard-ide-panel": "Ambiente di test {{interface}}",
       "classroom-dashboard-activity-panel": " Attività {{name}}"
     },
     "displayCode": " Proiezione del codice",
@@ -8425,9 +8730,9 @@
   },
   "let": {
     "buttons": {
-      "save": "Save",
-      "submit": "Submit",
-      "cancel": "Cancel"
+      "save": "Salva",
+      "submit": "Invia",
+      "cancel": "Annulla"
     }
   },
   "contact-info": {
@@ -8642,7 +8947,7 @@
         "presentation_text_ia": "Presentazione di Vittascience + IA (testo)",
         "presentation_text_illustrations": "Presentazione di Vittascience (testo + illustrazioni)",
         "presentation_16_9": "Presentazione di Vittascience (16/9)",
-        "logo": "Logo Vittascience",
+        "logo": "Logo di Vittascience",
         "logo_branding_guide": "Guida al branding",
         "teaser_fr": "Teaser Vittascience (francese)",
         "teaser_en": "Teaser Vittascience (inglese)"
@@ -9250,7 +9555,7 @@
       "questions": {
         "smartphone": {
           "icon": "📱",
-          "title": " Smartphone",
+          "title": "Smartphone",
           "rules": "<strong>Basi del calcolo:</strong> Schermo medio da 6,63 pollici, mix di tecnologie LCD e OLED, 8 GB di RAM, 210 GB di memoria (media ponderata tra 3 configurazioni, 24%, 24%, 52%).",
           "practical_tips": "Per un uso più responsabile del tuo smartphone, adotta alcune semplici abitudini:<br/>🔋 <strong>Attiva la modalità risparmio energetico</strong><br/>🌞 <strong>Imposta la luminosità automatica</strong><br/>❌ <strong>Chiudi le app inutilizzate</strong><br/>🌱 <strong>Conserva il telefono più a lungo</strong> per ridurre significativamente il suo impatto ambientale. Acquistare un modello usato è un'ottima scelta per il pianeta",
           "label_how_many_years": {
@@ -9748,7 +10053,7 @@
   },
   "foia": {
     "head": {
-      "mainTitle": "Future of IA x Vittascience",
+      "mainTitle": "Futuro dell'IA x Vittascience",
       "title": "Un laboratorio per formarsi sui <br/><em>temi dell'IA</em>",
       "lead": "Esplora il potenziale, le sfide e le professioni dell'intelligenza artificiale al servizio di missioni di interesse generale in Future of IA. Un'esperienza didattica proposta da Latitudes e Vittascience.",
       "startButton": "Inizia il laboratorio"

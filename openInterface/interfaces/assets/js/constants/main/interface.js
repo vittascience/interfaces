@@ -1,5 +1,5 @@
-// deactivate rtc for local environment
-const rtcInterfaces = location.origin.split('.').length === 1 ? [] : ['wb55', 'l476', 'buddy', 'letsstartcoding'];
+// deactivate rtc for local environment and Capytale context
+const rtcInterfaces = (typeof IS_CAPYTALE_CONTEXT !== 'undefined' || location.origin.split('.').length === 1) ? [] : ['wb55', 'l476', 'buddy', 'letsstartcoding'];
 
 // share project modal
 const modeInterfaceOption =

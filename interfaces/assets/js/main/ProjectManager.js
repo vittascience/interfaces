@@ -23,6 +23,7 @@ class ProjectManager {
             },
             'FROM_DB': {
                 invalid: 'ProjectLoadingFromDB_invalidProject',
+                networkError: 'ProjectLoadingFromDB_networkError',
                 rtcError: 'ProjectLoadingFromDB_rtcAccessError',
                 success: 'ProjectLoadingFromDB_success'
             },
@@ -33,6 +34,15 @@ class ProjectManager {
             'DOM': {
                 success: 'ProjectLoadingDOM_success'
             }
+        },
+        'SAVING': {
+            notConnected: 'ProjectSaving_notConnected',
+            forbidden: 'ProjectSaving_forbidden',
+            notFound: 'ProjectSaving_notFound',
+            conflict: 'ProjectSaving_conflict',
+            invalidProject: 'ProjectSaving_invalidProject',
+            networkError: 'ProjectSaving_networkError',
+            serverError: 'ProjectSaving_serverError'
         }
     };
     static PUBLIC_PROJECTS_PAGE_SIZE = 30;
@@ -62,6 +72,10 @@ class ProjectManager {
         this.exampleProjectsLoaded = false;
         this.exerciseLoaded = false;
         this.isOpeningProject = false;
+        this.loadingFailed = false;
+        this.isLeavingPage = false;
+        this._saveFailureStatus = null;
+        this._localDraftKey = null;
         this.isVisitor = false;
         this.isLocalAiModel = false;
         this.pythonAutocorrectionRunCount = 0;
@@ -70,8 +84,6 @@ class ProjectManager {
         this._userTypedDuringInit = false;
         this.localStorageManager.addLocalId();
         this._setupWebInterfaceParameters();
-        this._setupArduinoInterfaceParameters();
-        this._setupPythonInterfaceParameters();
         this._setupEvidenceBRPC();
         this._setupOrigamiaRPC();
         this._setupTiRPC();
@@ -491,10 +503,11 @@ class ProjectManager {
 
     /**
      * Get the authoritative project payload for a project opened from the finder.
-     * Fallback to the cached list entry if the DB request fails.
+     * Fallback to the cached list entry if the DB request fails, only when this entry holds the project code
+     * (summary entries of user and public projects don't).
      * @private
      * @param {string} projectLink - The project link
-     * @returns {Promise<object>} The finder result payload
+     * @returns {Promise<object>} The finder result payload, list property is null if the project can't be loaded
      */
     async _projectLoader_getHydratedFinderProject(projectLink) {
         const result = await this.getProjectByLink(projectLink, false);
@@ -506,9 +519,15 @@ class ProjectManager {
             if (await this._projectLoader_isValidProject(hydratedProject)) {
                 result.project = hydratedProject;
                 this[result.list][result.index] = hydratedProject;
+                return result;
             }
         } catch (error) {
             console.error(error);
+        }
+        if (typeof result.project.code !== 'string') {
+            return {
+                "list": null
+            };
         }
         return result;
     };
@@ -523,14 +542,24 @@ class ProjectManager {
      */
     _projectLoader_loadFromDB(link) {
         return new Promise(async (resolve, reject) => {
-            const project = await this.ajax_getProjectByLinkFromDB(link, this._interface);
+            let project;
+            try {
+                project = await this.ajax_getProjectByLinkFromDB(link, this._interface);
+            } catch (error) {
+                this.loadingFailed = true;
+                pseudoModal.openModal('modal-project-loading-error');
+                return resolve(ProjectManager.STATUS.LOADING.FROM_DB.networkError);
+            }
             let status = ProjectManager.STATUS.LOADING.FROM_DB.success;
             if (await this._projectLoader_isValidProject(project)) {
                 if (this._projectLoader_checkRTCAccess(project)) {
                     if (this._interface != 'ai') Main.resetInvalidBlocksWarning();
+                    const localDraft = await this._projectLoader_getLocalDraftToRestore(project);
                     status = await this.projectLoader_injectInInterface(project);
                     if (status == ProjectManager.STATUS.LOADING.INJECT.error) {
                         pseudoModal.openModal('modal-warningWrongXml');
+                    } else if (localDraft) {
+                        await this._projectLoader_restoreLocalDraft(localDraft);
                     }
                 } else {
                     status = ProjectManager.STATUS.LOADING.FROM_DB.rtcError;
@@ -678,6 +707,7 @@ class ProjectManager {
         if (result.list === null) {
             return ProjectManager.STATUS.LOADING.FINDER.invalid;
         }
+        const localDraft = await this._projectLoader_getLocalDraftToRestore(result.project);
         this._projectLoader_setCurrentProject(result.project);
         this.updateUrl(true);
         this.localStorageManager.removeLocalId(result.project.link);
@@ -701,6 +731,9 @@ class ProjectManager {
                 await this._refreshProjectStatus();
                 if (status == CodeManager.STATUS.DOM.xmlError) {
                     return ProjectManager.STATUS.LOADING.INJECT.error;
+                }
+                if (localDraft) {
+                    await this._projectLoader_restoreLocalDraft(localDraft);
                 }
         }
         return ProjectManager.STATUS.LOADING.FINDER.success;
@@ -739,6 +772,7 @@ class ProjectManager {
      * @param {string} mode - [OPTIONAL] The display mode for the interface, false by default (it will use project.mode)
      */
     _projectLoader_setCurrentProject(project) {
+        this._saveFailureStatus = null;
         this._currentProject = {
             'name': this.decodeSanitizedString(project.name),
             'dateUpdated': project.dateUpdated,
@@ -967,24 +1001,33 @@ class ProjectManager {
                 CodeManager.getSharedInstance().updateTextCode(userCode);
                 Main.getCodeEditor().container.getSession().setValue(userCode);
             }
-            if (this._interface === 'python') {
-                UnitTests.init(this._currentProject);
-            }
-            this._exercises_populateStatement();
-            try {
-                if (Main.hasAutoCorrector()) {
-                    await this.ajax_searchForExercise();
-                    if (typeof Simulator !== 'undefined') {
-                        Simulator.updateExercisePanel();
-                    }
-                }
-            } catch (error) {
-                console.error(error);
-                pseudoModal.endBlocker('modal-auto-corrector-creation');
-            }
-            this.updateMultiEditorLS(this._currentProject.link, this._interface);
+            await this._projectLoader_refreshExercise();
             resolve(status);
         });
+    };
+
+    /**
+     * Load the exercise (statement, unit tests, auto-corrector) linked to the current project
+     * @private
+     * @returns {Promise}
+     */
+    async _projectLoader_refreshExercise() {
+        if (this._interface === 'python') {
+            UnitTests.init(this._currentProject);
+        }
+        this._exercises_populateStatement();
+        try {
+            if (Main.hasAutoCorrector()) {
+                await this.ajax_searchForExercise();
+                if (typeof Simulator !== 'undefined') {
+                    Simulator.updateExercisePanel();
+                }
+            }
+        } catch (error) {
+            console.error(error);
+            pseudoModal.endBlocker('modal-auto-corrector-creation');
+        }
+        this.updateMultiEditorLS(this._currentProject.link, this._interface);
     };
 
     /**
@@ -1052,6 +1095,126 @@ class ProjectManager {
         $("input[name='right-select-control'][value=" + rightValue + "]").attr('checked', 'checked');
     };
 
+    // ================================ LOCAL DRAFT ================================
+
+    /**
+     * Check if the unsaved changes of a linked project are kept as a local draft in the current context.
+     * The contexts that manage their own saving (LTI, Capytale, RTC, adacraft, ai) are excluded.
+     * @private
+     * @returns {boolean}
+     */
+    _isLocalDraftEnabled() {
+        if (['ai', 'adacraft'].includes(this._interface)) return false;
+        if (typeof ltiVariables13 !== 'undefined' || typeof ltiVariables !== 'undefined' || typeof IS_CAPYTALE_CONTEXT !== 'undefined') return false;
+        if (typeof rtcInterfaces !== 'undefined' && rtcInterfaces.includes(this._interface)) return false;
+        return true;
+    };
+
+    /**
+     * Get the version of a project stored on the server, which is its last update date to the second
+     * (the date returned right after a save holds microseconds that the database doesn't store)
+     * @private
+     * @param {object} project - A project received from the server
+     * @returns {string|null} The server version, null if the project doesn't come from the server
+     */
+    _getServerVersion(project) {
+        if (!project || !project.dateUpdated) return null;
+        const date = typeof project.dateUpdated === 'string' ? project.dateUpdated : project.dateUpdated.date;
+        if (typeof date !== 'string') return null;
+        return date.replace('T', ' ').slice(0, 19);
+    };
+
+    /**
+     * Flag the local copy of the current project as a draft when it holds unsaved changes, unflag it otherwise
+     * @private
+     * @param {boolean} isUpToDate - Whether the workspace matches the saved project
+     */
+    _updateLocalDraftState(isUpToDate) {
+        const link = this._currentProject.link;
+        const serverVersion = this._getServerVersion(this._currentProject);
+        if (!link || !serverVersion || !this._isLocalDraftEnabled()) return;
+        const draftOf = isUpToDate ? null : serverVersion;
+        const localDraftKey = `${link}|${draftOf}`;
+        if (this._localDraftKey === localDraftKey) return;
+        if (this.localStorageManager.setLocalProjectDraft(draftOf, link)) {
+            this._localDraftKey = localDraftKey;
+        }
+    };
+
+    /**
+     * Look for unsaved changes of the provided project kept in the browser and ask the user whether to restore them.
+     * A draft is only offered if it was made from the version currently stored on the server.
+     * @private
+     * @param {object} project - The project received from the server
+     * @returns {Promise<object|null>} The draft to restore, null otherwise
+     */
+    async _projectLoader_getLocalDraftToRestore(project) {
+        if (!project.link || !this._isLocalDraftEnabled()) return null;
+        const localProject = this.localStorageManager.getLocalProject(project.link);
+        if (!localProject || !localProject.draftOf || localProject.draftOf !== this._getServerVersion(project)) return null;
+        const draft = localProject.project;
+        if (!draft || typeof draft.code !== 'string') return null;
+        const isSameCode = this._equals({ 'code': draft.code }, project) && (draft.codeText || '') === (project.codeText || '');
+        if (isSameCode) return null;
+        const isRestoreAccepted = await this._askLocalDraftRestoration(localProject.lastUpdated);
+        return isRestoreAccepted ? draft : null;
+    };
+
+    /**
+     * Ask the user whether to restore the unsaved changes kept in the browser.
+     * Closing the modal without answering restores the changes, to never lose them by mistake.
+     * @private
+     * @param {number} lastUpdated - Timestamp of the last local change
+     * @returns {Promise<boolean>} true if the changes have to be restored
+     */
+    _askLocalDraftRestoration(lastUpdated) {
+        return new Promise((resolve) => {
+            if (!pseudoModal.contains('modal-local-draft')) return resolve(false);
+            let isRestoreAccepted = true;
+            const lang = getCookie('lng') != '' ? getCookie('lng') : 'fr';
+            document.querySelector('#modal-local-draft-date').textContent = new Date(lastUpdated).toLocaleString(lang, {
+                dateStyle: 'full',
+                timeStyle: 'short'
+            });
+            const onModalClosed = (event) => {
+                if (event.detail.modalId !== 'modal-local-draft') return;
+                window.removeEventListener('modalClosed', onModalClosed);
+                resolve(isRestoreAccepted);
+            };
+            document.querySelector('#modal-local-draft-btn-restore').onclick = () => {
+                pseudoModal.closeModal('modal-local-draft');
+            };
+            document.querySelector('#modal-local-draft-btn-discard').onclick = () => {
+                isRestoreAccepted = false;
+                pseudoModal.closeModal('modal-local-draft');
+            };
+            window.addEventListener('modalClosed', onModalClosed);
+            pseudoModal.openModal('modal-local-draft');
+        });
+    };
+
+    /**
+     * Load a local draft in the workspace while keeping the saved project as the reference, so the project appears as not saved
+     * @private
+     * @param {object} draft - The project content kept in the browser
+     */
+    async _projectLoader_restoreLocalDraft(draft) {
+        const savedContent = {
+            'code': this._currentProject.code,
+            'codeText': this._currentProject.codeText,
+            'codeManuallyModified': this._currentProject.codeManuallyModified
+        };
+        Object.assign(this._currentProject, {
+            'code': draft.code,
+            'codeText': draft.codeText,
+            'codeManuallyModified': draft.codeManuallyModified
+        });
+        await this._projectLoader_updateAndRefreshDOM();
+        Object.assign(this._currentProject, savedContent);
+        await this._refreshProjectStatus();
+        new VittaNotif().displayNotification(null, i18next.t('notifications.localDraftRestored'), 'bg-success');
+    };
+
     // ================================ PROJECT CREATOR ================================
 
     /**
@@ -1083,6 +1246,7 @@ class ProjectManager {
     async _createNewProject(project) {
         if (this._interface === 'python') PythonRun.resetUnitTests();
         const projectCode = !Main.getIsXmlBasedInterface() ? CodeManager.getSharedInstance().getDefaultCodeStart() : CodeManager.getSharedInstance().getDefaultXmlStart();
+        this._saveFailureStatus = null;
         this._currentProject = {
             'name': encodeURI(i18next.t('code.newProject')),
             'dateUpdated': new Date(),
@@ -1352,8 +1516,7 @@ class ProjectManager {
             if (this._interface === 'adacraft') {
                 return this._equals({
                     'codeText': "",
-                    'code': adacraft.getCurrentProjectJson(),
-                    'sharedStatus': Number($("#shareProjectSave").is(':checked')),
+                    'code': adacraft.getCurrentProjectJson()
                 }, this._currentProject);
             } else {
                 const updates = {
@@ -1361,7 +1524,6 @@ class ProjectManager {
                     'code': Main.getIsXmlBasedInterface() ? CodeManager.getSharedInstance().getXml() : CodeManager.getSharedInstance().getCode(),
                     'codeManuallyModified': CodeManager.getSharedInstance().isCodeManuallyModified(),
                     'mode': CodeManager.getSharedInstance()._getSelectedMode(),
-                    'sharedStatus': Number($("#shareProjectSave").is(':checked')),
                     'options': this.getCurrentOptionsStatus()
                 }
                 return this._equals(updates, this._currentProject);
@@ -1388,13 +1550,19 @@ class ProjectManager {
             $("#project-name").text(decodeURI(currentProjectName));
             $('#project-name').attr('data-bs-title', `<span class="tooltip-title">${decodeURI(currentProjectName)}</span><span class="tooltip-author">${currentProjectAuthor}</span><span class="tooltip-description">${CodeManager.getProjectDisplayDescription(decodeURI(currentProjectDescription))}</span>`);
 
-            if (this._isUpToDate() === false) {
-                // Orange disk only if the project can be saved (local projects of the visitors: saved automatically)
-                if (this.canSaveProject()) {
-                    $("#project-is-saved").css('color', 'var(--vitta-orange)').html('<i class="fas fa-save"></i>');
-                } else {
-                    $("#project-is-saved").html('<i class="fas fa-check"></i>');
-                }
+            const isUpToDate = this._isUpToDate();
+            this._updateLocalDraftState(isUpToDate && !this._saveFailureStatus);
+            if (this._saveFailureStatus) {
+                this._setProjectStatusAsFailed();
+            } else if (isUpToDate) {
+                this._setProjectStatusAsSaved();
+            } else if (this.canSaveProject()) {
+                $("#project-is-saved").removeClass('save-failed').css('color', 'var(--vitta-orange)').html('<i class="fas fa-save"></i>');
+            } else {
+                // Local projects of the visitors: saved automatically in the localStorage, no orange disk
+                $("#project-is-saved").removeClass('save-failed').html('<i class="fas fa-check"></i>');
+            }
+            if (isUpToDate === false) {
                 // In LTI context, we inform the parent window that the project isn't up to date
                 if (typeof ltiVariables13 !== 'undefined' && !skipRpcEdited) {
                     lti13Controller.setprojectStatusToEdited();
@@ -1405,8 +1573,6 @@ class ProjectManager {
                 if (this._capytaleManager && this._capytaleManager.contentChanged && !this._capytaleManager.getInitialLoading()) {
                     this._capytaleManager.contentChanged();
                 }
-            } else {
-                this._setProjectStatusAsSaved();
             }
             const noSynchroInterfaces = ['adacraft', 'ai', 'web', 'python'];
             if (!noSynchroInterfaces.includes(this._interface)) {
@@ -1441,7 +1607,7 @@ class ProjectManager {
      */
     _setProjectStatusAsSaved() {
         if (INTERFACE_NAME === 'adacraft' && $_GET('player') === 'true') return; // No status update in adacraft player mode
-        $("#project-is-saved").css('color', 'var(--vitta-green)').html('<i class="fas fa-check"></i>');
+        $("#project-is-saved").removeClass('save-failed').css('color', 'var(--vitta-green)').html('<i class="fas fa-check"></i>');
         let titledate = null;
         const undefinedDate = typeof this._currentProject.dateUpdated === 'undefined';
         if (!undefinedDate && typeof this._currentProject.dateUpdated === 'string') {
@@ -1464,6 +1630,46 @@ class ProjectManager {
             minute: 'numeric'
         });
         document.querySelector('#project-is-saved').setAttribute('data-bs-title', `${i18next.t('code.topbar.tooltips.lastSaveOn')}${localHumanReadableDate}`);
+    }
+
+    /**
+     * Set the project status as failed: red warning under the project name until the next successful save
+     * @private
+     */
+    _setProjectStatusAsFailed() {
+        const projectStatusElt = document.querySelector('#project-is-saved');
+        if (!projectStatusElt) return;
+        $(projectStatusElt).addClass('save-failed').css('color', 'var(--vitta-red)').html('<i class="fas fa-exclamation-triangle"></i>');
+        projectStatusElt.setAttribute('data-bs-title', i18next.t('code.topbar.tooltips.lastSaveFailed'));
+    }
+
+    /**
+     * Keep track of a failed save to warn the user until the project is saved
+     * @public
+     * @param {string} status - A ProjectManager.STATUS.SAVING status
+     */
+    setSaveFailure(status) {
+        this._saveFailureStatus = status;
+        this._setProjectStatusAsFailed();
+    }
+
+    /**
+     * Get the translated message explaining why the project hasn't been saved
+     * @public
+     * @param {string} status - A ProjectManager.STATUS.SAVING status
+     * @returns {string} The translated message
+     */
+    static getSaveErrorMessage(status) {
+        const translationKeys = {
+            [ProjectManager.STATUS.SAVING.notConnected]: 'notifications.projectSaveNotConnected',
+            [ProjectManager.STATUS.SAVING.forbidden]: 'notifications.projectSaveForbidden',
+            [ProjectManager.STATUS.SAVING.notFound]: 'notifications.projectSaveNotFound',
+            [ProjectManager.STATUS.SAVING.conflict]: 'notifications.projectSaveConflict',
+            [ProjectManager.STATUS.SAVING.invalidProject]: 'notifications.projectSaveInvalid',
+            [ProjectManager.STATUS.SAVING.networkError]: 'notifications.projectSaveNetworkError',
+            [ProjectManager.STATUS.SAVING.serverError]: 'notifications.projectSaveServerError'
+        };
+        return i18next.t(translationKeys[status] || translationKeys[ProjectManager.STATUS.SAVING.serverError]);
     }
 
     /**
@@ -1558,13 +1764,14 @@ class ProjectManager {
     };
 
     /**
-     * Return true if the project can be saved: connected user, or LTI / Capytale context (saved by the platform). The
-     * local projects of the visitors are saved automatically in the localStorage.
+     * Return true if the project has to be saved by the user: project of a connected user saved in the database, or
+     * LTI / Capytale context (saved by the platform). The local projects (not saved in the database yet) are saved
+     * automatically in the localStorage.
      * @public
      * @return {boolean}
      */
     canSaveProject() {
-        return UserManager.getUser() !== null || typeof ltiVariables13 !== 'undefined' || !!this._rpc || !!this._capytaleManager;
+        return (UserManager.getUser() !== null && !!this._currentProject.link) || typeof ltiVariables13 !== 'undefined' || !!this._rpc || !!this._capytaleManager;
     };
 
     /**
@@ -1574,6 +1781,7 @@ class ProjectManager {
      */
     needSaving() {
         if (this._interface === 'ai') return true;
+        if (this._saveFailureStatus !== null) return true;
         // Local projects of the visitors: saved automatically in the localStorage, nothing to save
         if (!this.canSaveProject()) return false;
         return !this._isUpToDate();
@@ -1800,6 +2008,9 @@ class ProjectManager {
             },
             body: `exercise[project]=${projectManager._currentProject.id}`
         });
+        if (!pythonExercice.ok) {
+            throw new Error(`Exercise not created: HTTP ${pythonExercice.status}`);
+        }
         const response = await pythonExercice.json();
         if (response.errors) {
             const errorList = {
@@ -1846,6 +2057,7 @@ class ProjectManager {
      * @public
      * @param {Array} optimizedFrames - The exercise frames reduced to those that change
      * @param {string} exerciseId - The exercise ID
+     * @throws {Error} If the frames haven't been saved
      */
     async exercises_saveFrames(optimizedFrames, exerciseId) {
         const data = new URLSearchParams();
@@ -1853,7 +2065,7 @@ class ProjectManager {
             optimizedFrames: optimizedFrames,
             exerciseId: exerciseId
         }));
-        await (await fetch(
+        const response = await (await fetch(
             "/routing/Routing.php?controller=exercise_frames&action=create_exercise_frames", {
             method: "POST",
             headers: {
@@ -1861,6 +2073,9 @@ class ProjectManager {
             },
             body: data,
         })).json();
+        if (response.msg !== 'done') {
+            throw new Error(`Exercise frames not saved: ${response.errorType || response.error}`);
+        }
     };
 
     /**
@@ -1964,25 +2179,23 @@ class ProjectManager {
      * Add or update the exercise statement for the current project
      * @public
      * @param {string} exercise_statement - [OPTIONAL] The exercise statement, empty string by default
-     * @returns {Promise} resolve the server response
+     * @returns {Promise} resolve the server response, reject if the server can't be reached
      */
-    exercises_setStatement(exercise_statement = '') {
-        return new Promise(async (resolve, reject) => {
-            const urlParams = new URLSearchParams();
-            urlParams.append('project_id', this._currentProject.id);
-            urlParams.append('exercise_statement', exercise_statement);
-            const response = await fetch(
-                "/routing/Routing.php?controller=project&action=add_or_update_exercise_statement",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-                    },
-                    body: urlParams
-                }
-            );
-            resolve(response.json());
-        });
+    async exercises_setStatement(exercise_statement = '') {
+        const urlParams = new URLSearchParams();
+        urlParams.append('project_id', this._currentProject.id);
+        urlParams.append('exercise_statement', exercise_statement);
+        const response = await fetch(
+            "/routing/Routing.php?controller=project&action=add_or_update_exercise_statement",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+                },
+                body: urlParams
+            }
+        );
+        return response.json();
     };
 
     /**
@@ -2014,6 +2227,7 @@ class ProjectManager {
 
         let iaMode = aiMain._model.getAiInterfaceType();
 
+        this._saveFailureStatus = null;
         this._currentProject = {
             'name': encodeURI(projectName),
             'dateUpdated': new Date(),
@@ -2643,7 +2857,7 @@ class ProjectManager {
                 if (getParamValue("action") == "new") {
                     this.localStorageManager.deleteLocalProject();
                     this._createNewProject();
-                } else if (this.localStorageManager.getLocalProjectContent()) {
+                } else if (typeof IS_CAPYTALE_CONTEXT === 'undefined' && this.localStorageManager.getLocalProjectContent()) {
                     await this._loadProjectFromLocalStorage();
                 } else {
                     this._createNewProject();
@@ -3257,18 +3471,6 @@ class ProjectManager {
         } while (previousState !== decodedString && securityCount < 20);
         return decodedString;
     };
-
-    _setupArduinoInterfaceParameters() {
-        if (typeof Main === 'undefined' || !Main.hasCpp2Blocks()) return;
-        const Cpp2Blocks = window.Cpp2Blocks;
-        Cpp2Blocks.initParser();
-    }
-
-    _setupPythonInterfaceParameters() {
-        if (typeof Main === 'undefined' || !Main.hasPython2Blocks()) return;
-        const PythonToBlocks = window.Python2Blocks
-        PythonToBlocks.initParser();
-    }
 
     /**
      * Add properties to projectManager for the web interface

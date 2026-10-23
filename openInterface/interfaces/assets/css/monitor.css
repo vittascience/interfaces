@@ -91,6 +91,7 @@
 
 #monitor-resizer {
 	cursor: ns-resize;
+	touch-action: none; /* dragged with the finger (see resizeMonitorBy) */
 	width: 1.5em;
 	border-radius: 15px 0 0 0;
 	border-right: 2px solid var(--bg-4);
@@ -680,4 +681,33 @@ table#variables_table {
 
 #repl-control:not(.activated) {
 	background-color: var(--bg-1);
+}
+/* Phones: the console buttons are in the console settings menu (see placeMonitorButtons), with their label */
+#monitor-controls-dropdown > #monitor-div-btn {
+	position: static;
+	display: grid !important;
+	grid-template-columns: 1fr 1fr;
+	gap: 6px;
+	padding: 0.25rem 0.75rem 0.75rem;
+	margin-bottom: 0.25rem;
+	border-bottom: 1px solid rgba(128, 128, 128, 0.4);
+}
+
+#monitor-controls-dropdown > #monitor-div-btn .ide-btn {
+	justify-content: flex-start;
+	gap: 0.4em;
+	width: 100%;
+	min-width: 0;
+	height: auto;
+	margin: 0;
+	padding: 0.4em 0.5em;
+	border-radius: 10px !important;
+	font-size: 0.9rem;
+}
+
+#monitor-controls-dropdown > #monitor-div-btn .label-button {
+	display: inline !important;
+	margin: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }

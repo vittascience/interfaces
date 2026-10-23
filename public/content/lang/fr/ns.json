@@ -886,6 +886,22 @@
       "legalCommitmentNumber": "Numéro d'engagement juridique",
       "siret": "Numéro de SIRET de l'établissement",
       "serviceName": "Nom de service (facultatif)",
+      "subscriptionStart": "Date de démarrage souhaitée pour l'abonnement",
+      "subscriptionEnd": "Date de fin prévisionnelle",
+      "durationMonth": "1 mois",
+      "durationYear": "1 an",
+      "durationThreeYears": "3 ans",
+      "garActivation": "Souhaitez-vous une activation via le GAR ?",
+      "whatIsGar": "Qu'est-ce que le GAR ?",
+      "garDefinition": "Le GAR (Gestionnaire d'accès aux ressources) permet aux enseignants et aux élèves d'accéder à Vittascience depuis l'ENT de l'établissement, sans créer de compte.",
+      "uai": "UAI de l'établissement",
+      "uaiHint": "7 chiffres suivis d'une lettre, par exemple 0751234A.",
+      "accountEmails": "Adresse(s) e-mail du ou des comptes Vittascience à activer",
+      "accountEmailsHint": "Une adresse par ligne, {{max}} au maximum (une par licence).",
+      "accountEmailsTooMany": "Trop d'adresses : {{max}} au maximum.",
+      "accountEmailInvalid": "Adresse e-mail invalide :",
+      "quoteUpdateError": "Votre bon de commande n'a pas pu être enregistré : la mise à jour du devis n°{{number}} a échoué. Merci de réessayer dans quelques minutes. Si le problème persiste, contactez-nous :",
+      "licenceFieldsError": "Les informations d'abonnement sont incomplètes ou invalides. Merci de vérifier la date de démarrage, l'UAI ou les adresses e-mail.",
       "confirmWithoutEdit1": "Je confirme que le bon de commande correspond exactement au devis n° ",
       "confirmWithoutEdit2": " ci-contre (même produit(s), montant(s), quantité(s)) pour un montant total de ",
       "confirmWithEdit": "Le bon de commande ne correspond pas au devis ci-contre, des changements ont été apportés.",
@@ -1209,7 +1225,232 @@
       "search": "Rechercher une extension",
       "added": "Ajoutée",
       "noResult": "Aucune extension trouvée.",
-      "confirmRemoveUsed": "{{count}} bloc(s) de cette extension utilisé(s) dans le programme seront supprimés. Continuer ?"
+      "confirmRemoveUsed": "{{count}} bloc(s) de cette extension utilisé(s) dans le programme seront supprimés. Continuer ?",
+      "manage": "Gérer les extensions",
+      "filter": "Filtrer les extensions",
+      "filters": {
+        "all": "Toutes",
+        "model": "Maquettes pédagogiques",
+        "robotics": "Robotique",
+        "display": "Affichage",
+        "lights": "Lumières",
+        "sensors": "Capteurs",
+        "actuators": "Actionneurs",
+        "ai": "Intelligence artificielle",
+        "games": "Jeux",
+        "communication": "Communication"
+      },
+      "catalog": {
+        "colours": {
+          "red": "rouge",
+          "green": "vert",
+          "blue": "bleu",
+          "yellow": "jaune",
+          "cyan": "cyan",
+          "magenta": "magenta",
+          "orange": "orange",
+          "purple": "violet",
+          "white": "blanc",
+          "off": "éteint",
+          "black": "noir"
+        },
+        "a4_leds": {
+          "blocks": {
+            "battery": "niveau de batterie (%)",
+            "leds_colour": "mettre RGB0 en {C0} et RGB1 en {C1}",
+            "leds_rgb": "mettre RGB0 en R {R0} V {G0} B {B0} et RGB1 en R {R1} V {G1} B {B1}",
+            "leds_brightness": "régler la luminosité RGB à {B} (0-255)",
+            "leds_off": "éteindre les LED RGB"
+          }
+        },
+        "a4_screen": {
+          "blocks": {
+            "screen_clear": "écran effacer tout",
+            "screen_background": "écran définir couleur de fond {C}",
+            "screen_background_image": "écran définir image de fond {NAME}",
+            "screen_text": "écran afficher texte {TEXT} numéro {ID} position x {X} y {Y} taille {SIZE} couleur {C}",
+            "screen_image": "écran afficher image numéro {ID} nom {NAME} position x {X} y {Y} taille {ZOOM}",
+            "screen_rotate": "écran rotation image numéro {ID} angle {ANGLE}",
+            "screen_remove": "écran supprimer {KIND} numéro {ID}",
+            "screen_init_i2c": "écran initialiser en I2C",
+            "screen_init_uart": "initialiser l’écran LCD"
+          },
+          "options": {
+            "screen_text_size": {
+              "large": "grande",
+              "small": "petite"
+            },
+            "screen_remove_kind": {
+              "text": "texte",
+              "image": "image"
+            }
+          },
+          "defaults": {
+            "screen_text": "Bonjour"
+          }
+        },
+        "a4_access": {
+          "description": "Contrôle d’accès d’un bâtiment : un clavier capacitif déverrouille une porte à ventouse magnétique.",
+          "blocks": {
+            "lock": "mettre la porte en position {STATE}",
+            "door_is": "la porte est {STATE}",
+            "wait_key": "attendre une touche du clavier",
+            "read_key": "dernière touche appuyée du clavier",
+            "entered_code": "code saisi",
+            "code_is": "le code saisi est {CODE}",
+            "code_length": "le code saisi comporte {N} chiffres",
+            "clear_code": "effacer le code saisi",
+            "delete_last": "effacer le dernier chiffre du code"
+          },
+          "options": {
+            "lock_state": {
+              "locked": "verrouillée",
+              "unlocked": "déverrouillée"
+            },
+            "door_is_state": {
+              "closed": "fermée",
+              "open": "ouverte"
+            }
+          }
+        },
+        "a4_parking": {
+          "description": "Borne de stationnement limité : un capteur détecte la présence d’un véhicule et un écran couleur affiche le temps restant.",
+          "blocks": {
+            "vehicle": "présence d’un véhicule",
+            "time": "heure {H} h {M} min {S} s"
+          }
+        },
+        "a4_barrier": {
+          "description": "Barrière automatique de parking ou de péage avec servomoteur, feu RVB, capteur infrarouge et lecteur RFID.",
+          "blocks": {
+            "read_tag": "lire badge RFID",
+            "move": "{ACTION} la barrière",
+            "servo": "fixer l’angle du servomoteur à {ANGLE}",
+            "vehicle": "véhicule détecté",
+            "light_colour": "allumer le feu en {C}",
+            "light_rgb": "allumer le feu en rouge {R} vert {G} bleu {B}",
+            "light_off": "éteindre le feu"
+          },
+          "options": {
+            "move_action": {
+              "open": "ouvrir",
+              "close": "fermer"
+            }
+          }
+        },
+        "a4_weight": {
+          "description": "Balance automatisée à jauge de contrainte avec clavier 4x4 et écran couleur, pour peser, compter ou tarifer des articles.",
+          "blocks": {
+            "init": "initialiser la balance",
+            "tare": "effectuer la tare",
+            "mass": "masse (g)",
+            "connected": "balance connectée",
+            "start_calibration": "commencer l’étalonnage de la balance",
+            "calibrate": "étalonner la balance avec une masse étalon de {MASS} g",
+            "pressed_key": "touche appuyée du clavier",
+            "wait_key": "attendre l’appui sur une touche",
+            "key_is_pressed": "la touche {KEY} du clavier est appuyée",
+            "set_factor": "régler le facteur d’étalonnage à {VALUE}",
+            "factor": "facteur d’étalonnage de la balance",
+            "raw_average": "valeur brute moyenne sur {N} mesures"
+          }
+        },
+        "a4_shifumi": {
+          "description": "Jeu de pierre-feuille-ciseaux : un servomoteur fait tourner un disque rétroéclairé, un capteur à ultrasons détecte la main.",
+          "blocks": {
+            "disc_angle": "fixer l’angle du disque à {ANGLE} °",
+            "distance": "distance ultrason (cm)",
+            "hand_detected": "main détectée à moins de {D} cm",
+            "backlight_brightness": "régler la luminosité sous le disque à {B} %",
+            "backlight_colour": "rétroéclairer le disque en {C}",
+            "backlight_rgb": "rétroéclairer le disque en rouge {R} vert {G} bleu {B}",
+            "backlight_off": "éteindre le rétroéclairage du disque",
+            "lcd_init": "initialiser l’écran LCD",
+            "lcd_clear": "effacer l’écran LCD",
+            "lcd_text": "LCD afficher {TEXT} sur la ligne {LINE}",
+            "lcd_number": "LCD afficher le nombre {VALUE} sur la ligne {LINE}"
+          },
+          "defaults": {
+            "lcd_text": "PRÊT"
+          }
+        },
+        "a4_ai_vision": {
+          "description": "Support de caméra IA HuskyLens 2.0 avec écran couleur et LED RVB, pour reconnaître visages, objets, couleurs ou gestes."
+        },
+        "dfr0997": {
+          "name": "Écran couleur DFR0997",
+          "description": "Écran LCD couleur 2,8\" DFRobot en I2C : textes, formes, images et GIF de sa clé USB, jauges, boussole et graphiques.",
+          "options": {
+            "fill": {
+              "filled": "rempli",
+              "not_filled": "vide"
+            },
+            "text_size": {
+              "large": "grande",
+              "small": "petite"
+            },
+            "rect_round": {
+              "rounded": "arrondis",
+              "square": "carrés"
+            },
+            "set_value_kind": {
+              "progress_bar": "la barre de progression",
+              "slider": "le curseur",
+              "compass": "la boussole (°)",
+              "gauge": "la jauge",
+              "line_meter": "le compteur linéaire"
+            },
+            "chart_style": {
+              "line": "courbe",
+              "bars": "barres",
+              "shaded_line": "courbe ombrée"
+            },
+            "remove_kind": {
+              "text": "texte",
+              "image": "image",
+              "line": "ligne",
+              "rectangle": "rectangle",
+              "circle": "cercle",
+              "triangle": "triangle",
+              "slider": "curseur",
+              "progress_bar": "barre de progression",
+              "compass": "boussole",
+              "gauge": "jauge",
+              "line_meter": "compteur linéaire",
+              "chart": "graphique"
+            }
+          },
+          "blocks": {
+            "clear": "écran effacer tout",
+            "background": "écran couleur de fond {C}",
+            "background_image": "écran image de fond {NAME}",
+            "rgb": "couleur rouge {R} vert {G} bleu {B}",
+            "text": "écran afficher texte {TEXT} numéro {ID} x {X} y {Y} taille {SIZE} couleur {C}",
+            "image": "écran afficher image {NAME} numéro {ID} x {X} y {Y} taille {ZOOM}",
+            "rotate_image": "écran tourner image numéro {ID} de {ANGLE} °",
+            "gif": "écran afficher GIF {NAME} numéro {ID} x {X} y {Y} taille {ZOOM}",
+            "line": "écran ligne numéro {ID} de x {X1} y {Y1} à x {X2} y {Y2} épaisseur {W} couleur {C}",
+            "rect": "écran rectangle numéro {ID} x {X} y {Y} largeur {WIDTH} hauteur {HEIGHT} bordure {W} {C} {FILL} {FC} coins {ROUND}",
+            "circle": "écran cercle numéro {ID} centre x {X} y {Y} rayon {R} bordure {W} {C} {FILL} {FC}",
+            "triangle": "écran triangle numéro {ID} x1 {X1} y1 {Y1} x2 {X2} y2 {Y2} x3 {X3} y3 {Y3} bordure {W} {C} {FILL} {FC}",
+            "slider": "écran curseur numéro {ID} x {X} y {Y} largeur {WIDTH} hauteur {HEIGHT} couleur {C}",
+            "bar": "écran barre de progression numéro {ID} x {X} y {Y} largeur {WIDTH} hauteur {HEIGHT} couleur {C}",
+            "compass": "écran boussole numéro {ID} x {X} y {Y} diamètre {D}",
+            "gauge": "écran jauge numéro {ID} x {X} y {Y} diamètre {D} de {MIN} à {MAX} aiguille {C} fond {BG}",
+            "line_meter": "écran compteur linéaire numéro {ID} x {X} y {Y} taille {SIZE} de {MIN} à {MAX} aiguille {C} fond {BG}",
+            "set_value": "écran mettre {KIND} numéro {ID} à {VALUE}",
+            "chart": "écran graphique numéro {ID} axe X {XAXIS} axe Y {YAXIS} fond {C} style {STYLE}",
+            "chart_series": "graphique ajouter la série numéro {ID} couleur {C}",
+            "chart_point": "graphique série numéro {ID} mettre {X} à {VALUE}",
+            "remove": "écran supprimer {KIND} numéro {ID}"
+          },
+          "defaults": {
+            "text": "Bonjour",
+            "chart_x_axis": "Lun Mar Mer Jeu Ven",
+            "chart_point_x": "Lun"
+          }
+        }
+      }
     },
     "tooltip": {
       "anonymousAuthor": "Anonyme",
@@ -1536,6 +1777,7 @@
         "beginnerMode": "Mode d'utilisation débutant",
         "advancedMode": "Mode d'utilisation avancé",
         "lastSaveOn": "Dernière sauvegarde le ",
+        "lastSaveFailed": "La dernière sauvegarde a échoué : vos modifications ne sont pas enregistrées. Cliquez pour réessayer.",
         "description": "Description :",
         "repl": "Appuyer sur la touche entrée ↩️ pour exécuter la commande",
         "runningCode": "Exécution de votre code... Veuillez patienter.",
@@ -1827,7 +2069,8 @@
         "sentData": "Donnée envoyée:",
         "crash": "Mode de prévention des plantages activé : cela se produit lorsque votre code inclut une boucle infinie sans appel de fonction sleep(). Corrigez votre code avant de réessayer.",
         "variables-panel-msg": "Ce programme ne contient pas de variables",
-        "replaySimulator": "Redémarrer le simulateur pour envoyer des données"
+        "replaySimulator": "Redémarrer le simulateur pour envoyer des données",
+        "skulptLoadError": "Le simulateur n'a pas pu être chargé. Vérifiez votre connexion puis relancez le simulateur."
       },
       "tooltips": {
         "bluebot-buttons": "Vous pouvez utiliser les boutons du robot Blue-bot pour le programmer !"
@@ -4031,6 +4274,7 @@
           "progressAria": "{{used}} crédits utilisés sur {{limit}}",
           "titleCreditInfo": "Information sur les crédits",
           "unlimitedCredits": "Illimité",
+          "unlimitedImages": "Votre abonnement inclut la génération d'images illimitée",
           "unlimitedReset": "Votre abonnement Premium inclut une génération de texte illimitée",
           "unlimitedConditions": "Votre abonnement Premium inclut une génération de texte illimitée."
         }
@@ -6192,6 +6436,9 @@
             "title": "Défilement automatique",
             "text": "Activer le défilement automatique"
           },
+          "sound": {
+            "title": "Volume des bruitages des blocs"
+          },
           "toolbox": {
             "title": "Choix de la toolbox",
             "notice": "Vous pouvez changer le mode de l'interface. Cela change les catégories et le style des blocs.",
@@ -6529,6 +6776,18 @@
         "wrongLink": "Ce lien dirige vers un projet inexistant ou n'a pas été créé avec cette interface. Vous pouvez chercher un projet depuis Ouvrir un projet ou en créer un nouveau",
         "wrongFile": "Ce fichier ne semble pas adapté à cette interface. Vérifier cette information dans l'en-tête du fichier à la ligne 'Interface:'.",
         "wrongXml": "Ce lien dirige vers un projet qui ne semble pas se charger correctement dans l'interface. Veuillez nous partager ce lien du projet en nous contactant par le support de Vittascience. Nous tenterons de le réparer.",
+        "loadingError": "Le projet n'a pas pu être chargé : la connexion au serveur a échoué. Vérifiez votre connexion internet puis rechargez la page.",
+        "reloadPage": "Recharger la page",
+        "localDraft": {
+            "title": "Modifications non enregistrées",
+            "content": "Ce projet contient des modifications qui n'ont pas été enregistrées sur le serveur. Elles ont été conservées dans ce navigateur.",
+            "lastChange": "Dernière modification :",
+            "hint": "Si vous ouvrez la version enregistrée, ces modifications seront définitivement perdues.",
+            "buttons": {
+                "restore": "Récupérer mes modifications",
+                "discard": "Ouvrir la version enregistrée"
+            }
+        },
         "privateProject": "Projet privé",
         "rightsChange": "Droits d'accès changés",
         "rightsAttributed": "Droits d'accès attribués",
@@ -7458,6 +7717,18 @@
     "needProjectName": "Vous devez renseigner le nom de votre projet avant de pouvoir le sauvegarder !",
     "projectSaveError": "Une erreur s'est produite lors de l'enregistrement !",
     "projectSaveConflict": "Votre projet n'a PAS été enregistré : il a été modifié ailleurs entre-temps. Enregistrez à nouveau pour écraser la version stockée sur le serveur.",
+    "projectSaveNotConnected": "Votre projet n'a PAS été enregistré : votre session a expiré. Reconnectez-vous puis sauvegardez à nouveau, vos modifications sont conservées dans ce navigateur.",
+    "projectSaveForbidden": "Votre projet n'a PAS été enregistré : vous n'avez pas le droit de modifier ce projet. Utilisez « Sauvegarder sous… » pour en enregistrer une copie.",
+    "projectSaveNotFound": "Votre projet n'a PAS été enregistré : il n'existe plus sur le serveur. Téléchargez-le pour conserver votre travail.",
+    "projectSaveInvalid": "Votre projet n'a PAS été enregistré : le serveur a refusé des données incomplètes (nom ou code du projet vide).",
+    "projectSaveNetworkError": "Votre projet n'a PAS été enregistré : le serveur est injoignable. Vérifiez votre connexion internet puis réessayez, vos modifications sont conservées dans ce navigateur.",
+    "projectSaveServerError": "Votre projet n'a PAS été enregistré suite à une erreur du serveur. Réessayez dans quelques instants ; si le problème persiste, téléchargez votre projet pour ne pas perdre votre travail.",
+    "projectOpened": "Projet « {{name}} » ouvert.",
+    "projectOpenError": "Le projet n'a pas pu être ouvert. Vérifiez votre connexion internet puis réessayez.",
+    "projectCopySaved": "Copie « {{name}} » enregistrée : vous travaillez maintenant sur cette copie.",
+    "localDraftRestored": "Vos modifications non enregistrées ont été récupérées. Pensez à sauvegarder votre projet !",
+    "exerciseSaved": "L'exercice a été enregistré avec succès !",
+    "exerciseSaveFailed": "L'exercice n'a PAS été enregistré. Vérifiez votre connexion internet puis réessayez.",
     "projectNoChangesToSave": "Aucun changement à enregistrer !",
     "projectSaveSuccess": "Votre projet a bien été enregistré !",
     "loadedProjectNotFound": "Le projet demandé n'existe pas !",

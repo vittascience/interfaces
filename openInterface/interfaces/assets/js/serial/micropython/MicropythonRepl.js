@@ -268,6 +268,7 @@ class MicropythonRepl {
      * @memberof MicropythonRepl
      */
     async uploadUserCode(code) {
+        await VittaInterface.loadExternalLibraries().catch(console.error);
         this._code = code;
         const requestedLibs = this._getRequestedLibraries(this._code);
         // Download libs from board FS
