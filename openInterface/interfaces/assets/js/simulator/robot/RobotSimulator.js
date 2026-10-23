@@ -225,7 +225,7 @@ const RobotSimulator = {
       this.addRobotSimulatorToDom();
     }
     // Every image drawn on this canvas must be CORS-enabled (CDN in production): a single cross-origin
-    // one taints it, and LineFinderSimulator's getImageData() then throws.
+    // one taints it until the next frame, and the screenshot/recording (Recorder.js) then throws.
     this.img.blinker.crossOrigin = 'Anonymous';
     this.Obstacle.trash.img.crossOrigin = 'Anonymous';
     this.img.background.crossOrigin = 'Anonymous';
