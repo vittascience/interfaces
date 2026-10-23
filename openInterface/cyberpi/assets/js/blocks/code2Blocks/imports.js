@@ -1,14 +1,14 @@
-import '/openInterface/cyberpi/assets/js/blocks/code2Blocks/ast_io.js'; // io blocks
-import '/openInterface/cyberpi/assets/js/blocks/code2Blocks/ast_display.js'; // display blocks
-import '/openInterface/cyberpi/assets/js/blocks/code2Blocks/ast_actuators.js'; // actuators blocks
-import '/openInterface/cyberpi/assets/js/blocks/code2Blocks/ast_sensors.js'; // sensors blocks
-import '/openInterface/cyberpi/assets/js/blocks/code2Blocks/ast_robot.js'; // robot blocks
-import '/openInterface/cyberpi/assets/js/blocks/code2Blocks/ast_network.js'; // network blocks
-import '/openInterface/cyberpi/assets/js/blocks/code2Blocks/ast_communication.js'; // communication blocks
+import './ast_io.js'; // io blocks
+import './ast_display.js'; // display blocks
+import './ast_actuators.js'; // actuators blocks
+import './ast_sensors.js'; // sensors blocks
+import './ast_robot.js'; // robot blocks
+import './ast_network.js'; // network blocks
+import './ast_communication.js'; // communication blocks
 
 
 // Interceptors
-import '/openInterface/cyberpi/assets/js/blocks/code2Blocks/interceptors/binaryInterceptors.js'; // binary interceptors
+import './interceptors/binaryInterceptors.js'; // binary interceptors
 
 const LIB_IMPORT = {
     // Micropython libraries

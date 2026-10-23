@@ -450,7 +450,7 @@ BlockExtensions.Panel = {
         })));
         const extensions = catalog.filter(ext => (this._filter === 'all' || (ext.tags || []).includes(this._filter))
             && simplify(ext.name + ' ' + ext.description).includes(search));
-        const media = `${CDN_PATH}/openInterface/${INTERFACE_NAME}/assets/media/extensions/`;
+        const media = `${_PATH}/${INTERFACE_NAME}/assets/media/extensions/`;
         this._grid.replaceChildren(...extensions.map(ext => this._el('button', {
             type: 'button', className: 'bext-card', ariaPressed: String(used.has(ext.id)), dataset: { id: ext.id },
             on: { click: () => this._toggle(ext.id) }

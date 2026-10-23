@@ -224,9 +224,13 @@ const RobotSimulator = {
     if (document.querySelector('#robot-sim-container') === null) {
       this.addRobotSimulatorToDom();
     }
+    // Every image drawn on this canvas must be CORS-enabled (CDN in production): a single cross-origin
+    // one taints it, and LineFinderSimulator's getImageData() then throws.
+    this.img.blinker.crossOrigin = 'Anonymous';
+    this.Obstacle.trash.img.crossOrigin = 'Anonymous';
+    this.img.background.crossOrigin = 'Anonymous';
     this.img.blinker.src = this.PATH_MEDIA + "/loupiotte.png";
     this.Obstacle.trash.img.src = this.PATH_MEDIA + "/delete.svg";
-    this.img.background.crossOrigin = 'Anonymous';
     this.canvas = document.querySelector("#robot-sim");
     this.width = {
       px: this.Track.WIDTH_PX,
@@ -552,6 +556,7 @@ const RobotSimulator = {
         height: robot_width_px * this.robot.RATIO
       };
       const robotImage = new Image();
+      robotImage.crossOrigin = 'Anonymous';
       robotImage.src = this.robot.IMG_LINK;
       this.robot.image = robotImage;
       this.robot.image.width = this.robot.size.width;
@@ -1701,12 +1706,14 @@ const RobotSimulator = {
 
   newRobotImage: function (src, shadow) {
     let robotImage = new Image();
+    robotImage.crossOrigin = 'Anonymous';
     robotImage.src = src;
     this.robot.image = robotImage;
     this.robot.image.width = this.robot.size.width;
     this.robot.image.height = this.robot.size.height;
     if (shadow) {
       let robotShadowImage = new Image();
+      robotShadowImage.crossOrigin = 'Anonymous';
       robotShadowImage.src = shadow;
       this.robot.shadow = robotShadowImage;
       this.robot.shadow.width = this.robot.size.width;

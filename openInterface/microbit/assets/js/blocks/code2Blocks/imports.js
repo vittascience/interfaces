@@ -1,11 +1,11 @@
-import '/openInterface/microbit/assets/js/blocks/code2Blocks/ast_io.js'; // io blocks
-import '/openInterface/microbit/assets/js/blocks/code2Blocks/ast_display.js'; // display blocks
-import '/openInterface/microbit/assets/js/blocks/code2Blocks/ast_actuators.js'; // actuators blocks
-import '/openInterface/microbit/assets/js/blocks/code2Blocks/ast_sensors.js'; // sensors blocks
-import '/openInterface/microbit/assets/js/blocks/code2Blocks/ast_communication.js'; // communication blocks
-import '/openInterface/microbit/assets/js/blocks/code2Blocks/ast_robot.js'; // robot blocks
-import '/openInterface/microbit/assets/js/blocks/code2Blocks/ast_tello.js'; // tello drone blocks
-import '/openInterface/microbit/assets/js/blocks/code2Blocks/ast_ia.js'; // AI blocks (VittaIA, HuskyLens, Wio Lite)
+import './ast_io.js'; // io blocks
+import './ast_display.js'; // display blocks
+import './ast_actuators.js'; // actuators blocks
+import './ast_sensors.js'; // sensors blocks
+import './ast_communication.js'; // communication blocks
+import './ast_robot.js'; // robot blocks
+import './ast_tello.js'; // tello drone blocks
+import './ast_ia.js'; // AI blocks (VittaIA, HuskyLens, Wio Lite)
 
 
 const LIB_IMPORT = {

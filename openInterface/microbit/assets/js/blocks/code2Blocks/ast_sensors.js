@@ -1,5 +1,5 @@
 import utils from '/openInterface/interfaces/assets/js/code2blocks/python/utils/utils.js';
-import { addBinaryInterceptor } from '/openInterface/microbit/assets/js/blocks/code2Blocks/ast_io.js';
+import { addBinaryInterceptor } from './ast_io.js';
 
 // luminosity
 utils.prototypeBlocks['display.read_light_level'] = function (type, fields, values, mutations, statementsNode, statement) {
