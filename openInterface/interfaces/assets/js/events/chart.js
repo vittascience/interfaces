@@ -1,4 +1,5 @@
 var chart;
+let echartsLoading = null;
 var option, originalOption;
 
 let numberOfValuesSelect = document.getElementById("tracer-values");
@@ -58,6 +59,12 @@ function updateChart(data) {
                 InterfaceMonitor.tooltips.monitorToggler = true;
             }
         }
+    }
+
+    if (chart == undefined) {
+        // echarts is loaded asynchronously: the data received during its loading are skipped
+        initChart();
+        return;
     }
 
     if (option.series.length + 1 < data.length) {
@@ -201,6 +208,13 @@ function updateCheckbox(data) {
 
 function initChart(isReset = false) {
     if (chart != undefined) {
+        return;
+    }
+    if (typeof echarts === 'undefined') {
+        // echarts (1 Mo) n'est chargé qu'à la première utilisation du traceur
+        echartsLoading ??= Loader.loadScripts([{ id: 'echarts_lib', src: `${CDN_PATH}/openInterface/interfaces/assets/js/external/echarts-5.4.0/echarts.min.js` }])
+            .then(() => initChart(isReset))
+            .catch(e => { echartsLoading = null; document.getElementById('echarts_lib')?.remove(); console.error(e); });
         return;
     }
 

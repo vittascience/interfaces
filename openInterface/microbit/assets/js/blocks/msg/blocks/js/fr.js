@@ -1034,6 +1034,8 @@ Blockly.Msg['ROBOTS_CUTEBOTPRO_UNIT_DEG'] = '(°)';
 Blockly.Msg['ROBOTS_CUTEBOTPRO_UNIT_TOUR'] = '(Tr)';
 Blockly.Msg['ROBOTS_CUTEBOTPRO_TURNWHEEL_TITLE'] = '[Cutebot Pro] tourner la roue %1 de %2 %3';
 Blockly.Msg['ROBOTS_CUTEBOTPRO_TURNWHEEL_TOOLTIP'] = IMG_ROBOT_CUTEBOT_PRO + Blockly.Tooltip.SEP + 'Permet de tourner les roues droite et/ou gauche d\'un certain angle (en °) ou (en Tr) du robot Cutebot Pro. 1 Tr correspond à 360 °, soit un tour complet de la roue.' + Blockly.Msg['ROBOTS_WAITING_BUTTON_TOOLTIP'];
+Blockly.Msg['ROBOTS_CUTEBOTPRO_COMPUTEPD_TITLE'] = '[Cutebot Pro] calcul PD capteur %1 P %2 D %3';
+Blockly.Msg['ROBOTS_CUTEBOTPRO_COMPUTEPD_TOOLTIP'] = IMG_ROBOT_CUTEBOT_PRO + Blockly.Tooltip.SEP + 'Calcule la commande de correction PD à partir de l\'état brut du suiveur de ligne (0 à 15) et des coefficients proportionnel (P) et dérivé (D). À appliquer sur les moteurs : V_gauche = V_base + commande, V_droite = V_base - commande.';
 // Robots - Cutebot Pro - Servomotors
 Blockly.Msg['ROBOTS_CUTEBOTPRO_SETSERVOANGLE_TITLE'] = '[Cutebot Pro] positionner le.s servomoteur.s %1 à %2 °';
 Blockly.Msg['ROBOTS_CUTEBOTPRO_SETSERVOANGLE_TOOLTIP'] = IMG_ROBOT_CUTEBOT_PRO + Blockly.Tooltip.SEP + 'Permet de contrôler l\'angle (en °) des servomoteurs pouvant se placer sur les broches S1, S2, S3 et S4 à l\'arrière du robot Cutebot Pro.';

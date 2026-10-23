@@ -1209,7 +1209,9 @@ export const JSCPP_INTERPRETER = {
                 return {
                     t: type,
                     v: {
-                        target: str.split("").map(c => this.val(charType, c.charCodeAt(0))).concat([trailingZero]),
+                        // Characters of a text, not computed numbers: no overflow warning for the accented letters
+                    // (UTF-8 bytes on a real board)
+                    target: str.split("").map(c => ({ t: charType, v: c.charCodeAt(0), left: false })).concat([trailingZero]),
                         position: 0,
                     }
                 };
@@ -5024,7 +5026,8 @@ export const JSCPP_INTERPRETER = {
                                     }
                                 }
                                 const { limits } = rt.config;
-                                const typeName = (maxCode <= limits["char"].max) && (minCode >= limits["char"].min) ?
+                                // Accented letters (Latin-1) stay in a char string, as their UTF-8 bytes on a real board
+                                const typeName = (maxCode <= 0xFF) && (minCode >= limits["char"].min) ?
                                     "char" : "wchar_t";
                                 return rt.charArray_makeFromJSString(s.value, typeName);
                             case "L":

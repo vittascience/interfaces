@@ -6,8 +6,8 @@ const InterfaceConnection = {
 	initialized: false,
 
 	init: async function (hex_v2) {
+		// hex files (~1.8 MB) loaded at the first flash / download (setFilesystemProgram)
 		this.fsWrapper = new microbitFsWrapper('main.py', hex_v2);
-		await this.fsWrapper.initialize();
 		await this.webusb.init(this.fsWrapper);
 		const MICROBIT = {
 			usbProductId: 0x0204,
@@ -295,6 +295,7 @@ const InterfaceConnection = {
 	doConnect: async function () {
 		try {
 			await this.serial.open(this.readCallbackError.bind(this));
+			await VittaInterface.loadExternalLibraries().catch(console.error); // a library failure must not break the connection
 			console.log(await this.serial.getInfo());
 			console.log(await this.serial.getSignals());
 			console.log(this.serial.port);
@@ -484,7 +485,8 @@ const InterfaceConnection = {
 		/**
 		 * Update specific AI libraries with model weights and labels.
 		 */
-		updateSpecificAiLibraries(code) {
+		async updateSpecificAiLibraries(code) {
+			await VittaInterface.loadExternalLibraries();
 			return new Promise(async (resolve, reject) => {
 				const checkRegexCloud = /Model\s*\(\s*(["'])(https?:\/\/[^\/]+\/ia\/(?:model\/([a-zA-Z0-9]+)\/?|sensors(?:\.h)?\?link=([a-zA-Z0-9]+)(?:&[^"']*)?))\1\s*\)/;
 				const cloudRegexResult = code.match(checkRegexCloud);

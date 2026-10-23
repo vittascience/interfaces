@@ -630,6 +630,64 @@ $('#monitor-controls-dropdown').click(function (e) {
     e.stopPropagation();
 });
 
+/**
+ * Phones: the console buttons (export, variables, files, REPL...) would cover the console, they go in the console
+ * settings menu. The container is moved, so the buttons added or removed later follow it.
+ */
+(function placeMonitorButtons() {
+    const buttons = document.getElementById('monitor-div-btn');
+    const menu = document.getElementById('monitor-controls-dropdown');
+    if (!buttons || !menu) return;
+    const home = buttons.parentElement;
+    const phone = window.matchMedia('(max-width: 600px)');
+    const place = () => {
+        if (phone.matches) {
+            menu.prepend(buttons); // above the display options: they are actions, not options
+        } else {
+            home.append(buttons);
+        }
+    };
+    phone.addEventListener('change', place);
+    place();
+    // A button of the menu opens a panel: close the menu
+    buttons.addEventListener('click', (event) => {
+        if (buttons.parentElement === menu && event.target.closest('button') && menu.classList.contains('show')) {
+            document.querySelector('.monitor-controls-button').click();
+        }
+    });
+})();
+
+/**
+ * Resize the console (height at the bottom, width on the right), within the limits of its resizable edge.
+ * @param {number} delta - pixels added to the size
+ */
+function resizeMonitorBy(delta) {
+    if ($('#monitor').hasClass('monitor-closed')) InterfaceMonitor.toggle();
+    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+    if ($('#monitor-content').hasClass('monitor-grid-right')) {
+        const width = clamp($('#monitor').width() + delta, $('#ide-content').width() * 0.2, $('#ide-content').width() - 25);
+        $('#monitor').width(width);
+        $('.ide-editor').width($('.ide-base').width() - width);
+    } else {
+        const height = clamp($('#monitor').height() + delta, 200, $('#ide-content').height() - 25);
+        $('#monitor').height(height);
+        $('.ide-editor').height($('.ide-base').height() - height);
+        InterfaceMonitor.heightMemory = height;
+    }
+    if (!Main.hasDragAndDrop()) resizeBlocklyToolBox();
+    Main.resizeWorkSpace();
+    Main.resizeAceEditor();
+}
+
+// The resizer button is a drag handle: the edge of the console is hard to grab, above all with a finger.
+if (typeof interact !== 'undefined') {
+    interact('#monitor-resizer').draggable({
+        listeners: {
+            move: (event) => resizeMonitorBy($('#monitor-content').hasClass('monitor-grid-right') ? -event.dx : -event.dy)
+        }
+    });
+}
+
 $("#monitor-btn-console").click(function () {
     InterfaceMonitor.managePanel('console');
 });
@@ -774,8 +832,8 @@ function openShortcutsModal() {
     const withLabels = (shortcuts) => shortcuts.map((shortcut) => ({ ...shortcut, label: t(`actions.${shortcut.action}`) }));
     const sections = [
         ['general', withLabels(INTERFACE_SHORTCUTS.general)],
-        ['code', withLabels(INTERFACE_SHORTCUTS.code)],
-        ['blocks', typeof Blockly === 'undefined' ? [] : [...withLabels(INTERFACE_SHORTCUTS.blocks), ...getBlocklyShortcuts()]]
+        ['blocks', typeof Blockly === 'undefined' ? [] : [...withLabels(INTERFACE_SHORTCUTS.blocks), ...getBlocklyShortcuts()]],
+        ['code', withLabels(INTERFACE_SHORTCUTS.code)]
     ];
     document.getElementById('shortcuts-modal-content').innerHTML = sections
         .filter(([, shortcuts]) => shortcuts.length)
@@ -1155,7 +1213,7 @@ function redoAction() {
 
 /* Functions for switching mode */
 
-function switchBlockMode(animation = true) {
+async function switchBlockMode(animation = true) {
     if (typeof projectManager !== 'undefined' && projectManager) projectManager.multiSwitchBlockMode();
     const previousToolbox = Blockly.Constants.getToolboxStyle();
     const previousCodeMode = Main.getCodeMode();
@@ -1164,7 +1222,8 @@ function switchBlockMode(animation = true) {
     if (previousCodeMode === MODE_CODE && (INTERFACE_NAME === 'python' || Main.hasCpp2Blocks() || Main.hasPython2Blocks())) {
         if (CodeManager.getSharedInstance().codeWasManuallyModified) {
             Main.updateCodeEditor();
-            Main.convertCodeToBlocks();
+            // tree-sitter loaded on demand: translated before the switch replaces the code of the editor
+            await Main.convertCodeToBlocks();
         }
     }
     Main.switchCodingMode(MODE_BLOCKS);
@@ -1223,7 +1282,7 @@ function switchBlockMode(animation = true) {
     Main.resizeAceEditor();
 }
 
-function switchMixedMode(animation = true) {
+async function switchMixedMode(animation = true) {
     if (typeof projectManager !== 'undefined' && projectManager) projectManager.multiSwitchMixedMode();
     const previousToolbox = Blockly.Constants.getToolboxStyle();
     const previousCodeMode = Main.getCodeMode();
@@ -1239,7 +1298,8 @@ function switchMixedMode(animation = true) {
     if (previousCodeMode === MODE_CODE && (INTERFACE_NAME === 'python' || Main.hasCpp2Blocks() || Main.hasPython2Blocks())) {
         if (CodeManager.getSharedInstance().codeWasManuallyModified) {
             Main.updateCodeEditor();
-            Main.convertCodeToBlocks();
+            // tree-sitter loaded on demand: translated before the switch replaces the code of the editor
+            await Main.convertCodeToBlocks();
         }
     }
     Main.switchCodingMode(MODE_MIXED);
@@ -1333,7 +1393,7 @@ function showMixedSmallScreenPopup() {
     for (const [, label, image, switchMode] of modes) {
         $('<button type="button" class="mixed-popup-mode">')
             .append(
-                $('<img alt="">').attr('src', `${_PATH}/interfaces/assets/media/modes/${image}.svg`),
+                $('<img alt="">').attr('src', `${CDN_PATH}/openInterface/interfaces/assets/media/modes/${image}.svg`),
                 $('<span>').text(i18next.t('code.topbar.label.' + label))
             )
             .on('click', () => { popup.remove(); switchMode(); })
@@ -2168,6 +2228,7 @@ async function toggleSimulator() {
             await WEB_BLE.unpair();
         }
         if (typeof Simulator !== 'undefined') {
+            if (Simulator.TYPE == 'Skulpt') Simulator.loadSkulpt().catch(() => { }); // preload, errors are handled by play()
             await Simulator.update(true);
             if (typeof Simulator.getSerialInput !== 'undefined') {
                 $("#serial-send").off('click').click(Simulator.getSerialInput.bind(Simulator));
@@ -2397,7 +2458,7 @@ async function saveExerciseStatement(e) {
     pseudoModal.openModal('modal-exercise-statements');
     const notification = {
         div: '#modal-exercise-statements',
-        message: 'Enoncé modifié !',
+        message: i18next.t('notifications.statementModified'),
         type: 'bg-success'
     };
     // If the emitter modal is the removal confirm modal, prepare for statement removal
@@ -2405,13 +2466,13 @@ async function saveExerciseStatement(e) {
     if (emitterModalId === 'exercise-statement-removal-confirm') {
         canBeRemoved = true;
         statementInput = '';
-        notification.message = 'Enoncé supprimé !';
+        notification.message = i18next.t('notifications.statementRemoved');
     }
     // Loading the vittaNotif (Singleton)
     Main.vittaNotif = new VittaNotif();
-    // Update the statement
-    const response = await projectManager.exercises_setStatement(statementInput);
     try {
+        // Update the statement
+        const response = await projectManager.exercises_setStatement(statementInput);
         if (response.success) {
             // If the request is OK and response contains success, show the relevant notification and update the front statement
             if (canBeRemoved) {
@@ -2433,18 +2494,14 @@ async function saveExerciseStatement(e) {
             }
         } else {
             // If the request has failed, display the relevant notification
-            Main.vittaNotif.displayNotification(notification.div, 'Something went wrong when saving exercise statement', 'bg-danger');
+            Main.vittaNotif.displayNotification(notification.div, i18next.t('notifications.undefinedError'), 'bg-danger');
             console.error('Something went wrong when saving exercise statement');
         }
-        // Enable the submit button
-        if (typeof e.submitter !== 'undefined') {
-            e.submitter.removeAttribute('disabled');
-            e.submitter.style.cursor = 'pointer';
-        }
     } catch (error) {
-        // If there is any error caught in the Promise, display a notification of the error
-        Main.vittaNotif.displayNotification(notification.div, String(error), 'bg-danger');
+        // If the server can't be reached or answers an invalid response, display a notification of the error
+        Main.vittaNotif.displayNotification(notification.div, i18next.t('notifications.undefinedError'), 'bg-danger');
         console.error(error);
+    } finally {
         // Enable the submit button
         if (typeof e.submitter !== 'undefined') {
             e.submitter.removeAttribute('disabled');

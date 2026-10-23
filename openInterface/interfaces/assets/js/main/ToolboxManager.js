@@ -123,7 +123,13 @@ class ToolboxManager {
      * @public
      */
     setToolbox() {
-        this._setToolboxTree();
+        // blockDB built once for the whole tree (getXmlByBlockType is called for each block)
+        ToolboxManager._dbCache = ToolboxManager.DB_.get();
+        try {
+            this._setToolboxTree();
+        } finally {
+            ToolboxManager._dbCache = null;
+        }
         this._updateToolbox();
         this.setBlocklyTheme();
         if (this._hasCategories) {
@@ -247,10 +253,7 @@ class ToolboxManager {
      * @return {Array<Object>} mode
      */
     _getCategoryContent(categoryId) {
-        const cat = this._getCategory(categoryId);
-        if (cat) {
-            return cat.toolboxItemDef_.contents;
-        }
+        return this._getToolboxCategoryDefinition(categoryId)?.contents;
     };
     /**
      * Get toolbox constants data by mode.
@@ -318,7 +321,6 @@ class ToolboxManager {
         for (var i = 0; i < len; i++) {
             toolboxContents.pop();
         }
-        this._updateToolbox();
     };
     /**
      * Empty content of item.
@@ -365,7 +367,6 @@ class ToolboxManager {
      */
     _pushCategory(category) {
         this._getToolboxTreeContent().push(this._cloneCategoryForPush(category));
-        this._updateToolbox();
     };
     /**
      * Push a sub category in category of toolbox and update.
@@ -380,7 +381,6 @@ class ToolboxManager {
             category.contents = [];
         }
         category.contents.push(this._cloneCategoryForPush(subCategory));
-        this._updateToolbox();
     };
     /**
      * Push content of a category in toolbox.
@@ -606,7 +606,7 @@ class ToolboxManager {
      * @returns {string} xml
      */
     static getXmlByBlockType(blockType) {
-        const content = ToolboxManager.DB_?.get()[blockType];
+        const content = (ToolboxManager._dbCache || ToolboxManager.DB_?.get())[blockType];
         blockType = blockType.split('-')[0];
         if (Blockly.Blocks[blockType]) {
             return '<block type="' + blockType + '">' + (content ? content : '') + '</block>';

@@ -735,19 +735,19 @@ class TurtleAutocorrector {
      */
     async _compareLayeredReferenceWithCurrent(referenceAutocorrection, currentRender) {
         const [referenceBackground, referenceDrawing, referenceTurtle, currentBackground, currentDrawing, currentTurtle] = await Promise.all([
-            this._getCanonicalImageDataFromDataURL(referenceAutocorrection.layers?.background),
+            this._getLayerImageDataFromDataURL(referenceAutocorrection.layers?.background),
             this._getCanonicalImageDataFromDataURL(referenceAutocorrection.layers?.drawing),
-            this._getCanonicalImageDataFromDataURL(referenceAutocorrection.layers?.turtle),
-            this._getCanonicalImageDataFromDataURL(currentRender.layers?.background),
+            this._getLayerImageDataFromDataURL(referenceAutocorrection.layers?.turtle),
+            this._getLayerImageDataFromDataURL(currentRender.layers?.background),
             this._getCanonicalImageDataFromDataURL(currentRender.layers?.drawing),
-            this._getCanonicalImageDataFromDataURL(currentRender.layers?.turtle)
+            this._getLayerImageDataFromDataURL(currentRender.layers?.turtle)
         ]);
 
-        if (!this._compareOptionalLayer(referenceBackground, currentBackground, 'background')) {
+        if (!this._compareOptionalLayer(referenceBackground, currentBackground, 'background', TurtleAutocorrector._BACKGROUND_LAYER_TOLERANCE_RATIO)) {
             return false;
         }
 
-        if (!this._compareOptionalLayer(referenceTurtle, currentTurtle, 'turtle')) {
+        if (!this._compareOptionalLayer(referenceTurtle, currentTurtle, 'turtle', TurtleAutocorrector._TURTLE_LAYER_TOLERANCE_RATIO)) {
             return false;
         }
 
@@ -767,22 +767,104 @@ class TurtleAutocorrector {
 
     /**
      * Compare one optional render layer and store a precise mismatch on failure.
+     * Anti-aliased edges are rendered differently from one browser to another,
+     * so a few clearly different pixels are tolerated (see _measureLayerDifference).
      * @private
      * @param {ImageData|null} referenceLayer - The reference layer
      * @param {ImageData|null} currentLayer - The current layer
      * @param {string} layerName - The logical layer name
+     * @param {number} toleranceRatio - Share of the reference covered pixels allowed to differ
      * @returns {boolean} True when both optional layers match
      */
-    _compareOptionalLayer(referenceLayer, currentLayer, layerName) {
-        if (this._areOptionalImageDatasEqual(referenceLayer, currentLayer)) {
+    _compareOptionalLayer(referenceLayer, currentLayer, layerName, toleranceRatio) {
+        if (!referenceLayer && !currentLayer) {
+            return true;
+        }
+
+        if (!referenceLayer || !currentLayer) {
+            this._storeComparisonFailure({
+                layer: layerName,
+                reason: 'missing-layer'
+            });
+            return false;
+        }
+
+        if (referenceLayer.width !== currentLayer.width || referenceLayer.height !== currentLayer.height) {
+            this._storeComparisonFailure({
+                layer: layerName,
+                reason: 'size-mismatch',
+                referenceSize: { width: referenceLayer.width, height: referenceLayer.height },
+                currentSize: { width: currentLayer.width, height: currentLayer.height }
+            });
+            return false;
+        }
+
+        const { differentPixels, allowedDifferentPixels } = this._measureLayerDifference(referenceLayer, currentLayer, toleranceRatio);
+        if (differentPixels <= allowedDifferentPixels) {
             return true;
         }
 
         this._storeComparisonFailure({
             layer: layerName,
-            mismatch: this._findFirstImageDataDifference(referenceLayer, currentLayer)
+            reason: 'pixel-mismatch',
+            differentPixels,
+            allowedDifferentPixels
         });
         return false;
+    }
+
+    /**
+     * Count the pixels that clearly differ between two layers.
+     * A pixel differs when its coverage changes by more than half,
+     * or when it is covered in both layers with a different color.
+     * Coverage is read from the alpha channel, so light-colored shapes are compared as strictly as dark ones.
+     * @private
+     * @param {ImageData} referenceLayer - The reference layer, with its alpha channel
+     * @param {ImageData} currentLayer - The current layer, with its alpha channel
+     * @param {number} toleranceRatio - Share of the reference covered pixels allowed to differ
+     * @returns {{differentPixels: number, allowedDifferentPixels: number}} The measured and allowed differences
+     */
+    _measureLayerDifference(referenceLayer, currentLayer, toleranceRatio) {
+        const referenceData = referenceLayer.data;
+        const currentData = currentLayer.data;
+        const coverageThreshold = TurtleAutocorrector._LAYER_COVERAGE_THRESHOLD;
+        let coveredPixels = 0;
+        let differentPixels = 0;
+
+        for (let index = 0; index < referenceData.length; index += 4) {
+            const referenceAlpha = referenceData[index + 3];
+            const currentAlpha = currentData[index + 3];
+            const isCoveredInReference = referenceAlpha > coverageThreshold;
+
+            if (isCoveredInReference) {
+                coveredPixels++;
+            }
+
+            if (Math.abs(referenceAlpha - currentAlpha) > coverageThreshold) {
+                differentPixels++;
+                continue;
+            }
+
+            if (isCoveredInReference && currentAlpha > coverageThreshold) {
+                const colorDifference = Math.max(
+                    Math.abs(referenceData[index] - currentData[index]),
+                    Math.abs(referenceData[index + 1] - currentData[index + 1]),
+                    Math.abs(referenceData[index + 2] - currentData[index + 2])
+                );
+
+                if (colorDifference > TurtleAutocorrector._LAYER_COLOR_THRESHOLD) {
+                    differentPixels++;
+                }
+            }
+        }
+
+        return {
+            differentPixels,
+            allowedDifferentPixels: Math.max(
+                TurtleAutocorrector._LAYER_MIN_ALLOWED_DIFFERENCES,
+                Math.round(coveredPixels * toleranceRatio)
+            )
+        };
     }
 
     /**
@@ -1728,22 +1810,26 @@ class TurtleAutocorrector {
     }
 
     /**
-     * Compare two optional image data objects strictly.
+     * Convert one layer dataURL into image data, keeping its alpha channel.
      * @private
-     * @param {ImageData|null} referenceImageData - The reference image data
-     * @param {ImageData|null} currentImageData - The current image data
-     * @returns {boolean} True when both are strictly identical or both absent
+     * @param {string|null} dataURL - The dataURL to decode
+     * @returns {Promise<ImageData|null>} The layer image data
      */
-    _areOptionalImageDatasEqual(referenceImageData, currentImageData) {
-        if (!referenceImageData && !currentImageData) {
-            return true;
+    async _getLayerImageDataFromDataURL(dataURL) {
+        if (!dataURL) {
+            return null;
         }
 
-        if (!referenceImageData || !currentImageData) {
-            return false;
-        }
+        const bitmap = await this._toBitmapFromDataURL(dataURL);
+        const width = bitmap.width || bitmap.naturalWidth;
+        const height = bitmap.height || bitmap.naturalHeight;
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
 
-        return this._areImageDatasEqual(referenceImageData, currentImageData);
+        const context = canvas.getContext('2d', { willReadFrequently: true });
+        context.drawImage(bitmap, 0, 0);
+        return context.getImageData(0, 0, width, height);
     }
 
     /**
@@ -1959,5 +2045,10 @@ class TurtleAutocorrector {
 
 TurtleAutocorrector._SCENE_EPSILON = 1e-4;
 TurtleAutocorrector._FULL_RADIANS = 2 * Math.PI;
+TurtleAutocorrector._LAYER_COVERAGE_THRESHOLD = 128;
+TurtleAutocorrector._LAYER_COLOR_THRESHOLD = 64;
+TurtleAutocorrector._LAYER_MIN_ALLOWED_DIFFERENCES = 4;
+TurtleAutocorrector._BACKGROUND_LAYER_TOLERANCE_RATIO = 0;
+TurtleAutocorrector._TURTLE_LAYER_TOLERANCE_RATIO = 0.03;
 
 globalThis.turtleAutocorrector = new TurtleAutocorrector();

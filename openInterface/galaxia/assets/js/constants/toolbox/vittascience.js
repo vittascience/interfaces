@@ -382,7 +382,6 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             "label": "%{BKY_SUBCATEGORY_TRACKING_MODULES}",
             "blocks": [
                 'communication_rfid_getCardID',
-                'communication_rfid_convertData',
                 'communication_mfrc522_getCardID',
                 'communication_gps_getNMEA',
                 'communication_gps_getGGAInformations',

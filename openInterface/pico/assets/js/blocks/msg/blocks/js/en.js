@@ -186,7 +186,7 @@ Blockly.Msg["COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TITLE"] = "[HC05 BT] on
 Blockly.Msg["COMMUNICATION_HC05_BLUETOOTH_ONDATARECEIVED_TOOLTIP"] = IMG_MODULE_HC05_BT + Blockly.Tooltip.SEP + "Allows you to execute instructions on data received by Bluetooth HC05 module in the 'HC05Data' variable on pins TX/RX.";
 // Communication - Tracking modules
 Blockly.Msg['COMMUNICATION_RFID_GETSTRINGCARDID_TITLE'] = '[RFID - 125kHz] Badge ID on the UART bus %1';
-Blockly.Msg['COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP'] = IMG_MODULE_RFID_125KHZ + Blockly.Tooltip.SEP + 'Allows you to retrieve the UID as a string from the Grove RFID 125 kHz module if it is available on the UART pins. By default, the pins are: UART 1 (tx=4, rx=5) and UART 0 (tx=0, rx=1). The data received from the module is in the form of a byte array. To convert it, use the "[RFID] convert data ... to INT" block.';
+Blockly.Msg['COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP'] = IMG_MODULE_RFID_125KHZ + Blockly.Tooltip.SEP + "Read the card UID of the Grove RFID module if it's available on UART pins. In order to verify the UID card and validate it or not, it is enough simply to compare with the desired 'Number' value.\nBy default, the pins are: UART 1 (tx=4, rx=5) and UART 0 (tx=0, rx=1).";
 Blockly.Msg["COMMUNICATION_RFID_CONVERTDATA_TITLE"] = "[RFID - 125kHz] Convert data %1 to %2";
 Blockly.Msg["COMMUNICATION_RFID_CONVERTDATA_TOOLTIP"] = IMG_MODULE_RFID_125KHZ + Blockly.Tooltip.SEP + "Allows you to obtain received data from an array of 'bytes' as a hex, int, or integer list.";
 Blockly.Msg['COMMUNICATION_SPI_HELPER'] = '\nBy default, the SPI 0 pins on the Pico board are on SCK: Pin(18), MISO: Pin(16), and MOSI: Pin(19), and the SPI 1 pins are on SCK: Pin(10), MISO: Pin(8), and MOSI: Pin(11).'; 

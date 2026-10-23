@@ -1,5 +1,5 @@
-@import url('../../../interfaces/assets/css/simulator-modules.css');
-@import url('../../../interfaces/assets/css/simulator-robot.css');
+@import url('/openInterface/interfaces/assets/css/simulator-modules.css');
+@import url('/openInterface/interfaces/assets/css/simulator-robot.css');
 
 .eliobot-motorLeft,
 .eliobot-motorRight {

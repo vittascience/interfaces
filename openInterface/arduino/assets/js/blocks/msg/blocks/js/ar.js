@@ -660,8 +660,8 @@ Blockly.Msg['MODULINO_KNOB_ISPRESSED_TITLE'] = "[Modulino Rotary Knob] button pr
 Blockly.Msg['MODULINO_KNOB_ISPRESSED_TOOLTIP'] = "Returns true if the knob is pushed.";
 Blockly.Msg['MODULINO_KNOB_SET_TITLE'] = "[Modulino Rotary Knob] set the position to %1";
 Blockly.Msg['MODULINO_KNOB_SET_TOOLTIP'] = "Replaces the position of the Modulino Rotary Knob with the given value (for example 0 to reset it).";
-Blockly.Msg['MODULINO_DISTANCE_GET_TITLE'] = "[Modulino Distance] distance (mm)";
-Blockly.Msg['MODULINO_DISTANCE_GET_TOOLTIP'] = "Returns the distance measured by the Modulino Distance sensor, in millimetres.";
+Blockly.Msg['MODULINO_DISTANCE_GET_TITLE'] = "[Modulino Distance] distance %1";
+Blockly.Msg['MODULINO_DISTANCE_GET_TOOLTIP'] = "Returns the distance measured by the Modulino Distance sensor, in centimetres or millimetres.";
 Blockly.Msg['MODULINO_MOVEMENT_ACCELERATION_TITLE'] = "[Modulino Movement] acceleration on axis %1 (g)";
 Blockly.Msg['MODULINO_MOVEMENT_ACCELERATION_TOOLTIP'] = "Returns the acceleration measured by the Modulino Movement on the chosen axis, in g (1 g = Earth gravity).";
 Blockly.Msg['MODULINO_MOVEMENT_ROTATION_TITLE'] = "[Modulino Movement] rotation speed in %1 (°/s)";

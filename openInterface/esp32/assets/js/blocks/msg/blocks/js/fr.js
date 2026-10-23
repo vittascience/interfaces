@@ -188,7 +188,7 @@ Blockly.Msg['COMMUNICATION_INFRARED_ONDATARECEIVED_TITLE'] = '[IR] si %1 est re�
 Blockly.Msg['COMMUNICATION_INFRARED_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_IR_RECEIVER + Blockly.Tooltip.SEP + 'Permet d\'exécuter des instructions si une donnée est reçue par un module infrarouge dans une variable sur la broche digitale avec un protocol NEC_8 ou NEC_16.';
 // Communication - Tracking modules
 Blockly.Msg['COMMUNICATION_RFID_GETSTRINGCARDID_TITLE'] = '[RFID - 125kHz] ID du badge sur les broches RX %1 TX %2';
-Blockly.Msg['COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP'] = IMG_MODULE_RFID_125KHZ + Blockly.Tooltip.SEP + 'Permet de récupérer l\'identifiant UID sous forme de chaîne de caractères du module Grove RFID 125 kHz si celui si est disponible sur les broches digitales.\n\nLes données reçues du module sont sous forme d\'un tableau d\'octets. Pour les convertir, utiliser le bloc "[RFID] convertir les données ... en INT".';
+Blockly.Msg['COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP'] = IMG_MODULE_RFID_125KHZ + Blockly.Tooltip.SEP + 'Permet de récupérer l\'identifiant UID sous forme d\'un nombre entier du module Grove RFID 125 kHz si celui-ci est disponible sur les broches digitales. Afin de vérifier l\'identifiant d\'une carte et le valider ou non, il suffit simplement de le comparer avec la valeur de type \'Entier\' désirée.';
 Blockly.Msg["COMMUNICATION_RFID_CONVERTDATA_TITLE"] = "[RFID - 125kHz] convertir les données %1 en %2";
 Blockly.Msg["COMMUNICATION_RFID_CONVERTDATA_TOOLTIP"] = IMG_MODULE_RFID_125KHZ + Blockly.Tooltip.SEP + "Permet d'obtenir les données reçues provenant d'un tableau de 'bytes' sous forme d'un hex, int ou liste d'entier.";
 Blockly.Msg['COMMUNICATION_SPI_HELPER'] = '\nPar défaut, les broches SPI 2 de la carte ESP32 sont sur SCK: Pin(18) [D13], MISO: Pin(19) [D12] et MOSI: Pin(23) [D11] et les broches de SPI 1 sont sur SCK: Pin(14) [D7], MISO: Pin(12) [D8] et MOSI: Pin(13) [D9].';
@@ -411,6 +411,12 @@ Blockly.Msg['ACTUATORS_GROVERELAY_CONTROL_TITLE'] = '[Module relais] contrôler 
 Blockly.Msg['ACTUATORS_GROVERELAY_CONTROL_TOOLTIP'] = IMG_MODULE_RELAY + Blockly.Tooltip.SEP + 'Permet de contrôler la valeur du relais (0 ou 1) sur les broches digitales.';
 Blockly.Msg['ACTUATORS_GROVEVIBRATIONMOTOR_CONTROL_TITLE'] = '[Moteur à vibration] contrôler le moteur à l\'état %1 sur la broche  %2';
 Blockly.Msg['ACTUATORS_GROVEVIBRATIONMOTOR_CONTROL_TOOLTIP'] = IMG_MODULE_VIBRATION_MOTOR + Blockly.Tooltip.SEP + 'Permet d\'activer ou de désactiver le moteur à vibration grove (0 ou 1) sur les broches digitales.';
+Blockly.Msg['ACTUATORS_MDD3A_INIT_TITLE'] = '[MDD3A] initialiser les broches M1A %1 M1B %2 M2A %3 M2B %4';
+Blockly.Msg['ACTUATORS_MDD3A_INIT_TOOLTIP'] = IMG_MODULE_MDD3A + Blockly.Tooltip.SEP + 'Permet de configurer les 4 broches PWM (M1A, M1B, M2A, M2B) de l\'ESP32 connectées au contrôleur de moteurs CC 2x3A Cytron MDD3A.';
+Blockly.Msg['ACTUATORS_MDD3A_CONTROLMOTOR_TITLE'] = '[MDD3A] contrôler le moteur %1 %2 vitesse %3 (%)';
+Blockly.Msg['ACTUATORS_MDD3A_CONTROLMOTOR_TOOLTIP'] = IMG_MODULE_MDD3A + Blockly.Tooltip.SEP + 'Permet de contrôler le sens de rotation (avancer sur M1A/M2A ou reculer sur M1B/M2B) et la vitesse (de 0 à 100 %) du moteur M1 ou M2 sur le module Cytron MDD3A.';
+Blockly.Msg['ACTUATORS_MDD3A_FORWARD'] = 'avancer';
+Blockly.Msg['ACTUATORS_MDD3A_BACKWARD'] = 'reculer';
 // Actuators - PCA9685
 Blockly.Msg['ACTUATORS_PCA9685_SETPWMFREQUENCY_TITLE'] = '[PCA9685] configurer la fréquence du signal PWM à %1 (Hz)';
 Blockly.Msg['ACTUATORS_PCA9685_SETPWMFREQUENCY_TOOLTIP'] = IMG_MODULE_PCA9685 + Blockly.Tooltip.SEP + 'Permet de configurer la fréquence du signal PWM (en Hz) pour tous les canaux du module PCA9685. Brancher le module sur un port I2C.';

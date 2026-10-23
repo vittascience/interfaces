@@ -243,7 +243,7 @@ Blockly.Msg["VISION_SET_MOTION_THRES_TOOLTIP"] = "Anger tröskelvärdet för rö
 Blockly.Msg["VISION_MOTION_DETECT_WITH_TRESH_TITLE"] = "[Rörelse] Detektion med tröskel %1";
 Blockly.Msg["VISION_MOTION_DETECT_WITH_TRESH_TOOLTIP"] = "Startar detektion av rörelse framför kameran för angiven tröskel.";
 Blockly.Msg["VISION_GET_MOTION_DETECTION_TITLE"] = "[Rörelse] hämta information om objektet";
-Blockly.Msg["VISION_GET_MOTION_DETECTION_TOOLTIP"] = "Blockly.Msg[\"VISION_GET_MOTION_DETECTION_TOOLTIP\"] = \"Returnerar en tabell som innehåller amplituden och positionen för det största uppmätta optiska flödet i bilden. Positionen (ursprung i det övre vänstra hörnet) anges i %.\";";
+Blockly.Msg["VISION_GET_MOTION_DETECTION_TOOLTIP"] = "Returnerar en tabell som innehåller amplituden och positionen för det högsta uppmätta optiska flödet i bilden.Positionen (ursprung i övre vänstra hörnet) anges i %. ";
 Blockly.Msg["VISION_START_VISUAL_TRACKING_TITLE"] = "[Spårning] starta spårning";
 Blockly.Msg["VISION_START_VISUAL_TRACKING_TOOLTIP"] = "Startar spårningsprocessen.";
 Blockly.Msg["VISION_START_VISUAL_TRACKING_THRES"] = "tröskelvärde";
@@ -252,7 +252,7 @@ Blockly.Msg["VISION_STOP_VISUAL_TRACKING_TOOLTIP"] = "Stoppa spårningsprocessen
 Blockly.Msg["VISION_GET_TRACKING_TITLE"] = "[Tracking] hämta information";
 Blockly.Msg["VISION_GET_TRACKING_TOOLTIP"] = "Hämtar det följda målet. Returnerar en tabell som innehåller: 1 - True om en person följs framgångsrikt, False om uppföljningen tappas eller om ingen finns i bilden. 2 - Positionen för uppföljningen.";
 Blockly.Msg["VI_START_SPEAKING_TITLE"] = "[Voice] säg %1 med uttrycket %2 %3";
-Blockly.Msg["VI_START_SPEAKING_TOOLTIP"] = "Får Buddy att tala med viss munrörelse. Det går att markera en paus i texten. För att göra det, lägg till <time_in_milliseconds> och ersätt <time_in_milliseconds> med önskat antal millisekunder för pausen.";
+Blockly.Msg['VI_START_SPEAKING_TOOLTIP'] = 'Får Buddy att prata med en viss intonation. Du kan markera en paus i texten. För att göra det, lägg helt enkelt till \\pause=<time_in_milliseconds>\\ och ersätt <time_in_milliseconds> med önskat antal millisekunder för pausen.'
 Blockly.Msg["VI_START_SPEAKING_SPEAK_ANGRY"] = "arg";
 Blockly.Msg["VI_START_SPEAKING_NO_FACE"] = "stängd";
 Blockly.Msg["VI_START_SPEAKING_SPEAK_HAPPY"] = "glad";
@@ -324,4 +324,3 @@ Blockly.Msg['VITTAIA_LOAD_POSTURE_MODEL_TOOLTIP'] = 'Laddar modellen som skickas
 Blockly.Msg['VITTAIA_POSTURE_MAKE_PREDICTIONS_TITLE'] = '%1 starta hållningsprediktion på webbkamerans bild';
 Blockly.Msg['VITTAIA_POSTURE_MAKE_PREDICTIONS_TOOLTIP'] = 'Utför förutsägelser med webbkamerans hållningsmodell. En förutsägelse innehåller två delar: klass och sannolikhet.';
 Blockly.Msg["VITTAIA_INIT_WEBCAM_TITLE"] = "%1 initiera webbkameran";
-Blockly.Msg['VI_START_SPEAKING_TOOLTIP'] = 'Får Buddy att prata med en viss intonation. Du kan markera en paus i texten. För att göra det, lägg helt enkelt till \\pause=<time_in_milliseconds>\\ och ersätt <time_in_milliseconds> med önskat antal millisekunder för pausen.'

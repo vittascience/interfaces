@@ -886,6 +886,22 @@
       "legalCommitmentNumber": "Legal commitment number",
       "siret": "SIRET number of the establishment",
       "serviceName": "Service name (optional)",
+      "subscriptionStart": "Desired start date for the subscription",
+      "subscriptionEnd": "Estimated end date",
+      "durationMonth": "1 month",
+      "durationYear": "1 year",
+      "durationThreeYears": "3 years",
+      "garActivation": "Would you like activation through the GAR?",
+      "whatIsGar": "What is the GAR?",
+      "garDefinition": "The GAR (Gestionnaire d'accès aux ressources) lets teachers and students access Vittascience from the school's digital workspace (ENT), without creating an account.",
+      "uai": "School UAI number",
+      "uaiHint": "7 digits followed by a letter, for example 0751234A.",
+      "accountEmails": "Email address(es) of the Vittascience account(s) to activate",
+      "accountEmailsHint": "One address per line, {{max}} at most (one per licence).",
+      "accountEmailsTooMany": "Too many addresses: {{max}} at most.",
+      "accountEmailInvalid": "Invalid email address:",
+      "quoteUpdateError": "Your purchase order could not be saved: updating estimate no. {{number}} failed. Please try again in a few minutes. If the problem persists, contact us:",
+      "licenceFieldsError": "The subscription details are incomplete or invalid. Please check the start date, the UAI number or the email addresses.",
       "confirmWithoutEdit1": "I confirm that the purchase order corresponds exactly to the estimate n° ",
       "confirmWithoutEdit2": " opposite (same product(s), amount(s), quantity(ies)) for a total amount of ",
       "confirmWithEdit": "The purchase order does not correspond to the estimate, changes have been made.",
@@ -1209,7 +1225,232 @@
       "search": "Search for an extension",
       "added": "Added",
       "noResult": "No extension found.",
-      "confirmRemoveUsed": "{{count}} block(s) of this extension used in the program will be deleted. Continue?"
+      "confirmRemoveUsed": "{{count}} block(s) of this extension used in the program will be deleted. Continue?",
+      "manage": "Manage extensions",
+      "filter": "Filter extensions",
+      "filters": {
+        "all": "All",
+        "model": "Educational models",
+        "robotics": "Robotics",
+        "display": "Display",
+        "lights": "Lights",
+        "sensors": "Sensors",
+        "actuators": "Actuators",
+        "ai": "Artificial intelligence",
+        "games": "Games",
+        "communication": "Communication"
+      },
+      "catalog": {
+        "colours": {
+          "red": "red",
+          "green": "green",
+          "blue": "blue",
+          "yellow": "yellow",
+          "cyan": "cyan",
+          "magenta": "magenta",
+          "orange": "orange",
+          "purple": "purple",
+          "white": "white",
+          "off": "off",
+          "black": "black"
+        },
+        "a4_leds": {
+          "blocks": {
+            "battery": "battery level (%)",
+            "leds_colour": "set RGB0 to {C0} and RGB1 to {C1}",
+            "leds_rgb": "set RGB0 to R {R0} G {G0} B {B0} and RGB1 to R {R1} G {G1} B {B1}",
+            "leds_brightness": "set RGB brightness to {B} (0-255)",
+            "leds_off": "turn off RGB LEDs"
+          }
+        },
+        "a4_screen": {
+          "blocks": {
+            "screen_clear": "screen clear all",
+            "screen_background": "screen set background colour {C}",
+            "screen_background_image": "screen set background image {NAME}",
+            "screen_text": "screen show text {TEXT} id {ID} at x {X} y {Y} size {SIZE} colour {C}",
+            "screen_image": "screen show image id {ID} name {NAME} at x {X} y {Y} size {ZOOM}",
+            "screen_rotate": "screen rotate image id {ID} angle {ANGLE}",
+            "screen_remove": "screen remove {KIND} id {ID}",
+            "screen_init_i2c": "screen initialize in I2C",
+            "screen_init_uart": "initialize the LCD screen"
+          },
+          "options": {
+            "screen_text_size": {
+              "large": "large",
+              "small": "small"
+            },
+            "screen_remove_kind": {
+              "text": "text",
+              "image": "image"
+            }
+          },
+          "defaults": {
+            "screen_text": "Hello"
+          }
+        },
+        "a4_access": {
+          "description": "Building access control: a capacitive keypad unlocks a door held by a magnetic lock.",
+          "blocks": {
+            "lock": "set door lock to {STATE}",
+            "door_is": "door is {STATE}",
+            "wait_key": "wait for keypad key",
+            "read_key": "last keypad key pressed",
+            "entered_code": "entered code",
+            "code_is": "entered code is {CODE}",
+            "code_length": "entered code has {N} digits",
+            "clear_code": "clear entered code",
+            "delete_last": "delete last code digit"
+          },
+          "options": {
+            "lock_state": {
+              "locked": "locked",
+              "unlocked": "unlocked"
+            },
+            "door_is_state": {
+              "closed": "closed",
+              "open": "open"
+            }
+          }
+        },
+        "a4_parking": {
+          "description": "Limited parking station: a sensor detects vehicles and a colour screen shows the remaining time.",
+          "blocks": {
+            "vehicle": "vehicle present",
+            "time": "time {H} h {M} min {S} s"
+          }
+        },
+        "a4_barrier": {
+          "description": "Car park or toll barrier with a servo motor, RGB light, infrared sensor and RFID reader.",
+          "blocks": {
+            "read_tag": "read RFID tag",
+            "move": "{ACTION} barrier",
+            "servo": "set servo angle {ANGLE}",
+            "vehicle": "vehicle detected",
+            "light_colour": "set signal light to {C}",
+            "light_rgb": "set signal light red {R} green {G} blue {B}",
+            "light_off": "turn signal light off"
+          },
+          "options": {
+            "move_action": {
+              "open": "open",
+              "close": "close"
+            }
+          }
+        },
+        "a4_weight": {
+          "description": "Automated strain gauge scale with a 4x4 keypad and a colour screen, to weigh, count or price items.",
+          "blocks": {
+            "init": "initialize scale",
+            "tare": "tare scale",
+            "mass": "mass (g)",
+            "connected": "scale connected",
+            "start_calibration": "start scale calibration",
+            "calibrate": "calibrate scale with a reference mass of {MASS} g",
+            "pressed_key": "pressed keypad key",
+            "wait_key": "wait for keypad key",
+            "key_is_pressed": "keypad key {KEY} is pressed",
+            "set_factor": "set scale calibration factor to {VALUE}",
+            "factor": "scale calibration factor",
+            "raw_average": "average raw scale value with {N} samples"
+          }
+        },
+        "a4_shifumi": {
+          "description": "Rock-paper-scissors game: a servo turns a backlit disc and an ultrasonic sensor detects the hand.",
+          "blocks": {
+            "disc_angle": "set disc servo angle to {ANGLE} °",
+            "distance": "ultrasonic distance (cm)",
+            "hand_detected": "hand detected under {D} cm",
+            "backlight_brightness": "set disc backlight brightness to {B} %",
+            "backlight_colour": "set disc backlight to {C}",
+            "backlight_rgb": "set disc backlight red {R} green {G} blue {B}",
+            "backlight_off": "turn disc backlight off",
+            "lcd_init": "initialize LCD",
+            "lcd_clear": "clear LCD",
+            "lcd_text": "LCD show {TEXT} on line {LINE}",
+            "lcd_number": "LCD show number {VALUE} on line {LINE}"
+          },
+          "defaults": {
+            "lcd_text": "READY"
+          }
+        },
+        "a4_ai_vision": {
+          "description": "HuskyLens 2.0 AI camera mount with a colour screen and RGB LEDs, to recognize faces, objects, colours or gestures."
+        },
+        "dfr0997": {
+          "name": "DFR0997 colour screen",
+          "description": "DFRobot 2.8\" I2C colour LCD: texts, shapes, images and GIFs from its USB drive, gauges, compass and charts.",
+          "options": {
+            "fill": {
+              "filled": "filled",
+              "not_filled": "not filled"
+            },
+            "text_size": {
+              "large": "large",
+              "small": "small"
+            },
+            "rect_round": {
+              "rounded": "rounded",
+              "square": "square"
+            },
+            "set_value_kind": {
+              "progress_bar": "progress bar",
+              "slider": "slider",
+              "compass": "compass (°)",
+              "gauge": "gauge",
+              "line_meter": "line meter"
+            },
+            "chart_style": {
+              "line": "line",
+              "bars": "bars",
+              "shaded_line": "shaded line"
+            },
+            "remove_kind": {
+              "text": "text",
+              "image": "image",
+              "line": "line",
+              "rectangle": "rectangle",
+              "circle": "circle",
+              "triangle": "triangle",
+              "slider": "slider",
+              "progress_bar": "progress bar",
+              "compass": "compass",
+              "gauge": "gauge",
+              "line_meter": "line meter",
+              "chart": "chart"
+            }
+          },
+          "blocks": {
+            "clear": "screen clear all",
+            "background": "screen background colour {C}",
+            "background_image": "screen background image {NAME}",
+            "rgb": "colour red {R} green {G} blue {B}",
+            "text": "screen show text {TEXT} id {ID} x {X} y {Y} size {SIZE} colour {C}",
+            "image": "screen show image {NAME} id {ID} x {X} y {Y} size {ZOOM}",
+            "rotate_image": "screen rotate image id {ID} to {ANGLE} °",
+            "gif": "screen show GIF {NAME} id {ID} x {X} y {Y} size {ZOOM}",
+            "line": "screen line id {ID} from x {X1} y {Y1} to x {X2} y {Y2} width {W} colour {C}",
+            "rect": "screen rectangle id {ID} x {X} y {Y} width {WIDTH} height {HEIGHT} border {W} {C} {FILL} {FC} corners {ROUND}",
+            "circle": "screen circle id {ID} centre x {X} y {Y} radius {R} border {W} {C} {FILL} {FC}",
+            "triangle": "screen triangle id {ID} x1 {X1} y1 {Y1} x2 {X2} y2 {Y2} x3 {X3} y3 {Y3} border {W} {C} {FILL} {FC}",
+            "slider": "screen slider id {ID} x {X} y {Y} width {WIDTH} height {HEIGHT} colour {C}",
+            "bar": "screen progress bar id {ID} x {X} y {Y} width {WIDTH} height {HEIGHT} colour {C}",
+            "compass": "screen compass id {ID} x {X} y {Y} diameter {D}",
+            "gauge": "screen gauge id {ID} x {X} y {Y} diameter {D} from {MIN} to {MAX} needle {C} background {BG}",
+            "line_meter": "screen line meter id {ID} x {X} y {Y} size {SIZE} from {MIN} to {MAX} needle {C} background {BG}",
+            "set_value": "screen set {KIND} id {ID} to {VALUE}",
+            "chart": "screen chart id {ID} X axis {XAXIS} Y axis {YAXIS} background {C} style {STYLE}",
+            "chart_series": "chart add series id {ID} colour {C}",
+            "chart_point": "chart series id {ID} set {X} to {VALUE}",
+            "remove": "screen remove {KIND} id {ID}"
+          },
+          "defaults": {
+            "text": "Hello",
+            "chart_x_axis": "Mon Tue Wed Thu Fri",
+            "chart_point_x": "Mon"
+          }
+        }
+      }
     },
     "tooltip": {
       "anonymousAuthor": "Anonymous author",
@@ -1535,6 +1776,7 @@
         "beginnerMode": "Beginner's mode",
         "advancedMode": "Advanced mode",
         "lastSaveOn": "Last save on ",
+        "lastSaveFailed": "The last save failed: your changes are not saved. Click to try again.",
         "description": "Description:",
         "repl": "Press the enter key ↩️ to run the instruction",
         "runningCode": "Running your code... Please wait.",
@@ -1827,7 +2069,8 @@
         "sentData": "Sent data:",
         "crash": "Crash prevention mode enabled: This happens when your code includes an infinite loop without a sleep() function call. Fix your code before trying again.",
         "variables-panel-msg": "This program does not contain any variables",
-        "replaySimulator": "Replay the simulator for sending data"
+        "replaySimulator": "Replay the simulator for sending data",
+        "skulptLoadError": "The simulator could not be loaded. Check your connection and run the simulator again."
       },
       "tooltips": {
         "bluebot-buttons": "You can use the buttons of the Blue-bot robot to program it!"
@@ -4028,6 +4271,7 @@
           "progressAria": "{{used}} credits used out of {{limit}}",
           "titleCreditInfo": "Credit Information",
           "unlimitedCredits": "Unlimited",
+          "unlimitedImages": "Your subscription includes unlimited image generation",
           "unlimitedReset": "Your Premium subscription includes unlimited text generation",
           "unlimitedConditions": "Your Premium subscription includes unlimited text generation."
         }
@@ -6192,6 +6436,9 @@
             "title": "Autoscroll",
             "text": "Enable autoscroll"
           },
+          "sound": {
+            "title": "Block sounds volume"
+          },
           "toolbox": {
             "title": "Toolbox style",
             "notice": "You can change style of the toolbox. This changes categories and blocks style.",
@@ -6529,6 +6776,18 @@
         "wrongLink": "This link directs to a non-existent project or was not created with this interface. You can search for a project from <b>Open a project</b> or create a new one",
         "wrongFile": "This file does not seem suitable for this interface. Check this information in the file header at the line 'Interface:'.",
         "wrongXml": "This link leads to a project that doesn't appear to be loading correctly in the interface. Please share the project link with us by contacting Vittascience support. We will try to fix it.",
+        "loadingError": "The project couldn't be loaded: the connection to the server failed. Check your internet connection then reload the page.",
+        "reloadPage": "Reload the page",
+        "localDraft": {
+            "title": "Unsaved changes",
+            "content": "This project has changes that were not saved on the server. They have been kept in this browser.",
+            "lastChange": "Last change:",
+            "hint": "If you open the saved version, these changes will be permanently lost.",
+            "buttons": {
+                "restore": "Restore my changes",
+                "discard": "Open the saved version"
+            }
+        },
         "privateProject": "Private project",
         "rightsChange": "Access rights changed",
         "rightsAttributed": "Access rights granted",
@@ -7458,6 +7717,18 @@
     "needProjectName": "You must enter the name of your project before you can save it!",
     "projectSaveError": "An error occurred while saving!",
     "projectSaveConflict": "Your project has NOT been saved: it was modified elsewhere. Save again to overwrite the version stored on the server.",
+    "projectSaveNotConnected": "Your project has NOT been saved: your session has expired. Log in again then save again, your changes are kept in this browser.",
+    "projectSaveForbidden": "Your project has NOT been saved: you are not allowed to edit this project. Use “Save as…” to save a copy of it.",
+    "projectSaveNotFound": "Your project has NOT been saved: it no longer exists on the server. Download it to keep your work.",
+    "projectSaveInvalid": "Your project has NOT been saved: the server refused incomplete data (empty project name or code).",
+    "projectSaveNetworkError": "Your project has NOT been saved: the server can't be reached. Check your internet connection then try again, your changes are kept in this browser.",
+    "projectSaveServerError": "Your project has NOT been saved because of a server error. Try again in a few moments; if the problem persists, download your project so you don't lose your work.",
+    "projectOpened": "Project “{{name}}” opened.",
+    "projectOpenError": "The project couldn't be opened. Check your internet connection then try again.",
+    "projectCopySaved": "Copy “{{name}}” saved: you are now working on this copy.",
+    "localDraftRestored": "Your unsaved changes have been restored. Remember to save your project!",
+    "exerciseSaved": "The exercise has been saved successfully!",
+    "exerciseSaveFailed": "The exercise has NOT been saved. Check your internet connection then try again.",
     "projectNoChangesToSave": "There are no changes to save!",
     "projectSaveSuccess": "Your project has been saved!",
     "loadedProjectNotFound": "The requested project does not exist!",

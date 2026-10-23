@@ -2894,6 +2894,32 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "mutator": "robots_runWaiting_mutator",
     },
 
+    // BLOCK CUTEBOT PRO COMPUTE PD
+    {
+        "type": "robots_CutebotPro_computePD",
+        "message0": "%{BKY_ROBOTS_CUTEBOTPRO_COMPUTEPD_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "SENSOR",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "KP",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "KD",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "output": "Number",
+        "style": "robots_blocks",
+        "tooltip": "%{BKY_ROBOTS_CUTEBOTPRO_COMPUTEPD_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
     // BLOCK CUTEBOT PRO SET SERVO ANGLE
     {
         "type": "robots_CutebotPro_setServoAngle",

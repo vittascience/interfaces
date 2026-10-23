@@ -549,7 +549,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "options": Blockly.Constants.Pins.UART[Blockly.Constants.getSelectedBoard()]
         }],
         "inputsInline": true,
-        "output": "Array",
+        "output": "Number",
         "style": "communication_blocks",
         "tooltip": "%{BKY_COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP}",
         "extensions": [

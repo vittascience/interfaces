@@ -188,7 +188,7 @@ Blockly.Msg['COMMUNICATION_INFRARED_ONDATARECEIVED_TITLE'] = '[IR] if %1 is rece
 Blockly.Msg['COMMUNICATION_INFRARED_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_IR_RECEIVER + Blockly.Tooltip.SEP + 'Allows executing instructions if data is received by the Grove infrared receiver in the variable on the Digital pin, with a specific protocol (NEC_8 or NEC16).';
 // Communication - Tracking modules
 Blockly.Msg["COMMUNICATION_RFID_GETSTRINGCARDID_TITLE"] = "[RFID - 125kHz] UID card on pins RX %1 TX %2";
-Blockly.Msg["COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP"] = IMG_MODULE_RFID_125KHZ + Blockly.Tooltip.SEP + "Read the card UID of the Grove RFID module if it's available on digital pins.\n\nNote that the data received from the module is in the form of a byte array. To convert it, use the \"[RFID] convert data ... to INT\" block.";
+Blockly.Msg["COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP"] = IMG_MODULE_RFID_125KHZ + Blockly.Tooltip.SEP + "Read the card UID of the Grove RFID module if it's available on digital pins. In order to verify the UID card and validate it or not, it is enough simply to compare with the desired 'Number' value.";
 Blockly.Msg["COMMUNICATION_RFID_CONVERTDATA_TITLE"] = "[RFID - 125kHz] convert data %1 to %2";
 Blockly.Msg["COMMUNICATION_RFID_CONVERTDATA_TOOLTIP"] = IMG_MODULE_RFID_125KHZ + Blockly.Tooltip.SEP + "Allows you to convert data (bytes-typed) to int, hex or list of int.";
 Blockly.Msg['COMMUNICATION_SPI_HELPER'] = '\nBy default, the ESP32 SPI 2 pins are on SCK: Pin(18) [D13], MISO: Pin(19) [D12], and MOSI: Pin(23) [D11], and the SPI 1 pins are on SCK: Pin(14) [D7], MISO: Pin(12) [D8], and MOSI: Pin(13) [D9].';
@@ -416,6 +416,12 @@ Blockly.Msg['ACTUATORS_GROVEELECTROMAGNET_CONTROL_TITLE'] = '[Electromagnet] con
 Blockly.Msg['ACTUATORS_GROVEELECTROMAGNET_CONTROL_TOOLTIP'] = IMG_MODULE_ELECTROMAGNET + Blockly.Tooltip.SEP + 'Allows activating or deactivating the electromagnet (HIGH or LOW) on digital pins.';
 Blockly.Msg['ACTUATORS_GROVEWATERATOMIZATION_CONTROL_TITLE'] = '[Water Atomizer] control to state %1 on pin %2';
 Blockly.Msg['ACTUATORS_GROVEWATERATOMIZATION_CONTROL_TOOLTIP'] = IMG_MODULE_WATER_ATOMIZER + Blockly.Tooltip.SEP + 'Allows activating or deactivating the water atomizer (HIGH or LOW) on digital pins.';
+Blockly.Msg['ACTUATORS_MDD3A_INIT_TITLE'] = '[MDD3A] initialize pins M1A %1 M1B %2 M2A %3 M2B %4';
+Blockly.Msg['ACTUATORS_MDD3A_INIT_TOOLTIP'] = IMG_MODULE_MDD3A + Blockly.Tooltip.SEP + 'Allows configuring the 4 PWM pins (M1A, M1B, M2A, M2B) on the ESP32 connected to the Cytron MDD3A 2x3A DC motor driver.';
+Blockly.Msg['ACTUATORS_MDD3A_CONTROLMOTOR_TITLE'] = '[MDD3A] control motor %1 %2 speed %3 (%)';
+Blockly.Msg['ACTUATORS_MDD3A_CONTROLMOTOR_TOOLTIP'] = IMG_MODULE_MDD3A + Blockly.Tooltip.SEP + 'Allows controlling the rotation direction (forward on M1A/M2A or backward on M1B/M2B) and speed (from 0 to 100%) of motor M1 or M2 on the Cytron MDD3A module.';
+Blockly.Msg['ACTUATORS_MDD3A_FORWARD'] = 'forward';
+Blockly.Msg['ACTUATORS_MDD3A_BACKWARD'] = 'backward';
 // Actuators - PCA9685
 Blockly.Msg['ACTUATORS_PCA9685_SETPWMFREQUENCY_TITLE'] = '[PCA9685] set PWM signal frequency to %1 (Hz)';
 Blockly.Msg['ACTUATORS_PCA9685_SETPWMFREQUENCY_TOOLTIP'] = IMG_MODULE_PCA9685 + Blockly.Tooltip.SEP + 'Allows configuring the PWM signal frequency (in Hz) for all channels of the PCA9685 module. Connect the module to an I2C port.';

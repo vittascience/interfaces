@@ -593,13 +593,13 @@
       "wb55": "WB55",
       "stm32": "STM32",
       "l476": "L476",
-      "TI-83": "TI-83 Premium CE Edition Python",
+      "TI-83": "калькулятор TI-83 Python Edition",
       "galaxia": "Galaxia",
       "raspberrypi": "Raspberry Pi",
       "niryo": "Niryo ned2",
       "nao": "NAO",
       "quickpi": "Raspberry Pi / QuickPi",
-      "letsstartcoding": "Let's start coding",
+      "letsstartcoding": "Начнём программировать",
       "buddy": "Buddy",
       "eliobot": "Eliobot",
       "thymio": "Thymio",
@@ -746,7 +746,7 @@
       "country": "Страна",
       "selectValue": "Выбрать",
       "formPlaceholder": {
-        "organism": "Vittascience",
+        "organism": "Пример: Collège Marie Curie",
         "school": "Колледж Мари Кюри, Париж",
         "name": "Дюран",
         "firstname": "Николя",
@@ -886,6 +886,22 @@
       "legalCommitmentNumber": "Номер юридического обязательства",
       "siret": "Номер SIRET учреждения",
       "serviceName": "Название службы (необязательно)",
+      "subscriptionStart": "Желаемая дата начала подписки",
+      "subscriptionEnd": "Предполагаемая дата окончания",
+      "durationMonth": "1 месяц",
+      "durationYear": "1 год",
+      "durationThreeYears": "3 года",
+      "garActivation": "Хотите активировать доступ через GAR?",
+      "whatIsGar": "Что такое GAR?",
+      "garDefinition": "GAR (Gestionnaire d'accès aux ressources) позволяет учителям и ученикам получать доступ к Vittascience из цифровой среды учебного заведения (ENT) без создания учётной записи.",
+      "uai": "Номер UAI учебного заведения",
+      "uaiHint": "7 цифр и буква, например 0751234A.",
+      "accountEmails": "Адрес(а) электронной почты учётных записей Vittascience для активации",
+      "accountEmailsHint": "Один адрес на строку, не более {{max}} (по одному на лицензию).",
+      "accountEmailsTooMany": "Слишком много адресов: не более {{max}}.",
+      "accountEmailInvalid": "Неверный адрес электронной почты:",
+      "quoteUpdateError": "Не удалось сохранить ваш заказ на покупку: обновление сметы № {{number}} не выполнено. Повторите попытку через несколько минут. Если проблема сохраняется, свяжитесь с нами:",
+      "licenceFieldsError": "Данные подписки неполные или неверные. Проверьте дату начала, номер UAI или адреса электронной почты.",
       "confirmWithoutEdit1": "Подтверждаю, что заказ полностью соответствует предложению № ",
       "confirmWithoutEdit2": " справа (те же товары, суммы, количество) на общую сумму ",
       "confirmWithEdit": "Заказ не совпадает с предложением справа, были внесены изменения.",
@@ -1202,14 +1218,239 @@
   },
   "code": {
     "blockExtensions": {
-      "category": "Extensions",
-      "title": "Block extensions",
-      "note": "Add new blocks to program other robots, models or modules. The chosen extensions are saved with the project.",
-      "close": "Close",
-      "search": "Search for an extension",
-      "added": "Added",
-      "noResult": "No extension found.",
-      "confirmRemoveUsed": "{{count}} block(s) of this extension used in the program will be deleted. Continue?"
+      "category": "Расширения",
+      "title": "Расширения блоков",
+      "note": "Добавьте новые блоки для программирования роботов, моделей или модулей. Выбранные расширения сохраняются вместе с проектом.",
+      "close": "Закрыть",
+      "search": "Поиск расширения",
+      "added": "Добавлено",
+      "noResult": "Расширение не найдено.",
+      "confirmRemoveUsed": "Из проекта будут удалены {{count}} блока(ов) этого расширения. Продолжить?",
+      "manage": "Управление расширениями",
+      "filter": "Фильтр расширений",
+      "filters": {
+        "all": "Все",
+        "model": "Образовательные модели",
+        "robotics": "Робототехника",
+        "display": "Дисплей",
+        "lights": "Светодиоды",
+        "sensors": "Датчики",
+        "actuators": "Приводы",
+        "ai": "Искусственный интеллект",
+        "games": "Игры",
+        "communication": "Связь"
+      },
+      "catalog": {
+        "colours": {
+          "red": "красный",
+          "green": "зелёный",
+          "blue": "синий",
+          "yellow": "жёлтый",
+          "cyan": "циан",
+          "magenta": "пурпурный",
+          "orange": "оранжевый",
+          "purple": "фиолетовый",
+          "white": "белый",
+          "off": "выключено",
+          "black": "чёрный"
+        },
+        "a4_leds": {
+          "blocks": {
+            "battery": "уровень заряда (%)",
+            "leds_colour": "установить RGB0 в {C0} и RGB1 в {C1}",
+            "leds_rgb": "установить RGB0: R {R0} G {G0} B {B0} и RGB1: R {R1} G {G1} B {B1}",
+            "leds_brightness": "установить яркость RGB {B} (0-255)",
+            "leds_off": "выключить RGB-светодиоды"
+          }
+        },
+        "a4_screen": {
+          "blocks": {
+            "screen_clear": "очистить экран",
+            "screen_background": "установить цвет фона экрана {C}",
+            "screen_background_image": "установить фоновое изображение {NAME}",
+            "screen_text": "показать на экране текст {TEXT} (id {ID}) в позиции x {X} y {Y}, размер {SIZE}, цвет {C}",
+            "screen_image": "показать изображение (id {ID}, имя {NAME}) на экране в x {X} y {Y}, масштаб {ZOOM}",
+            "screen_rotate": "повернуть изображение id {ID} на угол {ANGLE}",
+            "screen_remove": "удалить с экрана {KIND} id {ID}",
+            "screen_init_i2c": "инициализировать экран через I2C",
+            "screen_init_uart": "инициализировать ЖК-экран"
+          },
+          "options": {
+            "screen_text_size": {
+              "large": "большой",
+              "small": "маленький"
+            },
+            "screen_remove_kind": {
+              "text": "текст",
+              "image": "изображение"
+            }
+          },
+          "defaults": {
+            "screen_text": "Привет"
+          }
+        },
+        "a4_access": {
+          "description": "Контроль доступа в здание: ёмкостная клавиатура открывает дверь, удерживаемую электромагнитным замком.",
+          "blocks": {
+            "lock": "установить замок двери: {STATE}",
+            "door_is": "дверь {STATE}",
+            "wait_key": "ждать нажатия клавиши",
+            "read_key": "последняя нажатая клавиша",
+            "entered_code": "введённый код",
+            "code_is": "введённый код: {CODE}",
+            "code_length": "введённый код состоит из {N} цифр",
+            "clear_code": "очистить введённый код",
+            "delete_last": "удалить последнюю цифру кода"
+          },
+          "options": {
+            "lock_state": {
+              "locked": "заблокирован",
+              "unlocked": "разблокирован"
+            },
+            "door_is_state": {
+              "closed": "закрыта",
+              "open": "открыта"
+            }
+          }
+        },
+        "a4_parking": {
+          "description": "Парковочная станция: датчик обнаруживает автомобили, а цветной экран показывает оставшееся время.",
+          "blocks": {
+            "vehicle": "машина обнаружена",
+            "time": "время {H} ч {M} мин {S} с"
+          }
+        },
+        "a4_barrier": {
+          "description": "Шлагбаум для парковки или платного участка с сервомотором, RGB-подсветкой, инфракрасным датчиком и RFID-считывателем.",
+          "blocks": {
+            "read_tag": "прочитать RFID-метку",
+            "move": "{ACTION} шлагбаум",
+            "servo": "установить угол сервопривода {ANGLE}",
+            "vehicle": "обнаружено транспортное средство",
+            "light_colour": "установить цвет сигнальной лампы {C}",
+            "light_rgb": "установить сигнальную лампу: красный {R} зелёный {G} синий {B}",
+            "light_off": "выключить сигнальную лампу"
+          },
+          "options": {
+            "move_action": {
+              "open": "открыть",
+              "close": "закрыть"
+            }
+          }
+        },
+        "a4_weight": {
+          "description": "Автоматические весы с тензодатчиком, клавиатурой 4×4 и цветным экраном для взвешивания, подсчёта и расчёта стоимости предметов.",
+          "blocks": {
+            "init": "инициализировать весы",
+            "tare": "тарировать весы (установить ноль)",
+            "mass": "масса (г)",
+            "connected": "весы подключены",
+            "start_calibration": "начать калибровку весов",
+            "calibrate": "калибровать весы по эталонной массе {MASS} г",
+            "pressed_key": "нажата клавиша клавиатуры",
+            "wait_key": "ожидать нажатия клавиши клавиатуры",
+            "key_is_pressed": "нажата клавиша {KEY} на клавиатуре",
+            "set_factor": "установить калибровочный коэффициент весов {VALUE}",
+            "factor": "калибровочный коэффициент весов",
+            "raw_average": "усреднить необработанное значение весов по {N} измерениям"
+          }
+        },
+        "a4_shifumi": {
+          "description": "Игра «Камень-ножницы-бумага»: сервопривод поворачивает подсвеченный диск, ультразвуковой датчик распознаёт поднесённую руку.",
+          "blocks": {
+            "disc_angle": "установить угол сервопривода диска на {ANGLE} °",
+            "distance": "ультразвуковое расстояние (см)",
+            "hand_detected": "рука обнаружена на расстоянии менее {D} см",
+            "backlight_brightness": "установить яркость подсветки диска на {B} %",
+            "backlight_colour": "установить цвет подсветки диска {C}",
+            "backlight_rgb": "установить подсветку диска: красный {R} зелёный {G} синий {B}",
+            "backlight_off": "выключить подсветку диска",
+            "lcd_init": "инициализировать ЖК-дисплей",
+            "lcd_clear": "очистить ЖК-дисплей",
+            "lcd_text": "показать на ЖК-дисплее {TEXT} в строке {LINE}",
+            "lcd_number": "показать число {VALUE} на ЖК-дисплее в строке {LINE}"
+          },
+          "defaults": {
+            "lcd_text": "ГОТОВ"
+          }
+        },
+        "a4_ai_vision": {
+          "description": "Камера с ИИ HuskyLens 2.0 с цветным экраном и RGB-светодиодами для распознавания лиц, объектов, цветов и жестов."
+        },
+        "dfr0997": {
+          "name": "цветной дисплей DFR0997",
+          "description": "DFRobot 2.8\" I2C цветной ЖК-дисплей: тексты, фигуры, изображения и GIF с USB-накопителя, индикаторы, компас и диаграммы.",
+          "options": {
+            "fill": {
+              "filled": "заполненный",
+              "not_filled": "без заливки"
+            },
+            "text_size": {
+              "large": "большой",
+              "small": "маленький"
+            },
+            "rect_round": {
+              "rounded": "скруглённый",
+              "square": "без скруглений"
+            },
+            "set_value_kind": {
+              "progress_bar": "полоса прогресса",
+              "slider": "ползунок",
+              "compass": "компас (°)",
+              "gauge": "индикатор (шкала)",
+              "line_meter": "линейный индикатор"
+            },
+            "chart_style": {
+              "line": "линейный",
+              "bars": "столбчатая",
+              "shaded_line": "линия с заливкой"
+            },
+            "remove_kind": {
+              "text": "текст",
+              "image": "изображение",
+              "line": "линия",
+              "rectangle": "прямоугольник",
+              "circle": "круг",
+              "triangle": "треугольник",
+              "slider": "ползунок",
+              "progress_bar": "полоса прогресса",
+              "compass": "компас",
+              "gauge": "индикатор (шкала)",
+              "line_meter": "линейный индикатор",
+              "chart": "диаграмма"
+            }
+          },
+          "blocks": {
+            "clear": "полностью очистить экран",
+            "background": "установить цвет фона экрана {C}",
+            "background_image": "установить фоновое изображение экрана {NAME}",
+            "rgb": "цвет: красный {R} зелёный {G} синий {B}",
+            "text": "показать на экране текст {TEXT} id {ID} x {X} y {Y} размер {SIZE} цвет {C}",
+            "image": "показать изображение {NAME} на экране id {ID} x {X} y {Y} масштаб {ZOOM}",
+            "rotate_image": "повернуть изображение id {ID} на {ANGLE} °",
+            "gif": "показать GIF {NAME} на экране id {ID} x {X} y {Y} масштаб {ZOOM}",
+            "line": "провести линию id {ID} от x {X1} y {Y1} до x {X2} y {Y2} толщина {W} цвет {C}",
+            "rect": "нарисовать прямоугольник id {ID} x {X} y {Y} ширина {WIDTH} высота {HEIGHT} рамка {W} {C} заполнение {FILL} {FC} скругление {ROUND}",
+            "circle": "нарисовать круг id {ID} центр x {X} y {Y} радиус {R} обводка {W} {C} заполнение {FILL} {FC}",
+            "triangle": "нарисовать треугольник id {ID} x1 {X1} y1 {Y1} x2 {X2} y2 {Y2} x3 {X3} y3 {Y3} обводка {W} {C} заполнение {FILL} {FC}",
+            "slider": "ползунок на экране id {ID} x {X} y {Y} ширина {WIDTH} высота {HEIGHT} цвет {C}",
+            "bar": "полоса прогресса на экране id {ID} x {X} y {Y} ширина {WIDTH} высота {HEIGHT} цвет {C}",
+            "compass": "экран компас id {ID} x {X} y {Y} диаметр {D}",
+            "gauge": "экран измеритель id {ID} x {X} y {Y} диаметр {D} от {MIN} до {MAX} стрелка {C} фон {BG}",
+            "line_meter": "экран линейный индикатор id {ID} x {X} y {Y} размер {SIZE} от {MIN} до {MAX} стрелка {C} фон {BG}",
+            "set_value": "экран установить {KIND} id {ID} в {VALUE}",
+            "chart": "экран график id {ID} ось X {XAXIS} ось Y {YAXIS} фон {C} стиль {STYLE}",
+            "chart_series": "график добавить серию id {ID} цвет {C}",
+            "chart_point": "серия графика id {ID} установить {X} в {VALUE}",
+            "remove": "экран удалить {KIND} id {ID}"
+          },
+          "defaults": {
+            "text": "Привет",
+            "chart_x_axis": "Пн Вт Ср Чт Пт",
+            "chart_point_x": "Пн"
+          }
+        }
+      }
     },
     "tooltip": {
       "anonymousAuthor": "Аноним",
@@ -1411,7 +1652,7 @@
       "chromeInstall": {
         "name": "Chrome",
         "notice": "Ниже ссылка на Chrome App Thingz, нажмите «Добавить в Chrome», затем вернитесь в интерфейс Vittascience:",
-        "install": "<i class=\"fas fa-circle\"></i> Chrome App Thingz",
+        "install": "<i class=\"fas fa-circle\"></i> Thingz Chrome App",
         "presentation": "Chrome App Thingz позволяет общаться с платами Arduino Uno через браузеры Chromium и Chrome.<br/><b>Рекомендуется, так как не требует установки программ и прав администратора.</b>",
         "linuxUsers": "<b>Внимание пользователям Linux:</b> если возникают проблемы с плагином, посетите <a href=\"https://slite.com/api/s/note/WaDtH3cUZsfyMtiFdxeBNB/Preparation-Ubuntu-pour-Thingz\">эту страницу помощи</a>."
       },
@@ -1515,6 +1756,7 @@
         "toolboxRestriction": "Ограничить доступные блоки",
         "consoleSettings": "Общие настройки",
         "accessibility": "Настроить тему и шрифт",
+        "shortcuts": "Показать сочетания клавиш",
         "addBlockSettings": "Добавить блок",
         "fullscreen": "Полноэкранный режим",
         "help": "Помощь",
@@ -1534,6 +1776,7 @@
         "beginnerMode": "Режим для начинающих",
         "advancedMode": "Расширенный режим",
         "lastSaveOn": "Последнее сохранение: ",
+        "lastSaveFailed": "The last save failed: your changes are not saved. Click to try again.",
         "description": "Описание:",
         "repl": "Нажмите Enter ↩️ для выполнения команды",
         "runningCode": "Выполняется ваш код... Пожалуйста, подождите.",
@@ -1587,6 +1830,7 @@
         "connectBoard": "Подключить",
         "settings": "Настройки",
         "themes": "Доступность",
+        "shortcuts": "Сочетания клавиш",
         "add": "Добавить блок",
         "fullscreen": "Полноэкранный режим",
         "help": "Помощь",
@@ -1772,8 +2016,8 @@
           "toggleBoardDisplay": "Показать/скрыть плату симулятора",
           "switchWiringMode": "Переключить в режим проводки",
           "switchMosaicMode": "Переключить в режим мозаики",
-          "wiringZoomIn": "Zoom in",
-          "wiringZoomOut": "Zoom out"
+          "wiringZoomIn": "Увеличить",
+          "wiringZoomOut": "Уменьшить"
         },
         "robot": {
           "background": "Фон",
@@ -1825,7 +2069,8 @@
         "sentData": "Отправленные данные:",
         "crash": "Включён режим предотвращения сбоев: это происходит, если в вашем коде есть бесконечный цикл без вызова функции sleep(). Исправьте код и попробуйте снова.",
         "variables-panel-msg": "В этой программе нет переменных",
-        "replaySimulator": "Перезапустите симулятор, чтобы отправить данные"
+        "replaySimulator": "Перезапустите симулятор, чтобы отправить данные",
+        "skulptLoadError": "Не удалось загрузить симулятор. Проверьте подключение и запустите симулятор снова."
       },
       "tooltips": {
         "bluebot-buttons": "Вы можете использовать кнопки робота Blue-bot для его программирования!"
@@ -1880,6 +2125,7 @@
         "dht22-hum": "DHT22 - Влажность",
         "ds18x20": "DS18X20 - Температура",
         "mlx90621": "MLX90621 - Температура",
+        "bn880": "BN-880 - магнитный курс",
         "dustSensor": "Датчик частиц",
         "groveRain": "Датчик дождя",
         "rainGauge": "Дождемер",
@@ -1946,9 +2192,9 @@
       "mixed-popup-leave-editor": "Чтобы выйти из редактора кода с клавиатуры, одновременно нажмите <kbd>Caps Lock</kbd> и <kbd>Esc</kbd>.",
       "mixed-popup-readonly": "<i class='fa-solid fa-lock'></i> В смешанном режиме редактор кода <strong>только для чтения</strong> в этом интерфейсе. Редактировать можно только с помощью блоков.",
       "mixed-popup-readonly-sr": "В смешанном режиме код доступен только для чтения в этом интерфейсе",
-      "mixed-small-screen": "On a small screen, the hybrid mode is not very practical: we recommend switching to the blocks or code mode.",
-      "mixed-small-screen-stay": "Stay in hybrid mode",
-      "mixed-small-screen-close": "Close",
+      "mixed-small-screen": "На небольшом экране гибридный режим неудобен: рекомендуем перейти в режим блоков или в режим кода.",
+      "mixed-small-screen-stay": "Остаться в гибридном режиме",
+      "mixed-small-screen-close": "Закрыть",
       "saveWarning": {
         "title": "<span class=\"fa fa-exclamation-circle\"></span> Внимание!",
         "warn": "<span class=\"fa fa-save\"></span> Сохранить работу перед продолжением?<p class=\"mb-0 mt-0 hint\">Если создать новый проект без сохранения, текущая работа будет потеряна...</p>",
@@ -3055,7 +3301,7 @@
         "mobilenet": {
           "preview-title": "<b>Предпросмотр</b> <br> preview",
           "instruction-title": "<b>Инструкции</b> <br> instruction",
-          "instructions": "<b>Положите объект на стол в выделенную зону для обнаружения камерой.<br> Наблюдайте на экране результат прогноза, сделанного искусственным интеллектом.</b><br><br> Place an object on the table in the designated area to be detected by the camera.<br> Observe on screen the prediction result from the artificial intelligence.",
+          "instructions": "<b>Поместите объект на стол в выделенную зону, чтобы камера могла его обнаружить.<br> Наблюдайте на экране результат предсказания, выполненного искусственным интеллектом. </b><br><br> Поместите объект на стол в выделенную зону, чтобы камера могла его обнаружить.<br> Наблюдайте на экране результат предсказания, выполненного искусственным интеллектом.",
           "results": "<b>Результаты</b><br>results",
           "explaining-head": "<b>Процент показывает категорию, определённую искусственным интеллектом<b>",
           "explaining-body": "Процент показывает категорию, определённую искусственным интеллектом."
@@ -6049,7 +6295,7 @@
             "libraries-link": ""
           },
           "niryo": {
-            "name": "Niryo",
+            "name": "Niryo ned2",
             "learn": "Подробнее о функциях Python для Niryo смотрите ",
             "learn-link": "https://niryo.com/docs/niryo-one/python-api/",
             "libraries-link": ""
@@ -6067,7 +6313,7 @@
             "libraries-link": "https://github.com/vittascience/galaxia-libraries"
           },
           "letsstartcoding": {
-            "name": "Lets start coding",
+            "name": "Начнём программировать",
             "learn": "Подробнее о функциях C++ для плат Let's start coding смотрите ",
             "learn-link": "https://www.letsstartcoding.com/",
             "libraries-link": "https://github.com/vittascience/arduino-libraries"
@@ -6116,7 +6362,7 @@
             "learn-link": "https://makeblock-micropython-api.readthedocs.io/en/latest/codey&rocky/"
           },
           "uno-r4": {
-            "name": "Arduino",
+            "name": "Arduino R4 Wifi & Minima",
             "learn": "Подробнее о функциях C++ для Arduino R4 смотрите ",
             "learn-link": "https://www.arduino.cc/reference/fr/",
             "libraries-link": "https://github.com/vittascience/arduino-libraries"
@@ -6188,6 +6434,9 @@
           "scroll": {
             "title": "Автопрокрутка",
             "text": "Включить автопрокрутку"
+          },
+          "sound": {
+            "title": "Громкость звуков блоков"
           },
           "toolbox": {
             "title": "Выбор панели инструментов",
@@ -6391,6 +6640,38 @@
       "i18n": {
         "title": "Сменить язык интерфейса"
       },
+      "shortcuts": {
+        "title": "Сочетания клавиш",
+        "or": "или",
+        "then": "затем",
+        "table": {
+          "keys": "Клавиши",
+          "action": "Действие"
+        },
+        "sections": {
+          "general": "Общие",
+          "code": "Редактор кода",
+          "blocks": "Рабочая область блоков"
+        },
+        "actions": {
+          "save": "Сохранить проект",
+          "closeModal": "Закрыть открытое окно",
+          "focusNext": "Перейти к следующему/предыдущему элементу",
+          "resizeConsole": "Увеличить/уменьшить консоль (активна полоса изменения размера)",
+          "enterEditor": "Перейти в редактор кода",
+          "leaveEditor": "Выйти из редактора кода",
+          "undo": "Отменить",
+          "redo": "Повторить",
+          "selectAll": "Выделить всё",
+          "duplicateLine": "Дублировать строку или выделение",
+          "moveLine": "Переместить строку вверх/вниз",
+          "indent": "Увеличить/уменьшить отступ",
+          "toggleComment": "Закомментировать/раскомментировать",
+          "find": "Найти",
+          "replace": "Найти и заменить",
+          "navigateBlocks": "Перемещаться между блоками"
+        }
+      },
       "codeOnly": {
         "title": "Перейти в режим только кода",
         "content": "Хотите скрыть выбор режимов и навсегда остаться в режиме только кода (без блоков)?",
@@ -6401,8 +6682,8 @@
           "content": "Режим кода сейчас заблокирован. Это значит, что режимы блоков и гибридный режим отключены."
         },
         "exit": {
-          "title": "Leave code-only mode",
-          "content": "Do you wish to unlock code-only mode so that block and hybrid modes can be used again?"
+          "title": "Выйти из режима только кода",
+          "content": "Вы хотите отключить режим «только код», чтобы снова использовать режимы блоков и гибридный режим?"
         }
       },
       "local-compilation": {
@@ -6494,6 +6775,18 @@
         "wrongLink": "Эта ссылка ведет к несуществующему проекту или проект не создан в этом интерфейсе. Вы можете найти проект через 'Открыть проект' или создать новый.",
         "wrongFile": "Этот файл, похоже, не подходит для этого интерфейса. Проверьте информацию в заголовке файла на строке 'Interface:'.",
         "wrongXml": "Эта ссылка ведёт на проект, который, похоже, некорректно загружается в интерфейсе. Пожалуйста, отправьте нам ссылку на проект, обратившись в службу поддержки Vittascience. Мы постараемся исправить ситуацию.",
+        "loadingError": "The project couldn't be loaded: the connection to the server failed. Check your internet connection then reload the page.",
+        "reloadPage": "Reload the page",
+        "localDraft": {
+            "title": "Unsaved changes",
+            "content": "This project has changes that were not saved on the server. They have been kept in this browser.",
+            "lastChange": "Last change:",
+            "hint": "If you open the saved version, these changes will be permanently lost.",
+            "buttons": {
+                "restore": "Restore my changes",
+                "discard": "Open the saved version"
+            }
+        },
         "privateProject": "Приватный проект",
         "rightsChange": "Права доступа изменены",
         "rightsAttributed": "Права доступа предоставлены",
@@ -6678,7 +6971,7 @@
         }
       },
       "download-ti": {
-        "title": "TI-83 Premium CE Edition Python",
+        "title": "TI-83 Premium CE PYTHON EDITION",
         "content": {
           "to-transfer": "Чтобы перенести Python-код, созданный в интерфейсе Vittascience:",
           "to-transfer-MaClasseTI": "Чтобы перенести Python-код, созданный на MaClasseTI.fr:",
@@ -7422,7 +7715,19 @@
     "notExerciseStatementCreator": "У вас нет прав на изменение задания!",
     "needProjectName": "Введите название проекта перед сохранением!",
     "projectSaveError": "Произошла ошибка при сохранении!",
-    "projectSaveConflict": "Your project has NOT been saved: it was modified elsewhere. Save again to overwrite the version stored on the server.",
+    "projectSaveConflict": "Ваш проект НЕ был сохранён: он был изменён в другом месте. Сохраните снова, чтобы перезаписать версию на сервере.",
+    "projectSaveNotConnected": "Your project has NOT been saved: your session has expired. Log in again then save again, your changes are kept in this browser.",
+    "projectSaveForbidden": "Your project has NOT been saved: you are not allowed to edit this project. Use “Save as…” to save a copy of it.",
+    "projectSaveNotFound": "Your project has NOT been saved: it no longer exists on the server. Download it to keep your work.",
+    "projectSaveInvalid": "Your project has NOT been saved: the server refused incomplete data (empty project name or code).",
+    "projectSaveNetworkError": "Your project has NOT been saved: the server can't be reached. Check your internet connection then try again, your changes are kept in this browser.",
+    "projectSaveServerError": "Your project has NOT been saved because of a server error. Try again in a few moments; if the problem persists, download your project so you don't lose your work.",
+    "projectOpened": "Project “{{name}}” opened.",
+    "projectOpenError": "The project couldn't be opened. Check your internet connection then try again.",
+    "projectCopySaved": "Copy “{{name}}” saved: you are now working on this copy.",
+    "localDraftRestored": "Your unsaved changes have been restored. Remember to save your project!",
+    "exerciseSaved": "The exercise has been saved successfully!",
+    "exerciseSaveFailed": "The exercise has NOT been saved. Check your internet connection then try again.",
     "projectNoChangesToSave": "Нет изменений для сохранения !",
     "projectSaveSuccess": "Проект успешно сохранён!",
     "loadedProjectNotFound": "Запрошенный проект не существует!",
@@ -9477,7 +9782,7 @@
           },
           "label_connection": {
             "label": "Используешь ли ты в основном Wi-Fi или 4G для стриминга?",
-            "info": "Une heure de streaming en 4G 📶 peut augmenter l'impact environnemental de 50 à 60 % en termes d'émissions de eq CO₂ 💨 par rapport à une connexion Wi-Fi 📡, et cet impact est 10 fois plus élevé par rapport à une connexion fibre optique⚡",
+            "info": "Один час стриминга по 4G 📶 может увеличить экологический след (в перерасчёте на CO₂‑эквивалент) на 50–60% 💨 по сравнению с подключением по Wi‑Fi 📡, а по сравнению с оптоволоконным соединением этот эффект в 10 раз выше⚡",
             "options": {
               "Wi-fi": "Wi-fi",
               "4G": "4G"
@@ -9769,7 +10074,7 @@
         "title": "<span class=\"underline blue\">Вы знакомитесь</span> с Future of IA?",
         "description": "Вы знакомитесь с Future of IA? Пройдите наш пошаговый маршрут, чтобы полностью погрузиться в опыт. Выберите миссию общественного интереса и посмотрите, какие возможности ИИ помогут её решить!",
         "startButton": "Начать вводную сессию",
-        "duration": "50 minutes"
+        "duration": "50 минут"
       },
       "fonction": {
         "title": "<span class=\"underline blue\">Вы уже участвовали</span> в мастерской Future of IA?",

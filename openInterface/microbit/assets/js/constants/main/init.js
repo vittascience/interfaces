@@ -48,6 +48,7 @@ const LIBRARIES_PATH = {
     'tcs3472': "/envirobit",
     'bmp280': "/grove",
     'color_sensor': "/grove",
+    'dfr0997': "/grove",
     'dht11': "/grove",
     'dht11_v2': "/grove",
     'ds1307': "/grove",

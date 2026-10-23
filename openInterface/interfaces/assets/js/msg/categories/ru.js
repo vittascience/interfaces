@@ -169,7 +169,7 @@ Blockly.Msg['SUBCATEGORY_MINI_I2C_MOTOR_DRIVER'] = 'Мини-драйвер дв
 Blockly.Msg['SUBCATEGORY_ARDUINO_SHILED_MOTOR'] = 'Моторный шилд Arduino';
 
 // BBC micro:bit
-Blockly.Msg['SUBCATEGORY_MICROBIT'] = 'Micro:bit';
+Blockly.Msg['SUBCATEGORY_MICROBIT'] = 'micro:bit';
 Blockly.Msg['SUBCATEGORY_KITRONIK'] = 'Kitronik';
 Blockly.Msg['SUBCATEGORY_GAMES'] = 'Игры';
 Blockly.Msg['SUBCATEGORY_EXEC'] = 'Выполнить код Python';
@@ -213,14 +213,14 @@ Blockly.Msg['SUBCATEGORY_ALPHABOT_SENSORS'] = 'Alphabot - Датчики';
 Blockly.Msg['SUBCATEGORY_ALPHABOT_MOTORS'] = 'Alphabot - Двигатели';
 Blockly.Msg['SUBCATEGORY_ALPHABOT_OLED'] = 'Alphabot - Экран OLED';
 Blockly.Msg['SUBCATEGORY_ALPHABOT_COMMANDS'] = 'Alphabot - Команды';
-Blockly.Msg['SUBCATEGORY_ALPHABOT_LED_RGB'] = 'Alphabot - LED RGB';
+Blockly.Msg['SUBCATEGORY_ALPHABOT_LED_RGB'] = 'Alphabot - RGB-светодиод';
 Blockly.Msg['SUBCATEGORY_RTC'] = 'Real Time Clock (встроенный модуль)';
 Blockly.Msg['SUBCATEGORY_EXPANSION_IKS01A3'] = 'Плата расширения IKS01A3';
 // L476
 Blockly.Msg['SUBCATEGORY_L476'] = 'L476';
 Blockly.Msg['SUBCATEGORY_DONUTBOT_SENSORS'] = 'Donutbot - Датчики';
 Blockly.Msg['SUBCATEGORY_DONUTBOT_MOTORS'] = 'Donutbot - Двигатели';
-Blockly.Msg['SUBCATEGORY_DONUTBOT_LED_RGB'] = 'Donutbot - LED RGB';
+Blockly.Msg['SUBCATEGORY_DONUTBOT_LED_RGB'] = 'Donutbot - RGB-светодиод';
 Blockly.Msg['SUBCATEGORY_DONUTBOT_IO'] = 'Donutbot - Ввод/Вывод';
 Blockly.Msg['SUBCATEGORY_DONUTBOT_COMMUNICATION'] = 'Donutbot - Связь';
 // WB55
@@ -270,7 +270,7 @@ Blockly.Msg['SUBCATEGORY_ESP32_CAM'] = 'Камера ESP32';
 Blockly.Msg['SUBCATEGORY_ILO'] = 'Ilo';
 Blockly.Msg['SUBCATEGORY_ALVIK'] = 'Alvik';
 Blockly.Msg['SUBCATEGORY_ALVIK_MOTORS'] = 'Alvik - Двигатели';
-Blockly.Msg['SUBCATEGORY_ALVIK_LEDS'] = 'Alvik - LED';
+Blockly.Msg['SUBCATEGORY_ALVIK_LEDS'] = 'Alvik - светодиоды';
 Blockly.Msg['SUBCATEGORY_ALVIK_SENSORS'] = 'Alvik - Датчики';
 
 // Thymio
@@ -295,7 +295,7 @@ Blockly.Msg['SUBCATEGORY_BUZZER'] = 'Зуммер';
 // Galaxia
 Blockly.Msg['SUBCATEGORY_GALAXIA'] = 'Galaxia';
 Blockly.Msg['SUBCATEGORY_GALAXIA_DISPLAY'] = 'Galaxia - Экран';
-Blockly.Msg['SUBCATEGORY_GALAXIA_RGB_LED'] = 'Galaxia - LED RGB';
+Blockly.Msg['SUBCATEGORY_GALAXIA_RGB_LED'] = 'Galaxia - RGB-светодиод';
 Blockly.Msg['SUBCATEGORY_GALAXIA_GRAPHICS'] = 'Galaxia - Графика';
 Blockly.Msg['SUBCATEGORY_GALAXIA_A_B'] = 'Galaxia - Кнопки A и B';
 Blockly.Msg['SUBCATEGORY_GALAXIA_TOUCH_BUTTONS'] = 'Galaxia - Сенсорные кнопки';
@@ -357,7 +357,7 @@ Blockly.Msg['CATEGORY_BASIC'] = 'Основные';
 Blockly.Msg['SUBCATEGORY_TB6612FNG_MOTOR_DRIVER'] = 'Драйвер двигателей TB6612FNG';
 Blockly.Msg['CATEGORY_STYLE'] = 'Стиль';
 Blockly.Msg['CATEGORY_HTML'] = 'HTML';
-Blockly.Msg['CATEGORY_JAVASCRIPT'] = 'JavaScript';
+Blockly.Msg['CATEGORY_JAVASCRIPT'] = 'Javascript';
 Blockly.Msg["HTML_CATEGORY_STRUCTURE"] = "Структура";
 Blockly.Msg["HTML_CATEGORY_ATTRIBUTES"] = "Атрибуты";
 Blockly.Msg["HTML_CATEGORY_TEXTS"] = "Тексты";
@@ -388,3 +388,6 @@ Blockly.Msg["JS_CATEGORY_ADVANCEDJS"] = "Расширенный JS";
 Blockly.Msg['CATEGORY_BRIDGES'] = 'Мосты';
 Blockly.Msg['CATEGORY_BRICKS'] = 'Брикеты';
 Blockly.Msg['CATEGORY_IA_CAMERAS'] = 'AI Камеры';
+Blockly.Msg['SUBCATEGORY_RFID'] = 'Модуль RFID';
+Blockly.Msg['SUBCATEGORY_VOICE_RECOGNITION'] = 'Распознавание речи';
+Blockly.Msg['SUBCATEGORY_ULN2004_STEPPER_DRIVER'] = 'Драйвер шагового двигателя ULN2004';

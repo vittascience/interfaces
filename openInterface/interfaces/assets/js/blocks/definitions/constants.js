@@ -1292,6 +1292,44 @@ Blockly.Constants.REPLACE_PIN_DROPDOWN_MENU = function (block) {
 
 Blockly.Extensions.register('pins_management_global', Blockly.Constants.REPLACE_PIN_DROPDOWN_MENU);
 
+/**
+ * Is a dropdown field a pin selector? Its options are one of the pin lists of Blockly.Constants.Pins (any board).
+ * @param {Blockly.FieldDropdown} field
+ * @return {boolean}
+ */
+Blockly.Constants.isPinField = function (field) {
+    const signature = (options) => options.map(option => option[1]).join('|');
+    if (!Blockly.Constants._pinListSignatures) {
+        Blockly.Constants._pinListSignatures = new Set();
+        for (const pinsByBoard of Object.values(Blockly.Constants.Pins || {})) {
+            for (const pins of Object.values(pinsByBoard || {})) {
+                if (Array.isArray(pins) && pins.length > 1) Blockly.Constants._pinListSignatures.add(signature(pins));
+            }
+        }
+    }
+    return field instanceof Blockly.FieldDropdown && Blockly.Constants._pinListSignatures.has(signature(field.getOptions(false)));
+};
+
+/**
+ * Warn when the same pin is selected in several pin dropdowns of a block (e.g. M1A and M1B of a motor driver), like
+ * the type warnings. Workspace change listener: every block with several pins is checked, whatever its interface.
+ * @param {Blockly.Events.Abstract} event
+ */
+Blockly.Constants.WARN_DUPLICATE_PINS = function (event) {
+    if (event.type !== Blockly.Events.BLOCK_CREATE && !(event.type === Blockly.Events.BLOCK_CHANGE && event.element === 'field')) return;
+    const workspace = Blockly.Workspace.getById(event.workspaceId);
+    if (!workspace) return;
+    for (const id of event.type === Blockly.Events.BLOCK_CREATE ? event.ids : [event.blockId]) {
+        const block = workspace.getBlockById(id);
+        if (!block) continue;
+        const pinFields = block.inputList.flatMap(input => input.fieldRow).filter(field => Blockly.Constants.isPinField(field));
+        if (pinFields.length < 2) continue;
+        const duplicates = pinFields.filter((field, i) => pinFields.findIndex(other => other.getValue() === field.getValue()) !== i);
+        const message = Blockly.Msg['PINS_DUPLICATE_WARNING'] || "Pin '%1' is selected several times in this block.";
+        block.setWarningText(duplicates.length ? message.replace('%1', duplicates[0].getText()) : null, 'duplicatePins');
+    }
+};
+
 Blockly.Constants.Utils.DEFINE_OUTPUT_TYPE_BY_DROPDOWN(
     'communication_gps_getGGAInformations',
     'INFO',
@@ -1348,7 +1386,7 @@ Blockly.Constants.Utils.BlockOptions = {
     getOledIcons: function () {
         return ['heart', 'happy', 'sad', 'yes', 'no', 'man', 'fork', 'umbrella', 'skull', 'grid', 'butterfly', 'sword', 'wine', 'lock', 'net', 'battery1', 'battery2', 'battery3'].map((icon) => [
             {
-                'src': _PATH + '/interfaces/assets/media/oled_icons/' + icon + '.png',
+                'src': CDN_PATH + '/openInterface/interfaces/assets/media/oled_icons/' + icon + '.png',
                 'width': 32,
                 'height': 32,
                 'alt': icon + " icon"

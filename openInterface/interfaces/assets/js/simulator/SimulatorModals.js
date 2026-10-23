@@ -386,7 +386,7 @@ const SimulatorModals = {
             this.obstacles[type].forEach((item) => {
                 html +=
                     `<div class="obstacle-option ${item[0] === "mur_horizontal.png" ? "obstacle-option-thin" : ""}">
-        <img src="/openInterface/interfaces/assets/media/simulator/${type}/obstacles/${item[0]}" alt="${item[1]}"/>
+        <img src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/${type}/obstacles/${item[0]}" alt="${item[1]}"/>
         <span>${item[2]}</span>
         </div>`;
             });

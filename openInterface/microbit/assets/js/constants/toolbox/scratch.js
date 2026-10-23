@@ -159,7 +159,7 @@ const TOOLBOX_SCRATCH_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_CUTEBOT}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -169,7 +169,7 @@ const TOOLBOX_SCRATCH_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_CUTEBOT_PRO}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -179,7 +179,7 @@ const TOOLBOX_SCRATCH_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_MAQUEEN}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -189,7 +189,7 @@ const TOOLBOX_SCRATCH_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_MAQUEEN_PLUS}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -199,7 +199,7 @@ const TOOLBOX_SCRATCH_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_BITCAR}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -209,7 +209,7 @@ const TOOLBOX_SCRATCH_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_KITROBOT}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -219,7 +219,7 @@ const TOOLBOX_SCRATCH_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_CODO}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -229,7 +229,7 @@ const TOOLBOX_SCRATCH_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_OOBYBOT}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -239,7 +239,7 @@ const TOOLBOX_SCRATCH_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_BUGGY}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -249,7 +249,7 @@ const TOOLBOX_SCRATCH_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_BITBOT}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -259,7 +259,7 @@ const TOOLBOX_SCRATCH_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_GAMEPAD}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -269,7 +269,7 @@ const TOOLBOX_SCRATCH_SUBCATEGORIES = {
             "name": "uHandbit",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -279,7 +279,7 @@ const TOOLBOX_SCRATCH_SUBCATEGORIES = {
             "name": "WuKong",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -289,7 +289,7 @@ const TOOLBOX_SCRATCH_SUBCATEGORIES = {
             "name": "Building:bit Super",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         }
@@ -860,7 +860,8 @@ const TOOLBOX_SCRATCH_CONTENT = {
                     'robots_CutebotPro_defineSquare',
                     'robots_CutebotPro_runSquare',
                     'robots_CutebotPro_placeWithAngle',
-                    'robots_CutebotPro_turnWheel'
+                    'robots_CutebotPro_turnWheel',
+                    'robots_CutebotPro_computePD'
                 ]
             }, {
                 "label": "%{BKY_SUBCATEGORY_SERVOMOTORS}",

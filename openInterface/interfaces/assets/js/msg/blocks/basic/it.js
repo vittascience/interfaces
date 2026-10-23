@@ -73,7 +73,7 @@ Blockly.Msg["CANNOT_DELETE_VARIABLE_PROCEDURE"] = "Non è possibile cancellare l
 // Warning text.
 Blockly.Msg["LOGIC_COMPARE_WARNING"] = "Non è possibile confrontare il primo input di tipo \"%1\" \n con il secondo di tipo \"%2\"";
 Blockly.Msg["LOGIC_TERNARY_WARNING"] = "Non è possibile restituire il primo input di tipo \"%1\" \n con il secondo di tipo \"%2\"";
-Blockly.Msg["VARIABLES_SET_WARNING"] = "La variabile '%1' è già stata dichiarata per il tipo '%2'\n\n e questo blocco sta tentando di impostarla per il tipo '%3'."
+Blockly.Msg["VARIABLES_SET_WARNING"] = "La variabile '%1' è stata inizialmente assegnata al tipo '%2'\n\n e questo blocco cerca di assegnare il tipo '%3'.\n";
 Blockly.Msg["VARIABLES_SET_WARNING_NUMBERS"] = "Aiuto: forse usare <convert X to 'float'>\n block nell'inizializzazione variabile.";
 
 // Start blocks.
@@ -521,10 +521,10 @@ Blockly.Msg["LISTS_SORT_TYPE_TEXT"] = "alfabetico";
 // Blocchi per i dizionari
 Blockly.Msg["DICTIONARIES_CREATE_EMPTY_TITLE"] = "crea un dizionario vuoto";
 Blockly.Msg["DICTIONARIES_CREATE_EMPTY_TOOLTIP"] = "Inizializza un dizionario vuoto.";
-Blockly.Msg["DICTIONARIES_CREATE_WITH_TITLE"] = "crea un dizionario con";
-Blockly.Msg["DICTIONARIES_CREATE_WITH_TOOLTIP"] = "Inizializza un dizionario con valori.";
+Blockly.Msg["DICTIONARIES_CREATE_WITH_TITLE"] = "Crea un dizionario con";
+Blockly.Msg["DICTIONARIES_CREATE_WITH_TOOLTIP"] = "Inizializza un dizionario con valori";
 Blockly.Msg["DICTIONARIES_FROM_LIST_TITLE"] = "Crea un dizionario da %1";
-Blockly.Msg["DICTIONARIES_FROM_LIST_TOOLTIP"] = "Crea un dizionario da una lista.";
+Blockly.Msg["DICTIONARIES_FROM_LIST_TOOLTIP"] = "Crea un dizionario da un elenco";
 Blockly.Msg["DICTIONARIES_LENGTH_TITLE"] = "dimensione di %1";
 Blockly.Msg["DICTIONARIES_LENGTH_TOOLTIP"] = "Restituisce la dimensione del dizionario.";
 Blockly.Msg["DICTIONARIES_ADD_TUPLE_TITLE"] = "aggiungi al dizionario %1 la coppia chiave-valore (%2, %3)";
@@ -553,10 +553,6 @@ Blockly.Msg["DICTIONARIES_CLEAR_TOOLTIP"] = "Elimina tutte le tuple dal dizionar
 // Procedures blocks.
 Blockly.Msg["PROCEDURES_DEFNORETURN_HELPURL"] = "https://en.wikipedia.org/wiki/Subroutine";
 Blockly.Msg["PROCEDURES_DEFNORETURN_TITLE"] = "definisci";
-Blockly.Msg["DICTIONARIES_CREATE_WITH_TITLE"] = "Crea un dizionario con";
-Blockly.Msg["DICTIONARIES_CREATE_WITH_TOOLTIP"] = "Inizializza un dizionario con valori";
-Blockly.Msg["DICTIONARIES_FROM_LIST_TITLE"] = "Crea un dizionario da %1";
-Blockly.Msg["DICTIONARIES_FROM_LIST_TOOLTIP"] = "Crea un dizionario da un elenco";
 Blockly.Msg["PROCEDURES_DEFNORETURN_PROCEDURE"] = "nome_della_funzione";
 Blockly.Msg["PROCEDURES_BEFORE_PARAMS"] = "con:";
 Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS"] = "con:";
@@ -566,7 +562,7 @@ Blockly.Msg["PROCEDURES_DEFNORETURN_COMMENT"] = "Descrivi questa funzione...";
 Blockly.Msg["PROCEDURES_DEFRETURN_HELPURL"] = "https://en.wikipedia.org/wiki/Subroutine";
 Blockly.Msg["PROCEDURES_DEFRETURN_TITLE"] = "definisci";
 Blockly.Msg["PROCEDURES_DEFRETURN_PROCEDURE"] = "nome_della_funzione";
-Blockly.Msg["PROCEDURES_DEFRETURN_DO"] = "";
+Blockly.Msg["PROCEDURES_DEFRETURN_DO"] = Blockly.Msg["PROCEDURES_DEFNORETURN_DO"];
 Blockly.Msg["PROCEDURES_DEFRETURN_COMMENT"] = "Descrivi questa funzione...";
 Blockly.Msg["PROCEDURES_DEFRETURN_RETURN"] = "ritorna";
 Blockly.Msg["PROCEDURES_SIMPLE_RETURN_TOOLTIP"] = "Restituisce un valore ed esce dalla funzione.";
@@ -610,6 +606,6 @@ Blockly.Msg['WIO_GET_VERSION'] = 'la versione';
 Blockly.Msg['WIO_GET_STATUS_TOOLTIP'] = IMG_WIO_LITE_AI + Blockly.Tooltip.SEP + 'Restituisce la versione o lo stato di Wio lite (0: occupato, 1: pronto, 2: risultato disponibile).';
 Blockly.Msg["MATH_RSA_GENERATE_KEYS_HELPURL"] = "https://it.wikipedia.org/wiki/RSA";
 Blockly.Msg["VARIABLES_GLOBAL_HELPURL"] = "https://it.wikipedia.org/wiki/Variabile_globale";
-Blockly.Msg["VARIABLES_SET_WARNING"] = "La variabile '%1' è stata inizialmente assegnata al tipo '%2'\n\n e questo blocco cerca di assegnare il tipo '%3'.\n";
 Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TITLE"] = "Funzione: %1";
 Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TOOLTIP"] = "Ottieni il riferimento della funzione da passare come argomento a un'altra funzione.";
+Blockly.Msg["PINS_DUPLICATE_WARNING"] = "Il piedino '%1' è selezionato più volte in questo blocco.";

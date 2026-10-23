@@ -324,26 +324,19 @@ Simulator.CodeFriendly.arduinoJson = function (code) {
 		/\bDynamicJsonDocument\s*<\s*(\d+)\s*>\s+([A-Za-z_]\w*)\s*;/g, 'DynamicJsonDocument $2 = DynamicJsonDocument($1);'
 	);
 
+	// The keys are only rewritten for the JSON variables: "array[i] = value;" stays an array assignment
+	const jsonNames = [...code.matchAll(/\b(?:StaticJsonDocument|DynamicJsonDocument|JsonDocument|JsonObject)\s+([A-Za-z_]\w*)/g)].map(match => match[1]);
+	if (!jsonNames.length) return code;
+	const key = (suffix) => new RegExp('\\b(' + jsonNames.join('|') + ')\\s*\\[\\s*(".*?"|\'.*?\'|[A-Za-z_]\\w*)\\s*\\]' + suffix, 'g');
+
 	// doc["key"] = value; -> jsonObjectSet(doc, "key", value);
-	code = code.replace(/([A-Za-z_]\w*)\s*\[\s*(".*?"|'.*?'|[A-Za-z_]\w*)\s*\]\s*=\s*([^;]+);/g, 'jsonObjectSet($1, $2, $3);'
-	);
-
+	code = code.replace(key('\\s*=\\s*([^;]+);'), 'jsonObjectSet($1, $2, $3);');
 	// doc["key"].as<String>() -> jsonGetString(doc, "key")
-	code = code.replace(
-		/([A-Za-z_]\w*)\s*\[\s*(".*?"|'.*?'|[A-Za-z_]\w*)\s*\]\s*\.as\s*<\s*String\s*>\s*\(\s*\)/g, 'jsonGetString($1, $2)'
-	);
-
+	code = code.replace(key('\\s*\\.as\\s*<\\s*String\\s*>\\s*\\(\\s*\\)'), 'jsonGetString($1, $2)');
 	// doc["key"].as<int>() -> jsonGetInt(doc, "key")
-	code = code.replace(
-		/([A-Za-z_]\w*)\s*\[\s*(".*?"|'.*?'|[A-Za-z_]\w*)\s*\]\s*\.as\s*<\s*int\s*>\s*\(\s*\)/g,
-		'jsonGetInt($1, $2)'
-	);
-
+	code = code.replace(key('\\s*\\.as\\s*<\\s*int\\s*>\\s*\\(\\s*\\)'), 'jsonGetInt($1, $2)');
 	// doc["key"].to<JsonObject>() -> jsonGetObject(doc, "key")
-	code = code.replace(
-		/([A-Za-z_]\w*)\s*\[\s*(".*?"|'.*?'|[A-Za-z_]\w*)\s*\]\s*\.to\s*<\s*JsonObject\s*>\s*\(\s*\)/g,
-		'jsonGetObject($1, $2)'
-	);
+	code = code.replace(key('\\s*\\.to\\s*<\\s*JsonObject\\s*>\\s*\\(\\s*\\)'), 'jsonGetObject($1, $2)');
 
 	return code;
 };

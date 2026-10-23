@@ -17,23 +17,23 @@
 // Robots
 
 Blockly.Msg['DISPLAY_SHOWRGB_TITLE'] = '[Inbyggd LED] R %1 G %2 B %3';
-Blockly.Msg['DISPLAY_SHOWRGB_TOOLTIP'] = 'Blockly.Msg[\'DISPLAY_SHOWRGB_TOOLTIP\'] = \'Visar den angivna färgen på Codeys inbyggda LED i RGB-format (0 ~ 255).\';';
+Blockly.Msg['DISPLAY_SHOWRGB_TOOLTIP'] = 'Visar den angivna färgen på Codey\'s inbyggda LED i RGB-format (0 ~ 255).';
 Blockly.Msg['DISPLAY_SETRED_TITLE'] = '[Inbyggd LED] röd intensitet %1';
-Blockly.Msg['DISPLAY_SETRED_TOOLTIP'] = 'Blockly.Msg[\'DISPLAY_SETRED_TOOLTIP\'] = \'Ställer in den röda intensiteten för Codeys inbyggda LED (0 ~ 255).\';';
+Blockly.Msg['DISPLAY_SETRED_TOOLTIP'] = 'Ställer in den röda ljusstyrkan på Codey\'s inbyggda LED (0 ~ 255).';
 Blockly.Msg['DISPLAY_SETGREEN_TITLE'] = '[Inbyggd LED] grön intensitet %1';
-Blockly.Msg['DISPLAY_SETGREEN_TOOLTIP'] = 'Blockly.Msg[\'DISPLAY_SETGREEN_TOOLTIP\'] = \'Ställer in den gröna intensiteten för Codeys inbyggda LED (0 ~ 255).\';';
+Blockly.Msg['DISPLAY_SETGREEN_TOOLTIP'] = 'Ställer in den gröna ljusstyrkan på Codey\'s inbyggda LED (0 ~ 255).';
 Blockly.Msg['DISPLAY_SETBLUE_TITLE'] = '[Inbyggd LED] blå intensitet %1';
-Blockly.Msg['DISPLAY_SETBLUE_TOOLTIP'] = 'Blockly.Msg[\'DISPLAY_SETBLUE_TOOLTIP\'] = \'Ställer in den blå intensiteten för Codeys inbyggda LED (0 ~ 255).\';';
+Blockly.Msg['DISPLAY_SETBLUE_TOOLTIP'] = 'Ställer in den blå ljusstyrkan på Codey\'s inbyggda LED (0 ~ 255).';
 Blockly.Msg['DISPLAY_OFF_TITLE'] = '[Inbyggd LED] stäng av';
-Blockly.Msg['DISPLAY_OFF_TOOLTIP'] = 'Blockly.Msg[\'DISPLAY_OFF_TOOLTIP\'] = \'Stänger av Codeys inbyggda LED.\';';
+Blockly.Msg['DISPLAY_OFF_TOOLTIP'] = 'Stänger av Codey\'s inbyggda LED.';
 Blockly.Msg['DISPLAY_SHOW_TITLE'] = '[Matris] visa %1';
-Blockly.Msg['DISPLAY_SHOW_TOOLTIP'] = 'Blockly.Msg[\'DISPLAY_SHOW_TOOLTIP\'] = \'Visar den angivna texten på Codeys LED-matris.\';';
+Blockly.Msg['DISPLAY_SHOW_TOOLTIP'] = 'Visar den angivna texten på Codey\'s LED-matris.';
 Blockly.Msg['DISPLAY_SETPIXEL_TITLE'] = '[Matris] pixel X %1 Y %2 tillstånd %3';
-Blockly.Msg['DISPLAY_SETPIXEL_TOOLTIP'] = 'Blockly.Msg[\'DISPLAY_SETPIXEL_TOOLTIP\'] = \'Sätter pixelns tillstånd vid position X och Y på Codeys LED-matris.\';';
+Blockly.Msg['DISPLAY_SETPIXEL_TOOLTIP'] = 'Ställer in pixelns tillstånd vid position X och Y på Codey\'s LED-matris.';
 Blockly.Msg['DISPLAY_GETPIXEL_TITLE'] = '[Matris] pixelens tillstånd X %1 Y %2';
-Blockly.Msg['DISPLAY_GETPIXEL_TOOLTIP'] = 'Blockly.Msg[\'DISPLAY_GETPIXEL_TOOLTIP\'] = \'Returnerar pixelns tillstånd vid position X och Y på Codeys LED-matris.\';';
+Blockly.Msg['DISPLAY_GETPIXEL_TOOLTIP'] = 'Returnerar pixelns tillstånd vid position X och Y på Codey\'s LED-matris.';
 Blockly.Msg['DISPLAY_TOGGLEPIXEL_TITLE'] = '[Matris] växla pixel X %1 Y %2';
-Blockly.Msg['DISPLAY_TOGGLEPIXEL_TOOLTIP'] = 'Blockly.Msg[\'DISPLAY_TOGGLEPIXEL_TOOLTIP\'] = \'Växlar pixelns tillstånd vid position X och Y på Codeys LED-matris.\';';
+Blockly.Msg['DISPLAY_TOGGLEPIXEL_TOOLTIP'] = 'Växlar pixelns tillstånd vid position X och Y på Codey\'s LED-matris.';
 Blockly.Msg['DISPLAY_CLEAR_TITLE'] = '[Matris] rensa';
 Blockly.Msg['DISPLAY_CLEAR_TOOLTIP'] = 'Rensar LED-matrisen på Codey.';
 Blockly.Msg['IO_DIGITAL_SIGNAL_TITLE'] = '%1';
@@ -68,9 +68,9 @@ Blockly.Msg['COMMUNICATION_IRSTARTLEARNING_TOOLTIP'] = 'Startar inlärning av en
 Blockly.Msg['COMMUNICATION_IRSTOPLEARNING_TITLE'] = '[IR] stoppa inlärning';
 Blockly.Msg['COMMUNICATION_IRSTOPLEARNING_TOOLTIP'] = 'Avslutar inlärning av en infraröd signal.';
 Blockly.Msg['COMMUNICATION_IRSAVELEARNEDRESULT_TITLE'] = '[IR] spara inlärd signal vid index %1';
-Blockly.Msg['COMMUNICATION_IRSAVELEARNEDRESULT_TOOLTIP'] = 'Blockly.Msg[\'COMMUNICATION_IRSAVELEARNEDRESULT_TOOLTIP\'] = \'Sparar den inlärda infraröda signalen i Codeys minne (index 0 till 15).\';';
+Blockly.Msg['COMMUNICATION_IRSAVELEARNEDRESULT_TOOLTIP'] = 'Sparar den inlärda infraröda signalen i Codey\'s minne (index 0 till 15).';
 Blockly.Msg['COMMUNICATION_IRSENDLEARNEDRESULT_TITLE'] = '[IR] skicka signal från index %1';
-Blockly.Msg['COMMUNICATION_IRSENDLEARNEDRESULT_TOOLTIP'] = 'Blockly.Msg[\'COMMUNICATION_IRSENDLEARNEDRESULT_TOOLTIP\'] = \'Skickar den inlärda infraröda signalen från Codeys minne.\';';
+Blockly.Msg['COMMUNICATION_IRSENDLEARNEDRESULT_TOOLTIP'] = 'Sänder den inlärda infraröda signalen från Codey\'s minne.';
 Blockly.Msg['COMMUNICATION_IRLEARN_TITLE'] = '[IR] lär in i %1 s';
 Blockly.Msg['COMMUNICATION_IRLEARN_TOOLTIP'] = 'Lär in en infraröd signal under angiven tid (i sekunder).';
 Blockly.Msg['SENSORS_GETROTATION_EULER_ANGLES_TITLE'] = '%1';

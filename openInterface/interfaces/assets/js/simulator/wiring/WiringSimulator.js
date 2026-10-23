@@ -64,14 +64,14 @@ var WiringSimulator = {
 
     const wiringModeBtnHtml = `
     <button id="wiring-mode" class="btn simulator-button-circle" type="button" onclick="switchWiringMode()" aria-label="wiring mode" data-i18n="[aria-label]simulator.switchWiringMode">
-        <img class="simulator-mosaic-icon simulator-buttons-icon" src="/openInterface/interfaces/assets/media/icon-wiring.svg" alt="wiring mode">
+        <img class="simulator-mosaic-icon simulator-buttons-icon" src="${CDN_PATH}/openInterface/interfaces/assets/media/icon-wiring.svg" alt="wiring mode">
     </button>`;
     document.querySelector('.simulator-board-buttons').insertAdjacentHTML('beforeend', wiringModeBtnHtml);
 
     const wiringSimultorHtml = `
     <div id="simulator-wires" style="display: none;">
         <button id="mosaic-mode" class="btn simulator-button-circle" onclick="switchMosaicMode()" aria-label="mosaic mode" data-i18n="[aria-label]simulator.switchMosaicMode">
-            <img class="simulator-wiring-icon simulator-buttons-icon" src="/openInterface/interfaces/assets/media/icon-mosaic.svg" alt="mosaic mode"/>
+            <img class="simulator-wiring-icon simulator-buttons-icon" src="${CDN_PATH}/openInterface/interfaces/assets/media/icon-mosaic.svg" alt="mosaic mode"/>
         </button>
         <div id="wiring-overlay">
             <button id="modules-close" onclick="WiringSimulator.closeModule()" tabindex="-1">&times;</button>
@@ -97,15 +97,15 @@ var WiringSimulator = {
             <div class="wiring-buttons btn-group oi-btn-group-simulator oi-option-activated">
                 <button id="wiring-background-button" class="btn oi-btn-simulator" 
                         data-toggle="tooltip" data-placement="top" title="Background">
-                    <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-img.svg" alt="Image icon">
+                    <img src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-img.svg" alt="Image icon">
                 </button>
                 <button id="simulator-export" class="btn oi-btn-simulator" 
                         data-toggle="tooltip" data-placement="top" title="Screenshot" onclick="WiringSimulator.getScreenshot()">
-                    <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-photo.svg" alt="Photo icon">
+                    <img src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-photo.svg" alt="Photo icon">
                 </button>
                 <button id="wiring-record-button" class="btn oi-btn-simulator" 
                         data-toggle="tooltip" data-placement="top" title="Video record" onclick="WiringSimulator.recordVideo()">
-                    <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-rec.svg" alt="Record icon">
+                    <img src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-rec.svg" alt="Record icon">
                 </button>
             </div>
         </div>

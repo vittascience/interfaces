@@ -186,6 +186,7 @@ const IMG_MODULE_LORA = TOOLTIP_IMG_PATH + 'LoRa-E5-back.jpg';
 const IMG_MODULE_STEPPER_ULN2003 = TOOLTIP_IMG_PATH + 'stepper-motor-28BYJ-48-08-ULN2003A-driver.webp';
 const IMG_MODULE_MULTI_CHANNEL_RELAY = TOOLTIP_IMG_PATH + 'module-grove-4-multi-channel-relay-SPDT.jpg';
 const IMG_MODULE_PCA9685 = TOOLTIP_IMG_PATH + 'module-pca9685-16-canaux-pwm-front.webp';
+const IMG_MODULE_MDD3A = TOOLTIP_IMG_PATH + 'Driver_MDD3A.jpg';
 //robots-mBot
 const IMG_MODULE_MBOT = TOOLTIP_IMG_PATH + 'robot_mbot_arduino_front.jpg';
 const IMG_MODULE_MAKEBLOCK_REMOTE_CONTROL = TOOLTIP_IMG_PATH + 'module-makeBlock-telecommande-front.jpg';

@@ -3,6 +3,10 @@ var rtcManager = null;
 var VittaInterface = null;
 var SerialAPI = null;
 var Repl = null;
+window.interfaceHidesLoader = true; // public/loader.php: the loader is removed by loadInterface, not on window load
+
+/** Let the browser paint and handle the inputs between two steps of the init (no long task). */
+const yieldToMain = () => window.scheduler?.yield ? scheduler.yield() : new Promise(resolve => setTimeout(resolve));
 
 /**
  * Standard programming interfaces that use the common accessibility module
@@ -21,6 +25,11 @@ const STANDARD_A11Y_INTERFACES = [
  * @param {string} interfaceName 
  */
 async function loadInterface(interfaceName) {
+    VittaInterface = new InterfaceInit(interfaceName);
+    // welcome message written first: largest text of the page (LCP)
+    if (typeof InterfaceMonitor !== 'undefined' && interfaceName !== "python") {
+        VittaInterface.displayWelcome();
+    }
 
     let lng = 'en';
     if (getCookie('lng').length > 0) {
@@ -106,21 +115,21 @@ async function loadInterface(interfaceName) {
         if (interfaceName == 'steami') {
             scripts.push({
                 id: "wb55_block_msg",
-                src: `/openInterface/wb55/assets/js/blocks/msg/blocks/js/${_language}.js`
+                src: `${CDN_PATH}/openInterface/wb55/assets/js/blocks/msg/blocks/js/${_language}.js`
             });
         }
         if (interfaceName == 'arduinoq') {
             scripts.push({
                 id: "arduino_block_msg",
-                src: `/openInterface/arduino/assets/js/blocks/msg/blocks/js/${_language}.js`
+                src: `${CDN_PATH}/openInterface/arduino/assets/js/blocks/msg/blocks/js/${_language}.js`
             });
             scripts.push({
                 id: "python_block_msg",
-                src: `/openInterface/python/assets/js/blocks/msg/blocks/js/${_language}.js`
+                src: `${CDN_PATH}/openInterface/python/assets/js/blocks/msg/blocks/js/${_language}.js`
             });
             scripts.push({
                 id: "web_block_msg",
-                src: `/openInterface/web/assets/js/blocks/msg/blocks/js/${_language}.js`
+                src: `${CDN_PATH}/openInterface/web/assets/js/blocks/msg/blocks/js/${_language}.js`
             });
         }
         scripts.push({
@@ -133,7 +142,7 @@ async function loadInterface(interfaceName) {
     const LANG_SCRIPTS = GET_BKY_LANG_SCRIPTS(lng);
     const FALLBACK_LANG_SCRIPTS = GET_BKY_LANG_SCRIPTS('en');
 
-    const SPECIFIC_ACE_MSG_PATH = `${CDN_PATH}${_PATH}/${interfaceName}/assets/js/autocomplete`;
+    const SPECIFIC_ACE_MSG_PATH = `${_PATH}/${interfaceName}/assets/js/autocomplete`;
     const GET_ACE_LANG_SCRIPTS = (language) => {
         let scripts = [];
         if (['microbit', 'galaxia', 'steami'].includes(interfaceName)) {
@@ -181,6 +190,15 @@ async function loadInterface(interfaceName) {
         id: "interface_autocomplete",
         src: `${CDN_PATH}/openInterface/interfaces/assets/js/autocomplete/InterfaceAutocomplete.js`
     }];
+
+    [...COMMON_BKY_LANG_SCRIPTS, ...ACE_AUTOCOMPLETE_SCRIPTS, ...COMMON_ACE_LANG_SCRIPTS, ...LANG_SCRIPTS,
+        ...ACE_LANG_SCRIPTS, ...UTILS_SCRIPTS, ...EVENTS_SCRIPTS, ...COMMON_SCRIPTS].forEach(({ src }) => {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'script';
+        link.href = src;
+        document.head.appendChild(link);
+    });
 
     try {
         await Loader.loadScripts(COMMON_BKY_LANG_SCRIPTS);
@@ -273,16 +291,20 @@ async function loadInterface(interfaceName) {
 
     // Load standard accessibility module for programming interfaces
     if (STANDARD_A11Y_INTERFACES.includes(interfaceName)) {
-        try {
-            await import(`${CDN_PATH}/openInterface/interfaces/assets/js/utils/accessibility/std-a11y.js`);
-        } catch (e) {
-            console.error(`Accessibility module loading error: ${e}`);
-        }
+        // not awaited: it only acts in $(document).ready + setTimeout, nothing in init depends on it
+        import(`${CDN_PATH}/openInterface/interfaces/assets/js/utils/accessibility/std-a11y.js`)
+            .catch(e => console.error(`Accessibility module loading error: ${e}`));
     }
 
-    VittaInterface = new InterfaceInit(interfaceName);
-    await VittaInterface.init();
+    try {
+        await VittaInterface.init();
+    } finally {
+        // interface built (workspace, toolbox, project, mode, console, board): remove the loader of public/loader.php
+        $("#index-loader").fadeOut(200);
+        $("html").css("overflow-y", "visible");
+    }
     await loadingPrivate(interfaceName);
+    preloadOnDemandLibraries();
     if (VittaInterface.hasShepherdTour()) {
         if (typeof IS_CAPYTALE_CONTEXT !== 'undefined') {
             while (typeof capytaleManager === 'undefined') {
@@ -294,6 +316,32 @@ async function loadInterface(interfaceName) {
     }
     window.VittaInterface = VittaInterface;
 };
+
+/**
+ * Once the interface and the project are loaded, download Skulpt and tree-sitter files in the background (browser idle),
+ * without evaluating or compiling them: they are evaluated at the first use (play, first manual edit of the code).
+ */
+function preloadOnDemandLibraries() {
+    if (navigator.connection?.saveData) return;
+    const dir = `${CDN_PATH}/openInterface/interfaces/assets/js/external`;
+    const files = []; // [url, fetched by fetch() (cors)]
+    if (typeof Simulator !== 'undefined' && Simulator.TYPE == 'Skulpt' && typeof Sk === 'undefined') {
+        files.push([`${dir}/skulpt/skulpt.js`], [`${dir}/skulpt/skulpt-stdlib.js`]);
+    }
+    const lang = Main.hasCpp2Blocks() ? 'cpp' : Main.hasPython2Blocks() ? 'python' : null;
+    if (lang && typeof window.TreeSitter === 'undefined') {
+        files.push([`${dir}/tree-sitter/tree-sitter.js`], [`${dir}/tree-sitter/tree-sitter.wasm`, true], [`${dir}/tree-sitter/tree-sitter-${lang}.wasm`, true]);
+    }
+    const whenIdle = window.requestIdleCallback || ((callback) => setTimeout(callback, 2000));
+    // download only (HTTP cache)
+    whenIdle(() => files.forEach(([href, cors]) => {
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = href;
+        if (cors) link.crossOrigin = 'anonymous';
+        document.head.appendChild(link);
+    }), { timeout: 5000 });
+}
 
 /**
  * Generate an hexadecimal number. Used as an id.

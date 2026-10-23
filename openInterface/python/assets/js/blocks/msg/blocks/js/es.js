@@ -24,7 +24,7 @@ Blockly.Msg['TIME_INITCHRONOMETER_TITLE'] = '[tiempo] inicializar el cronómetro
 Blockly.Msg['TIME_INITCHRONOMETER_TOOLTIP'] = 'Permite inicializar el cronómetro (en segundos)';
 Blockly.Msg['TIME_GETCHRONOMETER_TITLE'] = '[tiempo] obtener cronómetro en %1';
 Blockly.Msg['TIME_GETCHRONOMETER_TOOLTIP'] = 'Devuelve el valor del cronómetro desde la inicialización en segundos o milisegundos';
-Blockly.Msg['TIME_GET_DATE_TITLE'] = '[time] get date and clock';
+Blockly.Msg["TIME_GET_DATE_TITLE"] = "[time] obtener fecha y hora";
 Blockly.Msg['TIME_GET_DATE_TOOLTIP'] = 'Devuelve la fecha y el reloj formateados en cadena';
 
 // Turtle blocks.
@@ -100,14 +100,14 @@ Blockly.Msg['NUMPY_SQUARE_MATRIX_TOOLTIP'] = 'Inicializa una matriz cuadrada de 
 Blockly.Msg['NUMPY_SIZESHAPE_TITLE'] = '%1 de %2';
 Blockly.Msg['NUMPY_SIZESHAPE_TOOLTIP'] = 'Devuelve el tamaño o la forma de la tabla numpy';
 Blockly.Msg['NUMPY_SIZE'] = 'tamaño';
-Blockly.Msg['NUMPY_SHAPE'] = 'shape';
+Blockly.Msg["NUMPY_SHAPE"] = "dimensiones";
 Blockly.Msg['NUMPY_GET_ELEMENT_MATRIX_TITLE'] = 'obtener elemento [%1, %2] de %3';
 Blockly.Msg['NUMPY_GET_ELEMENT_MATRIX_TOOLTIP'] = 'Obtener elemento [i,j] de la matriz numpy';
 Blockly.Msg['NUMPY_GET_ELEMENT_LIST_TITLE'] = 'Obtener elemento [%1] de %2';
 Blockly.Msg['NUMPY_GET_ELEMENT_LIST_TOOLTIP'] = 'Obtener el elemento [i] de la matriz numpy';
 
 // Graph blocks.
-Blockly.Msg['GRAPH_PLOT_TITLE'] = 'plot %1 xaxis %2 yaxis %3';
+Blockly.Msg["GRAPH_PLOT_TITLE"] = "graficar %1 eje x %2 eje y %3";
 Blockly.Msg['GRAPH_PLOT_TOOLTIP'] = 'Graficar en la consola de Python';
 Blockly.Msg['GRAPH_SCATTER_TITLE'] = 'trazar dispersión %1 eje x %2 eje y %3';
 Blockly.Msg['GRAPH_SCATTER_TOOLTIP'] = 'Trazar dispersión en la consola de Python';
@@ -121,7 +121,7 @@ Blockly.Msg['GRAPH_LEGEND_TITLE'] = 'Establecer leyenda %1 ubicación %2';
 Blockly.Msg['GRAPH_LEGEND_TOOLTIP'] = 'Habilitar la leyenda para el/los gráfico/s';
 Blockly.Msg['GRAPH_SHOW_TITLE'] = 'mostrar gráfico';
 Blockly.Msg['GRAPH_SHOW_TOOLTIP'] = 'Mostrar gráfico';
-Blockly.Msg['GRAPH_SUBPLOT_TITLE'] = 'subplot %1 row %2 col %3 index %4';
+Blockly.Msg["GRAPH_SUBPLOT_TITLE"] = "subgráfica %1 fila %2 columna %3 índice %4";
 Blockly.Msg['GRAPH_SUBPLOT_TOOLTIP'] = 'Subplot a graph in Python console';
 Blockly.Msg['GRAPH_GRID_TITLE'] = 'mostrar cuadrícula';
 Blockly.Msg['GRAPH_GRID_TOOLTIP'] = 'Mostrar una rejilla en el gráfico';
@@ -136,13 +136,13 @@ Blockly.Msg['GRAPH_CREATE_BAR_TITLE'] = 'crear gráfico de barras con %1 xaxis %
 Blockly.Msg['GRAPH_PLOT'] = 'mostrar gráfico';
 
 // Vittaia blocks. AST Python <-> Blocks
-Blockly.Msg['VITTAIA_INIT_MODEL'] = 'Inicializar el modelo';
+Blockly.Msg['VITTAIA_INIT_MODEL'] = '%1 inicializar modelo';
 Blockly.Msg['VITTAIA_WEBCAM_REFRESH'] = 'Activar la cámara web';
-Blockly.Msg['VITTAIA_SELECT_CAMERA'] = 'Seleccionar la cámara';
-Blockly.Msg['VITTAIA_CAPTURE'] = 'Capturar la cámara web';
-Blockly.Msg['VITTAIA_PREDICT'] = 'Predecir el modelo %1';
-Blockly.Msg['VITTAIA_INIT_SOUND'] = 'Iniciar el modelo de sonido';
-Blockly.Msg['VITTAIA_INIT_MICRO'] = 'Iniciar el modelo micro';
+Blockly.Msg['VITTAIA_SELECT_CAMERA'] = '%1 seleccionar cámara %2';
+Blockly.Msg['VITTAIA_CAPTURE'] = 'imagen de la cámara';
+Blockly.Msg['VITTAIA_PREDICT'] = '%1 ejecutar detección en %2';
+Blockly.Msg['VITTAIA_INIT_SOUND'] = '%1 inicializar modelo de sonido';
+Blockly.Msg['VITTAIA_INIT_MICRO'] = '%1 inicializar micrófono';
 
 // AI IMAGE
 Blockly.Msg['VITTAIA_LOAD_MODEL_TITLE'] = '%1 cargar el modelo de IA de imágenes %2';
@@ -222,15 +222,9 @@ Blockly.Msg['VITTAIA_TEXT_MODEL_MIXTRAL'] = 'mixtral';
 Blockly.Msg['VITTAIA_TEXT_MODEL_GPT_MINI'] = 'gpt-4o-mini';
 
 // Vittaia blocks. AST Python <-> Blocks
-Blockly.Msg['VITTAIA_INIT_MODEL'] = '%1 inicializar modelo';
 Blockly.Msg['VITTAIA_INIT_WEBCAM'] = '%1 inicializar cámara';
-Blockly.Msg['VITTAIA_INIT_SOUND'] = '%1 inicializar modelo de sonido';
 Blockly.Msg['VITTAIA_INIT_MICRO_VAR'] = '%1 inicializar variable del micrófono';
-Blockly.Msg['VITTAIA_INIT_MICRO'] = '%1 inicializar micrófono';
-Blockly.Msg['VITTAIA_SELECT_CAMERA'] = '%1 seleccionar cámara %2';
 Blockly.Msg['VITTAIA_DISPLAY_CAMERA'] = '%1 actualizar cámara';
-Blockly.Msg['VITTAIA_CAPTURE'] = 'imagen de la cámara';
-Blockly.Msg['VITTAIA_PREDICT'] = '%1 ejecutar detección en %2';
 Blockly.Msg['VITTAIA_GET_BEST_PROBALITY_CLASS'] = Blockly.Msg['VITTAIA_GET_HIGHEST_PROBABILITY_CLASS_TITLE'];
 
 // Exception
@@ -241,5 +235,5 @@ Blockly.Msg['EXCEPTION_TRY_TOOLTIP'] = 'Ejecuta un bloque de código y permite e
 
 // Other Block
 Blockly.Msg['OTHER_AST_RAW'] = 'Código no traducido';
-Blockly.Msg['VITTAIA_MAKE_PREDICTIONS_FROM_URL_TITLE'] = 'Blockly.Msg[\'VITTAIA_MAKE_PREDICTIONS_FROM_URL_TITLE\'] = \'%1 iniciar la detección en la URL de la imagen %2\';';
+Blockly.Msg['VITTAIA_MAKE_PREDICTIONS_FROM_URL_TITLE'] = '%1 iniciar detección en la URL de la imagen %2';
 Blockly.Msg['VITTAIA_MAKE_PREDICTIONS_FROM_URL_TOOLTIP'] = 'Realiza predicciones del modelo para la imagen descargada desde una URL. Una predicción tiene dos elementos: la clase y el nivel de confianza.';

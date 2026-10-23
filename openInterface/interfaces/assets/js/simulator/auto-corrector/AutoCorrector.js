@@ -83,15 +83,22 @@ var AutoCorrector = {
          */
         $("body").on("click", "#save-exercise", async () => {
             pseudoModal.newBlocker("modals.simulator.auto-corrector.save_exercise_wait_message", 'simulator-modules', '1rem');
-            const exerciseId = await projectManager.exercises_create();
-            if (typeof exerciseId != 'undefined') {
-                await projectManager.exercises_saveFrames(this.recordedFramesOptimized, exerciseId);
-                document.getElementById('save-exercise').textContent = jsonPath('modals.simulator.auto-corrector.update-exercice');
-                await this.importExerciseInSimulator(projectManager._currentExercise);
+            try {
+                const exerciseId = await projectManager.exercises_create();
+                if (typeof exerciseId != 'undefined') {
+                    await projectManager.exercises_saveFrames(this.recordedFramesOptimized, exerciseId);
+                    document.getElementById('save-exercise').textContent = jsonPath('modals.simulator.auto-corrector.update-exercice');
+                    await this.importExerciseInSimulator(projectManager._currentExercise);
+                    new VittaNotif().displayNotification(null, i18next.t('notifications.exerciseSaved'), 'bg-success');
+                }
+            } catch (error) {
+                console.error(error);
+                new VittaNotif().displayNotification(null, i18next.t('notifications.exerciseSaveFailed'), 'bg-danger');
+            } finally {
+                pseudoModal.endBlocker('simulator-modules');
+                pseudoModal.closeModal("modal-auto-corrector-creation");
+                $("#exercise-mode").prop('disabled', false);
             }
-            pseudoModal.endBlocker('simulator-modules');
-            pseudoModal.closeModal("modal-auto-corrector-creation");
-            $("#exercise-mode").prop('disabled', false);
         });
 
         $("body").on("click", "#auto-corrector-creation-cancel", () => {

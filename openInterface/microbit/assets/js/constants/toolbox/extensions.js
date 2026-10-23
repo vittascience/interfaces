@@ -2,20 +2,22 @@
  * Catalog of the block extensions of the micro:bit interface (format described in BlockExtensions.js).
  * The A4 Technologie microSySTEM blocks are ported from their MakeCode extensions (github.com/A4-TECHNOLOGIE),
  * their Python libraries are in assets/lib/a4. The block names are saved in the projects: never rename them.
+ * The texts are i18n keys of code.blockExtensions.catalog (public/content/lang/<lang>/ns.json).
  */
 const BLOCK_EXTENSIONS_CATALOG = (() => {
+    const t = (key) => ({ i18n: 'catalog.' + key });
     const COLOURS = {
-        red: [{ fr: 'rouge', en: 'red' }, 255, 0, 0],
-        green: [{ fr: 'vert', en: 'green' }, 0, 255, 0],
-        blue: [{ fr: 'bleu', en: 'blue' }, 0, 0, 255],
-        yellow: [{ fr: 'jaune', en: 'yellow' }, 255, 255, 0],
-        cyan: [{ fr: 'cyan', en: 'cyan' }, 0, 255, 255],
-        magenta: [{ fr: 'magenta', en: 'magenta' }, 255, 0, 255],
-        orange: [{ fr: 'orange', en: 'orange' }, 255, 80, 0],
-        purple: [{ fr: 'violet', en: 'purple' }, 120, 0, 255],
-        white: [{ fr: 'blanc', en: 'white' }, 255, 255, 255],
-        off: [{ fr: 'éteint', en: 'off' }, 0, 0, 0],
-        black: [{ fr: 'noir', en: 'black' }, 0, 0, 0]
+        red: [t('colours.red'), 255, 0, 0],
+        green: [t('colours.green'), 0, 255, 0],
+        blue: [t('colours.blue'), 0, 0, 255],
+        yellow: [t('colours.yellow'), 255, 255, 0],
+        cyan: [t('colours.cyan'), 0, 255, 255],
+        magenta: [t('colours.magenta'), 255, 0, 255],
+        orange: [t('colours.orange'), 255, 80, 0],
+        purple: [t('colours.purple'), 120, 0, 255],
+        white: [t('colours.white'), 255, 255, 255],
+        off: [t('colours.off'), 0, 0, 0],
+        black: [t('colours.black'), 0, 0, 0]
     };
     const LIGHT_COLOURS = ['red', 'green', 'blue', 'yellow', 'cyan', 'magenta', 'orange', 'purple', 'white', 'off'];
     const SCREEN_COLOURS = ['black', 'white', 'red', 'green', 'blue', 'yellow', 'cyan', 'magenta', 'orange', 'purple'];
@@ -34,113 +36,109 @@ const BLOCK_EXTENSIONS_CATALOG = (() => {
     const RGB_ARGS = [number('R', 255), number('G', 100), number('B', 0)];
 
     const LED_BLOCKS = [
-        { name: 'battery', kind: 'number', text: { fr: 'niveau de batterie (%)', en: 'battery level (%)' }, code: 'a4_board.battery()' },
+        { name: 'battery', kind: 'number', text: t('a4_leds.blocks.battery'), code: 'a4_board.battery()' },
         {
-            name: 'leds_colour', kind: 'statement', text: { fr: 'mettre RGB0 en {C0} et RGB1 en {C1}', en: 'set RGB0 to {C0} and RGB1 to {C1}' },
+            name: 'leds_colour', kind: 'statement', text: t('a4_leds.blocks.leds_colour'),
             args: [lightColour('C0'), lightColour('C1')], code: 'a4_board.set_leds({C0}, {C1})'
         },
         {
             name: 'leds_rgb', kind: 'statement',
-            text: { fr: 'mettre RGB0 en R {R0} V {G0} B {B0} et RGB1 en R {R1} V {G1} B {B1}', en: 'set RGB0 to R {R0} G {G0} B {B0} and RGB1 to R {R1} G {G1} B {B1}' },
+            text: t('a4_leds.blocks.leds_rgb'),
             args: [number('R0', 255), number('G0', 0), number('B0', 0), number('R1', 0), number('G1', 0), number('B1', 255)],
             code: 'a4_board.set_leds(({R0}, {G0}, {B0}), ({R1}, {G1}, {B1}))'
         },
         {
-            name: 'leds_brightness', kind: 'statement', text: { fr: 'régler la luminosité RGB à {B} (0-255)', en: 'set RGB brightness to {B} (0-255)' },
+            name: 'leds_brightness', kind: 'statement', text: t('a4_leds.blocks.leds_brightness'),
             args: [number('B', 255)], code: 'a4_board.set_brightness({B})'
         },
-        { name: 'leds_off', kind: 'statement', text: { fr: 'éteindre les LED RGB', en: 'turn off RGB LEDs' }, code: 'a4_board.set_leds((0, 0, 0), (0, 0, 0))' }
+        { name: 'leds_off', kind: 'statement', text: t('a4_leds.blocks.leds_off'), code: 'a4_board.set_leds((0, 0, 0), (0, 0, 0))' }
     ];
 
     const screenBlocks = (initBlock) => [
         initBlock,
-        { name: 'screen_clear', kind: 'statement', text: { fr: 'écran effacer tout', en: 'screen clear all' }, code: 'a4_screen.clear()' },
+        { name: 'screen_clear', kind: 'statement', text: t('a4_screen.blocks.screen_clear'), code: 'a4_screen.clear()' },
         {
-            name: 'screen_background', kind: 'statement', text: { fr: 'écran définir couleur de fond {C}', en: 'screen set background colour {C}' },
+            name: 'screen_background', kind: 'statement', text: t('a4_screen.blocks.screen_background'),
             args: [screenColour('C')], code: 'a4_screen.background_color({C})'
         },
         {
-            name: 'screen_background_image', kind: 'statement', text: { fr: 'écran définir image de fond {NAME}', en: 'screen set background image {NAME}' },
+            name: 'screen_background_image', kind: 'statement', text: t('a4_screen.blocks.screen_background_image'),
             args: [text('NAME')], code: 'a4_screen.background_image({NAME})'
         },
         {
             name: 'screen_text', kind: 'statement',
-            text: { fr: 'écran afficher texte {TEXT} numéro {ID} position x {X} y {Y} taille {SIZE} couleur {C}', en: 'screen show text {TEXT} id {ID} at x {X} y {Y} size {SIZE} colour {C}' },
-            args: [text('TEXT', 'Bonjour'), number('ID', 1), number('X', 120), number('Y', 120),
-                dropdown('SIZE', [[{ fr: 'grande', en: 'large' }, '1'], [{ fr: 'petite', en: 'small' }, '2']]), screenColour('C')],
+            text: t('a4_screen.blocks.screen_text'),
+            args: [text('TEXT', t('a4_screen.defaults.screen_text')), number('ID', 1), number('X', 120), number('Y', 120),
+                dropdown('SIZE', [[t('a4_screen.options.screen_text_size.large'), '1'], [t('a4_screen.options.screen_text_size.small'), '2']]), screenColour('C')],
             code: 'a4_screen.text({TEXT}, {ID}, {X}, {Y}, {SIZE}, {C})'
         },
         {
             name: 'screen_image', kind: 'statement',
-            text: { fr: 'écran afficher image numéro {ID} nom {NAME} position x {X} y {Y} taille {ZOOM}', en: 'screen show image id {ID} name {NAME} at x {X} y {Y} size {ZOOM}' },
+            text: t('a4_screen.blocks.screen_image'),
             args: [number('ID', 1), text('NAME'), number('X', 120), number('Y', 120), number('ZOOM', 256)],
             code: 'a4_screen.image({ID}, {NAME}, {X}, {Y}, {ZOOM})'
         },
         {
-            name: 'screen_rotate', kind: 'statement', text: { fr: 'écran rotation image numéro {ID} angle {ANGLE}', en: 'screen rotate image id {ID} angle {ANGLE}' },
+            name: 'screen_rotate', kind: 'statement', text: t('a4_screen.blocks.screen_rotate'),
             args: [number('ID', 1), number('ANGLE', 180)], code: 'a4_screen.rotate_image({ID}, {ANGLE})'
         },
         {
-            name: 'screen_remove', kind: 'statement', text: { fr: 'écran supprimer {KIND} numéro {ID}', en: 'screen remove {KIND} id {ID}' },
-            args: [dropdown('KIND', [[{ fr: 'texte', en: 'text' }, '0x18'], [{ fr: 'image', en: 'image' }, '0x08']]), number('ID', 1)],
+            name: 'screen_remove', kind: 'statement', text: t('a4_screen.blocks.screen_remove'),
+            args: [dropdown('KIND', [[t('a4_screen.options.screen_remove_kind.text'), '0x18'], [t('a4_screen.options.screen_remove_kind.image'), '0x08']]), number('ID', 1)],
             code: 'a4_screen.remove({KIND}, {ID})'
         }
     ];
-    const SCREEN_I2C_INIT = { name: 'screen_init', kind: 'statement', text: { fr: 'écran initialiser en I2C', en: 'screen initialize in I2C' }, code: 'a4_screen.init_i2c()' };
+    const SCREEN_I2C_INIT = { name: 'screen_init', kind: 'statement', text: t('a4_screen.blocks.screen_init_i2c'), code: 'a4_screen.init_i2c()' };
 
     const catalog = [
         {
             id: 'a4_access',
             name: 'Access microSySTEM',
-            description: {
-                fr: 'Contrôle d’accès d’un bâtiment : un clavier capacitif déverrouille une porte à ventouse magnétique.',
-                en: 'Building access control: a capacitive keypad unlocks a door held by a magnetic lock.'
-            },
+            description: t('a4_access.description'),
             image: 'a4_access.jpg',
             logo: 'a4_logo.png',
             colour: '#00838F',
+            tags: ['model', 'sensors', 'actuators'],
             blocks: [
                 {
-                    name: 'lock', kind: 'statement', text: { fr: 'mettre la porte en position {STATE}', en: 'set door lock to {STATE}' },
-                    args: [dropdown('STATE', [[{ fr: 'verrouillée', en: 'locked' }, '1'], [{ fr: 'déverrouillée', en: 'unlocked' }, '0']])],
+                    name: 'lock', kind: 'statement', text: t('a4_access.blocks.lock'),
+                    args: [dropdown('STATE', [[t('a4_access.options.lock_state.locked'), '1'], [t('a4_access.options.lock_state.unlocked'), '0']])],
                     code: 'a4_board.write_port(0, {STATE})'
                 },
                 {
-                    name: 'door_is', kind: 'boolean', text: { fr: 'la porte est {STATE}', en: 'door is {STATE}' },
-                    args: [dropdown('STATE', [[{ fr: 'fermée', en: 'closed' }, 'True'], [{ fr: 'ouverte', en: 'open' }, 'False']])],
+                    name: 'door_is', kind: 'boolean', text: t('a4_access.blocks.door_is'),
+                    args: [dropdown('STATE', [[t('a4_access.options.door_is_state.closed'), 'True'], [t('a4_access.options.door_is_state.open'), 'False']])],
                     code: 'a4_access.door_is({STATE})'
                 },
-                { name: 'wait_key', kind: 'text', text: { fr: 'attendre une touche du clavier', en: 'wait for keypad key' }, code: 'a4_access.wait_key()' },
-                { name: 'read_key', kind: 'text', text: { fr: 'dernière touche appuyée du clavier', en: 'last keypad key pressed' }, code: 'a4_access.read_key()' },
-                { name: 'entered_code', kind: 'text', text: { fr: 'code saisi', en: 'entered code' }, code: 'a4_access.entered_code()' },
+                { name: 'wait_key', kind: 'text', text: t('a4_access.blocks.wait_key'), code: 'a4_access.wait_key()' },
+                { name: 'read_key', kind: 'text', text: t('a4_access.blocks.read_key'), code: 'a4_access.read_key()' },
+                { name: 'entered_code', kind: 'text', text: t('a4_access.blocks.entered_code'), code: 'a4_access.entered_code()' },
                 {
-                    name: 'code_is', kind: 'boolean', text: { fr: 'le code saisi est {CODE}', en: 'entered code is {CODE}' },
+                    name: 'code_is', kind: 'boolean', text: t('a4_access.blocks.code_is'),
                     args: [text('CODE', '1234')], code: 'a4_access.entered_code() == {CODE}'
                 },
                 {
-                    name: 'code_length', kind: 'boolean', text: { fr: 'le code saisi comporte {N} chiffres', en: 'entered code has {N} digits' },
+                    name: 'code_length', kind: 'boolean', text: t('a4_access.blocks.code_length'),
                     args: [number('N', 4)], code: 'len(a4_access.entered_code()) == {N}'
                 },
-                { name: 'clear_code', kind: 'statement', text: { fr: 'effacer le code saisi', en: 'clear entered code' }, code: 'a4_access.clear_code()' },
-                { name: 'delete_last', kind: 'statement', text: { fr: 'effacer le dernier chiffre du code', en: 'delete last code digit' }, code: 'a4_access.delete_last()' }
+                { name: 'clear_code', kind: 'statement', text: t('a4_access.blocks.clear_code'), code: 'a4_access.clear_code()' },
+                { name: 'delete_last', kind: 'statement', text: t('a4_access.blocks.delete_last'), code: 'a4_access.delete_last()' }
             ]
         },
         {
             id: 'a4_parking',
             name: 'Parking microSySTEM',
-            description: {
-                fr: 'Borne de stationnement limité : un capteur détecte la présence d’un véhicule et un écran couleur affiche le temps restant.',
-                en: 'Limited parking station: a sensor detects vehicles and a colour screen shows the remaining time.'
-            },
+            description: t('a4_parking.description'),
             image: 'a4_parking.jpg',
             logo: 'a4_logo.png',
             colour: '#0FBC11',
+            tags: ['model', 'sensors', 'display'],
             blocks: [
-                { name: 'vehicle', kind: 'boolean', text: { fr: 'présence d’un véhicule', en: 'vehicle present' }, code: 'a4_board.read_port(0) == 1' },
+                { name: 'vehicle', kind: 'boolean', text: t('a4_parking.blocks.vehicle'), code: 'a4_board.read_port(0) == 1' },
                 ...LED_BLOCKS,
                 ...screenBlocks(SCREEN_I2C_INIT),
                 {
-                    name: 'time', kind: 'text', text: { fr: 'heure {H} h {M} min {S} s', en: 'time {H} h {M} min {S} s' },
+                    name: 'time', kind: 'text', text: t('a4_parking.blocks.time'),
                     args: [number('H', 12), number('M', 40), number('S', 30)], code: "'%02d:%02d:%02d' % (int({H}), int({M}), int({S}))"
                 }
             ]
@@ -148,69 +146,65 @@ const BLOCK_EXTENSIONS_CATALOG = (() => {
         {
             id: 'a4_barrier',
             name: 'Barrier microSySTEM',
-            description: {
-                fr: 'Barrière automatique de parking ou de péage avec servomoteur, feu RVB, capteur infrarouge et lecteur RFID.',
-                en: 'Car park or toll barrier with a servo motor, RGB light, infrared sensor and RFID reader.'
-            },
+            description: t('a4_barrier.description'),
             image: 'a4_barrier.jpg',
             logo: 'a4_logo.png',
             colour: '#F29C00',
+            tags: ['model', 'sensors', 'actuators', 'lights'],
             blocks: [
-                { name: 'read_tag', kind: 'number', text: { fr: 'lire badge RFID', en: 'read RFID tag' }, code: 'a4_barrier.read_tag()' },
+                { name: 'read_tag', kind: 'number', text: t('a4_barrier.blocks.read_tag'), code: 'a4_barrier.read_tag()' },
                 {
-                    name: 'move', kind: 'statement', text: { fr: '{ACTION} la barrière', en: '{ACTION} barrier' },
-                    args: [dropdown('ACTION', [[{ fr: 'ouvrir', en: 'open' }, '115'], [{ fr: 'fermer', en: 'close' }, '5']])],
+                    name: 'move', kind: 'statement', text: t('a4_barrier.blocks.move'),
+                    args: [dropdown('ACTION', [[t('a4_barrier.options.move_action.open'), '115'], [t('a4_barrier.options.move_action.close'), '5']])],
                     code: 'a4_barrier.servo({ACTION})'
                 },
                 {
-                    name: 'servo', kind: 'statement', text: { fr: 'fixer l’angle du servomoteur à {ANGLE}', en: 'set servo angle {ANGLE}' },
+                    name: 'servo', kind: 'statement', text: t('a4_barrier.blocks.servo'),
                     args: [number('ANGLE', 90)], code: 'a4_barrier.servo({ANGLE})'
                 },
-                { name: 'vehicle', kind: 'boolean', text: { fr: 'véhicule détecté', en: 'vehicle detected' }, code: 'a4_board.read_port(0) != 0' },
+                { name: 'vehicle', kind: 'boolean', text: t('a4_barrier.blocks.vehicle'), code: 'a4_board.read_port(0) != 0' },
                 {
-                    name: 'light_colour', kind: 'statement', text: { fr: 'allumer le feu en {C}', en: 'set signal light to {C}' },
+                    name: 'light_colour', kind: 'statement', text: t('a4_barrier.blocks.light_colour'),
                     args: [lightColour('C')], code: 'a4_barrier.set_light({C})'
                 },
                 {
-                    name: 'light_rgb', kind: 'statement', text: { fr: 'allumer le feu en rouge {R} vert {G} bleu {B}', en: 'set signal light red {R} green {G} blue {B}' },
+                    name: 'light_rgb', kind: 'statement', text: t('a4_barrier.blocks.light_rgb'),
                     args: RGB_ARGS, code: 'a4_barrier.set_light(({R}, {G}, {B}))'
                 },
-                { name: 'light_off', kind: 'statement', text: { fr: 'éteindre le feu', en: 'turn signal light off' }, code: 'a4_barrier.set_light((0, 0, 0))' }
+                { name: 'light_off', kind: 'statement', text: t('a4_barrier.blocks.light_off'), code: 'a4_barrier.set_light((0, 0, 0))' }
             ]
         },
         {
             id: 'a4_weight',
             name: 'Weight microSySTEM',
-            description: {
-                fr: 'Balance automatisée à jauge de contrainte avec clavier 4x4 et écran couleur, pour peser, compter ou tarifer des articles.',
-                en: 'Automated strain gauge scale with a 4x4 keypad and a colour screen, to weigh, count or price items.'
-            },
+            description: t('a4_weight.description'),
             image: 'a4_weight.jpg',
             logo: 'a4_logo.png',
             colour: '#F2B705',
+            tags: ['model', 'sensors', 'display'],
             blocks: [
-                { name: 'init', kind: 'statement', text: { fr: 'initialiser la balance', en: 'initialize scale' }, code: 'a4_weight.init()' },
-                { name: 'tare', kind: 'statement', text: { fr: 'effectuer la tare', en: 'tare scale' }, code: 'a4_weight.tare()' },
-                { name: 'mass', kind: 'number', text: { fr: 'masse (g)', en: 'mass (g)' }, code: 'a4_weight.mass()' },
-                { name: 'connected', kind: 'boolean', text: { fr: 'balance connectée', en: 'scale connected' }, code: 'a4_weight.connected()' },
-                { name: 'start_calibration', kind: 'statement', text: { fr: 'commencer l’étalonnage de la balance', en: 'start scale calibration' }, code: 'a4_weight.start_calibration()' },
+                { name: 'init', kind: 'statement', text: t('a4_weight.blocks.init'), code: 'a4_weight.init()' },
+                { name: 'tare', kind: 'statement', text: t('a4_weight.blocks.tare'), code: 'a4_weight.tare()' },
+                { name: 'mass', kind: 'number', text: t('a4_weight.blocks.mass'), code: 'a4_weight.mass()' },
+                { name: 'connected', kind: 'boolean', text: t('a4_weight.blocks.connected'), code: 'a4_weight.connected()' },
+                { name: 'start_calibration', kind: 'statement', text: t('a4_weight.blocks.start_calibration'), code: 'a4_weight.start_calibration()' },
                 {
-                    name: 'calibrate', kind: 'boolean', text: { fr: 'étalonner la balance avec une masse étalon de {MASS} g', en: 'calibrate scale with a reference mass of {MASS} g' },
+                    name: 'calibrate', kind: 'boolean', text: t('a4_weight.blocks.calibrate'),
                     args: [number('MASS', 100)], code: 'a4_weight.calibrate({MASS})'
                 },
-                { name: 'pressed_key', kind: 'text', text: { fr: 'touche appuyée du clavier', en: 'pressed keypad key' }, code: 'a4_weight.pressed_key()' },
-                { name: 'wait_key', kind: 'text', text: { fr: 'attendre l’appui sur une touche', en: 'wait for keypad key' }, code: 'a4_weight.wait_key()' },
+                { name: 'pressed_key', kind: 'text', text: t('a4_weight.blocks.pressed_key'), code: 'a4_weight.pressed_key()' },
+                { name: 'wait_key', kind: 'text', text: t('a4_weight.blocks.wait_key'), code: 'a4_weight.wait_key()' },
                 {
-                    name: 'key_is_pressed', kind: 'boolean', text: { fr: 'la touche {KEY} du clavier est appuyée', en: 'keypad key {KEY} is pressed' },
+                    name: 'key_is_pressed', kind: 'boolean', text: t('a4_weight.blocks.key_is_pressed'),
                     args: [dropdown('KEY', [...'123A456B789C*0#D'].map(key => [key, `'${key}'`]))], code: 'a4_weight.pressed_key() == {KEY}'
                 },
                 {
-                    name: 'set_factor', kind: 'statement', text: { fr: 'régler le facteur d’étalonnage à {VALUE}', en: 'set scale calibration factor to {VALUE}' },
+                    name: 'set_factor', kind: 'statement', text: t('a4_weight.blocks.set_factor'),
                     args: [number('VALUE', 2236)], code: 'a4_weight.factor = {VALUE}'
                 },
-                { name: 'factor', kind: 'number', text: { fr: 'facteur d’étalonnage de la balance', en: 'scale calibration factor' }, code: 'a4_weight.factor' },
+                { name: 'factor', kind: 'number', text: t('a4_weight.blocks.factor'), code: 'a4_weight.factor' },
                 {
-                    name: 'raw_average', kind: 'number', text: { fr: 'valeur brute moyenne sur {N} mesures', en: 'average raw scale value with {N} samples' },
+                    name: 'raw_average', kind: 'number', text: t('a4_weight.blocks.raw_average'),
                     args: [number('N', 10)], code: 'a4_weight.raw_average({N})'
                 },
                 ...screenBlocks(SCREEN_I2C_INIT)
@@ -219,44 +213,42 @@ const BLOCK_EXTENSIONS_CATALOG = (() => {
         {
             id: 'a4_shifumi',
             name: 'ShiFuMi microSySTEM',
-            description: {
-                fr: 'Jeu de pierre-feuille-ciseaux : un servomoteur fait tourner un disque rétroéclairé, un capteur à ultrasons détecte la main.',
-                en: 'Rock-paper-scissors game: a servo turns a backlit disc and an ultrasonic sensor detects the hand.'
-            },
+            description: t('a4_shifumi.description'),
             image: 'a4_shifumi.jpg',
             logo: 'a4_logo.png',
             colour: '#003CFF',
+            tags: ['model', 'games', 'sensors', 'actuators', 'lights'],
             blocks: [
                 {
-                    name: 'disc_angle', kind: 'statement', text: { fr: 'fixer l’angle du disque à {ANGLE} °', en: 'set disc servo angle to {ANGLE} °' },
+                    name: 'disc_angle', kind: 'statement', text: t('a4_shifumi.blocks.disc_angle'),
                     args: [number('ANGLE', 90)], code: 'a4_shifumi.servo({ANGLE})'
                 },
-                { name: 'distance', kind: 'number', text: { fr: 'distance ultrason (cm)', en: 'ultrasonic distance (cm)' }, code: 'a4_shifumi.distance()' },
+                { name: 'distance', kind: 'number', text: t('a4_shifumi.blocks.distance'), code: 'a4_shifumi.distance()' },
                 {
-                    name: 'hand_detected', kind: 'boolean', text: { fr: 'main détectée à moins de {D} cm', en: 'hand detected under {D} cm' },
+                    name: 'hand_detected', kind: 'boolean', text: t('a4_shifumi.blocks.hand_detected'),
                     args: [number('D', 12)], code: 'a4_shifumi.hand_detected({D})'
                 },
                 {
-                    name: 'backlight_brightness', kind: 'statement', text: { fr: 'régler la luminosité sous le disque à {B} %', en: 'set disc backlight brightness to {B} %' },
+                    name: 'backlight_brightness', kind: 'statement', text: t('a4_shifumi.blocks.backlight_brightness'),
                     args: [number('B', 30)], code: 'a4_shifumi.set_brightness({B})'
                 },
                 {
-                    name: 'backlight_colour', kind: 'statement', text: { fr: 'rétroéclairer le disque en {C}', en: 'set disc backlight to {C}' },
+                    name: 'backlight_colour', kind: 'statement', text: t('a4_shifumi.blocks.backlight_colour'),
                     args: [lightColour('C')], code: 'a4_shifumi.set_backlight({C})'
                 },
                 {
-                    name: 'backlight_rgb', kind: 'statement', text: { fr: 'rétroéclairer le disque en rouge {R} vert {G} bleu {B}', en: 'set disc backlight red {R} green {G} blue {B}' },
+                    name: 'backlight_rgb', kind: 'statement', text: t('a4_shifumi.blocks.backlight_rgb'),
                     args: RGB_ARGS, code: 'a4_shifumi.set_backlight(({R}, {G}, {B}))'
                 },
-                { name: 'backlight_off', kind: 'statement', text: { fr: 'éteindre le rétroéclairage du disque', en: 'turn disc backlight off' }, code: 'a4_shifumi.set_backlight((0, 0, 0))' },
-                { name: 'lcd_init', kind: 'statement', text: { fr: 'initialiser l’écran LCD', en: 'initialize LCD' }, code: 'a4_shifumi.lcd_init()' },
-                { name: 'lcd_clear', kind: 'statement', text: { fr: 'effacer l’écran LCD', en: 'clear LCD' }, code: 'a4_shifumi.lcd_clear()' },
+                { name: 'backlight_off', kind: 'statement', text: t('a4_shifumi.blocks.backlight_off'), code: 'a4_shifumi.set_backlight((0, 0, 0))' },
+                { name: 'lcd_init', kind: 'statement', text: t('a4_shifumi.blocks.lcd_init'), code: 'a4_shifumi.lcd_init()' },
+                { name: 'lcd_clear', kind: 'statement', text: t('a4_shifumi.blocks.lcd_clear'), code: 'a4_shifumi.lcd_clear()' },
                 {
-                    name: 'lcd_text', kind: 'statement', text: { fr: 'LCD afficher {TEXT} sur la ligne {LINE}', en: 'LCD show {TEXT} on line {LINE}' },
-                    args: [text('TEXT', 'PRÊT'), dropdown('LINE', ['1', '2'])], code: 'a4_shifumi.lcd_show({TEXT}, {LINE})'
+                    name: 'lcd_text', kind: 'statement', text: t('a4_shifumi.blocks.lcd_text'),
+                    args: [text('TEXT', t('a4_shifumi.defaults.lcd_text')), dropdown('LINE', ['1', '2'])], code: 'a4_shifumi.lcd_show({TEXT}, {LINE})'
                 },
                 {
-                    name: 'lcd_number', kind: 'statement', text: { fr: 'LCD afficher le nombre {VALUE} sur la ligne {LINE}', en: 'LCD show number {VALUE} on line {LINE}' },
+                    name: 'lcd_number', kind: 'statement', text: t('a4_shifumi.blocks.lcd_number'),
                     args: [number('VALUE', 0), dropdown('LINE', ['2', '1'])], code: 'a4_shifumi.lcd_show({VALUE}, {LINE})'
                 }
             ]
@@ -264,23 +256,153 @@ const BLOCK_EXTENSIONS_CATALOG = (() => {
         {
             id: 'a4_ai_vision',
             name: 'AI Vision microSySTEM',
-            description: {
-                fr: 'Support de caméra IA HuskyLens 2.0 avec écran couleur et LED RVB, pour reconnaître visages, objets, couleurs ou gestes.',
-                en: 'HuskyLens 2.0 AI camera mount with a colour screen and RGB LEDs, to recognize faces, objects, colours or gestures.'
-            },
+            description: t('a4_ai_vision.description'),
             image: 'a4_ai_vision.jpg',
             logo: 'a4_logo.png',
             colour: '#5B3FE8',
+            tags: ['model', 'ai', 'display', 'lights'],
             blocks: [
                 ...LED_BLOCKS,
-                ...screenBlocks({ name: 'screen_init', kind: 'statement', text: { fr: 'initialiser l’écran LCD', en: 'initialize the LCD screen' }, code: 'a4_screen.init_uart()' })
+                ...screenBlocks({ name: 'screen_init', kind: 'statement', text: t('a4_screen.blocks.screen_init_uart'), code: 'a4_screen.init_uart()' })
             ]
+        },
+        {
+            id: 'dfr0997',
+            name: t('dfr0997.name'),
+            description: t('dfr0997.description'),
+            image: 'dfr0997.jpg',
+            logo: 'dfrobot_logo.png',
+            colour: '#E8601C',
+            tags: ['display'],
+            blocks: (() => {
+                const colour = (name, value) => ({ name, type: 'colour', default: value });
+                const fill = dropdown('FILL', [[t('dfr0997.options.fill.filled'), '1'], [t('dfr0997.options.fill.not_filled'), '0']]);
+                const position = [number('X', 120), number('Y', 120)];
+                return [
+                    { name: 'clear', kind: 'statement', text: t('dfr0997.blocks.clear'), code: 'dfr0997.clear()' },
+                    {
+                        name: 'background', kind: 'statement', text: t('dfr0997.blocks.background'),
+                        args: [colour('C', '#000000')], code: 'dfr0997.background_color({C})'
+                    },
+                    {
+                        name: 'background_image', kind: 'statement', text: t('dfr0997.blocks.background_image'),
+                        args: [text('NAME', 'bg.png')], code: 'dfr0997.background_image({NAME})'
+                    },
+                    {
+                        name: 'rgb', kind: 'any', text: t('dfr0997.blocks.rgb'),
+                        args: RGB_ARGS, code: 'dfr0997.rgb({R}, {G}, {B})'
+                    },
+                    {
+                        name: 'text', kind: 'statement',
+                        text: t('dfr0997.blocks.text'),
+                        args: [text('TEXT', t('dfr0997.defaults.text')), number('ID', 1), number('X', 10), number('Y', 10),
+                            dropdown('SIZE', [[t('dfr0997.options.text_size.large'), '1'], [t('dfr0997.options.text_size.small'), '2']]), colour('C', '#ffffff')],
+                        code: 'dfr0997.text({TEXT}, {ID}, {X}, {Y}, {SIZE}, {C})'
+                    },
+                    {
+                        name: 'image', kind: 'statement', text: t('dfr0997.blocks.image'),
+                        args: [text('NAME', 'Cat.png'), number('ID', 1), ...position, number('ZOOM', 256)], code: 'dfr0997.image({ID}, {NAME}, {X}, {Y}, {ZOOM})'
+                    },
+                    {
+                        name: 'rotate_image', kind: 'statement', text: t('dfr0997.blocks.rotate_image'),
+                        args: [number('ID', 1), number('ANGLE', 180)], code: 'dfr0997.rotate_image({ID}, {ANGLE})'
+                    },
+                    {
+                        name: 'gif', kind: 'statement', text: t('dfr0997.blocks.gif'),
+                        args: [text('NAME', 'Cloudy.gif'), number('ID', 1), ...position, number('ZOOM', 256)], code: 'dfr0997.gif({ID}, {NAME}, {X}, {Y}, {ZOOM})'
+                    },
+                    {
+                        name: 'line', kind: 'statement',
+                        text: t('dfr0997.blocks.line'),
+                        args: [number('ID', 1), number('X1', 10), number('Y1', 10), number('X2', 200), number('Y2', 100), number('W', 2), colour('C', '#ffffff')],
+                        code: 'dfr0997.line({ID}, {X1}, {Y1}, {X2}, {Y2}, {W}, {C})'
+                    },
+                    {
+                        name: 'rect', kind: 'statement',
+                        text: t('dfr0997.blocks.rect'),
+                        args: [number('ID', 1), number('X', 20), number('Y', 20), number('WIDTH', 100), number('HEIGHT', 60), number('W', 2), colour('C', '#ffffff'), fill, colour('FC', '#ff0000'),
+                            dropdown('ROUND', [[t('dfr0997.options.rect_round.rounded'), '1'], [t('dfr0997.options.rect_round.square'), '0']])],
+                        code: 'dfr0997.rect({ID}, {X}, {Y}, {WIDTH}, {HEIGHT}, {W}, {C}, {FILL}, {FC}, {ROUND})'
+                    },
+                    {
+                        name: 'circle', kind: 'statement',
+                        text: t('dfr0997.blocks.circle'),
+                        args: [number('ID', 1), number('X', 160), number('Y', 120), number('R', 40), number('W', 2), colour('C', '#ffffff'), fill, colour('FC', '#ff0000')],
+                        code: 'dfr0997.circle({ID}, {X}, {Y}, {R}, {W}, {C}, {FILL}, {FC})'
+                    },
+                    {
+                        name: 'triangle', kind: 'statement',
+                        text: t('dfr0997.blocks.triangle'),
+                        args: [number('ID', 1), number('X1', 160), number('Y1', 40), number('X2', 100), number('Y2', 160), number('X3', 220), number('Y3', 160),
+                            number('W', 2), colour('C', '#ffffff'), fill, colour('FC', '#ff0000')],
+                        code: 'dfr0997.triangle({ID}, {X1}, {Y1}, {X2}, {Y2}, {X3}, {Y3}, {W}, {C}, {FILL}, {FC})'
+                    },
+                    {
+                        name: 'slider', kind: 'statement', text: t('dfr0997.blocks.slider'),
+                        args: [number('ID', 1), number('X', 20), number('Y', 120), number('WIDTH', 200), number('HEIGHT', 30), colour('C', '#0000ff')],
+                        code: 'dfr0997.slider({ID}, {X}, {Y}, {WIDTH}, {HEIGHT}, {C})'
+                    },
+                    {
+                        name: 'bar', kind: 'statement', text: t('dfr0997.blocks.bar'),
+                        args: [number('ID', 1), number('X', 20), number('Y', 20), number('WIDTH', 200), number('HEIGHT', 25), colour('C', '#0000ff')],
+                        code: 'dfr0997.bar({ID}, {X}, {Y}, {WIDTH}, {HEIGHT}, {C})'
+                    },
+                    {
+                        name: 'compass', kind: 'statement', text: t('dfr0997.blocks.compass'),
+                        args: [number('ID', 1), number('X', 80), number('Y', 40), number('D', 160)], code: 'dfr0997.compass({ID}, {X}, {Y}, {D})'
+                    },
+                    {
+                        name: 'gauge', kind: 'statement',
+                        text: t('dfr0997.blocks.gauge'),
+                        args: [number('ID', 1), number('X', 80), number('Y', 40), number('D', 160), number('MIN', 0), number('MAX', 100), colour('C', '#ff0000'), colour('BG', '#ffffff')],
+                        code: 'dfr0997.gauge({ID}, {X}, {Y}, {D}, {MIN}, {MAX}, {C}, {BG})'
+                    },
+                    {
+                        name: 'line_meter', kind: 'statement',
+                        text: t('dfr0997.blocks.line_meter'),
+                        args: [number('ID', 1), number('X', 80), number('Y', 40), number('SIZE', 160), number('MIN', 0), number('MAX', 100), colour('C', '#ff0000'), colour('BG', '#ffffff')],
+                        code: 'dfr0997.line_meter({ID}, {X}, {Y}, {SIZE}, {MIN}, {MAX}, {C}, {BG})'
+                    },
+                    {
+                        name: 'set_value', kind: 'statement', text: t('dfr0997.blocks.set_value'),
+                        args: [dropdown('KIND', [[t('dfr0997.options.set_value_kind.progress_bar'), '0x0B'], [t('dfr0997.options.set_value_kind.slider'), '0x0D'],
+                            [t('dfr0997.options.set_value_kind.compass'), '0x0F'], [t('dfr0997.options.set_value_kind.gauge'), '0x13'], [t('dfr0997.options.set_value_kind.line_meter'), '0x11']]),
+                        number('ID', 1), number('VALUE', 50)],
+                        code: 'dfr0997.set_value({KIND}, {ID}, {VALUE})'
+                    },
+                    {
+                        name: 'chart', kind: 'statement',
+                        text: t('dfr0997.blocks.chart'),
+                        args: [number('ID', 1), text('XAXIS', t('dfr0997.defaults.chart_x_axis')), text('YAXIS', '100 75 50 25 0'), colour('C', '#ffffff'),
+                            dropdown('STYLE', [[t('dfr0997.options.chart_style.line'), '3'], [t('dfr0997.options.chart_style.bars'), '2'], [t('dfr0997.options.chart_style.shaded_line'), '1']])],
+                        code: 'dfr0997.chart({ID}, {XAXIS}, {YAXIS}, {C}, {STYLE})'
+                    },
+                    {
+                        name: 'chart_series', kind: 'statement', text: t('dfr0997.blocks.chart_series'),
+                        args: [number('ID', 1), colour('C', '#ff0000')], code: 'dfr0997.chart_series({ID}, {C})'
+                    },
+                    {
+                        name: 'chart_point', kind: 'statement', text: t('dfr0997.blocks.chart_point'),
+                        args: [number('ID', 1), text('X', t('dfr0997.defaults.chart_point_x')), number('VALUE', 50)], code: 'dfr0997.chart_point({ID}, {X}, {VALUE})'
+                    },
+                    {
+                        name: 'remove', kind: 'statement', text: t('dfr0997.blocks.remove'),
+                        args: [dropdown('KIND', [[t('dfr0997.options.remove_kind.text'), '0x18'], [t('dfr0997.options.remove_kind.image'), '0x08'], ['GIF', '0x1F'],
+                            [t('dfr0997.options.remove_kind.line'), '0x03'], [t('dfr0997.options.remove_kind.rectangle'), '0x04'], [t('dfr0997.options.remove_kind.circle'), '0x06'],
+                            [t('dfr0997.options.remove_kind.triangle'), '0x07'], [t('dfr0997.options.remove_kind.slider'), '0x0C'], [t('dfr0997.options.remove_kind.progress_bar'), '0x0A'],
+                            [t('dfr0997.options.remove_kind.compass'), '0x0E'], [t('dfr0997.options.remove_kind.gauge'), '0x12'], [t('dfr0997.options.remove_kind.line_meter'), '0x10'],
+                            [t('dfr0997.options.remove_kind.chart'), '0x14']]),
+                        number('ID', 1)],
+                        code: 'dfr0997.remove({KIND}, {ID})'
+                    }
+                ];
+            })()
         }
     ];
-    // Each block imports the A4 modules used by its code.
+    // Each block imports the modules (A4, DFR0997) used by its code.
     for (const block of catalog.flatMap(ext => ext.blocks)) {
         block.args = block.args || [];
-        block.imports = [...new Set(block.code.match(/\ba4_\w+(?=\.)/g))].map(module => 'import ' + module).join('\n');
+        block.imports = [...new Set(block.code.match(/\b(?:a4_\w+|dfr0997)(?=\.)/g))].map(module => 'import ' + module).join('\n');
     }
     return catalog;
 })();

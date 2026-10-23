@@ -3,6 +3,7 @@ const InterfaceConnection = {
 
         _displayProgressBar: function () {
             document.querySelector('#progress-bar-arduino').style.width = '0%';
+            document.querySelector('#progress-bar-arduino').textContent = '0%';
             document.querySelector('#global-overlay').style.display = 'flex';
             document.querySelector('#progress-bar-container').style.display = 'flex';
         },
@@ -69,7 +70,11 @@ const InterfaceConnection = {
             await toggleSimulator();
         }
         InterfaceMonitor.setup();
-        await this.unoqUp.sendUnoQ();
+        try {
+            await this.unoqUp.sendUnoQ();
+        } finally {
+            this.progressBar._hideProgressBar();
+        }
     },
 
     onOpen: function () {

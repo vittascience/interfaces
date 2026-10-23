@@ -87,7 +87,7 @@ Blockly.Python.esp32.getProgrammingMode = function () {
           let block = blocks[j]
           while (true) {
             if (block.parentBlock_ !== null) {
-              if (block.getParent().type == 'scratch_forever' || block.getParent().type == 'forever') {
+              if (['scratch_forever', 'forever', 'procedures_defnoreturn', 'procedures_defreturn'].includes(block.getParent().type)) {
                 return { 'mode': mode, 'loop': true };
               } else if (block.getParent().type == 'scratch_on_start' || block.getParent().type == 'on_start') {
                 return { 'mode': mode, 'loop': false };

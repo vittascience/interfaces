@@ -15,7 +15,7 @@ Blockly.Msg['NIRYO_MOVE_JOINTS_VALUES_TOOLTIP'] = 'Permite controlar el ángulo 
 
 Blockly.Msg['NIRYO_SLEEP_POSE_TITLE'] = '[Niryo] Inicio';
 Blockly.Msg['NIRYO_SLEEP_POSE_TOOLTIP'] = 'Permite mover el robot Niryo Ned2 a su posición de reposo.';
-Blockly.Msg['NIRYO_POSE_TITLE'] = 'pose x%1 y%2 z%3 roll%4 pitch%5 yaw%6';
+Blockly.Msg['NIRYO_POSE_TITLE'] = 'posición x%1 y%2 z%3 alabeo%4 cabeceo%5 guiñada%6';
 Blockly.Msg['NIRYO_POSE_TOOLTIP'] = 'Permite mover el robot Niryo Ned2 a una posición dada.';
 Blockly.Msg['NIRYO_MOVE_POSE_TITLE'] = '[Niryo] %1 mover pose %2';
 Blockly.Msg['NIRYO_MOVE_POSE_TOOLTIP'] = 'Permite mover el robot Niryo Ned2 a una posición dada.';

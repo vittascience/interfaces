@@ -132,6 +132,11 @@
 			.then(match => this.reset().then(() => new Adb.WebUSB.Device(this, match)))
 			.then(adb => m.send_receive(adb)
 				.then((function do_auth_response(response) {
+					// After a page refresh, the board may still send packets of the previous page's streams: skip them
+					if (response.cmd != "AUTH" && response.cmd != "CNXN") {
+						console.warn("[WebADB] packet of a previous session ignored", response.cmd);
+						return Adb.Message.receive(adb).then(do_auth_response);
+					}
 					if (response.cmd != "AUTH" || response.arg0 != AUTH_TOKEN)
 						return response;
 
@@ -472,7 +477,9 @@
 		this.cancel = null;
 	};
 
-	let next_id = 1;
+	// Random start: after a page refresh the board may still send packets of the previous page's streams,
+	// they must not match the ids of the new streams
+	let next_id = 1 + Math.floor(Math.random() * 0x7fff0000);
 
 	Adb.Stream.open = function (device, service) {
 		let local_id = next_id++;
@@ -524,10 +531,12 @@
 		return Adb.Message.receive(this.device)
 			.then(response => {
 				// remote's prospective of local_id/remote_id is reversed
-				if (response.arg0 != 0 && response.arg0 != this.remote_id)
-					throw new Error("Incorrect arg0: 0x" + toHex32(response.arg0) + " (expected 0x" + toHex32(this.remote_id) + ")");
-				if (this.local_id != 0 && response.arg1 != this.local_id)
-					throw new Error("Incorrect arg1: 0x" + toHex32(response.arg1) + " (expected 0x" + toHex32(this.local_id) + ")");
+				// Packets of another stream (e.g. left open before a page refresh) are skipped
+				if ((response.arg0 != 0 && response.arg0 != this.remote_id) ||
+					(this.local_id != 0 && response.arg1 != this.local_id)) {
+					console.warn("[WebADB] packet of another stream ignored", response.cmd, toHex32(response.arg0), toHex32(response.arg1));
+					return this.receive();
+				}
 				return response;
 			});
 	};

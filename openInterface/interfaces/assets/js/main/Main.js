@@ -222,7 +222,12 @@ const Main = (function () {
         tryLocalize();
 
         Code.editor.container.on("change", function (event) {
-            if ((Main.hasCpp2Blocks() || Main.hasPython2Blocks()) && Code.isEditorLocked && Code.userConsentCodeToBlocks === null && Code.editor.container.isFocused()) {
+            const code2Blocks = Code.getCode2Blocks();
+            const manualEdit = code2Blocks !== null && Code.editor.container.isFocused();
+            if (manualEdit && !code2Blocks.initialized) {
+                // first manual edit: tree-sitter is loaded, then the consent / translation (Code.loadCode2Blocks)
+                Code.loadCode2Blocks(code2Blocks);
+            } else if (manualEdit && Code.isEditorLocked && Code.userConsentCodeToBlocks === null) {
                 Code.getUserConsentForTrad();
             }
             if (Code.editor.container.isFocused() && typeof projectManager !== 'undefined' && projectManager !== null && projectManager._isInitializing) {
@@ -248,7 +253,8 @@ const Main = (function () {
                 CodeManager.getSharedInstance().updateTextCode(code);
                 if (Main.getCodingMode() === MODE_MIXED && Code.editor.container.isFocused()) {
                     CodeManager.getSharedInstance().codeWasManuallyModified = true;
-                    Code.editor.convertCodeToBlocks();
+                    // before the loading of tree-sitter: translated once loaded (Code.loadCode2Blocks)
+                    if (code2Blocks && code2Blocks.initialized) Code.editor.convertCodeToBlocks();
                 }
             }
             if (typeof Simulator !== 'undefined') {
@@ -322,14 +328,21 @@ const Main = (function () {
             }
             Code.editor.updateCode();
         };
-        Code.editor.convertCodeToBlocks = function () {
-            if (Main.hasCpp2Blocks()) {
-                if (Cpp2Blocks !== "undefined" && Cpp2Blocks.initialized === true) {
-                    Cpp2Blocks.injectBlocks();
+        Code.editor.convertCodeToBlocks = async function () {
+            const code2Blocks = Code.getCode2Blocks();
+            if (code2Blocks) {
+                if (!code2Blocks.initialized) {
+                    try {
+                        await code2Blocks.initParser();
+                    } catch (error) {
+                        console.error('[code2blocks] tree-sitter not loaded', error);
+                        return;
+                    }
                 }
-            } else if (Main.hasPython2Blocks()) {
-                if (Python2Blocks !== "undefined" && Python2Blocks.initialized === true) {
-                    Python2Blocks.prepareInjection();
+                if (Main.hasCpp2Blocks()) {
+                    code2Blocks.injectBlocks();
+                } else {
+                    code2Blocks.prepareInjection();
                 }
             }
             if (typeof projectManager !== 'undefined' && projectManager) {
@@ -609,6 +622,28 @@ const Main = (function () {
     };
 
     /**
+     * Reverse translation (code -> blocks) of the interface, null if none.
+     */
+    Code.getCode2Blocks = function () {
+        if (Main.hasCpp2Blocks()) return window.Cpp2Blocks || null;
+        if (Main.hasPython2Blocks()) return window.Python2Blocks || null;
+        return null;
+    };
+
+    /**
+     * First manual edit of the code: load tree-sitter, then ask the consent (blocks without translation, known once
+     * loaded) or translate the code in mixed mode. One loading for the edits made meanwhile.
+     */
+    Code.loadCode2Blocks = function (code2Blocks) {
+        if (Code.code2BlocksLoading) return;
+        Code.code2BlocksLoading = code2Blocks.initParser().then(() => {
+            if (Code.isEditorLocked && Code.userConsentCodeToBlocks === null) return Code.getUserConsentForTrad();
+            if (Main.getCodingMode() === MODE_MIXED) Code.editor.convertCodeToBlocks();
+        }).catch((error) => console.error('[code2blocks] tree-sitter not loaded', error))
+            .finally(() => { Code.code2BlocksLoading = null; });
+    };
+
+    /**
      * lock or unlock the editor depending of the content or the workspace
      * @returns {void}
      * */
@@ -717,8 +752,8 @@ const Main = (function () {
     /**
      * Initialize Blockly. Called on page load.
      */
-    Code.init = function (interfaceName) {
-        return new Promise(function (resolve, reject) {
+    Code.init = async function (interfaceName) {
+        {
             // The toolbox XML specifies each category name using Blockly's messaging
             // format (eg. `<category name="%{BKY_CATLOGIC}">`).
             // These message keys need to be defined in `Blockly.Msg` in order to
@@ -797,7 +832,7 @@ const Main = (function () {
                     colour: '#ccc',
                     snap: true
                 },
-                media: _PATH + '/interfaces/assets/js/external/blockly/media/',
+                media: CDN_PATH + '/openInterface/interfaces/assets/js/external/blockly/media/',
                 rtl: isRtl,
                 renderer: renderer,
                 toolbox: toolbox_,
@@ -852,6 +887,9 @@ const Main = (function () {
             document.getElementById('content_blocks').style.visibility = 'visible';
             Code.workspace.setVisible(true);
             Main.resizeWorkSpace();
+            // empty workspace painted before the code manager, the project blocks and the editor (no code manager yet:
+            // nothing can read the project during this yield)
+            await yieldToMain();
             //init Code Manager
             switch (interfaceName) {
                 case "arduino":
@@ -906,6 +944,7 @@ const Main = (function () {
             Code.initEditor();
             //Listener that will render code for every change
             Code.workspace.addChangeListener(Code.renderContent);
+            Code.workspace.addChangeListener(Blockly.Constants.WARN_DUPLICATE_PINS);
 
             // init toolbox
             const toolboxMode = Blockly.Constants.getToolboxStyle();
@@ -914,6 +953,8 @@ const Main = (function () {
             } else {
                 Code.toolbox = new ToolboxManager(Code.workspace);
             }
+            // workspace, code manager, editor and toolbox manager ready: paint before filling the toolbox
+            await yieldToMain();
 
             Code.toolbox.setToolbox();
             switch (interfaceName) {
@@ -945,8 +986,8 @@ const Main = (function () {
             //Looks for the local storage for the theme value, if not found looks for the OS settings
             setAccessibility();
 
-            resolve("done");
-        });
+            return "done";
+        }
     };
 
     // Public section
@@ -975,7 +1016,6 @@ const Main = (function () {
 
             const workspaceToText = () => Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));
 
-            const beforeUndo = workspaceToText();
             workspace.undo(action);
             const afterUndo = workspaceToText();
 
@@ -983,58 +1023,52 @@ const Main = (function () {
                 workspace.undo(true);
                 return;
             }
-            // Native Blockly history should handle most cases (block mode/mixed mode).
-            if (beforeUndo !== afterUndo) {
-                return;
-            }
-
-            // Fallback for interfaces that keep an additional history while translating code to blocks.
-            if (Main.hasPython2Blocks() || Main.hasCpp2Blocks()) {
-                const codeToBlocks = Main.hasPython2Blocks() ? Python2Blocks : Cpp2Blocks;
-                if (typeof codeToBlocks !== "undefined" && codeToBlocks.initialized === true) {
-                    const maxIndex = codeToBlocks.previousXml.length;
-                    if (maxIndex === 0) {
-                        return;
-                    }
-
-                    if (action === false) { // Undo
-                        const newIndex = codeToBlocks.indexPreviousXml === null
-                            ? maxIndex - 2
-                            : Math.max(codeToBlocks.indexPreviousXml - 1, 0);
-
-                        if (newIndex < 0 || !codeToBlocks.previousXml[newIndex]) {
-                            return;
-                        }
-
-                        Blockly.Events.disable();
-                        try {
-                            workspace.clear();
-                            Blockly.Xml.domToWorkspace(codeToBlocks.previousXml[newIndex], workspace);
-                            codeToBlocks.indexPreviousXml = newIndex;
-                        } finally {
-                            Blockly.Events.enable();
-                        }
-                    } else { // Redo
-                        if (codeToBlocks.indexPreviousXml === null) {
-                            return;
-                        }
-
-                        const newIndex = Math.min(codeToBlocks.indexPreviousXml + 1, maxIndex - 1);
-                        if (newIndex === codeToBlocks.indexPreviousXml || !codeToBlocks.previousXml[newIndex]) {
-                            return;
-                        }
-
-                        Blockly.Events.disable();
-                        try {
-                            workspace.clear();
-                            Blockly.Xml.domToWorkspace(codeToBlocks.previousXml[newIndex], workspace);
-                            codeToBlocks.indexPreviousXml = newIndex;
-                        } finally {
-                            Blockly.Events.enable();
-                        }
-                    }
+        },
+        /**
+         * Get the blocks and the code before a translation of the code into blocks (see recordCodeToBlocks).
+         * @public
+         * @return {Object} state
+         */
+        getCodeToBlocksState: function () {
+            return { xml: Blockly.Xml.workspaceToDom(Code.workspace), code: CodeManager.getSharedInstance().getGeneratedCode() };
+        },
+        /**
+         * Record a translation of the code typed into blocks (done with the Blockly events disabled) as one step of the
+         * Blockly history: undo/redo then go through the changes of the blocks and of the code in their order, and
+         * restore the blocks and the code together. The translations while the editor keeps the focus are one step.
+         * @public
+         * @param {Object} before - state returned by getCodeToBlocksState before the translation
+         */
+        recordCodeToBlocks: function (before) {
+            const codeManager = CodeManager.getSharedInstance();
+            // Only the code typed by the user (not the loading of a project), not with several files (MultiCodeManager)
+            if (!Code.editor.container.isFocused() || typeof MultiCodeManager !== 'undefined' && codeManager instanceof MultiCodeManager) return;
+            const after = Main.getCodeToBlocksState();
+            if (before.code === after.code) return;
+            const restore = (state) => {
+                Blockly.Events.disable();
+                try {
+                    Code.workspace.clear();
+                    Blockly.Xml.domToWorkspace(state.xml, Code.workspace);
+                } finally {
+                    Blockly.Events.enable();
                 }
+                codeManager.setGeneratedCode(state.code);
+                codeManager.updateTextCode(state.code);
+                codeManager.setXml();
+                Code.editor.container.setValue(state.code, 1);
+                if (typeof projectManager !== 'undefined' && projectManager) projectManager._refreshProjectStatus();
+            };
+            const undoStack = Code.workspace.getUndoStack();
+            const step = Code.codeToBlocksStep;
+            if (step && undoStack[undoStack.length - 1] === step) {
+                step.after = after;
+            } else {
+                Code.codeToBlocksStep = { group: '', recordUndo: true, before, after, run(redo) { restore(redo ? this.after : this.before); } };
+                undoStack.push(Code.codeToBlocksStep);
+                Code.editor.container.once('blur', () => { Code.codeToBlocksStep = null; });
             }
+            Code.workspace.getRedoStack().length = 0;
         },
         /**
          * @public

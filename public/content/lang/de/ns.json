@@ -593,7 +593,7 @@
       "wb55": "WB55",
       "stm32": "STM32",
       "l476": "L476",
-      "TI-83": "TI-83 Premium CE Edition Python",
+      "TI-83": "TI-83 Python Edition-Taschenrechner",
       "galaxia": "Galaxia",
       "raspberrypi": "Raspberry Pi",
       "niryo": "Niryo ned2",
@@ -886,6 +886,22 @@
       "legalCommitmentNumber": "Rechtliche Verpflichtungsnummer",
       "siret": "SIRET-Nummer der Einrichtung",
       "serviceName": "Dienstname (optional)",
+      "subscriptionStart": "Gewünschtes Startdatum des Abonnements",
+      "subscriptionEnd": "Voraussichtliches Enddatum",
+      "durationMonth": "1 Monat",
+      "durationYear": "1 Jahr",
+      "durationThreeYears": "3 Jahre",
+      "garActivation": "Möchten Sie eine Aktivierung über den GAR?",
+      "whatIsGar": "Was ist der GAR?",
+      "garDefinition": "Der GAR (Gestionnaire d'accès aux ressources) ermöglicht Lehrkräften und Schülern den Zugang zu Vittascience über die digitale Arbeitsumgebung (ENT) der Schule, ohne ein Konto anzulegen.",
+      "uai": "UAI-Nummer der Schule",
+      "uaiHint": "7 Ziffern gefolgt von einem Buchstaben, z. B. 0751234A.",
+      "accountEmails": "E-Mail-Adresse(n) der zu aktivierenden Vittascience-Konten",
+      "accountEmailsHint": "Eine Adresse pro Zeile, höchstens {{max}} (eine pro Lizenz).",
+      "accountEmailsTooMany": "Zu viele Adressen: höchstens {{max}}.",
+      "accountEmailInvalid": "Ungültige E-Mail-Adresse:",
+      "quoteUpdateError": "Ihre Bestellung konnte nicht gespeichert werden: Die Aktualisierung des Angebots Nr. {{number}} ist fehlgeschlagen. Bitte versuchen Sie es in einigen Minuten erneut. Wenn das Problem weiterhin besteht, kontaktieren Sie uns:",
+      "licenceFieldsError": "Die Abonnementangaben sind unvollständig oder ungültig. Bitte überprüfen Sie das Startdatum, die UAI-Nummer oder die E-Mail-Adressen.",
       "confirmWithoutEdit1": "Ich bestätige, dass das Bestellformular genau dem Angebot Nr. ",
       "confirmWithoutEdit2": " auf der rechten Seite entspricht (gleiche Produkte, Beträge, Mengen) für einen Gesamtbetrag von ",
       "confirmWithEdit": "Das Bestellformular entspricht nicht dem Angebot auf der rechten Seite, es wurden Änderungen vorgenommen.",
@@ -1202,14 +1218,239 @@
   },
   "code": {
     "blockExtensions": {
-      "category": "Extensions",
-      "title": "Block extensions",
-      "note": "Add new blocks to program other robots, models or modules. The chosen extensions are saved with the project.",
-      "close": "Close",
-      "search": "Search for an extension",
-      "added": "Added",
-      "noResult": "No extension found.",
-      "confirmRemoveUsed": "{{count}} block(s) of this extension used in the program will be deleted. Continue?"
+      "category": "Erweiterungen",
+      "title": "Block-Erweiterungen",
+      "note": "Füge neue Blöcke hinzu, um andere Roboter, Modelle oder Module zu programmieren. Die ausgewählten Erweiterungen werden mit dem Projekt gespeichert.",
+      "close": "Schließen",
+      "search": "Nach Erweiterung suchen",
+      "added": "Hinzugefügt",
+      "noResult": "Keine Erweiterung gefunden.",
+      "confirmRemoveUsed": "Es werden {{count}} Block(e) dieser Erweiterung, die im Programm verwendet werden, gelöscht. Fortfahren?",
+      "manage": "Erweiterungen verwalten",
+      "filter": "Erweiterungen filtern",
+      "filters": {
+        "all": "Alle",
+        "model": "Lehrmodelle",
+        "robotics": "Robotik",
+        "display": "Anzeige",
+        "lights": "Beleuchtung",
+        "sensors": "Sensoren",
+        "actuators": "Aktoren",
+        "ai": "Künstliche Intelligenz",
+        "games": "Spiele",
+        "communication": "Kommunikation"
+      },
+      "catalog": {
+        "colours": {
+          "red": "rot",
+          "green": "grün",
+          "blue": "blau",
+          "yellow": "gelb",
+          "cyan": "cyan",
+          "magenta": "magenta",
+          "orange": "orange",
+          "purple": "violett",
+          "white": "weiß",
+          "off": "aus",
+          "black": "schwarz"
+        },
+        "a4_leds": {
+          "blocks": {
+            "battery": "Batteriestand (%)",
+            "leds_colour": "RGB0 auf {C0} und RGB1 auf {C1} setzen",
+            "leds_rgb": "RGB0 auf R {R0} G {G0} B {B0} und RGB1 auf R {R1} G {G1} B {B1} setzen",
+            "leds_brightness": "RGB-Helligkeit auf {B} (0-255) setzen",
+            "leds_off": "RGB-LEDs ausschalten"
+          }
+        },
+        "a4_screen": {
+          "blocks": {
+            "screen_clear": "Bildschirm vollständig löschen",
+            "screen_background": "Bildschirm-Hintergrundfarbe auf {C} setzen",
+            "screen_background_image": "Bildschirm-Hintergrundbild auf {NAME} setzen",
+            "screen_text": "Text {TEXT} anzeigen, ID {ID}, bei x {X} y {Y}, Größe {SIZE}, Farbe {C}",
+            "screen_image": "Bild anzeigen, ID {ID}, Name {NAME}, bei x {X} y {Y}, Größe {ZOOM}",
+            "screen_rotate": "Bild drehen, ID {ID}, Winkel {ANGLE}",
+            "screen_remove": "{KIND} mit ID {ID} vom Bildschirm entfernen",
+            "screen_init_i2c": "Bildschirm über I2C initialisieren",
+            "screen_init_uart": "LCD-Bildschirm initialisieren"
+          },
+          "options": {
+            "screen_text_size": {
+              "large": "groß",
+              "small": "klein"
+            },
+            "screen_remove_kind": {
+              "text": "Text",
+              "image": "Bild"
+            }
+          },
+          "defaults": {
+            "screen_text": "Hallo"
+          }
+        },
+        "a4_access": {
+          "description": "Zugangskontrolle: Ein kapazitives Tastenfeld entriegelt eine Tür mit Magnetschloss.",
+          "blocks": {
+            "lock": "Türschloss auf {STATE} setzen",
+            "door_is": "Tür ist {STATE}",
+            "wait_key": "Auf Taste des Tastenfelds warten",
+            "read_key": "Zuletzt gedrückte Taste des Tastenfelds",
+            "entered_code": "Eingegebener Code",
+            "code_is": "Eingegebener Code ist {CODE}",
+            "code_length": "Eingegebener Code hat {N} Stellen",
+            "clear_code": "Eingegebenen Code löschen",
+            "delete_last": "Letzte Codeziffer löschen"
+          },
+          "options": {
+            "lock_state": {
+              "locked": "verriegelt",
+              "unlocked": "entriegelt"
+            },
+            "door_is_state": {
+              "closed": "geschlossen",
+              "open": "offen"
+            }
+          }
+        },
+        "a4_parking": {
+          "description": "Beschränkte Parkstation: Ein Sensor erkennt Fahrzeuge und ein Farbdisplay zeigt die verbleibende Zeit an.",
+          "blocks": {
+            "vehicle": "Fahrzeug erkannt",
+            "time": "Zeit {H} h {M} min {S} s"
+          }
+        },
+        "a4_barrier": {
+          "description": "Park- oder Mautschranke mit Servomotor, RGB-Licht, Infrarotsensor und RFID-Leser.",
+          "blocks": {
+            "read_tag": "RFID-Tag lesen",
+            "move": "{ACTION} Schranke",
+            "servo": "Servowinkel auf {ANGLE} setzen",
+            "vehicle": "Fahrzeug erkannt",
+            "light_colour": "Signallicht auf {C} setzen",
+            "light_rgb": "Signallicht auf Rot {R} Grün {G} Blau {B} setzen",
+            "light_off": "Blinklicht ausschalten"
+          },
+          "options": {
+            "move_action": {
+              "open": "öffnen",
+              "close": "schließen"
+            }
+          }
+        },
+        "a4_weight": {
+          "description": "Waage mit Wägezelle, 4x4-Tastatur und Farbdisplay zum Wägen, Zählen oder Preisberechnen von Artikeln.",
+          "blocks": {
+            "init": "Waage initialisieren",
+            "tare": "Waage tarieren",
+            "mass": "Masse (g)",
+            "connected": "Waage verbunden",
+            "start_calibration": "Kalibrierung der Waage starten",
+            "calibrate": "Waage mit Referenzmasse von {MASS} g kalibrieren",
+            "pressed_key": "Gedrückte Taste der Tastatur",
+            "wait_key": "Auf Tastendruck warten",
+            "key_is_pressed": "Taste {KEY} der Tastatur ist gedrückt",
+            "set_factor": "Kalibrierungsfaktor der Waage auf {VALUE} setzen",
+            "factor": "Kalibrierungsfaktor der Waage",
+            "raw_average": "Rohwert der Waage mit {N} Messwerten mitteln"
+          }
+        },
+        "a4_shifumi": {
+          "description": "Schere-Stein-Papier-Spiel: Ein Servo dreht eine hintergrundbeleuchtete Scheibe und ein Ultraschallsensor erkennt die Hand.",
+          "blocks": {
+            "disc_angle": "Scheiben-Servo auf {ANGLE} ° setzen",
+            "distance": "Ultraschall-Abstand (cm)",
+            "hand_detected": "Hand unter {D} cm erkannt",
+            "backlight_brightness": "Hintergrundbeleuchtung der Scheibe auf {B} % setzen",
+            "backlight_colour": "Hintergrundbeleuchtung der Scheibe auf {C} setzen",
+            "backlight_rgb": "Hintergrundbeleuchtung der Scheibe rot {R} grün {G} blau {B} setzen",
+            "backlight_off": "Hintergrundbeleuchtung der Scheibe ausschalten",
+            "lcd_init": "LCD initialisieren",
+            "lcd_clear": "LCD löschen",
+            "lcd_text": "LCD zeigt {TEXT} in Zeile {LINE}",
+            "lcd_number": "LCD zeigt Zahl {VALUE} in Zeile {LINE}"
+          },
+          "defaults": {
+            "lcd_text": "BEREIT"
+          }
+        },
+        "a4_ai_vision": {
+          "description": "HuskyLens 2.0 KI-Kameramodul mit Farbdisplay und RGB-LEDs zur Erkennung von Gesichtern, Objekten, Farben oder Gesten."
+        },
+        "dfr0997": {
+          "name": "DFR0997 Farbdisplay",
+          "description": "DFRobot 2.8\" I2C Farb-LCD: Anzeigen von Texten, Formen, Bildern und GIFs vom USB-Stick, Messinstrumente, Kompass und Diagramme.",
+          "options": {
+            "fill": {
+              "filled": "gefüllt",
+              "not_filled": "nicht gefüllt"
+            },
+            "text_size": {
+              "large": "groß",
+              "small": "klein"
+            },
+            "rect_round": {
+              "rounded": "abgerundet",
+              "square": "eckig"
+            },
+            "set_value_kind": {
+              "progress_bar": "Fortschrittsbalken",
+              "slider": "Schieberegler",
+              "compass": "Kompass (°)",
+              "gauge": "Anzeige",
+              "line_meter": "Linienanzeige"
+            },
+            "chart_style": {
+              "line": "Linie",
+              "bars": "Säulen",
+              "shaded_line": "schattierte Linie"
+            },
+            "remove_kind": {
+              "text": "Text",
+              "image": "Bild",
+              "line": "Linie",
+              "rectangle": "Rechteck",
+              "circle": "Kreis",
+              "triangle": "Dreieck",
+              "slider": "Schieberegler",
+              "progress_bar": "Fortschrittsbalken",
+              "compass": "Kompass",
+              "gauge": "Anzeige",
+              "line_meter": "Linienanzeige",
+              "chart": "Diagramm"
+            }
+          },
+          "blocks": {
+            "clear": "Bildschirm komplett löschen",
+            "background": "Bildschirm-Hintergrundfarbe {C}",
+            "background_image": "Bildschirm-Hintergrundbild {NAME}",
+            "rgb": "Farbe rot {R} grün {G} blau {B}",
+            "text": "Bildschirm zeigt Text {TEXT} id {ID} x {X} y {Y} Größe {SIZE} Farbe {C}",
+            "image": "Bildschirm zeigt Bild {NAME} id {ID} x {X} y {Y} Größe {ZOOM}",
+            "rotate_image": "Bildschirm dreht Bild id {ID} auf {ANGLE} °",
+            "gif": "Bildschirm zeigt GIF {NAME} id {ID} x {X} y {Y} Größe {ZOOM}",
+            "line": "Bildschirm Linie id {ID} von x {X1} y {Y1} bis x {X2} y {Y2} Breite {W} Farbe {C}",
+            "rect": "Bildschirm Rechteck id {ID} x {X} y {Y} Breite {WIDTH} Höhe {HEIGHT} Rand {W} {C} {FILL} {FC} Ecken {ROUND}",
+            "circle": "Bildschirm Kreis id {ID} Mittelpunkt x {X} y {Y} Radius {R} Rand {W} {C} {FILL} {FC}",
+            "triangle": "Bildschirm Dreieck id {ID} x1 {X1} y1 {Y1} x2 {X2} y2 {Y2} x3 {X3} y3 {Y3} Rand {W} {C} {FILL} {FC}",
+            "slider": "Bildschirm Schieberegler id {ID} x {X} y {Y} Breite {WIDTH} Höhe {HEIGHT} Farbe {C}",
+            "bar": "Bildschirm Fortschrittsbalken id {ID} x {X} y {Y} Breite {WIDTH} Höhe {HEIGHT} Farbe {C}",
+            "compass": "Bildschirm Kompass id {ID} x {X} y {Y} Durchmesser {D}",
+            "gauge": "Bildschirm Anzeige id {ID} x {X} y {Y} Durchmesser {D} von {MIN} bis {MAX} Nadel {C} Hintergrund {BG}",
+            "line_meter": "Bildschirm Linienanzeige id {ID} x {X} y {Y} Größe {SIZE} von {MIN} bis {MAX} Nadel {C} Hintergrund {BG}",
+            "set_value": "Bildschirm setze {KIND} mit ID {ID} auf {VALUE}",
+            "chart": "Bildschirm Diagramm ID {ID} X-Achse {XAXIS} Y-Achse {YAXIS} Hintergrund {C} Stil {STYLE}",
+            "chart_series": "Diagramm füge Datenreihe mit ID {ID} Farbe {C} hinzu",
+            "chart_point": "Setze in Datenreihe {ID} {X} auf {VALUE}",
+            "remove": "Bildschirm entferne {KIND} mit ID {ID}"
+          },
+          "defaults": {
+            "text": "Hallo",
+            "chart_x_axis": "Mo Di Mi Do Fr",
+            "chart_point_x": "Mo"
+          }
+        }
+      }
     },
     "tooltip": {
       "anonymousAuthor": "Anonym",
@@ -1411,7 +1652,7 @@
       "chromeInstall": {
         "name": "Chrome",
         "notice": "Unten finden Sie den Link zur Chrome App Thingz. Klicken Sie auf \"Zu Chrome hinzufügen\" und kehren Sie dann zur Vittascience-Oberfläche zurück:",
-        "install": "<i class=\"fas fa-circle\"></i> Chrome App Thingz",
+        "install": "<i class=\"fas fa-circle\"></i> Thingz Chrome App",
         "presentation": "Die Chrome App Thingz ermöglicht die Kommunikation mit Arduino Uno Karten über Chromium- und Chrome-Browser.<br/><b>Diese Lösung wird empfohlen, da keine Softwareinstallation und somit keine Administratorrechte erforderlich sind.</b> ",
         "linuxUsers": "<b>Hinweis für Linux-Nutzer:</b> Bei Problemen mit dem Plugin besuchen Sie bitte <a href=\"https://slite.com/api/s/note/WaDtH3cUZsfyMtiFdxeBNB/Preparation-Ubuntu-pour-Thingz\">diese Hilfeseite</a>."
       },
@@ -1425,7 +1666,7 @@
       "macOSInstall": {
         "name": "macOS",
         "notice": "Unten finden Sie den Download-Link für das macOS-Plugin:",
-        "install": "<i class=\"fas fa-circle\"></i> Installer",
+        "install": "<i class=\"fas fa-circle\"></i> Installationsprogramm",
         "advice": "Wir empfehlen, <a href=\"#\" onclick=\"$('#macos-tutorial').fadeIn('fast');\">dieses Tutorial</a> zur Installation zu nutzen.",
         "presentation": "Das macOS-Plugin benötigt Administrator- und Netzwerkrechte."
       },
@@ -1515,6 +1756,7 @@
         "toolboxRestriction": "Verfügbare Blöcke einschränken",
         "consoleSettings": "Allgemeine Einstellungen",
         "accessibility": "Thema und Schriftart einstellen",
+        "shortcuts": "Tastenkombinationen anzeigen",
         "addBlockSettings": "Block hinzufügen",
         "fullscreen": "Vollbild anzeigen",
         "help": "Hilfe",
@@ -1534,6 +1776,7 @@
         "beginnerMode": "Anfängermodus",
         "advancedMode": "Fortgeschrittener Modus",
         "lastSaveOn": "Letzte Speicherung am ",
+        "lastSaveFailed": "Das letzte Speichern ist fehlgeschlagen: Deine Änderungen sind nicht gespeichert. Klicke, um es erneut zu versuchen.",
         "description": "Beschreibung:",
         "repl": "Drücke Enter ↩️, um den Befehl auszuführen",
         "runningCode": "Code wird ausgeführt... Bitte warten.",
@@ -1579,14 +1822,15 @@
         "downloadTexas": "Für Taschenrechner herunterladen",
         "downloadThymioWindows": ".exe herunterladen",
         "downloadThymioMacOS": ".dmg herunterladen",
-        "downloadNiryoWindows": "Companion App .exe",
-        "downloadNiryoMacOS": "Companion App .dmg",
+        "downloadNiryoWindows": "Companion App.exe",
+        "downloadNiryoMacOS": "Companion App.dmg",
         "downloadNiryoLinux": "Companion App .deb",
         "runBuddy": "Programm auf Buddy starten",
         "disconnect": "Trennen",
         "connectBoard": "Verbinden",
         "settings": "Einstellungen",
         "themes": "Barrierefreiheit",
+        "shortcuts": "Tastenkombinationen",
         "add": "Block hinzufügen",
         "fullscreen": "Vollbild",
         "help": "Hilfe",
@@ -1772,8 +2016,8 @@
           "toggleBoardDisplay": "Simulator-Board anzeigen/verbergen",
           "switchWiringMode": "Zum Verdrahtungsmodus wechseln",
           "switchMosaicMode": "Zum Mosaikmodus wechseln",
-          "wiringZoomIn": "Zoom in",
-          "wiringZoomOut": "Zoom out"
+          "wiringZoomIn": "Hineinzoomen",
+          "wiringZoomOut": "Herauszoomen"
         },
         "robot": {
           "background": "Hintergrund",
@@ -1825,7 +2069,8 @@
         "sentData": "Gesendete Daten:",
         "crash": "Absturzschutz aktiviert: Dies passiert, wenn Ihr Code eine Endlosschleife ohne sleep()-Aufruf enthält. Bitte korrigieren Sie den Code und versuchen Sie es erneut.",
         "variables-panel-msg": "Dieses Programm enthält keine Variablen",
-        "replaySimulator": "Simulator neu starten, um Daten zu senden"
+        "replaySimulator": "Simulator neu starten, um Daten zu senden",
+        "skulptLoadError": "Der Simulator konnte nicht geladen werden. Überprüfe deine Verbindung und starte den Simulator erneut."
       },
       "tooltips": {
         "bluebot-buttons": "Sie können die Tasten des Blue-bot-Roboters zum Programmieren verwenden!"
@@ -1880,6 +2125,7 @@
         "dht22-hum": "DHT22 - Luftfeuchtigkeit",
         "ds18x20": "DS18X20 - Temperatur",
         "mlx90621": "MLX90621 - Temperatur",
+        "bn880": "BN-880 - magnetische Richtung",
         "dustSensor": "Staubsensor",
         "groveRain": "Regensensor",
         "rainGauge": "Regenmesser",
@@ -1946,9 +2192,9 @@
       "mixed-popup-leave-editor": "Um den Code-Editor mit der Tastatur zu verlassen, drücken Sie gleichzeitig <kbd>Feststelltaste</kbd> und <kbd>Esc</kbd>.",
       "mixed-popup-readonly": "<i class='fa-solid fa-lock'></i> Im Mischmodus ist der Code-Editor für diese Oberfläche <strong>nur lesbar</strong>. Du kannst nur mit Blöcken bearbeiten.",
       "mixed-popup-readonly-sr": "Im Mischmodus ist der Code für diese Oberfläche nur lesbar",
-      "mixed-small-screen": "On a small screen, the hybrid mode is not very practical: we recommend switching to the blocks or code mode.",
-      "mixed-small-screen-stay": "Stay in hybrid mode",
-      "mixed-small-screen-close": "Close",
+      "mixed-small-screen": "Auf einem kleinen Bildschirm ist der Hybridmodus wenig praktisch. Wir empfehlen, in den Block- oder Code-Modus zu wechseln.",
+      "mixed-small-screen-stay": "Im Hybridmodus bleiben",
+      "mixed-small-screen-close": "Schließen",
       "saveWarning": {
         "title": "<span class=\"fa fa-exclamation-circle\"></span> Warnung!",
         "warn": "<span class=\"fa fa-save\"></span> Möchten Sie Ihre Arbeit speichern, bevor Sie fortfahren?<p class=\"mb-0 mt-0 hint\">Wenn Sie ein neues Projekt erstellen, ohne vorher zu speichern, geht Ihre aktuelle Arbeit verloren...</p>",
@@ -3055,7 +3301,7 @@
         "mobilenet": {
           "preview-title": "<b>Vorschau</b> <br> preview",
           "instruction-title": "<b>Anleitung</b> <br> instruction",
-          "instructions": "<b>Platzieren Sie ein Objekt auf dem Tisch im vorgesehenen Bereich, damit es von der Kamera erkannt wird.<br> Beobachten Sie auf dem Bildschirm das Ergebnis der Vorhersage durch die künstliche Intelligenz. </b><br><br> Place an object on the table in the designated area to be detected by the camera.<br> Observe on screen the prediction result from the artificial intelligence.",
+          "instructions": "<b>Platzieren Sie ein Objekt auf dem Tisch im dafür vorgesehenen Bereich, damit die Kamera es erkennt.<br>Beobachten Sie auf dem Bildschirm das Ergebnis der Vorhersage durch die künstliche Intelligenz. </b><br><br>Platzieren Sie ein Objekt auf dem Tisch im markierten Bereich, damit es von der Kamera erkannt wird.<br>Beobachten Sie auf dem Bildschirm das Vorhersageergebnis der künstlichen Intelligenz.",
           "results": "<b>Ergebnisse</b><br>results",
           "explaining-head": "<b>Der angezeigte Prozentsatz zeigt die von der künstlichen Intelligenz erkannte Kategorie an<b>",
           "explaining-body": "Der angezeigte Prozentsatz zeigt die von der künstlichen Intelligenz erkannte Kategorie an."
@@ -3108,56 +3354,56 @@
             "initialFiles": "Dateien werden kopiert...",
             "keras": "Wandle in Keras-Modell um...",
             "tfLite": "Wandle in tfLite-Modell um...",
-            "cFiles": "Compilation des fichiers C...",
-            "elfBinFiles": "Compilation des fichiers finaux..."
+            "cFiles": "Kompiliere C-Dateien...",
+            "elfBinFiles": "Kompiliere die finalen Dateien..."
           }
         }
       },
-      "dragDropModelFiles": "Téléverser vos fichiers ici (glisser/déposer ou bien cliquer)",
+      "dragDropModelFiles": "Laden Sie Ihre Dateien hier hoch (per Ziehen & Ablegen oder Klick)",
       "aiImageGuide": {
         "step-0": {
-          "title": "Créer des catégories de données",
-          "description": "Pour qu’un modèle apprenne à catégoriser une information, il faut au minimum 2 catégories. <b> En cliquant sur le crayon, nommer une première catégorie (ex : Recyclage)</b> et appuyer en dehors du clavier."
+          "title": "Datenkategorien erstellen",
+          "description": "Damit ein Modell das Einordnen lernt, sind mindestens zwei Kategorien nötig. <b>Klicken Sie auf das Stiftsymbol und benennen Sie die erste Kategorie (z. B. Recycling),</b> und tippen Sie außerhalb der Tastatur</b>"
         },
         "step-1": {
-          "title": "Créer des catégories de données",
-          "description": "Afin de comparer différentes données, nous allons ajouter une deuxième catégorie de données. <br> <b>Cliquer sur le bouton « Ajouter une catégorie ».</b>"
+          "title": "Datenkategorien erstellen",
+          "description": "Um Daten zu vergleichen, fügen wir eine zweite Kategorie hinzu. <br> <b>Klicken Sie auf die Schaltfläche 'Kategorie hinzufügen'.</b>"
         },
         "step-2": {
-          "title": "Créer des catégories de données",
-          "description": "<b>Nommer une deuxième catégorie en cliquant sur le crayon (ex : Ordures)</b> et appuyer en dehors du clavier."
+          "title": "Datenkategorien erstellen",
+          "description": "<b>Nennen Sie eine zweite Kategorie, indem Sie auf das Stift-Symbol klicken<br>(z. B. Müll),</b> und tippen Sie außerhalb der Tastatur."
         },
         "step-3": {
-          "title": "Ajouter des jeux de données au modèle",
-          "description": "Pour ajouter des données, <b>cliquer sur l’icône de la caméra </b><button class='btn v-btn-ai' style='display: inline-block'><img src='/ia/assets/images/icon-video.svg' alt='Camera pictogram'></button> <b> de la première catégorie </b>"
+          "title": "Datensätze zum Modell hinzufügen",
+          "description": "Um Daten hinzuzufügen, <b>klicken Sie auf das Kamerasymbol <button class='btn v-btn-ai' style='display: inline-block'><img src='/ia/assets/images/icon-video.svg' alt='Kamera-Piktogramm'></button> der ersten Kategorie.</b>"
         },
         "step-4": {
-          "title": "Ajouter des jeux de données au modèle",
-          "description": "Placer un objet dans la zone visible par la caméra, puis <b>cliquer sur le bouton « Prendre une photo »</b> pour capturer entre 10 et 15 photographies différentes de l’objet."
+          "title": "Datensätze zum Modell hinzufügen",
+          "description": "Platzieren Sie ein Objekt im sichtbaren Bereich der Kamera, dann <b>klicken Sie auf die ‘Foto aufnehmen’-Schaltfläche</b>, um 10 bis 15 verschiedene Fotos des Objekts aufzunehmen."
         },
         "step-5": {
-          "title": "Ajouter plus de données au modèle",
-          "description": "Ajouter des données pour la 2<sup>e</sup> catégorie, <b>cliquer sur l’icône caméra </b><button class='btn v-btn-ai' style='display: inline-block'><img src='/ia/assets/images/icon-video.svg' alt='Camera pictogram'></button> "
+          "title": "Weitere Daten zum Modell hinzufügen",
+          "description": "Fügen Sie Daten für die zweite Kategorie hinzu, <b>klicken Sie auf das Kamerasymbol</b><button class='btn v-btn-ai' style='display: inline-block'><img src='/ia/assets/images/icon-video.svg' alt='Kamera-Piktogramm'></button> "
         },
         "step-6": {
-          "title": "Ajouter plus de données au modèle",
-          "description": "Placer un objet dans la zone visible par la caméra, puis <b>cliquer sur le bouton « Prendre une photo » </b> pour capturer entre 10 et 15 photographies différentes de l’objet."
+          "title": "Weitere Daten zum Modell hinzufügen",
+          "description": "Platzieren Sie ein Objekt im sichtbaren Bereich der Kamera, dann <b>klicken Sie auf die ‘Foto aufnehmen’-Schaltfläche</b>, um 10 bis 15 verschiedene Fotos des Objekts aufzunehmen."
         },
         "step-7": {
-          "title": "Entrainer le modèle",
-          "description": "Bravo ! Votre modèle contient suffisamment de données pour qu’il puisse faire des prédictions.<br> <b>Cliquer sur le bouton « Entrainer le modèle »</b>."
+          "title": "Modell trainieren",
+          "description": "Glückwunsch! Ihr Modell enthält genug Daten, um Vorhersagen zu treffen. <b>Klicken Sie auf die Schaltfläche 'Modell trainieren'.</b>"
         },
         "step-8": {
-          "title": "Vérifier l’efficacité du modèle !",
-          "description": "<b>Placer un nouvel objet </b> dans la zone visible par la caméra et observer le pourcentage de prédiction. Plus le pourcentage est élevé plus le modèle est précis."
+          "title": "Modellleistung prüfen",
+          "description": "<b>Platzieren Sie ein neues Objekt</b> im Sichtfeld der Kamera und beobachten Sie den Vorhersageprozentsatz. Je höher der Prozentsatz, desto genauer ist das Modell."
         },
         "step-9": {
-          "title": "Activer les zones d’influence",
-          "description": "<b>Cliquer sur le bouton 'Zones d’influence’ </b> et montrer à nouveau des objets à la caméra. Les zones de l’image en surbrillance correspondent à celles qui sont les plus déterminantes dans les prédictions de l’IA."
+          "title": "Einflussbereiche aktivieren",
+          "description": "<b>Klicken Sie auf die ‘Einflussbereiche’-Schaltfläche</b> und zeigen Sie der Kamera erneut Objekte. Die hervorgehobenen Bereiche im Bild entsprechen denjenigen, die für die Vorhersagen der KI am wichtigsten sind. "
         },
         "slippingElement": {
-          "title": "Vous êtes toujours là ?",
-          "description": "Si ce n’est pas le cas, nous clôturerons cette session dans {{time}} "
+          "title": "Sind Sie noch da?",
+          "description": "Falls nicht, läuft Ihre Sitzung in {{time}} s ab."
         },
         "step": "étape"
       }
@@ -3166,7 +3412,7 @@
       "settings": {
         "dailyQuota": "Tageskontingent",
         "quotaRemaining": "Verbleibend",
-        "dailyQuotaTooltip": "{{used}} credits used / {{remaining}} credits remaining",
+        "dailyQuotaTooltip": "{{used}} Credits verwendet / {{remaining}} Credits verbleibend",
         "random": "Zufällig",
         "aiDialog": "Die KI",
         "footballMatch": "Fußballspiel",
@@ -3270,112 +3516,112 @@
       "quickPrompts": {
         "length": 91,
         "text": [
-          "🌌 Pourquoi la Voie lactée porte-t-elle ce nom ?",
-          "🐬 Comment les dauphins communiquent-ils entre eux ?",
-          "🌍 Qu'est-ce qui provoque les saisons ?",
-          "🌋 Comment se forme un volcan ?",
-          "🌧️ Pourquoi le ciel est-il bleu le jour et rouge au coucher du soleil ?",
-          "🦖 Pourquoi les dinosaures ont disparu ?",
-          "🌒 Pourquoi voit-on toujours la même face de la Lune ?",
-          "💡 Comment l'électricité est-elle produite ?",
-          "🎨 Pourquoi le ciel est-il bleu ?",
-          "🚀 Comment fonctionne une fusée ?",
-          "🧲 Comment fonctionne un aimant ?",
-          "🍫 Comment le chocolat est-il fabriqué ?",
-          "🌳 Pourquoi les feuilles changent-elles de couleur en automne ?",
-          "🍃 Quels sont les besoins des plantes pour grandir ?",
-          "🐝 Comment les abeilles font-elles du miel ?",
-          "🏰 Quelle était la vie dans un château médiéval ?",
-          "📱 Comment fonctionne un téléphone portable ?",
-          "🌐 Qu'est-ce qu'Internet et comment a-t-il été créé ?",
-          "🎵 Comment la musique affecte-t-elle notre humeur ?",
-          "🌬️ Qu'est-ce que le vent et comment se forme-t-il ?",
-          "💧 Pourquoi l'eau est-elle si importante pour la vie ?",
-          "🍽️ Comment un cuisinier peut-il changer la saveur des aliments ?",
-          "🏞️ Pourquoi y a-t-il des saisons ?",
-          "🕊️ Comment les pigeons retrouvent-ils leur chemin ?",
-          "🐘 Pourquoi les éléphants ont-ils une mémoire si développée ?",
-          "🔭 Qu'est-ce que les trous noirs ?",
-          "📚 Pourquoi la lecture est-elle importante ?",
-          "🌲 Comment les arbres communiquent-ils ?",
-          "🌐 Pourquoi les fuseaux horaires existent-ils ?",
-          "🐌 Pourquoi les escargots sont-ils lents ?",
-          "🦋 Comment une chenille devient-elle un papillon ?",
-          "🐳 Pourquoi les baleines chantent-elles ?",
-          "🌞 Comment le Soleil produit-il de l'énergie ?",
-          "🍂 Pourquoi les feuilles tombent-elles en automne ?",
-          "🌵 Comment les plantes du désert survivent-elles avec si peu d'eau ?",
-          "🎒 Quelle est l'origine de l'école ?",
-          "🎮 Comment sont créés les jeux vidéo ?",
-          "🎲 Pourquoi aime-t-on jouer ?",
-          "🚆 Comment fonctionne un train à grande vitesse ?",
-          "💻 Comment fonctionne un ordinateur ?",
-          "🌔 Pourquoi les marées existent-elles ?",
-          "🦈 Pourquoi les requins attaquent-ils ?",
-          "🎥 Comment fonctionne une caméra ?",
-          "📷 Pourquoi les photos peuvent-elles capturer des moments ?",
-          "🎨 Comment les couleurs affectent-elles nos émotions ?",
-          "🐕 Comment les chiens perçoivent-ils le monde ?",
-          "🐈 Pourquoi les chats ronronnent-ils ?",
-          "🦜 Pourquoi les perroquets peuvent-ils parler ?",
-          "🌿 Comment les médicaments sont-ils créer ?",
-          "📖 Pourquoi les histoires sont-elles importantes pour nous ?",
-          "🧭 Quel pays est le moins visité ?",
-          "🌮 Quelle est la meilleure recette de tacos ?",
-          "🎬 Qui a remporté le plus d'Oscars de tous les temps ?",
-          "🍪 Comment préparer le cookie parfait ?",
-          "🪐 Quelle est la plus grande planète du système solaire ?",
-          "⏰ Quelles sont les alternatives à un réveil ?",
-          "🦢 Quel est le rôle des cygnes dans les contes de fées et la mythologie ?",
-          "🦉 Pourquoi les chouettes sont-elles associées à la sagesse ?",
-          "🐦 Pourquoi les oiseaux chantent-ils le matin ?",
-          "🍝 Quelle est la signification de 'al dente' ?",
-          "🐄 Quel est l'impact de l’élevage des vaches sur l'environnement ?",
-          "🚴‍♀️ Comment choisir un vélo de piste ?",
-          "🪖 Les casques militaires sont-ils efficaces ?",
-          "⏳ Le vieillissement peut-il être inversé ?",
-          "🍌 Comment conserver les bananes ?",
-          "🐦 Pourquoi les chauves-souris vivent la nuit ?",
-          "🎨 Quelle est la biographie de Picasso ?",
-          "🎮 Quelles sont les meilleures consoles de 2023 ?",
-          "🎮 Quelles étaient les meilleures consoles de 1995 ?",
-          "🎂 Comment le gâteau d’anniversaire a-t-il été inventé ?",
-          "🦋 Quelle est la durée de vie d'un papillon ?",
-          "🦑 Qu'est-ce que le gigantisme des grands fonds ?",
-          "🌙 Pourquoi l'aspect de la Lune dans le ciel est différent chaque jour ?",
-          "🍓 Les fraises sont-elles des fruits ?",
-          "🚿 Quelle est l'importance du petit-déjeuner ?",
-          "🪒 À quelle fréquence changer de rasoir ?",
-          "🍣 Quelle est la recette des sushis ?",
-          "🦔 Pourquoi les hérissons se roulent-ils en boule ?",
-          "🍕 Quelle est l’origine de la pizza ?",
-          "🏟️ Quel est le plus grand spectacle de la mi-temps du Super Bowl ?",
-          "🦓 Pourquoi les zèbres ont-ils des rayures ?",
-          "🦅 Quel est l'oiseau le plus dangereux du monde ?",
-          "🦴 Comment fonctionne une radiographie ?",
-          "🤗 Les câlins peuvent-ils soulager la douleur ?",
-          "🪗 Les accordéons sont-ils français ?",
-          "🍞 Comment faire du pain maison ?",
-          "🍉 Quand cueillir une pastèque?",
-          "🌺 Quelles sont les fleurs les plus rares dans le monde ?",
-          "🪢 Comment faire un nœud récifal ?",
-          "🍌 Comment réutiliser la peau d’une banane ?",
-          "🍳 Pourquoi est-il important de prendre un petit déjeuner le matin ?",
-          "👨 Y a-t-il encore des hommes préhistoriques ?"
+          "🌌 Warum heißt die Milchstraße so?",
+          "🐬 Wie kommunizieren Delfine miteinander?",
+          "🌍 Was verursacht die Jahreszeiten?",
+          "🌋 Wie entsteht ein Vulkan?",
+          "🌧️ Warum ist der Himmel tagsüber blau und beim Sonnenuntergang rot?",
+          "🦖 Warum sind die Dinosaurier ausgestorben?",
+          "🌒 Warum sehen wir immer dieselbe Seite des Mondes?",
+          "💡 Wie wird Strom erzeugt?",
+          "🎨 Warum ist der Himmel blau?",
+          "🚀 Wie funktioniert eine Rakete?",
+          "🧲 Wie funktioniert ein Magnet?",
+          "🍫 Wie wird Schokolade hergestellt?",
+          "🌳 Warum verfärben sich die Blätter im Herbst?",
+          "🍃 Was brauchen Pflanzen zum Wachsen?",
+          "🐝 Wie stellen Bienen Honig her?",
+          "🏰 Wie war das Leben in einer mittelalterlichen Burg?",
+          "📱 Wie funktioniert ein Handy?",
+          "🌐 Was ist das Internet und wie ist es entstanden?",
+          "🎵 Wie beeinflusst Musik unsere Stimmung?",
+          "🌬️ Was ist Wind und wie entsteht er?",
+          "💧 Warum ist Wasser so wichtig für das Leben?",
+          "🍽️ Wie kann ein Koch den Geschmack von Speisen verändern?",
+          "🏞️ Warum gibt es Jahreszeiten?",
+          "🕊️ Wie finden Tauben ihren Weg zurück?",
+          "🐘 Warum haben Elefanten ein so gutes Gedächtnis?",
+          "🔭 Was sind Schwarze Löcher?",
+          "📚 Warum ist Lesen wichtig?",
+          "🌲 Wie kommunizieren Bäume?",
+          "🌐 Warum gibt es Zeitzonen?",
+          "🐌 Warum sind Schnecken langsam?",
+          "🦋 Wie wird aus einer Raupe ein Schmetterling?",
+          "🐳 Warum singen Wale?",
+          "🌞 Wie erzeugt die Sonne Energie?",
+          "🍂 Warum fallen im Herbst Blätter?",
+          "🌵 Wie überleben Wüstenpflanzen mit so wenig Wasser?",
+          "🎒 Wie entstand die Schule?",
+          "🎮 Wie entstehen Videospiele?",
+          "🎲 Warum spielen wir gerne?",
+          "🚆 Wie funktioniert ein Hochgeschwindigkeitszug?",
+          "💻 Wie funktioniert ein Computer?",
+          "🌔 Warum gibt es Gezeiten?",
+          "🦈 Warum greifen Haie an?",
+          "🎥 Wie funktioniert eine Kamera?",
+          "📷 Warum können Fotos Momente festhalten?",
+          "🎨 Wie beeinflussen Farben unsere Gefühle?",
+          "🐕 Wie nehmen Hunde die Welt wahr?",
+          "🐈 Warum schnurren Katzen?",
+          "🦜 Warum können Papageien sprechen?",
+          "🌿 Wie werden Medikamente entwickelt?",
+          "📖 Warum sind Geschichten wichtig für uns?",
+          "🧭 Welches Land wird am wenigsten besucht?",
+          "🌮 Was ist das beste Taco-Rezept?",
+          "🎬 Wer hat insgesamt die meisten Oscars gewonnen?",
+          "🍪 Wie backt man den perfekten Keks?",
+          "🪐 Welcher Planet ist der größte im Sonnensystem?",
+          "⏰ Welche Alternativen zum Aufwachen gibt es?",
+          "🦢 Welche Rolle spielen Schwäne in Märchen und Mythologie?",
+          "🦉 Warum gelten Eulen als Symbol der Weisheit?",
+          "🐦 Warum singen Vögel am Morgen?",
+          "🍝 Was bedeutet 'al dente'?",
+          "🐄 Welche Auswirkungen hat Rinderhaltung auf die Umwelt?",
+          "🚴‍♀️ Wie wählt man ein Bahnrad aus?",
+          "🪖 Sind Militärhelme wirksam?",
+          "⏳ Kann man das Altern umkehren?",
+          "🍌 Wie lagert man Bananen?",
+          "🐦 Warum leben Fledermäuse nachts?",
+          "🎨 Wie lautet Picassos Biografie?",
+          "🎮 Was sind die besten Konsolen von 2023?",
+          "🎮 Was waren die besten Konsolen von 1995?",
+          "🎂 Wie wurde der Geburtstagskuchen erfunden?",
+          "🦋 Wie lange lebt ein Schmetterling?",
+          "🦑 Was ist Tiefseegigantismus?",
+          "🌙 Warum sieht der Mond am Himmel jeden Tag anders aus?",
+          "🍓 Sind Erdbeeren Früchte?",
+          "🚿 Wie wichtig ist das Frühstück?",
+          "🪒 Wie oft sollte man den Rasierer wechseln?",
+          "🍣 Wie macht man Sushi?",
+          "🦔 Warum rollen sich Igel zusammen?",
+          "🍕 Was ist der Ursprung der Pizza?",
+          "🏟️ Was war die größte Halbzeitshow beim Super Bowl?",
+          "🦓 Warum haben Zebras Streifen?",
+          "🦅 Welcher Vogel ist der gefährlichste der Welt?",
+          "🦴 Wie funktioniert eine Röntgenaufnahme?",
+          "🤗 Können Umarmungen Schmerzen lindern?",
+          "🍞 Wie macht man hausgemachtes Brot?",
+          "🍉 Wann sollte man eine Wassermelone pflücken?",
+          "🌺 Welche sind die seltensten Blumen der Welt?",
+          "🪢 Wie bindet man einen Webeleinenknoten?",
+          "🍌 Wie lagert man Bananen?",
+          "🍌 Wie kann man die Schale einer Banane wiederverwenden?",
+          "🍳 Warum ist es wichtig, morgens zu frühstücken?",
+          "👨 Gibt es heute noch prähistorische Menschen?"
         ]
       },
       "aiTextGuide": {
         "step-welcome": {
-          "title": "Bienvenue sur l'interface IA texte",
-          "description": "Découvrez une interface qui permet d'interagir avec des modèles IA textuelles, en utilisant des instructions et en modifiant les paramètres."
+          "title": "Willkommen bei der Text-KI-Oberfläche",
+          "description": "Entdecke eine Oberfläche, mit der du mit textbasierten KI-Modellen interagieren, Anweisungen geben und Parameter ändern kannst."
         },
         "step-1": {
-          "title": "Utilisation de la banque de prompts",
-          "description": "Commencez à interagir avec l'IA, préparez un prompt (il s’agit d’une instruction que l’on donne à un algorithme). Pour ne jamais manquer d'inspiration, trouvez des idées parmi nos exemples. <b>Appuyez sur les exemples pour renvoyer une question au hasard.</b>"
+          "title": "Austausch mit der KI",
+          "description": "Finde Anregungen in unseren Beispielen. Klicke auf ein Beispiel, um eine zufällige Frage zu senden."
         },
         "step-2": {
-          "title": "L'attente de la reponse'",
-          "description": "Le modèle a besoin d'un peu de temps pour générer une réponse"
+          "title": "Warten auf die Antwort",
+          "description": "Das Modell braucht einen Moment, um die Antwort zu erstellen."
         },
         "step-3": {
           "title": "La réponse de l'IA",
@@ -3667,7 +3913,7 @@
           "subscriptionDetails": "Unsere Tarife ansehen",
           "subscriptionDetailsPremium": "Details Ihres Abonnements anzeigen",
           "monthlyReset": "Monatliche Credits werden alle 30 Tage zurückgesetzt",
-          "progressAria": "{{used}} credits used out of {{limit}}",
+          "progressAria": "Bereits {{used}} von {{limit}} Credits verwendet",
           "titleCreditInfo": "Informationen zu Credits",
           "unlimitedCredits": "Unbegrenzt",
           "unlimitedReset": "Premium-Abonnenten erhalten unbegrenzte Textgenerierung",
@@ -6067,7 +6313,7 @@
             "libraries-link": "https://github.com/vittascience/galaxia-libraries"
           },
           "letsstartcoding": {
-            "name": "Lets start coding",
+            "name": "Beginnen wir mit dem Programmieren",
             "learn": "Mehr über die verfügbaren C++-Funktionen mit den Lets start coding Boards erfahren Sie unter ",
             "learn-link": "https://www.letsstartcoding.com/",
             "libraries-link": "https://github.com/vittascience/arduino-libraries"
@@ -6188,6 +6434,9 @@
           "scroll": {
             "title": "Automatisches Scrollen",
             "text": "Automatisches Scrollen aktivieren"
+          },
+          "sound": {
+            "title": "Lautstärke der Block‑Töne"
           },
           "toolbox": {
             "title": "Toolbox-Auswahl",
@@ -6391,6 +6640,38 @@
       "i18n": {
         "title": "Sprache der Benutzeroberfläche ändern"
       },
+      "shortcuts": {
+        "title": "Tastenkürzel",
+        "or": "oder",
+        "then": "dann",
+        "table": {
+          "keys": "Tasten",
+          "action": "Aktion"
+        },
+        "sections": {
+          "general": "Allgemein",
+          "code": "Code-Editor",
+          "blocks": "Block-Arbeitsbereich"
+        },
+        "actions": {
+          "save": "Projekt speichern",
+          "closeModal": "Geöffnetes Fenster schließen",
+          "focusNext": "Zum nächsten / vorherigen Element wechseln",
+          "resizeConsole": "Konsole vergrößern / verkleinern (Größenänderungsleiste ausgewählt)",
+          "enterEditor": "In den Code-Editor wechseln",
+          "leaveEditor": "Den Code-Editor verlassen",
+          "undo": "Rückgängig",
+          "redo": "Wiederholen",
+          "selectAll": "Alles auswählen",
+          "duplicateLine": "Zeile oder Auswahl duplizieren",
+          "moveLine": "Zeile nach oben / unten verschieben",
+          "indent": "Einrücken / Ausrücken",
+          "toggleComment": "Kommentar umschalten",
+          "find": "Suchen",
+          "replace": "Suchen und Ersetzen",
+          "navigateBlocks": "Zwischen Blöcken navigieren"
+        }
+      },
       "codeOnly": {
         "title": "Nur-Code-Modus aktivieren",
         "content": "Möchten Sie die Modusauswahl ausblenden, um dauerhaft im Nur-Code-Modus (ohne Blöcke) zu bleiben?",
@@ -6401,8 +6682,8 @@
           "content": "Der Code-Modus ist derzeit gesperrt. Das bedeutet, dass die Block- und Hybrid-Modi deaktiviert sind."
         },
         "exit": {
-          "title": "Leave code-only mode",
-          "content": "Do you wish to unlock code-only mode so that block and hybrid modes can be used again?"
+          "title": "Nur‑Code‑Modus verlassen",
+          "content": "Möchten Sie den Nur‑Code‑Modus aufheben, damit Block‑ und Hybrid‑Modi wieder genutzt werden können?"
         }
       },
       "local-compilation": {
@@ -6494,6 +6775,18 @@
         "wrongLink": "Dieser Link führt zu einem nicht existierenden Projekt oder wurde nicht mit dieser Oberfläche erstellt. Sie können ein Projekt über 'Projekt öffnen' suchen oder ein neues erstellen.",
         "wrongFile": "Diese Datei scheint für diese Oberfläche nicht geeignet zu sein. Überprüfen Sie die Angabe in der Kopfzeile der Datei bei der Zeile 'Interface:'.",
         "wrongXml": "Dieser Link führt zu einem Projekt, das in der Benutzeroberfläche anscheinend nicht korrekt geladen wird. Bitte teilen Sie uns den Projektlink mit, indem Sie sich an den Vittascience-Support wenden. Wir werden versuchen, das Problem zu beheben.",
+        "loadingError": "Das Projekt konnte nicht geladen werden: Die Verbindung zum Server ist fehlgeschlagen. Überprüfe deine Internetverbindung und lade die Seite neu.",
+        "reloadPage": "Seite neu laden",
+        "localDraft": {
+            "title": "Nicht gespeicherte Änderungen",
+            "content": "Dieses Projekt enthält Änderungen, die nicht auf dem Server gespeichert wurden. Sie wurden in diesem Browser aufbewahrt.",
+            "lastChange": "Letzte Änderung:",
+            "hint": "Wenn du die gespeicherte Version öffnest, gehen diese Änderungen endgültig verloren.",
+            "buttons": {
+                "restore": "Meine Änderungen wiederherstellen",
+                "discard": "Gespeicherte Version öffnen"
+            }
+        },
         "privateProject": "Privates Projekt",
         "rightsChange": "Zugriffsrechte geändert",
         "rightsAttributed": "Zugriffsrechte vergeben",
@@ -6678,7 +6971,7 @@
         }
       },
       "download-ti": {
-        "title": "TI-83 Premium CE Edition Python",
+        "title": "TI-83 Premium CE PYTHON EDITION",
         "content": {
           "to-transfer": "So übertragen Sie den in der Vittascience-Oberfläche erstellten Python-Code:",
           "to-transfer-MaClasseTI": "So übertragen Sie den auf MaClasseTI.fr erstellten Python-Code:",
@@ -7423,6 +7716,18 @@
     "needProjectName": "Bitte geben Sie einen Projektnamen ein, bevor Sie speichern können!",
     "projectSaveError": "Beim Speichern ist ein Fehler aufgetreten!",
     "projectSaveConflict": "Dein Projekt wurde NICHT gespeichert: Es wurde an anderer Stelle geändert. Speichere erneut, um die auf dem Server gespeicherte Version zu überschreiben.",
+    "projectSaveNotConnected": "Dein Projekt wurde NICHT gespeichert: Deine Sitzung ist abgelaufen. Melde dich erneut an und speichere noch einmal, deine Änderungen bleiben in diesem Browser erhalten.",
+    "projectSaveForbidden": "Dein Projekt wurde NICHT gespeichert: Du darfst dieses Projekt nicht bearbeiten. Verwende „Speichern unter…“, um eine Kopie zu speichern.",
+    "projectSaveNotFound": "Dein Projekt wurde NICHT gespeichert: Es existiert nicht mehr auf dem Server. Lade es herunter, um deine Arbeit zu behalten.",
+    "projectSaveInvalid": "Dein Projekt wurde NICHT gespeichert: Der Server hat unvollständige Daten abgelehnt (leerer Projektname oder Code).",
+    "projectSaveNetworkError": "Dein Projekt wurde NICHT gespeichert: Der Server ist nicht erreichbar. Überprüfe deine Internetverbindung und versuche es erneut, deine Änderungen bleiben in diesem Browser erhalten.",
+    "projectSaveServerError": "Dein Projekt wurde aufgrund eines Serverfehlers NICHT gespeichert. Versuche es in einigen Augenblicken erneut; wenn das Problem weiterhin besteht, lade dein Projekt herunter, um deine Arbeit nicht zu verlieren.",
+    "projectOpened": "Projekt „{{name}}“ geöffnet.",
+    "projectOpenError": "Das Projekt konnte nicht geöffnet werden. Überprüfe deine Internetverbindung und versuche es erneut.",
+    "projectCopySaved": "Kopie „{{name}}“ gespeichert: Du arbeitest jetzt an dieser Kopie.",
+    "localDraftRestored": "Deine nicht gespeicherten Änderungen wurden wiederhergestellt. Denke daran, dein Projekt zu speichern!",
+    "exerciseSaved": "Die Übung wurde erfolgreich gespeichert!",
+    "exerciseSaveFailed": "Die Übung wurde NICHT gespeichert. Überprüfe deine Internetverbindung und versuche es erneut.",
     "projectNoChangesToSave": "Keine Änderungen zum Speichern!",
     "projectSaveSuccess": "Ihr Projekt wurde erfolgreich gespeichert!",
     "loadedProjectNotFound": "Das angeforderte Projekt existiert nicht!",
@@ -8044,7 +8349,7 @@
           "button": "Suchen"
         },
         "table": {
-          "shortcut": "Shortcut",
+          "shortcut": "Tastenkürzel",
           "action": "Aktion"
         },
         "title": "Kurzbefehle",

@@ -604,3 +604,4 @@ Blockly.Msg["MATH_RSA_GENERATE_KEYS_HELPURL"] = "https://en.wikipedia.org/wiki/R
 Blockly.Msg["TEXT_SPLIT_TITLE"] = "split text %1 by %2";
 Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TITLE"] = "Function: %1";
 Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TOOLTIP"] = "Get the function reference to pass it as an argument to another function.";
+Blockly.Msg["PINS_DUPLICATE_WARNING"] = "Pin '%1' is selected several times in this block.";

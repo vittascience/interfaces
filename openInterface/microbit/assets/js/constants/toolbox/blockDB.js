@@ -72,7 +72,8 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "io_getGroveColoredButton": this.Set.field('PIN', "pin15"),
             "io_setGroveColoredButton": this.Set.field('PIN', "pin1") + this.Set.state(),
             "io_getKeypadNumber": this.Set.field("TX", "pin1") + this.Set.field("RX", "pin15"),
-            "io_fingerprint_register": this.Set.number("ID", 1),
+            "io_fingerprint_register": this.Set.field("RX", "pin14") + this.Set.number("ID", 1),
+            "io_fingerprint_verify": this.Set.field("RX", "pin14"),
             "io_getGroveThumbJoystick": this.Set.field("PIN_Y", "pin1"),
             // io - pins
             "io_readDigitalPin": this.Set.field('PIN', "pin1"),
@@ -258,6 +259,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "robots_CutebotPro_turnWithAngle": this.Set.number("ANGLE", 90) + '<mutation wait="false"></mutation>',
             "robots_CutebotPro_placeWithAngle": this.Set.number("ANGLE", 90) + '<mutation wait="false"></mutation>',
             "robots_CutebotPro_turnWheel": this.Set.number("ANGLE", 180) + '<mutation wait="false"></mutation>',
+            "robots_CutebotPro_computePD": '<value name="SENSOR"><block type="robots_CutebotPro_getLineState"></block></value>' + this.Set.number("KP", 35) + this.Set.number("KD", 25),
             "robots_CutebotPro_setServoAngle": this.Set.number("ANGLE", 90),
             "robots_CutebotPro_setServoSpeed": this.Set.number("SPEED", 50),
             "robots_CutebotPro_setExtendedMotorSpeed": this.Set.number("SPEED", 50),

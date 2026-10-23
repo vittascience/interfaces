@@ -770,6 +770,7 @@ class UnoQuploader {
             this.disconnect();
             return;
         }
+        InterfaceConnection.progressBar._displayProgressBar();
         await this.execute("shell:arduino-app-cli app new \"vittascience-app\"");
 
         // The Python packages of the app (tensorflow...) are installed by App Lab in the app container from
@@ -789,18 +790,24 @@ class UnoQuploader {
             InterfaceMonitor.writeConsole(error.message, 'warning', false, true);
             return;
         }
-        for (const [path, file] of appFiles) {
+        const progress = InterfaceConnection.progressBar._updateProgressBar;
+        for (const [i, [path, file]] of appFiles.entries()) {
             await this.push_usb(this.APP_PATH + "/" + path, [file]);
             await sleep_ms(500);
+            progress(Math.round((i + 1) / appFiles.length * 60));
         }
 
         await this.stopApp("vittascience-app");
+        progress(70);
 
         // await this.execute(
         //     'shell:arduino-app-cli app clean-cache "/home/arduino/ArduinoApps/vittascience-app"'
         // );
 
+        // ponytail: the compile has no progress output, the bar waits at 80% until the app starts
+        progress(80);
         const started = await this.startApp("vittascience-app", false);
+        progress(100);
 
         // Give the address of the app web page served by the WebUI brick (port 7000).
         // The source address of the default route is the board LAN IP (not the containers' bridge one).
@@ -869,6 +876,7 @@ class UnoQuploader {
         files.push(["python/requirements.txt", text("tensorflow\ntensorflowjs\ntf-keras\nh5py\n", "requirements.txt")]);
         files.push(["python/" + this.MAIN_PY, text(pyCode, this.MAIN_PY)]);
         if (/vitta_tf/.test(pyCode)) {
+            await VittaInterface.loadExternalLibraries();
             files.push(["python/vitta_tf.py", text(VittaInterface.externalLibraries['vitta_tf'], "vitta_tf.py")]);
         }
         if (/load_local_model\(/.test(pyCode)) {

@@ -269,6 +269,8 @@ class CodeManager {
                     this._xmlToWorkspace(xml);
                 } catch (e) {
                     console.error(e)
+                    // The blocks loaded before the error (e.g. an unknown block type) would be duplicated by the default ones.
+                    this._workspace.clear();
                     this._xmlToWorkspace(this.getDefaultXmlStart());
                     status = CodeManager.STATUS.DOM.xmlError;
                 };

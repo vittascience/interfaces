@@ -103,10 +103,9 @@ class CapytaleManager {
             project.description = 'capytale-project';
             project.sharedStatus = 0;
         }
-        if (!projectManager || !projectManager.projectLoader_injectInInterface) {
-            this._initialLoading = false;
-            this._initialProjectLoadedResolve();
-            return false;
+        // The platform may send the content before projectManager is created: wait for it instead of dropping the content
+        while (typeof projectManager === 'undefined' || !projectManager || !projectManager.projectLoader_injectInInterface) {
+            await new Promise(r => setTimeout(r, 50));
         }
         if (project) {
             projectManager._currentProject = project;
