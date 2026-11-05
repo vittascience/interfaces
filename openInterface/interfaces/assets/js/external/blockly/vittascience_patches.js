@@ -298,28 +298,20 @@ Blockly.Tooltip.SEP = "&&SEPARATOR&&";
 
 // Toolbox: a category is selected on click (pointer released without scrolling), not as soon as the pointer is down,
 // which opened a category at each scroll of the toolbox with the finger on mobile.
-// mouseDown stays true until the click (or the start of a scroll: pointercancel): the focus given by the pointer
-// doesn't select the category (only the keyboard focus does), otherwise the click would unselect it.
-// A mouse gives the focus on pointerdown: mouseDown ends with the button released anywhere (released out of the
-// toolbox, there is no click, and the keyboard focus could not select the categories anymore). A tap gives the focus
-// after pointerup: with the finger, mouseDown ends with the click.
+// mouseDown stays true until the next key pressed: the focus given by the pointer doesn't select the category (only
+// the keyboard focus does), otherwise the click would unselect it. The moment of this focus depends on the browser
+// (on pointerdown with a mouse, after pointerup with the finger, after the click on iPad: a closed category opened
+// again). The key is listened to on capture, before the shortcuts of Blockly that move the focus.
 var vittaCategoryNodeFocus = Blockly.ToolboxCategory.prototype.onNodeFocus;
 Blockly.ToolboxCategory.prototype.onNodeFocus = function () {
   if (this.getParentToolbox().mouseDown) return Blockly.ToolboxItem.prototype.onNodeFocus.call(this);
   return vittaCategoryNodeFocus.call(this);
 };
 Blockly.Toolbox.prototype.attachEvents_ = function (container, contentsContainer) {
-  var setMouseDown = function (value) { return function () { this.mouseDown = value; }; };
+  document.addEventListener('keydown', () => { this.mouseDown = false; }, true);
   this.boundEvents_.push(
-    Blockly.browserEvents.bind(container, 'pointerdown', this, setMouseDown(true)),
-    Blockly.browserEvents.bind(container, 'pointercancel', this, setMouseDown(false)),
-    Blockly.browserEvents.bind(document, 'pointerup', this, function (e) {
-      if (e.pointerType !== 'touch') this.mouseDown = false;
-    }),
-    Blockly.browserEvents.bind(container, 'click', this, function (e) {
-      this.onClick_(e);
-      this.mouseDown = false;
-    }),
+    Blockly.browserEvents.bind(container, 'pointerdown', this, function () { this.mouseDown = true; }),
+    Blockly.browserEvents.bind(container, 'click', this, this.onClick_),
     Blockly.browserEvents.conditionalBind(contentsContainer, 'keydown', this, this.onKeyDown_, false)
   );
 };
