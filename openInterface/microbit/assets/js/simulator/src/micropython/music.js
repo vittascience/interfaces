@@ -26,13 +26,21 @@ const $builtinmodule = function () {
 		return new Sk.builtin.tuple(Sk.ffi.remapToPy([mod._data.ticks, mod._data.bpm]));
 	});
 
-	const play = function (music, pin, wait, loop) {
-		let module = Simulator.getModuleByKey(`mb-buzzer`);
-		let id = module.id;
-		if (!Simulator.code.match(module.regex)) {
-			module = Simulator.getModuleByKey('buzzer');
-			id = module.id + "_" + pin.name;
+	const getBuzzer = function (pin) {
+		if (Simulator.Mosaic.getCurrentRobot() === 'Tinybit') {
+			const module = Simulator.getModuleByKey('mb-tinybit-buzzer');
+			return { module, id: module.id };
 		}
+		const module = Simulator.getModuleByKey(`mb-buzzer`);
+		if (Simulator.code.match(module.regex)) {
+			return { module, id: module.id };
+		}
+		const buzzer = Simulator.getModuleByKey('buzzer');
+		return { module: buzzer, id: buzzer.id + "_" + pin.name };
+	};
+
+	const play = function (music, pin, wait, loop) {
+		const { module, id } = getBuzzer(pin);
 		if (mod._data.stop) {
 			delete mod._data.stop;
 		}
@@ -172,12 +180,7 @@ const $builtinmodule = function () {
 	mod.play = new Sk.builtin.func(play);
 
 	const pitch = function (frequency, duration, pin, wait) {
-		let module = Simulator.getModuleByKey(`mb-buzzer`);
-		let id = module.id;
-		if (!Simulator.code.match(module.regex)) {
-			module = Simulator.getModuleByKey('buzzer');
-			id = module.id + "_" + pin.name;
-		}
+		const { module, id } = getBuzzer(pin);
 		const stopMusic = function (self) {
 			self._data.osc.stop();
 			delete self._data.osc;

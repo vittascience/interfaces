@@ -100,6 +100,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "display_controlBuiltInLED": this.Set.state(),
             // display - LCD
             "display_lcdSetText": this.Set.text('TEXT'),
+            "display_lcdRGBSetColor": this.Set.number("R", 255) + this.Set.number("G", 255) + this.Set.number("B", 255),
             // display - OLED
             "display_addOledText": this.Set.number("X") + this.Set.number("Y") + this.Set.text("TEXT"),
             "display_setOledPixel": this.Set.number("X") + this.Set.number("Y") + this.Set.state(),

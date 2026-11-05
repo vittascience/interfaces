@@ -703,6 +703,20 @@ const InterfaceConnection = {
 		}
 	},
 
+	/**
+	 * Window (number of readings) and frequency of the records of a sensor model, used by EdgeModel.cpp like the AI tool
+	 * @param {Object} metadata model metadata
+	 * @returns {string} C++ declarations
+	 */
+	_edgeModelWindowCode: function (metadata) {
+		const strategy = metadata.settings.strategy;
+		const savedWindow = metadata.userMetaData.timeWindow;
+		// Models saved before settings.window: 50 is the AI tool default even when its sensor window differs
+		const windowSamples = metadata.settings.window?.samples
+			?? (savedWindow && !(savedWindow === 50 && strategy.frequency !== 50) ? savedWindow : strategy.timeWindow);
+		return `int window_samples = ${windowSamples};\nint sample_frequency = ${strategy.frequency};`;
+	},
+
 	_checkInjectAiModel: async function (code) {
 		return new Promise(async (resolve, reject) => {
 			try {
@@ -724,11 +738,12 @@ const InterfaceConnection = {
 						const metadataContent = await fetch(`${location.origin}/ia/model/${id}/metadata.json`);
 						const metadata = await metadataContent.json();
 						const modelWeights = JSON.parse(metadata.userMetaData.weightData);
+						const modelSettings = this._edgeModelWindowCode(metadata);
 						let fetchEdgeLib = await fetch(`${location.origin}/openInterface/arduino/assets/lib/EdgeModel.cpp`)
 						edgeLib = await fetchEdgeLib.text();
 						let inputStart = edgeLib.split('// AI_EDGE_MODEL_WEIGHTS_INPUT_START')[0];
 						let inputEnd = edgeLib.split('// AI_EDGE_MODEL_WEIGHTS_INPUT_END')[1];
-						edgeLib = `// AI_EDGE_MODEL_WEIGHTS_INPUT_START\n${modelWeights}\n// AI_EDGE_MODEL_WEIGHTS_INPUT_END${inputEnd}`;
+						edgeLib = `// AI_EDGE_MODEL_WEIGHTS_INPUT_START\n${modelWeights}\n${modelSettings}\n// AI_EDGE_MODEL_WEIGHTS_INPUT_END${inputEnd}`;
 						code = `${edgeLib}\n${code}`;
 						return resolve(code);
 					} else {
@@ -739,11 +754,12 @@ const InterfaceConnection = {
 						}
 						const parsedMetaData = JSON.parse(metadataFromLocalStorage);
 						const modelWeights = JSON.parse(parsedMetaData.userMetaData.weightData)
+						const modelSettings = this._edgeModelWindowCode(parsedMetaData);
 						const fetchEdgeLib = await fetch(`${location.origin}/openInterface/arduino/assets/lib/EdgeModel.cpp`)
 						edgeLib = await fetchEdgeLib.text();
 						let inputStart = edgeLib.split('// AI_EDGE_MODEL_WEIGHTS_INPUT_START')[0];
 						let inputEnd = edgeLib.split('// AI_EDGE_MODEL_WEIGHTS_INPUT_END')[1];
-						edgeLib = `// AI_EDGE_MODEL_WEIGHTS_INPUT_START\n${modelWeights}\n// AI_EDGE_MODEL_WEIGHTS_INPUT_END\n${inputEnd}`;
+						edgeLib = `// AI_EDGE_MODEL_WEIGHTS_INPUT_START\n${modelWeights}\n${modelSettings}\n// AI_EDGE_MODEL_WEIGHTS_INPUT_END\n${inputEnd}`;
 						code = `${edgeLib}\n${code}`;
 						return resolve(code);
 					}

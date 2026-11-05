@@ -17,9 +17,11 @@ let stdModals = {};
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="csv-tab" data-bs-toggle="tab" data-bs-target="#txt" type="button" role="tab" aria-controls="txt" aria-selected="false">TXT</button>
                 </li>
+                <!-- VittAPI disabled pending a product decision
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="api-tab" data-bs-toggle="tab" data-bs-target="#api" type="button" role="tab" aria-controls="api" aria-selected="false">API</button>
                 </li>
+                -->
             </ul>
     
             <div class="tab-content">
@@ -46,6 +48,7 @@ let stdModals = {};
                     </div>
                     <button type="button" class="btn btn-primary tracer-export d-block my-3 mx-auto" id="export-traceur" onclick="exportInTXT()" data-i18n="modals.standard.export.content.txt.button">${jsonPath('modals.standard.export.content.csv.button')}</button>
                 </div>
+                <!-- VittAPI disabled pending a product decision
                 <div class="tab-pane" id="api" role="tabpanel" aria-labelledby="api-tab" tabindex="0">
                     <div class="hint alert alert-info alert-lite">
                         <i class="fa fa-info-circle"></i>
@@ -78,6 +81,7 @@ let stdModals = {};
                         </div>  
                     </div>
                 </div>
+                -->
             </div>`,
             footer: ``
         },
@@ -1323,7 +1327,36 @@ let stdModals = {};
                 <button type="button" id="arduino-q-password-close" class="btn btn-secondary" style="flex:1; margin-left:5px;" data-i18n="modals.standard.arduino-q-password.buttons.close.text;[title]modals.standard.arduino-q-password.buttons.close.tooltip">
                     Close
                 </button>`
-        }
+        },
+
+        // Screenshot of the blocks (camera button of the workspace): quality (scale of the image) and format
+        'modal-blocks-screenshot': {
+            selector: '',
+            header: {
+                icon: 'fas fa-camera',
+                title: 'modals.standard.blocksScreenshot.title'
+            },
+            content: `<div>
+                <label class="form-label fw-bold" for="blocks-screenshot-quality" data-i18n="modals.standard.blocksScreenshot.quality">${jsonPath('modals.standard.blocksScreenshot.quality')}</label>
+                <select id="blocks-screenshot-quality" class="form-select mb-3" onchange="Blockly.VittaScreenshot.update()">
+                    <option value="1" data-i18n="modals.standard.blocksScreenshot.qualities.screen">${jsonPath('modals.standard.blocksScreenshot.qualities.screen')}</option>
+                    <option value="2" selected data-i18n="modals.standard.blocksScreenshot.qualities.good">${jsonPath('modals.standard.blocksScreenshot.qualities.good')}</option>
+                    <option value="4" data-i18n="modals.standard.blocksScreenshot.qualities.high">${jsonPath('modals.standard.blocksScreenshot.qualities.high')}</option>
+                    <option value="8" data-i18n="modals.standard.blocksScreenshot.qualities.veryHigh">${jsonPath('modals.standard.blocksScreenshot.qualities.veryHigh')}</option>
+                </select>
+                <label class="form-label fw-bold" for="blocks-screenshot-format" data-i18n="modals.standard.blocksScreenshot.format">${jsonPath('modals.standard.blocksScreenshot.format')}</label>
+                <select id="blocks-screenshot-format" class="form-select mb-3" onchange="Blockly.VittaScreenshot.update()">
+                    <option value="png" selected>PNG</option>
+                    <option value="jpeg">JPG</option>
+                    <option value="webp">WebP</option>
+                </select>
+                <p id="blocks-screenshot-size" class="mb-0"></p>
+            </div>`,
+            footer: `
+                <button type="button" id="blocks-screenshot-download" class="btn vitta-button" style="flex:1;" onclick="Blockly.VittaScreenshot.download()" data-i18n="modals.standard.blocksScreenshot.download">
+                    ${jsonPath('modals.standard.blocksScreenshot.download')}
+                </button>`
+        },
 
         // Template not modify, not delete
         // '0': {

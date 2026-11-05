@@ -327,3 +327,6 @@ Blockly.Msg['CYBERPI_WIFI_BROADCAST_GET_TITLE'] = '[LAN] Wert der gesendeten Nac
 Blockly.Msg['CYBERPI_WIFI_BROADCAST_GET_TOOLTIP'] = 'Ermöglicht das Empfangen des Werts einer Nachricht, die über ein WiFi-Netzwerk gesendet wurde. Es ist nicht erforderlich, mit einem bestehenden WiFi-Netzwerk verbunden zu sein, um eine Nachricht zu senden. In diesem Fall erstellt die CyberPi ein lokales LAN-Netzwerk.';
 Blockly.Msg['CYBERPI_DISPLAY_CLEAR_TITLE'] = '[Bildschirm] löschen';
 Blockly.Msg['CYBERPI_DISPLAY_CLEAR_TOOLTIP'] = 'Löscht den Bildschirm der CyberPi.';
+
+// Loop disabled by the event blocks (Blockly.Constants.Utils.DISABLE_BLOCKS_ON_EVENT)
+Blockly.Msg['FOREVER_DISABLED_BY_EVENTS'] = 'Diese Schleife ist deaktiviert, weil das Programm einen Ereignisblock enthält („Wenn das Programm startet“, „Wenn die Taste gedrückt wird“ oder „Wenn die Nachricht empfangen wird“). Mit Ereignissen die Anweisungen in einen Ereignisblock setzen, zum Beispiel „Wenn das Programm startet“.';

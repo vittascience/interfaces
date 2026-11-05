@@ -259,7 +259,7 @@ const Main = (function () {
             }
             if (typeof Simulator !== 'undefined') {
                 Simulator.lastUpdate = Date.now();
-                if (Simulator.getWatchedCode() !== Simulator._userCode && Simulator.isOpen && Simulator.isStopped) {
+                if (Simulator.getWatchedCode() !== Simulator._userCode && Simulator.isOpen && Simulator.isStopped && !(INTERFACE_NAME === 'skykick' && typeof SkykickDroneAPI !== 'undefined' && SkykickDroneAPI?.link.isConnected)) { // skykick: never restart a flight by editing
                     Simulator.replay();
                 }
             }
@@ -420,6 +420,8 @@ const Main = (function () {
             if (event.type == Blockly.Events.BLOCK_CREATE || event.type == Blockly.Events.BLOCK_DELETE || event.type == Blockly.Events.BLOCK_MOVE) {
                 if (Code.getInterface() !== 'python' && Code.getInterface() !== 'web') {
                     Code.manageBlocksDisabling();
+                    // Before the code generation: the disabled loop isn't in the code
+                    disableLoopsOnEvents();
                     Code.lockedEditor();
                     if (Code.getInterface() === 'pico' || Code.getInterface() === 'winky') {
                         if (event.type === Blockly.Events.BLOCK_CREATE) {
@@ -462,11 +464,17 @@ const Main = (function () {
                     Code.timeoutChange = true;
                 }, 40);
             }
-            if (Code.getInterface() === 'cyberpi' && (event.type == Blockly.Events.BLOCK_MOVE || event.type == Blockly.Events.BLOCK_DELETE || event.type == Blockly.Events.BLOCK_DRAG || event.type == Blockly.Events.BLOCK_CHANGE)) {
-                Blockly.Constants.Utils.DISABLE_BLOCKS_ON_EVENT('forever', ['io_event_start', 'io_event_is_press', 'io_event_receive']);
+            if (event.type == Blockly.Events.BLOCK_DRAG || event.type == Blockly.Events.BLOCK_CHANGE) {
+                disableLoopsOnEvents();
             }
         }
     };
+
+    // CyberPi: the "forever" loops (vittascience and scratch toolboxes) are disabled with the event blocks
+    function disableLoopsOnEvents() {
+        if (Code.getInterface() !== 'cyberpi') return;
+        Blockly.Constants.Utils.DISABLE_BLOCKS_ON_EVENT(['forever', 'scratch_forever'], ['io_event_start', 'io_event_is_press', 'io_event_receive'], Blockly.Msg['FOREVER_DISABLED_BY_EVENTS']);
+    }
 
     function getHTMLInnerStatement(block) {
         const exclude = [];
@@ -813,8 +821,6 @@ const Main = (function () {
                     "contents": []
                 };
             }
-            Blockly.blockRendering.ConstantProvider.prototype.FIELD_COLOUR_FULL_BLOCK = false;
-
             // Origamia : toolbox en bande horizontale en haut (sinon disposition verticale par défaut).
             // On lit la classe posée au parse (fiable même après réécriture d'URL) plutôt que $_GET.
             const isOrigamiaProvider = document.documentElement.classList.contains('provider-origamia');
@@ -824,6 +830,11 @@ const Main = (function () {
             if (isOrigamiaProvider) {
                 toolbox_ = { "kind": "flyoutToolbox", "id": "toolbox", "contents": [] };
             }
+
+            // The toolbox blocks keep their size when the workspace is zoomed (Blockly scales them with the workspace)
+            Blockly.Flyout.prototype.getFlyoutScale = function () {
+                return this.targetWorkspace.options.zoomOptions.startScale;
+            };
 
             Code.workspace = Blockly.inject('content_blocks', {
                 grid: {
@@ -835,6 +846,7 @@ const Main = (function () {
                 media: CDN_PATH + '/openInterface/interfaces/assets/js/external/blockly/media/',
                 rtl: isRtl,
                 renderer: renderer,
+                theme: ToolboxManager.getUserBlocklyTheme(),
                 toolbox: toolbox_,
                 horizontalLayout: isOrigamiaProvider,
                 toolboxPosition: 'start',
@@ -870,8 +882,6 @@ const Main = (function () {
             });
             // Distances in workspace units from the edge (negative = inside the workspace): slow scroll near the edge, fast once the cursor is past it
             if (typeof ScrollOptions !== 'undefined') new ScrollOptions(Code.workspace).init({ edgeScrollOptions: { slowMouseStartDistance: -30, fastMouseStartDistance: 0 } });
-
-            Code.workspace.getRenderer().getConstants().FIELD_COLOUR_FULL_BLOCK = false;
 
             // WCAG 4.1.2: aria-label on a div without role is prohibited
             try {
@@ -1226,7 +1236,7 @@ const Main = (function () {
          * @returns {boolean}
          */
         hasSimulator: function () {
-            return /(arduinoq|arduino|microbit|wb55|l476|esp32|TI-83|raspberrypi|niryo|nao|galaxia|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|pico|eliobot|thymio|winky|sphero|lotibot|bluebot|spike|photon|codey|steami|alphai|primastem)/.test(Code.getInterface());
+            return /(arduinoq|arduino|microbit|wb55|l476|esp32|TI-83|raspberrypi|niryo|nao|galaxia|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|pico|eliobot|thymio|winky|sphero|lotibot|bluebot|spike|photon|codey|steami|alphai|primastem|skykick|unihiker)/.test(Code.getInterface());
         },
         /**
          * Returns true if interface has an auto-corrector.
@@ -1242,7 +1252,7 @@ const Main = (function () {
          * @returns {boolean}
          */
         hasToolboxModes: function () {
-            return ["arduino", "microbit", "esp32", "wb55", "l476", "TI-83", "galaxia", "raspberrypi", "buddy", "niryo", "nao", "GalaxiaCircuitPython", "mBot", "m5stack", "cyberpi", "eliobot", "thymio", "pico", "winky", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai", "primastem"].includes(Code.getInterface());
+            return ["arduino", "microbit", "esp32", "wb55", "l476", "TI-83", "galaxia", "raspberrypi", "buddy", "niryo", "nao", "GalaxiaCircuitPython", "mBot", "m5stack", "cyberpi", "eliobot", "thymio", "pico", "winky", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai", "primastem", "skykick"].includes(Code.getInterface());
         },
         /**
          * Returns true if interface has the drag and drop feature.
@@ -1258,7 +1268,7 @@ const Main = (function () {
          * @returns {boolean}
          */
         hasBoardSelector: function () {
-            return ['esp32', 'pico', 'arduino', 'raspberrypi'].includes(Code.getInterface());
+            return ['esp32', 'pico', 'arduino', 'raspberrypi', 'unihiker'].includes(Code.getInterface());
         },
         /**
          * Returns true for the Python interface (code written freely, run from its text).
@@ -1274,7 +1284,7 @@ const Main = (function () {
          * @returns {boolean}
          * */
         hasPython2Blocks: function () {
-            return /(python|microbit|esp32|galaxia|m5stack|pico|cyberpi|eliobot|wb55|l476|thymio|lotibot|sphero|bluebot|spike|photon|nao|codey|steami|primastem|buddy|niryo|raspberrypi|winky)/.test(Code.getInterface());
+            return /(python|microbit|esp32|galaxia|m5stack|pico|cyberpi|eliobot|wb55|l476|thymio|lotibot|sphero|bluebot|spike|photon|nao|codey|steami|primastem|skykick|buddy|niryo|raspberrypi|winky|unihiker)/.test(Code.getInterface());
         },
         /**
          * Returns true if interface has cpp 2 blocks.

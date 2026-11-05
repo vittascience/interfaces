@@ -135,6 +135,105 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
     }
 ];
 
+const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
+    "io": [
+        {
+            "kind": "category",
+            "toolboxitemid": "io_time",
+            "name": "%{BKY_SUBCATEGORY_TIME}",
+            "style": "io_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-clock"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "io_external_inputs",
+            "name": "%{BKY_SUBCATEGORY_EXTERNAL_INPUTS}",
+            "style": "io_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-toggle-on"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "io_pins",
+            "name": "%{BKY_SUBCATEGORY_PINS}",
+            "style": "io_category",
+            "cssConfig": {
+                "icon": "icon_blockly svgIcon"
+            },
+            "contents": []
+        }
+    ],
+    "math": [
+        {
+            "kind": "category",
+            "toolboxitemid": "math_calculations",
+            "name": "%{BKY_TOOLBOX_LABEL_CALCULATIONS}",
+            "style": "math_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-calculator"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "math_rounding",
+            "name": "%{BKY_SUBCATEGORY_SHORT_ROUNDING}",
+            "style": "math_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-ruler-horizontal"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "math_random",
+            "name": "%{BKY_TOOLBOX_LABEL_RANDOM}",
+            "style": "math_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-dice"
+            },
+            "contents": []
+        }
+    ],
+    "text": [
+        {
+            "kind": "category",
+            "toolboxitemid": "text_create",
+            "name": "%{BKY_TOOLBOX_LABEL_CREATE}",
+            "style": "text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-pen"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "text_search",
+            "name": "%{BKY_TOOLBOX_LABEL_SEARCH}",
+            "style": "text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-magnifying-glass"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "text_transform",
+            "name": "%{BKY_TOOLBOX_LABEL_TRANSFORM}",
+            "style": "text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-wand-magic-sparkles"
+            },
+            "contents": []
+        }
+    ]
+};
+
 const TOOLBOX_VITTASCIENCE_CONTENT = {
     "mCore": [
         {
@@ -209,35 +308,47 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
     ],
     "io": [
         {
-            "label": "%{BKY_SUBCATEGORY_TIME}",
-            "blocks": [
-                'io_wait',
-                'io_waitUntil',
-                'io_initChronometer',
-                'io_getChronometer'
+            "subCategoryId": "io_time",
+            "contents": [
+                {
+                    "blocks": [
+                        'io_wait',
+                        'io_waitUntil',
+                        'io_initChronometer',
+                        'io_getChronometer'
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_EXTERNAL_INPUTS}",
-            "blocks": [
-                'robots_makeBlock_getSwitchState',
-                'robots_makeBlock_getJoystickAxis',
-                'robots_makeBlock_getPotentiometer',
-                'robots_makeBlock_getPressedButton',
-                'robots_makeBlock_getTouchSensorState'
+            "subCategoryId": "io_external_inputs",
+            "contents": [
+                {
+                    "blocks": [
+                        'robots_makeBlock_getSwitchState',
+                        'robots_makeBlock_getJoystickAxis',
+                        'robots_makeBlock_getPotentiometer',
+                        'robots_makeBlock_getPressedButton',
+                        'robots_makeBlock_getTouchSensorState'
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_PINS}",
-            "blocks": [
-                'io_digital_signal',
-                'io_readDigitalPin',
-                'io_writeDigitalPin',
-                'io_readAnalogPin',
-                'io_writeAnalogPin',
-                'io_setPwm',
-                'io_readPulseIn',
-                'io_attachInterrupt'
+            "subCategoryId": "io_pins",
+            "contents": [
+                {
+                    "blocks": [
+                        'io_digital_signal',
+                        'io_readDigitalPin',
+                        'io_writeDigitalPin',
+                        'io_readAnalogPin',
+                        'io_writeAnalogPin',
+                        'io_setPwm',
+                        'io_readPulseIn',
+                        'io_attachInterrupt'
+                    ]
+                }
             ]
         }
     ],
@@ -335,45 +446,79 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
     ],
     "math": [
         {
-            "blocks": [
-                'math_number',
-                'math_arithmetic-add',
-                'math_random_int',
-                'math_random_float',
-                'math_map',
-                'math_round',
-                'math_constant',
-                'math_single',
-                'math_modulo',
-                'math_constrain',
-                'math_trig',
-                'math_atan2',
-                'math_number_property',
-            ]
+            "subCategoryId": "math_calculations",
+            "contents": [{
+                "blocks": [
+                    'math_number',
+                    'math_arithmetic-add',
+                    'math_constant',
+                    'math_single',
+                    'math_modulo',
+                    'math_trig',
+                    'math_atan2',
+                    'math_number_property'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "math_rounding",
+            "contents": [{
+                "blocks": [
+                    'math_map',
+                    'math_round',
+                    'math_constrain'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "math_random",
+            "contents": [{
+                "blocks": [
+                    'math_random_int',
+                    'math_random_float'
+                ]
+            }]
         }
     ],
     "text": [
         {
-            "blocks": [
-                'text_comment',
-                'text',
-                'text_join',
-                'text_newline',
-                'text_append',
-                'text_length',
-                'text_isEmpty',
-                'text_includesSubstr',
-                'text_indexOf',
-                'text_charAt',
-                'text_getSubstring',
-                'text_count_characters',
-                'text_trim',
-                'text_changeCase',
-                'text_count',
-                'text_reverse',
-                'text_replace',
-                'text_random_string'
-            ]
+            "subCategoryId": "text_create",
+            "contents": [{
+                "blocks": [
+                    'text_comment',
+                    'text',
+                    'text_join',
+                    'text_newline',
+                    'text_append'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "text_search",
+            "contents": [{
+                "blocks": [
+                    'text_length',
+                    'text_isEmpty',
+                    'text_includesSubstr',
+                    'text_indexOf',
+                    'text_charAt',
+                    'text_count_characters',
+                    'text_count'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "text_transform",
+            "contents": [{
+                "blocks": [
+                    'text_getSubstring',
+                    'text_trim',
+                    'text_changeCase',
+                    'text_reverse',
+                    'text_replace',
+                    'text_random_string'
+                ]
+            }]
         }
     ],
     "variables": "customized",

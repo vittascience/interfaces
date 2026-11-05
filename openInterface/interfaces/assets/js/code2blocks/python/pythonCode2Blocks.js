@@ -80,12 +80,43 @@ switch (INTERFACE_NAME) {
 	case 'raspberrypi':
 		pythonFunctions = typeof FUNCTIONS_RASPBERRY !== 'undefined' ? FUNCTIONS_RASPBERRY : {};
 		break;
+	case 'unihiker':
+		// UNIHIKER K10: helpers and initializations of its generators (blocks/generators/specific/k10.js)
+		pythonFunctions = typeof FUNCTIONS_UNIHIKER !== 'undefined'
+			? { ...FUNCTIONS_UNIHIKER, ...FUNCTIONS_UNIHIKER_MODULES, ...(typeof FUNCTIONS_UNIHIKER_K10 !== 'undefined' ? FUNCTIONS_UNIHIKER_K10 : {}) } : {};
+		break;
 	case 'winky':
 		pythonFunctions = typeof FUNCTIONS_WINKY !== 'undefined' ? FUNCTIONS_WINKY : {};
 		break;
 	default:
 		pythonFunctions = {};
 		break;
+}
+
+/**
+ * Top level parts of the helper functions of the blocks: an helper may hold several definitions and the module variables
+ * they use (ex: "screen_texts = {}" before "def screen_text"). Each definition is recognized alone, and a module statement
+ * is left out when a definition of the same helper is in the program. Code without spaces (utils.rmSpaces), built once.
+ * @returns {{definitions: Set<string>, statements: Map<string, string[]>}}
+ */
+let helperParts = null;
+function getHelperParts() {
+	if (helperParts) return helperParts;
+	helperParts = { definitions: new Set(), statements: new Map() };
+	for (const helper of Object.values(pythonFunctions)) {
+		if (typeof helper !== 'string') continue;
+		const parts = [];
+		for (const line of helper.split('\n')) {
+			if (/^\S/.test(line) || parts.length === 0) parts.push(line);
+			else parts[parts.length - 1] += '\n' + line;
+		}
+		const definitions = parts.filter((part) => /^(def|async def|@)\s?/.test(part)).map((part) => utils.rmSpaces(part));
+		definitions.forEach((definition) => helperParts.definitions.add(definition));
+		parts.filter((part) => part.trim() && !/^(def|async def|@|#)/.test(part)).forEach((part) => {
+			helperParts.statements.set(utils.rmSpaces(part), definitions);
+		});
+	}
+	return helperParts;
 }
 
 /**
@@ -535,6 +566,12 @@ export default class Python2Blocks {
 				this.vittaFunctionsCode.set(declarator, node.text);
 				return this.rawVittaFunctions.has(declarator) ? this.untranslatableBlock(node) : '';
 			}
+		}
+
+		if (declarator !== 'on_start' && declarator !== 'scratch_on_start' && getHelperParts().definitions.has(utils.rmSpaces(node.text))) {
+			this.vittaFunctions.add(declarator);
+			this.vittaFunctionsCode.set(declarator, node.text);
+			return this.rawVittaFunctions.has(declarator) ? this.untranslatableBlock(node) : '';
 		}
 
 		for (const func in basicPythonFunctions) {
@@ -2173,6 +2210,24 @@ export default class Python2Blocks {
 	 * @param {object} parent - The parent node
 	 * @returns {object} - The block xml node with child nodes (if any)
 	 * */
+	/**
+	 * "a if condition else b": logic_ternary block
+	 * @param {object} node - conditional_expression node: value, "if", condition, "else", value
+	 * @returns {object} - The block of the expression, or the untranslatable expression
+	 */
+	determineConditionalExpressionBlockType = (node) => {
+		const values = node.children.filter((child) => child.type !== 'if' && child.type !== 'else');
+		if (values.length !== 3) return this.untranslatableExpression(node);
+		return {
+			type: 'logic_ternary',
+			fields: {},
+			values: { IF: null, THEN: null, ELSE: null },
+			mutations: null,
+			statementsNode: { IF: values[1], THEN: values[0], ELSE: values[2] },
+			statement: null,
+		};
+	};
+
 	determineNotOperatorBlockType = (node, parent) => {
 		if (node.children && node.children.length > 1 && node.children[1].type === 'call') {
 			// cheks only for not len('') or not len([]) or not len({}) => should be improved and not hardcoded
@@ -2484,6 +2539,8 @@ export default class Python2Blocks {
 				return this.determineIntegerFloatBlockType(node, parent);
 			case 'not_operator':
 				return this.determineNotOperatorBlockType(node, parent);
+			case 'conditional_expression':
+				return this.determineConditionalExpressionBlockType(node, parent);
 			case 'string':
 				return this.determineStringLiteralBlockType(node, parent);
 			case 'binary_operator':
@@ -2547,7 +2604,7 @@ export default class Python2Blocks {
 				// constructions without block (class, with, list comprehension, lambda, tuple, set...): kept as code
 				if (node.type.endsWith('_statement') || node.type.endsWith('_definition')) return this.untranslatableBlock(node);
 				if (node.type === 'dictionary') return this.dictionaryBlock(node) || this.untranslatableExpression(node);
-				if (['list_comprehension', 'dictionary_comprehension', 'set_comprehension', 'generator_expression', 'lambda', 'conditional_expression', 'set', 'concatenated_string', 'slice', 'await', 'named_expression'].includes(node.type)) return this.untranslatableExpression(node);
+				if (['list_comprehension', 'dictionary_comprehension', 'set_comprehension', 'generator_expression', 'lambda', 'set', 'concatenated_string', 'slice', 'await', 'named_expression'].includes(node.type)) return this.untranslatableExpression(node);
 				return '';
 		}
 	}
@@ -2730,7 +2787,14 @@ export default class Python2Blocks {
 			const other = [];
 			const whiles = [];
 			const toolboxMode = Blockly.Constants.getToolboxStyle();
+			// module statements of the helpers whose definitions are in the program: added again by the blocks
+			const programDefinitions = new Set(astJson.children.filter((child) => child.type === 'function_definition').map((child) => utils.rmSpaces(child.text)));
+			const isHelperStatement = (child) => {
+				const definitions = getHelperParts().statements.get(utils.rmSpaces(child.text));
+				return definitions !== undefined && definitions.some((definition) => programDefinitions.has(definition));
+			};
 			for (const child of astJson.children) {
+				if (isHelperStatement(child)) continue;
 				if (child.type === 'while_statement') {
 					if (child.children[1].type === 'true') {
 						const newWile = { type: 'while_statement_forever', children: child.children.filter((child) => child.type !== 'true') };
@@ -3022,6 +3086,8 @@ export default class Python2Blocks {
 	 * @returns {void}
 	 * */
 	injectBlocks() {
+		// Windows line endings (code pasted from a Windows file): kept by the editor, they break the comparisons of lines
+		this.code = this.code.replace(/\r\n?/g, '\n');
 		this.learned?.setProgram(this.code);
 		this.setBlockStore();
 		this.resetBlocks();

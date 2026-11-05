@@ -116,6 +116,10 @@ class ToolboxManager {
         return this;
     };
     static DISABLE_BLOCK_HELPURL_EXTENSION = false;
+    // A word of the search this long can have one typo.
+    static TYPO_MIN_LENGTH = 5;
+    static _searchTexts = new Map();
+    static _keywordsByTooltip = null;
     static DISABLE_BLOCK_COLOR_EXTENSION = false;
     static DISABLE_DISABLING_DUPLICATES_EXTENSION = false;
     /**
@@ -135,6 +139,7 @@ class ToolboxManager {
         if (this._hasCategories) {
             this._setToolboxMenuStyle();
             this._setToolboxHeader();
+            this._indexBlocksWhenIdle();
         }
         Blockly.svgResize(this._workspace);
         if (Main.getInterface() == 'TI-83') {
@@ -565,7 +570,41 @@ class ToolboxManager {
                     context.state.categoryAdded = true;
                 }
                 this._addLabel(context.categoryId, item.label);
+                continue;
             }
+            // Button opening a page in a new tab ({"button": text, "link": url}), not in the search results, and not in
+            // Capytale with "hideInCapytale"
+            if (item.link) {
+                if (this.keyword || (item.hideInCapytale && typeof IS_CAPYTALE_CONTEXT !== 'undefined')) continue;
+                if (!context.state.categoryAdded) {
+                    this._pushCategory(context.category);
+                    context.state.categoryAdded = true;
+                }
+                this._addLinkButton(context.categoryId, item.button, item.link);
+            }
+        }
+    };
+    /**
+     * Add a button opening a page in a new tab, in toolbox by category id.
+     * @private
+     * @param {String} categoryId
+     * @param {String} text text of the button (%{BKY_...} message references allowed)
+     * @param {String} url
+     */
+    _addLinkButton(categoryId, text, url) {
+        const callbackKey = 'OPEN_LINK_' + url.replace(/[^a-z0-9_]/gi, '_');
+        if (!this._toolboxLinkCallbacks) this._toolboxLinkCallbacks = new Set();
+        if (!this._toolboxLinkCallbacks.has(callbackKey)) {
+            this._workspace.registerButtonCallback(callbackKey, () => window.open(url, '_blank', 'noopener,noreferrer'));
+            this._toolboxLinkCallbacks.add(callbackKey);
+        }
+        const catContent = this._getCategoryContent(categoryId);
+        if (catContent) {
+            catContent.push({
+                "kind": "button",
+                "text": Blockly.utils.parsing.replaceMessageReferences(text),
+                "callbackKey": callbackKey
+            });
         }
     };
     /**
@@ -698,15 +737,23 @@ class ToolboxManager {
         }
     };
     /**
+     * Blockly theme chosen by the user (local storage), also given to Blockly.inject so that blocks never render with the default theme.
+     * @return {Blockly.Theme}
+     */
+    static getUserBlocklyTheme() {
+        const themeLabel = localStorage.getItem('theme') || "light";
+        const font = localStorage.getItem('font') || "basic";
+        const theme = Blockly.Themes[THEMES[themeLabel][font]] || Blockly.Themes.ClassicBase;
+        theme.setStartHats(true);
+        return theme;
+    };
+    /**
      * Change theme of workspace blockly by user local storage.
      * @public
      * @param {Blockly.Theme} theme
      */
     setBlocklyTheme() {
-        const themeLabel = localStorage.getItem('theme') || "light";
-        const font = localStorage.getItem('font') || "basic";
-        this._theme = Blockly.Themes[THEMES[themeLabel][font]] || Blockly.Themes.ClassicBase;
-        this._theme.setStartHats(true);
+        this._theme = ToolboxManager.getUserBlocklyTheme();
         this._workspace.setTheme(this._theme);
         // setTheme only restyles the blocks already rendered: render them again so that their
         // shape follows the theme too (start hats of a project loaded before).
@@ -885,6 +932,7 @@ class ToolboxManager {
             if (!(e.keyCode == 65 && e.ctrlKey) && !(e.ctrlKey) && !(e.keyCode == 17)) {
                 this.keyword = $("#" + searchInputId).val();
                 this.setToolbox();
+                this._trackEmptySearch();
                 $("#" + searchInputId).val("");
                 document.getElementById(searchInputId).focus();
                 $("#" + searchInputId).val(this.keyword);
@@ -1004,27 +1052,8 @@ class ToolboxManager {
         }
     };
     static setupSearchWorkspace() {
-        const id = 'searchBlocklyDiv';
-        let container = document.getElementById(id);
-        if (!container) {
-            container = document.createElement('div');
-            container.id = id;
-            container.style.position = 'absolute';
-            container.style.left = '-10000px';
-            container.style.top = '-10000px';
-            container.style.width = '1px';
-            container.style.height = '1px';
-            container.style.overflow = 'hidden';
-            document.body.appendChild(container);
-        } else if (!document.body.contains(container)) {
-            document.body.appendChild(container);
-        }
         if (!Blockly._searchWorkspace || Blockly._searchWorkspace.isDisposed?.()) {
-            Blockly._searchWorkspace = Blockly.inject(container, {
-                css: false,
-                scrollbars: false,
-                trashcan: false,
-            });
+            Blockly._searchWorkspace = new Blockly.Workspace();
         }
         return Blockly._searchWorkspace;
     };
@@ -1032,91 +1061,150 @@ class ToolboxManager {
      * Return true if block is matching with keyword to be added in toolbox.
      * @static
      * @param {String} blockType
-     * @param {String} keywords 
+     * @param {String} keyword
      * @param {String} catLabel
      * @return {boolean}
      */
-    static isMatchingBlock(blockType, keyword, catLabel, searchInCode = false) {
-        if (keyword === "") return true;
-        keyword = ToolboxManager.cleanString(keyword);
-        if (blockType && ToolboxManager.cleanString(blockType).search(keyword) > -1) {
-            return true;
-        }
-        // if keyword is matching with category name or subcategory label
-        if (catLabel && ToolboxManager.cleanString(catLabel).search(keyword) > -1) {
-            return true;
-        }
+    static isMatchingBlock(blockType, keyword, catLabel) {
+        if (keyword.trim() === "") return true;
+        return ToolboxManager.isMatchingText(ToolboxManager.getSearchText(blockType) + ' ' + (catLabel || ''), keyword);
+    };
+    /**
+     * Return true if every word of the keyword is in the text, in any order and with one typo at most in the long words.
+     * @static
+     * @param {String} text
+     * @param {String} keyword
+     * @return {boolean}
+     */
+    static isMatchingText(text, keyword) {
+        text = ToolboxManager.cleanString(text);
+        const textWords = text.split(/[^\p{L}\p{N}]+/u);
+        return ToolboxManager.cleanString(keyword).split(/\s+/).filter(Boolean).every(word => text.includes(word)
+            || (word.length >= ToolboxManager.TYPO_MIN_LENGTH && textWords.some(textWord => ToolboxManager.isOneTypoAway(word, textWord))));
+    };
+    /**
+     * Return true if the two words differ by one letter added, removed, replaced, or two letters swapped.
+     * @static
+     * @param {String} a
+     * @param {String} b
+     * @return {boolean}
+     */
+    static isOneTypoAway(a, b) {
+        if (Math.abs(a.length - b.length) > 1) return false;
+        let i = 0;
+        while (i < a.length && a[i] === b[i]) i++;
+        const sameEnd = (startA, startB) => a.slice(startA) === b.slice(startB);
+        return sameEnd(i + 1, i + 1) || sameEnd(i + 1, i) || sameEnd(i, i + 1)
+            || (a[i] === b[i + 1] && a[i + 1] === b[i] && sameEnd(i + 2, i + 2));
+    };
+    /**
+     * Get the searchable text of a block, built once: the blocks are created in a hidden workspace to read their texts.
+     * @static
+     * @param {String} blockType
+     * @return {String}
+     */
+    static getSearchText(blockType) {
+        if (ToolboxManager._searchTexts.has(blockType)) return ToolboxManager._searchTexts.get(blockType);
+        let text = blockType;
         const blockXml = ToolboxManager.getXmlByBlockType(blockType);
         if (blockXml) {
-            // if keyword is matching with block xml definition
-            if (ToolboxManager.cleanString(blockXml).search(keyword) > -1) {
-                return true;
-            }
             const ws = ToolboxManager.setupSearchWorkspace();
             ws.clear();
             const xmlToLoad = Blockly.utils.xml.textToDom('<xml xmlns="http://www.w3.org/1999/xhtml">' + blockXml + '</xml>');
             ToolboxManager.DISABLE_BLOCK_COLOR_EXTENSION = true;
             ToolboxManager.DISABLE_BLOCK_HELPURL_EXTENSION = true;
             ToolboxManager.DISABLE_DISABLING_DUPLICATES_EXTENSION = true;
-            Blockly.Xml.domToWorkspace(xmlToLoad, ws);
+            try {
+                Blockly.Xml.domToWorkspace(xmlToLoad, ws);
+                const block = ws.getAllBlocks().find(block => block.type === blockType.split('-')[0]);
+                if (block) text += ' ' + ToolboxManager._getBlockTexts(block);
+            } catch (e) {
+                // A block which cannot be created stays searchable by its type, and does not stop the search of the others.
+                console.error(`[ToolboxManager] Unable to index block '${blockType}'.`, e);
+            }
             ToolboxManager.DISABLE_BLOCK_COLOR_EXTENSION = false;
             ToolboxManager.DISABLE_BLOCK_HELPURL_EXTENSION = false;
             ToolboxManager.DISABLE_DISABLING_DUPLICATES_EXTENSION = false;
-            if (searchInCode) {
-                // Arduino UNO Q has both generators: a C++ block is unknown to the Python one and the other way round
-                for (const generator of [Blockly.Python, Blockly.Arduino].filter(Boolean)) {
-                    try {
-                        if (generator.workspaceToCode(ws).search(keyword) > -1) {
-                            return true;
-                        }
-                    } catch (e) {
-                        // block not handled by this generator
-                    }
-                }
-            }
-            const blockDB = ws.getAllBlocks();
-            const blockSvg = blockDB[Object.keys(blockDB).find(key => blockDB[key].type === blockType)];
-            if (blockSvg !== undefined && ToolboxManager.searchBlock(blockSvg, keyword)) {
-                return true;
-            }
         }
+        ToolboxManager._searchTexts.set(blockType, text);
+        return text;
     };
     /**
-     * Search for the given keywords in the block's tooltip and fields.
+     * Get the texts of a block: labels, dropdown options, tooltip without its image, and keywords of the tooltip.
+     * @private
      * @static
-     * @param {Blockly.blockSvg} blockSvg
-     * @param {!Array.<string>|string} keywords 
-     * @return {boolean} result.
+     * @param {Blockly.Block} block
+     * @return {String}
      */
-    static searchBlock(blockSvg, keyword) {
-        let blockText = blockSvg.type;
-        if (!(blockSvg.tooltip instanceof Function)) {
-            blockText += " " + blockSvg.tooltip;
-        } else if (!(blockSvg.getTooltip() instanceof Function)) {
-            blockText += " " + blockSvg.getTooltip();
-        } else if (!(blockSvg.getTooltip()() instanceof Function)) {
-            blockText += " " + blockSvg.getTooltip()();
-        }
-        for (var i = 0, input; input = blockSvg.inputList[i]; i++) {
-            if (input.name !== undefined) {
-                blockText += ' ' + input.name;
-            }
-            for (var j = 0, field; field = input.fieldRow[j]; j++) {
-                if (field.name !== undefined) {
-                    blockText += ' ' + field.name;
-                }
+    static _getBlockTexts(block) {
+        const texts = [];
+        for (const input of block.inputList) {
+            for (const field of input.fieldRow) {
                 if (field instanceof Blockly.FieldLabel) {
-                    blockText += ' ' + field.value_;
-                }
-                if (field instanceof Blockly.FieldDropdown) {
-                    const menuItems = field.menuGenerator_;
-                    for (var k = 0; k < menuItems.length; k++) {
-                        blockText += ' ' + menuItems[k][0];
-                    }
+                    texts.push(field.getValue());
+                } else if (field instanceof Blockly.FieldDropdown && Array.isArray(field.menuGenerator_)) {
+                    texts.push(...field.menuGenerator_.map(option => typeof option[0] === 'string' ? option[0] : option[0].alt));
                 }
             }
         }
-        return ToolboxManager.cleanString(blockText).search(keyword) > -1;
+        let tooltip = block.tooltip;
+        while (typeof tooltip === 'function') tooltip = tooltip();
+        if (typeof tooltip === 'string') {
+            tooltip = tooltip.split(Blockly.Tooltip.SEP).pop();
+            // A tooltip can be made of several messages (ROBOTS_WAITING_BUTTON_TOOLTIP).
+            const keywords = Object.entries(ToolboxManager._getKeywordsByTooltip()).filter(([text]) => tooltip.includes(text));
+            texts.push(tooltip, ...keywords.map(([, words]) => words));
+        }
+        return texts.filter(Boolean).join(' ');
+    };
+    /**
+     * Get the keywords of the tooltips: the message <X>_KEYWORDS completes the block whose tooltip is <X>_TOOLTIP.
+     * @private
+     * @static
+     * @return {Object} keywords by tooltip text
+     */
+    static _getKeywordsByTooltip() {
+        if (!ToolboxManager._keywordsByTooltip) {
+            ToolboxManager._keywordsByTooltip = {};
+            for (const key of Object.keys(Blockly.Msg).filter(key => key.endsWith('_KEYWORDS'))) {
+                const tooltip = Blockly.Msg[key.replace(/_KEYWORDS$/, '_TOOLTIP')];
+                if (typeof tooltip !== 'string') continue;
+                const text = Blockly.utils.parsing.replaceMessageReferences(tooltip).split(Blockly.Tooltip.SEP).pop();
+                ToolboxManager._keywordsByTooltip[text] = [ToolboxManager._keywordsByTooltip[text], Blockly.Msg[key]].filter(Boolean).join(' ');
+            }
+        }
+        return ToolboxManager._keywordsByTooltip;
+    };
+    /**
+     * Index the blocks of the toolbox when the browser is idle, so that the first search does not freeze the page.
+     * Without requestIdleCallback (Safari), the blocks are indexed by the first search.
+     * @private
+     */
+    _indexBlocksWhenIdle() {
+        if (this._blocksIndexed || typeof requestIdleCallback === 'undefined') return;
+        this._blocksIndexed = true;
+        const types = (JSON.stringify(this._getToolboxTreeContent()).match(/<block type=\\"[^\\]+/g) || [])
+            .map(block => block.slice('<block type=\\"'.length));
+        const indexBlocks = (deadline) => {
+            while (types.length && deadline.timeRemaining() > 0) ToolboxManager.getSearchText(types.pop());
+            if (types.length) requestIdleCallback(indexBlocks);
+        };
+        requestIdleCallback(indexBlocks);
+    };
+    /**
+     * Report a search without any result to Matomo, to know the words to add as keywords. Not sent where Matomo
+     * identifies the user (LTI) nor in Capytale.
+     * @private
+     */
+    _trackEmptySearch() {
+        clearTimeout(this._emptySearchTimer);
+        const hasResult = (items) => items.some(item => item.kind === 'block' || (item.contents && hasResult(item.contents)));
+        if (!this.keyword.trim() || hasResult(this._getToolboxTreeContent())) return;
+        if (typeof BlockExtensions !== 'undefined' && BlockExtensions.getSuggestions(this.keyword).length) return;
+        if (typeof ltiVariables13 !== 'undefined' || typeof IS_CAPYTALE_CONTEXT !== 'undefined') return;
+        const keyword = ToolboxManager.cleanString(this.keyword).trim().slice(0, 40);
+        // Once the user has stopped typing.
+        this._emptySearchTimer = setTimeout(() => window._paq?.push(['trackSiteSearch', keyword, INTERFACE_NAME, 0]), 2000);
     };
     /**
      * Get category and subcategory labels of a block.
@@ -1184,7 +1272,7 @@ class ToolboxManager {
      * @return {String}
      */
     static cleanString(text) {
-        return text.toLowerCase().replace(/[áàâäãå]/g, 'a').replace(/[éèêë]/g, 'e').replace(/[íìîï]/g, 'i').replace(/[óòôöõ]/gi, 'o');
+        return text.toLowerCase().normalize('NFD').replace(/\p{M}/gu, '');
     };
     /**
      * Get toolbox definition by the mode.

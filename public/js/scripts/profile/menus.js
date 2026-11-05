@@ -91,6 +91,16 @@ $(".delProfileAddress").on("click", function () {
             url: "/services/post/postProfile.php",
             data: "action=deleteAddressProfile&idAddress=" + id,
             success: function (data, text, xml) {
+                let result = {};
+                try {
+                    result = typeof data === "string" ? JSON.parse(data) : data;
+                } catch (e) {
+                    result = {};
+                }
+                if (result && result.error === "used_by_subscription") {
+                    window.alert(i18next.t("profile.addressBloc.usedBySubscription", { defaultValue: "Adresse utilisée par un abonnement Premium en cours : elle ne peut pas être supprimée." }));
+                    return;
+                }
                 document.location.reload();
             }
         });
@@ -98,14 +108,13 @@ $(".delProfileAddress").on("click", function () {
 })
 
 $(".btn-del-profileWl").on("click", function () {
-    let iduser = $(this).attr("data-iduser");
     let idproduct = $(this).attr("data-idproduct");
     let reponse = window.confirm("Etes-vous sûr de vouloir supprimer cet article ?");
     if (reponse) {
         $.ajax({
             type: "POST",
-            url: "/services/post/postProfile.php",
-            data: "delFromWl=yes&idUser=" + iduser + "&idProduct=" + idproduct,
+            url: "/public/profile.php",
+            data: "delFromWl=yes&idProduct=" + idproduct,
             success: function (data, text, xml) {
                 document.location.reload();
             }

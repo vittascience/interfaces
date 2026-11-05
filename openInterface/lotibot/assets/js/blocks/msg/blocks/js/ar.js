@@ -5,7 +5,7 @@
 'use strict';
 
 // Display
-Blockly.Msg['DISPLAY_SET_LEDS_RGB_TITLE'] = '[LEDs] R %1 G %2 B %3';
+Blockly.Msg['DISPLAY_SET_LEDS_RGB_TITLE'] = '[مصابيح LED] أحمر %1 أخضر %2 أزرق %3';
 Blockly.Msg['DISPLAY_SET_LEDS_RGB_TOOLTIP'] = 'تغيير لون الأضواء LED في الروبوت Loti-bot إلى النمط RGB.';
 Blockly.Msg['DISPLAY_SET_LEDS_PALETTE_TITLE'] = '[LEDs] %1';
 Blockly.Msg['DISPLAY_SET_LEDS_PALETTE_TOOLTIP'] = 'تغيير لون الأضواء LED في الروبوت Loti-bot باستخدام لوحة ألوان.';

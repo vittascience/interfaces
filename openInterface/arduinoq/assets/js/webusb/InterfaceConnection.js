@@ -99,6 +99,29 @@ const InterfaceConnection = {
     },
 
     /**
+     * [Button] Start again the app already on the board.
+     */
+    launchApp: async function () {
+        if ($("#simulator").is(":visible")) {
+            await toggleSimulator();
+        }
+        InterfaceMonitor.setup();
+        await this.unoqUp.launchApp();
+    },
+
+    /**
+     * [Button] Stop the app running on the board.
+     */
+    stopApp: async function () {
+        if (!this.unoqUp.isConnected()) {
+            await this.connectBoard();
+            if (!this.unoqUp.isConnected()) return;
+        }
+        await this.unoqUp.stopApp("vittascience-app");
+        InterfaceMonitor.writeConsole(jsonPath('code.arduinoq.appStopped'), 'success', false, true);
+    },
+
+    /**
      * [Button] Open/close the file manager of the board apps.
      */
     toggleFileSystem: async function () {

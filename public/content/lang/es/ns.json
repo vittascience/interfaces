@@ -897,7 +897,7 @@
       "uai": "Número UAI del centro",
       "uaiHint": "7 cifras seguidas de una letra, por ejemplo 0751234A.",
       "accountEmails": "Dirección(es) de correo electrónico de la(s) cuenta(s) Vittascience que se activarán",
-      "accountEmailsHint": "Una dirección por línea, {{max}} como máximo (una por licencia).",
+      "accountEmailsHint": "Una dirección por línea o separadas por comas, {{max}} como máximo (una por licencia).",
       "accountEmailsTooMany": "Demasiadas direcciones: {{max}} como máximo.",
       "accountEmailInvalid": "Dirección de correo electrónico no válida:",
       "quoteUpdateError": "No se ha podido registrar su orden de compra: la actualización del presupuesto n.º {{number}} ha fallado. Vuelva a intentarlo dentro de unos minutos. Si el problema persiste, contáctenos:",
@@ -915,18 +915,41 @@
       "errorExplanation": "Su formulario de pedido no ha podido ser registrado.<br>La incidencia ha sido reportada a nuestro equipo técnico.<br> Póngase en contacto nosotros para resolver el problema.",
       "contactUs": "Póngase en contacto con nosotros",
       "whatIsChorus": "¿Qué es Chorus Pro?",
-      "chorusDefinition": "CHORUS PRO es el nuevo portal público del Estado por el que transitarán progresivamente todas las facturas al servicio público. El objetivo de este portal es que el Estado desmaterialice el 100% de las facturas que se le envían según un calendario progresivo que comenzó el 1 de enero de 2017. Para facilitar la tarea de las empresas proveedoras, todas las administraciones públicas utilizarán el mismo portal."
+      "chorusDefinition": "CHORUS PRO es el nuevo portal público del Estado por el que transitarán progresivamente todas las facturas al servicio público. El objetivo de este portal es que el Estado desmaterialice el 100% de las facturas que se le envían según un calendario progresivo que comenzó el 1 de enero de 2017. Para facilitar la tarea de las empresas proveedoras, todas las administraciones públicas utilizarán el mismo portal.",
+      "maintenanceTitle": "Mantenimiento en curso :(",
+      "maintenanceText": "Nuestro equipo está actualizando nuestras ofertas. ¡Volveremos pronto!",
+      "supportSubject": "Envío de orden de compra - presupuesto {{number}}",
+      "autoValidate": "Validar el presupuesto automáticamente",
+      "autoValidateHint": "El presupuesto se marca como aceptado: la factura provisional y el pedido se crean de inmediato, y el cliente recibe el correo electrónico de confirmación.",
+      "closedTitle": "Presupuesto ya aceptado",
+      "closedText": "El presupuesto {{number}} ya ha sido aceptado y su pedido está siendo procesado: no queda ninguna orden de compra para enviar. Para solicitar algún cambio, contáctenos.",
+      "closedSubject": "Presupuesto {{number}}",
+      "invalidLinkTitle": "Enlace de envío no válido",
+      "invalidLinkText": "Para enviar o reemplazar la orden de compra de este presupuesto, utilice el enlace en el último correo electrónico de presupuesto que recibió, o inicie sesión en la cuenta que solicitó el presupuesto (Mi cuenta › Mis pedidos).",
+      "sectionBdc": "Su orden de compra",
+      "sectionBilling": "Facturación",
+      "sectionSubscription": "Suscripción",
+      "sectionConfirm": "Confirmación",
+      "activationMethod": "Método de activación",
+      "activationEmails": "Correo(s)",
+      "activationGar": "GAR",
+      "activationEmailsHint": "Las cuentas Vittascience indicadas reciben la licencia (una dirección por licencia).",
+      "activationGarHint": "El profesorado y el alumnado del centro acceden a Vittascience desde su ENT, sin crear cuenta.",
+      "schoolOrUai": "Centro o UAI",
+      "schoolSearchPlaceholder": "Nombre del centro o UAI (p. ej. 0751234A)",
+      "schoolHint": "Escriba el nombre o el UAI y elija el centro en la lista.",
+      "schoolRequired": "Elija un centro en la lista o introduzca un UAI válido (7 cifras y una letra)."
     },
     "mail": {
       "estimate": "cita",
       "invoice": "factura",
       "your": "Su",
       "hi": "Hola",
-      "estimate1": "<p>Gracias por esta solicitud de presupuesto.<br>Lo encontrará adjunto.</p><p>Para validar este presupuesto:</p><ul><li>En el caso de un establecimiento sujeto a contabilidad pública (escuela, autoridad local, Réseau Canopé, etc.), el pago por orden administrativa es posible. Para ello, valide el presupuesto con una hoja de pedido, lo que desencadenará la preparación del pedido. El pago se realizará a la recepción del pedido, mediante la factura emitida en el momento del envío del pedido.</li><br><li>En el caso de un pedido individual, el pago puede realizarse mediante tarjeta bancaria (validación inmediata) o transferencia bancaria (tiempo de validación de 2 días). Su pedido se preparará una vez recibido el pago.",
+      "estimate1": "<p>Gracias por esta solicitud de presupuesto.<br>Lo encontrará adjunto.</p><p>Para validar este presupuesto:</p><ul><li>En el caso de un establecimiento sujeto a contabilidad pública (escuela, autoridad local, Réseau Canopé, etc.), el pago por orden administrativa es posible. Para ello, valide el presupuesto con una hoja de pedido, lo que desencadenará la preparación del pedido. El pago se realizará a la recepción del pedido, mediante la factura emitida en el momento del envío del pedido.</li><br><li>En el caso de un pedido individual, el pago puede realizarse mediante tarjeta bancaria (validación inmediata) o transferencia bancaria (tiempo de validación de 2 días). Su pedido se preparará una vez recibido el pago.</li></ul>",
       "message": "Escriba un mensaje:",
       "estimate2": "Lo tendremos en cuenta a la hora de procesar esta última.",
       "foot": "<p>No dude en responder a este correo electrónico si tiene alguna pregunta,¡nuestros equipos están a su disposición!</p><p>Si tiene dificultades para abrir el documento, haga clic en <a href='https: //es.vittascience.com/profile?tab=orders'>aquí</a> para ir a su cuenta de vittascience y consultar sus documentos y pedidos.</p>",
-      "invoice1": "<p>Gracias por esta compra.<br>Encontrará adjunta la factura asociada a su pedido.</p><p>Esta se encuentra en preparación y le será entregada a la mayor brevedad posible, sujeta a la disponibilidad de producto en stock.</p><p>",
+      "invoice1": "<p>Gracias por esta compra.<br>Encontrará adjunta la factura asociada a su pedido.</p><p>Esta se encuentra en preparación y le será entregada a la mayor brevedad posible, sujeta a la disponibilidad de producto en stock.</p>",
       "invoice2": "Lo tendremos en cuenta a la hora de procesar esta última.",
       "backupMail1": "<p>Gracias por esta solicitud de presupuesto/pedido.<br>Nuestro software de creación automática de documentos ha encontrado dificultades.<br>Sin embargo, hemos recibido su solicitud, y procederemos a crearla manualmente.</p><p>Aquí tiene los elementos que nos fueron enviados durante su proceso:</p>",
       "backupMail2": "Si observa alguna discrepancia, puede responder directamente a este correo electrónico para comunicárnoslo.",
@@ -949,6 +972,31 @@
       "submit": "Enviar",
       "submit_success": "¡Gracias por compartir tu reseña!",
       "return_to_product": "Volver al producto"
+    },
+    "shopPayLink": {
+      "thanksTitle": "Gracias, su pago ha sido recibido",
+      "thanksText": "El pago de {{amount}} por la factura {{number}} ha sido recibido.",
+      "thanksTextNoAmount": "El pago por la factura {{number}} ha sido recibido.",
+      "paidTitle": "Factura ya pagada",
+      "paidText": "La factura {{number}} ya ha sido pagada con tarjeta. ¡Gracias!",
+      "settledText": "Hemos recibido el pago por la factura {{number}}: no queda nada por pagar. ¡Gracias!",
+      "processingTitle": "Pago siendo confirmado",
+      "processingText": "Su banco está confirmando su pago: recargue esta página en unos minutos para ver la confirmación.",
+      "abortedTitle": "Pago cancelado",
+      "abortedText": "El pago por la factura {{number}} no se completó. Puede intentarlo de nuevo cuando lo desee.",
+      "expiredTitle": "Enlace de pago caducado",
+      "expiredText": "Este enlace de pago ya no es válido. Contáctenos para recibir uno nuevo.",
+      "cancelledTitle": "Enlace de pago desactivado",
+      "cancelledText": "Este enlace de pago ya no es válido: es posible que se le haya enviado un enlace más reciente. Contáctenos si tiene dudas.",
+      "notfoundTitle": "Enlace de pago no encontrado",
+      "notfoundText": "Verifique que se copió todo el enlace, o contáctenos.",
+      "errorTitle": "Pago temporalmente no disponible",
+      "errorText": "El pago en línea no se puede abrir en este momento. Intente nuevamente en unos minutos, o contáctenos.",
+      "payButton": "Pagar {{amount}} con tarjeta",
+      "retry": "Intentar de nuevo",
+      "contact": "Contáctenos",
+      "stripeLabel": "Factura {{number}}",
+      "stripeLabelOrder": "Factura por el pedido {{number}}"
     }
   },
   "about": {
@@ -959,7 +1007,7 @@
       "desc_2017": "Después, los acontecimientos se suceden rápidamente, Vittascience distribuye 70 kits a lo largo del año 2017-2018 que se utilizarán en la Francia metropolitana, la Guayana Francesa y los Estados Unidos. 2017 será también el año de los concursos y las colaboraciones, en particular el premio Jean-Louis Gerondeau - Zodiac Aerospace (20.000 euros) y una colaboración con el Pôle Diversité et Réussite de l'École Polytechnique.",
       "desc_2018": "Vittascience se hace oficial transformándose en empresa. Tras los numerosos comentarios sobre los kits Solar Balloon y Solar Oven, Vittascience se lanza al desarrollo de una interfaz de codificación para Arduino, así como de recursos educativos en torno a la educación digital.",
       "desc_2019": "Con la llegada de los nuevos programas de secundaria, la plataforma se amplía con una interfaz Python y micro:bit. Vittascience se convierte en ganadora del programa <a href='https://eduscol.education.fr/cid56176/aide-et-commission-dispositif-edu-up.html'>Edu-up</a> del Ministerio de Educación Nacional y Juventud, con el objetivo de mejorar la plataforma desde el punto de vista pedagógico, técnico y de accesibilidad.",
-      "desc_2020": "Con la llegada de la plataforma Classroom, muchos productos nuevos y asociaciones con varias editoriales escolares, la plataforma se utiliza cada vez más en las escuelas. Además, Vittascience está diseñando 5 nuevos kits y añadiendo muchos productos nuevos a la tienda. Detrás de estos avances cada vez más rápidos, <span style=\"color:#22b573; font-size:24px; font-weight:bold;\">¡un equipo fuerte!",
+      "desc_2020": "Con la llegada de la plataforma Classroom, muchos productos nuevos y asociaciones con varias editoriales escolares, la plataforma se utiliza cada vez más en las escuelas. Además, Vittascience está diseñando 5 nuevos kits y añadiendo muchos productos nuevos a la tienda. Detrás de estos avances cada vez más rápidos, <span style=\"color:#22b573; font-size:24px; font-weight:bold;\">¡un equipo fuerte!</span>",
       "desc_2021": "El equipo de Vittascience crece con la llegada de seis nuevos desarrolladores. La plataforma Class es ahora de código abierto y la incorporación de nuevas interfaces de codificación augura un brillante futuro a la plataforma Vittascience...",
       "desc_2022": "En 2022, el equipo de Vittascience está experimentando un crecimiento constante. Estamos encantados de dar la bienvenida a Antoine, quien se unió a nuestro equipo como desarrollador después de una exitosa pasantía. Andreas también se ha unido al equipo de soporte para satisfacer mejor las necesidades de nuestros usuarios. Finalmente, tuvimos el placer de dar la bienvenida a Amandine para encargarse de la estrategia de marketing y comunicación. Su presencia fortalece nuestro equipo y nos permitirá promocionar mejor nuestros productos y servicios. Estamos emocionados de ver lo que depara el futuro y de seguir creciendo juntos.",
       "desc_2023": "En 2023, l’uno de nuestros más importantes socios ve la luz: Las interfaces Vittascience están integradas en la plataforma <a href='https://fr.vittascience.com/capytale' target='_blank'>Capytale</a>!<br>Vittascience se’asocia con <a href='https://cabri.com/index.html' target='_blank'>Cabrilog</a>, <a href='https://www.edumalin.fr' target='_blank'>Edumalin</a> y <a href='https://www.belin-education.com' target='_blank'>Belin Education</a> para poner a disposición recursos en los <a href='https://tne.reseau-canope.fr' target='_blank'>Territorios Digitales Educativos (TNE)</a>, a través del mercado nacional impulsado por <a href='https://www.reseau-canope.fr' target='_blank'>Réseau Canopé</a>.",
@@ -1171,7 +1219,7 @@
         "cityPlaceholder": "Ciudad",
         "postalCodePlaceholder": "Código postal",
         "differentAddress": "¿Su dirección de entrega es diferente de la dirección de facturación?",
-        "deliveryAddress": "<i class= a fa-truck\"></i> Su dirección de entrega <span class=\"mandatory\">*</span>",
+        "deliveryAddress": "<i class=\"fa fa-truck\"></i> Su dirección de entrega <span class=\"mandatory\">*</span>",
         "deliveryAddress2": " Dirección adicional",
         "leaveAMessage": "<i class=\"fa-envelope\"></i> ¿Quiere dejarnos un mensaje?"
       },
@@ -1239,217 +1287,6 @@
         "ai": "Inteligencia artificial",
         "games": "Juegos",
         "communication": "Comunicación"
-      },
-      "catalog": {
-        "colours": {
-          "red": "rojo",
-          "green": "verde",
-          "blue": "azul",
-          "yellow": "amarillo",
-          "cyan": "cian",
-          "magenta": "magenta",
-          "orange": "naranja",
-          "purple": "púrpura",
-          "white": "blanco",
-          "off": "apagado",
-          "black": "negro"
-        },
-        "a4_leds": {
-          "blocks": {
-            "battery": "nivel de batería (%)",
-            "leds_colour": "establecer RGB0 en {C0} y RGB1 en {C1}",
-            "leds_rgb": "establecer RGB0 en R {R0} G {G0} B {B0} y RGB1 en R {R1} G {G1} B {B1}",
-            "leds_brightness": "ajustar brillo RGB a {B} (0-255)",
-            "leds_off": "apagar LEDs RGB"
-          }
-        },
-        "a4_screen": {
-          "blocks": {
-            "screen_clear": "pantalla borrar todo",
-            "screen_background": "pantalla establecer color de fondo {C}",
-            "screen_background_image": "pantalla establecer imagen de fondo {NAME}",
-            "screen_text": "pantalla mostrar texto {TEXT} id {ID} en x {X} y {Y} tamaño {SIZE} color {C}",
-            "screen_image": "pantalla mostrar imagen id {ID} nombre {NAME} en x {X} y {Y} tamaño {ZOOM}",
-            "screen_rotate": "pantalla rotar imagen id {ID} ángulo {ANGLE}",
-            "screen_remove": "pantalla eliminar {KIND} id {ID}",
-            "screen_init_i2c": "inicializar pantalla en I2C",
-            "screen_init_uart": "inicializar la pantalla LCD"
-          },
-          "options": {
-            "screen_text_size": {
-              "large": "grande",
-              "small": "pequeño"
-            },
-            "screen_remove_kind": {
-              "text": "texto",
-              "image": "imagen"
-            }
-          },
-          "defaults": {
-            "screen_text": "Hola"
-          }
-        },
-        "a4_access": {
-          "description": "Control de acceso al edificio: un teclado capacitivo desbloquea una puerta retenida por una cerradura magnética.",
-          "blocks": {
-            "lock": "poner la cerradura de la puerta en {STATE}",
-            "door_is": "la puerta está {STATE}",
-            "wait_key": "esperar una tecla del teclado",
-            "read_key": "última tecla pulsada del teclado",
-            "entered_code": "código introducido",
-            "code_is": "el código introducido es {CODE}",
-            "code_length": "el código introducido tiene {N} dígitos",
-            "clear_code": "borrar código introducido",
-            "delete_last": "borrar el último dígito del código"
-          },
-          "options": {
-            "lock_state": {
-              "locked": "bloqueado",
-              "unlocked": "desbloqueado"
-            },
-            "door_is_state": {
-              "closed": "cerrada",
-              "open": "abierta"
-            }
-          }
-        },
-        "a4_parking": {
-          "description": "Estación de aparcamiento limitada: un sensor detecta vehículos y una pantalla a color muestra el tiempo restante.",
-          "blocks": {
-            "vehicle": "vehículo presente",
-            "time": "tiempo {H} h {M} min {S} s"
-          }
-        },
-        "a4_barrier": {
-          "description": "Barrera de parking o de peaje con un servomotor, luz RGB, sensor infrarrojo y lector RFID.",
-          "blocks": {
-            "read_tag": "leer etiqueta RFID",
-            "move": "{ACTION} barrera",
-            "servo": "establecer el ángulo del servo {ANGLE}",
-            "vehicle": "vehículo detectado",
-            "light_colour": "establecer la luz de señal a {C}",
-            "light_rgb": "luz de señal rojo {R} verde {G} azul {B}",
-            "light_off": "apagar la luz de señal"
-          },
-          "options": {
-            "move_action": {
-              "open": "abrir",
-              "close": "cerrar"
-            }
-          }
-        },
-        "a4_weight": {
-          "description": "Báscula automatizada con celda de carga, teclado 4x4 y pantalla a color, para pesar, contar o calcular precios.",
-          "blocks": {
-            "init": "inicializar la báscula",
-            "tare": "tarar la báscula",
-            "mass": "masa (g)",
-            "connected": "báscula conectada",
-            "start_calibration": "iniciar calibración de la báscula",
-            "calibrate": "calibrar la báscula con una masa de referencia de {MASS} g",
-            "pressed_key": "tecla del teclado pulsada",
-            "wait_key": "esperar a que se pulse una tecla",
-            "key_is_pressed": "la tecla {KEY} del teclado está pulsada",
-            "set_factor": "ajustar el factor de calibración de la báscula a {VALUE}",
-            "factor": "factor de calibración de la báscula",
-            "raw_average": "media del valor bruto de la báscula con {N} muestras"
-          }
-        },
-        "a4_shifumi": {
-          "description": "Juego de piedra, papel o tijeras: un servo gira un disco retroiluminado y un sensor ultrasónico detecta la mano.",
-          "blocks": {
-            "disc_angle": "ajustar el ángulo del servo del disco a {ANGLE} °",
-            "distance": "distancia ultrasónica (cm)",
-            "hand_detected": "mano detectada a menos de {D} cm",
-            "backlight_brightness": "establecer brillo de la retroiluminación del disco a {B} %",
-            "backlight_colour": "establecer color de la retroiluminación del disco a {C}",
-            "backlight_rgb": "retroiluminación del disco rojo {R} verde {G} azul {B}",
-            "backlight_off": "apagar la retroiluminación del disco",
-            "lcd_init": "inicializar LCD",
-            "lcd_clear": "borrar LCD",
-            "lcd_text": "mostrar en LCD {TEXT} en la línea {LINE}",
-            "lcd_number": "mostrar en LCD el número {VALUE} en la línea {LINE}"
-          },
-          "defaults": {
-            "lcd_text": "LISTO"
-          }
-        },
-        "a4_ai_vision": {
-          "description": "Cámara AI HuskyLens 2.0 con pantalla a color y LEDs RGB, para reconocer rostros, objetos, colores o gestos."
-        },
-        "dfr0997": {
-          "name": "Pantalla a color DFR0997",
-          "description": "DFRobot 2.8\" I2C LCD a color: textos, figuras, imágenes y GIFs desde su unidad USB, indicadores, brújula y gráficos.",
-          "options": {
-            "fill": {
-              "filled": "relleno",
-              "not_filled": "sin relleno"
-            },
-            "text_size": {
-              "large": "grande",
-              "small": "pequeño"
-            },
-            "rect_round": {
-              "rounded": "redondeado",
-              "square": "cuadrado"
-            },
-            "set_value_kind": {
-              "progress_bar": "barra de progreso",
-              "slider": "deslizador",
-              "compass": "brújula (°)",
-              "gauge": "indicador",
-              "line_meter": "medidor lineal"
-            },
-            "chart_style": {
-              "line": "línea",
-              "bars": "barras",
-              "shaded_line": "línea sombreada"
-            },
-            "remove_kind": {
-              "text": "texto",
-              "image": "imagen",
-              "line": "línea",
-              "rectangle": "rectángulo",
-              "circle": "círculo",
-              "triangle": "triángulo",
-              "slider": "deslizador",
-              "progress_bar": "barra de progreso",
-              "compass": "brújula",
-              "gauge": "indicador",
-              "line_meter": "medidor lineal",
-              "chart": "gráfico"
-            }
-          },
-          "blocks": {
-            "clear": "borrar toda la pantalla",
-            "background": "color de fondo de la pantalla {C}",
-            "background_image": "imagen de fondo de la pantalla {NAME}",
-            "rgb": "color rojo {R} verde {G} azul {B}",
-            "text": "mostrar en pantalla texto {TEXT} id {ID} x {X} y {Y} tamaño {SIZE} color {C}",
-            "image": "mostrar imagen en pantalla {NAME} id {ID} x {X} y {Y} tamaño {ZOOM}",
-            "rotate_image": "rotar imagen en pantalla id {ID} a {ANGLE} °",
-            "gif": "mostrar GIF en pantalla {NAME} id {ID} x {X} y {Y} tamaño {ZOOM}",
-            "line": "línea en pantalla id {ID} desde x {X1} y {Y1} hasta x {X2} y {Y2} ancho {W} color {C}",
-            "rect": "rectángulo en pantalla id {ID} x {X} y {Y} ancho {WIDTH} alto {HEIGHT} borde {W} {C} {FILL} {FC} esquinas {ROUND}",
-            "circle": "círculo en pantalla id {ID} centro x {X} y {Y} radio {R} borde {W} {C} {FILL} {FC}",
-            "triangle": "triángulo en pantalla id {ID} x1 {X1} y1 {Y1} x2 {X2} y2 {Y2} x3 {X3} y3 {Y3} borde {W} {C} {FILL} {FC}",
-            "slider": "deslizador en pantalla id {ID} x {X} y {Y} ancho {WIDTH} alto {HEIGHT} color {C}",
-            "bar": "barra de progreso en pantalla id {ID} x {X} y {Y} ancho {WIDTH} alto {HEIGHT} color {C}",
-            "compass": "brújula en pantalla id {ID} x {X} y {Y} diámetro {D}",
-            "gauge": "indicador en pantalla id {ID} x {X} y {Y} diámetro {D} de {MIN} a {MAX} aguja {C} fondo {BG}",
-            "line_meter": "medidor lineal en pantalla id {ID} x {X} y {Y} tamaño {SIZE} de {MIN} a {MAX} aguja {C} fondo {BG}",
-            "set_value": "establecer {KIND} en pantalla id {ID} a {VALUE}",
-            "chart": "gráfico en pantalla id {ID} eje X {XAXIS} eje Y {YAXIS} fondo {C} estilo {STYLE}",
-            "chart_series": "gráfico añadir serie id {ID} color {C}",
-            "chart_point": "serie del gráfico id {ID} establecer {X} a {VALUE}",
-            "remove": "pantalla eliminar {KIND} id {ID}"
-          },
-          "defaults": {
-            "text": "Hola",
-            "chart_x_axis": "lun mar mié jue vie",
-            "chart_point_x": "lun"
-          }
-        }
       }
     },
     "tooltip": {
@@ -1527,7 +1364,11 @@
       "baudrateError": "Ocurrió un error al leer datos del puerto serie. Intente cambiar la velocidad en baudios en la configuración del monitor.",
       "firmwareWarning": "Atención, para beneficiarse de todas las funcionalidades de esta interfaz con la placa STM32, actualice a la versión de firmware 1.17 siguiendo este tutorial: <a href=\"https://es.vittascience.com/learn/ tutorial.php?id=398\" target=\"_blank\" rel=\"noopener noreferrer\">Actualizar el firmware</a>",
       "compiling": "Compilación en curso. Esto puede tardar hasta unos segundos...",
-      "noSpaceLeft": "No hay espacio suficiente en la tarjeta para cargar el programa."
+      "noSpaceLeft": "No hay espacio suficiente en la tarjeta para cargar el programa.",
+      "skykickNotInCodingMode": "El controlador SkyKick no está en modo de codificación (Link): los comandos son ignorados. Cambia el controlador a modo Link para volar el dron.",
+      "skykickDroneNotPaired": "El dron no responde: verifica que esté encendido y emparejado con el controlador.",
+      "skykickPortBusy": "No se puede abrir el puerto del controlador: ya está siendo utilizado por otra aplicación. Cierra la aplicación SkyKick Evo Block Coding (y cualquier otra pestaña conectada al controlador), luego vuelve a intentarlo.",
+      "skykickBattery": "Batería del dron"
     },
     "WebBluetoothAPI": {
       "noWebBluetoothAPI": "Este navegador no es compatible con noWebBluetoothAPI. Para usar noWebBluetoothAPI, debes usar un navegador compatible: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> o <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
@@ -1544,7 +1385,45 @@
     "arduinoq": {
       "boardConnected": "¡Conexión de la placa exitosa!",
       "webAppUrl": "Página web de la app (desde un dispositivo en la misma red):",
+      "webConsoleUrl": "Terminal web de la placa (usuario y contraseña de la placa):",
+      "pcWebcamStarted": "Webcam del ordenador enviada a la placa: mantén esta pestaña abierta y la placa conectada por USB. Cierra la pestaña de la herramienta de IA si está abierta, para que la webcam quede libre.",
+      "pcWebcamDenied": "No se puede usar la webcam del ordenador: permite el acceso a la cámara en el navegador y vuelve a enviar el programa.",
+      "pcWebcamStopped": "El envío de la webcam del ordenador a la placa se ha detenido (¿placa desconectada?). Vuelve a conectar la placa y haz clic en «Iniciar la app».",
+      "pcWebcamBusy": "La webcam del ordenador no da ninguna imagen. Puede que la esté usando otra pestaña (por ejemplo la herramienta de IA): ciérrala y haz clic en «Iniciar la app».",
+      "corruptedLogs": "Los registros de la app son ilegibles (placa desconectada mientras la app funcionaba): se van a vaciar.",
+      "appStopped": "App detenida.",
+      "boardUnplugged": "Placa Arduino UNO Q desconectada (cable USB desenchufado o placa reiniciada). Vuelve a enchufarla y conéctala de nuevo.",
+      "modelDownloadProgress": "Descargando el modelo:",
+      "hints": {
+        "camera": "No se encontró ninguna cámara: la placa conectada al ordenador no puede usar una cámara. Tras la carga, desconecta el ordenador y conecta un hub USB-C alimentado con la cámara (la app arranca sola al iniciar la placa).",
+        "microphone": "No se encontró ningún micrófono: conecta un micrófono USB (o una webcam con micrófono) a un hub USB-C alimentado, en lugar del ordenador.",
+        "speaker": "No se encontró ningún altavoz: conecta un altavoz o auriculares USB a un hub USB-C alimentado, en lugar del ordenador.",
+        "module": "El módulo Python «{x}» no está instalado en la placa.",
+        "name": "«{x}» se usa antes de recibir un valor: dale un valor al principio del programa (en «al iniciar»).",
+        "textNumber": "Mezcla de texto y número: usa el bloque «unir» para juntar texto y números.",
+        "convert": "Este texto no se puede convertir en número (contiene letras o está vacío).",
+        "zeroDivision": "División por cero: comprueba el divisor antes de dividir.",
+        "index": "El elemento pedido no existe: la lista es más corta de lo previsto (o está vacía).",
+        "key": "La clave {x} no existe en este diccionario.",
+        "network": "Sin acceso a internet desde la placa: comprueba que esté conectada al Wi-Fi.",
+        "timeout": "El servidor no responde a tiempo: inténtalo de nuevo o comprueba la conexión a internet de la placa.",
+        "recursion": "Una función se llama a sí misma sin fin.",
+        "permission": "Acceso denegado a este archivo o dispositivo.",
+        "file": "Archivo no encontrado: {x}."
+      },
+      "modelDownload": "Descargando el modelo de IA en la placa (solo una vez, puede tardar varios minutos):",
+      "uploadIncomplete": "Carga incompleta, archivos mal recibidos por la placa: ",
+      "noAppOnBoard": "No hay ninguna app en la placa: envía primero el programa.",
+      "appAlreadyRunning": "La app ya se está ejecutando en la placa.",
+      "aiAppStartMayTakeTime": "Iniciando la app de IA: el primer inicio puede tardar varios minutos (instalación de los paquetes Python en la placa y conversión del modelo). Los siguientes inicios son más rápidos.",
       "localModelMissing": "No se encontró ningún modelo de IA local en este navegador: primero entrena un modelo de imágenes en la herramienta de IA de Vittascience (en este mismo navegador) o usa el bloque «cargar el modelo» con su enlace.",
+      "localPostureModelMissing": "No se ha encontrado ningún modelo de postura local en este navegador: entrena primero un modelo de posturas en la herramienta de IA de Vittascience (en este mismo navegador), o usa el bloque «cargar el modelo de postura» con su enlace.",
+      "localHandModelMissing": "No se ha encontrado ningún modelo de manos local en este navegador: entrena primero un modelo de manos en la herramienta de IA de Vittascience (en este mismo navegador), o usa el bloque «cargar el modelo de manos» con su enlace.",
+      "pcMicrophoneStarted": "Micrófono del ordenador activado: sonido enviado a la placa. Mantén esta página abierta y la placa conectada.",
+      "pcMicrophoneDenied": "Micrófono del ordenador no disponible: permite el micrófono en el navegador y haz clic en «Iniciar la app».",
+      "pcMicrophoneStopped": "El envío del micrófono del ordenador a la placa se ha detenido (¿placa desconectada?). Vuelve a conectar la placa y haz clic en «Iniciar la app».",
+      "localSoundModelMissing": "No se ha encontrado ningún modelo de sonido local en este navegador: entrena primero un modelo de sonido en la herramienta de IA de Vittascience (en este mismo navegador), o usa el bloque «cargar el modelo» con su enlace.",
+      "localSensorModelMissing": "No se ha encontrado ningún modelo de sensores local en este navegador: entrena primero un modelo en la herramienta de IA «Datos de sensores» de Vittascience (en este mismo navegador), o usa el bloque «cargar el modelo de sensores» con su enlace.",
       "passwordRequired": "Para continuar con la transferencia, se requiere la contraseña de la placa Arduino Q.",
       "incorrectPassword": "La contraseña es incorrecta, por favor inténtalo de nuevo.",
       "transfertAborted": "Transferencia abortada.",
@@ -1555,23 +1434,25 @@
       "arduino": "¡Bienvenido a la interfaz de Vittascience para Arduino!",
       "microbit": "¡Bienvenido a la interfaz de Vittascience para BBC micro:bit!",
       "python": "¡Bienvenido a la interfaz de Vittascience para programar en Python!<br>Haga clic en el botón Ejecutar para lanzar su programa (modo script) o escriba una instrucción después de los chevrones >>> de abajo (modo consola REPL)",
-      "esp32": "¡Bienvenido a la interfaz de Vittascience para ESP32!</br> Para programar la placa ESP32 en esta interfaz, primero debes flashear el firmware de MicroPython en la placa siguiendo este tutorial:<a href=\"https://es.vittascience.com/learn/tutorial.php?id=341/flasher-le-firmware-micropython-dans-la-carte-esp32\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>.",
-      "wb55": "¡Bienvenido a la interfaz de Vittascience para STM32!<br> Para programar la placa STM32 WB55 en esta interfaz, primero debes flashear el firmware de MicroPython en la placa siguiendo este tutorial: <a href=\"https://es.vittascience.com/learn/tutorial.php?id=398/flasher-le-firmware-micropython-dans-la-carte-stm32\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>.",
-      "l476": "¡Bienvenido a la interfaz de Vittascience para L476!</br> Para programar la placa STM32 L476 en esta interfaz, primero debes flashear el firmware de MicroPython en la placa siguiendo este tutorial: <a href=\"https://es.vittascience.com/learn/tutorial.php?id=909/flasher-le-firmware-micropython-dans-la-carte-stm32-l476\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>.",
+      "esp32": "¡Bienvenido a la interfaz de Vittascience para ESP32!</br> Para programar la placa ESP32 en esta interfaz, primero debes flashear el firmware de MicroPython en la placa siguiendo este tutorial:<a href=\"https://es.vittascience.com/learn/tutorial.php?id=341/flasher-le-firmware-micropython-dans-la-carte-esp32\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a>.",
+      "wb55": "¡Bienvenido a la interfaz de Vittascience para STM32!<br> Para programar la placa STM32 WB55 en esta interfaz, primero debes flashear el firmware de MicroPython en la placa siguiendo este tutorial: <a href=\"https://es.vittascience.com/learn/tutorial.php?id=398/flasher-le-firmware-micropython-dans-la-carte-stm32\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a>.",
+      "l476": "¡Bienvenido a la interfaz de Vittascience para L476!</br> Para programar la placa STM32 L476 en esta interfaz, primero debes flashear el firmware de MicroPython en la placa siguiendo este tutorial: <a href=\"https://es.vittascience.com/learn/tutorial.php?id=909/flasher-le-firmware-micropython-dans-la-carte-stm32-l476\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a>.",
       "texas-instruments": "Esta interfaz se usa para generar el código Python que permite usar la placa BBC micro:bit con la calculadora TI-83 Premium CE Edition Python. ¡Abre el simulador para comenzar!",
       "TI-83": "Bienvenido a la interfaz de Vittascience para la calculadora TI-83 Premium CE Python Edition. El TI-Innovator™ Hub y las tarjetas BBC micro:bit pueden programarse en esta interfaz. Abre el simulador para empezar.",
       "TI-83-Maclasseti": "¡Bienvenido a la interfaz MaClasseTI.fr para la calculadora TI-83 Premium CE Edition Python! Las tarjetas TI-Innovator™ Hub y BBC micro:bit pueden ser programadas en esta interfaz. ¡Abre el simulador para comenzar!",
       "GalaxiaCircuitPython": "¡Bienvenido a la interfaz de Vittascience para Galaxia!",
-      "galaxia": "¡Bienvenido a la interfaz de Vittascience para Galaxia!</br> Para programar la placa Galaxia en esta interfaz, primero debes flashear el firmware de MicroPython en la placa siguiendo este tutorial: <a href=\"https://es.vittascience.com/learn/tutorial.php?id=860\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
+      "galaxia": "¡Bienvenido a la interfaz de Vittascience para Galaxia!</br> Para programar la placa Galaxia en esta interfaz, primero debes flashear el firmware de MicroPython en la placa siguiendo este tutorial: <a href=\"https://es.vittascience.com/learn/tutorial.php?id=860\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a>",
+      "unihiker": "¡Bienvenido a la interfaz Vittascience para la placa UNIHIKER M10!</br>Conecte la placa por USB y haga clic en Subir. La primera vez, la interfaz copia en la placa el instalador del servidor Vittascience, que se ejecuta una vez desde el menú Home de la placa.",
+      "unihiker-k10": "¡Bienvenido a la interfaz Vittascience para la placa UNIHIKER K10!</br>Conecte la placa por USB (firmware MicroPython de DFRobot) y haga clic en Subir: el programa se guarda en main.py.",
       "raspberrypi": "¡Bienvenido a la interfaz Vittascience para Raspberry Pi! Puedes consultar el tutorial disponible aquí: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=1739\" target=\"_blank\" rel=\"noopener noreferrer\">Introducción a la interfaz Vittascience para Raspberry Pi</a>",
       "niryo": "¡Bienvenido a la interfaz Vittascience para Niryo ned2!",
       "nao": "¡Bienvenido a la interfaz Vittascience para el robot NAO v6! No dudes en consultar el tutorial disponible aquí: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=1260\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Introducción a la interfaz Vittascience para el robot NAO</a>",
       "mBot": "¡Bienvenido a la interfaz de Vittascience para mBot!",
       "buddy": "¡Bienvenido a la interfaz de Vittascience para Buddy!",
-      "m5stack": "¡Bienvenido a la interfaz de Vittascience para la M5Stack !</br> Para programar la placa M5Stack en esta interfaz, primero debe actualizar el firmware MicroPython en la placa siguiendo el siguiente tutorial: <a href=\"https://es.vittascience.com/learn/tutorial.php?id=458/flasher-le-firmware-micropython-dans-la-m5stack\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
+      "m5stack": "¡Bienvenido a la interfaz de Vittascience para la M5Stack !</br> Para programar la placa M5Stack en esta interfaz, primero debe actualizar el firmware MicroPython en la placa siguiendo el siguiente tutorial: <a href=\"https://es.vittascience.com/learn/tutorial.php?id=458/flasher-le-firmware-micropython-dans-la-m5stack\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a>",
       "cyberpi": "¡Bienvenido a la interfaz de Vittascience para CyberPi y mBot2!",
       "eliobot": "¡Bienvenido a la interfaz de Vittascience para Eliobot!",
-      "thymio": "¡Bienvenido a la interfaz Vittascience del robot Thymio ! No dude en consultar el tutorial disponible aquí: <b><a href=\"https://es.vittascience.com/learn/tutorial.php?id=812\" target=\"_blank\" rel=\"noopener noreferrer\">Primeros pasos con la interfaz Vittascience para el robot Thymio</a></br> Para programar el robot Thymio en esta interfaz, primero debe iniciar el programa TDMLauncher disponible para su descarga <span class='thymio-download-tdm' onclick='asebaTranspiler.downloadTDM()'>aquí</span>",
+      "thymio": "¡Bienvenido a la interfaz Vittascience del robot Thymio ! No dude en consultar el tutorial disponible aquí: <b><a href=\"https://es.vittascience.com/learn/tutorial.php?id=812\" target=\"_blank\" rel=\"noopener noreferrer\">Primeros pasos con la interfaz Vittascience para el robot Thymio</a></b></br> Para programar el robot Thymio en esta interfaz, primero debe iniciar el programa TDMLauncher disponible para su descarga <span class='thymio-download-tdm' onclick='asebaTranspiler.downloadTDM()'>aquí</span>",
       "letsstartcoding": "Bienvenido a la interfaz de Vittascience para ¡Comienza a codificar tarjetas!",
       "pico": "¡Bienvenido a la interfaz de Vittascience para Raspberry Pi Pico !",
       "winky": "¡Bienvenido a la interfaz de Vittascience para Winky!",
@@ -1585,7 +1466,8 @@
       "steami": "¡Bienvenido a la interfaz de Vittascience para STeaMi!",
       "alphai": "¡Bienvenido a la interfaz de Vittascience para el robot AlphAI!",
       "arduinoq": "¡Bienvenido a la interfaz de Vittascience para la placa Arduino UNO Q!</br></br>La interfaz soporta varios lenguajes (Arduino, Python, HTML) para programar un proyecto completo con la placa. Los bloques en la categoría 'Base' pueden ser utilizados en cualquier lenguaje; el código generado se adaptará al tipo de lenguaje del bloque de encabezado.</br></br>Es posible enviar comandos de Linux a la placa Arduino Q escribiendo el comando en el campo de entrada en la parte inferior de la consola.",
-      "primastem": "¡Bienvenido a la interfaz de Vittascience para el robot PrimaStem!"
+      "primastem": "¡Bienvenido a la interfaz de Vittascience para el robot PrimaStem!",
+      "skykick": "¡Bienvenido a la interfaz Vittascience para el dron SkyKick Evo!</br>Conecta el controlador por USB, cámbialo a modo Link y luego haz clic en el botón de conexión antes de ejecutar tu programa. Advertencia: el dron vuela de verdad, mantén un espacio despejado."
     },
     "chromeApp": {
       "noPort": "No se detectan puertos",
@@ -1691,6 +1573,26 @@
       "expand": "Expandir",
       "collaps": "Colapsar"
     },
+    "unihiker": {
+      "hostPrompt": "Dirección de la placa UNIHIKER (10.1.2.3 por USB, o su dirección Wi-Fi):",
+      "hostSaved": "Dirección de la placa: {{host}}",
+      "sending": "Enviando el programa a la placa ({{host}})...",
+      "started": "Programa iniciado en la placa.",
+      "stopped": "Programa detenido.",
+      "finished": "Programa terminado (código {{code}}).",
+      "noProgram": "No hay ningún programa en ejecución en la placa: el mensaje no se ha enviado.",
+      "k10FormatConfirm": "La memoria de archivos de la UNIHIKER K10 debe formatearse (normal justo después de flashear el firmware de DFRobot). ¿Formatearla ahora? Los archivos de la placa se borrarán, el firmware se mantiene.",
+      "k10Formatted": "Memoria de archivos formateada: la placa se reinicia, luego haga clic en Subir.",
+      "k10Flash": "La UNIHIKER K10 no tiene firmware MicroPython. Descárguelo desde el menú de Subir («Descargar el firmware MicroPython») y flashéelo en la dirección 0x00 con ESP LaunchPad o Flash Download Tool, manteniendo pulsado el botón BOOT al conectar la placa.",
+      "unreachable": "La placa no responde en {{host}}. Compruebe el cable USB (o la dirección Wi-Fi con «Dirección de la placa») y permita el acceso a la red local si el navegador lo pide.",
+      "outdated": "El servidor Vittascience de la placa debe actualizarse: actualización automática en curso...",
+      "localModelMissing": "No hay ningún modelo de imágenes en este navegador: entrene primero un modelo en la herramienta IA de Vittascience (reconocimiento de imágenes).",
+      "modelLinkInvalid": "No se pudo leer el modelo de imágenes del enlace «{{link}}». Compruebe el enlace del modelo compartido.",
+      "notInstalled": "La placa responde, pero el servidor Vittascience aún no está instalado: enviando el instalador...",
+      "installFailed": "No se pudo copiar el instalador en la placa ({{host}}).",
+      "installUploaded": "Instalador enviado. En la placa: botón Home, luego root/ > {{folder}} > install.py. El programa se iniciará solo cuando termine la instalación.",
+      "installDone": "Servidor Vittascience instalado: enviando el programa..."
+    },
     "topbar": {
       "tooltips": {
         "boardWifi": "Configurar el Wi-Fi de la placa Arduino UNO Q conectada",
@@ -1716,6 +1618,7 @@
         "compileArduino": "Iniciar la compilación",
         "arduinoBoardSelector": "Seleccionar la placa Arduino que desea programar",
         "esp32BoardSelector": "Seleccionar la placa ESP32 que desea programar",
+        "unihikerBoardSelector": "Seleccionar la placa UNIHIKER a programar",
         "downloadPython": "Descargar el script de Python",
         "downloadPythonGalaxia": "Descarga el script de Python 'main.py' para arrastrar y soltar en Galaxia",
         "downloadArduino": "Descargar el script de Arduino",
@@ -1726,6 +1629,10 @@
         "downloadFirmware": "Descargar el firmware de MicroPython",
         "downloadCamFirmware": "Descargar el firmware de MicroPython para ESP32-CAM",
         "downloadPiAPI": "Descarga el servidor Python para Raspberry Pi. Ejecuta la API en modo administrador.",
+        "uploadUnihiker": "Enviar el programa a la placa UNIHIKER y ejecutarlo",
+        "stopUnihiker": "Detener el programa de la placa",
+        "installUnihiker": "Copiar el instalador del servidor Vittascience en la placa (ejecutarlo una vez desde el menú Home de la placa)",
+        "unihikerHost": "Cambiar la dirección de la placa (10.1.2.3 por USB, o su dirección Wi-Fi)",
         "downloadHex": "Exportar el programa micro:bit en formato [.hex].",
         "downloadTexas": "Descargar el programa .py para la calculadora",
         "runBuddy": "Ejecutar el programa en Buddy",
@@ -1816,6 +1723,9 @@
         "downloadFirmware": "Descargue el archivo .bin",
         "downloadCamFirmware": "Descargue el archivo .bin ESP32-CAM",
         "downloadPiAPI": "Descargar API.cmd",
+        "stopUnihiker": "Detener",
+        "installUnihiker": "Instalar el servidor",
+        "unihikerHost": "Dirección de la placa",
         "downloadUf2Pico": "Firmware Pico",
         "downloadUf2PicoW": "Firmware Pico W",
         "downloadPython": "Descargue el archivo .py",
@@ -1900,6 +1810,8 @@
           "sendQ": "Comando de Linux para enviar a la placa Arduino Q",
           "export": "Exportar",
           "openVariables": "Variables",
+          "launchApp": "Iniciar la app",
+          "stopApp": "Detener la app",
           "openFileSystem": "Archivos",
           "monitor": "Monitor de serie",
           "openRepl": "REPL"
@@ -1916,6 +1828,8 @@
           "closeRepl": "Cerrar la consola de MicroPython",
           "openRepl": "Abrir la consola de MicroPython",
           "openVariables": "Mostrar variables del programa",
+          "launchApp": "Volver a iniciar la app ya enviada a la placa",
+          "stopApp": "Detener la app que se ejecuta en la placa",
           "openFileSystem": "Abrir el sistema de archivos de la placa",
           "graph": "Para ver los datos recibidos en la consola, haga clic en el botón <b>Gráfico</b>.",
           "monitorToggler": "Para visualizar los datos recibidos, haz clic en el botón <i class='fas fa-chevron-up'></i>"
@@ -2165,7 +2079,12 @@
         "grovePulse": "Sensor de pulso",
         "distanceInterrupter": "Interrumptor de Distancia"
       },
-      "pinError": "[Error de pin] El módulo <b>{{modId}}</b> no puede conectarse al pin <b>{{pin}}</b>. El módulo <b>{{attachedId}}</b> ya está conectado."
+      "pinError": "[Error de pin] El módulo <b>{{modId}}</b> no puede conectarse al pin <b>{{pin}}</b>. El módulo <b>{{attachedId}}</b> ya está conectado.",
+      "wiring": {
+        "unwiredPin": "[Cableado] El módulo <b>{{module}}</b> está en el pin <b>{{pin}}</b>, que no tiene conector en este shield: no está cableado.",
+        "i2cFull": "[Cableado] Demasiados módulos I2C: <b>{{modules}}</b> no están cableados.",
+        "noShield": "No hay shield Grove para esta placa en el simulador de cableado."
+      }
     },
     "ch340driver": {
       "title": "¿Problemas al cargar?",
@@ -2294,7 +2213,7 @@
       },
       "blockWarning": {
         "title": "<i class=\"fa-th-large ide-modal-title\"></i> Cambiar al modo de bloque",
-        "noticeHint": "<i class=\"fa fa-exclamation-triangle\"></i> ¡Cuidado!</br><p class=\"hint\">Tu código actual se actualizará al último guardado local, es decir, al estado guardado antes de cambiar al modo Arduino. Si quieres conservar tu código Arduino, haz clic en el botón \"Exportar\".</p> <p>",
+        "noticeHint": "<i class=\"fa fa-exclamation-triangle\"></i> ¡Cuidado!</br><p class=\"hint\">Tu código actual se actualizará al último guardado local, es decir, al estado guardado antes de cambiar al modo Arduino. Si quieres conservar tu código Arduino, haz clic en el botón \"Exportar\".</p>",
         "buttons": {
           "continue": "<i class=\"fa fa-unlock\"></i> Continuar",
           "yes": "Sí",
@@ -2386,7 +2305,7 @@
         "title": "<i class=\"fas fa-lightbulb\"></i> Crear un nuevo proyecto",
         "notice": "<span class=\"fa-info-circle\"></span> Después de crear tu proyecto, no olvides guardarlo en la nube mediante el botón de guardar. ¿Por qué no ponerlo a disposición de otros usuarios a través de la opción de compartir?",
         "form": {
-          "projectName": "<i class=\"fas fa-book\"></i> Nombre del proyecto <span class=\"mandatory\">*</span></label>",
+          "projectName": "<i class=\"fas fa-book\"></i> Nombre del proyecto <span class=\"mandatory\">*</span>",
           "projectDesc": "<i class=\"far fa-edit\"></i> Descripción del proyecto (opcional)",
           "projectDescPlaceholder": "Describe tu boceto, útil si quieres compartir tu proyecto más adelante."
         },
@@ -2473,6 +2392,7 @@
     },
     "robotGuide": {
       "tuto": "Para encontrar los bloques de programación del robot <b>[ROBOT_NAME]</b>, haz clic en la pestaña <b><i class='fa-solid fa-robot me-1'></i>Robots</b>.",
+      "tuto-extension": "Para encontrar los bloques de programación del robot <b>[ROBOT_NAME]</b>, haz clic en la pestaña <b><i class='fas fa-puzzle-piece me-1'></i>Extensiones</b>.",
       "tuto-rover": "Para encontrar los bloques de programación del robot <b>[ROBOT_NAME]</b>, haz clic en la pestaña <b><i class='fas fa-cogs'></i>Avanzado</b> y luego en <b><i class='fa-solid fa-robot me-1'></i>ti_rover</b>."
     },
     "droneGuide": {
@@ -3251,9 +3171,27 @@
         "disconnect": "Desconectar",
         "board": "Tarjeta",
         "sensorsList": "Sensores: ",
+        "sensors": {
+          "accelerometer": "Acelerómetro",
+          "micro": "Micrófono",
+          "pin": "Pin {{pin}}",
+          "add": "Añadir un sensor",
+          "remove": "Quitar el sensor"
+        },
         "collectData": "Recoger datos",
         "parameters": "Parámetros",
-        "timeWindow": "Duración de la ventana"
+        "timeWindow": "Duración de la ventana",
+        "unoq": {
+          "upload": "Enviando la app...",
+          "start": "Iniciando (1 min la 1.ª vez)...",
+          "error": "No se puede conectar con la Arduino UNO Q. Comprueba el cable USB, cierra Arduino App Lab y las demás pestañas conectadas a la placa y vuelve a intentarlo."
+        }
+      },
+      "edgeValidation": {
+        "accuracy": "Precisión en grabaciones apartadas (no usadas para el entrenamiento): {{accuracy}} %",
+        "realFound": "Real \\ Encontrada",
+        "notEnoughRecords": "Sin validación: se necesitan al menos 5 grabaciones por clase para apartar algunas y probar el modelo.",
+        "uncertain": "Incierto"
       },
       "training": {
         "title": "Entrenamiento",
@@ -3303,7 +3241,7 @@
           "instruction-title": "<b>Instrucciones</b> <br> instrucción",
           "instructions": "<b>Coloca un objeto sobre la mesa en el área destinada para que la cámara lo detecte.<br> Observa en la pantalla el resultado de la predicción realizada por la inteligencia artificial. </b><br><br> Coloca un objeto sobre la mesa en el área designada para que la cámara lo detecte.<br> Observa en pantalla el resultado de la predicción de la inteligencia artificial.",
           "results": "<b>Resultados</b><br>resultados",
-          "explaining-head": "<b>El porcentaje mostrado indica la categoría identificada por la inteligencia artificial<b>",
+          "explaining-head": "<b>El porcentaje mostrado indica la categoría identificada por la inteligencia artificial</b>",
           "explaining-body": "El porcentaje mostrado indica la categoría identificada por la inteligencia artificial."
         },
         "dragDropFileHere": "Subir una imagen (arrastrar y soltar o hacer clic)",
@@ -3339,6 +3277,10 @@
           "python": {
             "title": "Python",
             "tooltip": "Uso de la plantilla en la interfaz de Python"
+          },
+          "arduinoq": {
+            "title": "Arduino UNO Q",
+            "tooltip": "Usar el modelo en la placa Arduino UNO Q"
           },
           "microcontroller": {
             "title": "Microcontrolador",
@@ -3858,8 +3800,8 @@
           "titleModeration": "Moderación en las interfaces AI-Vittascience",
           "body": [
             "La moderación de las respuestas de IA en las interfaces de Vittascience incluye varios elementos: <br />",
-            "<ul><li>1. Todos los modelos utilizados están entrenados para mantener una conversación 'moderada'. Sin embargo, puede haber situaciones que requieran una intervención adicional. </lu>",
-            "<li>2. Las respuestas generadas por la IA pasan por una moderación palabra por palabra. Si se detecta una palabra que podría considerarse «inapropiada», el mecanismo interno la sustituye por una cadena de asteriscos cuya longitud corresponde a la de la palabra sustituida. Este mismo mecanismo avisa a los usuarios cuando se ha detectado una palabra inapropiada mostrando un mensaje justo después de la respuesta de la IA.</li></ul>"
+            "1. Todos los modelos utilizados están entrenados para mantener una conversación 'moderada'. Sin embargo, puede haber situaciones que requieran una intervención adicional. ",
+            "2. Las respuestas generadas por la IA pasan por una moderación palabra por palabra. Si se detecta una palabra que podría considerarse «inapropiada», el mecanismo interno la sustituye por una cadena de asteriscos cuya longitud corresponde a la de la palabra sustituida. Este mismo mecanismo avisa a los usuarios cuando se ha detectado una palabra inapropiada mostrando un mensaje justo después de la respuesta de la IA."
           ],
           "understood": "He entendido"
         },
@@ -4212,8 +4154,8 @@
           "titleModeration": "Moderación en las interfaces AI-Vittascience",
           "body": [
             "La moderación de las respuestas de la IA en las interfaces de Vittascience incluye varios elementos:<br />",
-            "<ul><li>1. <strong>Moderación de la pregunta del usuario: </strong>En primer lugar, el mensaje proporcionado por el usuario pasa por un proceso de moderación, realizado por un modelo de procesamiento del lenguaje natural, entrenado para detectar contenido inapropiado. Si se detecta contenido inapropiado, se pide al usuario que reformule su petición. </lu> <a class='bg-light text-dark'style='cursor: pointer;'>Ver el prompt de moderación traducido</a>",
-            "<li>2. <strong>Verificación de las imágenes generadas</strong>: El segundo paso consiste en comprobar que la imagen generada por la IA no contiene ningún elemento inapropiado. Si lo hace, la imagen final será completamente negra, y las imágenes de las etapas de generación serán borrosas.</li></ul>",
+            "1. <strong>Moderación de la pregunta del usuario: </strong>En primer lugar, el mensaje proporcionado por el usuario pasa por un proceso de moderación, realizado por un modelo de procesamiento del lenguaje natural, entrenado para detectar contenido inapropiado. Si se detecta contenido inapropiado, se pide al usuario que reformule su petición.  <a class='bg-light text-dark'style='cursor: pointer;'>Ver el prompt de moderación traducido</a>",
+            "2. <strong>Verificación de las imágenes generadas</strong>: El segundo paso consiste en comprobar que la imagen generada por la IA no contiene ningún elemento inapropiado. Si lo hace, la imagen final será completamente negra, y las imágenes de las etapas de generación serán borrosas.",
             "La combinación de estas etapas garantiza que las interacciones en las interfaces de Vittascience sigan siendo adecuadas y respetuosas."
           ],
           "safetyPrompt": [
@@ -4271,6 +4213,7 @@
           "progressAria": "{{used}} créditos usados de {{limit}}",
           "titleCreditInfo": "Información sobre créditos",
           "unlimitedCredits": "Ilimitado",
+          "unlimitedImages": "Tu suscripción incluye generación ilimitada de imágenes",
           "unlimitedReset": "Tu suscripción Premium incluye generación de texto ilimitada",
           "unlimitedConditions": "Tu suscripción Premium incluye generación de texto ilimitada."
         }
@@ -4613,11 +4556,11 @@
         "publicCreations": "<i class='fa-solid fa-users m-1'></i>Creaciones comunitarias",
         "favoriteCreations": "<i class='fa-solid fa-heart m-1'></i>Mis favoritas",
         "bestCreations": {
-          "title": "<i class='fa-solid fa-trophy m-1'></i></i>Concurso",
+          "title": "Concurso",
           "tooltip": "Cada mes, participa en un concurso de generación de imágenes con un tema definido. Publica tu creación e intenta estar entre las 3 imágenes con más me gusta de la comunidad para ganar tarjetas regalo. (Solo se puede otorgar un código de premio por usuario y por mes.)"
         },
         "gameCreations": {
-          "title": "<i class='fa-solid fa-gamepad m-1'></i></i>Desafío",
+          "title": "Desafío",
           "tooltip": "Cada semana, afronta un nuevo desafío de recreación de imagen. El objetivo es encontrar el prompt original usado para generar la imagen propuesta escribiendo un prompt lo más parecido posible. La puntuación se calcula según la similitud entre tu prompt y el prompt de referencia, no por el parecido visual entre las imágenes."
         },
         "lifeTime": "Hace {{ time }}",
@@ -4985,7 +4928,10 @@
       "send": "Pedido enviado",
       "cancelled": "Pedido cancelado",
       "carrier": "Portador",
-      "tracking": "Número de seguimiento"
+      "tracking": "Número de seguimiento",
+      "quoteSent": "Enviado",
+      "quoteDenied": "Rechazado",
+      "quoteExpired": "Caducado"
     }
   },
   "userDetails": {
@@ -5229,7 +5175,7 @@
       "message": "Mensaje",
       "mandatory": "Los campos marcados con un <span class=\"mandatory\">*</span> son obligatorios.",
       "send": "Enviar",
-      "success": "Su mensaje ha sido enviado con éxito</p><p>Los responsables del proyecto se pondrán en contacto con usted lo antes posible...",
+      "success": "<p>Su mensaje ha sido enviado con éxito</p><p>Los responsables del proyecto se pondrán en contacto con usted lo antes posible...</p>",
       "error": "Hay errores en el formulario:",
       "errors": {
         "name": "Nombre y apellido incorrectos. El máximo es {{ maxi }} caracteres.",
@@ -5294,15 +5240,15 @@
       },
       "6": {
         "title": "Artículo 6: Condiciones de entrega",
-        "content": "Los pedidos se tramitan en un plazo de 15 días, con una demora media de 8 días, salvo en los casos de fuerza mayor definidos por la ley y otras excepciones, como la escasez de existencias, la afluencia inesperada de pedidos o el mal tiempo. Este plazo no tiene en cuenta el tiempo de preparación del pedido. En caso de retraso en la entrega, el Cliente tiene la posibilidad de rescindir el contrato de acuerdo con las condiciones definidas en el artículo L 138-2 del Código de Consumo francés. En este caso no se puede exigir ningún descuento o pago de daños y perjuicios. El Vendedor recuerda que en el momento en que el Cliente toma posesión física de los productos, se le transfieren los riesgos de pérdida o daño de los mismos. Es responsabilidad del Cliente notificar al transportista cualquier reserva sobre el producto entregado. </p> <p>A menos que lo solicite expresamente, no realizamos entregas durante las vacaciones escolares (colegios cerrados; los paquetes se devuelven)."
+        "content": "Los pedidos se tramitan en un plazo de 15 días, con una demora media de 8 días, salvo en los casos de fuerza mayor definidos por la ley y otras excepciones, como la escasez de existencias, la afluencia inesperada de pedidos o el mal tiempo. Este plazo no tiene en cuenta el tiempo de preparación del pedido. En caso de retraso en la entrega, el Cliente tiene la posibilidad de rescindir el contrato de acuerdo con las condiciones definidas en el artículo L 138-2 del Código de Consumo francés. En este caso no se puede exigir ningún descuento o pago de daños y perjuicios. El Vendedor recuerda que en el momento en que el Cliente toma posesión física de los productos, se le transfieren los riesgos de pérdida o daño de los mismos. Es responsabilidad del Cliente notificar al transportista cualquier reserva sobre el producto entregado. </br></br>A menos que lo solicite expresamente, no realizamos entregas durante las vacaciones escolares (colegios cerrados; los paquetes se devuelven)."
       },
       "7": {
         "title": "Artículo 7: Recepción de pedidos por parte del comprador",
-        "content": "En el momento de la recepción, el Comprador debe comprobar el estado del paquete entregado y rechazarlo si está dañado. La responsabilidad de su establecimiento es total si se acepta un paquete dudoso o dañado sin ninguna reserva clara y firmada en el albarán. En efecto, al firmar el albarán de entrega, el transportista queda liberado de toda responsabilidad y no es posible ningún otro recurso.</br> La empresa Vittascience declina toda responsabilidad si un paquete dudoso o dañado es aceptado por el Comprador sin ninguna reserva indicada en el albarán de entrega.</p> <p>El Comprador debe comprobar el contenido de la entrega en un plazo de 48 horas y debe ponerse en contacto con Vittascience en las 48 horas siguientes a la entrega para informar de cualquier anomalía o carencia, preferiblemente por correo electrónico: contact@vittascience.com."
+        "content": "En el momento de la recepción, el Comprador debe comprobar el estado del paquete entregado y rechazarlo si está dañado. La responsabilidad de su establecimiento es total si se acepta un paquete dudoso o dañado sin ninguna reserva clara y firmada en el albarán. En efecto, al firmar el albarán de entrega, el transportista queda liberado de toda responsabilidad y no es posible ningún otro recurso.</br> La empresa Vittascience declina toda responsabilidad si un paquete dudoso o dañado es aceptado por el Comprador sin ninguna reserva indicada en el albarán de entrega.</br></br>El Comprador debe comprobar el contenido de la entrega en un plazo de 48 horas y debe ponerse en contacto con Vittascience en las 48 horas siguientes a la entrega para informar de cualquier anomalía o carencia, preferiblemente por correo electrónico: contact@vittascience.com."
       },
       "8": {
         "title": "Artículo 8: Devolución de bienes en garantía",
-        "content": "Recordatorio de la obligación de garantía legal: </br></br>Vittascience ofrece al Comprador una garantía comercial y un servicio posventa que no cuestionan la garantía por defectos de conformidad de los bienes prevista en el contrato y en los artículos L21-1 y siguientes del Código de Consumo francés y por defectos redhibitorios en las condiciones previstas en los artículos 1641 a 1649 del Código Civil francés, a los que Vittascience queda vinculada. </li><li>Artículo L21-4 del Código del Consumidor:</li><li>\"El vendedor está obligado a entregar los bienes de conformidad con el contrato y es responsable de los defectos de conformidad existentes en el momento de la entrega. También será responsable de las faltas de conformidad que se deriven del embalaje, de las instrucciones de montaje o de la instalación cuando ésta haya sido realizada bajo su responsabilidad por el contrato o se haya llevado a cabo bajo su responsabilidad.\" </br></br>Artículo L21-5 del Código del Consumidor:</br>\"Para ser conformes con el contrato, los bienes deben:</br>1° Ser aptos para el uso que habitualmente se espera de bienes similares y, en su caso:</br> corresponder a la descripción dada por el vendedor y poseer las cualidades que éste ha presentado al comprador en forma de muestra o modelo;</br> presentar las cualidades que un comprador puede esperar legítimamente a la vista de las declaraciones públicas hechas por el vendedor, por el productor o por su representante, </br>en particular en la publicidad o el etiquetado;</br>2° o tener las características definidas de común acuerdo entre las partes o ser apto para cualquier fin especial buscado por el comprador, puesto en conocimiento del vendedor y que éste ha aceptado. \" </br></br>Artículo L21-12 del Código del Consumidor:</br>\"La acción resultante de la falta de conformidad prescribe en dos años a partir de la entrega de los bienes\". Artículo 1641 del Código Civil:</br> \"El vendedor está obligado por la garantía por los vicios ocultos de la cosa vendida que la hacen impropia para el uso a que estaba destinada, o que disminuyen de tal modo este uso que el comprador no la habría adquirido, o sólo habría dado un precio menor, si los hubiera conocido.\"Artículo 1648 párrafo 1 del Código Civil:</br> \"La acción derivada de los vicios redhibitorios debe ser ejercitada por el comprador dentro de los dos años siguientes al descubrimiento del vicio. </br>"
+        "content": "Recordatorio de la obligación de garantía legal: </br></br>Vittascience ofrece al Comprador una garantía comercial y un servicio posventa que no cuestionan la garantía por defectos de conformidad de los bienes prevista en el contrato y en los artículos L21-1 y siguientes del Código de Consumo francés y por defectos redhibitorios en las condiciones previstas en los artículos 1641 a 1649 del Código Civil francés, a los que Vittascience queda vinculada. </br></br>Artículo L21-4 del Código del Consumidor:</br>\"El vendedor está obligado a entregar los bienes de conformidad con el contrato y es responsable de los defectos de conformidad existentes en el momento de la entrega. También será responsable de las faltas de conformidad que se deriven del embalaje, de las instrucciones de montaje o de la instalación cuando ésta haya sido realizada bajo su responsabilidad por el contrato o se haya llevado a cabo bajo su responsabilidad.\" </br></br>Artículo L21-5 del Código del Consumidor:</br>\"Para ser conformes con el contrato, los bienes deben:</br>1° Ser aptos para el uso que habitualmente se espera de bienes similares y, en su caso:</br> corresponder a la descripción dada por el vendedor y poseer las cualidades que éste ha presentado al comprador en forma de muestra o modelo;</br> presentar las cualidades que un comprador puede esperar legítimamente a la vista de las declaraciones públicas hechas por el vendedor, por el productor o por su representante, </br>en particular en la publicidad o el etiquetado;</br>2° o tener las características definidas de común acuerdo entre las partes o ser apto para cualquier fin especial buscado por el comprador, puesto en conocimiento del vendedor y que éste ha aceptado. \" </br></br>Artículo L21-12 del Código del Consumidor:</br>\"La acción resultante de la falta de conformidad prescribe en dos años a partir de la entrega de los bienes\". Artículo 1641 del Código Civil:</br> \"El vendedor está obligado por la garantía por los vicios ocultos de la cosa vendida que la hacen impropia para el uso a que estaba destinada, o que disminuyen de tal modo este uso que el comprador no la habría adquirido, o sólo habría dado un precio menor, si los hubiera conocido.\"Artículo 1648 párrafo 1 del Código Civil:</br> \"La acción derivada de los vicios redhibitorios debe ser ejercitada por el comprador dentro de los dos años siguientes al descubrimiento del vicio. </br>"
       },
       "9": {
         "title": "Artículo 9: Servicio posventa",
@@ -5957,10 +5903,24 @@
     },
     "materialsNeeded": "Lista de materiales necesarios",
     "suggestedResources": "Recursos recomendados",
+    "classroomImport": {
+      "button": "Importar en el modulo Clase",
+      "loginTooltip": "Inicie sesion para importar en el modulo Clase",
+      "success": "Recurso importado en el modulo Clase.",
+      "error": "Importacion imposible."
+    },
     "inIframe": {
       "btn": {
         "importBtnText": "Importar",
-        "importAllBtnText": "Importar toda la actividad"
+        "importAllBtnText": "Importar toda la actividad",
+        "importAsCourseBtnText": "Importar como recorrido"
+      },
+      "confirm": {
+        "activity": "¿Importar esta parte como actividad en el módulo Clase?",
+        "course": "¿Importar este recurso como recorrido en el módulo Clase? Sus partes se copiarán en orden, en una carpeta con su nombre."
+      },
+      "license": {
+        "noDerivatives": "Este recurso tiene licencia CC-BY-NC-ND (sin obras derivadas): no se puede importar en el módulo Clase."
       }
     }
   },
@@ -5996,6 +5956,19 @@
   },
   "modals": {
     "standard": {
+      "blocksScreenshot": {
+          "title": "Captura de los bloques",
+          "quality": "Calidad",
+          "qualities": {
+              "screen": "Pantalla (×1)",
+              "good": "Buena (×2)",
+              "high": "Alta (×4)",
+              "veryHigh": "Muy alta (×8)"
+          },
+          "format": "Formato",
+          "size": "Tamaño de la imagen: {{width}} × {{height}} píxeles",
+          "download": "Descargar"
+      },
       "arduino-q-wifi": {
         "title": "Wi-Fi de la placa Arduino UNO Q",
         "enabled": "Wi-Fi activado",
@@ -6195,7 +6168,7 @@
       "new": {
         "title": "Crear un nuevo proyecto",
         "content": {
-          "name": "<i class='fas fa-book'></i> Nombre del proyecto <span class='mandatory'>*</span></label>",
+          "name": "<i class='fas fa-book'></i> Nombre del proyecto <span class='mandatory'>*</span>",
           "description": "<i class='far fa-edit'></i> Descripción del proyecto (opcional)",
           "placeholder": {
             "name": "Nombre del proyecto",
@@ -6549,7 +6522,7 @@
               "title": "<i class=\"fas fa-lightbulb\"></i> Crear un nuevo proyecto",
               "notice": "<span class=\"fa-info-circle\"></span> Después de crear tu proyecto, no olvides guardarlo en la nube mediante el botón de guardar. ¿Por qué no ponerlo a disposición de otros usuarios a través de la opción de compartir?",
               "form": {
-                "projectName": "<i class=\"fas fa-book\"></i> Nombre del proyecto <span class=\"mandatory\">*</span></label>",
+                "projectName": "<i class=\"fas fa-book\"></i> Nombre del proyecto <span class=\"mandatory\">*</span>",
                 "projectDesc": "<i class=\"far fa-edit\"></i> Descripción del proyecto (opcional)",
                 "projectDescPlaceholder": "Describe tu boceto, útil si quieres compartir tu proyecto más adelante."
               },
@@ -6778,14 +6751,14 @@
         "loadingError": "No se ha podido cargar el proyecto: la conexión con el servidor ha fallado. Comprueba tu conexión a internet y vuelve a cargar la página.",
         "reloadPage": "Volver a cargar la página",
         "localDraft": {
-            "title": "Cambios no guardados",
-            "content": "Este proyecto contiene cambios que no se han guardado en el servidor. Se han conservado en este navegador.",
-            "lastChange": "Última modificación:",
-            "hint": "Si abres la versión guardada, estos cambios se perderán definitivamente.",
-            "buttons": {
-                "restore": "Recuperar mis cambios",
-                "discard": "Abrir la versión guardada"
-            }
+          "title": "Cambios no guardados",
+          "content": "Este proyecto contiene cambios que no se han guardado en el servidor. Se han conservado en este navegador.",
+          "lastChange": "Última modificación:",
+          "hint": "Si abres la versión guardada, estos cambios se perderán definitivamente.",
+          "buttons": {
+            "restore": "Recuperar mis cambios",
+            "discard": "Abrir la versión guardada"
+          }
         },
         "privateProject": "Proyecto privado",
         "rightsChange": "Derechos de acceso modificados",
@@ -7036,6 +7009,9 @@
         "welcome": "¡Bienvenido a la interfaz ESP32!",
         "tutorial_link": "Comienza a usar la interfaz ESP32 con este tutorial"
       },
+      "unihiker": {
+        "welcome": "¡Bienvenido a la interfaz UNIHIKER!"
+      },
       "content": {
         "intro": "Selecciona la placa que deseas programar. Esto adaptará los distintos bloques y la imagen en el simulador.",
         "compatibility_link": "Descubre las placas, sensores y robots compatibles con la interfaz",
@@ -7257,7 +7233,7 @@
       },
       "camera-blocked": {
         "title": "Error al cargar la cámara",
-        "text": "<p class='camera-blocked-intro'>Se produjo un error al inicializar la cámara. La causa más probable es que el acceso a las cámaras esté bloqueado en tu navegador. Puedes desbloquear las cámaras siguiendo los pasos a continuación. Si el problema persiste y tu sistema operativo es Windows, también puede ser que otro programa esté usando la cámara.</p><ul class='camera-blocked-list'><li><p>En Google Chrome</p><ol class='camera-blocked-ordered-list'><li><p>Haz clic en el candado que está a la izquierda de la barra de URL.</p> <img src='/ia/assets/images/camera-blocked-chrome-1.png' alt=''></li><li>Luego haz clic en el botón de la línea <q>Cámara</q> para activarla.</li><li>Después haz clic en el botón <q>Actualizar</q> que apareció debajo de la barra de URL.</li></ol></li><li><p>En Mozilla Firefox<p><ol class='camera-blocked-ordered-list'><li><p>Haz clic en la cámara tachada que está a la izquierda de la barra de URL.</p> <img src='/ia/assets/images/camera-blocked-firefox-1.png' alt=''></li><li>Luego haz clic en el botón <q>Bloqueado temporalmente X</q> de la línea de la cámara para activarla.</li><li>Selecciona <q>Permitir</q> en el próximo intento de acceso a la cámara.</li></ol></li></ul>"
+        "text": "<p class='camera-blocked-intro'>Se produjo un error al inicializar la cámara. La causa más probable es que el acceso a las cámaras esté bloqueado en tu navegador. Puedes desbloquear las cámaras siguiendo los pasos a continuación. Si el problema persiste y tu sistema operativo es Windows, también puede ser que otro programa esté usando la cámara.</p><ul class='camera-blocked-list'><li><p>En Google Chrome</p><ol class='camera-blocked-ordered-list'><li><p>Haz clic en el candado que está a la izquierda de la barra de URL.</p> <img src='/ia/assets/images/camera-blocked-chrome-1.png' alt=''></li><li>Luego haz clic en el botón de la línea <q>Cámara</q> para activarla.</li><li>Después haz clic en el botón <q>Actualizar</q> que apareció debajo de la barra de URL.</li></ol></li><li><p>En Mozilla Firefox</p><ol class='camera-blocked-ordered-list'><li><p>Haz clic en la cámara tachada que está a la izquierda de la barra de URL.</p> <img src='/ia/assets/images/camera-blocked-firefox-1.png' alt=''></li><li>Luego haz clic en el botón <q>Bloqueado temporalmente X</q> de la línea de la cámara para activarla.</li><li>Selecciona <q>Permitir</q> en el próximo intento de acceso a la cámara.</li></ol></li></ul>"
       },
       "notification-save-export": {
         "title": "Usar este modelo",
@@ -7300,6 +7276,9 @@
         "arduinoQ": "Arduino UNO Q",
         "arduinoQExplanations": "La placa Arduino UNO Q ejecuta el modelo directamente en su procesador Linux: no se necesita ninguna optimización por el servidor.</br>El modelo se abre en la interfaz Arduino UNO Q con un programa de ejemplo y se envía a la placa al subir el programa.",
         "arduinoQNote": "<strong>Nota:</strong> si tu proyecto no está guardado en línea, el modelo se queda en este navegador: sube el programa desde este mismo navegador.",
+        "unihikerExplanations": "La placa UNIHIKER M10 ejecuta el modelo por sí misma, con la imagen de su cámara USB: no hay nada que generar ni que flashear.",
+        "unihikerNote": "El modelo se abre en la interfaz UNIHIKER: se envía a la placa con el programa al subirlo.",
+        "openUnihiker": "Abrir en la interfaz UNIHIKER M10",
         "openArduinoQ": "Abrir en la interfaz Arduino UNO Q"
       },
       "microcontroller-queue": {
@@ -7395,12 +7374,12 @@
     "campus-numeria": {
       "no-city-selected": {
         "title": "Seleccione una ciudad",
-        "content": "<p>Seleccione la ciudad o el establecimiento desde el que pilotará el robot<p>",
+        "content": "<p>Seleccione la ciudad o el establecimiento desde el que pilotará el robot</p>",
         "accept": "acepte"
       },
       "unlogged-user": {
         "title": "No está conectado",
-        "content": "<p>Debe estar conectado con su cuenta de vittascience para reservar un horario y controlar el robot<p>",
+        "content": "<p>Debe estar conectado con su cuenta de vittascience para reservar un horario y controlar el robot</p>",
         "connect": "Conectarse"
       },
       "booking-slot-exceeded": {
@@ -7538,6 +7517,8 @@
         "esp32": "Interfaz de programación para placas ESP32 (Wemos D1R32, NodeMCU, Huzzah32, ...)",
         "TI-83": "Interfaz de programación para calculadora y placas BBC micro:bit o TI Innovator™ Hub",
         "GalaxiaCircuitPython": "Interfaz de programación de la placa Thingz-Galaxia",
+        "unihiker": "Interfaz de programación para la placa UNIHIKER M10: ¡pantalla táctil, sensores integrados y Python en Linux!",
+        "unihikerK10": "Interfaz de programación para la placa UNIHIKER K10: ¡pantalla, LED RGB, sensores integrados y MicroPython!",
         "raspberrypi": "Interfaz de programación de la placa Raspberry Pi",
         "niryo": "Interfaz de programación para el robot Niryo Ned2",
         "nao": "Interfaz de programación para el robot NAO v6",
@@ -7561,6 +7542,7 @@
         "maqueen": "Interfaz de programación para el robot Maqueen",
         "maqueenPlus": "Interfaz de programación para el robot Maqueen Plus V1 y V2",
         "cutebot": "Interfaz de programación para el robot Cutebot",
+        "tpbot": "Interfaz de programación para el robot TPBot",
         "cutebotPro": "Interfaz de programación para el robot Cutebot Pro",
         "kitrobot": "Interfaz de programación para el robot Kitro:bot v2",
         "oobybot": "Interfaz de programación para el robot Oobybot",
@@ -7591,7 +7573,8 @@
         "uhandbit": "Interfaz de programación para la mano robótica uHandbit",
         "wonder": "Interfaz de programación para el kit Elecfreaks Wonder",
         "buildingbit": "Interfaz de programación para el kit Yahboom Building:bit Super Kit",
-        "primastem": "Interfaz de programación para el robot PrimaStem"
+        "primastem": "Interfaz de programación para el robot PrimaStem",
+        "skykick": "Interfaz de programación para el dron SkyKick Evo"
       }
     },
     "features_title": "Características comunes",
@@ -7789,6 +7772,7 @@
     "favoriteNotRemoved": "No se puede eliminar este recurso de los favoritos",
     "needToTrainModelForPrediction": "Hay que entrenar el modelo antes de hacer predicciones.",
     "needAtLeastTwoCategoryForEdge": "¡Se necesitan al menos dos categorías para entrenar un modelo!",
+    "edgeUnbalancedClasses": "Las clases no tienen el mismo número de grabaciones: el modelo puede favorecer las más grandes. Intenta tener más o menos las mismas en cada clase.",
     "noDataToTrainModel": "¡No hay datos para entrenar el modelo!",
     "errorEdgeFilterDataMissingReccords": "¡Al menos una categoría no contiene suficientes registros para entrenar un modelo!",
     "errorEdgeFilterDataSensorStrategyMismatch": "El modelo no puede ser entrenado porque se están utilizando varios sensores en las categorías.",
@@ -9036,7 +9020,7 @@
       "title2": "En colaboración con"
     },
     "ressources": {
-      "title": "DESCUBRA <span class='color-orange'>3 RECURSOS",
+      "title": "DESCUBRA <span class='color-orange'>3 RECURSOS</span>",
       "card1": "Introducción a la tarjeta micro:bit",
       "card2": "Medir la calidad del’aire con un sensor MQ135 en Arduino",
       "card3": "mBot",
@@ -9151,7 +9135,7 @@
       "title2": "En colaboración con"
     },
     "ressources": {
-      "title": "DESCUBRA <span class='color-orange'>3 RECURSOS",
+      "title": "DESCUBRA <span class='color-orange'>3 RECURSOS</span>",
       "card1": "Introducción a la placa micro:bit",
       "card2": "Medir la calidad del aire con un sensor MQ135 en Arduino",
       "card3": "mBot",

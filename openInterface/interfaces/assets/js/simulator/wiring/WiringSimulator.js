@@ -8,7 +8,6 @@ const requestAnimation_WiringSimulator =
 var WiringSimulator = {
   wereInitialized: false,
   isRunning: false,
-  width: null,
   loadedImages: {},
   img: {
     background: new Image(),
@@ -20,19 +19,47 @@ var WiringSimulator = {
   animation: null,
   recorder: null,
   isRecording: false,
+  // Board, modules and wires are drawn in a fixed logical space (WIDTH_PX x WIDTH_PX * RATIO), scaled to the canvas size.
   Track: {
     RATIO: 9 / 16,
     WIDTH_PX: 487.22
   },
-  selectedModuleId: null,
+  WIRES: ["GND", "VCC", "DATA2", "DATA1"],
+  WIRE_COLORS: { GND: "#000", VCC: "#ff0000", DATA2: "#dddddd", DATA1: "#ffcc25" },
+  SIDES: { left: { x: -1, y: 0 }, right: { x: 1, y: 0 }, top: { x: 0, y: -1 }, bottom: { x: 0, y: 1 } },
+  // Distance between a wire end and its bezier control point.
+  WIRE_CURVE: 50,
+  selected: null,
+  isShieldDragged: false,
+  dragStart: null,
+  grab: null,
   isDragging: false,
   // View of the board, modules and wires: zoom (buttons) and offset (dragging the background).
   view: { zoom: 1, x: 0, y: 0 },
   ZOOM: { MIN: 0.5, MAX: 3, STEP: 1.25 },
   panStart: null,
   modules: [],
-  wiringOverlay: null,
+  // Position of each module, kept when the mosaic changes. Key: module key (see updateModules).
+  positions: {},
+  hub: null,
+  // Current shield, from the shields of shields.js.
+  shield: null,
+  shields: {},
+  // Set by the interface (groveShield.js): shield name of the selected board (null without Grove shield), and shield
+  // pin name of a mosaic pin.
+  board: {
+    shield: () => null,
+    port: (pin) => pin
+  },
   groveDefinitions: [],
+  // Used for every external module that has no picture of its own.
+  genericDefinition: {
+    id: "generic",
+    generic: true,
+    wireOrientation: "bottom",
+    wirePosition: { GND: { x: 15.5, y: 34.8 }, VCC: { x: 18.5, y: 34.8 }, DATA2: { x: 21.5, y: 34.8 }, DATA1: { x: 24.5, y: 34.8 } },
+    picture: "generic-module.svg"
+  },
   i2c: {
     hubRequired: null
   },
@@ -42,20 +69,11 @@ var WiringSimulator = {
     this.img.background.src = this.PATH_MEDIA + "/backgrounds/white-background.jpg";
     this.img.logo.src = this.PATH_MEDIA + "/logo.png";
     this.canvas = document.querySelector("#wiring-simulator");
-    this.width = {
-      px: this.Track.WIDTH_PX,
-      cm: this.Track.WIDTH_CM
-    };
     this.canvas.width = this.Track.WIDTH_PX;
     this.canvas.height = this.Track.WIDTH_PX * this.Track.RATIO;
     this.ctx = this.canvas.getContext("2d");
     this.recorder = new Recorder(this.canvas, $("#record-button"), fileName = 'wiring-simulator');
-    this.initBoard();
-    this.initWiresColor();
     this.initCanvasPointers();
-    $(window).on('resize', () => {
-      this.resize();
-    });
     this.wereInitialized = true;
   },
 
@@ -115,68 +133,6 @@ var WiringSimulator = {
 
   },
 
-  initBoard: function () {
-    const boardImage = new Image();
-    boardImage.src = groveShield.IMG_LINK;
-    groveShield.image = boardImage;
-    groveShield.image.width = groveShield.SIZE.w;
-    groveShield.image.height = groveShield.SIZE.h;
-    groveShield.x = groveShield.INITIAL_POS_PERCENT.x / 100 * this.width.px - groveShield.SIZE.h / 2;
-    groveShield.y = groveShield.INITIAL_POS_PERCENT.y / 100 * this.width.px * this.Track.RATIO - groveShield.SIZE.w / 2;
-  },
-
-  initWiresColor: function () {
-    const setColor = function (wiringDef) {
-      wiringDef.wirePosition['VCC'].color = "#ff0000";
-      wiringDef.wirePosition['GND'].color = "#000";
-      wiringDef.wirePosition['DATA2'].color = "#ddddddff";
-      wiringDef.wirePosition['DATA1'].color = "#ffcc25";
-    };
-    for (var i = 0; i < this.groveDefinitions.length; i++) {
-      setColor(this.groveDefinitions[i]);
-    };
-    for (var i in this.i2c.hubs) {
-      setColor(this.i2c.hubs[i]);
-    }
-  },
-
-  resize: function () {
-    const resizeScalar = $("#simulator").width() / this.width.px;
-    if (resizeScalar != 1) {
-      $("#wiring-overlay").width($("#simulator").width());
-      $("#wiring-overlay").height($("#wiring-simulator").height());
-      groveShield.x += groveShield.SIZE.h / 2;
-      groveShield.y += groveShield.SIZE.w / 2;
-      groveShield.x *= resizeScalar;
-      groveShield.y *= resizeScalar;
-      groveShield.x -= groveShield.SIZE.h / 2;
-      groveShield.y -= groveShield.SIZE.w / 2;
-      groveShield.SIZE.h *= resizeScalar;
-      groveShield.SIZE.w *= resizeScalar;
-      Object.keys(groveShield.pins).forEach(pin => {
-        if (pin !== 'I2C') {
-          groveShield.pins[pin].x *= resizeScalar;
-          groveShield.pins[pin].y *= resizeScalar;
-        } else {
-          Object.keys(groveShield.pins[pin]).forEach(i2c => {
-            groveShield.pins[pin][i2c].x *= resizeScalar;
-            groveShield.pins[pin][i2c].y *= resizeScalar;
-          });
-        }
-      });
-      WiringSimulator.modules.forEach(mod => {
-        mod.wiring.size *= resizeScalar
-        mod.wiring.x *= resizeScalar;
-        mod.wiring.y *= resizeScalar;
-        console.log(mod.wiring.wirePosition)
-        Object.keys(mod.wiring.wirePosition).forEach(wire => {
-          mod.wiring.wirePosition[wire].x *= resizeScalar;
-          mod.wiring.wirePosition[wire].y *= resizeScalar;
-        });
-      });
-    }
-  },
-
   /**
    * [BUTTON] Toggle video recording, getting it in mp4 file.
    */
@@ -220,7 +176,8 @@ var WiringSimulator = {
    * @returns {{x: number, y: number}}
    */
   toView: function (e) {
-    return { x: (e.offsetX - this.view.x) / this.view.zoom, y: (e.offsetY - this.view.y) / this.view.zoom };
+    const scale = this.getScale();
+    return { x: (e.offsetX - this.view.x) / scale, y: (e.offsetY - this.view.y) / scale };
   },
 
   /**
@@ -248,7 +205,8 @@ var WiringSimulator = {
         cancelAnimation_WiringSimulator(that.animation);
       }
 
-      if (!Simulator.isStopped && Simulator.isInWiringMode) {
+      // Also when the simulation is stopped: the board (or its shield) and the modules can change, and be moved.
+      if (Simulator.isInWiringMode) {
         that.update();
       }
     };
@@ -256,184 +214,342 @@ var WiringSimulator = {
   },
 
   update: function () {
-    if (Simulator.mosaicChanged) {
+    if (this.selectShield() || Simulator.mosaicChanged) {
       this.updateModules();
       Simulator.mosaicChanged = false;
     }
-    // Reset previous width for Fullscreen
-    this.width.px = $("#simulator").width();
-    $("#wiring-overlay").height($("#wiring-simulator").height() + 4);
-    // Update background
-    this.canvas.width = this.width.px;
-    this.canvas.height = this.width.px * this.Track.RATIO;
+    // Follow the simulator width (fullscreen, window resize), resizing the canvas only when needed as it clears it.
+    const width = Math.floor($("#simulator").width()) || this.canvas.width;
+    if (this.canvas.width !== width) {
+      this.canvas.width = width;
+      this.canvas.height = width * this.Track.RATIO;
+      $("#wiring-overlay").height(this.canvas.height + 4);
+    }
     this.drawBackground();
     this.drawLogo();
-    this.ctx.setTransform(this.view.zoom, 0, 0, this.view.zoom, this.view.x, this.view.y);
+    if (!this.shield) {
+      this.drawNoShield();
+      return;
+    }
+    const scale = this.getScale();
+    this.ctx.setTransform(scale, 0, 0, scale, this.view.x, this.view.y);
     this.drawBoard();
     this.drawAllImages();
     this.drawAllWires();
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
   },
 
+  /**
+   * Canvas pixels per logical pixel.
+   * @returns {number}
+   */
+  getScale: function () {
+    return this.view.zoom * this.canvas.width / this.Track.WIDTH_PX;
+  },
+
+  /**
+   * Use the shield of the selected board, placing it the first time.
+   * @returns {boolean} true when the shield changed
+   */
+  selectShield: function () {
+    const shield = this.shields[this.board.shield()] || null;
+    if (shield === this.shield) return false;
+    this.shield = shield;
+    if (shield && !shield.image) {
+      shield.image = new Image();
+      shield.image.src = shield.IMG_LINK;
+      shield.x = shield.INITIAL_POS_PERCENT.x / 100 * this.Track.WIDTH_PX - shield.SIZE.w / 2;
+      shield.y = shield.INITIAL_POS_PERCENT.y / 100 * this.Track.WIDTH_PX * this.Track.RATIO - shield.SIZE.h / 2;
+    }
+    return true;
+  },
+
+  /**
+   * Name of a pin in the Blockly pins lists of a board (e.g. 'D2' for the GPIO 5 of the Arduino Nano ESP32).
+   * @param {string} pin pin id of the mosaic
+   * @param {string} board board id
+   * @returns {string|null}
+   */
+  getPinName: function (pin, board) {
+    for (const type in Blockly.Constants.Pins) {
+      const pins = Blockly.Constants.Pins[type][board];
+      const found = Array.isArray(pins) && pins.find(p => p[1] == 'p' + pin || p[1] == pin || p[1] == "'" + pin + "'");
+      if (found) return found[0];
+    }
+    return null;
+  },
+
+  drawNoShield: function () {
+    this.ctx.font = "bold 16px Montserrat, Arial, sans-serif";
+    this.ctx.textAlign = "center";
+    this.ctx.fillStyle = "#004684";
+    this.ctx.fillText(this.translate('code.simulator.wiring.noShield', "Pas de shield Grove pour cette carte dans le simulateur de câblage.", {}),
+      this.canvas.width / 2, this.canvas.height / 2);
+  },
+
+  /**
+   * Build the modules to draw from the mosaic: one module per physical board (e.g. 'dht11-temp_4' and 'dht11-hum_4'
+   * are the same DHT11), each with the shield port (or hub port) its wires go to.
+   */
   updateModules: function () {
     UIManager.resetMessage("warning-message");
-    this.i2c.portCount = 0;
-    this.modules = new Array();
+    this.modules = [];
+    this.hub = null;
+    if (!this.shield) return;
+    const modules = [];
+    const byKey = {};
+    const i2cModules = [];
+    const warnings = [];
     const mosaicModules = Simulator.getMosaicModules();
-    for (var i = 0; i < mosaicModules.length; i++) {
-      const moduleId = mosaicModules[i].id;
-      const coreId = mosaicModules[i].id.split('_')[0];
-      const wiringDef = this.getWiringDefById(coreId);
+    for (let i = 0; i < mosaicModules.length; i++) {
+      const domId = mosaicModules[i].id;
+      if (!domId) continue;
+      const separator = domId.indexOf('_');
+      const coreId = separator === -1 ? domId : domId.slice(0, separator);
+      const pinPart = separator === -1 ? null : domId.slice(separator + 1);
       const mod = Simulator.getModuleByKey(coreId);
-      if (wiringDef) {
-        if (mod && mod.pin === 'I2C') {
-          if (mod.multiple && coreId.split('-').length > 1) {
-            const componentId = coreId.split('-')[0];
-            const moduleFound = this.modules.find(module => module.id === componentId);
-            if (!moduleFound) {
-              this.modules.push({
-                id: componentId,
-                multiple: true,
-                to: 'I2C-' + this.i2c.portCount,
-                wiring: wiringDef
-              });
-              this.i2c.portCount++;
-            }
-          } else {
-            this.modules.push({
-              id: coreId,
-              to: 'I2C-' + this.i2c.portCount,
-              wiring: wiringDef
-            });
-            this.i2c.portCount++;
-          }
-        } else {
-          this.modules.push({
-            id: moduleId,
-            to: moduleId.split('_')[1],
-            wiring: Object.assign({}, wiringDef)
-          });
-        }
+      if (!mod) continue;
+      const wiringDef = this.getWiringDefById(coreId) || this.genericDefinition;
+      const connection = wiringDef.connection || this.getConnection(mod, pinPart);
+      // Modules of the board itself or of a robot: not plugged on the shield.
+      if (connection === null) continue;
+      const family = wiringDef.generic ? (mod.multiple ? coreId.split('-')[0] : coreId) : this.groveDefinitions.indexOf(wiringDef);
+      const key = family + '@' + connection;
+      if (byKey[key]) {
+        byKey[key].domIds.push(domId);
+        continue;
+      }
+      const module = {
+        key: key,
+        domIds: [domId],
+        wiring: wiringDef,
+        title: mod.multiple ? String(mod.title || coreId).split(' - ')[0] : String(mod.title || coreId),
+        pos: this.positions[key] || null,
+        ends: null
+      };
+      byKey[key] = module;
+      modules.push(module);
+      if (connection === 'I2C') {
+        i2cModules.push(module);
       } else {
-        if (Simulator.isInWiringMode) {
-          UIManager.showWarningMessage("warning-message", "Le module '" + mod.title + "' n'a pas encore été implémenté dans le simulateur de câblage.");
+        // Dupont wiring: the serial module goes on the board TX (its RX, yellow wire) and RX (its TX, white wire).
+        const port = connection === 'UART' ? this.shield.pins.UART : this.shield.pins[this.board.port(connection)];
+        if (connection === 'UART' && this.shield.bus) {
+          module.ends = this.getBusEnds(this.shield.bus.TX, this.shield.bus.RX);
+        } else if (port) {
+          module.ends = this.getPortEnds(port, false);
+        }
+        if (!module.ends) {
+          warnings.push(this.translate('code.simulator.wiring.unwiredPin',
+            "[Câblage] Le module <b>{{module}}</b> est sur la broche <b>{{pin}}</b>, qui n'a pas de connecteur sur ce shield : il n'est pas câblé.",
+            { module: module.title, pin: connection || '?' }));
         }
       }
     }
-    if (this.i2c.portCount > Object.keys(groveShield.pins.I2C).length) {
-      if (this.i2c.portCount > Object.keys(groveShield.pins.I2C).length - 1 + 3) {
-        this.i2c.hubRequired = 6;
-      } else {
-        this.i2c.hubRequired = 4;
-      }
-      const moduleDef = this.i2c.hubs['groveHub-' + this.i2c.hubRequired];
-      moduleDef.x = groveShield.x - 50;
-      moduleDef.y = groveShield.y;
-      moduleDef.id = 'groveHub-' + this.i2c.hubRequired;
-      this.modules.push({
-        id: null,
-        to: 'I2C-0',
-        wiring: moduleDef
-      });
-    } else {
-      this.i2c.hubRequired = null;
+    this.connectI2CModules(modules, i2cModules, warnings);
+    this.modules = modules;
+    if (Simulator.isInWiringMode && warnings.length) {
+      UIManager.showWarningMessage("warning-message", warnings.join('<br>'));
     }
   },
 
-  getWiringDefById: function (value, key = 'id') {
-    const wiringDef = this.groveDefinitions.find(x => (x[key] === value || (typeof x[key] == 'object' && x[key].includes(value))));
-    if (!wiringDef) {
-      console.error("WiringSimulator Error: no wiring definition with '" + key + "': " + value);
+  /**
+   * Connection of a mosaic module.
+   * @param {Object} mod module definition of the mosaic
+   * @param {string|null} pinPart end of the mosaic module id (pin, pin-slot or pin-led)
+   * @returns {string|null} 'I2C', 'UART', a pin, '' when the pin is unknown, null when the module is not plugged on the shield
+   */
+  getConnection: function (mod, pinPart) {
+    const pin = typeof mod.pin === 'string' ? mod.pin : '';
+    // Built-in modules (e.g. the Arduino LED on pin 13) are on the board.
+    if (mod.builtin || mod.id === 'arduino-led13') return null;
+    if (/^I2C/i.test(pin)) return 'I2C';
+    if (/RX|TX|UART/i.test(pin) || /UART/i.test(pinPart || '')) return 'UART';
+    if (pinPart) return pinPart.split('-')[0];
+    if (!pin || /pin n°|IN1/.test(pin)) return '';
+    return null;
+  },
+
+  /**
+   * Plug the I2C modules on the shield I2C ports, adding a Grove I2C hub on the first port when there are not enough.
+   */
+  connectI2CModules: function (modules, i2cModules, warnings) {
+    this.hub = null;
+    this.i2c.hubRequired = null;
+    // Dupont wiring: every I2C module goes on the same SCL (yellow wire) and SDA (white wire) pins.
+    if (this.shield.bus) {
+      const ends = this.getBusEnds(this.shield.bus.SCL, this.shield.bus.SDA);
+      i2cModules.forEach(module => module.ends = ends);
+      if (!ends && i2cModules.length) {
+        warnings.push(this.translate('code.simulator.wiring.unwiredPin',
+          "[Câblage] Le module <b>{{module}}</b> est sur la broche <b>{{pin}}</b>, qui n'a pas de connecteur sur ce shield : il n'est pas câblé.",
+          { module: i2cModules.map(module => module.title).join(', '), pin: 'I2C' }));
+      }
+      return;
     }
-    return wiringDef;
+    const shieldPorts = Object.values(this.shield.pins.I2C || {});
+    let targets = shieldPorts.map(port => this.getPortEnds(port, false));
+    if (i2cModules.length > shieldPorts.length && shieldPorts.length) {
+      this.i2c.hubRequired = i2cModules.length - (shieldPorts.length - 1) <= Object.keys(this.i2c.hubs['groveHub-4'].ports).length ? 4 : 6;
+      const hubDef = this.i2c.hubs['groveHub-' + this.i2c.hubRequired];
+      this.hub = {
+        key: 'groveHub-' + this.i2c.hubRequired,
+        domIds: [],
+        wiring: hubDef,
+        title: 'Grove I2C Hub',
+        pos: this.positions['groveHub-' + this.i2c.hubRequired] || null,
+        ends: targets[0]
+      };
+      modules.push(this.hub);
+      targets = targets.slice(1).concat(Object.values(hubDef.ports).map(port => this.getPortEnds(port, true)));
+    }
+    i2cModules.forEach((module, i) => {
+      module.ends = targets[i] || null;
+    });
+    if (i2cModules.length > targets.length) {
+      warnings.push(this.translate('code.simulator.wiring.i2cFull',
+        "[Câblage] Trop de modules I2C : <b>{{modules}}</b> ne sont pas câblés.",
+        { modules: i2cModules.slice(targets.length).map(module => module.title).join(', ') }));
+    }
+  },
+
+  /**
+   * Wire ends of a port: a Grove port takes the 4 wires, a header pin (no Grove connector) takes the signal wire,
+   * power wires going to the shield power pins.
+   * @param {Object} port {x, y} relative to the centre of the shield (or hub), header and side for a header pin
+   * @param {boolean} onHub
+   * @returns {Object} end of each wire
+   */
+  getPortEnds: function (port, onHub) {
+    const owner = onHub ? 'hub' : 'shield';
+    if (port.header) {
+      return {
+        GND: this.getPinEnd(this.shield.power.GND),
+        VCC: this.getPinEnd(this.shield.power.VCC),
+        DATA2: null,
+        DATA1: this.getPinEnd(port, owner)
+      };
+    }
+    const vertical = onHub ? false : ('vertical' in port ? port.vertical : this.shield.portOrientation === 'vertical');
+    const side = onHub ? null : (port.side || this.shield.wireSide);
+    const end = { ref: port, owner: owner, vertical: vertical, side: side, gap: true };
+    return { GND: end, VCC: end, DATA2: end, DATA1: end };
+  },
+
+  /**
+   * Wire end on a header pin (Dupont wire).
+   * @param {Object|undefined} pin {x, y, side}
+   * @param {string} owner 'shield' or 'hub'
+   * @returns {Object|null}
+   */
+  getPinEnd: function (pin, owner = 'shield') {
+    return pin ? { ref: pin, owner: owner, vertical: false, side: pin.side, gap: false } : null;
+  },
+
+  /**
+   * Wire ends of a module on the pins of a bus of the board (I2C or serial) with Dupont wires.
+   * @param {string} data1 pin name of the yellow wire
+   * @param {string} data2 pin name of the white wire
+   * @returns {Object|null} null when the board does not have these pins
+   */
+  getBusEnds: function (data1, data2) {
+    const pins = this.shield.pins;
+    if (!pins[data1] || !pins[data2]) return null;
+    return {
+      GND: this.getPinEnd(this.shield.power.GND),
+      VCC: this.getPinEnd(this.shield.power.VCC),
+      DATA2: this.getPinEnd(pins[data2]),
+      DATA1: this.getPinEnd(pins[data1])
+    };
+  },
+
+  /**
+   * Translate with a fallback when the key is missing.
+   */
+  translate: function (key, fallback, options) {
+    const text = typeof i18next !== 'undefined' ? i18next.t(key, options) : key;
+    if (text !== key) return text;
+    return fallback.replace(/{{(\w+)}}/g, (match, name) => options[name]);
+  },
+
+  getWiringDefById: function (value, key = 'id') {
+    return this.groveDefinitions.find(x => (x[key] === value || (typeof x[key] == 'object' && x[key].includes(value))));
   },
 
   initCanvasPointers: function () {
 
     this.canvas.onpointerdown = (e) => {
       const point = this.toView(e);
-      if (this.isPointingOnBoard(point)) {
-        groveShield.isDraggable = true;
-      }
-      if (!groveShield.isDraggable) {
-        for (var i = 0; i < this.modules.length; i++) {
-          if (this.isPointingOnModule(point, this.modules[i].wiring)) {
-            if (this.modules[i].id === null) {
-              this.selectedModuleId = this.modules[i].wiring.id;
-            } else {
-              this.selectedModuleId = this.modules[i].id;
-            }
-            break;
-          }
+      this.selected = null;
+      // Modules drawn last are on top.
+      for (let i = this.modules.length - 1; i >= 0; i--) {
+        if (this.modules[i].pos && this.isPointingOnModule(point, this.modules[i])) {
+          this.selected = this.modules[i];
+          break;
         }
       }
+      if (this.selected === null && this.isPointingOnBoard(point)) {
+        this.isShieldDragged = true;
+      }
       // Nothing under the pointer: dragging moves the view.
-      if (!groveShield.isDraggable && this.selectedModuleId === null) {
+      if (!this.isShieldDragged && this.selected === null) {
         this.panStart = { x: e.offsetX - this.view.x, y: e.offsetY - this.view.y };
       }
+      this.dragStart = point;
+      // Offset between the pointer and the dragged item, so that it does not jump under the pointer.
+      const dragged = (this.selected ? this.selected.pos : this.shield) || point;
+      this.grab = { x: point.x - dragged.x, y: point.y - dragged.y };
     };
 
     this.canvas.onpointerup = (e) => {
-      groveShield.isDraggable = false;
-      this.selectedModuleId = null;
+      const clicked = !this.isDragging ? this.selected : null;
+      this.isShieldDragged = false;
+      this.selected = null;
       this.panStart = null;
-      if (!this.isDragging) {
-        const point = this.toView(e);
-        for (var i = 0; i < this.modules.length; i++) {
-          const wiringDef = this.modules[i].wiring;
-          if (this.modules[i].id !== null && this.isPointingOnModule(point, wiringDef)) {
-            this.closeModule();
-            if (this.modules[i].multiple && typeof wiringDef.id == 'object') {
-              for (var i = 0; i < wiringDef.id.length; i++) {
-                $("#" + wiringDef.id[i]).show();
-              }
-            } else {
-              $("#" + this.modules[i].id).show();
-            }
-            $("#wiring-modules").show();
-            $("#wiring-overlay").addClass("active");
-            break;
-          }
-        }
+      this.isDragging = false;
+      if (clicked && clicked.domIds.length) {
+        this.closeModule();
+        clicked.domIds.forEach(id => $("#" + id).show());
+        $("#wiring-modules").show();
+        $("#wiring-overlay").addClass("active");
       }
     };
 
     this.canvas.onpointerout = () => {
-      this.selectedModuleId = null;
-      groveShield.isDraggable = false;
+      this.selected = null;
+      this.isShieldDragged = false;
       this.isDragging = false;
       this.panStart = null;
     };
 
     this.canvas.onpointermove = (e) => {
       const point = this.toView(e);
-      if (groveShield.isDraggable) {
-        groveShield.x = point.x - groveShield.SIZE.w / 2;
-        groveShield.y = point.y - groveShield.SIZE.h / 2;
+      // Small moves are still clicks.
+      if (this.dragStart && Math.hypot(point.x - this.dragStart.x, point.y - this.dragStart.y) > 2) {
         this.isDragging = true;
-      } else if (this.selectedModuleId !== null) {
-        const wiringDef = this.modules.find(module => (this.selectedModuleId == module.id || this.selectedModuleId === module.wiring.id)).wiring;
-        wiringDef.x = point.x - wiringDef.w / 2;
-        wiringDef.y = point.y - wiringDef.h / 2;
-        this.isDragging = true;
+      }
+      if (!this.isDragging) return;
+      if (this.isShieldDragged) {
+        this.shield.x = point.x - this.grab.x;
+        this.shield.y = point.y - this.grab.y;
+      } else if (this.selected !== null) {
+        this.selected.pos.x = point.x - this.grab.x;
+        this.selected.pos.y = point.y - this.grab.y;
       } else if (this.panStart !== null) {
         this.view.x = e.offsetX - this.panStart.x;
         this.view.y = e.offsetY - this.panStart.y;
-        this.isDragging = true;
-      } else {
-        this.isDragging = false;
       }
     };
   },
 
   isPointingOnBoard: function (point) {
-    return point.x <= groveShield.x + groveShield.SIZE.w && point.x >= groveShield.x &&
-      point.y <= groveShield.y + groveShield.SIZE.h && point.y >= groveShield.y;
+    return this.shield && point.x <= this.shield.x + this.shield.SIZE.w && point.x >= this.shield.x &&
+      point.y <= this.shield.y + this.shield.SIZE.h && point.y >= this.shield.y;
   },
 
   isPointingOnModule: function (point, module) {
-    return point.x <= module.x + module.w && point.x >= module.x &&
-      point.y <= module.y + module.h && point.y >= module.y;
+    return point.x <= module.pos.x + module.w && point.x >= module.pos.x &&
+      point.y <= module.pos.y + module.h && point.y >= module.pos.y;
   },
 
   drawBackground: function () {
@@ -445,148 +561,140 @@ var WiringSimulator = {
   },
 
   drawBoard: function () {
-    this.ctx.drawImage(groveShield.image, groveShield.x, groveShield.y, groveShield.SIZE.w, groveShield.SIZE.h);
+    this.ctx.drawImage(this.shield.image, this.shield.x, this.shield.y, this.shield.SIZE.w, this.shield.SIZE.h);
   },
 
   /**
-   * Draws the modules and I2C hub if required.
+   * Draws the modules and I2C hub if required, placing the new ones once their picture is loaded.
    */
   drawAllImages() {
-    for (var i = 0; i < this.modules.length; i++) {
-      const wiringDef = this.modules[i].wiring;
-      if (typeof wiringDef.size == 'undefined') {
-        wiringDef.size = 1;
+    this.ctx.font = "bold 7px Montserrat, Arial, sans-serif";
+    this.ctx.textAlign = "center";
+    this.ctx.fillStyle = "#004684";
+    for (let i = 0; i < this.modules.length; i++) {
+      const module = this.modules[i];
+      const moduleImage = this.getModuleImage(module.wiring);
+      if (!moduleImage.complete || !moduleImage.width) continue;
+      const size = module.wiring.size || 1;
+      module.w = size * moduleImage.width;
+      module.h = size * moduleImage.height;
+      if (!module.pos) {
+        module.pos = this.positions[module.key] = this.findFreePosition(module);
       }
-      const moduleImage = this.getModuleImage(wiringDef);
-      wiringDef.w = wiringDef.size * moduleImage.width;
-      wiringDef.h = wiringDef.size * moduleImage.height;
-      if (wiringDef.w !== 0 && wiringDef.h !== 0) {
-        this.ctx.drawImage(moduleImage, wiringDef.x, wiringDef.y, wiringDef.w, wiringDef.h);
+      this.ctx.drawImage(moduleImage, module.pos.x, module.pos.y, module.w, module.h);
+      if (module.wiring.generic) {
+        this.ctx.fillText(module.title, module.pos.x + module.w / 2, module.pos.y + module.h + 8);
       }
     }
+  },
+
+  /**
+   * Free place for a module, as close as possible to the shield: its default position if free, otherwise the
+   * nearest free cell of a grid over the canvas.
+   * ponytail: grid scan, O(cells x modules), only run once per new module.
+   * @param {Object} module with w and h
+   * @returns {{x: number, y: number}}
+   */
+  findFreePosition: function (module) {
+    const MARGIN = 6;
+    const width = this.Track.WIDTH_PX;
+    const height = this.Track.WIDTH_PX * this.Track.RATIO;
+    const rects = this.modules
+      .filter(other => other !== module && other.pos && other.w)
+      .map(other => ({ x: other.pos.x, y: other.pos.y, w: other.w, h: other.h + (other.wiring.generic ? 10 : 0) }));
+    rects.push({ x: this.shield.x, y: this.shield.y, w: this.shield.SIZE.w, h: this.shield.SIZE.h });
+    // The logo is drawn at its own size in canvas pixels, at the top left.
+    const logoScale = this.Track.WIDTH_PX / this.canvas.width;
+    rects.push({ x: 0, y: 0, w: this.img.logo.width * logoScale, h: (this.img.logo.height + 10) * logoScale });
+    const h = module.h + (module.wiring.generic ? 10 : 0);
+    // Area covered by the module at (x, y) on the other modules and the shield, with a margin around them.
+    const overlap = (x, y) => rects.reduce((sum, r) =>
+      sum + Math.max(0, Math.min(x + module.w, r.x + r.w + MARGIN) - Math.max(x, r.x - MARGIN)) *
+      Math.max(0, Math.min(y + h, r.y + r.h + MARGIN) - Math.max(y, r.y - MARGIN)), 0);
+    if (typeof module.wiring.x === 'number' && overlap(module.wiring.x, module.wiring.y) === 0) {
+      return { x: module.wiring.x, y: module.wiring.y };
+    }
+    // When the canvas is full, the least covering place is taken.
+    const centre = { x: this.shield.x + this.shield.SIZE.w / 2, y: this.shield.y + this.shield.SIZE.h / 2 };
+    let best = { x: MARGIN, y: MARGIN, score: Infinity };
+    for (let y = MARGIN; y + h <= height - MARGIN; y += 5) {
+      for (let x = MARGIN; x + module.w <= width - MARGIN; x += 5) {
+        const score = overlap(x, y) * 1000 + Math.hypot(x + module.w / 2 - centre.x, y + h / 2 - centre.y);
+        if (score < best.score) {
+          best = { x: x, y: y, score: score };
+        }
+      }
+    }
+    return { x: best.x, y: best.y };
   },
 
   getModuleImage(module) {
-    const moduleId = module.id;
-    if (typeof this.loadedImages[moduleId] !== 'undefined') {
-      return this.loadedImages[moduleId];
+    const picture = module.picture;
+    if (typeof this.loadedImages[picture] !== 'undefined') {
+      return this.loadedImages[picture];
     }
     const moduleImage = new Image();
-    moduleImage.src = `${this.PATH_MEDIA}/modules/${module.picture}`;
-    this.loadedImages[moduleId] = moduleImage;
+    moduleImage.src = `${this.PATH_MEDIA}/modules/${picture}`;
+    this.loadedImages[picture] = moduleImage;
     return moduleImage;
   },
 
-  drawWire: function (j, mod, wire, cp1x, cp1y, offset) {
-    let mod_x;
-    let mod_y;
-    let base_x = groveShield.x + groveShield.SIZE.w / 2;
-    let base_y = groveShield.y + groveShield.SIZE.h / 2;
-    let toHub = false;
-    if (mod.to.includes('I2C')) {
-      const portIndex = parseInt(mod.to.split('-')[1]);
-      if (this.i2c.hubRequired !== null) {
-        if (mod.wiring.id.includes('groveHub')) {
-          mod_x = groveShield.pins.I2C[0].x;
-          mod_y = groveShield.pins.I2C[0].y;
-        } else {
-          const shieldPorts = Object.keys(groveShield.pins.I2C).length;
-          const newPortIndex = portIndex + 1;
-          if (newPortIndex > shieldPorts - 1) {
-            const hub = this.modules.find(module => module.wiring.id === 'groveHub-' + this.i2c.hubRequired);
-            mod_x = hub.wiring.ports[newPortIndex - shieldPorts].x;
-            mod_y = hub.wiring.ports[newPortIndex - shieldPorts].y;
-            base_x = hub.wiring.x + hub.wiring.w / 2;
-            base_y = hub.wiring.y + hub.wiring.h / 2;
-            toHub = true;
-          } else {
-            mod_x = groveShield.pins.I2C[newPortIndex].x;
-            mod_y = groveShield.pins.I2C[newPortIndex].y;
-          }
-        }
-      } else {
-        mod_x = groveShield.pins.I2C[portIndex].x;
-        mod_y = groveShield.pins.I2C[portIndex].y;
-      }
-    } else {
-      mod_x = groveShield.pins[mod.to].x;
-      mod_y = groveShield.pins[mod.to].y;
-    }
-    let cp2x = 0;
-    let cp2y = 0;
-    let offset_x = 0;
-    let offset_y = 0;
-    const wiresGap = 3 * j;
-    if (groveShield.portOrientation === 'horizontal' || toHub) {
-      if (groveShield.wireSide === 'top' || toHub) {
-        cp2y = offset + wiresGap;
-      } else {
-        cp2y = - offset + wiresGap;
-      }
-      offset_x = wiresGap;
-    } else {
-      if (groveShield.wireSide === 'left') {
-        cp2x = offset + wiresGap;
-      } else {
-        cp2x = - offset + wiresGap;
-      }
-      offset_y = wiresGap;
-    }
+  /**
+   * Draws one wire, from the module connector to its port.
+   * @param {Object} module
+   * @param {string} wire 'GND', 'VCC', 'DATA2' or 'DATA1'
+   * @param {number} index wire index, to spread the wires of a same port
+   */
+  drawWire: function (module, wire, index) {
+    const end = module.ends[wire];
+    const owner = end.owner === 'hub' ? { x: this.hub.pos.x, y: this.hub.pos.y, w: this.hub.w, h: this.hub.h } :
+      { x: this.shield.x, y: this.shield.y, w: this.shield.SIZE.w, h: this.shield.SIZE.h };
+    const gap = end.gap ? 3 * index : 0;
+    const start = {
+      x: module.pos.x + module.wiring.wirePosition[wire].x,
+      y: module.pos.y + module.wiring.wirePosition[wire].y
+    };
+    const stop = {
+      x: owner.x + owner.w / 2 + end.ref.x + (end.vertical ? 0 : gap),
+      y: owner.y + owner.h / 2 + end.ref.y + (end.vertical ? gap : 0)
+    };
+    const startSide = this.SIDES[module.wiring.wireOrientation] || this.SIDES.bottom;
+    // The cable goes in the port across its pins, on the fixed side of the port if any, otherwise on the module side.
+    const stopSide = this.SIDES[end.side] || (end.vertical
+      ? { x: start.x < stop.x ? -1 : 1, y: 0 }
+      : { x: 0, y: start.y < stop.y ? -1 : 1 });
+    this.ctx.beginPath();
+    this.ctx.moveTo(start.x, start.y);
     this.ctx.bezierCurveTo(
-      mod.wiring.x + mod.wiring.wirePosition[wire].x + cp1x + wiresGap,
-      mod.wiring.y + mod.wiring.wirePosition[wire].y + cp1y + wiresGap,
-      base_x + mod_x + cp2x,
-      base_y + mod_y + cp2y,
-      base_x + mod_x + offset_x,
-      base_y + mod_y + offset_y
+      start.x + startSide.x * this.WIRE_CURVE + gap,
+      start.y + startSide.y * this.WIRE_CURVE + gap,
+      stop.x + stopSide.x * this.WIRE_CURVE,
+      stop.y + stopSide.y * this.WIRE_CURVE,
+      stop.x,
+      stop.y
     );
+    this.ctx.strokeStyle = this.WIRE_COLORS[wire];
+    this.ctx.lineWidth = 2;
+    this.ctx.stroke();
+    // Dupont connector on a header pin.
+    if (!end.gap) {
+      this.ctx.fillStyle = "#222";
+      this.ctx.fillRect(stop.x - 1.5 + stopSide.x * 1.5, stop.y - 1.5 + stopSide.y * 1.5, 3, 3);
+    }
   },
 
   /**
-   * Draws the wires for each module
+   * Draws the wires of each placed and connected module.
    */
   drawAllWires: function () {
-    const wires = ["GND", "VCC", "DATA2", "DATA1"];
-    for (var i = 0; i < this.modules.length; i++) {
-      for (var j = 0; j < wires.length; j++) {
-        this.ctx.beginPath();
-        this.ctx.moveTo(
-          this.modules[i].wiring.x + this.modules[i].wiring.wirePosition[wires[j]].x,
-          this.modules[i].wiring.y + this.modules[i].wiring.wirePosition[wires[j]].y,
-        );
-        switch (this.modules[i].wiring.wireOrientation) {
-          case "left":
-            if (this.modules[i].wiring.x < groveShield.x) {
-              this.drawWire(j, this.modules[i], wires[j], -100, 0, -150);
-            } else {
-              this.drawWire(j, this.modules[i], wires[j], -100, 0, 100);
-            }
-            break;
-          case "right":
-            if (this.modules[i].wiring.x < groveShield.x) {
-              this.drawWire(j, this.modules[i], wires[j], 100, 0, -150);
-            } else {
-              this.drawWire(j, this.modules[i], wires[j], 100, 0, 100);
-            }
-            break;
-          case "top":
-            if (this.modules[i].wiring.x - this.modules[i].wiring.w < groveShield.x) {
-              this.drawWire(j, this.modules[i], wires[j], 0, -100, -100);
-            } else {
-              this.drawWire(j, this.modules[i], wires[j], 0, -100, 100);
-            }
-            break;
-          case "bottom":
-            if (this.modules[i].wiring.x - this.modules[i].wiring.w < groveShield.x) {
-              this.drawWire(j, this.modules[i], wires[j], 0, 100, -100);
-            } else {
-              this.drawWire(j, this.modules[i], wires[j], 0, 100, 100);
-            }
-            break;
+    this.ctx.lineCap = "round";
+    for (let i = 0; i < this.modules.length; i++) {
+      const module = this.modules[i];
+      if (!module.ends || !module.pos || (this.hub && !this.hub.pos)) continue;
+      for (let j = 0; j < this.WIRES.length; j++) {
+        if (module.ends[this.WIRES[j]]) {
+          this.drawWire(module, this.WIRES[j], j);
         }
-        this.ctx.strokeStyle = this.modules[i].wiring.wirePosition[wires[j]].color;
-        this.ctx.lineWidth = 4;
-        this.ctx.stroke();
       }
     }
   }

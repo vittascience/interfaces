@@ -99,6 +99,7 @@ const LIBRARIES_PATH = {
     'onewire': "/micropython",
     'cutebot': "/robot",
     'cutebotpro': "/robot",
+    'tpbot': "/robot",
     'maqueenplusv1': "/robot",
     'maqueenplusv2': "/robot",
     'maqueenplusv3': "/robot",
@@ -106,11 +107,8 @@ const LIBRARIES_PATH = {
     'uhandbit': "/robot",
     'wukong': "/robot",
     'matrixLidarDistanceSensor': "/robot",
+    'tinybit': "/robot",
     'edgeModel': "/ai",
-    'edgeModelmicro': "/ai",
-    'edgeModelP0-P1': "/ai",
-    'edgeModelP0': "/ai",
-    'edgeModelP1': "/ai",
 };
 const BOARD_DEFAULT = 'microbit';
 //simulator

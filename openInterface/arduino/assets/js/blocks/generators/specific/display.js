@@ -93,8 +93,8 @@ Blockly.Arduino.display_builtinMatrix_showNumber = function (block) {
 
 // UNO R4 WIFI - LED MATRIX SET PIXEL
 Blockly.Arduino.display_builtinMatrix_setPixel = function (block) {
-    const x = Blockly.Arduino.valueToCode(block, "N", Blockly.Arduino.ORDER_ATOMIC) || "0";
-    const y = Blockly.Arduino.valueToCode(block, "N", Blockly.Arduino.ORDER_ATOMIC) || "0";
+    const x = Blockly.Arduino.valueToCode(block, "X", Blockly.Arduino.ORDER_ATOMIC) || "0";
+    const y = Blockly.Arduino.valueToCode(block, "Y", Blockly.Arduino.ORDER_ATOMIC) || "0";
     const state = Blockly.Arduino.valueToCode(block, "STATE", Blockly.Arduino.ORDER_ATOMIC) || "LOW";
     const objName = "builtinMatrix";
     Blockly.Arduino.addInclude('ArduinoGraphics', INCLUDE_ARDUINO_GRAPHICS);
@@ -102,6 +102,8 @@ Blockly.Arduino.display_builtinMatrix_setPixel = function (block) {
     Blockly.Arduino.addDeclaration(objName + '-simu', "// LED Matrix");
     Blockly.Arduino.addDeclaration(objName, "ArduinoLEDMatrix " + objName + ";");
     Blockly.Arduino.addSetup(objName + "-begin", objName + ".begin();");
+    // 12 columns on the UNO R4 WiFi, 13 on the UNO Q
+    Blockly.Arduino.addDeclaration('declare_matrix_cols', "const uint8_t builtinMatrix_cols = " + BUILTIN_MATRIX.columns + ";");
     Blockly.Arduino.addFunction('matrix_setPixel', FUNCTIONS_ARDUINO.DEF_LED_MATRIX_SET_PIXEL);
     return "matrix_setPixel(" + x + ", " + y + ", " + state + ");" + NEWLINE;
 };

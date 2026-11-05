@@ -354,3 +354,6 @@ Blockly.Msg['CYBERPI_WIFI_BROADCAST_GET_TOOLTIP'] = 'Permite recibir el valor de
 Blockly.Msg['CYBERPI_DISPLAY_CLEAR_TITLE'] = '[Pantalla] borrar la pantalla';
 Blockly.Msg['CYBERPI_DISPLAY_CLEAR_TOOLTIP'] = 'Permite borrar la pantalla de la placa CyberPi.';
 Blockly.Msg['MBUILD_SENSORS_QUAD_RGB_MODE_CYAN'] = 'cian';
+
+// Loop disabled by the event blocks (Blockly.Constants.Utils.DISABLE_BLOCKS_ON_EVENT)
+Blockly.Msg['FOREVER_DISABLED_BY_EVENTS'] = 'Este bucle está desactivado porque el programa contiene un bloque de evento («Cuando el programa se inicia», «Cuando se pulsa el botón» o «Cuando se recibe el mensaje»). Con eventos, coloque las instrucciones en un bloque de evento, por ejemplo «Cuando el programa se inicia».';

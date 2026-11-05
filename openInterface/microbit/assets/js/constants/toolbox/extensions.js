@@ -2,10 +2,11 @@
  * Catalog of the block extensions of the micro:bit interface (format described in BlockExtensions.js).
  * The A4 Technologie microSySTEM blocks are ported from their MakeCode extensions (github.com/A4-TECHNOLOGIE),
  * their Python libraries are in assets/lib/a4. The block names are saved in the projects: never rename them.
- * The texts are i18n keys of code.blockExtensions.catalog (public/content/lang/<lang>/ns.json).
+ * The texts are Blockly messages of the interface (assets/js/blocks/msg/blocks/js/<lang>.js): t('a4_leds.blocks.battery')
+ * is Blockly.Msg['EXT_A4_LEDS_BLOCKS_BATTERY'].
  */
 const BLOCK_EXTENSIONS_CATALOG = (() => {
-    const t = (key) => ({ i18n: 'catalog.' + key });
+    const t = (key) => ({ msg: 'EXT_' + key.toUpperCase().replace(/\./g, '_') });
     const COLOURS = {
         red: [t('colours.red'), 255, 0, 0],
         green: [t('colours.green'), 0, 255, 0],
@@ -397,12 +398,148 @@ const BLOCK_EXTENSIONS_CATALOG = (() => {
                     }
                 ];
             })()
+        },
+        {
+            id: 'tpbot',
+            name: 'TPBot',
+            description: t('tpbot.description'),
+            image: 'tpbot.png',
+            logo: 'elecfreaks_logo.png',
+            colour: '#32B9B9',
+            tags: ['robotics', 'sensors', 'actuators', 'lights'],
+            blocks: [
+                {
+                    name: 'wheels', kind: 'statement', text: t('tpbot.blocks.wheels'),
+                    args: [number('L', 50), number('R', 50)], code: 'tpbot.set_wheels({L}, {R})'
+                },
+                { name: 'stop', kind: 'statement', text: t('tpbot.blocks.stop'), code: 'tpbot.stop()' },
+                {
+                    name: 'track', kind: 'boolean', text: t('tpbot.blocks.track'),
+                    args: [dropdown('SIDE', [[t('tpbot.options.side.left'), '0'], [t('tpbot.options.side.right'), '1']]),
+                        dropdown('STATE', [[t('tpbot.options.state.black'), '0'], [t('tpbot.options.state.white'), '1']])],
+                    code: 'tpbot.track({SIDE}) == {STATE}'
+                },
+                {
+                    name: 'distance', kind: 'number', text: t('tpbot.blocks.distance'),
+                    args: [dropdown('UNIT', [['cm', "'cm'"], [t('tpbot.options.unit.inch'), "'inch'"]])], code: 'tpbot.distance({UNIT})'
+                },
+                {
+                    name: 'headlights_colour', kind: 'statement', text: t('tpbot.blocks.headlights_colour'),
+                    args: [{ name: 'C', type: 'colour', default: '#ff0000' }], code: 'tpbot.headlights({C})'
+                },
+                {
+                    name: 'headlights_rgb', kind: 'statement', text: t('tpbot.blocks.headlights_rgb'),
+                    args: RGB_ARGS, code: 'tpbot.headlights(({R}, {G}, {B}))'
+                },
+                { name: 'headlights_off', kind: 'statement', text: t('tpbot.blocks.headlights_off'), code: 'tpbot.headlights((0, 0, 0))' },
+                {
+                    name: 'servo', kind: 'statement', text: t('tpbot.blocks.servo'),
+                    args: [dropdown('S', ['1', '2', '3', '4']), number('ANGLE', 90)], code: 'tpbot.servo({S}, {ANGLE})'
+                }
+            ]
+        },
+        {
+            id: 'tinybit',
+            name: 'Tiny:bit',
+            description: t('tinybit.description'),
+            image: 'tinybit.png',
+            logo: 'yahboom_logo.png',
+            colour: '#1A689E',
+            tags: ['robotics', 'sensors', 'actuators', 'lights'],
+            blocks: (() => {
+                const SIDES = [[t('tinybit.options.side.left'), '0'], [t('tinybit.options.side.right'), '1']];
+                const LEDS = [[t('tinybit.options.led.both'), '2'], [t('tinybit.options.led.left'), '0'], [t('tinybit.options.led.right'), '1']];
+                const TURNS = (prefix) => [[t('tinybit.options.side.left'), prefix + '_left'], [t('tinybit.options.side.right'), prefix + '_right']];
+                const MELODIES = ['DADADADUM', 'ENTERTAINER', 'PRELUDE', 'ODE', 'NYAN', 'RINGTONE', 'FUNK', 'BLUES', 'BIRTHDAY', 'WEDDING',
+                    'FUNERAL', 'PUNCHLINE', 'BADDY', 'CHASE', 'BA_DING', 'WAWAWAWAA', 'JUMP_UP', 'JUMP_DOWN', 'POWER_UP', 'POWER_DOWN'];
+                // Codes of the Yahboom remote.
+                const KEYS = [[t('tinybit.options.key.power'), '0x00'], [t('tinybit.options.key.up'), '0x01'], [t('tinybit.options.key.light'), '0x02'],
+                    [t('tinybit.options.key.left'), '0x04'], [t('tinybit.options.key.buzzer'), '0x05'], [t('tinybit.options.key.right'), '0x06'],
+                    [t('tinybit.options.key.spin_left'), '0x08'], [t('tinybit.options.key.down'), '0x09'], [t('tinybit.options.key.spin_right'), '0x0A'],
+                    ['+', '0x0C'], ['-', '0x0E'], ['0', '0x0D'], ['1', '0x10'], ['2', '0x11'], ['3', '0x12'], ['4', '0x14'], ['5', '0x15'],
+                    ['6', '0x16'], ['7', '0x18'], ['8', '0x19'], ['9', '0x1A']];
+                return [
+                    {
+                        name: 'go', kind: 'statement', text: t('tinybit.blocks.go'),
+                        args: [dropdown('DIR', [[t('tinybit.options.direction.forward'), 'go_forward'], [t('tinybit.options.direction.backward'), 'go_backward']]),
+                            number('SPEED', 150)],
+                        code: 'tinybit.{DIR}({SPEED})'
+                    },
+                    {
+                        name: 'turn', kind: 'statement', text: t('tinybit.blocks.turn'),
+                        args: [dropdown('DIR', TURNS('turn')), number('SPEED', 150)], code: 'tinybit.{DIR}({SPEED})'
+                    },
+                    {
+                        name: 'spin', kind: 'statement', text: t('tinybit.blocks.spin'),
+                        args: [dropdown('DIR', TURNS('spin')), number('SPEED', 150)], code: 'tinybit.{DIR}({SPEED})'
+                    },
+                    {
+                        name: 'motor', kind: 'statement', text: t('tinybit.blocks.motor'),
+                        args: [dropdown('MOTOR', [[t('tinybit.options.led.both'), '3'], [t('tinybit.options.side.left'), '1'], [t('tinybit.options.side.right'), '2']]),
+                            dropdown('DIR', [[t('tinybit.options.direction.forward'), '1'], [t('tinybit.options.direction.backward'), '2']]),
+                            number('SPEED', 150)],
+                        code: 'tinybit.set_motor({MOTOR}, {DIR}, {SPEED})'
+                    },
+                    {
+                        name: 'wheels', kind: 'statement', text: t('tinybit.blocks.wheels'),
+                        args: [number('L', 150), number('R', 150)], code: 'tinybit.set_motors_speed({L}, {R})'
+                    },
+                    {
+                        name: 'follow_line', kind: 'statement', text: t('tinybit.blocks.follow_line'),
+                        args: [number('SPEED', 80)], code: 'tinybit.follow_line({SPEED})'
+                    },
+                    { name: 'stop', kind: 'statement', text: t('tinybit.blocks.stop'), code: 'tinybit.stop()' },
+                    {
+                        name: 'track', kind: 'boolean', text: t('tinybit.blocks.track'),
+                        args: [dropdown('SIDE', SIDES), dropdown('STATE', [[t('tinybit.options.state.black'), '1'], [t('tinybit.options.state.white'), '0']])],
+                        code: 'tinybit.track({SIDE}) == {STATE}'
+                    },
+                    { name: 'tracking_state', kind: 'number', text: t('tinybit.blocks.tracking_state'), code: 'tinybit.get_tracking_state()' },
+                    { name: 'distance', kind: 'number', text: t('tinybit.blocks.distance'), code: 'tinybit.get_distance()' },
+                    { name: 'sound', kind: 'number', text: t('tinybit.blocks.sound'), code: 'tinybit.get_sound()' },
+                    {
+                        name: 'headlights_colour', kind: 'statement', text: t('tinybit.blocks.headlights_colour'),
+                        args: [{ name: 'C', type: 'colour', default: '#ff0000' }], code: 'tinybit.set_headlights({C})'
+                    },
+                    {
+                        name: 'headlights_rgb', kind: 'statement', text: t('tinybit.blocks.headlights_rgb'),
+                        args: RGB_ARGS, code: 'tinybit.set_headlights(({R}, {G}, {B}))'
+                    },
+                    { name: 'headlights_off', kind: 'statement', text: t('tinybit.blocks.headlights_off'), code: 'tinybit.set_headlights((0, 0, 0))' },
+                    {
+                        name: 'leds_colour', kind: 'statement', text: t('tinybit.blocks.leds_colour'),
+                        args: [dropdown('LED', LEDS), { name: 'C', type: 'colour', default: '#00ff00' }], code: 'tinybit.set_neopixel({LED}, {C})'
+                    },
+                    {
+                        name: 'leds_rgb', kind: 'statement', text: t('tinybit.blocks.leds_rgb'),
+                        args: [dropdown('LED', LEDS), ...RGB_ARGS], code: 'tinybit.set_neopixel({LED}, ({R}, {G}, {B}))'
+                    },
+                    { name: 'leds_off', kind: 'statement', text: t('tinybit.blocks.leds_off'), code: 'tinybit.set_neopixel(2, (0, 0, 0))' },
+                    {
+                        name: 'tone', kind: 'statement', text: t('tinybit.blocks.tone'),
+                        args: [number('F', 440), number('T', 500)], code: 'music.pitch({F}, {T}, tinybit.BUZZER)'
+                    },
+                    {
+                        name: 'melody', kind: 'statement', text: t('tinybit.blocks.melody'),
+                        args: [dropdown('M', MELODIES.map(name => [name.replace(/_/g, ' ').toLowerCase(), 'music.' + name]))], code: 'music.play({M}, tinybit.BUZZER)'
+                    },
+                    { name: 'ir_read', kind: 'statement', text: t('tinybit.blocks.ir_read'), code: 'tinybit.ir_read()' },
+                    {
+                        name: 'ir_key', kind: 'boolean', text: t('tinybit.blocks.ir_key'),
+                        args: [dropdown('KEY', KEYS)], code: 'tinybit.ir_code() == {KEY}'
+                    },
+                    { name: 'ir_code', kind: 'number', text: t('tinybit.blocks.ir_code'), code: 'tinybit.ir_code()' }
+                ];
+            })()
         }
     ];
-    // Each block imports the modules (A4, DFR0997) used by its code.
+    // Each block imports the modules (A4, DFR0997, TPBot, Tiny:bit, music) used by its code.
     for (const block of catalog.flatMap(ext => ext.blocks)) {
         block.args = block.args || [];
-        block.imports = [...new Set(block.code.match(/\b(?:a4_\w+|dfr0997)(?=\.)/g))].map(module => 'import ' + module).join('\n');
+        block.imports = [...new Set(block.code.match(/\b(?:a4_\w+|dfr0997|tpbot|tinybit|music)(?=\.)/g))].map(module => 'import ' + module).join('\n');
+        // Like the other robots, the docstring starts the robot simulator (CODE_REGEXP of Robots.TPBot and Robots.Tinybit).
+        if (block.imports.includes('import tpbot')) block.imports = '""" TPBot robot """\n' + block.imports;
+        if (block.imports.includes('import tinybit')) block.imports = '""" Tiny:bit robot """\n' + block.imports;
     }
     return catalog;
 })();

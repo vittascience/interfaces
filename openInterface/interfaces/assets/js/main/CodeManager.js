@@ -36,7 +36,7 @@ class CodeManager {
      */
 
     constructor(codeMode, workspace, generator, xml) {
-        this.REGEXP_INTERFACES = /.*(arduinoq|arduino|microbit|python|adacraft|wb55|l476|esp32|TI-83|galaxia|raspberrypi|niryo|nao|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|eliobot|thymio|letsstartcoding|pico|winky|web|sphero|lotibot|bluebot|spike|photon|codey|steami|alphai|primastem).*/g;
+        this.REGEXP_INTERFACES = /.*(arduinoq|arduino|microbit|python|adacraft|wb55|l476|esp32|TI-83|galaxia|raspberrypi|niryo|nao|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|eliobot|thymio|letsstartcoding|pico|winky|web|sphero|lotibot|bluebot|spike|photon|codey|steami|alphai|primastem|skykick|unihiker).*/g;
         if (typeof ltiVariables13 != 'undefined') {
             this._interface = ltiVariables13.interface;
         } else if (typeof ltiVariables != 'undefined') {
@@ -81,6 +81,8 @@ class CodeManager {
             case 'alphai':
             case 'arduinoq':
             case 'primastem':
+            case 'skykick':
+            case 'unihiker':
                 this._lStorage = this._interface + "CurrentProject";
                 this._lSaveStorage = this._interface + "SavedProjects"; //[! NOT USED: Visitor need account to save his projects]
                 break;
@@ -399,6 +401,11 @@ class CodeManager {
             'description': isLoading ? savedProject.description : CodeManager.getProjectDescription()
         };
         if (savedProject && savedProject.options) currentProjectState.options = savedProject.options;
+        // Extensions added without the catalog (?extension= parameter) are not in the saved options yet.
+        if (typeof BlockExtensions !== 'undefined' && BlockExtensions.isSynced()) {
+            currentProjectState.options = currentProjectState.options || {};
+            BlockExtensions.writeOption(currentProjectState.options);
+        }
         this.localStorageManager.setLocalProject(currentProjectState);
     };
     /**

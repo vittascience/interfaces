@@ -228,7 +228,7 @@ $(window).resize(function () {
     } else {
         resizeBlocklyToolBox();
         if (INTERFACE_NAME != "adacraft" && INTERFACE_NAME != "web" && Main.getCodingMode() != 'code'){
-            if (!["python", "letsstartcoding"].includes(INTERFACE_NAME) && Simulator.isOpen) {
+            if (!["python", "letsstartcoding"].includes(INTERFACE_NAME) && Main.hasSimulator() && Simulator.isOpen) {
                 const ideBase = document.querySelector('.ide-base');
                 ideBase.style.width = $('#ide-content').width() - 500 + 'px';
             }

@@ -543,12 +543,16 @@ class ProjectManager {
     _projectLoader_loadFromDB(link) {
         return new Promise(async (resolve, reject) => {
             let project;
+            // the interface is shown before the project is fetched: block the (still empty) editor meanwhile
+            const editorBlocker = document.querySelector('.ide-editor') ? new VittaBlocker('', '.ide-editor') : null;
             try {
                 project = await this.ajax_getProjectByLinkFromDB(link, this._interface);
             } catch (error) {
                 this.loadingFailed = true;
                 pseudoModal.openModal('modal-project-loading-error');
                 return resolve(ProjectManager.STATUS.LOADING.FROM_DB.networkError);
+            } finally {
+                editorBlocker?.end();
             }
             let status = ProjectManager.STATUS.LOADING.FROM_DB.success;
             if (await this._projectLoader_isValidProject(project)) {
@@ -2775,6 +2779,8 @@ class ProjectManager {
                 await this._initializeImageModelProjectForPython();
             } else if (this._interface === 'arduinoq') {
                 await this._initializeImageModelProjectForArduinoQ();
+            } else if (this._interface === 'unihiker') {
+                await this._initializeImageModelProjectForUnihiker();
             } else if (this._interface === 'buddy') {
                 this._initializeImageModelProjectForBuddy();
             } else if (this._interface === 'microbit') {
@@ -2790,12 +2796,24 @@ class ProjectManager {
                     ;
             } else if (this._interface === 'python') {
                 await this._initializePoseModelProjectForPython();
+            } else if (this._interface === 'arduinoq') {
+                await this._initializePoseModelProjectForArduinoQ();
+            }
+        } else if (getParamValue("sensorModel") != null) {
+            if (this._interface === 'arduinoq') {
+                await this._initializeSensorModelProjectForArduinoQ();
+            }
+        } else if (getParamValue("handModel") != null) {
+            if (this._interface === 'arduinoq') {
+                await this._initializeHandModelProjectForArduinoQ();
             }
         } else if (getParamValue("soundModel") !== null) {
             if (this._interface === 'adacraft') {
                 this._initializeSoundModelProjectForAdacraft();
             } else if (this._interface === 'python') {
                 await this._initializeSoundModelProjectForPython();
+            } else if (this._interface === 'arduinoq') {
+                await this._initializeSoundModelProjectForArduinoQ();
             }
         } else if (getParamValue("textModel") !== null) {
             if (this._interface === 'adacraft') {
@@ -3039,7 +3057,7 @@ class ProjectManager {
     /**
      * Initialize the Arduino UNO Q project that uses an image ai model (opened from the AI interface): the Python
      * part of the app loads the model ('local' = trained in this browser, sent to the board on upload), then detects
-     * and prints the class seen by the USB camera in a "repeat forever" loop
+     * and prints the class seen by the computer webcam (sent to the board by the interface) in a "repeat forever" loop
      * @private
      */
     async _initializeImageModelProjectForArduinoQ() {
@@ -3052,11 +3070,37 @@ class ProjectManager {
             <block type="cpp_on_start_forever" deletable="false" x="0" y="0"></block>
             <block type="py_scratch_on_start" deletable="false" x="0" y="250"><next>${loadModel}<next>
                 <block type="controls_forever"><statement name="DO">
-                    <block type="vittaia_make_predictions_webcam"><next>
+                    <block type="vittaia_make_predictions_pc_webcam"><next>
                         <block type="display_print"><value name="TEXT"><shadow type="text"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class"></block></value></block>
                     </next></block>
                 </statement></block>
             </next></block></next></block>
+        </xml>`;
+        await this._createNewProject({
+            code: code,
+            name: "Modèle d'images IA (" + (model === 'local' ? model : model.replace(/[^a-zA-Z0-9]/g, '')) + ")"
+        });
+        this._projectLoader_setInterfaceMode(false);
+        history.pushState({}, '', removeParam('model', window.location.href));
+    };
+
+    // UNIHIKER M10: the model runs on the board (sent on upload), the video of its USB camera and the class on its screen
+    async _initializeImageModelProjectForUnihiker() {
+        const model = String(getParamValue("model"));
+        // The model id comes from the URL: only an alphanumeric id is put in the project XML
+        const loadModel = /^[a-zA-Z0-9]+$/.test(model) && model !== 'local'
+            ? `<block type="vittaia_load_model"><value name="MODEL_URL"><shadow type="text"><field name="TEXT">${location.origin}/ia/model/${model}/</field></shadow></value>`
+            : `<block type="vittaia_load_local_model">`;
+        const number = (name, value) => `<value name="${name}"><shadow type="math_number"><field name="NUM">${value}</field></shadow></value>`;
+        const code = `<xml xmlns="https://developers.google.com/blockly/xml">
+            <block type="on_start" deletable="false" x="0" y="0"><statement name="DO">${loadModel}<next>
+                <block type="ai_unihiker_camera_stream">${number('X', 0)}${number('Y', 0)}${number('W', 240)}${number('H', 180)}</block>
+            </next></block></statement></block>
+            <block type="forever" x="0" y="250"><statement name="DO">
+                <block type="vittaia_make_predictions_webcam"><next>
+                    <block type="display_unihiker_text">${number('NUMBER', 1)}<value name="TEXT"><block type="vittaia_get_highest_probability_class"></block></value>${number('X', 10)}${number('Y', 200)}${number('SIZE', 22)}<value name="COLOR"><block type="colour_picker"><field name="COLOUR">#ff9403</field></block></value></block>
+                </next></block>
+            </statement></block>
         </xml>`;
         await this._createNewProject({
             code: code,
@@ -3084,7 +3128,7 @@ class ProjectManager {
                     labels = labels.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
                 }
             }
-            xml_ia_start += `<block type="on_start" id="G[=T#8yqB7A0NFgYq}GP" deletable="false" x="0" y="0"><statement name="DO"><block type="text_comment" id="P-,]_aaOoWOhM#VQ]TZV"><field name="TEXT">Categories: ${labels}</field><next><block type="vittaia_load_local_model" id="hikMn16RDpL9hln}J@{*"><next><block type="vittaia_make_prediction" id="3X6;iV,73Pq+zjhm03|%"><next><block type="communication_serialWrite" id="ct~8CDW#NGQ.plGza@9!"><mutation newlines="false"></mutation><value name="TEXT"><shadow type="text" id="e/ljd(yX61r[_:ALtoZ3"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class" id="viapM;qvsI.}G|*G-#Pq"></block></value></block></next></block></next></block></next></block></statement></block>`;
+            xml_ia_start += `<block type="on_start" id="G[=T#8yqB7A0NFgYq}GP" deletable="false" x="0" y="0"><statement name="DO"><block type="text_comment" id="P-,]_aaOoWOhM#VQ]TZV"><field name="TEXT">Categories: ${labels}</field><next><block type="vittaia_load_local_model" id="hikMn16RDpL9hln}J@{*"></block></next></block></statement></block><block type="forever" id="r~ko;~xOERc,$21]fNVM" x="137" y="263"><statement name="DO"><block type="vittaia_make_prediction" id="3X6;iV,73Pq+zjhm03|%"><next><block type="communication_serialWrite" id="ct~8CDW#NGQ.plGza@9!"><mutation newlines="false"></mutation><value name="TEXT"><shadow type="text" id="e/ljd(yX61r[_:ALtoZ3"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class" id="viapM;qvsI.}G|*G-#Pq"></block></value></block></next></block></statement></block>`;
         } else {
             const metadataContent = await fetch(`${location.origin}/ia/model/${model}/metadata.json`);
             const metadata = await metadataContent.json();
@@ -3099,7 +3143,7 @@ class ProjectManager {
                 }
             }
             fullLink = `${location.origin}/ia/model/${model}/`;
-            xml_ia_start += `<block type="on_start" id="G[=T#8yqB7A0NFgYq}GP" deletable="false" x="0" y="0"><statement name="DO"><block type="text_comment" id="P-,]_aaOoWOhM#VQ]TZV"><field name="TEXT">Categories: ${labels}</field><next><block type="vittaia_load_cloud_model" id="hikMn16RDpL9hln}J@{*"><value name="MODEL_URL"><shadow type="text" id="h!osJX)K3_bz5FtI*#Ct"><field name="TEXT">${fullLink}</field></shadow></value><next><block type="vittaia_make_prediction" id="3X6;iV,73Pq+zjhm03|%"><next><block type="communication_serialWrite" id="ct~8CDW#NGQ.plGza@9!"><mutation newlines="false"></mutation><value name="TEXT"><shadow type="text" id="e/ljd(yX61r[_:ALtoZ3"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class" id="viapM;qvsI.}G|*G-#Pq"></block></value></block></next></block></next></block></next></block></statement></block>`;
+            xml_ia_start += `<block type="on_start" id="G[=T#8yqB7A0NFgYq}GP" deletable="false" x="0" y="0"><statement name="DO"><block type="text_comment" id="P-,]_aaOoWOhM#VQ]TZV"><field name="TEXT">Categories: ${labels}</field><next><block type="vittaia_load_cloud_model" id="hikMn16RDpL9hln}J@{*"><value name="MODEL_URL"><shadow type="text" id="h!osJX)K3_bz5FtI*#Ct"><field name="TEXT">${fullLink}</field></shadow></value></block></next></block></statement></block><block type="forever" id="r~ko;~xOERc,$21]fNVM" x="137" y="263"><statement name="DO"><block type="vittaia_make_prediction" id="3X6;iV,73Pq+zjhm03|%"><next><block type="communication_serialWrite" id="ct~8CDW#NGQ.plGza@9!"><mutation newlines="false"></mutation><value name="TEXT"><shadow type="text" id="e/ljd(yX61r[_:ALtoZ3"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class" id="viapM;qvsI.}G|*G-#Pq"></block></value></block></next></block></statement></block>`;
         }
         xml_ia_start += `</xml>`;
         const types = typeof TOOLBOXES !== 'undefined' ? TOOLBOXES.map(t => t.id) : [];
@@ -3132,7 +3176,7 @@ class ProjectManager {
                     labels = labels.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
                 }
             }
-            xml_ia_start += `<block type="on_start" id="G[=T#8yqB7A0NFgYq}GP" deletable="false" x="0" y="0"><statement name="DO"><block type="text_comment" id="P-,]_aaOoWOhM#VQ]TZV"><field name="TEXT">Categories: ${labels}</field><next><block type="vittaia_load_local_model" id="hikMn16RDpL9hln}J@{*"><next><block type="vittaia_make_prediction" id="3X6;iV,73Pq+zjhm03|%"><next><block type="communication_serialWrite" id="ct~8CDW#NGQ.plGza@9!"><mutation newlines="false"></mutation><value name="TEXT"><shadow type="text" id="e/ljd(yX61r[_:ALtoZ3"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class" id="viapM;qvsI.}G|*G-#Pq"></block></value></block></next></block></next></block></next></block></statement></block>`;
+            xml_ia_start += `<block type="on_start" id="G[=T#8yqB7A0NFgYq}GP" deletable="false" x="0" y="0"><statement name="DO"><block type="text_comment" id="P-,]_aaOoWOhM#VQ]TZV"><field name="TEXT">Categories: ${labels}</field><next><block type="vittaia_load_local_model" id="hikMn16RDpL9hln}J@{*"></block></next></block></statement></block><block type="forever" id="r~ko;~xOERc,$21]fNVM" x="137" y="263"><statement name="DO"><block type="vittaia_make_prediction" id="3X6;iV,73Pq+zjhm03|%"><next><block type="communication_serialWrite" id="ct~8CDW#NGQ.plGza@9!"><mutation newlines="false"></mutation><value name="TEXT"><shadow type="text" id="e/ljd(yX61r[_:ALtoZ3"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class" id="viapM;qvsI.}G|*G-#Pq"></block></value></block></next></block></statement></block>`;
         } else {
             const metadataContent = await fetch(`${location.origin}/ia/model/${model}/metadata.json`);
             const metadata = await metadataContent.json();
@@ -3147,7 +3191,7 @@ class ProjectManager {
                 }
             }
             fullLink = `${location.origin}/ia/model/${model}/`;
-            xml_ia_start += `<block type="on_start" id="G[=T#8yqB7A0NFgYq}GP" deletable="false" x="0" y="0"><statement name="DO"><block type="text_comment" id="P-,]_aaOoWOhM#VQ]TZV"><field name="TEXT">Categories: ${labels}</field><next><block type="vittaia_load_cloud_model" id="hikMn16RDpL9hln}J@{*"><value name="MODEL_URL"><shadow type="text" id="h!osJX)K3_bz5FtI*#Ct"><field name="TEXT">${fullLink}</field></shadow></value><next><block type="vittaia_make_prediction" id="3X6;iV,73Pq+zjhm03|%"><next><block type="communication_serialWrite" id="ct~8CDW#NGQ.plGza@9!"><mutation newlines="false"></mutation><value name="TEXT"><shadow type="text" id="e/ljd(yX61r[_:ALtoZ3"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class" id="viapM;qvsI.}G|*G-#Pq"></block></value></block></next></block></next></block></next></block></statement></block>`;
+            xml_ia_start += `<block type="on_start" id="G[=T#8yqB7A0NFgYq}GP" deletable="false" x="0" y="0"><statement name="DO"><block type="text_comment" id="P-,]_aaOoWOhM#VQ]TZV"><field name="TEXT">Categories: ${labels}</field><next><block type="vittaia_load_cloud_model" id="hikMn16RDpL9hln}J@{*"><value name="MODEL_URL"><shadow type="text" id="h!osJX)K3_bz5FtI*#Ct"><field name="TEXT">${fullLink}</field></shadow></value></block></next></block></statement></block><block type="forever" id="r~ko;~xOERc,$21]fNVM" x="137" y="263"><statement name="DO"><block type="vittaia_make_prediction" id="3X6;iV,73Pq+zjhm03|%"><next><block type="communication_serialWrite" id="ct~8CDW#NGQ.plGza@9!"><mutation newlines="false"></mutation><value name="TEXT"><shadow type="text" id="e/ljd(yX61r[_:ALtoZ3"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class" id="viapM;qvsI.}G|*G-#Pq"></block></value></block></next></block></statement></block>`;
         }
         xml_ia_start += `</xml>`;
         await this._createNewProject({
@@ -3176,7 +3220,7 @@ class ProjectManager {
                     labels = labels.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
                 }
             }
-            xml_ia_start += `<block type="on_start" id="G[=T#8yqB7A0NFgYq}GP" deletable="false" x="0" y="0"><statement name="DO"><block type="text_comment" id="P-,]_aaOoWOhM#VQ]TZV"><field name="TEXT">Categories: ${labels}</field><next><block type="vittaia_load_local_model" id="hikMn16RDpL9hln}J@{*"><next><block type="vittaia_make_prediction" id="3X6;iV,73Pq+zjhm03|%"><next><block type="communication_serialWrite" id="ct~8CDW#NGQ.plGza@9!"><mutation newlines="false"></mutation><value name="TEXT"><shadow type="text" id="e/ljd(yX61r[_:ALtoZ3"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class" id="viapM;qvsI.}G|*G-#Pq"></block></value></block></next></block></next></block></next></block></statement></block><block type="forever" id="r~ko;~xOERc,$21]fNVM" x="137" y="263"></block>`;
+            xml_ia_start += `<block type="on_start" id="G[=T#8yqB7A0NFgYq}GP" deletable="false" x="0" y="0"><statement name="DO"><block type="text_comment" id="P-,]_aaOoWOhM#VQ]TZV"><field name="TEXT">Categories: ${labels}</field><next><block type="vittaia_load_local_model" id="hikMn16RDpL9hln}J@{*"></block></next></block></statement></block><block type="forever" id="r~ko;~xOERc,$21]fNVM" x="137" y="263"><statement name="DO"><block type="vittaia_make_prediction" id="3X6;iV,73Pq+zjhm03|%"><next><block type="communication_serialWrite" id="ct~8CDW#NGQ.plGza@9!"><mutation newlines="false"></mutation><value name="TEXT"><shadow type="text" id="e/ljd(yX61r[_:ALtoZ3"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class" id="viapM;qvsI.}G|*G-#Pq"></block></value></block></next></block></statement></block>`;
         } else {
             const metadataContent = await fetch(`${location.origin}/ia/model/${model}/metadata.json`);
             const metadata = await metadataContent.json();
@@ -3191,7 +3235,7 @@ class ProjectManager {
                 }
             }
             fullLink = `${location.origin}/ia/model/${model}/`;
-            xml_ia_start += `<block type="on_start" id="G[=T#8yqB7A0NFgYq}GP" deletable="false" x="0" y="0"><statement name="DO"><block type="text_comment" id="P-,]_aaOoWOhM#VQ]TZV"><field name="TEXT">Categories: ${labels}</field><next><block type="vittaia_load_cloud_model" id="hikMn16RDpL9hln}J@{*"><value name="MODEL_URL"><shadow type="text" id="h!osJX)K3_bz5FtI*#Ct"><field name="TEXT">${fullLink}</field></shadow></value><next><block type="vittaia_make_prediction" id="3X6;iV,73Pq+zjhm03|%"><next><block type="communication_serialWrite" id="ct~8CDW#NGQ.plGza@9!"><mutation newlines="false"></mutation><value name="TEXT"><shadow type="text" id="e/ljd(yX61r[_:ALtoZ3"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class" id="viapM;qvsI.}G|*G-#Pq"></block></value></block></next></block></next></block></next></block></statement></block><block type="forever" id="r~ko;~xOERc,$21]fNVM" x="137" y="263"></block>`;
+            xml_ia_start += `<block type="on_start" id="G[=T#8yqB7A0NFgYq}GP" deletable="false" x="0" y="0"><statement name="DO"><block type="text_comment" id="P-,]_aaOoWOhM#VQ]TZV"><field name="TEXT">Categories: ${labels}</field><next><block type="vittaia_load_cloud_model" id="hikMn16RDpL9hln}J@{*"><value name="MODEL_URL"><shadow type="text" id="h!osJX)K3_bz5FtI*#Ct"><field name="TEXT">${fullLink}</field></shadow></value></block></next></block></statement></block><block type="forever" id="r~ko;~xOERc,$21]fNVM" x="137" y="263"><statement name="DO"><block type="vittaia_make_prediction" id="3X6;iV,73Pq+zjhm03|%"><next><block type="communication_serialWrite" id="ct~8CDW#NGQ.plGza@9!"><mutation newlines="false"></mutation><value name="TEXT"><shadow type="text" id="e/ljd(yX61r[_:ALtoZ3"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class" id="viapM;qvsI.}G|*G-#Pq"></block></value></block></next></block></statement></block>`;
         }
         xml_ia_start += `</xml>`;
         await this._createNewProject({
@@ -3255,6 +3299,126 @@ class ProjectManager {
         });
         this._projectLoader_setInterfaceMode(false);
         history.pushState({}, '', removeParam('poseModel', window.location.href));
+    }
+
+    /**
+     * Initialize the Arduino UNO Q project that uses a posture ai model (opened from the AI interface): the Python
+     * part of the app loads the model ('local' = trained in this browser, sent to the board on upload), then detects
+     * and prints the posture seen by the computer webcam (sent to the board by the interface) in a "repeat forever" loop
+     * @private
+     */
+    async _initializePoseModelProjectForArduinoQ() {
+        const model = String(getParamValue("poseModel"));
+        // The model id comes from the URL: only an alphanumeric id is put in the project XML
+        const loadModel = /^[a-zA-Z0-9]+$/.test(model) && model !== 'local'
+            ? `<block type="vittaia_load_posture_model"><value name="MODEL_URL"><shadow type="text"><field name="TEXT">${location.origin}/ia/model/${model}/</field></shadow></value>`
+            : `<block type="vittaia_load_local_posture_model">`;
+        const code = `<xml xmlns="https://developers.google.com/blockly/xml">
+            <block type="cpp_on_start_forever" deletable="false" x="0" y="0"></block>
+            <block type="py_scratch_on_start" deletable="false" x="0" y="250"><next>${loadModel}<next>
+                <block type="controls_forever"><statement name="DO">
+                    <block type="vittaia_make_posture_predictions_pc_webcam"><next>
+                        <block type="display_print"><value name="TEXT"><shadow type="text"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class_posture"></block></value></block>
+                    </next></block>
+                </statement></block>
+            </next></block></next></block>
+        </xml>`;
+        await this._createNewProject({
+            code: code,
+            name: "Modèle de postures IA (" + (model === 'local' ? model : model.replace(/[^a-zA-Z0-9]/g, '')) + ")"
+        });
+        this._projectLoader_setInterfaceMode(false);
+        history.pushState({}, '', removeParam('poseModel', window.location.href));
+    }
+
+    /**
+     * Initialize the Arduino UNO Q project that uses a hand ai model (opened from the AI interface): the Python
+     * part of the app loads the model ('local' = trained in this browser, sent to the board on upload), then detects
+     * and prints the hand gesture seen by the computer webcam (sent to the board by the interface) in a "repeat forever" loop
+     * @private
+     */
+    async _initializeHandModelProjectForArduinoQ() {
+        const model = String(getParamValue("handModel"));
+        // The model id comes from the URL: only an alphanumeric id is put in the project XML
+        const loadModel = /^[a-zA-Z0-9]+$/.test(model) && model !== 'local'
+            ? `<block type="vittaia_load_hand_model"><value name="MODEL_URL"><shadow type="text"><field name="TEXT">${location.origin}/ia/model/${model}/</field></shadow></value>`
+            : `<block type="vittaia_load_local_hand_model">`;
+        const code = `<xml xmlns="https://developers.google.com/blockly/xml">
+            <block type="cpp_on_start_forever" deletable="false" x="0" y="0"></block>
+            <block type="py_scratch_on_start" deletable="false" x="0" y="250"><next>${loadModel}<next>
+                <block type="controls_forever"><statement name="DO">
+                    <block type="vittaia_make_hand_predictions_pc_webcam"><next>
+                        <block type="display_print"><value name="TEXT"><shadow type="text"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class_hand"></block></value></block>
+                    </next></block>
+                </statement></block>
+            </next></block></next></block>
+        </xml>`;
+        await this._createNewProject({
+            code: code,
+            name: "Modèle de mains IA (" + (model === 'local' ? model : model.replace(/[^a-zA-Z0-9]/g, '')) + ")"
+        });
+        this._projectLoader_setInterfaceMode(false);
+        history.pushState({}, '', removeParam('handModel', window.location.href));
+    }
+
+    /**
+     * Initialize the Arduino UNO Q project that uses a sound ai model (opened from the AI interface): the Python
+     * part of the app loads the model ('local' = trained in this browser, sent to the board on upload), then detects
+     * and prints the sound heard by the computer microphone (sent to the board by the interface) in a "repeat forever" loop
+     * @private
+     */
+    async _initializeSoundModelProjectForArduinoQ() {
+        const model = String(getParamValue("soundModel"));
+        // The model id comes from the URL: only an alphanumeric id is put in the project XML
+        const loadModel = /^[a-zA-Z0-9]+$/.test(model) && model !== 'local'
+            ? `<block type="vittaia_load_sound_model"><value name="MODEL_URL"><shadow type="text"><field name="TEXT">${location.origin}/ia/model/${model}/</field></shadow></value>`
+            : `<block type="vittaia_load_local_sound_model">`;
+        const code = `<xml xmlns="https://developers.google.com/blockly/xml">
+            <block type="cpp_on_start_forever" deletable="false" x="0" y="0"></block>
+            <block type="py_scratch_on_start" deletable="false" x="0" y="250"><next>${loadModel}<next>
+                <block type="controls_forever"><statement name="DO">
+                    <block type="vittaia_make_sound_predictions_pc_microphone"><next>
+                        <block type="display_print"><value name="TEXT"><shadow type="text"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class_sound"></block></value></block>
+                    </next></block>
+                </statement></block>
+            </next></block></next></block>
+        </xml>`;
+        await this._createNewProject({
+            code: code,
+            name: "Modèle de sons IA (" + (model === 'local' ? model : model.replace(/[^a-zA-Z0-9]/g, '')) + ")"
+        });
+        this._projectLoader_setInterfaceMode(false);
+        history.pushState({}, '', removeParam('soundModel', window.location.href));
+    }
+
+    /**
+     * Initialize the Arduino UNO Q project that uses a sensor data ai model (opened from the AI interface): the Python
+     * part of the app loads the model ('local' = trained in this browser, sent to the board on upload), then detects
+     * and prints the class of the A0/A1 readings (read by the sketch, added by MultiCodeManager) in a "repeat forever" loop
+     * @private
+     */
+    async _initializeSensorModelProjectForArduinoQ() {
+        const model = String(getParamValue("sensorModel"));
+        // The model id comes from the URL: only an alphanumeric id is put in the project XML
+        const loadModel = /^[a-zA-Z0-9]+$/.test(model) && model !== 'local'
+            ? `<block type="vittaia_load_sensor_model"><value name="MODEL_URL"><shadow type="text"><field name="TEXT">${location.origin}/ia/model/${model}/</field></shadow></value>`
+            : `<block type="vittaia_load_local_sensor_model">`;
+        const code = `<xml xmlns="https://developers.google.com/blockly/xml">
+            <block type="cpp_on_start_forever" deletable="false" x="0" y="0"></block>
+            <block type="py_scratch_on_start" deletable="false" x="0" y="250"><next>${loadModel}<next>
+                <block type="controls_forever"><statement name="DO">
+                    <block type="vittaia_make_sensor_predictions"><next>
+                        <block type="display_print"><value name="TEXT"><shadow type="text"><field name="TEXT">Bonjour !</field></shadow><block type="vittaia_get_highest_probability_class_sensor"></block></value></block>
+                    </next></block>
+                </statement></block>
+            </next></block></next></block>
+        </xml>`;
+        await this._createNewProject({
+            code: code,
+            name: "Modèle de capteurs IA (" + (model === 'local' ? model : model.replace(/[^a-zA-Z0-9]/g, '')) + ")"
+        });
+        this._projectLoader_setInterfaceMode(false);
+        history.pushState({}, '', removeParam('sensorModel', window.location.href));
     }
 
     /**

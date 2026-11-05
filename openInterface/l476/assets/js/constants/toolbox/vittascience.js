@@ -156,6 +156,196 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
 ];
 
 const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
+    "actuators": [
+        {
+            "kind": "category",
+            "toolboxitemid": "actuators_motors",
+            "name": "%{BKY_SUBCATEGORY_MOTORS}",
+            "style": "actuators_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-gears"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "actuators_mosfet",
+            "name": "%{BKY_SUBCATEGORY_MOSFET}",
+            "style": "actuators_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-bolt"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "actuators_music",
+            "name": "%{BKY_SUBCATEGORY_MUSIC}",
+            "style": "actuators_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-music"
+            },
+            "contents": []
+        }
+    ],
+    "display": [
+        {
+            "kind": "category",
+            "toolboxitemid": "display_l476",
+            "name": "%{BKY_SUBCATEGORY_L476}",
+            "style": "display_category",
+            "cssConfig": {
+                "icon": "icon_blockly svgIcon"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "display_screens",
+            "name": "%{BKY_SUBCATEGORY_SCREENS}",
+            "style": "display_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-display"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "display_leds",
+            "name": "%{BKY_SUBCATEGORY_LED}",
+            "style": "display_category",
+            "cssConfig": {
+                "icon": "icon_blockly svgIcon"
+            },
+            "contents": []
+        }
+    ],
+    "io": [
+        {
+            "kind": "category",
+            "toolboxitemid": "io_l476",
+            "name": "%{BKY_SUBCATEGORY_L476}",
+            "style": "io_category",
+            "cssConfig": {
+                "icon": "icon_blockly svgIcon"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "io_external_inputs",
+            "name": "%{BKY_SUBCATEGORY_EXTERNAL_INPUTS}",
+            "style": "io_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-toggle-on"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "io_pins",
+            "name": "%{BKY_SUBCATEGORY_PINS}",
+            "style": "io_category",
+            "cssConfig": {
+                "icon": "icon_blockly svgIcon"
+            },
+            "contents": []
+        }
+    ],
+    "communication": [
+        {
+            "kind": "category",
+            "toolboxitemid": "communication_serial_connection",
+            "name": "%{BKY_SUBCATEGORY_SERIAL_CONNECTION}",
+            "style": "communication_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-terminal"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "communication_lora",
+            "name": "%{BKY_SUBCATEGORY_LORA}",
+            "style": "communication_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-tower-broadcast"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "communication_tracking",
+            "name": "%{BKY_SUBCATEGORY_SHORT_TRACKING}",
+            "style": "communication_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-location-dot"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "communication_uart",
+            "name": "%{BKY_SUBCATEGORY_UART}",
+            "style": "communication_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-right-left"
+            },
+            "contents": []
+        }
+    ],
+    "sensors": [
+        {
+            "kind": "category",
+            "toolboxitemid": "sensors_expansion_iks01a3",
+            "name": "IKS01A3",
+            "style": "sensors_category",
+            "cssConfig": {
+                "icon": "icon_blockly svgIcon"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "sensors_sensors_gas",
+            "name": "%{BKY_SUBCATEGORY_SHORT_GAS}",
+            "style": "sensors_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-smog"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "sensors_sensors_climate",
+            "name": "%{BKY_SUBCATEGORY_SHORT_WEATHER}",
+            "style": "sensors_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-temperature-half"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "sensors_sensors_soundlight",
+            "name": "%{BKY_SUBCATEGORY_SHORT_SOUND_LIGHT}",
+            "style": "sensors_category",
+            "cssConfig": {
+                "icon": "icon_blockly svgIcon"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "sensors_sensors_distancemovement",
+            "name": "%{BKY_SUBCATEGORY_SHORT_DISTANCE_MOVEMENT}",
+            "style": "sensors_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-ruler"
+            },
+            "contents": []
+        }
+    ],
     "robots": [
         {
             "kind": "category",
@@ -175,7 +365,58 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "cssConfig": {
                 "icon": "icon_blockly fas fa-robot"
             },
-            "contents": []
+            "contents": [
+                {
+                    "kind": "category",
+                    "toolboxitemid": "alphabot_motors",
+                    "name": "%{BKY_SUBCATEGORY_SHORT_MOTORS}",
+                    "style": "robots_category",
+                    "cssConfig": {
+                        "icon": "icon_blockly fas fa-gears"
+                    },
+                    "contents": []
+                },
+                {
+                    "kind": "category",
+                    "toolboxitemid": "alphabot_sensors",
+                    "name": "%{BKY_SUBCATEGORY_SHORT_SENSORS}",
+                    "style": "robots_category",
+                    "cssConfig": {
+                        "icon": "icon_blockly fas fa-plug"
+                    },
+                    "contents": []
+                },
+                {
+                    "kind": "category",
+                    "toolboxitemid": "alphabot_oled",
+                    "name": "%{BKY_SUBCATEGORY_SHORT_OLED}",
+                    "style": "robots_category",
+                    "cssConfig": {
+                        "icon": "icon_blockly fas fa-display"
+                    },
+                    "contents": []
+                },
+                {
+                    "kind": "category",
+                    "toolboxitemid": "alphabot_commands",
+                    "name": "%{BKY_SUBCATEGORY_SHORT_TELLO_COMMANDS}",
+                    "style": "robots_category",
+                    "cssConfig": {
+                        "icon": "icon_blockly fas fa-gamepad"
+                    },
+                    "contents": []
+                },
+                {
+                    "kind": "category",
+                    "toolboxitemid": "alphabot_led_rgb",
+                    "name": "%{BKY_SUBCATEGORY_SHORT_LED_RGB}",
+                    "style": "robots_category",
+                    "cssConfig": {
+                        "icon": "icon_blockly svgIcon"
+                    },
+                    "contents": []
+                }
+            ]
         }
     ],
     "ia": [
@@ -189,270 +430,451 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             },
             "contents": []
         }
+    ],
+    "math": [
+        {
+            "kind": "category",
+            "toolboxitemid": "math_calculations",
+            "name": "%{BKY_TOOLBOX_LABEL_CALCULATIONS}",
+            "style": "math_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-calculator"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "math_rounding",
+            "name": "%{BKY_SUBCATEGORY_SHORT_ROUNDING}",
+            "style": "math_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-ruler-horizontal"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "math_random",
+            "name": "%{BKY_TOOLBOX_LABEL_RANDOM}",
+            "style": "math_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-dice"
+            },
+            "contents": []
+        }
+    ],
+    "text": [
+        {
+            "kind": "category",
+            "toolboxitemid": "text_create",
+            "name": "%{BKY_TOOLBOX_LABEL_CREATE}",
+            "style": "text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-pen"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "text_search",
+            "name": "%{BKY_TOOLBOX_LABEL_SEARCH}",
+            "style": "text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-magnifying-glass"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "text_transform",
+            "name": "%{BKY_TOOLBOX_LABEL_TRANSFORM}",
+            "style": "text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-wand-magic-sparkles"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "text_encryption",
+            "name": "%{BKY_SUBCATEGORY_ENCRYPTION}",
+            "style": "text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-lock"
+            },
+            "contents": []
+        }
+    ],
+    "lists": [
+        {
+            "kind": "category",
+            "toolboxitemid": "lists_create",
+            "name": "%{BKY_TOOLBOX_LABEL_CREATE}",
+            "style": "lists_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-plus"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "lists_read",
+            "name": "%{BKY_TOOLBOX_LABEL_READ}",
+            "style": "lists_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-eye"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "lists_modify",
+            "name": "%{BKY_TOOLBOX_LABEL_MODIFY}",
+            "style": "lists_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-pen-to-square"
+            },
+            "contents": []
+        }
     ]
 };
 
 const TOOLBOX_VITTASCIENCE_CONTENT = {
     "display": [
         {
-            "label": "%{BKY_SUBCATEGORY_L476}",
-            "blocks": [
-                'display_l476_controlColorLed',
-                'display_l476_toggleColorLed'
+            "subCategoryId": "display_l476",
+            "contents": [
+                {
+                    "blocks": [
+                        'display_l476_controlColorLed',
+                        'display_l476_toggleColorLed'
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_DISPLAYS_LCD}",
-            "blocks": [
-                'display_lcdSetText',
-                'display_lcdClear',
-                'display_lcdSetColor',
-                'display_lcdSetColorPalette'
+            "subCategoryId": "display_screens",
+            "contents": [
+                {
+                    "label": "%{BKY_SUBCATEGORY_DISPLAYS_LCD}",
+                    "blocks": [
+                        'display_lcdSetText',
+                        'display_lcdClear',
+                        'display_lcdSetColor',
+                        'display_lcdSetColorPalette'
+                    ]
+                },
+                {
+                    "label": "%{BKY_SUBCATEGORY_DISPLAYS_OLED}",
+                    "blocks": [
+                        'display_addOledText',
+                        'display_setOledPixel',
+                        'display_drawOledLine',
+                        'display_setOledBackground',
+                        'display_clearOledScreen'
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_NEOPIXEL}",
-            "blocks": [
-                'display_defineNeopixel',
-                'display_controlNeopixelLed',
-                'display_controlColorNeopixelLed',
-                'display_neopixel_controlAllLedRGB',
-                'display_neopixel_controlAllLedPalette',
-                'display_rainbowNeopixel'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_DISPLAYS_OLED}",
-            "blocks": [
-                'display_addOledText',
-                'display_setOledPixel',
-                'display_drawOledLine',
-                'display_setOledBackground',
-                'display_clearOledScreen'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_DISPLAYS_LED_MATRIX}",
-            "blocks": [
-                'display_led_matrix_DrawBitmap',
-                'display_led_matrix_clear'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_DISPLAYS_RGB_LED_MATRIX}",
-            "blocks": [
-                'display_rgb_led_matrix_DrawBitmap',
-                'display_rgb_led_matrix_stopDisplay'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_LED}",
-            "blocks": [
-                'display_setGroveSocketLed',
-                'display_setLEDintensity',
-                'display_setVariableColorLED',
-                'display_setNumberGrove4Digit',
-                'display_setClockGrove4Digit',
-                'display_setLevelLedBar',
-                'display_my9221_reverse'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_CHAINABLE_LED_RGB}",
-            "blocks": [
-                'display_defineChainableRGBLed',
-                'display_setColorChainableRGBLed',
-                'display_setPaletteColorChainableRGBLed',
-                'display_setColorAllChainableRGBLed',
-                'display_setPaletteAllChainableRGBLed',
-                'display_resetAllChainableRGBLed'
+            "subCategoryId": "display_leds",
+            "contents": [
+                {
+                    "label": "%{BKY_SUBCATEGORY_NEOPIXEL}",
+                    "blocks": [
+                        'display_defineNeopixel',
+                        'display_controlNeopixelLed',
+                        'display_controlColorNeopixelLed',
+                        'display_neopixel_controlAllLedRGB',
+                        'display_neopixel_controlAllLedPalette',
+                        'display_rainbowNeopixel'
+                    ]
+                },
+                {
+                    "label": "%{BKY_SUBCATEGORY_DISPLAYS_LED_MATRIX}",
+                    "blocks": [
+                        'display_led_matrix_DrawBitmap',
+                        'display_led_matrix_clear'
+                    ]
+                },
+                {
+                    "label": "%{BKY_SUBCATEGORY_DISPLAYS_RGB_LED_MATRIX}",
+                    "blocks": [
+                        'display_rgb_led_matrix_DrawBitmap',
+                        'display_rgb_led_matrix_stopDisplay'
+                    ]
+                },
+                {
+                    "label": "%{BKY_SUBCATEGORY_LED}",
+                    "blocks": [
+                        'display_setGroveSocketLed',
+                        'display_setLEDintensity',
+                        'display_setVariableColorLED',
+                        'display_setNumberGrove4Digit',
+                        'display_setClockGrove4Digit',
+                        'display_setLevelLedBar',
+                        'display_my9221_reverse'
+                    ]
+                },
+                {
+                    "label": "%{BKY_SUBCATEGORY_CHAINABLE_LED_RGB}",
+                    "blocks": [
+                        'display_defineChainableRGBLed',
+                        'display_setColorChainableRGBLed',
+                        'display_setPaletteColorChainableRGBLed',
+                        'display_setColorAllChainableRGBLed',
+                        'display_setPaletteAllChainableRGBLed',
+                        'display_resetAllChainableRGBLed'
+                    ]
+                }
             ]
         }
     ],
     "io": [
         {
-            "label": "%{BKY_SUBCATEGORY_L476}",
-            "blocks": [
-                'io_pause',
-                'io_waitUntil',
-                'io_initChronometer',
-                'io_getChronometer',
-                'io_smt32_onSwitchButtonState',
-                'io_smt32_getSwitchState'
+            "subCategoryId": "io_l476",
+            "contents": [
+                {
+                    "blocks": [
+                        'io_pause',
+                        'io_waitUntil',
+                        'io_initChronometer',
+                        'io_getChronometer',
+                        'io_smt32_onSwitchButtonState',
+                        'io_smt32_getSwitchState'
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_EXTERNAL_INPUTS}",
-            "blocks": [
-                'io_getGroveButton',
-                'io_getGroveSwitch',
-                'io_getGroveTactile',
-                'io_getGroveRotaryAngle',
-                'io_getGroveSlidePotentiometer',
-                'io_getGroveColoredButton',
-                'io_setGroveColoredButton',
-                "io_getGroveThumbJoystick",
-                "io_getKeypadNumber"
+            "subCategoryId": "io_external_inputs",
+            "contents": [
+                {
+                    "blocks": [
+                        'io_getGroveButton',
+                        'io_getGroveSwitch',
+                        'io_getGroveTactile',
+                        'io_getGroveRotaryAngle',
+                        'io_getGroveSlidePotentiometer',
+                        'io_getGroveColoredButton',
+                        'io_setGroveColoredButton',
+                        "io_getGroveThumbJoystick",
+                        "io_getKeypadNumber"
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_PINS}",
-            "blocks": [
-                'io_digital_signal',
-                'io_readDigitalPin',
-                'io_writeDigitalPin',
-                'io_readAnalogPin',
-                'io_writePwm',
-                'io_setPwm',
-                'io_stopPwm',
-                'io_readPulseIn',
-                'io_getVoltage'
+            "subCategoryId": "io_pins",
+            "contents": [
+                {
+                    "blocks": [
+                        'io_digital_signal',
+                        'io_readDigitalPin',
+                        'io_writeDigitalPin',
+                        'io_readAnalogPin',
+                        'io_writePwm',
+                        'io_setPwm',
+                        'io_stopPwm',
+                        'io_readPulseIn',
+                        'io_getVoltage'
+                    ]
+                }
             ]
         }
     ],
     "communication": [
         {
-            "label": "%{BKY_SUBCATEGORY_SERIAL_CONNECTION}",
-            "blocks": [
-                'communication_serialWrite',
-                'communication_graphSerialWrite',
-                'communication_playComputerMusic',
-                'communication_playComputerFrequency',
-                'communication_stopComputerMusic'
+            "subCategoryId": "communication_serial_connection",
+            "contents": [
+                {
+                    "blocks": [
+                        'communication_serialWrite',
+                        'communication_graphSerialWrite',
+                        'communication_playComputerMusic',
+                        'communication_playComputerFrequency',
+                        'communication_stopComputerMusic'
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_LORA}",
-            "blocks": [
-                'communication_loraInit',
-                'communication_loraSend',
-                //'communication_loraReceive'
+            "subCategoryId": "communication_lora",
+            "contents": [
+                {
+                    "blocks": [
+                        'communication_loraInit',
+                        'communication_loraSend',
+                        //'communication_loraReceive'
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_GPS}",
-            "blocks": [
-                'communication_gps_getNMEA',
-                'communication_gps_getGGAInformations'
+            "subCategoryId": "communication_tracking",
+            "contents": [
+                {
+                    "label": "%{BKY_SUBCATEGORY_GPS}",
+                    "blocks": [
+                        'communication_gps_getNMEA',
+                        'communication_gps_getGGAInformations'
+                    ]
+                },
+                {
+                    "label": "%{BKY_SUBCATEGORY_RTC}",
+                    "blocks": [
+                        'communication_l476_RTC_setTime',
+                        'communication_l476_RTC_readTime'
+                    ]
+                },
+                {
+                    "label": "%{BKY_SUBCATEGORY_NFC}",
+                    "blocks": [
+                        'communication_M24SR64_nfc_readTag',
+                        'communication_M24SR64_nfc_writeTag',
+                        'communication_M24SR64_nfc_eraseTag'
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_RTC}",
-            "blocks": [
-                'communication_l476_RTC_setTime',
-                'communication_l476_RTC_readTime'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_NFC}",
-            "blocks": [
-                'communication_M24SR64_nfc_readTag',
-                'communication_M24SR64_nfc_writeTag',
-                'communication_M24SR64_nfc_eraseTag'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_UART}",
-            "blocks": [
-                'communication_uartInit',
-                'communication_uartWrite',
-                'communication_uart_isDataAvailable',
-                'communication_uart_readData'
+            "subCategoryId": "communication_uart",
+            "contents": [
+                {
+                    "blocks": [
+                        'communication_uartInit',
+                        'communication_uartWrite',
+                        'communication_uart_isDataAvailable',
+                        'communication_uart_readData'
+                    ]
+                }
             ]
         }
     ],
     "sensors": [
         {
-            "label": "%{BKY_SUBCATEGORY_EXPANSION_IKS01A3}",
-            "blocks": [
-                'sensors_accelerometerIntegrated_LIS2DW12',
-                'sensors_inclinometerIntegrated_LIS2DW12',
-                'sensors_accelerometerIntegrated_LSM6DSO',
-                'sensors_gyroscopeIntegrated_LSM6DSO',
-                'sensors_magnetoscopeIntegrated_LIS2MDL',
-                'sensors_thermometerIntegrated_STTS751',
-                'sensors_hygrometerIntegrated_HTS221',
-                'sensors_barometerIntegrated_LPS22'
+            "subCategoryId": "sensors_expansion_iks01a3",
+            "contents": [
+                {
+                    "blocks": [
+                        'sensors_accelerometerIntegrated_LIS2DW12',
+                        'sensors_inclinometerIntegrated_LIS2DW12',
+                        'sensors_accelerometerIntegrated_LSM6DSO',
+                        'sensors_gyroscopeIntegrated_LSM6DSO',
+                        'sensors_magnetoscopeIntegrated_LIS2MDL',
+                        'sensors_thermometerIntegrated_STTS751',
+                        'sensors_hygrometerIntegrated_HTS221',
+                        'sensors_barometerIntegrated_LPS22'
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_SENSORS_GAS}",
-            "blocks": [
-                'sensors_getSgp30Gas',
-                'sensors_getMultichannelGas',
-                'sensors_getO2gas',
-                'sensors_SCD30_readData',
-                "sensors_SCD30_forcedCalibration",
-                'sensors_getAirQualityValue',
-                'sensors_getParticulateMatter'
+            "subCategoryId": "sensors_sensors_gas",
+            "contents": [
+                {
+                    "blocks": [
+                        'sensors_getSgp30Gas',
+                        'sensors_getMultichannelGas',
+                        'sensors_getO2gas',
+                        'sensors_SCD30_readData',
+                        "sensors_SCD30_forcedCalibration",
+                        'sensors_getAirQualityValue',
+                        'sensors_getParticulateMatter'
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_SENSORS_CLIMATE}",
-            "blocks": [
-                'sensors_getBmp280Data',
-                'sensors_getGroveMoisture',
-                'sensors_getGroveTemperature',
-                'sensors_getGroveHighTemperature',
-                'sensors_DHT11ReadData',
-                'sensors_DHT22ReadData',
-                'sensors_TH02readData',
-                'sensors_SHT31readData',
-                'sensors_DS18B20_getTemperature',
-                'sensors_getGroveWaterAmount',
-                'sensors_getRainGauge',
-                'sensors_getAnemometer'
+            "subCategoryId": "sensors_sensors_climate",
+            "contents": [
+                {
+                    "blocks": [
+                        'sensors_getBmp280Data',
+                        'sensors_getGroveMoisture',
+                        'sensors_getGroveTemperature',
+                        'sensors_getGroveHighTemperature',
+                        'sensors_DHT11ReadData',
+                        'sensors_DHT22ReadData',
+                        'sensors_TH02readData',
+                        'sensors_SHT31readData',
+                        'sensors_DS18B20_getTemperature',
+                        'sensors_getGroveWaterAmount',
+                        'sensors_getRainGauge',
+                        'sensors_getAnemometer'
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_SENSORS_SOUNDLIGHT}",
-            "blocks": [
-                'sensors_getGroveLight',
-                'sensors_getSi1145Light',
-                'sensors_getUVindex',
-                'sensors_colorSensor_getData',
-                'sensors_getGroveSound'
+            "subCategoryId": "sensors_sensors_soundlight",
+            "contents": [
+                {
+                    "blocks": [
+                        'sensors_getGroveLight',
+                        'sensors_getSi1145Light',
+                        'sensors_getUVindex',
+                        'sensors_colorSensor_getData',
+                        'sensors_getGroveSound'
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_SENSORS_DISTANCEMOVEMENT}",
-            "blocks": [
-                'sensors_VL53L0X_getRangeMillimeters',
-                'sensors_getGroveUltrasonicRanger',
-                'sensors_getGroveLineFinder',
-                'sensors_getGroveMotion',
-                'sensors_getGroveTilt',
-                'sensors_getPiezoVibration'
+            "subCategoryId": "sensors_sensors_distancemovement",
+            "contents": [
+                {
+                    "blocks": [
+                        'sensors_VL53L0X_getRangeMillimeters',
+                        'sensors_getGroveUltrasonicRanger',
+                        'sensors_getGroveLineFinder',
+                        'sensors_getGroveMotion',
+                        'sensors_getGroveTilt',
+                        'sensors_getPiezoVibration'
+                    ]
+                }
             ]
         }
     ],
     "actuators": [
         {
-            "label": "%{BKY_SUBCATEGORY_MOTORS}",
-            "blocks": [
-                'actuators_setServoAngle',
-                'actuators_continuousServo_setSpeed',
-                'actuators_setMotorPower',
-                'actuators_setVibrationMotorState',
-                'actuators_setGroveRelayState'
+            "subCategoryId": "actuators_motors",
+            "contents": [
+                {
+                    "blocks": [
+                        'actuators_setServoAngle',
+                        'actuators_continuousServo_setSpeed',
+                        'actuators_setMotorPower',
+                        'actuators_setVibrationMotorState',
+                        'actuators_setGroveRelayState'
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_MOSFET}",
-            "blocks": [
-                'actuators_mosfet_setState',
-                'actuators_mosfet_setPercentValue',
-                'actuators_mosfet_setFrequency'
+            "subCategoryId": "actuators_mosfet",
+            "contents": [
+                {
+                    "blocks": [
+                        'actuators_mosfet_setState',
+                        'actuators_mosfet_setPercentValue',
+                        'actuators_mosfet_setFrequency'
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_MUSIC}",
-            "blocks": [
-                'actuators_playMusicGroveBuzzer',
-                'actuators_music_playNotes',
-                'actuators_music_note',
-                'actuators_music_playFrequency',
-                'actuators_music_stop'
+            "subCategoryId": "actuators_music",
+            "contents": [
+                {
+                    "blocks": [
+                        'actuators_playMusicGroveBuzzer',
+                        'actuators_music_playNotes',
+                        'actuators_music_note',
+                        'actuators_music_playFrequency',
+                        'actuators_music_stop'
+                    ]
+                }
             ]
         }
     ],
@@ -512,53 +934,75 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         },
         {
             "subCategoryId": 'alphabot',
-            "contents": [{
-                "label": "%{BKY_SUBCATEGORY_ALPHABOT_MOTORS}",
-                "blocks": [
-                    'robots_alphabot_setGo',
-                    'robots_alphabot_turnTo',
-                    'robots_alphabot_controlMotor',
-                    'robots_alphabot_stopMotors'
-                ]
-            },
-            {
-                "label": "%{BKY_SUBCATEGORY_ALPHABOT_SENSORS}",
-                "blocks": [
-                    'robots_alphabot_getUltrasonicRange',
-                    'robots_alphabot_lineFinder_calibrate',
-                    'robots_alphabot_lineFinder_readSensors',
-                    'robots_alphabot_lineFinder_getSensorAboveLine',
-                    'robots_alphabot_lineFinder_isSensorAboveLine',
-                    'robots_alphabot_lineFinder_onAboveAnySensor',
-                    'robots_alphabot_readObstacleDetector',
-                    'robots_alphabot_onObstacleDetected'
-                ]
-            },
-            {
-                "label": "%{BKY_SUBCATEGORY_ALPHABOT_OLED}",
-                "blocks": [
-                    'robots_alphabot_oled_addText',
-                    'robots_alphabot_oled_setBackground',
-                    'robots_alphabot_oled_clearScreen'
-                ]
-            },
-            {
-                "label": "%{BKY_SUBCATEGORY_ALPHABOT_COMMANDS}",
-                "blocks": [
-                    'robots_alphabot_onRemoteCommandReceived',
-                    'robots_alphabot_onRemoteCommandReceived_car_mp3_gray',
-                    'robots_alphabot_joystick_onCommandReceived',
-                    'robots_alphabot_buzzer_controlState'
-                ]
-            },
-            {
-                "label": "%{BKY_SUBCATEGORY_ALPHABOT_LED_RGB}",
-                "blocks": [
-                    'robots_alphabot_neopixel_setColor',
-                    'robots_alphabot_neopixel_setPaletteColor',
-                    'robots_alphabot_neopixel_setRainbow'
-                ]
-            }]
+            "contents": [
+                {
+                    "subCategoryId": "alphabot_motors",
+                    "contents": [
+                        {
+                            "blocks": [
+                                'robots_alphabot_setGo',
+                                'robots_alphabot_turnTo',
+                                'robots_alphabot_controlMotor',
+                                'robots_alphabot_stopMotors'
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "subCategoryId": "alphabot_sensors",
+                    "contents": [
+                        {
+                            "blocks": [
+                                'robots_alphabot_getUltrasonicRange',
+                                'robots_alphabot_lineFinder_calibrate',
+                                'robots_alphabot_lineFinder_readSensors',
+                                'robots_alphabot_lineFinder_getSensorAboveLine',
+                                'robots_alphabot_lineFinder_isSensorAboveLine',
+                                'robots_alphabot_lineFinder_onAboveAnySensor',
+                                'robots_alphabot_readObstacleDetector',
+                                'robots_alphabot_onObstacleDetected'
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "subCategoryId": "alphabot_oled",
+                    "contents": [
+                        {
+                            "blocks": [
+                                'robots_alphabot_oled_addText',
+                                'robots_alphabot_oled_setBackground',
+                                'robots_alphabot_oled_clearScreen'
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "subCategoryId": "alphabot_commands",
+                    "contents": [
+                        {
+                            "blocks": [
+                                'robots_alphabot_onRemoteCommandReceived',
+                                'robots_alphabot_onRemoteCommandReceived_car_mp3_gray',
+                                'robots_alphabot_joystick_onCommandReceived',
+                                'robots_alphabot_buzzer_controlState'
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "subCategoryId": "alphabot_led_rgb",
+                    "contents": [
+                        {
+                            "blocks": [
+                                'robots_alphabot_neopixel_setColor',
+                                'robots_alphabot_neopixel_setPaletteColor',
+                                'robots_alphabot_neopixel_setRainbow'
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "ia": [
@@ -606,75 +1050,128 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
     ],
     "math": [
         {
-            "blocks": [
-                'math_number',
-                'math_arithmetic-add',
-                'math_single',
-                'math_trig',
-                'math_constant',
-                'math_number_property',
-                'math_map',
-                'math_round',
-                'math_round_ndigits',
-                'math_modulo',
-                'math_constrain',
-                'math_random_int',
-                'math_random_float',
-                'math_atan2'
-            ]
+            "subCategoryId": "math_calculations",
+            "contents": [{
+                "blocks": [
+                    'math_number',
+                    'math_arithmetic-add',
+                    'math_single',
+                    'math_trig',
+                    'math_constant',
+                    'math_number_property',
+                    'math_modulo',
+                    'math_atan2'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "math_rounding",
+            "contents": [{
+                "blocks": [
+                    'math_map',
+                    'math_round',
+                    'math_round_ndigits',
+                    'math_constrain'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "math_random",
+            "contents": [{
+                "blocks": [
+                    'math_random_int',
+                    'math_random_float'
+                ]
+            }]
         }
     ],
     "text": [
         {
-            "blocks": [
-                'text_comment',
-                'text',
-                'text_join',
-                'text_newline',
-                'text_append',
-                'text_split',
-                'text_length',
-                'text_isEmpty',
-                'text_includesSubstr',
-                'text_indexOf',
-                'text_charAt',
-                'text_getSubstring',
-                'text_count_characters',
-                'text_changeCase',
-                'text_trim',
-                'text_count',
-                'text_replace',
-                'text_reverse',
-                'text_random_string'
-            ]
+            "subCategoryId": "text_create",
+            "contents": [{
+                "blocks": [
+                    'text_comment',
+                    'text',
+                    'text_join',
+                    'text_newline',
+                    'text_append'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_ENCRYPTION}",
-            "blocks": [
-                'text_caesar_cipher',
-                'text_caesar_cipher_brute_force'
-            ],
+            "subCategoryId": "text_search",
+            "contents": [{
+                "blocks": [
+                    'text_length',
+                    'text_isEmpty',
+                    'text_includesSubstr',
+                    'text_indexOf',
+                    'text_charAt',
+                    'text_count_characters',
+                    'text_count'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "text_transform",
+            "contents": [{
+                "blocks": [
+                    'text_split',
+                    'text_getSubstring',
+                    'text_changeCase',
+                    'text_trim',
+                    'text_replace',
+                    'text_reverse',
+                    'text_random_string'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "text_encryption",
+            "contents": [{
+                "blocks": [
+                    'text_caesar_cipher',
+                    'text_caesar_cipher_brute_force'
+                ]
+            }]
         }
     ],
     "variables": "customized",
     "lists": [
         {
-            "blocks": [
-                'lists_create_with-0',
-                'lists_create_with',
-                'lists_repeat',
-                'lists_length',
-                'lists_isEmpty',
-                'math_on_list',
-                'lists_reverse',
-                'lists_indexOf',
-                'lists_getIndex',
-                'lists_append',
-                'lists_setIndex',
-                'lists_getSublist',
-                'lists_split',
-                'lists_sort'
-            ]
+            "subCategoryId": "lists_create",
+            "contents": [{
+                "blocks": [
+                    'lists_create_with-0',
+                    'lists_create_with',
+                    'lists_repeat',
+                    'lists_split'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "lists_read",
+            "contents": [{
+                "blocks": [
+                    'lists_length',
+                    'lists_isEmpty',
+                    'math_on_list',
+                    'lists_indexOf',
+                    'lists_getIndex',
+                    'lists_getSublist'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "lists_modify",
+            "contents": [{
+                "blocks": [
+                    'lists_reverse',
+                    'lists_append',
+                    'lists_setIndex',
+                    'lists_sort'
+                ]
+            }]
         }
     ],
     "procedures": "customized",

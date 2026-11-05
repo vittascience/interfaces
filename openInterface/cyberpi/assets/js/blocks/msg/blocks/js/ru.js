@@ -327,3 +327,6 @@ Blockly.Msg['CYBERPI_WIFI_BROADCAST_GET_TITLE'] = '[LAN] получить зна
 Blockly.Msg['CYBERPI_WIFI_BROADCAST_GET_TOOLTIP'] = 'Позволяет получить значение последнего сообщения, отправленного по WiFi-сети. Для отправки сообщения необязательно подключаться к существующей WiFi-сети — CyberPi может создать локальную сеть LAN.';
 Blockly.Msg['CYBERPI_DISPLAY_CLEAR_TITLE'] = '[Экран] очистить';
 Blockly.Msg['CYBERPI_DISPLAY_CLEAR_TOOLTIP'] = 'Очищает экран устройства CyberPi.';
+
+// Loop disabled by the event blocks (Blockly.Constants.Utils.DISABLE_BLOCKS_ON_EVENT)
+Blockly.Msg['FOREVER_DISABLED_BY_EVENTS'] = 'Этот цикл отключён, потому что в программе есть блок события («Когда программа запускается», «Когда кнопка нажата» или «Когда сообщение получено»). При использовании событий поместите инструкции в блок события, например «Когда программа запускается».';

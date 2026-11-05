@@ -57,9 +57,6 @@ const LIBRARIES_PATH = {
     "esp32_linky": "/grove",
     "umqttsimple": "/wifi",
     'edgeModel': "/ai",
-    'edgeModelP19-P7': "/ai",
-    'edgeModelP19': "/ai",
-    'edgeModelP7': "/ai",
 };
 // boards
 const INTERFACE_BOARDS = {

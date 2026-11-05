@@ -215,7 +215,8 @@ const TOOLBOX_SCRATCH_CONTENT = {
             "label": "%{BKY_SUBCATEGORY_DISPLAYS_LCD}",
             "blocks": [
                 'display_lcdSetText',
-                'display_lcdClear'
+                'display_lcdClear',
+                'display_lcdRGBSetColor'
             ]
         },
         {
@@ -795,7 +796,8 @@ const TOOLBOX_SCRATCH_CONTENT_SIMPLE = {
             "label": "%{BKY_SUBCATEGORY_DISPLAYS_LCD}",
             "blocks": [
                 'display_lcdSetText',
-                'display_lcdClear'
+                'display_lcdClear',
+                'display_lcdRGBSetColor'
             ]
         },
         {

@@ -17,7 +17,7 @@ const STANDARD_A11Y_INTERFACES = [
     'galaxia', 'GalaxiaCircuitPython', 'l476', 'letsstartcoding', 'lotibot',
     'm5stack', 'mBot', 'microbit', 'nao', 'niryo', 'photon', 'pico', 'python',
     'raspberrypi', 'sphero', 'spike', 'thymio', 'TI-83', 'wb55', 'web', 'winky',
-    'steami', 'alphai', 'arduinoq', 'primastem'
+    'steami', 'alphai', 'arduinoq', 'primastem', 'skykick', 'unihiker'
 ];
 
 /**
@@ -116,6 +116,17 @@ async function loadInterface(interfaceName) {
             scripts.push({
                 id: "wb55_block_msg",
                 src: `${CDN_PATH}/openInterface/wb55/assets/js/blocks/msg/blocks/js/${_language}.js`
+            });
+        }
+        // modules of the micro:bit and AI blocks of the Python interface (vittaia)
+        if (interfaceName == 'unihiker') {
+            scripts.push({
+                id: "microbit_block_msg",
+                src: `${CDN_PATH}/openInterface/microbit/assets/js/blocks/msg/blocks/js/${_language}.js`
+            });
+            scripts.push({
+                id: "python_block_msg",
+                src: `${CDN_PATH}/openInterface/python/assets/js/blocks/msg/blocks/js/${_language}.js`
             });
         }
         if (interfaceName == 'arduinoq') {

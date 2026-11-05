@@ -54,3 +54,21 @@ Blockly.Msg['ROBOT_SET_LEDS_RGB_TOOLTIP'] = 'Contrôle les LEDs du robot en spé
 Blockly.Msg['ROBOT_SET_LEDS_PALETTE_TITLE'] = 'contrôler les LEDs à %1';
 Blockly.Msg['ROBOT_SET_LEDS_PALETTE_TOOLTIP'] = 'Contrôle les LEDs du robot en choisissant une couleur dans la palette.';
 Blockly.Msg['ROBOT_ROBOT_ALL_SENSORS'] = 'tous';
+
+// Search keywords of the blocks: <X>_KEYWORDS completes the block whose tooltip is <X>_TOOLTIP (see ToolboxManager)
+Blockly.Msg['IO_WAIT_KEYWORDS'] = 'temporiser, délai';
+Blockly.Msg['IO_WAIT_UNTIL_KEYWORDS'] = 'attendre, pause';
+Blockly.Msg['IO_INITCHRONOMETER_KEYWORDS'] = 'réinitialiser, chronomètre';
+Blockly.Msg['IO_GETCHRONOMETER_KEYWORDS'] = 'chronomètre, durée';
+Blockly.Msg['ROBOT_PRINT_MESSAGE_KEYWORDS'] = 'console, message';
+Blockly.Msg['ROBOT_SET_DIRECTION_KEYWORDS'] = 'conduire, piloter, déplacer';
+Blockly.Msg['ROBOT_SET_MOTOR_KEYWORDS'] = 'conduire, rouler';
+Blockly.Msg['ROBOT_STOP_KEYWORDS'] = 'arrêter, immobiliser, stopper';
+Blockly.Msg['ROBOT_SET_BUZZER_KEYWORDS'] = 'sonnerie, alarme';
+Blockly.Msg['ROBOT_IS_BLOCKED_KEYWORDS'] = 'obstruction, coincé, obstacle';
+Blockly.Msg['ROBOT_GET_DISTANCE_KEYWORDS'] = 'obstacle, éloignement, proximité';
+Blockly.Msg['ROBOT_GET_INFRA_RED_KEYWORDS'] = 'infrarouge, capteur, ligne';
+Blockly.Msg['ROBOT_SET_CAMERA_KEYWORDS'] = 'webcam, filmer, capturer';
+Blockly.Msg['ROBOT_GET_CAMERA_KEYWORDS'] = 'caméra, photo, image';
+Blockly.Msg['ROBOT_SET_LEDS_RGB_KEYWORDS'] = 'LED, couleur, RGB';
+Blockly.Msg['ROBOT_SET_LEDS_PALETTE_KEYWORDS'] = 'LED, couleur, palette';

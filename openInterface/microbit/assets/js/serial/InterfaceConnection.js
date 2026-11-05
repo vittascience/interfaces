@@ -505,29 +505,17 @@ const InterfaceConnection = {
 				}
 				const modelWeights = JSON.parse(metadata.userMetaData.weightData);
 				const labels = JSON.stringify(metadata.labels);
-				let sensorStrategy = "edgeModel";
-				switch (metadata.settings.strategy.name) {
-					case 'micro':
-						sensorStrategy = 'edgeModelmicro';
-						break;
-					case 'p0/p1':
-						sensorStrategy = 'edgeModelP0-P1';
-						break;
-					case 'p0':
-						sensorStrategy = 'edgeModelP0';
-						break;
-					case 'p1':
-						sensorStrategy = 'edgeModelP1';
-						break;
-					case 'accelerometer':
-					default:
-						sensorStrategy = 'edgeModel';
-						break;
-				}
-				let edgeLib = VittaInterface.externalLibraries[sensorStrategy];
+				// Window (number of readings) and frequency of the model records, used by the board like the AI tool
+				const strategy = metadata.settings.strategy;
+				const savedWindow = metadata.userMetaData.timeWindow;
+				// Models saved before settings.window: 50 is the AI tool default even when its sensor window differs
+				const windowSamples = metadata.settings.window?.samples
+					?? (savedWindow && !(savedWindow === 50 && strategy.frequency !== 50) ? savedWindow : strategy.timeWindow);
+				// The library reads the sensor of the strategy (accelerometer, micro, pins such as "p0/p1")
+				let edgeLib = VittaInterface.externalLibraries["edgeModel"];
 				const inputStart = edgeLib.split('# AI_EDGE_MODEL_WEIGHTS_INPUT_START')[0];
 				const inputEnd = edgeLib.split('# AI_EDGE_MODEL_WEIGHTS_INPUT_END')[1];
-				edgeLib = `${inputStart}# AI_EDGE_MODEL_WEIGHTS_INPUT_START\n${modelWeights}\nlabels=${labels}\n# AI_EDGE_MODEL_WEIGHTS_INPUT_END${inputEnd}`;
+				edgeLib = `${inputStart}# AI_EDGE_MODEL_WEIGHTS_INPUT_START\n${modelWeights}\nlabels=${labels}\nwindow_samples=${windowSamples}\nsample_frequency=${strategy.frequency}\nsensor=${JSON.stringify(strategy.name)}\n# AI_EDGE_MODEL_WEIGHTS_INPUT_END${inputEnd}`;
 				VittaInterface.externalLibraries["edgeModel"] = edgeLib;
 				return resolve();
 			});

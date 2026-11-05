@@ -52,7 +52,8 @@ class InterfaceInit {
     }
 
     _needSerialAPI() {
-        return ['arduino', 'microbit', 'esp32', 'wb55', 'l476', 'galaxia', 'm5stack', 'letsstartcoding', 'mBot', 'GalaxiaCircuitPython', 'cyberpi', 'pico', 'eliobot', 'codey', 'steami', 'arduinoq'].includes(this._interface);
+        return ['arduino', 'microbit', 'esp32', 'wb55', 'l476', 'galaxia', 'm5stack', 'letsstartcoding', 'mBot', 'GalaxiaCircuitPython', 'cyberpi', 'pico', 'eliobot', 'codey', 'steami', 'arduinoq'].includes(this._interface)
+            || (this._interface === 'unihiker' && IS_UNIHIKER_K10);
     }
 
     async init() {
@@ -77,6 +78,9 @@ class InterfaceInit {
         }
         if (['raspberrypi'].includes(this._interface)) {
             RaspberryCommunication.init();
+        }
+        if (this._interface === 'unihiker') {
+            UnihikerCommunication.init();
         }
         if (Main.hasSimulator()) {
             await Simulator.init();
@@ -105,6 +109,9 @@ class InterfaceInit {
         let msgLink = `code.welcome.${this._interface}`;
         if (this._interface == "esp32" && Blockly.Constants.getSelectedBoard() == BOARD_NANO_ESP32) {
             msgLink = 'code.welcome.nano-esp32';
+        }
+        if (this._interface == "unihiker" && IS_UNIHIKER_K10) {
+            msgLink = 'code.welcome.unihiker-k10';
         }
         if (typeof IS_CAPYTALE_CONTEXT !== 'undefined') {
             await new Promise(resolve => {
@@ -234,6 +241,14 @@ class InterfaceInit {
         if (this._needPythonLibraries()) loads.push(this.loadLibraries());
         if (this._interface === 'microbit') {
             loads.push(this.fetchDir(`${CDN_PATH}/openInterface/microbit/assets/lib/variables_getter.py`).then(content => content ? { variables_getter: content } : {}));
+        }
+        if (this._interface === 'unihiker' && IS_UNIHIKER_K10) {
+            // UNIHIKER K10 (MicroPython): drivers of the ESP32, the libraries of the interface and the VL53L0X one
+            loads.push(this.loadCommonLibraries('esp32'));
+            const files = UnihikerCommunication.LIBRARIES.filter(name => name.startsWith('unihiker_')).map(name => [name, `${CDN_PATH}${UnihikerCommunication.LIB_PATH}${name}.py`])
+                .concat([['stm32_vl53l0x', `${CDN_PATH}/openInterface/interfaces/assets/lib/stm32-mpy/grove/stm32_vl53l0x.py`]]);
+            loads.push(Promise.all(files.map(([, url]) => this.fetchDir(url))).then(contents =>
+                Object.fromEntries(files.map(([name], i) => [name, contents[i]]).filter(([, content]) => content))));
         }
         // same order as before: the specific libraries override the common ones
         Object.assign(this.externalLibraries, ...await Promise.all(loads));
@@ -410,7 +425,7 @@ class InterfaceInit {
         } else {
             this.shieldView = false;
         }
-        if (typeof IS_CAPYTALE_CONTEXT === 'undefined' && ['arduino', 'esp32'].includes(this._interface) && !$_GET('link') && !this.hasValidBoardInUrl()) {
+        if (typeof IS_CAPYTALE_CONTEXT === 'undefined' && ['arduino', 'esp32', 'unihiker'].includes(this._interface) && !$_GET('link') && !this.hasValidBoardInUrl()) {
             this.openBoardSelector(true);
         }
         await updateBoard();
@@ -464,6 +479,9 @@ class InterfaceInit {
             if (INTERFACE_NAME === 'TI-83') {
                 robotCategory = 'advanced';
                 robotMessage = jsonPath('code.robotGuide.tuto-rover');
+            } else if ($_GET('extension') !== null) { // blocks of a block extension (see BlockExtensions._takeUrlExtensions)
+                robotCategory = 'block_extensions';
+                robotMessage = jsonPath('code.robotGuide.tuto-extension');
             }
             this.shepherdTourContent = {
                 message: robotMessage.replace('[ROBOT_NAME]', robotName),

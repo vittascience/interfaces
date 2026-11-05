@@ -38,7 +38,8 @@ const normalize = (text) => text.replace(/[ \t]+/g, '').replace(/\n+/g, '\n').tr
 // Generators of the languages: stores of the initializations added by the blocks, and statements of a parsed code.
 export const PYTHON = {
 	generator: () => Blockly.Python,
-	definitions: ['imports_', 'constants_', 'inits_', 'powers_', 'classes_'],
+	// userEvents_: registrations of the event functions (ex: "on_button(button_a, on_button_a)")
+	definitions: ['imports_', 'constants_', 'inits_', 'powers_', 'classes_', 'userEvents_'],
 	// functions added by the blocks (ex: "@onevent def tap():" of the Thymio events)
 	functions: ['codeFunctions_', 'powersEvents_'],
 	// initializations of the blocks generating no code of their own (ex: NAO story: "story = dynamic_story1")

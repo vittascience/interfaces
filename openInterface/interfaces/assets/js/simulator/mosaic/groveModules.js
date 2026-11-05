@@ -1180,7 +1180,7 @@ Simulator.Mosaic.grove = {
             pictureAnimation: "Accelérateur-animation.png",
             animate: function (Animator) {
                 const textPress = (press) => { return roundFloat(press / 100, 1) };
-                const textAlt = (press) => { return getAltitude(press) };
+                const textAlt = (press) => { return Simulator.Mosaic.grove.calculs.getAltitude(press) };
                 Animator.updateInvertedCouple(["-alt", "-press"], [30000, 110000], [textPress, textAlt], true);
             }
         },

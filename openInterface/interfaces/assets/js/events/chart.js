@@ -207,7 +207,8 @@ function updateCheckbox(data) {
 }
 
 function initChart(isReset = false) {
-    if (chart != undefined) {
+    // interfaces without plotter panel (ex: primastem, skykick): nothing to draw
+    if (chart != undefined || !document.getElementById('traceur')) {
         return;
     }
     if (typeof echarts === 'undefined') {

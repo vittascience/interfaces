@@ -897,7 +897,7 @@
       "uai": "رقم UAI الخاص بالمؤسسة",
       "uaiHint": "7 أرقام متبوعة بحرف، مثل 0751234A.",
       "accountEmails": "عنوان (عناوين) البريد الإلكتروني لحسابات Vittascience المراد تفعيلها",
-      "accountEmailsHint": "عنوان واحد في كل سطر، بحد أقصى {{max}} (عنوان لكل ترخيص).",
+      "accountEmailsHint": "عنوان واحد في كل سطر أو مفصولة بفواصل، {{max}} كحد أقصى (واحد لكل ترخيص).",
       "accountEmailsTooMany": "عدد العناوين كبير جدًا: الحد الأقصى {{max}}.",
       "accountEmailInvalid": "عنوان بريد إلكتروني غير صالح:",
       "quoteUpdateError": "تعذّر تسجيل أمر الشراء الخاص بك: فشل تحديث عرض السعر رقم {{number}}. يرجى المحاولة مرة أخرى بعد بضع دقائق. إذا استمرت المشكلة، تواصل معنا:",
@@ -915,7 +915,30 @@
       "errorExplanation": "لم نتمكن من تسجيل أمر الشراء الخاص بك.<br>تم إبلاغ فريقنا التقني بالحادث.<br>يرجى الاتصال بنا لحل المشكلة.",
       "contactUs": "اتصل بنا",
       "whatIsChorus": "ما هو Chorus Pro؟",
-      "chorusDefinition": "CHORUS PRO هو البوابة العامة الجديدة للدولة التي ستتعامل تدريجيًا مع جميع الفواتير الموجهة للخدمة العامة. تهدف هذه البوابة إلى رقمنة 100% من الفواتير الموجهة للدولة وفق جدول زمني بدأ في 1 يناير 2017. لتسهيل الأمر على الشركات المزودة، ستستخدم جميع الإدارات العامة نفس البوابة."
+      "chorusDefinition": "CHORUS PRO هو البوابة العامة الجديدة للدولة التي ستتعامل تدريجيًا مع جميع الفواتير الموجهة للخدمة العامة. تهدف هذه البوابة إلى رقمنة 100% من الفواتير الموجهة للدولة وفق جدول زمني بدأ في 1 يناير 2017. لتسهيل الأمر على الشركات المزودة، ستستخدم جميع الإدارات العامة نفس البوابة.",
+      "maintenanceTitle": "الصيانة جارية :(",
+      "maintenanceText": "فريقنا يقوم بتحديث عروضنا. سنعود قريبًا!",
+      "supportSubject": "تقديم طلب الشراء - التقدير {{number}}",
+      "autoValidate": "التأكيد التلقائي للتقدير",
+      "autoValidateHint": "تم الحصول على التقدير: يتم إنشاء الفاتورة المسودة والطلب على الفور، ويتلقى العميل بريد تأكيد.",
+      "closedTitle": "تم قبول التقدير بالفعل",
+      "closedText": "تم قبول التقدير {{number}} بالفعل وجاري معالجة طلبك: لا يوجد طلب شراء متبقي لتقديمه. للتقدم بأي تغيير، يرجى الاتصال بنا.",
+      "closedSubject": "التقدير {{number}}",
+      "invalidLinkTitle": "رابط التقديم غير صالح",
+      "invalidLinkText": "لتقديم أو استبدال طلب الشراء لهذا التقدير، استخدم الرابط في آخر بريد تقدير تلقيناه، أو سجل الدخول إلى الحساب الذي طلب التقدير (حسابي › طلباتي).",
+      "sectionBdc": "طلب الشراء الخاص بك",
+      "sectionBilling": "الفوترة",
+      "sectionSubscription": "الاشتراك",
+      "sectionConfirm": "التأكيد",
+      "activationMethod": "طريقة التفعيل",
+      "activationEmails": "بريد إلكتروني",
+      "activationGar": "GAR",
+      "activationEmailsHint": "تحصل حسابات Vittascience المذكورة على الترخيص (عنوان واحد لكل ترخيص).",
+      "activationGarHint": "يصل معلمو المؤسسة وتلاميذها إلى Vittascience من ENT الخاص بهم دون إنشاء حساب.",
+      "schoolOrUai": "المؤسسة أو UAI",
+      "schoolSearchPlaceholder": "اسم المؤسسة أو UAI (مثال 0751234A)",
+      "schoolHint": "اكتب الاسم أو UAI ثم اختر المؤسسة من القائمة.",
+      "schoolRequired": "اختر مؤسسة من القائمة أو أدخل UAI صالحًا (7 أرقام وحرف)."
     },
     "mail": {
       "estimate": "عرض سعر",
@@ -949,6 +972,31 @@
       "submit": "إرسال",
       "submit_success": "شكرًا لمشاركتك تقييمك!",
       "return_to_product": "العودة إلى المنتج"
+    },
+    "shopPayLink": {
+      "thanksTitle": "شكرًا لك، تم استلام دفعتك",
+      "thanksText": "تم استلام الدفعة بقيمة {{amount}} للفاتورة {{number}}.",
+      "thanksTextNoAmount": "تم استلام الدفعة للفاتورة {{number}}.",
+      "paidTitle": "تم دفع الفاتورة بالفعل",
+      "paidText": "تم دفع الفاتورة {{number}} بالفعل بواسطة بطاقة. شكرًا لك!",
+      "settledText": "لقد تلقينا الدفع للفاتورة {{number}}: لا يوجد شيء متبقي للدفع. شكرًا لك!",
+      "processingTitle": "تأكيد الدفع جارٍ",
+      "processingText": "مصرفك يؤكد الدفع: قم بتحديث هذه الصفحة خلال بضع دقائق لرؤية التأكيد.",
+      "abortedTitle": "تم إلغاء الدفع",
+      "abortedText": "الدفع للفاتورة {{number}} لم يكتمل. يمكنك المحاولة مرة أخرى في أي وقت.",
+      "expiredTitle": "رابط الدفع expired",
+      "expiredText": "هذا الرابط للدفع لم يعد صالحًا. اتصل بنا للحصول على رابط جديد.",
+      "cancelledTitle": "رابط الدفع غير مفعل",
+      "cancelledText": "هذا الرابط للدفع لم يعد صالحًا: قد يكون قد تم إرسال رابط أكثر حداثة إليك. اتصل بنا إذا كنت تشك.",
+      "notfoundTitle": "رابط الدفع غير موجود",
+      "notfoundText": "تحقق مما إذا تم نسخ الرابط بالكامل، أو اتصل بنا.",
+      "errorTitle": "الدفع غير متاح مؤقتًا",
+      "errorText": "لا يمكن فتح الدفع عبر الإنترنت في الوقت الحالي. حاول مرة أخرى خلال بضع دقائق، أو اتصل بنا.",
+      "payButton": "ادفع {{amount}} بواسطة البطاقة",
+      "retry": "حاول مرة أخرى",
+      "contact": "اتصل بنا",
+      "stripeLabel": "الفاتورة {{number}}",
+      "stripeLabelOrder": "فاتورة للطلب {{number}}"
     }
   },
   "about": {
@@ -1171,7 +1219,7 @@
         "cityPlaceholder": "المدينة",
         "postalCodePlaceholder": "الرمز البريدي",
         "differentAddress": "هل عنوان التوصيل مختلف عن عنوان الفوترة؟",
-        "deliveryAddress": "<i class=\\fa fa-truck\\\"></i> عنوان التوصيل <span class=\"mandatory\">*</span>",
+        "deliveryAddress": "<i class=\"fa fa-truck\"></i> عنوان التوصيل <span class=\"mandatory\">*</span>",
         "deliveryAddress2": " تفاصيل إضافية للعنوان ",
         "leaveAMessage": "<i class=\"fa fa-envelope\"></i> هل ترغب بترك رسالة لنا؟"
       },
@@ -1217,6 +1265,30 @@
     }
   },
   "code": {
+    "blockExtensions": {
+      "category": "الإضافات",
+      "title": "إضافات الكتل",
+      "note": "أضف كتل جديدة لبرمجة روبوتات أو نماذج أو وحدات أخرى. يتم حفظ الإضافات المختارة مع المشروع.",
+      "close": "إغلاق",
+      "search": "البحث عن إضافة",
+      "added": "تمت الإضافة",
+      "noResult": "لم يتم العثور على أي إضافة.",
+      "confirmRemoveUsed": "سيتم حذف {{count}} كتلة(كتل) من هذه الإضافة المستخدمة في البرنامج. هل تريد المتابعة؟",
+      "manage": "إدارة الإضافات",
+      "filter": "تصفية الإضافات",
+      "filters": {
+        "all": "الكل",
+        "model": "نماذج تعليمية",
+        "robotics": "الروبوتات",
+        "display": "عرض",
+        "lights": "الأضواء",
+        "sensors": "أجهزة الاستشعار",
+        "actuators": "المشغلات",
+        "ai": "الذكاء الاصطناعي",
+        "games": "الألعاب",
+        "communication": "الاتصالات"
+      }
+    },
     "tooltip": {
       "anonymousAuthor": "مجهول",
       "backpack": "حقيبة الظهر تتيح لك حفظ كتلة أو مجموعة كتل لإعادة استخدامها في مكان آخر في كودك!",
@@ -1292,7 +1364,11 @@
       "baudrateError": "حدث خطأ أثناء قراءة البيانات من المنفذ التسلسلي. حاول تغيير معدل البود في إعدادات الكونسول.",
       "firmwareWarning": "تنبيه، للاستفادة من جميع ميزات هذه الواجهة مع لوحة STM32، يرجى تحديث إصدار MicroPython إلى 1.17 باتباع هذا الدليل: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=398\" target=\"_blank\" rel=\"noopener noreferrer\">تحديث البرنامج الثابت</a>",
       "compiling": "جارٍ التجميع. قد يستغرق الأمر بضع ثوانٍ...",
-      "noSpaceLeft": "لا يوجد مساحة كافية على اللوحة لتحميل البرنامج."
+      "noSpaceLeft": "لا يوجد مساحة كافية على اللوحة لتحميل البرنامج.",
+      "skykickNotInCodingMode": "وحدة التحكم SkyKick ليست في وضع البرمجة (Link): الأوامر مُهملة. قم بتحويل وحدة التحكم إلى وضع Link لقيادة الطائرة المسيرة.",
+      "skykickDroneNotPaired": "الطائرة لا تستجيب: تحقق من أنها مشغلة ومتصلّة بوحدة التحكم.",
+      "skykickPortBusy": "لا يمكن فتح منفذ وحدة التحكم: يتم استخدامه بالفعل بواسطة تطبيق آخر. أغلق تطبيق SkyKick Evo Block Coding (وأي علامة تبويب أخرى متصلة بوحدة التحكم)، ثم حاول مرة أخرى.",
+      "skykickBattery": "بطارية الطائرة"
     },
     "WebBluetoothAPI": {
       "noWebBluetoothAPI": "لم يتم اكتشاف Web Bluetooth API في متصفحك. لاستخدام Web Bluetooth API يجب استخدام أحد المتصفحات المدعومة: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">كروم</a>، <a href=\"https://www.opera.com/\">أوبرا</a> وقريبًا <a href=\"https://www.microsoftedgeinsider.com/\">إيدج</a>",
@@ -1309,7 +1385,45 @@
     "arduinoq": {
       "boardConnected": "تم الاتصال باللوحة بنجاح!",
       "webAppUrl": "صفحة الويب للتطبيق (من جهاز على نفس الشبكة):",
+      "webConsoleUrl": "الطرفية على الويب للوحة (اسم المستخدم وكلمة مرور اللوحة):",
+      "pcWebcamStarted": "يتم إرسال صورة كاميرا الحاسوب إلى اللوحة: أبقِ هذه العلامة مفتوحة واللوحة موصولة عبر USB. أغلق علامة تبويب أداة الذكاء الاصطناعي إن كانت مفتوحة لتكون الكاميرا متاحة.",
+      "pcWebcamDenied": "تعذّر استخدام كاميرا الحاسوب: اسمح بالوصول إلى الكاميرا في المتصفح ثم أعد إرسال البرنامج.",
+      "pcWebcamStopped": "توقف إرسال صورة كاميرا الحاسوب إلى اللوحة (هل فُصلت اللوحة؟). أعد توصيل اللوحة ثم انقر على «تشغيل التطبيق».",
+      "pcWebcamBusy": "لا تعطي كاميرا الحاسوب أي صورة. ربما تستخدمها علامة تبويب أخرى (مثل أداة الذكاء الاصطناعي): أغلقها ثم انقر على «تشغيل التطبيق».",
+      "corruptedLogs": "سجلات التطبيق غير قابلة للقراءة (فُصلت اللوحة أثناء تشغيل التطبيق): سيتم إفراغها.",
+      "appStopped": "تم إيقاف التطبيق.",
+      "boardUnplugged": "تم فصل لوحة Arduino UNO Q (فُصل كابل USB أو أُعيد تشغيل اللوحة). أعد توصيلها ثم اتصل بها من جديد.",
+      "modelDownloadProgress": "تنزيل النموذج:",
+      "hints": {
+        "camera": "لم يتم العثور على كاميرا: اللوحة الموصولة بالحاسوب لا يمكنها استخدام كاميرا. بعد الرفع، افصل الحاسوب وصِل موزّع USB-C مزوّداً بالطاقة مع الكاميرا (يبدأ التطبيق تلقائياً عند تشغيل اللوحة).",
+        "microphone": "لم يتم العثور على ميكروفون: صِل ميكروفون USB (أو كاميرا ويب بميكروفون) بموزّع USB-C مزوّد بالطاقة بدلاً من الحاسوب.",
+        "speaker": "لم يتم العثور على مكبر صوت: صِل مكبر صوت أو سماعة USB بموزّع USB-C مزوّد بالطاقة بدلاً من الحاسوب.",
+        "module": "وحدة بايثون «{x}» غير مثبتة على اللوحة.",
+        "name": "«{x}» مستخدم قبل أن يحصل على قيمة: أعطه قيمة في بداية البرنامج (في «عند البدء»).",
+        "textNumber": "خلط بين نص ورقم: استخدم كتلة «دمج» لجمع النصوص والأرقام.",
+        "convert": "لا يمكن تحويل هذا النص إلى رقم (يحتوي على حروف أو فارغ).",
+        "zeroDivision": "قسمة على صفر: تحقق من المقسوم عليه قبل القسمة.",
+        "index": "العنصر المطلوب غير موجود: القائمة أقصر من المتوقع (أو فارغة).",
+        "key": "المفتاح {x} غير موجود في هذا القاموس.",
+        "network": "لا يوجد اتصال بالإنترنت من اللوحة: تحقق من اتصالها بشبكة Wi-Fi.",
+        "timeout": "الخادم لا يستجيب في الوقت المحدد: أعد المحاولة أو تحقق من اتصال اللوحة بالإنترنت.",
+        "recursion": "دالة تستدعي نفسها بلا نهاية.",
+        "permission": "تم رفض الوصول إلى هذا الملف أو الجهاز.",
+        "file": "الملف غير موجود: {x}."
+      },
+      "modelDownload": "تنزيل نموذج الذكاء الاصطناعي على اللوحة (مرة واحدة فقط، قد يستغرق عدة دقائق):",
+      "uploadIncomplete": "الرفع غير مكتمل، لم تستلم اللوحة الملفات بشكل صحيح: ",
+      "noAppOnBoard": "لا يوجد تطبيق على اللوحة: أرسل البرنامج أولًا.",
+      "appAlreadyRunning": "التطبيق قيد التشغيل بالفعل على اللوحة.",
+      "aiAppStartMayTakeTime": "تشغيل تطبيق الذكاء الاصطناعي: قد يستغرق التشغيل الأول عدة دقائق (تثبيت حزم Python على اللوحة ثم تحويل النموذج). التشغيلات التالية أسرع.",
       "localModelMissing": "لم يتم العثور على نموذج ذكاء اصطناعي محلي في هذا المتصفح: درّب أولاً نموذج صور في أداة الذكاء الاصطناعي من Vittascience (في نفس المتصفح)، أو استخدم كتلة «تحميل النموذج» مع رابطه.",
+      "localPostureModelMissing": "لم يُعثر على نموذج وضعيات محلي في هذا المتصفح: درّب أولًا نموذج وضعيات في أداة الذكاء الاصطناعي في Vittascience (على المتصفح نفسه)، أو استخدم كتلة «تحميل نموذج الوضعية» مع رابطه.",
+      "localHandModelMissing": "لم يُعثر على نموذج يدين محلي في هذا المتصفح: درّب أولًا نموذج يدين في أداة الذكاء الاصطناعي في Vittascience (على المتصفح نفسه)، أو استخدم كتلة «تحميل نموذج اليدين» مع رابطه.",
+      "pcMicrophoneStarted": "تم تشغيل ميكروفون الحاسوب: يُرسل الصوت إلى اللوحة. أبقِ هذه الصفحة مفتوحة واللوحة موصولة.",
+      "pcMicrophoneDenied": "ميكروفون الحاسوب غير متاح: اسمح باستخدام الميكروفون في المتصفح، ثم انقر على «تشغيل التطبيق».",
+      "pcMicrophoneStopped": "توقف إرسال صوت ميكروفون الحاسوب إلى اللوحة (هل فُصلت اللوحة؟). أعد توصيل اللوحة ثم انقر على «تشغيل التطبيق».",
+      "localSoundModelMissing": "لم يُعثر على نموذج صوت محلي في هذا المتصفح: درّب أولاً نموذج صوت في أداة الذكاء الاصطناعي من Vittascience (على المتصفح نفسه)، أو استخدم كتلة «تحميل النموذج» مع رابطه.",
+      "localSensorModelMissing": "لم يُعثر على نموذج مستشعرات محلي في هذا المتصفح: درّب أولاً نموذجاً في أداة الذكاء الاصطناعي «بيانات المستشعرات» من Vittascience (على المتصفح نفسه)، أو استخدم كتلة «تحميل نموذج المستشعرات» مع رابطه.",
       "passwordRequired": "للمتابعة في النقل، يُطلب كلمة مرور لوحة Arduino Q.",
       "incorrectPassword": "كلمة المرور غير صحيحة، يرجى المحاولة مرة أخرى.",
       "transfertAborted": "تم إلغاء النقل.",
@@ -1328,6 +1442,8 @@
       "TI-83-Maclasseti": "مرحبًا بك في واجهة MaClasseTI.fr لآلة حاسبة TI-83 Premium CE Edition Python! يمكن برمجة لوحات TI-Innovator™ Hub و BBC micro:bit على هذه الواجهة. افتح المحاكي للبدء!",
       "GalaxiaCircuitPython": "مرحبًا بك في واجهة Vittascience لـ Galaxia Circuit Python!",
       "galaxia": "مرحبًا بك في واجهة Vittascience لـ Galaxia! </br>لبرمجة لوحة Galaxia على هذه الواجهة، يجب أولاً تثبيت برنامج MicroPython على اللوحة باتباع الدليل التالي: <b><a href=\"https://fr.vittascience.com/learn/tutorial.php?id=860\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">تثبيت برنامج MicroPython</a></b>",
+      "unihiker": "مرحبًا بك في واجهة Vittascience للوحة UNIHIKER M10!</br>صِل اللوحة عبر USB ثم انقر على رفع. في المرة الأولى، تضع الواجهة مثبّت خادم Vittascience على اللوحة، ويُشغَّل مرة واحدة من قائمة Home في اللوحة.",
+      "unihiker-k10": "مرحبًا بك في واجهة Vittascience للوحة UNIHIKER K10!</br>صِل اللوحة عبر USB (برنامج MicroPython الثابت من DFRobot)، ثم انقر على رفع: يُحفظ البرنامج في main.py.",
       "raspberrypi": "مرحبًا بك في واجهة Vittascience لـ Raspberry Pi! يمكنك الاطلاع على الدليل هنا: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=1739\" target=\"_blank\" rel=\"noopener noreferrer\">البدء مع واجهة Vittascience لـ Raspberry Pi</a>",
       "niryo": "مرحبًا بك في واجهة Vittascience لـ Niryo ned2!",
       "nao": "مرحبًا بك في واجهة Vittascience لروبوت NAO v6! لا تتردد في الاطلاع على الدليل هنا: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=1260\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">البدء مع واجهة Vittascience لروبوت NAO</a>",
@@ -1350,7 +1466,8 @@
       "steami": "مرحبًا بك في واجهة Vittascience لـ STeaMi !",
       "alphai": "مرحبًا بك في واجهة Vittascience لروبوت AlphAI !",
       "arduinoq": "مرحبًا بك في واجهة Vittascience للوحة Arduino UNO Q!</br></br>تدعم الواجهة لغات مختلفة (Arduino، Python، HTML) لبرمجة مشروع كامل مع اللوحة. يمكن استخدام الكتل في فئة 'الأساس' بأي لغة؛ ثم سيتكيف الكود المُولد مع نوع لغة كتلة الرأس.</br></br>يمكن إرسال أوامر Linux إلى لوحة Arduino Q عن طريق كتابة الأمر في حقل الإدخال في أسفل وحدة التحكم.",
-      "primastem": "مرحبا بك في واجهة فيتاساينس لروبوت بريماستيم!"
+      "primastem": "مرحبا بك في واجهة فيتاساينس لروبوت بريماستيم!",
+      "skykick": "مرحبًا بك في واجهة فيتاساينس لطائرة SkyKick Evo!</br>قم بتوصيل وحدة التحكم عبر USB، ثم قم بتحويلها إلى وضع Link، ثم انقر على زر الاتصال قبل تشغيل برنامجك. تحذير: الطائرة تطير فعلًا، يرجى الحفاظ على مساحة خالية."
     },
     "chromeApp": {
       "noPort": "لم يتم اكتشاف منفذ",
@@ -1456,6 +1573,26 @@
       "expand": "توسيع",
       "collaps": "طي"
     },
+    "unihiker": {
+      "hostPrompt": "عنوان لوحة UNIHIKER (10.1.2.3 عبر USB أو عنوانها على Wi-Fi):",
+      "hostSaved": "عنوان اللوحة: {{host}}",
+      "sending": "جارٍ إرسال البرنامج إلى اللوحة ({{host}})...",
+      "started": "تم تشغيل البرنامج على اللوحة.",
+      "stopped": "تم إيقاف البرنامج.",
+      "finished": "انتهى البرنامج (الرمز {{code}}).",
+      "noProgram": "لا يوجد برنامج قيد التشغيل على اللوحة: لم يتم إرسال الرسالة.",
+      "k10FormatConfirm": "يجب تهيئة ذاكرة الملفات في UNIHIKER K10 (أمر طبيعي مباشرة بعد تثبيت برنامج DFRobot الثابت). هل تريد تهيئتها الآن؟ ستُحذف ملفات اللوحة ويبقى البرنامج الثابت.",
+      "k10Formatted": "تمت تهيئة ذاكرة الملفات: تعيد اللوحة التشغيل، ثم انقر على رفع.",
+      "k10Flash": "لا تحتوي UNIHIKER K10 على برنامج MicroPython الثابت. نزّله من قائمة رفع («تنزيل برنامج MicroPython الثابت»)، ثم ثبّته على العنوان 0x00 باستخدام ESP LaunchPad أو Flash Download Tool مع إبقاء زر BOOT مضغوطًا عند توصيل اللوحة.",
+      "unreachable": "اللوحة لا تستجيب على العنوان {{host}}. تحقق من كابل USB (أو عنوان Wi-Fi عبر «عنوان اللوحة»)، واسمح بالوصول إلى الشبكة المحلية إذا طلب المتصفح ذلك.",
+      "outdated": "يجب تحديث خادم Vittascience على اللوحة: جارٍ التحديث التلقائي...",
+      "localModelMissing": "لا يوجد نموذج صور في هذا المتصفح: درّب أولًا نموذجًا في أداة الذكاء الاصطناعي من Vittascience (التعرف على الصور).",
+      "modelLinkInvalid": "تعذّرت قراءة نموذج الصور من الرابط «{{link}}». تحقق من رابط النموذج المشارك.",
+      "notInstalled": "اللوحة تستجيب، لكن خادم Vittascience غير مثبت عليها بعد: جارٍ إرسال المثبّت...",
+      "installFailed": "تعذّر وضع المثبّت على اللوحة ({{host}}).",
+      "installUploaded": "تم إرسال المثبّت. على اللوحة: زر Home، ثم root/ > {{folder}} > install.py. سيبدأ البرنامج تلقائيًا بعد انتهاء التثبيت.",
+      "installDone": "تم تثبيت خادم Vittascience: جارٍ إرسال البرنامج..."
+    },
     "topbar": {
       "tooltips": {
         "boardWifi": "إعداد Wi-Fi للوحة Arduino UNO Q المتصلة",
@@ -1481,6 +1618,7 @@
         "compileArduino": "بدء التجميع",
         "arduinoBoardSelector": "اختر لوحة Arduino للبرمجة",
         "esp32BoardSelector": "اختر لوحة ESP32 المراد برمجتها",
+        "unihikerBoardSelector": "اختر لوحة UNIHIKER المراد برمجتها",
         "downloadPython": "تحميل سكريبت بايثون",
         "downloadPythonGalaxia": "تحميل سكريبت بايثون 'main.py' لسحبه وإفلاته على Galaxia",
         "downloadArduino": "تحميل سكريبت Arduino",
@@ -1491,6 +1629,10 @@
         "downloadFirmware": "تحميل برنامج MicroPython الثابت",
         "downloadCamFirmware": "تحميل برنامج MicroPython الثابت لـ ESP32-CAM",
         "downloadPiAPI": "حمّل خادم بايثون لـ Raspberry Pi. شغّل الـ API كمسؤول.",
+        "uploadUnihiker": "إرسال البرنامج إلى لوحة UNIHIKER وتشغيله",
+        "stopUnihiker": "إيقاف برنامج اللوحة",
+        "installUnihiker": "وضع مثبّت خادم Vittascience على اللوحة (يُشغَّل مرة واحدة من قائمة Home في اللوحة)",
+        "unihikerHost": "تغيير عنوان اللوحة (10.1.2.3 عبر USB أو عنوانها على Wi-Fi)",
         "downloadHex": "تصدير برنامج micro:bit بصيغة [.hex]",
         "downloadTexas": "تحميل برنامج .py للحاسبة",
         "runBuddy": "تشغيل البرنامج على Buddy",
@@ -1521,6 +1663,7 @@
         "toolboxRestriction": "تقييد الكتل المتاحة",
         "consoleSettings": "الإعدادات العامة",
         "accessibility": "تعديل السمة والخط",
+        "shortcuts": "عرض اختصارات لوحة المفاتيح",
         "addBlockSettings": "إضافة كتلة",
         "fullscreen": "عرض ملء الشاشة",
         "help": "مساعدة",
@@ -1540,7 +1683,7 @@
         "beginnerMode": "وضع المبتدئين",
         "advancedMode": "الوضع المتقدم",
         "lastSaveOn": "آخر حفظ في ",
-        "lastSaveFailed": "The last save failed: your changes are not saved. Click to try again.",
+        "lastSaveFailed": "فشل آخر حفظ: لم تُحفظ تغييراتك. اضغط للمحاولة مرة أخرى.",
         "description": "الوصف:",
         "repl": "اضغط مفتاح الإدخال ↩️ لتنفيذ الأمر",
         "runningCode": "تشغيل الكود... يرجى الانتظار.",
@@ -1580,6 +1723,9 @@
         "downloadFirmware": "تنزيل .bin",
         "downloadCamFirmware": "تنزيل .bin ESP32-CAM",
         "downloadPiAPI": "حمّل API.cmd",
+        "stopUnihiker": "إيقاف",
+        "installUnihiker": "تثبيت الخادم",
+        "unihikerHost": "عنوان اللوحة",
         "downloadUf2Pico": "برنامج Pico الثابت",
         "downloadUf2PicoW": "برنامج Pico W الثابت",
         "downloadPython": "تنزيل .py",
@@ -1594,6 +1740,7 @@
         "connectBoard": "اتصال",
         "settings": "خيارات",
         "themes": "إمكانية الوصول",
+        "shortcuts": "اختصارات لوحة المفاتيح",
         "add": "إضافة كتلة",
         "fullscreen": "ملء الشاشة",
         "help": "مساعدة",
@@ -1663,6 +1810,8 @@
           "sendQ": "أمر Linux للإرسال إلى لوحة Arduino Q",
           "export": "تصدير",
           "openVariables": "المتغيرات",
+          "launchApp": "تشغيل التطبيق",
+          "stopApp": "إيقاف التطبيق",
           "openFileSystem": "الملفات",
           "monitor": "المراقب التسلسلي",
           "openRepl": "REPL"
@@ -1679,6 +1828,8 @@
           "closeRepl": "إغلاق وحدة تحكم MicroPython",
           "openRepl": "فتح وحدة تحكم MicroPython",
           "openVariables": "عرض متغيرات البرنامج",
+          "launchApp": "إعادة تشغيل التطبيق المُرسَل مسبقًا إلى اللوحة",
+          "stopApp": "إيقاف التطبيق الذي يعمل على اللوحة",
           "openFileSystem": "افتح نظام ملفات اللوحة",
           "graph": "لعرض البيانات المستلمة في وحدة التحكم، انقر على زر <b>الرسم البياني</b>",
           "monitorToggler": "لعرض البيانات المستلمة، انقر على الزر <i class='fas fa-chevron-up'></i>"
@@ -1779,8 +1930,8 @@
           "toggleBoardDisplay": "إظهار/إخفاء لوحة المحاكي",
           "switchWiringMode": "التبديل إلى وضع التوصيل",
           "switchMosaicMode": "التبديل إلى وضع الفسيفساء",
-          "wiringZoomIn": "Zoom in",
-          "wiringZoomOut": "Zoom out"
+          "wiringZoomIn": "تكبير",
+          "wiringZoomOut": "تصغير"
         },
         "robot": {
           "background": "الخلفية",
@@ -1888,6 +2039,7 @@
         "dht22-hum": "DHT22 - الرطوبة",
         "ds18x20": "DS18X20 - درجة الحرارة",
         "mlx90621": "MLX90621 - درجة الحرارة",
+        "bn880": "BN-880 - الاتجاه المغناطيسي",
         "dustSensor": "مستشعر الجسيمات",
         "groveRain": "مستشعر المطر",
         "rainGauge": "مقياس المطر",
@@ -1927,7 +2079,12 @@
         "grovePulse": "مستشعر النبض",
         "distanceInterrupter": "مقطع المسافة"
       },
-      "pinError": "[خطأ في الدبوس] لا يمكن توصيل الوحدة <b>{{modId}}</b> على الدبوس <b>{{pin}}</b>. الوحدة <b>{{attachedId}}</b> متصلة بالفعل."
+      "pinError": "[خطأ في الدبوس] لا يمكن توصيل الوحدة <b>{{modId}}</b> على الدبوس <b>{{pin}}</b>. الوحدة <b>{{attachedId}}</b> متصلة بالفعل.",
+      "wiring": {
+        "unwiredPin": "[التوصيل] الوحدة <b>{{module}}</b> على المنفذ <b>{{pin}}</b> الذي لا يحتوي على موصل في هذه اللوحة: لم يتم توصيلها.",
+        "i2cFull": "[التوصيل] عدد كبير جدًا من وحدات I2C: <b>{{modules}}</b> غير موصولة.",
+        "noShield": "لا توجد لوحة Grove لهذه البطاقة في محاكي التوصيل."
+      }
     },
     "ch340driver": {
       "title": "مشكلة في التحميل؟",
@@ -1954,9 +2111,9 @@
       "mixed-popup-leave-editor": "لخروج من محرر الكود باستخدام لوحة المفاتيح، اضغط معًا على <kbd>Caps Lock</kbd> و <kbd>Esc</kbd>.",
       "mixed-popup-readonly": "<i class='fa-solid fa-lock'></i> في الوضع المختلط، محرر الشيفرة <strong>للقراءة فقط</strong> لهذه الواجهة. يمكنك التعديل فقط باستخدام الكتل.",
       "mixed-popup-readonly-sr": "في الوضع المختلط، الشيفرة للقراءة فقط لهذه الواجهة",
-      "mixed-small-screen": "On a small screen, the hybrid mode is not very practical: we recommend switching to the blocks or code mode.",
-      "mixed-small-screen-stay": "Stay in hybrid mode",
-      "mixed-small-screen-close": "Close",
+      "mixed-small-screen": "على شاشة صغيرة، الوضع المختلط غير عملي جدًا: نوصي بالتبديل إلى وضع الكتل أو وضع الكود.",
+      "mixed-small-screen-stay": "ابقَ في الوضع المختلط",
+      "mixed-small-screen-close": "إغلاق",
       "saveWarning": {
         "title": "<span class=\"fa fa-exclamation-circle\"></span> تحذير!",
         "warn": "<span class=\"fa fa-save\"></span> هل تريد حفظ عملك قبل المتابعة؟<p class=\"mb-0 mt-0 hint\">إذا أنشأت مشروعًا جديدًا دون حفظ، ستفقد عملك الحالي...</p>",
@@ -2148,7 +2305,7 @@
         "title": "<i class=\"fas fa-lightbulb\"></i> إنشاء مشروع جديد",
         "notice": "<span class=\"fa fa-info-circle\"></span> بعد إنشاء مشروعك، لا تنس حفظه على السحابة عبر زر الحفظ. ولم لا تجعله متاحًا للمستخدمين الآخرين عبر خيار المشاركة؟",
         "form": {
-          "projectName": "<i class=\"fas fa-book\"></i> اسم المشروع <span class=\"mandatory\">*</span></label>",
+          "projectName": "<i class=\"fas fa-book\"></i> اسم المشروع <span class=\"mandatory\">*</span>",
           "projectDesc": "<i class=\"far fa-edit\"></i> وصف المشروع (اختياري)",
           "projectDescPlaceholder": "صف رسمك التخطيطي، مفيد إذا أردت مشاركة مشروعك لاحقًا."
         },
@@ -2235,6 +2392,7 @@
     },
     "robotGuide": {
       "tuto": "للعثور على كتل برمجة الروبوت <b>[ROBOT_NAME]</b>، انقر على تبويب <b><i class='fa-solid fa-robot me-1'></i>الروبوتات</b>.",
+      "tuto-extension": "للعثور على كتل برمجة الروبوت <b>[ROBOT_NAME]</b>، انقر على علامة التبويب <b><i class='fas fa-puzzle-piece me-1'></i>Extensions</b>.",
       "tuto-rover": "للعثور على كتل برمجة الروبوت <b>[ROBOT_NAME]</b>، انقر على تبويب <b><i class='fas fa-cogs'></i>متقدم</b> ثم <b><i class='fa-solid fa-robot me-1'></i>ti_rover</b>."
     },
     "droneGuide": {
@@ -2301,13 +2459,13 @@
               "hello": {
                 "name": "مرحبًا",
                 "keyWords": {
-                  "hello": "hello"
+                  "hello": "مرحبًا"
                 }
               },
               "bonjour": {
                 "name": "صباح الخير",
                 "keyWords": {
-                  "bonjour": "bonjour"
+                  "bonjour": "صباح الخير"
                 }
               },
               "cars": {
@@ -2329,7 +2487,7 @@
                 "name": "وداعًا",
                 "keyWords": {
                   "aurevoir": "وداعًا",
-                  "goodbay": "goodbay",
+                  "goodbay": "مع السلامة",
                   "anglais": "إنجليزي"
                 }
               },
@@ -2371,7 +2529,7 @@
               "goodmorning": {
                 "name": "صباح الخير",
                 "keyWords": {
-                  "goodmorning": "goodmorning",
+                  "goodmorning": "صباح الخير",
                   "anglais": "إنجليزي"
                 }
               },
@@ -3013,9 +3171,27 @@
         "disconnect": "فصل",
         "board": "لوحة",
         "sensorsList": "مستشعر: ",
+        "sensors": {
+          "accelerometer": "مقياس التسارع",
+          "micro": "الميكروفون",
+          "pin": "المنفذ {{pin}}",
+          "add": "إضافة مستشعر",
+          "remove": "إزالة المستشعر"
+        },
         "collectData": "جمع البيانات",
         "parameters": "الإعدادات",
-        "timeWindow": "مدة النافذة"
+        "timeWindow": "مدة النافذة",
+        "unoq": {
+          "upload": "جارٍ إرسال التطبيق...",
+          "start": "جارٍ التشغيل (دقيقة واحدة في المرة الأولى)...",
+          "error": "تعذّر الاتصال بلوحة Arduino UNO Q. تحقّق من كابل USB، وأغلق Arduino App Lab وعلامات التبويب الأخرى المتصلة باللوحة، ثم أعد المحاولة."
+        }
+      },
+      "edgeValidation": {
+        "accuracy": "الدقة على التسجيلات المحجوزة (غير المستخدمة في التدريب): {{accuracy}} %",
+        "realFound": "الحقيقي \\ المكتشف",
+        "notEnoughRecords": "لا يوجد تحقق: يلزم 5 تسجيلات على الأقل لكل فئة لحجز بعضها واختبار النموذج.",
+        "uncertain": "غير مؤكد"
       },
       "training": {
         "title": "التدريب",
@@ -3065,7 +3241,7 @@
           "instruction-title": "<b>تعليمات</b> <br> instruction",
           "instructions": "<b>ضع جسمًا على الطاولة في المنطقة المخصصة ليتم اكتشافه بالكاميرا.<br> راقب على الشاشة نتيجة التنبؤ التي قدمها الذكاء الاصطناعي. </b><br><br> ضع جسمًا على الطاولة في المنطقة المخصصة ليتم اكتشافه بالكاميرا.<br> راقب على الشاشة نتيجة التنبؤ التي قدمها الذكاء الاصطناعي.",
           "results": "<b>النتائج</b><br>results",
-          "explaining-head": "<b>النسبة المعروضة تشير إلى الفئة التي حددها الذكاء الاصطناعي<b>",
+          "explaining-head": "<b>النسبة المعروضة تشير إلى الفئة التي حددها الذكاء الاصطناعي</b>",
           "explaining-body": "النسبة المعروضة تشير إلى الفئة التي حددها الذكاء الاصطناعي."
         },
         "dragDropFileHere": "ارفع صورة (اسحب وأفلت أو انقر)",
@@ -3101,6 +3277,10 @@
           "python": {
             "title": "بايثون",
             "tooltip": "استخدام النموذج في واجهة بايثون"
+          },
+          "arduinoq": {
+            "title": "Arduino UNO Q",
+            "tooltip": "استخدام النموذج على لوحة Arduino UNO Q"
           },
           "microcontroller": {
             "title": "الميكروكنترولر",
@@ -3620,8 +3800,8 @@
           "titleModeration": "التحكم في المحتوى على واجهات AI-Vittascience",
           "body": [
             "يشمل التحكم في ردود الذكاء الاصطناعي على واجهات Vittascience عدة عناصر: <br />",
-            "<ul><li>1. جميع النماذج المستخدمة مدربة للحفاظ على محادثة 'معتدلة'. لكن قد تتطلب بعض الحالات تدخلًا إضافيًا. </li>",
-            "<li>2. تمر الردود عبر مراقبة كلمة بكلمة. إذا تم اكتشاف كلمة قد تُعتبر 'غير مناسبة'، يستبدلها النظام بسلسلة من النجوم بنفس طول الكلمة. كما يُعلم المستخدمين بوجود كلمة غير مناسبة بعد الرد.</li></ul>"
+            "1. جميع النماذج المستخدمة مدربة للحفاظ على محادثة 'معتدلة'. لكن قد تتطلب بعض الحالات تدخلًا إضافيًا. ",
+            "2. تمر الردود عبر مراقبة كلمة بكلمة. إذا تم اكتشاف كلمة قد تُعتبر 'غير مناسبة'، يستبدلها النظام بسلسلة من النجوم بنفس طول الكلمة. كما يُعلم المستخدمين بوجود كلمة غير مناسبة بعد الرد."
           ],
           "understood": "فهمت"
         },
@@ -3974,8 +4154,8 @@
           "titleModeration": "التحكم في المحتوى على واجهات AI-Vittascience",
           "body": [
             "التحكم في ردود الذكاء الاصطناعي على واجهات Vittascience يشمل عدة عناصر: <br />",
-            "<ul><li>1. <strong>مراجعة النص المقدم من المستخدم: </strong>أولاً، يخضع النص المقدم لمراجعة بواسطة نموذج معالجة لغة طبيعية مدرب على كشف المحتويات غير الملائمة. إذا تم الكشف عن محتوى غير مناسب، يُطلب من المستخدم إعادة صياغة طلبه. </li> <a class='bg-light text-dark' style='cursor: pointer;'>عرض نص المراجعة</a>",
-            "<li>2. <strong>التحقق من الصور المُنشأة </strong>: الخطوة الثانية هي التأكد من أن الصورة التي أنشأها الذكاء الاصطناعي لا تحتوي على عناصر غير مناسبة. إذا كان الأمر كذلك، ستكون الصورة النهائية سوداء بالكامل، وستُطمس صور مراحل الإنشاء.</li></ul>",
+            "1. <strong>مراجعة النص المقدم من المستخدم: </strong>أولاً، يخضع النص المقدم لمراجعة بواسطة نموذج معالجة لغة طبيعية مدرب على كشف المحتويات غير الملائمة. إذا تم الكشف عن محتوى غير مناسب، يُطلب من المستخدم إعادة صياغة طلبه.  <a class='bg-light text-dark' style='cursor: pointer;'>عرض نص المراجعة</a>",
+            "2. <strong>التحقق من الصور المُنشأة </strong>: الخطوة الثانية هي التأكد من أن الصورة التي أنشأها الذكاء الاصطناعي لا تحتوي على عناصر غير مناسبة. إذا كان الأمر كذلك، ستكون الصورة النهائية سوداء بالكامل، وستُطمس صور مراحل الإنشاء.",
             "يجمع هذا الإجراء لضمان أن التفاعلات على واجهات Vittascience تظل مناسبة ومحترمة."
           ],
           "safetyPrompt": [
@@ -4033,6 +4213,7 @@
           "progressAria": "{{used}} اعتمادات مستخدمة من أصل {{limit}}",
           "titleCreditInfo": "معلومات الاعتمادات",
           "unlimitedCredits": "غير محدود",
+          "unlimitedImages": "اشتراكك يشمل توليد صور غير محدود",
           "unlimitedReset": "اشتراكك البريميوم يتضمن توليد نصوص غير محدود",
           "unlimitedConditions": "اشتراكك البريميوم يتضمن توليد نصوص غير محدود."
         }
@@ -4118,186 +4299,186 @@
           {
             "id": "default_7",
             "icon": "🎨 ",
-            "description": "une palette de peintre avec des couleurs vives et des pinceaux",
-            "style": "style hyperréaliste"
+            "description": "لوحة ألوان للفنان بألوان زاهية وفرش",
+            "style": "أسلوب فائق الواقعية"
           },
           {
             "id": "default_8",
             "icon": "🦸‍ ",
-            "description": "un super-héros en costume sur un toit de ville",
-            "style": "style bande dessinée"
+            "description": "بطل خارق يرتدي زيًا على سطح مبنى في المدينة",
+            "style": "أسلوب القصص المصورة"
           },
           {
             "id": "default_9",
             "icon": "🎇 ",
-            "description": "des feux d'artifice illuminant un ciel nocturne au-dessus d'une fête foraine",
-            "style": "style pop art"
+            "description": "ألعاب نارية تضيء سماء الليل فوق مهرجان ملاهي",
+            "style": "أسلوب البوب آرت"
           },
           {
             "id": "default_10",
             "icon": "🧙‍ ",
-            "description": "un sorcier dans son laboratoire avec des potions et des grimoires",
-            "style": "couverture de magazine",
+            "description": "ساحر في مختبره مع جرعات وكتب التعاويذ",
+            "style": "غلاف مجلة",
             "stylePosition": "before"
           },
           {
             "id": "default_11",
             "icon": "🚤 ",
-            "description": "un bateau de pêche sur une mer agitée au coucher du soleil",
-            "style": "style réaliste"
+            "description": "قارب صيد في بحر هائج عند غروب الشمس",
+            "style": "أسلوب واقعي"
           },
           {
             "id": "default_12",
             "icon": "🐘 ",
-            "description": "un éléphant se baignant dans une rivière",
-            "style": "style documentaire animalier"
+            "description": "فيل يستحم في نهر",
+            "style": "أسلوب فيلم وثائقي عن الحياة البرية"
           },
           {
             "id": "default_13",
             "icon": "🎡 ",
-            "description": "une grande roue éclairée la nuit dans un parc d'attractions",
-            "style": "style photographique"
+            "description": "عجلة ملاهي مضاءة ليلًا في حديقة ترفيهية",
+            "style": "أسلوب تصويري"
           },
           {
             "id": "default_14",
             "icon": "🏞️ ",
-            "description": "une cascade dans une jungle tropicale",
-            "style": "style aquarelle"
+            "description": "شلال في غابة استوائية",
+            "style": "أسلوب الألوان المائية"
           },
           {
             "id": "default_15",
             "icon": "🧚‍ ",
-            "description": "une fée dans un jardin fleuri avec des papillons",
-            "style": "style conte de fées"
+            "description": "جنية في حديقة زهور محاطة بالفراشات",
+            "style": "أسلوب الحكاية الخرافية"
           },
           {
             "id": "default_16",
             "icon": "🏙️ ",
-            "description": "une ville ancienne avec des rues pavées et des marchés en plein air",
-            "style": "style vintage"
+            "description": "مدينة قديمة بشوارع مرصوفة بالحصى وأسواق مفتوحة",
+            "style": "أسلوب عتيق"
           },
           {
             "id": "default_17",
             "icon": "🌈 ",
-            "description": "un arc-en-ciel au-dessus d'une prairie après la pluie",
-            "style": "style onirique"
+            "description": "قوس قزح فوق مرج بعد المطر",
+            "style": "أسلوب حالمي"
           },
           {
             "id": "default_18",
             "icon": "🌉 ",
-            "description": "un pont suspendu au-dessus d'un canyon",
-            "style": "style dramatique"
+            "description": "جسر معلق فوق وادٍ",
+            "style": "أسلوب درامي"
           },
           {
             "id": "default_19",
             "icon": "🏜️ ",
-            "description": "un désert avec des dunes de sable et un ciel étoilé",
-            "style": "style minimaliste"
+            "description": "صحراء بكثبان رملية وسماء مرصعة بالنجوم",
+            "style": "أسلوب بسيط"
           }
         ]
       },
       "imageStyles": [
         {
-          "name": "Photographique",
-          "text": "style photographique",
-          "description": "Rendu photoréalistique",
+          "name": "فوتوغرافي",
+          "text": "أسلوب فوتوغرافي",
+          "description": "تجسيد فائق الواقعية",
           "icon": "icon_photographie.svg",
-          "iconAlt": "Icône style photographique"
+          "iconAlt": "أيقونة الأسلوب الفوتوغرافي"
         },
         {
           "name": "Illustration",
-          "text": "illustration",
-          "description": "Rendu illustration",
+          "text": "رسم توضيحي",
+          "description": "تجسيد توضيحي",
           "icon": "icon_illustration.svg",
-          "iconAlt": "Icône style illustration"
+          "iconAlt": "أيقونة أسلوب الرسوم التوضيحية"
         },
         {
           "name": "Van Gogh",
-          "text": "style de Van Gogh",
-          "description": "Dessin style Van Gogh",
+          "text": "أسلوب فان جوخ",
+          "description": "أسلوب رسم فان جوخ",
           "icon": "icon_van_gogh.svg",
-          "iconAlt": "Icône style Van Gogh"
+          "iconAlt": "أيقونة أسلوب فان جوخ"
         },
         {
-          "name": "Une de magazine",
-          "text": "couverture de magazine",
-          "description": "Rendu couverture de magazine",
+          "name": "غلاف مجلة",
+          "text": "غلاف مجلة",
+          "description": "تصميم غلاف مجلة",
           "icon": "icon_magazine.svg",
-          "iconAlt": "Icône style couverture de magazine"
+          "iconAlt": "أيقونة أسلوب غلاف مجلة"
         },
         {
-          "name": "Rendu 3D",
-          "text": "rendu 3D",
-          "description": "Rendu 3D type jeux vidéo",
+          "name": "تجسيد ثلاثي الأبعاد",
+          "text": "تجسيد ثلاثي الأبعاد",
+          "description": "تجسيد ثلاثي الأبعاد مشابه لألعاب الفيديو",
           "icon": "icon_rendu3d.svg",
-          "iconAlt": "Icône style rendu 3D"
+          "iconAlt": "أيقونة أسلوب التجسيد ثلاثي الأبعاد"
         },
         {
-          "name": "Typographie",
-          "text": "typographie",
-          "description": "Emphase sur le texte",
+          "name": "الطباعة",
+          "text": "الطباعة",
+          "description": "إبراز النص",
           "icon": "icon_typographie.svg",
-          "iconAlt": "Icône style typographie"
+          "iconAlt": "أيقونة أسلوب الطباعة"
         },
         {
           "name": "Vectoriel",
-          "text": "dessin vectoriel stylisé",
-          "description": "Rendu dessin vectoriel",
+          "text": "رسم متجه مُنمق",
+          "description": "تجسيد رسم متجه",
           "icon": "icon_vectoriel.svg",
-          "iconAlt": "Icône style dessin vectoriel stylisé"
+          "iconAlt": "أيقونة أسلوب تجسيد الرسم المتجه"
         },
         {
-          "name": "Aquarelle",
-          "text": "dessin aquarelle",
-          "description": "Rendu dessin aquarelle",
+          "name": "الألوان المائية",
+          "text": "رسم بالألوان المائية",
+          "description": "تجسيد رسم بالألوان المائية",
           "icon": "icon_aquarelle.svg",
-          "iconAlt": "Icône style dessin aquarelle"
+          "iconAlt": "أيقونة أسلوب رسم بالألوان المائية"
         },
         {
-          "name": "Impressionniste",
-          "text": "style impressionniste",
-          "description": "Rendu style impressionniste",
+          "name": "انطباعي",
+          "text": "أسلوب انطباعي",
+          "description": "عرض بالنمط الانطباعي",
           "icon": "icon_impressionniste.svg",
-          "iconAlt": "Icône style impressionniste"
+          "iconAlt": "أيقونة النمط الانطباعي"
         },
         {
           "name": "Minimalisme",
-          "text": "style minimalisme",
-          "description": "Rendu style minimalisme",
+          "text": "أسلوب تقليلي",
+          "description": "عرض بالنمط التقليلي",
           "icon": "icon_minimalisme.svg",
-          "iconAlt": "Icône style minimalisme"
+          "iconAlt": "أيقونة النمط التقليلي"
         },
         {
           "name": "Patchwork",
-          "text": "style patchwork",
-          "description": "Rendu style patchwork",
+          "text": "أسلوب رقع النسيج",
+          "description": "عرض بأسلوب رقع النسيج",
           "icon": "icon_patchwork.svg",
-          "iconAlt": "Icône style patchwork"
+          "iconAlt": "أيقونة أسلوب رقع النسيج"
         },
         {
           "name": "Cubisme",
-          "text": "style cubisme",
-          "description": "Rendu style cubisme",
+          "text": "أسلوب التكعيبية",
+          "description": "عرض بالنمط التكعيبي",
           "icon": "icon_cubisme.svg",
-          "iconAlt": "Icône style cubisme"
+          "iconAlt": "أيقونة النمط التكعيبي"
         },
         {
           "name": "Lego",
-          "text": "style lego",
-          "description": "Rendu style lego",
+          "text": "أسلوب Lego",
+          "description": "عرض بأسلوب Lego",
           "icon": "icon_lego.svg",
-          "iconAlt": "Icône style lego"
+          "iconAlt": "أيقونة أسلوب Lego"
         },
         {
-          "name": "Pixel art",
-          "text": "style pixel art",
-          "description": "Rendu style pixel art",
+          "name": "فن البكسل",
+          "text": "أسلوب فن البكسل",
+          "description": "عرض بأسلوب فن البكسل",
           "icon": "icon_pixel.svg",
-          "iconAlt": "Icône style pixel art"
+          "iconAlt": "أيقونة أسلوب فن البكسل"
         },
         {
           "name": "Matisse",
-          "text": "style Matisse",
+          "text": "أسلوب ماتيس",
           "description": "تأثير ماتيس",
           "icon": "icon_matisse.svg",
           "iconAlt": "أيقونة نمط ماتيس"
@@ -4375,11 +4556,11 @@
         "publicCreations": "<i class='fa-solid fa-users m-1'></i>إبداعات المجتمع",
         "favoriteCreations": "<i class='fa-solid fa-heart m-1'></i> مفضلتي",
         "bestCreations": {
-          "title": "<i class='fa-solid fa-trophy m-1'></i></i>مسابقة",
+          "title": "مسابقة",
           "tooltip": "كل شهر، شارك في مسابقة لتوليد الصور حول موضوع محدد! انشر إبداعك وحاول أن تكون من بين الثلاث صور الحاصلة على أكبر عدد من الإعجابات من المجتمع للفوز ببطاقات هدايا. (يُمنح رمز مكافأة واحد فقط لكل مستخدم في الشهر.)"
         },
         "gameCreations": {
-          "title": "<i class='fa-solid fa-gamepad m-1'></i></i>تحدٍ",
+          "title": "تحدٍ",
           "tooltip": "كل أسبوع، شارك في تحدٍ لإعادة إنشاء صورة! الهدف هو العثور على الوصف الأصلي المستخدم لتوليد الصورة المقترحة عن طريق كتابة وصف يقترب قدر الإمكان من الوصف الأصلي. تُحسب النتيجة بناءً على مدى تشابه وصفك مع الوصف المرجعي، لا على الشبه البصري بين الصور."
         },
         "lifeTime": "منذ {{ time }}",
@@ -4747,7 +4928,10 @@
       "send": "تم شحن الطلب",
       "cancelled": "تم إلغاء الطلب",
       "carrier": "شركة الشحن",
-      "tracking": "رقم التتبع"
+      "tracking": "رقم التتبع",
+      "quoteSent": "تم الإرسال",
+      "quoteDenied": "مرفوض",
+      "quoteExpired": "منتهي الصلاحية"
     }
   },
   "userDetails": {
@@ -4991,7 +5175,7 @@
       "message": "الرسالة",
       "mandatory": "الحقول المعلمة بـ <span class=\"mandatory\">*</span> إلزامية.",
       "send": "إرسال",
-      "success": "تم إرسال رسالتك بنجاح!</p><p>سيتواصل معك القائمون على المشروع في أقرب وقت ممكن...",
+      "success": "<p>تم إرسال رسالتك بنجاح!</p><p>سيتواصل معك القائمون على المشروع في أقرب وقت ممكن...</p>",
       "error": "هناك أخطاء في النموذج: ",
       "errors": {
         "name": "الاسم الكامل غير صحيح. الحد الأقصى هو {{ maxi }} حرفًا.",
@@ -5148,7 +5332,7 @@
     "articles": {
       "1": {
         "title": "1. الغرض",
-        "content": "Vittascience عبارة عن مجموعة خدمات على Internet (فيما يلي : les « <strong>Services</strong> ») تتيح تشغيل وإنشاء وتعديل ونشر برامج حاسوبية وكذلك موارد وأنشطة ومسارات تعليمية (ويُشار إليها معًا فيما يلي : les « <strong>Contenus</strong> »).</br></br>توفر شركة VITTASCIENCE (فيما يلي : « <strong>VITTASCIENCE</strong> »)، عبر موقعها الإلكتروني <a href='https://vittascience.com/'>www.vittascience.com</a> (فيما يلي : le « <strong>Site</strong> »), خدمات موجهة للمعلمين والأفراد (فيما يلي : les « <strong>Utilisateurs</strong> ») مخصصة لتدريس وتعلم العلوم والمهارات الرقمية.</br></br>تهدف هذه الشروط العامة لـ VITTASCIENCE إلى تحديد شروط وكيفية استخدام الخدمات المقدمة على الموقع، وكذلك تحديد حقوق والتزامات المستخدمين في هذا الإطار. ويمكن الوصول إليها وطباعتها في أي وقت.</br></br>بالنسبة للمستخدمين من المعلمين وأعضاء الطاقم الإداري الذين يستخدمون المنصة وخدمات Vittascience في سياق العقد الإطاري المبرم بين Vittascience وخدمة تنسيق البحث والابتكار التربوي والتقني (SCRIPT) التابعة لوزارة التربية الوطنية والطفولة والشباب في لوكسمبورغ، تخضع أحكام شروط الاستخدام هذه لأحكام العقد الإطاري المطبق بين Vittascience وSCRIPT."
+        "content": "Vittascience عبارة عن مجموعة من الخدمات على الإنترنت (ويشار إليها فيما بعد بـ \"<strong>الخدمات</strong>\") التي تمكّن من تشغيل وإنشاء وتعديل ونشر برامج الحاسوب فضلاً عن الموارد التعليمية والأنشطة ومسارات التعلم (والتي يشار إليها مجتمعة فيما بعد بـ \"<strong>المحتوى</strong>\").</br></br>تقدّم شركة VITTASCIENCE (ويشار إليها فيما بعد بـ \"<strong>VITTASCIENCE</strong>\")، عبر موقعها <a href='https://vittascience.com/'>www.vittascience.com</a> (ويشار إليه فيما بعد بـ \"<strong>الموقع</strong>\"), خدمات مخصّصة للمعلمين والأفراد (ويشار إليهم فيما بعد بـ \"<strong>المستخدمون</strong>\") موجهة لتدريس وتعلم العلوم والتقنيات الرقمية.</br></br>تهدف هذه الشروط والأحكام العامة إلى تحديد قواعد استخدام الخدمات المعروضة على الموقع، وكذلك إلى تحديد حقوق والتزامات المستخدمين في هذا السياق. وهي متاحة ويمكن طباعتها في أي وقت.</br></br>بالنسبة للمستخدمين من المدرّسين وأعضاء الطاقم الإداري الذين يستخدمون المنصة وخدمات Vittascience في إطار اتفاقية الإطار المبرمة بين Vittascience وخدمة تنسيق البحوث والابتكار التربوي والتكنولوجي (SCRIPT) التابعة لوزارة التربية والتعليم والطفولة والشباب في لوكسمبورغ، تخضع أحكام شروط وأحكام الاستخدام هذه لأحكام اتفاقية الإطار المطبقة بين Vittascience وSCRIPT."
       },
       "2": {
         "title": "2. قبول الشروط العامة",
@@ -5172,7 +5356,7 @@
       },
       "7": {
         "title": "7. الملكية الفكرية",
-        "content": "الموقع وكل عنصر منه، بما في ذلك على سبيل المثال لا الحصر العلامة التجارية Vittascience، الشعارات، الأيقونات، الرسوم المعلوماتية، الصور الفوتوغرافية، محمية بموجب تشريعات الملكية الفكرية الدولية. تُعد هذه العناصر، ما لم يُذكر خلاف ذلك، ملكية حصرية لـ VITTASCIENCE. لا يُسمح باستخدام أو إعادة إنتاج أو تمثيل أي جزء من الموقع و/أو عناصره بأي وسيلة وعلى أي وسيط دون موافقة صريحة من VITTASCIENCE.</br></br>تُنشر بعض المحتويات المتاحة على الموقع بموجب تراخيص المشاع الإبداعي (Creative Commons)، وخصوصًا بعض البرامج والموارد والأنشطة والمسارات. تُذكر دائمًا الرخصة المستخدمة على كل محتوى. وقد تكون، حسب الحالة، إحدى الرخص التالية :</br><ul><li><strong>Creative Commons Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 4.0 International (CC BY-NC-SA 4.0)</strong> : تسمح هذه الرخصة بمشاركة وتكييف المحتوى بشرط النسبة للمؤلف، والاستخدام غير التجاري، والمشاركة بنفس الشروط. تتوفر تفاصيل أكثر على <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/'>هذا الرابط</a> ;</li><li><strong>Creative Commons Attribution - Pas d'Utilisation Commerciale - Pas de Modification 4.0 International (CC BY-NC-ND 4.0)</strong> : تسمح هذه الرخصة بمشاركة المحتوى بشرط النسبة للمؤلف، والاستخدام غير التجاري، وعدم التعديل. تتوفر تفاصيل أكثر على <a href='https://creativecommons.org/licenses/by-nc-nd/4.0/'>هذا الرابط</a>.</li></ul></br>أي استخدام لمحتوى الموقع يخالف هذه الشروط العامة سيعرض المستخدم للمسؤولية المدنية والجنائية تجاه VITTASCIENCE."
+        "content": "الموقع وكل عنصر من عناصره، بما في ذلك على سبيل المثال لا الحصر علامة Vittascience التجارية والشعارات والرموز والرسوم المعلوماتية والصور الفوتوغرافية، محمي بموجب قانون الملكية الفكرية الدولي. وتشكّل هذه العناصر، ما لم يُذكر خلاف ذلك، ملكية حصرية لشركة VITTASCIENCE. وأي استخدام أو نسخ أو تمثيل، بأي وسيلة وعلى أي وسيط، لكامل الموقع أو لأي جزء منه و/أو العناصر المكوّنة له غير مصرح به دون موافقة صريحة من VITTASCIENCE.</br></br>يُنشر بعض المحتوى المتاح على الموقع بموجب تراخيص Creative Commons، ومنها بعض برامج الحاسوب والموارد والأنشطة ومسارات التعلم. ويُشار دائمًا إلى الترخيص المطبق على كل محتوى. وبحسب الحالة، قد يكون الترخيص واحدًا من التراخيص التالية:</br><ul><li><strong>Creative Commons Attribution - NonCommercial - ShareAlike 4.0 International (CC BY-NC-SA 4.0)</strong>: يسمح هذا الترخيص بمشاركة وتكييف المحتوى بشرط الإقرار بالمصدر، وأن يكون الاستخدام غير تجاري، وأن تُشارك الأعمال المشتقة بنفس الشروط. لمزيد من التفاصيل انظر <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/'>هذا الرابط</a>;</li><li><strong>Creative Commons Attribution - NonCommercial - NoDerivatives 4.0 International (CC BY-NC-ND 4.0)</strong>: يسمح هذا الترخيص بمشاركة المحتوى بشرط الإقرار بالمصدر، وأن يكون الاستخدام غير تجاري، وألا تُجرى أي تعديلات على المحتوى. لمزيد من التفاصيل انظر <a href='https://creativecommons.org/licenses/by-nc-nd/4.0/'>هذا الرابط</a>.</li></ul></br>أي استخدام لمحتوى الموقع بما يخالف هذه الشروط والأحكام العامة يعرض المستخدم للمسؤولية المدنية والجنائية تجاه VITTASCIENCE."
       },
       "8": {
         "title": "8. الروابط التشعبية",
@@ -5719,10 +5903,24 @@
     },
     "materialsNeeded": "قائمة المواد المطلوبة",
     "suggestedResources": "الموارد المقترحة",
+    "classroomImport": {
+      "button": "استيراد إلى وحدة الفصل",
+      "loginTooltip": "سجّل الدخول للاستيراد إلى وحدة الفصل",
+      "success": "تم استيراد المورد إلى وحدة الفصل.",
+      "error": "تعذر الاستيراد."
+    },
     "inIframe": {
       "btn": {
         "importBtnText": "استيراد",
-        "importAllBtnText": "استيراد النشاط بالكامل"
+        "importAllBtnText": "استيراد النشاط بالكامل",
+        "importAsCourseBtnText": "استيراد كمسار"
+      },
+      "confirm": {
+        "activity": "هل تريد استيراد هذا الجزء كنشاط في وحدة الفصل؟",
+        "course": "هل تريد استيراد هذا المورد كمسار في وحدة الفصل؟ سيتم نسخ أجزائه بالترتيب في مجلد يحمل اسمه."
+      },
+      "license": {
+        "noDerivatives": "هذا المورد مرخّص بموجب CC-BY-NC-ND (بدون اشتقاق): لا يمكن استيراده إلى وحدة الفصل."
       }
     }
   },
@@ -5758,6 +5956,19 @@
   },
   "modals": {
     "standard": {
+      "blocksScreenshot": {
+          "title": "لقطة الكتل",
+          "quality": "الجودة",
+          "qualities": {
+              "screen": "الشاشة (×1)",
+              "good": "جيدة (×2)",
+              "high": "عالية (×4)",
+              "veryHigh": "عالية جدًا (×8)"
+          },
+          "format": "الصيغة",
+          "size": "حجم الصورة: {{width}} × {{height}} بكسل",
+          "download": "تنزيل"
+      },
       "arduino-q-wifi": {
         "title": "Wi-Fi لوحة Arduino UNO Q",
         "enabled": "Wi-Fi مفعّل",
@@ -5957,7 +6168,7 @@
       "new": {
         "title": "إنشاء مشروع جديد",
         "content": {
-          "name": "<i class='fas fa-book'></i> اسم المشروع <span class='mandatory'>*</span></label>",
+          "name": "<i class='fas fa-book'></i> اسم المشروع <span class='mandatory'>*</span>",
           "description": "<i class='far fa-edit'></i> وصف المشروع (اختياري)",
           "placeholder": {
             "name": "اسم المشروع",
@@ -6124,7 +6335,7 @@
             "learn-link": "https://makeblock-micropython-api.readthedocs.io/en/latest/codey&rocky/"
           },
           "uno-r4": {
-            "name": " Arduino UNO R4 Wifi & Minima",
+            "name": "Arduino R4 Wifi & Minima",
             "learn": " لمعرفة المزيد حول ميزات C ++ المتوفرة مع Arduino R4 ، راجع",
             "learn-link": " https://www.arduino.cc/reference/en/",
             "libraries-link": " https://github.com/vittascience/arduino-libraries"
@@ -6196,6 +6407,9 @@
           "scroll": {
             "title": "التمرير التلقائي",
             "text": "تفعيل التمرير التلقائي"
+          },
+          "sound": {
+            "title": "حجم صوت الكتل"
           },
           "toolbox": {
             "title": "اختيار صندوق الأدوات",
@@ -6308,7 +6522,7 @@
               "title": "<i class=\"fas fa-lightbulb\"></i> إنشاء مشروع جديد",
               "notice": "<span class=\"fa fa-info-circle\"></span> بعد إنشاء مشروعك، لا تنس حفظه على السحابة عبر زر الحفظ. ولم لا تجعله متاحًا للمستخدمين الآخرين عبر خيار المشاركة؟",
               "form": {
-                "projectName": "<i class=\"fas fa-book\"></i> اسم المشروع <span class=\"mandatory\">*</span></label>",
+                "projectName": "<i class=\"fas fa-book\"></i> اسم المشروع <span class=\"mandatory\">*</span>",
                 "projectDesc": "<i class=\"far fa-edit\"></i> وصف المشروع (اختياري)",
                 "projectDescPlaceholder": "صف مشروعك، مفيد إذا أردت مشاركته لاحقًا."
               },
@@ -6399,6 +6613,38 @@
       "i18n": {
         "title": "تغيير لغة الواجهة"
       },
+      "shortcuts": {
+        "title": "اختصارات لوحة المفاتيح",
+        "or": "أو",
+        "then": "ثم",
+        "table": {
+          "keys": "المفاتيح",
+          "action": "الإجراء"
+        },
+        "sections": {
+          "general": "عام",
+          "code": "محرر الكود",
+          "blocks": "مساحة عمل الكتل"
+        },
+        "actions": {
+          "save": "حفظ المشروع",
+          "closeModal": "إغلاق النافذة المفتوحة",
+          "focusNext": "الانتقال إلى العنصر التالي / السابق",
+          "resizeConsole": "تكبير / تصغير وحدة التحكم (البار المحدد)",
+          "enterEditor": "الدخول إلى محرر الكود",
+          "leaveEditor": "مغادرة محرر الكود",
+          "undo": "التراجع",
+          "redo": "إعادة",
+          "selectAll": "تحديد الكل",
+          "duplicateLine": "تكرار السطر أو التحديد",
+          "moveLine": "نقل السطر لأعلى / لأسفل",
+          "indent": "تحديد المسافة البادئة / إلغاء تحديد المسافة البادئة",
+          "toggleComment": "تعليق / إزالة التعليق",
+          "find": "البحث",
+          "replace": "البحث والاستبدال",
+          "navigateBlocks": "التنقل بين الكتل"
+        }
+      },
       "codeOnly": {
         "title": "الانتقال إلى وضع الكود فقط",
         "content": "هل ترغب في إخفاء اختيار الأوضاع لتبقى دائمًا في وضع الكود فقط (بدون كتل)؟",
@@ -6409,8 +6655,8 @@
           "content": "وضع الكود مقفل حاليًا. هذا يعني أن أوضاع الكتل والهجين معطلة."
         },
         "exit": {
-          "title": "Leave code-only mode",
-          "content": "Do you wish to unlock code-only mode so that block and hybrid modes can be used again?"
+          "title": "الخروج من وضع الشيفرة فقط",
+          "content": "هل تريد إلغاء قفل وضع الشيفرة فقط بحيث يمكن استخدام أوضاع الكتل والهجين مجددًا؟"
         }
       },
       "local-compilation": {
@@ -6502,17 +6748,17 @@
         "wrongLink": "هذا الرابط يشير إلى مشروع غير موجود أو لم يُنشأ باستخدام هذه الواجهة. يمكنك البحث عن مشروع من خلال فتح مشروع أو إنشاء مشروع جديد",
         "wrongFile": "يبدو أن هذا الملف غير مناسب لهذه الواجهة. تحقق من هذه المعلومة في رأس الملف عند السطر 'Interface:'.",
         "wrongXml": "هذا الرابط يشير إلى مشروع لا يبدو أنه يُحمّل بشكل صحيح في الواجهة. يرجى مشاركة هذا الرابط معنا عبر دعم فيتاساينس. سنحاول إصلاحه.",
-        "loadingError": "The project couldn't be loaded: the connection to the server failed. Check your internet connection then reload the page.",
-        "reloadPage": "Reload the page",
+        "loadingError": "تعذر تحميل المشروع: فشل الاتصال بالخادم. تحقق من اتصالك بالإنترنت ثم أعد تحميل الصفحة.",
+        "reloadPage": "أعد تحميل الصفحة",
         "localDraft": {
-            "title": "Unsaved changes",
-            "content": "This project has changes that were not saved on the server. They have been kept in this browser.",
-            "lastChange": "Last change:",
-            "hint": "If you open the saved version, these changes will be permanently lost.",
-            "buttons": {
-                "restore": "Restore my changes",
-                "discard": "Open the saved version"
-            }
+          "title": "تغييرات غير محفوظة",
+          "content": "يحتوي هذا المشروع على تغييرات لم تُحفظ على الخادم. تم الاحتفاظ بها في هذا المتصفح.",
+          "lastChange": "آخر تغيير:",
+          "hint": "عند فتح النسخة المحفوظة، ستُفقد هذه التغييرات نهائيًا.",
+          "buttons": {
+            "restore": "استعادة التغييرات الخاصة بي",
+            "discard": "فتح النسخة المحفوظة"
+          }
         },
         "privateProject": "مشروع خاص",
         "rightsChange": "تغيرت حقوق الوصول",
@@ -6698,7 +6944,7 @@
         }
       },
       "download-ti": {
-        "title": "TI-83 Premium CE Edition Python",
+        "title": "TI-83 Premium CE PYTHON EDITION",
         "content": {
           "to-transfer": "لنقل كود Python الذي أنشأته على واجهة Vittascience:",
           "to-transfer-MaClasseTI": "لنقل كود Python الذي أنشأته على MaClasseTI.fr:",
@@ -6762,6 +7008,9 @@
       "esp32": {
         "welcome": "مرحبًا بك في واجهة ESP32!",
         "tutorial_link": "ابدأ باستخدام واجهة ESP32 مع هذا البرنامج التعليمي"
+      },
+      "unihiker": {
+        "welcome": "مرحبًا بك في واجهة UNIHIKER!"
       },
       "content": {
         "intro": "يرجى تحديد اللوحة التي ترغب في برمجتها. سيؤدي هذا إلى تعديل الكتل المختلفة والصورة في جهاز المحاكاة.",
@@ -6984,7 +7233,7 @@
       },
       "camera-blocked": {
         "title": "خطأ في تحميل الكاميرا",
-        "text": "<p class='camera-blocked-intro'>حدث خطأ أثناء تهيئة الكاميرا. السبب الأكثر احتمالًا هو أن الوصول إلى الكاميرات محظور في متصفحك. يمكنك إلغاء الحظر باتباع الخطوات أدناه. إذا استمرت المشكلة وكان نظام التشغيل لديك Windows، فقد يكون الحظر بسبب استخدام برنامج آخر للكاميرا.</p><ul class='camera-blocked-list'><li><p>في Google Chrome</p><ol class='camera-blocked-ordered-list'><li><p>انقر على القفل الموجود على يسار شريط العنوان.</p> <img src='/ia/assets/images/camera-blocked-chrome-1.png' alt=''></li><li>ثم انقر على زر السطر <q>الكاميرا</q> لتفعيلها.</li><li>ثم انقر على زر <q>تحديث</q> الذي ظهر تحت شريط العنوان.</li></ol></li><li><p>في Mozilla Firefox<p><ol class='camera-blocked-ordered-list'><li><p>انقر على أيقونة الكاميرا المعطلة على يسار شريط العنوان.</p> <img src='/ia/assets/images/camera-blocked-firefox-1.png' alt=''></li><li>ثم انقر على زر <q>محظور مؤقتًا X</q> في سطر الكاميرا لتفعيلها.</li><li>اختر <q>السماح</q> عند محاولة الوصول القادمة للكاميرا.</li></ol></li></ul>"
+        "text": "<p class='camera-blocked-intro'>حدث خطأ أثناء تهيئة الكاميرا. السبب الأكثر احتمالًا هو أن الوصول إلى الكاميرات محظور في متصفحك. يمكنك إلغاء الحظر باتباع الخطوات أدناه. إذا استمرت المشكلة وكان نظام التشغيل لديك Windows، فقد يكون الحظر بسبب استخدام برنامج آخر للكاميرا.</p><ul class='camera-blocked-list'><li><p>في Google Chrome</p><ol class='camera-blocked-ordered-list'><li><p>انقر على القفل الموجود على يسار شريط العنوان.</p> <img src='/ia/assets/images/camera-blocked-chrome-1.png' alt=''></li><li>ثم انقر على زر السطر <q>الكاميرا</q> لتفعيلها.</li><li>ثم انقر على زر <q>تحديث</q> الذي ظهر تحت شريط العنوان.</li></ol></li><li><p>في Mozilla Firefox</p><ol class='camera-blocked-ordered-list'><li><p>انقر على أيقونة الكاميرا المعطلة على يسار شريط العنوان.</p> <img src='/ia/assets/images/camera-blocked-firefox-1.png' alt=''></li><li>ثم انقر على زر <q>محظور مؤقتًا X</q> في سطر الكاميرا لتفعيلها.</li><li>اختر <q>السماح</q> عند محاولة الوصول القادمة للكاميرا.</li></ol></li></ul>"
       },
       "notification-save-export": {
         "title": "استخدام هذا النموذج",
@@ -7027,6 +7276,9 @@
         "arduinoQ": "Arduino UNO Q",
         "arduinoQExplanations": "تشغّل لوحة Arduino UNO Q النموذج مباشرة على معالج Linux الخاص بها: لا حاجة إلى أي تحسين عبر الخادم.</br>يُفتح النموذج في واجهة Arduino UNO Q مع برنامج مثال، ثم يُرسل إلى اللوحة عند الرفع.",
         "arduinoQNote": "<strong>ملاحظة:</strong> إذا لم يكن مشروعك محفوظًا عبر الإنترنت، يبقى النموذج في هذا المتصفح: ارفع البرنامج من نفس المتصفح.",
+        "unihikerExplanations": "تشغّل لوحة UNIHIKER M10 النموذج بنفسها، بصورة كاميرا USB الخاصة بها: لا شيء لإنشائه أو تفليشه.",
+        "unihikerNote": "يُفتح النموذج في واجهة UNIHIKER: يُرسل إلى اللوحة مع البرنامج عند الرفع.",
+        "openUnihiker": "فتح في واجهة UNIHIKER M10",
         "openArduinoQ": "فتح في واجهة Arduino UNO Q"
       },
       "microcontroller-queue": {
@@ -7122,12 +7374,12 @@
     "campus-numeria": {
       "no-city-selected": {
         "title": "يرجى اختيار مدينة",
-        "content": "<p>يرجى اختيار المدينة أو المؤسسة التي ستتحكم من خلالها بالروبوت<p>",
+        "content": "<p>يرجى اختيار المدينة أو المؤسسة التي ستتحكم من خلالها بالروبوت</p>",
         "accept": "موافق"
       },
       "unlogged-user": {
         "title": "أنت غير متصل",
-        "content": "<p>يجب تسجيل الدخول بحساب vittascience لحجز موعد والتحكم في الروبوت<p>",
+        "content": "<p>يجب تسجيل الدخول بحساب vittascience لحجز موعد والتحكم في الروبوت</p>",
         "connect": "تسجيل الدخول"
       },
       "booking-slot-exceeded": {
@@ -7265,6 +7517,8 @@
         "esp32": "واجهة برمجة لبطاقات ESP32 (Wemos D1R32، NodeMCU، Huzzah32، ...)",
         "TI-83": "واجهة برمجة للآلة الحاسبة وبطاقات BBC micro:bit أو TI Innovator™ Hub",
         "GalaxiaCircuitPython": "واجهة برمجة لبطاقة Thingz-Galaxia",
+        "unihiker": "واجهة برمجة للوحة UNIHIKER M10: شاشة لمس وحساسات مدمجة وPython على Linux!",
+        "unihikerK10": "واجهة برمجة للوحة UNIHIKER K10: شاشة وصمامات RGB وحساسات مدمجة وMicroPython!",
         "raspberrypi": "واجهة برمجة لـ Raspberry Pi!",
         "niryo": "واجهة برمجة لروبوت Niryo Ned2",
         "nao": "واجهة برمجة لروبوت NAO v6",
@@ -7288,6 +7542,7 @@
         "maqueen": "واجهة برمجة لروبوت Maqueen",
         "maqueenPlus": "واجهة برمجة لروبوت Maqueen Plus V1 وV2",
         "cutebot": "واجهة برمجة لروبوت Cutebot",
+        "tpbot": "واجهة برمجة لروبوت TPBot",
         "cutebotPro": "واجهة برمجة لروبوت Cutebot Pro",
         "kitrobot": "واجهة برمجة لروبوت Kitro:bot v2",
         "oobybot": "واجهة برمجة لروبوت Oobybot",
@@ -7318,7 +7573,8 @@
         "uhandbit": "واجهة برمجة لليد الروبوتية uHandbit",
         "wonder": "واجهة برمجة لمجموعة البناء Elecfreaks Wonder",
         "buildingbit": "واجهة برمجة لمجموعة Yahboom Building:bit Super",
-        "primastem": "واجهة البرمجة لروبوت بريماستيم"
+        "primastem": "واجهة البرمجة لروبوت بريماستيم",
+        "skykick": "واجهة برمجة لطائرة SkyKick Evo"
       }
     },
     "features_title": "الميزات المشتركة",
@@ -7442,19 +7698,19 @@
     "notExerciseStatementCreator": "ليس لديك صلاحية تعديل النص!",
     "needProjectName": "يجب إدخال اسم المشروع قبل الحفظ!",
     "projectSaveError": "حدث خطأ أثناء الحفظ!",
-    "projectSaveConflict": "Your project has NOT been saved: it was modified elsewhere. Save again to overwrite the version stored on the server.",
-    "projectSaveNotConnected": "Your project has NOT been saved: your session has expired. Log in again then save again, your changes are kept in this browser.",
-    "projectSaveForbidden": "Your project has NOT been saved: you are not allowed to edit this project. Use “Save as…” to save a copy of it.",
-    "projectSaveNotFound": "Your project has NOT been saved: it no longer exists on the server. Download it to keep your work.",
-    "projectSaveInvalid": "Your project has NOT been saved: the server refused incomplete data (empty project name or code).",
-    "projectSaveNetworkError": "Your project has NOT been saved: the server can't be reached. Check your internet connection then try again, your changes are kept in this browser.",
-    "projectSaveServerError": "Your project has NOT been saved because of a server error. Try again in a few moments; if the problem persists, download your project so you don't lose your work.",
-    "projectOpened": "Project “{{name}}” opened.",
-    "projectOpenError": "The project couldn't be opened. Check your internet connection then try again.",
-    "projectCopySaved": "Copy “{{name}}” saved: you are now working on this copy.",
-    "localDraftRestored": "Your unsaved changes have been restored. Remember to save your project!",
-    "exerciseSaved": "The exercise has been saved successfully!",
-    "exerciseSaveFailed": "The exercise has NOT been saved. Check your internet connection then try again.",
+    "projectSaveConflict": "لم يُحفَظ مشروعك: تم تعديله في مكان آخر. احفظ مرة أخرى لاستبدال النسخة المخزنة على الخادم.",
+    "projectSaveNotConnected": "لم يُحفَظ مشروعك: انتهت جلستك. سجِّل الدخول مجددًا ثم احفظ؛ تم الاحتفاظ بتغييراتك في هذا المتصفح.",
+    "projectSaveForbidden": "لم يُحفَظ مشروعك: ليس لديك إذن لتحرير هذا المشروع. استخدم “حفظ باسم…” لحفظ نسخة منه.",
+    "projectSaveNotFound": "لم يُحفَظ مشروعك: لم يعد موجودًا على الخادم. قم بتنزيله للاحتفاظ بعملك.",
+    "projectSaveInvalid": "لم يُحفَظ مشروعك: رفض الخادم بيانات غير مكتملة (اسم المشروع أو الكود فارغ).",
+    "projectSaveNetworkError": "لم يُحفَظ مشروعك: لا يمكن الوصول إلى الخادم. تحقق من اتصالك بالإنترنت ثم حاول مجددًا؛ تم الاحتفاظ بتغييراتك في هذا المتصفح.",
+    "projectSaveServerError": "لم يُحفَظ مشروعك بسبب خطأ في الخادم. حاول مرة أخرى بعد لحظات؛ إذا استمرت المشكلة، قم بتنزيل مشروعك حتى لا تفقد عملك.",
+    "projectOpened": "تم فتح المشروع “{{name}}”.",
+    "projectOpenError": "تعذر فتح المشروع. تحقق من اتصالك بالإنترنت ثم حاول مرة أخرى.",
+    "projectCopySaved": "تم حفظ النسخة “{{name}}”: أنت تعمل الآن على هذه النسخة.",
+    "localDraftRestored": "تمت استعادة تغييراتك غير المحفوظة. تذكّر حفظ مشروعك!",
+    "exerciseSaved": "تم حفظ التمرين بنجاح!",
+    "exerciseSaveFailed": "لم يتم حفظ التمرين. تحقق من اتصالك بالإنترنت ثم حاول مرة أخرى.",
     "projectNoChangesToSave": "لا توجد تغييرات للحفظ !",
     "projectSaveSuccess": "تم حفظ مشروعك بنجاح!",
     "loadedProjectNotFound": "المشروع المطلوب غير موجود!",
@@ -7516,6 +7772,7 @@
     "favoriteNotRemoved": "تعذر إزالة هذا المورد من المفضلة",
     "needToTrainModelForPrediction": "يجب تدريب النموذج قبل إجراء التنبؤات!",
     "needAtLeastTwoCategoryForEdge": "يجب أن تكون هناك فئتان على الأقل لتدريب النموذج!",
+    "edgeUnbalancedClasses": "لا تحتوي الفئات على العدد نفسه من التسجيلات: قد يفضّل النموذج الفئات الأكبر. حاول أن يكون العدد متقارباً في كل فئة.",
     "noDataToTrainModel": "لا توجد بيانات لتدريب النموذج!",
     "errorEdgeFilterDataMissingReccords": "فئة واحدة على الأقل لا تحتوي على سجلات كافية لتدريب النموذج!",
     "errorEdgeFilterDataSensorStrategyMismatch": "لا يمكن تدريب النموذج لأن الفئات تستخدم حساسات مختلفة!",
@@ -8275,7 +8532,7 @@
         "section_title": "بطاقات micro:bit",
         "question_list": {
           "1": {
-            "title": "هل يعود برنامج \"Out of the Box\" عند إعادة التعيين؟",
+            "title": "هل يؤدي إجراء إعادة الضبط إلى استعادة البرنامج إلى وضع \"كما كان عند خروجه من العلبة\"؟",
             "answer": "نعم، لكن إذا تم تحميل برنامج آخر، فإنه يحل محل البرنامج الأصلي. لاستعادة البرنامج الأساسي، اتبع هذا <a href='https://microbit.org/get-started/user-guide/meet-the-microbit-program/' target='_blank'>الدليل التعليمي</a>."
           },
           "2": {
@@ -8763,7 +9020,7 @@
       "title2": "بالتعاون مع"
     },
     "ressources": {
-      "title": "اكتشف <span class='color-orange'>3 موارد",
+      "title": "اكتشف <span class='color-orange'>3 موارد</span>",
       "card1": "البدء مع لوحة micro:bit",
       "card2": "قياس جودة الهواء باستخدام حساس MQ135 على Arduino",
       "card3": "mBot",
@@ -8878,7 +9135,7 @@
       "title2": "بالتعاون مع"
     },
     "ressources": {
-      "title": "اكتشف <span class='color-orange'>3 موارد",
+      "title": "اكتشف <span class='color-orange'>3 موارد</span>",
       "card1": "البدء مع لوحة micro:bit",
       "card2": "قياس جودة الهواء باستخدام حساس MQ135 على Arduino",
       "card3": "mBot",

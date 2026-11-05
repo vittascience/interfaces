@@ -42,3 +42,17 @@ Blockly.Msg['DISPLAY_BOTH_LED'] = 'both LEDs';
 Blockly.Msg['DISPLAY_COLOR_RED'] = 'red';
 Blockly.Msg['DISPLAY_COLOR_GREEN'] = 'green';
 Blockly.Msg['DISPLAY_COLOR_BLUE'] = 'blue';
+
+// Search keywords of the blocks: <X>_KEYWORDS completes the block whose tooltip is <X>_TOOLTIP (see ToolboxManager)
+Blockly.Msg['IO_WAIT_KEYWORDS'] = 'delay, wait';
+Blockly.Msg['IO_WAIT_UNTIL_KEYWORDS'] = 'wait, pause';
+Blockly.Msg['IO_INITCHRONOMETER_KEYWORDS'] = 'stopwatch, start, reset';
+Blockly.Msg['IO_GETCHRONOMETER_KEYWORDS'] = 'stopwatch, elapsed';
+Blockly.Msg['ACTUATORS_MOVE_FORWARD_KEYWORDS'] = 'forward, advance';
+Blockly.Msg['ACTUATORS_MOVE_BACKWARD_KEYWORDS'] = 'backward, reverse';
+Blockly.Msg['ACTUATORS_MOVE_FORWARD_DISTANCE_KEYWORDS'] = 'forward, distance';
+Blockly.Msg['ACTUATORS_MOVE_BACKWARD_DISTANCE_KEYWORDS'] = 'backward, distance';
+Blockly.Msg['ACTUATORS_TURN_LEFT_KEYWORDS'] = 'pivot, rotation';
+Blockly.Msg['ACTUATORS_TURN_RIGHT_KEYWORDS'] = 'pivot, rotation';
+Blockly.Msg['ACTUATORS_PLAY_SOUND_KEYWORDS'] = 'sound, play, buzzer';
+Blockly.Msg['DISPLAY_SETLED_KEYWORDS'] = 'LED, on, off, color';

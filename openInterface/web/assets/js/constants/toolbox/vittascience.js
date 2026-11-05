@@ -44,6 +44,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "html_structure",
             "name": "%{BKY_HTML_CATEGORY_STRUCTURE}",
             "style": "html_structure_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-sitemap"
+            },
             "contents": []
         },
         {
@@ -51,6 +54,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "html_attributes",
             "name": "%{BKY_HTML_CATEGORY_ATTRIBUTES}",
             "style": "html_attributes_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-tags"
+            },
             "contents": []
         },
         {
@@ -58,6 +64,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "html_text",
             "name": "%{BKY_HTML_CATEGORY_TEXTS}",
             "style": "html_text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-paragraph"
+            },
             "contents": []
         },
         {
@@ -65,6 +74,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "html_tables",
             "name": "%{BKY_HTML_CATEGORY_TABLES}",
             "style": "html_tables_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-table"
+            },
             "contents": []
         },
         {
@@ -72,6 +84,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "html_lists",
             "name": "%{BKY_HTML_CATEGORY_LISTS}",
             "style": "html_lists_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-list-ul"
+            },
             "contents": []
         },
         {
@@ -79,6 +94,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "html_forms",
             "name": "%{BKY_HTML_CATEGORY_FORMS}",
             "style": "html_forms_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-keyboard"
+            },
             "contents": []
         },
         {
@@ -86,6 +104,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "html_medias",
             "name": "%{BKY_HTML_CATEGORY_MEDIAS}",
             "style": "html_medias_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-photo-film"
+            },
             "contents": []
         }
     ],
@@ -95,6 +116,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "css_structure",
             "name": "%{BKY_CSS_CATEGORY_STRUCTURE}",
             "style": "html_structure_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-layer-group"
+            },
             "contents": []
         },
         {
@@ -102,6 +126,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "css_text",
             "name": "%{BKY_CSS_CATEGORY_TEXTS}",
             "style": "html_text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-font"
+            },
             "contents": []
         },
         {
@@ -109,6 +136,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "css_display",
             "name": "%{BKY_CSS_CATEGORY_DISPLAY}",
             "style": "css_display_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-table-columns"
+            },
             "contents": []
         },
         {
@@ -116,6 +146,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "css_dimensions",
             "name": "%{BKY_CSS_CATEGORY_DIMENSIONS}",
             "style": "css_dimensions_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-ruler-combined"
+            },
             "contents": []
         },
         {
@@ -123,6 +156,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "css_colors",
             "name": "%{BKY_CSS_CATEGORY_COLORS}",
             "style": "css_colors_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-palette"
+            },
             "contents": []
         },
         {
@@ -130,6 +166,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "css_backgrounds",
             "name": "%{BKY_CSS_CATEGORY_BACKGROUNDS}",
             "style": "css_backgrounds_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-image"
+            },
             "contents": []
         },
         {
@@ -137,6 +176,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "css_borders",
             "name": "%{BKY_CSS_CATEGORY_BORDERS}",
             "style": "css_borders_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-border-all"
+            },
             "contents": []
         },
         {
@@ -144,6 +186,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "css_miscellaneous",
             "name": "%{BKY_CSS_CATEGORY_MISCELLANOUS}",
             "style": "css_miscellaneous_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-ellipsis"
+            },
             "contents": []
         },
         {
@@ -151,6 +196,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "css_transitions",
             "name": "%{BKY_CSS_CATEGORY_TRANSITIONS}",
             "style": "css_transitions_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-wand-magic-sparkles"
+            },
             "contents": []
         }
     ],
@@ -160,6 +208,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "js_logic",
             "name": "%{BKY_JS_CATEGORY_LOGIC}",
             "style": "js_logic_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-code-branch"
+            },
             "contents": []
         },
         {
@@ -167,6 +218,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "js_loops",
             "name": "%{BKY_JS_CATEGORY_LOOPS}",
             "style": "js_loops_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-rotate-right"
+            },
             "contents": []
         },
         {
@@ -174,6 +228,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "js_math",
             "name": "%{BKY_JS_CATEGORY_MATH}",
             "style": "js_math_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-calculator"
+            },
             "contents": []
         },
         {
@@ -181,6 +238,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "js_texts",
             "name": "%{BKY_JS_CATEGORY_TEXTS}",
             "style": "html_text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-font"
+            },
             "contents": []
         },
         {
@@ -188,6 +248,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "js_lists",
             "name": "%{BKY_JS_CATEGORY_LISTS}",
             "style": "html_lists_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-list-ul"
+            },
             "contents": []
         },
         {
@@ -195,6 +258,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "js_colors",
             "name": "%{BKY_JS_CATEGORY_COLORS}",
             "style": "css_colors_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-palette"
+            },
             "contents": []
         },
         {
@@ -202,6 +268,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "js_dom",
             "name": "%{BKY_JS_CATEGORY_DOM}",
             "style": "js_dom_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-sitemap"
+            },
             "contents": []
         },
         {
@@ -209,6 +278,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "js_variables",
             "name": "%{BKY_JS_CATEGORY_VARIABLES}",
             "style": "js_variables_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-cog"
+            },
             "contents": []
         },
         {
@@ -216,6 +288,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "js_functions",
             "name": "%{BKY_JS_CATEGORY_FUNCTIONS}",
             "style": "js_functions_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-code"
+            },
             "contents": []
         },
         {
@@ -223,6 +298,9 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "toolboxitemid": "js_advancedjs",
             "name": "%{BKY_JS_CATEGORY_ADVANCEDJS}",
             "style": "js_advancedjs_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-gears"
+            },
             "contents": []
         }
     ]

@@ -29,7 +29,7 @@ ${statements_content}
 Blockly.JavaScript.head = function (block) {
   const statements_content = Blockly.JavaScript.statementToCode(block, 'content');
   // Socket.IO connection to the app WebUI brick (same origin, port 7000), used by the socket blocks
-  const usesSocket = ['socket_emit_message', 'socket_on_message_receive'].some(type => block.workspace.getBlocksByType(type, false).length > 0);
+  const usesSocket = ['socket_emit_message', 'socket_on_message_receive', 'html_llm_chat'].some(type => block.workspace.getBlocksByType(type, false).length > 0);
   const socketCode = usesSocket ? `  <script src="libs/socket.io.min.js"></script>\n  <script>const socket = io();</script>\n` : '';
   const code = `<head>
   <meta charset="UTF-8">

@@ -33,6 +33,10 @@ class UnoQFS extends MicropythonFS {
         this.uploader = uploader;
         this.ROOT = '/home/arduino/ArduinoApps';
         this.PROTECTED_FILES = [];
+        // MP4 videos (stop motion block) are binary files like the images, shown in a video player (renderEditor)
+        this.ALLOWED_IMAGE_EXTENSIONS.push('mp4');
+        this.ALLOWED_IMAGE_MIME_TYPES.push('video/mp4');
+        this.ICON_MAP.mp4 = 'fas fa-file-video';
         // webadb.js can't demultiplex streams: board accesses must run one at a time
         this._queue = Promise.resolve();
     }
@@ -93,6 +97,58 @@ class UnoQFS extends MicropythonFS {
         }
         const data = await this.sync(sync => sync.pull(this.abs(path)));
         return new Uint8Array(data.buffer, data.byteOffset, data.byteLength);
+    }
+
+    async readFileFromFS(path) {
+        const tab = await super.readFileFromFS(path);
+        if (tab.isImage && this.isVideo(path)) {
+            URL.revokeObjectURL(tab.objectUrl);
+            tab.objectUrl = URL.createObjectURL(new Blob([tab.rawContent], { type: 'video/mp4' }));
+        }
+        return tab;
+    }
+
+    isVideo(path) {
+        return this.getFileExtension({ name: String(path) }) === 'mp4';
+    }
+
+    renderEditor() {
+        super.renderEditor();
+        const img = document.querySelector('.mpy-fs-image-preview img');
+        if (img && this.isVideo(this.activePath)) {
+            // Own controls (page elements): the click areas of the native controls of the browser were found shifted
+            // from the drawn buttons in this modal
+            const player = document.createElement('div');
+            player.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:8px;max-width:100%;max-height:100%';
+            player.innerHTML = `
+                <video loop style="max-width:100%;min-height:0;flex:1;cursor:pointer"></video>
+                <div style="display:flex;align-items:center;gap:8px;width:100%">
+                    <button type="button" class="btn v-btn"><i class="fas fa-play"></i></button>
+                    <input type="range" min="0" max="1000" value="0" style="flex:1">
+                    <span style="font-variant-numeric:tabular-nums">0:00 / 0:00</span>
+                    <button type="button" class="btn v-btn"><i class="fas fa-expand"></i></button>
+                </div>`;
+            const video = player.querySelector('video');
+            const [playButton, fullscreenButton] = player.querySelectorAll('button');
+            const seek = player.querySelector('input');
+            const time = player.querySelector('span');
+            const format = seconds => Math.floor(seconds / 60) + ':' + String(Math.floor(seconds % 60)).padStart(2, '0');
+            const update = () => {
+                playButton.firstElementChild.className = video.paused ? 'fas fa-play' : 'fas fa-pause';
+                if (video.duration) seek.value = Math.round(video.currentTime / video.duration * 1000);
+                time.textContent = format(video.currentTime) + ' / ' + format(video.duration || 0);
+            };
+            const toggle = () => video.paused ? video.play() : video.pause();
+            video.addEventListener('click', toggle);
+            playButton.addEventListener('click', toggle);
+            fullscreenButton.addEventListener('click', () => video.requestFullscreen());
+            seek.addEventListener('input', () => {
+                if (video.duration) video.currentTime = seek.value / 1000 * video.duration;
+            });
+            ['play', 'pause', 'timeupdate', 'loadedmetadata'].forEach(event => video.addEventListener(event, update));
+            video.src = img.src;
+            img.replaceWith(player);
+        }
     }
 
     async statFile(path) {

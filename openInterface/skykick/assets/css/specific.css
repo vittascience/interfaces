@@ -1,0 +1,46 @@
+@import url('/openInterface/interfaces/assets/css/simulator-modules.css');
+@import url('/openInterface/interfaces/assets/css/simulator-robot.css');
+
+/* Drone of the simulator (skykickSim.js): room above the ground for the flight, LED over the dome */
+#skykick-stage {
+    padding-top: 110px;
+    border-bottom: 2px dashed var(--bs-border-color, #ccc);
+}
+
+#skykick-sim {
+    position: relative;
+    transform-origin: 50% 60%;
+}
+
+#skykick-led {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 121px;
+    width: 60px;
+    height: 44px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+#skykick-position {
+    min-height: 1.5em;
+}
+
+#skykick-position i {
+    display: inline-block;
+    transition: transform 0.3s;
+}
+
+@keyframes skykick-flicker {
+    50% { opacity: 0; }
+}
+
+@keyframes skykick-dimming {
+    50% { opacity: 0.15; }
+}
+
+@keyframes skykick-rainbow {
+    to { filter: hue-rotate(360deg); }
+}

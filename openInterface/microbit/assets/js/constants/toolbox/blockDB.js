@@ -122,8 +122,8 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "communication_i2c_init": this.Set.number('FREQ', 100000) + this.Set.field("SDA", "pin20") + this.Set.field("SCL", "pin19"),
             "communication_i2c_read": '<mutation repeat="false"></mutation>' + this.Set.number('ADDR', 63) + this.Set.number('N', 1),
             "communication_i2c_write": '<mutation repeat="false"></mutation>' + this.Set.number('ADDR', 63) + this.Set.list('BUF', 3, this.Set.number('ADD0') + this.Set.number('ADD1') + this.Set.number('ADD2')),
-            "communication_voiceRecognition_setVolume": this.Set.number("VOLUME", 4),
-            "communication_voiceRecognition_playByCMDID": this.Set.number("ID", 22),
+            "ia_voiceRecognition_setVolume": this.Set.number("VOLUME", 4),
+            "ia_voiceRecognition_playByCMDID": this.Set.number("ID", 22),
             // sensors - microphone
             "io_micro_setSoundThreshold": this.Set.number("THRESH", 255),
             // sensors - enviro:bit

@@ -40,3 +40,37 @@ Blockly.Python.vittaia_detect_class = function (block) {
     const code = `if model.detect_class() ${isDetected} ${modelClass}:\n${branch}${NEWLINE}`;
     return code;
 };
+
+// Voice recognition
+
+// VOICE RECOGNITION _ SET VOLUME
+Blockly.Python.ia_voiceRecognition_setVolume = function (block) {
+    const volume = Blockly.Python.valueToCode(block, "VOLUME", Blockly.Python.ORDER_NONE) || "4";
+    Blockly.Python.addImport('voiceRecognition', IMPORT_VOICE_RECOGNITION);
+    return "voiceRecognition.setVolume(" + volume + ")" + NEWLINE;
+};
+
+// VOICE RECOGNITION _ GET COMMAND ID
+Blockly.Python.ia_voiceRecognition_getCMDID = function (block) {
+    Blockly.Python.addImport('voiceRecognition', IMPORT_VOICE_RECOGNITION);
+    return ["voiceRecognition.getCMDID()", Blockly.Python.ORDER_ATOMIC];
+};
+
+// VOICE RECOGNITION _ ON FIXED COMMAND
+Blockly.Python.ia_voiceRecognition_onCommand = function (block) {
+    const branchCode = Blockly.Python.statementToCode(block, "DO") || Blockly.Python.PASS;
+    Blockly.Python.addImport('voiceRecognition', IMPORT_VOICE_RECOGNITION);
+    return "if voiceRecognition.isCommand(" + block.getFieldValue("ID") + "):" + NEWLINE + branchCode;
+};
+
+// VOICE RECOGNITION _ PLAY BY COMMAND ID
+Blockly.Python.ia_voiceRecognition_playByCMDID = function (block) {
+    const id = Blockly.Python.valueToCode(block, "ID", Blockly.Python.ORDER_NONE) || "22";
+    Blockly.Python.addImport('voiceRecognition', IMPORT_VOICE_RECOGNITION);
+    return "voiceRecognition.playByCMDID(" + id + ")" + NEWLINE;
+};
+
+// Legacy types (before move to IA category), kept for saved projects
+['setVolume', 'getCMDID', 'onCommand', 'playByCMDID'].forEach(function (name) {
+    Blockly.Python['communication_voiceRecognition_' + name] = Blockly.Python['ia_voiceRecognition_' + name];
+});

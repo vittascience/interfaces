@@ -80,6 +80,33 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
+    // GROVE I2C LCD1602 RGB MODULE _ SET RGB BACKLIGHT
+    {
+        "type": "display_lcdRGBSetColor",
+        "message0": "%{BKY_DISPLAY_LCD_SETRGBCOLOR_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "R",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "G",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "B",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "display_blocks",
+        "tooltip": "%{BKY_DISPLAY_LCD_SETRGBCOLOR_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
     // CONTROL ESP32 LED  
     {
         "type": "display_controlBuiltInLED",

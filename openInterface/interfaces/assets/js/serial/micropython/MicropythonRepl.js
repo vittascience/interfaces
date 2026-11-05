@@ -863,6 +863,12 @@ def base64_decode(data):
     * @memberof MicropythonRepl
     */
     _checkFirmwarePresence(line) {
+        // UNIHIKER K10: firmware present, file system to format (see UnihikerCommunication.formatK10)
+        if (INTERFACE_NAME === 'unihiker' && /The filesystem appears to be corrupted/.test(line)) {
+            this._printResponseOnConsole(line);
+            UnihikerCommunication.formatK10(this);
+            return true;
+        }
         if (/esp\_image\: (C|c)hecksum failed\./.test(line) || /rst\:0x3 \(SW\_RESET\)/.test(line) || /rst\:0x10 \(RTCWDT\_RTC\_RESET\)/.test(line)) {
             this.hasFirmware = false;
         }

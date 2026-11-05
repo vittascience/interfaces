@@ -324,3 +324,26 @@ Blockly.Msg['VITTAIA_POSTURE_MAKE_PREDICTIONS_TITLE'] = '%1 launch pose predicti
 Blockly.Msg['VITTAIA_POSTURE_MAKE_PREDICTIONS_TOOLTIP'] = 'Performs webcam posture model predictions. A prediction has 2 elements: class and probability.';
 Blockly.Msg["VITTAIA_INIT_WEBCAM_TITLE"] = "%1 initialize the webcam";
 Blockly.Msg['VI_START_SPEAKING_TOOLTIP'] = 'Makes Buddy speak with a certain intonation. It is possible to mark a pause in the text. To do this, simply add \\pause=<time_in_milliseconds>\\ by replacing <time_in_milliseconds> with the desired number of milliseconds for the pause.';
+
+// Search keywords of the blocks: <X>_KEYWORDS completes the block whose tooltip is <X>_TOOLTIP (see ToolboxManager)
+Blockly.Msg["ACTUATORS_STOP_MOVE_KEYWORDS"] = "immobilize, lock";
+Blockly.Msg["ACTUATORS_GET_POSITION_KEYWORDS"] = "tilt, orientation";
+Blockly.Msg["ACTUATORS_ROTATE_BUDDY_KEYWORDS"] = "turn, rotation";
+Blockly.Msg["ACTUATORS_MOVE_BUDDY_KEYWORDS"] = "drive, locomotion";
+Blockly.Msg["ACTUATORS_EMERGENCY_STOP_MOTORS_KEYWORDS"] = "immobilize, braking";
+Blockly.Msg["DISPLAY_BLINK_LED_KEYWORDS"] = "signal, pulse";
+Blockly.Msg["DISPLAY_BLINK_ALL_LED_KEYWORDS"] = "signal, pulse";
+Blockly.Msg["DISPLAY_SET_FACIAL_EXPRESSION_KEYWORDS"] = "face, emotion";
+Blockly.Msg["DISPLAY_PLAY_FACIAL_EVENT_KEYWORDS"] = "animation, face";
+Blockly.Msg["DISPLAY_SET_LABIAL_EXPRESSION_KEYWORDS"] = "smile, grimace";
+Blockly.Msg["DISPLAY_LOOK_AT_KEYWORDS"] = "gaze, orientation";
+Blockly.Msg["SENSORS_GET_BATTERY_LEVEL_KEYWORDS"] = "charge, autonomy";
+Blockly.Msg["SENSORS_IS_CHARGING_KEYWORDS"] = "battery, charging, state";
+Blockly.Msg["SENSORS_GET_AMBIANT_SOUND_KEYWORDS"] = "noise, acoustics";
+Blockly.Msg["SENSORS_GET_SOUND_LOCALISATION_KEYWORDS"] = "sound, direction, source";
+Blockly.Msg["SENSORS_COLOR_DETECT_KEYWORDS"] = "hue, chromatic";
+Blockly.Msg["VISION_START_CAMERA_KEYWORDS"] = "webcam, video";
+Blockly.Msg["VISION_DETECT_PERSON_KEYWORDS"] = "person, presence, detection";
+Blockly.Msg["VISION_START_MOTION_DETECTION_KEYWORDS"] = "activity, displacement";
+Blockly.Msg["VI_STOP_SPEAKING_KEYWORDS"] = "speech, stop, voice";
+Blockly.Msg["VI_SET_SPEAKER_VOICE_KEYWORDS"] = "voice, speech";

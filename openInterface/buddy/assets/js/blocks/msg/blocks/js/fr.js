@@ -309,3 +309,26 @@ Blockly.Msg['VITTAIA_LOAD_POSTURE_MODEL_TOOLTIP'] = 'Charge le modèle passé en
 Blockly.Msg['VITTAIA_POSTURE_MAKE_PREDICTIONS_TITLE'] = '%1 lancer la prédiction de pose sur l\'image de la webcam';
 Blockly.Msg['VITTAIA_POSTURE_MAKE_PREDICTIONS_TOOLTIP'] = 'Effectue des prédictions de modèle de posture de la webcam. Une prédiction a 2 éléments : classe et probabilité.';
 Blockly.Msg['VITTAIA_INIT_WEBCAM_TITLE'] = '%1 initialiser la webcam';
+
+// Search keywords of the blocks: <X>_KEYWORDS completes the block whose tooltip is <X>_TOOLTIP (see ToolboxManager)
+Blockly.Msg['ACTUATORS_STOP_MOVE_KEYWORDS'] = 'immobiliser, bloquer';
+Blockly.Msg['ACTUATORS_GET_POSITION_KEYWORDS'] = 'inclinaison, orientation';
+Blockly.Msg['ACTUATORS_ROTATE_BUDDY_KEYWORDS'] = 'tourner, rotation';
+Blockly.Msg['ACTUATORS_MOVE_BUDDY_KEYWORDS'] = 'rouler, locomotion';
+Blockly.Msg['ACTUATORS_EMERGENCY_STOP_MOTORS_KEYWORDS'] = 'immobiliser, freinage';
+Blockly.Msg['DISPLAY_BLINK_LED_KEYWORDS'] = 'signaler, pulsation';
+Blockly.Msg['DISPLAY_BLINK_ALL_LED_KEYWORDS'] = 'signaler, pulsation';
+Blockly.Msg['DISPLAY_SET_FACIAL_EXPRESSION_KEYWORDS'] = 'visage, émotion';
+Blockly.Msg['DISPLAY_PLAY_FACIAL_EVENT_KEYWORDS'] = 'animation, visage';
+Blockly.Msg['DISPLAY_SET_LABIAL_EXPRESSION_KEYWORDS'] = 'sourire, grimace';
+Blockly.Msg['DISPLAY_LOOK_AT_KEYWORDS'] = 'yeux, orientation';
+Blockly.Msg['SENSORS_GET_BATTERY_LEVEL_KEYWORDS'] = 'charge, autonomie';
+Blockly.Msg['SENSORS_IS_CHARGING_KEYWORDS'] = 'batterie, charge, état';
+Blockly.Msg['SENSORS_GET_AMBIANT_SOUND_KEYWORDS'] = 'bruit, acoustique';
+Blockly.Msg['SENSORS_GET_SOUND_LOCALISATION_KEYWORDS'] = 'son, direction, source';
+Blockly.Msg['SENSORS_COLOR_DETECT_KEYWORDS'] = 'teinte, chromatique';
+Blockly.Msg['VISION_START_CAMERA_KEYWORDS'] = 'webcam, vidéo';
+Blockly.Msg['VISION_DETECT_PERSON_KEYWORDS'] = 'personne, présence, détection';
+Blockly.Msg['VISION_START_MOTION_DETECTION_KEYWORDS'] = 'activité, déplacement';
+Blockly.Msg['VI_STOP_SPEAKING_KEYWORDS'] = 'parole, arrêter, voix';
+Blockly.Msg['VI_SET_SPEAKER_VOICE_KEYWORDS'] = 'voix, synthèse';

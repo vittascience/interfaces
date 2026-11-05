@@ -353,3 +353,6 @@ Blockly.Msg['CYBERPI_WIFI_BROADCAST_GET_TITLE'] = '[LAN] valore messaggio broadc
 Blockly.Msg['CYBERPI_WIFI_BROADCAST_GET_TOOLTIP'] = 'Permette di ricevere il valore del messaggio trasmesso su una rete WiFi. Non è obbligatorio connettersi ad una rete WiFi esistente per inviare un messaggio. In questo caso, CyberPi ha creato una LAN locale.';
 Blockly.Msg['CYBERPI_DISPLAY_CLEAR_TITLE'] = '[Schermo] cancella lo schermo';
 Blockly.Msg['CYBERPI_DISPLAY_CLEAR_TOOLTIP'] = 'Consente di cancellare lo schermo della scheda CyberPi.';
+
+// Loop disabled by the event blocks (Blockly.Constants.Utils.DISABLE_BLOCKS_ON_EVENT)
+Blockly.Msg['FOREVER_DISABLED_BY_EVENTS'] = 'Questo ciclo è disattivato perché il programma contiene un blocco evento («Quando il programma si avvia», «Quando il pulsante viene premuto» o «Quando il messaggio viene ricevuto»). Con gli eventi, inserire le istruzioni in un blocco evento, ad esempio «Quando il programma si avvia».';

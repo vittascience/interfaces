@@ -64,6 +64,16 @@ Blockly.Python.display_lcdClear = function (block) {
     }
 };
 
+Blockly.Python.display_lcdRGBSetColor = function (block) {
+    const i2c = Blockly.Python.Generators.default_I2C();
+    const red = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_NONE) || "255";
+    const green = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "255";
+    const blue = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "255";
+    Blockly.Python.addImport('esp32_lcd_i2c', IMPORT_ESP32_LCD1602);
+    Blockly.Python.addInit('lcd', "lcd = LCD1602(i2c=" + i2c + ")");
+    return "lcd.setColor(" + red + ", " + green + ", " + blue + ")" + NEWLINE;
+};
+
 // OLED
 
 Blockly.Python.display_addOledText = function (block) {

@@ -2154,7 +2154,7 @@ float mq135_getResistance(uint8_t pin) {
 
   DEF_LED_MATRIX_SET_PIXEL:
 `void matrix_setPixel(uint8_t x, uint8_t y, uint8_t state) {
-  if (x >= 12 || y >= 8) return;
+  if (x >= builtinMatrix_cols || y >= 8) return;
   builtinMatrix.beginDraw();
   builtinMatrix.stroke(state ? 1 : 0);
   builtinMatrix.point(x, y);

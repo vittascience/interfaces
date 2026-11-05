@@ -370,7 +370,7 @@ if (INTERFACE_NAME !== "adacraft") {
             ></button>
         </div>
     `;
-    const downloadOptionInterfaces = ["arduino", "microbit", "esp32", "wb55", "l476", "galaxia", "GalaxiaCircuitPython", "mBot", "m5stack", "buddy", "cyberpi", "letsstartcoding", "pico", "eliobot", "thymio", "raspberrypi", "winky", "niryo", "nao", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai", "arduinoq", "primastem"];
+    const downloadOptionInterfaces = ["arduino", "microbit", "esp32", "wb55", "l476", "galaxia", "GalaxiaCircuitPython", "mBot", "m5stack", "buddy", "cyberpi", "letsstartcoding", "pico", "eliobot", "thymio", "raspberrypi", "winky", "niryo", "nao", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai", "arduinoq", "primastem", "skykick", "unihiker"];
     if (downloadOptionInterfaces.includes(INTERFACE_NAME)) {
         $('.ide-btn-group-download').append(dropdownHeaderDownload);
 
@@ -2101,6 +2101,12 @@ async function updateBoard(event = false, boardSelector = BOARD_DEFAULT, shieldV
                 } else if (projectManager && projectManager._capytaleManager) {
                     const reloadUrl = `${location.origin}${location.pathname}?board=${storageBoard[INTERFACE_NAME]}`;
                     projectManager._capytaleManager.reload(reloadUrl, { board: storageBoard, project: projectManager.getCurrentProjectDataForAppAgent() });
+                } else if (INTERFACE_NAME === 'unihiker') {
+                    // the blocks of the M10 and of the K10 differ: new local project for the other board
+                    const url = new URL(window.location.href);
+                    url.searchParams.delete('localId');
+                    url.searchParams.delete('link');
+                    window.location = url.href;
                 } else {
                     window.location = window.location.href;
                 }
@@ -2176,6 +2182,9 @@ async function toggleSimulator() {
         await Simulator.closingSimulator();
         if (typeof sendSerialCommand !== 'undefined') {
             $("#serial-send").off('click').click(sendSerialCommand);
+        } else if (INTERFACE_NAME === 'unihiker' && !IS_UNIHIKER_K10) {
+            // UNIHIKER M10: messages sent to the program through the server of the board
+            $("#serial-send").off('click').click(() => UnihikerCommunication.sendInput());
         } else if (typeof InterfaceConnection !== 'undefined') {
             $("#serial-send").off('click').click(InterfaceConnection.sendSerialCommand.bind(InterfaceConnection));
         }

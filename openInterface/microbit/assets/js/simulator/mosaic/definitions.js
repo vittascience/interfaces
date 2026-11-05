@@ -52,10 +52,6 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/voiceRecognition.py': Simulator.PATH_LIB + 'grove/simu_voiceRecognition.py',
     'src/lib/fingerprint.py': Simulator.PATH_LIB + 'grove/simu_fingerprint.py',
     'src/lib/edgeModel.py': Simulator.PATH_LIB + 'ai/edgeModel.py',
-    'src/lib/edgeModelmicro.py': Simulator.PATH_LIB + 'ai/edgeModelmicro.py',
-    'src/lib/edgeModelP0-P1.py': Simulator.PATH_LIB + 'ai/edgeModelP0-P1.py',
-    'src/lib/edgeModelP0.py': Simulator.PATH_LIB + 'ai/edgeModelP0.py',
-    'src/lib/edgeModelP1.py': Simulator.PATH_LIB + 'ai/edgeModelP1.py',
     'src/lib/huskylens_v2.py': Simulator.PATH_LIB + 'grove/simu_huskylens_v2.py',
     // A4 microSySTEM models (block extensions)
     'src/lib/a4_access.py': Simulator.PATH_LIB + 'a4/simu_a4_access.py',
@@ -84,6 +80,7 @@ Simulator.Mosaic.externalLibraries = {
     // js robots libraries
     'src/lib/cutebotpro.js': Simulator.PATH_LIB + 'robots/cutebotpro.js',
     'src/lib/cutebot.js': Simulator.PATH_LIB + 'robots/cutebot.js',
+    'src/lib/tpbot.js': Simulator.PATH_LIB + 'robots/tpbot.js',
     'src/lib/maqueenplusv1.js': Simulator.PATH_LIB + 'robots/maqueenplusv1.js',
     'src/lib/maqueenplusv2.js': Simulator.PATH_LIB + 'robots/maqueenplusv2.js',
     'src/lib/maqueenplusv3.js': Simulator.PATH_LIB + 'robots/maqueenplusv3.js',
@@ -91,6 +88,7 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/wukong.js': Simulator.PATH_LIB + 'robots/wukong.js',
     'src/lib/superbit.js': Simulator.PATH_LIB + 'robots/superbit.js',
     'src/lib/WOM_Sensor_Kit.js': Simulator.PATH_LIB + 'robots/WOM_Sensor_Kit.js',
+    'src/lib/tinybit.js': Simulator.PATH_LIB + 'robots/tinybit.js',
 };
 
 Simulator.Mosaic.addSpecificInitializations = async function () {
@@ -910,6 +908,8 @@ Simulator.Mosaic.specific = {
             '#mb-bitcar-finderRight_slider_v,' +
             '#mb-cutebot-finderLeft_slider_v,' +
             '#mb-cutebot-finderRight_slider_v,' +
+            '#mb-tpbot-finderLeft_slider_v,' +
+            '#mb-tpbot-finderRight_slider_v,' +
             '#mb-maqueenplus-finderLeftRear_slider_v,' +
             '#mb-maqueenplus-finderLeft_slider_v,' +
             '#mb-maqueenplus-finderMiddleLeft_slider_v,' +
@@ -971,12 +971,43 @@ Simulator.Mosaic.specific = {
         });
 
         $('.mod_mb-cutebotpro-ultrasonic_t,' +
-            '.mod_mb-cutebotpro-ultrasonic_d').slider({
+            '.mod_mb-cutebotpro-ultrasonic_d,' +
+            '.mod_mb-tpbot-ultrasonic_t,' +
+            '.mod_mb-tpbot-ultrasonic_d').slider({
                 min: 88,
                 max: 14575,
                 value: 1166,
                 step: 0.1
             });
+
+        // Tiny:bit simulator inputs
+        $('#mb-tinybit-finderLeft_slider_v,' +
+            '#mb-tinybit-finderRight_slider_v').slider({
+                min: 0,
+                max: 1,
+                value: 0,
+                step: 1
+            });
+        $('#mb-tinybit-sound_slider_v').slider({
+            min: 0,
+            max: 1023,
+            value: 0,
+            step: 1
+        });
+        $('#mb-tinybit-ir_slider_v').slider({
+            min: -1,
+            max: 26,
+            value: -1,
+            step: 1
+        });
+        $('.mod_mb-tinybit-ultrasonic_t,' +
+            '.mod_mb-tinybit-ultrasonic_d').slider({
+                min: 0,
+                max: 14575,
+                value: 1166,
+                step: 0.1
+            });
+
     },
 
     calculs: {
@@ -2393,6 +2424,96 @@ Simulator.Mosaic.specific = {
                 Animator.opacity(0, 1, text = value)
             }
         },
+
+        // Robots - TPBot (block extension)
+        ...['Left', 'Right'].map(side => ({
+            regex: /tpbot\.(set_wheels|stop)\(/gi,
+            id: "mb-tpbot-motor" + side,
+            title: side === 'Left' ? "Moteur Gauche" : "Moteur Droit",
+            pin: 'TPBot',
+            type: 'output',
+            value: "",
+            picture: "Roue.png",
+            pictureAnimation: "Roue-animation.png"
+        })),
+        ...['Left', 'Right'].map(side => ({
+            regex: /tpbot\.track\(/gi,
+            id: "mb-tpbot-finder" + side,
+            title: side === 'Left' ? "cap. Ligne noire (Gauche)" : "cap. Ligne noire (Droit)",
+            pin: side === 'Left' ? 'TPBot (P13)' : 'TPBot (P14)',
+            type: 'input',
+            listeners: [{
+                default: "OFF",
+                unit: '',
+                color: "#000",
+                suffix: "_v"
+            }],
+            picture: "Capteur-ligne-line.png",
+            pictureAnimation: "Capteur-ligne-anim.png",
+            animate: function (Animator) {
+                Animator.translation('digital');
+            }
+        })),
+        {
+            regex: /tpbot\.distance\(/gi,
+            id: "mb-tpbot-ultrasonic",
+            title: "Télémètre: ",
+            pin: 'TPBot (P16/P15)',
+            type: 'input',
+            listeners: [{
+                default: 20,
+                unit: 'cm',
+                color: "#f9d142",
+                suffix: "_d",
+                title: "Distance"
+            }, {
+                suffix: "_t",
+                default: 1166,
+                unit: 'μs',
+                color: "#f9d142",
+                title: "Durée"
+            }],
+            class: 'ultrasonic',
+            picture: "Ultrason.png",
+            pictureAnimation: "Ultrason-animation.png",
+            animate: function (Animator) {
+                const callbackAnim = (value) => Animator.opacity(14575, 0, text = value);
+                const t = Animator.value;
+                Animator.updateListeners({
+                    "_d": roundFloat(Simulator.Mosaic.grove.calculs.getDistance(t), 1),
+                    "_t": t
+                }, callbackAnim);
+            }
+        },
+        {
+            regex: /tpbot\.headlights\(/gi,
+            id: "mb-tpbot-headlights",
+            title: "Phares RGB",
+            pin: 'TPBot',
+            type: 'output',
+            value: [0, 0, 0],
+            class: 'RGB-circle',
+            pictureAnimation: "Transparent.png",
+            animate: function (Animator) {
+                $(Animator.animId).css('background', "rgb(" + Animator.value[0] + "," + Animator.value[1] + "," + Animator.value[2] + ")");
+            }
+        },
+        ...[1, 2, 3, 4].map(i => ({
+            regex: new RegExp('tpbot\\.servo\\(' + i + ','),
+            id: "mb-tpbot-servo" + i,
+            title: "Servo S" + i,
+            pin: 'TPBot',
+            type: 'output',
+            class: 'servo',
+            value: null,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).html(Math.round(Animator.value) + " °");
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        })),
+
         // Robots - Cutebot Pro
         {
             regex: /CutebotPro\.(pwmCruiseControlMotor|fullSpeedAhead|fullAstern|stopImmediately|readSpeed|cruiseControl|turnWithRadius|runDistance|turnWheel|turnWithAngle|runSquare)\(/gi,
@@ -3130,6 +3251,142 @@ Simulator.Mosaic.specific = {
                 Animator.translation('digital');
             }
         },
+        // Robots - Tiny:bit
+        {
+            regex: /tinybit\.(set_motors_speed|set_motor|go_forward|go_backward|turn_left|turn_right|spin_left|spin_right|follow_line|stop)\(/gi,
+            id: "mb-tinybit-motorLeft",
+            title: "Moteur gauche",
+            pin: 'Tiny:bit (I2C)',
+            type: 'output',
+            value: "",
+            picture: "Roue.png",
+            pictureAnimation: "Roue-animation.png",
+            animate: function (Animator) {
+                const pwm = Animator.value;
+                const rpm = Math.abs(pwm) / 255 * 75;
+                $(Animator.valueId).html(Math.round(Math.abs(pwm)));
+                $(".mb-tinybit-" + Animator.id.split("-").pop()).css("animation", pwm === 0 ? "none" : "rotation-" + (pwm > 0 ? "forward" : "backward") + " " + (60 / rpm) + "s infinite linear");
+            }
+        },
+        {
+            regex: /tinybit\.(set_motors_speed|set_motor|go_forward|go_backward|turn_left|turn_right|spin_left|spin_right|follow_line|stop)\(/gi,
+            id: "mb-tinybit-motorRight",
+            title: "Moteur droit",
+            pin: 'Tiny:bit (I2C)',
+            type: 'output',
+            value: "",
+            picture: "Roue.png",
+            pictureAnimation: "Roue-animation.png",
+            animate: function (Animator) {
+                const pwm = Animator.value;
+                const rpm = Math.abs(pwm) / 255 * 75;
+                $(Animator.valueId).html(Math.round(Math.abs(pwm)));
+                $(".mb-tinybit-" + Animator.id.split("-").pop()).css("animation", pwm === 0 ? "none" : "rotation-" + (pwm > 0 ? "forward" : "backward") + " " + (60 / rpm) + "s infinite linear");
+            }
+        },
+        {
+            regex: /tinybit\.set_headlights\(/gi,
+            id: "mb-tinybit-headlights",
+            title: "Phares RGB",
+            pin: 'Tiny:bit (I2C)',
+            type: 'output',
+            value: [0, 0, 0],
+            class: 'RGB-circle',
+            pictureAnimation: "Transparent.png",
+            animate: function (Animator) {
+                $(Animator.animId).css('background', "rgb(" + Animator.value[0] + "," + Animator.value[1] + "," + Animator.value[2] + ")");
+            }
+        },
+        {
+            regex: /tinybit\.BUZZER/gi,
+            id: "mb-tinybit-buzzer",
+            title: "Buzzer",
+            pin: 'Tiny:bit (P0)',
+            type: 'output',
+            value: 0,
+            picture: "Buzzer.png",
+            pictureAnimation: "Buzzer-animation.png",
+            animate: function (Animator) {
+                const value = Animator.value ? Math.round(Animator.value) + " Hz" : "OFF";
+                Animator.opacity(0, 1, text = value);
+            }
+        },
+        {
+            regex: /tinybit\.set_neopixel\(/gi,
+            id: "mb-tinybit-neopixel",
+            title: "LEDs RGB du châssis",
+            pin: 'Tiny:bit (P12)',
+            type: 'output',
+            value: [[0, 0, 0], [0, 0, 0]],
+            class: 'RGB-circle',
+            pictureAnimation: "Transparent.png",
+            animate: function (Animator) {
+                const colors = Animator.value;
+                $(Animator.animId).css('background', "linear-gradient(90deg, rgb(" + colors[0].join(",") + ") 0 50%, rgb(" + colors[1].join(",") + ") 50% 100%)");
+            }
+        },
+        {
+            regex: /tinybit\.(track|get_tracking_state|follow_line)\(/gi,
+            id: "mb-tinybit-finderLeft",
+            title: "Capteur de ligne gauche",
+            pin: 'Tiny:bit (P13)',
+            type: 'input',
+            class: 'finder',
+            listeners: [{ default: 0, unit: '', color: "#000", suffix: "_v" }],
+            picture: "Capteur-ligne-line.png",
+            pictureAnimation: "Capteur-ligne-anim.png",
+            animate: function (Animator) {
+                Animator.translation('digital', Animator.value === 1);
+            }
+        },
+        {
+            regex: /tinybit\.(track|get_tracking_state|follow_line)\(/gi,
+            id: "mb-tinybit-finderRight",
+            title: "Capteur de ligne droit",
+            pin: 'Tiny:bit (P14)',
+            type: 'input',
+            class: 'finder',
+            listeners: [{ default: 0, unit: '', color: "#000", suffix: "_v" }],
+            picture: "Capteur-ligne-line.png",
+            pictureAnimation: "Capteur-ligne-anim.png",
+            animate: function (Animator) {
+                Animator.translation('digital', Animator.value === 1);
+            }
+        },
+        {
+            regex: /tinybit\.get_distance\(/gi,
+            id: "mb-tinybit-ultrasonic",
+            title: "Télémètre ultrasonique",
+            pin: 'Tiny:bit (P15/P16)',
+            pins: 'digital',
+            type: 'input',
+            listeners: [{ default: 20, unit: 'cm', color: "#f9d142 ", suffix: "_d", title: "Distance" }, { suffix: "_t", default: 1166, unit: 'μs', color: "#f9d142", title: "Durée" }],
+            class: 'ultrasonic',
+            picture: "Ultrason.png",
+            pictureAnimation: "Ultrason-animation.png",
+            animate: function (Animator) {
+                const callbackAnim = (value) => Animator.opacity(14575, 0, text = value);
+                const distance = Animator.value > 0 ? roundFloat(Simulator.Mosaic.grove.calculs.getDistance(Animator.value), 1) : -1;
+                Animator.updateListeners({ "_d": distance, "_t": Animator.value }, callbackAnim);
+            }
+        },
+        {
+            regex: /tinybit\.get_sound\(/gi,
+            id: "mb-tinybit-sound",
+            title: "Microphone",
+            pin: 'Tiny:bit (P1)',
+            type: 'input',
+            listeners: [{ default: 0, unit: '', color: "#777", suffix: "_v", title: "Niveau sonore" }]
+        },
+        {
+            regex: /tinybit\.(ir_read|ir_code)\(/gi,
+            id: "mb-tinybit-ir",
+            title: "Télécommande infrarouge",
+            pin: 'Tiny:bit (P8)',
+            type: 'input',
+            listeners: [{ default: -1, unit: '', color: "#777", suffix: "_v", title: "Code de la touche" }]
+        },
+
         // BitCar
         {
             regex: /bitplayer_in\.getButton_A/gi,
@@ -4380,5 +4637,6 @@ Simulator.Mosaic.specific = {
             picture: "joystick.svg",
             pictureInteraction: "buttonPush"
         },
+
     ]
 };
