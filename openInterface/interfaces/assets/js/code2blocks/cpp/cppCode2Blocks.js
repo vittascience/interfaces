@@ -114,7 +114,8 @@ export default class Cpp2Blocks {
 			return Cpp2Blocks.instance;
 		}
 		Cpp2Blocks.compteurInstances++;
-		this.Parser = window.TreeSitter;
+		this.Parser = null;
+		this.initPromise = null;
 		this.workspace = null;
 		this.initialized = false;
 		this.declarationEntities = [];
@@ -133,8 +134,6 @@ export default class Cpp2Blocks {
 		this.blockToRemove = [];
 		this.storedDisabledBlocks = [];
 		this.debug = false;
-		this.previousXml = [];
-		this.indexPreviousXml = null;
 
 		this.utils = utils;
 
@@ -156,38 +155,43 @@ export default class Cpp2Blocks {
 
 	/**
 	 * Initialize the parser (Tree-sitter with the corresponding language)
-	 * @description The parser is initialized asynchronously in ProjectManager in _setupArduinoInterfaceParameters(). The function will wait until the parser is initialized
+	 * @description Loaded on demand at the first manual edit of the code (Main.js Code.loadCode2Blocks) or before a translation
 	 * @returns {Promise<void>}
 	 **/
-	async initParser() {
-		return new Promise(async (resolve, reject) => {
-			const workspace = Blockly.getMainWorkspace();
-			if (workspace === null) {
-				setTimeout(() => {
-					this.initParser();
-				}, 100);
-			} else {
-				this.workspace = workspace;
-				this.codeManager = CodeManager.getSharedInstance();
-				await this.Parser.init();
-				this.parserTS = new this.Parser();
-				const Lang = await this.Parser.Language.load('/openInterface/interfaces/assets/js/external/tree-sitter/tree-sitter-cpp.wasm');
-				this.parserTS.setLanguage(Lang);
-				this.debug && console.log('Cpp2Blocks initialized');
-				this.initialized = true;
+	initParser() {
+		// tree-sitter is loaded on demand (first manual edit of the code): memoized, retried after a failure
+		if (!this.initPromise) {
+			this.initPromise = this.loadParser().catch((error) => {
+				this.initPromise = null;
+				throw error;
+			});
+		}
+		return this.initPromise;
+	}
 
-				utils.cpp2Blocks = this;
-
-				this.retreive_all_blocks();
-				resolve();
-			}
-		});
+	async loadParser() {
+		while (!Blockly.getMainWorkspace()) await new Promise((resolve) => setTimeout(resolve, 100));
+		if (typeof window.TreeSitter === 'undefined') {
+			// id different from the global name (an element id shadows window.TreeSitter while the script loads)
+			await Loader.loadScripts([{ id: 'treesitter_lib', src: `${CDN_PATH}/openInterface/interfaces/assets/js/external/tree-sitter/tree-sitter.js` }]);
+		}
+		this.Parser = window.TreeSitter;
+		this.workspace = Blockly.getMainWorkspace();
+		this.codeManager = CodeManager.getSharedInstance();
+		await this.Parser.init();
+		this.parserTS = new this.Parser();
+		const Lang = await this.Parser.Language.load(`${CDN_PATH}/openInterface/interfaces/assets/js/external/tree-sitter/tree-sitter-cpp.wasm`);
+		this.parserTS.setLanguage(Lang);
+		this.debug && console.log('Cpp2Blocks initialized');
+		utils.cpp2Blocks = this;
+		await this.retreive_all_blocks();
+		this.initialized = true;
 	}
 
 	/**
 	 * Retrieve all blocks from the toolbox and add the ones that are not in the authorized blocks to the excluded blocks for traduction
 	 */
-	retreive_all_blocks = () => {
+	retreive_all_blocks = async () => {
 		const toolboxContent = Main.getToolboxManager().getToolboxBase().content;
 		// block types of a category (blocks, or subcategories; dynamic categories have no list)
 		const categoryBlocks = (catContent) => (Array.isArray(catContent) ? catContent : []).flatMap((cat) => cat.blocks || (cat.subCategoryId ? Object.values(cat.contents).flatMap((content) => content.blocks || []) : []))
@@ -207,7 +211,7 @@ export default class Cpp2Blocks {
 		// blocks no longer lock the editor in the interfaces whose learned translations have been checked
 		// (LEARNED_REVERSE_TRANSLATION in their excluded_blocks.js).
 		this.learned = new LearnedTranslations(this.parserTS, nodeToJson, (name) => this.getVariableID(name) || this.declareBlocklyVariable(name, null), ARDUINO);
-		const learnedTypes = new Set(this.learned.learn([...new Set(EXCLUDED_BLOCKS_FOR_TRADUCTION)], AUTHORIZED_BLOCKS));
+		const learnedTypes = new Set(await this.learned.learn([...new Set(EXCLUDED_BLOCKS_FOR_TRADUCTION)], AUTHORIZED_BLOCKS));
 		// statements whose blocks would change the code are kept as code (STRICT_REVERSE_TRANSLATION in excluded_blocks.js)
 		if (typeof STRICT_REVERSE_TRANSLATION !== 'undefined' && STRICT_REVERSE_TRANSLATION) {
 			const functions = () => Object.fromEntries(Object.entries(this._functions).map(([name, definition]) => [name, { args: definition.args, return: definition.type && definition.type !== 'void' }]));
@@ -218,14 +222,7 @@ export default class Cpp2Blocks {
 				if (learnedTypes.has(EXCLUDED_BLOCKS_FOR_TRADUCTION[i])) EXCLUDED_BLOCKS_FOR_TRADUCTION.splice(i, 1);
 			}
 		}
-		const allBlocks = Main.getWorkSpace().getAllBlocks()
-		for (let i = 0; i < allBlocks.length; i++) {
-			if (typeof EXCLUDED_BLOCKS_FOR_TRADUCTION !== 'undefined' && EXCLUDED_BLOCKS_FOR_TRADUCTION.includes(allBlocks[i].type)) {
-				if (allBlocks[i].isEnabled()) {
-					Main.lockEditor(true);
-				}
-			}
-		}
+		Main.lockEditor(Main.getWorkSpace().getAllBlocks().some((block) => EXCLUDED_BLOCKS_FOR_TRADUCTION.includes(block.type) && block.isEnabled()));
 	};
 
 	/**
@@ -236,12 +233,6 @@ export default class Cpp2Blocks {
 		return Main.getCodeEditor().container.getSession().getValue();
 	}
 
-	storeXml() {
-		this.previousXml.push(Blockly.Xml.workspaceToDom(this.workspace));
-		if (this.previousXml.length > 30) {
-			this.previousXml.shift();
-		}
-	}
 
 	/**
 	 * Parse the code and reconstrut the AST recursively
@@ -2346,8 +2337,8 @@ export default class Cpp2Blocks {
 		const xml = Blockly.utils.xml.textToDom(xmlCode);
 		this.debug && console.log(xml);
 
-		this.indexPreviousXml = null;
-		this.storeXml();
+		// Undo/redo of the translation with the Blockly history
+		const stateBeforeTranslation = Main.getCodeToBlocksState();
 
 		// Clear workspace
 		workspace.clear();
@@ -2373,6 +2364,7 @@ export default class Cpp2Blocks {
 		this.storedDisabledBlocks = [];
 
 		Blockly.Events.enable();
+		Main.recordCodeToBlocks(stateBeforeTranslation);
 
 		this.debug && console.log(`Injection time: ${new Date().getTime() - time}ms`);
 	}

@@ -15,7 +15,7 @@ const Simulator = {
 	CodeFriendly: {},
 	PATH_LIB: _PATH + `/${INTERFACE_NAME}/assets/js/simulator/src/`,
 	PATH_LIB_PY: _PATH + `/${INTERFACE_NAME}/assets/lib/`,
-	PATH_LIB_COMMON: _PATH + '/interfaces/assets/js/simulator/python/lib/',
+	PATH_LIB_COMMON: CDN_PATH + '/openInterface/interfaces/assets/js/simulator/python/lib/',
 	monitor: {
 		output: function (text, html = false) {
 			try {
@@ -89,6 +89,32 @@ const Simulator = {
 		}
 		// If the external module cannot be matched, find it from the built-in module 
 		return Sk.builtinFiles.files[file];
+	},
+
+	skulptLoading: null,
+	skulptWaiting: null,
+
+	/**
+	 * Load Skulpt at the first run of the simulator (unless the page already includes it, e.g. TI-83), then initialize it.
+	 * @returns {Promise}
+	 */
+	loadSkulpt: function () {
+		const dir = `${CDN_PATH}/openInterface/interfaces/assets/js/external/skulpt`;
+		this.skulptLoading ??= (typeof Sk !== 'undefined' && Sk.builtinFiles !== undefined ? Promise.resolve() :
+			Loader.loadScripts([{ id: 'skulpt_lib', src: `${dir}/skulpt.js` }])
+				.then(() => Loader.loadScripts([{ id: 'skulpt_stdlib_lib', src: `${dir}/skulpt-stdlib.js` }])))
+			.then(async () => {
+				if (typeof this.Mosaic.addSpecificSkulptFunctions !== 'undefined') {
+					this.Mosaic.addSpecificSkulptFunctions();
+				}
+				if (!this.skInitialized) await this.initSkulpt();
+			})
+			.catch((e) => {
+				this.skulptLoading = null;
+				['skulpt_lib', 'skulpt_stdlib_lib'].forEach(id => document.getElementById(id)?.remove());
+				throw e;
+			});
+		return this.skulptLoading;
 	},
 
 	initSkulpt: async function () {

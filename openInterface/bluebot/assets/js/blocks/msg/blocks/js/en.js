@@ -26,3 +26,13 @@ Blockly.Msg['ACTUATORS_TURN_LEFT_TITLE'] = 'turn left by %1';
 Blockly.Msg['ACTUATORS_TURN_LEFT_TOOLTIP'] = 'Allows the Blue-bot robot to turn left by 45°, 90°, or 135°.';
 Blockly.Msg['ACTUATORS_TURN_RIGHT_TITLE'] = 'turn right by %1';
 Blockly.Msg['ACTUATORS_TURN_RIGHT_TOOLTIP'] = 'Allows the Blue-bot robot to turn right by 45°, 90°, or 135°.';
+
+// Search keywords of the blocks: <X>_KEYWORDS completes the block whose tooltip is <X>_TOOLTIP (see ToolboxManager)
+Blockly.Msg['IO_WAIT_KEYWORDS'] = 'delay, wait';
+Blockly.Msg['IO_WAIT_UNTIL_KEYWORDS'] = 'wait, condition';
+Blockly.Msg['IO_INITCHRONOMETER_KEYWORDS'] = 'stopwatch, reset';
+Blockly.Msg['IO_GETCHRONOMETER_KEYWORDS'] = 'stopwatch, elapsed, duration';
+Blockly.Msg['ACTUATORS_MOVE_FORWARD_KEYWORDS'] = 'forward, move, motor';
+Blockly.Msg['ACTUATORS_MOVE_BACKWARD_KEYWORDS'] = 'backward, move, motor';
+Blockly.Msg['ACTUATORS_TURN_LEFT_KEYWORDS'] = 'pivot, rotation';
+Blockly.Msg['ACTUATORS_TURN_RIGHT_KEYWORDS'] = 'pivot, rotation';

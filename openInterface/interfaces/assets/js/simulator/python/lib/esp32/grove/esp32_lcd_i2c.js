@@ -14,6 +14,7 @@ var $builtinmodule = function () {
             self.i2c = i2c;
             self.addr = addr.v;
             $("#lcdGrove").find(".subtitle-module").html('I2C (0x' + self.addr.toString(16) + ')');
+            $('#lcdGrove_value').css("background-color", "");
             self.l0 = Array(16).fill('&nbsp;');
             self.l1 = Array(16).fill('&nbsp;');
             self.x = 0;
@@ -83,6 +84,17 @@ var $builtinmodule = function () {
             self.l0 = Array(16).fill('&nbsp;');
             self.l1 = Array(16).fill('&nbsp;');
             self.printText();
+        });
+
+        $loc.setColor = new Sk.builtin.func(function (self, red, green, blue) {
+            Sk.builtin.pyCheckArgsLen("setColor", arguments.length, 4, 4);
+            Sk.builtin.pyCheckType("red", "number", Sk.builtin.checkNumber(red));
+            Sk.builtin.pyCheckType("green", "number", Sk.builtin.checkNumber(green));
+            Sk.builtin.pyCheckType("blue", "number", Sk.builtin.checkNumber(blue));
+            var r = Math.max(0, Math.min(255, Math.trunc(red.v)));
+            var g = Math.max(0, Math.min(255, Math.trunc(green.v)));
+            var b = Math.max(0, Math.min(255, Math.trunc(blue.v)));
+            $('#lcdGrove_value').css("background-color", "rgba(" + r + ", " + g + ", " + b + ", 0.5)");
         });
 
         $loc._write = new Sk.builtin.func(function () {

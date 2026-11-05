@@ -602,3 +602,4 @@ Blockly.Msg['WIO_GET_VERSION'] = 'la version';
 Blockly.Msg['WIO_GET_STATUS_TOOLTIP'] = IMG_WIO_LITE_AI + Blockly.Tooltip.SEP + 'Retourne la version ou le statut de la Wio lite (0: occupé, 1: prêt, 2: résultat disponible).';
 Blockly.Msg["VARIABLES_SET_WARNING"] = "La variable '%1' a d'abord été affectée au type '%2'\n\n et ce bloc tente d'affecter le type '%3'.\n";
 Blockly.Msg["BKY_MATH_RSA_GENERATE_KEYS_HELPURL"] = "https://en.wikipedia.org/wiki/RSA_cryptosystem";
+Blockly.Msg["PINS_DUPLICATE_WARNING"] = "La broche '%1' est sélectionnée plusieurs fois dans ce bloc.";

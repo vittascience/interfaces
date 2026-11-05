@@ -55,7 +55,7 @@
       "kits": "Hårdvara",
       "premium": "Premium <sup>NYTT</sup>",
       "community": {
-        "title": "Community",
+        "title": "Gemenskap",
         "dropdown": {
           "vittamap": "Vittamap",
           "blog": "Blogg",
@@ -886,6 +886,22 @@
       "legalCommitmentNumber": "Åtagandenummer",
       "siret": "SIRET-nummer för verksamheten",
       "serviceName": "Avdelningens namn (valfritt)",
+      "subscriptionStart": "Önskat startdatum för prenumerationen",
+      "subscriptionEnd": "Beräknat slutdatum",
+      "durationMonth": "1 månad",
+      "durationYear": "1 år",
+      "durationThreeYears": "3 år",
+      "garActivation": "Vill du ha en aktivering via GAR?",
+      "whatIsGar": "Vad är GAR?",
+      "garDefinition": "GAR (Gestionnaire d'accès aux ressources) ger lärare och elever tillgång till Vittascience från skolans digitala arbetsmiljö (ENT), utan att skapa ett konto.",
+      "uai": "Skolans UAI-nummer",
+      "uaiHint": "7 siffror följda av en bokstav, till exempel 0751234A.",
+      "accountEmails": "E-postadress(er) för de Vittascience-konton som ska aktiveras",
+      "accountEmailsHint": "En adress per rad eller separerade med kommatecken, högst {{max}} (en per licens).",
+      "accountEmailsTooMany": "För många adresser: högst {{max}}.",
+      "accountEmailInvalid": "Ogiltig e-postadress:",
+      "quoteUpdateError": "Ditt inköpsorder kunde inte registreras: uppdateringen av offert nr {{number}} misslyckades. Försök igen om några minuter. Om problemet kvarstår, kontakta oss:",
+      "licenceFieldsError": "Prenumerationsuppgifterna är ofullständiga eller ogiltiga. Kontrollera startdatum, UAI-nummer eller e-postadresser.",
       "confirmWithoutEdit1": "Jag bekräftar att inköpsordern exakt motsvarar offerten nr ",
       "confirmWithoutEdit2": " motsvarande (samma produkt(er), belopp, kvantitet(er)) för ett totalt belopp på ",
       "confirmWithEdit": "Inköpsordern motsvarar inte offerten, ändringar har gjorts.",
@@ -899,7 +915,30 @@
       "errorExplanation": "Din inköpsorder kunde inte registreras.<br>Händelsen har rapporterats till vår tekniska avdelning.<br>Kontakta oss för att lösa problemet.",
       "contactUs": "Kontakta oss",
       "whatIsChorus": "Vad är Chorus Pro?",
-      "chorusDefinition": "CHORUS PRO är statens nya offentliga portal där alla fakturor till offentlig sektor successivt kommer att passera. Syftet är att staten ska digitalisera 100 % av de fakturor som skickas till den enligt ett successivt schema som började den 1 januari 2017. För att underlätta för leverantörerna kommer alla offentliga förvaltningar att använda samma portal."
+      "chorusDefinition": "CHORUS PRO är statens nya offentliga portal där alla fakturor till offentlig sektor successivt kommer att passera. Syftet är att staten ska digitalisera 100 % av de fakturor som skickas till den enligt ett successivt schema som började den 1 januari 2017. För att underlätta för leverantörerna kommer alla offentliga förvaltningar att använda samma portal.",
+      "maintenanceTitle": "Underhåll pågår :(",
+      "maintenanceText": "Vårt team uppdaterar våra erbjudanden. Vi återkommer snart!",
+      "supportSubject": "Beställningsbekräftelse - offert {{number}}",
+      "autoValidate": "Automatiskt godkänna offerten",
+      "autoValidateHint": "Offerten är markerad som accepterad: utkastfakturan och ordern skapas omedelbart, och kunden får ett bekräftelsemejl.",
+      "closedTitle": "Offert redan accepterad",
+      "closedText": "Offert {{number}} har redan accepterats och din beställning behandlas: det finns ingen beställning kvar att skicka in. För att begära ändringar, vänligen kontakta oss.",
+      "closedSubject": "Offert {{number}}",
+      "invalidLinkTitle": "Ogiltig inlämningslänk",
+      "invalidLinkText": "För att skicka in eller ersätta beställningen för denna offert, använd länken i det senaste offertmejlet du mottagit, eller logga in på kontot som begärde offerten (Mitt konto › Mina beställningar).",
+      "sectionBdc": "Din beställning",
+      "sectionBilling": "Fakturering",
+      "sectionSubscription": "Prenumeration",
+      "sectionConfirm": "Bekräftelse",
+      "activationMethod": "Aktiveringsmetod",
+      "activationEmails": "E-post",
+      "activationGar": "GAR",
+      "activationEmailsHint": "De angivna Vittascience-kontona får licensen (en adress per licens).",
+      "activationGarHint": "Skolans lärare och elever når Vittascience från sin ENT utan att skapa konto.",
+      "schoolOrUai": "Skola eller UAI",
+      "schoolSearchPlaceholder": "Skolans namn eller UAI (t.ex. 0751234A)",
+      "schoolHint": "Skriv namnet eller UAI och välj sedan skolan i listan.",
+      "schoolRequired": "Välj en skola i listan eller ange en giltig UAI (7 siffror och en bokstav)."
     },
     "mail": {
       "estimate": "offert",
@@ -933,6 +972,31 @@
       "submit": "Skicka",
       "submit_success": "Tack för din recension!",
       "return_to_product": "Tillbaka till produkten"
+    },
+    "shopPayLink": {
+      "thanksTitle": "Tack, din betalning har mottagits",
+      "thanksText": "Betalningen av {{amount}} för faktura {{number}} har mottagits.",
+      "thanksTextNoAmount": "Betalningen för faktura {{number}} har mottagits.",
+      "paidTitle": "Faktura redan betald",
+      "paidText": "Faktura {{number}} har redan betalats med kort. Tack!",
+      "settledText": "Vi har mottagit betalningen för faktura {{number}}: det finns inget kvar att betala. Tack!",
+      "processingTitle": "Betalning bekräftas",
+      "processingText": "Din bank bekräftar din betalning: ladda om denna sida om några minuter för att se bekräftelsen.",
+      "abortedTitle": "Betalning avbruten",
+      "abortedText": "Betalningen för faktura {{number}} blev inte genomförd. Du kan försöka igen närsomhelst.",
+      "expiredTitle": "Betalningslänk har gått ut",
+      "expiredText": "Denna betalningslänk är inte längre giltig. Kontakta oss för att få en ny.",
+      "cancelledTitle": "Betalningslänk avaktiverad",
+      "cancelledText": "Denna betalningslänk är inte längre giltig: en nyare länk kan ha skickats till dig. Kontakta oss om du är osäker.",
+      "notfoundTitle": "Betalningslänk hittades inte",
+      "notfoundText": "Kontrollera att hela länken kopierades, eller kontakta oss.",
+      "errorTitle": "Betalning tillfälligt otillgänglig",
+      "errorText": "Onlinebetalning kan inte öppnas just nu. Försök igen om några minuter, eller kontakta oss.",
+      "payButton": "Betala {{amount}} med kort",
+      "retry": "Försök igen",
+      "contact": "Kontakta oss",
+      "stripeLabel": "Faktura {{number}}",
+      "stripeLabelOrder": "Faktura för beställning {{number}}"
     }
   },
   "about": {
@@ -1155,7 +1219,7 @@
         "cityPlaceholder": "Stad",
         "postalCodePlaceholder": "Postnummer",
         "differentAddress": "Är din leveransadress annorlunda än fakturaadressen? ",
-        "deliveryAddress": "<i class=\\fa fa-truck\\\"></i>Din leveransadress <span class=\"mandatory\">*</span>",
+        "deliveryAddress": "<i class=\"fa fa-truck\"></i>Din leveransadress <span class=\"mandatory\">*</span>",
         "deliveryAddress2": " Ytterligare adress ",
         "leaveAMessage": "<i class=\"fa fa-envelope\"></i>Vill du lämna ett meddelande till oss?"
       },
@@ -1202,14 +1266,28 @@
   },
   "code": {
     "blockExtensions": {
-      "category": "Extensions",
-      "title": "Block extensions",
-      "note": "Add new blocks to program other robots, models or modules. The chosen extensions are saved with the project.",
-      "close": "Close",
-      "search": "Search for an extension",
-      "added": "Added",
-      "noResult": "No extension found.",
-      "confirmRemoveUsed": "{{count}} block(s) of this extension used in the program will be deleted. Continue?"
+      "category": "Tillägg",
+      "title": "Blocktillägg",
+      "note": "Lägg till nya block för att programmera andra robotar, modeller eller moduler. Valda tillägg sparas med projektet.",
+      "close": "Stäng",
+      "search": "Sök efter ett tillägg",
+      "added": "Lagt till",
+      "noResult": "Inga tillägg hittades.",
+      "confirmRemoveUsed": "{{count}} block från detta tillägg som används i programmet kommer att tas bort. Fortsätt?",
+      "manage": "Hantera tillägg",
+      "filter": "Filtrera tillägg",
+      "filters": {
+        "all": "Alla",
+        "model": "Pedagogiska modeller",
+        "robotics": "Robotik",
+        "display": "Skärm",
+        "lights": "Belysning",
+        "sensors": "Sensorer",
+        "actuators": "Aktuatorer",
+        "ai": "Artificiell intelligens",
+        "games": "Spel",
+        "communication": "Kommunikation"
+      }
     },
     "tooltip": {
       "anonymousAuthor": "Anonym författare",
@@ -1276,7 +1354,7 @@
       "fileDownloadedArduino": "Arduino-programmet skickades till kortet!",
       "clickSerialMonitor": "Klicka på knappen <b>Serial Monitor</b> för att visa mottagna data i konsolen.",
       "serialMonitorSent": "Skickar %1 bytes över den seriella porten: \"%2%3\"",
-      "minimaNotInDFU": "Kortet är fortfarande i normalt (körtids-)läge, inte i DFU-bootloader-läget. ➡️ <b>Tryck två gånger på RESET (LED-lampan blinkar med en uttoning), och starta sedan om uppladdningen.",
+      "minimaNotInDFU": "Kortet är fortfarande i normalt (körtids-)läge, inte i DFU-bootloader-läget. ➡️ <b>Tryck två gånger på RESET (LED-lampan blinkar med en uttoning), och starta sedan om uppladdningen.</b>",
       "badResponse": "Koppla ur och anslut kortet till datorn igen.",
       "noPortSelected": "Ingen port vald.",
       "badBoard": "Det anslutna kortet är inte av typen ",
@@ -1284,9 +1362,13 @@
       "flashFailed": "Det gick inte att skicka programmet.",
       "boardNotResponding": "Kortet svarar inte: kontrollera att roboten är påslagen.",
       "baudrateError": "Ett fel uppstod vid läsning från den seriella porten. Försök ändra baudrate i monitorinställningarna.",
-      "firmwareWarning": "Observera: för att få alla funktioner med STM32-kortet, uppgradera firmware till version 1.17 enligt denna handledning: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=398\" target=\"_blank\" rel=\"noopener noreferrer\">Uppdatera firmware</a>",
+      "firmwareWarning": "Observera: för att få alla funktioner med STM32-kortet, uppgradera firmware till version 1.17 enligt denna handledning: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=398\" target=\"_blank\" rel=\"noopener noreferrer\">Uppdatera firmware</a></b>",
       "compiling": "Kompilering pågår. Detta kan ta några sekunder...",
-      "noSpaceLeft": "Det finns inte tillräckligt med ledigt utrymme på kortet för att ladda upp programmet."
+      "noSpaceLeft": "Det finns inte tillräckligt med ledigt utrymme på kortet för att ladda upp programmet.",
+      "skykickNotInCodingMode": "SkyKick-kontrollern är inte i programmeringsläge (Link): kommandon ignoreras. Byt kontrollern till Link-läge för att flyga dronen.",
+      "skykickDroneNotPaired": "Dronen svarar inte: kontrollera att den är påslagen och ihopkopplad med kontrollern.",
+      "skykickPortBusy": "Kan inte öppna kontrollporten: den används redan av en annan applikation. Stäng SkyKick Evo Block Coding-appen (och alla andra flikar kopplade till kontrollern), och försök igen.",
+      "skykickBattery": "Dronens batteri"
     },
     "WebBluetoothAPI": {
       "noWebBluetoothAPI": "Denna webbläsare stöder inte noWebBluetoothAPI. För att använda noWebBluetoothAPI behöver du en kompatibel webbläsare: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> eller <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
@@ -1303,7 +1385,45 @@
     "arduinoq": {
       "boardConnected": "Anslutning av brädan lyckades!",
       "webAppUrl": "Appens webbsida (från en enhet i samma nätverk):",
+      "webConsoleUrl": "Kortets webbterminal (kortets användare och lösenord):",
+      "pcWebcamStarted": "Datorns webbkamera skickas till kortet: håll den här fliken öppen och kortet anslutet via USB. Stäng AI-verktygets flik om den är öppen, så att webbkameran är ledig.",
+      "pcWebcamDenied": "Det går inte att använda datorns webbkamera: tillåt kameraåtkomst i webbläsaren och skicka programmet igen.",
+      "pcWebcamStopped": "Sändningen av datorns webbkamera till kortet har stoppats (kortet frånkopplat?). Anslut kortet igen och klicka sedan på \"Starta appen\".",
+      "pcWebcamBusy": "Datorns webbkamera ger ingen bild. Den kanske används av en annan flik (till exempel AI-verktyget): stäng den och klicka sedan på \"Starta appen\".",
+      "corruptedLogs": "Appens loggar går inte att läsa (kortet kopplades ur medan appen körde): de töms nu.",
+      "appStopped": "Appen stoppad.",
+      "boardUnplugged": "Arduino UNO Q-kortet frånkopplat (USB-kabeln urkopplad eller kortet omstartat). Koppla in det igen och anslut det på nytt.",
+      "modelDownloadProgress": "Laddar ner modellen:",
+      "hints": {
+        "camera": "Ingen kamera hittades: kortet anslutet till datorn kan inte använda en kamera. Efter uppladdningen kopplar du ur datorn och ansluter en strömförsörjd USB-C-hubb med kameran (appen startar av sig själv när kortet startar).",
+        "microphone": "Ingen mikrofon hittades: anslut en USB-mikrofon (eller en webbkamera med mikrofon) till en strömförsörjd USB-C-hubb, i stället för datorn.",
+        "speaker": "Ingen högtalare hittades: anslut en USB-högtalare eller ett USB-headset till en strömförsörjd USB-C-hubb, i stället för datorn.",
+        "module": "Python-modulen ”{x}” är inte installerad på kortet.",
+        "name": "”{x}” används innan det har fått ett värde: ge det ett värde i början av programmet (i ”vid start”).",
+        "textNumber": "Text och tal blandade: använd blocket ”sammanfoga” för att sätta ihop text och tal.",
+        "convert": "Den här texten kan inte göras om till ett tal (den innehåller bokstäver eller är tom).",
+        "zeroDivision": "Division med noll: kontrollera nämnaren innan du delar.",
+        "index": "Det begärda elementet finns inte: listan är kortare än väntat (eller tom).",
+        "key": "Nyckeln {x} finns inte i den här ordlistan.",
+        "network": "Ingen internetåtkomst från kortet: kontrollera att det är anslutet till Wi-Fi.",
+        "timeout": "Servern svarar inte i tid: försök igen eller kontrollera kortets internetanslutning.",
+        "recursion": "En funktion anropar sig själv i all oändlighet.",
+        "permission": "Åtkomst nekad till den här filen eller enheten.",
+        "file": "Filen hittades inte: {x}."
+      },
+      "modelDownload": "Laddar ner AI-modellen till kortet (bara en gång, kan ta flera minuter):",
+      "uploadIncomplete": "Uppladdningen ofullständig, filer togs inte emot korrekt av kortet: ",
+      "noAppOnBoard": "Ingen app på kortet: skicka programmet först.",
+      "appAlreadyRunning": "Appen körs redan på kortet.",
+      "aiAppStartMayTakeTime": "Startar AI-appen: den första starten kan ta flera minuter (installation av Python-paketen på kortet, sedan konvertering av modellen). Nästa starter går snabbare.",
       "localModelMissing": "Ingen lokal AI-modell hittades i den här webbläsaren: träna först en bildmodell i Vittasciences AI-verktyg (i samma webbläsare) eller använd blocket \"ladda modellen\" med dess länk.",
+      "localPostureModelMissing": "Ingen lokal hållningsmodell hittades i den här webbläsaren: träna först en hållningsmodell i Vittasciences AI-verktyg (i samma webbläsare), eller använd blocket \"ladda hållningsmodellen\" med dess länk.",
+      "localHandModelMissing": "Ingen lokal handmodell hittades i den här webbläsaren: träna först en handmodell i Vittasciences AI-verktyg (i samma webbläsare), eller använd blocket \"ladda handmodellen\" med dess länk.",
+      "pcMicrophoneStarted": "Datorns mikrofon på: ljudet skickas till kortet. Håll den här sidan öppen och kortet anslutet.",
+      "pcMicrophoneDenied": "Datorns mikrofon är inte tillgänglig: tillåt mikrofonen i webbläsaren och klicka sedan på \"Starta appen\".",
+      "pcMicrophoneStopped": "Sändningen av datorns mikrofon till kortet har stoppats (kortet frånkopplat?). Anslut kortet igen och klicka sedan på \"Starta appen\".",
+      "localSoundModelMissing": "Ingen lokal ljudmodell hittades i den här webbläsaren: träna först en ljudmodell i Vittasciences AI-verktyg (i samma webbläsare) eller använd blocket \"ladda modellen\" med dess länk.",
+      "localSensorModelMissing": "Ingen lokal sensormodell hittades i den här webbläsaren: träna först en modell i Vittasciences AI-verktyg \"Sensordata\" (i samma webbläsare) eller använd blocket \"ladda sensormodellen\" med dess länk.",
       "passwordRequired": "För att fortsätta överföringen krävs lösenordet för Arduino Q-brädan.",
       "incorrectPassword": "Lösenordet är felaktigt, försök igen.",
       "transfertAborted": "Överföring avbruten.",
@@ -1312,7 +1432,7 @@
     },
     "welcome": {
       "arduino": "Välkommen till Vittascience-gränssnittet för Arduino!</br>Du kan titta på handledningen här : <a href=\"https://en.vittascience.com/learn/tutorial.php?id=911/prise-en-main-de-la-carte-arduino-uno-et-de-l-interface-vittascience\" target=\"_blank\" rel=\"noopener noreferrer\">Kom igång med Vittascience-gränssnittet för Arduino UNO-kortet</a>",
-      "microbit": "Välkommen till Vittascience-gränssnittet för BBC micro:bit!</br>Du kan se handledningen här: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=25/prise-en-main-de-la-carte-microbit\" target=\"_blank\" rel=\"noopener noreferrer\">Kom igång med Vittascience-gränssnittet för BBC micro:bit</a>",
+      "microbit": "Välkommen till Vittascience-gränssnittet för BBC micro:bit!</br>Du kan se handledningen här: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=25/prise-en-main-de-la-carte-microbit\" target=\"_blank\" rel=\"noopener noreferrer\">Kom igång med Vittascience-gränssnittet för BBC micro:bit</a></b>",
       "python": "Välkommen till Vittascience-gränssnittet för programmering i Python!<br>Klicka på Kör-knappen för att starta ditt program (skriptläge) eller skriv en instruktion efter >>> nedan (REPL-konsolläge).",
       "esp32": "Välkommen till Vittascience-gränssnittet för ESP32!</br>För att programmera ESP32-kortet här måste du först flasha MicroPython-firmware på kortet enligt denna handledning: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=341/flasher-le-firmware-micropython-dans-la-carte-esp32\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flasha MicroPython-firmware</a></b>",
       "wb55": "Välkommen till Vittascience-gränssnittet för STM32 NUCLEO WB55!</br>För att programmera STM32-kortet här måste du först flasha MicroPython-firmware på kortet enligt denna handledning: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=909/flasher-le-firmware-micropython-dans-la-stm32-l476\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flasha MicroPython-firmware</a></b>",
@@ -1322,17 +1442,19 @@
       "TI-83-Maclasseti": "Välkommen till MyClassTi.fr-gränssnittet för räknaren TI-83 Premium CE Python Edition! TI-Innovator™ Hub och BBC micro:bit kan programmeras här. Öppna simulatorn för att komma igång!",
       "GalaxiaCircuitPython": "Välkommen till Vittascience-gränssnittet för Galaxia!",
       "galaxia": "Välkommen till Vittascience-gränssnittet för Galaxia!</br>För att programmera Galaxia här måste du först flasha MicroPython-firmware på kortet enligt denna handledning: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=860\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flasha MicroPython-firmware</a></b>",
-      "raspberrypi": "Välkommen till Vittascience-gränssnittet för Raspberry Pi! Du kan läsa handledningen här: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=856/interface-raspberry-pi\" target=\"_blank\" rel=\"noopener noreferrer\">Kom igång med Vittascience-gränssnittet för Raspberry Pi</a>",
+      "unihiker": "Välkommen till Vittascience-gränssnittet för UNIHIKER M10-kortet!</br>Anslut kortet med USB och klicka sedan på Ladda upp. Första gången lägger gränssnittet Vittascience-serverns installationsprogram på kortet, som körs en gång från kortets Home-meny.",
+      "unihiker-k10": "Välkommen till Vittascience-gränssnittet för UNIHIKER K10!</br>Anslut kortet via USB (DFRobots MicroPython-firmware) och klicka på Ladda upp: programmet sparas i main.py.",
+      "raspberrypi": "Välkommen till Vittascience-gränssnittet för Raspberry Pi! Du kan läsa handledningen här: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=856/interface-raspberry-pi\" target=\"_blank\" rel=\"noopener noreferrer\">Kom igång med Vittascience-gränssnittet för Raspberry Pi</a></b>",
       "niryo": "Välkommen till Vittascience-gränssnittet för Niryo ned2!",
-      "nao": "Välkommen till Vittascience-gränssnittet för NAO v6! Se gärna handledningen här: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=1261\" target=\"_blank\" rel=\"noopener noreferrer\">Kom igång med Vittascience-gränssnittet för NAO v6</a>",
+      "nao": "Välkommen till Vittascience-gränssnittet för NAO v6! Se gärna handledningen här: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=1261\" target=\"_blank\" rel=\"noopener noreferrer\">Kom igång med Vittascience-gränssnittet för NAO v6</a></b>",
       "mBot": "Välkommen till Vittascience-gränssnittet för mBot!",
       "buddy": "Välkommen till Vittasciences gränssnitt för Buddy-roboten!",
       "m5stack": "Välkommen till Vittasciences gränssnitt för M5Stack!</br> För att programmera M5Stack-kortet här måste du först flasha MicroPython-firmware på kortet enligt denna handledning: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=458/flasher-le-firmware-micropython-dans-la-m5stack\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashning av MicroPython-firmware</a></b>",
       "cyberpi": "Välkommen till Vittasciences gränssnitt för CyberPi och mBot2 från Makeblock!",
       "eliobot": "Välkommen till Vittasciences gränssnitt för Eliobot!",
-      "thymio": "Välkommen till Vittasciences gränssnitt för Thymio-roboten! Du kan läsa handledningen här: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=812\" target=\"_blank\" rel=\"noopener noreferrer\">Kom igång med Vittasciences gränssnitt för Thymio-roboten</a></br> För att programmera Thymio här måste du först starta programmet TDMLauncher som finns att ladda ner <span class='thymio-download-tdm' onclick='asebaTranspiler.downloadTDM()'>här</span>",
+      "thymio": "Välkommen till Vittasciences gränssnitt för Thymio-roboten! Du kan läsa handledningen här: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=812\" target=\"_blank\" rel=\"noopener noreferrer\">Kom igång med Vittasciences gränssnitt för Thymio-roboten</a></b></br> För att programmera Thymio här måste du först starta programmet TDMLauncher som finns att ladda ner <span class='thymio-download-tdm' onclick='asebaTranspiler.downloadTDM()'>här</span>",
       "letsstartcoding": "Välkommen till Vittasciences gränssnitt för Let's start coding-korten! Om du vill ha mer information, gå till den här länken: <a href=\"https://www.letsstartcoding.com\" target=\"_blank\" rel=\"noopener noreferrer\">Let's start coding</a>",
-      "pico": "Välkommen till Vittasciences gränssnitt för Raspberry Pi Pico!</br> För att programmera Raspberry Pi Pico här måste du först flasha MicroPython-firmware på kortet enligt denna handledning: <a href=\"https://en.vittascience.com/learn/tutorial.php?id=910/flasher-le-firmware-micropython-dans-la-carte-raspberry-pi-pico\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashning av MicroPython-firmware</a></b>",
+      "pico": "Välkommen till Vittasciences gränssnitt för Raspberry Pi Pico!</br> För att programmera Raspberry Pi Pico här måste du först flasha MicroPython-firmware på kortet enligt denna handledning: <a href=\"https://en.vittascience.com/learn/tutorial.php?id=910/flasher-le-firmware-micropython-dans-la-carte-raspberry-pi-pico\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashning av MicroPython-firmware</a>",
       "winky": "Välkommen till Vittasciences gränssnitt för Winky!",
       "sphero": "Välkommen till Vittasciences gränssnitt för Sphero Mini-roboten!",
       "lotibot": "Välkommen till Vittasciences gränssnitt för Loti-bot-roboten!",
@@ -1344,7 +1466,8 @@
       "steami": "Välkommen till Vittasciences gränssnitt för STeaMi!",
       "alphai": "Välkommen till Vittasciences gränssnitt för AlphAI-roboten!",
       "arduinoq": "Välkommen till Vittascience-gränssnittet för Arduino UNO Q-brädan!</br></br>Gränssnittet stöder olika språk (Arduino, Python, HTML) för programmering av ett komplett projekt med brädan. Blocken i kategorin 'Bas' kan användas på vilket språk som helst; den genererade koden kommer då att anpassas till språktypen av headerblocket.</br></br>Det är möjligt att skicka Linux-kommandon till Arduino Q-brädan genom att skriva kommandot i inmatningsfältet längst ner i konsolen.",
-      "primastem": "Välkommen till Vittascience-gränssnittet för PrimaStem-roboten!"
+      "primastem": "Välkommen till Vittascience-gränssnittet för PrimaStem-roboten!",
+      "skykick": "Välkommen till Vittascience-gränssnittet för SkyKick Evo-dronen!</br>Anslut kontrollern via USB, ställ den i Link-läge och klicka sedan på anslutningsknappen innan du kör ditt program. Varning: dronen flyger verkligen, håll ett klart utrymme."
     },
     "chromeApp": {
       "noPort": "Ingen port upptäckt",
@@ -1450,6 +1573,26 @@
       "expand": "Expandera",
       "collaps": "Kollapsa"
     },
+    "unihiker": {
+      "hostPrompt": "UNIHIKER-kortets adress (10.1.2.3 via USB, eller dess Wi-Fi-adress):",
+      "hostSaved": "Kortets adress: {{host}}",
+      "sending": "Skickar programmet till kortet ({{host}})...",
+      "started": "Programmet startat på kortet.",
+      "stopped": "Programmet stoppat.",
+      "finished": "Programmet avslutat (kod {{code}}).",
+      "noProgram": "Inget program körs på kortet: meddelandet skickades inte.",
+      "k10FormatConfirm": "Filminnet på UNIHIKER K10 måste formateras (normalt direkt efter flashning av DFRobots firmware). Formatera nu? Kortets filer raderas, firmware finns kvar.",
+      "k10Formatted": "Filminnet är formaterat: kortet startar om, klicka sedan på Ladda upp.",
+      "k10Flash": "UNIHIKER K10 saknar MicroPython-firmware. Ladda ner den från menyn under Ladda upp (\"Ladda ner MicroPython-firmware\") och flasha den på adress 0x00 med ESP LaunchPad eller Flash Download Tool, med BOOT-knappen intryckt när kortet ansluts.",
+      "unreachable": "Kortet svarar inte på {{host}}. Kontrollera USB-kabeln (eller Wi-Fi-adressen med \"Kortets adress\") och tillåt åtkomst till det lokala nätverket om webbläsaren frågar.",
+      "outdated": "Kortets Vittascience-server måste uppdateras: automatisk uppdatering pågår...",
+      "localModelMissing": "Ingen bildmodell i den här webbläsaren: träna först en modell i Vittasciences AI-verktyg (bildigenkänning).",
+      "modelLinkInvalid": "Bildmodellen från länken \"{{link}}\" kunde inte läsas. Kontrollera länken till den delade modellen.",
+      "notInstalled": "Kortet svarar, men Vittascience-servern är inte installerad ännu: skickar installationsprogrammet...",
+      "installFailed": "Installationsprogrammet kunde inte läggas på kortet ({{host}}).",
+      "installUploaded": "Installationsprogrammet skickat. På kortet: Home-knappen, sedan root/ > {{folder}} > install.py. Programmet startar av sig självt när installationen är klar.",
+      "installDone": "Vittascience-servern installerad: skickar programmet..."
+    },
     "topbar": {
       "tooltips": {
         "boardWifi": "Konfigurera Wi-Fi för det anslutna Arduino UNO Q-kortet",
@@ -1475,6 +1618,7 @@
         "compileArduino": "Kör kompilering",
         "arduinoBoardSelector": "Välj Arduino-kort att programmera",
         "esp32BoardSelector": "Välj ESP32-kort att programmera",
+        "unihikerBoardSelector": "Välj det UNIHIKER-kort som ska programmeras",
         "downloadPython": "Ladda ner Python-skriptet",
         "downloadPythonGalaxia": "Ladda ner 'main.py' Python-skriptet för att dra och släppa på Galaxia",
         "downloadArduino": "Ladda ner Arduino-skriptet",
@@ -1485,6 +1629,10 @@
         "downloadFirmware": "Ladda ner MicroPython-firmware för kortet",
         "downloadCamFirmware": "Ladda ner MicroPython-firmware för ESP32-CAM",
         "downloadPiAPI": "Ladda ner Python-servern för Raspberry Pi. Starta API:t i administratörsläge.",
+        "uploadUnihiker": "Skicka programmet till UNIHIKER-kortet och kör det",
+        "stopUnihiker": "Stoppa kortets program",
+        "installUnihiker": "Lägg Vittascience-serverns installationsprogram på kortet (kör det en gång från kortets Home-meny)",
+        "unihikerHost": "Ändra kortets adress (10.1.2.3 via USB, eller dess Wi-Fi-adress)",
         "downloadHex": "Exportera micro:bit-programmet i [.hex]-format",
         "downloadTexas": "Ladda ner .py för miniräknaren",
         "runBuddy": "Kör programmet på Buddy-roboten",
@@ -1515,6 +1663,7 @@
         "toolboxRestriction": "Begränsa tillgängliga block",
         "consoleSettings": "Huvudinställningar",
         "accessibility": "Välj tema och teckensnitt",
+        "shortcuts": "Visa kortkommandon",
         "addBlockSettings": "Lägg till block",
         "fullscreen": "Växla helskärm",
         "help": "Hjälp",
@@ -1534,6 +1683,7 @@
         "beginnerMode": "Nybörjarläge",
         "advancedMode": "Avancerat läge",
         "lastSaveOn": "Senast sparat: ",
+        "lastSaveFailed": "The last save failed: your changes are not saved. Click to try again.",
         "description": "Beskrivning:",
         "repl": "Tryck på Enter ↩️ för att köra kommandot",
         "runningCode": "Kör din kod... vänta ett ögonblick.",
@@ -1573,6 +1723,9 @@
         "downloadFirmware": "Ladda ner .bin",
         "downloadCamFirmware": "Ladda ner .bin ESP32-CAM",
         "downloadPiAPI": "Ladda ner API.cmd",
+        "stopUnihiker": "Stoppa",
+        "installUnihiker": "Installera servern",
+        "unihikerHost": "Kortets adress",
         "downloadUf2Pico": "Firmware för Pico",
         "downloadUf2PicoW": "Firmware för Pico W",
         "downloadPython": "Ladda ner .py",
@@ -1587,6 +1740,7 @@
         "connectBoard": "Anslut",
         "settings": "Inställningar",
         "themes": "Tillgänglighet",
+        "shortcuts": "Kortkommandon",
         "add": "Lägg till block",
         "fullscreen": "Helskärm",
         "help": "Hjälp",
@@ -1649,13 +1803,15 @@
       "controls": {
         "text": {
           "menu": {
-            "allData": "All data",
+            "allData": "Alla data",
             "clearData": "Rensa data"
           },
           "send": "Meddelande som skickas till kortet via seriell port",
           "sendQ": "Linux-kommando att skicka till Arduino Q-brädan",
           "export": "Exportera",
           "openVariables": "Variabler",
+          "launchApp": "Starta appen",
+          "stopApp": "Stoppa appen",
           "openFileSystem": "Filer",
           "monitor": "Seriell monitor",
           "openRepl": "REPL"
@@ -1672,6 +1828,8 @@
           "closeRepl": "Stäng MicroPython-skal",
           "openRepl": "Öppna MicroPython-skal",
           "openVariables": "Visa programmets aktuella variabler",
+          "launchApp": "Starta om appen som redan skickats till kortet",
+          "stopApp": "Stoppa appen som körs på kortet",
           "openFileSystem": "Öppna kortets filsystem",
           "graph": "För att visa mottagen data i konsolen, klicka på <b>Graf</b>-knappen.",
           "monitorToggler": "För att se mottagen data, klicka på knappen <i class='fas fa-chevron-up'></i>"
@@ -1734,7 +1892,7 @@
         },
         "effect": "Effekter",
         "effects": {
-          "reverb": "Reverb",
+          "reverb": "Efterklang",
           "delay": "Fördröjning",
           "bitcrusher": "Bitcrusher",
           "vibrato": "Vibrato",
@@ -1772,8 +1930,8 @@
           "toggleBoardDisplay": "Visa/dölj simulatorns karta",
           "switchWiringMode": "Byt till kopplingsläge",
           "switchMosaicMode": "Byt till mosaikläge",
-          "wiringZoomIn": "Zoom in",
-          "wiringZoomOut": "Zoom out"
+          "wiringZoomIn": "Zooma in",
+          "wiringZoomOut": "Zooma ut"
         },
         "robot": {
           "background": "Bakgrund",
@@ -1825,7 +1983,8 @@
         "sentData": "Skickade data:",
         "crash": "Kraschskydd aktiverat: Det här sker när din kod innehåller en oändlig loop utan anrop till sleep(). Åtgärda koden innan du försöker igen.",
         "variables-panel-msg": "Detta program innehåller inga variabler",
-        "replaySimulator": "Kör om simulatorn för att skicka data"
+        "replaySimulator": "Kör om simulatorn för att skicka data",
+        "skulptLoadError": "Simulatorn kunde inte laddas. Kontrollera din anslutning och starta simulatorn igen."
       },
       "tooltips": {
         "bluebot-buttons": "Du kan använda knapparna på Blue-bot-roboten för att programmera den!"
@@ -1880,6 +2039,7 @@
         "dht22-hum": "DHT22 - Luftfuktighet",
         "ds18x20": "DS18X20 - Temperatur",
         "mlx90621": "MLX90621 - Temperatur",
+        "bn880": "BN-880 - Magnetisk kurs",
         "dustSensor": "Partikelsensor",
         "groveRain": "Regnsensor",
         "rainGauge": "Regnmätare",
@@ -1919,7 +2079,12 @@
         "grovePulse": "Pulssensor",
         "distanceInterrupter": "Avståndsavbrottare"
       },
-      "pinError": "[Pin-fel] Modulen <b>{{modId}}</b> kan inte anslutas till stift <b>{{pin}}</b>. Modulen <b>{{attachedId}}</b> är redan ansluten."
+      "pinError": "[Pin-fel] Modulen <b>{{modId}}</b> kan inte anslutas till stift <b>{{pin}}</b>. Modulen <b>{{attachedId}}</b> är redan ansluten.",
+      "wiring": {
+        "unwiredPin": "[Koppling] Modulen <b>{{module}}</b> är på stift <b>{{pin}}</b>, som saknar kontakt på denna sköld: den är inte kopplad.",
+        "i2cFull": "[Koppling] För många I2C-moduler: <b>{{modules}}</b> är inte kopplade.",
+        "noShield": "Ingen Grove-sköld för detta kort i kopplingssimulatorn."
+      }
     },
     "ch340driver": {
       "title": "Problem med uppladdningen?",
@@ -1946,12 +2111,12 @@
       "mixed-popup-leave-editor": "För att stänga kodeditorn med tangentbordet, tryck samtidigt på <kbd>Caps Lock</kbd> och <kbd>Esc</kbd>.",
       "mixed-popup-readonly": "<i class='fa-solid fa-lock'></i> I mixat läge är kodeditorn <strong>skrivskyddad</strong> i detta gränssnitt. Du kan endast redigera med block.",
       "mixed-popup-readonly-sr": "I mixat läge är koden skrivskyddad i detta gränssnitt",
-      "mixed-small-screen": "On a small screen, the hybrid mode is not very practical: we recommend switching to the blocks or code mode.",
-      "mixed-small-screen-stay": "Stay in hybrid mode",
-      "mixed-small-screen-close": "Close",
+      "mixed-small-screen": "På liten skärm är hybridläget inte så praktiskt. Vi rekommenderar att du byter till block- eller kodläge.",
+      "mixed-small-screen-stay": "Fortsätt i hybridläge",
+      "mixed-small-screen-close": "Stäng",
       "saveWarning": {
         "title": "<span class=\"fa fa-exclamation-circle\"></span> Varning!",
-        "warn": "<span class=\"fa fa-save\"></span> Vill du spara ditt arbete innan du fortsätter?<p class=\"mb-0 mt-0 hint\"> Om du skapar ett nytt projekt utan att spara det tidigare, förloras ditt arbete...",
+        "warn": "<span class=\"fa fa-save\"></span> Vill du spara ditt arbete innan du fortsätter?<p class=\"mb-0 mt-0 hint\"> Om du skapar ett nytt projekt utan att spara det tidigare, förloras ditt arbete...</p>",
         "buttons": {
           "yes": "Ja",
           "no": "Nej",
@@ -2140,7 +2305,7 @@
         "title": "<i class=\"fas fa-lightbulb\"></i> Skapa ett nytt projekt.",
         "notice": "<span class=\"fa fa-info-circle\"></span> Efter att du skapat projektet, glöm inte att spara det i molnet med spara-knappen. Varför inte göra det tillgängligt för andra med alternativet \"dela\"?",
         "form": {
-          "projectName": "<i class=\"fas fa-book\"></i> Projektnamn <span class=\"mandatory\">*</span></label>",
+          "projectName": "<i class=\"fas fa-book\"></i> Projektnamn <span class=\"mandatory\">*</span>",
           "projectDesc": "<i class=\"far fa-edit\"></i> Projektbeskrivning (valfritt)",
           "projectDescPlaceholder": "Beskriv din skiss — det är användbart om du vill dela projektet senare."
         },
@@ -2227,6 +2392,7 @@
     },
     "robotGuide": {
       "tuto": "För att hitta programmeringsblocken för <b>[ROBOT_NAME]</b>-roboten, klicka på fliken <b><i class='fa-solid fa-robot me-1'></i>Robotar</b>.",
+      "tuto-extension": "För att hitta programmeringsblocken för roboten <b>[ROBOT_NAME]</b>, klicka på fliken <b><i class='fas fa-puzzle-piece me-1'></i>Extensions</b>.",
       "tuto-rover": "För att hitta programmeringsblocken för roboten <b>[ROBOT_NAME]</b>, klicka på fliken <b><i class='fas fa-cogs'></i>Avancerat</b> och välj sedan <b><i class='fa-solid fa-robot me-1'></i>ti_rover</b>."
     },
     "droneGuide": {
@@ -3005,9 +3171,27 @@
         "disconnect": "Koppla från",
         "board": "Kort",
         "sensorsList": "Sensorer: ",
+        "sensors": {
+          "accelerometer": "Accelerometer",
+          "micro": "Mikrofon",
+          "pin": "Stift {{pin}}",
+          "add": "Lägg till en sensor",
+          "remove": "Ta bort sensorn"
+        },
         "collectData": "Samla in data",
         "parameters": "Parametrar",
-        "timeWindow": "Tidsfönster"
+        "timeWindow": "Tidsfönster",
+        "unoq": {
+          "upload": "Skickar appen...",
+          "start": "Startar (1 min första gången)...",
+          "error": "Det går inte att ansluta till Arduino UNO Q. Kontrollera USB-kabeln, stäng Arduino App Lab och andra flikar som är anslutna till kortet och försök igen."
+        }
+      },
+      "edgeValidation": {
+        "accuracy": "Precision på undanlagda inspelningar (inte använda för träningen): {{accuracy}} %",
+        "realFound": "Verklig \\ Hittad",
+        "notEnoughRecords": "Ingen validering: minst 5 inspelningar per klass behövs för att lägga undan några och testa modellen.",
+        "uncertain": "Osäker"
       },
       "training": {
         "title": "Träning",
@@ -3057,7 +3241,7 @@
           "instruction-title": "<b>Instruktioner</b> <br> instruktion",
           "instructions": "<b>Placera ett föremål på bordet i det avsedda området för att kameran ska kunna upptäcka det.<br>Observera på l’skärmen resultatet av förutsägelsen från den artificiella intelligensen. </b><br><br> Placera ett föremål på bordet i det avsedda området för att det ska upptäckas av kameran.<br> Observera på skärmen prediktionsresultatet från den artificiella intelligensen.",
           "results": "<b>Resultat</b><br>resultat",
-          "explaining-head": "<b>Den visade procentsatsen anger kategorin som identifierats av l’artificiell intelligens<b>",
+          "explaining-head": "<b>Den visade procentsatsen anger kategorin som identifierats av l’artificiell intelligens</b>",
           "explaining-body": "Den visade procentsatsen anger vilken kategori den artificiella intelligensen identifierat."
         },
         "dragDropFileHere": "Ladda upp en bild (dra och släpp eller klicka)",
@@ -3094,6 +3278,10 @@
             "title": "Python",
             "tooltip": "Använd modellen i Python-gränssnittet"
           },
+          "arduinoq": {
+            "title": "Arduino UNO Q",
+            "tooltip": "Använd modellen på Arduino UNO Q-kortet"
+          },
           "microcontroller": {
             "title": "Mikrokontroller",
             "tooltip": "Ladda ner modellfiler för mikrokontroller"
@@ -3117,7 +3305,7 @@
       "aiImageGuide": {
         "step-0": {
           "title": "Skapa datakategorier",
-          "description": "För att en modell ska lära sig att kategorisera behöver du minst två kategorier. <b>Klicka på pennan och namnge en första kategori (t.ex. Återvinning),</b> och tryck utanför tangentbordet</b>"
+          "description": "För att en modell ska lära sig att kategorisera behöver du minst två kategorier. <b>Klicka på pennan och namnge en första kategori (t.ex. Återvinning),</b> och tryck utanför tangentbordet"
         },
         "step-1": {
           "title": "Skapa datakategorier",
@@ -3612,8 +3800,8 @@
           "titleModeration": "Moderering av AI-Vittascience-gränssnitt",
           "body": [
             "Moderering av AI-svar på Vittascience-gränssnitt innehåller flera delar: <br />",
-            "<ul><li>1. Alla modeller som används är tränade för att hålla en 'måttfull' konversation. Det kan dock finnas situationer som kräver ytterligare åtgärder. </lu>",
-            "<li>2. AI-genererade svar granskas ord för ord. Om ett ord upptäcks som kan anses 'olämpligt' ersätter systemet det med en följd av asterisker med samma längd som det ersatta ordet. Samma mekanism varnar även användaren genom att visa ett meddelande direkt efter AI-svaret.</li></ul>"
+            "1. Alla modeller som används är tränade för att hålla en 'måttfull' konversation. Det kan dock finnas situationer som kräver ytterligare åtgärder. ",
+            "2. AI-genererade svar granskas ord för ord. Om ett ord upptäcks som kan anses 'olämpligt' ersätter systemet det med en följd av asterisker med samma längd som det ersatta ordet. Samma mekanism varnar även användaren genom att visa ett meddelande direkt efter AI-svaret."
           ],
           "understood": "Jag förstår"
         },
@@ -3966,8 +4154,8 @@
           "titleModeration": "Moderering på AI-Vittascience-gränssnitt",
           "body": [
             "Moderering av AI-svar på Vittascience-gränssnitt innefattar flera moment:<br />",
-            "<ul><li>1. <strong>Granskning av användarens prompt: </strong>Först går den användargivna prompten igenom en granskning som utförs av en naturligt språkbehandlingsmodell tränad för att upptäcka olämpligt innehåll. Om olämpligt innehåll upptäcks ombeds användaren formulera om sin begäran. </lu> <a class='bg-light text-dark'style='cursor: pointer;'>Visa granskningsprompt</a>",
-            "<li>2. <strong>Kontroll av genererade bilder </strong>: Andra steget är att kontrollera att bilden som AI genererat inte innehåller olämpliga element. Om så är fallet blir slutbilden helt svart och bilderna från genereringsstegen blir suddiga.</li></ul>",
+            "1. <strong>Granskning av användarens prompt: </strong>Först går den användargivna prompten igenom en granskning som utförs av en naturligt språkbehandlingsmodell tränad för att upptäcka olämpligt innehåll. Om olämpligt innehåll upptäcks ombeds användaren formulera om sin begäran.  <a class='bg-light text-dark'style='cursor: pointer;'>Visa granskningsprompt</a>",
+            "2. <strong>Kontroll av genererade bilder </strong>: Andra steget är att kontrollera att bilden som AI genererat inte innehåller olämpliga element. Om så är fallet blir slutbilden helt svart och bilderna från genereringsstegen blir suddiga.",
             "Kombinationen av dessa steg säkerställer att interaktioner på Vittascience-gränssnitt förblir lämpliga och respektfulla."
           ],
           "safetyPrompt": [
@@ -4015,7 +4203,7 @@
           "unitsBillion": "B"
         },
         "userRestrictions": {
-          "credits": "Credits",
+          "credits": "Krediter",
           "remaining": "{{count}} verbleibend",
           "creditCondition": "Für die Erstellung eines Bildes wird ein Credit benötigt.",
           "dailyReset": "Die täglichen Credits werden um Mitternacht UTC zurückgesetzt.",
@@ -4025,6 +4213,7 @@
           "progressAria": "{{used}} von {{limit}} Credits verwendet",
           "titleCreditInfo": "Informationen zu Credits",
           "unlimitedCredits": "Unbegrenzt",
+          "unlimitedImages": "Ditt abonnemang inkluderar obegränsad bildgenerering",
           "unlimitedReset": "Ihr Premium-Abo beinhaltet unbegrenzte Textgenerierung",
           "unlimitedConditions": "Mit dem Premium-Abo ist die Textgenerierung unbegrenzt."
         }
@@ -4367,11 +4556,11 @@
         "publicCreations": "<i class='fa-solid fa-users m-1'></i>Skapelser från communityn",
         "favoriteCreations": "<i class='fa-solid fa-heart m-1'></i>Mina favoriter",
         "bestCreations": {
-          "title": "<i class='fa-solid fa-trophy m-1'></i></i>Tävling",
+          "title": "Tävling",
           "tooltip": "Varje månad kan du delta i en bildgenereringstävling kring ett bestämt tema! Publicera din skapelse och försök bli en av de tre bilder som får flest gillningar från communityn för att vinna presentkort. (Endast en belöningskod kan tilldelas per användare och månad.)"
         },
         "gameCreations": {
-          "title": "<i class='fa-solid fa-gamepad m-1'></i></i>Utmaning",
+          "title": "Utmaning",
           "tooltip": "Varje vecka kan du anta en ny utmaning att återskapa en bild! Målet är att hitta originalprompten som användes för att generera bilden genom att skriva en så lik prompt som möjligt. Poängen beräknas på likheten mellan din prompt och referensprompten, inte på bildernas visuella likhet."
         },
         "lifeTime": "{{ time }} sedan",
@@ -4739,7 +4928,10 @@
       "send": "Beställning skickad",
       "cancelled": "Avbokad",
       "carrier": "Transportör",
-      "tracking": "Spårningsnummer"
+      "tracking": "Spårningsnummer",
+      "quoteSent": "Skickad",
+      "quoteDenied": "Avböjd",
+      "quoteExpired": "Utgången"
     }
   },
   "userDetails": {
@@ -4983,7 +5175,7 @@
       "message": "Meddelande",
       "mandatory": "Fälten markerade med a <span class=\"mandatory\">*</span> är obligatoriska.",
       "send": "Skicka",
-      "success": "???? Ditt meddelande skickades! </p><p> Projektet ??? kommer att kontakta dig så snart som möjligt...",
+      "success": "<p>???? Ditt meddelande skickades! </p><p> Projektet ??? kommer att kontakta dig så snart som möjligt...</p>",
       "error": "Fel hittade i formuläret: ",
       "errors": {
         "name": "För- och efternamn är ogiltiga. Maxlängd {{ maxi }} tecken. ",
@@ -4999,7 +5191,7 @@
     "address": "VITTASCIENCE SAS</br>6 boulevard Dubreuil</br>91400 Orsay</br>FRANCE",
     "sas": "SAS med 10 000 €<br/>Registrerat vid Évry RCS under nummer: 837 973 296<br/>Momsregistreringsnummer: FR00 837 973 296",
     "contact": "Ansvarig utgivare: Léo Briand</br>Kontakt: <a href=\"/about?contact=1\">klicka här</a> för att komma till kontaktformuläret</br>Telefon: 0606758186",
-    "website": "Website: <a href=\"https://vittascience.com/\">https://vittascience.com/</a></br>Hosted in France by:</br>OVH SAS</br>2 rue Kellermann</br>59100 Roubaix</br>FRANCE",
+    "website": "Webbplats: <a href=\"https://vittascience.com/\">https://vittascience.com/</a></br>Hostad i Frankrike av:</br>OVH SAS</br>2 rue Kellermann</br>59100 Roubaix</br>FRANKRIKE",
     "account": "Skapandet av ett Vittascience-konto är inte nödvändigt för att använda webbplatsens tjänster, förutom vid skapande av resurser, offentliga projekt och experiment på Vittamap. De som väljer att skapa ett Vittascience-konto kan välja om de vill ha en offentlig profil eller inte. Personuppgifter (efternamn, förnamn och skola) publiceras eller delas aldrig utan användarens samtycke och omfattas av strikta säkerhetsåtgärder. E-postadress och telefonnummer (valfritt vid registrering) görs aldrig offentliga.",
     "law": "I enlighet med lagen \\\"Informatique et Libertés\\\" (Computing and Freedom) N° 78-17 du 6 Janvier 1978 har du rätt till åtkomst, rättelse och invändning. Du kan utöva dessa rättigheter via <a href=\"/about?contact=1\"> kontaktformulär </a> eller skriftligen till följande adress: <br/>Vittascience SAS, 6 Boulevard Dubreuil 91400 ORSAY."
   },
@@ -5086,7 +5278,7 @@
     "articles": {
       "1": {
         "title": "1. Syfte",
-        "content": "Vittascience är en samling onlinetjänster (hädanefter \\\"<strong>Services</strong>\\\") som gör det möjligt för användare att köra, skapa, redigera och publicera datorprogram samt pedagogiska resurser, aktiviteter och lärvägar (hädanefter gemensamt kallade \\\"<strong>Content</strong>\\\").</br></br>Vittascience erbjuder också elektronisk utrustning och pedagogiska kit till försäljning via webbplatsen. Se <a href='https://fr.vittascience.com/cgv'>General Terms and Conditions of Sale</a> för mer information.</br></br>Företaget VITTASCIENCE (hädanefter: \\\"<strong>VITTASCIENCE</strong>\\\") tillhandahåller, genom sin webbplats <a href='https://vittascience.com/'>www.vittascience.com</a> (hädanefter: \\\"<strong>Site</strong>\\\"), tjänster avsedda för lärare och privatpersoner (hädanefter: \\\"<strong>Users</strong>\\\") som är tillägnade undervisning och lärande inom naturvetenskap och digital teknik.</br></br>Syftet med dessa villkor är att definiera användningsreglerna för de tjänster som erbjuds på webbplatsen samt användarnas rättigheter och skyldigheter i detta sammanhang. De är tillgängliga och kan skrivas ut när som helst.</br></br>Webbplatsen och tjänsterna drivs av företaget VITTASCIENCE. Mer information och kontaktuppgifter finns i <a href='https://vittascience.com/legalnotice'>Legal Notice</a>."
+        "content": "Vittascience är en uppsättning onlinetjänster (hädanefter \"<strong>Tjänsterna</strong>\") som gör det möjligt för användare att köra, skapa, redigera och publicera datorprogram samt pedagogiska resurser, aktiviteter och lärandevägar (hädanefter gemensamt kallade \"<strong>Innehållet</strong>\").</br></br>Vittascience erbjuder också elektronisk utrustning och pedagogiska kit till salu via webbplatsen. Se <a href='https://fr.vittascience.com/cgv'>Allmänna försäljningsvillkor</a> för mer information.</br></br>Företaget VITTASCIENCE (hädanefter: \"<strong>VITTASCIENCE</strong>\") tillhandahåller, via sin webbplats <a href='https://vittascience.com/'>www.vittascience.com</a> (hädanefter: \"<strong>Webbplatsen</strong>\"), tjänster riktade till lärare och privatpersoner (hädanefter: \"<strong>Användarna</strong>\") med fokus på undervisning och lärande inom naturvetenskap och digital teknik.</br></br>Syftet med dessa villkor är att fastställa villkoren för användningen av tjänsterna som erbjuds på webbplatsen samt användarnas rättigheter och skyldigheter i detta sammanhang. De är tillgängliga och kan skrivas ut när som helst.</br></br>Webbplatsen och tjänsterna drivs av företaget VITTASCIENCE. Mer information och kontaktuppgifter finns i <a href='https://vittascience.com/legalnotice'>Juridisk information</a>."
       },
       "2": {
         "title": "2. Godkännande av användarvillkoren",
@@ -5711,10 +5903,24 @@
     },
     "materialsNeeded": "Lista över material som behövs",
     "suggestedResources": "Föreslagna resurser",
+    "classroomImport": {
+      "button": "Importera till klassrumsmodulen",
+      "loginTooltip": "Logga in för att importera till klassrumsmodulen",
+      "success": "Resurs importerad till klassrumsmodulen.",
+      "error": "Importen misslyckades."
+    },
     "inIframe": {
       "btn": {
         "importBtnText": "Importera",
-        "importAllBtnText": "Importera all aktivitet"
+        "importAllBtnText": "Importera all aktivitet",
+        "importAsCourseBtnText": "Importera som en kurs"
+      },
+      "confirm": {
+        "activity": "Importera denna del som en aktivitet i klassrumsmodulen?",
+        "course": "Importera denna resurs som en kurs i klassrumsmodulen? Dess delar kommer att kopieras i ordning, i en mapp med dess namn."
+      },
+      "license": {
+        "noDerivatives": "Denna resurs är licensierad CC-BY-NC-ND (inga derivat): den kan inte importeras till klassrumsmodulen."
       }
     }
   },
@@ -5750,6 +5956,19 @@
   },
   "modals": {
     "standard": {
+      "blocksScreenshot": {
+          "title": "Skärmbild av blocken",
+          "quality": "Kvalitet",
+          "qualities": {
+              "screen": "Skärm (×1)",
+              "good": "Bra (×2)",
+              "high": "Hög (×4)",
+              "veryHigh": "Mycket hög (×8)"
+          },
+          "format": "Format",
+          "size": "Bildstorlek: {{width}} × {{height}} pixlar",
+          "download": "Ladda ner"
+      },
       "arduino-q-wifi": {
         "title": "Wi-Fi för Arduino UNO Q-kortet",
         "enabled": "Wi-Fi aktiverat",
@@ -5949,7 +6168,7 @@
       "new": {
         "title": "Skapa ett nytt projekt",
         "content": {
-          "name": "<i class='fas fa-book'></i> Projektnamn <span class='mandatory'>*</span></label>",
+          "name": "<i class='fas fa-book'></i> Projektnamn <span class='mandatory'>*</span>",
           "description": "<i class='far fa-edit'></i> Projektbeskrivning (valfri)",
           "placeholder": {
             "name": "Projektnamn",
@@ -6067,7 +6286,7 @@
             "libraries-link": "https://github.com/vittascience/galaxia-libraries"
           },
           "letsstartcoding": {
-            "name": "Let's start coding",
+            "name": "Dags att börja koda",
             "learn": "Läs mer om C++-funktionerna för Let's start coding-korten på ",
             "learn-link": "https://www.letsstartcoding.com/",
             "libraries-link": "https://github.com/vittascience/arduino-libraries"
@@ -6189,6 +6408,9 @@
             "title": "Automatisk rullning",
             "text": "Aktivera automatisk rullning"
           },
+          "sound": {
+            "title": "Volym för blockljud"
+          },
           "toolbox": {
             "title": "Verktygslådans stil",
             "notice": "Du kan ändra verktygslådans stil. Det ändrar kategoriernas och blockens utseende.",
@@ -6300,7 +6522,7 @@
               "title": "<i class=\"fas fa-lightbulb\"></i> Skapa ett nytt projekt",
               "notice": "<span class=\"fa fa-info-circle\"></span> När du skapat projektet, glöm inte att spara det i molnet med spara-knappen. Varför inte göra det tillgängligt för andra via delningsfunktionen?",
               "form": {
-                "projectName": "<i class=\"fas fa-book\"></i> Projektnamn <span class=\"mandatory\">*</span></label>",
+                "projectName": "<i class=\"fas fa-book\"></i> Projektnamn <span class=\"mandatory\">*</span>",
                 "projectDesc": "<i class=\"far fa-edit\"></i> Projektbeskrivning (valfritt)",
                 "projectDescPlaceholder": "Beskriv din skiss — användbart om du vill dela projektet senare."
               },
@@ -6391,6 +6613,38 @@
       "i18n": {
         "title": "Ändra språk"
       },
+      "shortcuts": {
+        "title": "Kortkommandon",
+        "or": "eller",
+        "then": "sedan",
+        "table": {
+          "keys": "Tangenter",
+          "action": "Åtgärd"
+        },
+        "sections": {
+          "general": "Allmänt",
+          "code": "Kodredigerare",
+          "blocks": "Blockarbetsyta"
+        },
+        "actions": {
+          "save": "Spara projektet",
+          "closeModal": "Stäng det öppna fönstret",
+          "focusNext": "Gå till nästa / föregående element",
+          "resizeConsole": "Förstora / förminska konsolen (storleksändringslisten vald)",
+          "enterEditor": "Gå in i kodredigeraren",
+          "leaveEditor": "Lämna kodredigeraren",
+          "undo": "Ångra",
+          "redo": "Gör om",
+          "selectAll": "Markera allt",
+          "duplicateLine": "Duplicera raden eller markeringen",
+          "moveLine": "Flytta raden uppåt / nedåt",
+          "indent": "Indrag / ta bort indrag",
+          "toggleComment": "Kommentera / ta bort kommentar",
+          "find": "Sök",
+          "replace": "Sök och ersätt",
+          "navigateBlocks": "Navigera mellan block"
+        }
+      },
       "codeOnly": {
         "title": "Byt till endast kodläge",
         "content": "Vill du dölja lägesvalet för att permanent stanna i endast kodläge (utan block)?",
@@ -6401,8 +6655,8 @@
           "content": "Kodläget är för närvarande låst. Det betyder att block- och hybridlägen är inaktiverade."
         },
         "exit": {
-          "title": "Leave code-only mode",
-          "content": "Do you wish to unlock code-only mode so that block and hybrid modes can be used again?"
+          "title": "Lämna kodendastläge",
+          "content": "Vill du låsa upp kodendastläget så att block- och hybridlägen kan användas igen?"
         }
       },
       "local-compilation": {
@@ -6494,6 +6748,18 @@
         "wrongLink": "Denna länk leder till ett projekt som inte finns eller som inte skapats med detta gränssnitt. Du kan söka efter ett projekt via <b>Öppna ett projekt</b> eller skapa ett nytt",
         "wrongFile": "Denna fil verkar inte lämpad för det här gränssnittet. Kontrollera raden 'Interface:' i filhuvudet.",
         "wrongXml": "Denna länk leder till ett projekt som inte verkar laddas korrekt i gränssnittet. Dela gärna projektlänken med Vittascience-support så försöker vi åtgärda det.",
+        "loadingError": "The project couldn't be loaded: the connection to the server failed. Check your internet connection then reload the page.",
+        "reloadPage": "Reload the page",
+        "localDraft": {
+          "title": "Unsaved changes",
+          "content": "This project has changes that were not saved on the server. They have been kept in this browser.",
+          "lastChange": "Last change:",
+          "hint": "If you open the saved version, these changes will be permanently lost.",
+          "buttons": {
+            "restore": "Restore my changes",
+            "discard": "Open the saved version"
+          }
+        },
         "privateProject": "Privat projekt",
         "rightsChange": "Åtkomsträttigheter ändrade",
         "rightsAttributed": "Behörigheter beviljade",
@@ -6743,6 +7009,9 @@
         "welcome": "Välkommen till ESP32-gränssnittet!",
         "tutorial_link": "Kom igång med ESP32-gränssnittet med den här guiden"
       },
+      "unihiker": {
+        "welcome": "Välkommen till UNIHIKER-gränssnittet!"
+      },
       "content": {
         "intro": "Välj det kort du vill programmera. Blocken och bilden i simulatorn anpassas därefter.",
         "compatibility_link": "Upptäck kort, sensorer och robotar som är kompatibla med gränssnittet",
@@ -6964,7 +7233,7 @@
       },
       "camera-blocked": {
         "title": "Fel vid åtkomst till kameran",
-        "text": "<p class='camera-blocked-intro'>Ett fel uppstod när kameran skulle initieras. Den vanligaste orsaken är att åtkomst till kameran är blockerad i din webbläsare. Du kan avblockera kameran genom att följa stegen nedan. Om problemet kvarstår och ditt operativsystem är Windows kan blockeringen även bero på att ett annat program redan använder kameran.</p><ul class='camera-blocked-list'><li><p>I Google Chrome</p><ol class='camera-blocked-ordered-list'><li><p>Klicka på hänglåset till vänster om adressfältet.</p> <img src='/ia/assets/images/camera-blocked-chrome-1.png' alt=''></li><li>Klicka sedan på knappen på <q>Kamera</q>-raden för att aktivera den.</li><li>Klicka sedan på <q>Ladda om</q>-knappen som dök upp under adressfältet.</li></ol></li><li><p>I Mozilla Firefox<p><ol class='camera-blocked-ordered-list'><li><p>Klicka på den överkryssade kameran till vänster om adressfältet.</p> <img src='/ia/assets/images/camera-blocked-firefox-1.png' alt=''></li><li>Klicka sedan på knappen <q>Tillfälligt blockerat X</q> på kameraraden för att aktivera den.</li><li>Välj <q>Tillåt</q> nästa gång du försöker använda kameran.</li></ol></li></ul>"
+        "text": "<p class='camera-blocked-intro'>Ett fel uppstod när kameran skulle initieras. Den vanligaste orsaken är att åtkomst till kameran är blockerad i din webbläsare. Du kan avblockera kameran genom att följa stegen nedan. Om problemet kvarstår och ditt operativsystem är Windows kan blockeringen även bero på att ett annat program redan använder kameran.</p><ul class='camera-blocked-list'><li><p>I Google Chrome</p><ol class='camera-blocked-ordered-list'><li><p>Klicka på hänglåset till vänster om adressfältet.</p> <img src='/ia/assets/images/camera-blocked-chrome-1.png' alt=''></li><li>Klicka sedan på knappen på <q>Kamera</q>-raden för att aktivera den.</li><li>Klicka sedan på <q>Ladda om</q>-knappen som dök upp under adressfältet.</li></ol></li><li><p>I Mozilla Firefox</p><ol class='camera-blocked-ordered-list'><li><p>Klicka på den överkryssade kameran till vänster om adressfältet.</p> <img src='/ia/assets/images/camera-blocked-firefox-1.png' alt=''></li><li>Klicka sedan på knappen <q>Tillfälligt blockerat X</q> på kameraraden för att aktivera den.</li><li>Välj <q>Tillåt</q> nästa gång du försöker använda kameran.</li></ol></li></ul>"
       },
       "notification-save-export": {
         "title": "Använd den här mallen",
@@ -7007,6 +7276,9 @@
         "arduinoQ": "Arduino UNO Q",
         "arduinoQExplanations": "Arduino UNO Q-kortet kör modellen direkt på sin Linux-processor: ingen optimering via servern behövs.</br>Modellen öppnas i Arduino UNO Q-gränssnittet med ett exempelprogram och skickas sedan till kortet vid uppladdningen.",
         "arduinoQNote": "<strong>Obs:</strong> om ditt projekt inte är sparat online stannar modellen i den här webbläsaren: ladda upp programmet från samma webbläsare.",
+        "unihikerExplanations": "UNIHIKER M10-kortet kör modellen själv, med bilden från sin USB-kamera: det finns inget att generera eller flasha.",
+        "unihikerNote": "Modellen öppnas i UNIHIKER-gränssnittet: den skickas till kortet med programmet vid uppladdning.",
+        "openUnihiker": "Öppna i UNIHIKER M10-gränssnittet",
         "openArduinoQ": "Öppna i Arduino UNO Q-gränssnittet"
       },
       "microcontroller-queue": {
@@ -7026,7 +7298,7 @@
       "microcontroller-dfu": {
         "title": "Uppdateringsprocedur för Wio Lite-kortet",
         "zip-files-steps": {
-          "step1": "Anslut Wio Lite-kortet till datorn med en USB-C (data) kabel samtidigt som du håller ner <i class='fa-solid fa-play'> (<strong>USR</strong>)-knappen på kortet",
+          "step1": "Anslut Wio Lite-kortet till datorn med en USB-C (data) kabel samtidigt som du håller ner <i class='fa-solid fa-play'></i> (<strong>USR</strong>)-knappen på kortet",
           "step2": "Tryck på knappen <strong><i class='fa-solid fa-link me-1'></i>Anslut</strong> och välj enheten <strong>WIO LITE AI</strong>",
           "step3": "Tryck på knappen <strong>Välj fil</strong> och välj sedan filen <strong>network_data.bin</strong>",
           "step4": "Starta nedladdningen genom att trycka på knappen <strong><i class='fa-solid fa-download me-1'></i>Ladda ner</strong>",
@@ -7102,12 +7374,12 @@
     "campus-numeria": {
       "no-city-selected": {
         "title": "Välj stad eller anläggning",
-        "content": "<p>Välj den stad eller anläggning där du kommer att styra roboten<p>",
+        "content": "<p>Välj den stad eller anläggning där du kommer att styra roboten</p>",
         "accept": "Acceptera"
       },
       "unlogged-user": {
         "title": "Du måste vara inloggad",
-        "content": "<p>Du måste vara inloggad med ditt vittascience-konto för att boka en tid och styra roboten.<p>",
+        "content": "<p>Du måste vara inloggad med ditt vittascience-konto för att boka en tid och styra roboten.</p>",
         "connect": "Logga in"
       },
       "booking-slot-exceeded": {
@@ -7245,6 +7517,8 @@
         "esp32": "Programmeringsmiljö för ESP32-kort (Wemos D1R32, NodeMCU, Huzzah32, ...)",
         "TI-83": "Programmeringsmiljö för räknare samt för BBC micro:bit eller TI Innovator™ Hub",
         "GalaxiaCircuitPython": "Programmeringsmiljö för Thingz-Galaxia-kortet",
+        "unihiker": "Programmeringsgränssnitt för UNIHIKER M10: pekskärm, inbyggda sensorer och Python på Linux!",
+        "unihikerK10": "Programmeringsgränssnitt för UNIHIKER K10: skärm, RGB-LED:ar, inbyggda sensorer och MicroPython!",
         "raspberrypi": "Programmeringsmiljö för Raspberry Pi",
         "niryo": "Välkommen till Vittascience-gränssnittet för Niryo ned2!",
         "nao": "Välkommen till Vittascience-gränssnittet för NAO v6-roboten!",
@@ -7268,6 +7542,7 @@
         "maqueen": "Programmeringsmiljö för Maqueen-roboten",
         "maqueenPlus": "Programmeringsmiljö för Maqueen Plus V1 och V2-robotarna",
         "cutebot": "Programmeringsmiljö för Cutebot-roboten",
+        "tpbot": "Programmeringsmiljö för TPBot-roboten",
         "cutebotPro": "Programmeringsmiljö för Cutebot Pro-roboten",
         "kitrobot": "Programmeringsmiljö för Kitro:bot v2-roboten",
         "oobybot": "Programmeringsmiljö för Oobybot-roboten",
@@ -7298,7 +7573,8 @@
         "uhandbit": "Programmierschnittstelle für die uHandbit-Roboterhand",
         "wonder": "Programmierschnittstelle für das Elecfreaks Wonder Building Kit",
         "buildingbit": "Programmierschnittstelle für das Yahboom Building:bit Super Kit",
-        "primastem": "Programmeringsgränssnitt för PrimaStem-roboten"
+        "primastem": "Programmeringsgränssnitt för PrimaStem-roboten",
+        "skykick": "Programmeringsgränssnitt för SkyKick Evo-dronen"
       }
     },
     "features_title": "Gemensamma funktioner",
@@ -7422,7 +7698,19 @@
     "notExerciseStatementCreator": "Du har inte behörighet att ändra beskrivningen!",
     "needProjectName": "Du måste ange projektets namn innan du kan spara!",
     "projectSaveError": "Ett fel inträffade vid sparning!",
-    "projectSaveConflict": "Your project has NOT been saved: it was modified elsewhere. Save again to overwrite the version stored on the server.",
+    "projectSaveConflict": "Ditt projekt sparades INTE: det ändrades någon annanstans. Spara igen för att skriva över versionen som finns på servern.",
+    "projectSaveNotConnected": "Your project has NOT been saved: your session has expired. Log in again then save again, your changes are kept in this browser.",
+    "projectSaveForbidden": "Your project has NOT been saved: you are not allowed to edit this project. Use “Save as…” to save a copy of it.",
+    "projectSaveNotFound": "Your project has NOT been saved: it no longer exists on the server. Download it to keep your work.",
+    "projectSaveInvalid": "Your project has NOT been saved: the server refused incomplete data (empty project name or code).",
+    "projectSaveNetworkError": "Your project has NOT been saved: the server can't be reached. Check your internet connection then try again, your changes are kept in this browser.",
+    "projectSaveServerError": "Your project has NOT been saved because of a server error. Try again in a few moments; if the problem persists, download your project so you don't lose your work.",
+    "projectOpened": "Project “{{name}}” opened.",
+    "projectOpenError": "The project couldn't be opened. Check your internet connection then try again.",
+    "projectCopySaved": "Copy “{{name}}” saved: you are now working on this copy.",
+    "localDraftRestored": "Your unsaved changes have been restored. Remember to save your project!",
+    "exerciseSaved": "The exercise has been saved successfully!",
+    "exerciseSaveFailed": "The exercise has NOT been saved. Check your internet connection then try again.",
     "projectNoChangesToSave": "Inga ändringar att spara!",
     "projectSaveSuccess": "Ditt projekt har sparats!",
     "loadedProjectNotFound": "Det begärda projektet finns inte!",
@@ -7484,6 +7772,7 @@
     "favoriteNotRemoved": "Kunde inte ta bort resursen från favoriterna",
     "needToTrainModelForPrediction": "Du måste träna modellen innan du kan göra förutsägelser!",
     "needAtLeastTwoCategoryForEdge": "Du behöver minst två kategorier för att träna modellen!",
+    "edgeUnbalancedClasses": "Klasserna har inte lika många inspelningar: modellen kan gynna de största. Försök ha ungefär lika många i varje klass.",
     "noDataToTrainModel": "Det finns inga data för att träna modellen!",
     "errorEdgeFilterDataMissingReccords": "Minst en kategori saknar data för att träna modellen!",
     "errorEdgeFilterDataSensorStrategyMismatch": "Modellen kan inte tränas eftersom flera sensorer används i kategorierna!",
@@ -7504,8 +7793,8 @@
     "noTrainingDataToVerify": "Det finns för närvarande inga träningsdata att kontrollera!",
     "badAiInterfaceForProject": "Det öppna projektet är inte kompatibelt med det här gränssnittet.",
     "hideElementTooltipError": "AiView->_hideElementTooltip: det angivna argumentet är inte en instans av HTMLElement!",
-    "openModelFileMissing": "The {{filename}} file is missing!</br> You must add the three files at the same time! (metadata.json, model.json and model.weights.bin)",
-    "openModelBadFileName": "{{filename}} does not have the correct file name!</br> As a reminder, the files must have the names metadata.json, model.json and model.weights.bin",
+    "openModelFileMissing": "Filen {{filename}} saknas!</br>Du måste lägga till alla tre filer samtidigt! (metadata.json, model.json och model.weights.bin)",
+    "openModelBadFileName": "{{filename}} har inte rätt filnamn!</br>Som påminnelse måste filerna heta metadata.json, model.json och model.weights.bin",
     "cantOpenMultipleZipFiles": "Du kan inte öppna mer än en zip-fil åt gången!",
     "zipFileContent": "[Inuti zip-filen] ",
     "shortSoundFile": "Välj en ljudfil som är längre än 2 sekunder",
@@ -7823,7 +8112,7 @@
     "table": {
       "title": "Jämför funktioner",
       "free": {
-        "title": "Discovery",
+        "title": "Upptäck",
         "button": "Registrera dig",
         "line1": "10 projekt",
         "line5": "obegränsat",
@@ -7908,7 +8197,7 @@
       "answer-9": "Ja, alla angivna priser inkluderar moms.",
       "question-10": "Finns det grupp‑erbjudanden eller särskilda priser för skolor?",
       "answer-10": "Skolor kan teckna erbjudandet för lärarlag genom att begära en offert.",
-      "question-11": "Jag har betalat för prenumerationen men don’t have access to premium features. What should I do?",
+      "question-11": "Jag betalade för prenumerationen men har inte tillgång till premiumfunktionerna. Vad ska jag göra?",
       "answer-11": "Om din prenumeration inte aktiveras automatiskt, kontakta oss på <a href='mailto:contact@vittascience.com?subject=Question about premium subscription'>contact@vittascience.com</a> så löser vi problemet.",
       "question-12": "Hur ändrar jag min prenumeration (byta plan, lägga till tillval, osv.)?",
       "answer-12": "Du kan uppgradera från månads- till årsprenumeration, eller från Lärare-erbjudandet till Lärarlag genom att välja önskat alternativ och prenumerera.<br><br>Vid frågor, kontakta oss på: <a href='mailto:contact@vittascience.com?subject=Question about premium subscription'>contact@vittascience.com</a>",
@@ -8243,7 +8532,7 @@
         "section_title": "micro:bit-kort",
         "question_list": {
           "1": {
-            "title": "Får man tillbaka \"Out of the Box\"-programmet efter en återställning?",
+            "title": "När vi gör en återställning, hittar vi programmet \"Out of the Box\"?",
             "answer": "Ja, men om ett annat program har laddats skriver det över startprogrammet. För att hitta startprogrammet, följ denna <a href='https://microbit.org/get-started/user-guide/meet-the-microbit-program/' target='_blank'>handledning</a>."
           },
           "2": {
@@ -8548,7 +8837,7 @@
     "chrome": {
       "onChrome": "I Chrome",
       "settingsClick": "Uppe till höger, klicka på <i class='fas fa-ellipsis-v'></i> <i class='fas fa-chevron-right'></i> Inställningar.",
-      "privacyClick": "Klicka på Sekretess och säkerhet <i class= fas fa-shield-alt'></i>",
+      "privacyClick": "Klicka på Sekretess och säkerhet <i class='fas fa-shield-alt'></i>",
       "cookiesClick": "Klicka på Cookies och annan webbplatsdata.",
       "switchAllow": "Byt från &quot;Blockera tredjepartscookies i privat läge&quot; till &quot;Tillåt alla cookies&quot;."
     },
@@ -8731,7 +9020,7 @@
       "title2": "I samarbete med"
     },
     "ressources": {
-      "title": "UPPTÄCK <span class='color-orange'>3 RESURSER",
+      "title": "UPPTÄCK <span class='color-orange'>3 RESURSER</span>",
       "card1": "Kom igång med micro:bit-kortet",
       "card2": "Mäta luftkvalitet med en MQ135-sensor på Arduino",
       "card3": "mBot",
@@ -8846,7 +9135,7 @@
       "title2": "I samarbete med"
     },
     "ressources": {
-      "title": "UPPTÄCK <span class='color-orange'>3 RESURSER",
+      "title": "UPPTÄCK <span class='color-orange'>3 RESURSER</span>",
       "card1": "Kom igång med micro:bit",
       "card2": "Mäta luftkvalitet med en MQ135-sensor på Arduino",
       "card3": "mBot",
@@ -9213,7 +9502,7 @@
     },
     "main": {
       "title": "Beräkna CO<sub>2</sub>e-påverkan från din digitala användning",
-      "body": "🌍<strong> Visste du att?</strong> I Frankrike släpper varje person i genomsnitt ut 10 ton CO₂e per år.<p>🎯 <strong>Målet i COP21:</strong> Minska detta till 2 ton CO₂e per person och år.</p><p>💻 <strong>Hur ser det ut för digital teknik?</strong> Digital teknik (internet, smartphones, datorer osv.) står för 4 % av de totala utsläppen — cirka 400 kg CO₂e per år.</p><p>🚀 <strong>Utmaningen för digitalt:</strong> För att nå COP21-målet måste detta sjunka till 80 kg CO₂e per år.</p><p>❓ <strong>Och du?</strong> Redo att anta utmaningen? Börja med att uppskatta din nuvarande påverkan och upptäck hur du kan minska ditt koldioxidavtryck. 🌱✨",
+      "body": "🌍<strong> Visste du att?</strong> I Frankrike släpper varje person i genomsnitt ut 10 ton CO₂e per år.<p>🎯 <strong>Målet i COP21:</strong> Minska detta till 2 ton CO₂e per person och år.</p><p>💻 <strong>Hur ser det ut för digital teknik?</strong> Digital teknik (internet, smartphones, datorer osv.) står för 4 % av de totala utsläppen — cirka 400 kg CO₂e per år.</p><p>🚀 <strong>Utmaningen för digitalt:</strong> För att nå COP21-målet måste detta sjunka till 80 kg CO₂e per år.</p><p>❓ <strong>Och du?</strong> Redo att anta utmaningen? Börja med att uppskatta din nuvarande påverkan och upptäck hur du kan minska ditt koldioxidavtryck. 🌱✨</p>",
       "lastEvaluation": "Senaste utvärdering: ",
       "notRated": "Inte bedömd än",
       "decrease": "Minska",
@@ -9287,7 +9576,7 @@
         "tablette": {
           "icon": "🖥️",
           "title": "Surfplatta",
-          "rules": "<strong>Beräkningsgrunder:</strong> 10.53-inch screen, LCD screen technology mix, 4.7 GB RAM, 144 GB storage (weighted mix between 3 tablet configurations). Average between personal and professional use.",
+          "rules": "<strong>Beräkningsgrunder:</strong> 10,53-tums skärm, blandning av LCD-skärmstekniker, 4,7 GB RAM, 144 GB lagring (viktat snitt mellan 3 konfigurationer för surfplattor). Genomsnitt mellan privat och professionellt bruk.",
           "practical_tips": "För att minska påverkan från din surfplatta, anta dessa enkla vanor:<br/>🚫 <strong>Inaktivera onödiga automatiska synkroniseringar</strong><br/>🔕 <strong>Begränsa aviseringar</strong><br/>💾 <strong>Föredra lokal lagring</strong> framför molnet när det är möjligt<br/>⏳ <strong>Behåll din surfplatta längre än de förväntade 3 åren</strong> för att minska dess miljöpåverkan",
           "link": "https://impactco2.fr/outils/numerique/tabletteclassique",
           "label_how_many_years": {
@@ -9349,14 +9638,14 @@
             "label": "Hur länge har du haft den?",
             "name": "computer_years_usage",
             "type": "number",
-            "unit": "years",
+            "unit": "år",
             "info": "<p>Tillverkning, distribution och slutet av livscykeln för en bärbar dator genererar 185.8 kg CO₂ ekv. 🌍</p><p>Genom att använda den längre sprids denna påverkan över flera år, vilket minskar dess årliga koldioxidavtryck. ♻️</p>"
           },
           "label_change": {
             "label": "Hur mycket längre planerar du att behålla din dator?",
             "name": "computer_change",
             "type": "number",
-            "unit": "years",
+            "unit": "år",
             "info": "<p>I genomsnitt håller en dator omkring 5 år.</p><ul><li>✅ 5 years → Annual impact: 38.68 kg of CO₂ eq</li><li>✅ 6 years → Annual impact: 32.49 kg of CO₂ eq</li></ul><p>Att förlänga användningen med ett år kan spara upp till 6 kg CO₂ ekv per år. 💨🌍</p>"
           },
           "label_state": {
@@ -9374,7 +9663,7 @@
             "advice": "Du kan kontrollera på Windows eller Mac med alternativet Skärmtid.",
             "type": "number",
             "name": "computer_day_time",
-            "unit": "hour",
+            "unit": "timme",
             "info": "Ett år av att använda en bärbar dator 3 timmar per dag ger 1.56 kg CO₂ ekv. En extra timme ökar denna påverkan med 33%. ♻️. Förnuftig användning förlänger också device’s livslängd:<ul><li>🔋 Ett batteri klarar ungefär 3,000 laddningscykler.</li><li>🖥️ LCD-skärmar håller mellan 50,000 och 60,000 timmar.</li></ul>"
           }
         },
@@ -9748,7 +10037,7 @@
   },
   "foia": {
     "head": {
-      "mainTitle": "Future of AI x Vittascience",
+      "mainTitle": "Framtiden för AI x Vittascience",
       "title": "En workshop för att lära om <br/><em>AI:s utmaningar</em>",
       "lead": "Utforska AI:s potential, utmaningar och yrken i tjänst för allmännyttiga uppdrag i Future of AI. En lärandeupplevelse från Latitudes och Vittascience.",
       "startButton": "Starta workshopen"

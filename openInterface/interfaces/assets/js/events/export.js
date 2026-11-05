@@ -1,8 +1,8 @@
 function openExportProjectWindow() {
     if (typeof Simulator !== 'undefined') Simulator.pause();
     const exportProjectWin = $("#modal-exportproject");
-    const api = exportProjectWin.find("#api");
+    // const api = exportProjectWin.find("#api");
     pseudoModal.openModal('modal-exportproject');
-    // Setup API export tab of modal
-    getAPIKey(api);
+    // VittAPI disabled: API export tab commented out in generalModals.js
+    // getAPIKey(api);
 }

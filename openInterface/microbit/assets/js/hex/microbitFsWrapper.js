@@ -34,8 +34,8 @@ class microbitFsWrapper {
     constructor(filename = 'main.py', hex_v2 = 'micropython-microbit-v2.1.1.hex') {
         this.filename = filename;
         this.fs = null;
-        this.HEX_V1 = `${CDN_PATH}${_PATH}/microbit/assets/js/hex/micropython-microbit-v1.0.hex`;
-        this.HEX_V2 = `${CDN_PATH}${_PATH}/microbit/assets/js/hex/${hex_v2}`;
+        this.HEX_V1 = `${_PATH}/microbit/assets/js/hex/micropython-microbit-v1.0.hex`;
+        this.HEX_V2 = `${_PATH}/microbit/assets/js/hex/${hex_v2}`;
         this.commonFsSize = 20 * 1024;
         this.passthroughMethods = [
             'create',
@@ -56,8 +56,13 @@ class microbitFsWrapper {
     /**
      * Initialize file system wrapper of BBC micro:bit with micropython firmwares.
      */
-    async initialize() {
-        await this.setupFilesystem(this.HEX_V1, this.HEX_V2);
+    initialize() {
+        // the hex files (~1.8 MB) are only needed to flash / download: loaded once, retried after a failure
+        this.ready ??= Promise.resolve(this.setupFilesystem(this.HEX_V1, this.HEX_V2)).catch((error) => {
+            this.ready = null;
+            throw error;
+        });
+        return this.ready;
     };
 
     /**
@@ -108,6 +113,7 @@ class microbitFsWrapper {
      * @param {string} code
      */
     async setFilesystemProgram() {
+        await Promise.all([this.initialize(), VittaInterface.loadExternalLibraries()]);
         const userCode = CodeManager.getSharedInstance().getCode();
         await this.fs.write(this.filename, userCode);
         await this.addExternalLibraries();

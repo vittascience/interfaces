@@ -150,8 +150,15 @@ class RtcManager {
             userRoundImg.className = 'user-round-icon';
             userRoundImg.src = '/openInterface/interfaces/assets/media/users-icons/' + JSON.parse(data[element].clientInfos).icon;
           } else {
+            const icon = JSON.parse(data[element].clientInfos).icon;
             userRoundImg.className = 'user-round-picture';
-            userRoundImg.src = `${VS_USER_DATA_BASE}/user_img/${JSON.parse(data[element].clientInfos).icon}`;
+            if (icon.startsWith('http://') || icon.startsWith('https://') || icon.startsWith('data:image/')) {
+              userRoundImg.src = icon;
+            } else if (icon.startsWith('alphabet') || icon.startsWith('users-icons')) {
+              userRoundImg.src = `/public/content/img/${icon}${icon.startsWith('alphabet') ? '.png' : '.svg'}`;
+            } else {
+              userRoundImg.src = `${VS_USER_DATA_BASE}/user_img/${icon}`;
+            }
           }
           userRound.appendChild(userRoundImg);
         }
@@ -426,9 +433,7 @@ class RtcManager {
 
   aceTriggerTrad() {
     if (Main.hasPython2Blocks()) {
-      if (Python2Blocks !== "undefined" && Python2Blocks.initialized === true) {
-        Python2Blocks.prepareInjection();
-      }
+      Python2Blocks.initParser().then(() => Python2Blocks.prepareInjection()).catch((error) => console.error(error));
     }
   }
 

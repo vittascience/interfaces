@@ -12,12 +12,6 @@
   position: fixed;
 }
 
-/*Hides the loader gif when the dark theme is enabled */
-
-.theme-dark #index-loader img {
-  opacity: 0;
-}
-
 .searchbar {
   background-color: var(--bg-4);
 }

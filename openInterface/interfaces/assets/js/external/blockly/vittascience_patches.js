@@ -164,13 +164,212 @@ Blockly.Tooltip.SEP = "&&SEPARATOR&&";
   };
 })();
 
+// --- Categories with subcategories: opened and closed smoothly ---
+// The core only switches the display of the subcategories container, and the toolbox takes at once
+// the width of its widest open row: the workspace jumped sideways. Here, at the same pace:
+// - the height and opacity of the subcategories are animated,
+// - the toolbox width goes from its width before to its width after, and the workspace (and an open
+//   flyout) follows it at every frame. Only the workspace is moved during the animation (cheap):
+//   Blockly resizes it once, at the end.
+// The expanded state changes at once, as in the core, so a click during the animation reverses it.
+(function () {
+  var setExpanded = Blockly.CollapsibleToolboxCategory.prototype.setExpanded;
+
+  // Natural toolbox width (no inline width), with the given display for the subcategories container
+  function naturalWidth(toolboxDiv, subcategoriesDiv, display) {
+    var width = toolboxDiv.style.width, shown = subcategoriesDiv.style.display;
+    toolboxDiv.style.width = '';
+    subcategoriesDiv.style.display = display;
+    var natural = toolboxDiv.getBoundingClientRect().width;
+    toolboxDiv.style.width = width;
+    subcategoriesDiv.style.display = shown;
+    return natural;
+  }
+
+  // The workspace (and an open flyout) placed after the toolbox, as handleToolboxItemResize does,
+  // without resizing the workspace
+  function followToolbox(toolbox) {
+    var workspace = toolbox.getWorkspace();
+    var flyout = toolbox.getFlyout();
+    var width = toolbox.HtmlDiv.getBoundingClientRect().width;
+    workspace.translate(workspace.scrollX + width + (flyout && !flyout.autoClose ? flyout.getWidth() : 0), workspace.scrollY);
+    // Width kept by the toolbox (getWidth, read to place the flyout) and the flyout itself
+    if (flyout && flyout.isVisible()) toolbox.position();
+  }
+
+  // A category closed while the toolbox is scrolled: its content gets shorter, and the browser brought the scroll
+  // back, the rows above (the clicked one too) sliding down under the pointer. An empty space at the bottom of the
+  // toolbox keeps the scroll during the animation, and shrinks without any jump when the toolbox is scrolled up or
+  // a category is opened.
+  function bottomSpace(toolboxDiv) {
+    var space = toolboxDiv.vittaBottomSpace;
+    if (!space) {
+      space = toolboxDiv.vittaBottomSpace = document.createElement('div');
+      space.className = 'vittaToolboxBottomSpace';
+      toolboxDiv.addEventListener('scroll', function () { fitBottomSpace(toolboxDiv); });
+    }
+    if (space.parentNode !== toolboxDiv || space.nextSibling) toolboxDiv.appendChild(space);
+    return space;
+  }
+  // Space needed to keep the scroll position given (only what the content is missing)
+  function fitBottomSpace(toolboxDiv, scrollTop) {
+    var space = toolboxDiv.vittaBottomSpace;
+    if (!space) return;
+    var top = scrollTop === undefined ? toolboxDiv.scrollTop : scrollTop;
+    var content = toolboxDiv.scrollHeight - space.offsetHeight;
+    var needed = Math.max(0, Math.ceil(top + toolboxDiv.clientHeight - content));
+    // only shrinks, except while an animation keeps the scroll
+    if (scrollTop !== undefined || needed < space.offsetHeight) space.style.height = needed + 'px';
+    if (scrollTop !== undefined) toolboxDiv.scrollTop = scrollTop;
+  }
+  function keepScroll(toolboxDiv, animation, scrollTop) {
+    bottomSpace(toolboxDiv);
+    var frame = function () {
+      fitBottomSpace(toolboxDiv, scrollTop);
+      if (animation.playState === 'running') requestAnimationFrame(frame);
+    };
+    frame();
+  }
+
+  Blockly.CollapsibleToolboxCategory.prototype.setExpanded = function (isExpanded) {
+    var div = this.subcategoriesDiv_;
+    var toolbox = this.parentToolbox_;
+    var toolboxDiv = toolbox && toolbox.HtmlDiv;
+    if (this.expanded_ === isExpanded || !div || !div.animate || !div.isConnected || !toolboxDiv ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return setExpanded.call(this, isExpanded);
+    }
+    var from = div.style.display === 'none' ? 0 : div.getBoundingClientRect().height;
+    var widthFrom = toolboxDiv.getBoundingClientRect().width;
+    // read before the core hides the subcategories (the browser then brings the scroll back)
+    var scrollTop = toolboxDiv.scrollTop;
+    if (div.vittaAnimation) div.vittaAnimation.cancel();
+    if (toolboxDiv.vittaAnimation) toolboxDiv.vittaAnimation.cancel();
+    // The core resizes the workspace for the toolbox: done at the end of the animation instead
+    toolboxDiv.style.width = widthFrom + 'px';
+    setExpanded.call(this, isExpanded);
+    var widthTo = naturalWidth(toolboxDiv, div, isExpanded ? 'block' : 'none');
+    div.style.display = 'block';
+    var to = isExpanded ? div.scrollHeight : 0;
+    var category = this;
+    div.style.overflow = 'hidden';
+    // Opening: decelerates, the subcategories fade in while sliding a little downwards.
+    // Closing: shorter, eased at both ends, the content fades out before the end of the fold
+    // (no half cut rows in the last pixels).
+    var distance = Math.max(Math.abs(to - from), Math.abs(widthTo - widthFrom) * 2);
+    var timing = {
+      duration: isExpanded ? Math.min(320, 200 + distance / 6) : Math.min(260, 170 + distance / 8),
+      easing: isExpanded ? 'cubic-bezier(0.33, 1, 0.68, 1)' : 'cubic-bezier(0.65, 0, 0.35, 1)'
+    };
+    var animation = div.vittaAnimation = div.animate(isExpanded ? [
+      { height: from + 'px', opacity: 0, transform: 'translateY(-6px)' },
+      { opacity: 1, transform: 'translateY(0)', offset: 0.7 },
+      { height: to + 'px', opacity: 1, transform: 'translateY(0)' }
+    ] : [
+      { height: from + 'px', opacity: 1, transform: 'translateY(0)' },
+      { opacity: 0, transform: 'translateY(-6px)', offset: 0.6 },
+      { height: to + 'px', opacity: 0, transform: 'translateY(-6px)' }
+    ], timing);
+    keepScroll(toolboxDiv, animation, scrollTop);
+    var resize = Math.round(widthTo) !== Math.round(widthFrom) && !toolboxDiv.classList.contains('blocklyToolboxDiv-small');
+    var toolboxAnimation = resize ? toolboxDiv.vittaAnimation = toolboxDiv.animate(
+      [{ width: widthFrom + 'px' }, { width: widthTo + 'px' }], timing) : null;
+    var left = toolbox.toolboxPosition === Blockly.utils.toolbox.Position.LEFT;
+    var frame = function () {
+      if (!toolboxAnimation || toolboxAnimation.playState !== 'running') return;
+      if (left) followToolbox(toolbox);
+      requestAnimationFrame(frame);
+    };
+    if (resize) requestAnimationFrame(frame);
+    toolboxDiv.style.width = '';
+    animation.onfinish = function () {
+      div.vittaAnimation = null;
+      div.style.overflow = '';
+      if (!category.expanded_) div.style.display = 'none';
+    };
+    var end = function () {
+      if (toolboxAnimation && toolboxDiv.vittaAnimation !== toolboxAnimation) return;
+      toolboxDiv.vittaAnimation = null;
+      toolbox.handleToolboxItemResize();
+    };
+    if (toolboxAnimation) toolboxAnimation.onfinish = end; else end();
+  };
+})();
+
+// Toolbox: a category is selected on click (pointer released without scrolling), not as soon as the pointer is down,
+// which opened a category at each scroll of the toolbox with the finger on mobile.
+// mouseDown stays true until the click (or the start of a scroll: pointercancel): the focus given by the pointer
+// doesn't select the category (only the keyboard focus does), otherwise the click would unselect it.
+// A mouse gives the focus on pointerdown: mouseDown ends with the button released anywhere (released out of the
+// toolbox, there is no click, and the keyboard focus could not select the categories anymore). A tap gives the focus
+// after pointerup: with the finger, mouseDown ends with the click.
+var vittaCategoryNodeFocus = Blockly.ToolboxCategory.prototype.onNodeFocus;
+Blockly.ToolboxCategory.prototype.onNodeFocus = function () {
+  if (this.getParentToolbox().mouseDown) return Blockly.ToolboxItem.prototype.onNodeFocus.call(this);
+  return vittaCategoryNodeFocus.call(this);
+};
+Blockly.Toolbox.prototype.attachEvents_ = function (container, contentsContainer) {
+  var setMouseDown = function (value) { return function () { this.mouseDown = value; }; };
+  this.boundEvents_.push(
+    Blockly.browserEvents.bind(container, 'pointerdown', this, setMouseDown(true)),
+    Blockly.browserEvents.bind(container, 'pointercancel', this, setMouseDown(false)),
+    Blockly.browserEvents.bind(document, 'pointerup', this, function (e) {
+      if (e.pointerType !== 'touch') this.mouseDown = false;
+    }),
+    Blockly.browserEvents.bind(container, 'click', this, function (e) {
+      this.onClick_(e);
+      this.mouseDown = false;
+    }),
+    Blockly.browserEvents.conditionalBind(contentsContainer, 'keydown', this, this.onKeyDown_, false)
+  );
+};
+
+// Toolbox: Enter opens or closes the subcategories of the selected category, like a click (Blockly only uses the
+// left and right arrows). Not in the search input.
+var vittaToolboxKeyDown = Blockly.Toolbox.prototype.onKeyDown_;
+Blockly.Toolbox.prototype.onKeyDown_ = function (e) {
+  var item = this.getSelectedItem();
+  if (e.key === 'Enter' && e.target.tagName !== 'INPUT' && item && item.isCollapsible && item.isCollapsible()) {
+    item.toggleExpanded();
+    e.preventDefault();
+    e.stopPropagation();
+    return;
+  }
+  return vittaToolboxKeyDown.call(this, e);
+};
+
+// Flyout: with the finger, a drag along the flyout (within 20° of vertical for a vertical flyout) scrolls it instead of
+// taking the block out, as before Blockly 12 (dragAngleRange_ of 70°): otherwise the flyout could only be scrolled
+// between the blocks, and the toolbox closed as soon as a block was touched.
+var vittaGestureUpdateIsDragging = Blockly.Gesture.prototype.updateIsDragging;
+Blockly.Gesture.prototype.updateIsDragging = function (e) {
+  if (this.flyout && !this.calledUpdateIsDragging && e && e.pointerType === 'touch' && this.flyout.isScrollable()) {
+    var delta = this.currentDragDeltaXY;
+    var horizontal = this.flyout instanceof Blockly.HorizontalFlyout;
+    var along = Math.abs(horizontal ? delta.x : delta.y);
+    var across = Math.abs(horizontal ? delta.y : delta.x);
+    if (along > across * Math.tan(70 * Math.PI / 180)) {
+      this.calledUpdateIsDragging = true;
+      this.updateIsDraggingWorkspace();
+      return;
+    }
+  }
+  return vittaGestureUpdateIsDragging.call(this, e);
+};
+
 // Variables category: "create variable" button followed by Blockly.Variables.flyoutCategoryBlocks.
 Blockly.Variables.flyoutCategory = function (workspace) {
   var button = document.createElement("button");
   button.setAttribute("text", "%{BKY_NEW_VARIABLE}");
   button.setAttribute("callbackKey", "CREATE_VARIABLE");
   workspace.registerButtonCallback("CREATE_VARIABLE", function (button) {
-    Blockly.Variables.createVariableButtonHandler(button.getTargetWorkspace());
+    var targetWorkspace = button.getTargetWorkspace();
+    var toolbox = targetWorkspace.getToolbox();
+    var category = toolbox && toolbox.getSelectedItem();
+    // The name prompt closes the flyout: open the category again to use the new variable right away.
+    Blockly.Variables.createVariableButtonHandler(targetWorkspace, function (name) {
+      if (name && category && toolbox.getSelectedItem() !== category) toolbox.setSelectedItem(category);
+    });
   });
   return [button].concat(Blockly.Variables.flyoutCategoryBlocks(workspace));
 };
@@ -441,19 +640,58 @@ Blockly.ZoomControls.prototype.createScreenshotSvg_ = function (rnd) {
   this.onScreenshotWrapper_ = Blockly.browserEvents.conditionalBind(this.screenshotGroup_, "mousedown", null, this.screenshot_.bind(this));
 };
 
+// Screenshot of the blocks: the modal "modal-blocks-screenshot" (generalModals.js) chooses the quality (scale of the
+// image) and the format, else a PNG at the scale 2
+Blockly.VittaScreenshot = {
+  controls: null,
+  EXTENSIONS: { png: "png", jpeg: "jpg", webp: "webp" },
+  open: function (controls) {
+    this.controls = controls;
+    if (typeof pseudoModal === "undefined" || !document.getElementById("modal-blocks-screenshot")) {
+      return this.save(2, "png");
+    }
+    this.update();
+    pseudoModal.openModal("modal-blocks-screenshot");
+  },
+  options: function () {
+    return {
+      scale: Number(document.getElementById("blocks-screenshot-quality").value),
+      format: document.getElementById("blocks-screenshot-format").value
+    };
+  },
+  // size of the image at the chosen quality (limited by the browser canvas)
+  update: function () {
+    var box = this.controls.vittaGet_("workspace").getBlocksBoundingBox();
+    var width = box.right - box.left, height = box.bottom - box.top;
+    var scale = Blockly.ZoomControls.canvasScale_(this.options().scale, width, height);
+    var size = document.getElementById("blocks-screenshot-size");
+    size.textContent = width > 0 ? i18next.t("modals.standard.blocksScreenshot.size", { width: Math.floor(scale * width), height: Math.floor(scale * height) }) : "";
+  },
+  download: function () {
+    var options = this.options();
+    this.save(options.scale, options.format);
+    pseudoModal.closeModal("modal-blocks-screenshot");
+  },
+  save: function (scale, format) {
+    var extension = this.EXTENSIONS[format];
+    this.controls.workspaceToSvg_(function (dataUri) {
+      if (!dataUri) return;
+      var link = document.createElement("a");
+      var now = new Date();
+      var name = "blocks_screenshot_" + ["_", now.getFullYear(), now.getMonth(), now.getDate(), "_", now.getHours(), now.getMinutes(), now.getSeconds()].join("");
+      link.download = name + "." + extension;
+      link.target = "_self";
+      link.href = dataUri;
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+    }, "", { scale: scale, format: format });
+  }
+};
+
 Blockly.ZoomControls.prototype.screenshot_ = function (e) {
   this.vittaGet_("workspace").markFocused();
-  this.workspaceToSvg_(function (dataUri) {
-    var link = document.createElement("a");
-    var now = new Date();
-    var name = "blocks_screenshot_" + ["_", now.getFullYear(), now.getMonth(), now.getDate(), "_", now.getHours(), now.getMinutes(), now.getSeconds()].join("");
-    link.download = name + ".png";
-    link.target = "_self";
-    link.href = dataUri;
-    document.body.appendChild(link);
-    link.click();
-    link.parentNode.removeChild(link);
-  });
+  Blockly.VittaScreenshot.open(this);
   var fireZoomEvent = this.fireZoomEvent_ || this.fireZoomEvent;
   if (fireZoomEvent) {
     fireZoomEvent.call(this);
@@ -466,7 +704,7 @@ Blockly.ZoomControls.prototype.screenshot_ = function (e) {
   e.preventDefault();
 };
 
-Blockly.ZoomControls.prototype.workspaceToSvg_ = async function (e, t) {
+Blockly.ZoomControls.prototype.workspaceToSvg_ = async function (e, t, imageOptions) {
   async function fetchImageAsBase64Url(imageUrl) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
@@ -608,19 +846,33 @@ Blockly.ZoomControls.prototype.workspaceToSvg_ = async function (e, t) {
   const svgString = new XMLSerializer().serializeToString(svg);
   const svgDataUri = 'data:image/svg+xml,' + encodeURIComponent(svgString.replace(/&nbsp/g, '&#160'));
   console.log(svg)
-  this.svgToPng_(svgDataUri, width, height, e);
+  this.svgToPng_(svgDataUri, width, height, e, imageOptions);
 };
 
-Blockly.ZoomControls.prototype.svgToPng_ = function (data, width, height, callback) {
+// Scale of the image, within the limits of the browser canvas (16384 px a side, 268 M pixels): else an empty image
+Blockly.ZoomControls.canvasScale_ = function (scale, width, height) {
+  return Math.min(scale, 16384 / width, 16384 / height, Math.sqrt(268000000 / (width * height)));
+};
+
+// imageOptions: scale (2 by default) and format (png, jpeg or webp)
+Blockly.ZoomControls.prototype.svgToPng_ = function (data, width, height, callback, imageOptions) {
+  imageOptions = imageOptions || {};
+  var format = imageOptions.format || "png";
   var canvas = document.createElement("canvas");
   var context = canvas.getContext("2d");
   var img = new Image();
-  canvas.width = 10 * width;
-  canvas.height = 10 * height;
+  var scale = Blockly.ZoomControls.canvasScale_(imageOptions.scale || 2, width, height);
+  canvas.width = Math.floor(scale * width);
+  canvas.height = Math.floor(scale * height);
   img.onload = function () {
+    // no transparency in JPG: white background instead of black
+    if (format === "jpeg") {
+      context.fillStyle = "#ffffff";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+    }
     context.drawImage(img, 0, 0, width, height, 0, 0, canvas.width, canvas.height);
     try {
-      callback(canvas.toDataURL("image/png"));
+      callback(canvas.toDataURL("image/" + format, 0.92));
     } catch (err) {
       console.warn("Error converting the workspace svg to a png");
       callback("");

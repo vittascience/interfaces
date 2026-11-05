@@ -2,7 +2,7 @@ const Robots = {
   'Maqueen': {
     CODE_REGEXP: /""" Maqueen robot """/,
     INITIAL_ZOOM: 0,
-    IMG_LINK: "/openInterface/microbit/assets/media/simulator/robot/robot_maqueen.svg",
+    IMG_LINK: `${_PATH}/microbit/assets/media/simulator/robot/robot_maqueen.svg`,
     WIDTH_CM: 8.5, // cm
     RATIO: 753.6 / 889.6, // svg ratio
     POSITIVE_Y_TO_UP: true,
@@ -109,7 +109,7 @@ const Robots = {
   'MaqueenPlusV1': {
     CODE_REGEXP: /""" MaqueenPlusV1 robot """/,
     INITIAL_ZOOM: -2,
-    IMG_LINK: "/openInterface/microbit/assets/media/simulator/robot/robot_maqueenplus.svg",
+    IMG_LINK: `${_PATH}/microbit/assets/media/simulator/robot/robot_maqueenplus.svg`,
     WIDTH_CM: 10.2, // cm
     RATIO: 267.81 / 192.13, // svg ratio
     POSITIVE_Y_TO_UP: true,
@@ -220,7 +220,7 @@ const Robots = {
   'MaqueenPlusV2': {
     CODE_REGEXP: /""" MaqueenPlusV2 robot """/,
     INITIAL_ZOOM: -2,
-    IMG_LINK: "/openInterface/microbit/assets/media/simulator/robot/robot_maqueenplus.svg",
+    IMG_LINK: `${_PATH}/microbit/assets/media/simulator/robot/robot_maqueenplus.svg`,
     WIDTH_CM: 10.2, // cm
     RATIO: 267.81 / 192.13, // svg ratio
     POSITIVE_Y_TO_UP: true,
@@ -331,7 +331,7 @@ const Robots = {
   'MaqueenPlusV3': {
     CODE_REGEXP: /""" MaqueenPlusV3 robot """/,
     INITIAL_ZOOM: -2,
-    IMG_LINK: "/openInterface/microbit/assets/media/simulator/robot/robot_maqueenplus.svg",
+    IMG_LINK: `${_PATH}/microbit/assets/media/simulator/robot/robot_maqueenplus.svg`,
     WIDTH_CM: 10.2, // cm
     RATIO: 267.81 / 192.13, // svg ratio
     POSITIVE_Y_TO_UP: true,
@@ -440,10 +440,140 @@ const Robots = {
       setSpeed('motorLeft');
     }
   },
+  'TPBot': {
+    CODE_REGEXP: /""" TPBot robot """/,
+    INITIAL_ZOOM: 0,
+    IMG_LINK: `${CDN_PATH}/openInterface/microbit/assets/media/simulator/robot/robot_tpbot.svg`,
+    WIDTH_CM: 10, // cm
+    RATIO: 251.05 / 213.4, // svg ratio
+    POSITIVE_Y_TO_UP: true,
+    POSITIVE_X_TO_RIGHT: true,
+    AXIS_UNIT: 'cm',
+    INITIAL_POS_PERCENT: {
+      x: 15,
+      y: 50,
+    },
+    WHEELS_X_POSITION: -1.3,
+    WHEELS_CENTER_RADIUS: 2.7,
+    WHEELS_DIAMETER: 3.4,
+    MIN_SPEED: 1,
+    MAX_SPEED: 300,
+    image: null,
+    rotationCenter: {
+      x: 0,
+      y: 0
+    },
+    angle: 0,
+    previousAngle: 0,
+    angularSpeed: 0,
+    motorLeft: {
+      speed: 0,
+      dir: 0
+    },
+    motorRight: {
+      speed: 0,
+      dir: 0
+    },
+    color: 'rgb(50,185,185)',
+
+    initObjects: function () {
+      this.initDistanceSensorsSlots();
+
+      this.DistanceSensors = new DistanceSensorSimulator(
+        this,
+        this.distanceSensorsSlots.slots,
+        this.distanceSensorsSlots.lineWidth,
+        this.distanceSensorsSlots.blinkerDiameter
+      );
+
+      const exportValue = function (value, id) {
+        const sliderID = "#mb-tpbot-finder" + id + "_slider_v";
+
+        if ($(sliderID).data("ui-slider")) {
+          $(sliderID).slider('value', value < 50 ? 1 : 0);
+        }
+      };
+
+      this.lineFinder = new LineFinderSimulator(this, [
+        { id: 'Left', initial: [12, -3] },
+        { id: 'Right', initial: [12, 3] }
+      ], 2, exportValue);
+    },
+
+    initDistanceSensorsSlots: function () {
+      this.distanceSensorsSlots = {
+        blinkerDiameter: 30,
+        lineWidth: 3,
+        slots: [
+          {
+            id: "mb-tpbot-ultrasonic",
+            suffix: '_t',
+            initial: [21, 0],
+            angle: 0,
+            pin: null
+          }
+        ]
+      };
+    },
+
+    resizeObjects: function (zoom) {
+      this.lineFinder.resize(zoom);
+      this.DistanceSensors.resize(zoom);
+    },
+
+    updateObjectsPosition: function () {
+      this.lineFinder.updatePosition();
+      this.angle += this.DistanceSensors.ERROR_DX_NUL;
+      this.DistanceSensors.updatePosition();
+    },
+
+    measurements: function () {
+      this.lineFinder.measure();
+      this.DistanceSensors.measure();
+      this.angle -= this.DistanceSensors.ERROR_DX_NUL;
+    },
+
+    drawObjects: function () {
+      this.lineFinder.draw();
+      this.DistanceSensors.draw();
+    },
+
+    resetObjects: function () {
+      this.lineFinder.reset();
+      this.DistanceSensors.reset(this);
+    },
+
+    getMotorSpeed: function () {
+      const setSpeed = (motor) => {
+        const value = $("#mb-tpbot-" + motor + "_value").html();
+
+        if (value) {
+          const animation = $('.mb-tpbot-' + motor).css('animation') || '';
+
+          if (animation.includes('rotation-forward')) {
+            this[motor].dir = 1;
+          } else if (animation.includes('rotation-backward')) {
+            this[motor].dir = -1;
+          } else {
+            this[motor].dir = 0;
+          }
+
+          const speedValue = parseInt(value, 10) || 0;
+
+          this[motor].speed = RobotSimulator.convertRPMtoSpeedMS(
+            speedValue / 100 * this.MAX_SPEED
+          );
+        }
+      };
+
+      setSpeed('motorRight');
+      setSpeed('motorLeft');
+    }
+  },
   'Cutebot': {
     CODE_REGEXP: /""" Cutebot robot """/,
     INITIAL_ZOOM: 0,
-    IMG_LINK: "/openInterface/microbit/assets/media/simulator/robot/robot_cutebot.svg",
+    IMG_LINK: `${_PATH}/microbit/assets/media/simulator/robot/robot_cutebot.svg`,
     IMG_INITIAL_BACKGROUND: "Image_circuit_cutebot.jpg",
     WIDTH_CM: 8.5, // cm
     RATIO: 321.09 / 233.68, // svg ratio
@@ -549,7 +679,7 @@ const Robots = {
   'CutebotPro': {
     CODE_REGEXP: /""" Cutebot Pro robot """/,
     INITIAL_ZOOM: 0,
-    IMG_LINK: "/openInterface/microbit/assets/media/simulator/robot/robot_cutebot_pro.svg",
+    IMG_LINK: `${_PATH}/microbit/assets/media/simulator/robot/robot_cutebot_pro.svg`,
     WIDTH_CM: 13.2, // cm
     RATIO: 265.04 / 233.92, // svg ratio
     POSITIVE_Y_TO_UP: true,
@@ -656,7 +786,7 @@ const Robots = {
   'Kitrobot': {
     CODE_REGEXP: /""" Kitrobot robot """/,
     INITIAL_ZOOM: 0,
-    IMG_LINK: "/openInterface/microbit/assets/media/simulator/robot/robot_kitrobot.svg",
+    IMG_LINK: `${_PATH}/microbit/assets/media/simulator/robot/robot_kitrobot.svg`,
     WIDTH_CM: 12, // cm
     RATIO: 200.6 / 244.94, // svg ratio
     POSITIVE_Y_TO_UP: true,
@@ -758,7 +888,7 @@ const Robots = {
   'Oobybot': {
     CODE_REGEXP: /""" Oobybot robot """/,
     INITIAL_ZOOM: 0,
-    IMG_LINK: "/openInterface/microbit/assets/media/simulator/robot/robot_oobybot.svg",
+    IMG_LINK: `${_PATH}/microbit/assets/media/simulator/robot/robot_oobybot.svg`,
     WIDTH_CM: 8.5, // cm
     RATIO: 2 / 1, // svg ratio
     POSITIVE_Y_TO_UP: true,
@@ -812,7 +942,7 @@ const Robots = {
   'BitCar': {
     CODE_REGEXP: /""" BitCar robot """/,
     INITIAL_ZOOM: 0,
-    IMG_LINK: "/openInterface/microbit/assets/media/simulator/robot/robot_bitcar.svg",
+    IMG_LINK: `${_PATH}/microbit/assets/media/simulator/robot/robot_bitcar.svg`,
     WIDTH_CM: 9.5, // cm
     RATIO: 200.6 / 244.94, // svg ratio
     POSITIVE_Y_TO_UP: true,
@@ -911,13 +1041,102 @@ const Robots = {
       setSpeed('motorLeft');
     }
   },
+  'Tinybit': {
+    CODE_REGEXP: /""" Tiny:bit robot """/,
+    INITIAL_ZOOM: 0,
+    IMG_LINK: `${CDN_PATH}/openInterface/microbit/assets/media/simulator/robot/robot_tinybit.svg`,
+    WIDTH_CM: 10.5,
+    RATIO: 264.69 / 251.49, // svg ratio
+    POSITIVE_Y_TO_UP: true,
+    POSITIVE_X_TO_RIGHT: true,
+    AXIS_UNIT: 'cm',
+    INITIAL_POS_PERCENT: { x: 15, y: 50 },
+    WHEELS_X_POSITION: -1.5,
+    WHEELS_CENTER_RADIUS: 3.4,
+    WHEELS_DIAMETER: 4.3,
+    MIN_SPEED: 0,
+    MAX_SPEED: 75,
+    image: null,
+    rotationCenter: { x: 0, y: 0 },
+    angle: 0,
+    previousAngle: 0,
+    angularSpeed: 0,
+    motorLeft: { speed: 0, dir: 0, pwm: 0 },
+    motorRight: { speed: 0, dir: 0, pwm: 0 },
+    color: 'rgb(26,104,158)',
+
+    initObjects: function () {
+      this.initDistanceSensorsSlots();
+      this.DistanceSensors = new DistanceSensorSimulator(this,
+        this.distanceSensorsSlots.slots,
+        this.distanceSensorsSlots.lineWidth,
+        this.distanceSensorsSlots.blinkerDiameter);
+      const exportValue = function (value, id) {
+        const sliderID = "#mb-tinybit-finder" + id + "_slider_v";
+        if ($(sliderID).data("ui-slider")) {
+          // The Tiny:bit sensors are digital: black line is 1, light floor is 0.
+          const detected = value < 50 ? 1 : 0;
+          $(sliderID).slider('value', detected);
+          const mod = Simulator.getModuleByKey("mb-tinybit-finder" + id);
+          if (mod) Simulator.setAnimator(mod, mod.id, detected);
+        }
+      };
+      this.lineFinder = new LineFinderSimulator(this, [
+        { id: 'Left', initial: [26, -9] },
+        { id: 'Right', initial: [26, 9] }
+      ], 2, exportValue);
+    },
+    initDistanceSensorsSlots: function () {
+      this.distanceSensorsSlots = {
+        blinkerDiameter: 30,
+        lineWidth: 3,
+        slots: [
+          { id: "mb-tinybit-ultrasonic", suffix: '_t', initial: [36, 0], angle: 0, pin: null }
+        ]
+      };
+    },
+    resizeObjects: function (zoom) {
+      this.lineFinder.resize(zoom);
+      this.DistanceSensors.resize(zoom);
+    },
+    updateObjectsPosition: function () {
+      this.lineFinder.updatePosition();
+      this.angle += this.DistanceSensors.ERROR_DX_NUL;
+      this.DistanceSensors.updatePosition();
+    },
+    measurements: function () {
+      this.lineFinder.measure();
+      this.DistanceSensors.measure();
+      this.angle -= this.DistanceSensors.ERROR_DX_NUL;
+    },
+    drawObjects: function () {
+      this.lineFinder.draw();
+      this.DistanceSensors.draw();
+    },
+    resetObjects: function () {
+      this.lineFinder.reset();
+      this.DistanceSensors.reset(this);
+      this.motorLeft.speed = this.motorRight.speed = 0;
+      this.motorLeft.dir = this.motorRight.dir = 0;
+      this.motorLeft.pwm = this.motorRight.pwm = 0;
+    },
+    getMotorSpeed: function () {
+      // The Tiny:bit driver accepts signed PWM values from -255 to 255.
+      // The simulator movement model uses a direction and a non-negative m/s value.
+      for (const motor of ['motorLeft', 'motorRight']) {
+        const pwm = this[motor].pwm || 0;
+        this[motor].dir = Math.sign(pwm);
+        this[motor].speed = RobotSimulator.convertRPMtoSpeedMS(Math.abs(pwm) / 255 * this.MAX_SPEED);
+      }
+    }
+  },
   'Tello': {
     CODE_REGEXP: /""" Tello drone """/,
     TYPE: 'drone',
     INITIAL_ZOOM: -3,
-    IMG_LINK: "/openInterface/microbit/assets/media/simulator/robot/tello.svg",
-    IMG_LINK_FLYING: "/openInterface/microbit/assets/media/simulator/robot/tello_vole_v2.svg",
-    IMG_LINK_SHADOW: "/openInterface/microbit/assets/media/simulator/robot/tello_shadow.svg",
+    IMG_LINK: `${_PATH}/microbit/assets/media/simulator/robot/tello.svg`,
+    IMG_LINK_FLYING: `${_PATH}/microbit/assets/media/simulator/robot/tello_vole_v2.svg`,
+    IMG_LINK_SHADOW: `${_PATH}/microbit/assets/media/simulator/robot/tello_shadow.svg`,
     IMG_INITIAL_BACKGROUND: "Image_piste_tello.png",
     WIDTH_CM: 25, // cm
     RATIO: 1, // svg ratio

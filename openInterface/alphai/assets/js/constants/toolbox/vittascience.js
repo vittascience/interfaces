@@ -105,6 +105,105 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
     }
 ];
 
+const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
+    "math": [
+        {
+            "kind": "category",
+            "toolboxitemid": "math_calculations",
+            "name": "%{BKY_TOOLBOX_LABEL_CALCULATIONS}",
+            "style": "math_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-calculator"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "math_rounding",
+            "name": "%{BKY_SUBCATEGORY_SHORT_ROUNDING}",
+            "style": "math_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-ruler-horizontal"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "math_random",
+            "name": "%{BKY_TOOLBOX_LABEL_RANDOM}",
+            "style": "math_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-dice"
+            },
+            "contents": []
+        }
+    ],
+    "text": [
+        {
+            "kind": "category",
+            "toolboxitemid": "text_create",
+            "name": "%{BKY_TOOLBOX_LABEL_CREATE}",
+            "style": "text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-pen"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "text_search",
+            "name": "%{BKY_TOOLBOX_LABEL_SEARCH}",
+            "style": "text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-magnifying-glass"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "text_transform",
+            "name": "%{BKY_TOOLBOX_LABEL_TRANSFORM}",
+            "style": "text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-wand-magic-sparkles"
+            },
+            "contents": []
+        }
+    ],
+    "lists": [
+        {
+            "kind": "category",
+            "toolboxitemid": "lists_create",
+            "name": "%{BKY_TOOLBOX_LABEL_CREATE}",
+            "style": "lists_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-plus"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "lists_read",
+            "name": "%{BKY_TOOLBOX_LABEL_READ}",
+            "style": "lists_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-eye"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "lists_modify",
+            "name": "%{BKY_TOOLBOX_LABEL_MODIFY}",
+            "style": "lists_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-pen-to-square"
+            },
+            "contents": []
+        }
+    ]
+};
+
 const TOOLBOX_VITTASCIENCE_CONTENT = {
     'robot': [
         {
@@ -179,73 +278,121 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
         ]
     }
     ],
-    'math': [{
-        'blocks': [
-            'math_number',
-            'math_arithmetic-add',
-            'math_single',
-            'math_trig',
-            'math_constant',
-            'math_number_property',
-            'math_map',
-            'math_round',
-            'math_round_ndigits',
-            'math_modulo',
-            'math_constrain',
-            'math_random_int',
-            'math_random_float',
-            'math_atan2'
-        ]
-    }
+    'math': [
+        {
+            "subCategoryId": "math_calculations",
+            "contents": [{
+                "blocks": [
+                    'math_number',
+                    'math_arithmetic-add',
+                    'math_single',
+                    'math_trig',
+                    'math_constant',
+                    'math_number_property',
+                    'math_modulo',
+                    'math_atan2'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "math_rounding",
+            "contents": [{
+                "blocks": [
+                    'math_map',
+                    'math_round',
+                    'math_round_ndigits',
+                    'math_constrain'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "math_random",
+            "contents": [{
+                "blocks": [
+                    'math_random_int',
+                    'math_random_float'
+                ]
+            }]
+        }
     ],
     'text': [
         {
-            'blocks': [
-                'text_comment',
-                'text',
-                'text_join',
-                'text_newline',
-                'text_append',
-                'text_split',
-                'text_length',
-                'text_isEmpty',
-                'text_indexOf',
-                'text_charAt',
-                'text_getSubstring',
-                'text_changeCase',
-                'text_trim',
-                'text_count',
-                'text_replace',
-                'text_reverse'
-            ]
+            "subCategoryId": "text_create",
+            "contents": [{
+                "blocks": [
+                    'text_comment',
+                    'text',
+                    'text_join',
+                    'text_newline',
+                    'text_append'
+                ]
+            }]
         },
         {
-            'label': '%{BKY_SUBCATEGORY_TEXT_ANALYSIS}',
-            'blocks': [
-                'text_count_characters',
-                'text_random_string'
-            ],
+            "subCategoryId": "text_search",
+            "contents": [{
+                "blocks": [
+                    'text_length',
+                    'text_isEmpty',
+                    'text_indexOf',
+                    'text_charAt',
+                    'text_count',
+                    'text_count_characters'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "text_transform",
+            "contents": [{
+                "blocks": [
+                    'text_split',
+                    'text_getSubstring',
+                    'text_changeCase',
+                    'text_trim',
+                    'text_replace',
+                    'text_reverse',
+                    'text_random_string'
+                ]
+            }]
         }
     ],
     'variables': 'customized',
-    'lists': [{
-        'blocks': [
-            'lists_create_with-0',
-            'lists_create_with',
-            'lists_repeat',
-            'lists_length',
-            'lists_isEmpty',
-            'math_on_list',
-            'lists_reverse',
-            'lists_indexOf',
-            'lists_getIndex',
-            'lists_append',
-            'lists_setIndex',
-            'lists_getSublist',
-            'lists_split',
-            'lists_sort'
-        ]
-    }
+    'lists': [
+        {
+            "subCategoryId": "lists_create",
+            "contents": [{
+                "blocks": [
+                    'lists_create_with-0',
+                    'lists_create_with',
+                    'lists_repeat',
+                    'lists_split'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "lists_read",
+            "contents": [{
+                "blocks": [
+                    'lists_length',
+                    'lists_isEmpty',
+                    'math_on_list',
+                    'lists_indexOf',
+                    'lists_getIndex',
+                    'lists_getSublist'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "lists_modify",
+            "contents": [{
+                "blocks": [
+                    'lists_reverse',
+                    'lists_append',
+                    'lists_setIndex',
+                    'lists_sort'
+                ]
+            }]
+        }
     ],
     'procedures': 'customized',
     'exception': [{

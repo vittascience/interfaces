@@ -52,10 +52,6 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/voiceRecognition.py': Simulator.PATH_LIB + 'grove/simu_voiceRecognition.py',
     'src/lib/fingerprint.py': Simulator.PATH_LIB + 'grove/simu_fingerprint.py',
     'src/lib/edgeModel.py': Simulator.PATH_LIB + 'ai/edgeModel.py',
-    'src/lib/edgeModelmicro.py': Simulator.PATH_LIB + 'ai/edgeModelmicro.py',
-    'src/lib/edgeModelP0-P1.py': Simulator.PATH_LIB + 'ai/edgeModelP0-P1.py',
-    'src/lib/edgeModelP0.py': Simulator.PATH_LIB + 'ai/edgeModelP0.py',
-    'src/lib/edgeModelP1.py': Simulator.PATH_LIB + 'ai/edgeModelP1.py',
     'src/lib/huskylens_v2.py': Simulator.PATH_LIB + 'grove/simu_huskylens_v2.py',
     // A4 microSySTEM models (block extensions)
     'src/lib/a4_access.py': Simulator.PATH_LIB + 'a4/simu_a4_access.py',
@@ -66,6 +62,7 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/a4_weight.py': Simulator.PATH_LIB + 'a4/simu_a4_weight.py',
     // DFRobot micro:Driver (actuators blocks)
     'src/lib/dfr0548.py': Simulator.PATH_LIB + 'dfrobot/simu_dfr0548.py',
+    'src/lib/dfr0997.py': Simulator.PATH_LIB + 'dfrobot/simu_dfr0997.py',
     // js grove lib
     'src/lib/lcd_i2c.js': Simulator.PATH_LIB + 'grove/lcd_i2c.js',
     'src/lib/hm330x.js': Simulator.PATH_LIB + 'grove/hm330x.js',
@@ -83,6 +80,7 @@ Simulator.Mosaic.externalLibraries = {
     // js robots libraries
     'src/lib/cutebotpro.js': Simulator.PATH_LIB + 'robots/cutebotpro.js',
     'src/lib/cutebot.js': Simulator.PATH_LIB + 'robots/cutebot.js',
+    'src/lib/tpbot.js': Simulator.PATH_LIB + 'robots/tpbot.js',
     'src/lib/maqueenplusv1.js': Simulator.PATH_LIB + 'robots/maqueenplusv1.js',
     'src/lib/maqueenplusv2.js': Simulator.PATH_LIB + 'robots/maqueenplusv2.js',
     'src/lib/maqueenplusv3.js': Simulator.PATH_LIB + 'robots/maqueenplusv3.js',
@@ -90,6 +88,7 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/wukong.js': Simulator.PATH_LIB + 'robots/wukong.js',
     'src/lib/superbit.js': Simulator.PATH_LIB + 'robots/superbit.js',
     'src/lib/WOM_Sensor_Kit.js': Simulator.PATH_LIB + 'robots/WOM_Sensor_Kit.js',
+    'src/lib/tinybit.js': Simulator.PATH_LIB + 'robots/tinybit.js',
 };
 
 Simulator.Mosaic.addSpecificInitializations = async function () {
@@ -909,6 +908,8 @@ Simulator.Mosaic.specific = {
             '#mb-bitcar-finderRight_slider_v,' +
             '#mb-cutebot-finderLeft_slider_v,' +
             '#mb-cutebot-finderRight_slider_v,' +
+            '#mb-tpbot-finderLeft_slider_v,' +
+            '#mb-tpbot-finderRight_slider_v,' +
             '#mb-maqueenplus-finderLeftRear_slider_v,' +
             '#mb-maqueenplus-finderLeft_slider_v,' +
             '#mb-maqueenplus-finderMiddleLeft_slider_v,' +
@@ -970,12 +971,43 @@ Simulator.Mosaic.specific = {
         });
 
         $('.mod_mb-cutebotpro-ultrasonic_t,' +
-            '.mod_mb-cutebotpro-ultrasonic_d').slider({
+            '.mod_mb-cutebotpro-ultrasonic_d,' +
+            '.mod_mb-tpbot-ultrasonic_t,' +
+            '.mod_mb-tpbot-ultrasonic_d').slider({
                 min: 88,
                 max: 14575,
                 value: 1166,
                 step: 0.1
             });
+
+        // Tiny:bit simulator inputs
+        $('#mb-tinybit-finderLeft_slider_v,' +
+            '#mb-tinybit-finderRight_slider_v').slider({
+                min: 0,
+                max: 1,
+                value: 0,
+                step: 1
+            });
+        $('#mb-tinybit-sound_slider_v').slider({
+            min: 0,
+            max: 1023,
+            value: 0,
+            step: 1
+        });
+        $('#mb-tinybit-ir_slider_v').slider({
+            min: -1,
+            max: 26,
+            value: -1,
+            step: 1
+        });
+        $('.mod_mb-tinybit-ultrasonic_t,' +
+            '.mod_mb-tinybit-ultrasonic_d').slider({
+                min: 0,
+                max: 14575,
+                value: 1166,
+                step: 0.1
+            });
+
     },
 
     calculs: {
@@ -991,6 +1023,124 @@ Simulator.Mosaic.specific = {
     buttons: {
         "a": 0,
         "b": 0
+    },
+
+    /* DFRobot DFR0997 colour screen (block extension), simulated by src/dfrobot/simu_dfr0997.py */
+    dfr0997: {
+        hex: (colour) => '#' + colour.toString(16).padStart(6, '0'),
+        escape: (text) => String(text).replace(/[&<>"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[char]),
+
+        /** Point of a dial: the 270° scale starts at the bottom left (135°). */
+        dial(cx, cy, r, ratio) {
+            const angle = (135 + 270 * Math.max(0, Math.min(1, ratio))) * Math.PI / 180;
+            return [cx + r * Math.cos(angle), cy + r * Math.sin(angle)];
+        },
+
+        /** Gauge and line meter: scale ticks and a needle. */
+        meter(x, y, d, start, end, colour, background, value, isLineMeter) {
+            const r = d / 2, cx = x + r, cy = y + r;
+            const ratio = end === start ? 0 : (value - start) / (end - start);
+            let svg = isLineMeter ? '' : `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${this.hex(background)}" stroke="#888"/>`;
+            for (let i = 0; i <= 10; i++) {
+                const [x1, y1] = this.dial(cx, cy, r * 0.8, i / 10), [x2, y2] = this.dial(cx, cy, r * 0.95, i / 10);
+                const tick = isLineMeter ? (i / 10 <= ratio ? colour : background) : 0x333333;
+                svg += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${this.hex(tick)}" stroke-width="${isLineMeter ? 4 : 2}"/>`;
+            }
+            const [nx, ny] = this.dial(cx, cy, r * 0.75, ratio);
+            return svg + `<line x1="${cx}" y1="${cy}" x2="${nx}" y2="${ny}" stroke="${this.hex(colour)}" stroke-width="3"/>`
+                + `<text x="${cx}" y="${cy + r * 0.6}" font-size="${Math.max(8, r / 4)}" text-anchor="middle" fill="#888">${value}</text>`;
+        },
+
+        chart(colour, style, xAxis, yAxis, series) {
+            const left = 40, top = 10, width = 270, height = 200;
+            const px = (i) => left + (xAxis.length > 1 ? i * width / (xAxis.length - 1) : width / 2);
+            const py = (point) => top + height - point * height / 100;
+            let svg = `<rect x="${left}" y="${top}" width="${width}" height="${height}" fill="${this.hex(colour)}" stroke="#888"/>`;
+            yAxis.forEach((label, i) => {
+                const y = top + (yAxis.length > 1 ? i * height / (yAxis.length - 1) : 0);
+                svg += `<text x="${left - 4}" y="${y + 4}" font-size="11" text-anchor="end" fill="#888">${this.escape(label)}</text>`
+                    + `<line x1="${left}" y1="${y}" x2="${left + width}" y2="${y}" stroke="#ccc" stroke-dasharray="2 3"/>`;
+            });
+            xAxis.forEach((label, i) => {
+                svg += `<text x="${px(i)}" y="${top + height + 14}" font-size="11" text-anchor="middle" fill="#888">${this.escape(label)}</text>`;
+            });
+            series.forEach(([, serieColour, points], index) => {
+                const fill = this.hex(serieColour);
+                if (style === 2) {
+                    const barWidth = width / Math.max(1, xAxis.length) / (series.length + 1);
+                    points.forEach((point, i) => {
+                        svg += `<rect x="${px(i) - barWidth * series.length / 2 + index * barWidth}" y="${py(point)}" width="${barWidth}" height="${top + height - py(point)}" fill="${fill}"/>`;
+                    });
+                    return;
+                }
+                const line = points.map((point, i) => `${px(i)},${py(point)}`).join(' ');
+                if (style === 1) svg += `<polygon points="${px(0)},${top + height} ${line} ${px(points.length - 1)},${top + height}" fill="${fill}" opacity="0.3"/>`;
+                svg += `<polyline points="${line}" fill="none" stroke="${fill}" stroke-width="2"/>`;
+            });
+            return svg;
+        },
+
+        /** Draw an object [kind, num, ...parameters] of simu_dfr0997.py. */
+        object([kind, , ...p]) {
+            const shape = (border, colour, fill, fillColour) => `stroke="${this.hex(colour)}" stroke-width="${border}" fill="${fill ? this.hex(fillColour) : 'none'}"`;
+            switch (kind) {
+                case 'text': {
+                    const [x, y, size, colour, text] = p;
+                    return `<text x="${x}" y="${y}" dominant-baseline="hanging" font-size="${size === 1 ? 24 : 16}" fill="${this.hex(colour)}">${this.escape(text)}</text>`;
+                }
+                case 'image':
+                case 'gif': {
+                    const [x, y, zoom, name, angle] = p, side = 64 * zoom / 256;
+                    return `<g transform="rotate(${angle} ${x + side / 2} ${y + side / 2})"><rect x="${x}" y="${y}" width="${side}" height="${side}" fill="none" stroke="#888" stroke-dasharray="4 3"/>`
+                        + `<text x="${x + side / 2}" y="${y + side / 2}" font-size="10" text-anchor="middle" dominant-baseline="middle" fill="#888">${this.escape(name)}</text></g>`;
+                }
+                case 'line': {
+                    const [x1, y1, x2, y2, width, colour] = p;
+                    return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${this.hex(colour)}" stroke-width="${width}"/>`;
+                }
+                case 'rect': {
+                    const [x, y, w, h, border, colour, fill, fillColour, rounded] = p;
+                    return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rounded ? 10 : 0}" ${shape(border, colour, fill, fillColour)}/>`;
+                }
+                case 'circle': {
+                    const [x, y, r, border, colour, fill, fillColour] = p;
+                    return `<circle cx="${x}" cy="${y}" r="${r}" ${shape(border, colour, fill, fillColour)}/>`;
+                }
+                case 'triangle': {
+                    const [x1, y1, x2, y2, x3, y3, border, colour, fill, fillColour] = p;
+                    return `<polygon points="${x1},${y1} ${x2},${y2} ${x3},${y3}" ${shape(border, colour, fill, fillColour)}/>`;
+                }
+                case 'slider':
+                case 'bar': {
+                    const [x, y, w, h, colour, value] = p, filled = w * Math.max(0, Math.min(100, value)) / 100;
+                    return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="#ddd"/>`
+                        + `<rect x="${x}" y="${y}" width="${filled}" height="${h}" rx="${h / 2}" fill="${this.hex(colour)}"/>`
+                        + (kind === 'slider' ? `<circle cx="${x + filled}" cy="${y + h / 2}" r="${h * 0.7}" fill="#fff" stroke="${this.hex(colour)}" stroke-width="2"/>` : '');
+                }
+                case 'compass': {
+                    const [x, y, d, value] = p, r = d / 2, cx = x + r, cy = y + r;
+                    return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#fff" stroke="#888"/>`
+                        + [['N', 0], ['E', 90], ['S', 180], ['O', 270]].map(([label, angle]) => `<text x="${cx}" y="${cy - r * 0.75}" font-size="${Math.max(8, r / 5)}" text-anchor="middle" dominant-baseline="middle" fill="#333" transform="rotate(${angle} ${cx} ${cy})">${label}</text>`).join('')
+                        + `<g transform="rotate(${value} ${cx} ${cy})"><polygon points="${cx},${cy - r * 0.6} ${cx - r * 0.08},${cy} ${cx + r * 0.08},${cy}" fill="#c0392b"/>`
+                        + `<polygon points="${cx},${cy + r * 0.6} ${cx - r * 0.08},${cy} ${cx + r * 0.08},${cy}" fill="#555"/></g>`;
+                }
+                case 'gauge':
+                case 'line_meter':
+                    return this.meter(...p, kind === 'line_meter');
+                case 'chart':
+                    return this.chart(...p);
+                default:
+                    return '';
+            }
+        },
+
+        /** 320x240 screen: shapes and widgets as drawn by the real screen, images and GIFs as placeholders (they are on its USB drive). */
+        screen(background, backgroundImage, objects) {
+            return `<svg class="dfr0997-screen" viewBox="0 0 320 240" width="104" height="78" role="img" aria-label="Écran DFR0997">`
+                + `<rect width="320" height="240" fill="${this.hex(background)}"/>`
+                + (backgroundImage ? `<text x="6" y="232" font-size="11" fill="#888">🖼 ${this.escape(backgroundImage)}</text>` : '')
+                + objects.map(item => this.object(item)).join('') + '</svg>';
+        }
     },
 
     /* Drawings and controls of the A4 microSySTEM models (block extensions) */
@@ -1256,6 +1406,19 @@ Simulator.Mosaic.specific = {
             value: [0, '', [], []],
             animate: function (Animator) {
                 $(Animator.valueId).empty().append(Simulator.Mosaic.specific.a4.screen(...Animator.value));
+            }
+        },
+
+        // DFRobot DFR0997 colour screen (block extension)
+        {
+            regex: /dfr0997\./,
+            id: "dfr0997-screen",
+            title: "Écran couleur DFR0997",
+            pin: 'I2C (0x2C)',
+            type: 'output',
+            value: [0, '', []],
+            animate: function (Animator) {
+                $(Animator.valueId).html(Simulator.Mosaic.specific.dfr0997.screen(...Animator.value));
             }
         },
 
@@ -2261,6 +2424,96 @@ Simulator.Mosaic.specific = {
                 Animator.opacity(0, 1, text = value)
             }
         },
+
+        // Robots - TPBot (block extension)
+        ...['Left', 'Right'].map(side => ({
+            regex: /tpbot\.(set_wheels|stop)\(/gi,
+            id: "mb-tpbot-motor" + side,
+            title: side === 'Left' ? "Moteur Gauche" : "Moteur Droit",
+            pin: 'TPBot',
+            type: 'output',
+            value: "",
+            picture: "Roue.png",
+            pictureAnimation: "Roue-animation.png"
+        })),
+        ...['Left', 'Right'].map(side => ({
+            regex: /tpbot\.track\(/gi,
+            id: "mb-tpbot-finder" + side,
+            title: side === 'Left' ? "cap. Ligne noire (Gauche)" : "cap. Ligne noire (Droit)",
+            pin: side === 'Left' ? 'TPBot (P13)' : 'TPBot (P14)',
+            type: 'input',
+            listeners: [{
+                default: "OFF",
+                unit: '',
+                color: "#000",
+                suffix: "_v"
+            }],
+            picture: "Capteur-ligne-line.png",
+            pictureAnimation: "Capteur-ligne-anim.png",
+            animate: function (Animator) {
+                Animator.translation('digital');
+            }
+        })),
+        {
+            regex: /tpbot\.distance\(/gi,
+            id: "mb-tpbot-ultrasonic",
+            title: "Télémètre: ",
+            pin: 'TPBot (P16/P15)',
+            type: 'input',
+            listeners: [{
+                default: 20,
+                unit: 'cm',
+                color: "#f9d142",
+                suffix: "_d",
+                title: "Distance"
+            }, {
+                suffix: "_t",
+                default: 1166,
+                unit: 'μs',
+                color: "#f9d142",
+                title: "Durée"
+            }],
+            class: 'ultrasonic',
+            picture: "Ultrason.png",
+            pictureAnimation: "Ultrason-animation.png",
+            animate: function (Animator) {
+                const callbackAnim = (value) => Animator.opacity(14575, 0, text = value);
+                const t = Animator.value;
+                Animator.updateListeners({
+                    "_d": roundFloat(Simulator.Mosaic.grove.calculs.getDistance(t), 1),
+                    "_t": t
+                }, callbackAnim);
+            }
+        },
+        {
+            regex: /tpbot\.headlights\(/gi,
+            id: "mb-tpbot-headlights",
+            title: "Phares RGB",
+            pin: 'TPBot',
+            type: 'output',
+            value: [0, 0, 0],
+            class: 'RGB-circle',
+            pictureAnimation: "Transparent.png",
+            animate: function (Animator) {
+                $(Animator.animId).css('background', "rgb(" + Animator.value[0] + "," + Animator.value[1] + "," + Animator.value[2] + ")");
+            }
+        },
+        ...[1, 2, 3, 4].map(i => ({
+            regex: new RegExp('tpbot\\.servo\\(' + i + ','),
+            id: "mb-tpbot-servo" + i,
+            title: "Servo S" + i,
+            pin: 'TPBot',
+            type: 'output',
+            class: 'servo',
+            value: null,
+            picture: "Servo.png",
+            pictureAnimation: "Servo-animation.png",
+            animate: function (Animator) {
+                $(Animator.valueId).html(Math.round(Animator.value) + " °");
+                $(Animator.animId).css("transform", "rotate(" + Animator.value + "deg)");
+            }
+        })),
+
         // Robots - Cutebot Pro
         {
             regex: /CutebotPro\.(pwmCruiseControlMotor|fullSpeedAhead|fullAstern|stopImmediately|readSpeed|cruiseControl|turnWithRadius|runDistance|turnWheel|turnWithAngle|runSquare)\(/gi,
@@ -2998,6 +3251,142 @@ Simulator.Mosaic.specific = {
                 Animator.translation('digital');
             }
         },
+        // Robots - Tiny:bit
+        {
+            regex: /tinybit\.(set_motors_speed|set_motor|go_forward|go_backward|turn_left|turn_right|spin_left|spin_right|follow_line|stop)\(/gi,
+            id: "mb-tinybit-motorLeft",
+            title: "Moteur gauche",
+            pin: 'Tiny:bit (I2C)',
+            type: 'output',
+            value: "",
+            picture: "Roue.png",
+            pictureAnimation: "Roue-animation.png",
+            animate: function (Animator) {
+                const pwm = Animator.value;
+                const rpm = Math.abs(pwm) / 255 * 75;
+                $(Animator.valueId).html(Math.round(Math.abs(pwm)));
+                $(".mb-tinybit-" + Animator.id.split("-").pop()).css("animation", pwm === 0 ? "none" : "rotation-" + (pwm > 0 ? "forward" : "backward") + " " + (60 / rpm) + "s infinite linear");
+            }
+        },
+        {
+            regex: /tinybit\.(set_motors_speed|set_motor|go_forward|go_backward|turn_left|turn_right|spin_left|spin_right|follow_line|stop)\(/gi,
+            id: "mb-tinybit-motorRight",
+            title: "Moteur droit",
+            pin: 'Tiny:bit (I2C)',
+            type: 'output',
+            value: "",
+            picture: "Roue.png",
+            pictureAnimation: "Roue-animation.png",
+            animate: function (Animator) {
+                const pwm = Animator.value;
+                const rpm = Math.abs(pwm) / 255 * 75;
+                $(Animator.valueId).html(Math.round(Math.abs(pwm)));
+                $(".mb-tinybit-" + Animator.id.split("-").pop()).css("animation", pwm === 0 ? "none" : "rotation-" + (pwm > 0 ? "forward" : "backward") + " " + (60 / rpm) + "s infinite linear");
+            }
+        },
+        {
+            regex: /tinybit\.set_headlights\(/gi,
+            id: "mb-tinybit-headlights",
+            title: "Phares RGB",
+            pin: 'Tiny:bit (I2C)',
+            type: 'output',
+            value: [0, 0, 0],
+            class: 'RGB-circle',
+            pictureAnimation: "Transparent.png",
+            animate: function (Animator) {
+                $(Animator.animId).css('background', "rgb(" + Animator.value[0] + "," + Animator.value[1] + "," + Animator.value[2] + ")");
+            }
+        },
+        {
+            regex: /tinybit\.BUZZER/gi,
+            id: "mb-tinybit-buzzer",
+            title: "Buzzer",
+            pin: 'Tiny:bit (P0)',
+            type: 'output',
+            value: 0,
+            picture: "Buzzer.png",
+            pictureAnimation: "Buzzer-animation.png",
+            animate: function (Animator) {
+                const value = Animator.value ? Math.round(Animator.value) + " Hz" : "OFF";
+                Animator.opacity(0, 1, text = value);
+            }
+        },
+        {
+            regex: /tinybit\.set_neopixel\(/gi,
+            id: "mb-tinybit-neopixel",
+            title: "LEDs RGB du châssis",
+            pin: 'Tiny:bit (P12)',
+            type: 'output',
+            value: [[0, 0, 0], [0, 0, 0]],
+            class: 'RGB-circle',
+            pictureAnimation: "Transparent.png",
+            animate: function (Animator) {
+                const colors = Animator.value;
+                $(Animator.animId).css('background', "linear-gradient(90deg, rgb(" + colors[0].join(",") + ") 0 50%, rgb(" + colors[1].join(",") + ") 50% 100%)");
+            }
+        },
+        {
+            regex: /tinybit\.(track|get_tracking_state|follow_line)\(/gi,
+            id: "mb-tinybit-finderLeft",
+            title: "Capteur de ligne gauche",
+            pin: 'Tiny:bit (P13)',
+            type: 'input',
+            class: 'finder',
+            listeners: [{ default: 0, unit: '', color: "#000", suffix: "_v" }],
+            picture: "Capteur-ligne-line.png",
+            pictureAnimation: "Capteur-ligne-anim.png",
+            animate: function (Animator) {
+                Animator.translation('digital', Animator.value === 1);
+            }
+        },
+        {
+            regex: /tinybit\.(track|get_tracking_state|follow_line)\(/gi,
+            id: "mb-tinybit-finderRight",
+            title: "Capteur de ligne droit",
+            pin: 'Tiny:bit (P14)',
+            type: 'input',
+            class: 'finder',
+            listeners: [{ default: 0, unit: '', color: "#000", suffix: "_v" }],
+            picture: "Capteur-ligne-line.png",
+            pictureAnimation: "Capteur-ligne-anim.png",
+            animate: function (Animator) {
+                Animator.translation('digital', Animator.value === 1);
+            }
+        },
+        {
+            regex: /tinybit\.get_distance\(/gi,
+            id: "mb-tinybit-ultrasonic",
+            title: "Télémètre ultrasonique",
+            pin: 'Tiny:bit (P15/P16)',
+            pins: 'digital',
+            type: 'input',
+            listeners: [{ default: 20, unit: 'cm', color: "#f9d142 ", suffix: "_d", title: "Distance" }, { suffix: "_t", default: 1166, unit: 'μs', color: "#f9d142", title: "Durée" }],
+            class: 'ultrasonic',
+            picture: "Ultrason.png",
+            pictureAnimation: "Ultrason-animation.png",
+            animate: function (Animator) {
+                const callbackAnim = (value) => Animator.opacity(14575, 0, text = value);
+                const distance = Animator.value > 0 ? roundFloat(Simulator.Mosaic.grove.calculs.getDistance(Animator.value), 1) : -1;
+                Animator.updateListeners({ "_d": distance, "_t": Animator.value }, callbackAnim);
+            }
+        },
+        {
+            regex: /tinybit\.get_sound\(/gi,
+            id: "mb-tinybit-sound",
+            title: "Microphone",
+            pin: 'Tiny:bit (P1)',
+            type: 'input',
+            listeners: [{ default: 0, unit: '', color: "#777", suffix: "_v", title: "Niveau sonore" }]
+        },
+        {
+            regex: /tinybit\.(ir_read|ir_code)\(/gi,
+            id: "mb-tinybit-ir",
+            title: "Télécommande infrarouge",
+            pin: 'Tiny:bit (P8)',
+            type: 'input',
+            listeners: [{ default: -1, unit: '', color: "#777", suffix: "_v", title: "Code de la touche" }]
+        },
+
         // BitCar
         {
             regex: /bitplayer_in\.getButton_A/gi,
@@ -4248,5 +4637,6 @@ Simulator.Mosaic.specific = {
             picture: "joystick.svg",
             pictureInteraction: "buttonPush"
         },
+
     ]
 };

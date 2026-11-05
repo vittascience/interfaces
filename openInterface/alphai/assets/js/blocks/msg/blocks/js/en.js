@@ -54,3 +54,21 @@ Blockly.Msg['ROBOT_SET_LEDS_RGB_TOOLTIP'] = 'Controls the robot LEDs by specifyi
 Blockly.Msg['ROBOT_SET_LEDS_PALETTE_TITLE'] = 'control LEDs with %1';
 Blockly.Msg['ROBOT_SET_LEDS_PALETTE_TOOLTIP'] = 'Controls the robot LEDs by choosing a color from the palette.';
 Blockly.Msg['ROBOT_ALL_SENSORS'] = 'all';
+
+// Search keywords of the blocks: <X>_KEYWORDS completes the block whose tooltip is <X>_TOOLTIP (see ToolboxManager)
+Blockly.Msg['IO_WAIT_KEYWORDS'] = 'delay, wait';
+Blockly.Msg['IO_WAIT_UNTIL_KEYWORDS'] = 'wait, pause';
+Blockly.Msg['IO_INITCHRONOMETER_KEYWORDS'] = 'reset, stopwatch';
+Blockly.Msg['IO_GETCHRONOMETER_KEYWORDS'] = 'stopwatch, elapsed, time';
+Blockly.Msg['ROBOT_PRINT_MESSAGE_KEYWORDS'] = 'console, message';
+Blockly.Msg['ROBOT_SET_DIRECTION_KEYWORDS'] = 'drive, steer';
+Blockly.Msg['ROBOT_SET_MOTOR_KEYWORDS'] = 'drive, roll';
+Blockly.Msg['ROBOT_STOP_KEYWORDS'] = 'halt, brake';
+Blockly.Msg['ROBOT_SET_BUZZER_KEYWORDS'] = 'beeper, alarm';
+Blockly.Msg['ROBOT_IS_BLOCKED_KEYWORDS'] = 'obstruction, stuck, obstacle';
+Blockly.Msg['ROBOT_GET_DISTANCE_KEYWORDS'] = 'obstacle, range, proximity';
+Blockly.Msg['ROBOT_GET_INFRA_RED_KEYWORDS'] = 'infrared, sensor, line';
+Blockly.Msg['ROBOT_SET_CAMERA_KEYWORDS'] = 'webcam, video, capture';
+Blockly.Msg['ROBOT_GET_CAMERA_KEYWORDS'] = 'camera, photo, image';
+Blockly.Msg['ROBOT_SET_LEDS_RGB_KEYWORDS'] = 'LED, color, RGB';
+Blockly.Msg['ROBOT_SET_LEDS_PALETTE_KEYWORDS'] = 'LED, color, palette';

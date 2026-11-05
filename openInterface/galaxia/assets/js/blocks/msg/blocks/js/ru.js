@@ -469,7 +469,7 @@ Blockly.Msg["COMMUNICATION_RFID_CONVERTDATA_TOOLTIP"] = IMG_MODULE_RFID_125KHZ +
 Blockly.Msg['COMMUNICATION_SPI_HELPER'] = '\nПо умолчанию выводы SPI2 платы Thingz-Galaxia: SCK: Pin(34) [P13], MISO: Pin(35) [P14] и MOSI: Pin(36) [P15].';
 Blockly.Msg['COMMUNICATION_MFRC522_GETSTRINGCARDID_TITLE'] = '[RFID RC522] ID метки на выводе NSS %1';
 Blockly.Msg['COMMUNICATION_MFRC522_GETSTRINGCARDID_TOOLTIP'] = IMG_MODULE_RFID_RC522 + Blockly.Tooltip.SEP + 'Позволяет получить UID в виде строки символов от RFID-модуля RC522 (SPI) от Joy-IT, если он обнаружен на цифровых выводах.' + Blockly.Msg['COMMUNICATION_SPI_HELPER'];
-Blockly.Msg['ACTUATORS_KITRONIK_CONTROLMOTOR_TITLE'] = 'Blockly.Msg[\'ACTUATORS_KITRONIK_CONTROLMOTOR_TITLE\'] = \'[Kitronik Motors] управлять мотором %1 направление %2 скорость %3\';';
+Blockly.Msg['ACTUATORS_KITRONIK_CONTROLMOTOR_TITLE'] = '[Kitronik Motors] управлять мотором %1, направление %2, скорость %3';
 Blockly.Msg['ACTUATORS_KITRONIK_CONTROLMOTOR_TOOLTIP'] = IMG_SHIELD_KITRONIK + Blockly.Tooltip.SEP + 'Позволяет управлять MOTOR1, MOTOR2 или обоими, меняя направление (↻ : ВПЕРЁД, ↺ : НАЗАД) или скорость (от 0 до 100 %) платы управления двигателями Kitronik для BBC:microbit. Питание платы должно быть в диапазоне 3V до 10V.';
 Blockly.Msg['ACTUATORS_KITRONIK_STOPMOTOR_TITLE'] = '[Kitronik Motors] остановить мотор %1';
 Blockly.Msg['ACTUATORS_KITRONIK_STOPMOTOR_TOOLTIP'] = IMG_SHIELD_KITRONIK + Blockly.Tooltip.SEP + 'Позволяет остановить MOTOR1, MOTOR2 или оба на плате Kitronik для BBC:microbit. Питание платы должно быть в диапазоне 3V до 10V. ';

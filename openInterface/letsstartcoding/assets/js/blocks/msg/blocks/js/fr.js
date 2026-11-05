@@ -34,3 +34,12 @@ Blockly.Msg['LSC_MATH_RANDOM_INT_TITLE'] = 'random(%1,%2)';
 Blockly.Msg['LSC_CONTROLS_IF_MSG_IF'] = 'if (%1) {';
 // LOOPS
 Blockly.Msg['LSC_CONTROLS_FOR_TITLE'] = 'compter avec %1 de %2 à %3 pas %4';
+
+// Search keywords of the blocks: <X>_KEYWORDS completes the block whose tooltip is <X>_TOOLTIP (see ToolboxManager)
+Blockly.Msg['IO_WRITEDIGITALPIN_KEYWORDS'] = 'broche, numérique, écrire';
+Blockly.Msg['IO_READDIGITALPIN_KEYWORDS'] = 'broche, numérique, lire';
+Blockly.Msg['IO_PINMODE_KEYWORDS'] = 'broche';
+Blockly.Msg['IO_WAIT_KEYWORDS'] = 'pause, temporiser, délai';
+Blockly.Msg['IO_DIGITAL_SIGNAL_KEYWORDS'] = 'signal, numérique, logique';
+Blockly.Msg['ACTUATORS_TONE_KEYWORDS'] = 'son, tonalité';
+Blockly.Msg['ACTUATORS_NOTONE_KEYWORDS'] = 'tonalité, fréquence';

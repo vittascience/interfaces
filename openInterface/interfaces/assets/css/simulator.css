@@ -71,6 +71,8 @@
 
 #headerOut {
 	min-height: auto;
+	/* room for the board buttons (absolute, top right): the board starts under them */
+	padding-top: 50px;
 }
 
 .simulator-message {
@@ -87,13 +89,20 @@
 	margin-right: 2.5px;
 }
 
+/* Top right corner of the simulator, at the same place as the button back to the mosaic of the wiring simulator */
 .simulator-board-buttons {
 	display: flex;
 	flex-direction: row;
-	justify-content: start;
-	width: 30%;
-	margin-left: 75%;
-	margin-top: 3%;
+	gap: 5px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 10px;
+	z-index: 2;
+}
+
+.simulator-board-buttons .simulator-button-circle {
+	margin: 0;
 }
 
 #simulator-board-toggler,
@@ -109,16 +118,18 @@
 	box-shadow: 0 0 6px var(--vitta-shadow-color);
 	color: var(--vitta-black);
 	padding: 0.1em;
-}
-
-#ti83_zone>.simulator-board-buttons {
-	margin-left: 80%;
+	/* icon in the middle of the round button */
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 #mosaic-mode {
 	position: absolute;
 	margin: 10px;
 	right: 0;
+	/* above the wiring canvas container, positioned after it */
+	z-index: 2;
 }
 
 .simulator-mosaic-icon,
@@ -167,6 +178,8 @@
 }
 
 .ide-simulator {
+	/* The robot canvas follows the simulator width: a scrollbar taking its place would resize it in a loop. */
+	scrollbar-gutter: stable;
 	background-color: var(--bg-1);
 }
 

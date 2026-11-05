@@ -152,6 +152,12 @@
 	margin-left: 30px;
 }
 
+/* Value without image (screen, light...): centred on its own width */
+.body-output>.module-value:only-child {
+	width: auto;
+	align-self: center;
+}
+
 .body-input .module-img-group {
 	z-index: 1;
 	position: absolute;

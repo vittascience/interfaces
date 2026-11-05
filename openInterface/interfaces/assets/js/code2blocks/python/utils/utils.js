@@ -525,7 +525,8 @@ class Utils {
 	 * */
 	async interfaceImports() {
 		const path = `${_PATH}/${INTERFACE_NAME}/assets/js/blocks/code2Blocks/imports.js`;
-		const moduleUrl = new URL(path, window.location.href).toString();
+		// same origin as the code2blocks modules (CDN in production): a single instance of the shared modules (utils.js...)
+		const moduleUrl = new URL(path, CDN_PATH && path.startsWith('/') ? CDN_PATH : window.location.href).toString();
 		const imports = await import(moduleUrl);
 		this.LIBS = imports.default.LIB_IMPORT;
 		this.CLASS_METHODS = imports.default.CLASS_METHODS;

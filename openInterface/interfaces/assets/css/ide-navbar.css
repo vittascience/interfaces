@@ -483,6 +483,7 @@
 @media (max-width: 600px) {
     .ide-navbar {
         justify-content: space-between;
+        padding-left: 3px; /* the same gap as the simulator button on the right */
     }
 
     .ide-navbar > * {

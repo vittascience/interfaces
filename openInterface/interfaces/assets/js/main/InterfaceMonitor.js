@@ -53,7 +53,9 @@ const InterfaceMonitor = {
         this.monitor = document.querySelector("#console");
 
         if (this.hasTracerExportBtn()) {
-            if (['codey', 'cyberpi', 'thymio', 'raspberrypi', 'buddy', 'sphero', 'lotibot', 'spike', 'photon', 'alphai'].includes(INTERFACE_NAME)) {
+            // (UNIHIKER K10: with the buttons of the serial port)
+            if (['codey', 'cyberpi', 'thymio', 'raspberrypi', 'buddy', 'sphero', 'lotibot', 'spike', 'photon', 'alphai', 'unihiker'].includes(INTERFACE_NAME)
+                && !(INTERFACE_NAME === 'unihiker' && IS_UNIHIKER_K10)) {
                 this.addTracerExportBtnToDom('ide-btn ide-btn-alone');
             } else {
                 this.addTracerExportBtnToDom();
@@ -63,8 +65,14 @@ const InterfaceMonitor = {
             this.addToggleVariablesPanelBtnToDom();
         }
         if (this.hasMonitorFS()) {
-            // Alone in the bar on Arduino Q (no export or REPL buttons around it)
-            this.addToggleFSBtnToDom(INTERFACE_NAME === 'arduinoq' ? 'ide-btn ide-btn-alone' : 'ide-btn');
+            if (INTERFACE_NAME === 'arduinoq') {
+                // Arduino Q: "start the app", "stop the app" and "files" buttons grouped in the bar
+                this.addLaunchAppBtnToDom();
+                this.addStopAppBtnToDom('ide-btn');
+                this.addToggleFSBtnToDom('ide-btn ide-btn-right');
+            } else {
+                this.addToggleFSBtnToDom('ide-btn');
+            }
         }
         if (this.hasToggleReplOvertureBtn()) {
             this.addToggleReplOvertureBtnToDom();
@@ -100,13 +108,13 @@ const InterfaceMonitor = {
             title="Resize console"
             aria-label="Resize console"
         >
-            <i class="fas fa-arrows-alt-v" style="position: relative;bottom: 0.35em;right: 0.25em;"></i>
+            <i class="fas fa-arrows-alt-v"></i>
         </button>
         <button id="monitor-toggler" class="btn" onclick="InterfaceMonitor.toggle();"
             data-i18n="[title]code.console.buttons.monitorTool.monitorToggler;[aria-label]code.console.buttons.monitorTool.monitorToggler" data-toggle="tooltip"
             data-placement="top" title="Toggle console" aria-label="Toggle console"
         >
-            <i class="fas fa-chevron-down"  style="position: relative;right: 0.5em;bottom: 0.3em;"></i>
+            <i class="fas fa-chevron-down"></i>
         </button>
         <div id="monitor-toggler-tooltip" class="interface-tooltip" style="display: none;width: 9em;">
             <div class="interface-tooltip__header">
@@ -160,6 +168,40 @@ const InterfaceMonitor = {
         };
         const monitorDivBtn = document.getElementById("monitor-div-btn");
         if (monitorDivBtn && !monitorDivBtn.querySelector("#repl-variables")) {
+            monitorDivBtn.insertAdjacentHTML('beforeend', Button(button));
+        }
+    },
+
+    addLaunchAppBtnToDom() {
+        const button = {
+            id: "launch-app",
+            classes: 'ide-btn ide-btn-left',
+            fontAwesome: 'fas fa-play',
+            onclick: "InterfaceConnection.launchApp()",
+            title: 'code.monitor.controls.tooltips.launchApp',
+            label: {
+                value: "code.monitor.controls.text.launchApp"
+            }
+        };
+        const monitorDivBtn = document.getElementById("monitor-div-btn");
+        if (monitorDivBtn && !monitorDivBtn.querySelector("#launch-app")) {
+            monitorDivBtn.insertAdjacentHTML('beforeend', Button(button));
+        }
+    },
+
+    addStopAppBtnToDom(style = 'ide-btn ide-btn-left') {
+        const button = {
+            id: "stop-app",
+            classes: style,
+            fontAwesome: 'fas fa-stop',
+            onclick: "InterfaceConnection.stopApp()",
+            title: 'code.monitor.controls.tooltips.stopApp',
+            label: {
+                value: "code.monitor.controls.text.stopApp"
+            }
+        };
+        const monitorDivBtn = document.getElementById("monitor-div-btn");
+        if (monitorDivBtn && !monitorDivBtn.querySelector("#stop-app")) {
             monitorDivBtn.insertAdjacentHTML('beforeend', Button(button));
         }
     },
@@ -625,11 +667,12 @@ const InterfaceMonitor = {
     },
 
     hasTracerExportBtn() {
-        return ["arduino", "letsstartcoding", "microbit", "wb55", "l476", "buddy", "TI-83", "mBot", "cyberpi", "esp32", "thymio", "winky", "galaxia", "raspberrypi", "pico", "m5stack", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "eliobot", "alphai", "GalaxiaCircuitPython", "steami", "primastem"].includes(INTERFACE_NAME);
+        return ["arduino", "letsstartcoding", "microbit", "wb55", "l476", "buddy", "TI-83", "mBot", "cyberpi", "esp32", "thymio", "winky", "galaxia", "raspberrypi", "pico", "m5stack", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "eliobot", "alphai", "GalaxiaCircuitPython", "steami", "primastem", "skykick", "unihiker"].includes(INTERFACE_NAME);
     },
 
     hasToggleReplOvertureBtn() {
-        return ["esp32", "eliobot", "galaxia", "l476", "m5stack", "microbit", "pico", "steami", "wb55"].includes(INTERFACE_NAME);
+        return ["esp32", "eliobot", "galaxia", "l476", "m5stack", "microbit", "pico", "steami", "wb55"].includes(INTERFACE_NAME)
+            || (INTERFACE_NAME === 'unihiker' && IS_UNIHIKER_K10);
     },
 
     hasToggleSerialConsoleBtn() {
@@ -637,11 +680,13 @@ const InterfaceMonitor = {
     },
 
     hasMonitorDebugger() {
-        return ["esp32", "galaxia", "m5stack", "microbit", "pico", "wb55", "l476"].includes(INTERFACE_NAME);
+        return ["esp32", "galaxia", "m5stack", "microbit", "pico", "wb55", "l476"].includes(INTERFACE_NAME)
+            || (INTERFACE_NAME === 'unihiker' && IS_UNIHIKER_K10);
     },
 
     hasMonitorFS() {
-        return ["esp32", "galaxia", "m5stack", "pico", "wb55", "l476", "microbit", "steami", "eliobot", "arduinoq"].includes(INTERFACE_NAME);
+        return ["esp32", "galaxia", "m5stack", "pico", "wb55", "l476", "microbit", "steami", "eliobot", "arduinoq"].includes(INTERFACE_NAME)
+            || (INTERFACE_NAME === 'unihiker' && IS_UNIHIKER_K10);
     }
 };
 

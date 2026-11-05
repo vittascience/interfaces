@@ -3,52 +3,52 @@
  */
 
 // Toolbox category names.
-Blockly.Msg['CATEGORY_IO'] = 'Inputs/Outputs';
+Blockly.Msg["CATEGORY_IO"] = "Ingressi/Uscite";
 Blockly.Msg['CATEGORY_HUB'] = 'Hub';
-Blockly.Msg['CATEGORY_DRAW'] = 'Draw';
-Blockly.Msg['CATEGORY_GRAPHICS'] = 'Graphics';
-Blockly.Msg['CATEGORY_TEXT'] = 'Text';
+Blockly.Msg["CATEGORY_DRAW"] = "Disegno";
+Blockly.Msg["CATEGORY_GRAPHICS"] = "Grafica";
+Blockly.Msg["CATEGORY_TEXT"] = "Testo";
 Blockly.Msg['CATEGORY_VARIABLES'] = 'Variables';
-Blockly.Msg['CATEGORY_LISTS'] = 'Lists';
-Blockly.Msg['CATEGORY_PROCEDURES'] = 'Functions';
+Blockly.Msg["CATEGORY_LISTS"] = "Liste";
+Blockly.Msg["CATEGORY_PROCEDURES"] = "Funzioni";
 Blockly.Msg['CATEGORY_EXCEPTION'] = 'Eccezione';
-Blockly.Msg['CATEGORY_COLOUR'] = 'Colour';
+Blockly.Msg["CATEGORY_COLOUR"] = "Colore";
 // Category names in 'vittascience' mode.
-Blockly.Msg['CATEGORY_LOGIC'] = 'Logic';
-Blockly.Msg['CATEGORY_LOOPS'] = 'Loops';
-Blockly.Msg['CATEGORY_MATH'] = 'Math';
+Blockly.Msg["CATEGORY_LOGIC"] = "Logica";
+Blockly.Msg["CATEGORY_LOOPS"] = "Cicli";
+Blockly.Msg["CATEGORY_MATH"] = "Matematica";
 // Category names in 'scratch' mode.
-Blockly.Msg['CATEGORY_CONTROL'] = 'Control';
-Blockly.Msg['CATEGORY_OPERATORS'] = 'Operators';
+Blockly.Msg["CATEGORY_CONTROL"] = "Controllo";
+Blockly.Msg["CATEGORY_OPERATORS"] = "Operatori";
 // Category names in 'TI-Style' mode.
-Blockly.Msg['CATEGORY_ADVANCED'] = 'Advanced';
+Blockly.Msg['CATEGORY_ADVANCED'] = 'Avanzate';
 // Toolbox subcategory labels.
-Blockly.Msg['SUBCATEGORY_TIME'] = 'Time';
+Blockly.Msg["SUBCATEGORY_TIME"] = "Tempo";
 Blockly.Msg['SUBCATEGORY_INNOVATOR_HUB'] = 'Innovator Hub';
 Blockly.Msg['SUBCATEGORY_CONSOLE'] = 'Console';
-Blockly.Msg['SUBCATEGORY_SYSTEM'] = 'System';
-Blockly.Msg['SUBCATEGORY_CONFIGURATION'] = 'Setting';
-Blockly.Msg['SUBCATEGORY_DRAW'] = 'Draw';
-Blockly.Msg['SUBCATEGORY_PROPERTIES'] = 'Properties';
-Blockly.Msg['SUBCATEGORY_LOOPS'] = 'Loops';
-Blockly.Msg['SUBCATEGORY_LOGIC'] = 'Logic';
-Blockly.Msg['SUBCATEGORY_BUILTIN_DEVICES'] = 'Built-in devices of Hub';
-Blockly.Msg['SUBCATEGORY_GROVE_INPUTS'] = 'Grove - input devices';
-Blockly.Msg['SUBCATEGORY_GROVE_OUTPUTS'] = 'Grove - output devices';
-Blockly.Msg['SUBCATEGORY_PINS'] = 'Pins';
-Blockly.Msg['SUBCATEGORY_ROVER_DRIVE'] = 'Rover - drive';
-Blockly.Msg['SUBCATEGORY_ROVER_INPUTS'] = 'Rover - inputs';
-Blockly.Msg['SUBCATEGORY_ROVER_OUTPUTS'] = 'Rover - outputs';
-Blockly.Msg['SUBCATEGORY_MICROBIT_COMMANDS'] = 'Micro:bit - commands';
-Blockly.Msg['SUBCATEGORY_MICROBIT_SCREEN'] = 'Micro:bit - display';
-Blockly.Msg['SUBCATEGORY_MICROBIT_MUSIC'] = 'Micro:bit v2 - music';
+Blockly.Msg["SUBCATEGORY_SYSTEM"] = "Sistema";
+Blockly.Msg["SUBCATEGORY_CONFIGURATION"] = "Impostazioni";
+Blockly.Msg["SUBCATEGORY_DRAW"] = "Disegno";
+Blockly.Msg["SUBCATEGORY_PROPERTIES"] = "Proprietà";
+Blockly.Msg["SUBCATEGORY_LOOPS"] = "Cicli";
+Blockly.Msg["SUBCATEGORY_LOGIC"] = "Logica";
+Blockly.Msg["SUBCATEGORY_BUILTIN_DEVICES"] = "Dispositivi integrati dell'Hub";
+Blockly.Msg["SUBCATEGORY_GROVE_INPUTS"] = "Grove - dispositivi di ingresso";
+Blockly.Msg["SUBCATEGORY_GROVE_OUTPUTS"] = "Grove - dispositivi di uscita";
+Blockly.Msg["SUBCATEGORY_PINS"] = "Pin";
+Blockly.Msg["SUBCATEGORY_ROVER_DRIVE"] = "Rover - movimento";
+Blockly.Msg["SUBCATEGORY_ROVER_INPUTS"] = "Rover - ingressi";
+Blockly.Msg["SUBCATEGORY_ROVER_OUTPUTS"] = "Rover - uscite";
+Blockly.Msg["SUBCATEGORY_MICROBIT_COMMANDS"] = "Micro:bit - comandi";
+Blockly.Msg["SUBCATEGORY_MICROBIT_SCREEN"] = "Micro:bit - schermo";
+Blockly.Msg["SUBCATEGORY_MICROBIT_MUSIC"] = "Micro:bit v2 - musica";
 Blockly.Msg['SUBCATEGORY_MICROBIT_AUDIO'] = 'Micro:bit v2 - audio';
 Blockly.Msg['SUBCATEGORY_MICROBIT_MICROPHONE'] = 'Micro:bit v2 - microphone';
-Blockly.Msg['SUBCATEGORY_MICROBIT_SENSORS'] = 'Micro:bit - sensors and gestures';
-Blockly.Msg['SUBCATEGORY_MICROBIT_BUTTONS'] = 'Micro:bit - buttons';
+Blockly.Msg["SUBCATEGORY_MICROBIT_SENSORS"] = "Micro:bit - sensori e gesti";
+Blockly.Msg["SUBCATEGORY_MICROBIT_BUTTONS"] = "Micro:bit - pulsanti";
 Blockly.Msg['SUBCATEGORY_MICROBIT_RADIO'] = 'Micro:bit - radio';
 Blockly.Msg['SUBCATEGORY_MICROBIT_NEOPIXEL'] = 'Micro:bit - neopixel';
-Blockly.Msg['SUBCATEGORY_MICROBIT_PINS'] = 'Micro:bit - pins';
+Blockly.Msg["SUBCATEGORY_MICROBIT_PINS"] = "Micro:bit - pin";
 
 /* Sub categories toolbox code mode */
 
@@ -68,7 +68,6 @@ Blockly.Msg["SUBCATEGORY_MATH"] = "Matematica";
 Blockly.Msg["SUBCATEGORY_CONST"] = "Costanti";
 Blockly.Msg["SUBCATEGORY_TRIG"] = "Trigonometria";
 Blockly.Msg["SUBCATEGORY_CONFIG"] = "Configurazione";
-Blockly.Msg["SUBCATEGORY_DRAW"] = "Disegno";
 Blockly.Msg["SUBCATEGORY_PROPS"] = "Proprietà";
 
 Blockly.Msg["SUBCATEGORY_IMPORTS"] = "Importazioni";
@@ -81,7 +80,6 @@ Blockly.Msg["SUBCATEGORY_ROVER_IO"] = "I/O";
 Blockly.Msg["SUBCATEGORY_ROVER_SETTINGS"] = "Impostazioni";
 
 Blockly.Msg["SUBCATEGORY_MOUV"] = "Movimento";
-Blockly.Msg["SUBCATEGORY_DRAW"] = "Disegno";
 Blockly.Msg["SUBCATEGORY_PEN"] = "Penna";
 Blockly.Msg["SUBCATEGORY_SETTINGS"] = "Impostazioni";
 Blockly.Msg["SUBCATEGORY_STATE"] = "Stato";

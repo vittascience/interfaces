@@ -189,6 +189,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
             "blocks": [
                 'actuators_audio_play',
                 'actuators_audio_play_tone',
+                'actuators_audio_play_note',
                 'actuators_audio_start_recording',
                 'actuators_audio_stop_recording',
                 'actuators_audio_play_recording',
@@ -286,6 +287,13 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'io_controller_isButtonPressed',
                 'io_controller_get_count',
                 'io_controller_reset_count'
+            ]
+        },
+        {
+            "label": "%{BKY_SUBCATEGORY_GAMEPAD}",
+            "blocks": [
+                'robots_gamepad_is_key_pressed',
+                'robots_gamepad_get_joystick'
             ]
         },
         {

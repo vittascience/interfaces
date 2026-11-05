@@ -111,7 +111,7 @@ WiringSimulator.groveDefinitions = [
     picture: "led.svg"
   },
   {
-    id: "lcdGrove",
+    id: ["lcdGrove", "lcd"],
     wireOrientation: "left",
     wirePosition: {
       GND: {
@@ -315,31 +315,32 @@ WiringSimulator.groveDefinitions = [
   },
   {
     id: ["read-analog", "potentiometer"],
-    wireOrientation: "top",
+    wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 35,
-        y: 8
+        x: 16,
+        y: 46
       },
       VCC: {
-        x: 38,
-        y: 8
+        x: 19,
+        y: 46
       },
       DATA2: {
-        x: 41,
-        y: 8
+        x: 22,
+        y: 46
       },
       DATA1: {
-        x: 44,
-        y: 8
+        x: 25,
+        y: 46
       },
     },
+    size: 0.11,
     x: 225,
     y: 190,
     picture: "grove-rotary-potentiometer.svg",
   },
   {
-    id: "button",
+    id: ["button", "reversedButton", "coloredButton", "digital-interrupt"],
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
@@ -518,7 +519,7 @@ WiringSimulator.groveDefinitions = [
     picture: "oxygen-sensor.svg",
   },
   {
-    id: "multichannelV2",
+    id: ["multichannelV2", "multichannel"],
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
@@ -543,7 +544,7 @@ WiringSimulator.groveDefinitions = [
     picture: "multichannel-sensorV2.svg",
   },
   {
-    id: "mhz19-co2",
+    id: ["mhz19-co2", "mhz19-temp"],
     wireOrientation: "right",
     wirePosition: {
       GND: {
@@ -570,7 +571,7 @@ WiringSimulator.groveDefinitions = [
     picture: "mh-z19.svg",
   },
   {
-    id: ["bmp280-temp", "bmp280-press", "bmp280-alt"],
+    id: ["bmp280-temp", "bmp280-press", "bmp280-alt", "bme280-temp", "bme280-hum", "bme280-press", "bme280-alt"],
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
@@ -621,7 +622,7 @@ WiringSimulator.groveDefinitions = [
     picture: "temp-sensor.svg",
   },
   {
-    id: ["dht-temp", "dht-hum"],
+    id: ["dht-temp", "dht-hum", "dht11-temp", "dht11-hum"],
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
@@ -693,7 +694,7 @@ WiringSimulator.groveDefinitions = [
     },
     x: 225,
     y: 200,
-    picture: "TH02.svg",
+    picture: "SHT31.svg",
   },
   {
     id: "groveMoisture",
@@ -721,7 +722,7 @@ WiringSimulator.groveDefinitions = [
     picture: "moisture-sensor.svg",
   },
   {
-    id: "ultrasonic",
+    id: ["ultrasonic", "hcsr04"],
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
@@ -923,7 +924,7 @@ WiringSimulator.groveDefinitions = [
     picture: "sound-sensor.svg",
   },
   {
-    id: "groveMotion",
+    id: ["groveMotion", "groveMotionMini", "grovePIRMotion"],
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
@@ -948,7 +949,7 @@ WiringSimulator.groveDefinitions = [
     picture: "motion-sensor.svg",
   },
   {
-    id: "highTemp",
+    id: ["highTemp", "highTemp-room", "highTemp-thmc"],
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
@@ -974,7 +975,7 @@ WiringSimulator.groveDefinitions = [
   },
   // actuators
   {
-    id: "servo",
+    id: ["servo", "continuousServo"],
     wireOrientation: "right",
     wirePosition: {
       GND: {
@@ -1072,5 +1073,836 @@ WiringSimulator.groveDefinitions = [
     x: 240,
     y: 185,
     picture: "openlog.svg"
+  },
+  // Generated pictures (Grove style)
+  {
+    id: "relay",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 15.5,
+        y: 54.8
+      },
+      VCC: {
+        x: 18.5,
+        y: 54.8
+      },
+      DATA2: {
+        x: 21.5,
+        y: 54.8
+      },
+      DATA1: {
+        x: 24.5,
+        y: 54.8
+      },
+    },
+    picture: "relay.svg",
+  },
+  {
+    id: "electromagnet",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 15.5,
+        y: 54.8
+      },
+      VCC: {
+        x: 18.5,
+        y: 54.8
+      },
+      DATA2: {
+        x: 21.5,
+        y: 54.8
+      },
+      DATA1: {
+        x: 24.5,
+        y: 54.8
+      },
+    },
+    picture: "electromagnet.svg",
+  },
+  {
+    id: "vibrationMotor",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 15.5,
+        y: 34.8
+      },
+      VCC: {
+        x: 18.5,
+        y: 34.8
+      },
+      DATA2: {
+        x: 21.5,
+        y: 34.8
+      },
+      DATA1: {
+        x: 24.5,
+        y: 34.8
+      },
+    },
+    picture: "vibration-motor.svg",
+  },
+  {
+    id: "fan",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 20.5,
+        y: 54.8
+      },
+      VCC: {
+        x: 23.5,
+        y: 54.8
+      },
+      DATA2: {
+        x: 26.5,
+        y: 54.8
+      },
+      DATA1: {
+        x: 29.5,
+        y: 54.8
+      },
+    },
+    picture: "fan.svg",
+  },
+  {
+    id: "motor",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 20.5,
+        y: 34.8
+      },
+      VCC: {
+        x: 23.5,
+        y: 34.8
+      },
+      DATA2: {
+        x: 26.5,
+        y: 34.8
+      },
+      DATA1: {
+        x: 29.5,
+        y: 34.8
+      },
+    },
+    picture: "motor.svg",
+  },
+  {
+    id: ["stepper28BYJ48", "stepper-motor"],
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 35.5,
+        y: 44.8
+      },
+      VCC: {
+        x: 38.5,
+        y: 44.8
+      },
+      DATA2: {
+        x: 41.5,
+        y: 44.8
+      },
+      DATA1: {
+        x: 44.5,
+        y: 44.8
+      },
+    },
+    picture: "stepper.svg",
+  },
+  {
+    id: "LEDMatrix",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 25.5,
+        y: 54.8
+      },
+      VCC: {
+        x: 28.5,
+        y: 54.8
+      },
+      DATA2: {
+        x: 31.5,
+        y: 54.8
+      },
+      DATA1: {
+        x: 34.5,
+        y: 54.8
+      },
+    },
+    picture: "led-matrix.svg",
+  },
+  {
+    id: "RGBLEDMatrix",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 25.5,
+        y: 54.8
+      },
+      VCC: {
+        x: 28.5,
+        y: 54.8
+      },
+      DATA2: {
+        x: 31.5,
+        y: 54.8
+      },
+      DATA1: {
+        x: 34.5,
+        y: 54.8
+      },
+    },
+    picture: "rgb-led-matrix.svg",
+  },
+  {
+    id: "groveFinder",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 15.5,
+        y: 34.8
+      },
+      VCC: {
+        x: 18.5,
+        y: 34.8
+      },
+      DATA2: {
+        x: 21.5,
+        y: 34.8
+      },
+      DATA1: {
+        x: 24.5,
+        y: 34.8
+      },
+    },
+    picture: "line-finder.svg",
+  },
+  {
+    id: "obstacleDetector",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 15.5,
+        y: 34.8
+      },
+      VCC: {
+        x: 18.5,
+        y: 34.8
+      },
+      DATA2: {
+        x: 21.5,
+        y: 34.8
+      },
+      DATA1: {
+        x: 24.5,
+        y: 34.8
+      },
+    },
+    picture: "ir-obstacle.svg",
+  },
+  {
+    id: "distanceInterrupter",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 15.5,
+        y: 34.8
+      },
+      VCC: {
+        x: 18.5,
+        y: 34.8
+      },
+      DATA2: {
+        x: 21.5,
+        y: 34.8
+      },
+      DATA1: {
+        x: 24.5,
+        y: 34.8
+      },
+    },
+    picture: "distance-interrupter.svg",
+  },
+  {
+    id: "remote",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 15.5,
+        y: 34.8
+      },
+      VCC: {
+        x: 18.5,
+        y: 34.8
+      },
+      DATA2: {
+        x: 21.5,
+        y: 34.8
+      },
+      DATA1: {
+        x: 24.5,
+        y: 34.8
+      },
+    },
+    picture: "ir-receiver.svg",
+  },
+  {
+    id: "airQuality",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 15.5,
+        y: 34.8
+      },
+      VCC: {
+        x: 18.5,
+        y: 34.8
+      },
+      DATA2: {
+        x: 21.5,
+        y: 34.8
+      },
+      DATA1: {
+        x: 24.5,
+        y: 34.8
+      },
+    },
+    picture: "air-quality-sensor.svg",
+  },
+  {
+    id: "mq135",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 15.5,
+        y: 34.8
+      },
+      VCC: {
+        x: 18.5,
+        y: 34.8
+      },
+      DATA2: {
+        x: 21.5,
+        y: 34.8
+      },
+      DATA1: {
+        x: 24.5,
+        y: 34.8
+      },
+    },
+    picture: "mq135.svg",
+  },
+  {
+    id: "groveUV",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 15.5,
+        y: 34.8
+      },
+      VCC: {
+        x: 18.5,
+        y: 34.8
+      },
+      DATA2: {
+        x: 21.5,
+        y: 34.8
+      },
+      DATA1: {
+        x: 24.5,
+        y: 34.8
+      },
+    },
+    picture: "uv-sensor.svg",
+  },
+  {
+    id: ["groveEarClip", "grovePulse"],
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 30.5,
+        y: 34.8
+      },
+      VCC: {
+        x: 33.5,
+        y: 34.8
+      },
+      DATA2: {
+        x: 36.5,
+        y: 34.8
+      },
+      DATA1: {
+        x: 39.5,
+        y: 34.8
+      },
+    },
+    picture: "ear-clip.svg",
+  },
+  {
+    id: "groveVoltageDivider",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 15.5,
+        y: 34.8
+      },
+      VCC: {
+        x: 18.5,
+        y: 34.8
+      },
+      DATA2: {
+        x: 21.5,
+        y: 34.8
+      },
+      DATA1: {
+        x: 24.5,
+        y: 34.8
+      },
+    },
+    picture: "voltage-divider.svg",
+  },
+  {
+    id: "rainGauge",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 20.5,
+        y: 54.8
+      },
+      VCC: {
+        x: 23.5,
+        y: 54.8
+      },
+      DATA2: {
+        x: 26.5,
+        y: 54.8
+      },
+      DATA1: {
+        x: 29.5,
+        y: 54.8
+      },
+    },
+    picture: "rain-gauge.svg",
+  },
+  {
+    id: "anemometer",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 20.5,
+        y: 54.8
+      },
+      VCC: {
+        x: 23.5,
+        y: 54.8
+      },
+      DATA2: {
+        x: 26.5,
+        y: 54.8
+      },
+      DATA1: {
+        x: 29.5,
+        y: 54.8
+      },
+    },
+    picture: "anemometer.svg",
+  },
+  {
+    id: "groveRain",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 15.5,
+        y: 64.8
+      },
+      VCC: {
+        x: 18.5,
+        y: 64.8
+      },
+      DATA2: {
+        x: 21.5,
+        y: 64.8
+      },
+      DATA1: {
+        x: 24.5,
+        y: 64.8
+      },
+    },
+    picture: "rain-sensor.svg",
+  },
+  {
+    id: "groveCapacitiveMoisture",
+    wireOrientation: "top",
+    wirePosition: {
+      GND: {
+        x: 10.5,
+        y: 5.2
+      },
+      VCC: {
+        x: 13.5,
+        y: 5.2
+      },
+      DATA2: {
+        x: 16.5,
+        y: 5.2
+      },
+      DATA1: {
+        x: 19.5,
+        y: 5.2
+      },
+    },
+    picture: "capacitive-moisture.svg",
+  },
+  {
+    id: ["dht22-temp", "dht22-hum"],
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 15.5,
+        y: 54.8
+      },
+      VCC: {
+        x: 18.5,
+        y: 54.8
+      },
+      DATA2: {
+        x: 21.5,
+        y: 54.8
+      },
+      DATA1: {
+        x: 24.5,
+        y: 54.8
+      },
+    },
+    picture: "dht22.svg",
+  },
+  {
+    id: "ds18x20",
+    wireOrientation: "right",
+    wirePosition: {
+      GND: {
+        x: 82.0,
+        y: 10.5
+      },
+      VCC: {
+        x: 82.0,
+        y: 13.5
+      },
+      DATA2: {
+        x: 82.0,
+        y: 16.5
+      },
+      DATA1: {
+        x: 82.0,
+        y: 19.5
+      },
+    },
+    picture: "ds18b20.svg",
+  },
+  {
+    id: "dustSensor",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 30.5,
+        y: 44.8
+      },
+      VCC: {
+        x: 33.5,
+        y: 44.8
+      },
+      DATA2: {
+        x: 36.5,
+        y: 44.8
+      },
+      DATA1: {
+        x: 39.5,
+        y: 44.8
+      },
+    },
+    picture: "dust-sensor.svg",
+  },
+  {
+    id: "rotaryEncoder",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 15.5,
+        y: 34.8
+      },
+      VCC: {
+        x: 18.5,
+        y: 34.8
+      },
+      DATA2: {
+        x: 21.5,
+        y: 34.8
+      },
+      DATA1: {
+        x: 24.5,
+        y: 34.8
+      },
+    },
+    picture: "rotary-encoder.svg",
+  },
+  {
+    id: ["gps", "bn880"],
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 15.5,
+        y: 54.8
+      },
+      VCC: {
+        x: 18.5,
+        y: 54.8
+      },
+      DATA2: {
+        x: 21.5,
+        y: 54.8
+      },
+      DATA1: {
+        x: 24.5,
+        y: 54.8
+      },
+    },
+    picture: "gps.svg",
+  },
+  {
+    id: "rfidReader",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 25.5,
+        y: 54.8
+      },
+      VCC: {
+        x: 28.5,
+        y: 54.8
+      },
+      DATA2: {
+        x: 31.5,
+        y: 54.8
+      },
+      DATA1: {
+        x: 34.5,
+        y: 54.8
+      },
+    },
+    // Grove 125kHz RFID reader: serial module, its mosaic definition has no pin.
+    connection: "UART",
+    picture: "rfid.svg",
+  },
+  {
+    id: ["scd30-co2", "scd30-temp", "scd30-hum"],
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 20.5,
+        y: 34.8
+      },
+      VCC: {
+        x: 23.5,
+        y: 34.8
+      },
+      DATA2: {
+        x: 26.5,
+        y: 34.8
+      },
+      DATA1: {
+        x: 29.5,
+        y: 34.8
+      },
+    },
+    picture: "scd30.svg",
+  },
+  {
+    id: "si1145",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 15.5,
+        y: 34.8
+      },
+      VCC: {
+        x: 18.5,
+        y: 34.8
+      },
+      DATA2: {
+        x: 21.5,
+        y: 34.8
+      },
+      DATA1: {
+        x: 24.5,
+        y: 34.8
+      },
+    },
+    picture: "si1145.svg",
+  },
+  {
+    id: "gestureSensor",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 15.5,
+        y: 34.8
+      },
+      VCC: {
+        x: 18.5,
+        y: 34.8
+      },
+      DATA2: {
+        x: 21.5,
+        y: 34.8
+      },
+      DATA1: {
+        x: 24.5,
+        y: 34.8
+      },
+    },
+    picture: "gesture.svg",
+  },
+  {
+    id: "mlx90621",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 15.5,
+        y: 34.8
+      },
+      VCC: {
+        x: 18.5,
+        y: 34.8
+      },
+      DATA2: {
+        x: 21.5,
+        y: 34.8
+      },
+      DATA1: {
+        x: 24.5,
+        y: 34.8
+      },
+    },
+    picture: "mlx90621.svg",
+  },
+  {
+    id: ["i2cMotor1", "i2cMotor2", "i2cMotorStepper"],
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 25.5,
+        y: 44.8
+      },
+      VCC: {
+        x: 28.5,
+        y: 44.8
+      },
+      DATA2: {
+        x: 31.5,
+        y: 44.8
+      },
+      DATA1: {
+        x: 34.5,
+        y: 44.8
+      },
+    },
+    picture: "i2c-motor-driver.svg",
+  },
+  {
+    id: "groveMP3",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 15.5,
+        y: 34.8
+      },
+      VCC: {
+        x: 18.5,
+        y: 34.8
+      },
+      DATA2: {
+        x: 21.5,
+        y: 34.8
+      },
+      DATA1: {
+        x: 24.5,
+        y: 34.8
+      },
+    },
+    picture: "mp3.svg",
+  },
+  {
+    id: ["groveBT", "hc05", "hm10"],
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 15.5,
+        y: 54.8
+      },
+      VCC: {
+        x: 18.5,
+        y: 54.8
+      },
+      DATA2: {
+        x: 21.5,
+        y: 54.8
+      },
+      DATA1: {
+        x: 24.5,
+        y: 54.8
+      },
+    },
+    picture: "bluetooth.svg",
+  },
+  {
+    id: "groveWater",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 15,
+        y: 65
+      },
+      VCC: {
+        x: 18,
+        y: 65
+      },
+      DATA2: {
+        x: 21,
+        y: 65
+      },
+      DATA1: {
+        x: 24,
+        y: 65
+      },
+    },
+    picture: "water-sensor.svg",
+  },
+  {
+    id: "joystick",
+    wireOrientation: "top",
+    wirePosition: {
+      GND: {
+        x: 36,
+        y: 4
+      },
+      VCC: {
+        x: 38.5,
+        y: 4
+      },
+      DATA2: {
+        x: 41,
+        y: 4
+      },
+      DATA1: {
+        x: 43.5,
+        y: 4
+      },
+    },
+    picture: "joystick.svg",
   }
 ];

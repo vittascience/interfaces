@@ -882,7 +882,7 @@ const initConnection = function (self) {
 const connectSocket = (self) => {
     return new Promise(async (resolve, reject) => {
         let protocol, port, host;
-        if (location.protocol === 'http:') {
+        if (isLocal()) {
             protocol = "ws";
             host = "localhost";
             port = "1337";
@@ -960,6 +960,11 @@ const connectSocket = (self) => {
 
 const isProduction = function (self) {
     return CDN_PATH !== '';
+}
+
+// Local stack: legacy http://vittascience or https://vittascience.localhost (docker compose)
+const isLocal = function () {
+    return location.protocol === 'http:' || location.hostname === 'localhost' || location.hostname.endsWith('.localhost');
 }
 
 const setTemperature = function (self, temperature) {

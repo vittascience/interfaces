@@ -143,8 +143,8 @@ function setBlocklyControlsA11y() {
  */
 function setBlocklyWorkspaceIcons(theme) {
     const themeIcons = {
-        light: "/openInterface/interfaces/assets/js/external/blockly/media/spritesLight.png",
-        dark: "/openInterface/interfaces/assets/js/external/blockly/media/spritesDark.png"
+        light: `${CDN_PATH}/openInterface/interfaces/assets/js/external/blockly/media/spritesLight.png`,
+        dark: `${CDN_PATH}/openInterface/interfaces/assets/js/external/blockly/media/spritesDark.png`
     };
     const icons = document.querySelectorAll('.blocklyZoom image, .blocklyTrash image');
     if (themeIcons[theme]) {

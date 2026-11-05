@@ -53,6 +53,7 @@ class LCD1602:
       error += "[Info] I2C address.es detected: " + str([hex(a) for a in i2cModules])
       raise OSError(error)
     self._addr = addr   
+    self._backlight = None
     self.fct = LCD_5x10DOTS|LCD_2LINE
     utime.sleep_ms(50)
     self._command(LCD_FUNCTIONSET|self.fct)
@@ -103,8 +104,45 @@ class LCD1602:
     self._command(LCD_CLEARDISPLAY)
     utime.sleep_ms(2)
 
+  def setColor(self, red, green, blue):
+    red = int(red)
+    green = int(green)
+    blue = int(blue)
+    red = max(0, min(255, red))
+    green = max(0, min(255, green))
+    blue = max(0, min(255, blue))
+    if self._backlight is None:
+      self._backlight = RGBBacklight(self._i2c)
+    self._backlight.set_color(red, green, blue)
+
   def _write(self, buffer):
     self._i2c.writeto(self._addr, bytearray(buffer))
 
   def _command(self, cmd):
     self._write([LCD_COMMAND, cmd])
+
+
+class RGBBacklight:
+  ADDRESS = 0x62
+  REG_RED = 0x04
+  REG_GREEN = 0x03
+  REG_BLUE = 0x02
+  REG_MODE1 = 0x00
+  REG_MODE2 = 0x01
+  REG_OUTPUT = 0x08
+
+  def __init__(self, i2c):
+    self._i2c = i2c
+    if self.ADDRESS not in i2c.scan():
+      raise OSError("Grove LCD RGB backlight not found at address 0x62")
+    self._set_register(self.REG_MODE1, 0)
+    self._set_register(self.REG_MODE2, 0)
+    self._set_register(self.REG_OUTPUT, 0xAA)
+
+  def set_color(self, red, green, blue):
+    self._set_register(self.REG_RED, red)
+    self._set_register(self.REG_GREEN, green)
+    self._set_register(self.REG_BLUE, blue)
+
+  def _set_register(self, register, value):
+    self._i2c.writeto_mem(self.ADDRESS, register, bytearray([value]))

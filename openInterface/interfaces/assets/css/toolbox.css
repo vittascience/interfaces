@@ -4,7 +4,8 @@
   background: var(--bg-2) !important;
   border-inline-end: rgba(128, 128, 128, 0.28) 3px solid;
   overflow-x: hidden;
-  transition: all 0.2s;
+  /* Width not animated: Blockly places the workspace from the toolbox width as soon as it changes */
+  transition: all 0.2s, width 0s, min-width 0s;
 }
 
 .blocklyToolbox .blocklyToolboxCategoryLabel {
@@ -26,6 +27,13 @@
 
 .blocklyToolbox .blocklyToolboxCategory:focus-within {
   outline-color: var(--vitta-green);
+}
+
+/* Since Blockly 12, a click gives the focus to the category container (not to its row): no browser focus
+   ring around it, shown after typing in an input (search, console). The selected row is highlighted,
+   and the keyboard navigation of Blockly has its own focus styles. */
+.blocklyToolbox .blocklyToolboxCategoryContainer:focus-visible {
+  outline: none;
 }
 
 .blocklyToolbox .blocklyToolboxCategory {
@@ -99,6 +107,31 @@
   fill: #565656;
 }
 
+
+/* Toolbox width animated when a category opens or closes (vittascience_patches.js): the rows follow
+   the toolbox width, their names are revealed as it grows */
+.blocklyToolbox:not(.blocklyToolboxDiv-small) .blocklyToolboxCategoryContainer {
+  width: 100%;
+  min-width: 0;
+}
+
+/* (not the search row: the level switcher of the esp32 goes under the search input) */
+.blocklyToolbox:not(.blocklyToolboxDiv-small) .blocklyToolboxCategoryContainer:not(#search) .blocklyTreeRowContentContainer {
+  display: flex;
+  align-items: baseline;
+  min-width: 0;
+}
+
+.blocklyToolbox:not(.blocklyToolboxDiv-small) .blocklyToolboxCategoryLabel {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Room for the arrow of the categories with subcategories */
+.blocklyToolbox:not(.blocklyToolboxDiv-small) .blocklyToolboxCategoryContainer[aria-expanded] > .blocklyToolboxCategory .blocklyTreeRowContentContainer {
+  padding-inline-end: 1.4em;
+}
 
 /* SMALL BLOCKLY TOOLBOX STYLE */
 

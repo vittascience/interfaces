@@ -361,156 +361,147 @@ function buildIOPayload(items, unitTestResponse) {
     }));
 }
 
-function saveIOCollection(route, entries) {
-    const domRows = entries.map((entry) => entry.dom);
-    const dataRows = entries.map((entry) => entry.data);
+/**
+ * Parse the response of a request saving a part of the exercise
+ * @param {string|object} response - The server response
+ * @returns {*} The parsed response
+ * @throws {Error} If the server refused to save
+ */
+function parseSavingResponse(response) {
+    const parsedResponse = typeof response === 'string' ? JSON.parse(response) : response;
+    if (!parsedResponse || parsedResponse.error || parsedResponse.errors || parsedResponse.errorType) {
+        throw new Error(`Exercise saving refused: ${JSON.stringify(parsedResponse)}`);
+    }
+    return parsedResponse;
+}
 
-    $.ajax({
+async function saveIOCollection(route, entries) {
+    if (entries.length === 0) return;
+    const response = await $.ajax({
         type: "POST",
         url: "/routing/Routing.php?controller=" + route + "&action=update",
         data: {
-            "iO": dataRows
-        },
-        success: function (response) {
-            if (response !== false) {
-                const parsedResponse = JSON.parse(response);
-                for (let i = 0; i < domRows.length; i++) {
-                    domRows[i].find('.id-IO').val(parsedResponse[i].id);
-                }
-            } else {
-                console.log("Error while saving the " + route);
-            }
-        },
-        error: function (response) {
-            console.error(response);
+            "iO": entries.map((entry) => entry.data)
         }
+    });
+    const savedIO = parseSavingResponse(response);
+    entries.forEach((entry, index) => {
+        entry.dom.find('.id-IO').val(savedIO[index].id);
     });
 }
 
 function removeMissingStoredIO(unitTest, keptIds, ioType) {
     const removedIds = getRemovedIds(getStoredIOIds(unitTest, ioType), keptIds);
     if (removedIds.length > 0) {
-        removeIO(removedIds, ioType === 'input');
+        return removeIO(removedIds, ioType === 'input');
     }
 }
 
-function saveExercise(dataExercise, uniTests) {
-    function updateTests() {
-        setTimeout(function () {
-            UIManager.showSuccessMessage("save-exercise-message", "<i class='fa fa-info-circle'></i> " + i18next.t('code.popups.formTest.cancel'));
-            UnitTests.init(projectManager._currentProject)
-            $('#modal-formunittests').hide();
-            $('.overlay').hide();
-            $("#UTrunButtonPython").show()
-        }, 2000);
-    }
-    var index = 0
-    $.ajax({
+/**
+ * Display the success of the exercise saving, reload the unit tests and close the form
+ */
+function updateTests() {
+    UIManager.showSuccessMessage("save-exercise-message", "<i class='fa fa-check'></i> " + i18next.t('code.popups.formTest.saved'));
+    UnitTests.init(projectManager._currentProject);
+    setTimeout(function () {
+        $('#modal-formunittests').hide();
+        $('.overlay').hide();
+        $("#UTrunButtonPython").show()
+    }, SAVE_TIMEOUT);
+}
+
+/**
+ * Save the exercise, its unit tests and their inputs/outputs, and remove the deleted ones
+ * @param {object} dataExercise - The exercise to save
+ * @param {jQuery} uniTests - The unit tests forms
+ * @returns {Promise} Resolves when everything is saved, rejects if any request failed
+ */
+async function saveExercise(dataExercise, uniTests) {
+    const response = await $.ajax({
         type: "POST",
         url: "/routing/Routing.php?controller=exercise&action=update",
         data: {
             "exercise": dataExercise
-        },
-        success: function (response) {
-            if (response !== false) {
-                const parsedExercise = JSON.parse(response)
-                const savedTestIds = []
-                uniTests.each(function () {
-                    let id = parseInt($(this).find('.id-test').val())
-                    id = (isNaN(id) ? null : id)
-                    $('#id-exercise').val(parsedExercise.id)
-                    const testToSave = {
-                        'id': id,
-                        'hint': $(this).find(".form-title").val(),
-                        'exercise': parsedExercise
-                    }
-                    savedTestIds.push(id)
-                    saveTest($(this), testToSave, index)
-                    index++
-                })
-                const allTests = getStoredPythonUnitTests();
-                if (allTests && allTests.exercise) {
-                    for (let i = 0; i < allTests.unitTests.length; i++) {
-                        if (savedTestIds.includes(allTests.unitTests[i].id) == false) {
-                            removeTest(allTests.unitTests[i])
-                        }
-                    }
-                }
-                updateTests();
-            } else {
-                console.log("Error while saving the exercise");
+        }
+    });
+    const parsedExercise = parseSavingResponse(response);
+    $('#id-exercise').val(parsedExercise.id);
+    const savedTestIds = [];
+    const savingRequests = [];
+    uniTests.each(function (index) {
+        let id = parseInt($(this).find('.id-test').val());
+        id = (isNaN(id) ? null : id);
+        savedTestIds.push(id);
+        savingRequests.push(saveTest($(this), {
+            'id': id,
+            'hint': $(this).find(".form-title").val(),
+            'exercise': parsedExercise
+        }, index));
+    });
+    const allTests = getStoredPythonUnitTests();
+    if (allTests && allTests.exercise) {
+        for (let unitTest of allTests.unitTests) {
+            if (!savedTestIds.includes(unitTest.id)) {
+                savingRequests.push(removeTest(unitTest));
             }
         }
-    })
+    }
+    await Promise.all(savingRequests);
 }
 
-function saveTest(formTest, uniTest, index) {
-    $.ajax({
+async function saveTest(formTest, uniTest, index) {
+    const response = await $.ajax({
         type: "POST",
         url: "/routing/Routing.php?controller=unitTests&action=update",
         data: {
             "test": uniTest
-        },
-        success: function (response) {
-            if (response !== false) {
-                const parsedResponse = JSON.parse(response)
-                formTest.find('.id-test').val(parsedResponse.id)
-
-                const inputs = extractIOData(formTest, 'input');
-                const outputs = extractIOData(formTest, 'output');
-                const dataIoObject = {
-                    input: buildIOPayload(inputs.items, response),
-                    output: buildIOPayload(outputs.items, response)
-                };
-
-                saveIO(dataIoObject);
-
-                const storedUnitTest = getStoredUnitTest(index);
-                if (storedUnitTest) {
-                    removeMissingStoredIO(storedUnitTest, inputs.ids, 'input');
-                    removeMissingStoredIO(storedUnitTest, outputs.ids, 'output');
-                }
-            } else {
-                console.log("Error while saving the unit test");
-            }
         }
-    })
+    });
+    const savedTest = parseSavingResponse(response);
+    formTest.find('.id-test').val(savedTest.id);
+
+    const inputs = extractIOData(formTest, 'input');
+    const outputs = extractIOData(formTest, 'output');
+    await saveIO({
+        input: buildIOPayload(inputs.items, response),
+        output: buildIOPayload(outputs.items, response)
+    });
+
+    const storedUnitTest = getStoredUnitTest(index);
+    if (storedUnitTest) {
+        await Promise.all([
+            removeMissingStoredIO(storedUnitTest, inputs.ids, 'input'),
+            removeMissingStoredIO(storedUnitTest, outputs.ids, 'output')
+        ]);
+    }
 }
 
-function saveIO(dataIO/* , domIO, input = true */) {
-    saveIOCollection('input', dataIO.input);
-    saveIOCollection('output', dataIO.output);
+function saveIO(dataIO) {
+    return Promise.all([
+        saveIOCollection('input', dataIO.input),
+        saveIOCollection('output', dataIO.output)
+    ]);
 }
 
 function removeTest(test) {
-    $.ajax({
+    return $.ajax({
         type: "POST",
         url: "/routing/Routing.php?controller=unitTests&action=delete",
         data: {
             "test": test.id
-        },
-        success: function (response) {
-            if (response === "false") {
-                console.log("Error while deleting the test");
-            }
         }
-    })
+    });
 }
 
 function removeIO(dataIO, input = true) {
     const route = input ? "input" : "output";
-    $.ajax({
+    return $.ajax({
         type: "POST",
         url: "/routing/Routing.php?controller=" + route + "&action=delete",
         data: {
             "iO": dataIO
-        },
-        success: function (response) {
-            if (response === "false") {
-                console.log("Error while deleting the I/O");
-            }
         }
-    })
+    });
 }
 
 $('body').on('click', '#save-test', async function () {
@@ -536,7 +527,16 @@ $('body').on('click', '#save-test', async function () {
                 'linkSolution': $('#form-solution').val()
             }
             await turtleAutocorrector.removeTurtleExercise();
-            saveExercise(exerciseToSave, uniTests)
+            $(this).prop('disabled', true);
+            try {
+                await saveExercise(exerciseToSave, uniTests);
+                updateTests();
+            } catch (error) {
+                console.error(error);
+                UIManager.showErrorMessage("save-exercise-message", "<span class='fa fa-times'></span> " + i18next.t('notifications.exerciseSaveFailed'));
+            } finally {
+                $(this).prop('disabled', false);
+            }
         } else {
             UIManager.showErrorMessage("save-exercise-message", "<span class='fa fa-times'></span> " + errors.join('<br>'));
         }

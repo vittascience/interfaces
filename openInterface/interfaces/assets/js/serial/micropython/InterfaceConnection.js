@@ -156,6 +156,9 @@ const InterfaceConnection = {
 						await this.repl.sendCommand(this.repl.Queue.dequeue());
 					}
 				} else {
+					if (INTERFACE_NAME == 'unihiker') {
+						InterfaceMonitor.writeConsole(jsonPath('code.unihiker.k10Flash'), 'warning');
+					}
 					if (INTERFACE_NAME == 'esp32') {
 						InterfaceMonitor.writeConsole(jsonPath('code.repl.flashPython') + ' ' + setClickableLink("https://vittascience.com/learn/tutorial.php?id=341", 'Flashing Esp32 firmware'), 'warning');
 					}
@@ -321,6 +324,7 @@ const InterfaceConnection = {
 				this.serial.setDTR(false);
 				this.serial.setRTS(false);
 			}
+			await VittaInterface.loadExternalLibraries().catch(console.error); // a library failure must not break the connection
 			console.log(await this.serial.getInfo());
 			console.log(await this.serial.getSignals());
 			console.log(this.serial.port);
@@ -356,7 +360,8 @@ const InterfaceConnection = {
 				this.repl.isLoopClosed = true;
 			}
 		}
-		if (this.serial.port !== null) {
+		// not initialized: no serial port on this board (UNIHIKER M10)
+		if (this.serial && this.serial.port !== null) {
 			this.serial.hasToClose = true;
 			await this.waitClosure();
 			await this.serial.close();
@@ -437,6 +442,7 @@ const InterfaceConnection = {
 	 * Update specific AI libraries with model weights and labels.
 	 */
 	updateSpecificAiLibrariesGalaxia: async function (code) {
+		await VittaInterface.loadExternalLibraries();
 		return new Promise(async (resolve, reject) => {
 			const checkRegexCloud = /Model\s*\(\s*(["'])(https?:\/\/[^\/]+\/ia\/(?:model\/([a-zA-Z0-9]+)\/?|sensors(?:\.h)?\?link=([a-zA-Z0-9]+)(?:&[^"']*)?))\1\s*\)/;
 			const cloudRegexResult = code.match(checkRegexCloud);
@@ -455,26 +461,17 @@ const InterfaceConnection = {
 			}
 			const modelWeights = JSON.parse(metadata.userMetaData.weightData);
 			const labels = JSON.stringify(metadata.labels);
-			let sensorStrategy = "edgeModel";
-			switch (metadata.settings.strategy.name) {
-				case 'p19/p7':
-					sensorStrategy = 'edgeModelP19-P7';
-					break;
-				case 'p19':
-					sensorStrategy = 'edgeModelP19';
-					break;
-				case 'p7':
-					sensorStrategy = 'edgeModelP7';
-					break;
-				case 'accelerometer':
-				default:
-					sensorStrategy = 'edgeModel';
-					break;
-			}
-			let edgeLib = VittaInterface.externalLibraries[sensorStrategy];
+			// Window (number of readings) and frequency of the model records, used by the board like the AI tool
+			const strategy = metadata.settings.strategy;
+			const savedWindow = metadata.userMetaData.timeWindow;
+			// Models saved before settings.window: 50 is the AI tool default even when its sensor window differs
+			const windowSamples = metadata.settings.window?.samples
+				?? (savedWindow && !(savedWindow === 50 && strategy.frequency !== 50) ? savedWindow : strategy.timeWindow);
+			// The library reads the sensor of the strategy (accelerometer, micro, pins such as "p0/p1")
+			let edgeLib = VittaInterface.externalLibraries["edgeModel"];
 			const inputStart = edgeLib.split('# AI_EDGE_MODEL_WEIGHTS_INPUT_START')[0];
 			const inputEnd = edgeLib.split('# AI_EDGE_MODEL_WEIGHTS_INPUT_END')[1];
-			edgeLib = `${inputStart}# AI_EDGE_MODEL_WEIGHTS_INPUT_START\n${modelWeights}\nlabels=${labels}\n# AI_EDGE_MODEL_WEIGHTS_INPUT_END${inputEnd}`;
+			edgeLib = `${inputStart}# AI_EDGE_MODEL_WEIGHTS_INPUT_START\n${modelWeights}\nlabels=${labels}\nwindow_samples=${windowSamples}\nsample_frequency=${strategy.frequency}\nsensor=${JSON.stringify(strategy.name)}\n# AI_EDGE_MODEL_WEIGHTS_INPUT_END${inputEnd}`;
 			VittaInterface.externalLibraries["edgeModel"] = edgeLib;
 			return resolve();
 		});

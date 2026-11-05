@@ -886,6 +886,22 @@
       "legalCommitmentNumber": "Legal commitment number",
       "siret": "SIRET number of the establishment",
       "serviceName": "Service name (optional)",
+      "subscriptionStart": "Desired start date for the subscription",
+      "subscriptionEnd": "Estimated end date",
+      "durationMonth": "1 month",
+      "durationYear": "1 year",
+      "durationThreeYears": "3 years",
+      "garActivation": "Would you like activation through the GAR?",
+      "whatIsGar": "What is the GAR?",
+      "garDefinition": "The GAR (Gestionnaire d'accès aux ressources) lets teachers and students access Vittascience from the school's digital workspace (ENT), without creating an account.",
+      "uai": "School UAI number",
+      "uaiHint": "7 digits followed by a letter, for example 0751234A.",
+      "accountEmails": "Email address(es) of the Vittascience account(s) to activate",
+      "accountEmailsHint": "One address per line or separated by commas, {{max}} at most (one per licence).",
+      "accountEmailsTooMany": "Too many addresses: {{max}} at most.",
+      "accountEmailInvalid": "Invalid email address:",
+      "quoteUpdateError": "Your purchase order could not be saved: updating estimate no. {{number}} failed. Please try again in a few minutes. If the problem persists, contact us:",
+      "licenceFieldsError": "The subscription details are incomplete or invalid. Please check the start date, the UAI number or the email addresses.",
       "confirmWithoutEdit1": "I confirm that the purchase order corresponds exactly to the estimate n° ",
       "confirmWithoutEdit2": " opposite (same product(s), amount(s), quantity(ies)) for a total amount of ",
       "confirmWithEdit": "The purchase order does not correspond to the estimate, changes have been made.",
@@ -899,7 +915,30 @@
       "errorExplanation": "Your purchase order could not be registered.<br>The incident has been reported to our technical team.<br>Contact us to resolve the issue.",
       "contactUs": "Contact us",
       "whatIsChorus": "What is Chorus Pro ?",
-      "chorusDefinition": "CHORUS PRO is the State's new public portal on which all invoices to the public service will progressively transit. This portal aims to bring the State to dematerialize 100% of the invoices sent to it according to a progressive schedule that started on January 1, 2017. To facilitate the task of supplier companies, all public administrations will use the same portal."
+      "chorusDefinition": "CHORUS PRO is the State's new public portal on which all invoices to the public service will progressively transit. This portal aims to bring the State to dematerialize 100% of the invoices sent to it according to a progressive schedule that started on January 1, 2017. To facilitate the task of supplier companies, all public administrations will use the same portal.",
+      "maintenanceTitle": "Maintenance in progress :(",
+      "maintenanceText": "Our team is updating our offers. We'll be back soon!",
+      "supportSubject": "Purchase order submission - estimate {{number}}",
+      "autoValidate": "Automatically validate the estimate",
+      "autoValidateHint": "The estimate is marked as accepted: the draft invoice and the order are created immediately, and the customer receives the confirmation email.",
+      "closedTitle": "Estimate already accepted",
+      "closedText": "Estimate {{number}} has already been accepted and your order is being processed: there is no purchase order left to submit. To request any change, please contact us.",
+      "closedSubject": "Estimate {{number}}",
+      "invalidLinkTitle": "Invalid submission link",
+      "invalidLinkText": "To submit or replace the purchase order for this estimate, use the link in the latest estimate email you received, or log in to the account that requested the estimate (My account › My orders).",
+      "sectionBdc": "Your purchase order",
+      "sectionBilling": "Billing",
+      "sectionSubscription": "Subscription",
+      "sectionConfirm": "Confirmation",
+      "activationMethod": "Activation method",
+      "activationEmails": "Email(s)",
+      "activationGar": "GAR",
+      "activationEmailsHint": "The listed Vittascience accounts receive the licence (one address per licence).",
+      "activationGarHint": "The school's teachers and students access Vittascience from their ENT, without creating an account.",
+      "schoolOrUai": "School or UAI",
+      "schoolSearchPlaceholder": "School name or UAI (e.g. 0751234A)",
+      "schoolHint": "Type the name or the UAI, then pick the school in the list.",
+      "schoolRequired": "Pick a school in the list or enter a valid UAI (7 digits and a letter)."
     },
     "mail": {
       "estimate": "estimate",
@@ -933,6 +972,31 @@
       "submit": "Submit",
       "submit_success": "Thank you for sharing your review!",
       "return_to_product": "Return to product"
+    },
+    "shopPayLink": {
+      "thanksTitle": "Thank you, your payment has been received",
+      "thanksText": "The payment of {{amount}} for invoice {{number}} has been received.",
+      "thanksTextNoAmount": "The payment for invoice {{number}} has been received.",
+      "paidTitle": "Invoice already paid",
+      "paidText": "Invoice {{number}} has already been paid by card. Thank you!",
+      "settledText": "We have received the payment for invoice {{number}}: there is nothing left to pay. Thank you!",
+      "processingTitle": "Payment being confirmed",
+      "processingText": "Your bank is confirming your payment: reload this page in a few minutes to see the confirmation.",
+      "abortedTitle": "Payment cancelled",
+      "abortedText": "The payment for invoice {{number}} was not completed. You can try again whenever you like.",
+      "expiredTitle": "Payment link expired",
+      "expiredText": "This payment link is no longer valid. Contact us to receive a new one.",
+      "cancelledTitle": "Payment link disabled",
+      "cancelledText": "This payment link is no longer valid: a more recent link may have been sent to you. Contact us if in doubt.",
+      "notfoundTitle": "Payment link not found",
+      "notfoundText": "Check that the whole link was copied, or contact us.",
+      "errorTitle": "Payment temporarily unavailable",
+      "errorText": "Online payment cannot be opened right now. Try again in a few minutes, or contact us.",
+      "payButton": "Pay {{amount}} by card",
+      "retry": "Try again",
+      "contact": "Contact us",
+      "stripeLabel": "Invoice {{number}}",
+      "stripeLabelOrder": "Invoice for order {{number}}"
     }
   },
   "about": {
@@ -1155,7 +1219,7 @@
         "cityPlaceholder": "City",
         "postalCodePlaceholder": "Postal code",
         "differentAddress": "Your delivery address is different than your billing address? ",
-        "deliveryAddress": "<i class=\fa fa-truck\"></i>Your delivery address <span class=\"mandatory\">*</span>",
+        "deliveryAddress": "<i class=\"fa fa-truck\"></i>Your delivery address <span class=\"mandatory\">*</span>",
         "deliveryAddress2": " Additional address ",
         "leaveAMessage": "<i class=\"fa fa-envelope\"></i>Would you like to leave us a message?"
       },
@@ -1209,7 +1273,21 @@
       "search": "Search for an extension",
       "added": "Added",
       "noResult": "No extension found.",
-      "confirmRemoveUsed": "{{count}} block(s) of this extension used in the program will be deleted. Continue?"
+      "confirmRemoveUsed": "{{count}} block(s) of this extension used in the program will be deleted. Continue?",
+      "manage": "Manage extensions",
+      "filter": "Filter extensions",
+      "filters": {
+        "all": "All",
+        "model": "Educational models",
+        "robotics": "Robotics",
+        "display": "Display",
+        "lights": "Lights",
+        "sensors": "Sensors",
+        "actuators": "Actuators",
+        "ai": "Artificial intelligence",
+        "games": "Games",
+        "communication": "Communication"
+      }
     },
     "tooltip": {
       "anonymousAuthor": "Anonymous author",
@@ -1276,7 +1354,7 @@
       "fileDownloadedArduino": "Arduino program successfully sent to the board!",
       "clickSerialMonitor": "Click the <b>Serial Monitor</b> button to view the received data in the console.",
       "serialMonitorSent": "Sending of %1 bytes over the serial port: \"%2%3\"",
-      "minimaNotInDFU": "The board is still in normal (runtime) mode, not in DFU bootloader mode. ➡️ <b>Double-press RESET (LED will blink with a fade-out), then restart the upload.",
+      "minimaNotInDFU": "The board is still in normal (runtime) mode, not in DFU bootloader mode. ➡️ <b>Double-press RESET (LED will blink with a fade-out), then restart the upload.</b>",
       "badResponse": "Please unplug and re-plug your board to the computer.",
       "noPortSelected": "No port selected.",
       "badBoard": "The connected board is not of type ",
@@ -1284,9 +1362,13 @@
       "flashFailed": "Failed to send program.",
       "boardNotResponding": "The board is not responding: check that the robot is switched on.",
       "baudrateError": "An error occurred while reading data from the serial port. Try to change the baudrate in the monitor settings.",
-      "firmwareWarning": "Attention, to benefit from all the functionalities of this interface with the STM32 board, please upgrade to firmware version 1.17 by following this tutorial: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=398\" target=\"_blank\" rel=\"noopener noreferrer\">Update the firmware</a>",
+      "firmwareWarning": "Attention, to benefit from all the functionalities of this interface with the STM32 board, please upgrade to firmware version 1.17 by following this tutorial: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=398\" target=\"_blank\" rel=\"noopener noreferrer\">Update the firmware</a></b>",
       "compiling": "Compilation in progress. This can take up to a few seconds...",
-      "noSpaceLeft": "There is not enough space left on the board to upload the program."
+      "noSpaceLeft": "There is not enough space left on the board to upload the program.",
+      "skykickNotInCodingMode": "The SkyKick controller is not in coding (Link) mode: commands are ignored. Switch the controller to Link mode to fly the drone.",
+      "skykickDroneNotPaired": "The drone does not answer: check that it is on and paired with the controller.",
+      "skykickPortBusy": "Cannot open the controller port: it is already used by another application. Close the SkyKick Evo Block Coding app (and any other tab connected to the controller), then try again.",
+      "skykickBattery": "Drone battery"
     },
     "WebBluetoothAPI": {
       "noWebBluetoothAPI": "This browser does not support noWebBluetoothAPI. To use noWebBluetoothAPI, you have to go on compatible browser: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> or <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
@@ -1303,7 +1385,45 @@
     "arduinoq": {
       "boardConnected": "Board connection successful!",
       "webAppUrl": "App web page (from a device on the same network):",
+      "webConsoleUrl": "Web terminal of the board (user and password of the board):",
+      "pcWebcamStarted": "Computer webcam sent to the board: keep this tab open and the board plugged in USB. Close the AI tool tab if it is open, so that the webcam is free.",
+      "pcWebcamDenied": "Unable to use the computer webcam: allow the camera access in the browser, then upload the program again.",
+      "pcWebcamStopped": "Sending the computer webcam to the board stopped (board disconnected?). Reconnect the board, then click \"Start app\".",
+      "pcWebcamBusy": "The computer webcam gives no image. It may be used by another tab (for example the AI tool): close it, then click \"Start app\".",
+      "corruptedLogs": "The app logs are unreadable (board unplugged while the app was running): they are going to be emptied.",
+      "appStopped": "App stopped.",
+      "boardUnplugged": "Arduino UNO Q board disconnected (USB cable unplugged or board restarted). Plug it back in, then connect it again.",
+      "modelDownloadProgress": "Downloading the model:",
+      "hints": {
+        "camera": "No camera found: the board plugged into the computer cannot use a camera. After the upload, unplug the computer and plug a powered USB-C hub with the camera (the app starts by itself when the board starts).",
+        "microphone": "No microphone found: plug a USB microphone (or a webcam with a microphone) into a powered USB-C hub, instead of the computer.",
+        "speaker": "No speaker found: plug a USB speaker or headset into a powered USB-C hub, instead of the computer.",
+        "module": "The Python module \"{x}\" is not installed on the board.",
+        "name": "\"{x}\" is used before it gets a value: give it a value at the beginning of the program (in \"on start\").",
+        "textNumber": "Text and number mixed: use the \"join\" block to put text and numbers together.",
+        "convert": "This text cannot be turned into a number (it contains letters or is empty).",
+        "zeroDivision": "Division by zero: check the divisor before dividing.",
+        "index": "The requested item does not exist: the list is shorter than expected (or empty).",
+        "key": "The key {x} does not exist in this dictionary.",
+        "network": "No internet access from the board: check that it is connected to Wi-Fi.",
+        "timeout": "The server does not answer in time: try again, or check the internet connection of the board.",
+        "recursion": "A function calls itself endlessly.",
+        "permission": "Access denied to this file or device.",
+        "file": "File not found: {x}."
+      },
+      "modelDownload": "Downloading the AI model to the board (only once, can take several minutes):",
+      "uploadIncomplete": "Upload incomplete, files not received correctly by the board: ",
+      "noAppOnBoard": "No app on the board: upload the program first.",
+      "appAlreadyRunning": "The app is already running on the board.",
+      "aiAppStartMayTakeTime": "Starting the AI app: the first start may take several minutes (installing the Python packages on the board, then converting the model). The next starts are faster.",
       "localModelMissing": "No local AI model found in this browser: first train an image model in the Vittascience AI tool (in this same browser), or use the \"load the model\" block with its link.",
+      "localPostureModelMissing": "No local posture model found in this browser: first train a posture model in the Vittascience AI tool (in this same browser), or use the \"load the posture model\" block with its link.",
+      "localHandModelMissing": "No local hand model found in this browser: first train a hand model in the Vittascience AI tool (in this same browser), or use the \"load the hand model\" block with its link.",
+      "pcMicrophoneStarted": "Computer microphone on: sound sent to the board. Keep this page open and the board plugged in.",
+      "pcMicrophoneDenied": "Computer microphone not available: allow the microphone in the browser, then click \"Start app\".",
+      "pcMicrophoneStopped": "Sending the computer microphone to the board stopped (board disconnected?). Reconnect the board, then click \"Start app\".",
+      "localSoundModelMissing": "No local sound model found in this browser: first train a sound model in the Vittascience AI tool (in this same browser), or use the \"load the model\" block with its link.",
+      "localSensorModelMissing": "No local sensor model found in this browser: first train a model in the Vittascience \"Sensor data\" AI tool (in this same browser), or use the \"load the sensor model\" block with its link.",
       "passwordRequired": "To continue the transfer, the Arduino Q board password is required.",
       "incorrectPassword": "The password is incorrect, please try again.",
       "transfertAborted": "Transfer aborted.",
@@ -1312,7 +1432,7 @@
     },
     "welcome": {
       "arduino": "Welcome to the Vittascience interface for Arduino!</br>Vous pouvez consulter le tutoriel disponible ici : <a href=\"https://en.vittascience.com/learn/tutorial.php?id=911/prise-en-main-de-la-carte-arduino-uno-et-de-l-interface-vittascience\" target=\"_blank\" rel=\"noopener noreferrer\">Getting Started with the Vittascience Interface for the Arduino UNO board</a>",
-      "microbit": "Welcome to the Vittascience interface for BBC micro:bit!</br>You can check out the tutorial available here: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=25/prise-en-main-de-la-carte-microbit\" target=\"_blank\" rel=\"noopener noreferrer\">Getting Started with the Vittascience Interface for the BBC Micro:bit board</a>",
+      "microbit": "Welcome to the Vittascience interface for BBC micro:bit!</br>You can check out the tutorial available here: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=25/prise-en-main-de-la-carte-microbit\" target=\"_blank\" rel=\"noopener noreferrer\">Getting Started with the Vittascience Interface for the BBC Micro:bit board</a></b>",
       "python": "Welcome to the Vittascience interface for programming in Python!<br>Click the Run button to launch your program (script mode) or write an instruction after the chevrons >>> below (REPL console mode).",
       "esp32": "Welcome to the Vittascience interface for ESP32!</br> To program the ESP32 board on this interface, you must first flash the MicroPython firmware in the board by following this tutorial: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=341/flasher-le-firmware-micropython-dans-la-carte-esp32\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
       "wb55": "Welcome to the Vittascience interface for STM32 NUCLEO WB55!</br> To program the STM32 board on this interface, you must first flash the MicroPython firmware in the board by this tutorial: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=909/flasher-le-firmware-micropython-dans-la-stm32-l476\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
@@ -1322,17 +1442,19 @@
       "TI-83-Maclasseti": "Welcome to the MyClassTi.fr interface for the calculator TI-83 Premium CE Python Edition! The boards TI-Innovator™ Hub and BBC micro:bit can be programmed on this interface. Open the simulator to get started!",
       "GalaxiaCircuitPython": "Welcome to the Vittascience interface for Galaxia !",
       "galaxia": "Welcome to the Vittascience interface for Galaxia !</br> To program the Galaxia on this interface, you must first flash the MicroPython firmware in the board by following this tutorial: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=860\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
-      "raspberrypi": "Welcome to the Vittascience interface for Raspberry Pi! You can check out the tutorial available here: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=856/interface-raspberry-pi\" target=\"_blank\" rel=\"noopener noreferrer\">Getting Started with the Vittascience Interface for Raspberry Pi</a>",
+      "unihiker": "Welcome to the Vittascience interface for the UNIHIKER M10 board!</br>Plug the board in with USB, then click Upload. The first time, the interface puts the installer of the Vittascience server on the board, to run once from the Home menu of the board.",
+      "unihiker-k10": "Welcome to the Vittascience interface for the UNIHIKER K10 board!</br>Plug the board in USB (DFRobot MicroPython firmware), then click Upload: the program is saved in main.py.",
+      "raspberrypi": "Welcome to the Vittascience interface for Raspberry Pi! You can check out the tutorial available here: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=856/interface-raspberry-pi\" target=\"_blank\" rel=\"noopener noreferrer\">Getting Started with the Vittascience Interface for Raspberry Pi</a></b>",
       "niryo": "Welcome to the Vittascience interface for Niryo ned2!",
-      "nao": "Welcome to the Vittascience interface for NAO v6 ! Feel free to consult the tutorial available here: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=1261\" target=\"_blank\" rel=\"noopener noreferrer\">Getting Started with the Vittascience Interface for NAO v6</a>",
+      "nao": "Welcome to the Vittascience interface for NAO v6 ! Feel free to consult the tutorial available here: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=1261\" target=\"_blank\" rel=\"noopener noreferrer\">Getting Started with the Vittascience Interface for NAO v6</a></b>",
       "mBot": "Welcome to the Vittascience interface for mBot!",
       "buddy": "Welcome to the Vittascience interface for the Buddy robot!",
       "m5stack": "Welcome to the Vittascience interface for the M5Stack!</br> To program the M5Stack board on this interface, you must first flash the MicroPython firmware in the board by this tutorial: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=458/flasher-le-firmware-micropython-dans-la-m5stack\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
       "cyberpi": "Welcome to the Vittascience interface for CyberPi and mBot2 robot from Makeblock!",
       "eliobot": "Welcome to the Vittascience interface for Eliobot!",
-      "thymio": "Welcome to the Vittascience interface for Thymio robot! Feel free to consult the tutorial available here: : <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=812\" target=\"_blank\" rel=\"noopener noreferrer\">Getting Started with the Vittascience Interface for the Thymio Robot</a></br> To program the Thymio robot on this interface, you need to first launch the TDMLauncher program available for download <span class='thymio-download-tdm' onclick='asebaTranspiler.downloadTDM()'>here</span>",
+      "thymio": "Welcome to the Vittascience interface for Thymio robot! Feel free to consult the tutorial available here: : <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=812\" target=\"_blank\" rel=\"noopener noreferrer\">Getting Started with the Vittascience Interface for the Thymio Robot</a></b></br> To program the Thymio robot on this interface, you need to first launch the TDMLauncher program available for download <span class='thymio-download-tdm' onclick='asebaTranspiler.downloadTDM()'>here</span>",
       "letsstartcoding": "Welcome to the Vittascience interface for Let's start coding boards! If you need more information, go to this link : <a href=\"https://www.letsstartcoding.com\" target=\"_blank\" rel=\"noopener noreferrer\">Let's start coding</a>",
-      "pico": "Welcome to the Vittascience interface Vittascience for Raspberry Pi Pico!</br> To program the Raspberry Pi Pico board on this interface, you must first flash the MicroPython firmware in the board by following this tutorial: <a href=\"https://en.vittascience.com/learn/tutorial.php?id=910/flasher-le-firmware-micropython-dans-la-carte-raspberry-pi-pico\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
+      "pico": "Welcome to the Vittascience interface Vittascience for Raspberry Pi Pico!</br> To program the Raspberry Pi Pico board on this interface, you must first flash the MicroPython firmware in the board by following this tutorial: <a href=\"https://en.vittascience.com/learn/tutorial.php?id=910/flasher-le-firmware-micropython-dans-la-carte-raspberry-pi-pico\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a>",
       "winky": "Welcome to the Vittascience interface for Winky!",
       "sphero": "Welcome to the Vittascience interface for the Sphero Mini robot!",
       "lotibot": "Welcome to the Vittascience interface for the Loti-bot robot!",
@@ -1344,7 +1466,8 @@
       "steami": "Welcome to the Vittascience interface for STeaMi!",
       "alphai": "Welcome to the Vittascience interface for AlphAI robot!",
       "arduinoq": "Welcome to the Vittascience interface for the Arduino UNO Q board!</br></br>The interface supports various languages (Arduino, Python, HTML) for programming a complete project with the board. The blocks in the 'Base' category can be used in any language; the generated code will then adapt to the language type of the header block.</br></br>It is possible to send Linux commands to the Arduino Q board by typing the command in the input field at the bottom of the console.",
-      "primastem": "Welcome to the Vittascience interface for PrimaStem robot!"
+      "primastem": "Welcome to the Vittascience interface for PrimaStem robot!",
+      "skykick": "Welcome to the Vittascience interface for the SkyKick Evo drone!</br>Plug the controller in USB, switch it to Link mode, then click the connect button before running your program. Warning: the drone really flies, keep a clear space."
     },
     "chromeApp": {
       "noPort": "No port detected",
@@ -1450,6 +1573,26 @@
       "expand": "Expand",
       "collaps": "Collaps"
     },
+    "unihiker": {
+      "hostPrompt": "Address of the UNIHIKER board (10.1.2.3 through USB, or its Wi-Fi address):",
+      "hostSaved": "Address of the board: {{host}}",
+      "sending": "Sending the program to the board ({{host}})...",
+      "started": "Program started on the board.",
+      "stopped": "Program stopped.",
+      "finished": "Program ended (code {{code}}).",
+      "noProgram": "No program is running on the board: the message wasn't sent.",
+      "k10FormatConfirm": "The file memory of the UNIHIKER K10 must be formatted (normal just after flashing the DFRobot firmware). Format it now? The files of the board will be erased, the firmware stays.",
+      "k10Formatted": "File memory formatted: the board restarts, then click Upload.",
+      "k10Flash": "The UNIHIKER K10 has no MicroPython firmware. Download it from the Upload menu (\"Download the MicroPython firmware\"), then flash it at address 0x00 with ESP LaunchPad or Flash Download Tool, holding the BOOT button while plugging the board.",
+      "unreachable": "The board doesn't answer at {{host}}. Check the USB cable (or the Wi-Fi address with \"Board address\"), and allow the local network access if the browser asks for it.",
+      "outdated": "The Vittascience server of the board must be updated: updating it automatically...",
+      "localModelMissing": "No image model in this browser: first train a model in the Vittascience AI tool (image recognition).",
+      "modelLinkInvalid": "The image model of the link \"{{link}}\" couldn't be read. Check the link of the shared model.",
+      "notInstalled": "The board answers, but the Vittascience server isn't installed on it yet: sending the installer...",
+      "installFailed": "The installer couldn't be put on the board ({{host}}).",
+      "installUploaded": "Installer sent. On the board: Home button, then root/ > {{folder}} > install.py. The program will start by itself once the installation is done.",
+      "installDone": "Vittascience server installed: sending the program..."
+    },
     "topbar": {
       "tooltips": {
         "boardWifi": "Configure the Wi-Fi of the connected Arduino UNO Q board",
@@ -1475,6 +1618,7 @@
         "compileArduino": "Run compilation",
         "arduinoBoardSelector": "Select the Arduino board to program",
         "esp32BoardSelector": "Select the ESP32 board to program",
+        "unihikerBoardSelector": "Select the UNIHIKER board to program",
         "downloadPython": "Download Python Script",
         "downloadPythonGalaxia": "Download the 'main.py' Python script to drag and drop onto the Galaxia",
         "downloadArduino": "Download Arduino script",
@@ -1485,6 +1629,10 @@
         "downloadFirmware": "Download MicroPython firmware for board",
         "downloadCamFirmware": "Download MicroPython firmware for ESP32-CAM",
         "downloadPiAPI": "Download the Python server for Raspberry Pi. Launch the API in administrator mode.",
+        "uploadUnihiker": "Send the program to the UNIHIKER board and run it",
+        "stopUnihiker": "Stop the program of the board",
+        "installUnihiker": "Put the installer of the Vittascience server on the board (to run once from the Home menu of the board)",
+        "unihikerHost": "Change the address of the board (10.1.2.3 through USB, or its Wi-Fi address)",
         "downloadHex": "Export the micro:bit program in [.hex] format",
         "downloadTexas": "Download .py for calculator",
         "runBuddy": "Run the program on the Buddy robot",
@@ -1535,6 +1683,7 @@
         "beginnerMode": "Beginner's mode",
         "advancedMode": "Advanced mode",
         "lastSaveOn": "Last save on ",
+        "lastSaveFailed": "The last save failed: your changes are not saved. Click to try again.",
         "description": "Description:",
         "repl": "Press the enter key ↩️ to run the instruction",
         "runningCode": "Running your code... Please wait.",
@@ -1574,6 +1723,9 @@
         "downloadFirmware": "Download .bin",
         "downloadCamFirmware": "Download .bin ESP32-CAM",
         "downloadPiAPI": "Download API.cmd",
+        "stopUnihiker": "Stop",
+        "installUnihiker": "Install the server",
+        "unihikerHost": "Board address",
         "downloadUf2Pico": "Firmware Pico",
         "downloadUf2PicoW": "Firmware Pico W",
         "downloadPython": "Download .py",
@@ -1658,6 +1810,8 @@
           "sendQ": "Linux command to send to the Arduino Q board",
           "export": "Export",
           "openVariables": "Variables",
+          "launchApp": "Start app",
+          "stopApp": "Stop app",
           "openFileSystem": "Files",
           "monitor": "Serial monitor",
           "openRepl": "REPL"
@@ -1674,6 +1828,8 @@
           "closeRepl": "Close MicroPython shell",
           "openRepl": "Open shell MicroPython",
           "openVariables": "Show current program variables",
+          "launchApp": "Start again the app already sent to the board",
+          "stopApp": "Stop the app running on the board",
           "openFileSystem": "Open file system of the board",
           "graph": "To display the received data in the console, click on the <b>Graph</b> button.",
           "monitorToggler": "To view the received data, click on the button <i class='fas fa-chevron-up'></i>"
@@ -1827,7 +1983,8 @@
         "sentData": "Sent data:",
         "crash": "Crash prevention mode enabled: This happens when your code includes an infinite loop without a sleep() function call. Fix your code before trying again.",
         "variables-panel-msg": "This program does not contain any variables",
-        "replaySimulator": "Replay the simulator for sending data"
+        "replaySimulator": "Replay the simulator for sending data",
+        "skulptLoadError": "The simulator could not be loaded. Check your connection and run the simulator again."
       },
       "tooltips": {
         "bluebot-buttons": "You can use the buttons of the Blue-bot robot to program it!"
@@ -1922,7 +2079,12 @@
         "grovePulse": "Pulse Sensor",
         "distanceInterrupter": "Distance Interrupter"
       },
-      "pinError": "[Pin Error] The module <b>{{modId}}</b> cannot be connected on pin <b>{{pin}}</b>. The module <b>{{attachedId}}</b> is already connected."
+      "pinError": "[Pin Error] The module <b>{{modId}}</b> cannot be connected on pin <b>{{pin}}</b>. The module <b>{{attachedId}}</b> is already connected.",
+      "wiring": {
+        "unwiredPin": "[Wiring] The module <b>{{module}}</b> is on pin <b>{{pin}}</b>, which has no connector on this shield: it is not wired.",
+        "i2cFull": "[Wiring] Too many I2C modules: <b>{{modules}}</b> are not wired.",
+        "noShield": "No Grove shield for this board in the wiring simulator."
+      }
     },
     "ch340driver": {
       "title": "Having trouble uploading?",
@@ -1954,7 +2116,7 @@
       "mixed-small-screen-close": "Close",
       "saveWarning": {
         "title": "<span class=\"fa fa-exclamation-circle\"></span> Warning!",
-        "warn": "<span class=\"fa fa-save\"></span> Do you want to save your work before continuing?<p class=\"mb-0 mt-0 hint\"> If you create a new project without saving your previous one, your work will be lost...",
+        "warn": "<span class=\"fa fa-save\"></span> Do you want to save your work before continuing?<p class=\"mb-0 mt-0 hint\"> If you create a new project without saving your previous one, your work will be lost...</p>",
         "buttons": {
           "yes": "Yes",
           "no": "No",
@@ -2143,7 +2305,7 @@
         "title": "<i class=\"fas fa-lightbulb\"></i> Create a new project.",
         "notice": "<span class=\"fa fa-info-circle\"></span> After the creation of your project, don't forget to register it on the cloud via the save button. Why not make it available to other members with the \"share\" option?",
         "form": {
-          "projectName": "<i class=\"fas fa-book\"></i> Project name <span class=\"mandatory\">*</span></label>",
+          "projectName": "<i class=\"fas fa-book\"></i> Project name <span class=\"mandatory\">*</span>",
           "projectDesc": "<i class=\"far fa-edit\"></i> Project description (optional)",
           "projectDescPlaceholder": "Describe your sketch, useful if you would like to share your project later."
         },
@@ -2230,6 +2392,7 @@
     },
     "robotGuide": {
       "tuto": "To find the programming blocks of the <b>[ROBOT_NAME]</b> robot, click on the <b><i class='fa-solid fa-robot me-1'></i>Robots</b> tab.",
+      "tuto-extension": "To find the programming blocks of the <b>[ROBOT_NAME]</b> robot, click on the <b><i class='fas fa-puzzle-piece me-1'></i>Extensions</b> tab.",
       "tuto-rover": "To find the programming blocks for the <b>[ROBOT_NAME]</b> robot, click on the <b><i class='fas fa-cogs'></i>Advanced</b> tab, then <b><i class='fa-solid fa-robot me-1'></i>ti_rover</b>."
     },
     "droneGuide": {
@@ -3008,9 +3171,27 @@
         "disconnect": "Disconnect",
         "board": "Board",
         "sensorsList": "Sensors: ",
+        "sensors": {
+          "accelerometer": "Accelerometer",
+          "micro": "Microphone",
+          "pin": "Pin {{pin}}",
+          "add": "Add a sensor",
+          "remove": "Remove the sensor"
+        },
         "collectData": "Collect data",
         "parameters": "Parameters",
-        "timeWindow": "Time window"
+        "timeWindow": "Time window",
+        "unoq": {
+          "upload": "Sending the app...",
+          "start": "Starting (1 min the 1st time)...",
+          "error": "Unable to connect to the Arduino UNO Q. Check the USB cable, close Arduino App Lab and the other tabs connected to the board, then try again."
+        }
+      },
+      "edgeValidation": {
+        "accuracy": "Accuracy on records kept aside (not used for training): {{accuracy}} %",
+        "realFound": "Real \\ Found",
+        "notEnoughRecords": "No validation: at least 5 records per class are needed to keep some aside and test the model.",
+        "uncertain": "Uncertain"
       },
       "training": {
         "title": "Training",
@@ -3060,7 +3241,7 @@
           "instruction-title": "<b>Instructions</b> <br> instruction",
           "instructions": "<b>Placer un objet sur la table dans la zone dédiée pour être détecté par la caméra.<br> Observer sur l’écran le résultat de la prédiction réalisée par l’intelligence artificielle. </b><br><br> Place an object on the table in the designated area to be detected by the camera.<br> Observe on screen the prediction result from the artificial intelligence.",
           "results": "<b>Résultats</b><br>results",
-          "explaining-head": "<b>Le pourcentage affiché indique la catégorie identifié par l’intelligence artificielle<b>",
+          "explaining-head": "<b>The displayed percentage indicates the category identified by the artificial intelligence</b>",
           "explaining-body": "The displayed percentage indicates the category identified by the artificial intelligence."
         },
         "dragDropFileHere": "Upload an image (drag and drop or click)",
@@ -3097,6 +3278,10 @@
             "title": "Python",
             "tooltip": "Use the model in the Python interface"
           },
+          "arduinoq": {
+            "title": "Arduino UNO Q",
+            "tooltip": "Use the model on the Arduino UNO Q board"
+          },
           "microcontroller": {
             "title": "Microcontroller",
             "tooltip": "Download the model files for microcontrollers"
@@ -3120,7 +3305,7 @@
       "aiImageGuide": {
         "step-0": {
           "title": "Create data categories",
-          "description": "For a model to learn to categorize information, at least two categories are required. <b> By clicking on the pencil, name a first category (e.g., Recycling),</b> and press outside the keyboard</b>"
+          "description": "For a model to learn to categorize information, at least two categories are required. <b> By clicking on the pencil, name a first category (e.g., Recycling),</b> and press outside the keyboard"
         },
         "step-1": {
           "title": "Create data categories",
@@ -3615,8 +3800,8 @@
           "titleModeration": "Moderation on AI-Vittascience interfaces",
           "body": [
             "Moderation of AI responses on Vittascience interfaces includes several elements: <br />",
-            "<ul><li>1. All models used are trained to maintain a 'moderate' conversation. However, there may be situations that require additional intervention. </lu>",
-            "<li>2. AI-generated responses go through word-by-word moderation. If a word is detected that could be considered 'inappropriate', the internal mechanism replaces it with a string of asterisks, the length of which corresponds to that of the replaced word. This same mechanism warns users when an inappropriate word has been detected by displaying a message just after the AI response.</li></ul>"
+            "1. All models used are trained to maintain a 'moderate' conversation. However, there may be situations that require additional intervention. ",
+            "2. AI-generated responses go through word-by-word moderation. If a word is detected that could be considered 'inappropriate', the internal mechanism replaces it with a string of asterisks, the length of which corresponds to that of the replaced word. This same mechanism warns users when an inappropriate word has been detected by displaying a message just after the AI response."
           ],
           "understood": "I understood"
         },
@@ -3969,8 +4154,8 @@
           "titleModeration": "Moderation on AI-Vittascience interfaces",
           "body": [
             "Moderation of AI responses on Vittascience interfaces includes several elements:<br />",
-            "<ul><li>1. <strong>Moderation of the user-provided prompt: </strong>First, the user-provided prompt goes through moderation, which is performed by a natural language processing model, trained to detect inappropriate content. If inappropriate content is detected, the user is prompted to reformulate his request. </lu> <a class='bg-light text-dark'style='cursor: pointer;'>Show moderation prompt</a>",
-            "<li>2. <strong>Verification of generated images </strong>: The second step is to check that the image generated by the AI does not contain any inappropriate elements. If it does, the final image will be completely black, and the images from the generation stages will be blurred.</li></ul>",
+            "1. <strong>Moderation of the user-provided prompt: </strong>First, the user-provided prompt goes through moderation, which is performed by a natural language processing model, trained to detect inappropriate content. If inappropriate content is detected, the user is prompted to reformulate his request.  <a class='bg-light text-dark'style='cursor: pointer;'>Show moderation prompt</a>",
+            "2. <strong>Verification of generated images </strong>: The second step is to check that the image generated by the AI does not contain any inappropriate elements. If it does, the final image will be completely black, and the images from the generation stages will be blurred.",
             "The combination of these steps ensures that interactions on Vittascience interfaces remain appropriate and respectful."
           ],
           "safetyPrompt": [
@@ -4028,6 +4213,7 @@
           "progressAria": "{{used}} credits used out of {{limit}}",
           "titleCreditInfo": "Credit Information",
           "unlimitedCredits": "Unlimited",
+          "unlimitedImages": "Your subscription includes unlimited image generation",
           "unlimitedReset": "Your Premium subscription includes unlimited text generation",
           "unlimitedConditions": "Your Premium subscription includes unlimited text generation."
         }
@@ -4742,7 +4928,10 @@
       "send": "Order shipped",
       "cancelled": "Cancelled",
       "carrier": "Carrier",
-      "tracking": "Tracking number"
+      "tracking": "Tracking number",
+      "quoteSent": "Sent",
+      "quoteDenied": "Declined",
+      "quoteExpired": "Expired"
     }
   },
   "userDetails": {
@@ -4986,7 +5175,7 @@
       "message": "Message",
       "mandatory": "The fields marked with a <span class=\"mandatory\">*</span> are required.",
       "send": "Send",
-      "success": "???? Your message was successfully sent! </p><p> The project ??? will contact you as soon as possible...",
+      "success": "<p>Your message was successfully sent!</p><p>The project leaders will contact you as soon as possible...</p>",
       "error": "Errors found in the form: ",
       "errors": {
         "name": "Last and first name are incorrect. Maximum length  {{ maxi }} characters. ",
@@ -5714,10 +5903,24 @@
     },
     "materialsNeeded": "List of materials needed",
     "suggestedResources": "Suggested Resources",
+    "classroomImport": {
+      "button": "Import into the Classroom module",
+      "loginTooltip": "Sign in to import into the Classroom module",
+      "success": "Resource imported into the Classroom module.",
+      "error": "Import failed."
+    },
     "inIframe": {
       "btn": {
         "importBtnText": "Import",
-        "importAllBtnText": "Import all activity"
+        "importAllBtnText": "Import all activity",
+        "importAsCourseBtnText": "Import as a course"
+      },
+      "confirm": {
+        "activity": "Import this part as an activity in the Classroom module?",
+        "course": "Import this resource as a course in the Classroom module? Its parts will be copied in order, into a folder named after it."
+      },
+      "license": {
+        "noDerivatives": "This resource is licensed CC-BY-NC-ND (no derivatives): it cannot be imported into the Classroom module."
       }
     }
   },
@@ -5753,6 +5956,19 @@
   },
   "modals": {
     "standard": {
+      "blocksScreenshot": {
+          "title": "Blocks screenshot",
+          "quality": "Quality",
+          "qualities": {
+              "screen": "Screen (×1)",
+              "good": "Good (×2)",
+              "high": "High (×4)",
+              "veryHigh": "Very high (×8)"
+          },
+          "format": "Format",
+          "size": "Image size: {{width}} × {{height}} pixels",
+          "download": "Download"
+      },
       "arduino-q-wifi": {
         "title": "Arduino UNO Q board Wi-Fi",
         "enabled": "Wi-Fi enabled",
@@ -5952,7 +6168,7 @@
       "new": {
         "title": "Create a new project",
         "content": {
-          "name": "<i class='fas fa-book'></i> Name of project <span class='mandatory'>*</span></label>",
+          "name": "<i class='fas fa-book'></i> Name of project <span class='mandatory'>*</span>",
           "description": "<i class='far fa-edit'></i> Project description (optional)",
           "placeholder": {
             "name": "Project name",
@@ -6192,6 +6408,9 @@
             "title": "Autoscroll",
             "text": "Enable autoscroll"
           },
+          "sound": {
+            "title": "Block sounds volume"
+          },
           "toolbox": {
             "title": "Toolbox style",
             "notice": "You can change style of the toolbox. This changes categories and blocks style.",
@@ -6303,7 +6522,7 @@
               "title": "<i class=\"fas fa-lightbulb\"></i> Create a new project",
               "notice": "<span class=\"fa fa-info-circle\"></span> After creating your project, don't forget to save it to the cloud via the save button. Why not make it available to other users via the sharing option?",
               "form": {
-                "projectName": "<i class=\"fas fa-book\"></i> Project name <span class=\"mandatory\">*</span></label>",
+                "projectName": "<i class=\"fas fa-book\"></i> Project name <span class=\"mandatory\">*</span>",
                 "projectDesc": "<i class=\"far fa-edit\"></i> Project description (optional)",
                 "projectDescPlaceholder": "Describe your sketch, useful if you want to share your project later."
               },
@@ -6529,6 +6748,18 @@
         "wrongLink": "This link directs to a non-existent project or was not created with this interface. You can search for a project from <b>Open a project</b> or create a new one",
         "wrongFile": "This file does not seem suitable for this interface. Check this information in the file header at the line 'Interface:'.",
         "wrongXml": "This link leads to a project that doesn't appear to be loading correctly in the interface. Please share the project link with us by contacting Vittascience support. We will try to fix it.",
+        "loadingError": "The project couldn't be loaded: the connection to the server failed. Check your internet connection then reload the page.",
+        "reloadPage": "Reload the page",
+        "localDraft": {
+            "title": "Unsaved changes",
+            "content": "This project has changes that were not saved on the server. They have been kept in this browser.",
+            "lastChange": "Last change:",
+            "hint": "If you open the saved version, these changes will be permanently lost.",
+            "buttons": {
+                "restore": "Restore my changes",
+                "discard": "Open the saved version"
+            }
+        },
         "privateProject": "Private project",
         "rightsChange": "Access rights changed",
         "rightsAttributed": "Access rights granted",
@@ -6778,6 +7009,9 @@
         "welcome": "Welcome to the ESP32 interface!",
         "tutorial_link": "Get started with the ESP32 interface with this tutorial"
       },
+      "unihiker": {
+        "welcome": "Welcome to the UNIHIKER interface!"
+      },
       "content": {
         "intro": "Please select the board you wish to program. This will adapt the various blocks and the image in the simulator.",
         "compatibility_link": "Discover the boards, sensors, and robots compatible with the interface",
@@ -6999,7 +7233,7 @@
       },
       "camera-blocked": {
         "title": "Error while loading the camera",
-        "text": "<p class='camera-blocked-intro'>An error occurred while initializing the camera. The most likely cause is that access to the cameras is blocked on your browser. You can unblock the cameras by following the steps below. If the problem persists and your operating system is Windows, it is also possible that the blocking is due to the fact that another program is already using the camera.</p><ul class='camera-blocked-list'><li><p>On Google Chrome</p><ol class='camera-blocked-ordered-list'><li><p>Click on the padlock on the left of the url bar.</p> <img src='/ia/assets/images/camera-blocked-chrome-1.png' alt=''></li><li>Then click on the button on the <q>Camera</q> line to activate it.</li><li>Then click on the <q>Refresh</q> button that appeared under the url bar.</li></ol></li><li><p>On Mozilla Firefox<p><ol class='camera-blocked-ordered-list'><li><p>Click on the crossed-out camera on the left of the url bar.</p> <img src='/ia/assets/images/camera-blocked-firefox-1.png' alt=''></li><li>Then click on the <q>Temporarily blocked X</q> button on the camera line to activate it.</li><li>Select <q>Allow</q> the next time you try to access the camera.</li></ol></li></ul>"
+        "text": "<p class='camera-blocked-intro'>An error occurred while initializing the camera. The most likely cause is that access to the cameras is blocked on your browser. You can unblock the cameras by following the steps below. If the problem persists and your operating system is Windows, it is also possible that the blocking is due to the fact that another program is already using the camera.</p><ul class='camera-blocked-list'><li><p>On Google Chrome</p><ol class='camera-blocked-ordered-list'><li><p>Click on the padlock on the left of the url bar.</p> <img src='/ia/assets/images/camera-blocked-chrome-1.png' alt=''></li><li>Then click on the button on the <q>Camera</q> line to activate it.</li><li>Then click on the <q>Refresh</q> button that appeared under the url bar.</li></ol></li><li><p>On Mozilla Firefox</p><ol class='camera-blocked-ordered-list'><li><p>Click on the crossed-out camera on the left of the url bar.</p> <img src='/ia/assets/images/camera-blocked-firefox-1.png' alt=''></li><li>Then click on the <q>Temporarily blocked X</q> button on the camera line to activate it.</li><li>Select <q>Allow</q> the next time you try to access the camera.</li></ol></li></ul>"
       },
       "notification-save-export": {
         "title": "Use this template",
@@ -7042,6 +7276,9 @@
         "arduinoQ": "Arduino UNO Q",
         "arduinoQExplanations": "The Arduino UNO Q board runs the model directly on its Linux processor: no server optimization is needed.</br>The model opens in the Arduino UNO Q interface with an example program, then it is sent to the board when you upload.",
         "arduinoQNote": "<strong>Note:</strong> if your project is not saved online, the model stays in this browser: upload the program from this same browser.",
+        "unihikerExplanations": "The UNIHIKER M10 board runs the model itself, with the image of its USB camera: there is nothing to generate or flash.",
+        "unihikerNote": "The model opens in the UNIHIKER interface: it is sent to the board with the program on upload.",
+        "openUnihiker": "Open in the UNIHIKER M10 interface",
         "openArduinoQ": "Open in the Arduino UNO Q interface"
       },
       "microcontroller-queue": {
@@ -7061,7 +7298,7 @@
       "microcontroller-dfu": {
         "title": "Wio Lite Board Update Procedure",
         "zip-files-steps": {
-          "step1": "Connect the Wio Lite board to the computer using a USB-C (data) cable while holding down the <i class='fa-solid fa-play'> (<strong>USR</strong>) button on the board",
+          "step1": "Connect the Wio Lite board to the computer using a USB-C (data) cable while holding down the <i class='fa-solid fa-play'></i> (<strong>USR</strong>) button on the board",
           "step2": "Press the <strong><i class='fa-solid fa-link me-1'></i>Connect</strong> button and select the <strong>WIO LITE AI</strong> device",
           "step3": "Press the <strong>Choose a file</strong> button and then use the <strong>network_data.bin</strong> file",
           "step4": "Initiate the download by pressing the <strong><i class='fa-solid fa-download me-1'></i>Download</strong> button",
@@ -7137,12 +7374,12 @@
     "campus-numeria": {
       "no-city-selected": {
         "title": "City or establishment selection",
-        "content": "<p>Please select the city or facility from which you will pilot the robot<p>",
+        "content": "<p>Please select the city or facility from which you will pilot the robot</p>",
         "accept": "Accept"
       },
       "unlogged-user": {
         "title": "You must be logged in",
-        "content": "<p>You must be logged in with your vittascience account to reserve a slot and pilot the robot.<p>",
+        "content": "<p>You must be logged in with your vittascience account to reserve a slot and pilot the robot.</p>",
         "connect": "Connect"
       },
       "booking-slot-exceeded": {
@@ -7280,6 +7517,8 @@
         "esp32": "Programming interface for ESP32 boards (Wemos D1R32, NodeMCU, Huzzah32, ...)",
         "TI-83": "Programming interface for calculator and boards BBC micro:bit or TI Innovator™ Hub",
         "GalaxiaCircuitPython": "Programming interface for the Thingz-Galaxia board",
+        "unihiker": "Programming interface for the UNIHIKER M10 board: touch screen, built-in sensors and Python on Linux!",
+        "unihikerK10": "Programming interface for the UNIHIKER K10 board: screen, RGB LEDs, built-in sensors and MicroPython!",
         "raspberrypi": "Programming interface for the Raspberry Pi board",
         "niryo": "Welcome to the Vittascience interface for Niryo ned2!",
         "nao": "Welcome to the Vittascience interface for NAO v6 robot!",
@@ -7303,6 +7542,8 @@
         "maqueen": "Programming interface for the Maqueen robot",
         "maqueenPlus": "Programming interface for the Maqueen Plus V1 and V2 robot",
         "cutebot": "Programming interface for the Cutebot robot",
+        "tpbot": "Programming interface for the TPBot robot",
+        "tinybit": "Programming interface for the Tiny:bit robot",
         "cutebotPro": "Programming interface for the Cutebot Pro robot",
         "kitrobot": "Programming interface for the Kitro:bot v2 robot",
         "oobybot": "Programming interface for the Oobybot robot",
@@ -7333,7 +7574,8 @@
         "uhandbit": "Programming interface for the uHandbit robotic hand",
         "wonder": "Programming interface for the Elecfreaks Wonder Building Kit",
         "buildingbit": "Programming interface for the Yahboom Building:bit Super Kit",
-        "primastem": "Programming interface for the PrimaStem robot"
+        "primastem": "Programming interface for the PrimaStem robot",
+        "skykick": "Programming interface for the SkyKick Evo drone"
       }
     },
     "features_title": "Common features",
@@ -7458,6 +7700,18 @@
     "needProjectName": "You must enter the name of your project before you can save it!",
     "projectSaveError": "An error occurred while saving!",
     "projectSaveConflict": "Your project has NOT been saved: it was modified elsewhere. Save again to overwrite the version stored on the server.",
+    "projectSaveNotConnected": "Your project has NOT been saved: your session has expired. Log in again then save again, your changes are kept in this browser.",
+    "projectSaveForbidden": "Your project has NOT been saved: you are not allowed to edit this project. Use “Save as…” to save a copy of it.",
+    "projectSaveNotFound": "Your project has NOT been saved: it no longer exists on the server. Download it to keep your work.",
+    "projectSaveInvalid": "Your project has NOT been saved: the server refused incomplete data (empty project name or code).",
+    "projectSaveNetworkError": "Your project has NOT been saved: the server can't be reached. Check your internet connection then try again, your changes are kept in this browser.",
+    "projectSaveServerError": "Your project has NOT been saved because of a server error. Try again in a few moments; if the problem persists, download your project so you don't lose your work.",
+    "projectOpened": "Project “{{name}}” opened.",
+    "projectOpenError": "The project couldn't be opened. Check your internet connection then try again.",
+    "projectCopySaved": "Copy “{{name}}” saved: you are now working on this copy.",
+    "localDraftRestored": "Your unsaved changes have been restored. Remember to save your project!",
+    "exerciseSaved": "The exercise has been saved successfully!",
+    "exerciseSaveFailed": "The exercise has NOT been saved. Check your internet connection then try again.",
     "projectNoChangesToSave": "There are no changes to save!",
     "projectSaveSuccess": "Your project has been saved!",
     "loadedProjectNotFound": "The requested project does not exist!",
@@ -7519,6 +7773,7 @@
     "favoriteNotRemoved": "Unable to remove this resource from favorites",
     "needToTrainModelForPrediction": "You must train the model before making predictions!",
     "needAtLeastTwoCategoryForEdge": "You need at least two categories to train the model!",
+    "edgeUnbalancedClasses": "The classes don't have the same number of records: the model may favor the biggest ones. Try to have about as many in each class.",
     "noDataToTrainModel": "There is no data to train the model!",
     "errorEdgeFilterDataMissingReccords": "At least one category has no data to train the model!",
     "errorEdgeFilterDataSensorStrategyMismatch": "The model cannot be trained because multiple sensors are used in the categories!",
@@ -8583,7 +8838,7 @@
     "chrome": {
       "onChrome": "On Chrome",
       "settingsClick": "In the top right-hand corner, click on <i class='fas fa-ellipsis-v'></i> <i class='fas fa-chevron-right'></i> Settings.",
-      "privacyClick": "Click on Privacy and Security <i class= fas fa-shield-alt'></i>",
+      "privacyClick": "Click on Privacy and Security <i class='fas fa-shield-alt'></i>",
       "cookiesClick": "Click on Cookies and other site data.",
       "switchAllow": "Switch from &quot;Block third-party cookies in private browsing mode&quot; to &quot;Allow all cookies&quot;."
     },
@@ -8766,7 +9021,7 @@
       "title2": "In partnership with"
     },
     "ressources": {
-      "title": "DISCOVER <span class='color-orange'>3 RESOURCES",
+      "title": "DISCOVER <span class='color-orange'>3 RESOURCES</span>",
       "card1": "Getting started with the micro:bit board",
       "card2": "Measuring air quality with an MQ135 sensor on Arduino",
       "card3": "mBot",
@@ -8881,7 +9136,7 @@
       "title2": "In partnership with"
     },
     "ressources": {
-      "title": "DISCOVER <span class='color-orange'>3 RESOURCES",
+      "title": "DISCOVER <span class='color-orange'>3 RESOURCES</span>",
       "card1": "Getting started with the micro:bit board",
       "card2": "Measuring air quality with an MQ135 sensor on Arduino",
       "card3": "mBot",
@@ -9248,7 +9503,7 @@
     },
     "main": {
       "title": "Calculate Your Digital Usage CO<sub>2</sub>e Impact",
-      "body": "🌍<strong> Did you know?</strong> In France, each person emits an average of 10 tonnes of CO₂e per year.<p>🎯 <strong>COP21 goal:</strong> Reduce this footprint to 2 tonnes of CO₂e per person per year.</p><p>💻 <strong>What about digital tech?</strong> Digital (internet, smartphones, computers, etc.) accounts for 4% of that pollution—about 400 kg of CO₂e per year.</p><p>🚀 <strong>The challenge for digital:</strong> To meet the COP21 target, this must drop to 80 kg of CO₂e per year.</p><p>❓ <strong>And you?</strong> Ready to take on the challenge? Start by assessing your current impact and discover how to reduce your carbon footprint. 🌱✨",
+      "body": "🌍<strong> Did you know?</strong> In France, each person emits an average of 10 tonnes of CO₂e per year.<p>🎯 <strong>COP21 goal:</strong> Reduce this footprint to 2 tonnes of CO₂e per person per year.</p><p>💻 <strong>What about digital tech?</strong> Digital (internet, smartphones, computers, etc.) accounts for 4% of that pollution—about 400 kg of CO₂e per year.</p><p>🚀 <strong>The challenge for digital:</strong> To meet the COP21 target, this must drop to 80 kg of CO₂e per year.</p><p>❓ <strong>And you?</strong> Ready to take on the challenge? Start by assessing your current impact and discover how to reduce your carbon footprint. 🌱✨</p>",
       "lastEvaluation": "Last evaluation : ",
       "notRated": "Not rated yet",
       "decrease": "Decrease",

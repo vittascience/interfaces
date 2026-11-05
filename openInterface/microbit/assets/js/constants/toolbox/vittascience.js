@@ -166,6 +166,378 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
 ];
 
 const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
+    "display": [
+        {
+            "kind": "category",
+            "toolboxitemid": "display_microbit",
+            "name": "%{BKY_SUBCATEGORY_MICROBIT}",
+            "style": "display_category",
+            "cssConfig": {
+                "icon": "icon_blockly svgIcon"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "display_screens",
+            "name": "%{BKY_SUBCATEGORY_SCREENS}",
+            "style": "display_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-display"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "display_led",
+            "name": "%{BKY_SUBCATEGORY_LED}",
+            "style": "display_category",
+            "cssConfig": {
+                "icon": "icon_blockly svgIcon"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "display_kitronik",
+            "name": "%{BKY_SUBCATEGORY_KITRONIK}",
+            "style": "display_category",
+            "cssConfig": {
+                "icon": "icon_blockly svgIcon"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "display_games",
+            "name": "%{BKY_SUBCATEGORY_GAMES}",
+            "style": "display_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-gamepad"
+            },
+            "contents": []
+        }
+    ],
+    "io": [
+        {
+            "kind": "category",
+            "toolboxitemid": "io_microbit",
+            "name": "%{BKY_SUBCATEGORY_MICROBIT}",
+            "style": "io_category",
+            "cssConfig": {
+                "icon": "icon_blockly svgIcon"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "io_time",
+            "name": "%{BKY_SUBCATEGORY_TIME}",
+            "style": "io_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-clock"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "io_inputs",
+            "name": "%{BKY_SUBCATEGORY_EXTERNAL_INPUTS}",
+            "style": "io_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-toggle-on"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "io_pins",
+            "name": "%{BKY_SUBCATEGORY_PINS}",
+            "style": "io_category",
+            "cssConfig": {
+                "icon": "icon_blockly svgIcon"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "io_exec",
+            "name": "%{BKY_SUBCATEGORY_SHORT_PYTHON_CODE}",
+            "style": "io_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-terminal"
+            },
+            "contents": []
+        }
+    ],
+    "communication": [
+        {
+            "kind": "category",
+            "toolboxitemid": "communication_serial",
+            "name": "%{BKY_SUBCATEGORY_SERIAL_CONNECTION}",
+            "style": "communication_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-terminal"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "communication_radio",
+            "name": "%{BKY_SUBCATEGORY_INTEGRATED_RADIO}",
+            "style": "communication_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-tower-broadcast"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "communication_datalog",
+            "name": "%{BKY_SUBCATEGORY_SHORT_DATA_LOGGING}",
+            "style": "communication_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-sd-card"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "communication_bluetooth",
+            "name": "%{BKY_SUBCATEGORY_SHORT_BLUETOOTH}",
+            "style": "communication_category",
+            "cssConfig": {
+                "icon": "icon_blockly fab fa-bluetooth-b"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "communication_tracking",
+            "name": "%{BKY_SUBCATEGORY_SHORT_TRACKING}",
+            "style": "communication_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-location-dot"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "communication_rfid",
+            "name": "%{BKY_SUBCATEGORY_RFID}",
+            "style": "communication_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-id-card"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "communication_uart",
+            "name": "%{BKY_SUBCATEGORY_UART}",
+            "style": "communication_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-right-left"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "communication_i2c",
+            "name": "I2C",
+            "style": "communication_category",
+            "cssConfig": {
+                "icon": "icon_blockly svgIcon"
+            },
+            "contents": []
+        }
+    ],
+    "sensors": [
+        {
+            "kind": "category",
+            "toolboxitemid": "sensors_microbit",
+            "name": "%{BKY_SUBCATEGORY_MICROBIT}",
+            "style": "sensors_category",
+            "cssConfig": {
+                "icon": "icon_blockly svgIcon"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "sensors_gas",
+            "name": "%{BKY_SUBCATEGORY_SHORT_GAS}",
+            "style": "sensors_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-smog"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "sensors_climate",
+            "name": "%{BKY_SUBCATEGORY_SHORT_WEATHER}",
+            "style": "sensors_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-temperature-half"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "sensors_soundlight",
+            "name": "%{BKY_SUBCATEGORY_SHORT_SOUND_LIGHT}",
+            "style": "sensors_category",
+            "cssConfig": {
+                "icon": "icon_blockly svgIcon"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "sensors_distance",
+            "name": "%{BKY_SUBCATEGORY_SHORT_DISTANCE_MOVEMENT}",
+            "style": "sensors_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-ruler"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "sensors_envirobit",
+            "name": "%{BKY_SUBCATEGORY_ENVIRO_BIT}",
+            "style": "sensors_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-leaf"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "sensors_weatherbit",
+            "name": "%{BKY_SUBCATEGORY_WEATHER_BIT}",
+            "style": "sensors_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-cloud-sun"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "sensors_kitronik_env",
+            "name": "%{BKY_SUBCATEGORY_SHORT_KITRONIK_ENV}",
+            "style": "sensors_category",
+            "cssConfig": {
+                "icon": "icon_blockly svgIcon"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "sensors_other",
+            "name": "%{BKY_SUBCATEGORY_SHORT_OTHER}",
+            "style": "sensors_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-ellipsis"
+            },
+            "contents": []
+        }
+    ],
+    "actuators": [
+        {
+            "kind": "category",
+            "toolboxitemid": "actuators_microbit",
+            "name": "%{BKY_SUBCATEGORY_MICROBIT}",
+            "style": "actuators_category",
+            "cssConfig": {
+                "icon": "icon_blockly svgIcon"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "actuators_motors",
+            "name": "%{BKY_SUBCATEGORY_MOTORS}",
+            "style": "actuators_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-gears"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "actuators_kitronik",
+            "name": "%{BKY_SUBCATEGORY_KITRONIK}",
+            "style": "actuators_category",
+            "cssConfig": {
+                "icon": "icon_blockly svgIcon"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "actuators_rekabit",
+            "name": "Reka:Bit",
+            "style": "actuators_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-cubes"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "actuators_microdriver",
+            "name": "%{BKY_SUBCATEGORY_SHORT_MICRODRIVER}",
+            "style": "actuators_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-gear"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "actuators_other",
+            "name": "%{BKY_SUBCATEGORY_SHORT_OTHER}",
+            "style": "actuators_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-ellipsis"
+            },
+            "contents": []
+        }
+    ],
+    "tello": [
+        {
+            "kind": "category",
+            "toolboxitemid": "tello_tello",
+            "name": "%{BKY_SUBCATEGORY_SHORT_TELLO_BASICS}",
+            "style": "tello_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-helicopter"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "tello_send",
+            "name": "%{BKY_SUBCATEGORY_SHORT_TELLO_COMMANDS}",
+            "style": "tello_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-paper-plane"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "tello_read",
+            "name": "%{BKY_SUBCATEGORY_SHORT_TELLO_DATA}",
+            "style": "tello_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-eye"
+            },
+            "contents": []
+        }
+    ],
     "robots": [
         {
             "kind": "category",
@@ -173,7 +545,7 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_CUTEBOT}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -183,7 +555,7 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_CUTEBOT_PRO}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -193,7 +565,7 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_MAQUEEN}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -203,7 +575,7 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_MAQUEEN_PLUS}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -213,7 +585,7 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_BITCAR}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -223,7 +595,7 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_KITROBOT}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -233,7 +605,7 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_CODO}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -243,7 +615,7 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_OOBYBOT}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -253,7 +625,7 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_BUGGY}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -263,7 +635,7 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_BITBOT}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -273,7 +645,7 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "name": "%{BKY_SUBCATEGORY_GAMEPAD}",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -283,7 +655,7 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "name": "uHandbit",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -293,7 +665,7 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "name": "WuKong",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         },
@@ -303,7 +675,7 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
             "name": "Building:bit Super",
             "style": "robots_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-robot"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         }
@@ -321,11 +693,137 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
         },
         {
             "kind": "category",
+            "toolboxitemid": "voiceRecognition",
+            "name": "%{BKY_SUBCATEGORY_VOICE_RECOGNITION}",
+            "style": "ia_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-microphone"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
             "toolboxitemid": "cameras",
             "name": "%{BKY_SUBCATEGORY_CAMERAS}",
             "style": "ia_category",
             "cssConfig": {
                 "icon": "icon_blockly fa-solid fa-camera"
+            },
+            "contents": []
+        }
+    ],
+    "math": [
+        {
+            "kind": "category",
+            "toolboxitemid": "math_calculations",
+            "name": "%{BKY_TOOLBOX_LABEL_CALCULATIONS}",
+            "style": "math_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-calculator"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "math_rounding",
+            "name": "%{BKY_SUBCATEGORY_SHORT_ROUNDING}",
+            "style": "math_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-ruler-horizontal"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "math_random",
+            "name": "%{BKY_TOOLBOX_LABEL_RANDOM}",
+            "style": "math_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-dice"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "math_encryption",
+            "name": "%{BKY_SUBCATEGORY_ENCRYPTION}",
+            "style": "math_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-lock"
+            },
+            "contents": []
+        }
+    ],
+    "text": [
+        {
+            "kind": "category",
+            "toolboxitemid": "text_create",
+            "name": "%{BKY_TOOLBOX_LABEL_CREATE}",
+            "style": "text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-pen"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "text_search",
+            "name": "%{BKY_TOOLBOX_LABEL_SEARCH}",
+            "style": "text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-magnifying-glass"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "text_transform",
+            "name": "%{BKY_TOOLBOX_LABEL_TRANSFORM}",
+            "style": "text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-wand-magic-sparkles"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "text_encryption",
+            "name": "%{BKY_SUBCATEGORY_ENCRYPTION}",
+            "style": "text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-lock"
+            },
+            "contents": []
+        }
+    ],
+    "lists": [
+        {
+            "kind": "category",
+            "toolboxitemid": "lists_create",
+            "name": "%{BKY_TOOLBOX_LABEL_CREATE}",
+            "style": "lists_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-plus"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "lists_read",
+            "name": "%{BKY_TOOLBOX_LABEL_READ}",
+            "style": "lists_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-eye"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "lists_modify",
+            "name": "%{BKY_TOOLBOX_LABEL_MODIFY}",
+            "style": "lists_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-pen-to-square"
             },
             "contents": []
         }
@@ -335,477 +833,551 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
 const TOOLBOX_VITTASCIENCE_CONTENT = {
     "display": [
         {
-            "label": "%{BKY_SUBCATEGORY_MICROBIT}",
-            "blocks": [
-                'show_number',
-                'show_number-txt',
-                'show_string-num',
-                'show_string',
-                'show_icon',
-                'show_leds',
-                'display_show_gauge',
-                'display_plot_bar_graph',
-                'set_pixel',
-                'set_light_pixel',
-                'get_pixelState',
-                'toggle_pixelState',
-                'set_brightness',
-                'show_clock',
-                'show_arrow',
-                'clear'
+            "subCategoryId": "display_microbit",
+            "contents": [
+            {
+                "blocks": [
+                    'show_number',
+                    'show_number-txt',
+                    'show_string-num',
+                    'show_string',
+                    'show_icon',
+                    'show_leds',
+                    'display_show_gauge',
+                    'display_plot_bar_graph',
+                    'set_pixel',
+                    'set_light_pixel',
+                    'get_pixelState',
+                    'toggle_pixelState',
+                    'set_brightness',
+                    'show_clock',
+                    'show_arrow',
+                    'clear'
+                ]
+            }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_DISPLAYS_LCD}",
-            "blocks": [
-                'display_lcdSetText',
-                'display_lcdClear'
+            "subCategoryId": "display_screens",
+            "contents": [
+            {
+                "label": "%{BKY_SUBCATEGORY_DISPLAYS_LCD}",
+                "blocks": [
+                    'display_lcdSetText',
+                    'display_lcdClear'
+                ]
+            },
+            {
+                "label": "%{BKY_SUBCATEGORY_DISPLAYS_OLED}",
+                "blocks": [
+                    'display_addOledText',
+                    'display_setOledPixel',
+                    'display_showOledIcon',
+                    'display_clearOledScreen',
+                    'display_morpionNewGame',
+                    'display_morpionMoveCursor',
+                    'display_morpionSetPlayerFigure',
+                    'display_morpionIsEndGame'
+                ]
+            }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_NEOPIXEL}",
-            "blocks": [
-                "display_defineNeopixel",
-                "display_controlColorNeopixelLed",
-                "display_controlNeopixelLed",
-                "display_neopixel_controlAllLedPalette",
-                "display_neopixel_controlAllLedRGB",
-                "display_rainbowNeopixel"
+            "subCategoryId": "display_led",
+            "contents": [
+            {
+                "label": "%{BKY_SUBCATEGORY_LED}",
+                "blocks": [
+                    'display_setGroveSocketLed',
+                    'display_setLEDintensity',
+                    'display_setVariableColorLED',
+                    'display_setNumberGrove4Digit',
+                    'display_setClockGrove4Digit',
+                    'display_setLevelLedBar',
+                    'display_my9221_reverse'
+                ]
+            },
+            {
+                "label": "%{BKY_SUBCATEGORY_NEOPIXEL}",
+                "blocks": [
+                    'display_defineNeopixel',
+                    'display_controlColorNeopixelLed',
+                    'display_controlNeopixelLed',
+                    'display_neopixel_controlAllLedPalette',
+                    'display_neopixel_controlAllLedRGB',
+                    'display_rainbowNeopixel'
+                ]
+            },
+            {
+                "label": "%{BKY_SUBCATEGORY_DISPLAYS_LED_MATRIX}",
+                "blocks": [
+                    'display_led_matrix_DrawBitmap',
+                    'display_led_matrix_clear'
+                ]
+            },
+            {
+                "label": "%{BKY_SUBCATEGORY_DISPLAYS_RGB_LED_MATRIX}",
+                "blocks": [
+                    'display_rgb_led_matrix_DrawBitmap',
+                    'display_rgb_led_matrix_stopDisplay'
+                ]
+            }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_ZIP_HALO}",
-            "blocks": [
-                "display_controlColorZipHaloLed",
-                "display_controlZipHaloLed",
-                "display_ZipHaloLed_controlAllLedPalette",
-                "display_ZipHaloLed_controlAllLedRGB",
-                "display_ZipHaloLed_rainbow"
+            "subCategoryId": "display_kitronik",
+            "contents": [
+            {
+                "label": "%{BKY_SUBCATEGORY_ZIP_HALO}",
+                "blocks": [
+                    'display_controlColorZipHaloLed',
+                    'display_controlZipHaloLed',
+                    'display_ZipHaloLed_controlAllLedPalette',
+                    'display_ZipHaloLed_controlAllLedRGB',
+                    'display_ZipHaloLed_rainbow'
+                ]
+            },
+            {
+                "label": "%{BKY_SUBCATEGORY_KITRONIK}",
+                "blocks": [
+                    'display_setTrafficLight',
+                    'display_setLampBitLight',
+                    'sensors_getLampBitLuminosity'
+                ]
+            }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_DISPLAYS_OLED}",
-            "blocks": [
-                'display_addOledText',
-                'display_setOledPixel',
-                'display_showOledIcon',
-                'display_clearOledScreen',
-                'display_morpionNewGame',
-                'display_morpionMoveCursor',
-                'display_morpionSetPlayerFigure',
-                'display_morpionIsEndGame'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_LED}",
-            "blocks": [
-                "display_setGroveSocketLed",
-                "display_setLEDintensity",
-                "display_setVariableColorLED",
-                "display_setNumberGrove4Digit",
-                "display_setClockGrove4Digit",
-                "display_setLevelLedBar",
-                "display_my9221_reverse",
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_KITRONIK}",
-            "blocks": [
-                "display_setTrafficLight",
-                "display_setLampBitLight",
-                "sensors_getLampBitLuminosity"
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_DISPLAYS_LED_MATRIX}",
-            "blocks": [
-                'display_led_matrix_DrawBitmap',
-                'display_led_matrix_clear'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_DISPLAYS_RGB_LED_MATRIX}",
-            "blocks": [
-                'display_rgb_led_matrix_DrawBitmap',
-                'display_rgb_led_matrix_stopDisplay'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_GAMES}",
-            "blocks": [
-                "display_games_createSprite",
-                "display_games_deleteSprite",
-                "display_games_isSpriteDeleted",
-                "display_games_moveSprite",
-                "display_games_getSpritePosition",
-                "display_games_changeScore",
-                "display_games_getScore",
-                "display_games_stopGame",
-                "display_games_isEndGame",
-                "display_games_restartGame",
+            "subCategoryId": "display_games",
+            "contents": [
+            {
+                "blocks": [
+                    'display_games_createSprite',
+                    'display_games_deleteSprite',
+                    'display_games_isSpriteDeleted',
+                    'display_games_moveSprite',
+                    'display_games_getSpritePosition',
+                    'display_games_changeScore',
+                    'display_games_getScore',
+                    'display_games_stopGame',
+                    'display_games_isEndGame',
+                    'display_games_restartGame'
+                ]
+            }
             ]
         }
     ],
     "io": [
         {
-            "label": "%{BKY_SUBCATEGORY_TIME}",
-            "blocks": [
-                'io_pause',
-                'io_waitUntil',
-                'io_initChronometer',
-                'io_getChronometer'
-            ]
+            "subCategoryId": "io_microbit",
+            "contents": [{
+                "blocks": [
+                    'io_onButtonPressed',
+                    'io_onPinPressed',
+                    'io_onMovement',
+                    'io_isButtonPressed',
+                    'io_isPinPressed',
+                    'io_buttons_getPresses',
+                    'io_runEvery',
+                    'io_microbit_reset'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_MICROBIT}",
-            "blocks": [
-                'io_onButtonPressed',
-                'io_onPinPressed',
-                'io_onMovement',
-                'io_isButtonPressed',
-                'io_isPinPressed',
-                'io_buttons_getPresses',
-                'io_runEvery',
-                'io_microbit_reset'
-            ]
+            "subCategoryId": "io_time",
+            "contents": [{
+                "blocks": [
+                    'io_pause',
+                    'io_waitUntil',
+                    'io_initChronometer',
+                    'io_getChronometer'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_EXTERNAL_INPUTS}",
-            "blocks": [
-                'io_getGroveButton',
-                'io_getGroveSwitch',
-                'io_getMagneticSwitch',
-                'io_getGroveTactile',
-                'io_getGroveRotaryAngle',
-                'io_getGroveSlidePotentiometer',
-                'io_getGroveColoredButton',
-                'io_setGroveColoredButton',
-                'io_getKeypadNumber',
-                'io_fingerprint_register',
-                'io_fingerprint_verify',
-                'io_getGroveThumbJoystick'
-                
-            ]
+            "subCategoryId": "io_inputs",
+            "contents": [{
+                "blocks": [
+                    'io_getGroveButton',
+                    'io_getGroveSwitch',
+                    'io_getMagneticSwitch',
+                    'io_getGroveTactile',
+                    'io_getGroveRotaryAngle',
+                    'io_getGroveSlidePotentiometer',
+                    'io_getGroveColoredButton',
+                    'io_setGroveColoredButton',
+                    'io_getKeypadNumber',
+                    'io_fingerprint_register',
+                    'io_fingerprint_verify',
+                    'io_getGroveThumbJoystick'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_PINS}",
-            "blocks": [
-                'io_digital_signal',
-                'io_readDigitalPin',
-                'io_writeDigitalPin',
-                'io_readAnalogPin',
-                'io_writeAnalogPin',
-                'io_setPwm',
-                'io_readPulseIn',
-                'io_setPull'
-            ]
+            "subCategoryId": "io_pins",
+            "contents": [{
+                "blocks": [
+                    'io_digital_signal',
+                    'io_readDigitalPin',
+                    'io_writeDigitalPin',
+                    'io_readAnalogPin',
+                    'io_writeAnalogPin',
+                    'io_setPwm',
+                    'io_readPulseIn',
+                    'io_setPull'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_EXEC}",
-            "blocks": [
-                'io_exec'
-            ]
+            "subCategoryId": "io_exec",
+            "contents": [{
+                "blocks": [
+                    'io_exec'
+                ]
+            }]
         }
     ],
     "communication": [
         {
-            "label": "%{BKY_SUBCATEGORY_SERIAL_CONNECTION}",
-            "blocks": [
-                'communication_serialWrite',
-                'communication_graphSerialWrite',
-                'communication_onSerialMessageReceived',
-                'communication_onSerialDataReceived',
-                'communication_playComputerMusic',
-                'communication_playComputerFrequency',
-                'communication_stopComputerMusic'
-            ]
+            "subCategoryId": "communication_serial",
+            "contents": [{
+                "blocks": [
+                    'communication_serialWrite',
+                    'communication_graphSerialWrite',
+                    'communication_onSerialMessageReceived',
+                    'communication_onSerialDataReceived',
+                    'communication_playComputerMusic',
+                    'communication_playComputerFrequency',
+                    'communication_stopComputerMusic'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_INTEGRATED_RADIO}",
-            "blocks": [
-                'communication_radioSendString',
-                'communication_radioSendNumber',
-                'communication_radioSendValue',
-                'communication_onRadioDataReceived',
-                'communication_onRadioNumberReceived',
-                'communication_onRadioValueReceived',
-                'communication_radioConfig',
-                'communication_radioReceiveFull'
-            ]
+            "subCategoryId": "communication_radio",
+            "contents": [{
+                "blocks": [
+                    'communication_radioSendString',
+                    'communication_radioSendNumber',
+                    'communication_radioSendValue',
+                    'communication_onRadioDataReceived',
+                    'communication_onRadioNumberReceived',
+                    'communication_onRadioValueReceived',
+                    'communication_radioConfig',
+                    'communication_radioReceiveFull'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_MICROBIT_LOG}",
-            "blocks": [
-                'communication_log_deleteLogs',
-                'communication_log_serial',
-                'communication_log_setLabel',
-                'communication_log_addData',
-                'communication_log_data'
-            ]
+            "subCategoryId": "communication_datalog",
+            "contents": [{
+                "label": "%{BKY_SUBCATEGORY_MICROBIT_LOG}",
+                "blocks": [
+                    'communication_log_deleteLogs',
+                    'communication_log_serial',
+                    'communication_log_setLabel',
+                    'communication_log_addData',
+                    'communication_log_data'
+                ]
+            }, {
+                "label": "%{BKY_SUBCATEGORY_DATA_LOGGING}",
+                "blocks": [
+                    'communication_writeOpenLogSd'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_DATA_LOGGING}",
-            "blocks": [
-                'communication_writeOpenLogSd'
-            ]
+            "subCategoryId": "communication_bluetooth",
+            "contents": [{
+                "blocks": [
+                    'communication_hc05_sendBluetoothData',
+                    'communication_hc05_onBluetoothDataReceived',
+                    'communication_hm10_setATCommand',
+                    'communication_hm10_getATCommand',
+                    'communication_hm10_sendBluetoothData',
+                    'communication_hm10_onBluetoothDataReceived'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_EXTERNAL_BLUETOOTH}",
-            "blocks": [
-                'communication_hc05_sendBluetoothData',
-                'communication_hc05_onBluetoothDataReceived',
-                'communication_hm10_setATCommand',
-                'communication_hm10_getATCommand',
-                'communication_hm10_sendBluetoothData',
-                'communication_hm10_onBluetoothDataReceived',
-            ]
+            "subCategoryId": "communication_tracking",
+            "contents": [{
+                "blocks": [
+                    'communication_gps_getNMEA',
+                    'communication_gps_getGGAInformations',
+                    'communication_clockRTC_setDate',
+                    'communication_clockRTC_setHour',
+                    'communication_clockRTC_readTime'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_TRACKING_MODULES}",
-            "blocks": [
-                'communication_gps_getNMEA',
-                'communication_gps_getGGAInformations',
-                'communication_clockRTC_setDate',
-                'communication_clockRTC_setHour',
-                'communication_clockRTC_readTime',
-            ]
+            "subCategoryId": "communication_rfid",
+            "contents": [{
+                "blocks": [
+                    'communication_mfrc522_getCardID',
+                    'communication_rfid_getCardID'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_RFID}",
-            "blocks": [
-                'communication_mfrc522_getCardID',
-                'communication_rfid_getCardID',
-            ]
+            "subCategoryId": "communication_uart",
+            "contents": [{
+                "blocks": [
+                    'communication_serialInit',
+                    'communication_serialRedirectUSB',
+                    'communication_uart_writeData',
+                    'communication_uart_isDataAvailable',
+                    'communication_uart_readData',
+                    'communication_uart_readLineData'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_VOICE_RECOGNITION}",
-            "blocks": [
-                "communication_voiceRecognition_setVolume",
-                "communication_voiceRecognition_onCommand",
-                "communication_voiceRecognition_getCMDID",
-                "communication_voiceRecognition_playByCMDID"
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_UART}",
-            "blocks": [
-                'communication_serialInit',
-                'communication_serialRedirectUSB',
-                'communication_uart_writeData',
-                'communication_uart_isDataAvailable',
-                'communication_uart_readData',
-                'communication_uart_readLineData'
-            ]
-        },
-        {
-            "label": "I2C",
-            "blocks": [
-                'communication_i2c_init',
-                'communication_i2c_scan',
-                'communication_i2c_read',
-                'communication_i2c_write'
-            ]
+            "subCategoryId": "communication_i2c",
+            "contents": [{
+                "blocks": [
+                    'communication_i2c_init',
+                    'communication_i2c_scan',
+                    'communication_i2c_read',
+                    'communication_i2c_write'
+                ]
+            }]
         }
     ],
     "sensors": [
         {
-            "label": "%{BKY_SUBCATEGORY_MICROBIT}",
-            "blocks": [
-                'sensors_getLight',
-                'sensors_getTemperature',
-                'sensors_getAcceleration',
-                'sensors_getRotation',
-                'sensors_getCompass',
-                'sensors_calibrateCompass',
-                'sensors_isCompassCalibrated',
-                'sensors_getMagneticForce'
+            "subCategoryId": "sensors_microbit",
+            "contents": [
+                {
+                    "label": "%{BKY_SUBCATEGORY_MICROBIT}",
+                    "blocks": [
+                        'sensors_getLight',
+                        'sensors_getTemperature',
+                        'sensors_getAcceleration',
+                        'sensors_getRotation',
+                        'sensors_getCompass',
+                        'sensors_calibrateCompass',
+                        'sensors_isCompassCalibrated',
+                        'sensors_getMagneticForce'
+                    ]
+                },
+                {
+                    "label": "%{BKY_SUBCATEGORY_MICROPHONE} (V2)",
+                    "blocks": [
+                        'io_micro_onSoundDetected',
+                        'io_micro_getCurrentSound',
+                        'io_micro_wasSoundDetected',
+                        'io_micro_getSoundLevel',
+                        'io_micro_getHistorySounds',
+                        'io_micro_setSoundThreshold',
+                        'io_micro_soundCondition'
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_MICROPHONE} (V2)",
-            "blocks": [
-                "io_micro_onSoundDetected",
-                "io_micro_getCurrentSound",
-                "io_micro_wasSoundDetected",
-                "io_micro_getSoundLevel",
-                "io_micro_getHistorySounds",
-                "io_micro_setSoundThreshold",
-                "io_micro_soundCondition"
-            ]
+            "subCategoryId": "sensors_gas",
+            "contents": [{
+                "blocks": [
+                    'sensors_getSgp30Gas',
+                    'sensors_getMultichannelGas',
+                    'sensors_getMultichannelGasV2',
+                    'sensors_getO2gas',
+                    'sensors_SCD30_readData',
+                    'sensors_SCD30_forcedCalibration',
+                    'sensors_getAirQualityValue',
+                    'sensors_getParticulateMatter'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_ENVIRO_BIT}",
-            "blocks": [
-                'sensors_envirobit_tcs3472_getRGB',
-                'sensors_envirobit_tcs3472_getBrightness',
-                'sensors_envirobit_tcs3472_setLED',
-                'sensors_envirobit_bme280_getData',
-                'sensors_envirobit_getSoundLevel',
-                'sensors_envirobit_waitForClaps'
-            ]
+            "subCategoryId": "sensors_climate",
+            "contents": [{
+                "blocks": [
+                    'sensors_getBmp280Data',
+                    'sensors_bme280_getData',
+                    'sensors_getGroveMoisture',
+                    'sensors_getGroveCapacitiveMoisture',
+                    'sensors_getGroveTemperature',
+                    'sensors_getGroveHighTemperature',
+                    'sensors_barometerReadData',
+                    'sensors_dhtReadData',
+                    'sensors_TH02readData',
+                    'sensors_SHT31readData',
+                    'sensors_SHT35readData',
+                    'sensors_mpx5700ap_getPressure',
+                    'sensors_getGroveWaterAmount',
+                    'sensors_getRainGauge',
+                    'sensors_getAnemometer'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_WEATHER_BIT}",
-            "blocks": [
-                'sensors_weatherbit_bme280_getData',
-                'sensors_weatherbit_anemometer_getSpeed',
-                'sensors_weatherbit_weathercock_getDirection',
-                'sensors_weatherbit_rainGauge_getDumps',
-                'sensors_weatherbit_getSoilMoisture'
-            ]
+            "subCategoryId": "sensors_soundlight",
+            "contents": [{
+                "blocks": [
+                    'sensors_getGroveLight',
+                    'sensors_getSunlightData',
+                    'sensors_getUVindex',
+                    'sensors_colorSensor_getData',
+                    'sensors_colorSensorV3_getData',
+                    'sensors_getGroveSound'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_KITRONIK_ENVIRONMENTAL}",
-            "blocks": [
-                'sensors_kitronik_bme280_getData',
-                'sensors_kitronik_klimate_bme280_getData'
-            ]
+            "subCategoryId": "sensors_distance",
+            "contents": [{
+                "blocks": [
+                    'sensors_getGroveUltrasonicRanger',
+                    'sensors_VL53L0X_getRangeMillimeters',
+                    'sensors_getGesture',
+                    'sensors_onGestureTypeDetected',
+                    'sensors_getGroveLineFinder',
+                    'sensors_getGroveMotion',
+                    'sensors_getMiniPirGroveMotion',
+                    'sensors_getGroveTilt',
+                    'sensors_getPiezoVibration'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_SENSORS_GAS}",
-            "blocks": [
-                'sensors_getSgp30Gas',
-                'sensors_getMultichannelGas',
-                'sensors_getMultichannelGasV2',
-                'sensors_getO2gas',
-                'sensors_SCD30_readData',
-                'sensors_SCD30_forcedCalibration',
-                'sensors_getAirQualityValue',
-                'sensors_getParticulateMatter'
-            ]
+            "subCategoryId": "sensors_envirobit",
+            "contents": [{
+                "blocks": [
+                    'sensors_envirobit_tcs3472_getRGB',
+                    'sensors_envirobit_tcs3472_getBrightness',
+                    'sensors_envirobit_tcs3472_setLED',
+                    'sensors_envirobit_bme280_getData',
+                    'sensors_envirobit_getSoundLevel',
+                    'sensors_envirobit_waitForClaps'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_SENSORS_CLIMATE}",
-            "blocks": [
-                'sensors_getBmp280Data',
-                'sensors_bme280_getData',
-                'sensors_getGroveMoisture',
-                'sensors_getGroveCapacitiveMoisture',
-                'sensors_getGroveTemperature',
-                'sensors_getGroveHighTemperature',
-                'sensors_barometerReadData',
-                'sensors_dhtReadData',
-                'sensors_TH02readData',
-                'sensors_SHT31readData',
-                'sensors_SHT35readData',
-                'sensors_mpx5700ap_getPressure',
-                // 'sensors_mpx5700ap_calibrate',
-                'sensors_getGroveWaterAmount',
-                'sensors_getRainGauge',
-                'sensors_getAnemometer'
-            ]
+            "subCategoryId": "sensors_weatherbit",
+            "contents": [{
+                "blocks": [
+                    'sensors_weatherbit_bme280_getData',
+                    'sensors_weatherbit_anemometer_getSpeed',
+                    'sensors_weatherbit_weathercock_getDirection',
+                    'sensors_weatherbit_rainGauge_getDumps',
+                    'sensors_weatherbit_getSoilMoisture'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_SENSORS_SOUNDLIGHT}",
-            "blocks": [
-                'sensors_getGroveLight',
-                'sensors_getSunlightData',
-                'sensors_getUVindex',
-                'sensors_colorSensor_getData',
-                'sensors_colorSensorV3_getData',
-                'sensors_getGroveSound'
-            ]
+            "subCategoryId": "sensors_kitronik_env",
+            "contents": [{
+                "blocks": [
+                    'sensors_kitronik_bme280_getData',
+                    'sensors_kitronik_klimate_bme280_getData'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_SENSORS_DISTANCEMOVEMENT}",
-            "blocks": [
-                'sensors_getGroveUltrasonicRanger',
-                'sensors_VL53L0X_getRangeMillimeters',
-                'sensors_getGesture',
-                'sensors_onGestureTypeDetected',
-                'sensors_getGroveLineFinder',
-                'sensors_getGroveMotion',
-                'sensors_getMiniPirGroveMotion',
-                'sensors_getGroveTilt',
-                'sensors_getPiezoVibration'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_SENSORS_OTHER}",
-            "blocks": [
-                'sensors_getGroveButton',
-                'sensors_getEarClipHeartRate',
-                'sensors_getEmgDetector',
-                'sensors_getFsr402Force',
-                'sensors_getWaterLevel'
-            ]
+            "subCategoryId": "sensors_other",
+            "contents": [{
+                "blocks": [
+                    'sensors_getGroveButton',
+                    'sensors_getEarClipHeartRate',
+                    'sensors_getEmgDetector',
+                    'sensors_getFsr402Force',
+                    'sensors_getWaterLevel'
+                ]
+            }]
         }
     ],
     "actuators": [
         {
-            "label": "%{BKY_SUBCATEGORY_MOTORS}",
-            "blocks": [
-                'actuators_setServoAngle',
-                'actuators_continuousServo_setSpeed',
-                'actuators_stepperMotor_uln2003driver_init',
-                'actuators_stepperMotor_uln2003driver_moveSteps',
-                'actuators_stepperMotor_uln2003driver_setDelay',
-                'actuators_setFanPower',
-                'actuators_setVibrationMotorState',
-                'actuators_setGroveRelayState',
-                'actuators_mosfet_setState',
-                'actuators_mosfet_setPercentValue'
+            "subCategoryId": "actuators_microbit",
+            "contents": [
+                {
+                    "label": "%{BKY_SUBCATEGORY_AUDIO} (V2)",
+                    "blocks": [
+                        'microbit_audio_play',
+                        'microbit_audio_stop'
+                    ]
+                },
+                {
+                    "label": "%{BKY_SUBCATEGORY_MUSIC} (V2)",
+                    "blocks": [
+                        'actuators_playMusicGroveBuzzer',
+                        'actuators_music_playSong',
+                        'actuators_music_playNotes',
+                        'actuators_music_playFrequency',
+                        'actuators_music_stop',
+                        'actuators_music_setVolume',
+                        'actuators_music_setTempo'
+                    ]
+                },
+                {
+                    "label": "%{BKY_SUBCATEGORY_SPEECH} (V2)",
+                    "blocks": [
+                        'actuators_speech_saySomething'
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_KITRONIK}",
-            "blocks": [
-                'actuators_controlAccessBitBarrier',
-                'actuators_controlAccessBitBuzzer',
-                'actuators_kitronik_controlMotor',
-                'actuators_kitronik_stopMotor',
-                'actuators_kitronikShield_setServoAngle',
-                'actuators_kitronik_playFrequency'
-            ]
+            "subCategoryId": "actuators_motors",
+            "contents": [{
+                "blocks": [
+                    'actuators_setServoAngle',
+                    'actuators_continuousServo_setSpeed',
+                    'actuators_stepperMotor_uln2003driver_init',
+                    'actuators_stepperMotor_uln2003driver_moveSteps',
+                    'actuators_stepperMotor_uln2003driver_setDelay',
+                    'actuators_setFanPower',
+                    'actuators_setVibrationMotorState',
+                    'actuators_setGroveRelayState',
+                    'actuators_mosfet_setState',
+                    'actuators_mosfet_setPercentValue'
+                ]
+            }]
         },
         {
-            "label": "Reka:Bit",
-            "blocks": [
-                'actuators_rekabit_runMotor',
-                'actuators_rekabit_setServoPosition'
-            ]
+            "subCategoryId": "actuators_kitronik",
+            "contents": [{
+                "blocks": [
+                    'actuators_controlAccessBitBarrier',
+                    'actuators_controlAccessBitBuzzer',
+                    'actuators_kitronik_controlMotor',
+                    'actuators_kitronik_stopMotor',
+                    'actuators_kitronikShield_setServoAngle',
+                    'actuators_kitronik_playFrequency'
+                ]
+            }]
         },
         {
-            "label": "DFRobot micro:Driver (DFR0548)",
-            "blocks": [
-                'actuators_dfr0548_setServoAngle',
-                'actuators_dfr0548_runMotor',
-                'actuators_dfr0548_stopMotor',
-                'actuators_dfr0548_stepper',
-                'actuators_dfr0548_stepperDual'
-            ]
+            "subCategoryId": "actuators_rekabit",
+            "contents": [{
+                "blocks": [
+                    'actuators_rekabit_runMotor',
+                    'actuators_rekabit_setServoPosition'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_AUDIO} (V2)",
-            "blocks": [
-                'microbit_audio_play',
-                'microbit_audio_stop'
-            ]
+            "subCategoryId": "actuators_microdriver",
+            "contents": [{
+                "blocks": [
+                    'actuators_dfr0548_setServoAngle',
+                    'actuators_dfr0548_runMotor',
+                    'actuators_dfr0548_stopMotor',
+                    'actuators_dfr0548_stepper',
+                    'actuators_dfr0548_stepperDual'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_MUSIC} (V2)",
-            "blocks": [
-                'actuators_playMusicGroveBuzzer',
-                'actuators_music_playSong',
-                'actuators_music_playNotes',
-                'actuators_music_playFrequency',
-                'actuators_music_stop',
-                'actuators_music_setVolume',
-                'actuators_music_setTempo'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_SPEECH} (V2)",
-            "blocks": [
-                'actuators_speech_saySomething'
-            ]
-        },
-        {
-            "label": "%{BKY_SUBCATEGORY_ACTUATORS_OTHER}",
-            "blocks": [
-                "actuators_setElectromagnetState",
-                "actuators_setWaterAtomizerState"
-            ]
+            "subCategoryId": "actuators_other",
+            "contents": [{
+                "blocks": [
+                    'actuators_setElectromagnetState',
+                    'actuators_setWaterAtomizerState'
+                ]
+            }]
         }
     ],
     "robots": [
@@ -900,7 +1472,8 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                     'robots_CutebotPro_defineSquare',
                     'robots_CutebotPro_runSquare',
                     'robots_CutebotPro_placeWithAngle',
-                    'robots_CutebotPro_turnWheel'
+                    'robots_CutebotPro_turnWheel',
+                    'robots_CutebotPro_computePD'
                 ]
             }, {
                 "label": "%{BKY_SUBCATEGORY_SERVOMOTORS}",
@@ -1273,36 +1846,42 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
     ],
     "tello": [
         {
-            "label": "%{BKY_SUBCATEGORY_TELLO}",
-            "blocks": [
-                'drone_init',
-                'tello_takeoff',
-                'tello_land',
-                'tello_emergency',
-                'tello_stop',
-            ]
+            "subCategoryId": "tello_tello",
+            "contents": [{
+                "blocks": [
+                    'drone_init',
+                    'tello_takeoff',
+                    'tello_land',
+                    'tello_emergency',
+                    'tello_stop'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_TELLO_SEND_COMMAND}",
-            "blocks": [
-                'tello_flip',
-                'tello_move_up_down',
-                'tello_move',
-                'tello_rectangle_form',
-                'tello_square_form',
-                'tello_rotate',
-                'tello_go',
-                'tello_stream_on',
-                'tello_stream_off',
-            ]
+            "subCategoryId": "tello_send",
+            "contents": [{
+                "blocks": [
+                    'tello_flip',
+                    'tello_move_up_down',
+                    'tello_move',
+                    'tello_rectangle_form',
+                    'tello_square_form',
+                    'tello_rotate',
+                    'tello_go',
+                    'tello_stream_on',
+                    'tello_stream_off'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_TELLO_READ}",
-            "blocks": [
-                'tello_speed',
-                'tello_battery',
-                'tello_flight_time',
-            ]
+            "subCategoryId": "tello_read",
+            "contents": [{
+                "blocks": [
+                    'tello_speed',
+                    'tello_battery',
+                    'tello_flight_time'
+                ]
+            }]
         }
     ],
     "ia": [
@@ -1319,6 +1898,20 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                         'vittaia_detect_class',
                     ]
                 },
+            ]
+        },
+        {
+            "subCategoryId": "voiceRecognition",
+            "contents": [
+                {
+                    "label": "%{BKY_SUBCATEGORY_VOICE_RECOGNITION}",
+                    "blocks": [
+                        "ia_voiceRecognition_setVolume",
+                        "ia_voiceRecognition_getCMDID",
+                        "ia_voiceRecognition_onCommand",
+                        "ia_voiceRecognition_playByCMDID"
+                    ]
+                }
             ]
         },
         {
@@ -1403,78 +1996,138 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
     ],
     "math": [
         {
-            "blocks": [
-                'math_number',
-                'math_arithmetic-add',
-                'math_single',
-                'math_trig',
-                'math_constant',
-                'math_number_property',
-                'math_map',
-                'math_round',
-                'math_round_ndigits',
-                'math_modulo',
-                'math_constrain',
-                'math_random_int',
-                'math_random_float',
-                'math_atan2',
-                'math_RSA_generate_keys',
-                'math_RSA_cipher_message',
-                'math_RSA_decipher_message'
-            ]
+            "subCategoryId": "math_calculations",
+            "contents": [{
+                "blocks": [
+                    'math_number',
+                    'math_arithmetic-add',
+                    'math_single',
+                    'math_trig',
+                    'math_constant',
+                    'math_number_property',
+                    'math_modulo',
+                    'math_atan2'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "math_rounding",
+            "contents": [{
+                "blocks": [
+                    'math_map',
+                    'math_round',
+                    'math_round_ndigits',
+                    'math_constrain'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "math_random",
+            "contents": [{
+                "blocks": [
+                    'math_random_int',
+                    'math_random_float'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "math_encryption",
+            "contents": [{
+                "blocks": [
+                    'math_RSA_generate_keys',
+                    'math_RSA_cipher_message',
+                    'math_RSA_decipher_message'
+                ]
+            }]
         }
     ],
     "text": [
         {
-            "blocks": [
-                'text_comment',
-                'text',
-                'text_join',
-                'text_newline',
-                'text_append',
-                'text_split',
-                'text_length',
-                'text_isEmpty',
-                'text_includesSubstr',
-                'text_indexOf',
-                'text_charAt',
-                'text_getSubstring',
-                'text_count_characters',
-                'text_changeCase',
-                'text_trim',
-                'text_count',
-                'text_replace',
-                'text_reverse',
-                'text_random_string'
-            ]
+            "subCategoryId": "text_create",
+            "contents": [{
+                "blocks": [
+                    'text_comment',
+                    'text',
+                    'text_join',
+                    'text_newline',
+                    'text_append'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_ENCRYPTION}",
-            "blocks": [
-                'text_caesar_cipher',
-                'text_caesar_cipher_brute_force'
-            ],
+            "subCategoryId": "text_search",
+            "contents": [{
+                "blocks": [
+                    'text_length',
+                    'text_isEmpty',
+                    'text_includesSubstr',
+                    'text_indexOf',
+                    'text_charAt',
+                    'text_count_characters',
+                    'text_count'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "text_transform",
+            "contents": [{
+                "blocks": [
+                    'text_split',
+                    'text_getSubstring',
+                    'text_changeCase',
+                    'text_trim',
+                    'text_replace',
+                    'text_reverse',
+                    'text_random_string'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "text_encryption",
+            "contents": [{
+                "blocks": [
+                    'text_caesar_cipher',
+                    'text_caesar_cipher_brute_force'
+                ]
+            }]
         }
     ],
     "variables": "customized",
     "lists": [
         {
-            "blocks": [
-                'lists_create_with-0',
-                'lists_create_with',
-                'lists_repeat',
-                'lists_length',
-                'lists_isEmpty',
-                'math_on_list',
-                'lists_reverse',
-                'lists_indexOf',
-                'lists_getIndex',
-                'lists_append',
-                'lists_setIndex',
-                'lists_getSublist',
-                'lists_split',
-                'lists_sort'
-            ]
+            "subCategoryId": "lists_create",
+            "contents": [{
+                "blocks": [
+                    'lists_create_with-0',
+                    'lists_create_with',
+                    'lists_repeat',
+                    'lists_split'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "lists_read",
+            "contents": [{
+                "blocks": [
+                    'lists_length',
+                    'lists_isEmpty',
+                    'math_on_list',
+                    'lists_indexOf',
+                    'lists_getIndex',
+                    'lists_getSublist'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "lists_modify",
+            "contents": [{
+                "blocks": [
+                    'lists_reverse',
+                    'lists_append',
+                    'lists_setIndex',
+                    'lists_sort'
+                ]
+            }]
         }
     ],
     "procedures": "customized",

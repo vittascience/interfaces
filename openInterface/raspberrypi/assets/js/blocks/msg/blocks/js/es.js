@@ -253,7 +253,7 @@ Blockly.Msg["ACTUATORS_MUSIC_PLAY_FREQUENCY_TITLE"] = "[Zumbador/Altavoz] reprod
 Blockly.Msg["ACTUATORS_MUSIC_PLAY_FREQUENCY_TOOLTIP"] = IMG_MODULE_BUZZER_SPEAKER + Blockly.Tooltip.SEP + "Permite reproducir una frecuencia (valor entero) en el módulo Grove zumbador (o altavoz) en pines digitales.";
 Blockly.Msg["ACTUATORS_MUSIC_STOP_TITLE"] = "[Zumbador/Altavoz] parar música en %1";
 Blockly.Msg["ACTUATORS_MUSIC_STOP_TOOLTIP"] = IMG_MODULE_BUZZER_SPEAKER + Blockly.Tooltip.SEP + "Permite detener la música del módulo Grove zumbador (o altavoz) en pines digitales.";
-Blockly.Msg['NETWORK_GET_PI_NAME_TITLE'] = "[Raspberry Pi server] hostname %1";
+Blockly.Msg['NETWORK_GET_PI_NAME_TITLE'] = "[servidor Raspberry Pi] nombre de host %1";
 Blockly.Msg['NETWORK_GET_PI_NAME_TOOLTIP'] = 'Permite a la interfaz obtener el nombre de tu placa Raspberry Pi y configurar las instrucciones de instalación del Raspberry Pi OS. También establece el vínculo con el servidor Python que se ejecuta en la placa para comunicarse con la interfaz.';
 Blockly.Msg['ROBOTS_GO_FORWARD'] = 'avanzar';
 Blockly.Msg['ROBOTS_GO_BACKWARD'] = 'retroceder';
@@ -291,4 +291,4 @@ Blockly.Msg['ROBOTS_YAHBOOM_CAMERA_SETANGLE_PAN_TOOLTIP'] = IMG_ROBOT_YAHBOOM_G1
 Blockly.Msg['ROBOTS_YAHBOOM_CAMERA_SETANGLE_TILT_TITLE'] = '[Servomotores de cámara] controlar el ángulo TILT a %1 (°)';
 Blockly.Msg['ROBOTS_YAHBOOM_CAMERA_SETANGLE_TILT_TOOLTIP'] = IMG_ROBOT_YAHBOOM_G1TANK + Blockly.Tooltip.SEP + 'Permite controlar el ángulo (TILT - vertical) del servomotor del módulo de cámara USB (de 0 a 180) del robot Yahboom G1 Tank.';
 Blockly.Msg['IO_SETPINMODE_TITLE'] = 'aplicar el modo %1 al pin %2';
-Blockly.Msg['IO_SETPINMODE_TOOLTIP'] = 'Blockly.Msg[\'IO_SETPINMODE_TOOLTIP\'] = \'Aplicar el modo (PUD_OFF, PUD_DOWN, PUD_UP) a un pin.\';';
+Blockly.Msg['IO_SETPINMODE_TOOLTIP'] = 'Aplicar el modo (PUD_OFF, PUD_DOWN, PUD_UP) a un pin.';

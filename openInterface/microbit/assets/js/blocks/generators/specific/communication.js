@@ -451,30 +451,3 @@ Blockly.Python.communication_i2c_write = function (block) {
     if (repeat) repeat = ", repeat=" + repeat;
     return "i2c.write(" + addr + ", bytes(" + buf  + ")" + repeat + ")" + NEWLINE;
 };
-
-// VOICE RECOGNITION _ SET VOLUME
-Blockly.Python.communication_voiceRecognition_setVolume = function (block) {
-    const volume = Blockly.Python.valueToCode(block, "VOLUME", Blockly.Python.ORDER_NONE) || "4";
-    Blockly.Python.addImport('voiceRecognition', IMPORT_VOICE_RECOGNITION);
-    return "voiceRecognition.setVolume(" + volume + ")" + NEWLINE;
-};
-
-// VOICE RECOGNITION _ GET COMMAND ID
-Blockly.Python.communication_voiceRecognition_getCMDID = function (block) {
-    Blockly.Python.addImport('voiceRecognition', IMPORT_VOICE_RECOGNITION);
-    return ["voiceRecognition.getCMDID()", Blockly.Python.ORDER_ATOMIC];
-};
-
-// VOICE RECOGNITION _ ON FIXED COMMAND
-Blockly.Python.communication_voiceRecognition_onCommand = function (block) {
-    const branchCode = Blockly.Python.statementToCode(block, "DO") || Blockly.Python.PASS;
-    Blockly.Python.addImport('voiceRecognition', IMPORT_VOICE_RECOGNITION);
-    return "if voiceRecognition.isCommand(" + block.getFieldValue("ID") + "):" + NEWLINE + branchCode;
-};
-
-// VOICE RECOGNITION _ PLAY BY COMMAND ID
-Blockly.Python.communication_voiceRecognition_playByCMDID = function (block) {
-    const id = Blockly.Python.valueToCode(block, "ID", Blockly.Python.ORDER_NONE) || "22";
-    Blockly.Python.addImport('voiceRecognition', IMPORT_VOICE_RECOGNITION);
-    return "voiceRecognition.playByCMDID(" + id + ")" + NEWLINE;
-};

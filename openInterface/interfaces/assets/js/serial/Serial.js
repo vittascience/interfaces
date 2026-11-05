@@ -239,7 +239,9 @@ class Serial {
     async* _loop_reader(callback) {
         while (this.port && this.port.readable !== null && !this.port.readable.locked && !this.hasToClose) {
             const decoder = new TextDecoderStream();
-            this.readableStreamClosed = this.port.readable.pipeTo(decoder.writable);
+            // Rejected when the reading is canceled (reader.cancel(), e.g. after the micro:bit firmware check): expected,
+            // the read errors are handled below
+            this.readableStreamClosed = this.port.readable.pipeTo(decoder.writable).catch(() => { });
             this.reader = decoder.readable.getReader();
             try {
                 while (true) {

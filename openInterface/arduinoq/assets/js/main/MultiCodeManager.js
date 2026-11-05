@@ -57,7 +57,9 @@ class MultiCodeManager extends CodeManager {
 
     static _multiRootBlocks = {
         cpp: ['cpp_on_start', 'cpp_forever', 'cpp_on_start_forever', 'cpp_scratch_on_start', 'cpp_procedures_defreturn', 'cpp_procedures_defnoreturn', 'io_attachInterrupt'],
-        py: ['py_on_start', 'py_forever', 'py_scratch_on_start', 'py_procedures_defreturn', 'py_procedures_defnoreturn', 'bricks_webui_on_message'],
+        py: ['py_on_start', 'py_forever', 'py_scratch_on_start', 'py_procedures_defreturn', 'py_procedures_defnoreturn', 'bricks_webui_on_message',
+            'bricks_code_on_read', 'bricks_object_on_detect', 'bricks_telegram_on_message', 'bricks_telegram_on_command',
+            'bricks_keyword_on_heard', 'bricks_mqtt_on_message', 'bricks_cloud_on_change', 'bricks_llm_tool'],
         html: ['html_page']
     };
 
@@ -225,9 +227,26 @@ class MultiCodeManager extends CodeManager {
                 if (usesHtml && !/WebUI\(\)/.test(code)) {
                     code += '\n\nfrom arduino.app_bricks.web_ui import WebUI\nui = WebUI()';
                 }
+                // Video of the camera of the page (html_camera_video): MJPEG stream of the WebUI brick on /camera,
+                // with the image settings of the camera blocks when the program has some
+                // Code added for the page, before an App.run() or a forever loop of the program (they never return)
+                const beforeRun = (extra) => {
+                    code = /^(App\.run\(|while True:)/m.test(code) ? code.replace(/^(App\.run\(|while True:)/m, extra + '\n$1') : code + '\n' + extra;
+                };
+                const usesHtmlBlock = (type) => usesHtml && this._workspace.getBlocksByType(type, false).some(block => block.isEnabled());
+                if (usesHtmlBlock('html_camera_video')) {
+                    beforeRun('from arduino.app_peripherals.camera import Camera\n' +
+                        (/def adjust_camera_image\(/.test(code) ? "ui.expose_camera('/camera', Camera(adjustments=adjust_camera_image))" : "ui.expose_camera('/camera', Camera())"));
+                }
+                // Chat of the page with the local AI (html_llm_chat): questions and streamed answers by the WebUI brick
+                if (usesHtmlBlock('html_llm_chat')) {
+                    const llm = /def local_llm_ask\(/.test(code) ? '' : IMPORT_BRICK_LLM + '\n' + FUNCTIONS_ARDUINO_Q.py.DEF_LOCAL_LLM + '\n';
+                    beforeRun(llm + FUNCTIONS_ARDUINO_Q.py.DEF_LOCAL_LLM_WEB_CHAT + "\nui.on_message('vitta_llm_chat', local_llm_web_chat)");
+                }
                 // Without App.run() (or a top-level forever loop) the script ends right after Bridge.provide()
                 // and the bridge dies with it; bricks such as WebUI are also only started by App.run()
-                if (/Bridge\.provide\(|WebUI\(\)/.test(code) && !/App\.run\(/.test(code) && !/^while True:/m.test(code)) {
+                // Bricks started by App.start_brick() (QR codes, objects, Telegram...) also stop with the script
+                if (/Bridge\.provide\(|WebUI\(\)|App\.start_brick\(/.test(code) && !/App\.run\(/.test(code) && !/^while True:/m.test(code)) {
                     if (!/from arduino\.app_utils import/.test(code)) {
                         code += '\nfrom arduino.app_utils import *';
                     }
@@ -239,8 +258,16 @@ class MultiCodeManager extends CodeManager {
                 code = code.replace(/\bSerial\b/g, 'Monitor');
             }
             this._generatedFiles[section.filename] = code;
+        });
 
-            if (code.trim()) sections.push(this.wrapGeneratedSection(language, code));
+        // AI sensor models (Python, VittaTF.read_sensors): the sketch gives the A0/A1 readings through the Bridge
+        if (/\.read_sensors\(/.test(this._generatedFiles['main.py'])) {
+            this._generatedFiles['sketch.ino'] = this.addSensorBridge(this._generatedFiles['sketch.ino']);
+        }
+        Object.keys(this._multiGenerators).forEach(language => {
+            const section = this._multiSections[language];
+            const code = section ? this._generatedFiles[section.filename] : '';
+            if (code && code.trim()) sections.push(this.wrapGeneratedSection(language, code));
         });
 
         if (activeLanguage && this._multiSections[activeLanguage]) {
@@ -248,6 +275,25 @@ class MultiCodeManager extends CodeManager {
         }
 
         return sections.join('\n\n');
+    }
+
+    /**
+     * Sketch with the vitta_read_analog Bridge function (A0 or A1 reading), called by VittaTF.read_sensors.
+     * @param {string} sketch generated sketch (may be empty)
+     * @returns {string}
+     */
+    addSensorBridge(sketch) {
+        if (/vitta_read_analog/.test(sketch)) return sketch;
+        const provide = '\n  Bridge.provide("vitta_read_analog", vitta_read_analog);';
+        const read = "// AI sensor model: A0 (pin 0) or A1 (pin 1) reading, for the Python program\n" +
+            "int vitta_read_analog(int pin) {\n  return analogRead(pin == 1 ? A1 : A0);\n}\n\n";
+        if (!/void setup\(\)\s*\{/.test(sketch)) {
+            sketch = (sketch.trim() ? sketch.trimEnd() + "\n\n" : "") + "void setup() {\n}\n\nvoid loop() {\n}";
+        }
+        // Provided once the Bridge is started
+        sketch = sketch.replace(/void setup\(\)\s*\{/, match => read + match + (/Bridge\.begin\(\);/.test(sketch) ? "" : "\n  Bridge.begin();" + provide));
+        sketch = sketch.replace(/Bridge\.begin\(\);(?!\s*Bridge\.provide\("vitta_read_analog")/, match => match + provide);
+        return /#include <Arduino_RouterBridge\.h>/.test(sketch) ? sketch : INCLUDE_ARDUINO_ROUTER_BRIDGE + "\n" + sketch;
     }
 
     generateLanguageFromCurrentWorkspace(language, generator) {

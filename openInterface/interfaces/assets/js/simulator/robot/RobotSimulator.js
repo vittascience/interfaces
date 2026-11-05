@@ -224,9 +224,13 @@ const RobotSimulator = {
     if (document.querySelector('#robot-sim-container') === null) {
       this.addRobotSimulatorToDom();
     }
+    // Every image drawn on this canvas must be CORS-enabled (CDN in production): a single cross-origin
+    // one taints it until the next frame, and the screenshot/recording (Recorder.js) then throws.
+    this.img.blinker.crossOrigin = 'Anonymous';
+    this.Obstacle.trash.img.crossOrigin = 'Anonymous';
+    this.img.background.crossOrigin = 'Anonymous';
     this.img.blinker.src = this.PATH_MEDIA + "/loupiotte.png";
     this.Obstacle.trash.img.src = this.PATH_MEDIA + "/delete.svg";
-    this.img.background.crossOrigin = 'Anonymous';
     this.canvas = document.querySelector("#robot-sim");
     this.width = {
       px: this.Track.WIDTH_PX,
@@ -314,31 +318,31 @@ const RobotSimulator = {
                 -->
                 <button id="robot-background-button" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.robot.background" 
                         data-toggle="tooltip" data-placement="top" title="Background">
-                    <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-img.svg" alt="Image icon">
+                    <img src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-img.svg" alt="Image icon">
                 </button>
                 <button id="obstacles-button" class="btn oi-btn-simulator obstacle_button" data-i18n="[title]code.simulator.buttons.robot.obstacle" 
                         data-toggle="tooltip" data-placement="top" title="Obstacles">
-                    <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-bloc.svg" alt="Block icon">
+                    <img src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-bloc.svg" alt="Block icon">
                 </button>
             </div>
             <div class="ms-3 btn-group oi-btn-group-simulator oi-option-activated">
                 <button id="graph-zoom-out" class="btn oi-btn-simulator zoom_out_button" data-i18n="[title]code.simulator.buttons.robot.zoomout" 
                         data-toggle="tooltip" data-placement="top" title="Zoom out" onclick="RobotSimulator.zoomOut()">
-                    <img src="/openInterface/interfaces/assets/media/simulator/robot/buttons/icon-less.svg" alt="Zoom out icon">
+                    <img src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/robot/buttons/icon-less.svg" alt="Zoom out icon">
                 </button>
                 <button id="graph-zoom-in" class="btn oi-btn-simulator zoom_in_button" data-i18n="[title]code.simulator.buttons.robot.zoomin" 
                         data-toggle="tooltip" data-placement="top" title="Zoom in" onclick="RobotSimulator.zoomIn()">
-                    <img src="/openInterface/interfaces/assets/media/simulator/robot/buttons/icon-add.svg" alt="Zoom in icon">
+                    <img src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/robot/buttons/icon-add.svg" alt="Zoom in icon">
                 </button>
             </div>
             <div class="ms-3 btn-group oi-btn-group-simulator oi-option-activated">
                 <button id="graph-control" class="btn oi-btn-simulator graph_control_button" data-i18n="[title]code.simulator.buttons.robot.graph" 
                         data-toggle="tooltip" data-placement="top" title="Graph control" onclick="RobotSimulator.toggleGraphDisplay()">
-                    <img src="/openInterface/interfaces/assets/media/simulator/robot/buttons/icon-orthonormal.svg" alt="Graph icon">
+                    <img src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/robot/buttons/icon-orthonormal.svg" alt="Graph icon">
                 </button>
                 <button id="pen-control" class="btn oi-btn-simulator pen_control_button" data-i18n="[title]code.simulator.buttons.robot.pen" 
                         data-toggle="tooltip" data-placement="top" title="Pen control" onclick="RobotSimulator.togglePenWriting()">
-                    <img src="/openInterface/interfaces/assets/media/simulator/robot/buttons/icon-write.svg" alt="Pen icon">
+                    <img src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/robot/buttons/icon-write.svg" alt="Pen icon">
                 </button>
                 <button id="control-dropdown" class="btn oi-btn-simulator control_dropdown_button oi-btn-simulator-narrow" data-i18n="[title]code.simulator.buttons.robot.controls;[aria-label]code.simulator.buttons.robot.controls"
                         data-toggle="tooltip" data-placement="top" title="Controls" aria-label="Controls" onclick="RobotSimulator.toggleControlsDropdown()">
@@ -413,11 +417,11 @@ const RobotSimulator = {
             <div class="ms-3 btn-group oi-btn-group-simulator oi-option-activated">
                 <button id="screenshot-button" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.robot.screenshot" 
                         data-toggle="tooltip" data-placement="top" title="Screenshot" onclick="RobotSimulator.getScreenshot()">
-                    <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-photo.svg" alt="Photo icon">
+                    <img src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-photo.svg" alt="Photo icon">
                 </button>
                 <button id="robot-simulator-record" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.robot.record" 
                         data-toggle="tooltip" data-placement="top" title="Record" onclick="RobotSimulator.recordVideo()">
-                    <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-rec.svg" alt="Record icon" style="width: 80%;">
+                    <img src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-rec.svg" alt="Record icon" style="width: 80%;">
                 </button>
             </div>
         </div>
@@ -552,6 +556,7 @@ const RobotSimulator = {
         height: robot_width_px * this.robot.RATIO
       };
       const robotImage = new Image();
+      robotImage.crossOrigin = 'Anonymous';
       robotImage.src = this.robot.IMG_LINK;
       this.robot.image = robotImage;
       this.robot.image.width = this.robot.size.width;
@@ -1701,12 +1706,14 @@ const RobotSimulator = {
 
   newRobotImage: function (src, shadow) {
     let robotImage = new Image();
+    robotImage.crossOrigin = 'Anonymous';
     robotImage.src = src;
     this.robot.image = robotImage;
     this.robot.image.width = this.robot.size.width;
     this.robot.image.height = this.robot.size.height;
     if (shadow) {
       let robotShadowImage = new Image();
+      robotShadowImage.crossOrigin = 'Anonymous';
       robotShadowImage.src = shadow;
       this.robot.shadow = robotShadowImage;
       this.robot.shadow.width = this.robot.size.width;

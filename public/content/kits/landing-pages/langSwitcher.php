@@ -4,7 +4,9 @@
     <div class="row">
 
         <?php
-    $hostNameArray = explode(".", $_SERVER['HTTP_HOST']);
+    require_once __DIR__ . '/../../../appEnv.php';
+    // Language subdomains only exist on production / preprod: elsewhere (local, test servers, IP) switch in place
+    ['baseDomain' => $langBaseDomain] = detectAppEnv();
 
     foreach ($langsAvailable as $langFlag) {
         $currentLangClass = "";
@@ -13,7 +15,7 @@
             $currentLangClass = "active";
         }
 
-        if (count($hostNameArray) === 1 || filter_var($_SERVER['HTTP_HOST'], FILTER_VALIDATE_IP) || in_array($hostNameArray[0], ['vdelta', 'valpha', 'vbeta', 'vgamma', "vdelta" ,"vepsilon", "vzeta", "veta", "vtheta" ,"viota" ,"vkappa",'vdev']) == 1) {
+        if ($langBaseDomain === null) {
             echo '<a href="#" class="'.$currentLangClass.'" onclick="switchLang(\'' . $langFlag['langcode'] . '\')">'.
                 $langFlag['name'].
             '</a>';
@@ -61,7 +63,7 @@
                     break;
             }
 
-            echo '<a href="https://' . $langFlag['langcode'] . '.vittascience.com' . $currentUri . '" class="'.$currentLangClass.'">'.
+            echo '<a href="https://' . $langFlag['langcode'] . '.' . $langBaseDomain . $currentUri . '" class="'.$currentLangClass.'">'.
                 $languageName.
             '</a>';
         }

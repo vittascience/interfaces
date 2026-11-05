@@ -371,6 +371,10 @@ h1 {
   vertical-align: text-top;
 }
 
+#project-is-saved.save-failed {
+  cursor: pointer;
+}
+
 #project-shared-status {
   margin-right: 10px;
   overflow: hidden;
@@ -574,9 +578,15 @@ h1 {
   border: 3px solid #0000;
 }
 
+/* square box centered on the glyph: the rotation keeps it in the middle of the bar */
 #connected-icon {
   color: var(--vitta-green);
-  padding: 8px;
+  width: 1.25em;
+  height: 1.25em;
+  line-height: 1.25em;
+  text-align: center;
+  margin: 0 8px;
+  align-self: center;
   transform: rotate(-90deg);
 }
 
@@ -1016,6 +1026,22 @@ body.buddy-app .oi-btn-simulator img {
     filter: brightness(0) invert(0.36);
 }
 
+/* Dark theme: the grey of the text, outline and arrow of the disabled blocks is light, not dark */
+.theme-dark .blocklyDisabled > .blocklyPath {
+    stroke: #c9ccd4 !important;
+}
+
+.theme-dark .blocklyDisabled > .blocklyText,
+.theme-dark .blocklyDisabled > g > .blocklyText,
+.theme-dark .blocklyDisabled > g > .blocklyText > tspan,
+.theme-dark .blocklyDisabled > .blocklyDropdownField > .blocklyText.blocklyDropdownText {
+    fill: #c9ccd4 !important;
+}
+
+.theme-dark .blocklyDisabled > .blocklyDropdownField > image + image {
+    filter: brightness(0) invert(0.82);
+}
+
 /* Blockly dialogs displayed as Vittascience modals (see vittascience_patches.js) */
 .blockly-vitta-dialog .vitta-modal-content {
     padding: 0.5rem 0;
@@ -1100,6 +1126,58 @@ body.buddy-app .oi-btn-simulator img {
     border-radius: 4px;
 }
 
+/* Grid dropdowns with a search input (field_search_dropdown): same look as the colour picker and the search inputs */
+.blocklyDropDownDiv:has(.blocklySearchDropdownInput) {
+    padding: 8px;
+    border-color: transparent !important;
+    border-radius: 10px;
+    background-color: var(--bg-1) !important;
+    filter: drop-shadow(0 0 3px var(--vitta-shadow-color));
+}
+
+.blocklyDropDownDiv:has(.blocklySearchDropdownInput) .blocklyDropDownArrow {
+    border-color: transparent !important;
+    background-color: var(--bg-1) !important;
+}
+
+.blocklySearchDropdownInput {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    box-sizing: border-box;
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    border: 1px solid var(--bg-4, #d5d5d5);
+    border-radius: 10px;
+    background: var(--bg-2, #f5f5f5);
+    color: var(--text-1);
+    font-family: var(--alt-font);
+}
+
+.blocklySearchDropdownInput:focus {
+    border-color: var(--vitta-green, #187a52);
+    outline: none;
+    box-shadow: 0 0 0 3px var(--vitta-green-focus-shadow, #187a5280);
+}
+
+.blocklyDropDownDiv:has(.blocklySearchDropdownInput) .blocklyFieldGridItem {
+    border: none;
+    border-radius: 8px;
+    background: var(--bg-2, #f5f5f5);
+    color: var(--text-1);
+    font-family: var(--alt-font);
+}
+
+.blocklyDropDownDiv:has(.blocklySearchDropdownInput) .blocklyFieldGridItem:hover {
+    background: var(--vitta-green-focus-shadow, #187a5280);
+}
+
+.blocklyDropDownDiv:has(.blocklySearchDropdownInput) .blocklyFieldGridItemSelected {
+    background: var(--vitta-green, #187a52);
+    color: #fff;
+}
+
 /* Comments of blocks and of the workspace */
 div.injectionDiv {
     --commentFillColour: var(--bg-1);
@@ -1178,8 +1256,8 @@ div.injectionDiv {
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  width: 140px;
-  padding: 10px;
+  width: min(140px, calc(50% - 4px)); /* side by side down to 320px wide screens */
+  padding: 8px;
   border: 2px solid transparent;
   border-radius: 12px;
   background-color: var(--bg-0);
@@ -1210,4 +1288,19 @@ div.injectionDiv {
   background: none;
   color: var(--text-1);
   text-decoration: underline;
+}
+
+/* Block dragged over the toolbox: it will be deleted on drop (Blockly adds .blocklyToolboxDelete), show an animated trash.
+   "!important": the toolbox background is set with "!important" (toolbox.css), the animation is in the SVG. */
+.blocklyToolbox.blocklyToolboxDelete {
+  background-color: rgba(229, 57, 53, 0.12) !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cstyle%3E%23t%7Btransform-origin:32px 40px;animation:p .8s ease-in-out infinite alternate%7D%23l%7Btransform-origin:10px 16px;animation:o .5s ease-in-out infinite alternate%7D@keyframes p%7Bto%7Btransform:scale(1.15)%7D%7D@keyframes o%7Bto%7Btransform:rotate(-28deg)%7D%7D@media (prefers-reduced-motion:reduce)%7B%23t,%23l%7Banimation:none%7D%7D%3C/style%3E%3Cg id='t' fill='none' stroke='%23e53935' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cg id='l'%3E%3Cpath d='M10 16h44'/%3E%3Cpath d='M26 16v-5h12v5'/%3E%3C/g%3E%3Cpath d='M15 22l3 33h28l3-33'/%3E%3Cpath d='M27 30v17M37 30v17'/%3E%3C/g%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: 50% calc(100% - 24px) !important; /* at the bottom: not under the dragged block */
+  background-size: 72px !important;
+  box-shadow: inset 0 0 0 3px rgba(229, 57, 53, 0.6);
+}
+
+.blocklyToolbox.blocklyToolboxDelete > .blocklyToolboxCategoryGroup {
+  opacity: 0.3;
 }

@@ -93,8 +93,8 @@ Blockly.Arduino.modulino_knob_set = function (block) {
     return objName + '.set(' + value + ');' + NEWLINE;
 };
 
-// MODULINO DISTANCE _ GET DISTANCE (mm)
-Blockly.Arduino.modulino_distance_get = function () {
+// MODULINO DISTANCE _ GET DISTANCE (cm / mm)
+Blockly.Arduino.modulino_distance_get = function (block) {
     Blockly.Arduino.Generators.setupModulino('ModulinoDistance');
     // A new measure is not always ready: keep the last one (global variable, also supported by the simulator)
     Blockly.Arduino.addDeclaration('modulino_lastDistance', 'float modulino_lastDistance = 0;');
@@ -105,7 +105,10 @@ Blockly.Arduino.modulino_distance_get = function () {
   }
   return modulino_lastDistance;
 }`);
-    return ['modulino_getDistance()', Blockly.Arduino.ORDER_ATOMIC];
+    if (block.getFieldValue('UNIT') === 'MM') {
+        return ['modulino_getDistance()', Blockly.Arduino.ORDER_ATOMIC];
+    }
+    return ['modulino_getDistance() / 10.0', Blockly.Arduino.ORDER_MULTIPLICATIVE];
 };
 
 // MODULINO MOVEMENT _ GET ACCELERATION (g) / ROTATION SPEED (°/s)

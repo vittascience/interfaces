@@ -604,3 +604,4 @@ Blockly.Msg["WIO_GET_STATUS_TOOLTIP"] = IMG_WIO_LITE_AI + Blockly.Tooltip.SEP + 
 Blockly.Msg["MATH_RSA_GENERATE_KEYS_HELPURL"] = "https://de.wikipedia.org/wiki/RSA";
 Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TITLE"] = "Funktion: %1";
 Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TOOLTIP"] = "Erhalten Sie die Funktionsreferenz, um sie als Argument an eine andere Funktion zu übergeben.";
+Blockly.Msg["PINS_DUPLICATE_WARNING"] = "Pin '%1' ist in diesem Block mehrfach ausgewählt.";

@@ -5,18 +5,20 @@
  * catalog (BLOCK_EXTENSIONS_CATALOG, defined by the interface). The project stores the ids in use.
  *
  * An extension is plain data: the blocks are defined from a declarative description and their Python code comes
- * from templates such as "ring.set({N}, {C})". Texts are either strings or { en, fr, ... } objects.
+ * from templates such as "ring.set({N}, {C})". Texts are either strings or { msg: KEY } objects, translated with
+ * Blockly.Msg[KEY]: the messages of an extension are in the Blockly msg files of its interface.
  * {
  *   "id": "ledring",
  *   "name": "LED ring",
- *   "description": { "en": "...", "fr": "..." },
+ *   "description": { "msg": "EXT_LEDRING_DESCRIPTION" },
  *   "image": "ledring.jpg",                      // in the interface media/extensions folder
  *   "colour": "#e67e22",
+ *   "tags": ["display", "lights"],               // catalog filters, see BlockExtensions.Panel.FILTERS
  *   "blocks": [{
  *     "name": "set_color",                       // the block type is ext_<id>_<name>: never rename it
  *     "kind": "statement",                       // statement | number | text | boolean | any
- *     "text": { "en": "set LED {N} to {C}" },     // {ARG} adds a parameter
- *     "args": [{ "name": "N", "type": "number", "default": "0" },   // number | text | boolean | dropdown
+ *     "text": { "msg": "EXT_LEDRING_BLOCKS_SET_COLOR" },        // "set LED {N} to {C}": {ARG} adds a parameter
+ *     "args": [{ "name": "N", "type": "number", "default": "0" },   // number | text | boolean | colour | dropdown
  *              { "name": "C", "type": "dropdown", "options": [["red", "(255, 0, 0)"], "pin0"] }],  // [label, code] or code
  *     "imports": "import ledring",               // one import per line
  *     "code": "ledring.set({N}, {C})"
@@ -31,10 +33,10 @@ const BlockExtensions = {
     _extensions: [],
     _loadedKey: null,
     _project: undefined,
-    _listenedWorkspace: null,
+    _listenedContainer: null,
 
     /**
-     * Translate a key of code.blockExtensions.
+     * Translate a key of code.blockExtensions (texts of the extensions panel, common to the interfaces).
      * @param {string} key
      * @param {Object} [params]
      * @returns {string}
@@ -44,16 +46,15 @@ const BlockExtensions = {
     },
 
     /**
-     * Replace the { en, fr, ... } texts of a value by the text of the current language (English by default).
+     * Replace the { msg: KEY } texts of a value by their translation in the current language (Blockly.Msg).
      * @param {*} value
-     * @param {string} [lang]
      * @returns {*}
      */
-    localize(value, lang = (typeof i18next !== 'undefined' && i18next.language || 'en').slice(0, 2)) {
-        if (Array.isArray(value)) return value.map(item => this.localize(item, lang));
+    localize(value) {
+        if (Array.isArray(value)) return value.map(item => this.localize(item));
         if (!value || typeof value !== 'object') return value;
-        if (typeof value.en === 'string') return value[lang] || value.en;
-        return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, this.localize(item, lang)]));
+        if (typeof value.msg === 'string') return Blockly.Msg[value.msg] ?? value.msg;
+        return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, this.localize(item)]));
     },
 
     /**
@@ -129,7 +130,7 @@ const BlockExtensions = {
      * @param {string} type
      */
     defineGenerator(block, type) {
-        const EMPTY_VALUES = { number: '0', text: "''", boolean: 'False' };
+        const EMPTY_VALUES = { number: '0', text: "''", boolean: 'False', colour: '(0, 0, 0)' };
         Blockly.Python[type] = (blockSvg) => {
             for (const line of (block.imports || '').split('\n').map(line => line.trim()).filter(Boolean)) {
                 Blockly.Python.addImport(line, line);
@@ -167,6 +168,8 @@ const BlockExtensions = {
                 return { type: 'math_number', fields: { NUM: Number(arg.default) || 0 } };
             case 'text':
                 return { type: 'text', fields: { TEXT: arg.default || '' } };
+            case 'colour': // the colour picker generates an (r, g, b) tuple, its input accepts any block
+                return { type: 'colour_picker', fields: { COLOUR: arg.default || '#ff0000' } };
             default:
                 return { type: 'logic_boolean', fields: { BOOL: 'TRUE' } };
         }
@@ -208,15 +211,39 @@ const BlockExtensions = {
      */
     syncFromProject() {
         const currentProject = this._getCurrentProject();
+        let option;
         if (currentProject) {
             if (currentProject === this._project) return;
             this._project = currentProject;
-            this.load(this.fromOption(currentProject.options && currentProject.options.extensions));
+            option = currentProject.options && currentProject.options.extensions;
         } else if (this._project === undefined) {
             this._project = null;
             const localProject = CodeManager.getSharedInstance().localStorageManager.getLocalProjectContent();
-            this.load(this.fromOption(localProject && localProject.options && localProject.options.extensions));
+            option = localProject && localProject.options && localProject.options.extensions;
+        } else {
+            return;
         }
+        this.load(this.fromOption({ ...option, ...this._takeUrlExtensions() }));
+    },
+
+    /**
+     * Get once the extensions of the URL parameter ?extension=id1,id2 (links of the programming page, e.g. TPBot robot),
+     * added to the first project loaded.
+     * @private
+     * @returns {Object} ids as { id: true }
+     */
+    _takeUrlExtensions() {
+        const param = this._urlExtensionsTaken ? null : $_GET('extension');
+        this._urlExtensionsTaken = true;
+        return param ? Object.fromEntries(param.split(',').map(id => [id, true])) : {};
+    },
+
+    /**
+     * Whether the extensions of the current project have been loaded (they can be written in its options).
+     * @returns {boolean}
+     */
+    isSynced() {
+        return this._project !== undefined;
     },
 
     /**
@@ -291,56 +318,110 @@ const BlockExtensions = {
     },
 
     /**
-     * Add a category per extension in use before the toolbox separator (at the end without separator), then the
-     * "Extensions" category at the end, which opens the catalog (called each time the toolbox is built).
+     * Get the extensions of the catalog matching a search, not in use yet.
+     * @param {string} keyword
+     * @returns {Array<Object>}
+     */
+    getSuggestions(keyword) {
+        if (!keyword.trim()) return [];
+        const used = new Set(this._extensions.map(ext => ext.id));
+        return this.getCatalog().filter(ext => !used.has(ext.id) && ToolboxManager.isMatchingText(
+            [ext.name, ext.description, ...ext.blocks.map(block => block.text.replace(this.PLACEHOLDER_REGEXP, ''))].join(' '), keyword));
+    },
+
+    /**
+     * Add an extension of the catalog to the project.
+     * @param {string} id
+     */
+    add(id) {
+        this.save(this.getCatalog().filter(ext => ext.id === id || this._extensions.some(used => used.id === ext.id)));
+    },
+
+    /**
+     * Add the "Extensions" category just before the toolbox separator (at the end without separator). Its first
+     * sub-category opens the catalog, then comes a sub-category per extension in use (called each time the toolbox
+     * is built).
      * @param {ToolboxManager} toolbox
      */
     pushToolbox(toolbox) {
         const content = toolbox._getToolboxTreeContent();
         const separatorIndex = content.findIndex(item => item.kind === 'sep');
-        const categories = this._extensions.map(ext => ({
+        // During a search: the matching blocks, and the extensions of the catalog to add.
+        const keyword = toolbox.keyword || '';
+        const searching = keyword.trim() !== '';
+        const extensions = this._extensions.map((ext) => {
+            const blocks = ext.blocks.filter(block => ToolboxManager.isMatchingBlock(this.getBlockType(ext, block), keyword, ext.name));
+            // An extension added from a search can match by its description only.
+            return { ext, blocks: blocks.length || !ToolboxManager.isMatchingText(ext.description, keyword) ? blocks : ext.blocks };
+        }).filter(({ blocks }) => !searching || blocks.length);
+        const suggestions = this.getSuggestions(keyword);
+        const manage = {
             kind: 'category',
-            toolboxitemid: 'ext_' + ext.id,
-            name: ext.name,
-            style: `ext_${ext.id}_category`,
-            cssConfig: { icon: 'icon_blockly fas fa-puzzle-piece' },
-            contents: ext.blocks.map(block => this.toToolboxItem(ext, block))
-        }));
-        content.splice(separatorIndex === -1 ? content.length : separatorIndex, 0, ...categories);
-        content.push({
+            toolboxitemid: 'block_extensions_manage',
+            name: this.t('manage'),
+            style: 'block_extensions_category',
+            cssConfig: { icon: 'icon_blockly fas fa-plus' },
+            contents: []
+        };
+        const category = {
             kind: 'category',
             toolboxitemid: 'block_extensions',
             name: this.t('category'),
             style: 'block_extensions_category',
-            cssConfig: { icon: 'icon_blockly fas fa-plus' },
-            contents: []
-        });
+            cssConfig: { icon: 'icon_blockly fas fa-puzzle-piece' },
+            contents: [...(searching ? [] : [manage]), ...extensions.map(({ ext, blocks }) => ({
+                kind: 'category',
+                toolboxitemid: 'ext_' + ext.id,
+                name: ext.name,
+                style: `ext_${ext.id}_category`,
+                cssConfig: { icon: 'icon_blockly fas fa-puzzle-piece' },
+                contents: blocks.map(block => this.toToolboxItem(ext, block))
+            })), ...suggestions.map(ext => ({
+                kind: 'category',
+                toolboxitemid: 'block_extensions_add_' + ext.id,
+                name: ext.name,
+                style: 'block_extensions_category',
+                cssConfig: { icon: 'icon_blockly fas fa-plus' },
+                contents: []
+            }))]
+        };
+        // Show the extensions in use right away.
+        if (extensions.length || suggestions.length) category.expanded = 'true';
+        if (category.contents.length) content.splice(separatorIndex === -1 ? content.length : separatorIndex, 0, category);
         // The toolbox colours its categories from their theme style, like the Vittascience categories.
         const styles = Object.fromEntries(this._extensions.map(ext => [`ext_${ext.id}_category`, { colour: ext.colour }]));
         styles.block_extensions_category = { colour: '#5b67a5' };
         for (const theme of Object.values(Blockly.Themes)) {
             if (theme.categoryStyles) Object.assign(theme.categoryStyles, styles);
         }
-        this._listenCatalogCategory(toolbox._workspace);
-        toolbox._updateToolbox();
+        this._listenManageCategory(toolbox._workspace);
     },
 
     /**
-     * Open the catalog instead of a flyout when the "Extensions" category is selected (mouse or keyboard).
+     * Open the catalog when the "Manage extensions" sub-category is clicked (or activated with the keyboard).
+     * The DOM event is listened instead of the toolbox selection: Blockly selects the last focused category again
+     * when the toolbox gets the focus back, which would open the catalog again after each close.
      * @private
      * @param {Blockly.WorkspaceSvg} workspace
      */
-    _listenCatalogCategory(workspace) {
-        if (this._listenedWorkspace === workspace) return;
-        this._listenedWorkspace = workspace;
-        workspace.addChangeListener((event) => {
-            if (event.type !== Blockly.Events.TOOLBOX_ITEM_SELECT) return;
-            // The event gives the category name (translated), the selected item gives its id.
-            const toolbox = workspace.getToolbox();
-            const item = toolbox && toolbox.getSelectedItem();
-            if (!item || item.getId() !== 'block_extensions') return;
-            toolbox.clearSelection();
-            this.Panel.open();
+    _listenManageCategory(workspace) {
+        const container = workspace.getInjectionDiv();
+        if (this._listenedContainer === container) return;
+        this._listenedContainer = container;
+        const open = (event) => {
+            const item = event.target.closest && event.target.closest('[id="block_extensions_manage"], [id^="block_extensions_add_"]');
+            if (!item) return;
+            // After Blockly has handled the click (selection of the empty category).
+            setTimeout(() => {
+                const toolbox = workspace.getToolbox();
+                if (toolbox) toolbox.clearSelection();
+                if (item.id === 'block_extensions_manage') this.Panel.open();
+                else this.add(item.id.replace('block_extensions_add_', ''));
+            });
+        };
+        container.addEventListener('click', open);
+        container.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') open(event);
         });
     }
 };
@@ -349,7 +430,10 @@ const BlockExtensions = {
  * Catalog panel: search the extensions and add them to (or remove them from) the project.
  */
 BlockExtensions.Panel = {
+    // Filters shown when an extension of the catalog has the tag (label: code.blockExtensions.filters.<tag>).
+    FILTERS: ['model', 'robotics', 'display', 'lights', 'sensors', 'actuators', 'ai', 'games', 'communication'],
     _dialog: null,
+    _filter: 'all',
 
     /**
      * Create an element.
@@ -379,6 +463,7 @@ BlockExtensions.Panel = {
     open() {
         if (!this._dialog) this._createDialog();
         this._search.value = '';
+        this._filter = 'all';
         this._render();
         this._dialog.showModal();
     },
@@ -393,6 +478,7 @@ BlockExtensions.Panel = {
             type: 'search', className: 'bext-search-input', placeholder: t('search'), ariaLabel: t('search'),
             on: { input: () => this._render() }
         });
+        this._filters = this._el('div', { className: 'bext-filters', role: 'group', ariaLabel: t('filter') });
         this._grid = this._el('div', { className: 'bext-grid' });
         this._dialog = this._el('dialog', { className: 'bext-dialog', ariaLabel: t('title') }, [
             this._el('header', { className: 'bext-header' }, [
@@ -404,6 +490,7 @@ BlockExtensions.Panel = {
             ]),
             this._el('p', { className: 'bext-note', textContent: t('note') }),
             this._el('label', { className: 'bext-search' }, [this._search, this._el('i', { className: 'fas fa-search', ariaHidden: 'true' })]),
+            this._filters,
             this._grid
         ]);
         document.body.appendChild(this._dialog);
@@ -417,8 +504,16 @@ BlockExtensions.Panel = {
         const simplify = (text) => text.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
         const search = simplify(this._search.value.trim());
         const used = new Set(BlockExtensions.getExtensions().map(ext => ext.id));
-        const extensions = BlockExtensions.getCatalog().filter(ext => simplify(ext.name + ' ' + ext.description).includes(search));
-        const media = `${CDN_PATH}/openInterface/${INTERFACE_NAME}/assets/media/extensions/`;
+        const catalog = BlockExtensions.getCatalog();
+        const tags = ['all', ...this.FILTERS.filter(tag => catalog.some(ext => (ext.tags || []).includes(tag)))];
+        this._filters.replaceChildren(...tags.map(tag => this._el('button', {
+            type: 'button', className: 'bext-filter', ariaPressed: String(tag === this._filter), dataset: { tag },
+            textContent: BlockExtensions.t('filters.' + tag),
+            on: { click: () => { this._filter = tag; this._render(); } }
+        })));
+        const extensions = catalog.filter(ext => (this._filter === 'all' || (ext.tags || []).includes(this._filter))
+            && simplify(ext.name + ' ' + ext.description).includes(search));
+        const media = `${_PATH}/${INTERFACE_NAME}/assets/media/extensions/`;
         this._grid.replaceChildren(...extensions.map(ext => this._el('button', {
             type: 'button', className: 'bext-card', ariaPressed: String(used.has(ext.id)), dataset: { id: ext.id },
             on: { click: () => this._toggle(ext.id) }

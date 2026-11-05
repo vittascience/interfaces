@@ -1,4 +1,6 @@
 function failedToLoad() {
+    // the loader (z-index above) would hide the Retry message / incompatible browser modal
+    $("#index-loader").hide();
     if (navigator.navigatorIncompatible) return;
     $.blockUI({
         css: {

@@ -80,12 +80,43 @@ switch (INTERFACE_NAME) {
 	case 'raspberrypi':
 		pythonFunctions = typeof FUNCTIONS_RASPBERRY !== 'undefined' ? FUNCTIONS_RASPBERRY : {};
 		break;
+	case 'unihiker':
+		// UNIHIKER K10: helpers and initializations of its generators (blocks/generators/specific/k10.js)
+		pythonFunctions = typeof FUNCTIONS_UNIHIKER !== 'undefined'
+			? { ...FUNCTIONS_UNIHIKER, ...FUNCTIONS_UNIHIKER_MODULES, ...(typeof FUNCTIONS_UNIHIKER_K10 !== 'undefined' ? FUNCTIONS_UNIHIKER_K10 : {}) } : {};
+		break;
 	case 'winky':
 		pythonFunctions = typeof FUNCTIONS_WINKY !== 'undefined' ? FUNCTIONS_WINKY : {};
 		break;
 	default:
 		pythonFunctions = {};
 		break;
+}
+
+/**
+ * Top level parts of the helper functions of the blocks: an helper may hold several definitions and the module variables
+ * they use (ex: "screen_texts = {}" before "def screen_text"). Each definition is recognized alone, and a module statement
+ * is left out when a definition of the same helper is in the program. Code without spaces (utils.rmSpaces), built once.
+ * @returns {{definitions: Set<string>, statements: Map<string, string[]>}}
+ */
+let helperParts = null;
+function getHelperParts() {
+	if (helperParts) return helperParts;
+	helperParts = { definitions: new Set(), statements: new Map() };
+	for (const helper of Object.values(pythonFunctions)) {
+		if (typeof helper !== 'string') continue;
+		const parts = [];
+		for (const line of helper.split('\n')) {
+			if (/^\S/.test(line) || parts.length === 0) parts.push(line);
+			else parts[parts.length - 1] += '\n' + line;
+		}
+		const definitions = parts.filter((part) => /^(def|async def|@)\s?/.test(part)).map((part) => utils.rmSpaces(part));
+		definitions.forEach((definition) => helperParts.definitions.add(definition));
+		parts.filter((part) => part.trim() && !/^(def|async def|@|#)/.test(part)).forEach((part) => {
+			helperParts.statements.set(utils.rmSpaces(part), definitions);
+		});
+	}
+	return helperParts;
 }
 
 /**
@@ -140,7 +171,8 @@ export default class Python2Blocks {
 			return Python2Blocks.instance;
 		}
 
-		this.Parser = window.TreeSitter;
+		this.Parser = null;
+		this.initPromise = null;
 		this.workspace = null;
 		this.initialized = false;
 		this.declarationEntities = [];
@@ -173,8 +205,6 @@ export default class Python2Blocks {
 		this.blocksArray = {};
 		this.modifiedColorBlocks = [];
 		this.debug = false;
-		this.previousXml = [];
-		this.indexPreviousXml = null;
 
 		Python2Blocks.instance = this;
 	}
@@ -194,11 +224,21 @@ export default class Python2Blocks {
 
 	/**
 	 * Initialize the parser (Tree-sitter with the corresponding language)
-	 * @description The parser is initialized asynchronously in ProjectManager in _setupPythonInterfaceParameters(). The function will wait until the parser is initialized
+	 * @description Loaded on demand at the first manual edit of the code (Main.js Code.loadCode2Blocks) or before a translation
 	 * @returns {Promise<void>}
 	 **/
-	async initParser() {
+	initParser() {
+		// tree-sitter is loaded on demand (first manual edit of the code): memoized, retried after a failure
+		if (!this.initPromise) {
+			this.initPromise = this.loadParser().catch((error) => {
+				this.initPromise = null;
+				throw error;
+			});
+		}
+		return this.initPromise;
+	}
 
+	async loadParser() {
 		//hide popup if in debug mode
 		if (this.debug) {
 			const popUpContainer = document.getElementById('popup-container');
@@ -207,35 +247,29 @@ export default class Python2Blocks {
 			}
 		}
 
-		return new Promise(async (resolve, reject) => {
-			const workspace = Blockly.getMainWorkspace();
-			if (workspace === null) {
-				setTimeout(() => {
-					this.initParser();
-				}, 100);
-			} else {
-				this.workspace = workspace;
-				this.codeManager = CodeManager.getSharedInstance();
-				await this.Parser.init();
-				this.parserTS = new this.Parser();
-				const Lang = await this.Parser.Language.load('/openInterface/interfaces/assets/js/external/tree-sitter/tree-sitter-python.wasm');
-				this.parserTS.setLanguage(Lang);
-				this.debug && console.log('Python2Blocks initialized');
-				this.initialized = true;
-				this.interface_specific = { ...utils.SPECIFIC_INIT };
-				// worst way to access python2Blocks in the utils file (circular dependency) => need to find a better way
-				utils.python2Blocks = this;
-				// retreive all blocks from the toolbox and warn the user if a block is not included for translation
-				this.retreive_all_blocks();
-				resolve();
-			}
-		});
+		while (!Blockly.getMainWorkspace()) await new Promise((resolve) => setTimeout(resolve, 100));
+		if (typeof window.TreeSitter === 'undefined') {
+			// id different from the global name (an element id shadows window.TreeSitter while the script loads)
+			await Loader.loadScripts([{ id: 'treesitter_lib', src: `${CDN_PATH}/openInterface/interfaces/assets/js/external/tree-sitter/tree-sitter.js` }]);
+		}
+		this.Parser = window.TreeSitter;
+		this.workspace = Blockly.getMainWorkspace();
+		this.codeManager = CodeManager.getSharedInstance();
+		await this.Parser.init();
+		this.parserTS = new this.Parser();
+		const Lang = await this.Parser.Language.load(`${CDN_PATH}/openInterface/interfaces/assets/js/external/tree-sitter/tree-sitter-python.wasm`);
+		this.parserTS.setLanguage(Lang);
+		this.debug && console.log('Python2Blocks initialized');
+		this.interface_specific = { ...utils.SPECIFIC_INIT };
+		utils.python2Blocks = this;
+		await this.retreive_all_blocks();
+		this.initialized = true;
 	}
 
 	/**
 	 * Retrieve all blocks from the toolbox and add the ones that are not in the authorized blocks to the excluded blocks for traduction
 	 */
-	retreive_all_blocks = () => {
+	retreive_all_blocks = async () => {
 		const toolboxContent = Main.getToolboxManager().getToolboxBase().content;
 		// block types of a category (blocks, or subcategories like in robots for microbit; dynamic categories have no list)
 		const categoryBlocks = (catContent) => (Array.isArray(catContent) ? catContent : []).flatMap((cat) => cat.blocks || (cat.subCategoryId ? Object.values(cat.contents).flatMap((content) => content.blocks || []) : []))
@@ -260,7 +294,7 @@ export default class Python2Blocks {
 		if (typeof STRICT_REVERSE_TRANSLATION !== 'undefined' && STRICT_REVERSE_TRANSLATION) {
 			this.fidelity = new CodeFidelity(this.parserTS, () => this._functions);
 		}
-		const learnedTypes = new Set(this.learned.learn([...new Set(EXCLUDED_BLOCKS_FOR_TRADUCTION)], typeof AUTHORIZED_BLOCKS !== 'undefined' ? AUTHORIZED_BLOCKS : []));
+		const learnedTypes = new Set(await this.learned.learn([...new Set(EXCLUDED_BLOCKS_FOR_TRADUCTION)], typeof AUTHORIZED_BLOCKS !== 'undefined' ? AUTHORIZED_BLOCKS : []));
 		if (typeof LEARNED_REVERSE_TRANSLATION !== 'undefined' && LEARNED_REVERSE_TRANSLATION) {
 			for (let i = EXCLUDED_BLOCKS_FOR_TRADUCTION.length - 1; i >= 0; i--) {
 				if (learnedTypes.has(EXCLUDED_BLOCKS_FOR_TRADUCTION[i])) EXCLUDED_BLOCKS_FOR_TRADUCTION.splice(i, 1);
@@ -268,14 +302,7 @@ export default class Python2Blocks {
 		}
 
 		// check if the editor need to be locked
-		const allBlocks = Main.getWorkSpace().getAllBlocks()
-		for (let i = 0; i < allBlocks.length; i++) {
-			if (typeof EXCLUDED_BLOCKS_FOR_TRADUCTION !== 'undefined' && EXCLUDED_BLOCKS_FOR_TRADUCTION.includes(allBlocks[i].type)) {
-				if (allBlocks[i].isEnabled()) {
-					Main.lockEditor(true);
-				}
-			}
-		}
+		Main.lockEditor(Main.getWorkSpace().getAllBlocks().some((block) => EXCLUDED_BLOCKS_FOR_TRADUCTION.includes(block.type) && block.isEnabled()));
 	};
 
 	/**
@@ -289,12 +316,6 @@ export default class Python2Blocks {
 		return Main.getCodeEditor().container.getSession().getValue();
 	}
 
-	storeXml() {
-		this.previousXml.push(Blockly.Xml.workspaceToDom(this.workspace));
-		if (this.previousXml.length > 30) {
-			this.previousXml.shift();
-		}
-	}
 
 	/**
 	 * Parse the code and reconstrut the AST recursively
@@ -545,6 +566,12 @@ export default class Python2Blocks {
 				this.vittaFunctionsCode.set(declarator, node.text);
 				return this.rawVittaFunctions.has(declarator) ? this.untranslatableBlock(node) : '';
 			}
+		}
+
+		if (declarator !== 'on_start' && declarator !== 'scratch_on_start' && getHelperParts().definitions.has(utils.rmSpaces(node.text))) {
+			this.vittaFunctions.add(declarator);
+			this.vittaFunctionsCode.set(declarator, node.text);
+			return this.rawVittaFunctions.has(declarator) ? this.untranslatableBlock(node) : '';
 		}
 
 		for (const func in basicPythonFunctions) {
@@ -2183,6 +2210,24 @@ export default class Python2Blocks {
 	 * @param {object} parent - The parent node
 	 * @returns {object} - The block xml node with child nodes (if any)
 	 * */
+	/**
+	 * "a if condition else b": logic_ternary block
+	 * @param {object} node - conditional_expression node: value, "if", condition, "else", value
+	 * @returns {object} - The block of the expression, or the untranslatable expression
+	 */
+	determineConditionalExpressionBlockType = (node) => {
+		const values = node.children.filter((child) => child.type !== 'if' && child.type !== 'else');
+		if (values.length !== 3) return this.untranslatableExpression(node);
+		return {
+			type: 'logic_ternary',
+			fields: {},
+			values: { IF: null, THEN: null, ELSE: null },
+			mutations: null,
+			statementsNode: { IF: values[1], THEN: values[0], ELSE: values[2] },
+			statement: null,
+		};
+	};
+
 	determineNotOperatorBlockType = (node, parent) => {
 		if (node.children && node.children.length > 1 && node.children[1].type === 'call') {
 			// cheks only for not len('') or not len([]) or not len({}) => should be improved and not hardcoded
@@ -2494,6 +2539,8 @@ export default class Python2Blocks {
 				return this.determineIntegerFloatBlockType(node, parent);
 			case 'not_operator':
 				return this.determineNotOperatorBlockType(node, parent);
+			case 'conditional_expression':
+				return this.determineConditionalExpressionBlockType(node, parent);
 			case 'string':
 				return this.determineStringLiteralBlockType(node, parent);
 			case 'binary_operator':
@@ -2557,7 +2604,7 @@ export default class Python2Blocks {
 				// constructions without block (class, with, list comprehension, lambda, tuple, set...): kept as code
 				if (node.type.endsWith('_statement') || node.type.endsWith('_definition')) return this.untranslatableBlock(node);
 				if (node.type === 'dictionary') return this.dictionaryBlock(node) || this.untranslatableExpression(node);
-				if (['list_comprehension', 'dictionary_comprehension', 'set_comprehension', 'generator_expression', 'lambda', 'conditional_expression', 'set', 'concatenated_string', 'slice', 'await', 'named_expression'].includes(node.type)) return this.untranslatableExpression(node);
+				if (['list_comprehension', 'dictionary_comprehension', 'set_comprehension', 'generator_expression', 'lambda', 'set', 'concatenated_string', 'slice', 'await', 'named_expression'].includes(node.type)) return this.untranslatableExpression(node);
 				return '';
 		}
 	}
@@ -2740,7 +2787,14 @@ export default class Python2Blocks {
 			const other = [];
 			const whiles = [];
 			const toolboxMode = Blockly.Constants.getToolboxStyle();
+			// module statements of the helpers whose definitions are in the program: added again by the blocks
+			const programDefinitions = new Set(astJson.children.filter((child) => child.type === 'function_definition').map((child) => utils.rmSpaces(child.text)));
+			const isHelperStatement = (child) => {
+				const definitions = getHelperParts().statements.get(utils.rmSpaces(child.text));
+				return definitions !== undefined && definitions.some((definition) => programDefinitions.has(definition));
+			};
 			for (const child of astJson.children) {
+				if (isHelperStatement(child)) continue;
 				if (child.type === 'while_statement') {
 					if (child.children[1].type === 'true') {
 						const newWile = { type: 'while_statement_forever', children: child.children.filter((child) => child.type !== 'true') };
@@ -3032,6 +3086,8 @@ export default class Python2Blocks {
 	 * @returns {void}
 	 * */
 	injectBlocks() {
+		// Windows line endings (code pasted from a Windows file): kept by the editor, they break the comparisons of lines
+		this.code = this.code.replace(/\r\n?/g, '\n');
 		this.learned?.setProgram(this.code);
 		this.setBlockStore();
 		this.resetBlocks();
@@ -3065,8 +3121,8 @@ export default class Python2Blocks {
 		const xml = Blockly.utils.xml.textToDom(xmlCode);
 		this.debug && console.log(xml);
 
-		this.indexPreviousXml = null;
-		this.storeXml();
+		// Undo/redo of the translation with the Blockly history
+		const stateBeforeTranslation = Main.getCodeToBlocksState();
 		// Clear workspace
 		workspace.clear();
 		// The types deduced from the code (variables) may not match the input checks: the blocks are connected anyway
@@ -3103,6 +3159,7 @@ export default class Python2Blocks {
 		this.storedDisabledBlocks = [];
 
 		Blockly.Events.enable();
+		Main.recordCodeToBlocks(stateBeforeTranslation);
 		document.dispatchEvent(new CustomEvent('python2blocks:injected'));
 
 		this.debug && console.log(`Injection time: ${new Date().getTime() - time}ms`);

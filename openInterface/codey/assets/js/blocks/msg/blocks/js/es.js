@@ -157,5 +157,5 @@ Blockly.Msg['ROBOTS_SENSORS_GREYNESS'] = 'nivel de gris';
 Blockly.Msg['ROBOTS_SENSORS_GET_LIGHT_TOOLTIP'] = 'Devuelve el valor del sensor IR de luz para el tipo seleccionado (luz ambiental, luz reflejada, nivel de gris).';
 Blockly.Msg['ROBOTS_SENSORS_IS_OBSTACLE_AHEAD_TITLE'] = '[Rocky] ¿obstáculo adelante?';
 Blockly.Msg['ROBOTS_SENSORS_IS_OBSTACLE_AHEAD_TOOLTIP'] = 'Devuelve verdadero si se detecta un obstáculo frente al robot Rocky.';
-Blockly.Msg['ROBOTS_SENSORS_SET_LED_COLOR_TITLE'] = '[Rocky] LED color %1';
+Blockly.Msg['ROBOTS_SENSORS_SET_LED_COLOR_TITLE'] = '[Rocky] color del LED %1';
 Blockly.Msg['ROBOTS_SENSORS_SET_LED_COLOR_TOOLTIP'] = 'Establece el color del LED del robot Rocky (rojo, verde, azul, amarillo, cian, magenta, blanco, negro).';

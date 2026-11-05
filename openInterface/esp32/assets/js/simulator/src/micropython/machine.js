@@ -288,7 +288,8 @@ var $builtinmodule = function (name) {
 				}
 			} else {
 				if (module !== undefined && module.animate !== undefined) {
-					Simulator.setAnimator(module, self.id, self.duty);
+					// A module on several PWM pins needs to know which pin changed
+					Simulator.setAnimator(module, self.id, module.pwmPerPin ? { pin: self.Pin.pin, duty: self.duty } : self.duty);
 				} else {
 					$('#' + id + '_value').html(self.duty == 0 ? "OFF" : self.duty);
 					$('#' + id + '_anim').css('opacity', self.duty / PWM_MAX_DUTY);

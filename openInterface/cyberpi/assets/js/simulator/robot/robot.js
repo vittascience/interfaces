@@ -2,7 +2,7 @@ const Robots = {
   'mBot2': {
     CODE_REGEXP: /(import mbot2|from mbot2 import|(mbot2|ultrasonic2|quad_rgb_sensor)\.)/,
     INITIAL_ZOOM: -1,
-    IMG_LINK: "/openInterface/cyberpi/assets/media/simulator/robot/mbot2.svg",
+    IMG_LINK: `${_PATH}/cyberpi/assets/media/simulator/robot/mbot2.svg`,
     WIDTH_CM: 17.5, // cm
     RATIO: 1, // svg ratio
     POSITIVE_Y_TO_UP: true,

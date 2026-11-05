@@ -183,10 +183,18 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "extensions": ["block_init_helpurl"]
     },
 
-    // MODULINO DISTANCE _ GET DISTANCE (mm)
+    // MODULINO DISTANCE _ GET DISTANCE (cm / mm)
     {
         "type": "modulino_distance_get",
         "message0": "%{BKY_MODULINO_DISTANCE_GET_TITLE}",
+        "args0": [{
+            "type": "field_dropdown",
+            "name": "UNIT",
+            "options": [
+                ["(cm)", "CM"],
+                ["(mm)", "MM"]
+            ]
+        }],
         "output": "Decimal",
         "style": "modulino_blocks",
         "tooltip": "%{BKY_MODULINO_DISTANCE_GET_TOOLTIP}",

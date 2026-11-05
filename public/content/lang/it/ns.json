@@ -719,7 +719,7 @@
       "choosePaymentMethod": "Seleziona il metodo di pagamento",
       "estimateChoice": "Crea un preventivo personalizzato",
       "cardChoice": "Paga con carta di credito",
-      "optional": "Optional",
+      "optional": "Opzionale",
       "recap": " Riassunto",
       "sumHT": " Totale prima delle tasse",
       "txTVA": " Aliquote IVA",
@@ -737,7 +737,7 @@
       "addressName": " Nome dell'indirizzo",
       "name": " Nome",
       "firstname": " Nome",
-      "mail": " E-mail",
+      "mail": "Posta elettronica",
       "phone": " Telefono",
       "phoneInfo": "Il numero di telefono è facoltativo, tuttavia ciò permetterà al servizio di consegna di contattarti in caso di necessità.",
       "address": " Indirizzo",
@@ -886,6 +886,22 @@
       "legalCommitmentNumber": " Numero di impegno legale",
       "siret": " Numero SIRET dello stabilimento",
       "serviceName": " Nome del servizio (opzionale)",
+      "subscriptionStart": "Data di inizio desiderata dell'abbonamento",
+      "subscriptionEnd": "Data di fine prevista",
+      "durationMonth": "1 mese",
+      "durationYear": "1 anno",
+      "durationThreeYears": "3 anni",
+      "garActivation": "Desidera un'attivazione tramite il GAR?",
+      "whatIsGar": "Che cos'è il GAR?",
+      "garDefinition": "Il GAR (Gestionnaire d'accès aux ressources) consente a docenti e studenti di accedere a Vittascience dall'ambiente digitale (ENT) dell'istituto, senza creare un account.",
+      "uai": "Codice UAI dell'istituto",
+      "uaiHint": "7 cifre seguite da una lettera, ad esempio 0751234A.",
+      "accountEmails": "Indirizzo/i e-mail degli account Vittascience da attivare",
+      "accountEmailsHint": "Un indirizzo per riga o separati da virgole, {{max}} al massimo (uno per licenza).",
+      "accountEmailsTooMany": "Troppi indirizzi: al massimo {{max}}.",
+      "accountEmailInvalid": "Indirizzo e-mail non valido:",
+      "quoteUpdateError": "Non è stato possibile registrare il suo ordine d'acquisto: l'aggiornamento del preventivo n. {{number}} non è riuscito. La preghiamo di riprovare tra qualche minuto. Se il problema persiste, ci contatti:",
+      "licenceFieldsError": "Le informazioni sull'abbonamento sono incomplete o non valide. Verifichi la data di inizio, il codice UAI o gli indirizzi e-mail.",
       "confirmWithoutEdit1": " Confermo che il modulo d'ordine corrisponde esattamente all'offerta n.",
       "confirmWithoutEdit2": "  (stesso prodotto(i), importo(i), quantità) per un totale di",
       "confirmWithEdit": " Il modulo d'ordine non corrisponde al preventivo a fianco, sono state fatte delle modifiche.",
@@ -899,14 +915,37 @@
       "errorExplanation": " Il tuo modulo d'ordine non può essere registrato.<br>L'incidente è stato segnalato al nostro team tecnico.<br>Contattaci per risolvere il problema.",
       "contactUs": " Contattateci",
       "whatIsChorus": " Cos'è Chorus Pro?",
-      "chorusDefinition": " CHORUS PRO è il nuovo portale pubblico dello Stato sul quale transiteranno progressivamente tutte le fatture al servizio pubblico. L'obiettivo di questo portale è che lo Stato dematerializzi il 100% delle fatture che gli vengono inviate secondo un calendario progressivo iniziato il 1° gennaio 2017. Per facilitare il compito delle aziende fornitrici, tutte le amministrazioni pubbliche useranno lo stesso portale."
+      "chorusDefinition": " CHORUS PRO è il nuovo portale pubblico dello Stato sul quale transiteranno progressivamente tutte le fatture al servizio pubblico. L'obiettivo di questo portale è che lo Stato dematerializzi il 100% delle fatture che gli vengono inviate secondo un calendario progressivo iniziato il 1° gennaio 2017. Per facilitare il compito delle aziende fornitrici, tutte le amministrazioni pubbliche useranno lo stesso portale.",
+      "maintenanceTitle": "Manutenzione in corso :(",
+      "maintenanceText": "Il nostro team sta aggiornando le nostre offerte. Torneremo presto!",
+      "supportSubject": "Invio ordine di acquisto - preventivo {{number}}",
+      "autoValidate": "Convalida automaticamente il preventivo",
+      "autoValidateHint": "Il preventivo è contrassegnato come accettato: la fattura provvisoria e l'ordine sono creati immediatamente e il cliente riceve l'email di conferma.",
+      "closedTitle": "Preventivo già accettato",
+      "closedText": "Il preventivo {{number}} è già stato accettato e il tuo ordine è in fase di elaborazione: non resta alcun ordine di acquisto da inviare. Per richiedere modifiche, ti preghiamo di contattarci.",
+      "closedSubject": "Preventivo {{number}}",
+      "invalidLinkTitle": "Link di invio non valido",
+      "invalidLinkText": "Per inviare o sostituire l'ordine di acquisto per questo preventivo, utilizza il link contenuto nell'ultima email del preventivo che hai ricevuto, oppure accedi all'account che ha richiesto il preventivo (Il mio account › I miei ordini).",
+      "sectionBdc": "Il suo ordine d'acquisto",
+      "sectionBilling": "Fatturazione",
+      "sectionSubscription": "Abbonamento",
+      "sectionConfirm": "Conferma",
+      "activationMethod": "Metodo di attivazione",
+      "activationEmails": "E-mail",
+      "activationGar": "GAR",
+      "activationEmailsHint": "Gli account Vittascience indicati ricevono la licenza (un indirizzo per licenza).",
+      "activationGarHint": "Docenti e studenti dell'istituto accedono a Vittascience dal loro ENT, senza creare un account.",
+      "schoolOrUai": "Istituto o UAI",
+      "schoolSearchPlaceholder": "Nome dell'istituto o UAI (es. 0751234A)",
+      "schoolHint": "Digiti il nome o l'UAI, poi scelga l'istituto nell'elenco.",
+      "schoolRequired": "Scelga un istituto nell'elenco o inserisca un UAI valido (7 cifre e una lettera)."
     },
     "mail": {
       "estimate": " citare",
       "invoice": " fattura",
       "your": " Il tuo",
       "hi": " Ciao",
-      "estimate1": " <p>Grazie per questa richiesta di preventivo.<br>La troverete in allegato.</p><p>Per convalidare questo preventivo:</p><ul><li>Nel caso di un istituto soggetto a contabilità pubblica (scuola, comune, Réseau Canopé, ecc.), il pagamento tramite ordine amministrativo è possibile. Per questo, si prega di convalidare il preventivo con un modulo d'ordine, che attiverà la preparazione dell'ordine. Il pagamento sarà effettuato al ricevimento dell'ordine, utilizzando la fattura emessa al momento della spedizione dell'ordine.</li><br><li>Nel caso di un ordine individuale, il pagamento può essere effettuato tramite carta bancaria (convalida immediata) o bonifico bancario (tempo di convalida di 2 giorni). Il tuo ordine sarà preparato al ricevimento del pagamento.",
+      "estimate1": " <p>Grazie per questa richiesta di preventivo.<br>La troverete in allegato.</p><p>Per convalidare questo preventivo:</p><ul><li>Nel caso di un istituto soggetto a contabilità pubblica (scuola, comune, Réseau Canopé, ecc.), il pagamento tramite ordine amministrativo è possibile. Per questo, si prega di convalidare il preventivo con un modulo d'ordine, che attiverà la preparazione dell'ordine. Il pagamento sarà effettuato al ricevimento dell'ordine, utilizzando la fattura emessa al momento della spedizione dell'ordine.</li><br><li>Nel caso di un ordine individuale, il pagamento può essere effettuato tramite carta bancaria (convalida immediata) o bonifico bancario (tempo di convalida di 2 giorni). Il tuo ordine sarà preparato al ricevimento del pagamento.</li></ul>",
       "message": " Volevi inviarci questo messaggio:",
       "estimate2": " Ne terremo conto nel trattamento di quest'ultimo.",
       "foot": " <p>Non esiti a rispondere a questa e-mail se ha delle domande, i nostri team sono a sua disposizione!</p><p>Se ha difficoltà ad aprire il documento, clicchi <a href='https://it.vittascience.com/profile?tab=orders'>qui</a> per andare al suo account vittascience e consultare i suoi documenti e ordini.</p>",
@@ -933,6 +972,31 @@
       "submit": "Invia",
       "submit_success": "Grazie per aver condiviso la tua recensione!",
       "return_to_product": "Torna al prodotto"
+    },
+    "shopPayLink": {
+      "thanksTitle": "Grazie, il tuo pagamento è stato ricevuto",
+      "thanksText": "Il pagamento di {{amount}} per la fattura {{number}} è stato ricevuto.",
+      "thanksTextNoAmount": "Il pagamento per la fattura {{number}} è stato ricevuto.",
+      "paidTitle": "Fattura già pagata",
+      "paidText": "La fattura {{number}} è già stata pagata con carta. Grazie!",
+      "settledText": "Abbiamo ricevuto il pagamento per la fattura {{number}}: non ci sono ulteriori pagamenti da effettuare. Grazie!",
+      "processingTitle": "Pagamento in corso di conferma",
+      "processingText": "La tua banca sta confermando il pagamento: ricarica questa pagina tra qualche minuto per vedere la conferma.",
+      "abortedTitle": "Pagamento annullato",
+      "abortedText": "Il pagamento per la fattura {{number}} non è stato completato. Puoi riprovare quando vuoi.",
+      "expiredTitle": "Link di pagamento scaduto",
+      "expiredText": "Questo link di pagamento non è più valido. Contattaci per riceverne uno nuovo.",
+      "cancelledTitle": "Link di pagamento disabilitato",
+      "cancelledText": "Questo link di pagamento non è più valido: potrebbe esserti stato inviato un link più recente. Contattaci se hai dubbi.",
+      "notfoundTitle": "Link di pagamento non trovato",
+      "notfoundText": "Controlla che l'intero link sia stato copiato, oppure contattaci.",
+      "errorTitle": "Pagamento temporaneamente non disponibile",
+      "errorText": "Il pagamento online non può essere aperto in questo momento. Riprova tra qualche minuto, o contattaci.",
+      "payButton": "Paga {{amount}} con carta",
+      "retry": "Riprova",
+      "contact": "Contattaci",
+      "stripeLabel": "Fattura {{number}}",
+      "stripeLabelOrder": "Fattura per ordine {{number}}"
     }
   },
   "about": {
@@ -943,7 +1007,7 @@
       "desc_2017": " Dopo di che, gli eventi si susseguono rapidamente, Vittascience distribuisce 70 kit nel corso dell'anno 2017-2018 che saranno utilizzati in Francia metropolitana, Guyana francese e Stati Uniti. Il 2017 sarà anche l'anno dei concorsi e delle partnership, con in particolare il premio Jean-Louis Gerondeau - Zodiac Aerospace (20.000 euro) e una partnership con il Pôle Diversité et Réussite de l'École Polytechnique.",
       "desc_2018": " Vittascience diventa ufficiale trasformandosi in un'azienda. In seguito ai numerosi feedback sui kit Palloncino Solare e Forno Solare, Vittascience si lancia nello sviluppo di un'interfaccia di codifica per Arduino e di risorse educative sull'educazione digitale.",
       "desc_2019": " Con l'arrivo dei nuovi curricula delle scuole superiori, la piattaforma si espande con un'interfaccia Python e micro:bit. Vittascience diventa un vincitore dello schema <a href='https://eduscol.education.fr/cid56176/aide-et-commission-dispositif-edu-up.html'>Edu-up</a> del Ministero dell'Educazione Nazionale e della Gioventù, con l'obiettivo di migliorare la piattaforma da un punto di vista pedagogico, tecnico e di accessibilità.",
-      "desc_2020": " Con l'arrivo della piattaforma Classroom, molti nuovi prodotti e partnership con diversi editori scolastici, la piattaforma è sempre più utilizzata nelle scuole. Inoltre, Vittascience sta progettando 5 nuovi kit e aggiungendo molti nuovi prodotti al negozio. Dietro questi progressi sempre più veloci, <span style=\"color:#22b573; font-size:24px; font-weight:bold;\">una squadra forte!",
+      "desc_2020": " Con l'arrivo della piattaforma Classroom, molti nuovi prodotti e partnership con diversi editori scolastici, la piattaforma è sempre più utilizzata nelle scuole. Inoltre, Vittascience sta progettando 5 nuovi kit e aggiungendo molti nuovi prodotti al negozio. Dietro questi progressi sempre più veloci, <span style=\"color:#22b573; font-size:24px; font-weight:bold;\">una squadra forte!</span>",
       "desc_2021": " Il team di Vittascience sta crescendo, con l'arrivo di sei nuovi sviluppatori! La piattaforma Class è ora open source e l'aggiunta di nuove interfacce di codifica fa presagire un futuro brillante per la piattaforma Vittascience...",
       "desc_2022": " Nel 2022, il team di Vittascience sta vivendo una crescita costante. Siamo entusiasti di accogliere Antoine, che si è unito al nostro team come sviluppatore dopo uno stage di successo. Andreas si è anche unito al team di supporto per soddisfare meglio le esigenze dei nostri utenti. Infine, abbiamo avuto il piacere di dare il benvenuto ad Amandine per occuparsi della strategia di marketing e comunicazione. La sua presenza rafforza il nostro team e ci permetterà di promuovere meglio i nostri prodotti e servizi. Siamo entusiasti di vedere cosa riserva il futuro e di continuare a crescere insieme.",
       "desc_2023": "Nel 2023, una delle nostre più importanti collaborazioni prende vita: le interfacce Vittascience sono integrate sulla piattaforma <a href='https://fr.vittascience.com/capytale' target='_blank'>Capytale</a>!<br>Vittascience si associa con <a href='https://cabri.com/index.html' target='_blank'>Cabrilog</a>, <a href='https://www.edumalin.fr' target='_blank'>Edumalin</a> e <a href='https://www.belin-education.com' target='_blank'>Belin Education</a> per mettere a disposizione risorse nei <a href='https://tne.reseau-canope.fr' target='_blank'>Territori Digitali Educativi (TNE)</a>, tramite il mercato nazionale sostenuto da <a href='https://www.reseau-canope.fr' target='_blank'>Réseau Canopé</a>.",
@@ -964,7 +1028,7 @@
       "irina": "Irina fa parte del team dal marzo 2022 ed è principalmente responsabile dell'interfaccia AI sulla piattaforma Vittascience.",
       "antoine": "Antoine è entrato a far parte del team Vittascience come sviluppatore web nell'aprile 2022. È responsabile dell'interfaccia di programmazione.",
       "amandine": "Amandine si occupa della strategia di marketing e comunicazione per migliorare la visibilità dell'azienda e l'immagine del marchio.",
-      "nicolas": "Nicolas joined Vittascience in February 2023 as an intern in frontend developer.",
+      "nicolas": "Nicolas è entrato in Vittascience nel febbraio 2023 come stagista nello sviluppo frontend.",
       "amara": "Amara è entrata in Vittascience nel 2023 come Responsabile della Supply chain. Si occupa della gestione del negozio",
       "lea": "Léa è entrata in Vittascience nel 2024. Dottoranda in psicologia cognitiva, si occupa dell'aspetto ricerca e il suo argomento di tesi è: 'Valutare l'effetto di condivisione dell'attenzione nell'apprendimento della programmazione con linguaggio a blocchi e linguaggio testuale, per studenti con bisogni speciali.'",
       "pascal": "Pascal è entrato in Vittascience come apprendista sviluppatore nel 2024, dopo aver lavorato per due associazioni partner di Vittascience, la L.A.B e La Scientothèque.",
@@ -1073,7 +1137,7 @@
     },
     "days": [
       " Dim",
-      " Mon",
+      "Lun",
       " Mar",
       " Mare",
       " Gioco",
@@ -1155,7 +1219,7 @@
         "cityPlaceholder": " Città",
         "postalCodePlaceholder": " Codice postale",
         "differentAddress": " L'indirizzo di consegna è diverso da quello di fatturazione?",
-        "deliveryAddress": " <i class= a fa-truck\"></i> Il tuo indirizzo di consegna <span class=\"mandatory\">*</span>",
+        "deliveryAddress": " <i class=\"fa fa-truck\"></i> Il tuo indirizzo di consegna <span class=\"mandatory\">*</span>",
         "deliveryAddress2": "  Indirizzo aggiuntivo",
         "leaveAMessage": " <i class=\"fa fa-envelope\"></i> Vuoi lasciarci un messaggio?"
       },
@@ -1202,14 +1266,28 @@
   },
   "code": {
     "blockExtensions": {
-      "category": "Extensions",
-      "title": "Block extensions",
-      "note": "Add new blocks to program other robots, models or modules. The chosen extensions are saved with the project.",
-      "close": "Close",
-      "search": "Search for an extension",
-      "added": "Added",
-      "noResult": "No extension found.",
-      "confirmRemoveUsed": "{{count}} block(s) of this extension used in the program will be deleted. Continue?"
+      "category": "Estensioni",
+      "title": "Estensioni dei blocchi",
+      "note": "Aggiungi nuovi blocchi per programmare altri robot, modelli o moduli. Le estensioni scelte vengono salvate con il progetto.",
+      "close": "Chiudi",
+      "search": "Cerca un'estensione",
+      "added": "Aggiunta",
+      "noResult": "Nessuna estensione trovata.",
+      "confirmRemoveUsed": "Saranno eliminati {{count}} blocchi di questa estensione presenti nel programma. Continuare?",
+      "manage": "Gestisci estensioni",
+      "filter": "Filtra estensioni",
+      "filters": {
+        "all": "Tutte",
+        "model": "Modelli didattici",
+        "robotics": "Robotica",
+        "display": "Schermo",
+        "lights": "Luci",
+        "sensors": "Sensori",
+        "actuators": "Attuatori",
+        "ai": "Intelligenza artificiale",
+        "games": "Giochi",
+        "communication": "Comunicazione"
+      }
     },
     "tooltip": {
       "anonymousAuthor": "Autore anonimo",
@@ -1226,32 +1304,32 @@
     },
     "rtc": {
       "profession": {
-        "chemist": "Anonymous Chemist",
-        "aeronaut": "Anonymous Aeronaut",
-        "aviator": "Anonymous Aviator",
-        "entomologist": "Anonymous Entomologist",
-        "dronpilot": "Anonymous Drone pilot",
-        "dendrologist": "Anonymous Dendrologist",
-        "neurologist": "Anonymous Neurologist",
-        "roboticist": "Anonymous Robotics engineer",
-        "astronomer": "Anonymous Astronomer",
-        "geneticist": "Anonymous Geneticist",
-        "astrocat": "Anonymous Catstronaut",
-        "herborist": "Anonymous Herborist",
-        "meteor": "Anonymous Meteor",
-        "physicist": "Anonymous Physicist",
-        "astronaut": "Anonymous Astronaut",
-        "ufo": "Anonymous UFO",
-        "alien": "Anonymous Alien",
-        "meteorologist": "Anonymous Meteorologist",
-        "celestialBody": "Anonymous Celestial body",
-        "biologist": "Anonymous Biologist",
-        "magnet": "Anonymous Magnet",
-        "volcanologist": "Anonymous Volcanologist",
-        "virologist": "Anonymous Virologist",
-        "programer": "Anonymous Programer",
-        "planet": "Anonymous Planet",
-        "computerScientist": "Anonymous Computer scientist"
+        "chemist": "Chimico anonimo",
+        "aeronaut": "Aeronauta anonimo",
+        "aviator": "Aviatore anonimo",
+        "entomologist": "Entomologo anonimo",
+        "dronpilot": "Pilota di drone anonimo",
+        "dendrologist": "Dendrologo anonimo",
+        "neurologist": "Neurologo anonimo",
+        "roboticist": "Ingegnere robotico anonimo",
+        "astronomer": "Astronomo anonimo",
+        "geneticist": "Genetista anonimo",
+        "astrocat": "Gattoastronauta anonimo",
+        "herborist": "Erborista anonimo",
+        "meteor": "Meteora anonima",
+        "physicist": "Fisico anonimo",
+        "astronaut": "Astronauta anonimo",
+        "ufo": "UFO anonimo",
+        "alien": "Alieno anonimo",
+        "meteorologist": "Meteorologo anonimo",
+        "celestialBody": "Corpo celeste anonimo",
+        "biologist": "Biologo anonimo",
+        "magnet": "Magnete anonimo",
+        "volcanologist": "Vulcanologo anonimo",
+        "virologist": "Virologo anonimo",
+        "programer": "Programmatore anonimo",
+        "planet": "Pianeta anonimo",
+        "computerScientist": "Informatico anonimo"
       }
     },
     "placeholderError": "Compila tutti i campi ___ prima di eseguire il programma",
@@ -1286,7 +1364,11 @@
       "baudrateError": "Si è verificato un errore durante la lettura dei dati dalla porta seriale. Prova a cambiare il baudrate nelle impostazioni della console.",
       "firmwareWarning": "Attenzione, per beneficiare di tutte le funzionalità di questa interfaccia con la scheda STM32, eseguire l'aggiornamento alla <b>versione 1.17</b> del firmware MicroPython seguendo questo tutorial: <a href=\"https: //it.vittascience.com/learn/tutorial.php?id=398\" target=\"_blank\" rel=\"noopener noreferrer\">Aggiorna il firmware</a>",
       "compiling": "Compilazione in corso. Questo potrebbe richiedere fino a qualche secondo...",
-      "noSpaceLeft": "Non c'è più spazio libero sulla scheda. Elimina alcuni file per liberare spazio."
+      "noSpaceLeft": "Non c'è più spazio libero sulla scheda. Elimina alcuni file per liberare spazio.",
+      "skykickNotInCodingMode": "Il controller SkyKick non è in modalità coding (Link): i comandi vengono ignorati. Passa il controller in modalità Link per far volare il drone.",
+      "skykickDroneNotPaired": "Il drone non risponde: verifica che sia acceso e associato al controller.",
+      "skykickPortBusy": "Impossibile aprire la porta del controller: è già utilizzata da un'altra applicazione. Chiudi l'app SkyKick Evo Block Coding (e qualsiasi altra scheda collegata al controller), poi riprova.",
+      "skykickBattery": "Batteria del drone"
     },
     "WebBluetoothAPI": {
       "noWebBluetoothAPI": "Questo browser non supporta WebBluetoothAPI. Per utilizzare WebBluetoothAPI deve utilizzare i browser compatibili: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> o <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
@@ -1303,7 +1385,45 @@
     "arduinoq": {
       "boardConnected": "Connessione alla scheda riuscita!",
       "webAppUrl": "Pagina web dell'app (da un dispositivo sulla stessa rete):",
+      "webConsoleUrl": "Terminale web della scheda (utente e password della scheda):",
+      "pcWebcamStarted": "Webcam del computer inviata alla scheda: tieni aperta questa scheda e la scheda collegata via USB. Chiudi la scheda dello strumento IA se è aperta, così la webcam è libera.",
+      "pcWebcamDenied": "Impossibile usare la webcam del computer: consenti l'accesso alla fotocamera nel browser, poi invia di nuovo il programma.",
+      "pcWebcamStopped": "L'invio della webcam del computer alla scheda si è interrotto (scheda scollegata?). Ricollega la scheda, poi clicca su «Avvia l'app».",
+      "pcWebcamBusy": "La webcam del computer non fornisce immagini. Potrebbe essere usata da un'altra scheda (ad esempio lo strumento IA): chiudila, poi clicca su «Avvia l'app».",
+      "corruptedLogs": "I log dell'app sono illeggibili (scheda scollegata mentre l'app era in esecuzione): verranno svuotati.",
+      "appStopped": "App fermata.",
+      "boardUnplugged": "Scheda Arduino UNO Q disconnessa (cavo USB scollegato o scheda riavviata). Ricollegala, poi connettila di nuovo.",
+      "modelDownloadProgress": "Download del modello:",
+      "hints": {
+        "camera": "Nessuna fotocamera trovata: la scheda collegata al computer non può usare una fotocamera. Dopo il caricamento, scollega il computer e collega un hub USB-C alimentato con la fotocamera (l'app si avvia da sola all'accensione della scheda).",
+        "microphone": "Nessun microfono trovato: collega un microfono USB (o una webcam con microfono) a un hub USB-C alimentato, al posto del computer.",
+        "speaker": "Nessun altoparlante trovato: collega un altoparlante o una cuffia USB a un hub USB-C alimentato, al posto del computer.",
+        "module": "Il modulo Python «{x}» non è installato sulla scheda.",
+        "name": "«{x}» è usato prima di ricevere un valore: dagli un valore all'inizio del programma (in «all'avvio»).",
+        "textNumber": "Testo e numero mescolati: usa il blocco «unisci» per mettere insieme testo e numeri.",
+        "convert": "Questo testo non può essere trasformato in numero (contiene lettere o è vuoto).",
+        "zeroDivision": "Divisione per zero: controlla il divisore prima di dividere.",
+        "index": "L'elemento richiesto non esiste: l'elenco è più corto del previsto (o vuoto).",
+        "key": "La chiave {x} non esiste in questo dizionario.",
+        "network": "Nessun accesso a internet dalla scheda: verifica che sia connessa al Wi-Fi.",
+        "timeout": "Il server non risponde in tempo: riprova o verifica la connessione internet della scheda.",
+        "recursion": "Una funzione chiama sé stessa all'infinito.",
+        "permission": "Accesso negato a questo file o dispositivo.",
+        "file": "File non trovato: {x}."
+      },
+      "modelDownload": "Download del modello di IA sulla scheda (una sola volta, può richiedere alcuni minuti):",
+      "uploadIncomplete": "Caricamento incompleto, file non ricevuti correttamente dalla scheda: ",
+      "noAppOnBoard": "Nessuna app sulla scheda: invia prima il programma.",
+      "appAlreadyRunning": "L'app è già in esecuzione sulla scheda.",
+      "aiAppStartMayTakeTime": "Avvio dell'app di IA: il primo avvio può richiedere alcuni minuti (installazione dei pacchetti Python sulla scheda, poi conversione del modello). Gli avvii successivi sono più rapidi.",
       "localModelMissing": "Nessun modello di IA locale trovato in questo browser: allena prima un modello di immagini nello strumento IA di Vittascience (in questo stesso browser) oppure usa il blocco «carica il modello» con il suo link.",
+      "localPostureModelMissing": "Nessun modello di postura locale trovato in questo browser: addestra prima un modello di posture nello strumento IA di Vittascience (in questo stesso browser), oppure usa il blocco «carica il modello di postura» con il suo link.",
+      "localHandModelMissing": "Nessun modello delle mani locale trovato in questo browser: addestra prima un modello delle mani nello strumento IA di Vittascience (in questo stesso browser), oppure usa il blocco «carica il modello delle mani» con il suo link.",
+      "pcMicrophoneStarted": "Microfono del computer attivo: suono inviato alla scheda. Tieni aperta questa pagina e la scheda collegata.",
+      "pcMicrophoneDenied": "Microfono del computer non disponibile: consenti il microfono nel browser, poi clicca su «Avvia l'app».",
+      "pcMicrophoneStopped": "L'invio del microfono del computer alla scheda si è interrotto (scheda scollegata?). Ricollega la scheda, poi clicca su «Avvia l'app».",
+      "localSoundModelMissing": "Nessun modello sonoro locale trovato in questo browser: addestra prima un modello sonoro nello strumento IA di Vittascience (su questo stesso browser), oppure usa il blocco «carica il modello» con il suo link.",
+      "localSensorModelMissing": "Nessun modello dei sensori locale trovato in questo browser: addestra prima un modello nello strumento IA «Dati dei sensori» di Vittascience (su questo stesso browser), oppure usa il blocco «carica il modello dei sensori» con il suo link.",
       "passwordRequired": "Per continuare il trasferimento, è richiesta la password della scheda Arduino Q.",
       "incorrectPassword": "La password non è corretta, riprova.",
       "transfertAborted": "Trasferimento annullato.",
@@ -1322,6 +1442,8 @@
       "TI-83-Maclasseti": " Benvenuti nell'interfaccia di MyClassTI.fr per la calcolatrice TI-83 Premium CE Python Edition! Il TI-Innovator™ Hub e le schede BBC micro:bit possono essere programmati su questa interfaccia. Aprite il simulatore per iniziare!",
       "GalaxiaCircuitPython": "Benvenuto/a nell'interfaccia Vittascience per Things - Galaxia!",
       "galaxia": "Benvenuti nell'interfaccia Vittascience per Galaxia!</br> Per programmare la scheda Galaxia su questa interfaccia, dovete prima flashare il firmware MicroPython nella scheda seguendo questo tutorial: <b><a href=\"https://it.vittascience.com/learn/tutorial.php?id=860\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
+      "unihiker": "Benvenuto nell'interfaccia Vittascience per la scheda UNIHIKER M10!</br>Collegare la scheda via USB, poi cliccare su Carica. La prima volta, l'interfaccia copia sulla scheda l'installatore del server Vittascience, da eseguire una volta dal menu Home della scheda.",
+      "unihiker-k10": "Benvenuti nell'interfaccia Vittascience per la scheda UNIHIKER K10!</br>Collegate la scheda via USB (firmware MicroPython di DFRobot), poi cliccate su Carica: il programma viene salvato in main.py.",
       "raspberrypi": "Benvenuto nell'interfaccia Vittascience per Raspberry Pi! Puoi consultare il tutorial disponibile qui: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=1739\" target=\"_blank\" rel=\"noopener noreferrer\">Prendere in mano l'interfaccia Vittascience per Raspberry Pi</a>",
       "niryo": "Benvenuto nell'interfaccia Vittascience per Niryo ned2!",
       "nao": "Benvenuto nell'interfaccia Vittascience per il robot NAO v6! Non esitare a consultare il tutorial disponibile qui: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=1260\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Prendere in mano l'interfaccia Vittascience per il robot NAO</a>",
@@ -1337,14 +1459,15 @@
       "sphero": "Benvenuto/a nell'interfaccia Vittascience per il robot Sphero Mini !",
       "lotibot": "Benvenuto/a nell'interfaccia Vittascience per il robot Loti-bot !",
       "bluebot": "Benvenuto/a nell'interfaccia Vittascience per il robot Blue-bot !",
-      "spike": "Benvenuto/a nell'interfaccia Vittascience per il LEGO® Education SPIKE™ Essential !<br>LEGO, the LEGO logo, the Minifigure, DUPLO and the SPIKE logo are trademarks of the LEGO Group, which does not sponsor, endorse, or authorize this site.",
+      "spike": "Benvenuti nell'interfaccia Vittascience per LEGO® Education SPIKE™ Essential!<br>LEGO, il logo LEGO, la Minifigure, DUPLO e il logo SPIKE sono marchi del Gruppo LEGO, che non sponsorizza, approva né autorizza questo sito.",
       "photon": "Benvenuto/a nell'interfaccia Vittascience per il robot Photon !",
       "codey": "Benvenuto/a nell'interfaccia Vittascience per Codey e il robot Rocky di Makeblock!",
       "nano-esp32": "Benvenuto/a nell'interfaccia Vittascience per la scheda Arduino Nano ESP32!",
       "steami": "Benvenuti nell'interfaccia Vittascience per STeaMi !",
       "alphai": "Benvenuti nell'interfaccia Vittascience per il robot AlphAI !",
       "arduinoq": "Benvenuti nell'interfaccia Vittascience per la scheda Arduino UNO Q!</br></br>L'interfaccia supporta diversi linguaggi (Arduino, Python, HTML) per programmare un progetto completo con la scheda. I blocchi nella categoria 'Base' possono essere utilizzati in qualsiasi linguaggio; il codice generato si adatterà quindi al tipo di linguaggio del blocco di intestazione.</br></br>È possibile inviare comandi Linux alla scheda Arduino Q digitando il comando nel campo di input in fondo alla console.",
-      "primastem": "Benvenuto nell'interfaccia Vittascience per il robot PrimaStem!"
+      "primastem": "Benvenuto nell'interfaccia Vittascience per il robot PrimaStem!",
+      "skykick": "Benvenuto nell'interfaccia Vittascience per il drone SkyKick!</br>Collega il controller via USB, imposta la modalità Link, poi clicca sul pulsante di connessione prima di eseguire il tuo programma. Attenzione: il drone vola davvero, mantieni uno spazio libero."
     },
     "chromeApp": {
       "noPort": "Nessuna porta rilevata",
@@ -1411,7 +1534,7 @@
       "chromeInstall": {
         "name": " Chrome",
         "notice": " Troverai qui sotto il link alla Chrome App Thingz, clicca su \"Add to Chrome\" e poi torna all'interfaccia di Vittascience:",
-        "install": " <i class=\"fas fa-circle\"></i> Chrome App Thingz",
+        "install": "<i class=\"fas fa-circle\"></i> Thingz Chrome App",
         "presentation": " La Chrome App Thingz permette di comunicare con le schede Arduino Uno tramite i browser Chromium e Chrome.<br/><b>Questa soluzione è raccomandata perché non richiede l'installazione di software e quindi i diritti di amministratore.</b>",
         "linuxUsers": " <b>Avviso agli utenti Linux:</b>se incontrate difficoltà nell'implementazione del plugin, andate su <a href=\"https://slite.com/api/s/note/WaDtH3cUZsfyMtiFdxeBNB/Preparation-Ubuntu-pour-Thingz\">questa pagina di aiuto</a>."
       },
@@ -1434,7 +1557,7 @@
         "notice": " Qui sotto c'è il link per il download del plugin per Linux:",
         "install": " <i class=\"fas fa-circle\"></i> Versione del programma di installazione (Ubuntu)",
         "advice": " Alla fine dell'installazione, devi sostituire il tuo file \"config.ini\" con il nostro disponibile <a href=\"/public/content/plugin/config.ini\">qui.</a>",
-        "presentation": " Stiamo lavorando per rendere le versioni Linux del plugin disponibili per Ubuntu, Fedora, Debian e RaspberryPi.<br/><b>La versione attuale è solo per utenti avanzati."
+        "presentation": " Stiamo lavorando per rendere le versioni Linux del plugin disponibili per Ubuntu, Fedora, Debian e RaspberryPi.<br/><b>La versione attuale è solo per utenti avanzati.</b>"
       },
       "installButton": " Installare",
       "installBackButton": " Indietro",
@@ -1445,10 +1568,30 @@
       "title": "Spiacente",
       "notice": "Le dimensioni del tuo schermo non consentono di utilizzare l'interfaccia di sviluppo in modo ottimale. Utilizza uno schermo più grande."
     },
-    "statement": "Statement:",
+    "statement": "Dichiarazione:",
     "statementButtons": {
       "expand": "Espandi",
       "collaps": "Riduci"
+    },
+    "unihiker": {
+      "hostPrompt": "Indirizzo della scheda UNIHIKER (10.1.2.3 via USB, o il suo indirizzo Wi-Fi):",
+      "hostSaved": "Indirizzo della scheda: {{host}}",
+      "sending": "Invio del programma alla scheda ({{host}})...",
+      "started": "Programma avviato sulla scheda.",
+      "stopped": "Programma fermato.",
+      "finished": "Programma terminato (codice {{code}}).",
+      "noProgram": "Nessun programma è in esecuzione sulla scheda: il messaggio non è stato inviato.",
+      "k10FormatConfirm": "La memoria dei file della UNIHIKER K10 deve essere formattata (normale subito dopo il flash del firmware DFRobot). Formattarla ora? I file della scheda saranno cancellati, il firmware resta.",
+      "k10Formatted": "Memoria dei file formattata: la scheda si riavvia, poi cliccate su Carica.",
+      "k10Flash": "La UNIHIKER K10 non ha il firmware MicroPython. Scaricatelo dal menu di Carica («Scarica il firmware MicroPython»), poi flashatelo all'indirizzo 0x00 con ESP LaunchPad o Flash Download Tool, tenendo premuto il pulsante BOOT mentre collegate la scheda.",
+      "unreachable": "La scheda non risponde all'indirizzo {{host}}. Verificare il cavo USB (o l'indirizzo Wi-Fi con «Indirizzo della scheda») e consentire l'accesso alla rete locale se il browser lo chiede.",
+      "outdated": "Il server Vittascience della scheda deve essere aggiornato: aggiornamento automatico in corso...",
+      "localModelMissing": "Nessun modello di immagini in questo browser: addestrare prima un modello nello strumento IA di Vittascience (riconoscimento di immagini).",
+      "modelLinkInvalid": "Impossibile leggere il modello di immagini del link «{{link}}». Verificare il link del modello condiviso.",
+      "notInstalled": "La scheda risponde, ma il server Vittascience non è ancora installato: invio dell'installatore...",
+      "installFailed": "Non è stato possibile copiare l'installatore sulla scheda ({{host}}).",
+      "installUploaded": "Installatore inviato. Sulla scheda: pulsante Home, poi root/ > {{folder}} > install.py. Il programma partirà da solo al termine dell'installazione.",
+      "installDone": "Server Vittascience installato: invio del programma..."
     },
     "topbar": {
       "tooltips": {
@@ -1475,6 +1618,7 @@
         "compileArduino": "Avvia la compilazione",
         "arduinoBoardSelector": "Seleziona la scheda Arduino da programmare",
         "esp32BoardSelector": "Selezionare la scheda ESP32 da programmare",
+        "unihikerBoardSelector": "Selezionare la scheda UNIHIKER da programmare",
         "downloadPython": "Scarica lo script Python",
         "downloadPythonGalaxia": "Scarica lo script Python 'main.py' da trascinare sulla Galaxia",
         "downloadArduino": "Scarica lo script Arduino",
@@ -1485,6 +1629,10 @@
         "downloadFirmware": "Scarica il firmware MicroPython",
         "downloadCamFirmware": "Scarica il firmware MicroPython per ESP32-CAM",
         "downloadPiAPI": "Scarica il server Python per Raspberry Pi. Avvia l'API in modalità amministratore.",
+        "uploadUnihiker": "Inviare il programma alla scheda UNIHIKER ed eseguirlo",
+        "stopUnihiker": "Fermare il programma della scheda",
+        "installUnihiker": "Copiare l'installatore del server Vittascience sulla scheda (da eseguire una volta dal menu Home della scheda)",
+        "unihikerHost": "Cambiare l'indirizzo della scheda (10.1.2.3 via USB, o il suo indirizzo Wi-Fi)",
         "downloadHex": "Esporta il programma micro:bit in formato [.hex]",
         "downloadTexas": "Scarica il programma .py per la calcolatrice",
         "runBuddy": "Avvia il programma su Buddy",
@@ -1515,6 +1663,7 @@
         "toolboxRestriction": "Limita i blocchi disponibili",
         "consoleSettings": "Impostazioni generali",
         "accessibility": "Configura tema e font",
+        "shortcuts": "Mostra scorciatoie da tastiera",
         "addBlockSettings": "Aggiungi un blocco",
         "fullscreen": "Visualizza a schermo intero",
         "help": "Aiuto",
@@ -1534,6 +1683,7 @@
         "beginnerMode": "Modalità principiante",
         "advancedMode": "Modalità avanzata",
         "lastSaveOn": "Ultimo salvataggio il ",
+        "lastSaveFailed": "L'ultimo salvataggio non è riuscito: le tue modifiche non sono salvate. Clicca per riprovare.",
         "description": "Descrizione:",
         "repl": "Premi invio ↩️ per eseguire il comando",
         "runningCode": "Esecuzione del codice in corso... Attendere prego.",
@@ -1546,8 +1696,8 @@
         "texas": "Scarica .py per calcolatrice",
         "new": "Nuovo progetto",
         "save": "Salva",
-        "share": "Share",
-        "shareProject": "Share project",
+        "share": "Condividi",
+        "shareProject": "Condividi progetto",
         "open": "Apri progetto",
         "synchronize": "Sincronizza",
         "undo": "Annulla",
@@ -1573,20 +1723,24 @@
         "downloadFirmware": " Scaricare .bin",
         "downloadCamFirmware": " Scaricare .bin ESP32-CAM",
         "downloadPiAPI": "Scarica API.cmd",
+        "stopUnihiker": "Ferma",
+        "installUnihiker": "Installa il server",
+        "unihikerHost": "Indirizzo della scheda",
         "downloadUf2Pico": "Firmware Pico",
         "downloadUf2PicoW": "Firmware Pico W",
         "downloadPython": " Scaricare .py",
         "downloadTexas": " Scaricare per la calcolatrice",
         "downloadThymioWindows": "Scarica .exe",
         "downloadThymioMacOS": "Scarica .dmg",
-        "downloadNiryoWindows": "Companion App .exe",
-        "downloadNiryoMacOS": "Companion App .dmg",
+        "downloadNiryoWindows": "Companion App.exe",
+        "downloadNiryoMacOS": "Companion App.dmg",
         "downloadNiryoLinux": "Companion App .deb",
-        "runBuddy": "Run on Buddy",
+        "runBuddy": "Esegui su Buddy",
         "disconnect": " Scollegare",
         "connectBoard": " Collegare",
         "settings": "Opzioni",
         "themes": "Accessibilità",
+        "shortcuts": "Scorciatoie da tastiera",
         "add": "Aggiungi un blocco",
         "fullscreen": "Schermo intero",
         "help": "Guida",
@@ -1636,7 +1790,7 @@
     },
     "blocksCat": {
       "logic": " Logica",
-      "loop": " Loops",
+      "loop": "Cicli",
       "maths": " Matematica",
       "text": " Testo",
       "var": " Variabili",
@@ -1656,6 +1810,8 @@
           "sendQ": "Comando Linux da inviare alla scheda Arduino Q",
           "export": "Esporta",
           "openVariables": "Variabili",
+          "launchApp": "Avvia l'app",
+          "stopApp": "Ferma l'app",
           "openFileSystem": "File",
           "monitor": "Monitor seriale",
           "openRepl": "REPL"
@@ -1672,6 +1828,8 @@
           "closeRepl": "Chiudi la console MicroPython",
           "openRepl": "Apri la console MicroPython",
           "openVariables": "Mostra le variabili del programma",
+          "launchApp": "Riavvia l'app già inviata alla scheda",
+          "stopApp": "Ferma l'app in esecuzione sulla scheda",
           "openFileSystem": "Apri il file system della scheda",
           "graph": "Per visualizzare i dati ricevuti nella console, fare clic sul pulsante <b>Grafico</b>",
           "monitorToggler": "Per visualizzare i dati ricevuti, clicca sul pulsante <i class='fas fa-chevron-up'></i>"
@@ -1735,7 +1893,7 @@
         "effect": "Effetti",
         "effects": {
           "reverb": "Riverbero",
-          "delay": "Delay",
+          "delay": "Ritardo",
           "bitcrusher": "BitCrusher",
           "vibrato": "Vibrato",
           "distortion": "Distorsione"
@@ -1744,7 +1902,7 @@
       "feedback": {
         "cleared": "La console è stata pulita."
       },
-      "baud": "<i class=\"fas fa-tachometer-alt\"></i> Baud: ",
+      "baud": "<i class=\"fas fa-tachometer-alt\"></i> Baud:",
       "sendMessage": "Invia un messaggio alla scheda tramite la porta seriale"
     },
     "editor": {
@@ -1761,9 +1919,9 @@
           "reset": "Azzeramento della simulazione"
         },
         "base": {
-          "play": "Play",
+          "play": "Avvia",
           "pause": "Pause",
-          "reload": "Replay",
+          "reload": "Ripeti",
           "debug": "Simulazione passo dopo passo",
           "variables": "Visualizza le variabili",
           "fullscreen": "Schermo intero",
@@ -1772,11 +1930,11 @@
           "toggleBoardDisplay": "Mostra / Nascondi la mappa del simulatore",
           "switchWiringMode": "Passare alla modalità di cablaggio",
           "switchMosaicMode": "Passare alla modalità mosaico",
-          "wiringZoomIn": "Zoom in",
-          "wiringZoomOut": "Zoom out"
+          "wiringZoomIn": "Ingrandisci",
+          "wiringZoomOut": "Riduci"
         },
         "robot": {
-          "background": "Background",
+          "background": "Sfondo",
           "obstacle": "Ostacoli",
           "zoomout": "Zoom indietro",
           "zoomin": "Ingrandisci",
@@ -1811,7 +1969,7 @@
           "sound": "Suono",
           "penColor": "Colore del pennino",
           "pen": "Pennino",
-          "camera": "Camera",
+          "camera": "Telecamera",
           "restPose": "Posa di riposo",
           "movements": "Movimenti",
           "params": "Parametri"
@@ -1825,7 +1983,8 @@
         "sentData": "Dati inviati:",
         "crash": "Modalità di prevenzione dei crash abilitata: si verifica quando il codice include un ciclo infinito senza una chiamata alla funzione sleep(). Correggi il codice prima di riprovare.",
         "variables-panel-msg": "Questo programma non contiene variabili",
-        "replaySimulator": "Riavvia il simulatore per inviare dati"
+        "replaySimulator": "Riavvia il simulatore per inviare dati",
+        "skulptLoadError": "Impossibile caricare il simulatore. Controlla la connessione e riavvia il simulatore."
       },
       "tooltips": {
         "bluebot-buttons": "Puoi usare i pulsanti del robot Blue-bot per programmarlo!"
@@ -1880,6 +2039,7 @@
         "dht22-hum": "DHT22 - Umidità",
         "ds18x20": "DS18X20 - Temperatura",
         "mlx90621": "MLX90621 - Temperatura",
+        "bn880": "BN-880 - Orientamento magnetico",
         "dustSensor": "Sensore di particelle",
         "groveRain": "Sensore di pioggia",
         "rainGauge": "Pluviometro",
@@ -1919,11 +2079,16 @@
         "grovePulse": "Sensore di polso",
         "distanceInterrupter": "Interruttore di distanza"
       },
-      "pinError": "[Errore pin] Il modulo <b>{{modId}}</b> non può essere collegato al pin <b>{{pin}}</b>. Il modulo <b>{{attachedId}}</b> è già collegato."
+      "pinError": "[Errore pin] Il modulo <b>{{modId}}</b> non può essere collegato al pin <b>{{pin}}</b>. Il modulo <b>{{attachedId}}</b> è già collegato.",
+      "wiring": {
+        "unwiredPin": "[Cablaggio] Il modulo <b>{{module}}</b> è sul pin <b>{{pin}}</b>, che non ha connettore su questo shield: non è cablato.",
+        "i2cFull": "[Cablaggio] Troppi moduli I2C: <b>{{modules}}</b> non sono cablati.",
+        "noShield": "Nessuno shield Grove per questa scheda nel simulatore di cablaggio."
+      }
     },
     "ch340driver": {
       "title": "Problemi durante il caricamento?",
-      "gotIt": "Got it",
+      "gotIt": "Ho capito",
       "error": "Se sei qui, significa che non riusciamo ad aprire la porta seriale sul tuo computer per caricare il codice sulla tua scheda ESP32. Per cercare di risolvere questo problema, puoi installare o reinstallare il driver ch340.",
       "link": "Avvia l'installazione del driver ch340 disponibile qui:",
       "tutorial": "Una volta avviato l'eseguibile, premi semplicemente 'installa' se è la prima installazione. Altrimenti, premi 'disinstalla' e poi 'installa'. Alla fine dell'installazione, scollega/riavvia la tua scheda e ricarica l'interfaccia di Vittascience."
@@ -1946,9 +2111,9 @@
       "mixed-popup-leave-editor": "Per uscire dall'editor di codice utilizzando la tastiera, premere contemporaneamente i tasti <kbd>Bloc Maiusc</kbd> e <kbd>Esc</kbd>.",
       "mixed-popup-readonly": "<i class='fa-solid fa-lock'></i> In modalità mista, l'editor di codice è <strong>sola lettura</strong> per questa interfaccia. Puoi modificare solo usando i blocchi.",
       "mixed-popup-readonly-sr": "In modalità mista, il codice è sola lettura per questa interfaccia",
-      "mixed-small-screen": "On a small screen, the hybrid mode is not very practical: we recommend switching to the blocks or code mode.",
-      "mixed-small-screen-stay": "Stay in hybrid mode",
-      "mixed-small-screen-close": "Close",
+      "mixed-small-screen": "Su schermi piccoli la modalità mista non è molto pratica: consigliamo di passare alla modalità blocchi o codice.",
+      "mixed-small-screen-stay": "Rimani in modalità mista",
+      "mixed-small-screen-close": "Chiudi",
       "saveWarning": {
         "title": "<span class=\"fa fa-exclamation-circle\"></span> Avviso!",
         "warn": "<span class=\"fa fa-save\"></span> Salvare il lavoro prima di proseguire?<p class=\"mb-0 mt-0 hint\">Se crei un nuovo progetto senza prima salvare, il lavoro attuale andrà perso...</p>",
@@ -2051,7 +2216,7 @@
         "noticeHint": "<i class=\"fa fa-exclamation-triangle\"></i> Attenzione!</br><p class=\"hint\">Il codice attuale sarà aggiornato all'ultimo salvataggio locale, ossia allo stato salvato prima di passare alla modalità Arduino. Se desideri conservare il tuo codice Arduino, fai clic sul pulsante \"Esporta\".</p>",
         "buttons": {
           "continue": "<i class=\"fa fa-unlock\"></i> Continua",
-          "yes": "Yes",
+          "yes": "Sì",
           "no": "No",
           "export": "<i class=\"fas fa-file-export\"></i> Esporta",
           "cancel": "<i class=\"fa fa-undo \"></i> Annulla"
@@ -2103,7 +2268,7 @@
       },
       "shareProject": {
         "title": "Condividi il progetto",
-        "title2": "Shared project",
+        "title2": "Progetto condiviso",
         "link": {
           "open": "Apri",
           "title": "Link",
@@ -2140,15 +2305,15 @@
         "title": "<i class=\"fas fa-lightbulb\"></i> Crea un nuovo progetto",
         "notice": "<span class=\"fa fa-info-circle\"></span> Dopo aver creato il progetto, non dimenticare di salvarlo sul cloud tramite il pulsante di salvataggio. Perché non metterlo a disposizione degli altri utenti tramite l'opzione di condivisione?",
         "form": {
-          "projectName": "<i class=\"fas fa-book\"></i> Nome del progetto <span class=\"mandatory\">*</span></label>",
+          "projectName": "<i class=\"fas fa-book\"></i> Nome del progetto <span class=\"mandatory\">*</span>",
           "projectDesc": "<i class=\"far fa-edit\"></i> Descrizione del progetto (facoltativa)",
           "projectDescPlaceholder": "Descrivi lo sketch, sarà utile se vorrai in seguito condividere il tuo progetto."
         },
         "buttons": {
           "newProject": "Crea un nuovo progetto",
           "cancel": "Annulla",
-          "export": "Export",
-          "carryOn": "Carry on"
+          "export": "Esporta",
+          "carryOn": "Continua"
         }
       },
       "exportProject": {
@@ -2197,7 +2362,7 @@
           "addInput": "Aggiungi un input",
           "addOutput": "Aggiungi un output",
           "input": "Input",
-          "output": "Output"
+          "output": "Uscita"
         }
       },
       "microbitBLE": {
@@ -2227,6 +2392,7 @@
     },
     "robotGuide": {
       "tuto": "Per trovare i blocchi di programmazione del robot <b>[ROBOT_NAME]</b>, clicca sulla scheda <b><i class='fa-solid fa-robot me-1'></i>Robot</b>.",
+      "tuto-extension": "Per trovare i blocchi di programmazione del robot <b>[ROBOT_NAME]</b>, clicca sulla scheda <b><i class='fas fa-puzzle-piece me-1'></i>Estensioni</b>.",
       "tuto-rover": "Per trovare i blocchi di programmazione del robot <b>[ROBOT_NAME]</b>, clicca sulla scheda <b><i class='fas fa-cogs'></i>Avanzato</b> e poi su <b><i class='fa-solid fa-robot me-1'></i>ti_rover</b>."
     },
     "droneGuide": {
@@ -2982,7 +3148,7 @@
           "playSound": "Riproduci Suono"
         },
         "captureSettings": {
-          "delay": "Timer:",
+          "delay": "Temporizzatore:",
           "continuousMode": "Modalità continua",
           "interval": "Scatta 1 immagine ogni",
           "duration": "per",
@@ -3005,9 +3171,27 @@
         "disconnect": "Disconnetti",
         "board": "Scheda",
         "sensorsList": "Sensore: ",
+        "sensors": {
+          "accelerometer": "Accelerometro",
+          "micro": "Microfono",
+          "pin": "Pin {{pin}}",
+          "add": "Aggiungi un sensore",
+          "remove": "Rimuovi il sensore"
+        },
         "collectData": "Raccogli dati",
         "parameters": "Parametri",
-        "timeWindow": "Durata della finestra"
+        "timeWindow": "Durata della finestra",
+        "unoq": {
+          "upload": "Invio dell'app...",
+          "start": "Avvio (1 min la 1ª volta)...",
+          "error": "Impossibile connettersi all'Arduino UNO Q. Controlla il cavo USB, chiudi Arduino App Lab e le altre schede collegate alla scheda, poi riprova."
+        }
+      },
+      "edgeValidation": {
+        "accuracy": "Precisione sulle registrazioni messe da parte (non usate per l'addestramento): {{accuracy}} %",
+        "realFound": "Reale \\ Trovata",
+        "notEnoughRecords": "Nessuna validazione: servono almeno 5 registrazioni per classe per metterne da parte alcune e testare il modello.",
+        "uncertain": "Incerto"
       },
       "training": {
         "title": "Addestramento",
@@ -3055,9 +3239,9 @@
         "mobilenet": {
           "preview-title": "<b>Anteprima</b> <br> preview",
           "instruction-title": "<b>Istruzioni</b> <br> instruction",
-          "instructions": "<b>Posiziona un oggetto sul tavolo nell'area dedicata per essere rilevato dalla telecamera.<br> Osserva sullo schermo il risultato della predizione effettuata dall'intelligenza artificiale. </b><br><br> Place an object on the table in the designated area to be detected by the camera.<br> Observe on screen the prediction result from the artificial intelligence.",
+          "instructions": "<b>Posiziona un oggetto sul tavolo nell'area dedicata affinché venga rilevato dalla telecamera.<br>Osserva sullo schermo il risultato della predizione realizzata dall'intelligenza artificiale. </b><br><br>Posiziona un oggetto sul tavolo nell'area designata per essere rilevato dalla telecamera.<br>Osserva sullo schermo il risultato della predizione dell'intelligenza artificiale.",
           "results": "<b>Risultati</b><br>results",
-          "explaining-head": "<b>La percentuale mostrata indica la categoria identificata dall'intelligenza artificiale<b>",
+          "explaining-head": "<b>La percentuale mostrata indica la categoria identificata dall'intelligenza artificiale</b>",
           "explaining-body": "La percentuale mostrata indica la categoria identificata dall'intelligenza artificiale."
         },
         "dragDropFileHere": "Carica un'immagine (trascina e rilascia o clicca)",
@@ -3093,6 +3277,10 @@
           "python": {
             "title": "Python",
             "tooltip": "Usa il modello nell'interfaccia Python"
+          },
+          "arduinoq": {
+            "title": "Arduino UNO Q",
+            "tooltip": "Usa il modello sulla scheda Arduino UNO Q"
           },
           "microcontroller": {
             "title": "Microcontrollore",
@@ -3612,8 +3800,8 @@
           "titleModeration": "Moderazione nelle interfacce AI-Vittascience",
           "body": [
             "La moderazione delle risposte AI nelle interfacce Vittascience include diversi elementi: <br />",
-            "<ul><li>1. Tutti i modelli utilizzati sono addestrati per mantenere una conversazione 'moderata'. Tuttavia, in alcune situazioni potrebbe essere necessaria un'ulteriore supervisione.</li>",
-            "<li>2. Le risposte generate dall'IA sono moderate parola per parola. Se viene rilevata una parola considerata 'inappropriata', il sistema la sostituisce con una serie di asterischi della stessa lunghezza. Inoltre, gli utenti vengono avvisati con un messaggio subito dopo la risposta dell'IA.</li></ul>"
+            "1. Tutti i modelli utilizzati sono addestrati per mantenere una conversazione 'moderata'. Tuttavia, in alcune situazioni potrebbe essere necessaria un'ulteriore supervisione.",
+            "2. Le risposte generate dall'IA sono moderate parola per parola. Se viene rilevata una parola considerata 'inappropriata', il sistema la sostituisce con una serie di asterischi della stessa lunghezza. Inoltre, gli utenti vengono avvisati con un messaggio subito dopo la risposta dell'IA."
           ],
           "understood": "Ho capito"
         },
@@ -3966,8 +4154,8 @@
           "titleModeration": "Moderazione sulle interfacce AI-Vittascience",
           "body": [
             "La moderazione delle risposte AI sulle interfacce Vittascience comprende diversi elementi: <br />",
-            "<ul><li>1. <strong>Moderazione del prompt fornito dall'utente: </strong>Innanzitutto, il prompt fornito dall'utente passa attraverso una moderazione, effettuata da un modello di elaborazione del linguaggio naturale, addestrato a rilevare contenuti inappropriati. Se viene rilevato un contenuto inappropriato, l'utente viene invitato a riformulare la richiesta. </lu> <a class='bg-light text-dark'style='cursor: pointer;'>Vedi il prompt di moderazione</a>",
-            "<li>2. <strong>Verifica delle immagini generate </strong>: La seconda fase consiste nel controllare che l'immagine generata dall'IA non contenga elementi inappropriati. Se è così, l'immagine finale sarà completamente nera e le immagini delle fasi di generazione saranno sfocate.</li></ul>",
+            "1. <strong>Moderazione del prompt fornito dall'utente: </strong>Innanzitutto, il prompt fornito dall'utente passa attraverso una moderazione, effettuata da un modello di elaborazione del linguaggio naturale, addestrato a rilevare contenuti inappropriati. Se viene rilevato un contenuto inappropriato, l'utente viene invitato a riformulare la richiesta.  <a class='bg-light text-dark'style='cursor: pointer;'>Vedi il prompt di moderazione</a>",
+            "2. <strong>Verifica delle immagini generate </strong>: La seconda fase consiste nel controllare che l'immagine generata dall'IA non contenga elementi inappropriati. Se è così, l'immagine finale sarà completamente nera e le immagini delle fasi di generazione saranno sfocate.",
             " La combinazione di questi passaggi garantisce che le interazioni sulle interfacce Vittascience rimangano appropriate e rispettose."
           ],
           "safetyPrompt": [
@@ -4025,6 +4213,7 @@
           "progressAria": "{{used}} crediti usati su {{limit}}",
           "titleCreditInfo": "Informazioni sui crediti",
           "unlimitedCredits": "Illimitati",
+          "unlimitedImages": "Il tuo abbonamento include generazione illimitata di immagini",
           "unlimitedReset": "Il tuo abbonamento Premium include generazione di testo illimitata",
           "unlimitedConditions": "Il tuo abbonamento Premium include generazione di testo illimitata."
         }
@@ -4367,11 +4556,11 @@
         "publicCreations": "<i class='fa-solid fa-users m-1'></i>Creazioni della community",
         "favoriteCreations": "<i class='fa-solid fa-heart m-1'></i> I miei preferiti",
         "bestCreations": {
-          "title": "<i class='fa-solid fa-trophy m-1'></i></i>Concorso",
+          "title": "Concorso",
           "tooltip": "Ogni mese partecipa a un concorso di generazione di immagini su un tema definito! Pubblica la tua creazione e prova a rientrare tra le 3 immagini con più mi piace della community per vincere buoni regalo. (Un solo codice premio può essere assegnato per utente al mese.)"
         },
         "gameCreations": {
-          "title": "<i class='fa-solid fa-gamepad m-1'></i></i>Sfida",
+          "title": "Sfida",
           "tooltip": "Ogni settimana affronta una nuova sfida di ricostruzione d'immagine! L'obiettivo è ritrovare il prompt originale usato per generare l'immagine proposta scrivendo un prompt il più possibile simile. Il punteggio si basa sulla somiglianza tra il tuo prompt e il prompt di riferimento, non sulla somiglianza visiva tra le immagini."
         },
         "lifeTime": "Da {{ time }}",
@@ -4739,7 +4928,10 @@
       "send": " Ordine spedito",
       "cancelled": "Ordine annullato",
       "carrier": " Vettore",
-      "tracking": " Numero di tracciamento"
+      "tracking": " Numero di tracciamento",
+      "quoteSent": "Inviato",
+      "quoteDenied": "Rifiutato",
+      "quoteExpired": "Scaduto"
     }
   },
   "userDetails": {
@@ -4815,8 +5007,8 @@
       "Kit Pallone Solare",
       "Kit Forno Solare",
       "Altro",
-      "Kit Yes We Code",
-      "Kit Starter",
+      "Yes We Code Kit",
+      "Starter Kit",
       "Kit Stazione di Misura",
       "Kit Qualità dell'Aria",
       "Kit Corsa LED",
@@ -4983,7 +5175,7 @@
       "message": " Messaggio",
       "mandatory": " I campi contrassegnati da un <span class=\"mandatory\">*</span> sono obbligatori.",
       "send": " Inviare",
-      "success": " Il tuo messaggio è stato inviato con successo! </p><p>I responsabili del progetto ti contatteranno al più presto...",
+      "success": "<p>Il tuo messaggio è stato inviato con successo! </p><p>I responsabili del progetto ti contatteranno al più presto...</p>",
       "error": " Ci sono errori nel modulo:",
       "errors": {
         "name": " Nome e cognome errati. Il massimo è {{ maxi }} caratteri.",
@@ -5711,10 +5903,24 @@
     },
     "materialsNeeded": " Elenco dei materiali richiesti",
     "suggestedResources": " Risorse consigliate",
+    "classroomImport": {
+      "button": "Importa nel modulo Classe",
+      "loginTooltip": "Accedi per importare nel modulo Classe",
+      "success": "Risorsa importata nel modulo Classe.",
+      "error": "Importazione impossibile."
+    },
     "inIframe": {
       "btn": {
         "importBtnText": " Importazione",
-        "importAllBtnText": " Importazione di tutte le attività"
+        "importAllBtnText": " Importazione di tutte le attività",
+        "importAsCourseBtnText": "Importa come percorso"
+      },
+      "confirm": {
+        "activity": "Importare questa parte come attività nel modulo Classe?",
+        "course": "Importare questa risorsa come percorso nel modulo Classe? Le sue parti saranno copiate in ordine, in una cartella con il suo nome."
+      },
+      "license": {
+        "noDerivatives": "Questa risorsa è sotto licenza CC-BY-NC-ND (non opere derivate): non può essere importata nel modulo Classe."
       }
     }
   },
@@ -5750,6 +5956,19 @@
   },
   "modals": {
     "standard": {
+      "blocksScreenshot": {
+          "title": "Cattura dei blocchi",
+          "quality": "Qualità",
+          "qualities": {
+              "screen": "Schermo (×1)",
+              "good": "Buona (×2)",
+              "high": "Alta (×4)",
+              "veryHigh": "Molto alta (×8)"
+          },
+          "format": "Formato",
+          "size": "Dimensione dell'immagine: {{width}} × {{height}} pixel",
+          "download": "Scarica"
+      },
       "arduino-q-wifi": {
         "title": "Wi-Fi della scheda Arduino UNO Q",
         "enabled": "Wi-Fi attivato",
@@ -5949,7 +6168,7 @@
       "new": {
         "title": "Crea un nuovo progetto",
         "content": {
-          "name": "<i class='fas fa-book'></i> Nome del progetto <span class='mandatory'>*</span></label>",
+          "name": "<i class='fas fa-book'></i> Nome del progetto <span class='mandatory'>*</span>",
           "description": "<i class='far fa-edit'></i> Descrizione del progetto (opzionale)",
           "placeholder": {
             "name": "Nome del progetto",
@@ -6067,7 +6286,7 @@
             "libraries-link": "https://github.com/vittascience/galaxia-libraries"
           },
           "letsstartcoding": {
-            "name": "Lets start coding",
+            "name": "Iniziamo a programmare",
             "learn": "Per saperne di più sulle funzioni C++ disponibili con le schede Let's start coding, visita ",
             "learn-link": "https://www.letsstartcoding.com/",
             "libraries-link": "https://github.com/vittascience/arduino-libraries"
@@ -6189,6 +6408,9 @@
             "title": "Scorrimento automatico",
             "text": "Attiva lo scorrimento automatico"
           },
+          "sound": {
+            "title": "Volume suoni dei blocchi"
+          },
           "toolbox": {
             "title": "Scelta della toolbox",
             "notice": "Puoi cambiare la modalità dell'interfaccia. Questo modifica le categorie e lo stile dei blocchi.",
@@ -6209,7 +6431,7 @@
           "link": {
             "open": "Apri",
             "title": "Link",
-            "title2": "<i class='fas fa-link'></i> Link",
+            "title2": "<i class='fas fa-link'></i> Collegamento",
             "contentTitle": "Link diretto al progetto",
             "notice": "Questo link non scade e rimarrà valido finché il progetto è condiviso.",
             "buttonCopy": "Copia il link",
@@ -6300,7 +6522,7 @@
               "title": "<i class=\"fas fa-lightbulb\"></i> Crea un nuovo progetto",
               "notice": "<span class=\"fa fa-info-circle\"></span> Dopo aver creato il progetto, ricordati di salvarlo sul cloud tramite il pulsante di salvataggio. Perché non renderlo disponibile anche agli altri utenti tramite l'opzione di condivisione?",
               "form": {
-                "projectName": "<i class=\"fas fa-book\"></i> Nome del progetto <span class=\"mandatory\">*</span></label>",
+                "projectName": "<i class=\"fas fa-book\"></i> Nome del progetto <span class=\"mandatory\">*</span>",
                 "projectDesc": "<i class=\"far fa-edit\"></i> Descrizione del progetto (opzionale)",
                 "projectDescPlaceholder": "Descrivi il tuo sketch, utile se vuoi condividere il progetto in futuro."
               },
@@ -6391,6 +6613,38 @@
       "i18n": {
         "title": "Cambia la lingua dell'interfaccia"
       },
+      "shortcuts": {
+        "title": "Scorciatoie da tastiera",
+        "or": "o",
+        "then": "poi",
+        "table": {
+          "keys": "Tasti",
+          "action": "Azione"
+        },
+        "sections": {
+          "general": "Generale",
+          "code": "Editor di codice",
+          "blocks": "Area blocchi"
+        },
+        "actions": {
+          "save": "Salva il progetto",
+          "closeModal": "Chiudi la finestra aperta",
+          "focusNext": "Vai all'elemento successivo/precedente",
+          "resizeConsole": "Ingrandisci/riduci la console (barra di ridimensionamento selezionata)",
+          "enterEditor": "Entra nell'editor di codice",
+          "leaveEditor": "Esci dall'editor di codice",
+          "undo": "Annulla",
+          "redo": "Ripeti",
+          "selectAll": "Seleziona tutto",
+          "duplicateLine": "Duplica la riga o la selezione",
+          "moveLine": "Sposta la riga su/giù",
+          "indent": "Aumenta/riduci l'indentazione",
+          "toggleComment": "Commenta/decommenta",
+          "find": "Trova",
+          "replace": "Trova e sostituisci",
+          "navigateBlocks": "Naviga tra i blocchi"
+        }
+      },
       "codeOnly": {
         "title": "Passa alla modalità solo codice",
         "content": "Vuoi nascondere la selezione delle modalità per rimanere definitivamente in modalità Solo codice (senza blocchi)?",
@@ -6401,8 +6655,8 @@
           "content": "La modalità codice è attualmente bloccata. Ciò significa che le modalità blocchi e ibrida sono disattivate."
         },
         "exit": {
-          "title": "Leave code-only mode",
-          "content": "Do you wish to unlock code-only mode so that block and hybrid modes can be used again?"
+          "title": "Esci dalla modalità solo codice",
+          "content": "Vuoi sbloccare la modalità solo codice per riattivare le modalità a blocchi e ibrida?"
         }
       },
       "local-compilation": {
@@ -6494,6 +6748,18 @@
         "wrongLink": " Questo collegamento punta a un progetto che non esiste o non è stato creato con questa interfaccia. È possibile cercare un progetto da Open Project o crearne uno nuovo.",
         "wrongFile": " Questo file non sembra essere adatto a questa interfaccia. Controllare questa informazione nell'intestazione del file sulla linea 'Interface:'.",
         "wrongXml": "Questo link porta a un progetto che non sembra caricarsi correttamente nell'interfaccia. Condividi il link del progetto con noi contattando l'assistenza Vittascience. Cercheremo di risolvere il problema.",
+        "loadingError": "Impossibile caricare il progetto: la connessione al server non è riuscita. Controlla la tua connessione internet e ricarica la pagina.",
+        "reloadPage": "Ricarica la pagina",
+        "localDraft": {
+          "title": "Modifiche non salvate",
+          "content": "Questo progetto contiene modifiche che non sono state salvate sul server. Sono state conservate in questo browser.",
+          "lastChange": "Ultima modifica:",
+          "hint": "Se apri la versione salvata, queste modifiche andranno perse definitivamente.",
+          "buttons": {
+            "restore": "Recupera le mie modifiche",
+            "discard": "Apri la versione salvata"
+          }
+        },
         "privateProject": "Progetto privato",
         "rightsChange": "Modifica dei diritti di accesso",
         "rightsAttributed": "Diritti di accesso concessi",
@@ -6570,7 +6836,7 @@
             "question": "Sei sicuro/a di voler importare questo file python dal tuo computer?",
             "hint": "Perderai i progressi compiuti manualmente."
           },
-          "extension": "Warning! File type is normally not valid in this interface."
+          "extension": "Attenzione! Questo tipo di file normalmente non è supportato in questa interfaccia."
         },
         "footer": {
           "buttons": {
@@ -6742,6 +7008,9 @@
       "esp32": {
         "welcome": "Benvenuti all'interfaccia ESP32!",
         "tutorial_link": "Inizia a usare l'interfaccia ESP32 con questo tutorial"
+      },
+      "unihiker": {
+        "welcome": "Benvenuti nell'interfaccia UNIHIKER!"
       },
       "content": {
         "intro": "Seleziona la scheda che desideri programmare. Questo adatterà i vari blocchi e l'immagine nel simulatore.",
@@ -6964,7 +7233,7 @@
       },
       "camera-blocked": {
         "title": "Errore durante il caricamento della fotocamera",
-        "text": "<p class='camera-blocked-intro'>Si è verificato un errore durante l'inizializzazione della fotocamera. La causa più probabile è che l'accesso alle fotocamere è bloccato nel tuo browser. Puoi sbloccare le fotocamere seguendo i passaggi seguenti. Se il problema persiste e il tuo sistema operativo è Windows, potrebbe essere che un altro programma stia già usando la fotocamera.</p><ul class='camera-blocked-list'><li><p>Su Google Chrome</p><ol class='camera-blocked-ordered-list'><li><p>Clicca sul lucchetto a sinistra della barra degli URL.</p> <img src='/ia/assets/images/camera-blocked-chrome-1.png' alt=''></li><li>Clicca sul pulsante della riga <q>Fotocamera</q> per attivarla.</li><li>Clicca sul pulsante <q>Aggiorna</q> apparso sotto la barra degli URL.</li></ol></li><li><p>Su Mozilla Firefox<p><ol class='camera-blocked-ordered-list'><li><p>Clicca sull'icona della fotocamera barrata a sinistra della barra degli URL.</p> <img src='/ia/assets/images/camera-blocked-firefox-1.png' alt=''></li><li>Clicca sul pulsante <q>Bloccato temporaneamente X</q> nella riga della fotocamera per attivarla.</li><li>Seleziona <q>Consenti</q> al prossimo tentativo di accesso alla fotocamera.</li></ol></li></ul>"
+        "text": "<p class='camera-blocked-intro'>Si è verificato un errore durante l'inizializzazione della fotocamera. La causa più probabile è che l'accesso alle fotocamere è bloccato nel tuo browser. Puoi sbloccare le fotocamere seguendo i passaggi seguenti. Se il problema persiste e il tuo sistema operativo è Windows, potrebbe essere che un altro programma stia già usando la fotocamera.</p><ul class='camera-blocked-list'><li><p>Su Google Chrome</p><ol class='camera-blocked-ordered-list'><li><p>Clicca sul lucchetto a sinistra della barra degli URL.</p> <img src='/ia/assets/images/camera-blocked-chrome-1.png' alt=''></li><li>Clicca sul pulsante della riga <q>Fotocamera</q> per attivarla.</li><li>Clicca sul pulsante <q>Aggiorna</q> apparso sotto la barra degli URL.</li></ol></li><li><p>Su Mozilla Firefox</p><ol class='camera-blocked-ordered-list'><li><p>Clicca sull'icona della fotocamera barrata a sinistra della barra degli URL.</p> <img src='/ia/assets/images/camera-blocked-firefox-1.png' alt=''></li><li>Clicca sul pulsante <q>Bloccato temporaneamente X</q> nella riga della fotocamera per attivarla.</li><li>Seleziona <q>Consenti</q> al prossimo tentativo di accesso alla fotocamera.</li></ol></li></ul>"
       },
       "notification-save-export": {
         "title": "Usa questo modello",
@@ -7003,10 +7272,13 @@
         "generate": "Genera",
         "flash": "Carica un modello dal tuo dispositivo",
         "embeddedAiKit": "Kit IA integrata",
-        "seedStudioKit": "Kit Seeed Studio",
+        "seedStudioKit": "Seeed Studio Kit",
         "arduinoQ": "Arduino UNO Q",
         "arduinoQExplanations": "La scheda Arduino UNO Q esegue il modello direttamente sul suo processore Linux: non è necessaria alcuna ottimizzazione dal server.</br>Il modello si apre nell'interfaccia Arduino UNO Q con un programma di esempio, poi viene inviato alla scheda al caricamento.",
         "arduinoQNote": "<strong>Nota:</strong> se il tuo progetto non è salvato online, il modello resta in questo browser: carica il programma da questo stesso browser.",
+        "unihikerExplanations": "La scheda UNIHIKER M10 esegue il modello da sola, con l'immagine della sua fotocamera USB: non c'è nulla da generare né da flashare.",
+        "unihikerNote": "Il modello si apre nell'interfaccia UNIHIKER: viene inviato alla scheda con il programma durante il caricamento.",
+        "openUnihiker": "Apri nell'interfaccia UNIHIKER M10",
         "openArduinoQ": "Apri nell'interfaccia Arduino UNO Q"
       },
       "microcontroller-queue": {
@@ -7093,7 +7365,7 @@
       "error": "Impossibile connettersi a NAO. Controlla l'indirizzo IP e riprova."
     },
     "microbitLogdata": {
-      "title": "micro:bit data log"
+      "title": "Registro dati micro:bit"
     },
     "autosave-warning": {
       "title": "Nuova funzionalità!",
@@ -7102,12 +7374,12 @@
     "campus-numeria": {
       "no-city-selected": {
         "title": "Seleziona una città",
-        "content": "<p>Si prega di selezionare la città o l'istituto da cui controllerai il robot<p>",
+        "content": "<p>Si prega di selezionare la città o l'istituto da cui controllerai il robot</p>",
         "accept": "Accetta"
       },
       "unlogged-user": {
         "title": "Non sei connesso",
-        "content": "<p>Devi essere connesso con il tuo account vittascience per prenotare un slot e controllare il robot<p>",
+        "content": "<p>Devi essere connesso con il tuo account vittascience per prenotare un slot e controllare il robot</p>",
         "connect": "Connetti"
       },
       "booking-slot-exceeded": {
@@ -7245,6 +7517,8 @@
         "esp32": "Interfaccia di programmazione per le schede ESP32 (Wemos D1R32, NodeMCU, Huzzah32 ecc.)",
         "TI-83": "Interfaccia di programmazione per calcolatrice con scheda TI-Innovator™ Hub.",
         "GalaxiaCircuitPython": "Interfaccia di programmazione per la scheda Thingz-Galaxia",
+        "unihiker": "Interfaccia di programmazione per la scheda UNIHIKER M10: touch screen, sensori integrati e Python su Linux!",
+        "unihikerK10": "Interfaccia di programmazione per la scheda UNIHIKER K10: schermo, LED RGB, sensori integrati e MicroPython!",
         "raspberrypi": "Interfaccia di programmazione per la scheda Raspberry Pi",
         "niryo": "Interfaccia di programmazione per il robot Niryo Ned2",
         "nao": "Interfaccia di programmazione per il robot NAO v6",
@@ -7268,6 +7542,7 @@
         "maqueen": "Interfaccia di programmazione per il robot Maqueen",
         "maqueenPlus": "Interfaccia di programmazione per il robot Maqueen Plus V1 e V2",
         "cutebot": "Interfaccia di programmazione per il robot Cutebot",
+        "tpbot": "Interfaccia di programmazione per il robot TPBot",
         "cutebotPro": "Interfaccia di programmazione per il robot Cutebot Pro",
         "kitrobot": "Interfaccia di programmazione per il robot Kitro:bot v2",
         "oobybot": "Interfaccia di programmazione per il robot Oobybot",
@@ -7298,7 +7573,8 @@
         "uhandbit": "Interfaccia di programmazione per la mano robotica uHandbit",
         "wonder": "Interfaccia di programmazione per il kit Elecfreaks Wonder Building",
         "buildingbit": "Interfaccia di programmazione per il kit Yahboom Building:bit Super",
-        "primastem": "Interfaccia di programmazione per il robot PrimaStem"
+        "primastem": "Interfaccia di programmazione per il robot PrimaStem",
+        "skykick": "Interfaccia di programmazione per il drone SkyKick Evo"
       }
     },
     "features_title": "Caratteristiche comuni",
@@ -7423,6 +7699,18 @@
     "needProjectName": "Devi inserire il nome del progetto prima di poterlo salvare!",
     "projectSaveError": "Si è verificato un errore durante il salvataggio!",
     "projectSaveConflict": "Il tuo progetto NON è stato salvato: è stato modificato altrove. Salva di nuovo per sovrascrivere la versione memorizzata sul server.",
+    "projectSaveNotConnected": "Il tuo progetto NON è stato salvato: la tua sessione è scaduta. Accedi di nuovo e salva ancora, le tue modifiche sono conservate in questo browser.",
+    "projectSaveForbidden": "Il tuo progetto NON è stato salvato: non hai il permesso di modificare questo progetto. Usa «Salva con nome…» per salvarne una copia.",
+    "projectSaveNotFound": "Il tuo progetto NON è stato salvato: non esiste più sul server. Scaricalo per conservare il tuo lavoro.",
+    "projectSaveInvalid": "Il tuo progetto NON è stato salvato: il server ha rifiutato dati incompleti (nome o codice del progetto vuoto).",
+    "projectSaveNetworkError": "Il tuo progetto NON è stato salvato: il server non è raggiungibile. Controlla la tua connessione internet e riprova, le tue modifiche sono conservate in questo browser.",
+    "projectSaveServerError": "Il tuo progetto NON è stato salvato a causa di un errore del server. Riprova tra qualche istante; se il problema persiste, scarica il tuo progetto per non perdere il tuo lavoro.",
+    "projectOpened": "Progetto «{{name}}» aperto.",
+    "projectOpenError": "Impossibile aprire il progetto. Controlla la tua connessione internet e riprova.",
+    "projectCopySaved": "Copia «{{name}}» salvata: ora stai lavorando su questa copia.",
+    "localDraftRestored": "Le tue modifiche non salvate sono state recuperate. Ricordati di salvare il tuo progetto!",
+    "exerciseSaved": "L'esercizio è stato salvato con successo!",
+    "exerciseSaveFailed": "L'esercizio NON è stato salvato. Controlla la tua connessione internet e riprova.",
     "projectNoChangesToSave": "Nessuna modifica da salvare!",
     "projectSaveSuccess": "Il tuo progetto è stato salvato con successo!",
     "loadedProjectNotFound": "Il progetto richiesto non esiste!",
@@ -7484,6 +7772,7 @@
     "favoriteNotRemoved": "Impossibile rimuovere questa risorsa dai preferiti",
     "needToTrainModelForPrediction": "Devi addestrare il modello prima di fare previsioni!",
     "needAtLeastTwoCategoryForEdge": "Sono necessarie almeno due categorie per addestrare un modello!",
+    "edgeUnbalancedClasses": "Le classi non hanno lo stesso numero di registrazioni: il modello rischia di favorire le più grandi. Prova ad averne circa lo stesso numero in ogni classe.",
     "noDataToTrainModel": "Non ci sono dati per addestrare il modello!",
     "errorEdgeFilterDataMissingReccords": "Almeno una categoria non ha abbastanza record per addestrare un modello!",
     "errorEdgeFilterDataSensorStrategyMismatch": "Il modello non può essere addestrato perché sono usati più sensori nelle categorie!",
@@ -7599,7 +7888,7 @@
       "title": "Feedback",
       "intro": "Accogliamo volentieri i tuoi commenti sull'accessibilità di <span class=\"basic-information website-name\">Vittascience</span>. Segnala qualsiasi difficoltà di accesso riscontrata sul sito:",
       "phone": "Telefono: <span class=\"phone-number p-tel\">+33 6 06 75 81 86</span>",
-      "email": "Email: <a class=\"email u-email\" href=\"mailto:contact@vittascience.com\">contact@vittascience.com</a>",
+      "email": "E-mail: <a class=\"email u-email\" href=\"mailto:contact@vittascience.com\">contact@vittascience.com</a>",
       "address": "Indirizzo postale: <span class=\"visitor-address p-extended-address\">6 Boulevard Dubreuil, 91400 Orsay</span>"
     },
     "compatibility": {
@@ -7715,7 +8004,7 @@
       "classroom-dashboard-new-activity-panel3": " Assegnazione",
       "classroom-table-panel-teacher": " Classe {{name}}",
       "classroom-dashboard-sandbox-creation": " Selezione dell'interfaccia",
-      "classroom-dashboard-ide-panel": " Sandbox {{interface}}",
+      "classroom-dashboard-ide-panel": "Ambiente di test {{interface}}",
       "classroom-dashboard-activity-panel": " Attività {{name}}"
     },
     "displayCode": " Proiezione del codice",
@@ -7889,7 +8178,7 @@
     "faq": {
       "title": "Domande Frequenti",
       "question-1": "Cos'è l'abbonamento premium e quali sono i suoi vantaggi?",
-      "answer-1": "L'abbonamento Vittascience Premium ti permette di accedere a funzionalità aggiuntive sulla piattaforma.<br><ol><li class='mb-2'><strong>Modulo classe:</strong> Puoi aggiungere un numero illimitato di studenti e gruppi per insegnante, rispetto ai 50 studenti e 1 gruppo senza abbonamento.</li><li class='mb-2'><strong>Interfacce IA:</strong> Hai accesso illimitato ai modelli Premium per generare immagini e testo. Questi modelli, più performanti, offrono:<ul><li>Generazione Immagine: immagini di qualità superiore e più realistiche. Le caratteristiche specifiche di ogni modello sono spiegate direttamente nell'interfaccia.</li><li>Generazione Testo: accesso a LLM più potenti. Le caratteristiche specifiche di ogni modello sono spiegate direttamente nell'interfaccia.</li></ul></li><li><strong>Negozio online:</strong> Consegna gratuita (0€ di spese di spedizione) per ordini effettuati sulla boutique con destinazione Francia metropolitana.</li></ol>Per ulteriori informazioni contattaci: <a href='mailto:contact@vittascience.com?subject=Domanda sull'abbonamento premium'>contact@vittascience.com</a>",
+      "answer-1": "L'abbonamento Vittascience Premium ti permette di accedere a funzionalità aggiuntive sulla piattaforma.<br><ol><li class='mb-2'><strong>Modulo classe:</strong> Puoi aggiungere un numero illimitato di studenti e gruppi per insegnante, rispetto ai 50 studenti e 1 gruppo senza abbonamento.</li><li class='mb-2'><strong>Interfacce IA:</strong> Hai accesso illimitato ai modelli Premium per generare immagini e testo. Questi modelli, più performanti, offrono:<ul><li>Generazione Immagine: immagini di qualità superiore e più realistiche. Le caratteristiche specifiche di ogni modello sono spiegate direttamente nell'interfaccia.</li><li>Generazione Testo: accesso a LLM più potenti. Le caratteristiche specifiche di ogni modello sono spiegate direttamente nell'interfaccia.</li></ul></li><li><strong>Negozio online:</strong> Consegna gratuita (0€ di spese di spedizione) per ordini effettuati sulla boutique con destinazione Francia metropolitana.</li></ol>Per ulteriori informazioni contattaci: <a href='mailto:contact@vittascience.com?subject=Domanda sull’abbonamento premium'>contact@vittascience.com</a>",
       "question-2": "A chi è rivolto l'abbonamento premium?",
       "answer-2": "L'abbonamento Vittascience Premium si rivolge agli utenti della piattaforma, in particolare insegnanti e appassionati di programmazione e IA con modelli avanzati per la generazione di testo e immagini.",
       "question-3": "Esiste un periodo di prova gratuito?",
@@ -8425,9 +8714,9 @@
   },
   "let": {
     "buttons": {
-      "save": "Save",
-      "submit": "Submit",
-      "cancel": "Cancel"
+      "save": "Salva",
+      "submit": "Invia",
+      "cancel": "Annulla"
     }
   },
   "contact-info": {
@@ -8642,7 +8931,7 @@
         "presentation_text_ia": "Presentazione di Vittascience + IA (testo)",
         "presentation_text_illustrations": "Presentazione di Vittascience (testo + illustrazioni)",
         "presentation_16_9": "Presentazione di Vittascience (16/9)",
-        "logo": "Logo Vittascience",
+        "logo": "Logo di Vittascience",
         "logo_branding_guide": "Guida al branding",
         "teaser_fr": "Teaser Vittascience (francese)",
         "teaser_en": "Teaser Vittascience (inglese)"
@@ -8731,7 +9020,7 @@
       "title2": "In collaborazione con"
     },
     "ressources": {
-      "title": "SCOPRI <span class='color-orange'>3 RISORSE",
+      "title": "SCOPRI <span class='color-orange'>3 RISORSE</span>",
       "card1": "Introduzione alla scheda micro:bit",
       "card2": "Misurare la qualità dell'aria con un sensore MQ135 su Arduino",
       "card3": "mBot",
@@ -8846,7 +9135,7 @@
       "title2": "In collaborazione con"
     },
     "ressources": {
-      "title": "SCOPRI <span class='color-orange'>3 RISORSE",
+      "title": "SCOPRI <span class='color-orange'>3 RISORSE</span>",
       "card1": "Primi passi con la scheda micro:bit",
       "card2": "Misurare la qualità dell'aria con un sensore MQ135 su Arduino",
       "card3": "mBot",
@@ -9213,7 +9502,7 @@
     },
     "main": {
       "title": "Calcola il tuo impatto eq CO<sub>2</sub> dell'uso digitale",
-      "body": "🌍<strong> Lo sapevi?</strong> In Francia, ogni persona emette in media 10 tonnellate di CO₂ equivalente all'anno.<p>🎯 <strong>Obiettivo COP21:</strong> Ridurre questa impronta a 2 tonnellate di CO₂ equivalente per persona all'anno.</p><p>💻 <strong>E il digitale?</strong> Il digitale (Internet, smartphone, computer, ecc.) rappresenta il 4% di questa emissione, cioè 400 kg di CO₂ equivalente all'anno.</p><p>🚀 <strong>La sfida per il digitale:</strong> Per rispettare l'obiettivo COP21, questa emissione dovrebbe scendere a 80 kg di CO₂ equivalente all'anno.</p><p>❓ <strong>E tu?</strong> Sei pronto a raccogliere la sfida? Inizia valutando il tuo impatto attuale e scopri come ridurre la tua impronta di carbonio. 🌱✨",
+      "body": "🌍<strong> Lo sapevi?</strong> In Francia, ogni persona emette in media 10 tonnellate di CO₂ equivalente all'anno.<p>🎯 <strong>Obiettivo COP21:</strong> Ridurre questa impronta a 2 tonnellate di CO₂ equivalente per persona all'anno.</p><p>💻 <strong>E il digitale?</strong> Il digitale (Internet, smartphone, computer, ecc.) rappresenta il 4% di questa emissione, cioè 400 kg di CO₂ equivalente all'anno.</p><p>🚀 <strong>La sfida per il digitale:</strong> Per rispettare l'obiettivo COP21, questa emissione dovrebbe scendere a 80 kg di CO₂ equivalente all'anno.</p><p>❓ <strong>E tu?</strong> Sei pronto a raccogliere la sfida? Inizia valutando il tuo impatto attuale e scopri come ridurre la tua impronta di carbonio. 🌱✨</p>",
       "lastEvaluation": "Ultima valutazione : ",
       "notRated": "Ancora non valutato",
       "decrease": "Diminuzione",
@@ -9250,7 +9539,7 @@
       "questions": {
         "smartphone": {
           "icon": "📱",
-          "title": " Smartphone",
+          "title": "Smartphone",
           "rules": "<strong>Basi del calcolo:</strong> Schermo medio da 6,63 pollici, mix di tecnologie LCD e OLED, 8 GB di RAM, 210 GB di memoria (media ponderata tra 3 configurazioni, 24%, 24%, 52%).",
           "practical_tips": "Per un uso più responsabile del tuo smartphone, adotta alcune semplici abitudini:<br/>🔋 <strong>Attiva la modalità risparmio energetico</strong><br/>🌞 <strong>Imposta la luminosità automatica</strong><br/>❌ <strong>Chiudi le app inutilizzate</strong><br/>🌱 <strong>Conserva il telefono più a lungo</strong> per ridurre significativamente il suo impatto ambientale. Acquistare un modello usato è un'ottima scelta per il pianeta",
           "label_how_many_years": {
@@ -9748,7 +10037,7 @@
   },
   "foia": {
     "head": {
-      "mainTitle": "Future of IA x Vittascience",
+      "mainTitle": "Futuro dell'IA x Vittascience",
       "title": "Un laboratorio per formarsi sui <br/><em>temi dell'IA</em>",
       "lead": "Esplora il potenziale, le sfide e le professioni dell'intelligenza artificiale al servizio di missioni di interesse generale in Future of IA. Un'esperienza didattica proposta da Latitudes e Vittascience.",
       "startButton": "Inizia il laboratorio"

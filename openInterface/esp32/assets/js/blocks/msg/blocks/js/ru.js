@@ -615,5 +615,13 @@ Blockly.Msg['ACTUATORS_PCA9685_SETSERVOANGLE_TITLE'] = '[PCA9685] установ
 Blockly.Msg['ACTUATORS_PCA9685_SETSERVOANGLE_TOOLTIP'] = IMG_MODULE_PCA9685 + Blockly.Tooltip.SEP + 'Позволяет задать угол сервопривода (0–180) на одном канале модуля PCA9685. Подключите модуль к порту I2C. Внимание: питание должно быть от батареи, чтобы обеспечить достаточный ток для сервопривода.';
 Blockly.Msg['ACTUATORS_PCA9685_SETSERVOANGLECUSTOM_TITLE'] = '[PCA9685] установить угол сервопривода %1 на канале %2 с минимальным импульсом %3 (ms) и максимальным импульсом %4 (ms)';
 Blockly.Msg['ACTUATORS_PCA9685_SETSERVOANGLECUSTOM_TOOLTIP'] = IMG_MODULE_PCA9685 + Blockly.Tooltip.SEP + 'Позволяет задать угол сервопривода (0–180) на одном канале модуля PCA9685, задавая ширину импульса в мс для углов 0° и 180°. Подключите модуль к порту I2C. Внимание: питание должно быть от батареи, чтобы обеспечить достаточный ток для сервопривода.';
-Blockly.Msg["IO_GETGROVEDISTANCEINTERRUPTER_TITLE"] = "Blockly.Msg[\"IO_GETGROVEDISTANCEINTERRUPTER_TITLE\"] = \"[Дистанционный прерыватор] состояние на пине %1\";";
+Blockly.Msg["IO_GETGROVEDISTANCEINTERRUPTER_TITLE"] = "[Distance Interrupter] состояние на контакте %1";
 Blockly.Msg["IO_GETGROVEDISTANCEINTERRUPTER_TOOLTIP"] = IMG_MODULE_DISTANCE_INTERRUPTER + Blockly.Tooltip.SEP +"Возвращает состояние дистанционного прерыватора (0 или 1).";
+Blockly.Msg['SENSORS_BN880_GET_HEADING_TITLE'] = '[BN880] магнитный курс';
+Blockly.Msg['SENSORS_BN880_GET_HEADING_TOOLTIP'] = 'Возвращает магнитный курс в градусах. Магнитометр HMC5883L или QMC5883L определяется автоматически.';
+Blockly.Msg['ACTUATORS_MDD3A_INIT_TITLE'] = '[MDD3A] инициализировать выводы M1A %1 M1B %2 M2A %3 M2B %4';
+Blockly.Msg['ACTUATORS_MDD3A_INIT_TOOLTIP'] = IMG_MODULE_MDD3A + Blockly.Tooltip.SEP + 'Позволяет настроить 4 ШИМ-вывода (M1A, M1B, M2A, M2B) на ESP32, подключенные к драйверу двигателей постоянного тока Cytron MDD3A 2x3A.';
+Blockly.Msg['ACTUATORS_MDD3A_CONTROLMOTOR_TITLE'] = '[MDD3A] управлять мотором %1 %2, скорость %3 (%)';
+Blockly.Msg['ACTUATORS_MDD3A_CONTROLMOTOR_TOOLTIP'] = IMG_MODULE_MDD3A + Blockly.Tooltip.SEP + 'Позволяет управлять направлением вращения (вперёд через M1A/M2A или назад через M1B/M2B) и скоростью (от 0 до 100%) мотора M1 или M2 на модуле Cytron MDD3A.';
+Blockly.Msg['ACTUATORS_MDD3A_FORWARD'] = 'вперёд';
+Blockly.Msg['ACTUATORS_MDD3A_BACKWARD'] = 'назад';

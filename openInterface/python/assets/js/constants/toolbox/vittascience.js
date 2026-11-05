@@ -145,25 +145,238 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
     }
 ];
 
+const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
+    "display": [
+        {
+            "kind": "category",
+            "toolboxitemid": "display_console",
+            "name": "%{BKY_SUBCATEGORY_CONSOLE}",
+            "style": "display_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-terminal"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "display_time",
+            "name": "%{BKY_SUBCATEGORY_TIME}",
+            "style": "display_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-clock"
+            },
+            "contents": []
+        }
+    ],
+    "vittaia": [
+        {
+            "kind": "category",
+            "toolboxitemid": "vittaia_vittaia_image",
+            "name": "%{BKY_SUBCATEGORY_VITTAIA_IMAGE}",
+            "style": "vittaia_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-image"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "vittaia_vittaia_posture",
+            "name": "%{BKY_SUBCATEGORY_VITTAIA_POSTURE}",
+            "style": "vittaia_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-person"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "vittaia_vittaia_sound",
+            "name": "%{BKY_SUBCATEGORY_VITTAIA_SOUND}",
+            "style": "vittaia_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-microphone"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "vittaia_vittaia_text",
+            "name": "%{BKY_SUBCATEGORY_VITTAIA_TEXT}",
+            "style": "vittaia_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-font"
+            },
+            "contents": []
+        }
+    ],
+    "math": [
+        {
+            "kind": "category",
+            "toolboxitemid": "math_calculations",
+            "name": "%{BKY_TOOLBOX_LABEL_CALCULATIONS}",
+            "style": "math_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-calculator"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "math_rounding",
+            "name": "%{BKY_SUBCATEGORY_SHORT_ROUNDING}",
+            "style": "math_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-ruler-horizontal"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "math_random",
+            "name": "%{BKY_TOOLBOX_LABEL_RANDOM}",
+            "style": "math_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-dice"
+            },
+            "contents": []
+        }
+    ],
+    "text": [
+        {
+            "kind": "category",
+            "toolboxitemid": "text_create",
+            "name": "%{BKY_TOOLBOX_LABEL_CREATE}",
+            "style": "text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-pen"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "text_search",
+            "name": "%{BKY_TOOLBOX_LABEL_SEARCH}",
+            "style": "text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-magnifying-glass"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "text_transform",
+            "name": "%{BKY_TOOLBOX_LABEL_TRANSFORM}",
+            "style": "text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-wand-magic-sparkles"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "text_encryption",
+            "name": "%{BKY_SUBCATEGORY_ENCRYPTION}",
+            "style": "text_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-lock"
+            },
+            "contents": []
+        }
+    ],
+    "lists": [
+        {
+            "kind": "category",
+            "toolboxitemid": "lists_create",
+            "name": "%{BKY_TOOLBOX_LABEL_CREATE}",
+            "style": "lists_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-plus"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "lists_read",
+            "name": "%{BKY_TOOLBOX_LABEL_READ}",
+            "style": "lists_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-eye"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "lists_modify",
+            "name": "%{BKY_TOOLBOX_LABEL_MODIFY}",
+            "style": "lists_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-pen-to-square"
+            },
+            "contents": []
+        }
+    ],
+    "dictionaries": [
+        {
+            "kind": "category",
+            "toolboxitemid": "dictionaries_create",
+            "name": "%{BKY_TOOLBOX_LABEL_CREATE}",
+            "style": "dictionaries_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-plus"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "dictionaries_read",
+            "name": "%{BKY_TOOLBOX_LABEL_READ}",
+            "style": "dictionaries_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-eye"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
+            "toolboxitemid": "dictionaries_modify",
+            "name": "%{BKY_TOOLBOX_LABEL_MODIFY}",
+            "style": "dictionaries_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-pen-to-square"
+            },
+            "contents": []
+        }
+    ]
+};
+
 const TOOLBOX_VITTASCIENCE_CONTENT = {
     "display": [
         {
-            "label": "%{BKY_SUBCATEGORY_CONSOLE}",
-            "blocks": [
-                'display_print',
-                'display_input',
-                'display_input_number'
+            "subCategoryId": "display_console",
+            "contents": [
+                {
+                    "blocks": [
+                        'display_print',
+                        'display_input',
+                        'display_input_number'
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_TIME}",
-            "blocks": [
-                'time_sleep',
-                'time_time',
-                'time_waitUntil',
-                'time_initChronometer',
-                'time_getChronometer',
-                'time_getDate'
+            "subCategoryId": "display_time",
+            "contents": [
+                {
+                    "blocks": [
+                        'time_sleep',
+                        'time_time',
+                        'time_waitUntil',
+                        'time_initChronometer',
+                        'time_getChronometer',
+                        'time_getDate'
+                    ]
+                }
             ]
         }
     ],
@@ -227,47 +440,63 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
     ],
     "vittaia": [
         {
-            "label": "%{BKY_SUBCATEGORY_VITTAIA_IMAGE}",
-            "blocks": [
-                'vittaia_load_model',
-                'vittaia_load_local_model',
-                'vittaia_load_model_default',
-                'vittaia_make_predictions_webcam',
-                'vittaia_make_predictions_file',
-                'vittaia_get_highest_probability_class',
-                'vittaia_get_confidence_rate',
-                'vittaia_get_predictions',
-                'vittaia_detect_class',
-                'vittaia_list_webcams',
-                'vittaia_init_webcam'
+            "subCategoryId": "vittaia_vittaia_image",
+            "contents": [
+                {
+                    "blocks": [
+                        'vittaia_load_model',
+                        'vittaia_load_local_model',
+                        'vittaia_load_model_default',
+                        'vittaia_make_predictions_webcam',
+                        'vittaia_make_predictions_file',
+                        'vittaia_get_highest_probability_class',
+                        'vittaia_get_confidence_rate',
+                        'vittaia_get_predictions',
+                        'vittaia_detect_class',
+                        'vittaia_list_webcams',
+                        'vittaia_init_webcam'
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_VITTAIA_POSTURE}",
-            "blocks": [
-                'vittaia_load_posture_model',
-                'vittaia_init_posture_webcam',
-                'vittaia_make_posture_predictions',
-                'vittaia_list_posture_webcams'
-                
+            "subCategoryId": "vittaia_vittaia_posture",
+            "contents": [
+                {
+                    "blocks": [
+                        'vittaia_load_posture_model',
+                        'vittaia_init_posture_webcam',
+                        'vittaia_make_posture_predictions',
+                        'vittaia_list_posture_webcams'
+                        
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_VITTAIA_SOUND}",
-            "blocks": [
-                'vittaia_load_sound_model',
-                'vittaia_init_microphone',
-                'vittaia_make_sound_predictions',
-                'vittaia_list_microphones'
+            "subCategoryId": "vittaia_vittaia_sound",
+            "contents": [
+                {
+                    "blocks": [
+                        'vittaia_load_sound_model',
+                        'vittaia_init_microphone',
+                        'vittaia_make_sound_predictions',
+                        'vittaia_list_microphones'
+                    ]
+                }
             ]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_VITTAIA_TEXT}",
-            "blocks": [
-                'vittaia_load_discussion',
-                'vittaia_set_randomness',
-                'vittaia_set_model_ia',
-                'vittaia_model_text_predict', 
+            "subCategoryId": "vittaia_vittaia_text",
+            "contents": [
+                {
+                    "blocks": [
+                        'vittaia_load_discussion',
+                        'vittaia_set_randomness',
+                        'vittaia_set_model_ia',
+                        'vittaia_model_text_predict', 
+                    ]
+                }
             ]
         }
     ],
@@ -301,93 +530,163 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
     ],
     "math": [
         {
-            "blocks": [
-                'math_number',
-                'math_arithmetic-add',
-                'math_single',
-                'math_trig',
-                'math_constant',
-                'math_number_property',
-                'math_map',
-                'math_round',
-                'math_round_ndigits',
-                'math_modulo',
-                'math_constrain',
-                'math_random_int',
-                'math_random_float',
-                'math_atan2',
-                'math_min_max'
-            ]
+            "subCategoryId": "math_calculations",
+            "contents": [{
+                "blocks": [
+                    'math_number',
+                    'math_arithmetic-add',
+                    'math_single',
+                    'math_trig',
+                    'math_constant',
+                    'math_number_property',
+                    'math_modulo',
+                    'math_atan2',
+                    'math_min_max'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "math_rounding",
+            "contents": [{
+                "blocks": [
+                    'math_map',
+                    'math_round',
+                    'math_round_ndigits',
+                    'math_constrain'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "math_random",
+            "contents": [{
+                "blocks": [
+                    'math_random_int',
+                    'math_random_float'
+                ]
+            }]
         }
     ],
     "text": [
         {
-            "blocks": [
-                'text_comment',
-                'text',
-                'text_join',
-                'text_newline',
-                'text_append',
-                'text_split',
-                'text_length',
-                'text_isEmpty',
-                'text_includesSubstr',
-                'text_indexOf',
-                'text_charAt',
-                'text_getSubstring',
-                'text_count_characters',
-                'text_changeCase',
-                'text_trim',
-                'text_count',
-                'text_replace',
-                'text_reverse',
-                'text_random_string'
-            ]
+            "subCategoryId": "text_create",
+            "contents": [{
+                "blocks": [
+                    'text_comment',
+                    'text',
+                    'text_join',
+                    'text_newline',
+                    'text_append'
+                ]
+            }]
         },
         {
-            "label": "%{BKY_SUBCATEGORY_ENCRYPTION}",
-            "blocks": [
-                'text_caesar_cipher',
-                'text_caesar_cipher_brute_force'
-            ],
+            "subCategoryId": "text_search",
+            "contents": [{
+                "blocks": [
+                    'text_length',
+                    'text_isEmpty',
+                    'text_includesSubstr',
+                    'text_indexOf',
+                    'text_charAt',
+                    'text_count_characters',
+                    'text_count'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "text_transform",
+            "contents": [{
+                "blocks": [
+                    'text_split',
+                    'text_getSubstring',
+                    'text_changeCase',
+                    'text_trim',
+                    'text_replace',
+                    'text_reverse',
+                    'text_random_string'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "text_encryption",
+            "contents": [{
+                "blocks": [
+                    'text_caesar_cipher',
+                    'text_caesar_cipher_brute_force'
+                ]
+            }]
         }
     ],
     "variables": "customized",
     "lists": [
         {
-            "blocks": [
-                'lists_create_with-0',
-                'lists_create_with',
-                'lists_repeat',
-                'lists_length',
-                'lists_isEmpty',
-                'math_on_list',
-                'lists_reverse',
-                'lists_shuffle',
-                'lists_indexOf',
-                'lists_getIndex',
-                'lists_append',
-                'lists_setIndex',
-                'lists_getSublist',
-                'lists_split',
-                'lists_sort'
-            ]
+            "subCategoryId": "lists_create",
+            "contents": [{
+                "blocks": [
+                    'lists_create_with-0',
+                    'lists_create_with',
+                    'lists_repeat',
+                    'lists_split'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "lists_read",
+            "contents": [{
+                "blocks": [
+                    'lists_length',
+                    'lists_isEmpty',
+                    'math_on_list',
+                    'lists_indexOf',
+                    'lists_getIndex',
+                    'lists_getSublist'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "lists_modify",
+            "contents": [{
+                "blocks": [
+                    'lists_reverse',
+                    'lists_shuffle',
+                    'lists_append',
+                    'lists_setIndex',
+                    'lists_sort'
+                ]
+            }]
         }
     ],
     "dictionaries": [
         {
-            "blocks": [
-                'dictionaries_create_empty',
-                'dictionaries_create_with',
-                'dictionaries_length',
-                'dictionaries_get_item',
-                'dictionaries_update_item',
-                'dictionaries_include',
-                'dictionaries_delete_tuple',
-                'dictionaries_clear',
-                'dictionaries_add_tuple',
-                'dictionaries_loop'
-            ]
+            "subCategoryId": "dictionaries_create",
+            "contents": [{
+                "blocks": [
+                    'dictionaries_create_empty',
+                    'dictionaries_create_with'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "dictionaries_read",
+            "contents": [{
+                "blocks": [
+                    'dictionaries_length',
+                    'dictionaries_get_item',
+                    'dictionaries_include',
+                    'dictionaries_loop'
+                ]
+            }]
+        },
+        {
+            "subCategoryId": "dictionaries_modify",
+            "contents": [{
+                "blocks": [
+                    'dictionaries_update_item',
+                    'dictionaries_delete_tuple',
+                    'dictionaries_clear',
+                    'dictionaries_add_tuple'
+                ]
+            }]
         }
     ],
     "procedures": "customized",

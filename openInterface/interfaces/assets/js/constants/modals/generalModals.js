@@ -17,9 +17,11 @@ let stdModals = {};
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="csv-tab" data-bs-toggle="tab" data-bs-target="#txt" type="button" role="tab" aria-controls="txt" aria-selected="false">TXT</button>
                 </li>
+                <!-- VittAPI disabled pending a product decision
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="api-tab" data-bs-toggle="tab" data-bs-target="#api" type="button" role="tab" aria-controls="api" aria-selected="false">API</button>
                 </li>
+                -->
             </ul>
     
             <div class="tab-content">
@@ -46,6 +48,7 @@ let stdModals = {};
                     </div>
                     <button type="button" class="btn btn-primary tracer-export d-block my-3 mx-auto" id="export-traceur" onclick="exportInTXT()" data-i18n="modals.standard.export.content.txt.button">${jsonPath('modals.standard.export.content.csv.button')}</button>
                 </div>
+                <!-- VittAPI disabled pending a product decision
                 <div class="tab-pane" id="api" role="tabpanel" aria-labelledby="api-tab" tabindex="0">
                     <div class="hint alert alert-info alert-lite">
                         <i class="fa fa-info-circle"></i>
@@ -78,6 +81,7 @@ let stdModals = {};
                         </div>  
                     </div>
                 </div>
+                -->
             </div>`,
             footer: ``
         },
@@ -371,6 +375,15 @@ let stdModals = {};
                         <span  style="margin-left: 10px; vertical-align: top;">${jsonPath('modals.standard.settings.content.scroll.text')}</span>
                     </div>
                 </div>
+                <div class="ide-modal-section mt-3">
+                    <h5><label for="blocklySoundVolume">${jsonPath('modals.standard.settings.content.sound.title')}</label></h5>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-volume-xmark me-2" aria-hidden="true"></i>
+                        <input type="range" class="form-range" id="blocklySoundVolume" min="0" max="100" step="5" style="width: 200px;">
+                        <i class="fas fa-volume-high ms-2" aria-hidden="true"></i>
+                        <output for="blocklySoundVolume" id="blocklySoundVolumeValue" class="ms-2"></output>
+                    </div>
+                </div>
                 ${typeof specific_toolboxToggler !== 'undefined' ? specific_toolboxToggler() : ''}
                 ${typeof specific_boardSelector !== 'undefined' ? specific_boardSelector() : ''}`,
             footer: ``
@@ -513,7 +526,7 @@ let stdModals = {};
             },
             content: `
                 <div class="auto-corrector-body text-center">
-                    <img src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/auto-corrector/error.svg" />
+                    <img loading="lazy" src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/auto-corrector/error.svg" />
                     <p class="auto-corrector-text auto-corrector-incorrect-text">
                         ${jsonPath('modals.simulator.auto-corrector.incorrect')}
                     </p><br>
@@ -532,7 +545,7 @@ let stdModals = {};
             },
             content: `
                 <div class="auto-corrector-body text-center">
-                    <img src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/auto-corrector/validate.svg"/>
+                    <img loading="lazy" src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/auto-corrector/validate.svg"/>
                     <p class="auto-corrector-text auto-corrector-correct-text">
                         ${jsonPath('modals.simulator.auto-corrector.correct')}
                     </p>
@@ -591,7 +604,7 @@ let stdModals = {};
             },
             content: `
                 <div class="auto-corrector-body text-center">
-                    <img src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/auto-corrector/error.svg" />
+                    <img loading="lazy" src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/auto-corrector/error.svg" />
                     <p class="auto-corrector-text auto-corrector-incorrect-text">
                         ${jsonPath('modals.simulator.auto-corrector.no-project-opened.body')}
                     </p>
@@ -626,7 +639,7 @@ let stdModals = {};
             },
             content: `
                 <div class="auto-corrector-body text-center">
-                    <img src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/auto-corrector/error.svg" />
+                    <img loading="lazy" src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/auto-corrector/error.svg" />
                     <p class="auto-corrector-text auto-corrector-incorrect-text">
                         ${jsonPath('modals.simulator.auto-corrector.no-project-owner.body')}
                     </p>
@@ -746,7 +759,7 @@ let stdModals = {};
                     <p class="modal-ch340-driver-link">
                         ${jsonPath('modals.ch340driver.link')}
                         <a href='https://www.wemos.cc/en/latest/ch340_driver.html' target="_blank">https://www.wemos.cc/en/latest/ch340_driver.html</a>
-                        <img class="modal-ch340-driver-img" src='${CDN_PATH}/openInterface/interfaces/assets/media/modals/ch340_driver_install.png'>
+                        <img loading="lazy" class="modal-ch340-driver-img" src='${CDN_PATH}/openInterface/interfaces/assets/media/modals/ch340_driver_install.png'>
                     </p>
                     <p class="modal-ch340-driver-tutorial">
                         ${jsonPath('modals.ch340driver.tutorial')}
@@ -817,8 +830,8 @@ let stdModals = {};
                     <p>⚠️ <strong>${jsonPath('code.WebBluetoothAPI.usePhone')}</strong></p>
                     <p>${jsonPath('code.popups.microbitBLE.content')}</p>
                     <div class="d-flex flex-row">
-                        <img class="w-50 h-50" src="${CDN_PATH}/openInterface/interfaces/assets/media/modals/microbit_buttons.png" alt="">
-                        <img class="w-50 h-50" src="${CDN_PATH}/openInterface/interfaces/assets/media/modals/microbit_reset.png" alt="">
+                        <img loading="lazy" class="w-50 h-50" src="${CDN_PATH}/openInterface/interfaces/assets/media/modals/microbit_buttons.png" alt="">
+                        <img loading="lazy" class="w-50 h-50" src="${CDN_PATH}/openInterface/interfaces/assets/media/modals/microbit_reset.png" alt="">
                     </div>
                 </div>`,
             footer: `
@@ -922,7 +935,7 @@ let stdModals = {};
                             <p id="turtle-exercise-creation-explanations">
                                 ${jsonPath('modals.turtleCorrection.explanations')}
                             </p>
-                            <img class="turtle-exercise-creation-image" id="turtle-exercise-creation-image" alt="${jsonPath('modals.turtleCorrection.imageAlt')}">
+                            <img loading="lazy" class="turtle-exercise-creation-image" id="turtle-exercise-creation-image" alt="${jsonPath('modals.turtleCorrection.imageAlt')}">
                         </div>
                         <div class="record-exercise text-center mt-2">
                             <button class="btn v-btn mb-1" onclick="turtleAutocorrector.recordExercise()" id="record-turtle-exercise-btn">${jsonPath('modals.turtleCorrection.record')}</button>
@@ -956,7 +969,7 @@ let stdModals = {};
                 <div class="container text-center mt-3">
                     <div class="m-auto w-75 mb-3 simple-box-shadow-element">
                         <figure class="figure">
-                            <img class="figure-img img-fluid rounded w-75" src='${CDN_PATH}/openInterface/interfaces/assets/media/modals/microbit-upload-duo-mode_no-bg.png' alt="Upload Python Duo"/>
+                            <img loading="lazy" class="figure-img img-fluid rounded w-75" src='${CDN_PATH}/openInterface/interfaces/assets/media/modals/microbit-upload-duo-mode_no-bg.png' alt="Upload Python Duo"/>
                         </figure>
                     </div>
                     <div class="d-flex justify-content-evenly align-items-center">
@@ -976,7 +989,7 @@ let stdModals = {};
                 <div class="container text-center mt-3">
                     <div class="m-auto w-75 mb-3 simple-box-shadow-element">
                         <figure class="figure">
-                            <img class="figure-img img-fluid rounded w-75" src='${CDN_PATH}/openInterface/interfaces/assets/media/modals/microbit-upload-duo-mode_no-bg.png' alt="Upload Python Duo"/>
+                            <img loading="lazy" class="figure-img img-fluid rounded w-75" src='${CDN_PATH}/openInterface/interfaces/assets/media/modals/microbit-upload-duo-mode_no-bg.png' alt="Upload Python Duo"/>
                         </figure>
                     </div>
                     <div class="d-flex justify-content-evenly align-items-center">
@@ -989,14 +1002,14 @@ let stdModals = {};
         'modal-duo-download-hex': {
             selector: '',
             header: {
-                icon: "/openInterface/interfaces/assets/media/micropython_logo.svg",
+                icon: `${CDN_PATH}/openInterface/interfaces/assets/media/micropython_logo.svg`,
                 title: 'code.topbar.tooltips.downloadHex'
             },
             content: `
                 <div class="container text-center mt-3">
                     <div class="m-auto w-75 mb-3 simple-box-shadow-element">
                         <figure class="figure">
-                            <img class="figure-img img-fluid rounded w-75" src='${CDN_PATH}/openInterface/interfaces/assets/media/modals/microbit-upload-duo-mode_no-bg.png' alt="Upload Python Duo"/>
+                            <img loading="lazy" class="figure-img img-fluid rounded w-75" src='${CDN_PATH}/openInterface/interfaces/assets/media/modals/microbit-upload-duo-mode_no-bg.png' alt="Upload Python Duo"/>
                         </figure>
                     </div>
                     <div class="d-flex justify-content-evenly align-items-center">
@@ -1314,7 +1327,36 @@ let stdModals = {};
                 <button type="button" id="arduino-q-password-close" class="btn btn-secondary" style="flex:1; margin-left:5px;" data-i18n="modals.standard.arduino-q-password.buttons.close.text;[title]modals.standard.arduino-q-password.buttons.close.tooltip">
                     Close
                 </button>`
-        }
+        },
+
+        // Screenshot of the blocks (camera button of the workspace): quality (scale of the image) and format
+        'modal-blocks-screenshot': {
+            selector: '',
+            header: {
+                icon: 'fas fa-camera',
+                title: 'modals.standard.blocksScreenshot.title'
+            },
+            content: `<div>
+                <label class="form-label fw-bold" for="blocks-screenshot-quality" data-i18n="modals.standard.blocksScreenshot.quality">${jsonPath('modals.standard.blocksScreenshot.quality')}</label>
+                <select id="blocks-screenshot-quality" class="form-select mb-3" onchange="Blockly.VittaScreenshot.update()">
+                    <option value="1" data-i18n="modals.standard.blocksScreenshot.qualities.screen">${jsonPath('modals.standard.blocksScreenshot.qualities.screen')}</option>
+                    <option value="2" selected data-i18n="modals.standard.blocksScreenshot.qualities.good">${jsonPath('modals.standard.blocksScreenshot.qualities.good')}</option>
+                    <option value="4" data-i18n="modals.standard.blocksScreenshot.qualities.high">${jsonPath('modals.standard.blocksScreenshot.qualities.high')}</option>
+                    <option value="8" data-i18n="modals.standard.blocksScreenshot.qualities.veryHigh">${jsonPath('modals.standard.blocksScreenshot.qualities.veryHigh')}</option>
+                </select>
+                <label class="form-label fw-bold" for="blocks-screenshot-format" data-i18n="modals.standard.blocksScreenshot.format">${jsonPath('modals.standard.blocksScreenshot.format')}</label>
+                <select id="blocks-screenshot-format" class="form-select mb-3" onchange="Blockly.VittaScreenshot.update()">
+                    <option value="png" selected>PNG</option>
+                    <option value="jpeg">JPG</option>
+                    <option value="webp">WebP</option>
+                </select>
+                <p id="blocks-screenshot-size" class="mb-0"></p>
+            </div>`,
+            footer: `
+                <button type="button" id="blocks-screenshot-download" class="btn vitta-button" style="flex:1;" onclick="Blockly.VittaScreenshot.download()" data-i18n="modals.standard.blocksScreenshot.download">
+                    ${jsonPath('modals.standard.blocksScreenshot.download')}
+                </button>`
+        },
 
         // Template not modify, not delete
         // '0': {

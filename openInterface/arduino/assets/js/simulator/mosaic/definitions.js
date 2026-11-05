@@ -48,6 +48,7 @@ Simulator.Mosaic.groveRegex = {
 	"si1145": /Adafruit_SI1145.h/gi,
 	"colorSensor": /Adafruit_TCS34725.h/g,
 	"gestureSensor": /paj7620.h/gi,
+	"mlx90621": /MLX90621.h/gi,
 	"rtc": /DS1307.h/gi,
 	// analog read
 	"dioxygen": /PIN_DIOXYGEN_SENSOR_(A[0-9]{1,2})/gi,

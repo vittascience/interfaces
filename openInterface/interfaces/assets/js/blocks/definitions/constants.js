@@ -108,7 +108,7 @@ Blockly.Constants.getToolboxStyle = function () {
  * @return {String}
  */
 Blockly.Constants.getSelectedBoard = function () {
-    if (['arduino', 'esp32', 'pico', 'raspberrypi'].includes(INTERFACE_NAME)) {
+    if (['arduino', 'esp32', 'pico', 'raspberrypi', 'unihiker'].includes(INTERFACE_NAME)) {
         const value = getParamValue('board');
         if (value !== null && Object.keys(INTERFACE_BOARDS).includes(value)) {
             return value;
@@ -1035,7 +1035,8 @@ Blockly.Constants.Utils.ADD_ICON = function (icon) {
         "sound": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJDYWxxdWVfMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNTYuNjkgNTYuNjkiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDpub25lO30uY2xzLTEsLmNscy0ye3N0cm9rZS13aWR0aDowcHg7fS5jbHMtMntmaWxsOiNmZWZlZmU7fTwvc3R5bGU+PC9kZWZzPjxnIGlkPSJDYWxxdWVfMS0yIj48ZyBpZD0iaWFfc291bmRfYmxvY2tzIj48cGF0aCBpZD0iaWNvbi1taWMtMiIgY2xhc3M9ImNscy0yIiBkPSJtMjYuNzEsNDMuMjl2LTUuMzZjLTUuNjItLjc1LTEwLjA3LTUuMTMtMTAuOTEtMTAuNzQtLjEzLS44OS40OS0xLjcyLDEuMzktMS44NS44OS0uMTIsMS43Mi41LDEuODUsMS4zOS42OCw0LjYxLDQuNjQsOC4wNCw5LjMsOC4wNSw0LjY3LS4wMSw4LjYzLTMuNDQsOS4zLTguMDcuMTMtLjkuOTYtMS41MiwxLjg1LTEuMzksMCwwLDAsMCwwLDAsLjkuMTMsMS41Mi45NiwxLjM5LDEuODUtLjgyLDUuNjItNS4yOCwxMC4wMS0xMC45MSwxMC43NnY1LjM2YzAsLjktLjczLDEuNjQtMS42NCwxLjY0cy0xLjY0LS43My0xLjY0LTEuNjRoMFptLTMuMy0xNi4yNnYtMTAuMzJjMC0yLjczLDIuMjEtNC45NCw0Ljk0LTQuOTQsMi43MywwLDQuOTQsMi4yMSw0Ljk0LDQuOTRoMHYxMC4zMmMwLDIuNzMtMi4yMSw0Ljk0LTQuOTQsNC45NGgwYy0yLjczLDAtNC45NC0yLjIxLTQuOTQtNC45NFoiLz48cmVjdCBjbGFzcz0iY2xzLTEiIHdpZHRoPSI1Ni42OSIgaGVpZ2h0PSI1Ni42OSIvPjwvZz48L2c+PC9zdmc+",
         "text": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJDYWxxdWVfMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNDUuMzUgMzAuMjEiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDpub25lO30uY2xzLTEsLmNscy0ye3N0cm9rZS13aWR0aDowcHg7fS5jbHMtMntmaWxsOiNmZmY7fTwvc3R5bGU+PC9kZWZzPjxnIGlkPSJDYWxxdWVfMS0yIj48ZyBpZD0iaWFfdGV4dF9ibG9jcyI+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNDUuMzUiIGhlaWdodD0iMzAuMjEiLz48cGF0aCBpZD0iaWNvbi1mdWxsc2NyZWVuIiBjbGFzcz0iY2xzLTIiIGQ9Im0zNi4zOCwzMC4yMWgtNi4xOGMtLjg5LDAtMS42MS0uNzItMS42MS0xLjYxaDBjMC0uODkuNzItMS42MSwxLjYxLTEuNjFoNC41N3YtNC41OGMwLS44OS43Mi0xLjYxLDEuNjEtMS42MWgwYy44OSwwLDEuNjEuNzIsMS42MSwxLjYxaDB2Ni4xOWMwLC44OS0uNzIsMS42MS0xLjYxLDEuNjEsMCwwLDAsMCwwLDBabS0yMS4yMy0uMTNoLTYuMThjLS44OSwwLTEuNjEtLjcyLTEuNjEtMS42MWgwdi02LjE5YzAtLjg5LjcyLTEuNjEsMS42MS0xLjYxaDBjLjg5LDAsMS42MS43MiwxLjYxLDEuNjFoMHY0LjU4aDQuNTdjLjg5LDAsMS42MS43MiwxLjYxLDEuNjFoMGMwLC44OS0uNzIsMS42MS0xLjYxLDEuNjFoMFptMjEuMjItMjAuNjZjLS44OSwwLTEuNjEtLjcyLTEuNjEtMS42MWgwVjMuMjNoLTQuNThjLS44OSwwLTEuNjEtLjcyLTEuNjEtMS42MWgwYzAtLjg5LjcyLTEuNjEsMS42MS0xLjYxaDYuMThjLjg5LDAsMS42MS43MiwxLjYxLDEuNjFoMHY2LjE5YzAsLjg5LS43MiwxLjYxLTEuNjEsMS42MmgwWm0tMjcuNDEsMGMtLjg5LDAtMS42MS0uNzItMS42MS0xLjYxaDBWMS42MkM3LjM2LjczLDguMDgsMCw4Ljk3LDBoNi4xOGMuODksMCwxLjYxLjcyLDEuNjEsMS42MWgwYzAsLjg5LS43MiwxLjYxLTEuNjEsMS42MWgtNC41N3Y0LjU4YzAsLjg5LS43MiwxLjYxLTEuNjEsMS42MWgwWiIvPjxwYXRoIGNsYXNzPSJjbHMtMiIgZD0ibTE4LjkxLDE4LjRsLTIuMTQsNi40OGgtMi43NWw3LTIwLjZoMy4yMWw3LjAzLDIwLjZoLTIuODRsLTIuMi02LjQ4aC03LjNabTYuNzUtMi4wOGwtMi4wMi01LjkzYy0uNDYtMS4zNC0uNzYtMi41Ny0xLjA3LTMuNzZoLS4wNmMtLjMxLDEuMjItLjY0LDIuNDgtMS4wNCwzLjczbC0yLjAyLDUuOTZoNi4yWiIvPjwvZz48L2c+PC9zdmc+",
         "posture": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJDYWxxdWVfMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNTYuNjkgNTYuNjkiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDpub25lO30uY2xzLTEsLmNscy0ye3N0cm9rZS13aWR0aDowcHg7fS5jbHMtMntmaWxsOiNmZmY7fTwvc3R5bGU+PC9kZWZzPjxnIGlkPSJDYWxxdWVfMS0yIj48ZyBpZD0iSUFfcG9zdHVyZSI+PHBhdGggY2xhc3M9ImNscy0yIiBkPSJNMzUuODIsMjUuNjhjLTQuMzItMS41NC01LjExLTYuMzMtNS4xNS02LjU0LS4wOC0uNTItLjQ5LS45LS45Ny0uOTgtLjAxLS4wMy0uMDMtLjA1LS4wNS0uMDguMy4wNi42MS4xLjkzLjEsMi40NywwLDQuNDgtMi4wMSw0LjQ4LTQuNDhzLTIuMDEtNC40OC00LjQ4LTQuNDgtNC40OCwyLjAxLTQuNDgsNC40OGMwLDEuNjQuODksMy4wNiwyLjIsMy44NC0uMTEuMDMtLjIxLjA4LS4zMS4xNGwtNS42OCwzLjY4Yy0uNDIuMjctLjYyLjc4LS41MSwxLjI2bDEuMjUsNS4zN2MuMTUuNjQuNzksMS4wMywxLjQyLjg5LjY0LS4xNSwxLjA0LS43OS44OS0xLjQybC0xLjA2LTQuNTYsMi43Mi0xLjc2LTEuNDgsOC43M3MwLC4wMiwwLC4wM2MwLC4wMy0uMDEuMDYtLjAyLjEsMCwuMDgtLjUyLDcuOTktNS4yNiwxNS42OC0uMzQuNTYtLjE3LDEuMjkuMzksMS42My4xOS4xMi40MS4xOC42Mi4xOC40LDAsLjc5LS4yLDEuMDEtLjU2LDMuMjEtNS4yLDQuNTktMTAuNDEsNS4xOS0xMy42MmwyLjA2LDMuMDUuNDcsOS4yMWMuMDMuNjMuNTYsMS4xMywxLjE4LDEuMTMuMDIsMCwuMDQsMCwuMDYsMCwuNjUtLjAzLDEuMTYtLjU5LDEuMTItMS4yNGwtLjQ5LTkuNTRjLS4wMS0uMjItLjA4LS40Mi0uMi0uNmwtMy43Mi01LjUsMS4yNy03LjQ2Yy44OCwxLjk3LDIuNTksNC40Myw1LjgsNS41OC4xMy4wNS4yNy4wNy40LjA3LjQ5LDAsLjk0LS4zLDEuMTItLjc5LjIyLS42Mi0uMS0xLjMtLjcyLTEuNTJaIi8+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNTYuNjkiIGhlaWdodD0iNTYuNjkiLz48L2c+PC9nPjwvc3ZnPg==",
-        "sensor": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzIiIGRhdGEtbmFtZT0iQ2FscXVlIDIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDM0LjA3IDMyLjc2Ij4KICA8ZyBpZD0iQ2FscXVlXzEtMiIgZGF0YS1uYW1lPSJDYWxxdWUgMS0yIj4KICAgIDxwYXRoIGlkPSJJQV9taWNyb2NvbnRyb2xldXJfZ3JlZW5fcGljdG8iIGRhdGEtbmFtZT0iSUEgbWljcm9jb250cm9sZXVyIGdyZWVuIHBpY3RvIiBkPSJNMzMuOTcsMTMuMTJsLTIuMjMtNS40M2MtLjU5LTEuNDUtMi0yLjM1LTMuNTUtMi4zMi0xLjU2LC4wNC0yLjkxLDEuMDItMy40NCwyLjQ5bC00LjcsMTMuMjNjLS4yNSwuNy0uODksLjczLTEuMDYsLjc0LS4xOSwwLS44MS0uMDYtMS4wNS0uNzZsLTQuMjgtMTIuOTJjLS41LTEuNS0xLjg0LTIuNTEtMy40My0yLjU2LTEuNi0uMDUtMi45OSwuODYtMy41OSwyLjMzbC0yLjcxLDYuNjRWNC41NGgxLjMxTDIuNjIsMCwwLDQuNTRIMS4zMVYzMC4xM2MwLC43MywuNTksMS4zMSwxLjMxLDEuMzFIMjguMjF2MS4zMWw0LjU0LTIuNjItNC41NC0yLjYydjEuMzFIMy45NHYtNy4zMWw1LjE1LTEyLjZjLjI3LS42NywuODktLjY5LDEuMDctLjY5cy43OSwuMDgsMS4wMiwuNzZsNC4yOCwxMi45MmMuNTEsMS41NCwxLjg5LDIuNTUsMy41MSwyLjU3aC4wNGMxLjYxLDAsMi45OS0uOTcsMy41Mi0yLjQ5bDQuNy0xMy4yM2MuMjQtLjY3LC44NC0uNzQsMS4wMi0uNzRzLjc5LC4wMywxLjA2LC42OWwyLjIzLDUuNDNjLjI4LC42NywxLjA0LC45OSwxLjcxLC43MiwuNjctLjI4LC45OS0xLjA0LC43Mi0xLjcxdi0uMDJaIiBzdHlsZT0iZmlsbDogI2ZjZmNmYzsiLz4KICA8L2c+Cjwvc3ZnPg=="
+        "sensor": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzIiIGRhdGEtbmFtZT0iQ2FscXVlIDIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDM0LjA3IDMyLjc2Ij4KICA8ZyBpZD0iQ2FscXVlXzEtMiIgZGF0YS1uYW1lPSJDYWxxdWUgMS0yIj4KICAgIDxwYXRoIGlkPSJJQV9taWNyb2NvbnRyb2xldXJfZ3JlZW5fcGljdG8iIGRhdGEtbmFtZT0iSUEgbWljcm9jb250cm9sZXVyIGdyZWVuIHBpY3RvIiBkPSJNMzMuOTcsMTMuMTJsLTIuMjMtNS40M2MtLjU5LTEuNDUtMi0yLjM1LTMuNTUtMi4zMi0xLjU2LC4wNC0yLjkxLDEuMDItMy40NCwyLjQ5bC00LjcsMTMuMjNjLS4yNSwuNy0uODksLjczLTEuMDYsLjc0LS4xOSwwLS44MS0uMDYtMS4wNS0uNzZsLTQuMjgtMTIuOTJjLS41LTEuNS0xLjg0LTIuNTEtMy40My0yLjU2LTEuNi0uMDUtMi45OSwuODYtMy41OSwyLjMzbC0yLjcxLDYuNjRWNC41NGgxLjMxTDIuNjIsMCwwLDQuNTRIMS4zMVYzMC4xM2MwLC43MywuNTksMS4zMSwxLjMxLDEuMzFIMjguMjF2MS4zMWw0LjU0LTIuNjItNC41NC0yLjYydjEuMzFIMy45NHYtNy4zMWw1LjE1LTEyLjZjLjI3LS42NywuODktLjY5LDEuMDctLjY5cy43OSwuMDgsMS4wMiwuNzZsNC4yOCwxMi45MmMuNTEsMS41NCwxLjg5LDIuNTUsMy41MSwyLjU3aC4wNGMxLjYxLDAsMi45OS0uOTcsMy41Mi0yLjQ5bDQuNy0xMy4yM2MuMjQtLjY3LC44NC0uNzQsMS4wMi0uNzRzLjc5LC4wMywxLjA2LC42OWwyLjIzLDUuNDNjLjI4LC42NywxLjA0LC45OSwxLjcxLC43MiwuNjctLjI4LC45OS0xLjA0LC43Mi0xLjcxdi0uMDJaIiBzdHlsZT0iZmlsbDogI2ZjZmNmYzsiLz4KICA8L2c+Cjwvc3ZnPg==",
+        "hand": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDU2LjY5IDU2LjY5Ij48cmVjdCB3aWR0aD0iNTYuNjkiIGhlaWdodD0iNTYuNjkiIGZpbGw9Im5vbmUiLz48ZyBmaWxsPSIjZmZmIj48cmVjdCB4PSIxOC41IiB5PSIxMyIgd2lkdGg9IjUiIGhlaWdodD0iMTkiIHJ4PSIyLjUiLz48cmVjdCB4PSIyNC41IiB5PSI5LjUiIHdpZHRoPSI1IiBoZWlnaHQ9IjIyIiByeD0iMi41Ii8+PHJlY3QgeD0iMzAuNSIgeT0iMTEiIHdpZHRoPSI1IiBoZWlnaHQ9IjIxIiByeD0iMi41Ii8+PHJlY3QgeD0iMzYuNSIgeT0iMTUiIHdpZHRoPSI0LjYiIGhlaWdodD0iMTciIHJ4PSIyLjMiLz48cGF0aCBkPSJNMTguNSAyNmgyMi42djYuNWMwIDYuNi01LjQgMTItMTIgMTJoLTEuNmMtNC4yIDAtOC0yLjQtOS45LTYuMUwxMS40IDMxYy0uOC0xLjUtLjItMy4zIDEuMy00LjEgMS40LS43IDMuMS0uMyA0IC45bDEuOCAyLjR6Ii8+PC9nPjwvc3ZnPg=="
     };
     return {
         "type": "field_image",
@@ -1190,36 +1191,20 @@ Blockly.Constants.Utils.DISABLE_DUPLICATES_EXTENSION = function () {
 Blockly.Extensions.register("disable_duplicates",
     Blockly.Constants.Utils.DISABLE_DUPLICATES_EXTENSION);
 
-// Called when workspace event 
-Blockly.Constants.Utils.DISABLE_BLOCKS_ON_EVENT = function (blockType, detectedBlocksArray) {
-    const disabled = function (block, state) {
-        block.setDisabledReason(state, Blockly.constants.MANUALLY_DISABLED);
-        // childBlock include the block itself
-        for (var i = 0, childBlock; (childBlock = block.getDescendants(true)[i]); i++) {
-            childBlock.setDisabledReason(state, Blockly.constants.MANUALLY_DISABLED);
-            childBlock.initSvg();
-        }
-    };
-    const topBlocks = Blockly.getMainWorkspace().getTopBlocks();
-    let hasEventBlocks = false;
-    for (var i = 0, block; (block = topBlocks[i]); i++) {
-        if (block.rendered == true) {
-            for (var j = 0; j < detectedBlocksArray.length; j++) {
-                if (block.type === detectedBlocksArray[j]) {
-                    hasEventBlocks = true;
-                    break;
-                }
-            }
-            if (hasEventBlocks) {
-                break;
-            }
-        } else {
-            hasEventBlocks = false;
-        }
-    }
-    for (var i = 0, block; (block = topBlocks[i]); i++) {
-        if (block.type === blockType && block.rendered == true) {
-            disabled(block, hasEventBlocks);
+// Called when workspace event: the blocks of blockTypes (and their content) are disabled, with a warning, while a block
+// of detectedBlocksArray is in the workspace. Without them, only the warning is removed: Code.manageBlocksDisabling
+// enables the blocks again (a loop alone out of the program must stay disabled).
+Blockly.Constants.Utils.DISABLE_BLOCKS_ON_EVENT = function (blockTypes, detectedBlocksArray, warningText) {
+    const workspace = Blockly.getMainWorkspace();
+    const hasEventBlocks = workspace.getTopBlocks().some(block => block.rendered && detectedBlocksArray.includes(block.type));
+    for (const block of workspace.getAllBlocks(false)) {
+        if (!block.rendered || !blockTypes.includes(block.type)) continue;
+        // The bubble of the warning doesn't wrap the text
+        block.setWarningText(hasEventBlocks ? Blockly.utils.string.wrap(warningText, 60) : null, 'vittaEventBlocks');
+        if (!hasEventBlocks) continue;
+        // getDescendants includes the block itself
+        for (const childBlock of block.getDescendants(false)) {
+            childBlock.setDisabledReason(true, Blockly.constants.MANUALLY_DISABLED);
         }
     }
 };
@@ -1272,25 +1257,60 @@ Blockly.Constants.REPLACE_PIN_DROPDOWN_MENU = function (block) {
             forcePinValue(pinField, pins);
             return () => pins;
         };
-        for (const i in dropdowns) {
-            const type = dropdowns[i].menuGenerator_.type;
-            if (type && Blockly.Constants.Pins[type]) {
-                for (const pin in Blockly.Constants.Pins[type]) {
-                    const pins = Blockly.Constants.Pins[type][pin];
-                    if (dropdowns[i].menuGenerator_.length == pins.length) {
-                        if (arrayEquals(dropdowns[i].menuGenerator_, pins)) {
-                            const pinField = this.getField(dropdowns[i].name);
-                            pinField.menuGenerator_ = menu(type, pinField);
-                            break;
-                        }
-                    }
-                }
+        // Blockly copies the options array (trimOptions), so match pin lists by their values, not by reference.
+        const signature = (options) => options.map(option => option[1]).join('|');
+        for (const pinField of dropdowns) {
+            // Pin lists are fixed options: generated menus (variables...) can't be read before the block is set up
+            if (!Array.isArray(pinField.menuGenerator_)) continue;
+            const fieldSignature = signature(pinField.menuGenerator_);
+            const type = Object.keys(Blockly.Constants.Pins).find(type =>
+                Object.values(Blockly.Constants.Pins[type] || {}).some(pins => Array.isArray(pins) && signature(pins) === fieldSignature));
+            if (type) {
+                pinField.menuGenerator_ = menu(type, pinField);
             }
         }
     }
 };
 
 Blockly.Extensions.register('pins_management_global', Blockly.Constants.REPLACE_PIN_DROPDOWN_MENU);
+
+/**
+ * Is a dropdown field a pin selector? Its options are one of the pin lists of Blockly.Constants.Pins (any board).
+ * @param {Blockly.FieldDropdown} field
+ * @return {boolean}
+ */
+Blockly.Constants.isPinField = function (field) {
+    const signature = (options) => options.map(option => option[1]).join('|');
+    if (!Blockly.Constants._pinListSignatures) {
+        Blockly.Constants._pinListSignatures = new Set();
+        for (const pinsByBoard of Object.values(Blockly.Constants.Pins || {})) {
+            for (const pins of Object.values(pinsByBoard || {})) {
+                if (Array.isArray(pins) && pins.length > 1) Blockly.Constants._pinListSignatures.add(signature(pins));
+            }
+        }
+    }
+    return field instanceof Blockly.FieldDropdown && Blockly.Constants._pinListSignatures.has(signature(field.getOptions(false)));
+};
+
+/**
+ * Warn when the same pin is selected in several pin dropdowns of a block (e.g. M1A and M1B of a motor driver), like
+ * the type warnings. Workspace change listener: every block with several pins is checked, whatever its interface.
+ * @param {Blockly.Events.Abstract} event
+ */
+Blockly.Constants.WARN_DUPLICATE_PINS = function (event) {
+    if (event.type !== Blockly.Events.BLOCK_CREATE && !(event.type === Blockly.Events.BLOCK_CHANGE && event.element === 'field')) return;
+    const workspace = Blockly.Workspace.getById(event.workspaceId);
+    if (!workspace) return;
+    for (const id of event.type === Blockly.Events.BLOCK_CREATE ? event.ids : [event.blockId]) {
+        const block = workspace.getBlockById(id);
+        if (!block) continue;
+        const pinFields = block.inputList.flatMap(input => input.fieldRow).filter(field => Blockly.Constants.isPinField(field));
+        if (pinFields.length < 2) continue;
+        const duplicates = pinFields.filter((field, i) => pinFields.findIndex(other => other.getValue() === field.getValue()) !== i);
+        const message = Blockly.Msg['PINS_DUPLICATE_WARNING'] || "Pin '%1' is selected several times in this block.";
+        block.setWarningText(duplicates.length ? message.replace('%1', duplicates[0].getText()) : null, 'duplicatePins');
+    }
+};
 
 Blockly.Constants.Utils.DEFINE_OUTPUT_TYPE_BY_DROPDOWN(
     'communication_gps_getGGAInformations',
@@ -1348,7 +1368,7 @@ Blockly.Constants.Utils.BlockOptions = {
     getOledIcons: function () {
         return ['heart', 'happy', 'sad', 'yes', 'no', 'man', 'fork', 'umbrella', 'skull', 'grid', 'butterfly', 'sword', 'wine', 'lock', 'net', 'battery1', 'battery2', 'battery3'].map((icon) => [
             {
-                'src': _PATH + '/interfaces/assets/media/oled_icons/' + icon + '.png',
+                'src': CDN_PATH + '/openInterface/interfaces/assets/media/oled_icons/' + icon + '.png',
                 'width': 32,
                 'height': 32,
                 'alt': icon + " icon"

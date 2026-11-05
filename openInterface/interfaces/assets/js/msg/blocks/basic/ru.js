@@ -558,3 +558,4 @@ Blockly.Msg["BKY_MATH_RSA_GENERATE_KEYS_HELPURL"] = "https://ru.wikipedia.org/wi
 Blockly.Msg["MATH_RSA_DECIPHER_MESSAGE_HELPURL"] = "https://ru.wikipedia.org/wiki/Криптосистема_RSA"
 Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TITLE"] = "Функция: %1";
 Blockly.Msg["PROCEDURES_FUNCTION_REFERENCE_TOOLTIP"] = "Получить ссылку на функцию, чтобы передать её в качестве аргумента другой функции.";
+Blockly.Msg["PINS_DUPLICATE_WARNING"] = "Контакт '%1' выбран несколько раз в этом блоке.";

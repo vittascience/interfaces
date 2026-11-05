@@ -59,6 +59,16 @@ Blockly.Python.vittaia_make_predictions_webcam = function (block) {
         "modelPredictionIndex, modelPredictionScore, modelPredictionOutput = vittamodel.predict_on_image(vittamodel.current_model_ID, webcam_img)" + NEWLINE
 };
 
+Blockly.Python.vittaia_make_predictions_pc_webcam = function (block) {
+    Blockly.Python.addImport('pathlib.Path', IMPORT_PATHLIB);
+    Blockly.Python.addImport('PIL.Image', IMPORT_PIL_IMAGE);
+    Blockly.Python.addFunction('capture_pc_webcam_image', FUNCTIONS_ARDUINO_Q.py.DEF_CAPTURE_PC_WEBCAM_IMAGE);
+    Blockly.Python.addInit('pc_webcam_last_time', 'pc_webcam_last_time = None');
+    Blockly.Python.VITTAIA_DO_PREDICTION_CODE(block);
+    return "webcam_img = capture_pc_webcam_image()" + NEWLINE +
+        "modelPredictionIndex, modelPredictionScore, modelPredictionOutput = vittamodel.predict_on_image(vittamodel.current_model_ID, webcam_img)" + NEWLINE
+};
+
 Blockly.Python.vittaia_make_predictions_file = function (block) {
     const picture = block.getFieldValue("PICTURE") || "";
     Blockly.Python.addImport('PIL.Image', IMPORT_PIL_IMAGE);
@@ -140,148 +150,154 @@ Blockly.Python.vittaia_list_webcams = function () {
 //     return 'webcam.display()' + NEWLINE;
 // };
 
-//AI POSTURE
+// Result blocks of the posture and hand sub-categories: same code as the image ones
+for (const kind of ['posture', 'hand', 'sound', 'sensor']) {
+    for (const type of ['vittaia_get_highest_probability_class', 'vittaia_get_confidence_rate', 'vittaia_detect_class']) {
+        Blockly.Python[`${type}_${kind}`] = Blockly.Python[type];
+    }
+}
 
-/*
-Blockly.Python.vittaia_init_model_posture = function () {
-    Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    Blockly.Python.addInit('modelPosture', '');
-    return ["via.ModelPosture()", Blockly.Python.ORDER_ATOMIC];
-};
+// AI POSTURE
+// The posture models of the Vittascience AI tool run on the board: PoseNet keypoints, then the model classifier
+// (vitta_tf.VittaTF.predict_posture_on_image). The result blocks are the image ones (class, confidence...).
 
 Blockly.Python.vittaia_load_posture_model = function (block) {
-    Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    Blockly.Python.addInit('modelPosture', 'modelPosture = via.ModelPosture()');
     const model_url = Blockly.Python.valueToCode(block, "MODEL_URL", Blockly.Python.ORDER_NONE) || "''";
-    return "modelPosture.load_model(" + model_url + ")" + NEWLINE;
+    Blockly.Python.addImport('vitta_tf.VittaTF', IMPORT_VITTA_TF);
+    Blockly.Python.addInit('vittamodel', "vittamodel = VittaTF()");
+    return "vittamodel.load_posture_model(" + model_url + ")" + NEWLINE;
 };
 
-Blockly.Python.vittaia_init_posture_webcam = function () {
-    Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    Blockly.Python.addInit('webcamPosture', 'webcamPosture = via.WebcamPosture()');
-    Blockly.Python.addInit('initWebcamPosture', 'webcamPosture.select_camera(0)');
-    Blockly.Python.addInit('displayWebcamPosture', 'webcamPosture.display()');
-    return "";
+// Posture model trained in the Vittascience AI tool of this browser: the uploader sends it to the board (buildAppFiles)
+Blockly.Python.vittaia_load_local_posture_model = function () {
+    Blockly.Python.addImport('vitta_tf.VittaTF', IMPORT_VITTA_TF);
+    Blockly.Python.addInit('vittamodel', "vittamodel = VittaTF()");
+    return "vittamodel.load_local_posture_model()" + NEWLINE;
 };
 
-Blockly.Python.vittaia_make_posture_predictions = function () {
-    Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    Blockly.Python.addInit('modelPosture', 'modelPosture = via.ModelPosture()');
-    Blockly.Python.addInit('webcamPosture', 'webcamPosture = via.WebcamPosture()');
-    Blockly.Python.addInit('snapshot', 'snapshot = webcamPosture.capture()');
-    const code = "modelPosture.predict(snapshot)";
-    return [code, Blockly.Python.ORDER_ATOMIC];
-};
-Blockly.Python.vittaia_list_posture_webcams = function () {
-    Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    Blockly.Python.addInit('webcamPosture', 'webcamPosture = via.WebcamPosture()');
-    const code = "webcamPosture.get_camera_list()";
-    return [code, Blockly.Python.ORDER_ATOMIC];
+Blockly.Python.vittaia_make_posture_predictions_webcam = function (block) {
+    Blockly.Python.addImport('pathlib.Path', IMPORT_PATHLIB);
+    Blockly.Python.addImport('datetime', IMPORT_DATETIME);
+    Blockly.Python.addImport('cv2', IMPORT_CV2);
+    Blockly.Python.addImport('PIL.Image', IMPORT_PIL_IMAGE);
+    Blockly.Python.addFunction('capture_webcam_image', FUNCTIONS_ARDUINO_Q.py.DEF_CAPTURE_WEBCAM_IMAGE);
+    Blockly.Python.addInit('current_webcam_index', 'current_webcam_index = 0');
+    Blockly.Python.VITTAIA_DO_PREDICTION_CODE(block);
+    return "webcam_img = capture_webcam_image(output_dir=\"captures\", camera_index=current_webcam_index)" + NEWLINE +
+        "modelPredictionIndex, modelPredictionScore, modelPredictionOutput = vittamodel.predict_posture_on_image(vittamodel.current_model_ID, webcam_img)" + NEWLINE
 };
 
-Blockly.Python.vittaia_init_webcam_posture = function (block) {
-    Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    Blockly.Python.addInit('webcamPosture', '');
-    return [`via.WebcamPosture()` + NEWLINE, Blockly.Python.ORDER_ATOMIC];
+Blockly.Python.vittaia_make_posture_predictions_pc_webcam = function (block) {
+    Blockly.Python.addImport('pathlib.Path', IMPORT_PATHLIB);
+    Blockly.Python.addImport('PIL.Image', IMPORT_PIL_IMAGE);
+    Blockly.Python.addFunction('capture_pc_webcam_image', FUNCTIONS_ARDUINO_Q.py.DEF_CAPTURE_PC_WEBCAM_IMAGE);
+    Blockly.Python.addInit('pc_webcam_last_time', 'pc_webcam_last_time = None');
+    Blockly.Python.VITTAIA_DO_PREDICTION_CODE(block);
+    return "webcam_img = capture_pc_webcam_image()" + NEWLINE +
+        "modelPredictionIndex, modelPredictionScore, modelPredictionOutput = vittamodel.predict_posture_on_image(vittamodel.current_model_ID, webcam_img)" + NEWLINE
 };
 
-Blockly.Python.vittaia_select_webcam_posture = function (block) {
-    Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    const index = Blockly.Python.valueToCode(block, "CAMERA", Blockly.Python.ORDER_NONE) || "0";
-    Blockly.Python.addInit('webcamPosture', 'webcamPosture = via.WebcamPosture()');
-    return `webcamPosture.select_camera(${index})` + NEWLINE;
-}
+// AI HANDS
+// The hand models of the Vittascience AI tool run on the board: MediaPipe hand keypoints, then the model classifier
+// (vitta_tf.VittaTF.predict_hands_on_image). The result blocks are the image ones (class, confidence...).
 
-Blockly.Python.vittaia_refresh_webcam_posture = function () {
-    Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    Blockly.Python.addInit('webcamPosture', 'webcamPosture = via.WebcamPosture()');
-    return 'webcamPosture.display()' + NEWLINE;
-};
-
-Blockly.Python.vittaia_capture_webcam_posture = function () {
-    Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    Blockly.Python.addInit('webcamPosture', 'webcamPosture = via.WebcamPosture()');
-    return ["webcamPosture.capture()", Blockly.Python.ORDER_ATOMIC];
-}
-
-Blockly.Python.vittaia_predict_webcam_posture = function (block) {
-    Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    Blockly.Python.addInit('modelPosture', 'modelPosture = via.ModelPosture()');
-    Blockly.Python.addInit('webcamPosture', 'webcamPosture = via.WebcamPosture()');
-    const capture = Blockly.Python.valueToCode(block, "MODEL_PRE", Blockly.Python.ORDER_NONE) || "snapshot";
-    return [`modelPosture.predict(${capture})`, Blockly.Python.ORDER_ATOMIC];
-}
-
-Blockly.Python.vittaia_list_webcams_posture = function () {
-    Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    Blockly.Python.addInit('webcamPosture', 'webcamPosture = via.WebcamPosture()');
-    return ["webcamPosture.get_camera_list()", Blockly.Python.ORDER_ATOMIC];
-}
-
-// AI TEXT
-
-Blockly.Python.vittaia_init_discussion = function () {
-    Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    return ["via.Discussion()", Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python.vittaia_init_text_ai = function () {
-    Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    return ["via.TextAI()", Blockly.Python.ORDER_ATOMIC];
-}
-
-Blockly.Python.vittaia_load_discussion = function (block) {
-    Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    Blockly.Python.addInit('context', 'context= via.Discussion()');
+Blockly.Python.vittaia_load_hand_model = function (block) {
     const model_url = Blockly.Python.valueToCode(block, "MODEL_URL", Blockly.Python.ORDER_NONE) || "''";
-    return "context.load_discussion(" + model_url + ")" + NEWLINE;
+    Blockly.Python.addImport('vitta_tf.VittaTF', IMPORT_VITTA_TF);
+    Blockly.Python.addInit('vittamodel', "vittamodel = VittaTF()");
+    return "vittamodel.load_hand_model(" + model_url + ")" + NEWLINE;
 };
 
-Blockly.Python.vittaia_set_randomness = function (block) {
-    Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    Blockly.Python.addInit('ai', 'ai = via.TextAI()');
-    const temperature = Blockly.Python.valueToCode(block, "TEMPERATURE", Blockly.Python.ORDER_MEMBER) || "1";
-    return `ai.set_randomness(${temperature})` + NEWLINE;
+// Hand model trained in the Vittascience AI tool of this browser: the uploader sends it to the board (buildAppFiles)
+Blockly.Python.vittaia_load_local_hand_model = function () {
+    Blockly.Python.addImport('vitta_tf.VittaTF', IMPORT_VITTA_TF);
+    Blockly.Python.addInit('vittamodel', "vittamodel = VittaTF()");
+    return "vittamodel.load_local_hand_model()" + NEWLINE;
 };
 
-Blockly.Python.vittaia_set_randomness_standalone = function (block) {
-    Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    const temperature = Blockly.Python.valueToCode(block, "TEMPERATURE", Blockly.Python.ORDER_MEMBER) || "1";
-    return `ai.set_randomness(${temperature})` + NEWLINE;
+Blockly.Python.vittaia_make_hand_predictions_webcam = function (block) {
+    Blockly.Python.addImport('pathlib.Path', IMPORT_PATHLIB);
+    Blockly.Python.addImport('datetime', IMPORT_DATETIME);
+    Blockly.Python.addImport('cv2', IMPORT_CV2);
+    Blockly.Python.addImport('PIL.Image', IMPORT_PIL_IMAGE);
+    Blockly.Python.addFunction('capture_webcam_image', FUNCTIONS_ARDUINO_Q.py.DEF_CAPTURE_WEBCAM_IMAGE);
+    Blockly.Python.addInit('current_webcam_index', 'current_webcam_index = 0');
+    Blockly.Python.VITTAIA_DO_PREDICTION_CODE(block);
+    return "webcam_img = capture_webcam_image(output_dir=\"captures\", camera_index=current_webcam_index)" + NEWLINE +
+        "modelPredictionIndex, modelPredictionScore, modelPredictionOutput = vittamodel.predict_hands_on_image(vittamodel.current_model_ID, webcam_img)" + NEWLINE
 };
 
-Blockly.Python.vittaia_set_model_ia = function (block) {
-    Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    Blockly.Python.addInit('ai', 'ai = via.TextAI()');
-    const model = block.getFieldValue('MODEL');
-    return `ai.set_model_ia("${model}")` + NEWLINE;
+Blockly.Python.vittaia_make_hand_predictions_pc_webcam = function (block) {
+    Blockly.Python.addImport('pathlib.Path', IMPORT_PATHLIB);
+    Blockly.Python.addImport('PIL.Image', IMPORT_PIL_IMAGE);
+    Blockly.Python.addFunction('capture_pc_webcam_image', FUNCTIONS_ARDUINO_Q.py.DEF_CAPTURE_PC_WEBCAM_IMAGE);
+    Blockly.Python.addInit('pc_webcam_last_time', 'pc_webcam_last_time = None');
+    Blockly.Python.VITTAIA_DO_PREDICTION_CODE(block);
+    return "webcam_img = capture_pc_webcam_image()" + NEWLINE +
+        "modelPredictionIndex, modelPredictionScore, modelPredictionOutput = vittamodel.predict_hands_on_image(vittamodel.current_model_ID, webcam_img)" + NEWLINE
 };
 
-Blockly.Python.vittaia_set_model_ia_standalone = function (block) {
-    Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    const model = block.getFieldValue('MODEL');
-    return `ai.set_model_ia("${model}")` + NEWLINE;
+// AI SOUND
+// The sound models of the Vittascience AI tool run on the board: spectrogram of the last second of sound like the AI
+// tool microphone, then the model (vitta_tf.VittaTF.predict_on_sound). The result blocks are the image ones.
+
+Blockly.Python.vittaia_load_sound_model = function (block) {
+    const model_url = Blockly.Python.valueToCode(block, "MODEL_URL", Blockly.Python.ORDER_NONE) || "''";
+    Blockly.Python.addImport('vitta_tf.VittaTF', IMPORT_VITTA_TF);
+    Blockly.Python.addInit('vittamodel', "vittamodel = VittaTF()");
+    return "vittamodel.load_sound_model(" + model_url + ")" + NEWLINE;
 };
 
-Blockly.Python.vittaia_model_text_predict = function (block) {
-    Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    Blockly.Python.addInit('ai', 'ai = via.TextAI()');
-    const message = Blockly.Python.valueToCode(block, "MESSAGE", Blockly.Python.ORDER_MEMBER) || "''";
-    return [`ai.predict(${message})`, Blockly.Python.ORDER_ATOMIC]
+// Sound model trained in the Vittascience AI tool of this browser: the uploader sends it to the board (buildAppFiles)
+Blockly.Python.vittaia_load_local_sound_model = function () {
+    Blockly.Python.addImport('vitta_tf.VittaTF', IMPORT_VITTA_TF);
+    Blockly.Python.addInit('vittamodel', "vittamodel = VittaTF()");
+    return "vittamodel.load_local_sound_model()" + NEWLINE;
 };
 
-Blockly.Python.vittaia_model_text_predict_standalone = function (block) {
-    Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    const message = Blockly.Python.valueToCode(block, "MESSAGE", Blockly.Python.ORDER_MEMBER) || "''";
-    return [`ai.predict(${message})`, Blockly.Python.ORDER_ATOMIC];
+Blockly.Python.vittaia_make_sound_predictions_microphone = function (block) {
+    Blockly.Python.addImport('pathlib.Path', IMPORT_PATHLIB);
+    Blockly.Python.addFunction('capture_microphone_sound', FUNCTIONS_ARDUINO_Q.py.DEF_CAPTURE_MICROPHONE_SOUND);
+    Blockly.Python.VITTAIA_DO_PREDICTION_CODE(block);
+    return "sound_samples, sound_rate = capture_microphone_sound()" + NEWLINE +
+        "modelPredictionIndex, modelPredictionScore, modelPredictionOutput = vittamodel.predict_on_sound(vittamodel.current_model_ID, sound_samples, sound_rate)" + NEWLINE
 };
 
-Blockly.Python.vittaia_get_ai_message = function () {
-    Blockly.Python.addImport('vittaia', IMPORT_VITTAIA);
-    Blockly.Python.addInit('ai', 'ai = via.TextAI()');
-    return "print(ai.get_ai_message())" + NEWLINE;
+Blockly.Python.vittaia_make_sound_predictions_pc_microphone = function (block) {
+    Blockly.Python.addImport('pathlib.Path', IMPORT_PATHLIB);
+    Blockly.Python.addFunction('capture_pc_microphone_sound', FUNCTIONS_ARDUINO_Q.py.DEF_CAPTURE_PC_MICROPHONE_SOUND);
+    Blockly.Python.addInit('pc_microphone_last_time', 'pc_microphone_last_time = None');
+    Blockly.Python.VITTAIA_DO_PREDICTION_CODE(block);
+    return "sound_samples, sound_rate = capture_pc_microphone_sound()" + NEWLINE +
+        "modelPredictionIndex, modelPredictionScore, modelPredictionOutput = vittamodel.predict_on_sound(vittamodel.current_model_ID, sound_samples, sound_rate)" + NEWLINE
 };
 
+// AI SENSOR DATA
+// The sensor models of the Vittascience AI tool run on the board: A0/A1 readings of the sketch (given through the
+// Bridge, added to the sketch by MultiCodeManager), features like the AI tool, then the model
+// (vitta_tf.VittaTF.predict_on_sensors). The result blocks are the image ones.
+
+Blockly.Python.vittaia_load_sensor_model = function (block) {
+    const model_url = Blockly.Python.valueToCode(block, "MODEL_URL", Blockly.Python.ORDER_NONE) || "''";
+    Blockly.Python.addImport('vitta_tf.VittaTF', IMPORT_VITTA_TF);
+    Blockly.Python.addInit('vittamodel', "vittamodel = VittaTF()");
+    return "vittamodel.load_sensor_model(" + model_url + ")" + NEWLINE;
+};
+
+// Sensor model trained in the Vittascience AI tool of this browser: the uploader sends it to the board (buildAppFiles)
+Blockly.Python.vittaia_load_local_sensor_model = function () {
+    Blockly.Python.addImport('vitta_tf.VittaTF', IMPORT_VITTA_TF);
+    Blockly.Python.addInit('vittamodel', "vittamodel = VittaTF()");
+    return "vittamodel.load_local_sensor_model()" + NEWLINE;
+};
+
+Blockly.Python.vittaia_make_sensor_predictions = function (block) {
+    Blockly.Python.VITTAIA_DO_PREDICTION_CODE(block);
+    return "sensor_values = vittamodel.read_sensors(vittamodel.current_model_ID)" + NEWLINE +
+        "modelPredictionIndex, modelPredictionScore, modelPredictionOutput = vittamodel.predict_on_sensors(vittamodel.current_model_ID, sensor_values)" + NEWLINE
+};
+
+/*
 // Not displayed blocks. AST Python <-> Blocks
 
 Blockly.Python.vittaia_init_model = function () {

@@ -3,6 +3,7 @@ const InterfaceConnection = {
 
         _displayProgressBar: function () {
             document.querySelector('#progress-bar-arduino').style.width = '0%';
+            document.querySelector('#progress-bar-arduino').textContent = '0%';
             document.querySelector('#global-overlay').style.display = 'flex';
             document.querySelector('#progress-bar-container').style.display = 'flex';
         },
@@ -69,7 +70,11 @@ const InterfaceConnection = {
             await toggleSimulator();
         }
         InterfaceMonitor.setup();
-        await this.unoqUp.sendUnoQ();
+        try {
+            await this.unoqUp.sendUnoQ();
+        } finally {
+            this.progressBar._hideProgressBar();
+        }
     },
 
     onOpen: function () {
@@ -91,6 +96,29 @@ const InterfaceConnection = {
         $("#disconnect-opt").hide();
         $("#board-wifi-opt").hide();
         QWifiSettings.onBoardDisconnected();
+    },
+
+    /**
+     * [Button] Start again the app already on the board.
+     */
+    launchApp: async function () {
+        if ($("#simulator").is(":visible")) {
+            await toggleSimulator();
+        }
+        InterfaceMonitor.setup();
+        await this.unoqUp.launchApp();
+    },
+
+    /**
+     * [Button] Stop the app running on the board.
+     */
+    stopApp: async function () {
+        if (!this.unoqUp.isConnected()) {
+            await this.connectBoard();
+            if (!this.unoqUp.isConnected()) return;
+        }
+        await this.unoqUp.stopApp("vittascience-app");
+        InterfaceMonitor.writeConsole(jsonPath('code.arduinoq.appStopped'), 'success', false, true);
     },
 
     /**

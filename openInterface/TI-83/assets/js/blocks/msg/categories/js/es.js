@@ -28,7 +28,7 @@ Blockly.Msg['SUBCATEGORY_INNOVATOR_HUB'] = 'Innovator Hub';
 Blockly.Msg['SUBCATEGORY_CONSOLE'] = 'Consola';
 Blockly.Msg['SUBCATEGORY_SYSTEM'] = 'Sistema';
 Blockly.Msg['SUBCATEGORY_CONFIGURATION'] = 'Configuración';
-Blockly.Msg['SUBCATEGORY_DRAW'] = 'Dibujo';
+Blockly.Msg["SUBCATEGORY_DRAW"] = "Dibujo";
 Blockly.Msg['SUBCATEGORY_PROPERTIES'] = 'Propiedades';
 Blockly.Msg['SUBCATEGORY_LOOPS'] = 'Bucles';
 Blockly.Msg['SUBCATEGORY_LOGIC'] = 'Lógica';
@@ -48,7 +48,7 @@ Blockly.Msg['SUBCATEGORY_MICROBIT_SENSORS'] = 'Micro:bit - sensores y gestos';
 Blockly.Msg['SUBCATEGORY_MICROBIT_BUTTONS'] = 'Micro:bit - botones';
 Blockly.Msg['SUBCATEGORY_MICROBIT_RADIO'] = 'Micro:bit - radio';
 Blockly.Msg['SUBCATEGORY_MICROBIT_NEOPIXEL'] = 'Micro:bit - neopixel';
-Blockly.Msg['SUBCATEGORY_MICROBIT_PINS'] = 'Micro:bit - pins';
+Blockly.Msg["SUBCATEGORY_MICROBIT_PINS"] = "Micro:bit - pines";
 
 /* Sub categories toolbox code mode */
 
@@ -68,7 +68,6 @@ Blockly.Msg["SUBCATEGORY_MATH"] = "Matemáticas";
 Blockly.Msg["SUBCATEGORY_CONST"] = "Constantes";
 Blockly.Msg["SUBCATEGORY_TRIG"] = "Trigonometría";
 Blockly.Msg["SUBCATEGORY_CONFIG"] = "Configuración";
-Blockly.Msg["SUBCATEGORY_DRAW"] = "Dibujo";
 Blockly.Msg["SUBCATEGORY_PROPS"] = "Propiedades";
 
 Blockly.Msg["SUBCATEGORY_IMPORTS"] = "Importaciones";
@@ -81,7 +80,6 @@ Blockly.Msg["SUBCATEGORY_ROVER_IO"] = "E/S";
 Blockly.Msg["SUBCATEGORY_ROVER_SETTINGS"] = "Configuraciones";
 
 Blockly.Msg["SUBCATEGORY_MOUV"] = "Movimiento";
-Blockly.Msg["SUBCATEGORY_DRAW"] = "Dibujo";
 Blockly.Msg["SUBCATEGORY_PEN"] = "Pluma";
 Blockly.Msg["SUBCATEGORY_SETTINGS"] = "Configuraciones";
 Blockly.Msg["SUBCATEGORY_STATE"] = "Estado";

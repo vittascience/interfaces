@@ -111,6 +111,15 @@ const THEME_VITTASCIENCE = {
     "bricks_blocks": {
         "colourPrimary": "#9c354d"
     },
+    "py_sound_blocks": {
+        "colourPrimary": "#e6007e"
+    },
+    "py_http_blocks": {
+        "colourPrimary": "#0fbd8c"
+    },
+    "py_datalog_blocks": {
+        "colourPrimary": "#5c68a6"
+    },
     "vittaia_blocks": {
         "colourPrimary": "#ffab19"
     },

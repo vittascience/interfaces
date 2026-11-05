@@ -10,7 +10,7 @@
 
 // Display
 Blockly.Msg['IO_WAIT_TITLE'] = 'vänta %1 %2';
-Blockly.Msg['IO_WAIT_TOOLTIP'] = 'Blockly.Msg[\'IO_WAIT_TOOLTIP\'] = \'Pausa kodens körning.\';';
+Blockly.Msg['IO_WAIT_TOOLTIP'] = 'Pausar körningen av koden.';
 Blockly.Msg['IO_WAIT_SECOND'] = 'sekund(er)';
 Blockly.Msg['IO_WAIT_MILLISECOND'] = 'millisekund(er)';
 Blockly.Msg['IO_WAIT_MICROSECOND'] = 'mikrosekund(er)';

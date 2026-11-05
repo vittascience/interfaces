@@ -199,6 +199,7 @@ Simulator.openingSimulator = async function () {
  * Close simulator.
  */
 Simulator.closingSimulator = async function () {
+    this.skulptWaiting = null;
     await this.stop();
     if (this.audioContext !== null) {
         this.audioContext.close();
@@ -263,9 +264,6 @@ Simulator.init = async function () {
         if (typeof this.Mosaic.addSpecificInitializations !== 'undefined') {
             this.Mosaic.addSpecificInitializations();
         }
-        if (typeof this.Mosaic.addSpecificSkulptFunctions !== 'undefined') {
-            this.Mosaic.addSpecificSkulptFunctions();
-        }
 
         this.Animator = new Animator();
         /* TI-83 calculator */
@@ -300,15 +298,15 @@ Simulator.init = async function () {
         if (this._hasSpeechSynthesis()) {
             await this.waitForVoices();
         }
-        /* Python interfaces */
-        if (this.TYPE == 'Skulpt' && !this.skInitialized) {
-            await this.initSkulpt();
+        /* Python interfaces: Skulpt is loaded at the first run (play), unless the page already includes it (TI-83) */
+        if (this.TYPE == 'Skulpt' && typeof Sk !== 'undefined') {
+            await this.loadSkulpt();
         }
 
         this.updateSimulatorInterval = null;
         this.updateVariablesPanelInterval = null;
 
-        if (!['winky', 'sphero', 'lotibot', 'bluebot', 'spike', 'photon', 'primastem'].includes(INTERFACE_NAME)) {
+        if (!['winky', 'sphero', 'lotibot', 'bluebot', 'spike', 'photon', 'primastem', 'skykick'].includes(INTERFACE_NAME)) {
             window.addEventListener("visibilitychange", () => {
                 if (this.isOpen) {
                     if (document.visibilityState === 'visible') {
@@ -368,7 +366,7 @@ Simulator.addMultiSimulatorToDom = function () {
             <p data-i18n="code.simulator.buttons.multi-mode.tooltip.paragraph">Pour simuler la communication sans-fil entre plusieurs cartes, nous vous conseillons le mode Multi ci-dessous.</p>
         </div>
         <a href="#" class="btn multi-btn" onclick="projectManager.initializeMultiInterfaces()">
-            <img src="/openInterface/interfaces/assets/media/simulator/menu/multi_mode/multi-mode-icon.svg" alt="Multi mode icon">
+            <img src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/menu/multi_mode/multi-mode-icon.svg" alt="Multi mode icon">
             <span data-i18n="code.simulator.buttons.multi-mode.button">Duo</span>
         </a>
     </div>`;
@@ -428,6 +426,8 @@ Simulator.bluetoothDeviceConnected = function () {
             return PhotonWebBLEAPI.isConnected;
         case 'primastem':
             return PrimaStemWebBLEAPI.isConnected;
+        case 'skykick':
+            return SkykickDroneAPI.link.isConnected;
         default:
             return false;
     }
@@ -479,6 +479,24 @@ Simulator.play = async function () {
         }
         this.resumeModulesAnimations();
     } else {
+        if (this.TYPE == 'Skulpt' && !this.skInitialized) {
+            // Another play() is already waiting for Skulpt: it will run the latest code
+            if (this.skulptWaiting) return;
+            const waiting = this.skulptWaiting = {};
+            try {
+                await this.loadSkulpt();
+            } catch (e) {
+                this.skulptWaiting = null;
+                console.error(e);
+                UIManager.showErrorMessage('error-message', jsonPath('code.simulator.messages.skulptLoadError'));
+                $("#simulator_play").prop('disabled', false);
+                $("#simulator_pause").prop('disabled', true);
+                return;
+            }
+            // Simulator closed while loading
+            if (this.skulptWaiting !== waiting) return;
+            this.skulptWaiting = null;
+        }
         if (this.audioContext && this.audioContext.state != 'closed') {
             this.audioContext.suspend();
         }
@@ -582,6 +600,9 @@ Simulator.replay = async function () {
  * Stop the simulator.
  */
 Simulator.stop = function () {
+    if (INTERFACE_NAME === 'skykick') {
+        SkykickDroneAPI.abort(); // lands the drone, even when already stopped (a 2nd click sends the order again)
+    }
     if (this.isStopped) return;
     // Music mode of the console (events/music.js)
     if (typeof stopMusic === 'function') stopMusic();
@@ -624,6 +645,10 @@ Simulator.stop = function () {
         }
         if (this._hasWebSimulator()) {
             WifiSimulator.stop();
+        }
+        // end of the program for the board of the interface (sounds, LEDs, events)
+        if (typeof this.Mosaic.specific?.onStop === 'function') {
+            this.Mosaic.specific.onStop();
         }
         if (this.audioContext && this.audioContext.state != 'closed') {
             this.audioContext.suspend();
@@ -687,13 +712,15 @@ Simulator.prepareToRun = function () {
     if (!this.isInWiringMode) {
         UIManager.resetMessage("warning-message");
     }
+    // skykick: new run, once its board is drawn (Skulpt imports the module only once, the reset cannot be done at its import)
+    if (INTERFACE_NAME === 'skykick') SkykickDroneAPI.reset();
 };
 
 /**
  * Waits for the SVG to load in the board viewer.
  */
 Simulator.waitBoardViewer = async function () {
-    if (!/(TI-83|niryo|winky|spike|sphero|nao)/.test(INTERFACE_NAME)) {
+    if (!/(TI-83|niryo|winky|spike|sphero|nao|skykick)/.test(INTERFACE_NAME)) { // skykick: PNG board in background, no SVG to wait for
         return new Promise(resolve => {
             const el = document.querySelector('#board-viewer');
             if (el.contentDocument && el.contentDocument.querySelector('svg')) {
@@ -790,6 +817,10 @@ Simulator.initBoard = function () {
             <button class="dropdown-item"
                 onclick="updateBoard(true,'grovepihat')" data-board="GrovePi Hat">GrovePi Hat</button>`;
             document.querySelector('#simulator-board-options').insertAdjacentHTML('beforeend', buttonsHtml);
+        } else if (INTERFACE_NAME === "unihiker" && document.querySelector('#simulator-board-options .dropdown-item') === null) {
+            const buttonsHtml = Object.entries(INTERFACE_BOARDS).map(([id, board]) =>
+                `<button class="dropdown-item" onclick="updateBoard(true,'${id}')" data-board="${board.name}">${board.name}</button>`).join('');
+            document.querySelector('#simulator-board-options').insertAdjacentHTML('beforeend', buttonsHtml);
         }
     } else {
         this.board = SIMULATOR_DEFAULT_BOARD;
@@ -809,8 +840,8 @@ Simulator.updateBoard = function (link, name) {
         };
     }
     if (this.board.link) {
-        const path = _PATH + "/" + INTERFACE_NAME + "/assets/media/simulator/board/" + this.board.link;
-        if (/(arduinoq|microbit|wb55|l476|mBot|m5stack|galaxia|GalaxiaCircuitPython|buddy|cyberpi|pico|eliobot|thymio|raspberrypi|lotibot|photon|bluebot|codey|steami|alphai|primastem)/.test(INTERFACE_NAME) && (this.board.link).includes('.svg')) {
+        const path = _SAME_ORIGIN_PATH + "/" + INTERFACE_NAME + "/assets/media/simulator/board/" + this.board.link;
+        if (/(arduinoq|microbit|wb55|l476|mBot|m5stack|galaxia|GalaxiaCircuitPython|buddy|cyberpi|pico|eliobot|thymio|raspberrypi|lotibot|photon|bluebot|codey|steami|alphai|primastem|unihiker)/.test(INTERFACE_NAME) && (this.board.link).includes('.svg')) {
             $("#board-viewer").attr("data", path);
         } else {
             $("#board-viewer").css('background-image', "url('" + path + "')");
@@ -844,7 +875,7 @@ Simulator.updateBoard_v2 = function (boardId, shield = false) {
     if (!boardId) boardId = Blockly.Constants.getSelectedBoard();
     if (!this.board) this.initBoard();
     if (!this.board) return;
-    const img = (filename) => _PATH + "/" + INTERFACE_NAME + "/assets/media/simulator/board/" + filename;
+    const img = (filename) => _SAME_ORIGIN_PATH + "/" + INTERFACE_NAME + "/assets/media/simulator/board/" + filename;
     const path = VittaInterface.shieldView ? img(this.board.shieldLink) : img(this.board.link);
     const name = VittaInterface.shieldView ? this.board.shieldName : this.board.name;
     $("#board-viewer").attr("data", path);
@@ -1009,9 +1040,6 @@ Simulator.toggleFullscreen = function () {
     if (this._hasRobotSimulator() && RobotSimulator.isRunning) {
         RobotSimulator.resize();
     }
-    if (this._hasWiringSimulator() && WiringSimulator.isRunning) {
-        WiringSimulator.resize();
-    }
     if (this._hasWebSimulator()) {
         WifiSimulator.resize();
     }
@@ -1063,7 +1091,7 @@ Simulator._hasRobotSimulator = function (board) {
         if (!board) board = Blockly.Constants.getSelectedBoard();
         return board == BOARD_NANO_ESP32;
     }
-    return ["microbit", "wb55", "l476", "TI-83", "mBot", "buddy", "cyberpi", "pico", "eliobot", "thymio", "sphero", "lotibot", "bluebot", "photon", "codey", "alphai", "raspberrypi", "primastem", "steami"].includes(INTERFACE_NAME);
+    return ["microbit", "wb55", "l476", "TI-83", "mBot", "buddy", "cyberpi", "pico", "eliobot", "thymio", "sphero", "lotibot", "bluebot", "photon", "codey", "alphai", "raspberrypi", "primastem", "steami", "skykick"].includes(INTERFACE_NAME);
 };
 
 /**
@@ -1091,7 +1119,7 @@ Simulator._has3DRobotSimulator = function (board) {
  * @return {boolean} state
  */
 Simulator._hasWiringSimulator = function () {
-    return ["arduino", "microbit"].includes(INTERFACE_NAME);
+    return ["arduino", "arduinoq", "microbit", "esp32", "pico", "l476", "wb55", "raspberrypi", "m5stack", "galaxia", "GalaxiaCircuitPython", "steami", "TI-83"].includes(INTERFACE_NAME);
 };
 
 /**
@@ -1151,7 +1179,7 @@ Simulator._hasSpeechSynthesis = function () {
  * @returns {boolean} state
  */
 Simulator._hasBoardSimulator = function () {
-    return ["arduino", "microbit", "wb55", "l476", "buddy", "TI-83", "mBot", "cyberpi", "esp32", "thymio", "winky", "galaxia", "raspberrypi", "pico", "m5stack", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "eliobot", "alphai", "GalaxiaCircuitPython", "steami", "arduinoq", "primastem"].includes(INTERFACE_NAME);
+    return ["arduino", "microbit", "wb55", "l476", "buddy", "TI-83", "mBot", "cyberpi", "esp32", "thymio", "winky", "galaxia", "raspberrypi", "pico", "m5stack", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "eliobot", "alphai", "GalaxiaCircuitPython", "steami", "arduinoq", "primastem", "skykick", "unihiker"].includes(INTERFACE_NAME);
 };
 
 /**
@@ -2063,9 +2091,9 @@ Simulator.generateModuleDiv_image = function (mod, id, exerciseModule) {
         const animAlt = `${mod.title || 'Animation'} animée`;
 
         if (!exerciseModule) {
-            html += `" id="${id}_anim" src="${_PATH}/interfaces/assets/media/simulator/modules/${mod.pictureAnimation}" alt="${animAlt}"`;
+            html += `" id="${id}_anim" src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/modules/${mod.pictureAnimation}" alt="${animAlt}"`;
         } else {
-            html += `" src="${_PATH}/interfaces/assets/media/simulator/modules/${mod.pictureAnimation}" alt="${animAlt}"`;
+            html += `" src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/modules/${mod.pictureAnimation}" alt="${animAlt}"`;
         }
 
         html += ' />';
@@ -2076,7 +2104,7 @@ Simulator.generateModuleDiv_image = function (mod, id, exerciseModule) {
         const picClass = mod.picture.includes('.svg') ? 'svg' : 'img';
         const imgAlt = mod.title || 'Illustration du module';
 
-        html += `<img class="module-${picClass}-base ${mod.id}_base" src="${_PATH}/interfaces/assets/media/simulator/modules/${mod.picture}" alt="${imgAlt}">`;
+        html += `<img class="module-${picClass}-base ${mod.id}_base" src="${CDN_PATH}/openInterface/interfaces/assets/media/simulator/modules/${mod.picture}" alt="${imgAlt}">`;
     }
 
     // LED overlays

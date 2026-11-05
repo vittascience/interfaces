@@ -419,6 +419,26 @@
             "desc": "Programming interface for primaSTEM robot"
         }
     },
+    "skykick": {
+        "fr": {
+            "title": "Vittascience — SkyKick Evo",
+            "desc": "Interface de programmation pour le drone SkyKick Evo"
+        },
+        "en": {
+            "title": "Vittascience — SkyKick Evo",
+            "desc": "Programming interface for the SkyKick Evo drone"
+        }
+    },
+    "unihiker": {
+        "fr": {
+            "title": "Vittascience — UNIHIKER",
+            "desc": "Interface de programmation pour les cartes UNIHIKER M10 et K10"
+        },
+        "en": {
+            "title": "Vittascience — UNIHIKER",
+            "desc": "Programming interface for the UNIHIKER M10 and K10 boards"
+        }
+    },
     "learn": {
         "fr": {
             "title": "Vittascience — Apprendre à coder avec nos tutoriels",

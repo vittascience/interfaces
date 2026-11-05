@@ -175,4 +175,4 @@ Blockly.Msg['ROBOTS_MAKEBLOCK_GETPRESSEDBUTTON_TOOLTIP'] = IMG_MODULE_MAKEBLOCK_
 Blockly.Msg['ROBOTS_MAKEBLOCK_READTOUCHSENSOR_TITLE'] = '[Сенсор касания] состояние на порту %1';
 Blockly.Msg['ROBOTS_MAKEBLOCK_READTOUCHSENSOR_TOOLTIP'] = IMG_MODULE_MAKEBLOCK_TOUCH_SENSOR + Blockly.Tooltip.SEP + 'Возвращает состояние сенсора касания Makeblock. Подключите датчик к порту RJ45 с 1 по 4 на роботе mBot.';
 Blockly.Msg['COMMUNICATION_SERIAL_WRITE_NUMBER_TITLE'] = 'вывести число в консоль %1 в формате %2';
-Blockly.Msg['COMMUNICATION_SERIAL_WRITE_NUMBER_TOOLTIP'] = 'Blockly.Msg[\'COMMUNICATION_SERIAL_WRITE_NUMBER_TOOLTIP\'] = \'Позволяет показать число в консоли в выбранном формате (HEX — шестнадцатеричный, DEC — десятичный). Внимание: дробные числа нельзя выводить в формате HEX.\';';
+Blockly.Msg['COMMUNICATION_SERIAL_WRITE_NUMBER_TOOLTIP'] = 'Позволяет вывести число в консоль в выбранном формате (HEX: шестнадцатеричный, DEC: десятичный).';

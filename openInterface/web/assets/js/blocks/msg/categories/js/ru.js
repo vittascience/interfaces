@@ -1,6 +1,6 @@
 Blockly.Msg['CATEGORY_HTML'] = 'HTML';
 Blockly.Msg['CATEGORY_STYLE'] = 'Стиль';
-Blockly.Msg['CATEGORY_JAVASCRIPT'] = 'Respecter la casse originale : \'Javascript\'';
+Blockly.Msg['CATEGORY_JAVASCRIPT'] = 'JavaScript (код)';
 Blockly.Msg["HTML_CATEGORY_STRUCTURE"] = "Структура";
 Blockly.Msg["HTML_CATEGORY_ATTRIBUTES"] = "Атрибуты";
 Blockly.Msg["HTML_CATEGORY_TEXTS"] = "Тексты";

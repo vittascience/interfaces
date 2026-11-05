@@ -1,88 +1,20 @@
-let groveShield = {
-    IMG_LINK: WiringSimulator.PATH_MEDIA + "/shields/arduino_uno_grove_shield.svg",
-    SIZE: {
-      w: 138, // px
-      h: 106 // px
-    },
-    INITIAL_POS_PERCENT: {
-      x: 50, // %
-      y: 50, // %
-    },
-    x: null, // px
-    y: null, // px
-    isDraggable: false,
-    portOrientation: 'vertical',
-    wireSide: 'right',
-    pins: {
-      A0: {
-        x: -55,
-        y: 20,
-      },
-      A1: {
-        x: -55,
-        y: 0,
-      },
-      A2: {
-        x: -55,
-        y: -20,
-      },
-      A3: {
-        x: -55,
-        y: -40,
-      },
-      0: {
-        x: 45,
-        y: -35,
-      },
-      1: {
-        x: 45,
-        y: -35,
-      },
-      2: {
-        x: 20,
-        y: -35,
-      },
-      3: {
-        x: -5,
-        y: -35,
-      },
-      4: {
-        x: -30,
-        y: -35,
-      },
-      5: {
-        x: 45,
-        y: -5,
-      },
-      6: {
-        x: 20,
-        y: -5,
-      },
-      7: {
-        x: -5,
-        y: -5,
-      },
-      8: {
-        x: -30,
-        y: -5,
-      },
-      I2C: {
-        0: {
-          x: 45,
-          y: 21,
-        },
-        1: {
-          x: 20,
-          y: 21,
-        },
-        2: {
-          x: -5,
-          y: 21,
-        },
-        3: {
-          x: -30,
-          y: 21,
-        }
-      }
-    },
-  };
+// Board with its Grove shield when the shield is selected, otherwise the bare board wired with Dupont wires.
+// The Arduino UNO Q interface (same file) has no bare board choice: always the Grove shield.
+WiringSimulator.board = {
+  shield: () => {
+    if (INTERFACE_NAME === 'arduinoq') return 'unoGrove';
+    const grove = typeof VittaInterface !== 'undefined' && VittaInterface.shieldView;
+    return ({
+      uno: grove ? 'unoGrove' : 'unoDupont',
+      unor4wifi: grove ? 'unoGrove' : 'unoR4WifiDupont',
+      unor4minima: grove ? 'unoGrove' : 'unoR4MinimaDupont',
+      nano: grove ? 'nanoGroveArduino' : 'nanoDupont',
+      mega: grove ? 'megaGrove' : 'megaDupont'
+    })[Blockly.Constants.getSelectedBoard()] || null;
+  },
+  // Nano pins are named 'D2', 'A0'... in the Nano shield and board.
+  port: (pin) => {
+    const name = pin.replace(/^D/, '');
+    return Blockly.Constants.getSelectedBoard() === 'nano' && INTERFACE_NAME !== 'arduinoq' && /^\d+$/.test(name) ? 'D' + name : name;
+  }
+};

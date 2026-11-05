@@ -112,7 +112,7 @@ Blockly.Msg['ACTUATORS_SET_EARS_POSITION_TOOLTIP'] = 'Låter rotera Winky-robote
 Blockly.Msg['ACTUATORS_SET_EARS_POSITION_LEFT'] = 'vänster öra';
 Blockly.Msg['ACTUATORS_SET_EARS_POSITION_RIGHT'] = 'höger öra';
 Blockly.Msg['ACTUATORS_SET_EARS_POSITION_BOTH'] = 'båda öronen';
-Blockly.Msg['ACTUATORS_SET_EARS_POSITION_RANDOM'] = 'Blockly.Msg[\'ACTUATORS_SET_EARS_POSITION_RANDOM\'] = \'öronen slumpmässigt\';';
+Blockly.Msg['ACTUATORS_SET_EARS_POSITION_RANDOM'] = 'slumpmässiga öron';
 Blockly.Msg['ACTUATORS_SET_EARS_REAR_TITLE'] = '[Winky] ställ %1 i bakåtläge';
 Blockly.Msg['ACTUATORS_SET_EARS_REAR_TOOLTIP'] = 'Sätter Winky-robotens öron i bakåtläge.';
 Blockly.Msg['ACTUATORS_SET_EARS_DOWN_TITLE'] = '[Winky] ställ %1 i nedåtläge';

@@ -72,7 +72,8 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "io_getGroveColoredButton": this.Set.field('PIN', "pin15"),
             "io_setGroveColoredButton": this.Set.field('PIN', "pin1") + this.Set.state(),
             "io_getKeypadNumber": this.Set.field("TX", "pin1") + this.Set.field("RX", "pin15"),
-            "io_fingerprint_register": this.Set.number("ID", 1),
+            "io_fingerprint_register": this.Set.field("RX", "pin14") + this.Set.number("ID", 1),
+            "io_fingerprint_verify": this.Set.field("RX", "pin14"),
             "io_getGroveThumbJoystick": this.Set.field("PIN_Y", "pin1"),
             // io - pins
             "io_readDigitalPin": this.Set.field('PIN', "pin1"),
@@ -121,8 +122,8 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "communication_i2c_init": this.Set.number('FREQ', 100000) + this.Set.field("SDA", "pin20") + this.Set.field("SCL", "pin19"),
             "communication_i2c_read": '<mutation repeat="false"></mutation>' + this.Set.number('ADDR', 63) + this.Set.number('N', 1),
             "communication_i2c_write": '<mutation repeat="false"></mutation>' + this.Set.number('ADDR', 63) + this.Set.list('BUF', 3, this.Set.number('ADD0') + this.Set.number('ADD1') + this.Set.number('ADD2')),
-            "communication_voiceRecognition_setVolume": this.Set.number("VOLUME", 4),
-            "communication_voiceRecognition_playByCMDID": this.Set.number("ID", 22),
+            "ia_voiceRecognition_setVolume": this.Set.number("VOLUME", 4),
+            "ia_voiceRecognition_playByCMDID": this.Set.number("ID", 22),
             // sensors - microphone
             "io_micro_setSoundThreshold": this.Set.number("THRESH", 255),
             // sensors - enviro:bit
@@ -258,6 +259,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "robots_CutebotPro_turnWithAngle": this.Set.number("ANGLE", 90) + '<mutation wait="false"></mutation>',
             "robots_CutebotPro_placeWithAngle": this.Set.number("ANGLE", 90) + '<mutation wait="false"></mutation>',
             "robots_CutebotPro_turnWheel": this.Set.number("ANGLE", 180) + '<mutation wait="false"></mutation>',
+            "robots_CutebotPro_computePD": '<value name="SENSOR"><block type="robots_CutebotPro_getLineState"></block></value>' + this.Set.number("KP", 35) + this.Set.number("KD", 25),
             "robots_CutebotPro_setServoAngle": this.Set.number("ANGLE", 90),
             "robots_CutebotPro_setServoSpeed": this.Set.number("SPEED", 50),
             "robots_CutebotPro_setExtendedMotorSpeed": this.Set.number("SPEED", 50),

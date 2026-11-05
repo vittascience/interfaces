@@ -55,7 +55,8 @@
 	};
 
 	Adb.WebUSB.Transport.prototype.close = function () {
-		this.device.close();
+		// Already unplugged: nothing to close
+		return this.device.close().catch(() => { });
 	};
 
 	Adb.WebUSB.Transport.prototype.reset = function () {
@@ -132,6 +133,11 @@
 			.then(match => this.reset().then(() => new Adb.WebUSB.Device(this, match)))
 			.then(adb => m.send_receive(adb)
 				.then((function do_auth_response(response) {
+					// After a page refresh, the board may still send packets of the previous page's streams: skip them
+					if (response.cmd != "AUTH" && response.cmd != "CNXN") {
+						console.warn("[WebADB] packet of a previous session ignored", response.cmd);
+						return Adb.Message.receive(adb).then(do_auth_response);
+					}
 					if (response.cmd != "AUTH" || response.arg0 != AUTH_TOKEN)
 						return response;
 
@@ -182,7 +188,80 @@
 
 		this.ep_in = get_ep_num(match.alt.endpoints, "in");
 		this.ep_out = get_ep_num(match.alt.endpoints, "out");
+		// USB packet size of the OUT endpoint (512 bytes in high speed)
+		let ep_out = match.alt.endpoints.find(ep => ep.direction == "out" && ep.type == "bulk");
+		this.packet_size = (ep_out && ep_out.packetSize) || 512;
+
+		// Several streams can be open at once (e.g. app logs + file push): one reader dispatches the
+		// received packets to their stream, and the packets sent are written one after the other
+		this.streams = new Map(); // local_id -> { messages: [], waiters: [] }
+		this.reading = false;
+		this.sending = Promise.resolve();
 	}
+
+	Adb.WebUSB.Device.prototype.streamQueue = function (local_id) {
+		let queue = this.streams.get(local_id);
+		if (!queue) {
+			queue = { messages: [], waiters: [] };
+			this.streams.set(local_id, queue);
+		}
+		return queue;
+	};
+
+	Adb.WebUSB.Device.prototype.receiveFor = function (local_id) {
+		let queue = this.streamQueue(local_id);
+		if (queue.messages.length > 0)
+			return Promise.resolve(queue.messages.shift());
+
+		let promise = new Promise((resolve, reject) => queue.waiters.push({ resolve, reject }));
+		this.readPackets();
+		return promise;
+	};
+
+	// Single USB reader, running while a stream waits for a packet
+	Adb.WebUSB.Device.prototype.readPackets = function () {
+		if (this.reading)
+			return;
+		this.reading = true;
+
+		let next = () => {
+			let waiting = false;
+			for (let queue of this.streams.values())
+				waiting = waiting || queue.waiters.length > 0;
+			if (!waiting) {
+				this.reading = false;
+				return;
+			}
+
+			Adb.Message.receive(this).then(message => {
+				// remote's prospective of local_id/remote_id is reversed
+				let queue = this.streams.get(message.arg1);
+				if (!queue) {
+					// Packets of a closed stream (e.g. left open before a page refresh) are skipped,
+					// the board's answer to our CLSE is expected
+					if (message.cmd != "CLSE")
+						console.warn("[WebADB] packet of another stream ignored", message.cmd, toHex32(message.arg0), toHex32(message.arg1));
+				} else if (queue.waiters.length > 0)
+					queue.waiters.shift().resolve(message);
+				else
+					queue.messages.push(message);
+				next();
+			}, error => {
+				this.reading = false;
+				for (let queue of this.streams.values())
+					queue.waiters.splice(0).forEach(waiter => waiter.reject(error));
+			});
+		};
+		next();
+	};
+
+	// Forget a closed stream, its pending receive gets a CLSE
+	Adb.WebUSB.Device.prototype.closeStream = function (local_id) {
+		let queue = this.streams.get(local_id);
+		this.streams.delete(local_id);
+		if (queue)
+			queue.waiters.splice(0).forEach(waiter => waiter.resolve(new Adb.Message("CLSE", 0, local_id)));
+	};
 
 	Adb.WebUSB.Device.prototype.open = function (service) {
 		return Adb.Stream.open(this, service);
@@ -306,27 +385,32 @@
 		view.setUint32(16, checksum, true);
 		view.setUint32(20, magic, true);
 
-		let seq = device.send(header);
-		if (len > 0)
-			seq.then(() => device.send(data));
+		// The header and the data of a packet must not be split by a packet of another stream.
+		// Data of a multiple of the USB packet size end with a zero-length packet (like the adb client): else adbd
+		// reads the next packet as part of this data ("received too many bytes while waiting for payload")
+		let send = () => device.send(header)
+			.then(() => len > 0 ? device.send(data) : undefined)
+			.then(() => len > 0 && len % device.packet_size == 0 ? device.send(new ArrayBuffer(0)) : undefined);
+		let seq = device.sending.then(send);
+		device.sending = seq.catch(() => { });
 		return seq;
 	};
 
 	Adb.Message.receive = function (device) {
 		return device.receive(24) //Adb.Opt.use_checksum ? 24 : 20)
 			.then(response => {
+				// Not a packet header (too short, or its magic is not the command inverted, always set by adbd): data
+				// of a previous session, e.g. the page was reloaded while the board was sending and its USB reset
+				// failed. Skipped, a next transfer starts with a header.
+				if (response.byteLength < 24 || (response.getUint32(0, true) ^ response.getUint32(20, true)) != -1) {
+					console.warn("[WebADB] data of a previous session ignored", response.byteLength);
+					return Adb.Message.receive(device);
+				}
 				let cmd = response.getUint32(0, true);
 				let arg0 = response.getUint32(4, true);
 				let arg1 = response.getUint32(8, true);
 				let len = response.getUint32(12, true);
 				let check = response.getUint32(16, true);
-				// Android seems to have stopped providing checksums
-				if (Adb.use_checksum && response.byteLength > 20) {
-					let magic = response.getUint32(20, true);
-
-					if ((cmd ^ magic) != -1)
-						throw new Error("magic mismatch");
-				}
 
 				cmd = decode_cmd(cmd);
 
@@ -472,20 +556,23 @@
 		this.cancel = null;
 	};
 
-	let next_id = 1;
+	// Random start: after a page refresh the board may still send packets of the previous page's streams,
+	// they must not match the ids of the new streams
+	let next_id = 1 + Math.floor(Math.random() * 0x7fff0000);
 
 	Adb.Stream.open = function (device, service) {
 		let local_id = next_id++;
 		let remote_id = 0;
 
 		let m = new Adb.Message("OPEN", local_id, remote_id, "" + service + "\0");
-		return m.send_receive(device)
-			.then(function do_response(response) {
-				if (response.arg1 != local_id)
-					return Adb.Message.receive(device).then(do_response);
-
-				if (response.cmd != "OKAY")
+		device.streamQueue(local_id);
+		return m.send(device)
+			.then(() => device.receiveFor(local_id))
+			.then(response => {
+				if (response.cmd != "OKAY") {
+					device.closeStream(local_id);
 					throw new Error("Open failed");
+				}
 
 				remote_id = response.arg0;
 
@@ -501,6 +588,7 @@
 
 	Adb.Stream.prototype.close = function () {
 		if (this.local_id != 0) {
+			this.device.closeStream(this.local_id);
 			this.local_id = 0;
 			return this.send("CLSE");
 		}
@@ -521,15 +609,10 @@
 	};
 
 	Adb.Stream.prototype.receive = function () {
-		return Adb.Message.receive(this.device)
-			.then(response => {
-				// remote's prospective of local_id/remote_id is reversed
-				if (response.arg0 != 0 && response.arg0 != this.remote_id)
-					throw new Error("Incorrect arg0: 0x" + toHex32(response.arg0) + " (expected 0x" + toHex32(this.remote_id) + ")");
-				if (this.local_id != 0 && response.arg1 != this.local_id)
-					throw new Error("Incorrect arg1: 0x" + toHex32(response.arg1) + " (expected 0x" + toHex32(this.local_id) + ")");
-				return response;
-			});
+		// Closed stream: same answer as the board would give
+		if (this.local_id == 0)
+			return Promise.resolve(new Adb.Message("CLSE", this.remote_id, 0));
+		return this.device.receiveFor(this.local_id);
 	};
 
 	Adb.Stream.prototype.send_receive = function (cmd, data = null) {
@@ -587,57 +670,50 @@
 			});
 	};
 
+	// The file comes as "DATA" frames (64 KB at most each) and a final "DONE" frame, the frames being cut anywhere
+	// into the WRTE packets of the stream: the frames are read until "DONE", each packet acknowledged by OKAY
 	Adb.Stream.prototype.pull = function (filename) {
 		let frame = new Adb.SyncFrame("RECV", filename.length);
 		return frame.send_receive(this)
 			.then(check_ok("PULL RECV failed on " + filename))
-			.then(response => {
-				let encoder = new TextEncoder();
-				return this.send_receive("WRTE", encoder.encode(filename))
-			})
+			.then(() => this.send_receive("WRTE", new TextEncoder().encode(filename)))
 			.then(check_ok("PULL WRTE failed on " + filename))
-			.then(() => Adb.SyncFrame.receive(this))
-			.then(check_cmd("DATA", "PULL DATA failed on " + filename))
-			.catch(err => {
-				return this.send("OKAY")
-					.then(() => { throw err; });
-			})
-			.then(response => {
-				return this.send("OKAY")
-					.then(() => response);
-			})
-			.then(response => {
-				let len = response.length;
-				if (response.data.byteLength == len + 8) {
-					let cmd = response.data.getUint32(len, true);
-					let zero = response.data.getUint32(len + 4, true);
-					if (decode_cmd(cmd) != "DONE" || zero != 0)
-						throw new Error("PULL DONE failed on " + filename);
-
-					return new DataView(response.data.buffer, 0, len);
+			.then(async () => {
+				const chunks = [];
+				let pending = new Uint8Array(0);
+				for (;;) {
+					const response = await this.receive();
+					if (response.cmd != "WRTE" || !response.data)
+						throw new Error("PULL DATA failed on " + filename);
+					await this.send("OKAY");
+					const packet = new Uint8Array(response.data.buffer, response.data.byteOffset, response.data.byteLength);
+					const joined = new Uint8Array(pending.length + packet.length);
+					joined.set(pending);
+					joined.set(packet, pending.length);
+					pending = joined;
+					while (pending.length >= 8) {
+						const view = new DataView(pending.buffer, pending.byteOffset, 8);
+						const cmd = decode_cmd(view.getUint32(0, true));
+						const len = view.getUint32(4, true);
+						if (cmd == "DONE") {
+							const data = new Uint8Array(chunks.reduce((size, chunk) => size + chunk.length, 0));
+							let offset = 0;
+							for (const chunk of chunks) {
+								data.set(chunk, offset);
+								offset += chunk.length;
+							}
+							return new DataView(data.buffer);
+						}
+						if (cmd != "DATA" && cmd != "FAIL")
+							throw new Error("PULL DATA failed on " + filename);
+						if (pending.length < 8 + len)
+							break;
+						if (cmd == "FAIL")
+							throw new Error(new TextDecoder().decode(pending.slice(8, 8 + len)));
+						chunks.push(pending.slice(8, 8 + len));
+						pending = pending.slice(8 + len);
+					}
 				}
-
-				if (response.data.byteLength > 64 * 1024) {
-					let cmd = response.data.getUint32(response.data.byteLength - 8, true);
-					let zero = response.data.getUint32(response.data.byteLength - 4, true);
-					if (decode_cmd(cmd) != "DONE" || zero != 0)
-						throw new Error("PULL DONE failed on " + filename);
-
-					return new DataView(response.data.buffer, 0, response.data.byteLength - 8);
-				}
-
-				if (response.data.byteLength != len)
-					throw new Error("PULL DATA failed on " + filename + ": " + response.data.byteLength + "!=" + len);
-
-				return this.receive()
-					.then(response => {
-						let cmd = response.data.getUint32(0, true);
-						let zero = response.data.getUint32(4, true);
-						if (decode_cmd(cmd) != "DONE" || zero != 0)
-							throw new Error("PULL DONE failed on " + filename);
-					})
-					.then(() => this.send("OKAY"))
-					.then(() => response.data);
 			});
 	};
 
@@ -646,7 +722,6 @@
 		let encoder = new TextEncoder();
 
 		let frame = new Adb.SyncFrame("SEND", filename.length + 1 + mode_str.length);
-		console.log(frame)
 		return frame.send_receive(this)
 			.then(check_ok("PUSH failed on " + filename))
 			.then(response => {

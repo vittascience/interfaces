@@ -593,7 +593,7 @@
       "wb55": "WB55",
       "stm32": "STM32",
       "l476": "L476",
-      "TI-83": "TI-83 Premium CE Edition Python",
+      "TI-83": "TI-83 Python Edition-Taschenrechner",
       "galaxia": "Galaxia",
       "raspberrypi": "Raspberry Pi",
       "niryo": "Niryo ned2",
@@ -886,6 +886,22 @@
       "legalCommitmentNumber": "Rechtliche Verpflichtungsnummer",
       "siret": "SIRET-Nummer der Einrichtung",
       "serviceName": "Dienstname (optional)",
+      "subscriptionStart": "Gewünschtes Startdatum des Abonnements",
+      "subscriptionEnd": "Voraussichtliches Enddatum",
+      "durationMonth": "1 Monat",
+      "durationYear": "1 Jahr",
+      "durationThreeYears": "3 Jahre",
+      "garActivation": "Möchten Sie eine Aktivierung über den GAR?",
+      "whatIsGar": "Was ist der GAR?",
+      "garDefinition": "Der GAR (Gestionnaire d'accès aux ressources) ermöglicht Lehrkräften und Schülern den Zugang zu Vittascience über die digitale Arbeitsumgebung (ENT) der Schule, ohne ein Konto anzulegen.",
+      "uai": "UAI-Nummer der Schule",
+      "uaiHint": "7 Ziffern gefolgt von einem Buchstaben, z. B. 0751234A.",
+      "accountEmails": "E-Mail-Adresse(n) der zu aktivierenden Vittascience-Konten",
+      "accountEmailsHint": "Eine Adresse pro Zeile oder durch Kommas getrennt, höchstens {{max}} (eine pro Lizenz).",
+      "accountEmailsTooMany": "Zu viele Adressen: höchstens {{max}}.",
+      "accountEmailInvalid": "Ungültige E-Mail-Adresse:",
+      "quoteUpdateError": "Ihre Bestellung konnte nicht gespeichert werden: Die Aktualisierung des Angebots Nr. {{number}} ist fehlgeschlagen. Bitte versuchen Sie es in einigen Minuten erneut. Wenn das Problem weiterhin besteht, kontaktieren Sie uns:",
+      "licenceFieldsError": "Die Abonnementangaben sind unvollständig oder ungültig. Bitte überprüfen Sie das Startdatum, die UAI-Nummer oder die E-Mail-Adressen.",
       "confirmWithoutEdit1": "Ich bestätige, dass das Bestellformular genau dem Angebot Nr. ",
       "confirmWithoutEdit2": " auf der rechten Seite entspricht (gleiche Produkte, Beträge, Mengen) für einen Gesamtbetrag von ",
       "confirmWithEdit": "Das Bestellformular entspricht nicht dem Angebot auf der rechten Seite, es wurden Änderungen vorgenommen.",
@@ -899,7 +915,30 @@
       "errorExplanation": "Ihr Bestellformular konnte nicht gespeichert werden.<br>Das Problem wurde unserem technischen Team gemeldet.<br>Bitte kontaktieren Sie uns, um das Problem zu lösen.",
       "contactUs": "Kontaktieren Sie uns",
       "whatIsChorus": "Was ist Chorus Pro?",
-      "chorusDefinition": "CHORUS PRO ist das neue öffentliche Portal des Staates, über das nach und nach alle Rechnungen an den öffentlichen Dienst abgewickelt werden. Ziel ist es, 100 % der an den Staat gerichteten Rechnungen schrittweise ab dem 1. Januar 2017 zu digitalisieren. Um den Lieferanten die Arbeit zu erleichtern, nutzen alle öffentlichen Verwaltungen dasselbe Portal."
+      "chorusDefinition": "CHORUS PRO ist das neue öffentliche Portal des Staates, über das nach und nach alle Rechnungen an den öffentlichen Dienst abgewickelt werden. Ziel ist es, 100 % der an den Staat gerichteten Rechnungen schrittweise ab dem 1. Januar 2017 zu digitalisieren. Um den Lieferanten die Arbeit zu erleichtern, nutzen alle öffentlichen Verwaltungen dasselbe Portal.",
+      "maintenanceTitle": "Wartung läuft :(",
+      "maintenanceText": "Unser Team aktualisiert unser Angebot. Wir sind bald zurück!",
+      "supportSubject": "Einreichung der Bestellung - Angebot {{number}}",
+      "autoValidate": "Angebot automatisch akzeptieren",
+      "autoValidateHint": "Das Angebot ist als akzeptiert gekennzeichnet: Die Entwurf-Rechnung und die Bestellung werden sofort erstellt und der Kunde erhält die Bestätigungs-E-Mail.",
+      "closedTitle": "Angebot bereits akzeptiert",
+      "closedText": "Das Angebot {{number}} wurde bereits akzeptiert und Ihre Bestellung wird bearbeitet: Es gibt keine Bestellung mehr, die eingereicht werden kann. Um eine Änderung zu beantragen, kontaktieren Sie uns bitte.",
+      "closedSubject": "Angebot {{number}}",
+      "invalidLinkTitle": "Ungültiger Einreichungslink",
+      "invalidLinkText": "Um die Bestellung für dieses Angebot einzureichen oder zu ersetzen, verwenden Sie den Link in der letzten E-Mail, die Sie zu dem Angebot erhalten haben, oder melden Sie sich bei dem Konto an, das das Angebot angefordert hat (Mein Konto › Meine Bestellungen).",
+      "sectionBdc": "Ihre Bestellung",
+      "sectionBilling": "Rechnungsstellung",
+      "sectionSubscription": "Abonnement",
+      "sectionConfirm": "Bestätigung",
+      "activationMethod": "Aktivierungsmethode",
+      "activationEmails": "E-Mail(s)",
+      "activationGar": "GAR",
+      "activationEmailsHint": "Die angegebenen Vittascience-Konten erhalten die Lizenz (eine Adresse pro Lizenz).",
+      "activationGarHint": "Lehrkräfte und Schüler der Einrichtung greifen über ihr ENT auf Vittascience zu, ohne ein Konto anzulegen.",
+      "schoolOrUai": "Einrichtung oder UAI",
+      "schoolSearchPlaceholder": "Name der Einrichtung oder UAI (z. B. 0751234A)",
+      "schoolHint": "Geben Sie den Namen oder die UAI ein und wählen Sie die Einrichtung aus der Liste.",
+      "schoolRequired": "Wählen Sie eine Einrichtung aus der Liste oder geben Sie eine gültige UAI ein (7 Ziffern und ein Buchstabe)."
     },
     "mail": {
       "estimate": "Angebot",
@@ -933,6 +972,31 @@
       "submit": "Senden",
       "submit_success": "Danke, dass Sie Ihre Bewertung geteilt haben!",
       "return_to_product": "Zurück zum Produkt"
+    },
+    "shopPayLink": {
+      "thanksTitle": "Danke, Ihre Zahlung wurde erhalten",
+      "thanksText": "Die Zahlung von {{amount}} für die Rechnung {{number}} wurde erhalten.",
+      "thanksTextNoAmount": "Die Zahlung für die Rechnung {{number}} wurde erhalten.",
+      "paidTitle": "Rechnung bereits bezahlt",
+      "paidText": "Die Rechnung {{number}} wurde bereits per Karte bezahlt. Vielen Dank!",
+      "settledText": "Wir haben die Zahlung für die Rechnung {{number}} erhalten: Es ist nichts mehr zu zahlen. Vielen Dank!",
+      "processingTitle": "Zahlung wird bestätigt",
+      "processingText": "Ihre Bank bestätigt Ihre Zahlung: Laden Sie diese Seite in ein paar Minuten neu, um die Bestätigung zu sehen.",
+      "abortedTitle": "Zahlung abgebrochen",
+      "abortedText": "Die Zahlung für die Rechnung {{number}} wurde nicht abgeschlossen. Sie können es jederzeit erneut versuchen.",
+      "expiredTitle": "Zahlungslink abgelaufen",
+      "expiredText": "Dieser Zahlungslink ist nicht mehr gültig. Kontaktieren Sie uns, um einen neuen zu erhalten.",
+      "cancelledTitle": "Zahlungslink deaktiviert",
+      "cancelledText": "Dieser Zahlungslink ist nicht mehr gültig: Ein aktuellerer Link wurde Ihnen möglicherweise gesendet. Kontaktieren Sie uns bei Zweifeln.",
+      "notfoundTitle": "Zahlungslink nicht gefunden",
+      "notfoundText": "Überprüfen Sie, ob der gesamte Link kopiert wurde, oder kontaktieren Sie uns.",
+      "errorTitle": "Zahlung vorübergehend nicht verfügbar",
+      "errorText": "Die Online-Zahlung kann momentan nicht geöffnet werden. Versuchen Sie es in ein paar Minuten erneut oder kontaktieren Sie uns.",
+      "payButton": "Zahlen Sie {{amount}} mit Karte",
+      "retry": "Nochmal versuchen",
+      "contact": "Kontaktieren Sie uns",
+      "stripeLabel": "Rechnung {{number}}",
+      "stripeLabelOrder": "Rechnung für Bestellung {{number}}"
     }
   },
   "about": {
@@ -1202,14 +1266,28 @@
   },
   "code": {
     "blockExtensions": {
-      "category": "Extensions",
-      "title": "Block extensions",
-      "note": "Add new blocks to program other robots, models or modules. The chosen extensions are saved with the project.",
-      "close": "Close",
-      "search": "Search for an extension",
-      "added": "Added",
-      "noResult": "No extension found.",
-      "confirmRemoveUsed": "{{count}} block(s) of this extension used in the program will be deleted. Continue?"
+      "category": "Erweiterungen",
+      "title": "Block-Erweiterungen",
+      "note": "Füge neue Blöcke hinzu, um andere Roboter, Modelle oder Module zu programmieren. Die ausgewählten Erweiterungen werden mit dem Projekt gespeichert.",
+      "close": "Schließen",
+      "search": "Nach Erweiterung suchen",
+      "added": "Hinzugefügt",
+      "noResult": "Keine Erweiterung gefunden.",
+      "confirmRemoveUsed": "Es werden {{count}} Block(e) dieser Erweiterung, die im Programm verwendet werden, gelöscht. Fortfahren?",
+      "manage": "Erweiterungen verwalten",
+      "filter": "Erweiterungen filtern",
+      "filters": {
+        "all": "Alle",
+        "model": "Lehrmodelle",
+        "robotics": "Robotik",
+        "display": "Anzeige",
+        "lights": "Beleuchtung",
+        "sensors": "Sensoren",
+        "actuators": "Aktoren",
+        "ai": "Künstliche Intelligenz",
+        "games": "Spiele",
+        "communication": "Kommunikation"
+      }
     },
     "tooltip": {
       "anonymousAuthor": "Anonym",
@@ -1286,7 +1364,11 @@
       "baudrateError": "Fehler beim Lesen der Daten vom seriellen Port. Versuchen Sie, die Baudrate in den Konsoleneinstellungen zu ändern.",
       "firmwareWarning": "Achtung, um alle Funktionen dieser Schnittstelle mit dem STM32-Board nutzen zu können, wechseln Sie bitte auf die Firmware-Version 1.17 von MicroPython, indem Sie diesem Tutorial folgen: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=398\" target=\"_blank\" rel=\"noopener noreferrer\">Firmware aktualisieren</a>",
       "compiling": "Kompilierung läuft. Dies kann einige Sekunden dauern...",
-      "noSpaceLeft": "Auf der Karte ist kein Speicherplatz mehr zum Hochladen des Programms verfügbar."
+      "noSpaceLeft": "Auf der Karte ist kein Speicherplatz mehr zum Hochladen des Programms verfügbar.",
+      "skykickNotInCodingMode": "Der SkyKick-Controller ist nicht im Programmiermodus (Link): Befehle werden ignoriert. Wechseln Sie den Controller in den Link-Modus, um die Drohne zu fliegen.",
+      "skykickDroneNotPaired": "Die Drohne antwortet nicht: Überprüfen Sie, ob sie eingeschaltet und mit dem Controller verbunden ist.",
+      "skykickPortBusy": "Der Controller-Port kann nicht geöffnet werden: Er wird bereits von einer anderen Anwendung verwendet. Schließen Sie die SkyKick Evo Block Coding-App (und alle anderen Registerkarten, die mit dem Controller verbunden sind) und versuchen Sie es erneut.",
+      "skykickBattery": "Drohnenbatterie"
     },
     "WebBluetoothAPI": {
       "noWebBluetoothAPI": "Web Bluetooth API wurde in Ihrem Browser nicht erkannt. Um Web Bluetooth API zu nutzen, verwenden Sie einen der kompatiblen Browser: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> und bald <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
@@ -1303,7 +1385,45 @@
     "arduinoq": {
       "boardConnected": "Verbindung zum Board erfolgreich!",
       "webAppUrl": "Webseite der App (von einem Gerät im selben Netzwerk):",
+      "webConsoleUrl": "Webterminal der Platine (Benutzer und Passwort der Platine):",
+      "pcWebcamStarted": "Computer-Webcam wird an die Platine gesendet: diesen Tab geöffnet und die Platine per USB verbunden lassen. Schließe den Tab des KI-Werkzeugs, falls er geöffnet ist, damit die Webcam frei ist.",
+      "pcWebcamDenied": "Die Computer-Webcam kann nicht verwendet werden: Kamerazugriff im Browser erlauben und das Programm erneut übertragen.",
+      "pcWebcamStopped": "Das Senden der Computer-Webcam an die Platine wurde beendet (Platine getrennt?). Verbinde die Platine erneut und klicke auf „App starten“.",
+      "pcWebcamBusy": "Die Computer-Webcam liefert kein Bild. Sie wird vielleicht von einem anderen Tab verwendet (z. B. vom KI-Werkzeug): schließe ihn und klicke dann auf „App starten“.",
+      "corruptedLogs": "Die App-Logs sind nicht lesbar (Platine wurde bei laufender App getrennt): sie werden geleert.",
+      "appStopped": "App gestoppt.",
+      "boardUnplugged": "Arduino UNO Q getrennt (USB-Kabel abgezogen oder Platine neu gestartet). Wieder anschließen und erneut verbinden.",
+      "modelDownloadProgress": "Modell wird heruntergeladen:",
+      "hints": {
+        "camera": "Keine Kamera gefunden: Die mit dem Computer verbundene Platine kann keine Kamera nutzen. Nach dem Hochladen den Computer trennen und einen USB-C-Hub mit Stromversorgung und der Kamera anschließen (die App startet beim Start der Platine von selbst).",
+        "microphone": "Kein Mikrofon gefunden: Ein USB-Mikrofon (oder eine Webcam mit Mikrofon) an einen USB-C-Hub mit Stromversorgung anschließen, statt an den Computer.",
+        "speaker": "Kein Lautsprecher gefunden: Einen USB-Lautsprecher oder ein USB-Headset an einen USB-C-Hub mit Stromversorgung anschließen, statt an den Computer.",
+        "module": "Das Python-Modul „{x}“ ist auf der Platine nicht installiert.",
+        "name": "„{x}“ wird verwendet, bevor es einen Wert hat: Gib ihm am Programmanfang einen Wert (in „beim Start“).",
+        "textNumber": "Text und Zahl gemischt: Verwende den Block „verbinden“, um Text und Zahlen zusammenzufügen.",
+        "convert": "Dieser Text kann nicht in eine Zahl umgewandelt werden (er enthält Buchstaben oder ist leer).",
+        "zeroDivision": "Division durch null: Prüfe den Teiler vor dem Teilen.",
+        "index": "Das angeforderte Element existiert nicht: Die Liste ist kürzer als erwartet (oder leer).",
+        "key": "Der Schlüssel {x} existiert in diesem Wörterbuch nicht.",
+        "network": "Kein Internetzugang von der Platine: Prüfe, ob sie mit dem WLAN verbunden ist.",
+        "timeout": "Der Server antwortet nicht rechtzeitig: Versuche es erneut oder prüfe die Internetverbindung der Platine.",
+        "recursion": "Eine Funktion ruft sich endlos selbst auf.",
+        "permission": "Zugriff auf diese Datei oder dieses Gerät verweigert.",
+        "file": "Datei nicht gefunden: {x}."
+      },
+      "modelDownload": "KI-Modell wird auf die Platine heruntergeladen (nur einmal, kann einige Minuten dauern):",
+      "uploadIncomplete": "Hochladen unvollständig, Dateien von der Platine nicht korrekt empfangen: ",
+      "noAppOnBoard": "Keine App auf der Platine: zuerst das Programm übertragen.",
+      "appAlreadyRunning": "Die App läuft bereits auf der Platine.",
+      "aiAppStartMayTakeTime": "Start der KI-App: Der erste Start kann einige Minuten dauern (Installation der Python-Pakete auf der Platine, dann Umwandlung des Modells). Die nächsten Starts sind schneller.",
       "localModelMissing": "Kein lokales KI-Modell in diesem Browser gefunden: Trainiere zuerst ein Bildmodell im Vittascience-KI-Tool (im selben Browser) oder verwende den Block „Modell laden“ mit seinem Link.",
+      "localPostureModelMissing": "Kein lokales Haltungsmodell in diesem Browser gefunden: trainiere zuerst ein Haltungsmodell im KI-Werkzeug von Vittascience (in diesem Browser) oder verwende den Block „Haltungsmodell laden“ mit seinem Link.",
+      "localHandModelMissing": "Kein lokales Handmodell in diesem Browser gefunden: trainiere zuerst ein Handmodell im KI-Werkzeug von Vittascience (in diesem Browser) oder verwende den Block „Handmodell laden“ mit seinem Link.",
+      "pcMicrophoneStarted": "Computer-Mikrofon aktiv: Ton wird an die Platine gesendet. Diese Seite geöffnet und die Platine angeschlossen lassen.",
+      "pcMicrophoneDenied": "Computer-Mikrofon nicht verfügbar: Mikrofon im Browser erlauben, dann auf „App starten“ klicken.",
+      "pcMicrophoneStopped": "Das Senden des Computer-Mikrofons an die Platine wurde beendet (Platine getrennt?). Platine wieder anschließen, dann auf „App starten“ klicken.",
+      "localSoundModelMissing": "Kein lokales Tonmodell in diesem Browser gefunden: zuerst ein Tonmodell im KI-Werkzeug von Vittascience trainieren (in diesem Browser) oder den Block „Modell laden“ mit seinem Link verwenden.",
+      "localSensorModelMissing": "Kein lokales Sensormodell in diesem Browser gefunden: zuerst ein Modell im KI-Werkzeug „Sensordaten“ von Vittascience trainieren (in diesem Browser) oder den Block „Sensormodell laden“ mit seinem Link verwenden.",
       "passwordRequired": "Um den Transfer fortzusetzen, wird das Passwort des Arduino Q Boards benötigt.",
       "incorrectPassword": "Das Passwort ist falsch, bitte erneut versuchen.",
       "transfertAborted": "Transfer abgebrochen.",
@@ -1322,6 +1442,8 @@
       "TI-83-Maclasseti": "Willkommen bei der MaClasseTI.fr-Oberfläche für den TI-83 Premium CE Edition Python-Taschenrechner! Die TI-Innovator™ Hub und BBC micro:bit Boards können hier programmiert werden. Öffnen Sie den Simulator, um zu starten!",
       "GalaxiaCircuitPython": "Willkommen bei der Vittascience-Oberfläche für Galaxia Circuit Python!",
       "galaxia": "Willkommen bei der Vittascience-Oberfläche für Galaxia! </br>Um das Galaxia-Board in dieser Oberfläche zu programmieren, müssen Sie zuerst die MicroPython-Firmware auf das Board flashen, indem Sie diesem Tutorial folgen: <b><a href=\"https://fr.vittascience.com/learn/tutorial.php?id=860\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">MicroPython-Firmware flashen</a></b>",
+      "unihiker": "Willkommen auf der Vittascience-Oberfläche für die UNIHIKER M10 Platine!</br>Schließen Sie die Platine über USB an und klicken Sie auf Hochladen. Beim ersten Mal legt die Oberfläche das Installationsprogramm des Vittascience-Servers auf die Platine, das einmal im Home-Menü der Platine gestartet wird.",
+      "unihiker-k10": "Willkommen in der Vittascience-Oberfläche für die UNIHIKER K10!</br>Schließen Sie die Platine per USB an (MicroPython-Firmware von DFRobot) und klicken Sie auf Hochladen: das Programm wird in main.py gespeichert.",
       "raspberrypi": "Willkommen bei der Vittascience-Oberfläche für Raspberry Pi! Sie können das Tutorial hier ansehen: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=1739\" target=\"_blank\" rel=\"noopener noreferrer\">Erste Schritte mit der Vittascience-Oberfläche für Raspberry Pi</a>",
       "niryo": "Willkommen bei der Vittascience-Oberfläche für Niryo ned2!",
       "nao": "Willkommen bei der Vittascience-Oberfläche für den NAO v6 Roboter! Schauen Sie sich gerne das Tutorial hier an: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=1260\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Erste Schritte mit der Vittascience-Oberfläche für den NAO Roboter</a>",
@@ -1344,7 +1466,8 @@
       "steami": "Willkommen in der Vittascience‑Oberfläche für STeaMi !",
       "alphai": "Willkommen in der Vittascience‑Oberfläche für den Roboter AlphAI !",
       "arduinoq": "Willkommen bei der Vittascience-Oberfläche für das Arduino UNO Q Board!</br></br>Die Oberfläche unterstützt verschiedene Programmiersprachen (Arduino, Python, HTML) für die Programmierung eines vollständigen Projekts mit dem Board. Die Blöcke in der Kategorie 'Basis' können in jeder Sprache verwendet werden; der generierte Code passt sich dann dem Sprachtyp des Headerblocks an.</br></br>Es ist möglich, Linux-Befehle an das Arduino Q Board zu senden, indem der Befehl im Eingabefeld am unteren Ende der Konsole eingegeben wird.",
-      "primastem": "Willkommen bei der Vittascience-Oberfläche für den PrimaStem-Roboter!"
+      "primastem": "Willkommen bei der Vittascience-Oberfläche für den PrimaStem-Roboter!",
+      "skykick": "Willkommen bei der Vittascience-Oberfläche für die SkyKick Evo-Drohne!</br>Schließen Sie den Controller per USB an, schalten Sie ihn in den Link-Modus und klicken Sie dann auf die Schaltfläche zum Verbinden, bevor Sie Ihr Programm ausführen. Achtung: Die Drohne fliegt wirklich, halten Sie einen klaren Raum."
     },
     "chromeApp": {
       "noPort": "Kein Port erkannt",
@@ -1411,7 +1534,7 @@
       "chromeInstall": {
         "name": "Chrome",
         "notice": "Unten finden Sie den Link zur Chrome App Thingz. Klicken Sie auf \"Zu Chrome hinzufügen\" und kehren Sie dann zur Vittascience-Oberfläche zurück:",
-        "install": "<i class=\"fas fa-circle\"></i> Chrome App Thingz",
+        "install": "<i class=\"fas fa-circle\"></i> Thingz Chrome App",
         "presentation": "Die Chrome App Thingz ermöglicht die Kommunikation mit Arduino Uno Karten über Chromium- und Chrome-Browser.<br/><b>Diese Lösung wird empfohlen, da keine Softwareinstallation und somit keine Administratorrechte erforderlich sind.</b> ",
         "linuxUsers": "<b>Hinweis für Linux-Nutzer:</b> Bei Problemen mit dem Plugin besuchen Sie bitte <a href=\"https://slite.com/api/s/note/WaDtH3cUZsfyMtiFdxeBNB/Preparation-Ubuntu-pour-Thingz\">diese Hilfeseite</a>."
       },
@@ -1425,7 +1548,7 @@
       "macOSInstall": {
         "name": "macOS",
         "notice": "Unten finden Sie den Download-Link für das macOS-Plugin:",
-        "install": "<i class=\"fas fa-circle\"></i> Installer",
+        "install": "<i class=\"fas fa-circle\"></i> Installationsprogramm",
         "advice": "Wir empfehlen, <a href=\"#\" onclick=\"$('#macos-tutorial').fadeIn('fast');\">dieses Tutorial</a> zur Installation zu nutzen.",
         "presentation": "Das macOS-Plugin benötigt Administrator- und Netzwerkrechte."
       },
@@ -1449,6 +1572,26 @@
     "statementButtons": {
       "expand": "Erweitern",
       "collaps": "Zuklappen"
+    },
+    "unihiker": {
+      "hostPrompt": "Adresse der UNIHIKER-Platine (10.1.2.3 über USB oder ihre WLAN-Adresse):",
+      "hostSaved": "Adresse der Platine: {{host}}",
+      "sending": "Programm wird an die Platine gesendet ({{host}})...",
+      "started": "Programm auf der Platine gestartet.",
+      "stopped": "Programm gestoppt.",
+      "finished": "Programm beendet (Code {{code}}).",
+      "noProgram": "Auf der Platine läuft kein Programm: die Nachricht wurde nicht gesendet.",
+      "k10FormatConfirm": "Der Dateispeicher der UNIHIKER K10 muss formatiert werden (normal direkt nach dem Flashen der DFRobot-Firmware). Jetzt formatieren? Die Dateien der Platine werden gelöscht, die Firmware bleibt erhalten.",
+      "k10Formatted": "Dateispeicher formatiert: die Platine startet neu, klicken Sie danach auf Hochladen.",
+      "k10Flash": "Die UNIHIKER K10 hat keine MicroPython-Firmware. Laden Sie sie über das Menü von Hochladen herunter („MicroPython-Firmware herunterladen“) und flashen Sie sie an Adresse 0x00 mit ESP LaunchPad oder Flash Download Tool, wobei die BOOT-Taste beim Anschließen gedrückt bleibt.",
+      "unreachable": "Die Platine antwortet nicht unter {{host}}. Überprüfen Sie das USB-Kabel (oder die WLAN-Adresse mit „Adresse der Platine“) und erlauben Sie den Zugriff auf das lokale Netzwerk, wenn der Browser danach fragt.",
+      "outdated": "Der Vittascience-Server der Platine muss aktualisiert werden: automatische Aktualisierung läuft...",
+      "localModelMissing": "Kein Bildmodell in diesem Browser: Trainieren Sie zuerst ein Modell im Vittascience-KI-Werkzeug (Bilderkennung).",
+      "modelLinkInvalid": "Das Bildmodell des Links „{{link}}“ konnte nicht gelesen werden. Überprüfen Sie den Link des geteilten Modells.",
+      "notInstalled": "Die Platine antwortet, aber der Vittascience-Server ist noch nicht installiert: Installationsprogramm wird gesendet...",
+      "installFailed": "Das Installationsprogramm konnte nicht auf die Platine gelegt werden ({{host}}).",
+      "installUploaded": "Installationsprogramm gesendet. Auf der Platine: Home-Taste, dann root/ > {{folder}} > install.py. Das Programm startet von selbst, sobald die Installation abgeschlossen ist.",
+      "installDone": "Vittascience-Server installiert: Programm wird gesendet..."
     },
     "topbar": {
       "tooltips": {
@@ -1475,6 +1618,7 @@
         "compileArduino": "Kompilierung starten",
         "arduinoBoardSelector": "Wählen Sie das zu programmierende Arduino-Board aus",
         "esp32BoardSelector": "Wählen Sie das zu programmierende ESP32-Board aus",
+        "unihikerBoardSelector": "Die zu programmierende UNIHIKER-Platine auswählen",
         "downloadPython": "Python-Skript herunterladen",
         "downloadPythonGalaxia": "Python-Skript 'main.py' herunterladen und auf die Galaxia ziehen",
         "downloadArduino": "Arduino-Skript herunterladen",
@@ -1485,6 +1629,10 @@
         "downloadFirmware": "MicroPython-Firmware herunterladen",
         "downloadCamFirmware": "MicroPython-Firmware für ESP32-CAM herunterladen",
         "downloadPiAPI": "Python-Server für Raspberry Pi herunterladen. API als Administrator starten.",
+        "uploadUnihiker": "Programm an die UNIHIKER-Platine senden und starten",
+        "stopUnihiker": "Programm der Platine stoppen",
+        "installUnihiker": "Installationsprogramm des Vittascience-Servers auf die Platine legen (einmal im Home-Menü der Platine starten)",
+        "unihikerHost": "Adresse der Platine ändern (10.1.2.3 über USB oder ihre WLAN-Adresse)",
         "downloadHex": "Micro:bit-Programm im [.hex]-Format exportieren",
         "downloadTexas": "Programm .py für den Taschenrechner herunterladen",
         "runBuddy": "Programm auf Buddy starten",
@@ -1515,6 +1663,7 @@
         "toolboxRestriction": "Verfügbare Blöcke einschränken",
         "consoleSettings": "Allgemeine Einstellungen",
         "accessibility": "Thema und Schriftart einstellen",
+        "shortcuts": "Tastenkombinationen anzeigen",
         "addBlockSettings": "Block hinzufügen",
         "fullscreen": "Vollbild anzeigen",
         "help": "Hilfe",
@@ -1534,6 +1683,7 @@
         "beginnerMode": "Anfängermodus",
         "advancedMode": "Fortgeschrittener Modus",
         "lastSaveOn": "Letzte Speicherung am ",
+        "lastSaveFailed": "Das letzte Speichern ist fehlgeschlagen: Deine Änderungen sind nicht gespeichert. Klicke, um es erneut zu versuchen.",
         "description": "Beschreibung:",
         "repl": "Drücke Enter ↩️, um den Befehl auszuführen",
         "runningCode": "Code wird ausgeführt... Bitte warten.",
@@ -1573,20 +1723,24 @@
         "downloadFirmware": ".bin herunterladen",
         "downloadCamFirmware": ".bin ESP32-CAM herunterladen",
         "downloadPiAPI": "API.cmd herunterladen",
+        "stopUnihiker": "Stoppen",
+        "installUnihiker": "Server installieren",
+        "unihikerHost": "Adresse der Platine",
         "downloadUf2Pico": "Pico Firmware",
         "downloadUf2PicoW": "Pico W Firmware",
         "downloadPython": ".py herunterladen",
         "downloadTexas": "Für Taschenrechner herunterladen",
         "downloadThymioWindows": ".exe herunterladen",
         "downloadThymioMacOS": ".dmg herunterladen",
-        "downloadNiryoWindows": "Companion App .exe",
-        "downloadNiryoMacOS": "Companion App .dmg",
+        "downloadNiryoWindows": "Companion App.exe",
+        "downloadNiryoMacOS": "Companion App.dmg",
         "downloadNiryoLinux": "Companion App .deb",
         "runBuddy": "Programm auf Buddy starten",
         "disconnect": "Trennen",
         "connectBoard": "Verbinden",
         "settings": "Einstellungen",
         "themes": "Barrierefreiheit",
+        "shortcuts": "Tastenkombinationen",
         "add": "Block hinzufügen",
         "fullscreen": "Vollbild",
         "help": "Hilfe",
@@ -1656,6 +1810,8 @@
           "sendQ": "Linux-Befehl zum Senden an das Arduino Q Board",
           "export": "Exportieren",
           "openVariables": "Variablen",
+          "launchApp": "App starten",
+          "stopApp": "App stoppen",
           "openFileSystem": "Dateien",
           "monitor": "Serieller Monitor",
           "openRepl": "REPL"
@@ -1672,6 +1828,8 @@
           "closeRepl": "MicroPython-Konsole schließen",
           "openRepl": "MicroPython-Konsole öffnen",
           "openVariables": "Programmvariablen anzeigen",
+          "launchApp": "Die bereits auf die Platine übertragene App erneut starten",
+          "stopApp": "Die auf der Platine laufende App stoppen",
           "openFileSystem": "Dateisystem des Boards öffnen",
           "graph": "Um die empfangenen Daten im Konsolenfenster zu sehen, klicken Sie auf die Schaltfläche <b>Diagramm</b>",
           "monitorToggler": "Zum Anzeigen der empfangenen Daten klicken Sie auf die Schaltfläche <i class='fas fa-chevron-up'></i>"
@@ -1772,8 +1930,8 @@
           "toggleBoardDisplay": "Simulator-Board anzeigen/verbergen",
           "switchWiringMode": "Zum Verdrahtungsmodus wechseln",
           "switchMosaicMode": "Zum Mosaikmodus wechseln",
-          "wiringZoomIn": "Zoom in",
-          "wiringZoomOut": "Zoom out"
+          "wiringZoomIn": "Hineinzoomen",
+          "wiringZoomOut": "Herauszoomen"
         },
         "robot": {
           "background": "Hintergrund",
@@ -1825,7 +1983,8 @@
         "sentData": "Gesendete Daten:",
         "crash": "Absturzschutz aktiviert: Dies passiert, wenn Ihr Code eine Endlosschleife ohne sleep()-Aufruf enthält. Bitte korrigieren Sie den Code und versuchen Sie es erneut.",
         "variables-panel-msg": "Dieses Programm enthält keine Variablen",
-        "replaySimulator": "Simulator neu starten, um Daten zu senden"
+        "replaySimulator": "Simulator neu starten, um Daten zu senden",
+        "skulptLoadError": "Der Simulator konnte nicht geladen werden. Überprüfe deine Verbindung und starte den Simulator erneut."
       },
       "tooltips": {
         "bluebot-buttons": "Sie können die Tasten des Blue-bot-Roboters zum Programmieren verwenden!"
@@ -1880,6 +2039,7 @@
         "dht22-hum": "DHT22 - Luftfeuchtigkeit",
         "ds18x20": "DS18X20 - Temperatur",
         "mlx90621": "MLX90621 - Temperatur",
+        "bn880": "BN-880 - magnetische Richtung",
         "dustSensor": "Staubsensor",
         "groveRain": "Regensensor",
         "rainGauge": "Regenmesser",
@@ -1919,7 +2079,12 @@
         "grovePulse": "Pulssensor",
         "distanceInterrupter": "Abstand Unterbrecher"
       },
-      "pinError": "[Pin-Fehler] Das Modul <b>{{modId}}</b> kann nicht an Pin <b>{{pin}}</b> angeschlossen werden. Das Modul <b>{{attachedId}}</b> ist bereits verbunden."
+      "pinError": "[Pin-Fehler] Das Modul <b>{{modId}}</b> kann nicht an Pin <b>{{pin}}</b> angeschlossen werden. Das Modul <b>{{attachedId}}</b> ist bereits verbunden.",
+      "wiring": {
+        "unwiredPin": "[Verkabelung] Das Modul <b>{{module}}</b> ist an Pin <b>{{pin}}</b>, der auf diesem Shield keinen Anschluss hat: es wird nicht verkabelt.",
+        "i2cFull": "[Verkabelung] Zu viele I2C-Module: <b>{{modules}}</b> werden nicht verkabelt.",
+        "noShield": "Kein Grove-Shield für dieses Board im Verkabelungssimulator."
+      }
     },
     "ch340driver": {
       "title": "Upload-Probleme?",
@@ -1946,9 +2111,9 @@
       "mixed-popup-leave-editor": "Um den Code-Editor mit der Tastatur zu verlassen, drücken Sie gleichzeitig <kbd>Feststelltaste</kbd> und <kbd>Esc</kbd>.",
       "mixed-popup-readonly": "<i class='fa-solid fa-lock'></i> Im Mischmodus ist der Code-Editor für diese Oberfläche <strong>nur lesbar</strong>. Du kannst nur mit Blöcken bearbeiten.",
       "mixed-popup-readonly-sr": "Im Mischmodus ist der Code für diese Oberfläche nur lesbar",
-      "mixed-small-screen": "On a small screen, the hybrid mode is not very practical: we recommend switching to the blocks or code mode.",
-      "mixed-small-screen-stay": "Stay in hybrid mode",
-      "mixed-small-screen-close": "Close",
+      "mixed-small-screen": "Auf einem kleinen Bildschirm ist der Hybridmodus wenig praktisch. Wir empfehlen, in den Block- oder Code-Modus zu wechseln.",
+      "mixed-small-screen-stay": "Im Hybridmodus bleiben",
+      "mixed-small-screen-close": "Schließen",
       "saveWarning": {
         "title": "<span class=\"fa fa-exclamation-circle\"></span> Warnung!",
         "warn": "<span class=\"fa fa-save\"></span> Möchten Sie Ihre Arbeit speichern, bevor Sie fortfahren?<p class=\"mb-0 mt-0 hint\">Wenn Sie ein neues Projekt erstellen, ohne vorher zu speichern, geht Ihre aktuelle Arbeit verloren...</p>",
@@ -2140,7 +2305,7 @@
         "title": "<i class=\"fas fa-lightbulb\"></i> Neues Projekt erstellen",
         "notice": "<span class=\"fa fa-info-circle\"></span> Vergessen Sie nach der Erstellung Ihres Projekts nicht, es über die Speichern-Schaltfläche in der Cloud zu sichern. Warum nicht auch für andere Nutzer über die Freigabeoption verfügbar machen?",
         "form": {
-          "projectName": "<i class=\"fas fa-book\"></i> Projektname <span class=\"mandatory\">*</span></label>",
+          "projectName": "<i class=\"fas fa-book\"></i> Projektname <span class=\"mandatory\">*</span>",
           "projectDesc": "<i class=\"far fa-edit\"></i> Projektbeschreibung (optional)",
           "projectDescPlaceholder": "Beschreiben Sie Ihren Sketch, das ist hilfreich, wenn Sie Ihr Projekt später teilen möchten."
         },
@@ -2227,6 +2392,7 @@
     },
     "robotGuide": {
       "tuto": "Um die Programmierblöcke für den Roboter <b>[ROBOT_NAME]</b> zu finden, klicken Sie auf den Reiter <b><i class='fa-solid fa-robot me-1'></i>Roboter</b>.",
+      "tuto-extension": "Um die Programmierblöcke für den Roboter <b>[ROBOT_NAME]</b> zu finden, klicken Sie auf den Reiter <b><i class='fas fa-puzzle-piece me-1'></i>Erweiterungen</b>.",
       "tuto-rover": "Um die Programmierblöcke für den Roboter <b>[ROBOT_NAME]</b> zu finden, klicken Sie auf den Reiter <b><i class='fas fa-cogs'></i>Erweitert</b> und dann auf <b><i class='fa-solid fa-robot me-1'></i>ti_rover</b>."
     },
     "droneGuide": {
@@ -3005,9 +3171,27 @@
         "disconnect": "Trennen",
         "board": "Karte",
         "sensorsList": "Sensor: ",
+        "sensors": {
+          "accelerometer": "Beschleunigungssensor",
+          "micro": "Mikrofon",
+          "pin": "Pin {{pin}}",
+          "add": "Sensor hinzufügen",
+          "remove": "Sensor entfernen"
+        },
         "collectData": "Daten sammeln",
         "parameters": "Einstellungen",
-        "timeWindow": "Fensterdauer"
+        "timeWindow": "Fensterdauer",
+        "unoq": {
+          "upload": "App wird gesendet...",
+          "start": "Start (beim 1. Mal 1 Min.)...",
+          "error": "Keine Verbindung zum Arduino UNO Q möglich. USB-Kabel prüfen, Arduino App Lab und andere mit der Platine verbundene Tabs schließen und erneut versuchen."
+        }
+      },
+      "edgeValidation": {
+        "accuracy": "Genauigkeit auf zurückgelegten Aufnahmen (nicht zum Training verwendet): {{accuracy}} %",
+        "realFound": "Echt \\ Erkannt",
+        "notEnoughRecords": "Keine Validierung: Es werden mindestens 5 Aufnahmen pro Klasse benötigt, um einige zurückzulegen und das Modell zu testen.",
+        "uncertain": "Unsicher"
       },
       "training": {
         "title": "Training",
@@ -3055,9 +3239,9 @@
         "mobilenet": {
           "preview-title": "<b>Vorschau</b> <br> preview",
           "instruction-title": "<b>Anleitung</b> <br> instruction",
-          "instructions": "<b>Platzieren Sie ein Objekt auf dem Tisch im vorgesehenen Bereich, damit es von der Kamera erkannt wird.<br> Beobachten Sie auf dem Bildschirm das Ergebnis der Vorhersage durch die künstliche Intelligenz. </b><br><br> Place an object on the table in the designated area to be detected by the camera.<br> Observe on screen the prediction result from the artificial intelligence.",
+          "instructions": "<b>Platzieren Sie ein Objekt auf dem Tisch im dafür vorgesehenen Bereich, damit die Kamera es erkennt.<br>Beobachten Sie auf dem Bildschirm das Ergebnis der Vorhersage durch die künstliche Intelligenz. </b><br><br>Platzieren Sie ein Objekt auf dem Tisch im markierten Bereich, damit es von der Kamera erkannt wird.<br>Beobachten Sie auf dem Bildschirm das Vorhersageergebnis der künstlichen Intelligenz.",
           "results": "<b>Ergebnisse</b><br>results",
-          "explaining-head": "<b>Der angezeigte Prozentsatz zeigt die von der künstlichen Intelligenz erkannte Kategorie an<b>",
+          "explaining-head": "<b>Der angezeigte Prozentsatz zeigt die von der künstlichen Intelligenz erkannte Kategorie an</b>",
           "explaining-body": "Der angezeigte Prozentsatz zeigt die von der künstlichen Intelligenz erkannte Kategorie an."
         },
         "dragDropFileHere": "Bild hochladen (ziehen & ablegen oder klicken)",
@@ -3094,6 +3278,10 @@
             "title": "Python",
             "tooltip": "Modell in der Python-Oberfläche verwenden"
           },
+          "arduinoq": {
+            "title": "Arduino UNO Q",
+            "tooltip": "Das Modell auf der Arduino UNO Q-Platine verwenden"
+          },
           "microcontroller": {
             "title": "Mikrocontroller",
             "tooltip": "Modell-Dateien für Mikrocontroller herunterladen"
@@ -3108,56 +3296,56 @@
             "initialFiles": "Dateien werden kopiert...",
             "keras": "Wandle in Keras-Modell um...",
             "tfLite": "Wandle in tfLite-Modell um...",
-            "cFiles": "Compilation des fichiers C...",
-            "elfBinFiles": "Compilation des fichiers finaux..."
+            "cFiles": "Kompiliere C-Dateien...",
+            "elfBinFiles": "Kompiliere die finalen Dateien..."
           }
         }
       },
-      "dragDropModelFiles": "Téléverser vos fichiers ici (glisser/déposer ou bien cliquer)",
+      "dragDropModelFiles": "Laden Sie Ihre Dateien hier hoch (per Ziehen & Ablegen oder Klick)",
       "aiImageGuide": {
         "step-0": {
-          "title": "Créer des catégories de données",
-          "description": "Pour qu’un modèle apprenne à catégoriser une information, il faut au minimum 2 catégories. <b> En cliquant sur le crayon, nommer une première catégorie (ex : Recyclage)</b> et appuyer en dehors du clavier."
+          "title": "Datenkategorien erstellen",
+          "description": "Damit ein Modell das Einordnen lernt, sind mindestens zwei Kategorien nötig. <b>Klicken Sie auf das Stiftsymbol und benennen Sie die erste Kategorie (z. B. Recycling),</b> und tippen Sie außerhalb der Tastatur"
         },
         "step-1": {
-          "title": "Créer des catégories de données",
-          "description": "Afin de comparer différentes données, nous allons ajouter une deuxième catégorie de données. <br> <b>Cliquer sur le bouton « Ajouter une catégorie ».</b>"
+          "title": "Datenkategorien erstellen",
+          "description": "Um Daten zu vergleichen, fügen wir eine zweite Kategorie hinzu. <br> <b>Klicken Sie auf die Schaltfläche 'Kategorie hinzufügen'.</b>"
         },
         "step-2": {
-          "title": "Créer des catégories de données",
-          "description": "<b>Nommer une deuxième catégorie en cliquant sur le crayon (ex : Ordures)</b> et appuyer en dehors du clavier."
+          "title": "Datenkategorien erstellen",
+          "description": "<b>Nennen Sie eine zweite Kategorie, indem Sie auf das Stift-Symbol klicken<br>(z. B. Müll),</b> und tippen Sie außerhalb der Tastatur."
         },
         "step-3": {
-          "title": "Ajouter des jeux de données au modèle",
-          "description": "Pour ajouter des données, <b>cliquer sur l’icône de la caméra </b><button class='btn v-btn-ai' style='display: inline-block'><img src='/ia/assets/images/icon-video.svg' alt='Camera pictogram'></button> <b> de la première catégorie </b>"
+          "title": "Datensätze zum Modell hinzufügen",
+          "description": "Um Daten hinzuzufügen, <b>klicken Sie auf das Kamerasymbol <button class='btn v-btn-ai' style='display: inline-block'><img src='/ia/assets/images/icon-video.svg' alt='Kamera-Piktogramm'></button> der ersten Kategorie.</b>"
         },
         "step-4": {
-          "title": "Ajouter des jeux de données au modèle",
-          "description": "Placer un objet dans la zone visible par la caméra, puis <b>cliquer sur le bouton « Prendre une photo »</b> pour capturer entre 10 et 15 photographies différentes de l’objet."
+          "title": "Datensätze zum Modell hinzufügen",
+          "description": "Platzieren Sie ein Objekt im sichtbaren Bereich der Kamera, dann <b>klicken Sie auf die ‘Foto aufnehmen’-Schaltfläche</b>, um 10 bis 15 verschiedene Fotos des Objekts aufzunehmen."
         },
         "step-5": {
-          "title": "Ajouter plus de données au modèle",
-          "description": "Ajouter des données pour la 2<sup>e</sup> catégorie, <b>cliquer sur l’icône caméra </b><button class='btn v-btn-ai' style='display: inline-block'><img src='/ia/assets/images/icon-video.svg' alt='Camera pictogram'></button> "
+          "title": "Weitere Daten zum Modell hinzufügen",
+          "description": "Fügen Sie Daten für die zweite Kategorie hinzu, <b>klicken Sie auf das Kamerasymbol</b><button class='btn v-btn-ai' style='display: inline-block'><img src='/ia/assets/images/icon-video.svg' alt='Kamera-Piktogramm'></button> "
         },
         "step-6": {
-          "title": "Ajouter plus de données au modèle",
-          "description": "Placer un objet dans la zone visible par la caméra, puis <b>cliquer sur le bouton « Prendre une photo » </b> pour capturer entre 10 et 15 photographies différentes de l’objet."
+          "title": "Weitere Daten zum Modell hinzufügen",
+          "description": "Platzieren Sie ein Objekt im sichtbaren Bereich der Kamera, dann <b>klicken Sie auf die ‘Foto aufnehmen’-Schaltfläche</b>, um 10 bis 15 verschiedene Fotos des Objekts aufzunehmen."
         },
         "step-7": {
-          "title": "Entrainer le modèle",
-          "description": "Bravo ! Votre modèle contient suffisamment de données pour qu’il puisse faire des prédictions.<br> <b>Cliquer sur le bouton « Entrainer le modèle »</b>."
+          "title": "Modell trainieren",
+          "description": "Glückwunsch! Ihr Modell enthält genug Daten, um Vorhersagen zu treffen. <b>Klicken Sie auf die Schaltfläche 'Modell trainieren'.</b>"
         },
         "step-8": {
-          "title": "Vérifier l’efficacité du modèle !",
-          "description": "<b>Placer un nouvel objet </b> dans la zone visible par la caméra et observer le pourcentage de prédiction. Plus le pourcentage est élevé plus le modèle est précis."
+          "title": "Modellleistung prüfen",
+          "description": "<b>Platzieren Sie ein neues Objekt</b> im Sichtfeld der Kamera und beobachten Sie den Vorhersageprozentsatz. Je höher der Prozentsatz, desto genauer ist das Modell."
         },
         "step-9": {
-          "title": "Activer les zones d’influence",
-          "description": "<b>Cliquer sur le bouton 'Zones d’influence’ </b> et montrer à nouveau des objets à la caméra. Les zones de l’image en surbrillance correspondent à celles qui sont les plus déterminantes dans les prédictions de l’IA."
+          "title": "Einflussbereiche aktivieren",
+          "description": "<b>Klicken Sie auf die ‘Einflussbereiche’-Schaltfläche</b> und zeigen Sie der Kamera erneut Objekte. Die hervorgehobenen Bereiche im Bild entsprechen denjenigen, die für die Vorhersagen der KI am wichtigsten sind. "
         },
         "slippingElement": {
-          "title": "Vous êtes toujours là ?",
-          "description": "Si ce n’est pas le cas, nous clôturerons cette session dans {{time}} "
+          "title": "Sind Sie noch da?",
+          "description": "Falls nicht, läuft Ihre Sitzung in {{time}} s ab."
         },
         "step": "étape"
       }
@@ -3166,7 +3354,7 @@
       "settings": {
         "dailyQuota": "Tageskontingent",
         "quotaRemaining": "Verbleibend",
-        "dailyQuotaTooltip": "{{used}} credits used / {{remaining}} credits remaining",
+        "dailyQuotaTooltip": "{{used}} Credits verwendet / {{remaining}} Credits verbleibend",
         "random": "Zufällig",
         "aiDialog": "Die KI",
         "footballMatch": "Fußballspiel",
@@ -3270,112 +3458,112 @@
       "quickPrompts": {
         "length": 91,
         "text": [
-          "🌌 Pourquoi la Voie lactée porte-t-elle ce nom ?",
-          "🐬 Comment les dauphins communiquent-ils entre eux ?",
-          "🌍 Qu'est-ce qui provoque les saisons ?",
-          "🌋 Comment se forme un volcan ?",
-          "🌧️ Pourquoi le ciel est-il bleu le jour et rouge au coucher du soleil ?",
-          "🦖 Pourquoi les dinosaures ont disparu ?",
-          "🌒 Pourquoi voit-on toujours la même face de la Lune ?",
-          "💡 Comment l'électricité est-elle produite ?",
-          "🎨 Pourquoi le ciel est-il bleu ?",
-          "🚀 Comment fonctionne une fusée ?",
-          "🧲 Comment fonctionne un aimant ?",
-          "🍫 Comment le chocolat est-il fabriqué ?",
-          "🌳 Pourquoi les feuilles changent-elles de couleur en automne ?",
-          "🍃 Quels sont les besoins des plantes pour grandir ?",
-          "🐝 Comment les abeilles font-elles du miel ?",
-          "🏰 Quelle était la vie dans un château médiéval ?",
-          "📱 Comment fonctionne un téléphone portable ?",
-          "🌐 Qu'est-ce qu'Internet et comment a-t-il été créé ?",
-          "🎵 Comment la musique affecte-t-elle notre humeur ?",
-          "🌬️ Qu'est-ce que le vent et comment se forme-t-il ?",
-          "💧 Pourquoi l'eau est-elle si importante pour la vie ?",
-          "🍽️ Comment un cuisinier peut-il changer la saveur des aliments ?",
-          "🏞️ Pourquoi y a-t-il des saisons ?",
-          "🕊️ Comment les pigeons retrouvent-ils leur chemin ?",
-          "🐘 Pourquoi les éléphants ont-ils une mémoire si développée ?",
-          "🔭 Qu'est-ce que les trous noirs ?",
-          "📚 Pourquoi la lecture est-elle importante ?",
-          "🌲 Comment les arbres communiquent-ils ?",
-          "🌐 Pourquoi les fuseaux horaires existent-ils ?",
-          "🐌 Pourquoi les escargots sont-ils lents ?",
-          "🦋 Comment une chenille devient-elle un papillon ?",
-          "🐳 Pourquoi les baleines chantent-elles ?",
-          "🌞 Comment le Soleil produit-il de l'énergie ?",
-          "🍂 Pourquoi les feuilles tombent-elles en automne ?",
-          "🌵 Comment les plantes du désert survivent-elles avec si peu d'eau ?",
-          "🎒 Quelle est l'origine de l'école ?",
-          "🎮 Comment sont créés les jeux vidéo ?",
-          "🎲 Pourquoi aime-t-on jouer ?",
-          "🚆 Comment fonctionne un train à grande vitesse ?",
-          "💻 Comment fonctionne un ordinateur ?",
-          "🌔 Pourquoi les marées existent-elles ?",
-          "🦈 Pourquoi les requins attaquent-ils ?",
-          "🎥 Comment fonctionne une caméra ?",
-          "📷 Pourquoi les photos peuvent-elles capturer des moments ?",
-          "🎨 Comment les couleurs affectent-elles nos émotions ?",
-          "🐕 Comment les chiens perçoivent-ils le monde ?",
-          "🐈 Pourquoi les chats ronronnent-ils ?",
-          "🦜 Pourquoi les perroquets peuvent-ils parler ?",
-          "🌿 Comment les médicaments sont-ils créer ?",
-          "📖 Pourquoi les histoires sont-elles importantes pour nous ?",
-          "🧭 Quel pays est le moins visité ?",
-          "🌮 Quelle est la meilleure recette de tacos ?",
-          "🎬 Qui a remporté le plus d'Oscars de tous les temps ?",
-          "🍪 Comment préparer le cookie parfait ?",
-          "🪐 Quelle est la plus grande planète du système solaire ?",
-          "⏰ Quelles sont les alternatives à un réveil ?",
-          "🦢 Quel est le rôle des cygnes dans les contes de fées et la mythologie ?",
-          "🦉 Pourquoi les chouettes sont-elles associées à la sagesse ?",
-          "🐦 Pourquoi les oiseaux chantent-ils le matin ?",
-          "🍝 Quelle est la signification de 'al dente' ?",
-          "🐄 Quel est l'impact de l’élevage des vaches sur l'environnement ?",
-          "🚴‍♀️ Comment choisir un vélo de piste ?",
-          "🪖 Les casques militaires sont-ils efficaces ?",
-          "⏳ Le vieillissement peut-il être inversé ?",
-          "🍌 Comment conserver les bananes ?",
-          "🐦 Pourquoi les chauves-souris vivent la nuit ?",
-          "🎨 Quelle est la biographie de Picasso ?",
-          "🎮 Quelles sont les meilleures consoles de 2023 ?",
-          "🎮 Quelles étaient les meilleures consoles de 1995 ?",
-          "🎂 Comment le gâteau d’anniversaire a-t-il été inventé ?",
-          "🦋 Quelle est la durée de vie d'un papillon ?",
-          "🦑 Qu'est-ce que le gigantisme des grands fonds ?",
-          "🌙 Pourquoi l'aspect de la Lune dans le ciel est différent chaque jour ?",
-          "🍓 Les fraises sont-elles des fruits ?",
-          "🚿 Quelle est l'importance du petit-déjeuner ?",
-          "🪒 À quelle fréquence changer de rasoir ?",
-          "🍣 Quelle est la recette des sushis ?",
-          "🦔 Pourquoi les hérissons se roulent-ils en boule ?",
-          "🍕 Quelle est l’origine de la pizza ?",
-          "🏟️ Quel est le plus grand spectacle de la mi-temps du Super Bowl ?",
-          "🦓 Pourquoi les zèbres ont-ils des rayures ?",
-          "🦅 Quel est l'oiseau le plus dangereux du monde ?",
-          "🦴 Comment fonctionne une radiographie ?",
-          "🤗 Les câlins peuvent-ils soulager la douleur ?",
-          "🪗 Les accordéons sont-ils français ?",
-          "🍞 Comment faire du pain maison ?",
-          "🍉 Quand cueillir une pastèque?",
-          "🌺 Quelles sont les fleurs les plus rares dans le monde ?",
-          "🪢 Comment faire un nœud récifal ?",
-          "🍌 Comment réutiliser la peau d’une banane ?",
-          "🍳 Pourquoi est-il important de prendre un petit déjeuner le matin ?",
-          "👨 Y a-t-il encore des hommes préhistoriques ?"
+          "🌌 Warum heißt die Milchstraße so?",
+          "🐬 Wie kommunizieren Delfine miteinander?",
+          "🌍 Was verursacht die Jahreszeiten?",
+          "🌋 Wie entsteht ein Vulkan?",
+          "🌧️ Warum ist der Himmel tagsüber blau und beim Sonnenuntergang rot?",
+          "🦖 Warum sind die Dinosaurier ausgestorben?",
+          "🌒 Warum sehen wir immer dieselbe Seite des Mondes?",
+          "💡 Wie wird Strom erzeugt?",
+          "🎨 Warum ist der Himmel blau?",
+          "🚀 Wie funktioniert eine Rakete?",
+          "🧲 Wie funktioniert ein Magnet?",
+          "🍫 Wie wird Schokolade hergestellt?",
+          "🌳 Warum verfärben sich die Blätter im Herbst?",
+          "🍃 Was brauchen Pflanzen zum Wachsen?",
+          "🐝 Wie stellen Bienen Honig her?",
+          "🏰 Wie war das Leben in einer mittelalterlichen Burg?",
+          "📱 Wie funktioniert ein Handy?",
+          "🌐 Was ist das Internet und wie ist es entstanden?",
+          "🎵 Wie beeinflusst Musik unsere Stimmung?",
+          "🌬️ Was ist Wind und wie entsteht er?",
+          "💧 Warum ist Wasser so wichtig für das Leben?",
+          "🍽️ Wie kann ein Koch den Geschmack von Speisen verändern?",
+          "🏞️ Warum gibt es Jahreszeiten?",
+          "🕊️ Wie finden Tauben ihren Weg zurück?",
+          "🐘 Warum haben Elefanten ein so gutes Gedächtnis?",
+          "🔭 Was sind Schwarze Löcher?",
+          "📚 Warum ist Lesen wichtig?",
+          "🌲 Wie kommunizieren Bäume?",
+          "🌐 Warum gibt es Zeitzonen?",
+          "🐌 Warum sind Schnecken langsam?",
+          "🦋 Wie wird aus einer Raupe ein Schmetterling?",
+          "🐳 Warum singen Wale?",
+          "🌞 Wie erzeugt die Sonne Energie?",
+          "🍂 Warum fallen im Herbst Blätter?",
+          "🌵 Wie überleben Wüstenpflanzen mit so wenig Wasser?",
+          "🎒 Wie entstand die Schule?",
+          "🎮 Wie entstehen Videospiele?",
+          "🎲 Warum spielen wir gerne?",
+          "🚆 Wie funktioniert ein Hochgeschwindigkeitszug?",
+          "💻 Wie funktioniert ein Computer?",
+          "🌔 Warum gibt es Gezeiten?",
+          "🦈 Warum greifen Haie an?",
+          "🎥 Wie funktioniert eine Kamera?",
+          "📷 Warum können Fotos Momente festhalten?",
+          "🎨 Wie beeinflussen Farben unsere Gefühle?",
+          "🐕 Wie nehmen Hunde die Welt wahr?",
+          "🐈 Warum schnurren Katzen?",
+          "🦜 Warum können Papageien sprechen?",
+          "🌿 Wie werden Medikamente entwickelt?",
+          "📖 Warum sind Geschichten wichtig für uns?",
+          "🧭 Welches Land wird am wenigsten besucht?",
+          "🌮 Was ist das beste Taco-Rezept?",
+          "🎬 Wer hat insgesamt die meisten Oscars gewonnen?",
+          "🍪 Wie backt man den perfekten Keks?",
+          "🪐 Welcher Planet ist der größte im Sonnensystem?",
+          "⏰ Welche Alternativen zum Aufwachen gibt es?",
+          "🦢 Welche Rolle spielen Schwäne in Märchen und Mythologie?",
+          "🦉 Warum gelten Eulen als Symbol der Weisheit?",
+          "🐦 Warum singen Vögel am Morgen?",
+          "🍝 Was bedeutet 'al dente'?",
+          "🐄 Welche Auswirkungen hat Rinderhaltung auf die Umwelt?",
+          "🚴‍♀️ Wie wählt man ein Bahnrad aus?",
+          "🪖 Sind Militärhelme wirksam?",
+          "⏳ Kann man das Altern umkehren?",
+          "🍌 Wie lagert man Bananen?",
+          "🐦 Warum leben Fledermäuse nachts?",
+          "🎨 Wie lautet Picassos Biografie?",
+          "🎮 Was sind die besten Konsolen von 2023?",
+          "🎮 Was waren die besten Konsolen von 1995?",
+          "🎂 Wie wurde der Geburtstagskuchen erfunden?",
+          "🦋 Wie lange lebt ein Schmetterling?",
+          "🦑 Was ist Tiefseegigantismus?",
+          "🌙 Warum sieht der Mond am Himmel jeden Tag anders aus?",
+          "🍓 Sind Erdbeeren Früchte?",
+          "🚿 Wie wichtig ist das Frühstück?",
+          "🪒 Wie oft sollte man den Rasierer wechseln?",
+          "🍣 Wie macht man Sushi?",
+          "🦔 Warum rollen sich Igel zusammen?",
+          "🍕 Was ist der Ursprung der Pizza?",
+          "🏟️ Was war die größte Halbzeitshow beim Super Bowl?",
+          "🦓 Warum haben Zebras Streifen?",
+          "🦅 Welcher Vogel ist der gefährlichste der Welt?",
+          "🦴 Wie funktioniert eine Röntgenaufnahme?",
+          "🤗 Können Umarmungen Schmerzen lindern?",
+          "🍞 Wie macht man hausgemachtes Brot?",
+          "🍉 Wann sollte man eine Wassermelone pflücken?",
+          "🌺 Welche sind die seltensten Blumen der Welt?",
+          "🪢 Wie bindet man einen Webeleinenknoten?",
+          "🍌 Wie lagert man Bananen?",
+          "🍌 Wie kann man die Schale einer Banane wiederverwenden?",
+          "🍳 Warum ist es wichtig, morgens zu frühstücken?",
+          "👨 Gibt es heute noch prähistorische Menschen?"
         ]
       },
       "aiTextGuide": {
         "step-welcome": {
-          "title": "Bienvenue sur l'interface IA texte",
-          "description": "Découvrez une interface qui permet d'interagir avec des modèles IA textuelles, en utilisant des instructions et en modifiant les paramètres."
+          "title": "Willkommen bei der Text-KI-Oberfläche",
+          "description": "Entdecke eine Oberfläche, mit der du mit textbasierten KI-Modellen interagieren, Anweisungen geben und Parameter ändern kannst."
         },
         "step-1": {
-          "title": "Utilisation de la banque de prompts",
-          "description": "Commencez à interagir avec l'IA, préparez un prompt (il s’agit d’une instruction que l’on donne à un algorithme). Pour ne jamais manquer d'inspiration, trouvez des idées parmi nos exemples. <b>Appuyez sur les exemples pour renvoyer une question au hasard.</b>"
+          "title": "Austausch mit der KI",
+          "description": "Finde Anregungen in unseren Beispielen. Klicke auf ein Beispiel, um eine zufällige Frage zu senden."
         },
         "step-2": {
-          "title": "L'attente de la reponse'",
-          "description": "Le modèle a besoin d'un peu de temps pour générer une réponse"
+          "title": "Warten auf die Antwort",
+          "description": "Das Modell braucht einen Moment, um die Antwort zu erstellen."
         },
         "step-3": {
           "title": "La réponse de l'IA",
@@ -3612,8 +3800,8 @@
           "titleModeration": "Moderation auf AI-Vittascience-Oberflächen",
           "body": [
             "Die Moderation der KI-Antworten auf Vittascience-Oberflächen umfasst mehrere Punkte: <br />",
-            "<ul><li>1. Alle verwendeten Modelle sind darauf trainiert, eine 'moderierte' Unterhaltung zu führen. Dennoch kann es Situationen geben, die zusätzliche Eingriffe erfordern.</li>",
-            "<li>2. Die KI-Antworten werden Wort für Wort moderiert. Wird ein als 'unangemessen' eingestuftes Wort erkannt, ersetzt ein Mechanismus es durch eine Sternchenkette gleicher Länge. Dieser Mechanismus informiert Nutzer auch, wenn ein unangemessenes Wort erkannt wurde, indem er direkt nach der KI-Antwort eine Meldung anzeigt.</li></ul>"
+            "1. Alle verwendeten Modelle sind darauf trainiert, eine 'moderierte' Unterhaltung zu führen. Dennoch kann es Situationen geben, die zusätzliche Eingriffe erfordern.",
+            "2. Die KI-Antworten werden Wort für Wort moderiert. Wird ein als 'unangemessen' eingestuftes Wort erkannt, ersetzt ein Mechanismus es durch eine Sternchenkette gleicher Länge. Dieser Mechanismus informiert Nutzer auch, wenn ein unangemessenes Wort erkannt wurde, indem er direkt nach der KI-Antwort eine Meldung anzeigt."
           ],
           "understood": "Verstanden"
         },
@@ -3667,7 +3855,7 @@
           "subscriptionDetails": "Unsere Tarife ansehen",
           "subscriptionDetailsPremium": "Details Ihres Abonnements anzeigen",
           "monthlyReset": "Monatliche Credits werden alle 30 Tage zurückgesetzt",
-          "progressAria": "{{used}} credits used out of {{limit}}",
+          "progressAria": "Bereits {{used}} von {{limit}} Credits verwendet",
           "titleCreditInfo": "Informationen zu Credits",
           "unlimitedCredits": "Unbegrenzt",
           "unlimitedReset": "Premium-Abonnenten erhalten unbegrenzte Textgenerierung",
@@ -3966,8 +4154,8 @@
           "titleModeration": "Moderation auf den AI-Vittascience-Schnittstellen",
           "body": [
             "Die Moderation der KI-Antworten auf den Vittascience-Schnittstellen umfasst mehrere Punkte: <br />",
-            "<ul><li>1. <strong>Moderation des vom Nutzer eingegebenen Prompts: </strong>Zuerst wird der Nutzer-Prompt moderiert, was durch ein natürlichsprachliches Modell geschieht, das darauf trainiert ist, unangemessene Inhalte zu erkennen. Wird ein unangemessener Inhalt entdeckt, wird der Nutzer gebeten, seine Anfrage umzuformulieren. </lu> <a class='bg-light text-dark'style='cursor: pointer;'>Moderations-Prompt ansehen</a>",
-            "<li>2. <strong>Überprüfung der generierten Bilder </strong>: Im zweiten Schritt wird geprüft, ob das von der KI generierte Bild unangemessene Elemente enthält. Falls ja, wird das finale Bild komplett schwarz, und die Bilder der Generierungsschritte werden unscharf gemacht.</li></ul>",
+            "1. <strong>Moderation des vom Nutzer eingegebenen Prompts: </strong>Zuerst wird der Nutzer-Prompt moderiert, was durch ein natürlichsprachliches Modell geschieht, das darauf trainiert ist, unangemessene Inhalte zu erkennen. Wird ein unangemessener Inhalt entdeckt, wird der Nutzer gebeten, seine Anfrage umzuformulieren.  <a class='bg-light text-dark'style='cursor: pointer;'>Moderations-Prompt ansehen</a>",
+            "2. <strong>Überprüfung der generierten Bilder </strong>: Im zweiten Schritt wird geprüft, ob das von der KI generierte Bild unangemessene Elemente enthält. Falls ja, wird das finale Bild komplett schwarz, und die Bilder der Generierungsschritte werden unscharf gemacht.",
             " Die Kombination dieser Schritte stellt sicher, dass die Interaktionen auf den Vittascience-Schnittstellen angemessen und respektvoll bleiben."
           ],
           "safetyPrompt": [
@@ -4025,6 +4213,7 @@
           "progressAria": "{{used}} von {{limit}} Credits verwendet",
           "titleCreditInfo": "Informationen zu Credits",
           "unlimitedCredits": "Unbegrenzt",
+          "unlimitedImages": "Ihr Abonnement umfasst die unbegrenzte Erstellung von Bildern",
           "unlimitedReset": "Ihr Premium-Abonnement umfasst unbegrenzte Textgenerierung.",
           "unlimitedConditions": "Ihr Premium-Abonnement umfasst unbegrenzte Textgenerierung."
         }
@@ -4367,11 +4556,11 @@
         "publicCreations": "<i class='fa-solid fa-users m-1'></i>Community-Kreationen",
         "favoriteCreations": "<i class='fa-solid fa-heart m-1'></i> Meine Favoriten",
         "bestCreations": {
-          "title": "<i class='fa-solid fa-trophy m-1'></i></i>Wettbewerb",
+          "title": "Wettbewerb",
           "tooltip": "Nimm jeden Monat an einem Bild-Generierungswettbewerb zu einem vorgegebenen Thema teil! Veröffentliche deine Kreation und versuche, zu den drei Bildern mit den meisten Likes der Community zu gehören, um Geschenkkarten zu gewinnen. (Pro Monat und Nutzer kann nur ein Gutscheincode vergeben werden.)"
         },
         "gameCreations": {
-          "title": "<i class='fa-solid fa-gamepad m-1'></i></i>Herausforderung",
+          "title": "Herausforderung",
           "tooltip": "Jede Woche gibt es eine neue Herausforderung zur Bildrekonstruktion! Ziel ist es, den ursprünglichen Prompt zu finden, mit dem das gezeigte Bild erzeugt wurde, indem du einen möglichst ähnlichen Prompt schreibst. Die Punktzahl berechnet sich nach der Ähnlichkeit zwischen deinem Prompt und dem Referenzprompt, nicht nach der visuellen Ähnlichkeit der Bilder."
         },
         "lifeTime": "Vor {{ time }}",
@@ -4739,7 +4928,10 @@
       "send": "Bestellung versandt",
       "cancelled": "Bestellung storniert",
       "carrier": "Versanddienstleister",
-      "tracking": "Sendungsverfolgungsnummer"
+      "tracking": "Sendungsverfolgungsnummer",
+      "quoteSent": "Gesendet",
+      "quoteDenied": "Abgelehnt",
+      "quoteExpired": "Abgelaufen"
     }
   },
   "userDetails": {
@@ -4983,7 +5175,7 @@
       "message": "Nachricht",
       "mandatory": "Felder mit <span class=\"mandatory\">*</span> sind Pflichtfelder.",
       "send": "Senden",
-      "success": "Ihre Nachricht wurde erfolgreich gesendet!</p><p>Die Projektverantwortlichen werden Sie so bald wie möglich kontaktieren...",
+      "success": "<p>Ihre Nachricht wurde erfolgreich gesendet!</p><p>Die Projektverantwortlichen werden Sie so bald wie möglich kontaktieren...</p>",
       "error": "Im Formular sind Fehler aufgetreten: ",
       "errors": {
         "name": "Vor- und Nachname ungültig. Maximal {{ maxi }} Zeichen.",
@@ -5711,10 +5903,24 @@
     },
     "materialsNeeded": "Benötigte Materialien",
     "suggestedResources": "Empfohlene Ressourcen",
+    "classroomImport": {
+      "button": "In das Klassenmodul importieren",
+      "loginTooltip": "Melden Sie sich an, um in das Klassenmodul zu importieren",
+      "success": "Ressource in das Klassenmodul importiert.",
+      "error": "Import nicht möglich."
+    },
     "inIframe": {
       "btn": {
         "importBtnText": "Importieren",
-        "importAllBtnText": "Gesamte Aktivität importieren"
+        "importAllBtnText": "Gesamte Aktivität importieren",
+        "importAsCourseBtnText": "Als Lernpfad importieren"
+      },
+      "confirm": {
+        "activity": "Diesen Teil als Aktivität in das Klassenmodul importieren?",
+        "course": "Diese Ressource als Lernpfad in das Klassenmodul importieren? Ihre Teile werden der Reihe nach in einen gleichnamigen Ordner kopiert."
+      },
+      "license": {
+        "noDerivatives": "Diese Ressource steht unter der Lizenz CC-BY-NC-ND (keine Bearbeitung): Sie kann nicht in das Klassenmodul importiert werden."
       }
     }
   },
@@ -5750,6 +5956,19 @@
   },
   "modals": {
     "standard": {
+      "blocksScreenshot": {
+          "title": "Bildschirmfoto der Blöcke",
+          "quality": "Qualität",
+          "qualities": {
+              "screen": "Bildschirm (×1)",
+              "good": "Gut (×2)",
+              "high": "Hoch (×4)",
+              "veryHigh": "Sehr hoch (×8)"
+          },
+          "format": "Format",
+          "size": "Bildgröße: {{width}} × {{height}} Pixel",
+          "download": "Herunterladen"
+      },
       "arduino-q-wifi": {
         "title": "WLAN des Arduino UNO Q Boards",
         "enabled": "WLAN aktiviert",
@@ -5949,7 +6168,7 @@
       "new": {
         "title": "Neues Projekt erstellen",
         "content": {
-          "name": "<i class='fas fa-book'></i> Projektname <span class='mandatory'>*</span></label>",
+          "name": "<i class='fas fa-book'></i> Projektname <span class='mandatory'>*</span>",
           "description": "<i class='far fa-edit'></i> Projektbeschreibung (optional)",
           "placeholder": {
             "name": "Projektname",
@@ -6067,7 +6286,7 @@
             "libraries-link": "https://github.com/vittascience/galaxia-libraries"
           },
           "letsstartcoding": {
-            "name": "Lets start coding",
+            "name": "Beginnen wir mit dem Programmieren",
             "learn": "Mehr über die verfügbaren C++-Funktionen mit den Lets start coding Boards erfahren Sie unter ",
             "learn-link": "https://www.letsstartcoding.com/",
             "libraries-link": "https://github.com/vittascience/arduino-libraries"
@@ -6189,6 +6408,9 @@
             "title": "Automatisches Scrollen",
             "text": "Automatisches Scrollen aktivieren"
           },
+          "sound": {
+            "title": "Lautstärke der Block‑Töne"
+          },
           "toolbox": {
             "title": "Toolbox-Auswahl",
             "notice": "Sie können den Modus der Benutzeroberfläche ändern. Dadurch ändern sich die Kategorien und der Stil der Blöcke.",
@@ -6300,7 +6522,7 @@
               "title": "<i class=\"fas fa-lightbulb\"></i> Neues Projekt erstellen",
               "notice": "<span class=\"fa fa-info-circle\"></span> Nach der Erstellung Ihres Projekts vergessen Sie nicht, es über die Speichertaste in der Cloud zu sichern. Warum nicht auch für andere Nutzer über die Freigabeoption verfügbar machen?",
               "form": {
-                "projectName": "<i class=\"fas fa-book\"></i> Projektname <span class=\"mandatory\">*</span></label>",
+                "projectName": "<i class=\"fas fa-book\"></i> Projektname <span class=\"mandatory\">*</span>",
                 "projectDesc": "<i class=\"far fa-edit\"></i> Projektbeschreibung (optional)",
                 "projectDescPlaceholder": "Beschreiben Sie Ihren Sketch, nützlich, wenn Sie Ihr Projekt später teilen möchten."
               },
@@ -6391,6 +6613,38 @@
       "i18n": {
         "title": "Sprache der Benutzeroberfläche ändern"
       },
+      "shortcuts": {
+        "title": "Tastenkürzel",
+        "or": "oder",
+        "then": "dann",
+        "table": {
+          "keys": "Tasten",
+          "action": "Aktion"
+        },
+        "sections": {
+          "general": "Allgemein",
+          "code": "Code-Editor",
+          "blocks": "Block-Arbeitsbereich"
+        },
+        "actions": {
+          "save": "Projekt speichern",
+          "closeModal": "Geöffnetes Fenster schließen",
+          "focusNext": "Zum nächsten / vorherigen Element wechseln",
+          "resizeConsole": "Konsole vergrößern / verkleinern (Größenänderungsleiste ausgewählt)",
+          "enterEditor": "In den Code-Editor wechseln",
+          "leaveEditor": "Den Code-Editor verlassen",
+          "undo": "Rückgängig",
+          "redo": "Wiederholen",
+          "selectAll": "Alles auswählen",
+          "duplicateLine": "Zeile oder Auswahl duplizieren",
+          "moveLine": "Zeile nach oben / unten verschieben",
+          "indent": "Einrücken / Ausrücken",
+          "toggleComment": "Kommentar umschalten",
+          "find": "Suchen",
+          "replace": "Suchen und Ersetzen",
+          "navigateBlocks": "Zwischen Blöcken navigieren"
+        }
+      },
       "codeOnly": {
         "title": "Nur-Code-Modus aktivieren",
         "content": "Möchten Sie die Modusauswahl ausblenden, um dauerhaft im Nur-Code-Modus (ohne Blöcke) zu bleiben?",
@@ -6401,8 +6655,8 @@
           "content": "Der Code-Modus ist derzeit gesperrt. Das bedeutet, dass die Block- und Hybrid-Modi deaktiviert sind."
         },
         "exit": {
-          "title": "Leave code-only mode",
-          "content": "Do you wish to unlock code-only mode so that block and hybrid modes can be used again?"
+          "title": "Nur‑Code‑Modus verlassen",
+          "content": "Möchten Sie den Nur‑Code‑Modus aufheben, damit Block‑ und Hybrid‑Modi wieder genutzt werden können?"
         }
       },
       "local-compilation": {
@@ -6494,6 +6748,18 @@
         "wrongLink": "Dieser Link führt zu einem nicht existierenden Projekt oder wurde nicht mit dieser Oberfläche erstellt. Sie können ein Projekt über 'Projekt öffnen' suchen oder ein neues erstellen.",
         "wrongFile": "Diese Datei scheint für diese Oberfläche nicht geeignet zu sein. Überprüfen Sie die Angabe in der Kopfzeile der Datei bei der Zeile 'Interface:'.",
         "wrongXml": "Dieser Link führt zu einem Projekt, das in der Benutzeroberfläche anscheinend nicht korrekt geladen wird. Bitte teilen Sie uns den Projektlink mit, indem Sie sich an den Vittascience-Support wenden. Wir werden versuchen, das Problem zu beheben.",
+        "loadingError": "Das Projekt konnte nicht geladen werden: Die Verbindung zum Server ist fehlgeschlagen. Überprüfe deine Internetverbindung und lade die Seite neu.",
+        "reloadPage": "Seite neu laden",
+        "localDraft": {
+          "title": "Nicht gespeicherte Änderungen",
+          "content": "Dieses Projekt enthält Änderungen, die nicht auf dem Server gespeichert wurden. Sie wurden in diesem Browser aufbewahrt.",
+          "lastChange": "Letzte Änderung:",
+          "hint": "Wenn du die gespeicherte Version öffnest, gehen diese Änderungen endgültig verloren.",
+          "buttons": {
+            "restore": "Meine Änderungen wiederherstellen",
+            "discard": "Gespeicherte Version öffnen"
+          }
+        },
         "privateProject": "Privates Projekt",
         "rightsChange": "Zugriffsrechte geändert",
         "rightsAttributed": "Zugriffsrechte vergeben",
@@ -6678,7 +6944,7 @@
         }
       },
       "download-ti": {
-        "title": "TI-83 Premium CE Edition Python",
+        "title": "TI-83 Premium CE PYTHON EDITION",
         "content": {
           "to-transfer": "So übertragen Sie den in der Vittascience-Oberfläche erstellten Python-Code:",
           "to-transfer-MaClasseTI": "So übertragen Sie den auf MaClasseTI.fr erstellten Python-Code:",
@@ -6742,6 +7008,9 @@
       "esp32": {
         "welcome": "Willkommen auf der ESP32-Oberfläche!",
         "tutorial_link": "Erste Schritte mit der ESP32-Oberfläche mit diesem Tutorial"
+      },
+      "unihiker": {
+        "welcome": "Willkommen in der UNIHIKER-Oberfläche!"
       },
       "content": {
         "intro": "Bitte wählen Sie das Board aus, das Sie programmieren möchten. Dadurch werden die verschiedenen Blöcke und die Darstellung im Simulator angepasst.",
@@ -6964,7 +7233,7 @@
       },
       "camera-blocked": {
         "title": "Fehler beim Laden der Kamera",
-        "text": "<p class='camera-blocked-intro'>Beim Starten der Kamera ist ein Fehler aufgetreten. Wahrscheinlich ist der Zugriff auf die Kamera in Ihrem Browser blockiert. Sie können die Kamera freigeben, indem Sie die folgenden Schritte befolgen. Wenn das Problem weiterhin besteht und Sie Windows verwenden, könnte die Kamera auch von einem anderen Programm blockiert sein.</p><ul class='camera-blocked-list'><li><p>In Google Chrome</p><ol class='camera-blocked-ordered-list'><li><p>Klicken Sie auf das Schloss links in der Adressleiste.</p> <img src='/ia/assets/images/camera-blocked-chrome-1.png' alt=''></li><li>Klicken Sie dann auf den Schalter bei <q>Kamera</q>, um sie zu aktivieren.</li><li>Klicken Sie anschließend auf den Button <q>Aktualisieren</q>, der unter der Adressleiste erscheint.</li></ol></li><li><p>In Mozilla Firefox<p><ol class='camera-blocked-ordered-list'><li><p>Klicken Sie auf die durchgestrichene Kamera links in der Adressleiste.</p> <img src='/ia/assets/images/camera-blocked-firefox-1.png' alt=''></li><li>Klicken Sie dann auf den Button <q>Vorübergehend blockiert X</q> in der Kamerazeile, um die Kamera zu aktivieren.</li><li>Wählen Sie <q>Erlauben</q> bei der nächsten Zugriffsanfrage auf die Kamera.</li></ol></li></ul>"
+        "text": "<p class='camera-blocked-intro'>Beim Starten der Kamera ist ein Fehler aufgetreten. Wahrscheinlich ist der Zugriff auf die Kamera in Ihrem Browser blockiert. Sie können die Kamera freigeben, indem Sie die folgenden Schritte befolgen. Wenn das Problem weiterhin besteht und Sie Windows verwenden, könnte die Kamera auch von einem anderen Programm blockiert sein.</p><ul class='camera-blocked-list'><li><p>In Google Chrome</p><ol class='camera-blocked-ordered-list'><li><p>Klicken Sie auf das Schloss links in der Adressleiste.</p> <img src='/ia/assets/images/camera-blocked-chrome-1.png' alt=''></li><li>Klicken Sie dann auf den Schalter bei <q>Kamera</q>, um sie zu aktivieren.</li><li>Klicken Sie anschließend auf den Button <q>Aktualisieren</q>, der unter der Adressleiste erscheint.</li></ol></li><li><p>In Mozilla Firefox</p><ol class='camera-blocked-ordered-list'><li><p>Klicken Sie auf die durchgestrichene Kamera links in der Adressleiste.</p> <img src='/ia/assets/images/camera-blocked-firefox-1.png' alt=''></li><li>Klicken Sie dann auf den Button <q>Vorübergehend blockiert X</q> in der Kamerazeile, um die Kamera zu aktivieren.</li><li>Wählen Sie <q>Erlauben</q> bei der nächsten Zugriffsanfrage auf die Kamera.</li></ol></li></ul>"
       },
       "notification-save-export": {
         "title": "Dieses Modell verwenden",
@@ -7007,6 +7276,9 @@
         "arduinoQ": "Arduino UNO Q",
         "arduinoQExplanations": "Das Arduino UNO Q führt das Modell direkt auf seinem Linux-Prozessor aus: Eine Optimierung durch den Server ist nicht nötig.</br>Das Modell wird mit einem Beispielprogramm in der Arduino-UNO-Q-Oberfläche geöffnet und beim Hochladen an die Karte gesendet.",
         "arduinoQNote": "<strong>Hinweis:</strong> Wenn dein Projekt nicht online gespeichert ist, bleibt das Modell in diesem Browser: Lade das Programm aus demselben Browser hoch.",
+        "unihikerExplanations": "Die UNIHIKER M10 Platine führt das Modell selbst aus, mit dem Bild ihrer USB-Kamera: Es muss nichts erzeugt oder geflasht werden.",
+        "unihikerNote": "Das Modell wird in der UNIHIKER-Oberfläche geöffnet: Es wird beim Hochladen mit dem Programm an die Platine gesendet.",
+        "openUnihiker": "In der UNIHIKER M10 Oberfläche öffnen",
         "openArduinoQ": "In der Arduino-UNO-Q-Oberfläche öffnen"
       },
       "microcontroller-queue": {
@@ -7102,12 +7374,12 @@
     "campus-numeria": {
       "no-city-selected": {
         "title": "Bitte wählen Sie eine Stadt aus",
-        "content": "<p>Bitte wählen Sie die Stadt oder Einrichtung, von der aus Sie den Roboter steuern möchten<p>",
+        "content": "<p>Bitte wählen Sie die Stadt oder Einrichtung, von der aus Sie den Roboter steuern möchten</p>",
         "accept": "Akzeptieren"
       },
       "unlogged-user": {
         "title": "Sie sind nicht angemeldet",
-        "content": "<p>Sie müssen mit Ihrem Vittascience-Konto angemeldet sein, um einen Termin zu reservieren und den Roboter zu steuern<p>",
+        "content": "<p>Sie müssen mit Ihrem Vittascience-Konto angemeldet sein, um einen Termin zu reservieren und den Roboter zu steuern</p>",
         "connect": "Anmelden"
       },
       "booking-slot-exceeded": {
@@ -7245,6 +7517,8 @@
         "esp32": "Programmierschnittstelle für ESP32 Boards (Wemos D1R32, NodeMCU, Huzzah32, ...)",
         "TI-83": "Programmierschnittstelle für den Taschenrechner und die BBC micro:bit oder TI Innovator™ Hub Boards",
         "GalaxiaCircuitPython": "Programmierschnittstelle für das Thingz-Galaxia Board",
+        "unihiker": "Programmieroberfläche für die UNIHIKER M10: Touchscreen, eingebaute Sensoren und Python unter Linux!",
+        "unihikerK10": "Programmieroberfläche für die UNIHIKER K10: Bildschirm, RGB-LEDs, eingebaute Sensoren und MicroPython!",
         "raspberrypi": "Programmierschnittstelle für Raspberry Pi!",
         "niryo": "Programmierschnittstelle für den Niryo Ned2 Roboter",
         "nao": "Programmierschnittstelle für den NAO v6 Roboter",
@@ -7268,6 +7542,7 @@
         "maqueen": "Programmierschnittstelle für den Maqueen Roboter",
         "maqueenPlus": "Programmierschnittstelle für den Maqueen Plus Roboter V1 und V2",
         "cutebot": "Programmierschnittstelle für den Cutebot Roboter",
+        "tpbot": "Programmierschnittstelle für den TPBot Roboter",
         "cutebotPro": "Programmierschnittstelle für den Cutebot Pro Roboter",
         "kitrobot": "Programmierschnittstelle für den Kitro:bot v2 Roboter",
         "oobybot": "Programmierschnittstelle für den Oobybot Roboter",
@@ -7298,7 +7573,8 @@
         "uhandbit": "Programmierschnittstelle für die Roboterhand uHandbit",
         "wonder": "Programmierschnittstelle für das Elecfreaks Wonder Building Kit",
         "buildingbit": "Programmierschnittstelle für das Yahboom Building:bit Super Kit",
-        "primastem": "Programmierschnittstelle für den PrimaStem-Roboter"
+        "primastem": "Programmierschnittstelle für den PrimaStem-Roboter",
+        "skykick": "Programmierschnittstelle für die SkyKick Evo-Drohne"
       }
     },
     "features_title": "Gemeinsame Merkmale",
@@ -7423,6 +7699,18 @@
     "needProjectName": "Bitte geben Sie einen Projektnamen ein, bevor Sie speichern können!",
     "projectSaveError": "Beim Speichern ist ein Fehler aufgetreten!",
     "projectSaveConflict": "Dein Projekt wurde NICHT gespeichert: Es wurde an anderer Stelle geändert. Speichere erneut, um die auf dem Server gespeicherte Version zu überschreiben.",
+    "projectSaveNotConnected": "Dein Projekt wurde NICHT gespeichert: Deine Sitzung ist abgelaufen. Melde dich erneut an und speichere noch einmal, deine Änderungen bleiben in diesem Browser erhalten.",
+    "projectSaveForbidden": "Dein Projekt wurde NICHT gespeichert: Du darfst dieses Projekt nicht bearbeiten. Verwende „Speichern unter…“, um eine Kopie zu speichern.",
+    "projectSaveNotFound": "Dein Projekt wurde NICHT gespeichert: Es existiert nicht mehr auf dem Server. Lade es herunter, um deine Arbeit zu behalten.",
+    "projectSaveInvalid": "Dein Projekt wurde NICHT gespeichert: Der Server hat unvollständige Daten abgelehnt (leerer Projektname oder Code).",
+    "projectSaveNetworkError": "Dein Projekt wurde NICHT gespeichert: Der Server ist nicht erreichbar. Überprüfe deine Internetverbindung und versuche es erneut, deine Änderungen bleiben in diesem Browser erhalten.",
+    "projectSaveServerError": "Dein Projekt wurde aufgrund eines Serverfehlers NICHT gespeichert. Versuche es in einigen Augenblicken erneut; wenn das Problem weiterhin besteht, lade dein Projekt herunter, um deine Arbeit nicht zu verlieren.",
+    "projectOpened": "Projekt „{{name}}“ geöffnet.",
+    "projectOpenError": "Das Projekt konnte nicht geöffnet werden. Überprüfe deine Internetverbindung und versuche es erneut.",
+    "projectCopySaved": "Kopie „{{name}}“ gespeichert: Du arbeitest jetzt an dieser Kopie.",
+    "localDraftRestored": "Deine nicht gespeicherten Änderungen wurden wiederhergestellt. Denke daran, dein Projekt zu speichern!",
+    "exerciseSaved": "Die Übung wurde erfolgreich gespeichert!",
+    "exerciseSaveFailed": "Die Übung wurde NICHT gespeichert. Überprüfe deine Internetverbindung und versuche es erneut.",
     "projectNoChangesToSave": "Keine Änderungen zum Speichern!",
     "projectSaveSuccess": "Ihr Projekt wurde erfolgreich gespeichert!",
     "loadedProjectNotFound": "Das angeforderte Projekt existiert nicht!",
@@ -7484,6 +7772,7 @@
     "favoriteNotRemoved": "Diese Ressource konnte nicht aus den Favoriten entfernt werden",
     "needToTrainModelForPrediction": "Sie müssen das Modell trainieren, bevor Sie Vorhersagen treffen können!",
     "needAtLeastTwoCategoryForEdge": "Mindestens zwei Kategorien sind erforderlich, um ein Modell zu trainieren!",
+    "edgeUnbalancedClasses": "Die Klassen haben nicht gleich viele Aufnahmen: Das Modell könnte die größten bevorzugen. Versuche, in jeder Klasse etwa gleich viele zu haben.",
     "noDataToTrainModel": "Es sind keine Daten zum Trainieren des Modells vorhanden!",
     "errorEdgeFilterDataMissingReccords": "Mindestens eine Kategorie enthält nicht genügend Datensätze, um ein Modell zu trainieren!",
     "errorEdgeFilterDataSensorStrategyMismatch": "Das Modell kann nicht trainiert werden, da in den Kategorien verschiedene Sensoren verwendet werden!",
@@ -8044,7 +8333,7 @@
           "button": "Suchen"
         },
         "table": {
-          "shortcut": "Shortcut",
+          "shortcut": "Tastenkürzel",
           "action": "Aktion"
         },
         "title": "Kurzbefehle",
@@ -8731,7 +9020,7 @@
       "title2": "In Partnerschaft mit"
     },
     "ressources": {
-      "title": "ENTDECKE <span class='color-orange'>3 RESSOURCEN",
+      "title": "ENTDECKE <span class='color-orange'>3 RESSOURCEN</span>",
       "card1": "Erste Schritte mit der micro:bit-Karte",
       "card2": "Luftqualität mit einem MQ135-Sensor auf Arduino messen",
       "card3": "mBot",
@@ -8846,7 +9135,7 @@
       "title2": "In Partnerschaft mit"
     },
     "ressources": {
-      "title": "ENTDECKEN SIE <span class='color-orange'>3 RESSOURCEN",
+      "title": "ENTDECKEN SIE <span class='color-orange'>3 RESSOURCEN</span>",
       "card1": "Erste Schritte mit der micro:bit Karte",
       "card2": "Messen Sie die Luftqualität mit einem MQ135-Sensor auf Arduino",
       "card3": "mBot",

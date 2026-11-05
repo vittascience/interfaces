@@ -426,6 +426,8 @@ Simulator.Mosaic.specific = {
             });
     },
 
+    mdd3aDuties: {},
+
     calculs: {
         getServoAngle(duty) {
             return (duty / PWM_MAX_DUTY * 100 - 2.5) * 180 / (12.5 - 2.5);
@@ -1232,6 +1234,38 @@ Simulator.Mosaic.specific = {
                 $(Animator.animId).css('background-color', `rgb(${r}, ${g}, ${b})`);
                 $(Animator.valueId).html(Animator.value);
             }
-        }
+        },
+        /* Cytron MDD3A motor driver: one module per motor, on its 2 PWM pins (forward / backward) */
+        ...['1', '2'].map(motor => ({
+            id: 'mdd3aM' + motor,
+            title: 'MDD3A M' + motor,
+            pin: 'pin n°',
+            pins: 'PWM',
+            type: 'output',
+            codeFlag: 'MDD3A M' + motor,
+            twoPins: true,
+            pwmPerPin: true, // the PWM duties come with their pin (see machine.js)
+            value: 0,
+            class: 'motor',
+            picture: 'Motor.png',
+            pictureAnimation: 'Motor-animation.png',
+            animate: function (Animator) {
+                // Duties of the forward pin (first pin, in the module id) and of the backward pin
+                const duties = Simulator.Mosaic.specific.mdd3aDuties[Animator.id] = Simulator.Mosaic.specific.mdd3aDuties[Animator.id] || { forward: 0, backward: 0 };
+                if (Animator.value && typeof Animator.value === 'object') {
+                    duties[Animator.value.pin == Animator.id.split('_')[1] ? 'forward' : 'backward'] = Animator.value.duty;
+                } else {
+                    duties.forward = duties.backward = 0;
+                }
+                const RPM = 60;
+                const speed = Math.round((duties.forward - duties.backward) / PWM_MAX_DUTY * 100);
+                $(Animator.valueId).html(speed + ' %');
+                if (speed === 0) {
+                    $(Animator.animId).css('animation', 'unset');
+                } else {
+                    $(Animator.animId).css('animation', (speed > 0 ? 'rotation-forward ' : 'rotation-backward ') + (60 / (Math.abs(speed) / 100 * RPM)) + 's infinite linear');
+                }
+            }
+        }))
     ]
 }

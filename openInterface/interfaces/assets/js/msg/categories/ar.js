@@ -98,6 +98,61 @@ Blockly.Msg['SUBCATEGORY_LED'] = 'LED';
 Blockly.Msg['SUBCATEGORY_NEOPIXEL'] = 'Neopixel';
 Blockly.Msg['SUBCATEGORY_DISPLAYS_LED_MATRIX'] = 'مصفوفة LED';
 Blockly.Msg['SUBCATEGORY_DISPLAYS_RGB_LED_MATRIX'] = 'مصفوفة LED RGB';
+Blockly.Msg['SUBCATEGORY_SCREENS'] = 'الشاشات';
+// Short names of subcategories (the name of their category is not repeated)
+Blockly.Msg['SUBCATEGORY_SHORT_DISTANCE_MOVEMENT'] = 'المسافة والحركة';
+Blockly.Msg['SUBCATEGORY_SHORT_SOUND_LIGHT'] = 'الصوت والضوء';
+Blockly.Msg['SUBCATEGORY_SHORT_WEATHER'] = 'الطقس';
+Blockly.Msg['SUBCATEGORY_SHORT_GAS'] = 'الغاز';
+Blockly.Msg['SUBCATEGORY_SHORT_HEALTH'] = 'الصحة';
+Blockly.Msg['SUBCATEGORY_SHORT_OTHER'] = 'أخرى';
+Blockly.Msg['SUBCATEGORY_SHORT_BLUETOOTH'] = 'بلوتوث';
+Blockly.Msg['SUBCATEGORY_SHORT_DATA_LOGGING'] = 'تسجيل البيانات';
+Blockly.Msg['SUBCATEGORY_SHORT_INFRARED'] = 'الأشعة تحت الحمراء';
+Blockly.Msg['SUBCATEGORY_SHORT_WIRELESS'] = 'لاسلكي';
+Blockly.Msg['SUBCATEGORY_SHORT_TRACKING'] = 'التتبع';
+Blockly.Msg['SUBCATEGORY_SHORT_PYTHON_CODE'] = 'كود بايثون';
+Blockly.Msg['SUBCATEGORY_SHORT_KITRONIK_ENV'] = 'Kitronik البيئة';
+Blockly.Msg['SUBCATEGORY_SHORT_MICRODRIVER'] = 'DFRobot micro:Driver';
+Blockly.Msg['SUBCATEGORY_SHORT_TELLO_BASICS'] = 'الأساسيات';
+Blockly.Msg['SUBCATEGORY_SHORT_TELLO_COMMANDS'] = 'الأوامر';
+Blockly.Msg['SUBCATEGORY_SHORT_TELLO_DATA'] = 'البيانات';
+Blockly.Msg['SUBCATEGORY_SHORT_LOCAL_AI'] = 'ذكاء اصطناعي محلي';
+Blockly.Msg['SUBCATEGORY_SHORT_QR_CODES'] = 'رموز QR';
+Blockly.Msg['SUBCATEGORY_SHORT_KEYWORD'] = 'كلمة مفتاحية';
+Blockly.Msg['SUBCATEGORY_SHORT_OBJECTS'] = 'الأشياء';
+Blockly.Msg['SUBCATEGORY_SHORT_BUILTIN_MATRIX'] = 'المصفوفة المدمجة';
+Blockly.Msg['SUBCATEGORY_SHORT_MINI_MOTOR_I2C'] = 'مشغل I2C صغير';
+Blockly.Msg['SUBCATEGORY_SHORT_MOTOR_I2C'] = 'مشغل محرك I2C';
+Blockly.Msg['SUBCATEGORY_SHORT_MOTOR_SHIELD'] = 'درع المحرك';
+Blockly.Msg['SUBCATEGORY_SHORT_ROUNDING'] = 'التقريب';
+Blockly.Msg['SUBCATEGORY_SHORT_MODULINO_BUTTONS'] = 'الأزرار';
+Blockly.Msg['SUBCATEGORY_SHORT_MODULINO_BUZZER'] = 'الجرس';
+Blockly.Msg['SUBCATEGORY_SHORT_MODULINO_PIXELS'] = 'البكسلات';
+Blockly.Msg['SUBCATEGORY_SHORT_MODULINO_KNOB'] = 'المقبض الدوار';
+Blockly.Msg['SUBCATEGORY_SHORT_MODULINO_DISTANCE'] = 'المسافة';
+Blockly.Msg['SUBCATEGORY_SHORT_MODULINO_MOVEMENT'] = 'الحركة';
+Blockly.Msg['SUBCATEGORY_SHORT_MODULINO_THERMO'] = 'الحرارة';
+Blockly.Msg['SUBCATEGORY_SHORT_STEPPER'] = 'محرك خطوي';
+Blockly.Msg['SUBCATEGORY_SHORT_RTC'] = 'الساعة (RTC)';
+Blockly.Msg['SUBCATEGORY_SHORT_LED_RGB'] = 'مصابيح RGB';
+Blockly.Msg['SUBCATEGORY_SHORT_MOTORS'] = 'المحركات';
+Blockly.Msg['SUBCATEGORY_SHORT_OLED'] = 'شاشة OLED';
+Blockly.Msg['SUBCATEGORY_SHORT_SENSORS'] = 'المستشعرات';
+Blockly.Msg['SUBCATEGORY_SHORT_CLIENT_SERVER'] = 'العميل والخادم';
+Blockly.Msg['SUBCATEGORY_SHORT_SHAPES'] = 'الأشكال';
+Blockly.Msg['TOOLBOX_OPEN_MBOT_INTERFACE'] = 'افتح واجهة mBot';
+// Subcategories of Math, Text, Lists and Dictionaries
+Blockly.Msg["TOOLBOX_LABEL_CREATE"] = "إنشاء";
+Blockly.Msg["TOOLBOX_LABEL_SEARCH"] = "بحث";
+Blockly.Msg["TOOLBOX_LABEL_TRANSFORM"] = "تحويل";
+Blockly.Msg["TOOLBOX_LABEL_READ"] = "قراءة";
+Blockly.Msg["TOOLBOX_LABEL_MODIFY"] = "تعديل";
+Blockly.Msg["TOOLBOX_LABEL_CALCULATIONS"] = "حسابات";
+Blockly.Msg["TOOLBOX_LABEL_ROUNDING"] = "التقريب والحدود";
+Blockly.Msg["TOOLBOX_LABEL_RANDOM"] = "عشوائي";
+Blockly.Msg["TOOLBOX_LABEL_COMPUTER"] = "الحاسوب";
+Blockly.Msg["TOOLBOX_LABEL_BOARD"] = "اللوحة";
 Blockly.Msg['SUBCATEGORY_CHAINABLE_LED_RGB'] = 'LED RGB متسلسلة';
 // IO
 Blockly.Msg['SUBCATEGORY_IO'] = 'الإدخال/الإخراج';
@@ -168,7 +223,7 @@ Blockly.Msg['SUBCATEGORY_MINI_I2C_MOTOR_DRIVER'] = 'مشغل محرك I2C صغي
 Blockly.Msg['SUBCATEGORY_ARDUINO_SHILED_MOTOR'] = 'درع محرك Arduino';
 
 // BBC micro:bit
-Blockly.Msg['SUBCATEGORY_MICROBIT'] = 'Micro:bit';
+Blockly.Msg['SUBCATEGORY_MICROBIT'] = 'micro:bit';
 Blockly.Msg['SUBCATEGORY_KITRONIK'] = 'Kitronik';
 Blockly.Msg['SUBCATEGORY_GAMES'] = 'ألعاب';
 Blockly.Msg['SUBCATEGORY_EXEC'] = 'تشغيل كود بايثون';
@@ -212,14 +267,14 @@ Blockly.Msg['SUBCATEGORY_ALPHABOT_SENSORS'] = 'Alphabot - مستشعرات';
 Blockly.Msg['SUBCATEGORY_ALPHABOT_MOTORS'] = 'Alphabot - محركات';
 Blockly.Msg['SUBCATEGORY_ALPHABOT_OLED'] = 'Alphabot - شاشة OLED';
 Blockly.Msg['SUBCATEGORY_ALPHABOT_COMMANDS'] = 'Alphabot - أوامر';
-Blockly.Msg['SUBCATEGORY_ALPHABOT_LED_RGB'] = 'Alphabot - LED RGB';
+Blockly.Msg['SUBCATEGORY_ALPHABOT_LED_RGB'] = 'Alphabot - LED متعدد الألوان (RGB)';
 Blockly.Msg['SUBCATEGORY_RTC'] = 'ساعة حقيقية (وحدة مدمجة)';
 Blockly.Msg['SUBCATEGORY_EXPANSION_IKS01A3'] = 'لوحة توسعة IKS01A3';
 // L476
 Blockly.Msg['SUBCATEGORY_L476'] = 'L476';
 Blockly.Msg['SUBCATEGORY_DONUTBOT_SENSORS'] = 'Donutbot - مستشعرات';
 Blockly.Msg['SUBCATEGORY_DONUTBOT_MOTORS'] = 'Donutbot - محركات';
-Blockly.Msg['SUBCATEGORY_DONUTBOT_LED_RGB'] = 'Donutbot - LED RGB';
+Blockly.Msg['SUBCATEGORY_DONUTBOT_LED_RGB'] = 'Donutbot - LED متعدد الألوان (RGB)';
 Blockly.Msg['SUBCATEGORY_DONUTBOT_IO'] = 'Donutbot - إدخال/إخراج';
 Blockly.Msg['SUBCATEGORY_DONUTBOT_COMMUNICATION'] = 'Donutbot - اتصال';
 // WB55
@@ -296,7 +351,7 @@ Blockly.Msg['SUBCATEGORY_BUZZER'] = 'جرس';
 // Galaxia
 Blockly.Msg['SUBCATEGORY_GALAXIA'] = 'Galaxia';
 Blockly.Msg['SUBCATEGORY_GALAXIA_DISPLAY'] = 'Galaxia - شاشة';
-Blockly.Msg['SUBCATEGORY_GALAXIA_RGB_LED'] = 'Galaxia - LED RGB';
+Blockly.Msg['SUBCATEGORY_GALAXIA_RGB_LED'] = 'Galaxia - LED متعدد الألوان (RGB)';
 Blockly.Msg['SUBCATEGORY_GALAXIA_GRAPHICS'] = 'Galaxia - رسومات';
 Blockly.Msg['SUBCATEGORY_GALAXIA_A_B'] = 'Galaxia - أزرار A وB';
 Blockly.Msg['SUBCATEGORY_GALAXIA_TOUCH_BUTTONS'] = 'Galaxia - أزرار لمسية';
@@ -316,8 +371,8 @@ Blockly.Msg['SUBCATEGORY_GRAPHICS'] = 'رسوم';
 
 // Raspberry Pi
 Blockly.Msg['SUBCATEGORY_SENSEHAT_JOYSTICK'] = 'Sense HAT - Joystick';
-Blockly.Msg['SUBCATEGORY_SENSEHAT_SENSORS'] = 'Sense HAT - Sensors';
-Blockly.Msg['SUBCATEGORY_SENSEHAT_MATRIX'] = 'Sense HAT - LED matrix';
+Blockly.Msg['SUBCATEGORY_SENSEHAT_SENSORS'] = 'Sense HAT - أجهزة الاستشعار';
+Blockly.Msg['SUBCATEGORY_SENSEHAT_MATRIX'] = 'Sense HAT - مصفوفة LED';
 Blockly.Msg['MESSAGE_ROBOTS_USB_CAMERA'] = 'لبرمجة كاميرا USB، تتوفر الوحدات في فئة "المستشعرات"';
 
 // Galaxia CP
@@ -332,7 +387,7 @@ Blockly.Msg['SUBCATEGORY_MOTION'] = 'حركة';
 Blockly.Msg['CATEGORY_MCORE'] = 'mCore';
 Blockly.Msg['SUBCATEGORY_TEXT'] = 'نص';
 Blockly.Msg['SUBCATEGORY_MCORE_LED'] = 'mCore - LED زرقاء';
-Blockly.Msg['SUBCATEGORY_MCORE_RGB_LED'] = 'mCore - LED RGB';
+Blockly.Msg["SUBCATEGORY_MCORE_RGB_LED"] = "mCore - LED متعدد الألوان (RGB)";
 Blockly.Msg['SUBCATEGORY_MCORE_SENSORS'] = 'mCore - أجهزة استشعار';
 Blockly.Msg['SUBCATEGORY_MCORE_BUZZER'] = 'mCore - منبّه';
 Blockly.Msg['SUBCATEGORY_MCORE_INFRARED'] = 'mCore - الأشعة تحت الحمراء';
@@ -389,3 +444,6 @@ Blockly.Msg["JS_CATEGORY_ADVANCEDJS"] = "جافاسكريبت متقدمة";
 Blockly.Msg['CATEGORY_BRIDGES'] = 'الجسور';
 Blockly.Msg['CATEGORY_BRICKS'] = 'الكتل';
 Blockly.Msg['CATEGORY_IA_CAMERAS'] = 'كاميرات الذكاء الاصطناعي';
+Blockly.Msg['SUBCATEGORY_RFID'] = 'وحدة RFID';
+Blockly.Msg['SUBCATEGORY_VOICE_RECOGNITION'] = 'تمييز الصوت';
+Blockly.Msg['SUBCATEGORY_ULN2004_STEPPER_DRIVER'] = 'محرك خطوة ULN2004';

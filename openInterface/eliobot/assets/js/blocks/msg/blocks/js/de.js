@@ -4,249 +4,11 @@
 'use strict';
 
 // Display - Buint-in LED
-Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TITLE'] = 'contrôler la LED intégrée %1';
-Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TOOLTIP'] = 'Permet d\'allumer la LED RGB intégrée sur le robot Eliobot.';
-Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_OFF_TITLE'] = 'éteindre la LED intégrée';
-Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_OFF_TOOLTIP'] = 'Permet d\'éteindre la LED RGB intégrée sur le robot Eliobot.';
-// Display - Eyes
-Blockly.Msg['DISPLAY_EYES_COLOR_TITLE'] = 'changer la couleur %1 en %2';
-Blockly.Msg['DISPLAY_EYES_COLOR_TOOLTIP'] = 'Permet de changer la couleur des yeux du robot Eliobot.';
-Blockly.Msg['DISPLAY_EYES_COLOR_LEFT'] = 'de l\'œil gauche';
-Blockly.Msg['DISPLAY_EYES_COLOR_RIGHT'] = 'de l\'œil droit';
-Blockly.Msg['DISPLAY_EYES_COLOR_BOTH'] = 'des deux yeux';
-Blockly.Msg['DISPLAY_EYES_EMOTION_TITLE'] = 'afficher l\'émotion %1 en %2';
-Blockly.Msg['DISPLAY_EYES_EMOTION_TOOLTIP'] = 'Permet d\'afficher une émotion prédéfinie sur les yeux du robot Eliobot.';
-Blockly.Msg['DISPLAY_EYES_EMOTION_TIRED'] = 'fatigué';
-Blockly.Msg['DISPLAY_EYES_EMOTION_HAPPY'] = 'heureux';
-Blockly.Msg['DISPLAY_EYES_EMOTION_SAD'] = 'triste';
-Blockly.Msg['DISPLAY_EYES_EMOTION_ANGRY'] = 'en colère';
-Blockly.Msg['DISPLAY_EYES_EMOTION_CONFUSED'] = 'confus';
-Blockly.Msg['DISPLAY_EYES_EMOTION_SURPRISED'] = 'surpris';
-Blockly.Msg['DISPLAY_EYES_EMOTION_SLEEPY'] = 'fatigué';
-Blockly.Msg['DISPLAY_EYES_EMOTION_NEUTRAL'] = 'neutre';
-Blockly.Msg['DISPLAY_EYES_EMOTION_THRILLED'] = 'excité';
-Blockly.Msg['DISPLAY_EYES_EMOTION_DIZZY'] = 'étourdi';
-Blockly.Msg['DISPLAY_EYES_EMOTION_MUSIC'] = 'musique';
-Blockly.Msg['DISPLAY_EYES_EMOTION_LOVE'] = 'amour';
-Blockly.Msg['DISPLAY_EYES_EMOTION_KO'] = 'KO';
-Blockly.Msg['DISPLAY_EYES_EMOTION_AMAZED'] = 'étonné';
-Blockly.Msg['DISPLAY_EYES_EMOTION_LEFT_ARROW'] = 'flèche de gauche';
-Blockly.Msg['DISPLAY_EYES_EMOTION_RIGHT_ARROW'] = 'flèche de droite';
-Blockly.Msg['DISPLAY_EYES_EMOTION_DOWN_ARROW'] = 'flèche du bas';
-Blockly.Msg['DISPLAY_EYES_EMOTION_UP_ARROW'] = 'flèche du haut';
-Blockly.Msg['DISPLAY_EYES_MATRIX_UNICOLOR_TITLE'] = 'afficher sur la matrice des yeux (monochrome)';
-Blockly.Msg['DISPLAY_EYES_MATRIX_UNICOLOR_TOOLTIP'] = 'Permet d\'afficher une image personnalisée sur les yeux du robot Eliobot.';
-Blockly.Msg['DISPLAY_RIGHT_EYE'] = 'œil droit';
-Blockly.Msg['DISPLAY_LEFT_EYE'] = 'œil gauche';
-Blockly.Msg['DISPLAY_EYES_MATRIX_TITLE'] = "afficher sur la matrice des yeux (palette)";
-Blockly.Msg['DISPLAY_EYES_MATRIX_TOOLTIP'] = 'Permet d\'afficher une image personnalisée sur les yeux du robot Eliobot. Chaque pixel de la matrice peut être configuré avec une couleur différente.';
-
-// Input/Output - Time
-Blockly.Msg['IO_WAIT_TITLE'] = 'attendre %1 %2';
-Blockly.Msg['IO_WAIT_TOOLTIP'] = 'Effectue une pause dans l\'exécution du code.';
-Blockly.Msg['IO_WAIT_SECOND'] = 'seconde(s)';
-Blockly.Msg['IO_WAIT_MILLISECOND'] = 'milliseconde(s)';
-Blockly.Msg['IO_WAIT_MICROSECOND'] = 'microseconde(s)';
-Blockly.Msg['IO_WAIT_UNTIL_TITLE'] = 'attendre jusqu\'à %1';
-Blockly.Msg['IO_WAIT_UNTIL_TOOLTIP'] = 'Arrête l\'excution du code jusqu\'à ce que la condition soit satisfaite.';
-Blockly.Msg['IO_INITCHRONOMETER_TITLE'] = 'remettre le chronomètre à 0';
-Blockly.Msg['IO_INITCHRONOMETER_TOOLTIP'] = 'Initialise un chronomètre à 0 (en secondes).';
-Blockly.Msg['IO_GETCHRONOMETER_TITLE'] = 'valeur du chronomètre en %1';
-Blockly.Msg['IO_GETCHRONOMETER_TOOLTIP'] = 'Renvoie la valeur du chronomètre à partir de l\'initialisation (en secondes ou millisecondes).';
-
-// Communication - Serial connection
-Blockly.Msg['COMMUNICATION_SERIAL_WRITE_TITLE'] = 'écrire dans la console %1';
-Blockly.Msg['COMMUNICATION_SERIAL_WRITE_TOOLTIP'] = 'Permet d\'écrire des données dans la console.';
-Blockly.Msg['COMMUNICATION_SERIAL_WRITE_WITH'] = 'avec';
-Blockly.Msg['COMMUNICATION_SERIAL_WRITE_NEWLINES'] = 'saut.s de ligne';
-Blockly.Msg['COMMUNICATION_WRITEGRAPH_TITLE'] = 'tracer le graphe';
-Blockly.Msg['COMMUNICATION_WRITEGRAPH_TOOLTIP'] = 'Ce bloc permet d\'écrire des données (numériques) qui seront visibles dans le traceur. Il peut être utilisé avec un ou plusieurs blocs au format "Nom" et "Données". Pour visualiser les graphiques, cliquer sur l\'icone \'Mode Graphique\' dans la console.';
-Blockly.Msg['COMMUNICATION_DATA'] = 'Donnée';
-Blockly.Msg['COMMUNICATION_PRINT_DATAS_TITLE'] = 'Nom %1 Valeur %2';
-Blockly.Msg['COMMUNICATION_PRINT_DATAS_TOOLTIP'] = 'Ce bloc est à utiliser avec le bloc "Tracer le graphique". Il doit lui-même contenir le nom de la valeur à afficher (texte), et la valeur en question (nombre).';
-// Communication - IR remote
-Blockly.Msg['COMMUNICATION_IR_REMOTE_READ_TITLE'] = 'lire le signal sur le capteur %1';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_READ_TOOLTIP'] = 'Permet de lire la commande envoyée par la télécommande infrarouge du Eliobot. Ce bloc retourne une chaîne de caractères correspondant à la commande reçue (haut, bas, gauche, droite, centre).';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_READ_FORWARD'] = 'avant';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_READ_BACKWARD'] = 'arrière';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_TITLE'] = 'si la commande %1 est reçue par la télécommande infrarouge alors';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_TOOLTIP'] = 'Permet de lire la commande envoyée par la télécommande infrarouge du Eliobot. Ce bloc retourne une chaîne de caractères correspondant à la commande reçue (haut, bas, gauche, droite, centre).';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_BOOLEAN_TITLE'] = 'la commande %1 est reçue par la télécommande infrarouge';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_BOOLEAN_TOOLTIP'] = 'Permet de vérifier si une commande spécifique de la télécommande infrarouge du Eliobot a été reçue. Ce bloc retourne un booléen : vrai si la commande spécifiée a été reçue, faux sinon.';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_UP'] = 'haut';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_DOWN'] = 'bas';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_LEFT'] = 'gauche';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_RIGHT'] = 'droite';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_OK'] = 'ok';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_1'] = '1';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_2'] = '2';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_3'] = '3';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_4'] = '4';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_5'] = '5';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_6'] = '6';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_7'] = '7';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_8'] = '8';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_9'] = '9';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_0'] = '0';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_HT'] = '#';
-Blockly.Msg['COMMUNICATION_IR_REMOTE_ST'] = '*';
-
-// Sensors
-Blockly.Msg['SENSORS_READ_OBSTACLE_TITLE'] = 'un obstacle est %1';
-Blockly.Msg['SENSORS_READ_OBSTACLE_TOOLTIP'] = 'Permet de detecter si un obstacle est présent.';
-Blockly.Msg['SENSORS_READ_OBSTACLE_FORWARD'] = 'devant';
-Blockly.Msg['SENSORS_READ_OBSTACLE_BACKWARD'] = 'derrière';
-Blockly.Msg['SENSORS_READ_OBSTACLE_RIGHT'] = 'à droite';
-Blockly.Msg['SENSORS_READ_OBSTACLE_LEFT'] = 'à gauche';
-Blockly.Msg['SENSORS_LINE_FOLLOW_TITLE'] = 'suivre la ligne';
-Blockly.Msg['SENSORS_LINE_FOLLOW_TOOLTIP'] = 'Permet au robot Eliobot de suivre une ligne.';
-Blockly.Msg['SENSORS_LINE_SET_SENSITIVITY_TITLE'] = 'sensibilité du suivi de ligne %1';
-Blockly.Msg['SENSORS_LINE_SET_SENSITIVITY_TOOLTIP'] = 'Permet de modifier la sensibilité des capteurs du Eliobot.';
-Blockly.Msg['SENSORS_LINE_IS_PRESENT_TITLE'] = 'état du capteur de ligne %1';
-Blockly.Msg['SENSORS_LINE_IS_PRESENT_TOOLTIP'] = 'Retourne l\'état d\'un des capteurs de suivi de ligne.';
-Blockly.Msg['SENSORS_LINE_LEFT'] = "gauche";
-Blockly.Msg['SENSORS_LINE_MIDDLE_LEFT'] = "milieu gauche";
-Blockly.Msg['SENSORS_LINE_MIDDLE'] = "milieu";
-Blockly.Msg['SENSORS_LINE_MIDDLE_RIGHT'] = "milieu droit";
-Blockly.Msg['SENSORS_LINE_RIGHT'] = "droit";
-Blockly.Msg['SENSORS_LINE_SENSOR_VALUE_TITLE'] = 'valeur du capteur de ligne %1';
-Blockly.Msg['SENSORS_LINE_SENSOR_VALUE_TOOLTIP'] = 'Retourne la valeur d\'un des capteurs de suivi de ligne du Eliobot.';
-Blockly.Msg['SENSORS_AUTO_LINE_CALIBRATION'] = 'calibrage automatique des capteurs de ligne';
-Blockly.Msg['SENSORS_AUTO_LINE_CALIBRATION_TOOLTIP'] = 'Permet de calibrer automatiquement les capteurs de ligne du Eliobot. Le robot doit être placé sur une surface claire, puis sur une surface foncée pour que le calibrage soit effectué correctement.';
-
-// Actuators - robot
-Blockly.Msg['ROBOT_MOVE_TITLE'] = ' %1';
-Blockly.Msg['ROBOT_MOVE_TOOLTIP'] = 'Permet de contrôler les moteurs du robot Eliobot pour avancer ou reculer.';
-Blockly.Msg['ROBOT_MOVE_FORWARD'] = 'avancer';
-Blockly.Msg['ROBOT_MOVE_BACKWARD'] = 'reculer';
-Blockly.Msg['ROBOT_ROTATE_TITLE'] = 'pivoter à %1';
-Blockly.Msg['ROBOT_ROTATE_TOOLTIP'] = 'Pivote le Eliobot sur la gauche ou la droite.';
-Blockly.Msg['ROBOT_ROTATE_RIGHT'] = 'droite';
-Blockly.Msg['ROBOT_ROTATE_LEFT'] = 'gauche';
-Blockly.Msg['ROBOT_STOP_TITLE'] = 'arrêter les moteurs';
-Blockly.Msg['ROBOT_STOP_TOOLTIP'] = 'Arrête les moteurs du Eliobot.';
-Blockly.Msg['ROBOT_SET_SPEED_TITLE'] = 'régler la vitesse à %1 %';
-Blockly.Msg['ROBOT_SET_SPEED_TOOLTIP'] = 'Change la vitesse du Eliobot.';
-Blockly.Msg['ROBOT_ROTATE_DEGREES_TITLE'] = 'pivoter à %1 de %2°';
-Blockly.Msg['ROBOT_ROTATE_DEGREES_TOOLTIP'] = 'Pivote le Eliobot à gauche ou à droite de l\'angle désiré.';
-Blockly.Msg['ROBOT_SPIN_ONE_WHEEL_TITLE'] = 'tourner la roue %1 sens %2';
-Blockly.Msg['ROBOT_SPIN_ONE_WHEEL_TOOLTIP'] = 'Tourne une des roues du Eliobot dans la direction désirée.';
-Blockly.Msg['ROBOT_MOVE_ONE_STEP_TITLE'] = '%1 de %2 case(s)';
-Blockly.Msg['ROBOT_MOVE_ONE_STEP_TOOLTIP'] = 'Permet au Eliobot de se déplacer par case.';
-Blockly.Msg['ROBOT_TURN_90_TITLE'] = 'pivoter à %1';
-Blockly.Msg['ROBOT_TURN_90_TOOLTIP'] = 'Permet au Eliobot de tourner à gauche ou à droite de 90°.';
-Blockly.Msg['ROBOT_SET_SQUARE_SIZE_TITLE'] = 'taille d\'une case %1 cm';
-Blockly.Msg['ROBOT_SET_SQUARE_SIZE_TOOLTIP'] = 'Permet de régler la taille d\'une case pour les déplacements par case du Eliobot.';
-Blockly.Msg['ROBOT_TURN_RIGHT'] = 'droite';
-Blockly.Msg['ROBOT_TURN_LEFT'] = 'gauche';
-Blockly.Msg['ROBOT_WAITING_TITLE'] = 'attendre %1 %2 avant d\'arrêter les moteurs';
-Blockly.Msg['ROBOT_WAITING_TOOLTIP'] = 'Permet au Eliobot d\'attendre un certain temps avant de s\'arrêter.';
-Blockly.Msg['ROBOT_UNIT_SECONDS'] = 'seconde(s)';
-Blockly.Msg['ROBOT_UNIT_MILLISECONDS'] = 'milliseconde(s)';
-// Actuators - Buzzer
-Blockly.Msg['ACTUATORS_PLAY_NOTE_TITLE'] = 'jouer la note %1 pendant %2 %3';
-Blockly.Msg['ACTUATORS_PLAY_NOTE_TOOLTIP'] = 'Ce bloc permet de jouer une note de musique. La note est définie par son nom (Do, Ré, Mi, Fa, Sol, La, Si) et le temps pendant lequel elle est jouée.';
-Blockly.Msg['ACTUATORS_FREQUENCY_TITLE'] = 'jouer une fréquence %1 (Hz) pendant %2 %3';
-Blockly.Msg['ACTUATORS_FREQUENCY_TOOLTIP'] = 'Ce bloc permet de jouer une fréquence. La fréquence est définie en Hertz (Hz) et le temps pendant lequel elle est jouée.';
-Blockly.Msg['ACTUATORS_PLAY_MUSIC_TITLE'] = 'jouer la musique %1';
-Blockly.Msg['ACTUATORS_PLAY_MUSIC_TOOLTIP'] = 'Ce bloc permet de jouer une musique prédéfinie. Il y a plusieurs musiques prédéfinies disponibles.';
-Blockly.Msg['ACTUATORS_SET_VOLUME_TITLE'] = 'modifier le volume à %1 %';
-Blockly.Msg['ACTUATORS_SET_VOLUME_TOOLTIP'] = 'Ce bloc permet de modifier le volume du son du Eliobot.';
-Blockly.Msg['ACTUATORS_PLAY_SOUND_TITLE'] = 'jouer le son %1';
-Blockly.Msg['ACTUATORS_PLAY_SOUND_TOOLTIP'] = 'Ce bloc permet de jouer un son prédéfini. Il y a plusieurs sons prédéfinis disponibles.';
-Blockly.Msg['ACTUATORS_SOUND_JUMP'] = 'saut';
-Blockly.Msg['ACTUATORS_SOUND_LASER'] = 'laser';
-Blockly.Msg['ACTUATORS_SOUND_QUESTION'] = 'question';
-Blockly.Msg['ACTUATORS_SOUND_ERROR'] = 'erreur';
-Blockly.Msg['ACTUATORS_SOUND_EXPLOSION'] = 'explosion';
-Blockly.Msg['ACTUATORS_SOUND_LAND'] = 'atterrissage';
-Blockly.Msg['ACTUATORS_SOUND_HAPPY'] = 'heureux';
-Blockly.Msg['ACTUATORS_SOUND_WIN'] = 'victoire';
-Blockly.Msg['ACTUATORS_SOUND_ALERT'] = 'alerte';
-Blockly.Msg['ACTUATORS_SOUND_HELLO'] = 'bonjour';
-Blockly.Msg['ACTUATORS_SOUND_STARTUP'] = 'démarrage';
-Blockly.Msg['ACTUATORS_SOUND_BUMP'] = 'collision';
-Blockly.Msg['ACTUATORS_SOUND_BLINK'] = 'clignotement';
-
-// Backpack - Display
-Blockly.Msg['BACKPACK_DISPLAY_OLED_TEXT_TITLE'] = '[Ecran OLED] afficher le texte %1 sur la ligne %2';
-Blockly.Msg['BACKPACK_DISPLAY_OLED_TEXT_TOOLTIP'] = 'Affiche du texte sur l\'écran oled SSD1306.';
-Blockly.Msg['BACKPACK_DISPLAY_OLED_CLEAR_TITLE'] = '[Ecran OLED] effacer l\'écran';
-Blockly.Msg['BACKPACK_DISPLAY_OLED_CLEAR_TOOLTIP'] = 'Efface le texte de l\'écran oled SSD1306.';
-Blockly.Msg['BACKPACK_DISPLAY_MATRIX_COLOR_PICKER_TITLE'] = '[Matrice RGB 5x5] afficher l\'image';
-Blockly.Msg['BACKPACK_DISPLAY_MATRIX_COLOR_PICKER_TOOLTIP'] = 'Permet d\'afficher un dessin sur la matrice de LED RGB 5x5.';
-Blockly.Msg['BACKPACK_DISPLAY_CLEAR_MATRIX_TITLE'] = '[Matrice RGB 5x5] effacer la matrice';
-Blockly.Msg['BACKPACK_DISPLAY_CLEAR_MATRIX_TOOLTIP'] = 'Efface la matrice de leds rgb 5x5.';
-Blockly.Msg['BACKPACK_DISPLAY_MATRIX_LOGO_PICKER_TITLE'] = '[Matrice RGB 5x5] afficher %1 en %2';
-Blockly.Msg['BACKPACK_DISPLAY_MATRIX_LOGO_PICKER_TOOLTIP'] = 'Affiche une icône de la couleur souhaité.';
-Blockly.Msg['BACKPACK_DISPLAY_MATRIX_SCROLL_TEXT_TITLE'] = '[Matrice RGB 5x5] faire défiler le texte %1 en %2';
-Blockly.Msg['BACKPACK_DISPLAY_MATRIX_SCROLL_TEXT_TOOLTIP'] = 'Fait défilier une chaine de caractères de la couleur souhaité sur la matrice de leds 5x5.';
-// Backpack - Sensors
-Blockly.Msg['BACKPACK_DHT11_SENSOR_TITLE'] = '[DHT11] %1';
-Blockly.Msg['BACKPACK_DHT11_SENSOR_TOOLTIP'] = 'Renvoie la température en degré Celsius (°C) ou l\'humidité (en %) grâce au capteur dht11.'
-Blockly.Msg['SENSOR_TEMPERATURE'] = 'température';
-Blockly.Msg['SENSOR_HUMIDITY'] = 'humidité';
-Blockly.Msg['SENSOR_PRESSURE'] = 'pression';
-Blockly.Msg['SENSOR_ALTITUDE'] = 'altitude';
-Blockly.Msg['BACKPACK_BME280_SENSOR_TITLE'] = '[BME280] %1';
-Blockly.Msg['BACKPACK_BME280_SENSOR_TOOLTIP'] = 'Renvoie la température ambiante en degré Celsius (°C) de -40 à 85 °C, Fahrenheit (°F) ou Kelvin (K), l\'humidité (en %), la pression (en Pascal) ou l\'altitude (en m) grâce au capteur BME280.';
-Blockly.Msg['BACKPACK_BME280_SENSOR_SET_SEA_LEVEL_PRESSURE_TITLE'] = '[BME280] définir la pression au niveau de la mer à %1'
-Blockly.Msg['BACKPACK_BME280_SENSOR_SET_SEA_LEVEL_PRESSURE_TOOLTIP'] = 'Permet de définir la pression au niveau de la mer pour le capteur BME280, utilisée dans le calcul de l\'altitude.';
-Blockly.Msg['BACKPACK_SENSORS_HCSR04_GET_DISTANCE_TITLE'] = '[HC-SR04] distance';
-Blockly.Msg['BACKPACK_SENSORS_HCSR04_GET_DISTANCE_TOOLTIP'] = 'Renvoie la distance en cm grâce au capteur à ultrasons HC-SR04.';
-Blockly.Msg['BACKPACK_SENSORS_GETLIGHT_TITLE'] = '[Capteur de lumière] luminosité sur la broche %1';
-Blockly.Msg['BACKPACK_SENSORS_GETLIGHT_TOOLTIP'] = 'Renvoie le niveau de luminosité du capteur sur la broche sélectionnée.';
-// Backpack - IO - Buttons
-Blockly.Msg['BACKPACK_IO_BUTTON_STATE_TITLE'] = '[Bouton] %1 appuyé sur la broche %2';
-Blockly.Msg['BACKPACK_IO_BUTTON_STATE_TOOLTIP'] = 'Renvoie l\'état du bouton connecté à la broche IO2 ou IO15.';
-Blockly.Msg['BACKPACK_IO_BUTTON_STATE_PRESSED'] = 'est';
-Blockly.Msg['BACKPACK_IO_BUTTON_STATE_NOT_PRESSED'] = 'n\'est pas';
-// Backpack - IO - Potentiometer
-Blockly.Msg['BACKPACK_IO_KNOB_VALUE_TITLE'] = '[Potentiomètre] valeur sur la broche %1';
-Blockly.Msg['BACKPACK_IO_KNOB_VALUE_TOOLTIP'] = 'Renvoie valeur du potentiomètre connecté à la broche IO2 ou IO15';
-// Backpack - Actuators - Motors
-Blockly.Msg['BACKPACK_ACTUATORS_SERVO_MOTOR_ANGLE_TITLE'] = '[Servomoteur] contrôler l\'angle à %1° sur la broche %2';
-Blockly.Msg['BACKPACK_ACTUATORS_SERVO_MOTOR_ANGLE_TOOLTIP'] = 'Permet de contrôler l\'angle (de 0 à 180 °) d\'un servomoteur sur les broches PWM.';
-Blockly.Msg['BACKPACK_ACTUATORS_SERVO_MOTOR_SPEED_TITLE'] = '[Servomoteur continu] contrôler la vitesse %1 (%) direction %2 sur la broche %3';
-Blockly.Msg['BACKPACK_ACTUATORS_SERVO_MOTOR_SPEED_TOOLTIP'] = 'Permet de contrôler la vitesse (de 0 à 100 %) d\'un servomoteur continu sur les broches PWM.';
-// Backpack - Actuators - Buzzer
-Blockly.Msg['BACKPACK_ACTUATORS_GROVE_BUZZER_TITLE'] = '[Buzzer] jouer la fréquence %1 avec le volume %2 sur la broche %3';
-Blockly.Msg['BACKPACK_ACTUATORS_GROVE_BUZZER_TOOLTIP'] = 'Permet de jouer une fréquence avec un module Grove buzzer.';
-
-// Network - Wifi
-Blockly.Msg['NETWORK_WIFI_CONNECT_TITLE'] = 'Se connecter au réseau Wi-Fi SSID %1 mot de passe %2';
-Blockly.Msg['NETWORK_WIFI_CONNECT_TOOLTIP'] = 'Connecte Eliobot à un réseau Wi-Fi avec le nom (SSID) et le mot de passe fournis.';
-Blockly.Msg['NETWORK_WIFI_DISCONNECT_TITLE'] = 'Se déconnecter du Wi-Fi';
-Blockly.Msg['NETWORK_WIFI_DISCONNECT_TOOLTIP'] = 'Déconnecte Eliobot du réseau Wi-Fi auquel il est connecté.';
-Blockly.Msg['NETWORK_WIFI_OPEN_ACCESS_POINT_TITLE'] = 'Ouvrir un point d\'accès Wi-Fi SSID %1 mot de passe %2';
-Blockly.Msg['NETWORK_WIFI_OPEN_ACCESS_POINT_TOOLTIP'] = 'Crée un point d\'accès Wi-Fi depuis Eliobot avec le nom et le mot de passe fournis.';
-Blockly.Msg['NETWORK_WIFI_DEFINE_HOST_NAME_TITLE'] = 'Définir le nom d\'hôte %1';
-Blockly.Msg['NETWORK_WIFI_DEFINE_HOST_NAME_TOOLTIP'] = 'Définit le nom d\'hôte (hostname) d\'Eliobot sur le réseau. Ce nom permet d\'accéder à Eliobot via un navigateur.';
-Blockly.Msg['NETWORK_WIFI_DEFINE_ANTENNA_POWER_TITLE'] = 'Définir la puissance de l\'antenne Wi-Fi %1';
-Blockly.Msg['NETWORK_WIFI_DEFINE_ANTENNA_POWER_TOOLTIP'] = 'Règle la puissance d\'émission de l\'antenne Wi-Fi d\'Eliobot (en dBm).';
-Blockly.Msg['NETWORK_WIFI_IS_CONNECTED_TITLE'] = 'connecté au Wi-Fi ?';
-Blockly.Msg['NETWORK_WIFI_IS_CONNECTED_TOOLTIP'] = 'Retourne vrai si Eliobot est connecté à un réseau Wi-Fi, faux sinon.';
-Blockly.Msg['NETWORK_WIFI_SCAN_NETWORKS_TITLE'] = 'scanner les réseaux Wi-Fi disponibles';
-Blockly.Msg['NETWORK_WIFI_SCAN_NETWORKS_TOOLTIP'] = 'Retourne la liste des réseaux Wi-Fi disponibles autour d\'Eliobot.';
-Blockly.Msg['NETWORK_WIFI_GET_IP_TITLE'] = 'adresse IP d\'Eliobot';
-Blockly.Msg['NETWORK_WIFI_GET_IP_TOOLTIP'] = 'Retourne l\'adresse IP d\'Eliobot sur le réseau Wi-Fi.';
-// Network - HTML
-Blockly.Msg['NETWORK_HTML_CREATE_PAGE_TITLE'] = 'Créer une page web avec le titre %1 contenu';
-Blockly.Msg['NETWORK_HTML_CREATE_PAGE_TOOLTIP'] = 'Crée une page web accessible depuis un navigateur. Ajoute des éléments HTML dans le contenu de la page.';
-Blockly.Msg['NETWORK_HTML_CREATE_BUTTON_TITLE'] = 'Ajouter un bouton %1 %2 action';
-Blockly.Msg['NETWORK_HTML_CREATE_BUTTON_TOOLTIP'] = 'Ajoute un bouton à la page web. Les blocs dans "action" sont exécutés par Eliobot lorsque le bouton est pressé.';
-Blockly.Msg['NETWORK_HTML_DISPLAY_VALUE_TITLE'] = 'Afficher la valeur %1 avec le nom %2';
-Blockly.Msg['NETWORK_HTML_DISPLAY_VALUE_TOOLTIP'] = 'Affiche une valeur sur la page web et la met à jour automatiquement toutes les secondes.';
-Blockly.Msg['NETWORK_HTML_CREATE_TAG_TITLE'] = 'Balise %1';
-Blockly.Msg['NETWORK_HTML_CREATE_TAG_TOOLTIP'] = 'Crée une balise HTML (div ou center) pour organiser le contenu de ta page web.';
-Blockly.Msg['NETWORK_HTML_CREATE_TITLE_TAG_TITLE'] = 'Titre %1 %2';
-Blockly.Msg['NETWORK_HTML_CREATE_TITLE_TAG_TOOLTIP'] = 'Ajoute un titre HTML (de h1 à h6) à ta page web. h1 est le plus grand, h6 le plus petit.';
-Blockly.Msg['NETWORK_HTML_CREATE_PARAGRAPH_TITLE'] = 'Paragraphe %1';
-Blockly.Msg['NETWORK_HTML_CREATE_PARAGRAPH_TOOLTIP'] = 'Ajoute un paragraphe de texte à ta page web.';
 Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TITLE'] = 'integrierte LED steuern %1';
 Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TOOLTIP'] = 'Schaltet die integrierte RGB-LED des Eliobot ein.';
 Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_OFF_TITLE'] = 'integrierte LED ausschalten';
 Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_OFF_TOOLTIP'] = 'Schaltet die integrierte RGB-LED des Eliobot aus.';
+// Display - Eyes
 Blockly.Msg['DISPLAY_EYES_COLOR_TITLE'] = 'Farbe von %1 auf %2 ändern';
 Blockly.Msg['DISPLAY_EYES_COLOR_TOOLTIP'] = 'Ändert die Farbe der Augen des Eliobot.';
 Blockly.Msg['DISPLAY_EYES_COLOR_LEFT'] = 'vom linken Auge';
@@ -278,6 +40,8 @@ Blockly.Msg['DISPLAY_RIGHT_EYE'] = 'rechtes Auge';
 Blockly.Msg['DISPLAY_LEFT_EYE'] = 'linkes Auge';
 Blockly.Msg['DISPLAY_EYES_MATRIX_TITLE'] = "Auf der Augenmatrix anzeigen (Palette)";
 Blockly.Msg['DISPLAY_EYES_MATRIX_TOOLTIP'] = 'Zeigt ein individuelles Bild auf den Augen des Eliobot an. Jeder Pixel der Matrix kann mit einer anderen Farbe konfiguriert werden.';
+
+// Input/Output - Time
 Blockly.Msg['IO_WAIT_TITLE'] = 'warten %1 %2';
 Blockly.Msg['IO_WAIT_TOOLTIP'] = 'Pausiert die Ausführung des Codes.';
 Blockly.Msg['IO_WAIT_SECOND'] = 'Sekunde(s)';
@@ -289,15 +53,18 @@ Blockly.Msg['IO_INITCHRONOMETER_TITLE'] = 'Chronometer auf 0 zurücksetzen';
 Blockly.Msg['IO_INITCHRONOMETER_TOOLTIP'] = 'Setzt den Chronometer auf 0 (in Sekunden).';
 Blockly.Msg['IO_GETCHRONOMETER_TITLE'] = 'Wert des Chronometers in %1';
 Blockly.Msg['IO_GETCHRONOMETER_TOOLTIP'] = 'Gibt den Wert des Chronometers seit der Initialisierung zurück (in Sekunden oder Millisekunden).';
+
+// Communication - Serial connection
 Blockly.Msg['COMMUNICATION_SERIAL_WRITE_TITLE'] = 'In die Konsole schreiben %1';
 Blockly.Msg['COMMUNICATION_SERIAL_WRITE_TOOLTIP'] = 'Schreibt Daten in die Konsole.';
 Blockly.Msg['COMMUNICATION_SERIAL_WRITE_WITH'] = 'mit';
 Blockly.Msg['COMMUNICATION_SERIAL_WRITE_NEWLINES'] = 'Zeilenumbrüche';
 Blockly.Msg['COMMUNICATION_WRITEGRAPH_TITLE'] = 'Graph zeichnen';
 Blockly.Msg['COMMUNICATION_WRITEGRAPH_TOOLTIP'] = 'Dieser Block schreibt numerische Daten, die im Plotter sichtbar sind. Er kann mit einem oder mehreren Blöcken im Format "Name" und "Daten" verwendet werden. Um die Grafiken anzuzeigen, klicken Sie in der Konsole auf das Symbol \'Graphmodus\'.';
-Blockly.Msg['COMMUNICATION_DATA'] = 'Blockly.Msg[\'COMMUNICATION_DATA\'] = \'Daten\';';
+Blockly.Msg["COMMUNICATION_DATA"] = "Daten";
 Blockly.Msg['COMMUNICATION_PRINT_DATAS_TITLE'] = 'Name %1 Wert %2';
 Blockly.Msg['COMMUNICATION_PRINT_DATAS_TOOLTIP'] = 'Dieser Block wird zusammen mit dem Block "Graph zeichnen" benutzt. Er muss den Namen des anzuzeigenden Werts (Text) und den Wert selbst (Zahl) enthalten.';
+// Communication - IR remote
 Blockly.Msg['COMMUNICATION_IR_REMOTE_READ_TITLE'] = 'Signal vom Sensor %1 lesen';
 Blockly.Msg['COMMUNICATION_IR_REMOTE_READ_TOOLTIP'] = 'Liest den von der Infrarotfernbedienung des Eliobot gesendeten Befehl. Dieser Block gibt eine Zeichenkette zurück, die der empfangenen Taste entspricht (oben, unten, links, rechts, Mitte).';
 Blockly.Msg['COMMUNICATION_IR_REMOTE_READ_FORWARD'] = 'vorwärts';
@@ -323,6 +90,8 @@ Blockly.Msg['COMMUNICATION_IR_REMOTE_9'] = '9';
 Blockly.Msg['COMMUNICATION_IR_REMOTE_0'] = '0';
 Blockly.Msg['COMMUNICATION_IR_REMOTE_HT'] = '#';
 Blockly.Msg['COMMUNICATION_IR_REMOTE_ST'] = '*';
+
+// Sensors
 Blockly.Msg['SENSORS_READ_OBSTACLE_TITLE'] = 'Ein Hindernis ist %1';
 Blockly.Msg['SENSORS_READ_OBSTACLE_TOOLTIP'] = 'Erkennt, ob ein Hindernis vorhanden ist.';
 Blockly.Msg['SENSORS_READ_OBSTACLE_FORWARD'] = 'vorne';
@@ -344,6 +113,8 @@ Blockly.Msg['SENSORS_LINE_SENSOR_VALUE_TITLE'] = 'Wert des Liniensensors %1';
 Blockly.Msg['SENSORS_LINE_SENSOR_VALUE_TOOLTIP'] = 'Gibt den Wert eines Liniensensors des Eliobot zurück.';
 Blockly.Msg['SENSORS_AUTO_LINE_CALIBRATION'] = 'Automatische Kalibrierung der Liniensensoren';
 Blockly.Msg['SENSORS_AUTO_LINE_CALIBRATION_TOOLTIP'] = 'Kalibriert automatisch die Liniensensoren des Eliobot. Der Roboter muss dazu zuerst auf eine helle und dann auf eine dunkle Oberfläche gestellt werden.';
+
+// Actuators - robot
 Blockly.Msg['ROBOT_MOVE_TITLE'] = ' %1';
 Blockly.Msg['ROBOT_MOVE_TOOLTIP'] = 'Ermöglicht die Steuerung der Motoren des Eliobot zum Vor- oder Rückwärtsfahren.';
 Blockly.Msg['ROBOT_MOVE_FORWARD'] = 'vorwärts';
@@ -372,6 +143,7 @@ Blockly.Msg['ROBOT_WAITING_TITLE'] = 'warten %1 %2 bevor die Motoren gestoppt we
 Blockly.Msg['ROBOT_WAITING_TOOLTIP'] = 'Lässt den Eliobot vor dem Anhalten eine bestimmte Zeit warten.';
 Blockly.Msg['ROBOT_UNIT_SECONDS'] = 'Sekunde(n)';
 Blockly.Msg['ROBOT_UNIT_MILLISECONDS'] = 'Millisekunde(n)';
+// Actuators - Buzzer
 Blockly.Msg['ACTUATORS_PLAY_NOTE_TITLE'] = 'Spiele die Note %1 für %2 %3';
 Blockly.Msg['ACTUATORS_PLAY_NOTE_TOOLTIP'] = 'Dieser Block spielt eine Note. Die Note wird durch ihren Namen (Do, Ré, Mi, Fa, Sol, La, Si) und die Dauer bestimmt.';
 Blockly.Msg['ACTUATORS_FREQUENCY_TITLE'] = 'Spiele die Frequenz %1 (Hz) für %2 %3';
@@ -395,6 +167,8 @@ Blockly.Msg['ACTUATORS_SOUND_HELLO'] = 'Hallo';
 Blockly.Msg['ACTUATORS_SOUND_STARTUP'] = 'Start';
 Blockly.Msg['ACTUATORS_SOUND_BUMP'] = 'Kollision';
 Blockly.Msg['ACTUATORS_SOUND_BLINK'] = 'Blinken';
+
+// Backpack - Display
 Blockly.Msg['BACKPACK_DISPLAY_OLED_TEXT_TITLE'] = '[OLED-Display] Text %1 in Zeile %2 anzeigen';
 Blockly.Msg['BACKPACK_DISPLAY_OLED_TEXT_TOOLTIP'] = 'Zeigt Text auf dem SSD1306-OLED-Display an.';
 Blockly.Msg['BACKPACK_DISPLAY_OLED_CLEAR_TITLE'] = '[OLED-Display] Display löschen';
@@ -407,36 +181,45 @@ Blockly.Msg['BACKPACK_DISPLAY_MATRIX_LOGO_PICKER_TITLE'] = '[5x5 RGB-Matrix] %1 
 Blockly.Msg['BACKPACK_DISPLAY_MATRIX_LOGO_PICKER_TOOLTIP'] = 'Zeigt ein Symbol in der gewünschten Farbe an.';
 Blockly.Msg['BACKPACK_DISPLAY_MATRIX_SCROLL_TEXT_TITLE'] = '[5x5 RGB-Matrix] Text %1 in %2 scrollen';
 Blockly.Msg['BACKPACK_DISPLAY_MATRIX_SCROLL_TEXT_TOOLTIP'] = 'Lässt eine Zeichenfolge in der gewünschten Farbe über die 5x5-LED-Matrix laufen.';
+// Backpack - Sensors
 Blockly.Msg['BACKPACK_DHT11_SENSOR_TITLE'] = '[DHT11] %1';
+Blockly.Msg['BACKPACK_DHT11_SENSOR_TOOLTIP'] = 'Gibt die Temperatur in Grad Celsius (°C) oder die Luftfeuchtigkeit (in %) des DHT11-Sensors zurück.';
 Blockly.Msg['SENSOR_TEMPERATURE'] = 'Temperatur';
 Blockly.Msg['SENSOR_HUMIDITY'] = 'Luftfeuchtigkeit';
 Blockly.Msg['SENSOR_PRESSURE'] = 'Druck';
 Blockly.Msg['SENSOR_ALTITUDE'] = 'Höhe';
 Blockly.Msg['BACKPACK_BME280_SENSOR_TITLE'] = '[BME280] %1';
 Blockly.Msg['BACKPACK_BME280_SENSOR_TOOLTIP'] = 'Gibt vom BME280-Sensor die Temperatur (°C von −40 bis 85, °F oder K), die Luftfeuchte (in %), den Druck (in Pascal) oder die Höhe (in m) zurück.';
+Blockly.Msg['BACKPACK_BME280_SENSOR_SET_SEA_LEVEL_PRESSURE_TITLE'] = '[BME280] Luftdruck auf Meereshöhe auf %1 einstellen';
 Blockly.Msg['BACKPACK_BME280_SENSOR_SET_SEA_LEVEL_PRESSURE_TOOLTIP'] = 'Ermöglicht das Festlegen des Meeresspiegeldrucks für den BME280-Sensor, der zur Berechnung der Höhe verwendet wird.';
 Blockly.Msg['BACKPACK_SENSORS_HCSR04_GET_DISTANCE_TITLE'] = '[HC-SR04] Entfernung';
 Blockly.Msg['BACKPACK_SENSORS_HCSR04_GET_DISTANCE_TOOLTIP'] = 'Gibt die Entfernung in cm mit dem Ultraschallsensor HC-SR04 zurück.';
 Blockly.Msg['BACKPACK_SENSORS_GETLIGHT_TITLE'] = '[Lichtsensor] Helligkeit an Pin %1';
 Blockly.Msg['BACKPACK_SENSORS_GETLIGHT_TOOLTIP'] = 'Gibt den Helligkeitswert des Sensors am ausgewählten Pin zurück.';
+// Backpack - IO - Buttons
 Blockly.Msg['BACKPACK_IO_BUTTON_STATE_TITLE'] = '[Taster] %1 an Pin %2 gedrückt';
 Blockly.Msg['BACKPACK_IO_BUTTON_STATE_TOOLTIP'] = 'Gibt den Zustand des Tasters zurück, der an IO2 oder IO15 angeschlossen ist.';
 Blockly.Msg['BACKPACK_IO_BUTTON_STATE_PRESSED'] = 'ist';
 Blockly.Msg['BACKPACK_IO_BUTTON_STATE_NOT_PRESSED'] = 'ist nicht';
+// Backpack - IO - Potentiometer
 Blockly.Msg['BACKPACK_IO_KNOB_VALUE_TITLE'] = '[Potentiometer] Wert an Pin %1';
 Blockly.Msg['BACKPACK_IO_KNOB_VALUE_TOOLTIP'] = 'Gibt den Wert des am Pin IO2 oder IO15 angeschlossenen Potentiometers zurück.';
+// Backpack - Actuators - Motors
 Blockly.Msg['BACKPACK_ACTUATORS_SERVO_MOTOR_ANGLE_TITLE'] = '[Servomotor] Winkel auf %1° an Pin %2 einstellen';
 Blockly.Msg['BACKPACK_ACTUATORS_SERVO_MOTOR_ANGLE_TOOLTIP'] = 'Ermöglicht die Steuerung des Winkels (0–180°) eines Servomotors an PWM-Pins.';
 Blockly.Msg['BACKPACK_ACTUATORS_SERVO_MOTOR_SPEED_TITLE'] = '[Kontinuierlicher Servomotor] Geschwindigkeit %1 (%) Richtung %2 an Pin %3 einstellen';
 Blockly.Msg['BACKPACK_ACTUATORS_SERVO_MOTOR_SPEED_TOOLTIP'] = 'Ermöglicht die Steuerung der Drehgeschwindigkeit (0–100 %) eines kontinuierlichen Servomotors an PWM-Pins.';
+// Backpack - Actuators - Buzzer
 Blockly.Msg['BACKPACK_ACTUATORS_GROVE_BUZZER_TITLE'] = '[Buzzer] Frequenz %1 mit Lautstärke %2 an Pin %3 abspielen';
 Blockly.Msg['BACKPACK_ACTUATORS_GROVE_BUZZER_TOOLTIP'] = 'Ermöglicht das Abspielen einer Frequenz mit einem Grove-Buzzer-Modul.';
+
+// Network - Wifi
 Blockly.Msg['NETWORK_WIFI_CONNECT_TITLE'] = 'Mit WLAN verbinden: SSID %1, Passwort %2';
 Blockly.Msg['NETWORK_WIFI_CONNECT_TOOLTIP'] = 'Verbindet Eliobot mit einem WLAN anhand des angegebenen Namens (SSID) und Passworts.';
 Blockly.Msg['NETWORK_WIFI_DISCONNECT_TITLE'] = 'Vom WLAN trennen';
 Blockly.Msg['NETWORK_WIFI_DISCONNECT_TOOLTIP'] = 'Trennt Eliobot vom aktuell verbundenen WLAN.';
 Blockly.Msg['NETWORK_WIFI_OPEN_ACCESS_POINT_TITLE'] = 'WLAN-Zugangspunkt öffnen: SSID %1, Passwort %2';
-Blockly.Msg['NETWORK_WIFI_OPEN_ACCESS_POINT_TOOLTIP'] = 'Blockly.Msg[\'NETWORK_WIFI_OPEN_ACCESS_POINT_TOOLTIP\'] = \'Erstellt Eliobot einen WLAN-Zugangspunkt mit dem angegebenen Namen und Passwort.\';';
+Blockly.Msg['NETWORK_WIFI_OPEN_ACCESS_POINT_TOOLTIP'] = 'Erstellt auf dem Eliobot einen WLAN-Zugangspunkt mit dem angegebenen Namen und Passwort.';
 Blockly.Msg['NETWORK_WIFI_DEFINE_HOST_NAME_TITLE'] = 'Hostname festlegen %1';
 Blockly.Msg['NETWORK_WIFI_DEFINE_HOST_NAME_TOOLTIP'] = 'Legt den Hostnamen von Eliobot im Netzwerk fest. Über diesen Namen kann man Eliobot im Browser erreichen.';
 Blockly.Msg['NETWORK_WIFI_DEFINE_ANTENNA_POWER_TITLE'] = 'Sendeleistung der WLAN-Antenne festlegen %1';
@@ -447,6 +230,7 @@ Blockly.Msg['NETWORK_WIFI_SCAN_NETWORKS_TITLE'] = 'Verfügbare WLAN-Netze scanne
 Blockly.Msg['NETWORK_WIFI_SCAN_NETWORKS_TOOLTIP'] = 'Gibt die Liste der in der Nähe verfügbaren WLAN-Netze zurück.';
 Blockly.Msg['NETWORK_WIFI_GET_IP_TITLE'] = 'IP-Adresse von Eliobot';
 Blockly.Msg['NETWORK_WIFI_GET_IP_TOOLTIP'] = 'Gibt die IP-Adresse von Eliobot im WLAN zurück.';
+// Network - HTML
 Blockly.Msg['NETWORK_HTML_CREATE_PAGE_TITLE'] = 'Eine Webseite erstellen mit Titel %1 und Inhalt';
 Blockly.Msg['NETWORK_HTML_CREATE_PAGE_TOOLTIP'] = 'Erstellt eine Webseite, die im Browser erreichbar ist. Fügt HTML-Elemente zum Seiteninhalt hinzu.';
 Blockly.Msg['NETWORK_HTML_CREATE_BUTTON_TITLE'] = 'Button hinzufügen %1 %2 Aktion';
@@ -458,6 +242,4 @@ Blockly.Msg['NETWORK_HTML_CREATE_TAG_TOOLTIP'] = 'Erstellt ein HTML-Tag (div ode
 Blockly.Msg['NETWORK_HTML_CREATE_TITLE_TAG_TITLE'] = 'Titel %1 %2';
 Blockly.Msg['NETWORK_HTML_CREATE_TITLE_TAG_TOOLTIP'] = 'Fügt der Webseite eine HTML-Überschrift (h1 bis h6) hinzu. h1 ist die größte, h6 die kleinste.';
 Blockly.Msg['NETWORK_HTML_CREATE_PARAGRAPH_TITLE'] = 'Absatz %1';
-Blockly.Msg['NETWORK_HTML_CREATE_PARAGRAPH_TOOLTIP'] = 'Blockly.Msg[\'NETWORK_HTML_CREATE_PARAGRAPH_TOOLTIP\'] = \'Fügt der Webseite einen Textabsatz hinzu.\';';
-Blockly.Msg['BACKPACK_DHT11_SENSOR_TOOLTIP'] = 'Gibt die Temperatur in Grad Celsius (°C) oder die Luftfeuchtigkeit (in %) des DHT11-Sensors zurück.';
-Blockly.Msg['BACKPACK_BME280_SENSOR_SET_SEA_LEVEL_PRESSURE_TITLE'] = '[BME280] Luftdruck auf Meereshöhe auf %1 einstellen';
+Blockly.Msg['NETWORK_HTML_CREATE_PARAGRAPH_TOOLTIP'] = 'Fügt deiner Webseite einen Absatz hinzu.';

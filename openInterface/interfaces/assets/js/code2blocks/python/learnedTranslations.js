@@ -38,7 +38,8 @@ const normalize = (text) => text.replace(/[ \t]+/g, '').replace(/\n+/g, '\n').tr
 // Generators of the languages: stores of the initializations added by the blocks, and statements of a parsed code.
 export const PYTHON = {
 	generator: () => Blockly.Python,
-	definitions: ['imports_', 'constants_', 'inits_', 'powers_', 'classes_'],
+	// userEvents_: registrations of the event functions (ex: "on_button(button_a, on_button_a)")
+	definitions: ['imports_', 'constants_', 'inits_', 'powers_', 'classes_', 'userEvents_'],
 	// functions added by the blocks (ex: "@onevent def tap():" of the Thymio events)
 	functions: ['codeFunctions_', 'powersEvents_'],
 	// initializations of the blocks generating no code of their own (ex: NAO story: "story = dynamic_story1")
@@ -133,13 +134,27 @@ export default class LearnedTranslations {
 	 *     ignored during the translation
 	 * @returns {Array<string>} types translated by a template
 	 */
-	learn(types, translatedTypes = []) {
+	async learn(types, translatedTypes = []) {
 		const workspace = new Blockly.Workspace();
+		let sliceStart = performance.now();
+		// several seconds of work: the browser is given the hand between two blocks (no long task)
+		// ponytail: stops yielding (finishes synchronously) after a yield > 100 ms or 500 ms of yields in total (busy page, e.g. 3D simulator)
+		let yieldedTime = 0, canYield = true;
+		const yieldIfLong = async () => {
+			if (!canYield || performance.now() - sliceStart < 40) return;
+			const yieldStart = performance.now();
+			await yieldToMain();
+			sliceStart = performance.now();
+			const spent = sliceStart - yieldStart;
+			yieldedTime += spent;
+			if (spent > 100 || yieldedTime > 500) canYield = false;
+		};
 		const learned = [];
 		const time = Date.now();
 		// blocks with a hand written translation: learned too, used only when that translation gives a generic block
 		const translated = new Set(translatedTypes);
 		for (const type of [...new Set([...types, ...translatedTypes])]) {
+			await yieldIfLong();
 			try {
 				const templates = this.learnBlock(workspace, type);
 				// blocks with an optional field added by their mutator (Blockly.Constants.Utils.addOptionMutatorMixin)
@@ -167,6 +182,7 @@ export default class LearnedTranslations {
 			workspace.clear();
 		}
 		for (const type of translatedTypes) {
+			await yieldIfLong();
 			try {
 				// initializations of every option of the dropdowns (ex: "pinMode(5, OUTPUT);" for each pin)
 				const block = workspace.newBlock(type);

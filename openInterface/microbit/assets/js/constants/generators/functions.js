@@ -998,6 +998,22 @@ DEF_BITCAR_ROTATE:
   setBitCarServoSpeed(pin13, pin14, dir, speed)
   setBitCarServoSpeed(pin15, pin16, dir, speed)`,
 
+// Cutebot Pro _ compute PD
+DEF_CUTEBOTPRO_COMPUTE_PD:
+`CUTEBOTPRO_PD_ERRORS = (0.0, -3.0, -1.0, -2.0, 1.0, 0.0, 0.0, -2.5, 3.0, 0.0, 0.0, 0.0, 2.0, 0.0, 2.5, 0.0)
+CUTEBOTPRO_PD_FIXED_STATES = {10: 2, 11: 3, 5: 4, 13: 12, 9: 0}
+
+def compute_pd(raw_state, kp, kd):
+  global cutebotpro_last_error
+  state = CUTEBOTPRO_PD_FIXED_STATES.get(raw_state, raw_state)
+  if state == 0 or (state == 15 and abs(cutebotpro_last_error) > 1.0):
+    error = 3.5 if cutebotpro_last_error >= 0.0 else -3.5
+  else:
+    error = CUTEBOTPRO_PD_ERRORS[state]
+  derivative = error - cutebotpro_last_error
+  cutebotpro_last_error = error
+  return kp * error + kd * derivative`,
+
 // Remote
 
 DEF_REMOTE_NEC_BASIC_BLACK_BUTTONS:

@@ -42,3 +42,12 @@ Blockly.Msg["LSC_CONTROLS_IF_MSG_IF"] = "if (%1) {";
 // LOOPS
 Blockly.Msg["LSC_CONTROLS_FOR_TITLE"] = "count with %1 from %2 to %3 by %4";
 Blockly.Msg['IO_WRITEANALOGPIN_TOOLTIP'] = 'Allows writing a value to an analog input (0-255).';
+
+// Search keywords of the blocks: <X>_KEYWORDS completes the block whose tooltip is <X>_TOOLTIP (see ToolboxManager)
+Blockly.Msg["IO_WRITEDIGITALPIN_KEYWORDS"] = "digital, pin, write";
+Blockly.Msg["IO_READDIGITALPIN_KEYWORDS"] = "digital, pin, read";
+Blockly.Msg["IO_PINMODE_KEYWORDS"] = "pin";
+Blockly.Msg["IO_WAIT_KEYWORDS"] = "pause, delay, wait";
+Blockly.Msg["IO_DIGITAL_SIGNAL_KEYWORDS"] = "digital, signal, logic";
+Blockly.Msg["ACTUATORS_TONE_KEYWORDS"] = "sound, tone";
+Blockly.Msg["ACTUATORS_NOTONE_KEYWORDS"] = "sound, tone, frequency";
