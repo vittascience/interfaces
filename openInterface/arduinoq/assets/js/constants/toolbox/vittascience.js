@@ -854,6 +854,16 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
                 },
                 {
                     "kind": "category",
+                    "toolboxitemid": "bricks_ble",
+                    "name": "Bluetooth",
+                    "style": "bricks_category",
+                    "cssConfig": {
+                        "icon": "icon_blockly fab fa-bluetooth-b"
+                    },
+                    "contents": []
+                },
+                {
+                    "kind": "category",
                     "toolboxitemid": "bricks_mqtt",
                     "name": "MQTT",
                     "style": "bricks_category",
@@ -2300,6 +2310,25 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                                 'bricks_llm_tool',
                                 'bricks_llm_tool_param',
                                 'bricks_llm_choose'
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "subCategoryId": "bricks_ble",
+                    "contents": [
+                        {
+                            "blocks": [
+                                'bricks_ble_connect',
+                                'bricks_ble_send',
+                                'bricks_ble_on_message',
+                                'bricks_ble_message',
+                                'bricks_ble_connected',
+                                'bricks_ble_disconnect',
+                                'bricks_ble_server_start',
+                                'bricks_ble_server_send',
+                                'bricks_ble_server_on_message',
+                                'bricks_ble_server_connected'
                             ]
                         }
                     ]

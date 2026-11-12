@@ -11,14 +11,21 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-if ($_GET['backurl']) {
-    $_SESSION['backurl'] = $_GET['backurl'];
+$isCallback = isset($_GET['code']) || isset($_GET['error']);
+$isStart = $_SERVER['REQUEST_METHOD'] === 'POST' && !$isCallback;
+
+if (!$isStart && !$isCallback) {
+    ssoGoneResponse();
+}
+
+if ($isStart) {
+    rememberBackurl($_POST['backurl'] ?? null);
 }
 
 $actualUrl = getActualUrl();
 $microsoftProvider = new GenericProvider([
     'clientId'                => $_ENV['VS_SSO_MICROSOFT_CLIENT_ID'],
-    'clientSecret'            => $_ENV['VS_SSO_MICROSOFT_CLIENT_SECRET'],   
+    'clientSecret'            => $_ENV['VS_SSO_MICROSOFT_CLIENT_SECRET'],
     'redirectUri'             => $actualUrl .'/public/sso/microsoft.php',
     'urlAuthorize'            => 'https://login.microsoftonline.com/consumers/oauth2/v2.0/authorize',
     'urlAccessToken'          => 'https://login.microsoftonline.com/consumers/oauth2/v2.0/token',
@@ -27,17 +34,14 @@ $microsoftProvider = new GenericProvider([
 $translatorInit = initTranslator();
 
 
-if (!isset($_GET['code'])) {
-
+if ($isStart) {
     $authUrl = $microsoftProvider->getAuthorizationUrl([
         'scope' => ['openid', 'profile', 'email', 'User.Read']
     ]);
-    
-    // CSRF protection
     $_SESSION['oauth2state'] = $microsoftProvider->getState();
     header('Location: ' . $authUrl);
     exit;
-} else if (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
+} else if (!isset($_GET['code']) || empty($_GET['state']) || ($_GET['state'] !== ($_SESSION['oauth2state'] ?? null))) {
     unset($_SESSION['oauth2state']);
     showErrorWithCode(6);
 } else {

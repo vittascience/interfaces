@@ -579,7 +579,8 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'actuators_continuousServo_setSpeed',
                 'actuators_setMotorPower',
                 'actuators_setVibrationMotorState',
-                'actuators_setGroveRelayState'
+                'actuators_setGroveRelayState',
+                'actuators_motor_driver_control'
             ]
         },
         {

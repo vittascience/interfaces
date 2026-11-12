@@ -756,7 +756,8 @@ const TOOLBOX_SCRATCH_CONTENT = {
                     'actuators_mosfet_setState',
                     'actuators_mosfet_setPercentValue',
                     'actuators_setElectromagnetState',
-                    'actuators_setWaterAtomizerState'
+                    'actuators_setWaterAtomizerState',
+                    'actuators_motor_driver_control'
                 ]
             }, {
                 "label": "%{BKY_SUBCATEGORY_KITRONIK}",

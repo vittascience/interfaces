@@ -172,6 +172,41 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
+    // MOTOR DRIVER - CONTROL MOTOR JSON
+    {
+        "type": "actuators_motor_driver_control",
+        "message0": "%{BKY_ACTUATORS_MOTOR_DRIVER_CONTROL_TITLE}",
+        "args0": [{
+            "type": "field_grid_dropdown",
+            "name": "INA",
+            "options": Blockly.Constants.Pins.PWM[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "INB",
+            "options": Blockly.Constants.Pins.PWM[Blockly.Constants.getSelectedBoard()]
+        }, {
+            "type": "field_grid_dropdown",
+            "name": "DIR",
+            "options": [
+                ["%{BKY_ACTUATORS_MOTOR_FORWARD}", "1"],
+                ["%{BKY_ACTUATORS_MOTOR_BACKWARD}", "-1"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "SPEED",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "%{BKY_ACTUATORS_MOTOR_DRIVER_CONTROL_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl",
+            "block_init_color",
+            "pins_management_global"
+        ]
+    },
+
     // PCA9685 - SET PWM FREQUENCY
     {
         "type": "actuators_pca9685_setPwmFrequency",

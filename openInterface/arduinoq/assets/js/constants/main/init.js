@@ -40,7 +40,7 @@ const LIBRARIES_PATH = {
 //shield
 const BOARD_SHIELD_GROVE = "shield-grove";
 //standalone_blocks
-const BLOCKS_OUTSIDE_SCOPE = ["cpp_on_start", "cpp_forever", "cpp_on_start_forever", "cpp_scratch_on_start", "cpp_procedures_defnoreturn", "cpp_procedures_defreturn", "py_on_start", "py_forever", "py_scratch_on_start", "py_procedures_defnoreturn", "py_procedures_defreturn", "io_attachInterrupt", "html_page", "bricks_webui_on_message", "bricks_code_on_read", "bricks_object_on_detect", "bricks_telegram_on_message", "bricks_telegram_on_command", "bricks_keyword_on_heard", "bricks_mqtt_on_message", "bricks_cloud_on_change", "bricks_llm_tool"];
+const BLOCKS_OUTSIDE_SCOPE = ["cpp_on_start", "cpp_forever", "cpp_on_start_forever", "cpp_scratch_on_start", "cpp_procedures_defnoreturn", "cpp_procedures_defreturn", "py_on_start", "py_forever", "py_scratch_on_start", "py_procedures_defnoreturn", "py_procedures_defreturn", "io_attachInterrupt", "html_page", "bricks_webui_on_message", "bricks_code_on_read", "bricks_object_on_detect", "bricks_telegram_on_message", "bricks_telegram_on_command", "bricks_keyword_on_heard", "bricks_mqtt_on_message", "bricks_ble_on_message", "bricks_ble_server_on_message", "bricks_cloud_on_change", "bricks_llm_tool"];
 //example projects
 const EXAMPLE_PROJECT_LINKS = ['639987a2d76c3', '6399a76286bfd', '6399a8b8ee0d4', '6399a9b491f07', '6399bd8184b3f', '6399c0b51e361'];
 //adc

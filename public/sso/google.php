@@ -12,8 +12,15 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-if (isset($_GET['backurl']) && $_GET['backurl']) {
-    $_SESSION['backurl'] = $_GET['backurl'];
+$isCallback = isset($_GET['code']) || isset($_GET['error']);
+$isStart = $_SERVER['REQUEST_METHOD'] === 'POST' && !$isCallback;
+
+if (!$isStart && !$isCallback) {
+    ssoGoneResponse();
+}
+
+if ($isStart) {
+    rememberBackurl($_POST['backurl'] ?? null);
 }
 
 $actualUrl = getActualUrl();
@@ -25,14 +32,12 @@ $googleProvider = new Google([
 $translatorInit = initTranslator();
 
 
-if (!isset($_GET['code'])) {
-    // Get authorization url
+if ($isStart) {
     $authUrl = $googleProvider->getAuthorizationUrl();
-    // CSRF protection
     $_SESSION['oauth2state'] = $googleProvider->getState();
     header('Location: ' . $authUrl);
     exit;
-} else if (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
+} else if (!isset($_GET['code']) || empty($_GET['state']) || ($_GET['state'] !== ($_SESSION['oauth2state'] ?? null))) {
     unset($_SESSION['oauth2state']);
     showErrorWithCode(7);
 } else {

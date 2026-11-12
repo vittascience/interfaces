@@ -1,0 +1,11 @@
+@import url('/openInterface/interfaces/assets/css/simulator-modules.css');
+
+#colorPicker-portA, #colorPicker-portB, #colorPicker-portC,
+#colorPicker-portD, #colorPicker-portE, #colorPicker-portF {
+	cursor: pointer;
+	outline: none;
+}
+
+#spike-motor {
+	transform-origin: 71% 50%;
+}

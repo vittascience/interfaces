@@ -152,6 +152,8 @@ const TOOLBOXES_SVGS_DEFINITION = {
     "icon_g1tank": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M10.6 1.2h5.6a1 1 0 0 1 1 1v3.2a1 1 0 0 1-1 1h-5.6a1 1 0 0 1-1-1V2.2a1 1 0 0 1 1-1Zm1.7 2.6a1.1 1.1 0 1 0 2.2 0a1.1 1.1 0 1 0-2.2 0Z"/><path d="M12.6 6.4h1.6v3h-1.6zM8.2 9.2h12.3l1.3 5.1H3.9zM.6 11.6h3.6v2.2H.6z"/><path fill-rule="evenodd" d="M4.5 15.2h15a3.9 3.9 0 0 1 0 7.8h-15a3.9 3.9 0 0 1 0-7.8Zm0 1.6a2.3 2.3 0 0 0 0 4.6h15a2.3 2.3 0 0 0 0-4.6Zm-1.4 2.3a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0-2.8 0Zm15 0a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0-2.8 0Zm-7.5 0a1.1 1.1 0 1 0 2.2 0a1.1 1.1 0 1 0-2.2 0Zm-3.6 0a1.1 1.1 0 1 0 2.2 0a1.1 1.1 0 1 0-2.2 0Zm7.2 0a1.1 1.1 0 1 0 2.2 0a1.1 1.1 0 1 0-2.2 0Z"/></svg>`,
     // Arduino Alvik robot (seen from the front: board on top, face with its eyes, wheels), for the Alvik subcategory
     "icon_alvik": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 3.2h12v2.6H6z"/><path fill-rule="evenodd" d="M4.6 6.6h14.8a2.4 2.4 0 0 1 2.4 2.4v10.2a2.4 2.4 0 0 1-2.4 2.4H4.6a2.4 2.4 0 0 1-2.4-2.4V9a2.4 2.4 0 0 1 2.4-2.4Zm1.6 3.4a1 1 0 0 0-1 1v6.6a1 1 0 0 0 1 1h11.6a1 1 0 0 0 1-1V11a1 1 0 0 0-1-1Z"/><path fill-rule="evenodd" d="M6.8999999999999995 13.4a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0-3.4 0Zm1.7-.85l.85.85-.85.85-.85-.85ZM13.700000000000001 13.4a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0-3.4 0Zm1.7-.85l.85.85-.85.85-.85-.85Z"/><path d="M10.4 15.8a2 2 0 0 0 3.2 0" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><rect x="0" y="12" width="1.6" height="8.4" rx=".6"/><rect x="22.4" y="12" width="1.6" height="8.4" rx=".6"/></svg>`,
+    // DJI Tello drone (four propeller guards, arms and body with its camera), for the drones category
+    "icon_tello": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><g fill="none" stroke="currentColor" stroke-linecap="round"><ellipse cx="6.4" cy="6.2" rx="4.2" ry="2.3" stroke-width="1.3"/><ellipse cx="17.6" cy="6.2" rx="4.2" ry="2.3" stroke-width="1.3"/><ellipse cx="5" cy="17" rx="4.4" ry="2.5" stroke-width="1.3"/><ellipse cx="19" cy="17" rx="4.4" ry="2.5" stroke-width="1.3"/><path d="M8.8 10.4L6.4 6.2M15.2 10.4l2.4-4.2M8.4 14.2L5 17M15.6 14.2l3.4 2.8" stroke-width="1.5"/><path d="M3.8 5.4l5.2 1.6M15 7l5.2-1.6M2.2 16.2l5.6 1.6M16.2 17.8l5.6-1.6" stroke-width="1"/></g><circle cx="6.4" cy="6.2" r=".9"/><circle cx="17.6" cy="6.2" r=".9"/><circle cx="5" cy="17" r="1"/><circle cx="19" cy="17" r="1"/><path fill-rule="evenodd" d="M9.2 9.6h5.6l1.8 3.6v1.1a1.1 1.1 0 0 1-1.1 1.1H8.5a1.1 1.1 0 0 1-1.1-1.1v-1.1Zm2.1 4.1a.7.7 0 1 0 1.4 0a.7.7 0 1 0-1.4 0Z"/></svg>`,
     // micro:bit logo (rounded outline and two dots)
     "icon_microbit": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 116 558 322" fill="currentColor"><rect x="31" y="149" width="492" height="256" rx="128" fill="none" stroke="currentColor" stroke-width="62"/><circle cx="158" cy="277" r="32"/><circle cx="394" cy="277" r="32"/></svg>`,
     // UNIHIKER logo (ring with an orbit open at the top left)
@@ -162,8 +164,9 @@ const TOOLBOXES_SVGS = {
     "display_category": TOOLBOXES_SVGS_DEFINITION['icon_idea_on'],
     "looks_category": TOOLBOXES_SVGS_DEFINITION['icon_idea_on'],
     "backpack_display_subcategory": TOOLBOXES_SVGS_DEFINITION['icon_idea_on'],
-    "tello_category": TOOLBOXES_SVGS_DEFINITION['icon_drone'],
+    "tello_category": TOOLBOXES_SVGS_DEFINITION['icon_tello'],
     "tello_subcategory": TOOLBOXES_SVGS_DEFINITION['icon_drone'],
+    "tello_tello_subcategory": TOOLBOXES_SVGS_DEFINITION['icon_drone'],
     "procedure_category": TOOLBOXES_SVGS_DEFINITION['icon_function'],
     "rpi_category": TOOLBOXES_SVGS_DEFINITION['icon_raspberry'],
     "vittaia_subcategory": TOOLBOXES_SVGS_DEFINITION['icon_ia_sensors'],

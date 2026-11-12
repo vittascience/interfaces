@@ -785,17 +785,4 @@ h2.cgv-subtitle {
     background-color: var(--vitta-shadow-color) !important;
 }
 
-/* PLUGIN */
-
-.download-card {
-    border: 2px solid var(--text-0);
-    box-shadow: none;
-    -webkit-box-shadow: none;
-}
-
-.download-separator {
-    border-top-color: var(--text-0);
-}
-
-
 /* All of the other footer pages use similar elements to Cookies or Privacy pages, so nothing to edit */

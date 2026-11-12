@@ -398,6 +398,89 @@ Blockly.Python.bricks_mqtt_topic = function () {
     return ["mqtt_topic", Blockly.Python.ORDER_ATOMIC];
 };
 
+// BLUETOOTH: BLE client (bleak), see the Bluetooth bridge of the uploader
+
+Blockly.Python.BRICKS_BLE = function () {
+    Blockly.Python.addImport("arduino.app_utils", IMPORT_ARDUINO_APP_UTILS);
+    Blockly.Python.addImport('os', IMPORT_OS);
+    Blockly.Python.addImport('asyncio', IMPORT_ASYNCIO);
+    Blockly.Python.addImport('threading', "import threading");
+    Blockly.Python.addImport('queue', IMPORT_QUEUE);
+    Blockly.Python.addFunction('ble', FUNCTIONS_ARDUINO_Q.py.DEF_BLE);
+};
+
+Blockly.Python.bricks_ble_connect = function (block) {
+    const name = Blockly.Python.valueToCode(block, "NAME", Blockly.Python.ORDER_NONE) || "''";
+    Blockly.Python.BRICKS_BLE();
+    return "ble_connect(" + name + ")" + NEWLINE;
+};
+
+Blockly.Python.bricks_ble_send = function (block) {
+    const text = Blockly.Python.valueToCode(block, "TEXT", Blockly.Python.ORDER_NONE) || "''";
+    const uuid = Blockly.Python.valueToCode(block, "UUID", Blockly.Python.ORDER_NONE) || "''";
+    Blockly.Python.BRICKS_BLE();
+    return "ble_send(" + text + ", " + uuid + ")" + NEWLINE;
+};
+
+Blockly.Python.bricks_ble_on_message = function (block) {
+    const uuid = block.getFieldValue("UUID").replace(/'/g, "").trim();
+    const funcName = "on_ble_" + uuid.replace(/\W/g, "_");
+    Blockly.Python.BRICKS_BLE();
+    Blockly.Python.addFunction(funcName, Blockly.Python.BRICKS_HANDLER(block, funcName));
+    Blockly.Python.addPowerOn(funcName, "ble_handlers.setdefault('" + uuid + "', []).append(" + funcName + ")");
+    return "";
+};
+
+Blockly.Python.bricks_ble_message = function () {
+    Blockly.Python.BRICKS_BLE();
+    return ["ble_message", Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python.bricks_ble_connected = function () {
+    Blockly.Python.BRICKS_BLE();
+    return ["ble_is_connected()", Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+Blockly.Python.bricks_ble_disconnect = function () {
+    Blockly.Python.BRICKS_BLE();
+    return "ble_disconnect()" + NEWLINE;
+};
+
+// BLUETOOTH SERVER: the board waits for a phone (Nordic UART service)
+
+Blockly.Python.BRICKS_BLE_SERVER = function () {
+    Blockly.Python.BRICKS_BLE();
+    Blockly.Python.addImport('dbus_fast', IMPORT_DBUS_FAST);
+    Blockly.Python.addImport('dbus_fast.aio', IMPORT_DBUS_FAST_AIO);
+    Blockly.Python.addImport('dbus_fast.service', IMPORT_DBUS_FAST_SERVICE);
+    Blockly.Python.addFunction('ble_server', FUNCTIONS_ARDUINO_Q.py.DEF_BLE_SERVER);
+};
+
+Blockly.Python.bricks_ble_server_start = function (block) {
+    const name = Blockly.Python.valueToCode(block, "NAME", Blockly.Python.ORDER_NONE) || "'Vitta-Q'";
+    Blockly.Python.BRICKS_BLE_SERVER();
+    return "ble_server_start(" + name + ")" + NEWLINE;
+};
+
+Blockly.Python.bricks_ble_server_send = function (block) {
+    const text = Blockly.Python.valueToCode(block, "TEXT", Blockly.Python.ORDER_NONE) || "''";
+    Blockly.Python.BRICKS_BLE_SERVER();
+    return "ble_server_send(" + text + ")" + NEWLINE;
+};
+
+Blockly.Python.bricks_ble_server_on_message = function (block) {
+    const funcName = "on_ble_server_message";
+    Blockly.Python.BRICKS_BLE_SERVER();
+    Blockly.Python.addFunction(funcName, Blockly.Python.BRICKS_HANDLER(block, funcName));
+    Blockly.Python.addPowerOn(funcName, "ble_server_handlers.append(" + funcName + ")");
+    return "";
+};
+
+Blockly.Python.bricks_ble_server_connected = function () {
+    Blockly.Python.BRICKS_BLE_SERVER();
+    return ["ble_server_connected()", Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
 // ARDUINO CLOUD
 
 Blockly.Python.BRICKS_ARDUINO_CLOUD = function () {

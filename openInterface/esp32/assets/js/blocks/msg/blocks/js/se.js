@@ -48,7 +48,7 @@
 // LEDS
 // SENSORS
 // COLORS
-Blockly.Msg["DISPLAY_CONTROL_BUILTIN_LED_TITLE"] = "[Esp32] sätt den inbyggda LED:n (p2) till %1";
+Blockly.Msg["DISPLAY_CONTROL_BUILTIN_LED_TITLE"] = "[Esp32] sätt den inbyggda LED:n till %1";
 Blockly.Msg["DISPLAY_CONTROL_BUILTIN_LED_TOOLTIP"] = "Tänd den inbyggda LED:n på pinne p2. Kräver ingen sensor eller extern LED.";
 Blockly.Msg["DISPLAY_LCD_SETTEXT_TITLE"] = "[LCD-adress %1] visa text %2 på rad %3 position %4";
 Blockly.Msg["DISPLAY_LCD_SETTEXT_TOOLTIP"] = IMG_MODULE_LCD_I2C + Blockly.Tooltip.SEP + "Visa text på Grove LCD 1602-displayen. Anslut LCD:n till I2C-porten.";

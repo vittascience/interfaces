@@ -1664,7 +1664,7 @@ Simulator.Mosaic.grove = {
             id: "grovePIRMotion",
             get title() { return i18next.t('code.simulator.modules.grovePIRMotion') },
             pin: 'pin n°',
-            pins: 'analog_read',
+            pins: 'digital',
             type: 'input',
             codeFlag: 'PIR Motion Sensor',
             listeners: [{

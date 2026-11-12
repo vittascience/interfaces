@@ -1,12 +1,14 @@
-# Robots.txt optimisé pour Vittascience
-# Mis à jour le 2026-06-20 (audit SEO)
+# Robots.txt Vittascience
+# Mis à jour le 2026-11-08 (passe Search Console)
 # Contact: support@vittascience.com
+#
+# Principe : robots.txt ne sert qu'aux ressources techniques jamais liées
+# publiquement et aux URL porteuses de jetons. Tout le reste est explorable :
+# l'indexation est pilotée par la balise canonical et la meta robots de chaque
+# page (une URL bloquée ici ne peut pas transmettre ces signaux à Google).
 
-# === RÈGLES D'AUTORISATION ===
 User-agent: *
 Allow: /
-
-# === INTERDICTIONS POUR ÉVITER LES PROBLÈMES SEO ===
 
 # Dossiers administratifs et techniques
 Disallow: /vittadmin/
@@ -38,58 +40,28 @@ Disallow: */post/
 Disallow: */get/
 Disallow: */delete/
 
-# Profil, panier et paiement : volontairement CRAWLABLES.
-# Ces pages renvoient déjà <meta name="robots" content="noindex, nofollow">.
-# Les bloquer ici empêcherait Google de lire cette balise, et les URL liées
-# depuis la navbar ressortiraient en « Indexée malgré le blocage par robots.txt ».
-
-# Contenu utilisateur privé et données personnelles
+# Contenu utilisateur privé
 Disallow: /files/
 Disallow: /public/content/user_data/
 Disallow: /content/user_data/
-
 Allow: /public/content/user_data/tuto_img/
 Allow: /public/content/user_data/exp_img/
 Allow: /content/user_data/tuto_img/
 Allow: /content/user_data/exp_img/
-Disallow: /public/sso/
-Disallow: /sso/
 
-# Classroom privé (sessions, groupes, etc.)
+# URL porteuses d'un jeton ou d'un identifiant de session
+Disallow: /*?*sessionId=
+Disallow: /*?*token=
+Disallow: /*?*authkey=
+Disallow: /*?*userid=
+
+# Classroom privé
 Disallow: /classroom/save_classrooms
 Disallow: /classroom/group_invitation
 Disallow: /classroom/confirm_account
 Disallow: /classroom/confirm_email_update
 Disallow: /classroom/password_manager
 Disallow: /classroom/disconnect
-
-# URLs avec paramètres de session/état
-Disallow: /*?*localId=*
-Disallow: /*?*sessionId=*
-Disallow: /*?*token=*
-Disallow: /*?*authkey=*
-Disallow: /*?*userid=*
-Disallow: /*?*link=*
-Disallow: /*?*welcome=*
-
-# URLs d'intégration et embed
-Disallow: /*?*embed=1*
-Disallow: /*?*frameid=*
-Disallow: /*?*iframe=*
-Disallow: /*?*popup=*
-
-# Paramètres d'URL problématiques
-Disallow: /*?*reload=*
-Disallow: /*?*debug=*
-Disallow: /*?*test=*
-Disallow: /*?*dev=*
-Disallow: /*?*cache=*
-Disallow: /*?*timestamp=*
-
-# Recherches vides et formulaires
-Disallow: /*?*s=&*
-Disallow: /*?*search=&*
-Disallow: /*?*q=&*
 
 # Dossiers de développement et tests
 Disallow: /e2e/
@@ -107,8 +79,6 @@ Disallow: /*.tmp$
 Disallow: /*.zip$
 Disallow: /*.tar$
 
-# === LIMITATIONS DE CRAWL ===
-
 User-agent: AhrefsBot
 Disallow: /
 
@@ -118,10 +88,4 @@ Disallow: /
 User-agent: MJ12bot
 Disallow: /
 
-# === SITEMAPS ===
-
-Sitemap: https://fr.vittascience.com/sitemap-fr.xml
-Sitemap: https://en.vittascience.com/sitemap-en.xml
-Sitemap: https://es.vittascience.com/sitemap-es.xml
-Sitemap: https://it.vittascience.com/sitemap-it.xml
-Sitemap: https://ar.vittascience.com/sitemap-ar.xml
+Sitemap: https://fr.vittascience.com/sitemap.xml

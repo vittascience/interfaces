@@ -105,9 +105,13 @@ function createUserFromSSO($userData, $entityManager)
 
     $user = new User();
     $substituteIcon = getRandomIcon();
-    $user->setFirstname(!empty($userData['given_name']) ? $userData['given_name'] : $userTranslation);
-    $user->setSurname(!empty($userData['family_name']) ? $userData['family_name'] : $anonymousTranslation);
-    $user->setPseudo(!empty($userData['name']) ? $userData['name'] : $anonymousTranslation . " " . $userTranslation);
+    // Users pick any name at the provider: keep it as text, without markup characters
+    $firstname = trim(str_replace(['<', '>', '"'], '', strip_tags($userData['given_name'] ?? '')));
+    $surname = trim(str_replace(['<', '>', '"'], '', strip_tags($userData['family_name'] ?? '')));
+    $pseudo = trim(str_replace(['<', '>', '"'], '', strip_tags($userData['name'] ?? '')));
+    $user->setFirstname($firstname !== '' ? $firstname : $userTranslation);
+    $user->setSurname($surname !== '' ? $surname : $anonymousTranslation);
+    $user->setPseudo($pseudo !== '' ? $pseudo : $anonymousTranslation . " " . $userTranslation);
     $pictureToUse = $substituteIcon;
     if (!empty($userData['picture']) && strlen($userData['picture']) < MAX_PICTURE_LENGTH) {
         $pictureToUse = $userData['picture'];

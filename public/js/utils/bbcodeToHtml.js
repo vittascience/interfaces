@@ -1,9 +1,9 @@
 function bbcodeToHtml(html) {
     //iframes
-    html = html.replace(/(\[iframe\])(https:\/\/([a-z]*[\.]*)vittascience\.com[a-zA-Z0-9?=;\ufeff&%\\\/\-]+)(\[\/iframe\])/gi, "<iframe width='100%' height='500' frameborder='0' allowfullscreen style='border:1px #d6d6d6 solid;' src=\"$2&embed=1&frameid=" + generateRandomString(6) + "\" data-og-url=\"$2&embed=1&frameid=" + generateRandomString(6) + "\"></iframe>")
-    html = html.replace(/(\[iframe\])(http:\/\/51\.178\.95\.45[a-zA-Z0-9?=&\-\/]+)(\[\/iframe\])/gi, "<iframe width='100%' height='500' frameborder='0' allowfullscreen style='border:1px #d6d6d6 solid;' src=\"$2&embed=1&frameid=" + generateRandomString(6) + "\" data-og-url=\"$2&embed=1&frameid=" + generateRandomString(6) + "\"></iframe>")
-    html = html.replace(/(\[iframe\])(http:\/\/vittascience[a-zA-Z0-9?=&\-\/\\]+)(\[\/iframe\])/gi, "<iframe width='100%' height='500' frameborder='0' allowfullscreen style='border:1px #d6d6d6 solid;' src=\"$2&embed=1&frameid=" + generateRandomString(6) + "\" data-og-url=\"$2&embed=1&frameid=" + generateRandomString(6) + "\"></iframe>")
-    html = html.replace(/(\[iframe\])(https:\/\/(vgamma|valpha|vbeta|vdelta|vdemo).vittascience[a-zA-Z0-9?=&\/\\\.\-]+)(\[\/iframe\])/gi, "<iframe width='100%' height='500' frameborder='0' allowfullscreen style='border:1px #d6d6d6 solid;' src=\"$2&embed=1&frameid=" + generateRandomString(6) + "\" data-og-url=\"$2&embed=1&frameid=" + generateRandomString(6) + "\"></iframe>")
+    html = html.replace(/(\[iframe\])(https:\/\/([a-z]*[\.]*)vittascience\.com[a-zA-Z0-9?=;\ufeff&%\\\/\-]+)(\[\/iframe\])/gi, vittascienceEmbed)
+    html = html.replace(/(\[iframe\])(http:\/\/51\.178\.95\.45[a-zA-Z0-9?=&\-\/]+)(\[\/iframe\])/gi, vittascienceEmbed)
+    html = html.replace(/(\[iframe\])(http:\/\/vittascience[a-zA-Z0-9?=&\-\/\\]+)(\[\/iframe\])/gi, vittascienceEmbed)
+    html = html.replace(/(\[iframe\])(https:\/\/(vgamma|valpha|vbeta|vdelta|vdemo).vittascience[a-zA-Z0-9?=&\/\\\.\-]+)(\[\/iframe\])/gi, vittascienceEmbed)
 
     // Cabri iframe
     html = html.replace(/(\[iframe\])(https:\/\/cabricloud.com[a-zA-Z0-9\-_?=&\/\\]+)(\[\/iframe\])/gi, "<iframe width='100%' height='620' frameborder='0' allowfullscreen style='border:1px #d6d6d6 solid;' src=\"$2\" data-og-url=\"$2\"></iframe>");
@@ -112,6 +112,14 @@ function bbcodeToHtml(html) {
     html = html.replace(/\[url=([^\]]+)\]([\s\S]*?)\[\/url\]/gi, "<a href='$1' target=\"_blank\">$2</a>")
     html = html.replace(/\[url\]([^\[\]]+)\[\/url\]/gi, "<a href='$1' target=\"_blank\">$1</a>")
     return html
+}
+
+function vittascienceEmbed(match, openTag, url) {
+    const hasI18n = (typeof i18next !== 'undefined' && typeof i18next.t === 'function');
+    const title = (hasI18n ? i18next.t('tutorial.embed.interface') : 'Interface Vittascience').replace(/"/g, '&quot;');
+    const openText = hasI18n ? i18next.t('tutorial.embed.open') : "Ouvrir dans l'interface Vittascience";
+    return "<iframe width='100%' height='500' frameborder='0' allowfullscreen style='border:1px #d6d6d6 solid;' title=\"" + title + "\" src=\"" + url + "&embed=1&frameid=" + generateRandomString(6) + "\" data-og-url=\"" + url + "&embed=1&frameid=" + generateRandomString(6) + "\"></iframe>"
+        + "<p class=\"tutorial-embed-link\"><a rel=\"noopener noreferrer\" href=\"" + url + "\">" + openText + "</a></p>";
 }
 
 function generateRandomString(length = 10) {

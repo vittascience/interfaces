@@ -771,6 +771,7 @@
       "delivery": "Livraison",
       "freeWithPremium": "Offerte avec un compte premium",
       "shippingAtDeliveryStep": "Calculée à l'étape Livraison",
+      "stockDelayNotice": "Certains articles ne sont pas en stock actuellement ({{products}}) : votre commande peut prendre un peu plus de temps à être expédiée.",
       "shippingFree": "Offerte",
       "shippingFreeWithPremium": "Frais de port offerts en France métropolitaine avec l'abonnement Premium Vittascience",
       "shippingFreeThanksToPremium": "Frais de port offerts en France métropolitaine grâce à votre abonnement Premium Vittascience",
@@ -921,6 +922,7 @@
       "supportSubject": "Dépôt du bon de commande - devis {{number}}",
       "autoValidate": "Valider automatiquement le devis",
       "autoValidateHint": "Le devis passe en « accepté » : la facture brouillon et la commande sont créées immédiatement, et le client reçoit le mail de validation.",
+      "notifyClient": "Envoyer les mails au client (récapitulatif du bon de commande et validation du devis)",
       "closedTitle": "Devis déjà accepté",
       "closedText": "Le devis {{number}} est déjà accepté et votre commande est en cours de traitement : il n'y a plus de bon de commande à déposer. Pour toute modification, contactez-nous.",
       "closedSubject": "Devis {{number}}",
@@ -948,7 +950,7 @@
       "estimate1": "<p>Nous vous remercions pour cette demande de devis.<br>Vous trouverez celui-ci en pièce jointe.</p><p>Pour valider ce devis :</p><ul><li>dans le cas d’un établissement relevant de la comptabilité publique (établissement scolaire, collectivité, Réseau Canopé, etc.), un paiement par mandat administratif est possible. Pour cela, veuillez valider le devis avec un bon de commande, ce qui déclenchera la mise en préparation de la commande. Le règlement se fera à réception de la commande, à l'aide de la facture émise lors de l'expédition de la commande.</li><br><li>dans le cas d'une commande à titre individuel, le paiement peut être réalisé par carte bancaire (validation immédiate) ou virement bancaire (délai de validation de 2 jours). Votre commande sera mise en préparation dès réception du règlement.</li></ul>",
       "message": "Vous avez souhaité nous transmettre ce message :",
       "estimate2": "Nous en tiendrons compte lors du traitement de ce dernier.",
-      "foot": "<p>N'hésitez pas à répondre à ce mail si vous avez la moindre question,nos équipes sont à votre disposition !</p><p>Si vous avez des difficultés pour ouvrir le document, cliquez <a href='https: //fr.vittascience.com/profile?tab=orders'>ici</a> pour vous rendre sur votre compte vittascience et consulter vos documents et commandes.</p>",
+      "foot": "<p>N'hésitez pas à répondre à ce mail si vous avez la moindre question,nos équipes sont à votre disposition !</p><p>Si vous avez des difficultés pour ouvrir le document, cliquez <a href='https://fr.vittascience.com/profile?tab=orders'>ici</a> pour vous rendre sur votre compte vittascience et consulter vos documents et commandes.</p>",
       "invoice1": "<p>Nous vous remercions pour cet achat.<br>Vous trouverez en pièce jointe la facture associée à votre commande.</p><p>Cette dernière est en préparation et vous sera livrée dans les meilleurs délais, sous réserve de disponibilité des produits dans le stock.</p>",
       "invoice2": "Nous en tiendrons compte lors du traitement de cette dernière.",
       "backupMail1": "<p>Nous vous remercions pour cette demande de devis/commande.<br>Notre logiciel de création automatique de document a rencontré des difficultés.<br>Nous avons cependant reçu votre demande, et allons procéder manuellement à sa création.</p><p>Voici les articles qui nous ont été transmis lors de votre processus:</p>",
@@ -1368,7 +1370,11 @@
       "skykickNotInCodingMode": "La manette SkyKick n'est pas en mode codage (Link) : les commandes sont ignorées. Passez la manette en mode Link pour piloter le drone.",
       "skykickDroneNotPaired": "Le drone ne répond pas : vérifiez qu'il est allumé et appairé à la manette.",
       "skykickPortBusy": "Impossible d'ouvrir le port de la manette : il est déjà utilisé par une autre application. Fermez l'application SkyKick Evo Block Coding (et tout autre onglet connecté à la manette), puis réessayez.",
-      "skykickBattery": "Batterie du drone"
+      "skykickBattery": "Batterie du drone",
+      "legoPrimeOldFirmware": "Le hub ne répond pas : éteignez-le (maintenez le bouton central), rallumez-le, puis rebranchez-le en USB. S'il ne répond toujours pas, mettez-le à jour avec l'application LEGO® Education SPIKE™ (firmware SPIKE 3 requis).",
+      "legoPrimeBluetoothFailed": "Connexion Bluetooth au hub impossible : appuyez sur son bouton Bluetooth, puis réessayez.",
+      "legoPrimeNotStarted": "Le programme ne s'est pas lancé sur le hub (il s'est arrêté aussitôt, sans rien afficher). Redémarrez le hub et réessayez.",
+      "legoPrimePortBusy": "Impossible d'ouvrir le port du hub : il est déjà utilisé par une autre application. Fermez l'application LEGO® Education SPIKE™ (et tout autre onglet connecté au hub), puis réessayez."
     },
     "WebBluetoothAPI": {
       "noWebBluetoothAPI": "Web Bluetooth API non détecté sur votre navigateur. Pour utiliser Web Bluetooth API vous devez utiliser l'un des navigateurs compatibles : <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> et bientôt <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
@@ -1460,6 +1466,7 @@
       "lotibot": "Bienvenue sur l'interface Vittascience pour le robot Loti-bot !",
       "bluebot": "Bienvenue sur l'interface Vittascience pour le robot Blue-bot !",
       "spike": "Bienvenue sur l'interface Vittascience pour LEGO® Education SPIKE™ Essential !<br>LEGO, le logo LEGO, la Minifigurine, DUPLO et le logo SPIKE sont des marques déposées du groupe LEGO, qui ne sponsorise pas, n'approuve pas et n'autorise pas ce site.",
+      "legoprime": "Bienvenue sur l'interface Vittascience pour LEGO® Education SPIKE™ Prime !<br>Branchez le hub en USB (firmware SPIKE 3) ou appuyez sur son bouton Bluetooth, puis cliquez sur le bouton d'envoi correspondant : le programme est téléversé dans l'emplacement 19 du hub, ce qui efface le programme qui s'y trouvait.<br>LEGO, le logo LEGO, la Minifigurine, DUPLO et le logo SPIKE sont des marques déposées du groupe LEGO, qui ne sponsorise pas, n'approuve pas et n'autorise pas ce site.",
       "photon": "Bienvenue sur l'interface Vittascience pour le robot Photon !",
       "codey": "Bienvenue sur l'interface Vittascience pour Codey et Rocky !",
       "nano-esp32": "Bienvenue sur l'interface Vittascience pour la carte Arduino Nano ESP32 et le robot Alvik !</br>Par défaut, l'interprêteur MicroPython est déjà dans la carte. Si vous souhaitez mettre à jour la carte Arduino Nano ESP32, flasher le firmware MicroPython dans la carte en suivant le tutoriel suivant : <b><a href=\"https://fr.vittascience.com/learn/tutorial.php?id=341/flasher-le-firmware-micropython-dans-la-carte-esp32\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
@@ -1556,13 +1563,18 @@
         "name": "Distributions Linux",
         "notice": "Vous trouverez ci-dessous le lien de téléchargement du plugin pour Linux :",
         "install": "<i class=\"fas fa-circle\"></i> Version installateur (Ubuntu)",
-        "advice": "À l'issue de l'installation, vous devez remplacer votre fichier \"config.ini\" par le nôtre disponible <a href=\"/public/content/plugin/config.ini\">ici.</a>",
+        "advice": "À l'issue de l'installation, vous devez remplacer votre fichier \"config.ini\" par le nôtre disponible ici.",
         "presentation": "Nous travaillons à rendre disponible les versions Linux du plugin pour Ubuntu, Fedora, Debian ainsi qu'aux RaspberryPi.<br/><b>La version actuelle est réservée aux utilisateurs avertis.</b>"
       },
       "installButton": "Installer",
       "installBackButton": "Retour",
       "backInterface": "Revenir à l'interface de programmation",
-      "downloadTitle": "Télécharger"
+      "downloadTitle": "Télécharger",
+      "retired": {
+        "title": "Les plugins ne sont plus nécessaires",
+        "text": "Les interfaces de programmation Vittascience communiquent désormais directement avec les cartes depuis le navigateur. Il n'y a plus aucun plugin, extension ou logiciel à installer sur votre ordinateur.",
+        "browsers": "Pour communiquer avec une carte, utilisez simplement un navigateur récent basé sur Chromium (Chrome, Edge ou Opera)."
+      }
     },
     "smallScreen": {
       "title": "Désolé",
@@ -1620,6 +1632,8 @@
         "esp32BoardSelector": "Sélectionner la carte ESP32 à programmer",
         "unihikerBoardSelector": "Sélectionner la carte UNIHIKER à programmer",
         "downloadPython": "Télécharger le script Python",
+        "switchToSpikePrime": "Passer à SPIKE Prime",
+        "switchToSpikeEssential": "Passer à SPIKE Essential",
         "downloadPythonGalaxia": "Télécharger le script Python 'main.py' à glisser/déposer sur la Galaxia",
         "downloadArduino": "Télécharger le script Arduino",
         "downloadThymio": "Télécharger le programme TDMLauncher",
@@ -1685,6 +1699,7 @@
         "advancedMode": "Mode d'utilisation avancé",
         "lastSaveOn": "Dernière sauvegarde le ",
         "lastSaveFailed": "La dernière sauvegarde a échoué : vos modifications ne sont pas enregistrées. Cliquez pour réessayer.",
+        "pendingSync": "Enregistré sur cet appareil, en attente de synchronisation : le projet sera envoyé dans le cloud au retour de la connexion.",
         "description": "Description :",
         "repl": "Appuyer sur la touche entrée ↩️ pour exécuter la commande",
         "runningCode": "Exécution de votre code... Veuillez patienter.",
@@ -5902,6 +5917,11 @@
       }
     },
     "materialsNeeded": "Liste du matériel nécessaire",
+    "embed": {
+      "project": "Projet Vittascience",
+      "interface": "Interface Vittascience",
+      "open": "Ouvrir dans l'interface Vittascience"
+    },
     "suggestedResources": "Ressources conseillées",
     "classroomImport": {
       "button": "Importer dans le module Classe",
@@ -7557,6 +7577,7 @@
         "lotibot": "Interface de programmation pour le robot Loti-bot",
         "bluebot": "Interface de programmation pour le robot Blue-bot",
         "spike": "Interface de programmation pour LEGO® Education SPIKE™ Essential",
+        "legoprime": "Interface de programmation pour LEGO® Education SPIKE™ Prime",
         "photon": "Interface de programmation pour le robot Photon",
         "codey": "Interface de programmation pour la carte Codey et le robot Rocky de Makeblock",
         "uno-r4-wifi": "Interface de programmation pour la carte Arduino UNO R4 WiFi",
@@ -7635,7 +7656,7 @@
         "graph": "Traceur de graphe en temps réel"
       },
       "desc": {
-        "simulator": "L’interface Micro:bit embarque un simulateur ce qui permet d’exécuter un programme sans avoir le matériel !</br>La quasi totalité des blocs sont disponibles dans le simulateur, ce qui permet de réaliser de très nombreux projets. <a href='../wiki?interface=microbit'>Découvrir la liste des blocs disponibles dans l’interface.</a>",
+        "simulator": "L’interface Micro:bit embarque un simulateur ce qui permet d’exécuter un programme sans avoir le matériel !</br>La quasi totalité des blocs sont disponibles dans le simulateur, ce qui permet de réaliser de très nombreux projets. <a href='./wiki?interface=microbit'>Découvrir la liste des blocs disponibles dans l’interface.</a>",
         "code_download": "Le système permet le transfert d’un programme sans aucune installation de driver ou logiciel <span title='Chrome et Safari'>(avec les navigateurs compatibles*)</span>.</br>L’interface est compatible avec micro:bit et ses différents robots Maqueen, CODO, Bit:Bot, Mini buggy...",
         "code_translation": "Le langage Python n’est pas évident à appréhender, notamment pour les débutants.</br>L’interface Vittascience permet de débuter avec la logique de programmation par bloc, qui élimine le risque d’erreur de syntaxe, puis de passer en douceur au code textuel Python.",
         "graph": "L’interface permet de tracer un graphique à partir des données reçues par la carte en temps réel, puis d’exporter ces données en toute simplicité aux formats CSV ou API. Le traceur de graphe fonctionne également avec le simulateur pour encore mieux tester vos programmes avant de passer au réel !"
@@ -8463,7 +8484,7 @@
           },
           "7": {
             "title": "Où peut-on retrouver les webinaires ?",
-            "answer": "Les webinaires sont disponibles sur <a href='support/videos/'>notre page dédiée</a>."
+            "answer": "Les webinaires sont disponibles sur <a href='/support/videos/'>notre page dédiée</a>."
           },
           "8": {
             "title": "Quel est le prix de Vittascience ?",

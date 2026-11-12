@@ -1,5 +1,5 @@
 'use strict';
-Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TITLE'] = '[Esp32] integrierte LED (p2) auf Zustand %1 steuern';
+Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TITLE'] = '[Esp32] integrierte LED auf Zustand %1 steuern';
 Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TOOLTIP'] = 'Steuert den Zustand der LED, die an Pin p2 auf dem Esp32-Board angeschlossen ist.';
 Blockly.Msg['DISPLAY_LCD_SETTEXT_TITLE'] = '[LCD Adresse %1] Text %2 auf Zeile %3 Position %4 anzeigen';
 Blockly.Msg['DISPLAY_LCD_SETTEXT_TOOLTIP'] = IMG_MODULE_LCD_I2C + Blockly.Tooltip.SEP + 'Zeigt Text auf einer der beiden Zeilen des Grove LCD1602 Displays an. Modul an einen I2C-Port anschließen.';

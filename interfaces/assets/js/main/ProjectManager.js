@@ -55,6 +55,10 @@ class ProjectManager {
     constructor() {
         $(".ide-btn-pythtest").hide(); // hiding the validate button (the one in python interface)
         this.localStorageManager = new LocalStorageManager();
+        // Mobile app: the save status changes when an offline save finally reaches the cloud
+        window.addEventListener('vitta-project-sync-changed', () => {
+            if (this._currentProject) this._refreshProjectStatus();
+        });
         this.setInterface();
         this._currentProject = {};
         this._pastedProject = {};
@@ -1558,6 +1562,8 @@ class ProjectManager {
             this._updateLocalDraftState(isUpToDate && !this._saveFailureStatus);
             if (this._saveFailureStatus) {
                 this._setProjectStatusAsFailed();
+            } else if (isUpToDate && await this._isPendingSync()) {
+                this._setProjectStatusAsPendingSync();
             } else if (isUpToDate) {
                 this._setProjectStatusAsSaved();
             } else if (this.canSaveProject()) {
@@ -1634,6 +1640,33 @@ class ProjectManager {
             minute: 'numeric'
         });
         document.querySelector('#project-is-saved').setAttribute('data-bs-title', `${i18next.t('code.topbar.tooltips.lastSaveOn')}${localHumanReadableDate}`);
+    }
+
+    /**
+     * Mobile app only (window.VittaProjectSync, see vitta-mobile project-sync): whether the current project
+     * is saved on the device but not yet synced to the cloud, because it was saved offline
+     * @private
+     * @returns {Promise<boolean>}
+     */
+    async _isPendingSync() {
+        if (!window.VittaProjectSync || !this._currentProject.link) return false;
+        try {
+            return await window.VittaProjectSync.isPending(this._currentProject.link);
+        } catch (error) {
+            console.error(error);
+            return false;
+        }
+    }
+
+    /**
+     * Set the project status as saved on the device only, waiting to be synced to the cloud (mobile app, offline)
+     * @private
+     */
+    _setProjectStatusAsPendingSync() {
+        const projectStatusElt = document.querySelector('#project-is-saved');
+        if (!projectStatusElt) return;
+        $(projectStatusElt).removeClass('save-failed').css('color', 'var(--vitta-orange)').html('<i class="fas fa-cloud-arrow-up"></i>');
+        projectStatusElt.setAttribute('data-bs-title', i18next.t('code.topbar.tooltips.pendingSync'));
     }
 
     /**

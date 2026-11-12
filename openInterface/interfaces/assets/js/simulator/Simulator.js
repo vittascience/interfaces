@@ -306,7 +306,7 @@ Simulator.init = async function () {
         this.updateSimulatorInterval = null;
         this.updateVariablesPanelInterval = null;
 
-        if (!['winky', 'sphero', 'lotibot', 'bluebot', 'spike', 'photon', 'primastem', 'skykick'].includes(INTERFACE_NAME)) {
+        if (!['winky', 'sphero', 'lotibot', 'bluebot', 'spike', 'legoprime', 'photon', 'primastem', 'skykick'].includes(INTERFACE_NAME)) {
             window.addEventListener("visibilitychange", () => {
                 if (this.isOpen) {
                     if (document.visibilityState === 'visible') {
@@ -841,7 +841,7 @@ Simulator.updateBoard = function (link, name) {
     }
     if (this.board.link) {
         const path = _SAME_ORIGIN_PATH + "/" + INTERFACE_NAME + "/assets/media/simulator/board/" + this.board.link;
-        if (/(arduinoq|microbit|wb55|l476|mBot|m5stack|galaxia|GalaxiaCircuitPython|buddy|cyberpi|pico|eliobot|thymio|raspberrypi|lotibot|photon|bluebot|codey|steami|alphai|primastem|unihiker)/.test(INTERFACE_NAME) && (this.board.link).includes('.svg')) {
+        if (/(arduinoq|microbit|wb55|l476|mBot|m5stack|galaxia|GalaxiaCircuitPython|buddy|cyberpi|pico|eliobot|thymio|raspberrypi|lotibot|photon|bluebot|codey|steami|alphai|primastem|unihiker|legoprime)/.test(INTERFACE_NAME) && (this.board.link).includes('.svg')) {
             $("#board-viewer").attr("data", path);
         } else {
             $("#board-viewer").css('background-image', "url('" + path + "')");
@@ -1179,7 +1179,7 @@ Simulator._hasSpeechSynthesis = function () {
  * @returns {boolean} state
  */
 Simulator._hasBoardSimulator = function () {
-    return ["arduino", "microbit", "wb55", "l476", "buddy", "TI-83", "mBot", "cyberpi", "esp32", "thymio", "winky", "galaxia", "raspberrypi", "pico", "m5stack", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "eliobot", "alphai", "GalaxiaCircuitPython", "steami", "arduinoq", "primastem", "skykick", "unihiker"].includes(INTERFACE_NAME);
+    return ["arduino", "microbit", "wb55", "l476", "buddy", "TI-83", "mBot", "cyberpi", "esp32", "thymio", "winky", "galaxia", "raspberrypi", "pico", "m5stack", "sphero", "lotibot", "bluebot", "spike", "legoprime", "photon", "codey", "eliobot", "alphai", "GalaxiaCircuitPython", "steami", "arduinoq", "primastem", "skykick", "unihiker"].includes(INTERFACE_NAME);
 };
 
 /**

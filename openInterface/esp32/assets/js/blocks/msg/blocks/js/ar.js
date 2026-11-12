@@ -6,7 +6,7 @@
 'use strict';
 
 // Display - Esp32
-Blockly.Msg["DISPLAY_CONTROL_BUILTIN_LED_TITLE"] = "[Esp32] ضبط LED المدمج (p2) إلى الحالة %1";
+Blockly.Msg["DISPLAY_CONTROL_BUILTIN_LED_TITLE"] = "[Esp32] ضبط LED المدمج إلى الحالة %1";
 Blockly.Msg["DISPLAY_CONTROL_BUILTIN_LED_TOOLTIP"] = "يُشغّل LED المدمج على الدبوس p2. لا يحتاج هذا البلوك إلى حساس أو LED خارجي.";
 // Display - LCD
 Blockly.Msg["DISPLAY_LCD_SETTEXT_TITLE"] = "[عنوان LCD %1] عرض النص %2 في السطر %3 عند الموضع %4";

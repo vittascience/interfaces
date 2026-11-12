@@ -113,6 +113,8 @@ Simulator.Mosaic.addSpecificInitializations = async function () {
                 break;
             case BOARD_NANO_ESP32:
                 resetId = "#bouton_left #button_off";
+                Simulator.Mosaic.specific.setLed(0);
+                Simulator.Mosaic.specific.setRgbLed(0, 0, 0);
                 break;
         }
         const resetBtn = board.querySelector(resetId),
@@ -323,6 +325,9 @@ Simulator.Mosaic.specific = {
                         led = board.querySelector("#LED_P2 #led_on");
                     }
                     break;
+                case BOARD_NANO_ESP32:
+                    led = board.querySelector("#led_on_2 #led_l_on-2");
+                    break;
             }
             if (led !== null) {
                 if (state) {
@@ -331,6 +336,25 @@ Simulator.Mosaic.specific = {
                     led.style.display = "none";
                 }
             }
+        }
+    },
+
+    setRgbLed: function (r, g, b) {
+        const board = document.getElementById("board-viewer")?.contentDocument;
+        if (board && Simulator.board.id == BOARD_NANO_ESP32) {
+            const rgbLed = board.querySelector('#elements rect[x="354.27"], #elements rect[x="241.94"]');
+            if (rgbLed !== null) {
+                const isOn = r > 0 || g > 0 || b > 0;
+                rgbLed.style.fill = isOn ? `rgb(${r}, ${g}, ${b})` : "";
+                rgbLed.style.filter = isOn ? `drop-shadow(0 0 6px rgb(${r}, ${g}, ${b}))` : "";
+            }
+        }
+    },
+
+    onStop: function () {
+        if (Simulator.board && Simulator.board.id == BOARD_NANO_ESP32) {
+            Simulator.Mosaic.specific.setLed(0);
+            Simulator.Mosaic.specific.setRgbLed(0, 0, 0);
         }
     },
 
@@ -427,6 +451,7 @@ Simulator.Mosaic.specific = {
     },
 
     mdd3aDuties: {},
+    nanoRgbDuties: { 46: 1023, 0: 1023, 45: 1023 },
 
     calculs: {
         getServoAngle(duty) {
@@ -794,6 +819,43 @@ Simulator.Mosaic.specific = {
             animate: function (Animator) {
                 Animator.led();
                 Simulator.Mosaic.specific.setLed(Animator.value);
+            }
+        },
+        {
+            regex: /Builtin RGB LED on p46\/p0\/p45/,
+            id: "nano-esp32-builtin-rgb-led",
+            title: "LED RGB intégrée",
+            pin: 'NANO ESP32 (p46, p0, p45)',
+            pins: 'PWM',
+            type: 'output',
+            pwmPerPin: true,
+            value: "",
+            picture: "RGB-LED.svg",
+            animate: function (Animator) {
+                if (!Animator.value || typeof Animator.value !== 'object') {
+                    Simulator.Mosaic.specific.nanoRgbDuties = { 46: PWM_MAX_DUTY, 0: PWM_MAX_DUTY, 45: PWM_MAX_DUTY };
+                } else {
+                    Simulator.Mosaic.specific.nanoRgbDuties[Animator.value.pin] = Animator.value.duty;
+                }
+                const duties = Simulator.Mosaic.specific.nanoRgbDuties;
+                const toChannel = (duty) => Math.max(0, Math.min(255, Math.round((PWM_MAX_DUTY - duty) / PWM_MAX_DUTY * 255)));
+                const r = toChannel(duties[46]);
+                const g = toChannel(duties[0]);
+                const b = toChannel(duties[45]);
+                Simulator.Mosaic.specific.nanoRgbFill = (r === 0 && g === 0 && b === 0) ? "#FFFAFA" : `rgb(${r}, ${g}, ${b})`;
+                const circle = document.querySelector("#nano-esp32-builtin-rgb-led .circle-in");
+                if (circle) {
+                    circle.setAttribute("fill", Simulator.Mosaic.specific.nanoRgbFill);
+                } else {
+                    const img = document.querySelector("img.nano-esp32-builtin-rgb-led_base");
+                    if (img && !img.dataset.rgbLoadBound) {
+                        img.dataset.rgbLoadBound = "1";
+                        img.addEventListener("load", () => {
+                            document.querySelector("#nano-esp32-builtin-rgb-led .circle-in")?.setAttribute("fill", Simulator.Mosaic.specific.nanoRgbFill);
+                        }, { once: true });
+                    }
+                }
+                Simulator.Mosaic.specific.setRgbLed(r, g, b);
             }
         },
         // Alvik

@@ -613,6 +613,12 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                     "blocks": [
                         'display_controlBuiltInLED'
                     ]
+                },
+                {
+                    "onlyBoards": BOARD_NANO_ESP32,
+                    "blocks": [
+                        'display_controlBuiltInRGBLED'
+                    ]
                 }
             ]
         },
@@ -953,7 +959,8 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                         'actuators_setVibrationMotorState',
                         'actuators_setGroveRelayState',
                         'actuators_mdd3a_init',
-                        'actuators_mdd3a_controlMotor'
+                        'actuators_mdd3a_controlMotor',
+                        'actuators_motor_driver_control'
                     ]
                 },
                 {

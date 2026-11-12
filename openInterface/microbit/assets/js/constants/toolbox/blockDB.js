@@ -164,6 +164,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "actuators_setFanPower": this.Set.field('PIN', "pin2") + this.Set.number("POWER", PWM_MAX_DUTY),
             "actuators_setVibrationMotorState": this.Set.field('PIN', "pin2") + this.Set.state(),
             "actuators_setGroveRelayState": this.Set.field('PIN', "pin2") + this.Set.state(),
+            "actuators_motor_driver_control": this.Set.field("INA", "pin0") + this.Set.field("INB", "pin1") + this.Set.number("SPEED", 50),
             "actuators_stepperMotor_uln2003driver_init": this.Set.field('IN1', "pin0") + this.Set.field('IN2', "pin14") + this.Set.field('IN3', "pin1") + this.Set.field('IN4', "pin15"),
             "actuators_stepperMotor_uln2003driver_moveSteps": this.Set.number('STEPS', 1) + this.Set.field('UNIT', 'ROTATIONS'),
             "actuators_stepperMotor_uln2003driver_setDelay" : this.Set.number('DELAY', 3),

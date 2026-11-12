@@ -98,6 +98,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
 
             // display - ESP32
             "display_controlBuiltInLED": this.Set.state(),
+            "display_controlBuiltInRGBLED": this.Set.number("R", 255) + this.Set.number("G", 0) + this.Set.number("B", 0),
             // display - LCD
             "display_lcdSetText": this.Set.text('TEXT'),
             "display_lcdRGBSetColor": this.Set.number("R", 255) + this.Set.number("G", 255) + this.Set.number("B", 255),
@@ -218,6 +219,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "actuators_setMotorPower": this.Set.field("PIN", getPin("PIN5")) + this.Set.number("POWER", PWM_MAX_DUTY),
             "actuators_mdd3a_init": this.Set.field("M1A", getPin("PIN2")) + this.Set.field("M1B", getPin("PIN3")) + this.Set.field("M2A", getPin("PIN4")) + this.Set.field("M2B", getPin("PIN5")),
             "actuators_mdd3a_controlMotor": this.Set.number("SPEED", 50),
+            "actuators_motor_driver_control": this.Set.field("INA", getPin("PIN2")) + this.Set.field("INB", getPin("PIN3")) + this.Set.number("SPEED", 50),
             "actuators_setGroveRelayState": this.Set.field("PIN", getPin("PIN2")) + this.Set.state(),
             "actuators_setVibrationMotorState": this.Set.field("PIN", getPin("PIN2")) + this.Set.state(),
             // actuators - PCA9685

@@ -1,5 +1,5 @@
 'use strict';
-Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TITLE'] = '[Esp32] управлять встроенным светодиодом (p2) состоянием %1';
+Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TITLE'] = '[Esp32] управлять встроенным светодиодом состоянием %1';
 Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TOOLTIP'] = 'Позволяет управлять состоянием светодиода, подключенного к выводу p2 на плате Esp32.';
 Blockly.Msg['DISPLAY_LCD_SETTEXT_TITLE'] = '[LCD адрес %1] вывести текст %2 на строку %3 позицию %4';
 Blockly.Msg['DISPLAY_LCD_SETTEXT_TOOLTIP'] = IMG_MODULE_LCD_I2C + Blockly.Tooltip.SEP + 'Выводит текст на одну из двух строк LCD1602 grove. Подключите модуль к порту I2C';

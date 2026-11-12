@@ -948,7 +948,7 @@
       "estimate1": "<p>Vielen Dank für Ihre Angebotsanfrage.<br>Das Angebot finden Sie im Anhang.</p><p>Um dieses Angebot zu bestätigen:</p><ul><li>Bei einer Einrichtung der öffentlichen Buchhaltung (Schule, Gemeinde, Réseau Canopé usw.) ist eine Zahlung per Verwaltungsmandat möglich. Bitte bestätigen Sie das Angebot mit einem Bestellformular, damit die Bestellung vorbereitet wird. Die Zahlung erfolgt bei Erhalt der Bestellung anhand der bei Versand ausgestellten Rechnung.</li><br><li>Bei einer privaten Bestellung kann die Zahlung per Kreditkarte (sofortige Bestätigung) oder Banküberweisung (2 Tage Bearbeitungszeit) erfolgen. Die Bestellung wird nach Zahlungseingang vorbereitet.</li></ul>",
       "message": "Sie haben uns folgende Nachricht geschickt:",
       "estimate2": "Wir werden dies bei der Bearbeitung berücksichtigen.",
-      "foot": "<p>Bei Fragen antworten Sie gerne auf diese E-Mail, unser Team steht Ihnen zur Verfügung!</p><p>Falls Sie Probleme beim Öffnen des Dokuments haben, klicken Sie <a href='https: //fr.vittascience.com/profile?tab=orders'>hier</a>, um sich in Ihr Vittascience-Konto einzuloggen und Ihre Dokumente und Bestellungen einzusehen.</p>",
+      "foot": "<p>Bei Fragen antworten Sie gerne auf diese E-Mail, unser Team steht Ihnen zur Verfügung!</p><p>Falls Sie Probleme beim Öffnen des Dokuments haben, klicken Sie <a href='https://fr.vittascience.com/profile?tab=orders'>hier</a>, um sich in Ihr Vittascience-Konto einzuloggen und Ihre Dokumente und Bestellungen einzusehen.</p>",
       "invoice1": "<p>Vielen Dank für Ihren Kauf.<br>Die zu Ihrer Bestellung gehörige Rechnung finden Sie im Anhang.</p><p>Die Bestellung wird vorbereitet und wird Ihnen so schnell wie möglich geliefert, vorbehaltlich der Verfügbarkeit der Produkte auf Lager.</p>",
       "invoice2": "Wir werden dies bei der Bearbeitung berücksichtigen.",
       "backupMail1": "<p>Vielen Dank für Ihre Angebots-/Bestellanfrage.<br>Unsere automatische Dokumentenerstellungssoftware hatte Schwierigkeiten.<br>Wir haben Ihre Anfrage jedoch erhalten und werden die Erstellung manuell vornehmen.</p><p>Hier sind die Artikel, die uns während Ihres Prozesses übermittelt wurden:</p>",
@@ -1684,6 +1684,7 @@
         "advancedMode": "Fortgeschrittener Modus",
         "lastSaveOn": "Letzte Speicherung am ",
         "lastSaveFailed": "Das letzte Speichern ist fehlgeschlagen: Deine Änderungen sind nicht gespeichert. Klicke, um es erneut zu versuchen.",
+        "pendingSync": "Auf diesem Gerät gespeichert, Synchronisierung ausstehend: Das Projekt wird in die Cloud übertragen, sobald wieder eine Verbindung besteht.",
         "description": "Beschreibung:",
         "repl": "Drücke Enter ↩️, um den Befehl auszuführen",
         "runningCode": "Code wird ausgeführt... Bitte warten.",
@@ -7634,7 +7635,7 @@
         "graph": "Echtzeit-Grafik-Plotter"
       },
       "desc": {
-        "simulator": "Die Micro:bit-Schnittstelle enthält einen Simulator, mit dem Programme ohne Hardware ausgeführt werden können!</br>Fast alle Blöcke sind im Simulator verfügbar, was viele Projekte ermöglicht. <a href='../wiki?interface=microbit'>Liste der verfügbaren Blöcke in der Schnittstelle entdecken.</a>",
+        "simulator": "Die Micro:bit-Schnittstelle enthält einen Simulator, mit dem Programme ohne Hardware ausgeführt werden können!</br>Fast alle Blöcke sind im Simulator verfügbar, was viele Projekte ermöglicht. <a href='./wiki?interface=microbit'>Liste der verfügbaren Blöcke in der Schnittstelle entdecken.</a>",
         "code_download": "Das System ermöglicht die Übertragung eines Programms ohne Treiber- oder Softwareinstallation <span title='Chrome und Safari'>(mit kompatiblen Browsern*)</span>.</br>Die Schnittstelle ist kompatibel mit micro:bit und verschiedenen Robotern wie Maqueen, CODO, Bit:Bot, Mini Buggy...",
         "code_translation": "Die Python-Sprache ist besonders für Anfänger nicht einfach zu erlernen.</br>Die Vittascience-Schnittstelle ermöglicht einen Einstieg mit blockbasierter Programmierlogik, die Syntaxfehler vermeidet, und einen sanften Übergang zum textbasierten Python-Code.",
         "graph": "Die Schnittstelle erlaubt das Erstellen von Grafiken aus den in Echtzeit empfangenen Daten des Boards und den einfachen Export dieser Daten im CSV- oder API-Format. Der Grafik-Plotter funktioniert auch mit dem Simulator, um Programme vor dem Einsatz auf der echten Hardware besser zu testen!"
@@ -8462,7 +8463,7 @@
           },
           "7": {
             "title": "Wo finde ich die Webinare?",
-            "answer": "Die Webinare sind auf <a href='support/videos/'>unserer speziellen Seite</a> verfügbar."
+            "answer": "Die Webinare sind auf <a href='/support/videos/'>unserer speziellen Seite</a> verfügbar."
           },
           "8": {
             "title": "Wie viel kostet Vittascience?",

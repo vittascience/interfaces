@@ -330,6 +330,20 @@ DEF_SERVO_SET_SPEED:
   else:
     raise ValueError("continuous servomotor speed is out of range: '" + str(speed) + "'")`,
 
+// Motor driver _ set motor speed
+DEF_MOTOR_DRIVER_SET_SPEED:
+`def setMotorDriverSpeed(pinA, pinB, direction, speed):
+  duty = int(max(0, min(100, speed)) * ${PWM_MAX_DUTY} / 100)
+  if duty == 0:
+    writePWM(pinA, 0)
+    writePWM(pinB, 0)
+  elif direction == 1:
+    writePWM(pinB, 0)
+    writePWM(pinA, duty)
+  else:
+    writePWM(pinA, 0)
+    writePWM(pinB, duty)`,
+
 DEF_KITRONIK_CONTROL_MOTOR:
 `def kitronik_controlMotor(motor, direction, speed = 100):
   value = speed/100.0*${PWM_MAX_DUTY}

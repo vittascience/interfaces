@@ -533,7 +533,7 @@
               "description": "Aktiviteten varar cirka 45 minuter. Eleverna arbetar med begreppet variabeltilldelning i ett program genom en serie interaktiva övningar. Grupperna tilldelas slumpmässigt och alla insamlade uppgifter anonymiseras helt (inga personuppgifter sparas).",
               "join": {
                 "title": "<i class=\"fa-solid fa-chalkboard-user\"></i> Så här deltar du",
-                "step1": "Gå till följande länk: <a href=\"/student-experiment/teacher\">Lärarregistrering</a>",
+                "step1": "Gå till följande länk: <a href=\"/student-experiment/v1/teacher\">Lärarregistrering</a>",
                 "step2": "Logga in med ditt Vittascience-konto",
                 "step3": "Ange några uppgifter om din institution",
                 "step4": "Kopiera den genererade länken och dela den med dina elever — de kan delta i klassrummet eller hemifrån"
@@ -948,7 +948,7 @@
       "estimate1": "<p>Tack för din offertförfrågan.<br>Du hittar den bifogad.</p><p>För att godkänna denna offert:</p><ul><li>För offentliga bokföringsenheter (skola, kommun, Réseau Canopé osv.) är betalning via inköpsorder möjlig. Godkänn då offerten med en beställningsblankett, vilket startar orderberedningen. Betalning sker vid mottagandet av beställningen, med den faktura som utfärdas när ordern skickas.</li><br><li>För enskilda beställningar kan betalning ske med kreditkort (omedelbar bekräftelse) eller banköverföring (bearbetningstid cirka 2 dagar). Din beställning förbereds så snart vi mottagit din betalning.</li></ul>",
       "message": "Du ville skicka oss följande meddelande:",
       "estimate2": "Vi kommer att ta hänsyn till detta vid handläggningen",
-      "foot": "<p>Tveka inte att svara på detta e-postmeddelande om du har frågor, våra team står till ditt förfogande!</p><p>Om du har problem att öppna dokumentet, klicka <a href='https: //en.vittascience.com/profile?tab=orders'>här</a> för att gå till ditt vittascience-konto och se dina dokument och beställningar.</p>",
+      "foot": "<p>Tveka inte att svara på detta e-postmeddelande om du har frågor, våra team står till ditt förfogande!</p><p>Om du har problem att öppna dokumentet, klicka <a href='https://en.vittascience.com/profile?tab=orders'>här</a> för att gå till ditt vittascience-konto och se dina dokument och beställningar.</p>",
       "invoice1": "<p>Tack för ditt köp.<br>Du hittar fakturan för din beställning bifogad.</p><p>Din beställning behandlas och levereras så snart som möjligt, beroende på lagertillgänglighet.</p>",
       "invoice2": "Vi kommer att ta hänsyn till detta vid handläggningen",
       "backupMail1": "<p>Tack för denna offert/beställning.<br>Vår automatiska dokumentgenerering har stött på problem.<br>Vi har dock tagit emot din förfrågan och kommer att skapa dokumentet manuellt.</p><p>Nedanför finns de uppgifter som skickades till oss under processen:</p>",
@@ -1435,8 +1435,8 @@
       "microbit": "Välkommen till Vittascience-gränssnittet för BBC micro:bit!</br>Du kan se handledningen här: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=25/prise-en-main-de-la-carte-microbit\" target=\"_blank\" rel=\"noopener noreferrer\">Kom igång med Vittascience-gränssnittet för BBC micro:bit</a></b>",
       "python": "Välkommen till Vittascience-gränssnittet för programmering i Python!<br>Klicka på Kör-knappen för att starta ditt program (skriptläge) eller skriv en instruktion efter >>> nedan (REPL-konsolläge).",
       "esp32": "Välkommen till Vittascience-gränssnittet för ESP32!</br>För att programmera ESP32-kortet här måste du först flasha MicroPython-firmware på kortet enligt denna handledning: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=341/flasher-le-firmware-micropython-dans-la-carte-esp32\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flasha MicroPython-firmware</a></b>",
-      "wb55": "Välkommen till Vittascience-gränssnittet för STM32 NUCLEO WB55!</br>För att programmera STM32-kortet här måste du först flasha MicroPython-firmware på kortet enligt denna handledning: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=909/flasher-le-firmware-micropython-dans-la-stm32-l476\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flasha MicroPython-firmware</a></b>",
-      "l476": "Välkommen till Vittascience-gränssnittet för STM32 NUCLEO L476!</br>För att programmera STM32-kortet här måste du först flasha MicroPython-firmware på kortet enligt denna handledning: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=465/activite-0-prise-en-main-de-la-carte-starter-kit-vittascience\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flasha MicroPython-firmware</a></b>",
+      "wb55": "Välkommen till Vittascience-gränssnittet för STM32 NUCLEO WB55!</br>För att programmera STM32-kortet här måste du först flasha MicroPython-firmware på kortet enligt denna handledning: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=398/flasher-le-firmware-micropython-dans-la-stm32\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flasha MicroPython-firmware</a></b>",
+      "l476": "Välkommen till Vittascience-gränssnittet för STM32 NUCLEO L476!</br>För att programmera STM32-kortet här måste du först flasha MicroPython-firmware på kortet enligt denna handledning: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=909/flasher-le-firmware-micropython-dans-la-carte-stm32-l476\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flasha MicroPython-firmware</a></b>",
       "texas-instruments": "Detta gränssnitt används för att generera Python-kod för att använda BBC micro:bit-kortet med TI-83 Premium CE Edition Python-räknaren. Öppna simulatorn för att komma igång!",
       "TI-83": "Välkommen till Vittascience-gränssnittet för räknaren TI-83 Premium CE Python Edition! TI-Innovator™ Hub och BBC micro:bit kan programmeras här. Öppna simulatorn för att komma igång!",
       "TI-83-Maclasseti": "Välkommen till MyClassTi.fr-gränssnittet för räknaren TI-83 Premium CE Python Edition! TI-Innovator™ Hub och BBC micro:bit kan programmeras här. Öppna simulatorn för att komma igång!",
@@ -1684,6 +1684,7 @@
         "advancedMode": "Avancerat läge",
         "lastSaveOn": "Senast sparat: ",
         "lastSaveFailed": "The last save failed: your changes are not saved. Click to try again.",
+        "pendingSync": "Sparat på den här enheten, väntar på synkronisering: projektet skickas till molnet när anslutningen är tillbaka.",
         "description": "Beskrivning:",
         "repl": "Tryck på Enter ↩️ för att köra kommandot",
         "runningCode": "Kör din kod... vänta ett ögonblick.",
@@ -5820,7 +5821,7 @@
           "add": "Din resurs har skapats.",
           "modify": "Din resurs har ändrats.",
           "duplicate": "Din resurs har duplicerats.",
-          "remove": "Din resurs har tagits bort.</br><a href='/tutorial'>Visa tillgängliga resurser</a>",
+          "remove": "Din resurs har tagits bort.</br><a href='/learn'>Visa tillgängliga resurser</a>",
           "seeTutorial": "Visa resursen >"
         }
       },
@@ -6569,7 +6570,7 @@
       },
       "wifiSimulator": {
         "title": "Hjälp - WiFi-simulator",
-        "noticeWelcome": "Välkommen till WiFi-simulatorn för ESP32-kretsar.</br></br> Detta fönster öppnas när en av <i>[server]</i>-blocken används i IDE:n. Den simulerar beteendet hos en webbläsare (via telefon, surfplatta eller dator) som ansluter till nätverket som ESP32-kretsen skapar.</br>Fältet <b>url:</b> är serverns URL. Till exempel: <i>http://192.168.1.10</i>.</br> Vid varje ny HTTP-förfrågan visas webbsidan enligt de data som skickats av servern.</br>< /br>Du kan använda knappen <i class=\"fas fa-redo-alt\"></i> för att återställa anslutningen.</br></br>Du kan använda vår multikortsgränssnitt genom att klicka på knappen <b>Multi mode</b> längst ner i simulatorn. Detta läge är användbart om du till exempel vill simulera klient-serverkommunikation. </br></br>Tveka inte att följa handledningen <a href=\"https://en.vittascience.com/learn/tutorial.php?id=423/esp32-communication-client/serveur \" target=\"_blank\" rel=\"noopener noreferrer\">Client-Server Simulation</a> för mer information.",
+        "noticeWelcome": "Välkommen till WiFi-simulatorn för ESP32-kretsar.</br></br> Detta fönster öppnas när en av <i>[server]</i>-blocken används i IDE:n. Den simulerar beteendet hos en webbläsare (via telefon, surfplatta eller dator) som ansluter till nätverket som ESP32-kretsen skapar.</br>Fältet <b>url:</b> är serverns URL. Till exempel: <i>http://192.168.1.10</i>.</br> Vid varje ny HTTP-förfrågan visas webbsidan enligt de data som skickats av servern.</br>< /br>Du kan använda knappen <i class=\"fas fa-redo-alt\"></i> för att återställa anslutningen.</br></br>Du kan använda vår multikortsgränssnitt genom att klicka på knappen <b>Multi mode</b> längst ner i simulatorn. Detta läge är användbart om du till exempel vill simulera klient-serverkommunikation. </br></br>Tveka inte att följa handledningen <a href=\"https://en.vittascience.com/learn/tutorial.php?id=423/esp32-communication-client/serveur\" target=\"_blank\" rel=\"noopener noreferrer\">Client-Server Simulation</a> för mer information.",
         "buttons": {
           "back": "Tillbaka"
         }
@@ -8462,7 +8463,7 @@
           },
           "7": {
             "title": "Var hittar vi webbinarierna?",
-            "answer": "Webbinarierna finns på <a href='support/videos/'>vår videosida</a>."
+            "answer": "Webbinarierna finns på <a href='/support/videos/'>vår videosida</a>."
           },
           "8": {
             "title": "Vad kostar Vittascience?",

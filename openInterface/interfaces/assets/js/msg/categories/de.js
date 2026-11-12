@@ -87,6 +87,7 @@ Blockly.Msg['CATEGORY_NUMPY'] = 'Numpy';
 Blockly.Msg['CATEGORY_ACTIONS'] = 'Aktionen';
 Blockly.Msg['CATEGORY_SCREEN'] = 'Bildschirm';
 Blockly.Msg['CATEGORY_DRONE'] = 'Drohne';
+Blockly.Msg['CATEGORY_DRONES'] = 'Drohnen';
 Blockly.Msg['CATEGORY_MUSIC'] = 'Musik';
 
 // Toolbox hardware subcategories

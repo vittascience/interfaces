@@ -284,7 +284,7 @@ Blockly.Msg['REMOTE_NEC_BUTTON_RIGHT'] = 'droit';
 Blockly.Msg['REMOTE_NEC_BUTTON_BACK'] = 'Retour';
 // Communication - Tracking modules
 Blockly.Msg['COMMUNICATION_RFID_GETSTRINGCARDID_TITLE'] = '[RFID - 125kHz] ID du badge';
-Blockly.Msg['COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP'] = IMG_MODULE_RFID_125KHZ + Blockly.Tooltip.SEP + 'Permet de récupérer l\'identifiant UID sous forme d\'un nombre entier du module Grove RFID 125 kHz si celui-ci est disponible sur les broches digitales D0 à D13. Afin de vérifier l\'identifiant d\'une carte et le valider ou non, il suffit simplement de le comparer avec la valeur de type \'Entier\' désirée.';
+Blockly.Msg['COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP'] = IMG_MODULE_RFID_125KHZ + Blockly.Tooltip.SEP + "Permet de récupérer l'identifiant UID du module Grove RFID 125 kHz si celui-ci est disponible sur les broches digitales D0 à D13. HEX renvoie une chaîne de caractères hexadécimale (vide si aucun badge n'est détecté). DEC renvoie un nombre entier (0 si aucun badge n'est détecté) à comparer avec la valeur de type 'Entier' désirée.";
 Blockly.Msg['COMMUNICATION_GPS_ONDATARECEIVED_TITLE'] = '[GPS] si une donnée est reçue dans %1';
 Blockly.Msg['COMMUNICATION_GPS_ONDATARECEIVED_TOOLTIP'] = IMG_MODULE_GPS + Blockly.Tooltip.SEP + 'Permet d\'exécuter des instructions si une donnée est reçue par GPS dans la variable \'gpsData\' sur les broches RX/TX.';
 Blockly.Msg['COMMUNICATION_RTC_MODULE_PCF85063TP'] = 'Haute Précision (0x51)';
