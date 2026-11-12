@@ -59,7 +59,7 @@ class MultiCodeManager extends CodeManager {
         cpp: ['cpp_on_start', 'cpp_forever', 'cpp_on_start_forever', 'cpp_scratch_on_start', 'cpp_procedures_defreturn', 'cpp_procedures_defnoreturn', 'io_attachInterrupt'],
         py: ['py_on_start', 'py_forever', 'py_scratch_on_start', 'py_procedures_defreturn', 'py_procedures_defnoreturn', 'bricks_webui_on_message',
             'bricks_code_on_read', 'bricks_object_on_detect', 'bricks_telegram_on_message', 'bricks_telegram_on_command',
-            'bricks_keyword_on_heard', 'bricks_mqtt_on_message', 'bricks_cloud_on_change', 'bricks_llm_tool'],
+            'bricks_keyword_on_heard', 'bricks_mqtt_on_message', 'bricks_ble_on_message', 'bricks_ble_server_on_message', 'bricks_cloud_on_change', 'bricks_llm_tool'],
         html: ['html_page']
     };
 

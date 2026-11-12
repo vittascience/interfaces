@@ -118,6 +118,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "actuators_setMotorPower": this.Set.number("POWER", PWM_MAX_DUTY),
             "actuators_setVibrationMotorState": this.Set.state(),
             "actuators_setGroveRelayState": this.Set.state(),
+            "actuators_motor_driver_control": this.Set.field("INA", "p2") + this.Set.field("INB", "p6") + this.Set.number("SPEED", 50),
             
             // actuators - MOSFET
             "actuators_mosfet_setState": this.Set.state(),

@@ -75,6 +75,18 @@ Blockly.Python.actuators_mdd3a_controlMotor = function (block) {
     return `setMdd3aMotorSpeed(${pinA}, ${pinB}, ${dir}, ${speed})` + NEWLINE;
 };
 
+Blockly.Python.actuators_motor_driver_control = function (block) {
+    const pinAVal = block.getFieldValue("INA");
+    const pinBVal = block.getFieldValue("INB");
+    const dir = block.getFieldValue("DIR");
+    const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.addFunction('setMotorDriverSpeed', FUNCTIONS_ESP32.DEF_MOTOR_DRIVER_SET_SPEED);
+    Blockly.Python.addInit('motor_driver_' + pinAVal + '_' + pinBVal, `# Motor Driver on ${pinAVal}/${pinBVal}`);
+    const pinA = Blockly.Python.Generators.pwm(pinAVal, null, 1000, 0);
+    const pinB = Blockly.Python.Generators.pwm(pinBVal, null, 1000, 0);
+    return `setMotorDriverSpeed(${pinA}, ${pinB}, ${dir}, ${speed})` + NEWLINE;
+};
+
 Blockly.Python.actuators_setVibrationMotorState = function (block) {
     const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
     const pinName = Blockly.Python.Generators.digital_write(block.getFieldValue("PIN"), 'Vibration Motor');

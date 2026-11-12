@@ -1607,8 +1607,9 @@ async function openProjectBtn() {
     if (typeof projectManager !== 'undefined' && projectManager) {
         projectManager.populateAllProjects();
     }
-    // No local projects of the localStorage in the ai interfaces
-    if (INTERFACE_NAME === 'ai') {
+    // No local projects of the localStorage in the ai interfaces, nor in the mobile app
+    // (it keeps its own offline copies and sync queue, see vitta-mobile TECHNICAL.md §6)
+    if (INTERFACE_NAME === 'ai' || window.VittaContext?.isCapacitor) {
         $('#local-storage-projects-tab, #local-storage-projects-panel').hide();
     } else {
         populateLocalStorageProjects();

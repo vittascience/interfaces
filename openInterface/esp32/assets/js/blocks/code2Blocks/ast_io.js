@@ -44,7 +44,7 @@ utils.prototypeBlocks['on'] = function (node, identifier) {
 	if (!mode === 'Pin.OUT') {
 		return '';
 	}
-	if (pin === "2"){
+	if (pin === "2" || pin === "48") {
 		return {
 			type: 'display_controlBuiltInLED',
 			state: null,
@@ -77,7 +77,7 @@ utils.prototypeBlocks['off'] = function (node, identifier) {
 	if (!mode === 'Pin.OUT') {
 		return '';
 	}
-	if (pin === "2"){
+	if (pin === "2" || pin === "48") {
 		return {
 			type: 'display_controlBuiltInLED',
 			state: null,

@@ -54,7 +54,7 @@ const InterfaceMonitor = {
 
         if (this.hasTracerExportBtn()) {
             // (UNIHIKER K10: with the buttons of the serial port)
-            if (['codey', 'cyberpi', 'thymio', 'raspberrypi', 'buddy', 'sphero', 'lotibot', 'spike', 'photon', 'alphai', 'unihiker'].includes(INTERFACE_NAME)
+            if (['codey', 'cyberpi', 'thymio', 'raspberrypi', 'buddy', 'sphero', 'lotibot', 'spike', 'legoprime', 'photon', 'alphai', 'unihiker'].includes(INTERFACE_NAME)
                 && !(INTERFACE_NAME === 'unihiker' && IS_UNIHIKER_K10)) {
                 this.addTracerExportBtnToDom('ide-btn ide-btn-alone');
             } else {
@@ -667,7 +667,7 @@ const InterfaceMonitor = {
     },
 
     hasTracerExportBtn() {
-        return ["arduino", "letsstartcoding", "microbit", "wb55", "l476", "buddy", "TI-83", "mBot", "cyberpi", "esp32", "thymio", "winky", "galaxia", "raspberrypi", "pico", "m5stack", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "eliobot", "alphai", "GalaxiaCircuitPython", "steami", "primastem", "skykick", "unihiker"].includes(INTERFACE_NAME);
+        return ["arduino", "letsstartcoding", "microbit", "wb55", "l476", "buddy", "TI-83", "mBot", "cyberpi", "esp32", "thymio", "winky", "galaxia", "raspberrypi", "pico", "m5stack", "sphero", "lotibot", "bluebot", "spike", "legoprime", "photon", "codey", "eliobot", "alphai", "GalaxiaCircuitPython", "steami", "primastem", "skykick", "unihiker"].includes(INTERFACE_NAME);
     },
 
     hasToggleReplOvertureBtn() {

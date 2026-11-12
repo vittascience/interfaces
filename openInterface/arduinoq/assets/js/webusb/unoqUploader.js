@@ -1145,8 +1145,24 @@ class UnoQuploader {
         // and a camera...), and files not written yet are found empty after the restart
         await this.execute("shell:sync", true);
 
+        if (/def ble_connect\(/.test(pyCode)) await this.startBleBridge();
         await this.restartApp(sketchCode, pyCode, htlmCode);
     };
+
+    /**
+     * Bluetooth blocks: the app container has no D-Bus and App Lab removes any compose override of .cache. socat gives
+     * the system bus to the container through a socket of the app folder (/app). User service: no sudo, started on boot.
+     */
+    async startBleBridge() {
+        const socket = this.APP_PATH + "/.ble-dbus.sock";
+        const unit = "[Service]\\nExecStartPre=/bin/rm -f " + socket +
+            "\\nExecStart=/usr/bin/socat UNIX-LISTEN:" + socket + ",fork,mode=600 UNIX-CONNECT:/run/dbus/system_bus_socket" +
+            "\\nRestart=always\\n[Install]\\nWantedBy=default.target\\n";
+        await this.execute("shell:sh -lc 'export HOME=/home/arduino XDG_RUNTIME_DIR=/run/user/1000;" +
+            " mkdir -p $HOME/.config/systemd/user;" +
+            " printf \"%b\" \"" + unit + "\" > $HOME/.config/systemd/user/vitta-ble-bridge.service;" +
+            " systemctl --user daemon-reload; systemctl --user enable vitta-ble-bridge; systemctl --user restart vitta-ble-bridge'", true);
+    }
 
     /**
      * Files whose size on the board differs from the one sent.
@@ -1516,6 +1532,7 @@ class UnoQuploader {
         // for the AI blocks of Vittascience (vitta_tf), they take minutes to install
         const requirements = (/vitta_tf|import tensorflow/.test(pyCode) ? "tensorflow\ntensorflowjs\ntf-keras\nh5py\nai-edge-litert\n" : "") +
             (/app_bricks\.mqtt/.test(pyCode) ? "paho-mqtt\n" : "") +
+            (/def ble_connect\(/.test(pyCode) ? "bleak\n" : "") +
             (/def say_on_board\(/.test(pyCode) ? "piper-tts\n" : "") +
             (/def listen_on_board\(/.test(pyCode) ? "vosk\n" : "") +
             (/def web_terminal_start\(/.test(pyCode) ? "paramiko\n" : "") +

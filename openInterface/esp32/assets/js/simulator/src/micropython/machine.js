@@ -308,6 +308,8 @@ var $builtinmodule = function (name) {
 				const component = Simulator.pinList.find((component) => component.pin == self.Pin.pin);
 				if (component !== undefined) {
 					self.id = component.id;
+				} else if ($('#nano-esp32-builtin-rgb-led').length && [46, 0, 45].includes(self.Pin.pin)) {
+					self.id = "nano-esp32-builtin-rgb-led";
 				}
 				self.init = true;
 				self.state = true;

@@ -62,7 +62,7 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
     {
         "kind": "category",
         "toolboxitemid": "tello",
-        "name": "%{BKY_CATEGORY_DRONE}",
+        "name": "%{BKY_CATEGORY_DRONES}",
         "style": "tello_category",
         "cssConfig": {
             "icon": "icon_blockly svgIcon"
@@ -510,30 +510,10 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
         {
             "kind": "category",
             "toolboxitemid": "tello_tello",
-            "name": "%{BKY_SUBCATEGORY_SHORT_TELLO_BASICS}",
+            "name": "Tello",
             "style": "tello_category",
             "cssConfig": {
-                "icon": "icon_blockly fas fa-helicopter"
-            },
-            "contents": []
-        },
-        {
-            "kind": "category",
-            "toolboxitemid": "tello_send",
-            "name": "%{BKY_SUBCATEGORY_SHORT_TELLO_COMMANDS}",
-            "style": "tello_category",
-            "cssConfig": {
-                "icon": "icon_blockly fas fa-paper-plane"
-            },
-            "contents": []
-        },
-        {
-            "kind": "category",
-            "toolboxitemid": "tello_read",
-            "name": "%{BKY_SUBCATEGORY_SHORT_TELLO_DATA}",
-            "style": "tello_category",
-            "cssConfig": {
-                "icon": "icon_blockly fas fa-eye"
+                "icon": "icon_blockly svgIcon"
             },
             "contents": []
         }
@@ -1332,7 +1312,8 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                     'actuators_setVibrationMotorState',
                     'actuators_setGroveRelayState',
                     'actuators_mosfet_setState',
-                    'actuators_mosfet_setPercentValue'
+                    'actuators_mosfet_setPercentValue',
+                    'actuators_motor_driver_control'
                 ]
             }]
         },
@@ -1847,41 +1828,40 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
     "tello": [
         {
             "subCategoryId": "tello_tello",
-            "contents": [{
-                "blocks": [
-                    'drone_init',
-                    'tello_takeoff',
-                    'tello_land',
-                    'tello_emergency',
-                    'tello_stop'
-                ]
-            }]
-        },
-        {
-            "subCategoryId": "tello_send",
-            "contents": [{
-                "blocks": [
-                    'tello_flip',
-                    'tello_move_up_down',
-                    'tello_move',
-                    'tello_rectangle_form',
-                    'tello_square_form',
-                    'tello_rotate',
-                    'tello_go',
-                    'tello_stream_on',
-                    'tello_stream_off'
-                ]
-            }]
-        },
-        {
-            "subCategoryId": "tello_read",
-            "contents": [{
-                "blocks": [
-                    'tello_speed',
-                    'tello_battery',
-                    'tello_flight_time'
-                ]
-            }]
+            "contents": [
+                {
+                    "label": "%{BKY_SUBCATEGORY_SHORT_TELLO_BASICS}",
+                    "blocks": [
+                        'drone_init',
+                        'tello_takeoff',
+                        'tello_land',
+                        'tello_emergency',
+                        'tello_stop'
+                    ]
+                },
+                {
+                    "label": "%{BKY_SUBCATEGORY_SHORT_TELLO_COMMANDS}",
+                    "blocks": [
+                        'tello_flip',
+                        'tello_move_up_down',
+                        'tello_move',
+                        'tello_rectangle_form',
+                        'tello_square_form',
+                        'tello_rotate',
+                        'tello_go',
+                        'tello_stream_on',
+                        'tello_stream_off'
+                    ]
+                },
+                {
+                    "label": "%{BKY_SUBCATEGORY_SHORT_TELLO_DATA}",
+                    "blocks": [
+                        'tello_speed',
+                        'tello_battery',
+                        'tello_flight_time'
+                    ]
+                }
+            ]
         }
     ],
     "ia": [

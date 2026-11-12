@@ -948,7 +948,7 @@
       "estimate1": "<p>Gracias por esta solicitud de presupuesto.<br>Lo encontrará adjunto.</p><p>Para validar este presupuesto:</p><ul><li>En el caso de un establecimiento sujeto a contabilidad pública (escuela, autoridad local, Réseau Canopé, etc.), el pago por orden administrativa es posible. Para ello, valide el presupuesto con una hoja de pedido, lo que desencadenará la preparación del pedido. El pago se realizará a la recepción del pedido, mediante la factura emitida en el momento del envío del pedido.</li><br><li>En el caso de un pedido individual, el pago puede realizarse mediante tarjeta bancaria (validación inmediata) o transferencia bancaria (tiempo de validación de 2 días). Su pedido se preparará una vez recibido el pago.</li></ul>",
       "message": "Escriba un mensaje:",
       "estimate2": "Lo tendremos en cuenta a la hora de procesar esta última.",
-      "foot": "<p>No dude en responder a este correo electrónico si tiene alguna pregunta,¡nuestros equipos están a su disposición!</p><p>Si tiene dificultades para abrir el documento, haga clic en <a href='https: //es.vittascience.com/profile?tab=orders'>aquí</a> para ir a su cuenta de vittascience y consultar sus documentos y pedidos.</p>",
+      "foot": "<p>No dude en responder a este correo electrónico si tiene alguna pregunta,¡nuestros equipos están a su disposición!</p><p>Si tiene dificultades para abrir el documento, haga clic en <a href='https://es.vittascience.com/profile?tab=orders'>aquí</a> para ir a su cuenta de vittascience y consultar sus documentos y pedidos.</p>",
       "invoice1": "<p>Gracias por esta compra.<br>Encontrará adjunta la factura asociada a su pedido.</p><p>Esta se encuentra en preparación y le será entregada a la mayor brevedad posible, sujeta a la disponibilidad de producto en stock.</p>",
       "invoice2": "Lo tendremos en cuenta a la hora de procesar esta última.",
       "backupMail1": "<p>Gracias por esta solicitud de presupuesto/pedido.<br>Nuestro software de creación automática de documentos ha encontrado dificultades.<br>Sin embargo, hemos recibido su solicitud, y procederemos a crearla manualmente.</p><p>Aquí tiene los elementos que nos fueron enviados durante su proceso:</p>",
@@ -1037,7 +1037,7 @@
       "camille": "Camille se unió a Vittascience en 2025 como Doctoranda en psicología cognitiva en el marco de su tesis CIFRE: « Enseñar la alfabetización de la’IA, ¿cómo permitir que los alumnos se’adapten a la’evolución constante de esta disciplina? »",
       "marc": "Marc se unió a Vittascience en septiembre de 2024, realiza su pasantía a nuestro lado y se encarga, junto a Ylarie, de toda la logística de Vittascience y se asegura del buen funcionamiento de nuestra tienda.",
       "ylarie": "Ylarie se encarga de los aspectos logísticos de la tienda Vittascience junto a Marc desde septiembre de 2024. ¡Desde la adición de productos hasta el envío de paquetes!",
-      "hire": "Te apasiona la educación, te encanta el proyecto y crees que tienes habilidades que aportarnos, ¡no dudes en ponerte en contacto con nosotros!<br/><a href=\"/contratar\" style=\"text-decoration:none;\"><button class=\"mt-3 btn v-btn-important about-recruit-btn\">Únete a nuestro equipo :) <span class=\"fa fa-chevron-circle-right\"></span></button></a>",
+      "hire": "Te apasiona la educación, te encanta el proyecto y crees que tienes habilidades que aportarnos, ¡no dudes en ponerte en contacto con nosotros!<br/><a href=\"/hire\" style=\"text-decoration:none;\"><button class=\"mt-3 btn v-btn-important about-recruit-btn\">Únete a nuestro equipo :) <span class=\"fa fa-chevron-circle-right\"></span></button></a>",
       "junior": "Aprendiz de Desarrollador Web y Soporte IT en Vittascience, apasionado por el desarrollo y las tecnologías digitales.",
       "zouhir": "Zouhir se unió a Vittascience en septiembre de 2026 como pasante en desarrollo front-end, sistemas embebidos y soporte técnico.",
       "hireTitle": "Únase a nosotros"
@@ -1362,7 +1362,7 @@
       "flashFailed": "Error al enviar el programa.",
       "boardNotResponding": "La placa no responde: comprueba que el robot esté encendido.",
       "baudrateError": "Ocurrió un error al leer datos del puerto serie. Intente cambiar la velocidad en baudios en la configuración del monitor.",
-      "firmwareWarning": "Atención, para beneficiarse de todas las funcionalidades de esta interfaz con la placa STM32, actualice a la versión de firmware 1.17 siguiendo este tutorial: <a href=\"https://es.vittascience.com/learn/ tutorial.php?id=398\" target=\"_blank\" rel=\"noopener noreferrer\">Actualizar el firmware</a>",
+      "firmwareWarning": "Atención, para beneficiarse de todas las funcionalidades de esta interfaz con la placa STM32, actualice a la versión de firmware 1.17 siguiendo este tutorial: <a href=\"https://es.vittascience.com/learn/tutorial.php?id=398\" target=\"_blank\" rel=\"noopener noreferrer\">Actualizar el firmware</a>",
       "compiling": "Compilación en curso. Esto puede tardar hasta unos segundos...",
       "noSpaceLeft": "No hay espacio suficiente en la tarjeta para cargar el programa.",
       "skykickNotInCodingMode": "El controlador SkyKick no está en modo de codificación (Link): los comandos son ignorados. Cambia el controlador a modo Link para volar el dron.",
@@ -1684,6 +1684,7 @@
         "advancedMode": "Modo de uso avanzado",
         "lastSaveOn": "Guardado por última vez en",
         "lastSaveFailed": "El último guardado ha fallado: tus cambios no están guardados. Haz clic para volver a intentarlo.",
+        "pendingSync": "Guardado en este dispositivo, pendiente de sincronización: el proyecto se enviará a la nube cuando vuelva la conexión.",
         "description": "Descripción:",
         "repl": "Pulsa la tecla intro ↩️ para ejecutar la instrucción",
         "runningCode": "Ejecutando tu código... Por favor espera.",
@@ -4870,7 +4871,7 @@
       "subTitle": "Lista de mis programas",
       "api": {
         "title": "Su clave API",
-        "notice": "La interfaz ofrece una API que le permite intercambiar los datos que recoge, si lo desea.<a href=\"/learn/tutorial.php?id=20/Introduction- to-APIs\">Aprenda más.</a>",
+        "notice": "La interfaz ofrece una API que le permite intercambiar los datos que recoge, si lo desea.<a href=\"/learn/tutorial.php?id=20/Introduction-aux-API\">Aprenda más.</a>",
         "apiInput": "Aquí está su clave de API confidencial:",
         "regenerateKey": "¿Se ha utilizado su clave API sin su conocimiento? Generar una nueva clave."
       },
@@ -5820,7 +5821,7 @@
           "add": "Su recurso ha sido añadido al sitio.",
           "modify": "Su recurso ha sido modificado en el sitio.",
           "duplicate": "Su recurso ha sido duplicado en el sitio.",
-          "remove": "Su recurso ha sido eliminado del sitio.</br><a href='/aprender'>Ver recursos disponibles</a>",
+          "remove": "Su recurso ha sido eliminado del sitio.</br><a href='/learn'>Ver recursos disponibles</a>",
           "seeTutorial": "Ver el recurso >"
         }
       },
@@ -6569,7 +6570,7 @@
       },
       "wifiSimulator": {
         "title": "Ayuda - Simulador Wifi",
-        "noticeWelcome": "Bienvenido al simulador Wifi para los chips ESP32.</br></br> Esta ventana aparece cuando se utiliza uno de los bloques <i>[servidor]</i> en el IDE. Simula el comportamiento de un navegador (a través de un teléfono, tablet u ordenador) que se conecta a la red creada por el chip ESP32.</br>La entrada <b>url:</b> es la dirección url del servidor Por ejemplo: <i>http://192.168.1.10</i>.</br>Con cada nueva petición http recibida, se muestra la página web según los datos enviados por el servidor.</br>< /br>Puede utilizar el botón <i class=\"fas fa-redo-alt\"></i> para restablecer la conexión.</br></br>Puede utilizar nuestra interfaz multitarjeta, pulsando el botón <b>Multi mode</b> en la parte inferior del simulador. Este modo resulta interesante si se desea realizar la simulación de un cliente-servidor, por ejemplo. </br></br>No dude en seguir el tutorial <a href=\"https://es.vittascience.com/learn/tutorial.php?id=423/esp32-communication-client/serveur \" target=\"_blank\" rel=\"noopener noreferrer\">Simulación cliente-servidor</a> para más detalles.",
+        "noticeWelcome": "Bienvenido al simulador Wifi para los chips ESP32.</br></br> Esta ventana aparece cuando se utiliza uno de los bloques <i>[servidor]</i> en el IDE. Simula el comportamiento de un navegador (a través de un teléfono, tablet u ordenador) que se conecta a la red creada por el chip ESP32.</br>La entrada <b>url:</b> es la dirección url del servidor Por ejemplo: <i>http://192.168.1.10</i>.</br>Con cada nueva petición http recibida, se muestra la página web según los datos enviados por el servidor.</br>< /br>Puede utilizar el botón <i class=\"fas fa-redo-alt\"></i> para restablecer la conexión.</br></br>Puede utilizar nuestra interfaz multitarjeta, pulsando el botón <b>Multi mode</b> en la parte inferior del simulador. Este modo resulta interesante si se desea realizar la simulación de un cliente-servidor, por ejemplo. </br></br>No dude en seguir el tutorial <a href=\"https://es.vittascience.com/learn/tutorial.php?id=423/esp32-communication-client/serveur\" target=\"_blank\" rel=\"noopener noreferrer\">Simulación cliente-servidor</a> para más detalles.",
         "buttons": {
           "back": "Atrás"
         }
@@ -7592,8 +7593,8 @@
         "flexible": "Las interfaces funcionan sin instalación, en el ordenador, la tableta y el smartphone.  Las actualizaciones son automáticas y tus proyectos se guardan en la nube.",
         "integration": "Añada una de las interfaces de programación a su sitio web, blog o envíe un enlace directo para compartir su programa.",
         "secure": "Las interfaces de Vittascience pueden utilizarse con o sin cuenta y son compatibles con el RGPD. <a href='/classroom/index.php'>El módulo Classroom</a> asegura el uso para profesores y alumnos.",
-        "a11y": "Toda la plataforma tiene opciones de accesibilidad (temas, fuentes, colores, ...) para facilitar la codificación a todo el mundo. <a href='./accesibilidad'>Aprenda más</a>.",
-        "free": "El acceso a las interfaces de programación y a los recursos de Vittascience es gratuito. ¿Está pensando en utilizarlo con sus alumnos? <a href='/precios'>Consulta nuestras ofertas</a>."
+        "a11y": "Toda la plataforma tiene opciones de accesibilidad (temas, fuentes, colores, ...) para facilitar la codificación a todo el mundo. <a href='./accessibility'>Aprenda más</a>.",
+        "free": "El acceso a las interfaces de programación y a los recursos de Vittascience es gratuito. ¿Está pensando en utilizarlo con sus alumnos? <a href='/pricing'>Consulta nuestras ofertas</a>."
       }
     },
     "boards_info": {
@@ -7619,7 +7620,7 @@
         "graph": "Trazador de gráficos en tiempo real"
       },
       "desc": {
-        "simulator": "La interfaz de Arduino incorpora un simulador que permite ejecutar un programa sin necesidad de disponer de hardware.</br> Casi todos los bloques están disponibles en el simulador, lo que permite realizar multitud de proyectos. <a href='./catálogo'>Descubra la lista de bloques disponibles en la interfaz.</a>",
+        "simulator": "La interfaz de Arduino incorpora un simulador que permite ejecutar un programa sin necesidad de disponer de hardware.</br> Casi todos los bloques están disponibles en el simulador, lo que permite realizar multitud de proyectos. <a href='./wiki?interface=arduino'>Descubra la lista de bloques disponibles en la interfaz.</a>",
         "code_transfer": "El sistema permite transferir un programa sin necesidad de instalar ningún controlador o software <span title='Chrome y Safari'>(con navegadores compatibles*)</span>.</br>La interfaz es compatible con Arduino Uno, Nano, Mega, mBot y muchas otras placas de la familia Arduino.",
         "code_translation": "El lenguaje Arduino (C++) es difícil de aprender, sobre todo para los principiantes.</br>La interfaz de Vittascience permite empezar con la lógica de programación por bloques, lo que elimina el riesgo de errores de sintaxis, y luego pasar sin problemas al código textual C++.",
         "graph": "La interfaz permite dibujar un gráfico a partir de los datos recibidos por la tarjeta en tiempo real, y luego exportar estos datos fácilmente en formatos CSV o API. El trazador de gráficos también funciona con el simulador para poder probar tus programas todavía más antes de ponerlos en marcha."
@@ -7634,7 +7635,7 @@
         "graph": "Trazador de gráficos en tiempo real"
       },
       "desc": {
-        "simulator": "La interfaz de Micro:bit incorpora un simulador que te permite ejecutar un programa sin necesidad de tener el hardware</br> Casi todos los bloques están disponibles en el simulador, lo que te permite hacer un montón de proyectos. <a href='./catálogo'>Descubra la lista de bloques disponibles en la interfaz.</a>",
+        "simulator": "La interfaz de Micro:bit incorpora un simulador que te permite ejecutar un programa sin necesidad de tener el hardware</br> Casi todos los bloques están disponibles en el simulador, lo que te permite hacer un montón de proyectos. <a href='./wiki?interface=microbit'>Descubra la lista de bloques disponibles en la interfaz.</a>",
         "code_download": "El sistema permite la transferencia de un programa sin necesidad de instalar ningún driver o software <span title='Chrome y Safari'>(con navegadores compatibles*)</span>.</br>La interfaz es compatible con micro:bit y sus diferentes robots Maqueen, CODO, Bit:Bot, Mini buggy...",
         "code_translation": "Python no es un lenguaje fácil de aprender, sobre todo para los principiantes.</br>La interfaz de Vittascience le permite empezar con la lógica de programación por bloques, lo que elimina el riesgo de errores de sintaxis, y luego pasar sin problemas al código textual de Python.",
         "graph": "La interfaz permite dibujar un gráfico a partir de los datos recibidos por la tarjeta en tiempo real, y luego exportar estos datos fácilmente en formatos CSV o API. El trazador de gráficos también funciona con el simulador para poder probar tus programas todavía más antes de ponerlos en marcha."
@@ -8462,7 +8463,7 @@
           },
           "7": {
             "title": "¿Dónde se pueden encontrar los seminarios web?",
-            "answer": "Los seminarios web están disponibles en <a href='support/videos/'>nuestra página dedicada</a>."
+            "answer": "Los seminarios web están disponibles en <a href='/support/videos/'>nuestra página dedicada</a>."
           },
           "8": {
             "title": "¿Cuál es el precio de Vittascience?",
@@ -8491,7 +8492,7 @@
           },
           "4": {
             "title": "¿Cómo puedo cambiar mi contraseña u otros ajustes de la cuenta?",
-            "answer": "Para cambiar su contraseña u otros ajustes, vaya a <a href='/perfil'>su página de perfil</a>."
+            "answer": "Para cambiar su contraseña u otros ajustes, vaya a <a href='/profile'>su página de perfil</a>."
           }
         }
       },

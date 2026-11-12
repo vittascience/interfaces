@@ -278,7 +278,7 @@ Blockly.Msg["REMOTE_NEC_BUTTON_RIGHT"] = "right";
 Blockly.Msg["REMOTE_NEC_BUTTON_BACK"] = "back";
 // Communication - Tracking modules
 Blockly.Msg["COMMUNICATION_RFID_GETSTRINGCARDID_TITLE"] = "[RFID reader - 125 kHz] UID card";
-Blockly.Msg["COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP"] = IMG_MODULE_RFID_125KHZ + Blockly.Tooltip.SEP + "Read the card UID of the Grove RFID module if it's available on digital pins D0 up to D13. In order to verify the UID card and validate it or not, it is enough simply to compare with the desired 'Number' value.";
+Blockly.Msg["COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP"] = IMG_MODULE_RFID_125KHZ + Blockly.Tooltip.SEP + "Read the card UID of the Grove 125 kHz RFID module if available on digital pins D0 to D13. HEX returns a hexadecimal string (empty if no card is detected). DEC returns an integer number (0 if no card is detected) to compare with the desired 'Number' value.";
 Blockly.Msg["COMMUNICATION_GPS_ONDATARECEIVED_TITLE"] = "[GPS module] on data received in %1";
 Blockly.Msg["COMMUNICATION_GPS_ONDATARECEIVED_TOOLTIP"] = IMG_MODULE_GPS + Blockly.Tooltip.SEP + "Allows you to execute instructions on data received by GPS grove module in the 'gpsData' variable on pin TX/RX.";
 Blockly.Msg["COMMUNICATION_RTC_MODULE_PCF85063TP"] = "High Precision (0x51)";

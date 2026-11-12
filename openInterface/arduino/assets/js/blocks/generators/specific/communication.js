@@ -568,12 +568,13 @@ Blockly.Arduino.communication_rfid_getCardID = function (block) {
         Blockly.Arduino.addInclude('software_serial', INCLUDE_SOFTWARE_SERIAL);
         Blockly.Arduino.addDeclaration(objName, `SoftwareSerial ${objName}(${pinRX}, ${pinTX});`);
     }
-    Blockly.Arduino.addDeclaration('buffer', "unsigned char buffer[64];");
-    Blockly.Arduino.addDeclaration('count', "int count = 0;");
-    Blockly.Arduino.addFunction('clearBufferArray', FUNCTIONS_ARDUINO.DEF_CLEAR_BUFFER_ARRAY);
-    Blockly.Arduino.addFunction('rfid_getLongCardID', FUNCTIONS_ARDUINO.DEF_RFID_GET_UNSIGNED_LONG_CARD_ID);
+    Blockly.Arduino.addFunction('rfid_getStringCardID', FUNCTIONS_ARDUINO.DEF_RFID_GET_STRING_CARD_ID);
     Blockly.Arduino.addSetup(objName, objName + ".begin(9600);");
-    return ['rfid_getLongCardID()', Blockly.Arduino.ORDER_ATOMIC];
+    if (block.getFieldValue("FORMAT") == "DEC") {
+        Blockly.Arduino.addFunction('rfid_getLongCardID', FUNCTIONS_ARDUINO.DEF_RFID_GET_UNSIGNED_LONG_CARD_ID);
+        return ['rfid_getLongCardID()', Blockly.Arduino.ORDER_ATOMIC];
+    }
+    return ['rfid_getStringCardID()', Blockly.Arduino.ORDER_ATOMIC];
 };
 
 //http://wiki.seeedstudio.com/Grove-GPS/

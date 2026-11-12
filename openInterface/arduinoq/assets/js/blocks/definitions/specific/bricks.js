@@ -703,6 +703,176 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         ]
     },
     {
+        "type": "bricks_ble_connect",
+        "message0": "%{BKY_BRICKS_BLE_CONNECT_TITLE}",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "NAME",
+                "check": "String"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "bricks_blocks",
+        "tooltip": "%{BKY_BRICKS_BLE_CONNECT_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+    {
+        "type": "bricks_ble_send",
+        "message0": "%{BKY_BRICKS_BLE_SEND_TITLE}",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "TEXT"
+            },
+            {
+                "type": "input_value",
+                "name": "UUID",
+                "check": "String"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "bricks_blocks",
+        "tooltip": "%{BKY_BRICKS_BLE_SEND_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+    {
+        "type": "bricks_ble_on_message",
+        "message0": "%{BKY_BRICKS_BLE_ON_MESSAGE_TITLE}",
+        "args0": [
+            {
+                "type": "field_input",
+                "name": "UUID",
+                "text": "6e400003-b5a3-f393-e0a9-e50e24dcca9e"
+            }
+        ],
+        "message1": "%1",
+        "args1": [
+            {
+                "type": "input_statement",
+                "name": "DO"
+            }
+        ],
+        "inputsInline": true,
+        "style": "bricks_blocks",
+        "tooltip": "%{BKY_BRICKS_BLE_ON_MESSAGE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+    {
+        "type": "bricks_ble_message",
+        "message0": "%{BKY_BRICKS_BLE_MESSAGE_TITLE}",
+        "args0": [],
+        "inputsInline": true,
+        "output": "String",
+        "style": "bricks_blocks",
+        "tooltip": "%{BKY_BRICKS_BLE_MESSAGE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+    {
+        "type": "bricks_ble_connected",
+        "message0": "%{BKY_BRICKS_BLE_CONNECTED_TITLE}",
+        "args0": [],
+        "inputsInline": true,
+        "output": "Boolean",
+        "style": "bricks_blocks",
+        "tooltip": "%{BKY_BRICKS_BLE_CONNECTED_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+    {
+        "type": "bricks_ble_disconnect",
+        "message0": "%{BKY_BRICKS_BLE_DISCONNECT_TITLE}",
+        "args0": [],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "bricks_blocks",
+        "tooltip": "%{BKY_BRICKS_BLE_DISCONNECT_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+    {
+        "type": "bricks_ble_server_start",
+        "message0": "%{BKY_BRICKS_BLE_SERVER_START_TITLE}",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "NAME",
+                "check": "String"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "bricks_blocks",
+        "tooltip": "%{BKY_BRICKS_BLE_SERVER_START_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+    {
+        "type": "bricks_ble_server_send",
+        "message0": "%{BKY_BRICKS_BLE_SERVER_SEND_TITLE}",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "TEXT"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "bricks_blocks",
+        "tooltip": "%{BKY_BRICKS_BLE_SERVER_SEND_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+    {
+        "type": "bricks_ble_server_on_message",
+        "message0": "%{BKY_BRICKS_BLE_SERVER_ON_MESSAGE_TITLE}",
+        "args0": [],
+        "message1": "%1",
+        "args1": [
+            {
+                "type": "input_statement",
+                "name": "DO"
+            }
+        ],
+        "inputsInline": true,
+        "style": "bricks_blocks",
+        "tooltip": "%{BKY_BRICKS_BLE_SERVER_ON_MESSAGE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+    {
+        "type": "bricks_ble_server_connected",
+        "message0": "%{BKY_BRICKS_BLE_SERVER_CONNECTED_TITLE}",
+        "args0": [],
+        "inputsInline": true,
+        "output": "Boolean",
+        "style": "bricks_blocks",
+        "tooltip": "%{BKY_BRICKS_BLE_SERVER_CONNECTED_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+    {
         "type": "bricks_cloud_set",
         "message0": "%{BKY_BRICKS_CLOUD_SET_TITLE}",
         "args0": [

@@ -5,8 +5,8 @@
 'use strict';
 
 // Display - Esp32
-Blockly.Msg["DISPLAY_CONTROL_BUILTIN_LED_TITLE"] = "[Esp32] set built-in LED (p2) to state %1";
-Blockly.Msg["DISPLAY_CONTROL_BUILTIN_LED_TOOLTIP"] = "Turn on the built-in LED on pin p2. This block does not need any sensor or external LED.";
+Blockly.Msg["DISPLAY_CONTROL_BUILTIN_LED_TITLE"] = "[Esp32] set built-in LED to state %1";
+Blockly.Msg["DISPLAY_CONTROL_BUILTIN_LED_TOOLTIP"] = IMG_MODULE_LED + Blockly.Tooltip.SEP + "Turn on or off the built-in LED on the Esp32 board.";
 // Display - LCD
 Blockly.Msg["DISPLAY_LCD_SETTEXT_TITLE"] = "[LCD address %1] show text %2 on line %3 position %4";
 Blockly.Msg["DISPLAY_LCD_SETTEXT_TOOLTIP"] = IMG_MODULE_LCD_I2C + Blockly.Tooltip.SEP + "Show text on the grove lcd 1602 display. Connect lcd on I2C port.";
@@ -77,6 +77,9 @@ Blockly.Msg["DISPLAY_CHAINABLE_PALETTEALLRGBLED_TITLE"] = "[Chainable LED] set a
 Blockly.Msg["DISPLAY_CHAINABLE_PALETTEALLRGBLED_TOOLTIP"] = IMG_MODULE_LED_RGB + Blockly.Tooltip.SEP + "Block controlling the color of all the LED, choose a colour in the given palette.";
 Blockly.Msg["DISPLAY_CHAINABLE_RESETALLRGBLED_TITLE"] = "[Chainable LED] Shut off all the LED on pins CIN %1 DIN %2";
 Blockly.Msg["DISPLAY_CHAINABLE_RESETALLRGBLED_TOOLTIP"] = IMG_MODULE_LED_RGB + Blockly.Tooltip.SEP + "Block shutting off all the LED.";
+// Display - Builtin RGB LED
+Blockly.Msg["DISPLAY_CONTROL_BUILTIN_RGB_LED_TITLE"] = "[Arduino Nano ESP32] set built-in RGB LED R %1 G %2 B %3";
+Blockly.Msg["DISPLAY_CONTROL_BUILTIN_RGB_LED_TOOLTIP"] = IMG_MODULE_LED_RGB + Blockly.Tooltip.SEP + "Set the built-in RGB LED color on the Arduino Nano ESP32 board (values from 0 to 255).";
 
 // Input/Output - Esp32
 Blockly.Msg["IO_WAIT_TITLE"] = "wait %1 %2";
@@ -424,6 +427,11 @@ Blockly.Msg['ACTUATORS_MDD3A_CONTROLMOTOR_TITLE'] = '[MDD3A] control motor %1 %2
 Blockly.Msg['ACTUATORS_MDD3A_CONTROLMOTOR_TOOLTIP'] = IMG_MODULE_MDD3A + Blockly.Tooltip.SEP + 'Allows controlling the rotation direction (forward on M1A/M2A or backward on M1B/M2B) and speed (from 0 to 100%) of motor M1 or M2 on the Cytron MDD3A module.';
 Blockly.Msg['ACTUATORS_MDD3A_FORWARD'] = 'forward';
 Blockly.Msg['ACTUATORS_MDD3A_BACKWARD'] = 'backward';
+// Actuators - Motor driver
+Blockly.Msg['ACTUATORS_MOTOR_DRIVER_CONTROL_TITLE'] = '[Motor driver] control motor pins INA %1 INB %2 direction %3 speed %4 (%)';
+Blockly.Msg['ACTUATORS_MOTOR_DRIVER_CONTROL_TOOLTIP'] = 'Allows controlling a motor using an H-bridge driver on two PWM pins with direction and speed (from 0 to 100%).';
+Blockly.Msg['ACTUATORS_MOTOR_FORWARD'] = '↻';
+Blockly.Msg['ACTUATORS_MOTOR_BACKWARD'] = '↺';
 // Actuators - PCA9685
 Blockly.Msg['ACTUATORS_PCA9685_SETPWMFREQUENCY_TITLE'] = '[PCA9685] set PWM signal frequency to %1 (Hz)';
 Blockly.Msg['ACTUATORS_PCA9685_SETPWMFREQUENCY_TOOLTIP'] = IMG_MODULE_PCA9685 + Blockly.Tooltip.SEP + 'Allows configuring the PWM signal frequency (in Hz) for all channels of the PCA9685 module. Connect the module to an I2C port.';
@@ -790,6 +798,7 @@ Blockly.Msg['ACTUATORS_MOSFET_SETSTATE_KEYWORDS'] = 'switch';
 Blockly.Msg['ACTUATORS_MOSFET_SETPERCENTVALUE_KEYWORDS'] = 'intensity';
 Blockly.Msg['ACTUATORS_MOSFET_SETFREQUENCY_KEYWORDS'] = 'modulate, rate';
 Blockly.Msg['ACTUATORS_MUSIC_NOTE_KEYWORDS'] = 'play';
+Blockly.Msg['ACTUATORS_MOTOR_DRIVER_CONTROL_KEYWORDS'] = 'motor, driver, h-bridge, speed, direction';
 Blockly.Msg['ROBOTS_ILO_SET_LED_COLOR_RGB_KEYWORDS'] = 'illuminate, tint';
 Blockly.Msg['ROBOTS_ILO_SET_LED_COLOR_KEYWORDS'] = 'illuminate, tint';
 Blockly.Msg['ROBOTS_ILO_SET_LED_SHAPE_KEYWORDS'] = 'pattern';

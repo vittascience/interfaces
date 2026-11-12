@@ -771,6 +771,7 @@
       "delivery": "Delivery",
       "freeWithPremium": "Free with a premium account",
       "shippingAtDeliveryStep": "Calculated at the Delivery step",
+      "stockDelayNotice": "Some items are currently out of stock ({{products}}): your order may take a little longer to ship.",
       "shippingFree": "Free",
       "shippingFreeWithPremium": "Free shipping to mainland France with the Vittascience Premium subscription",
       "shippingFreeThanksToPremium": "Free shipping to mainland France thanks to your Vittascience Premium subscription",
@@ -921,6 +922,7 @@
       "supportSubject": "Purchase order submission - estimate {{number}}",
       "autoValidate": "Automatically validate the estimate",
       "autoValidateHint": "The estimate is marked as accepted: the draft invoice and the order are created immediately, and the customer receives the confirmation email.",
+      "notifyClient": "Send the emails to the customer (purchase order summary and estimate confirmation)",
       "closedTitle": "Estimate already accepted",
       "closedText": "Estimate {{number}} has already been accepted and your order is being processed: there is no purchase order left to submit. To request any change, please contact us.",
       "closedSubject": "Estimate {{number}}",
@@ -948,7 +950,7 @@
       "estimate1": "<p>Thank you for your request for a estimate.<br>You will find it in attachment.</p><p>To validate this estimate:</p><ul><li>In the case of a public accounting institution (school, local authority, Réseau Canopé, etc.), payment by administrative order is possible. To do so, please validate the estimate with an order form, which will trigger the preparation of the order. Payment will be made upon receipt of the order, using the invoice issued when the order is shipped.</li><br><li>In the case of an individual order, payment can be made by credit card (immediate validation) or bank transfer (validation time of 2 days). Your order will be prepared as soon as we receive your payment.</li></ul>",
       "message": "You wished to send us this message:",
       "estimate2": "We will take this into account during the processing",
-      "foot": "<p>Do not hesitate to reply to this email if you have any questions, our teams are at your disposal!</p><p>If you have difficulties to open the document, click <a href='https: //en.vittascience.com/profile?tab=orders'>here</a> to go to your vittascience account and consult your documents and orders.</p>",
+      "foot": "<p>Do not hesitate to reply to this email if you have any questions, our teams are at your disposal!</p><p>If you have difficulties to open the document, click <a href='https://en.vittascience.com/profile?tab=orders'>here</a> to go to your vittascience account and consult your documents and orders.</p>",
       "invoice1": "<p>Thank you for your purchase.<br>You will find attached the invoice associated with your order.</p><p>Your order is in preparation and will be delivered as soon as possible, subject to availability of products in stock.</p>",
       "invoice2": "We will take this into account during the processing",
       "backupMail1": "<p>Thank you for this estimate/order.<br>Our automatic document creation software has encountered difficulties.<br>However, we have received your request, and will proceed manually to create it.</p><p>Here are the items that were sent to us during your process:</p>",
@@ -1368,7 +1370,11 @@
       "skykickNotInCodingMode": "The SkyKick controller is not in coding (Link) mode: commands are ignored. Switch the controller to Link mode to fly the drone.",
       "skykickDroneNotPaired": "The drone does not answer: check that it is on and paired with the controller.",
       "skykickPortBusy": "Cannot open the controller port: it is already used by another application. Close the SkyKick Evo Block Coding app (and any other tab connected to the controller), then try again.",
-      "skykickBattery": "Drone battery"
+      "skykickBattery": "Drone battery",
+      "legoPrimeOldFirmware": "The hub does not answer: turn it off (hold the center button), turn it on again, then plug it in again over USB. If it still does not answer, update it with the LEGO® Education SPIKE™ app (SPIKE 3 firmware required).",
+      "legoPrimeBluetoothFailed": "Unable to connect to the hub over Bluetooth: press its Bluetooth button, then try again.",
+      "legoPrimeNotStarted": "The program did not start on the hub (it stopped immediately, without any output). Restart the hub and try again.",
+      "legoPrimePortBusy": "Cannot open the hub port: it is already used by another application. Close the LEGO® Education SPIKE™ app (and any other tab connected to the hub), then try again."
     },
     "WebBluetoothAPI": {
       "noWebBluetoothAPI": "This browser does not support noWebBluetoothAPI. To use noWebBluetoothAPI, you have to go on compatible browser: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> or <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
@@ -1435,8 +1441,8 @@
       "microbit": "Welcome to the Vittascience interface for BBC micro:bit!</br>You can check out the tutorial available here: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=25/prise-en-main-de-la-carte-microbit\" target=\"_blank\" rel=\"noopener noreferrer\">Getting Started with the Vittascience Interface for the BBC Micro:bit board</a></b>",
       "python": "Welcome to the Vittascience interface for programming in Python!<br>Click the Run button to launch your program (script mode) or write an instruction after the chevrons >>> below (REPL console mode).",
       "esp32": "Welcome to the Vittascience interface for ESP32!</br> To program the ESP32 board on this interface, you must first flash the MicroPython firmware in the board by following this tutorial: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=341/flasher-le-firmware-micropython-dans-la-carte-esp32\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
-      "wb55": "Welcome to the Vittascience interface for STM32 NUCLEO WB55!</br> To program the STM32 board on this interface, you must first flash the MicroPython firmware in the board by this tutorial: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=909/flasher-le-firmware-micropython-dans-la-stm32-l476\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
-      "l476": "Welcome to the Vittascience interface for STM32 NUCLEO L476!</br> To program the STM32 board on this interface, you must first flash the MicroPython firmware in the board by this tutorial: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=465/activite-0-prise-en-main-de-la-carte-starter-kit-vittascience\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
+      "wb55": "Welcome to the Vittascience interface for STM32 NUCLEO WB55!</br> To program the STM32 board on this interface, you must first flash the MicroPython firmware in the board by this tutorial: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=398/flasher-le-firmware-micropython-dans-la-stm32\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
+      "l476": "Welcome to the Vittascience interface for STM32 NUCLEO L476!</br> To program the STM32 board on this interface, you must first flash the MicroPython firmware in the board by this tutorial: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=909/flasher-le-firmware-micropython-dans-la-carte-stm32-l476\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
       "texas-instruments": "This interface is used to generate the Python code to use the BBC micro:bit board with the TI-83 Premium CE Edition Python calculator. Open the simulator to get started!",
       "TI-83": "Welcome to the Vittascience interface for the calculator TI-83 Premium CE Python Edition! The boards TI-Innovator™ Hub and BBC micro:bit can be programmed on this interface. Open the simulator to get started!",
       "TI-83-Maclasseti": "Welcome to the MyClassTi.fr interface for the calculator TI-83 Premium CE Python Edition! The boards TI-Innovator™ Hub and BBC micro:bit can be programmed on this interface. Open the simulator to get started!",
@@ -1460,6 +1466,7 @@
       "lotibot": "Welcome to the Vittascience interface for the Loti-bot robot!",
       "bluebot": "Welcome to the Vittascience interface for the Blue-bot robot!",
       "spike": "Welcome to the Vittascience interface for LEGO® Education SPIKE™ Essential!<br>LEGO, the LEGO logo, the Minifigure, DUPLO and the SPIKE logo are trademarks of the LEGO Group, which does not sponsor, endorse, or authorize this site.",
+      "legoprime": "Welcome to the Vittascience interface for LEGO® Education SPIKE™ Prime!<br>Plug the hub in USB (SPIKE 3 firmware) or press its Bluetooth button, then click the matching upload button: the program is uploaded to slot 19 of the hub, which erases the program stored there.<br>LEGO, the LEGO logo, the Minifigure, DUPLO and the SPIKE logo are trademarks of the LEGO Group, which does not sponsor, endorse, or authorize this site.",
       "photon": "Welcome to the Vittascience interface for the Photon robot!",
       "codey": "Welcome to the Vittascience interface for Codey and Rocky robot from Makeblock!",
       "nano-esp32": "Welcome to the Vittascience interface for the Arduino Nano ESP32 board and the Alvik robot! By default, the MicroPython interpreter is already on the board. If you wish to update the Arduino Nano ESP32 board, flash the MicroPython firmware onto the board by following this tutorial: <b><a href=\"https://fr.vittascience.com/learn/tutorial.php?id=341/flasher-le-firmware-micropython-dans-la-carte-esp32\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
@@ -1556,13 +1563,18 @@
         "name": "Linux distributions",
         "notice": "Below is the download link for Linux:",
         "install": "<i class=\"fas fa-circle\"></i> Installer version (Ubuntu)",
-        "advice": "At the end of the installation, you have to replace your file \"config.ini \" by ours available <a href=\"/public/content/plugin/config.ini\">here.</a>",
+        "advice": "At the end of the installation, you have to replace your file \"config.ini \" by ours available here.",
         "presentation": "We are working to make Linux versions of the plugin available for Ubuntu, Fedora, Debian and RaspberryPi.<br/><b>The current version is for advanced users only.</b>"
       },
       "installButton": "Install",
       "installBackButton": "Back",
       "backInterface": "Return to the programming interface",
-      "downloadTitle": "Download"
+      "downloadTitle": "Download",
+      "retired": {
+        "title": "Plugins are no longer required",
+        "text": "Vittascience programming interfaces now communicate directly with the boards from the browser. There is no longer any plugin, extension or software to install on your computer.",
+        "browsers": "To communicate with a board, simply use a recent Chromium-based browser (Chrome, Edge or Opera)."
+      }
     },
     "smallScreen": {
       "title": "Sorry",
@@ -1620,6 +1632,8 @@
         "esp32BoardSelector": "Select the ESP32 board to program",
         "unihikerBoardSelector": "Select the UNIHIKER board to program",
         "downloadPython": "Download Python Script",
+        "switchToSpikePrime": "Switch to SPIKE Prime",
+        "switchToSpikeEssential": "Switch to SPIKE Essential",
         "downloadPythonGalaxia": "Download the 'main.py' Python script to drag and drop onto the Galaxia",
         "downloadArduino": "Download Arduino script",
         "downloadThymio": "Download the TDMLauncher program",
@@ -1684,6 +1698,7 @@
         "advancedMode": "Advanced mode",
         "lastSaveOn": "Last save on ",
         "lastSaveFailed": "The last save failed: your changes are not saved. Click to try again.",
+        "pendingSync": "Saved on this device, waiting to sync: the project will be sent to the cloud once you are back online.",
         "description": "Description:",
         "repl": "Press the enter key ↩️ to run the instruction",
         "runningCode": "Running your code... Please wait.",
@@ -5820,7 +5835,7 @@
           "add": "Your resource has been create.",
           "modify": "Your resource has been modified.",
           "duplicate": "Your resource has been duplicate.",
-          "remove": "Your resource has been deleted.</br><a href='/tutorial'>Watch the available resources</a>",
+          "remove": "Your resource has been deleted.</br><a href='/learn'>Watch the available resources</a>",
           "seeTutorial": "Watch the resource >"
         }
       },
@@ -5902,6 +5917,11 @@
       }
     },
     "materialsNeeded": "List of materials needed",
+    "embed": {
+      "project": "Vittascience project",
+      "interface": "Vittascience interface",
+      "open": "Open in the Vittascience interface"
+    },
     "suggestedResources": "Suggested Resources",
     "classroomImport": {
       "button": "Import into the Classroom module",
@@ -6569,7 +6589,7 @@
       },
       "wifiSimulator": {
         "title": "Help - Wifi Simulator",
-        "noticeWelcome": "Welcome to the Wifi simulator for ESP32 chips.</br></br> This window appears when one of the <i>[server]</i> blocks is used in the IDE. It simulates the behavior of a browser (via a phone, tablet or computer) that connects to the network created by the ESP32 chip.</br>The entry <b>url:</b> is the url address of the server For example: <i>http://192.168.1.10</i>.</br> With each new http request received, the web page is displayed according to the data sent by the server.</br>< /br>You can use the <i class=\"fas fa-redo-alt\"></i> button to reset the connection.</br></br>You can use our multi-card interface, by clicking on the <b>Multi mode</b> button at the bottom of the simulator. This mode becomes interesting if you wish to perform the simulation of a client-server for example. </br></br>Do not hesitate to follow the tutorial <a href=\"https://en.vittascience.com/learn/tutorial.php?id=423/esp32-communication-client/serveur \" target=\"_blank\" rel=\"noopener noreferrer\">Client-Server Simulation</a> for more details.",
+        "noticeWelcome": "Welcome to the Wifi simulator for ESP32 chips.</br></br> This window appears when one of the <i>[server]</i> blocks is used in the IDE. It simulates the behavior of a browser (via a phone, tablet or computer) that connects to the network created by the ESP32 chip.</br>The entry <b>url:</b> is the url address of the server For example: <i>http://192.168.1.10</i>.</br> With each new http request received, the web page is displayed according to the data sent by the server.</br>< /br>You can use the <i class=\"fas fa-redo-alt\"></i> button to reset the connection.</br></br>You can use our multi-card interface, by clicking on the <b>Multi mode</b> button at the bottom of the simulator. This mode becomes interesting if you wish to perform the simulation of a client-server for example. </br></br>Do not hesitate to follow the tutorial <a href=\"https://en.vittascience.com/learn/tutorial.php?id=423/esp32-communication-client/serveur\" target=\"_blank\" rel=\"noopener noreferrer\">Client-Server Simulation</a> for more details.",
         "buttons": {
           "back": "Back"
         }
@@ -7557,6 +7577,7 @@
         "lotibot": "Programming interface for the Loti-bot robot",
         "bluebot": "Programming interface for the Blue-bot robot",
         "spike": "Programming interface for LEGO® Education SPIKE™ Essential",
+        "legoprime": "Programming interface for LEGO® Education SPIKE™ Prime",
         "photon": "Programming interface for the Photon robot",
         "codey": "Programming interface for the Codey board and the Rocky robot from Makeblock",
         "uno-r4-wifi": "Programming interface for the Arduino UNO R4 WiFi board",
@@ -8463,7 +8484,7 @@
           },
           "7": {
             "title": "Where can we find the webinars?",
-            "answer": "The webinars are available on <a href='support/videos/'>our dedicated videos page</a>."
+            "answer": "The webinars are available on <a href='/support/videos/'>our dedicated videos page</a>."
           },
           "8": {
             "title": "What is the price of Vittascience?",

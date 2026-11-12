@@ -954,29 +954,39 @@ SETUP_RADIO_433_RECEIVER:
 }`,
 
   /**
+   * Get ID card of Grove RFID module as hexadecimal string.
+   * @return {String} hex card ID (empty string if no card)
+   */
+  DEF_RFID_GET_STRING_CARD_ID:
+`String rfid_getStringCardID() {
+  String hexID = "";
+  if (rfid.available()) {
+    delay(50);
+    // Frame: STX (0x02) + 10 ASCII hex (2 version + 8 card ID) + 2 checksum + ETX (0x03)
+    char rfidBuf[14];
+    int rfidCount = 0;
+    while (rfid.available()) {
+      char c = (char)rfid.read();
+      // keep the first complete frame and drain the rest so the next call starts on a fresh frame
+      if (rfidCount < 14 && (rfidCount > 0 || c == 0x02)) {
+        rfidBuf[rfidCount++] = c;
+      }
+    }
+    if (rfidCount == 14) {
+      rfidBuf[11] = 0;
+      hexID = String(rfidBuf + 3);
+    }
+  }
+  return hexID;
+}`,
+
+  /**
    * Get ID card of Grove RFID module.
    * @return {unsigned long} id
    */
   DEF_RFID_GET_UNSIGNED_LONG_CARD_ID:
 `unsigned long rfid_getLongCardID() {
-  unsigned long cardID = 0;
-  if (rfid.available()) {
-      delay(50);
-      buffer[count++] = rfid.read();
-      while (rfid.available()) {
-        buffer[count++] = rfid.read();
-        if (count == 63) break;
-      }
-      buffer[count] = '\0';
-      String frame = String((char *)buffer);
-      clearBufferArray();
-      count = 0;
-      if (frame.length() >= 14) {
-        String hexID = frame.substring(3, 11);
-        cardID = strtoul(hexID.c_str(), NULL, 16);
-      }
-  }
-  return cardID;
+  return strtoul(rfid_getStringCardID().c_str(), NULL, 16);
 }`,
 
   /**

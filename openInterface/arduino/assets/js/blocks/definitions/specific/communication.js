@@ -1096,12 +1096,21 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     ]
   },
 
-  // GROVE RFID READER _ GET STRING CARD ID
+  // GROVE RFID READER _ GET CARD ID (hexadecimal string or decimal number)
   {
     "type": "communication_rfid_getCardID",
     "message0": "%{BKY_COMMUNICATION_RFID_GETSTRINGCARDID_TITLE}",
-    "message1": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+    "message1": "%1",
     "args1": [{
+      "type": "field_dropdown",
+      "name": "FORMAT",
+      "options": [
+        ["HEX", "HEX"],
+        ["DEC", "DEC"]
+      ]
+    }],
+    "message2": "%{BKY_COMMUNICATION_RX_TX_PINS}",
+    "args2": [{
       "type": "field_grid_dropdown",
       "name": "RX",
       "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
@@ -1111,7 +1120,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
       "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
     }],
     "inputsInline": true,
-    "output": "Number",
+    "output": null,
     "style": "communication_blocks",
     "tooltip": "%{BKY_COMMUNICATION_RFID_GETSTRINGCARDID_TOOLTIP}",
     "extensions": [

@@ -1362,7 +1362,7 @@
       "flashFailed": "Impossibile trasferire il codice.",
       "boardNotResponding": "La scheda non risponde: verifica che il robot sia acceso.",
       "baudrateError": "Si è verificato un errore durante la lettura dei dati dalla porta seriale. Prova a cambiare il baudrate nelle impostazioni della console.",
-      "firmwareWarning": "Attenzione, per beneficiare di tutte le funzionalità di questa interfaccia con la scheda STM32, eseguire l'aggiornamento alla <b>versione 1.17</b> del firmware MicroPython seguendo questo tutorial: <a href=\"https: //it.vittascience.com/learn/tutorial.php?id=398\" target=\"_blank\" rel=\"noopener noreferrer\">Aggiorna il firmware</a>",
+      "firmwareWarning": "Attenzione, per beneficiare di tutte le funzionalità di questa interfaccia con la scheda STM32, eseguire l'aggiornamento alla <b>versione 1.17</b> del firmware MicroPython seguendo questo tutorial: <a href=\"https://it.vittascience.com/learn/tutorial.php?id=398\" target=\"_blank\" rel=\"noopener noreferrer\">Aggiorna il firmware</a>",
       "compiling": "Compilazione in corso. Questo potrebbe richiedere fino a qualche secondo...",
       "noSpaceLeft": "Non c'è più spazio libero sulla scheda. Elimina alcuni file per liberare spazio.",
       "skykickNotInCodingMode": "Il controller SkyKick non è in modalità coding (Link): i comandi vengono ignorati. Passa il controller in modalità Link per far volare il drone.",
@@ -1684,6 +1684,7 @@
         "advancedMode": "Modalità avanzata",
         "lastSaveOn": "Ultimo salvataggio il ",
         "lastSaveFailed": "L'ultimo salvataggio non è riuscito: le tue modifiche non sono salvate. Clicca per riprovare.",
+        "pendingSync": "Salvato su questo dispositivo, in attesa di sincronizzazione: il progetto sarà inviato al cloud al ritorno della connessione.",
         "description": "Descrizione:",
         "repl": "Premi invio ↩️ per eseguire il comando",
         "runningCode": "Esecuzione del codice in corso... Attendere prego.",
@@ -4870,7 +4871,7 @@
       "subTitle": " Elenco dei miei programmi",
       "api": {
         "title": " La tua chiave API",
-        "notice": " L'interfaccia offre un'API che ti permette di scambiare i dati raccolti, se lo desideri.<a href=\"/learn/tutorial.php?id=20/Introduzione-aux-API\">Impara di più.</a>",
+        "notice": " L'interfaccia offre un'API che ti permette di scambiare i dati raccolti, se lo desideri.<a href=\"/learn/tutorial.php?id=20/Introduction-aux-API\">Impara di più.</a>",
         "apiInput": " Ecco la tua chiave API riservata:",
         "regenerateKey": " La tua chiave API è stata usata a tua insaputa? Genera una nuova chiave."
       },
@@ -8462,7 +8463,7 @@
           },
           "7": {
             "title": "Dove si possono trovare i webinar?",
-            "answer": "I webinar sono disponibili sulla <a href='support/videos/'>nostra pagina dedicata</a>."
+            "answer": "I webinar sono disponibili sulla <a href='/support/videos/'>nostra pagina dedicata</a>."
           },
           "8": {
             "title": "Qual è il prezzo di Vittascience?",

@@ -6,7 +6,7 @@
 'use strict';
 
 // Display - Esp32
-Blockly.Msg["DISPLAY_CONTROL_BUILTIN_LED_TITLE"] = "[Esp32] imposta LED integrato (p2) su stato %1";
+Blockly.Msg["DISPLAY_CONTROL_BUILTIN_LED_TITLE"] = "[Esp32] imposta LED integrato su stato %1";
 Blockly.Msg["DISPLAY_CONTROL_BUILTIN_LED_TOOLTIP"] = "Accende il LED integrato sul pin p2. Questo blocco non richiede sensori né LED esterni.";
 // Display - LCD
 Blockly.Msg["DISPLAY_LCD_SETTEXT_TITLE"] = "[LCD indirizzo %1] mostra il testo %2 alla riga %3, posizione %4";

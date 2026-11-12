@@ -7,7 +7,7 @@ const webSeparateFilesButton = INTERFACE_NAME === 'web' ? webSepFileButtonConten
 
 // Import of a project file: click (native file input) or drag and drop on the zone (project_panel.js, importProjectFile)
 const IMPORT_INO_INTERFACES = ["arduino", "mBot", "letsstartcoding"];
-const IMPORT_PY_INTERFACES = ["python", "microbit", "esp32", "wb55", "l476", "TI-83", "galaxia", "raspberrypi", "niryo", "nao", "GalaxiaCircuitPython", "buddy", "cyberpi", "pico", "eliobot", "thymio", "winky", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai", 'primastem', 'skykick', 'unihiker'];
+const IMPORT_PY_INTERFACES = ["python", "microbit", "esp32", "wb55", "l476", "TI-83", "galaxia", "raspberrypi", "niryo", "nao", "GalaxiaCircuitPython", "buddy", "cyberpi", "pico", "eliobot", "thymio", "winky", "sphero", "lotibot", "bluebot", "spike", "legoprime", "photon", "codey", "steami", "alphai", 'primastem', 'skykick', 'unihiker'];
 const importProjectAccept = IMPORT_INO_INTERFACES.includes(INTERFACE_NAME) ? '.ino'
     : IMPORT_PY_INTERFACES.includes(INTERFACE_NAME) ? '.py'
     : INTERFACE_NAME === 'arduinoq' ? '.py,.txt,.ino,.zip' : '.py,.txt,.ino';

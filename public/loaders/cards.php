@@ -61,6 +61,7 @@ return [
     "robot:wonder building kit - wukong" => ["wonder-building-kit", 320, 279],
     "sphero" => ["sphero-lights", 320, 320],
     "spike" => ["lego-spike-pers", 320, 302],
+    "legoprime" => ["lego-spike-prime-pers", 320, 270],
     "steami" => ["steami", 224, 320],
     "thymio" => ["thymio", 320, 194],
     "ti-83" => ["ti-83-premium-ce", 320, 180],

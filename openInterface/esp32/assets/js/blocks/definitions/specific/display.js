@@ -126,6 +126,33 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
+    // CONTROL ESP32 BUILT-IN RGB LED
+    {
+        "type": "display_controlBuiltInRGBLED",
+        "message0": "%{BKY_DISPLAY_CONTROL_BUILTIN_RGB_LED_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "R",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "G",
+            "check": "Number"
+        }, {
+            "type": "input_value",
+            "name": "B",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "display_blocks",
+        "tooltip": "%{BKY_DISPLAY_CONTROL_BUILTIN_RGB_LED_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
     // BLOCK MONOCHROME LED MATRIX 8*8
     {
         "type": "display_led_matrix_DrawBitmap",

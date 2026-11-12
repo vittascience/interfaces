@@ -21,7 +21,8 @@ const InterfaceConnection = {
 			"readChunkSize": 1, // kiB
 			"readingDelayPerKiB": 20 // ms
 		};
-		if (!navigator.serial) this.reorganizeButtons();
+		if (window.VittaContext?.isCapacitor) this.bluetoothOnlyButtons();
+		else if (!navigator.serial) this.reorganizeButtons();
 		window.addEventListener('pagehide', () => {
 			this.doDisconnect();
 		});
@@ -154,6 +155,30 @@ const InterfaceConnection = {
 			uploadPythonBLEOptButton.parentNode.insertBefore(uploadPythonButton, uploadPythonBLEOptButton.nextSibling);
 		} else {
 			console.warn('Un ou plusieurs boutons sont introuvables dans le DOM.');
+		}
+	},
+
+	/**
+	 * Application mobile : la carte n'est joignable qu'en Bluetooth. Le téléversement
+	 * Bluetooth prend la place du bouton principal, et le téléversement USB, le
+	 * téléchargement .hex et la déconnexion USB sont masqués (pas supprimés :
+	 * MultiManager les cherche encore). Pas de message Web Serial.
+	 */
+	bluetoothOnlyButtons: function () {
+		const uploadPythonButton = document.getElementById('upload-python');
+		const uploadPythonBLEOptButton = document.getElementById('upload-python-ble-opt');
+		if (uploadPythonButton && uploadPythonBLEOptButton) {
+			uploadPythonButton.parentNode.insertBefore(uploadPythonBLEOptButton, uploadPythonButton);
+			[uploadPythonButton.className, uploadPythonBLEOptButton.className] =
+				[uploadPythonBLEOptButton.className, uploadPythonButton.className];
+			const uploadLabel = uploadPythonButton.querySelector('.label-button');
+			const bleLabel = uploadPythonBLEOptButton.querySelector('.label-button');
+			if (uploadLabel && bleLabel) {
+				[uploadLabel.className, bleLabel.className] = [bleLabel.className, uploadLabel.className];
+			}
+		}
+		for (const id of ['upload-python', 'upload-python-opt', 'download-firmware', 'download-firmware-opt', 'disconnect-opt']) {
+			document.getElementById(id)?.style.setProperty('display', 'none', 'important');
 		}
 	},
 

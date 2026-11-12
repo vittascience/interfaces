@@ -16,7 +16,7 @@ const STANDARD_A11Y_INTERFACES = [
     'arduino', 'bluebot', 'buddy', 'codey', 'cyberpi', 'eliobot', 'esp32',
     'galaxia', 'GalaxiaCircuitPython', 'l476', 'letsstartcoding', 'lotibot',
     'm5stack', 'mBot', 'microbit', 'nao', 'niryo', 'photon', 'pico', 'python',
-    'raspberrypi', 'sphero', 'spike', 'thymio', 'TI-83', 'wb55', 'web', 'winky',
+    'raspberrypi', 'sphero', 'spike', 'legoprime', 'thymio', 'TI-83', 'wb55', 'web', 'winky',
     'steami', 'alphai', 'arduinoq', 'primastem', 'skykick', 'unihiker'
 ];
 

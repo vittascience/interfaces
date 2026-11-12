@@ -5,7 +5,7 @@
 'use strict';
 
 // Display - Esp32
-Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TITLE'] = '[Esp32] controlar el LED incorporado (p2) en estado %1';
+Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TITLE'] = '[Esp32] controlar el LED incorporado en estado %1';
 Blockly.Msg['DISPLAY_CONTROL_BUILTIN_LED_TOOLTIP'] = 'Permite controlar el estado del LED conectado al pin p2 de la placa Esp32';
 // Display - LCD
 Blockly.Msg['DISPLAY_LCD_SETTEXT_TITLE'] = '[LCD dirección %1] mostrar texto %2 en la línea %3 posición %4';

@@ -370,7 +370,7 @@ if (INTERFACE_NAME !== "adacraft") {
             ></button>
         </div>
     `;
-    const downloadOptionInterfaces = ["arduino", "microbit", "esp32", "wb55", "l476", "galaxia", "GalaxiaCircuitPython", "mBot", "m5stack", "buddy", "cyberpi", "letsstartcoding", "pico", "eliobot", "thymio", "raspberrypi", "winky", "niryo", "nao", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai", "arduinoq", "primastem", "skykick", "unihiker"];
+    const downloadOptionInterfaces = ["arduino", "microbit", "esp32", "wb55", "l476", "galaxia", "GalaxiaCircuitPython", "mBot", "m5stack", "buddy", "cyberpi", "letsstartcoding", "pico", "eliobot", "thymio", "raspberrypi", "winky", "niryo", "nao", "sphero", "legoprime", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai", "arduinoq", "primastem", "skykick", "unihiker"];
     if (downloadOptionInterfaces.includes(INTERFACE_NAME)) {
         $('.ide-btn-group-download').append(dropdownHeaderDownload);
 

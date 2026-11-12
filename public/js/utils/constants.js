@@ -34,5 +34,6 @@ const arrayInterfaces = [
   'arduinoq',
   'primastem',
   'skykick',
+  'legoprime',
   'unihiker'
 ];

@@ -1236,7 +1236,7 @@ const Main = (function () {
          * @returns {boolean}
          */
         hasSimulator: function () {
-            return /(arduinoq|arduino|microbit|wb55|l476|esp32|TI-83|raspberrypi|niryo|nao|galaxia|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|pico|eliobot|thymio|winky|sphero|lotibot|bluebot|spike|photon|codey|steami|alphai|primastem|skykick|unihiker)/.test(Code.getInterface());
+            return /(arduinoq|arduino|microbit|wb55|l476|esp32|TI-83|raspberrypi|niryo|nao|galaxia|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|pico|eliobot|thymio|winky|sphero|lotibot|bluebot|spike|legoprime|photon|codey|steami|alphai|primastem|skykick|unihiker)/.test(Code.getInterface());
         },
         /**
          * Returns true if interface has an auto-corrector.
@@ -1252,7 +1252,7 @@ const Main = (function () {
          * @returns {boolean}
          */
         hasToolboxModes: function () {
-            return ["arduino", "microbit", "esp32", "wb55", "l476", "TI-83", "galaxia", "raspberrypi", "buddy", "niryo", "nao", "GalaxiaCircuitPython", "mBot", "m5stack", "cyberpi", "eliobot", "thymio", "pico", "winky", "sphero", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai", "primastem", "skykick"].includes(Code.getInterface());
+            return ["arduino", "microbit", "esp32", "wb55", "l476", "TI-83", "galaxia", "raspberrypi", "buddy", "niryo", "nao", "GalaxiaCircuitPython", "mBot", "m5stack", "cyberpi", "eliobot", "thymio", "pico", "winky", "sphero", "lotibot", "bluebot", "spike", "legoprime", "photon", "codey", "steami", "alphai", "primastem", "skykick"].includes(Code.getInterface());
         },
         /**
          * Returns true if interface has the drag and drop feature.

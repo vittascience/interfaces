@@ -36,7 +36,7 @@ class CodeManager {
      */
 
     constructor(codeMode, workspace, generator, xml) {
-        this.REGEXP_INTERFACES = /.*(arduinoq|arduino|microbit|python|adacraft|wb55|l476|esp32|TI-83|galaxia|raspberrypi|niryo|nao|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|eliobot|thymio|letsstartcoding|pico|winky|web|sphero|lotibot|bluebot|spike|photon|codey|steami|alphai|primastem|skykick|unihiker).*/g;
+        this.REGEXP_INTERFACES = /.*(arduinoq|arduino|microbit|python|adacraft|wb55|l476|esp32|TI-83|galaxia|raspberrypi|niryo|nao|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|eliobot|thymio|letsstartcoding|pico|winky|web|sphero|lotibot|bluebot|spike|legoprime|photon|codey|steami|alphai|primastem|skykick|unihiker).*/g;
         if (typeof ltiVariables13 != 'undefined') {
             this._interface = ltiVariables13.interface;
         } else if (typeof ltiVariables != 'undefined') {
@@ -82,6 +82,7 @@ class CodeManager {
             case 'arduinoq':
             case 'primastem':
             case 'skykick':
+            case 'legoprime':
             case 'unihiker':
                 this._lStorage = this._interface + "CurrentProject";
                 this._lSaveStorage = this._interface + "SavedProjects"; //[! NOT USED: Visitor need account to save his projects]

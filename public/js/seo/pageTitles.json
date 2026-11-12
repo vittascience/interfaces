@@ -9,6 +9,12 @@
       "desc": "Sign up for upcoming Vittascience webinars and watch replays of past sessions: AI, programming, robotics and teaching resources."
     }
   },
+  "newsletterHistory": {
+    "fr": {
+      "title": "Historique des newsletters Vittascience",
+      "desc": "Retrouvez toutes les newsletters Vittascience : nouveautés de la plateforme, webinaires, ressources pédagogiques et projets d'enseignants autour de l'IA et de la programmation."
+    }
+  },
     "default": {
         "fr": {
             "title": "Vittascience — L'apprentissage du numérique et de l'IA pour tous",
@@ -349,6 +355,16 @@
             "desc": "Programming interface for Blue-bot robot"
         }
     },
+    "legoprime": {
+        "fr": {
+            "title": "Vittascience — LEGO® Education SPIKE™ Prime",
+            "desc": "Interface de programmation pour LEGO® Education SPIKE™ Prime"
+        },
+        "en": {
+            "title": "Vittascience — LEGO® Education SPIKE™ Prime",
+            "desc": "Programming interface for LEGO® Education SPIKE™ Prime"
+        }
+    },
     "spike": {
         "fr": {
             "title": "Vittascience — LEGO® Education SPIKE™ Essential",
@@ -451,12 +467,12 @@
     },
     "plugin": {
         "fr": {
-            "title": "Vittascience — Plugin",
-            "desc": "Téléchargez nos plugins pour vos logiciels."
+            "title": "Vittascience — Plugins non nécessaires",
+            "desc": "Les interfaces Vittascience fonctionnent sans plugin : il n'y a rien à installer."
         },
         "en": {
-            "title": "Vittascience — Plugin",
-            "desc": "Download our plugins for your software."
+            "title": "Vittascience — No plugin required",
+            "desc": "Vittascience interfaces work without any plugin: there is nothing to install."
         }
     },
     "classroom": {

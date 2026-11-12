@@ -212,6 +212,12 @@ const TOOLBOX_SCRATCH_CONTENT = {
             ]
         },
         {
+            "onlyBoards": BOARD_NANO_ESP32,
+            "blocks": [
+                'display_controlBuiltInRGBLED'
+            ]
+        },
+        {
             "label": "%{BKY_SUBCATEGORY_DISPLAYS_LCD}",
             "blocks": [
                 'display_lcdSetText',
@@ -586,7 +592,8 @@ const TOOLBOX_SCRATCH_CONTENT = {
                 'actuators_setVibrationMotorState',
                 'actuators_setGroveRelayState',
                 'actuators_mdd3a_init',
-                'actuators_mdd3a_controlMotor'
+                'actuators_mdd3a_controlMotor',
+                'actuators_motor_driver_control'
             ]
         },
         {

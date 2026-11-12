@@ -1384,7 +1384,7 @@ utils.prototypeBlocks['#TiltSensoron'] = function (pin, statementsNode, parent) 
 	};
 };
 
-// GROVE PIR MOTION SENSOR - détecte pin.read_analog() > 500
+// GROVE PIR MOTION SENSOR - détecte pin.read_digital()
 utils.prototypeBlocks['#PIRMotionSensoron'] = function (pin, statementsNode, parent) {
 	let pinValue = extractPinValue(pin, statementsNode);
 	return {

@@ -136,6 +136,7 @@ Blockly.Msg['CATEGORY_NUMPY'] = 'Numpy';
 Blockly.Msg['CATEGORY_ACTIONS'] = 'Åtgärder';
 Blockly.Msg['CATEGORY_SCREEN'] = 'Skärm';
 Blockly.Msg['CATEGORY_DRONE'] = 'Drönare';
+Blockly.Msg['CATEGORY_DRONES'] = 'Drönare';
 Blockly.Msg['CATEGORY_MUSIC'] = 'Musik';
 Blockly.Msg['CATEGORY_MCORE'] = 'mCore';
 Blockly.Msg['CATEGORY_BACKPACK'] = 'Ryggsäck';

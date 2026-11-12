@@ -48,6 +48,22 @@ const downloadOptions = {
     }
 };
 
+// switch to the other SPIKE interface (the project stays in the local storage of this one), not in LTI nor Capytale
+if (typeof ltiVariables13 === 'undefined' && typeof ltiVariables === 'undefined' && typeof IS_CAPYTALE_CONTEXT === 'undefined') {
+    downloadOptions['switchToPrime'] = {
+        id: "switch-prime-opt",
+        classes: 'ide-btn-check ide-btn-left-dropdown',
+        fontAwesome: 'fas fa-exchange-alt',
+        title: 'code.topbar.tooltips.switchToSpikePrime',
+        tooltipPlacement: "left",
+        onclick: "window.location.href='/legoprime/?mode=blocks&simu=1'",
+        show: true,
+        label: {
+            value: "code.topbar.tooltips.switchToSpikePrime"
+        }
+    };
+}
+
 const settingsOptions = {
     'accessibility': {
         id: "blockly-setting",

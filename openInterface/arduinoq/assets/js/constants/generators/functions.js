@@ -920,6 +920,202 @@ def mqtt_publish(text, topic):
         return
     mqtt_client.publish(str(topic), str(text))`,
 
+        // Bluetooth messages: BLE client (bleak). The container has no D-Bus: the system bus comes from the Bluetooth
+        // bridge of the uploader, in the app folder. bleak has its own event loop, the handlers run in order in a thread
+        DEF_BLE:
+`os.environ["DBUS_SYSTEM_BUS_ADDRESS"] = "unix:path=/app/.ble-dbus.sock"
+ble_client = None
+ble_message = ""
+ble_handlers = {}
+ble_loop = None
+ble_queue = queue.Queue()
+
+def ble_run(coroutine, timeout=30):
+    global ble_loop
+    if ble_loop is None:
+        ble_loop = asyncio.new_event_loop()
+        # not a daemon thread: it keeps the program running after the last line, for the messages to come
+        threading.Thread(target=ble_loop.run_forever).start()
+        threading.Thread(target=ble_worker).start()
+    return asyncio.run_coroutine_threadsafe(coroutine, ble_loop).result(timeout)
+
+def ble_received(data, handlers):
+    global ble_message
+    ble_message = bytes(data).decode(errors="replace").rstrip("\\r\\n")
+    for handler in handlers:
+        handler()
+
+def ble_worker():
+    while True:
+        ble_received(*ble_queue.get())
+
+async def ble_open(name):
+    global ble_client
+    from bleak import BleakClient, BleakScanner
+    device = await BleakScanner.find_device_by_filter(lambda d, a: str(name) in (d.name, a.local_name, d.address), timeout=10)
+    if device is None:
+        print("[Bluetooth] Appareil introuvable : " + str(name))
+        return
+    ble_client = BleakClient(device)
+    await ble_client.connect()
+    for uuid, handlers in ble_handlers.items():
+        await ble_client.start_notify(uuid, lambda _, data, handlers=handlers: ble_queue.put((data, handlers)))
+
+def ble_connect(name):
+    try:
+        ble_run(ble_open(name))
+    except Exception as error:
+        print("[Bluetooth] Connexion impossible :", error)
+
+def ble_is_connected():
+    return ble_client is not None and ble_client.is_connected
+
+async def ble_write(text, uuid):
+    characteristic = ble_client.services.get_characteristic(uuid)
+    if characteristic is None:
+        print("[Bluetooth] Caractéristique introuvable : " + uuid)
+        return
+    await ble_client.write_gatt_char(characteristic, str(text).encode(), response="write" in characteristic.properties)
+
+def ble_send(text, uuid):
+    if not ble_is_connected():
+        print("[Bluetooth] Pas de connexion : utilise d'abord le bloc de connexion à un appareil")
+        return
+    try:
+        ble_run(ble_write(text, str(uuid)))
+    except Exception as error:
+        print("[Bluetooth] Envoi impossible :", error)
+
+def ble_disconnect():
+    if ble_is_connected():
+        ble_run(ble_client.disconnect())`,
+
+        // Bluetooth server: Nordic UART service of BlueZ, the board waits for a phone. Without "discoverable" on the adapter
+        // the advertisement of the UNO Q (WCN3988) is not connectable. Needs DEF_BLE
+        DEF_BLE_SERVER:
+`BLE_UART_SERVICE = "6e400001-b5a3-f393-e0a9-e50e24dcca9e"
+BLE_UART_RX = "6e400002-b5a3-f393-e0a9-e50e24dcca9e"
+BLE_UART_TX = "6e400003-b5a3-f393-e0a9-e50e24dcca9e"
+BLE_ROOT = "/vitta"
+ble_server_handlers = []
+ble_server_tx = None
+ble_server_bus = None
+
+class BleService(ServiceInterface):
+    def __init__(self):
+        super().__init__("org.bluez.GattService1")
+
+    @dbus_property(access=PropertyAccess.READ)
+    def UUID(self) -> "s":
+        return BLE_UART_SERVICE
+
+    @dbus_property(access=PropertyAccess.READ)
+    def Primary(self) -> "b":
+        return True
+
+class BleCharacteristic(ServiceInterface):
+    def __init__(self, uuid, flags):
+        super().__init__("org.bluez.GattCharacteristic1")
+        self.uuid = uuid
+        self.flags = flags
+        self.value = b""
+        self.notifying = False
+
+    @dbus_property(access=PropertyAccess.READ)
+    def UUID(self) -> "s":
+        return self.uuid
+
+    @dbus_property(access=PropertyAccess.READ)
+    def Service(self) -> "o":
+        return BLE_ROOT + "/service0"
+
+    @dbus_property(access=PropertyAccess.READ)
+    def Flags(self) -> "as":
+        return self.flags
+
+    @dbus_property(access=PropertyAccess.READ)
+    def Value(self) -> "ay":
+        return self.value
+
+    @method()
+    def ReadValue(self, options: "a{sv}") -> "ay":
+        return self.value
+
+    @method()
+    def WriteValue(self, value: "ay", options: "a{sv}"):
+        ble_queue.put((value, ble_server_handlers))
+
+    @method()
+    def StartNotify(self):
+        self.notifying = True
+
+    @method()
+    def StopNotify(self):
+        self.notifying = False
+
+    def send(self, data):
+        self.value = data
+        if self.notifying:
+            self.emit_properties_changed({"Value": data})
+
+class BleAdvertisement(ServiceInterface):
+    def __init__(self, name):
+        super().__init__("org.bluez.LEAdvertisement1")
+        self.name = name
+
+    @dbus_property(access=PropertyAccess.READ)
+    def Type(self) -> "s":
+        return "peripheral"
+
+    @dbus_property(access=PropertyAccess.READ)
+    def ServiceUUIDs(self) -> "as":
+        return [BLE_UART_SERVICE]
+
+    @dbus_property(access=PropertyAccess.READ)
+    def LocalName(self) -> "s":
+        return self.name
+
+    @dbus_property(access=PropertyAccess.READ)
+    def Discoverable(self) -> "b":
+        return True
+
+    @method()
+    def Release(self):
+        pass
+
+async def ble_server_open(name):
+    global ble_server_bus, ble_server_tx
+    ble_server_bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
+    ble_server_tx = BleCharacteristic(BLE_UART_TX, ["notify", "read"])
+    ble_server_bus.export(BLE_ROOT + "/service0", BleService())
+    ble_server_bus.export(BLE_ROOT + "/service0/char0", BleCharacteristic(BLE_UART_RX, ["write", "write-without-response"]))
+    ble_server_bus.export(BLE_ROOT + "/service0/char1", ble_server_tx)
+    ble_server_bus.export(BLE_ROOT + "/adv0", BleAdvertisement(name))
+    node = await ble_server_bus.introspect("org.bluez", "/org/bluez/hci0")
+    hci = ble_server_bus.get_proxy_object("org.bluez", "/org/bluez/hci0", node)
+    adapter = hci.get_interface("org.bluez.Adapter1")
+    await adapter.set_alias(name)
+    await hci.get_interface("org.bluez.GattManager1").call_register_application(BLE_ROOT, {})
+    await hci.get_interface("org.bluez.LEAdvertisingManager1").call_register_advertisement(BLE_ROOT + "/adv0", {})
+    # after the advertisement: the other way round the board is not seen
+    await adapter.set_discoverable_timeout(0)
+    await adapter.set_discoverable(True)
+
+def ble_server_start(name):
+    try:
+        ble_run(ble_server_open(str(name)))
+    except Exception as error:
+        print("[Bluetooth] Serveur impossible à démarrer :", error)
+
+def ble_server_connected():
+    return ble_server_tx is not None and ble_server_tx.notifying
+
+def ble_server_send(text):
+    if not ble_server_connected():
+        print("[Bluetooth] Aucun appareil connecté au serveur")
+        return
+    ble_loop.call_soon_threadsafe(ble_server_tx.send, str(text).encode())`,
+
         // Variables of an Arduino Cloud Thing (Arduino Cloud brick): board connected to Arduino Cloud in App Lab
         DEF_ARDUINO_CLOUD:
 `arduino_cloud = None

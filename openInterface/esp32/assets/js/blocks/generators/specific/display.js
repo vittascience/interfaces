@@ -6,9 +6,11 @@
 
 Blockly.Python.display_controlBuiltInLED = function (block) {
     const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
-    const pinName = "p2";
-    Blockly.Python.addInit('write-digital_p2', "# Builtin LED on " + pinName);
-    Blockly.Python.addInit(pinName + '_OUT', pinName + " = Pin(2, Pin.OUT)");
+    const board = Blockly.Constants.getSelectedBoard();
+    const pinNum = (board == BOARD_NANO_ESP32) ? 48 : 2;
+    const pinName = "p" + pinNum;
+    Blockly.Python.addInit('write-digital_' + pinName, "# Builtin LED on " + pinName);
+    Blockly.Python.addInit(pinName + '_OUT', pinName + " = Pin(" + pinNum + ", Pin.OUT)");
     const inputBlock = block.getInput("STATE").connection.targetBlock();
     if (inputBlock && (inputBlock.type == "io_digital_signal")) {
         return 'try:' + NEWLINE
@@ -21,6 +23,18 @@ Blockly.Python.display_controlBuiltInLED = function (block) {
             + 'except:' + NEWLINE
             + '  ' + pinName + '.duty(int(' + state + ')*1023)' + NEWLINE;
     }
+};
+
+Blockly.Python.display_controlBuiltInRGBLED = function (block) {
+    const r = Blockly.Python.valueToCode(block, "R", Blockly.Python.ORDER_NONE) || "0";
+    const g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
+    const b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.addInit('rgb_led_flag', "# Builtin RGB LED on p46/p0/p45");
+    Blockly.Python.addInit('rgb_led_r', "rgb_led_r = PWM(Pin(46), freq=1000, duty=1023)");
+    Blockly.Python.addInit('rgb_led_g', "rgb_led_g = PWM(Pin(0), freq=1000, duty=1023)");
+    Blockly.Python.addInit('rgb_led_b', "rgb_led_b = PWM(Pin(45), freq=1000, duty=1023)");
+    Blockly.Python.addFunction('set_builtin_rgb', FUNCTIONS_ESP32.DEF_SET_BUILTIN_RGB);
+    return "set_builtin_rgb(" + r + ", " + g + ", " + b + ")" + NEWLINE;
 };
 
 // LCD

@@ -28,6 +28,16 @@ Blockly.Python.actuators_setFanPower = function (block) {
     return pin + ".write_analog(" + power + ")" + NEWLINE;
 };
 
+Blockly.Python.actuators_motor_driver_control = function (block) {
+    const pinA = block.getFieldValue("INA");
+    const pinB = block.getFieldValue("INB");
+    const dir = block.getFieldValue("DIR");
+    const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_NONE) || "0";
+    Blockly.Python.addFunction('setMotorDriverSpeed', FUNCTIONS_MICROBIT.DEF_MOTOR_DRIVER_SET_SPEED);
+    Blockly.Python.addInit('motor_driver_' + pinA + '_' + pinB, `# Motor Driver on ${pinA}/${pinB}`);
+    return `setMotorDriverSpeed(${pinA}, ${pinB}, ${dir}, ${speed})` + NEWLINE;
+};
+
 Blockly.Python.actuators_setVibrationMotorState = function (block) {
     const pin = block.getFieldValue("PIN");
     const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";

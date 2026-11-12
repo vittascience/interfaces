@@ -223,6 +223,20 @@ DEF_MDD3A_SET_MOTOR_SPEED:
     pinA.duty(0)
     pinB.duty(duty)`,
 
+// Motor driver _ set motor speed
+DEF_MOTOR_DRIVER_SET_SPEED:
+`def setMotorDriverSpeed(pinA, pinB, direction, speed):
+  duty = int(max(0, min(100, speed)) * ${PWM_MAX_DUTY} / 100)
+  if duty == 0:
+    pinA.duty(0)
+    pinB.duty(0)
+  elif direction == 1:
+    pinB.duty(0)
+    pinA.duty(duty)
+  else:
+    pinA.duty(0)
+    pinB.duty(duty)`,
+
 // Buzzer module _ play music
 DEF_BUZZER_PITCH:
 `def pitch (pin, noteFrequency, noteDuration, silence_ms = 10):
@@ -599,5 +613,12 @@ DEF_IR_RX_CALLBACK:
 `def callback(data, addr, ctrl):
   global value_remote
   value_remote = hex(data)`,
+
+// Builtin RGB LED for Arduino Nano ESP32
+DEF_SET_BUILTIN_RGB:
+`def set_builtin_rgb(r, g, b):
+  rgb_led_r.duty((255 - max(0, min(255, int(r)))) * 1023 // 255)
+  rgb_led_g.duty((255 - max(0, min(255, int(g)))) * 1023 // 255)
+  rgb_led_b.duty((255 - max(0, min(255, int(b)))) * 1023 // 255)`,
 
 };

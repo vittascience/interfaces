@@ -1,3 +1,8 @@
+function helpHintLink(suffix) {
+    const link = jsonPath('modals.standard.help.noticeHint.' + INTERFACE_NAME + '.' + suffix);
+    return (typeof link === 'string' && /^https?:\/\//.test(link)) ? link : '';
+}
+
 let stdModals = {};
 
 (async () => {
@@ -199,8 +204,8 @@ let stdModals = {};
             content: `<div>
                         <p class="hint">
                             ${jsonPath('modals.standard.help.noticeCommon.welcome')}${jsonPath('modals.standard.help.noticeHint.' + INTERFACE_NAME + '.name')}<br><br>
-                            ${jsonPath('modals.standard.help.noticeHint.' + INTERFACE_NAME + '.learn')}<a href="${jsonPath('modals.standard.help.noticeHint.' + INTERFACE_NAME + '.learn-link')}" target="_blank" rel="noopener noreferrer">${jsonPath('modals.standard.help.noticeCommon.doc')}</a> ${jsonPath('modals.standard.help.noticeCommon.or')} <a href="https://vittascience.com/wiki?interface=${INTERFACE_NAME}" target="_blank" rel="noopener noreferrer">${jsonPath('modals.standard.help.noticeCommon.glossary')}</a><br><br>
-                            ${INTERFACE_NAME != 'python' ? `${jsonPath('modals.standard.help.noticeCommon.libraries')}<a href="${jsonPath('modals.standard.help.noticeHint.' + INTERFACE_NAME + '.libraries-link')}" target="_blank" rel="noopener noreferrer">${jsonPath('modals.standard.help.noticeCommon.repoGithub')}<a/><br><br>` : ''}
+                            ${jsonPath('modals.standard.help.noticeHint.' + INTERFACE_NAME + '.learn')}${helpHintLink('learn-link') ? `<a href="${helpHintLink('learn-link')}" target="_blank" rel="noopener noreferrer">${jsonPath('modals.standard.help.noticeCommon.doc')}</a> ${jsonPath('modals.standard.help.noticeCommon.or')} ` : ''}<a href="https://vittascience.com/wiki?interface=${INTERFACE_NAME}" target="_blank" rel="noopener noreferrer">${jsonPath('modals.standard.help.noticeCommon.glossary')}</a><br><br>
+                            ${INTERFACE_NAME != 'python' && helpHintLink('libraries-link') ? `${jsonPath('modals.standard.help.noticeCommon.libraries')}<a href="${helpHintLink('libraries-link')}" target="_blank" rel="noopener noreferrer">${jsonPath('modals.standard.help.noticeCommon.repoGithub')}</a><br><br>` : ''}
                             ${jsonPath('modals.standard.help.noticeCommon.fellowship')}</a><br><br>
                             ${jsonPath('modals.standard.help.noticeCommon.tutorials')}<br><br>
                             ${jsonPath('modals.standard.help.noticeCommon.contact')}&#x1F642

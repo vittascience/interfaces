@@ -88,6 +88,7 @@ Blockly.Msg['CATEGORY_NUMPY'] = 'Numpy';
 Blockly.Msg['CATEGORY_ACTIONS'] = 'Azioni';
 Blockly.Msg['CATEGORY_SCREEN'] = 'Schermo';
 Blockly.Msg['CATEGORY_DRONE'] = 'Drone';
+Blockly.Msg['CATEGORY_DRONES'] = 'Droni';
 Blockly.Msg['CATEGORY_MUSIC'] = 'Musica';
 Blockly.Msg['CATEGORY_MCORE'] = 'mCore';
 Blockly.Msg['CATEGORY_BACKPACK'] = 'Zaino';

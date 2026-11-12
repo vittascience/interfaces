@@ -733,7 +733,7 @@ Blockly.Python.sensors_getGroveTilt = function (block) {
 Blockly.Python.sensors_getGroveMotion = function (block) {
     const pin = block.getFieldValue("PIN");
     Blockly.Python.addInit('motion_module_' + pin, "# PIR Motion Sensor on " + pin);
-    return [pin + ".read_analog() > 500", Blockly.Python.ORDER_ATOMIC];
+    return [pin + ".read_digital()", Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.sensors_getMiniPirGroveMotion = function (block) {

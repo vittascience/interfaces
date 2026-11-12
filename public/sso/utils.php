@@ -258,3 +258,47 @@ function getUserConnexionDetails(): array
     ];
 }
 
+
+/**
+ * Mémorise la page de retour transmise par le bouton de connexion (POST),
+ * en ne gardant qu'un chemin relatif au domaine.
+ */
+function rememberBackurl($backurl): void
+{
+    $clean = sanitizeBackurl($backurl);
+    if ($clean !== '') {
+        $_SESSION['backurl'] = $clean;
+    }
+}
+
+/**
+ * Réponse aux anciennes URL de connexion SSO appelées en GET (liens historiques,
+ * robots) : le flux démarre désormais par un POST depuis les boutons du site.
+ * 410 pour que les moteurs retirent ces URL de leur index.
+ */
+function ssoGoneResponse(): void
+{
+    http_response_code(410);
+    header('X-Robots-Tag: noindex, nofollow');
+    header('Cache-Control: no-store');
+    header('Content-Type: text/html; charset=utf-8');
+    $message = 'Cette page de connexion n\'est plus disponible.';
+    $link = 'Se connecter';
+    try {
+        initTranslator();
+        $t = i18next::getTranslation('sso.messages.error');
+        if (is_string($t) && $t !== '' && $t !== 'sso.messages.error') {
+            $message = $t;
+        }
+        $l = i18next::getTranslation('navbar.items.user_shortcuts.login');
+        if (is_string($l) && $l !== '' && $l !== 'navbar.items.user_shortcuts.login') {
+            $link = $l;
+        }
+    } catch (\Throwable $e) {
+    }
+    echo '<!doctype html><html><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow">'
+        . '<title>410</title></head><body style="font-family:sans-serif;text-align:center;padding:3rem">'
+        . '<p>' . htmlspecialchars($message, ENT_QUOTES, 'UTF-8') . '</p>'
+        . '<p><a href="/login">' . htmlspecialchars($link, ENT_QUOTES, 'UTF-8') . '</a></p></body></html>';
+    exit;
+}
