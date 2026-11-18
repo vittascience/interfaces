@@ -124,6 +124,34 @@ Blockly.Msg["PY_DATALOG_ADD_LINE_TOOLTIP"] = "Añade una línea al archivo CSV: 
 Blockly.Msg["PY_DATALOG_CLEAR_TITLE"] = "borrar el archivo %1";
 Blockly.Msg["PY_DATALOG_CLEAR_TOOLTIP"] = "Borra el archivo CSV de la placa.";
 
+// Connected objects (Python, iot.js)
+Blockly.Msg["CATEGORY_IOT"] = "Objetos conectados";
+Blockly.Msg["IOT_LABEL_SHELLY"] = "Enchufe inteligente Shelly";
+Blockly.Msg["IOT_SHELLY_ON"] = "encender";
+Blockly.Msg["IOT_SHELLY_OFF"] = "apagar";
+Blockly.Msg["IOT_SHELLY_TOGGLE"] = "alternar";
+Blockly.Msg["IOT_SHELLY_POWER"] = "potencia (W)";
+Blockly.Msg["IOT_SHELLY_ENERGY"] = "energía consumida (Wh)";
+Blockly.Msg["IOT_SHELLY_VOLTAGE"] = "tensión (V)";
+Blockly.Msg["IOT_SHELLY_CURRENT"] = "corriente (A)";
+Blockly.Msg["IOT_SHELLY_TEMPERATURE"] = "temperatura (°C)";
+Blockly.Msg["IOT_SHELLY_WIFI_SWITCH_TITLE"] = "%1 el enchufe Shelly Wi-Fi en la dirección %2";
+Blockly.Msg["IOT_SHELLY_WIFI_SWITCH_TOOLTIP"] = "Controla un enchufe Shelly conectado a la misma red Wi-Fi que la placa, por su dirección IP (visible en la app Shelly o en el router).";
+Blockly.Msg["IOT_SHELLY_WIFI_IS_ON_TITLE"] = "¿enchufe Shelly Wi-Fi %1 encendido?";
+Blockly.Msg["IOT_SHELLY_WIFI_IS_ON_TOOLTIP"] = "Verdadero si el enchufe Shelly en esta dirección IP está encendido.";
+Blockly.Msg["IOT_SHELLY_WIFI_MEASURE_TITLE"] = "%1 del enchufe Shelly Wi-Fi %2";
+Blockly.Msg["IOT_SHELLY_WIFI_MEASURE_TOOLTIP"] = "Medida del enchufe Shelly en esta dirección IP: potencia instantánea, energía consumida desde la instalación, tensión, corriente o temperatura interna.";
+Blockly.Msg["IOT_SHELLY_WIFI_START_PAIRING_TITLE"] = "abrir el emparejamiento Bluetooth del enchufe Shelly Wi-Fi %1";
+Blockly.Msg["IOT_SHELLY_WIFI_START_PAIRING_TOOLTIP"] = "Deja el enchufe listo para emparejar durante 3 minutos, como el botón «Pair new device» de su página web. Después, usa el bloque de emparejamiento Bluetooth.";
+Blockly.Msg["IOT_SHELLY_BLE_PAIR_TITLE"] = "emparejar la placa con el enchufe Shelly Bluetooth %1";
+Blockly.Msg["IOT_SHELLY_BLE_PAIR_TOOLTIP"] = "Empareja la placa con el enchufe (una sola vez, mientras el emparejamiento está abierto en el enchufe). Usa preferiblemente la dirección Bluetooth del enchufe.";
+Blockly.Msg["IOT_SHELLY_BLE_SWITCH_TITLE"] = "%1 el enchufe Shelly Bluetooth %2";
+Blockly.Msg["IOT_SHELLY_BLE_SWITCH_TOOLTIP"] = "Controla un enchufe Shelly Gen2+ por Bluetooth, sin Wi-Fi. Basta con una parte del nombre («Shelly» toma el primer enchufe encontrado). El RPC Bluetooth debe estar activado en los ajustes del enchufe.";
+Blockly.Msg["IOT_SHELLY_BLE_IS_ON_TITLE"] = "¿enchufe Shelly Bluetooth %1 encendido?";
+Blockly.Msg["IOT_SHELLY_BLE_IS_ON_TOOLTIP"] = "Verdadero si el enchufe Shelly está encendido.";
+Blockly.Msg["IOT_SHELLY_BLE_MEASURE_TITLE"] = "%1 del enchufe Shelly Bluetooth %2";
+Blockly.Msg["IOT_SHELLY_BLE_MEASURE_TOOLTIP"] = "Medida del enchufe Shelly leída por Bluetooth: potencia instantánea, energía consumida desde la instalación, tensión, corriente o temperatura interna.";
+
 // Sound Generator, Camera Code Detection, Video Object Detection and Telegram Bot bricks
 Blockly.Msg["PY_SOUND_NOTE_BOARD_TITLE"] = "tocar la nota %1 octava %2 durante %3 s en la placa";
 Blockly.Msg["PY_SOUND_NOTE_BOARD_TOOLTIP"] = "Toca la nota en unos auriculares o altavoz USB conectados a la placa (o en la toma jack de un adaptador USB-C), con el brick Sound Generator de Arduino App Lab. Octava 4: el la vale 440 Hz.";

@@ -123,6 +123,34 @@ Blockly.Msg["PY_DATALOG_ADD_LINE_TOOLTIP"] = "Ajoute une ligne au fichier CSV : 
 Blockly.Msg["PY_DATALOG_CLEAR_TITLE"] = "effacer le fichier %1";
 Blockly.Msg["PY_DATALOG_CLEAR_TOOLTIP"] = "Supprime le fichier CSV de la carte.";
 
+// Connected objects (Python, iot.js)
+Blockly.Msg["CATEGORY_IOT"] = "Objets connectés";
+Blockly.Msg["IOT_LABEL_SHELLY"] = "Prise connectée Shelly";
+Blockly.Msg["IOT_SHELLY_ON"] = "allumer";
+Blockly.Msg["IOT_SHELLY_OFF"] = "éteindre";
+Blockly.Msg["IOT_SHELLY_TOGGLE"] = "basculer";
+Blockly.Msg["IOT_SHELLY_POWER"] = "puissance (W)";
+Blockly.Msg["IOT_SHELLY_ENERGY"] = "énergie consommée (Wh)";
+Blockly.Msg["IOT_SHELLY_VOLTAGE"] = "tension (V)";
+Blockly.Msg["IOT_SHELLY_CURRENT"] = "courant (A)";
+Blockly.Msg["IOT_SHELLY_TEMPERATURE"] = "température (°C)";
+Blockly.Msg["IOT_SHELLY_WIFI_SWITCH_TITLE"] = "%1 la prise Shelly Wi-Fi à l'adresse %2";
+Blockly.Msg["IOT_SHELLY_WIFI_SWITCH_TOOLTIP"] = "Pilote une prise Shelly connectée au même réseau Wi-Fi que la carte, par son adresse IP (visible dans l'appli Shelly ou sur la box).";
+Blockly.Msg["IOT_SHELLY_WIFI_IS_ON_TITLE"] = "prise Shelly Wi-Fi %1 allumée ?";
+Blockly.Msg["IOT_SHELLY_WIFI_IS_ON_TOOLTIP"] = "Vrai si la prise Shelly à cette adresse IP est allumée.";
+Blockly.Msg["IOT_SHELLY_WIFI_MEASURE_TITLE"] = "%1 de la prise Shelly Wi-Fi %2";
+Blockly.Msg["IOT_SHELLY_WIFI_MEASURE_TOOLTIP"] = "Mesure de la prise Shelly à cette adresse IP : puissance instantanée, énergie consommée depuis la mise en service, tension, courant ou température interne.";
+Blockly.Msg["IOT_SHELLY_WIFI_START_PAIRING_TITLE"] = "ouvrir l'appairage Bluetooth de la prise Shelly Wi-Fi %1";
+Blockly.Msg["IOT_SHELLY_WIFI_START_PAIRING_TOOLTIP"] = "Rend la prise prête à être appairée pendant 3 minutes, comme le bouton « Pair new device » de sa page web. Ensuite, utilise le bloc d'appairage Bluetooth.";
+Blockly.Msg["IOT_SHELLY_BLE_PAIR_TITLE"] = "appairer la carte avec la prise Shelly Bluetooth %1";
+Blockly.Msg["IOT_SHELLY_BLE_PAIR_TOOLTIP"] = "Appaire la carte avec la prise (à faire une seule fois, pendant que l'appairage est ouvert sur la prise). Mets de préférence l'adresse Bluetooth de la prise.";
+Blockly.Msg["IOT_SHELLY_BLE_SWITCH_TITLE"] = "%1 la prise Shelly Bluetooth %2";
+Blockly.Msg["IOT_SHELLY_BLE_SWITCH_TOOLTIP"] = "Pilote une prise Shelly Gen2+ en Bluetooth, sans Wi-Fi. Une partie du nom suffit (« Shelly » prend la première prise trouvée). La carte doit être appairée une fois avec la prise (Réglages > Bluetooth > Pair new device).";
+Blockly.Msg["IOT_SHELLY_BLE_IS_ON_TITLE"] = "prise Shelly Bluetooth %1 allumée ?";
+Blockly.Msg["IOT_SHELLY_BLE_IS_ON_TOOLTIP"] = "Vrai si la prise Shelly est allumée.";
+Blockly.Msg["IOT_SHELLY_BLE_MEASURE_TITLE"] = "%1 de la prise Shelly Bluetooth %2";
+Blockly.Msg["IOT_SHELLY_BLE_MEASURE_TOOLTIP"] = "Mesure de la prise Shelly lue en Bluetooth : puissance instantanée, énergie consommée depuis la mise en service, tension, courant ou température interne.";
+
 // Sound Generator, Camera Code Detection, Video Object Detection and Telegram Bot bricks
 Blockly.Msg["PY_SOUND_NOTE_BOARD_TITLE"] = "jouer la note %1 octave %2 pendant %3 s sur la carte";
 Blockly.Msg["PY_SOUND_NOTE_BOARD_TOOLTIP"] = "Joue la note sur un casque ou haut-parleur USB branché sur la carte (ou la prise jack d'un adaptateur USB-C), avec la brick Sound Generator d'Arduino App Lab. Octave 4 : le la vaut 440 Hz.";

@@ -293,10 +293,13 @@ export class Backpack extends Blockly.DragTarget {
    * @protected
    */
   attachListeners_() {
+    // Touch screens: no emulated mouse events (the workspace cancels the pointerdown), and opening on "pointerup"
+    // let the following "click" land on the "empty backpack" button just shown under the finger. So "pointerdown"
+    // keeps the workspace from scrolling and the backpack opens on "click".
     this.addEvent_(
-      this.svgGroup_, 'mousedown', this, this.blockMouseDownWhenOpenable_);
+      this.svgGroup_, 'pointerdown', this, this.blockMouseDownWhenOpenable_);
     this.addEvent_(
-      this.svgGroup_, 'mouseup', this, this.onClick_);
+      this.svgGroup_, 'click', this, this.onClick_);
     this.addEvent_(
       this.svgGroup_, 'mouseover', this, this.onMouseOver_);
     this.addEvent_(

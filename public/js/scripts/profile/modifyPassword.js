@@ -10,10 +10,10 @@ function modifyPassword (){
               var answer = JSON.parse(this.responseText);
               if (answer.success === true){
                   infoBox.className = "alert alert-success";
-                  infoBox.innerHTML = "Votre mot de passe a été changé avec succès !";
+                  infoBox.textContent = i18next.t("profile.user.form.changePassword.success", { defaultValue: "Votre mot de passe a été changé avec succès !" });
               } else {
                   infoBox.className = "alert alert-danger";
-                  infoBox.innerHTML = "Erreur ! Veuillez vérifier les champs.";
+                  infoBox.textContent = i18next.t("profile.user.form.changePassword.error", { defaultValue: "Erreur ! Veuillez vérifier les champs." });
               }
               $(infoBox).fadeIn("slow");
           }

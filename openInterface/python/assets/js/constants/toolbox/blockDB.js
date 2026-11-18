@@ -19,6 +19,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             // turtle
             "turtle_direction": this.Set.number("DISTANCE", 50),
             "turtle_turn": this.Set.number("DISTANCE", 90),
+            "turtle_setheading": this.Set.number("ANGLE", 90),
             "turtle_goto": this.Set.number("X", 50) + this.Set.number("Y", 50),
             "turtle_circle": this.Set.number("RADIUS", 50),
             "turtle_arc": this.Set.number("RADIUS", 50) + this.Set.number("ANGLE", 90),

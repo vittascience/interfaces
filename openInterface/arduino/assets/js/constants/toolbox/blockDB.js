@@ -115,7 +115,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             // network - wifi R4
             "network_connectStation": this.Set.text("SSID") + this.Set.text("PASSWORD") //+ this.Set.text("IP", '192.168.1.10')
                 + '<mutation ip="false" options="false"></mutation>',
-            "network_configureAccessPoint": this.Set.text("ESSID", 'VittaAP') + this.Set.text("IP", '192.168.1.10'),
+            "network_configureAccessPoint": this.Set.text("ESSID", 'VittaAP') + this.Set.text("IP", '192.168.1.10') + this.Set.text("PASSWORD", ''),
             // network - server
             "network_server_sendData": this.Set.text("DATA"),
             "network_changeServerPort": this.Set.number("PORT", 2000),

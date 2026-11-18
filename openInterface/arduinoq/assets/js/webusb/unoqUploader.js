@@ -710,6 +710,13 @@ class UnoQuploader {
             await this.execute("shell:arduino-app-cli app stop \"/home/arduino/ArduinoApps/" + app + "\"", true);
             output = await this.execute("shell:" + execApp, false, onData);
         }
+        // Link failure on sources that compile ("undefined reference to `setup'", "`Bridge'", "`Image::data() const'"):
+        // compiled objects of the core or the libraries broken by an interrupted compile (board unplugged...), kept in
+        // .cache/sketch from one start to the next. All of them compiled again, once
+        if (/undefined reference to/.test(output) && /ld returned 1 exit status/.test(output)) {
+            await this.execute("shell:rm -rf \"/home/arduino/ArduinoApps/" + app + "/.cache/sketch\"", true);
+            output = await this.execute("shell:" + execApp, false, onData);
+        }
         // AI model of a brick not on the board yet (local LLM...): downloaded, then the app started again
         if (/Is Not Installed/i.test(output) && await this.installBrickModel(output)) {
             output = await this.execute("shell:" + execApp, false, onData);
@@ -808,9 +815,10 @@ class UnoQuploader {
     explainError(line) {
         // [pattern, translation key]: the first group of the pattern replaces {x} in the explanation
         const HINTS = [
-            [/No Camera Device Found/i, 'camera'],
-            [/No Microphone Device Found/i, 'microphone'],
-            [/No Speaker Device Found/i, 'speaker'],
+            [/No Camera Device Found|No camera found at index/i, 'camera'],
+            [/No Microphone Device Found|No microphone found at index/i, 'microphone'],
+            // at the start (CLI), or in the Python logs when the device is gone at a later start (SpeakerOpenError...)
+            [/No Speaker Device Found|No speaker found at index/i, 'speaker'],
             [/ModuleNotFoundError: No module named '([^']+)'/, 'module'],
             [/NameError: name '([^']+)' is not defined/, 'name'],
             [/TypeError: (can only concatenate str|unsupported operand type\(s\) for \+: '(int|float)' and 'str'|must be str, not)/, 'textNumber'],
@@ -1084,6 +1092,8 @@ class UnoQuploader {
         this.stopPcWebcam();
         this.stopPcMicrophone();
         await this.stopAppOutput();
+        // Each upload starts with an empty console: no logs of the previous uploads and runs
+        InterfaceMonitor.clear();
         this._isPythonWarningBlock = false;
         this._consoleOutputBuffer = "";
         if (this.shell != null) {

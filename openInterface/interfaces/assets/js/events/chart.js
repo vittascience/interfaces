@@ -52,6 +52,10 @@ function updateChart(data) {
                 InterfaceMonitor.tooltips.graphButton = true;
             }
             if (InterfaceMonitor.tooltips.monitorToggler === false && $('#monitor').hasClass('monitor-closed')) {
+                // Console on the right: #monitor-tools is rotated, the tooltip leaves it to be read horizontally
+                if ($('#monitor-controls').hasClass('monitor-controls-right')) {
+                    $("#monitor-toggler-tooltip").addClass('interface-tooltip-left').appendTo('#monitor');
+                }
                 $("#monitor-toggler-tooltip").localize().show();
                 $("#monitor-toggler-tooltip .interface-tooltip__header-close-btn").click(function () {
                     $('#monitor-toggler-tooltip').hide();

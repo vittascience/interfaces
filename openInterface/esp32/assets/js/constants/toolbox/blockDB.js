@@ -248,7 +248,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             // network - wifi
             "network_connectStation": this.Set.text("SSID") + this.Set.text("PASSWORD") + this.Set.text("IP", '192.168.1.10')
                 + '<mutation ip="true" options="false"></mutation>',
-            "network_configureAccessPoint": this.Set.text("ESSID", 'VittaAP') + this.Set.text("IP", '192.168.1.10'),
+            "network_configureAccessPoint": this.Set.text("ESSID", 'VittaAP') + this.Set.text("IP", '192.168.1.10') + this.Set.text("PASSWORD", ''),
             // network - server
             "network_server_sendData": this.Set.text("DATA"),
             "network_changeServerPort": this.Set.number("PORT", 2000),
@@ -266,6 +266,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "network_html_addSlider": this.Set.text("ID", '{sliderName}')
                 + '<mutation limits="false" orient="false" shape="false"></mutation>',
             "network_html_addGauge": this.Set.text("TITLE", 'Température (°C)') + this.Set.variable("VALUE", 'temperature') + this.Set.number("MIN") + this.Set.number("MAX", 100),
+            "network_html_addTextInput": this.Set.text("ID", '{textInputName}') + this.Set.text("PLACEHOLDER", '...'),
             "network_html_addSwitch": this.Set.text("ID", '{switchName}')
                 + '<mutation colour="false" size="false"></mutation>',
             "network_html_addLink": this.Set.text("TEXT", 'Texte du lien...') + '<field name="URL">https://...</field>'
@@ -281,6 +282,7 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "network_server_getButtonState": this.Set.text("ID", '{buttonName}'),
             "network_server_getSliderValue": this.Set.text("ID", '{sliderName}'),
             "network_server_getSwitchValue": this.Set.text("ID", '{switchName}'),
+            "network_server_getTextInputValue": this.Set.text("ID", '{textInputName}'),
             // network - HTTP
             "network_connectStation_simple": this.Set.text("SSID") + this.Set.text("PASSWORD") + '<mutation ip="false" options="false"></mutation>',
             "network_getHTTPRequest": this.Set.text("URL", 'https://...'),

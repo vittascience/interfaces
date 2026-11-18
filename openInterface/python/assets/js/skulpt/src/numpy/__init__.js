@@ -1972,6 +1972,9 @@ var $builtinmodule = function (name) {
             ndarrayJs.shape = Sk.ffi.remapToJs(shape);
 
             ndarrayJs.strides = computeStrides(ndarrayJs.shape);
+            // linspace/arange pass 'int'/'float' strings; the rest of the module expects a class
+            if (dtype === 'int') dtype = Sk.builtin.int_;
+            else if (dtype === 'float') dtype = Sk.builtin.float_;
             ndarrayJs.dtype = dtype || Sk.builtin.none();
             ndarrayJs.flags = 0x0; // set flags to zero
 
@@ -2757,20 +2760,9 @@ var $builtinmodule = function (name) {
             num = 50;
         }
         var num_num = Sk.builtin.asnum$(num);
-        var endpoint_bool;
-
-        if (endpoint === undefined) {
-            endpoint_bool = true;
-        } else if (endpoint.constructor === Sk.builtin.bool) {
-            endpoint_bool = endpoint.v;
-        }
-
-        var retstep_bool;
-        if (retstep === undefined) {
-            retstep_bool = false;
-        } else if (retstep.constructor === Sk.builtin.bool) {
-            retstep_bool = retstep.v;
-        }
+        // $defaults are plain JS booleans, Python calls give Sk.builtin.bool
+        var endpoint_bool = endpoint === undefined ? true : Sk.misceval.isTrue(endpoint);
+        var retstep_bool = retstep === undefined ? false : Sk.misceval.isTrue(retstep);
 
         var samples;
         var step;
@@ -2837,11 +2829,11 @@ var $builtinmodule = function (name) {
         var stop_num;
         var step_num;
 
-        if (stop === undefined && step === undefined) {
+        if (stop === undefined || Sk.builtin.checkNone(stop)) { // arange(stop)
             start_num = Sk.builtin.asnum$(0);
             stop_num = Sk.builtin.asnum$(start);
             step_num = Sk.builtin.asnum$(1);
-        } else if (step === undefined) {
+        } else if (step === undefined || Sk.builtin.checkNone(step)) {
             start_num = Sk.builtin.asnum$(start);
             stop_num = Sk.builtin.asnum$(stop);
             step_num = Sk.builtin.asnum$(1);
@@ -2862,13 +2854,13 @@ var $builtinmodule = function (name) {
         // return ndarray
         var arange_buffer = np.arange(start_num, stop_num, step_num);
         // apply dtype casting function, if it has been provided
-        if (dtype && Sk.builtin.checkClass(dtype)) {
-            for (i = 0; i < arange_buffer.length; i++) {
-                if (dtype === 'int') {
-                    arange_buffer[i] = new Sk.builtin.int_(arange_buffer[i]);
-                } else {
-                    arange_buffer[i] = new Sk.builtin.float_(arange_buffer[i])
-                }
+        for (var i = 0; i < arange_buffer.length; i++) {
+            if (dtype === 'int') {
+                arange_buffer[i] = new Sk.builtin.int_(arange_buffer[i]);
+            } else if (dtype === 'float') {
+                arange_buffer[i] = new Sk.builtin.float_(arange_buffer[i]);
+            } else {
+                arange_buffer[i] = Sk.misceval.callsim(dtype, new Sk.builtin.float_(arange_buffer[i]));
             }
         }
 
@@ -2880,7 +2872,7 @@ var $builtinmodule = function (name) {
     };
 
     arange_f.co_varnames = ['start', 'stop', 'step', 'dtype'];
-    arange_f.$defaults = [0, 1, 1, Sk.builtin.none()];
+    arange_f.$defaults = [0, Sk.builtin.none(), Sk.builtin.none(), Sk.builtin.none()];
     mod.arange = new Sk.builtin.func(arange_f);
 
     /* implementation for numpy.array
@@ -3095,7 +3087,7 @@ var $builtinmodule = function (name) {
     mod.prod = new Sk.builtin.func(prod_f);
 
     var sum_f = function (a, axis, dtype, out, keepdims, initial, where) {
-        Sk.builtin.pyCheckArgs("sum", arguments, 1, 5);
+        Sk.builtin.pyCheckArgs("sum", arguments, 1, 7);
 
         if (axis != null && !Sk.builtin.checkNone(axis)) {
             throw new Sk.builtin.NotImplementedError("the 'axis' parameter is currently not supported");

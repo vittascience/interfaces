@@ -74,9 +74,10 @@ Blockly.Constants.Pins.MBOT_DIGITAL_PINS = [
 ];
 
 //mBot ports
+// mCore: only PORT_3 (A2/A3) and PORT_4 (A0/A1) are analog, PORT_1/PORT_2 are digital (D11/D12, D9/D10)
 Blockly.Constants.Pins.MBOT_ANALOG_PINS = [
-    ["1", "PORT_1"],
-    ["2", "PORT_2"]
+    ["3", "PORT_3"],
+    ["4", "PORT_4"]
 ];
 
 //mBot slots of RJ45 adapter

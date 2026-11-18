@@ -601,11 +601,16 @@ DEF_WIFI_CONNECT_STATION:
 
 // Wifi _ configure access point
 DEF_WIFI_CONFIGURE_ACCESS_POINT:
-`def configure_access_point(ssid='', ip='', activate=True):
+`def configure_access_point(ssid='', ip='', activate=True, password=''):
+  if 0 < len(password) < 8:
+    raise ValueError("Access point password must be at least 8 characters (or empty for an open network)")
   ap = network.WLAN(network.AP_IF)
   sta = network.WLAN(network.STA_IF)
   sta.active(False)
-  ap.config(essid=ssid, security=0)
+  if password:
+    ap.config(essid=ssid, password=password)
+  else:
+    ap.config(essid=ssid, security=0)
   ap.active(activate)
   print("Access point started.")
   print("Note: Connecting to the access point on iOS may take ~1 min\\n")

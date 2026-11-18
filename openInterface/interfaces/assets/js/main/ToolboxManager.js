@@ -908,7 +908,29 @@ class ToolboxManager {
             const stop = (e) => e.stopPropagation();
             ['mousedown', 'click', 'dblclick', 'pointerdown'].forEach(e => search.addEventListener(e, stop));
             search.addEventListener('touchstart', stop, { passive: true });
-            searchCat.replaceWith(search);
+            // the input in a field holding the clear button at its end
+            const field = document.createElement('span');
+            field.className = 'search-block-field';
+            field.appendChild(search);
+            searchCat.replaceWith(field);
+            // one click to clear the search (the toolbox is rebuilt at each search: shown while there is a keyword)
+            if (this.keyword) {
+                const label = i18next.t('code.blockly.clearSearch');
+                const clear = document.createElement('button');
+                clear.type = 'button';
+                clear.id = 'search-block-clear';
+                clear.title = label;
+                clear.setAttribute('aria-label', label);
+                clear.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i>';
+                ['mousedown', 'dblclick', 'pointerdown'].forEach(e => clear.addEventListener(e, stop));
+                clear.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.keyword = '';
+                    this.setToolbox();
+                    document.getElementById(searchInputId)?.focus();
+                });
+                field.appendChild(clear);
+            }
         }
         if (INTERFACE_NAME == "esp32") {
             const levelDiv = document.getElementById("toolbox-level");
@@ -947,7 +969,8 @@ class ToolboxManager {
     _appendLevelDiv(searchInputId) {
         const levelDiv = document.createElement("div");
         levelDiv.setAttribute("id", "toolbox-level");
-        document.getElementById(searchInputId).after(levelDiv);
+        const search = document.getElementById(searchInputId);
+        (search.closest('.search-block-field') || search).after(levelDiv);
         $('#toolbox-level').append('<span>' + Blockly.MESSAGES.setLevel + '</span>');
         const checkedSimple = this._getLevel() === "1" ? "checked" : "";
         const checkedAdvanced = this._getLevel() === "2" ? "checked" : "";

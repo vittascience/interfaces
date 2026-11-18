@@ -40,7 +40,7 @@ Blockly.Msg["CYBERPI_CONSOLE_PRINT_TOOLTIP"] = "يُمكنك من كتابة ن�
 Blockly.Msg["CYBERPI_CONSOLE_SET_FONT_TITLE"] = "[الكونسول] اضبط حجم الخط إلى %1";
 Blockly.Msg["CYBERPI_CONSOLE_SET_FONT_TOOLTIP"] = "يُمكّنك من تغيير حجم الخط للنص في وحدة التحكم على لوحة CyberPi.";
 // Display - Text
-Blockly.Msg["CYBERPI_DISPLAY_SHOW_LABEL_TITLE"] = "[الشاشة] عرض تسمية %1 بحجم خط %2 في الموضع %3";
+Blockly.Msg["CYBERPI_DISPLAY_SHOW_LABEL_TITLE"] = "[الشاشة] عرض تسمية %1 بحجم خط %2 في الموضع %3 الفهرس %4";
 Blockly.Msg["CYBERPI_DISPLAY_SHOW_LABEL_TOOLTIP"] = "يُمكّنك من عرض نص في الموضع المحدد على شاشة CyberPi. يمكن أن يكون حجم الخط 16 أو 24 أو 32.";
 Blockly.Msg["CYBERPI_POSITION_TOP_MID"] = "أعلى الوسط";
 Blockly.Msg["CYBERPI_POSITION_TOP_LEFT"] = "أعلى اليسار";
@@ -51,7 +51,7 @@ Blockly.Msg["CYBERPI_POSITION_MID_RIGHT"] = "منتصف اليمين";
 Blockly.Msg["CYBERPI_POSITION_BOTTOM_MID"] = "أسفل الوسط";
 Blockly.Msg["CYBERPI_POSITION_BOTTOM_LEFT"] = "أسفل اليسار";
 Blockly.Msg["CYBERPI_POSITION_BOTTOM_RIGHT"] = "أسفل اليمين";
-Blockly.Msg["CYBERPI_DISPLAY_SHOW_LABEL_XY_TITLE"] = "[الشاشة] عرض تسمية %1 بحجم خط %2 x %3 y %4";
+Blockly.Msg["CYBERPI_DISPLAY_SHOW_LABEL_XY_TITLE"] = "[الشاشة] عرض تسمية %1 بحجم خط %2 x %3 y %4 الفهرس %5";
 Blockly.Msg["CYBERPI_DISPLAY_SHOW_LABEL_XY_TOOLTIP"] = "يُمكّنك من عرض نص عند الإحداثيات x (0-128) و y (0-128) على شاشة CyberPi. يمكن ضبط حجم الخط إلى 16 أو 24 أو 32.";
 // Display - Linechart
 Blockly.Msg["CYBERPI_LINECHART_ADD_TITLE"] = "[الشاشة] مخطط خطي: أضف القيمة %1";

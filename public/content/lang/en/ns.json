@@ -973,7 +973,15 @@
       "cancel": "Cancel",
       "submit": "Submit",
       "submit_success": "Thank you for sharing your review!",
-      "return_to_product": "Return to product"
+      "return_to_product": "Return to product",
+      "deleted_user": "Former user",
+      "errors": {
+        "rating": "Choose a rating from 1 to 5.",
+        "comment": "Add a comment to your review.",
+        "too_long": "Your comment cannot exceed 255 characters.",
+        "already_reviewed": "You have already reviewed this product.",
+        "generic": "Your review could not be saved. Please try again."
+      }
     },
     "shopPayLink": {
       "thanksTitle": "Thank you, your payment has been received",
@@ -1374,7 +1382,11 @@
       "legoPrimeOldFirmware": "The hub does not answer: turn it off (hold the center button), turn it on again, then plug it in again over USB. If it still does not answer, update it with the LEGO® Education SPIKE™ app (SPIKE 3 firmware required).",
       "legoPrimeBluetoothFailed": "Unable to connect to the hub over Bluetooth: press its Bluetooth button, then try again.",
       "legoPrimeNotStarted": "The program did not start on the hub (it stopped immediately, without any output). Restart the hub and try again.",
-      "legoPrimePortBusy": "Cannot open the hub port: it is already used by another application. Close the LEGO® Education SPIKE™ app (and any other tab connected to the hub), then try again."
+      "legoPrimePortBusy": "Cannot open the hub port: it is already used by another application. Close the LEGO® Education SPIKE™ app (and any other tab connected to the hub), then try again.",
+      "picaxeUploading": "Uploading the PICAXE program (about 15 seconds)...",
+      "fileDownloadedPicaxe": "PICAXE program successfully sent to the board!",
+      "picaxeCompileError": "The program cannot be compiled: %1",
+      "picaxeUnsupportedChip": "Direct upload is only available for the AutoProgX2 (PICAXE-28X2). For this board, download the .bas file and open it in PICAXE Editor."
     },
     "WebBluetoothAPI": {
       "noWebBluetoothAPI": "This browser does not support noWebBluetoothAPI. To use noWebBluetoothAPI, you have to go on compatible browser: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> or <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
@@ -1403,7 +1415,7 @@
       "hints": {
         "camera": "No camera found: the board plugged into the computer cannot use a camera. After the upload, unplug the computer and plug a powered USB-C hub with the camera (the app starts by itself when the board starts).",
         "microphone": "No microphone found: plug a USB microphone (or a webcam with a microphone) into a powered USB-C hub, instead of the computer.",
-        "speaker": "No speaker found: plug a USB speaker or headset into a powered USB-C hub, instead of the computer.",
+        "speaker": "No speaker found: plug a USB speaker or headset into a powered USB-C hub, instead of the computer. If it disconnects while playing, lower the volume or use a more powerful power supply.",
         "module": "The Python module \"{x}\" is not installed on the board.",
         "name": "\"{x}\" is used before it gets a value: give it a value at the beginning of the program (in \"on start\").",
         "textNumber": "Text and number mixed: use the \"join\" block to put text and numbers together.",
@@ -1448,6 +1460,7 @@
       "TI-83-Maclasseti": "Welcome to the MyClassTi.fr interface for the calculator TI-83 Premium CE Python Edition! The boards TI-Innovator™ Hub and BBC micro:bit can be programmed on this interface. Open the simulator to get started!",
       "GalaxiaCircuitPython": "Welcome to the Vittascience interface for Galaxia !",
       "galaxia": "Welcome to the Vittascience interface for Galaxia !</br> To program the Galaxia on this interface, you must first flash the MicroPython firmware in the board by following this tutorial: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=860\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
+      "picaxe": "Welcome to the PICAXE interface!</br>Plug in the AutoProgX2 with the AXE027 cable and click Upload.",
       "unihiker": "Welcome to the Vittascience interface for the UNIHIKER M10 board!</br>Plug the board in with USB, then click Upload. The first time, the interface puts the installer of the Vittascience server on the board, to run once from the Home menu of the board.",
       "unihiker-k10": "Welcome to the Vittascience interface for the UNIHIKER K10 board!</br>Plug the board in USB (DFRobot MicroPython firmware), then click Upload: the program is saved in main.py.",
       "raspberrypi": "Welcome to the Vittascience interface for Raspberry Pi! You can check out the tutorial available here: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=856/interface-raspberry-pi\" target=\"_blank\" rel=\"noopener noreferrer\">Getting Started with the Vittascience Interface for Raspberry Pi</a></b>",
@@ -1648,6 +1661,8 @@
         "installUnihiker": "Put the installer of the Vittascience server on the board (to run once from the Home menu of the board)",
         "unihikerHost": "Change the address of the board (10.1.2.3 through USB, or its Wi-Fi address)",
         "downloadHex": "Export the micro:bit program in [.hex] format",
+        "downloadPicaxe": "Download the .bas program (open it in PICAXE Editor)",
+        "uploadPicaxe": "Send the program to the board (AutoProgX2 / PICAXE-28X2, AXE027 cable, Chrome or Edge browser)",
         "downloadTexas": "Download .py for calculator",
         "runBuddy": "Run the program on the Buddy robot",
         "disconnect": "Disconnect the board",
@@ -1678,6 +1693,7 @@
         "consoleSettings": "Main settings",
         "accessibility": "Set the theme and the font",
         "shortcuts": "Show keyboard shortcuts",
+        "tour": "Discover the interface step by step",
         "addBlockSettings": "Add new block",
         "fullscreen": "Toggle full screen view",
         "help": "Help",
@@ -1744,6 +1760,7 @@
         "downloadUf2Pico": "Firmware Pico",
         "downloadUf2PicoW": "Firmware Pico W",
         "downloadPython": "Download .py",
+        "downloadPicaxe": "Download .bas",
         "downloadTexas": "Download for calculator",
         "downloadThymioWindows": "Download .exe",
         "downloadThymioMacOS": "Download .dmg",
@@ -1756,6 +1773,8 @@
         "settings": "Settings",
         "themes": "Accessibility",
         "shortcuts": "Keyboard shortcuts",
+        "tour": "Guided tour",
+        "offline": "Offline",
         "add": "Add block",
         "fullscreen": "Full screen",
         "help": "Help",
@@ -1788,7 +1807,9 @@
       "public": "Public"
     },
     "blockly": {
+        "clearSearch": "Clear the search",
       "label": {
+          "description": "Description",
         "trash": "<img src='/openInterface/interfaces/assets/media/empty_trash_icon.svg' class='empty-icon'></img>Empty the trash",
         "backpack": "<img src='/openInterface/interfaces/assets/media/empty_trash_icon.svg' class='empty-icon'></img>Empty the backpack"
       },
@@ -1828,6 +1849,7 @@
           "launchApp": "Start app",
           "stopApp": "Stop app",
           "openFileSystem": "Files",
+          "pythonFiles": "Files",
           "monitor": "Serial monitor",
           "openRepl": "REPL"
         },
@@ -1846,6 +1868,7 @@
           "launchApp": "Start again the app already sent to the board",
           "stopApp": "Stop the app running on the board",
           "openFileSystem": "Open file system of the board",
+          "pythonFiles": "Files available to the program (open, os, image)",
           "graph": "To display the received data in the console, click on the <b>Graph</b> button.",
           "monitorToggler": "To view the received data, click on the button <i class='fas fa-chevron-up'></i>"
         }
@@ -1999,7 +2022,9 @@
         "crash": "Crash prevention mode enabled: This happens when your code includes an infinite loop without a sleep() function call. Fix your code before trying again.",
         "variables-panel-msg": "This program does not contain any variables",
         "replaySimulator": "Replay the simulator for sending data",
-        "skulptLoadError": "The simulator could not be loaded. Check your connection and run the simulator again."
+        "skulptLoadError": "The simulator could not be loaded. Check your connection and run the simulator again.",
+        "picaxeRuntimeError": "Simulation error: %1",
+        "picaxeSimulatorChip": "The simulator is only available for the AutoProgX2 (PICAXE-28X2)."
       },
       "tooltips": {
         "bluebot-buttons": "You can use the buttons of the Blue-bot robot to program it!"
@@ -2397,13 +2422,121 @@
       "noPortAvailable": "No available port.",
       "emptyCode": "Error: the code is empty.",
       "compilation": "An error occurred during compilation.",
-      "syntax": "Syntax error. See details in console."
+      "syntax": "Syntax error. See details in console.",
+      "offlineCompilation": "You are offline: the compilation is done on our servers, it will be available again once you are back online. The simulator works offline."
     },
     "error": {
       "titleExercise": "Create an exercise",
       "otherUser": "You can't modify an exercise created by another user. You can create your own exercise by publishing your own projects.",
       "saveProjectForExercise": "You can't create an exercise on an unsaved project. First, save your project, then create your exercise.",
       "descExercise": "To create an exercise you need to be connected."
+    },
+    "tour": {
+      "buttons": {
+        "previous": "Previous",
+        "next": "Next",
+        "finish": "Finish",
+        "quit": "Quit the guided tour",
+        "skip": "Skip",
+        "try": "Try it"
+      },
+      "welcome": {
+        "title": "Welcome!",
+        "text": "Hi, I'm Vittabot! Let me show you around the interface. Move forward with the buttons or the arrow keys, and quit at any time with <kbd>Esc</kbd>."
+      },
+      "project": {
+        "title": "Your project",
+        "text": "The name of your project. Click on it to rename it or add a description."
+      },
+      "files": {
+        "title": "Your projects",
+        "text": "Create a new project, open an existing one (yours, those shared with you or the examples) and save your work."
+      },
+      "undo": {
+        "title": "Undo and redo",
+        "text": "Undo or redo a change, also with <kbd>Ctrl</kbd>+<kbd>Z</kbd> and <kbd>Ctrl</kbd>+<kbd>Y</kbd>."
+      },
+      "toolbox": {
+        "title": "The blocks",
+        "text": "The blocks are sorted by categories: click on a category to show them. The search, at the top, finds a block by its name."
+      },
+      "workspace": {
+        "title": "The workspace",
+        "text": "Drag the blocks here and snap them together to build your program, starting from the \"On start\" and \"Forever\" blocks. Right-click on a block to duplicate it, comment it or show its help."
+      },
+      "workspaceTools": {
+        "title": "The workspace tools",
+        "text": "Put blocks in the backpack to reuse them in another project, take a screenshot, zoom or recenter, and delete blocks by dragging them to the trash."
+      },
+      "code": {
+        "title": "The code",
+        "text": "The code is written automatically from your blocks. In code mode, you write it yourself, helped by the autocompletion."
+      },
+      "modes": {
+        "title": "Blocks, hybrid or code",
+        "text": "Choose how to program: with blocks, with the blocks and the code side by side, or directly in code."
+      },
+      "upload": {
+        "title": "Send the program",
+        "text": "Plug in your hardware (board, robot or calculator) then send it your program. The arrow, when there is one, opens other options, such as downloading the program file."
+      },
+      "run": {
+        "title": "Run the program",
+        "text": "Start your program to see its result."
+      },
+      "simulator": {
+        "title": "The simulator",
+        "text": "Test your program without hardware: the simulator reproduces the board, the robot or the calculator and reacts to your program."
+      },
+      "console": {
+        "title": "The console",
+        "text": "The messages of your program are shown here. Drag its edge to enlarge it, or hide it."
+      },
+      "consoleModes": {
+        "title": "Text, graph or music",
+        "text": "Show the received data as text or as a graph, or listen to the notes played by your program."
+      },
+      "consoleTools": {
+        "title": "Talk to the board",
+        "text": "Send messages to the plugged board, export the graph data and, depending on the board, access its files or its console."
+      },
+      "fullscreen": {
+        "title": "Full screen",
+        "text": "Show the interface in full screen to get more room."
+      },
+      "settings": {
+        "title": "Settings",
+        "text": "Theme, accessibility, language, keyboard shortcuts, help… You will also find this guided tour here."
+      },
+      "end": {
+        "title": "Your turn!",
+        "text": "You now know the interface. To find out what each block does, open the wiki from the help. And if you need me, I'm in the settings!"
+      },
+      "mission": {
+        "invite": "Let's create your first program together!",
+        "category": {
+          "title": "Open a category",
+          "text": "Click on the <b>{name}</b> category."
+        },
+        "block": {
+          "title": "Add a block",
+          "text": "Drag the <b>{block}</b> block into the <b>{into}</b> block, and snap it in.",
+          "textAnywhere": "Drag the <b>{block}</b> block into the workspace."
+        },
+        "simulator": {
+          "title": "Start the simulator",
+          "text": "Click on this button to start the simulator and see your program run."
+        },
+        "run": {
+          "title": "Run the program",
+          "text": "Click on <b>Run</b> to start your program."
+        },
+        "done": {
+          "title": "Well done!",
+          "text": "Your program works, I'm proud of you! Look at the result in the simulator. Change the block or add other ones to go further.",
+          "textConsole": "Your program works, I'm proud of you! Look at the result in the console. Change the block or add other ones to go further."
+        }
+      }
     },
     "robotGuide": {
       "tuto": "To find the programming blocks of the <b>[ROBOT_NAME]</b> robot, click on the <b><i class='fa-solid fa-robot me-1'></i>Robots</b> tab.",
@@ -2432,6 +2565,7 @@
         "noCategory": "No category. Click on the &ldquo;Add a category&rdquo; button to create a new one!",
         "category": {
           "defaultCategoryName": "Category no ",
+          "defaultSoundCategoryName": "Background noise",
           "cameraButton": "Camera",
           "microphone": "Microphone",
           "spectrogram": "Spectrogram",
@@ -4772,6 +4906,7 @@
   },
   "profile": {
     "menu": {
+      "premium": "Premium",
       "user": "My profile",
       "publicProfile": "Public profile",
       "exp": "My experiments",
@@ -4786,6 +4921,17 @@
       "title": "My profile",
       "notice": "Fields marked with a <span class=\"mandatory\">*</span> are required. ",
       "form": {
+        "enableTotp": "Enable two-factor authentication",
+        "updated": "Your profile has been updated successfully!",
+        "picture": {
+          "alt": "user avatar",
+          "title": "Choose a profile picture",
+          "upload": "Upload your own image",
+          "icons": "Choose from the available Vittascience icons",
+          "save": "Save",
+          "tooBig": "Invalid file! Maximum size allowed: 250 KB.",
+          "sizeOk": "The file size is valid."
+        },
         "firstName": "First name",
         "firstNamePlaceholder": "Your first name",
         "lastName": "Last name",
@@ -4812,6 +4958,19 @@
         "namePublic": "Do you accept your first and last name to be public on our site?",
         "newsletter": "Would you like to receive our newsletter?",
         "alertMail": "Would you like to recieve notification via email when you receive new messages on our site?",
+        "errors": {
+          "session": "Your session has expired: reload the page.",
+          "name": "The first name or last name is invalid.",
+          "phone": "The phone number is invalid: it must be between 10 and 30 characters long.",
+          "picture": "The image is invalid: check its format and size.",
+          "pictureSave": "The image could not be saved. Please try again.",
+          "save": "Your profile could not be saved. Please try again.",
+          "teacherMissing": "Enter your school, your level and your subject.",
+          "school": "The school name is invalid.",
+          "grade": "The level is invalid.",
+          "subject": "The subject is invalid.",
+          "generic": "Error. The form contains errors."
+        },
         "buttons": {
           "changePassword": "Change my password",
           "changeMail": "Change my email address",
@@ -4821,6 +4980,8 @@
         },
         "return": "Return",
         "changePassword": {
+          "success": "Your password has been changed successfully!",
+          "error": "Error! Please check the fields.",
           "title": "Change my password",
           "form": {
             "actualPassword": "Current password",
@@ -4833,6 +4994,9 @@
           }
         },
         "changeMail": {
+          "exists": "This email address is already in use! Please choose another one.",
+          "success": "Your request has been saved! Click the confirmation link in the email we have just sent you to confirm your new email address ({{mail}}).",
+          "error": "Error. Please try again.",
           "title": "Modify my email address",
           "notice": "<span class=\"fa fa-exclamation-triangle\"></span> This new email address will serve as the identifier for your Vittascience account. To validate this email address, a confirmation message will be sent to you.",
           "mail": "Your email address",
@@ -4840,6 +5004,8 @@
           "button": "Change my email address"
         },
         "deletion": {
+          "subscription_warning": "Your current Premium subscription will be cancelled immediately, without refund.",
+          "gifted_subscriptions_warning": "The Premium subscriptions you pay for other accounts will also be cancelled immediately.",
           "delete_account": "Delete my account",
           "confirm_delete_prompt": "Are you sure you want to delete your account?",
           "data_lost_warning": "All your data will be permanently lost.",
@@ -4881,6 +5047,7 @@
       }
     },
     "pro": {
+      "deleteConfirm": "Do you want to delete this project?",
       "title": "My programs",
       "subTitle": "List of my programs",
       "api": {
@@ -4912,7 +5079,90 @@
       },
       "searchButton": "Search"
     },
+    "premium": {
+      "tabPersonal": "My Premium subscription",
+      "tabGifted": "Gifted subscription(s)",
+      "tabGroup": "Group subscription",
+      "yourSubscription": "Your subscription:",
+      "statusLabel": "Status:",
+      "status": {
+        "active": "Active",
+        "canceled": "Cancelled",
+        "unknown": "Unknown",
+        "admin": "Admin"
+      },
+      "periodEnd": "End of period:",
+      "nextPayment": "Next payment:",
+      "cancel": "Cancel subscription",
+      "resubscribe": "Resubscribe",
+      "reactivate": "Reactivate",
+      "notSubscribed": "You are not subscribed to the Premium plan",
+      "planPremium": "Premium",
+      "planTeam": "Team",
+      "fromPricePremium": "From €{{price}}/month",
+      "fromPriceTeam": "From €{{price}}/teacher/month",
+      "teacherCount": "Number of teachers:",
+      "subscribed": "Subscribed",
+      "subscribe": "Subscribe",
+      "compare": "Compare plans >",
+      "modalTitle": "Premium subscription",
+      "chosenPlan": "You have chosen the plan",
+      "chooseBilling": "Choose a billing period:",
+      "monthly": "Monthly subscription",
+      "yearly": "Yearly subscription",
+      "triennial": "Three-year subscription",
+      "billingAddress": "Billing address:",
+      "noBillingAddress": "You have no billing address.",
+      "subscribeFor": "You are subscribing for:",
+      "forMe": "My account",
+      "forOther": "Another account",
+      "otherEmailLabel": "Enter the email address of the Vittascience account below",
+      "groupName": "Group name",
+      "groupOf": "Group of",
+      "or": "or",
+      "quote": "Estimate",
+      "giftedName": "Name",
+      "giftedStatus": "Status",
+      "giftedPeriodEnd": "End of period",
+      "giftedAction": "Action",
+      "noGifted": "You have not gifted any subscription yet.",
+      "groupInherit": "You belong to a group with Premium status and inherit the following access:",
+      "learners": "Learners:",
+      "classrooms": "Classes:",
+      "unlimited": "Unlimited",
+      "validity": "Validity:",
+      "since": "Subscribed since",
+      "until": "Until",
+      "noGroup": "You do not belong to a group with Premium status.",
+      "minTeachers": "Please choose more than one teacher for this plan.",
+      "maxTeachers": "For more than 200 teachers, please contact us at contact@vittascience.com.",
+      "quoteExists": "An estimate has already been created for this plan. You will find it in the estimates section of your account.",
+      "quoteCreated": "Your estimate has been created. You will find it in the estimates section of your account and by email.",
+      "quoteError": "An error occurred while creating your estimate. Please try again.",
+      "activated": "Your subscription has been activated. You can now enjoy your benefits.",
+      "paymentFailed": "An error occurred while creating your subscription. Please try again.",
+      "canceled": "Your subscription has been cancelled. You keep your benefits until the end of the current period.",
+      "cancelConfirm": "Do you really want to cancel this subscription? It will remain active until the end of the current period.",
+      "noAddress": "Add a billing address first to continue."
+    },
     "addressBloc": {
+      "noAddress": "You have not added an address yet.",
+      "isEstablishment": "Is this the address of an institution?",
+      "establishmentName": "Institution name",
+      "submit": "Update",
+      "usedBySubscription": "This address is used by an active Premium subscription: it cannot be deleted.",
+      "deleteConfirm": "Are you sure you want to delete this address?",
+      "searchLabel": "Enter your address",
+      "searchPlaceholder": "Institution name, address or city",
+      "zoneQuestion": "Your institution is located:",
+      "zoneFr": "In France",
+      "zoneEu": "In Europe",
+      "zoneWorld": "Rest of the world",
+      "siretPlaceholder": "14 digits — optional",
+      "companyNumber": "Company number",
+      "companyNumberPlaceholder": "Trade register number",
+      "vatNumber": "VAT number",
+      "vatPlaceholder": "Intra-community VAT number",
       "edit": "Edit",
       "del": "Delete",
       "addAddress": "Add address",
@@ -4927,6 +5177,23 @@
       "cancel": "Cancel"
     },
     "ordersBloc": {
+      "quotePaid": "Paid",
+      "quoteAccepted": "Accepted",
+      "noOrders": "You have not placed any order yet.",
+      "noEstimates": "You have not requested any estimate yet.",
+      "noWishlist": "You have not added any product to your wishlist yet.",
+      "hideDetails": "Hide details",
+      "at": "at",
+      "alreadySubscribedTitle": "Your account already has a Premium subscription: this estimate includes a subscription, contact us to adjust it.",
+      "wishlistDeleteConfirm": "Are you sure you want to remove this item?",
+      "mixed": {
+        "title": "Multi-user subscription",
+        "text1": "This estimate includes a multi-user Premium subscription: it cannot be paid by card.",
+        "text2": "You can pay it by bank transfer or upload your purchase order: our team will then activate the subscription.",
+        "text3": "To pay by card, subscribe from your profile, then order the equipment from the shop: delivery will be free to mainland France.",
+        "close": "Close",
+        "subscribe": "Subscribe from my profile"
+      },
       "priceTTC": "€ incl. VAT",
       "seeMore": "See details",
       "dl": "Download",
@@ -6393,6 +6660,19 @@
           }
         }
       },
+      "pythonFiles": {
+        "title": "Files",
+        "name": "Name",
+        "size": "Size",
+        "empty": "No files. Import a file or create one with open().",
+        "import": "Import files",
+        "download": "Download",
+        "delete": "Delete",
+        "hint": "Files stay available while the page is open. Usage: open('data.csv'), os.listdir(), Image('photo.jpg').",
+        "limits": "5 MB maximum per file · 100 MB in total",
+        "tooLarge": "\"{name}\" was not imported: 5 MB maximum per file.",
+        "quotaExceeded": "\"{name}\" was not imported: 100 MB maximum in total."
+      },
       "addblock": {
         "title": "Add a block",
         "content": {
@@ -7273,6 +7553,15 @@
         },
         "save": "Save"
       },
+      "delete-background-noise": {
+        "title": "Delete the “Background noise” category?",
+        "body": [
+          "This category teaches the model to recognize <b>the absence of any specific sound</b>: silence, room noise, ventilation…",
+          "Without it, the model has to pick one of your other categories even when nobody is speaking, which causes many false detections."
+        ],
+        "cancel": "Cancel",
+        "delete": "Delete anyway"
+      },
       "gradcam-info": {
         "title": "What is a zone of influence?",
         "body": [
@@ -7537,6 +7826,7 @@
         "esp32": "Programming interface for ESP32 boards (Wemos D1R32, NodeMCU, Huzzah32, ...)",
         "TI-83": "Programming interface for calculator and boards BBC micro:bit or TI Innovator™ Hub",
         "GalaxiaCircuitPython": "Programming interface for the Thingz-Galaxia board",
+        "picaxe": "Block programming interface for PICAXE boards (AutoProgX2 from A4 Technologie, 08M2 to 40X2): generates PICAXE BASIC to download.",
         "unihiker": "Programming interface for the UNIHIKER M10 board: touch screen, built-in sensors and Python on Linux!",
         "unihikerK10": "Programming interface for the UNIHIKER K10 board: screen, RGB LEDs, built-in sensors and MicroPython!",
         "raspberrypi": "Programming interface for the Raspberry Pi board",
@@ -7808,6 +8098,10 @@
     "errorSendingEmail": "An error occurred while sending the email.",
     "emailSent": "Email sent!",
     "controllerError": "An error occurred while connecting to the server. Our team has been informed and will resolve this as soon as possible.",
+    "offline": "You are offline: your work is kept on this device, the projects of your account will be available once you are back online.",
+    "offlineSave": "You are offline: your project is kept on this device (Open > My local projects). Save it to your account once you are back online.",
+    "offlineDownload": "You are offline: this file is not on this device yet, download it once you are back online.",
+    "backOnline": "You are back online: reload the page to get your account and your projects back.",
     "notLoggedIn": "You must be logged in to perform this action!",
     "manualTrainingDataVerificationSuccess": "The training data verification was successful!",
     "manualTrainingDataVerificationError": "An error occurred while checking the training data!",

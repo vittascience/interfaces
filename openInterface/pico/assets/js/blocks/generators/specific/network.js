@@ -43,12 +43,13 @@ Blockly.Python.network_connectStation = function (block) {
 Blockly.Python.network_configureAccessPoint = function (block) {
     let essid = Blockly.Python.valueToCode(block, "ESSID", Blockly.Python.ORDER_NONE) || "''";
     let ip = Blockly.Python.valueToCode(block, "IP", Blockly.Python.ORDER_NONE) || "''";
+    const password = Blockly.Python.valueToCode(block, "PASSWORD", Blockly.Python.ORDER_NONE) || "''";
     Blockly.Python.addImport('network', IMPORT_NETWORK);
     Blockly.Python.addConstant('pico_ip_address', "PICO_IP = " + ip);
     Blockly.Python.addInit('station', 'station = None');
     Blockly.Python.addInit('accessPoint', 'accessPoint = None');
     Blockly.Python.addFunction('configure_access_point', FUNCTIONS_PICO.DEF_WIFI_CONFIGURE_ACCESS_POINT);
-    let code = "accessPoint = configure_access_point(ssid=" + essid + ", ip=PICO_IP)" + NEWLINE;
+    let code = "accessPoint = configure_access_point(ssid=" + essid + ", ip=PICO_IP, password=" + password + ")" + NEWLINE;
     if (Blockly.Python.esp32.getProgrammingMode().mode == Blockly.Python.esp32.MODE_SERVER) {
         Blockly.Python.addImport('vitta_server', IMPORT_VITTA_SERVER);
         Blockly.Python.addConstant('server_port', 'SERVER_PORT = 80');

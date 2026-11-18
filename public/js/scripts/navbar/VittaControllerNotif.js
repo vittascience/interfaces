@@ -16,6 +16,15 @@ class VittaControllerNotif {
 	 * @param {object} ajaxObject - Ajax object
 	 */
 	async manageError(error, ajaxObject) {
+		// server unreachable (offline, interfaces served by /interfaces-sw.js): not a server error, nothing to report
+		if (error.status === 0 && error.statusText !== 'abort') {
+			console.warn('Offline:', ajaxObject && ajaxObject.url);
+			if (!this._offlineNotified && typeof VittaNotif !== 'undefined') {
+				this._offlineNotified = true;
+				new VittaNotif().displayNotification(null, i18next.t('notifications.offline'), 'bg-info');
+			}
+			return;
+		}
 		let parentErrorMessage;
 		try {
 			throw new Error();

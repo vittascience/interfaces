@@ -154,7 +154,7 @@ var $builtinmodule = function (name) {
             }
         });
 
-        var config = function (self, param, essid, password, max_clients, dhcp_hostname) {
+        var config = function (self, param, essid, password, max_clients, dhcp_hostname, channel, hidden, authmode) {
             if (Sk.ffi.remapToJs(param) === null) {
                 const ssid = Sk.ffi.remapToJs(essid);
                 if (ssid !== null) {
@@ -165,6 +165,11 @@ var $builtinmodule = function (name) {
                 if (pwd !== null) {
                     Sk.builtin.pyCheckType("password", "string", Sk.builtin.checkString(password));
                     self.config.password = password.v;
+                }
+                const auth = authmode === undefined ? null : Sk.ffi.remapToJs(authmode);
+                if (auth !== null) {
+                    Sk.builtin.pyCheckType("authmode", "int", Sk.builtin.checkInt(authmode));
+                    self.config.authmode = auth;
                 }
                 const hostname = Sk.ffi.remapToJs(dhcp_hostname);
                 if (hostname !== null) {
@@ -218,8 +223,8 @@ var $builtinmodule = function (name) {
             }
         };
 
-        config.co_varnames = ['self', 'param', 'essid', 'password', 'max_clients', 'dhcp_hostname', 'channel', 'hidden'];
-        config.$defaults = [Sk.builtin.none(), Sk.builtin.none(), Sk.builtin.none(), Sk.builtin.none(), Sk.builtin.none(), Sk.builtin.none(), Sk.builtin.none()];
+        config.co_varnames = ['self', 'param', 'essid', 'password', 'max_clients', 'dhcp_hostname', 'channel', 'hidden', 'authmode'];
+        config.$defaults = [Sk.builtin.none(), Sk.builtin.none(), Sk.builtin.none(), Sk.builtin.none(), Sk.builtin.none(), Sk.builtin.none(), Sk.builtin.none(), Sk.builtin.none()];
         $loc.config = new Sk.builtin.func(config);
 
     }, "WLAN", []);

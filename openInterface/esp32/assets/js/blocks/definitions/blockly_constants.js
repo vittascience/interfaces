@@ -6,6 +6,7 @@ Blockly.Constants.HTML_BLOCKS = [
   'network_html_addButton',
   'network_html_addSlider',
   'network_html_addSwitch',
+  'network_html_addTextInput',
   'network_html_addGauge',
   'network_html_addLink',
   'network_html_addImage',

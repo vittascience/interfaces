@@ -84,6 +84,8 @@ const dragAndDrop = {
             pos = { row: pos.row + 1, column: indent.length };
         }
 
+        // own undo step: Ace >= 1.5 would merge it with a previous programmatic setValue
+        session.getUndoManager().startNewGroup();
         editor.startOperation();
         session.insert(at0, code);
         let row = pos.row;

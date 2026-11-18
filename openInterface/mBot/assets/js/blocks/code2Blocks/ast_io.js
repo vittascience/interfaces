@@ -337,7 +337,7 @@ utils.prototypeBlocks['switch_2.touched'] = function (type, fields, values, muta
 
 utils.prototypeBlocks['joystick.readX'] = function (type, fields, values, mutations, statementsNode, statement) {
 	const variables = Cpp2Blocks._variables;
-	const port = variables["joystick"]?.argument?.children[1]?.text || "PORT_1";
+	const port = variables["joystick"]?.argument?.children[1]?.text || "PORT_3";
 	return {
 		type: "robots_makeBlock_getJoystickAxis",
 		fields: { PORT: port, AXIS: "X" },
@@ -350,7 +350,7 @@ utils.prototypeBlocks['joystick.readX'] = function (type, fields, values, mutati
 
 utils.prototypeBlocks['joystick.readY'] = function (type, fields, values, mutations, statementsNode, statement) {
 	const variables = Cpp2Blocks._variables;
-	const port = variables["joystick"]?.argument?.children[1]?.text || "PORT_1";
+	const port = variables["joystick"]?.argument?.children[1]?.text || "PORT_3";
 	return {
 		type: "robots_makeBlock_getJoystickAxis",
 		fields: { PORT: port, AXIS: "Y" },
@@ -363,7 +363,7 @@ utils.prototypeBlocks['joystick.readY'] = function (type, fields, values, mutati
 
 utils.prototypeBlocks['potentiometer.read'] = function (type, fields, values, mutations, statementsNode, statement) {
 	const variables = Cpp2Blocks._variables;
-	const port = variables["potentiometer"]?.argument?.children[1]?.text || "PORT_1";
+	const port = variables["potentiometer"]?.argument?.children[1]?.text || "PORT_3";
 	return {
 		type: "robots_makeBlock_getPotentiometer",
 		fields: { PORT: port },
@@ -376,7 +376,7 @@ utils.prototypeBlocks['potentiometer.read'] = function (type, fields, values, mu
 
 utils.prototypeBlocks['buttons.pressed'] = function (type, fields, values, mutations, statementsNode, statement) {
 	const variables = Cpp2Blocks._variables;
-	const port = variables["buttons"]?.argument?.children[1]?.text || "PORT_1";
+	const port = variables["buttons"]?.argument?.children[1]?.text || "PORT_3";
 	return {
 		type: "robots_makeBlock_getPressedButton",
 		fields: { PORT: port },

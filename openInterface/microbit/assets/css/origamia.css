@@ -1,9 +1,17 @@
-/* Loader plein écran pendant la mise en place de l'interface */
+html.provider-origamia {
+    --og-bg: #fffeed;
+    --og-line: rgba(0, 57, 115, 0.3);
+    --og-radius: 12px;
+    --og-gap: 16px;
+    --og-side: 34%;
+    --og-top: 0px;
+}
+
 html.provider-origamia #origamia-loader {
     position: fixed;
     inset: 0;
     z-index: 99999;
-    background: #fff;
+    background: var(--og-bg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -35,79 +43,92 @@ html.provider-origamia .ide-base,
 html.provider-origamia .ide-editor,
 html.provider-origamia .ide-block,
 html.provider-origamia #content_blocks,
-html.provider-origamia #content_blocks .injectionDiv,
-html.provider-origamia #content_blocks .blocklySvg {
-    background: transparent;
+html.provider-origamia #content_blocks .injectionDiv {
+    background: var(--og-bg) !important;
     border: none !important;
     box-shadow: none !important;
     outline: none !important;
 }
-html.provider-origamia body,
-html.provider-origamia #ide,
-html.provider-origamia #ide-content,
-html.provider-origamia .ide-base {
-    background: #fffeed !important;
+
+html.provider-origamia .ide-navbar,
+html.provider-origamia #generator,
+html.provider-origamia .ide-generator,
+html.provider-origamia #monitor,
+html.provider-origamia #focus-ring,
+html.provider-origamia #simulator-switcher,
+html.provider-origamia #auto-corrector-validate,
+html.provider-origamia #auto-corrector-draw-chronogram,
+html.provider-origamia #auto-corrector-loader,
+html.provider-origamia .blocklyBackpack,
+html.provider-origamia #empty-backpack-btn,
+html.provider-origamia #empty-trash-btn,
+html.provider-origamia .blocklyTrash {
+    display: none !important;
 }
 
 html.provider-origamia .ide-base,
-html.provider-origamia .ide-editor,
 html.provider-origamia .ide-block,
 html.provider-origamia #content_blocks {
     width: 100% !important;
 }
 
-html.provider-origamia .blocklyFlyout .blocklyFlyoutBackground {
-    fill: #fffeed !important;
-    fill-opacity: 1 !important;
+html.provider-origamia .ide-editor {
+    position: relative;
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+}
+html.provider-origamia.og-side .ide-editor {
+    width: calc(100% - var(--og-side) - var(--og-gap)) !important;
 }
 
 html.provider-origamia #content_blocks::after,
 html.provider-origamia #content_blocks:focus-within::after {
-    border: none !important;
     display: none !important;
     content: none !important;
 }
-
-html.provider-origamia #content_blocks .blocklySvg,
-html.provider-origamia #content_blocks .injectionDiv,
 html.provider-origamia #content_blocks *:focus,
-html.provider-origamia #content_blocks *:focus-within,
 html.provider-origamia #content_blocks *:focus-visible {
-    border-color: #fffeed !important;
-    outline-color: #fffeed !important;
+    outline: none !important;
 }
 
-html.provider-origamia #focus-ring {
-    display: none !important;
-    box-shadow: none !important;
+html.provider-origamia #content_blocks .blocklySvg {
+    background: #fff !important;
+    border: none !important;
+    outline: none !important;
+    clip-path: inset(var(--og-top) 0 0 0 round var(--og-radius));
 }
-
-html.provider-origamia .ide-navbar {
-    display: none !important;
-}
-
-html.provider-origamia #generator,
-html.provider-origamia .ide-generator {
-    display: none !important;
-}
-
-html.provider-origamia #monitor {
-    display: none !important;
-}
-
-html.provider-origamia #simulator-switcher,
-html.provider-origamia #auto-corrector-validate,
-html.provider-origamia #auto-corrector-draw-chronogram,
-html.provider-origamia #auto-corrector-loader {
-    display: none !important;
+html.provider-origamia #content_blocks .blocklyMainBackground {
+    fill: #fff !important;
+    stroke: none !important;
 }
 
 html.provider-origamia #origamia-ws-frame {
     position: absolute;
-    border: 1.5px solid rgba(0, 57, 115, 0.3);
-    border-radius: 12px;
+    top: var(--og-top);
+    right: 0;
+    bottom: 0;
+    left: 0;
+    box-sizing: border-box;
+    border: 1.5px solid var(--og-line);
+    border-radius: var(--og-radius);
     pointer-events: none;
     z-index: 6;
+}
+
+html.provider-origamia .blocklyFlyout .blocklyFlyoutBackground {
+    fill: var(--og-bg) !important;
+    fill-opacity: 1 !important;
+}
+html.provider-origamia .blocklyFlyoutScrollbar .blocklyScrollbarBackground {
+    fill-opacity: 0 !important;
+}
+html.provider-origamia.og-no-toolbox #content_blocks .blocklyToolboxFlyout,
+html.provider-origamia.og-no-toolbox #content_blocks .blocklyToolboxFlyout + .blocklyFlyoutScrollbar {
+    display: none !important;
+}
+html.provider-origamia .blocklyScrollbarHandle {
+    fill: rgba(0, 57, 115, 0.25) !important;
 }
 
 html.provider-origamia .ide-simulator {
@@ -116,7 +137,8 @@ html.provider-origamia .ide-simulator {
     right: 0 !important;
     bottom: 0 !important;
     left: auto !important;
-    width: 34% !important;
+    width: var(--og-side) !important;
+    height: auto !important;
     min-width: 0 !important;
     max-width: none !important;
     margin: 0 !important;
@@ -133,22 +155,43 @@ html.provider-origamia #simulator {
     height: 100% !important;
     margin: 0 !important;
     background: #fff !important;
-    border: 1.5px solid rgba(0, 57, 115, 0.3) !important;
-    border-radius: 12px !important;
+    border: 1.5px solid var(--og-line) !important;
+    border-radius: var(--og-radius) !important;
     box-sizing: border-box !important;
-    overflow: hidden !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
 }
 
-html.provider-origamia .blocklyBackpack,
-html.provider-origamia .blocklyTrash {
-    display: none !important;
+html.provider-origamia #board-container {
+    width: 100% !important;
+    max-width: 300px;
+    height: auto !important;
+    margin-inline: auto;
+}
+html.provider-origamia #board-viewer {
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 300 / 229;
+}
+html.provider-origamia #simulator .simulator-buttons {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
 }
 
-html.provider-origamia .blocklyScrollbarHorizontal.blocklyMainWorkspaceScrollbar,
-html.provider-origamia .blocklyScrollbarVertical.blocklyMainWorkspaceScrollbar {
-    overflow: hidden !important;
-}
-
-html.provider-origamia .blocklyScrollbarHandle {
-    fill: var(--bg-4) !important;
+@media (max-width: 560px) {
+    html.provider-origamia .blocklyZoom {
+        display: none !important;
+    }
+    html.provider-origamia.og-side .ide-editor {
+        width: 100% !important;
+        height: calc(46% - var(--og-gap)) !important;
+        align-self: flex-start;
+    }
+    html.provider-origamia .ide-simulator {
+        top: 46% !important;
+        left: 0 !important;
+        width: 100% !important;
+    }
 }

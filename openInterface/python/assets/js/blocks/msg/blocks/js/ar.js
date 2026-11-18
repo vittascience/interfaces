@@ -35,6 +35,8 @@ Blockly.Msg["TURTLE_TURN_TITLE"] = "دوّر %1 بمقدار %2°";
 Blockly.Msg["TURTLE_TURN_RIGHT"] = "يمين ↻";
 Blockly.Msg["TURTLE_TURN_LEFT"] = "يسار ↺";
 Blockly.Msg["TURTLE_TURN_TOOLTIP"] = "استدرّ بتحديد قيمة الزاوية.";
+Blockly.Msg["TURTLE_SETHEADING_TITLE"] = "وجّه السلحفاة نحو %1°";
+Blockly.Msg["TURTLE_SETHEADING_TOOLTIP"] = "يوجّه السلحفاة في اتجاه مطلق (0° = اليمين، 90° = الأعلى).";
 Blockly.Msg["TURTLE_GOTO_TITLE"] = "اذهب إلى الموضع x %1 y %2";
 Blockly.Msg["TURTLE_GOTO_TOOLTIP"] = "اذهب إلى الإحداثيات المحددة (x و y).";
 Blockly.Msg["TURTLE_CIRCLE_TITLE"] = "ارسم دائرة بنصف قطر %1";

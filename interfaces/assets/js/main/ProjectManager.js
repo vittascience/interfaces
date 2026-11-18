@@ -146,7 +146,8 @@ class ProjectManager {
                 resolve();
             } catch (error) {
                 console.error(error);
-                pseudoModal.endBlocker('modal-openproject');
+                // the projects may fail before the modals exist (offline: the web interface)
+                window.pseudoModal?.endBlocker('modal-openproject');
                 reject();
             }
         });
@@ -881,7 +882,11 @@ class ProjectManager {
                         }
                     }
 
-                    if (Simulator._has3DRobotSimulator() && typeof Simulator3D !== 'undefined') {
+                    // the 3D scene is created at its first use and then reads these options from SimulatorLS: created now only
+                    // when the project has 3D options (it also creates RobotSimulator3D, used below)
+                    const options3D = ['robotBackground', 'robotInitialPosition', 'robotInitialAngle', 'robotInitialZoom', 'obstaclesDB']
+                        .some(option => this._currentProject.options[option]);
+                    if (Simulator._has3DRobotSimulator() && typeof isSimulator3DCreated === 'function' && (options3D || isSimulator3DCreated())) {
                         // Option: 3D simulator robot background
                         const robotBackground = this._currentProject.options.robotBackground;
                         if (robotBackground) {
@@ -1338,7 +1343,7 @@ class ProjectManager {
         if (typeof window.RobotSimulator3D !== 'undefined') {
             window.RobotSimulator3D.Obstacle.setFromLS();
         }
-        if (typeof Simulator3D !== 'undefined' && typeof Simulator3D.removeObstacles === 'function') {
+        if (typeof isSimulator3DCreated === 'function' && isSimulator3DCreated() && typeof Simulator3D.removeObstacles === 'function') {
             Simulator3D.removeObstacles();
         }
     };

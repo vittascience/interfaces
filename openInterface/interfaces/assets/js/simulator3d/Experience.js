@@ -350,3 +350,18 @@ export default class Experience {
 		this.mediaRecorder.start();
 	}
 }
+
+/**
+ * Defines window.Simulator3D, created at its first use (the simulator opened, a robot chosen) instead of when the
+ * page loads: the 3D models weigh several MB (winky 9, niryo 7, nao 5).
+ * @param {function(): Object} create creates the simulator of the interface
+ */
+export function defineSimulator3D(create) {
+    let simulator3D = null;
+    Object.defineProperty(window, 'Simulator3D', {
+        configurable: true,
+        get: () => simulator3D ??= create()
+    });
+    // "typeof Simulator3D" creates it: this tells whether it exists without creating it
+    window.isSimulator3DCreated = () => simulator3D !== null;
+}

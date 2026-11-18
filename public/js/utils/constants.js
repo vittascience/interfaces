@@ -35,5 +35,6 @@ const arrayInterfaces = [
   'primastem',
   'skykick',
   'legoprime',
-  'unihiker'
+  'unihiker',
+  'picaxe'
 ];

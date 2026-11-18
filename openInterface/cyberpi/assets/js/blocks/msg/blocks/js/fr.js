@@ -39,8 +39,8 @@ Blockly.Msg['CYBERPI_CONSOLE_PRINT_TOOLTIP'] = 'Permet d\'afficher du texte dans
 Blockly.Msg['CYBERPI_CONSOLE_SET_FONT_TITLE'] = '[Console] définir taille de police à %1';
 Blockly.Msg['CYBERPI_CONSOLE_SET_FONT_TOOLTIP'] = 'Permet de changer la taille de police du texte dans la console de la carte CyberPi.';
 // Display - Text
-Blockly.Msg['CYBERPI_DISPLAY_SHOW_LABEL_TITLE'] = '[Ecran] afficher l\'étiquette %1 taille %2 position %3';
-Blockly.Msg['CYBERPI_DISPLAY_SHOW_LABEL_TOOLTIP'] = 'Permet d\'afficher l\'étiquette à la position indiquée sur l\'écran de la carte CyberPi. La taille de police peut être définie comme 16, 24 ou 32.';
+Blockly.Msg['CYBERPI_DISPLAY_SHOW_LABEL_TITLE'] = '[Ecran] afficher l\'étiquette %1 taille %2 position %3 index %4';
+Blockly.Msg['CYBERPI_DISPLAY_SHOW_LABEL_TOOLTIP'] = 'Permet d\'afficher l\'étiquette à la position indiquée sur l\'écran de la carte CyberPi. La taille de police peut être définie comme 16, 24 ou 32. L\'index (0 à 7) permet d\'afficher simultanément plusieurs étiquettes sans les écraser.';
 Blockly.Msg['CYBERPI_POSITION_TOP_MID'] = 'en haut milieu';
 Blockly.Msg['CYBERPI_POSITION_TOP_LEFT'] = 'en haut gauche';
 Blockly.Msg['CYBERPI_POSITION_TOP_RIGHT'] = 'en haut droit';
@@ -50,8 +50,8 @@ Blockly.Msg['CYBERPI_POSITION_MID_RIGHT'] = 'milieu droit';
 Blockly.Msg['CYBERPI_POSITION_BOTTOM_MID'] = 'en bas milieu';
 Blockly.Msg['CYBERPI_POSITION_BOTTOM_LEFT'] = 'en bas gauche';
 Blockly.Msg['CYBERPI_POSITION_BOTTOM_RIGHT'] = 'en bas droit';
-Blockly.Msg['CYBERPI_DISPLAY_SHOW_LABEL_XY_TITLE'] = '[Ecran] afficher l\'étiquette %1 taille %2 x %3 y %4';
-Blockly.Msg['CYBERPI_DISPLAY_SHOW_LABEL_XY_TOOLTIP'] = 'Permet d\'afficher l\'étiquette à la position x (0-128) et y (0-128) sur l\'écran de la carte CyberPi. La taille de police peut être définie comme 16, 24 ou 32.';
+Blockly.Msg['CYBERPI_DISPLAY_SHOW_LABEL_XY_TITLE'] = '[Ecran] afficher l\'étiquette %1 taille %2 x %3 y %4 index %5';
+Blockly.Msg['CYBERPI_DISPLAY_SHOW_LABEL_XY_TOOLTIP'] = 'Permet d\'afficher l\'étiquette à la position x (0-128) et y (0-128) sur l\'écran de la carte CyberPi. La taille de police peut être définie comme 16, 24 ou 32. L\'index (0 à 7) permet d\'afficher simultanément plusieurs étiquettes sans les écraser.';
 Blockly.Msg['CYBERPI_DISPLAY_CLEAR_TITLE'] = '[Ecran] effacer l\'écran';
 Blockly.Msg['CYBERPI_DISPLAY_CLEAR_TOOLTIP'] = 'Permet d\'effacer l\'écran de la carte CyberPi.';
 // Display - Linechart

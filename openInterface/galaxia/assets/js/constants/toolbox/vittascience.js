@@ -1087,6 +1087,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                         'network_html_addButton',
                         'network_html_addSlider',
                         'network_html_addSwitch',
+                        'network_html_addTextInput',
                         'network_html_addGauge',
                         'network_html_addLink',
                         'network_html_addImage',
@@ -1102,6 +1103,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                     "blocks": [
                         'network_server_getButtonState',
                         'network_server_getSliderValue',
+                        'network_server_getTextInputValue',
                         'network_server_getSwitchValue'
                     ]
                 }

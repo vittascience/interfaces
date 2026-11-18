@@ -1338,6 +1338,10 @@
     "serialAPI": {
       "allowSerial": "Tillåt #enable-experimental-web-platform-features i 'chrome://flags/' för att öppna en seriell port.",
       "noSerialAPI": "Denna webbläsare stöder inte Serial API. För att använda Serial API behöver du en kompatibel webbläsare: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> eller <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
+      "picaxeUploading": "Uploading the PICAXE program (about 15 seconds)...",
+      "fileDownloadedPicaxe": "PICAXE program successfully sent to the board!",
+      "picaxeCompileError": "The program cannot be compiled: %1",
+      "picaxeUnsupportedChip": "Direct upload is only available for the AutoProgX2 (PICAXE-28X2). For this board, download the .bas file and open it in PICAXE Editor.",
       "serialPortOpeningFail": "Anslutning till seriell port misslyckades. Kontrollera att kortet inte redan är anslutet till ett annat gränssnitt.",
       "boardConnected": "Anslutning till seriell port lyckades!",
       "serialPortClosed": "Seriell port stängdes!",
@@ -1442,6 +1446,7 @@
       "TI-83-Maclasseti": "Välkommen till MyClassTi.fr-gränssnittet för räknaren TI-83 Premium CE Python Edition! TI-Innovator™ Hub och BBC micro:bit kan programmeras här. Öppna simulatorn för att komma igång!",
       "GalaxiaCircuitPython": "Välkommen till Vittascience-gränssnittet för Galaxia!",
       "galaxia": "Välkommen till Vittascience-gränssnittet för Galaxia!</br>För att programmera Galaxia här måste du först flasha MicroPython-firmware på kortet enligt denna handledning: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=860\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flasha MicroPython-firmware</a></b>",
+      "picaxe": "Welcome to the PICAXE interface!</br>Plug in the AutoProgX2 with the AXE027 cable and click Upload.",
       "unihiker": "Välkommen till Vittascience-gränssnittet för UNIHIKER M10-kortet!</br>Anslut kortet med USB och klicka sedan på Ladda upp. Första gången lägger gränssnittet Vittascience-serverns installationsprogram på kortet, som körs en gång från kortets Home-meny.",
       "unihiker-k10": "Välkommen till Vittascience-gränssnittet för UNIHIKER K10!</br>Anslut kortet via USB (DFRobots MicroPython-firmware) och klicka på Ladda upp: programmet sparas i main.py.",
       "raspberrypi": "Välkommen till Vittascience-gränssnittet för Raspberry Pi! Du kan läsa handledningen här: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=856/interface-raspberry-pi\" target=\"_blank\" rel=\"noopener noreferrer\">Kom igång med Vittascience-gränssnittet för Raspberry Pi</a></b>",
@@ -1634,6 +1639,8 @@
         "installUnihiker": "Lägg Vittascience-serverns installationsprogram på kortet (kör det en gång från kortets Home-meny)",
         "unihikerHost": "Ändra kortets adress (10.1.2.3 via USB, eller dess Wi-Fi-adress)",
         "downloadHex": "Exportera micro:bit-programmet i [.hex]-format",
+        "downloadPicaxe": "Download the .bas program (open it in PICAXE Editor)",
+        "uploadPicaxe": "Send the program to the board (AutoProgX2 / PICAXE-28X2, AXE027 cable, Chrome or Edge browser)",
         "downloadTexas": "Ladda ner .py för miniräknaren",
         "runBuddy": "Kör programmet på Buddy-roboten",
         "disconnect": "Koppla från kortet",
@@ -1730,6 +1737,7 @@
         "downloadUf2Pico": "Firmware för Pico",
         "downloadUf2PicoW": "Firmware för Pico W",
         "downloadPython": "Ladda ner .py",
+        "downloadPicaxe": "Download .bas",
         "downloadTexas": "Ladda ner för miniräknare",
         "downloadThymioWindows": "Ladda ner .exe",
         "downloadThymioMacOS": "Ladda ner .dmg",
@@ -1985,7 +1993,9 @@
         "crash": "Kraschskydd aktiverat: Det här sker när din kod innehåller en oändlig loop utan anrop till sleep(). Åtgärda koden innan du försöker igen.",
         "variables-panel-msg": "Detta program innehåller inga variabler",
         "replaySimulator": "Kör om simulatorn för att skicka data",
-        "skulptLoadError": "Simulatorn kunde inte laddas. Kontrollera din anslutning och starta simulatorn igen."
+        "skulptLoadError": "Simulatorn kunde inte laddas. Kontrollera din anslutning och starta simulatorn igen.",
+        "picaxeRuntimeError": "Simulation error: %1",
+        "picaxeSimulatorChip": "The simulator is only available for the AutoProgX2 (PICAXE-28X2)."
       },
       "tooltips": {
         "bluebot-buttons": "Du kan använda knapparna på Blue-bot-roboten för att programmera den!"
@@ -2418,6 +2428,7 @@
         "noCategory": "Ingen kategori. Klicka på knappen &ldquo;Lägg till kategori&rdquo; för att skapa en ny!",
         "category": {
           "defaultCategoryName": "Kategori nr ",
+          "defaultSoundCategoryName": "Bakgrundsljud",
           "cameraButton": "Kamera",
           "microphone": "Mikrofon",
           "spectrogram": "Spektrogram",
@@ -7254,6 +7265,15 @@
         },
         "save": "Spara"
       },
+      "delete-background-noise": {
+        "title": "Ta bort kategorin ”Bakgrundsljud”?",
+        "body": [
+          "Den här kategorin lär modellen att känna igen <b>frånvaron av ett specifikt ljud</b>: tystnad, rumsljud, ventilation…",
+          "Utan den måste modellen välja en av dina andra kategorier även när ingen pratar, vilket ger många felaktiga detektioner."
+        ],
+        "cancel": "Avbryt",
+        "delete": "Ta bort ändå"
+      },
       "gradcam-info": {
         "title": "Vad är en påverkanszon?",
         "body": [
@@ -7518,6 +7538,7 @@
         "esp32": "Programmeringsmiljö för ESP32-kort (Wemos D1R32, NodeMCU, Huzzah32, ...)",
         "TI-83": "Programmeringsmiljö för räknare samt för BBC micro:bit eller TI Innovator™ Hub",
         "GalaxiaCircuitPython": "Programmeringsmiljö för Thingz-Galaxia-kortet",
+        "picaxe": "Block programming interface for PICAXE boards (AutoProgX2 from A4 Technologie, 08M2 to 40X2): generates PICAXE BASIC to download.",
         "unihiker": "Programmeringsgränssnitt för UNIHIKER M10: pekskärm, inbyggda sensorer och Python på Linux!",
         "unihikerK10": "Programmeringsgränssnitt för UNIHIKER K10: skärm, RGB-LED:ar, inbyggda sensorer och MicroPython!",
         "raspberrypi": "Programmeringsmiljö för Raspberry Pi",

@@ -23,6 +23,26 @@
     }
 })();
 
+var PROFILE_ERRORS = {
+    2: ["name", "Le prénom ou le nom est invalide."],
+    5: ["phone", "Le numéro de téléphone est invalide : il doit compter entre 10 et 30 caractères."],
+    6: ["picture", "L'image est invalide : vérifiez son format et sa taille."],
+    8: ["pictureSave", "L'image n'a pas pu être enregistrée. Veuillez réessayer."],
+    9: ["save", "Votre profil n'a pas pu être enregistré. Veuillez réessayer."],
+    10: ["teacherMissing", "Renseignez votre établissement, votre niveau et votre matière."],
+    11: ["school", "Le nom de l'établissement est invalide."],
+    12: ["grade", "Le niveau de formation est invalide."],
+    13: ["subject", "La matière enseignée est invalide."],
+    14: ["save", "Votre profil n'a pas pu être enregistré. Veuillez réessayer."],
+    15: ["session", "Votre session a expiré : rechargez la page."]
+};
+
+function showProfileError(infoBox, code){
+    var error = PROFILE_ERRORS[code] || ["generic", "Erreur. Le formulaire comporte des erreurs."];
+    infoBox.className = "alert alert-danger";
+    infoBox.textContent = i18next.t("profile.user.form.errors." + error[0], { defaultValue: error[1] });
+}
+
 function modifyProfile(){
     
     var request = getAjaxRequest();
@@ -35,9 +55,9 @@ function modifyProfile(){
     formData.append("surname",document.querySelector("#profile-form #surname-input").value.trim());
     formData.append("bio", document.querySelector("#profile-form #bio-input").value.trim());
 
-    var phone = document.querySelector("#profile-form #phone-input").value.trim();
-    if (phone.length > 0) {
-        formData.append("phone",phone);
+    var phoneInput = document.querySelector("#profile-form #phone-input");
+    if (phoneInput) {
+        formData.append("phone", phoneInput.value.trim());
     }
 
     var picture = document.querySelector('#profile-picture-file-input').files[0];
@@ -69,25 +89,30 @@ function modifyProfile(){
     formData.append("private",privateFlag);
     formData.append("mail-messages",mailMessages);
     formData.append("contact", contactFlag);
+    formData.append("csrf_token", window.PROFILE_CSRF_TOKEN || "");
 
     request.onreadystatechange = function (){
       if (this.readyState === XMLHttpRequest.DONE){
+          var infoBox = document.getElementById("profile-info-box");
           if (this.status === 200){
-              var answer = JSON.parse(this.responseText);
-              var infoBox = document.getElementById("profile-info-box");
+              var answer = {};
+              try {
+                  answer = JSON.parse(this.responseText);
+              } catch (e) {
+                  answer = {};
+              }
               if (answer.success === true){
                   infoBox.className = "alert alert-success";
-                  infoBox.innerHTML = "Votre profil a été modifié avec succès !";
+                  infoBox.textContent = i18next.t("profile.user.form.updated", { defaultValue: "Votre profil a été modifié avec succès !" });
                 
                   setTimeout(function(){
                       window.location.reload()
                   }, 1000);
               } else {
-                  infoBox.className = "alert alert-danger";
-                  infoBox.innerHTML = "Erreur. Le formulaire comporte des erreurs.";
+                  showProfileError(infoBox, answer.success);
               }
           } else {
-              console.log("Request failed: " + this.status);
+              showProfileError(infoBox, 9);
           }
           enableButton(btn);
       }

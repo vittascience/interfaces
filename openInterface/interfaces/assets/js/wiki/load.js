@@ -22,74 +22,11 @@ function loadInterface(interfaceName, interfaceScripts) {
 
             const lng = (getCookie('lng').length > 0 ? getCookie('lng') : 'en');
 
-            // Same messages, in the same order, as the interface (interfaces/assets/js/events/load.js).
-            const COMMON_MSG_PATH = `/openInterface/interfaces/assets/js/msg`;
-            const GET_COMMON_LANG_SCRIPTS = (_language) => {
-                let scripts;
-                if (interfaceName == 'web') {
-                    scripts = [{
-                        id: "common_cat_msg",
-                        src: `${COMMON_MSG_PATH}/categories/${_language}.js`
-                    }];
-                } else {
-                    scripts = [{
-                        id: "common_block_msg",
-                        src: `${COMMON_MSG_PATH}/blocks/basic/${_language}.js`
-                    }, {
-                        id: "common_cat_msg",
-                        src: `${COMMON_MSG_PATH}/categories/${_language}.js`
-                    }];
-                    if (['arduino', 'esp32', 'galaxia', 'pico', 'm5stack'].includes(interfaceName)) {
-                        scripts.push({
-                            id: "common_esp32_block_msg",
-                            src: `${COMMON_MSG_PATH}/blocks/esp32/${_language}.js`
-                        })
-                    }
-                }
-                // Blockly's own messages first (translations of the core UI, including the
-                // messages added by recent Blockly versions): the interfaces' files override them.
-                scripts.unshift({
-                    id: "blockly_core_msg",
-                    src: `/openInterface/interfaces/assets/js/external/blockly/msg/${_language}.js`
-                });
-                return scripts;
-            };
-
-            const COMMON_LANG_SCRIPTS = GET_COMMON_LANG_SCRIPTS(lng);
-            const FALLBACK_COMMON_LANG_SCRIPTS = GET_COMMON_LANG_SCRIPTS('en');
-
-            const SPECIFIC_MSG_PATH = `/openInterface/${interfaceName}/assets/js/blocks/msg`;
-            const GET_LANG_SCRIPTS = (_language) => {
-                let scripts = [];
-                if (['web', 'TI-83'].includes(interfaceName)) {
-                    scripts.push({
-                        id: "_cat_msg",
-                        src: `${SPECIFIC_MSG_PATH}/categories/js/${_language}.js`
-                    });
-                }
-                if (interfaceName == 'steami') {
-                    scripts.push({
-                        id: "wb55_block_msg",
-                        src: `/openInterface/wb55/assets/js/blocks/msg/blocks/js/${_language}.js`
-                    });
-                }
-                if (interfaceName == 'arduinoq') {
-                    for (const _interface of ['arduino', 'python', 'web']) {
-                        scripts.push({
-                            id: _interface + "_block_msg",
-                            src: `/openInterface/${_interface}/assets/js/blocks/msg/blocks/js/${_language}.js`
-                        });
-                    }
-                }
-                scripts.push({
-                    id: interfaceName + "_block_msg",
-                    src: `${SPECIFIC_MSG_PATH}/blocks/js/${_language}.js`
-                });
-                return scripts;
-            };
-
-            const LANG_SCRIPTS = GET_LANG_SCRIPTS(lng);
-            const FALLBACK_LANG_SCRIPTS = GET_LANG_SCRIPTS('en');
+            // Same messages, in the same order, as the interface (utils/misc.js, also used by events/load.js).
+            const COMMON_LANG_SCRIPTS = getBlocklyMsgScripts(interfaceName, lng).common;
+            const FALLBACK_COMMON_LANG_SCRIPTS = getBlocklyMsgScripts(interfaceName, 'en').common;
+            const LANG_SCRIPTS = getBlocklyMsgScripts(interfaceName, lng).specific;
+            const FALLBACK_LANG_SCRIPTS = getBlocklyMsgScripts(interfaceName, 'en').specific;
 
             const COMMON_SCRIPTS = [
                 {

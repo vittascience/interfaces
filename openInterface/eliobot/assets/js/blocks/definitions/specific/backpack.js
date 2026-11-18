@@ -38,7 +38,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "previousStatement": null,
         "nextStatement": null,
         "style": "backpack_blocks",
-        "tooltip": "%{BKY_BACKPACK_DISPLAY_OLED_ADDTEXT_TOOLTIP}",
+        "tooltip": "%{BKY_BACKPACK_DISPLAY_OLED_CLEAR_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ]

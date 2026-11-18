@@ -24,6 +24,8 @@ const InterfaceAutocomplete = {
             }
             this.initArduino();
             langMode = ace.require('ace/mode/arduino').Mode;
+        } else if (_interface === 'picaxe') {
+            langMode = ace.require('ace/mode/picaxe').Mode;
         } else if (_interface == 'web') {
             langMode = ace.require('ace/mode/html').Mode;
         } else if (isPy) {

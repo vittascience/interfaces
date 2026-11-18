@@ -39,8 +39,8 @@ Blockly.Msg["CYBERPI_CONSOLE_PRINT_TOOLTIP"] = "Allows you to write text on Cybe
 Blockly.Msg["CYBERPI_CONSOLE_SET_FONT_TITLE"] = "[Console] set font to %1";
 Blockly.Msg["CYBERPI_CONSOLE_SET_FONT_TOOLTIP"] = "Allows you to change the font size of text in the CyberPi board console.";
 // Display - Text
-Blockly.Msg["CYBERPI_DISPLAY_SHOW_LABEL_TITLE"] = "[Screen] show label %1 fontsize %2 position %3";
-Blockly.Msg["CYBERPI_DISPLAY_SHOW_LABEL_TOOLTIP"] = "Allows you to display text at the specified position on the CyberPi's screen. Font size can be set as 16, 24 or 32.";
+Blockly.Msg["CYBERPI_DISPLAY_SHOW_LABEL_TITLE"] = "[Screen] show label %1 fontsize %2 position %3 index %4";
+Blockly.Msg["CYBERPI_DISPLAY_SHOW_LABEL_TOOLTIP"] = "Allows you to display text at the specified position on the CyberPi's screen. Font size can be set as 16, 24 or 32. The index (0 to 7) allows displaying multiple labels simultaneously without overwriting them.";
 Blockly.Msg["CYBERPI_POSITION_TOP_MID"] = "top mid";
 Blockly.Msg["CYBERPI_POSITION_TOP_LEFT"] = "top left";
 Blockly.Msg["CYBERPI_POSITION_TOP_RIGHT"] = "top right";
@@ -50,8 +50,8 @@ Blockly.Msg["CYBERPI_POSITION_MID_RIGHT"] = "mid right";
 Blockly.Msg["CYBERPI_POSITION_BOTTOM_MID"] = "bottom mid";
 Blockly.Msg["CYBERPI_POSITION_BOTTOM_LEFT"] = "bottom left";
 Blockly.Msg["CYBERPI_POSITION_BOTTOM_RIGHT"] = "bottom right";
-Blockly.Msg["CYBERPI_DISPLAY_SHOW_LABEL_XY_TITLE"] = "[Screen] show label %1 fontsize %2 x %3 y %4";
-Blockly.Msg["CYBERPI_DISPLAY_SHOW_LABEL_XY_TOOLTIP"] = "Allows you to display text at the specified position x (0-128) and y (0-128) on the CyberPi's screen. Font size can be set as 16, 24 or 32.";
+Blockly.Msg["CYBERPI_DISPLAY_SHOW_LABEL_XY_TITLE"] = "[Screen] show label %1 fontsize %2 x %3 y %4 index %5";
+Blockly.Msg["CYBERPI_DISPLAY_SHOW_LABEL_XY_TOOLTIP"] = "Allows you to display text at the specified position x (0-128) and y (0-128) on the CyberPi's screen. Font size can be set as 16, 24 or 32. The index (0 to 7) allows displaying multiple labels simultaneously without overwriting them.";
 Blockly.Msg['CYBERPI_DISPLAY_CLEAR_TITLE'] = "[Screen] clear screen";
 Blockly.Msg['CYBERPI_DISPLAY_CLEAR_TOOLTIP'] = "Allows you to clear the CyberPi's screen.";
 // Display - Linechart

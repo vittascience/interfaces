@@ -124,6 +124,34 @@ Blockly.Msg["PY_DATALOG_ADD_LINE_TOOLTIP"] = "يضيف سطراً إلى ملف 
 Blockly.Msg["PY_DATALOG_CLEAR_TITLE"] = "احذف الملف %1";
 Blockly.Msg["PY_DATALOG_CLEAR_TOOLTIP"] = "يحذف ملف CSV من اللوحة.";
 
+// Connected objects (Python, iot.js)
+Blockly.Msg["CATEGORY_IOT"] = "الأجهزة المتصلة";
+Blockly.Msg["IOT_LABEL_SHELLY"] = "مقبس Shelly الذكي";
+Blockly.Msg["IOT_SHELLY_ON"] = "تشغيل";
+Blockly.Msg["IOT_SHELLY_OFF"] = "إطفاء";
+Blockly.Msg["IOT_SHELLY_TOGGLE"] = "تبديل";
+Blockly.Msg["IOT_SHELLY_POWER"] = "القدرة (W)";
+Blockly.Msg["IOT_SHELLY_ENERGY"] = "الطاقة المستهلكة (Wh)";
+Blockly.Msg["IOT_SHELLY_VOLTAGE"] = "الجهد (V)";
+Blockly.Msg["IOT_SHELLY_CURRENT"] = "التيار (A)";
+Blockly.Msg["IOT_SHELLY_TEMPERATURE"] = "درجة الحرارة (°C)";
+Blockly.Msg["IOT_SHELLY_WIFI_SWITCH_TITLE"] = "%1 مقبس Shelly عبر Wi-Fi على العنوان %2";
+Blockly.Msg["IOT_SHELLY_WIFI_SWITCH_TOOLTIP"] = "يتحكم في مقبس Shelly متصل بنفس شبكة Wi-Fi الخاصة باللوحة، عبر عنوان IP الخاص به (يظهر في تطبيق Shelly أو في الموجّه).";
+Blockly.Msg["IOT_SHELLY_WIFI_IS_ON_TITLE"] = "مقبس Shelly عبر Wi-Fi %1 مشغل؟";
+Blockly.Msg["IOT_SHELLY_WIFI_IS_ON_TOOLTIP"] = "صحيح إذا كان مقبس Shelly على عنوان IP هذا مشغلاً.";
+Blockly.Msg["IOT_SHELLY_WIFI_MEASURE_TITLE"] = "%1 لمقبس Shelly عبر Wi-Fi %2";
+Blockly.Msg["IOT_SHELLY_WIFI_MEASURE_TOOLTIP"] = "قياس مقبس Shelly على عنوان IP هذا: القدرة اللحظية، الطاقة المستهلكة منذ التركيب، الجهد، التيار أو درجة الحرارة الداخلية.";
+Blockly.Msg["IOT_SHELLY_WIFI_START_PAIRING_TITLE"] = "فتح اقتران البلوتوث لمقبس Shelly عبر Wi-Fi %1";
+Blockly.Msg["IOT_SHELLY_WIFI_START_PAIRING_TOOLTIP"] = "يجعل المقبس جاهزاً للاقتران لمدة 3 دقائق، مثل زر 'Pair new device' في صفحته. بعد ذلك استخدم كتلة اقتران البلوتوث.";
+Blockly.Msg["IOT_SHELLY_BLE_PAIR_TITLE"] = "إقران اللوحة بمقبس Shelly عبر البلوتوث %1";
+Blockly.Msg["IOT_SHELLY_BLE_PAIR_TOOLTIP"] = "يقرن اللوحة بالمقبس (مرة واحدة فقط، أثناء فتح الاقتران على المقبس). يُفضّل استخدام عنوان البلوتوث الخاص بالمقبس.";
+Blockly.Msg["IOT_SHELLY_BLE_SWITCH_TITLE"] = "%1 مقبس Shelly عبر البلوتوث %2";
+Blockly.Msg["IOT_SHELLY_BLE_SWITCH_TOOLTIP"] = "يتحكم في مقبس Shelly من الجيل الثاني أو أحدث عبر البلوتوث، دون Wi-Fi. يكفي جزء من الاسم ('Shelly' يأخذ أول مقبس يُعثر عليه). يجب تفعيل Bluetooth RPC في إعدادات المقبس.";
+Blockly.Msg["IOT_SHELLY_BLE_IS_ON_TITLE"] = "مقبس Shelly عبر البلوتوث %1 مشغل؟";
+Blockly.Msg["IOT_SHELLY_BLE_IS_ON_TOOLTIP"] = "صحيح إذا كان مقبس Shelly مشغلاً.";
+Blockly.Msg["IOT_SHELLY_BLE_MEASURE_TITLE"] = "%1 لمقبس Shelly عبر البلوتوث %2";
+Blockly.Msg["IOT_SHELLY_BLE_MEASURE_TOOLTIP"] = "قياس مقبس Shelly المقروء عبر البلوتوث: القدرة اللحظية، الطاقة المستهلكة منذ التركيب، الجهد، التيار أو درجة الحرارة الداخلية.";
+
 // Sound Generator, Camera Code Detection, Video Object Detection and Telegram Bot bricks
 Blockly.Msg["PY_SOUND_NOTE_BOARD_TITLE"] = "شغّل النغمة %1 الأوكتاف %2 لمدة %3 ث على اللوحة";
 Blockly.Msg["PY_SOUND_NOTE_BOARD_TOOLTIP"] = "يشغّل النغمة على سماعة أو مكبر صوت USB موصول باللوحة (أو مقبس jack لمحوّل USB-C) باستخدام brick Sound Generator من Arduino App Lab. الأوكتاف 4: لا = 440 هرتز.";

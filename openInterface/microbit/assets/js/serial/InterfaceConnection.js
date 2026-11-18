@@ -21,7 +21,8 @@ const InterfaceConnection = {
 			"readChunkSize": 1, // kiB
 			"readingDelayPerKiB": 20 // ms
 		};
-		if (window.VittaContext?.isCapacitor) this.bluetoothOnlyButtons();
+		// mobile app: Bluetooth only; the Windows app (isDesktop) has USB/serial like the website
+		if (window.VittaContext?.isCapacitor && !window.VittaContext.isDesktop) this.bluetoothOnlyButtons();
 		else if (!navigator.serial) this.reorganizeButtons();
 		window.addEventListener('pagehide', () => {
 			this.doDisconnect();

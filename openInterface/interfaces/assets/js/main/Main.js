@@ -297,7 +297,9 @@ const Main = (function () {
                 codeManager.updateEditorFile();
                 return;
             }
-            Code.editor.container.getSession().setValue(codeManager.getCode());
+            // same text: setValue would only wipe the undo history
+            const session = Code.editor.container.getSession(), code = codeManager.getCode();
+            if (session.getValue() !== code) session.setValue(code);
         };
         /**
          * Change the current ide mode
@@ -618,7 +620,10 @@ const Main = (function () {
             if (typeof MultiCodeManager !== 'undefined' && codeManager instanceof MultiCodeManager) {
                 return codeManager.updateEditorFile();
             }
-            return Code.editor.container.getSession().setValue(codeManager.getTextCode());
+            // same text: setValue would only wipe the undo history
+            const session = Code.editor.container.getSession(), text = codeManager.getTextCode();
+            if (session.getValue() !== text) session.setValue(text);
+            return;
         }
         if (!Code.editor.container.isFocused()) {
             CodeManager.getSharedInstance().codeWasManuallyModified = false;
@@ -936,6 +941,7 @@ const Main = (function () {
                     break;
                 case "bluebot":
                 case "primastem":
+                case "picaxe":
                     codeMode = "blocks";
                     break;
             }
@@ -954,7 +960,10 @@ const Main = (function () {
             Code.initEditor();
             //Listener that will render code for every change
             Code.workspace.addChangeListener(Code.renderContent);
-            Code.workspace.addChangeListener(Blockly.Constants.WARN_DUPLICATE_PINS);
+            // the web interface does not load blocks/definitions/constants.js
+            if (Blockly.Constants.WARN_DUPLICATE_PINS) {
+                Code.workspace.addChangeListener(Blockly.Constants.WARN_DUPLICATE_PINS);
+            }
 
             // init toolbox
             const toolboxMode = Blockly.Constants.getToolboxStyle();
@@ -1236,7 +1245,7 @@ const Main = (function () {
          * @returns {boolean}
          */
         hasSimulator: function () {
-            return /(arduinoq|arduino|microbit|wb55|l476|esp32|TI-83|raspberrypi|niryo|nao|galaxia|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|pico|eliobot|thymio|winky|sphero|lotibot|bluebot|spike|legoprime|photon|codey|steami|alphai|primastem|skykick|unihiker)/.test(Code.getInterface());
+            return /(arduinoq|arduino|microbit|wb55|l476|esp32|TI-83|raspberrypi|niryo|nao|galaxia|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|pico|eliobot|thymio|winky|sphero|lotibot|bluebot|spike|legoprime|photon|codey|steami|alphai|primastem|skykick|unihiker|picaxe)/.test(Code.getInterface());
         },
         /**
          * Returns true if interface has an auto-corrector.

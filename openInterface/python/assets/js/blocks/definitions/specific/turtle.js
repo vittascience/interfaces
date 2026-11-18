@@ -55,6 +55,24 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     },
 
     {
+        "type": "turtle_setheading",
+        "message0": "%{BKY_TURTLE_SETHEADING_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "ANGLE",
+            "check": "Number"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "turtle_blocks",
+        "tooltip": "%{BKY_TURTLE_SETHEADING_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
+    {
         "type": "turtle_goto",
         "message0": "%{BKY_TURTLE_GOTO_TITLE}",
         "args0": [{

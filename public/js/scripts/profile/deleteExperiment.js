@@ -10,12 +10,12 @@ function confirmExperimentDelete(id){
                     }
                 }
                 if (counter === 0) {
-                    $("#profile-experiment-counter").html("Vous n'avez ajouté aucune expérience.");
+                    $("#profile-experiment-counter").text(i18next.t("profile.exp.noData", { defaultValue: "Vous n'avez ajouté aucune expérience." }));
                     $("#experiments-list-title").html("");
                 }
                 else {
-                    $("#profile-experiment-counter").html("Vous avez <span class='badge bg-info'>" + counter + "</span> expérience(s) à votre actif !");
-                    $("#experiments-list-title").html("Liste des expériences");
+                    $("#profile-experiment-counter").html(i18next.t("profile.exp.countData", { count: counter, defaultValue: "Vous avez <span class='badge bg-info'>{{ count }}</span> expérience(s) à votre actif !" }));
+                    $("#experiments-list-title").text(i18next.t("profile.exp.listTitle", { defaultValue: "Liste des expériences" }));
                 }
             });
         }

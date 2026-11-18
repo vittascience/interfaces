@@ -1338,6 +1338,10 @@
     "serialAPI": {
       "allowSerial": "فعّل #enable-experimental-web-platform-features في 'chrome://flags/' لفتح منفذ تسلسلي.",
       "noSerialAPI": "لم يتم اكتشاف Serial API في متصفحك. لاستخدام Serial API يجب استخدام أحد المتصفحات المدعومة: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">كروم</a>، <a href=\"https://www.opera.com/\">أوبرا</a> وقريبًا <a href=\"https://www.microsoftedgeinsider.com/\">إيدج</a>",
+      "picaxeUploading": "Uploading the PICAXE program (about 15 seconds)...",
+      "fileDownloadedPicaxe": "PICAXE program successfully sent to the board!",
+      "picaxeCompileError": "The program cannot be compiled: %1",
+      "picaxeUnsupportedChip": "Direct upload is only available for the AutoProgX2 (PICAXE-28X2). For this board, download the .bas file and open it in PICAXE Editor.",
       "serialPortOpeningFail": "فشل الاتصال بالمنفذ التسلسلي، لا يمكن الوصول إلى اللوحة. برنامج آخر متصل بالفعل باللوحة.\n\n تحقق من أن اللوحة غير متصلة بواجهة أخرى (مثل: MakeCode، محرر بايثون، Thonny أو واجهة Vittascience أخرى)، أو افصل وأعد توصيل اللوحة ثم حاول مرة أخرى.",
       "boardConnected": "تم الاتصال بالمنفذ التسلسلي بنجاح!",
       "serialPortClosed": "تم إغلاق المنفذ التسلسلي بنجاح!",
@@ -1442,6 +1446,7 @@
       "TI-83-Maclasseti": "مرحبًا بك في واجهة MaClasseTI.fr لآلة حاسبة TI-83 Premium CE Edition Python! يمكن برمجة لوحات TI-Innovator™ Hub و BBC micro:bit على هذه الواجهة. افتح المحاكي للبدء!",
       "GalaxiaCircuitPython": "مرحبًا بك في واجهة Vittascience لـ Galaxia Circuit Python!",
       "galaxia": "مرحبًا بك في واجهة Vittascience لـ Galaxia! </br>لبرمجة لوحة Galaxia على هذه الواجهة، يجب أولاً تثبيت برنامج MicroPython على اللوحة باتباع الدليل التالي: <b><a href=\"https://fr.vittascience.com/learn/tutorial.php?id=860\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">تثبيت برنامج MicroPython</a></b>",
+      "picaxe": "Welcome to the PICAXE interface!</br>Plug in the AutoProgX2 with the AXE027 cable and click Upload.",
       "unihiker": "مرحبًا بك في واجهة Vittascience للوحة UNIHIKER M10!</br>صِل اللوحة عبر USB ثم انقر على رفع. في المرة الأولى، تضع الواجهة مثبّت خادم Vittascience على اللوحة، ويُشغَّل مرة واحدة من قائمة Home في اللوحة.",
       "unihiker-k10": "مرحبًا بك في واجهة Vittascience للوحة UNIHIKER K10!</br>صِل اللوحة عبر USB (برنامج MicroPython الثابت من DFRobot)، ثم انقر على رفع: يُحفظ البرنامج في main.py.",
       "raspberrypi": "مرحبًا بك في واجهة Vittascience لـ Raspberry Pi! يمكنك الاطلاع على الدليل هنا: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=1739\" target=\"_blank\" rel=\"noopener noreferrer\">البدء مع واجهة Vittascience لـ Raspberry Pi</a>",
@@ -1634,6 +1639,8 @@
         "installUnihiker": "وضع مثبّت خادم Vittascience على اللوحة (يُشغَّل مرة واحدة من قائمة Home في اللوحة)",
         "unihikerHost": "تغيير عنوان اللوحة (10.1.2.3 عبر USB أو عنوانها على Wi-Fi)",
         "downloadHex": "تصدير برنامج micro:bit بصيغة [.hex]",
+        "downloadPicaxe": "Download the .bas program (open it in PICAXE Editor)",
+        "uploadPicaxe": "Send the program to the board (AutoProgX2 / PICAXE-28X2, AXE027 cable, Chrome or Edge browser)",
         "downloadTexas": "تحميل برنامج .py للحاسبة",
         "runBuddy": "تشغيل البرنامج على Buddy",
         "disconnect": "فصل اللوحة",
@@ -1730,6 +1737,7 @@
         "downloadUf2Pico": "برنامج Pico الثابت",
         "downloadUf2PicoW": "برنامج Pico W الثابت",
         "downloadPython": "تنزيل .py",
+        "downloadPicaxe": "Download .bas",
         "downloadTexas": "تنزيل للحاسبة",
         "downloadThymioWindows": "تنزيل .exe",
         "downloadThymioMacOS": "تنزيل .dmg",
@@ -1985,7 +1993,9 @@
         "crash": "وضع منع الأعطال مفعل: يحدث هذا عندما يحتوي كودك على حلقة لا نهائية بدون استدعاء دالة sleep(). صحح الكود قبل المحاولة مجددًا.",
         "variables-panel-msg": "هذا البرنامج لا يحتوي على متغيرات",
         "replaySimulator": "أعد تشغيل المحاكي لإرسال البيانات",
-        "skulptLoadError": "تعذر تحميل المحاكي. تحقق من اتصالك ثم أعد تشغيل المحاكي."
+        "skulptLoadError": "تعذر تحميل المحاكي. تحقق من اتصالك ثم أعد تشغيل المحاكي.",
+        "picaxeRuntimeError": "Simulation error: %1",
+        "picaxeSimulatorChip": "The simulator is only available for the AutoProgX2 (PICAXE-28X2)."
       },
       "tooltips": {
         "bluebot-buttons": "يمكنك استخدام أزرار روبوت Blue-bot لبرمجته!"
@@ -2418,6 +2428,7 @@
         "noCategory": "لا توجد فئات. انقر على زر &ldquo;إضافة فئة&rdquo; لإنشاء واحدة جديدة!",
         "category": {
           "defaultCategoryName": "الفئة رقم",
+          "defaultSoundCategoryName": "ضوضاء الخلفية",
           "cameraButton": "الكاميرا",
           "microphone": "الميكروفون",
           "spectrogram": "مخطط الطيف",
@@ -7254,6 +7265,15 @@
         },
         "save": "تأكيد"
       },
+      "delete-background-noise": {
+        "title": "حذف فئة «ضوضاء الخلفية»؟",
+        "body": [
+          "تُعلِّم هذه الفئة النموذج التعرّف على <b>غياب أي صوت محدد</b>: الصمت، ضوضاء القاعة، التهوية…",
+          "بدونها، يُضطر النموذج إلى اختيار إحدى فئاتك الأخرى حتى عندما لا يتكلم أحد، مما يسبب الكثير من الاكتشافات الخاطئة."
+        ],
+        "cancel": "إلغاء",
+        "delete": "احذف على أي حال"
+      },
       "gradcam-info": {
         "title": "ما هي منطقة التفاعل؟",
         "body": [
@@ -7518,6 +7538,7 @@
         "esp32": "واجهة برمجة لبطاقات ESP32 (Wemos D1R32، NodeMCU، Huzzah32، ...)",
         "TI-83": "واجهة برمجة للآلة الحاسبة وبطاقات BBC micro:bit أو TI Innovator™ Hub",
         "GalaxiaCircuitPython": "واجهة برمجة لبطاقة Thingz-Galaxia",
+        "picaxe": "Block programming interface for PICAXE boards (AutoProgX2 from A4 Technologie, 08M2 to 40X2): generates PICAXE BASIC to download.",
         "unihiker": "واجهة برمجة للوحة UNIHIKER M10: شاشة لمس وحساسات مدمجة وPython على Linux!",
         "unihikerK10": "واجهة برمجة للوحة UNIHIKER K10: شاشة وصمامات RGB وحساسات مدمجة وMicroPython!",
         "raspberrypi": "واجهة برمجة لـ Raspberry Pi!",

@@ -460,7 +460,7 @@ const RobotSimulator = {
     angleText.setAttribute('contenteditable', 'true');
     angleText.setAttribute('spellcheck', 'false');
 
-    angleText.addEventListener('mousedown', (e) => {
+    angleText.addEventListener('pointerdown', (e) => {
       e.stopPropagation();
     });
 
@@ -814,7 +814,8 @@ const RobotSimulator = {
       if ($('#control-dropdown-robot-angle-window').hasClass('activated') && !this.angleSliderInitialized) {
         const knob = document.querySelector(".angle-slider-knob");
         let isRotating = false;
-        document.addEventListener("mousedown", (e) => {
+        // Pointer events: mouse and touch screens
+        document.addEventListener("pointerdown", (e) => {
           if (e.target.closest(".angle-slider-knob")) {
             isRotating = true;
             // if (Simulator._has3DRobotSimulator() && window.Simulator3D.physics) {
@@ -822,7 +823,7 @@ const RobotSimulator = {
             // }
           }
         });
-        document.addEventListener("mousemove", (e) => {
+        document.addEventListener("pointermove", (e) => {
           if (isRotating) {
             const knobX = knob.getBoundingClientRect().left + knob.clientWidth / 2;
             const knobY = knob.getBoundingClientRect().top + knob.clientHeight / 2;
@@ -834,9 +835,11 @@ const RobotSimulator = {
             }
           }
         });
-        document.addEventListener("mouseup", () => {
+        const stopRotating = () => {
           isRotating = false;
-        });
+        };
+        document.addEventListener("pointerup", stopRotating);
+        document.addEventListener("pointercancel", stopRotating);
         this.angleSliderInitialized = true;
       }
     }

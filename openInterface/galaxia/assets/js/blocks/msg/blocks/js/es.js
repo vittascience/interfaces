@@ -34,6 +34,7 @@ Blockly.Msg['DISPLAY_GALAXIA_ANIMATE_FUNCTION_TOOLTIP'] = 'Añadir un punto al g
 Blockly.Msg['DISPLAY_GALAXIA_RAW_PRINT_TITLE'] = '[Gráficos] mostrar texto %1 en x %2 y %3';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_PRINT_TOOLTIP'] = 'Mostrar texto en la pantalla gráfica.';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_TEXT_TITLE'] = '[Gráficos] mostrar texto %1 en x %2 y %3 con color %4';
+Blockly.Msg['DISPLAY_GALAXIA_RAW_TEXT_TOOLTIP'] = '[Gráficos] Muestra un texto en la posición (x, y) de la pantalla, con el color elegido.';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_RECT_TITLE'] = '[Gráficos] mostrar rectángulo en x %1 y %2 ancho %3 alto %4 con color %5';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_RECT_TOOLTIP'] = 'Mostrar un rectángulo en la pantalla gráfica.';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_PRINT_IMG_TITLE'] = '[Gráficos] mostrar imagen %1 en x %2 y %3';

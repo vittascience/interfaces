@@ -27,6 +27,8 @@ Blockly.Msg['TURTLE_TURN_TITLE'] = 'drehe %1 um %2°';
 Blockly.Msg['TURTLE_TURN_RIGHT'] = 'rechts ↻';
 Blockly.Msg['TURTLE_TURN_LEFT'] = 'links ↺';
 Blockly.Msg['TURTLE_TURN_TOOLTIP'] = 'Dreht sich um den angegebenen Winkel.';
+Blockly.Msg['TURTLE_SETHEADING_TITLE'] = 'Schildkröte ausrichten auf %1°';
+Blockly.Msg['TURTLE_SETHEADING_TOOLTIP'] = 'Richtet die Schildkröte in eine absolute Richtung aus (0° = rechts, 90° = oben).';
 Blockly.Msg['TURTLE_GOTO_TITLE'] = 'gehe zu Position x %1 y %2';
 Blockly.Msg['TURTLE_GOTO_TOOLTIP'] = 'Geht zu einer Position anhand der x- und y-Koordinaten.';
 Blockly.Msg['TURTLE_CIRCLE_TITLE'] = 'zeichne einen Kreis mit Radius %1';

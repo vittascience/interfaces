@@ -27,6 +27,8 @@ Blockly.Msg['TURTLE_TURN_TITLE'] = 'повернуть %1 на %2°';
 Blockly.Msg['TURTLE_TURN_RIGHT'] = 'вправо ↻';
 Blockly.Msg['TURTLE_TURN_LEFT'] = 'влево ↺';
 Blockly.Msg['TURTLE_TURN_TOOLTIP'] = 'Повернуть на заданный угол.';
+Blockly.Msg['TURTLE_SETHEADING_TITLE'] = 'направить черепаху на %1°';
+Blockly.Msg['TURTLE_SETHEADING_TOOLTIP'] = 'Направляет черепаху в абсолютном направлении (0° = вправо, 90° = вверх).';
 Blockly.Msg['TURTLE_GOTO_TITLE'] = 'перейти в позицию x %1 y %2';
 Blockly.Msg['TURTLE_GOTO_TOOLTIP'] = 'Перейти в точку с заданными координатами.';
 Blockly.Msg['TURTLE_CIRCLE_TITLE'] = 'нарисовать круг радиусом %1';

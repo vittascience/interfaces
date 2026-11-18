@@ -26,6 +26,7 @@ Blockly.Msg['DISPLAY_GALAXIA_ANIMATE_FUNCTION_TOOLTIP'] = 'Fügt alle x Sekunden
 Blockly.Msg['DISPLAY_GALAXIA_RAW_PRINT_TITLE'] = '[Grafik] Text %1 bei x %2 y %3 anzeigen';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_PRINT_TOOLTIP'] = 'Zeigt Text auf dem Grafikbildschirm an.';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_TEXT_TITLE'] = '[Grafik] Text %1 bei x %2 y %3 mit Farbe %4 anzeigen';
+Blockly.Msg['DISPLAY_GALAXIA_RAW_TEXT_TOOLTIP'] = '[Grafik] Zeigt einen Text an der Position (x, y) des Bildschirms in der gewählten Farbe an.';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_RECT_TITLE'] = '[Grafik] Rechteck bei x %1 y %2 Breite %3 Höhe %4 mit Farbe %5 anzeigen';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_RECT_TOOLTIP'] = 'Zeigt ein Rechteck auf dem Grafikbildschirm an.';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_PRINT_IMG_TITLE'] = '[Grafik] Bild %1 bei x %2 y %3 anzeigen';

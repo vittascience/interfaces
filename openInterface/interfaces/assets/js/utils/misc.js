@@ -97,3 +97,35 @@ function uint8ToBase64(u8) {
 function setClickableLink(url, text) {
     return `<b><a href="${url}" target="_blank" rel="noopener noreferrer" style="color: var(--vitta-blue-dark);">${text}</a></b>`;
 }
+
+/**
+ * Blockly messages of an interface for a language, in loading order. common: Blockly's own messages (the next files
+ * override them), the categories and the basic blocks. specific: the interface's own, after those of the interfaces
+ * it borrows blocks from. Shared by the interfaces (events/load.js) and the wiki (wiki/load.js): both load the same.
+ * @param {string} interfaceName
+ * @param {string} language
+ * @return {{common: Array<{id: string, src: string}>, specific: Array<{id: string, src: string}>}}
+ */
+function getBlocklyMsgScripts(interfaceName, language) {
+    const COMMON_PATH = `${CDN_PATH}/openInterface/interfaces/assets/js/msg`;
+    const SPECIFIC_PATH = `${_PATH}/${interfaceName}/assets/js/blocks/msg`;
+    // interfaces using blocks of other interfaces (unihiker: micro:bit modules and AI blocks of Python)
+    const BORROWED = { steami: ['wb55'], unihiker: ['microbit', 'python'], arduinoq: ['arduino', 'python', 'web'] };
+    const common = [{ id: "blockly_core_msg", src: `${CDN_PATH}/openInterface/interfaces/assets/js/external/blockly/msg/${language}.js` }];
+    if (interfaceName != 'web') {
+        common.push({ id: "common_block_msg", src: `${COMMON_PATH}/blocks/basic/${language}.js` });
+    }
+    common.push({ id: "common_cat_msg", src: `${COMMON_PATH}/categories/${language}.js` });
+    if (['arduino', 'esp32', 'galaxia', 'pico', 'm5stack'].includes(interfaceName)) {
+        common.push({ id: "common_esp32_block_msg", src: `${COMMON_PATH}/blocks/esp32/${language}.js` });
+    }
+    const specific = [];
+    if (['web', 'TI-83'].includes(interfaceName)) {
+        specific.push({ id: "cat_msg", src: `${SPECIFIC_PATH}/categories/js/${language}.js` });
+    }
+    for (const other of BORROWED[interfaceName] || []) {
+        specific.push({ id: other + "_block_msg", src: `${CDN_PATH}/openInterface/${other}/assets/js/blocks/msg/blocks/js/${language}.js` });
+    }
+    specific.push({ id: "block_msg", src: `${SPECIFIC_PATH}/blocks/js/${language}.js` });
+    return { common, specific };
+}

@@ -32,7 +32,8 @@ a:hover {
 @media (min-width: 992px) {
 
   #main-navbar.navbar.vs-navbar .navbar-brand img {
-    height: 2rem;
+    height: 2.5rem;
+    margin: -0.25rem 0;
   }
 
   #main-navbar.navbar.vs-navbar {
@@ -645,6 +646,28 @@ h1 {
   margin-bottom: 0px;
 }
 
+/* Tooltip on the left of its button (console on the right), arrow pointing right */
+.interface-tooltip.interface-tooltip-left {
+  bottom: auto;
+  top: 50%;
+  right: calc(100% + 35px);
+  transform: translateY(-50%);
+  margin: 0;
+}
+
+/* Same orientation as the rotated button icon */
+.interface-tooltip.interface-tooltip-left .fa-chevron-up {
+  transform: rotate(-90deg);
+}
+
+.interface-tooltip.interface-tooltip-left::after {
+  top: 50%;
+  left: 100%;
+  margin-left: 0;
+  margin-top: -20px;
+  border-color: transparent transparent transparent var(--vitta-green);
+}
+
 .interface-tooltip .interface-tooltip__header {
   display: flex;
   justify-content: space-between;
@@ -995,6 +1018,11 @@ body.buddy-app .oi-btn-simulator img {
 
 .file-drop-zone-title {
     color: #767676;
+}
+
+/* Bootstrap tables keep their dark text colour: they follow the surrounding text instead (shortcuts modal...) */
+.theme-dark .table {
+  --bs-table-color: currentColor;
 }
 
 .theme-dark .btn-file,

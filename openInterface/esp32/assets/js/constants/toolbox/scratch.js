@@ -389,6 +389,7 @@ const TOOLBOX_SCRATCH_CONTENT = {
             "blocks": [
                 'esp32Cam_getCaptureData',
                 'esp32Cam_setImageSize',
+                'esp32Cam_setOrientation',
                 'esp32Cam_controlFlashLED',
                 'esp32Cam_SDcard_savePic',
                 'esp32Cam_SDcard_saveData'

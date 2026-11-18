@@ -117,6 +117,8 @@
 
 .angle-slider-knob,
 .angle-slider-knob-3D {
+  /* Dragging the knob on a touch screen must not scroll the page */
+  touch-action: none;
   width: 80px;
   height: 80px;
   background: rgb(180, 180, 180);
@@ -392,4 +394,65 @@
   border: 3px solid #24a069;
   border-radius: 10px;
   z-index: 10;
+}
+
+/* Background and obstacle modals on small screens: one column, buttons and grid within the modal */
+@media screen and (max-width: 600px) {
+  .modal-left {
+    flex: none;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .background-option {
+    width: 100%;
+    height: auto;
+  }
+
+  .modal-right {
+    width: 100%;
+    margin: 10px 0 0;
+    padding: 0;
+    aspect-ratio: auto;
+  }
+
+  .drop-zone {
+    height: auto;
+    min-height: 100px;
+    max-height: none;
+    text-align: center;
+  }
+
+  #modal-simulator-background .modal-footer-div {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  #modal-simulator-background .modal-footer-div > .btn {
+    width: auto !important;
+    flex: 1 1 auto;
+    margin: 0 !important;
+  }
+
+  .modal-obstacle-body .modal-content {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+  }
+
+  .obstacle-option > img,
+  .obstacle-option-thin > img {
+    max-width: 100%;
+  }
+}
+/* Phones in portrait: the robot simulator buttons (9 in 4 groups) stay on one line within the screen */
+@media screen and (max-width: 450px) {
+  .simulator-buttons .oi-btn-simulator {
+    --bs-btn-padding-x: 0.2em;
+    min-width: 2.1em;
+  }
+
+  .simulator-buttons > .ms-3 {
+    margin-left: 0.4rem !important;
+  }
 }

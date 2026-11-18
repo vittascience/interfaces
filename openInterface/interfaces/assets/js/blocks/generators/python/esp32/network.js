@@ -53,12 +53,13 @@ Blockly.Python.network_connectStation = function (block) {
 Blockly.Python.network_configureAccessPoint = function (block) {
     const essid = Blockly.Python.valueToCode(block, "ESSID", Blockly.Python.ORDER_NONE) || "''";
     const ip = Blockly.Python.valueToCode(block, "IP", Blockly.Python.ORDER_NONE) || "''";
+    const password = Blockly.Python.valueToCode(block, "PASSWORD", Blockly.Python.ORDER_NONE) || "''";
     Blockly.Python.addImport('network', IMPORT_NETWORK);
     Blockly.Python.addConstant('ESP32_IP', "ESP32_IP = " + ip);
     Blockly.Python.addInit('station', 'station = None');
     Blockly.Python.addInit('accessPoint', 'accessPoint = None');
     Blockly.Python.addFunction('configure_access_point', FUNCTIONS_ESP32_MICROCHIP.DEF_WIFI_CONFIGURE_ACCESS_POINT);
-    let code = "accessPoint = configure_access_point(ssid=" + essid + ", ip=ESP32_IP, max_clients=50)" + NEWLINE;
+    let code = "accessPoint = configure_access_point(ssid=" + essid + ", ip=ESP32_IP, max_clients=50, password=" + password + ")" + NEWLINE;
     if (Blockly.Python.esp32.getProgrammingMode().mode == Blockly.Python.esp32.MODE_SERVER) {
         Blockly.Python.addImport('vitta_server', IMPORT_VITTA_SERVER);
         Blockly.Python.addConstant('SERVER_PORT', 'SERVER_PORT = 80');
@@ -304,6 +305,17 @@ Blockly.Python.network_html_addButton = function (block) {
     Blockly.Python.esp32.addJavascriptCode('http_onButtonClick', FUNCTIONS_ESP32_MICROCHIP.JAVSCRIPT_ON_BUTTON_CLICK);
     Blockly.Python.esp32.addCssStyle('default_init', FUNCTIONS_ESP32_MICROCHIP.CSS_DEFAULT_INIT);
     return '  <button class="police" name=\'' + id + '\' style="background-color:' + colour + ';' + height + width + '" onclick="http_onButtonClick(\'' + id + '\')">' + text + '</button>' + NEWLINE;
+};
+
+// Add a text input on web page (value sent URL-encoded through http_sendSliderValue, decoded by http_unquote)
+Blockly.Python.network_html_addTextInput = function (block) {
+    const id = Blockly.Python.valueToCode(block, 'ID', Blockly.Python.ORDER_NONE) || "''";
+    const placeholder = Blockly.Python.valueToCode(block, 'PLACEHOLDER', Blockly.Python.ORDER_NONE) || "''";
+    const formattedId = Blockly.Python.esp32.getStringFormat(id);
+    const formattedPlaceholder = Blockly.Python.esp32.getStringFormat(placeholder);
+    Blockly.Python.esp32.addJavascriptCode('http_sendSliderValue', FUNCTIONS_ESP32_MICROCHIP.JAVSCRIPT_SEND_SLIDER_VALUE);
+    Blockly.Python.esp32.addCssStyle('default_init', FUNCTIONS_ESP32_MICROCHIP.CSS_DEFAULT_INIT);
+    return '  <input type="text" class="police" id=\'' + formattedId + '\' placeholder=\'' + formattedPlaceholder + '\' onchange="http_sendSliderValue({value: encodeURIComponent(this.value)}, \'' + formattedId + '\')">' + NEWLINE;
 };
 
 // Add a slider on web page
@@ -592,6 +604,13 @@ Blockly.Python.network_server_getSliderValue = function (block) {
     Blockly.Python.esp32.addJavascriptCode('http_sendSliderValue', FUNCTIONS_ESP32_MICROCHIP.JAVSCRIPT_SEND_SLIDER_VALUE);
     Blockly.Python.esp32.addJavascriptCode(id, jsCode);
     return ["int(float(server.getValueById(" + id + ")))", Blockly.Python.ORDER_ATOMIC];
+};
+
+// Server - get text input value
+Blockly.Python.network_server_getTextInputValue = function (block) {
+    const id = Blockly.Python.valueToCode(block, 'ID', Blockly.Python.ORDER_NONE) || "''";
+    Blockly.Python.addFunction('http_unquote', FUNCTIONS_ESP32_MICROCHIP.DEF_HTTP_UNQUOTE);
+    return ["http_unquote(server.getValueById(" + id + ", default=''))", Blockly.Python.ORDER_ATOMIC];
 };
 
 // Server - get button state

@@ -111,9 +111,10 @@ Blockly.Python.cyberpi_console_set_font = function (block) {
 Blockly.Python.cyberpi_display_show_label = function (block) {
     Blockly.Python.addImport('cyberpi', IMPORT_CYBERPI);
     const text = Blockly.Python.valueToCode(block, "TEXT", Blockly.Python.ORDER_NONE) || "\"\"";
-    const fontsize = block.getFieldValue("FONTSIZE");;
+    const fontsize = block.getFieldValue("FONTSIZE");
     const position = block.getFieldValue("POSITION");
-    return "cyberpi.display.show_label(" + text + ", " + fontsize + ", \'" + position + "\')" + NEWLINE; 
+    const index = block.getFieldValue("INDEX");
+    return "cyberpi.display.show_label(" + text + ", " + fontsize + ", '" + position + "', index=" + index + ")" + NEWLINE; 
 };
 
 Blockly.Python.cyberpi_display_show_label_xy = function (block) {
@@ -122,7 +123,8 @@ Blockly.Python.cyberpi_display_show_label_xy = function (block) {
     const fontsize = block.getFieldValue("FONTSIZE");
     const x = Blockly.Python.valueToCode(block, "X", Blockly.Python.ORDER_NONE) || "0";
     const y = Blockly.Python.valueToCode(block, "Y", Blockly.Python.ORDER_NONE) || "0";
-    return "cyberpi.display.show_label(" + text + ", " + fontsize + ", " + x + "," + y + ")" + NEWLINE;
+    const index = block.getFieldValue("INDEX");
+    return "cyberpi.display.show_label(" + text + ", " + fontsize + ", " + x + ", " + y + ", index=" + index + ")" + NEWLINE;
 };
 
 Blockly.Python.cyberpi_display_clear = function () {

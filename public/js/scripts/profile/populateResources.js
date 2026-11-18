@@ -330,7 +330,7 @@ $('body').on('click', '.shareProjectToggle', function () {
 });
 //Action to delete a project 
 $('body').on('click', '.delete-item', function () {
-    if (confirm("Voulez vous supprimer le projet?")) {
+    if (confirm(i18next.t("profile.pro.deleteConfirm", { defaultValue: "Voulez-vous supprimer ce projet ?" }))) {
         let link = $(this).attr('data-id')
         var el = $(this)
         $.ajax({

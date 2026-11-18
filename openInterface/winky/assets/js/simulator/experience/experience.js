@@ -1,4 +1,4 @@
-import Experience from '/openInterface/interfaces/assets/js/simulator3d/Experience.js';
+import Experience, { defineSimulator3D } from '/openInterface/interfaces/assets/js/simulator3d/Experience.js';
 import config from './config.js';
 import { gsap } from '/openInterface/interfaces/assets/js/simulator3d/libs/gsap.js';
 import Gui from './utils/debug.js';
@@ -731,4 +731,4 @@ export default class Simulator3d {
     }
 }
 
-window.Simulator3D = new Simulator3d(config);
+defineSimulator3D(() => new Simulator3d(config));

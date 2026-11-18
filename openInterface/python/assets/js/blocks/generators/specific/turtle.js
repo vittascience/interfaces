@@ -190,3 +190,8 @@ Blockly.Python.turtle_fillend = function (block) {
     Blockly.Python.addImport('turtle', IMPORT_TURTLE_ALL);
     return "turtle.end_fill()" + NEWLINE
 }
+Blockly.Python.turtle_setheading = function (block) {
+    Blockly.Python.addImport('turtle', IMPORT_TURTLE_ALL);
+    const angle = Blockly.Python.valueToCode(block, "ANGLE", Blockly.Python.ORDER_NONE) || "0";
+    return "turtle.setheading(" + angle + ")" + NEWLINE;
+};

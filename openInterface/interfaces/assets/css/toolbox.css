@@ -191,6 +191,41 @@
   border-bottom-color: var(--text-0);
 }
 
+/* the clear button at the end of the input, over it */
+.search-block-field {
+  position: relative;
+  display: inline-block;
+  width: 80%;
+}
+
+.search-block-field #search-block-input {
+  width: 100%;
+}
+
+/* room for the clear button, without widening the toolbox: the negative margin cancels the padding in the width the
+   toolbox takes from its content */
+.search-block-field:has(#search-block-clear) #search-block-input {
+  padding-right: 1.4em;
+  margin-right: -1.4em;
+}
+
+#search-block-clear {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  padding: 0 4px;
+  color: var(--text-1);
+  line-height: 1;
+}
+
+#search-block-clear:hover,
+#search-block-clear:focus-visible {
+  color: var(--text-0);
+}
+
 /* LEVEL SWITCHER */
 
 #toolbox-level {

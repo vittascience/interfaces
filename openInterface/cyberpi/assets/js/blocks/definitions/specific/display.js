@@ -315,6 +315,13 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
                 ["%{BKY_CYBERPI_POSITION_BOTTOM_LEFT}", "bottom_left"],
                 ["%{BKY_CYBERPI_POSITION_BOTTOM_RIGHT}", "bottom_right"]
             ]
+        }, {
+            "type": "field_number",
+            "name": "INDEX",
+            "value": 0,
+            "min": 0,
+            "max": 7,
+            "precision": 1
         }],
         "style": "display_blocks",
         "inputsInline": true,
@@ -349,6 +356,13 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "input_value",
             "name": "Y",
             "check": "Number"
+        }, {
+            "type": "field_number",
+            "name": "INDEX",
+            "value": 0,
+            "min": 0,
+            "max": 7,
+            "precision": 1
         }],
         "style": "display_blocks",
         "inputsInline": true,

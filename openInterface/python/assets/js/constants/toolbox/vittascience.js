@@ -385,6 +385,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
             "blocks": [
                 'turtle_direction',
                 'turtle_turn',
+                'turtle_setheading',
                 'turtle_goto',
                 'turtle_circle',
                 'turtle_arc',

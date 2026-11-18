@@ -422,7 +422,26 @@ DEF_ESP32_CAM_INITIALIZE:
       print("Camera ready (fallback QVGA).")
     except OSError as e2:
       print('Camera failed completely:', e2)
-      reset()`,
+      reset()
+  try:
+    cam.set_vflip(cam_vflip)
+    cam.set_hmirror(cam_hmirror)
+  except NameError:
+    pass  # orientation block not used
+  except AttributeError:
+    print('Image orientation is not supported by this camera firmware')`,
+
+DEF_ESP32_CAM_SET_ORIENTATION:
+`def ESP32CAM_setOrientation(vflip, hmirror):
+  global cam_vflip, cam_hmirror
+  cam_vflip = vflip
+  cam_hmirror = hmirror
+  if cam is not None:
+    try:
+      cam.set_vflip(vflip)
+      cam.set_hmirror(hmirror)
+    except AttributeError:
+      print('Image orientation is not supported by this camera firmware')`,
 
 DEF_ESP32_CAM_CAPTURE:
 `def ESP32CAM_capture(base64 = True):

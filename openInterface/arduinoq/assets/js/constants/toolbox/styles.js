@@ -117,6 +117,9 @@ const THEME_VITTASCIENCE = {
     "py_http_blocks": {
         "colourPrimary": "#0fbd8c"
     },
+    "py_iot_blocks": {
+        "colourPrimary": "#2e86c1"
+    },
     "py_datalog_blocks": {
         "colourPrimary": "#5c68a6"
     },

@@ -1,5 +1,12 @@
 (function () {
-    if (!document.documentElement.classList.contains('provider-origamia')) return;
+    const root = document.documentElement;
+    if (!root.classList.contains('provider-origamia')) return;
+
+    const MIN_SCALE = 0.5;
+    const KEEP_LAYOUT_SCALE = 0.75;
+    const FIT_MARGIN = 24;
+
+    root.classList.add('og-side');
 
     function showLoader() {
         if (document.getElementById('origamia-loader')) return;
@@ -17,31 +24,47 @@
     }
     showLoader();
 
-    let simuDone = false;
-    const ensureSimulatorOpen = function () {
-        if (simuDone) return;
+    function mainWorkspace() {
+        return (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace) ? Blockly.getMainWorkspace() : null;
+    }
+
+    const simuTimer = setInterval(function () {
         const simulator = document.getElementById('simulator');
         if (!simulator) return;
-        if (simulator.offsetWidth === 0 && typeof toggleSimulator === 'function') {
-            toggleSimulator();
-        }
-        simuDone = true;
-    };
-    const simuTimer = setInterval(function () {
-        ensureSimulatorOpen();
-        if (simuDone) clearInterval(simuTimer);
+        if (simulator.offsetWidth === 0 && typeof toggleSimulator === 'function') toggleSimulator();
+        clearInterval(simuTimer);
     }, 200);
-    setTimeout(function () { clearInterval(simuTimer); }, 6000);
+    setTimeout(function () { clearInterval(simuTimer); }, 20000);
 
-    function buildFlatFlyout(manager) {
-        const db = (ToolboxManager.DB_ && ToolboxManager.DB_.get) ? ToolboxManager.DB_.get() : {};
-        let types = manager._reducedToolboxBlocks;
-        if (!types || !types.length) types = Object.keys(db);
-        const contents = types.map(function (type) {
-            const inner = (db[type] != null) ? db[type] : '';
-            return { kind: 'block', blockxml: '<block type="' + type + '">' + inner + '</block>' };
+    function disableLocalDraft() {
+        if (typeof ProjectManager === 'undefined' || !ProjectManager.prototype) return false;
+        ProjectManager.prototype._isLocalDraftEnabled = function () { return false; };
+        return true;
+    }
+    if (!disableLocalDraft()) {
+        const draftTimer = setInterval(function () { if (disableLocalDraft()) clearInterval(draftTimer); }, 20);
+        setTimeout(function () { clearInterval(draftTimer); }, 10000);
+    }
+
+    function flatToolbox(manager) {
+        const seen = new Set();
+        const contents = [];
+        (manager._reducedToolboxBlocks || []).forEach(function (type) {
+            if (seen.has(type)) return;
+            seen.add(type);
+            const xml = ToolboxManager.getXmlByBlockType(type);
+            if (xml) contents.push({ kind: 'block', blockxml: xml });
         });
         return { kind: 'flyoutToolbox', id: 'toolbox', contents: contents };
+    }
+
+    let toolboxEmpty = false;
+    function collapseFlyout(workspace) {
+        const flyout = workspace.getFlyout();
+        if (!flyout || (!flyout.isVisible() && flyout.getHeight() === 0)) return;
+        flyout.hide();
+        flyout.height_ = 0;
+        workspace.resize();
     }
 
     if (typeof ToolboxManager !== 'undefined' && ToolboxManager.prototype
@@ -50,119 +73,105 @@
         ToolboxManager.prototype.setToolbox = function () {
             try {
                 this._hasCategories = false;
-                this._workspace.updateToolbox(buildFlatFlyout(this));
+                const toolbox = flatToolbox(this);
+                const flyoutSvg = document.querySelector('#content_blocks .injectionDiv > .blocklyFlyout');
+                if (flyoutSvg) flyoutSvg.classList.add('blocklyToolboxFlyout');
+                this._workspace.updateToolbox(toolbox);
+                toolboxEmpty = !toolbox.contents.length;
+                root.classList.toggle('og-no-toolbox', toolboxEmpty);
                 if (typeof this.setBlocklyTheme === 'function') this.setBlocklyTheme();
-                if (typeof Blockly !== 'undefined' && Blockly.svgResize) Blockly.svgResize(this._workspace);
+                Blockly.svgResize(this._workspace);
             } catch (e) {
                 console.warn('[origamia] toolbox plate échouée', e);
             }
+            syncLayout();
         };
     }
 
-    function moveZoomLeft() {
-        const z = document.querySelector('.blocklyZoom');
-        const parent = z && z.parentNode;
-        if (!parent || typeof parent.getAttribute !== 'function') return;
-        const t = parent.getAttribute('transform') || '';
-        const m = t.match(/translate\(\s*(-?[\d.]+)[ ,]+(-?[\d.]+)/);
-        if (!m) return;
-        const targetX = 14;
-        const ws = document.getElementById('content_blocks');
-        const wsH = ws ? ws.getBoundingClientRect().height : 0;
-        const targetY = wsH ? Math.round(wsH - 109 - 22) : parseFloat(m[2]);
-        if (Math.abs(parseFloat(m[1]) - targetX) > 0.5 || Math.abs(parseFloat(m[2]) - targetY) > 0.5) {
-            parent.setAttribute('transform', 'translate(' + targetX + ',' + targetY + ')');
-        }
+    let controlsDone = false;
+    function dropHiddenControls(workspace) {
+        if (controlsDone) return;
+        controlsDone = true;
+        ['trashcan', 'backpack'].forEach(function (id) {
+            try { workspace.getComponentManager().removeComponent(id); } catch (e) {}
+        });
+        workspace.resize();
     }
 
-    const GAP_TOP = 28;
-    const MASK_UP = 9;
-    const GAP_RIGHT = 18;
-    function updateWorkspaceFrame() {
-        const base = document.querySelector('.ide-base');
-        const ws = document.getElementById('content_blocks');
-        if (!base || !ws) return;
-        const simulator = document.getElementById('simulator');
+    let lastSize = '';
+    function syncLayout() {
+        const workspace = mainWorkspace();
+        const editor = document.querySelector('.ide-editor');
+        if (!workspace || !editor) return;
 
-        let toolboxH = 80;
-        try {
-            const fl = (window.Code && Code.workspace && Code.workspace.getFlyout)
-                ? Code.workspace.getFlyout() : null;
-            if (fl && typeof fl.getHeight === 'function' && fl.getHeight()) toolboxH = fl.getHeight();
-        } catch (e) { /* fallback 80 */ }
-
-        const baseR = base.getBoundingClientRect();
-        const wsR = ws.getBoundingClientRect();
-        const simuOpen = simulator && simulator.offsetWidth > 0;
-        const simuR = simuOpen ? simulator.getBoundingClientRect() : null;
-
-        const top = (wsR.top - baseR.top) + toolboxH + GAP_TOP;
-        const left = Math.max(0, wsR.left - baseR.left);
-        const right = simuR ? (baseR.right - simuR.left + GAP_RIGHT) : 8;
-        const bottom = Math.max(0, baseR.bottom - wsR.bottom);
-
-        let frame = document.getElementById('origamia-ws-frame');
-        if (!frame) {
-            frame = document.createElement('div');
+        if (!document.getElementById('origamia-ws-frame')) {
+            const frame = document.createElement('div');
             frame.id = 'origamia-ws-frame';
-            base.appendChild(frame);
+            editor.appendChild(frame);
         }
-        frame.style.top = top + 'px';
-        frame.style.left = left + 'px';
-        frame.style.right = right + 'px';
-        frame.style.bottom = bottom + 'px';
 
-        let mask = document.getElementById('origamia-ws-mask');
-        if (!mask) {
-            mask = document.createElement('div');
-            mask.id = 'origamia-ws-mask';
-            mask.style.cssText = 'position:absolute;background:#fffeed;pointer-events:none;z-index:6;';
-            base.appendChild(mask);
+        dropHiddenControls(workspace);
+
+        const size = editor.offsetWidth + 'x' + editor.offsetHeight;
+        if (size !== lastSize) {
+            lastSize = size;
+            Blockly.svgResize(workspace);
         }
-        mask.style.top = ((wsR.top - baseR.top) + toolboxH - MASK_UP) + 'px';
-        mask.style.height = (GAP_TOP + MASK_UP) + 'px';
-        mask.style.left = '0px';
-        mask.style.right = '0px';
 
-        const RADIUS = 12;
-        const ensureCorner = function (id, gradPos) {
-            let c = document.getElementById(id);
-            if (!c) {
-                c = document.createElement('div');
-                c.id = id;
-                c.style.cssText = 'position:absolute;width:' + RADIUS + 'px;height:' + RADIUS +
-                    'px;pointer-events:none;z-index:5;background:radial-gradient(circle at ' +
-                    gradPos + ', transparent ' + RADIUS + 'px, #fffeed ' + (RADIUS + 0.5) + 'px);';
-                base.appendChild(c);
-            }
-            return c;
-        };
-        const cTL = ensureCorner('origamia-corner-tl', '100% 100%');
-        const cTR = ensureCorner('origamia-corner-tr', '0% 100%');
-        const cBL = ensureCorner('origamia-corner-bl', '100% 0%');
-        const cBR = ensureCorner('origamia-corner-br', '0% 0%');
-        cTL.style.top = top + 'px';        cTL.style.left = left + 'px';    cTL.style.right = 'auto';      cTL.style.bottom = 'auto';
-        cTR.style.top = top + 'px';        cTR.style.right = right + 'px';  cTR.style.left = 'auto';       cTR.style.bottom = 'auto';
-        cBL.style.bottom = bottom + 'px';  cBL.style.left = left + 'px';    cBL.style.right = 'auto';      cBL.style.top = 'auto';
-        cBR.style.bottom = bottom + 'px';  cBR.style.right = right + 'px';  cBR.style.left = 'auto';       cBR.style.top = 'auto';
-
-        let backing = document.getElementById('origamia-right-backing');
-        if (!backing) {
-            backing = document.createElement('div');
-            backing.id = 'origamia-right-backing';
-            backing.style.cssText = 'position:absolute;background:#fffeed;pointer-events:none;z-index:4;';
-            base.appendChild(backing);
-        }
-        backing.style.top = top + 'px';
-        backing.style.right = '0px';
-        backing.style.bottom = '0px';
-        backing.style.left = 'auto';
-        backing.style.width = right + 'px';
-
-        moveZoomLeft();
+        if (toolboxEmpty) collapseFlyout(workspace);
+        const flyout = workspace.getFlyout();
+        const top = flyout && !toolboxEmpty ? Math.round(flyout.getHeight()) : 0;
+        root.style.setProperty('--og-top', top + 'px');
     }
-    window.addEventListener('resize', updateWorkspaceFrame);
-    setInterval(updateWorkspaceFrame, 400);
+
+    let userTouched = false;
+    document.addEventListener('pointerdown', function (event) {
+        if (event.target.closest && event.target.closest('#content_blocks')) userTouched = true;
+    }, true);
+
+    function fitScale(workspace) {
+        const box = workspace.getBlocksBoundingBox();
+        const metrics = workspace.getMetrics();
+        return Math.min(
+            (metrics.viewWidth - FIT_MARGIN) / Math.max(box.right, 1),
+            (metrics.viewHeight - FIT_MARGIN) / Math.max(box.bottom, 1)
+        );
+    }
+
+    function fitWorkspace() {
+        const workspace = mainWorkspace();
+        if (!workspace || userTouched || !workspace.getTopBlocks(false).length) return;
+        const startScale = (workspace.options.zoomOptions && workspace.options.zoomOptions.startScale) || 1;
+        workspace.setScale(startScale);
+        let scale = fitScale(workspace);
+        if (scale < KEEP_LAYOUT_SCALE && workspace.getTopBlocks(false).length > 1) {
+            workspace.cleanUp();
+            scale = fitScale(workspace);
+        }
+        workspace.setScale(Math.max(MIN_SCALE, Math.min(startScale, scale)));
+        workspace.scroll(0, 0);
+    }
+
+    let fitTimer = null;
+    function scheduleLayout() {
+        syncLayout();
+        clearTimeout(fitTimer);
+        fitTimer = setTimeout(function () { syncLayout(); fitWorkspace(); }, 150);
+    }
+    window.addEventListener('resize', scheduleLayout);
+
+    const observed = new Set();
+    const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(scheduleLayout) : null;
+    function observePanels() {
+        if (!observer) return;
+        ['.ide-editor', '#simulator'].forEach(function (selector) {
+            const element = document.querySelector(selector);
+            if (element && !observed.has(element)) {
+                observed.add(element);
+                observer.observe(element);
+            }
+        });
+    }
 
     const ORIGAMIA_BLOCKED_MODALS = [
         'modal-auto-corrector-correct',
@@ -182,20 +191,42 @@
     const pmTimer = setInterval(function () { if (patchPseudoModal()) clearInterval(pmTimer); }, 200);
     setTimeout(function () { clearInterval(pmTimer); }, 10000);
 
+    function patchAutoCorrector() {
+        if (typeof AutoCorrector === 'undefined' || typeof AutoCorrector._origamiaSettle !== 'function') return false;
+        const settle = AutoCorrector._origamiaSettle;
+        AutoCorrector._origamiaSettle = function () {
+            const pending = typeof this.origamiaResolve === 'function';
+            settle.apply(this, arguments);
+            if (!pending) return;
+            setTimeout(function () {
+                const training = document.getElementById('training-mode');
+                if (training) training.click();
+            }, 0);
+        };
+        return true;
+    }
+    const acTimer = setInterval(function () { if (patchAutoCorrector()) clearInterval(acTimer); }, 200);
+    setTimeout(function () { clearInterval(acTimer); }, 20000);
+
     let stableCount = 0;
+    let lastState = '';
     const stableTimer = setInterval(function () {
+        const workspace = mainWorkspace();
         const ws = document.getElementById('content_blocks');
-        const ready = ws && ws.offsetWidth > 2 && document.querySelector('.blocklySvg');
-        if (ready) {
-            stableCount++;
-            if (stableCount >= 3) {
-                clearInterval(stableTimer);
-                updateWorkspaceFrame();
-                hideLoader();
-            }
-        } else {
+        observePanels();
+        if (!workspace || !ws || ws.offsetWidth <= 2) {
             stableCount = 0;
+            return;
+        }
+        syncLayout();
+        const state = lastSize + '|' + root.style.getPropertyValue('--og-top') + '|' + workspace.getAllBlocks(false).length;
+        stableCount = state === lastState ? stableCount + 1 : 0;
+        lastState = state;
+        if (stableCount >= 3) {
+            clearInterval(stableTimer);
+            fitWorkspace();
+            hideLoader();
         }
     }, 200);
-    setTimeout(function () { clearInterval(stableTimer); hideLoader(); }, 15000);
+    setTimeout(function () { clearInterval(stableTimer); scheduleLayout(); hideLoader(); }, 15000);
 })();
