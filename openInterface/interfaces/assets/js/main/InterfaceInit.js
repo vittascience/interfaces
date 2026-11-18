@@ -327,7 +327,16 @@ class InterfaceInit {
 
     async downloadFile(filePath, type = "text", replace = null) {
         await this.fetchDir(filePath, type)
+            .catch((error) => {
+                // offline, and the file is not in the cache of /interfaces-sw.js (firmwares: only once downloaded online)
+                if (typeof UserManager !== 'undefined' && UserManager.isOffline()) {
+                    new VittaNotif().displayNotification(null, i18next.t('notifications.offlineDownload'), 'bg-info');
+                    return;
+                }
+                throw error;
+            })
             .then(function (file) {
+                if (!file) return;
                 if (replace) {
                     file = file.replace(replace[0], replace[1]);
                 }

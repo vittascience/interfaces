@@ -63,6 +63,28 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ]
     },
 
+    // BLOCK ESP32-CAM - SET IMAGE ORIENTATION
+    {
+        "type": "esp32Cam_setOrientation",
+        "message0": "%{BKY_ESP32_CAM_SET_ORIENTATION_TITLE}",
+        "args0": [{
+            "type": "field_checkbox",
+            "name": "VFLIP",
+            "checked": true
+        }, {
+            "type": "field_checkbox",
+            "name": "HMIRROR",
+            "checked": false
+        }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "esp32cam_blocks",
+        "tooltip": "%{BKY_ESP32_CAM_SET_ORIENTATION_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
     // CONTROL ESP32-CAM FLASH LED  
     {
         "type": "esp32Cam_controlFlashLED",

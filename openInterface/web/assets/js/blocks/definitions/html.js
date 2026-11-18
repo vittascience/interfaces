@@ -164,8 +164,9 @@ Blockly.defineBlocksWithJsonArray([
         "check": JS_BLOCKS,
       }
     ],
-    "previousStatement": "header",
-    "nextStatement": 'header',
+    // in the head or at the end of the body
+    "previousStatement": ["header", "html"],
+    "nextStatement": ["header", "html"],
     "colour": "#ff9403",
     "tooltip": "Script tag shoud be placed in the head tag",
     "helpUrl": "https://www.w3schools.com/tags/tag_style.asp"

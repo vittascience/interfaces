@@ -391,7 +391,9 @@ const $builtinmodule = function (name) {
 		show_label: [(message, size, x, y, index) => {
 			setScreenMode('label');
 			const position = typeof x === 'string' ? (LABEL_POSITIONS[x] || LABEL_POSITIONS.center) : [x || 0, y || 0, 'left', 'top'];
-			screen.labels[index || 0] = {
+			// Like the board: 8 labels, index 0 to 7.
+			const labelIndex = Math.max(0, Math.min(7, parseInt(index) || 0));
+			screen.labels[labelIndex] = {
 				text: String(message), size: size || 16, color: screen.brush.slice(),
 				x: position[0], y: position[1], align: position[2], baseline: position[3]
 			};

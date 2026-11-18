@@ -38,6 +38,9 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         }, {
             "type": "input_value",
             "name": "IP"
+        }, {
+            "type": "input_value",
+            "name": "PASSWORD"
         }],
         "inputsInline": true,
         "previousStatement": null,
@@ -387,6 +390,27 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "mutator": "network_add_switch_mutator"
     },
 
+    // BLOCK WEB PAGE - ADD TEXT INPUT
+    {
+        "type": "network_html_addTextInput",
+        "message0": "%{BKY_NETWORK_HTML_ADD_TEXT_INPUT_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "ID"
+        }, {
+            "type": "input_value",
+            "name": "PLACEHOLDER"
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "style": "network_blocks",
+        "tooltip": "%{BKY_NETWORK_HTML_ADD_TEXT_INPUT_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ]
+    },
+
     // BLOCK WEB PAGE - ADD GAUGE
     {
         "type": "network_html_addGauge",
@@ -623,6 +647,22 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "output": "Number",
         "style": "network_blocks",
         "tooltip": "%{BKY_NETWORK_SERVER_GET_SLIDER_VALUE_TOOLTIP}",
+        "extensions": [
+            "block_init_helpurl"
+        ],
+    },
+
+    // BLOCK CLIENT/SERVER - GET TEXT INPUT VALUE
+    {
+        "type": "network_server_getTextInputValue",
+        "message0": "%{BKY_NETWORK_SERVER_GET_TEXT_INPUT_VALUE_TITLE}",
+        "args0": [{
+            "type": "input_value",
+            "name": "ID"
+        }],
+        "output": "String",
+        "style": "network_blocks",
+        "tooltip": "%{BKY_NETWORK_SERVER_GET_TEXT_INPUT_VALUE_TOOLTIP}",
         "extensions": [
             "block_init_helpurl"
         ],

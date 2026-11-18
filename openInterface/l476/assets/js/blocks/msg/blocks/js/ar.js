@@ -3,9 +3,9 @@
  */
 'use strict';
 // Display - L476
-Blockly.Msg['DISPLAY_L476_CONTROL_COLOR_LED_TITLE'] = 'التحكم في %1 LED لحالة %2';
+Blockly.Msg['DISPLAY_L476_CONTROL_COLOR_LED_TITLE'] = 'التحكم في الـ LED (الأخضر) بالحالة %1';
 Blockly.Msg['DISPLAY_L476_CONTROL_COLOR_LED_TOOLTIP'] = 'التحكم في لون LED للوحة L476';
-Blockly.Msg['DISPLAY_L476_TOGGLE_LED_STATE_TITLE'] = 'تبديل حالة %1';
+Blockly.Msg['DISPLAY_L476_TOGGLE_LED_STATE_TITLE'] = 'تبديل حالة الـ LED (الأخضر)';
 Blockly.Msg['DISPLAY_L476_TOGGLE_LED_STATE_TOOLTIP'] = 'تبديل حالة لون LED للوحة L476';
 Blockly.Msg['LED_GREEN'] = 'LED2 (أخضر)';
 // Display - LCD
@@ -99,9 +99,9 @@ Blockly.Msg['IO_INITCHRONOMETER_TITLE'] = 'تهيئة الكرونومتر';
 Blockly.Msg['IO_INITCHRONOMETER_TOOLTIP'] = 'يمكنك من  تهيئة الكرونومتر (in seconds)';
 Blockly.Msg['IO_GETCHRONOMETER_TITLE'] = 'احصل على الكرونومتر في %1';
 Blockly.Msg['IO_GETCHRONOMETER_TOOLTIP'] = 'تُرجع قيمة الكرونومتر من التهيئة بالثواني أو بالملي ثانية';
-Blockly.Msg['IO_L476_GETSWITCHSTATE_TITLE'] = 'قراءة حالة المفتاح الكهربائي %1';
+Blockly.Msg['IO_L476_GETSWITCHSTATE_TITLE'] = 'قراءة حالة الزر (B1)';
 Blockly.Msg['IO_L476_GETSWITCHSTATE_TOOLTIP'] = 'تمكين لقراءة مفتاح القيمة الرقمية المتكاملة للوحة L476 (SW1 ، SW2 ، SW3)';
-Blockly.Msg['IO_L476_ONSWITCHBUTTONPRESSED_TITLE'] = 'على المفتاح الكهربائي %1 %2 ثم';
+Blockly.Msg['IO_L476_ONSWITCHBUTTONPRESSED_TITLE'] = 'إذا الزر (B1) %1 ثم';
 Blockly.Msg['IO_L476_ONSWITCHBUTTONPRESSED_TOOLTIP'] = 'قم بتنفيذ التعليمات من خلال قراءة مفتاح القيمة الرقمية المتكاملة للوحة L476 (SW1 ، SW2 ، SW3)';
 Blockly.Msg['IO_L476_PRESSED'] = 'ضغط';
 Blockly.Msg['IO_L476_RELEASED'] = 'أفلت';
@@ -229,7 +229,7 @@ Blockly.Msg['COMMUNICATION_M24SR64_WRITE_NFC_TOOLTIP'] = IMG_MODULE_NFC + Blockl
 Blockly.Msg['COMMUNICATION_LORA_INIT_TITLE'] = '[LoRa E5]قم بتهيئة الوحدة باستخدام appEui %1 باستخدام appKey %2';
 Blockly.Msg['COMMUNICATION_LORA_INIT_TOOLTIP'] = IMG_MODULE_LORA + Blockly.Tooltip.SEP + 'يبدأ ويحصل على معلومات التعريف الخاصة بوحدة LoRa المتصلة بمنفذ UART';
 Blockly.Msg['COMMUNICATION_LORA_INIT'] = 'مع devAddr:';
-Blockly.Msg['COMMUNICATION_LORA_SEND_TITLE'] = '[LoRa] أرسل الرسالة %1';
+Blockly.Msg['COMMUNICATION_LORA_SEND_TITLE'] = '[LoRa] أرسل البيانات';
 Blockly.Msg['COMMUNICATION_LORA_SEND_TOOLTIP'] = IMG_MODULE_LORA + Blockly.Tooltip.SEP + 'إرسال البيانات من أجهزة الاستشعار من خلال وحدة LoRa.';
 Blockly.Msg['COMMUNICATION_LORA_RECEIVE_TITLE'] = '[LoRa] تلقي رسالة';
 Blockly.Msg['COMMUNICATION_LORA_RECEIVE_TOOLTIP'] = IMG_MODULE_LORA + Blockly.Tooltip.SEP + 'تمكن من استلام البيانات عبر وحدة LoRa.';

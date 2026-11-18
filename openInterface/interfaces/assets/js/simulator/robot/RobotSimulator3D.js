@@ -257,13 +257,14 @@ export default class RobotSimulator3D {
 				const knob = document.querySelector('.angle-slider-knob-3D');
 				let isRotating = false;
 
-				document.addEventListener('mousedown', (e) => {
+				// Pointer events: mouse and touch screens
+				document.addEventListener('pointerdown', (e) => {
 					if (e.target.closest('.angle-slider-knob-3D')) {
 						isRotating = true;
 					}
 				});
 
-				document.addEventListener('mousemove', (e) => {
+				document.addEventListener('pointermove', (e) => {
 					if (isRotating) {
 						const knobX = knob.getBoundingClientRect().left + knob.clientWidth / 2;
 						const knobY = knob.getBoundingClientRect().top + knob.clientHeight / 2;
@@ -280,12 +281,14 @@ export default class RobotSimulator3D {
 					}
 				});
 
-				document.addEventListener('mouseup', () => {
+				const stopRotating = () => {
 					isRotating = false;
 					if (this.simulator3D.physics){
 						this.simulator3D.physics.computeRotation = true;
 					}
-				});
+				};
+				document.addEventListener('pointerup', stopRotating);
+				document.addEventListener('pointercancel', stopRotating);
 
 				this.angleSliderInitialized = true;
 			}
@@ -483,7 +486,7 @@ export default class RobotSimulator3D {
 		angleText.setAttribute('contenteditable', 'true');
 		angleText.setAttribute('spellcheck', 'false');
 
-		angleText.addEventListener('mousedown', (e) => {
+		angleText.addEventListener('pointerdown', (e) => {
 			e.stopPropagation();
 		});
 

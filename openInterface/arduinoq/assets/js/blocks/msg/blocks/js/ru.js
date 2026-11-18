@@ -124,6 +124,34 @@ Blockly.Msg["PY_DATALOG_ADD_LINE_TOOLTIP"] = "Добавляет строку в
 Blockly.Msg["PY_DATALOG_CLEAR_TITLE"] = "удалить файл %1";
 Blockly.Msg["PY_DATALOG_CLEAR_TOOLTIP"] = "Удаляет CSV-файл с платы.";
 
+// Connected objects (Python, iot.js)
+Blockly.Msg["CATEGORY_IOT"] = "Умные устройства";
+Blockly.Msg["IOT_LABEL_SHELLY"] = "Умная розетка Shelly";
+Blockly.Msg["IOT_SHELLY_ON"] = "включить";
+Blockly.Msg["IOT_SHELLY_OFF"] = "выключить";
+Blockly.Msg["IOT_SHELLY_TOGGLE"] = "переключить";
+Blockly.Msg["IOT_SHELLY_POWER"] = "мощность (Вт)";
+Blockly.Msg["IOT_SHELLY_ENERGY"] = "потреблённая энергия (Вт·ч)";
+Blockly.Msg["IOT_SHELLY_VOLTAGE"] = "напряжение (В)";
+Blockly.Msg["IOT_SHELLY_CURRENT"] = "ток (А)";
+Blockly.Msg["IOT_SHELLY_TEMPERATURE"] = "температура (°C)";
+Blockly.Msg["IOT_SHELLY_WIFI_SWITCH_TITLE"] = "%1 розетку Shelly Wi-Fi по адресу %2";
+Blockly.Msg["IOT_SHELLY_WIFI_SWITCH_TOOLTIP"] = "Управляет розеткой Shelly в той же сети Wi-Fi, что и плата, по её IP-адресу (виден в приложении Shelly или в роутере).";
+Blockly.Msg["IOT_SHELLY_WIFI_IS_ON_TITLE"] = "розетка Shelly Wi-Fi %1 включена?";
+Blockly.Msg["IOT_SHELLY_WIFI_IS_ON_TOOLTIP"] = "Истина, если розетка Shelly по этому IP-адресу включена.";
+Blockly.Msg["IOT_SHELLY_WIFI_MEASURE_TITLE"] = "%1 розетки Shelly Wi-Fi %2";
+Blockly.Msg["IOT_SHELLY_WIFI_MEASURE_TOOLTIP"] = "Измерение розетки Shelly по этому IP-адресу: мгновенная мощность, энергия с момента установки, напряжение, ток или внутренняя температура.";
+Blockly.Msg["IOT_SHELLY_WIFI_START_PAIRING_TITLE"] = "открыть сопряжение Bluetooth розетки Shelly Wi-Fi %1";
+Blockly.Msg["IOT_SHELLY_WIFI_START_PAIRING_TOOLTIP"] = "Делает розетку готовой к сопряжению на 3 минуты, как кнопка «Pair new device» на её веб-странице. Затем используйте блок сопряжения Bluetooth.";
+Blockly.Msg["IOT_SHELLY_BLE_PAIR_TITLE"] = "выполнить сопряжение платы с розеткой Shelly Bluetooth %1";
+Blockly.Msg["IOT_SHELLY_BLE_PAIR_TOOLTIP"] = "Сопрягает плату с розеткой (один раз, пока на розетке открыто сопряжение). Лучше указать Bluetooth-адрес розетки.";
+Blockly.Msg["IOT_SHELLY_BLE_SWITCH_TITLE"] = "%1 розетку Shelly Bluetooth %2";
+Blockly.Msg["IOT_SHELLY_BLE_SWITCH_TOOLTIP"] = "Управляет розеткой Shelly Gen2+ по Bluetooth, без Wi-Fi. Достаточно части имени («Shelly» берёт первую найденную розетку). В настройках розетки должен быть включён Bluetooth RPC.";
+Blockly.Msg["IOT_SHELLY_BLE_IS_ON_TITLE"] = "розетка Shelly Bluetooth %1 включена?";
+Blockly.Msg["IOT_SHELLY_BLE_IS_ON_TOOLTIP"] = "Истина, если розетка Shelly включена.";
+Blockly.Msg["IOT_SHELLY_BLE_MEASURE_TITLE"] = "%1 розетки Shelly Bluetooth %2";
+Blockly.Msg["IOT_SHELLY_BLE_MEASURE_TOOLTIP"] = "Измерение розетки Shelly по Bluetooth: мгновенная мощность, энергия с момента установки, напряжение, ток или внутренняя температура.";
+
 // Sound Generator, Camera Code Detection, Video Object Detection and Telegram Bot bricks
 Blockly.Msg["PY_SOUND_NOTE_BOARD_TITLE"] = "сыграть ноту %1 октава %2 %3 с на плате";
 Blockly.Msg["PY_SOUND_NOTE_BOARD_TOOLTIP"] = "Играет ноту на USB-наушниках или USB-динамике, подключённых к плате (или через разъём jack адаптера USB-C), с помощью брика Sound Generator Arduino App Lab. Октава 4: ля = 440 Гц.";

@@ -73,6 +73,7 @@ Blockly.Msg['DISPLAY_GALAXIA_ANIMATE_FUNCTION_TOOLTIP'] = 'Lägg till en punkt i
 Blockly.Msg['DISPLAY_GALAXIA_RAW_PRINT_TITLE'] = '[Graphics] visa text %1 vid x %2 y %3';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_PRINT_TOOLTIP'] = 'Visa text på grafikskärmen.';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_TEXT_TITLE'] = '[Graphics] visa text %1 på x %2 y %3 med färg %4';
+Blockly.Msg['DISPLAY_GALAXIA_RAW_TEXT_TOOLTIP'] = '[Graphics] Visar en text på position (x, y) på skärmen, i den valda färgen.';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_RECT_TITLE'] = '[Graphics] visa rektangel vid x %1 y %2 bredd %3 höjd %4 med färg %5';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_RECT_TOOLTIP'] = 'Visa en rektangel på grafikskärmen.';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_PRINT_IMG_TITLE'] = '[Graphics] visa bild %1 vid x %2 y %3';

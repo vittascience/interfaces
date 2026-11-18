@@ -350,6 +350,8 @@
 
 .obstacle-option > img {
   height: 50px;
+  max-width: 100%;
+  object-fit: contain;
   border-radius: 10px;
 }
 
@@ -386,6 +388,51 @@
 
   .modal-right-header {
     display: none;
+  }
+}
+
+/* Background and obstacle modals on small screens: one column, buttons and grid within the modal */
+@media screen and (max-width: 600px) {
+  .modal-left {
+    flex: none;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .background-option {
+    width: 100%;
+    height: auto;
+  }
+
+  .modal-right {
+    width: 100%;
+    margin: 10px 0 0;
+    padding: 0;
+    aspect-ratio: auto;
+  }
+
+  .drop-zone {
+    height: auto;
+    min-height: 100px;
+    max-height: none;
+    text-align: center;
+  }
+
+  #modal-simulator-background .modal-footer-div {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  #modal-simulator-background .modal-footer-div > .btn {
+    width: auto !important;
+    flex: 1 1 auto;
+    margin: 0 !important;
+  }
+
+  .modal-obstacle-body .modal-content {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
   }
 }
 

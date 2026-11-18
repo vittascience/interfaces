@@ -32,7 +32,9 @@ const PythonRun = {
                 'src/lib/matplotlib/__init__.js': this.PATH_LIB + 'matplotlib/__init__.js',
                 'src/lib/matplotlib/pyplot/__init__.js': this.PATH_LIB + 'matplotlib/pyplot/__init__.js',
                 'src/lib/matplotlib/cmath/__init__.js': this.PATH_LIB + 'matplotlib/cmath/__init__.js',
-                'src/lib/vittaia/__init__.js': this.PATH_LIB + 'vittaia/__init__.js'
+                'src/lib/vittaia/__init__.js': this.PATH_LIB + 'vittaia/__init__.js',
+                // ".js" is looked up before Skulpt's failing "os.py" stub
+                'src/lib/os.js': this.PATH_LIB + 'os/__init__.js'
             };
         }
         /**
@@ -254,6 +256,7 @@ const PythonRun = {
                 debugging: true,
                 output: INTERFACE_NAME === 'TI-83' ? Simulator.monitor.output : _this._output,
                 read: _this.builtinRead,
+                imageProxy: typeof PythonFiles !== 'undefined' ? PythonFiles.imageProxy : undefined,
                 execLimit: _this.TIME_LIMIT * 1000,
                 yieldLimit: 500, // Pause the execution of Skulpt every 500 ms to allow other actions like Ctrl+C or interface click
                 __future__: Sk.python3,

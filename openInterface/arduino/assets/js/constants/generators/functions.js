@@ -288,37 +288,93 @@ MAKE_TYPE_INFO(float)
 
   // Arduino UNO & Nano  (1 page buffer or 2 page buffer)
 
-  DEF_WRITE_STR_SSD1306_UG8_2HW:
-`void ssd1306_writeStr(U8G2_SSD1306_128X64_NONAME_2_HW_I2C *oled, uint8_t x, uint8_t y, const String& text) {
-  oled->firstPage();
-  do {
-    oled->drawStr(x, y, text.c_str());
-  } while (oled->nextPage());
-}`,
+  /**
+   * Page-buffer OLED helpers (UNO/Nano RAM): the screen is redrawn page by page, so
+   * every draw must repaint everything. Texts and bitmaps are kept in small slots
+   * (keyed by position) and redrawn together, so several "display" blocks coexist.
+   * ponytail: 6 text slots of 21 chars + 4 bitmap slots; oldest slot is reused when full.
+   * @param {string} cls U8g2 class name
+   * @param {string} obj object name (ssd1306 / ssd1315)
+   */
+  DEF_OLED_PAGE_BUFFER: (cls, obj) => {
+    const T = obj.toUpperCase() + '_TXT_SLOTS', X = obj.toUpperCase() + '_XBM_SLOTS';
+    // one pointer variable per bitmap slot: the simulator cannot store pointers in an array
+    const slots = [0, 1, 2, 3];
+    const bmpVars = slots.map(i => `const uint8_t *${obj}_bb${i};`).join('\n');
+    const drawBmps = slots.map(i => `    if (${obj}_bu[${i}]) oled->drawXBMP(${obj}_bx[${i}], ${obj}_by[${i}], ${obj}_bw[${i}], ${obj}_bh[${i}], ${obj}_bb${i});`).join('\n');
+    const setBmp = slots.map(i => `${i ? '  else ' : '  '}if (slot == ${i}) ${obj}_bb${i} = logo;`).join('\n');
+    // plain arrays (no struct / brace init): the Arduino simulator interpreter does not support them
+    return `#define ${T} 6
+#define ${X} 4
+uint8_t ${obj}_tx[${T}];
+uint8_t ${obj}_ty[${T}];
+bool ${obj}_tu[${T}];
+char ${obj}_ts[${T}][22];
+uint8_t ${obj}_bx[${X}];
+uint8_t ${obj}_by[${X}];
+uint8_t ${obj}_bw[${X}];
+uint8_t ${obj}_bh[${X}];
+bool ${obj}_bu[${X}];
+${bmpVars}
+uint8_t ${obj}_txtNext = 0;
+uint8_t ${obj}_xbmNext = 0;
 
-  DEF_DRAW_XBM_SSD1306_UG8_2HW:
-`void ssd1306_drawXBM(U8G2_SSD1306_128X64_NONAME_2_HW_I2C *oled, uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t logo [] U8X8_PROGMEM) {
+void ${obj}_redraw(${cls} *oled) {
   oled->firstPage();
   do {
-    oled->drawXBMP(x, y, w, h, logo);
+${drawBmps}
+    for (uint8_t i = 0; i < ${T}; i++) {
+      if (${obj}_tu[i]) oled->drawStr(${obj}_tx[i], ${obj}_ty[i], ${obj}_ts[i]);
+    }
   } while (oled->nextPage());
-}`,
+}
 
-  DEF_WRITE_STR_SSD1315_UG8_2HW:
-`void ssd1315_writeStr(U8G2_SSD1315_128X64_NONAME_2_HW_I2C *oled, uint8_t x, uint8_t y, const String& text) {
-  oled->firstPage();
-  do {
-    oled->drawStr(x, y, text.c_str());
-  } while (oled->nextPage());
-}`,
+void ${obj}_writeStr(${cls} *oled, uint8_t x, uint8_t y, const String& text) {
+  uint8_t slot = ${T};
+  for (uint8_t i = 0; i < ${T}; i++) {
+    if (${obj}_tu[i] && ${obj}_tx[i] == x && ${obj}_ty[i] == y) slot = i;
+  }
+  if (slot == ${T}) {
+    slot = ${obj}_txtNext;
+    ${obj}_txtNext = (${obj}_txtNext + 1) % ${T};
+  }
+  ${obj}_tx[slot] = x;
+  ${obj}_ty[slot] = y;
+  // manual copy: toCharArray() is not implemented in the Arduino simulator
+  uint8_t n = 0;
+  while (n < 21 && n < text.length()) {
+    ${obj}_ts[slot][n] = text.charAt(n);
+    n++;
+  }
+  ${obj}_ts[slot][n] = 0;
+  ${obj}_tu[slot] = true;
+  ${obj}_redraw(oled);
+}
 
-  DEF_DRAW_XBM_SSD1315_UG8_2HW:
-`void ssd1315_drawXBM(U8G2_SSD1315_128X64_NONAME_2_HW_I2C *oled, uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t logo [] U8X8_PROGMEM) {
-  oled->firstPage();
-  do {
-    oled->drawXBMP(x, y, w, h, logo);
-  } while (oled->nextPage());
-}`,
+void ${obj}_drawXBM(${cls} *oled, uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t *logo) {
+  uint8_t slot = ${X};
+  for (uint8_t i = 0; i < ${X}; i++) {
+    if (${obj}_bu[i] && ${obj}_bx[i] == x && ${obj}_by[i] == y) slot = i;
+  }
+  if (slot == ${X}) {
+    slot = ${obj}_xbmNext;
+    ${obj}_xbmNext = (${obj}_xbmNext + 1) % ${X};
+  }
+  ${obj}_bx[slot] = x;
+  ${obj}_by[slot] = y;
+  ${obj}_bw[slot] = w;
+  ${obj}_bh[slot] = h;
+${setBmp}
+  ${obj}_bu[slot] = true;
+  ${obj}_redraw(oled);
+}
+
+void ${obj}_clear(${cls} *oled) {
+  for (uint8_t i = 0; i < ${T}; i++) ${obj}_tu[i] = false;
+  for (uint8_t i = 0; i < ${X}; i++) ${obj}_bu[i] = false;
+  oled->clearDisplay();
+}`;
+  },
 
   /**
    * Show all LED of neopixel module.

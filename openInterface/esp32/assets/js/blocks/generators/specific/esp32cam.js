@@ -30,6 +30,14 @@ Blockly.Python.esp32Cam_setImageSize = function (block) {
     return "";
 };
 
+Blockly.Python.esp32Cam_setOrientation = function (block) {
+    Blockly.Python.addInit('camera', 'cam = None');
+    Blockly.Python.addFunction('ESP32CAM_setOrientation', FUNCTIONS_ESP32.DEF_ESP32_CAM_SET_ORIENTATION);
+    const vflip = block.getFieldValue("VFLIP") === 'TRUE' ? 'True' : 'False';
+    const hmirror = block.getFieldValue("HMIRROR") === 'TRUE' ? 'True' : 'False';
+    return "ESP32CAM_setOrientation(" + vflip + ", " + hmirror + ")" + NEWLINE;
+};
+
 Blockly.Python.esp32Cam_controlFlashLED = function (block) {
     const state = Blockly.Python.valueToCode(block, "STATE", Blockly.Python.ORDER_NONE) || "0";
     const pinName = "p4";

@@ -569,6 +569,8 @@ const InterfaceMonitor = {
      * @param {int} height height of the console we want in PIXEL
      */
     toggle(height) {
+        // The tooltip pointing at the toggle button is no longer needed
+        $('#monitor-toggler-tooltip').hide();
 
         const open = function () {
             $("#monitor").removeClass('monitor-closed');

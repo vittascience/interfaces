@@ -36,6 +36,8 @@ Blockly.Msg["TURTLE_TURN_TITLE"] = "ruota %1 di %2°";
 Blockly.Msg["TURTLE_TURN_RIGHT"] = "destra ↻";
 Blockly.Msg["TURTLE_TURN_LEFT"] = "sinistra ↺";
 Blockly.Msg["TURTLE_TURN_TOOLTIP"] = "Ruota specificando il valore dell'angolo.";
+Blockly.Msg["TURTLE_SETHEADING_TITLE"] = "orienta la tartaruga verso %1°";
+Blockly.Msg["TURTLE_SETHEADING_TOOLTIP"] = "Orienta la tartaruga in una direzione assoluta (0° = destra, 90° = in alto).";
 Blockly.Msg["TURTLE_GOTO_TITLE"] = "vai alla posizione x %1 y %2";
 Blockly.Msg["TURTLE_GOTO_TOOLTIP"] = "Vai alla posizione specificata (ascissa e ordinata).";
 Blockly.Msg["TURTLE_CIRCLE_TITLE"] = "disegna un cerchio di raggio %1";

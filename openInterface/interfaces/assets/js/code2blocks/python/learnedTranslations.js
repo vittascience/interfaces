@@ -297,7 +297,7 @@ export default class LearnedTranslations {
 				getter.setFieldValue(variable.getId(), 'VAR');
 				input.connection.connect(getter.outputConnection);
 				if (!input.connection.isConnected()) return [];
-				inputs.push({ name: input.name, marker });
+				inputs.push({ name: input.name, marker, signals: this.signalCodes(workspace, input) });
 			} else if (input.type === Blockly.inputs.inputTypes.STATEMENT && input.name) {
 				// "vittaReverseStatementN = 0" in the statement input
 				const marker = STATEMENT_MARKER + inputs.length;
@@ -439,7 +439,8 @@ export default class LearnedTranslations {
 		spans.sort((a, b) => a.start - b.start);
 		for (let i = 1; i < spans.length; i++) {
 			if (spans[i].start < spans[i - 1].end) {
-				const dropdown = dropdowns.find((candidate) => candidate.name === (spans[i].field || spans[i - 1].field));
+				// first dropdown of the block: its validator may rebuild the next ones (ex: VERSION of the Maqueen Plus rebuilds SIDE)
+				const dropdown = dropdowns.find((candidate) => candidate.name === spans[i].field || candidate.name === spans[i - 1].field);
 				return split(dropdown);
 			}
 		}
@@ -472,7 +473,7 @@ export default class LearnedTranslations {
 				// statements: the body may be empty (C++ "{\n}")
 				if (span.input.statement && pattern.endsWith('\n')) pattern = pattern.slice(0, -1) + '\\n?';
 				pattern += span.input.statement ? `(?<i_${span.input.name}>.*?)` : `(?<i_${span.input.name}>.+?)`;
-				groups.push({ group: `i_${span.input.name}`, input: span.input.name, statement: span.input.statement });
+				groups.push({ group: `i_${span.input.name}`, input: span.input.name, statement: span.input.statement, signals: span.input.signals });
 			}
 		});
 		pattern += escapeRegex(base.code.slice(position)) + '$';
@@ -538,6 +539,25 @@ export default class LearnedTranslations {
 	}
 
 	/**
+	 * Codes of the HIGH/LOW signal block (ex: {"1": "HIGH", "0": "LOW"}) for a Boolean only input, or null.
+	 */
+	signalCodes(workspace, input) {
+		const check = input.connection.getCheck();
+		if (!check?.includes('Boolean') || check.includes('Number') || !Blockly.Blocks['io_digital_signal'] || !this.generator['io_digital_signal']) return null;
+		const signal = workspace.newBlock('io_digital_signal');
+		const codes = {};
+		for (const option of ['HIGH', 'LOW']) {
+			signal.setFieldValue(option, 'BOOL');
+			this.generator.init(workspace);
+			const code = this.generator.blockToCode(signal, true);
+			// String(): the code may be the number 0
+			codes[normalize(String(Array.isArray(code) ? code[0] : code))] = option;
+		}
+		signal.dispose();
+		return codes;
+	}
+
+	/**
 	 * Block of the template recognized in the nodes, or null.
 	 */
 	matchNodes(template, nodes) {
@@ -572,6 +592,10 @@ export default class LearnedTranslations {
 				const bodyNode = this.findBody(nodes, value);
 				if (!bodyNode) return null;
 				block.statements[group.input] = bodyNode;
+			} else if (group.signals?.[value]) {
+				// "0"/"1" in a Boolean input: a number block can not be connected (the project would not load)
+				block.values[group.input] = null;
+				block.statementsNode[group.input] = { type: 'learned_block', block: { type: 'io_digital_signal', fields: { BOOL: group.signals[value] }, values: {}, mutations: null, statementsNode: null, statement: null } };
 			} else {
 				const inputNode = this.findNode(nodes, value);
 				if (!inputNode) return null;

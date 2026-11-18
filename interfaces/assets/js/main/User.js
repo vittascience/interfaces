@@ -15,6 +15,30 @@ var UserManager = (function () {
         });
     }
 
+    /**
+     * Offline (interface from the cache of /interfaces-sw.js): badge next to the project name, the actions needing an
+     * account hidden (css: body.interface-offline)
+     */
+    function showOffline() {
+        document.body.classList.add('interface-offline');
+        const name = document.querySelector('#project-name');
+        if (name && !document.querySelector('#offline-badge')) {
+            const label = typeof i18next !== 'undefined' ? i18next.t('code.topbar.label.offline') : 'Offline';
+            const tooltip = typeof i18next !== 'undefined' ? i18next.t('notifications.offline') : '';
+            name.parentElement.insertAdjacentHTML('beforeend', `<span id="offline-badge" class="badge rounded-pill bg-secondary ms-1" role="img" aria-label="${label}" title="${label} : ${tooltip}"><i class="fas fa-wifi" aria-hidden="true"></i></span>`);
+        }
+    }
+    window.addEventListener('offline', showOffline);
+    window.addEventListener('online', () => {
+        if (Manager.offline) {
+            // opened offline, as a visitor: the account and its projects come back with a reload
+            if (typeof VittaNotif !== 'undefined') new VittaNotif().displayNotification(null, i18next.t('notifications.backOnline'), 'bg-success');
+            return;
+        }
+        document.body.classList.remove('interface-offline');
+        document.querySelector('#offline-badge')?.remove();
+    });
+
     function init() {
         var promiseToGetUser = new Promise(async function (resolve, reject) {
             let ltiSessionParam = '';
@@ -46,6 +70,15 @@ var UserManager = (function () {
                 },
                 error: function (response) {
                     Manager.isLoadedUser = true;
+                    // server unreachable (interface from the cache of /interfaces-sw.js): as a visitor.
+                    // navigator.onLine is not enough: it stays true on a network without internet
+                    if (response.status === 0) {
+                        Manager.user = null;
+                        Manager.offline = true;
+                        showOffline();
+                        resolve("offline");
+                        return;
+                    }
                     reject(response.status);
                 }
             });
@@ -70,6 +103,13 @@ var UserManager = (function () {
         },
         isLoadedUser: function(){
             return Manager.isLoadedUser
+        },
+        /**
+         * Whether the server is unreachable: interface opened offline (from the cache of /interfaces-sw.js)
+         * @returns {boolean}
+         */
+        isOffline: function () {
+            return !navigator.onLine || Manager.offline === true;
         }
     }
 

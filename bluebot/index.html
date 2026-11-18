@@ -613,6 +613,33 @@
 <script src="/interfaces/assets/js/constants/buttons/buttons.js"></script>
 <script src="/interfaces/assets/js/events/project_panel.js"></script>
 <script src="/interfaces/assets/js/events/loadingPrivate.js"></script>
+<style>
+    /* Offline (interfaces/assets/js/main/User.js): the actions needing an account */
+    body.interface-offline #create-exercise-auto-corrector { display: none !important; }
+</style>
+<script>
+    // Offline interface (/interfaces-sw.js): scope of this interface only (/microbit/...). Not in an iframe
+    // (Capytale, LTI, ...): the page that embeds the interface depends on the network anyway. Not in the static build
+    // (gulp/interfacesGulp/indexBuild.js: Capytale, iOS app) either, which has no /interfaces-sw.js
+    if ('serviceWorker' in navigator && window.isSecureContext && window.self === window.top && typeof IS_CAPYTALE_CONTEXT === 'undefined') {
+        const scope = location.pathname.match(/^\/[^/]+\//);
+        const cdn = CDN_PATH ? `?cdn=${encodeURIComponent(new URL(CDN_PATH, location.origin).origin)}` : '';
+        if (scope) navigator.serviceWorker.register(`/interfaces-sw.js${cdn}`, { scope: scope[0] }).catch(e => console.warn('interfaces-sw', e));
+        // Once a day, when the page is idle: the files only loaded on demand (simulator, libraries, firmware), so that
+        // they also work offline without having been used online before
+        const filesKey = `offlineFiles:${INTERFACE_NAME}`;
+        let lastCaching = 0;
+        try { lastCaching = Number(localStorage.getItem(filesKey)) || 0; } catch (e) { }
+        if (scope && Date.now() - lastCaching > 24 * 3600 * 1000 && !navigator.connection?.saveData) {
+            navigator.serviceWorker.ready.then((registration) => setTimeout(() => {
+                if (typeof UserManager !== 'undefined' && UserManager.isOffline()) return;
+                registration.active.postMessage({ type: 'cache-interface-files', interface: INTERFACE_NAME });
+                try { localStorage.setItem(filesKey, Date.now()); } catch (e) { }
+            }, 10000));
+        }
+    }
+</script>
+
 
 
     <script src="/public/js/utils/get.js" defer></script>

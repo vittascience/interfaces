@@ -39,10 +39,12 @@ fileInputProfile.onchange = function () {
     if (this.files.length > 0) {
         if (this.files[0].size >= MAX_USER_FILE_SIZE) {
             fileErrorBox.className = "alert alert-danger";
-            fileErrorBox.innerHTML = "<span class='fa fa-times'></span> Fichier invalide ! Taille maximum autorisée: 250 Ko.";
+            fileErrorBox.innerHTML = "<span class='fa fa-times'></span> ";
+            fileErrorBox.appendChild(document.createTextNode(i18next.t("profile.user.form.picture.tooBig", { defaultValue: "Fichier invalide ! Taille maximum autorisée : 250 Ko." })));
         } else {
             fileErrorBox.className = "alert alert-success";
-            fileErrorBox.innerHTML = "<span class='fa fa-check'></span> La taille du fichier est valide.";
+            fileErrorBox.innerHTML = "<span class='fa fa-check'></span> ";
+            fileErrorBox.appendChild(document.createTextNode(i18next.t("profile.user.form.picture.sizeOk", { defaultValue: "La taille du fichier est valide." })));
         }
     }
     checkProfileForm();

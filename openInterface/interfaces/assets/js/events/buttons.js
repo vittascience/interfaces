@@ -246,6 +246,25 @@ $('.ide-btn-group-settings').append(Button({
         value: 'code.topbar.label.shortcuts'
     }
 }));
+$('.ide-btn-group-settings').append(Button({
+    id: 'tour-setting',
+    classes: '',
+    fontAwesome: 'fas fa-route',
+    title: 'code.topbar.tooltips.tour',
+    tooltipPlacement: 'left',
+    onclick: 'startInterfaceTour()',
+    label: {
+        value: 'code.topbar.label.tour'
+    }
+}));
+
+/** Guided tour of the interface (main/InterfaceTour.js and Shepherd, loaded at the first use). */
+async function startInterfaceTour() {
+    if (typeof InterfaceTour === 'undefined') {
+        await VittaInterface.loadResources([`${CDN_PATH}/openInterface/interfaces/assets/js/main/InterfaceTour.js`], VittaInterface.loadScript);
+    }
+    return InterfaceTour.start();
+}
 
 // check if we have fullscreen permissions before adding the buttons
 if (document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled) {
@@ -370,7 +389,7 @@ if (INTERFACE_NAME !== "adacraft") {
             ></button>
         </div>
     `;
-    const downloadOptionInterfaces = ["arduino", "microbit", "esp32", "wb55", "l476", "galaxia", "GalaxiaCircuitPython", "mBot", "m5stack", "buddy", "cyberpi", "letsstartcoding", "pico", "eliobot", "thymio", "raspberrypi", "winky", "niryo", "nao", "sphero", "legoprime", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai", "arduinoq", "primastem", "skykick", "unihiker"];
+    const downloadOptionInterfaces = ["arduino", "microbit", "esp32", "wb55", "l476", "galaxia", "GalaxiaCircuitPython", "mBot", "m5stack", "buddy", "cyberpi", "letsstartcoding", "pico", "eliobot", "thymio", "raspberrypi", "winky", "niryo", "nao", "sphero", "legoprime", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai", "arduinoq", "primastem", "skykick", "unihiker", "picaxe"];
     if (downloadOptionInterfaces.includes(INTERFACE_NAME)) {
         $('.ide-btn-group-download').append(dropdownHeaderDownload);
 
@@ -899,8 +918,10 @@ function saveDefaultProjectToComputer(downloadingProject) {
 
     let script = CodeManager.getSharedInstance().getCode();
     if (downloadingProject) {
-        const commentsOpen = (inoInterfaces.includes(INTERFACE_NAME)) ? '/*' : '"""';
-        const commentsClose = (inoInterfaces.includes(INTERFACE_NAME)) ? '*/' : '"""';
+        const isCpp = inoInterfaces.includes(INTERFACE_NAME);
+        // PICAXE BASIC: #rem ... #endrem block comment
+        const commentsOpen = INTERFACE_NAME === 'picaxe' ? '#rem' : isCpp ? '/*' : '"""';
+        const commentsClose = INTERFACE_NAME === 'picaxe' ? '#endrem' : isCpp ? '*/' : '"""';
         let header = `${commentsOpen}\n`;
         if (user !== null) {
             header += `Auteur: ${user.firstname + ' ' + user.surname}\n`;
@@ -974,6 +995,8 @@ sur l'interface ${link}\n\n`;
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(script));
     if (inoInterfaces.includes(INTERFACE_NAME)) {
         element.setAttribute('download', name + '.ino');
+    } else if (INTERFACE_NAME === 'picaxe') {
+        element.setAttribute('download', name + '.bas');
     } else {
         element.setAttribute('download', name + '.py');
     }

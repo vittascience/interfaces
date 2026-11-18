@@ -38,6 +38,7 @@ return [
     "quickpi" => ["quickpi", 320, 166],
     "raspberrypi" => ["raspberrypi4", 320, 209],
     "unihiker" => ["unihiker-m10", 207, 320],
+    "picaxe" => ["picaxe-pers", 320, 320],
     "board:unihiker_k10" => ["unihiker-k10", 208, 320],
     "robot:alphabot" => ["wb55rg-interface", 320, 314],
     "robot:alvik" => ["arduino-alvik-pers", 320, 198],

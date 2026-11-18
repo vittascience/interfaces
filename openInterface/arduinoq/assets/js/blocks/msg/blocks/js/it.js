@@ -124,6 +124,34 @@ Blockly.Msg["PY_DATALOG_ADD_LINE_TOOLTIP"] = "Aggiunge una riga al file CSV: dat
 Blockly.Msg["PY_DATALOG_CLEAR_TITLE"] = "cancella il file %1";
 Blockly.Msg["PY_DATALOG_CLEAR_TOOLTIP"] = "Elimina il file CSV dalla scheda.";
 
+// Connected objects (Python, iot.js)
+Blockly.Msg["CATEGORY_IOT"] = "Oggetti connessi";
+Blockly.Msg["IOT_LABEL_SHELLY"] = "Presa smart Shelly";
+Blockly.Msg["IOT_SHELLY_ON"] = "accendi";
+Blockly.Msg["IOT_SHELLY_OFF"] = "spegni";
+Blockly.Msg["IOT_SHELLY_TOGGLE"] = "commuta";
+Blockly.Msg["IOT_SHELLY_POWER"] = "potenza (W)";
+Blockly.Msg["IOT_SHELLY_ENERGY"] = "energia consumata (Wh)";
+Blockly.Msg["IOT_SHELLY_VOLTAGE"] = "tensione (V)";
+Blockly.Msg["IOT_SHELLY_CURRENT"] = "corrente (A)";
+Blockly.Msg["IOT_SHELLY_TEMPERATURE"] = "temperatura (°C)";
+Blockly.Msg["IOT_SHELLY_WIFI_SWITCH_TITLE"] = "%1 la presa Shelly Wi-Fi all'indirizzo %2";
+Blockly.Msg["IOT_SHELLY_WIFI_SWITCH_TOOLTIP"] = "Controlla una presa Shelly collegata alla stessa rete Wi-Fi della scheda, tramite il suo indirizzo IP (visibile nell'app Shelly o sul router).";
+Blockly.Msg["IOT_SHELLY_WIFI_IS_ON_TITLE"] = "presa Shelly Wi-Fi %1 accesa?";
+Blockly.Msg["IOT_SHELLY_WIFI_IS_ON_TOOLTIP"] = "Vero se la presa Shelly a questo indirizzo IP è accesa.";
+Blockly.Msg["IOT_SHELLY_WIFI_MEASURE_TITLE"] = "%1 della presa Shelly Wi-Fi %2";
+Blockly.Msg["IOT_SHELLY_WIFI_MEASURE_TOOLTIP"] = "Misura della presa Shelly a questo indirizzo IP: potenza istantanea, energia consumata dall'installazione, tensione, corrente o temperatura interna.";
+Blockly.Msg["IOT_SHELLY_WIFI_START_PAIRING_TITLE"] = "apri l'associazione Bluetooth della presa Shelly Wi-Fi %1";
+Blockly.Msg["IOT_SHELLY_WIFI_START_PAIRING_TOOLTIP"] = "Rende la presa pronta all'associazione per 3 minuti, come il pulsante «Pair new device» della sua pagina web. Poi usa il blocco di associazione Bluetooth.";
+Blockly.Msg["IOT_SHELLY_BLE_PAIR_TITLE"] = "associa la scheda alla presa Shelly Bluetooth %1";
+Blockly.Msg["IOT_SHELLY_BLE_PAIR_TOOLTIP"] = "Associa la scheda alla presa (una sola volta, mentre l'associazione è aperta sulla presa). Usa preferibilmente l'indirizzo Bluetooth della presa.";
+Blockly.Msg["IOT_SHELLY_BLE_SWITCH_TITLE"] = "%1 la presa Shelly Bluetooth %2";
+Blockly.Msg["IOT_SHELLY_BLE_SWITCH_TOOLTIP"] = "Controlla una presa Shelly Gen2+ via Bluetooth, senza Wi-Fi. Basta una parte del nome («Shelly» prende la prima presa trovata). L'RPC Bluetooth deve essere attivo nelle impostazioni della presa.";
+Blockly.Msg["IOT_SHELLY_BLE_IS_ON_TITLE"] = "presa Shelly Bluetooth %1 accesa?";
+Blockly.Msg["IOT_SHELLY_BLE_IS_ON_TOOLTIP"] = "Vero se la presa Shelly è accesa.";
+Blockly.Msg["IOT_SHELLY_BLE_MEASURE_TITLE"] = "%1 della presa Shelly Bluetooth %2";
+Blockly.Msg["IOT_SHELLY_BLE_MEASURE_TOOLTIP"] = "Misura della presa Shelly letta via Bluetooth: potenza istantanea, energia consumata dall'installazione, tensione, corrente o temperatura interna.";
+
 // Sound Generator, Camera Code Detection, Video Object Detection and Telegram Bot bricks
 Blockly.Msg["PY_SOUND_NOTE_BOARD_TITLE"] = "suona la nota %1 ottava %2 per %3 s sulla scheda";
 Blockly.Msg["PY_SOUND_NOTE_BOARD_TOOLTIP"] = "Suona la nota su cuffie o altoparlante USB collegati alla scheda (o sul jack di un adattatore USB-C), con il brick Sound Generator di Arduino App Lab. Ottava 4: il la vale 440 Hz.";

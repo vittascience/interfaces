@@ -19422,6 +19422,13 @@ Sk.builtin.file = function (name, mode, buffering) {
     this.mode = mode;
     this.name = Sk.ffi.remapToJs(name);
     this.closed = false;
+    /**
+     * VITTASCIENCE ADDS: interfaces without a Simulator (e.g. Python) keep files in a session store.
+     */
+    Sk.vittaFileStorage = Sk.vittaFileStorage || function () {
+        if (typeof Simulator !== 'undefined') return Simulator.fileStorage || (Simulator.fileStorage = {});
+        return Sk._vittaFiles || (Sk._vittaFiles = {});
+    };
     if (this.name === "/dev/stdout") {
         this.data$ = Sk.builtin.none.none$;
         this.fileno = 1;
@@ -19438,10 +19445,10 @@ Sk.builtin.file = function (name, mode, buffering) {
             if (typeof VittaInterface !== 'undefined') {
                 if (mode.v == "w") {
                     this.data$ = "";
-                    Simulator.fileStorage[this.name] = "";
+                    Sk.vittaFileStorage()[this.name] = "";
                 } else if (mode.v == "a" || mode.v == "r") {
-                    if (Simulator.fileStorage[this.name] !== undefined) {
-                        this.data$ = Simulator.fileStorage[this.name];
+                    if (Sk.vittaFileStorage()[this.name] !== undefined) {
+                        this.data$ = Sk.vittaFileStorage()[this.name];
                     } else {
                         throw new Sk.builtin.IOError("[Errno 2] No such file or directory: '" + name.v + "'");
                     }
@@ -19682,7 +19689,7 @@ Sk.builtin.file.prototype["write"] = new Sk.builtin.func(function write(self, st
             if (typeof VittaInterface !== 'undefined') {
                 if (self.name !== '/dev/stdout' && self.name !== '/dev/stdin' & self.name !== '/dev/stderr') {
                     self.data$ += Sk.ffi.remapToJs(str);
-                    Simulator.fileStorage[self.name] += Sk.ffi.remapToJs(str);
+                    Sk.vittaFileStorage()[self.name] += Sk.ffi.remapToJs(str);
                 } else {
                     if (self.fileno === 1) {
                         Sk.output(Sk.ffi.remapToJs(str));

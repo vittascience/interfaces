@@ -1,4 +1,4 @@
-import Experience from '/openInterface/interfaces/assets/js/simulator3d/Experience.js';
+import Experience, { defineSimulator3D } from '/openInterface/interfaces/assets/js/simulator3d/Experience.js';
 import * as THREE from '/openInterface/interfaces/assets/js/simulator3d/libs/three.js';
 import { ARButton } from '../../../../../interfaces/assets/js/simulator3d/libs/ARButton.js';
 // import * as dat from '/openInterface/interfaces/assets/js/simulator3d/libs/lil-gui.js';
@@ -1393,4 +1393,4 @@ export default class Simulator3d {
 	}
 }
 
-window.Simulator3D = new Simulator3d(config);
+defineSimulator3D(() => new Simulator3d(config));

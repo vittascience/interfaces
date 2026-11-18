@@ -973,7 +973,15 @@
       "cancel": "Annuler",
       "submit": "Envoyer",
       "submit_success": "Merci d'avoir partagé votre avis !",
-      "return_to_product": "Retourner au produit"
+      "return_to_product": "Retourner au produit",
+      "deleted_user": "Ancien utilisateur",
+      "errors": {
+        "rating": "Choisissez une note de 1 à 5.",
+        "comment": "Ajoutez un commentaire à votre avis.",
+        "too_long": "Votre commentaire ne peut pas dépasser 255 caractères.",
+        "already_reviewed": "Vous avez déjà laissé un avis sur ce produit.",
+        "generic": "Votre avis n'a pas pu être enregistré. Veuillez réessayer."
+      }
     },
     "shopPayLink": {
       "thanksTitle": "Merci, votre paiement est enregistré",
@@ -1374,7 +1382,11 @@
       "legoPrimeOldFirmware": "Le hub ne répond pas : éteignez-le (maintenez le bouton central), rallumez-le, puis rebranchez-le en USB. S'il ne répond toujours pas, mettez-le à jour avec l'application LEGO® Education SPIKE™ (firmware SPIKE 3 requis).",
       "legoPrimeBluetoothFailed": "Connexion Bluetooth au hub impossible : appuyez sur son bouton Bluetooth, puis réessayez.",
       "legoPrimeNotStarted": "Le programme ne s'est pas lancé sur le hub (il s'est arrêté aussitôt, sans rien afficher). Redémarrez le hub et réessayez.",
-      "legoPrimePortBusy": "Impossible d'ouvrir le port du hub : il est déjà utilisé par une autre application. Fermez l'application LEGO® Education SPIKE™ (et tout autre onglet connecté au hub), puis réessayez."
+      "legoPrimePortBusy": "Impossible d'ouvrir le port du hub : il est déjà utilisé par une autre application. Fermez l'application LEGO® Education SPIKE™ (et tout autre onglet connecté au hub), puis réessayez.",
+      "picaxeUploading": "Téléversement du programme PICAXE (environ 15 secondes)...",
+      "fileDownloadedPicaxe": "Programme PICAXE envoyé avec succès dans la carte !",
+      "picaxeCompileError": "Le programme ne peut pas être compilé : %1",
+      "picaxeUnsupportedChip": "Le téléversement direct n'est disponible que pour l'AutoProgX2 (PICAXE-28X2). Pour cette carte, téléchargez le fichier .bas et ouvrez-le dans PICAXE Editor."
     },
     "WebBluetoothAPI": {
       "noWebBluetoothAPI": "Web Bluetooth API non détecté sur votre navigateur. Pour utiliser Web Bluetooth API vous devez utiliser l'un des navigateurs compatibles : <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> et bientôt <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
@@ -1403,7 +1415,7 @@
       "hints": {
         "camera": "Aucune caméra trouvée : la carte branchée au PC ne peut pas utiliser de caméra. Après le téléversement, débranche le PC et branche un hub USB-C alimenté avec la caméra (l'app démarre seule au démarrage de la carte).",
         "microphone": "Aucun micro trouvé : branche un micro USB (ou une webcam avec micro) sur un hub USB-C alimenté, à la place du PC.",
-        "speaker": "Aucun haut-parleur trouvé : branche un haut-parleur ou un casque USB sur un hub USB-C alimenté, à la place du PC.",
+        "speaker": "Aucun haut-parleur trouvé : branche un haut-parleur ou un casque USB sur un hub USB-C alimenté, à la place du PC. S'il se déconnecte pendant le son, baisse le volume ou utilise une alimentation plus puissante.",
         "module": "Le module Python « {x} » n'est pas installé sur la carte.",
         "name": "« {x} » est utilisé avant d'avoir reçu une valeur : donne-lui une valeur au début du programme (dans « au démarrage »).",
         "textNumber": "Mélange de texte et de nombre : utilise le bloc « joindre » pour assembler du texte et des nombres.",
@@ -1448,6 +1460,7 @@
       "TI-83-Maclasseti": "Bienvenue sur l'interface MaClasseTI.fr pour la calculatrice TI-83 Premium CE Edition Python ! Les cartes TI-Innovator™ Hub et BBC micro:bit peuvent être programmées sur cette interface. Ouvrez le simulateur pour commencer !",
       "GalaxiaCircuitPython": "Bienvenue sur l'interface Vittascience pour Galaxia Circuit Python!",
       "galaxia": "Bienvenue sur l'interface Vittascience pour Galaxia !</br> Pour programmer la carte Galaxia sur cette interface, vous devez d'abord flasher le firmware MicroPython dans la carte en suivant le tutoriel suivant : <b><a href=\"https://fr.vittascience.com/learn/tutorial.php?id=860\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
+      "picaxe": "Bienvenue sur l'interface PICAXE !</br>Branchez l'AutoProgX2 avec le câble AXE027 et cliquez sur Téléverser.",
       "unihiker": "Bienvenue sur l'interface Vittascience pour la carte UNIHIKER M10 !</br>Branchez la carte en USB, puis cliquez sur Téléverser. À la première utilisation, l'interface dépose sur la carte l'installateur du serveur Vittascience, à lancer une fois depuis le menu Home de la carte.",
       "unihiker-k10": "Bienvenue sur l'interface Vittascience pour la carte UNIHIKER K10 !</br>Branchez la carte en USB (firmware MicroPython DFRobot), puis cliquez sur Téléverser : le programme est enregistré dans main.py.",
       "raspberrypi": "Bienvenue sur l'interface Vittascience pour Raspberry Pi ! Vous pouvez consulter le tutoriel disponible ici : <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=1739\" target=\"_blank\" rel=\"noopener noreferrer\">Prise en main de l'interface Vittascience pour Raspberry Pi</a>",
@@ -1648,6 +1661,8 @@
         "installUnihiker": "Déposer l'installateur du serveur Vittascience sur la carte (à lancer une fois depuis le menu Home de la carte)",
         "unihikerHost": "Changer l'adresse de la carte (10.1.2.3 en USB, ou son adresse Wi-Fi)",
         "downloadHex": "Exportez le programme micro:bit au format [.hex]",
+        "downloadPicaxe": "Télécharger le programme .bas (à ouvrir dans PICAXE Editor)",
+        "uploadPicaxe": "Envoyer le programme dans la carte (AutoProgX2 / PICAXE-28X2, câble AXE027, navigateur Chrome ou Edge)",
         "downloadTexas": "Télécharger le programme .py pour la calculatrice",
         "runBuddy": "Lancer le programme sur Buddy",
         "disconnect": "Déconnecter la carte",
@@ -1679,6 +1694,7 @@
         "consoleSettings": "Paramètres généraux",
         "accessibility": "Paramétrer le thème et la police",
         "shortcuts": "Afficher les raccourcis clavier",
+        "tour": "Découvrir l'interface étape par étape",
         "addBlockSettings": "Ajouter un bloc",
         "fullscreen": "Afficher en plein écran",
         "help": "Aide",
@@ -1744,6 +1760,7 @@
         "downloadUf2Pico": "Firmware Pico",
         "downloadUf2PicoW": "Firmware Pico W",
         "downloadPython": "Télécharger .py",
+        "downloadPicaxe": "Télécharger .bas",
         "downloadTexas": "Télécharger pour calculatrice",
         "downloadThymioWindows": "Télécharger .exe",
         "downloadThymioMacOS": "Télécharger .dmg",
@@ -1756,6 +1773,8 @@
         "settings": "Options",
         "themes": "Accessibilité",
         "shortcuts": "Raccourcis clavier",
+        "tour": "Visite guidée",
+        "offline": "Hors ligne",
         "add": "Ajouter un bloc",
         "fullscreen": "Plein écran",
         "help": "Aide",
@@ -1788,7 +1807,9 @@
       "public": "Public"
     },
     "blockly": {
+        "clearSearch": "Effacer la recherche",
       "label": {
+          "description": "Description",
         "trash": "<img src='/openInterface/interfaces/assets/media/empty_trash_icon.svg' class='empty-icon'></img>Vider la corbeille",
         "backpack": "<img src='/openInterface/interfaces/assets/media/empty_trash_icon.svg' class='empty-icon'></img>Vider le sac à dos"
       },
@@ -1828,6 +1849,7 @@
           "launchApp": "Lancer l'app",
           "stopApp": "Arrêter l'app",
           "openFileSystem": "Fichiers",
+          "pythonFiles": "Fichiers",
           "monitor": "Moniteur série",
           "openRepl": "REPL"
         },
@@ -1846,6 +1868,7 @@
           "launchApp": "Relancer l'app déjà envoyée sur la carte",
           "stopApp": "Arrêter l'app qui tourne sur la carte",
           "openFileSystem": "Ouvrir le système de fichiers de la carte",
+          "pythonFiles": "Fichiers utilisables par le programme (open, os, image)",
           "graph": "Pour visualiser les données reçues dans la console, cliquer sur le bouton <b>Graphique</b>",
           "monitorToggler": "Pour visualiser les données reçues, cliquer sur le bouton <i class='fas fa-chevron-up'></i>"
         }
@@ -1999,7 +2022,9 @@
         "crash": "Mode de prévention des plantages activé : cela se produit lorsque votre code inclut une boucle infinie sans appel de fonction sleep(). Corrigez votre code avant de réessayer.",
         "variables-panel-msg": "Ce programme ne contient pas de variables",
         "replaySimulator": "Redémarrer le simulateur pour envoyer des données",
-        "skulptLoadError": "Le simulateur n'a pas pu être chargé. Vérifiez votre connexion puis relancez le simulateur."
+        "skulptLoadError": "Le simulateur n'a pas pu être chargé. Vérifiez votre connexion puis relancez le simulateur.",
+        "picaxeRuntimeError": "Erreur pendant la simulation : %1",
+        "picaxeSimulatorChip": "Le simulateur n'est disponible que pour l'AutoProgX2 (PICAXE-28X2)."
       },
       "tooltips": {
         "bluebot-buttons": "Vous pouvez utiliser les boutons du robot Blue-bot pour le programmer !"
@@ -2397,13 +2422,121 @@
       "noPortAvailable": "Aucun port n'est disponible",
       "emptyCode": "Erreur: le code est vide.",
       "compilation": "Une erreur est survenue lors de la compilation.",
-      "syntax": "Erreur de syntaxe. Voir détails dans la console"
+      "syntax": "Erreur de syntaxe. Voir détails dans la console",
+      "offlineCompilation": "Vous êtes hors ligne : la compilation se fait sur nos serveurs, elle reprendra avec la connexion. Le simulateur, lui, fonctionne hors ligne."
     },
     "error": {
       "titleExercise": "Créer un exercice",
       "otherUser": "Vous ne pouvez pas modifier un exercice créé par un autre utilisateur. Vous pouvez créer votre propre exercice en publiant vos propres projets.",
       "saveProjectForExercise": "Vous ne pouvez pas créer d'exercice sur un projet non enregistré. Commencez par enregistrer votre projet, puis créez votre exercice.",
       "descExercise": "Pour créer un exercice, vous devez être connecté."
+    },
+    "tour": {
+      "buttons": {
+        "previous": "Précédent",
+        "next": "Suivant",
+        "finish": "Terminer",
+        "quit": "Quitter la visite guidée",
+        "skip": "Passer",
+        "try": "Essayer"
+      },
+      "welcome": {
+        "title": "Bienvenue !",
+        "text": "Bonjour, je suis Vittabot ! Je vais vous faire visiter l'interface. Avancez avec les boutons ou les flèches du clavier, et quittez à tout moment avec <kbd>Échap</kbd>."
+      },
+      "project": {
+        "title": "Votre projet",
+        "text": "Le nom de votre projet. Cliquez dessus pour le renommer ou lui ajouter une description."
+      },
+      "files": {
+        "title": "Vos projets",
+        "text": "Créez un nouveau projet, ouvrez un projet existant (les vôtres, ceux partagés avec vous ou les exemples) et sauvegardez votre travail."
+      },
+      "undo": {
+        "title": "Annuler et rétablir",
+        "text": "Revenez sur une modification ou rétablissez-la, aussi avec <kbd>Ctrl</kbd>+<kbd>Z</kbd> et <kbd>Ctrl</kbd>+<kbd>Y</kbd>."
+      },
+      "toolbox": {
+        "title": "Les blocs",
+        "text": "Les blocs sont rangés par catégories : cliquez sur une catégorie pour les afficher. La recherche, en haut, trouve un bloc par son nom."
+      },
+      "workspace": {
+        "title": "L'espace de travail",
+        "text": "Glissez les blocs ici et emboîtez-les pour construire votre programme, à partir des blocs « Au démarrage » et « Répéter indéfiniment ». Un clic droit sur un bloc permet de le dupliquer, de le commenter ou d'afficher son aide."
+      },
+      "workspaceTools": {
+        "title": "Les outils de l'espace de travail",
+        "text": "Rangez des blocs dans le sac à dos pour les réutiliser dans un autre projet, faites une capture, zoomez ou recentrez, et supprimez des blocs en les glissant dans la corbeille."
+      },
+      "code": {
+        "title": "Le code",
+        "text": "Le code s'écrit automatiquement à partir de vos blocs. En mode code, vous l'écrivez vous-même, avec l'aide de l'autocomplétion."
+      },
+      "modes": {
+        "title": "Blocs, hybride ou code",
+        "text": "Choisissez votre façon de programmer : avec des blocs, avec les blocs et le code côte à côte, ou directement en code."
+      },
+      "upload": {
+        "title": "Envoyer le programme",
+        "text": "Branchez votre matériel (carte, robot ou calculatrice) puis envoyez-lui votre programme. La flèche, quand elle est là, ouvre d'autres options, comme le téléchargement du fichier du programme."
+      },
+      "run": {
+        "title": "Exécuter le programme",
+        "text": "Lancez votre programme pour voir son résultat."
+      },
+      "simulator": {
+        "title": "Le simulateur",
+        "text": "Testez votre programme sans matériel : le simulateur reproduit la carte, le robot ou la calculatrice et réagit à votre programme."
+      },
+      "console": {
+        "title": "La console",
+        "text": "Les messages de votre programme s'affichent ici. Faites glisser son bord pour l'agrandir, ou masquez-la."
+      },
+      "consoleModes": {
+        "title": "Texte, graphique ou musique",
+        "text": "Affichez les données reçues sous forme de texte ou de graphique, ou écoutez les notes jouées par votre programme."
+      },
+      "consoleTools": {
+        "title": "Échanger avec la carte",
+        "text": "Envoyez des messages à la carte branchée, exportez les données du graphique et, selon la carte, accédez à ses fichiers ou à sa console."
+      },
+      "fullscreen": {
+        "title": "Plein écran",
+        "text": "Affichez l'interface en plein écran pour gagner de la place."
+      },
+      "settings": {
+        "title": "Paramètres",
+        "text": "Thème, accessibilité, langue, raccourcis clavier, aide… Vous y retrouverez aussi cette visite guidée."
+      },
+      "end": {
+        "title": "À vous de jouer !",
+        "text": "Vous connaissez maintenant l'interface. Pour découvrir ce que fait chaque bloc, consultez le wiki depuis l'aide. Et si vous me cherchez, je suis dans les paramètres !"
+      },
+      "mission": {
+        "invite": "Je vous propose de créer votre premier programme avec moi !",
+        "category": {
+          "title": "Ouvrez une catégorie",
+          "text": "Cliquez sur la catégorie <b>{name}</b>."
+        },
+        "block": {
+          "title": "Ajoutez un bloc",
+          "text": "Faites glisser le bloc <b>{block}</b> jusque dans le bloc <b>{into}</b>, et emboîtez-le.",
+          "textAnywhere": "Faites glisser le bloc <b>{block}</b> dans l'espace de travail."
+        },
+        "simulator": {
+          "title": "Démarrez le simulateur",
+          "text": "Cliquez sur ce bouton pour lancer le simulateur et voir votre programme fonctionner."
+        },
+        "run": {
+          "title": "Exécutez le programme",
+          "text": "Cliquez sur <b>Exécuter</b> pour lancer votre programme."
+        },
+        "done": {
+          "title": "Bravo !",
+          "text": "Votre programme fonctionne, je suis fier de vous ! Regardez le résultat dans le simulateur. Modifiez le bloc ou ajoutez-en d'autres pour aller plus loin.",
+          "textConsole": "Votre programme fonctionne, je suis fier de vous ! Regardez le résultat dans la console. Modifiez le bloc ou ajoutez-en d'autres pour aller plus loin."
+        }
+      }
     },
     "robotGuide": {
       "tuto": "Pour retrouver les blocs de programmation du robot <b>[ROBOT_NAME]</b>, cliquez sur l'onglet <b><i class='fa-solid fa-robot me-1'></i>Robots</b>.",
@@ -2432,6 +2565,7 @@
         "noCategory": "Aucune catégorie. Cliquez sur le bouton &ldquo;Ajouter une catégorie&rdquo; pour en créer une nouvelle !",
         "category": {
           "defaultCategoryName": "Catégorie n°",
+          "defaultSoundCategoryName": "Bruit de fond",
           "cameraButton": "Caméra",
           "microphone": "Microphone",
           "spectrogram": "Spectrogramme",
@@ -4772,6 +4906,7 @@
   },
   "profile": {
     "menu": {
+      "premium": "Premium",
       "user": "Mon profil",
       "publicProfile": "Profil public",
       "exp": "Mes expériences",
@@ -4786,6 +4921,17 @@
       "title": "Mon profil",
       "notice": "Les champs suivis d'un <span class=\"mandatory\">*</span> sont obligatoires.",
       "form": {
+        "enableTotp": "Activer l'authentification à deux facteurs",
+        "updated": "Votre profil a été modifié avec succès !",
+        "picture": {
+          "alt": "avatar utilisateur",
+          "title": "Choisissez une image de profil",
+          "upload": "Importez votre propre image",
+          "icons": "Choisissez parmi les icônes Vittascience disponibles",
+          "save": "Sauvegarder",
+          "tooBig": "Fichier invalide ! Taille maximum autorisée : 250 Ko.",
+          "sizeOk": "La taille du fichier est valide."
+        },
         "firstName": "Prénom",
         "firstNamePlaceholder": "Votre prénom.",
         "lastName": "Nom",
@@ -4812,6 +4958,19 @@
         "namePublic": "Acceptez-vous que votre nom et prénom soient publics sur le site ?",
         "newsletter": "Souhaitez-vous recevoir notre newsletter par mail ?",
         "alertMail": "Souhaitez-vous recevoir des alertes par mail lors de la réception de nouveaux messages sur le site ?",
+        "errors": {
+          "session": "Votre session a expiré : rechargez la page.",
+          "name": "Le prénom ou le nom est invalide.",
+          "phone": "Le numéro de téléphone est invalide : il doit compter entre 10 et 30 caractères.",
+          "picture": "L'image est invalide : vérifiez son format et sa taille.",
+          "pictureSave": "L'image n'a pas pu être enregistrée. Veuillez réessayer.",
+          "save": "Votre profil n'a pas pu être enregistré. Veuillez réessayer.",
+          "teacherMissing": "Renseignez votre établissement, votre niveau et votre matière.",
+          "school": "Le nom de l'établissement est invalide.",
+          "grade": "Le niveau de formation est invalide.",
+          "subject": "La matière enseignée est invalide.",
+          "generic": "Erreur. Le formulaire comporte des erreurs."
+        },
         "buttons": {
           "changePassword": "Changer mon mot de passe",
           "changeMail": "Changer mon adresse mail",
@@ -4821,6 +4980,8 @@
         },
         "return": "Retour",
         "changePassword": {
+          "success": "Votre mot de passe a été changé avec succès !",
+          "error": "Erreur ! Veuillez vérifier les champs.",
           "title": "Modifier mon mot de passe",
           "form": {
             "actualPassword": "Mot de passe actuel",
@@ -4833,6 +4994,9 @@
           }
         },
         "changeMail": {
+          "exists": "Ce mail existe déjà ! Veuillez en choisir un autre.",
+          "success": "Votre demande a été enregistrée ! Cliquez sur le lien de confirmation dans le mail que nous venons de vous envoyer pour confirmer votre nouvelle adresse mail ({{mail}}).",
+          "error": "Erreur. Veuillez réessayer.",
           "title": "Modifier mon adresse mail",
           "notice": "<span class=\"fa fa-exclamation-triangle\"></span> Cette nouvelle adresse servira d'identifiant pour votre compte Vittascience. Pour valider cette nouvelle adresse, un message de confirmation vous sera envoyé.",
           "mail": "Votre adresse mail",
@@ -4840,6 +5004,8 @@
           "button": "Changer mon adresse mail"
         },
         "deletion": {
+          "subscription_warning": "Votre abonnement Premium en cours sera résilié immédiatement, sans remboursement.",
+          "gifted_subscriptions_warning": "Les abonnements Premium que vous payez pour d'autres comptes seront aussi résiliés immédiatement.",
           "delete_account": "Supprimer mon compte",
           "confirm_delete_prompt": "Êtes-vous sûr de vouloir supprimer votre compte ?",
           "data_lost_warning": "Toutes vos données seront définitivement perdues.",
@@ -4881,6 +5047,7 @@
       }
     },
     "pro": {
+      "deleteConfirm": "Voulez-vous supprimer ce projet ?",
       "title": "Mes programmes",
       "subTitle": "Liste de mes programmes",
       "api": {
@@ -4912,7 +5079,90 @@
       },
       "searchButton": "Lancer la recherche"
     },
+    "premium": {
+      "tabPersonal": "Mon abonnement Premium",
+      "tabGifted": "Abonnement(s) offert(s)",
+      "tabGroup": "Abonnement de groupe",
+      "yourSubscription": "Votre abonnement :",
+      "statusLabel": "Statut :",
+      "status": {
+        "active": "Actif",
+        "canceled": "Annulé",
+        "unknown": "Inconnu",
+        "admin": "Admin"
+      },
+      "periodEnd": "Fin de période :",
+      "nextPayment": "Prochain paiement :",
+      "cancel": "Résilier",
+      "resubscribe": "Se réabonner",
+      "reactivate": "Réactiver",
+      "notSubscribed": "Vous n'êtes pas abonné à l'offre Premium",
+      "planPremium": "Premium",
+      "planTeam": "Équipe",
+      "fromPricePremium": "À partir de {{price}} €/mois",
+      "fromPriceTeam": "À partir de {{price}} €/enseignant/mois",
+      "teacherCount": "Nombre d'enseignants souhaités :",
+      "subscribed": "Abonné(e)",
+      "subscribe": "S'abonner",
+      "compare": "Comparer les offres >",
+      "modalTitle": "Abonnement Premium",
+      "chosenPlan": "Vous avez choisi l'abonnement",
+      "chooseBilling": "Choisissez un type d'abonnement :",
+      "monthly": "Abonnement mensuel",
+      "yearly": "Abonnement annuel",
+      "triennial": "Abonnement tri-annuel",
+      "billingAddress": "Adresse de facturation :",
+      "noBillingAddress": "Vous n'avez pas d'adresse de facturation.",
+      "subscribeFor": "Vous souscrivez pour :",
+      "forMe": "Mon compte",
+      "forOther": "Un autre compte",
+      "otherEmailLabel": "Veuillez entrer l'adresse email du compte Vittascience ci-dessous",
+      "groupName": "Nom du groupe",
+      "groupOf": "Groupe de",
+      "or": "ou",
+      "quote": "Devis",
+      "giftedName": "Nom",
+      "giftedStatus": "Statut",
+      "giftedPeriodEnd": "Fin de période",
+      "giftedAction": "Action",
+      "noGifted": "Vous n'avez pas encore offert d'abonnement.",
+      "groupInherit": "Vous faites partie d'un groupe au statut Premium et vous en héritez les accès suivants :",
+      "learners": "Apprenants :",
+      "classrooms": "Classes :",
+      "unlimited": "Illimité",
+      "validity": "Date de validité :",
+      "since": "Abonné depuis le",
+      "until": "Jusqu'au",
+      "noGroup": "Vous ne faites pas partie d'un groupe ayant le statut Premium.",
+      "minTeachers": "Veuillez choisir plus d'un professeur pour cette formule.",
+      "maxTeachers": "Pour plus de 200 professeurs, veuillez nous contacter à l'adresse mail : contact@vittascience.com.",
+      "quoteExists": "Un devis a déjà été créé pour cette formule. Vous le retrouverez sur la partie devis de votre compte.",
+      "quoteCreated": "Votre devis a été créé avec succès. Vous le retrouverez sur la partie devis de votre compte ainsi que par e-mail.",
+      "quoteError": "Une erreur est survenue lors de la création de votre devis. Veuillez réessayer.",
+      "activated": "Votre abonnement a été activé avec succès. Vous pouvez dès à présent profiter de vos avantages.",
+      "paymentFailed": "Une erreur est survenue lors de la création de votre abonnement. Veuillez réessayer.",
+      "canceled": "Votre abonnement a été résilié avec succès. Vous bénéficiez de vos avantages jusqu'à la fin de la période en cours.",
+      "cancelConfirm": "Voulez-vous vraiment résilier cet abonnement ? Il restera actif jusqu'à la fin de la période en cours.",
+      "noAddress": "Ajoutez d'abord une adresse de facturation pour continuer."
+    },
     "addressBloc": {
+      "noAddress": "Vous n'avez pas encore ajouté d'adresse.",
+      "isEstablishment": "Cette adresse est celle d'un établissement ?",
+      "establishmentName": "Nom de l'établissement",
+      "submit": "Modifier",
+      "usedBySubscription": "Adresse utilisée par un abonnement Premium en cours : elle ne peut pas être supprimée.",
+      "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cette adresse ?",
+      "searchLabel": "Entrer votre adresse",
+      "searchPlaceholder": "Nom de l'établissement, adresse ou commune",
+      "zoneQuestion": "Votre établissement est situé :",
+      "zoneFr": "En France",
+      "zoneEu": "En Europe",
+      "zoneWorld": "Reste du monde",
+      "siretPlaceholder": "14 chiffres — facultatif",
+      "companyNumber": "Numéro d'entreprise",
+      "companyNumberPlaceholder": "N° d'immatriculation au registre du commerce",
+      "vatNumber": "Numéro de TVA",
+      "vatPlaceholder": "N° de TVA intracommunautaire",
       "edit": "Modifier",
       "del": "Supprimer",
       "addAddress": "Ajouter une adresse",
@@ -4927,6 +5177,23 @@
       "cancel": "Annuler"
     },
     "ordersBloc": {
+      "quotePaid": "Payé",
+      "quoteAccepted": "Accepté",
+      "noOrders": "Vous n'avez pas encore passé de commande.",
+      "noEstimates": "Vous n'avez pas encore demandé de devis.",
+      "noWishlist": "Vous n'avez pas encore ajouté de produit à votre liste d'envies.",
+      "hideDetails": "Masquer détails",
+      "at": "à",
+      "alreadySubscribedTitle": "Votre compte est déjà abonné Premium : ce devis contient un abonnement, contactez-nous pour l'ajuster.",
+      "wishlistDeleteConfirm": "Êtes-vous sûr de vouloir supprimer cet article ?",
+      "mixed": {
+        "title": "Abonnement multi-utilisateurs",
+        "text1": "Ce devis contient un abonnement Premium multi-utilisateurs : il ne peut pas être réglé par carte bancaire.",
+        "text2": "Vous pouvez le régler par virement ou déposer votre bon de commande (bouton BDC) : notre équipe activera ensuite l'abonnement.",
+        "text3": "Pour payer par carte, souscrivez l'abonnement depuis votre profil, puis commandez le matériel depuis la boutique : la livraison sera offerte en France métropolitaine.",
+        "close": "Fermer",
+        "subscribe": "Souscrire depuis mon profil"
+      },
       "priceTTC": "€ TTC",
       "seeMore": "Voir détails",
       "dl": "Télécharger",
@@ -6393,6 +6660,19 @@
           }
         }
       },
+      "pythonFiles": {
+        "title": "Fichiers",
+        "name": "Nom",
+        "size": "Taille",
+        "empty": "Aucun fichier. Importez un fichier ou créez-en un avec open().",
+        "import": "Importer des fichiers",
+        "download": "Télécharger",
+        "delete": "Supprimer",
+        "hint": "Les fichiers restent disponibles tant que la page est ouverte. Utilisation : open('donnees.csv'), os.listdir(), Image('photo.jpg').",
+        "limits": "5 Mo maximum par fichier · 100 Mo au total",
+        "tooLarge": "« {name} » n'a pas été importé : 5 Mo maximum par fichier.",
+        "quotaExceeded": "« {name} » n'a pas été importé : 100 Mo maximum au total."
+      },
       "addblock": {
         "title": "Ajouter un bloc",
         "content": {
@@ -7273,6 +7553,15 @@
         },
         "save": "Valider"
       },
+      "delete-background-noise": {
+        "title": "Supprimer la catégorie « Bruit de fond » ?",
+        "body": [
+          "Cette catégorie apprend au modèle à reconnaître <b>l'absence de son particulier</b> : le silence, le bruit de la salle, la ventilation…",
+          "Sans elle, le modèle est obligé de choisir l'une de vos autres catégories même quand personne ne parle, ce qui provoque beaucoup de fausses détections."
+        ],
+        "cancel": "Annuler",
+        "delete": "Supprimer quand même"
+      },
       "gradcam-info": {
         "title": "Qu’est-ce qu’une zone d’interaction ?",
         "body": [
@@ -7537,6 +7826,7 @@
         "esp32": "Interface de programmation pour les cartes ESP32 (Wemos D1R32, NodeMCU, Huzzah32, ...)",
         "TI-83": "Interface de programmation pour la calculatrice et les cartes BBC micro:bit ou TI Innovator™ Hub",
         "GalaxiaCircuitPython": "Interface de programmation pour la carte Thingz-Galaxia",
+        "picaxe": "Interface de programmation par blocs pour les cartes PICAXE (AutoProgX2 de A4 Technologie, 08M2 à 40X2) : génère le BASIC PICAXE à télécharger.",
         "unihiker": "Interface de programmation pour la carte UNIHIKER M10 : écran tactile, capteurs intégrés et Python sous Linux !",
         "unihikerK10": "Interface de programmation pour la carte UNIHIKER K10 : écran, LED RGB, capteurs intégrés et MicroPython !",
         "raspberrypi": "Interface de programmation pour Raspberry Pi !",
@@ -7808,6 +8098,10 @@
     "errorSendingEmail": "Une erreur est survenue lors de l'envoi du mail.",
     "emailSent": "Mail envoyé avec succès !",
     "controllerError": "Une erreur est survenue lors de la connexion au serveur. Notre équipe a été informée et va résoudre cela au plus vite.",
+    "offline": "Vous êtes hors ligne : votre travail est gardé sur cet appareil, les projets de votre compte seront disponibles avec la connexion.",
+    "offlineSave": "Vous êtes hors ligne : votre projet est gardé sur cet appareil (Ouvrir > Mes projets locaux). Enregistrez-le dans votre compte une fois la connexion revenue.",
+    "offlineDownload": "Vous êtes hors ligne : ce fichier n’est pas encore sur cet appareil, téléchargez-le une fois la connexion revenue.",
+    "backOnline": "La connexion est revenue : rechargez la page pour retrouver votre compte et vos projets.",
     "notLoggedIn": "Vous devez être connecté pour pouvoir effectuer cette action !",
     "manualTrainingDataVerificationSuccess": "La vérification des données d'entraînement s'est déroulée avec succès !",
     "manualTrainingDataVerificationError": "Une erreur est survenue durant la vérification des données d'entraînement !",

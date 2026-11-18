@@ -66,13 +66,16 @@ var WiringSimulator = {
 
   init: function () {
     this.addWiringSimulatorToDom();
+    // CDN images (other origin in production): without CORS they taint the canvas, screenshot and video then fail
+    this.img.background.crossOrigin = 'Anonymous';
+    this.img.logo.crossOrigin = 'Anonymous';
     this.img.background.src = this.PATH_MEDIA + "/backgrounds/white-background.jpg";
     this.img.logo.src = this.PATH_MEDIA + "/logo.png";
     this.canvas = document.querySelector("#wiring-simulator");
     this.canvas.width = this.Track.WIDTH_PX;
     this.canvas.height = this.Track.WIDTH_PX * this.Track.RATIO;
     this.ctx = this.canvas.getContext("2d");
-    this.recorder = new Recorder(this.canvas, $("#record-button"), fileName = 'wiring-simulator');
+    this.recorder = new Recorder(this.canvas, $("#wiring-record-button"), fileName = 'wiring-simulator');
     this.initCanvasPointers();
     this.wereInitialized = true;
   },
@@ -257,6 +260,7 @@ var WiringSimulator = {
     this.shield = shield;
     if (shield && !shield.image) {
       shield.image = new Image();
+      shield.image.crossOrigin = 'Anonymous';
       shield.image.src = shield.IMG_LINK;
       shield.x = shield.INITIAL_POS_PERCENT.x / 100 * this.Track.WIDTH_PX - shield.SIZE.w / 2;
       shield.y = shield.INITIAL_POS_PERCENT.y / 100 * this.Track.WIDTH_PX * this.Track.RATIO - shield.SIZE.h / 2;
@@ -634,6 +638,7 @@ var WiringSimulator = {
       return this.loadedImages[picture];
     }
     const moduleImage = new Image();
+    moduleImage.crossOrigin = 'Anonymous';
     moduleImage.src = `${this.PATH_MEDIA}/modules/${picture}`;
     this.loadedImages[picture] = moduleImage;
     return moduleImage;

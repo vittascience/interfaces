@@ -405,3 +405,102 @@
   outline-width: 3px;
   outline-color: var(--vitta-blue);
 }
+/* Python files modal (same look as the MicroPython file manager, theme variables for light/dark) */
+.py-files {
+    border: 1px solid var(--bg-3);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.py-files-head {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 88px 8px 34px;
+    border-bottom: 1px solid var(--bg-3);
+    background: var(--bg-1);
+    color: var(--text-2);
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.py-files-list {
+    max-height: 45vh;
+    overflow: auto;
+    padding: 4px;
+}
+
+.py-files-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 34px;
+    padding: 0 6px 0 10px;
+    border-radius: 6px;
+    color: var(--text-1);
+    transition: background 0.1s;
+}
+
+.py-files-row:hover {
+    background: var(--bg-2);
+}
+
+.py-files-icon {
+    width: 16px;
+    color: var(--text-2);
+    flex-shrink: 0;
+}
+
+.py-files-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.py-files-size {
+    min-width: 60px;
+    text-align: right;
+    font-size: 0.85em;
+    color: var(--text-2);
+}
+
+.py-files-action {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-2);
+}
+
+.py-files-action:hover,
+.py-files-action:focus-visible {
+    background: var(--bg-3);
+    color: var(--vitta-green);
+}
+
+.py-files-action--delete:hover,
+.py-files-action--delete:focus-visible {
+    color: var(--vitta-red);
+}
+
+.py-files-empty {
+    padding: 18px;
+    text-align: center;
+    color: var(--text-2);
+}
+
+.py-files-hint {
+    margin: 10px 2px;
+    font-size: 0.85em;
+    color: var(--text-2);
+}
+
+.py-files-error {
+    margin-top: 10px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--vitta-red);
+    color: var(--vitta-red);
+    font-size: 0.9em;
+}

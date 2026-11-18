@@ -241,6 +241,9 @@ Blockly.Arduino.DISPLAY_OLED_INIT = function (type) {
     }
     Blockly.Arduino.addDeclaration('ug8_' + objName, declaration + " " + objName + "(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);");
     Blockly.Arduino.addSetup('ug8_' + objName, objName + ".begin();" + NEWLINE + objName + ".setBusClock(400000);");
+    if (!fullBuf) {
+        Blockly.Arduino.addFunction(objName + '_oled_page', FUNCTIONS_ARDUINO.DEF_OLED_PAGE_BUFFER(declaration, objName));
+    }
     return fullBuf;
 };
 
@@ -260,15 +263,6 @@ Blockly.Arduino.display_addOledText = function (block) {
         }
         return `${objName}.drawStr(${x}, ${y}, ${text});${NEWLINE}${objName}.sendBuffer();${NEWLINE}`;
     } else {
-        switch (type) {
-            case "SSD1315":
-                Blockly.Arduino.addFunction(objName + '_writeStr', FUNCTIONS_ARDUINO.DEF_WRITE_STR_SSD1315_UG8_2HW);
-                break;
-            case "SSD1306":
-            default:
-                Blockly.Arduino.addFunction(objName + '_writeStr', FUNCTIONS_ARDUINO.DEF_WRITE_STR_SSD1306_UG8_2HW);
-                break;
-        }
         return `${objName}_writeStr(&${objName}, ${x}, ${y}, ${text});` + NEWLINE;
     }
 };
@@ -289,15 +283,6 @@ Blockly.Arduino.display_oledScreen_drawBitmapLogo = function (block) {
     if (fullBuf) {
         return `${objName}.drawXBMP(0, 0, 128, 64, ${logo + '_xbm'});${NEWLINE}${objName}.sendBuffer();${NEWLINE}`;
     } else {
-        switch (type) {
-            case "SSD1315":
-                Blockly.Arduino.addFunction(objName + '_drawXBM', FUNCTIONS_ARDUINO.DEF_DRAW_XBM_SSD1315_UG8_2HW);
-                break;
-            case "SSD1306":
-            default:
-                Blockly.Arduino.addFunction(objName + '_drawXBM', FUNCTIONS_ARDUINO.DEF_DRAW_XBM_SSD1306_UG8_2HW);
-                break;
-        }
         return `${objName}_drawXBM(&${objName}, 0, 0, 128, 64, ${logo + '_xbm'});` + NEWLINE;
     }
 };
@@ -314,15 +299,6 @@ Blockly.Arduino.display_oledScreen_drawIcon = function (block) {
     if (fullBuf) {
         return `${objName}.drawXBMP(${x}, ${y}, 8, 8, ${icon + '_XBM'});${NEWLINE}${objName}.sendBuffer();${NEWLINE}`;
     } else {
-        switch (type) {
-            case "SSD1315":
-                Blockly.Arduino.addFunction(objName + '_drawXBM', FUNCTIONS_ARDUINO.DEF_DRAW_XBM_SSD1315_UG8_2HW);
-                break;
-            case "SSD1306":
-            default:
-                Blockly.Arduino.addFunction(objName + '_drawXBM', FUNCTIONS_ARDUINO.DEF_DRAW_XBM_SSD1306_UG8_2HW);
-                break;
-        }
         return `${objName}_drawXBM(&${objName}, ${x}, ${y}, 8, 8, ${icon + '_XBM'});` + NEWLINE;
     }
 };
@@ -330,15 +306,9 @@ Blockly.Arduino.display_oledScreen_drawIcon = function (block) {
 // GROVE OLED DISPLAY _ DRAW BITMAP
 Blockly.Arduino.display_clearOledScreen = function (block) {
     const type = block.getFieldValue('TYPE');
-    Blockly.Arduino.DISPLAY_OLED_INIT(type);
+    const fullBuf = Blockly.Arduino.DISPLAY_OLED_INIT(type);
     const objName = type.toLowerCase();
-    switch (type) {
-        case "SSD1315":
-            return objName + ".clearDisplay();" + NEWLINE;
-        case "SSD1306":
-        default:
-            return objName + ".clearDisplay();" + NEWLINE;
-    }
+    return (fullBuf ? `${objName}.clearDisplay();` : `${objName}_clear(&${objName});`) + NEWLINE;
 };
 
 // LED DIGITAL CONTROL BLOCK

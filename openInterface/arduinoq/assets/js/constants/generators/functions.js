@@ -245,7 +245,9 @@ const FUNCTIONS_ARDUINO_Q = {
     # The brick only plays WAV files at the sample rate of its speaker (32 kHz): the voice (16 or 22 kHz) is resampled
     rate = sound_player._output_device.sample_rate
     positions = np.arange(0, len(samples) - 1, chunks[0].sample_rate / rate)
-    samples = np.interp(positions, np.arange(len(samples)), samples).astype("<i2")
+    # play_wav of the brick ignores its master volume (only the generated notes use it): applied here
+    volume = getattr(sound_player, "_master_volume", 1.0)
+    samples = (np.interp(positions, np.arange(len(samples)), samples) * volume).astype("<i2")
     sound_path = "/tmp/say_on_board.wav"
     with wave.open(sound_path, "wb") as sound:
         sound.setnchannels(1)
@@ -294,6 +296,46 @@ const FUNCTIONS_ARDUINO_Q = {
     except Exception as error:
         print("[http] Envoi à " + str(url) + " impossible : " + str(error))
         return ""`,
+
+        // Shelly plug on the local Wi-Fi: RPC API of the Gen2+ devices, else the API of the Gen1 (404 on /rpc)
+        DEF_SHELLY_WIFI:
+`def shelly_wifi_get(ip, rpc, gen1=None):
+    import json
+    import urllib.error
+    import urllib.request
+    for path in ["/rpc/" + rpc] + ([gen1] if gen1 else []):
+        try:
+            with urllib.request.urlopen("http://" + str(ip) + path, timeout=5) as response:
+                return json.loads(response.read().decode("utf-8"))
+        except urllib.error.HTTPError as error:
+            if error.code != 404:
+                print("[Shelly] Prise " + str(ip) + " : erreur " + str(error.code))
+                return {}
+        except Exception as error:
+            print("[Shelly] Prise " + str(ip) + " injoignable : " + str(error))
+            return {}
+    return {}
+
+def shelly_wifi_switch(ip, action):
+    rpc = "Switch.Toggle?id=0" if action == "toggle" else "Switch.Set?id=0&on=" + str(action == "on").lower()
+    shelly_wifi_get(ip, rpc, "/relay/0?turn=" + action)
+
+def shelly_wifi_is_on(ip):
+    status = shelly_wifi_get(ip, "Switch.GetStatus?id=0", "/relay/0")
+    return bool(status.get("output", status.get("ison")))
+
+def shelly_wifi_start_pairing(ip):
+    if shelly_wifi_get(ip, "BLE.StartPairing"):
+        print("[Shelly] Appairage Bluetooth ouvert sur la prise " + str(ip) + " pendant 3 minutes")
+
+def shelly_wifi_measure(ip, measure):
+    status = shelly_wifi_get(ip, "Switch.GetStatus?id=0", "/meter/0")
+    if measure == "energy":
+        # Gen1: "total" in watt-minutes
+        return status["aenergy"]["total"] if "aenergy" in status else status.get("total", 0) / 60
+    if measure == "temperature":
+        return status.get("temperature", {}).get("tC") or 0
+    return status.get("apower" if measure == "power" else measure, status.get(measure)) or 0`,
 
         // Weather of Open-Meteo (open-meteo.com, no API key): position of the city, then its current weather
         DEF_GET_WEATHER:
@@ -989,6 +1031,168 @@ def ble_send(text, uuid):
 def ble_disconnect():
     if ble_is_connected():
         ble_run(ble_client.disconnect())`,
+
+        // Shelly plug over Bluetooth (Gen2+ only, board paired with the plug since firmware 2.0). Request: its length in 4 bytes
+        // on TX, then the JSON in chunks on DATA; answer: its length on RX, then DATA read until complete. Needs DEF_BLE
+        DEF_SHELLY_BLE:
+`SHELLY_DATA = "5f6d4f53-5f52-5043-5f64-6174615f5f5f"
+SHELLY_TX = "5f6d4f53-5f52-5043-5f74-785f63746c5f"
+SHELLY_RX = "5f6d4f53-5f52-5043-5f72-785f63746c5f"
+shelly_clients = {}
+
+async def shelly_retry(action, attempts=15):
+    # BlueZ answers "InProgress" while busy (scan, or pairing asked by the plug): wait for the end
+    for attempt in range(attempts):
+        try:
+            return await action()
+        except Exception as error:
+            if "InProgress" not in str(error) or attempt == attempts - 1:
+                raise
+            await asyncio.sleep(1)
+
+async def shelly_reset_adapter():
+    from dbus_fast import BusType
+    from dbus_fast.aio import MessageBus
+    bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
+    node = await bus.introspect("org.bluez", "/org/bluez/hci0")
+    adapter = bus.get_proxy_object("org.bluez", "/org/bluez/hci0", node).get_interface("org.bluez.Adapter1")
+    await adapter.set_powered(False)
+    await adapter.set_powered(True)
+    bus.disconnect()
+    await asyncio.sleep(2)
+
+async def shelly_find(name):
+    from bleak import BleakScanner
+    # part of the name is enough: "Shelly" finds the first plug around
+    find = lambda: BleakScanner.find_device_by_filter(lambda d, a: name in (d.name or a.local_name or "") or name.upper() == d.address.upper(), timeout=10)
+    try:
+        return await shelly_retry(find, 3)
+    except Exception as error:
+        if "InProgress" not in str(error):
+            raise
+    # the Bluetooth chip of the UNO Q can stay stuck ("InProgress" while nothing scans): restarting it fixes it
+    print("[Shelly] Bluetooth de la carte bloqué : redémarrage du Bluetooth")
+    await shelly_reset_adapter()
+    return await shelly_retry(find, 5)
+
+async def shelly_connect(name):
+    from bleak import BleakClient
+    client = shelly_clients.get(name)
+    if client is None or not client.is_connected:
+        device = await shelly_find(name)
+        if device is None:
+            raise Exception("prise introuvable : " + name)
+        client = BleakClient(device)
+        await client.connect()
+        shelly_clients[name] = client
+    return client
+
+shelly_agent_bus = None
+
+async def shelly_agent():
+    # the plug asks itself for a "Just Works" pairing on connection: BlueZ refuses it without an agent to accept it
+    from dbus_fast import BusType
+    from dbus_fast.aio import MessageBus
+    from dbus_fast.service import ServiceInterface, method
+
+    class ShellyAgent(ServiceInterface):
+        def __init__(self):
+            super().__init__("org.bluez.Agent1")
+
+        @method()
+        def Release(self):
+            pass
+
+        @method()
+        def RequestAuthorization(self, device: "o"):
+            pass
+
+        @method()
+        def RequestConfirmation(self, device: "o", passkey: "u"):
+            pass
+
+        @method()
+        def AuthorizeService(self, device: "o", uuid: "s"):
+            pass
+
+        @method()
+        def Cancel(self):
+            pass
+
+    bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
+    bus.export("/vitta/agent", ShellyAgent())
+    node = await bus.introspect("org.bluez", "/org/bluez")
+    manager = bus.get_proxy_object("org.bluez", "/org/bluez", node).get_interface("org.bluez.AgentManager1")
+    await manager.call_register_agent("/vitta/agent", "NoInputNoOutput")
+    await manager.call_request_default_agent("/vitta/agent")
+    return bus
+
+async def shelly_pair_async(name):
+    global shelly_agent_bus
+    if shelly_agent_bus is None:
+        shelly_agent_bus = await shelly_agent()
+    client = await shelly_connect(name)
+    await shelly_retry(client.pair)
+
+def shelly_pair(name):
+    try:
+        ble_run(shelly_pair_async(str(name)), timeout=60)
+    except Exception as error:
+        print("[Shelly] Appairage impossible (fenêtre d'appairage ouverte sur la prise ?) :", error)
+        return
+    # only a command accepted by the plug proves the pairing
+    if shelly_rpc(name, "Shelly.GetDeviceInfo", {}):
+        print("[Shelly] Carte appairée avec la prise " + str(name))
+
+async def shelly_call(name, method, params):
+    client = await shelly_connect(name)
+    request = json.dumps({"id": 1, "src": "vitta", "method": method, "params": params}).encode()
+    await client.write_gatt_char(SHELLY_TX, len(request).to_bytes(4, "big"), response=True)
+    # chunks of the default BLE size: bleak warns on mtu_size with BlueZ, and the requests are short
+    size = 20
+    for start in range(0, len(request), size):
+        await client.write_gatt_char(SHELLY_DATA, request[start:start + size], response=True)
+    length = 0
+    for _ in range(50):
+        length = int.from_bytes(await client.read_gatt_char(SHELLY_RX), "big")
+        if length:
+            break
+        await asyncio.sleep(0.1)
+    answer = b""
+    while len(answer) < length:
+        chunk = await client.read_gatt_char(SHELLY_DATA)
+        if not chunk:
+            break
+        answer += chunk
+    answer = json.loads(answer[:length])
+    if "error" in answer:
+        raise Exception(answer["error"].get("message", answer["error"]))
+    return answer.get("result", {})
+
+def shelly_rpc(name, method, params):
+    try:
+        return ble_run(shelly_call(str(name), method, params))
+    except Exception as error:
+        print("[Shelly] Commande " + method + " impossible (carte appairée avec la prise ?) :", error)
+        return None
+
+def shelly_switch(name, action):
+    if action == "toggle":
+        shelly_rpc(name, "Switch.Toggle", {"id": 0})
+    else:
+        shelly_rpc(name, "Switch.Set", {"id": 0, "on": action == "on"})
+
+def shelly_is_on(name):
+    status = shelly_rpc(name, "Switch.GetStatus", {"id": 0})
+    return bool(status and status.get("output"))
+
+def shelly_measure(name, measure):
+    status = shelly_rpc(name, "Switch.GetStatus", {"id": 0}) or {}
+    if measure == "energy":
+        return status.get("aenergy", {}).get("total") or 0
+    if measure == "temperature":
+        return status.get("temperature", {}).get("tC") or 0
+    return status.get("apower" if measure == "power" else measure) or 0`,
 
         // Bluetooth server: Nordic UART service of BlueZ, the board waits for a phone. Without "discoverable" on the adapter
         // the advertisement of the UNO Q (WCN3988) is not connectable. Needs DEF_BLE

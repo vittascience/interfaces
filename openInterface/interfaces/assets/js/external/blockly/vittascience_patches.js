@@ -129,6 +129,66 @@ Blockly.Tooltip.SEP = "&&SEPARATOR&&";
 })();
 // Block tooltips themselves keep the separator: the interfaces read it through block.getTooltip().
 
+// --- Touch screens: no hover, so the tooltip of a block is in its context menu (long press), "Description" ---
+(function () {
+  if (!Blockly.ContextMenuRegistry || !Blockly.Tooltip.getTooltipOfObject) return;
+  // the menu was opened with a finger or a pen (the mouse has the hover tooltip)
+  var pointerType = "mouse";
+  document.addEventListener("pointerdown", function (e) { pointerType = e.pointerType; }, true);
+  var bubble = null;
+  var hide = function () {
+    if (!bubble) return;
+    bubble.remove();
+    bubble = null;
+    document.removeEventListener("pointerdown", hide, true);
+    document.removeEventListener("keydown", onKey, true);
+  };
+  var onKey = function (e) { if (e.key === "Escape") hide(); };
+  var tooltipOf = function (block) {
+    var tip = Blockly.Tooltip.getTooltipOfObject(block);
+    return typeof tip === "string" ? tip : "";
+  };
+  Blockly.ContextMenuRegistry.registry.register({
+    id: "vittaBlockTooltip",
+    scopeType: Blockly.ContextMenuRegistry.ScopeType.BLOCK,
+    weight: -10,
+    displayText: function () {
+      return typeof i18next !== "undefined" ? i18next.t("code.blockly.label.description") : "Description";
+    },
+    preconditionFn: function (scope) {
+      return pointerType !== "mouse" && scope.block && tooltipOf(scope.block) ? "enabled" : "hidden";
+    },
+    callback: function (scope) {
+      hide();
+      var rect = scope.block.getSvgRoot().getBoundingClientRect();
+      bubble = document.createElement("div");
+      bubble.className = "blocklyTooltipDiv vitta-touch-tooltip";
+      bubble.setAttribute("role", "tooltip");
+      // same content as the hover tooltip (image, then the text)
+      var render = Blockly.Tooltip.getCustomTooltip && Blockly.Tooltip.getCustomTooltip();
+      if (render) render(bubble, scope.block);
+      else bubble.textContent = tooltipOf(scope.block);
+      bubble.style.cssText = "display: block; opacity: 1; position: fixed; max-width: min(360px, 90vw); left: 0; top: 0;";
+      document.body.appendChild(bubble);
+      // under the block, or above it when there is no room, inside the window (again once the image is loaded)
+      var tip = bubble;
+      var place = function () {
+        var width = tip.offsetWidth, height = tip.offsetHeight;
+        var top = rect.bottom + 8 + height > window.innerHeight ? rect.top - 8 - height : rect.bottom + 8;
+        tip.style.left = Math.max(8, Math.min(rect.left, window.innerWidth - width - 8)) + "px";
+        tip.style.top = Math.max(8, top) + "px";
+      };
+      place();
+      bubble.querySelectorAll("img").forEach(function (img) { img.addEventListener("load", place); });
+      // closed by the next touch anywhere, or Esc
+      setTimeout(function () {
+        document.addEventListener("pointerdown", hide, true);
+        document.addEventListener("keydown", onKey, true);
+      });
+    }
+  });
+})();
+
 // --- Menu items: no deprecated goog-menuitem-highlight class ---
 (function () {
   var setHighlighted = Blockly.MenuItem.prototype.setHighlighted;
@@ -546,7 +606,7 @@ Blockly.Types.DECIMAL.addCompatibleTypes([Blockly.Types.BOOLEAN,Blockly.Types.SH
 Blockly.Types.addType=function(a,b,c){var d=a.toUpperCase().replace(/ /g,"_");if(void 0!==Blockly.Types[d])throw"The Blockly type "+d+" already exists.";Blockly.Types[d]=new Blockly.Type({typeId:a,typeName:b,compatibleTypes:c})};
 Blockly.Types.getValidTypeArray=function(){var a=[],b;for(b in Blockly.Types)"UNDEF"===b||"CHILD_BLOCK_MISSING"===b||"NULL"===b||"ARRAY"===b||"function"===typeof Blockly.Types[b]||Blockly.Types[b]instanceof RegExp||a.push([Blockly.Types[b].typeName,b]);return a};
 Blockly.Types.getTypeWithId=function(a){for(var b in Blockly.Types)if(a==Blockly.Types[b].typeId)return Blockly.Types[b];throw"type with id '"+a+"' is not defined in Blockly.Types \n\t at Blockly.Types.getTypeWithId()";};
-Blockly.Types.getChildBlockType=function(a){return a.getBlockType?a.getBlockType():a.getVarType?a.getVarType():a.outputConnection&&a.outputConnection.getCheck()?Blockly.Types.getTypeWithId(a.outputConnection.getCheck()[0]):Blockly.Types.CHILD_BLOCK_MISSING};
+Blockly.Types.getChildBlockType=function(a){return a?a.getBlockType?a.getBlockType():a.getVarType?a.getVarType():a.outputConnection&&a.outputConnection.getCheck()?Blockly.Types.getTypeWithId(a.outputConnection.getCheck()[0]):Blockly.Types.CHILD_BLOCK_MISSING:Blockly.Types.CHILD_BLOCK_MISSING};
 Blockly.Types.regExpInt_=new RegExp(/^-?\d+$/);
 Blockly.Types.regExpFloat_=new RegExp(/^-?[0-9]*[.][0-9]+$/);
 Blockly.Types.identifyNumber=function(a){return Blockly.Types.regExpInt_.test(a)?(a=parseInt(a),isNaN(a)?Blockly.Types.NULL:32767<a||-32768>a?Blockly.Types.LARGE_NUMBER:Blockly.Types.NUMBER):Blockly.Types.regExpFloat_.test(a)?Blockly.Types.DECIMAL:Blockly.Types.NULL};
@@ -611,6 +671,7 @@ Blockly.ZoomControls.prototype.SCREENSHOT_HEIGHT_ = 32;
   proto.dispose = function () {
     if (this.onScreenshotWrapper_) {
       Blockly.browserEvents.unbind(this.onScreenshotWrapper_);
+      Blockly.browserEvents.unbind(this.onScreenshotDownWrapper_);
       this.onScreenshotWrapper_ = null;
     }
     dispose.call(this);
@@ -629,7 +690,12 @@ Blockly.ZoomControls.prototype.createScreenshotSvg_ = function (rnd) {
     "clip-path": "url(#blocklyScreenshotClipPath" + rnd + ")"
   }, this.screenshotGroup_);
   image.setAttributeNS(Blockly.utils.dom.XLINK_NS, "xlink:href", this.vittaGet_("workspace").options.pathToMedia + Blockly.VITTA_SPRITE.url);
-  this.onScreenshotWrapper_ = Blockly.browserEvents.conditionalBind(this.screenshotGroup_, "mousedown", null, this.screenshot_.bind(this));
+  // Touch screens: no "mousedown" (the workspace cancels the pointerdown) and the "click" following a tap would land on
+  // the modal opened on "pointerdown". So "pointerdown" only keeps the workspace from starting a gesture, the modal opens on "click".
+  this.onScreenshotDownWrapper_ = Blockly.browserEvents.bind(this.screenshotGroup_, "pointerdown", null, function (e) {
+    e.stopPropagation();
+  });
+  this.onScreenshotWrapper_ = Blockly.browserEvents.bind(this.screenshotGroup_, "click", null, this.screenshot_.bind(this));
 };
 
 // Screenshot of the blocks: the modal "modal-blocks-screenshot" (generalModals.js) chooses the quality (scale of the

@@ -381,7 +381,7 @@ async function importProjectFile(file) {
         pseudoModal.closeLatestModal();
         return;
     }
-    const headerRegExp = inoInterfaces.includes(interface) ? /\/\*([\s\S]*?)\*\// : /"""([\s\S]*?)"""/;
+    const headerRegExp = interface === 'picaxe' ? /#rem([\s\S]*?)#endrem/ : inoInterfaces.includes(interface) ? /\/\*([\s\S]*?)\*\// : /"""([\s\S]*?)"""/;
     if (projectFile.toLowerCase().includes('vittascience')) {
         updateLocalProject(extractProjectInformations(projectFile, headerRegExp));
     } else {
@@ -1310,6 +1310,11 @@ function shareProjectButton() {
  * Save a project into local storage
  */
 async function saveProjectbtn() {
+    // offline (/interfaces-sw.js): no account, but the project is already kept in the browser (Open > My local projects)
+    if (UserManager.isOffline()) {
+        new VittaNotif().displayNotification(null, i18next.t('notifications.offlineSave'), 'bg-info');
+        return;
+    }
     if (vittaFormValidator) vittaFormValidator.observeExistingForms();
     const openSaveModal = function (project) {
         pseudoModal.openModal('modal-saveproject');
@@ -1608,8 +1613,9 @@ async function openProjectBtn() {
         projectManager.populateAllProjects();
     }
     // No local projects of the localStorage in the ai interfaces, nor in the mobile app
-    // (it keeps its own offline copies and sync queue, see vitta-mobile TECHNICAL.md §6)
-    if (INTERFACE_NAME === 'ai' || window.VittaContext?.isCapacitor) {
+    // (it keeps its own offline copies and sync queue, see vitta-mobile TECHNICAL.md §6); the Windows app
+    // (isDesktop) has them like the website
+    if (INTERFACE_NAME === 'ai' || (window.VittaContext?.isCapacitor && !window.VittaContext.isDesktop)) {
         $('#local-storage-projects-tab, #local-storage-projects-panel').hide();
     } else {
         populateLocalStorageProjects();

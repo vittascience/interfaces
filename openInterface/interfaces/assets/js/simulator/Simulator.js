@@ -567,9 +567,13 @@ Simulator.replay = async function () {
         RobotSimulator.restartRobot();
         RobotSimulator.Pen.positions = new Array();
     }
-    if ((this._has3DRobotSimulator() || this._has3DInterface()) && typeof Simulator3D !== 'undefined' && typeof Simulator3D.startPosition !== 'undefined') {
-        await Simulator3D.reset();
-        await waitFor(() => Simulator3D.isBusy === false);
+    if ((this._has3DRobotSimulator() || this._has3DInterface()) && typeof Simulator3D !== 'undefined') {
+        // the scene is created at its first use: its model may still be loading (the program would act on nothing)
+        await waitFor(() => Simulator3D.loadedHierarchie);
+        if (typeof Simulator3D.startPosition !== 'undefined') {
+            await Simulator3D.reset();
+            await waitFor(() => Simulator3D.isBusy === false);
+        }
     }
     if (this._hasAutoCorrector()) {
         if (AutoCorrector.isValidating) {
@@ -842,7 +846,7 @@ Simulator.updateBoard = function (link, name) {
     if (this.board.link) {
         const path = _SAME_ORIGIN_PATH + "/" + INTERFACE_NAME + "/assets/media/simulator/board/" + this.board.link;
         if (/(arduinoq|microbit|wb55|l476|mBot|m5stack|galaxia|GalaxiaCircuitPython|buddy|cyberpi|pico|eliobot|thymio|raspberrypi|lotibot|photon|bluebot|codey|steami|alphai|primastem|unihiker|legoprime)/.test(INTERFACE_NAME) && (this.board.link).includes('.svg')) {
-            $("#board-viewer").attr("data", path);
+            this.setBoardViewerData(path);
         } else {
             $("#board-viewer").css('background-image', "url('" + path + "')");
         }
@@ -864,6 +868,21 @@ Simulator.updateBoard = function (link, name) {
     }
 };
 
+/**
+ * Show the SVG of the board in its viewer (an <object>: the simulator reaches the inside of the SVG).
+ * The requests of an <object> skip the service worker (/interfaces-sw.js): offline, the SVG is read from its cache with
+ * fetch() and shown from a blob: URL.
+ * @param {string} path - URL of the SVG of the board
+ */
+Simulator.setBoardViewerData = async function (path) {
+    if (typeof UserManager !== 'undefined' && UserManager.isOffline()) {
+        try {
+            path = URL.createObjectURL(await (await fetch(path)).blob());
+        } catch (e) { }
+    }
+    $("#board-viewer").attr("data", path);
+};
+
 Simulator.updateBoard_v2 = function (boardId, shield = false) {
     if (boardId) {
         if (shield) {
@@ -878,7 +897,7 @@ Simulator.updateBoard_v2 = function (boardId, shield = false) {
     const img = (filename) => _SAME_ORIGIN_PATH + "/" + INTERFACE_NAME + "/assets/media/simulator/board/" + filename;
     const path = VittaInterface.shieldView ? img(this.board.shieldLink) : img(this.board.link);
     const name = VittaInterface.shieldView ? this.board.shieldName : this.board.name;
-    $("#board-viewer").attr("data", path);
+    this.setBoardViewerData(path);
     $("#title-board").html(name);
     const options = document.querySelectorAll("#simulator-board-options .dropdown-item");
     options.forEach((option) => {

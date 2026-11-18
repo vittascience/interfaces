@@ -61,13 +61,18 @@ DEF_WIFI_CONNECT_STATION:
 
 // Wifi _ configure access point
 DEF_WIFI_CONFIGURE_ACCESS_POINT:
-`def configure_access_point(ssid='', ip='', activate=True, max_clients=50):
+`def configure_access_point(ssid='', ip='', activate=True, max_clients=50, password=''):
+  if 0 < len(password) < 8:
+    raise ValueError("Access point password must be at least 8 characters (or empty for an open network)")
   ap = network.WLAN(network.AP_IF)
   if len(ip) != 0:
     gateway = ip.split('.')[0] + '.' + ip.split('.')[1] + '.' + ip.split('.')[2] + '.1'
     ap.ifconfig([ip, '255.255.255.0', gateway, gateway])
   ap.active(activate)
-  ap.config(essid=ssid, password='')
+  if password:
+    ap.config(essid=ssid, password=password, authmode=network.AUTH_WPA_WPA2_PSK)
+  else:
+    ap.config(essid=ssid, password='')
   ap.config(max_clients=max_clients)
   print("Access point started.")
   print("Note: Connecting to the access point on iOS may take ~1 min\\n")
@@ -163,6 +168,24 @@ JAVSCRIPT_SEND_SLIDER_VALUE:
   xhttp.open("GET", "/" + id + "=" + slider.value, true);
   xhttp.send(null);
 };`,
+
+// Decode a value sent with encodeURIComponent (UTF-8 %XX sequences)
+DEF_HTTP_UNQUOTE:
+`def http_unquote(s):
+  s = str(s)
+  b = b''
+  i = 0
+  while i < len(s):
+    if s[i] == '%' and i + 2 < len(s):
+      try:
+        b += bytes([int(s[i+1:i+3], 16)])
+        i += 3
+        continue
+      except ValueError:
+        pass
+    b += s[i].encode('utf-8')
+    i += 1
+  return b.decode('utf-8')`,
 
 JAVSCRIPT_ON_SWITCH_TOGGLE:
 `const http_onSwitchToggle = function(id) {

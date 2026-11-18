@@ -1338,6 +1338,10 @@
     "serialAPI": {
       "allowSerial": "Aktivieren Sie #enable-experimental-web-platform-features in 'chrome://flags/', um einen seriellen Port zu öffnen.",
       "noSerialAPI": "Serial API wurde in Ihrem Browser nicht erkannt. Um Serial API zu nutzen, verwenden Sie einen der kompatiblen Browser: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> und bald <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
+      "picaxeUploading": "Uploading the PICAXE program (about 15 seconds)...",
+      "fileDownloadedPicaxe": "PICAXE program successfully sent to the board!",
+      "picaxeCompileError": "The program cannot be compiled: %1",
+      "picaxeUnsupportedChip": "Direct upload is only available for the AutoProgX2 (PICAXE-28X2). For this board, download the .bas file and open it in PICAXE Editor.",
       "serialPortOpeningFail": "Verbindung zum seriellen Port fehlgeschlagen, Zugriff auf das Board nicht möglich. Ein anderes Programm ist bereits mit dem Board verbunden.\n\nBitte prüfen Sie, ob das Board nicht bereits mit einer anderen Schnittstelle verbunden ist (z.B. MakeCode, Python Editor, Thonny oder eine andere Vittascience-Schnittstelle) oder trennen Sie das Board und schließen Sie es erneut an, bevor Sie es erneut versuchen.",
       "boardConnected": "Serielle Portverbindung erfolgreich!",
       "serialPortClosed": "Serieller Port erfolgreich geschlossen!",
@@ -1442,6 +1446,7 @@
       "TI-83-Maclasseti": "Willkommen bei der MaClasseTI.fr-Oberfläche für den TI-83 Premium CE Edition Python-Taschenrechner! Die TI-Innovator™ Hub und BBC micro:bit Boards können hier programmiert werden. Öffnen Sie den Simulator, um zu starten!",
       "GalaxiaCircuitPython": "Willkommen bei der Vittascience-Oberfläche für Galaxia Circuit Python!",
       "galaxia": "Willkommen bei der Vittascience-Oberfläche für Galaxia! </br>Um das Galaxia-Board in dieser Oberfläche zu programmieren, müssen Sie zuerst die MicroPython-Firmware auf das Board flashen, indem Sie diesem Tutorial folgen: <b><a href=\"https://fr.vittascience.com/learn/tutorial.php?id=860\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">MicroPython-Firmware flashen</a></b>",
+      "picaxe": "Welcome to the PICAXE interface!</br>Plug in the AutoProgX2 with the AXE027 cable and click Upload.",
       "unihiker": "Willkommen auf der Vittascience-Oberfläche für die UNIHIKER M10 Platine!</br>Schließen Sie die Platine über USB an und klicken Sie auf Hochladen. Beim ersten Mal legt die Oberfläche das Installationsprogramm des Vittascience-Servers auf die Platine, das einmal im Home-Menü der Platine gestartet wird.",
       "unihiker-k10": "Willkommen in der Vittascience-Oberfläche für die UNIHIKER K10!</br>Schließen Sie die Platine per USB an (MicroPython-Firmware von DFRobot) und klicken Sie auf Hochladen: das Programm wird in main.py gespeichert.",
       "raspberrypi": "Willkommen bei der Vittascience-Oberfläche für Raspberry Pi! Sie können das Tutorial hier ansehen: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=1739\" target=\"_blank\" rel=\"noopener noreferrer\">Erste Schritte mit der Vittascience-Oberfläche für Raspberry Pi</a>",
@@ -1634,6 +1639,8 @@
         "installUnihiker": "Installationsprogramm des Vittascience-Servers auf die Platine legen (einmal im Home-Menü der Platine starten)",
         "unihikerHost": "Adresse der Platine ändern (10.1.2.3 über USB oder ihre WLAN-Adresse)",
         "downloadHex": "Micro:bit-Programm im [.hex]-Format exportieren",
+        "downloadPicaxe": "Download the .bas program (open it in PICAXE Editor)",
+        "uploadPicaxe": "Send the program to the board (AutoProgX2 / PICAXE-28X2, AXE027 cable, Chrome or Edge browser)",
         "downloadTexas": "Programm .py für den Taschenrechner herunterladen",
         "runBuddy": "Programm auf Buddy starten",
         "disconnect": "Karte trennen",
@@ -1730,6 +1737,7 @@
         "downloadUf2Pico": "Pico Firmware",
         "downloadUf2PicoW": "Pico W Firmware",
         "downloadPython": ".py herunterladen",
+        "downloadPicaxe": "Download .bas",
         "downloadTexas": "Für Taschenrechner herunterladen",
         "downloadThymioWindows": ".exe herunterladen",
         "downloadThymioMacOS": ".dmg herunterladen",
@@ -1985,7 +1993,9 @@
         "crash": "Absturzschutz aktiviert: Dies passiert, wenn Ihr Code eine Endlosschleife ohne sleep()-Aufruf enthält. Bitte korrigieren Sie den Code und versuchen Sie es erneut.",
         "variables-panel-msg": "Dieses Programm enthält keine Variablen",
         "replaySimulator": "Simulator neu starten, um Daten zu senden",
-        "skulptLoadError": "Der Simulator konnte nicht geladen werden. Überprüfe deine Verbindung und starte den Simulator erneut."
+        "skulptLoadError": "Der Simulator konnte nicht geladen werden. Überprüfe deine Verbindung und starte den Simulator erneut.",
+        "picaxeRuntimeError": "Simulation error: %1",
+        "picaxeSimulatorChip": "The simulator is only available for the AutoProgX2 (PICAXE-28X2)."
       },
       "tooltips": {
         "bluebot-buttons": "Sie können die Tasten des Blue-bot-Roboters zum Programmieren verwenden!"
@@ -2418,6 +2428,7 @@
         "noCategory": "Keine Kategorie. Klicken Sie auf „Kategorie hinzufügen“, um eine neue zu erstellen!",
         "category": {
           "defaultCategoryName": "Kategorie Nr.",
+          "defaultSoundCategoryName": "Hintergrundgeräusch",
           "cameraButton": "Kamera",
           "microphone": "Mikrofon",
           "spectrogram": "Spektrogramm",
@@ -7254,6 +7265,15 @@
         },
         "save": "Bestätigen"
       },
+      "delete-background-noise": {
+        "title": "Kategorie „Hintergrundgeräusch“ löschen?",
+        "body": [
+          "Diese Kategorie bringt dem Modell bei, <b>das Fehlen eines bestimmten Geräuschs</b> zu erkennen: Stille, Raumgeräusche, Lüftung…",
+          "Ohne sie muss das Modell immer eine Ihrer anderen Kategorien wählen, auch wenn niemand spricht, was zu vielen Fehlerkennungen führt."
+        ],
+        "cancel": "Abbrechen",
+        "delete": "Trotzdem löschen"
+      },
       "gradcam-info": {
         "title": "Was ist eine Interaktionszone?",
         "body": [
@@ -7518,6 +7538,7 @@
         "esp32": "Programmierschnittstelle für ESP32 Boards (Wemos D1R32, NodeMCU, Huzzah32, ...)",
         "TI-83": "Programmierschnittstelle für den Taschenrechner und die BBC micro:bit oder TI Innovator™ Hub Boards",
         "GalaxiaCircuitPython": "Programmierschnittstelle für das Thingz-Galaxia Board",
+        "picaxe": "Block programming interface for PICAXE boards (AutoProgX2 from A4 Technologie, 08M2 to 40X2): generates PICAXE BASIC to download.",
         "unihiker": "Programmieroberfläche für die UNIHIKER M10: Touchscreen, eingebaute Sensoren und Python unter Linux!",
         "unihikerK10": "Programmieroberfläche für die UNIHIKER K10: Bildschirm, RGB-LEDs, eingebaute Sensoren und MicroPython!",
         "raspberrypi": "Programmierschnittstelle für Raspberry Pi!",

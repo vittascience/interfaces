@@ -9,31 +9,56 @@ document.addEventListener('DOMContentLoaded', async function () {
     const subscribeModal = document.getElementById('premium-modal');
     const btnOpenModal = document.querySelectorAll('.btn-subscribe-open-modal');
     const groupeNameDiv = document.getElementById('groupe-name-div');
+    const subscriptionForm = document.getElementById('premium-subscription-form');
 
+    function submitSubscriptionAction(type, subId) {
+        if (!subscriptionForm) {
+            return;
+        }
+        if (type === 'cancel' && !window.confirm(i18next.t('profile.premium.cancelConfirm', { defaultValue: "Voulez-vous vraiment résilier cet abonnement ? Il restera actif jusqu'à la fin de la période en cours." }))) {
+            return;
+        }
+        subscriptionForm.querySelector('input[name="type"]').value = type;
+        subscriptionForm.querySelector('input[name="subId"]').value = subId || '';
+        subscriptionForm.submit();
+    }
+
+    function selectedBillingAddress() {
+        const addressInput = subscribeModal.querySelector('input[name="address"]:checked');
+        if (addressInput) {
+            return addressInput.value;
+        }
+        if (!subscribeModal.querySelector('#premium-no-address')) {
+            const warning = document.createElement('div');
+            warning.id = 'premium-no-address';
+            warning.classList.add('alert', 'alert-warning');
+            warning.innerText = i18next.t('profile.premium.noAddress', { defaultValue: "Ajoutez d'abord une adresse de facturation pour continuer." });
+            subscribeModal.querySelector('.modal-body').appendChild(warning);
+        }
+        return null;
+    }
 
     if (cancelBtn) {
         cancelBtn.addEventListener('click', function () {
-            window.location.href = `/shop/premium/editSubscription.php?type=cancel`;
+            submitSubscriptionAction('cancel');
         });
     }
     if (cancelGiftedsBtn) {
         cancelGiftedsBtn.forEach(function (btn) {
             btn.addEventListener('click', function () {
-                const id = this.getAttribute('data-subid');
-                window.location.href = `/shop/premium/editSubscription.php?type=cancel&subId=${id}`;
+                submitSubscriptionAction('cancel', this.getAttribute('data-subid'));
             });
         });
     }
     if (reactivateBtn) {
         reactivateBtn.addEventListener('click', function () {
-            window.location.href = `/shop/premium/editSubscription.php?type=reactivate`;
+            submitSubscriptionAction('reactivate');
         });
     }
     if (reactivateGiftedsBtn) {
         reactivateGiftedsBtn.forEach(function (btn) {
             btn.addEventListener('click', function () {
-                const id = this.getAttribute('data-subid');
-                window.location.href = `/shop/premium/editSubscription.php?type=reactivate&subId=${id}`;
+                submitSubscriptionAction('reactivate', this.getAttribute('data-subid'));
             });
         });
     }
@@ -43,7 +68,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 //set the value of the radio button to "prof"
                 const dataType = this.getAttribute("data-type");
                 if (dataType === "prof") {
-                    subscribeModal.querySelector('#premium-type').innerText = "Premium";
+                    subscribeModal.querySelector('#premium-type').innerText = i18next.t('profile.premium.planPremium', { defaultValue: "Premium" });
                     if (!groupeNameDiv.classList.contains('d-none')) {
                         groupeNameDiv.classList.add('d-none');
                     }
@@ -51,7 +76,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                         groupeNameDiv.classList.remove('d-flex');
                     }
                 } else {
-                    subscribeModal.querySelector('#premium-type').innerText = "Team";
+                    subscribeModal.querySelector('#premium-type').innerText = i18next.t('profile.premium.planTeam', { defaultValue: "Équipe" });
                     if (groupeNameDiv.classList.contains('d-none')) {
                         groupeNameDiv.classList.remove('d-none');
                     }
@@ -63,7 +88,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 if (dataType === "school") {
                     let teacherNumber = document.querySelector('input[name="teacher-number"][id="teacher-number"]').value;
                     if (teacherNumber == 1) {
-                        alert("Veuillez choisir plus d'un professeur pour cette formule.");
+                        alert(i18next.t('profile.premium.minTeachers', { defaultValue: "Veuillez choisir plus d'un professeur pour cette formule." }));
                         return;
                     }
                     if (teacherNumber <= 5) {
@@ -75,7 +100,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                     } else if (teacherNumber <= 200) {
                         refData = "4";
                     } else {
-                        alert("Pour plus de 200 professeurs, veuillez nous contacter à l'adresse mail : contact@vittascience.com.");
+                        alert(i18next.t('profile.premium.maxTeachers', { defaultValue: "Pour plus de 200 professeurs, veuillez nous contacter à l'adresse mail : contact@vittascience.com." }));
                         return;
                     }
                 }
@@ -136,7 +161,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         subscribeBtn.addEventListener('click', function () {
             //get the value of the checked "subscription" radio button
             const subscriptionValue = subscribeModal.querySelector('input[name="subscription"]:checked').value;
-            const adressId = subscribeModal.querySelector('input[name="address"]:checked').value;
+            const adressId = selectedBillingAddress();
+            if (adressId === null) {
+                return;
+            }
             let subscribeEmail = subscribeModal.querySelector('input[name="email-subscription"]:checked').value;
             let teacherNumber = 1;
             //const garConnect = subscribeModal.querySelector('input[name="gar-connect"]').checked;
@@ -179,13 +207,16 @@ document.addEventListener('DOMContentLoaded', async function () {
                 const cookieValue = cookie.split('=')[1];
                 if (cookieValue === subscriptionValue) {
                     const divResult = document.createElement('div');
-                    divResult.innerText = `Un devis a déjà été créé pour cette formule. Vous le retrouverez sur la partie devis de votre compte.`;
+                    divResult.innerText = i18next.t('profile.premium.quoteExists', { defaultValue: "Un devis a déjà été créé pour cette formule. Vous le retrouverez sur la partie devis de votre compte." });
                     divResult.classList.add('alert', 'alert-warning');
                     subscribeModal.querySelector('.modal-body').appendChild(divResult);
                     return;
                 }
             }
-            const adressId = subscribeModal.querySelector('input[name="address"]:checked').value;
+            const adressId = selectedBillingAddress();
+            if (adressId === null) {
+                return;
+            }
             let teacherNumber = 1;
             if (subscriptionValue.includes("3760327670207S")) {
                 teacherNumber = subscribeModal.querySelector('input[name="teacher-number"]').value;
@@ -211,12 +242,12 @@ document.addEventListener('DOMContentLoaded', async function () {
 
                     if (data.success === true) {
                         const divResult = document.createElement('div');
-                        divResult.innerText = `Votre devis a été créé avec succès. Vous le retrouverez sur la partie devis de votre compte ainsi que par e-mail.`;
+                        divResult.innerText = i18next.t('profile.premium.quoteCreated', { defaultValue: "Votre devis a été créé avec succès. Vous le retrouverez sur la partie devis de votre compte ainsi que par e-mail." });
                         divResult.classList.add('alert', 'alert-success');
                         subscribeModal.querySelector('.modal-body').appendChild(divResult);
                     } else {
                         const divResult = document.createElement('div');
-                        divResult.innerText = `Une erreur est survenue lors de la création de votre devis. Veuillez réessayer.`;
+                        divResult.innerText = i18next.t('profile.premium.quoteError', { defaultValue: "Une erreur est survenue lors de la création de votre devis. Veuillez réessayer." });
                         divResult.classList.add('alert', 'alert-danger');
                         subscribeModal.querySelector('.modal-body').appendChild(divResult);
                     }
@@ -226,21 +257,29 @@ document.addEventListener('DOMContentLoaded', async function () {
     const toastDiv = document.getElementById('liveToast');
     if (toastDiv) {
         const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastDiv)
+        const setToastMessage = function (key, text) {
+            const toastBody = toastDiv.querySelector('.toast-body');
+            toastBody.setAttribute('data-i18n', 'profile.premium.' + key);
+            toastBody.innerText = text;
+            if (i18next.isInitialized && typeof $(toastBody).localize === 'function') {
+                $(toastBody).localize();
+            }
+        };
         //check if is set tab=premium in the url and if is set payment=success
         if (window.location.search.includes('tab=premium') && (window.location.search.includes('payment=success') || window.location.search.includes('payment=reactivate'))) {
-            toastDiv.querySelector('.toast-body').innerText = 'Votre abonnement a été activé avec succès. Vous pouvez dès à présent profiter de vos avantages.';
+            setToastMessage('activated', 'Votre abonnement a été activé avec succès. Vous pouvez dès à présent profiter de vos avantages.');
             toastBootstrap.show();
             //remove the payment=success from the url
             window.history.replaceState({}, document.title, window.location.pathname + "?tab=premium");
         }
         if (window.location.search.includes('tab=premium') && window.location.search.includes('payment=failed')) {
-            toastDiv.querySelector('.toast-body').innerText = 'Une erreur est survenue lors de la création de votre abonnement. Veuillez réessayer.';
+            setToastMessage('paymentFailed', 'Une erreur est survenue lors de la création de votre abonnement. Veuillez réessayer.');
             toastBootstrap.show();
             //remove the payment=success from the url
             window.history.replaceState({}, document.title, window.location.pathname + "?tab=premium");
         }
         if (window.location.search.includes('tab=premium') && window.location.search.includes('payment=cancel')) {
-            toastDiv.querySelector('.toast-body').innerText = 'Votre abonnement a été résilié avec succès. Vous bénéficiez de vos avantages jusqu\'à la fin de la période en cours.';
+            setToastMessage('canceled', 'Votre abonnement a été résilié avec succès. Vous bénéficiez de vos avantages jusqu\'à la fin de la période en cours.');
             toastBootstrap.show();
             //remove the payment=success from the url
             window.history.replaceState({}, document.title, window.location.pathname + "?tab=premium");

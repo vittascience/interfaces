@@ -124,6 +124,34 @@ Blockly.Msg["PY_DATALOG_ADD_LINE_TOOLTIP"] = "Lägger till en rad i CSV-filen: d
 Blockly.Msg["PY_DATALOG_CLEAR_TITLE"] = "radera filen %1";
 Blockly.Msg["PY_DATALOG_CLEAR_TOOLTIP"] = "Raderar CSV-filen från kortet.";
 
+// Connected objects (Python, iot.js)
+Blockly.Msg["CATEGORY_IOT"] = "Uppkopplade enheter";
+Blockly.Msg["IOT_LABEL_SHELLY"] = "Shelly smart uttag";
+Blockly.Msg["IOT_SHELLY_ON"] = "slå på";
+Blockly.Msg["IOT_SHELLY_OFF"] = "slå av";
+Blockly.Msg["IOT_SHELLY_TOGGLE"] = "växla";
+Blockly.Msg["IOT_SHELLY_POWER"] = "effekt (W)";
+Blockly.Msg["IOT_SHELLY_ENERGY"] = "förbrukad energi (Wh)";
+Blockly.Msg["IOT_SHELLY_VOLTAGE"] = "spänning (V)";
+Blockly.Msg["IOT_SHELLY_CURRENT"] = "ström (A)";
+Blockly.Msg["IOT_SHELLY_TEMPERATURE"] = "temperatur (°C)";
+Blockly.Msg["IOT_SHELLY_WIFI_SWITCH_TITLE"] = "%1 Shelly Wi-Fi-uttaget på adressen %2";
+Blockly.Msg["IOT_SHELLY_WIFI_SWITCH_TOOLTIP"] = "Styr ett Shelly-uttag i samma Wi-Fi-nätverk som kortet via dess IP-adress (syns i Shelly-appen eller i routern).";
+Blockly.Msg["IOT_SHELLY_WIFI_IS_ON_TITLE"] = "Shelly Wi-Fi-uttaget %1 på?";
+Blockly.Msg["IOT_SHELLY_WIFI_IS_ON_TOOLTIP"] = "Sant om Shelly-uttaget på denna IP-adress är på.";
+Blockly.Msg["IOT_SHELLY_WIFI_MEASURE_TITLE"] = "%1 för Shelly Wi-Fi-uttaget %2";
+Blockly.Msg["IOT_SHELLY_WIFI_MEASURE_TOOLTIP"] = "Mätvärde från Shelly-uttaget på denna IP-adress: momentan effekt, energi förbrukad sedan installationen, spänning, ström eller intern temperatur.";
+Blockly.Msg["IOT_SHELLY_WIFI_START_PAIRING_TITLE"] = "öppna Bluetooth-parkoppling för Shelly Wi-Fi-uttaget %1";
+Blockly.Msg["IOT_SHELLY_WIFI_START_PAIRING_TOOLTIP"] = "Gör uttaget redo för parkoppling i 3 minuter, som knappen 'Pair new device' på dess webbsida. Använd sedan blocket för Bluetooth-parkoppling.";
+Blockly.Msg["IOT_SHELLY_BLE_PAIR_TITLE"] = "parkoppla kortet med Shelly Bluetooth-uttaget %1";
+Blockly.Msg["IOT_SHELLY_BLE_PAIR_TOOLTIP"] = "Parkopplar kortet med uttaget (bara en gång, medan parkopplingen är öppen på uttaget). Använd helst uttagets Bluetooth-adress.";
+Blockly.Msg["IOT_SHELLY_BLE_SWITCH_TITLE"] = "%1 Shelly Bluetooth-uttaget %2";
+Blockly.Msg["IOT_SHELLY_BLE_SWITCH_TOOLTIP"] = "Styr ett Shelly Gen2+-uttag via Bluetooth, utan Wi-Fi. En del av namnet räcker ('Shelly' tar det första uttaget som hittas). Bluetooth-RPC måste vara aktiverat i uttagets inställningar.";
+Blockly.Msg["IOT_SHELLY_BLE_IS_ON_TITLE"] = "Shelly Bluetooth-uttaget %1 på?";
+Blockly.Msg["IOT_SHELLY_BLE_IS_ON_TOOLTIP"] = "Sant om Shelly-uttaget är på.";
+Blockly.Msg["IOT_SHELLY_BLE_MEASURE_TITLE"] = "%1 för Shelly Bluetooth-uttaget %2";
+Blockly.Msg["IOT_SHELLY_BLE_MEASURE_TOOLTIP"] = "Mätvärde från Shelly-uttaget via Bluetooth: momentan effekt, energi förbrukad sedan installationen, spänning, ström eller intern temperatur.";
+
 // Sound Generator, Camera Code Detection, Video Object Detection and Telegram Bot bricks
 Blockly.Msg["PY_SOUND_NOTE_BOARD_TITLE"] = "spela tonen %1 oktav %2 i %3 s på kortet";
 Blockly.Msg["PY_SOUND_NOTE_BOARD_TOOLTIP"] = "Spelar tonen i ett USB-headset eller en USB-högtalare ansluten till kortet (eller uttaget på en USB-C-adapter), med bricken Sound Generator i Arduino App Lab. Oktav 4: A är 440 Hz.";

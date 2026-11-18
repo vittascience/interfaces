@@ -1,7 +1,8 @@
 /* NAVBAR */
 
 .navbar-brand img {
-	height: 50px;
+	height: 62px;
+	margin: -6px 0;
 }
 
 .navbar-brand.mx-auto.mx-lg-2:focus-visible {

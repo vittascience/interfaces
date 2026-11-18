@@ -894,6 +894,14 @@ const InterfaceConnection = {
 			const request = new XMLHttpRequest();
 			request.onreadystatechange = function () {
 				if (this.readyState === XMLHttpRequest.DONE) {
+					// offline (interface from the cache of /interfaces-sw.js): the compilation is done by the server
+					if (this.status === 0) {
+						InterfaceMonitor.writeConsole('code.errorMsg.offlineCompilation', 'warning', false, true);
+						_this._endCompilingProgress();
+						$("#compiling-notice").hide();
+						pseudoModal.closeLatestModal();
+						return resolve();
+					}
 					const responseJson = JSON.parse(this.responseText);
 					callback(responseJson, skipUpload);
 				}

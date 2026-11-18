@@ -1338,6 +1338,10 @@
     "serialAPI": {
       "allowSerial": "Разрешите #enable-experimental-web-platform-features в 'chrome://flags/' для открытия последовательного порта.",
       "noSerialAPI": "Serial API не обнаружен в вашем браузере. Для использования Serial API используйте один из поддерживаемых браузеров: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> и скоро <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
+      "picaxeUploading": "Uploading the PICAXE program (about 15 seconds)...",
+      "fileDownloadedPicaxe": "PICAXE program successfully sent to the board!",
+      "picaxeCompileError": "The program cannot be compiled: %1",
+      "picaxeUnsupportedChip": "Direct upload is only available for the AutoProgX2 (PICAXE-28X2). For this board, download the .bas file and open it in PICAXE Editor.",
       "serialPortOpeningFail": "Не удалось подключиться к последовательному порту, доступ к плате невозможен. Другое ПО уже подключено к плате.\n\n Проверьте, что плата не подключена к другой программе (например: MakeCode, Python Editor, Thonny или другой интерфейс Vittascience), или отключите и снова подключите плату и попробуйте снова.",
       "boardConnected": "Подключение к последовательному порту успешно!",
       "serialPortClosed": "Последовательный порт успешно закрыт!",
@@ -1442,6 +1446,7 @@
       "TI-83-Maclasseti": "Добро пожаловать в интерфейс MaClasseTI.fr для калькулятора TI-83 Premium CE Edition Python! Платы TI-Innovator™ Hub и BBC micro:bit можно программировать в этом интерфейсе. Откройте симулятор, чтобы начать!",
       "GalaxiaCircuitPython": "Добро пожаловать в интерфейс Vittascience для Galaxia Circuit Python!",
       "galaxia": "Добро пожаловать в интерфейс Vittascience для Galaxia! </br>Для программирования платы Galaxia в этом интерфейсе сначала запишите прошивку MicroPython, следуя этому руководству: <b><a href=\"https://fr.vittascience.com/learn/tutorial.php?id=860\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Запись прошивки MicroPython</a></b>",
+      "picaxe": "Welcome to the PICAXE interface!</br>Plug in the AutoProgX2 with the AXE027 cable and click Upload.",
       "unihiker": "Добро пожаловать в интерфейс Vittascience для платы UNIHIKER M10!</br>Подключите плату по USB и нажмите «Загрузить». В первый раз интерфейс копирует на плату установщик сервера Vittascience, который нужно один раз запустить из меню Home платы.",
       "unihiker-k10": "Добро пожаловать в интерфейс Vittascience для платы UNIHIKER K10!</br>Подключите плату по USB (прошивка MicroPython от DFRobot) и нажмите «Загрузить»: программа сохраняется в main.py.",
       "raspberrypi": "Добро пожаловать в интерфейс Vittascience для Raspberry Pi! Вы можете ознакомиться с руководством здесь: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=1739\" target=\"_blank\" rel=\"noopener noreferrer\">Начало работы с интерфейсом Vittascience для Raspberry Pi</a>",
@@ -1634,6 +1639,8 @@
         "installUnihiker": "Скопировать установщик сервера Vittascience на плату (запустить один раз из меню Home платы)",
         "unihikerHost": "Изменить адрес платы (10.1.2.3 по USB или её адрес Wi-Fi)",
         "downloadHex": "Экспортировать программу micro:bit в формате [.hex]",
+        "downloadPicaxe": "Download the .bas program (open it in PICAXE Editor)",
+        "uploadPicaxe": "Send the program to the board (AutoProgX2 / PICAXE-28X2, AXE027 cable, Chrome or Edge browser)",
         "downloadTexas": "Скачать программу .py для калькулятора",
         "runBuddy": "Запустить программу на Buddy",
         "disconnect": "Отключить плату",
@@ -1730,6 +1737,7 @@
         "downloadUf2Pico": "Прошивка Pico",
         "downloadUf2PicoW": "Прошивка Pico W",
         "downloadPython": "Скачать .py",
+        "downloadPicaxe": "Download .bas",
         "downloadTexas": "Скачать для калькулятора",
         "downloadThymioWindows": "Скачать .exe",
         "downloadThymioMacOS": "Скачать .dmg",
@@ -1985,7 +1993,9 @@
         "crash": "Включён режим предотвращения сбоев: это происходит, если в вашем коде есть бесконечный цикл без вызова функции sleep(). Исправьте код и попробуйте снова.",
         "variables-panel-msg": "В этой программе нет переменных",
         "replaySimulator": "Перезапустите симулятор, чтобы отправить данные",
-        "skulptLoadError": "Не удалось загрузить симулятор. Проверьте подключение и запустите симулятор снова."
+        "skulptLoadError": "Не удалось загрузить симулятор. Проверьте подключение и запустите симулятор снова.",
+        "picaxeRuntimeError": "Simulation error: %1",
+        "picaxeSimulatorChip": "The simulator is only available for the AutoProgX2 (PICAXE-28X2)."
       },
       "tooltips": {
         "bluebot-buttons": "Вы можете использовать кнопки робота Blue-bot для его программирования!"
@@ -2418,6 +2428,7 @@
         "noCategory": "Нет категорий. Нажмите «Добавить категорию», чтобы создать новую!",
         "category": {
           "defaultCategoryName": "Категория №",
+          "defaultSoundCategoryName": "Фоновый шум",
           "cameraButton": "Камера",
           "microphone": "Микрофон",
           "spectrogram": "Спектрограмма (графическое представление звука)",
@@ -7254,6 +7265,15 @@
         },
         "save": "Подтвердить"
       },
+      "delete-background-noise": {
+        "title": "Удалить категорию «Фоновый шум»?",
+        "body": [
+          "Эта категория учит модель распознавать <b>отсутствие какого-либо конкретного звука</b>: тишину, шум в помещении, вентиляцию…",
+          "Без неё модель вынуждена выбирать одну из других категорий, даже когда никто не говорит, что приводит к множеству ложных срабатываний."
+        ],
+        "cancel": "Отмена",
+        "delete": "Всё равно удалить"
+      },
       "gradcam-info": {
         "title": "Что такое зона взаимодействия?",
         "body": [
@@ -7518,6 +7538,7 @@
         "esp32": "Среда программирования для плат ESP32 (Wemos D1R32, NodeMCU, Huzzah32 и др.)",
         "TI-83": "Среда программирования для калькулятора и плат BBC micro:bit или TI Innovator™ Hub",
         "GalaxiaCircuitPython": "Среда программирования для платы Thingz-Galaxia",
+        "picaxe": "Block programming interface for PICAXE boards (AutoProgX2 from A4 Technologie, 08M2 to 40X2): generates PICAXE BASIC to download.",
         "unihiker": "Интерфейс программирования для платы UNIHIKER M10: сенсорный экран, встроенные датчики и Python на Linux!",
         "unihikerK10": "Интерфейс программирования для платы UNIHIKER K10: экран, RGB-светодиоды, встроенные датчики и MicroPython!",
         "raspberrypi": "Среда программирования для Raspberry Pi!",

@@ -455,6 +455,16 @@
             "desc": "Programming interface for the UNIHIKER M10 and K10 boards"
         }
     },
+    "picaxe": {
+        "fr": {
+            "title": "Vittascience — PICAXE",
+            "desc": "Interface de programmation par blocs pour les cartes PICAXE (AutoProgX2, 08M2, 14M2, 18M2, 20M2, 20X2, 28X2, 40X2)"
+        },
+        "en": {
+            "title": "Vittascience — PICAXE",
+            "desc": "Block programming interface for PICAXE boards (AutoProgX2, 08M2, 14M2, 18M2, 20M2, 20X2, 28X2, 40X2)"
+        }
+    },
     "learn": {
         "fr": {
             "title": "Vittascience — Apprendre à coder avec nos tutoriels",

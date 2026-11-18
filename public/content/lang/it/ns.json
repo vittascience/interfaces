@@ -1338,6 +1338,10 @@
     "serialAPI": {
       "allowSerial": "Autorizza #enable-experimental-web-platform-features nei 'chrome://flags/' per aprire una porta seriale.",
       "noSerialAPI": "Questo browser non supporta Serial API. Per utilizzare Serial API deve utilizzare i browser compatibili: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> o <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
+      "picaxeUploading": "Uploading the PICAXE program (about 15 seconds)...",
+      "fileDownloadedPicaxe": "PICAXE program successfully sent to the board!",
+      "picaxeCompileError": "The program cannot be compiled: %1",
+      "picaxeUnsupportedChip": "Direct upload is only available for the AutoProgX2 (PICAXE-28X2). For this board, download the .bas file and open it in PICAXE Editor.",
       "serialPortOpeningFail": "Il collegamento alla porta seriale non è andato a buon fine. Verificare che la scheda non sia già collegata a un'altra interfaccia.",
       "boardConnected": "Collegamento alla porta seriale riuscito!",
       "serialPortClosed": "Chiusura della porta seriale riuscita!",
@@ -1442,6 +1446,7 @@
       "TI-83-Maclasseti": " Benvenuti nell'interfaccia di MyClassTI.fr per la calcolatrice TI-83 Premium CE Python Edition! Il TI-Innovator™ Hub e le schede BBC micro:bit possono essere programmati su questa interfaccia. Aprite il simulatore per iniziare!",
       "GalaxiaCircuitPython": "Benvenuto/a nell'interfaccia Vittascience per Things - Galaxia!",
       "galaxia": "Benvenuti nell'interfaccia Vittascience per Galaxia!</br> Per programmare la scheda Galaxia su questa interfaccia, dovete prima flashare il firmware MicroPython nella scheda seguendo questo tutorial: <b><a href=\"https://it.vittascience.com/learn/tutorial.php?id=860\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
+      "picaxe": "Welcome to the PICAXE interface!</br>Plug in the AutoProgX2 with the AXE027 cable and click Upload.",
       "unihiker": "Benvenuto nell'interfaccia Vittascience per la scheda UNIHIKER M10!</br>Collegare la scheda via USB, poi cliccare su Carica. La prima volta, l'interfaccia copia sulla scheda l'installatore del server Vittascience, da eseguire una volta dal menu Home della scheda.",
       "unihiker-k10": "Benvenuti nell'interfaccia Vittascience per la scheda UNIHIKER K10!</br>Collegate la scheda via USB (firmware MicroPython di DFRobot), poi cliccate su Carica: il programma viene salvato in main.py.",
       "raspberrypi": "Benvenuto nell'interfaccia Vittascience per Raspberry Pi! Puoi consultare il tutorial disponibile qui: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=1739\" target=\"_blank\" rel=\"noopener noreferrer\">Prendere in mano l'interfaccia Vittascience per Raspberry Pi</a>",
@@ -1634,6 +1639,8 @@
         "installUnihiker": "Copiare l'installatore del server Vittascience sulla scheda (da eseguire una volta dal menu Home della scheda)",
         "unihikerHost": "Cambiare l'indirizzo della scheda (10.1.2.3 via USB, o il suo indirizzo Wi-Fi)",
         "downloadHex": "Esporta il programma micro:bit in formato [.hex]",
+        "downloadPicaxe": "Download the .bas program (open it in PICAXE Editor)",
+        "uploadPicaxe": "Send the program to the board (AutoProgX2 / PICAXE-28X2, AXE027 cable, Chrome or Edge browser)",
         "downloadTexas": "Scarica il programma .py per la calcolatrice",
         "runBuddy": "Avvia il programma su Buddy",
         "disconnect": "Disconnetti la scheda",
@@ -1730,6 +1737,7 @@
         "downloadUf2Pico": "Firmware Pico",
         "downloadUf2PicoW": "Firmware Pico W",
         "downloadPython": " Scaricare .py",
+        "downloadPicaxe": "Download .bas",
         "downloadTexas": " Scaricare per la calcolatrice",
         "downloadThymioWindows": "Scarica .exe",
         "downloadThymioMacOS": "Scarica .dmg",
@@ -1985,7 +1993,9 @@
         "crash": "Modalità di prevenzione dei crash abilitata: si verifica quando il codice include un ciclo infinito senza una chiamata alla funzione sleep(). Correggi il codice prima di riprovare.",
         "variables-panel-msg": "Questo programma non contiene variabili",
         "replaySimulator": "Riavvia il simulatore per inviare dati",
-        "skulptLoadError": "Impossibile caricare il simulatore. Controlla la connessione e riavvia il simulatore."
+        "skulptLoadError": "Impossibile caricare il simulatore. Controlla la connessione e riavvia il simulatore.",
+        "picaxeRuntimeError": "Simulation error: %1",
+        "picaxeSimulatorChip": "The simulator is only available for the AutoProgX2 (PICAXE-28X2)."
       },
       "tooltips": {
         "bluebot-buttons": "Puoi usare i pulsanti del robot Blue-bot per programmarlo!"
@@ -2418,6 +2428,7 @@
         "noCategory": "Nessuna categoria. Clicca su &ldquo;Aggiungi categoria&rdquo; per crearne una nuova!",
         "category": {
           "defaultCategoryName": "Categoria n°",
+          "defaultSoundCategoryName": "Rumore di fondo",
           "cameraButton": "Fotocamera",
           "microphone": "Microfono",
           "spectrogram": "Spettrogramma",
@@ -7254,6 +7265,15 @@
         },
         "save": "Conferma"
       },
+      "delete-background-noise": {
+        "title": "Eliminare la categoria «Rumore di fondo»?",
+        "body": [
+          "Questa categoria insegna al modello a riconoscere <b>l'assenza di un suono specifico</b>: silenzio, rumore della stanza, ventilazione…",
+          "Senza di essa, il modello deve scegliere una delle altre categorie anche quando nessuno parla, causando molti falsi rilevamenti."
+        ],
+        "cancel": "Annulla",
+        "delete": "Elimina comunque"
+      },
       "gradcam-info": {
         "title": "Cos’è una zona di interazione?",
         "body": [
@@ -7518,6 +7538,7 @@
         "esp32": "Interfaccia di programmazione per le schede ESP32 (Wemos D1R32, NodeMCU, Huzzah32 ecc.)",
         "TI-83": "Interfaccia di programmazione per calcolatrice con scheda TI-Innovator™ Hub.",
         "GalaxiaCircuitPython": "Interfaccia di programmazione per la scheda Thingz-Galaxia",
+        "picaxe": "Block programming interface for PICAXE boards (AutoProgX2 from A4 Technologie, 08M2 to 40X2): generates PICAXE BASIC to download.",
         "unihiker": "Interfaccia di programmazione per la scheda UNIHIKER M10: touch screen, sensori integrati e Python su Linux!",
         "unihikerK10": "Interfaccia di programmazione per la scheda UNIHIKER K10: schermo, LED RGB, sensori integrati e MicroPython!",
         "raspberrypi": "Interfaccia di programmazione per la scheda Raspberry Pi",

@@ -61,10 +61,10 @@ function displayPart(index) {
 $(".btnProfileOrderDetails").on("click", function () {
     if (!$(this).parent().next("div").hasClass("showDetails")) {
         $(this).parent().next("div").addClass("showDetails")
-        $(this).html("Masquer détails")
+        $(this).attr("data-i18n", "profile.ordersBloc.hideDetails").text(i18next.t("profile.ordersBloc.hideDetails", { defaultValue: "Masquer détails" }))
     } else {
         $(this).parent().next("div").removeClass("showDetails")
-        $(this).html("Voir détails")
+        $(this).attr("data-i18n", "profile.ordersBloc.seeMore").text(i18next.t("profile.ordersBloc.seeMore", { defaultValue: "Voir détails" }))
     }
 })
 
@@ -83,19 +83,23 @@ $(".editProfileAddress").on("click", function () {
 })
 
 $(".delProfileAddress").on("click", function () {
-    let reponse = window.confirm("Etes-vous sûr de vouloir supprimer cette adresse ?");
+    let reponse = window.confirm(i18next.t("profile.addressBloc.deleteConfirm", { defaultValue: "Êtes-vous sûr de vouloir supprimer cette adresse ?" }));
     let id = $(this).attr("data-idAddress");
     if (reponse) {
         $.ajax({
             type: "POST",
             url: "/services/post/postProfile.php",
-            data: "action=deleteAddressProfile&idAddress=" + id,
+            data: { action: "deleteAddressProfile", idAddress: id, csrf_token: window.PROFILE_CSRF_TOKEN || "" },
             success: function (data, text, xml) {
                 let result = {};
                 try {
                     result = typeof data === "string" ? JSON.parse(data) : data;
                 } catch (e) {
                     result = {};
+                }
+                if (result && result.error === "session") {
+                    window.alert(i18next.t("profile.user.form.errors.session", { defaultValue: "Votre session a expiré : rechargez la page." }));
+                    return;
                 }
                 if (result && result.error === "used_by_subscription") {
                     window.alert(i18next.t("profile.addressBloc.usedBySubscription", { defaultValue: "Adresse utilisée par un abonnement Premium en cours : elle ne peut pas être supprimée." }));
@@ -109,7 +113,7 @@ $(".delProfileAddress").on("click", function () {
 
 $(".btn-del-profileWl").on("click", function () {
     let idproduct = $(this).attr("data-idproduct");
-    let reponse = window.confirm("Etes-vous sûr de vouloir supprimer cet article ?");
+    let reponse = window.confirm(i18next.t("profile.ordersBloc.wishlistDeleteConfirm", { defaultValue: "Êtes-vous sûr de vouloir supprimer cet article ?" }));
     if (reponse) {
         $.ajax({
             type: "POST",
@@ -132,6 +136,9 @@ $(document).on("click", ".tile-picker input", function (e) {
 $(document).on("click", "#save-image-profil", function () {
     if (document.getElementById("profile-picture-file-input").files[0] == undefined) {
         let iconName = $("input[type='radio'][name='icon-picker']:checked").val();
+        if (!iconName) {
+            return;
+        }
         let picturePath = "";
         if (iconName.length == 1) {
             picturePath = "alphabet/" + iconName;
@@ -141,7 +148,7 @@ $(document).on("click", "#save-image-profil", function () {
         $.ajax({
             type: "POST",
             url: "/services/post/postProfile.php",
-            data: "action=editPictureProfile&picture=" + picturePath,
+            data: { action: "editPictureProfile", picture: picturePath, csrf_token: window.PROFILE_CSRF_TOKEN || "" },
             success: function (data, text, xml) {
                 document.location.reload();
             }

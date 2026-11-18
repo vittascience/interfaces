@@ -9,6 +9,7 @@ const webSeparateFilesButton = INTERFACE_NAME === 'web' ? webSepFileButtonConten
 const IMPORT_INO_INTERFACES = ["arduino", "mBot", "letsstartcoding"];
 const IMPORT_PY_INTERFACES = ["python", "microbit", "esp32", "wb55", "l476", "TI-83", "galaxia", "raspberrypi", "niryo", "nao", "GalaxiaCircuitPython", "buddy", "cyberpi", "pico", "eliobot", "thymio", "winky", "sphero", "lotibot", "bluebot", "spike", "legoprime", "photon", "codey", "steami", "alphai", 'primastem', 'skykick', 'unihiker'];
 const importProjectAccept = IMPORT_INO_INTERFACES.includes(INTERFACE_NAME) ? '.ino'
+    : INTERFACE_NAME === 'picaxe' ? '.bas'
     : IMPORT_PY_INTERFACES.includes(INTERFACE_NAME) ? '.py'
     : INTERFACE_NAME === 'arduinoq' ? '.py,.txt,.ino,.zip' : '.py,.txt,.ino';
 let fileImportInput = `

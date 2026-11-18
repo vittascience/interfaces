@@ -124,6 +124,34 @@ Blockly.Msg["PY_DATALOG_ADD_LINE_TOOLTIP"] = "Fügt der CSV-Datei eine Zeile hin
 Blockly.Msg["PY_DATALOG_CLEAR_TITLE"] = "lösche die Datei %1";
 Blockly.Msg["PY_DATALOG_CLEAR_TOOLTIP"] = "Löscht die CSV-Datei von der Platine.";
 
+// Connected objects (Python, iot.js)
+Blockly.Msg["CATEGORY_IOT"] = "Vernetzte Geräte";
+Blockly.Msg["IOT_LABEL_SHELLY"] = "Shelly-Smart-Steckdose";
+Blockly.Msg["IOT_SHELLY_ON"] = "einschalten";
+Blockly.Msg["IOT_SHELLY_OFF"] = "ausschalten";
+Blockly.Msg["IOT_SHELLY_TOGGLE"] = "umschalten";
+Blockly.Msg["IOT_SHELLY_POWER"] = "Leistung (W)";
+Blockly.Msg["IOT_SHELLY_ENERGY"] = "verbrauchte Energie (Wh)";
+Blockly.Msg["IOT_SHELLY_VOLTAGE"] = "Spannung (V)";
+Blockly.Msg["IOT_SHELLY_CURRENT"] = "Strom (A)";
+Blockly.Msg["IOT_SHELLY_TEMPERATURE"] = "Temperatur (°C)";
+Blockly.Msg["IOT_SHELLY_WIFI_SWITCH_TITLE"] = "Shelly-WLAN-Steckdose an Adresse %2 %1";
+Blockly.Msg["IOT_SHELLY_WIFI_SWITCH_TOOLTIP"] = "Steuert eine Shelly-Steckdose im selben WLAN wie die Platine über ihre IP-Adresse (in der Shelly-App oder im Router sichtbar).";
+Blockly.Msg["IOT_SHELLY_WIFI_IS_ON_TITLE"] = "Shelly-WLAN-Steckdose %1 eingeschaltet?";
+Blockly.Msg["IOT_SHELLY_WIFI_IS_ON_TOOLTIP"] = "Wahr, wenn die Shelly-Steckdose an dieser IP-Adresse eingeschaltet ist.";
+Blockly.Msg["IOT_SHELLY_WIFI_MEASURE_TITLE"] = "%1 der Shelly-WLAN-Steckdose %2";
+Blockly.Msg["IOT_SHELLY_WIFI_MEASURE_TOOLTIP"] = "Messwert der Shelly-Steckdose an dieser IP-Adresse: momentane Leistung, seit Inbetriebnahme verbrauchte Energie, Spannung, Strom oder Innentemperatur.";
+Blockly.Msg["IOT_SHELLY_WIFI_START_PAIRING_TITLE"] = "Bluetooth-Kopplung der Shelly-WLAN-Steckdose %1 öffnen";
+Blockly.Msg["IOT_SHELLY_WIFI_START_PAIRING_TOOLTIP"] = "Macht die Steckdose 3 Minuten lang koppelbereit, wie die Schaltfläche „Pair new device“ ihrer Webseite. Danach den Bluetooth-Kopplungsblock verwenden.";
+Blockly.Msg["IOT_SHELLY_BLE_PAIR_TITLE"] = "Platine mit der Shelly-Bluetooth-Steckdose %1 koppeln";
+Blockly.Msg["IOT_SHELLY_BLE_PAIR_TOOLTIP"] = "Koppelt die Platine mit der Steckdose (nur einmal, während die Kopplung an der Steckdose offen ist). Am besten die Bluetooth-Adresse der Steckdose verwenden.";
+Blockly.Msg["IOT_SHELLY_BLE_SWITCH_TITLE"] = "Shelly-Bluetooth-Steckdose %2 %1";
+Blockly.Msg["IOT_SHELLY_BLE_SWITCH_TOOLTIP"] = "Steuert eine Shelly-Gen2+-Steckdose über Bluetooth, ohne WLAN. Ein Teil des Namens genügt („Shelly“ nimmt die erste gefundene Steckdose). Bluetooth-RPC muss in den Einstellungen der Steckdose aktiviert sein.";
+Blockly.Msg["IOT_SHELLY_BLE_IS_ON_TITLE"] = "Shelly-Bluetooth-Steckdose %1 eingeschaltet?";
+Blockly.Msg["IOT_SHELLY_BLE_IS_ON_TOOLTIP"] = "Wahr, wenn die Shelly-Steckdose eingeschaltet ist.";
+Blockly.Msg["IOT_SHELLY_BLE_MEASURE_TITLE"] = "%1 der Shelly-Bluetooth-Steckdose %2";
+Blockly.Msg["IOT_SHELLY_BLE_MEASURE_TOOLTIP"] = "Über Bluetooth gelesener Messwert der Shelly-Steckdose: momentane Leistung, seit Inbetriebnahme verbrauchte Energie, Spannung, Strom oder Innentemperatur.";
+
 // Sound Generator, Camera Code Detection, Video Object Detection and Telegram Bot bricks
 Blockly.Msg["PY_SOUND_NOTE_BOARD_TITLE"] = "spiele Note %1 Oktave %2 für %3 s auf der Platine";
 Blockly.Msg["PY_SOUND_NOTE_BOARD_TOOLTIP"] = "Spielt die Note über ein USB-Headset oder einen USB-Lautsprecher an der Platine (oder die Klinkenbuchse eines USB-C-Adapters), mit dem Brick Sound Generator von Arduino App Lab. Oktave 4: A hat 440 Hz.";

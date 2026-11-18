@@ -52,6 +52,7 @@ Blockly.Arduino.network_connectStation = function (block) {
 Blockly.Arduino.network_configureAccessPoint = function (block) {
     const essid = Blockly.Arduino.valueToCode(block, "ESSID", Blockly.Arduino.ORDER_NONE) || '""';
     const ip = Blockly.Arduino.valueToCode(block, "IP", Blockly.Arduino.ORDER_NONE) || '';
+    const password = Blockly.Arduino.valueToCode(block, "PASSWORD", Blockly.Arduino.ORDER_NONE) || '""';
     Blockly.Arduino.addInclude('WiFiS3', INCLUDE_WIFIS3);
     Blockly.Arduino.addDeclaration('R4_WIFI_IP', "IPAddress R4_WIFI_IP;");
     Blockly.Arduino.addDeclaration('status', 'int status = WL_IDLE_STATUS;');
@@ -60,7 +61,7 @@ Blockly.Arduino.network_configureAccessPoint = function (block) {
     if (ip) {
         Blockly.Arduino.addSetup('R4_WIFI_IP', "R4_WIFI_IP.fromString(" + ip + ");");
     }
-    let code = "configureAccessPoint(" + essid + ", \"\", R4_WIFI_IP);" + NEWLINE;
+    let code = "configureAccessPoint(" + essid + ", " + password + ", R4_WIFI_IP);" + NEWLINE;
     if (Blockly.Arduino.unor4wifi.getProgrammingMode().mode == Blockly.Arduino.unor4wifi.MODE_SERVER) {
         Blockly.Arduino.addInclude('Vittascience_Server', INCLUDE_VITTASCIENCE_SERVER);
         Blockly.Arduino.addDefine('SERVER_PORT', '#define SERVER_PORT 80');

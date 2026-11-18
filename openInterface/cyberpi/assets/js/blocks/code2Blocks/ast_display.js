@@ -256,30 +256,44 @@ utils.prototypeBlocks['cyberpi.display.show_label'] = function (type, identifier
 	let fontSizeArg = defaultFontSize;
 	let thirdArg = null;
 	let fourthArg = null;
+	let indexNode = null;
 
 	if (statementsNode && statementsNode.length > 0) {
-		if (statementsNode[0]) {
-			textArg = statementsNode[0];
+		// Signature: show_label(message, size, x, y, index), keyword arguments may appear at any position.
+		const args = statementsNode.filter(node => node && node.type !== 'keyword_argument');
+		for (const node of statementsNode) {
+			if (node && node.type === 'keyword_argument') {
+				const { key, value } = utils.extractKeyWordArgument(node);
+				if (key && key.text === 'index') indexNode = value;
+			}
+		}
+		if (args[4]) indexNode = args[4];
+
+		if (args[0]) {
+			textArg = args[0];
 		}
 
-		if (statementsNode[1] && statementsNode[1].type === 'integer') {
-			fontSizeArg = statementsNode[1].text;
+		if (args[1] && args[1].type === 'integer') {
+			fontSizeArg = args[1].text;
 		}
 
-		if (statementsNode[2]) {
-			thirdArg = statementsNode[2];
+		if (args[2]) {
+			thirdArg = args[2];
 		}
 
-		if (statementsNode[3]) {
-			fourthArg = statementsNode[3];
+		if (args[3]) {
+			fourthArg = args[3];
 		}
 	}
+	// CyberPi labels are indexed 0 to 7.
+	const parsedIndex = parseInt(indexNode && indexNode.text);
+	const indexArg = parsedIndex >= 0 && parsedIndex <= 7 ? parsedIndex : 0;
 
 	if (!['16', '24', '32'].includes(fontSizeArg)) {
 		fontSizeArg = '16';
 	}
 
-	const useXYMode = (statementsNode && statementsNode.length === 4) || (thirdArg && (thirdArg.type === 'integer' || thirdArg.type === 'float' || thirdArg.type === 'identifier'));
+	const useXYMode = fourthArg !== null || (thirdArg && (thirdArg.type === 'integer' || thirdArg.type === 'float' || thirdArg.type === 'identifier'));
 
 	if (useXYMode) {
 		const xArg = thirdArg || defaultX;
@@ -289,6 +303,7 @@ utils.prototypeBlocks['cyberpi.display.show_label'] = function (type, identifier
 			type: 'cyberpi_display_show_label_xy',
 			fields: {
 				FONTSIZE: fontSizeArg,
+				INDEX: indexArg,
 			},
 			values: {
 				TEXT: null,
@@ -320,6 +335,7 @@ utils.prototypeBlocks['cyberpi.display.show_label'] = function (type, identifier
 			fields: {
 				FONTSIZE: fontSizeArg,
 				POSITION: positionArg,
+				INDEX: indexArg,
 			},
 			values: {
 				TEXT: null,

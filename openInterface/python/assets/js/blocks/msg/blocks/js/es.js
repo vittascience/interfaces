@@ -36,6 +36,8 @@ Blockly.Msg['TURTLE_TURN_TITLE'] = 'gira %1 en %2°';
 Blockly.Msg['TURTLE_TURN_RIGHT'] = 'derecha ↻';
 Blockly.Msg['TURTLE_TURN_LEFT'] = 'izquierda ↺';
 Blockly.Msg['TURTLE_TURN_TOOLTIP'] = 'Gira especificando el valor del ángulo';
+Blockly.Msg['TURTLE_SETHEADING_TITLE'] = 'orientar la tortuga hacia %1°';
+Blockly.Msg['TURTLE_SETHEADING_TOOLTIP'] = 'Orienta la tortuga en una dirección absoluta (0° = derecha, 90° = arriba).';
 Blockly.Msg['TURTLE_GOTO_TITLE'] = 'ir a la posición x %1 y %2';
 Blockly.Msg['TURTLE_GOTO_TOOLTIP'] = 'Ir a la abscisa y ordenada especificadas';
 Blockly.Msg['TURTLE_CIRCLE_TITLE'] = 'dibujar círculo de radio %1';

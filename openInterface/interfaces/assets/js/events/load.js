@@ -4,6 +4,8 @@ var VittaInterface = null;
 var SerialAPI = null;
 var Repl = null;
 window.interfaceHidesLoader = true; // public/loader.php: the loader is removed by loadInterface, not on window load
+// read before the interface rewrites the url (mode, console…): ?tour=1 starts the guided tour once loaded
+const START_INTERFACE_TOUR = new URLSearchParams(location.search).get('tour') === '1';
 
 /** Let the browser paint and handle the inputs between two steps of the init (no long task). */
 const yieldToMain = () => window.scheduler?.yield ? scheduler.yield() : new Promise(resolve => setTimeout(resolve));
@@ -17,7 +19,7 @@ const STANDARD_A11Y_INTERFACES = [
     'galaxia', 'GalaxiaCircuitPython', 'l476', 'letsstartcoding', 'lotibot',
     'm5stack', 'mBot', 'microbit', 'nao', 'niryo', 'photon', 'pico', 'python',
     'raspberrypi', 'sphero', 'spike', 'legoprime', 'thymio', 'TI-83', 'wb55', 'web', 'winky',
-    'steami', 'alphai', 'arduinoq', 'primastem', 'skykick', 'unihiker'
+    'steami', 'alphai', 'arduinoq', 'primastem', 'skykick', 'unihiker', 'picaxe'
 ];
 
 /**
@@ -36,40 +38,8 @@ async function loadInterface(interfaceName) {
         lng = getCookie('lng');
     }
 
-    const COMMON_BKY_MSG_PATH = `${CDN_PATH}/openInterface/interfaces/assets/js/msg`;
-    const GET_COMMON_BKY_LANG_SCRIPTS = (language) => {
-        let scripts;
-        if (interfaceName == 'web') {
-            scripts = [{
-                id: "common_cat_msg",
-                src: `${COMMON_BKY_MSG_PATH}/categories/${language}.js`
-            }];
-        } else {
-            scripts = [{
-                id: "common_block_msg",
-                src: `${COMMON_BKY_MSG_PATH}/blocks/basic/${language}.js`
-            }, {
-                id: "common_cat_msg",
-                src: `${COMMON_BKY_MSG_PATH}/categories/${language}.js`
-            }];
-            if (['arduino', 'esp32', 'galaxia', 'pico', 'm5stack'].includes(interfaceName)) {
-                scripts.push({
-                    id: "common_esp32_block_msg",
-                    src: `${COMMON_BKY_MSG_PATH}/blocks/esp32/${language}.js`
-                })
-            }
-        }
-        // Blockly's own messages first (translations of the core UI, including the
-        // messages added by recent Blockly versions): the interfaces' files override them.
-        scripts.unshift({
-            id: "blockly_core_msg",
-            src: `${CDN_PATH}/openInterface/interfaces/assets/js/external/blockly/msg/${language}.js`
-        });
-        return scripts;
-    };
-
-    const COMMON_BKY_LANG_SCRIPTS = GET_COMMON_BKY_LANG_SCRIPTS(lng);
-    const FALLBACK_COMMON_BKY_LANG_SCRIPTS = GET_COMMON_BKY_LANG_SCRIPTS('en');
+    const COMMON_BKY_LANG_SCRIPTS = getBlocklyMsgScripts(interfaceName, lng).common;
+    const FALLBACK_COMMON_BKY_LANG_SCRIPTS = getBlocklyMsgScripts(interfaceName, 'en').common;
 
     const COMMON_ACE_MSG_PATH = `${CDN_PATH}/openInterface/interfaces/assets/js/autocomplete`;
     const GET_COMMON_ACE_LANG_SCRIPTS = (language) => {
@@ -103,55 +73,8 @@ async function loadInterface(interfaceName) {
     const COMMON_ACE_LANG_SCRIPTS = GET_COMMON_ACE_LANG_SCRIPTS(lng);
     const FALLBACK_COMMON_ACE_LANG_SCRIPTS = GET_COMMON_ACE_LANG_SCRIPTS('en');
 
-    const SPECIFIC_MSG_PATH = `${_PATH}/${interfaceName}/assets/js/blocks/msg`;
-    const GET_BKY_LANG_SCRIPTS = (_language) => {
-        let scripts = [];
-        if (['web', 'TI-83'].includes(interfaceName)) {
-            scripts.push({
-                id: "cat_msg",
-                src: `${SPECIFIC_MSG_PATH}/categories/js/${_language}.js`
-            });
-        }
-        if (interfaceName == 'steami') {
-            scripts.push({
-                id: "wb55_block_msg",
-                src: `${CDN_PATH}/openInterface/wb55/assets/js/blocks/msg/blocks/js/${_language}.js`
-            });
-        }
-        // modules of the micro:bit and AI blocks of the Python interface (vittaia)
-        if (interfaceName == 'unihiker') {
-            scripts.push({
-                id: "microbit_block_msg",
-                src: `${CDN_PATH}/openInterface/microbit/assets/js/blocks/msg/blocks/js/${_language}.js`
-            });
-            scripts.push({
-                id: "python_block_msg",
-                src: `${CDN_PATH}/openInterface/python/assets/js/blocks/msg/blocks/js/${_language}.js`
-            });
-        }
-        if (interfaceName == 'arduinoq') {
-            scripts.push({
-                id: "arduino_block_msg",
-                src: `${CDN_PATH}/openInterface/arduino/assets/js/blocks/msg/blocks/js/${_language}.js`
-            });
-            scripts.push({
-                id: "python_block_msg",
-                src: `${CDN_PATH}/openInterface/python/assets/js/blocks/msg/blocks/js/${_language}.js`
-            });
-            scripts.push({
-                id: "web_block_msg",
-                src: `${CDN_PATH}/openInterface/web/assets/js/blocks/msg/blocks/js/${_language}.js`
-            });
-        }
-        scripts.push({
-            id: "block_msg",
-            src: `${SPECIFIC_MSG_PATH}/blocks/js/${_language}.js`
-        });
-        return scripts;
-    };
-
-    const LANG_SCRIPTS = GET_BKY_LANG_SCRIPTS(lng);
-    const FALLBACK_LANG_SCRIPTS = GET_BKY_LANG_SCRIPTS('en');
+    const LANG_SCRIPTS = getBlocklyMsgScripts(interfaceName, lng).specific;
+    const FALLBACK_LANG_SCRIPTS = getBlocklyMsgScripts(interfaceName, 'en').specific;
 
     const SPECIFIC_ACE_MSG_PATH = `${_PATH}/${interfaceName}/assets/js/autocomplete`;
     const GET_ACE_LANG_SCRIPTS = (language) => {
@@ -324,6 +247,9 @@ async function loadInterface(interfaceName) {
             await capytaleManager.awaitInitialProjectLoaded();
         }
         VittaInterface._startShepherdTour();
+    } else if (START_INTERFACE_TOUR) {
+        // link to the interface with its guided tour (Settings > Guided tour)
+        startInterfaceTour();
     }
     window.VittaInterface = VittaInterface;
 };

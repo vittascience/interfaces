@@ -34,6 +34,7 @@ Blockly.Msg['DISPLAY_GALAXIA_ANIMATE_FUNCTION_TOOLTIP'] = 'أضف نقطة إل�
 Blockly.Msg['DISPLAY_GALAXIA_RAW_PRINT_TITLE'] = '[الرسومات] اعرض النص %1 عند الإحداثي x %2 y %3';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_PRINT_TOOLTIP'] = 'اعرض نصًا على شاشة الرسومات.';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_TEXT_TITLE'] = '[الرسومات] اعرض النص %1 عند x %2 y %3 باللون %4';
+Blockly.Msg['DISPLAY_GALAXIA_RAW_TEXT_TOOLTIP'] = '[الرسومات] يعرض نصًا في الموضع (x, y) على الشاشة باللون المختار.';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_RECT_TITLE'] = '[الرسومات] اعرض مستطيلًا عند x %1 y %2 بعرض %3 وارتفاع %4 وباللون %5';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_RECT_TOOLTIP'] = 'اعرض مستطيلًا على شاشة الرسومات.';
 Blockly.Msg['DISPLAY_GALAXIA_RAW_PRINT_IMG_TITLE'] = '[الرسومات] اعرض الصورة %1 عند x %2 y %3';

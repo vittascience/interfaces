@@ -27,7 +27,7 @@ const config = {
     },
 
     models: {
-        modelPath: '/openInterface/winky/assets/js/simulator/experience/models/winky_v3_scene.gltf',
+        modelPath: '/openInterface/winky/assets/js/simulator/experience/models/winky_v3_scene.glb',
         modelType: 'gltf', // gltf or obj
     },
     // 2.14, 4.5, 2.15

@@ -6,7 +6,10 @@
 	background-color: var(--bg-4);
 	z-index: 71;
 	position: relative;
-	min-width: 310px;
+	/* Capped at half of .ide-base: in a narrow area (duo mode, simulator opened) the editor stays usable */
+	min-width: min(310px, 50%);
+	/* Width reference (cqw) of the tooltips of the console */
+	container-type: inline-size;
 }
 
 #monitor p,
@@ -670,7 +673,8 @@ table#variables_table {
 
 #monitor-graph-tooltip.interface-tooltip {
 	right: 100%;
-	width: 300px;
+	/* Within a narrow console (on the right): its width minus the buttons column */
+	width: min(300px, calc(100cqw - 110px));
 	bottom: unset;
 }
 

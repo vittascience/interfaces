@@ -123,6 +123,34 @@ Blockly.Msg["PY_DATALOG_ADD_LINE_TOOLTIP"] = "Adds a line to the CSV file: the d
 Blockly.Msg["PY_DATALOG_CLEAR_TITLE"] = "delete file %1";
 Blockly.Msg["PY_DATALOG_CLEAR_TOOLTIP"] = "Deletes the CSV file from the board.";
 
+// Connected objects (Python, iot.js)
+Blockly.Msg["CATEGORY_IOT"] = "Connected objects";
+Blockly.Msg["IOT_LABEL_SHELLY"] = "Shelly smart plug";
+Blockly.Msg["IOT_SHELLY_ON"] = "turn on";
+Blockly.Msg["IOT_SHELLY_OFF"] = "turn off";
+Blockly.Msg["IOT_SHELLY_TOGGLE"] = "toggle";
+Blockly.Msg["IOT_SHELLY_POWER"] = "power (W)";
+Blockly.Msg["IOT_SHELLY_ENERGY"] = "energy used (Wh)";
+Blockly.Msg["IOT_SHELLY_VOLTAGE"] = "voltage (V)";
+Blockly.Msg["IOT_SHELLY_CURRENT"] = "current (A)";
+Blockly.Msg["IOT_SHELLY_TEMPERATURE"] = "temperature (°C)";
+Blockly.Msg["IOT_SHELLY_WIFI_SWITCH_TITLE"] = "%1 Shelly Wi-Fi plug at address %2";
+Blockly.Msg["IOT_SHELLY_WIFI_SWITCH_TOOLTIP"] = "Drives a Shelly plug on the same Wi-Fi network as the board, by its IP address (shown in the Shelly app or on the router).";
+Blockly.Msg["IOT_SHELLY_WIFI_IS_ON_TITLE"] = "Shelly Wi-Fi plug %1 on?";
+Blockly.Msg["IOT_SHELLY_WIFI_IS_ON_TOOLTIP"] = "True if the Shelly plug at this IP address is on.";
+Blockly.Msg["IOT_SHELLY_WIFI_MEASURE_TITLE"] = "%1 of Shelly Wi-Fi plug %2";
+Blockly.Msg["IOT_SHELLY_WIFI_MEASURE_TOOLTIP"] = "Measure of the Shelly plug at this IP address: instant power, energy used since installation, voltage, current or internal temperature.";
+Blockly.Msg["IOT_SHELLY_WIFI_START_PAIRING_TITLE"] = "open Bluetooth pairing of Shelly Wi-Fi plug %1";
+Blockly.Msg["IOT_SHELLY_WIFI_START_PAIRING_TOOLTIP"] = "Makes the plug ready to pair for 3 minutes, like the 'Pair new device' button of its web page. Then use the Bluetooth pairing block.";
+Blockly.Msg["IOT_SHELLY_BLE_PAIR_TITLE"] = "pair the board with Shelly Bluetooth plug %1";
+Blockly.Msg["IOT_SHELLY_BLE_PAIR_TOOLTIP"] = "Pairs the board with the plug (only once, while pairing is open on the plug). Preferably use the Bluetooth address of the plug.";
+Blockly.Msg["IOT_SHELLY_BLE_SWITCH_TITLE"] = "%1 Shelly Bluetooth plug %2";
+Blockly.Msg["IOT_SHELLY_BLE_SWITCH_TOOLTIP"] = "Drives a Shelly Gen2+ plug over Bluetooth, without Wi-Fi. Part of the name is enough ('Shelly' takes the first plug found). The board must be paired once with the plug (Settings > Bluetooth > Pair new device).";
+Blockly.Msg["IOT_SHELLY_BLE_IS_ON_TITLE"] = "Shelly Bluetooth plug %1 on?";
+Blockly.Msg["IOT_SHELLY_BLE_IS_ON_TOOLTIP"] = "True if the Shelly plug is on.";
+Blockly.Msg["IOT_SHELLY_BLE_MEASURE_TITLE"] = "%1 of Shelly Bluetooth plug %2";
+Blockly.Msg["IOT_SHELLY_BLE_MEASURE_TOOLTIP"] = "Measure of the Shelly plug read over Bluetooth: instant power, energy used since installation, voltage, current or internal temperature.";
+
 // Sound Generator, Camera Code Detection, Video Object Detection and Telegram Bot bricks
 Blockly.Msg["PY_SOUND_NOTE_BOARD_TITLE"] = "play note %1 octave %2 for %3 s on the board";
 Blockly.Msg["PY_SOUND_NOTE_BOARD_TOOLTIP"] = "Plays the note on a USB headset or speaker plugged into the board (or the jack of a USB-C adapter), with the Sound Generator brick of Arduino App Lab. Octave 4: A is 440 Hz.";

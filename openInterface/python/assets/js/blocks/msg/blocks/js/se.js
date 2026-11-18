@@ -56,6 +56,8 @@ Blockly.Msg["TURTLE_TURN_TITLE"] = "sväng %1 med %2°";
 Blockly.Msg["TURTLE_TURN_RIGHT"] = "höger ↻";
 Blockly.Msg["TURTLE_TURN_LEFT"] = "vänster ↺";
 Blockly.Msg["TURTLE_TURN_TOOLTIP"] = "Sväng genom att ange vinkelns värde.";
+Blockly.Msg["TURTLE_SETHEADING_TITLE"] = "rikta sköldpaddan mot %1°";
+Blockly.Msg["TURTLE_SETHEADING_TOOLTIP"] = "Riktar sköldpaddan i en absolut riktning (0° = höger, 90° = upp).";
 Blockly.Msg["TURTLE_GOTO_TITLE"] = "gå till position x %1 y %2";
 Blockly.Msg["TURTLE_GOTO_TOOLTIP"] = "Gå till angivna x- och y-koordinaterna.";
 Blockly.Msg["TURTLE_CIRCLE_TITLE"] = "rita en cirkel med radie %1";

@@ -3,9 +3,9 @@
  */
 'use strict';
 // Display - L476
-Blockly.Msg['DISPLAY_L476_CONTROL_COLOR_LED_TITLE'] = 'controla %1 LED al estado %2';
+Blockly.Msg['DISPLAY_L476_CONTROL_COLOR_LED_TITLE'] = 'controlar el LED (verde) al estado %1';
 Blockly.Msg['DISPLAY_L476_CONTROL_COLOR_LED_TOOLTIP'] = 'Controla el LED de color de la placa L476';
-Blockly.Msg['DISPLAY_L476_TOGGLE_LED_STATE_TITLE'] = 'conmutar el estado de %1';
+Blockly.Msg['DISPLAY_L476_TOGGLE_LED_STATE_TITLE'] = 'conmutar el estado del LED (verde)';
 Blockly.Msg['DISPLAY_L476_TOGGLE_LED_STATE_TOOLTIP'] = 'Conmutar el estado del LED de color de la placa L476';
 Blockly.Msg['LED_GREEN'] = 'LED2 (verde)';
 // Display - LCD
@@ -99,9 +99,9 @@ Blockly.Msg['IO_INITCHRONOMETER_TITLE'] = 'inicializar el cronómetro';
 Blockly.Msg['IO_INITCHRONOMETER_TOOLTIP'] = 'Permite inicializar el cronómetro (en segundos)';
 Blockly.Msg['IO_GETCHRONOMETER_TITLE'] = 'Obtener cronómetro en %1';
 Blockly.Msg['IO_GETCHRONOMETER_TOOLTIP'] = 'Devuelve el valor del cronómetro desde la inicialización en segundos o milisegundos';
-Blockly.Msg['IO_L476_GETSWITCHSTATE_TITLE'] = 'Lee el estado del interruptor %1';
+Blockly.Msg['IO_L476_GETSWITCHSTATE_TITLE'] = 'leer el estado del botón (B1)';
 Blockly.Msg['IO_L476_GETSWITCHSTATE_TOOLTIP'] = 'Habilita la lectura del valor digital del interruptor integrado de la placa L476 (SW1, SW2, SW3)';
-Blockly.Msg['IO_L476_ONSWITCHBUTTONPRESSED_TITLE'] = 'en el botón del interruptor %1 %2 entonces';
+Blockly.Msg['IO_L476_ONSWITCHBUTTONPRESSED_TITLE'] = 'si el botón (B1) %1 entonces';
 Blockly.Msg['IO_L476_ONSWITCHBUTTONPRESSED_TOOLTIP'] = 'Ejecuta las instrucciones leyendo el valor digital del interruptor integrado de la placa L476 (SW1, SW2, SW3)';
 Blockly.Msg['IO_L476_PRESSED'] = 'presionado';
 Blockly.Msg['IO_L476_RELEASED'] = 'liberado';

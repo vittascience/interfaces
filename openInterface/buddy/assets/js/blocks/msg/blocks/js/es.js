@@ -6,7 +6,7 @@
 
 Blockly.Msg["LOCK"] = "[🔒] Función bloqueante: detiene el resto del programa mientras termina la acción. [🔓] Función no bloqueante: no detiene la ejecución del programa mientras progresa.";
 
-Blockly.Msg['ACTUATORS_BUDDY_SAY_TITLE'] = '[La cabeza] hace un gesto %1 de %2 grados a %3 de velocidad';
+Blockly.Msg['ACTUATORS_BUDDY_SAY_TITLE'] = '[Cabeza] gesto %1 de la cabeza, ángulo %2 ° velocidad %3 °/s %4';
 Blockly.Msg['ACTUATORS_BUDDY_SAY_YES'] = 'sí';
 Blockly.Msg['ACTUATORS_BUDDY_SAY_NO'] = 'no';
 Blockly.Msg['ACTUATORS_BUDDY_SAY_TOOLTIP'] = 'Mueve la cabeza de Buddy alrededor del eje \'sí\'/\'no\'. La velocidad está en °/s y el ángulo en °. Para el eje \'no\', la velocidad está entre -140 y 140 y el ángulo entre -90 y 90. Para el eje \'sí\', la velocidad está entre -49,2 y 49,2 y el ángulo entre -35 y 45';
@@ -33,7 +33,7 @@ Blockly.Msg['ACTUATORS_EMERGENCY_STOP_MOTORS_TOOLTIP'] = 'Parada de emergencia d
 Blockly.Msg['DISPLAY_LED_RIGHT'] = 'hombro derecho';
 Blockly.Msg['DISPLAY_LED_LEFT'] = 'hombro izquierdo';
 Blockly.Msg['DISPLAY_LED_HEART'] = 'corazón';
-Blockly.Msg['DISPLAY_BLINK_LED_TITLE'] = '[LED] parpadea el led %1 con un color %2 durante un periodo de %3';
+Blockly.Msg['DISPLAY_BLINK_LED_TITLE'] = '[LED] hacer parpadear %1 en %2 durante un periodo de %3 %4';
 Blockly.Msg['DISPLAY_BLINK_LED_TOOLTIP'] = 'Parpadea un led del Compañero. Los leds disponibles son el hombro derecho, el hombro izquierdo y el corazón';
 Blockly.Msg["DISPLAY_BLINK_ALL_LED_TITLE"] = "[LED] hacer parpadear los LEDs en %1 durante un periodo de %2 %3";
 Blockly.Msg["DISPLAY_BLINK_ALL_LED_TOOLTIP"] = "Hacer parpadear todos los LEDs de Buddy. LEDs disponibles: hombro derecho, hombro izquierdo, corazón.";
@@ -49,7 +49,7 @@ Blockly.Msg["DISPLAY_PATTERN_1"] = "parpadear todos los LEDs (apagado luego ence
 Blockly.Msg["DISPLAY_PATTERN_2"] = "parpadear todos los LEDs (encendido luego apagado)";
 Blockly.Msg["DISPLAY_PATTERN_3"] = "apagar todos los LEDs";
 Blockly.Msg["DISPLAY_PATTERN_4"] = "encender todos los LEDs";
-Blockly.Msg['DISPLAY_STOP_ALL_LED_TITLE'] = '[LED] apaga todos los LEDs';
+Blockly.Msg['DISPLAY_STOP_ALL_LED_TITLE'] = '[LED] apagar todos los LEDs %1';
 Blockly.Msg['DISPLAY_STOP_ALL_LED_TOOLTIP'] = 'Apagar todos los LEDs';
 Blockly.Msg["DISPLAY_STOP_LED_TITLE"] = "[LED] apagar %1 %2";
 Blockly.Msg["DISPLAY_STOP_LED_TOOLTIP"] = "Apaga el LED seleccionado.";
@@ -232,7 +232,7 @@ Blockly.Msg["VISION_STOP_VISUAL_TRACKING_TITLE"] = "[Seguimiento] detener seguim
 Blockly.Msg["VISION_STOP_VISUAL_TRACKING_TOOLTIP"] = "Detiene el proceso de seguimiento.";
 Blockly.Msg["VISION_GET_TRACKING_TITLE"] = "[Seguimiento] obtener información";
 Blockly.Msg["VISION_GET_TRACKING_TOOLTIP"] = "Recupera el objetivo seguido. Devuelve una tabla que contiene: 1 - Verdadero si una persona está siendo seguida con éxito, Falso si se pierde el seguimiento o si no hay nadie en la imagen. 2 - La posición del seguimiento.";
-Blockly.Msg['VI_START_SPEAKING_TITLE'] = '[Voz] dice %1 con la boca %2';
+Blockly.Msg['VI_START_SPEAKING_TITLE'] = '[Voz] decir %1 estando %2 %3';
 Blockly.Msg['VI_START_SPEAKING_TOOLTIP'] = 'Hace que el Compañero hable con un determinado movimiento de boca. Es posible marcar una pausa en el texto. Para ello, basta con añadir <tiempo_en_milisegundos> sustituyendo <tiempo_en_milisegundos> por el número de milisegundos deseado para la pausa.';
 Blockly.Msg['VI_START_SPEAKING_SPEAK_ANGRY'] = 'enojado';
 Blockly.Msg['VI_START_SPEAKING_NO_FACE'] = 'cerrado';

@@ -39,7 +39,7 @@ Blockly.Msg['CYBERPI_CONSOLE_PRINT_TOOLTIP'] = 'Consente di visualizzare il test
 Blockly.Msg['CYBERPI_CONSOLE_SET_FONT_TITLE'] = '[Console] imposta la dimensione del carattere a %1';
 Blockly.Msg['CYBERPI_CONSOLE_SET_FONT_TOOLTIP'] = 'Consente di modificare la dimensione del carattere del testo nella console della scheda CyberPi.';
 // Display - Text
-Blockly.Msg['CYBERPI_DISPLAY_SHOW_LABEL_TITLE'] = '[Schermata] mostra etichetta %1 fontsize %2 posizione %3';
+Blockly.Msg['CYBERPI_DISPLAY_SHOW_LABEL_TITLE'] = '[Schermata] mostra etichetta %1 fontsize %2 posizione %3 indice %4';
 Blockly.Msg['CYBERPI_DISPLAY_SHOW_LABEL_TOOLTIP'] = 'Consente di visualizzare il testo nella posizione specificata sullo schermo del CyberPi. La dimensione del carattere può essere impostata su 16, 24 o 32.';
 Blockly.Msg['CYBERPI_POSITION_TOP_MID'] = 'metà superiore';
 Blockly.Msg['CYBERPI_POSITION_TOP_LEFT'] = 'in alto a sinistra';
@@ -50,7 +50,7 @@ Blockly.Msg['CYBERPI_POSITION_MID_RIGHT'] = 'centro destra';
 Blockly.Msg['CYBERPI_POSITION_BOTTOM_MID'] = 'inferiore medio';
 Blockly.Msg['CYBERPI_POSITION_BOTTOM_LEFT'] = 'in basso a sinistra';
 Blockly.Msg['CYBERPI_POSITION_BOTTOM_RIGHT'] = 'in basso a destra';
-Blockly.Msg['CYBERPI_DISPLAY_SHOW_LABEL_XY_TITLE'] = '[Schermata] mostra etichetta %1 fontsize %2 x %3 y %4';
+Blockly.Msg['CYBERPI_DISPLAY_SHOW_LABEL_XY_TITLE'] = '[Schermata] mostra etichetta %1 fontsize %2 x %3 y %4 indice %5';
 Blockly.Msg['CYBERPI_DISPLAY_SHOW_LABEL_XY_TOOLTIP'] = 'Consente di visualizzare il testo nella posizione specificata x (0-128) e y (0-128) sullo schermo di CyberPi. La dimensione del carattere può essere impostata su 16, 24 o 32.';
 // Display - Linechart
 Blockly.Msg['CYBERPI_LINECHART_ADD_TITLE'] = '[Schermata] riga: aggiunge il valore %1';

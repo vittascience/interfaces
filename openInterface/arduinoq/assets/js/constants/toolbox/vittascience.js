@@ -775,6 +775,16 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
         },
         {
             "kind": "category",
+            "toolboxitemid": "py_iot",
+            "name": "%{BKY_CATEGORY_IOT}",
+            "style": "py_iot_category",
+            "cssConfig": {
+                "icon": "icon_blockly fas fa-plug"
+            },
+            "contents": []
+        },
+        {
+            "kind": "category",
             "toolboxitemid": "py_datalog",
             "name": "Data log",
             "style": "py_datalog_category",
@@ -2205,6 +2215,24 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                         'py_weather_get',
                         'py_weather_forecast_is',
                         'py_weather_forecast_temperature'
+                    ]
+                }
+            ]
+        },
+        {
+            "subCategoryId": 'py_iot',
+            "contents": [
+                {
+                    "label": "%{BKY_IOT_LABEL_SHELLY}",
+                    "blocks": [
+                        'iot_shelly_wifi_switch',
+                        'iot_shelly_wifi_is_on',
+                        'iot_shelly_wifi_measure',
+                        'iot_shelly_wifi_start_pairing',
+                        'iot_shelly_ble_pair',
+                        'iot_shelly_ble_switch',
+                        'iot_shelly_ble_is_on',
+                        'iot_shelly_ble_measure'
                     ]
                 }
             ]
