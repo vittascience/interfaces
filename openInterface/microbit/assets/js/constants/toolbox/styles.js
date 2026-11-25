@@ -26,8 +26,9 @@ const THEME_VITTASCIENCE = {
     "robots_blocks": {
         "colourPrimary": "#3349aa"
     },
+    // The Tello is a robot extension (Robots category): same colour
     "tello_blocks": {
-        'colourPrimary': "#5c5c5c"
+        'colourPrimary': "#3349aa"
     },
     "ia_blocks": {
         "colourPrimary": "#ffab19"
@@ -152,10 +153,11 @@ const THEME_VITTASCIENCE_HIGH_CONTRAST = {
         "colourSecondary": "#B254DF",
         "colourTertiary": "#E3A7FF"
     },
-    "tello_block": {
-        "colourPrimary": "#5c5c5c",
-        "colourSecondary": "#C5C5C5",
-        "colourTertiary": "#EFEFEF"
+    // The Tello is a robot extension (Robots category): same colour ("tello_block" before: not applied)
+    "tello_blocks": {
+        "colourPrimary": "#70199A",
+        "colourSecondary": "#B254DF",
+        "colourTertiary": "#E3A7FF"
     },
     "logic_blocks": {
         "colourPrimary": "#C55000",

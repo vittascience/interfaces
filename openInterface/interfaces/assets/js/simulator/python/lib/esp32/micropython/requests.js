@@ -26,8 +26,19 @@ var $builtinmodule = function (name) {
             }
             self.currentLine = 0;
             self.pos$ = 0;
+            // MicroPython urequests: text, status_code and reason are attributes (the blocks generate
+            // "request.text"); the text() method returned the bound function instead of the content
+            self.tp$setattr(new Sk.builtin.str('text'), new Sk.builtin.str(self.data$));
+            self.tp$setattr(new Sk.builtin.str('status_code'), new Sk.builtin.int_(xhr.status));
+            self.tp$setattr(new Sk.builtin.str('reason'), new Sk.builtin.str(xhr.statusText || ''));
         });
 
+
+        // MicroPython frees the socket with close(): nothing to free here
+        $loc.close = new Sk.builtin.func(function (self) {
+            self.closed = true;
+            return Sk.builtin.none.none$;
+        });
 
         // ------------------------------------------------------------
         $loc.__str__ = new Sk.builtin.func(function (self) {
@@ -152,7 +163,7 @@ var $builtinmodule = function (name) {
     requests.request = new Sk.builtin.func(request);
 
     var get = function (url, data, json, headers) {
-        return requests.request.tp$init([new Sk.builtin.str('GET'), url, data, json, headers]);
+        return request(new Sk.builtin.str('GET'), url, data, json, headers);
     };
     get.co_varnames = ['url', 'data', 'json', 'headers'];
     get.$defaults = [Sk.builtin.none(), Sk.builtin.none(), Sk.builtin.none()];
@@ -160,7 +171,7 @@ var $builtinmodule = function (name) {
     requests.get = new Sk.builtin.func(get);
 
     var post = function (url, data, json, headers) {
-        return requests.request.tp$init([new Sk.builtin.str('POST'), url, data, json, headers]);
+        return request(new Sk.builtin.str('POST'), url, data, json, headers);
     };
     post.co_varnames = ['url', 'data', 'json', 'headers'];
     post.$defaults = [Sk.builtin.none(), Sk.builtin.none(), Sk.builtin.none()];

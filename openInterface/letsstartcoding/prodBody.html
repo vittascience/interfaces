@@ -19,7 +19,7 @@
             <!-- fullscreen -->
         </div>
         <div class="ide-dropdown ide-dropdown-modes">
-            <button class="ide-btn ide-btn-toggle ide-btn-alone ide-btn-mode" data-i18n="[title]code.topbar.tooltips.consoleSettings" data-bs-toggle="tooltip" data-bs-placement="top"><i class="far fa-object-ungroup"></i></button>
+            <button type="button" class="ide-btn ide-btn-toggle ide-btn-alone ide-btn-mode" aria-expanded="false" aria-label="Choisir le mode : blocs, hybride ou code" data-i18n="[title]code.topbar.tooltips.modeMenu;[aria-label]code.topbar.tooltips.modeMenu" data-bs-toggle="tooltip" data-bs-placement="top"><i class="far fa-object-ungroup"></i></button>
             <div class="ide-btn-group ide-btn-group-mode hidden">
                 <!-- blocks mode
 						mixed mode
@@ -123,8 +123,8 @@
                                                 <i class="fas fa-arrows-alt-v"></i>
                                             </label>
                                             <div class="input-group gap-0">
-                                                <input class="tracer-controls form-control mx-0" id="minY" type="text" placeholder="min" title="Auto par défaut">
-                                                <input class="tracer-controls form-control mx-0" type="text" id="maxY" placeholder="max" title="Auto par défaut">
+                                                <input class="tracer-controls form-control mx-0" id="minY" type="text" placeholder="min" title="Auto par défaut" data-i18n="[title]code.a11yBlocks.graphMinY;[aria-label]code.a11yBlocks.graphMinY">
+                                                <input class="tracer-controls form-control mx-0" type="text" id="maxY" placeholder="max" title="Auto par défaut" data-i18n="[title]code.a11yBlocks.graphMaxY;[aria-label]code.a11yBlocks.graphMaxY">
                                             </div>
                                         </div>
 
@@ -161,7 +161,7 @@
                                 </div>
 
                                 <div id="serial-input-group" class="input-group">
-                                    <input type="text" id="serial-input" name="serial_message" class="serial-controls form-control ide-btn-left" autocomplete="one-time-code" data-i18n="[placeholder]code.monitor.controls.text.send"/>
+                                    <input type="text" id="serial-input" name="serial_message" class="serial-controls form-control ide-btn-left" autocomplete="one-time-code" data-i18n="[placeholder]code.monitor.controls.text.send;[aria-label]code.monitor.controls.text.send"/>
                                     <div id="serial-input-btn" class="input-group-append">
                                         <button id="serial-send" class="ide-btn serial-controls ide-btn-right" data-placement="top" data-toggle="tooltip" data-i18n="[title]code.monitor.controls.tooltips.send;[aria-label]code.monitor.controls.tooltips.send">
                                             <i class="fa fa-paper-plane" aria-hidden="true"></i>
@@ -188,13 +188,7 @@
 <script src="/openInterface/interfaces/assets/js/external/jquery-ui-1.12.1.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/rotate.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/interact-1.5.4.min.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/blockly_compressed.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_colour_compressed.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/vittascience_patches.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_grid_dropdown_compressed.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_slider_compressed.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/scroll_options_compressed.js"></script>
-<script type="module" src="/openInterface/interfaces/assets/js/external/blockly/extensions/backpack/index.js"></script>
+<?php require __DIR__ . '/../interfaces/assets/buildFiles/blocklyScripts.html'; ?>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ace.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-c_cpp.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-languages_tools.js"></script>

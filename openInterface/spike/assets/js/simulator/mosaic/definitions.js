@@ -79,7 +79,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /color_matrix\.(show|set_pixel)\(port\.A/,
             id: "spike-LEDMatrix-portA",
-            title: "Matrice LED 3x3",
+            get title() { return i18next.t('code.simulator.modules.ledMatrix3x3') },
             pin: 'Port A',
             type: 'output',
             value: "",
@@ -87,7 +87,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /color_matrix\.(show|set_pixel)\(port\.B/,
             id: "spike-LEDMatrix-portB",
-            title: "Matrice LED 3x3",
+            get title() { return i18next.t('code.simulator.modules.ledMatrix3x3') },
             pin: 'Port B',
             type: 'output',
             value: "",
@@ -95,7 +95,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /motor\.(run(|_for_time|_to_relative_position|_to_absolute_position|stop))\(port\.A/,
             id: "spike-motor-portA",
-            title: "Moteur",
+            get title() { return i18next.t('code.simulator.modules.motor') },
             pin: "Port A",
             type: 'output',
             value: 0,
@@ -104,7 +104,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /motor\.(run(|_for_time|_to_relative_position|_to_absolute_position|stop))\(port\.B/,
             id: "spike-motor-portB",
-            title: "Moteur",
+            get title() { return i18next.t('code.simulator.modules.motor') },
             pin: "Port B",
             type: 'output',
             value: 0,
@@ -113,7 +113,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /color_sensor\.color\(port\.A\)/gi,
             id: "spike-ColorSensor-portA",
-            title: "Capteur de couleurs",
+            get title() { return i18next.t('code.simulator.modules.colorSensor') },
             pin: "Port A",
             type: 'input',            
             class: 'RGB-circle',

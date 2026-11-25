@@ -100,7 +100,7 @@ Simulator.Mosaic.specific = {
     definitions: [
         {
             id: "lotibot-led-left",
-            title: "LED Gauche",
+            get title() { return i18next.t('code.simulator.modules.ledLeft') },
             regex: /setLEDColor/gi,
             pin: "Loti-bot",
             type: 'output',
@@ -113,7 +113,7 @@ Simulator.Mosaic.specific = {
         },
         {
             id: "lotibot-led-right",
-            title: "LED Droite",
+            get title() { return i18next.t('code.simulator.modules.ledRight') },
             regex: /setLEDColor/gi,
             pin: "Loti-bot",
             type: 'output',
@@ -126,7 +126,7 @@ Simulator.Mosaic.specific = {
         },
         {
             id: "lotibot-headlight-right",
-            title: "Phare Droite",
+            get title() { return i18next.t('code.simulator.modules.headlightRight') },
             regex: /setHeadlightValue/gi,
             pin: "Loti-bot",
             type: 'output',
@@ -139,7 +139,7 @@ Simulator.Mosaic.specific = {
         },
         {
             id: "lotibot-headlight-left",
-            title: "Phare Gauche",
+            get title() { return i18next.t('code.simulator.modules.headlightLeft') },
             regex: /setHeadlightValue/gi,
             pin: "Loti-bot",
             type: 'output',
@@ -153,7 +153,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(move(Forward|Backward)|turn(Left|Right)|drawSquare)/,
             id: "lotibot-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: "Loti-bot",
             type: 'output',
             value: 0,
@@ -163,7 +163,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(move(Forward|Backward)|turn(Left|Right)|drawSquare)/,
             id: "lotibot-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: "Loti-bot",
             type: 'output',
             value: 0,
@@ -173,7 +173,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /getSoundLevel/gi,
             id: "lotibot-sound-level",
-            title: "Microphone",
+            get title() { return i18next.t('code.simulator.modules.microphone') },
             pin: 'Loti-bot',
             type: 'input',
             listeners: [{
@@ -200,7 +200,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /getLightLevel/g,
             id: "lotibot-light",
-            title: "Capteur de luminosité",
+            get title() { return i18next.t('code.simulator.modules.groveLight') },
             pin: 'Loti-bot',
             type: 'input',
             listeners: [{
@@ -219,7 +219,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /getTemperature/,
             id: "lotibot-thermometer",
-            title: "Capteur de température",
+            get title() { return i18next.t('code.simulator.modules.groveTemp') },
             pin: 'Loti-bot',
             type: 'input',
             listeners: [{
@@ -238,7 +238,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /getDistance/gi,
             id: "lotibot-ultrasonic",
-            title: "Télémètre: ",
+            get title() { return i18next.t('code.simulator.modules.ultrasonic') },
             pin: 'Loti-bot',
             type: 'input',
             listeners: [{
@@ -246,13 +246,13 @@ Simulator.Mosaic.specific = {
                 unit: 'cm',
                 color: "#f9d142 ",
                 suffix: "_d",
-                title: "Distance"
+                get title() { return i18next.t('code.simulator.modules.distance') }
             }, {
                 suffix: "_t",
                 default: 1166,
                 unit: 'μs',
                 color: "#f9d142",
-                title: "Durée"
+                get title() { return i18next.t('code.simulator.modules.duration') }
             }],
             class: "ultrasonic",
             picture: "Ultrason.png",

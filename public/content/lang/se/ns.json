@@ -66,6 +66,9 @@
       },
       "tooltips": {
         "backToHome": "Gå tillbaka till startsidan",
+        "siteMenu": "Sitelista: navigering, tillgänglighetsalternativ och språk",
+        "siteNav": "Sitelista",
+        "closeAccessibility": "Stäng tillgänglighetsmenyn",
         "programming": "Programmering med Vittascience",
         "resources": "Pedagogiskt resurscenter",
         "classroom": "Hantera dina klasser med Vittascience",
@@ -771,6 +774,7 @@
       "delivery": "Leverans",
       "freeWithPremium": "Gratis med premiumkonto",
       "shippingAtDeliveryStep": "Beräknas vid leveranssteget",
+      "stockDelayNotice": "Vissa produkter är för närvarande slut i lager ({{products}}): din beställning kan ta lite längre tid att skickas.",
       "shippingFree": "Gratis",
       "shippingFreeWithPremium": "Gratis frakt till fastlandet Frankrike med Vittascience Premium-abonnemanget",
       "shippingFreeThanksToPremium": "Gratis frakt till fastlandet Frankrike tack vare ditt Vittascience Premium-abonnemang",
@@ -921,6 +925,7 @@
       "supportSubject": "Beställningsbekräftelse - offert {{number}}",
       "autoValidate": "Automatiskt godkänna offerten",
       "autoValidateHint": "Offerten är markerad som accepterad: utkastfakturan och ordern skapas omedelbart, och kunden får ett bekräftelsemejl.",
+      "notifyClient": "Skicka e-post till kunden (översikt av inköpsorder och bekräftelse av offert)",
       "closedTitle": "Offert redan accepterad",
       "closedText": "Offert {{number}} har redan accepterats och din beställning behandlas: det finns ingen beställning kvar att skicka in. För att begära ändringar, vänligen kontakta oss.",
       "closedSubject": "Offert {{number}}",
@@ -971,7 +976,15 @@
       "cancel": "Avbryt",
       "submit": "Skicka",
       "submit_success": "Tack för din recension!",
-      "return_to_product": "Tillbaka till produkten"
+      "return_to_product": "Tillbaka till produkten",
+      "deleted_user": "Tidigare användare",
+      "errors": {
+        "rating": "Välj ett betyg från 1 till 5.",
+        "comment": "Lägg till en kommentar till din recension.",
+        "too_long": "Din kommentar får inte överstiga 255 tecken.",
+        "already_reviewed": "Du har redan recenserat den här produkten.",
+        "generic": "Din recension kunde inte sparas. Försök igen."
+      }
     },
     "shopPayLink": {
       "thanksTitle": "Tack, din betalning har mottagits",
@@ -1040,6 +1053,7 @@
       "hire": "Brinner du för utbildning, tycker om projekt och tror att dina färdigheter skulle stärka vårt team? Tveka inte att kontakta oss! <br/><a href=\"/hire\" style=\"text-decoration:none;\"><button class=\"mt-3 btn v-btn-important about-recruit-btn\">Bli en del av vårt team :) <span class=\"fa fa-chevron-right\"></span></button></a>",
       "junior": "Webbutvecklare och IT-supportpraktikant på Vittascience, passionerad om utveckling och digitala teknologier.",
       "zouhir": "Zouhir började på Vittascience i september 2026 som praktikant inom front-end utveckling, inbyggda system och teknisk support.",
+      "iris": "Iris anslöt till Vittascience i september 2026 i kommunikations- och marketingteamet för att stärka Vittasciences strategi och synlighet.",
       "hireTitle": "Bli en del av oss"
     },
     "hof": {
@@ -1265,6 +1279,75 @@
     }
   },
   "code": {
+    "a11yBlocks": {
+      "dropInside": "{{block}} placerad i “{{target}}”",
+      "dropAfter": "{{block}} placerad efter “{{target}}”",
+      "dropOutside": "{{block}} placerad utanför programmet: den kommer inte att köras",
+      "firstPlace": "Första plats",
+      "contextMenu": "Kontextmeny",
+      "undone": "Åtgärd ångrad",
+      "redone": "Åtgärd återställd",
+      "nothingToUndo": "Inget att ångra",
+      "nothingToRedo": "Inget att återställa",
+      "deleted": "{{block}} raderad",
+      "fieldRoles": {
+        "pin": "nål",
+        "operator": "operatör",
+        "unit": "enhet",
+        "mode": "läge",
+        "state": "tillstånd",
+        "note": "anteckning",
+        "colour": "färg",
+        "direction": "riktning",
+        "motor": "motor",
+        "type": "typ",
+        "data": "data",
+        "axis": "axel",
+        "channel": "kanal",
+        "sensor": "sensor",
+        "address": "adress",
+        "version": "version",
+        "command": "kommando"
+      },
+      "operators": {
+        "eq": "lika med",
+        "neq": "inte lika med",
+        "lt": "mindre än",
+        "lte": "mindre än eller lika med",
+        "gt": "större än",
+        "gte": "större än eller lika med",
+        "add": "plus",
+        "minus": "minus",
+        "multiply": "gånger",
+        "divide": "delat med",
+        "power": "upphöjt till"
+      },
+      "toolbox": "Verktygslåda",
+      "generatedCode": "Genererad kod",
+      "enterBlockHint": "Högerpil för att gå till blockets värden",
+      "emptyInputHint": "Tom plats: T för att välja ett block att infoga här",
+      "insideBlockHint": "Nedåtpil för att gå in i blocket",
+      "consolePrefix": "Konsolutdata: {{text}}",
+      "searchNone": "Inga resultat hittades för: {{term}}",
+      "searchOne": "1 resultat för: {{term}}",
+      "searchMany": "{{count}} resultat för: {{term}}",
+      "duplicateLine": "Rad duplicerad.",
+      "duplicateSelection": "Vald text duplicerad.",
+      "trash": "Papperskorg",
+      "screenshot": "Skärmdump",
+      "recenter": "Centrera",
+      "graphMinY": "Minsta värde för Y-axeln (automatisk som standard)",
+      "graphMaxY": "Största värde för Y-axeln (automatisk som standard)",
+      "privateProjectMessage": "Skriv ett meddelande",
+      "codeLine": "rad {{line}}",
+      "lastPlace": "Sista plats"
+    },
+    "a11yHeadings": {
+      "blocks": "Block",
+      "code": "Kod",
+      "console": "Konsol",
+      "simulator": "Simulator"
+    },
     "blockExtensions": {
       "category": "Tillägg",
       "title": "Blocktillägg",
@@ -1275,6 +1358,8 @@
       "noResult": "Inga tillägg hittades.",
       "confirmRemoveUsed": "{{count}} block från detta tillägg som används i programmet kommer att tas bort. Fortsätt?",
       "manage": "Hantera tillägg",
+      "manageRobots": "Hantera robotar",
+      "remove": "Ta bort tillägget {{name}}",
       "filter": "Filtrera tillägg",
       "filters": {
         "all": "Alla",
@@ -1332,16 +1417,13 @@
         "computerScientist": "Anonym datavetare"
       }
     },
+    "noCodeToBlocksWarning": "Handskriven kod kan inte konverteras till block: om du går tillbaka till blockläge kommer det att ersättas av blockkoden vid nästa ändring. Fortsätta?",
     "placeholderError": "Fyll i alla fält ___ innan du kör programmet",
     "nameError": "Kontrollera att funktionsnamnet är korrekt",
     "rewriteSpecialChar": "Byt namn på variabeln så att den inte innehåller specialtecken på rad ",
     "serialAPI": {
       "allowSerial": "Tillåt #enable-experimental-web-platform-features i 'chrome://flags/' för att öppna en seriell port.",
       "noSerialAPI": "Denna webbläsare stöder inte Serial API. För att använda Serial API behöver du en kompatibel webbläsare: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> eller <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
-      "picaxeUploading": "Uploading the PICAXE program (about 15 seconds)...",
-      "fileDownloadedPicaxe": "PICAXE program successfully sent to the board!",
-      "picaxeCompileError": "The program cannot be compiled: %1",
-      "picaxeUnsupportedChip": "Direct upload is only available for the AutoProgX2 (PICAXE-28X2). For this board, download the .bas file and open it in PICAXE Editor.",
       "serialPortOpeningFail": "Anslutning till seriell port misslyckades. Kontrollera att kortet inte redan är anslutet till ett annat gränssnitt.",
       "boardConnected": "Anslutning till seriell port lyckades!",
       "serialPortClosed": "Seriell port stängdes!",
@@ -1372,7 +1454,15 @@
       "skykickNotInCodingMode": "SkyKick-kontrollern är inte i programmeringsläge (Link): kommandon ignoreras. Byt kontrollern till Link-läge för att flyga dronen.",
       "skykickDroneNotPaired": "Dronen svarar inte: kontrollera att den är påslagen och ihopkopplad med kontrollern.",
       "skykickPortBusy": "Kan inte öppna kontrollporten: den används redan av en annan applikation. Stäng SkyKick Evo Block Coding-appen (och alla andra flikar kopplade till kontrollern), och försök igen.",
-      "skykickBattery": "Dronens batteri"
+      "skykickBattery": "Dronens batteri",
+      "legoPrimeOldFirmware": "Hubbens svarar inte: stäng av den (håll den centrala knappen), slå på den igen och koppla in den igen via USB. Om den fortfarande inte svarar, uppdatera den med LEGO® Education SPIKE™-appen (SPIKE 3 firmware krävs).",
+      "legoPrimeBluetoothFailed": "Kan inte ansluta till hubben via Bluetooth: tryck på dess Bluetooth-knapp och försök igen.",
+      "legoPrimeNotStarted": "Programmet startade inte på hubben (det stoppade omedelbart, utan något utdata). Starta om hubben och försök igen.",
+      "legoPrimePortBusy": "Kan inte öppna hubporten: den används redan av ett annat program. Stäng LEGO® Education SPIKE™ appen (och andra flikar kopplade till hubben) och försök igen.",
+      "picaxeUploading": "Laddar upp PICAXE-programmet (cirka 15 sekunder)...",
+      "fileDownloadedPicaxe": "PICAXE-programmet skickades till kortet!",
+      "picaxeCompileError": "Programmet kan inte kompileras: %1",
+      "picaxeUnsupportedChip": "Direktuppladdning finns bara för AutoProgX2 (PICAXE-28X2). För detta kort, ladda ner .bas-filen och öppna den i PICAXE Editor."
     },
     "WebBluetoothAPI": {
       "noWebBluetoothAPI": "Denna webbläsare stöder inte noWebBluetoothAPI. För att använda noWebBluetoothAPI behöver du en kompatibel webbläsare: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> eller <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
@@ -1435,7 +1525,7 @@
       "transferAborted": "Överföring avbruten."
     },
     "welcome": {
-      "arduino": "Välkommen till Vittascience-gränssnittet för Arduino!</br>Du kan titta på handledningen här : <a href=\"https://en.vittascience.com/learn/tutorial.php?id=911/prise-en-main-de-la-carte-arduino-uno-et-de-l-interface-vittascience\" target=\"_blank\" rel=\"noopener noreferrer\">Kom igång med Vittascience-gränssnittet för Arduino UNO-kortet</a>",
+      "arduino": "Välkommen till Vittascience-gränssnittet för Arduino!</br>Du kan följa handledningen som finns här: <a href=\"https://en.vittascience.com/learn/tutorial.php?id=911/prise-en-main-de-la-carte-arduino-uno-et-de-l-interface-vittascience\" target=\"_blank\" rel=\"noopener noreferrer\">Kom igång med Vittascience-gränssnittet för Arduino UNO-kortet</a>",
       "microbit": "Välkommen till Vittascience-gränssnittet för BBC micro:bit!</br>Du kan se handledningen här: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=25/prise-en-main-de-la-carte-microbit\" target=\"_blank\" rel=\"noopener noreferrer\">Kom igång med Vittascience-gränssnittet för BBC micro:bit</a></b>",
       "python": "Välkommen till Vittascience-gränssnittet för programmering i Python!<br>Klicka på Kör-knappen för att starta ditt program (skriptläge) eller skriv en instruktion efter >>> nedan (REPL-konsolläge).",
       "esp32": "Välkommen till Vittascience-gränssnittet för ESP32!</br>För att programmera ESP32-kortet här måste du först flasha MicroPython-firmware på kortet enligt denna handledning: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=341/flasher-le-firmware-micropython-dans-la-carte-esp32\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flasha MicroPython-firmware</a></b>",
@@ -1446,7 +1536,7 @@
       "TI-83-Maclasseti": "Välkommen till MyClassTi.fr-gränssnittet för räknaren TI-83 Premium CE Python Edition! TI-Innovator™ Hub och BBC micro:bit kan programmeras här. Öppna simulatorn för att komma igång!",
       "GalaxiaCircuitPython": "Välkommen till Vittascience-gränssnittet för Galaxia!",
       "galaxia": "Välkommen till Vittascience-gränssnittet för Galaxia!</br>För att programmera Galaxia här måste du först flasha MicroPython-firmware på kortet enligt denna handledning: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=860\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flasha MicroPython-firmware</a></b>",
-      "picaxe": "Welcome to the PICAXE interface!</br>Plug in the AutoProgX2 with the AXE027 cable and click Upload.",
+      "picaxe": "Välkommen till PICAXE-gränssnittet!</br>Anslut AutoProgX2 med AXE027-kabeln och klicka på Ladda upp.",
       "unihiker": "Välkommen till Vittascience-gränssnittet för UNIHIKER M10-kortet!</br>Anslut kortet med USB och klicka sedan på Ladda upp. Första gången lägger gränssnittet Vittascience-serverns installationsprogram på kortet, som körs en gång från kortets Home-meny.",
       "unihiker-k10": "Välkommen till Vittascience-gränssnittet för UNIHIKER K10!</br>Anslut kortet via USB (DFRobots MicroPython-firmware) och klicka på Ladda upp: programmet sparas i main.py.",
       "raspberrypi": "Välkommen till Vittascience-gränssnittet för Raspberry Pi! Du kan läsa handledningen här: <b><a href=\"https://en.vittascience.com/learn/tutorial.php?id=856/interface-raspberry-pi\" target=\"_blank\" rel=\"noopener noreferrer\">Kom igång med Vittascience-gränssnittet för Raspberry Pi</a></b>",
@@ -1465,14 +1555,20 @@
       "lotibot": "Välkommen till Vittasciences gränssnitt för Loti-bot-roboten!",
       "bluebot": "Välkommen till Vittasciences gränssnitt för Blue-bot-roboten!",
       "spike": "Välkommen till Vittasciences gränssnitt för LEGO® Education SPIKE™ Essential!<br>LEGO, LEGO-logotypen, Minifiguren, DUPLO och SPIKE-logotypen är varumärken som tillhör LEGO Group, som inte sponsrar, godkänner eller auktoriserar denna webbplats.",
+      "legoprime": "Välkommen till Vittascience-gränssnittet för LEGO® Education SPIKE™ Prime!<br>Anslut hubben via USB (SPIKE 3 firmware) eller tryck på Bluetooth-knappen, klicka sedan på den matchande uppladdningsknappen: programmet laddas upp till slot 19 på hubben, vilket raderar det program som redan finns där.<br>LEGO, LEGO-logotypen, Minifiguren, DUPLO och SPIKE-logotypen är varumärken som tillhör LEGO Group, som inte sponsrar, stöder eller godkänner denna webbplats.",
       "photon": "Välkommen till Vittasciences gränssnitt för Photon-roboten!",
       "codey": "Välkommen till Vittasciences gränssnitt för Codey och Rocky från Makeblock!",
       "nano-esp32": "Välkommen till Vittasciences gränssnitt för Arduino Nano ESP32-kortet och Alvik-roboten! Som standard finns MicroPython-tolken redan på kortet. Om du vill uppdatera Arduino Nano ESP32-kortet, flasha MicroPython-firmware på kortet enligt denna handledning: <b><a href=\"https://fr.vittascience.com/learn/tutorial.php?id=341/flasher-le-firmware-micropython-dans-la-carte-esp32\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashning av MicroPython-firmware</a></b>",
       "steami": "Välkommen till Vittasciences gränssnitt för STeaMi!",
       "alphai": "Välkommen till Vittasciences gränssnitt för AlphAI-roboten!",
-      "arduinoq": "Välkommen till Vittascience-gränssnittet för Arduino UNO Q-brädan!</br></br>Gränssnittet stöder olika språk (Arduino, Python, HTML) för programmering av ett komplett projekt med brädan. Blocken i kategorin 'Bas' kan användas på vilket språk som helst; den genererade koden kommer då att anpassas till språktypen av headerblocket.</br></br>Det är möjligt att skicka Linux-kommandon till Arduino Q-brädan genom att skriva kommandot i inmatningsfältet längst ner i konsolen.",
+      "arduinoq": "Välkommen till Vittascience-gränssnittet för Arduino UNO Q-kortet!</br></br>Gränssnittet stöder olika språk (Arduino, Python, HTML) för programmering av ett komplett projekt med kortet. Blocken i kategorin 'Bas' kan användas på alla språk; den genererade koden anpassas sedan till språket för headerblocket.</br></br>Det är möjligt att skicka Linux-kommandon till Arduino Q-kortet genom att skriva kommandot i inmatningsfältet längst ner i konsolen.",
       "primastem": "Välkommen till Vittascience-gränssnittet för PrimaStem-roboten!",
+      "matatalab": "Välkommen till Vittascience-gränssnittet för Matatalab MatataBot-roboten!</br>Anslut MatataBot-roboten, eller MatataCon-kontrollern i sensormode för att använda sensorerna och LED-ringen.",
       "skykick": "Välkommen till Vittascience-gränssnittet för SkyKick Evo-dronen!</br>Anslut kontrollern via USB, ställ den i Link-läge och klicka sedan på anslutningsknappen innan du kör ditt program. Varning: dronen flyger verkligen, håll ett klart utrymme."
+    },
+    "matatalab": {
+      "controllerMode": "MatataCon-kontrollern är inte i sensormode: växla läget och anslut den igen. Om problemet kvarstår, uppdatera dess firmware och MatataBotens med MatataCode-appen.",
+      "formerFirmware": "Robotens använder det tidigare protokollet: rörelser, ljud och ögon är tillgängliga, men inte sensorerna eller LED-ringen."
     },
     "chromeApp": {
       "noPort": "Ingen port upptäckt",
@@ -1567,7 +1663,12 @@
       "installButton": "Installera",
       "installBackButton": "Tillbaka",
       "backInterface": "Återgå till programmeringsgränssnittet",
-      "downloadTitle": "Ladda ner"
+      "downloadTitle": "Ladda ner",
+      "retired": {
+        "title": "Plugins behövs inte längre",
+        "text": "Vittascience-programmeringsgränssnitt kommunicerar nu direkt med korten från webbläsaren. Det finns inte längre något plugin, tillägg eller programvara som måste installeras på din dator.",
+        "browsers": "För att kommunicera med ett kort, använd helt enkelt en modern webbläsare baserad på Chromium (Chrome, Edge eller Opera)."
+      }
     },
     "smallScreen": {
       "title": "Tyvärr",
@@ -1602,6 +1703,8 @@
       "tooltips": {
         "boardWifi": "Konfigurera Wi-Fi för det anslutna Arduino UNO Q-kortet",
         "projectMenu": "Projektmeny",
+        "editorToolbar": "Redigeringsverktygsfält",
+        "modeMenu": "Välj läge: block, hybrid eller kod",
         "new": "Nytt projekt",
         "save": "Spara",
         "open": "Öppna projekt",
@@ -1625,6 +1728,8 @@
         "esp32BoardSelector": "Välj ESP32-kort att programmera",
         "unihikerBoardSelector": "Välj det UNIHIKER-kort som ska programmeras",
         "downloadPython": "Ladda ner Python-skriptet",
+        "switchToSpikePrime": "Byt till SPIKE Prime",
+        "switchToSpikeEssential": "Byt till SPIKE Essential",
         "downloadPythonGalaxia": "Ladda ner 'main.py' Python-skriptet för att dra och släppa på Galaxia",
         "downloadArduino": "Ladda ner Arduino-skriptet",
         "downloadThymio": "Ladda ner TDMLauncher-programmet",
@@ -1639,8 +1744,8 @@
         "installUnihiker": "Lägg Vittascience-serverns installationsprogram på kortet (kör det en gång från kortets Home-meny)",
         "unihikerHost": "Ändra kortets adress (10.1.2.3 via USB, eller dess Wi-Fi-adress)",
         "downloadHex": "Exportera micro:bit-programmet i [.hex]-format",
-        "downloadPicaxe": "Download the .bas program (open it in PICAXE Editor)",
-        "uploadPicaxe": "Send the program to the board (AutoProgX2 / PICAXE-28X2, AXE027 cable, Chrome or Edge browser)",
+        "downloadPicaxe": "Ladda ner .bas-programmet (öppna det i PICAXE Editor)",
+        "uploadPicaxe": "Skicka programmet till kortet (AutoProgX2 / PICAXE-28X2, AXE027-kabel, Chrome- eller Edge-webbläsare)",
         "downloadTexas": "Ladda ner .py för miniräknaren",
         "runBuddy": "Kör programmet på Buddy-roboten",
         "disconnect": "Koppla från kortet",
@@ -1671,6 +1776,7 @@
         "consoleSettings": "Huvudinställningar",
         "accessibility": "Välj tema och teckensnitt",
         "shortcuts": "Visa kortkommandon",
+        "tour": "Upptäck gränssnittet steg för steg",
         "addBlockSettings": "Lägg till block",
         "fullscreen": "Växla helskärm",
         "help": "Hjälp",
@@ -1690,7 +1796,7 @@
         "beginnerMode": "Nybörjarläge",
         "advancedMode": "Avancerat läge",
         "lastSaveOn": "Senast sparat: ",
-        "lastSaveFailed": "The last save failed: your changes are not saved. Click to try again.",
+        "lastSaveFailed": "Senaste sparningen misslyckades: dina ändringar sparades inte. Klicka för att försöka igen.",
         "pendingSync": "Sparat på den här enheten, väntar på synkronisering: projektet skickas till molnet när anslutningen är tillbaka.",
         "description": "Beskrivning:",
         "repl": "Tryck på Enter ↩️ för att köra kommandot",
@@ -1737,7 +1843,7 @@
         "downloadUf2Pico": "Firmware för Pico",
         "downloadUf2PicoW": "Firmware för Pico W",
         "downloadPython": "Ladda ner .py",
-        "downloadPicaxe": "Download .bas",
+        "downloadPicaxe": "Ladda ner .bas",
         "downloadTexas": "Ladda ner för miniräknare",
         "downloadThymioWindows": "Ladda ner .exe",
         "downloadThymioMacOS": "Ladda ner .dmg",
@@ -1750,6 +1856,8 @@
         "settings": "Inställningar",
         "themes": "Tillgänglighet",
         "shortcuts": "Kortkommandon",
+        "tour": "Guidad tur",
+        "offline": "Offline",
         "add": "Lägg till block",
         "fullscreen": "Helskärm",
         "help": "Hjälp",
@@ -1782,7 +1890,9 @@
       "public": "Offentlig"
     },
     "blockly": {
+      "clearSearch": "Rensa sökningen",
       "label": {
+        "description": "Beskrivning",
         "trash": "<img src='/openInterface/interfaces/assets/media/empty_trash_icon.svg' class='empty-icon'></img>Töm papperskorgen",
         "backpack": "<img src='/openInterface/interfaces/assets/media/empty_trash_icon.svg' class='empty-icon'></img>Töm ryggsäcken"
       },
@@ -1822,6 +1932,7 @@
           "launchApp": "Starta appen",
           "stopApp": "Stoppa appen",
           "openFileSystem": "Filer",
+          "pythonFiles": "Filer",
           "monitor": "Seriell monitor",
           "openRepl": "REPL"
         },
@@ -1840,6 +1951,7 @@
           "launchApp": "Starta om appen som redan skickats till kortet",
           "stopApp": "Stoppa appen som körs på kortet",
           "openFileSystem": "Öppna kortets filsystem",
+          "pythonFiles": "Filer som är tillgängliga för programmet (öppna, os, bild)",
           "graph": "För att visa mottagen data i konsolen, klicka på <b>Graf</b>-knappen.",
           "monitorToggler": "För att se mottagen data, klicka på knappen <i class='fas fa-chevron-up'></i>"
         }
@@ -1938,6 +2050,12 @@
           "downloadScreen": "Skärmdump",
           "toggleBoardDisplay": "Visa/dölj simulatorns karta",
           "switchWiringMode": "Byt till kopplingsläge",
+          "selectBoard": "Välj kortet",
+          "boardView": "Simulerad kortvy",
+          "describeBoard": "Beskriv tillståndet för kortet",
+          "stateEmpty": "Ingen utdata har ändrats än: kör programmet.",
+          "stateOn": "hög",
+          "stateOff": "låg",
           "switchMosaicMode": "Byt till mosaikläge",
           "wiringZoomIn": "Zooma in",
           "wiringZoomOut": "Zooma ut"
@@ -1994,8 +2112,8 @@
         "variables-panel-msg": "Detta program innehåller inga variabler",
         "replaySimulator": "Kör om simulatorn för att skicka data",
         "skulptLoadError": "Simulatorn kunde inte laddas. Kontrollera din anslutning och starta simulatorn igen.",
-        "picaxeRuntimeError": "Simulation error: %1",
-        "picaxeSimulatorChip": "The simulator is only available for the AutoProgX2 (PICAXE-28X2)."
+        "picaxeRuntimeError": "Simuleringsfel: %1",
+        "picaxeSimulatorChip": "Simulatorn är endast tillgänglig för AutoProgX2 (PICAXE-28X2)."
       },
       "tooltips": {
         "bluebot-buttons": "Du kan använda knapparna på Blue-bot-roboten för att programmera den!"
@@ -2088,7 +2206,277 @@
         "groveUV": "UV-indexsensor",
         "groveSound": "Ljudsensor",
         "grovePulse": "Pulssensor",
-        "distanceInterrupter": "Avståndsavbrottare"
+        "distanceInterrupter": "Avståndsavbrottare",
+        "accelerometer": "Accelerometer",
+        "accelerometerMg": "Accelerometer (mg)",
+        "accelerometerPitch": "Accelerometer - Lutning",
+        "accelerometerRoll": "Accelerometer - Rullning",
+        "altitude": "Höjd",
+        "analogRead": "Analog Avläsning",
+        "analogWrite": "Analog Skrivning",
+        "axis": "{{axis}} axel",
+        "backward": "Bakåt",
+        "barrier": "Barriär",
+        "battery": "Batteri",
+        "batteryLevel": "Batterinivå",
+        "blackLineCenter": "Centralsensor för Svart Linje",
+        "blackLineLeft": "Vänstersensor för Svart Linje",
+        "blackLineRight": "Högersensor för Svart Linje",
+        "blue": "Blå",
+        "blueValue": "blå",
+        "bodyAccelerometer": "Kropp - Accelerometer",
+        "bodyAngularSpeed": "Kropp - Vinkelhastighet",
+        "bodyTouchSensor": "Beröringssensor för Kroppen",
+        "brightness": "Ljusstyrka",
+        "builtinBuzzer": "Inbyggd Summer",
+        "builtinLed": "Inbyggd LED",
+        "builtinRgbLed": "Inbyggd RGB LED",
+        "bumpers": "Stötfångare",
+        "buttonBackward": "Bakåtknapp",
+        "buttonBlue": "Blå Knapp",
+        "buttonCenter": "Centralknapp",
+        "buttonDelete": "Radera Knapp",
+        "buttonDown": "Ner Knapp",
+        "buttonForward": "Framåtknapp",
+        "buttonLeft": "Vänsterknapp",
+        "buttonMenu": "Menuknapp",
+        "buttonMusic": "Musikknapp",
+        "buttonName": "Knapp {{name}}",
+        "buttonPlay": "Spela Knapp",
+        "buttonPurple": "Lila Knapp",
+        "buttonRed": "Röd Knapp",
+        "buttonRight": "Högerknapp",
+        "buttonUp": "Upp Knapp",
+        "buttonYellow": "Gul Knapp",
+        "camera": "Kamera",
+        "chassisRgbLeds": "Chassi RGB LED",
+        "clock": "Klocka",
+        "clockwise": "Medurs",
+        "colorScreen320x240": "320x240 Färgskärm",
+        "colorScreenDFR0997": "DFR0997 Färgdskärm",
+        "colorSensorAverage": "Färgsensor (Genomsnitt)",
+        "colorSensorLed": "Färgsensor LED",
+        "compass": "Kompass",
+        "compassAngle": "Kompass - Vinkel",
+        "compassAxis": "Kompass - Axel",
+        "conveyor": "Transportör",
+        "counterclockwise": "Moturs",
+        "cpuTemp": "Processor Temp.",
+        "detection": "Detektion",
+        "diam1": "diam. (1 µm)",
+        "diam10": "diam. (10 µm)",
+        "diam25": "diam. (2.5 µm)",
+        "digitalRead": "Digital Avläsning",
+        "digitalWrite": "Digital Skrivning",
+        "direction": "Riktning",
+        "distance": "Avstånd",
+        "distanceSensor": "Avståndssensor",
+        "doorClosed": "Dörr Stängd",
+        "down": "Ner",
+        "ds18b20": "DS18B20 - Temperatur",
+        "duration": "Varaktighet",
+        "electromagnet": "Elektromagnet",
+        "eyeLeft": "Vänster Öga",
+        "eyeRight": "Höger Öga",
+        "fingerprintSensor": "Kapacitiv Fingeravtryckssensor",
+        "firstTimer": "Första gången",
+        "forceSensor": "Kraftsensor",
+        "forward": "Framåt",
+        "freeFall": "Fritt fall",
+        "frequency": "Frekvens",
+        "friendly": "Vänlig",
+        "gesture": "Gester",
+        "green": "Grön",
+        "greenValue": "grön",
+        "gyroscope": "Gyroskop",
+        "gyroscopeAngle": "Gyroskop - Vinkel",
+        "gyroscopeDps": "Gyroskop (°/s)",
+        "gyroscopeSpeed": "Gyroskop - Hastighet",
+        "hallSensor": "Hall-effekt sensor",
+        "handLeftSensors": "Vänster handsensorer",
+        "handRightSensors": "Höger handsensorer",
+        "headAccelerometer": "Huvud - Accelerometer",
+        "headAngularSpeed": "Huvud - Vinkelhastighet",
+        "headSensor": "Huvudsensor",
+        "headTouchSensor": "Huvudtrycksensor",
+        "headlightLeft": "Vänster strålkastare",
+        "headlightRight": "Höger strålkastare",
+        "hue": "Nyans",
+        "humidity": "Fuktighet",
+        "infraredSensor": "Infraröd sensor",
+        "interrupt": "Avbryt",
+        "irCom": "IR COM.",
+        "irEmitter": "IR Utstrålningsenhet (barriär)",
+        "irReceiver": "IR Mottagare (barriär)",
+        "irRemote": "Infraröd fjärrkontroll",
+        "keyCode": "Tangentskod",
+        "keyDown": "Nedåt tangenten",
+        "keyLeft": "Vänster tangenten",
+        "keyName": "Tangentin {{name}}",
+        "keyRight": "Höger tangenten",
+        "keyUp": "Uppåt tangenten",
+        "keyboard": "Tangentbord",
+        "keypad4x4": "4x4 Tangentbord",
+        "latitude": "Breddgrad",
+        "lcdScreen": "LCD-skärm",
+        "lcdScreen16x2": "16x2 LCD-skärm",
+        "ledBlue": "Blå LED",
+        "ledGreen": "Grön LED",
+        "ledLeft": "Vänster LED",
+        "ledMatrix3x3": "3x3 LED-matris",
+        "ledRed": "Röd LED",
+        "ledRedLeft": "Röd LED (vänster)",
+        "ledRedRight": "Röd LED (höger)",
+        "ledRight": "Höger LED",
+        "ledsBottomLeft": "Nedre vänstra LED-lampor",
+        "ledsBottomRight": "Nedre högra LED-lampor",
+        "ledsButtons": "Knapp-LED lampor",
+        "ledsCircle": "Cirkellampor",
+        "ledsProximityH": "Proximity LED h",
+        "ledsProximityV": "Proximity LED v",
+        "ledsRemote": "Fjärrkontrolls-LED-lampor",
+        "ledsSound": "Ljud-LED-lampor",
+        "ledsTemperature": "Temperatur-LED-lampor",
+        "ledsTop": "Övre LED-lampor",
+        "left": "Vänster",
+        "levelOf": "Nivå av",
+        "lineCenterLeft": "Svart linje (Center vänster)",
+        "lineCenterRight": "Svart linje (Center höger)",
+        "lineLeft": "Svart linje (Vänster)",
+        "lineMiddle": "Svart linje (Mitten)",
+        "lineMiddleLeft": "Svart linje (Mitten vänster)",
+        "lineMiddleRight": "Svart linje (Mitten höger)",
+        "linePosition": "Svart linje ({{position}})",
+        "lineRearLeft": "Svart linje (Bak vänster)",
+        "lineRearRight": "Svart linje (Bak höger)",
+        "lineRight": "Svart linje (Höger)",
+        "lineSensor": "Svart linjesensor {{n}}",
+        "lineSensorLeft": "Vänster linjesensor",
+        "lineSensorRight": "Höger linjesensor",
+        "linkySensor": "Linky-sensor",
+        "logoDown": "Logotypen ner",
+        "logoUp": "Logotypen upp",
+        "longitude": "Längdgrad",
+        "magneticField": "Magnetfält",
+        "magneticFieldAxis": "Magnetfält {{axis}}",
+        "magneticSucker": "Magnetisk sugkopp",
+        "mhz19Co2": "MHZ19 Sensor - CO2",
+        "mhz19Temp": "MHZ19 Sensor - Temperatur",
+        "microphone": "Mikrofon",
+        "motionDetection": "Rörelsedetektering",
+        "motorFrontLeft": "Fram vänster motor",
+        "motorFrontRight": "Fram höger motor",
+        "motorLeft": "Vänster motor",
+        "motorNumber": "Motor {{n}}",
+        "motorRearLeft": "Bak vänster motor",
+        "motorRearRight": "Bak höger motor",
+        "motorRight": "Höger motor",
+        "mq2": "MQ2 - Gas",
+        "obstacle": "Hinder",
+        "obstacleBack": "Bak hinder",
+        "obstacleDetection": "Hinderdetektering",
+        "obstacleFront": "Fram hinder",
+        "obstacleLeft": "Vänster hinder",
+        "obstacleRight": "Höger hinder",
+        "obstacleSensor": "Hinderdetektor",
+        "orange": "Orange",
+        "pinAltitude": "Höjd (tryck)",
+        "pinBackSensor": "Bak sensor",
+        "pinBatteryCharge": "Batteriladdning",
+        "pinDominantColor": "Dominant färg",
+        "pinFrontRightSensor": "Fram höger sensor",
+        "pinFrontSensor": "Fram sensor",
+        "pinLeft": "Vänster",
+        "pinLeftSensor": "Vänster sensor",
+        "pinMiddleSensor": "Mitten-sensor",
+        "pinPosition": "Position i grader",
+        "pinPronunciation": "Uttalsbetyg",
+        "pinRearSensor": "Bak sensor",
+        "pinRight": "Höger",
+        "pinRightSensor": "Höger sensor",
+        "pinSoundLevel": "Ljudnivå",
+        "pinSpeaking": "Talar",
+        "pinZoneChest": "Zon: bröst",
+        "pinZoneLeft": "Zon: vänster",
+        "pinZoneLeftShoulder": "Zon: vänster axel",
+        "pinZoneRight": "Zon: höger",
+        "pinZoneRightShoulder": "Zon: höger axel",
+        "pinZoneTop": "Zon: topp",
+        "pitch": "Tonhöjd",
+        "pressure": "Tryck",
+        "pwmSignal": "PWM-signal",
+        "rangefinderDistance": "Avståndsmätare - Avstånd",
+        "receivedMessage": "Mottaget meddelande",
+        "red": "Röd",
+        "redValue": "röd",
+        "remote": "Fjärrkontroll",
+        "remoteButton": "{{button}}-knappen för fjärrkontrollen",
+        "rfidReader": "RFID-badge läsare",
+        "rgbHeadlights": "RGB-strålkastare",
+        "rgbLedFrontLeft": "RGB LED (fram vänster)",
+        "rgbLedFrontRight": "RGB LED (fram höger)",
+        "rgbLedLeft": "RGB LED (vänster)",
+        "rgbLedNumber": "RGB LED{{n}}",
+        "rgbLedRearLeft": "RGB LED (bak vänster)",
+        "rgbLedRearRight": "RGB LED (bak höger)",
+        "rgbLedRight": "RGB LED (höger)",
+        "rgbLeds": "RGB LEDs",
+        "right": "Höger",
+        "rockPaperScissors": "Sten-Sax-Papper skiva",
+        "roll": "Rullning",
+        "saturation": "Mättnad",
+        "scaleMass": "Massa på vågen",
+        "screenDown": "Skärmen ner",
+        "screenUp": "Skärmen upp",
+        "sentMessage": "Skickat meddelande",
+        "servoMotor": "Servo",
+        "servoMotorName": "Servo Motor {{name}}",
+        "servoNumber": "Servo {{n}}",
+        "shake": "Skakning",
+        "shakeGesture": "Skaka",
+        "sonarLeft": "Vänster Sonar",
+        "sonarRight": "Höger Sonar",
+        "soundThreshold": "Ljudtröskel",
+        "sounds": "Ljud",
+        "speechRecognition": "Taligenkänning",
+        "stepper28BYJ48": "28BYJ-48 Stegmotor",
+        "stepperNumber": "Stegmotor {{n}}",
+        "temperature": "Temperatur",
+        "temperatureHumidity": "Temperatur och luftfuktighet",
+        "temperatureHumiditySensor": "Temperatur (luftfuktighetssensor)",
+        "tilt": "Lutning",
+        "tiltLeft": "Lutning Vänster",
+        "tiltRight": "Lutning Höger",
+        "timer": "Timer {{n}}",
+        "tofCenter": "ToF - Mitten (0°)",
+        "tofCenterLeft": "ToF - Mitten Vänster (22°)",
+        "tofCenterRight": "ToF - Mitten Höger (22°)",
+        "tofLeft": "ToF - Vänster (45°)",
+        "tofMm": "Tid för Flygning - Avstånd (mm)",
+        "tofRight": "ToF - Höger (45°)",
+        "touchButtonCancel": "Avbryt Tryckknapp",
+        "touchButtonCenter": "Mitten Tryckknapp",
+        "touchButtonDown": "Ned Tryckknapp",
+        "touchButtonLeft": "Vänster Tryckknapp",
+        "touchButtonOk": "OK Tryckknapp",
+        "touchButtonRight": "Höger Tryckknapp",
+        "touchButtonUp": "Upp Tryckknapp",
+        "trafficSign": "Vägsignal",
+        "ultrasonicMm": "Ultraljud - Avstånd (mm)",
+        "ultrasonicRangefinder": "Ultraljuds Avståndsmätare",
+        "ultrasonicSensor": "Ultraljudssensor",
+        "up": "Upp",
+        "value": "Värde",
+        "vehicleDetected": "Fordon Upptäckt",
+        "vibrations": "Vibrationer",
+        "visible": "Synlig",
+        "voc": "VOC",
+        "voice": "Röst",
+        "voiceRecognition": "Röstigenkänning",
+        "waterAtomizer": "Vattenfördelare",
+        "wave": "Våg",
+        "yaw": "Vrida",
+        "yellow": "Gul"
       },
       "pinError": "[Pin-fel] Modulen <b>{{modId}}</b> kan inte anslutas till stift <b>{{pin}}</b>. Modulen <b>{{attachedId}}</b> är redan ansluten.",
       "wiring": {
@@ -2393,13 +2781,121 @@
       "noPortAvailable": "Ingen tillgänglig port.",
       "emptyCode": "Fel: koden är tom.",
       "compilation": "Ett fel uppstod under kompileringen.",
-      "syntax": "Syntaxfel. Se detaljer i konsolen."
+      "syntax": "Syntaxfel. Se detaljer i konsolen.",
+      "offlineCompilation": "Du är offline: kompileringen görs på våra servrar, den kommer att vara tillgänglig igen när du är online. Simulatorn fungerar offline."
     },
     "error": {
       "titleExercise": "Skapa en övning",
       "otherUser": "Du kan inte ändra en övning som skapats av någon annan. Skapa en egen övning genom att publicera dina projekt.",
       "saveProjectForExercise": "Du kan inte skapa en övning från ett osparat projekt. Spara projektet först, och skapa sedan din övning.",
       "descExercise": "För att skapa en övning måste du vara inloggad."
+    },
+    "tour": {
+      "buttons": {
+        "previous": "Tidigare",
+        "next": "Nästa",
+        "finish": "Avsluta",
+        "quit": "Avsluta den guidade turen",
+        "skip": "Hoppa över",
+        "try": "Prova det"
+      },
+      "welcome": {
+        "title": "Välkommen!",
+        "text": "Hej, jag är Vittabot! Låt mig visa dig runt i gränssnittet. Fortsätt framåt med knapparna eller piltangenterna, och avsluta när som helst med <kbd>Esc</kbd>."
+      },
+      "project": {
+        "title": "Ditt projekt",
+        "text": "Namnet på ditt projekt. Klicka på det för att döpa om det eller lägga till en beskrivning."
+      },
+      "files": {
+        "title": "Dina projekt",
+        "text": "Skapa ett nytt projekt, öppna ett befintligt (ditt, de som delats med dig eller exemplen) och spara ditt arbete."
+      },
+      "undo": {
+        "title": "Ångra och gör om",
+        "text": "Ångra eller gör om en ändring, även med <kbd>Ctrl</kbd>+<kbd>Z</kbd> och <kbd>Ctrl</kbd>+<kbd>Y</kbd>."
+      },
+      "toolbox": {
+        "title": "Blocken",
+        "text": "Blocken är sorterade efter kategorier: klicka på en kategori för att visa dem. Sökningen, högst upp, hittar ett block efter sitt namn."
+      },
+      "workspace": {
+        "title": "Arbetsytan",
+        "text": "Dra blocken hit och fäst dem samman för att bygga ditt program, börja med blocken \"On start\" och \"Forever\". Högerklicka på ett block för att duplicera det, kommentera det eller visa dess hjälp."
+      },
+      "workspaceTools": {
+        "title": "Verktyg för arbetsytan",
+        "text": "Lägg block i ryggsäcken för att återanvända dem i ett annat projekt, ta en skärmdump, zooma eller centrera om, och radera block genom att dra dem till papperskorgen."
+      },
+      "code": {
+        "title": "Koden",
+        "text": "Koden skrivs automatiskt från dina block. I kodläge skriver du den själv, med hjälp av autocompletion."
+      },
+      "modes": {
+        "title": "Block, hybrid eller kod",
+        "text": "Välj hur du vill programmera: med block, med blocken och koden sida vid sida, eller direkt i kod."
+      },
+      "upload": {
+        "title": "Skicka programmet",
+        "text": "Anslut din hårdvara (kort, robot eller räknare) och skicka ditt program. Pilen, när den finns, öppnar andra alternativ, som att ladda ner programfilen."
+      },
+      "run": {
+        "title": "Kör programmet",
+        "text": "Starta ditt program för att se resultatet."
+      },
+      "simulator": {
+        "title": "Simulatorn",
+        "text": "Testa ditt program utan hårdvara: simulatorn återskapar kortet, roboten eller räknaren och reagerar på ditt program."
+      },
+      "console": {
+        "title": "Konsolen",
+        "text": "Meddelandena från ditt program visas här. Dra dess kant för att förstora den eller dölja den."
+      },
+      "consoleModes": {
+        "title": "Text, graf eller musik",
+        "text": "Visa de mottagna uppgifterna som text eller som en graf, eller lyssna på noterna som spelas av ditt program."
+      },
+      "consoleTools": {
+        "title": "Prata med kortet",
+        "text": "Skicka meddelanden till den anslutna kortet, exportera grafikdata och, beroende på kortet, få tillgång till dess filer eller dess konsol."
+      },
+      "fullscreen": {
+        "title": "Helskärm",
+        "text": "Visa gränssnittet i helskärmsläge för att få mer utrymme."
+      },
+      "settings": {
+        "title": "Inställningar",
+        "text": "Tema, tillgänglighet, språk, kortkommandon, hjälp… Du hittar också denna guidade tur här."
+      },
+      "end": {
+        "title": "Din tur!",
+        "text": "Du känner nu till gränssnittet. För att ta reda på vad varje block gör, öppna wikin från hjälpen. Och om du behöver mig, finns jag i inställningarna!"
+      },
+      "mission": {
+        "invite": "Låt oss skapa ditt första program tillsammans!",
+        "category": {
+          "title": "Öppna en kategori",
+          "text": "Klicka på <b>{name}</b> kategori."
+        },
+        "block": {
+          "title": "Lägg till ett block",
+          "text": "Dra <b>{block}</b> blocket in i <b>{into}</b> blocket och fäst det.",
+          "textAnywhere": "Dra <b>{block}</b> blocket till arbetsytan."
+        },
+        "simulator": {
+          "title": "Starta simulatorn",
+          "text": "Klicka på den här knappen för att starta simulatorn och se ditt program köras."
+        },
+        "run": {
+          "title": "Kör programmet",
+          "text": "Klicka på <b>Kör</b> för att starta ditt program."
+        },
+        "done": {
+          "title": "Bra gjort!",
+          "text": "Ditt program fungerar, jag är stolt över dig! Titta på resultatet i simulatorn. Ändra blocket eller lägg till andra för att gå vidare.",
+          "textConsole": "Ditt program fungerar, jag är stolt över dig! Titta på resultatet i konsolen. Ändra blocket eller lägg till andra för att gå vidare."
+        }
+      }
     },
     "robotGuide": {
       "tuto": "För att hitta programmeringsblocken för <b>[ROBOT_NAME]</b>-roboten, klicka på fliken <b><i class='fa-solid fa-robot me-1'></i>Robotar</b>.",
@@ -4769,6 +5265,7 @@
   },
   "profile": {
     "menu": {
+      "premium": "Premium",
       "user": "Min profil",
       "publicProfile": "Offentlig profil",
       "exp": "Mina experiment",
@@ -4783,6 +5280,17 @@
       "title": "Min profil",
       "notice": "Fält markerade med <span class=\"mandatory\">*</span> är obligatoriska. ",
       "form": {
+        "enableTotp": "Aktivera tvåfaktorsautentisering",
+        "updated": "Din profil har uppdaterats framgångsrikt!",
+        "picture": {
+          "alt": "användaravatar",
+          "title": "Välj en profilbild",
+          "upload": "Ladda upp din egen bild",
+          "icons": "Välj bland de tillgängliga Vittascience-ikonerna",
+          "save": "Spara",
+          "tooBig": "Ogiltig fil! Maximal storlek är: 250 KB.",
+          "sizeOk": "Filstorleken är giltig."
+        },
         "firstName": "Förnamn",
         "firstNamePlaceholder": "Ditt förnamn",
         "lastName": "Efternamn",
@@ -4809,6 +5317,19 @@
         "namePublic": "Accepterar du att ditt för- och efternamn visas offentligt på vår webbplats?",
         "newsletter": "Vill du ta emot vårt nyhetsbrev?",
         "alertMail": "Vill du få e-postaviseringar när du får nya meddelanden på vår webbplats?",
+        "errors": {
+          "session": "Din session har gått ut: ladda om sidan.",
+          "name": "Förnamnet eller efternamnet är ogiltigt.",
+          "phone": "Telefonnumret är ogiltigt: det måste vara mellan 10 och 30 tecken långt.",
+          "picture": "Bilden är ogiltig: kontrollera formatet och storleken.",
+          "pictureSave": "Bilden kunde inte sparas. Vänligen försök igen.",
+          "save": "Din profil kunde inte sparas. Vänligen försök igen.",
+          "teacherMissing": "Ange din skola, din nivå och ditt ämne.",
+          "school": "Skolnamnet är ogiltigt.",
+          "grade": "Nivån är ogiltig.",
+          "subject": "Ämnet är ogiltigt.",
+          "generic": "Fel. Formuläret innehåller fel."
+        },
         "buttons": {
           "changePassword": "Byt mitt lösenord",
           "changeMail": "Ändra min e-postadress",
@@ -4818,6 +5339,8 @@
         },
         "return": "Tillbaka",
         "changePassword": {
+          "success": "Ditt lösenord har ändrats framgångsrikt!",
+          "error": "Fel! Vänligen kontrollera fälten.",
           "title": "Byt mitt lösenord",
           "form": {
             "actualPassword": "Nuvarande lösenord",
@@ -4830,6 +5353,9 @@
           }
         },
         "changeMail": {
+          "exists": "Denna e-postadress används redan! Vänligen välj en annan.",
+          "success": "Din begäran har sparats! Klicka på bekräftelselänken i e-postmeddelandet vi nyss har skickat till dig för att bekräfta din nya e-postadress ({{mail}}).",
+          "error": "Fel. Vänligen försök igen.",
           "title": "Ändra min e-postadress",
           "notice": "<span class=\"fa fa-exclamation-triangle\"></span> Denna nya e-postadress kommer att fungera som identifierare för ditt Vittascience-konto. För att bekräfta den skickas ett e-postmeddelande till dig.",
           "mail": "Din e-postadress",
@@ -4837,6 +5363,18 @@
           "button": "Ändra min e-postadress"
         },
         "deletion": {
+          "subscription_warning": "Din aktuella Premium-prenumeration kommer att avbrytas omedelbart, utan återbetalning.",
+          "gifted_subscriptions_warning": "De Premium-prenumerationer du betalar för andra konton kommer också att avbrytas omedelbart.",
+          "students_warning": "Dina klasser och deras elevers konton ({{count}}) kommer också att tas bort permanent.",
+          "subscription_cancel_failed": "Ditt konto har inte tagits bort: uppsägningen av din Premium-prenumeration misslyckades. Försök igen om några minuter eller kontakta oss.",
+          "delete_failed": "Ditt konto har inte tagits bort på grund av ett fel. Försök igen om några minuter eller kontakta oss.",
+          "deleted": "Ditt konto har tagits bort.",
+          "deleted_with_subscription": "Ditt konto har tagits bort och din Premium-prenumeration har avbrutits.",
+          "mail_subject": "Ditt Vittascience-konto har tagits bort",
+          "mail_greeting": "Hej {{name}},",
+          "mail_deleted": "Ditt Vittascience-konto kopplat till {{email}} har tagits bort från mobilappen.",
+          "mail_subscription_cancelled": "Din Premium-prenumeration har avbrutits.",
+          "mail_not_you": "Om du inte har begärt den här borttagningen, kontakta oss på {{support}}.",
           "delete_account": "Ta bort mitt konto",
           "confirm_delete_prompt": "Är du säker på att du vill ta bort ditt konto?",
           "data_lost_warning": "All din data kommer att tas bort permanent.",
@@ -4878,6 +5416,7 @@
       }
     },
     "pro": {
+      "deleteConfirm": "Vill du ta bort det här projektet?",
       "title": "Mina program",
       "subTitle": "Lista över mina program",
       "api": {
@@ -4909,7 +5448,90 @@
       },
       "searchButton": "Sök"
     },
+    "premium": {
+      "tabPersonal": "Min Premium-prenumeration",
+      "tabGifted": "Gåvor av prenumerationer",
+      "tabGroup": "Gruppprenumeration",
+      "yourSubscription": "Din prenumeration:",
+      "statusLabel": "Status:",
+      "status": {
+        "active": "Aktiv",
+        "canceled": "Avbruten",
+        "unknown": "Okänd",
+        "admin": "Admin"
+      },
+      "periodEnd": "Slut på perioden:",
+      "nextPayment": "Nästa betalning:",
+      "cancel": "Avbryt prenumeration",
+      "resubscribe": "Prenumerera igen",
+      "reactivate": "Återaktivera",
+      "notSubscribed": "Du är inte prenumererad på Premium-planen",
+      "planPremium": "Premium",
+      "planTeam": "Team",
+      "fromPricePremium": "Från €{{price}}/månad",
+      "fromPriceTeam": "Från €{{price}}/lärare/månad",
+      "teacherCount": "Antal lärare:",
+      "subscribed": "Prenumererad",
+      "subscribe": "Prenumerera",
+      "compare": "Jämför planer >",
+      "modalTitle": "Premium-prenumeration",
+      "chosenPlan": "Du har valt planen",
+      "chooseBilling": "Välj en faktureringsperiod:",
+      "monthly": "Månatlig prenumeration",
+      "yearly": "Årlig prenumeration",
+      "triennial": "Tremånaders prenumeration",
+      "billingAddress": "Faktureringsadress:",
+      "noBillingAddress": "Du har ingen faktureringsadress.",
+      "subscribeFor": "Du prenumererar för:",
+      "forMe": "Mitt konto",
+      "forOther": "Ett annat konto",
+      "otherEmailLabel": "Ange e-postadressen till Vittascience-kontot nedan",
+      "groupName": "Gruppnamn",
+      "groupOf": "Grupp av",
+      "or": "eller",
+      "quote": "Kostnadsförslag",
+      "giftedName": "Namn",
+      "giftedStatus": "Status",
+      "giftedPeriodEnd": "Periodens slut",
+      "giftedAction": "Åtgärd",
+      "noGifted": "Du har inte gett bort någon prenumeration än.",
+      "groupInherit": "Du tillhör en grupp med Premium-status och ärver följande åtkomst:",
+      "learners": "Lärande:",
+      "classrooms": "Klasser:",
+      "unlimited": "Obegränsad",
+      "validity": "Giltighet:",
+      "since": "Prenumererad sedan",
+      "until": "Till",
+      "noGroup": "Du tillhör inte en grupp med Premium-status.",
+      "minTeachers": "Vänligen välj fler än en lärare för denna plan.",
+      "maxTeachers": "För fler än 200 lärare, vänligen kontakta oss på contact@vittascience.com.",
+      "quoteExists": "En uppskattning har redan skapats för denna plan. Du hittar den i uppskattningssektionen av ditt konto.",
+      "quoteCreated": "Din uppskattning har skapats. Du hittar den i uppskattningssektionen av ditt konto och via e-post.",
+      "quoteError": "Ett fel inträffade när din uppskattning skulle skapas. Försök igen.",
+      "activated": "Din prenumeration har aktiverats. Du kan nu njuta av dina förmåner.",
+      "paymentFailed": "Ett fel inträffade när din prenumeration skulle skapas. Försök igen.",
+      "canceled": "Din prenumeration har ställts in. Du behåller dina förmåner fram till slutet av den aktuella perioden.",
+      "cancelConfirm": "Vill du verkligen avbryta denna prenumeration? Den kommer att förbli aktiv till slutet av den aktuella perioden.",
+      "noAddress": "Lägg till en faktureringsadress först för att fortsätta."
+    },
     "addressBloc": {
+      "noAddress": "Du har inte lagt till någon adress än.",
+      "isEstablishment": "Är detta adressen till en institution?",
+      "establishmentName": "Institutionsnamn",
+      "submit": "Uppdatera",
+      "usedBySubscription": "Denna adress används av en aktiv Premium-prenumeration: den kan inte tas bort.",
+      "deleteConfirm": "Är du säker på att du vill ta bort denna adress?",
+      "searchLabel": "Ange din adress",
+      "searchPlaceholder": "Institutionsnamn, adress eller stad",
+      "zoneQuestion": "Din institution ligger:",
+      "zoneFr": "I Frankrike",
+      "zoneEu": "I Europa",
+      "zoneWorld": "Resten av världen",
+      "siretPlaceholder": "14 siffror — valfritt",
+      "companyNumber": "Företagsnummer",
+      "companyNumberPlaceholder": "Registreringsnummer",
+      "vatNumber": "Momsnummer",
+      "vatPlaceholder": "Intra-gemenskap momsnummer",
       "edit": "Redigera",
       "del": "Ta bort",
       "addAddress": "Lägg till adress",
@@ -4924,6 +5546,23 @@
       "cancel": "Avbryt"
     },
     "ordersBloc": {
+      "quotePaid": "Betald",
+      "quoteAccepted": "Accepterad",
+      "noOrders": "Du har inte beställt något än.",
+      "noEstimates": "Du har inte begärt någon uppskattning än.",
+      "noWishlist": "Du har inte lagt till några produkter i din önskelista än.",
+      "hideDetails": "Dölj detaljer",
+      "at": "vid",
+      "alreadySubscribedTitle": "Ditt konto har redan en Premium-prenumeration: denna uppskattning inkluderar en prenumeration, kontakta oss för att justera den.",
+      "wishlistDeleteConfirm": "Är du säker på att du vill ta bort det här objektet?",
+      "mixed": {
+        "title": "Multi-användarprenumeration",
+        "text1": "Denna uppskattning inkluderar en multi-användar Premium-prenumeration: den kan inte betalas med kort.",
+        "text2": "Du kan betala den via banköverföring eller ladda upp din inköpsorder: vårt team kommer då att aktivera prenumerationen.",
+        "text3": "För att betala med kort, prenumerera från din profil, och beställ sedan utrustningen från butiken: leveransen kommer att vara gratis till fastland Frankrike.",
+        "close": "Stäng",
+        "subscribe": "Prenumerera från min profil"
+      },
       "priceTTC": "€ inkl. moms",
       "seeMore": "Visa detaljer",
       "dl": "Ladda ner",
@@ -4943,7 +5582,14 @@
       "tracking": "Spårningsnummer",
       "quoteSent": "Skickad",
       "quoteDenied": "Avböjd",
-      "quoteExpired": "Utgången"
+      "quoteExpired": "Utgången",
+      "sav": {
+        "title": "Eftermarknadsservice",
+        "open": "Begäran behandlas",
+        "closed": "Begäran stängd",
+        "parcel": "Paket skickat den",
+        "track": "Spåra paketet"
+      }
     }
   },
   "userDetails": {
@@ -5914,6 +6560,11 @@
       }
     },
     "materialsNeeded": "Lista över material som behövs",
+    "embed": {
+      "project": "Vittascience-projekt",
+      "interface": "Vittascience-gränssnitt",
+      "open": "Öppna i Vittascience-gränssnittet"
+    },
     "suggestedResources": "Föreslagna resurser",
     "classroomImport": {
       "button": "Importera till klassrumsmodulen",
@@ -5968,18 +6619,29 @@
   },
   "modals": {
     "standard": {
+      "recentLocal": {
+        "title": "Senaste projektet",
+        "question": "Du har ett nyligt projekt sparat i denna webbläsare. Vill du öppna det?",
+        "modified": "Ändrad den %date%",
+        "several": "Du har %count% projekt sparade i denna webbläsare. För att hitta dem alla, gå till %link%.",
+        "severalLink": "“Öppna ett projekt” > “Mina lokala projekt”",
+        "buttons": {
+          "open": "Öppna detta projekt",
+          "new": "Starta ett nytt projekt"
+        }
+      },
       "blocksScreenshot": {
-          "title": "Skärmbild av blocken",
-          "quality": "Kvalitet",
-          "qualities": {
-              "screen": "Skärm (×1)",
-              "good": "Bra (×2)",
-              "high": "Hög (×4)",
-              "veryHigh": "Mycket hög (×8)"
-          },
-          "format": "Format",
-          "size": "Bildstorlek: {{width}} × {{height}} pixlar",
-          "download": "Ladda ner"
+        "title": "Skärmbild av blocken",
+        "quality": "Kvalitet",
+        "qualities": {
+          "screen": "Skärm (×1)",
+          "good": "Bra (×2)",
+          "high": "Hög (×4)",
+          "veryHigh": "Mycket hög (×8)"
+        },
+        "format": "Format",
+        "size": "Bildstorlek: {{width}} × {{height}} pixlar",
+        "download": "Ladda ner"
       },
       "arduino-q-wifi": {
         "title": "Wi-Fi för Arduino UNO Q-kortet",
@@ -6385,6 +7047,19 @@
           }
         }
       },
+      "pythonFiles": {
+        "title": "Filer",
+        "name": "Namn",
+        "size": "Storlek",
+        "empty": "Inga filer. Importera en fil eller skapa en med open().",
+        "import": "Importera filer",
+        "download": "Ladda ner",
+        "delete": "Ta bort",
+        "hint": "Filer förblir tillgängliga så länge sidan är öppen. Användning: open('data.csv'), os.listdir(), Image('photo.jpg').",
+        "limits": "5 MB max per fil · 100 MB totalt",
+        "tooLarge": "\"{name}\" kunde inte importeras: 5 MB max per fil.",
+        "quotaExceeded": "\"{name}\" kunde inte importeras: 100 MB max totalt."
+      },
       "addblock": {
         "title": "Lägg till ett block",
         "content": {
@@ -6659,7 +7334,7 @@
       },
       "codeOnly": {
         "title": "Byt till endast kodläge",
-        "content": "Vill du dölja lägesvalet för att permanent stanna i endast kodläge (utan block)?",
+        "content": "Vill du dölja lägesvalet för att stanna kvar i kodläget (utan block) permanent?",
         "cancel": "Avbryt",
         "confirm": "Bekräfta",
         "info": {
@@ -6760,16 +7435,16 @@
         "wrongLink": "Denna länk leder till ett projekt som inte finns eller som inte skapats med detta gränssnitt. Du kan söka efter ett projekt via <b>Öppna ett projekt</b> eller skapa ett nytt",
         "wrongFile": "Denna fil verkar inte lämpad för det här gränssnittet. Kontrollera raden 'Interface:' i filhuvudet.",
         "wrongXml": "Denna länk leder till ett projekt som inte verkar laddas korrekt i gränssnittet. Dela gärna projektlänken med Vittascience-support så försöker vi åtgärda det.",
-        "loadingError": "The project couldn't be loaded: the connection to the server failed. Check your internet connection then reload the page.",
-        "reloadPage": "Reload the page",
+        "loadingError": "Projektet kunde inte laddas: anslutningen till servern misslyckades. Kontrollera din internetuppkoppling och ladda om sidan.",
+        "reloadPage": "Ladda om sidan",
         "localDraft": {
-          "title": "Unsaved changes",
-          "content": "This project has changes that were not saved on the server. They have been kept in this browser.",
-          "lastChange": "Last change:",
-          "hint": "If you open the saved version, these changes will be permanently lost.",
+          "title": "Osparade ändringar",
+          "content": "Det här projektet har ändringar som inte sparades på servern. De har sparats i den här webbläsaren.",
+          "lastChange": "Senaste ändring:",
+          "hint": "Om du öppnar den sparade versionen kommer dessa ändringar att gå förlorade permanent.",
           "buttons": {
-            "restore": "Restore my changes",
-            "discard": "Open the saved version"
+            "restore": "Återställ mina ändringar",
+            "discard": "Öppna den sparade versionen"
           }
         },
         "privateProject": "Privat projekt",
@@ -6845,7 +7520,7 @@
       "import": {
         "content": {
           "warn": {
-            "question": "Vill du importera denna Python-fil från din dator?",
+            "question": "Är du säker på att du vill importera den här filen från din dator?",
             "hint": " Du kommer att förlora de ändringar du gjort manuellt..."
           },
           "extension": "Varning! Filtypen stöds normalt inte i detta gränssnitt."
@@ -7011,6 +7686,7 @@
       }
     },
     "board-selector": {
+      "chosen": "Valt kort: {{board}}",
       "title": "Välj kort",
       "arduino": {
         "welcome": "Välkommen till Arduino-gränssnittet!",
@@ -7490,6 +8166,7 @@
     }
   },
   "programming": {
+    "infoAbout": "Om {{name}}",
     "title": "Programmering",
     "description": "Välj den programmeringsmiljö du vill ha genom att klicka på korten.",
     "know_more": "Läs mer",
@@ -7538,7 +8215,7 @@
         "esp32": "Programmeringsmiljö för ESP32-kort (Wemos D1R32, NodeMCU, Huzzah32, ...)",
         "TI-83": "Programmeringsmiljö för räknare samt för BBC micro:bit eller TI Innovator™ Hub",
         "GalaxiaCircuitPython": "Programmeringsmiljö för Thingz-Galaxia-kortet",
-        "picaxe": "Block programming interface for PICAXE boards (AutoProgX2 from A4 Technologie, 08M2 to 40X2): generates PICAXE BASIC to download.",
+        "picaxe": "Blockprogrammeringsgränssnitt för PICAXE-kort (AutoProgX2 från A4 Technologie, 08M2 till 40X2): genererar PICAXE BASIC för nedladdning.",
         "unihiker": "Programmeringsgränssnitt för UNIHIKER M10: pekskärm, inbyggda sensorer och Python på Linux!",
         "unihikerK10": "Programmeringsgränssnitt för UNIHIKER K10: skärm, RGB-LED:ar, inbyggda sensorer och MicroPython!",
         "raspberrypi": "Programmeringsmiljö för Raspberry Pi",
@@ -7565,6 +8242,7 @@
         "maqueenPlus": "Programmeringsmiljö för Maqueen Plus V1 och V2-robotarna",
         "cutebot": "Programmeringsmiljö för Cutebot-roboten",
         "tpbot": "Programmeringsmiljö för TPBot-roboten",
+        "tinybit": "Programmeringsgränssnitt för Tiny:bit-roboten",
         "cutebotPro": "Programmeringsmiljö för Cutebot Pro-roboten",
         "kitrobot": "Programmeringsmiljö för Kitro:bot v2-roboten",
         "oobybot": "Programmeringsmiljö för Oobybot-roboten",
@@ -7578,6 +8256,7 @@
         "lotibot": "Programmeringsmiljö för Loti-bot-roboten",
         "bluebot": "Programmeringsmiljö för Blue-bot-roboten",
         "spike": "Programmeringsmiljö för LEGO® Education SPIKE™ Essential",
+        "legoprime": "Programmeringsgränssnitt för LEGO® Education SPIKE™ Prime",
         "photon": "Programmeringsmiljö för Photon-roboten",
         "codey": "Programmeringsmiljö för Codey-kortet och Rocky-roboten från Makeblock",
         "uno-r4-wifi": "Programmeringsgränssnitt för Arduino UNO R4 WiFi-kortet",
@@ -7596,6 +8275,7 @@
         "wonder": "Programmierschnittstelle für das Elecfreaks Wonder Building Kit",
         "buildingbit": "Programmierschnittstelle für das Yahboom Building:bit Super Kit",
         "primastem": "Programmeringsgränssnitt för PrimaStem-roboten",
+        "matatalab": "Programmeringsgränssnitt för Matatalab MatataBot-roboten",
         "skykick": "Programmeringsgränssnitt för SkyKick Evo-dronen"
       }
     },
@@ -7721,18 +8401,18 @@
     "needProjectName": "Du måste ange projektets namn innan du kan spara!",
     "projectSaveError": "Ett fel inträffade vid sparning!",
     "projectSaveConflict": "Ditt projekt sparades INTE: det ändrades någon annanstans. Spara igen för att skriva över versionen som finns på servern.",
-    "projectSaveNotConnected": "Your project has NOT been saved: your session has expired. Log in again then save again, your changes are kept in this browser.",
-    "projectSaveForbidden": "Your project has NOT been saved: you are not allowed to edit this project. Use “Save as…” to save a copy of it.",
-    "projectSaveNotFound": "Your project has NOT been saved: it no longer exists on the server. Download it to keep your work.",
-    "projectSaveInvalid": "Your project has NOT been saved: the server refused incomplete data (empty project name or code).",
-    "projectSaveNetworkError": "Your project has NOT been saved: the server can't be reached. Check your internet connection then try again, your changes are kept in this browser.",
-    "projectSaveServerError": "Your project has NOT been saved because of a server error. Try again in a few moments; if the problem persists, download your project so you don't lose your work.",
-    "projectOpened": "Project “{{name}}” opened.",
-    "projectOpenError": "The project couldn't be opened. Check your internet connection then try again.",
-    "projectCopySaved": "Copy “{{name}}” saved: you are now working on this copy.",
-    "localDraftRestored": "Your unsaved changes have been restored. Remember to save your project!",
-    "exerciseSaved": "The exercise has been saved successfully!",
-    "exerciseSaveFailed": "The exercise has NOT been saved. Check your internet connection then try again.",
+    "projectSaveNotConnected": "Ditt projekt sparades INTE: din session har löpt ut. Logga in igen och spara på nytt — dina ändringar finns kvar i den här webbläsaren.",
+    "projectSaveForbidden": "Ditt projekt sparades INTE: du har inte behörighet att redigera det. Använd “Spara som…” för att spara en kopia.",
+    "projectSaveNotFound": "Ditt projekt sparades INTE: det finns inte längre på servern. Ladda ner det för att behålla ditt arbete.",
+    "projectSaveInvalid": "Ditt projekt sparades INTE: servern avvisade ofullständig data (tomt projektnamn eller kod).",
+    "projectSaveNetworkError": "Ditt projekt sparades INTE: servern kunde inte nås. Kontrollera din internetanslutning och försök igen — dina ändringar finns kvar i den här webbläsaren.",
+    "projectSaveServerError": "Ditt projekt sparades INTE på grund av ett serverfel. Försök igen om en stund; om problemet kvarstår, ladda ner projektet så att du inte förlorar arbetet.",
+    "projectOpened": "Projektet “{{name}}” öppnades.",
+    "projectOpenError": "Projektet kunde inte öppnas. Kontrollera din internetanslutning och försök igen.",
+    "projectCopySaved": "Kopian “{{name}}” sparades: du arbetar nu på denna kopia.",
+    "localDraftRestored": "Dina osparade ändringar har återställts. Kom ihåg att spara projektet!",
+    "exerciseSaved": "Övningen har sparats!",
+    "exerciseSaveFailed": "Övningen sparades INTE. Kontrollera din internetanslutning och försök igen.",
     "projectNoChangesToSave": "Inga ändringar att spara!",
     "projectSaveSuccess": "Ditt projekt har sparats!",
     "loadedProjectNotFound": "Det begärda projektet finns inte!",
@@ -7808,6 +8488,10 @@
     "errorSendingEmail": "Ett fel uppstod vid utskick av e-post.",
     "emailSent": "E-post skickad!",
     "controllerError": "Ett fel uppstod vid anslutning till servern. Vårt team är informerat och åtgärdar det så snart som möjligt.",
+    "offline": "Du är offline: ditt arbete sparas på den här enheten, projekten i ditt konto kommer att vara tillgängliga när du är tillbaka online.",
+    "offlineSave": "Du är offline: ditt projekt sparas på den här enheten (Öppna > Mina lokala projekt). Spara det till ditt konto när du är tillbaka online.",
+    "offlineDownload": "Du är offline: den här filen finns inte på den här enheten än, ladda ner den när du är tillbaka online.",
+    "backOnline": "Du är tillbaka online: ladda om sidan för att hämta ditt konto och dina projekt.",
     "notLoggedIn": "Du måste vara inloggad för att utföra den här åtgärden!",
     "manualTrainingDataVerificationSuccess": "Kontrollen av träningsdata lyckades!",
     "manualTrainingDataVerificationError": "Ett fel uppstod vid kontroll av träningsdata!",

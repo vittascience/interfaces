@@ -16,13 +16,13 @@ const specificModals = {
                 <div class="mb-1">
                     <p>${jsonPath('modals.board-selector.content.intro')}</p>
                 </div>
-                <div class="board-selector-grid">
+                <div class="board-selector-grid" role="radiogroup" aria-labelledby="${INTERFACE_NAME}-board-selector-title">
                     ${Object.entries(INTERFACE_BOARDS).map(([id, board]) => `
                     <div class="board-option" data-board="${id}">
                         <input type="radio" name="boardChoice" value="${id}" id="board-choice-${id}">
                         <label for="board-choice-${id}" class="board-card">
                             <div class="board-image">
-                                <img src="/openInterface/unihiker/assets/media/simulator/board/${board.link}" alt="${board.name}">
+                                <img src="/openInterface/unihiker/assets/media/simulator/board/${board.link}" alt="">
                             </div>
                             <div class="board-name-container">
                                 <span class="board-radio-indicator"></span>

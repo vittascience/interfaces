@@ -941,6 +941,7 @@ const Main = (function () {
                     break;
                 case "bluebot":
                 case "primastem":
+                case "matatalab":
                 case "picaxe":
                     codeMode = "blocks";
                     break;
@@ -993,14 +994,99 @@ const Main = (function () {
 
             Blockly.Tooltip.HOVER_MS = 200;
 
-            // Add backpacks
-            Code.backpack = new Backpack(Code.workspace);
+            // Add backpacks: official @blockly/workspace-backpack plugin, with the Vittascience behaviour below.
+            class VittaBackpack extends Backpack {
+                // Touch screens: no emulated mouse events (the workspace cancels the pointerdown), and opening on
+                // "pointerup" let the following "click" land on the "empty backpack" button just shown under the
+                // finger. So "pointerdown" keeps the workspace from scrolling and the backpack opens on "click".
+                attachListeners() {
+                    if (!this.svgGroup_) return;
+                    this.addEvent(this.svgGroup_, 'pointerdown', this, this.blockMouseDownWhenOpenable);
+                    this.addEvent(this.svgGroup_, 'click', this, this.onClick);
+                    this.addEvent(this.svgGroup_, 'mouseover', this, this.onMouseOver);
+                    this.addEvent(this.svgGroup_, 'mouseout', this, this.onMouseOut);
+                }
+                // The start block of the program is not put in the backpack (it would be duplicated when pasted).
+                isStartBlock(block) {
+                    if (!(block instanceof Blockly.Block) || !['on_start', 'scratch_on_start'].includes(block.type)) return false;
+                    Code.vittaNotif.displayNotification(null, jsonPath('code.blockly.warning.backpack.on_start'), 'bg-danger');
+                    return true;
+                }
+                addBlock(block) {
+                    if (!this.isStartBlock(block)) super.addBlock(block);
+                }
+                onDrop(dragElement) {
+                    if (!this.isStartBlock(dragElement)) super.onDrop(dragElement);
+                }
+                // Vittascience icon, drawn in parts (zip, zip pull): hovering the backpack, or dragging a block over it, opens the zip
+                // wide, leaving it closes the zip. The SVG plays its own "open" or
+                // "close" animation (none at rest), started again each time the picture is set.
+                static getIcon(state = '') {
+                    return 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.08 44.1" width="37.08" height="44.1" class="${state}">
+<style>
+*{transform-box:fill-box}
+.mouth{transform-origin:left top;transform:scale(0,.2)}
+.open .pull{animation:.3s ease-in-out both}
+.open .mouth{animation:.45s ease-in-out both}
+.open .pull,.close .pull{animation-name:pull}
+.open .mouth,.close .mouth{animation-name:mouth}
+.close .pull,.close .mouth{animation:.25s .1s ease-in-out both reverse}
+@keyframes pull{to{transform:translateX(18px)}}
+@keyframes mouth{70%{transform:scale(1,.3)}to{transform:scale(1,1)}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:1ms!important;animation-delay:0s!important}}
+</style>
+<g fill="#999">
+<path d="M31.57,4.03h-9.18c0-.09,.03-.17,.03-.26,0-2.08-1.69-3.77-3.77-3.77s-3.77,1.69-3.77,3.77c0,.09,.02,.17,.03,.26H5.72c-.85,0-1.54,.69-1.54,1.54v11.29c0,.85,.69,1.54,1.54,1.54h4.16v-2.21c0-.55,.45-1,1-1h1.36c.55,0,1,.45,1,1v2.21h10.79v-2.21c0-.55,.45-1,1-1h1.36c.55,0,1,.45,1,1v2.21h4.16c.85,0,1.54-.69,1.54-1.54V5.57c0-.85-.69-1.54-1.54-1.54Zm-10.6,0h-4.65c0-.09-.03-.17-.03-.26,0-1.3,1.06-2.35,2.35-2.35s2.35,1.05,2.35,2.35c0,.09-.02,.17-.03,.26Z"/>
+<path d="M2.83,21.4h-.27c-1.42,0-2.57,1.15-2.57,2.57v13.88c0,1.42,1.15,2.57,2.57,2.57h.27V21.4Z"/>
+<path d="M34.51,21.4h-.05v19.01h.05c1.42,0,2.57-1.15,2.57-2.57v-13.88c0-1.42-1.15-2.57-2.57-2.57Z"/>
+<path d="M31.57,19.82h-4.16v2.21c0,.55-.45,1-1,1h-1.36c-.55,0-1-.45-1-1v-2.21H13.25v2.21c0,.55-.45,1-1,1h-1.36c-.55,0-1-.45-1-1v-2.21H5.72c-.54,0-1.04-.16-1.47-.41v22.4c0,1.26,1.03,2.29,2.29,2.29H30.75c1.26,0,2.29-1.03,2.29-2.29V19.41c-.44,.25-.93,.41-1.47,.41Z"/>
+</g>
+<path d="M8.5,31h20" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
+<path class="mouth" d="M8.5,31q10,13 20,0q-10,-1.5 -20,0z" fill="#555" stroke="#fff" stroke-width="1"/>
+<g class="pull" fill="#fff"><rect x="7.3" y="30" width="3" height="2" rx=".7"/><rect x="8" y="31.6" width="1.6" height="3.6" rx=".8"/></g>
+</svg>`);
+                }
+                init() {
+                    super.init();
+                    if (!this.svgImg_) return;
+                    // the plugin shows a part of its 80px sprite through its 40 x 60 clip: ours fills the clip
+                    Object.entries({ x: 0, y: 0, width: 40, height: 60 }).forEach(([name, value]) => this.svgImg_.setAttribute(name, value));
+                    this.svgImg_.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href', VittaBackpack.getIcon());
+                    // The tooltip of the icon (project_panel.js) covered the open backpack: not shown while it is open
+                    this.svgImg_.addEventListener('show.bs.tooltip', (e) => {
+                        if (this.isOpen()) e.preventDefault();
+                    });
+                }
+                open() {
+                    super.open();
+                    if (this.svgImg_ && typeof bootstrap !== 'undefined') bootstrap.Tooltip.getInstance(this.svgImg_)?.hide();
+                }
+                updateHoverStying(isHovered) {
+                    super.updateHoverStying(isHovered);
+                    if (!this.svgImg_ || isHovered === !!this.isIconOpen) return;
+                    this.isIconOpen = isHovered;
+                    this.svgImg_.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href', VittaBackpack.getIcon(isHovered ? 'open' : 'close'));
+                }
+            }
+            Code.backpack = new VittaBackpack(Code.workspace);
             Code.backpack.init();
-            $(".blocklyBackpack").hover(function () {
-                $(this).attr('xlink:href', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJDYWxxdWVfMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMzcuMDggNDQuMSI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiM5OTk7fTwvc3R5bGU+PC9kZWZzPjxnIGlkPSJDYWxxdWVfMS0yIj48Zz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0zMS41Nyw0LjAzaC05LjE4YzAtLjA5LC4wMy0uMTcsLjAzLS4yNiwwLTIuMDgtMS42OS0zLjc3LTMuNzctMy43N3MtMy43NywxLjY5LTMuNzcsMy43N2MwLC4wOSwuMDIsLjE3LC4wMywuMjZINS43MmMtLjg1LDAtMS41NCwuNjktMS41NCwxLjU0djExLjI5YzAsLjg1LC42OSwxLjU0LDEuNTQsMS41NGg0LjE2di0yLjIxYzAtLjU1LC40NS0xLDEtMWgxLjM2Yy41NSwwLDEsLjQ1LDEsMXYyLjIxaDEwLjc5di0yLjIxYzAtLjU1LC40NS0xLDEtMWgxLjM2Yy41NSwwLDEsLjQ1LDEsMXYyLjIxaDQuMTZjLjg1LDAsMS41NC0uNjksMS41NC0xLjU0VjUuNTdjMC0uODUtLjY5LTEuNTQtMS41NC0xLjU0Wm0tMTAuNiwwaC00LjY1YzAtLjA5LS4wMy0uMTctLjAzLS4yNiwwLTEuMywxLjA2LTIuMzUsMi4zNS0yLjM1czIuMzUsMS4wNSwyLjM1LDIuMzVjMCwuMDktLjAyLC4xNy0uMDMsLjI2WiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTIuODMsMjEuNGgtLjI3Yy0xLjQyLDAtMi41NywxLjE1LTIuNTcsMi41N3YxMy44OGMwLDEuNDIsMS4xNSwyLjU3LDIuNTcsMi41N2guMjdWMjEuNFoiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0zNC41MSwyMS40aC0uMDV2MTkuMDFoLjA1YzEuNDIsMCwyLjU3LTEuMTUsMi41Ny0yLjU3di0xMy44OGMwLTEuNDItMS4xNS0yLjU3LTIuNTctMi41N1oiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0zMS41NywxOS44MmgtNC4xNnYyLjIxYzAsLjU1LS40NSwxLTEsMWgtMS4zNmMtLjU1LDAtMS0uNDUtMS0xdi0yLjIxSDEzLjI1djIuMjFjMCwuNTUtLjQ1LDEtMSwxaC0xLjM2Yy0uNTUsMC0xLS40NS0xLTF2LTIuMjFINS43MmMtLjU0LDAtMS4wNC0uMTYtMS40Ny0uNDF2MjIuNGMwLDEuMjYsMS4wMywyLjI5LDIuMjksMi4yOUgzMC43NWMxLjI2LDAsMi4yOS0xLjAzLDIuMjktMi4yOVYxOS40MWMtLjQ0LC4yNS0uOTMsLjQxLTEuNDcsLjQxWm0tMTIuOTIsMTkuOTJjLTEwLjE5LDAtMTAuMjctNi40Ni0xMC4xOS02Ljg1LC4wOC0uMzgsMS40My01LjU3LDEwLjE5LTUuNTdzMTAuNDksNS4yLDEwLjU2LDUuNThjLjA3LC4zOCwwLDYuODQtMTAuNTYsNi44NFoiLz48L2c+PC9nPjwvc3ZnPg==')
-            }, function () {
-                $(this).attr('xlink:href', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJDYWxxdWVfMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMzcuMDggNDQuMSI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiM5OTk7fTwvc3R5bGU+PC9kZWZzPjxnIGlkPSJDYWxxdWVfMS0yIj48Zz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0zMS41Nyw0LjAzaC05LjE4YzAtLjA5LC4wMy0uMTcsLjAzLS4yNiwwLTIuMDgtMS42OS0zLjc3LTMuNzctMy43N3MtMy43NywxLjY5LTMuNzcsMy43N2MwLC4wOSwuMDIsLjE3LC4wMywuMjZINS43MmMtLjg1LDAtMS41NCwuNjktMS41NCwxLjU0djExLjI5YzAsLjg1LC42OSwxLjU0LDEuNTQsMS41NGg0LjE2di0yLjIxYzAtLjU1LC40NS0xLDEtMWgxLjM2Yy41NSwwLDEsLjQ1LDEsMXYyLjIxaDEwLjc5di0yLjIxYzAtLjU1LC40NS0xLDEtMWgxLjM2Yy41NSwwLDEsLjQ1LDEsMXYyLjIxaDQuMTZjLjg1LDAsMS41NC0uNjksMS41NC0xLjU0VjUuNTdjMC0uODUtLjY5LTEuNTQtMS41NC0xLjU0Wm0tMTAuNiwwaC00LjY1YzAtLjA5LS4wMy0uMTctLjAzLS4yNiwwLTEuMywxLjA2LTIuMzUsMi4zNS0yLjM1czIuMzUsMS4wNSwyLjM1LDIuMzVjMCwuMDktLjAyLC4xNy0uMDMsLjI2WiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTIuODMsMjEuNGgtLjI3Yy0xLjQyLDAtMi41NywxLjE1LTIuNTcsMi41N3YxMy44OGMwLDEuNDIsMS4xNSwyLjU3LDIuNTcsMi41N2guMjdWMjEuNFoiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0zNC41MSwyMS40aC0uMDV2MTkuMDFoLjA1YzEuNDIsMCwyLjU3LTEuMTUsMi41Ny0yLjU3di0xMy44OGMwLTEuNDItMS4xNS0yLjU3LTIuNTctMi41N1oiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0zMS41NywxOS44MmgtNC4xNnYyLjIxYzAsLjU1LS40NSwxLTEsMWgtMS4zNmMtLjU1LDAtMS0uNDUtMS0xdi0yLjIxSDEzLjI1djIuMjFjMCwuNTUtLjQ1LDEtMSwxaC0xLjM2Yy0uNTUsMC0xLS40NS0xLTF2LTIuMjFINS43MmMtLjU0LDAtMS4wNC0uMTYtMS40Ny0uNDF2MjIuNGMwLDEuMjYsMS4wMywyLjI5LDIuMjksMi4yOUgzMC43NWMxLjI2LDAsMi4yOS0xLjAzLDIuMjktMi4yOVYxOS40MWMtLjQ0LC4yNS0uOTMsLjQxLTEuNDcsLjQxWm0tMi45MywxMy45MWMtLjIyLC4wNC01LjU0LDEuMDEtOS45OSwxLjAxcy05LjQyLS45Ny05LjYzLTEuMDFjLS4zOC0uMDgtLjYzLS40NS0uNTYtLjgzLC4wOC0uMzgsLjQ1LS42MywuODMtLjU2LC4wNSwwLDUuMDQsLjk5LDkuMzYsLjk5czkuNjgtLjk4LDkuNzQtLjk5Yy4zOC0uMDcsLjc1LC4xOCwuODMsLjU3LC4wNywuMzgtLjE4LC43NS0uNTcsLjgzWiIvPjwvZz48L2c+PC9zdmc+')
-            });
+
+            // Trash shown on the toolbox when a block is dragged over it (main.css, .blocklyToolboxDelete): the opening of
+            // its lid is animated in its SVG, which a browser plays only once per picture. A numbered comment makes it a
+            // new picture each time.
+            const toolboxDiv = document.querySelector('#content_blocks .blocklyToolbox');
+            if (toolboxDiv) {
+                let trashCount = 0;
+                new MutationObserver(() => {
+                    const deleting = toolboxDiv.classList.contains('blocklyToolboxDelete');
+                    if (deleting === toolboxDiv.vittaDeleting) return;
+                    toolboxDiv.vittaDeleting = deleting;
+                    toolboxDiv.style.removeProperty('background-image');
+                    if (!deleting) return;
+                    const picture = getComputedStyle(toolboxDiv).backgroundImage.replace(/%3C\/svg%3E"\)$/, `%3C!--${++trashCount}--%3E%3C/svg%3E")`);
+                    toolboxDiv.style.setProperty('background-image', picture, 'important');
+                }).observe(toolboxDiv, { attributes: true, attributeFilter: ['class'] });
+            }
 
             //Looks for the local storage for the theme value, if not found looks for the OS settings
             setAccessibility();
@@ -1245,7 +1331,7 @@ const Main = (function () {
          * @returns {boolean}
          */
         hasSimulator: function () {
-            return /(arduinoq|arduino|microbit|wb55|l476|esp32|TI-83|raspberrypi|niryo|nao|galaxia|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|pico|eliobot|thymio|winky|sphero|lotibot|bluebot|spike|legoprime|photon|codey|steami|alphai|primastem|skykick|unihiker|picaxe)/.test(Code.getInterface());
+            return /(arduinoq|arduino|microbit|wb55|l476|esp32|TI-83|raspberrypi|niryo|nao|galaxia|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|pico|eliobot|thymio|winky|sphero|lotibot|bluebot|spike|legoprime|photon|codey|steami|alphai|primastem|matatalab|skykick|unihiker|picaxe)/.test(Code.getInterface());
         },
         /**
          * Returns true if interface has an auto-corrector.
@@ -1261,7 +1347,7 @@ const Main = (function () {
          * @returns {boolean}
          */
         hasToolboxModes: function () {
-            return ["arduino", "microbit", "esp32", "wb55", "l476", "TI-83", "galaxia", "raspberrypi", "buddy", "niryo", "nao", "GalaxiaCircuitPython", "mBot", "m5stack", "cyberpi", "eliobot", "thymio", "pico", "winky", "sphero", "lotibot", "bluebot", "spike", "legoprime", "photon", "codey", "steami", "alphai", "primastem", "skykick"].includes(Code.getInterface());
+            return ["arduino", "microbit", "esp32", "wb55", "l476", "TI-83", "galaxia", "raspberrypi", "buddy", "niryo", "nao", "GalaxiaCircuitPython", "mBot", "m5stack", "cyberpi", "eliobot", "thymio", "pico", "winky", "sphero", "lotibot", "bluebot", "spike", "legoprime", "photon", "codey", "steami", "alphai", "primastem", "matatalab", "skykick"].includes(Code.getInterface());
         },
         /**
          * Returns true if interface has the drag and drop feature.
@@ -1293,7 +1379,7 @@ const Main = (function () {
          * @returns {boolean}
          * */
         hasPython2Blocks: function () {
-            return /(python|microbit|esp32|galaxia|m5stack|pico|cyberpi|eliobot|wb55|l476|thymio|lotibot|sphero|bluebot|spike|photon|nao|codey|steami|primastem|skykick|buddy|niryo|raspberrypi|winky|unihiker)/.test(Code.getInterface());
+            return /(python|microbit|esp32|galaxia|m5stack|pico|cyberpi|eliobot|wb55|l476|thymio|lotibot|sphero|bluebot|spike|photon|nao|codey|steami|primastem|matatalab|skykick|buddy|niryo|raspberrypi|winky|unihiker)/.test(Code.getInterface());
         },
         /**
          * Returns true if interface has cpp 2 blocks.
@@ -1370,7 +1456,7 @@ const Main = (function () {
                 return;
             }
             const xml = CodeManager.getSharedInstance()._workspaceToXml();
-            Code.workspace.clear();
+            CodeManager.getSharedInstance()._clearWorkspace(); // not in the trashcan
             CodeManager.getSharedInstance()._xmlToWorkspace(xml);
         },
         /**

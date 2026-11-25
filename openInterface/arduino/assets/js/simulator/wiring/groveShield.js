@@ -2,11 +2,11 @@
 // The Arduino UNO Q interface (same file) has no bare board choice: always the Grove shield.
 WiringSimulator.board = {
   shield: () => {
-    if (INTERFACE_NAME === 'arduinoq') return 'unoGrove';
+    if (INTERFACE_NAME === 'arduinoq') return 'unoGroveQwiic';
     const grove = typeof VittaInterface !== 'undefined' && VittaInterface.shieldView;
     return ({
       uno: grove ? 'unoGrove' : 'unoDupont',
-      unor4wifi: grove ? 'unoGrove' : 'unoR4WifiDupont',
+      unor4wifi: grove ? 'unoGroveQwiic' : 'unoR4WifiDupont',
       unor4minima: grove ? 'unoGrove' : 'unoR4MinimaDupont',
       nano: grove ? 'nanoGroveArduino' : 'nanoDupont',
       mega: grove ? 'megaGrove' : 'megaDupont'

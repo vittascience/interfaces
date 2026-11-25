@@ -165,6 +165,8 @@ class ToolboxManager {
      */
     restrictTo(blockTypes) {
         this._reducedToolboxBlocks = blockTypes;
+        // Restrictions saved when the blocks were in the toolbox categories: their extensions are added.
+        if (typeof BlockExtensions !== 'undefined') BlockExtensions.addUsedExtensions();
         this.setToolbox();
     };
     /**
@@ -218,6 +220,7 @@ class ToolboxManager {
             tree = Object.assign({}, this._getToolboxTree());
         }
         this._workspace.updateToolbox(tree);
+        if (typeof BlockExtensions !== 'undefined') BlockExtensions.addRemoveButtons(this._workspace);
     };
     /**
      * Get defined toolbox.
@@ -456,6 +459,10 @@ class ToolboxManager {
      */
     _pushCustomizedItem(item, context) {
         if (!item) return;
+        // dynamic categories (Variables, Functions) have no block to match: during a search, only kept when
+        // their name matches (they were shown for any keyword, even with no result)
+        if (this.keyword && !ToolboxManager.cleanString(Blockly.utils.parsing.replaceMessageReferences(item.name || ''))
+            .includes(ToolboxManager.cleanString(this.keyword).trim())) return;
         const pushIfPresence = (cat) => {
             if (!this._reducedToolboxBlocks || !this._reducedToolboxBlocks.length) {
                 this._pushItem(context);
@@ -466,10 +473,18 @@ class ToolboxManager {
                 this._pushItem(context);
             }
         };
+        // The flyouts of these categories are ours (vittascience_patches.js, procedures.js): they replace the core ones,
+        // which the workspace registers when it is created.
         if (item.custom === "VARIABLE") {
             pushIfPresence('variables_');
+            this._workspace.registerToolboxCategoryCallback(item.custom, function (ws) {
+                return Blockly.Variables.flyoutCategory(ws);
+            });
         } else if (item.custom === "PROCEDURE") {
             pushIfPresence('procedures_');
+            this._workspace.registerToolboxCategoryCallback(item.custom, function (ws) {
+                return Blockly.Procedures.flyoutCategory(ws);
+            });
         } else if (item.custom === "PROCEDURE_CPP") {
             pushIfPresence('cpp_procedures_');
             this._workspace.registerToolboxCategoryCallback(item.custom, function (ws) {
@@ -565,6 +580,8 @@ class ToolboxManager {
                 continue;
             }
             if (item.message) {
+                // an information message is not a search result (the empty Robots category was always shown)
+                if (this.keyword) continue;
                 if (!context.state.categoryAdded) {
                     this._pushCategory(context.category);
                     context.state.categoryAdded = true;
@@ -913,6 +930,12 @@ class ToolboxManager {
             field.className = 'search-block-field';
             field.appendChild(search);
             searchCat.replaceWith(field);
+            // its tree item was named by the replaced label (aria-labelledby="search.label"): named by the input instead
+            const searchItem = field.closest('[role="treeitem"]');
+            if (searchItem) {
+                searchItem.removeAttribute('aria-labelledby');
+                searchItem.setAttribute('aria-label', search.getAttribute('placeholder') || search.getAttribute('aria-label') || '');
+            }
             // one click to clear the search (the toolbox is rebuilt at each search: shown while there is a keyword)
             if (this.keyword) {
                 const label = i18next.t('code.blockly.clearSearch');

@@ -446,12 +446,13 @@ const ARDUINO_H = {
                 }
                 const strLength = string.length;
                 // write behavior for 'Serial' TO DO: behavior with another component on material ports
-                if (string.match(/\n/)) {
-                    InterfaceMonitor.sendDataToChart(Simulator.outputMemory);
-                    InterfaceMonitor.playMusicMessage(Simulator.outputMemory);
-                    Simulator.outputMemory = '';
-                } else {
-                    Simulator.outputMemory += string;
+                // Each complete line goes to the graph and the music: println() writes its text and "\n" at once, only
+                // the text of the previous writes was checked (notes and graph values printed with println were lost)
+                const lines = (Simulator.outputMemory + string).split('\n');
+                Simulator.outputMemory = lines.pop();
+                for (const line of lines) {
+                    InterfaceMonitor.sendDataToChart(line);
+                    InterfaceMonitor.playMusicMessage(line);
                 }
                 // Arduino UNO Q: "[Arduino]" in front of the lines, the Python part writes in the same console
                 if (typeof QAppSimulator !== 'undefined') {
@@ -663,6 +664,7 @@ const ARDUINO_H = {
 
             rt.defVar('FALLING', rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 0));
             rt.defVar('RISING', rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 1));
+            rt.defVar('CHANGE', rt.intTypeLiteral, rt.val(rt.intTypeLiteral, 2));
 
             rt.regFunc((function (rt, _this, pin, mode) {
                 const pinStr = Simulator.getPinString(pin.v);
@@ -724,7 +726,8 @@ const ARDUINO_H = {
                 if (INTERFACE_NAME == 'mBot' && pin.v == 21) {
                     return rt.val(rt.unsignedintTypeLiteral, Simulator.getSliderValue('mCoreButton'));
                 } else {
-                    const A_pin = 'A' + (pin.v - 14);
+                    // analogRead(0) means A0, like analogRead(A0) (= 14)
+                    const A_pin = 'A' + (pin.v >= 14 ? pin.v - 14 : pin.v);
                     const modulePin = Simulator.pinList.find(obj => obj.pin == A_pin);
                     if (modulePin && modulePin.id.includes('joystick')) {
                         const value = Simulator.Components.Joystick.read(modulePin.id, A_pin);
@@ -753,7 +756,8 @@ const ARDUINO_H = {
             //pulseIn
             rt.regFunc((function (rt, _this, pin, state) {
                 const pinStr = Simulator.getPinString(pin.v);
-                return rt.val(rt.doubleTypeLiteral, Simulator.getPinSliderValue(pinStr));
+                // no module on the pin: pulseIn times out and returns 0
+                return rt.val(rt.doubleTypeLiteral, Simulator.getPinSliderValue(pinStr) || 0);
             }), "global", "pulseIn", [rt.unsignedcharTypeLiteral, rt.boolTypeLiteral], rt.doubleTypeLiteral);
 
             //attachInterrupt
@@ -822,6 +826,11 @@ const ARDUINO_H = {
                 $('#buzzer_' + pinStr + '_value').html(freq.v);
                 $('#buzzer_' + pinStr + '_anim').css('opacity', 1);
                 await Simulator.music.startAudio();
+                // duration is optional: without it the tone plays until noTone()
+                if (!duration) {
+                    await Simulator.music.pitch(freq.v);
+                    return;
+                }
                 await Simulator.music.pitch(freq.v, duration.v);
                 $('#buzzer_' + pinStr + '_value').html('OFF');
                 $('#buzzer_' + pinStr + '_anim').css('opacity', 0);

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <defs><radialGradient id="dome" cx="50%" cy="50%" r="60%"><stop offset="0" stop-color="#ffd05a"/><stop offset="1" stop-color="#f39a1f"/></radialGradient></defs>
+  <rect x="80" y="4" width="80" height="30" rx="10" fill="#3c4654"/>
+  <rect x="80" y="206" width="80" height="30" rx="10" fill="#3c4654"/>
+  <rect x="14" y="18" width="208" height="204" rx="34" fill="#fbfbfd" stroke="#c9ced6" stroke-width="4"/>
+  <path d="M216 74h12v30h-12zM216 136h12v30h-12z" fill="#141414"/>
+  <circle cx="114" cy="120" r="92" fill="url(#dome)" stroke="#f8bf56" stroke-width="5"/>
+  <rect x="98" y="62" width="30" height="16" rx="8" fill="#e0851f"/><rect x="98" y="162" width="30" height="16" rx="8" fill="#e0851f"/>
+  <circle cx="114" cy="120" r="46" fill="#e8902a"/>
+  <circle cx="148" cy="106" r="5" fill="#8a2f12"/><circle cx="148" cy="134" r="5" fill="#8a2f12"/>
+  <path d="M58 84c10-18 26-30 48-36l6 20c-16 4-28 12-36 26z" fill="#fff" opacity=".35"/>
+</svg>

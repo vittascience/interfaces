@@ -173,6 +173,15 @@
     object-fit: contain;
 }
 
+.bext-card-icon {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: var(--text-2, #555);
+}
+
 .bext-card-image .bext-card-logo {
     position: absolute;
     top: 10px;
@@ -234,4 +243,32 @@
     .bext-card:hover {
         transform: none;
     }
+}
+
+/* Toolbox: cross removing an extension in use (BlockExtensions.addRemoveButtons) */
+.blocklyToolboxCategory .bext-remove {
+    margin-inline: auto 8px;
+    /* square box, the glyph (::before) centered in it */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    line-height: 1;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    opacity: 0.35;
+    cursor: pointer;
+    /* the content container of the row ignores the pointer (the row is clicked) */
+    pointer-events: auto;
+}
+
+.blocklyToolboxCategory:hover .bext-remove,
+.blocklyToolboxCategory:focus-within .bext-remove {
+    opacity: 0.8;
+}
+
+.blocklyToolboxCategory .bext-remove:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.08);
 }

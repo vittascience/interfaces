@@ -108,6 +108,9 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "communication_ir_sendFrame": this.Set.variable("FRAME", '{listVariable}') + this.Set.field("PIN", '7'),
             "communication_onIRDataReceived": this.Set.field("PIN", '6'),
             "communication_onRemoteCommandReceived": this.Set.variable("DATA", 'IRdata'),
+            "communication_ir_barrier_enableEmitter": this.Set.field("PIN", '4'),
+            "communication_ir_barrier_isSignalLost": this.Set.field("PIN", '2'),
+            "communication_ir_barrier_onSignalEvent": this.Set.field("PIN", '2'),
             // communication - tracking modules
             "communication_rfid_getCardID": this.Set.field("RX", '6') + this.Set.field("TX", '7'),
             "communication_onGPSDataReceived": this.Set.field("RX", '6') + this.Set.field("TX", '7'),

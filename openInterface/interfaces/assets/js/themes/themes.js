@@ -16,7 +16,9 @@ function get_defaultBlockStyles() {
     theme = toolbox.theme;
   }
   Object.assign(theme, {
-    search_blocks: "#707070"
+    search_blocks: "#707070",
+    // block extensions (BlockExtensions.js): their category and the blocks of the non-robot extensions
+    block_extensions_blocks: { colourPrimary: "#5b67a5" }
   });
   return theme;
 };

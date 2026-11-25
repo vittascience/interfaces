@@ -84,6 +84,7 @@ Blockly.Arduino.display_builtinMatrix_showNumber = function (block) {
     Blockly.Arduino.addDefine('DIGITS_3x5', FUNCTIONS_ARDUINO.DEF_LED_MATRIX_DIGITS_5X7);
     Blockly.Arduino.addDeclaration(objName + '-simu', "// LED Matrix");
     Blockly.Arduino.addDeclaration(objName, "ArduinoLEDMatrix " + objName + ";");
+    Blockly.Arduino.addDeclaration('declare_matrix_cols', "const uint8_t builtinMatrix_cols = " + BUILTIN_MATRIX.columns + ";");
     Blockly.Arduino.addFunction('matrix_drawDigit3x5', FUNCTIONS_ARDUINO.DEF_LED_MATRIX_DRAW_DIGIT);
     Blockly.Arduino.addFunction('matrix_scrollText', FUNCTIONS_ARDUINO.DEF_LED_MATRIX_SCROLL_TEXT);
     Blockly.Arduino.addFunction('matrix_displayNumber', FUNCTIONS_ARDUINO.DEF_LED_MATRIX_DISPLAY_NUMERIC);
@@ -116,7 +117,10 @@ Blockly.Arduino.display_builtinMatrix_clearScreen = function () {
     Blockly.Arduino.addDeclaration(objName + '-simu', "// LED Matrix");
     Blockly.Arduino.addDeclaration(objName, "ArduinoLEDMatrix " + objName + ";");
     Blockly.Arduino.addSetup(objName + "-begin", objName + ".begin();");
-    return "const uint32_t blankFrame[3] = {0, 0, 0};" + NEWLINE + objName + ".loadFrame(blankFrame);" + NEWLINE;
+    // 12 columns = 3 words (UNO R4 WiFi), 13 columns = 4 words (UNO Q): same size as frame_32bits
+    const blankWords = Math.ceil(BUILTIN_MATRIX.columns * 8 / 32);
+    Blockly.Arduino.addDeclaration('declare_matrix_blankFrame', "const uint32_t blankFrame[" + blankWords + "] = {" + new Array(blankWords).fill(0).join(", ") + "};");
+    return objName + ".loadFrame(blankFrame);" + NEWLINE;
 };
 
 // LCD RGB _ SET TEXT BLOCK 

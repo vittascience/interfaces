@@ -49,42 +49,10 @@ if (!Blockly.FieldColour && window.FieldColour) {
   };
 });
 
-// --- Workspace icons (zoom controls, trashcan): light sprite sheet by default ---
-// accessibility.js swaps it for spritesDark.png with the dark theme.
-Blockly.VITTA_SPRITE = { width: 96, height: 124, url: "spritesLight.png" };
-(function () {
-  if (Blockly.SPRITE) {
-    // Blockly <= 7 exposes the sprite settings used by the core.
-    Blockly.SPRITE.url = Blockly.VITTA_SPRITE.url;
-    return;
-  }
-  var useLightSprite = function (svgGroup) {
-    if (!svgGroup) {
-      return;
-    }
-    svgGroup.querySelectorAll("image").forEach(function (image) {
-      var href = image.getAttribute("xlink:href") || image.getAttribute("href") || "";
-      if (/sprites\.png$/.test(href)) {
-        image.setAttributeNS(Blockly.utils.dom.XLINK_NS, "xlink:href", href.replace(/sprites\.png$/, Blockly.VITTA_SPRITE.url));
-      }
-    });
-  };
-  [Blockly.ZoomControls, Blockly.Trashcan].forEach(function (component) {
-    var createDom = component.prototype.createDom;
-    component.prototype.createDom = function () {
-      var svgGroup = createDom.apply(this, arguments);
-      useLightSprite(svgGroup);
-      return svgGroup;
-    };
-  });
-})();
-
 // --- Zoom options: "screenshot" option (zoom: {screenshot: true}) ---
 (function () {
-  // Options.parseZoomOptions_ became Options.parseZoomOptions in Blockly 11.
-  var name = Blockly.Options.parseZoomOptions_ ? "parseZoomOptions_" : "parseZoomOptions";
-  var parseZoomOptions = Blockly.Options[name];
-  Blockly.Options[name] = function (options) {
+  var parseZoomOptions = Blockly.Options.parseZoomOptions;
+  Blockly.Options.parseZoomOptions = function (options) {
     var zoomOptions = parseZoomOptions.call(this, options);
     var zoom = options.zoom || {};
     zoomOptions.screenshot = zoom.screenshot === undefined ? false : !!zoom.screenshot;
@@ -102,30 +70,16 @@ Blockly.Tooltip.SEP = "&&SEPARATOR&&";
     }
     return parts.slice(parts.length > 1 ? 1 : 0).join(Blockly.Tooltip.SEP);
   };
-  if (Blockly.Tooltip.setCustomTooltip) {
-    // Blockly >= 8: the tooltip content is rendered here (image, then the wrapped text).
-    Blockly.Tooltip.setCustomTooltip(function (div, element) {
-      var tip = Blockly.Tooltip.getTooltipOfObject(element);
-      tip = Blockly.utils.string.wrap(renderImage(div, tip), Blockly.Tooltip.LIMIT);
-      tip.split("\n").forEach(function (line) {
-        var lineDiv = document.createElement("div");
-        lineDiv.appendChild(document.createTextNode(line));
-        div.appendChild(lineDiv);
-      });
+  // The tooltip content is rendered here (image, then the wrapped text).
+  Blockly.Tooltip.setCustomTooltip(function (div, element) {
+    var tip = Blockly.Tooltip.getTooltipOfObject(element);
+    tip = Blockly.utils.string.wrap(renderImage(div, tip), Blockly.Tooltip.LIMIT);
+    tip.split("\n").forEach(function (line) {
+      var lineDiv = document.createElement("div");
+      lineDiv.appendChild(document.createTextNode(line));
+      div.appendChild(lineDiv);
     });
-    return;
-  }
-  // Blockly 7: the core empties the tooltip div, then passes the tooltip text to
-  // Blockly.utils.string.wrap before appending it line by line: the image is
-  // inserted at that point.
-  var wrap = Blockly.utils.string.wrap;
-  Blockly.utils.string.wrap = function (text, limit) {
-    if (typeof text === "string" && text.indexOf(Blockly.Tooltip.SEP) !== -1) {
-      var div = Blockly.Tooltip.getDiv ? Blockly.Tooltip.getDiv() : Blockly.Tooltip.DIV;
-      text = div ? renderImage(div, text) : text.split(Blockly.Tooltip.SEP).slice(1).join(Blockly.Tooltip.SEP);
-    }
-    return wrap.call(this, text, limit);
-  };
+  });
 })();
 // Block tooltips themselves keep the separator: the interfaces read it through block.getTooltip().
 
@@ -187,41 +141,6 @@ Blockly.Tooltip.SEP = "&&SEPARATOR&&";
       });
     }
   });
-})();
-
-// --- Menu items: no deprecated goog-menuitem-highlight class ---
-(function () {
-  var setHighlighted = Blockly.MenuItem.prototype.setHighlighted;
-  Blockly.MenuItem.prototype.setHighlighted = function (highlight) {
-    setHighlighted.call(this, highlight);
-    var el = this.getElement();
-    if (el) {
-      Blockly.utils.dom.removeClass(el, "goog-menuitem-highlight");
-    }
-  };
-})();
-
-// --- Toolbox flyouts ---
-// The workspace registers the core variables and procedures flyouts when it is
-// created. Since Blockly 9 it registers internal functions of the core, so later
-// overrides of Blockly.Variables.flyoutCategory / Blockly.Procedures.flyoutCategory
-// (these patches, procedures.js) would be ignored: the callbacks are replaced by
-// functions reading Blockly.Variables / Blockly.Procedures when the flyout opens.
-// The interfaces never register these two categories themselves.
-(function () {
-  var register = Blockly.WorkspaceSvg.prototype.registerToolboxCategoryCallback;
-  Blockly.WorkspaceSvg.prototype.registerToolboxCategoryCallback = function (key, func) {
-    if (key === Blockly.VARIABLE_CATEGORY_NAME) {
-      func = function (workspace) {
-        return Blockly.Variables.flyoutCategory(workspace);
-      };
-    } else if (key === Blockly.PROCEDURE_CATEGORY_NAME) {
-      func = function (workspace) {
-        return Blockly.Procedures.flyoutCategory(workspace);
-      };
-    }
-    return register.call(this, key, func);
-  };
 })();
 
 // --- Categories with subcategories: opened and closed smoothly ---
@@ -295,6 +214,17 @@ Blockly.Tooltip.SEP = "&&SEPARATOR&&";
     var div = this.subcategoriesDiv_;
     var toolbox = this.parentToolbox_;
     var toolboxDiv = toolbox && toolbox.HtmlDiv;
+    // One category open at a time (constant SINGLE_EXPANDED_CATEGORY of the interface): the open sibling categories are closed
+    // with the same animation as a click, while this one opens. Only once the toolbox is shown: not when it is built.
+    if (isExpanded && !this.expanded_ && div && div.isConnected && toolboxDiv &&
+        typeof SINGLE_EXPANDED_CATEGORY !== 'undefined' && SINGLE_EXPANDED_CATEGORY) {
+      var opened = this;
+      toolbox.getToolboxItems().forEach(function (item) {
+        if (item !== opened && item.isCollapsible() && item.isExpanded() && item.getParent() === opened.getParent()) {
+          item.setExpanded(false);
+        }
+      });
+    }
     if (this.expanded_ === isExpanded || !div || !div.animate || !div.isConnected || !toolboxDiv ||
         window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return setExpanded.call(this, isExpanded);
@@ -346,6 +276,8 @@ Blockly.Tooltip.SEP = "&&SEPARATOR&&";
       div.vittaAnimation = null;
       div.style.overflow = '';
       if (!category.expanded_) div.style.display = 'none';
+      // closed together with another category opening (SINGLE_EXPANDED_CATEGORY) after the end of its width animation
+      if (!toolboxDiv.vittaAnimation) toolbox.handleToolboxItemResize();
     };
     var end = function () {
       if (toolboxAnimation && toolboxDiv.vittaAnimation !== toolboxAnimation) return;
@@ -563,8 +495,7 @@ Blockly.Variables.flyoutCategoryBlocks = function (workspace) {
 
     // Blocs pour obtenir une variable
     if (Blockly.Blocks.variables_get) {
-      // VariableModel.compareByName moved to Variables.compareByName in Blockly 12.
-      variables.sort(Blockly.Variables.compareByName || Blockly.VariableModel.compareByName);
+      variables.sort(Blockly.Variables.compareByName);
 
       for (var i = 0; i < variables.length; i++) {
         var getBlock = Blockly.utils.xml.createElement("block");
@@ -624,13 +555,9 @@ Blockly.StaticTyping.prototype.setBlockTypeWarning=function(a,b,c){var d=a.works
 Blockly.StaticTyping.prototype.setProcedureArgs=function(a){a=a.getTopBlocks();for(var b=0,c=a.length;b<c;b++){var d=a[b].setArgsType;d&&d.call(a[b],this.varTypeDict)}};
 
 // --- Zoom controls: screenshot button (enabled by the zoom "screenshot" option) ---
-// Blockly <= 8 names the zoom controls internals "workspace_", "svgGroup_"...,
-// Blockly >= 9 names them "workspace", "svgGroup"..., and since Blockly 13 each
-// button is a control object ("zoomOutControl"...) whose SVG group is getGroup().
+// Internals of the zoom controls: "workspace", "svgGroup"..., and since Blockly 13 each button
+// is a control object ("zoomOutControl"...) whose SVG group is getGroup().
 Blockly.ZoomControls.prototype.vittaGet_ = function (name) {
-  if (this[name + "_"] !== undefined) {
-    return this[name + "_"];
-  }
   if (this[name] !== undefined) {
     return this[name];
   }
@@ -682,14 +609,13 @@ Blockly.ZoomControls.prototype.createScreenshotSvg_ = function (rnd) {
   this.screenshotGroup_ = Blockly.utils.dom.createSvgElement(Blockly.utils.Svg.G, { "class": "blocklyZoom" }, this.vittaGet_("svgGroup"));
   var clip = Blockly.utils.dom.createSvgElement(Blockly.utils.Svg.CLIPPATH, { id: "blocklyScreenshotClipPath" + rnd }, this.screenshotGroup_);
   Blockly.utils.dom.createSvgElement(Blockly.utils.Svg.RECT, { width: this.SCREENSHOT_WIDTH_, height: this.SCREENSHOT_HEIGHT_ }, clip);
-  var image = Blockly.utils.dom.createSvgElement(Blockly.utils.Svg.IMAGE, {
-    width: Blockly.VITTA_SPRITE.width,
-    height: Blockly.VITTA_SPRITE.height,
-    x: -60,
-    y: -60,
+  // own picture, in the grey of Blockly's sprites.svg (the zoom and trash icons): same CSS filters (main.css)
+  Blockly.utils.dom.createSvgElement(Blockly.utils.Svg.IMAGE, {
+    width: this.SCREENSHOT_WIDTH_,
+    height: this.SCREENSHOT_HEIGHT_,
+    href: this.vittaGet_("workspace").options.pathToMedia + "screenshot.svg",
     "clip-path": "url(#blocklyScreenshotClipPath" + rnd + ")"
   }, this.screenshotGroup_);
-  image.setAttributeNS(Blockly.utils.dom.XLINK_NS, "xlink:href", this.vittaGet_("workspace").options.pathToMedia + Blockly.VITTA_SPRITE.url);
   // Touch screens: no "mousedown" (the workspace cancels the pointerdown) and the "click" following a tap would land on
   // the modal opened on "pointerdown". So "pointerdown" only keeps the workspace from starting a gesture, the modal opens on "click".
   this.onScreenshotDownWrapper_ = Blockly.browserEvents.bind(this.screenshotGroup_, "pointerdown", null, function (e) {
@@ -950,7 +876,7 @@ Blockly.FieldCheckboxColor = class extends Blockly.Field {
     this.width_ = options.width !== undefined ? options.width : null;
     this.reverseColors_ = options.reverseColors !== undefined ? options.reverseColors : false;
     this.margin_ = options.margin !== undefined ? options.margin : 0;
-    // Blockly >= 8 sets these on the instance in the Field constructor.
+    // set on the instance by the Field constructor: overridden here
     this.SERIALIZABLE = true;
     this.CURSOR = "default";
   }
@@ -1137,16 +1063,6 @@ Blockly.FieldDate = class extends Blockly.FieldTextInput {
 };
 Blockly.FieldDate.prototype.DEFAULT_VALUE = new Date().toISOString().slice(0, 10);
 Blockly.fieldRegistry.register("field_date", Blockly.FieldDate);
-
-// --- Built-in themes ---
-// The interfaces define their own "dark" theme, which clashes with the one shipped
-// by the Blockly 6 core ("Name "dark" with type "theme" already registered").
-['Dark', 'Deuteranopia', 'HighContrast', 'Tritanopia'].forEach(function (name) {
-  if (Blockly.Themes[name]) {
-    Blockly.registry.unregister(Blockly.registry.Type.THEME, Blockly.Themes[name].name);
-    delete Blockly.Themes[name];
-  }
-});
 
 // --- Dropdowns usable in the toolbox ---
 // By default, fields of the blocks shown in an auto-closing flyout (category toolbox)

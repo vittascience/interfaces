@@ -40,7 +40,7 @@ switch (INTERFACE_NAME) {
 // const arduinoFunctions = {};
 // const untanslatableFunctions = [];
 const arduinoClasses = ['rgb_lcd', 'LiquidCrystal_I2C', 'Adafruit_NeoPixel', 'MeRGBLed'];
-const arduinoLibraries = ['Servo.h','Wire.h', 'Arduino.h', 'MeMCore.h', 'SoftwareSerial.h', 'LiquidCrystal_I2C.h', 'Adafruit_SGP30.h', 'rgb_lcd.h', 'Adafruit_NeoPixel.h'];
+const arduinoLibraries = ['Servo.h','Wire.h', 'Arduino.h', 'MeMCore.h', 'SoftwareSerial.h', 'LiquidCrystal_I2C.h', 'Adafruit_SGP30.h', 'rgb_lcd.h', 'Adafruit_NeoPixel.h', 'IrBarrier.h'];
 
 const cppTypes = {
 	int: 'NUMBER',
@@ -437,6 +437,8 @@ export default class Cpp2Blocks {
 		this._functions[declarator] = { args, type: primiType };
 
 		for (const func in arduinoFunctions) {
+			// some entries are template functions (e.g. DEF_OLED_PAGE_BUFFER), not code strings
+			if (typeof arduinoFunctions[func] !== 'string') continue;
 			if (utils.rmSpaces(arduinoFunctions[func]) === utils.rmSpaces(node.text)) {
 				this.vittaFunctions.add(declarator);
 				return '';

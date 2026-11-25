@@ -16,12 +16,12 @@ const specificModals = {
                 <div class="mb-1">
                     <p>${jsonPath('modals.board-selector.content.intro')}</p>
                 </div>
-                <div class="board-selector-grid">
+                <div class="board-selector-grid" role="radiogroup" aria-labelledby="${INTERFACE_NAME}-board-selector-title">
                     <div class="board-option" data-board="${BOARD_VITTA_ESP32}">
                         <input type="radio" name="boardChoice" value="${BOARD_VITTA_ESP32}" id="board-choice-${BOARD_VITTA_ESP32}" checked>
                         <label for="board-choice-${BOARD_VITTA_ESP32}" class="board-card">
                             <div class="board-image">
-                                <img src="/openInterface/esp32/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_VITTA_ESP32].link}" alt="${INTERFACE_BOARDS[BOARD_VITTA_ESP32].name}">
+                                <img src="/openInterface/esp32/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_VITTA_ESP32].link}" alt="">
                             </div>
                             <div class="board-name-container">
                                 <span class="board-radio-indicator"></span>
@@ -33,7 +33,7 @@ const specificModals = {
                         <input type="radio" name="boardChoice" value="${BOARD_ESP32_CAM}" id="board-choice-${BOARD_ESP32_CAM}" checked>
                         <label for="board-choice-${BOARD_ESP32_CAM}" class="board-card">
                             <div class="board-image">
-                                <img src="/openInterface/esp32/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_ESP32_CAM].link}" alt="${INTERFACE_BOARDS[BOARD_ESP32_CAM].name}">
+                                <img src="/openInterface/esp32/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_ESP32_CAM].link}" alt="">
                             </div>
                             <div class="board-name-container">
                                 <span class="board-radio-indicator"></span>
@@ -45,7 +45,7 @@ const specificModals = {
                         <input type="radio" name="boardChoice" value="${BOARD_ILO}" id="board-choice-${BOARD_ILO}">
                         <label for="board-choice-${BOARD_ILO}" class="board-card">
                             <div class="board-image">
-                                <img src="/openInterface/esp32/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_ILO].link}" alt="${INTERFACE_BOARDS[BOARD_ILO].name}">
+                                <img src="/openInterface/esp32/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_ILO].link}" alt="">
                             </div>
                             <div class="board-name-container">
                                 <span class="board-radio-indicator"></span>
@@ -57,7 +57,7 @@ const specificModals = {
                         <input type="radio" name="boardChoice" value="${BOARD_NANO_ESP32}" id="board-choice-${BOARD_NANO_ESP32}">
                         <label for="board-choice-${BOARD_NANO_ESP32}" class="board-card">
                             <div class="board-image">
-                                <img src="/openInterface/esp32/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_NANO_ESP32].link}" alt="${INTERFACE_BOARDS[BOARD_NANO_ESP32].name}">
+                                <img src="/openInterface/esp32/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_NANO_ESP32].link}" alt="">
                             </div>
                             <div class="board-name-container">
                                 <span class="board-radio-indicator"></span>
@@ -69,7 +69,7 @@ const specificModals = {
                         <input type="radio" name="boardChoice" value="${BOARD_WEMOS_D1R32}" id="board-choice-${BOARD_WEMOS_D1R32}">
                         <label for="board-choice-${BOARD_WEMOS_D1R32}" class="board-card">
                             <div class="board-image">
-                                <img src="/openInterface/esp32/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_WEMOS_D1R32].link}" alt="${INTERFACE_BOARDS[BOARD_WEMOS_D1R32].name}">
+                                <img src="/openInterface/esp32/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_WEMOS_D1R32].link}" alt="">
                             </div>
                             <div class="board-name-container">
                                 <span class="board-radio-indicator"></span>
@@ -81,7 +81,7 @@ const specificModals = {
                         <input type="radio" name="boardChoice" value="${BOARD_ESP_WROOM_32_30PINS}" id="board-choice-${BOARD_ESP_WROOM_32_30PINS}">
                         <label for="board-choice-${BOARD_ESP_WROOM_32_30PINS}" class="board-card">
                             <div class="board-image">
-                                <img src="/openInterface/esp32/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_ESP_WROOM_32_30PINS].link}" alt="${INTERFACE_BOARDS[BOARD_ESP_WROOM_32_30PINS].name}">
+                                <img src="/openInterface/esp32/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_ESP_WROOM_32_30PINS].link}" alt="">
                             </div>
                             <div class="board-name-container">
                                 <span class="board-radio-indicator"></span>
@@ -93,7 +93,7 @@ const specificModals = {
                         <input type="radio" name="boardChoice" value="${BOARD_ESP_WROOM_32_38PINS}" id="board-choice-${BOARD_ESP_WROOM_32_38PINS}">
                         <label for="board-choice-${BOARD_ESP_WROOM_32_38PINS}" class="board-card">
                             <div class="board-image">
-                                <img src="/openInterface/esp32/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_ESP_WROOM_32_38PINS].link}" alt="${INTERFACE_BOARDS[BOARD_ESP_WROOM_32_38PINS].name}">
+                                <img src="/openInterface/esp32/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_ESP_WROOM_32_38PINS].link}" alt="">
                             </div>
                             <div class="board-name-container">
                                 <span class="board-radio-indicator"></span>
@@ -103,7 +103,7 @@ const specificModals = {
                     </div>
                 </div>
                 <div id="board-selector-shield-grove-section" class="ide-modal-section mt-3" style="display: none">
-                    <h5>${jsonPath('modals.board-selector.content.shield-grove.title')}</h5>
+                    <h5 role="heading" aria-level="3">${jsonPath('modals.board-selector.content.shield-grove.title')}</h5>
                     <div class="board-selector-shield-grove mb-2">
                         <label class="switch">
                             <input type="checkbox" id="shieldGroveCheckBox" aria-labelledby="shieldGroveLabel">

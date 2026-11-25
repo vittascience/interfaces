@@ -625,7 +625,7 @@ Blockly.Constants.Procedures.PROCEDURE_DEF_INIT_EXTENSION = function () {
   }();
   this.getInput('TOP')
     .appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI,
-      this.buttonSize, this.buttonSize, "*", addArg, false));
+      this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, addArg, false));
 };
 
 Blockly.Constants.Procedures.PROCEDURE_GET_DEF_NO_RETURN_MIXIN = {
@@ -877,7 +877,7 @@ Blockly.Constants.Procedures.PROCEDURE_DEF_MUTATOR_MIXIN = {
     const input = this.appendDummyInput(id)
       .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI,
-        this.buttonSize, this.buttonSize, "*", removeArg, false))
+        this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, removeArg, false))
       .appendField('var:')
       .appendField(field, id);
     if (!Blockly.Constants.Utils.isForPythonContext(this)) {

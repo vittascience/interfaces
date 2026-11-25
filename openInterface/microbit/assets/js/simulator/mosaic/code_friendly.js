@@ -58,6 +58,10 @@ Simulator.CodeFriendly.replace_pinModules = function (code) {
 	//pitch
 	code = code.replace(/def pitch( |)\(/g, 'def pitch_UNUSED(');
 	code = code.replace(/pitch\((pin[0-9]+),\s*([^,]+),\s*([^\)]+)\)/g, 'music.pitch($2, duration=$3, pin=$1)');
+	// the rewrite above needs the music module: join it to the first import line so error line numbers stay right
+	if (/music\.pitch\(/.test(code) && !/^\s*(import music|from music import)/m.test(code)) {
+		code = /^(import|from) /m.test(code) ? code.replace(/^(import|from) /m, 'import music; $1 ') : 'import music\n' + code;
+	}
 	//maqueen
 	code = Simulator.CodeFriendly.maqueen(code);
 	//kitrobot

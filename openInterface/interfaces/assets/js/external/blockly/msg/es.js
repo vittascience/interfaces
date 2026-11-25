@@ -648,6 +648,11 @@ Blockly.Msg["TEXT_TRIM_OPERATOR_LEFT"] = "quitar espacios iniciales de";
 Blockly.Msg["TEXT_TRIM_OPERATOR_RIGHT"] = "quitar espacios finales de";
 Blockly.Msg["TEXT_TRIM_TOOLTIP"] = "Devuelve una copia del texto sin los espacios de uno o ambos extremos.";
 Blockly.Msg["TODAY"] = "Hoy";
+Blockly.Msg["TOOLBOX_SEARCH_NO_RESULTS"] = "No se han encontrado registros que coincidan";
+Blockly.Msg["TOOLBOX_SEARCH_PLACEHOLDER"] = "Search for blocks";  // untranslated
+Blockly.Msg["TOOLBOX_SEARCH_PROMPT"] = "Type to search for blocks";  // untranslated
+Blockly.Msg["TOOLBOX_SEARCH_RESULT_COUNT"] = "%1 bloques coincidentes";
+Blockly.Msg["TOOLBOX_SEARCH_RESULT_COUNT_ONE"] = "1 bloque coincidente";
 Blockly.Msg["UNDO"] = "Deshacer";
 Blockly.Msg["UNKNOWN"] = "Desconocido";
 Blockly.Msg["UNNAMED_KEY"] = "sin nombre";
@@ -714,5 +719,8 @@ Blockly.Msg["PROCEDURES_HUE"] = "290";
 Blockly.Msg["TEXTS_HUE"] = "160";
 Blockly.Msg["VARIABLES_DYNAMIC_HUE"] = "310";
 Blockly.Msg["VARIABLES_HUE"] = "330";
+// Vittascience: not in Blockly, for the "+" / "-" buttons of the if blocks (keep when updating Blockly)
+Blockly.Msg["ARIA_LABEL_ADD_ELSE"] = "Añadir si no";
+Blockly.Msg["ARIA_LABEL_REMOVE_ELSE"] = "Quitar si no";
 return Blockly.Msg;
 }));

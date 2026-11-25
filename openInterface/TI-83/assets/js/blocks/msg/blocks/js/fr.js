@@ -72,7 +72,7 @@ Blockly.Msg['RANDOM_CHOICE_TOOLTIP'] = 'Renvoie un des éléments de la liste de
 Blockly.Msg['RANDOM_SEED_TITLE'] = 'nombre nul';
 Blockly.Msg['RANDOM_SEED_TOOLTIP'] = 'Renvoie un nombre nul: None.';
 // Sensors - common messages
-Blockly.Msg['SENSORS_TEMPERATURE'] = 'temperature';
+Blockly.Msg['SENSORS_TEMPERATURE'] = 'température';
 Blockly.Msg['SENSORS_TEMPERATURE_IN'] = 'in';
 Blockly.Msg['SENSORS_HUMIDITY'] = 'humidity (%)';
 Blockly.Msg['SENSORS_PRESSURE'] = 'pression (hPa)';
@@ -450,7 +450,7 @@ Blockly.Msg['DISPLAY_NEOPIXEL_RAINBOW_TITLE'] = '[Neopixel] Arc-en-ciel sur la b
 Blockly.Msg['DISPLAY_NEOPIXEL_RAINBOW_TOOLTIP'] = IMG_MODULE_NEOPIXEL + Blockly.Tooltip.SEP + 'Afficher le spectre des couleurs sur les LED RGB. Il est possible de modifier la broche et le nombre de LED du module neopixel.';
 Blockly.Msg['MICROBIT_NEOPIXEL_SWITCH_OFF_TITLE'] = '[Neopixel] éteindre toutes les LED sur la broche %1';
 Blockly.Msg['MICROBIT_NEOPIXEL_SWITCH_OFF_TOOLTIP'] = IMG_MODULE_NEOPIXEL + Blockly.Tooltip.SEP + 'Permet d\'éteindre toutes les LED du module neopixel.';
-Blockly.Msg['MICROBIT_NEOPIXEL_COLOR_TITLE'] = '[Neopixel - Color] definir la LED à R %1 G %2 B %3 sur la broche %4';
+Blockly.Msg['MICROBIT_NEOPIXEL_COLOR_TITLE'] = '[Neopixel - Color] définir la LED à R %1 G %2 B %3 sur la broche %4';
 Blockly.Msg['MICROBIT_NEOPIXEL_COLOR_TOOLTIP'] = IMG_MODULE_NEOPIXEL + Blockly.Tooltip.SEP + "Permet de définir la couleur d'une LED RGB neopixel avec la classe Color";
 
 

@@ -73,7 +73,7 @@ Simulator.Mosaic.specific = {
     definitions: [
         {
             id: "sphero-mini-RGBLed",
-            title: "LED RGB",
+            get title() { return i18next.t('code.simulator.modules.RGBLed') },
             regex: /setLEDColor/gi,
             pin: "Sphero Mini",
             type: 'output',
@@ -86,7 +86,7 @@ Simulator.Mosaic.specific = {
         },
         {
             id: "sphero-mini-BackLed",
-            title: "LED",
+            get title() { return i18next.t('code.simulator.modules.ledModule') },
             regex: /setBackLEDIntensity/gi,
             pin: "Sphero Mini",
             type: 'output',
@@ -100,7 +100,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(raw_motor|roll)/,
             id: "sphero-mini-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: "Sphero Mini",
             type: 'output',
             value: 0,
@@ -110,7 +110,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(raw_motor|roll)/,
             id: "sphero-mini-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: "Sphero Mini",
             type: 'output',
             value: 0,

@@ -1,7 +1,9 @@
 const privateSource = `
     <div class="ide-dropdown ide-dropdown-files">
-        <button class="ide-btn ide-btn-toggle ide-btn-alone" id="ide-navbar-toggler">
-            <i class="fas fa-ellipsis-v"></i>
+        <button class="ide-btn ide-btn-toggle ide-btn-alone" id="ide-navbar-toggler"
+            aria-label="Menu du projet" title="Menu du projet" aria-expanded="false"
+            data-i18n="[aria-label]code.topbar.tooltips.projectMenu;[title]code.topbar.tooltips.projectMenu">
+            <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
         </button>
         <div id="manage-button-panel" class="ide-btn-group ide-btn-group-save hidden">
             <!-- Project information -->
@@ -41,7 +43,8 @@ const privateSource = `
  */
 async function loadingPrivate(interfaceName) {
     console.log("Private execution of interface: " + interfaceName);
-    $(".ide-navbar").prepend(privateSource);
+    // named: the site menu is a navigation too
+    $(".ide-navbar").prepend(privateSource).attr('aria-label', jsonPath('code.topbar.tooltips.editorToolbar'));
     $("#ide-navbar-toggler").on('click', function () {
         const elem = $(this).parent().children('div.ide-btn-group');
         $(".ide-btn-group").each(function () {
@@ -50,6 +53,7 @@ async function loadingPrivate(interfaceName) {
             }
         });
         elem.toggleClass('hidden');
+        this.setAttribute('aria-expanded', String(!elem.hasClass('hidden')));
     });
     initPrivateModal();
     //init Project manager
@@ -62,6 +66,9 @@ async function loadingPrivate(interfaceName) {
         projectManager = new ProjectManagerUser(interfaceName, UserManager.getUser());
     }
     projectManager._refreshProjectStatus(true);
+    // recent local project popup disabled for now, uncomment to re-enable
+    // (not awaited: waits for the project initialization, nothing after depends on it)
+    // offerRecentLocalProject().catch((error) => console.error(error));
     if (typeof rtcInterfaces != 'undefined' && rtcInterfaces.includes(INTERFACE_NAME)) {
         if (document.referrer.match(/\/(learn|classroom)/) == null && typeof ltiVariables13 === 'undefined') {
             await projectManager.initializeRtc();

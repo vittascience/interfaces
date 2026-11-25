@@ -19,7 +19,7 @@ const STANDARD_A11Y_INTERFACES = [
     'galaxia', 'GalaxiaCircuitPython', 'l476', 'letsstartcoding', 'lotibot',
     'm5stack', 'mBot', 'microbit', 'nao', 'niryo', 'photon', 'pico', 'python',
     'raspberrypi', 'sphero', 'spike', 'legoprime', 'thymio', 'TI-83', 'wb55', 'web', 'winky',
-    'steami', 'alphai', 'arduinoq', 'primastem', 'skykick', 'unihiker', 'picaxe'
+    'steami', 'alphai', 'arduinoq', 'primastem', 'matatalab', 'skykick', 'unihiker', 'picaxe'
 ];
 
 /**
@@ -44,7 +44,7 @@ async function loadInterface(interfaceName) {
     const COMMON_ACE_MSG_PATH = `${CDN_PATH}/openInterface/interfaces/assets/js/autocomplete`;
     const GET_COMMON_ACE_LANG_SCRIPTS = (language) => {
         let scripts = [];
-        if (['cyberpi', 'esp32', 'esp8266', 'galaxia', 'l476', 'm5stack', 'microbit', 'pico', 'wb55'].includes(interfaceName)) {
+        if (['codey', 'cyberpi', 'eliobot', 'esp32', 'esp8266', 'galaxia', 'l476', 'm5stack', 'microbit', 'pico', 'raspberrypi', 'steami', 'wb55'].includes(interfaceName)) {
             scripts.push({
                 id: "common_ace_msg",
                 src: `${COMMON_ACE_MSG_PATH}/mpy/${language}.js`
@@ -55,7 +55,7 @@ async function loadInterface(interfaceName) {
                     src: `${COMMON_ACE_MSG_PATH}/esp32/${language}.js`
                 });
             }
-            if (['l476', 'wb55'].includes(interfaceName)) {
+            if (['l476', 'steami', 'wb55'].includes(interfaceName)) {
                 scripts.push({
                     id: "common_stm32_ace_msg",
                     src: `${COMMON_ACE_MSG_PATH}/stm32/${language}.js`

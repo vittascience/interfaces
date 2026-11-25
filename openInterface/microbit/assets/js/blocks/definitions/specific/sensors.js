@@ -781,10 +781,10 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "options": Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]
         }],
         "output": "Number",
-        "style": "sensors_blocks",
         "tooltip": "%{BKY_SENSORS_GETGROVEBUTTON_TOOLTIP}",
         "extensions": [
             "block_init_helpurl",
+            "block_init_color",
             "pins_management_global"
         ]
     },

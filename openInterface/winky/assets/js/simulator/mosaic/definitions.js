@@ -86,7 +86,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /get_gesture_detection/gi,
             id: "winky-gesture-detection",
-            title: "Détection de mouvements",
+            get title() { return i18next.t('code.simulator.modules.motionDetection') },
             pin: 'Winky',
             type: 'input',
             listeners: [{
@@ -118,7 +118,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /get_touch_blue/gi,
             id: "winky-blue-btn",
-            title: "Bouton bleu",
+            get title() { return i18next.t('code.simulator.modules.buttonBlue') },
             pin: 'Winky',
             type: 'input',
             listeners: [{
@@ -142,7 +142,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /get_touch_red/gi,
             id: "winky-red-btn",
-            title: "Bouton rouge",
+            get title() { return i18next.t('code.simulator.modules.buttonRed') },
             pin: 'Winky',
             type: 'input',
             listeners: [{
@@ -166,7 +166,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /get_touch_yellow/gi,
             id: "winky-yellow-btn",
-            title: "Bouton jaune",
+            get title() { return i18next.t('code.simulator.modules.buttonYellow') },
             pin: 'Winky',
             type: 'input',
             listeners: [{
@@ -190,7 +190,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /get_touch_purple/gi,
             id: "winky-purple-btn",
-            title: "Bouton violet",
+            get title() { return i18next.t('code.simulator.modules.buttonPurple') },
             pin: 'Winky',
             type: 'input',
             listeners: [{
@@ -214,7 +214,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /get_gyro_(x|y|z)_angle/gi,
             id: "winky-gyro-angle",
-            title: "Gyroscope",
+            get title() { return i18next.t('code.simulator.modules.gyroscope') },
             pin: 'Angle ',
             type: 'input',
             listeners: [{
@@ -239,7 +239,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /get_gyro_(x|y|z)_direction/gi,
             id: "winky-gyro-direction",
-            title: "Gyroscope",
+            get title() { return i18next.t('code.simulator.modules.gyroscope') },
             pin: 'Direction',
             type: 'input',
             listeners: [{
@@ -279,7 +279,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /get_proximity_detection/gi,
             id: "winky-proximity-detection",
-            title: "Détection d'obstacles",
+            get title() { return i18next.t('code.simulator.modules.obstacleDetection') },
             pin: 'Winky',
             type: 'input',
             listeners: [{

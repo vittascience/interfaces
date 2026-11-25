@@ -43,7 +43,7 @@ const LIB_IMPORT = {
     
     // grove modules libraries - I2C
     IMPORT_ESP32_BMP280: "from esp32_bmp280 import BMP280",
-    IMPORT_ESP32_COLOR_SENSOR: "from esp32_colorSensor import GroveI2cColorSensorV2",
+    IMPORT_ESP32_COLOR_SENSOR: "from esp32_colorSensor import TCS34725",
     IMPORT_ESP32_DS1307: "from esp32_ds1307 import DS1307",
     IMPORT_ESP32_GAS: "from esp32_gas import GAS",
     IMPORT_ESP32_GAS_GMXXX: "from esp32_gas_gmxxx import GAS_GMXXX",

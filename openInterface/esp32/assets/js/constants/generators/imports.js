@@ -38,7 +38,7 @@ const IMPORT_CAMERA = "from camera import Camera, GrabMode, PixelFormat, FrameSi
 const IMPORT_SDCARD = "import sdcard";
 //grove modules libraries - I2C
 const IMPORT_ESP32_BMP280 = "from esp32_bmp280 import BMP280";
-const IMPORT_ESP32_COLOR_SENSOR = "from esp32_colorSensor import GroveI2cColorSensorV2";
+const IMPORT_ESP32_COLOR_SENSOR = "from esp32_colorSensor import TCS34725";
 const IMPORT_ESP32_DS1307 = "from esp32_ds1307 import DS1307";
 const IMPORT_ESP32_GAS = "from esp32_gas import GAS";
 const IMPORT_ESP32_GAS_GMXXX = "from esp32_gas_gmxxx import GAS_GMXXX";

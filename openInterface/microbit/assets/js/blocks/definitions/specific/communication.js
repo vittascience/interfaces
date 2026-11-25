@@ -801,9 +801,9 @@ Blockly.Constants.Communication.COMMUNICATION_LOG_SETLABEL_MUTATOR_MIXIN = {
         // Update inputs
         var top = this.appendDummyInput('TOP');
         if (this.itemCount_ > 0) {
-            top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", add, false));
+            top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
             if (this.itemCount_ > 1) {
-                top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", remove, false));
+                top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
             }
             for (var i = 0; i < this.itemCount_; i++) {
                 this.appendValueInput('ADD' + i);
@@ -931,9 +931,9 @@ Blockly.Constants.Communication.COMMUNICATION_LOG_ADDDATA_MUTATOR_MIXIN = {
         // Update inputs
         var top = this.appendDummyInput('TOP');
         if (this.itemCount_ > 0) {
-            top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", add, false));
+            top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
             if (this.itemCount_ > 1) {
-                top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", remove, false));
+                top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
             }
             for (var i = 0; i < this.itemCount_; i++) {
                 this.appendValueInput('ADD' + i);
@@ -985,3 +985,13 @@ Blockly.Constants.Communication.COMMUNICATION_I2C_REPEAT_MUTATOR_MIXIN =
 
 Blockly.Extensions.registerMutator('communication_i2c_repeat_mutator',
     Blockly.Constants.Communication.COMMUNICATION_I2C_REPEAT_MUTATOR_MIXIN);
+
+// The RTC clock blocks (common definitions, coloured as communication blocks) are in the "Time" sub-category of the
+// input/output category on micro:bit: coloured from their toolbox category, like the blocks with "block_init_color".
+for (const type of ['communication_clockRTC_setDate', 'communication_clockRTC_setHour', 'communication_clockRTC_readTime']) {
+    const init = Blockly.Blocks[type].init;
+    Blockly.Blocks[type].init = function () {
+        init.call(this);
+        Blockly.Constants.Utils.INIT_BLOCK_COLOR.call(this);
+    };
+}

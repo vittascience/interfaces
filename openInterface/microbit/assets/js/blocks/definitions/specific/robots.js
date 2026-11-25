@@ -5547,7 +5547,7 @@ Blockly.Constants.Robots.ROBOTS_REMOTECONTROL_ONCOMMANDRECEIVED_MUTATOR_MIXIN = 
             this.appendDummyInput('IFBUTTONS' + i)
                 .appendField(
                     new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
-                        this.buttonSize, "*", removeElseIf, false))
+                        this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_ELSE_IF, removeElseIf, false))
                 .setAlign(Blockly.inputs.Align.RIGHT);
             this.appendStatementInput('DO' + i)
         }
@@ -5558,7 +5558,7 @@ Blockly.Constants.Robots.ROBOTS_REMOTECONTROL_ONCOMMANDRECEIVED_MUTATOR_MIXIN = 
                 .setAlign(Blockly.inputs.Align.RIGHT)
                 .appendField(
                     new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
-                        this.buttonSize, "*", that.removeElse_.bind(that), false));
+                        this.buttonSize, (Blockly.Msg.ARIA_LABEL_REMOVE_ELSE || Blockly.Msg.ARIA_LABEL_REMOVE_INPUT), that.removeElse_.bind(that), false));
             this.appendStatementInput('ELSE')
         }
         if (this.getInput('ADDBUTTON')) this.removeInput('ADDBUTTON');
@@ -5576,7 +5576,7 @@ Blockly.Constants.Robots.ROBOTS_REMOTECONTROL_ONCOMMANDRECEIVED_MUTATOR_MIXIN = 
         this.appendDummyInput('ADDBUTTON')
             .appendField(
                 new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize,
-                    this.buttonSize, "*", addElseIf, false));
+                    this.buttonSize, (this.elseCount_ ? Blockly.Msg.ARIA_LABEL_ADD_ELSE_IF : (Blockly.Msg.ARIA_LABEL_ADD_ELSE || Blockly.Msg.ARIA_LABEL_ADD_ELSE_IF)), addElseIf, false));
         this.restoreDropdownFields_();
     },
     /**

@@ -26,7 +26,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /niryo_robot\.digital_read\(/g,
             id: "irSensor",
-			title: "Capteur infrarouge",
+			get title() { return i18next.t('code.simulator.modules.infraredSensor') },
             pin: 'Niryo',
             type: 'input',
             listeners: [{
@@ -47,7 +47,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /niryo_robot\.control_conveyor\(/g,
 			id: "conveyor",
-			title: "Conveyor",
+			get title() { return i18next.t('code.simulator.modules.conveyor') },
 			pin: 'Niryo',
 			type: 'input',
 			listeners: [{

@@ -12,7 +12,6 @@
 
 // SkyKick Evo
 
-Blockly.Msg['SKYKICK_LABEL_FLIGHT'] = 'Flug';
 Blockly.Msg['SKYKICK_LABEL_MOVES'] = 'Bewegungen';
 Blockly.Msg['SKYKICK_LABEL_CONTROL'] = 'Manuelle Steuerung';
 Blockly.Msg['SKYKICK_LABEL_SETTINGS'] = 'Einstellungen';
@@ -178,3 +177,38 @@ Blockly.Msg['SKYKICK_OPT_STATE_PITCH'] = 'Trim-Nick';
 Blockly.Msg['SKYKICK_OPT_STATE_ROLL'] = 'Trim-Roll';
 Blockly.Msg['SKYKICK_OPT_STATE_SENSORORIENTATION'] = 'Sensorrichtung';
 Blockly.Msg['SKYKICK_OPT_STATE_BATTERY'] = 'Batterie (%)';
+Blockly.Msg['IO_WAIT_KEYWORDS'] = 'verzögern, warten';
+Blockly.Msg['IO_WAIT_UNTIL_KEYWORDS'] = 'warten, warten';
+Blockly.Msg['IO_INITCHRONOMETER_KEYWORDS'] = 'Stoppuhr, Timer,_elapsed';
+Blockly.Msg['IO_GETCHRONOMETER_KEYWORDS'] = 'Stoppuhr, Timer, elapsed';
+Blockly.Msg['COMMUNICATION_SERIAL_WRITE_KEYWORDS'] = 'Konsole, übertragen, senden';
+Blockly.Msg['COMMUNICATION_WRITEGRAPH_KEYWORDS'] = 'Diagramm, visualisieren';
+Blockly.Msg['COMMUNICATION_PRINT_DATAS_KEYWORDS'] = 'schreiben, ausgeben, Konsole';
+Blockly.Msg['SKYKICK_TAKEOFF_KEYWORDS'] = 'starten, abheben';
+Blockly.Msg['SKYKICK_LAND_KEYWORDS'] = 'landen, Landung';
+Blockly.Msg['SKYKICK_STOP_KEYWORDS'] = 'anhalten, bremsen';
+Blockly.Msg['SKYKICK_CLEAR_BIAS_KEYWORDS'] = 'kalibrieren, Gyroskop, Drift';
+Blockly.Msg['SKYKICK_CLEAR_TRIM_KEYWORDS'] = 'Trimmen, zurücksetzen, Drift';
+Blockly.Msg['SKYKICK_SET_HEADLESS_KEYWORDS'] = 'headless, Ausrichtung';
+Blockly.Msg['SKYKICK_SET_TRIM_KEYWORDS'] = 'Trimmen, einstellen, Drift';
+Blockly.Msg['SKYKICK_TRIM_STEP_KEYWORDS'] = 'Trimmen, erhöhen, Drift';
+Blockly.Msg['SKYKICK_SET_AXIS_KEYWORDS'] = 'steuern, Joystick';
+Blockly.Msg['SKYKICK_MOVE_AXIS_KEYWORDS'] = 'bewegen, fahren, reisen';
+Blockly.Msg['SKYKICK_SET_QUAD_KEYWORDS'] = 'steuern, Joystick';
+Blockly.Msg['SKYKICK_MOVE_QUAD_KEYWORDS'] = 'bewegen, fahren, reisen';
+Blockly.Msg['SKYKICK_GO_KEYWORDS'] = 'fahren, reisen';
+Blockly.Msg['SKYKICK_TURN_KEYWORDS'] = 'drehen, pivotieren, Rotation';
+Blockly.Msg['SKYKICK_GO_XYZ_KEYWORDS'] = 'fahren, reisen';
+Blockly.Msg['SKYKICK_GO_XYZ_TURN_KEYWORDS'] = 'turn, pivot, Rotation';
+Blockly.Msg['SKYKICK_LED_OFF_KEYWORDS'] = 'LED, aus';
+Blockly.Msg['SKYKICK_LED_RGB_KEYWORDS'] = 'LED, RGB, Farbe';
+Blockly.Msg['SKYKICK_LED_COLOR_KEYWORDS'] = 'Farbton, Schattierung, Färbung';
+Blockly.Msg['SKYKICK_LED_PRESET_KEYWORDS'] = 'LED, Farbe, vordefiniert';
+Blockly.Msg['SKYKICK_BUZZER_STOP_KEYWORDS'] = 'Buzzer, Alarm';
+Blockly.Msg['SKYKICK_PLAY_NOTE_KEYWORDS'] = 'Geräusch, Ton';
+Blockly.Msg['SKYKICK_PLAY_HZ_KEYWORDS'] = 'Geräusch, Ton';
+Blockly.Msg['SKYKICK_ATTITUDE_KEYWORDS'] = 'Ausrichtung, Neigung';
+Blockly.Msg['SKYKICK_SENSOR_KEYWORDS'] = 'Sensor, Messwert';
+Blockly.Msg['SKYKICK_HEIGHT_KEYWORDS'] = 'Höhe';
+Blockly.Msg['SKYKICK_POSITION_KEYWORDS'] = 'Koordinaten, Standort';
+Blockly.Msg['SKYKICK_STATE_KEYWORDS'] = 'Status, Diagnose';

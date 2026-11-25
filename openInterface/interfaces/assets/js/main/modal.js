@@ -134,6 +134,9 @@ window.Modal.prototype = {
         const title = document.createElement('span');
         title.className = 'vitta-modal-title';
         title.id = `${modalID}-title`;
+        // a heading: the screen reader users jump to the dialog title with the heading navigation
+        title.setAttribute('role', 'heading');
+        title.setAttribute('aria-level', '2');
 
         const icon = this._createIcon();
         const titleContent = this._createTitleContent();

@@ -337,7 +337,8 @@ class UnoQuploader {
             }
         } catch (error) {
             console.error(error);
-            this.showErrorMessage(error.message);
+            // USB device chooser closed without a board: translated message, not the raw browser one
+            this.showErrorMessage(error && error.name === 'NotFoundError' ? jsonPath('code.serialAPI.noPortSelected') : error.message);
             this.state("ready");
             this.webusb = null;
             return;
@@ -1103,7 +1104,7 @@ class UnoQuploader {
             await this.connect();
         }
         if (this.status !== "connected") {
-            InterfaceMonitor.writeConsole("Unable to send Arduino Q App.");
+            // connect() has already shown why (no board selected, ADB error...)
             this.disconnect();
             return;
         }

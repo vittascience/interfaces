@@ -322,7 +322,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /Builtin LED on p(25|0)/,
             id: "pico-builtin-led",
-            title: "LED intégrée",
+            get title() { return i18next.t('code.simulator.modules.builtinLed') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'output',
@@ -337,7 +337,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /""" Kitronik """/gi,
             id: "kitro-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: "Kitronik",
             type: 'output',
             value: "",
@@ -347,7 +347,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /""" Kitronik """/gi,
             id: "kitro-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: "Kitronik",
             type: 'output',
             value: "",
@@ -357,21 +357,21 @@ Simulator.Mosaic.specific = {
         {
             regex: /(getDistance|getDuration)\("f"\)/gi,
             id: "kitro-hcsr04-front",
-            title: "HC-SR04: ",
-            pin: 'Capteur avant',
+            get title() { return i18next.t('code.simulator.modules.hcsr04') },
+            get pin() { return i18next.t('code.simulator.modules.pinFrontSensor') },
             type: 'input',
             listeners: [{
                 default: 20,
                 unit: 'cm',
                 color: "#f9d142 ",
                 suffix: "_d",
-                title: "Distance"
+                get title() { return i18next.t('code.simulator.modules.distance') }
             }, {
                 suffix: "_t",
                 default: 1166,
                 unit: 'μs',
                 color: "#f9d142",
-                title: "Durée"
+                get title() { return i18next.t('code.simulator.modules.duration') }
             }],
             class: 'ultrasonic',
             picture: "Ultrason.png",
@@ -388,21 +388,21 @@ Simulator.Mosaic.specific = {
         {
             regex: /(getDistance|getDuration)\("r"\)/gi,
             id: "kitro-hcsr04-back",
-            title: "HC-SR04: ",
-            pin: 'Capteur arrière',
+            get title() { return i18next.t('code.simulator.modules.hcsr04') },
+            get pin() { return i18next.t('code.simulator.modules.pinRearSensor') },
             type: 'input',
             listeners: [{
                 default: 20,
                 unit: 'cm',
                 color: "#f9d142 ",
                 suffix: "_d",
-                title: "Distance"
+                get title() { return i18next.t('code.simulator.modules.distance') }
             }, {
                 suffix: "_t",
                 default: 1166,
                 unit: 'μs',
                 color: "#f9d142",
-                title: "Durée"
+                get title() { return i18next.t('code.simulator.modules.duration') }
             }],
             class: 'ultrasonic',
             picture: "Ultrason.png",
@@ -419,7 +419,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /setLED\(0, \(([0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5]), ([0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5]), ([0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5])\)\)/gi,
             id: "kitro-FrontLeftRGBLed",
-            title: "LED RGB (avant gauche)",
+            get title() { return i18next.t('code.simulator.modules.rgbLedFrontLeft') },
             pin: 'Kitronik',
             type: 'output',
             value: [75, 75, 75],
@@ -432,7 +432,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /setLED\(1, \(([0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5]), ([0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5]), ([0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5])\)\)/gi,
             id: "kitro-FrontRightRGBLed",
-            title: "LED RGB (avant gauche)",
+            get title() { return i18next.t('code.simulator.modules.rgbLedFrontRight') },
             pin: 'Kitronik',
             type: 'output',
             value: [75, 75, 75],
@@ -445,7 +445,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /setLED\(2, \(([0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5]), ([0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5]), ([0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5])\)\)/gi,
             id: "kitro-BackRightRGBLed",
-            title: "LED RGB (arrière droite)",
+            get title() { return i18next.t('code.simulator.modules.rgbLedRearRight') },
             pin: 'Kitronik',
             type: 'output',
             value: [75, 75, 75],
@@ -458,7 +458,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /setLED\(3, \(([0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5]), ([0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5]), ([0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5])\)\)/gi,
             id: "kitro-BackLeftRGBLed",
-            title: "LED RGB (arrière gauche)",
+            get title() { return i18next.t('code.simulator.modules.rgbLedRearLeft') },
             pin: 'Kitronik',
             type: 'output',
             value: [75, 75, 75],
@@ -471,7 +471,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /kitro_lineFinder\("r"\)/gi,
             id: "kitro-finderRight",
-            title: "cap. Ligne noire (Droit)",
+            get title() { return i18next.t('code.simulator.modules.lineRight') },
             pin: 'Kitronik',
             type: 'input',
             class: 'finder',
@@ -490,7 +490,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /kitro_lineFinder\("l"\)/gi,
             id: "kitro-finderLeft",
-            title: "cap. Ligne noire (Gauche)",
+            get title() { return i18next.t('code.simulator.modules.lineLeft') },
             pin: 'Kitronik',
             type: 'input',
             class: 'finder',
@@ -509,7 +509,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /kitro_lineFinder\("c"\)/gi,
             id: "kitro-finderCentral",
-            title: "cap. Ligne noire (Central)",
+            get title() { return i18next.t('code.simulator.modules.lineMiddle') },
             pin: 'Kitronik',
             type: 'input',
             class: 'finder',

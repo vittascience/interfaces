@@ -255,7 +255,8 @@ class MultiCodeManager extends CodeManager {
             }
             // The shared Arduino blocks write to Serial, which is not the sketch console on the UNO Q
             if (language === 'cpp') {
-                code = code.replace(/\bSerial\b/g, 'Monitor');
+                // string and char literals are kept: "Serial OK" must not become "Monitor OK"
+                code = code.replace(/("(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*')|\bSerial\b/g, (match, literal) => literal || 'Monitor');
             }
             this._generatedFiles[section.filename] = code;
         });
@@ -297,6 +298,17 @@ class MultiCodeManager extends CodeManager {
     }
 
     generateLanguageFromCurrentWorkspace(language, generator) {
+        // The temporary disabling below is not a user action: recorded, it filled the undo stack with
+        // change:disabled events and undo / Ctrl+Z never reached the user's own actions
+        Blockly.Events.disable();
+        try {
+            return this._generateLanguage(language, generator);
+        } finally {
+            Blockly.Events.enable();
+        }
+    }
+
+    _generateLanguage(language, generator) {
         this.allBlocks = this._workspace.getAllBlocks(false);
         // enabled: aggregate state, used by the temporary generation logic.
         // manuallyDisabled: the manual reason only, which is what is restored afterwards (a block

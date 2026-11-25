@@ -155,7 +155,7 @@ Blockly.Constants.switch_case.SWITCH_CASE_MUTATOR_MIXIN = {
                 })(i);
                 this.appendDummyInput('CASE_BUTTONS' + i)
                     .appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
-                        this.buttonSize, "*", removeCase));
+                        this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, removeCase));
             }
         }
 
@@ -165,13 +165,13 @@ Blockly.Constants.switch_case.SWITCH_CASE_MUTATOR_MIXIN = {
         };
         var dummyInput = this.appendDummyInput('ADD_CASE');
         dummyInput.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize,
-            this.buttonSize, "*", addCase));
+            this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, addCase));
         if (this.caseCount_ > 0) {
             var removeLastCase = function () {
                 that.removeCase_(that.caseCount_ - 1);
             };
             dummyInput.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
-                this.buttonSize, "*", removeLastCase));
+                this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, removeLastCase));
         }
     },
     addCase_: function () {

@@ -15,6 +15,7 @@ const INCLUDE_PRINTF = "#include <printf.h>";
 const INCLUDE_DS1307 = "#include <DS1307.h>";
 const INCLUDE_PCF85063TP = "#include <PCF85063TP.h>";
 const INCLUDE_IR_REMOTE = "#include <IRremote.hpp>";
+const INCLUDE_IR_BARRIER = "#include <IrBarrier.h>";
 const INCLUDE_NRF24L01 = "#include <nRF24L01.h>";
 const INCLUDE_RF24 = "#include <RF24.h>";
 const INCLUDE_SD = "#include <SD.h>";

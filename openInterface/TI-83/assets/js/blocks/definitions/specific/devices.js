@@ -90,7 +90,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "MUSIC",
             "options": [
-                ["Pirates des Caraïbes", "CARRIBEAN_PIRATES"],
+                ["%{BKY_MUSIC_CARIBBEAN_PIRATES}", "CARRIBEAN_PIRATES"],
                 ["Gamme", "GAMME"],
                 ["Star Wars", "SW"],
                 ["R2D2", "R2D2"]
@@ -795,9 +795,9 @@ Blockly.Constants.Devices.DEVICES_BUILTIN_SPEAKER_PLAY_NOTES_MUTATOR_MIXIN = {
         // Update inputs
         var top = this.appendDummyInput('TOP');
         top.appendField(Blockly.Msg['DEVICES_BUILTIN_SPEAKER_PLAY_NOTES_TITLE']);
-        top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", add, false));
+        top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
         if (this.itemCount_ > 1) {
-            top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", remove, false));
+            top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
         }
         for (var i = 0; i < this.itemCount_; i++) {
             this.appendValueInput('ADD' + i);

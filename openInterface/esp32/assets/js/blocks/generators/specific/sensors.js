@@ -410,7 +410,7 @@ Blockly.Python.sensors_colorSensor_getData = function (block) {
     const i2c = Blockly.Python.Generators.default_I2C();
     Blockly.Python.addImport('color_sensor', IMPORT_ESP32_COLOR_SENSOR);
     Blockly.Python.addInit('color_sensor', "colorSensor = TCS34725(i2c=" + i2c + ")");
-    return ["colorSensor.html_rgb()[" + block.getFieldValue("DATA") + "]", Blockly.Python.ORDER_ATOMIC];
+    return ["colorSensor.html_rgb(colorSensor.read(True))[" + block.getFieldValue("DATA") + "]", Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.sensors_getGroveSound = function (block) {

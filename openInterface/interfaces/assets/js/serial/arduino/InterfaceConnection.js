@@ -1236,7 +1236,7 @@ const InterfaceConnection = {
 					if (hex) {
 						let fileName = 'vitta_arduino_extension_';
 						const d = new Date();
-						const date = ["_", d.getFullYear(), d.getMonth(), d.getDate(), "_", d.getHours(), d.getMinutes(), d.getSeconds()];
+						const date = ["_", d.getFullYear(), String(d.getMonth() + 1).padStart(2, '0'), String(d.getDate()).padStart(2, '0'), "_", String(d.getHours()).padStart(2, '0'), String(d.getMinutes()).padStart(2, '0'), String(d.getSeconds()).padStart(2, '0')];
 						for (var i in date) {
 							fileName += date[i].toString();
 						}

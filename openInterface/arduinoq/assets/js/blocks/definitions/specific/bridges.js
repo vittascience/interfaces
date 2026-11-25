@@ -205,15 +205,15 @@ Blockly.Constants.Bridges.BRIDGES_CALL_MUTATOR_MIXIN = {
         var top = this.appendDummyInput('TOP');
         if (this.itemCount_ > 0) {
             top.appendField(Blockly.Msg['Q_BRIDGES_CALL_WITH_ARGUMENTS']);
-            top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", add, false));
-            top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", remove, false));
+            top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
+            top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
             for (var i = 0; i < this.itemCount_; i++) {
                 this.appendValueInput('ADD' + i);
             }
         }
         // Case of empty list
         else {
-            top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", add, false));
+            top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
         }
         /* Switch to vertical list when the list is too long */
         var showHorizontalList = this.itemCount_ <= 5;

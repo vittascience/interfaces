@@ -306,7 +306,7 @@ Simulator.init = async function () {
         this.updateSimulatorInterval = null;
         this.updateVariablesPanelInterval = null;
 
-        if (!['winky', 'sphero', 'lotibot', 'bluebot', 'spike', 'legoprime', 'photon', 'primastem', 'skykick'].includes(INTERFACE_NAME)) {
+        if (!['winky', 'sphero', 'lotibot', 'bluebot', 'spike', 'legoprime', 'photon', 'primastem', 'matatalab', 'skykick'].includes(INTERFACE_NAME)) {
             window.addEventListener("visibilitychange", () => {
                 if (this.isOpen) {
                     if (document.visibilityState === 'visible') {
@@ -426,6 +426,8 @@ Simulator.bluetoothDeviceConnected = function () {
             return PhotonWebBLEAPI.isConnected;
         case 'primastem':
             return PrimaStemWebBLEAPI.isConnected;
+        case 'matatalab':
+            return MatatalabWebBLEAPI.isConnected;
         case 'skykick':
             return SkykickDroneAPI.link.isConnected;
         default:
@@ -613,6 +615,9 @@ Simulator.stop = function () {
     if (INTERFACE_NAME === 'primastem') {
         PrimaStemWebBLEAPI.abort();
     }
+    if (INTERFACE_NAME === 'matatalab') {
+        MatatalabWebBLEAPI.abort();
+    }
     if (typeof IloBLE !== 'undefined' && IloBLE.isConnected) {
         IloBLE.write('<>'); // stop the real robot
     }
@@ -676,6 +681,7 @@ Simulator.stop = function () {
 };
 
 Simulator.prepareToRun = function () {
+    this.a11yOutputs = {};
     this.initMosaicSliders();
     this.setIntervalUpdate();
     this.setIntervalUpdateVariablesPanel();
@@ -695,8 +701,10 @@ Simulator.prepareToRun = function () {
         if (typeof this.Mosaic.BOARD_HEADER !== 'undefined') {
             $('#board-container').html(this.Mosaic.BOARD_HEADER);
         } else {
-            $('#board-container').html(`<object id="board-viewer" class="mt-3" type="image/svg+xml" role="img" aria-label="Board simulator view"></object>`);
+            $('#board-container').html(`<object id="board-viewer" class="mt-3" type="image/svg+xml" role="img"></object>`);
         }
+        // the board headers of the mosaics too
+        $('#board-viewer').attr('aria-label', jsonPath('code.simulator.buttons.base.boardView'));
         if (this._hasBoardSimulator()) {
             if (this._hasUpdateBoardV2()) {
                 this.updateBoard_v2();
@@ -775,10 +783,55 @@ Simulator.resumeModulesAnimations = function () {
 Simulator.addBoardTogglerToDom = function () {
     if (document.getElementById('simulator-board-toggler') !== null) return;
     const boardTogglerHtml = `
-    <button id="simulator-board-toggler" class="btn simulator-button-circle" type="button" onclick="Simulator.toggleBoardDisplay()" aria-label="Toggle board display" data-i18n="[aria-label]code.simulator.buttons.base.toggleBoardDisplay">
+    <button id="simulator-board-toggler" class="btn simulator-button-circle" type="button" onclick="Simulator.toggleBoardDisplay()" aria-label="${jsonPath('code.simulator.buttons.base.toggleBoardDisplay')}">
         <i class="fa-solid fa-minus simulator-buttons-icon"></i>
     </button>`;
-    document.querySelector('.simulator-board-buttons').insertAdjacentHTML('beforeend', boardTogglerHtml);
+    Simulator.addBoardButtonHtml(boardTogglerHtml);
+};
+
+/**
+ * Adds a button to the top right buttons of the simulator, before the describe board button so it stays the last one
+ * in the tab order whatever the order the buttons are added in.
+ */
+Simulator.addBoardButtonHtml = function (html) {
+    const stateButton = document.getElementById('simulator-board-state');
+    if (stateButton) stateButton.insertAdjacentHTML('beforebegin', html);
+    else document.querySelector('.simulator-board-buttons').insertAdjacentHTML('beforeend', html);
+};
+
+/**
+ * Button giving in text the state of the outputs of the simulated board (LED on or off, value of a pin...), shown only
+ * in the image: announced on demand, a blinking LED announced at each change would flood the screen reader.
+ */
+Simulator.addBoardStateButtonToDom = function () {
+    if (document.getElementById('simulator-board-state') !== null) return;
+    const label = jsonPath('code.simulator.buttons.base.describeBoard');
+    document.querySelector('.simulator-board-buttons').insertAdjacentHTML('beforeend', `
+    <button id="simulator-board-state" class="btn simulator-button-circle" type="button" onclick="Simulator.describeBoardState()" aria-label="${label}" title="${label}">
+        <i class="fa-solid fa-comment-dots simulator-buttons-icon" aria-hidden="true"></i>
+    </button>`);
+};
+
+Simulator.describeBoardState = function () {
+    const state = (value) => {
+        if (value === true || value === 1) return jsonPath('code.simulator.buttons.base.stateOn');
+        if (value === false || value === 0) return jsonPath('code.simulator.buttons.base.stateOff');
+        if (typeof value === 'number') return String(roundFloat(value, 2));
+        return typeof value === 'string' ? value : null;
+    };
+    const lines = Object.entries(this.a11yOutputs || {})
+        .map(([id, { mod, value }]) => {
+            const text = state(value);
+            if (text === null) return null;
+            // "led_D2": the pin after the id of the module
+            const pin = id.includes('_') ? ' ' + id.split('_').slice(1).join(' ') : '';
+            return `${mod.title || mod.id}${pin} : ${text}`;
+        })
+        .filter(Boolean);
+    const message = lines.length ? lines.join('. ') + '.' : jsonPath('code.simulator.buttons.base.stateEmpty');
+    // shown to sighted users too, the notification has role="alert" so it is also read by the screen reader
+    new VittaNotif(5).displayNotification(null, message, 'bg-info');
+    return message;
 };
 
 Simulator.addBoardOptionToDom = function () {
@@ -786,17 +839,18 @@ Simulator.addBoardOptionToDom = function () {
     const simulatorBoardOptionHtml = `
     <div class="dropdown">
         <button id="simulator-board-selector" class="btn dropdown-toggle simulator-button-circle" type="button"
-            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Select board" data-i18n="[aria-label]code.simulator.buttons.base.selectBoard">
+            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="${jsonPath('code.simulator.buttons.base.selectBoard')}">
             <i class="fa-solid fa-microchip simulator-board-selector-microship"></i>
         </button>
         <div id="simulator-board-options" class="dropdown-menu" aria-labelledby="simulator-board-selector"></div>
     </div>`;
-    document.querySelector('.simulator-board-buttons').insertAdjacentHTML('beforeend', simulatorBoardOptionHtml);
+    Simulator.addBoardButtonHtml(simulatorBoardOptionHtml);
 };
 
 Simulator.initBoard = function () {
     if (!(['TI-83', 'winky']).includes(INTERFACE_NAME)) {
         this.addBoardTogglerToDom();
+        this.addBoardStateButtonToDom();
     }
     if (Main.hasBoardSelector()) {
         Simulator.addBoardOptionToDom();
@@ -845,7 +899,7 @@ Simulator.updateBoard = function (link, name) {
     }
     if (this.board.link) {
         const path = _SAME_ORIGIN_PATH + "/" + INTERFACE_NAME + "/assets/media/simulator/board/" + this.board.link;
-        if (/(arduinoq|microbit|wb55|l476|mBot|m5stack|galaxia|GalaxiaCircuitPython|buddy|cyberpi|pico|eliobot|thymio|raspberrypi|lotibot|photon|bluebot|codey|steami|alphai|primastem|unihiker|legoprime)/.test(INTERFACE_NAME) && (this.board.link).includes('.svg')) {
+        if (/(arduinoq|microbit|wb55|l476|mBot|m5stack|galaxia|GalaxiaCircuitPython|buddy|cyberpi|pico|eliobot|thymio|raspberrypi|lotibot|photon|bluebot|codey|steami|alphai|primastem|matatalab|unihiker|legoprime)/.test(INTERFACE_NAME) && (this.board.link).includes('.svg')) {
             this.setBoardViewerData(path);
         } else {
             $("#board-viewer").css('background-image', "url('" + path + "')");
@@ -880,7 +934,11 @@ Simulator.setBoardViewerData = async function (path) {
             path = URL.createObjectURL(await (await fetch(path)).blob());
         } catch (e) { }
     }
-    $("#board-viewer").attr("data", path);
+    // The texts of the board picture (its printed labels) were read as a row of letters: the picture is named, its
+    // document hidden from the screen readers
+    $("#board-viewer").off('load.a11y').on('load.a11y', function () {
+        this.contentDocument?.documentElement?.setAttribute('aria-hidden', 'true');
+    }).attr("data", path);
 };
 
 Simulator.updateBoard_v2 = function (boardId, shield = false) {
@@ -1110,7 +1168,7 @@ Simulator._hasRobotSimulator = function (board) {
         if (!board) board = Blockly.Constants.getSelectedBoard();
         return board == BOARD_NANO_ESP32;
     }
-    return ["microbit", "wb55", "l476", "TI-83", "mBot", "buddy", "cyberpi", "pico", "eliobot", "thymio", "sphero", "lotibot", "bluebot", "photon", "codey", "alphai", "raspberrypi", "primastem", "steami", "skykick"].includes(INTERFACE_NAME);
+    return ["microbit", "wb55", "l476", "TI-83", "mBot", "buddy", "cyberpi", "pico", "eliobot", "thymio", "sphero", "lotibot", "bluebot", "photon", "codey", "alphai", "raspberrypi", "primastem", "matatalab", "steami", "skykick"].includes(INTERFACE_NAME);
 };
 
 /**
@@ -1198,7 +1256,7 @@ Simulator._hasSpeechSynthesis = function () {
  * @returns {boolean} state
  */
 Simulator._hasBoardSimulator = function () {
-    return ["arduino", "microbit", "wb55", "l476", "buddy", "TI-83", "mBot", "cyberpi", "esp32", "thymio", "winky", "galaxia", "raspberrypi", "pico", "m5stack", "sphero", "lotibot", "bluebot", "spike", "legoprime", "photon", "codey", "eliobot", "alphai", "GalaxiaCircuitPython", "steami", "arduinoq", "primastem", "skykick", "unihiker"].includes(INTERFACE_NAME);
+    return ["arduino", "microbit", "wb55", "l476", "buddy", "TI-83", "mBot", "cyberpi", "esp32", "thymio", "winky", "galaxia", "raspberrypi", "pico", "m5stack", "sphero", "lotibot", "bluebot", "spike", "legoprime", "photon", "codey", "eliobot", "alphai", "GalaxiaCircuitPython", "steami", "arduinoq", "primastem", "matatalab", "skykick", "unihiker"].includes(INTERFACE_NAME);
 };
 
 /**
@@ -1286,6 +1344,8 @@ Simulator.onSliderChanged = function (event, ui) {
  * @param {Object} _this 
  */
 Simulator.setAnimator = function (mod, id, value, sliderId = null, _this = this) {
+    // last value of each output, read by the "Describe the state of the board" button (the state was only in the image)
+    if (mod && mod.type === 'output') (_this.a11yOutputs ??= {})[id] = { mod, value };
     _this.Animator.mod = mod;
     _this.Animator.id = id;
     _this.Animator.value = value;
@@ -1463,7 +1523,7 @@ Simulator._getInterfaceModules = function () {
             let pinsModules = [{
                 extractPin: getExtract("read-digital"),
                 id: "read-digital",
-                title: "Lecture digitale",
+                get title() { return i18next.t('code.simulator.modules.digitalRead') },
                 pin: 'pin n°',
                 pins: 'digital',
                 type: 'input',
@@ -1484,7 +1544,7 @@ Simulator._getInterfaceModules = function () {
             {
                 extractPin: getExtract("write-digital"),
                 id: "write-digital",
-                title: "Ecriture digitale",
+                get title() { return i18next.t('code.simulator.modules.digitalWrite') },
                 pin: 'pin n°',
                 pins: 'digital',
                 type: 'output',
@@ -1500,7 +1560,7 @@ Simulator._getInterfaceModules = function () {
                 pinsModules.push({
                     extractPin: getExtract("read-analog"),
                     id: "read-analog",
-                    title: "Lecture analogique",
+                    get title() { return i18next.t('code.simulator.modules.analogRead') },
                     pin: 'pin n°',
                     pins: 'analog_read',
                     type: 'input',
@@ -1522,7 +1582,7 @@ Simulator._getInterfaceModules = function () {
                 pinsModules.push({
                     extractPin: getExtract("write-analog"),
                     id: "write-analog",
-                    title: "Ecriture analogique",
+                    get title() { return i18next.t('code.simulator.modules.analogWrite') },
                     pin: 'pin n°',
                     pins: 'PWM',
                     type: 'output',
@@ -1538,7 +1598,7 @@ Simulator._getInterfaceModules = function () {
                 pinsModules.push({
                     extractPin: getExtract("pwm"),
                     id: "pwm",
-                    title: "Signal PWM",
+                    get title() { return i18next.t('code.simulator.modules.pwmSignal') },
                     pin: 'pin n°',
                     pins: 'PWM',
                     type: 'output',
@@ -2061,7 +2121,7 @@ Simulator.generateModuleDiv_header = function (mod, id, pinName) {
         html += '<br>';
         html += `<span class="subtitle-module`;
 
-        if (/(I2C|AlphaBot|Arduino|Cutebot|Cutebot Pro|primaSTEM)/.test(mod.pin)) {
+        if (/(I2C|AlphaBot|Arduino|Cutebot|Cutebot Pro|primaSTEM|Matatalab)/.test(mod.pin)) {
             html += ' i2c-module';
         } else if (/(ESP32|STM32|Maqueen|micro:bit|Gamepad|Buggy|Codo|Oobybot|Innovator Hub|raspberrypi|Galaxia|GalaxiaCircuitPython|thymio)/.test(mod.pin)) {
             html += ' internal-module';
@@ -2095,10 +2155,11 @@ Simulator.generateModuleDiv_image = function (mod, id, exerciseModule) {
             html += ` onclick="${mod.pictureInteraction}('${id}')"`;
             html += ` onkeypress="if(event.key === 'Enter' || event.key === ' ') { ${mod.pictureInteraction}('${id}'); event.preventDefault(); }"`;
         }
-        html += ` aria-label="${mod.title || 'Module interactif'}"`;
+        html += ` aria-label="${mod.title || 'Module interactif'}">`;
+    } else {
+        // the class attribute is still open only in this case (closed before role="button" above)
+        html += `">`;
     }
-
-    html += `">`;
 
     // Picture animation (animated overlay)
     if (mod.pictureAnimation) {
@@ -2262,7 +2323,8 @@ Simulator.Components = {
             if (id) {
                 if (pull === 'no_pull') pull = 'down';
                 const component = Simulator.pinList.find(module => module.id == id);
-                let coreId = id;
+                // module key without the pin suffix (read-digital_12 -> read-digital)
+                let coreId = id.split('_')[0];
                 if (component) {
                     component.pull = pull;
                     coreId = component.id.split('_')[0];
@@ -2569,6 +2631,8 @@ Simulator.Components = {
 Simulator.Mosaic = {
     uart_updateTitle: function (port, rx, tx) {
         const modPin = Simulator.pinList.find(mod => new RegExp(`UART\\s?${port}`).test(mod.pin));
+        // UART() without any UART module in the mosaic (plain serial link, RFID 125 kHz...): nothing to update
+        if (!modPin) return { pin: { id: '' }, mod: { id: '' } };
         const mod = Simulator.getModuleByKey(modPin.id.split('_')[0]);
         const pinRXName = this.getPinDef(rx, mod);
         const pinTXName = this.getPinDef(tx, mod);

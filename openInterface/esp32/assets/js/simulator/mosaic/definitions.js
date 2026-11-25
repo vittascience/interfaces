@@ -117,7 +117,8 @@ Simulator.Mosaic.addSpecificInitializations = async function () {
                 Simulator.Mosaic.specific.setRgbLed(0, 0, 0);
                 break;
         }
-        const resetBtn = board.querySelector(resetId),
+        // ESP32-CAM, Ilo...: no reset button on the board picture (querySelector('') throws)
+        const resetBtn = resetId ? board.querySelector(resetId) : null,
             up = 'translate(0px, 0px)',
             down = 'translate(0px, 5px)';
         if (resetBtn !== null) {
@@ -485,7 +486,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /Builtin LED on p2/,
             id: "esp32-builtin-led",
-            title: "LED intégrée",
+            get title() { return i18next.t('code.simulator.modules.builtinLed') },
             pin: 'pin n°',
             pins: 'digital',
             builtin: 'ESP32',
@@ -506,13 +507,13 @@ Simulator.Mosaic.specific = {
         {
             regex: /esp32\.hall_sensor\(\)/,
             id: "esp32-hallMag",
-            title: "Capteur à effet Hall ",
+            get title() { return i18next.t('code.simulator.modules.hallSensor') },
             pin: 'ESP32',
             listeners: [{
                 suffix: "",
                 unit: 'µT',
                 color: "#ff4d6a",
-                title: "Champ magnétique"
+                get title() { return i18next.t('code.simulator.modules.magneticField') }
             }],
             type: 'input',
             picture: "Champ-magnetique.png",
@@ -523,7 +524,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /esp32\.raw_temperature\(\)/,
             id: "esp32-rawTemp",
-            title: "Temp. du processeur ",
+            get title() { return i18next.t('code.simulator.modules.cpuTemp') },
             pin: 'ESP32',
             listeners: [{
                 suffix: "_cel",
@@ -597,7 +598,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /ilo\.(step|move|drive_single_motor_speed_front_left)\(/gi,
             id: "ilo-motorFrontLeft",
-            title: "Moteur Avant Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorFrontLeft') },
             pin: "Ilo",
             type: 'output',
             value: "",
@@ -607,7 +608,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /ilo\.(step|move|drive_single_motor_speed_front_right)\(/gi,
             id: "ilo-motorFrontRight",
-            title: "Moteur Avant Droit",
+            get title() { return i18next.t('code.simulator.modules.motorFrontRight') },
             pin: "Ilo",
             type: 'output',
             value: "",
@@ -617,7 +618,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /ilo\.(step|move|drive_single_motor_speed_back_left)\(/gi,
             id: "ilo-motorBackLeft",
-            title: "Moteur Arrière Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorRearLeft') },
             pin: "Ilo",
             type: 'output',
             value: "",
@@ -627,7 +628,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /ilo\.(step|move|drive_single_motor_speed_back_right)\(/gi,
             id: "ilo-motorBackRight",
-            title: "Moteur Arrière Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRearRight') },
             pin: "Ilo",
             type: 'output',
             value: "",
@@ -637,8 +638,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /ilo\.get_distance_Right\(\)/gi,
             id: "ilo-distanceRight",
-            title: "Time Of Flight - Distance (mm)",
-            pin: 'Capteur droit',
+            get title() { return i18next.t('code.simulator.modules.tofMm') },
+            get pin() { return i18next.t('code.simulator.modules.pinRightSensor') },
             type: 'input',
             listeners: [{
                 default: 0,
@@ -656,8 +657,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /ilo\.get_distance_left\(\)/gi,
             id: "ilo-distanceLeft",
-            title: "Time Of Flight - Distance (mm)",
-            pin: 'Capteur gauche',
+            get title() { return i18next.t('code.simulator.modules.tofMm') },
+            get pin() { return i18next.t('code.simulator.modules.pinLeftSensor') },
             type: 'input',
             listeners: [{
                 default: 0,
@@ -675,8 +676,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /ilo\.get_distance_front\(\)/gi,
             id: "ilo-distanceFront",
-            title: "Time Of Flight - Distance (mm)",
-            pin: 'Capteur avant',
+            get title() { return i18next.t('code.simulator.modules.tofMm') },
+            get pin() { return i18next.t('code.simulator.modules.pinFrontSensor') },
             type: 'input',
             listeners: [{
                 default: 0,
@@ -694,8 +695,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /ilo\.get_distance_back\(\)/gi,
             id: "ilo-distanceBack",
-            title: "Time Of Flight - Distance (mm)",
-            pin: 'Capteur arrière',
+            get title() { return i18next.t('code.simulator.modules.tofMm') },
+            get pin() { return i18next.t('code.simulator.modules.pinRearSensor') },
             type: 'input',
             listeners: [{
                 default: 0,
@@ -713,7 +714,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /ilo\.get_line_left\(\)/gi,
             id: "ilo-finderLeft",
-            title: "Capteur de ligne noire gauche",
+            get title() { return i18next.t('code.simulator.modules.blackLineLeft') },
             pin: 'Ilo robot',
             type: 'input',
             class: 'finder',
@@ -732,7 +733,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /ilo\.get_line_right\(\)/gi,
             id: "ilo-finderRight",
-            title: "Capteur de ligne noire droit",
+            get title() { return i18next.t('code.simulator.modules.blackLineRight') },
             pin: 'Ilo robot',
             type: 'input',
             class: 'finder',
@@ -751,7 +752,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /ilo\.get_line_center\(\)/gi,
             id: "ilo-finderMiddle",
-            title: "Capteur de ligne noire central",
+            get title() { return i18next.t('code.simulator.modules.blackLineCenter') },
             pin: 'Ilo robot',
             type: 'input',
             class: 'finder',
@@ -770,7 +771,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /ilo\.get_(raw_|)color(_rgb_(center|right|left)|)\((|(rgb|color))\)/gi,
             id: "ilo-ColorSensor",
-            title: "Capteur de couleurs : ",
+            get title() { return i18next.t('code.simulator.modules.colorSensor') },
             pin: "Ilo robot",
             type: 'input',
             codeFlag: 'Color Sensor',
@@ -808,7 +809,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /Builtin LED on p48/,
             id: "nano-esp32-builtin-led",
-            title: "LED intégrée",
+            get title() { return i18next.t('code.simulator.modules.builtinLed') },
             pin: 'pin n°',
             pins: 'digital',
             builtin: 'NANO ESP32',
@@ -824,7 +825,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /Builtin RGB LED on p46\/p0\/p45/,
             id: "nano-esp32-builtin-rgb-led",
-            title: "LED RGB intégrée",
+            get title() { return i18next.t('code.simulator.modules.builtinRgbLed') },
             pin: 'NANO ESP32 (p46, p0, p45)',
             pins: 'PWM',
             type: 'output',
@@ -862,7 +863,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /led_right\.set_color\(/,
             id: "alvik-led-right",
-            title: "LED RGB droite",
+            get title() { return i18next.t('code.simulator.modules.rgbLedRight') },
             pin: 'Alvik',
             type: 'output',
             picture: "RGB-LED.svg",
@@ -871,7 +872,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /led_left\.set_color\(/,
             id: "alvik-led-left",
-            title: "LED RGB gauche",
+            get title() { return i18next.t('code.simulator.modules.rgbLedLeft') },
             pin: 'Alvik',
             type: 'output',
             picture: "RGB-LED.svg",
@@ -880,7 +881,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /alvik\.set_builtin_led/,
             id: "alvik-builtin-led",
-            title: "LED intégrée",
+            get title() { return i18next.t('code.simulator.modules.builtinLed') },
             pin: 'Alvik',
             type: 'output',
             value: 0,
@@ -893,7 +894,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /alvik\.set_illuminator/,
             id: "alvik-illuminator-led",
-            title: "LED capteur de couleur",
+            get title() { return i18next.t('code.simulator.modules.colorSensorLed') },
             pin: 'Alvik',
             type: 'output',
             value: 0,
@@ -906,7 +907,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /alvik\.(move|set_wheels_speed|rotate|set_wheels_position|drive|stop|break|get_wheels_speed|get_wheels_position|get_drive_speed)\(/gi,
             id: "alvik-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: 'Alvik',
             type: 'output',
             value: "",
@@ -916,7 +917,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /alvik\.(move|set_wheels_speed|rotate|set_wheels_position|drive|stop|break|get_wheels_speed|get_wheels_position|get_drive_speed)\(/gi,
             id: "alvik-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: 'Alvik',
             type: 'output',
             value: "",
@@ -926,7 +927,7 @@ Simulator.Mosaic.specific = {
         {
             id: "alvik-distanceLeft",
             regex: /alvik\.get_distance\(.*\)\[0\]/gi,
-            title: "ToF - Gauche (45°)",
+            get title() { return i18next.t('code.simulator.modules.tofLeft') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -946,7 +947,7 @@ Simulator.Mosaic.specific = {
         {
             id: "alvik-distanceCenterLeft",
             regex: /alvik\.get_distance\(.*\)\[1\]/gi,
-            title: "ToF - Centre Gauche (22°)",
+            get title() { return i18next.t('code.simulator.modules.tofCenterLeft') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -966,7 +967,7 @@ Simulator.Mosaic.specific = {
         {
             id: "alvik-distanceCenter",
             regex: /alvik\.get_distance\(.*\)\[2\]/gi,
-            title: "ToF - Centre (0°)",
+            get title() { return i18next.t('code.simulator.modules.tofCenter') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -986,7 +987,7 @@ Simulator.Mosaic.specific = {
         {
             id: "alvik-distanceCenterRight",
             regex: /alvik\.get_distance\(.*\)\[3\]/gi,
-            title: "ToF - Centre Droit (22°)",
+            get title() { return i18next.t('code.simulator.modules.tofCenterRight') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -1006,7 +1007,7 @@ Simulator.Mosaic.specific = {
         {
             id: "alvik-distanceRight",
             regex: /alvik\.get_distance\(.*\)\[4\]/gi,
-            title: "ToF - Droit (45°)",
+            get title() { return i18next.t('code.simulator.modules.tofRight') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -1026,7 +1027,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /alvik\.get_line_sensors\(\)\[0\]/gi,
             id: "alvik-finderLeft",
-            title: "Capteur de ligne noire - gauche",
+            get title() { return i18next.t('code.simulator.modules.blackLineLeft') },
             pin: 'Alvik',
             type: 'input',
             class: 'finder',
@@ -1047,7 +1048,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /alvik\.get_line_sensors\(\)\[1\]/gi,
             id: "alvik-finderMiddle",
-            title: "Capteur de ligne noire - central",
+            get title() { return i18next.t('code.simulator.modules.blackLineCenter') },
             pin: 'Alvik',
             type: 'input',
             class: 'finder',
@@ -1068,7 +1069,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /alvik\.get_line_sensors\(\)\[2\]/gi,
             id: "alvik-finderRight",
-            title: "Capteur de ligne noire - droit",
+            get title() { return i18next.t('code.simulator.modules.blackLineRight') },
             pin: 'Alvik',
             type: 'input',
             class: 'finder',
@@ -1089,7 +1090,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /alvik\.set_servo_positions/gi,
             id: "alvik-servoA",
-            title: "Servomoteur A",
+            get title() { return i18next.t('code.simulator.modules.servoMotorName', { name: 'A' }) },
             pin: 'Alvik',
             type: 'output',
             class: 'servo',
@@ -1106,7 +1107,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /alvik\.set_servo_positions/gi,
             id: "alvik-servoB",
-            title: "Servomoteur B",
+            get title() { return i18next.t('code.simulator.modules.servoMotorName', { name: 'B' }) },
             pin: 'Alvik',
             type: 'output',
             class: 'servo',
@@ -1123,7 +1124,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /alvik\.get_touch_(up|any)/gi,
             id: "alvik-touchUp",
-            title: "Bouton Tactile Haut",
+            get title() { return i18next.t('code.simulator.modules.touchButtonUp') },
             pin: 'Alvik',
             type: 'input',
             listeners: [{
@@ -1143,7 +1144,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /alvik\.get_touch_(down|any)/gi,
             id: "alvik-touchDown",
-            title: "Bouton Tactile Bas",
+            get title() { return i18next.t('code.simulator.modules.touchButtonDown') },
             pin: 'Alvik',
             type: 'input',
             listeners: [{
@@ -1163,7 +1164,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /alvik\.get_touch_(left|any)/gi,
             id: "alvik-touchLeft",
-            title: "Bouton Tactile Gauche",
+            get title() { return i18next.t('code.simulator.modules.touchButtonLeft') },
             pin: 'Alvik',
             type: 'input',
             listeners: [{
@@ -1183,7 +1184,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /alvik\.get_touch_(right|any)/gi,
             id: "alvik-touchRight",
-            title: "Bouton Tactile Droit",
+            get title() { return i18next.t('code.simulator.modules.touchButtonRight') },
             pin: 'Alvik',
             type: 'input',
             listeners: [{
@@ -1203,7 +1204,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /alvik\.get_touch_(center|any)/gi,
             id: "alvik-touchCenter",
-            title: "Bouton Tactile Centre",
+            get title() { return i18next.t('code.simulator.modules.touchButtonCenter') },
             pin: 'Alvik',
             type: 'input',
             listeners: [{
@@ -1223,7 +1224,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /alvik\.get_touch_(ok|any)/gi,
             id: "alvik-touchOk",
-            title: "Bouton Tactile Ok",
+            get title() { return i18next.t('code.simulator.modules.touchButtonOk') },
             pin: 'Alvik',
             type: 'input',
             listeners: [{
@@ -1243,7 +1244,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /alvik\.get_touch_(cancel|any)/gi,
             id: "alvik-touchCancel",
-            title: "Bouton Tactile Annuler",
+            get title() { return i18next.t('code.simulator.modules.touchButtonCancel') },
             pin: 'Alvik',
             type: 'input',
             listeners: [{
@@ -1263,7 +1264,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /alvik\.get_color/gi,
             id: "alvik-ColorSensor",
-            title: "Capteur de couleurs : ",
+            get title() { return i18next.t('code.simulator.modules.colorSensor') },
             pin: "Alvik",
             type: 'input',
             codeFlag: 'Color Sensor',

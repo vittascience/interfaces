@@ -190,7 +190,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /digitalWrite\(13,.*\)/gi,
             id: "mCoreBuiltinBlueLED",
-            title: "LED intégrée",
+            get title() { return i18next.t('code.simulator.modules.builtinLed') },
             pin: 'mCore (D13)',
             pins: 'digital',
             type: 'output',
@@ -205,7 +205,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /MeDCMotor/,
             id: "mBot-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: 'mBot (D9)',
             type: 'output',
             value: 0,
@@ -215,7 +215,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /MeDCMotor/,
             id: "mBot-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: 'mBot (D10)',
             type: 'output',
             value: 0,
@@ -225,7 +225,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /lightSensor_board;/g,
             id: "mCoreLight",
-            title: "Capteur de luminosité",
+            get title() { return i18next.t('code.simulator.modules.groveLight') },
             pin: 'mCore (D6)',
             type: 'input',
             listeners: [{
@@ -244,7 +244,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /MeRGBLed rgbled_board;/gi,
             id: "mCoreRGBLED-left",
-            title: "LED RGB gauche",
+            get title() { return i18next.t('code.simulator.modules.rgbLedLeft') },
             pin: 'mCore (D7)',
             pins: 'digital',
             type: 'output',
@@ -255,7 +255,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /MeRGBLed rgbled_board;/gi,
             id: "mCoreRGBLED-right",
-            title: "LED RGB droite",
+            get title() { return i18next.t('code.simulator.modules.rgbLedRight') },
             pin: 'mCore (D7)',
             pins: 'digital',
             type: 'output',
@@ -266,7 +266,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /analogRead\(A7/gi,
             id: "mCoreButton",
-            title: "Bouton",
+            get title() { return i18next.t('code.simulator.modules.button') },
             pin: 'mCore (A7)',
             type: 'input',
             listeners: [{
@@ -287,7 +287,7 @@ Simulator.Mosaic.specific = {
             regex: /MeBuzzer/,
             id: "mCoreBuzzer",
             class: "buzzer",
-            title: "Buzzer",
+            get title() { return i18next.t('code.simulator.modules.buzzer') },
             type: 'output',
             pin: 'mCore',
             value: 'OFF',
@@ -302,7 +302,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /LED Matrix on PORT_([0-9])/gi,
             id: "makeblockMatrix",
-            title: "Matrice de LED",
+            get title() { return i18next.t('code.simulator.modules.LEDMatrix') },
             codeFlag: "LED Matrix",
             pin: 'pin n°',
             pins: 'digital',
@@ -312,7 +312,7 @@ Simulator.Mosaic.specific = {
         },
         {
             id: "neopixel",
-            title: "Neopixel",
+            get title() { return i18next.t('code.simulator.modules.neopixel') },
             codeFlag: "Neopixel",
             pin: 'pin n°',
             pins: 'digital',
@@ -323,7 +323,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /RGB LED on PORT_([0-9])/gi,
             id: "MeRGBLed",
-            title: "LED RGB",
+            get title() { return i18next.t('code.simulator.modules.RGBLed') },
             codeFlag: "RGB LED",
             size: 4,
             pin: 'pin n°',
@@ -334,7 +334,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /Me7SegmentDisplay on PORT_([0-9])/gi,
             id: "Me7SegmentDisplay",
-            title: "Afficheurs 4 digits",
+            get title() { return i18next.t('code.simulator.modules.tm1637') },
             codeFlag: "Me7SegmentDisplay",
             size: 4,
             pin: 'pin n°',
@@ -345,7 +345,7 @@ Simulator.Mosaic.specific = {
         // Sensors
         {
             id: "ultrasonic",
-            title: "Télémètre: ",
+            get title() { return i18next.t('code.simulator.modules.ultrasonic') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -355,13 +355,13 @@ Simulator.Mosaic.specific = {
                 unit: 'cm',
                 color: "#f9d142 ",
                 suffix: "_d",
-                title: "Distance"
+                get title() { return i18next.t('code.simulator.modules.distance') }
             }, {
                 suffix: "_t",
                 default: 1166,
                 unit: 'μs',
                 color: "#f9d142",
-                title: "Durée"
+                get title() { return i18next.t('code.simulator.modules.duration') }
             }],
             class: 'ultrasonic',
             picture: "Ultrason.png",
@@ -377,7 +377,7 @@ Simulator.Mosaic.specific = {
         },
         {
             id: "makeblockFinder-left",
-            title: "cap. Ligne noire (Gauche)",
+            get title() { return i18next.t('code.simulator.modules.lineLeft') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -397,7 +397,7 @@ Simulator.Mosaic.specific = {
         },
         {
             id: "makeblockFinder-right",
-            title: "cap. Ligne noire (Droit)",
+            get title() { return i18next.t('code.simulator.modules.lineRight') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -417,7 +417,7 @@ Simulator.Mosaic.specific = {
         },
         {
             id: "makeblockPIR",
-            title: "Capteur de mouvement",
+            get title() { return i18next.t('code.simulator.modules.groveMotion') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -438,7 +438,7 @@ Simulator.Mosaic.specific = {
         },
         {
             id: "makeblockCompass-heading",
-            title: "Boussole - Axe: ",
+            get title() { return i18next.t('code.simulator.modules.compassAxis') },
             pin: 'pin n°',
             type: 'input',
             codeFlag: 'Compass',
@@ -470,7 +470,7 @@ Simulator.Mosaic.specific = {
         },
         {
             id: "makeblockCompass-angle",
-            title: "Boussole - angle",
+            get title() { return i18next.t('code.simulator.modules.compassAngle') },
             pin: 'pin n°',
             type: 'input',
             codeFlag: 'Compass',
@@ -479,7 +479,7 @@ Simulator.Mosaic.specific = {
                 default: 90,
                 unit: '°',
                 color: "#448ae5",
-                title: "Direction"
+                get title() { return i18next.t('code.simulator.modules.direction') }
             }],
             multiple: ['makeblockCompass-heading'],
             picture: "Boussole.png",
@@ -490,7 +490,7 @@ Simulator.Mosaic.specific = {
         },
         {
             id: "makeblockLight",
-            title: "Capteur de luminosité",
+            get title() { return i18next.t('code.simulator.modules.groveLight') },
             pin: 'pin n°',
             type: 'input',
             codeFlag: "Light Sensor",
@@ -509,7 +509,7 @@ Simulator.Mosaic.specific = {
         },
         {
             id: "makeblockColorSensor",
-            title: "Capteur de couleurs : ",
+            get title() { return i18next.t('code.simulator.modules.colorSensor') },
             pin: 'pin n°',
             type: 'input',
             codeFlag: 'Color Sensor',
@@ -545,7 +545,7 @@ Simulator.Mosaic.specific = {
         },
         {
             id: "makeblockSoundSensor",
-            title: "Capteur de son",
+            get title() { return i18next.t('code.simulator.modules.groveSound') },
             pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
@@ -564,7 +564,7 @@ Simulator.Mosaic.specific = {
         },
         {
             id: "makeblockMQ2",
-            title: "MQ2 - Gas",
+            get title() { return i18next.t('code.simulator.modules.mq2') },
             pin: 'pin n°',
             type: 'input',
             codeFlag: 'MQ2 Sensor',
@@ -583,7 +583,7 @@ Simulator.Mosaic.specific = {
         },
         {
             id: "makeblockDS18B20",
-            title: "DS18B20 - Température",
+            get title() { return i18next.t('code.simulator.modules.ds18b20') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -605,7 +605,7 @@ Simulator.Mosaic.specific = {
         // actuators
         {
             id: "makeblockServo",
-            title: "Servomoteur",
+            get title() { return i18next.t('code.simulator.modules.servo') },
             pin: 'pin n°',
             pins: 'PWM',
             type: 'output',

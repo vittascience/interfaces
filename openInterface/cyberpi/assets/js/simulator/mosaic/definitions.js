@@ -180,7 +180,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(cyberpi\.|)led\.(on|off|play|move|set_bri|get_bri|clear|breathe)/,
             id: "cyberpi-builtin-led",
-            title: "LED RGB",
+            get title() { return i18next.t('code.simulator.modules.RGBLed') },
             pin: 'CyberPi',
             type: 'output',
             value: ""
@@ -188,13 +188,13 @@ Simulator.Mosaic.specific = {
         {
             regex: /(esp32\.|)hall_sensor\(\)/,
             id: "esp32-hallMag",
-            title: "Capteur à effet Hall ",
+            get title() { return i18next.t('code.simulator.modules.hallSensor') },
             pin: 'ESP32',
             listeners: [{
                 suffix: "",
                 unit: 'µT',
                 color: "#ff4d6a",
-                title: "Champ magnétique"
+                get title() { return i18next.t('code.simulator.modules.magneticField') }
             }],
             type: 'input',
             picture: "Champ-magnetique.png",
@@ -205,7 +205,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(esp32\.|)raw_temperature\(\)/,
             id: "esp32-rawTemp",
-            title: "Temp. du processeur ",
+            get title() { return i18next.t('code.simulator.modules.cpuTemp') },
             pin: 'ESP32',
             listeners: [{
                 suffix: "_cel",
@@ -240,7 +240,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /cyberpi\.get_bri\(\)/,
             id: "cyberpi-lightsensor",
-            title: "Capteur de luminosité",
+            get title() { return i18next.t('code.simulator.modules.groveLight') },
             pin: 'CyberPi',
             type: 'input',
             listeners: [{
@@ -259,7 +259,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(cyberpi\.|)get_loudness\(/,
             id: "cyberpi-loudness",
-            title: "Capteur de son",
+            get title() { return i18next.t('code.simulator.modules.groveSound') },
             pin: 'CyberPi',
             type: 'input',
             listeners: [{
@@ -277,7 +277,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /mbot2./,
             id: "mBot2-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: 'mBot2',
             type: 'output',
             value: 0,
@@ -287,7 +287,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /mbot2./,
             id: "mBot2-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: 'mBot2',
             type: 'output',
             value: 0,
@@ -297,7 +297,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /Servo on S([0-4]{1,1})/,
             id: "servo",
-            title: "Servo",
+            get title() { return i18next.t('code.simulator.modules.servoMotor') },
             pin: 'pin n°',
             pins: 'mbot2',
             type: 'output',
@@ -313,7 +313,7 @@ Simulator.Mosaic.specific = {
         },
         {
             id: "mbuild-ultrasonic",
-            title: "Télémètre: ",
+            get title() { return i18next.t('code.simulator.modules.ultrasonic') },
             // mBuild modules of different types share the same index on the chain
             multiple: ['mbuildFinder-left2', 'mbuildFinder-right2', 'mbuildFinder-left1', 'mbuildFinder-right1'],
             pin: 'pin n°',
@@ -325,13 +325,13 @@ Simulator.Mosaic.specific = {
                 unit: 'cm',
                 color: "#f9d142 ",
                 suffix: "_d",
-                title: "Distance"
+                get title() { return i18next.t('code.simulator.modules.distance') }
             }, {
                 suffix: "_t",
                 default: 1166,
                 unit: 'μs',
                 color: "#f9d142",
-                title: "Durée"
+                get title() { return i18next.t('code.simulator.modules.duration') }
             }],
             class: 'ultrasonic',
             picture: "Ultrason.png",
@@ -347,7 +347,7 @@ Simulator.Mosaic.specific = {
         },
         {
             id: "mbuildFinder-left2",
-            title: "cap. Ligne noire (L2)",
+            get title() { return i18next.t('code.simulator.modules.linePosition', { position: 'L2' }) },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -367,7 +367,7 @@ Simulator.Mosaic.specific = {
         },
         {
             id: "mbuildFinder-right2",
-            title: "cap. Ligne noire (R2)",
+            get title() { return i18next.t('code.simulator.modules.linePosition', { position: 'R2' }) },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -387,7 +387,7 @@ Simulator.Mosaic.specific = {
         },
         {
             id: "mbuildFinder-left1",
-            title: "cap. Ligne noire (L1)",
+            get title() { return i18next.t('code.simulator.modules.linePosition', { position: 'L1' }) },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',
@@ -407,7 +407,7 @@ Simulator.Mosaic.specific = {
         },
         {
             id: "mbuildFinder-right1",
-            title: "cap. Ligne noire (R1)",
+            get title() { return i18next.t('code.simulator.modules.linePosition', { position: 'R1' }) },
             pin: 'pin n°',
             pins: 'digital',
             type: 'input',

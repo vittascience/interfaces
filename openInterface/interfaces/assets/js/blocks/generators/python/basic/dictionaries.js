@@ -31,20 +31,20 @@ Blockly.Python.dictionaries_length = function (block) {
 
 Blockly.Python.dictionaries_get_item = function (block) {
     const dict = Blockly.Python.valueToCode(block, "DICT", Blockly.Python.ORDER_NONE) || "{}",
-        key = Blockly.Python.valueToCode(block, "KEY", Blockly.Python.ORDER_NONE) || '';
+        key = Blockly.Python.valueToCode(block, "KEY", Blockly.Python.ORDER_NONE) || "\'\'";
     return [dict + "[" + key + "]", Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python.dictionaries_update_item = function (block) {
     const dict = Blockly.Python.valueToCode(block, "DICT", Blockly.Python.ORDER_NONE) || "{}",
-        key = Blockly.Python.valueToCode(block, "KEY", Blockly.Python.ORDER_NONE) || '',
-        value = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || '';
+        key = Blockly.Python.valueToCode(block, "KEY", Blockly.Python.ORDER_NONE) || "\'\'",
+        value = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || "None";
     return dict + "[" + key + "] = " + value + NEWLINE;
 };
 
 Blockly.Python.dictionaries_include = function (block) {
     const dict = Blockly.Python.valueToCode(block, "DICT", Blockly.Python.ORDER_NONE) || "{}",
-        value = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || '',
+        value = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || "''",
         item = block.getFieldValue("ITEM") || '',
         op = block.getFieldValue("OP") || '';
     if (op === "IN") {
@@ -64,14 +64,14 @@ Blockly.Python.dictionaries_include = function (block) {
 
 Blockly.Python.dictionaries_add_tuple = function (block) {
     const dict = Blockly.Python.valueToCode(block, "DICT", Blockly.Python.ORDER_NONE) || "{}",
-        key = Blockly.Python.valueToCode(block, "KEY", Blockly.Python.ORDER_NONE) || "",
-        value = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || "";
+        key = Blockly.Python.valueToCode(block, "KEY", Blockly.Python.ORDER_NONE) || "\'\'",
+        value = Blockly.Python.valueToCode(block, "VALUE", Blockly.Python.ORDER_NONE) || "None";
     return dict + "[" + key + "] = " + value + NEWLINE;
 };
 
 Blockly.Python.dictionaries_delete_tuple = function (block) {
     const dict = Blockly.Python.valueToCode(block, "DICT", Blockly.Python.ORDER_NONE) || "{}",
-        key = Blockly.Python.valueToCode(block, "KEY", Blockly.Python.ORDER_NONE) || "";
+        key = Blockly.Python.valueToCode(block, "KEY", Blockly.Python.ORDER_NONE) || "\'\'";
     return "del " + dict + "[" + key + "]" + NEWLINE;
 };
 

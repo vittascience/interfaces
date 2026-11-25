@@ -60,6 +60,15 @@ var WiringSimulator = {
     wirePosition: { GND: { x: 15.5, y: 34.8 }, VCC: { x: 18.5, y: 34.8 }, DATA2: { x: 21.5, y: 34.8 }, DATA1: { x: 24.5, y: 34.8 } },
     picture: "generic-module.svg"
   },
+  // Qwiic module (mod.qwiic: its picture, e.g. Modulino): chained to the previous one, cable from its left connector
+  // to the right connector of the previous module (qwiicOut).
+  qwiicDefinition: {
+    id: "qwiic",
+    generic: true,
+    wireOrientation: "left",
+    wirePosition: { GND: { x: 0.5, y: 14 }, VCC: { x: 0.5, y: 17 }, DATA2: { x: 0.5, y: 20 }, DATA1: { x: 0.5, y: 23 } },
+    qwiicOut: { x: 59.5, y: 14 }
+  },
   i2c: {
     hubRequired: null
   },
@@ -84,18 +93,18 @@ var WiringSimulator = {
     if (document.querySelector("#simulator-wires")) return;
 
     const wiringModeBtnHtml = `
-    <button id="wiring-mode" class="btn simulator-button-circle" type="button" onclick="switchWiringMode()" aria-label="wiring mode" data-i18n="[aria-label]simulator.switchWiringMode">
-        <img class="simulator-mosaic-icon simulator-buttons-icon" src="${CDN_PATH}/openInterface/interfaces/assets/media/icon-wiring.svg" alt="wiring mode">
+    <button id="wiring-mode" class="btn simulator-button-circle" type="button" onclick="switchWiringMode()" aria-label="${jsonPath('code.simulator.buttons.base.switchWiringMode')}">
+        <img class="simulator-mosaic-icon simulator-buttons-icon" src="${CDN_PATH}/openInterface/interfaces/assets/media/icon-wiring.svg" alt="">
     </button>`;
-    document.querySelector('.simulator-board-buttons').insertAdjacentHTML('beforeend', wiringModeBtnHtml);
+    Simulator.addBoardButtonHtml(wiringModeBtnHtml);
 
     const wiringSimultorHtml = `
     <div id="simulator-wires" style="display: none;">
-        <button id="mosaic-mode" class="btn simulator-button-circle" onclick="switchMosaicMode()" aria-label="mosaic mode" data-i18n="[aria-label]simulator.switchMosaicMode">
-            <img class="simulator-wiring-icon simulator-buttons-icon" src="${CDN_PATH}/openInterface/interfaces/assets/media/icon-mosaic.svg" alt="mosaic mode"/>
+        <button id="mosaic-mode" class="btn simulator-button-circle" onclick="switchMosaicMode()" aria-label="${jsonPath('code.simulator.buttons.base.switchMosaicMode')}">
+            <img class="simulator-wiring-icon simulator-buttons-icon" src="${CDN_PATH}/openInterface/interfaces/assets/media/icon-mosaic.svg" alt=""/>
         </button>
         <div id="wiring-overlay">
-            <button id="modules-close" onclick="WiringSimulator.closeModule()" tabindex="-1">&times;</button>
+            <button id="modules-close" onclick="WiringSimulator.closeModule()" tabindex="-1"><i class="fas fa-xmark"></i></button>
             <div id="wiring-modules" style="display:none;"></div>
         </div>
         <div class="wiring-canvas-container">
@@ -236,9 +245,11 @@ var WiringSimulator = {
     }
     const scale = this.getScale();
     this.ctx.setTransform(scale, 0, 0, scale, this.view.x, this.view.y);
+    // Cables plugged on a connector of the board under its shield are drawn under the shield.
+    this.drawAllWires(true);
     this.drawBoard();
     this.drawAllImages();
-    this.drawAllWires();
+    this.drawAllWires(false);
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
   },
 
@@ -303,6 +314,7 @@ var WiringSimulator = {
     const modules = [];
     const byKey = {};
     const i2cModules = [];
+    const qwiicModules = [];
     const warnings = [];
     const mosaicModules = Simulator.getMosaicModules();
     for (let i = 0; i < mosaicModules.length; i++) {
@@ -313,11 +325,12 @@ var WiringSimulator = {
       const pinPart = separator === -1 ? null : domId.slice(separator + 1);
       const mod = Simulator.getModuleByKey(coreId);
       if (!mod) continue;
-      const wiringDef = this.getWiringDefById(coreId) || this.genericDefinition;
+      const wiringDef = this.getWiringDefById(coreId) || (mod.qwiic ? Object.assign({ picture: mod.qwiic }, this.qwiicDefinition) : this.genericDefinition);
       const connection = wiringDef.connection || this.getConnection(mod, pinPart);
       // Modules of the board itself or of a robot: not plugged on the shield.
       if (connection === null) continue;
-      const family = wiringDef.generic ? (mod.multiple ? coreId.split('-')[0] : coreId) : this.groveDefinitions.indexOf(wiringDef);
+      // mod.wiringGroup: mosaic modules of the same physical board (e.g. the 3 buttons of the Modulino Buttons).
+      const family = wiringDef.generic ? (mod.wiringGroup || (mod.multiple ? coreId.split('-')[0] : coreId)) : this.groveDefinitions.indexOf(wiringDef);
       const key = family + '@' + connection;
       if (byKey[key]) {
         byKey[key].domIds.push(domId);
@@ -327,14 +340,14 @@ var WiringSimulator = {
         key: key,
         domIds: [domId],
         wiring: wiringDef,
-        title: mod.multiple ? String(mod.title || coreId).split(' - ')[0] : String(mod.title || coreId),
+        title: mod.wiringGroup ? Blockly.Msg[mod.wiringGroup] : mod.multiple ? String(mod.title || coreId).split(' - ')[0] : String(mod.title || coreId),
         pos: this.positions[key] || null,
         ends: null
       };
       byKey[key] = module;
       modules.push(module);
       if (connection === 'I2C') {
-        i2cModules.push(module);
+        (mod.qwiic ? qwiicModules : i2cModules).push(module);
       } else {
         // Dupont wiring: the serial module goes on the board TX (its RX, yellow wire) and RX (its TX, white wire).
         const port = connection === 'UART' ? this.shield.pins.UART : this.shield.pins[this.board.port(connection)];
@@ -350,6 +363,18 @@ var WiringSimulator = {
         }
       }
     }
+    // Qwiic chain: the first module on the board Qwiic connector (or as an I2C module), each next one on the previous one.
+    qwiicModules.forEach((module, i) => {
+      if (i) {
+        const end = { ref: qwiicModules[i - 1].wiring.qwiicOut, module: qwiicModules[i - 1], vertical: true, side: 'right', gap: true };
+        module.ends = { GND: end, VCC: end, DATA2: end, DATA1: end };
+      } else if (this.shield.qwiic) {
+        module.ends = this.getPortEnds(this.shield.qwiic, false);
+        module.underShield = !!this.shield.qwiic.underShield;
+      } else {
+        i2cModules.push(module);
+      }
+    });
     this.connectI2CModules(modules, i2cModules, warnings);
     this.modules = modules;
     if (Simulator.isInWiringMode && warnings.length) {
@@ -583,6 +608,7 @@ var WiringSimulator = {
       module.w = size * moduleImage.width;
       module.h = size * moduleImage.height;
       if (!module.pos) {
+        module.labelW = module.wiring.generic ? this.ctx.measureText(module.title).width : 0;
         module.pos = this.positions[module.key] = this.findFreePosition(module);
       }
       this.ctx.drawImage(moduleImage, module.pos.x, module.pos.y, module.w, module.h);
@@ -603,26 +629,39 @@ var WiringSimulator = {
     const MARGIN = 6;
     const width = this.Track.WIDTH_PX;
     const height = this.Track.WIDTH_PX * this.Track.RATIO;
+    // Width of a module with its title (centred under it).
+    const fullW = (m) => Math.max(m.w, m.labelW || 0);
     const rects = this.modules
       .filter(other => other !== module && other.pos && other.w)
-      .map(other => ({ x: other.pos.x, y: other.pos.y, w: other.w, h: other.h + (other.wiring.generic ? 10 : 0) }));
+      .map(other => ({ x: other.pos.x - (fullW(other) - other.w) / 2, y: other.pos.y, w: fullW(other), h: other.h + (other.wiring.generic ? 10 : 0) }));
     rects.push({ x: this.shield.x, y: this.shield.y, w: this.shield.SIZE.w, h: this.shield.SIZE.h });
     // The logo is drawn at its own size in canvas pixels, at the top left.
     const logoScale = this.Track.WIDTH_PX / this.canvas.width;
     rects.push({ x: 0, y: 0, w: this.img.logo.width * logoScale, h: (this.img.logo.height + 10) * logoScale });
     const h = module.h + (module.wiring.generic ? 10 : 0);
     // Area covered by the module at (x, y) on the other modules and the shield, with a margin around them.
+    const w = fullW(module);
     const overlap = (x, y) => rects.reduce((sum, r) =>
-      sum + Math.max(0, Math.min(x + module.w, r.x + r.w + MARGIN) - Math.max(x, r.x - MARGIN)) *
+      sum + Math.max(0, Math.min(x - (w - module.w) / 2 + w, r.x + r.w + MARGIN) - Math.max(x - (w - module.w) / 2, r.x - MARGIN)) *
       Math.max(0, Math.min(y + h, r.y + r.h + MARGIN) - Math.max(y, r.y - MARGIN)), 0);
-    if (typeof module.wiring.x === 'number' && overlap(module.wiring.x, module.wiring.y) === 0) {
-      return { x: module.wiring.x, y: module.wiring.y };
-    }
+    // Chained Qwiic module: next to the previous one, on its right (facing connectors) first.
+    const previous = module.ends && module.ends.GND && module.ends.GND.module;
+    const gap = previous && previous.pos ? (fullW(previous) + w) / 2 + 12 + previous.w / 2 - module.w / 2 : 0;
+    const candidates = previous && previous.pos ? [
+      { x: previous.pos.x + gap, y: previous.pos.y },
+      { x: previous.pos.x, y: previous.pos.y + previous.h + 25 },
+      { x: previous.pos.x, y: previous.pos.y - h - 20 }
+    ] : typeof module.wiring.x === 'number' ? [{ x: module.wiring.x, y: module.wiring.y }] : [];
+    const free = candidates.find(c => c.x - (w - module.w) / 2 >= MARGIN && c.y >= MARGIN && c.x + (w + module.w) / 2 <= width - MARGIN &&
+      c.y + h <= height - MARGIN && overlap(c.x, c.y) === 0);
+    if (free) return free;
+    const preferred = candidates[0];
     // When the canvas is full, the least covering place is taken.
-    const centre = { x: this.shield.x + this.shield.SIZE.w / 2, y: this.shield.y + this.shield.SIZE.h / 2 };
+    const centre = previous && previous.pos ? { x: preferred.x + module.w / 2, y: preferred.y + h / 2 } :
+      { x: this.shield.x + this.shield.SIZE.w / 2, y: this.shield.y + this.shield.SIZE.h / 2 };
     let best = { x: MARGIN, y: MARGIN, score: Infinity };
     for (let y = MARGIN; y + h <= height - MARGIN; y += 5) {
-      for (let x = MARGIN; x + module.w <= width - MARGIN; x += 5) {
+      for (let x = MARGIN + (w - module.w) / 2; x + (w + module.w) / 2 <= width - MARGIN; x += 5) {
         const score = overlap(x, y) * 1000 + Math.hypot(x + module.w / 2 - centre.x, y + h / 2 - centre.y);
         if (score < best.score) {
           best = { x: x, y: y, score: score };
@@ -639,7 +678,9 @@ var WiringSimulator = {
     }
     const moduleImage = new Image();
     moduleImage.crossOrigin = 'Anonymous';
-    moduleImage.src = `${this.PATH_MEDIA}/modules/${picture}`;
+    // ?v=: pictures are drawn at their own size, a browser cache of an older picture (other size) breaks the scale.
+    // Increase it when module pictures are resized.
+    moduleImage.src = `${this.PATH_MEDIA}/modules/${picture}?v=2`;
     this.loadedImages[picture] = moduleImage;
     return moduleImage;
   },
@@ -652,7 +693,9 @@ var WiringSimulator = {
    */
   drawWire: function (module, wire, index) {
     const end = module.ends[wire];
-    const owner = end.owner === 'hub' ? { x: this.hub.pos.x, y: this.hub.pos.y, w: this.hub.w, h: this.hub.h } :
+    // A chained module: ref is relative to its top left corner.
+    const owner = end.module ? { x: end.module.pos.x, y: end.module.pos.y, w: 0, h: 0 } :
+      end.owner === 'hub' ? { x: this.hub.pos.x, y: this.hub.pos.y, w: this.hub.w, h: this.hub.h } :
       { x: this.shield.x, y: this.shield.y, w: this.shield.SIZE.w, h: this.shield.SIZE.h };
     const gap = end.gap ? 3 * index : 0;
     const start = {
@@ -691,11 +734,12 @@ var WiringSimulator = {
   /**
    * Draws the wires of each placed and connected module.
    */
-  drawAllWires: function () {
+  drawAllWires: function (underShield) {
     this.ctx.lineCap = "round";
     for (let i = 0; i < this.modules.length; i++) {
       const module = this.modules[i];
-      if (!module.ends || !module.pos || (this.hub && !this.hub.pos)) continue;
+      if (!!module.underShield !== underShield) continue;
+      if (!module.ends || !module.pos || (this.hub && !this.hub.pos) || (module.ends.GND?.module && !module.ends.GND.module.pos)) continue;
       for (let j = 0; j < this.WIRES.length; j++) {
         if (module.ends[this.WIRES[j]]) {
           this.drawWire(module, this.WIRES[j], j);

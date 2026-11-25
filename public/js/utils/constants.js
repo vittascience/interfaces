@@ -33,6 +33,7 @@ const arrayInterfaces = [
   'alphai',
   'arduinoq',
   'primastem',
+  'matatalab',
   'skykick',
   'legoprime',
   'unihiker',

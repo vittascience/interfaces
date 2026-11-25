@@ -53,7 +53,7 @@
 #console {
   position: absolute;
   overflow: initial !important;
-  white-space: pre-line;
+  white-space: pre-wrap;
   width: calc(100% - 20px);
   height: calc(100% - 10px);
   z-index: 11;

@@ -29,6 +29,12 @@ Blockly.MESSAGES = {
     // For Esp32/Pico/Galaxia/M5Stack
     webPage_title: "Сервер Esp32",
     buttonName: "button_id",
+    htmlAddText: 'Добавить текст...',
+    htmlGaugeTitle: 'Температура (°C)',
+    htmlLinkText: 'Текст ссылки...',
+    htmlFormattedText: 'Форматированный текст ...',
+    llmQuestion: 'Расскажи короткую шутку',
+    llmPersonality: 'Ты дружелюбный помощник, который отвечает одним предложением.',
     sliderName: "slider_id",
     switchName: "switch_id",
     textInputName: "textinput_id",
@@ -144,6 +150,9 @@ Blockly.Msg['SUBCATEGORY_SHORT_SENSORS'] = 'Датчики';
 Blockly.Msg['SUBCATEGORY_SHORT_CLIENT_SERVER'] = 'Клиент и сервер';
 Blockly.Msg['SUBCATEGORY_SHORT_SHAPES'] = 'Фигуры';
 Blockly.Msg['TOOLBOX_OPEN_MBOT_INTERFACE'] = 'Открыть интерфейс mBot';
+Blockly.Msg['MUSIC_CARIBBEAN_PIRATES'] = 'Пираты Карибского моря';
+Blockly.Msg['BRICKS_LLM_TOOL_DESCRIPTION'] = 'включает свет в гостиной';
+Blockly.Msg['TOOLBOX_MBOT_MOVED_MESSAGE'] = "Чтобы запрограммировать робота mBot, перейдите в новый интерфейс mBot в разделе «Программировать»";
 // Subcategories of Math, Text, Lists and Dictionaries
 Blockly.Msg["TOOLBOX_LABEL_CREATE"] = "Создать";
 Blockly.Msg["TOOLBOX_LABEL_SEARCH"] = "Искать";
@@ -196,6 +205,7 @@ Blockly.Msg['SUBCATEGORY_MOTORS'] = 'Двигатели';
 Blockly.Msg['SUBCATEGORY_MUSIC'] = 'Музыка';
 Blockly.Msg['SUBCATEGORY_AUDIO'] = 'Аудио';
 Blockly.Msg['SUBCATEGORY_MOSFET'] = 'MOSFET';
+Blockly.Msg['SUBCATEGORY_RELAY_MOSFET'] = 'Реле и MOSFET';
 Blockly.Msg['SUBCATEGORY_ACTUATORS_OTHER'] = 'Другие исполнительные устройства';
 // ROBOTS
 Blockly.Msg['SUBCATEGORY_SERVOMOTORS'] = 'Сервоприводы';
@@ -248,7 +258,7 @@ Blockly.Msg['SUBCATEGORY_PID'] = 'PID';
 Blockly.Msg['SUBCATEGORY_REMOTE_CONTROL'] = 'ИК-пульт';
 Blockly.Msg['SUBCATEGORY_MOTOR_PORT'] = 'Порт двигателя (M)';
 Blockly.Msg['SUBCATEGORY_KITROBOT'] = 'Kitro:bot v2';
-Blockly.Msg['SUBCATEGORY_CODO'] = 'Codo';
+Blockly.Msg['SUBCATEGORY_CODO'] = 'Codok';
 Blockly.Msg['SUBCATEGORY_OOBYBOT'] = 'Oobybot';
 Blockly.Msg['SUBCATEGORY_BUGGY'] = 'Buggy';
 Blockly.Msg['SUBCATEGORY_BITBOT'] = 'Bit:Bot';

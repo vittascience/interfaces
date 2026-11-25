@@ -432,7 +432,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
             {
                 "type": "field_input",
                 "name": "DESCRIPTION",
-                "text": "allume la lumière du salon"
+                "text": "%{BKY_BRICKS_LLM_TOOL_DESCRIPTION}"
             },
             {
                 "type": "input_dummy"

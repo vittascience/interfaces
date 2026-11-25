@@ -332,9 +332,9 @@ Blockly.Constants.add_items.CALL_MUTATOR_MIXIN = {
 			}
 		}
 		let right = this.appendDummyInput('RIGHT_PAREN');
-		right.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, '*', add, false));
+		right.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
 		if (this.itemCount_ > 1) {
-			right.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, '*', remove, false));
+			right.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
 		}
 		right.appendField(')');
 

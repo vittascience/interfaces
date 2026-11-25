@@ -1276,3 +1276,5 @@ ACMsg.GROVE_WATER_LEVEL_MODULE = "Module Grove <b>water_level</b>.";
 ACMsg.GROVE_WATER_LEVEL_REG_CONFIG = "Constante <b>reg_config</b>.";
 ACMsg.GROVE_WATER_LEVEL_THRESHOLD = "Constante <b>THRESHOLD</b>.";
 
+ACMsg.MICRIBIT_SOUNDEVENT_QUIET = "Valeur représentant la transition des événements sonores, du fort vers le calme, comme la parole ou la musique d'ambiance.";
+ACMsg.UTIME_UTIME = "<b>utime</b> module: fonctions de temporisation et de mesure du temps (compteurs de ticks). Retourne: <b>module</b>.";

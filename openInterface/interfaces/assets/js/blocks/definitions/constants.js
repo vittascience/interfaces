@@ -311,6 +311,15 @@ Blockly.Constants.Utils.BlockStyling = {
         for (const cat of Object.keys(toolbox.content)) {
             registerContent(toolbox.content[cat], cat);
         }
+        // Interface blocks moved to block extensions: coloured as the category of their extension ("style")
+        if (typeof BLOCK_EXTENSIONS_CATALOG !== 'undefined') {
+            for (const ext of BLOCK_EXTENSIONS_CATALOG) {
+                if (!ext.style) continue;
+                for (const group of ext.toolbox || []) {
+                    group.blocks.forEach(type => register(type, ext.style.replace(/_category$/, '')));
+                }
+            }
+        }
     },
     /**
     * Set color or Help url of block checking Blockly.Constants.Utils.BlockStyling.blocks
@@ -606,7 +615,7 @@ Blockly.Constants.Utils.addOptionMutatorMixin = function (attribute, message, ty
                         }
                     }
                     top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI,
-                        this.buttonSize, this.buttonSize, "*", remove, false));
+                        this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
                     if (attribute != 'devaddr')
                         this.setInputsInline(true);
                 } else {
@@ -619,7 +628,7 @@ Blockly.Constants.Utils.addOptionMutatorMixin = function (attribute, message, ty
                         }
                     }
                     top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI,
-                        this.buttonSize, this.buttonSize, "*", add, false));
+                        this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
                 }
             } catch (e) {
                 console.error(e);
@@ -821,13 +830,13 @@ Blockly.Constants.Utils.COMMUNICATION_SERIAL_WRITE_MUTATOR_MIXIN = {
                 .appendField(new Blockly.FieldNumber(this.n_, 0, 10), "NEWLINES")
                 .appendField(Blockly.Msg['COMMUNICATION_SERIAL_WRITE_NEWLINES']);
             top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI,
-                this.buttonSize, this.buttonSize, "*", remove, false));
+                this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
         } else {
             if (this.getInput("NEWLINES_FIELD")) {
                 this.removeInput("NEWLINES_FIELD");
             }
             top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI,
-                this.buttonSize, this.buttonSize, "*", add, false));
+                this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
         }
     },
     update_: function (update) {
@@ -952,9 +961,9 @@ Blockly.Constants.Utils.COMMUNICATION_GRAPH_SERIAL_WRITE_MUTATOR_MIXIN = {
         // Update inputs
         var top = this.appendDummyInput('TOP');
         top.appendField(Blockly.Msg['COMMUNICATION_WRITEGRAPH_TITLE']);
-        top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", add, false));
+        top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
         if (this.itemCount_ > 1) {
-            top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", remove, false));
+            top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
         }
         for (var i = 0; i < this.itemCount_; i++) {
             this.appendValueInput('ADD' + i);

@@ -5,160 +5,6 @@
 'use strict';
 
 // Anzeige
-Blockly.Msg['DISPLAY_SHOWRGB_TITLE'] = '[Eingebaute LED] R %1 G %2 B %3';
-Blockly.Msg['DISPLAY_SHOWRGB_TOOLTIP'] = 'Zeigt die angegebene Farbe auf der eingebauten Codey-LED im RGB-Format (0 ~ 255) an.';
-Blockly.Msg['DISPLAY_SETRED_TITLE'] = '[Eingebaute LED] Rotintensität %1';
-Blockly.Msg['DISPLAY_SETRED_TOOLTIP'] = 'Stellt die Rotintensität der eingebauten Codey-LED ein (0 ~ 255).';
-Blockly.Msg['DISPLAY_SETGREEN_TITLE'] = '[Eingebaute LED] Grünintensität %1';
-Blockly.Msg['DISPLAY_SETGREEN_TOOLTIP'] = 'Legt die Intensität des grünen Lichts der integrierten Codey-LED fest (0 ~ 255).';
-Blockly.Msg['DISPLAY_SETBLUE_TITLE'] = '[Integrierte LED] Blauintensität %1';
-Blockly.Msg['DISPLAY_SETBLUE_TOOLTIP'] = 'Legt die Intensität des blauen Lichts der integrierten Codey-LED fest (0 ~ 255).';
-Blockly.Msg['DISPLAY_OFF_TITLE'] = '[Integrierte LED] aus';
-Blockly.Msg['DISPLAY_OFF_TOOLTIP'] = 'Schaltet die integrierte Codey-LED aus.';
-Blockly.Msg['DISPLAY_SHOW_TITLE'] = '[Matrix] Anzeige %1';
-Blockly.Msg['DISPLAY_SHOW_TOOLTIP'] = 'Zeigt den angegebenen Text auf der Codey-LED-Matrix an.';
-Blockly.Msg['DISPLAY_SETPIXEL_TITLE'] = '[Matrix] Pixel X %1 Y %2 Zustand %3';
-Blockly.Msg['DISPLAY_SETPIXEL_TOOLTIP'] = 'Setzt den Pixelzustand auf die X- und Y-Positionen der Codey-LED-Matrix.';
-Blockly.Msg['DISPLAY_GETPIXEL_TITLE'] = '[Matrix] Pixelzustand X %1 Y %2';
-Blockly.Msg['DISPLAY_GETPIXEL_TOOLTIP'] = 'Gibt den Pixelzustand an den X- und Y-Positionen der Codey-LED-Matrix zurück.';
-Blockly.Msg['DISPLAY_TOGGLEPIXEL_TITLE'] = '[Matrix] Pixelzustand invertieren: X %1 Y %2';
-Blockly.Msg['DISPLAY_TOGGLEPIXEL_TOOLTIP'] = 'Invertiert den Pixelzustand an den Positionen X und Y der Codey-LED-Matrix.';
-Blockly.Msg['DISPLAY_CLEAR_TITLE'] = '[Matrix] Löschen';
-Blockly.Msg['DISPLAY_CLEAR_TOOLTIP'] = 'Löscht den Inhalt der Codey-LED-Matrix.';
-// IO – Boolescher Wert
-Blockly.Msg['IO_DIGITAL_SIGNAL_TITLE'] = '%1';
-Blockly.Msg['IO_DIGITAL_SIGNAL_HIGH'] = 'HOCH (1)';
-Blockly.Msg['IO_DIGITAL_SIGNAL_LOW'] = 'NIEDRIG (0)';
-Blockly.Msg['IO_DIGITAL_SIGNAL_TOOLTIP'] = 'Gibt einen booleschen Wert zurück (1 für HOCH oder 0 für NIEDRIG).';
-// IO – Zeit
-Blockly.Msg['IO_WAIT_TITLE'] = 'Warte %1 %2';
-Blockly.Msg['IO_WAIT_TOOLTIP'] = 'Unterbricht die Codeausführung.';
-Blockly.Msg['IO_WAIT_SECOND'] = 'Sekunde(n)';
-Blockly.Msg['IO_WAIT_MILLISECOND'] = 'Millisekunde(n)';
-Blockly.Msg['IO_WAIT_MICROSECOND'] = 'Mikrosekunde(n)';
-Blockly.Msg['IO_WAIT_UNTIL_TITLE'] = 'Warte bis %1';
-Blockly.Msg['IO_WAIT_UNTIL_TOOLTIP'] = 'Stoppt die Codeausführung, bis die Bedingung erfüllt ist.';
-Blockly.Msg['IO_INITCHRONOMETER_TITLE'] = 'Setzt den Timer auf 0 zurück';
-Blockly.Msg['IO_INITCHRONOMETER_TOOLTIP'] = 'Initialisiert einen Timer mit 0 (in Sekunden).';
-Blockly.Msg['IO_GETCHRONOMETER_TITLE'] = 'Stoppuhrwert in %1';
-Blockly.Msg['IO_GETCHRONOMETER_TOOLTIP'] = 'Gibt den Stoppuhrwert seit der Initialisierung zurück (in Sekunden oder Millisekunden).';
-// IO - Tasten
-Blockly.Msg['IO_ONBUTTONPRESSED_TITLE'] = 'Wenn Taste %1 gedrückt wird, dann';
-Blockly.Msg['IO_ONBUTTONPRESSED_TOOLTIP'] = 'Führt Anweisungen aus, wenn die Tasten A, B oder C gedrückt werden.';
-Blockly.Msg['IO_BUTTON_STATE_TITLE'] = 'Status von Taste %1';
-Blockly.Msg['IO_BUTTON_STATE_TOOLTIP'] = 'Gibt den Status von Taste A, B oder C zurück (wahr/falsch).';
-// IO – Potentiometer
-Blockly.Msg['IO_POTENTIOMETER_GET_VALUE_TITLE'] = 'Potentiometerwert';
-Blockly.Msg['IO_POTENTIOMETER_GET_VALUE_TOOLTIP'] = 'Gibt den Potentiometerwert (0 ~ 100) zurück.';
-// Kommunikation
-Blockly.Msg['COMMUNICATION_IRRECEIVE_TITLE'] = '[IR] Infrarotempfang';
-Blockly.Msg['COMMUNICATION_IRRECEIVE_TOOLTIP'] = 'Gibt die vom Infrarotempfänger empfangene Informationszeichenfolge zurück. Die vom Infrarotsender gesendeten Daten müssen daher mit \n enden. Wenn es sich um eine Fernbedienung handelt, die das NEC-Codierungsprotokoll empfängt, verwenden Sie die Funktion `receive_remote_code()`';
-Blockly.Msg['COMMUNICATION_IRRECEIVEREMOTECODE_TITLE'] = '[IR] Infrarotempfang (NEC)';
-Blockly.Msg['COMMUNICATION_IRRECEIVEREMOTECODE_TOOLTIP'] = 'Gibt den Code des zuletzt empfangenen Infrarotsignals als Array zurück. Der erste Parameter ist die Adresse, der zweite der Inhalt.';
-Blockly.Msg['COMMUNICATION_IRSEND_TITLE'] = '[IR] Senden %1';
-Blockly.Msg['COMMUNICATION_IRSEND_TOOLTIP'] = 'Sendet eine Zeichenkette per Infrarot.';
-Blockly.Msg['COMMUNICATION_IRSTARTLEARNING_TITLE'] = '[IR] Infrarot-Lernen starten';
-Blockly.Msg['COMMUNICATION_IRSTARTLEARNING_TOOLTIP'] = 'Infrarotsignal-Lernen starten. Nur mit einer NEC-Fernbedienung kompatibel.';
-Blockly.Msg['COMMUNICATION_IRSTOPLEARNING_TITLE'] = '[IR] Infrarot-Lernen beenden';
-Blockly.Msg['COMMUNICATION_IRSTOPLEARNING_TOOLTIP'] = 'Lernen eines Infrarotsignals beenden.';
-Blockly.Msg['COMMUNICATION_IRSAVELEARNEDRESULT_TITLE'] = '[IR] Signal an Index %1 speichern';
-Blockly.Msg['COMMUNICATION_IRSAVELEARNEDRESULT_TOOLTIP'] = 'Speichert das gelernte Infrarotsignal im Speicher von Codey (Index von 0 bis 15).';
-Blockly.Msg['COMMUNICATION_IRSENDLEARNEDRESULT_TITLE'] = '[IR] Sendet Signal mit Index %1';
-Blockly.Msg['COMMUNICATION_IRSENDLEARNEDRESULT_TOOLTIP'] = 'Sendet das gelernte Infrarotsignal aus dem Speicher von Codey.';
-Blockly.Msg['COMMUNICATION_IRLEARN_TITLE'] = '[IR] Lernzeit %1 s';
-Blockly.Msg['COMMUNICATION_IRLEARN_TOOLTIP'] = 'Lernt ein Infrarotsignal für die angegebene Zeit (in Sekunden).';
-// Sensoren - Bewegung
-Blockly.Msg['SENSORS_GETROTATION_EULER_ANGLES_TITLE'] = '%1';
-Blockly.Msg['SENSORS_GETROTATION_EULER_ANGLES_TOOLTIP'] = 'Gibt den Rotationswert um die ausgewählte Achse (x, y, z) zurück.';
-Blockly.Msg['SENSORS_PITCH'] = "Neigung";
-Blockly.Msg['SENSORS_ROLL'] = "Rollen";
-Blockly.Msg['SENSORS_YAW'] = "Neigung";
-Blockly.Msg['SENSORS_GETROTATION_TITLE'] = "Winkel um die Achse %1";
-Blockly.Msg['SENSORS_GETROTATION_TOOLTIP'] = "Gibt den Rotationswinkel des Codey um alle drei Achsen zurück, wobei die positive Richtung gegen den Uhrzeigersinn ist.";
-Blockly.Msg['SENSORS_RESETROTATION_TITLE'] = "Drehwinkel auf Achse %1 zurücksetzen";
-Blockly.Msg['SENSORS_RESETROTATION_TOOLTIP'] = "Drehwinkel des Codey auf der ausgewählten Achse auf 0 zurücksetzen.";
-Blockly.Msg['SENSORS_ALL_AXIS'] = "Alle Achsen";
-Blockly.Msg['SENSORS_IS_SHAKED_TITLE'] = "Erschüttert?";
-Blockly.Msg['SENSORS_IS_SHAKED_TOOLTIP'] = "Gibt \"true\" zurück, wenn eine Erschütterung erkannt wurde.";
-Blockly.Msg['SENSORS_GET_SHAKE_STRENGTH_TITLE'] = "Erschütterungsintensität";
-Blockly.Msg['SENSORS_GET_SHAKE_STRENGTH_TOOLTIP'] = "Gibt die Intensität der zuletzt erkannten Erschütterung zurück.";
-Blockly.Msg['SENSORS_GETPOSITION_TITLE'] = "%1 ?";
-Blockly.Msg['SENSORS_IS_TILTED_LEFT'] = "Nach links geneigt";
-Blockly.Msg['SENSORS_IS_TILTED_RIGHT'] = "Nach rechts geneigt";
-Blockly.Msg['SENSORS_IS_EARS_UP'] = "Ohren hoch";
-Blockly.Msg['SENSORS_IS_EARS_DOWN'] = "Ohren runter";
-Blockly.Msg['SENSORS_IS_DISPLAY_UP'] = "Bildschirm hoch";
-Blockly.Msg['SENSORS_IS_DISPLAY_DOWN'] = "Bildschirm unten";
-Blockly.Msg['SENSORS_IS_UPRIGHT'] = "vertikal";
-Blockly.Msg['SENSORS_GETPOSITION_TOOLTIP'] = "Gibt \"true\" zurück, wenn sich das Gerät in der angegebenen Position befindet.";
-Blockly.Msg['SENSORS_GETACCELERATION_TITLE'] = "Beschleunigung um %1";
-Blockly.Msg['SENSORS_GETACCELERATION_TOOLTIP'] = "Gibt den Beschleunigungswert auf der Achse oder die Gesamtkraft zurück.";
-Blockly.Msg['SENSORS_GETGYROSCOPE_TITLE'] = "Gyroskop entlang der Achse %1";
-Blockly.Msg['SENSORS_GETGYROSCOPE_TOOLTIP'] = "Gibt den Gyroskopwert der ausgewählten Achse zurück.";
-// Sensoren – Ton
-Blockly.Msg['SENSORS_GET_LOUDNESS_TITLE'] = 'Lautstärke';
-Blockly.Msg['SENSORS_GET_LOUDNESS_TOOLTIP'] = 'Gibt die Lautstärke (0–100) zurück.';
-// Sensoren – Licht
-Blockly.Msg['SENSORS_GET_LIGHT_TITLE'] = 'Lichtsensorwert';
-Blockly.Msg['SENSORS_GET_LIGHT_TOOLTIP'] = 'Gibt den Lichtsensorwert (0–100) zurück.';
-// Aktuatoren – Audio
-Blockly.Msg['SPEAKER_PLAY_MELODY_TITLE'] = "Spielt Ton %1 ab";
-Blockly.Msg['SPEAKER_PLAY_MELODY_TOOLTIP'] = "Spielt eine voreingestellte Melodie ab.";
-Blockly.Msg['SPEAKER_PLAY_MELODY_UNTIL_DONE_TITLE'] = "Spielt Ton %1 bis zum Ende ab";
-Blockly.Msg['SPEAKER_PLAY_MELODY_UNTIL_DONE_TOOLTIP'] = "Spielt eine voreingestellte Melodie ab und wartet, bis sie beendet ist.";
-Blockly.Msg['SPEAKER_PLAY_NOTE_TITLE'] = "Spielt Note %1 ab";
-Blockly.Msg['SPEAKER_PLAY_NOTE_TOOLTIP'] = "Spielt einen Ton.";
-Blockly.Msg['SPEAKER_PLAY_TONE_TITLE'] = "Spielt die Frequenz %1 Hz";
-Blockly.Msg['SPEAKER_PLAY_TONE_TOOLTIP'] = "Spielt einen Ton mit einer bestimmten Frequenz.";
-Blockly.Msg['SPEAKER_REST_TITLE'] = "Pausiert für %1 Zeit";
-Blockly.Msg['SPEAKER_REST_TOOLTIP'] = "Pausiert die Musik.";
-Blockly.Msg['SPEAKER_STOP_SOUNDS_TITLE'] = "Stoppt alle Töne";
-Blockly.Msg['SPEAKER_STOP_SOUNDS_TOOLTIP'] = "Stoppt alle aktuellen Töne.";
-Blockly.Msg['SPEAKER_SET_VOLUME_TITLE'] = "Stellt die Lautstärke auf %1 ein";
-Blockly.Msg['SPEAKER_SET_VOLUME_TOOLTIP'] = "Stellt die Lautstärke ein.";
-Blockly.Msg['SPEAKER_GET_VOLUME_TITLE'] = "Gibt die Lautstärke ab";
-Blockly.Msg['SPEAKER_GET_VOLUME_TOOLTIP'] = "Gibt die aktuelle Lautstärke zurück.";
-Blockly.Msg['SPEAKER_SET_TEMPO_TITLE'] = "Stellt das Tempo auf %1 ein";
-Blockly.Msg['SPEAKER_SET_TEMPO_TOOLTIP'] = "Stellt das Tempo für Sounds ein.";
-Blockly.Msg['SPEAKER_GET_TEMPO_TITLE'] = "Tempo abrufen";
-Blockly.Msg['SPEAKER_GET_TEMPO_TOOLTIP'] = "Gibt das aktuelle Tempo zurück.";
-Blockly.Msg['SPEAKER_PLAY_TONE_DURATION'] = "Während";
-Blockly.Msg['SPEAKER_PLAY_NOTE_DURATION'] = Blockly.Msg['SPEAKER_PLAY_TONE_DURATION'];
-// Roboter - Rocky
-Blockly.Msg['ROBOTS_STOP_TITLE'] = '[Rocky] Motoren stoppen';
-Blockly.Msg['ROBOTS_STOP_TOOLTIP'] = 'Stoppt alle Robotermotoren von Rocky.';
-Blockly.Msg['ROBOTS_MOVE_TITLE'] = '[Rocky] %1 mit Geschwindigkeit %2';
-Blockly.Msg['ROBOTS_MOVE_TOOLTIP'] = 'Bewegt Rocky in die angegebene Richtung mit der angegebenen Geschwindigkeit (+/- 100).';
-Blockly.Msg['ROBOTS_FORWARD'] = 'Vorwärts bewegen';
-Blockly.Msg['ROBOTS_BACKWARD'] = 'rückwärts';
-Blockly.Msg['ROBOTS_LEFT'] = 'nach links drehen';
-Blockly.Msg['ROBOTS_RIGHT'] = 'nach rechts drehen';
-Blockly.Msg['ROBOTS_DRIVE_TITLE'] = '[Rocky] Motorgeschwindigkeit links %1 rechts %2';
-Blockly.Msg['ROBOTS_DRIVE_TOOLTIP'] = 'Legt die Geschwindigkeit der linken und rechten Motoren des Rocky-Roboters fest (+/- 100).';
-Blockly.Msg['ROBOTS_TURN_BY_DEGREE_TITLE'] = '[Rocky] %1 von %2 °';
-Blockly.Msg['ROBOTS_TURN_BY_DEGREE_TOOLTIP'] = 'Dreht den Roboter Rocky um eine bestimmte Gradzahl (+/- 360).';
-// Roboter - Sensoren
-Blockly.Msg['ROBOTS_SENSORS_GET_RGB_TITLE'] = '[Rocky] Farbsensorstufe %1';
-Blockly.Msg['ROBOTS_SENSORS_RED'] = 'rot';
-Blockly.Msg['ROBOTS_SENSORS_GREEN'] = 'grün';
-Blockly.Msg['ROBOTS_SENSORS_BLUE'] = 'blau';
-Blockly.Msg['ROBOTS_SENSORS_GET_RGB_TOOLTIP'] = 'Gibt den Wert des IR-Farbsensors für die angegebene Farbe (rot, grün, blau) zurück.';
-Blockly.Msg['ROBOTS_SENSORS_IS_COLOR_TITLE'] = '[Rocky] Farbe %1 ?';
-Blockly.Msg['ROBOTS_SENSORS_IS_COLOR_TOOLTIP'] = 'Gibt "true" zurück, wenn der IR-Farbsensor die angegebene Farbe (Rot, Grün, Blau, Gelb, Cyan, Magenta, Weiß, Schwarz) erkennt.';
-Blockly.Msg['ROBOTS_SENSORS_YELLOW'] = 'Gelb';
-Blockly.Msg['ROBOTS_SENSORS_CYAN'] = 'Cyan';
-Blockly.Msg['ROBOTS_SENSORS_MAGENTA'] = 'Magenta';
-Blockly.Msg['ROBOTS_SENSORS_WHITE'] = 'Weiß';
-Blockly.Msg['ROBOTS_SENSORS_BLACK'] = 'schwarz';
-Blockly.Msg['ROBOTS_SENSORS_GET_LIGHT_TITLE'] = '[Rocky] Lichtsensorpegel von %1';
-Blockly.Msg['ROBOTS_SENSORS_AMBIENT'] = 'Umgebungslicht';
-Blockly.Msg['ROBOTS_SENSORS_REFLECTED'] = 'reflektiertes Licht';
-Blockly.Msg['ROBOTS_SENSORS_GREYNESS'] = 'Graustufen';
-Blockly.Msg['ROBOTS_SENSORS_GET_LIGHT_TOOLTIP'] = 'Gibt den Wert des IR-Lichtsensors für den angegebenen Typ (Umgebungslicht, reflektiertes Licht, Graustufen) zurück.';
-Blockly.Msg['ROBOTS_SENSORS_IS_OBSTACLE_AHEAD_TITLE'] = '[Rocky] Hindernis voraus?';
-Blockly.Msg['ROBOTS_SENSORS_IS_OBSTACLE_AHEAD_TOOLTIP'] = 'Gibt "true" zurück, wenn ein Hindernis vor dem Roboter Rocky erkannt wird.';
-Blockly.Msg['ROBOTS_SENSORS_SET_LED_COLOR_TITLE'] = '[Rocky] LED-Farbe %1';
-Blockly.Msg['ROBOTS_SENSORS_SET_LED_COLOR_TOOLTIP'] = 'Legt die LED-Farbe des Roboters Rocky fest (rot, grün, blau, gelb, cyan, magenta, weiß, schwarz).';
 Blockly.Msg['DISPLAY_SHOWRGB_TITLE'] = '[Integrierte LED] R %1 G %2 B %3';
 Blockly.Msg['DISPLAY_SHOWRGB_TOOLTIP'] = 'Zeigt die angegebene Farbe im RGB-Format (0 ~ 255) auf der integrierten LED von Codey an.';
 Blockly.Msg['DISPLAY_SETRED_TITLE'] = '[Integrierte LED] Rotintensität %1';
@@ -179,10 +25,12 @@ Blockly.Msg['DISPLAY_TOGGLEPIXEL_TITLE'] = '[Matrix] Pixelzustand umschalten X %
 Blockly.Msg['DISPLAY_TOGGLEPIXEL_TOOLTIP'] = 'Schaltet den Zustand des Pixels an der Position X und Y auf der LED-Matrix von Codey um.';
 Blockly.Msg['DISPLAY_CLEAR_TITLE'] = '[Matrix] löschen';
 Blockly.Msg['DISPLAY_CLEAR_TOOLTIP'] = 'Löscht den Inhalt der LED-Matrix von Codey.';
+// IO – Boolescher Wert
 Blockly.Msg['IO_DIGITAL_SIGNAL_TITLE'] = '%1';
 Blockly.Msg['IO_DIGITAL_SIGNAL_HIGH'] = 'HOCH (1)';
 Blockly.Msg['IO_DIGITAL_SIGNAL_LOW'] = 'NIEDRIG (0)';
 Blockly.Msg['IO_DIGITAL_SIGNAL_TOOLTIP'] = 'Gibt einen booleschen Wert zurück (1 für HOCH, 0 für NIEDRIG).';
+// IO – Zeit
 Blockly.Msg['IO_WAIT_TITLE'] = 'warte %1 %2';
 Blockly.Msg['IO_WAIT_TOOLTIP'] = 'Pausiert die Ausführung des Codes.';
 Blockly.Msg['IO_WAIT_SECOND'] = 'Sekunde(n)';
@@ -194,12 +42,15 @@ Blockly.Msg['IO_INITCHRONOMETER_TITLE'] = 'Stoppuhr starten';
 Blockly.Msg['IO_INITCHRONOMETER_TOOLTIP'] = 'Setzt die Stoppuhr auf 0 (in Sekunden).';
 Blockly.Msg['IO_GETCHRONOMETER_TITLE'] = 'Stoppuhrwert in %1';
 Blockly.Msg['IO_GETCHRONOMETER_TOOLTIP'] = 'Gibt den Wert der Stoppuhr seit dem Start zurück (in Sekunden oder Millisekunden).';
+// IO - Tasten
 Blockly.Msg['IO_ONBUTTONPRESSED_TITLE'] = 'wenn Taste %1 gedrückt wird';
 Blockly.Msg['IO_ONBUTTONPRESSED_TOOLTIP'] = 'Führt Anweisungen aus, wenn die Tasten A, B oder C gedrückt werden.';
 Blockly.Msg['IO_BUTTON_STATE_TITLE'] = 'Status der Taste %1';
 Blockly.Msg['IO_BUTTON_STATE_TOOLTIP'] = 'Gibt den Status der Taste A, B oder C zurück (true/false).';
+// IO – Potentiometer
 Blockly.Msg['IO_POTENTIOMETER_GET_VALUE_TITLE'] = 'Wert des Potentiometers';
 Blockly.Msg['IO_POTENTIOMETER_GET_VALUE_TOOLTIP'] = 'Gibt den Wert des Potentiometers zurück (0 ~ 100).';
+// Kommunikation
 Blockly.Msg['COMMUNICATION_IRRECEIVE_TITLE'] = '[IR] Infrarotempfang';
 Blockly.Msg['COMMUNICATION_IRRECEIVE_TOOLTIP'] = 'Gibt die vom Infrarotempfänger empfangene Zeichenkette zurück. Die vom Infrarotsender gesendeten Daten müssen mit \\n enden. Für Fernbedienungsbefehle mit NEC-Protokoll verwenden Sie die Funktion receive_remote_code().';
 Blockly.Msg['COMMUNICATION_IRRECEIVEREMOTECODE_TITLE'] = '[IR] Infrarotempfang (NEC)';
@@ -216,6 +67,7 @@ Blockly.Msg['COMMUNICATION_IRSENDLEARNEDRESULT_TITLE'] = '[IR] Signal an Index %
 Blockly.Msg['COMMUNICATION_IRSENDLEARNEDRESULT_TOOLTIP'] = 'Sendet das gelernte Infrarotsignal aus dem Speicher von Codey.';
 Blockly.Msg['COMMUNICATION_IRLEARN_TITLE'] = '[IR] Lernzeit %1 s';
 Blockly.Msg['COMMUNICATION_IRLEARN_TOOLTIP'] = 'Lernt ein Infrarotsignal für die angegebene Zeit (in Sekunden).';
+// Sensoren - Bewegung
 Blockly.Msg['SENSORS_GETROTATION_EULER_ANGLES_TITLE'] = '%1';
 Blockly.Msg['SENSORS_GETROTATION_EULER_ANGLES_TOOLTIP'] = 'Gibt den Rotationswert um die ausgewählte Achse (x, y, z) zurück.';
 Blockly.Msg['SENSORS_PITCH'] = "Neigung";
@@ -243,10 +95,13 @@ Blockly.Msg['SENSORS_GETACCELERATION_TITLE'] = "Beschleunigung auf %1";
 Blockly.Msg['SENSORS_GETACCELERATION_TOOLTIP'] = "Gibt den Beschleunigungswert auf der Achse oder die Gesamtstärke zurück.";
 Blockly.Msg['SENSORS_GETGYROSCOPE_TITLE'] = "Gyroskop auf Achse %1";
 Blockly.Msg['SENSORS_GETGYROSCOPE_TOOLTIP'] = "Gibt den Wert des Gyroskops auf der ausgewählten Achse zurück.";
+// Sensoren – Ton
 Blockly.Msg['SENSORS_GET_LOUDNESS_TITLE'] = 'Lautstärke';
 Blockly.Msg['SENSORS_GET_LOUDNESS_TOOLTIP'] = 'Gibt die Lautstärke zurück (0 ~ 100).';
+// Sensoren – Licht
 Blockly.Msg['SENSORS_GET_LIGHT_TITLE'] = 'Lichtwert';
 Blockly.Msg['SENSORS_GET_LIGHT_TOOLTIP'] = 'Gibt den Wert des Lichtsensors zurück (0 ~ 100).';
+// Aktuatoren – Audio
 Blockly.Msg['SPEAKER_PLAY_MELODY_TITLE'] = "Spiele Ton %1";
 Blockly.Msg['SPEAKER_PLAY_MELODY_TOOLTIP'] = "Spielt eine vordefinierte Melodie ab.";
 Blockly.Msg['SPEAKER_PLAY_MELODY_UNTIL_DONE_TITLE'] = "Spiele Ton %1 bis zum Ende";
@@ -269,6 +124,7 @@ Blockly.Msg['SPEAKER_GET_TEMPO_TITLE'] = "Tempo abfragen";
 Blockly.Msg['SPEAKER_GET_TEMPO_TOOLTIP'] = "Gibt das aktuelle Tempo zurück.";
 Blockly.Msg['SPEAKER_PLAY_TONE_DURATION'] = "für";
 Blockly.Msg['SPEAKER_PLAY_NOTE_DURATION'] = Blockly.Msg['SPEAKER_PLAY_TONE_DURATION'];
+// Roboter - Rocky
 Blockly.Msg['ROBOTS_STOP_TITLE'] = '[Rocky] Motoren stoppen';
 Blockly.Msg['ROBOTS_STOP_TOOLTIP'] = 'Stoppt alle Motoren des Roboters Rocky.';
 Blockly.Msg['ROBOTS_MOVE_TITLE'] = '[Rocky] %1 mit Geschwindigkeit %2';
@@ -281,6 +137,7 @@ Blockly.Msg['ROBOTS_DRIVE_TITLE'] = '[Rocky] Geschwindigkeit linke Motoren %1 re
 Blockly.Msg['ROBOTS_DRIVE_TOOLTIP'] = 'Legt die Geschwindigkeit der linken und rechten Motoren des Roboters Rocky fest (+/- 100).';
 Blockly.Msg['ROBOTS_TURN_BY_DEGREE_TITLE'] = '[Rocky] %1 um %2 °';
 Blockly.Msg['ROBOTS_TURN_BY_DEGREE_TOOLTIP'] = 'Dreht den Roboter Rocky um eine bestimmte Anzahl Grad (+/- 360).';
+// Roboter - Sensoren
 Blockly.Msg['ROBOTS_SENSORS_GET_RGB_TITLE'] = '[Rocky] Farbsensor %1 Wert';
 Blockly.Msg['ROBOTS_SENSORS_RED'] = 'Rot';
 Blockly.Msg['ROBOTS_SENSORS_GREEN'] = 'Grün';
@@ -302,3 +159,34 @@ Blockly.Msg['ROBOTS_SENSORS_IS_OBSTACLE_AHEAD_TITLE'] = '[Rocky] Hindernis vorau
 Blockly.Msg['ROBOTS_SENSORS_IS_OBSTACLE_AHEAD_TOOLTIP'] = 'Gibt wahr zurück, wenn vor dem Rocky-Roboter ein Hindernis erkannt wird.';
 Blockly.Msg['ROBOTS_SENSORS_SET_LED_COLOR_TITLE'] = '[Rocky] LED-Farbe %1';
 Blockly.Msg['ROBOTS_SENSORS_SET_LED_COLOR_TOOLTIP'] = 'Legt die Farbe der LED am Rocky-Roboter fest (rot, grün, blau, gelb, cyan, magenta, weiß, schwarz).';
+Blockly.Msg['DISPLAY_SHOWRGB_KEYWORDS'] = 'beleuchtung, helligkeit';
+Blockly.Msg['DISPLAY_OFF_KEYWORDS'] = 'ausschalten, deaktivieren';
+Blockly.Msg['DISPLAY_SHOW_KEYWORDS'] = 'rollen, nachricht';
+Blockly.Msg['DISPLAY_SETPIXEL_KEYWORDS'] = 'beleuchten, schalten';
+Blockly.Msg['DISPLAY_TOGGLEPIXEL_KEYWORDS'] = 'umschalten, umkehren';
+Blockly.Msg['DISPLAY_CLEAR_KEYWORDS'] = 'löschen, leer';
+Blockly.Msg['IO_POTENTIOMETER_GET_VALUE_KEYWORDS'] = 'regler, Drehknopf';
+Blockly.Msg['COMMUNICATION_IRSEND_KEYWORDS'] = 'fernbedienung, übertragung';
+Blockly.Msg['COMMUNICATION_IRSTARTLEARNING_KEYWORDS'] = 'merken, aufnehmen';
+Blockly.Msg['COMMUNICATION_IRSTOPLEARNING_KEYWORDS'] = 'infrarot, lernen, stop';
+Blockly.Msg['COMMUNICATION_IRSAVELEARNEDRESULT_KEYWORDS'] = 'merken, speichern';
+Blockly.Msg['COMMUNICATION_IRSENDLEARNEDRESULT_KEYWORDS'] = 'fernbedienung, wiedergeben';
+Blockly.Msg['COMMUNICATION_IRLEARN_KEYWORDS'] = 'merken, fernbedienung';
+Blockly.Msg["SENSORS_IS_SHAKED_KEYWORDS"] = "zittern, bewegung";
+Blockly.Msg["SENSORS_GET_SHAKE_STRENGTH_KEYWORDS"] = "zittern, bewegung";
+Blockly.Msg['SENSORS_GETACCELERATION_KEYWORDS'] = 'beschleunigungssensor, beschleunigung';
+Blockly.Msg['SENSORS_GETGYROSCOPE_KEYWORDS'] = 'drehung, winkel';
+Blockly.Msg['SENSORS_GET_LOUDNESS_KEYWORDS'] = 'lautstärke, geräusch';
+Blockly.Msg['SENSORS_GET_LIGHT_KEYWORDS'] = 'helligkeit, beleuchtung';
+Blockly.Msg["SPEAKER_PLAY_MELODY_KEYWORDS"] = "musik, klingelton";
+Blockly.Msg["SPEAKER_PLAY_NOTE_KEYWORDS"] = "ton, tonalität";
+Blockly.Msg['SPEAKER_PLAY_TONE_KEYWORDS'] = 'tonalität, summer';
+Blockly.Msg["SPEAKER_STOP_SOUNDS_KEYWORDS"] = "stille, stummschalten";
+Blockly.Msg["SPEAKER_SET_VOLUME_KEYWORDS"] = "lautstärke, intensität";
+Blockly.Msg['ROBOTS_STOP_KEYWORDS'] = 'stillstand, bremsen';
+Blockly.Msg['ROBOTS_DRIVE_KEYWORDS'] = 'räder, antrieb';
+Blockly.Msg['ROBOTS_TURN_BY_DEGREE_KEYWORDS'] = 'drehen, kippen';
+Blockly.Msg['ROBOTS_SENSORS_GET_RGB_KEYWORDS'] = 'farbton, chromatisch';
+Blockly.Msg['ROBOTS_SENSORS_IS_COLOR_KEYWORDS'] = 'farbton, chromatisch';
+Blockly.Msg['ROBOTS_SENSORS_GET_LIGHT_KEYWORDS'] = 'helligkeit, beleuchtung';
+Blockly.Msg['ROBOTS_SENSORS_IS_OBSTACLE_AHEAD_KEYWORDS'] = 'hindernis, erkennen, voraus';

@@ -46,7 +46,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /set_motor\(/gi,
             id: "alphai-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: 'AlphAI',
             type: 'output',
             value: "0",
@@ -56,7 +56,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /set_motor\(/,
             id: "alphai-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: 'AlphAI',
             type: 'output',
             value: "0",
@@ -66,7 +66,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /get_distance\(\)/gi,
             id: "alphai-ultrasonic",
-            title: "Télémètre: ",
+            get title() { return i18next.t('code.simulator.modules.ultrasonic') },
             pin: 'AlphAI',
             type: 'input',
             listeners: [{
@@ -74,13 +74,13 @@ Simulator.Mosaic.specific = {
                 unit: 'cm',
                 color: "#f9d142 ",
                 suffix: "_d",
-                title: "Distance"
+                get title() { return i18next.t('code.simulator.modules.distance') }
             }, {
                 suffix: "_t",
                 default: 1166,
                 unit: 'μs',
                 color: "#f9d142",
-                title: "Durée"
+                get title() { return i18next.t('code.simulator.modules.duration') }
             }],
             class: "ultrasonic",
             picture: "Ultrason.png",
@@ -97,7 +97,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /get_infra_red\(\)/gi,
             id: "alphai-trsensor1",
-            title: "Capteur de ligne noire 1",
+            get title() { return i18next.t('code.simulator.modules.lineSensor', { n: 1 }) },
             pin: 'AlphAI',
             type: 'input',
             listeners: [{
@@ -115,7 +115,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /get_infra_red\(\)/gi,
             id: "alphai-trsensor2",
-            title: "Capteur de ligne noire 2",
+            get title() { return i18next.t('code.simulator.modules.lineSensor', { n: 2 }) },
             pin: 'AlphAI',
             type: 'input',
             listeners: [{
@@ -133,7 +133,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /get_infra_red\(\)/gi,
             id: "alphai-trsensor3",
-            title: "Capteur de ligne noire 3",
+            get title() { return i18next.t('code.simulator.modules.lineSensor', { n: 3 }) },
             pin: 'AlphAI',
             type: 'input',
             listeners: [{
@@ -151,7 +151,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /get_infra_red\(\)/gi,
             id: "alphai-trsensor4",
-            title: "Capteur de ligne noire 4",
+            get title() { return i18next.t('code.simulator.modules.lineSensor', { n: 4 }) },
             pin: 'AlphAI',
             type: 'input',
             listeners: [{
@@ -169,7 +169,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /get_infra_red\(\)/gi,
             id: "alphai-trsensor5",
-            title: "Capteur de ligne noire 5",
+            get title() { return i18next.t('code.simulator.modules.lineSensor', { n: 5 }) },
             pin: 'AlphAI',
             type: 'input',
             listeners: [{
@@ -188,7 +188,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /set_camera\(.+\)/gi,
             id: "alphai-camera",
-            title: "Caméra",
+            get title() { return i18next.t('code.simulator.modules.camera') },
             pin: 'AlphAI',
             type: 'output',
             value: "",
@@ -198,7 +198,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /set_leds\(/,
             id: "alphai-leds",
-            title: "Leds RGB",
+            get title() { return i18next.t('code.simulator.modules.rgbLeds') },
             pin: 'AlphAI',
             type: 'output',
             picture: "RGB-LED.svg",
@@ -208,7 +208,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /set_buzzer\(/gi,
             id: "alphai-buzzer",
-            title: "Buzzer",
+            get title() { return i18next.t('code.simulator.modules.buzzer') },
             pin: 'AlphAI',
             type: 'output',
             value: 0,

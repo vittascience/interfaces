@@ -89,46 +89,46 @@ WiringSimulator.groveDefinitions = [
     id: "colorVariableLed",
     x: 20,
     y: 20,
-    wireOrientation: "top",
+    wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 15,
-        y: 5
+        x: 26.7,
+        y: 38.5
       },
       VCC: {
-        x: 18,
-        y: 5
+        x: 22.2,
+        y: 38.5
       },
       DATA2: {
-        x: 21,
-        y: 5
+        x: 17.7,
+        y: 38.5
       },
       DATA1: {
-        x: 24,
-        y: 5
+        x: 13.1,
+        y: 38.5
       },
     },
-    picture: "led.svg"
+    picture: "variable-color-led.svg"
   },
   {
     id: ["lcdGrove", "lcd"],
     wireOrientation: "left",
     wirePosition: {
       GND: {
-        x: 40,
-        y: 69
+        x: 37,
+        y: 64.9
       },
       VCC: {
-        x: 40,
-        y: 72
+        x: 37,
+        y: 69.4
       },
       DATA2: {
-        x: 40,
-        y: 75
+        x: 37,
+        y: 73.9
       },
       DATA1: {
-        x: 40,
-        y: 78
+        x: 37,
+        y: 78.7
       },
     },
     x: 20,
@@ -140,20 +140,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 15,
-        y: 70
+        x: 19.3,
+        y: 73
       },
       VCC: {
-        x: 18,
-        y: 70
+        x: 22.3,
+        y: 73
       },
       DATA2: {
-        x: 21,
-        y: 70
+        x: 25.3,
+        y: 73
       },
       DATA1: {
-        x: 24,
-        y: 70
+        x: 28.3,
+        y: 73
       },
     },
     x: 10,
@@ -165,20 +165,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "left",
     wirePosition: {
       GND: {
-        x: 10,
-        y: 15
+        x: 10.0,
+        y: 12.5
       },
       VCC: {
-        x: 10,
-        y: 18
+        x: 10.0,
+        y: 17.0
       },
       DATA2: {
-        x: 10,
-        y: 21
+        x: 10.0,
+        y: 21.6
       },
       DATA1: {
-        x: 10,
-        y: 24
+        x: 10.0,
+        y: 26.1
       },
     },
     x: 350,
@@ -190,20 +190,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 36,
-        y: 80
+        x: 47.3,
+        y: 103
       },
       VCC: {
-        x: 39,
-        y: 80
+        x: 50.3,
+        y: 103
       },
       DATA2: {
-        x: 42,
-        y: 80
+        x: 53.3,
+        y: 103
       },
       DATA1: {
-        x: 45,
-        y: 80
+        x: 56.3,
+        y: 103
       },
     },
     x: 300,
@@ -217,20 +217,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "left",
     wirePosition: {
       GND: {
-        x: 10,
-        y: 15
+        x: 0.7,
+        y: 16.7
       },
       VCC: {
-        x: 10,
-        y: 18
-      },
-      DATA2: {
-        x: 10,
+        x: 0.7,
         y: 21
       },
+      DATA2: {
+        x: 0.7,
+        y: 25.5
+      },
       DATA1: {
-        x: 10,
-        y: 24
+        x: 0.7,
+        y: 29.6
       },
     },
     x: 240,
@@ -242,20 +242,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "right",
     wirePosition: {
       GND: {
-        x: 70,
-        y: 15
+        x: 73.5,
+        y: 17
       },
       VCC: {
-        x: 70,
-        y: 18
+        x: 73.5,
+        y: 20
       },
       DATA2: {
-        x: 70,
-        y: 21
+        x: 73.5,
+        y: 23
       },
       DATA1: {
-        x: 70,
-        y: 24
+        x: 73.5,
+        y: 26
       },
     },
     x: 200,
@@ -267,20 +267,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "top",
     wirePosition: {
       GND: {
-        x: 15,
-        y: 15
+        x: 29.2,
+        y: 13.3
       },
       VCC: {
-        x: 18,
-        y: 15
+        x: 25.3,
+        y: 13.3
       },
       DATA2: {
-        x: 21,
-        y: 15
+        x: 17.9,
+        y: 13.3
       },
       DATA1: {
-        x: 24,
-        y: 15
+        x: 21.6,
+        y: 13.3
       },
     },
     x: 250,
@@ -293,20 +293,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "left",
     wirePosition: {
       GND: {
-        x: 12,
-        y: 20
+        x: 10.8,
+        y: 29.8
       },
       VCC: {
-        x: 12,
-        y: 23
+        x: 10.8,
+        y: 25.4
       },
       DATA2: {
-        x: 12,
-        y: 26
+        x: 10.8,
+        y: 21.1
       },
       DATA1: {
-        x: 12,
-        y: 29
+        x: 10.8,
+        y: 16.8
       },
     },
     x: 225,
@@ -318,23 +318,22 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 16,
-        y: 46
+        x: 24.3,
+        y: 43
       },
       VCC: {
-        x: 19,
-        y: 46
+        x: 21.3,
+        y: 43
       },
       DATA2: {
-        x: 22,
-        y: 46
+        x: 18.3,
+        y: 43
       },
       DATA1: {
-        x: 25,
-        y: 46
+        x: 15.3,
+        y: 43
       },
     },
-    size: 0.11,
     x: 225,
     y: 190,
     picture: "grove-rotary-potentiometer.svg",
@@ -344,20 +343,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 15,
-        y: 25
+        x: 26.5,
+        y: 26.8
       },
       VCC: {
-        x: 18,
-        y: 25
+        x: 22.1,
+        y: 26.8
       },
       DATA2: {
-        x: 21,
-        y: 25
+        x: 17.5,
+        y: 26.8
       },
       DATA1: {
-        x: 24,
-        y: 25
+        x: 13.1,
+        y: 26.8
       },
     },
     x: 225,
@@ -369,20 +368,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "top",
     wirePosition: {
       GND: {
-        x: 16,
-        y: 10
+        x: 13.1,
+        y: 11.7
       },
       VCC: {
-        x: 19,
-        y: 10
+        x: 17.5,
+        y: 11.7
       },
       DATA2: {
-        x: 22,
-        y: 10
+        x: 22.1,
+        y: 11.7
       },
       DATA1: {
-        x: 25,
-        y: 10
+        x: 26.6,
+        y: 11.7
       },
     },
     x: 225,
@@ -395,20 +394,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "left",
     wirePosition: {
       GND: {
-        x: 10,
-        y: 15
+        x: 8.3,
+        y: 15.8
       },
       VCC: {
-        x: 10,
-        y: 18
+        x: 8.3,
+        y: 20.2
       },
       DATA2: {
-        x: 10,
-        y: 21
+        x: 8.3,
+        y: 24.8
       },
       DATA1: {
-        x: 10,
-        y: 24
+        x: 8.3,
+        y: 29.2
       },
     },
     x: 240,
@@ -421,20 +420,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 16,
-        y: 65
+        x: 17.2,
+        y: 67.0
       },
       VCC: {
-        x: 19,
-        y: 65
+        x: 21.6,
+        y: 67.0
       },
       DATA2: {
-        x: 22,
-        y: 65
+        x: 25.9,
+        y: 67.0
       },
       DATA1: {
-        x: 25,
-        y: 65
+        x: 30.3,
+        y: 67.0
       },
     },
     x: 240,
@@ -447,46 +446,45 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 21,
+        x: 17.3,
         y: 74
       },
       VCC: {
-        x: 24,
+        x: 21.7,
         y: 74
       },
       DATA2: {
-        x: 27,
+        x: 26.4,
         y: 74
       },
       DATA1: {
-        x: 30,
+        x: 30.9,
         y: 74
       },
     },
-    size: 0.11,
     x: 330,
     y: 145,
     picture: "grove-SGP30.svg",
   },
   {
     id: "hm330x",
-    wireOrientation: "left",
+    wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 10,
-        y: 35
+        x: 13.7,
+        y: 74.3
       },
       VCC: {
-        x: 10,
-        y: 38
+        x: 16.8,
+        y: 74.3
       },
       DATA2: {
-        x: 10,
-        y: 41
+        x: 20.1,
+        y: 74.3
       },
       DATA1: {
-        x: 10,
-        y: 44
+        x: 23.1,
+        y: 74.3
       },
     },
     x: 330,
@@ -498,20 +496,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 15,
-        y: 65
+        x: 17.2,
+        y: 67.0
       },
       VCC: {
-        x: 18,
-        y: 65
+        x: 21.6,
+        y: 67.0
       },
       DATA2: {
-        x: 21,
-        y: 65
+        x: 25.9,
+        y: 67.0
       },
       DATA1: {
-        x: 24,
-        y: 65
+        x: 30.3,
+        y: 67.0
       },
     },
     x: 400,
@@ -523,20 +521,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 19,
-        y: 80
+        x: 16.9,
+        y: 74.3
       },
       VCC: {
-        x: 22,
-        y: 80
+        x: 21.6,
+        y: 74.3
       },
       DATA2: {
-        x: 25,
-        y: 80
+        x: 26.3,
+        y: 74.3
       },
       DATA1: {
-        x: 28,
-        y: 80
+        x: 30.9,
+        y: 74.3
       },
     },
     x: 225,
@@ -545,23 +543,23 @@ WiringSimulator.groveDefinitions = [
   },
   {
     id: ["mhz19-co2", "mhz19-temp"],
-    wireOrientation: "right",
+    wireOrientation: "top",
     wirePosition: {
       GND: {
-        x: 200,
-        y: 18
+        x: 168.5,
+        y: 3.6
       },
       VCC: {
-        x: 200,
-        y: 21
+        x: 171,
+        y: 3.6
       },
       DATA2: {
-        x: 200,
-        y: 24
+        x: 173.5,
+        y: 3.6
       },
       DATA1: {
-        x: 200,
-        y: 27
+        x: 176,
+        y: 3.6
       },
     },
     x: 225,
@@ -575,23 +573,22 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 21,
-        y: 74
+        x: 20.8,
+        y: 90.5
       },
       VCC: {
-        x: 24,
-        y: 74
+        x: 26,
+        y: 90.5
       },
       DATA2: {
-        x: 27,
-        y: 74
+        x: 31.5,
+        y: 90.5
       },
       DATA1: {
-        x: 30,
-        y: 74
+        x: 36.8,
+        y: 90.5
       },
     },
-    size: 0.09,
     x: 386,
     y: 145,
     picture: "grove-BMP280.svg",
@@ -601,20 +598,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "top",
     wirePosition: {
       GND: {
-        x: 15,
-        y: 13
+        x: 29.8,
+        y: 6.8
       },
       VCC: {
-        x: 18,
-        y: 13
+        x: 25.4,
+        y: 6.8
       },
       DATA2: {
-        x: 21,
-        y: 13
+        x: 21.1,
+        y: 6.8
       },
       DATA1: {
-        x: 24,
-        y: 13
+        x: 16.7,
+        y: 6.8
       },
     },
     x: 225,
@@ -626,20 +623,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 15,
-        y: 65
+        x: 17.5,
+        y: 67.1
       },
       VCC: {
-        x: 18,
-        y: 65
+        x: 21.9,
+        y: 67.1
       },
       DATA2: {
-        x: 21,
-        y: 65
+        x: 26.2,
+        y: 67.1
       },
       DATA1: {
-        x: 24,
-        y: 65
+        x: 30.5,
+        y: 67.1
       },
     },
     x: 225,
@@ -701,20 +698,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "top",
     wirePosition: {
       GND: {
-        x: 15,
-        y: 22
+        x: 28.2,
+        y: 0.5
       },
       VCC: {
-        x: 18,
-        y: 22
+        x: 24,
+        y: 0.5
       },
       DATA2: {
-        x: 21,
-        y: 22
+        x: 19.5,
+        y: 0.5
       },
       DATA1: {
-        x: 24,
-        y: 22
+        x: 15.2,
+        y: 0.5
       },
     },
     x: 225,
@@ -726,20 +723,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 45,
-        y: 45
+        x: 35,
+        y: 39.4
       },
       VCC: {
-        x: 48,
-        y: 45
+        x: 38.1,
+        y: 39.4
       },
       DATA2: {
-        x: 51,
-        y: 45
+        x: 41.3,
+        y: 39.4
       },
       DATA1: {
-        x: 54,
-        y: 45
+        x: 44.4,
+        y: 39.4
       },
     },
     x: 225,
@@ -751,20 +748,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "left",
     wirePosition: {
       GND: {
-        x: 15,
-        y: 15
+        x: 18.9,
+        y: 26.5
       },
       VCC: {
-        x: 15,
-        y: 18
+        x: 18.9,
+        y: 22.1
       },
       DATA2: {
-        x: 15,
-        y: 21
+        x: 18.9,
+        y: 17.7
       },
       DATA1: {
-        x: 15,
-        y: 24
+        x: 18.9,
+        y: 13.4
       },
     },
     x: 225,
@@ -776,20 +773,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 31,
-        y: 112
+        x: 17.1,
+        y: 84.8
       },
       VCC: {
-        x: 34,
-        y: 112
+        x: 21.6,
+        y: 84.8
       },
       DATA2: {
-        x: 37,
-        y: 112
+        x: 26.1,
+        y: 84.8
       },
       DATA1: {
-        x: 40,
-        y: 112
+        x: 30.6,
+        y: 84.8
       },
     },
     x: 400,
@@ -803,20 +800,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "left",
     wirePosition: {
       GND: {
-        x: 20,
-        y: 14
+        x: 6.5,
+        y: 15.5
       },
       VCC: {
-        x: 20,
-        y: 17
+        x: 6.5,
+        y: 19.9
       },
       DATA2: {
-        x: 20,
-        y: 20
+        x: 6.5,
+        y: 24.2
       },
       DATA1: {
-        x: 20,
-        y: 23
+        x: 6.5,
+        y: 28.4
       },
     },
     x: 225,
@@ -828,20 +825,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 21,
-        y: 90
+        x: 16.7,
+        y: 105.5
       },
       VCC: {
-        x: 24,
-        y: 90
+        x: 21.1,
+        y: 105.5
       },
       DATA2: {
-        x: 27,
-        y: 90
+        x: 25.7,
+        y: 105.5
       },
       DATA1: {
-        x: 30,
-        y: 90
+        x: 30.2,
+        y: 105.5
       },
     },
     x: 240,
@@ -853,20 +850,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "left",
     wirePosition: {
       GND: {
-        x: 10,
-        y: 15
+        x: 7.4,
+        y: 16.5
       },
       VCC: {
-        x: 10,
-        y: 18
+        x: 7.4,
+        y: 20.8
       },
       DATA2: {
-        x: 10,
-        y: 21
+        x: 7.4,
+        y: 25.2
       },
       DATA1: {
-        x: 10,
-        y: 24
+        x: 7.4,
+        y: 29.5
       },
     },
     x: 225,
@@ -878,20 +875,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 15,
-        y: 65
+        x: 17.2,
+        y: 67.9
       },
       VCC: {
-        x: 18,
-        y: 65
+        x: 21.5,
+        y: 67.9
       },
       DATA2: {
-        x: 21,
-        y: 65
+        x: 25.9,
+        y: 67.9
       },
       DATA1: {
-        x: 24,
-        y: 65
+        x: 30.2,
+        y: 67.9
       },
     },
     x: 225,
@@ -903,20 +900,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "top",
     wirePosition: {
       GND: {
-        x: 16,
-        y: 10
+        x: 29.7,
+        y: 7.1
       },
       VCC: {
-        x: 19,
-        y: 10
+        x: 25.4,
+        y: 7.1
       },
       DATA2: {
-        x: 22,
-        y: 10
+        x: 21.1,
+        y: 7.1
       },
       DATA1: {
-        x: 25,
-        y: 10
+        x: 16.7,
+        y: 7.1
       },
     },
     x: 240,
@@ -928,20 +925,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 15,
-        y: 65
+        x: 17.0,
+        y: 67.3
       },
       VCC: {
-        x: 18,
-        y: 65
+        x: 21.6,
+        y: 67.3
       },
       DATA2: {
-        x: 21,
-        y: 65
+        x: 26.0,
+        y: 67.3
       },
       DATA1: {
-        x: 24,
-        y: 65
+        x: 30.5,
+        y: 67.3
       },
     },
     x: 240,
@@ -953,20 +950,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 16,
-        y: 85
+        x: 17.2,
+        y: 81.3
       },
       VCC: {
-        x: 19,
-        y: 85
+        x: 21.6,
+        y: 81.3
       },
       DATA2: {
-        x: 22,
-        y: 85
+        x: 26.0,
+        y: 81.2
       },
       DATA1: {
-        x: 25,
-        y: 85
+        x: 30.3,
+        y: 81.2
       },
     },
     x: 240,
@@ -980,19 +977,19 @@ WiringSimulator.groveDefinitions = [
     wirePosition: {
       GND: {
         x: 90,
-        y: 13
+        y: 14.5
       },
       VCC: {
         x: 90,
-        y: 16
+        y: 17.5
       },
       DATA2: {
         x: 90,
-        y: 19
+        y: 20.5
       },
       DATA1: {
         x: 90,
-        y: 22
+        y: 23.5
       },
     },
     x: 240,
@@ -1004,20 +1001,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "top",
     wirePosition: {
       GND: {
-        x: 15,
-        y: 10
+        x: 30.6,
+        y: 6.8
       },
       VCC: {
-        x: 18,
-        y: 10
+        x: 26.0,
+        y: 6.8
       },
       DATA2: {
-        x: 21,
-        y: 10
+        x: 21.6,
+        y: 6.8
       },
       DATA1: {
-        x: 24,
-        y: 10
+        x: 17.1,
+        y: 6.8
       },
     },
     x: 240,
@@ -1029,20 +1026,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 24,
-        y: 95
+        x: 17.3,
+        y: 81.2
       },
       VCC: {
-        x: 27,
-        y: 95
+        x: 21.8,
+        y: 81.2
       },
       DATA2: {
-        x: 30,
-        y: 95
+        x: 26.4,
+        y: 81.2
       },
       DATA1: {
-        x: 33,
-        y: 95
+        x: 30.9,
+        y: 81.2
       },
     },
     x: 240,
@@ -1054,20 +1051,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 45,
-        y: 70
+        x: 35.7,
+        y: 58.5
       },
       VCC: {
-        x: 35,
-        y: 70
+        x: 28.1,
+        y: 58.5
       },
       DATA2: {
-        x: 15,
-        y: 70
+        x: 20.4,
+        y: 58.5
       },
       DATA1: {
-        x: 25,
-        y: 70
+        x: 12.6,
+        y: 58.5
       },
     },
     x: 240,
@@ -1080,20 +1077,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 15.5,
-        y: 54.8
+        x: 17.0,
+        y: 67.0
       },
       VCC: {
-        x: 18.5,
-        y: 54.8
+        x: 21.4,
+        y: 67.0
       },
       DATA2: {
-        x: 21.5,
-        y: 54.8
+        x: 25.8,
+        y: 67.0
       },
       DATA1: {
-        x: 24.5,
-        y: 54.8
+        x: 30.1,
+        y: 67.0
       },
     },
     picture: "relay.svg",
@@ -1103,43 +1100,43 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 15.5,
-        y: 54.8
+        x: 17.2,
+        y: 67.4
       },
       VCC: {
-        x: 18.5,
-        y: 54.8
+        x: 21.6,
+        y: 67.4
       },
       DATA2: {
-        x: 21.5,
-        y: 54.8
+        x: 26.0,
+        y: 67.4
       },
       DATA1: {
-        x: 24.5,
-        y: 54.8
+        x: 30.3,
+        y: 67.4
       },
     },
     picture: "electromagnet.svg",
   },
   {
     id: "vibrationMotor",
-    wireOrientation: "bottom",
+    wireOrientation: "top",
     wirePosition: {
       GND: {
-        x: 15.5,
-        y: 34.8
+        x: 12.6,
+        y: 18.7
       },
       VCC: {
-        x: 18.5,
-        y: 34.8
+        x: 17.1,
+        y: 18.7
       },
       DATA2: {
-        x: 21.5,
-        y: 34.8
+        x: 21.6,
+        y: 18.7
       },
       DATA1: {
-        x: 24.5,
-        y: 34.8
+        x: 26.1,
+        y: 18.7
       },
     },
     picture: "vibration-motor.svg",
@@ -1149,20 +1146,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 20.5,
-        y: 54.8
+        x: 17.5,
+        y: 84.8
       },
       VCC: {
-        x: 23.5,
-        y: 54.8
+        x: 21.9,
+        y: 84.8
       },
       DATA2: {
         x: 26.5,
-        y: 54.8
+        y: 84.8
       },
       DATA1: {
-        x: 29.5,
-        y: 54.8
+        x: 31.1,
+        y: 84.8
       },
     },
     picture: "fan.svg",
@@ -1218,20 +1215,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 25.5,
-        y: 54.8
+        x: 26.5,
+        y: 60.2
       },
       VCC: {
-        x: 28.5,
-        y: 54.8
+        x: 29.5,
+        y: 60.2
       },
       DATA2: {
-        x: 31.5,
-        y: 54.8
+        x: 32.5,
+        y: 60.2
       },
       DATA1: {
-        x: 34.5,
-        y: 54.8
+        x: 35.5,
+        y: 60.2
       },
     },
     picture: "led-matrix.svg",
@@ -1241,20 +1238,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 25.5,
-        y: 54.8
+        x: 26.5,
+        y: 60.3
       },
       VCC: {
-        x: 28.5,
-        y: 54.8
+        x: 29.5,
+        y: 60.3
       },
       DATA2: {
-        x: 31.5,
-        y: 54.8
+        x: 32.5,
+        y: 60.3
       },
       DATA1: {
-        x: 34.5,
-        y: 54.8
+        x: 35.5,
+        y: 60.3
       },
     },
     picture: "rgb-led-matrix.svg",
@@ -1330,23 +1327,23 @@ WiringSimulator.groveDefinitions = [
   },
   {
     id: "remote",
-    wireOrientation: "bottom",
+    wireOrientation: "left",
     wirePosition: {
       GND: {
-        x: 15.5,
-        y: 34.8
+        x: 6.5,
+        y: 15.8
       },
       VCC: {
-        x: 18.5,
-        y: 34.8
+        x: 6.5,
+        y: 20.3
       },
       DATA2: {
-        x: 21.5,
-        y: 34.8
+        x: 6.5,
+        y: 24.8
       },
       DATA1: {
-        x: 24.5,
-        y: 34.8
+        x: 6.5,
+        y: 29.2
       },
     },
     picture: "ir-receiver.svg",
@@ -1609,20 +1606,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 30.5,
-        y: 44.8
+        x: 6.4,
+        y: 48.5
       },
       VCC: {
-        x: 33.5,
-        y: 44.8
+        x: 11.5,
+        y: 48.5
       },
       DATA2: {
-        x: 36.5,
-        y: 44.8
+        x: 8.9,
+        y: 48.5
       },
       DATA1: {
-        x: 39.5,
-        y: 44.8
+        x: 14.1,
+        y: 48.5
       },
     },
     picture: "dust-sensor.svg",
@@ -1652,46 +1649,46 @@ WiringSimulator.groveDefinitions = [
   },
   {
     id: ["gps", "bn880"],
-    wireOrientation: "bottom",
+    wireOrientation: "top",
     wirePosition: {
       GND: {
-        x: 15.5,
-        y: 54.8
+        x: 30.4,
+        y: 12.2
       },
       VCC: {
-        x: 18.5,
-        y: 54.8
+        x: 25.9,
+        y: 12.2
       },
       DATA2: {
-        x: 21.5,
-        y: 54.8
+        x: 16.8,
+        y: 12.2
       },
       DATA1: {
-        x: 24.5,
-        y: 54.8
+        x: 21.4,
+        y: 12.2
       },
     },
     picture: "gps.svg",
   },
   {
     id: "rfidReader",
-    wireOrientation: "bottom",
+    wireOrientation: "top",
     wirePosition: {
       GND: {
-        x: 25.5,
-        y: 54.8
+        x: 17.5,
+        y: 19.7
       },
       VCC: {
-        x: 28.5,
-        y: 54.8
+        x: 21.9,
+        y: 19.7
       },
       DATA2: {
-        x: 31.5,
-        y: 54.8
+        x: 30.6,
+        y: 19.7
       },
       DATA1: {
-        x: 34.5,
-        y: 54.8
+        x: 26.3,
+        y: 19.7
       },
     },
     // Grove 125kHz RFID reader: serial module, its mosaic definition has no pin.
@@ -1726,20 +1723,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 15.5,
-        y: 34.8
+        x: 14.8,
+        y: 46
       },
       VCC: {
-        x: 18.5,
-        y: 34.8
+        x: 6,
+        y: 46
       },
       DATA2: {
-        x: 21.5,
-        y: 34.8
+        x: 32.3,
+        y: 46
       },
       DATA1: {
-        x: 24.5,
-        y: 34.8
+        x: 23.5,
+        y: 46
       },
     },
     picture: "si1145.svg",
@@ -1749,20 +1746,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 15.5,
-        y: 34.8
+        x: 17.9,
+        y: 39.5
       },
       VCC: {
-        x: 18.5,
-        y: 34.8
+        x: 22.1,
+        y: 39.5
       },
       DATA2: {
-        x: 21.5,
-        y: 34.8
+        x: 26.5,
+        y: 39.5
       },
       DATA1: {
-        x: 24.5,
-        y: 34.8
+        x: 30.6,
+        y: 39.5
       },
     },
     picture: "gesture.svg",
@@ -1818,66 +1815,112 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 15.5,
-        y: 34.8
+        x: 17.3,
+        y: 67.0
       },
       VCC: {
-        x: 18.5,
-        y: 34.8
+        x: 21.6,
+        y: 67.0
       },
       DATA2: {
-        x: 21.5,
-        y: 34.8
+        x: 30.4,
+        y: 67.0
       },
       DATA1: {
-        x: 24.5,
-        y: 34.8
+        x: 26.0,
+        y: 67.0
       },
     },
     picture: "mp3.svg",
   },
   {
-    id: ["groveBT", "hc05", "hm10"],
+    id: "groveBT",
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 15.5,
-        y: 54.8
+        x: 17.3,
+        y: 67.0
       },
       VCC: {
-        x: 18.5,
-        y: 54.8
+        x: 21.6,
+        y: 67.0
       },
       DATA2: {
-        x: 21.5,
-        y: 54.8
+        x: 30.4,
+        y: 67.0
       },
       DATA1: {
-        x: 24.5,
-        y: 54.8
+        x: 26.0,
+        y: 67.0
       },
     },
-    picture: "bluetooth.svg",
+    picture: "grove-serial-bluetooth.svg",
+  },
+  {
+    id: "hc05",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 16.5,
+        y: 71.5
+      },
+      VCC: {
+        x: 20.3,
+        y: 71.5
+      },
+      DATA2: {
+        x: 12.4,
+        y: 71.5
+      },
+      DATA1: {
+        x: 8.5,
+        y: 71.5
+      },
+    },
+    picture: "hc-05.svg",
+  },
+  {
+    id: "hm10",
+    wireOrientation: "bottom",
+    wirePosition: {
+      GND: {
+        x: 16.5,
+        y: 71.5
+      },
+      VCC: {
+        x: 20.4,
+        y: 71.5
+      },
+      DATA2: {
+        x: 12.3,
+        y: 71.5
+      },
+      DATA1: {
+        x: 8.6,
+        y: 71.5
+      },
+    },
+    picture: "hm-10.svg",
   },
   {
     id: "groveWater",
     wireOrientation: "bottom",
     wirePosition: {
       GND: {
-        x: 15,
-        y: 65
+        x: 17.3,
+        y: 66.0
       },
       VCC: {
-        x: 18,
-        y: 65
+        x: 21.6,
+        y: 66.0
       },
       DATA2: {
-        x: 21,
-        y: 65
+        x: 26.0,
+        y: 66.0
       },
       DATA1: {
-        x: 24,
-        y: 65
+        x: 30.4,
+        y: 66.0
       },
     },
     picture: "water-sensor.svg",
@@ -1887,20 +1930,20 @@ WiringSimulator.groveDefinitions = [
     wireOrientation: "top",
     wirePosition: {
       GND: {
-        x: 36,
-        y: 4
+        x: 30.5,
+        y: 11.3
       },
       VCC: {
-        x: 38.5,
-        y: 4
+        x: 26.0,
+        y: 11.3
       },
       DATA2: {
-        x: 41,
-        y: 4
+        x: 21.5,
+        y: 11.3
       },
       DATA1: {
-        x: 43.5,
-        y: 4
+        x: 16.9,
+        y: 11.3
       },
     },
     picture: "joystick.svg",

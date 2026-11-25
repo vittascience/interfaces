@@ -24,7 +24,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(move(Forward|Backward)|turn(Left|Right))/,
             id: "primastem-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: "primaSTEM",
             type: 'output',
             value: 0,
@@ -34,7 +34,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(move(Forward|Backward)|turn(Left|Right))/,
             id: "primastem-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: "primaSTEM",
             type: 'output',
             value: 0,
@@ -44,7 +44,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /primastem\.setLed\("(l|b)",/gi,
             id: "primastem-left-led",
-            title: "LED RGB (gauche)",
+            get title() { return i18next.t('code.simulator.modules.rgbLedLeft') },
             pin: 'primaSTEM',
             type: 'output',
             value: [75, 75, 75],
@@ -57,7 +57,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /primastem\.setLed\("(r|b)",/gi,
             id: "primastem-right-led",
-            title: "LED RGB (droite)",
+            get title() { return i18next.t('code.simulator.modules.rgbLedRight') },
             pin: 'primaSTEM',
             type: 'output',
             value: [75, 75, 75],

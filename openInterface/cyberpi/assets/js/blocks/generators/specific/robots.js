@@ -288,11 +288,8 @@ Blockly.Python.robots_mbot2_follow_line = function (block) {
     const speed = Blockly.Python.valueToCode(block, "SPEED", Blockly.Python.ORDER_ADDITIVE) || "10";
     const sensitivity = Blockly.Python.valueToCode(block, "SENSITIVITY", Blockly.Python.ORDER_MULTIPLICATIVE) || "0.6";
     const offset = Blockly.Python.nameDB_.getDistinctName('line_offset', Blockly.VARIABLE_CATEGORY_NAME);
-    const indent = Blockly.Python.INDENT;
-    // Proportional line following until the 4 probes see the line (state 0 = 0000)
-    return "while not mbuild.quad_rgb_sensor.get_line_sta(index=" + sensor + ") == 0:" + NEWLINE
-        + indent + offset + " = mbuild.quad_rgb_sensor.get_offset_track(index=" + sensor + ")" + NEWLINE
-        + indent + "mbot2.EM_set_power(" + speed + " - " + sensitivity + " * " + offset + ", 'EM1')" + NEWLINE
-        + indent + "mbot2.EM_set_power(-1 * (" + speed + " + " + sensitivity + " * " + offset + "), 'EM2')" + NEWLINE
-        + "mbot2.EM_stop('ALL')" + NEWLINE;
+    // One proportional correction step, no stop condition: put the block in a loop
+    return offset + " = mbuild.quad_rgb_sensor.get_offset_track(index=" + sensor + ")" + NEWLINE
+        + "mbot2.EM_set_power(" + speed + " - " + sensitivity + " * " + offset + ", 'EM1')" + NEWLINE
+        + "mbot2.EM_set_power(-1 * (" + speed + " + " + sensitivity + " * " + offset + "), 'EM2')" + NEWLINE;
 };

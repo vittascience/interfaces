@@ -669,6 +669,7 @@ Blockly.Python.robots_maqueenPlusV3_lidar_getFixedPoint = function (block) {
 };
 
 Blockly.Python.robots_maqueenPlusV3_lidar_configAvoidance = function (block) {
+    Blockly.Python.ROBOTS_LIDAR_INIT(block);
     const wall_cm = Blockly.Python.valueToCode(block, "WALL", Blockly.Python.ORDER_NONE) || '0';
     return `LiDAR.config_avoidance(${wall_cm})` + NEWLINE;
 };
@@ -1492,7 +1493,7 @@ Blockly.Python.robots_setKitrobotBuzzer = function (block) {
     return "music.pitch(" + freq + ", duration=" + duration + ")" + NEWLINE;
 };
 
-// Codo
+// Codok
 
 Blockly.Python.robots_setCodoGo = function (block) {
     Blockly.Python.addFunction('codo_controlLeftMotor', FUNCTIONS_MICROBIT.DEF_CODO_CONTROL_LEFT_MOTOR);
@@ -1618,7 +1619,7 @@ Blockly.Python.robots_controlOobybotMotors = function (block) {
 // Buggy
 Blockly.Python.robots_initializeBuggy = function () {
     Blockly.Python.addImport('buggy', IMPORT_BUGGY_MOVE);
-    Blockly.Python.addInit('buggy', 'buggy=MOVEmotor()');
+    Blockly.Python.addInit('buggy', 'buggy=MOVEMotor()');
 };
 
 Blockly.Python.robots_setBuggyGo = function (block) {
@@ -1989,9 +1990,9 @@ Blockly.Python.robots_setBitCarNeopixel = function (block) {
     const g = Blockly.Python.valueToCode(block, "G", Blockly.Python.ORDER_NONE) || "0";
     const b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_NONE) || "0";
     if (block.getFieldValue("LED") == "all") {
-        return "for i in range(4):" + NEWLINE + "  npBitCar[i] = (" + r + ", " + g + ", " + b + ")" + NEWLINE + "npMaq.show()" + NEWLINE;
+        return "for i in range(4):" + NEWLINE + "  npBitCar[i] = (" + r + ", " + g + ", " + b + ")" + NEWLINE + "npBitCar.show()" + NEWLINE;
     } else {
-        return "npBitCar[" + block.getFieldValue("LED") + "] = (" + r + ", " + g + ", " + b + ")" + NEWLINE + "npMaq.show()" + NEWLINE;
+        return "npBitCar[" + block.getFieldValue("LED") + "] = (" + r + ", " + g + ", " + b + ")" + NEWLINE + "npBitCar.show()" + NEWLINE;
     }
 };
 
@@ -2003,7 +2004,7 @@ Blockly.Python.robots_setBitCarNeopixelPalette = function (block) {
     const led = block.getFieldValue("LED");
     const colour = Blockly.Python.valueToCode(block, "COLOR", Blockly.Python.ORDER_NONE) || "(0,0,0)";
     if (led == "all") {
-        return "for i in range(4):" + NEWLINE + "  npBitCar[i] = " + colour + NEWLINE + "npMaq.show()" + NEWLINE;
+        return "for i in range(4):" + NEWLINE + "  npBitCar[i] = " + colour + NEWLINE + "npBitCar.show()" + NEWLINE;
     } else {
         return "npBitCar[" + led + "] = " + colour + NEWLINE + "npBitCar.show()" + NEWLINE;
     }
@@ -2357,7 +2358,7 @@ Blockly.Python.robots_buildingBit_getColor = function (block) {
         case "G":
             return ["WOM_Sensor_Kit.WOM_color(WOM_Sensor_Kit.WOM_green)", Blockly.Python.ORDER_ATOMIC];
         case "B":
-            return ["WOM_Sensor_Kit.WOM_color(WOM_Sensor_Kit.WOM_green)", Blockly.Python.ORDER_ATOMIC];
+            return ["WOM_Sensor_Kit.WOM_color(WOM_Sensor_Kit.WOM_blue)", Blockly.Python.ORDER_ATOMIC];
     }
 };
 

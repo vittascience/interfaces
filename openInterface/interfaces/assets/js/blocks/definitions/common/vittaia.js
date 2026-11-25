@@ -206,7 +206,7 @@ Blockly.Constants.Vittaia.VITTAIA_TIMEWINDOW_MUTATOR_MIXIN = {
                     .appendField("(s)");
             }
             top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI,
-                this.buttonSize, this.buttonSize, "*", remove, false));
+                this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
         } else {
             if (this.getInput('SIZE_FIELD')) {
                 // Sauvegarder la valeur actuelle avant de supprimer le champ
@@ -216,7 +216,7 @@ Blockly.Constants.Vittaia.VITTAIA_TIMEWINDOW_MUTATOR_MIXIN = {
                 this.removeInput("SIZE_FIELD");
             }
             top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI,
-                this.buttonSize, this.buttonSize, "*", add, false));
+                this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
         }
     }
 };

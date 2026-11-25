@@ -612,11 +612,13 @@ const PythonRun = {
      * @param {boolean} error
      */
     _output(text, color, isError = false) {
-        text = text.replace(/<([^>]+)>/g, '&lt;$1&gt;');
         if (isError) {
+            text = text.replace(/<([^>]+)>/g, '&lt;$1&gt;');
             text = "<b><pre style='color:" + color + ";margin-bottom:0rem;font-family: var(--monospace-font), monospace;font-size: 14px;font-weight: 400;'>" + text + "</pre></b>";
             PythonRun.monitor.insertAdjacentHTML('beforeend', text);
         } else {
+            // program output is plain text: escape everything, not only closed <...> pairs
+            text = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
             const event = new CustomEvent('python_evaluation_success', {
                 detail: {
                     message: text
@@ -929,11 +931,12 @@ const PythonDebugger = {
                 const variable = this.variable_panel[v];
                 const row = document.createElement("tr");
 
-                row.innerHTML = `
-                    <td>${variable.name}</td>
-                    <td>${String(variable.value).slice(0, 17)}</td>
-                    <td>${variable.type}</td>
-                `;
+                // textContent: a string value like '<b>x</b>' must not be rendered as HTML
+                for (const cellText of [variable.name, String(variable.value).slice(0, 17), variable.type]) {
+                    const cell = document.createElement("td");
+                    cell.textContent = cellText;
+                    row.appendChild(cell);
+                }
 
                 tableBody.appendChild(row);
             }
@@ -1003,11 +1006,20 @@ const PythonDebugger = {
             for (let entryName in Sk.globals) {
                 const entry = Sk.globals[entryName];
                 const removing = (entryName !== "__name__" && entryName !== "__file__" && entryName !== "__doc__" && entryName !== "__package__");
-                if (entry.v !== undefined && removing) {
+                const type = Sk.abstr.typeName(entry);
+                const isData = !['module', 'function', 'type', 'builtin_function_or_method'].includes(type);
+                if (entry !== undefined && isData && removing) {
+                    let value;
+                    try {
+                        value = Sk.misceval.objectRepr(entry);
+                        if (typeof value !== 'string') value = value.v;
+                    } catch (e) {
+                        value = entry.v === null ? "None" : entry.v;
+                    }
                     const variable = {
                         "name": entryName,
-                        "value": entry.v === null ? "None" : entry.v,
-                        "type": Sk.abstr.typeName(entry)
+                        "value": value,
+                        "type": type
                     };
                     this.addVarToPanel(variable);
                 }
@@ -1129,7 +1141,7 @@ const PythonDebugger = {
             } else {
                 const event = new CustomEvent('python_evaluation_error', {
                     detail: {
-                        message: errorMessage
+                        message: String(e)
                     }
                 });
                 window.dispatchEvent(event);

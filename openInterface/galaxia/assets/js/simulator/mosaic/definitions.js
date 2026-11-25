@@ -674,7 +674,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /led\.(set_colors|set_red|set_blue|set_green)/g,
             id: "RGBLed",
-            title: "LED RGB",
+            get title() { return i18next.t('code.simulator.modules.RGBLed') },
             pin: 'Galaxia',
             pins: 'digital',
             type: 'output',
@@ -689,7 +689,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /led\.read_light_level\(\)/g,
             id: "galaxia-light",
-            title: "Capteur de luminosité",
+            get title() { return i18next.t('code.simulator.modules.groveLight') },
             pin: 'Galaxia',
             type: 'input',
             listeners: [{
@@ -708,7 +708,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /temperature\(\)/,
             id: "galaxia-temp",
-            title: "Capteur de température",
+            get title() { return i18next.t('code.simulator.modules.groveTemp') },
             pin: 'Galaxia',
             type: 'input',
             listeners: [{
@@ -727,7 +727,7 @@ Simulator.Mosaic.specific = {
         {
             // regex: /linky\.get_data\(/,
             id: "linky",
-            title: "Capteur linky",
+            get title() { return i18next.t('code.simulator.modules.linkySensor') },
             pin: 'pin n°',
             pins: 'analog',
             type: 'input',
@@ -765,7 +765,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.get_[xyz]\(\)/,
             id: "galaxia-accelerometer",
-            title: "Accéléromètre : ",
+            get title() { return i18next.t('code.simulator.modules.accelerometer') },
             pin: 'Galaxia',
             type: 'input',
             color: "#22b573",
@@ -774,19 +774,19 @@ Simulator.Mosaic.specific = {
                 default: 0,
                 unit: 'm/s2',
                 color: "#ff4d6a",
-                title: "Axe x"
+                get title() { return i18next.t('code.simulator.modules.axis', { axis: 'x' }) }
             }, {
                 suffix: "_y",
                 default: 0,
                 unit: 'm/s2',
                 color: "#f9d142",
-                title: "Axe y"
+                get title() { return i18next.t('code.simulator.modules.axis', { axis: 'y' }) }
             }, {
                 suffix: "_z",
                 default: 0,
                 unit: 'm/s2',
                 color: "#1a6da8",
-                title: "Axe z"
+                get title() { return i18next.t('code.simulator.modules.axis', { axis: 'z' }) }
             }],
             picture: "Accélerateur.png",
             pictureAnimation: "Accelérateur-animation.png",
@@ -809,7 +809,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.get_[yz]\(\)/,
             id: "galaxia-accelerometer-pitch",
-            title: "Accéleromètre - Tangage",
+            get title() { return i18next.t('code.simulator.modules.accelerometerPitch') },
             pin: 'Galaxia',
             type: 'output',
             value: "0 °",
@@ -819,7 +819,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.get_[xyz]\(\)/,
             id: "galaxia-accelerometer-roll",
-            title: "Accéleromètre - Roulis",
+            get title() { return i18next.t('code.simulator.modules.accelerometerRoll') },
             pin: 'Galaxia',
             type: 'output',
             value: "0 °",
@@ -829,7 +829,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /compass\.heading\(\)/,
             id: "galaxia-compassDir",
-            title: "Boussole",
+            get title() { return i18next.t('code.simulator.modules.compass') },
             pin: 'Galaxia',
             type: 'input',
             listeners: [{
@@ -837,7 +837,7 @@ Simulator.Mosaic.specific = {
                 default: 90,
                 unit: '°',
                 color: "#448ae5",
-                title: "Direction"
+                get title() { return i18next.t('code.simulator.modules.direction') }
             }],
             picture: "Boussole.png",
             pictureAnimation: "Boussole-animation.png",
@@ -848,7 +848,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /compass\.get_x\(\)/,
             id: "galaxia-compassMag",
-            title: "Boussole : ",
+            get title() { return i18next.t('code.simulator.modules.compass') },
             pin: 'Galaxia',
             type: 'input',
             listeners: [{
@@ -856,7 +856,7 @@ Simulator.Mosaic.specific = {
                 default: 15000,
                 unit: 'µT',
                 color: "#ff4d6a",
-                title: "Champ Mag. x"
+                get title() { return i18next.t('code.simulator.modules.magneticFieldAxis', { axis: 'x' }) }
             }
             ],
             picture: "Champ-magnetique.png",
@@ -867,7 +867,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /compass\.get_y\(\)/,
             id: "galaxia-compassMag",
-            title: "Boussole : ",
+            get title() { return i18next.t('code.simulator.modules.compass') },
             pin: 'Galaxia',
             type: 'input',
             listeners: [{
@@ -875,7 +875,7 @@ Simulator.Mosaic.specific = {
                 default: 3000,
                 unit: 'µT',
                 color: "#f9d142",
-                title: "Champ Mag. y"
+                get title() { return i18next.t('code.simulator.modules.magneticFieldAxis', { axis: 'y' }) }
             }
             ],
             picture: "Champ-magnetique.png",
@@ -886,7 +886,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /compass\.get_z\(\)/,
             id: "galaxia-compassMag",
-            title: "Boussole : ",
+            get title() { return i18next.t('code.simulator.modules.compass') },
             pin: 'Galaxia',
             type: 'input',
             listeners: [{
@@ -894,7 +894,7 @@ Simulator.Mosaic.specific = {
                 default: -8000,
                 unit: 'µT',
                 color: "#1a6da8",
-                title: "Champ Mag. z"
+                get title() { return i18next.t('code.simulator.modules.magneticFieldAxis', { axis: 'z' }) }
             }
             ],
             picture: "Champ-magnetique.png",
@@ -905,7 +905,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /# Traffic Light/gi,
             id: "mb-trafficLight",
-            title: "Panneau de signalisation",
+            get title() { return i18next.t('code.simulator.modules.trafficSign') },
             pin: 'P0 P1 P2',
             ledDiv: [
                 "mb-trafficLight-red",
@@ -919,7 +919,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /button_a.(is|was)_pressed/,
             id: "galaxia-button-a",
-            title: "Bouton A",
+            get title() { return i18next.t('code.simulator.modules.buttonName', { name: 'A' }) },
             pin: 'Galaxia',
             type: 'input',
             listeners: [{
@@ -943,7 +943,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /button_b.(is|was)_pressed/,
             id: "galaxia-button-b",
-            title: "Bouton B",
+            get title() { return i18next.t('code.simulator.modules.buttonName', { name: 'B' }) },
             pin: 'Galaxia',
             type: 'input',
             listeners: [{
@@ -967,7 +967,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /touch_n.(is|was)_touch/,
             id: "galaxia-pad-up",
-            title: "Touche HAUT",
+            get title() { return i18next.t('code.simulator.modules.keyUp') },
             pin: 'Galaxia',
             type: 'input',
             listeners: [{
@@ -991,7 +991,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /touch_s.(is|was)_touch/,
             id: "galaxia-pad-down",
-            title: "Touche BAS",
+            get title() { return i18next.t('code.simulator.modules.keyDown') },
             pin: 'Galaxia',
             type: 'input',
             listeners: [{
@@ -1015,7 +1015,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /touch_e.(is|was)_touch/,
             id: "galaxia-pad-right",
-            title: "Touche DROITE",
+            get title() { return i18next.t('code.simulator.modules.keyRight') },
             pin: 'Galaxia',
             type: 'input',
             listeners: [{
@@ -1039,7 +1039,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /touch_w.(is|was)_touch/,
             id: "galaxia-pad-left",
-            title: "Touche GAUCHE",
+            get title() { return i18next.t('code.simulator.modules.keyLeft') },
             pin: 'Galaxia',
             type: 'input',
             listeners: [{
@@ -1063,13 +1063,13 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.current_gesture\(\)( ){0,2}==( ){0,2}['"]shake['"]/,
             id: "galaxia-gesture-shake",
-            title: "Secouer",
+            get title() { return i18next.t('code.simulator.modules.shakeGesture') },
             pin: 'Galaxia',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
-                title: "shake",
+                get title() { return i18next.t('code.simulator.modules.shakeGesture') },
                 color: "#1a6da8",
                 suffix: ""
             }],
@@ -1089,13 +1089,13 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.current_gesture\(\)( ){0,2}==( ){0,2}['"]up['"]/,
             id: "galaxia-gesture-up",
-            title: "Logo vers le haut",
+            get title() { return i18next.t('code.simulator.modules.logoUp') },
             pin: 'Galaxia',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
-                title: "logo en haut",
+                get title() { return i18next.t('code.simulator.modules.logoUp') },
                 color: "#1a6da8",
                 suffix: ""
             }],
@@ -1113,13 +1113,13 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.current_gesture\(\)( ){0,2}==( ){0,2}['"]down['"]/,
             id: "galaxia-gesture-down",
-            title: "Logo vers le bas",
+            get title() { return i18next.t('code.simulator.modules.logoDown') },
             pin: 'Galaxia',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
-                title: "logo en bas",
+                get title() { return i18next.t('code.simulator.modules.logoDown') },
                 color: "#1a6da8",
                 suffix: ""
             }],
@@ -1139,14 +1139,14 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.current_gesture\(\)( ){0,2}==( ){0,2}['"]face up['"]/,
             id: "galaxia-gesture-faceup",
-            title: "Écran vers le haut",
+            get title() { return i18next.t('code.simulator.modules.screenUp') },
             pin: 'Galaxia',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
                 color: "#1a6da8",
-                title: "écran en haut",
+                get title() { return i18next.t('code.simulator.modules.screenUp') },
                 suffix: ""
             }],
             picture: "Transparent.png",
@@ -1165,14 +1165,14 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.current_gesture\(\)( ){0,2}==( ){0,2}['"]face down['"]/,
             id: "galaxia-gesture-facedown",
-            title: "Écran vers le bas",
+            get title() { return i18next.t('code.simulator.modules.screenDown') },
             pin: 'Galaxia',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
                 color: "#1a6da8",
-                title: "écran en bas",
+                get title() { return i18next.t('code.simulator.modules.screenDown') },
                 suffix: ""
             }],
             picture: "Transparent.png",
@@ -1191,14 +1191,14 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.current_gesture\(\)( ){0,2}==( ){0,2}['"]left['"]/,
             id: "galaxia-gesture-left",
-            title: "Tourner à gauche",
+            get title() { return i18next.t('code.simulator.modules.tiltLeft') },
             pin: 'Galaxia',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
                 color: "#1a6da8",
-                title: "pencher à gauche",
+                get title() { return i18next.t('code.simulator.modules.tiltLeft') },
                 suffix: ""
             }],
             picture: "Transparent.png",
@@ -1217,14 +1217,14 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.current_gesture\(\)( ){0,2}==( ){0,2}['"]right['"]/,
             id: "galaxia-gesture-right",
-            title: "Tourner à droite",
+            get title() { return i18next.t('code.simulator.modules.tiltRight') },
             pin: 'Galaxia',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
                 color: "#1a6da8",
-                title: "pencher à droite",
+                get title() { return i18next.t('code.simulator.modules.tiltRight') },
                 suffix: ""
             }],
             picture: "Transparent.png",
@@ -1243,14 +1243,14 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.current_gesture\(\)( ){0,2}==( ){0,2}['"]freefall['"]/,
             id: "galaxia-gesture-freefall",
-            title: "Chute libre",
+            get title() { return i18next.t('code.simulator.modules.freeFall') },
             pin: 'Galaxia',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
                 color: "#1a6da8",
-                title: "chute libre",
+                get title() { return i18next.t('code.simulator.modules.freeFall') },
                 suffix: ""
             }],
             picture: "Transparent.png",
@@ -1347,7 +1347,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /microphone.(current_sound|was_sound|sound_level)\(/gi,
             id: "mb-micro",
-            title: "Microphone",
+            get title() { return i18next.t('code.simulator.modules.microphone') },
             pin: 'micro:bit v2',
             type: 'input',
             listeners: [{

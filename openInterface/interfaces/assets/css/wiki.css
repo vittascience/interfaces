@@ -153,11 +153,28 @@ body {
     height: 1.25rem;
 }
 
+/* square box, as in the toolbox of the interfaces (toolbox.css): the wide icons (micro:bit) are scaled down to fit */
 #radioContainer .category i>svg {
     height: 100%;
-    width: auto;
+    width: 1.25rem;
 }
 
+
+/* Category with sub-categories: arrow on the right, as in the toolbox of the interfaces, down when they are shown */
+#radioContainer .category:has(> input.hasSubcats)::after {
+    content: "\f054";
+    font-family: "Font Awesome 7 Free";
+    font-weight: 900;
+    font-size: 0.8em;
+    float: right;
+    margin-top: 0.2em;
+    color: var(--text-2, #666);
+    transition: transform 0.2s;
+}
+
+#radioContainer .category.expanded:has(> input.hasSubcats)::after {
+    transform: rotate(90deg);
+}
 
 #radioContainer .category:hover {
     background-color: var(--bg-3) !important;

@@ -180,7 +180,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(move(Forward|Backward)|turn(Left|Right))/,
             id: "bluebot-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: "Blue-bot",
             type: 'output',
             value: 0,
@@ -190,7 +190,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(move(Forward|Backward)|turn(Left|Right))/,
             id: "bluebot-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: "Blue-bot",
             type: 'output',
             value: 0,

@@ -1274,10 +1274,10 @@ Blockly.Constants.Network.NETWORK_CONNECT_STATION_MUTATOR_MIXIN = {
             }
             var top = this.appendDummyInput('TOP');
             top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI,
-                this.buttonSize, this.buttonSize, "*", remove, false));
+                this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
             if (!this.hostname_) {
                 top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI,
-                    this.buttonSize, this.buttonSize, "*", add, false));
+                    this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
             }
         } else {
             if (this.getInput('IP_FIELD') && this.getInput('IP')) {
@@ -1286,7 +1286,7 @@ Blockly.Constants.Network.NETWORK_CONNECT_STATION_MUTATOR_MIXIN = {
             }
             var top = this.appendDummyInput('TOP');
             top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI,
-                this.buttonSize, this.buttonSize, "*", add, false));
+                this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
         }
 
     },
@@ -1437,10 +1437,10 @@ Blockly.Constants.Network.NETWORK_HTML_ADD_TEXT_MUTATOR_MIXIN = {
             }
             var top = this.appendDummyInput('TOP');
             top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI,
-                this.buttonSize, this.buttonSize, "*", remove, false));
+                this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
             if (!this.color_) {
                 top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI,
-                    this.buttonSize, this.buttonSize, "*", add, false));
+                    this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
             }
         } else {
             if (this.getInput('SIZE_FIELD') && this.getInput('SIZE')) {
@@ -1449,7 +1449,7 @@ Blockly.Constants.Network.NETWORK_HTML_ADD_TEXT_MUTATOR_MIXIN = {
             }
             var top = this.appendDummyInput('TOP');
             top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI,
-                this.buttonSize, this.buttonSize, "*", add, false));
+                this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
         }
     },
     addDefaultBlock: function (input) {
@@ -1573,10 +1573,10 @@ Blockly.Constants.Network.NETWORK_HTML_ADD_BUTTON_MUTATOR_MIXIN = {
             }
             var top = this.appendDummyInput('TOP');
             top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI,
-                this.buttonSize, this.buttonSize, "*", remove, false));
+                this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
             if (!this.shape_) {
                 top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI,
-                    this.buttonSize, this.buttonSize, "*", add, false));
+                    this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
             }
         } else {
             if (this.getInput('COLOR_FIELD') && this.getInput('COLOR')) {
@@ -1585,7 +1585,7 @@ Blockly.Constants.Network.NETWORK_HTML_ADD_BUTTON_MUTATOR_MIXIN = {
             }
             var top = this.appendDummyInput('TOP');
             top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI,
-                this.buttonSize, this.buttonSize, "*", add, false));
+                this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
         }
     },
     addDefaultBlock: function (input) {
@@ -1700,10 +1700,10 @@ Blockly.Constants.Network.NETWORK_HTML_ADD_SWITCH_MUTATOR_MIXIN = {
             }
             var top = this.appendDummyInput('TOP');
             top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI,
-                this.buttonSize, this.buttonSize, "*", remove, false));
+                this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
             if (!this.size_) {
                 top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI,
-                    this.buttonSize, this.buttonSize, "*", add, false));
+                    this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
             }
         } else {
             if (this.getInput('COLOR_FIELD') && this.getInput('COLOR')) {
@@ -1712,7 +1712,7 @@ Blockly.Constants.Network.NETWORK_HTML_ADD_SWITCH_MUTATOR_MIXIN = {
             }
             var top = this.appendDummyInput('TOP');
             top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI,
-                this.buttonSize, this.buttonSize, "*", add, false));
+                this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
         }
     },
     addDefaultBlock: function (input) {
@@ -1877,10 +1877,10 @@ Blockly.Constants.Network.NETWORK_HTML_ADD_SLIDER_MUTATOR_MIXIN = {
                 }
                 var top = this.appendDummyInput('TOP');
                 top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI,
-                    this.buttonSize, this.buttonSize, "*", remove, false));
+                    this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
                 if (!this.shape_) {
                     top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI,
-                        this.buttonSize, this.buttonSize, "*", add, false));
+                        this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
                 }
             } else {
                 if (this.getInput('ORIENT_FIELD')) {
@@ -1888,9 +1888,9 @@ Blockly.Constants.Network.NETWORK_HTML_ADD_SLIDER_MUTATOR_MIXIN = {
                 }
                 var top = this.appendDummyInput('TOP');
                 top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI,
-                    this.buttonSize, this.buttonSize, "*", remove, false));
+                    this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
                 top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI,
-                    this.buttonSize, this.buttonSize, "*", add, false));
+                    this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
             }
         } else {
             if (this.getInput('MIN_FIELD') && this.getInput('MIN')
@@ -1902,7 +1902,7 @@ Blockly.Constants.Network.NETWORK_HTML_ADD_SLIDER_MUTATOR_MIXIN = {
             }
             var top = this.appendDummyInput('TOP');
             top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI,
-                this.buttonSize, this.buttonSize, "*", add, false));
+                this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
         }
 
     },
@@ -1998,7 +1998,7 @@ Blockly.Constants.Network.NETWORK_HTML_ADD_IMAGE_MUTATOR_MIXIN = {
                     "value": "66"
                 });
                 top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI,
-                    this.buttonSize, this.buttonSize, "*", remove, false));
+                    this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
                 this.setInputsInline(true);
             } else {
                 if (this.getInput("SHAPE_FIELD") && this.getInput("WIDTH") && this.getInput("HEIGHT")) {
@@ -2009,7 +2009,7 @@ Blockly.Constants.Network.NETWORK_HTML_ADD_IMAGE_MUTATOR_MIXIN = {
                     this.removeInput("SHAPE_FIELD");
                 }
                 top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI,
-                    this.buttonSize, this.buttonSize, "*", add, false));
+                    this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
             }
         } catch (e) { console.error(e); }
     },
@@ -2108,7 +2108,7 @@ Blockly.Constants.Network.NETWORK_HTML_ADD_STREAM_MUTATOR_MIXIN = {
                     "value": "480"
                 });
                 top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI,
-                    this.buttonSize, this.buttonSize, "*", remove, false));
+                    this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
                 this.setInputsInline(true);
             } else {
                 if (this.getInput("SHAPE_FIELD") && this.getInput("WIDTH") && this.getInput("HEIGHT")) {
@@ -2119,7 +2119,7 @@ Blockly.Constants.Network.NETWORK_HTML_ADD_STREAM_MUTATOR_MIXIN = {
                     this.removeInput("SHAPE_FIELD");
                 }
                 top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI,
-                    this.buttonSize, this.buttonSize, "*", add, false));
+                    this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
             }
         } catch (e) { console.error(e); }
     },
@@ -2249,9 +2249,9 @@ Blockly.Constants.Network.NETWORK_THINGSPEAK_SEND_DATA_MUTATOR_MIXIN = {
         const top = this.appendDummyInput('TOP');
         top.appendField(Blockly.Msg['NETWORK_THINGSPEAK_SEND_DATA_TITLE']);
         top.appendField(new Blockly.FieldTextInput("..."), "API_KEY");
-        top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", add, false));
+        top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
         if (this.itemCount_ > 1) {
-            top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", remove, false));
+            top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
         }
         for (var i = 0; i < this.itemCount_; i++) {
             this.appendValueInput('ADD' + i);
@@ -2408,7 +2408,7 @@ Blockly.Constants.Network.NETWORK_MQTT_IF_TOPIC_IS_MUTATOR_MIXIN = {
             this.appendDummyInput('TOPIC_BUTTONS' + i)
                 .appendField(Blockly.Msg.CONTROLS_IF_MSG_THEN)
                 .appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
-                    this.buttonSize, "*", removeElseIf, false))
+                    this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, removeElseIf, false))
                 .setAlign(Blockly.inputs.Align.RIGHT);
             this.appendStatementInput('DO' + i);
             Blockly.Constants.Utils.CONNECT_DEFAULT_BLOCK(this, {
@@ -2428,7 +2428,7 @@ Blockly.Constants.Network.NETWORK_MQTT_IF_TOPIC_IS_MUTATOR_MIXIN = {
         }();
         this.appendDummyInput('ADDBUTTON')
             .appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize,
-                this.buttonSize, "*", addElseIf, false));
+                this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, addElseIf, false));
     },
     /**
      * Reconstructs the block with all child blocks attached.

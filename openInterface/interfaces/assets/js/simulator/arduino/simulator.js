@@ -11,7 +11,7 @@ var Simulator = {
 	currentDelay: 0,
 	outputMemory: '',
 	serialData: '',
-	initLength: { 'arduino': 3, 'letsstartcoding': 3, 'mBot': 1 },
+	initLength: { 'arduino': 3, 'arduinoq': 3, 'letsstartcoding': 3, 'mBot': 1 },
 	rt: null,
 	variables: {},
 	constants: ['RAND_MAX', 'NULL', 'HIGH', 'LOW', 'A0', 'A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'DEC', 'OCT', 'HEX', 'PI', 'HALF_PI', 'TWO_PI', 'DEG_TO_RAD', 'RAD_TO_DEG', 'M_PI', 'M_E', 'M_LOG2E', 'M_LOG10E', 'M_LN2', 'M_LN10', 'M_1_PI', 'M_2_PI', 'M_2_SQRTPI', 'M_SQRT2', 'M_SQRT1_2', 'INFINITY', 'PORT_1', 'PORT_2', 'PORT_3', 'PORT_4', 'M1', 'M2', 'LED_BUFFER_SIZE', 'BRIGHTNESS_0', 'BRIGHTNESS_1', 'BRIGHTNESS_2', 'BRIGHTNESS_3', 'BRIGHTNESS_4', 'BRIGHTNESS_5', 'BRIGHTNESS_6', 'BRIGHTNESS_7'],
@@ -392,7 +392,7 @@ Simulator.music = {
 	pitch: async function (frequency, duration) {
 		Simulator.music.sinusoide.frequency.value = frequency;
 		Simulator.music.volume.connect(Simulator.audioContext.destination);
-		if (typeof duration != undefined) {
+		if (duration !== undefined) {
 			await Simulator.sleep_ms(duration);
 			Simulator.music.stop();
 		}

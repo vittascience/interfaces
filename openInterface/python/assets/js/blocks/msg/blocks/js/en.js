@@ -138,13 +138,8 @@ Blockly.Msg["GRAPH_CREATE_BAR_TITLE"] = "create bar chart with %1 xaxis %2 yaxis
 Blockly.Msg["GRAPH_PLOT"] = "show graphic";
 
 // Vittaia blocks. AST Python <-> Blocks
-Blockly.Msg["VITTAIA_INIT_MODEL"] = "Init the model";
 Blockly.Msg["VITTAIA_WEBCAM_REFRESH"] = "Init the webcam";
-Blockly.Msg["VITTAIA_SELECT_CAMERA"] = "Select the camera";
 Blockly.Msg["VITTAIA_CAPTURE"] = "Capture the webcam";
-Blockly.Msg["VITTAIA_PREDICT"] = "Predict the model %1";
-Blockly.Msg["VITTAIA_INIT_SOUND"] = "Init the sound model";
-Blockly.Msg["VITTAIA_INIT_MICRO"] = "Init the micro model";
 
 // AI IMAGE
 Blockly.Msg['VITTAIA_LOAD_MODEL_TITLE'] = '%1 load the AI image model %2';

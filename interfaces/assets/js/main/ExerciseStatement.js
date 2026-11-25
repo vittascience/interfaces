@@ -105,11 +105,11 @@ class ExerciseStatement {
 	 * Apply some styles to the global DOM statement element to display or hide it depending on the current statementContent value
 	 */
 	_toggleStyle() {
-		if (this._statementContent && this._statementContent != '') {
-			this._statementWrapperElt.classList.add('statement-exists');
-		} else {
-			this._statementWrapperElt.classList.remove('statement-exists');
-		}
+		const exists = !!(this._statementContent && this._statementContent != '');
+		this._statementWrapperElt.classList.toggle('statement-exists', exists);
+		// Without a statement the wrapper has a null height but its "Statement:" label and its button were still read
+		// and reached with Tab
+		this._statementWrapperElt.inert = !exists;
 	}
 
 	/**

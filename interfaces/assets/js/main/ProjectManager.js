@@ -94,7 +94,7 @@ class ProjectManager {
         this._setExerciseStatement();
         this._hideAutocorrectorButton();
         this._checkAdacraftError();
-        this._initializeCurrentProject();
+        this._initProjectPromise = this._initializeCurrentProject();
         this._projectsFinder_getAll();
         this._initializeInteroperability();
         this._setupLocalCompilation();

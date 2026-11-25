@@ -106,6 +106,7 @@
     <script src="/public/js/utils/vitta_form_validator/VittaFormValidator.js" type="module"></script>
     <script src="/public/js/scripts/localStorageManager/LocalStorageManager.js"></script>
     <script src="/public/js/utils/globalEvents.js"></script>
+    <script src="/public/js/utils/appReturn.js"></script>
     <script src="/public/js/utils/debug/focus-debug.js" type="module"></script>
     
     <script>
@@ -331,7 +332,7 @@
         </div>
 
         <div class="ide-dropdown ide-dropdown-modes">
-            <a class="ide-btn ide-btn-toggle ide-btn-alone ide-btn-mode"><i class="far fa-object-ungroup"></i></a>
+            <button type="button" class="ide-btn ide-btn-toggle ide-btn-alone ide-btn-mode" aria-expanded="false" aria-label="Choisir le mode : blocs, hybride ou code" data-i18n="[aria-label]code.topbar.tooltips.modeMenu"><i class="far fa-object-ungroup" aria-hidden="true"></i></button>
             <div class="ide-btn-group ide-btn-group-mode hidden">
                 <!-- blocks mode
                     mixed mode
@@ -436,8 +437,8 @@
                                                 <i class="fas fa-arrows-alt-v"></i>
                                             </label>
                                             <div class="input-group gap-0">
-                                                <input class="tracer-controls form-control mx-0" id="minY" type="text" placeholder="min" title="Auto par défaut">
-                                                <input class="tracer-controls form-control mx-0" type="text" id="maxY" placeholder="max" title="Auto par défaut">
+                                                <input class="tracer-controls form-control mx-0" id="minY" type="text" placeholder="min" title="Auto par défaut" data-i18n="[title]code.a11yBlocks.graphMinY;[aria-label]code.a11yBlocks.graphMinY">
+                                                <input class="tracer-controls form-control mx-0" type="text" id="maxY" placeholder="max" title="Auto par défaut" data-i18n="[title]code.a11yBlocks.graphMaxY;[aria-label]code.a11yBlocks.graphMaxY">
                                             </div>
                                         </div>
 
@@ -470,25 +471,25 @@
                     <div class="control-run-btn btn-group oi-btn-group-simulator oi-simulation-activated">
                         <button id="simulator_play" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.play" 
                                 data-toggle="tooltip" data-placement="top" title="Play" onclick="Simulator.play()">
-                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-play.svg" alt="Play icon">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-play.svg" alt="">
                         </button>
                         <button id="simulator_pause" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.pause" 
                                 data-toggle="tooltip" data-placement="top" title="Stop" onclick="Simulator.pause()">
-                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-pause.svg" alt="Pause icon">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-pause.svg" alt="">
                         </button>
                         <button id="simulator_replay" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.reload" 
                                 data-toggle="tooltip" data-placement="top" title="Replay" onclick="Simulator.replay()">
-                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-replay.svg" alt="Replay icon">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-replay.svg" alt="">
                         </button>
                     </div>
                     <div class="control-mode-btn btn-group oi-btn-group-simulator oi-option-activated">
                         <button id="simulator_slow_play" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.debug" 
                                 data-toggle="tooltip" data-placement="top" title="Simulation pas à pas" onclick="Simulator.Debugger.toggleDebugMode()">
-                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-bug.svg" alt="Bug icon">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-bug.svg" alt="">
                         </button>
                         <button id="simulator_show_vars" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.variables" 
                                 data-toggle="tooltip" data-placement="top" title="Afficher les variables" onclick="Simulator.Debugger.toggleVariablesPanel()">
-                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-variable.svg" alt="Variable icon">
+                            <img src="/openInterface/interfaces/assets/media/simulator/menu/button_icons/icon-variable.svg" alt="">
                         </button>
                         <button id="simulator_fullscreen" class="btn oi-btn-simulator" data-i18n="[title]code.simulator.buttons.base.fullscreen;[aria-label]code.simulator.buttons.base.fullscreen" aria-label="Fullscreen"
                                 data-toggle="tooltip" data-placement="top" title="Plein écran" onclick="Simulator.toggleFullscreen()">
@@ -558,13 +559,16 @@
 <script src="/openInterface/interfaces/assets/js/external/jquery-ui-1.12.1.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/rotate.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/interact-1.5.4.min.js"></script>
+<!-- Blockly and its plugins, common to the interfaces (included by their prodBody.html, expanded by
+     gulp/interfacesGulp/indexBuild.js and public/wiki.php). vittascience_patches.js right after the colour field. -->
 <script src="/openInterface/interfaces/assets/js/external/blockly/blockly_compressed.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_colour_compressed.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/vittascience_patches.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_grid_dropdown_compressed.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_slider_compressed.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/extensions/scroll_options_compressed.js"></script>
-<script type="module" src="/openInterface/interfaces/assets/js/external/blockly/extensions/backpack/index.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/backpack/backpack_compressed.js"></script>
+
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ace.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-python.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-languages_tools.js"></script>
@@ -715,7 +719,15 @@
     // Offline interface (/interfaces-sw.js): scope of this interface only (/microbit/...). Not in an iframe
     // (Capytale, LTI, ...): the page that embeds the interface depends on the network anyway. Not in the static build
     // (gulp/interfacesGulp/indexBuild.js: Capytale, iOS app) either, which has no /interfaces-sw.js
-    if ('serviceWorker' in navigator && window.isSecureContext && window.self === window.top && typeof IS_CAPYTALE_CONTEXT === 'undefined') {
+    // PWA disabled for now (/interfaces-sw.js is not deployed: 404 on dev). Set to true to re-enable
+    const OFFLINE_INTERFACES_ENABLED = false;
+    if (!OFFLINE_INTERFACES_ENABLED && 'serviceWorker' in navigator) {
+        // service workers registered before the deactivation: removed so that they no longer serve a stale cache
+        navigator.serviceWorker.getRegistrations().then((registrations) => registrations
+            .filter((registration) => registration.active?.scriptURL.includes('/interfaces-sw.js'))
+            .forEach((registration) => registration.unregister())).catch(() => { });
+    }
+    if (OFFLINE_INTERFACES_ENABLED && 'serviceWorker' in navigator && window.isSecureContext && window.self === window.top && typeof IS_CAPYTALE_CONTEXT === 'undefined') {
         const scope = location.pathname.match(/^\/[^/]+\//);
         const cdn = CDN_PATH ? `?cdn=${encodeURIComponent(new URL(CDN_PATH, location.origin).origin)}` : '';
         if (scope) navigator.serviceWorker.register(`/interfaces-sw.js${cdn}`, { scope: scope[0] }).catch(e => console.warn('interfaces-sw', e));

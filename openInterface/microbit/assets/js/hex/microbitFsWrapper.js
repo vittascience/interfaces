@@ -37,6 +37,7 @@ class microbitFsWrapper {
         this.HEX_V1 = `${_PATH}/microbit/assets/js/hex/micropython-microbit-v1.0.hex`;
         this.HEX_V2 = `${_PATH}/microbit/assets/js/hex/${hex_v2}`;
         this.commonFsSize = 20 * 1024;
+        this._fsQueue = Promise.resolve();
         this.passthroughMethods = [
             'create',
             'exists',
@@ -84,18 +85,19 @@ class microbitFsWrapper {
         var uPyV2 = null;
         const deferred1 = $.get(hexFileAddr1, function (fileStr) {
             uPyV1 = fileStr;
-        }).fail(function () {
+        }, 'text').fail(function () {
             console.error('Could not load the MicroPython v1 file.');
         });
         const deferred2 = $.get(hexFileAddr2, function (fileStr) {
             uPyV2 = fileStr;
-        }).fail(function () {
+        }, 'text').fail(function () {
             console.error('Could not load the MicroPython v2 file.');
         });
         var _this = this;
-        return $.when(deferred1, deferred2).done(function () {
+        return $.when(deferred1, deferred2).then(function () {
             if (!uPyV1 || !uPyV2) {
                 console.error('There was an issue loading the MicroPython Hex files.');
+                return $.Deferred().reject(new Error('Could not load MicroPython Hex files.'));
             }
             // TODO: We need to use ID 9901 for app compatibility, but can soon be changed to 9900 (as per spec)
             _this.fs = new microbitFs.MicropythonFsHex([
@@ -110,45 +112,96 @@ class microbitFsWrapper {
 
     /**
      * Setup the file system by adding main program and its dependencies.
-     * @param {string} code
+     * Keeps main.py unminified to preserve error line numbers: tries libraries at
+     * level 4, then level 6, and only minifies main.py (level 3 then 6) if needed.
+     * @param {string|null} code
+     * @private
      */
-    async setFilesystemProgram() {
+    async _populateFilesystem(code = null) {
         await Promise.all([this.initialize(), VittaInterface.loadExternalLibraries()]);
-        const userCode = CodeManager.getSharedInstance().getCode();
-        await this.fs.write(this.filename, userCode);
-        await this.addExternalLibraries();
+        const rawCode = code ?? CodeManager.getSharedInstance().getCode();
+        const safeUserCode = rawCode && rawCode.length > 0 ? rawCode : '\n';
+        for (const libLevel of [4, 6]) {
+            await this._writeProgramAndLibs(safeUserCode, safeUserCode, libLevel);
+            if (this.fs.getStorageRemaining() >= 0) {
+                return;
+            }
+        }
+        if (this.fs.size(this.filename) > 128) {
+            for (const mainLevel of [3, 6]) {
+                const minifiedUser = PythonMinifier.minify(safeUserCode, { level: mainLevel });
+                this.fs.remove(this.filename);
+                await this.fs.write(this.filename, minifiedUser.length > 0 ? minifiedUser : '\n');
+                if (this.fs.getStorageRemaining() >= 0) {
+                    return;
+                }
+            }
+        }
+        this.fs.ls().forEach((filename) => this.fs.remove(filename));
+        throw new Error('There is no storage space left.');
+    };
+
+    /**
+     * Setup the file system by adding main program and its dependencies.
+     * @param {string|null} code
+     */
+    setFilesystemProgram(code = null) {
+        const run = () => this._populateFilesystem(code);
+        this._fsQueue = this._fsQueue.then(run, run);
+        return this._fsQueue;
+    };
+
+    /**
+     * Populate FS and build universal hex atomically inside `_fsQueue`.
+     * @param {string|null} code
+     * @returns {Promise<string>}
+     */
+    buildUniversalHex(code = null) {
+        const run = async () => {
+            await this._populateFilesystem(code);
+            return this.fs.getUniversalHex();
+        };
+        this._fsQueue = this._fsQueue.then(run, run);
+        return this._fsQueue;
+    };
+
+    /**
+     * Reset in-memory FS and write main program alongside resolved libraries.
+     * @private
+     * @param {string} mainCode
+     * @param {string} dependencySource
+     * @param {number} level
+     */
+    async _writeProgramAndLibs(mainCode, dependencySource, level) {
+        this.fs.ls().forEach((filename) => this.fs.remove(filename));
+        await this.fs.write(this.filename, mainCode);
+        await this.addExternalLibraries(dependencySource, level);
     };
 
     /**
      * Add only needed libraries in micro:bit file system by reading user python code.
+     * @param {string|null} code
+     * @param {number} [level=4]
      */
-    async addExternalLibraries() {
-        const uPyCode = CodeManager.getSharedInstance().getCode();
-        const requestedLibs = this.getRequestedLibraries(uPyCode);
+    async addExternalLibraries(code = null, level = 4) {
+        const uPyCode = code ?? CodeManager.getSharedInstance().getCode();
+        const requestedLibs = this.getRequestedLibraries(uPyCode, level);
         for (var i = 0; i < requestedLibs.length; i++) {
-            await this.fs.write(requestedLibs[i].filename, requestedLibs[i].code);
+            const libCode = requestedLibs[i].code;
+            await this.fs.write(requestedLibs[i].filename, libCode && libCode.length > 0 ? libCode : '\n');
         }
     };
 
     /**
      * Get requested libraries and dependencies recursively.
      * @param {String} code
+     * @param {number} [level=4]
      */
-    getRequestedLibraries(code) {
-        let requestedLibs = new Array();
-        for (var lib in VittaInterface.externalLibraries) {
-            const regExp1 = new RegExp('from ' + lib + ' import');
-            const regExp2 = new RegExp('import ' + lib);
-            if (regExp1.test(code) || regExp2.test(code)) {
-                requestedLibs.push({
-                    filename: lib + ".py",
-                    code: VittaInterface.externalLibraries[lib]
-                });
-                const requestedDependencies = this.getRequestedLibraries(VittaInterface.externalLibraries[lib]);
-                requestedLibs = requestedLibs.concat(requestedDependencies);
-            }
-        }
-        return requestedLibs;
+    getRequestedLibraries(code, level = 4) {
+        // shared resolver: its minification cache survives changeFirmware() (new wrapper instance)
+        // and the method stays callable from the prototype (e2e tests)
+        microbitFsWrapper.libResolver ??= new MicropythonLibResolver();
+        return microbitFsWrapper.libResolver.resolve(code, VittaInterface.externalLibraries, { level });
     };
 
     /**
@@ -224,7 +277,7 @@ class microbitFsWrapper {
         if (!code) {
             throw new Error('No appended code found in the hex file');
         };
-        this.fs.ls().forEach(function (filename) {
+        this.fs.ls().forEach((filename) => {
             this.fs.remove(filename);
         });
         this.fs.write(this.filename, code);

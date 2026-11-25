@@ -36,7 +36,7 @@ class CodeManager {
      */
 
     constructor(codeMode, workspace, generator, xml) {
-        this.REGEXP_INTERFACES = /.*(arduinoq|arduino|microbit|python|adacraft|wb55|l476|esp32|TI-83|galaxia|raspberrypi|niryo|nao|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|eliobot|thymio|letsstartcoding|pico|winky|web|sphero|lotibot|bluebot|spike|legoprime|photon|codey|steami|alphai|primastem|skykick|unihiker|picaxe).*/g;
+        this.REGEXP_INTERFACES = /.*(arduinoq|arduino|microbit|python|adacraft|wb55|l476|esp32|TI-83|galaxia|raspberrypi|niryo|nao|GalaxiaCircuitPython|mBot|m5stack|buddy|cyberpi|eliobot|thymio|letsstartcoding|pico|winky|web|sphero|lotibot|bluebot|spike|legoprime|photon|codey|steami|alphai|primastem|matatalab|skykick|unihiker|picaxe).*/g;
         if (typeof ltiVariables13 != 'undefined') {
             this._interface = ltiVariables13.interface;
         } else if (typeof ltiVariables != 'undefined') {
@@ -81,6 +81,7 @@ class CodeManager {
             case 'alphai':
             case 'arduinoq':
             case 'primastem':
+            case 'matatalab':
             case 'skykick':
             case 'legoprime':
             case 'unihiker':
@@ -241,6 +242,19 @@ class CodeManager {
         return Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(this._workspace));
     };
     /**
+     * Clear the workspace without events: the trashcan keeps every deleted block (event), the blocks of the previous
+     * project (or the default ones) were in it when a project was loaded.
+     * @private
+     */
+    _clearWorkspace() {
+        Blockly.Events.disable();
+        try {
+            this._workspace.clear();
+        } finally {
+            Blockly.Events.enable();
+        }
+    };
+    /**
      * Clears workspace and load blocks, if no xml passed load defined _xml blocks.
      * @public
      * @param {string} [xml=this._xml] Text representation of blocks.
@@ -249,7 +263,7 @@ class CodeManager {
     loadBlocks(xml = this._xml) {
         let status = CodeManager.STATUS.DOM.xmlSuccess;
         if (this._workspace !== null) {
-            this._workspace.clear();
+            this._clearWorkspace();
             if (typeof BlockExtensions !== 'undefined') BlockExtensions.syncFromProject();
             if (xml !== null) {
                 if (typeof REPLACE_CODE_REQUESTS !== 'undefined') {
@@ -274,13 +288,15 @@ class CodeManager {
                 } catch (e) {
                     console.error(e)
                     // The blocks loaded before the error (e.g. an unknown block type) would be duplicated by the default ones.
-                    this._workspace.clear();
+                    this._clearWorkspace();
                     this._xmlToWorkspace(this.getDefaultXmlStart());
                     status = CodeManager.STATUS.DOM.xmlError;
                 };
             } else {
                 this._xmlToWorkspace(this.getDefaultXmlStart());
             }
+            // Blocks moved from the toolbox categories to an extension: the extension is added.
+            if (typeof BlockExtensions !== 'undefined') BlockExtensions.addUsedExtensions();
             if (this._interface !== 'adacraft') {
                 this.setGeneratedCode();
             }

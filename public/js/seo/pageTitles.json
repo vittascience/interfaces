@@ -435,6 +435,16 @@
             "desc": "Programming interface for primaSTEM robot"
         }
     },
+    "matatalab": {
+        "fr": {
+            "title": "Vittascience — Matatalab",
+            "desc": "Interface de programmation pour le robot MatataBot de Matatalab"
+        },
+        "en": {
+            "title": "Vittascience — Matatalab",
+            "desc": "Programming interface for the Matatalab MatataBot robot"
+        }
+    },
     "skykick": {
         "fr": {
             "title": "Vittascience — SkyKick Evo",

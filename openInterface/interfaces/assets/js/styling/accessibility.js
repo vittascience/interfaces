@@ -41,7 +41,7 @@ function setBlocklyControlsA11y() {
          * A separate SVG <rect> with stroke handles the custom visual focus indicator.
          * The <g> itself is removed from tab order.
          */
-        function addFocusTarget(group, w, h, label) {
+        function addFocusTarget(group, w, h, label, description = '') {
             group.setAttribute('tabindex', '-1');
 
             // SVG stroke rect — purely visual, no tabindex
@@ -61,6 +61,7 @@ function setBlocklyControlsA11y() {
             fo.setAttribute('height', h);
             const btn = document.createElement('button');
             btn.setAttribute('aria-label', label);
+            if (description) btn.setAttribute('aria-description', description);
             btn.style.cssText = 'width:100%;height:100%;background:transparent;border:none;padding:0;cursor:pointer;';
             fo.appendChild(btn);
             group.appendChild(fo);
@@ -83,10 +84,10 @@ function setBlocklyControlsA11y() {
         // ── 1. Zoom controls ───────────────────────────────────────────────
 
         const ZOOM_CFG = {
-            Zoomreset:  { label: 'Réinitialiser le zoom', w: 32, h: 32 },
-            Zoomin:     { label: 'Zoom avant',            w: 32, h: 32 },
-            Zoomout:    { label: 'Zoom arrière',           w: 32, h: 32 },
-            Screenshot: { label: "Capture d'écran",       w: 38, h: 32 },
+            Zoomreset:  { label: jsonPath('code.a11yBlocks.recenter'), w: 32, h: 32 },
+            Zoomin:     { label: Blockly.Msg.ZOOM_IN, w: 32, h: 32 },
+            Zoomout:    { label: Blockly.Msg.ZOOM_OUT, w: 32, h: 32 },
+            Screenshot: { label: jsonPath('code.a11yBlocks.screenshot'), w: 38, h: 32 },
         };
 
         const zoomMap = {};
@@ -96,7 +97,11 @@ function setBlocklyControlsA11y() {
             if (!key) return;
             zoomMap[key] = group;
             const cfg = ZOOM_CFG[key];
-            addFocusTarget(group, cfg.w, cfg.h, cfg.label);
+            const btn = addFocusTarget(group, cfg.w, cfg.h, cfg.label);
+            // same name for the group Blockly makes focusable ("Réinitialiser le zoom" for the centring)
+            if (group.hasAttribute('aria-label')) group.setAttribute('aria-label', cfg.label);
+            // Tooltip on the button: the box of the group includes the whole sprite picture (only clipped)
+            if (typeof $ !== 'undefined' && $.fn.tooltip) $(btn).tooltip({ title: cfg.label, placement: 'left', trigger: 'hover' });
         });
 
         // Reorder zoom siblings: reset → in → out → screenshot
@@ -115,15 +120,20 @@ function setBlocklyControlsA11y() {
         const backpackImg = document.querySelector('.blocklyBackpack');
         const backpack = backpackImg?.parentElement ?? null;
         if (backpack) {
-            const label = backpackImg?.getAttribute('aria-label') || 'Sac à dos';
-            addFocusTarget(backpack, 50, 50, label);
+            addFocusTarget(backpack, 50, 50, jsonPath('code.tooltip.backpack'), jsonPath('code.tooltip.blocklyBackpack'));
+            // Blockly already reaches the backpack with Tab (its image, named in blockly-accessibility.js): the
+            // button would be a second "Sac à dos" stop
+            backpack.querySelector('foreignObject button')?.setAttribute('tabindex', '-1');
+            // nor catch the pointer: the tooltip and the hover style are on the image under it
+            backpack.querySelector('foreignObject')?.setAttribute('pointer-events', 'none');
         }
 
         // ── 3. Trash ───────────────────────────────────────────────────────
 
         const trash = document.querySelector('.blocklyTrash');
         if (trash) {
-            addFocusTarget(trash, 47, 60, 'Corbeille');
+            const trashBtn = addFocusTarget(trash, 47, 60, jsonPath('code.a11yBlocks.trash'));
+            if (typeof $ !== 'undefined' && $.fn.tooltip) $(trashBtn).tooltip({ title: jsonPath('code.a11yBlocks.trash'), placement: 'left', trigger: 'hover' });
         }
 
         // ── 4. Tab order in SVG: backpack → zoom container → trash ─────────
@@ -135,25 +145,6 @@ function setBlocklyControlsA11y() {
         }
 
     }, 500);
-}
-
-/**
- *
- * @param {string} theme : dark or light
- */
-function setBlocklyWorkspaceIcons(theme) {
-    const themeIcons = {
-        light: `${CDN_PATH}/openInterface/interfaces/assets/js/external/blockly/media/spritesLight.png`,
-        dark: `${CDN_PATH}/openInterface/interfaces/assets/js/external/blockly/media/spritesDark.png`
-    };
-    const icons = document.querySelectorAll('.blocklyZoom image, .blocklyTrash image');
-    if (themeIcons[theme]) {
-        icons.forEach(icon => {
-            icon.setAttribute('xlink:href', themeIcons[theme]);
-        });
-    } else {
-        console.error("Theme not recognized:", theme);
-    }
 }
 
 function updateWebsiteAcessibility(formElement) {
@@ -222,7 +213,6 @@ function setTheme(givenThemeName) {
         $(".navbar-logo").attr("src", `${CDN_PATH}/public/content/img/vittascience-logo.png`);
     }
 
-    setBlocklyWorkspaceIcons(givenThemeName);
 
     document.body.style.visibility = 'visible';
     document.body.style.opacity = 1;

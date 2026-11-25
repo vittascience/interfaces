@@ -1275,3 +1275,4 @@ ACMsg.GROVE_WATER_LEVEL_GETLOW8SECTIONVALUE = "Function <b>water_level.getLow8Se
 ACMsg.GROVE_WATER_LEVEL_MODULE = "Grove module <b>water_level</b>.";
 ACMsg.GROVE_WATER_LEVEL_REG_CONFIG = "Constant <b>reg_config</b>.";
 ACMsg.GROVE_WATER_LEVEL_THRESHOLD = "Constant <b>THRESHOLD</b>.";
+ACMsg.MICROBIT_SOUNDEVENT_QUIET = "Value representing the transition of sound events from a loud level to a quiet level, such as a voice or background music.";

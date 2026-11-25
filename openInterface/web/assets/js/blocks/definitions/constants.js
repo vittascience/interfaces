@@ -180,7 +180,7 @@ Blockly.Constants.Utils.addOptionMutatorMixin = function (attribute, message, ty
                         }
                     }
                     top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI,
-                        this.buttonSize, this.buttonSize, "*", remove, false));
+                        this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
                     if (attribute != 'devaddr')
                         this.setInputsInline(true);
                 } else {
@@ -193,7 +193,7 @@ Blockly.Constants.Utils.addOptionMutatorMixin = function (attribute, message, ty
                         }
                     }
                     top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI,
-                        this.buttonSize, this.buttonSize, "*", add, false));
+                        this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
                 }
             } catch (e) { console.error(e); }
         },

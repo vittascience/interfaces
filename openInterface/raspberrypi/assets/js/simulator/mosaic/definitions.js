@@ -396,7 +396,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /sense.stick_wait_for_event/g,
 			id: 'sense-hat-joystick',
-			title: 'SenseHat - Joystick',
+			get title() { return 'SenseHat - ' + i18next.t('code.simulator.modules.joystick') },
 			pin: 'SenseHat',
 			type: 'input',
 			picture: 'sensehat_joystick_module.svg',
@@ -404,7 +404,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /senseHat_getPressure\(/g,
 			id: 'sense-hat-pressure',
-			title: 'SenseHat - Pression',
+			get title() { return 'SenseHat - ' + i18next.t('code.simulator.modules.pressure') },
 			pin: 'SenseHat',
 			type: 'input',
 			listeners: [
@@ -431,8 +431,8 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /senseHat_getPressure\(/g,
 			id: 'sense-hat-alt',
-			title: 'SenseHat - Altitude',
-			pin: 'Altitude (pression)',
+			get title() { return 'SenseHat - ' + i18next.t('code.simulator.modules.altitude') },
+			get pin() { return i18next.t('code.simulator.modules.pinAltitude') },
 			type: 'input',
 			listeners: [
 				{
@@ -459,7 +459,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /sense.get_humidity\(/g,
 			id: 'sense-hat-hum',
-			title: 'Humidité',
+			get title() { return i18next.t('code.simulator.modules.humidity') },
 			pin: 'SenseHat',
 			type: 'input',
 			listeners: [
@@ -480,7 +480,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /senseHat_getTemperature\(/g,
 			id: 'sense-hat-temp',
-			title: 'Temperature',
+			get title() { return i18next.t('code.simulator.modules.temperature') },
 			pin: 'SenseHat',
 			type: 'input',
 			listeners: [
@@ -501,7 +501,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /temperature_from_humidity\(/g,
 			id: 'sense-hat-temp-hum',
-			title: "Temperature (capteur d'humidité)",
+			get title() { return i18next.t('code.simulator.modules.temperatureHumiditySensor') },
 			pin: 'SenseHat',
 			type: 'input',
 			listeners: [
@@ -522,7 +522,7 @@ Simulator.Mosaic.specific = {
 
 		{
 			id: "g1tank-led-red",
-			title: "LED (rouge)",
+			get title() { return i18next.t('code.simulator.modules.ledRed') },
 			pin: 'pin n°',
 			pins: 'PWM',
 			type: 'output',
@@ -544,7 +544,7 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "g1tank-led-green",
-			title: "LED (verte)",
+			get title() { return i18next.t('code.simulator.modules.ledGreen') },
 			pin: 'pin n°',
 			pins: 'PWM',
 			type: 'output',
@@ -566,7 +566,7 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "g1tank-led-blue",
-			title: "LED (bleue)",
+			get title() { return i18next.t('code.simulator.modules.ledBlue') },
 			pin: 'pin n°',
 			pins: 'PWM',
 			type: 'output',
@@ -589,7 +589,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /g1tank_control_motor/gi,
 			id: "g1tank-motorLeft",
-			title: "Moteur Gauche",
+			get title() { return i18next.t('code.simulator.modules.motorLeft') },
 			pin: "G1 Tank",
 			usedPins: ['19', '26', '13'],
 			type: 'output',
@@ -600,7 +600,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /g1tank_control_motor/,
 			id: "g1tank-motorRight",
-			title: "Moteur Droit",
+			get title() { return i18next.t('code.simulator.modules.motorRight') },
 			pin: "G1 Tank",
 			usedPins: ['20', '21', '16'],
 			type: 'output',
@@ -610,7 +610,7 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "g1tank-lineFinder1",
-			title: "Capteur de ligne noire 1",
+			get title() { return i18next.t('code.simulator.modules.lineSensor', { n: 1 }) },
 			pin: 'pin n°',
 			pins: 'digital',
 			type: 'input',
@@ -631,7 +631,7 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "g1tank-lineFinder2",
-			title: "Capteur de ligne noire 2",
+			get title() { return i18next.t('code.simulator.modules.lineSensor', { n: 2 }) },
 			pin: 'pin n°',
 			pins: 'digital',
 			noCombine: true,
@@ -652,7 +652,7 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "g1tank-lineFinder3",
-			title: "Capteur de ligne noire 3",
+			get title() { return i18next.t('code.simulator.modules.lineSensor', { n: 3 }) },
 			pin: 'pin n°',
 			pins: 'digital',
 			noCombine: true,
@@ -673,7 +673,7 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "g1tank-lineFinder4",
-			title: "Capteur de ligne noire 4",
+			get title() { return i18next.t('code.simulator.modules.lineSensor', { n: 4 }) },
 			pin: 'pin n°',
 			pins: 'digital',
 			noCombine: true,
@@ -694,7 +694,7 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "g1tank-buttonKey",
-			title: "Bouton KEY",
+			get title() { return i18next.t('code.simulator.modules.buttonName', { name: 'KEY' }) },
 			pin: 'pin n°',
 			pins: 'digital',
 			type: 'input',

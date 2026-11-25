@@ -66,6 +66,9 @@
       },
       "tooltips": {
         "backToHome": "Вернуться на главную",
+        "siteMenu": "Меню сайта: навигация, параметры доступности и язык",
+        "siteNav": "Меню сайта",
+        "closeAccessibility": "Закрыть меню доступности",
         "programming": "Программирование с Vittascience",
         "resources": "Образовательные материалы",
         "classroom": "Управление классами с Vittascience",
@@ -771,6 +774,7 @@
       "delivery": "Доставка",
       "freeWithPremium": "Бесплатно с премиум-аккаунтом",
       "shippingAtDeliveryStep": "Рассчитывается на этапе доставки",
+      "stockDelayNotice": "Некоторые товары в данный момент отсутствуют на складе ({{products}}): ваш заказ может занять немного больше времени для доставки.",
       "shippingFree": "Бесплатно",
       "shippingFreeWithPremium": "Бесплатная доставка на материковую Францию с подпиской Vittascience Premium",
       "shippingFreeThanksToPremium": "Бесплатная доставка на материковую Францию благодаря вашей подписке Vittascience Premium",
@@ -921,6 +925,7 @@
       "supportSubject": "Отправка заказа - смета {{number}}",
       "autoValidate": "Автоматически принять смету",
       "autoValidateHint": "Смета помечена как принятая: черновик счета и заказ создаются немедленно, и клиент получает подтверждение по электронной почте.",
+      "notifyClient": "Отправить электронные письма клиенту (сводка по заказу и подтверждение сметы)",
       "closedTitle": "Смета уже принята",
       "closedText": "Смета {{number}} уже принята, и ваш заказ обрабатывается: нет оставшихся заказов для отправки. Чтобы запросить изменения, пожалуйста, свяжитесь с нами.",
       "closedSubject": "Смета {{number}}",
@@ -931,7 +936,7 @@
       "sectionSubscription": "Подписка",
       "sectionConfirm": "Подтверждение",
       "activationMethod": "Способ активации",
-      "activationEmails": "E-mail",
+      "activationEmails": "Электронные адреса",
       "activationGar": "GAR",
       "activationEmailsHint": "Указанные аккаунты Vittascience получают лицензию (один адрес на лицензию).",
       "activationGarHint": "Учителя и ученики учреждения получают доступ к Vittascience из своего ENT без создания аккаунта.",
@@ -971,7 +976,15 @@
       "cancel": "Отмена",
       "submit": "Отправить",
       "submit_success": "Спасибо за ваш отзыв!",
-      "return_to_product": "Вернуться к товару"
+      "return_to_product": "Вернуться к товару",
+      "deleted_user": "Бывший пользователь",
+      "errors": {
+        "rating": "Выберите рейтинг от 1 до 5.",
+        "comment": "Добавьте комментарий к вашему отзыву.",
+        "too_long": "Ваш комментарий не может превышать 255 символов.",
+        "already_reviewed": "Вы уже оставляли отзыв на этот продукт.",
+        "generic": "Ваш отзыв не может быть сохранен. Пожалуйста, попробуйте еще раз."
+      }
     },
     "shopPayLink": {
       "thanksTitle": "Спасибо, ваш платеж принят",
@@ -1040,6 +1053,7 @@
       "hire": "Вы увлечены образованием, вам нравится наш проект и вы считаете, что можете нам помочь? Свяжитесь с нами!<br/><a href=\"/hire\" style=\"text-decoration:none;\"><button class=\"mt-3 btn v-btn-important about-recruit-btn\">Присоединяйтесь к нашей команде :) <span class=\"fa fa-chevron-circle-right\"></span></button></a>",
       "junior": "Младший веб-разработчик и стажер по IT-поддержке в Vittascience, увлеченный разработкой и цифровыми технологиями.",
       "zouhir": "Зухир присоединился к Vittascience в сентябре 2026 года в качестве стажера по фронтенд-разработке, встроенным системам и технической поддержке.",
+      "iris": "Ирис присоединилась к Vittascience в сентябре 2026 года в команду по коммуникациям и маркетингу для повышения стратегии и видимости Vittascience.",
       "hireTitle": "Присоединиться к нам"
     },
     "hof": {
@@ -1265,6 +1279,75 @@
     }
   },
   "code": {
+    "a11yBlocks": {
+      "dropInside": "{{block}} размещен внутри “{{target}}”",
+      "dropAfter": "{{block}} размещен после “{{target}}”",
+      "dropOutside": "{{block}} размещен вне программы: он не будет работать",
+      "firstPlace": "Первое место",
+      "contextMenu": "Контекстное меню",
+      "undone": "Действие отменено",
+      "redone": "Действие восстановлено",
+      "nothingToUndo": "Нет чего отменять",
+      "nothingToRedo": "Нет чего восстанавливать",
+      "deleted": "{{block}} удален",
+      "fieldRoles": {
+        "pin": "закрепить",
+        "operator": "оператор",
+        "unit": "единица",
+        "mode": "режим",
+        "state": "состояние",
+        "note": "заметка",
+        "colour": "цвет",
+        "direction": "направление",
+        "motor": "мотор",
+        "type": "тип",
+        "data": "данные",
+        "axis": "ось",
+        "channel": "канал",
+        "sensor": "датчик",
+        "address": "адрес",
+        "version": "версия",
+        "command": "команда"
+      },
+      "operators": {
+        "eq": "равно",
+        "neq": "не равно",
+        "lt": "меньше чем",
+        "lte": "меньше или равно",
+        "gt": "больше чем",
+        "gte": "больше или равно",
+        "add": "плюс",
+        "minus": "минус",
+        "multiply": "умножить на",
+        "divide": "разделить на",
+        "power": "в степени"
+      },
+      "toolbox": "Инструменты",
+      "generatedCode": "Сгенерированный код",
+      "enterBlockHint": "Стрелка вправо, чтобы перейти к значениям блока",
+      "emptyInputHint": "Пустое место: T для выбора блока для вставки здесь",
+      "insideBlockHint": "Стрелка вниз, чтобы перейти внутрь блока",
+      "consolePrefix": "Вывод консоли: {{text}}",
+      "searchNone": "Результатов не найдено для: {{term}}",
+      "searchOne": "1 результат для: {{term}}",
+      "searchMany": "{{count}} результатов для: {{term}}",
+      "duplicateLine": "Строка дублирована.",
+      "duplicateSelection": "Выбранный текст дублирован.",
+      "trash": "Корзина",
+      "screenshot": "Скриншот",
+      "recenter": "Отцентрировать",
+      "graphMinY": "Минимальное значение оси Y (по умолчанию автоматически)",
+      "graphMaxY": "Максимальное значение оси Y (по умолчанию автоматически)",
+      "privateProjectMessage": "Напишите сообщение",
+      "codeLine": "строка {{line}}",
+      "lastPlace": "Последнее место"
+    },
+    "a11yHeadings": {
+      "blocks": "Блоки",
+      "code": "Код",
+      "console": "Консоль",
+      "simulator": "Симулятор"
+    },
     "blockExtensions": {
       "category": "Расширения",
       "title": "Расширения блоков",
@@ -1275,6 +1358,8 @@
       "noResult": "Расширение не найдено.",
       "confirmRemoveUsed": "Из проекта будут удалены {{count}} блока(ов) этого расширения. Продолжить?",
       "manage": "Управление расширениями",
+      "manageRobots": "Управление роботами",
+      "remove": "Удалить расширение {{name}}",
       "filter": "Фильтр расширений",
       "filters": {
         "all": "Все",
@@ -1332,16 +1417,13 @@
         "computerScientist": "Анонимный информатик"
       }
     },
+    "noCodeToBlocksWarning": "Ручной код не может быть преобразован в блоки: если вы вернетесь в режим блоков, он будет заменен кодом блоков при следующем изменении. Продолжить?",
     "placeholderError": "Пожалуйста, заполните все поля ___ перед запуском программы",
     "nameError": "Проверьте правильность имени функции",
     "rewriteSpecialChar": "Переименуйте переменную без специальных символов в строке ",
     "serialAPI": {
       "allowSerial": "Разрешите #enable-experimental-web-platform-features в 'chrome://flags/' для открытия последовательного порта.",
       "noSerialAPI": "Serial API не обнаружен в вашем браузере. Для использования Serial API используйте один из поддерживаемых браузеров: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> и скоро <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
-      "picaxeUploading": "Uploading the PICAXE program (about 15 seconds)...",
-      "fileDownloadedPicaxe": "PICAXE program successfully sent to the board!",
-      "picaxeCompileError": "The program cannot be compiled: %1",
-      "picaxeUnsupportedChip": "Direct upload is only available for the AutoProgX2 (PICAXE-28X2). For this board, download the .bas file and open it in PICAXE Editor.",
       "serialPortOpeningFail": "Не удалось подключиться к последовательному порту, доступ к плате невозможен. Другое ПО уже подключено к плате.\n\n Проверьте, что плата не подключена к другой программе (например: MakeCode, Python Editor, Thonny или другой интерфейс Vittascience), или отключите и снова подключите плату и попробуйте снова.",
       "boardConnected": "Подключение к последовательному порту успешно!",
       "serialPortClosed": "Последовательный порт успешно закрыт!",
@@ -1372,7 +1454,15 @@
       "skykickNotInCodingMode": "Контроллер SkyKick не находится в режиме программирования (Link): команды игнорируются. Переключите контроллер в режим Link, чтобы управлять дроном.",
       "skykickDroneNotPaired": "Дрон не отвечает: проверьте, чтобы он был включен и спарен с контроллером.",
       "skykickPortBusy": "Не удалось открыть порт контроллера: он уже используется другим приложением. Закройте приложение SkyKick Evo Block Coding (и любую другую вкладку, подключенную к контроллеру), затем попробуйте еще раз.",
-      "skykickBattery": "Батарея дрона"
+      "skykickBattery": "Батарея дрона",
+      "legoPrimeOldFirmware": "Хаб не отвечает: выключите его (удерживайте центральную кнопку), затем снова включите и подключите его через USB. Если он все еще не отвечает, обновите его с помощью приложения LEGO® Education SPIKE™ (требуется прошивка SPIKE 3).",
+      "legoPrimeBluetoothFailed": "Не удалось подключиться к хабу по Bluetooth: нажмите его кнопку Bluetooth, затем попробуйте снова.",
+      "legoPrimeNotStarted": "Программа не запустилась на хабе (она сразу остановилась, без каких-либо сообщений). Перезагрузите хаб и попробуйте снова.",
+      "legoPrimePortBusy": "Не удается открыть порт хаба: он уже используется другим приложением. Закройте приложение LEGO® Education SPIKE™ (и любые другие вкладки, подключенные к хабу), затем попробуйте снова.",
+      "picaxeUploading": "Загрузка программы PICAXE (примерно 15 секунд)...",
+      "fileDownloadedPicaxe": "Программа PICAXE успешно отправлена на плату!",
+      "picaxeCompileError": "Программа не может быть скомпилирована: %1",
+      "picaxeUnsupportedChip": "Прямой загруз доступен только для AutoProgX2 (PICAXE-28X2). Для этой платы скачайте файл .bas и откройте его в PICAXE Editor."
     },
     "WebBluetoothAPI": {
       "noWebBluetoothAPI": "Web Bluetooth API не обнаружен в вашем браузере. Для использования Web Bluetooth API используйте один из поддерживаемых браузеров: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> и скоро <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
@@ -1435,7 +1525,7 @@
       "transferAborted": "Передача прервана."
     },
     "welcome": {
-      "arduino": "Добро пожаловать в интерфейс Vittascience для Arduino! </br>Вы можете ознакомиться с руководством здесь: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=911/prise-en-main-de-la-carte-arduino-uno-et-de-l-interface-vittascience\" target=\"_blank\" rel=\"noopener noreferrer\">Начало работы с интерфейсом Vittascience для Arduino UNO</a>",
+      "arduino": "Добро пожаловать в интерфейс Vittascience для Arduino!</br>Вы можете следовать учебнику, доступному здесь: <a href=\"https://en.vittascience.com/learn/tutorial.php?id=911/prise-en-main-de-la-carte-arduino-uno-et-de-l-interface-vittascience\" target=\"_blank\" rel=\"noopener noreferrer\">Начало работы с интерфейсом Vittascience для платы Arduino UNO</a>",
       "microbit": "Добро пожаловать в интерфейс Vittascience для BBC Micro:bit! </br>Вы можете ознакомиться с руководством здесь: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=25/prise-en-main-de-la-carte-microbit\" target=\"_blank\" rel=\"noopener noreferrer\">Начало работы с интерфейсом Vittascience для BBC Micro:bit</a>",
       "python": "Добро пожаловать в интерфейс Vittascience для программирования на Python!<br>Нажмите кнопку Запустить, чтобы выполнить программу (режим скрипта), или введите команду после >>> ниже (режим консоли REPL).",
       "esp32": "Добро пожаловать в интерфейс Vittascience для ESP32! </br>Для программирования платы ESP32 в этом интерфейсе сначала запишите прошивку MicroPython, следуя этому руководству: <b><a href=\"https://fr.vittascience.com/learn/tutorial.php?id=341/flasher-le-firmware-micropython-dans-la-carte-esp32\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Запись прошивки MicroPython</a></b>",
@@ -1446,7 +1536,7 @@
       "TI-83-Maclasseti": "Добро пожаловать в интерфейс MaClasseTI.fr для калькулятора TI-83 Premium CE Edition Python! Платы TI-Innovator™ Hub и BBC micro:bit можно программировать в этом интерфейсе. Откройте симулятор, чтобы начать!",
       "GalaxiaCircuitPython": "Добро пожаловать в интерфейс Vittascience для Galaxia Circuit Python!",
       "galaxia": "Добро пожаловать в интерфейс Vittascience для Galaxia! </br>Для программирования платы Galaxia в этом интерфейсе сначала запишите прошивку MicroPython, следуя этому руководству: <b><a href=\"https://fr.vittascience.com/learn/tutorial.php?id=860\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Запись прошивки MicroPython</a></b>",
-      "picaxe": "Welcome to the PICAXE interface!</br>Plug in the AutoProgX2 with the AXE027 cable and click Upload.",
+      "picaxe": "Добро пожаловать в интерфейс PICAXE!</br>Подключите AutoProgX2 кабелем AXE027 и нажмите «Загрузить».",
       "unihiker": "Добро пожаловать в интерфейс Vittascience для платы UNIHIKER M10!</br>Подключите плату по USB и нажмите «Загрузить». В первый раз интерфейс копирует на плату установщик сервера Vittascience, который нужно один раз запустить из меню Home платы.",
       "unihiker-k10": "Добро пожаловать в интерфейс Vittascience для платы UNIHIKER K10!</br>Подключите плату по USB (прошивка MicroPython от DFRobot) и нажмите «Загрузить»: программа сохраняется в main.py.",
       "raspberrypi": "Добро пожаловать в интерфейс Vittascience для Raspberry Pi! Вы можете ознакомиться с руководством здесь: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=1739\" target=\"_blank\" rel=\"noopener noreferrer\">Начало работы с интерфейсом Vittascience для Raspberry Pi</a>",
@@ -1465,14 +1555,20 @@
       "lotibot": "Добро пожаловать в интерфейс Vittascience для робота Loti-bot!",
       "bluebot": "Добро пожаловать в интерфейс Vittascience для робота Blue-bot!",
       "spike": "Добро пожаловать в интерфейс Vittascience для LEGO® Education SPIKE™ Essential!<br>LEGO, логотип LEGO, минифигурка, DUPLO и логотип SPIKE — зарегистрированные торговые марки LEGO Group, которая не спонсирует, не одобряет и не поддерживает этот сайт.",
+      "legoprime": "Добро пожаловать в интерфейс Vittascience для LEGO® Education SPIKE™ Prime!<br>Подключите хаб через USB (прошивка SPIKE 3) или нажмите на кнопку Bluetooth, затем нажмите соответствующую кнопку загрузки: программа загружается в слот 19 хаба, что стирает программу, хранящуюся там.<br>LEGO, логотип LEGO, фигурка, DUPLO и логотип SPIKE являются товарными знаками группы LEGO, которая не спонсирует, не одобряет и не разрешает этот сайт.",
       "photon": "Добро пожаловать в интерфейс Vittascience для робота Photon!",
       "codey": "Добро пожаловать в интерфейс Vittascience для Codey и Rocky!",
       "nano-esp32": "Добро пожаловать в интерфейс Vittascience для платы Arduino Nano ESP32!",
       "steami": "Добро пожаловать в интерфейс Vittascience для STeaMi !",
       "alphai": "Добро пожаловать в интерфейс Vittascience для робота AlphAI !",
-      "arduinoq": "Добро пожаловать в интерфейс Vittascience для платы Arduino UNO Q!</br></br>Интерфейс поддерживает различные языки (Arduino, Python, HTML) для программирования полного проекта с платой. Блоки в категории 'Базовые' могут использоваться на любом языке; сгенерированный код тогда адаптируется к типу языка заголовочного блока.</br></br>Можно отправлять команды Linux на плату Arduino Q, вводя команду в поле ввода внизу консоли.",
+      "arduinoq": "Добро пожаловать в интерфейс Vittascience для платы Arduino UNO Q!</br></br>Интерфейс поддерживает различные языки (Arduino, Python, HTML) для программирования полного проекта с платой. Блоки в категории «Базовые» могут использоваться на любом языке; сгенерированный код тогда адаптируется к языковому типу заголовочного блока.</br></br>Вы можете отправлять команды Linux на плату Arduino Q, вводя команду в поле ввода внизу консоли.",
       "primastem": "Добро пожаловать в интерфейс Vittascience для робота PrimaStem!",
+      "matatalab": "Добро пожаловать в интерфейс Vittascience для робота Matatalab MatataBot!</br>Подключите робота MatataBot или контроллер MatataCon в режиме сенсора, чтобы использовать датчики и LED-кольцо.",
       "skykick": "Добро пожаловать в интерфейс Vittascience для дрона SkyKick Evo!</br>Подключите контроллер по USB, переключите его в режим Link, затем нажмите кнопку подключения перед запуском вашей программы. Внимание: дрон действительно летает, оставьте свободное пространство."
+    },
+    "matatalab": {
+      "controllerMode": "Контроллер MatataCon не работает в режиме сенсора: переключите режим и подключите его снова. Если проблема не исчезнет, обновите его прошивку и прошивку MatataBot с помощью приложения MatataCode.",
+      "formerFirmware": "Робот использует предыдущий протокол: доступны движение, звуки и глаза, но не датчики или LED-кольцо."
     },
     "chromeApp": {
       "noPort": "Порты не обнаружены",
@@ -1539,7 +1635,7 @@
       "chromeInstall": {
         "name": "Chrome",
         "notice": "Ниже ссылка на Chrome App Thingz, нажмите «Добавить в Chrome», затем вернитесь в интерфейс Vittascience:",
-        "install": "<i class=\"fas fa-circle\"></i> Thingz Chrome App",
+        "install": "<i class=\"fas fa-circle\"></i> Приложение Thingz для Chrome",
         "presentation": "Chrome App Thingz позволяет общаться с платами Arduino Uno через браузеры Chromium и Chrome.<br/><b>Рекомендуется, так как не требует установки программ и прав администратора.</b>",
         "linuxUsers": "<b>Внимание пользователям Linux:</b> если возникают проблемы с плагином, посетите <a href=\"https://slite.com/api/s/note/WaDtH3cUZsfyMtiFdxeBNB/Preparation-Ubuntu-pour-Thingz\">эту страницу помощи</a>."
       },
@@ -1567,7 +1663,12 @@
       "installButton": "Установить",
       "installBackButton": "Назад",
       "backInterface": "Вернуться в интерфейс программирования",
-      "downloadTitle": "Скачать"
+      "downloadTitle": "Скачать",
+      "retired": {
+        "title": "Плагины больше не нужны",
+        "text": "Интерфейсы программирования Vittascience теперь напрямую общаются с платами через браузер. Больше нет необходимости устанавливать плагины, расширения или программное обеспечение на вашем компьютере.",
+        "browsers": "Для общения с платы просто используйте современный браузер на базе Chromium (Chrome, Edge или Opera)."
+      }
     },
     "smallScreen": {
       "title": "Извините",
@@ -1602,6 +1703,8 @@
       "tooltips": {
         "boardWifi": "Настроить Wi-Fi подключённой платы Arduino UNO Q",
         "projectMenu": "Меню проекта",
+        "editorToolbar": "Панель инструментов редактора",
+        "modeMenu": "Выберите режим: блоки, смешанный или код",
         "new": "Новый проект",
         "save": "Сохранить",
         "open": "Открыть проект",
@@ -1625,6 +1728,8 @@
         "esp32BoardSelector": "Выберите плату ESP32 для программирования",
         "unihikerBoardSelector": "Выберите плату UNIHIKER для программирования",
         "downloadPython": "Скачать скрипт на Python",
+        "switchToSpikePrime": "Переключиться на SPIKE Prime",
+        "switchToSpikeEssential": "Переключиться на SPIKE Essential",
         "downloadPythonGalaxia": "Скачать скрипт 'main.py' для перетаскивания на Galaxia",
         "downloadArduino": "Скачать скрипт Arduino",
         "downloadThymio": "Скачать программу TDMLauncher",
@@ -1639,8 +1744,8 @@
         "installUnihiker": "Скопировать установщик сервера Vittascience на плату (запустить один раз из меню Home платы)",
         "unihikerHost": "Изменить адрес платы (10.1.2.3 по USB или её адрес Wi-Fi)",
         "downloadHex": "Экспортировать программу micro:bit в формате [.hex]",
-        "downloadPicaxe": "Download the .bas program (open it in PICAXE Editor)",
-        "uploadPicaxe": "Send the program to the board (AutoProgX2 / PICAXE-28X2, AXE027 cable, Chrome or Edge browser)",
+        "downloadPicaxe": "Скачать файл .bas (откройте в PICAXE Editor)",
+        "uploadPicaxe": "Отправить программу на плату (AutoProgX2 / PICAXE-28X2, кабель AXE027, браузер Chrome или Edge)",
         "downloadTexas": "Скачать программу .py для калькулятора",
         "runBuddy": "Запустить программу на Buddy",
         "disconnect": "Отключить плату",
@@ -1671,6 +1776,7 @@
         "consoleSettings": "Общие настройки",
         "accessibility": "Настроить тему и шрифт",
         "shortcuts": "Показать сочетания клавиш",
+        "tour": "Познакомьтесь с интерфейсом шаг за шагом",
         "addBlockSettings": "Добавить блок",
         "fullscreen": "Полноэкранный режим",
         "help": "Помощь",
@@ -1690,7 +1796,7 @@
         "beginnerMode": "Режим для начинающих",
         "advancedMode": "Расширенный режим",
         "lastSaveOn": "Последнее сохранение: ",
-        "lastSaveFailed": "The last save failed: your changes are not saved. Click to try again.",
+        "lastSaveFailed": "Последнее сохранение не удалось: изменения не сохранены. Нажмите, чтобы попробовать снова.",
         "pendingSync": "Сохранено на этом устройстве, ожидает синхронизации: проект будет отправлен в облако, когда появится подключение.",
         "description": "Описание:",
         "repl": "Нажмите Enter ↩️ для выполнения команды",
@@ -1737,7 +1843,7 @@
         "downloadUf2Pico": "Прошивка Pico",
         "downloadUf2PicoW": "Прошивка Pico W",
         "downloadPython": "Скачать .py",
-        "downloadPicaxe": "Download .bas",
+        "downloadPicaxe": "Скачать .bas",
         "downloadTexas": "Скачать для калькулятора",
         "downloadThymioWindows": "Скачать .exe",
         "downloadThymioMacOS": "Скачать .dmg",
@@ -1750,6 +1856,8 @@
         "settings": "Настройки",
         "themes": "Доступность",
         "shortcuts": "Сочетания клавиш",
+        "tour": "Экскурсия",
+        "offline": "Офлайн",
         "add": "Добавить блок",
         "fullscreen": "Полноэкранный режим",
         "help": "Помощь",
@@ -1782,7 +1890,9 @@
       "public": "Общий"
     },
     "blockly": {
+      "clearSearch": "Очистить поиск",
       "label": {
+        "description": "Описание",
         "trash": "<img src='/openInterface/interfaces/assets/media/empty_trash_icon.svg' class='empty-icon'></img>Очистить корзину",
         "backpack": "<img src='/openInterface/interfaces/assets/media/empty_trash_icon.svg' class='empty-icon'></img>Очистить рюкзак"
       },
@@ -1822,6 +1932,7 @@
           "launchApp": "Запустить приложение",
           "stopApp": "Остановить приложение",
           "openFileSystem": "Файлы",
+          "pythonFiles": "Файлы",
           "monitor": "Последовательный монитор",
           "openRepl": "REPL"
         },
@@ -1840,6 +1951,7 @@
           "launchApp": "Снова запустить приложение, уже загруженное на плату",
           "stopApp": "Остановить приложение, работающее на плате",
           "openFileSystem": "Открыть файловую систему платы",
+          "pythonFiles": "Файлы, доступные для программы (open, os, image)",
           "graph": "Для графического отображения данных в консоли нажмите кнопку <b>График</b>",
           "monitorToggler": "Для просмотра данных нажмите кнопку <i class='fas fa-chevron-up'></i>"
         }
@@ -1938,6 +2050,12 @@
           "downloadScreen": "Скриншот",
           "toggleBoardDisplay": "Показать/скрыть плату симулятора",
           "switchWiringMode": "Переключить в режим проводки",
+          "selectBoard": "Выбрать плату",
+          "boardView": "Просмотр симулированной платы",
+          "describeBoard": "Описание состояния платы",
+          "stateEmpty": "Выход еще не изменился: запустите программу.",
+          "stateOn": "высокий",
+          "stateOff": "низкий",
           "switchMosaicMode": "Переключить в режим мозаики",
           "wiringZoomIn": "Увеличить",
           "wiringZoomOut": "Уменьшить"
@@ -1994,8 +2112,8 @@
         "variables-panel-msg": "В этой программе нет переменных",
         "replaySimulator": "Перезапустите симулятор, чтобы отправить данные",
         "skulptLoadError": "Не удалось загрузить симулятор. Проверьте подключение и запустите симулятор снова.",
-        "picaxeRuntimeError": "Simulation error: %1",
-        "picaxeSimulatorChip": "The simulator is only available for the AutoProgX2 (PICAXE-28X2)."
+        "picaxeRuntimeError": "Ошибка симуляции: %1",
+        "picaxeSimulatorChip": "Симулятор доступен только для AutoProgX2 (PICAXE-28X2)."
       },
       "tooltips": {
         "bluebot-buttons": "Вы можете использовать кнопки робота Blue-bot для его программирования!"
@@ -2088,7 +2206,277 @@
         "groveUV": "Датчик УФ-излучения",
         "groveSound": "Датчик звука",
         "grovePulse": "Датчик пульса",
-        "distanceInterrupter": "Дистанционный прерыватели"
+        "distanceInterrupter": "Дистанционный прерыватели",
+        "accelerometer": "Акселерометр",
+        "accelerometerMg": "Акселерометр (мг)",
+        "accelerometerPitch": "Акселерометр - Угол наклона",
+        "accelerometerRoll": "Акселерометр - Угол крена",
+        "altitude": "Высота",
+        "analogRead": "Аналоговое чтение",
+        "analogWrite": "Аналоговая запись",
+        "axis": "Ось {{axis}}",
+        "backward": "Назад",
+        "barrier": "Барьер",
+        "battery": "Батарея",
+        "batteryLevel": "Уровень батареи",
+        "blackLineCenter": "Датчик черной линии по центру",
+        "blackLineLeft": "Датчик черной линии слева",
+        "blackLineRight": "Датчик черной линии справа",
+        "blue": "Синий",
+        "blueValue": "синий",
+        "bodyAccelerometer": "Корпус - Акселерометр",
+        "bodyAngularSpeed": "Корпус - Угловая скорость",
+        "bodyTouchSensor": "Датчик касания корпуса",
+        "brightness": "Яркость",
+        "builtinBuzzer": "Встроенный звонок",
+        "builtinLed": "Встроенный LED",
+        "builtinRgbLed": "Встроенный RGB LED",
+        "bumpers": "Бамперы",
+        "buttonBackward": "Кнопка назад",
+        "buttonBlue": "Синяя кнопка",
+        "buttonCenter": "Центральная кнопка",
+        "buttonDelete": "Кнопка удаления",
+        "buttonDown": "Кнопка вниз",
+        "buttonForward": "Кнопка вперед",
+        "buttonLeft": "Левая кнопка",
+        "buttonMenu": "Кнопка меню",
+        "buttonMusic": "Музыкальная кнопка",
+        "buttonName": "Кнопка {{name}}",
+        "buttonPlay": "Кнопка воспроизведения",
+        "buttonPurple": "Фиолетовая кнопка",
+        "buttonRed": "Красная кнопка",
+        "buttonRight": "Правая кнопка",
+        "buttonUp": "Кнопка вверх",
+        "buttonYellow": "Желтая кнопка",
+        "camera": "Камера",
+        "chassisRgbLeds": "RGB LED шасси",
+        "clock": "Часы",
+        "clockwise": "По часовой стрелке",
+        "colorScreen320x240": "Цветной экран 320x240",
+        "colorScreenDFR0997": "Цветной экран DFR0997",
+        "colorSensorAverage": "Датчик цвета (среднее)",
+        "colorSensorLed": "Светодиод датчика цвета",
+        "compass": "Компасс",
+        "compassAngle": "Компасс - Угол",
+        "compassAxis": "Компасс - Ось",
+        "conveyor": "Конвейер",
+        "counterclockwise": "Против часовой стрелки",
+        "cpuTemp": "Температура процессора",
+        "detection": "Обнаружение",
+        "diam1": "диам. (1 мкм)",
+        "diam10": "диам. (10 мкм)",
+        "diam25": "диам. (2.5 мкм)",
+        "digitalRead": "Цифровое чтение",
+        "digitalWrite": "Цифровая запись",
+        "direction": "Направление",
+        "distance": "Расстояние",
+        "distanceSensor": "Датчик расстояния",
+        "doorClosed": "Дверь закрыта",
+        "down": "Вниз",
+        "ds18b20": "DS18B20 - Температура",
+        "duration": "Продолжительность",
+        "electromagnet": "Электромагнит",
+        "eyeLeft": "Левый глаз",
+        "eyeRight": "Правый глаз",
+        "fingerprintSensor": "Емкостный датчик отпечатков пальцев",
+        "firstTimer": "Первый таймер",
+        "forceSensor": "Датчик силы",
+        "forward": "Вперед",
+        "freeFall": "Свободное падение",
+        "frequency": "Частота",
+        "friendly": "Дружелюбный",
+        "gesture": "Жест",
+        "green": "Зеленый",
+        "greenValue": "зеленый",
+        "gyroscope": "Гироскоп",
+        "gyroscopeAngle": "Гироскоп - Угол",
+        "gyroscopeDps": "Гироскоп (°/с)",
+        "gyroscopeSpeed": "Гироскоп - Скорость",
+        "hallSensor": "Датчик Холла",
+        "handLeftSensors": "Датчики левой руки",
+        "handRightSensors": "Датчики правой руки",
+        "headAccelerometer": "Голова - акселерометр",
+        "headAngularSpeed": "Голова - угловая скорость",
+        "headSensor": "Датчик головы",
+        "headTouchSensor": "Сенсор касания головы",
+        "headlightLeft": "Левая фара",
+        "headlightRight": "Правая фара",
+        "hue": "Оттенок",
+        "humidity": "Влажность",
+        "infraredSensor": "Инфракрасный датчик",
+        "interrupt": "Прерывание",
+        "irCom": "IR COM.",
+        "irEmitter": "Инфракрасный излучатель (барьер)",
+        "irReceiver": "Инфракрасный приемник (барьер)",
+        "irRemote": "Инфракрасный пульт управления",
+        "keyCode": "Код клавиши",
+        "keyDown": "Клавиша вниз",
+        "keyLeft": "Клавиша влево",
+        "keyName": "Клавиша {{name}}",
+        "keyRight": "Клавиша вправо",
+        "keyUp": "Клавиша вверх",
+        "keyboard": "Клавиатура",
+        "keypad4x4": "Клавиатура 4x4",
+        "latitude": "Широта",
+        "lcdScreen": "LCD экран",
+        "lcdScreen16x2": "LCD экран 16x2",
+        "ledBlue": "Синий светодиод",
+        "ledGreen": "Зеленый светодиод",
+        "ledLeft": "Левый светодиод",
+        "ledMatrix3x3": "Матрица светодиодов 3x3",
+        "ledRed": "Красный светодиод",
+        "ledRedLeft": "Красный светодиод (левый)",
+        "ledRedRight": "Красный светодиод (правый)",
+        "ledRight": "Правый светодиод",
+        "ledsBottomLeft": "Светодиоды внизу слева",
+        "ledsBottomRight": "Светодиоды внизу справа",
+        "ledsButtons": "Светодиоды кнопок",
+        "ledsCircle": "Светодиоды круга",
+        "ledsProximityH": "Светодиоды приближения по горизонтали",
+        "ledsProximityV": "Светодиоды приближения по вертикали",
+        "ledsRemote": "Светодиоды дистанционного управления",
+        "ledsSound": "Светодиоды звука",
+        "ledsTemperature": "Светодиоды температуры",
+        "ledsTop": "Верхние светодиоды",
+        "left": "Слева",
+        "levelOf": "Уровень",
+        "lineCenterLeft": "Черная линия (Центр слева)",
+        "lineCenterRight": "Черная линия (Центр справа)",
+        "lineLeft": "Черная линия (Слева)",
+        "lineMiddle": "Черная линия (Посередине)",
+        "lineMiddleLeft": "Черная линия (Посередине слева)",
+        "lineMiddleRight": "Черная линия (Посередине справа)",
+        "linePosition": "Черная линия ({{position}})",
+        "lineRearLeft": "Черная линия (Сзади слева)",
+        "lineRearRight": "Черная линия (Сзади справа)",
+        "lineRight": "Черная линия (Справа)",
+        "lineSensor": "Датчик черной линии {{n}}",
+        "lineSensorLeft": "Датчик черной линии слева",
+        "lineSensorRight": "Датчик черной линии справа",
+        "linkySensor": "Датчик Linky",
+        "logoDown": "Логотип вниз",
+        "logoUp": "Логотип вверх",
+        "longitude": "Долгота",
+        "magneticField": "Магнитное поле",
+        "magneticFieldAxis": "Магнитное поле {{axis}}",
+        "magneticSucker": "Магнитная присоска",
+        "mhz19Co2": "MHZ19 Датчик - CO2",
+        "mhz19Temp": "MHZ19 Датчик - Температура",
+        "microphone": "Микрофон",
+        "motionDetection": "Обнаружение движения",
+        "motorFrontLeft": "Передний левый мотор",
+        "motorFrontRight": "Передний правый мотор",
+        "motorLeft": "Левый мотор",
+        "motorNumber": "Мотор {{n}}",
+        "motorRearLeft": "Задний левый мотор",
+        "motorRearRight": "Задний правый мотор",
+        "motorRight": "Правый мотор",
+        "mq2": "MQ2 - Газ",
+        "obstacle": "Препятствие",
+        "obstacleBack": "Заднее препятствие",
+        "obstacleDetection": "Обнаружение препятствий",
+        "obstacleFront": "Переднее препятствие",
+        "obstacleLeft": "Левое препятствие",
+        "obstacleRight": "Правое препятствие",
+        "obstacleSensor": "Датчик препятствий",
+        "orange": "Оранжевый",
+        "pinAltitude": "Высота (давление)",
+        "pinBackSensor": "Задний датчик",
+        "pinBatteryCharge": "Заряд батареи",
+        "pinDominantColor": "Доминирующий цвет",
+        "pinFrontRightSensor": "Передний правый датчик",
+        "pinFrontSensor": "Передний датчик",
+        "pinLeft": "Слева",
+        "pinLeftSensor": "Левый датчик",
+        "pinMiddleSensor": "Центральный датчик",
+        "pinPosition": "Положение в градусах",
+        "pinPronunciation": "Оценка произношения",
+        "pinRearSensor": "Задний датчик",
+        "pinRight": "Справа",
+        "pinRightSensor": "Правый датчик",
+        "pinSoundLevel": "Уровень звука",
+        "pinSpeaking": "Говорит",
+        "pinZoneChest": "Зона: грудь",
+        "pinZoneLeft": "Зона: лево",
+        "pinZoneLeftShoulder": "Зона: левое плечо",
+        "pinZoneRight": "Зона: право",
+        "pinZoneRightShoulder": "Зона: правое плечо",
+        "pinZoneTop": "Зона: верх",
+        "pitch": "Тон",
+        "pressure": "Давление",
+        "pwmSignal": "PWM Сигнал",
+        "rangefinderDistance": "Дальномер - Расстояние",
+        "receivedMessage": "Полученное сообщение",
+        "red": "Красный",
+        "redValue": "красный",
+        "remote": "Дистанционное управление",
+        "remoteButton": "Кнопка {{button}} дистанционного управления",
+        "rfidReader": "Считыватель RFID-значков",
+        "rgbHeadlights": "RGB Фары",
+        "rgbLedFrontLeft": "RGB LED (передний левый)",
+        "rgbLedFrontRight": "RGB LED (передний правый)",
+        "rgbLedLeft": "RGB LED (левый)",
+        "rgbLedNumber": "RGB LED{{n}}",
+        "rgbLedRearLeft": "RGB LED (задний левый)",
+        "rgbLedRearRight": "RGB LED (задний правый)",
+        "rgbLedRight": "RGB LED (правый)",
+        "rgbLeds": "RGB LED-лампы",
+        "right": "Право",
+        "rockPaperScissors": "Камень-Ножницы-Бумага Диск",
+        "roll": "Ролл",
+        "saturation": "Насытленность",
+        "scaleMass": "Масса на весах",
+        "screenDown": "Экран вниз",
+        "screenUp": "Экран вверх",
+        "sentMessage": "Отправленное сообщение",
+        "servoMotor": "Сервомотор",
+        "servoMotorName": "Сервомотор {{name}}",
+        "servoNumber": "Сервомотор {{n}}",
+        "shake": "Движение",
+        "shakeGesture": "Потрясти",
+        "sonarLeft": "Левый сонар",
+        "sonarRight": "Правый сонар",
+        "soundThreshold": "Порог звучания",
+        "sounds": "Звуки",
+        "speechRecognition": "Распознавание речи",
+        "stepper28BYJ48": "Шаговый мотор 28BYJ-48",
+        "stepperNumber": "Шаговый мотор {{n}}",
+        "temperature": "Температура",
+        "temperatureHumidity": "Температура и влажность",
+        "temperatureHumiditySensor": "Температура (датчик влажности)",
+        "tilt": "Наклон",
+        "tiltLeft": "Наклон влево",
+        "tiltRight": "Наклон вправо",
+        "timer": "Таймер {{n}}",
+        "tofCenter": "ToF - Центр (0°)",
+        "tofCenterLeft": "ToF - Центр слева (22°)",
+        "tofCenterRight": "ToF - Центр справа (22°)",
+        "tofLeft": "ToF - Слева (45°)",
+        "tofMm": "Время полета - Дистанция (мм)",
+        "tofRight": "ToF - Справа (45°)",
+        "touchButtonCancel": "Кнопка касания - Отмена",
+        "touchButtonCenter": "Кнопка касания - Центр",
+        "touchButtonDown": "Кнопка касания - Вниз",
+        "touchButtonLeft": "Кнопка касания - Влево",
+        "touchButtonOk": "Кнопка касания - ОК",
+        "touchButtonRight": "Кнопка касания - Вправо",
+        "touchButtonUp": "Кнопка касания - Вверх",
+        "trafficSign": "Дорожный знак",
+        "ultrasonicMm": "Ультразвук - Расстояние (мм)",
+        "ultrasonicRangefinder": "Ультразвуковой дальномер",
+        "ultrasonicSensor": "Ультразвуковой датчик",
+        "up": "Вверх",
+        "value": "Значение",
+        "vehicleDetected": "Транспортное средство обнаружено",
+        "vibrations": "Вибрации",
+        "visible": "Видимо",
+        "voc": "Летучие органические соединения",
+        "voice": "Голос",
+        "voiceRecognition": "Распознавание голоса",
+        "waterAtomizer": "Водяной распылитель",
+        "wave": "Волна",
+        "yaw": "Крен",
+        "yellow": "Желтый"
       },
       "pinError": "[Ошибка вывода] Модуль <b>{{modId}}</b> не может быть подключён к выводу <b>{{pin}}</b>. Модуль <b>{{attachedId}}</b> уже подключён.",
       "wiring": {
@@ -2393,13 +2781,121 @@
       "noPortAvailable": "Нет доступных портов",
       "emptyCode": "Ошибка: код пуст.",
       "compilation": "Произошла ошибка при компиляции.",
-      "syntax": "Синтаксическая ошибка. Подробности в консоли"
+      "syntax": "Синтаксическая ошибка. Подробности в консоли",
+      "offlineCompilation": "Вы в оффлайне: компиляция выполняется на наших серверах, она станет доступна снова, как только вы вернетесь в онлайн. Симулятор работает в оффлайне."
     },
     "error": {
       "titleExercise": "Создать упражнение",
       "otherUser": "Вы не можете изменять упражнение, созданное другим пользователем. Создайте своё, опубликовав собственные проекты.",
       "saveProjectForExercise": "Нельзя создать упражнение для несохранённого проекта. Сначала сохраните проект, затем создайте упражнение.",
       "descExercise": "Для создания упражнения нужно войти в систему."
+    },
+    "tour": {
+      "buttons": {
+        "previous": "Назад",
+        "next": "Вперед",
+        "finish": "Завершить",
+        "quit": "Выйти из экскурсии",
+        "skip": "Пропустить",
+        "try": "Попробовать"
+      },
+      "welcome": {
+        "title": "Добро пожаловать!",
+        "text": "Привет, я Виттабот! Позвольте мне показать вам интерфейс. Двигайтесь вперед с помощью кнопок или стрелок, и выходите в любой момент, нажав <kbd>Esc</kbd>."
+      },
+      "project": {
+        "title": "Ваш проект",
+        "text": "Имя вашего проекта. Нажмите на него, чтобы переименовать или добавить описание."
+      },
+      "files": {
+        "title": "Ваши проекты",
+        "text": "Создайте новый проект, откройте существующий (ваш, те, что были с вами поделены, или примеры) и сохраните свою работу."
+      },
+      "undo": {
+        "title": "Отменить и повторить",
+        "text": "Отменить или повторить изменение, также с помощью <kbd>Ctrl</kbd>+<kbd>Z</kbd> и <kbd>Ctrl</kbd>+<kbd>Y</kbd>."
+      },
+      "toolbox": {
+        "title": "Блоки",
+        "text": "Блоки отсортированы по категориям: щелкните на категории, чтобы их показать. Поиск вверху находит блок по его имени."
+      },
+      "workspace": {
+        "title": "Рабочая область",
+        "text": "Перетащите блоки сюда и соедините их вместе для создания своей программы, начиная с блоков «При старте» и «Всегда». Щелкните правой кнопкой мыши на блок, чтобы дублировать его, прокомментировать или показать его помощь."
+      },
+      "workspaceTools": {
+        "title": "Инструменты рабочей области",
+        "text": "Поместите блоки в рюкзак, чтобы использовать их в другом проекте, сделайте скриншот, увеличьте или отцентрируйте и удалите блоки, перетащив их в корзину."
+      },
+      "code": {
+        "title": "Код",
+        "text": "Код автоматически создается из ваших блоков. В режиме кода вы пишете его самостоятельно, подсказывая автозаполнением."
+      },
+      "modes": {
+        "title": "Блоки, смешанный или код",
+        "text": "Выберите, как программировать: с использованием блоков, с блоками и кодом рядом, или непосредственно в коде."
+      },
+      "upload": {
+        "title": "Отправить программу",
+        "text": "Подключите ваше оборудование (плату, робота или калькулятор), а затем отправьте ему свою программу. Стрелка, если она есть, открывает другие опции, такие как загрузка файла программы."
+      },
+      "run": {
+        "title": "Запустить программу",
+        "text": "Запустите вашу программу, чтобы увидеть результат."
+      },
+      "simulator": {
+        "title": "Симулятор",
+        "text": "Тестируйте вашу программу без оборудования: симулятор воспроизводит плату, робота или калькулятор и реагирует на вашу программу."
+      },
+      "console": {
+        "title": "Консоль",
+        "text": "Здесь отображаются сообщения вашей программы. Перетащите его край, чтобы увеличить, или скрыть."
+      },
+      "consoleModes": {
+        "title": "Текст, график или музыка",
+        "text": "Отображайте полученные данные в виде текста или графика, или слушайте ноты, сыгранные вашей программой."
+      },
+      "consoleTools": {
+        "title": "Общение с платой",
+        "text": "Отправляйте сообщения на подключенную плату, экспортируйте данные графика и, в зависимости от платы, получайте доступ к ее файлам или консоли."
+      },
+      "fullscreen": {
+        "title": "На весь экран",
+        "text": "Отображайте интерфейс на весь экран для большего пространства."
+      },
+      "settings": {
+        "title": "Настройки",
+        "text": "Тема, доступность, язык, сочетания клавиш, помощь… Вы также найдете эту экскурсию здесь."
+      },
+      "end": {
+        "title": "Ваш черед!",
+        "text": "Теперь вы знаете интерфейс. Чтобы узнать, что делает каждый блок, откройте вики из справки. А если вы нуждаетесь во мне, я в настройках!"
+      },
+      "mission": {
+        "invite": "Давайте создадим вашу первую программу вместе!",
+        "category": {
+          "title": "Открыть категорию",
+          "text": "Нажмите на категорию <b>{name}</b>."
+        },
+        "block": {
+          "title": "Добавить блок",
+          "text": "Перетащите блок <b>{block}</b> в блок <b>{into}</b> и соедините его.",
+          "textAnywhere": "Перетащите блок <b>{block}</b> в рабочую область."
+        },
+        "simulator": {
+          "title": "Запустите симулятор",
+          "text": "Нажмите на эту кнопку, чтобы запустить симулятор и увидеть выполнение вашей программы."
+        },
+        "run": {
+          "title": "Запустить программу",
+          "text": "Нажмите на <b>Запустить</b>, чтобы начать выполнение вашей программы."
+        },
+        "done": {
+          "title": "Отлично!",
+          "text": "Ваша программа работает, я вами горжусь! Посмотрите результат в симуляторе. Измените блок или добавьте другие, чтобы продолжить.",
+          "textConsole": "Ваша программа работает, я вами горжусь! Посмотрите результат в консоли. Измените блок или добавьте другие, чтобы продолжить."
+        }
+      }
     },
     "robotGuide": {
       "tuto": "Чтобы найти блоки программирования робота <b>[ROBOT_NAME]</b>, перейдите на вкладку <b><i class='fa-solid fa-robot me-1'></i>Роботы</b>.",
@@ -4769,6 +5265,7 @@
   },
   "profile": {
     "menu": {
+      "premium": "Премиум",
       "user": "Мой профиль",
       "publicProfile": "Публичный профиль",
       "exp": "Мой опыт",
@@ -4783,6 +5280,17 @@
       "title": "Мой профиль",
       "notice": "Поля с <span class=\"mandatory\">*</span> обязательны для заполнения.",
       "form": {
+        "enableTotp": "Включить двухфакторную аутентификацию",
+        "updated": "Ваш профиль успешно обновлен!",
+        "picture": {
+          "alt": "аватар пользователя",
+          "title": "Выберите изображение профиля",
+          "upload": "Загрузите свое изображение",
+          "icons": "Выберите из доступных иконок Vittascience",
+          "save": "Сохранить",
+          "tooBig": "Неверный файл! Максимально допустимый размер: 250 КБ.",
+          "sizeOk": "Размер файла действителен."
+        },
         "firstName": "Имя",
         "firstNamePlaceholder": "Ваше имя.",
         "lastName": "Фамилия",
@@ -4809,6 +5317,19 @@
         "namePublic": "Разрешаете ли вы показывать ваше имя и фамилию на сайте?",
         "newsletter": "Хотите получать нашу рассылку по электронной почте?",
         "alertMail": "Хотите получать уведомления по почте о новых сообщениях на сайте?",
+        "errors": {
+          "session": "Ваша сессия истекла: перезагрузите страницу.",
+          "name": "Имя или фамилия недействительны.",
+          "phone": "Номер телефона недействителен: он должен содержать от 10 до 30 символов.",
+          "picture": "Изображение недействительно: проверьте его формат и размер.",
+          "pictureSave": "Изображение не удалось сохранить. Пожалуйста, попробуйте снова.",
+          "save": "Ваш профиль не удалось сохранить. Пожалуйста, попробуйте снова.",
+          "teacherMissing": "Введите вашу школу, уровень и предмет.",
+          "school": "Название школы недействительно.",
+          "grade": "Уровень недействителен.",
+          "subject": "Предмет недействителен.",
+          "generic": "Ошибка. В форме имеются ошибки."
+        },
         "buttons": {
           "changePassword": "Сменить пароль",
           "changeMail": "Сменить адрес электронной почты",
@@ -4818,6 +5339,8 @@
         },
         "return": "Назад",
         "changePassword": {
+          "success": "Ваш пароль был успешно изменен!",
+          "error": "Ошибка! Пожалуйста, проверьте поля.",
           "title": "Изменить пароль",
           "form": {
             "actualPassword": "Текущий пароль",
@@ -4830,6 +5353,9 @@
           }
         },
         "changeMail": {
+          "exists": "Этот адрес электронной почты уже используется! Пожалуйста, выберите другой.",
+          "success": "Ваш запрос был сохранен! Нажмите на ссылку подтверждения в письме, которое мы только что отправили вам, чтобы подтвердить ваш новый адрес электронной почты ({{mail}}).",
+          "error": "Ошибка. Пожалуйста, попробуйте снова.",
           "title": "Изменить адрес электронной почты",
           "notice": "<span class=\"fa fa-exclamation-triangle\"></span> Этот новый адрес будет вашим логином в Vittascience. Для подтверждения вам будет отправлено письмо.",
           "mail": "Ваш адрес электронной почты",
@@ -4837,6 +5363,18 @@
           "button": "Сменить адрес электронной почты"
         },
         "deletion": {
+          "subscription_warning": "Ваша текущая подписка Премиум будет немедленно отменена без возврата средств.",
+          "gifted_subscriptions_warning": "Премиум подписки, которые вы оплачиваете для других аккаунтов, также будут немедленно отменены.",
+          "students_warning": "Ваши классы и учётные записи их учеников ({{count}}) также будут удалены безвозвратно.",
+          "subscription_cancel_failed": "Ваш аккаунт не удалён: не удалось отменить подписку Премиум. Повторите попытку через несколько минут или свяжитесь с нами.",
+          "delete_failed": "Ваш аккаунт не удалён из-за ошибки. Повторите попытку через несколько минут или свяжитесь с нами.",
+          "deleted": "Ваш аккаунт удалён.",
+          "deleted_with_subscription": "Ваш аккаунт удалён, а подписка Премиум отменена.",
+          "mail_subject": "Ваш аккаунт Vittascience удалён",
+          "mail_greeting": "Здравствуйте, {{name}}!",
+          "mail_deleted": "Ваш аккаунт Vittascience, связанный с адресом {{email}}, был удалён из мобильного приложения.",
+          "mail_subscription_cancelled": "Ваша подписка Премиум отменена.",
+          "mail_not_you": "Если вы не запрашивали это удаление, свяжитесь с нами по адресу {{support}}.",
           "delete_account": "Удалить мой аккаунт",
           "confirm_delete_prompt": "Вы уверены, что хотите удалить аккаунт?",
           "data_lost_warning": "Все ваши данные будут безвозвратно удалены.",
@@ -4878,6 +5416,7 @@
       }
     },
     "pro": {
+      "deleteConfirm": "Вы хотите удалить этот проект?",
       "title": "Мои программы",
       "subTitle": "Список моих программ",
       "api": {
@@ -4909,7 +5448,90 @@
       },
       "searchButton": "Поиск"
     },
+    "premium": {
+      "tabPersonal": "Моя подписка Премиум",
+      "tabGifted": "Подаренные подписки",
+      "tabGroup": "Групповая подписка",
+      "yourSubscription": "Ваша подписка:",
+      "statusLabel": "Статус:",
+      "status": {
+        "active": "Активный",
+        "canceled": "Отменен",
+        "unknown": "Неизвестно",
+        "admin": "Администратор"
+      },
+      "periodEnd": "Конец периода:",
+      "nextPayment": "Следующий платеж:",
+      "cancel": "Отменить подписку",
+      "resubscribe": "Подписаться снова",
+      "reactivate": "Активировать снова",
+      "notSubscribed": "Вы не подписаны на Премиум план",
+      "planPremium": "Премиум",
+      "planTeam": "Команда",
+      "fromPricePremium": "От €{{price}}/месяц",
+      "fromPriceTeam": "От €{{price}}/учитель/месяц",
+      "teacherCount": "Количество учителей:",
+      "subscribed": "Подписаны",
+      "subscribe": "Подписаться",
+      "compare": "Сравнить планы >",
+      "modalTitle": "Подписка Премиум",
+      "chosenPlan": "Вы выбрали план",
+      "chooseBilling": "Выберите период оплаты:",
+      "monthly": "Ежемесячная подписка",
+      "yearly": "Годовая подписка",
+      "triennial": "Трехлетняя подписка",
+      "billingAddress": "Платежный адрес:",
+      "noBillingAddress": "У вас нет платежного адреса.",
+      "subscribeFor": "Вы подписываетесь на:",
+      "forMe": "Мой аккаунт",
+      "forOther": "Другой аккаунт",
+      "otherEmailLabel": "Введите адрес электронной почты аккаунта Vittascience ниже",
+      "groupName": "Название группы",
+      "groupOf": "Группа из",
+      "or": "или",
+      "quote": "Оценка",
+      "giftedName": "Имя",
+      "giftedStatus": "Статус",
+      "giftedPeriodEnd": "Конец периода",
+      "giftedAction": "Действие",
+      "noGifted": "Вы еще не подарили подписку.",
+      "groupInherit": "Вы принадлежите к группе с Премиум статусом и наследуете следующий доступ:",
+      "learners": "Учащиеся:",
+      "classrooms": "Классы:",
+      "unlimited": "Безлимитный",
+      "validity": "Срок действия:",
+      "since": "Подписаны с",
+      "until": "До",
+      "noGroup": "Вы не принадлежите к группе с Премиум статусом.",
+      "minTeachers": "Пожалуйста, выберите больше одного учителя для этого плана.",
+      "maxTeachers": "Для более чем 200 учителей, пожалуйста, свяжитесь с нами по адресу contact@vittascience.com.",
+      "quoteExists": "Оценка уже была создана для этого плана. Вы найдете ее в разделе оценок вашего аккаунта.",
+      "quoteCreated": "Ваша оценка была создана. Вы найдете ее в разделе оценок вашего аккаунта и на электронной почте.",
+      "quoteError": "Произошла ошибка при создании вашей оценки. Пожалуйста, попробуйте еще раз.",
+      "activated": "Ваша подписка была активирована. Теперь вы можете наслаждаться своими преимуществами.",
+      "paymentFailed": "Произошла ошибка при создании вашей подписки. Пожалуйста, попробуйте еще раз.",
+      "canceled": "Ваша подписка была отменена. Вы сохраняете свои преимущества до конца текущего периода.",
+      "cancelConfirm": "Вы действительно хотите отменить эту подписку? Она останется активной до конца текущего периода.",
+      "noAddress": "Сначала добавьте платежный адрес, чтобы продолжить."
+    },
     "addressBloc": {
+      "noAddress": "Вы еще не добавили адрес.",
+      "isEstablishment": "Является ли этот адрес адресом учреждения?",
+      "establishmentName": "Название учреждения",
+      "submit": "Обновить",
+      "usedBySubscription": "Этот адрес используется активной Премиум подпиской: его нельзя удалить.",
+      "deleteConfirm": "Вы уверены, что хотите удалить этот адрес?",
+      "searchLabel": "Введите ваш адрес",
+      "searchPlaceholder": "Название учреждения, адрес или город",
+      "zoneQuestion": "Ваше учреждение расположено:",
+      "zoneFr": "Во Франции",
+      "zoneEu": "В Европе",
+      "zoneWorld": "В остальном мире",
+      "siretPlaceholder": "14 цифр — по желанию",
+      "companyNumber": "Номер компании",
+      "companyNumberPlaceholder": "Номер в торговом реестре",
+      "vatNumber": "Номер НДС",
+      "vatPlaceholder": "Внутренний номер НДС",
       "edit": "Редактировать",
       "del": "Удалить",
       "addAddress": "Добавить адрес",
@@ -4924,6 +5546,23 @@
       "cancel": "Отмена"
     },
     "ordersBloc": {
+      "quotePaid": "Оплачено",
+      "quoteAccepted": "Принято",
+      "noOrders": "Вы еще не сделали ни одного заказа.",
+      "noEstimates": "Вы еще не запрашивали ни одной оценки.",
+      "noWishlist": "Вы еще не добавили ни одного продукта в свой список желаемого.",
+      "hideDetails": "Скрыть детали",
+      "at": "в",
+      "alreadySubscribedTitle": "У вашего аккаунта уже есть Премиум подписка: эта оценка включает подписку, свяжитесь с нами для ее корректировки.",
+      "wishlistDeleteConfirm": "Вы уверены, что хотите удалить этот элемент?",
+      "mixed": {
+        "title": "Подписка для нескольких пользователей",
+        "text1": "Эта оценка включает подписку Премиум для нескольких пользователей: ее нельзя оплатить картой.",
+        "text2": "Вы можете оплатить ее банковским переводом или загрузить свой заказ: наша команда затем активирует подписку.",
+        "text3": "Чтобы оплатить картой, подпишитесь из вашего профиля, затем закажите оборудование в магазине: доставка будет бесплатной на материковую Францию.",
+        "close": "Закрыть",
+        "subscribe": "Подписаться из моего профиля"
+      },
       "priceTTC": "€ с НДС",
       "seeMore": "Подробнее",
       "dl": "Скачать",
@@ -4943,7 +5582,14 @@
       "tracking": "Номер отслеживания",
       "quoteSent": "Отправлено",
       "quoteDenied": "Отклонено",
-      "quoteExpired": "Просрочено"
+      "quoteExpired": "Просрочено",
+      "sav": {
+        "title": "Послепродажное обслуживание",
+        "open": "Запрос обрабатывается",
+        "closed": "Запрос закрыт",
+        "parcel": "Посылка отправлена",
+        "track": "Отследить посылку"
+      }
     }
   },
   "userDetails": {
@@ -5914,6 +6560,11 @@
       }
     },
     "materialsNeeded": "Список необходимого материала",
+    "embed": {
+      "project": "Проект Vittascience",
+      "interface": "Интерфейс Vittascience",
+      "open": "Открыть в интерфейсе Vittascience"
+    },
     "suggestedResources": "Рекомендуемые ресурсы",
     "classroomImport": {
       "button": "Импортировать в модуль класса",
@@ -5968,18 +6619,29 @@
   },
   "modals": {
     "standard": {
+      "recentLocal": {
+        "title": "Недавний проект",
+        "question": "У вас есть недавний проект, сохраненный в этом браузере. Вы хотите его открыть?",
+        "modified": "Изменено %date%",
+        "several": "У вас есть %count% проектов, сохраненных в этом браузере. Чтобы найти их все, перейдите по %link%.",
+        "severalLink": "“Открыть проект” > “Мои локальные проекты”",
+        "buttons": {
+          "open": "Открыть этот проект",
+          "new": "Начать новый проект"
+        }
+      },
       "blocksScreenshot": {
-          "title": "Снимок блоков",
-          "quality": "Качество",
-          "qualities": {
-              "screen": "Экран (×1)",
-              "good": "Хорошее (×2)",
-              "high": "Высокое (×4)",
-              "veryHigh": "Очень высокое (×8)"
-          },
-          "format": "Формат",
-          "size": "Размер изображения: {{width}} × {{height}} пикселей",
-          "download": "Скачать"
+        "title": "Снимок блоков",
+        "quality": "Качество",
+        "qualities": {
+          "screen": "Экран (×1)",
+          "good": "Хорошее (×2)",
+          "high": "Высокое (×4)",
+          "veryHigh": "Очень высокое (×8)"
+        },
+        "format": "Формат",
+        "size": "Размер изображения: {{width}} × {{height}} пикселей",
+        "download": "Скачать"
       },
       "arduino-q-wifi": {
         "title": "Wi-Fi платы Arduino UNO Q",
@@ -6385,6 +7047,19 @@
           }
         }
       },
+      "pythonFiles": {
+        "title": "Файлы",
+        "name": "Имя",
+        "size": "Размер",
+        "empty": "Нет файлов. Импортируйте файл или создайте один с помощью open().",
+        "import": "Импортировать файлы",
+        "download": "Скачать",
+        "delete": "Удалить",
+        "hint": "Файлы остаются доступными, пока страница открыта. Использование: open('data.csv'), os.listdir(), Image('photo.jpg').",
+        "limits": "Максимум 5 МБ на файл · 100 МБ всего",
+        "tooLarge": "\"{name}\" не был импортирован: максимум 5 МБ на файл.",
+        "quotaExceeded": "\"{name}\" не был импортирован: максимум 100 МБ всего."
+      },
       "addblock": {
         "title": "Добавить блок",
         "content": {
@@ -6659,7 +7334,7 @@
       },
       "codeOnly": {
         "title": "Перейти в режим только кода",
-        "content": "Хотите скрыть выбор режимов и навсегда остаться в режиме только кода (без блоков)?",
+        "content": "Вы хотите скрыть выбор режима, чтобы постоянно оставаться в режиме только кода (без блоков)?",
         "cancel": "Отмена",
         "confirm": "Подтвердить",
         "info": {
@@ -6760,16 +7435,16 @@
         "wrongLink": "Эта ссылка ведет к несуществующему проекту или проект не создан в этом интерфейсе. Вы можете найти проект через 'Открыть проект' или создать новый.",
         "wrongFile": "Этот файл, похоже, не подходит для этого интерфейса. Проверьте информацию в заголовке файла на строке 'Interface:'.",
         "wrongXml": "Эта ссылка ведёт на проект, который, похоже, некорректно загружается в интерфейсе. Пожалуйста, отправьте нам ссылку на проект, обратившись в службу поддержки Vittascience. Мы постараемся исправить ситуацию.",
-        "loadingError": "The project couldn't be loaded: the connection to the server failed. Check your internet connection then reload the page.",
-        "reloadPage": "Reload the page",
+        "loadingError": "Не удалось загрузить проект: потеряно соединение с сервером. Проверьте интернет и перезагрузите страницу.",
+        "reloadPage": "Перезагрузить страницу",
         "localDraft": {
-          "title": "Unsaved changes",
-          "content": "This project has changes that were not saved on the server. They have been kept in this browser.",
-          "lastChange": "Last change:",
-          "hint": "If you open the saved version, these changes will be permanently lost.",
+          "title": "Несохранённые изменения",
+          "content": "В этом проекте есть изменения, не сохранённые на сервере. Они сохранены в этом браузере.",
+          "lastChange": "Последнее изменение:",
+          "hint": "Если открыть сохранённую версию, эти изменения будут утрачены навсегда.",
           "buttons": {
-            "restore": "Restore my changes",
-            "discard": "Open the saved version"
+            "restore": "Восстановить мои изменения",
+            "discard": "Открыть сохранённую версию"
           }
         },
         "privateProject": "Приватный проект",
@@ -6845,7 +7520,7 @@
       "import": {
         "content": {
           "warn": {
-            "question": "Вы уверены, что хотите импортировать этот Python-файл с компьютера?",
+            "question": "Вы уверены, что хотите импортировать этот файл с вашего компьютера?",
             "hint": "Вы потеряете все сделанные вручную изменения."
           },
           "extension": "Внимание! Этот файл, скорее всего, не подходит для этого интерфейса."
@@ -7011,6 +7686,7 @@
       }
     },
     "board-selector": {
+      "chosen": "Выбранная плата: {{board}}",
       "title": "Выбор платы",
       "arduino": {
         "welcome": "Добро пожаловать в интерфейс Arduino!",
@@ -7490,6 +8166,7 @@
     }
   },
   "programming": {
+    "infoAbout": "О {{name}}",
     "title": "Программировать",
     "description": "Выберите интерфейс программирования!",
     "know_more": "Узнать больше",
@@ -7538,7 +8215,7 @@
         "esp32": "Среда программирования для плат ESP32 (Wemos D1R32, NodeMCU, Huzzah32 и др.)",
         "TI-83": "Среда программирования для калькулятора и плат BBC micro:bit или TI Innovator™ Hub",
         "GalaxiaCircuitPython": "Среда программирования для платы Thingz-Galaxia",
-        "picaxe": "Block programming interface for PICAXE boards (AutoProgX2 from A4 Technologie, 08M2 to 40X2): generates PICAXE BASIC to download.",
+        "picaxe": "Интерфейс блочного программирования для плат PICAXE (AutoProgX2 от A4 Technologie, от 08M2 до 40X2): создаёт код PICAXE BASIC для скачивания.",
         "unihiker": "Интерфейс программирования для платы UNIHIKER M10: сенсорный экран, встроенные датчики и Python на Linux!",
         "unihikerK10": "Интерфейс программирования для платы UNIHIKER K10: экран, RGB-светодиоды, встроенные датчики и MicroPython!",
         "raspberrypi": "Среда программирования для Raspberry Pi!",
@@ -7565,6 +8242,7 @@
         "maqueenPlus": "Среда программирования для робота Maqueen Plus V1 и V2",
         "cutebot": "Среда программирования для робота Cutebot",
         "tpbot": "Среда программирования для робота TPBot",
+        "tinybit": "Интерфейс программирования для робота Tiny:bit",
         "cutebotPro": "Среда программирования для робота Cutebot Pro",
         "kitrobot": "Среда программирования для робота Kitro:bot v2",
         "oobybot": "Среда программирования для робота Oobybot",
@@ -7578,6 +8256,7 @@
         "lotibot": "Среда программирования для робота Loti-bot",
         "bluebot": "Среда программирования для робота Blue-bot",
         "spike": "Среда программирования для LEGO® Education SPIKE™ Essential",
+        "legoprime": "Интерфейс программирования для LEGO® Education SPIKE™ Prime",
         "photon": "Среда программирования для робота Photon",
         "codey": "Интерфейс программирования для платы Codey и робота Rocky от Makeblock",
         "uno-r4-wifi": "Интерфейс программирования для платы Arduino UNO R4 WiFi",
@@ -7596,6 +8275,7 @@
         "wonder": "Интерфейс программирования для набора Elecfreaks Wonder",
         "buildingbit": "Интерфейс программирования для набора Yahboom Building:bit Super Kit",
         "primastem": "Интерфейс программирования для робота PrimaStem",
+        "matatalab": "Программный интерфейс для робота Matatalab MatataBot",
         "skykick": "Интерфейс программирования для дрона SkyKick Evo"
       }
     },
@@ -7721,18 +8401,18 @@
     "needProjectName": "Введите название проекта перед сохранением!",
     "projectSaveError": "Произошла ошибка при сохранении!",
     "projectSaveConflict": "Ваш проект НЕ был сохранён: он был изменён в другом месте. Сохраните снова, чтобы перезаписать версию на сервере.",
-    "projectSaveNotConnected": "Your project has NOT been saved: your session has expired. Log in again then save again, your changes are kept in this browser.",
-    "projectSaveForbidden": "Your project has NOT been saved: you are not allowed to edit this project. Use “Save as…” to save a copy of it.",
-    "projectSaveNotFound": "Your project has NOT been saved: it no longer exists on the server. Download it to keep your work.",
-    "projectSaveInvalid": "Your project has NOT been saved: the server refused incomplete data (empty project name or code).",
-    "projectSaveNetworkError": "Your project has NOT been saved: the server can't be reached. Check your internet connection then try again, your changes are kept in this browser.",
-    "projectSaveServerError": "Your project has NOT been saved because of a server error. Try again in a few moments; if the problem persists, download your project so you don't lose your work.",
-    "projectOpened": "Project “{{name}}” opened.",
-    "projectOpenError": "The project couldn't be opened. Check your internet connection then try again.",
-    "projectCopySaved": "Copy “{{name}}” saved: you are now working on this copy.",
-    "localDraftRestored": "Your unsaved changes have been restored. Remember to save your project!",
-    "exerciseSaved": "The exercise has been saved successfully!",
-    "exerciseSaveFailed": "The exercise has NOT been saved. Check your internet connection then try again.",
+    "projectSaveNotConnected": "Ваш проект НЕ сохранён: сессия истекла. Войдите снова и повторно сохраните — изменения сохранены в этом браузере.",
+    "projectSaveForbidden": "Ваш проект НЕ сохранён: у вас нет прав на редактирование этого проекта. Используйте «Сохранить как…», чтобы сохранить копию.",
+    "projectSaveNotFound": "Ваш проект НЕ сохранён: он больше не существует на сервере. Скачайте его, чтобы сохранить свою работу.",
+    "projectSaveInvalid": "Ваш проект НЕ сохранён: сервер отклонил неполные данные (пустое имя проекта или код).",
+    "projectSaveNetworkError": "Ваш проект НЕ сохранён: сервер недоступен. Проверьте подключение к интернету и попробуйте снова — изменения сохранены в этом браузере.",
+    "projectSaveServerError": "Ваш проект НЕ сохранён из‑за ошибки сервера. Попробуйте через несколько минут; если проблема сохранится, скачайте проект, чтобы не потерять работу.",
+    "projectOpened": "Проект “{{name}}” открыт.",
+    "projectOpenError": "Не удалось открыть проект. Проверьте подключение к интернету и попробуйте снова.",
+    "projectCopySaved": "Копия “{{name}}” сохранена: теперь вы работаете с этой копией.",
+    "localDraftRestored": "Несохранённые изменения восстановлены. Не забудьте сохранить проект!",
+    "exerciseSaved": "Задание успешно сохранено!",
+    "exerciseSaveFailed": "Задание НЕ сохранено. Проверьте подключение к интернету и попробуйте снова.",
     "projectNoChangesToSave": "Нет изменений для сохранения !",
     "projectSaveSuccess": "Проект успешно сохранён!",
     "loadedProjectNotFound": "Запрошенный проект не существует!",
@@ -7808,6 +8488,10 @@
     "errorSendingEmail": "Ошибка при отправке письма.",
     "emailSent": "Письмо успешно отправлено!",
     "controllerError": "Ошибка при подключении к серверу. Наша команда уже работает над решением.",
+    "offline": "Вы в оффлайне: ваша работа сохранена на этом устройстве, проекты вашей учетной записи будут доступны, как только вы снова подключитесь к интернету.",
+    "offlineSave": "Вы в оффлайне: ваш проект сохранен на этом устройстве (Открыть > Мои локальные проекты). Сохраните его в своей учетной записи, как только вы снова подключитесь к интернету.",
+    "offlineDownload": "Вы в оффлайне: этот файл еще не на этом устройстве, загрузите его, как только вы снова подключитесь к интернету.",
+    "backOnline": "Вы снова в сети: обновите страницу, чтобы получить доступ к вашей учетной записи и проектам.",
     "notLoggedIn": "Для выполнения действия необходимо войти в систему!",
     "manualTrainingDataVerificationSuccess": "Проверка данных для обучения прошла успешно!",
     "manualTrainingDataVerificationError": "Ошибка при проверке данных для обучения!",

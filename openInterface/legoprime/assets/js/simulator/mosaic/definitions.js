@@ -42,17 +42,17 @@ Simulator.Mosaic.specific = {
         {
             regex: /motion_sensor\.tilt_angles/,
             id: 'spike-motion',
-            title: "Inclinaison",
+            get title() { return i18next.t('code.simulator.modules.tilt') },
             pin: 'Hub',
             type: 'input',
-            listeners: ['yaw', 'pitch', 'roll'].map(axis => ({ default: 0, unit: '°', color: "#2D82E1", title: axis, suffix: '_' + axis })),
+            listeners: ['yaw', 'pitch', 'roll'].map(axis => ({ default: 0, unit: '°', color: "#2D82E1", get title() { return i18next.t('code.simulator.modules.' + axis) }, suffix: '_' + axis })),
             ...LEGO_PRIME_SENSOR
         },
         ...[..."ABCDEF"].flatMap(port => [
         {
             regex: new RegExp(`motor\\.\\w+\\(port\\.${port}\\b|motor_pair\\.pair\\([^)]*port\\.${port}\\b`),
             id: `spike-motor-port${port}`,
-            title: "Moteur",
+            get title() { return i18next.t('code.simulator.modules.motor') },
             pin: `Port ${port}`,
             type: 'output',
             value: 0,
@@ -61,7 +61,7 @@ Simulator.Mosaic.specific = {
         {
             regex: new RegExp(`color_sensor\\.\\w+\\(port\\.${port}\\b`),
             id: `spike-ColorSensor-port${port}`,
-            title: "Capteur de couleurs",
+            get title() { return i18next.t('code.simulator.modules.colorSensor') },
             pin: `Port ${port}`,
             type: 'input',
             class: 'RGB-circle',
@@ -70,7 +70,7 @@ Simulator.Mosaic.specific = {
         {
             regex: new RegExp(`distance_sensor\\.\\w+\\(port\\.${port}\\b`),
             id: `spike-distance-port${port}`,
-            title: "Capteur de distance",
+            get title() { return i18next.t('code.simulator.modules.distanceSensor') },
             pin: `Port ${port}`,
             type: 'input',
             listeners: [{ default: -1, unit: 'mm', color: "#2D82E1", title: "", suffix: "" }],
@@ -79,7 +79,7 @@ Simulator.Mosaic.specific = {
         {
             regex: new RegExp(`force_sensor\\.\\w+\\(port\\.${port}\\b`),
             id: `spike-force-port${port}`,
-            title: "Capteur de force",
+            get title() { return i18next.t('code.simulator.modules.forceSensor') },
             pin: `Port ${port}`,
             type: 'input',
             listeners: [{ default: 0, unit: 'dN', color: "#2D82E1", title: "", suffix: "" }],

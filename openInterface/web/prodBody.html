@@ -12,9 +12,9 @@
             </div>
 
             <div class="ide-dropdown ide-dropdown-modes">
-                <a class="ide-btn ide-btn-toggle ide-btn-alone ide-btn-mode">
-                    <i class="far fa-object-ungroup"></i>
-                </a>
+                <button type="button" class="ide-btn ide-btn-toggle ide-btn-alone ide-btn-mode" aria-expanded="false" aria-label="Choisir le mode : blocs, hybride ou code" data-i18n="[aria-label]code.topbar.tooltips.modeMenu">
+                    <i class="far fa-object-ungroup" aria-hidden="true"></i>
+                </button>
 
                 <div class="ide-btn-group ide-btn-group-mode hidden"></div>
             </div>
@@ -79,9 +79,7 @@
 <script src="/openInterface/env.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/interact-1.5.4.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/rotate.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/blockly_compressed.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_colour_compressed.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/vittascience_patches.js"></script>
+<?php require __DIR__ . '/../interfaces/assets/buildFiles/blocklyScripts.html'; ?>
 <script src="/openInterface/interfaces/assets/js/utils/jsonPath.js"></script>
 <script src="/interfaces/assets/js/utils/url.js"></script>
 <script src="/openInterface/interfaces/assets/js/styling/accessibility.js"></script>
@@ -92,7 +90,6 @@
 <script src="/openInterface/web/assets/js/constants/toolbox/blockDB.js"></script>
 <script src="/openInterface/web/assets/js/constants/main/init.js"></script>
 <script src="/openInterface/interfaces/assets/js/main/ToolboxManager.js"></script>
-<script type="module" src="/openInterface/interfaces/assets/js/external/blockly/extensions/backpack/index.js"></script>
 <script src="/openInterface/interfaces/assets/js/main/Main.js"></script>
 <script src="/interfaces/assets/js/constants/main/errors.js"></script>
 <script src="/openInterface/interfaces/assets/js/main/modal.js" type="module"></script>

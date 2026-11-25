@@ -59,7 +59,9 @@ const simulatorButtons = {
         fontAwesome: 'fas fa-play',
         title: 'code.topbar.tooltips.runSimulator',
         tooltipPlacement: "left",
-        onclick: 'toggleSimulator()'
+        onclick: 'toggleSimulator()',
+        // pressed while the simulator is open (set in toggleSimulator)
+        customAttributes: [{ name: 'aria-pressed', value: 'false' }]
     }
 };
 

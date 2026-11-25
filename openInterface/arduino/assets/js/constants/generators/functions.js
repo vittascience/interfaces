@@ -2200,18 +2200,23 @@ float mq135_getResistance(uint8_t pin) {
   DEF_LED_MATRIX_DISPLAY_NUMERIC:
 `void matrix_displayNumber(float value) {
   if (value > 999 || value < -99) {
-    scrollText(String(value), 35, Font_4x6);
+    matrix_scrollText(String(value), 35, Font_5x7);
+    return;
   }
-  char buf[4];
-  snprintf(buf, sizeof(buf), "%u", (int)value);
+  char buf[5];
+  snprintf(buf, sizeof(buf), "%d", (int)value);
   int len = strlen(buf);
   int totalWidth = len * 3 + (len - 1) * 1;
   builtinMatrix.beginDraw();
   builtinMatrix.clear();
   builtinMatrix.stroke(1);
-  int x = (12 - totalWidth) / 2;
+  int x = (builtinMatrix_cols - totalWidth) / 2;
   for (int i = 0; i < len; i++) {
-    matrix_drawDigit3x5(buf[i] - '0', x, 1);
+    if (buf[i] == '-') {
+      for (int col = 0; col < 3; col++) builtinMatrix.point(x + col, 3);
+    } else {
+      matrix_drawDigit3x5(buf[i] - '0', x, 1);
+    }
     x += 3;
     if (i != len - 1) x += 1;
   }

@@ -72,6 +72,7 @@ function initMusic() {
 // updated yet: the new one is given
 function updateMusicVolume(percent = musicSettings.volume) {
     $('#volume-value').text(percent + ' %');
+    $('#volume-slider .ui-slider-handle').attr({ 'aria-valuenow': percent, 'aria-valuetext': percent + ' %' });
     // Muted icon at 0 %
     $('#volume-slider').siblings('.music-control-label').find('i')
         .toggleClass('fa-volume-up', percent > 0).toggleClass('fa-volume-mute', percent === 0);
@@ -81,6 +82,7 @@ function updateMusicVolume(percent = musicSettings.volume) {
 // The note being played follows the octave
 function updateMusicOctave(octave = musicSettings.octave) {
     $('#octave-value').text(octave);
+    $('#octave-slider .ui-slider-handle').attr({ 'aria-valuenow': octave, 'aria-valuetext': String(octave) });
     if (synth && musicFrequency !== null) synth.frequency.value = shiftOctave(musicFrequency, octave);
     updateMusicNote(octave);
 }
@@ -94,7 +96,8 @@ function shiftOctave(frequency, octave = musicSettings.octave) {
  */
 function updateMusicNote(octave = musicSettings.octave) {
     if (musicFrequency === null) {
-        $('#music-note').text('—');
+        // shown but not announced: the live region read "dash" when the note stopped
+        $('#music-note').html('<span aria-hidden="true">—</span>');
         return;
     }
     const frequency = shiftOctave(musicFrequency, octave);
@@ -232,9 +235,10 @@ $('.music-mode-button').on('click', function () {
 });
 updateMusicMode(musicSettings.mode);
 
-// Values displayed under the sliders
-$('#volume-slider').after('<span id="volume-value" class="music-slider-value" aria-live="polite"></span>');
-$('#octave-slider').after('<span id="octave-value" class="music-slider-value" aria-live="polite"></span>');
+// Values displayed under the sliders (not live regions: the slider handles give their value to the screen readers,
+// an announcement of "80 %" alone, e.g. when the "Test" button plays a note, was not understandable)
+$('#volume-slider').after('<span id="volume-value" class="music-slider-value"></span>');
+$('#octave-slider').after('<span id="octave-value" class="music-slider-value"></span>');
 
 $("#volume-slider").slider({
     orientation: "vertical",
@@ -263,6 +267,15 @@ $("#octave-slider").slider({
         updateMusicOctave(ui.value);
     }
 });
+
+// jQuery UI slider handles are plain focusable <span>: role, name (the label of the control) and range
+for (const [id, min, max] of [['volume', 0, 100], ['octave', 2, 6]]) {
+    const $label = $(`#${id}-slider`).siblings('.music-control-label').attr('id', `${id}-slider-label`);
+    $(`#${id}-slider .ui-slider-handle`).attr({
+        'role': 'slider', 'aria-labelledby': $label.length ? `${id}-slider-label` : null,
+        'aria-orientation': 'vertical', 'aria-valuemin': min, 'aria-valuemax': max
+    });
+}
 
 if ($('#music-panel').length) {
     updateMusicVolume();
@@ -293,7 +306,8 @@ const $waveformButtons = $waveformSelect.find('option').map(function () {
         <span></span>
     </button>`).find('span').attr('data-i18n', $(this).attr('data-i18n')).text($(this).text().trim()).end()[0];
 });
-$waveformSelect.closest('.music-control').attr({ role: 'radiogroup' });
+$waveformSelect.closest('.music-control').attr({ role: 'radiogroup', 'aria-labelledby': 'waveform-label' })
+    .children('.music-control-label').first().attr('id', 'waveform-label');
 $waveformSelect.replaceWith($waveformButtons);
 translateMusicPanel($waveformButtons);
 

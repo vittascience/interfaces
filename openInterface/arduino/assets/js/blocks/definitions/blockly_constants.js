@@ -274,6 +274,16 @@ for (const i in Blockly.Constants.Pins.PWM) {
   Blockly.Constants.Pins.PWM[i].type = 'PWM';
 }
 
+const DEFAULT_UNO_PINS_IR_BARRIER = DEFAULT_UNO_PINS_DIGITAL.filter(
+  (pin) => !["0", "1"].includes(pin[1])
+);
+
+Blockly.Constants.Pins.ir_barrier = {};
+for (const board in Blockly.Constants.Pins.digital) {
+  Blockly.Constants.Pins.ir_barrier[board] = [...DEFAULT_UNO_PINS_IR_BARRIER];
+  Blockly.Constants.Pins.ir_barrier[board].type = 'ir_barrier';
+}
+
 /**
  * Performs final setup of temperature blocks.
  * @this {Blockly.Block}

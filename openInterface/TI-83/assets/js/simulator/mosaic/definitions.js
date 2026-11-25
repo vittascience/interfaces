@@ -1033,7 +1033,7 @@ Simulator.Mosaic.specific = {
         /* Microbit modules */
         {
             id: "neopixel-color",
-            title: "Neopixel",
+            get title() { return i18next.t('code.simulator.modules.neopixel') },
             codeFlag: "Neopixel",
             pin: 'pin n°',
             pins: 'digital',
@@ -1043,7 +1043,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /light\.read_light_level\(\)/g,
             id: "mb-light",
-            title: "Capteur de luminosité",
+            get title() { return i18next.t('code.simulator.modules.groveLight') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
@@ -1062,7 +1062,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /music\.(pitch|play|set_volume|set_tempo)/gi,
             id: "mb-buzzer",
-            title: "Buzzer intégré",
+            get title() { return i18next.t('code.simulator.modules.builtinBuzzer') },
             pin: 'micro:bit v2',
             type: 'output',
             value: 0,
@@ -1076,7 +1076,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /thermometer\.readTemp\(\)/,
             id: "mb-thermometer",
-            title: "Capteur de température",
+            get title() { return i18next.t('code.simulator.modules.groveTemp') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
@@ -1094,7 +1094,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.get_[xyz]\(\)/,
             id: "mb-accelerometer",
-            title: "Accéléromètre : ",
+            get title() { return i18next.t('code.simulator.modules.accelerometer') },
             pin: 'micro:bit',
             type: 'input',
             color: "#22b573",
@@ -1103,19 +1103,19 @@ Simulator.Mosaic.specific = {
                 default: 0,
                 unit: 'm/s2',
                 color: "#ff4d6a",
-                title: "Axe x"
+                get title() { return i18next.t('code.simulator.modules.axis', { axis: 'x' }) }
             }, {
                 suffix: "_y",
                 default: 0,
                 unit: 'm/s2',
                 color: "#f9d142",
-                title: "Axe y"
+                get title() { return i18next.t('code.simulator.modules.axis', { axis: 'y' }) }
             }, {
                 suffix: "_z",
                 default: 0,
                 unit: 'm/s2',
                 color: "#1a6da8",
-                title: "Axe z"
+                get title() { return i18next.t('code.simulator.modules.axis', { axis: 'z' }) }
             }],
             picture: "Accélerateur.png",
             pictureAnimation: "Accelérateur-animation.png",
@@ -1137,7 +1137,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.get_[yz]\(\)/,
             id: "mb-accelerometer-pitch",
-            title: "Accéleromètre - Tangage",
+            get title() { return i18next.t('code.simulator.modules.accelerometerPitch') },
             pin: 'micro:bit',
             type: 'output',
             value: "0 °",
@@ -1147,7 +1147,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.get_[xyz]\(\)/,
             id: "mb-accelerometer-roll",
-            title: "Accéleromètre - Roulis",
+            get title() { return i18next.t('code.simulator.modules.accelerometerRoll') },
             pin: 'micro:bit',
             type: 'output',
             value: "0 °",
@@ -1157,7 +1157,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /compass\.heading\(\)/,
             id: "mb-compassDir",
-            title: "Boussole",
+            get title() { return i18next.t('code.simulator.modules.compass') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
@@ -1165,7 +1165,7 @@ Simulator.Mosaic.specific = {
                 default: 90,
                 unit: '°',
                 color: "#448ae5",
-                title: "Direction"
+                get title() { return i18next.t('code.simulator.modules.direction') }
             }],
             picture: "Boussole.png",
             pictureAnimation: "Boussole-animation.png",
@@ -1176,7 +1176,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /compass\.get_[xyz]\(\)/,
             id: "mb-compassMag",
-            title: "Boussole : ",
+            get title() { return i18next.t('code.simulator.modules.compass') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
@@ -1184,19 +1184,19 @@ Simulator.Mosaic.specific = {
                 default: 15000,
                 unit: 'µT',
                 color: "#ff4d6a",
-                title: "Champ Mag. x"
+                get title() { return i18next.t('code.simulator.modules.magneticFieldAxis', { axis: 'x' }) }
             }, {
                 suffix: "_y",
                 default: 3000,
                 unit: 'µT',
                 color: "#f9d142",
-                title: "Champ Mag. y"
+                get title() { return i18next.t('code.simulator.modules.magneticFieldAxis', { axis: 'y' }) }
             }, {
                 suffix: "_z",
                 default: -8000,
                 unit: 'µT',
                 color: "#1a6da8",
-                title: "Champ Mag. z"
+                get title() { return i18next.t('code.simulator.modules.magneticFieldAxis', { axis: 'z' }) }
             }
             ],
             picture: "Champ-magnetique.png",
@@ -1207,7 +1207,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /button_a.(is|was)_pressed/,
             id: "mb-button-a",
-            title: "Bouton A",
+            get title() { return i18next.t('code.simulator.modules.buttonName', { name: 'A' }) },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
@@ -1228,7 +1228,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /button_b.(is|was)_pressed/,
             id: "mb-button-b",
-            title: "Bouton B",
+            get title() { return i18next.t('code.simulator.modules.buttonName', { name: 'B' }) },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
@@ -1249,13 +1249,13 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.(current_gesture\(\)( ){0,2}==( ){0,2}['"]shake['"]|(is|was)_gesture\(['"]shake['"]\))/,
             id: "mb-gesture-shake",
-            title: "Secouer",
+            get title() { return i18next.t('code.simulator.modules.shakeGesture') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
-                title: "shake",
+                get title() { return i18next.t('code.simulator.modules.shakeGesture') },
                 color: "#1a6da8",
                 suffix: ""
             }],
@@ -1275,13 +1275,13 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.(current_gesture\(\)( ){0,2}==( ){0,2}['"]up['"]|(is|was)_gesture\(['"]up['"]\))/,
             id: "mb-gesture-up",
-            title: "Logo vers le haut",
+            get title() { return i18next.t('code.simulator.modules.logoUp') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
-                title: "logo en haut",
+                get title() { return i18next.t('code.simulator.modules.logoUp') },
                 color: "#1a6da8",
                 suffix: ""
             }],
@@ -1299,13 +1299,13 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.(current_gesture\(\)( ){0,2}==( ){0,2}['"]down['"]|(is|was)_gesture\(['"]down['"]\))/,
             id: "mb-gesture-down",
-            title: "Logo vers le bas",
+            get title() { return i18next.t('code.simulator.modules.logoDown') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
-                title: "logo en bas",
+                get title() { return i18next.t('code.simulator.modules.logoDown') },
                 color: "#1a6da8",
                 suffix: ""
             }],
@@ -1325,14 +1325,14 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.(current_gesture\(\)( ){0,2}==( ){0,2}['"]face up['"]|(is|was)_gesture\(['"]face up['"]\))/,
             id: "mb-gesture-faceup",
-            title: "Écran vers le haut",
+            get title() { return i18next.t('code.simulator.modules.screenUp') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
                 color: "#1a6da8",
-                title: "écran en haut",
+                get title() { return i18next.t('code.simulator.modules.screenUp') },
                 suffix: ""
             }],
             picture: "Transparent.png",
@@ -1351,14 +1351,14 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.(current_gesture\(\)( ){0,2}==( ){0,2}['"]face down['"]|(is|was)_gesture\(['"]face down['"]\))/,
             id: "mb-gesture-facedown",
-            title: "Écran vers le bas",
+            get title() { return i18next.t('code.simulator.modules.screenDown') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
                 color: "#1a6da8",
-                title: "écran en bas",
+                get title() { return i18next.t('code.simulator.modules.screenDown') },
                 suffix: ""
             }],
             picture: "Transparent.png",
@@ -1377,14 +1377,14 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.(current_gesture\(\)( ){0,2}==( ){0,2}['"]left['"]|(is|was)_gesture\(['"]left['"]\))/,
             id: "mb-gesture-left",
-            title: "Tourner à gauche",
+            get title() { return i18next.t('code.simulator.modules.tiltLeft') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
                 color: "#1a6da8",
-                title: "pencher à gauche",
+                get title() { return i18next.t('code.simulator.modules.tiltLeft') },
                 suffix: ""
             }],
             picture: "Transparent.png",
@@ -1403,14 +1403,14 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.(current_gesture\(\)( ){0,2}==( ){0,2}['"]right['"]|(is|was)_gesture\(['"]right['"]\))/,
             id: "mb-gesture-right",
-            title: "Tourner à droite",
+            get title() { return i18next.t('code.simulator.modules.tiltRight') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
                 color: "#1a6da8",
-                title: "pencher à droite",
+                get title() { return i18next.t('code.simulator.modules.tiltRight') },
                 suffix: ""
             }],
             picture: "Transparent.png",
@@ -1429,7 +1429,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /microphone.((is|was)_event|sound_level|set_threshold)\(/gi,
             id: "mb-micro",
-            title: "Microphone",
+            get title() { return i18next.t('code.simulator.modules.microphone') },
             pin: 'micro:bit v2',
             type: 'input',
             listeners: [{
@@ -1455,7 +1455,7 @@ Simulator.Mosaic.specific = {
         },
         {
             id: "ti-groveTemp",
-            title: "Capteur de temp. : ",
+            get title() { return i18next.t('code.simulator.modules.groveTemp') },
             pin: 'pin n°',
             pins: 'analog_read',
             type: 'input',
@@ -1497,7 +1497,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(brightns.measurement\(\)|from brightns import \*)/g,
             id: "ih-brightns",
-            title: "Capteur de luminosité",
+            get title() { return i18next.t('code.simulator.modules.groveLight') },
             pin: 'Innovator Hub',
             type: 'input',
             listeners: [{
@@ -1516,7 +1516,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(sound\.(tone|note)|from sound import \*)/gi,
             id: "ih-buzzer",
-            title: "Buzzer intégré",
+            get title() { return i18next.t('code.simulator.modules.builtinBuzzer') },
             pin: 'Innovator Hub',
             type: 'output',
             value: 0,
@@ -1530,7 +1530,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(import color|from color import *)/gi,
             id: "ih-LED-RGB",
-            title: "LED RGB",
+            get title() { return i18next.t('code.simulator.modules.RGBLed') },
             pin: 'Innovator Hub',
             type: 'output',
             value: "",
@@ -1540,7 +1540,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(import light|from ligh import *)/gi,
             id: "ih-LED-Red",
-            title: "LED Rouge",
+            get title() { return i18next.t('code.simulator.modules.ledRed') },
             pin: 'Innovator Hub',
             type: 'output',
             value: 0,
@@ -1555,7 +1555,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /\.ranger_(measurement|time)\(\)/gi,
             id: "rover-ultrasonic",
-            title: "Télémètre: ",
+            get title() { return i18next.t('code.simulator.modules.ultrasonic') },
             pin: "Rover",
             pins: 'digital',
             type: 'input',
@@ -1565,13 +1565,13 @@ Simulator.Mosaic.specific = {
                 unit: 'm',
                 color: "#f9d142 ",
                 suffix: "_d",
-                title: "Distance"
+                get title() { return i18next.t('code.simulator.modules.distance') }
             }, {
                 suffix: "_t",
                 default: 1166,
                 unit: 'μs',
                 color: "#f9d142",
-                title: "Durée"
+                get title() { return i18next.t('code.simulator.modules.duration') }
             }],
             class: "ultrasonic",
             picture: "Ultrason.png",
@@ -1588,7 +1588,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(red|green|blue|gray|color)_measurement\(\)/g,
             id: "rover-ColorSensor",
-            title: "Capteur de couleurs : ",
+            get title() { return i18next.t('code.simulator.modules.colorSensor') },
             pin: "Rover",
             type: 'input',
             listeners: [{
@@ -1625,7 +1625,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /rv.(motor_left|forward(|_time)|backward(|_time)|to_xy|to_polar|right|left)\(/gi,
             id: "rover-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: "Rover",
             type: 'output',
             value: "",
@@ -1635,7 +1635,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /rv.(motor_right|forward(|_time)|backward(|_time)|to_xy|to_polar|right|left)\(/gi,
             id: "rover-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: "Rover",
             type: 'output',
             value: "",
@@ -1645,7 +1645,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(.)\.gyro_measurement\(\)/g,
             id: "rover-gyroscope-speed",
-            title: "Gyroscope - speed",
+            get title() { return i18next.t('code.simulator.modules.gyroscopeSpeed') },
             pin: "Rover",
             type: 'input',
             listeners: [{
@@ -1663,7 +1663,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(.).encoders_gyro_measurement\(\)/g,
             id: "rover-gyroscope-angle",
-            title: "Gyroscope - angle",
+            get title() { return i18next.t('code.simulator.modules.gyroscopeAngle') },
             pin: "Rover",
             type: 'input',
             listeners: [{
@@ -1683,7 +1683,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(tello)/gi,
             id: "tello-altitude",
-            title: "Altitude",
+            get title() { return i18next.t('code.simulator.modules.altitude') },
             pin: "Tello",
             type: 'input',
             listeners: [{
@@ -1691,7 +1691,7 @@ Simulator.Mosaic.specific = {
                 unit: 'cm',
                 color: "#f9d142 ",
                 suffix: "_d",
-                title: "Altitude"
+                get title() { return i18next.t('code.simulator.modules.altitude') }
             }],
             picture: "Tello_altitude.png",
             pictureAnimation: "Tello_altitude_line.png",
@@ -1702,7 +1702,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /ranger\(\"((IN|BB) ([0-9]{1,2}))\"\)/gi,
             id: "ih-ultrasonic",
-            title: "Télémètre - Distance",
+            get title() { return i18next.t('code.simulator.modules.rangefinderDistance') },
             pin: 'pin n°',
             type: 'input',
             listeners: [{
@@ -1710,7 +1710,7 @@ Simulator.Mosaic.specific = {
                 default: 3,
                 unit: ' cm',
                 color: "#f9d142 ",
-                title: "Distance"
+                get title() { return i18next.t('code.simulator.modules.distance') }
             }],
             class: "ultrasonic",
             picture: "Ultrason.png",
@@ -1722,7 +1722,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /loudness\(\"((IN|BB) ([0-9]{1,2}))\"\)/g,
             id: "loudness",
-            title: "Capteur de son",
+            get title() { return i18next.t('code.simulator.modules.groveSound') },
             pin: 'pin n°',
             type: 'input',
             listeners: [{
@@ -1745,7 +1745,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /conservo\(\"((OUT|BB) ([0-9]{1,2}))\"\)/gi,
             id: "continuousServo",
-            title: "Servo continu",
+            get title() { return i18next.t('code.simulator.modules.continuousServo') },
             pin: 'pin n°',
             type: 'output',
             class: 'servo',
@@ -1756,7 +1756,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /vibration_motor\(\"((OUT|BB) ([0-9]{1,2}))\"\)/gi,
             id: "vibrationMotor",
-            title: "Moteur à vibrations",
+            get title() { return i18next.t('code.simulator.modules.vibrationMotor') },
             pin: 'pin n°',
             type: 'output',
             value: 0,

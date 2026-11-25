@@ -14,12 +14,12 @@ const specificModals = {
                     <p>${jsonPath('modals.board-selector.arduino.welcome')}</p>
                 </div>
                 <p>${jsonPath('modals.board-selector.content.intro')}</p>
-                <div class="board-selector-grid">
+                <div class="board-selector-grid" role="radiogroup" aria-labelledby="${INTERFACE_NAME}-board-selector-title">
                     <div class="board-option" data-board="${BOARD_ARDUINO_UNO}">
                         <input type="radio" name="boardChoice" value="${BOARD_ARDUINO_UNO}" id="board-choice-${BOARD_ARDUINO_UNO}" checked>
                         <label for="board-choice-${BOARD_ARDUINO_UNO}" class="board-card">
                             <div class="board-image">
-                                <img src="/openInterface/arduino/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_ARDUINO_UNO].link}" alt="${INTERFACE_BOARDS[BOARD_ARDUINO_UNO].name}">
+                                <img src="/openInterface/arduino/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_ARDUINO_UNO].link}" alt="">
                             </div>
                             <div class="board-name-container">
                                 <span class="board-radio-indicator"></span>
@@ -31,7 +31,7 @@ const specificModals = {
                         <input type="radio" name="boardChoice" value="${BOARD_ARDUINO_NANO}" id="board-choice-${BOARD_ARDUINO_NANO}">
                         <label for="board-choice-${BOARD_ARDUINO_NANO}" class="board-card">
                             <div class="board-image">
-                                <img src="/openInterface/arduino/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_ARDUINO_NANO].link}" alt="${INTERFACE_BOARDS[BOARD_ARDUINO_NANO].name}">
+                                <img src="/openInterface/arduino/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_ARDUINO_NANO].link}" alt="">
                             </div>
                             <div class="board-name-container">
                                 <span class="board-radio-indicator"></span>
@@ -43,7 +43,7 @@ const specificModals = {
                         <input type="radio" name="boardChoice" value="${BOARD_ARDUINO_MEGA}" id="board-choice-${BOARD_ARDUINO_MEGA}">
                         <label for="board-choice-${BOARD_ARDUINO_MEGA}" class="board-card">
                             <div class="board-image">
-                                <img src="/openInterface/arduino/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_ARDUINO_MEGA].link}" alt="${INTERFACE_BOARDS[BOARD_ARDUINO_MEGA].name}">
+                                <img src="/openInterface/arduino/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_ARDUINO_MEGA].link}" alt="">
                             </div>
                             <div class="board-name-container">
                                 <span class="board-radio-indicator"></span>
@@ -55,7 +55,7 @@ const specificModals = {
                         <input type="radio" name="boardChoice" value="${BOARD_ARDUINO_UNO_R4_WIFI}" id="board-choice-${BOARD_ARDUINO_UNO_R4_WIFI}">
                         <label for="board-choice-${BOARD_ARDUINO_UNO_R4_WIFI}" class="board-card">
                             <div class="board-image">
-                                <img src="/openInterface/arduino/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_ARDUINO_UNO_R4_WIFI].link}" alt="${INTERFACE_BOARDS[BOARD_ARDUINO_UNO_R4_WIFI].name}">
+                                <img src="/openInterface/arduino/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_ARDUINO_UNO_R4_WIFI].link}" alt="">
                             </div>
                             <div class="board-name-container">
                                 <span class="board-radio-indicator"></span>
@@ -67,7 +67,7 @@ const specificModals = {
                         <input type="radio" name="boardChoice" value="${BOARD_ARDUINO_UNO_R4_MINIMA}" id="board-choice-${BOARD_ARDUINO_UNO_R4_MINIMA}">
                         <label for="board-choice-${BOARD_ARDUINO_UNO_R4_MINIMA}" class="board-card">
                             <div class="board-image">
-                                <img src="/openInterface/arduino/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_ARDUINO_UNO_R4_MINIMA].link}" alt="${INTERFACE_BOARDS[BOARD_ARDUINO_UNO_R4_MINIMA].name}">
+                                <img src="/openInterface/arduino/assets/media/simulator/board/${INTERFACE_BOARDS[BOARD_ARDUINO_UNO_R4_MINIMA].link}" alt="">
                             </div>
                             <div class="board-name-container">
                                 <span class="board-radio-indicator"></span>
@@ -86,7 +86,7 @@ const specificModals = {
                     <label for="firmware-options" class="mb-1">${jsonPath('modals.board-selector.arduino.firmware')}</label>
                 </div>
                 <div id="board-selector-shield-grove-section" class="ide-modal-section mt-3" style="display: none;">
-                    <h5>${jsonPath('modals.board-selector.content.shield-grove.title')}</h5>
+                    <h5 role="heading" aria-level="3">${jsonPath('modals.board-selector.content.shield-grove.title')}</h5>
                     <div class="board-selector-shield-grove mb-2">
                         <label class="switch">
                             <input type="checkbox" id="shieldGroveCheckBox" aria-labelledby="shieldGroveLabel">

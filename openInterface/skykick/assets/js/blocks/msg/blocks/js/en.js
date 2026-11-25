@@ -5,7 +5,6 @@
 'use strict';
 
 // Toolbox labels of the drone category
-Blockly.Msg['SKYKICK_LABEL_FLIGHT'] = 'Flight';
 Blockly.Msg['SKYKICK_LABEL_MOVES'] = 'Movements';
 Blockly.Msg['SKYKICK_LABEL_CONTROL'] = 'Manual control';
 Blockly.Msg['SKYKICK_LABEL_SETTINGS'] = 'Settings';

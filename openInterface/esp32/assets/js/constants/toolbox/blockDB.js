@@ -259,23 +259,23 @@ const TOOLBOXES_BLOCKS_CONTENT = {
             "network_client_getServerData": this.Set.text("IP", "192.168.1.10"),
             // network - html
             "network_html_addTitle": this.Set.text("TITLE", '{webPage_title}') + this.Set.colour_picker('#22b573'),
-            "network_html_addText": this.Set.text("TEXT", 'Ajouter du texte...')
+            "network_html_addText": this.Set.text("TEXT", '{htmlAddText}')
                 + '<mutation size="false" colour="false"></mutation>',
             "network_html_addButton": this.Set.text("ID", '{buttonName}') + this.Set.text('TEXT', 'ON')
                 + '<mutation colour="false" shape="false"></mutation>',
             "network_html_addSlider": this.Set.text("ID", '{sliderName}')
                 + '<mutation limits="false" orient="false" shape="false"></mutation>',
-            "network_html_addGauge": this.Set.text("TITLE", 'Température (°C)') + this.Set.variable("VALUE", 'temperature') + this.Set.number("MIN") + this.Set.number("MAX", 100),
+            "network_html_addGauge": this.Set.text("TITLE", '{htmlGaugeTitle}') + this.Set.variable("VALUE", 'temperature') + this.Set.number("MIN") + this.Set.number("MAX", 100),
             "network_html_addTextInput": this.Set.text("ID", '{textInputName}') + this.Set.text("PLACEHOLDER", '...'),
             "network_html_addSwitch": this.Set.text("ID", '{switchName}')
                 + '<mutation colour="false" size="false"></mutation>',
-            "network_html_addLink": this.Set.text("TEXT", 'Texte du lien...') + '<field name="URL">https://...</field>'
+            "network_html_addLink": this.Set.text("TEXT", '{htmlLinkText}') + '<field name="URL">https://...</field>'
                 + '<mutation size="false" colour="false"></mutation>',
             "network_html_addImage": this.Set.text("DATA", "{base64Image}")
                 + '<mutation shape="false"></mutation>',
             "network_html_addStream": this.Set.variable("DATA", 'image_data') +
                 + '<mutation shape="false"></mutation>',
-            "network_HTML_formatText": this.Set.text("TEXT", 'Texte formaté ...'),
+            "network_HTML_formatText": this.Set.text("TEXT", '{htmlFormattedText}'),
             "network_HTML_add": this.Set.text("HTML"),
             "network_HTML_addSymbol": this.Set.text("SYMBOL", "2600") + this.Set.text("SIZE", "50px"),
             // network - page data
