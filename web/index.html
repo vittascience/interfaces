@@ -106,6 +106,7 @@
     <script src="/public/js/utils/vitta_form_validator/VittaFormValidator.js" type="module"></script>
     <script src="/public/js/scripts/localStorageManager/LocalStorageManager.js"></script>
     <script src="/public/js/utils/globalEvents.js"></script>
+    <script src="/public/js/utils/appReturn.js"></script>
     <script src="/public/js/utils/debug/focus-debug.js" type="module"></script>
     
     <script>
@@ -311,9 +312,9 @@
             </div>
 
             <div class="ide-dropdown ide-dropdown-modes">
-                <a class="ide-btn ide-btn-toggle ide-btn-alone ide-btn-mode">
-                    <i class="far fa-object-ungroup"></i>
-                </a>
+                <button type="button" class="ide-btn ide-btn-toggle ide-btn-alone ide-btn-mode" aria-expanded="false" aria-label="Choisir le mode : blocs, hybride ou code" data-i18n="[aria-label]code.topbar.tooltips.modeMenu">
+                    <i class="far fa-object-ungroup" aria-hidden="true"></i>
+                </button>
 
                 <div class="ide-btn-group ide-btn-group-mode hidden"></div>
             </div>
@@ -378,9 +379,16 @@
 <script src="/openInterface/env.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/interact-1.5.4.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/rotate.js"></script>
+<!-- Blockly and its plugins, common to the interfaces (included by their prodBody.html, expanded by
+     gulp/interfacesGulp/indexBuild.js and public/wiki.php). vittascience_patches.js right after the colour field. -->
 <script src="/openInterface/interfaces/assets/js/external/blockly/blockly_compressed.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_colour_compressed.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/blockly/vittascience_patches.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_grid_dropdown_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_slider_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/scroll_options_compressed.js"></script>
+<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/backpack/backpack_compressed.js"></script>
+
 <script src="/openInterface/interfaces/assets/js/utils/jsonPath.js"></script>
 <script src="/interfaces/assets/js/utils/url.js"></script>
 <script src="/openInterface/interfaces/assets/js/styling/accessibility.js"></script>
@@ -391,7 +399,6 @@
 <script src="/openInterface/web/assets/js/constants/toolbox/blockDB.js"></script>
 <script src="/openInterface/web/assets/js/constants/main/init.js"></script>
 <script src="/openInterface/interfaces/assets/js/main/ToolboxManager.js"></script>
-<script type="module" src="/openInterface/interfaces/assets/js/external/blockly/extensions/backpack/index.js"></script>
 <script src="/openInterface/interfaces/assets/js/main/Main.js"></script>
 <script src="/interfaces/assets/js/constants/main/errors.js"></script>
 <script src="/openInterface/interfaces/assets/js/main/modal.js" type="module"></script>
@@ -454,7 +461,15 @@
     // Offline interface (/interfaces-sw.js): scope of this interface only (/microbit/...). Not in an iframe
     // (Capytale, LTI, ...): the page that embeds the interface depends on the network anyway. Not in the static build
     // (gulp/interfacesGulp/indexBuild.js: Capytale, iOS app) either, which has no /interfaces-sw.js
-    if ('serviceWorker' in navigator && window.isSecureContext && window.self === window.top && typeof IS_CAPYTALE_CONTEXT === 'undefined') {
+    // PWA disabled for now (/interfaces-sw.js is not deployed: 404 on dev). Set to true to re-enable
+    const OFFLINE_INTERFACES_ENABLED = false;
+    if (!OFFLINE_INTERFACES_ENABLED && 'serviceWorker' in navigator) {
+        // service workers registered before the deactivation: removed so that they no longer serve a stale cache
+        navigator.serviceWorker.getRegistrations().then((registrations) => registrations
+            .filter((registration) => registration.active?.scriptURL.includes('/interfaces-sw.js'))
+            .forEach((registration) => registration.unregister())).catch(() => { });
+    }
+    if (OFFLINE_INTERFACES_ENABLED && 'serviceWorker' in navigator && window.isSecureContext && window.self === window.top && typeof IS_CAPYTALE_CONTEXT === 'undefined') {
         const scope = location.pathname.match(/^\/[^/]+\//);
         const cdn = CDN_PATH ? `?cdn=${encodeURIComponent(new URL(CDN_PATH, location.origin).origin)}` : '';
         if (scope) navigator.serviceWorker.register(`/interfaces-sw.js${cdn}`, { scope: scope[0] }).catch(e => console.warn('interfaces-sw', e));

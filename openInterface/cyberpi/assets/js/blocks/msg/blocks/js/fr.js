@@ -338,8 +338,8 @@ Blockly.Msg['ROBOTS_GAMEPAD_GET_JOYSTICK_TITLE'] = '[Manette] joystick %1';
 Blockly.Msg['ROBOTS_GAMEPAD_GET_JOYSTICK_TOOLTIP'] = 'Retourne la position de l\'axe choisi du joystick de la manette Bluetooth Makeblock (LX/LY : joystick gauche, RX/RY : joystick droit).';
 Blockly.Msg['ROBOTS_GAMEPAD_KEY_L_THUMB'] = 'joystick gauche';
 Blockly.Msg['ROBOTS_GAMEPAD_KEY_R_THUMB'] = 'joystick droit';
-Blockly.Msg['ROBOTS_MBOT2_FOLLOW_LINE_TITLE'] = '[mBot2] suivre la ligne à la vitesse %1 avec la sensibilité %2 jusqu\'à une intersection (capteur RGB quad. %3)';
-Blockly.Msg['ROBOTS_MBOT2_FOLLOW_LINE_TOOLTIP'] = 'Suit la ligne avec le capteur RGB quadruple : à chaque instant, la puissance des moteurs est corrigée selon la déviation avec la ligne (vitesse ± sensibilité × déviation). Le robot s\'arrête quand les 4 sondes détectent la ligne (état 0000), par exemple à une intersection ou une zone noire.';
+Blockly.Msg['ROBOTS_MBOT2_FOLLOW_LINE_TITLE'] = '[mBot2] suivre la ligne à la vitesse %1 avec la sensibilité %2 (capteur RGB quad. %3)';
+Blockly.Msg['ROBOTS_MBOT2_FOLLOW_LINE_TOOLTIP'] = 'Suit la ligne avec le capteur RGB quadruple : la puissance des moteurs est corrigée selon la déviation avec la ligne (vitesse ± sensibilité × déviation). Le bloc n\'a pas de condition d\'arrêt : placez-le dans une boucle.';
 // Network - WiFi
 Blockly.Msg['CYBERPI_WIFI_CONNECT_TITLE'] = '[WiFi] connecter la CyberPi au réseau: nom %1 mot de passe %2';
 Blockly.Msg['CYBERPI_WIFI_CONNECT_TOOLTIP'] = 'Permet de connecter la carte CyberPi à un réseau WiFi.';

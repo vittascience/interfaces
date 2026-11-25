@@ -358,15 +358,15 @@ Blockly.Constants.Numpy.NUMPY_CREATE_TABLE_WITH_MUTATOR_MIXIN = {
         if (this.itemCount_ > 0) {
             // Case list have at least one item
             top.appendField(Blockly.Msg['NUMPY_CREATE_TABLE_WITH_TITLE']);
-            top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", add, false));
-            top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", remove, false));
+            top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
+            top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
             for (var i = 0; i < this.itemCount_; i++) {
                 this.appendValueInput('ADD' + i);
             }
         } else {
             // Case of empty list
             top.appendField(Blockly.Msg['NUMPY_CREATE_TABLE_EMPTY_TITLE']);
-            top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", add, false));
+            top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
         }
         // Switch to vertical list when the list is too long
         var showHorizontalList = this.itemCount_ <= 5;
@@ -471,12 +471,12 @@ Blockly.Constants.Numpy.NUMPY_SQUARE_MATRIX_MUTATOR_MIXIN = {
         var top = this.appendDummyInput('TOP');
         top.appendField(Blockly.Msg['NUMPY_SQUARE_MATRIX_TITLE']);
         if (this.dim_ > 2 && this.dim_ < 10) {
-            top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", add, false));
-            top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", remove, false));
+            top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
+            top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
         } else if (this.dim_ == 2) {
-            top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", add, false));
+            top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
         } else {
-            top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", remove, false));
+            top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
         }
         for (var j = 0; j < this.dim_; j++) {
             this.line[j] = this.appendDummyInput('line_' + j);

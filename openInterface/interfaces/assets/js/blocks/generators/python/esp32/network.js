@@ -660,7 +660,8 @@ Blockly.Python.network_thingspeak_sendData_field = function (block) {
 // ThingSpeak - Read data
 Blockly.Python.request_thingspeak_readFeeds = function (block) {
     Blockly.Python.addImport('urequests', IMPORT_UREQUESTS);
-    Blockly.Python.addFunction('request_thingspeak_write', FUNCTIONS_ESP32_MICROCHIP.REQUEST_THINGSPEAK_READ_FIELD);
+    // own key: with 'request_thingspeak_write' (the send block's key) only one of the two functions was defined
+    Blockly.Python.addFunction('request_thingspeak_readFeeds', FUNCTIONS_ESP32_MICROCHIP.REQUEST_THINGSPEAK_READ_FIELD);
     const channelID = Blockly.Python.valueToCode(block, "CHANNEL_ID", Blockly.Python.ORDER_NONE) || "''";
     const api_key = Blockly.Python.valueToCode(block, "API_KEY", Blockly.Python.ORDER_NONE) || "''";
     const fieldNumber = Blockly.Python.valueToCode(block, "FIELD", Blockly.Python.ORDER_NONE) || "None";

@@ -648,6 +648,11 @@ Blockly.Msg["TEXT_TRIM_OPERATOR_LEFT"] = "entferne Leerzeichen vom Anfang (links
 Blockly.Msg["TEXT_TRIM_OPERATOR_RIGHT"] = "entferne Leerzeichen vom Ende (rechts)";
 Blockly.Msg["TEXT_TRIM_TOOLTIP"] = "Entfernt Leerzeichen vom Anfang und / oder Ende eines Textes.";
 Blockly.Msg["TODAY"] = "Heute";
+Blockly.Msg["TOOLBOX_SEARCH_NO_RESULTS"] = "No matching blocks found";  // untranslated
+Blockly.Msg["TOOLBOX_SEARCH_PLACEHOLDER"] = "Search for blocks";  // untranslated
+Blockly.Msg["TOOLBOX_SEARCH_PROMPT"] = "Type to search for blocks";  // untranslated
+Blockly.Msg["TOOLBOX_SEARCH_RESULT_COUNT"] = "%1 matching blocks";  // untranslated
+Blockly.Msg["TOOLBOX_SEARCH_RESULT_COUNT_ONE"] = "1 matching block";  // untranslated
 Blockly.Msg["UNDO"] = "Rückgängig";
 Blockly.Msg["UNKNOWN"] = "Unknown";  // untranslated
 Blockly.Msg["UNNAMED_KEY"] = "unbenannt";
@@ -714,5 +719,8 @@ Blockly.Msg["PROCEDURES_HUE"] = "290";
 Blockly.Msg["TEXTS_HUE"] = "160";
 Blockly.Msg["VARIABLES_DYNAMIC_HUE"] = "310";
 Blockly.Msg["VARIABLES_HUE"] = "330";
+// Vittascience: not in Blockly, for the "+" / "-" buttons of the if blocks (keep when updating Blockly)
+Blockly.Msg["ARIA_LABEL_ADD_ELSE"] = "Sonst hinzufügen";
+Blockly.Msg["ARIA_LABEL_REMOVE_ELSE"] = "Sonst entfernen";
 return Blockly.Msg;
 }));

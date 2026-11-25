@@ -119,8 +119,16 @@ const InterfaceConnection = {
 	},
 
 	downloadHexButton: async function () {
-		await this.fsWrapper.setFilesystemProgram(CodeManager.getSharedInstance().getCode());
-		const universalHex = this.fsWrapper.fs.getUniversalHex();
+		let universalHex;
+		try {
+			universalHex = await this.fsWrapper.buildUniversalHex(CodeManager.getSharedInstance().getCode());
+		} catch (e) {
+			console.error(e);
+			if (/no storage space left/.test(String(e))) {
+				InterfaceMonitor.writeConsole('code.serialAPI.noSpaceLeft', 'warning', false, true);
+			}
+			return;
+		}
 		this.saveFile('microbit_' + Date.now(), universalHex, 'hex', 'application/octet-stream');
 		InterfaceMonitor.writeConsole(jsonPath('code.downloadHex.success'), 'success', false, true);
 		InterfaceMonitor.setup();
@@ -491,7 +499,17 @@ const InterfaceConnection = {
 					this.superbitInitialized = false;
 					await this.changeFirmware('micropython-microbit-v2.1.1.hex');
 				}
-				await this.fs.setFilesystemProgram(code);
+				try {
+					await this.fs.setFilesystemProgram(code);
+				} catch (e) {
+					// program + libraries too big even once minified: without this, isUploading would stay true
+					console.error(e);
+					this.isUploading = false;
+					if (/no storage space left/.test(String(e))) {
+						InterfaceMonitor.writeConsole('code.serialAPI.noSpaceLeft', 'warning', false, true);
+					}
+					return;
+				}
 				InterfaceMonitor.writeConsole('</br>' + jsonPath('code.serialAPI.uploadingProgram'), 'neutral');
 				const flashed = await this.flash(true);
 				this.isUploading = false;
@@ -576,7 +594,7 @@ const InterfaceConnection = {
 			} catch (e) {
 				console.error(e)
 				this.progressBar._hideProgressBar();
-				if (String(e).match(/Error: is no storage space left./)) {
+				if (String(e).match(/no storage space left/)) {
 					InterfaceMonitor.writeConsole('code.serialAPI.noSpaceLeft', 'warning', false, true);
 				}
 				if (String(e).match(/DOMException: Failed to execute \'transferOut\' on \'USBDevice\'/)) {

@@ -51,7 +51,7 @@ Simulator.Mosaic.externalLibraries = {
     'src/lib/rfid_reader.py': Simulator.PATH_LIB + 'grove/simu_rfid_reader.py',
     'src/lib/voiceRecognition.py': Simulator.PATH_LIB + 'grove/simu_voiceRecognition.py',
     'src/lib/fingerprint.py': Simulator.PATH_LIB + 'grove/simu_fingerprint.py',
-    'src/lib/edgeModel.py': Simulator.PATH_LIB + 'ai/edgeModel.py',
+    'src/lib/edgeModel.py': Simulator.PATH_LIB_PY + 'ai/edgeModel.py',
     'src/lib/huskylens_v2.py': Simulator.PATH_LIB + 'grove/simu_huskylens_v2.py',
     // A4 microSySTEM models (block extensions)
     'src/lib/a4_access.py': Simulator.PATH_LIB + 'a4/simu_a4_access.py',
@@ -1234,7 +1234,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /a4_barrier\.(servo|set_light)\(/,
             id: "a4-barrier",
-            title: "Barrière",
+            get title() { return i18next.t('code.simulator.modules.barrier') },
             pin: 'S0 / P0',
             type: 'output',
             value: [5, [0, 0, 0]],
@@ -1245,7 +1245,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /a4_shifumi\.(servo|set_backlight|set_brightness)\(/,
             id: "a4-shifumi",
-            title: "Disque ShiFuMi",
+            get title() { return i18next.t('code.simulator.modules.rockPaperScissors') },
             pin: 'S0 / P0',
             type: 'output',
             value: [90, [0, 0, 0]],
@@ -1256,7 +1256,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /a4_board\.write_port\(/,
             id: "a4-lock",
-            title: "Ventouse magnétique",
+            get title() { return i18next.t('code.simulator.modules.magneticSucker') },
             pin: 'C0',
             type: 'output',
             value: 0,
@@ -1267,7 +1267,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /a4_board\.read_port\(/,
             id: "a4-port",
-            title: "Véhicule détecté",
+            get title() { return i18next.t('code.simulator.modules.vehicleDetected') },
             pin: 'C0',
             type: 'input',
             listeners: [{ default: "non", unit: '', color: "#1a6da8", suffix: "" }],
@@ -1279,7 +1279,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /a4_board\.battery\(/,
             id: "a4-battery",
-            title: "Batterie",
+            get title() { return i18next.t('code.simulator.modules.battery') },
             pin: 'I2C (0x33)',
             type: 'input',
             listeners: [{ default: 100, unit: '%', color: "#1a6da8", suffix: "" }],
@@ -1291,7 +1291,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /a4_board\.set_(leds|brightness)\(/,
             id: "a4-rgb0",
-            title: "LED RGB0",
+            get title() { return i18next.t('code.simulator.modules.rgbLedNumber', { n: 0 }) },
             pin: 'I2C (0x33)',
             type: 'output',
             value: [0, 0, 0],
@@ -1304,7 +1304,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /a4_board\.set_(leds|brightness)\(/,
             id: "a4-rgb1",
-            title: "LED RGB1",
+            get title() { return i18next.t('code.simulator.modules.rgbLedNumber', { n: 1 }) },
             pin: 'I2C (0x33)',
             type: 'output',
             value: [0, 0, 0],
@@ -1317,7 +1317,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /a4_access\.door_is\(/,
             id: "a4-door",
-            title: "Porte fermée",
+            get title() { return i18next.t('code.simulator.modules.doorClosed') },
             pin: 'P0',
             type: 'input',
             listeners: [{ default: "OFF", unit: '', color: "#1a6da8", title: "", suffix: "" }],
@@ -1332,7 +1332,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /a4_access\.(wait_key|read_key|entered_code|clear_code|delete_last)\(/,
             id: "a4-keypad",
-            title: "Clavier",
+            get title() { return i18next.t('code.simulator.modules.keyboard') },
             pin: 'UART (P14/P15)',
             type: 'input',
             listeners: [{ default: "–", unit: '', color: "#1a6da8", suffix: "" }],
@@ -1343,7 +1343,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /a4_barrier\.read_tag\(/,
             id: "a4-rfid",
-            title: "Lecteur de badges RFID",
+            get title() { return i18next.t('code.simulator.modules.rfidReader') },
             pin: 'UART (P14/P15)',
             type: 'input',
             listeners: [{ default: "aucun", unit: '', color: "#1a6da8", suffix: "" }],
@@ -1354,7 +1354,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /a4_weight\.(init|tare|mass|connected|start_calibration|calibrate|raw_average)\(/,
             id: "a4-mass",
-            title: "Masse sur la balance",
+            get title() { return i18next.t('code.simulator.modules.scaleMass') },
             pin: 'I2C (0x64)',
             type: 'input',
             listeners: [{ default: 0, unit: 'g', color: "#1a6da8", suffix: "" }],
@@ -1365,7 +1365,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /a4_weight\.(pressed_key|wait_key)\(/,
             id: "a4-keypad4x4",
-            title: "Clavier 4x4",
+            get title() { return i18next.t('code.simulator.modules.keypad4x4') },
             pin: 'P0-P3, P8, P13-P15',
             type: 'input',
             listeners: [{ default: "–", unit: '', color: "#1a6da8", suffix: "" }],
@@ -1376,7 +1376,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /a4_shifumi\.(distance|hand_detected)\(/,
             id: "a4-distance",
-            title: "Capteur à ultrasons",
+            get title() { return i18next.t('code.simulator.modules.ultrasonicSensor') },
             pin: 'P2',
             type: 'input',
             listeners: [{ default: 50, unit: 'cm', color: "#f9d142", suffix: "" }],
@@ -1388,7 +1388,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /a4_shifumi\.lcd_/,
             id: "a4-lcd",
-            title: "Écran LCD 16x2",
+            get title() { return i18next.t('code.simulator.modules.lcdScreen16x2') },
             pin: 'I2C (0x3E)',
             type: 'output',
             value: ['', ''],
@@ -1399,7 +1399,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /a4_screen\./,
             id: "a4-screen",
-            title: "Écran couleur 320x240",
+            get title() { return i18next.t('code.simulator.modules.colorScreen320x240') },
             pin: 'I2C / UART',
             type: 'output',
             large: true,
@@ -1413,7 +1413,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /dfr0997\./,
             id: "dfr0997-screen",
-            title: "Écran couleur DFR0997",
+            get title() { return i18next.t('code.simulator.modules.colorScreenDFR0997') },
             pin: 'I2C (0x2C)',
             type: 'output',
             value: [0, '', []],
@@ -1426,7 +1426,7 @@ Simulator.Mosaic.specific = {
         ...[1, 2, 3, 4, 5, 6, 7, 8].map(i => ({
             regex: new RegExp('dfr0548\\.servo\\(' + i + ','),
             id: 'dfr0548-servo' + i,
-            title: 'Servo S' + i,
+            get title() { return i18next.t('code.simulator.modules.servoNumber', { n: 'S' + i }) },
             pin: 'DFR0548 (I2C 0x40)',
             type: 'output',
             class: 'servo',
@@ -1441,7 +1441,7 @@ Simulator.Mosaic.specific = {
         ...[1, 2, 3, 4].map(i => ({
             regex: new RegExp('dfr0548\\.motor_(run|stop)\\(' + i + '\\b'),
             id: 'dfr0548-motor' + i,
-            title: 'Moteur M' + i,
+            get title() { return i18next.t('code.simulator.modules.motorNumber', { n: 'M' + i }) },
             pin: 'DFR0548 (I2C 0x40)',
             type: 'output',
             value: 0,
@@ -1468,7 +1468,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /voiceRecognition\.(getCMDID|isCommand)\(/,
             id: "voiceRecognition",
-            title: "Reconnaissance vocale",
+            get title() { return i18next.t('code.simulator.modules.voiceRecognition') },
             pin: 'I2C (0x64)',
             type: 'input',
             listeners: [{
@@ -1486,7 +1486,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /display\.read_light_level\(\)/g,
             id: "mb-light",
-            title: "Capteur de luminosité",
+            get title() { return i18next.t('code.simulator.modules.groveLight') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
@@ -1505,7 +1505,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(?<!\.)temperature\(\)/,
             id: "mb-thermometer",
-            title: "Capteur de température",
+            get title() { return i18next.t('code.simulator.modules.groveTemp') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
@@ -1524,7 +1524,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.get_[xyz]\(\)/,
             id: "mb-accelerometer",
-            title: "Accéléromètre : ",
+            get title() { return i18next.t('code.simulator.modules.accelerometer') },
             pin: 'micro:bit',
             type: 'input',
             color: "#22b573",
@@ -1533,19 +1533,19 @@ Simulator.Mosaic.specific = {
                 default: 0,
                 unit: 'm/s2',
                 color: "#ff4d6a",
-                title: "Axe x"
+                get title() { return i18next.t('code.simulator.modules.axis', { axis: 'x' }) }
             }, {
                 suffix: "_y",
                 default: 0,
                 unit: 'm/s2',
                 color: "#f9d142",
-                title: "Axe y"
+                get title() { return i18next.t('code.simulator.modules.axis', { axis: 'y' }) }
             }, {
                 suffix: "_z",
                 default: 0,
                 unit: 'm/s2',
                 color: "#1a6da8",
-                title: "Axe z"
+                get title() { return i18next.t('code.simulator.modules.axis', { axis: 'z' }) }
             }],
             picture: "Accélerateur.png",
             pictureAnimation: "Accelérateur-animation.png",
@@ -1567,7 +1567,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.get_[yz]\(\)/,
             id: "mb-accelerometer-pitch",
-            title: "Accéleromètre - Tangage",
+            get title() { return i18next.t('code.simulator.modules.accelerometerPitch') },
             pin: 'micro:bit',
             type: 'output',
             value: "0 °",
@@ -1577,7 +1577,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.get_[xyz]\(\)/,
             id: "mb-accelerometer-roll",
-            title: "Accéleromètre - Roulis",
+            get title() { return i18next.t('code.simulator.modules.accelerometerRoll') },
             pin: 'micro:bit',
             type: 'output',
             value: "0 °",
@@ -1587,7 +1587,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /compass\.heading\(\)/,
             id: "mb-compassDir",
-            title: "Boussole",
+            get title() { return i18next.t('code.simulator.modules.compass') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
@@ -1595,7 +1595,7 @@ Simulator.Mosaic.specific = {
                 default: 90,
                 unit: '°',
                 color: "#448ae5",
-                title: "Direction"
+                get title() { return i18next.t('code.simulator.modules.direction') }
             }],
             picture: "Boussole.png",
             pictureAnimation: "Boussole-animation.png",
@@ -1606,7 +1606,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /compass\.get_[xyz]\(\)/,
             id: "mb-compassMag",
-            title: "Boussole : ",
+            get title() { return i18next.t('code.simulator.modules.compass') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
@@ -1614,19 +1614,19 @@ Simulator.Mosaic.specific = {
                 default: 15000,
                 unit: 'µT',
                 color: "#ff4d6a",
-                title: "Champ Mag. x"
+                get title() { return i18next.t('code.simulator.modules.magneticFieldAxis', { axis: 'x' }) }
             }, {
                 suffix: "_y",
                 default: 3000,
                 unit: 'µT',
                 color: "#f9d142",
-                title: "Champ Mag. y"
+                get title() { return i18next.t('code.simulator.modules.magneticFieldAxis', { axis: 'y' }) }
             }, {
                 suffix: "_z",
                 default: -8000,
                 unit: 'µT',
                 color: "#1a6da8",
-                title: "Champ Mag. z"
+                get title() { return i18next.t('code.simulator.modules.magneticFieldAxis', { axis: 'z' }) }
             }
             ],
             picture: "Champ-magnetique.png",
@@ -1637,7 +1637,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /# Traffic Light/gi,
             id: "mb-trafficLight",
-            title: "Panneau de signalisation",
+            get title() { return i18next.t('code.simulator.modules.trafficSign') },
             pin: 'P0 P1 P2',
             ledDiv: [
                 "mb-trafficLight-red",
@@ -1651,7 +1651,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /button_a.(is|was)_pressed\(\)/,
             id: "mb-button-a",
-            title: "Bouton A",
+            get title() { return i18next.t('code.simulator.modules.buttonName', { name: 'A' }) },
             codeFlag: "Button A",
             pin: 'micro:bit',
             type: 'input',
@@ -1676,7 +1676,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /button_b.(is|was)_pressed\(\)/,
             id: "mb-button-b",
-            title: "Bouton B",
+            get title() { return i18next.t('code.simulator.modules.buttonName', { name: 'B' }) },
             pin: 'micro:bit',
             type: 'input',
             releaser: true,
@@ -1700,7 +1700,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(button_a.(is|was)_pressed\(\)\s*and\s*button_b.(is|was)_pressed\(\))|(button_b.(is|was)_pressed\(\)\s*and\s*button_a.(is|was)_pressed\(\))/,
             id: "mb-button-ab",
-            title: "Bouton A+B",
+            get title() { return i18next.t('code.simulator.modules.buttonName', { name: 'A+B' }) },
             pin: 'micro:bit',
             type: 'input',
             releaser: true,
@@ -1744,7 +1744,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /fingerprint\.(verify|register)\(/,
             id: "fingerprint",
-            title: "Capteur d'empreinte capacitif",
+            get title() { return i18next.t('code.simulator.modules.fingerprintSensor') },
             pin: 'UART',
             type: 'input',
             listeners: [{
@@ -1828,13 +1828,13 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.current_gesture\(\)( ){0,2}==( ){0,2}['"]shake['"]/,
             id: "mb-gesture-shake",
-            title: "Secouer",
+            get title() { return i18next.t('code.simulator.modules.shakeGesture') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
-                title: "shake",
+                get title() { return i18next.t('code.simulator.modules.shakeGesture') },
                 color: "#1a6da8",
                 suffix: ""
             }],
@@ -1854,13 +1854,13 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.current_gesture\(\)( ){0,2}==( ){0,2}['"]up['"]/,
             id: "mb-gesture-up",
-            title: "Logo vers le haut",
+            get title() { return i18next.t('code.simulator.modules.logoUp') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
-                title: "logo en haut",
+                get title() { return i18next.t('code.simulator.modules.logoUp') },
                 color: "#1a6da8",
                 suffix: ""
             }],
@@ -1878,13 +1878,13 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.current_gesture\(\)( ){0,2}==( ){0,2}['"]down['"]/,
             id: "mb-gesture-down",
-            title: "Logo vers le bas",
+            get title() { return i18next.t('code.simulator.modules.logoDown') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
-                title: "logo en bas",
+                get title() { return i18next.t('code.simulator.modules.logoDown') },
                 color: "#1a6da8",
                 suffix: ""
             }],
@@ -1904,14 +1904,14 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.current_gesture\(\)( ){0,2}==( ){0,2}['"]face up['"]/,
             id: "mb-gesture-faceup",
-            title: "Écran vers le haut",
+            get title() { return i18next.t('code.simulator.modules.screenUp') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
                 color: "#1a6da8",
-                title: "écran en haut",
+                get title() { return i18next.t('code.simulator.modules.screenUp') },
                 suffix: ""
             }],
             picture: "Transparent.png",
@@ -1930,14 +1930,14 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.current_gesture\(\)( ){0,2}==( ){0,2}['"]face down['"]/,
             id: "mb-gesture-facedown",
-            title: "Écran vers le bas",
+            get title() { return i18next.t('code.simulator.modules.screenDown') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
                 color: "#1a6da8",
-                title: "écran en bas",
+                get title() { return i18next.t('code.simulator.modules.screenDown') },
                 suffix: ""
             }],
             picture: "Transparent.png",
@@ -1956,14 +1956,14 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.current_gesture\(\)( ){0,2}==( ){0,2}['"]left['"]/,
             id: "mb-gesture-left",
-            title: "Tourner à gauche",
+            get title() { return i18next.t('code.simulator.modules.tiltLeft') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
                 color: "#1a6da8",
-                title: "pencher à gauche",
+                get title() { return i18next.t('code.simulator.modules.tiltLeft') },
                 suffix: ""
             }],
             picture: "Transparent.png",
@@ -1982,14 +1982,14 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.current_gesture\(\)( ){0,2}==( ){0,2}['"]right['"]/,
             id: "mb-gesture-right",
-            title: "Tourner à droite",
+            get title() { return i18next.t('code.simulator.modules.tiltRight') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
                 color: "#1a6da8",
-                title: "pencher à droite",
+                get title() { return i18next.t('code.simulator.modules.tiltRight') },
                 suffix: ""
             }],
             picture: "Transparent.png",
@@ -2008,14 +2008,14 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.current_gesture\(\)( ){0,2}==( ){0,2}['"]freefall['"]/,
             id: "mb-gesture-freefall",
-            title: "Chute libre",
+            get title() { return i18next.t('code.simulator.modules.freeFall') },
             pin: 'micro:bit',
             type: 'input',
             listeners: [{
                 default: "OFF",
                 unit: '',
                 color: "#1a6da8",
-                title: "chute libre",
+                get title() { return i18next.t('code.simulator.modules.freeFall') },
                 suffix: ""
             }],
             picture: "Transparent.png",
@@ -2112,7 +2112,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /microphone\.(set_threshold|sound_level|current_event|was_event|is_event|get_events)\(/gi,
             id: "mb-micro",
-            title: "Microphone",
+            get title() { return i18next.t('code.simulator.modules.microphone') },
             pin: 'micro:bit v2',
             type: 'input',
             listeners: [{
@@ -2139,7 +2139,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /# Buzzer on pin_speaker/gi,
             id: "mb-buzzer",
-            title: "Buzzer",
+            get title() { return i18next.t('code.simulator.modules.buzzer') },
             pin: 'micro:bit v2',
             type: 'output',
             value: 0,
@@ -2154,7 +2154,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueen\.setServomotor\(0x14/gi,
             id: "mb-maqueen-servo1",
-            title: "Servo 1",
+            get title() { return i18next.t('code.simulator.modules.servoNumber', { n: 1 }) },
             pin: 'Maqueen (I2C: 0x14)',
             type: 'output',
             class: 'servo',
@@ -2165,7 +2165,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueen\.setServomotor\(0x15/gi,
             id: "mb-maqueen-servo2",
-            title: "Servo 2",
+            get title() { return i18next.t('code.simulator.modules.servoNumber', { n: 2 }) },
             class: 'servo',
             pin: 'Maqueen (I2C: 0x15)',
             type: 'output',
@@ -2176,7 +2176,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueen\.setMotor\((0|0x00)(| ),/gi,
             id: "mb-maqueen-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: 'Maqueen (I2C: 0x00)',
             type: 'output',
             value: "",
@@ -2186,7 +2186,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueen\.setMotor\((2|0x02)(| ),/gi,
             id: "mb-maqueen-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: 'Maqueen (I2C: 0x02)',
             type: 'output',
             value: "",
@@ -2196,7 +2196,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueen\.readLine\(pin13\)/gi,
             id: "mb-maqueen-finderLeft",
-            title: "cap. Ligne noire (Gauche)",
+            get title() { return i18next.t('code.simulator.modules.lineLeft') },
             pin: 'Maqueen (P13)',
             type: 'input',
             listeners: [{
@@ -2214,7 +2214,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueen\.readLine\(pin14\)/gi,
             id: "mb-maqueen-finderRight",
-            title: "cap. Ligne noire (Droit)",
+            get title() { return i18next.t('code.simulator.modules.lineRight') },
             pin: 'Maqueen (P14)',
             type: 'input',
             listeners: [{
@@ -2232,7 +2232,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueen\.readPatrolV5\(0x20\)/gi,
             id: "mb-maqueen-finderLeft",
-            title: "cap. Ligne noire (Gauche)",
+            get title() { return i18next.t('code.simulator.modules.lineLeft') },
             pin: 'Maqueen (I2C: 0x20)',
             type: 'input',
             listeners: [{
@@ -2250,7 +2250,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueen\.readPatrolV5\(0x22\)/gi,
             id: "mb-maqueen-finderMiddle",
-            title: "cap. Ligne noire (Milieu)",
+            get title() { return i18next.t('code.simulator.modules.lineMiddle') },
             pin: 'Maqueen (I2C: 0x22)',
             type: 'input',
             listeners: [{
@@ -2268,7 +2268,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueen\.readPatrolV5\(0x24\)/gi,
             id: "mb-maqueen-finderRight",
-            title: "cap. Ligne noire (Droit)",
+            get title() { return i18next.t('code.simulator.modules.lineRight') },
             pin: 'Maqueen (I2C: 0x24)',
             type: 'input',
             listeners: [{
@@ -2286,7 +2286,7 @@ Simulator.Mosaic.specific = {
         {
             codeFlag: "Maqueen Buzzer",
             id: "mb-maqueen-buzzer",
-            title: "Buzzer",
+            get title() { return i18next.t('code.simulator.modules.buzzer') },
             pin: 'Maqueen (P0)',
             type: 'output',
             value: 0,
@@ -2301,7 +2301,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /cutebot\.set_servo_1_angle\(.+\)/gi,
             id: "mb-cutebot-servo1",
-            title: "Servo 1",
+            get title() { return i18next.t('code.simulator.modules.servoNumber', { n: 1 }) },
             pin: 'Cutebot',
             type: 'output',
             class: 'servo',
@@ -2316,7 +2316,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /cutebot\.set_servo_2_angle\(.+\)/gi,
             id: "mb-cutebot-servo2",
-            title: "Servo 2",
+            get title() { return i18next.t('code.simulator.modules.servoNumber', { n: 2 }) },
             pin: 'Cutebot',
             type: 'output',
             class: 'servo',
@@ -2331,7 +2331,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /cutebot\.(_set_motor_speed\(cutebot.MOTOR_LEFT,.+\)|set_motors_speed\(.+,.+\))/gi,
             id: "mb-cutebot-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: 'Cutebot',
             type: 'output',
             value: "",
@@ -2341,7 +2341,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /cutebot\.(_set_motor_speed\(cutebot.MOTOR_RIGHT,.+\)|set_motors_speed\(.+,.+\))/gi,
             id: "mb-cutebot-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: 'Cutebot',
             type: 'output',
             value: "",
@@ -2351,7 +2351,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /cutebot\.has_left_track\(\)/gi,
             id: "mb-cutebot-finderLeft",
-            title: "cap. Ligne noire (Gauche)",
+            get title() { return i18next.t('code.simulator.modules.lineLeft') },
             pin: 'Cutebot',
             type: 'input',
             listeners: [{
@@ -2369,7 +2369,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /cutebot\.has_right_track\(\)/gi,
             id: "mb-cutebot-finderRight",
-            title: "cap. Ligne noire (Droit)",
+            get title() { return i18next.t('code.simulator.modules.lineRight') },
             pin: 'Cutebot',
             type: 'input',
             listeners: [{
@@ -2387,7 +2387,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /cutebot\.set_right_rgb_led\(.+\)/gi,
             id: "mb-cutebot-RightRGBLed",
-            title: "LED RGB (droite)",
+            get title() { return i18next.t('code.simulator.modules.rgbLedRight') },
             pin: 'Cutebot',
             type: 'output',
             value: [75, 75, 75],
@@ -2400,7 +2400,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /cutebot\.set_left_rgb_led\(.+\)/gi,
             id: "mb-cutebot-LeftRGBLed",
-            title: "LED RGB (gauche)",
+            get title() { return i18next.t('code.simulator.modules.rgbLedLeft') },
             pin: 'Cutebot',
             type: 'output',
             value: [75, 75, 75],
@@ -2413,7 +2413,7 @@ Simulator.Mosaic.specific = {
         {
             codeFlag: "Cutebot Buzzer",
             id: "mb-cutebot-buzzer",
-            title: "Buzzer",
+            get title() { return i18next.t('code.simulator.modules.buzzer') },
             pin: 'Cutebot (P0)',
             type: 'output',
             value: 0,
@@ -2429,7 +2429,7 @@ Simulator.Mosaic.specific = {
         ...['Left', 'Right'].map(side => ({
             regex: /tpbot\.(set_wheels|stop)\(/gi,
             id: "mb-tpbot-motor" + side,
-            title: side === 'Left' ? "Moteur Gauche" : "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motor' + side) },
             pin: 'TPBot',
             type: 'output',
             value: "",
@@ -2439,7 +2439,7 @@ Simulator.Mosaic.specific = {
         ...['Left', 'Right'].map(side => ({
             regex: /tpbot\.track\(/gi,
             id: "mb-tpbot-finder" + side,
-            title: side === 'Left' ? "cap. Ligne noire (Gauche)" : "cap. Ligne noire (Droit)",
+            get title() { return i18next.t('code.simulator.modules.line' + side) },
             pin: side === 'Left' ? 'TPBot (P13)' : 'TPBot (P14)',
             type: 'input',
             listeners: [{
@@ -2457,7 +2457,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /tpbot\.distance\(/gi,
             id: "mb-tpbot-ultrasonic",
-            title: "Télémètre: ",
+            get title() { return i18next.t('code.simulator.modules.ultrasonic') },
             pin: 'TPBot (P16/P15)',
             type: 'input',
             listeners: [{
@@ -2465,13 +2465,13 @@ Simulator.Mosaic.specific = {
                 unit: 'cm',
                 color: "#f9d142",
                 suffix: "_d",
-                title: "Distance"
+                get title() { return i18next.t('code.simulator.modules.distance') }
             }, {
                 suffix: "_t",
                 default: 1166,
                 unit: 'μs',
                 color: "#f9d142",
-                title: "Durée"
+                get title() { return i18next.t('code.simulator.modules.duration') }
             }],
             class: 'ultrasonic',
             picture: "Ultrason.png",
@@ -2488,7 +2488,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /tpbot\.headlights\(/gi,
             id: "mb-tpbot-headlights",
-            title: "Phares RGB",
+            get title() { return i18next.t('code.simulator.modules.rgbHeadlights') },
             pin: 'TPBot',
             type: 'output',
             value: [0, 0, 0],
@@ -2501,7 +2501,7 @@ Simulator.Mosaic.specific = {
         ...[1, 2, 3, 4].map(i => ({
             regex: new RegExp('tpbot\\.servo\\(' + i + ','),
             id: "mb-tpbot-servo" + i,
-            title: "Servo S" + i,
+            get title() { return i18next.t('code.simulator.modules.servoNumber', { n: 'S' + i }) },
             pin: 'TPBot',
             type: 'output',
             class: 'servo',
@@ -2518,7 +2518,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /CutebotPro\.(pwmCruiseControlMotor|fullSpeedAhead|fullAstern|stopImmediately|readSpeed|cruiseControl|turnWithRadius|runDistance|turnWheel|turnWithAngle|runSquare)\(/gi,
             id: "mb-cutebotpro-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: 'Cutebot Pro (0x10)',
             type: 'output',
             value: "",
@@ -2528,7 +2528,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /CutebotPro\.(pwmCruiseControlMotor|fullSpeedAhead|fullAstern|stopImmediately|readSpeed|cruiseControl|turnWithRadius|runDistance|turnWheel|turnWithAngle|runSquare)\(/gi,
             id: "mb-cutebotpro-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: 'Cutebot Pro (0x10)',
             type: 'output',
             value: "",
@@ -2538,7 +2538,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /CutebotPro\.(controlHeadlights|controlHeadlightsHex|turnOffHeadlights)\(/gi,
             id: "mb-cutebotpro-LeftRGBLed",
-            title: "LED RGB (gauche)",
+            get title() { return i18next.t('code.simulator.modules.rgbLedLeft') },
             pin: 'Cutebot Pro (0x10)',
             type: 'output',
             value: [75, 75, 75],
@@ -2551,7 +2551,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /CutebotPro\.(controlHeadlights|controlHeadlightsHex|turnOffHeadlights)\(/gi,
             id: "mb-cutebotpro-RightRGBLed",
-            title: "LED RGB (droite)",
+            get title() { return i18next.t('code.simulator.modules.rgbLedRight') },
             pin: 'Cutebot Pro (0x10)',
             type: 'output',
             value: [75, 75, 75],
@@ -2564,7 +2564,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /CutebotPro\.setNeopixelColor\(/gi,
             id: "neopixel_15",
-            title: "Neopixel",
+            get title() { return i18next.t('code.simulator.modules.neopixel') },
             codeFlag: "Neopixel",
             pin: 'Cutebot Pro (P15)',
             pins: 'digital',
@@ -2574,7 +2574,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /CutebotPro\.readUltrasonic\(/gi,
             id: "mb-cutebotpro-ultrasonic",
-            title: "Télémètre: ",
+            get title() { return i18next.t('code.simulator.modules.ultrasonic') },
             pin: 'Cutebot Pro (P8/P12)',
             pins: 'digital',
             type: 'input',
@@ -2583,13 +2583,13 @@ Simulator.Mosaic.specific = {
                 unit: 'cm',
                 color: "#f9d142 ",
                 suffix: "_d",
-                title: "Distance"
+                get title() { return i18next.t('code.simulator.modules.distance') }
             }, {
                 suffix: "_t",
                 default: 1166,
                 unit: 'μs',
                 color: "#f9d142",
-                title: "Durée"
+                get title() { return i18next.t('code.simulator.modules.duration') }
             }],
             class: 'ultrasonic',
             picture: "Ultrason.png",
@@ -2606,7 +2606,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /CutebotPro\.(getLineTrackerStates|isLineTrackerState|getLineOffset|isSensorTrackingLine|getGrayscaleTrackingValue)\(/gi,
             id: "mb-cutebotpro-finderLeft",
-            title: "cap. Ligne noire (Gauche)",
+            get title() { return i18next.t('code.simulator.modules.lineLeft') },
             pin: 'Cutebot Pro (0x10)',
             type: 'input',
             class: 'finder',
@@ -2625,7 +2625,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /CutebotPro\.(getLineTrackerStates|isLineTrackerState|getLineOffset|isSensorTrackingLine|getGrayscaleTrackingValue)\(/gi,
             id: "mb-cutebotpro-finderCenterLeft",
-            title: "cap. Ligne noire (Centre Gauche)",
+            get title() { return i18next.t('code.simulator.modules.lineCenterLeft') },
             pin: 'Cutebot Pro (0x10)',
             type: 'input',
             class: 'finder',
@@ -2644,7 +2644,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /CutebotPro\.(getLineTrackerStates|isLineTrackerState|getLineOffset|isSensorTrackingLine|getGrayscaleTrackingValue)\(/gi,
             id: "mb-cutebotpro-finderCenterRight",
-            title: "cap. Ligne noire (Centre Droit)",
+            get title() { return i18next.t('code.simulator.modules.lineCenterRight') },
             pin: 'Cutebot Pro (0x10)',
             type: 'input',
             class: 'finder',
@@ -2663,7 +2663,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /CutebotPro\.(getLineTrackerStates|isLineTrackerState|getLineOffset|isSensorTrackingLine|getGrayscaleTrackingValue)\(/gi,
             id: "mb-cutebotpro-finderRight",
-            title: "cap. Ligne noire (Droit)",
+            get title() { return i18next.t('code.simulator.modules.lineRight') },
             pin: 'Cutebot Pro (0x10)',
             type: 'input',
             class: 'finder',
@@ -2682,7 +2682,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /CutebotPro\.controlServo\(1/gi,
             id: "mb-cutebotpro-servo1",
-            title: "Servo 1",
+            get title() { return i18next.t('code.simulator.modules.servoNumber', { n: 1 }) },
             pin: 'Cutebot Pro (0x10)',
             type: 'output',
             class: 'servo',
@@ -2697,7 +2697,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /CutebotPro\.controlServo\(2/gi,
             id: "mb-cutebotpro-servo2",
-            title: "Servo 2",
+            get title() { return i18next.t('code.simulator.modules.servoNumber', { n: 2 }) },
             pin: 'Cutebot Pro (0x10)',
             type: 'output',
             class: 'servo',
@@ -2712,7 +2712,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /CutebotPro\.controlServo\(3/gi,
             id: "mb-cutebotpro-servo3",
-            title: "Servo 3",
+            get title() { return i18next.t('code.simulator.modules.servoNumber', { n: 3 }) },
             pin: 'Cutebot Pro (0x10)',
             type: 'output',
             class: 'servo',
@@ -2727,7 +2727,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /CutebotPro\.controlServo\(4/gi,
             id: "mb-cutebotpro-servo4",
-            title: "Servo 4",
+            get title() { return i18next.t('code.simulator.modules.servoNumber', { n: 4 }) },
             pin: 'Cutebot Pro (0x10)',
             type: 'output',
             class: 'servo',
@@ -2743,7 +2743,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueenplusv(1|2|3)/gi,
             id: "mb-maqueenplus-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: 'MaqueenPlus (0x10)',
             type: 'output',
             value: "",
@@ -2753,7 +2753,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueenplusv(1|2|3)/gi,
             id: "mb-maqueenplus-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: 'MaqueenPlus (0x10)',
             type: 'output',
             value: "",
@@ -2763,7 +2763,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueenplusv(1|2|3)\.(sensor_on_line|read_line_sensor|read_all_line_sensors)\(/gi,
             id: "mb-maqueenplus-finderLeftRear",
-            title: "cap. Ligne noire (Arrière gauche)",
+            get title() { return i18next.t('code.simulator.modules.lineRearLeft') },
             pin: 'MaqueenPlus (0x10)',
             type: 'input',
             class: 'finder',
@@ -2782,7 +2782,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueenplusv(1|2|3)\.(sensor_on_line|read_line_sensor|read_all_line_sensors)\(/gi,
             id: "mb-maqueenplus-finderLeft",
-            title: "cap. Ligne noire (Gauche)",
+            get title() { return i18next.t('code.simulator.modules.lineLeft') },
             pin: 'MaqueenPlus (0x10)',
             type: 'input',
             class: 'finder',
@@ -2801,7 +2801,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueenplusv(2|3)\.(sensor_on_line|read_line_sensor|read_all_line_sensors)\(/gi,
             id: "mb-maqueenplus-finderMiddle",
-            title: "cap. Ligne noire (Milieu)",
+            get title() { return i18next.t('code.simulator.modules.lineMiddle') },
             pin: 'MaqueenPlus (0x10)',
             type: 'input',
             class: 'finder',
@@ -2820,7 +2820,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueenplusv1\.sensor_on_line\(/gi,
             id: "mb-maqueenplus-finderMiddleLeft",
-            title: "cap. Ligne noire (Milieu Gauche)",
+            get title() { return i18next.t('code.simulator.modules.lineMiddleLeft') },
             pin: 'MaqueenPlus (0x10)',
             type: 'input',
             class: 'finder',
@@ -2839,7 +2839,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueenplusv1\.sensor_on_line\(/gi,
             id: "mb-maqueenplus-finderMiddleRight",
-            title: "cap. Ligne noire (Milieu Droit)",
+            get title() { return i18next.t('code.simulator.modules.lineMiddleRight') },
             pin: 'MaqueenPlus (0x10)',
             type: 'input',
             class: 'finder',
@@ -2858,7 +2858,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueenplusv(1|2|3)\.(sensor_on_line|read_line_sensor|read_all_line_sensors)\(/gi,
             id: "mb-maqueenplus-finderRight",
-            title: "cap. Ligne noire (Droit)",
+            get title() { return i18next.t('code.simulator.modules.lineRight') },
             pin: 'MaqueenPlus (0x10)',
             type: 'input',
             class: 'finder',
@@ -2877,7 +2877,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueenplusv(1|2|3)\.(sensor_on_line|read_line_sensor|read_all_line_sensors)\(/gi,
             id: "mb-maqueenplus-finderRightRear",
-            title: "cap. Ligne noire (Arrière droit)",
+            get title() { return i18next.t('code.simulator.modules.lineRearRight') },
             pin: 'MaqueenPlus (0x10)',
             type: 'input',
             class: 'finder',
@@ -2896,7 +2896,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueenplusv1\.set_servo_angle\(maqueenplusv1\.S1/gi,
             id: "mb-maqueenplus-v1-servo1",
-            title: "Servo 1",
+            get title() { return i18next.t('code.simulator.modules.servoNumber', { n: 1 }) },
             pin: 'MaqueenPlus V1 (0x14)',
             type: 'output',
             class: 'servo',
@@ -2911,7 +2911,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueenplusv1\.set_servo_angle\(maqueenplusv1\.S2/gi,
             id: "mb-maqueenplus-v1-servo2",
-            title: "Servo 2",
+            get title() { return i18next.t('code.simulator.modules.servoNumber', { n: 2 }) },
             pin: 'MaqueenPlus V1 (0x15)',
             type: 'output',
             class: 'servo',
@@ -2926,7 +2926,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueenplusv1\.set_servo_angle\(maqueenplusv1\.S3/gi,
             id: "mb-maqueenplus-v1-servo3",
-            title: "Servo 3",
+            get title() { return i18next.t('code.simulator.modules.servoNumber', { n: 3 }) },
             pin: 'MaqueenPlus V1 (0x16)',
             type: 'output',
             class: 'servo',
@@ -2941,7 +2941,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueenplusv2\.set_servo_angle\(pin0/gi,
             id: "mb-maqueenplus-v2-servo-p0",
-            title: "Servo 1",
+            get title() { return i18next.t('code.simulator.modules.servoNumber', { n: 1 }) },
             pin: 'MaqueenPlus V2 (P0)',
             type: 'output',
             class: 'servo',
@@ -2956,7 +2956,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueenplusv2\.set_servo_angle\(pin1/gi,
             id: "mb-maqueenplus-v2-servo-p1",
-            title: "Servo 2",
+            get title() { return i18next.t('code.simulator.modules.servoNumber', { n: 2 }) },
             pin: 'MaqueenPlus V2 (P1)',
             type: 'output',
             class: 'servo',
@@ -2971,7 +2971,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueenplusv2\.set_servo_angle\(pin2/gi,
             id: "mb-maqueenplus-v2-servo-p2",
-            title: "Servo 3",
+            get title() { return i18next.t('code.simulator.modules.servoNumber', { n: 3 }) },
             pin: 'MaqueenPlus V2 (P2)',
             type: 'output',
             class: 'servo',
@@ -2986,7 +2986,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueenplusv(1|2)\.headlights\(/gi,
             id: "mb-maqueenplus-rightLed",
-            title: "LED Rouge (droite)",
+            get title() { return i18next.t('code.simulator.modules.ledRedRight') },
             pin: 'MaqueenPlus (0X10)',
             type: 'output',
             value: [75, 75, 75],
@@ -2999,7 +2999,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueenplusv(1|2)\.headlights\(/gi,
             id: "mb-maqueenplus-leftLed",
-            title: "LED Rouge (gauche)",
+            get title() { return i18next.t('code.simulator.modules.ledRedLeft') },
             pin: 'MaqueenPlus (0X10)',
             type: 'output',
             value: [75, 75, 75],
@@ -3012,7 +3012,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueenplusv3.setRGBLed\(/gi,
             id: "mb-maqueenplus-v3-rgbled-left",
-            title: "LED RGB gauche",
+            get title() { return i18next.t('code.simulator.modules.rgbLedLeft') },
             pin: 'Maqueen Plus V3 (0X10)',
             type: 'output',
             value: [75, 75, 75],
@@ -3025,7 +3025,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /maqueenplusv3.setRGBLed\(/gi,
             id: "mb-maqueenplus-v3-rgbled-right",
-            title: "LED RGB droite",
+            get title() { return i18next.t('code.simulator.modules.rgbLedRight') },
             pin: 'Maqueen Plus V3 (0X10)',
             type: 'output',
             value: [75, 75, 75],
@@ -3038,7 +3038,7 @@ Simulator.Mosaic.specific = {
         {
             codeFlag: "MaqueenPlus Buzzer",
             id: "mb-maqueenplus-buzzer",
-            title: "Buzzer",
+            get title() { return i18next.t('code.simulator.modules.buzzer') },
             pin: 'Maqueen Plus',
             type: 'output',
             value: 0,
@@ -3053,7 +3053,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /kitrobot\.setServoSpeed\(pin0/gi,
             id: "mb-kitrobot-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: 'Kitrobot',
             type: 'output',
             value: "",
@@ -3063,7 +3063,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /kitrobot\.setServoSpeed\(pin1/gi,
             id: "mb-kitrobot-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: 'Kitrobot',
             type: 'output',
             value: "",
@@ -3073,7 +3073,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /kitrobot\.readLine\(pin2\)/gi,
             id: "mb-kitrobot-finderLeft",
-            title: "cap. Ligne noire (Gauche)",
+            get title() { return i18next.t('code.simulator.modules.lineLeft') },
             pin: 'Kitrobot',
             type: 'input',
             class: 'finder',
@@ -3092,7 +3092,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /kitrobot\.readLine\(pin15\)/gi,
             id: "mb-kitrobot-finderRight",
-            title: "cap. Ligne noire (Droit)",
+            get title() { return i18next.t('code.simulator.modules.lineRight') },
             pin: 'Kitrobot',
             type: 'input',
             class: 'finder',
@@ -3108,12 +3108,12 @@ Simulator.Mosaic.specific = {
                 Animator.translation('digital');
             }
         },
-        // Robots - Codo
+        // Robots - Codok
         {
             regex: /codo.controlLeftMotor\(/gi,
             id: "mb-codo-motorLeft",
-            title: "Moteur Gauche",
-            pin: 'Codo',
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
+            pin: 'Codok',
             type: 'output',
             value: "",
             picture: "Roue.png",
@@ -3122,8 +3122,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /codo.controlRightMotor\(/gi,
             id: "mb-codo-motorRight",
-            title: "Moteur Droit",
-            pin: 'Codo',
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
+            pin: 'Codok',
             type: 'output',
             value: "",
             picture: "Roue.png",
@@ -3133,7 +3133,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /oobybot.controlMotors\(pin2/gi,
             id: "mb-oobybot-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: 'Oobybot',
             type: 'output',
             value: "",
@@ -3143,7 +3143,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /oobybot.controlMotors\(pin1/gi,
             id: "mb-oobybot-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: 'Oobybot',
             type: 'output',
             value: "",
@@ -3154,7 +3154,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /buggy.setLeftMotorSpeed\(/gi,
             id: "mb-buggy-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: 'Buggy',
             type: 'output',
             value: "",
@@ -3164,7 +3164,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /buggy.setRightMotorSpeed\(/gi,
             id: "mb-buggy-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: 'Buggy',
             type: 'output',
             value: "",
@@ -3175,7 +3175,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /bitbot.setMotorLeft/gi,
             id: "mb-bitbot-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: 'bit:bot',
             type: 'output',
             value: "",
@@ -3185,7 +3185,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /bitbot.setMotorRight/gi,
             id: "mb-bitbot-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: 'bit:bot',
             type: 'output',
             value: "",
@@ -3196,7 +3196,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /bitcar\.setBitCarServoSpeed\(pin13, pin14/gi,
             id: "mb-bitcar-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: 'BitCar',
             type: 'output',
             value: "",
@@ -3206,7 +3206,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /bitcar\.setBitCarServoSpeed\(pin15, pin16/gi,
             id: "mb-bitcar-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: 'BitCar',
             type: 'output',
             value: "",
@@ -3216,7 +3216,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /bitcar\.readLine\(pin1\)/gi,
             id: "mb-bitcar-finderLeft",
-            title: "cap. Ligne noire (Gauche)",
+            get title() { return i18next.t('code.simulator.modules.lineLeft') },
             pin: 'BitCar',
             type: 'input',
             class: 'finder',
@@ -3235,7 +3235,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /bitcar\.readLine\(pin2\)/gi,
             id: "mb-bitcar-finderRight",
-            title: "cap. Ligne noire (Droit)",
+            get title() { return i18next.t('code.simulator.modules.lineRight') },
             pin: 'BitCar',
             type: 'input',
             class: 'finder',
@@ -3255,7 +3255,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /tinybit\.(set_motors_speed|set_motor|go_forward|go_backward|turn_left|turn_right|spin_left|spin_right|follow_line|stop)\(/gi,
             id: "mb-tinybit-motorLeft",
-            title: "Moteur gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: 'Tiny:bit (I2C)',
             type: 'output',
             value: "",
@@ -3271,7 +3271,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /tinybit\.(set_motors_speed|set_motor|go_forward|go_backward|turn_left|turn_right|spin_left|spin_right|follow_line|stop)\(/gi,
             id: "mb-tinybit-motorRight",
-            title: "Moteur droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: 'Tiny:bit (I2C)',
             type: 'output',
             value: "",
@@ -3287,7 +3287,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /tinybit\.set_headlights\(/gi,
             id: "mb-tinybit-headlights",
-            title: "Phares RGB",
+            get title() { return i18next.t('code.simulator.modules.rgbHeadlights') },
             pin: 'Tiny:bit (I2C)',
             type: 'output',
             value: [0, 0, 0],
@@ -3300,7 +3300,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /tinybit\.BUZZER/gi,
             id: "mb-tinybit-buzzer",
-            title: "Buzzer",
+            get title() { return i18next.t('code.simulator.modules.buzzer') },
             pin: 'Tiny:bit (P0)',
             type: 'output',
             value: 0,
@@ -3314,7 +3314,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /tinybit\.set_neopixel\(/gi,
             id: "mb-tinybit-neopixel",
-            title: "LEDs RGB du châssis",
+            get title() { return i18next.t('code.simulator.modules.chassisRgbLeds') },
             pin: 'Tiny:bit (P12)',
             type: 'output',
             value: [[0, 0, 0], [0, 0, 0]],
@@ -3328,7 +3328,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /tinybit\.(track|get_tracking_state|follow_line)\(/gi,
             id: "mb-tinybit-finderLeft",
-            title: "Capteur de ligne gauche",
+            get title() { return i18next.t('code.simulator.modules.lineSensorLeft') },
             pin: 'Tiny:bit (P13)',
             type: 'input',
             class: 'finder',
@@ -3342,7 +3342,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /tinybit\.(track|get_tracking_state|follow_line)\(/gi,
             id: "mb-tinybit-finderRight",
-            title: "Capteur de ligne droit",
+            get title() { return i18next.t('code.simulator.modules.lineSensorRight') },
             pin: 'Tiny:bit (P14)',
             type: 'input',
             class: 'finder',
@@ -3356,11 +3356,11 @@ Simulator.Mosaic.specific = {
         {
             regex: /tinybit\.get_distance\(/gi,
             id: "mb-tinybit-ultrasonic",
-            title: "Télémètre ultrasonique",
+            get title() { return i18next.t('code.simulator.modules.ultrasonicRangefinder') },
             pin: 'Tiny:bit (P15/P16)',
             pins: 'digital',
             type: 'input',
-            listeners: [{ default: 20, unit: 'cm', color: "#f9d142 ", suffix: "_d", title: "Distance" }, { suffix: "_t", default: 1166, unit: 'μs', color: "#f9d142", title: "Durée" }],
+            listeners: [{ default: 20, unit: 'cm', color: "#f9d142 ", suffix: "_d", get title() { return i18next.t('code.simulator.modules.distance') } }, { suffix: "_t", default: 1166, unit: 'μs', color: "#f9d142", get title() { return i18next.t('code.simulator.modules.duration') } }],
             class: 'ultrasonic',
             picture: "Ultrason.png",
             pictureAnimation: "Ultrason-animation.png",
@@ -3373,25 +3373,25 @@ Simulator.Mosaic.specific = {
         {
             regex: /tinybit\.get_sound\(/gi,
             id: "mb-tinybit-sound",
-            title: "Microphone",
+            get title() { return i18next.t('code.simulator.modules.microphone') },
             pin: 'Tiny:bit (P1)',
             type: 'input',
-            listeners: [{ default: 0, unit: '', color: "#777", suffix: "_v", title: "Niveau sonore" }]
+            listeners: [{ default: 0, unit: '', color: "#777", suffix: "_v", get title() { return i18next.t('code.simulator.modules.pinSoundLevel') } }]
         },
         {
             regex: /tinybit\.(ir_read|ir_code)\(/gi,
             id: "mb-tinybit-ir",
-            title: "Télécommande infrarouge",
+            get title() { return i18next.t('code.simulator.modules.irRemote') },
             pin: 'Tiny:bit (P8)',
             type: 'input',
-            listeners: [{ default: -1, unit: '', color: "#777", suffix: "_v", title: "Code de la touche" }]
+            listeners: [{ default: -1, unit: '', color: "#777", suffix: "_v", get title() { return i18next.t('code.simulator.modules.keyCode') } }]
         },
 
         // BitCar
         {
             regex: /bitplayer_in\.getButton_A/gi,
             id: "mb-bitplayer-a",
-            title: "Touche A",
+            get title() { return i18next.t('code.simulator.modules.keyName', { name: 'A' }) },
             pin: 'BitPlayer (P5)',
             type: 'input',
             listeners: [{
@@ -3412,7 +3412,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /bitplayer_in\.getButton_B/gi,
             id: "mb-bitplayer-b",
-            title: "Touche B",
+            get title() { return i18next.t('code.simulator.modules.keyName', { name: 'B' }) },
             pin: 'BitPlayer (P11)',
             type: 'input',
             listeners: [{
@@ -3433,7 +3433,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /bitplayer_in\.getButton_C/gi,
             id: "mb-bitplayer-c",
-            title: "Touche C",
+            get title() { return i18next.t('code.simulator.modules.keyName', { name: 'C' }) },
             pin: 'BitPlayer (P13)',
             type: 'input',
             listeners: [{
@@ -3454,7 +3454,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /bitplayer_in\.getButton_C/gi,
             id: "mb-bitplayer-c",
-            title: "Touche C",
+            get title() { return i18next.t('code.simulator.modules.keyName', { name: 'C' }) },
             pin: 'BitPlayer (P13)',
             type: 'input',
             listeners: [{
@@ -3475,7 +3475,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /bitplayer_in\.getButton_D/gi,
             id: "mb-bitplayer-d",
-            title: "Touche D",
+            get title() { return i18next.t('code.simulator.modules.keyName', { name: 'D' }) },
             pin: 'BitPlayer (P14)',
             type: 'input',
             listeners: [{
@@ -3496,7 +3496,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /bitplayer_in\.getButton_L/gi,
             id: "mb-bitplayer-l",
-            title: "Touche L",
+            get title() { return i18next.t('code.simulator.modules.keyName', { name: 'L' }) },
             pin: 'BitPlayer (P15)',
             type: 'input',
             listeners: [{
@@ -3517,7 +3517,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /bitplayer_in\.getButton_R/gi,
             id: "mb-bitplayer-r",
-            title: "Touche R",
+            get title() { return i18next.t('code.simulator.modules.keyName', { name: 'R' }) },
             pin: 'BitPlayer (P16)',
             type: 'input',
             listeners: [{
@@ -3539,7 +3539,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /gamepad_v4_in\.getButton_C/gi,
             id: "mb-gamepad-v4-c",
-            title: "Touche C",
+            get title() { return i18next.t('code.simulator.modules.keyName', { name: 'C' }) },
             pin: 'Gamepad v4 (P13)',
             type: 'input',
             listeners: [{
@@ -3560,7 +3560,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /gamepad_v4_in\.getButton_D/gi,
             id: "mb-gamepad-v4-d",
-            title: "Touche D",
+            get title() { return i18next.t('code.simulator.modules.keyName', { name: 'D' }) },
             pin: 'Gamepad v4 (P14)',
             type: 'input',
             listeners: [{
@@ -3581,7 +3581,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /gamepad_v4_in\.getButton_E/gi,
             id: "mb-gamepad-v4-e",
-            title: "Touche E",
+            get title() { return i18next.t('code.simulator.modules.keyName', { name: 'E' }) },
             pin: 'Gamepad v4 (P15)',
             type: 'input',
             listeners: [{
@@ -3602,7 +3602,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /gamepad_v4_in\.getButton_F/gi,
             id: "mb-gamepad-v4-f",
-            title: "Touche F",
+            get title() { return i18next.t('code.simulator.modules.keyName', { name: 'F' }) },
             pin: 'Gamepad v4 (P16)',
             type: 'input',
             listeners: [{
@@ -3623,7 +3623,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /gamepad_v4_in\.getButton_Z/gi,
             id: "mb-gamepad-v4-f",
-            title: "Touche Z",
+            get title() { return i18next.t('code.simulator.modules.keyName', { name: 'Z' }) },
             pin: 'Gamepad v4 (P16)',
             type: 'input',
             listeners: [{
@@ -3644,7 +3644,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /gamepad_v4_out\.setLEDandVibration/gi,
             id: "mb-gamepad-v4-led",
-            title: "LED",
+            get title() { return i18next.t('code.simulator.modules.ledModule') },
             pin: 'Gamepad (P12)',
             type: 'output',
             value: "OFF",
@@ -3654,7 +3654,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /gamepad_v4_out\.setLEDandVibration/gi,
             id: "mb-gamepad-v4-vibration",
-            title: "Vibrations",
+            get title() { return i18next.t('code.simulator.modules.vibrations') },
             pin: 'Gamepad (P12)',
             type: 'output',
             value: 0,
@@ -3666,7 +3666,7 @@ Simulator.Mosaic.specific = {
 
             regex: /joystick_bit_v2_in\.getButton_C/gi,
             id: "mb-joystick-bit-v2-c",
-            title: "Touche C",
+            get title() { return i18next.t('code.simulator.modules.keyName', { name: 'C' }) },
             pin: 'Joystick:bit V2 (P12)',
             type: 'input',
             listeners: [{
@@ -3687,7 +3687,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /joystick_bit_v2_in\.getButton_D/gi,
             id: "mb-joystick-bit-v2-d",
-            title: "Touche D",
+            get title() { return i18next.t('code.simulator.modules.keyName', { name: 'D' }) },
             pin: 'Joystick:bit V2 (P13)',
             type: 'input',
             listeners: [{
@@ -3708,7 +3708,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /joystick_bit_v2_in\.getButton_E/gi,
             id: "mb-joystick-bit-v2-e",
-            title: "Touche E",
+            get title() { return i18next.t('code.simulator.modules.keyName', { name: 'E' }) },
             pin: 'Joystick:bit V2 (P14)',
             type: 'input',
             listeners: [{
@@ -3729,7 +3729,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /joystick_bit_v2_in\.getButton_F/gi,
             id: "mb-joystick-bit-v2-f",
-            title: "Touche F",
+            get title() { return i18next.t('code.simulator.modules.keyName', { name: 'F' }) },
             pin: 'Joystick:bit V2 (P15)',
             type: 'input',
             listeners: [{
@@ -3750,7 +3750,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /joystick_bit_v2_out\.setVibration/gi,
             id: "mb-joystick-bit-v2-vibration",
-            title: "Vibrations",
+            get title() { return i18next.t('code.simulator.modules.vibrations') },
             pin: "Joystick:bit V2 (P16)",
             type: "output",
             value: "OFF",
@@ -3761,7 +3761,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /gamepad_in.getButton_X/gi,
             id: "mb-gamepad-X",
-            title: "Touche X",
+            get title() { return i18next.t('code.simulator.modules.keyName', { name: 'X' }) },
             pin: 'Gamepad (P1)',
             type: 'input',
             listeners: [{
@@ -3782,7 +3782,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /gamepad_in.getButton_Y/,
             id: "mb-gamepad-Y",
-            title: "Touche Y",
+            get title() { return i18next.t('code.simulator.modules.keyName', { name: 'Y' }) },
             pin: 'Gamepad (P2)',
             type: 'input',
             listeners: [{
@@ -3803,7 +3803,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /gamepad_in.getButton_UP/,
             id: "mb-gamepad-up",
-            title: "Touche Haut",
+            get title() { return i18next.t('code.simulator.modules.keyUp') },
             pin: 'Gamepad (P8)',
             type: 'input',
             listeners: [{
@@ -3824,7 +3824,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /gamepad_in.getButton_DOWN/,
             id: "mb-gamepad-down",
-            title: "Touche Bas",
+            get title() { return i18next.t('code.simulator.modules.keyDown') },
             pin: 'Gamepad (P3)',
             type: 'input',
             listeners: [{
@@ -3845,7 +3845,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /gamepad_in.getButton_LEFT/,
             id: "mb-gamepad-left",
-            title: "Touche Gauche",
+            get title() { return i18next.t('code.simulator.modules.keyLeft') },
             pin: 'Gamepad (P14)',
             type: 'input',
             listeners: [{
@@ -3866,7 +3866,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /gamepad_in.getButton_RIGHT/,
             id: "mb-gamepad-right",
-            title: "Touche Droite",
+            get title() { return i18next.t('code.simulator.modules.keyRight') },
             pin: 'Gamepad (P15)',
             type: 'input',
             listeners: [{
@@ -3887,7 +3887,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /gamepad_out.setLED/gi,
             id: "mb-gamepad-led",
-            title: "LED",
+            get title() { return i18next.t('code.simulator.modules.ledModule') },
             pin: 'Gamepad (P16)',
             type: 'output',
             value: "OFF",
@@ -3897,7 +3897,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /gamepad_out.setVibration/gi,
             id: "mb-gamepad-vibration",
-            title: "Vibrations",
+            get title() { return i18next.t('code.simulator.modules.vibrations') },
             pin: 'Gamepad (P12)',
             type: 'output',
             value: "OFF",
@@ -3909,7 +3909,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(tello)/gi,
             id: "tello-altitude",
-            title: "Altitude",
+            get title() { return i18next.t('code.simulator.modules.altitude') },
             pin: "Tello",
             type: 'input',
             listeners: [{
@@ -3917,7 +3917,7 @@ Simulator.Mosaic.specific = {
                 unit: 'cm',
                 color: "#f9d142 ",
                 suffix: "_d",
-                title: "Altitude"
+                get title() { return i18next.t('code.simulator.modules.altitude') }
             }],
             picture: "Tello_altitude.png",
             pictureAnimation: "Tello_altitude_line.png"
@@ -3927,7 +3927,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /tcs3472\.set/g,
             id: "tcs3472-led",
-            title: "LED",
+            get title() { return i18next.t('code.simulator.modules.ledModule') },
             pin: 'enviro:bit',
             type: 'output',
             value: "OFF",
@@ -3937,7 +3937,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /tcs3472\.brightness\(\)/g,
             id: "tcs3472-light",
-            title: "Capteur de luminosité",
+            get title() { return i18next.t('code.simulator.modules.groveLight') },
             pin: 'enviro:bit',
             type: 'input',
             listeners: [{
@@ -3956,7 +3956,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /tcs3472\.rgb\(\)/,
             id: "tcs3472-rgb",
-            title: "Niveau de : ",
+            get title() { return i18next.t('code.simulator.modules.levelOf') },
             pin: 'enviro:bit',
             type: 'input',
             color: "#22b573",
@@ -3965,19 +3965,19 @@ Simulator.Mosaic.specific = {
                 default: 0,
                 unit: '',
                 color: "#ff4d6a",
-                title: "rouge"
+                get title() { return i18next.t('code.simulator.modules.redValue') }
             }, {
                 suffix: "_g",
                 default: 0,
                 unit: '',
                 color: "#22b573",
-                title: "vert"
+                get title() { return i18next.t('code.simulator.modules.greenValue') }
             }, {
                 suffix: "_b",
                 default: 0,
                 unit: '',
                 color: "#1a6da8",
-                title: "bleu"
+                get title() { return i18next.t('code.simulator.modules.blueValue') }
             }],
             picture: "RGB-LED.svg",
             animate: function (Animator) {
@@ -3997,7 +3997,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /veml6040\.(read(RGB|HSV)|classifyHue)\(\)/,
             id: "veml6040",
-            title: "Niveau de : ",
+            get title() { return i18next.t('code.simulator.modules.levelOf') },
             pin: '',
             type: 'input',
             color: "#22b573",
@@ -4006,52 +4006,52 @@ Simulator.Mosaic.specific = {
                 default: 0,
                 unit: '',
                 color: "#ff4d6a",
-                title: "rouge"
+                get title() { return i18next.t('code.simulator.modules.redValue') }
             }, {
                 suffix: "_g",
                 default: 0,
                 unit: '',
                 color: "#22b573",
-                title: "vert"
+                get title() { return i18next.t('code.simulator.modules.greenValue') }
             }, {
                 suffix: "_b",
                 default: 0,
                 unit: '',
                 color: "#1a6da8",
-                title: "bleu"
+                get title() { return i18next.t('code.simulator.modules.blueValue') }
             },
             {
                 suffix: "_white",
                 default: 0,
                 unit: 'Lux',
                 color: "#ffffff",
-                title: "Luminosité"
+                get title() { return i18next.t('code.simulator.modules.brightness') }
             },
             {
                 suffix: "_temp",
                 default: 0,
                 unit: 'K',
                 color: "#ff4d6a",
-                title: "Température"
+                get title() { return i18next.t('code.simulator.modules.temperature') }
             }, {
                 suffix: "_hue",
                 default: 0,
                 unit: '°',
                 color: "#ffd84dff",
-                title: "Teinte"
+                get title() { return i18next.t('code.simulator.modules.hue') }
             }, {
                 suffix: "_saturation",
                 default: 0,
                 unit: '%',
                 color: "#10633eff",
-                title: "Saturation"
+                get title() { return i18next.t('code.simulator.modules.saturation') }
             },
             {
                 suffix: "_value",
                 default: 0,
                 unit: '%',
                 color: "#22b573",
-                title: "Valeur"
+                get title() { return i18next.t('code.simulator.modules.value') }
             }],
             picture: "RGB-LED.svg",
             animate: function (Animator) {
@@ -4099,7 +4099,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /uhandbit_servo\.set_servo\(1/gi,
             id: "uhandbit-servo1",
-            title: "uHandbit - Servo",
+            get title() { return 'uHandbit - ' + i18next.t('code.simulator.modules.servoMotor') },
             pin: "Port 1",
             pins: 'PWM',
             type: 'output',
@@ -4118,7 +4118,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /uhandbit_servo\.set_servo\(2/gi,
             id: "uhandbit-servo2",
-            title: "uHandbit - Servo",
+            get title() { return 'uHandbit - ' + i18next.t('code.simulator.modules.servoMotor') },
             pin: "Port 2",
             pins: 'PWM',
             type: 'output',
@@ -4137,7 +4137,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /uhandbit_servo\.set_servo\(3/gi,
             id: "uhandbit-servo3",
-            title: "uHandbit - Servo",
+            get title() { return 'uHandbit - ' + i18next.t('code.simulator.modules.servoMotor') },
             pin: "Port 3",
             pins: 'PWM',
             type: 'output',
@@ -4156,7 +4156,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /uhandbit_servo\.set_servo\(4/gi,
             id: "uhandbit-servo4",
-            title: "uHandbit - Servo",
+            get title() { return 'uHandbit - ' + i18next.t('code.simulator.modules.servoMotor') },
             pin: "Port 4",
             pins: 'PWM',
             type: 'output',
@@ -4175,7 +4175,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /uhandbit_servo\.set_servo\(5/gi,
             id: "uhandbit-servo5",
-            title: "uHandbit - Servo",
+            get title() { return 'uHandbit - ' + i18next.t('code.simulator.modules.servoMotor') },
             pin: "Port 5",
             pins: 'PWM',
             type: 'output',
@@ -4194,7 +4194,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /uhandbit_servo\.set_servo\(6/gi,
             id: "uhandbit-servo6",
-            title: "uHandbit - Servo",
+            get title() { return 'uHandbit - ' + i18next.t('code.simulator.modules.servoMotor') },
             pin: "Port 6",
             pins: 'PWM',
             type: 'output',
@@ -4213,7 +4213,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /uhandbit_color\.(read_rgb|get_color)\(\)/,
             id: "uhandbit-color",
-            title: "Niveau de : ",
+            get title() { return i18next.t('code.simulator.modules.levelOf') },
             pin: 'uHandbit - apds9960',
             type: 'input',
             color: "#22b573",
@@ -4222,19 +4222,19 @@ Simulator.Mosaic.specific = {
                 default: 0,
                 unit: '',
                 color: "#ff4d6a",
-                title: "rouge"
+                get title() { return i18next.t('code.simulator.modules.redValue') }
             }, {
                 suffix: "_g",
                 default: 0,
                 unit: '',
                 color: "#22b573",
-                title: "vert"
+                get title() { return i18next.t('code.simulator.modules.greenValue') }
             }, {
                 suffix: "_b",
                 default: 0,
                 unit: '',
                 color: "#1a6da8",
-                title: "bleu"
+                get title() { return i18next.t('code.simulator.modules.blueValue') }
             }],
             picture: "RGB-LED.svg",
             animate: function (Animator) {
@@ -4253,7 +4253,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /wk\.set_motors\(/gi,
             id: "mb-wukong-motor1",
-            title: "WuKong - Moteur 1",
+            get title() { return 'WuKong - ' + i18next.t('code.simulator.modules.motorNumber', { n: 1 }) },
             pin: '(I2C: 0x10)',
             type: 'output',
             value: "",
@@ -4264,7 +4264,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /wk\.set_motors\(/gi,
             id: "mb-wukong-motor2",
-            title: "WuKong - Moteur 2",
+            get title() { return 'WuKong - ' + i18next.t('code.simulator.modules.motorNumber', { n: 2 }) },
             pin: '(I2C: 0x10)',
             type: 'output',
             value: "",
@@ -4277,7 +4277,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /wk\.set_servo(_speed|)\(1/gi,
             id: "mb-wukong-servo1",
-            title: "WuKong - Servo 1",
+            get title() { return 'WuKong - ' + i18next.t('code.simulator.modules.servoNumber', { n: 1 }) },
             pin: '(I2C: 0x10)',
             pins: 'I2C',
             type: 'output',
@@ -4296,7 +4296,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /wk\.set_servo(_speed|)\(2/gi,
             id: "mb-wukong-servo2",
-            title: "WuKong - Servo 2",
+            get title() { return 'WuKong - ' + i18next.t('code.simulator.modules.servoNumber', { n: 2 }) },
             pin: '(I2C: 0x10)',
             pins: 'I2C',
             type: 'output',
@@ -4315,7 +4315,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /wk\.set_servo(_speed|)\(3/gi,
             id: "mb-wukong-servo3",
-            title: "WuKong - Servo 3",
+            get title() { return 'WuKong - ' + i18next.t('code.simulator.modules.servoNumber', { n: 3 }) },
             pin: '(I2C: 0x10)',
             pins: 'I2C',
             type: 'output',
@@ -4334,7 +4334,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /wk\.set_servo(_speed|)\(4/gi,
             id: "mb-wukong-servo4",
-            title: "WuKong - Servo 4",
+            get title() { return 'WuKong - ' + i18next.t('code.simulator.modules.servoNumber', { n: 4 }) },
             pin: '(I2C: 0x10)',
             pins: 'I2C',
             type: 'output',
@@ -4353,7 +4353,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /wk\.set_servo(_speed|)\(5/gi,
             id: "mb-wukong-servo5",
-            title: "WuKong - Servo 5",
+            get title() { return 'WuKong - ' + i18next.t('code.simulator.modules.servoNumber', { n: 5 }) },
             pin: '(I2C: 0x10)',
             pins: 'I2C',
             type: 'output',
@@ -4372,7 +4372,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /wk\.set_servo(_speed|)\(6/gi,
             id: "mb-wukong-servo6",
-            title: "WuKong - Servo 6",
+            get title() { return 'WuKong - ' + i18next.t('code.simulator.modules.servoNumber', { n: 6 }) },
             pin: '(I2C: 0x10)',
             pins: 'I2C',
             type: 'output',
@@ -4391,7 +4391,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /wk\.set_servo(_speed|)\(7/gi,
             id: "mb-wukong-servo7",
-            title: "WuKong - Servo 7",
+            get title() { return 'WuKong - ' + i18next.t('code.simulator.modules.servoNumber', { n: 7 }) },
             pin: '(I2C: 0x10)',
             pins: 'I2C',
             type: 'output',
@@ -4410,7 +4410,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(superbit\.|)servo(180|270|360)\((superbit\.|)S1/gi,
             id: "mb-superbit-servo1",
-            title: "Super:bit - Servo 1",
+            get title() { return 'Super:bit - ' + i18next.t('code.simulator.modules.servoNumber', { n: 1 }) },
             pin: '(I2C: 0x40)',
             pins: 'I2C',
             type: 'output',
@@ -4429,7 +4429,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(superbit\.|)servo(180|270|360)\((superbit\.|)S2/gi,
             id: "mb-superbit-servo2",
-            title: "Super:bit - Servo 2",
+            get title() { return 'Super:bit - ' + i18next.t('code.simulator.modules.servoNumber', { n: 2 }) },
             pin: '(I2C: 0x40)',
             pins: 'I2C',
             type: 'output',
@@ -4448,7 +4448,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(superbit\.|)servo(180|270|360)\((superbit\.|)S3/gi,
             id: "mb-superbit-servo3",
-            title: "Super:bit - Servo 3",
+            get title() { return 'Super:bit - ' + i18next.t('code.simulator.modules.servoNumber', { n: 3 }) },
             pin: '(I2C: 0x40)',
             pins: 'I2C',
             type: 'output',
@@ -4467,7 +4467,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(superbit\.|)servo(180|270|360)\((superbit\.|)S4/gi,
             id: "mb-superbit-servo4",
-            title: "Super:bit - Servo 4",
+            get title() { return 'Super:bit - ' + i18next.t('code.simulator.modules.servoNumber', { n: 4 }) },
             pin: '(I2C: 0x40)',
             pins: 'I2C',
             type: 'output',
@@ -4486,7 +4486,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(superbit\.|)servo(180|270|360)\((superbit\.|)S5/gi,
             id: "mb-superbit-servo5",
-            title: "Super:bit - Servo 5",
+            get title() { return 'Super:bit - ' + i18next.t('code.simulator.modules.servoNumber', { n: 5 }) },
             pin: '(I2C: 0x40)',
             pins: 'I2C',
             type: 'output',
@@ -4505,7 +4505,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(superbit\.|)servo(180|270|360)\((superbit\.|)S6/gi,
             id: "mb-superbit-servo6",
-            title: "Super:bit - Servo 6",
+            get title() { return 'Super:bit - ' + i18next.t('code.simulator.modules.servoNumber', { n: 6 }) },
             pin: '(I2C: 0x40)',
             pins: 'I2C',
             type: 'output',
@@ -4524,7 +4524,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(superbit\.|)servo(180|270|360)\((superbit\.|)S7/gi,
             id: "mb-superbit-servo7",
-            title: "Super:bit - Servo 7",
+            get title() { return 'Super:bit - ' + i18next.t('code.simulator.modules.servoNumber', { n: 7 }) },
             pin: '(I2C: 0x40)',
             pins: 'I2C',
             type: 'output',
@@ -4543,7 +4543,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(superbit\.|)servo(180|270|360)\((superbit\.|)S8/gi,
             id: "mb-superbit-servo8",
-            title: "Super:bit - Servo 8",
+            get title() { return 'Super:bit - ' + i18next.t('code.simulator.modules.servoNumber', { n: 8 }) },
             pin: '(I2C: 0x40)',
             pins: 'I2C',
             type: 'output',
@@ -4561,7 +4561,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(superbit\.|)motor_control\((superbit\.|)M1/gi,
             id: "mb-superbit-motor1",
-            title: "Super:bit - Moteur 1",
+            get title() { return 'Super:bit - ' + i18next.t('code.simulator.modules.motorNumber', { n: 1 }) },
             pin: '(I2C: 0x40)',
             type: 'output',
             value: "",
@@ -4572,7 +4572,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(superbit\.|)motor_control\((superbit\.|)M2/gi,
             id: "mb-superbit-motor2",
-            title: "Super:bit - Moteur 2",
+            get title() { return 'Super:bit - ' + i18next.t('code.simulator.modules.motorNumber', { n: 2 }) },
             pin: '(I2C: 0x40)',
             type: 'output',
             value: "",
@@ -4583,7 +4583,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(superbit\.|)motor_control\((superbit\.|)M3/gi,
             id: "mb-superbit-motor3",
-            title: "Super:bit - Moteur 3",
+            get title() { return 'Super:bit - ' + i18next.t('code.simulator.modules.motorNumber', { n: 3 }) },
             pin: '(I2C: 0x40)',
             type: 'output',
             value: "",
@@ -4594,7 +4594,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(superbit\.|)motor_control\((superbit\.|)M4/gi,
             id: "mb-superbit-motor4",
-            title: "Super:bit - Moteur 4",
+            get title() { return 'Super:bit - ' + i18next.t('code.simulator.modules.motorNumber', { n: 4 }) },
             pin: '(I2C: 0x40)',
             type: 'output',
             value: "",
@@ -4606,7 +4606,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(superbit\.|)stepper_control\((superbit\.|)B1/gi,
             id: "mb-superbit-stepper-motor1",
-            title: "Super:bit - Moteur pas à pas 1",
+            get title() { return 'Super:bit - ' + i18next.t('code.simulator.modules.stepperNumber', { n: 1 }) },
             pin: '(I2C: 0x40)',
             type: 'output',
             value: "",
@@ -4617,7 +4617,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(superbit\.|)stepper_control\((superbit\.|)B2/gi,
             id: "mb-superbit-stepper-motor2",
-            title: "Super:bit - Moteur pas à pas 2",
+            get title() { return 'Super:bit - ' + i18next.t('code.simulator.modules.stepperNumber', { n: 2 }) },
             pin: '(I2C: 0x40)',
             type: 'output',
             value: "",
@@ -4628,7 +4628,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(WOM_Sensor_Kit\.|)WOM_rocker\(/gi,
             id: "mb-yahboom-joystick",
-            title: "Yahboom - Joystick",
+            get title() { return 'Yahboom - ' + i18next.t('code.simulator.modules.joystick') },
             pin: 'pin n°',
             type: 'input',
             value: "",

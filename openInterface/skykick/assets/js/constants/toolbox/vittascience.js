@@ -5,7 +5,7 @@ const TOOLBOX_VITTASCIENCE_CATEGORIES = [
         "name": "%{BKY_CATEGORY_DRONE}",
         "style": "drone_category",
         "cssConfig": {
-            "icon": "icon_blockly fas fa-plane"
+            "icon": "icon_blockly svgIcon"
         },
         "contents": []
     },
@@ -149,16 +149,6 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
     "drone": [
         {
             "kind": "category",
-            "toolboxitemid": "drone_flight",
-            "name": "%{BKY_SKYKICK_LABEL_FLIGHT}",
-            "style": "drone_category",
-            "cssConfig": {
-                "icon": "icon_blockly fas fa-plane-up"
-            },
-            "contents": []
-        },
-        {
-            "kind": "category",
             "toolboxitemid": "drone_moves",
             "name": "%{BKY_SKYKICK_LABEL_MOVES}",
             "style": "drone_category",
@@ -299,22 +289,13 @@ const TOOLBOX_VITTASCIENCE_SUBCATEGORIES = {
 const TOOLBOX_VITTASCIENCE_CONTENT = {
     "drone": [
         {
-            "subCategoryId": "drone_flight",
+            "subCategoryId": "drone_moves",
             "contents": [
                 {
                     "blocks": [
                         'skykick_takeoff',
                         'skykick_land',
-                        'skykick_stop'
-                    ]
-                }
-            ]
-        },
-        {
-            "subCategoryId": "drone_moves",
-            "contents": [
-                {
-                    "blocks": [
+                        'skykick_stop',
                         'skykick_go',
                         'skykick_turn',
                         'skykick_go_xyz',

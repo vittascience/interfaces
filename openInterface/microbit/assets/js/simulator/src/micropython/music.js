@@ -36,7 +36,8 @@ const $builtinmodule = function () {
 			return { module, id: module.id };
 		}
 		const buzzer = Simulator.getModuleByKey('buzzer');
-		return { module: buzzer, id: buzzer.id + "_" + pin.name };
+		// pin is optional in music.play/pitch: micro:bit defaults to pin0
+		return { module: buzzer, id: buzzer.id + "_" + (pin ? pin.name : "pin0") };
 	};
 
 	const play = function (music, pin, wait, loop) {

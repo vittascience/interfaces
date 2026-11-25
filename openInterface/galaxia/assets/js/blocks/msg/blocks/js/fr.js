@@ -93,7 +93,7 @@ Blockly.Msg['DISPLAY_MY9221_SET_LEVEL_TOOLTIP'] = IMG_MODULE_LED_BAR + Blockly.T
 Blockly.Msg['DISPLAY_MY9221_REVERSE_TITLE'] = '[Module LED Bar] inverser l\'afficheur %1 les broches DI %2 DCKI %3';
 Blockly.Msg['DISPLAY_MY9221_REVERSE_TOOLTIP'] = IMG_MODULE_LED_BAR + Blockly.Tooltip.SEP + 'Permet d\'inverser les 10 LED du module LED Bar (MY9221) avec les broches digitales.';
 // Display - Chainable LED
-Blockly.Msg['DISPLAY_CHAINABLERGBLED_DEFINE_TITLE'] = '[Chainable LED] definir %1 LED sur les broches CIN %2 DIN %3';
+Blockly.Msg['DISPLAY_CHAINABLERGBLED_DEFINE_TITLE'] = '[Chainable LED] définir %1 LED sur les broches CIN %2 DIN %3';
 Blockly.Msg['DISPLAY_CHAINABLERGBLED_DEFINE_TOOLTIP'] = IMG_MODULE_LED_RGB + Blockly.Tooltip.SEP + 'Permet de paramétrer la chaîne de LED RGB en définissant le nombre de modules en série sur les broches digitales D0 à D13.';
 Blockly.Msg['DISPLAY_CHAINABLE_RGBLED_TITLE'] = '[Chainable LED] contrôler la LED %1 à R %2 G %3 B %4 sur les broches CIN %5 DIN %6';
 Blockly.Msg['DISPLAY_CHAINABLE_RGBLED_TOOLTIP'] = IMG_MODULE_LED_RGB + Blockly.Tooltip.SEP + 'Bloc contrôlant la couleur de la DEL RGB, donner une valeur entre 0 et 255 pour Rouge, Vert et Bleu.';

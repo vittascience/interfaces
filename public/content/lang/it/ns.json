@@ -66,6 +66,9 @@
       },
       "tooltips": {
         "backToHome": "Torna alla home",
+        "siteMenu": "Menu del sito: navigazione, opzioni di accessibilità e lingua",
+        "siteNav": "Menu del sito",
+        "closeAccessibility": "Chiudi il menu di accessibilità",
         "programming": "Coding con Vittascience",
         "resources": "Centro risorse didattiche",
         "classroom": "Gestisci le tue classi con Vittascience",
@@ -771,6 +774,7 @@
       "delivery": " Consegna",
       "freeWithPremium": " Disponibile con un account premium",
       "shippingAtDeliveryStep": "Calcolato al passo di consegna",
+      "stockDelayNotice": "Alcuni articoli sono attualmente esauriti ({{products}}): il tuo ordine potrebbe richiedere un po' più di tempo per essere spedito.",
       "shippingFree": "Gratuito",
       "shippingFreeWithPremium": "Spedizione gratuita per la Francia metropolitana con l'abbonamento Vittascience Premium",
       "shippingFreeThanksToPremium": "Spedizione gratuita per la Francia metropolitana grazie al tuo abbonamento Vittascience Premium",
@@ -921,6 +925,7 @@
       "supportSubject": "Invio ordine di acquisto - preventivo {{number}}",
       "autoValidate": "Convalida automaticamente il preventivo",
       "autoValidateHint": "Il preventivo è contrassegnato come accettato: la fattura provvisoria e l'ordine sono creati immediatamente e il cliente riceve l'email di conferma.",
+      "notifyClient": "Invia le email al cliente (riepilogo dell'ordine di acquisto e conferma della stima)",
       "closedTitle": "Preventivo già accettato",
       "closedText": "Il preventivo {{number}} è già stato accettato e il tuo ordine è in fase di elaborazione: non resta alcun ordine di acquisto da inviare. Per richiedere modifiche, ti preghiamo di contattarci.",
       "closedSubject": "Preventivo {{number}}",
@@ -971,7 +976,15 @@
       "cancel": "Annulla",
       "submit": "Invia",
       "submit_success": "Grazie per aver condiviso la tua recensione!",
-      "return_to_product": "Torna al prodotto"
+      "return_to_product": "Torna al prodotto",
+      "deleted_user": "Ex utente",
+      "errors": {
+        "rating": "Scegli una valutazione da 1 a 5.",
+        "comment": "Aggiungi un commento alla tua recensione.",
+        "too_long": "Il tuo commento non può superare i 255 caratteri.",
+        "already_reviewed": "Hai già recensito questo prodotto.",
+        "generic": "La tua recensione non può essere salvata. Per favore riprova."
+      }
     },
     "shopPayLink": {
       "thanksTitle": "Grazie, il tuo pagamento è stato ricevuto",
@@ -1040,6 +1053,7 @@
       "hire": " Sei appassionato di educazione, ami il progetto e pensi di avere capacità da portare a noi, non esitare a contattarci! <br/><a href=\"/hire\" style=\"text-decoration:none;\"><button class=\"mt-3 btn v-btn-important about-recruit-btn\">Entra nella nostra squadra :) <span class=\"fa-chevron-circle-right\"></span></button></a>",
       "junior": "Sviluppatore Web e Apprendista Supporto IT presso Vittascience, appassionato di sviluppo e tecnologie digitali.",
       "zouhir": "Zouhir è entrato a far parte di Vittascience nel settembre 2026 come stagista nello sviluppo front-end, nei sistemi embedded e nel supporto tecnico.",
+      "iris": "Iris è entrata a far parte di Vittascience nel settembre 2026 nel team di comunicazione e marketing per rafforzare la strategia e la visibilità di Vittascience.",
       "hireTitle": " Unisciti a noi"
     },
     "hof": {
@@ -1265,6 +1279,75 @@
     }
   },
   "code": {
+    "a11yBlocks": {
+      "dropInside": "{{block}} posizionato in «{{target}}»",
+      "dropAfter": "{{block}} posizionato dopo «{{target}}»",
+      "dropOutside": "{{block}} posizionato fuori dal programma: non verrà eseguito",
+      "firstPlace": "Prima posizione",
+      "contextMenu": "Menu contestuale",
+      "undone": "Azione annullata",
+      "redone": "Azione ripristinata",
+      "nothingToUndo": "Niente da annullare",
+      "nothingToRedo": "Niente da ripristinare",
+      "deleted": "{{block}} eliminato",
+      "fieldRoles": {
+        "pin": "pin",
+        "operator": "operatore",
+        "unit": "unità",
+        "mode": "modalità",
+        "state": "stato",
+        "note": "nota",
+        "colour": "colore",
+        "direction": "direzione",
+        "motor": "motore",
+        "type": "tipo",
+        "data": "dato",
+        "axis": "asse",
+        "channel": "canale",
+        "sensor": "sensore",
+        "address": "indirizzo",
+        "version": "versione",
+        "command": "comando"
+      },
+      "operators": {
+        "eq": "uguale a",
+        "neq": "diverso da",
+        "lt": "minore di",
+        "lte": "minore o uguale a",
+        "gt": "maggiore di",
+        "gte": "maggiore o uguale a",
+        "add": "più",
+        "minus": "meno",
+        "multiply": "per",
+        "divide": "diviso",
+        "power": "elevato a"
+      },
+      "toolbox": "Casella degli strumenti",
+      "generatedCode": "Codice generato",
+      "enterBlockHint": "Freccia destra per andare ai valori del blocco",
+      "emptyInputHint": "Posto vuoto: T per scegliere un blocco da inserire qui",
+      "insideBlockHint": "Freccia giù per entrare nel blocco",
+      "consolePrefix": "Uscita della console: {{text}}",
+      "searchNone": "Nessun risultato per: {{term}}",
+      "searchOne": "1 risultato per: {{term}}",
+      "searchMany": "{{count}} risultati per: {{term}}",
+      "duplicateLine": "Riga duplicata.",
+      "duplicateSelection": "Testo selezionato duplicato.",
+      "trash": "Cestino",
+      "screenshot": "Screenshot",
+      "recenter": "Ricentra",
+      "graphMinY": "Valore minimo dell'asse Y (automatico per impostazione predefinita)",
+      "graphMaxY": "Valore massimo dell'asse Y (automatico per impostazione predefinita)",
+      "privateProjectMessage": "Scrivi un messaggio",
+      "codeLine": "riga {{line}}",
+      "lastPlace": "Ultima posizione"
+    },
+    "a11yHeadings": {
+      "blocks": "Blocchi",
+      "code": "Codice",
+      "console": "Console",
+      "simulator": "Simulatore"
+    },
     "blockExtensions": {
       "category": "Estensioni",
       "title": "Estensioni dei blocchi",
@@ -1275,6 +1358,8 @@
       "noResult": "Nessuna estensione trovata.",
       "confirmRemoveUsed": "Saranno eliminati {{count}} blocchi di questa estensione presenti nel programma. Continuare?",
       "manage": "Gestisci estensioni",
+      "manageRobots": "Gestisci i robot",
+      "remove": "Rimuovi l'estensione {{name}}",
       "filter": "Filtra estensioni",
       "filters": {
         "all": "Tutte",
@@ -1332,16 +1417,13 @@
         "computerScientist": "Informatico anonimo"
       }
     },
+    "noCodeToBlocksWarning": "Il codice scritto a mano non può essere convertito in blocchi: se torni alla modalità blocchi, verrà sostituito dal codice dei blocchi al prossimo cambiamento. Continuare?",
     "placeholderError": "Compila tutti i campi ___ prima di eseguire il programma",
     "nameError": "Verificare che il nome della funzione sia corretto",
     "rewriteSpecialChar": "Rinomina la variabile senza caratteri speciali ",
     "serialAPI": {
       "allowSerial": "Autorizza #enable-experimental-web-platform-features nei 'chrome://flags/' per aprire una porta seriale.",
       "noSerialAPI": "Questo browser non supporta Serial API. Per utilizzare Serial API deve utilizzare i browser compatibili: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> o <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
-      "picaxeUploading": "Uploading the PICAXE program (about 15 seconds)...",
-      "fileDownloadedPicaxe": "PICAXE program successfully sent to the board!",
-      "picaxeCompileError": "The program cannot be compiled: %1",
-      "picaxeUnsupportedChip": "Direct upload is only available for the AutoProgX2 (PICAXE-28X2). For this board, download the .bas file and open it in PICAXE Editor.",
       "serialPortOpeningFail": "Il collegamento alla porta seriale non è andato a buon fine. Verificare che la scheda non sia già collegata a un'altra interfaccia.",
       "boardConnected": "Collegamento alla porta seriale riuscito!",
       "serialPortClosed": "Chiusura della porta seriale riuscita!",
@@ -1372,7 +1454,15 @@
       "skykickNotInCodingMode": "Il controller SkyKick non è in modalità coding (Link): i comandi vengono ignorati. Passa il controller in modalità Link per far volare il drone.",
       "skykickDroneNotPaired": "Il drone non risponde: verifica che sia acceso e associato al controller.",
       "skykickPortBusy": "Impossibile aprire la porta del controller: è già utilizzata da un'altra applicazione. Chiudi l'app SkyKick Evo Block Coding (e qualsiasi altra scheda collegata al controller), poi riprova.",
-      "skykickBattery": "Batteria del drone"
+      "skykickBattery": "Batteria del drone",
+      "legoPrimeOldFirmware": "Il hub non risponde: spegnilo (tieni premuto il pulsante centrale), riaccendilo, quindi ricollegalo tramite USB. Se continua a non rispondere, aggiornalo con l'app LEGO® Education SPIKE™ (richiesta firmware SPIKE 3).",
+      "legoPrimeBluetoothFailed": "Impossibile connettersi al hub tramite Bluetooth: premi il pulsante Bluetooth, poi riprova.",
+      "legoPrimeNotStarted": "Il programma non è partito sul hub (si è fermato immediatamente, senza alcun output). Riavvia il hub e riprova.",
+      "legoPrimePortBusy": "Impossibile aprire la porta del hub: è già utilizzata da un'altra applicazione. Chiudi l'app LEGO® Education SPIKE™ (e qualsiasi altra scheda collegata al hub), poi riprova.",
+      "picaxeUploading": "Invio del programma PICAXE (circa 15 secondi)...",
+      "fileDownloadedPicaxe": "Programma PICAXE inviato con successo alla scheda!",
+      "picaxeCompileError": "Il programma non può essere compilato: %1",
+      "picaxeUnsupportedChip": "Il caricamento diretto è disponibile solo per AutoProgX2 (PICAXE-28X2). Per questa scheda, scarica il file .bas e aprilo in PICAXE Editor."
     },
     "WebBluetoothAPI": {
       "noWebBluetoothAPI": "Questo browser non supporta WebBluetoothAPI. Per utilizzare WebBluetoothAPI deve utilizzare i browser compatibili: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">Chrome</a>, <a href=\"https://www.opera.com/\">Opera</a> o <a href=\"https://www.microsoftedgeinsider.com/\">Edge</a>",
@@ -1435,7 +1525,7 @@
       "transferAborted": "Trasferimento interrotto."
     },
     "welcome": {
-      "arduino": "Benvenuto/a nell'interfaccia Vittascience per Arduino!",
+      "arduino": "Benvenuto nell'interfaccia Vittascience per Arduino!</br>Puoi seguire il tutorial disponibile qui: <a href=\"https://en.vittascience.com/learn/tutorial.php?id=911/prise-en-main-de-la-carte-arduino-uno-et-de-l-interface-vittascience\" target=\"_blank\" rel=\"noopener noreferrer\">Inizio rapido con l'interfaccia Vittascience per la scheda Arduino UNO</a>",
       "microbit": "Benvenuto/a nell'interfaccia Vittascience per BBC micro:bit!",
       "python": "Benvenuto/a nell'interfaccia Vittascience per la programmazione in Python!<br>Cliccate sul pulsante Esegui per lanciare il vostro programma (modalità script) o scrivete un'istruzione dopo i galloni >> in basso (modalità console REPL)",
       "esp32": "Benvenuto/a all'interfaccia Vittascience per ESP32!</br> Per programmare la scheda ESP32 su questa interfaccia, dovete prima flashare il firmware MicroPython nella scheda seguendo questo tutorial: <b><a href=\"https://it.vittascience.com/learn/tutorial.php?id=341/flasher-le-firmware-micropython-dans-la-carte-esp32\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
@@ -1446,7 +1536,7 @@
       "TI-83-Maclasseti": " Benvenuti nell'interfaccia di MyClassTI.fr per la calcolatrice TI-83 Premium CE Python Edition! Il TI-Innovator™ Hub e le schede BBC micro:bit possono essere programmati su questa interfaccia. Aprite il simulatore per iniziare!",
       "GalaxiaCircuitPython": "Benvenuto/a nell'interfaccia Vittascience per Things - Galaxia!",
       "galaxia": "Benvenuti nell'interfaccia Vittascience per Galaxia!</br> Per programmare la scheda Galaxia su questa interfaccia, dovete prima flashare il firmware MicroPython nella scheda seguendo questo tutorial: <b><a href=\"https://it.vittascience.com/learn/tutorial.php?id=860\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">Flashing MicroPython firmware</a></b>",
-      "picaxe": "Welcome to the PICAXE interface!</br>Plug in the AutoProgX2 with the AXE027 cable and click Upload.",
+      "picaxe": "Benvenuto nell'interfaccia PICAXE!</br>Collega l'AutoProgX2 con il cavo AXE027 e clicca su Carica.",
       "unihiker": "Benvenuto nell'interfaccia Vittascience per la scheda UNIHIKER M10!</br>Collegare la scheda via USB, poi cliccare su Carica. La prima volta, l'interfaccia copia sulla scheda l'installatore del server Vittascience, da eseguire una volta dal menu Home della scheda.",
       "unihiker-k10": "Benvenuti nell'interfaccia Vittascience per la scheda UNIHIKER K10!</br>Collegate la scheda via USB (firmware MicroPython di DFRobot), poi cliccate su Carica: il programma viene salvato in main.py.",
       "raspberrypi": "Benvenuto nell'interfaccia Vittascience per Raspberry Pi! Puoi consultare il tutorial disponibile qui: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=1739\" target=\"_blank\" rel=\"noopener noreferrer\">Prendere in mano l'interfaccia Vittascience per Raspberry Pi</a>",
@@ -1465,14 +1555,20 @@
       "lotibot": "Benvenuto/a nell'interfaccia Vittascience per il robot Loti-bot !",
       "bluebot": "Benvenuto/a nell'interfaccia Vittascience per il robot Blue-bot !",
       "spike": "Benvenuti nell'interfaccia Vittascience per LEGO® Education SPIKE™ Essential!<br>LEGO, il logo LEGO, la Minifigure, DUPLO e il logo SPIKE sono marchi del Gruppo LEGO, che non sponsorizza, approva né autorizza questo sito.",
+      "legoprime": "Benvenuto nell'interfaccia Vittascience per LEGO® Education SPIKE™ Prime!<br>Collega il hub tramite USB (firmware SPIKE 3) oppure premi il suo pulsante Bluetooth, quindi clicca sul pulsante di caricamento corrispondente: il programma viene caricato nello slot 19 del hub, che cancella il programma memorizzato lì.<br>LEGO, il logo LEGO, la Minifigure, DUPLO e il logo SPIKE sono marchi di fabbrica del Gruppo LEGO, che non sponsorizza, approva o autorizza questo sito.",
       "photon": "Benvenuto/a nell'interfaccia Vittascience per il robot Photon !",
       "codey": "Benvenuto/a nell'interfaccia Vittascience per Codey e il robot Rocky di Makeblock!",
       "nano-esp32": "Benvenuto/a nell'interfaccia Vittascience per la scheda Arduino Nano ESP32!",
       "steami": "Benvenuti nell'interfaccia Vittascience per STeaMi !",
       "alphai": "Benvenuti nell'interfaccia Vittascience per il robot AlphAI !",
-      "arduinoq": "Benvenuti nell'interfaccia Vittascience per la scheda Arduino UNO Q!</br></br>L'interfaccia supporta diversi linguaggi (Arduino, Python, HTML) per programmare un progetto completo con la scheda. I blocchi nella categoria 'Base' possono essere utilizzati in qualsiasi linguaggio; il codice generato si adatterà quindi al tipo di linguaggio del blocco di intestazione.</br></br>È possibile inviare comandi Linux alla scheda Arduino Q digitando il comando nel campo di input in fondo alla console.",
+      "arduinoq": "L'interfaccia supporta vari linguaggi (Arduino, Python, HTML) per programmare un progetto completo con la scheda. I blocchi nella categoria 'Base' possono essere utilizzati in qualsiasi linguaggio; il codice generato si adatterà quindi al tipo di linguaggio del blocco di intestazione.</br></br>È possibile inviare comandi Linux alla scheda Arduino Q digitando il comando nel campo di input in fondo alla console.",
       "primastem": "Benvenuto nell'interfaccia Vittascience per il robot PrimaStem!",
+      "matatalab": "Benvenuto nell'interfaccia Vittascience per il robot Matatalab MatataBot!</br>Collega il robot MatataBot, o il controller MatataCon in modalità sensore per utilizzare i sensori e l'anello LED.",
       "skykick": "Benvenuto nell'interfaccia Vittascience per il drone SkyKick!</br>Collega il controller via USB, imposta la modalità Link, poi clicca sul pulsante di connessione prima di eseguire il tuo programma. Attenzione: il drone vola davvero, mantieni uno spazio libero."
+    },
+    "matatalab": {
+      "controllerMode": "Il controller MatataCon non è in modalità sensore: cambia modalità e riconnettilo. Se il problema persiste, aggiorna il suo firmware e quello del MatataBot con l'app MatataCode.",
+      "formerFirmware": "Il robot utilizza il protocollo precedente: il movimento, i suoni e gli occhi sono disponibili, ma non i sensori o l'anello LED."
     },
     "chromeApp": {
       "noPort": "Nessuna porta rilevata",
@@ -1567,7 +1663,12 @@
       "installButton": " Installare",
       "installBackButton": " Indietro",
       "backInterface": " Ritorno all'interfaccia di programmazione",
-      "downloadTitle": " Scaricare"
+      "downloadTitle": " Scaricare",
+      "retired": {
+        "title": "I plugin non sono più necessari",
+        "text": "Le interfacce di programmazione Vittascience ora comunicano direttamente con le schede dal browser. Non è più necessario installare alcun plugin, estensione o software sul tuo computer.",
+        "browsers": "Per comunicare con una scheda, utilizza semplicemente un browser recente basato su Chromium (Chrome, Edge o Opera)."
+      }
     },
     "smallScreen": {
       "title": "Spiacente",
@@ -1576,7 +1677,7 @@
     "statement": "Dichiarazione:",
     "statementButtons": {
       "expand": "Espandi",
-      "collaps": "Riduci"
+      "collaps": "Riduci la consegna"
     },
     "unihiker": {
       "hostPrompt": "Indirizzo della scheda UNIHIKER (10.1.2.3 via USB, o il suo indirizzo Wi-Fi):",
@@ -1602,6 +1703,8 @@
       "tooltips": {
         "boardWifi": "Configurare il Wi-Fi della scheda Arduino UNO Q collegata",
         "projectMenu": "Menu del progetto",
+        "editorToolbar": "Barra degli strumenti dell'editor",
+        "modeMenu": "Scegli la modalità: blocchi, ibrida o codice",
         "new": "Nuovo progetto",
         "save": "Salva",
         "open": "Apri progetto",
@@ -1625,6 +1728,8 @@
         "esp32BoardSelector": "Selezionare la scheda ESP32 da programmare",
         "unihikerBoardSelector": "Selezionare la scheda UNIHIKER da programmare",
         "downloadPython": "Scarica lo script Python",
+        "switchToSpikePrime": "Cambia a SPIKE Prime",
+        "switchToSpikeEssential": "Cambia a SPIKE Essential",
         "downloadPythonGalaxia": "Scarica lo script Python 'main.py' da trascinare sulla Galaxia",
         "downloadArduino": "Scarica lo script Arduino",
         "downloadThymio": "Scarica il programma TDMLauncher",
@@ -1639,8 +1744,8 @@
         "installUnihiker": "Copiare l'installatore del server Vittascience sulla scheda (da eseguire una volta dal menu Home della scheda)",
         "unihikerHost": "Cambiare l'indirizzo della scheda (10.1.2.3 via USB, o il suo indirizzo Wi-Fi)",
         "downloadHex": "Esporta il programma micro:bit in formato [.hex]",
-        "downloadPicaxe": "Download the .bas program (open it in PICAXE Editor)",
-        "uploadPicaxe": "Send the program to the board (AutoProgX2 / PICAXE-28X2, AXE027 cable, Chrome or Edge browser)",
+        "downloadPicaxe": "Scarica il programma .bas (aprilo in PICAXE Editor)",
+        "uploadPicaxe": "Invia il programma alla scheda (AutoProgX2 / PICAXE-28X2, cavo AXE027, browser Chrome o Edge)",
         "downloadTexas": "Scarica il programma .py per la calcolatrice",
         "runBuddy": "Avvia il programma su Buddy",
         "disconnect": "Disconnetti la scheda",
@@ -1671,6 +1776,7 @@
         "consoleSettings": "Impostazioni generali",
         "accessibility": "Configura tema e font",
         "shortcuts": "Mostra scorciatoie da tastiera",
+        "tour": "Scopri l'interfaccia passo dopo passo",
         "addBlockSettings": "Aggiungi un blocco",
         "fullscreen": "Visualizza a schermo intero",
         "help": "Aiuto",
@@ -1737,7 +1843,7 @@
         "downloadUf2Pico": "Firmware Pico",
         "downloadUf2PicoW": "Firmware Pico W",
         "downloadPython": " Scaricare .py",
-        "downloadPicaxe": "Download .bas",
+        "downloadPicaxe": "Scarica .bas",
         "downloadTexas": " Scaricare per la calcolatrice",
         "downloadThymioWindows": "Scarica .exe",
         "downloadThymioMacOS": "Scarica .dmg",
@@ -1750,6 +1856,8 @@
         "settings": "Opzioni",
         "themes": "Accessibilità",
         "shortcuts": "Scorciatoie da tastiera",
+        "tour": "Tour guidato",
+        "offline": "Offline",
         "add": "Aggiungi un blocco",
         "fullscreen": "Schermo intero",
         "help": "Guida",
@@ -1782,7 +1890,9 @@
       "public": "Pubblico"
     },
     "blockly": {
+      "clearSearch": "Pulisci la ricerca",
       "label": {
+        "description": "Descrizione",
         "trash": "<img src='/openInterface/interfaces/assets/media/empty_trash_icon.svg' class='empty-icon'></img>Svuotare la spazzatura",
         "backpack": "<img src='/openInterface/interfaces/assets/media/empty_trash_icon.svg' class='empty-icon'></img>Svuotare lo zaino"
       },
@@ -1822,6 +1932,7 @@
           "launchApp": "Avvia l'app",
           "stopApp": "Ferma l'app",
           "openFileSystem": "File",
+          "pythonFiles": "File",
           "monitor": "Monitor seriale",
           "openRepl": "REPL"
         },
@@ -1840,6 +1951,7 @@
           "launchApp": "Riavvia l'app già inviata alla scheda",
           "stopApp": "Ferma l'app in esecuzione sulla scheda",
           "openFileSystem": "Apri il file system della scheda",
+          "pythonFiles": "File disponibili per il programma (open, os, image)",
           "graph": "Per visualizzare i dati ricevuti nella console, fare clic sul pulsante <b>Grafico</b>",
           "monitorToggler": "Per visualizzare i dati ricevuti, clicca sul pulsante <i class='fas fa-chevron-up'></i>"
         }
@@ -1916,9 +2028,9 @@
     },
     "editor": {
       "buttons": {
-        "zoomIn": "Ingrandisci",
-        "zoomOut": "Riduci",
-        "copy": "Copia"
+        "zoomIn": "Ingrandisci il codice",
+        "zoomOut": "Riduci il codice",
+        "copy": "Copia il codice"
       }
     },
     "simulator": {
@@ -1938,6 +2050,12 @@
           "downloadScreen": "Cattura schermo",
           "toggleBoardDisplay": "Mostra / Nascondi la mappa del simulatore",
           "switchWiringMode": "Passare alla modalità di cablaggio",
+          "selectBoard": "Scegli la scheda",
+          "boardView": "Vista della scheda simulata",
+          "describeBoard": "Descrivi lo stato della scheda",
+          "stateEmpty": "Nessuna uscita è ancora cambiata: avvia il programma.",
+          "stateOn": "stato alto",
+          "stateOff": "stato basso",
           "switchMosaicMode": "Passare alla modalità mosaico",
           "wiringZoomIn": "Ingrandisci",
           "wiringZoomOut": "Riduci"
@@ -1994,8 +2112,8 @@
         "variables-panel-msg": "Questo programma non contiene variabili",
         "replaySimulator": "Riavvia il simulatore per inviare dati",
         "skulptLoadError": "Impossibile caricare il simulatore. Controlla la connessione e riavvia il simulatore.",
-        "picaxeRuntimeError": "Simulation error: %1",
-        "picaxeSimulatorChip": "The simulator is only available for the AutoProgX2 (PICAXE-28X2)."
+        "picaxeRuntimeError": "Errore di simulazione: %1",
+        "picaxeSimulatorChip": "Il simulatore è disponibile solo per AutoProgX2 (PICAXE-28X2)."
       },
       "tooltips": {
         "bluebot-buttons": "Puoi usare i pulsanti del robot Blue-bot per programmarlo!"
@@ -2088,7 +2206,277 @@
         "groveUV": "Sensore UV",
         "groveSound": "Sensore di suono",
         "grovePulse": "Sensore di polso",
-        "distanceInterrupter": "Interruttore di distanza"
+        "distanceInterrupter": "Interruttore di distanza",
+        "accelerometer": "Accelerometro",
+        "accelerometerMg": "Accelerometro (mg)",
+        "accelerometerPitch": "Accelerometro - Inclinazione",
+        "accelerometerRoll": "Accelerometro - Rotolo",
+        "altitude": "Altitudine",
+        "analogRead": "Lettura Analogica",
+        "analogWrite": "Scrittura Analogica",
+        "axis": "asse {{axis}}",
+        "backward": "Indietro",
+        "barrier": "Barriera",
+        "battery": "Batteria",
+        "batteryLevel": "Livello Batteria",
+        "blackLineCenter": "Sensore Linea Nera Centrale",
+        "blackLineLeft": "Sensore Linea Nera Sinistra",
+        "blackLineRight": "Sensore Linea Nera Destra",
+        "blue": "Blu",
+        "blueValue": "blu",
+        "bodyAccelerometer": "Corpo - Accelerometro",
+        "bodyAngularSpeed": "Corpo - Velocità angolare",
+        "bodyTouchSensor": "Sensore di contatto del corpo",
+        "brightness": "Luminosità",
+        "builtinBuzzer": "Cicalino Integrato",
+        "builtinLed": "LED Integrato",
+        "builtinRgbLed": "LED RGB Integrato",
+        "bumpers": "Paracolpi",
+        "buttonBackward": "Pulsante Indietro",
+        "buttonBlue": "Pulsante Blu",
+        "buttonCenter": "Pulsante Centrale",
+        "buttonDelete": "Pulsante Elimina",
+        "buttonDown": "Pulsante Giù",
+        "buttonForward": "Pulsante Avanti",
+        "buttonLeft": "Pulsante Sinistro",
+        "buttonMenu": "Pulsante Menu",
+        "buttonMusic": "Pulsante Musica",
+        "buttonName": "Pulsante {{name}}",
+        "buttonPlay": "Pulsante Gioca",
+        "buttonPurple": "Pulsante Viola",
+        "buttonRed": "Pulsante Rosso",
+        "buttonRight": "Pulsante Destro",
+        "buttonUp": "Pulsante Su",
+        "buttonYellow": "Pulsante Giallo",
+        "camera": "Fotocamera",
+        "chassisRgbLeds": "LED RGB del Telaio",
+        "clock": "Orologio",
+        "clockwise": "In senso orario",
+        "colorScreen320x240": "Schermo Colore 320x240",
+        "colorScreenDFR0997": "Schermo Colore DFR0997",
+        "colorSensorAverage": "Sensore di Colore (Media)",
+        "colorSensorLed": "LED Sensore di Colore",
+        "compass": "Bussola",
+        "compassAngle": "Bussola - Angolo",
+        "compassAxis": "Bussola - Asse",
+        "conveyor": "Nastro Trasportatore",
+        "counterclockwise": "In senso antiorario",
+        "cpuTemp": "Temperatura Processore",
+        "detection": "Rilevamento",
+        "diam1": "diam. (1 µm)",
+        "diam10": "diam. (10 µm)",
+        "diam25": "diam. (2.5 µm)",
+        "digitalRead": "Lettura Digitale",
+        "digitalWrite": "Scrittura Digitale",
+        "direction": "Direzione",
+        "distance": "Distanza",
+        "distanceSensor": "Sensore di Distanza",
+        "doorClosed": "Porta Chiusa",
+        "down": "Giù",
+        "ds18b20": "DS18B20 - Temperatura",
+        "duration": "Durata",
+        "electromagnet": "Elettromagnete",
+        "eyeLeft": "Occhio Sinistro",
+        "eyeRight": "Occhio Destro",
+        "fingerprintSensor": "Sensore di Impronta Capacitivo",
+        "firstTimer": "Primo utilizzo",
+        "forceSensor": "Sensore di Forza",
+        "forward": "Avanti",
+        "freeFall": "Caduta Libera",
+        "frequency": "Frequenza",
+        "friendly": "Amichevole",
+        "gesture": "Gesto",
+        "green": "Verde",
+        "greenValue": "verde",
+        "gyroscope": "Giroscopio",
+        "gyroscopeAngle": "Giroscopio - Angolo",
+        "gyroscopeDps": "Giroscopio (°/s)",
+        "gyroscopeSpeed": "Giroscopio - Velocità",
+        "hallSensor": "Sensore Effetto Hall",
+        "handLeftSensors": "Sensori Mano Sinistra",
+        "handRightSensors": "Sensori Mano Destra",
+        "headAccelerometer": "Testa - Accelerometro",
+        "headAngularSpeed": "Testa - Velocità angolare",
+        "headSensor": "Sensore della Testa",
+        "headTouchSensor": "Sensore di Tocco della Testa",
+        "headlightLeft": "Faro Sinistro",
+        "headlightRight": "Faro Destro",
+        "hue": "Tinta",
+        "humidity": "Umidità",
+        "infraredSensor": "Sensore Infrarosso",
+        "interrupt": "Interruzione",
+        "irCom": "IR COM.",
+        "irEmitter": "Emettitore IR (barriera)",
+        "irReceiver": "Ricevitore IR (barriera)",
+        "irRemote": "Telecomando Infrarosso",
+        "keyCode": "Codice Tasto",
+        "keyDown": "Tasto Giù",
+        "keyLeft": "Tasto Sinistra",
+        "keyName": "Tasto {{name}}",
+        "keyRight": "Tasto Destra",
+        "keyUp": "Tasto Su",
+        "keyboard": "Tastiera",
+        "keypad4x4": "Tastiera 4x4",
+        "latitude": "Latitudine",
+        "lcdScreen": "Schermo LCD",
+        "lcdScreen16x2": "Schermo LCD 16x2",
+        "ledBlue": "LED Blu",
+        "ledGreen": "LED Verde",
+        "ledLeft": "LED Sinistro",
+        "ledMatrix3x3": "Matrice LED 3x3",
+        "ledRed": "LED Rosso",
+        "ledRedLeft": "LED Rosso (sinistro)",
+        "ledRedRight": "LED Rosso (destro)",
+        "ledRight": "LED Destro",
+        "ledsBottomLeft": "LED in basso a sinistra",
+        "ledsBottomRight": "LED in basso a destra",
+        "ledsButtons": "LED dei Pulsanti",
+        "ledsCircle": "LED Circolare",
+        "ledsProximityH": "LED Prossimità h",
+        "ledsProximityV": "LED Prossimità v",
+        "ledsRemote": "LED Controllo Remoto",
+        "ledsSound": "LED Audio",
+        "ledsTemperature": "LED Temperatura",
+        "ledsTop": "LED Superiori",
+        "left": "Sinistra",
+        "levelOf": "Livello di",
+        "lineCenterLeft": "Linea Nera (Centro Sinistra)",
+        "lineCenterRight": "Linea Nera (Centro Destra)",
+        "lineLeft": "Linea Nera (Sinistra)",
+        "lineMiddle": "Linea Nera (Centro)",
+        "lineMiddleLeft": "Linea Nera (Centro Sinistra)",
+        "lineMiddleRight": "Linea Nera (Centro Destra)",
+        "linePosition": "Linea Nera ({{position}})",
+        "lineRearLeft": "Linea Nera (Retro Sinistra)",
+        "lineRearRight": "Linea Nera (Retro Destra)",
+        "lineRight": "Linea Nera (Destra)",
+        "lineSensor": "Sensore di Linea Nera {{n}}",
+        "lineSensorLeft": "Sensore di Linea Sinistra",
+        "lineSensorRight": "Sensore di Linea Destra",
+        "linkySensor": "Sensore Linky",
+        "logoDown": "Logo Giù",
+        "logoUp": "Logo Su",
+        "longitude": "Longitudine",
+        "magneticField": "Campo Magnetico",
+        "magneticFieldAxis": "Campo Magnetico {{axis}}",
+        "magneticSucker": "Ventosa Magnetica",
+        "mhz19Co2": "Sensore MHZ19 - CO2",
+        "mhz19Temp": "Sensore MHZ19 - Temperatura",
+        "microphone": "Microfono",
+        "motionDetection": "Rilevamento Movimento",
+        "motorFrontLeft": "Motore Anteriore Sinistro",
+        "motorFrontRight": "Motore Anteriore Destro",
+        "motorLeft": "Motore Sinistro",
+        "motorNumber": "Motore {{n}}",
+        "motorRearLeft": "Motore Posteriore Sinistro",
+        "motorRearRight": "Motore Posteriore Destro",
+        "motorRight": "Motore Destro",
+        "mq2": "MQ2 - Gas",
+        "obstacle": "Ostacolo",
+        "obstacleBack": "Ostacolo Posteriore",
+        "obstacleDetection": "Rilevamento Ostacolo",
+        "obstacleFront": "Ostacolo Anteriore",
+        "obstacleLeft": "Ostacolo Sinistro",
+        "obstacleRight": "Ostacolo Destro",
+        "obstacleSensor": "Sensore Ostacolo",
+        "orange": "Arancione",
+        "pinAltitude": "Altitudine (pressione)",
+        "pinBackSensor": "Sensore Posteriore",
+        "pinBatteryCharge": "Caricamento Batteria",
+        "pinDominantColor": "Colore Dominante",
+        "pinFrontRightSensor": "Sensore Anteriore Destro",
+        "pinFrontSensor": "Sensore Anteriore",
+        "pinLeft": "Sinistro",
+        "pinLeftSensor": "Sensore Sinistro",
+        "pinMiddleSensor": "Sensore Centrale",
+        "pinPosition": "Posizione in Gradi",
+        "pinPronunciation": "Punteggio di Pronuncia",
+        "pinRearSensor": "Sensore Posteriore",
+        "pinRight": "Destro",
+        "pinRightSensor": "Sensore Destro",
+        "pinSoundLevel": "Livello del Suono",
+        "pinSpeaking": "Sta Parlando",
+        "pinZoneChest": "Zona: torace",
+        "pinZoneLeft": "Zona: sinistra",
+        "pinZoneLeftShoulder": "Zona: spalla sinistra",
+        "pinZoneRight": "Zona: destra",
+        "pinZoneRightShoulder": "Zona: spalla destra",
+        "pinZoneTop": "Zona: cima",
+        "pitch": "Altezza",
+        "pressure": "Pressione",
+        "pwmSignal": "Segnale PWM",
+        "rangefinderDistance": "Misuratore di Distanza - Distanza",
+        "receivedMessage": "Messaggio Ricevuto",
+        "red": "Rosso",
+        "redValue": "rosso",
+        "remote": "Telecomando",
+        "remoteButton": "pulsante {{button}} del Telecomando",
+        "rfidReader": "Lettore Badge RFID",
+        "rgbHeadlights": "Fari RGB",
+        "rgbLedFrontLeft": "LED RGB (anteriore sinistro)",
+        "rgbLedFrontRight": "LED RGB (anteriore destro)",
+        "rgbLedLeft": "LED RGB (sinistro)",
+        "rgbLedNumber": "LED RGB{{n}}",
+        "rgbLedRearLeft": "LED RGB (posteriore sinistro)",
+        "rgbLedRearRight": "LED RGB (posteriore destro)",
+        "rgbLedRight": "LED RGB (destro)",
+        "rgbLeds": "LED RGB",
+        "right": "Destro",
+        "rockPaperScissors": "Gioco della Carta Forbice Sasso",
+        "roll": "Rotazione",
+        "saturation": "Saturazione",
+        "scaleMass": "Massa sulla Bilancia",
+        "screenDown": "Schermo Giù",
+        "screenUp": "Schermo Su",
+        "sentMessage": "Messaggio Inviato",
+        "servoMotor": "Servo",
+        "servoMotorName": "Motore Servo {{name}}",
+        "servoNumber": "Servo {{n}}",
+        "shake": "Scossa",
+        "shakeGesture": "Scossa",
+        "sonarLeft": "Sonar Sinistro",
+        "sonarRight": "Sonar Destro",
+        "soundThreshold": "Soglia del Suono",
+        "sounds": "Suoni",
+        "speechRecognition": "Riconoscimento Vocale",
+        "stepper28BYJ48": "Motore Passo-passo 28BYJ-48",
+        "stepperNumber": "Motore Passo-passo {{n}}",
+        "temperature": "Temperatura",
+        "temperatureHumidity": "Temperatura e umidità",
+        "temperatureHumiditySensor": "Temperatura (sensore di umidità)",
+        "tilt": "Inclinazione",
+        "tiltLeft": "Inclinazione Sinistra",
+        "tiltRight": "Inclinazione Destra",
+        "timer": "Timer {{n}}",
+        "tofCenter": "ToF - Centro (0°)",
+        "tofCenterLeft": "ToF - Centro Sinistra (22°)",
+        "tofCenterRight": "ToF - Centro Destra (22°)",
+        "tofLeft": "ToF - Sinistro (45°)",
+        "tofMm": "Tempo di Volo - Distanza (mm)",
+        "tofRight": "ToF - Destro (45°)",
+        "touchButtonCancel": "Pulsante Touch Annulla",
+        "touchButtonCenter": "Pulsante Touch Centro",
+        "touchButtonDown": "Pulsante Touch Giù",
+        "touchButtonLeft": "Pulsante Touch Sinistro",
+        "touchButtonOk": "Pulsante Touch OK",
+        "touchButtonRight": "Pulsante Touch Destro",
+        "touchButtonUp": "Pulsante Touch Su",
+        "trafficSign": "Segnale Stradale",
+        "ultrasonicMm": "Ultrasonico - Distanza (mm)",
+        "ultrasonicRangefinder": "Telemetro Ultrasonico",
+        "ultrasonicSensor": "Sensore Ultrasonico",
+        "up": "Su",
+        "value": "Valore",
+        "vehicleDetected": "Veicolo Rilevato",
+        "vibrations": "Vibrazioni",
+        "visible": "Visibile",
+        "voc": "VOC",
+        "voice": "Voce",
+        "voiceRecognition": "Riconoscimento Vocale",
+        "waterAtomizer": "Atomizzatore d'Acqua",
+        "wave": "Onda",
+        "yaw": "Rotazione",
+        "yellow": "Giallo"
       },
       "pinError": "[Errore pin] Il modulo <b>{{modId}}</b> non può essere collegato al pin <b>{{pin}}</b>. Il modulo <b>{{attachedId}}</b> è già collegato.",
       "wiring": {
@@ -2393,13 +2781,121 @@
       "noPortAvailable": "Nessuna porta disponibile",
       "emptyCode": "Errore: il codice è vuoto.",
       "compilation": "Si è verificato un errore durante la compilazione.",
-      "syntax": "Errore di sintassi. Vedi i dettagli nella console"
+      "syntax": "Errore di sintassi. Vedi i dettagli nella console",
+      "offlineCompilation": "Sei offline: la compilazione viene effettuata sui nostri server, sarà disponibile di nuovo una volta tornato online. Il simulatore funziona offline."
     },
     "error": {
       "titleExercise": "Crea un esercizio",
       "otherUser": "Non è possibile modificare un esercizio preparato da un altro utente. Ti invitiamo a creare i tuoi esercizi partendo dai tuoi progetti oppure a utilizzare gli esercizi pubblici esistenti.",
       "saveProjectForExercise": "Non è possibile creare un esercizio da un progetto non salvato. Ti invitiamo a salvare il progetto prima di creare l'esercizio.",
       "descExercise": "Per creare un esercizio devi effettuare il login."
+    },
+    "tour": {
+      "buttons": {
+        "previous": "Precedente",
+        "next": "Successivo",
+        "finish": "Fine",
+        "quit": "Esci dal tour guidato",
+        "skip": "Salta",
+        "try": "Prova"
+      },
+      "welcome": {
+        "title": "Benvenuto!",
+        "text": "Ciao, sono Vittabot! Fammi mostrarti l'interfaccia. Avanza con i pulsanti o con le frecce, e puoi uscire in qualsiasi momento con <kbd>Esc</kbd>."
+      },
+      "project": {
+        "title": "Il tuo progetto",
+        "text": "Il nome del tuo progetto. Clicca su di esso per rinominarlo o aggiungere una descrizione."
+      },
+      "files": {
+        "title": "I tuoi progetti",
+        "text": "Crea un nuovo progetto, apri uno esistente (tuoi, quelli condivisi con te o gli esempi) e salva il tuo lavoro."
+      },
+      "undo": {
+        "title": "Annulla e ripeti",
+        "text": "Annulla o ripeti una modifica, anche con <kbd>Ctrl</kbd>+<kbd>Z</kbd> e <kbd>Ctrl</kbd>+<kbd>Y</kbd>."
+      },
+      "toolbox": {
+        "title": "I blocchi",
+        "text": "I blocchi sono ordinati per categorie: clicca su una categoria per mostrarli. La ricerca, in cima, trova un blocco per nome."
+      },
+      "workspace": {
+        "title": "L'area di lavoro",
+        "text": "Trascina i blocchi qui e uniscili per costruire il tuo programma, partendo dai blocchi 'On start' e 'Forever'. Fai clic destro su un blocco per duplicarlo, commentarlo o mostrare il suo aiuto."
+      },
+      "workspaceTools": {
+        "title": "Gli strumenti dell'area di lavoro",
+        "text": "Metti i blocchi nello zaino per riutilizzarli in un altro progetto, fai uno screenshot, ingrandisci o ricentra, ed elimina i blocchi trascinandoli nel cestino."
+      },
+      "code": {
+        "title": "Il codice",
+        "text": "Il codice è scritto automaticamente dai tuoi blocchi. In modalità codice, lo scrivi tu stesso, aiutato dall'autocompletamento."
+      },
+      "modes": {
+        "title": "Blocchi, ibrido o codice",
+        "text": "Scegli come programmare: con blocchi, con i blocchi e il codice affiancati, o direttamente in codice."
+      },
+      "upload": {
+        "title": "Invia il programma",
+        "text": "Collega il tuo hardware (scheda, robot o calcolatrice) e poi invia il tuo programma. La freccia, quando presente, apre altre opzioni, come il download del file del programma."
+      },
+      "run": {
+        "title": "Esegui il programma",
+        "text": "Avvia il tuo programma per vedere il risultato."
+      },
+      "simulator": {
+        "title": "Il simulatore",
+        "text": "Testa il tuo programma senza hardware: il simulatore riproduce la scheda, il robot o la calcolatrice e reagisce al tuo programma."
+      },
+      "console": {
+        "title": "La console",
+        "text": "I messaggi del tuo programma vengono visualizzati qui. Trascina il suo bordo per ingrandirlo, o nasconderlo."
+      },
+      "consoleModes": {
+        "title": "Testo, grafico o musica",
+        "text": "Mostra i dati ricevuti come testo o come grafico, oppure ascolta le note suonate dal tuo programma."
+      },
+      "consoleTools": {
+        "title": "Parla con la scheda",
+        "text": "Invia messaggi alla scheda collegata, esporta i dati grafici e, a seconda della scheda, accedi ai suoi file o alla sua console."
+      },
+      "fullscreen": {
+        "title": "Schermo intero",
+        "text": "Mostra l'interfaccia a schermo intero per avere più spazio."
+      },
+      "settings": {
+        "title": "Impostazioni",
+        "text": "Tema, accessibilità, lingua, scorciatoie da tastiera, aiuto… Troverai anche questo tour guidato qui."
+      },
+      "end": {
+        "title": "Il tuo turno!",
+        "text": "Ora conosci l'interfaccia. Per scoprire cosa fa ogni blocco, apri il wiki dall'aiuto. E se hai bisogno di me, mi trovi nelle impostazioni!"
+      },
+      "mission": {
+        "invite": "Creiamo insieme il tuo primo programma!",
+        "category": {
+          "title": "Apri una categoria",
+          "text": "Clicca sulla categoria <b>{name}</b>."
+        },
+        "block": {
+          "title": "Aggiungi un blocco",
+          "text": "Trascina il blocco <b>{block}</b> nel blocco <b>{into}</b> e aggancialo.",
+          "textAnywhere": "Trascina il blocco <b>{block}</b> nell'area di lavoro."
+        },
+        "simulator": {
+          "title": "Avvia il simulatore",
+          "text": "Clicca su questo pulsante per avviare il simulatore e vedere il tuo programma in esecuzione."
+        },
+        "run": {
+          "title": "Esegui il programma",
+          "text": "Clicca su <b>Esegui</b> per avviare il tuo programma."
+        },
+        "done": {
+          "title": "Ben fatto!",
+          "text": "Il tuo programma funziona, sono orgoglioso di te! Guarda il risultato nel simulatore. Cambia il blocco o aggiungi altri blocchi per andare oltre.",
+          "textConsole": "Il tuo programma funziona, sono orgoglioso di te! Guarda il risultato nella console. Cambia il blocco o aggiungi altri blocchi per andare oltre."
+        }
+      }
     },
     "robotGuide": {
       "tuto": "Per trovare i blocchi di programmazione del robot <b>[ROBOT_NAME]</b>, clicca sulla scheda <b><i class='fa-solid fa-robot me-1'></i>Robot</b>.",
@@ -4769,6 +5265,7 @@
   },
   "profile": {
     "menu": {
+      "premium": "Premium",
       "user": " Il mio profilo",
       "publicProfile": "Profilo pubblico",
       "exp": " Le mie esperienze",
@@ -4783,6 +5280,17 @@
       "title": " Il mio profilo",
       "notice": " I campi seguiti da un <span class=\"mandatory\">*</span> sono obbligatori.",
       "form": {
+        "enableTotp": "Abilita l'autenticazione a due fattori",
+        "updated": "Il tuo profilo è stato aggiornato con successo!",
+        "picture": {
+          "alt": "avatar utente",
+          "title": "Scegli un'immagine per il profilo",
+          "upload": "Carica la tua immagine",
+          "icons": "Scegli tra le icone disponibili di Vittascience",
+          "save": "Salva",
+          "tooBig": "File non valido! Dimensione massima consentita: 250 KB.",
+          "sizeOk": "La dimensione del file è valida."
+        },
         "firstName": " Nome",
         "firstNamePlaceholder": " Il tuo nome.",
         "lastName": " Nome",
@@ -4809,6 +5317,19 @@
         "namePublic": " Accettate che il vostro nome e cognome siano pubblici sul sito?",
         "newsletter": " Vuoi ricevere la nostra newsletter via e-mail?",
         "alertMail": " Vuoi ricevere avvisi via e-mail quando vengono ricevuti nuovi messaggi sul sito?",
+        "errors": {
+          "session": "La tua sessione è scaduta: ricarica la pagina.",
+          "name": "Il nome o il cognome non sono validi.",
+          "phone": "Il numero di telefono non è valido: deve essere compreso tra 10 e 30 caratteri.",
+          "picture": "L'immagine non è valida: controlla il formato e la dimensione.",
+          "pictureSave": "L'immagine non è stata salvata. Per favore riprova.",
+          "save": "Il tuo profilo non è stato salvato. Per favore riprova.",
+          "teacherMissing": "Inserisci la tua scuola, il tuo livello e la tua materia.",
+          "school": "Il nome della scuola non è valido.",
+          "grade": "Il livello non è valido.",
+          "subject": "La materia non è valida.",
+          "generic": "Errore. Il modulo contiene errori."
+        },
         "buttons": {
           "changePassword": " Cambiare la mia password",
           "changeMail": " Cambiare il mio indirizzo e-mail",
@@ -4818,6 +5339,8 @@
         },
         "return": " Indietro",
         "changePassword": {
+          "success": "La tua password è stata cambiata con successo!",
+          "error": "Errore! Controlla i campi.",
           "title": " Cambiare la mia password",
           "form": {
             "actualPassword": " Password attuale",
@@ -4830,6 +5353,9 @@
           }
         },
         "changeMail": {
+          "exists": "Questo indirizzo email è già in uso! Per favore scegline un altro.",
+          "success": "La tua richiesta è stata salvata! Clicca sul link di conferma nell'email che ti abbiamo appena inviato per confermare il tuo nuovo indirizzo email ({{mail}}).",
+          "error": "Errore. Per favore riprova.",
           "title": " Cambiare il mio indirizzo e-mail",
           "notice": " <span class=\"fa fa-exclamation-triangle\"></span> Questo nuovo indirizzo sarà utilizzato come login per il tuo account Vittascience. Per convalidare questo nuovo indirizzo, vi sarà inviato un messaggio di conferma.",
           "mail": " Il tuo indirizzo e-mail",
@@ -4837,6 +5363,18 @@
           "button": " Cambiare il mio indirizzo e-mail"
         },
         "deletion": {
+          "subscription_warning": "Il tuo attuale abbonamento Premium sarà annullato immediatamente, senza rimborso.",
+          "gifted_subscriptions_warning": "Gli abbonamenti Premium che paghi per altri account saranno anch'essi annullati immediatamente.",
+          "students_warning": "Anche le tue classi e gli account dei loro studenti ({{count}}) saranno eliminati definitivamente.",
+          "subscription_cancel_failed": "Il tuo account non è stato eliminato: l'annullamento del tuo abbonamento Premium non è riuscito. Riprova tra qualche minuto o contattaci.",
+          "delete_failed": "Il tuo account non è stato eliminato a causa di un errore. Riprova tra qualche minuto o contattaci.",
+          "deleted": "Il tuo account è stato eliminato.",
+          "deleted_with_subscription": "Il tuo account è stato eliminato e il tuo abbonamento Premium è stato annullato.",
+          "mail_subject": "Il tuo account Vittascience è stato eliminato",
+          "mail_greeting": "Ciao {{name}},",
+          "mail_deleted": "Il tuo account Vittascience associato a {{email}} è stato eliminato dall'app mobile.",
+          "mail_subscription_cancelled": "Il tuo abbonamento Premium è stato annullato.",
+          "mail_not_you": "Se non hai richiesto questa eliminazione, contattaci all'indirizzo {{support}}.",
           "delete_account": "Elimina il mio account",
           "confirm_delete_prompt": "Sei sicuro di voler eliminare il tuo account?",
           "data_lost_warning": "Tutti i tuoi dati saranno persi definitivamente.",
@@ -4878,6 +5416,7 @@
       }
     },
     "pro": {
+      "deleteConfirm": "Vuoi eliminare questo progetto?",
       "title": " I miei programmi",
       "subTitle": " Elenco dei miei programmi",
       "api": {
@@ -4909,7 +5448,90 @@
       },
       "searchButton": "Cerca"
     },
+    "premium": {
+      "tabPersonal": "Il mio abbonamento Premium",
+      "tabGifted": "Abbonamento in regalo",
+      "tabGroup": "Abbonamento di gruppo",
+      "yourSubscription": "Il tuo abbonamento:",
+      "statusLabel": "Stato:",
+      "status": {
+        "active": "Attivo",
+        "canceled": "Annullato",
+        "unknown": "Sconosciuto",
+        "admin": "Admin"
+      },
+      "periodEnd": "Fine del periodo:",
+      "nextPayment": "Prossimo pagamento:",
+      "cancel": "Annulla abbonamento",
+      "resubscribe": "Riabbonati",
+      "reactivate": "Riattiva",
+      "notSubscribed": "Non sei abbonato al piano Premium",
+      "planPremium": "Premium",
+      "planTeam": "Team",
+      "fromPricePremium": "A partire da €{{price}}/mese",
+      "fromPriceTeam": "A partire da €{{price}}/insegnante/mese",
+      "teacherCount": "Numero di insegnanti:",
+      "subscribed": "Abbonato",
+      "subscribe": "Abbonati",
+      "compare": "Confronta i piani >",
+      "modalTitle": "Abbonamento Premium",
+      "chosenPlan": "Hai scelto il piano",
+      "chooseBilling": "Scegli un periodo di fatturazione:",
+      "monthly": "Abbonamento mensile",
+      "yearly": "Abbonamento annuale",
+      "triennial": "Abbonamento triennale",
+      "billingAddress": "Indirizzo di fatturazione:",
+      "noBillingAddress": "Non hai alcun indirizzo di fatturazione.",
+      "subscribeFor": "Ti stai abbonando per:",
+      "forMe": "Il mio account",
+      "forOther": "Un altro account",
+      "otherEmailLabel": "Inserisci l'indirizzo email dell'account Vittascience qui sotto",
+      "groupName": "Nome del gruppo",
+      "groupOf": "Gruppo di",
+      "or": "o",
+      "quote": "Preventivo",
+      "giftedName": "Nome",
+      "giftedStatus": "Stato",
+      "giftedPeriodEnd": "Fine del periodo",
+      "giftedAction": "Azione",
+      "noGifted": "Non hai ancora regalato alcun abbonamento.",
+      "groupInherit": "Appartieni a un gruppo con stato Premium e erediti il seguente accesso:",
+      "learners": "Discenti:",
+      "classrooms": "Classi:",
+      "unlimited": "Illimitato",
+      "validity": "Validità:",
+      "since": "Abbonato dal",
+      "until": "Fino a",
+      "noGroup": "Non appartieni a un gruppo con stato Premium.",
+      "minTeachers": "Per favore, scegli più di un insegnante per questo piano.",
+      "maxTeachers": "Per più di 200 insegnanti, contattaci all'indirizzo contact@vittascience.com.",
+      "quoteExists": "È già stato creato un preventivo per questo piano. Lo troverai nella sezione dei preventivi del tuo account.",
+      "quoteCreated": "Il tuo preventivo è stato creato. Lo troverai nella sezione dei preventivi del tuo account e via email.",
+      "quoteError": "Si è verificato un errore durante la creazione del tuo preventivo. Per favore, riprova.",
+      "activated": "Il tuo abbonamento è stato attivato. Ora puoi goderti i tuoi vantaggi.",
+      "paymentFailed": "Si è verificato un errore durante la creazione del tuo abbonamento. Per favore, riprova.",
+      "canceled": "Il tuo abbonamento è stato annullato. Puoi usufruire dei tuoi vantaggi fino alla fine del periodo attuale.",
+      "cancelConfirm": "Vuoi davvero annullare questo abbonamento? Rimarrà attivo fino alla fine del periodo attuale.",
+      "noAddress": "Aggiungi prima un indirizzo di fatturazione per continuare."
+    },
     "addressBloc": {
+      "noAddress": "Non hai ancora aggiunto un indirizzo.",
+      "isEstablishment": "Questo è l'indirizzo di un'istituzione?",
+      "establishmentName": "Nome dell'istituzione",
+      "submit": "Aggiorna",
+      "usedBySubscription": "Questo indirizzo è utilizzato da un abbonamento Premium attivo: non può essere eliminato.",
+      "deleteConfirm": "Sei sicuro di voler eliminare questo indirizzo?",
+      "searchLabel": "Inserisci il tuo indirizzo",
+      "searchPlaceholder": "Nome dell'istituzione, indirizzo o città",
+      "zoneQuestion": "La tua istituzione si trova:",
+      "zoneFr": "In Francia",
+      "zoneEu": "In Europa",
+      "zoneWorld": "Resto del mondo",
+      "siretPlaceholder": "14 cifre — opzionale",
+      "companyNumber": "Numero aziendale",
+      "companyNumberPlaceholder": "Numero di registrazione",
+      "vatNumber": "Numero di partita IVA",
+      "vatPlaceholder": "Numero di partita IVA intracomunitaria",
       "edit": " Modifica",
       "del": " Cancellare",
       "addAddress": " Aggiungere un indirizzo",
@@ -4924,6 +5546,23 @@
       "cancel": " Cancella"
     },
     "ordersBloc": {
+      "quotePaid": "Pagato",
+      "quoteAccepted": "Accettato",
+      "noOrders": "Non hai effettuato alcun ordine.",
+      "noEstimates": "Non hai ancora richiesto alcun preventivo.",
+      "noWishlist": "Non hai ancora aggiunto alcun prodotto alla tua lista dei desideri.",
+      "hideDetails": "Nascondi dettagli",
+      "at": "a",
+      "alreadySubscribedTitle": "Il tuo account ha già un abbonamento Premium: questo preventivo include un abbonamento, contattaci per modificarlo.",
+      "wishlistDeleteConfirm": "Sei sicuro di voler rimuovere questo elemento?",
+      "mixed": {
+        "title": "Abbonamento multi-utente",
+        "text1": "Questo preventivo include un abbonamento Premium multi-utente: non può essere pagato con carta.",
+        "text2": "Puoi pagarlo tramite bonifico bancario o caricare il tuo ordine di acquisto: il nostro team attiverà quindi l'abbonamento.",
+        "text3": "Per pagare con carta, abbonati dal tuo profilo, poi ordina l'equipaggiamento dal negozio: la consegna sarà gratuita per la Francia metropolitana.",
+        "close": "Chiudi",
+        "subscribe": "Abbonati dal mio profilo"
+      },
       "priceTTC": " € IVA INCLUSA",
       "seeMore": " Vedere i dettagli",
       "dl": " Scaricare",
@@ -4943,7 +5582,14 @@
       "tracking": " Numero di tracciamento",
       "quoteSent": "Inviato",
       "quoteDenied": "Rifiutato",
-      "quoteExpired": "Scaduto"
+      "quoteExpired": "Scaduto",
+      "sav": {
+        "title": "Servizio Post-vendita",
+        "open": "Richiesta in fase di elaborazione",
+        "closed": "Richiesta chiusa",
+        "parcel": "Pacco spedito il",
+        "track": "Traccia il pacco"
+      }
     }
   },
   "userDetails": {
@@ -5020,7 +5666,7 @@
       "Kit Forno Solare",
       "Altro",
       "Yes We Code Kit",
-      "Starter Kit",
+      "Kit di avviamento",
       "Kit Stazione di Misura",
       "Kit Qualità dell'Aria",
       "Kit Corsa LED",
@@ -5914,6 +6560,11 @@
       }
     },
     "materialsNeeded": " Elenco dei materiali richiesti",
+    "embed": {
+      "project": "Progetto Vittascience",
+      "interface": "Interfaccia Vittascience",
+      "open": "Apri nell'interfaccia Vittascience"
+    },
     "suggestedResources": " Risorse consigliate",
     "classroomImport": {
       "button": "Importa nel modulo Classe",
@@ -5968,18 +6619,29 @@
   },
   "modals": {
     "standard": {
+      "recentLocal": {
+        "title": "Progetto recente",
+        "question": "Hai un progetto recente salvato in questo browser. Vuoi aprirlo?",
+        "modified": "Modificato il %date%",
+        "several": "Hai %count% progetti salvati in questo browser. Per trovarli tutti, vai a %link%.",
+        "severalLink": "“Apri un progetto” > “I miei progetti locali”",
+        "buttons": {
+          "open": "Apri questo progetto",
+          "new": "Inizia un nuovo progetto"
+        }
+      },
       "blocksScreenshot": {
-          "title": "Cattura dei blocchi",
-          "quality": "Qualità",
-          "qualities": {
-              "screen": "Schermo (×1)",
-              "good": "Buona (×2)",
-              "high": "Alta (×4)",
-              "veryHigh": "Molto alta (×8)"
-          },
-          "format": "Formato",
-          "size": "Dimensione dell'immagine: {{width}} × {{height}} pixel",
-          "download": "Scarica"
+        "title": "Cattura dei blocchi",
+        "quality": "Qualità",
+        "qualities": {
+          "screen": "Schermo (×1)",
+          "good": "Buona (×2)",
+          "high": "Alta (×4)",
+          "veryHigh": "Molto alta (×8)"
+        },
+        "format": "Formato",
+        "size": "Dimensione dell'immagine: {{width}} × {{height}} pixel",
+        "download": "Scarica"
       },
       "arduino-q-wifi": {
         "title": "Wi-Fi della scheda Arduino UNO Q",
@@ -6385,6 +7047,19 @@
           }
         }
       },
+      "pythonFiles": {
+        "title": "File",
+        "name": "Nome",
+        "size": "Dimensione",
+        "empty": "Nessun file. Importa un file o creane uno con open().",
+        "import": "Importa file",
+        "download": "Scarica",
+        "delete": "Elimina",
+        "hint": "I file rimangono disponibili finché la pagina è aperta. Uso: open('data.csv'), os.listdir(), Image('photo.jpg').",
+        "limits": "5 MB massimo per file · 100 MB in totale",
+        "tooLarge": "\"{name}\" non è stato importato: 5 MB massimo per file.",
+        "quotaExceeded": "\"{name}\" non è stato importato: 100 MB massimo in totale."
+      },
       "addblock": {
         "title": "Aggiungi un blocco",
         "content": {
@@ -6659,7 +7334,7 @@
       },
       "codeOnly": {
         "title": "Passa alla modalità solo codice",
-        "content": "Vuoi nascondere la selezione delle modalità per rimanere definitivamente in modalità Solo codice (senza blocchi)?",
+        "content": "Vuoi nascondere la selezione della modalità per rimanere permanentemente in modalità Solo codice (senza blocchi)?",
         "cancel": "Annulla",
         "confirm": "Conferma",
         "info": {
@@ -6845,7 +7520,7 @@
       "import": {
         "content": {
           "warn": {
-            "question": "Sei sicuro/a di voler importare questo file python dal tuo computer?",
+            "question": "Sei sicuro di voler importare questo file dal tuo computer?",
             "hint": "Perderai i progressi compiuti manualmente."
           },
           "extension": "Attenzione! Questo tipo di file normalmente non è supportato in questa interfaccia."
@@ -7011,6 +7686,7 @@
       }
     },
     "board-selector": {
+      "chosen": "Scheda scelta: {{board}}",
       "title": "Selezione scheda",
       "arduino": {
         "welcome": "Benvenuti all'interfaccia Arduino!",
@@ -7490,6 +8166,7 @@
     }
   },
   "programming": {
+    "infoAbout": "Informazioni su {{name}}",
     "title": "Programmazione",
     "description": "Trova l'interfaccia di programmazione che desideri facendo clic sulle schede.",
     "know_more": "Per saperne di più",
@@ -7538,7 +8215,7 @@
         "esp32": "Interfaccia di programmazione per le schede ESP32 (Wemos D1R32, NodeMCU, Huzzah32 ecc.)",
         "TI-83": "Interfaccia di programmazione per calcolatrice con scheda TI-Innovator™ Hub.",
         "GalaxiaCircuitPython": "Interfaccia di programmazione per la scheda Thingz-Galaxia",
-        "picaxe": "Block programming interface for PICAXE boards (AutoProgX2 from A4 Technologie, 08M2 to 40X2): generates PICAXE BASIC to download.",
+        "picaxe": "Interfaccia di programmazione a blocchi per schede PICAXE (AutoProgX2 di A4 Technologie, da 08M2 a 40X2): genera PICAXE BASIC da scaricare.",
         "unihiker": "Interfaccia di programmazione per la scheda UNIHIKER M10: touch screen, sensori integrati e Python su Linux!",
         "unihikerK10": "Interfaccia di programmazione per la scheda UNIHIKER K10: schermo, LED RGB, sensori integrati e MicroPython!",
         "raspberrypi": "Interfaccia di programmazione per la scheda Raspberry Pi",
@@ -7565,6 +8242,7 @@
         "maqueenPlus": "Interfaccia di programmazione per il robot Maqueen Plus V1 e V2",
         "cutebot": "Interfaccia di programmazione per il robot Cutebot",
         "tpbot": "Interfaccia di programmazione per il robot TPBot",
+        "tinybit": "Interfaccia di programmazione per il robot Tiny:bit",
         "cutebotPro": "Interfaccia di programmazione per il robot Cutebot Pro",
         "kitrobot": "Interfaccia di programmazione per il robot Kitro:bot v2",
         "oobybot": "Interfaccia di programmazione per il robot Oobybot",
@@ -7578,6 +8256,7 @@
         "lotibot": "Interfaccia di programmazione per il robot Loti-bot",
         "bluebot": "Interfaccia di programmazione per il robot Blue-bot",
         "spike": "Interfaccia di programmazione per il LEGO® Education SPIKE™ Essential",
+        "legoprime": "Interfaccia di programmazione per LEGO® Education SPIKE™ Prime",
         "photon": "Interfaccia di programmazione per il robot Photon",
         "codey": "Interfaccia di programmazione per la scheda Codey e il robot Rocky di Makeblock",
         "uno-r4-wifi": "Interfaccia di programmazione per la scheda Arduino R4 WiFi",
@@ -7596,6 +8275,7 @@
         "wonder": "Interfaccia di programmazione per il kit Elecfreaks Wonder Building",
         "buildingbit": "Interfaccia di programmazione per il kit Yahboom Building:bit Super",
         "primastem": "Interfaccia di programmazione per il robot PrimaStem",
+        "matatalab": "Interfaccia di programmazione per il robot Matatalab MatataBot",
         "skykick": "Interfaccia di programmazione per il drone SkyKick Evo"
       }
     },
@@ -7808,6 +8488,10 @@
     "errorSendingEmail": "Si è verificato un errore durante l'invio dell'email.",
     "emailSent": "Email inviata con successo!",
     "controllerError": "Si è verificato un errore durante la connessione al server. Il nostro team è stato informato e risolverà il problema al più presto.",
+    "offline": "Sei offline: il tuo lavoro è salvato su questo dispositivo, i progetti del tuo account saranno disponibili non appena tornerai online.",
+    "offlineSave": "Sei offline: il tuo progetto è salvato su questo dispositivo (Apri > I miei progetti locali). Salvalo sul tuo account non appena tornerai online.",
+    "offlineDownload": "Sei offline: questo file non è ancora su questo dispositivo, scaricalo non appena tornerai online.",
+    "backOnline": "Sei tornato online: ricarica la pagina per recuperare il tuo account e i tuoi progetti.",
     "notLoggedIn": "Devi essere connesso per eseguire questa azione!",
     "manualTrainingDataVerificationSuccess": "La verifica dei dati di addestramento è stata completata con successo!",
     "manualTrainingDataVerificationError": "Si è verificato un errore durante la verifica dei dati di addestramento!",

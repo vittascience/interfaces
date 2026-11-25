@@ -196,8 +196,7 @@ async function uploadPythonBLE() {
 				}
 			};
 			// get universal hex
-			await InterfaceConnection.fsWrapper.setFilesystemProgram();
-			const universalHex = InterfaceConnection.fsWrapper.fs.getUniversalHex();
+			const universalHex = await InterfaceConnection.fsWrapper.buildUniversalHex();
 
 			// parse universal hex
 			WebBLEAPI.hexParser = new HexApplicationParser();

@@ -328,7 +328,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /LED\(3\)/gi,
             id: "stm32-led1",
-            title: "LED Bleue",
+            get title() { return i18next.t('code.simulator.modules.ledBlue') },
             pin: 'STeaMi',
             type: 'output',
             value: 0,
@@ -342,7 +342,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /LED\(2\)/gi,
             id: "stm32-led2",
-            title: "LED Verte",
+            get title() { return i18next.t('code.simulator.modules.ledGreen') },
             pin: 'STeaMi',
             type: 'output',
             value: 0,
@@ -356,7 +356,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /LED\(1\)/gi,
             id: "stm32-led3",
-            title: "LED Rouge",
+            get title() { return i18next.t('code.simulator.modules.ledRed') },
             pin: 'STeaMi',
             type: 'output',
             value: 0,
@@ -370,7 +370,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /.(RTC|datetime)\(/gi,
             id: "rtc",
-            title: "Horloge",
+            get title() { return i18next.t('code.simulator.modules.clock') },
             pin: 'STM32',
             type: 'output',
             value: "",
@@ -389,7 +389,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /pyb\.Pin\(\'A_BUTTON\'\)/,
             id: "steami-a-button",
-            title: "Bouton A",
+            get title() { return i18next.t('code.simulator.modules.buttonName', { name: 'A' }) },
             pin: 'STeaMi',
             type: 'input',
             listeners: [{
@@ -410,7 +410,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /pyb\.Pin\(\'B_BUTTON\'\)/,
             id: "steami-b-button",
-            title: "Bouton B",
+            get title() { return i18next.t('code.simulator.modules.buttonName', { name: 'B' }) },
             pin: 'STeaMi',
             type: 'input',
             listeners: [{
@@ -431,7 +431,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /pyb\.Pin\(\'MENU_BUTTON\'\)/,
             id: "steami-menu-button",
-            title: "Bouton Menu",
+            get title() { return i18next.t('code.simulator.modules.buttonMenu') },
             pin: 'STeaMi',
             type: 'input',
             listeners: [{
@@ -452,7 +452,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /readSteamiButton\(\'UP_BUTTON\'\)/,
             id: "steami-up-button",
-            title: "Bouton Haut",
+            get title() { return i18next.t('code.simulator.modules.buttonUp') },
             pin: 'STeaMi',
             type: 'input',
             listeners: [{
@@ -475,7 +475,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /readSteamiButton\(\'DOWN_BUTTON\'\)/,
             id: "steami-down-button",
-            title: "Bouton Bas",
+            get title() { return i18next.t('code.simulator.modules.buttonDown') },
             pin: 'STeaMi',
             type: 'input',
             listeners: [{
@@ -496,7 +496,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /readSteamiButton\(\'LEFT_BUTTON\'\)/,
             id: "steami-left-button",
-            title: "Bouton Gauche",
+            get title() { return i18next.t('code.simulator.modules.buttonLeft') },
             pin: 'STeaMi',
             type: 'input',
             listeners: [{
@@ -517,7 +517,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /readSteamiButton\(\'RIGHT_BUTTON\'\)/,
             id: "steami-right-button",
-            title: "Bouton Droit",
+            get title() { return i18next.t('code.simulator.modules.buttonRight') },
             pin: 'STeaMi',
             type: 'input',
             listeners: [{
@@ -538,7 +538,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /hts\.temperature\(\)/gi,
             id: "hts221-temp",
-            title: "HTS221 - Température",
+            get title() { return 'HTS221 - ' + i18next.t('code.simulator.modules.temperature') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -558,7 +558,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /hts\.humidity\(\)/gi,
             id: "hts221-hum",
-            title: "HTS221 - Humidité",
+            get title() { return 'HTS221 - ' + i18next.t('code.simulator.modules.humidity') },
             pin: 'I2C',
             type: 'input',
             listeners: [{
@@ -578,7 +578,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /vl53l1x\.read\(\)/gi,
             id: "vl53l1x",
-            title: "VL53L1X - Distance",
+            get title() { return 'VL53L1X - ' + i18next.t('code.simulator.modules.distance') },
             pin: 'I2C',
             type: 'input',
             listeners: [{

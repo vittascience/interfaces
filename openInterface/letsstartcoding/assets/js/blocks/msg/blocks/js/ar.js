@@ -33,3 +33,10 @@ Blockly.Msg['LSC_MATH_RANDOM_INT_TITLE'] = 'random(%1,%2)';
 Blockly.Msg['LSC_CONTROLS_IF_MSG_IF'] = 'if (%1) {';
 // LOOPS
 Blockly.Msg["LSC_CONTROLS_FOR_TITLE"] = "عد بواسطة %1 من %2 إلى %3 بمقدار %4";
+Blockly.Msg["IO_WRITEDIGITALPIN_KEYWORDS"] = "رقمي، دبوس، كتابة";
+Blockly.Msg["IO_READDIGITALPIN_KEYWORDS"] = "رقمي، دبوس، قراءة";
+Blockly.Msg["IO_PINMODE_KEYWORDS"] = "دبوس";
+Blockly.Msg["IO_WAIT_KEYWORDS"] = "توقف، تأخير، انتظار";
+Blockly.Msg["IO_DIGITAL_SIGNAL_KEYWORDS"] = "رقمي، إشارة، منطق";
+Blockly.Msg["ACTUATORS_TONE_KEYWORDS"] = "صوت، نغمة";
+Blockly.Msg["ACTUATORS_NOTONE_KEYWORDS"] = "صوت، نغمة، تردد";

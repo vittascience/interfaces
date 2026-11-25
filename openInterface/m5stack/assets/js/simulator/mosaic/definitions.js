@@ -458,13 +458,13 @@ Simulator.Mosaic.specific = {
         {
             regex: /esp32\.hall_sensor\(\)/,
             id: "esp32-hallMag",
-            title: "Capteur à effet Hall ",
+            get title() { return i18next.t('code.simulator.modules.hallSensor') },
             pin: 'M5Stack',
             listeners: [{
                 suffix: "",
                 unit: 'µT',
                 color: "#ff4d6a",
-                title: "Champ magnétique"
+                get title() { return i18next.t('code.simulator.modules.magneticField') }
             }],
             type: 'input',
             picture: "Champ-magnetique.png",
@@ -475,7 +475,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /esp32\.raw_temperature\(\)/,
             id: "esp32-rawTemp",
-            title: "Temp. du processeur ",
+            get title() { return i18next.t('code.simulator.modules.cpuTemp') },
             pin: 'M5Stack',
             listeners: [{
                 suffix: "_cel",
@@ -510,7 +510,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /btnA./,
             id: "m5stack-button-a",
-            title: "Bouton A",
+            get title() { return i18next.t('code.simulator.modules.buttonName', { name: 'A' }) },
             pin: 'M5Stack',
             type: 'input',
             listeners: [{
@@ -545,7 +545,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /btnB./,
             id: "m5stack-button-b",
-            title: "Bouton B",
+            get title() { return i18next.t('code.simulator.modules.buttonName', { name: 'B' }) },
             pin: 'M5Stack',
             type: 'input',
             listeners: [{
@@ -574,7 +574,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /btnC./,
             id: "m5stack-button-c",
-            title: "Bouton C",
+            get title() { return i18next.t('code.simulator.modules.buttonName', { name: 'C' }) },
             pin: 'M5Stack',
             type: 'input',
             listeners: [{
@@ -613,7 +613,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /Pin\(([0-9]{1,2}),( |)(mode=|)Pin.OUT, id="buzzer"/gi,
             id: "buzzer",
-            title: "Buzzer",
+            get title() { return i18next.t('code.simulator.modules.buzzer') },
             pin: 'pin n°',
             pins: 'digital',
             type: 'output',
@@ -629,7 +629,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /get_gps_frame\(\)/gi,
             id: "m5-gps",
-            title: "Module GPS : ",
+            get title() { return i18next.t('code.simulator.modules.gps') },
             pin: 'UART',
             type: 'input',
             listeners: [{
@@ -637,13 +637,13 @@ Simulator.Mosaic.specific = {
                 default: 48.8738,
                 unit: '°',
                 color: "#f9d142",
-                title: "Latitude"
+                get title() { return i18next.t('code.simulator.modules.latitude') }
             }, {
                 suffix: "_lon",
                 default: 2.3528,
                 unit: '°',
                 color: "#ff4d6a",
-                title: "Longitude"
+                get title() { return i18next.t('code.simulator.modules.longitude') }
             }],
             picture: "GPS.png",
             pictureAnimation: "GPS-animation.png",
@@ -661,7 +661,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /gps_readNMEA\((.+)\)/gi,
             id: "gps",
-            title: "GPS : ",
+            get title() { return i18next.t('code.simulator.modules.gps') },
             pin: 'UART',
             codeFlag: 'GPS',
             type: 'input',
@@ -670,19 +670,19 @@ Simulator.Mosaic.specific = {
                 default: 48.8738,
                 unit: '°',
                 color: "#f9d142",
-                title: "Latitude"
+                get title() { return i18next.t('code.simulator.modules.latitude') }
             }, {
                 suffix: "_lon",
                 default: 2.3528,
                 unit: '°',
                 color: "#ff4d6a",
-                title: "Longitude"
+                get title() { return i18next.t('code.simulator.modules.longitude') }
             }, {
                 suffix: "_alt",
                 default: 35,
                 unit: 'm',
                 color: "#1a6da8",
-                title: "Altitude"
+                get title() { return i18next.t('code.simulator.modules.altitude') }
             }],
             picture: "GPS.png",
             pictureAnimation: "GPS-animation.png",

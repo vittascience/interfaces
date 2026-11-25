@@ -351,6 +351,14 @@ const TOOLBOX_SCRATCH_CONTENT = {
             ]
         },
         {
+            'onlyBoards': 'uno',
+            'blocks': [
+                'communication_ir_barrier_enableEmitter',
+                'communication_ir_barrier_isSignalLost',
+                'communication_ir_barrier_onSignalEvent'
+            ]
+        },
+        {
             'label': '%{BKY_SUBCATEGORY_TRACKING_MODULES}',
             "blocks": [
                 'communication_rfid_getCardID',

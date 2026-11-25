@@ -556,6 +556,39 @@ Blockly.Arduino.communication_onRemoteCommandReceived_car_mp3_gray = function (b
     return code;
 };
 
+Blockly.Arduino.communication_ir_barrier_enableEmitter = function (block) {
+    const pin = block.getFieldValue("PIN");
+    const pinDef = 'PIN_IR_BARRIER_TX_' + pin;
+    Blockly.Arduino.addInclude('ir_barrier', INCLUDE_IR_BARRIER);
+    Blockly.Arduino.addDefine(pinDef, `#define ${pinDef}` + TAB + pin);
+    return `irBarrier_startEmitter(${pinDef});` + NEWLINE;
+};
+
+Blockly.Arduino.communication_ir_barrier_isSignalLost = function (block) {
+    const pin = block.getFieldValue("PIN");
+    const pinDef = 'PIN_IR_BARRIER_RX_' + pin;
+    Blockly.Arduino.addInclude('ir_barrier', INCLUDE_IR_BARRIER);
+    Blockly.Arduino.addDefine(pinDef, `#define ${pinDef}` + TAB + pin);
+    Blockly.Arduino.addSetup('ir_barrier_rx_' + pin, `pinMode(${pinDef}, INPUT_PULLUP);`);
+    return [`irBarrier_isLost(${pinDef})`, Blockly.Arduino.ORDER_ATOMIC];
+};
+
+Blockly.Arduino.communication_ir_barrier_onSignalEvent = function (block) {
+    const pin = block.getFieldValue("PIN");
+    const event = block.getFieldValue("EVENT");
+    const modeMap = { LOST: 0, RESTORED: 1, CHANGE: 2 };
+    const mode = modeMap[event] !== undefined ? modeMap[event] : 0;
+    const pinDef = 'PIN_IR_BARRIER_RX_' + pin;
+    const branchCode = Blockly.Arduino.statementToCode(block, 'DO');
+    const funcName = `irBarrier_on${event}_pin${pin}`;
+    Blockly.Arduino.addInclude('ir_barrier', INCLUDE_IR_BARRIER);
+    Blockly.Arduino.addDefine(pinDef, `#define ${pinDef}` + TAB + pin);
+    Blockly.Arduino.addFunction(funcName, `void ${funcName}() {` + NEWLINE + branchCode + '}');
+    Blockly.Arduino.addSetup('ir_barrier_rx_' + pin, `pinMode(${pinDef}, INPUT_PULLUP);`);
+    Blockly.Arduino.addSetup(`ir_barrier_rx_irq_${pin}_${event}`, `irBarrier_attachCallback(${pinDef}, ${mode}, ${funcName});`);
+    return "";
+};
+
 //http://wiki.seeedstudio.com/Grove-125KHz_RFID_Reader/
 Blockly.Arduino.communication_rfid_getCardID = function (block) {
     let objName = 'rfid';

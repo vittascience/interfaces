@@ -322,7 +322,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /LED\(3\)/gi,
             id: "stm32-led1",
-            title: "LED Bleue",
+            get title() { return i18next.t('code.simulator.modules.ledBlue') },
             pin: 'STM32',
             type: 'output',
             value: 0,
@@ -336,7 +336,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /LED\(2\)/gi,
             id: "stm32-led2",
-            title: "LED Verte",
+            get title() { return i18next.t('code.simulator.modules.ledGreen') },
             pin: 'STM32',
             type: 'output',
             value: 0,
@@ -350,7 +350,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /LED\(1\)/gi,
             id: "stm32-led3",
-            title: "LED Rouge",
+            get title() { return i18next.t('code.simulator.modules.ledRed') },
             pin: 'STM32',
             type: 'output',
             value: 0,
@@ -364,7 +364,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /pyb\.Pin\(\'SW1\'\)/,
             id: "stm32-sw1",
-            title: "Bouton SW1",
+            get title() { return i18next.t('code.simulator.modules.buttonName', { name: 'SW1' }) },
             pin: 'STM32',
             type: 'input',
             listeners: [{
@@ -385,7 +385,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /pyb\.Pin\(\'SW2\'\)/,
             id: "stm32-sw2",
-            title: "Bouton SW2",
+            get title() { return i18next.t('code.simulator.modules.buttonName', { name: 'SW2' }) },
             pin: 'STM32',
             type: 'input',
             listeners: [{
@@ -406,7 +406,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /pyb\.Pin\(\'SW3\'\)/,
             id: "stm32-sw3",
-            title: "Bouton SW3",
+            get title() { return i18next.t('code.simulator.modules.buttonName', { name: 'SW3' }) },
             pin: 'STM32',
             type: 'input',
             listeners: [{
@@ -427,7 +427,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /.(RTC|datetime)\(/gi,
             id: "rtc",
-            title: "Horloge",
+            get title() { return i18next.t('code.simulator.modules.clock') },
             pin: 'STM32',
             type: 'output',
             value: "",
@@ -436,7 +436,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /AlphaBot_v2\(/gi,
             id: "alphabot-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: 'AlphaBot2-Ar',
             type: 'output',
             value: "",
@@ -446,7 +446,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /AlphaBot_v2\(/gi,
             id: "alphabot-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: 'AlphaBot2-Ar',
             type: 'output',
             value: "",
@@ -456,7 +456,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(.*)\.readUltrasonicDistance\(\)/gi,
             id: "alphabot-ultrasonic",
-            title: "Télémètre: ",
+            get title() { return i18next.t('code.simulator.modules.ultrasonic') },
             pin: 'AlphaBot2-Ar',
             type: 'input',
             listeners: [{
@@ -464,13 +464,13 @@ Simulator.Mosaic.specific = {
                 unit: 'cm',
                 color: "#f9d142 ",
                 suffix: "_d",
-                title: "Distance"
+                get title() { return i18next.t('code.simulator.modules.distance') }
             }, {
                 suffix: "_t",
                 default: 1166,
                 unit: 'μs',
                 color: "#f9d142",
-                title: "Durée"
+                get title() { return i18next.t('code.simulator.modules.duration') }
             }],
             class: "ultrasonic",
             picture: "Ultrason.png",
@@ -487,7 +487,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(.).(TRSensors_calibrate|calibrateLineFinder|TRSensors_readLine)\(/gi,
             id: "alphabot-trsensor1",
-            title: "Capteur de ligne noire 1",
+            get title() { return i18next.t('code.simulator.modules.lineSensor', { n: 1 }) },
             pin: 'AlphaBot2-Ar',
             type: 'input',
             listeners: [{
@@ -505,7 +505,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(.).(TRSensors_calibrate|calibrateLineFinder|TRSensors_readLine)\(/gi,
             id: "alphabot-trsensor2",
-            title: "Capteur de ligne noire 2",
+            get title() { return i18next.t('code.simulator.modules.lineSensor', { n: 2 }) },
             pin: 'AlphaBot2-Ar',
             type: 'input',
             listeners: [{
@@ -523,7 +523,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(.).(TRSensors_calibrate|calibrateLineFinder|TRSensors_readLine)\(/gi,
             id: "alphabot-trsensor3",
-            title: "Capteur de ligne noire 3",
+            get title() { return i18next.t('code.simulator.modules.lineSensor', { n: 3 }) },
             pin: 'AlphaBot2-Ar',
             type: 'input',
             listeners: [{
@@ -541,7 +541,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(.).(TRSensors_calibrate|calibrateLineFinder|TRSensors_readLine)\(/gi,
             id: "alphabot-trsensor4",
-            title: "Capteur de ligne noire 4",
+            get title() { return i18next.t('code.simulator.modules.lineSensor', { n: 4 }) },
             pin: 'AlphaBot2-Ar',
             type: 'input',
             listeners: [{
@@ -559,7 +559,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(.).(TRSensors_calibrate|calibrateLineFinder|TRSensors_readLine)\(/gi,
             id: "alphabot-trsensor5",
-            title: "Capteur de ligne noire 5",
+            get title() { return i18next.t('code.simulator.modules.lineSensor', { n: 5 }) },
             pin: 'AlphaBot2-Ar',
             type: 'input',
             listeners: [{

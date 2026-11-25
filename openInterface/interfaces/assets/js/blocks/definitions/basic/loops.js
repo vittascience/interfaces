@@ -493,11 +493,11 @@ Blockly.Constants.Loops.CONTROLS_RANGE_MUTATOR_MIXIN = {
     // Bouton
     if (this.itemCount_ > 1)
       this.appendDummyInput('BUTTONSbis')
-        .appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", that.removeItem_.bind(that), false));
+        .appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, that.removeItem_.bind(that), false));
 
     if (this.itemCount_ < 3)
       this.appendDummyInput('BUTTONS')
-        .appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", that.addItem_.bind(that), false));
+        .appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, that.addItem_.bind(that), false));
 
   },
 };
@@ -592,10 +592,10 @@ Blockly.Constants.Loops.CONTROLS_LISTCOMP_MUTATOR_MIXIN = {
     // Bouton
     if (this.itemCount_ > 1)
       this.appendDummyInput('BUTTONSbis')
-        .appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", that.removeItem_.bind(that), false));
+        .appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, that.removeItem_.bind(that), false));
 
     this.appendDummyInput('BUTTONS')
-      .appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", that.addItem_.bind(that), false));
+      .appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, that.addItem_.bind(that), false));
   },
 };
 

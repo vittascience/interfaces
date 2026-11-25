@@ -53,17 +53,6 @@ const downloadOptions = {
             value: "code.topbar.label.download"
         }
     },
-    'compile': {
-        id: "compile-arduino-opt",
-        classes: 'ide-btn-check ide-btn-left-dropdown',
-        fontAwesome: 'fas fa-bolt',
-        title: 'code.topbar.tooltips.compileArduino',
-        onclick: 'InterfaceConnection.compile()',
-        tooltipPlacement: "left",
-        label: {
-            value: "code.topbar.label.compile"
-        }
-    },
     'boardWifi': {
         id: "board-wifi-opt",
         classes: 'ide-btn-check ide-btn-left-dropdown',

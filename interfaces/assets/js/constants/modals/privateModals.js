@@ -7,7 +7,7 @@ const webSeparateFilesButton = INTERFACE_NAME === 'web' ? webSepFileButtonConten
 
 // Import of a project file: click (native file input) or drag and drop on the zone (project_panel.js, importProjectFile)
 const IMPORT_INO_INTERFACES = ["arduino", "mBot", "letsstartcoding"];
-const IMPORT_PY_INTERFACES = ["python", "microbit", "esp32", "wb55", "l476", "TI-83", "galaxia", "raspberrypi", "niryo", "nao", "GalaxiaCircuitPython", "buddy", "cyberpi", "pico", "eliobot", "thymio", "winky", "sphero", "lotibot", "bluebot", "spike", "legoprime", "photon", "codey", "steami", "alphai", 'primastem', 'skykick', 'unihiker'];
+const IMPORT_PY_INTERFACES = ["python", "microbit", "esp32", "wb55", "l476", "TI-83", "galaxia", "raspberrypi", "niryo", "nao", "GalaxiaCircuitPython", "buddy", "cyberpi", "pico", "eliobot", "thymio", "winky", "sphero", "lotibot", "bluebot", "spike", "legoprime", "photon", "codey", "steami", "alphai", 'primastem', 'matatalab', 'skykick', 'unihiker'];
 const importProjectAccept = IMPORT_INO_INTERFACES.includes(INTERFACE_NAME) ? '.ino'
     : INTERFACE_NAME === 'picaxe' ? '.bas'
     : IMPORT_PY_INTERFACES.includes(INTERFACE_NAME) ? '.py'
@@ -51,7 +51,7 @@ const backModals = {
         content:
             `
             <!-- Onglets de navigation -->
-            <div class="openproject-tabs" role="tablist" aria-label="Ouvrir un projet">
+            <div class="openproject-tabs" role="tablist" aria-label="Ouvrir un projet" data-i18n="[aria-label]code.topbar.tooltips.openProject">
                 <button
                     type="button"
                     id="my-openproject-subtitle"
@@ -113,13 +113,13 @@ const backModals = {
                 </button>
             </div>
 
-            <label for="search-project-input" class="visually-hidden">Rechercher un projet</label>
+            <label for="search-project-input" class="visually-hidden" data-i18n="code.popups.openProject.searchPlaceholder">Rechercher un projet</label>
             <div class="input-group mt-3" id="search-project">
                 <input
                     id="search-project-input"
                     class="form-control"
                     type="text"
-                    data-i18n="[placeholder]modals.standard.open.content.search"
+                    data-i18n="[placeholder]modals.standard.open.content.search;[aria-label]code.popups.openProject.searchPlaceholder"
                     aria-label="Rechercher un projet">
                 <button
                     type="button"
@@ -546,7 +546,7 @@ const backModals = {
         <div class='text-center'>
             <p class="text-center" data-i18n="modals.standard.rtc.privateProject.text">Ce projet est privé. Vous devez être invité par son propriétaire pour y accéder.</p>
             <p data-i18n="modals.standard.rtc.privateProject.text2">Souhaitez vous demander à son propriétaire l'accès à ce projet ?</p>
-            <textarea class="form-control mb-3 mx-auto" id="privateProjectMessage" rows="3" placeholder="Ecrivez un message" style='max-width:50ch;'></textarea>
+            <textarea class="form-control mb-3 mx-auto" id="privateProjectMessage" rows="3" placeholder="Écrivez un message" aria-label="Écrivez un message" data-i18n="[placeholder]code.a11yBlocks.privateProjectMessage;[aria-label]code.a11yBlocks.privateProjectMessage" style='max-width:50ch;'></textarea>
             <button type="button" class="btn btn-success" title='En développement' data-disabled="true" style="cursor: not-allowed; opacity: 1; filter: grayscale(1);" data-toggle='tooltip' data-i18n="modals.standard.rtc.privateProject.send">Envoyer</button>
         </div>
         <hr>
@@ -852,6 +852,38 @@ const backModals = {
             >
                 Non
             </button>
+        `
+    },
+    'modal-recentlocalproject': {
+        selector: '',
+        header: {
+            icon: 'fa fa-history',
+            title: 'modals.standard.recentLocal.title'
+        },
+        optionalClass: {
+            "content": "text-center"
+        },
+        customAttributes: [
+            { name: 'aria-describedby', value: 'modal-recentlocalproject-question modal-recentlocalproject-info modal-recentlocalproject-several' }
+        ],
+        content: `
+            <p id="modal-recentlocalproject-question" data-i18n="modals.standard.recentLocal.question">
+                Vous avez un projet récent enregistré dans ce navigateur. Voulez-vous l'ouvrir ?
+            </p>
+            <p id="modal-recentlocalproject-info">
+                <b id="modal-recentlocalproject-name"></b><br>
+                <span id="modal-recentlocalproject-date"></span>
+            </p>
+            <p id="modal-recentlocalproject-description" class="hint" style="white-space:pre-line; font-style:italic;" hidden></p>
+            <div id="modal-recentlocalproject-preview" aria-hidden="true" style="height:220px; margin-bottom:1rem; border:1px solid #ddd; border-radius:4px; text-align:left;" hidden></div>
+            <div id="modal-recentlocalproject-code" aria-hidden="true" style="height:220px; margin-bottom:1rem; border:1px solid #ddd; border-radius:4px; overflow:hidden; text-align:left;" hidden></div>
+            <p id="modal-recentlocalproject-several" class="hint" hidden></p>
+        `,
+        footer: `
+            <button type="button" id="modal-recentlocalproject-btn-open" class="btn vitta-button" style="flex:1;"
+                    data-i18n="modals.standard.recentLocal.buttons.open">Ouvrir ce projet</button>
+            <button type="button" id="modal-recentlocalproject-btn-new" class="btn btn-secondary" style="flex:1; margin-left:5px;"
+                    data-i18n="modals.standard.recentLocal.buttons.new">Commencer un nouveau projet</button>
         `
     },
     'modal-warningoverride': {
@@ -1286,25 +1318,25 @@ const backModals = {
                             </div>
 
                             <div class="d-flex justify-content-center align-items-center gap-2">
-                                <img src="${CDN_PATH}/interfaces/assets/images/fr-flag.svg" alt="Drapeau de la France" width="20" height="14" loading="lazy">
+                                <img src="${CDN_PATH}/interfaces/assets/images/fr-flag.svg" alt="" width="20" height="14" loading="lazy">
                                 <a href="https://www.education.gouv.fr/cadre-d-usage-de-l-ia-en-education-450647" target="_blank" rel="noopener"
                                     data-i18n="modals.iag.common.linkEducationAIFrame"></a>
                             </div>
 
                             <div class="d-flex justify-content-center align-items-center gap-2">
-                                <img src="${CDN_PATH}/interfaces/assets/images/fr-flag.svg" alt="Drapeau de la France" width="20" height="14" loading="lazy">
+                                <img src="${CDN_PATH}/interfaces/assets/images/fr-flag.svg" alt="" width="20" height="14" loading="lazy">
                                 <a href="https://www.cnil.fr/fr/enseignant-usage-systeme-ia" target="_blank" rel="noopener"
                                     data-i18n="modals.iag.common.linkCnilFaq"></a>
                             </div>
 
                             <div class="d-flex justify-content-center align-items-center gap-2">
-                                <img src="${CDN_PATH}/interfaces/assets/images/eu-flag.svg" alt="Drapeau de l'Union européenne" width="20" height="14" loading="lazy">
+                                <img src="${CDN_PATH}/interfaces/assets/images/eu-flag.svg" alt="" width="20" height="14" loading="lazy">
                                 <a href="https://www.vie-publique.fr/questions-reponses/292157-ai-act-le-reglement-europeen-sur-lintelligence-artificielle-ia" target="_blank" rel="noopener"
                                     data-i18n="modals.iag.common.linkAIAct"></a>
                             </div>
 
                             <div class="d-flex justify-content-center align-items-center gap-2">
-                                <img src="${CDN_PATH}/interfaces/assets/images/canada-flag.svg" alt="Drapeau de l'Union européenne" width="20" height="14" loading="lazy">
+                                <img src="${CDN_PATH}/interfaces/assets/images/canada-flag.svg" alt="" width="20" height="14" loading="lazy">
                                 <a href="https://www.vie-publique.fr/questions-reponses/292157-ai-act-le-reglement-europeen-sur-lintelligence-artificielle-ia" target="_blank" rel="noopener"
                                     data-i18n="modals.iag.common.linkQuebecAI"></a>
                             </div>
@@ -1368,25 +1400,25 @@ const backModals = {
                             </div>
 
                             <div class="d-flex justify-content-center align-items-center gap-2">
-                                <img src="${CDN_PATH}/interfaces/assets/images/fr-flag.svg" alt="Drapeau de la France" width="20" height="14" loading="lazy">
+                                <img src="${CDN_PATH}/interfaces/assets/images/fr-flag.svg" alt="" width="20" height="14" loading="lazy">
                                 <a href="https://www.education.gouv.fr/cadre-d-usage-de-l-ia-en-education-450647" target="_blank" rel="noopener"
                                     data-i18n="modals.iag.common.linkEducationAIFrame"></a>
                             </div>
 
                             <div class="d-flex justify-content-center align-items-center gap-2">
-                                <img src="${CDN_PATH}/interfaces/assets/images/fr-flag.svg" alt="Drapeau de la France" width="20" height="14" loading="lazy">
+                                <img src="${CDN_PATH}/interfaces/assets/images/fr-flag.svg" alt="" width="20" height="14" loading="lazy">
                                 <a href="https://www.cnil.fr/fr/enseignant-usage-systeme-ia" target="_blank" rel="noopener"
                                     data-i18n="modals.iag.common.linkCnilFaq"></a>
                             </div>
 
                             <div class="d-flex justify-content-center align-items-center gap-2">
-                                <img src="${CDN_PATH}/interfaces/assets/images/eu-flag.svg" alt="Drapeau de l'Union européenne" width="20" height="14" loading="lazy">
+                                <img src="${CDN_PATH}/interfaces/assets/images/eu-flag.svg" alt="" width="20" height="14" loading="lazy">
                                 <a href="https://www.vie-publique.fr/questions-reponses/292157-ai-act-le-reglement-europeen-sur-lintelligence-artificielle-ia" target="_blank" rel="noopener"
                                     data-i18n="modals.iag.common.linkAIAct"></a>
                             </div>
 
                             <div class="d-flex justify-content-center align-items-center gap-2">
-                                <img src="${CDN_PATH}/interfaces/assets/images/canada-flag.svg" alt="Drapeau de l'Union européenne" width="20" height="14" loading="lazy">
+                                <img src="${CDN_PATH}/interfaces/assets/images/canada-flag.svg" alt="" width="20" height="14" loading="lazy">
                                 <a href="https://www.vie-publique.fr/questions-reponses/292157-ai-act-le-reglement-europeen-sur-lintelligence-artificielle-ia" target="_blank" rel="noopener"
                                     data-i18n="modals.iag.common.linkQuebecAI"></a>
                             </div>

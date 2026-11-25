@@ -12,7 +12,6 @@
 
 // SkyKick Evo
 
-Blockly.Msg['SKYKICK_LABEL_FLIGHT'] = 'الرحلة';
 Blockly.Msg['SKYKICK_LABEL_MOVES'] = 'الحركات';
 Blockly.Msg['SKYKICK_LABEL_CONTROL'] = 'التحكم اليدوي';
 Blockly.Msg['SKYKICK_LABEL_SETTINGS'] = 'الإعدادات';
@@ -178,3 +177,38 @@ Blockly.Msg['SKYKICK_OPT_STATE_PITCH'] = 'تعديل الزاوية الرأسي
 Blockly.Msg['SKYKICK_OPT_STATE_ROLL'] = 'تعديل الدوران';
 Blockly.Msg['SKYKICK_OPT_STATE_SENSORORIENTATION'] = 'اتجاه المستشعر';
 Blockly.Msg['SKYKICK_OPT_STATE_BATTERY'] = 'البطارية (%)';
+Blockly.Msg['IO_WAIT_KEYWORDS'] = 'تأخير، انتظار';
+Blockly.Msg['IO_WAIT_UNTIL_KEYWORDS'] = 'انتظار، توقف';
+Blockly.Msg['IO_INITCHRONOMETER_KEYWORDS'] = 'ساعة توقيت، مؤقت، مستغرق';
+Blockly.Msg['IO_GETCHRONOMETER_KEYWORDS'] = 'ساعة توقيت، مؤقت، مستغرق';
+Blockly.Msg['COMMUNICATION_SERIAL_WRITE_KEYWORDS'] = 'وحدة التحكم، نقل، إرسال';
+Blockly.Msg['COMMUNICATION_WRITEGRAPH_KEYWORDS'] = 'رسم بياني، تصور';
+Blockly.Msg['COMMUNICATION_PRINT_DATAS_KEYWORDS'] = 'كتابة، إخراج، وحدة التحكم';
+Blockly.Msg['SKYKICK_TAKEOFF_KEYWORDS'] = 'إقلاع، إطلاق';
+Blockly.Msg['SKYKICK_LAND_KEYWORDS'] = 'هبوط، هبوط';
+Blockly.Msg['SKYKICK_STOP_KEYWORDS'] = 'توقف، فرامل';
+Blockly.Msg['SKYKICK_CLEAR_BIAS_KEYWORDS'] = 'معايرة، جيروسكوب، انحراف';
+Blockly.Msg['SKYKICK_CLEAR_TRIM_KEYWORDS'] = 'تعديل، إعادة ضبط، تعويض';
+Blockly.Msg['SKYKICK_SET_HEADLESS_KEYWORDS'] = 'بدون رأس، اتجاه، ميل';
+Blockly.Msg['SKYKICK_SET_TRIM_KEYWORDS'] = 'تعديل، ضبط، انحراف';
+Blockly.Msg['SKYKICK_TRIM_STEP_KEYWORDS'] = 'تعديل، زيادة، انحراف';
+Blockly.Msg['SKYKICK_SET_AXIS_KEYWORDS'] = 'توجيه، عصا التحكم';
+Blockly.Msg['SKYKICK_MOVE_AXIS_KEYWORDS'] = 'تحرك، قيادة، سفر';
+Blockly.Msg['SKYKICK_SET_QUAD_KEYWORDS'] = 'توجيه، عصا التحكم';
+Blockly.Msg['SKYKICK_MOVE_QUAD_KEYWORDS'] = 'تحرك، قيادة، سفر';
+Blockly.Msg['SKYKICK_GO_KEYWORDS'] = 'قيادة، سفر';
+Blockly.Msg['SKYKICK_TURN_KEYWORDS'] = 'دوران، دوران، تدوير';
+Blockly.Msg['SKYKICK_GO_XYZ_KEYWORDS'] = 'قيادة، سفر';
+Blockly.Msg['SKYKICK_GO_XYZ_TURN_KEYWORDS'] = 'دوران، دوران، تدوير';
+Blockly.Msg['SKYKICK_LED_OFF_KEYWORDS'] = 'LED، مغلق';
+Blockly.Msg['SKYKICK_LED_RGB_KEYWORDS'] = 'LED، RGB، لون';
+Blockly.Msg['SKYKICK_LED_COLOR_KEYWORDS'] = 'لون، ظل، تلوين';
+Blockly.Msg['SKYKICK_LED_PRESET_KEYWORDS'] = 'LED، لون، مسبق';
+Blockly.Msg['SKYKICK_BUZZER_STOP_KEYWORDS'] = 'زمام، إنذار';
+Blockly.Msg['SKYKICK_PLAY_NOTE_KEYWORDS'] = 'صوت، نغمة';
+Blockly.Msg['SKYKICK_PLAY_HZ_KEYWORDS'] = 'صوت، نغمة';
+Blockly.Msg['SKYKICK_ATTITUDE_KEYWORDS'] = 'اتجاه، ميل';
+Blockly.Msg['SKYKICK_SENSOR_KEYWORDS'] = 'حساس، قراءة';
+Blockly.Msg['SKYKICK_HEIGHT_KEYWORDS'] = 'ارتفاع';
+Blockly.Msg['SKYKICK_POSITION_KEYWORDS'] = 'إحداثيات، موقع';
+Blockly.Msg['SKYKICK_STATE_KEYWORDS'] = 'حالة، تشخيص';

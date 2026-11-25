@@ -352,14 +352,14 @@ Simulator.Behaviours.output.oobybot = function () {
 	mod['oobybot_controlMotors'] = new Sk.builtin.func(function (motor, direction, speed) {
 		let s = speed.v
 
-		if (s > 100 || mod.data < 0) {
+		if (s > 100 || s < 0) {
 			UIManager.showErrorMessage("error-message", 'La vitesse des moteurs doit être comprise entre 0 et 100');
 		} else {
 			if (!$("error-message").prevObject[0].all['error-message'].innerHTML) {
 				UIManager.resetMessage("error-message");
 			}
 		}
-		if ((motor.v = "pin2")) {
+		if (motor.v == "pin2") {
 			mod.data.motorLeft[1] = s;
 			if (mod.data.motorLeft[1] != 0) {
 				mod.data.motorLeft[0] = direction.v == 1 ? 'forward' : 'backward';
@@ -373,7 +373,7 @@ Simulator.Behaviours.output.oobybot = function () {
 				$('.mb-oobybot-motorLeft').css('animation', 'none');
 			}
 		}
-		if ((motor.v = "pin1")) {
+		if (motor.v == "pin1") {
 			mod.data.motorRight[1] = s;
 			if (mod.data.motorRight[1] != 0) {
 				mod.data.motorRight[0] = direction.v == 1 ? 'forward' : 'backward';

@@ -26,9 +26,9 @@ export function setupInputFieldListener(searchBox) {
                 const total = parseInt(match[2], 10);
 
                 if (total === 0) {
-                    updateAriaLiveRegion(`Aucun résultat trouvé pour : ${searchTerm}`);
+                    updateAriaLiveRegion(i18next.t('code.a11yBlocks.searchNone', { term: searchTerm, interpolation: { escapeValue: false } }));
                 } else {
-                    updateAriaLiveRegion(`${total} résultat${total > 1 ? "s" : ""} pour : ${searchTerm}`);
+                    updateAriaLiveRegion(i18next.t(total > 1 ? 'code.a11yBlocks.searchMany' : 'code.a11yBlocks.searchOne', { count: total, term: searchTerm, interpolation: { escapeValue: false } }));
                 }
             }
         }, 100);

@@ -116,7 +116,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /rocky./,
             id: "rocky-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: 'Rocky',
             type: 'output',
             value: 0,
@@ -126,7 +126,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /rocky./,
             id: "rocky-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: 'Rocky',
             type: 'output',
             value: 0,

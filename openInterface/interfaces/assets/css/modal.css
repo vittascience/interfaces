@@ -52,6 +52,19 @@
     z-index: 2000 !important;
 }
 
+/* Short question with two buttons: no need of the whole width */
+#modal-recentlocalproject {
+    width: min(720px, calc(100% - 32px));
+}
+
+/* With enough room, the labels of the two buttons stay on one line */
+@media (min-width: 760px) {
+    #modal-recentlocalproject .vitta-modal-footer button,
+    #modal-recentlocalproject button[id^="modal-recentlocalproject-btn"] {
+        white-space: nowrap;
+    }
+}
+
 @media (min-width: 600px) {
 
     .vitta-modal-warning,
@@ -885,4 +898,9 @@ div#arduino-board-selector .modal-content-div {
     height: 1px;
     opacity: 0;
     overflow: hidden;
+}
+
+/* Screenshot of the blocks (camera button of the workspace): two lists and a button only */
+#modal-blocks-screenshot {
+    max-width: 420px;
 }

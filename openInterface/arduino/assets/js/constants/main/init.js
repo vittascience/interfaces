@@ -36,7 +36,7 @@ const BOARD_SHIELD_GROVE = "shield-grove";
 const BOARD_SHIELD_GROVE_MEGA = "shield-grove-mega";
 const BOARD_SHIELD_GROVE_NANO = "shield-grove-nano";
 //standalone_blocks
-const BLOCKS_OUTSIDE_SCOPE = ["on_start", "forever", "scratch_on_start", "procedures_defnoreturn", "procedures_defreturn", "io_attachInterrupt", "preproc_include", "preproc_define", "preproc_define", "comment_block_standalone"];
+const BLOCKS_OUTSIDE_SCOPE = ["on_start", "forever", "scratch_on_start", "procedures_defnoreturn", "procedures_defreturn", "io_attachInterrupt", "communication_ir_barrier_onSignalEvent", "preproc_include", "preproc_define", "preproc_define", "comment_block_standalone"];
 //example projects
 const EXAMPLE_PROJECT_LINKS = ['639987a2d76c3', '6399a76286bfd', '6399a8b8ee0d4', '6399a9b491f07', '6399bd8184b3f', '6399c0b51e361'];
 //adc

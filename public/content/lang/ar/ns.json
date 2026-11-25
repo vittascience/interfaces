@@ -66,6 +66,9 @@
       },
       "tooltips": {
         "backToHome": "العودة إلى الصفحة الرئيسية",
+        "siteMenu": "قائمة الموقع: التنقل، خيارات الوصول واللغة",
+        "siteNav": "قائمة الموقع",
+        "closeAccessibility": "إغلاق قائمة الوصول",
         "programming": "البرمجة مع فيتاساينس",
         "resources": "مركز الموارد التعليمية",
         "classroom": "إدارة صفوفك مع فيتاساينس",
@@ -771,6 +774,7 @@
       "delivery": "التوصيل",
       "freeWithPremium": "مجانًا مع حساب بريميوم",
       "shippingAtDeliveryStep": "يتم حسابه في خطوة التسليم",
+      "stockDelayNotice": "بعض العناصر غير متاحة حالياً ({{products}}): قد يستغرق طلبك وقتاً أطول للشحن.",
       "shippingFree": "مجاني",
       "shippingFreeWithPremium": "الشحن المجاني إلى فرنسا البرية مع اشتراك Vittascience Premium",
       "shippingFreeThanksToPremium": "الشحن المجاني إلى فرنسا البرية بفضل اشتراكك في Vittascience Premium",
@@ -921,6 +925,7 @@
       "supportSubject": "تقديم طلب الشراء - التقدير {{number}}",
       "autoValidate": "التأكيد التلقائي للتقدير",
       "autoValidateHint": "تم الحصول على التقدير: يتم إنشاء الفاتورة المسودة والطلب على الفور، ويتلقى العميل بريد تأكيد.",
+      "notifyClient": "إرسال رسائل البريد الإلكتروني إلى العميل (ملخص طلب الشراء وتأكيد العرض)",
       "closedTitle": "تم قبول التقدير بالفعل",
       "closedText": "تم قبول التقدير {{number}} بالفعل وجاري معالجة طلبك: لا يوجد طلب شراء متبقي لتقديمه. للتقدم بأي تغيير، يرجى الاتصال بنا.",
       "closedSubject": "التقدير {{number}}",
@@ -971,7 +976,15 @@
       "cancel": "إلغاء",
       "submit": "إرسال",
       "submit_success": "شكرًا لمشاركتك تقييمك!",
-      "return_to_product": "العودة إلى المنتج"
+      "return_to_product": "العودة إلى المنتج",
+      "deleted_user": "مستخدم سابق",
+      "errors": {
+        "rating": "اختر تقييم من 1 إلى 5.",
+        "comment": "أضف تعليقاً لمراجعتك.",
+        "too_long": "لا يمكن أن يتجاوز تعليقك 255 حرفًا.",
+        "already_reviewed": "لقد قمت بمراجعة هذا المنتج بالفعل.",
+        "generic": "لم يكن بالإمكان حفظ مراجعتك. يرجى المحاولة مرة أخرى."
+      }
     },
     "shopPayLink": {
       "thanksTitle": "شكرًا لك، تم استلام دفعتك",
@@ -1040,6 +1053,7 @@
       "hire": "هل أنت شغوف بالتعليم، تحب المشروع وتعتقد أن لديك مهارات تضيفها لنا؟ لا تتردد في الاتصال بنا!<br/><a href=\"/hire\" style=\"text-decoration:none;\"><button class=\"mt-3 btn v-btn-important about-recruit-btn\">انضم إلى فريقنا :) <span class=\"fa fa-chevron-circle-right\"></span></button></a>",
       "junior": "مطور ويب ومتعلم دعم تكنولوجيا المعلومات في فيتاساينس، شغوف بالتطوير والتقنيات الرقمية.",
       "zouhir": "انضم زهير إلى فيتاساينس في سبتمبر 2026 كمتدرب في تطوير الواجهة الأمامية، والأنظمة المدمجة، والدعم الفني.",
+      "iris": "انضمت إيريس إلى فيتاساينس في سبتمبر 2026 في فريق الاتصالات والتسويق لتعزيز استراتيجية فيتاساينس ورؤيتها.",
       "hireTitle": "انضم إلينا"
     },
     "hof": {
@@ -1265,6 +1279,75 @@
     }
   },
   "code": {
+    "a11yBlocks": {
+      "dropInside": "{{block}} وضعت داخل “{{target}}”",
+      "dropAfter": "{{block}} وضعت بعد “{{target}}”",
+      "dropOutside": "{{block}} وضعت خارج البرنامج: لن يتم تشغيله",
+      "firstPlace": "المركز الأول",
+      "contextMenu": "قائمة السياق",
+      "undone": "تم التراجع عن الإجراء",
+      "redone": "تم إعادة الإجراء",
+      "nothingToUndo": "لا شيء للتراجع عنه",
+      "nothingToRedo": "لا شيء لإعادة فعله",
+      "deleted": "{{block}} تم حذفه",
+      "fieldRoles": {
+        "pin": "دبوس",
+        "operator": "مشغل",
+        "unit": "وحدة",
+        "mode": "وضع",
+        "state": "حالة",
+        "note": "ملاحظة",
+        "colour": "لون",
+        "direction": "اتجاه",
+        "motor": "محرك",
+        "type": "نوع",
+        "data": "بيانات",
+        "axis": "محور",
+        "channel": "قناة",
+        "sensor": "مستشعر",
+        "address": "عنوان",
+        "version": "إصدار",
+        "command": "أمر"
+      },
+      "operators": {
+        "eq": "يساوي",
+        "neq": "لا يساوي",
+        "lt": "أقل من",
+        "lte": "أقل من أو يساوي",
+        "gt": "أكثر من",
+        "gte": "أكثر من أو يساوي",
+        "add": "زائد",
+        "minus": "ناقص",
+        "multiply": "ضرب",
+        "divide": "مقسوم على",
+        "power": "للقوة"
+      },
+      "toolbox": "أدوات",
+      "generatedCode": "الكود الناتج",
+      "enterBlockHint": "السهم الأيمن للانتقال إلى قيم الكتلة",
+      "emptyInputHint": "مكان فارغ: T لاختيار كتلة لإدراجها هنا",
+      "insideBlockHint": "السهم للأسفل للدخول إلى الكتلة",
+      "consolePrefix": "ناتج وحدة التحكم: {{text}}",
+      "searchNone": "لم يتم العثور على نتائج لـ: {{term}}",
+      "searchOne": "نتيجة واحدة لـ: {{term}}",
+      "searchMany": "{{count}} نتائج لـ: {{term}}",
+      "duplicateLine": "تم تكرار السطر.",
+      "duplicateSelection": "تم تكرار النص المحدد.",
+      "trash": "سلة المهملات",
+      "screenshot": "لقطة شاشة",
+      "recenter": "إعادة التوسيط",
+      "graphMinY": "أقل قيمة لمحور Y (تلقائي بشكل افتراضي)",
+      "graphMaxY": "أقصى قيمة لمحور Y (تلقائي بشكل افتراضي)",
+      "privateProjectMessage": "اكتب رسالة",
+      "codeLine": "السطر {{line}}",
+      "lastPlace": "آخر مكان"
+    },
+    "a11yHeadings": {
+      "blocks": "الكتل",
+      "code": "الكود",
+      "console": "وحدة التحكم",
+      "simulator": "المحاكي"
+    },
     "blockExtensions": {
       "category": "الإضافات",
       "title": "إضافات الكتل",
@@ -1275,6 +1358,8 @@
       "noResult": "لم يتم العثور على أي إضافة.",
       "confirmRemoveUsed": "سيتم حذف {{count}} كتلة(كتل) من هذه الإضافة المستخدمة في البرنامج. هل تريد المتابعة؟",
       "manage": "إدارة الإضافات",
+      "manageRobots": "إدارة الروبوتات",
+      "remove": "إزالة الإضافة {{name}}",
       "filter": "تصفية الإضافات",
       "filters": {
         "all": "الكل",
@@ -1332,16 +1417,13 @@
         "computerScientist": "عالم حاسوب مجهول"
       }
     },
+    "noCodeToBlocksWarning": "لا يمكن تحويل الكود المكتوب يدوياً إلى كتل: إذا قمت بالتبديل مرة أخرى إلى وضع الكتل، فسيتم استبداله بكود الكتل في التغيير التالي. متابعة؟",
     "placeholderError": "يرجى ملء جميع الحقول ___ قبل تشغيل البرنامج",
     "nameError": "يرجى التأكد من صحة اسم الدالة",
     "rewriteSpecialChar": "يرجى إعادة تسمية المتغير بدون أحرف خاصة في السطر ",
     "serialAPI": {
       "allowSerial": "فعّل #enable-experimental-web-platform-features في 'chrome://flags/' لفتح منفذ تسلسلي.",
       "noSerialAPI": "لم يتم اكتشاف Serial API في متصفحك. لاستخدام Serial API يجب استخدام أحد المتصفحات المدعومة: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">كروم</a>، <a href=\"https://www.opera.com/\">أوبرا</a> وقريبًا <a href=\"https://www.microsoftedgeinsider.com/\">إيدج</a>",
-      "picaxeUploading": "Uploading the PICAXE program (about 15 seconds)...",
-      "fileDownloadedPicaxe": "PICAXE program successfully sent to the board!",
-      "picaxeCompileError": "The program cannot be compiled: %1",
-      "picaxeUnsupportedChip": "Direct upload is only available for the AutoProgX2 (PICAXE-28X2). For this board, download the .bas file and open it in PICAXE Editor.",
       "serialPortOpeningFail": "فشل الاتصال بالمنفذ التسلسلي، لا يمكن الوصول إلى اللوحة. برنامج آخر متصل بالفعل باللوحة.\n\n تحقق من أن اللوحة غير متصلة بواجهة أخرى (مثل: MakeCode، محرر بايثون، Thonny أو واجهة Vittascience أخرى)، أو افصل وأعد توصيل اللوحة ثم حاول مرة أخرى.",
       "boardConnected": "تم الاتصال بالمنفذ التسلسلي بنجاح!",
       "serialPortClosed": "تم إغلاق المنفذ التسلسلي بنجاح!",
@@ -1372,7 +1454,15 @@
       "skykickNotInCodingMode": "وحدة التحكم SkyKick ليست في وضع البرمجة (Link): الأوامر مُهملة. قم بتحويل وحدة التحكم إلى وضع Link لقيادة الطائرة المسيرة.",
       "skykickDroneNotPaired": "الطائرة لا تستجيب: تحقق من أنها مشغلة ومتصلّة بوحدة التحكم.",
       "skykickPortBusy": "لا يمكن فتح منفذ وحدة التحكم: يتم استخدامه بالفعل بواسطة تطبيق آخر. أغلق تطبيق SkyKick Evo Block Coding (وأي علامة تبويب أخرى متصلة بوحدة التحكم)، ثم حاول مرة أخرى.",
-      "skykickBattery": "بطارية الطائرة"
+      "skykickBattery": "بطارية الطائرة",
+      "legoPrimeOldFirmware": "الهوب لا يستجيب: قم بإيقاف تشغيله (اضغط على زر الوسط)، ثم قم بتشغيله مرة أخرى، ثم قم بتوصيله مرة أخرى عبر USB. إذا لم يستجب بعد، قم بتحديثه باستخدام تطبيق LEGO® Education SPIKE™ (يتطلب إصدار SPIKE 3).",
+      "legoPrimeBluetoothFailed": "تعذر الاتصال بالهوب عبر Bluetooth: اضغط على زر Bluetooth الخاص به، ثم حاول مرة أخرى.",
+      "legoPrimeNotStarted": "لم يبدأ البرنامج على الوحدة (توقف على الفور، دون أي مخرجات). أعد تشغيل الوحدة وحاول مرة أخرى.",
+      "legoPrimePortBusy": "لا يمكن فتح منفذ الوحدة: فهو قيد الاستخدام بالفعل من قبل تطبيق آخر. اغلق تطبيق LEGO® Education SPIKE™ (وأي علامة تبويب أخرى متصلة بالوحدة)، ثم حاول مرة أخرى.",
+      "picaxeUploading": "جارٍ تحميل برنامج PICAXE (حوالي 15 ثانية)...",
+      "fileDownloadedPicaxe": "تم إرسال برنامج PICAXE إلى اللوحة بنجاح!",
+      "picaxeCompileError": "لا يمكن تجميع البرنامج: %1",
+      "picaxeUnsupportedChip": "التحميل المباشر متاح فقط لـ AutoProgX2 (PICAXE-28X2). بالنسبة لهذه اللوحة، حمّل ملف .bas وافتحه في PICAXE Editor."
     },
     "WebBluetoothAPI": {
       "noWebBluetoothAPI": "لم يتم اكتشاف Web Bluetooth API في متصفحك. لاستخدام Web Bluetooth API يجب استخدام أحد المتصفحات المدعومة: <a href=\"https://www.google.com/intl/fr_fr/chrome/\">كروم</a>، <a href=\"https://www.opera.com/\">أوبرا</a> وقريبًا <a href=\"https://www.microsoftedgeinsider.com/\">إيدج</a>",
@@ -1435,7 +1525,7 @@
       "transferAborted": "تم إلغاء النقل."
     },
     "welcome": {
-      "arduino": "مرحبًا بك في واجهة Vittascience لأردوينو! </br>يمكنك الاطلاع على الدليل هنا: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=911/prise-en-main-de-la-carte-arduino-uno-et-de-l-interface-vittascience\" target=\"_blank\" rel=\"noopener noreferrer\">البدء مع واجهة Vittascience لأردوينو UNO</a>",
+      "arduino": "مرحبا بك في واجهة Vittascience لـ Arduino!</br>يمكنك متابعة البرنامج التعليمي المتاح هنا: <a href=\"https://en.vittascience.com/learn/tutorial.php?id=911/prise-en-main-de-la-carte-arduino-uno-et-de-l-interface-vittascience\" target=\"_blank\" rel=\"noopener noreferrer\">البدء مع واجهة Vittascience لبطاقة Arduino UNO</a>",
       "microbit": "مرحبًا بك في واجهة Vittascience لـ BBC Micro:bit! </br>يمكنك الاطلاع على الدليل هنا: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=25/prise-en-main-de-la-carte-microbit\" target=\"_blank\" rel=\"noopener noreferrer\">البدء مع واجهة Vittascience لـ BBC Micro:bit</a>",
       "python": "مرحبًا بك في واجهة Vittascience لبرمجة بايثون!<br>اضغط على زر تشغيل لتشغيل برنامجك (وضع السكريبت) أو اكتب أمرًا بعد >>> أدناه (وضع وحدة التحكم REPL).",
       "esp32": "مرحبًا بك في واجهة Vittascience لـ ESP32! </br>لبرمجة لوحة ESP32 على هذه الواجهة، يجب أولاً تثبيت برنامج MicroPython على اللوحة باتباع الدليل التالي: <b><a href=\"https://fr.vittascience.com/learn/tutorial.php?id=341/flasher-le-firmware-micropython-dans-la-carte-esp32\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">تثبيت برنامج MicroPython</a></b>",
@@ -1446,7 +1536,7 @@
       "TI-83-Maclasseti": "مرحبًا بك في واجهة MaClasseTI.fr لآلة حاسبة TI-83 Premium CE Edition Python! يمكن برمجة لوحات TI-Innovator™ Hub و BBC micro:bit على هذه الواجهة. افتح المحاكي للبدء!",
       "GalaxiaCircuitPython": "مرحبًا بك في واجهة Vittascience لـ Galaxia Circuit Python!",
       "galaxia": "مرحبًا بك في واجهة Vittascience لـ Galaxia! </br>لبرمجة لوحة Galaxia على هذه الواجهة، يجب أولاً تثبيت برنامج MicroPython على اللوحة باتباع الدليل التالي: <b><a href=\"https://fr.vittascience.com/learn/tutorial.php?id=860\" style=\"color:var(--vitta-blue-dark);\" target=\"_blank\" rel=\"noopener noreferrer\">تثبيت برنامج MicroPython</a></b>",
-      "picaxe": "Welcome to the PICAXE interface!</br>Plug in the AutoProgX2 with the AXE027 cable and click Upload.",
+      "picaxe": "مرحبًا بك في واجهة PICAXE!</br>وصل جهاز AutoProgX2 بكابل AXE027 ثم انقر على زر التحميل.",
       "unihiker": "مرحبًا بك في واجهة Vittascience للوحة UNIHIKER M10!</br>صِل اللوحة عبر USB ثم انقر على رفع. في المرة الأولى، تضع الواجهة مثبّت خادم Vittascience على اللوحة، ويُشغَّل مرة واحدة من قائمة Home في اللوحة.",
       "unihiker-k10": "مرحبًا بك في واجهة Vittascience للوحة UNIHIKER K10!</br>صِل اللوحة عبر USB (برنامج MicroPython الثابت من DFRobot)، ثم انقر على رفع: يُحفظ البرنامج في main.py.",
       "raspberrypi": "مرحبًا بك في واجهة Vittascience لـ Raspberry Pi! يمكنك الاطلاع على الدليل هنا: <a href=\"https://fr.vittascience.com/learn/tutorial.php?id=1739\" target=\"_blank\" rel=\"noopener noreferrer\">البدء مع واجهة Vittascience لـ Raspberry Pi</a>",
@@ -1465,14 +1555,20 @@
       "lotibot": "مرحبًا بك في واجهة Vittascience لروبوت Loti-bot!",
       "bluebot": "مرحبًا بك في واجهة Vittascience لروبوت Blue-bot!",
       "spike": "مرحبًا بك في واجهة Vittascience لـ LEGO® Education SPIKE™ Essential!<br>LEGO، شعار LEGO، الميني فيغورين، DUPLO وشعار SPIKE هي علامات تجارية مسجلة لمجموعة LEGO، التي لا ترعى أو توافق أو تسمح بهذا الموقع.",
+      "legoprime": "مرحبا بك في واجهة Vittascience لـ LEGO® Education SPIKE™ Prime!<br>قم بتوصيل الوحدة عبر USB (برنامج SPIKE 3) أو اضغط على زر Bluetooth الخاص بها، ثم انقر على زر التحميل المطابق: سيتم تحميل البرنامج في الفتحة 19 من الوحدة، مما يمسح البرنامج المخزن هناك.<br>LEGO والشعار LEGO والشخصيات الصغيرة ودوبلو وشعار SPIKE هي علامات تجارية تابعة لمجموعة LEGO، التي لا ترعى أو تؤيد أو تشير إلى هذا الموقع.",
       "photon": "مرحبًا بك في واجهة Vittascience لروبوت Photon!",
       "codey": "مرحبًا بك في واجهة Vittascience لـ Codey و Rocky!",
       "nano-esp32": " مرحبًا بكم في واجهة Vittascience لـ Arduino Nano ESP32!",
       "steami": "مرحبًا بك في واجهة Vittascience لـ STeaMi !",
       "alphai": "مرحبًا بك في واجهة Vittascience لروبوت AlphAI !",
-      "arduinoq": "مرحبًا بك في واجهة Vittascience للوحة Arduino UNO Q!</br></br>تدعم الواجهة لغات مختلفة (Arduino، Python، HTML) لبرمجة مشروع كامل مع اللوحة. يمكن استخدام الكتل في فئة 'الأساس' بأي لغة؛ ثم سيتكيف الكود المُولد مع نوع لغة كتلة الرأس.</br></br>يمكن إرسال أوامر Linux إلى لوحة Arduino Q عن طريق كتابة الأمر في حقل الإدخال في أسفل وحدة التحكم.",
+      "arduinoq": "مرحبا بك في واجهة Vittascience لبطاقة Arduino UNO Q!</br></br>تدعم الواجهة لغات مختلفة (Arduino وPython وHTML) لبرمجة مشروع كامل باستخدام البطاقة. يمكن استخدام الكتل في فئة \"الأساسية\" بأي لغة؛ ثم سيتكيف الكود الناتج مع نوع اللغة لكتلة الرأس.</br></br>يمكنك إرسال أوامر Linux إلى بطاقة Arduino Q عن طريق كتابة الأمر في حقل الإدخال في أسفل وحدة التحكم.",
       "primastem": "مرحبا بك في واجهة فيتاساينس لروبوت بريماستيم!",
+      "matatalab": "مرحبًا بك في واجهة فيتاساينس لروبوت ماتاتا بوت!</br>قم بتوصيل روبوت ماتاتا بوت أو جهاز التحكم ماتاتا كون في وضع المستشعر لاستخدام المستشعرات وحلقة LED.",
       "skykick": "مرحبًا بك في واجهة فيتاساينس لطائرة SkyKick Evo!</br>قم بتوصيل وحدة التحكم عبر USB، ثم قم بتحويلها إلى وضع Link، ثم انقر على زر الاتصال قبل تشغيل برنامجك. تحذير: الطائرة تطير فعلًا، يرجى الحفاظ على مساحة خالية."
+    },
+    "matatalab": {
+      "controllerMode": "إذا استمرت المشكلة، قم بتحديث البرنامج الثابت له ولروبوت ماتاتا باستخدام تطبيق ماتاتا كود.",
+      "formerFirmware": "يستخدم الروبوت البروتوكول السابق: الحركة، الأصوات والعينان متاحة، لكن لا توجد المستشعرات أو حلقة LED."
     },
     "chromeApp": {
       "noPort": "لم يتم اكتشاف منفذ",
@@ -1567,7 +1663,12 @@
       "installButton": "تثبيت",
       "installBackButton": "عودة",
       "backInterface": "العودة إلى واجهة البرمجة",
-      "downloadTitle": "تحميل"
+      "downloadTitle": "تحميل",
+      "retired": {
+        "title": "لم تعد الإضافات مطلوبة",
+        "text": "تتواصل واجهات برمجة Vittascience الآن مباشرة مع البطاقات من المتصفح. لم يعد هناك أي مكون إضافي أو امتداد أو برنامج يتعين تثبيته على جهاز الكمبيوتر الخاص بك.",
+        "browsers": "للتواصل مع بطاقة، استخدم ببساطة متصفح حديث يعتمد على Chromium (Chrome أو Edge أو Opera)."
+      }
     },
     "smallScreen": {
       "title": "عذرًا",
@@ -1602,6 +1703,8 @@
       "tooltips": {
         "boardWifi": "إعداد Wi-Fi للوحة Arduino UNO Q المتصلة",
         "projectMenu": "قائمة المشروع",
+        "editorToolbar": "شريط أدوات المحرر",
+        "modeMenu": "اختر الوضع: كتل، مختلط أو كود",
         "new": "مشروع جديد",
         "save": "حفظ",
         "open": "فتح مشروع",
@@ -1625,6 +1728,8 @@
         "esp32BoardSelector": "اختر لوحة ESP32 المراد برمجتها",
         "unihikerBoardSelector": "اختر لوحة UNIHIKER المراد برمجتها",
         "downloadPython": "تحميل سكريبت بايثون",
+        "switchToSpikePrime": "التبديل إلى SPIKE Prime",
+        "switchToSpikeEssential": "التبديل إلى SPIKE Essential",
         "downloadPythonGalaxia": "تحميل سكريبت بايثون 'main.py' لسحبه وإفلاته على Galaxia",
         "downloadArduino": "تحميل سكريبت Arduino",
         "downloadThymio": "تحميل برنامج TDMLauncher",
@@ -1639,8 +1744,8 @@
         "installUnihiker": "وضع مثبّت خادم Vittascience على اللوحة (يُشغَّل مرة واحدة من قائمة Home في اللوحة)",
         "unihikerHost": "تغيير عنوان اللوحة (10.1.2.3 عبر USB أو عنوانها على Wi-Fi)",
         "downloadHex": "تصدير برنامج micro:bit بصيغة [.hex]",
-        "downloadPicaxe": "Download the .bas program (open it in PICAXE Editor)",
-        "uploadPicaxe": "Send the program to the board (AutoProgX2 / PICAXE-28X2, AXE027 cable, Chrome or Edge browser)",
+        "downloadPicaxe": "حمّل برنامج .bas (افتحه في PICAXE Editor)",
+        "uploadPicaxe": "أرسل البرنامج إلى اللوحة (AutoProgX2 / PICAXE-28X2، كابل AXE027، متصفّح Chrome أو Edge)",
         "downloadTexas": "تحميل برنامج .py للحاسبة",
         "runBuddy": "تشغيل البرنامج على Buddy",
         "disconnect": "فصل اللوحة",
@@ -1671,6 +1776,7 @@
         "consoleSettings": "الإعدادات العامة",
         "accessibility": "تعديل السمة والخط",
         "shortcuts": "عرض اختصارات لوحة المفاتيح",
+        "tour": "اكتشف الواجهة خطوة بخطوة",
         "addBlockSettings": "إضافة كتلة",
         "fullscreen": "عرض ملء الشاشة",
         "help": "مساعدة",
@@ -1737,7 +1843,7 @@
         "downloadUf2Pico": "برنامج Pico الثابت",
         "downloadUf2PicoW": "برنامج Pico W الثابت",
         "downloadPython": "تنزيل .py",
-        "downloadPicaxe": "Download .bas",
+        "downloadPicaxe": "تحميل .bas",
         "downloadTexas": "تنزيل للحاسبة",
         "downloadThymioWindows": "تنزيل .exe",
         "downloadThymioMacOS": "تنزيل .dmg",
@@ -1750,6 +1856,8 @@
         "settings": "خيارات",
         "themes": "إمكانية الوصول",
         "shortcuts": "اختصارات لوحة المفاتيح",
+        "tour": "جولة إرشادية",
+        "offline": "غير متصل",
         "add": "إضافة كتلة",
         "fullscreen": "ملء الشاشة",
         "help": "مساعدة",
@@ -1782,7 +1890,9 @@
       "public": "عام"
     },
     "blockly": {
+      "clearSearch": "مسح البحث",
       "label": {
+        "description": "الوصف",
         "trash": "<img src='/openInterface/interfaces/assets/media/empty_trash_icon.svg' class='empty-icon'></img>إفراغ سلة المهملات",
         "backpack": "<img src='/openInterface/interfaces/assets/media/empty_trash_icon.svg' class='empty-icon'></img>إفراغ الحقيبة"
       },
@@ -1822,6 +1932,7 @@
           "launchApp": "تشغيل التطبيق",
           "stopApp": "إيقاف التطبيق",
           "openFileSystem": "الملفات",
+          "pythonFiles": "الملفات",
           "monitor": "المراقب التسلسلي",
           "openRepl": "REPL"
         },
@@ -1840,6 +1951,7 @@
           "launchApp": "إعادة تشغيل التطبيق المُرسَل مسبقًا إلى اللوحة",
           "stopApp": "إيقاف التطبيق الذي يعمل على اللوحة",
           "openFileSystem": "افتح نظام ملفات اللوحة",
+          "pythonFiles": "الملفات المتاحة للبرنامج (فتح، نظام، صورة)",
           "graph": "لعرض البيانات المستلمة في وحدة التحكم، انقر على زر <b>الرسم البياني</b>",
           "monitorToggler": "لعرض البيانات المستلمة، انقر على الزر <i class='fas fa-chevron-up'></i>"
         }
@@ -1938,6 +2050,12 @@
           "downloadScreen": "لقطة شاشة",
           "toggleBoardDisplay": "إظهار/إخفاء لوحة المحاكي",
           "switchWiringMode": "التبديل إلى وضع التوصيل",
+          "selectBoard": "اختر البطاقة",
+          "boardView": "عرض البطاقة المحاكاة",
+          "describeBoard": "وصف حالة البطاقة",
+          "stateEmpty": "لم تتغير أي مخرجات بعد: قم بتشغيل البرنامج.",
+          "stateOn": "عالي",
+          "stateOff": "منخفض",
           "switchMosaicMode": "التبديل إلى وضع الفسيفساء",
           "wiringZoomIn": "تكبير",
           "wiringZoomOut": "تصغير"
@@ -1994,8 +2112,8 @@
         "variables-panel-msg": "هذا البرنامج لا يحتوي على متغيرات",
         "replaySimulator": "أعد تشغيل المحاكي لإرسال البيانات",
         "skulptLoadError": "تعذر تحميل المحاكي. تحقق من اتصالك ثم أعد تشغيل المحاكي.",
-        "picaxeRuntimeError": "Simulation error: %1",
-        "picaxeSimulatorChip": "The simulator is only available for the AutoProgX2 (PICAXE-28X2)."
+        "picaxeRuntimeError": "خطأ في المحاكاة: %1",
+        "picaxeSimulatorChip": "المحاكي متاح فقط لـ AutoProgX2 (PICAXE-28X2)."
       },
       "tooltips": {
         "bluebot-buttons": "يمكنك استخدام أزرار روبوت Blue-bot لبرمجته!"
@@ -2088,7 +2206,277 @@
         "groveUV": "مستشعر الأشعة فوق البنفسجية",
         "groveSound": "مستشعر الصوت",
         "grovePulse": "مستشعر النبض",
-        "distanceInterrupter": "مقطع المسافة"
+        "distanceInterrupter": "مقطع المسافة",
+        "accelerometer": "مقياس التسارع",
+        "accelerometerMg": "مقياس التسارع (ميلي جرام)",
+        "accelerometerPitch": "مقياس التسارع - الميل",
+        "accelerometerRoll": "مقياس التسارع - الدورة",
+        "altitude": "ارتفاع",
+        "analogRead": "قراءة تماثلية",
+        "analogWrite": "كتابة تماثلية",
+        "axis": "{{axis}} محور",
+        "backward": "للخلف",
+        "barrier": "حاجز",
+        "battery": "بطارية",
+        "batteryLevel": "مستوى البطارية",
+        "blackLineCenter": "مستشعر خط أسود مركزي",
+        "blackLineLeft": "مستشعر خط أسود أيسر",
+        "blackLineRight": "مستشعر خط أسود أيمن",
+        "blue": "أزرق",
+        "blueValue": "أزرق",
+        "bodyAccelerometer": "الجسم - مقياس التسارع",
+        "bodyAngularSpeed": "الجسم - السرعة الزاوية",
+        "bodyTouchSensor": "مستشعر لمس الجسم",
+        "brightness": "سطوع",
+        "builtinBuzzer": "جرس مدمج",
+        "builtinLed": "LED مدمج",
+        "builtinRgbLed": "LED RGB مدمج",
+        "bumpers": "مصدات",
+        "buttonBackward": "زر للخلف",
+        "buttonBlue": "زر أزرق",
+        "buttonCenter": "زر مركزي",
+        "buttonDelete": "زر حذف",
+        "buttonDown": "زر للأسفل",
+        "buttonForward": "زر للأمام",
+        "buttonLeft": "زر أيسر",
+        "buttonMenu": "زر القائمة",
+        "buttonMusic": "زر الموسيقى",
+        "buttonName": "زر {{name}}",
+        "buttonPlay": "زر تشغيل",
+        "buttonPurple": "زر بنفسجي",
+        "buttonRed": "زر أحمر",
+        "buttonRight": "زر أيمن",
+        "buttonUp": "زر للأعلى",
+        "buttonYellow": "زر أصفر",
+        "camera": "كاميرا",
+        "chassisRgbLeds": "LEDs RGB لهيكل الروبوت",
+        "clock": "ساعة",
+        "clockwise": "في اتجاه عقارب الساعة",
+        "colorScreen320x240": "شاشة ملونة 320x240",
+        "colorScreenDFR0997": "شاشة ملونة DFR0997",
+        "colorSensorAverage": "مستشعر اللون (متوسط)",
+        "colorSensorLed": "LED لمستشعر اللون",
+        "compass": "بوصلة",
+        "compassAngle": "بوصلة - زاوية",
+        "compassAxis": "بوصلة - محور",
+        "conveyor": "حزام نقل",
+        "counterclockwise": "عكس اتجاه عقارب الساعة",
+        "cpuTemp": "درجة حرارة المعالج",
+        "detection": "كشف",
+        "diam1": "قطر. (1 ميكرون)",
+        "diam10": "قطر. (10 ميكرون)",
+        "diam25": "قطر. (2.5 ميكرون)",
+        "digitalRead": "قراءة رقمية",
+        "digitalWrite": "كتابة رقمية",
+        "direction": "اتجاه",
+        "distance": "مسافة",
+        "distanceSensor": "مستشعر المسافة",
+        "doorClosed": "الباب مغلق",
+        "down": "أسفل",
+        "ds18b20": "DS18B20 - درجة الحرارة",
+        "duration": "مدة",
+        "electromagnet": "مغناطيس كهربائي",
+        "eyeLeft": "العين اليسرى",
+        "eyeRight": "العين اليمنى",
+        "fingerprintSensor": "مستشعر بصمة الإصبع السعوي",
+        "firstTimer": "مستخدم أول",
+        "forceSensor": "مستشعر القوة",
+        "forward": "إلى الأمام",
+        "freeFall": "السقوط الحر",
+        "frequency": "التردد",
+        "friendly": "ودود",
+        "gesture": "إيماءة",
+        "green": "أخضر",
+        "greenValue": "أخضر",
+        "gyroscope": "جيروسكوب",
+        "gyroscopeAngle": "جيروسكوب - الزاوية",
+        "gyroscopeDps": "جيروسكوب (°/ث)",
+        "gyroscopeSpeed": "جيروسكوب - السرعة",
+        "hallSensor": "مستشعر تأثير هول",
+        "handLeftSensors": "مستشعرات اليد اليسرى",
+        "handRightSensors": "مستشعرات اليد اليمنى",
+        "headAccelerometer": "الرأس - مقياس التسارع",
+        "headAngularSpeed": "الرأس - السرعة الزاوية",
+        "headSensor": "مستشعر الرأس",
+        "headTouchSensor": "مستشعر لمس الرأس",
+        "headlightLeft": "المصباح الأمامي الأيسر",
+        "headlightRight": "المصباح الأمامي الأيمن",
+        "hue": "درجة اللون",
+        "humidity": "الرطوبة",
+        "infraredSensor": "مستشعر الأشعة تحت الحمراء",
+        "interrupt": "قطع",
+        "irCom": "IR COM.",
+        "irEmitter": "مرسل الأشعة تحت الحمراء (حاجز)",
+        "irReceiver": "مستقبل الأشعة تحت الحمراء (حاجز)",
+        "irRemote": "جهاز التحكم عن بعد بالأشعة تحت الحمراء",
+        "keyCode": "رمز المفتاح",
+        "keyDown": "مفتاح أسفل",
+        "keyLeft": "مفتاح يسار",
+        "keyName": "مفتاح {{name}}",
+        "keyRight": "مفتاح يمين",
+        "keyUp": "مفتاح أعلى",
+        "keyboard": "لوحة المفاتيح",
+        "keypad4x4": "لوحة مفاتيح 4x4",
+        "latitude": "خط العرض",
+        "lcdScreen": "شاشة LCD",
+        "lcdScreen16x2": "شاشة LCD 16x2",
+        "ledBlue": "LED أزرق",
+        "ledGreen": "LED أخضر",
+        "ledLeft": "LED أيسر",
+        "ledMatrix3x3": "مصفوفة LED 3x3",
+        "ledRed": "LED أحمر",
+        "ledRedLeft": "LED أحمر (أيسر)",
+        "ledRedRight": "LED أحمر (أيمن)",
+        "ledRight": "LED أيمن",
+        "ledsBottomLeft": "LEDات السفلى اليسرى",
+        "ledsBottomRight": "LEDات السفلى اليمنى",
+        "ledsButtons": "LEDات الأزرار",
+        "ledsCircle": "LEDات الدائرة",
+        "ledsProximityH": "LEDات القرب العمودي",
+        "ledsProximityV": "LEDات القرب الأفقي",
+        "ledsRemote": "LEDات التحكم عن بعد",
+        "ledsSound": "LEDات الصوت",
+        "ledsTemperature": "LEDات درجة الحرارة",
+        "ledsTop": "LEDات العليا",
+        "left": "يسار",
+        "levelOf": "مستوى",
+        "lineCenterLeft": "خط أسود (وسط يسار)",
+        "lineCenterRight": "خط أسود (وسط يمين)",
+        "lineLeft": "خط أسود (يسار)",
+        "lineMiddle": "خط أسود (وسط)",
+        "lineMiddleLeft": "خط أسود (وسط يسار)",
+        "lineMiddleRight": "خط أسود (وسط يمين)",
+        "linePosition": "خط أسود ({{position}})",
+        "lineRearLeft": "خط أسود (خلف يسار)",
+        "lineRearRight": "خط أسود (خلف يمين)",
+        "lineRight": "خط أسود (يمين)",
+        "lineSensor": "مستشعر الخط الأسود {{n}}",
+        "lineSensorLeft": "مستشعر الخط الأسود الأيسر",
+        "lineSensorRight": "مستشعر الخط الأسود الأيمن",
+        "linkySensor": "مستشعر لينكي",
+        "logoDown": "شعار للأسفل",
+        "logoUp": "شعار للأعلى",
+        "longitude": "خط الطول",
+        "magneticField": "المجال المغناطيسي",
+        "magneticFieldAxis": "المجال المغناطيسي {{axis}}",
+        "magneticSucker": "كوب شفط مغناطيسي",
+        "mhz19Co2": "حساس MHZ19 - ثاني أكسيد الكربون",
+        "mhz19Temp": "حساس MHZ19 - درجة الحرارة",
+        "microphone": "ميكروفون",
+        "motionDetection": "كشف الحركة",
+        "motorFrontLeft": "المحرك الأمامي الأيسر",
+        "motorFrontRight": "المحرك الأمامي الأيمن",
+        "motorLeft": "المحرك الأيسر",
+        "motorNumber": "المحرك {{n}}",
+        "motorRearLeft": "المحرك الخلفي الأيسر",
+        "motorRearRight": "المحرك الخلفي الأيمن",
+        "motorRight": "المحرك الأيمن",
+        "mq2": "MQ2 - الغاز",
+        "obstacle": "عائق",
+        "obstacleBack": "العائق الخلفي",
+        "obstacleDetection": "كشف العوائق",
+        "obstacleFront": "العائق الأمامي",
+        "obstacleLeft": "العائق الأيسر",
+        "obstacleRight": "العائق الأيمن",
+        "obstacleSensor": "كاشف العوائق",
+        "orange": "برتقالي",
+        "pinAltitude": "الارتفاع (الضغط)",
+        "pinBackSensor": "الحساس الخلفي",
+        "pinBatteryCharge": "شحن البطارية",
+        "pinDominantColor": "اللون السائد",
+        "pinFrontRightSensor": "الحساس الأمامي الأيمن",
+        "pinFrontSensor": "الحساس الأمامي",
+        "pinLeft": "أيسر",
+        "pinLeftSensor": "الحساس الأيسر",
+        "pinMiddleSensor": "الحساس الأوسط",
+        "pinPosition": "الموقع بالدرجات",
+        "pinPronunciation": "درجة النطق",
+        "pinRearSensor": "الحساس الخلفي",
+        "pinRight": "أيمين",
+        "pinRightSensor": "الحساس الأيمن",
+        "pinSoundLevel": "مستوى الصوت",
+        "pinSpeaking": "يتحدث",
+        "pinZoneChest": "المنطقة: الصدر",
+        "pinZoneLeft": "المنطقة: اليسار",
+        "pinZoneLeftShoulder": "المنطقة: الكتف الأيسر",
+        "pinZoneRight": "المنطقة: اليمين",
+        "pinZoneRightShoulder": "المنطقة: الكتف الأيمن",
+        "pinZoneTop": "المنطقة: الأعلى",
+        "pitch": "طبقة الصوت",
+        "pressure": "الضغط",
+        "pwmSignal": "إشارة PWM",
+        "rangefinderDistance": "مسافة جهاز القياس",
+        "receivedMessage": "الرسالة المستلمة",
+        "red": "أحمر",
+        "redValue": "أحمر",
+        "remote": "جهاز التحكم عن بعد",
+        "remoteButton": "زر {{button}} من جهاز التحكم عن بعد",
+        "rfidReader": "قارئ بطاقات RFID",
+        "rgbHeadlights": "الأضواء الأمامية RGB",
+        "rgbLedFrontLeft": "LED RGB (الأمامي الأيسر)",
+        "rgbLedFrontRight": "LED RGB (الأمامي الأيمن)",
+        "rgbLedLeft": "LED RGB (الأيسر)",
+        "rgbLedNumber": "LED RGB{{n}}",
+        "rgbLedRearLeft": "LED RGB (الخلفي الأيسر)",
+        "rgbLedRearRight": "LED RGB (الخلفي الأيمن)",
+        "rgbLedRight": "LED RGB (الأيمن)",
+        "rgbLeds": "LEDs RGB",
+        "right": "أيمين",
+        "rockPaperScissors": "حجر-ورقة-مقص",
+        "roll": "لفة",
+        "saturation": "تشبع",
+        "scaleMass": "الكتلة على الميزان",
+        "screenDown": "الشاشة للأسفل",
+        "screenUp": "الشاشة للأعلى",
+        "sentMessage": "الرسالة المرسلة",
+        "servoMotor": "سيرفو",
+        "servoMotorName": "محرك سيرفو {{name}}",
+        "servoNumber": "سيرفو {{n}}",
+        "shake": "اهتزاز",
+        "shakeGesture": "هزة",
+        "sonarLeft": "سونار يسار",
+        "sonarRight": "سونار يمين",
+        "soundThreshold": "عتبة الصوت",
+        "sounds": "أصوات",
+        "speechRecognition": "التعرف على الصوت",
+        "stepper28BYJ48": "محرك خطوة 28BYJ-48",
+        "stepperNumber": "محرك خطوة {{n}}",
+        "temperature": "درجة الحرارة",
+        "temperatureHumidity": "درجة الحرارة والرطوبة",
+        "temperatureHumiditySensor": "درجة الحرارة (حساس الرطوبة)",
+        "tilt": "ميل",
+        "tiltLeft": "ميل لليسار",
+        "tiltRight": "ميل لليمين",
+        "timer": "مؤقت {{n}}",
+        "tofCenter": "ToF - المركز (0°)",
+        "tofCenterLeft": "ToF - المركز لليسار (22°)",
+        "tofCenterRight": "ToF - المركز لليمين (22°)",
+        "tofLeft": "ToF - لليسار (45°)",
+        "tofMm": "مدة الرحلة - المسافة (مم)",
+        "tofRight": "ToF - لليمين (45°)",
+        "touchButtonCancel": "زر اللمس للإلغاء",
+        "touchButtonCenter": "زر اللمس للمركز",
+        "touchButtonDown": "زر اللمس للأسفل",
+        "touchButtonLeft": "زر اللمس لليسار",
+        "touchButtonOk": "زر اللمس للموافقة",
+        "touchButtonRight": "زر اللمس لليمين",
+        "touchButtonUp": "زر اللمس للأعلى",
+        "trafficSign": "علامة المرور",
+        "ultrasonicMm": "التراساوند - المسافة (مم)",
+        "ultrasonicRangefinder": "قارئ المدى بالألتراساوند",
+        "ultrasonicSensor": "حساس الألتراساوند",
+        "up": "أعلى",
+        "value": "قيمة",
+        "vehicleDetected": "تم اكتشاف مركبة",
+        "vibrations": "اهتزازات",
+        "visible": "مرئي",
+        "voc": "VOC",
+        "voice": "صوت",
+        "voiceRecognition": "التعرف على الصوت",
+        "waterAtomizer": "رذاذ الماء",
+        "wave": "موجة",
+        "yaw": "إمالة",
+        "yellow": "أصفر"
       },
       "pinError": "[خطأ في الدبوس] لا يمكن توصيل الوحدة <b>{{modId}}</b> على الدبوس <b>{{pin}}</b>. الوحدة <b>{{attachedId}}</b> متصلة بالفعل.",
       "wiring": {
@@ -2393,13 +2781,121 @@
       "noPortAvailable": "لا يوجد منفذ متاح",
       "emptyCode": "خطأ: الكود فارغ.",
       "compilation": "حدث خطأ أثناء التجميع.",
-      "syntax": "خطأ في الصياغة. راجع التفاصيل في وحدة التحكم"
+      "syntax": "خطأ في الصياغة. راجع التفاصيل في وحدة التحكم",
+      "offlineCompilation": "أنت غير متصل: تتم عملية التجميع على خوادمنا، وستكون متاحة مرة أخرى عند العودة إلى الإنترنت. يعمل المحاكي في وضع عدم الاتصال."
     },
     "error": {
       "titleExercise": "إنشاء تمرين",
       "otherUser": "لا يمكنك تعديل تمرين أنشأه مستخدم آخر. يمكنك إنشاء تمارينك الخاصة بنشر مشاريعك.",
       "saveProjectForExercise": "لا يمكنك إنشاء تمرين على مشروع غير محفوظ. احفظ مشروعك أولاً ثم أنشئ التمرين.",
       "descExercise": "يجب أن تكون مسجلاً للدخول لإنشاء تمرين."
+    },
+    "tour": {
+      "buttons": {
+        "previous": "السابق",
+        "next": "التالي",
+        "finish": "إنهاء",
+        "quit": "الخروج من الجولة الإرشادية",
+        "skip": "تخطي",
+        "try": "جرب ذلك"
+      },
+      "welcome": {
+        "title": "مرحبا!",
+        "text": "مرحبًا، أنا فيتّابوت! دعني أريك حول الواجهة. تقدم إلى الأمام باستخدام الأزرار أو مفاتيح الأسهم، ويمكنك الخروج في أي وقت بالضغط على <kbd>Esc</kbd>."
+      },
+      "project": {
+        "title": "مشروعك",
+        "text": "اسم مشروعك. انقر عليه لإعادة تسميته أو إضافة وصف."
+      },
+      "files": {
+        "title": "مشاريعك",
+        "text": "أنشئ مشروعًا جديدًا، افتح مشروعًا موجودًا (مشروعك، المشاريع المشتركة معك أو الأمثلة) واحفظ عملك."
+      },
+      "undo": {
+        "title": "تراجع وإعادة",
+        "text": "تراجع أو أعد تغييرًا، أيضًا مع <kbd>Ctrl</kbd>+<kbd>Z</kbd> و<kbd>Ctrl</kbd>+<kbd>Y</kbd>."
+      },
+      "toolbox": {
+        "title": "الكتل",
+        "text": "الكتل مرتبة حسب الفئات: انقر على فئة لعرضها. يجد البحث، في الأعلى، كتلة حسب اسمها."
+      },
+      "workspace": {
+        "title": "مساحة العمل",
+        "text": "اسحب الكتل هنا ووصّلها معًا لبناء برنامجك، بدءًا من كتل \"عند البدء\" و\"إلى الأبد\". انقر بزر الماوس الأيمن على كتلة لنسخها، أو التعليق عليها أو عرض المساعدة الخاصة بها."
+      },
+      "workspaceTools": {
+        "title": "أدوات مساحة العمل",
+        "text": "ضع الكتل في حقيبة الظهر لإعادة استخدامها في مشروع آخر، خذ لقطة شاشة، زوّد أو ارجع إلى الوسط، واحذف الكتل عن طريق سحبها إلى سلة المهملات."
+      },
+      "code": {
+        "title": "الكود",
+        "text": "يتم كتابة الكود تلقائيًا من كتل الخاص بك. في وضع الكود، تكتبه بنفسك، بمساعدة الإكمال التلقائي."
+      },
+      "modes": {
+        "title": "كتل، مختلط أو كود",
+        "text": "اختر كيفية البرمجة: باستخدام الكتل، مع الكتل والكود بجانب بعضهما، أو مباشرة في الكود."
+      },
+      "upload": {
+        "title": "إرسال البرنامج",
+        "text": "قم بتوصيل جهازك (اللوحة أو الروبوت أو الآلة الحاسبة) ثم أرسل له برنامجك. السهم، عندما يكون موجودًا، يفتح خيارات أخرى، مثل تنزيل ملف البرنامج."
+      },
+      "run": {
+        "title": "تشغيل البرنامج",
+        "text": "ابدأ برنامجك لرؤية نتائجه."
+      },
+      "simulator": {
+        "title": "المحاكي",
+        "text": "اختبر برنامجك دون أجهزة: يقوم المحاكي بتكرار البطاقة أو الروبوت أو الآلة الحاسبة ويتفاعل مع برنامجك."
+      },
+      "console": {
+        "title": "وحدة التحكم",
+        "text": "تظهر رسائل برنامجك هنا. اسحب حافتها لتكبيرها، أو إخفائها."
+      },
+      "consoleModes": {
+        "title": "نص، رسم بياني أو موسيقى",
+        "text": "عرض البيانات المستلمة كنص أو كرسوم بيانية، أو استمع إلى النوتات التي تعزفها برنامجك."
+      },
+      "consoleTools": {
+        "title": "التحدث إلى البطاقة",
+        "text": "أرسل رسائل إلى البطاقة الموصلة، صادر بيانات الرسم البياني، وحسب البطاقة، الوصول إلى ملفاتها أو وحدتها."
+      },
+      "fullscreen": {
+        "title": "شاشة كاملة",
+        "text": "عرض الواجهة في وضع ملء الشاشة للحصول على مساحة أكبر."
+      },
+      "settings": {
+        "title": "الإعدادات",
+        "text": "السمة، الوصول، اللغة، اختصارات لوحة المفاتيح، المساعدة... ستجد هذه الجولة الإرشادية هنا أيضًا."
+      },
+      "end": {
+        "title": "دورك الآن!",
+        "text": "أنت الآن تعرف الواجهة. لمعرفة ما تفعله كل كتلة، افتح ويكي المساعدة. وإذا كنت بحاجة إلي، أنا هنا في الإعدادات!"
+      },
+      "mission": {
+        "invite": "لننشئ برنامجك الأول معًا!",
+        "category": {
+          "title": "افتح فئة",
+          "text": "انقر على فئة <b>{name}</b>."
+        },
+        "block": {
+          "title": "أضف كتلة",
+          "text": "اسحب كتلة <b>{block}</b> إلى كتلة <b>{into}</b>، وثبتها.",
+          "textAnywhere": "اسحب كتلة <b>{block}</b> إلى مساحة العمل."
+        },
+        "simulator": {
+          "title": "ابدأ المحاكي",
+          "text": "انقر على هذا الزر لبدء المحاكي ورؤية برنامجك يعمل."
+        },
+        "run": {
+          "title": "شغل البرنامج",
+          "text": "انقر على <b>تشغيل</b> لبدء برنامجك."
+        },
+        "done": {
+          "title": "أحسنت!",
+          "text": "برنامجك يعمل، وأنا فخور بك! انظر إلى النتيجة في المحاكي. قم بتغيير الكتلة أو أضف أخرى لتذهب أبعد.",
+          "textConsole": "برنامجك يعمل، وأنا فخور بك! انظر إلى النتيجة في وحدة التحكم. قم بتغيير الكتلة أو أضف أخرى لتذهب أبعد."
+        }
+      }
     },
     "robotGuide": {
       "tuto": "للعثور على كتل برمجة الروبوت <b>[ROBOT_NAME]</b>، انقر على تبويب <b><i class='fa-solid fa-robot me-1'></i>الروبوتات</b>.",
@@ -4769,6 +5265,7 @@
   },
   "profile": {
     "menu": {
+      "premium": "ممتاز",
       "user": "ملفي الشخصي",
       "publicProfile": "الملف الشخصي العام",
       "exp": "خبراتي",
@@ -4783,6 +5280,17 @@
       "title": "ملفي الشخصي",
       "notice": "الحقول التي تليها <span class=\"mandatory\">*</span> إلزامية.",
       "form": {
+        "enableTotp": "تفعيل المصادقة الثنائية",
+        "updated": "تم تحديث ملفك الشخصي بنجاح!",
+        "picture": {
+          "alt": "صورة المستخدم",
+          "title": "اختر صورة الملف الشخصي",
+          "upload": "قم بتحميل صورتك الخاصة",
+          "icons": "اختر من الرموز المتاحة في فيتساينس",
+          "save": "حفظ",
+          "tooBig": "ملف غير صالح! الحد الأقصى المسموح به: 250 كيلوبايت.",
+          "sizeOk": "حجم الملف صالح."
+        },
         "firstName": "الاسم الأول",
         "firstNamePlaceholder": "اسمك الأول.",
         "lastName": "الاسم العائلي",
@@ -4809,6 +5317,19 @@
         "namePublic": "هل توافق على أن يكون اسمك ولقبك ظاهرين على الموقع؟",
         "newsletter": "هل ترغب في استقبال النشرة الإخبارية عبر البريد؟",
         "alertMail": "هل ترغب في تلقي تنبيهات عبر البريد عند وصول رسائل جديدة على الموقع؟",
+        "errors": {
+          "session": "انتهت جلستك: قم بتحديث الصفحة.",
+          "name": "الاسم الأول أو الاسم الأخير غير صالح.",
+          "phone": "رقم الهاتف غير صالح: يجب أن يتكون من 10 إلى 30 حرفًا.",
+          "picture": "الصورة غير صالحة: تحقق من تنسيقها وحجمها.",
+          "pictureSave": "لم يتمكن من حفظ الصورة. يرجى المحاولة مرة أخرى.",
+          "save": "لم يتمكن من حفظ ملفك الشخصي. يرجى المحاولة مرة أخرى.",
+          "teacherMissing": "أدخل مدرستك ومستواك ومادتك.",
+          "school": "اسم المدرسة غير صالح.",
+          "grade": "المستوى غير صالح.",
+          "subject": "المادة غير صالحة.",
+          "generic": "خطأ. يحتوي النموذج على أخطاء."
+        },
         "buttons": {
           "changePassword": "تغيير كلمة المرور",
           "changeMail": "تغيير البريد الإلكتروني",
@@ -4818,6 +5339,8 @@
         },
         "return": "عودة",
         "changePassword": {
+          "success": "تم تغيير كلمة المرور الخاصة بك بنجاح!",
+          "error": "خطأ! يرجى التحقق من الحقول.",
           "title": "تغيير كلمة المرور",
           "form": {
             "actualPassword": "كلمة المرور الحالية",
@@ -4830,6 +5353,9 @@
           }
         },
         "changeMail": {
+          "exists": "عنوان البريد الإلكتروني هذا قيد الاستخدام بالفعل! يرجى اختيار عنوان آخر.",
+          "success": "تم حفظ طلبك! انقر على رابط التأكيد في البريد الإلكتروني الذي أرسلناه لك للتأكيد على عنوان بريدك الإلكتروني الجديد ({{mail}}).",
+          "error": "خطأ. يرجى المحاولة مرة أخرى.",
           "title": "تغيير عنوان البريد الإلكتروني",
           "notice": "<span class=\"fa fa-exclamation-triangle\"></span> هذا العنوان الجديد سيكون معرف حسابك في فيتاساينس. لتأكيد العنوان الجديد، سيتم إرسال رسالة تأكيد إلى بريدك الإلكتروني.",
           "mail": "بريدك الإلكتروني",
@@ -4837,6 +5363,18 @@
           "button": "تغيير البريد الإلكتروني"
         },
         "deletion": {
+          "subscription_warning": "سيتم إلغاء اشتراكك المتميز الحالي على الفور، دون استرداد.",
+          "gifted_subscriptions_warning": "ستتم أيضًا إلغاء الاشتراكات الممتازة التي تدفعها لحسابات أخرى على الفور.",
+          "students_warning": "سيتم أيضًا حذف فصولك الدراسية وحسابات طلابها ({{count}}) نهائيًا.",
+          "subscription_cancel_failed": "لم يتم حذف حسابك: فشل إلغاء اشتراكك المتميز. أعد المحاولة بعد بضع دقائق أو تواصل معنا.",
+          "delete_failed": "لم يتم حذف حسابك بسبب خطأ. أعد المحاولة بعد بضع دقائق أو تواصل معنا.",
+          "deleted": "تم حذف حسابك.",
+          "deleted_with_subscription": "تم حذف حسابك وإلغاء اشتراكك المتميز.",
+          "mail_subject": "تم حذف حسابك على Vittascience",
+          "mail_greeting": "مرحبًا {{name}}،",
+          "mail_deleted": "تم حذف حسابك على Vittascience المرتبط بالعنوان {{email}} من تطبيق الهاتف المحمول.",
+          "mail_subscription_cancelled": "تم إلغاء اشتراكك المتميز.",
+          "mail_not_you": "إذا لم تطلب هذا الحذف، تواصل معنا على {{support}}.",
           "delete_account": "حذف حسابي",
           "confirm_delete_prompt": "هل أنت متأكد من رغبتك في حذف حسابك؟",
           "data_lost_warning": "سيتم فقدان جميع بياناتك نهائيًا.",
@@ -4878,6 +5416,7 @@
       }
     },
     "pro": {
+      "deleteConfirm": "هل تريد حذف هذا المشروع؟",
       "title": "برامجي",
       "subTitle": "قائمة برامجي",
       "api": {
@@ -4909,7 +5448,90 @@
       },
       "searchButton": "بحث"
     },
+    "premium": {
+      "tabPersonal": "اشتراكي المتميز",
+      "tabGifted": "الاشتراكات المهداه",
+      "tabGroup": "الاشتراك الجماعي",
+      "yourSubscription": "اشتراكك:",
+      "statusLabel": "الحالة:",
+      "status": {
+        "active": "نشط",
+        "canceled": "ملغى",
+        "unknown": "غير معروف",
+        "admin": "مدير"
+      },
+      "periodEnd": "نهاية الفترة:",
+      "nextPayment": "الدفع التالي:",
+      "cancel": "إلغاء الاشتراك",
+      "resubscribe": "إعادة الاشتراك",
+      "reactivate": "إعادة تفعيل",
+      "notSubscribed": "أنت غير مشترك في خطة ممتاز",
+      "planPremium": "ممتاز",
+      "planTeam": "فريق",
+      "fromPricePremium": "من €{{price}}/شهريًا",
+      "fromPriceTeam": "من €{{price}}/معلم/شهريًا",
+      "teacherCount": "عدد المعلمين:",
+      "subscribed": "مشترك",
+      "subscribe": "اشترك",
+      "compare": "قارن الخطط >",
+      "modalTitle": "الاشتراك المتميز",
+      "chosenPlan": "لقد اخترت الخطة",
+      "chooseBilling": "اختر فترة الفوترة:",
+      "monthly": "اشتراك شهري",
+      "yearly": "اشتراك سنوي",
+      "triennial": "اشتراك ثلاثي",
+      "billingAddress": "عنوان الفوترة:",
+      "noBillingAddress": "ليس لديك عنوان فوترة.",
+      "subscribeFor": "أنت مشترك ل:",
+      "forMe": "حسابي",
+      "forOther": "حساب آخر",
+      "otherEmailLabel": "أدخل عنوان البريد الإلكتروني لحساب فيتساينس أدناه",
+      "groupName": "اسم المجموعة",
+      "groupOf": "مجموعة من",
+      "or": "أو",
+      "quote": "تقدير",
+      "giftedName": "اسم",
+      "giftedStatus": "الحالة",
+      "giftedPeriodEnd": "نهاية الفترة",
+      "giftedAction": "الإجراء",
+      "noGifted": "لم تعطي أي اشتراك حتى الآن.",
+      "groupInherit": "تنتمي إلى مجموعة ذات حالة مميزة وترث الوصول التالي:",
+      "learners": "المتعلمون:",
+      "classrooms": "الفصول:",
+      "unlimited": "غير محدود",
+      "validity": "صلاحية:",
+      "since": "مشترك منذ",
+      "until": "حتى",
+      "noGroup": "لا تنتمي إلى مجموعة ذات حالة مميزة.",
+      "minTeachers": "يرجى اختيار أكثر من معلم واحد لهذه الخطة.",
+      "maxTeachers": "لأكثر من 200 معلم، يرجى الاتصال بنا على contact@vittascience.com.",
+      "quoteExists": "تم إنشاء تقدير مسبق لهذه الخطة. ستجدها في قسم التقديرات في حسابك.",
+      "quoteCreated": "تم إنشاء تقديرك. ستجده في قسم التقديرات في حسابك وعبر البريد الإلكتروني.",
+      "quoteError": "حدث خطأ أثناء إنشاء تقديرك. يرجى المحاولة مرة أخرى.",
+      "activated": "تم تفعيل اشتراكك. يمكنك الآن الاستمتاع بمزاياك.",
+      "paymentFailed": "حدث خطأ أثناء إنشاء اشتراكك. يرجى المحاولة مرة أخرى.",
+      "canceled": "تم إلغاء اشتراكك. وستحتفظ بمزاياك حتى نهاية الفترة الحالية.",
+      "cancelConfirm": "هل ترغب فعلاً في إلغاء هذا الاشتراك؟ سيظل نشطًا حتى نهاية الفترة الحالية.",
+      "noAddress": "أضف عنوان فواتير أولاً للمتابعة."
+    },
     "addressBloc": {
+      "noAddress": "لم تضف عنوانًا بعد.",
+      "isEstablishment": "هل هذا عنوان مؤسسة؟",
+      "establishmentName": "اسم المؤسسة",
+      "submit": "تحديث",
+      "usedBySubscription": "يتم استخدام هذا العنوان بواسطة اشتراك مميز نشط: لا يمكن حذفه.",
+      "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا العنوان؟",
+      "searchLabel": "أدخل عنوانك",
+      "searchPlaceholder": "اسم المؤسسة، العنوان أو المدينة",
+      "zoneQuestion": "تقع مؤسستك في:",
+      "zoneFr": "في فرنسا",
+      "zoneEu": "في أوروبا",
+      "zoneWorld": "بقية العالم",
+      "siretPlaceholder": "14 رقم — اختياري",
+      "companyNumber": "رقم الشركة",
+      "companyNumberPlaceholder": "رقم السجل التجاري",
+      "vatNumber": "رقم الضريبة على القيمة المضافة",
+      "vatPlaceholder": "رقم الضريبة على القيمة المضافة داخل المجتمع",
       "edit": "تعديل",
       "del": "حذف",
       "addAddress": "إضافة عنوان",
@@ -4924,6 +5546,23 @@
       "cancel": "إلغاء"
     },
     "ordersBloc": {
+      "quotePaid": "مدفوع",
+      "quoteAccepted": "مقبول",
+      "noOrders": "لم تقم بتقديم أي طلب حتى الآن.",
+      "noEstimates": "لم تطلب أي تقدير حتى الآن.",
+      "noWishlist": "لم تضف أي منتج إلى قائمة رغباتك بعد.",
+      "hideDetails": "إخفاء التفاصيل",
+      "at": "في",
+      "alreadySubscribedTitle": "حسابك لديه اشتراك مميز بالفعل: يتضمن هذا التقدير اشتراكًا، اتصل بنا لتعديله.",
+      "wishlistDeleteConfirm": "هل أنت متأكد أنك تريد إزالة هذا العنصر؟",
+      "mixed": {
+        "title": "اشتراك متعدد المستخدمين",
+        "text1": "يتضمن هذا التقدير اشتراكًا مميزًا متعدد المستخدمين: لا يمكن الدفع عنه بواسطة بطاقة.",
+        "text2": "يمكنك الدفع عن طريق التحويل المصرفي أو تحميل أمر الشراء الخاص بك: ستقوم فريقنا بعد ذلك بتفعيل الاشتراك.",
+        "text3": "للدفع بواسطة بطاقة، اشترك من ملفك الشخصي، ثم اطلب المعدات من المتجر: سيكون الشحن مجانيًا إلى فرنسا القارية.",
+        "close": "إغلاق",
+        "subscribe": "اشترك من ملفي الشخصي"
+      },
       "priceTTC": "€ شامل الضريبة",
       "seeMore": "عرض التفاصيل",
       "dl": "تحميل",
@@ -4943,7 +5582,14 @@
       "tracking": "رقم التتبع",
       "quoteSent": "تم الإرسال",
       "quoteDenied": "مرفوض",
-      "quoteExpired": "منتهي الصلاحية"
+      "quoteExpired": "منتهي الصلاحية",
+      "sav": {
+        "title": "خدمة ما بعد البيع",
+        "open": "طلب قيد المعالجة",
+        "closed": "تم إغلاق الطلب",
+        "parcel": "تم شحن الطرد في",
+        "track": "تتبع الطرد"
+      }
     }
   },
   "userDetails": {
@@ -5914,6 +6560,11 @@
       }
     },
     "materialsNeeded": "قائمة المواد المطلوبة",
+    "embed": {
+      "project": "مشروع فيتاساينس",
+      "interface": "واجهة فيتاساينس",
+      "open": "فتح في واجهة فيتاساينس"
+    },
     "suggestedResources": "الموارد المقترحة",
     "classroomImport": {
       "button": "استيراد إلى وحدة الفصل",
@@ -5968,18 +6619,29 @@
   },
   "modals": {
     "standard": {
+      "recentLocal": {
+        "title": "مشروع حديث",
+        "question": "لديك مشروع حديث محفوظ في هذا المتصفح. هل ترغب في فتحه؟",
+        "modified": "تم التعديل في %date%",
+        "several": "لديك %count% مشاريع محفوظة في هذا المتصفح. للعثور على جميعها، توجه إلى %link%.",
+        "severalLink": "“فتح مشروع” > “مشاريعي المحلية”",
+        "buttons": {
+          "open": "فتح هذا المشروع",
+          "new": "بدء مشروع جديد"
+        }
+      },
       "blocksScreenshot": {
-          "title": "لقطة الكتل",
-          "quality": "الجودة",
-          "qualities": {
-              "screen": "الشاشة (×1)",
-              "good": "جيدة (×2)",
-              "high": "عالية (×4)",
-              "veryHigh": "عالية جدًا (×8)"
-          },
-          "format": "الصيغة",
-          "size": "حجم الصورة: {{width}} × {{height}} بكسل",
-          "download": "تنزيل"
+        "title": "لقطة الكتل",
+        "quality": "الجودة",
+        "qualities": {
+          "screen": "الشاشة (×1)",
+          "good": "جيدة (×2)",
+          "high": "عالية (×4)",
+          "veryHigh": "عالية جدًا (×8)"
+        },
+        "format": "الصيغة",
+        "size": "حجم الصورة: {{width}} × {{height}} بكسل",
+        "download": "تنزيل"
       },
       "arduino-q-wifi": {
         "title": "Wi-Fi لوحة Arduino UNO Q",
@@ -6385,6 +7047,19 @@
           }
         }
       },
+      "pythonFiles": {
+        "title": "الملفات",
+        "name": "الاسم",
+        "size": "الحجم",
+        "empty": "لا توجد ملفات. استورد ملفًا أو أنشئ واحدًا باستخدام open().",
+        "import": "استيراد الملفات",
+        "download": "تحميل",
+        "delete": "حذف",
+        "hint": "تبقى الملفات متاحة أثناء فتح الصفحة. الاستخدام: open('data.csv')، os.listdir()، Image('photo.jpg').",
+        "limits": "5 ميغابايت كحد أقصى لكل ملف · 100 ميغابايت إجمالاً",
+        "tooLarge": "\"{name}\" لم يتم استيراده: 5 ميغابايت كحد أقصى لكل ملف.",
+        "quotaExceeded": "\"{name}\" لم يتم استيراده: 100 ميغابايت كحد أقصى إجمالاً."
+      },
       "addblock": {
         "title": "إضافة كتلة",
         "content": {
@@ -6659,7 +7334,7 @@
       },
       "codeOnly": {
         "title": "الانتقال إلى وضع الكود فقط",
-        "content": "هل ترغب في إخفاء اختيار الأوضاع لتبقى دائمًا في وضع الكود فقط (بدون كتل)؟",
+        "content": "هل ترغب في إخفاء اختيار الوضع للبقاء دائمًا في وضع الكود فقط (بدون كتل)؟",
         "cancel": "إلغاء",
         "confirm": "تأكيد",
         "info": {
@@ -6845,7 +7520,7 @@
       "import": {
         "content": {
           "warn": {
-            "question": "هل أنت متأكد من رغبتك في استيراد ملف بايثون هذا من جهازك؟",
+            "question": "هل أنت متأكد أنك تريد استيراد هذا الملف من جهاز الكمبيوتر الخاص بك؟",
             "hint": "ستفقد التقدم الذي أُنجز يدويًا."
           },
           "extension": "تنبيه! هذا الملف قد لا يكون صالحًا لهذه الواجهة."
@@ -7011,6 +7686,7 @@
       }
     },
     "board-selector": {
+      "chosen": "اللوح المحدد: {{board}}",
       "title": "اختيار اللوحة",
       "arduino": {
         "welcome": "مرحبًا بك في واجهة أردوينو!",
@@ -7490,6 +8166,7 @@
     }
   },
   "programming": {
+    "infoAbout": "حول {{name}}",
     "title": "البرمجة",
     "description": "اختر واجهة البرمجة التي تناسبك!",
     "know_more": "المزيد من المعلومات",
@@ -7538,7 +8215,7 @@
         "esp32": "واجهة برمجة لبطاقات ESP32 (Wemos D1R32، NodeMCU، Huzzah32، ...)",
         "TI-83": "واجهة برمجة للآلة الحاسبة وبطاقات BBC micro:bit أو TI Innovator™ Hub",
         "GalaxiaCircuitPython": "واجهة برمجة لبطاقة Thingz-Galaxia",
-        "picaxe": "Block programming interface for PICAXE boards (AutoProgX2 from A4 Technologie, 08M2 to 40X2): generates PICAXE BASIC to download.",
+        "picaxe": "واجهة برمجة بالكتل لألواح PICAXE (AutoProgX2 من A4 Technologie، من 08M2 إلى 40X2): تولّد كود PICAXE BASIC للتنزيل.",
         "unihiker": "واجهة برمجة للوحة UNIHIKER M10: شاشة لمس وحساسات مدمجة وPython على Linux!",
         "unihikerK10": "واجهة برمجة للوحة UNIHIKER K10: شاشة وصمامات RGB وحساسات مدمجة وMicroPython!",
         "raspberrypi": "واجهة برمجة لـ Raspberry Pi!",
@@ -7565,6 +8242,7 @@
         "maqueenPlus": "واجهة برمجة لروبوت Maqueen Plus V1 وV2",
         "cutebot": "واجهة برمجة لروبوت Cutebot",
         "tpbot": "واجهة برمجة لروبوت TPBot",
+        "tinybit": "واجهة البرمجة لروبوت Tiny:bit",
         "cutebotPro": "واجهة برمجة لروبوت Cutebot Pro",
         "kitrobot": "واجهة برمجة لروبوت Kitro:bot v2",
         "oobybot": "واجهة برمجة لروبوت Oobybot",
@@ -7578,6 +8256,7 @@
         "lotibot": "واجهة برمجة لروبوت Loti-bot",
         "bluebot": "واجهة برمجة لروبوت Blue-bot",
         "spike": "واجهة برمجة لـ LEGO® Education SPIKE™ Essential",
+        "legoprime": "واجهة البرمجة لـ LEGO® Education SPIKE™ Prime",
         "photon": "واجهة برمجة لروبوت Photon",
         "codey": "واجهة برمجة للوحة Codey وروبوت Rocky من Makeblock",
         "uno-r4-wifi": "واجهة برمجة لبطاقة Arduino UNO R4 WiFi",
@@ -7596,6 +8275,7 @@
         "wonder": "واجهة برمجة لمجموعة البناء Elecfreaks Wonder",
         "buildingbit": "واجهة برمجة لمجموعة Yahboom Building:bit Super",
         "primastem": "واجهة البرمجة لروبوت بريماستيم",
+        "matatalab": "واجهة برمجة لروبوت Matatalab MatataBot",
         "skykick": "واجهة برمجة لطائرة SkyKick Evo"
       }
     },
@@ -7808,6 +8488,10 @@
     "errorSendingEmail": "حدث خطأ أثناء إرسال البريد الإلكتروني.",
     "emailSent": "تم إرسال البريد الإلكتروني بنجاح!",
     "controllerError": "حدث خطأ أثناء الاتصال بالخادم. تم إعلام فريقنا وسيتم حل المشكلة قريبًا.",
+    "offline": "أنت غير متصل بالإنترنت: يتم الاحتفاظ بعملك على هذا الجهاز، ستتوفر مشاريع حسابك بمجرد عودتك إلى الاتصال.",
+    "offlineSave": "أنت غير متصل بالإنترنت: يتم الاحتفاظ بمشروعك على هذا الجهاز (افتح > مشاريعي المحلية). احفظه في حسابك بمجرد عودتك إلى الاتصال.",
+    "offlineDownload": "أنت غير متصل بالإنترنت: هذا الملف ليس على هذا الجهاز بعد، قم بتنزيله بمجرد عودتك إلى الاتصال.",
+    "backOnline": "لقد عدت إلى الاتصال بالإنترنت: قم بتحديث الصفحة لاستعادة حسابك ومشاريعك.",
     "notLoggedIn": "يجب تسجيل الدخول لتنفيذ هذا الإجراء!",
     "manualTrainingDataVerificationSuccess": "تم التحقق من بيانات التدريب بنجاح!",
     "manualTrainingDataVerificationError": "حدث خطأ أثناء التحقق من بيانات التدريب!",

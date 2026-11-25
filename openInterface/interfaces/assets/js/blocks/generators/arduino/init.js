@@ -124,10 +124,11 @@ Blockly.Arduino.init = function (workspace) {
   if (INTERFACE_NAME === 'arduinoq') {
     workspace.getAllBlocks(false).forEach(block => {
       if (Blockly.Constants.Utils.isBlockInContext(block, 'cpp')) {
-        if (block.type === 'variables_get' || block.type === 'variables_set') {
-          const varField = block.getField('VAR');
-          if (varField) arduinoVarIds.add(varField.getVariable().getId());
-        }
+        // every variable field, not only variables_get/set: "for i from 1 to 10", "append text",
+        // "on serial data received"... create variables too, which were left undeclared
+        block.inputList.forEach(input => input.fieldRow.forEach(field => {
+          if (field instanceof Blockly.FieldVariable && field.getVariable()) arduinoVarIds.add(field.getVariable().getId());
+        }));
       }
     });
   }

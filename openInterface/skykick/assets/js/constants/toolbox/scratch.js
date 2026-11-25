@@ -15,7 +15,7 @@ const TOOLBOX_SCRATCH_CATEGORIES = [
         "name": "%{BKY_CATEGORY_DRONE}",
         "style": "drone_category",
         "cssConfig": {
-            "icon": "icon_blockly fas fa-plane"
+            "icon": "icon_blockly svgIcon"
         },
         "contents": []
     },
@@ -154,16 +154,11 @@ const TOOLBOX_SCRATCH_CONTENT = {
     ],
     "drone": [
         {
-            "label": "%{BKY_SKYKICK_LABEL_FLIGHT}",
+            "label": "%{BKY_SKYKICK_LABEL_MOVES}",
             "blocks": [
                 'skykick_takeoff',
                 'skykick_land',
-                'skykick_stop'
-            ]
-        },
-        {
-            "label": "%{BKY_SKYKICK_LABEL_MOVES}",
-            "blocks": [
+                'skykick_stop',
                 'skykick_go',
                 'skykick_turn',
                 'skykick_go_xyz',

@@ -26,7 +26,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /on_speech_recognized\(/,
 			id: 'on_speech_recognized',
-			title: 'ASR',
+			get title() { return i18next.t('code.simulator.modules.speechRecognition') },
 			pin: 'Speech Recognition',
 			type: 'input',
 			class: 'input',
@@ -34,32 +34,32 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /\.(Left|Right|)BumperPressed/,
 			id: 'nao-bumper',
-			title: 'Bumpers',
+			get title() { return i18next.t('code.simulator.modules.bumpers') },
 			picture: 'nao-feet-sensors.svg',
 		},
 		{
 			regex: /\.(Front|Middle|Rear|)TactilTouched/,
 			id: 'nao-tactil-head',
-			title: 'Capteur tête',
+			get title() { return i18next.t('code.simulator.modules.headSensor') },
 			picture: 'nao-head-sensors.svg',
 		},
 		{
 			regex: /\.HandLeft(Left|Right|Back|)Touched/,
 			id: 'nao-tactil-left-hand',
-			title: 'Capteurs Main Gauche',
+			get title() { return i18next.t('code.simulator.modules.handLeftSensors') },
 			picture: 'nao-hand-left-sensors.svg',
 		},
 
 		{
 			regex: /\.HandRight(Left|Right|Back)Touched/,
 			id: 'nao-tactil-right-hand',
-			title: 'Main Droite',
+			get title() { return i18next.t('code.simulator.modules.handRightSensors') },
 			picture: 'nao-hand-right-sensors.svg',
 		},
 		{
 			regex: /\.SonarRight(NothingDetected|Detected)\(\)/,
 			id: 'nao-sonar-right',
-			title: 'Sonar Droit',
+			get title() { return i18next.t('code.simulator.modules.sonarRight') },
 			pin: 'NAO',
 			type: 'input',
 			listeners: [{
@@ -78,7 +78,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /\.SonarLeft(NothingDetected|Detected)\(\)/,
 			id: 'nao-sonar-left',
-			title: 'Sonar Gauche',
+			get title() { return i18next.t('code.simulator.modules.sonarLeft') },
 			pin: 'NAO',
 			type: 'input',
 			listeners: [{

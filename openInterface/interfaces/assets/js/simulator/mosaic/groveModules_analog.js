@@ -151,7 +151,7 @@ Simulator.Mosaic.grove_analog = {
                 default: Math.round(READ_ANALOG_MAX_VALUE / 2),
                 unit: '',
                 color: "#1a6da8",
-                title: "VOC"
+                get title() { return i18next.t('code.simulator.modules.voc') }
             }],
             class: "particles",
             picture: "CO2-COV.png",
@@ -172,7 +172,7 @@ Simulator.Mosaic.grove_analog = {
                 default: Math.round(READ_ANALOG_MAX_VALUE / 2),
                 unit: '%',
                 color: "#f9d142",
-                title: "Dioxygen"
+                get title() { return i18next.t('code.simulator.modules.dioxygen') }
             }],
             class: "particles",
             picture: "CO2-COV.png",

@@ -129,20 +129,48 @@ button:focus {
   height: 2px;
 }
 
+/* "Empty the trash / backpack" buttons, shown above their open flyout: white square icon button with rounded corners
+   (as the buttons of the simulator), narrower than the flyout even with one small block (the text, too wide, is in the tooltip
+   and the aria-label) */
 #empty-trash-btn,
 #empty-backpack-btn {
   display: none;
-  width: fit-content;
   position: absolute;
   right: 15px;
-  top: 5px;
+  top: 8px;
   z-index: 601;
+  width: 32px;
+  min-width: 0;
+  height: 32px;
+  min-height: 0;
+  padding: 0;
   border: 1px solid var(--bg-3);
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .15);
+}
+
+#empty-trash-btn:hover,
+#empty-backpack-btn:hover {
+  background-color: #ececec;
+}
+
+#empty-trash-btn .label-button,
+#empty-backpack-btn .label-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0; /* the text */
 }
 
 .empty-icon {
-  width: 13%;
-  margin-right: 5px;
+  width: 16px;
+  height: 16px;
+}
+
+#empty-trash-btn .empty-icon,
+#empty-backpack-btn .empty-icon {
+  filter: brightness(0); /* black */
 }
 
 .ide {

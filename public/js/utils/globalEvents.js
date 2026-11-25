@@ -11,6 +11,11 @@ function blurButtons() {
         if (closestButton === null) {
             return;
         }
+        // Not when the button is activated with the keyboard (Enter / Space: a click without mouse, detail 0): the
+        // focus went back to the top of the page and the user had to find the button again with Tab
+        if (e.detail === 0) {
+            return;
+        }
         closestButton.blur();
     });
 }

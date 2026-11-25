@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <style>.off{fill:#d5dbe3;stroke:#9aa7b8;stroke-width:1.5}.eye{fill:#141414}</style>
+  <defs>
+    <radialGradient id="dome" cx="50%" cy="72%" r="75%"><stop offset="0" stop-color="#ffd05a"/><stop offset=".6" stop-color="#f7a52c"/><stop offset="1" stop-color="#f39a1f"/></radialGradient>
+    <linearGradient id="body" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#e6e8ec"/><stop offset=".12" stop-color="#fbfbfd"/><stop offset=".88" stop-color="#fbfbfd"/><stop offset="1" stop-color="#e6e8ec"/></linearGradient>
+  </defs>
+  <path d="M60 284h40v8a6 6 0 0 1-6 6H66a6 6 0 0 1-6-6zM200 284h40v8a6 6 0 0 1-6 6h-28a6 6 0 0 1-6-6z" fill="#3c4654"/>
+  <path d="M18 144h264l4 130a14 14 0 0 1-14 14H28a14 14 0 0 1-14-14z" fill="url(#body)" stroke="#c9ced6" stroke-width="2"/>
+  <path d="M20 138C20 62 78 4 150 4s130 58 130 134z" fill="url(#dome)" stroke="#f8bf56" stroke-width="6"/>
+  <g fill="#e0851f">
+    <path d="M122 100h56l18 34h-92z"/>
+    <circle cx="112" cy="112" r="9"/><circle cx="188" cy="112" r="9"/>
+    <rect x="95" y="44" width="18" height="40" rx="9"/><rect x="187" y="44" width="18" height="40" rx="9"/>
+    <circle cx="150" cy="64" r="44" fill="#e8902a"/>
+  </g>
+  <circle cx="136" cy="66" r="5.5" fill="#8a2f12"/><circle cx="166" cy="66" r="5.5" fill="#8a2f12"/>
+  <path d="M62 96c8-26 24-44 50-56 14 16 22 32 24 48-12 10-22 24-28 40-20-8-34-20-46-32z" fill="#fff" opacity=".22"/>
+  <path d="M166 92c12-14 26-24 44-32 20 16 32 40 34 74h-58c-2-16-8-30-20-42z" fill="#fff" opacity=".18"/>
+  <rect x="14" y="134" width="272" height="11" rx="5" fill="#fff" stroke="#c9ced6" stroke-width="2"/>
+  <circle cx="92" cy="216" r="21" fill="#2a2a2a"/><circle id="eye-left" class="eye" cx="92" cy="216" r="18"/>
+  <circle cx="208" cy="216" r="21" fill="#2a2a2a"/><circle id="eye-right" class="eye" cx="208" cy="216" r="18"/>
+  <rect x="130" y="212" width="40" height="7" rx="3.5" fill="#2a2a2a"/>
+  <g id="controller" style="display:none">
+    <circle cx="400" cy="190" r="78" fill="#ffffff" stroke="#c9ced6" stroke-width="3"/>
+    <circle cx="400" cy="190" r="64" fill="#f3f4f7"/>
+    <circle id="led-1" class="off" cx="425.0" cy="146.7" r="7.5"/><circle id="led-2" class="off" cx="443.3" cy="165.0" r="7.5"/><circle id="led-3" class="off" cx="450.0" cy="190.0" r="7.5"/><circle id="led-4" class="off" cx="443.3" cy="215.0" r="7.5"/><circle id="led-5" class="off" cx="425.0" cy="233.3" r="7.5"/><circle id="led-6" class="off" cx="400.0" cy="240.0" r="7.5"/><circle id="led-7" class="off" cx="375.0" cy="233.3" r="7.5"/><circle id="led-8" class="off" cx="356.7" cy="215.0" r="7.5"/><circle id="led-9" class="off" cx="350.0" cy="190.0" r="7.5"/><circle id="led-10" class="off" cx="356.7" cy="165.0" r="7.5"/><circle id="led-11" class="off" cx="375.0" cy="146.7" r="7.5"/><circle id="led-12" class="off" cx="400.0" cy="140.0" r="7.5"/>
+    <circle cx="400" cy="190" r="26" fill="#f7a52c"/><path d="M392 177l22 13-22 13z" fill="#fff"/>
+  </g>
+</svg>

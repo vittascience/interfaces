@@ -32,7 +32,8 @@ Blockly.Python.time_sleep = function (block) {
     }
 };
 
-Blockly.Python.time_time = function (block) {
+Blockly.Python.time_time = function () {
+    Blockly.Python.addImport('time', IMPORT_TIME);
     return "time.time()" + NEWLINE;
 };
 

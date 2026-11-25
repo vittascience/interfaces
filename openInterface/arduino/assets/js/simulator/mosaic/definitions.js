@@ -25,7 +25,7 @@ Simulator.Mosaic.groveRegex = {
 	// digital writers
 	"write-digital": /digitalWrite\((?!13)([A]{0,1}[0-9]{1,2}),.*\)/gi,
 	// analog readers
-	"read-analog": /analogRead\((A[0-9]{1})\)/gi,
+	"read-analog": /analogRead\((A[0-9]{1,2}|[0-9]{1,2})\)/gi,
 	// analog writers
 	"write-analog": /analogWrite\(([0-9]{1,2}),.*\)/gi,
 	// I2C modules
@@ -158,7 +158,11 @@ Simulator.Mosaic.specific = {
 	extractPin: {
 		'read-digital': (str) => str.replace('digitalRead(', "").replace(')', ""),
 		'write-digital': (str) => str.replace('digitalWrite(', "").split(',')[0],
-		'read-analog': (str) => str.replace('analogRead(', "").replace(')', ""),
+		'read-analog': (str) => {
+			const pin = str.replace('analogRead(', "").replace(')', "").trim();
+			// analogRead(0) reads A0, like analogRead(A0): same slider
+			return /^\d+$/.test(pin) && Number(pin) < 14 ? 'A' + pin : pin;
+		},
 		'write-analog': (str) => str.replace('analogWrite(', "").split(',')[0]
 	},
 
@@ -206,6 +210,7 @@ Simulator.Mosaic.specific = {
 	createSliders: function () {
 
 		$('.mod_digital-interrupt,' +
+			'.mod_ir-barrier-receiver,' +
 			'#gestureSensor_slider_r,' +
 			'#gestureSensor_slider_l,' +
 			'#gestureSensor_slider_u,' +
@@ -278,10 +283,24 @@ Simulator.Mosaic.specific = {
 			`<div class="modulino-led-group"><span class="modulino-led${on ? ' modulino-led-on' : ''}"></span>${'ABC'.charAt(i)}</div>`).join('') + '</div>';
 	},
 
+	onStop: function () {
+		const mod = Simulator.getModuleByKey('ir-barrier-emitter');
+		if (!mod || !Simulator.pinList) return;
+		for (const comp of Simulator.pinList) {
+			if (comp.id.startsWith('ir-barrier-emitter')) {
+				Simulator.setAnimator(mod, comp.id, 0);
+			}
+		}
+	},
+
 	definitions: [
 		// Modulino (Arduino Plug and Make Kit): driven by the "Modulino.h" simulated library (Libraries_H.js)
 		{
 			id: "modulino-buttonA",
+			// Qwiic module, with its picture in the wiring simulator
+			qwiic: "modulino-buttons.svg",
+			// Same Modulino board in the wiring simulator
+			wiringGroup: 'MODULINO_LABEL_BUTTONS',
 			regex: /modulino_buttonPressed\(0\)/,
 			get title() { return Blockly.Msg['MODULINO_LABEL_BUTTONS'] + ' A' },
 			pin: 'I2C',
@@ -297,6 +316,10 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "modulino-buttonB",
+			// Qwiic module, with its picture in the wiring simulator
+			qwiic: "modulino-buttons.svg",
+			// Same Modulino board in the wiring simulator
+			wiringGroup: 'MODULINO_LABEL_BUTTONS',
 			regex: /modulino_buttonPressed\(1\)/,
 			get title() { return Blockly.Msg['MODULINO_LABEL_BUTTONS'] + ' B' },
 			pin: 'I2C',
@@ -312,6 +335,10 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "modulino-buttonC",
+			// Qwiic module, with its picture in the wiring simulator
+			qwiic: "modulino-buttons.svg",
+			// Same Modulino board in the wiring simulator
+			wiringGroup: 'MODULINO_LABEL_BUTTONS',
 			regex: /modulino_buttonPressed\(2\)/,
 			get title() { return Blockly.Msg['MODULINO_LABEL_BUTTONS'] + ' C' },
 			pin: 'I2C',
@@ -327,6 +354,10 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "modulino-buttonsLeds",
+			// Qwiic module, with its picture in the wiring simulator
+			qwiic: "modulino-buttons.svg",
+			// Same Modulino board in the wiring simulator
+			wiringGroup: 'MODULINO_LABEL_BUTTONS',
 			regex: /modulino_buttons\.setLeds\(/,
 			get title() { return Blockly.Msg['MODULINO_LABEL_BUTTONS'] + ' LED' },
 			pin: 'I2C',
@@ -338,6 +369,8 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "modulino-buzzer",
+			// Qwiic module, with its picture in the wiring simulator
+			qwiic: "modulino-buzzer.svg",
 			regex: /modulino_buzzer\./,
 			get title() { return Blockly.Msg['MODULINO_LABEL_BUZZER'] },
 			pin: 'I2C',
@@ -351,6 +384,8 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "modulino-pixels",
+			// Qwiic module, with its picture in the wiring simulator
+			qwiic: "modulino-pixels.svg",
 			regex: /modulino_pixels\./,
 			get title() { return Blockly.Msg['MODULINO_LABEL_PIXELS'] },
 			pin: 'I2C',
@@ -360,6 +395,10 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "modulino-knob",
+			// Qwiic module, with its picture in the wiring simulator
+			qwiic: "modulino-knob.svg",
+			// Same Modulino board in the wiring simulator
+			wiringGroup: 'MODULINO_LABEL_KNOB',
 			regex: /modulino_knob\.(get|set)\(/,
 			get title() { return Blockly.Msg['MODULINO_LABEL_KNOB'] },
 			pin: 'I2C',
@@ -373,6 +412,10 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "modulino-knobButton",
+			// Qwiic module, with its picture in the wiring simulator
+			qwiic: "modulino-knob.svg",
+			// Same Modulino board in the wiring simulator
+			wiringGroup: 'MODULINO_LABEL_KNOB',
 			regex: /modulino_knob\.isPressed\(/,
 			get title() { return Blockly.Msg['MODULINO_LABEL_KNOB_BUTTON'] },
 			pin: 'I2C',
@@ -388,6 +431,8 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "modulino-distance",
+			// Qwiic module, with its picture in the wiring simulator
+			qwiic: "modulino-distance.svg",
 			regex: /modulino_getDistance\(/,
 			get title() { return Blockly.Msg['MODULINO_LABEL_DISTANCE'] },
 			pin: 'I2C',
@@ -401,6 +446,10 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "modulino-acceleration",
+			// Qwiic module, with its picture in the wiring simulator
+			qwiic: "modulino-movement.svg",
+			// Same Modulino board in the wiring simulator
+			wiringGroup: 'MODULINO_LABEL_MOVEMENT',
 			regex: /modulino_movementGet(X|Y|Z)\(/,
 			get title() { return Blockly.Msg['MODULINO_LABEL_MOVEMENT'] + ' (g)' },
 			pin: 'I2C',
@@ -418,14 +467,18 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "modulino-rotation",
+			// Qwiic module, with its picture in the wiring simulator
+			qwiic: "modulino-movement.svg",
+			// Same Modulino board in the wiring simulator
+			wiringGroup: 'MODULINO_LABEL_MOVEMENT',
 			regex: /modulino_movementGet(Roll|Pitch|Yaw)\(/,
 			get title() { return Blockly.Msg['MODULINO_LABEL_MOVEMENT'] + ' (°/s)' },
 			pin: 'I2C',
 			type: 'input',
 			listeners: [
-				{ default: 0, unit: '°/s', color: "#00979d", suffix: "_roll", title: "roll" },
-				{ default: 0, unit: '°/s', color: "#00979d", suffix: "_pitch", title: "pitch" },
-				{ default: 0, unit: '°/s', color: "#00979d", suffix: "_yaw", title: "yaw" }
+				{ default: 0, unit: '°/s', color: "#00979d", suffix: "_roll", get title() { return i18next.t('code.simulator.modules.roll') } },
+				{ default: 0, unit: '°/s', color: "#00979d", suffix: "_pitch", get title() { return i18next.t('code.simulator.modules.pitch') } },
+				{ default: 0, unit: '°/s', color: "#00979d", suffix: "_yaw", get title() { return i18next.t('code.simulator.modules.yaw') } }
 			],
 			picture: "Boussole.png",
 			pictureAnimation: "Boussole-animation.png",
@@ -435,6 +488,10 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "modulino-temperature",
+			// Qwiic module, with its picture in the wiring simulator
+			qwiic: "modulino-thermo.svg",
+			// Same Modulino board in the wiring simulator
+			wiringGroup: 'MODULINO_LABEL_THERMO',
 			regex: /modulino_thermo\.getTemperature\(/,
 			get title() { return Blockly.Msg['MODULINO_LABEL_THERMO'] + ' (°C)' },
 			pin: 'I2C',
@@ -449,6 +506,10 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "modulino-humidity",
+			// Qwiic module, with its picture in the wiring simulator
+			qwiic: "modulino-thermo.svg",
+			// Same Modulino board in the wiring simulator
+			wiringGroup: 'MODULINO_LABEL_THERMO',
 			regex: /modulino_thermo\.getHumidity\(/,
 			get title() { return Blockly.Msg['MODULINO_LABEL_THERMO'] + ' (%)' },
 			pin: 'I2C',
@@ -464,7 +525,7 @@ Simulator.Mosaic.specific = {
 		{
 			id: "arduino-led13",
 			regex: /digitalWrite\(LED_BUILTIN,.*\)/gi,
-			title: "LED intégrée",
+			get title() { return i18next.t('code.simulator.modules.builtinLed') },
 			pin: 'pin n°',
 			type: 'output',
 			value: 0,
@@ -477,7 +538,7 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "digital-interrupt",
-			title: "Interruption",
+			get title() { return i18next.t('code.simulator.modules.interrupt') },
 			pin: 'pin n° ',
 			pins: 'digital',
 			type: 'input',
@@ -520,7 +581,7 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "lcd",
-			title: "Ecran LCD",
+			get title() { return i18next.t('code.simulator.modules.lcdScreen') },
 			pin: 'I2C',
 			type: 'output',
 			value: "",
@@ -528,7 +589,7 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "remote",
-			title: "Lecture digitale",
+			get title() { return i18next.t('code.simulator.modules.digitalRead') },
 			pin: 'pin n° ',
 			type: "input",
 			buttons: [{
@@ -553,8 +614,62 @@ Simulator.Mosaic.specific = {
 			pictureInteraction: "buttonPush"
 		},
 		{
+			id: "ir-barrier-emitter",
+			regex: /#define PIN_IR_BARRIER_TX_((A|D|)[0-9]{1,2})/g,
+			get title() { return i18next.t('code.simulator.modules.irEmitter') },
+			pin: 'pin n° ',
+			pins: 'digital',
+			type: 'output',
+			value: 0,
+			picture: "LED.png",
+			pictureAnimation: "LED-animation.png",
+			animate: function (Animator) {
+				Animator.led();
+			}
+		},
+		{
+			id: "ir-barrier-receiver",
+			regex: /#define PIN_IR_BARRIER_RX_((A|D|)[0-9]{1,2})/g,
+			get title() { return i18next.t('code.simulator.modules.irReceiver') },
+			pin: 'pin n° ',
+			pins: 'digital',
+			type: 'input',
+			pull: 'down',
+			listeners: [{
+				default: "OFF",
+				unit: '',
+				color: "#448ae5",
+				suffix: ""
+			}],
+			class: "button",
+			picture: "Bouton.png",
+			pictureAnimation: "Bouton-animation.png",
+			pictureInteraction: "buttonPush",
+			animate: function (Animator) {
+				const modulePin = Simulator.pinList.find((component) => component.id == Animator.id);
+				if (!modulePin) return;
+				Animator.button(Animator.value, 'down');
+				const lastValues = Simulator.Mosaic.irBarrierLastValues || (Simulator.Mosaic.irBarrierLastValues = {});
+				const prevValue = lastValues[modulePin.pin] !== undefined ? lastValues[modulePin.pin] : 0;
+				lastValues[modulePin.pin] = Animator.value;
+				if (Simulator.mainExecutionStarted && Simulator.isRunning && !Simulator.isStopped && Animator.value !== prevValue) {
+					const handlers = Simulator.Mosaic.irBarrierInterrupts?.[modulePin.pin];
+					if (handlers) {
+						if (Animator.value === 1 && handlers.lost) {
+							Simulator.execInterpretedFunction(handlers.lost.rt, handlers.lost._this, handlers.lost.ret.v.name, []);
+						} else if (Animator.value === 0 && handlers.restored) {
+							Simulator.execInterpretedFunction(handlers.restored.rt, handlers.restored._this, handlers.restored.ret.v.name, []);
+						}
+						if (handlers.change) {
+							Simulator.execInterpretedFunction(handlers.change.rt, handlers.change._this, handlers.change.ret.v.name, []);
+						}
+					}
+				}
+			}
+		},
+		{
 			id: "rtc",
-			title: "Horloge",
+			get title() { return i18next.t('code.simulator.modules.clock') },
 			pin: 'I2C',
 			type: 'output',
 			value: "",
@@ -563,7 +678,7 @@ Simulator.Mosaic.specific = {
 		{
 			id: "multichannelV2",
 			regex: /multichannel_v2_getGM(702|102|302|502)B/gi,
-			title: "Capteur de gas : ",
+			get title() { return i18next.t('code.simulator.modules.multichannel') },
 			pin: 'I2C',
 			type: 'input',
 			listeners: [{
@@ -585,7 +700,7 @@ Simulator.Mosaic.specific = {
 				suffix: "_GM502B",
 				unit: 'ppm',
 				color: "#1a6da8",
-				title: "VOC"
+				get title() { return i18next.t('code.simulator.modules.voc') }
 			}],
 			class: "particles",
 			picture: "CO2-COV.png",
@@ -602,7 +717,7 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "mhz19-co2",
-			title: "Capteur MHZ19 - CO2",
+			get title() { return i18next.t('code.simulator.modules.mhz19Co2') },
 			pin: 'RX / TX',
 			type: "input",
 			color: "#22b573",
@@ -621,7 +736,7 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "mhz19-temp",
-			title: "Capteur MHZ19 - Température",
+			get title() { return i18next.t('code.simulator.modules.mhz19Temp') },
 			pin: 'RX / TX',
 			type: "input",
 			color: "#22b573",
@@ -644,7 +759,7 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "gestureSensor",
-			title: "Geste : ",
+			get title() { return i18next.t('code.simulator.modules.gesture') },
 			pin: 'I2C',
 			type: "input",
 			listeners: [{
@@ -652,70 +767,70 @@ Simulator.Mosaic.specific = {
 				default: 0,
 				unit: ' ',
 				color: "#f9d142",
-				title: "Droite"
+				get title() { return i18next.t('code.simulator.modules.right') }
 			},
 			{
 				suffix: "_l",
 				default: 0,
 				unit: ' ',
 				color: "#f9d142",
-				title: "Gauche"
+				get title() { return i18next.t('code.simulator.modules.left') }
 			},
 			{
 				suffix: "_u",
 				default: 0,
 				unit: ' ',
 				color: "#f9d142",
-				title: "Haut"
+				get title() { return i18next.t('code.simulator.modules.up') }
 			},
 			{
 				suffix: "_d",
 				default: 0,
 				unit: ' ',
 				color: "#f9d142",
-				title: "Bas"
+				get title() { return i18next.t('code.simulator.modules.down') }
 			},
 			{
 				suffix: "_f",
 				default: 0,
 				unit: ' ',
 				color: "#f9d142",
-				title: "En avant"
+				get title() { return i18next.t('code.simulator.modules.forward') }
 			},
 			{
 				suffix: "_b",
 				default: 0,
 				unit: ' ',
 				color: "#f9d142",
-				title: "En arrière"
+				get title() { return i18next.t('code.simulator.modules.backward') }
 			},
 			{
 				suffix: "_c",
 				default: 0,
 				unit: ' ',
 				color: "#f9d142",
-				title: "Sens horaire"
+				get title() { return i18next.t('code.simulator.modules.clockwise') }
 			},
 			{
 				suffix: "_ac",
 				default: 0,
 				unit: ' ',
 				color: "#f9d142",
-				title: "Sens anti-horaire"
+				get title() { return i18next.t('code.simulator.modules.counterclockwise') }
 			},
 			{
 				suffix: "_w",
 				default: 0,
 				unit: ' ',
 				color: "#f9d142",
-				title: "Vague"
+				get title() { return i18next.t('code.simulator.modules.wave') }
 			}
 			],
 			picture: "Capteur de gestes.png",
 		},
 		{
 			id: "vibrationMotor",
-			title: "Moteur de vibrations",
+			get title() { return i18next.t('code.simulator.modules.vibrationMotor') },
 			pin: 'pin n°',
 			type: 'output',
 			value: 0,
@@ -727,7 +842,7 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "i2cMotor1",
-			title: "Shield - Moteur 1",
+			get title() { return 'Shield - ' + i18next.t('code.simulator.modules.motorNumber', { n: 1 }) },
 			pin: 'I2C',
 			type: 'output',
 			value: 0,
@@ -737,7 +852,7 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "i2cMotor2",
-			title: "Shield - Moteur 2",
+			get title() { return 'Shield - ' + i18next.t('code.simulator.modules.motorNumber', { n: 2 }) },
 			pin: 'I2C',
 			type: 'output',
 			value: 0,
@@ -747,7 +862,7 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "i2cMotorStepper",
-			title: "Shield - Moteur pas à pas",
+			get title() { return 'Shield - ' + i18next.t('code.simulator.modules.stepper-motor') },
 			pin: 'I2C',
 			type: 'output',
 			value: 0,
@@ -757,7 +872,7 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "stepper28BYJ48",
-			title: "Moteur pas à pas 28BYJ-48",
+			get title() { return i18next.t('code.simulator.modules.stepper28BYJ48') },
 			pin: 'IN1-IN4',
 			type: 'output',
 			value: 0,
@@ -767,7 +882,7 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "atomizer",
-			title: "Atomiseur d'eau",
+			get title() { return i18next.t('code.simulator.modules.waterAtomizer') },
 			pin: 'pin n°',
 			type: 'output',
 			value: 0,
@@ -779,7 +894,7 @@ Simulator.Mosaic.specific = {
 		},
 		{
 			id: "electromagnet",
-			title: "Electro-aimant",
+			get title() { return i18next.t('code.simulator.modules.electromagnet') },
 			pin: 'pin n°',
 			type: 'output',
 			value: 0,

@@ -19,6 +19,17 @@ function failedToLoad() {
         location.reload();
     }, 3000);
 }
+/**
+ * Expanded state of the dropdown buttons of the editor bar, for the screen readers: their menus are opened and
+ * closed in several places (the button, a click outside, a click on an item).
+ */
+function syncDropdownTogglesExpanded() {
+    $('.ide-btn-toggle').each(function () {
+        const group = $(this).parent().children('div.ide-btn-group');
+        if (group.length) this.setAttribute('aria-expanded', String(!group.first().hasClass('hidden')));
+    });
+}
+
 $(document).ready(function () {
     //Changement d'icone mode
     $(".ide-btn-group-mode .ide-btn").click(function () {
@@ -34,6 +45,7 @@ $(document).ready(function () {
             }
         });
         elem.toggleClass('hidden');
+        syncDropdownTogglesExpanded();
     });
 
     $(document).on("click", function (e) {
@@ -44,6 +56,7 @@ $(document).ready(function () {
                     $(this).toggleClass('hidden');
                 }
             });
+            syncDropdownTogglesExpanded();
         }
     });
 
@@ -52,5 +65,6 @@ $(document).ready(function () {
         if (!parent.hasClass('hidden')) {
             parent.toggleClass('hidden');
         }
+        syncDropdownTogglesExpanded();
     });
 })

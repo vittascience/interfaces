@@ -5,7 +5,6 @@ import { initControlsDropdownAccessibility } from './dropdowns/interfaces-contro
 import { initAceEditorAccessibility } from './ace-editor/ace-accessibility.js';
 import { fixAceTextareaLabel } from './ace-editor/textarea-label-fix.js';
 import { initBlocklyAccessibility } from './blockly/blockly-accessibility.js';
-import { fixBlocklyAriaLevels } from './blockly/aria-level-fix.js';
 import { fixBlocklyToolboxFocus } from './blockly/toolbox-focus-fix.js';
 import { fixBlocklyFieldMobileClose } from './blockly/blockly-field-mobile-fix.js';
 import { initializeSearchBoxAccessibility } from './ace-editor/searchbox/searchbox-accessibility.js';
@@ -19,14 +18,30 @@ import { handleSetupSpecialTagsAccessibility } from './special-tags/special-tags
 import { handleSetupBootstrapAccessibility } from './bootstrap/bootstrap-accessibility.js';
 import {observeAndInjectSVGFocusStyles} from "./svg/svg-accessibility.js";
 
+/**
+ * The editor page has no heading: the screen reader users can't jump from one zone to the other (blocks, code,
+ * console, simulator). Hidden headings are added before the zones (not inside: Blockly and Ace own them).
+ */
+function addZoneHeadings() {
+  const zones = [['#content_blocks', 'blocks'], ['#generator', 'code'], ['#monitor', 'console'], ['.ide-simulator', 'simulator']];
+  for (const [selector, key] of zones) {
+    const zone = document.querySelector(selector);
+    if (!zone || zone.previousElementSibling?.classList.contains('a11y-zone-heading')) continue;
+    const heading = document.createElement('h2');
+    heading.className = 'visually-hidden a11y-zone-heading';
+    heading.textContent = jsonPath(`code.a11yHeadings.${key}`);
+    zone.before(heading);
+  }
+}
+
 $(document).ready(function () {
   setTimeout(() => {
+    addZoneHeadings();
     initMicrobitDropdownAccessibility();
     initParametersDropdownAccessibility();
     initControlsDropdownAccessibility();
 
     initBlocklyAccessibility();
-    fixBlocklyAriaLevels();
     fixBlocklyToolboxFocus();
     fixBlocklyFieldMobileClose();
     initAceEditorAccessibility();

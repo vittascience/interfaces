@@ -1246,13 +1246,13 @@ Blockly.Constants.Robots.ROBOTS_FINISH_STATE_MUTATOR_MIXIN = {
                     ]), "FINISH_STATE"
                 )
             top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI,
-                this.buttonSize, this.buttonSize, "*", remove, false));
+                this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
         } else {
             if (this.getInput("FINISH_STATE_FIELD")) {
                 this.removeInput("FINISH_STATE_FIELD");
             }
             top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI,
-                this.buttonSize, this.buttonSize, "*", add, false));
+                this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
         }
     },
 

@@ -343,7 +343,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /acc_sensor\(/g,
 			id: 'thymio-accelerometre',
-			title: 'Accéléromètre',
+			get title() { return i18next.t('code.simulator.modules.accelerometer') },
 			pin: 'thymio',
 			type: 'input',
 			listeners: [
@@ -352,21 +352,21 @@ Simulator.Mosaic.specific = {
 					unit: '',
 					color: '#1a6da8',
 					suffix: '_x',
-					title: "Axe X"
+					get title() { return i18next.t('code.simulator.modules.axis', { axis: 'X' }) }
 				},
 				{
 					default: 0,
 					unit: '',
 					color: '#1a6da8',
 					suffix: '_y',
-					title: "Axe Y"
+					get title() { return i18next.t('code.simulator.modules.axis', { axis: 'Y' }) }
 				},
 				{
 					default: 0,
 					unit: '',
 					color: '#1a6da8',
 					suffix: '_z',
-					title: "Axe Z"
+					get title() { return i18next.t('code.simulator.modules.axis', { axis: 'Z' }) }
 				},
 			],
 			picture: "Accélerateur.png",
@@ -380,7 +380,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /mic_threshold\(/g,
 			id: 'thymio-sound-threshold',
-			title: 'Seuil sonore',
+			get title() { return i18next.t('code.simulator.modules.soundThreshold') },
 			pin: 'thymio',
 			type: 'input',
 			listeners: [{
@@ -414,7 +414,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /sound_system\(/g,
 			id: 'thymio-sound-system',
-			title: 'Sons',
+			get title() { return i18next.t('code.simulator.modules.sounds') },
 			pin: 'thymio',
 			type: 'output',
 			listeners: [
@@ -422,7 +422,7 @@ Simulator.Mosaic.specific = {
 					default: '0',
 					unit: '',
 					color: '#1a6da8',
-					title: 'Amicale',
+					get title() { return i18next.t('code.simulator.modules.friendly') },
 					suffix: 'Amicale',
 				},
 			],
@@ -438,7 +438,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /sound_freq\(/g,
 			id: 'thymio-sound-freq',
-			title: 'Fréquence',
+			get title() { return i18next.t('code.simulator.modules.frequency') },
 			pin: 'thymio',
 			type: 'output',
 			value: 0,
@@ -452,7 +452,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /rc5\(\)/g,
 			id: 'thymio-rc5-com',
-			title: 'Télécommande',
+			get title() { return i18next.t('code.simulator.modules.remote') },
 			pin: 'thymio',
 			type: 'input',
 			picture: 'remote_thymio.svg',
@@ -461,7 +461,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /prox_com\(\)/g,
 			id: 'thymio-prox-com',
-			title: 'COM. IR',
+			get title() { return i18next.t('code.simulator.modules.irCom') },
 			pin: 'thymio',
 			type: 'input',
 			listeners: [
@@ -487,7 +487,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /button(_|\.)center/,
 			id: 'thymio-button-center',
-			title: 'Bouton center',
+			get title() { return i18next.t('code.simulator.modules.buttonCenter') },
 			pin: 'thymio',
 			type: 'input',
 			listeners: [
@@ -513,7 +513,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /button(_|\.)right/,
 			id: 'thymio-button-right',
-			title: 'Bouton Right',
+			get title() { return i18next.t('code.simulator.modules.buttonRight') },
 			pin: 'thymio',
 			type: 'input',
 			listeners: [
@@ -539,7 +539,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /button(_|\.)left/,
 			id: 'thymio-button-left',
-			title: 'Bouton Left',
+			get title() { return i18next.t('code.simulator.modules.buttonLeft') },
 			pin: 'thymio',
 			type: 'input',
 			listeners: [
@@ -565,7 +565,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /button(_|\.)forward/,
 			id: 'thymio-button-forward',
-			title: 'Bouton Forward',
+			get title() { return i18next.t('code.simulator.modules.buttonForward') },
 			pin: 'thymio',
 			type: 'input',
 			listeners: [
@@ -591,7 +591,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /button(_|\.)backward/,
 			id: 'thymio-button-backward',
-			title: 'Bouton Backward',
+			get title() { return i18next.t('code.simulator.modules.buttonBackward') },
 			pin: 'thymio',
 			type: 'input',
 			listeners: [
@@ -617,7 +617,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /timer0\(/g,
 			id: 'thymio-timer-0',
-			title: 'Timer 0',
+			get title() { return i18next.t('code.simulator.modules.timer', { n: 0 }) },
 			pin: 'thymio',
 			type: 'input',
 			listeners: [
@@ -626,7 +626,7 @@ Simulator.Mosaic.specific = {
 					unit: 'ms',
 					color: '#1a6da8',
 					suffix: '',
-					title: 'Premier timer',
+					get title() { return i18next.t('code.simulator.modules.firstTimer') },
 				},
 			],
 			class: 'gauge',
@@ -641,7 +641,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /timer1\(/g,
 			id: 'thymio-timer-1',
-			title: 'Timer 1',
+			get title() { return i18next.t('code.simulator.modules.timer', { n: 1 }) },
 			pin: 'thymio',
 			type: 'input',
 			listeners: [
@@ -650,7 +650,7 @@ Simulator.Mosaic.specific = {
 					unit: 'ms',
 					color: '#1a6da8',
 					suffix: '',
-					title: 'Premier timer',
+					get title() { return i18next.t('code.simulator.modules.firstTimer') },
 				},
 			],
 			class: 'gauge',
@@ -666,7 +666,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /temperature_sensor/g,
 			id: 'thymio-temp',
-			title: 'Capteur de température',
+			get title() { return i18next.t('code.simulator.modules.groveTemp') },
 			pin: 'Thymio',
 			type: 'input',
 			listeners: [
@@ -687,7 +687,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /DigitalInOut\(IO14\)/,
 			id: 'mb-button',
-			title: 'Bouton',
+			get title() { return i18next.t('code.simulator.modules.button') },
 			pin: 'Thymio',
 			type: 'input',
 			listeners: [
@@ -710,7 +710,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /motor.right/gi,
 			id: 'mb-thymio-motorRight',
-			title: 'Moteur Droit',
+			get title() { return i18next.t('code.simulator.modules.motorRight') },
 			pin: 'thymio',
 			type: 'output',
 			value: '',
@@ -720,7 +720,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /motor.left/gi,
 			id: 'mb-thymio-motorLeft',
-			title: 'Moteur Gauche',
+			get title() { return i18next.t('code.simulator.modules.motorLeft') },
 			pin: 'thymio',
 			type: 'output',
 			value: '',
@@ -730,7 +730,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /prox.horizontal\(0/gi,
 			id: 'thymio-ir-fl',
-			title: 'Obstacle',
+			get title() { return i18next.t('code.simulator.modules.obstacle') },
 			pin: 'thymio',
 			type: 'input',
 			listeners: [
@@ -755,7 +755,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /prox.horizontal\(1/gi,
 			id: 'thymio-ir-flc',
-			title: 'Obstacle',
+			get title() { return i18next.t('code.simulator.modules.obstacle') },
 			pin: 'thymio',
 			type: 'input',
 			listeners: [
@@ -780,7 +780,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /prox.horizontal\(2/gi,
 			id: 'thymio-ir-fc',
-			title: 'Obstacle',
+			get title() { return i18next.t('code.simulator.modules.obstacle') },
 			pin: 'thymio',
 			type: 'input',
 			listeners: [
@@ -805,7 +805,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /prox.horizontal\(3/gi,
 			id: 'thymio-ir-frc',
-			title: 'Obstacle',
+			get title() { return i18next.t('code.simulator.modules.obstacle') },
 			pin: 'thymio',
 			type: 'input',
 			listeners: [
@@ -830,7 +830,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /prox.horizontal\(4/gi,
 			id: 'thymio-ir-fr',
-			title: 'Obstacle',
+			get title() { return i18next.t('code.simulator.modules.obstacle') },
 			pin: 'thymio',
 			type: 'input',
 			listeners: [
@@ -855,7 +855,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /prox.horizontal\(5/gi,
 			id: 'thymio-ir-bl',
-			title: 'Obstacle',
+			get title() { return i18next.t('code.simulator.modules.obstacle') },
 			pin: 'thymio',
 			type: 'input',
 			listeners: [
@@ -880,7 +880,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /prox.horizontal\(6/gi,
 			id: 'thymio-ir-br',
-			title: 'Obstacle',
+			get title() { return i18next.t('code.simulator.modules.obstacle') },
 			pin: 'thymio',
 			type: 'input',
 			listeners: [
@@ -905,7 +905,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /prox.ground_delta\(0/gi,
 			id: 'thymio-finderLeft',
-			title: 'cap. Ligne noire (Gauche)',
+			get title() { return i18next.t('code.simulator.modules.lineLeft') },
 			pin: 'Thymio',
 			type: 'input',
 			class: 'finder',
@@ -930,7 +930,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /prox.ground_delta\(1/gi,
 			id: 'thymio-finderRight',
-			title: 'cap. Ligne noire (Droite)',
+			get title() { return i18next.t('code.simulator.modules.lineRight') },
 			pin: 'Thymio',
 			type: 'input',
 			class: 'finder',
@@ -956,7 +956,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /leds\.top\(/g,
 			id: 'thymio-led-top',
-			title: 'LEDs du haut',
+			get title() { return i18next.t('code.simulator.modules.ledsTop') },
 			pin: 'thymio',
 			type: 'output',
 			value: '',
@@ -964,7 +964,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /leds\.bottom_left\(/g,
 			id: 'thymio-led-bottom-left',
-			title: 'LEDs du bas gauche',
+			get title() { return i18next.t('code.simulator.modules.ledsBottomLeft') },
 			pin: 'thymio',
 			type: 'output',
 			value: '',
@@ -972,7 +972,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /leds\.bottom_right\(/g,
 			id: 'thymio-led-bottom-right',
-			title: 'LEDs du bas droite',
+			get title() { return i18next.t('code.simulator.modules.ledsBottomRight') },
 			pin: 'thymio',
 			type: 'output',
 			value: '',
@@ -980,7 +980,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /leds\.circle\(/g,
 			id: 'thymio-led-circle',
-			title: 'LEDs du cercle',
+			get title() { return i18next.t('code.simulator.modules.ledsCircle') },
 			pin: 'thymio',
 			type: 'output',
 			value: '',
@@ -988,7 +988,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /leds\.prox.h\(/g,
 			id: 'thymio-led-prox-h',
-			title: 'LEDs proximité h',
+			get title() { return i18next.t('code.simulator.modules.ledsProximityH') },
 			pin: 'thymio',
 			type: 'output',
 			value: '',
@@ -996,7 +996,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /leds\.prox_v\(/g,
 			id: 'thymio-led-prox-v',
-			title: 'LEDs proximité v',
+			get title() { return i18next.t('code.simulator.modules.ledsProximityV') },
 			pin: 'thymio',
 			type: 'output',
 			value: '',
@@ -1004,7 +1004,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /leds\.buttons\(/g,
 			id: 'thymio-led-buttons',
-			title: 'LEDs des boutons',
+			get title() { return i18next.t('code.simulator.modules.ledsButtons') },
 			pin: 'thymio',
 			type: 'output',
 			value: '',
@@ -1012,7 +1012,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /leds\.temperature\(/g,
 			id: 'thymio-led-temperature',
-			title: 'LEDs de température',
+			get title() { return i18next.t('code.simulator.modules.ledsTemperature') },
 			pin: 'thymio',
 			type: 'output',
 			value: '',
@@ -1020,7 +1020,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /leds\.rc\(/g,
 			id: 'thymio-led-rc',
-			title: 'LEDs de télécommande',
+			get title() { return i18next.t('code.simulator.modules.ledsRemote') },
 			pin: 'thymio',
 			type: 'output',
 			value: '',
@@ -1028,7 +1028,7 @@ Simulator.Mosaic.specific = {
 		{
 			regex: /leds\.sound\(/g,
 			id: 'thymio-led-sound',
-			title: 'LEDs de son',
+			get title() { return i18next.t('code.simulator.modules.ledsSound') },
 			pin: 'thymio',
 			type: 'output',
 			value: '',

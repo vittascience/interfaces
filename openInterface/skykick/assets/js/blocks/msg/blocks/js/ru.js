@@ -12,7 +12,6 @@
 
 // SkyKick Evo
 
-Blockly.Msg['SKYKICK_LABEL_FLIGHT'] = 'Полет';
 Blockly.Msg['SKYKICK_LABEL_MOVES'] = 'Движения';
 Blockly.Msg['SKYKICK_LABEL_CONTROL'] = 'Ручное управление';
 Blockly.Msg['SKYKICK_LABEL_SETTINGS'] = 'Настройки';
@@ -178,3 +177,38 @@ Blockly.Msg['SKYKICK_OPT_STATE_PITCH'] = 'трим тангажа';
 Blockly.Msg['SKYKICK_OPT_STATE_ROLL'] = 'трим крена';
 Blockly.Msg['SKYKICK_OPT_STATE_SENSORORIENTATION'] = 'направление датчика';
 Blockly.Msg['SKYKICK_OPT_STATE_BATTERY'] = 'батарея (%)';
+Blockly.Msg['IO_WAIT_KEYWORDS'] = 'задержка, ожидание';
+Blockly.Msg['IO_WAIT_UNTIL_KEYWORDS'] = 'ожидание, пауза';
+Blockly.Msg['IO_INITCHRONOMETER_KEYWORDS'] = 'секундомер, таймер, время';
+Blockly.Msg['IO_GETCHRONOMETER_KEYWORDS'] = 'секундомер, таймер, время';
+Blockly.Msg['COMMUNICATION_SERIAL_WRITE_KEYWORDS'] = 'консоль, передать, отправить';
+Blockly.Msg['COMMUNICATION_WRITEGRAPH_KEYWORDS'] = 'график, визуализация';
+Blockly.Msg['COMMUNICATION_PRINT_DATAS_KEYWORDS'] = 'записать, вывод, консоль';
+Blockly.Msg['SKYKICK_TAKEOFF_KEYWORDS'] = 'взлет, запуск';
+Blockly.Msg['SKYKICK_LAND_KEYWORDS'] = 'посадка, приземление';
+Blockly.Msg['SKYKICK_STOP_KEYWORDS'] = 'остановить, тормозить';
+Blockly.Msg['SKYKICK_CLEAR_BIAS_KEYWORDS'] = 'калибровка, гироскоп, смещение';
+Blockly.Msg['SKYKICK_CLEAR_TRIM_KEYWORDS'] = 'регулировка, сброс, компенсация';
+Blockly.Msg['SKYKICK_SET_HEADLESS_KEYWORDS'] = 'безголовый, направление, ориентация';
+Blockly.Msg['SKYKICK_SET_TRIM_KEYWORDS'] = 'регулировка, корректировка, смещение';
+Blockly.Msg['SKYKICK_TRIM_STEP_KEYWORDS'] = 'регулировка, инкремент, смещение';
+Blockly.Msg['SKYKICK_SET_AXIS_KEYWORDS'] = 'управление, джойстик';
+Blockly.Msg['SKYKICK_MOVE_AXIS_KEYWORDS'] = 'движение, управление, передвижение';
+Blockly.Msg['SKYKICK_SET_QUAD_KEYWORDS'] = 'управление, джойстик';
+Blockly.Msg['SKYKICK_MOVE_QUAD_KEYWORDS'] = 'движение, управление, передвижение';
+Blockly.Msg['SKYKICK_GO_KEYWORDS'] = 'управление, передвижение';
+Blockly.Msg['SKYKICK_TURN_KEYWORDS'] = 'поворот, вращение';
+Blockly.Msg['SKYKICK_GO_XYZ_KEYWORDS'] = 'управление, передвижение';
+Blockly.Msg['SKYKICK_GO_XYZ_TURN_KEYWORDS'] = 'поворот, вращение';
+Blockly.Msg['SKYKICK_LED_OFF_KEYWORDS'] = 'Светодиод, выкл';
+Blockly.Msg['SKYKICK_LED_RGB_KEYWORDS'] = 'Светодиод, RGB, цвет';
+Blockly.Msg['SKYKICK_LED_COLOR_KEYWORDS'] = 'оттенок, цвет, раскраска';
+Blockly.Msg['SKYKICK_LED_PRESET_KEYWORDS'] = 'Светодиод, цвет, предустановка';
+Blockly.Msg['SKYKICK_BUZZER_STOP_KEYWORDS'] = 'зуммер, сигнал';
+Blockly.Msg['SKYKICK_PLAY_NOTE_KEYWORDS'] = 'звук, тон';
+Blockly.Msg['SKYKICK_PLAY_HZ_KEYWORDS'] = 'звук, тон';
+Blockly.Msg['SKYKICK_ATTITUDE_KEYWORDS'] = 'ориентация, наклон';
+Blockly.Msg['SKYKICK_SENSOR_KEYWORDS'] = 'датчик, показания';
+Blockly.Msg['SKYKICK_HEIGHT_KEYWORDS'] = 'высота';
+Blockly.Msg['SKYKICK_POSITION_KEYWORDS'] = 'координаты, местоположение';
+Blockly.Msg['SKYKICK_STATE_KEYWORDS'] = 'статус, диагностика';

@@ -243,7 +243,7 @@ Blockly.Constants.Exception.EXCEPTION_TRY_MUTATOR_MIXIN = {
       this.appendDummyInput('EXCEPTBUTTONS' + i)
         .appendField(
           new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
-            this.buttonSize, "*", removeElseIf, false))
+            this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, removeElseIf, false))
         .setAlign(Blockly.inputs.Align.RIGHT);
       this.appendStatementInput('DO' + i);
     }
@@ -254,7 +254,7 @@ Blockly.Constants.Exception.EXCEPTION_TRY_MUTATOR_MIXIN = {
         .setAlign(Blockly.inputs.Align.RIGHT)
         .appendField(
           new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
-            this.buttonSize, "*", that.removeExceptArg_.bind(that), false));
+            this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, that.removeExceptArg_.bind(that), false));
       this.appendStatementInput('EXCEPTARG');
     }
     if (this.getInput('ADDBUTTON')) this.removeInput('ADDBUTTON');
@@ -272,7 +272,7 @@ Blockly.Constants.Exception.EXCEPTION_TRY_MUTATOR_MIXIN = {
     this.appendDummyInput('ADDBUTTON')
       .appendField(
         new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize,
-          this.buttonSize, "*", addElseIf, false));
+          this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, addElseIf, false));
   },
   /**
    * Reconstructs the block with all child blocks attached.

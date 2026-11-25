@@ -424,8 +424,8 @@ let stdModals = {};
             },
             selector: '',
             content: `<span class="fa fa-save"></span>
-                <span>Est ce que vous êtes sur de vouloir importer ce fichier depuis votre ordinateur ?</span><br/>
-                <span>Vous allez perdre votre avancement fait manuellement.</span>
+                <span>${jsonPath('modals.warning.import.content.warn.question')}</span><br/>
+                <span>${jsonPath('modals.warning.import.content.warn.hint')}</span>
                 <div id="import-extension-warning-box"></div>`,
             footer:
                 `<button type="button" id="modal-import-btn-yes" style="flex:1;" class="btn vitta-button" >

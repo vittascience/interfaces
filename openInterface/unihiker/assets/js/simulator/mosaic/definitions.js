@@ -408,7 +408,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /light\.read(_and_average|)\(/g,
             id: "unihiker-light",
-            title: "Luminosité",
+            get title() { return i18next.t('code.simulator.modules.brightness') },
             pin: 'UNIHIKER',
             type: 'input',
             listeners: [{ default: 2000, unit: '', color: "#f9d142", suffix: "" }],
@@ -422,13 +422,13 @@ Simulator.Mosaic.specific = {
         {
             regex: /accelerometer\.get_|acce\.read_/g,
             id: "unihiker-accelerometer",
-            title: "Accéléromètre (mg) : ",
+            get title() { return i18next.t('code.simulator.modules.accelerometerMg') },
             pin: 'UNIHIKER',
             type: 'input',
             listeners: [
-                { suffix: "_x", default: 0, unit: 'mg', color: "#ff4d6a", title: "Axe x" },
-                { suffix: "_y", default: 0, unit: 'mg', color: "#f9d142", title: "Axe y" },
-                { suffix: "_z", default: -1000, unit: 'mg', color: "#1a6da8", title: "Axe z" }
+                { suffix: "_x", default: 0, unit: 'mg', color: "#ff4d6a", get title() { return i18next.t('code.simulator.modules.axis', { axis: 'x' }) } },
+                { suffix: "_y", default: 0, unit: 'mg', color: "#f9d142", get title() { return i18next.t('code.simulator.modules.axis', { axis: 'y' }) } },
+                { suffix: "_z", default: -1000, unit: 'mg', color: "#1a6da8", get title() { return i18next.t('code.simulator.modules.axis', { axis: 'z' }) } }
             ],
             picture: "Accelérateur.svg",
             pictureAnimation: "Accelérateur-animation.png",
@@ -439,12 +439,12 @@ Simulator.Mosaic.specific = {
         {
             regex: /temp_humi\.read_/g,
             id: "unihiker-climate",
-            title: "Température et humidité : ",
+            get title() { return i18next.t('code.simulator.modules.temperatureHumidity') },
             pin: 'UNIHIKER',
             type: 'input',
             listeners: [
-                { suffix: "_temp", default: 22, unit: '°C', color: "#ff4d6a", title: "Température" },
-                { suffix: "_hum", default: 50, unit: '%', color: "#1a6da8", title: "Humidité" }
+                { suffix: "_temp", default: 22, unit: '°C', color: "#ff4d6a", get title() { return i18next.t('code.simulator.modules.temperature') } },
+                { suffix: "_hum", default: 50, unit: '%', color: "#1a6da8", get title() { return i18next.t('code.simulator.modules.humidity') } }
             ],
             picture: "Humidité.png",
             pictureAnimation: "Humidité-animation.png",
@@ -453,13 +453,13 @@ Simulator.Mosaic.specific = {
         {
             regex: /gyroscope\.get_/g,
             id: "unihiker-gyroscope",
-            title: "Gyroscope (°/s) : ",
+            get title() { return i18next.t('code.simulator.modules.gyroscopeDps') },
             pin: 'UNIHIKER',
             type: 'input',
             listeners: [
-                { suffix: "_x", default: 0, unit: '°/s', color: "#ff4d6a", title: "Axe x" },
-                { suffix: "_y", default: 0, unit: '°/s', color: "#f9d142", title: "Axe y" },
-                { suffix: "_z", default: 0, unit: '°/s', color: "#1a6da8", title: "Axe z" }
+                { suffix: "_x", default: 0, unit: '°/s', color: "#ff4d6a", get title() { return i18next.t('code.simulator.modules.axis', { axis: 'x' }) } },
+                { suffix: "_y", default: 0, unit: '°/s', color: "#f9d142", get title() { return i18next.t('code.simulator.modules.axis', { axis: 'y' }) } },
+                { suffix: "_z", default: 0, unit: '°/s', color: "#1a6da8", get title() { return i18next.t('code.simulator.modules.axis', { axis: 'z' }) } }
             ],
             picture: "gyroscope.png",
             pictureAnimation: "gyroscope.png",
@@ -468,7 +468,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /\.sound_level\(\)/g,
             id: "unihiker-sound",
-            title: "Niveau sonore",
+            get title() { return i18next.t('code.simulator.modules.pinSoundLevel') },
             pin: 'UNIHIKER',
             type: 'input',
             listeners: [{ default: 20, unit: '', color: "#9966ff", suffix: "" }],

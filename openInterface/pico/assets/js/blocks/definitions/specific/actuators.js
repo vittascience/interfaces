@@ -218,7 +218,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             "type": "field_grid_dropdown",
             "name": "MUSIC",
             "options": [
-                ["Pirates des Caraïbes", "CARRIBEAN_PIRATES"],
+                ["%{BKY_MUSIC_CARIBBEAN_PIRATES}", "CARRIBEAN_PIRATES"],
                 ["Gamme", "GAMME"],
                 ["Star Wars", "SW"],
                 ["R2D2", "R2D2"]
@@ -476,9 +476,9 @@ Blockly.Constants.Actuators.ACTUATORS_PLAY_NOTES_MUTATOR_MIXIN = {
         var top = this.appendDummyInput('TOP');
         top.appendField(Blockly.Msg['ACTUATORS_MUSIC_PLAY_NOTES_TITLE']);
         top.appendField(new Blockly.FieldDropdown(Blockly.Constants.Pins.digital[Blockly.Constants.getSelectedBoard()]), "PIN");
-        top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", add, false));
+        top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
         if (this.itemCount_ > 1) {
-            top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", remove, false));
+            top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
         }
         for (var i = 0; i < this.itemCount_; i++) {
             this.appendValueInput('ADD' + i);

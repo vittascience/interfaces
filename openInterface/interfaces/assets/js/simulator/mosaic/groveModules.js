@@ -327,8 +327,9 @@ Simulator.Mosaic.grove = {
             get title() { return i18next.t('code.simulator.modules.oled') },
             pin: 'I2C',
             type: 'output',
-            large: ["arduino", "letsstartcoding"].includes(INTERFACE_NAME) ? true : false,
-            canvas: ["microbit", "arduino", "letsstartcoding"].includes(INTERFACE_NAME) ? false : true,
+            // the UNO Q uses the Arduino simulator libraries (Libraries_H.js), which need the DOM OLED, not the canvas one
+            large: ["arduino", "arduinoq", "letsstartcoding"].includes(INTERFACE_NAME) ? true : false,
+            canvas: ["microbit", "arduino", "arduinoq", "letsstartcoding"].includes(INTERFACE_NAME) ? false : true,
             value: "",
         },
         {
@@ -363,19 +364,19 @@ Simulator.Mosaic.grove = {
             codeFlag: 'LED Module',
             value: 0,
             palette: [{
-                title: "Verte",
+                get title() { return i18next.t('code.simulator.modules.green') },
                 angle: "0"
             }, {
-                title: "Rouge",
+                get title() { return i18next.t('code.simulator.modules.red') },
                 angle: "207"
             }, {
-                title: "Orange",
+                get title() { return i18next.t('code.simulator.modules.orange') },
                 angle: "247"
             }, {
-                title: "Bleue",
+                get title() { return i18next.t('code.simulator.modules.blue') },
                 angle: "77"
             }, {
-                title: "Jaune",
+                get title() { return i18next.t('code.simulator.modules.yellow') },
                 angle: "275"
             }],
             picture: "LED.png",
@@ -829,7 +830,7 @@ Simulator.Mosaic.grove = {
                 default: 30000,
                 unit: 'ppb',
                 color: "#f9d142",
-                title: "COV"
+                get title() { return i18next.t('code.simulator.modules.voc') }
             }],
             class: "particles",
             picture: "CO2-COV.png",
@@ -1045,19 +1046,19 @@ Simulator.Mosaic.grove = {
                 default: 500,
                 unit: 'µg/m3',
                 color: "#ff4d6a",
-                title: "diam. (1 µm)"
+                get title() { return i18next.t('code.simulator.modules.diam1') }
             }, {
                 suffix: "_pm2_5",
                 default: 500,
                 unit: 'µg/m3',
                 color: "#f9d142",
-                title: "diam. (2,5 µm)"
+                get title() { return i18next.t('code.simulator.modules.diam25') }
             }, {
                 suffix: "_pm10",
                 default: 500,
                 unit: 'µg/m3',
                 color: "#1a6da8",
-                title: "diam. (10 µm)"
+                get title() { return i18next.t('code.simulator.modules.diam10') }
             }],
             class: "particles",
             picture: "CO2-COV.png",
@@ -1437,7 +1438,7 @@ Simulator.Mosaic.grove = {
                 default: 750,
                 unit: 'lumen',
                 color: "#f9d142",
-                title: "Visible"
+                get title() { return i18next.t('code.simulator.modules.visible') }
             }, {
                 suffix: "_ir",
                 default: 750,
@@ -1503,13 +1504,13 @@ Simulator.Mosaic.grove = {
                 unit: 'cm',
                 color: "#f9d142",
                 suffix: "_d",
-                title: "Distance"
+                get title() { return i18next.t('code.simulator.modules.distance') }
             }, {
                 suffix: "_t",
                 default: 1166,
                 unit: 'μs',
                 color: "#f9d142",
-                title: "Durée"
+                get title() { return i18next.t('code.simulator.modules.duration') }
             }],
             class: 'ultrasonic',
             picture: "Ultrason.png",
@@ -1537,13 +1538,13 @@ Simulator.Mosaic.grove = {
                 unit: 'cm',
                 color: "#f9d142",
                 suffix: "_d",
-                title: "Distance"
+                get title() { return i18next.t('code.simulator.modules.distance') }
             }, {
                 suffix: "_t",
                 default: 1166,
                 unit: 'μs',
                 color: "#f9d142",
-                title: "Durée"
+                get title() { return i18next.t('code.simulator.modules.duration') }
             }],
             class: 'ultrasonic',
             picture: "Ultrason.png",
@@ -1736,19 +1737,19 @@ Simulator.Mosaic.grove = {
                 default: 48.8738,
                 unit: '°',
                 color: "#f9d142",
-                title: "Latitude"
+                get title() { return i18next.t('code.simulator.modules.latitude') }
             }, {
                 suffix: "_lon",
                 default: 2.3528,
                 unit: '°',
                 color: "#ff4d6a",
-                title: "Longitude"
+                get title() { return i18next.t('code.simulator.modules.longitude') }
             }, {
                 suffix: "_alt",
                 default: 35,
                 unit: 'm',
                 color: "#1a6da8",
-                title: "Altitude"
+                get title() { return i18next.t('code.simulator.modules.altitude') }
             }],
             picture: "GPS.png",
             pictureAnimation: "GPS-animation.png",

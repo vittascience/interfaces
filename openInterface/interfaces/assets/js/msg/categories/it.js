@@ -29,6 +29,12 @@ Blockly.MESSAGES = {
     // For Esp32/Pico/Galaxia/M5Stack
     webPage_title: 'Server Esp32',
     buttonName: 'nome_del_pulsante',
+    htmlAddText: 'Aggiungi testo...',
+    htmlGaugeTitle: 'Temperatura (°C)',
+    htmlLinkText: 'Testo del link...',
+    htmlFormattedText: 'Testo formattato ...',
+    llmQuestion: 'Racconta una barzelletta breve',
+    llmPersonality: 'Sei un assistente gentile che risponde in una frase.',
     sliderName: 'nome_del_variatore',
     switchName: 'nome_del_switch',
     textInputName: 'nome_del_campo',
@@ -150,7 +156,7 @@ Blockly.Msg['SUBCATEGORY_SHORT_OTHER'] = 'Altri';
 Blockly.Msg['SUBCATEGORY_SHORT_BLUETOOTH'] = 'Bluetooth';
 Blockly.Msg['SUBCATEGORY_SHORT_DATA_LOGGING'] = 'Registrazione';
 Blockly.Msg['SUBCATEGORY_SHORT_INFRARED'] = 'Infrarossi';
-Blockly.Msg['SUBCATEGORY_SHORT_WIRELESS'] = 'Wireless';
+Blockly.Msg['SUBCATEGORY_SHORT_WIRELESS'] = 'Senza fili';
 Blockly.Msg['SUBCATEGORY_SHORT_TRACKING'] = 'Localizzazione';
 Blockly.Msg['SUBCATEGORY_SHORT_PYTHON_CODE'] = 'Codice Python';
 Blockly.Msg['SUBCATEGORY_SHORT_KITRONIK_ENV'] = 'Kitronik ambiente';
@@ -183,6 +189,9 @@ Blockly.Msg['SUBCATEGORY_SHORT_SENSORS'] = 'Sensori';
 Blockly.Msg['SUBCATEGORY_SHORT_CLIENT_SERVER'] = 'Client e server';
 Blockly.Msg['SUBCATEGORY_SHORT_SHAPES'] = 'Forme';
 Blockly.Msg['TOOLBOX_OPEN_MBOT_INTERFACE'] = "Apri l'interfaccia mBot";
+Blockly.Msg['MUSIC_CARIBBEAN_PIRATES'] = 'Pirati dei Caraibi';
+Blockly.Msg['BRICKS_LLM_TOOL_DESCRIPTION'] = 'accende la luce del soggiorno';
+Blockly.Msg['TOOLBOX_MBOT_MOVED_MESSAGE'] = "Per programmare il robot mBot, passa alla nuova interfaccia mBot nella sezione 'Programmare'";
 // Subcategories of Math, Text, Lists and Dictionaries
 Blockly.Msg["TOOLBOX_LABEL_CREATE"] = "Creare";
 Blockly.Msg["TOOLBOX_LABEL_SEARCH"] = "Cercare";
@@ -240,6 +249,7 @@ Blockly.Msg['SUBCATEGORY_MOVE_BY_SQUARES'] = 'Spostamenti per caselle';
 Blockly.Msg['SUBCATEGORY_MUSIC'] = 'Musica';
 Blockly.Msg['SUBCATEGORY_AUDIO'] = 'Audio';
 Blockly.Msg['SUBCATEGORY_MOSFET'] = 'MOSFET';
+Blockly.Msg['SUBCATEGORY_RELAY_MOSFET'] = 'Relè e MOSFET';
 Blockly.Msg['SUBCATEGORY_ACTUATORS_OTHER'] = 'Altri attuatori';
 Blockly.Msg['SUBCATEGORY_TB6612FNG_MOTOR_DRIVER'] = 'Driver per motore TB6612FNG';
 // ROBOTS
@@ -293,7 +303,7 @@ Blockly.Msg['SUBCATEGORY_PID'] = 'PID';
 Blockly.Msg['SUBCATEGORY_REMOTE_CONTROL'] = 'Telecomando a infrarossi';
 Blockly.Msg['SUBCATEGORY_MOTOR_PORT'] = 'Porta motore (M)';
 Blockly.Msg['SUBCATEGORY_KITROBOT'] = 'Kitro:bot v2';
-Blockly.Msg['SUBCATEGORY_CODO'] = 'Codo';
+Blockly.Msg['SUBCATEGORY_CODO'] = 'Codok';
 Blockly.Msg['SUBCATEGORY_OOBYBOT'] = 'Oobybot';
 Blockly.Msg['SUBCATEGORY_BUGGY'] = 'Buggy';
 Blockly.Msg['SUBCATEGORY_BITBOT'] = 'Bit:Bot';

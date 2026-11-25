@@ -29,6 +29,12 @@ Blockly.MESSAGES = {
     // For Esp32/Pico/Galaxia/M5Stack
     webPage_title: 'Servidor Esp32',
     buttonName: 'nombre_del_botón',
+    htmlAddText: 'Añadir texto...',
+    htmlGaugeTitle: 'Temperatura (°C)',
+    htmlLinkText: 'Texto del enlace...',
+    htmlFormattedText: 'Texto con formato ...',
+    llmQuestion: 'Cuenta un chiste corto',
+    llmPersonality: 'Eres un asistente amable que responde en una frase.',
     sliderName: 'nombre_del_variador',
     switchName: 'nombre_del_interruptor',
     textInputName: 'nombre_del_campo',
@@ -162,7 +168,7 @@ Blockly.Msg['SUBCATEGORY_SHORT_QR_CODES'] = 'Códigos QR';
 Blockly.Msg['SUBCATEGORY_SHORT_KEYWORD'] = 'Palabra clave';
 Blockly.Msg['SUBCATEGORY_SHORT_OBJECTS'] = 'Objetos';
 Blockly.Msg['SUBCATEGORY_SHORT_BUILTIN_MATRIX'] = 'Matriz integrada';
-Blockly.Msg['SUBCATEGORY_SHORT_MINI_MOTOR_I2C'] = 'Mini driver I2C';
+Blockly.Msg['SUBCATEGORY_SHORT_MINI_MOTOR_I2C'] = 'Controlador I2C mini';
 Blockly.Msg['SUBCATEGORY_SHORT_MOTOR_I2C'] = 'Driver de motor I2C';
 Blockly.Msg['SUBCATEGORY_SHORT_MOTOR_SHIELD'] = 'Shield de motor';
 Blockly.Msg['SUBCATEGORY_SHORT_ROUNDING'] = 'Redondeo';
@@ -182,6 +188,9 @@ Blockly.Msg['SUBCATEGORY_SHORT_SENSORS'] = 'Sensores';
 Blockly.Msg['SUBCATEGORY_SHORT_CLIENT_SERVER'] = 'Cliente y servidor';
 Blockly.Msg['SUBCATEGORY_SHORT_SHAPES'] = 'Formas';
 Blockly.Msg['TOOLBOX_OPEN_MBOT_INTERFACE'] = 'Abrir la interfaz mBot';
+Blockly.Msg['MUSIC_CARIBBEAN_PIRATES'] = 'Piratas del Caribe';
+Blockly.Msg['BRICKS_LLM_TOOL_DESCRIPTION'] = 'enciende la luz del salón';
+Blockly.Msg['TOOLBOX_MBOT_MOVED_MESSAGE'] = "Para programar el robot mBot, cambia a la nueva interfaz de mBot en la sección 'Programar'";
 // Subcategories of Math, Text, Lists and Dictionaries
 Blockly.Msg["TOOLBOX_LABEL_CREATE"] = "Crear";
 Blockly.Msg["TOOLBOX_LABEL_SEARCH"] = "Buscar";
@@ -239,6 +248,7 @@ Blockly.Msg['SUBCATEGORY_MOVE_BY_SQUARES'] = 'Movimiento por casillas';
 Blockly.Msg['SUBCATEGORY_MUSIC'] = 'Música';
 Blockly.Msg['SUBCATEGORY_AUDIO'] = 'Audio';
 Blockly.Msg['SUBCATEGORY_MOSFET'] = 'MOSFET';
+Blockly.Msg['SUBCATEGORY_RELAY_MOSFET'] = 'Relés y MOSFET';
 Blockly.Msg['SUBCATEGORY_ACTUATORS_OTHER'] = 'Otros actuadores';
 Blockly.Msg['SUBCATEGORY_TB6612FNG_MOTOR_DRIVER'] = 'Controlador de motor TB6612FNG';
 // ROBOTS
@@ -292,7 +302,7 @@ Blockly.Msg['SUBCATEGORY_PID'] = 'PID';
 Blockly.Msg['SUBCATEGORY_REMOTE_CONTROL'] = 'Mando a distancia por infrarrojos';
 Blockly.Msg['SUBCATEGORY_MOTOR_PORT'] = 'Puerto de motor (M)';
 Blockly.Msg['SUBCATEGORY_KITROBOT'] = 'Kitro:bot v2';
-Blockly.Msg['SUBCATEGORY_CODO'] = 'Codo';
+Blockly.Msg['SUBCATEGORY_CODO'] = 'Codok';
 Blockly.Msg['SUBCATEGORY_OOBYBOT'] = 'Oobybot';
 Blockly.Msg['SUBCATEGORY_BUGGY'] = 'Buggy';
 Blockly.Msg['SUBCATEGORY_BITBOT'] = 'Bit:Bot';

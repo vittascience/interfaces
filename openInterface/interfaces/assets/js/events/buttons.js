@@ -389,7 +389,7 @@ if (INTERFACE_NAME !== "adacraft") {
             ></button>
         </div>
     `;
-    const downloadOptionInterfaces = ["arduino", "microbit", "esp32", "wb55", "l476", "galaxia", "GalaxiaCircuitPython", "mBot", "m5stack", "buddy", "cyberpi", "letsstartcoding", "pico", "eliobot", "thymio", "raspberrypi", "winky", "niryo", "nao", "sphero", "legoprime", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai", "arduinoq", "primastem", "skykick", "unihiker", "picaxe"];
+    const downloadOptionInterfaces = ["arduino", "microbit", "esp32", "wb55", "l476", "galaxia", "GalaxiaCircuitPython", "mBot", "m5stack", "buddy", "cyberpi", "letsstartcoding", "pico", "eliobot", "thymio", "raspberrypi", "winky", "niryo", "nao", "sphero", "legoprime", "lotibot", "bluebot", "spike", "photon", "codey", "steami", "alphai", "arduinoq", "primastem", "matatalab", "skykick", "unihiker", "picaxe"];
     if (downloadOptionInterfaces.includes(INTERFACE_NAME)) {
         $('.ide-btn-group-download').append(dropdownHeaderDownload);
 
@@ -968,7 +968,7 @@ sur l'interface ${link}\n\n`;
         name = 'main';
     } else {
         const d = new Date();
-        const date = ["_", d.getFullYear(), d.getMonth(), d.getDate(), "_", d.getHours(), d.getMinutes(), d.getSeconds()];
+        const date = ["_", d.getFullYear(), String(d.getMonth() + 1).padStart(2, '0'), String(d.getDate()).padStart(2, '0'), "_", String(d.getHours()).padStart(2, '0'), String(d.getMinutes()).padStart(2, '0'), String(d.getSeconds()).padStart(2, '0')];
         for (i in date) {
             name += date[i].toString();
         }
@@ -1118,7 +1118,7 @@ function saveWebProjectToComputer(downloadingProject = false, saveForLTI = false
             }
 
             var d = new Date();
-            const date = ["_", d.getFullYear(), d.getMonth(), d.getDate(), "_", d.getHours(), d.getMinutes(), d.getSeconds()];
+            const date = ["_", d.getFullYear(), String(d.getMonth() + 1).padStart(2, '0'), String(d.getDate()).padStart(2, '0'), "_", String(d.getHours()).padStart(2, '0'), String(d.getMinutes()).padStart(2, '0'), String(d.getSeconds()).padStart(2, '0')];
             for (i in date) {
                 name += date[i].toString();
             }
@@ -1219,7 +1219,7 @@ function toggleToolbox() {
 /* Function action on ide */
 
 function undoAction() {
-    if (Main.getCodingMode() == "mixed" || Main.getCodingMode() == "block") {
+    if (Main.getCodingMode() === MODE_MIXED || Main.getCodingMode() === MODE_BLOCKS) {
         Main.undo(false);
     } else {
         Main.undoCodeMode(true);
@@ -1227,7 +1227,7 @@ function undoAction() {
 }
 
 function redoAction() {
-    if (Main.getCodingMode() == "mixed" || Main.getCodingMode() == "block") {
+    if (Main.getCodingMode() === MODE_MIXED || Main.getCodingMode() === MODE_BLOCKS) {
         Main.undo(true);
     } else {
         Main.undoCodeMode(false);
@@ -1236,7 +1236,19 @@ function redoAction() {
 
 /* Functions for switching mode */
 
+/**
+ * Interfaces without code-to-blocks translation (e.g. arduinoq): leaving code mode after a manual
+ * edit would silently replace that code by the blocks code. Asks first; false = stay in code mode.
+ * @returns {boolean}
+ */
+function confirmLeavingUntranslatableCode() {
+    if (Main.getCodeMode() !== MODE_CODE || INTERFACE_NAME === 'python' || Main.hasCpp2Blocks() || Main.hasPython2Blocks()) return true;
+    if (!Main.getIsXmlBasedInterface() || !CodeManager.getSharedInstance().codeWasManuallyModified) return true;
+    return window.confirm(jsonPath('code.noCodeToBlocksWarning'));
+}
+
 async function switchBlockMode(animation = true) {
+    if (!confirmLeavingUntranslatableCode()) return;
     if (typeof projectManager !== 'undefined' && projectManager) projectManager.multiSwitchBlockMode();
     const previousToolbox = Blockly.Constants.getToolboxStyle();
     const previousCodeMode = Main.getCodeMode();
@@ -1306,6 +1318,7 @@ async function switchBlockMode(animation = true) {
 }
 
 async function switchMixedMode(animation = true) {
+    if (!confirmLeavingUntranslatableCode()) return;
     if (typeof projectManager !== 'undefined' && projectManager) projectManager.multiSwitchMixedMode();
     const previousToolbox = Blockly.Constants.getToolboxStyle();
     const previousCodeMode = Main.getCodeMode();
@@ -2240,7 +2253,7 @@ async function toggleSimulator() {
                 }
             }, 'fast');
         }
-        $("#run_simulator").removeClass("mode-selected");
+        $("#run_simulator").removeClass("mode-selected").attr("aria-pressed", "false");
         $('.ide-simulator').animate({ width: '0px' },
             {
                 complete: function () {
@@ -2295,7 +2308,7 @@ async function toggleSimulator() {
         }
 
         InterfaceMonitor.writeConsole('code.simulator.messages.start', 'neutral');
-        $("#run_simulator").addClass("mode-selected");
+        $("#run_simulator").addClass("mode-selected").attr("aria-pressed", "true");
         let ideSimulatorWidth = '100%';
         const multiIframeElt = document.querySelector('#multi-iframe-wrapper');
         if (multiIframeElt) {

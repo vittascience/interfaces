@@ -271,8 +271,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /(on_us_detect_obstacle\(\s*.*,\s*.*,\s*("|')(Left)("|')\s*\)|get_distance_us\(\s*("|')(Left)("|')\s*\))/gi,
             id: "buddy-ultrasonic-left",
-            title: "Ultrason - Distance (mm)",
-            pin: 'Capteur gauche',
+            get title() { return i18next.t('code.simulator.modules.ultrasonicMm') },
+            get pin() { return i18next.t('code.simulator.modules.pinLeftSensor') },
             type: 'input',
             listeners: [{
                 default: 0,
@@ -291,8 +291,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /(on_us_detect_obstacle\(\s*.*,\s*.*,\s*("|')(Right)("|')\s*\)|get_distance_us\(\s*("|')(Right)("|')\s*\))/gi,
             id: "buddy-ultrasonic-right",
-            title: "Ultrason - Distance (mm)",
-            pin: 'Capteur droit',
+            get title() { return i18next.t('code.simulator.modules.ultrasonicMm') },
+            get pin() { return i18next.t('code.simulator.modules.pinRightSensor') },
             type: 'input',
             listeners: [{
                 default: 0,
@@ -311,8 +311,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /(on_tf_detect_obstacle\(\s*.*,\s*.*,\s*("|')(FrontLeft)("|')\s*\)|get_distance_tf\(\s*("|')(FrontLeft)("|')\s*\))/gi,
             id: "buddy-tof-front-left",
-            title: "Time Of Flight - Distance (mm)",
-            pin: 'Capteur avant droit',
+            get title() { return i18next.t('code.simulator.modules.tofMm') },
+            get pin() { return i18next.t('code.simulator.modules.pinFrontRightSensor') },
             type: 'input',
             listeners: [{
                 default: 0,
@@ -331,8 +331,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /(on_tf_detect_obstacle\(\s*.*,\s*.*,\s*("|')(FrontRight)("|')\s*\)|get_distance_tf\(\s*("|')(FrontRight)("|')\s*\))/gi,
             id: "buddy-tof-front-right",
-            title: "Time Of Flight - Distance (mm)",
-            pin: 'Capteur avant droit',
+            get title() { return i18next.t('code.simulator.modules.tofMm') },
+            get pin() { return i18next.t('code.simulator.modules.pinFrontRightSensor') },
             type: 'input',
             listeners: [{
                 default: 0,
@@ -351,8 +351,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /(on_tf_detect_obstacle\(\s*.*,\s*.*,\s*("|')(FrontMiddle)("|')\s*\)|get_distance_tf\(\s*("|')(FrontMiddle)("|')\s*\))/gi,
             id: "buddy-tof-middle",
-            title: "Time Of Flight - Distance (mm)",
-            pin: 'Capteur du milieu',
+            get title() { return i18next.t('code.simulator.modules.tofMm') },
+            get pin() { return i18next.t('code.simulator.modules.pinMiddleSensor') },
             type: 'input',
             listeners: [{
                 default: 0,
@@ -371,8 +371,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /(on_tf_detect_obstacle\(\s*.*,\s*.*,\s*("|')(Back)("|')\s*\)|get_distance_tf\(\s*("|')(Back)("|')\s*\))/gi,
             id: "buddy-tof-back",
-            title: "Time Of Flight - Distance (mm)",
-            pin: 'Capteur sur le dos',
+            get title() { return i18next.t('code.simulator.modules.tofMm') },
+            get pin() { return i18next.t('code.simulator.modules.pinBackSensor') },
             type: 'input',
             listeners: [{
                 default: 0,
@@ -392,7 +392,7 @@ Simulator.Mosaic.specific = {
             regex: /getBatteryLevel()/gi,
             id: "buddy-battery",
             title: "Buddy",
-            pin: 'Niveau de la batterie',
+            get pin() { return i18next.t('code.simulator.modules.batteryLevel') },
             type: 'input',
             listeners: [{
                 default: 10,
@@ -420,8 +420,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /getAmbiantSound()/gi,
             id: "buddy-get-sound",
-            title: "Capteur de son",
-            pin: 'Niveau sonore',
+            get title() { return i18next.t('code.simulator.modules.groveSound') },
+            get pin() { return i18next.t('code.simulator.modules.pinSoundLevel') },
             type: 'input',
             listeners: [{
                 default: 60,
@@ -439,8 +439,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /getSoundLocalisation\(\)/gi,
             id: "buddy-sound-localisation",
-            title: "Capteur de son",
-            pin: 'Position en degrès',
+            get title() { return i18next.t('code.simulator.modules.groveSound') },
+            get pin() { return i18next.t('code.simulator.modules.pinPosition') },
             type: 'input',
             listeners: [{
                 default: Math.round(360 / 2),
@@ -458,8 +458,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /getTriggerScore\(\)/gi,
             id: "buddy-sound-trigger-score",
-            title: "Capteur de son",
-            pin: 'Score de prononciation',
+            get title() { return i18next.t('code.simulator.modules.groveSound') },
+            get pin() { return i18next.t('code.simulator.modules.pinPronunciation') },
             type: 'input',
             listeners: [{
                 default: 0,
@@ -476,8 +476,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /BodyIMU\(\).getAccX\(\)/gi,
             id: "buddy-body-getAccX",
-            title: "Corps - Accéléromètre",
-            pin: 'Axe X',
+            get title() { return i18next.t('code.simulator.modules.bodyAccelerometer') },
+            get pin() { return i18next.t('code.simulator.modules.axis', { axis: 'X' }) },
             type: 'input',
             listeners: [{
                 default: 1,
@@ -496,8 +496,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /BodyIMU\(\).getAccY\(\)/gi,
             id: "buddy-body-getAccY",
-            title: "Corps - Accéléromètre",
-            pin: 'Axe Y',
+            get title() { return i18next.t('code.simulator.modules.bodyAccelerometer') },
+            get pin() { return i18next.t('code.simulator.modules.axis', { axis: 'Y' }) },
             type: 'input',
             listeners: [{
                 default: 1,
@@ -516,8 +516,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /BodyIMU\(\).getAccZ\(\)/gi,
             id: "buddy-body-getAccZ",
-            title: "Corps - Accéléromètre",
-            pin: 'Axe Z',
+            get title() { return i18next.t('code.simulator.modules.bodyAccelerometer') },
+            get pin() { return i18next.t('code.simulator.modules.axis', { axis: 'Z' }) },
             type: 'input',
             listeners: [{
                 default: 1,
@@ -536,8 +536,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /HeadIMU\(\).getAccX\(\)/gi,
             id: "buddy-head-getAccX",
-            title: "Tête - Accéléromètre",
-            pin: 'Axe X',
+            get title() { return i18next.t('code.simulator.modules.headAccelerometer') },
+            get pin() { return i18next.t('code.simulator.modules.axis', { axis: 'X' }) },
             type: 'input',
             listeners: [{
                 default: 1,
@@ -556,8 +556,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /HeadIMU\(\).getAccY\(\)/gi,
             id: "buddy-head-getAccY",
-            title: "Tête - Accéléromètre",
-            pin: 'Axe Y',
+            get title() { return i18next.t('code.simulator.modules.headAccelerometer') },
+            get pin() { return i18next.t('code.simulator.modules.axis', { axis: 'Y' }) },
             type: 'input',
             listeners: [{
                 default: 1,
@@ -576,8 +576,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /HeadIMU\(\).getAccZ\(\)/gi,
             id: "buddy-head-getAccZ",
-            title: "Tête - Accéléromètre",
-            pin: 'Axe Z',
+            get title() { return i18next.t('code.simulator.modules.headAccelerometer') },
+            get pin() { return i18next.t('code.simulator.modules.axis', { axis: 'Z' }) },
             type: 'input',
             listeners: [{
                 default: 1,
@@ -596,8 +596,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /BodyIMU\(\).getGyrX\(\)/gi,
             id: "buddy-body-getGyrX",
-            title: "Corps - Vitesse angulaire",
-            pin: 'Axe X',
+            get title() { return i18next.t('code.simulator.modules.bodyAngularSpeed') },
+            get pin() { return i18next.t('code.simulator.modules.axis', { axis: 'X' }) },
             type: 'input',
             listeners: [{
                 default: 0,
@@ -615,8 +615,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /BodyIMU\(\).getGyrY\(\)/gi,
             id: "buddy-body-getGyrY",
-            title: "Corps - Vitesse angulaire",
-            pin: 'Axe Y',
+            get title() { return i18next.t('code.simulator.modules.bodyAngularSpeed') },
+            get pin() { return i18next.t('code.simulator.modules.axis', { axis: 'Y' }) },
             type: 'input',
             listeners: [{
                 default: 0,
@@ -634,8 +634,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /BodyIMU\(\).getGyrZ\(\)/gi,
             id: "buddy-body-getGyrZ",
-            title: "Corps - Vitesse angulaire",
-            pin: 'Axe Z',
+            get title() { return i18next.t('code.simulator.modules.bodyAngularSpeed') },
+            get pin() { return i18next.t('code.simulator.modules.axis', { axis: 'Z' }) },
             type: 'input',
             listeners: [{
                 default: 0,
@@ -653,8 +653,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /HeadIMU\(\).getGyrX\(\)/gi,
             id: "buddy-head-getGyrX",
-            title: "Tête - Vitesse angulaire",
-            pin: 'Axe X',
+            get title() { return i18next.t('code.simulator.modules.headAngularSpeed') },
+            get pin() { return i18next.t('code.simulator.modules.axis', { axis: 'X' }) },
             type: 'input',
             listeners: [{
                 default: 0,
@@ -672,8 +672,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /HeadIMU\(\).getGyrY\(\)/gi,
             id: "buddy-head-getGyrY",
-            title: "Tête - Vitesse angulaire",
-            pin: 'Axe Y',
+            get title() { return i18next.t('code.simulator.modules.headAngularSpeed') },
+            get pin() { return i18next.t('code.simulator.modules.axis', { axis: 'Y' }) },
             type: 'input',
             listeners: [{
                 default: 0,
@@ -691,8 +691,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /HeadIMU\(\).getGyrZ\(\)/gi,
             id: "buddy-head-getGyrZ",
-            title: "Tête - Vitesse angulaire",
-            pin: 'Axe Z',
+            get title() { return i18next.t('code.simulator.modules.headAngularSpeed') },
+            get pin() { return i18next.t('code.simulator.modules.axis', { axis: 'Z' }) },
             type: 'input',
             listeners: [{
                 default: 0,
@@ -710,8 +710,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /HeadTouchSensors\(\).Top\(\).isTouched\(\)/gi,
             id: "buddy-headTouchSensors-top",
-            title: "Capteur tactile tête",
-            pin: 'Zone : haut',
+            get title() { return i18next.t('code.simulator.modules.headTouchSensor') },
+            get pin() { return i18next.t('code.simulator.modules.pinZoneTop') },
             type: 'input',
             listeners: [{
                 default: "OFF",
@@ -731,8 +731,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /HeadTouchSensors\(\).Left\(\).isTouched\(\)/gi,
             id: "buddy-headTouchSensors-left",
-            title: "Capteur tactile tête",
-            pin: 'Zone : gauche',
+            get title() { return i18next.t('code.simulator.modules.headTouchSensor') },
+            get pin() { return i18next.t('code.simulator.modules.pinZoneLeft') },
             type: 'input',
             listeners: [{
                 default: "OFF",
@@ -752,8 +752,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /HeadTouchSensors\(\).Right\(\).isTouched\(\)/gi,
             id: "buddy-headTouchSensors-right",
-            title: "Capteur tactile tête",
-            pin: 'Zone : droite',
+            get title() { return i18next.t('code.simulator.modules.headTouchSensor') },
+            get pin() { return i18next.t('code.simulator.modules.pinZoneRight') },
             type: 'input',
             listeners: [{
                 default: "OFF",
@@ -773,8 +773,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /BodyTouchSensors\(\).Torso\(\).isTouched\(\)/gi,
             id: "buddy-bodyTouchSensors-torso",
-            title: "Capteur tactile corps",
-            pin: 'Zone : torse',
+            get title() { return i18next.t('code.simulator.modules.bodyTouchSensor') },
+            get pin() { return i18next.t('code.simulator.modules.pinZoneChest') },
             type: 'input',
             listeners: [{
                 default: "OFF",
@@ -794,8 +794,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /BodyTouchSensors\(\).LeftShoulder\(\).isTouched\(\)/gi,
             id: "buddy-bodyTouchSensors-leftShoulder",
-            title: "Capteur tactile corps",
-            pin: 'Zone : épaule gauche',
+            get title() { return i18next.t('code.simulator.modules.bodyTouchSensor') },
+            get pin() { return i18next.t('code.simulator.modules.pinZoneLeftShoulder') },
             type: 'input',
             listeners: [{
                 default: "OFF",
@@ -815,8 +815,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /BodyTouchSensors\(\).RightShoulder\(\).isTouched\(\)/gi,
             id: "buddy-bodyTouchSensors-rightShoulder",
-            title: "Capteur tactile corps",
-            pin: 'Zone : épaule droite',
+            get title() { return i18next.t('code.simulator.modules.bodyTouchSensor') },
+            get pin() { return i18next.t('code.simulator.modules.pinZoneRightShoulder') },
             type: 'input',
             listeners: [{
                 default: "OFF",
@@ -837,7 +837,7 @@ Simulator.Mosaic.specific = {
             regex: /isCharging\(\)/gi,
             id: "buddy-battery-isCharging",
             title: "Buddy",
-            pin: 'Charge de la batterie',
+            get pin() { return i18next.t('code.simulator.modules.pinBatteryCharge') },
             type: 'input',
             listeners: [{
                 default: "OFF",
@@ -862,8 +862,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /(moveBuddy|rotateBuddy)\(/gi,
             id: "buddy-motorLeft",
-            title: "Moteur",
-            pin: 'Gauche',
+            get title() { return i18next.t('code.simulator.modules.motor') },
+            get pin() { return i18next.t('code.simulator.modules.pinLeft') },
             type: 'output',
             value: "",
             picture: "Roue.png",
@@ -873,8 +873,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /(moveBuddy|rotateBuddy)\(/gi,
             id: "buddy-motorRight",
-            title: "Moteur",
-            pin: 'Droit',
+            get title() { return i18next.t('code.simulator.modules.motor') },
+            get pin() { return i18next.t('code.simulator.modules.pinRight') },
             type: 'output',
             value: "",
             picture: "Roue.png",
@@ -884,8 +884,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /ColorDetect\(\)/gi,
             id: "buddy-colorDetect",
-            title: "Détection",
-            pin: 'Couleur dominante',
+            get title() { return i18next.t('code.simulator.modules.detection') },
+            get pin() { return i18next.t('code.simulator.modules.pinDominantColor') },
             type: 'input',
             value: "",
             getBodyInjection: function () {
@@ -935,8 +935,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /isSpeaking\(\)/gi,
             id: "buddy-isSpeaking",
-            title: "Voix",
-            pin: 'Est en train de parler',
+            get title() { return i18next.t('code.simulator.modules.voice') },
+            get pin() { return i18next.t('code.simulator.modules.pinSpeaking') },
             type: 'input',
             listeners: [{
                 default: "OFF",
@@ -964,7 +964,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /startSpeaking\(/gi,
             id: "buddy-startSpeaking",
-            title: "Voix",
+            get title() { return i18next.t('code.simulator.modules.voice') },
             pin: '',
             type: 'output',
             value: "",
@@ -974,7 +974,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(Camera|Frame|Detection|Markers|detectFaces|detectPerson|Detect|Thres|Tracking)\(/gi,
             id: "buddy-camera",
-            title: "Caméra",
+            get title() { return i18next.t('code.simulator.modules.camera') },
             pin: 'OFF',
             type: 'output',
             value: "",

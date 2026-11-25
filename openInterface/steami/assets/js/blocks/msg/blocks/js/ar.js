@@ -4,37 +4,6 @@
 'use strict';
 
 // Display - STeaMi OLED (128x128)
-Blockly.Msg['DISPLAY_STEAMI_OLED_ADDTEXT_TITLE'] = '[Ecran] afficher le texte %1 à la position x %2 y %3';
-Blockly.Msg['DISPLAY_STEAMI_OLED_ADDTEXT_TOOLTIP'] = 'Permet d\'écrire du texte sur un l\'écran OLED de la carte STeaMi de taille 128x128.';
-Blockly.Msg['DISPLAY_STEAMI_OLED_SETPIXEL_TITLE'] = '[Ecran] contrôler le pixel x %1 y %2 état %3';
-Blockly.Msg['DISPLAY_STEAMI_OLED_SETPIXEL_TOOLTIP'] = 'Permet de contrôler chaque pixel de l\'écran OLED de la carte STeaMi de taille 128x128.';
-Blockly.Msg['DISPLAY_STEAMI_OLED_DRAWLINE_TITLE'] = '[Ecran] dessiner une ligne de (%1, %2) à (%3, %4)';
-Blockly.Msg['DISPLAY_STEAMI_OLED_DRAWLINE_TOOLTIP'] = 'Permet de dessiner une ligne entre deux points de l\'écran OLED de la carte STeaMi de taille 128x128.';
-Blockly.Msg['DISPLAY_STEAMI_OLED_SETBACKGROUND_TITLE'] = '[Ecran] définir le fond en %1';
-Blockly.Msg['DISPLAY_STEAMI_OLED_WHITE'] = 'blanc';
-Blockly.Msg['DISPLAY_STEAMI_OLED_BLACK'] = 'noir';
-Blockly.Msg['DISPLAY_STEAMI_OLED_SETBACKGROUND_TOOLTIP'] = 'Permet d\'inverser le rétroélcairage de l\'écran.';
-Blockly.Msg['DISPLAY_STEAMI_OLED_CLEARSCREEN_TITLE'] = '[Ecran] effacer l\'écran';
-Blockly.Msg['DISPLAY_STEAMI_OLED_CLEARSCREEN_TOOLTIP'] = 'Permet d\'effacer le contenu de l\'écran OLED.';
-Blockly.Msg['DISPLAY_STEAMI_OLED_DRAWICON_TITLE'] = '[Ecran] afficher l\'icône %1 position x %2 y %3';
-Blockly.Msg['DISPLAY_STEAMI_OLED_DRAWICON_TOOLTIP'] = 'Permet d\'afficher une icône de la librairie Image de STM32, à la position (x,y) sur l\'écran grove OLED. Brancher l\'afficheur sur un port I2C.';
-// Input/Output - STeaMi Buttons
-Blockly.Msg['IO_STEAMI_ONSWITCHBUTTONPRESSED_TITLE'] = 'si le bouton %1 %2 alors';
-Blockly.Msg['IO_STEAMI_ONSWITCHBUTTONPRESSED_TOOLTIP'] = 'Permet d\'exécuter des instructions selon l\'état des boutons intégrés à la carte STeaMi (A, B, Menu, Up, Down, Left, Right).';
-// Sensors - STeaMi APDS9960 - Ambient Light / Proximity / Gesture
-Blockly.Msg["SENSORS_STEAMI_APDS9960_READ_DATA_TITLE"] = "[APDS9960] %1";
-Blockly.Msg["SENSORS_STEAMI_APDS9960_READ_DATA_TOOLTIP"] = "Retourne le niveau de lumière ambiante (en lux), la distance mesurée (maximum 100 mm) ou le geste détecté (left, right, up, down, near, far ou 'unknown' si aucun geste n'est détecté) par le capteur APDS9960";
-Blockly.Msg["SENSORS_STEAMI_APDS9960_AMBIENTLIGHT"] = "lumière ambiante";
-Blockly.Msg["SENSORS_STEAMI_APDS9960_PROXIMITY"] = "distance";
-Blockly.Msg["SENSORS_STEAMI_APDS9960_GESTURE"] = "geste";
-// Sensors - STeaMi HTS221 - Read Data
-Blockly.Msg["SENSORS_STEAMI_HTS221_READDATA_TITLE"] = "[HTS221] %1";
-Blockly.Msg["SENSORS_STEAMI_HTS221_TEMPERATURE"] = "température";
-Blockly.Msg["SENSORS_STEAMI_HTS221_HUMIDITY"] = "humidité";
-Blockly.Msg["SENSORS_STEAMI_HTS221_READDATA_TOOLTIP"] = "Retourne les données du capteur HTS221 (température en °C ou humidité en %)";
-// Sensors - STeaMi VL53L1X - Read Distance
-Blockly.Msg["SENSORS_STEAMI_VL53L1X_READ_TITLE"] = "[VL53L1X] distance (%1)";
-Blockly.Msg["SENSORS_STEAMI_VL53L1X_READ_TOOLTIP"] = "Retourne la distance mesurée par le capteur VL53L1X en millimètres, centimètres ou mètres";
 Blockly.Msg['DISPLAY_STEAMI_OLED_ADDTEXT_TITLE'] = '[الشاشة] عرض النص %1 عند الموضع x %2 y %3';
 Blockly.Msg['DISPLAY_STEAMI_OLED_ADDTEXT_TOOLTIP'] = 'يتيح كتابة نص على شاشة OLED لبطاقة STeaMi بحجم 128x128.';
 Blockly.Msg['DISPLAY_STEAMI_OLED_SETPIXEL_TITLE'] = '[الشاشة] التحكم في البكسل x %1 y %2 الحالة %3';
@@ -49,17 +18,21 @@ Blockly.Msg['DISPLAY_STEAMI_OLED_CLEARSCREEN_TITLE'] = '[الشاشة] مسح ا
 Blockly.Msg['DISPLAY_STEAMI_OLED_CLEARSCREEN_TOOLTIP'] = 'يتيح مسح محتوى شاشة OLED.';
 Blockly.Msg['DISPLAY_STEAMI_OLED_DRAWICON_TITLE'] = '[الشاشة] عرض أيقونة %1 عند الموضع x %2 y %3';
 Blockly.Msg['DISPLAY_STEAMI_OLED_DRAWICON_TOOLTIP'] = 'يتيح عرض أيقونة من مكتبة الصور لـ STM32 عند الموضع (x,y) على شاشة grove OLED. وصل الشاشة إلى منفذ I2C.';
+// Input/Output - STeaMi Buttons
 Blockly.Msg['IO_STEAMI_ONSWITCHBUTTONPRESSED_TITLE'] = 'إذا كان الزر %1 %2 ف';
 Blockly.Msg['IO_STEAMI_ONSWITCHBUTTONPRESSED_TOOLTIP'] = 'يتيح تنفيذ تعليمات حسب حالة أزرار بطاقة STeaMi المدمجة (A, B, Menu, Up, Down, Left, Right).';
+// Sensors - STeaMi APDS9960 - Ambient Light / Proximity / Gesture
 Blockly.Msg["SENSORS_STEAMI_APDS9960_READ_DATA_TITLE"] = "[APDS9960] %1";
 Blockly.Msg["SENSORS_STEAMI_APDS9960_READ_DATA_TOOLTIP"] = "يعيد مستوى الإضاءة المحيطة (باللوكس)، المسافة المقاسة (بحد أقصى 100 مم) أو الإيماءة المكتشفة (left, right, up, down, near, far أو 'unknown' إذا لم يتم اكتشاف أي إيماءة) بواسطة المستشعر APDS9960";
 Blockly.Msg["SENSORS_STEAMI_APDS9960_AMBIENTLIGHT"] = "الإضاءة المحيطة";
 Blockly.Msg["SENSORS_STEAMI_APDS9960_PROXIMITY"] = "المسافة";
 Blockly.Msg["SENSORS_STEAMI_APDS9960_GESTURE"] = "إيماءة";
+// Sensors - STeaMi HTS221 - Read Data
 Blockly.Msg["SENSORS_STEAMI_HTS221_READDATA_TITLE"] = "[HTS221] %1";
 Blockly.Msg["SENSORS_STEAMI_HTS221_TEMPERATURE"] = "درجة الحرارة";
 Blockly.Msg["SENSORS_STEAMI_HTS221_HUMIDITY"] = "الرطوبة";
 Blockly.Msg["SENSORS_STEAMI_HTS221_READDATA_TOOLTIP"] = "يعيد بيانات المستشعر HTS221 (درجة الحرارة بالـ°C أو الرطوبة بالنسبة المئوية %)";
+// Sensors - STeaMi VL53L1X - Read Distance
 Blockly.Msg["SENSORS_STEAMI_VL53L1X_READ_TITLE"] = "[VL53L1X] المسافة (%1)";
 Blockly.Msg["SENSORS_STEAMI_VL53L1X_READ_TOOLTIP"] = "يعيد المسافة المقاسة بواسطة المستشعر VL53L1X بالملليمترات أو السنتيمترات أو الأمتار";
 Blockly.Msg["SENSORS_STEAMI_BQ27441_READDATA_TITLE"] = "[BQ27441] %1";
@@ -162,3 +135,46 @@ Blockly.Msg['COMMUNICATION_LOG_ADDDATA_TITLE'] = '[السجل] إضافة بيا
 Blockly.Msg['COMMUNICATION_LOG_ADDDATA_TOOLTIP'] = 'يسمح بإضافة بيانات إلى عمود بيانات السجل. يمكن أن تكون البيانات نصًا أو رقمًا.';
 Blockly.Msg['COMMUNICATION_LOG_DELETE_TITLE'] = '[السجل] حذف السجلات';
 Blockly.Msg['COMMUNICATION_LOG_DELETE_TOOLTIP'] = 'يسمح بحذف جميع السجلات المحفوظة.';
+Blockly.Msg['DISPLAY_STEAMI_OLED_ADDTEXT_KEYWORDS'] = 'OLED، نص، عرض';
+Blockly.Msg['DISPLAY_STEAMI_OLED_SETPIXEL_KEYWORDS'] = 'OLED، بكسل، ضوء';
+Blockly.Msg['DISPLAY_STEAMI_OLED_DRAWLINE_KEYWORDS'] = 'OLED، خط، رسم';
+Blockly.Msg['DISPLAY_STEAMI_OLED_SETBACKGROUND_KEYWORDS'] = 'OLED، خلفية، لون';
+Blockly.Msg['DISPLAY_STEAMI_OLED_CLEARSCREEN_KEYWORDS'] = 'OLED، شاشة، مسح';
+Blockly.Msg['DISPLAY_STEAMI_OLED_DRAWICON_KEYWORDS'] = 'OLED، أيقونة، عرض';
+Blockly.Msg['IO_STEAMI_ONSWITCHBUTTONPRESSED_KEYWORDS'] = 'مفتاح، ضغط، حدث';
+Blockly.Msg["SENSORS_STEAMI_APDS9960_READ_DATA_KEYWORDS"] = "سطوع، قرب";
+Blockly.Msg["SENSORS_STEAMI_HTS221_READDATA_KEYWORDS"] = "مقياس الرطوبة، مقياس الحرارة، رطوبة";
+Blockly.Msg["SENSORS_STEAMI_VL53L1X_READ_KEYWORDS"] = "جهاز قياس المسافة، عقبة";
+Blockly.Msg["SENSORS_STEAMI_BQ27441_READDATA_KEYWORDS"] = "شحن، وقت التشغيل، طاقة";
+Blockly.Msg["SENSORS_STEAMI_WSEN_HIDS_READDATA_KEYWORDS"] = "مقياس الرطوبة، مقياس الحرارة، رطوبة";
+Blockly.Msg["SENSORS_STEAMI_WSEN_PADS_READDATA_KEYWORDS"] = "بارومتر";
+Blockly.Msg["SENSORS_STEAMI_LIS2MDL_READDATA_KEYWORDS"] = "مقياس المغناطيسية";
+Blockly.Msg["SENSORS_STEAMI_ISM330DL_READDATA_KEYWORDS"] = "مقياس التسارع، جيروسكوب، دوران";
+Blockly.Msg['ROBOTS_DONUTBOT_ULTRASONICRANGER_KEYWORDS'] = 'سونار، عقبة، مدى';
+Blockly.Msg['ROBOTS_DONUTBOT_LINE_DETECTOR_KEYWORDS'] = 'تتبع، اتبع، مسار';
+Blockly.Msg['ROBOTS_DONUTBOT_LINE_DETECTOR_FUNCTION_KEYWORDS'] = 'تتبع، مسار';
+Blockly.Msg['ROBOTS_DONUTBOT_LINE_DETECTOR_THRESHOLD_KEYWORDS'] = 'تتبع، اتبع، مسار';
+Blockly.Msg['ROBOTS_DONUTBOT_COLOR_DETECTOR_KEYWORDS'] = 'لون، مستشعر، كشف';
+Blockly.Msg['ROBOTS_DONUTBOT_COLOR_DETECTOR_AVERAGE_KEYWORDS'] = 'لون، متوسط، قياس';
+Blockly.Msg['ROBOTS_DONUTBOT_COLOR_DETECTOR_NAME_KEYWORDS'] = 'لون، اسم، تحديد';
+Blockly.Msg['ROBOTS_DONUTBOT_DISTANCE_KEYWORDS'] = 'عقبة، مدى، قرب';
+Blockly.Msg['ROBOTS_DONUTBOT_GO_KEYWORDS'] = 'تحرك، سفر';
+Blockly.Msg['ROBOTS_DONUTBOT_TURNTO_KEYWORDS'] = 'تناوب، دوران';
+Blockly.Msg['ROBOTS_DONUTBOT_CONTROLMOTOR_KEYWORDS'] = 'قم بالسير، دوران';
+Blockly.Msg['ROBOTS_DONUTBOT_MOVE_ONE_SQUARE_FORWARD_KEYWORDS'] = 'تقدم، سير';
+Blockly.Msg['ROBOTS_DONUTBOT_MOVE_ONE_SQUARE_BACKWARD_KEYWORDS'] = 'عكس';
+Blockly.Msg['ROBOTS_DONUTBOT_TURN_LEFT_KEYWORDS'] = 'التدوير، تناوب، دوران';
+Blockly.Msg['ROBOTS_DONUTBOT_TURN_RIGHT_KEYWORDS'] = 'التدوير، تناوب، دوران';
+Blockly.Msg['ROBOTS_DONUTBOT_STOPMOTORS_KEYWORDS'] = 'وقف';
+Blockly.Msg['ROBOTS_DONUTBOT_RELEASEMOTORS_KEYWORDS'] = 'إطلاق، فصل';
+Blockly.Msg['ROBOTS_DONUTBOT_NEOPIXEL_SETCOLOR_KEYWORDS'] = 'LED، لون، تعيين';
+Blockly.Msg['ROBOTS_DONUTBOT_NEOPIXEL_SETPALETTECOLOR_KEYWORDS'] = 'LED، لون، لوحة ألوان';
+Blockly.Msg['ROBOTS_DONUTBOT_BLINK_ROBOT_KEYWORDS'] = 'روبوت، يومض، LED';
+Blockly.Msg['ROBOTS_DONUTBOT_NEOPIXEL_SETRAINBOW_KEYWORDS'] = 'LED، قوس قزح، لون';
+Blockly.Msg['ROBOTS_DONUTBOT_BUTTONS_ONPRESSED_KEYWORDS'] = 'اضغط';
+Blockly.Msg['ROBOTS_DONUTBOT_BLE_SEND_DATA_KEYWORDS'] = 'إرسال، رسالة';
+Blockly.Msg['ROBOTS_DONUTBOT_BLE_READ_DATA_KEYWORDS'] = 'استقبال، رسالة';
+Blockly.Msg['ROBOTS_DONUTBOT_TURNTO_ANGLE_KEYWORDS'] = 'التدوير، تناوب، دوران';
+Blockly.Msg['COMMUNICATION_LOG_SETLABEL_KEYWORDS'] = 'اسم';
+Blockly.Msg['COMMUNICATION_LOG_ADDDATA_KEYWORDS'] = 'سجل';
+Blockly.Msg['COMMUNICATION_LOG_DELETE_KEYWORDS'] = 'سجل، بيانات';

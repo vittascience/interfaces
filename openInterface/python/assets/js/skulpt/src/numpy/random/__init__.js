@@ -1102,9 +1102,8 @@ var $builtinmodule = function(name) {
             return Sk.misceval.callsim(self.standard_normal, self, args);
         });
 
-        $loc.tp$getattr = Sk.builtin.object.prototype.GenericGetAttr;
-
-        $loc.tp$setattr = Sk.builtin.object.prototype.GenericSetAttr;
+        // no tp$getattr / tp$setattr override: GenericGetAttr no longer exists in skulpt,
+        // assigning it left instances without tp$getattr (np.random crashed on import)
     };
 
 
@@ -1116,14 +1115,14 @@ var $builtinmodule = function(name) {
     mod._rand = Sk.misceval.callsim(mod[CLASS_RANDOMSTATE]);
 
     // map _rand.rand
-    mod.rand = Sk.abstr.gattr(mod._rand, 'rand', true);
-    mod.seed = Sk.abstr.gattr(mod._rand, 'seed', true);
-    mod.random_sample = Sk.abstr.gattr(mod._rand, 'random_sample', true);
+    mod.rand = Sk.abstr.gattr(mod._rand, new Sk.builtin.str('rand'), true);
+    mod.seed = Sk.abstr.gattr(mod._rand, new Sk.builtin.str('seed'), true);
+    mod.random_sample = Sk.abstr.gattr(mod._rand, new Sk.builtin.str('random_sample'), true);
     mod.random = mod.random_sample;
     mod.sample = mod.random_sample;
-    mod.binomial = Sk.abstr.gattr(mod._rand, 'binomial', true);
-    mod.randint = Sk.abstr.gattr(mod._rand, 'randint', true);
-    mod.random_integers = Sk.abstr.gattr(mod._rand, 'random_integers', true);
+    mod.binomial = Sk.abstr.gattr(mod._rand, new Sk.builtin.str('binomial'), true);
+    mod.randint = Sk.abstr.gattr(mod._rand, new Sk.builtin.str('randint'), true);
+    mod.random_integers = Sk.abstr.gattr(mod._rand, new Sk.builtin.str('random_integers'), true);
 
 
     return mod;

@@ -1019,7 +1019,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     ]
   },
 
-  // BLOCK MBOT2 - FOLLOW LINE UNTIL AN INTERSECTION
+  // BLOCK MBOT2 - FOLLOW LINE (one correction step, no stop condition)
   {
     "type": "robots_mbot2_follow_line",
     "message0": "%{BKY_ROBOTS_MBOT2_FOLLOW_LINE_TITLE}",

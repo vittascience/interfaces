@@ -113,7 +113,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(neopixel\.|)NeoPixel/gi,
             id: "RGBLed",
-            title: "LED RGB",
+            get title() { return i18next.t('code.simulator.modules.RGBLed') },
             pin: 'Eliobot',
             led: true,
             type: 'output',
@@ -124,7 +124,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /# Button on IO2/,
             id: "elio-button-IO2",
-            title: "Bouton",
+            get title() { return i18next.t('code.simulator.modules.button') },
             pin: 'IO2',
             type: 'input',
             listeners: [{
@@ -145,7 +145,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /# Button on IO15/,
             id: "elio-button-IO15",
-            title: "Bouton",
+            get title() { return i18next.t('code.simulator.modules.button') },
             pin: 'IO15',
             type: 'input',
             listeners: [{
@@ -166,7 +166,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /# Potentiometer on IO2/,
             id: "elio-potentiometer-IO2",
-            title: "Potentiomètre",
+            get title() { return i18next.t('code.simulator.modules.potentiometer') },
             pin: 'IO2',
             type: 'input',
             listeners: [{
@@ -184,7 +184,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /# Potentiometer on IO15/,
             id: "elio-potentiometer-IO15",
-            title: "Potentiomètre",
+            get title() { return i18next.t('code.simulator.modules.potentiometer') },
             pin: 'IO15',
             type: 'input',
             listeners: [{
@@ -202,7 +202,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /# Light Sensor on IO2/,
             id: "elio-light-sensor-IO2",
-            title: "Capteur de luminosité",
+            get title() { return i18next.t('code.simulator.modules.groveLight') },
             pin: 'IO2',
             type: 'input',
             listeners: [{
@@ -221,7 +221,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /# Light Sensor on IO15/,
             id: "elio-light-sensor-IO15",
-            title: "Capteur de luminosité",
+            get title() { return i18next.t('code.simulator.modules.groveLight') },
             pin: 'IO2',
             type: 'input',
             listeners: [{
@@ -240,7 +240,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /dht_sensor\.temperature\(\)/gi,
             id: "elio-dht11-temp",
-            title: "DHT11 - Température",
+            get title() { return i18next.t('code.simulator.modules.dht11-temp') },
             pin: 'IO15',
             type: 'input',
             noCombine: true,
@@ -261,7 +261,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /dht_sensor\.humidity\(\)/gi,
             id: "elio-dht11-hum",
-            title: "DHT11 - Humidité",
+            get title() { return i18next.t('code.simulator.modules.dht11-hum') },
             pin: 'IO15',
             type: 'input',
             noCombine: true,
@@ -282,7 +282,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /# Servo on IO2/,
             id: "elio-servo-IO2",
-            title: "Servomoteur",
+            get title() { return i18next.t('code.simulator.modules.servo') },
             pin: 'IO2',
             type: 'output',
             class: 'servo',
@@ -301,7 +301,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /# Servo on IO15/,
             id: "elio-servo-IO15",
-            title: "Servomoteur",
+            get title() { return i18next.t('code.simulator.modules.servo') },
             pin: 'IO15',
             type: 'output',
             class: 'servo',
@@ -320,7 +320,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /# Servo on IO16/,
             id: "elio-servo-IO16",
-            title: "Servomoteur",
+            get title() { return i18next.t('code.simulator.modules.servo') },
             pin: 'IO16',
             type: 'output',
             class: 'servo',
@@ -339,7 +339,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /from elio/gi,
             id: "eliobot-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: 'Eliobot',
             type: 'output',
             value: "0",
@@ -349,7 +349,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /from elio/gi,
             id: "eliobot-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: 'Eliobot',
             type: 'output',
             value: "0",
@@ -359,7 +359,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(.*)\.get_obstacle\(1\)/gi,
             id: "eliobot-irFront",
-            title: "Obstacle devant",
+            get title() { return i18next.t('code.simulator.modules.obstacleFront') },
             pin: 'Eliobot',
             type: 'input',
             listeners: [{
@@ -378,7 +378,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(.*)\.get_obstacle\(3\)/gi,
             id: "eliobot-irBack",
-            title: "Obstacle derrière",
+            get title() { return i18next.t('code.simulator.modules.obstacleBack') },
             pin: 'Eliobot',
             type: 'input',
             listeners: [{
@@ -397,7 +397,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(.*)\.get_obstacle\(0\)/gi,
             id: "eliobot-irLeft",
-            title: "Obstacle à gauche",
+            get title() { return i18next.t('code.simulator.modules.obstacleLeft') },
             pin: 'Eliobot',
             type: 'input',
             listeners: [{
@@ -416,7 +416,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(.*)\.get_obstacle\(2\)/gi,
             id: "eliobot-irRight",
-            title: "Obstacle à droite",
+            get title() { return i18next.t('code.simulator.modules.obstacleRight') },
             pin: 'Eliobot',
             type: 'input',
             listeners: [{
@@ -435,7 +435,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /Buzzer\(/gi,
             id: "eliobot-buzzer",
-            title: "Buzzer",
+            get title() { return i18next.t('code.simulator.modules.buzzer') },
             pin: 'Eliobot',
             type: 'output',
             codeFlag: 'Buzzer',
@@ -450,7 +450,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /lineSensor\.get_line\(0\)/gi,
             id: "elio-finderLeft",
-            title: "cap. Ligne noire (Gauche)",
+            get title() { return i18next.t('code.simulator.modules.lineLeft') },
             pin: 'Eliobot',
             type: 'input',
             class: 'finder',
@@ -470,7 +470,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /lineSensor\.get_line\(1\)/gi,
             id: "elio-finderMiddleLeft",
-            title: "cap. Ligne noire (Milieu gauche)",
+            get title() { return i18next.t('code.simulator.modules.lineMiddleLeft') },
             pin: 'Eliobot',
             type: 'input',
             class: 'finder',
@@ -490,7 +490,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /lineSensor\.get_line\(2\)/gi,
             id: "elio-finderMiddle",
-            title: "cap. Ligne noire (Milieu)",
+            get title() { return i18next.t('code.simulator.modules.lineMiddle') },
             pin: 'Eliobot',
             type: 'input',
             class: 'finder',
@@ -510,7 +510,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /lineSensor\.get_line\(3\)/gi,
             id: "elio-finderMiddleRight",
-            title: "cap. Ligne noire (Milieu droite)",
+            get title() { return i18next.t('code.simulator.modules.lineMiddleRight') },
             pin: 'Eliobot',
             type: 'input',
             class: 'finder',
@@ -530,7 +530,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /lineSensor\.get_line\(4\)/gi,
             id: "elio-finderRight",
-            title: "cap. Ligne noire (Droite)",
+            get title() { return i18next.t('code.simulator.modules.lineRight') },
             pin: 'Eliobot',
             type: 'input',
             class: 'finder',
@@ -549,7 +549,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /EyesMatrix\(/gi,
             id: "left-eye",
-            title: "Oeil gauche",
+            get title() { return i18next.t('code.simulator.modules.eyeLeft') },
             pin: 'Eliobot',
             type: 'output',
             value: "",
@@ -557,7 +557,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /EyesMatrix\(/gi,
             id: "right-eye",
-            title: "Oeil droit",
+            get title() { return i18next.t('code.simulator.modules.eyeRight') },
             pin: 'Eliobot',
             type: 'output',
             value: "",
@@ -565,7 +565,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /IRRemote\.signals\['signal_up'\]/gi,
             id: 'elio-ir-remote-signal-up',
-            title: 'Bouton ↑ de la Télécommande',
+            get title() { return i18next.t('code.simulator.modules.remoteButton', { button: '↑' }) },
             pin: 'Eliobot',
             type: 'input',
             listeners: [{
@@ -586,7 +586,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /IRRemote.signals\['signal_down'\]/gi,
             id: 'elio-ir-remote-signal-down',
-            title: 'Bouton ↓ de la Télécommande',
+            get title() { return i18next.t('code.simulator.modules.remoteButton', { button: '↓' }) },
             pin: 'Eliobot',
             type: 'input',
             listeners: [{
@@ -607,7 +607,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /IRRemote.signals\['signal_left'\]/gi,
             id: 'elio-ir-remote-signal-left',
-            title: 'Bouton ← de la Télécommande',
+            get title() { return i18next.t('code.simulator.modules.remoteButton', { button: '←' }) },
             pin: 'Eliobot',
             type: 'input',
             listeners: [{
@@ -628,7 +628,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /IRRemote.signals\['signal_right'\]/gi,
             id: 'elio-ir-remote-signal-right',
-            title: 'Bouton → de la Télécommande',
+            get title() { return i18next.t('code.simulator.modules.remoteButton', { button: '→' }) },
             pin: 'Eliobot',
             type: 'input',
             listeners: [{
@@ -649,7 +649,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /IRRemote.signals\['signal_ok'\]/gi,
             id: 'elio-ir-remote-signal-ok',
-            title: 'Bouton OK de la Télécommande',
+            get title() { return i18next.t('code.simulator.modules.remoteButton', { button: 'OK' }) },
             pin: 'Eliobot',
             type: 'input',
             listeners: [{
@@ -670,7 +670,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /IRRemote.signals\['signal_1'\]/gi,
             id: 'elio-ir-remote-signal-1',
-            title: 'Bouton 1 de la Télécommande',
+            get title() { return i18next.t('code.simulator.modules.remoteButton', { button: '1' }) },
             pin: 'Eliobot',
             type: 'input',
             listeners: [{
@@ -691,7 +691,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /IRRemote.signals\['signal_2'\]/gi,
             id: 'elio-ir-remote-signal-2',
-            title: 'Bouton 2 de la Télécommande',
+            get title() { return i18next.t('code.simulator.modules.remoteButton', { button: '2' }) },
             pin: 'Eliobot',
             type: 'input',
             listeners: [{
@@ -712,7 +712,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /IRRemote.signals\['signal_3'\]/gi,
             id: 'elio-ir-remote-signal-3',
-            title: 'Bouton 3 de la Télécommande',
+            get title() { return i18next.t('code.simulator.modules.remoteButton', { button: '3' }) },
             pin: 'Eliobot',
             type: 'input',
             listeners: [{
@@ -733,7 +733,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /IRRemote.signals\['signal_4'\]/gi,
             id: 'elio-ir-remote-signal-4',
-            title: 'Bouton 4 de la Télécommande',
+            get title() { return i18next.t('code.simulator.modules.remoteButton', { button: '4' }) },
             pin: 'Eliobot',
             type: 'input',
             listeners: [{
@@ -754,7 +754,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /IRRemote.signals\['signal_5'\]/gi,
             id: 'elio-ir-remote-signal-5',
-            title: 'Bouton 5 de la Télécommande',
+            get title() { return i18next.t('code.simulator.modules.remoteButton', { button: '5' }) },
             pin: 'Eliobot',
             type: 'input',
             listeners: [{
@@ -775,7 +775,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /IRRemote.signals\['signal_6'\]/gi,
             id: 'elio-ir-remote-signal-6',
-            title: 'Bouton 6 de la Télécommande',
+            get title() { return i18next.t('code.simulator.modules.remoteButton', { button: '6' }) },
             pin: 'Eliobot',
             type: 'input',
             listeners: [{
@@ -796,7 +796,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /IRRemote.signals\['signal_7'\]/gi,
             id: 'elio-ir-remote-signal-7',
-            title: 'Bouton 7 de la Télécommande',
+            get title() { return i18next.t('code.simulator.modules.remoteButton', { button: '7' }) },
             pin: 'Eliobot',
             type: 'input',
             listeners: [{
@@ -817,7 +817,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /IRRemote.signals\['signal_8'\]/gi,
             id: 'elio-ir-remote-signal-8',
-            title: 'Bouton 8 de la Télécommande',
+            get title() { return i18next.t('code.simulator.modules.remoteButton', { button: '8' }) },
             pin: 'Eliobot',
             type: 'input',
             listeners: [{
@@ -838,7 +838,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /IRRemote.signals\['signal_9'\]/gi,
             id: 'elio-ir-remote-signal-9',
-            title: 'Bouton 9 de la Télécommande',
+            get title() { return i18next.t('code.simulator.modules.remoteButton', { button: '9' }) },
             pin: 'Eliobot',
             type: 'input',
             listeners: [{
@@ -859,7 +859,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /IRRemote.signals\['signal_0'\]/gi,
             id: 'elio-ir-remote-signal-0',
-            title: 'Bouton 0 de la Télécommande',
+            get title() { return i18next.t('code.simulator.modules.remoteButton', { button: '0' }) },
             pin: 'Eliobot',
             type: 'input',
             listeners: [{
@@ -880,7 +880,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /IRRemote.signals\['signal_ht'\]/gi,
             id: 'elio-ir-remote-signal-ht',
-            title: 'Bouton # de la Télécommande',
+            get title() { return i18next.t('code.simulator.modules.remoteButton', { button: '#' }) },
             pin: 'Eliobot',
             type: 'input',
             listeners: [{
@@ -901,7 +901,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /IRRemote.signals\['signal_st'\]/gi,
             id: 'elio-ir-remote-signal-st',
-            title: 'Bouton * de la Télécommande',
+            get title() { return i18next.t('code.simulator.modules.remoteButton', { button: '*' }) },
             pin: 'Eliobot',
             type: 'input',
             listeners: [{

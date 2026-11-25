@@ -591,6 +591,9 @@ const LIBRARIES_H = {
                 const pinId = /^D\d+$/.exec(pinCLK) ? pinClock : pinCLK;
                 const ledBars = document.querySelectorAll(`#ledBar_${pinId} > div.module-body.body-output > div.ledBar-container > div.ledBar`);
 
+                // no LED bar module drawn (its mosaic regex is disabled in arduino/definitions.js): nothing to colour,
+                // instead of one console error per loop turn
+                if (ledBars.length === 0) return;
                 // Vérifie que l'index est valide
                 if (index < 0 || index > ledBars.length) {
                     console.error('Index hors des limites des barres.');
@@ -638,6 +641,9 @@ const LIBRARIES_H = {
                 const pinId = /^D\d+$/.exec(pinCLK) ? pinClock : pinCLK;
                 const ledBars = document.querySelectorAll(`#ledBar_${pinId} > div.module-body.body-output > div.ledBar-container > div.ledBar`);
 
+                // no LED bar module drawn (its mosaic regex is disabled in arduino/definitions.js): nothing to colour,
+                // instead of one console error per loop turn
+                if (ledBars.length === 0) return;
                 // Vérifie que l'index est valide
                 if (index < 0 || index > ledBars.length) {
                     console.error('Index hors des limites des barres.');
@@ -1033,7 +1039,7 @@ const LIBRARIES_H = {
             rt.regFunc(function (rt, _this) {
                 const pinName_thmc = 'A' + (_this.v.members.pinTemp.v - 100);
                 const duty_thmc = Simulator.getSliderValue('highTemp-thmc_' + pinName_thmc);
-                const thmc = Simulator.Mosaic.grove.calculs_analog.getThmcTemp(duty_thmc, _this.v.members.roomTemp);
+                const thmc = Simulator.Mosaic.grove_analog.calculs.getThmcTemp(duty_thmc, _this.v.members.roomTemp);
                 return rt.val(rt.doubleTypeLiteral, thmc);
             }, HighTemp, "getThmc", [], rt.doubleTypeLiteral);
         }
@@ -1926,15 +1932,13 @@ const LIBRARIES_H = {
             rt.regFunc(function (rt, _this, frame) {
                 ensureInitialized(_this);
 
-                const w0 = readUint32(rt, frame, 0);
-                const w1 = readUint32(rt, frame, 1);
-                const w2 = readUint32(rt, frame, 2);
-
-                const bits = new Array(96);
-
-                for (let i = 0; i < 32; i++) bits[i] = (w0 >>> (31 - i)) & 1;
-                for (let i = 0; i < 32; i++) bits[32 + i] = (w1 >>> (31 - i)) & 1;
-                for (let i = 0; i < 32; i++) bits[64 + i] = (w2 >>> (31 - i)) & 1;
+                // as many 32-bit words as the matrix needs: 3 for 12x8 (UNO R4 WiFi), 4 for 13x8 (UNO Q)
+                const words = Math.ceil(ROWS * COLS / 32);
+                const bits = [];
+                for (let w = 0; w < words; w++) {
+                    const word = readUint32(rt, frame, w);
+                    for (let i = 0; i < 32; i++) bits.push((word >>> (31 - i)) & 1);
+                }
 
                 for (let row = 0; row < ROWS; row++) {
                     for (let col = 0; col < COLS; col++) {
@@ -3305,5 +3309,37 @@ const LIBRARIES_H = {
             rt.regFunc(drawXBMP, U8G2_SSD1315_128X64_NONAME_F_HW_I2C_t, "drawXBMP", drawXBMP_args, rt.voidTypeLiteral);
         }
     },
+
+    // Optical IR Barrier library (Arduino UNO Timer2 -> JSCPP simulation runtime)
+    "IrBarrier.h": {
+        load: function (rt) {
+            Simulator.Mosaic.irBarrierInterrupts = {};
+            Simulator.Mosaic.irBarrierLastValues = {};
+
+            rt.regFunc(function (rt, _this, pin) {
+                const pinStr = Simulator.getPinString(pin.v);
+                const comp = Simulator.pinList.find((c) => c.pin == pinStr && c.id.startsWith('ir-barrier-emitter'));
+                if (comp) {
+                    const mod = Simulator.getModuleByKey('ir-barrier-emitter');
+                    if (mod) Simulator.setAnimator(mod, comp.id, 1);
+                }
+            }, "global", "irBarrier_startEmitter", [rt.unsignedcharTypeLiteral], rt.voidTypeLiteral);
+
+            rt.regFunc(function (rt, _this, pin) {
+                const pinStr = Simulator.getPinString(pin.v);
+                const sliderVal = Simulator.getPinSliderValue(pinStr);
+                return rt.val(rt.boolTypeLiteral, sliderVal === undefined ? true : Boolean(sliderVal));
+            }, "global", "irBarrier_isLost", [rt.unsignedcharTypeLiteral], rt.boolTypeLiteral);
+
+            rt.regFunc(function (rt, _this, pin, mode, cb) {
+                const pinStr = Simulator.getPinString(pin.v);
+                const handlers = Simulator.Mosaic.irBarrierInterrupts[pinStr] || (Simulator.Mosaic.irBarrierInterrupts[pinStr] = {});
+                const entry = { rt: rt, _this: _this, ret: cb };
+                if (mode.v === 0) handlers.lost = entry;
+                else if (mode.v === 1) handlers.restored = entry;
+                else if (mode.v === 2) handlers.change = entry;
+            }, "global", "irBarrier_attachCallback", [rt.unsignedcharTypeLiteral, rt.unsignedcharTypeLiteral, rt.functionType(rt.voidTypeLiteral, [])], rt.voidTypeLiteral);
+        }
+    }
 
 };

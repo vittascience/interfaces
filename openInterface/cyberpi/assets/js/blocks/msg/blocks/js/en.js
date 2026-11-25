@@ -341,8 +341,8 @@ Blockly.Msg['ROBOTS_GAMEPAD_GET_JOYSTICK_TITLE'] = '[Gamepad] joystick %1';
 Blockly.Msg['ROBOTS_GAMEPAD_GET_JOYSTICK_TOOLTIP'] = 'Returns the position of the selected axis of the Makeblock Bluetooth controller joystick (LX/LY: left joystick, RX/RY: right joystick).';
 Blockly.Msg['ROBOTS_GAMEPAD_KEY_L_THUMB'] = 'left joystick';
 Blockly.Msg['ROBOTS_GAMEPAD_KEY_R_THUMB'] = 'right joystick';
-Blockly.Msg['ROBOTS_MBOT2_FOLLOW_LINE_TITLE'] = '[mBot2] follow the line at speed %1 with sensitivity %2 until an intersection (quad RGB sensor %3)';
-Blockly.Msg['ROBOTS_MBOT2_FOLLOW_LINE_TOOLTIP'] = 'Follows the line with the quad RGB sensor: the motor power is constantly corrected according to the deviation from the line (speed ± sensitivity × deviation). The robot stops when the 4 probes detect the line (state 0000), for example at an intersection or a black area.';
+Blockly.Msg['ROBOTS_MBOT2_FOLLOW_LINE_TITLE'] = '[mBot2] follow the line at speed %1 with sensitivity %2 (quad RGB sensor %3)';
+Blockly.Msg['ROBOTS_MBOT2_FOLLOW_LINE_TOOLTIP'] = 'Follows the line with the quad RGB sensor: the motor power is corrected according to the deviation from the line (speed ± sensitivity × deviation). The block has no stop condition: put it in a loop.';
 // Network - Wi-Fi
 Blockly.Msg['CYBERPI_WIFI_CONNECT_TITLE'] = '[WiFi] connect the CyberPi to the network: name %1 password %2';
 Blockly.Msg['CYBERPI_WIFI_CONNECT_TOOLTIP'] = 'Allows you to connect the CyberPi card to a WiFi network.';

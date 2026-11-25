@@ -120,7 +120,7 @@ REQUEST_THINGSPEAK_READ_FIELD:
   if channelID is not None and api_key is not None:
     url = 'https://api.thingspeak.com/channels/' + channelID
     if field is None:
-      url += 'feeds'
+      url += '/feeds'
     else:
       url += '/fields/' + str(field)
     url += '.json?api_key=' + api_key

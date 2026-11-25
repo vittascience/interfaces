@@ -1058,6 +1058,76 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     "mutator": "communication_onRemoteCommandReceived_mutator",
   },
 
+  // GROVE IR OPTICAL BARRIER (ARDUINO UNO) _ ENABLE EMITTER
+  {
+    "type": "communication_ir_barrier_enableEmitter",
+    "message0": "%{BKY_COMMUNICATION_IR_BARRIER_ENABLE_EMITTER_TITLE}",
+    "args0": [{
+      "type": "field_grid_dropdown",
+      "name": "PIN",
+      "options": Blockly.Constants.Pins.ir_barrier[Blockly.Constants.getSelectedBoard()]
+    }],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "communication_blocks",
+    "tooltip": "%{BKY_COMMUNICATION_IR_BARRIER_ENABLE_EMITTER_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "pins_management_global"
+    ]
+  },
+
+  // GROVE IR OPTICAL BARRIER (ARDUINO UNO) _ IS SIGNAL LOST
+  {
+    "type": "communication_ir_barrier_isSignalLost",
+    "message0": "%{BKY_COMMUNICATION_IR_BARRIER_IS_SIGNAL_LOST_TITLE}",
+    "args0": [{
+      "type": "field_grid_dropdown",
+      "name": "PIN",
+      "options": Blockly.Constants.Pins.ir_barrier[Blockly.Constants.getSelectedBoard()]
+    }],
+    "output": "Boolean",
+    "inputsInline": true,
+    "style": "communication_blocks",
+    "tooltip": "%{BKY_COMMUNICATION_IR_BARRIER_IS_SIGNAL_LOST_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "pins_management_global"
+    ]
+  },
+
+  // GROVE IR OPTICAL BARRIER (ARDUINO UNO) _ ON SIGNAL EVENT (STANDALONE INTERRUPT)
+  {
+    "type": "communication_ir_barrier_onSignalEvent",
+    "message0": "%{BKY_COMMUNICATION_IR_BARRIER_ON_SIGNAL_EVENT_TITLE}",
+    "args0": [{
+      "type": "field_grid_dropdown",
+      "name": "EVENT",
+      "options": [
+        ["%{BKY_COMMUNICATION_IR_BARRIER_EVENT_LOST}", "LOST"],
+        ["%{BKY_COMMUNICATION_IR_BARRIER_EVENT_RESTORED}", "RESTORED"],
+        ["%{BKY_COMMUNICATION_IR_BARRIER_EVENT_CHANGE}", "CHANGE"]
+      ]
+    }, {
+      "type": "field_grid_dropdown",
+      "name": "PIN",
+      "options": Blockly.Constants.Pins.ir_barrier[Blockly.Constants.getSelectedBoard()]
+    }],
+    "message1": "%1",
+    "args1": [{
+      "type": "input_statement",
+      "name": "DO"
+    }],
+    "inputsInline": true,
+    "style": "communication_blocks",
+    "tooltip": "%{BKY_COMMUNICATION_IR_BARRIER_ON_SIGNAL_EVENT_TOOLTIP}",
+    "extensions": [
+      "block_init_helpurl",
+      "pins_management_global"
+    ]
+  },
+
   // GROVE GPS MODULE _ ON GPS DATA AVAILABLE
   {
     "type": "communication_onGPSDataReceived",
@@ -1556,7 +1626,7 @@ Blockly.Constants.Communication.COMMUNICATION_REMOTECONTROL_ONCOMMANDRECEIVED_MU
       this.appendDummyInput('IFBUTTONS' + i)
         .appendField(
           new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
-            this.buttonSize, "*", removeElseIf, false))
+            this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_ELSE_IF, removeElseIf, false))
         .setAlign(Blockly.inputs.Align.RIGHT);
       this.appendStatementInput('DO' + i)
     }
@@ -1567,7 +1637,7 @@ Blockly.Constants.Communication.COMMUNICATION_REMOTECONTROL_ONCOMMANDRECEIVED_MU
         .setAlign(Blockly.inputs.Align.RIGHT)
         .appendField(
           new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize,
-            this.buttonSize, "*", that.removeElse_.bind(that), false));
+            this.buttonSize, (Blockly.Msg.ARIA_LABEL_REMOVE_ELSE || Blockly.Msg.ARIA_LABEL_REMOVE_INPUT), that.removeElse_.bind(that), false));
       this.appendStatementInput('ELSE')
     }
     if (this.getInput('ADDBUTTON')) this.removeInput('ADDBUTTON');
@@ -1585,7 +1655,7 @@ Blockly.Constants.Communication.COMMUNICATION_REMOTECONTROL_ONCOMMANDRECEIVED_MU
     this.appendDummyInput('ADDBUTTON')
       .appendField(
         new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize,
-          this.buttonSize, "*", addElseIf, false));
+          this.buttonSize, (this.elseCount_ ? Blockly.Msg.ARIA_LABEL_ADD_ELSE_IF : (Blockly.Msg.ARIA_LABEL_ADD_ELSE || Blockly.Msg.ARIA_LABEL_ADD_ELSE_IF)), addElseIf, false));
     this.restoreDropdownFields_();
   },
   /**

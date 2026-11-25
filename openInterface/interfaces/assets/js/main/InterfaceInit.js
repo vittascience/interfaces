@@ -425,6 +425,20 @@ class InterfaceInit {
             await updateBoard(true, boardId, false);
         }
         pseudoModal.closeModal(this._interface + '-board-selector');
+        // The focus went back to the top of the page with nothing said: say the chosen board and give the focus to the
+        // blocks (or the code), where the work starts
+        const board = typeof INTERFACE_BOARDS !== 'undefined' && INTERFACE_BOARDS[boardId] ? INTERFACE_BOARDS[boardId].name : boardId;
+        setTimeout(() => {
+            const workspace = typeof Blockly !== 'undefined' && Blockly.getMainWorkspace();
+            if (workspace && workspace.getParentSvg().getBoundingClientRect().width) {
+                Blockly.getFocusManager().focusTree(workspace);
+            } else {
+                Main.getCodeEditor()?.container?.focus();
+            }
+            if (typeof window.updateAriaLiveRegion === 'function') {
+                window.updateAriaLiveRegion(i18next.t('modals.board-selector.chosen', { board, interpolation: { escapeValue: false } }));
+            }
+        }, 100);
     }
 
     async _initializeBoardSelector() {
@@ -489,8 +503,10 @@ class InterfaceInit {
                 robotCategory = 'advanced';
                 robotMessage = jsonPath('code.robotGuide.tuto-rover');
             } else if ($_GET('extension') !== null) { // blocks of a block extension (see BlockExtensions._takeUrlExtensions)
-                robotCategory = 'block_extensions';
-                robotMessage = jsonPath('code.robotGuide.tuto-extension');
+                // the robots are in the "Robots" category of the interface, the other extensions in "Extensions"
+                robotCategory = typeof TOOLBOX_VITTASCIENCE_CATEGORIES !== 'undefined'
+                    && TOOLBOX_VITTASCIENCE_CATEGORIES.some(category => category.toolboxitemid === 'robots') ? 'robots' : 'block_extensions';
+                if (robotCategory === 'block_extensions') robotMessage = jsonPath('code.robotGuide.tuto-extension');
             }
             this.shepherdTourContent = {
                 message: robotMessage.replace('[ROBOT_NAME]', robotName),
@@ -499,7 +515,9 @@ class InterfaceInit {
         } else if ($_GET('drone') !== null) {
             this.shepherdTourContent = {
                 message: jsonPath('code.droneGuide.tuto').replace('[DRONE_NAME]', $_GET('drone')),
-                id: 'tello'
+                // the drone blocks are in its extension, in the "Robots" category (see BlockExtensions._takeUrlExtensions)
+                id: typeof TOOLBOX_VITTASCIENCE_CATEGORIES !== 'undefined'
+                    && TOOLBOX_VITTASCIENCE_CATEGORIES.some(category => category.toolboxitemid === 'robots') ? 'robots' : 'tello'
             };
         } else if ($_GET('module') !== null) {
             this.shepherdTourContent = {

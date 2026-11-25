@@ -853,6 +853,14 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
                         'communication_onRemoteCommandReceived',
                         'communication_onRemoteCommandReceived_car_mp3_gray'
                     ]
+                },
+                {
+                    'onlyBoards': 'uno',
+                    'blocks': [
+                        'communication_ir_barrier_enableEmitter',
+                        'communication_ir_barrier_isSignalLost',
+                        'communication_ir_barrier_onSignalEvent'
+                    ]
                 }
             ]
         },
@@ -1231,7 +1239,7 @@ const TOOLBOX_VITTASCIENCE_CONTENT = {
     ],
     "robots": [
         {
-            'label': 'Pour programmer le robot mBot, veuillez passer sur la nouvelle interface pour mBot dans la rubrique \'Programmer\'',
+            'label': '%{BKY_TOOLBOX_MBOT_MOVED_MESSAGE}',
             'message': true
         },
         {

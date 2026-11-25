@@ -37,7 +37,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /photon\.((go_(forward|backward))|(rotate_(left|right)))(_infinity|)/,
             id: "photon-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: "Photon",
             type: 'output',
             value: 0,
@@ -47,7 +47,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /photon\.((go_(forward|backward))|(rotate_(left|right)))(_infinity|)/,
             id: "photon-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: "Photon",
             type: 'output',
             value: 0,
@@ -57,7 +57,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /photon\.get_line_sensors\(\)/gi,
             id: "photon-line-sensor1",
-            title: "Capteur de ligne noire 1",
+            get title() { return i18next.t('code.simulator.modules.lineSensor', { n: 1 }) },
             pin: 'Photon',
             type: 'input',
             listeners: [{
@@ -75,7 +75,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /photon\.get_line_sensors\(\)/gi,
             id: "photon-line-sensor2",
-            title: "Capteur de ligne noire 2",
+            get title() { return i18next.t('code.simulator.modules.lineSensor', { n: 2 }) },
             pin: 'Photon',
             type: 'input',
             listeners: [{
@@ -93,7 +93,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /photon\.get_light\(\)/g,
             id: "photon-light",
-            title: "Capteur de luminosité",
+            get title() { return i18next.t('code.simulator.modules.groveLight') },
             pin: 'Photon',
             type: 'input',
             listeners: [{
@@ -112,7 +112,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /photon\.get_battery\(\)/g,
             id: "photon-battery",
-            title: "Niveau de la batterie",
+            get title() { return i18next.t('code.simulator.modules.batteryLevel') },
             pin: 'Photon',
             type: 'input',
             listeners: [{
@@ -137,7 +137,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /photon\.get_distance_from_obstacle\(\)/gi,
             id: "photon-distance",
-            title: "Télémètre: ",
+            get title() { return i18next.t('code.simulator.modules.ultrasonic') },
             pin: 'Photon',
             type: 'input',
             listeners: [{
@@ -145,13 +145,13 @@ Simulator.Mosaic.specific = {
                 unit: 'cm',
                 color: "#f9d142 ",
                 suffix: "_d",
-                title: "Distance"
+                get title() { return i18next.t('code.simulator.modules.distance') }
             }, {
                 suffix: "_t",
                 default: 1166,
                 unit: 'μs',
                 color: "#f9d142",
-                title: "Durée"
+                get title() { return i18next.t('code.simulator.modules.duration') }
             }],
             class: "ultrasonic",
             picture: "Ultrason.png",

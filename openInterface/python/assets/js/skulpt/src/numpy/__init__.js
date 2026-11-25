@@ -458,6 +458,17 @@ var $builtinmodule = function (name) {
         return arr.v.dtype;
     }
 
+    // Element-wise results can be wider than the input array (int / int -> float):
+    // the result dtype is the widest of the input dtype and the computed values.
+    function Internal_ResultDescr(arr, values) {
+        var num = Internal_DType_To_Num(PyArray_DESCR(arr));
+        for (var i = 0; i < values.length; i++) {
+            var n = Internal_TypeTable[Sk.abstr.typeName(values[i])];
+            if (n != null && n > num) num = n;
+        }
+        return num >= 0 ? PyArray_DescrFromType(num) : PyArray_DESCR(arr);
+    }
+
     function PyArray_MultiIterNew() {
         throw new Sk.builtin.NotImplementedError("MultiIter is not supported");
     }
@@ -472,7 +483,8 @@ var $builtinmodule = function (name) {
 
         // maybe we can add later on a real impl.
         var tmp = data[0];
-        var ret = descr(tmp);
+        // skulpt type objects must be called through callsim (descr(x) throws "use 'new'")
+        var ret = Sk.misceval.callsim(descr, tmp);
         return ret;
     }
 
@@ -955,7 +967,8 @@ var $builtinmodule = function (name) {
     };
 
     function Internal_DType_To_Num(dtype) {
-        var name = Sk.abstr.typeName(dtype);
+        // dtype is a type object (Sk.builtin.int_...): typeName() would give 'type'
+        var name = dtype && dtype.prototype && dtype.prototype.tp$name ? dtype.prototype.tp$name : Sk.abstr.typeName(dtype);
         var num = Internal_TypeTable[name];
 
         if (num == null) {
@@ -1619,12 +1632,15 @@ var $builtinmodule = function (name) {
              * START VITTASCIENCE ADDS
              */
             let isInt = false;
-            if (!Sk.builtin.checkNone(self.v.dtype)) {
+            if (self.v.dtype === Sk.builtin.bool) {
+                // bool is an int subclass: without this, booleans printed as 1 / 0
+                sp = new Sk.builtin.str(Sk.misceval.isTrue(op) ? 'True' : 'False');
+            } else if (!Sk.builtin.checkNone(self.v.dtype)) {
                 if (Sk.builtin.checkInt(new self.v.dtype(1))) {
                     op = new Sk.builtin.int_(Math.ceil(op.v));
                     sp = new Sk.builtin.str(op.v);
                 } else if (Sk.builtin.checkFloat(new self.v.dtype(1))) {
-                    op = numpyRound(op, N);
+                    op = numpyRound(new Sk.builtin.float_(Number(Sk.builtin.asnum$(op).toFixed(8))), N);
                     sp = new Sk.builtin.str(op.v);
                     if (op.v === Math.round(op.v)) {
                         isInt = true;
@@ -1740,6 +1756,7 @@ var $builtinmodule = function (name) {
             }
             else if (Sk.builtin.checkFloat(new dtype(1))) {
                 array = data.map(e => {
+                    e = new Sk.builtin.float_(Number(Sk.builtin.asnum$(e).toFixed(8)));
                     const str = new Sk.builtin.str(e.v);
                     return numpyRound(e, str.v.length);
                 });
@@ -2371,7 +2388,7 @@ var $builtinmodule = function (name) {
                     _buffer = [];
                     for (i = 0, len = lhs.length; i < len; i++) {
                         //_buffer[i] = operation(lhs[i], rhs[i]);
-                        _buffer[i] = Sk.abstr.binary_op_(lhs[i], rhs[i], operation);
+                        _buffer[i] = Sk.abstr.numberBinOp(lhs[i], rhs[i], operation);
                     }
                 } else {
                     lhs = PyArray_DATA(self);
@@ -2386,7 +2403,7 @@ var $builtinmodule = function (name) {
                     return new Sk.builtin.int_(x);
                 }));
                 buffer = new Sk.builtin.list(_buffer);
-                return Sk.misceval.callsim(mod[CLASS_NDARRAY], shape, PyArray_DESCR(self),
+                return Sk.misceval.callsim(mod[CLASS_NDARRAY], shape, Internal_ResultDescr(self, _buffer),
                     buffer);
             };
         }
@@ -2401,7 +2418,7 @@ var $builtinmodule = function (name) {
                     lhs = PyArray_DATA(self);
                     rhs = PyArray_DATA(other);
                     for (i = 0, len = lhs.length; i < len; i++) {
-                        lhs[i] = Sk.abstr.binary_op_(lhs[i], rhs[i], operation);
+                        lhs[i] = Sk.abstr.numberBinOp(lhs[i], rhs[i], operation);
                     }
                 } else {
                     lhs = PyArray_DATA(self);
@@ -2426,7 +2443,7 @@ var $builtinmodule = function (name) {
                     return new Sk.builtin.int_(x);
                 }));
                 buffer = new Sk.builtin.list(_buffer);
-                return Sk.misceval.callsim(mod[CLASS_NDARRAY], shape, PyArray_DESCR(self), buffer);
+                return Sk.misceval.callsim(mod[CLASS_NDARRAY], shape, Internal_ResultDescr(self, _buffer), buffer);
             };
         }
 
@@ -2461,6 +2478,10 @@ var $builtinmodule = function (name) {
         $loc.__div__ = new Sk.builtin.func(makeNumericBinaryOpLhs("Div"));
         $loc.__rdiv__ = new Sk.builtin.func(makeNumericBinaryOpRhs("Div"));
         $loc.__idiv__ = new Sk.builtin.func(makeNumericBinaryOpInplace("Div"));
+        // Python 3 "/" calls __truediv__, not __div__
+        $loc.__truediv__ = $loc.__div__;
+        $loc.__rtruediv__ = $loc.__rdiv__;
+        $loc.__itruediv__ = $loc.__idiv__;
 
         $loc.__floordiv__ = new Sk.builtin.func(makeNumericBinaryOpLhs("FloorDiv"));
         $loc.__rfloordiv__ = new Sk.builtin.func(makeNumericBinaryOpRhs("FloorDiv"));
@@ -2586,6 +2607,14 @@ var $builtinmodule = function (name) {
             return Sk.misceval.callsim(mod.mean, self, axis, dtype, out, keepdims);
         });
 
+        $loc.max = new Sk.builtin.func(function (self, axis) {
+            return Sk.misceval.callsim(mod.max, self, axis);
+        });
+
+        $loc.min = new Sk.builtin.func(function (self, axis) {
+            return Sk.misceval.callsim(mod.min, self, axis);
+        });
+
         $loc.sum = new Sk.builtin.func(function (self, axis, dtype, out, keepdims) {
             return Sk.misceval.callsim(mod.sum, self, axis, dtype, out, keepdims);
         });
@@ -2630,7 +2659,8 @@ var $builtinmodule = function (name) {
             }));
 
             buffer = new Sk.builtin.list(_buffer);
-            return Sk.misceval.callsim(mod[CLASS_NDARRAY], shape, PyArray_DESCR(x), buffer);
+            // math functions always return floats, even for an int array
+            return Sk.misceval.callsim(mod[CLASS_NDARRAY], shape, Sk.builtin.float_, buffer);
         } else if (Sk.builtin.checkNumber(x)) {
             num = Sk.builtin.asnum$(x);
             res = op.call(null, num);
@@ -2843,9 +2873,9 @@ var $builtinmodule = function (name) {
             step_num = Sk.builtin.asnum$(step);
         }
 
-        // set to float
-        if (!dtype || dtype == Sk.builtin.none()) {
-            if (Sk.builtin.checkInt(start))
+        // int only if start, stop and step are all ints (np.arange(0, 1, 0.25) is float)
+        if (!dtype || Sk.builtin.checkNone(dtype)) {
+            if ([start, stop, step].every(function (v) { return v == null || Sk.builtin.checkNone(v) || Sk.builtin.checkInt(v); }))
                 dtype = 'int';
             else
                 dtype = 'float';
@@ -2996,9 +3026,9 @@ var $builtinmodule = function (name) {
             _buffer[i] = _fill_value;
         }
 
-        // if no dtype given and type of fill_value is numeric, assume float
-        if (!dtype && Sk.builtin.checkNumber(fill_value)) {
-            dtype = Sk.builtin.float_;
+        // no dtype given (None from ones/empty defaults): use the type of the fill value, like numpy
+        if ((!dtype || Sk.builtin.checkNone(dtype)) && Sk.builtin.checkNumber(fill_value)) {
+            dtype = Sk.builtin.checkInt(fill_value) ? Sk.builtin.int_ : Sk.builtin.float_;
         }
 
         // apply dtype casting function, if it has been provided
@@ -3119,7 +3149,7 @@ var $builtinmodule = function (name) {
 
         const _buffer = PyArray_DATA(a);
 
-        let sum = new Sk.builtin.float_(0.0);
+        let sum = new Sk.builtin.int_(0); // a sum of ints stays an int
         for (var i = 0; i < PyArray_SIZE(a); i++) {
             sum = Sk.abstr.numberBinOp(sum, _buffer[i], 'Add');
         }
@@ -3135,6 +3165,56 @@ var $builtinmodule = function (name) {
     sum_f.co_varnames = ['a', 'axis', 'dtype', 'out', 'keepdims', 'initial', 'where'];
     sum_f.$defaults = [Sk.builtin.none(), Sk.builtin.none(), Sk.builtin.none(), Sk.builtin.bool.false$, Sk.builtin.bool.false$, Sk.builtin.bool.false$];
     mod.sum = new Sk.builtin.func(sum_f);
+
+    // ponytail: no axis/out/keepdims support, like sum and mean
+    function makeExtremum(name, op) {
+        var f = function (a, axis) {
+            Sk.builtin.pyCheckArgs(name, arguments, 1, 2);
+            if (axis != null && !Sk.builtin.checkNone(axis)) {
+                throw new Sk.builtin.NotImplementedError("the 'axis' parameter is currently not supported");
+            }
+            if (!PyArray_Check(a)) {
+                a = PyArray_FromAny(a);
+            }
+            var data = PyArray_DATA(a);
+            if (data.length === 0) {
+                throw new Sk.builtin.ValueError("zero-size array to reduction operation " + name + " which has no identity");
+            }
+            var best = data[0];
+            for (var i = 1; i < data.length; i++) {
+                if (Sk.misceval.richCompareBool(data[i], best, op)) best = data[i];
+            }
+            return best;
+        };
+        f.co_varnames = ['a', 'axis'];
+        f.$defaults = [Sk.builtin.none(), Sk.builtin.none()];
+        return new Sk.builtin.func(f);
+    }
+    // element-wise round (Python's round: half to even, like numpy)
+    var round_f = function (a, decimals) {
+        Sk.builtin.pyCheckArgs("round", arguments, 1, 2);
+        if (!PyArray_Check(a)) {
+            return Sk.builtin.round(a, decimals);
+        }
+        var _buffer = PyArray_DATA(a).map(function (v) {
+            return Sk.builtin.round(v, decimals);
+        });
+        var shape = new Sk.builtin.tuple(PyArray_DIMS(a).map(function (d) {
+            return new Sk.builtin.int_(d);
+        }));
+        return Sk.misceval.callsim(mod[CLASS_NDARRAY], shape, PyArray_DESCR(a), new Sk.builtin.list(_buffer));
+    };
+    round_f.co_varnames = ['a', 'decimals'];
+    round_f.$defaults = [Sk.builtin.none(), new Sk.builtin.int_(0)];
+    mod.round = mod.around = new Sk.builtin.func(round_f);
+
+    mod.transpose = new Sk.builtin.func(function (a) {
+        Sk.builtin.pyCheckArgs("transpose", arguments, 1, 1);
+        return Sk.abstr.gattr(PyArray_Check(a) ? a : PyArray_FromAny(a), new Sk.builtin.str('T'));
+    });
+
+    mod.max = mod.amax = makeExtremum('max', 'Gt');
+    mod.min = mod.amin = makeExtremum('min', 'Lt');
 
     var average_f = function (a, axis, weights, returned, keepdims) {
 
@@ -3552,60 +3632,48 @@ var $builtinmodule = function (name) {
         Sk.builtin.pyCheckArgs("less", arguments, 2, 3, false);
         return compareLogical('Lt', x1, x2, out);
     };
-    less_f.co_varnames = ['a', 'axis', 'out', 'keepdims'];
-    less_f.$defaults = [Sk.builtin.none(),
-    Sk.builtin.none(), Sk.builtin.bool.false$
-    ];
+    less_f.co_varnames = ['x1', 'x2', 'out'];
+    less_f.$defaults = [Sk.builtin.none()];
     mod.less = new Sk.builtin.func(less_f);
 
     var less_equal_f = function (x1, x2, out) {
         Sk.builtin.pyCheckArgs("less_equal", arguments, 2, 3, false);
         return compareLogical('LtE', x1, x2, out);
     };
-    less_equal_f.co_varnames = ['a', 'axis', 'out', 'keepdims'];
-    less_equal_f.$defaults = [Sk.builtin.none(),
-    Sk.builtin.none(), Sk.builtin.bool.false$
-    ];
+    less_equal_f.co_varnames = ['x1', 'x2', 'out'];
+    less_equal_f.$defaults = [Sk.builtin.none()];
     mod.less_equal = new Sk.builtin.func(less_equal_f);
 
     var greater_f = function (x1, x2, out) {
         Sk.builtin.pyCheckArgs("greater", arguments, 2, 3, false);
         return compareLogical('Gt', x1, x2, out);
     };
-    greater_f.co_varnames = ['a', 'axis', 'out', 'keepdims'];
-    greater_f.$defaults = [Sk.builtin.none(),
-    Sk.builtin.none(), Sk.builtin.bool.false$
-    ];
+    greater_f.co_varnames = ['x1', 'x2', 'out'];
+    greater_f.$defaults = [Sk.builtin.none()];
     mod.greater = new Sk.builtin.func(greater_f);
 
     var greater_equal_f = function (x1, x2, out) {
         Sk.builtin.pyCheckArgs("greater_equal", arguments, 2, 3, false);
         return compareLogical('GtE', x1, x2, out);
     };
-    greater_equal_f.co_varnames = ['a', 'axis', 'out', 'keepdims'];
-    greater_equal_f.$defaults = [Sk.builtin.none(),
-    Sk.builtin.none(), Sk.builtin.bool.false$
-    ];
+    greater_equal_f.co_varnames = ['x1', 'x2', 'out'];
+    greater_equal_f.$defaults = [Sk.builtin.none()];
     mod.greater_equal = new Sk.builtin.func(greater_equal_f);
 
     var equal_f = function (x1, x2, out) {
         Sk.builtin.pyCheckArgs("equal", arguments, 2, 3, false);
         return compareLogical('Eq', x1, x2, out);
     };
-    equal_f.co_varnames = ['a', 'axis', 'out', 'keepdims'];
-    equal_f.$defaults = [Sk.builtin.none(),
-    Sk.builtin.none(), Sk.builtin.bool.false$
-    ];
+    equal_f.co_varnames = ['x1', 'x2', 'out'];
+    equal_f.$defaults = [Sk.builtin.none()];
     mod.equal = new Sk.builtin.func(equal_f);
 
     var not_equal_f = function (x1, x2, out) {
         Sk.builtin.pyCheckArgs("not_equal", arguments, 2, 3, false);
         return compareLogical('NotEq', x1, x2, out);
     };
-    not_equal_f.co_varnames = ['a', 'axis', 'out', 'keepdims'];
-    not_equal_f.$defaults = [Sk.builtin.none(),
-    Sk.builtin.none(), Sk.builtin.bool.false$
-    ];
+    not_equal_f.co_varnames = ['x1', 'x2', 'out'];
+    not_equal_f.$defaults = [Sk.builtin.none()];
     mod.not_equal = new Sk.builtin.func(not_equal_f);
 
     mod.identity = new Sk.builtin.func(function (n, dtype) {
@@ -3660,5 +3728,15 @@ var $builtinmodule = function (name) {
             "arctan2 is not yet implemented");
     });
     mod.asarray = new Sk.builtin.func(array_f);
+    // CPython's numpy imports numpy.random itself: load it on first access to np.random (PEP 562)
+    mod.__getattr__ = new Sk.builtin.func(function (name) {
+        if (Sk.ffi.remapToJs(name) !== 'random') {
+            throw new Sk.builtin.AttributeError("module 'numpy' has no attribute '" + Sk.ffi.remapToJs(name) + "'");
+        }
+        return Sk.misceval.chain(Sk.importModule('numpy.random', false, true), function () {
+            return Sk.sysmodules.mp$subscript(new Sk.builtin.str('numpy.random'));
+        });
+    });
+
     return mod;
 };

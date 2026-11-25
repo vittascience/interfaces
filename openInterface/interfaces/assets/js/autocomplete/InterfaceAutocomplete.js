@@ -13,7 +13,7 @@ const InterfaceAutocomplete = {
 
         const isMpy = ['codey', 'cyberpi', 'eliobot', 'esp32', 'galaxia', 'l476', 'm5stack', 'microbit', 'pico', 'raspberrypi', 'steami', 'wb55'].includes(_interface);
         const isCpp = ['arduino', 'letsstartcoding', 'mBot'].includes(_interface);
-        const isPy = ['python', 'spike', 'legoprime', 'buddy', 'nao', 'bluebot', 'lotibot', 'niryo', 'photon', 'sphero', 'TI-83', 'winky', 'thymio', 'alphai', 'primastem', 'skykick', 'unihiker'].includes(_interface);
+        const isPy = ['python', 'spike', 'legoprime', 'buddy', 'nao', 'bluebot', 'lotibot', 'niryo', 'photon', 'sphero', 'TI-83', 'winky', 'thymio', 'alphai', 'primastem', 'matatalab', 'skykick', 'unihiker'].includes(_interface);
 
         let langMode;
         if (isCpp) {
@@ -778,7 +778,6 @@ const InterfaceAutocomplete = {
                     // liste des types indexables (ajuste si tu veux)
                     if (!["list", "tuple", "str", "bytes", "bytearray", "dict", "NeoPixel"].includes(t)) continue;
 
-                    ACMsg.INDEX_ACCESS = ACMsg.INDEX_ACCESS.replace("%1", name);
                     pushUnique(bucket, {
                         caption: `${name}[]`,
                         value: `${name}[]`,
@@ -786,7 +785,7 @@ const InterfaceAutocomplete = {
                         score: 1150,
                         snippet: `${name}[\${1:}]`,
                         title: `${name}[i]`,
-                        description: "INDEX_ACCESS",
+                        docText: ACMsg.INDEX_ACCESS?.replace("%1", name),
                     });
                 }
 

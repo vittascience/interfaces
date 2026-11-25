@@ -1,82 +1,319 @@
-_B='{:04x}'
-_A='{:02x}'
 from microbit import i2c
-commandHeaderAndAddress='55AA11'
-algorthimsByteID={'ALGORITHM_FACE_RECOGNITION':'0000','ALGORITHM_OBJECT_TRACKING':'0100','ALGORITHM_OBJECT_RECOGNITION':'0200','ALGORITHM_LINE_TRACKING':'0300','ALGORITHM_COLOR_RECOGNITION':'0400','ALGORITHM_TAG_RECOGNITION':'0500','ALGORITHM_OBJECT_CLASSIFICATION':'0600'}
-COMMAND_REQUEST_CUSTOM_NAMES=47
-COMMAND_REQUEST_TAKE_PHOTO_TO_SD_CARD=48
-COMMAND_REQUEST_SAVE_MODEL_TO_SD_CARD=50
-COMMAND_REQUEST_LOAD_MODEL_FROM_SD_CARD=51
-COMMAND_REQUEST_CUSTOM_TEXT=52
-COMMAND_REQUEST_CLEAR_TEXT=53
-COMMAND_REQUEST_LEARN_ONECE=54
-COMMAND_REQUEST_FORGET=55
-COMMAND_REQUEST_SCREENSHOT_TO_SD_CARD=57
-COMMAND_REQUEST_FIRMWARE_VERSION=60
+
+commandHeaderAndAddress = "55AA11"
+algorthimsByteID = {
+    "ALGORITHM_FACE_RECOGNITION": "0000",
+    "ALGORITHM_OBJECT_TRACKING": "0100",
+    "ALGORITHM_OBJECT_RECOGNITION": "0200",
+    "ALGORITHM_LINE_TRACKING": "0300",
+    "ALGORITHM_COLOR_RECOGNITION": "0400",
+    "ALGORITHM_TAG_RECOGNITION": "0500",
+    "ALGORITHM_OBJECT_CLASSIFICATION": "0600"
+}
+
+COMMAND_REQUEST_CUSTOM_NAMES = 0x2f
+COMMAND_REQUEST_TAKE_PHOTO_TO_SD_CARD = 0x30
+COMMAND_REQUEST_SAVE_MODEL_TO_SD_CARD = 0x32
+COMMAND_REQUEST_LOAD_MODEL_FROM_SD_CARD = 0x33
+COMMAND_REQUEST_CUSTOM_TEXT = 0x34
+COMMAND_REQUEST_CLEAR_TEXT = 0x35
+COMMAND_REQUEST_LEARN_ONECE = 0x36
+COMMAND_REQUEST_FORGET = 0x37
+COMMAND_REQUEST_SCREENSHOT_TO_SD_CARD = 0x39
+COMMAND_REQUEST_FIRMWARE_VERSION = 0x3C
+
 class HuskyLensLibrary:
-	def __init__(A):A.address=50;A.huskylensSer=i2c;A.lastCmdSent=''
-	def writeToHuskyLens(A,cmd):A.lastCmdSent=cmd;A.huskylensSer.write(A.address,cmd)
-	def calculateChecksum(D,hexStr):
-		A=hexStr;B=0
-		for C in range(0,len(A),2):B+=int(A[C:C+2],16)
-		A=hex(B)[-2:];return A
-	def unhexlify(A):return bytes(int(A[B:B+2],16)for B in range(0,len(A),2))
-	def cmdToBytes(A,cmd):return bytes(int(cmd[A:A+2],16)for A in range(0,len(cmd),2))
-	def splitCommandToParts(G,str):
-		C=str[0:4];D=str[4:6];A=int(str[6:8],16);E=str[8:10]
-		if A>0:B=str[10:10+A*2]
-		else:B=[]
-		F=str[2*(6+A-1):2*(6+A-1)+2];return[C,D,A,E,B,F]
-	def getBlockOrArrowCommand(A):B=A.huskylensSer.read(A.address,5);B+=A.huskylensSer.read(A.address,B[3]+1);C=A.splitCommandToParts(''.join(['%02x'%A for A in B]));return C[4]
-	def processReturnData(B):
-		try:
-			D=B.huskylensSer.read(B.address,5);D+=B.huskylensSer.read(B.address,D[3]+1);A=B.splitCommandToParts(''.join(['%02x'%A for A in D]))
-			if A[3]=='2e':return'Knock Recieved'
-			else:
-				F=[];I=int(A[4][2:4]+A[4][0:2],16);L=int(A[4][6:8]+A[4][4:6],16);M=int(A[4][10:12]+A[4][8:10],16)
-				for N in range(I):F.append(B.getBlockOrArrowCommand())
-				G=[]
-				for E in F:
-					H=[]
-					for C in range(0,len(E),4):J=int(E[C:C+2],16);K=int(E[C+2:C+4],16);H.append(J+(K<<8))
-					G.append(H)
-				return G
-		except:print('Read error');return[]
-	def command_request_knock(A):B=A.cmdToBytes(commandHeaderAndAddress+'002c3c');A.writeToHuskyLens(B);return A.processReturnData()
-	def command_request(A):B=A.cmdToBytes(commandHeaderAndAddress+'002030');A.writeToHuskyLens(B);return A.processReturnData()
-	def command_request_blocks(A):B=A.cmdToBytes(commandHeaderAndAddress+'002131');A.writeToHuskyLens(B);return A.processReturnData()
-	def command_request_arrows(A):B=A.cmdToBytes(commandHeaderAndAddress+'002232');A.writeToHuskyLens(B);return A.processReturnData()
-	def command_request_learned(A):B=A.cmdToBytes(commandHeaderAndAddress+'002333');A.writeToHuskyLens(B);return A.processReturnData()
-	def command_request_blocks_learned(A):B=A.cmdToBytes(commandHeaderAndAddress+'002434');A.writeToHuskyLens(B);return A.processReturnData()
-	def command_request_arrows_learned(A):B=A.cmdToBytes(commandHeaderAndAddress+'002535');A.writeToHuskyLens(B);return A.processReturnData()
-	def line_tracking_mode(A):B=A.cmdToBytes(commandHeaderAndAddress+'022d030042');A.writeToHuskyLens(B);return A.processReturnData()
-	def face_recognition_mode(A):B=A.cmdToBytes(commandHeaderAndAddress+'022d00003f');A.writeToHuskyLens(B);return A.processReturnData()
-	def object_tracking_mode(A):B=A.cmdToBytes(commandHeaderAndAddress+'022d010040');A.writeToHuskyLens(B);return A.processReturnData()
-	def object_recognition_mode(A):B=A.cmdToBytes(commandHeaderAndAddress+'022d020041');A.writeToHuskyLens(B);return A.processReturnData()
-	def color_recognition_mode(A):B=A.cmdToBytes(commandHeaderAndAddress+'022d040043');A.writeToHuskyLens(B);return A.processReturnData()
-	def tag_recognition_mode(A):B=A.cmdToBytes(commandHeaderAndAddress+'022d050044');A.writeToHuskyLens(B);return A.processReturnData()
-	def object_classification_mode(A):B=A.cmdToBytes(commandHeaderAndAddress+'022d060045');A.writeToHuskyLens(B);return A.processReturnData()
-	def command_request_by_id(C,idVal):A=idVal;A=_B.format(A);A=A[2:]+A[0:2];B=commandHeaderAndAddress+'0226'+A;B+=C.calculateChecksum(B);B=C.cmdToBytes(B);C.writeToHuskyLens(B);return C.processReturnData()
-	def command_request_blocks_by_id(C,idVal):A=idVal;A=_B.format(A);A=A[2:]+A[0:2];B=commandHeaderAndAddress+'0227'+A;B+=C.calculateChecksum(B);B=C.cmdToBytes(B);C.writeToHuskyLens(B);return C.processReturnData()
-	def command_request_arrows_by_id(C,idVal):A=idVal;A=_B.format(A);A=A[2:]+A[0:2];B=commandHeaderAndAddress+'0228'+A;B+=C.calculateChecksum(B);B=C.cmdToBytes(B);C.writeToHuskyLens(B);return C.processReturnData()
-	def command_request_algorthim(B,alg):
-		if alg in algorthimsByteID:A=commandHeaderAndAddress+'022d'+algorthimsByteID[alg];A+=B.calculateChecksum(A);A=B.cmdToBytes(A);B.writeToHuskyLens(A);return B.processReturnData()
-		else:print('INCORRECT ALGORITHIM NAME')
-	def command_request_custom_text(B,text,x,y):
-		D=len(text);C=D+4;A=commandHeaderAndAddress;A+=_A.format(C);A+=_A.format(COMMAND_REQUEST_CUSTOM_TEXT);A+=_A.format(C)
-		if x>255:E=255;A+=_A.format(E);F=x%256;A+=_A.format(F)
-		else:A+=_A.format(0);A+=_A.format(x)
-		A+=_A.format(y)
-		for G in text:A+=_A.format(ord(G))
-		A+=B.calculateChecksum(A);A=B.cmdToBytes(A);B.writeToHuskyLens(A);return B.processReturnData()
-	def command_request_clear_text(B):A=commandHeaderAndAddress;C=0;A+=_A.format(C);A+=_A.format(COMMAND_REQUEST_CLEAR_TEXT);A+=B.calculateChecksum(A);A=B.cmdToBytes(A);B.writeToHuskyLens(A);return B.processReturnData()
-	def command_request_photo(B):A=commandHeaderAndAddress;C=0;A+=_A.format(C);A+=_A.format(COMMAND_REQUEST_TAKE_PHOTO_TO_SD_CARD);A+=B.calculateChecksum(A);A=B.cmdToBytes(A);B.writeToHuskyLens(A);return B.processReturnData()
-	def command_request_forget(B):A=commandHeaderAndAddress;C=0;A+=_A.format(C);A+=_A.format(COMMAND_REQUEST_FORGET);A+=B.calculateChecksum(A);A=B.cmdToBytes(A);B.writeToHuskyLens(A);return B.processReturnData()
-	def command_request_screenshot(B):A=commandHeaderAndAddress;C=0;A+=_A.format(C);A+=_A.format(COMMAND_REQUEST_SCREENSHOT_TO_SD_CARD);A+=B.calculateChecksum(A);A=B.cmdToBytes(A);B.writeToHuskyLens(A);return B.processReturnData()
-	def command_request_learn_once(B,id):A=commandHeaderAndAddress;C=2;A+=_A.format(C);A+=_A.format(COMMAND_REQUEST_LEARN_ONECE);id=[id&255,id>>8&255];A+=_A.format(id[0]);A+=_A.format(id[1]);A+=B.calculateChecksum(A);A=B.cmdToBytes(A);B.writeToHuskyLens(A);return B.processReturnData()
-	def command_request_custom_name(B,id,name):
-		C=len(name);D=C+3;A=commandHeaderAndAddress;A+=_A.format(D);A+=_A.format(COMMAND_REQUEST_CUSTOM_NAMES);A+=_A.format(id);A+=_A.format(C+1)
-		for E in name:A+=_A.format(ord(E))
-		A+=_A.format(0);A+=B.calculateChecksum(A);A=B.cmdToBytes(A);B.writeToHuskyLens(A);return B.processReturnData()
-	def command_request_save_model_to_SD_card(C,index):B=index;A=commandHeaderAndAddress;D=2;A+=_A.format(D);A+=_A.format(COMMAND_REQUEST_SAVE_MODEL_TO_SD_CARD);B=[B&255,B>>8&255];A+=_A.format(B[0]);A+=_A.format(B[1]);A+=C.calculateChecksum(A);A=C.cmdToBytes(A);C.writeToHuskyLens(A);return C.processReturnData()
-	def command_request_load_model_from_SD_card(C,index):B=index;A=commandHeaderAndAddress;D=2;A+=_A.format(D);A+=_A.format(COMMAND_REQUEST_LOAD_MODEL_FROM_SD_CARD);B=[B&255,B>>8&255];A+=_A.format(B[0]);A+=_A.format(B[1]);A+=C.calculateChecksum(A);A=C.cmdToBytes(A);C.writeToHuskyLens(A);return C.processReturnData()
+    def __init__(self):
+        self.address = 0x32
+        self.huskylensSer = i2c
+        self.lastCmdSent = ""
+        
+    def writeToHuskyLens(self, cmd):
+        self.lastCmdSent = cmd
+        self.huskylensSer.write(self.address, cmd)
+
+    def calculateChecksum(self, hexStr):
+        total = 0
+        for i in range(0, len(hexStr), 2):
+            total += int(hexStr[i:i+2], 16)
+        hexStr = hex(total)[-2:]
+        return hexStr
+    
+    def unhexlify(hexstr):
+        return bytes(int(hexstr[i:i+2], 16) for i in range(0, len(hexstr), 2))
+
+    def cmdToBytes(self, cmd):
+        return bytes(int(cmd[i:i+2], 16) for i in range(0, len(cmd), 2))
+
+    def splitCommandToParts(self, str):
+        headers = str[0:4]
+        address = str[4:6]
+        data_length = int(str[6:8], 16)
+        command = str[8:10]
+        if(data_length > 0):
+            data = str[10:10+data_length*2]
+        else:
+            data = []
+        checkSum = str[2*(6+data_length-1):2*(6+data_length-1)+2]
+        return [headers, address, data_length, command, data, checkSum]
+
+    def getBlockOrArrowCommand(self):
+        byteString  =self.huskylensSer.read(self.address,5)
+        byteString +=self.huskylensSer.read(self.address,byteString[3]+1)
+        commandSplit = self.splitCommandToParts(''.join(['%02x' % b for b in byteString]))
+        return commandSplit[4]
+
+    def processReturnData(self):
+        try:
+            byteString = self.huskylensSer.read(self.address,5)
+            byteString += self.huskylensSer.read(self.address,byteString[3]+1)
+            commandSplit = self.splitCommandToParts(''.join(['%02x' % b for b in byteString]))
+            if commandSplit[3] == "2e":
+                return "Knock Recieved"
+            else:
+                returnData = []
+                numberOfBlocksOrArrow = int(commandSplit[4][2:4] + commandSplit[4][0:2], 16)
+                numberOfIDLearned      = int(commandSplit[4][6:8] + commandSplit[4][4:6], 16)
+                frameNumber            = int(commandSplit[4][10:12] + commandSplit[4][8:10], 16)
+                for _ in range(numberOfBlocksOrArrow):
+                    returnData.append(self.getBlockOrArrowCommand())
+                finalData = []
+                for hexstr in returnData:
+                    tmp = []
+                    for q in range(0, len(hexstr), 4):
+                        low  = int(hexstr[q  :q+2], 16)
+                        high = int(hexstr[q+2:q+4], 16)
+                        tmp.append(low + (high << 8))
+                    finalData.append(tmp)
+                return finalData
+        except:
+            print("Read error")
+            return []
+                
+    def command_request_knock(self):
+        cmd = self.cmdToBytes(commandHeaderAndAddress+"002c3c")
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+
+    def command_request(self):
+        cmd = self.cmdToBytes(commandHeaderAndAddress+"002030")
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+
+    def command_request_blocks(self):
+        cmd = self.cmdToBytes(commandHeaderAndAddress+"002131")
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+
+    def command_request_arrows(self):
+        cmd = self.cmdToBytes(commandHeaderAndAddress+"002232")
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+
+    def command_request_learned(self):
+        cmd = self.cmdToBytes(commandHeaderAndAddress+"002333")
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+
+    def command_request_blocks_learned(self):
+        cmd = self.cmdToBytes(commandHeaderAndAddress+"002434")
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+
+    def command_request_arrows_learned(self):
+        cmd = self.cmdToBytes(commandHeaderAndAddress+"002535")
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+
+    def line_tracking_mode(self):
+        cmd = self.cmdToBytes(commandHeaderAndAddress+"022d030042")
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+
+    def face_recognition_mode(self):
+        cmd = self.cmdToBytes(commandHeaderAndAddress+"022d00003f")
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+
+    def object_tracking_mode(self):
+        cmd = self.cmdToBytes(commandHeaderAndAddress+"022d010040")
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+
+    def object_recognition_mode(self):
+        cmd = self.cmdToBytes(commandHeaderAndAddress+"022d020041")
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+
+    def color_recognition_mode(self):
+        cmd = self.cmdToBytes(commandHeaderAndAddress+"022d040043")
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+
+    def tag_recognition_mode(self):
+        cmd = self.cmdToBytes(commandHeaderAndAddress+"022d050044")
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+
+    def object_classification_mode(self):
+        cmd = self.cmdToBytes(commandHeaderAndAddress+"022d060045")
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+
+    def command_request_by_id(self, idVal):
+        idVal = "{:04x}".format(idVal)
+        idVal = idVal[2:]+idVal[0:2]
+        cmd = commandHeaderAndAddress+"0226"+idVal
+        cmd += self.calculateChecksum(cmd)
+        cmd = self.cmdToBytes(cmd)
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+
+    def command_request_blocks_by_id(self, idVal):
+        idVal = "{:04x}".format(idVal)
+        idVal = idVal[2:]+idVal[0:2]
+        cmd = commandHeaderAndAddress+"0227"+idVal
+        cmd += self.calculateChecksum(cmd)
+        cmd = self.cmdToBytes(cmd)
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+
+    def command_request_arrows_by_id(self, idVal):
+        idVal = "{:04x}".format(idVal)
+        idVal = idVal[2:]+idVal[0:2]
+        cmd = commandHeaderAndAddress+"0228"+idVal
+        cmd += self.calculateChecksum(cmd)
+        cmd = self.cmdToBytes(cmd)
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+
+    def command_request_algorthim(self, alg):
+        if alg in algorthimsByteID:
+            cmd = commandHeaderAndAddress+"022d"+algorthimsByteID[alg]
+            cmd += self.calculateChecksum(cmd)
+            cmd = self.cmdToBytes(cmd)
+            self.writeToHuskyLens(cmd)
+            return self.processReturnData()
+        else:
+            print("INCORRECT ALGORITHIM NAME")
+              
+    def command_request_custom_text(self, text, x, y):
+        textLength = len(text)
+        dataLength = textLength+4
+        cmd = commandHeaderAndAddress
+        cmd += "{:02x}".format(dataLength)
+        cmd += "{:02x}".format(COMMAND_REQUEST_CUSTOM_TEXT) 
+        cmd += "{:02x}".format(dataLength)  
+        if x > 255:
+            data_1 = 0xff
+            cmd += "{:02x}".format(data_1)      
+            data_2 = x % 256        
+            cmd += "{:02x}".format(data_2)   
+        else:
+            cmd += "{:02x}".format(0)
+            cmd += "{:02x}".format(x)
+        cmd += "{:02x}".format(y)
+        
+        for char in text:
+            cmd += "{:02x}".format(ord(char))
+            
+        cmd += self.calculateChecksum(cmd)
+        cmd = self.cmdToBytes(cmd)
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+        
+    def command_request_clear_text(self):
+        cmd = commandHeaderAndAddress
+        dataLength = 0
+        cmd += "{:02x}".format(dataLength)
+        cmd += "{:02x}".format(COMMAND_REQUEST_CLEAR_TEXT)
+        cmd += self.calculateChecksum(cmd)
+        cmd = self.cmdToBytes(cmd)
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+    
+    def command_request_photo(self):
+        cmd = commandHeaderAndAddress
+        dataLength = 0
+        cmd += "{:02x}".format(dataLength)
+        cmd += "{:02x}".format(COMMAND_REQUEST_TAKE_PHOTO_TO_SD_CARD)
+        cmd += self.calculateChecksum(cmd)
+        cmd = self.cmdToBytes(cmd)
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+    
+    def command_request_forget(self):
+        cmd = commandHeaderAndAddress
+        dataLength = 0
+        cmd += "{:02x}".format(dataLength)
+        cmd += "{:02x}".format(COMMAND_REQUEST_FORGET)       
+        cmd += self.calculateChecksum(cmd)
+        cmd = self.cmdToBytes(cmd)
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+  
+    def command_request_screenshot(self):
+        cmd = commandHeaderAndAddress
+        dataLength = 0
+        cmd += "{:02x}".format(dataLength)
+        cmd += "{:02x}".format(COMMAND_REQUEST_SCREENSHOT_TO_SD_CARD)      
+        cmd += self.calculateChecksum(cmd)
+        cmd = self.cmdToBytes(cmd)
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+  
+    def command_request_learn_once(self,id):
+        cmd = commandHeaderAndAddress        
+        dataLength = 2
+        cmd += "{:02x}".format(dataLength)
+        cmd += "{:02x}".format(COMMAND_REQUEST_LEARN_ONECE)   
+        id = [id & 0xff, (id >> 8) & 0xff]   
+        cmd += "{:02x}".format(id[0])
+        cmd += "{:02x}".format(id[1])        
+        cmd += self.calculateChecksum(cmd)
+        cmd = self.cmdToBytes(cmd)
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+
+    def command_request_custom_name(self, id, name):
+        nameLength = len(name)
+        dataLength = nameLength+3
+        cmd = commandHeaderAndAddress        
+        cmd += "{:02x}".format(dataLength)
+        cmd += "{:02x}".format(COMMAND_REQUEST_CUSTOM_NAMES)   
+        
+        cmd += "{:02x}".format(id)
+        cmd += "{:02x}".format(nameLength+1)
+        for char in name:
+            cmd += "{:02x}".format(ord(char))           
+        cmd += "{:02x}".format(0)
+        cmd += self.calculateChecksum(cmd)
+        cmd = self.cmdToBytes(cmd)
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+     
+    def command_request_save_model_to_SD_card(self,index):
+        cmd = commandHeaderAndAddress        
+        dataLength = 2
+        cmd += "{:02x}".format(dataLength)
+        cmd += "{:02x}".format(COMMAND_REQUEST_SAVE_MODEL_TO_SD_CARD)   
+        index = [index & 0xff, (index >> 8) & 0xff]   
+        cmd += "{:02x}".format(index[0])
+        cmd += "{:02x}".format(index[1])        
+        cmd += self.calculateChecksum(cmd)
+        cmd = self.cmdToBytes(cmd)
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()
+  
+    def command_request_load_model_from_SD_card(self, index):
+        cmd = commandHeaderAndAddress        
+        dataLength = 2
+        cmd += "{:02x}".format(dataLength)
+        cmd += "{:02x}".format(COMMAND_REQUEST_LOAD_MODEL_FROM_SD_CARD)   
+        index = [index & 0xff, (index >> 8) & 0xff]   
+        cmd += "{:02x}".format(index[0])
+        cmd += "{:02x}".format(index[1])        
+        cmd += self.calculateChecksum(cmd)
+        cmd = self.cmdToBytes(cmd)
+        self.writeToHuskyLens(cmd)
+        return self.processReturnData()

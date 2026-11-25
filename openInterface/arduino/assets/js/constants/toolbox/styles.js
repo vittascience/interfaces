@@ -18,7 +18,8 @@ const THEME_VITTASCIENCE = {
         "hat": "cap"
     },
     "communication_blocks": {
-        "colourPrimary": "#7ac943"
+        "colourPrimary": "#7ac943",
+        "hat": "cap"
     },
     "network_blocks": {
         "colourPrimary": "#9c354d",
@@ -85,7 +86,8 @@ const THEME_SCRATCH = {
         "hat": "cap"
     },
     "communication_blocks": {
-        "colourPrimary": "#7ac943"
+        "colourPrimary": "#7ac943",
+        "hat": "cap"
     },
     "network_blocks": {
         "colourPrimary": "#9c354d",
@@ -139,7 +141,8 @@ const THEME_VITTASCIENCE_HIGH_CONTRAST = {
     "communication_blocks": {
         "colourPrimary": "#42A200",
         "colourSecondary": "#91E159",
-        "colourTertiary": "#CFFFAE"
+        "colourTertiary": "#CFFFAE",
+        "hat": "cap"
     },
     "network_blocks": {
         "colourPrimary": "#9d2541",

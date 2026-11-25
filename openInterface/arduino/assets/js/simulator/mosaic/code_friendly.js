@@ -23,6 +23,8 @@ Simulator.CodeFriendly.getAdaptedCode = function (code) {
 	code = Simulator.CodeFriendly.replace_pinModules(code);
 	// pulse sensor
 	code = Simulator.CodeFriendly.pulseSensor(code);
+	// ir barrier (Timer2 -> JSCPP runtime)
+	code = Simulator.CodeFriendly.irBarrier(code);
 	// type
 	code = Simulator.CodeFriendly.typing(code);
 	// serial
@@ -309,6 +311,11 @@ float getBPM(uint8_t pin) {
 	return bpm;
 }`;
 	code = code.replace(FUNCTIONS_ARDUINO.DEF_PULSE_SENSOR_GET_BPM, pulseSensorBpmSimu);
+	return code;
+};
+
+Simulator.CodeFriendly.irBarrier = function (code) {
+	code = code.replace(/\bpinMode\s*\(\s*PIN_IR_BARRIER_RX_[A-Za-z0-9_]+\s*,\s*INPUT_PULLUP\s*\)\s*;/g, '');
 	return code;
 };
 

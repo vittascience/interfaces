@@ -33,3 +33,10 @@ Blockly.Msg['LSC_MATH_RANDOM_INT_TITLE'] = 'random(%1,%2)';
 Blockly.Msg['LSC_CONTROLS_IF_MSG_IF'] = 'if (%1) {';
 // LOOPS
 Blockly.Msg["LSC_CONTROLS_FOR_TITLE"] = "conta con %1 da %2 a %3 con passo %4";
+Blockly.Msg["IO_WRITEDIGITALPIN_KEYWORDS"] = "digitale, pin, scrivere";
+Blockly.Msg["IO_READDIGITALPIN_KEYWORDS"] = "digitale, pin, leggere";
+Blockly.Msg["IO_PINMODE_KEYWORDS"] = "piedino";
+Blockly.Msg["IO_WAIT_KEYWORDS"] = "pausa, ritardo, aspetta";
+Blockly.Msg["IO_DIGITAL_SIGNAL_KEYWORDS"] = "digitale, segnale, logica";
+Blockly.Msg["ACTUATORS_TONE_KEYWORDS"] = "suono, tono";
+Blockly.Msg["ACTUATORS_NOTONE_KEYWORDS"] = "suono, tono, frequenza";

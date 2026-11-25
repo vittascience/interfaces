@@ -804,15 +804,15 @@ Blockly.Constants.Math.MATH_MIN_MAX_MUTATOR_MIXIN = {
     // Update inputs
     var top = this.appendDummyInput('TOP');
     if (this.itemCount_ > 0) {
-      top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", add, false));
-      top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", remove, false));
+      top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
+      top.appendField(new Blockly.FieldImage(this.REMOVE_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_REMOVE_INPUT, remove, false));
       for (var i = 0; i < this.itemCount_; i++) {
         this.appendValueInput('ADD' + i);
       }
     }
     // Case of empty list
     else {
-      top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, "*", add, false));
+      top.appendField(new Blockly.FieldImage(this.ADD_IMAGE_DATAURI, this.buttonSize, this.buttonSize, Blockly.Msg.ARIA_LABEL_ADD_INPUT, add, false));
     }
     /* Switch to vertical list when the list is too long */
     var showHorizontalList = this.itemCount_ <= 5;

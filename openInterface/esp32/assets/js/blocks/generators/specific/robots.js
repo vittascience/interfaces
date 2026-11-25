@@ -64,6 +64,9 @@ Blockly.Python.robots_moveIloBySteps = function (block) {
     return `ilo.step('${dir}', ${steps}, False, display_led)` + NEWLINE;
 };
 
+// Negated Python expression: "-" on the generated code string gave NaN for a variable or an expression
+const iloNegate = (code) => /^-?\d+(\.\d+)?$/.test(code) ? String(-Number(code)) : `-(${code})`;
+
 Blockly.Python.robots_rotateIlo = function (block) {
     Blockly.Python.addImport('ilo-import', IMPORT_ILO);
     Blockly.Python.addConstant('ilo-robot', '""" Ilo robot """');
@@ -72,8 +75,8 @@ Blockly.Python.robots_rotateIlo = function (block) {
     const deg = Blockly.Python.valueToCode(block, 'DEG', Blockly.Python.ORDER_NONE) || "0";
     const finish_state = block.getFieldValue("FINISH_STATE") || 'TRUE';
     if (finish_state !== null && finish_state === 'TRUE')
-        return `ilo.rotation(${(dir === 'rot_clock' ? deg : -deg)}, True, display_led)` + NEWLINE;
-    return `ilo.rotation(${(dir === 'rot_clock' ? deg : -deg)}, False, display_led)` + NEWLINE;
+        return `ilo.rotation(${(dir === 'rot_clock' ? deg : iloNegate(deg))}, True, display_led)` + NEWLINE;
+    return `ilo.rotation(${(dir === 'rot_clock' ? deg : iloNegate(deg))}, False, display_led)` + NEWLINE;
 };
 
 Blockly.Python.robots_moveIloMotor = function (block) {
@@ -83,7 +86,7 @@ Blockly.Python.robots_moveIloMotor = function (block) {
     const dir = block.getFieldValue('DIR');
     const acc = 100;
     const speed = Blockly.Python.valueToCode(block, 'SPEED', Blockly.Python.ORDER_NONE) || "0";
-    return `ilo.drive_single_motor_speed_${motor}(${acc}, ${dir === "rot_clock" ? -speed : speed})` + NEWLINE;
+    return `ilo.drive_single_motor_speed_${motor}(${acc}, ${dir === "rot_clock" ? iloNegate(speed) : speed})` + NEWLINE;
 };
 
 Blockly.Python.robots_setIloAcc = function (block) {

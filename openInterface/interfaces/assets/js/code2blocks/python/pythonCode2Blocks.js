@@ -286,6 +286,12 @@ export default class Python2Blocks {
 				EXCLUDED_BLOCKS_FOR_TRADUCTION.push(...categoryBlocks(toolboxContent[cat]).filter((block) => !AUTHORIZED_BLOCKS.includes(block) && !isBasic(block)));
 			}
 		}
+		// interface blocks moved from the toolbox categories to block extensions (robots, modules...): translated too,
+		// the code then adds their extension (BlockExtensions.addUsedExtensions)
+		const extensionBlocks = typeof BlockExtensions !== 'undefined'
+			? BlockExtensions.getCatalog().flatMap((ext) => ext.toolbox.flatMap((group) => group.blocks)).map((block) => block.split('-')[0]) : [];
+		extensionBlocks.forEach((block) => this.toolboxBlocks.add(block));
+		EXCLUDED_BLOCKS_FOR_TRADUCTION.push(...extensionBlocks.filter((block) => !AUTHORIZED_BLOCKS.includes(block) && !isBasic(block)));
 
 		// Learn the reverse translation of the other blocks from their generator. The learned blocks no longer lock the
 		// editor in the interfaces whose learned translations have been checked (LEARNED_REVERSE_TRANSLATION in their
@@ -739,7 +745,7 @@ export default class Python2Blocks {
 				} else if (text && text.match(/@music:/g)) {
 					try {
 						const musicNoteFunc = utils.prototypeBlocks[`music_note_${INTERFACE_NAME}`]
-						if (musicNoteFunc !== null) {
+						if (typeof musicNoteFunc === 'function') {
 							const music = utils.prototypeBlocks[`music_note_${INTERFACE_NAME}`](identifier, null, null, null, statementsNode, null, parent);
 							if (music !== null) {
 								return music;
@@ -767,7 +773,8 @@ export default class Python2Blocks {
 			if (identifier === 'str') {
 				for (const child of statementsNode) {
 					if (child.type === 'call') {
-						return this.determineCallExpressionBlockType(child, node);
+						// crossroad: the learned blocks too (ex: "print(str(robot.get_angle()))")
+						return this.getBlockType(child, node);
 					}
 				}
 			}
@@ -3159,6 +3166,8 @@ export default class Python2Blocks {
 		this.storedDisabledBlocks = [];
 
 		Blockly.Events.enable();
+		// blocks of an extension not in use yet (created without event): the extension is added
+		if (typeof BlockExtensions !== 'undefined') BlockExtensions.addUsedExtensions();
 		Main.recordCodeToBlocks(stateBeforeTranslation);
 		document.dispatchEvent(new CustomEvent('python2blocks:injected'));
 

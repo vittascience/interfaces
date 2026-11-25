@@ -207,7 +207,7 @@ DEF_GPS_READ_NMEA:
     if uart.any():
       gpsBuffer += uart.read().decode()
       uart_switchTo()
-      a = gpsBuffer.split("\\\\r\\\\n")
+      a = gpsBuffer.split("\\r\\n")
       Frames = []
       for f in a:
         if (f.count(',') is 12 or f.count(',') is 14) and (f.find("$GNGGA") == 0 or f.find("$GPGGA") == 0):
@@ -807,12 +807,12 @@ DEF_MAQUEEN_PLUS_V3_BLINK:
     for i in range(4):
       npMaq[i] = (255, 0, 0)
     npMaq.show()
-    maqueenplusv3.setRGBLed(maqueenPlusV3['RED'], 'BOTH')
+    maqueenplusv3.setRGBLed('BOTH', maqueenplusv3.COLOR['RED'])
     utime.sleep_ms(500)
     for i in range(4):
       npMaq[i] = (0, 0, 0)
     npMaq.show()
-    maqueenplusv3.setRGBLed(maqueenPlusV3['BLACK'], 'BOTH')
+    maqueenplusv3.setRGBLed('BOTH', maqueenplusv3.COLOR['BLACK'])
     utime.sleep_ms(500)`,
 
 DEF_CUTEBOT_MOVE_WITH_SQUARE: 
@@ -921,19 +921,19 @@ DEF_KITROBOT_TURN_ANGLE:
   utime.sleep_ms(int(math.fabs(angularDistance)/speed_mps*1000))
   kitrobotMove(1, 0)`,
 
-//Codo _ control left motor
+//Codok _ control left motor
 DEF_CODO_CONTROL_LEFT_MOTOR:
 `def codo_controlLeftMotor(cmd, speed):
   pin13.write_analog(cmd[0] * speed)
   pin14.write_analog(cmd[1] * speed)`,
 
-//Codo _ control right motor
+//Codok _ control right motor
 DEF_CODO_CONTROL_RIGHT_MOTOR:
 `def codo_controlRightMotor(cmd, speed):
   pin15.write_analog(cmd[0] * speed)
   pin16.write_analog(cmd[1] * speed)`,
 
-//Codo _ move
+//Codok _ move
 DEF_CODO_MOVE:
 `def codo_move(direction, speed = 1023):
   if (speed >= 0 and speed <= 1023):
@@ -955,7 +955,7 @@ DEF_CODO_MOVE:
     else: 
       display.scroll("'" + str(direction) + "' is not a direction")
   else:
-    raise ValueError('The speed of codo motors have to be set between 0 and 255')`,
+    raise ValueError('The speed of codo motors have to be set between 0 and 1023')`,
 
 //Oobybot _ control motors
 DEF_OOBYBOT_CONTROL_MOTORS:

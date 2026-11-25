@@ -71,22 +71,22 @@ Blockly.Python.numpy_linspace = function (block) {
 
 Blockly.Python.numpy_getSizeShape = function (block) {
     Blockly.Python.addImport('numpy', IMPORT_NUMPY);
-    let t = Blockly.Python.valueToCode(block, "LIST", Blockly.Python.ORDER_NONE) || "np.array()";
+    let t = Blockly.Python.valueToCode(block, "LIST", Blockly.Python.ORDER_NONE) || "np.array([])";
     return [t + "." + block.getFieldValue("TYPE"), Blockly.Python.ORDER_ATOMIC]
 };
 
 Blockly.Python.numpy_getElement_matrix = function (block) {
     Blockly.Python.addImport('numpy', IMPORT_NUMPY);
-    let i = Blockly.Python.valueToCode(block, "I", Blockly.Python.ORDER_NONE);
-    let j = Blockly.Python.valueToCode(block, "J", Blockly.Python.ORDER_NONE);
-    let t = Blockly.Python.valueToCode(block, "LIST", Blockly.Python.ORDER_NONE);
+    let i = Blockly.Python.valueToCode(block, "I", Blockly.Python.ORDER_NONE) || "0";
+    let j = Blockly.Python.valueToCode(block, "J", Blockly.Python.ORDER_NONE) || "0";
+    let t = Blockly.Python.valueToCode(block, "LIST", Blockly.Python.ORDER_NONE) || "np.array([])";
     return [t + "[" + i + "," + j + "]", Blockly.Python.ORDER_ATOMIC]
 };
 
 Blockly.Python.numpy_getElement_list = function (block) {
     Blockly.Python.addImport('numpy', IMPORT_NUMPY);
-    let i = Blockly.Python.valueToCode(block, "I", Blockly.Python.ORDER_NONE);
-    let t = Blockly.Python.valueToCode(block, "LIST", Blockly.Python.ORDER_NONE);
+    let i = Blockly.Python.valueToCode(block, "I", Blockly.Python.ORDER_NONE) || "0";
+    let t = Blockly.Python.valueToCode(block, "LIST", Blockly.Python.ORDER_NONE) || "np.array([])";
     return [t + "[" + i + "]", Blockly.Python.ORDER_ATOMIC]
 };
 

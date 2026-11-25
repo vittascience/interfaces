@@ -75,7 +75,7 @@ Blockly.Msg['DISPLAY_NEOPIXEL_SETALLLEDCOLOR_TOOLTIP'] = IMG_MODULE_NEOPIXEL + B
 Blockly.Msg['DISPLAY_NEOPIXEL_RAINBOW_TITLE'] = '[Neopixel] Arc-en-ciel sur la broche %1';
 Blockly.Msg['DISPLAY_NEOPIXEL_RAINBOW_TOOLTIP'] = IMG_MODULE_NEOPIXEL + Blockly.Tooltip.SEP + 'Afficher le spectre des couleurs sur les LED RGB. Il est possible de modifier la broche et le nombre de LED du module neopixel.';
 // Display - Chainable LED RGB
-Blockly.Msg['DISPLAY_CHAINABLERGBLED_DEFINE_TITLE'] = '[Chainable LED] definir %1 LED sur les broches CIN %2 DIN %3';
+Blockly.Msg['DISPLAY_CHAINABLERGBLED_DEFINE_TITLE'] = '[Chainable LED] définir %1 LED sur les broches CIN %2 DIN %3';
 Blockly.Msg['DISPLAY_CHAINABLERGBLED_DEFINE_TOOLTIP'] = IMG_MODULE_LED_RGB + Blockly.Tooltip.SEP + 'Permet de paramétrer la chaîne de LED RGB en définissant le nombre de modules en série sur les broches digitales D0 à D13.';
 Blockly.Msg['DISPLAY_CHAINABLE_RGBLED_TITLE'] = '[Chainable LED] contrôler la LED %1 à R %2 G %3 B %4 sur les broches CIN %5 DIN %6';
 Blockly.Msg['DISPLAY_CHAINABLE_RGBLED_TOOLTIP'] = IMG_MODULE_LED_RGB + Blockly.Tooltip.SEP + 'Bloc contrôlant la couleur de la DEL RGB, donner une valeur entre 0 et 255 pour Rouge, Vert et Bleu.';

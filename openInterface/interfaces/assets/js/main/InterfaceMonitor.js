@@ -51,6 +51,8 @@ const InterfaceMonitor = {
         this.addMonitorToolsToDom();
         this.console = $('#console');
         this.monitor = document.querySelector("#console");
+        // Mode buttons (console, graph, music): pressed state for the screen readers
+        $('.monitor-view-btn').each((i, btn) => btn.setAttribute('aria-pressed', String(btn.classList.contains('activated'))));
 
         if (this.hasTracerExportBtn()) {
             // (UNIHIKER K10: with the buttons of the serial port)
@@ -252,9 +254,10 @@ const InterfaceMonitor = {
             }
         };
         const monitorDivBtn = document.getElementById("monitor-div-btn");
-        if (monitorDivBtn && !monitorDivBtn.querySelector("#serial-monitor")) {
+        // (the button has the id "repl-control": checking "#serial-monitor" added a new identical button at each call)
+        if (monitorDivBtn && !monitorDivBtn.querySelector("#repl-control")) {
             monitorDivBtn.insertAdjacentHTML('beforeend', Button(button));
-            $(monitorDivBtn).find('#serial-monitor').localize();
+            $(monitorDivBtn).find('#repl-control').localize();
         }
     },
 
@@ -448,6 +451,8 @@ const InterfaceMonitor = {
      * @param {string} panel 
      */
     managePanel: function (panel) {
+        // A disabled button loses the focus: given back to the mode button activated with the keyboard
+        const focusedButton = document.activeElement && document.activeElement.closest && document.activeElement.closest('.monitor-view-btn');
         $('.monitor-view-btn').prop('disabled', true);
 
         switch (panel) {
@@ -472,13 +477,24 @@ const InterfaceMonitor = {
 
         setTimeout(function () {
             $('.monitor-view-btn').prop('disabled', false);
+            if (focusedButton && (document.activeElement === document.body || !document.activeElement)) {
+                focusedButton.focus();
+            }
         }, 400);
+    },
+
+    /**
+     * Mark a mode button (console, graph, music) as the active one, visually and for the screen readers.
+     * @param {string} selector - The button of the opened mode
+     */
+    _activateViewButton: function (selector) {
+        $('.monitor-view-btn').removeClass('activated').attr('aria-pressed', 'false');
+        $(selector).addClass('activated').attr('aria-pressed', 'true');
     },
 
     openConsole: function () {
         if (!$('#monitor-btn-console').hasClass('activated')) {
-            $('.monitor-view-btn').removeClass('activated');
-            $('#monitor-btn-console').addClass('activated');
+            this._activateViewButton('#monitor-btn-console');
             $("#console, #monitor-controls-console").fadeIn("slow");
             $('#monitor-controls-console').css({
                 display: 'flex'
@@ -490,8 +506,7 @@ const InterfaceMonitor = {
     },
 
     openGraph: function () {
-        $('.monitor-view-btn').removeClass('activated');
-        $('#monitor-btn-graph').addClass('activated');
+        this._activateViewButton('#monitor-btn-graph');
         $("#graph-tab, #monitor-controls-graph").fadeIn("slow");
         $('#monitor-graph-tooltip').remove();
         $('#monitor-controls-graph').css({
@@ -503,8 +518,7 @@ const InterfaceMonitor = {
     },
 
     openMusic: function () {
-        $('.monitor-view-btn').removeClass('activated');
-        $('#monitor-btn-music').addClass('activated');
+        this._activateViewButton('#monitor-btn-music');
         $("#music-tab").fadeIn("slow");
         if (getParamValue('console') == 'bottom') {
             // Enough height for all the settings of the music panel (column of the effects), as the graph mode
@@ -669,7 +683,7 @@ const InterfaceMonitor = {
     },
 
     hasTracerExportBtn() {
-        return ["arduino", "letsstartcoding", "microbit", "wb55", "l476", "buddy", "TI-83", "mBot", "cyberpi", "esp32", "thymio", "winky", "galaxia", "raspberrypi", "pico", "m5stack", "sphero", "lotibot", "bluebot", "spike", "legoprime", "photon", "codey", "eliobot", "alphai", "GalaxiaCircuitPython", "steami", "primastem", "skykick", "unihiker"].includes(INTERFACE_NAME);
+        return ["arduino", "letsstartcoding", "microbit", "wb55", "l476", "buddy", "TI-83", "mBot", "cyberpi", "esp32", "thymio", "winky", "galaxia", "raspberrypi", "pico", "m5stack", "sphero", "lotibot", "bluebot", "spike", "legoprime", "photon", "codey", "eliobot", "alphai", "GalaxiaCircuitPython", "steami", "primastem", "matatalab", "skykick", "unihiker"].includes(INTERFACE_NAME);
     },
 
     hasToggleReplOvertureBtn() {

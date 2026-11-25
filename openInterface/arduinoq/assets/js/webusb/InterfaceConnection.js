@@ -60,7 +60,10 @@ const InterfaceConnection = {
      */
     doDisconnect: async function () {
         if (this.unoqUp) {
+            // also called when the simulator starts: no message when no board was connected
+            const wasConnected = this.unoqUp.isConnected();
             await this.unoqUp.disconnect();
+            if (!wasConnected) return;
             InterfaceMonitor.writeConsole(jsonPath('code.serialAPI.boardDisconnected'), 'warning', false, true);
             InterfaceMonitor.writeConsole(jsonPath('code.serialAPI.serialPortClosed'), 'success');
         }

@@ -619,7 +619,7 @@ function microbit_mod(microbit, import_modules) {
 	const MicroBitCompass = new Sk.misceval.buildClass(microbit, function ($gbl, $loc) {
 
 		const getValue = function (axis) {
-			return $("mb-compassMag_slider_" + axis).slider('option', 'value');
+			return $("#mb-compassMag_slider_" + axis).slider('option', 'value');
 		};
 
 		$loc.__init__ = new Sk.builtin.func(function (self) {

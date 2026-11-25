@@ -388,7 +388,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /LED\(1\)/gi,
             id: "stm32-led",
-            title: "LED Verte",
+            get title() { return i18next.t('code.simulator.modules.ledGreen') },
             pin: 'STM32',
             type: 'output',
             value: 0,
@@ -402,7 +402,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /pyb\.Pin\(\'PC13\'\)/,
             id: "stm32-button1",
-            title: "Bouton 1",
+            get title() { return i18next.t('code.simulator.modules.buttonName', { name: 1 }) },
             pin: 'B1',
             type: 'input',
             listeners: [{
@@ -423,7 +423,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /.(RTC|datetime)\(/gi,
             id: "rtc",
-            title: "Horloge",
+            get title() { return i18next.t('code.simulator.modules.clock') },
             pin: 'STM32',
             type: 'output',
             value: "",
@@ -432,7 +432,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /AlphaBot_v2\(/gi,
             id: "alphabot-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: 'AlphaBot2-Ar',
             type: 'output',
             value: "",
@@ -442,7 +442,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /AlphaBot_v2\(/gi,
             id: "alphabot-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: 'AlphaBot2-Ar',
             type: 'output',
             value: "",
@@ -452,7 +452,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(.*)\.readUltrasonicDistance\(\)/gi,
             id: "alphabot-ultrasonic",
-            title: "Télémètre: ",
+            get title() { return i18next.t('code.simulator.modules.ultrasonic') },
             pin: 'AlphaBot2-Ar',
             type: 'input',
             listeners: [{
@@ -460,13 +460,13 @@ Simulator.Mosaic.specific = {
                 unit: 'cm',
                 color: "#f9d142 ",
                 suffix: "_d",
-                title: "Distance"
+                get title() { return i18next.t('code.simulator.modules.distance') }
             }, {
                 suffix: "_t",
                 default: 1166,
                 unit: 'μs',
                 color: "#f9d142",
-                title: "Durée"
+                get title() { return i18next.t('code.simulator.modules.duration') }
             }],
             class: "ultrasonic",
             picture: "Ultrason.png",
@@ -483,7 +483,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(.).(TRSensors_calibrate|calibrateLineFinder|TRSensors_readLine)\(/gi,
             id: "alphabot-trsensor1",
-            title: "Capteur de ligne noire 1",
+            get title() { return i18next.t('code.simulator.modules.lineSensor', { n: 1 }) },
             pin: 'AlphaBot2-Ar',
             type: 'input',
             listeners: [{
@@ -501,7 +501,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(.).(TRSensors_calibrate|calibrateLineFinder|TRSensors_readLine)\(/gi,
             id: "alphabot-trsensor2",
-            title: "Capteur de ligne noire 2",
+            get title() { return i18next.t('code.simulator.modules.lineSensor', { n: 2 }) },
             pin: 'AlphaBot2-Ar',
             type: 'input',
             listeners: [{
@@ -519,7 +519,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(.).(TRSensors_calibrate|calibrateLineFinder|TRSensors_readLine)\(/gi,
             id: "alphabot-trsensor3",
-            title: "Capteur de ligne noire 3",
+            get title() { return i18next.t('code.simulator.modules.lineSensor', { n: 3 }) },
             pin: 'AlphaBot2-Ar',
             type: 'input',
             listeners: [{
@@ -537,7 +537,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(.).(TRSensors_calibrate|calibrateLineFinder|TRSensors_readLine)\(/gi,
             id: "alphabot-trsensor4",
-            title: "Capteur de ligne noire 4",
+            get title() { return i18next.t('code.simulator.modules.lineSensor', { n: 4 }) },
             pin: 'AlphaBot2-Ar',
             type: 'input',
             listeners: [{
@@ -555,7 +555,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(.).(TRSensors_calibrate|calibrateLineFinder|TRSensors_readLine)\(/gi,
             id: "alphabot-trsensor5",
-            title: "Capteur de ligne noire 5",
+            get title() { return i18next.t('code.simulator.modules.lineSensor', { n: 5 }) },
             pin: 'AlphaBot2-Ar',
             type: 'input',
             listeners: [{
@@ -573,7 +573,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /donutbot_(move|rot|controlMotor|pause|stop)/gi,
             id: "donutbot-motorLeft",
-            title: "Moteur Gauche",
+            get title() { return i18next.t('code.simulator.modules.motorLeft') },
             pin: 'Donutbot',
             type: 'output',
             value: "",
@@ -583,7 +583,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /donutbot_(move|rot|controlMotor|pause|stop)/gi,
             id: "donutbot-motorRight",
-            title: "Moteur Droit",
+            get title() { return i18next.t('code.simulator.modules.motorRight') },
             pin: 'Donutbot',
             type: 'output',
             value: "",
@@ -593,7 +593,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /(.*)\.readUltrasonicDistance\(\)/gi,
             id: "donutbot-ultrasonic",
-            title: "Télémètre: ",
+            get title() { return i18next.t('code.simulator.modules.ultrasonic') },
             pin: 'Donutbot',
             type: 'input',
             listeners: [{
@@ -601,13 +601,13 @@ Simulator.Mosaic.specific = {
                 unit: 'cm',
                 color: "#f9d142 ",
                 suffix: "_d",
-                title: "Distance"
+                get title() { return i18next.t('code.simulator.modules.distance') }
             }, {
                 suffix: "_t",
                 default: 1166,
                 unit: 'μs',
                 color: "#f9d142",
-                title: "Durée"
+                get title() { return i18next.t('code.simulator.modules.duration') }
             }],
             class: "ultrasonic",
             picture: "Ultrason.png",
@@ -624,8 +624,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /donutbot_get_distance\(("|')tof/gi,
             id: "donutbot-distanceFront",
-            title: "Time Of Flight - Distance (mm)",
-            pin: 'Capteur Avant',
+            get title() { return i18next.t('code.simulator.modules.tofMm') },
+            get pin() { return i18next.t('code.simulator.modules.pinFrontSensor') },
             type: 'input',
             listeners: [{
                 default: 0,
@@ -643,8 +643,8 @@ Simulator.Mosaic.specific = {
         {
             regex: /donutbot_get_distance\(("|')ultrasonic/gi,
             id: "donutbot-distanceFront",
-            title: "Ultrasonic - Distance (mm)",
-            pin: 'Capteur Avant',
+            get title() { return i18next.t('code.simulator.modules.ultrasonicMm') },
+            get pin() { return i18next.t('code.simulator.modules.pinFrontSensor') },
             type: 'input',
             listeners: [{
                 default: 0,
@@ -662,7 +662,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /donutbot_get_color_clear_left\(/gi,
             id: "donutbot-finderLeft",
-            title: "Capteur de ligne noire gauche",
+            get title() { return i18next.t('code.simulator.modules.blackLineLeft') },
             pin: 'donutbot robot',
             type: 'input',
             class: 'finder',
@@ -681,7 +681,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /donutbot_get_color_clear_right\(/gi,
             id: "donutbot-finderRight",
-            title: "Capteur de ligne noire droit",
+            get title() { return i18next.t('code.simulator.modules.blackLineRight') },
             pin: 'donutbot robot',
             type: 'input',
             class: 'finder',
@@ -700,7 +700,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /donutbot_get_color_clear_middle\(/gi,
             id: "donutbot-finderMiddle",
-            title: "Capteur de ligne noire central",
+            get title() { return i18next.t('code.simulator.modules.blackLineCenter') },
             pin: 'donutbot robot',
             type: 'input',
             class: 'finder',
@@ -719,7 +719,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /donutbot_get_color_right\(/gi,
             id: "donutbot-ColorSensorRight",
-            title: "Capteur de couleurs : ",
+            get title() { return i18next.t('code.simulator.modules.colorSensor') },
             pin: "donutbot robot",
             type: 'input',
             codeFlag: 'Color Sensor',
@@ -756,7 +756,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /donutbot_get_color_center\(/gi,
             id: "donutbot-ColorSensorCenter",
-            title: "Capteur de couleurs : ",
+            get title() { return i18next.t('code.simulator.modules.colorSensor') },
             pin: "donutbot robot",
             type: 'input',
             codeFlag: 'Color Sensor',
@@ -793,7 +793,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /donutbot_get_color_left\(/gi,
             id: "donutbot-ColorSensorLeft",
-            title: "Capteur de couleurs : ",
+            get title() { return i18next.t('code.simulator.modules.colorSensor') },
             pin: "donutbot robot",
             type: 'input',
             codeFlag: 'Color Sensor',
@@ -830,7 +830,7 @@ Simulator.Mosaic.specific = {
         {
             regex: /donutbot_get_color\(/gi,
             id: "donutbot-ColorSensor",
-            title: "Capteur de couleurs (Moyenne): ",
+            get title() { return i18next.t('code.simulator.modules.colorSensorAverage') },
             pin: "donutbot robot",
             type: 'input',
             codeFlag: 'Color Sensor',

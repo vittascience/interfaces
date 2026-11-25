@@ -159,7 +159,8 @@ const PythonInput = {
                 const isStopButton = PythonInput.clickAction(e.target);
                 if (isStopButton) {
                     _finish();
-                    reject();
+                    // a plain reject() is read as an empty input and the program goes on
+                    reject(new Sk.builtin.KeyboardInterrupt('KeyboardInterrupt'));
                 }
             };
 

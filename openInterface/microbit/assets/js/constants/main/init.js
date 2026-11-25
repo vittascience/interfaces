@@ -29,6 +29,8 @@ const MODE_SIMU_ONLY = "simuOnly";
 const TOOLBOX_STYLE_VITTA = "vittascience";
 const TOOLBOX_STYLE_SCRATCH = "scratch";
 const TOOLBOX_STYLE_DEFAULT = TOOLBOX_STYLE_VITTA;
+// Opening a toolbox category closes the other ones at its level (vittascience_patches.js)
+const SINGLE_EXPANDED_CATEGORY = true;
 //standalone_blocks
 const BLOCKS_OUTSIDE_SCOPE = ["on_start", "forever", "scratch_on_start", "procedures_defnoreturn", "procedures_defreturn", "io_runEvery"];
 //example projects

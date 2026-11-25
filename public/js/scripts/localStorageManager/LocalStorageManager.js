@@ -24,6 +24,8 @@ class LocalStorageManager {
         } else {
             const currentId = this.uniqid('loc');
             newUrl.searchParams.set('localId', currentId);
+            // The page was opened without a project: offerRecentLocalProject() may propose the last one
+            this.hasGeneratedLocalId = true;
         }
         window.history.pushState({}, '', newUrl);
     }

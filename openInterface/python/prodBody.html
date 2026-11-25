@@ -54,7 +54,7 @@
         </div>
 
         <div class="ide-dropdown ide-dropdown-modes">
-            <a class="ide-btn ide-btn-toggle ide-btn-alone ide-btn-mode"><i class="far fa-object-ungroup"></i></a>
+            <button type="button" class="ide-btn ide-btn-toggle ide-btn-alone ide-btn-mode" aria-expanded="false" aria-label="Choisir le mode : blocs, hybride ou code" data-i18n="[aria-label]code.topbar.tooltips.modeMenu"><i class="far fa-object-ungroup" aria-hidden="true"></i></button>
             <div class="ide-btn-group ide-btn-group-mode hidden">
                 <!-- blocks mode
 						mixed mode
@@ -121,13 +121,13 @@
                                 onclick="PythonDebugger.toggleDebugMode()"
                                 data-i18n="[title]code.simulator.buttons.base.debug;[aria-label]code.simulator.buttons.base.debug" data-toggle="tooltip"
                                 data-placement="top" title="Exécution pas à pas">
-                                <object class="svg-btn-icon bug-btn-icon" alt="Bug icon"></object>
+                                <object class="svg-btn-icon bug-btn-icon" alt=""></object>
                             </button>
                             <button id="monitor-show-vars" class="btn monitor-view-btn"
                                 onclick="PythonDebugger.toggleVariablesPanel()"
                                 data-i18n="[title]code.simulator.buttons.base.variables;[aria-label]code.simulator.buttons.base.variables" data-toggle="tooltip"
                                 data-placement="left" title="Afficher les variables">
-                                <object class="svg-btn-icon variable-btn-icon" alt="Variable icon"></object>
+                                <object class="svg-btn-icon variable-btn-icon" alt=""></object>
                             </button>
                             <button id="monitor-python-files" class="btn monitor-view-btn"
                                 onclick="PythonFiles.open()"
@@ -217,13 +217,7 @@
 <script src="/openInterface/interfaces/assets/js/external/jquery-ui-1.12.1.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/rotate.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/interact-1.5.4.min.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/blockly_compressed.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_colour_compressed.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/vittascience_patches.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_grid_dropdown_compressed.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/field_slider_compressed.js"></script>
-<script src="/openInterface/interfaces/assets/js/external/blockly/extensions/scroll_options_compressed.js"></script>
-<script type="module" src="/openInterface/interfaces/assets/js/external/blockly/extensions/backpack/index.js"></script>
+<?php require __DIR__ . '/../interfaces/assets/buildFiles/blocklyScripts.html'; ?>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ace.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/mode-python.min.js"></script>
 <script src="/openInterface/interfaces/assets/js/external/ace-ide/ext-languages_tools.js"></script>

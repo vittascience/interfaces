@@ -11,6 +11,7 @@ Blockly.Wiki.init = async function (categoryId) {
     // Toolboxes without categories (letsstartcoding): nothing to list.
     if (!Array.isArray(Blockly.Wiki.toolbox.categories)) return;
     Blockly.Wiki.blockDB = ToolboxManager.DB_.get();
+    Blockly.Wiki.addExtensions();
     ToolboxManager.DISABLE_BLOCK_HELPURL_EXTENSION = true;
     ToolboxManager.DISABLE_DISABLING_DUPLICATES_EXTENSION = true;
     Blockly.Wiki.anchorLoaded = undefined;
@@ -25,6 +26,11 @@ Blockly.Wiki.init = async function (categoryId) {
     Blockly.Wiki.errorNotif = new VittaNotif(5);
     Blockly.Wiki.createCategories();
     Blockly.Wiki.changeCategory(categoryId);
+    // ?mode=api: the page is replaced by the JSON of the blocks of the category (type and tooltip)
+    if (Blockly.Wiki.isApiMode()) {
+        await Blockly.Wiki.showCategoryContent();
+        return;
+    }
     if (window.location.hash) {
         Blockly.Wiki.anchorLoaded = false;
         Blockly.Wiki.blocker = new VittaBlocker(undefined, '#wiki-content', undefined, `${CDN_PATH}/public/content/img/loader.gif`);
@@ -165,8 +171,8 @@ Blockly.Wiki.setWorkspaceBlock = function (blockType, blocks) {
     // The block itself, not the on_start or variable it is shown in. blockType may be a blockDB preset (logic_compare-eq).
     const type = blockType.replace(/-.*$/, '');
     const tooltipBlock = blocks.find(block => block.type === type) || null;
-    // Title: the text of the block as in the workspace, then its type (anchor of the url: #<blockType>Div-container)
-    const title = $(`<h5 id="${blockType}" style="word-wrap: break-word;"></h5>`).text(tooltipBlock ? tooltipBlock.toString() : type);
+    // Title: the text of the block, then its type (anchor of the url: #<blockType>Div-container)
+    const title = $(`<h5 id="${blockType}" style="word-wrap: break-word;"></h5>`).text(Blockly.Wiki.getBlockTitle(tooltipBlock) || (tooltipBlock && tooltipBlock.toString()) || type);
     title.append($('<small class="d-block text-muted fw-normal mt-1"></small>').text(type));
     title.insertBefore(blockDivContainerRow);
     // Sometimes tooltips are generated dynamically by a function.
@@ -185,6 +191,38 @@ Blockly.Wiki.setWorkspaceBlock = function (blockType, blocks) {
     return blockDivName;
 };
 
+/**
+ * Title of a block: its labels and the chosen options of its dropdowns, not the pictures, and a placeholder for its
+ * values (plugged blocks, typed texts and numbers): "afficher l'image", "répéter indéfiniment", "afficher …".
+ * Not block.toString(): checkboxes gave "FALSE" (25 times for the LEDs of show_leds), and pictures, colours and the
+ * blocks plugged into it were written too.
+ * @param {Blockly.Block} block
+ * @return {string} the title, empty without label nor dropdown (math_number, text: their whole text is taken)
+ */
+Blockly.Wiki.TITLE_PLACEHOLDER = '…';
+Blockly.Wiki.getBlockTitle = function (block) {
+    if (!block) return '';
+    const texts = [];
+    for (const input of block.inputList) {
+        for (const field of input.fieldRow) {
+            if (field instanceof Blockly.FieldLabel) {
+                texts.push(field.getText());
+            } else if (field instanceof Blockly.FieldDropdown) {
+                // not a picture option (icons): its text is the alt of the picture ("heart icon")
+                const option = field.getOptions(false).find(option => Array.isArray(option) && option[1] === field.getValue());
+                if (!option || typeof option[0] === 'string') texts.push(field.getText());
+            } else if (field instanceof Blockly.FieldTextInput || field instanceof Blockly.FieldNumber) {
+                texts.push(Blockly.Wiki.TITLE_PLACEHOLDER); // text or number typed in the block
+            }
+        }
+        // where a block is plugged: "afficher …"
+        if (input.type === Blockly.inputs.inputTypes.VALUE) texts.push(Blockly.Wiki.TITLE_PLACEHOLDER);
+    }
+    // values only (math_number, text): no title, their whole text is taken
+    if (texts.every(text => text === Blockly.Wiki.TITLE_PLACEHOLDER)) return '';
+    return texts.join(' ').replace(/\s+/g, ' ').trim();
+};
+
 Blockly.Wiki.getTopBlock = function (blocks) {
     return blocks[0];
 };
@@ -194,11 +232,75 @@ Blockly.Wiki.domToWorkspace = function (xmlToLoad, previewWorkspace) {
     Blockly.Xml.domToWorkspace(xmlToLoad, previewWorkspace);
 };
 
-Blockly.Wiki.loadBlock = function (blockType, searchMode = false, loadingId = null) {
+Blockly.Wiki.isApiMode = function () {
+    return Blockly.Wiki.url.searchParams.get('mode') === 'api';
+};
+
+/**
+ * Text of a tooltip: messages replaced (%{BKY_X}, {X}), without the image part (image + Blockly.Tooltip.SEP + text).
+ * @param {string} tooltip
+ * @return {string|null}
+ */
+Blockly.Wiki.resolveTooltipText = function (tooltip) {
+    if (typeof tooltip !== 'string') return null;
+    const text = tooltip
+        .replace(/%\{BKY_([A-Z0-9_]+)\}/g, (match, key) => (typeof Blockly.Msg !== 'undefined' && Blockly.Msg[key]) || match)
+        .replace(/\{([a-zA-Z0-9_]+)\}/g, (match, key) => (typeof Blockly.MESSAGES !== 'undefined' && Blockly.MESSAGES[key]) || match);
+    return text.match(Blockly.Tooltip.SEP) ? text.split(Blockly.Tooltip.SEP)[1] : text;
+};
+
+/**
+ * Tooltip of a block definition when it is static (no block to create).
+ * @param {string} blockType may be a blockDB preset (logic_compare-eq)
+ * @return {string|null}
+ */
+Blockly.Wiki.getStaticTooltipText = function (blockType) {
+    const definition = Blockly.Blocks[blockType.replace(/-.*$/, '')];
+    if (!definition) return null;
+    if (typeof definition.tooltip === 'string') return Blockly.Wiki.resolveTooltipText(definition.tooltip);
+    if (definition.json && typeof definition.json.tooltip === 'string') return Blockly.Wiki.resolveTooltipText(definition.json.tooltip);
+    return null;
+};
+
+/**
+ * Tooltip of a created block (tooltips may be functions).
+ * @param {string} blockType
+ * @param {Array<Blockly.Block>} blocks blocks of the preview workspace
+ * @return {string}
+ */
+Blockly.Wiki.getBlockTooltipText = function (blockType, blocks) {
+    const block = blocks.find(block => block.type === blockType.replace(/-.*$/, ''));
+    if (!block) return '';
+    const tooltip = typeof block.tooltip === 'function' ? block.tooltip.call(block) : block.tooltip;
+    return Blockly.Wiki.resolveTooltipText(tooltip) || '';
+};
+
+/** ?mode=api: the page shows only the JSON of the blocks. */
+Blockly.Wiki.renderApiResponse = function (blocks) {
+    document.body.innerHTML = '<pre id="wiki-api-output" style="white-space: pre-wrap; word-break: break-word; margin: 0;"></pre>';
+    document.getElementById('wiki-api-output').textContent = JSON.stringify(blocks.map(block => ({
+        type: block.type,
+        tooltip: block.tooltip
+    })), null, 2);
+};
+
+/**
+ * Shows a block (workspace, tooltip, code). With apiMode, resolves with its type and tooltip instead, without display.
+ * @param {string} blockType
+ * @param {boolean} [searchMode=false]
+ * @param {number} [loadingId=null]
+ * @param {boolean} [apiMode=false]
+ */
+Blockly.Wiki.loadBlock = function (blockType, searchMode = false, loadingId = null, apiMode = false) {
     return new Promise((resolve, reject) => {
         // Vérifier si c'est toujours le bon chargement
         if (loadingId && Blockly.Wiki.currentLoadingId !== loadingId) {
             return resolve();
+        }
+
+        if (apiMode) {
+            const staticTooltip = Blockly.Wiki.getStaticTooltipText(blockType);
+            if (staticTooltip !== null) return resolve({ type: blockType, tooltip: staticTooltip });
         }
 
         const currentCategory = (searchMode ? '' : getParamValue('category'));
@@ -227,6 +329,13 @@ Blockly.Wiki.loadBlock = function (blockType, searchMode = false, loadingId = nu
 
         let xmlToLoad = Blockly.utils.xml.textToDom('<xml xmlns="http://www.w3.org/1999/xhtml">' + blockXml + '</xml>');
         Blockly.Wiki.domToWorkspace(xmlToLoad, Blockly.Wiki.previewWorkspace);
+
+        if (apiMode) {
+            return resolve({
+                type: blockType,
+                tooltip: Blockly.Wiki.getBlockTooltipText(blockType, Blockly.Wiki.previewWorkspace.getAllBlocks(false))
+            });
+        }
 
         // The generator of the block (arduinoq has several, web only JavaScript). blockType may be a
         // blockDB preset ("autoprog_output-led"): the generator is the one of the block type.
@@ -450,20 +559,69 @@ Blockly.Wiki.createCat = function (category, parentCat = null) {
     }
     // also add it to the body as a variable so that we can use it in the CSS
     document.body.style.setProperty("--_current-color", themeStyle.colourPrimary);
-    // check if the category exists in the TOOLBOXES_SVGS variable
-    if (typeof TOOLBOXES_SVGS !== 'undefined' && Object.keys(TOOLBOXES_SVGS).includes(category.style)) {
-        // if it does, add the SVG to the label
-        label.innerHTML += `<i>${TOOLBOXES_SVGS[category.style]}</i>`;
-    } else if (parentCat && typeof TOOLBOXES_SVGS !== 'undefined' && Object.keys(TOOLBOXES_SVGS).includes(category.toolboxitemid + '_subcategory')) {
-        label.innerHTML += `<i>${TOOLBOXES_SVGS[category.toolboxitemid + '_subcategory']}</i>`;
-    } else {
-        const categoryIcon = category.cssConfig?.icon;
-        if (categoryIcon) label.innerHTML += `<i class="${categoryIcon}"></i>`;
+    // Same icon as in the toolbox of the interface (ToolboxManager._setToolboxMenuStyle): an icon of TOOLBOXES_SVGS when
+    // the category asks for it ("svgIcon"), the style of the category for a category, "<id>_subcategory" for a
+    // sub-category (its style is the one of its category), else the Font Awesome icon of the category.
+    const categoryIcon = category.cssConfig?.icon || '';
+    if (categoryIcon.split(' ').includes('svgIcon')) {
+        const svg = typeof TOOLBOXES_SVGS !== 'undefined' && TOOLBOXES_SVGS[parentCat ? category.toolboxitemid + '_subcategory' : category.style];
+        label.innerHTML += `<i>${svg || ''}</i>`;
+    } else if (categoryIcon) {
+        label.innerHTML += `<i class="${categoryIcon}"></i>`;
     }
 
     label.innerHTML += Blockly.Wiki.getCategoryName(category.name);
     label.appendChild(radio);
     return label;
+};
+
+/**
+ * Add the block extensions of the catalog (BlockExtensions.js) to the wiki toolbox, as in the interface: one
+ * sub-category per extension, in the "Robots" category for the robots (when the interface has one), else in an
+ * "Extensions" category. The blocks of the catalog are defined, their shadows added to the blockDB.
+ */
+Blockly.Wiki.addExtensions = function () {
+    const catalog = typeof BlockExtensions !== 'undefined' ? BlockExtensions.getCatalog() : [];
+    if (!catalog.length) return;
+    BlockExtensions.load(catalog);
+    const escape = value => String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const db = { ...Blockly.Wiki.blockDB };
+    for (const ext of catalog) {
+        for (const block of ext.blocks) {
+            const { inputs } = BlockExtensions.toToolboxItem(ext, block);
+            db[BlockExtensions.getBlockType(ext, block)] = Object.entries(inputs).map(([name, { shadow }]) => '<value name="' + name + '"><shadow type="' + shadow.type + '">'
+                + Object.entries(shadow.fields).map(([field, value]) => '<field name="' + field + '">' + escape(value) + '</field>').join('') + '</shadow></value>').join('');
+        }
+    }
+    Blockly.Wiki.blockDB = ToolboxManager._dbCache = db;
+    const toolbox = Blockly.Wiki.toolbox = {
+        ...Blockly.Wiki.toolbox,
+        categories: [...Blockly.Wiki.toolbox.categories],
+        subcategories: { ...Blockly.Wiki.toolbox.subcategories },
+        content: { ...Blockly.Wiki.toolbox.content }
+    };
+    const hasRobots = toolbox.categories.some(category => category.toolboxitemid === 'robots');
+    if (catalog.some(ext => !(hasRobots && BlockExtensions.isRobot(ext)))) {
+        toolbox.categories.push({
+            kind: 'category', toolboxitemid: 'block_extensions', name: BlockExtensions.t('category'),
+            style: 'block_extensions_category', cssConfig: { icon: 'icon_blockly fas fa-puzzle-piece' }
+        });
+    }
+    for (const ext of catalog) {
+        const parent = hasRobots && BlockExtensions.isRobot(ext) ? 'robots' : 'block_extensions';
+        const id = 'ext_' + ext.id;
+        // "svgIcon": icon of the interface, found by createCat from the sub-category id (as BlockExtensions.pushToolbox)
+        const hasSvgIcon = ext.svgIcon && typeof TOOLBOXES_SVGS !== 'undefined' && TOOLBOXES_SVGS[ext.svgIcon];
+        if (hasSvgIcon) TOOLBOXES_SVGS[id + '_subcategory'] = TOOLBOXES_SVGS[ext.svgIcon];
+        toolbox.subcategories[parent] = [...(toolbox.subcategories[parent] || []), {
+            kind: 'category', toolboxitemid: id, name: ext.name, style: ext.style || 'block_extensions_category',
+            cssConfig: { icon: hasSvgIcon ? 'icon_blockly svgIcon' : 'icon_blockly fas fa-puzzle-piece' }
+        }];
+        toolbox.content[parent] = [...(toolbox.content[parent] || []), {
+            subCategoryId: id,
+            contents: [...ext.toolbox, { blocks: ext.blocks.map(block => BlockExtensions.getBlockType(ext, block)) }]
+        }];
+    }
 };
 
 Blockly.Wiki.createCategories = function () {
@@ -541,15 +699,30 @@ Blockly.Wiki.getCategoryBlocks = function (categoryId, isChild) {
     return blocks;
 };
 
-Blockly.Wiki.showCategoryContent = function () {
+Blockly.Wiki.showCategoryContent = async function () {
         try {
             const loadingId = Date.now() + Math.random();
             Blockly.Wiki.currentLoadingId = loadingId;
             Blockly.Wiki.isLoading = true;
 
+            const radio = document.querySelector('input[name="category"]:checked');
+
+            if (Blockly.Wiki.isApiMode()) {
+                const apiBlocks = [];
+                for (const blockType of Blockly.Wiki.getCategoryBlocks(radio.value, radio.classList.contains('isChildCat'))) {
+                    try {
+                        apiBlocks.push(await Blockly.Wiki.loadBlock(blockType, false, loadingId, true));
+                    } catch (e) {
+                        console.warn('Erreur chargement block', blockType, e);
+                    }
+                }
+                Blockly.Wiki.renderApiResponse(apiBlocks.filter(Boolean));
+                Blockly.Wiki.isLoading = false;
+                return;
+            }
+
             Blockly.Wiki.clearBlocks();
 
-            const radio = document.querySelector('input[name="category"]:checked');
             const categoryTitleSelector = document.querySelector('#category-title');
             let newTitle = radio.parentNode.innerHTML.replace('<span>', '<span class="ms-2">').replace(/<input.*?>/g, '');
             if (newTitle.includes('<i>')) newTitle = newTitle.replace('<i>', '<i class="svgIcon">');
@@ -586,6 +759,8 @@ Blockly.Wiki.showCategoryContent = function () {
                 for (const cat of subcats) {
                     cat.style.display = cat.style.display == "none" ? "block" : "none";
                 }
+                // arrow of the category (wiki.css)
+                radio.parentElement.classList.toggle('expanded', subcats.length > 0 && subcats[0].style.display !== 'none');
                 Blockly.Wiki.isLoading = false;
                 return;
             } else {

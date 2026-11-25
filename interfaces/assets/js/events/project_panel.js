@@ -295,6 +295,12 @@ function updateLocalProject(project) {
                 break;
         }
     }
+    // setTextCode() above ran before codeWasManuallyModified was known: it kept the code of the blocks,
+    // and a project written in code mode opened with "pass" instead of its code (fine after a reload)
+    if (project.codeManuallyModified && CodeManager.getSharedInstance().codeWasManuallyModified && project.codeText) {
+        CodeManager.getSharedInstance().updateTextCode(project.codeText);
+        Main.updateCodeEditor();
+    }
     // newProject resets the exercise state asynchronously: restore only once it has resolved
     if (project.exercise) {
         created.then(() => restoreProjectExercise(project.exercise));
@@ -601,7 +607,8 @@ $('body').on('click', '#modal-edit-project-btn-edit', function () {
     let inputEvent = new Event('input');
     document.querySelector('#save-name').dispatchEvent(inputEvent); // Dispatching input event to trigger the VittaformValidator
     $("#save-description").val(newDesc);
-    saveConfirm();
+    // Without an account the project only lives in the browser, already updated by editCurrentProject
+    if (UserManager.getUser() != null && !UserManager.isOffline()) saveConfirm();
     pseudoModal.closeModal('modal-edit-project-name');
 });
 
@@ -1919,6 +1926,180 @@ function openLocalStorageProject(id) {
         doOpen();
     }
 };
+
+/**
+ * Whether a project has blocks of a robot, the robot of a shortcut of the programming page (?robot=Maqueen): the
+ * projects don't store their robot, but its blocks have its name in their type (robots_controlMaqueenLed,
+ * robots_wukong_controlMotors for "Wonder Building Kit - WuKong", actuators_kitronik_controlMotor...).
+ * ponytail: name matching, a robot without its name in its blocks (Codok) never matches; a robot id in the blocks
+ * definitions if it gets wrong.
+ * @param {string} code - The xml code of the project
+ * @param {string} robot - The robot name from the url
+ * @returns {boolean}
+ */
+function projectUsesRobot(code, robot) {
+    const clean = (text) => text.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const names = [clean(robot), ...robot.split(/[^A-Za-z0-9]+/).map(clean).filter((word) => word.length >= 4)];
+    const types = [...String(code).matchAll(/\stype="([^"]+)"/g)].map((match) => clean(match[1]));
+    return types.some((type) => names.some((name) => name && type.includes(name)));
+}
+
+/**
+ * Page opened without a project (no link nor localId): a new empty project has been created, the previous work stays
+ * in the localStorage but nothing said so. Propose to open the most recent local project that is not empty, instead of
+ * the board selector that is reopened if the user starts a new project.
+ */
+async function offerRecentLocalProject() {
+    if (typeof projectManager === 'undefined' || !projectManager) return;
+    const lsm = projectManager.localStorageManager;
+    if (!lsm.hasGeneratedLocalId || getParamValue('action') === 'new') return;
+    if (!projectManager._isLocalDraftEnabled() || Main.inIframe() || $_GET('nocloud')) return;
+    await projectManager._initProjectPromise;
+
+    // Block ids and positions aside, an untouched project has the same code as the new one
+    const normalize = (code) => String(code).replace(/\s(id|x|y)="[^"]*"/g, '');
+    const emptyCode = normalize(projectManager.getCurrentProject().code);
+    // A project written in code mode keeps the blocks of a new project: its work is in codeText
+    const emptyText = String(projectManager.getCurrentProject().codeText || CodeManager.getSharedInstance().getCode() || '').trim();
+    const hasWork = (project) => normalize(project.code) !== emptyCode
+        || (project.codeManuallyModified && typeof project.codeText === 'string' && project.codeText.trim() && project.codeText.trim() !== emptyText);
+    const currentId = $_GET('localId');
+    const localProjects = lsm.getLocalProjects();
+    const candidates = localProjects
+        .filter((entry) => entry.id !== currentId && entry.project && entry.project.code && hasWork(entry.project))
+        .filter((entry) => !$_GET('robot') || projectUsesRobot(entry.project.code, $_GET('robot')))
+        .sort((a, b) => (b.lastUpdated ?? 0) - (a.lastUpdated ?? 0));
+    const recent = candidates[0];
+    if (!recent) return;
+    // Only the most recent one is offered: the others are in "Open a project" > "My local projects", one click away
+    const several = document.getElementById('modal-recentlocalproject-several');
+    several.replaceChildren();
+    // Same count as the "My local projects" tab badge (empty projects included), so the two numbers match
+    several.hidden = localProjects.length <= 1;
+    if (localProjects.length > 1) {
+        const [before, after = ''] = i18next.t('modals.standard.recentLocal.several').replace('%count%', localProjects.length).split('%link%');
+        const link = document.createElement('button');
+        link.type = 'button';
+        link.className = 'btn btn-link p-0 align-baseline';
+        link.textContent = i18next.t('modals.standard.recentLocal.severalLink');
+        link.addEventListener('click', () => {
+            opening = true; // not back to the board selector: the user picks a project
+            pseudoModal.closeModal('modal-recentlocalproject');
+            openProjectBtn();
+            activateProjectTab('local-storage-projects-panel');
+            // after the modal's own initial focus (first tab), for the keyboard users
+            setTimeout(() => document.getElementById('local-storage-projects-tab')?.focus(), 150);
+        });
+        several.append(before, link, after);
+    }
+
+    const boardSelectorId = `${INTERFACE_NAME}-board-selector`;
+    // pseudoModal.openModal sets an inline style on the opened modals, removed when they are closed
+    const boardSelectorOpen = !!document.getElementById(boardSelectorId)?.hasAttribute('style');
+    let opening = false;
+
+    $('#modal-recentlocalproject-name').text(recent.project.name ? decodeURI(recent.project.name) : i18next.t('code.popups.openProject.categories.projectsList.description'));
+    $('#modal-recentlocalproject-date').text(recent.lastUpdated
+        ? i18next.t('modals.standard.recentLocal.modified').replace('%date%', new Date(recent.lastUpdated).toLocaleString(i18next.language, { dateStyle: 'long', timeStyle: 'short' }))
+        : '');
+    $('#modal-recentlocalproject-btn-open').off('click').on('click', () => {
+        opening = true;
+        pseudoModal.closeModal('modal-recentlocalproject');
+        openLocalStorageProject(String(recent.id));
+        // Opened in place: the closed modal leaves the focus on the page, give it to the blocks (not in code only mode)
+        setTimeout(() => {
+            const workspace = typeof Blockly !== 'undefined' && Blockly.getMainWorkspace();
+            if (projectManager.isLeavingPage || !workspace || !workspace.getParentSvg().getBoundingClientRect().width) return;
+            Blockly.getFocusManager().focusTree(workspace);
+        }, 100);
+    });
+    $('#modal-recentlocalproject-btn-new').off('click').on('click', () => pseudoModal.closeModal('modal-recentlocalproject'));
+    let description = recent.project.description || '';
+    try { description = decodeURI(description); } catch (e) { /* not encoded */ }
+    $('#modal-recentlocalproject-description').text(description).prop('hidden', !description.trim());
+    let preview = null;
+    // Escape, close button, click outside or "new project": back to the usual start
+    const onClosed = (event) => {
+        if (event.detail.modalId !== 'modal-recentlocalproject') return;
+        window.removeEventListener('modalClosed', onClosed);
+        preview?.dispose();
+        $('#modal-recentlocalproject-preview').prop('hidden', true).empty();
+        $('#modal-recentlocalproject-code').prop('hidden', true).empty();
+        if (!opening && boardSelectorOpen) VittaInterface.openBoardSelector(true);
+    };
+    window.addEventListener('modalClosed', onClosed);
+    pseudoModal.openModal('modal-recentlocalproject');
+    // Shown after openModal: Blockly needs a visible container to measure it
+    preview = showRecentLocalProjectPreview(recent.project);
+}
+
+/**
+ * Preview of a local project in the recent project modal: read-only blocks, or the code for the text based projects.
+ * @param {object} project - The project kept in the localStorage
+ * @returns {Blockly.WorkspaceSvg|null} The preview workspace, to dispose when the modal is closed
+ */
+function showRecentLocalProjectPreview(project) {
+    const mainWorkspace = typeof Blockly !== 'undefined' && Blockly.getMainWorkspace();
+    const isXmlBased = Main.getIsXmlBasedInterface();
+    // The text preview is only for the projects left in code mode; the others show their blocks (or nothing)
+    const inCodeMode = [MODE_CODE, MODE_CODE_ONLY].includes(project.mode) || (!isXmlBased && !project.mode);
+    if (!inCodeMode) {
+        if (!mainWorkspace || !isXmlBased) return null;
+        const container = document.getElementById('modal-recentlocalproject-preview');
+        container.hidden = false;
+        let workspace = null;
+        try {
+            workspace = Blockly.inject(container, {
+                readOnly: true,
+                renderer: mainWorkspace.options.renderer,
+                theme: mainWorkspace.getTheme(),
+                move: { scrollbars: false, drag: true, wheel: false }
+            });
+            Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(project.code), workspace);
+            workspace.zoomToFit();
+            return workspace;
+        } catch (e) {
+            // Blocks unknown by this interface (extension not loaded...): no preview rather than a broken one
+            workspace?.dispose();
+            container.hidden = true;
+            $(container).empty();
+            return null;
+        }
+    }
+    // XML based interfaces: project.code is the blocks XML, the text code is codeText
+    const code = isXmlBased || project.codeManuallyModified ? project.codeText : project.code;
+    if (typeof code === 'string' && code.trim()) {
+        const container = document.getElementById('modal-recentlocalproject-code');
+        container.hidden = false;
+        // ponytail: first 40 lines only, the full code is one click away
+        const text = code.split('\n').slice(0, 40).join('\n');
+        const mainEditor = typeof ace !== 'undefined' && document.getElementById('content_code') ? ace.edit('content_code') : null;
+        if (!mainEditor) {
+            container.textContent = text;
+            container.style.whiteSpace = 'pre';
+            return null;
+        }
+        // Read-only Ace editor: same syntax colours and theme as the code editor of the interface
+        // in a child element: emptied with the modal, ace.edit() would otherwise reuse the destroyed editor
+        const host = document.createElement('div');
+        host.style.height = '100%';
+        container.appendChild(host);
+        const editor = ace.edit(host, {
+            value: text,
+            mode: mainEditor.session.getMode().$id,
+            theme: mainEditor.getTheme(),
+            readOnly: true,
+            highlightActiveLine: false,
+            highlightGutterLine: false,
+            showPrintMargin: false,
+            fontSize: 13
+        });
+        editor.renderer.$cursorLayer.element.style.display = 'none';
+        editor.clearSelection();
+        return { dispose: () => editor.destroy() };
+    }
+    return null;
+}
 
 /**
  * Delete a project stored in the browser's localStorage.
